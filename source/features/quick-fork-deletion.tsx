@@ -15,17 +15,18 @@ import looseParseInt from '../helpers/loose-parse-int';
 import parseBackticks from '../github-helpers/parse-backticks';
 
 function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
-	const hasContent = select.exists(`
-		[data-hotkey="g i"] .Counter:not([hidden]),
-		[data-hotkey="g p"] .Counter:not([hidden]),
-		.rgh-open-prs-of-forks
-	`);
+	const hasContent = select.exists([
+		'[data-hotkey="g i"] .Counter:not([hidden])', // Open issues
+		'[data-hotkey="g p"] .Counter:not([hidden])', // Open PRs
+		'.rgh-open-prs-of-forks' PRs opened in the source repo
+	]);
 
 	if (hasContent && !confirm('This fork has open issues/PRs, are you sure you want to delete everything?')) {
 		// Close the <details> element again
 		event.delegateTarget.open = false;
 	} else {
-		setTimeout(start, 1, event.delegateTarget); // Without the timeout, the same toggle event will also trigger the AbortController
+		// Without the timeout, the same toggle event will also trigger the AbortController
+		setTimeout(start, 1, event.delegateTarget); 
 	}
 }
 
@@ -83,7 +84,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		addNotice(`Repository ${nameWithOwner} deleted`, {action: false});
 		select('.application-main')!.remove();
 	} catch (error: unknown) {
-		buttonContainer.closest('li')!.remove();
+		buttonContainer.closest('li')!.remove(); // Remove button
 		addNotice([
 			'Could not delete the repository. ',
 			(error as any).response?.message ?? (error as any).message
@@ -113,6 +114,7 @@ async function init(): Promise<void | false> {
 		<li>
 			<details className="details-reset details-overlay select-menu rgh-quick-fork-deletion">
 				<summary aria-haspopup="menu" role="button">
+					{/* This extra element is needed to keep the button above the <summary>’s lightbox */}
 					<span className="btn btn-sm btn-danger">Delete fork</span>
 				</summary>
 			</details>
