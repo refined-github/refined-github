@@ -5,8 +5,8 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import {buildRepoURL} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepoGQL, buildRepoURL} from '../github-helpers';
 
 interface BranchInfo {
 	baseRef: string;
@@ -15,7 +15,7 @@ interface BranchInfo {
 
 function buildQuery(issueIds: string[]): string {
 	return `
-		repository(${getRepoGQL()}) {
+		repository() {
 			${issueIds.map(id => `
 				${id}: pullRequest(number: ${id.replace(/\D/g, '')}) {
 					baseRef {id}

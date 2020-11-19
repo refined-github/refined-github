@@ -10,7 +10,7 @@ import * as api from '../github-helpers/api';
 import looseParseInt from '../helpers/loose-parse-int';
 import {appendBefore} from '../helpers/dom-utils';
 import {createDropdownItem} from './more-dropdown';
-import {buildRepoURL, getRepoGQL, getRepo} from '../github-helpers';
+import {buildRepoURL, getRepo} from '../github-helpers';
 
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
@@ -31,7 +31,7 @@ function parseCountFromDom(): number {
 
 async function fetchFromApi(): Promise<number> {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			refs(refPrefix: "refs/tags/") {
 				totalCount
 			}
@@ -136,11 +136,7 @@ async function init(): Promise<false | void> {
 
 	// Update "selected" tab mark
 	if (pageDetect.isReleasesOrTags()) {
-		const selected = select('.reponav-item.selected');
-		if (selected) {
-			selected.classList.remove('js-selected-navigation-item', 'selected');
-		}
-
+		select('.reponav-item.selected')?.classList.remove('js-selected-navigation-item', 'selected');
 		releasesTab.classList.add('js-selected-navigation-item', 'selected');
 		releasesTab.dataset.selectedLinks = 'repo_releases'; // Required for ajaxLoad
 	}

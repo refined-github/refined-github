@@ -14,7 +14,10 @@ export const linkifiedURLClass = 'rgh-linkified-code';
 // https://github.com/sindresorhus/refined-github/issues/1305
 const currentRepo = getRepo()!;
 
-export function linkifyIssues(element: Element, options: Partial<linkifyIssuesCore.TypeDomOptions> = {}): void {
+export function linkifyIssues(
+	element: Element,
+	options: Partial<linkifyIssuesCore.TypeDomOptions> = {}
+): void {
 	const linkified = linkifyIssuesCore(element.textContent!, {
 		user: currentRepo.owner ?? '/',
 		repository: currentRepo.name ?? '/',

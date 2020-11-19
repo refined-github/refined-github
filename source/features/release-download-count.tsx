@@ -6,7 +6,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoGQL} from '../github-helpers';
 
 interface Asset {
 	name: string;
@@ -15,7 +14,7 @@ interface Asset {
 type Tag = Record<string, Asset[]>;
 async function getAssetsForTag(tags: string[]): Promise<Tag> {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			${tags.map(tag => `
 				${api.escapeKey(tag)}: release(tagName:"${tag}") {
 					releaseAssets(first: 100) {

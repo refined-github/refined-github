@@ -8,11 +8,11 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import {appendBefore} from '../helpers/dom-utils';
-import {buildRepoURL, isPermalink, getRepoGQL} from '../github-helpers';
+import {buildRepoURL, isPermalink} from '../github-helpers';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			ref(qualifiedName: "${url.branch}") {
 				target {
 					... on Commit {

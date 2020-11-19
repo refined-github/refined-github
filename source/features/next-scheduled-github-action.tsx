@@ -7,11 +7,11 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoGQL, getRepo} from '../github-helpers';
+import {getRepo} from '../github-helpers';
 
 const getScheduledWorkflows = cache.function(async (): Promise<Record<string, string> | false> => {
 	const {repository: {object: {entries: workflows}}} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			object(expression: "HEAD:.github/workflows") {
 				... on Tree {
 					entries {

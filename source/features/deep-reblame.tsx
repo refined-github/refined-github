@@ -10,12 +10,11 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import LoadingIcon from '../github-helpers/icon-loading';
-import {getRepoGQL} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			file: object(expression: "${commit}:${currentFilename}") {
 				id
 			}
@@ -64,7 +63,7 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	blameElement.blur(); // Hide tooltip after click, it’s shown on :focus
 
 	const blameHunk = blameElement.closest('.blame-hunk')!;
-	const prNumber = looseParseInt(select('.issue-link', blameHunk)!.textContent!);
+	const prNumber = looseParseInt(select('.issue-link', blameHunk)!);
 	const prCommit = select<HTMLAnchorElement>('a.message', blameHunk)!.pathname.split('/').pop()!;
 	const blameUrl = new GitHubURL(location.href);
 

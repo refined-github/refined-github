@@ -2,7 +2,6 @@
 name: Feature request
 about: Suggest an idea for Refined GitHub
 labels: enhancement, under discussion
-
 ---
 
 <!--

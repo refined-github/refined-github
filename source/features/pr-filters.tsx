@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoGQL, getRepo} from '../github-helpers';
+import {getRepo} from '../github-helpers';
 
 const reviewsFilterSelector = '#reviews-select-menu';
 
@@ -64,7 +64,7 @@ function addDraftFilter({delegateTarget: reviewsFilter}: delegate.Event): void {
 
 const hasChecks = cache.function(async (): Promise<boolean> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			head: object(expression: "HEAD") {
 				... on Commit {
 					history(first: 10) {

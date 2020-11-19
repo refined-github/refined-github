@@ -7,7 +7,7 @@ import PullRequestIcon from 'octicon/git-pull-request.svg';
 import features from '.';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {buildRepoURL, getRepoGQL, getRepo} from '../github-helpers';
+import {buildRepoURL, getRepo} from '../github-helpers';
 
 function getPRUrl(prNumber: number): string {
 	return buildRepoURL('pull', prNumber, 'files');
@@ -53,7 +53,7 @@ function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElem
 */
 const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			pullRequests(
 				first: 25,
 				states: OPEN,
