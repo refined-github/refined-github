@@ -1,4 +1,4 @@
-import './wait-for-build.css';
+import './quick-fork-deletion.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -15,7 +15,7 @@ import addNotice from '../github-widgets/notice-bar';
 async function handleClick(event: delegate.Event): Promise<void> {
 	const button = event.delegateTarget;
 	event.preventDefault();
-	if (!button.classList.toggle('btn-sm')) { // Use as state check
+	if (button.classList.toggle('rgh-deleting-fork')) { // Use as state check
 		void start();
 	}
 }

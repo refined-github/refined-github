@@ -1,0 +1,11 @@
+.rgh-deleting-fork {
+	transform-origin: top;
+	animation: rgh-zoom 5s ease-in forwards;
+	z-index: 10000;
+}
+
+@keyframes rgh-zoom {
+	to {
+		transform: scale(4);
+	}
+}
