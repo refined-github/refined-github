@@ -1,7 +1,6 @@
 :root .rgh-quick-fork-deletion[open] span {
 	position: relative;
 	z-index: 81;
-	font-variant-numeric: tabular-nums;
 	transform-origin: top;
 }
 

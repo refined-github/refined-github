@@ -29,15 +29,6 @@ function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
 }
 
 async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boolean> {
-	const button = select('.btn', buttonContainer)!;
-	const animation = button.animate({
-		transform: 'scale(4)'
-	}, {
-		easing: 'ease-in',
-		fill: 'forwards',
-		duration: 5000
-	});
-
 	// Watch for cancellations
 	const abortController = new AbortController();
 	buttonContainer.addEventListener('toggle', () => {
@@ -45,14 +36,16 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 	}, {once: true});
 
 	let secondsLeft = 5;
+	const button = select('.btn', buttonContainer)!;
 	try {
 		do {
+			button.style.transform = `scale(${1 - ((secondsLeft - 5) / 3)})`; // Dividend is the last scale size
 			button.textContent = `Deleting fork in ${pluralize(secondsLeft, '$$ second')}. Cancel?`;
 			await delay(1000, {signal: abortController.signal}); // eslint-disable-line no-await-in-loop
 		} while (--secondsLeft);
 	} catch {
 		button.textContent = 'Delete fork';
-		animation.cancel();
+		button.style.transform = '';
 	}
 
 	return !abortController.signal.aborted;
