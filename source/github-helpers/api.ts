@@ -67,6 +67,14 @@ export async function expectToken(): Promise<string> {
 	return personalToken;
 }
 
+export async function expectTokenScope(scope: string): Promise<void> {
+	const {headers} = await v3('/');
+	const tokenScopes = headers.get('X-OAuth-Scopes')!;
+	if (!tokenScopes.split(', ').includes(scope)) {
+		throw new Error(`The token you provided does not have the \`${scope}\` scope. It only includes \`${tokenScopes}\``);
+	}
+}
+
 const api3 = pageDetect.isEnterprise() ?
 	`${location.origin}/api/v3/` :
 	'https://api.github.com/';

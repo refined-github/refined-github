@@ -12,6 +12,7 @@ import {getRepo} from '../github-helpers';
 import pluralize from '../helpers/pluralize';
 import addNotice from '../github-widgets/notice-bar';
 import looseParseInt from '../helpers/loose-parse-int';
+import parseBackticks from '../github-helpers/parse-backticks';
 
 function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
 	const hasContent = select.exists(`
@@ -35,22 +36,19 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 		abortController.abort();
 	}, {once: true});
 
-	void api.v3('/').then(({headers}) => {
-		const tokenScopes = headers.get('X-OAuth-Scopes')!;
-		if (!tokenScopes.split(', ').includes('delete_repo')) {
-			abortController.abort();
-			buttonContainer.open = false;
-			addNotice(
-				<>
-					<p>
-						Could not delete the repository. The token you provided does not have the <code>delete_repo</code> scope. It only includes <code>{tokenScopes}</code>
-					</p>
-					<p>
-						You can edit your token on <a href="https://github.com/settings/tokens">GitHub’s settings page</a>.
-					</p>
-				</>
-			);
-		}
+	void api.expectTokenScope('delete_repo').catch((error: Error) => {
+		abortController.abort();
+		buttonContainer.open = false;
+		addNotice(
+			<div className="d-flex">
+				<p>Could not delete the repository. {parseBackticks(error.message)}</p>
+				<p><a className="btn btn-sm primary flash-action" href="https://github.com/settings/tokens">Update token…</a></p>
+			</div>,
+			{
+				type: 'error',
+				showCloseButton: false
+			}
+		);
 	});
 
 	let secondsLeft = 5;
@@ -85,19 +83,12 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		select('.application-main')!.remove();
 	} catch (error: unknown) {
 		buttonContainer.closest('li')!.remove();
-		addNotice(
-			<>
-				<p>
-					Could not delete repository. Make sure <a href="https://github.com/settings/tokens">your token</a> has the <code>delete_repo</code> scope.
-				</p>
-				<p>
-					Full error: {(error as any).response?.message ?? (error as any).message}
-				</p>
-			</>,
-			{
-				showCloseButton: false
-			}
-		);
+		addNotice([
+			'Could not delete the repository. ',
+			(error as any).response?.message ?? (error as any).message
+		], {
+			type: 'error'
+		});
 
 		throw error;
 	}
