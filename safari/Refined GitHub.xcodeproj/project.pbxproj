@@ -108,8 +108,8 @@
 			children = (
 				1FE2B2142540F6EE00A5D543 /* Refined_GitHub.entitlements */,
 				1FE2B2152540F6EE00A5D543 /* AppDelegate.swift */,
-				1FE2B2172540F6EE00A5D543 /* Main.storyboard */,
 				1FE2B21A2540F6EE00A5D543 /* ViewController.swift */,
+				1FE2B2172540F6EE00A5D543 /* Main.storyboard */,
 				1FE2B21C2540F6EF00A5D543 /* Assets.xcassets */,
 				1FE2B21E2540F6EF00A5D543 /* Info.plist */,
 			);
@@ -415,7 +415,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub.Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -432,7 +432,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub.Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
