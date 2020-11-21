@@ -12,6 +12,8 @@ browser.runtime.onMessage.addListener((message, {tab}) => {
 				active: false
 			});
 		}
+	} else if (message?.closeTab) {
+		void browser.tabs.remove(tab!.id!);
 	}
 });
 
