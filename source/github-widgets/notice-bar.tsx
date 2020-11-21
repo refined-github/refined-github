@@ -21,7 +21,7 @@ export default function addNotice(
 ): void {
 	select('#start-of-content')!.after(
 		<div className={`flash flash-full flash-${type}`}>
-			<div className="container-lg px-3 d-flex flex-items-center">
+			<div className="container-lg px-3 d-flex flex-items-center flex-justify-between">
 				<div>{message}</div> {action}
 			</div>
 		</div>
