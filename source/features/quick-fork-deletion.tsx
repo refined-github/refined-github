@@ -82,11 +82,11 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 			method: 'DELETE',
 			json: false
 		});
+		addNotice(`Repository ${nameWithOwner} deleted`, {action: false});
+		select('.application-main')!.remove();
 		if (document.hidden) {
+			// Try closing the tab if in the background. Could fail, so we still update the UI above
 			void browser.runtime.sendMessage({closeTab: true});
-		} else {
-			addNotice(`Repository ${nameWithOwner} deleted`, {action: false});
-			select('.application-main')!.remove();
 		}
 	} catch (error: unknown) {
 		buttonContainer.closest('li')!.remove(); // Remove button
