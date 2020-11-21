@@ -79,7 +79,8 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	try {
 		const {nameWithOwner} = getRepo()!;
 		await api.v3('/repos/' + nameWithOwner, {
-			method: 'DELETE'
+			method: 'DELETE',
+			json: false
 		});
 		if (document.hidden) {
 			void browser.runtime.sendMessage({closeTab: true});
