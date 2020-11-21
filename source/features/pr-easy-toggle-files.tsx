@@ -9,7 +9,7 @@ function toggleFile(event: Event): void {
 
 	// The clicked element is either the bar itself or one of its 2 children
 	if (elementClicked === headerBar || elementClicked.parentElement === headerBar) {
-		select('.file-info > button', headerBar)!.click();
+		select('[aria-label="Toggle diff contents"]', headerBar)!.click();
 	}
 }
 
