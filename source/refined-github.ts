@@ -203,6 +203,7 @@ import './features/unfinished-comments';
 import './features/single-diff-column-selection';
 import './features/jump-to-change-requested-comment';
 import './features/esc-to-cancel';
+import './features/quick-fork-deletion';
 import './features/pr-easy-toggle-files';
 
 // Add global for easier debugging

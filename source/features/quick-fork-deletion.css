@@ -1,0 +1,10 @@
+:root .rgh-quick-fork-deletion[open] span {
+	position: relative;
+	z-index: 81;
+	transform-origin: top;
+}
+
+:root .rgh-quick-fork-deletion[open] summary::before {
+	background-color: var(--color-scale-red-6);
+	opacity: 30%;
+}
