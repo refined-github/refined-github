@@ -3,7 +3,7 @@ import SafariServices.SFSafariApplication
 import SafariServices.SFSafariExtensionManager
 
 let appName = "Refined GitHub"
-let extensionBundleIdentifier = "com.sindresorhus.Refined-GitHub-Extension"
+let extensionBundleIdentifier = "com.sindresorhus.Refined-GitHub.Extension"
 
 final class ViewController: NSViewController {
 	@IBOutlet var appNameLabel: NSTextField!
