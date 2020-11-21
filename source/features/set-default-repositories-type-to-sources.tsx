@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import {observe} from 'selector-observer';
+import elementReady from 'element-ready';
 
 import features from '.';
 
@@ -9,7 +9,11 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	link.search = String(search);
 }
 
-function init(): void {
+function headerDropdownListener(): void {
+	addSourceTypeToLink(select<HTMLAnchorElement>('.header-nav-current-user ~ [href$="tab=repositories"]')!);
+}
+
+async function init(): Promise<void> {
 	const links = select.all<HTMLAnchorElement>([
 		// Pre "Repository refresh" layout
 		'#user-links [href$="tab=repositories"]', // "Repositories" tab on user profile
@@ -24,12 +28,9 @@ function init(): void {
 		addSourceTypeToLink(link);
 	}
 
-	observe('.header-nav-current-user ~ [href$="tab=repositories"]', { // "Your repositories" in header dropdown
-		constructor: HTMLAnchorElement,
-		add(link) {
-			addSourceTypeToLink(link);
-		}
-	});
+	(await elementReady('[aria-label="View profile and more"]'))! // "Your repositories" in header dropdown
+		.closest('details')!
+		.addEventListener('toggle', headerDropdownListener, {once: true});
 }
 
 void features.add(__filebasename, {
