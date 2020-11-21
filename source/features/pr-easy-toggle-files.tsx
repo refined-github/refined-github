@@ -4,23 +4,18 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-const selectorHeaderBar = '.file-header.file-header--expandable';
-
-function toggleFile(event: delegate.Event<Event, HTMLElement>): void {
+function toggleFile(event: Event): void {
 	const elementClicked = event.target as HTMLElement;
-	const headerBar = elementClicked.closest(selectorHeaderBar);
+	const headerBar = elementClicked.closest<HTMLElement>('.file-header.file-header--expandable')!;
 
 	// The clicked element is either the bar itself or one of its 2 children
-	if (
-		elementClicked.isSameNode(headerBar) ||
-		elementClicked.parentElement!.isSameNode(headerBar)
-	) {
-		select('.file-info > button', headerBar as HTMLElement)!.click();
+	if (elementClicked === headerBar || elementClicked.parentElement === headerBar) {
+		select('.file-info > button', headerBar)!.click();
 	}
 }
 
 async function init(): Promise<void> {
-	delegate('#files', selectorHeaderBar, 'click', toggleFile);
+	document.body.addEventListener('click', toggleFile);
 }
 
 void features.add(__filebasename, {
