@@ -306,7 +306,6 @@ Thanks for contributing! 🦋🙌
 - [](# "linkify-branch-references") [Linkifies branch references in "Quick PR" pages.](https://user-images.githubusercontent.com/1402241/30208043-fa1ceaec-94bb-11e7-9c32-feabcf7db296.png)
 - [](# "hide-issue-list-autocomplete") [Removes the autocomplete on search fields.](https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png)
 - [](# "hide-obvious-tooltips") Removes tooltips from self-explanatory buttons.
-- [](# "recently-pushed-branches-enhancements") 🔥 [Moves the "Recently-pushed branches" widget to the header to avoid content jumps. Also adds it to more pages in the repo.](https://user-images.githubusercontent.com/1402241/56466173-da517700-643f-11e9-8eb5-9b20017fa613.gif)
 - [](# "embed-gist-via-iframe") [Adds a menu item to embed a gist via `<iframe>`.](https://user-images.githubusercontent.com/44045911/63633382-6a1b6200-c67a-11e9-9038-aedd62e4f6a8.png)
 - [](# "link-to-prior-blame-line") [Preserves the current line on “View blame prior to this change” links.](https://user-images.githubusercontent.com/1402241/60064482-26b47e00-9733-11e9-803c-c113ea612fbe.png)
 - [](# "enable-file-links-in-compare-view") [Points the "View file" on compare view pages to the branch instead of the commit, so the Edit/Delete buttons will be enabled on the "View file" page, if needed.](https://user-images.githubusercontent.com/1402241/69044026-c5b17d80-0a26-11ea-86ae-c95f89d3669a.png)
