@@ -5,6 +5,7 @@
 .rgh-sticky-sidebar {
 	position: sticky;
 	top: 0;
+	z-index: 1; /* `sticky` will trap the `fixed` dialog’s z-index in some sidebars #3732 */
 }
 
 #partial-discussion-sidebar.rgh-sticky-sidebar {
