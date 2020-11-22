@@ -53,7 +53,7 @@ function highlightBestComment(bestComment: Element): void {
 	avatar.classList.add('flex-column', 'flex-items-center', 'd-md-flex');
 	avatar.append(<CheckIcon width={24} height={32} className="mt-4 text-green"/>);
 
-	select('.unminimized-comment', bestComment)!.classList.add('timeline-chosen-answer');
+	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
 	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
 		<span
 			className="d-flex flex-items-center text-green mr-1 tooltipped tooltipped-n"
@@ -78,7 +78,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 
 	bestComment.parentElement!.firstElementChild!.after(
 		<div className="timeline-comment-wrapper pl-0 my-0">
-			<a href={hash} className="no-underline rounded-1 timeline-chosen-answer timeline-comment bg-gray px-2 d-flex flex-items-center">
+			<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment bg-gray px-2 d-flex flex-items-center">
 				{avatar}
 				<span className="btn btn-sm mr-2">
 					<ArrowDownIcon/>
