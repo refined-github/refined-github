@@ -2,12 +2,12 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
+import oneMutation from 'one-mutation';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
 import oneEvent from '../helpers/one-event';
-import oneMutation from 'one-mutation';
 
 const pendingSelector = '.timeline-comment-label.is-pending';
 
@@ -27,7 +27,7 @@ function updateUI(): void {
 
 async function handleReviewSubmission(event: delegate.Event): Promise<void> {
 	const container = event.delegateTarget.closest('.line-comments')!;
-	await oneMutation(container, {childList: true, subTree: true});
+	await oneMutation(container, {childList: true, subtree: true});
 	if (select.exists(pendingSelector, container)) {
 		updateUI();
 	}
@@ -82,14 +82,14 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 		deleteLink.click();
 
 		// Wait for the comment to be removed
-		await oneMutation(lineBeingCommentedOn.parentElement!, {childList: true, subTree: true});
+		await oneMutation(lineBeingCommentedOn.parentElement!, {childList: true, subtree: true});
 
 		// Enable form and submit new comment
 		submitButton.disabled = false;
 		submitButton.click();
 
 		// Wait for the comment to be added
-		await oneMutation(lineBeingCommentedOn.parentElement!, {childList: true, subTree: true});
+		await oneMutation(lineBeingCommentedOn.parentElement!, {childList: true, subtree: true});
 		commentForm.hidden = false;
 	} catch (error: unknown) {
 		commentForm.hidden = false;

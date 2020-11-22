@@ -1,11 +1,11 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import oneMutation from 'one-mutation';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {observe, Observer} from 'selector-observer';
 
 import features from '.';
-import oneMutation from 'one-mutation';
 
 let observer: Observer;
 
@@ -14,7 +14,7 @@ async function loadDeferred(jumpList: Element): Promise<void> {
 	const retrier = setInterval(() => {
 		jumpList.parentElement!.dispatchEvent(new MouseEvent('mouseover'));
 	}, 100);
-	await oneMutation(jumpList, {childList: true, subTree: true});
+	await oneMutation(jumpList, {childList: true, subtree: true});
 	clearInterval(retrier);
 }
 
