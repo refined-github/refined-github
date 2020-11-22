@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {observeOneMutation} from '../helpers/simplified-element-observer';
+import oneMutation from 'one-mutation';
 
 async function getProjectsTab(): Promise<HTMLElement | undefined> {
 	return elementReady([
@@ -41,7 +41,7 @@ export default async function getTabCount(tab: Element): Promise<number> {
 
 	if (!counter.firstChild) {
 		// It's still loading
-		await observeOneMutation(tab);
+		await oneMutation(tab, {childList: true, subTree: true});
 	}
 
 	return Number(counter.textContent);

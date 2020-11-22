@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import {observe, Observer} from 'selector-observer';
 
 import features from '.';
-import {observeOneMutation} from '../helpers/simplified-element-observer';
+import oneMutation from 'one-mutation';
 
 let observer: Observer;
 
@@ -14,7 +14,7 @@ async function loadDeferred(jumpList: Element): Promise<void> {
 	const retrier = setInterval(() => {
 		jumpList.parentElement!.dispatchEvent(new MouseEvent('mouseover'));
 	}, 100);
-	await observeOneMutation(jumpList);
+	await oneMutation(jumpList, {childList: true, subTree: true});
 	clearInterval(retrier);
 }
 
