@@ -10,11 +10,7 @@ async function init(): Promise<void | false> {
 		'.UnderlineNav-item[href$="?tab=packages"]:not(.selected)' // `isUserProfile`
 	].join());
 
-	if (!packagesTab ||
-		await getTabCount(packagesTab) > 0 ||
-		// To keep the `awaitDomReady: false` don't add this to exclude
-		pageDetect.canUserEditOrganization() // #3737
-	) {
+	if (!packagesTab || await getTabCount(packagesTab) > 0) {
 		return false;
 	}
 
