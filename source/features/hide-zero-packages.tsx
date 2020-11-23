@@ -10,7 +10,11 @@ async function init(): Promise<void | false> {
 		'.UnderlineNav-item[href$="?tab=packages"]:not(.selected)' // `isUserProfile`
 	].join());
 
-	if (!packagesTab || await getTabCount(packagesTab) > 0) {
+	if (!packagesTab ||
+		await getTabCount(packagesTab) > 0 ||
+		// To keep the `awaitDomReady: false` don't add this to exclude
+		pageDetect.canUserEditOrganization() // #3737
+	) {
 		return false;
 	}
 
@@ -21,6 +25,10 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoRoot,
 		pageDetect.isUserProfile
+	],
+	exclude: [
+		// Keep it visible on your own profile due to #3737
+		pageDetect.isOwnUserProfile
 	],
 	awaitDomReady: false,
 	init
