@@ -41,7 +41,7 @@ export default async function getTabCount(tab: Element): Promise<number> {
 
 	if (!counter.firstChild) {
 		// It's still loading
-		await oneMutation(tab, {childList: true, subtree: true});
+		await oneMutation(tab, {childList: true, subtree: true}); // TODO: subtree might not be necessary
 	}
 
 	return Number(counter.textContent);

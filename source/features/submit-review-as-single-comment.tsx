@@ -27,7 +27,7 @@ function updateUI(): void {
 
 async function handleReviewSubmission(event: delegate.Event): Promise<void> {
 	const container = event.delegateTarget.closest('.line-comments')!;
-	await oneMutation(container, {childList: true, subtree: true});
+	await oneMutation(container, {childList: true, subtree: true}); // TODO: subtree might not be necessary anywhere on the page
 	if (select.exists(pendingSelector, container)) {
 		updateUI();
 	}
