@@ -68,10 +68,12 @@ void features.add(__filebasename, {
 		pageDetect.isOrganizationProfile
 	],
 	exclude: [
-		// Repo/Organization owners/Owm profile should see the tab. If they don't need it, they should disable Projects altogether
+		// Repo/Organization owners should see the tab. If they don't need it, they should disable Projects altogether
 		pageDetect.canUserEditRepo,
-		pageDetect.isOwnUserProfile,
-		pageDetect.canUserEditOrganization
+		pageDetect.canUserEditOrganization,
+
+		// Also keep it visible on your own profile due to #3737
+		pageDetect.isOwnUserProfile
 	],
 	awaitDomReady: false,
 	init: removeProjectsTab
