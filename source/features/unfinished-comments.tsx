@@ -6,16 +6,21 @@ import features from '.';
 let documentTitle: string | undefined;
 
 function hasDraftComments(): boolean {
-	return select.all('textarea').some(textarea => textarea.value.length > 0 && textarea.offsetWidth > 0);
+	// `[disabled]` excludes the PR description field that `wait-for-build` disables while it waits
+	return select.all<HTMLTextAreaElement>('textarea:not([disabled])').some(textarea =>
+		textarea.value !== textarea.textContent && // Exclude comments being edited but not yet changed (and empty comment fields)
+		textarea.offsetWidth > 0 && // Exclude invisible fields
+		!select.exists('.btn-primary[disabled]', textarea.form!) // Exclude forms being submitted
+	);
 }
 
-async function updateDocumentTitle(): Promise<void> {
-	if (documentTitle) {
-		document.title = documentTitle;
-		documentTitle = undefined;
-	} else if (document.visibilityState === 'hidden' && hasDraftComments()) {
+function updateDocumentTitle(): void {
+	if (document.visibilityState === 'hidden' && hasDraftComments()) {
 		documentTitle = document.title;
 		document.title = '(Draft comment) ' + document.title;
+	} else if (documentTitle) {
+		document.title = documentTitle;
+		documentTitle = undefined;
 	}
 }
 
@@ -25,7 +30,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasComments
+		pageDetect.hasRichTextEditor
 	],
 	init
 });

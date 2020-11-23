@@ -12,6 +12,10 @@ p {
 	margin-top: 0;
 }
 
+ul {
+	padding-left: 1.5em;
+}
+
 :root [name='customCSS'],
 :root [name='personalToken'] {
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
