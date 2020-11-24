@@ -3,6 +3,7 @@
 import path from 'path';
 import {readFileSync} from 'fs';
 
+import regexJoin from 'regex-join';
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 // @ts-expect-error
@@ -12,12 +13,10 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {Configuration} from 'webpack';
 import {parse as parseMarkdown} from 'markdown-wasm/dist/markdown.node';
 
-import concatRegex from './source/helpers/concat-regex';
-
 let isWatching = false;
 
 function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta {
-	const lineRegex = concatRegex(/^- \[]\(# "/, id, /"\)(?: 🔥)? (.+)$/m);
+	const lineRegex = regexJoin(/^/, `- [](# "${id}")`, /(?: 🔥)? (.+)$/m);
 	const lineMatch = lineRegex.exec(readmeContent);
 	if (lineMatch) {
 		const urls: string[] = [];
@@ -33,7 +32,7 @@ function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta 
 	}
 
 	// Feature might be highlighted in the readme
-	const imageRegex = concatRegex(/<p><a title="/, id, /"><\/a> (.+?)\n\t+<p><img src="(.+?)">/);
+	const imageRegex = regexJoin(`<p><a title="${id}"></a> `, /(.+?)\n\t+<p><img src="(.+?)">/);
 	const imageMatch = imageRegex.exec(readmeContent);
 	if (imageMatch) {
 		return {
