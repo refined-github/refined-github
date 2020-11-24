@@ -8,7 +8,7 @@ Here's some examples:
 
 ```json
 {
-  "cleanup-repo-filelist-actions": false
+  "feature:cleanup-repo-filelist-actions": false
 }
 ```
 
@@ -16,7 +16,7 @@ If a feature was fixed by a recent release, don't immediately remove it, you can
 
 ```json
 {
-  "cleanup-repo-filelist-actions": false,
+  "feature:cleanup-repo-filelist-actions": false,
   "unaffected": "20.9.4"
 }
 ```
