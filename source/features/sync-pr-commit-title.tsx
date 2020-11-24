@@ -1,11 +1,11 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import regexJoin from 'regex-join';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import concatRegex from '../helpers/concat-regex';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 const prTitleFieldSelector = '.js-issue-update [name="issue[title]"]';
@@ -62,7 +62,7 @@ function updatePRTitle(): void {
 
 	// Remove PR number from commit title
 	const prTitle = getCommitTitleField()!.value
-		.replace(concatRegex(/\s*\(/, getPRNumber(), /\)$/), '');
+		.replace(regexJoin(/\s*\(/, getPRNumber(), /\)$/), '');
 
 	// Fill and submit title-change form
 	select<HTMLInputElement>(prTitleFieldSelector)!.value = prTitle;
