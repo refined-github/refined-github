@@ -1,4 +1,13 @@
-export default function pluralize(count: number, single: string, plural: string, zero?: string): string {
+function regular(single: string): string {
+	return single + 's';
+}
+
+export default function pluralize(
+	count: number,
+	single: string,
+	plural = regular(single),
+	zero?: string
+): string {
 	if (count === 0 && zero) {
 		return zero.replace('$$', '0');
 	}

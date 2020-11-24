@@ -82,7 +82,6 @@ import './features/embed-gist-inline';
 import './features/comments-time-machine-links';
 import './features/hide-issue-list-autocomplete';
 import './features/esc-to-deselect-line';
-import './features/recently-pushed-branches-enhancements';
 import './features/create-release-shortcut';
 import './features/patch-diff-links';
 import './features/parse-backticks';
@@ -203,6 +202,8 @@ import './features/unfinished-comments';
 import './features/single-diff-column-selection';
 import './features/jump-to-change-requested-comment';
 import './features/esc-to-cancel';
+import './features/quick-fork-deletion';
+import './features/pr-easy-toggle-files';
 
 // Add global for easier debugging
 (window as any).select = select;

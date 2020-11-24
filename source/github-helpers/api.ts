@@ -51,6 +51,7 @@ interface RestResponse extends AnyObject {
 export const escapeKey = (value: string | number): string => '_' + String(value).replace(/[ ./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
+	response: AnyObject = {};
 	constructor(...messages: string[]) {
 		super(messages.join('\n'));
 	}
@@ -64,6 +65,14 @@ export async function expectToken(): Promise<string> {
 	}
 
 	return personalToken;
+}
+
+export async function expectTokenScope(scope: string): Promise<void> {
+	const {headers} = await v3('/');
+	const tokenScopes = headers.get('X-OAuth-Scopes')!;
+	if (!tokenScopes.split(', ').includes(scope)) {
+		throw new Error(`The token you provided does not have the \`${scope}\` scope. It only includes \`${tokenScopes}\``);
+	}
 }
 
 const api3 = pageDetect.isEnterprise() ?
@@ -210,11 +219,13 @@ export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAP
 		);
 	}
 
-	return new RefinedGitHubAPIError(
+	const error = new RefinedGitHubAPIError(
 		'Unable to fetch.',
 		personalToken ?
 			'Ensure that your token has access to this repo.' :
 			'Maybe adding a token in the options will fix this issue.',
 		JSON.stringify(apiResponse, null, '\t') // Beautify
 	);
+	error.response = apiResponse;
+	return error;
 }
