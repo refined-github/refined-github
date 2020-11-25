@@ -34,11 +34,16 @@ async function validateToken(): Promise<void> {
 		return;
 	}
 
-	for (const scope of select.all('span[data-scope]')) {
+	for (const scope of select.all('[data-scope]')) {
 		scope.replaceWith(<LoadingIcon data-scope={scope.dataset.scope} width={12}/>);
 	}
 
-	const headers = await getHeaders(personalToken);
+	const headers = (await getHeaders(personalToken)).split(', ');
+	if (headers.includes('repo')) {
+		headers.push('public_repo');
+	}
+
+	console.log(headers);
 	for (const scope of select.all('[data-scope]')) {
 		if (headers.includes(scope.dataset.scope!)) {
 			scope.replaceWith(<span data-scope={scope.dataset.scope}>✔️</span>);
@@ -157,6 +162,7 @@ function addEventListeners(): void {
 
 	// Add cache clearer
 	select('#clear-cache')!.addEventListener('click', clearCacheHandler);
+	select('#clear-cachee')!.addEventListener('click', validateToken);
 
 	// Ensure all links open in a new tab #3181
 	delegate(document, '[href^="http"]', 'click', (event: delegate.Event<MouseEvent, HTMLAnchorElement>) => {

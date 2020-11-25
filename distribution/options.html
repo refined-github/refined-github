@@ -8,11 +8,14 @@
 			<strong>Personal token</strong> (optional, <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo" target="_blank">generate one</a>)<br>
 			<!-- placeholder is set to enable use of :placeholder-shown CSS selector -->
 			<input type="text" name="personalToken" spellcheck="false" autocomplete="off" pattern="[\da-f]{40}" placeholder=" ">
+			<label>
+				<button id="clear-cachee">Revalidate</button>
+			</label>
 		</label>
 	</p>
 	<ul class="scopes">
 		<li>The token enables <a href="https://github.com/sindresorhus/refined-github/search?q=github-helpers/api" target="_blank">some features</a> to read data from public repositories
-		<li>The <code>public_repo</code> scope lets them edit your public repositories <span data-scope="repo"></span>
+		<li>The <code>public_repo</code> scope lets them edit your public repositories <span data-scope="public_repo"></span>
 		<li>The <code>repo</code> scope lets them edit private repositories as well <span data-scope="repo"></span>
 		<li>The <code>delete_repo</code> scope is only used by the <code>quick-fork-deletion</code> feature <span data-scope="delete_repo"></span>
 	</ul>
