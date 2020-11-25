@@ -1,1 +1,5 @@
-{"feature:close-out-of-view-modals": false, "feature:recently-pushed-branches-enhancements": false}
+{
+  "feature:close-out-of-view-modals": false,
+  "feature:recently-pushed-branches-enhancements": false,
+  "unaffected": "20.11.26"
+}
