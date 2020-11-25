@@ -8,6 +8,11 @@
 	--github-red: #cb2431;
 }
 
+[data-type] {
+    float: right;
+    margin-right: 100px;
+}
+
 p {
 	margin-top: 0;
 }

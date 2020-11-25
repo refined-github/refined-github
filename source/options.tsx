@@ -8,7 +8,45 @@ import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
+import LoadingIcon from './github-helpers/icon-loading';
 import {perDomainOptions} from './options-storage';
+
+async function getHeaders(personalToken: string): Promise<string> {
+	const {headers} = await fetch('https://api.github.com/', {
+		headers: {
+			'User-Agent': 'Refined GitHub',
+			Accept: 'application/vnd.github.v3+json',
+			Authorization: `token ${personalToken}`
+		}
+	});
+
+	return headers.get('X-OAuth-Scopes')!;
+}
+
+async function validateToken(): Promise<void> {
+	const personalToken = select<HTMLInputElement>('[name="personalToken"]')!.value;
+	console.log(personalToken);
+	if (personalToken.length === 0) {
+		for (const scope of select.all('span[data-scope]')) {
+			scope.replaceWith(<span data-scope={scope.dataset.scope}/>);
+		}
+
+		return;
+	}
+
+	for (const scope of select.all('span[data-scope]')) {
+		scope.replaceWith(<LoadingIcon data-scope={scope.dataset.scope} width={12}/>);
+	}
+
+	const headers = await getHeaders(personalToken);
+	for (const scope of select.all('[data-scope]')) {
+		if (headers.includes(scope.dataset.scope!)) {
+			scope.replaceWith(<span data-scope={scope.dataset.scope}>✔️</span>);
+		} else {
+			scope.replaceWith(<span data-scope={scope.dataset.scope}>❌</span>);
+		}
+	}
+}
 
 function moveDisabledFeaturesToTop(): void {
 	const container = select('.js-features')!;
@@ -91,6 +129,7 @@ async function generateDom(): Promise<void> {
 	moveDisabledFeaturesToTop();
 	void highlightNewFeatures();
 
+	void validateToken();
 	// Move debugging tools higher when side-loaded
 	if (process.env.NODE_ENV === 'development') {
 		select('#debugging-position')!.replaceWith(select('#debugging')!);
@@ -101,6 +140,8 @@ function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
 	select('.js-options-sync-selector')?.addEventListener('change', ({currentTarget: dropdown}) => {
 		select<HTMLAnchorElement>('#personal-token-link')!.host = (dropdown as HTMLSelectElement).value;
+		void validateToken();
+		console.log(' i ran');
 	});
 
 	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)

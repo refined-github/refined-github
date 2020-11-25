@@ -67,9 +67,13 @@ export async function expectToken(): Promise<string> {
 	return personalToken;
 }
 
-export async function expectTokenScope(scope: string): Promise<void> {
+export async function getTokenScope(): Promise<string> {
 	const {headers} = await v3('/');
-	const tokenScopes = headers.get('X-OAuth-Scopes')!;
+	return headers.get('X-OAuth-Scopes')!;
+}
+
+export async function expectTokenScope(scope: string): Promise<void> {
+	const tokenScopes = await getTokenScope();
 	if (!tokenScopes.split(', ').includes(scope)) {
 		throw new Error(`The token you provided does not have the \`${scope}\` scope. It only includes \`${tokenScopes}\``);
 	}
