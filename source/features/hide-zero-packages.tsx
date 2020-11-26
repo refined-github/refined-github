@@ -22,6 +22,10 @@ void features.add(__filebasename, {
 		pageDetect.isRepoRoot,
 		pageDetect.isUserProfile
 	],
+	exclude: [
+		// Keep it visible on your own profile due to #3737
+		pageDetect.isOwnUserProfile
+	],
 	awaitDomReady: false,
 	init
 });
