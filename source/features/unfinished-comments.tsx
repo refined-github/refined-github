@@ -9,7 +9,7 @@ function hasDraftComments(): boolean {
 	// `[disabled]` excludes the PR description field that `wait-for-build` disables while it waits
 	return select.all<HTMLTextAreaElement>('textarea:not([disabled])').some(textarea =>
 		textarea.value !== textarea.textContent && // Exclude comments being edited but not yet changed (and empty comment fields)
-		textarea.offsetWidth > 0 && // Exclude invisible fields
+		(textarea.offsetWidth > 0 || select('.js-preview-body', textarea.form!)!.textContent !== 'Nothing to preview') && // Exclude invisible fields that aren't being previewed
 		!select.exists('.btn-primary[disabled]', textarea.form!) // Exclude forms being submitted
 	);
 }
