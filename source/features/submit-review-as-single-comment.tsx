@@ -2,12 +2,12 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
+import oneEvent from 'one-event';
 import oneMutation from 'one-mutation';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import oneEvent from '../helpers/one-event';
 
 const pendingSelector = '.timeline-comment-label.is-pending';
 
