@@ -12,15 +12,19 @@ import LoadingIcon from './github-helpers/icon-loading';
 import {perDomainOptions} from './options-storage';
 
 async function getHeaders(personalToken: string): Promise<string> {
-	const {headers} = await fetch('https://api.github.com/', {
+	const response = await fetch('https://api.github.com/', {
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			Accept: 'application/vnd.github.v3+json',
 			Authorization: `token ${personalToken}`
-		}
+		},
+		cache: 'no-store'
 	});
+	if (!response.ok) {
+		select('#de')!.textContent = 'Invalid Token';
+	}
 
-	return headers.get('X-OAuth-Scopes')!;
+	return response.headers.get('X-OAuth-Scopes')! ?? '';
 }
 
 async function validateToken(): Promise<void> {
@@ -43,7 +47,6 @@ async function validateToken(): Promise<void> {
 		headers.push('public_repo');
 	}
 
-	console.log(headers);
 	for (const scope of select.all('[data-scope]')) {
 		if (headers.includes(scope.dataset.scope!)) {
 			scope.replaceWith(<span data-scope={scope.dataset.scope}>✔️</span>);
