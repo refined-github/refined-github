@@ -21,6 +21,10 @@ ul {
 	margin-right: 50px;
 }
 
+[data-validated="false"] [data-scope] {
+	display: none;
+}
+
 :root [name='customCSS'],
 :root [name='personalToken'] {
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
@@ -28,7 +32,7 @@ ul {
 	line-height: 1.5;
 }
 
-#result {
+#validation {
 	display: inline-block;
 }
 

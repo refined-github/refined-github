@@ -10,6 +10,10 @@ import * as indentTextarea from 'indent-textarea';
 
 import {perDomainOptions} from './options-storage';
 
+function setValidationStatus(text: string): void {
+	select('#validation')!.textContent = text;
+}
+
 async function getHeaders(personalToken: string): Promise<string> {
 	const tokenLink = select<HTMLAnchorElement>('#personal-token-link')!;
 	const url = tokenLink.host === 'github.com' ?
@@ -29,7 +33,9 @@ async function getHeaders(personalToken: string): Promise<string> {
 		const statusText = response.status === 404 ?
 			'Invalid Domain' :
 			String((await response.json()).message);
-		select('#result')!.textContent = '❌ ' + statusText;
+		setValidationStatus('❌ ' + statusText);
+	} else {
+		setValidationStatus('✔️ Validated');
 	}
 
 	return response.headers.get('X-OAuth-Scopes')! ?? '';
@@ -37,18 +43,18 @@ async function getHeaders(personalToken: string): Promise<string> {
 
 async function validateToken(): Promise<void> {
 	const personalToken = select<HTMLInputElement>('[name="personalToken"]')!.value;
-	select('#result')!.textContent = '';
-	for (const scope of select.all('[data-scope]')) {
-		scope.textContent = '';
-	}
+	setValidationStatus('');
+	select('[data-validated]')!.dataset.validated = 'false';
 
 	if (!/[\da-f]{40}/.exec(personalToken)) {
 		return;
 	}
 
-	select('#result')!.textContent = 'Validating...';
+	setValidationStatus('Validating...');
 
 	const headers = (await getHeaders(personalToken)).split(', ');
+	select('[data-validated]')!.dataset.validated = 'true';
+
 	if (headers.includes('repo')) {
 		headers.push('public_repo');
 	}

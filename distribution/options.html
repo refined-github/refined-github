@@ -9,11 +9,11 @@
 			<div>
 				<!-- placeholder is set to enable use of :placeholder-shown CSS selector -->
 				<input type="text" name="personalToken" spellcheck="false" autocomplete="off" pattern="[\da-f]{40}" placeholder=" ">
-				<div id="result"></div>
+				<div id="validation"></div>
 			</div>
 		</label>
 	</p>
-	<ul>
+	<ul data-validated="false">
 		<li style="list-style: none;">The token enables <a href="https://github.com/sindresorhus/refined-github/search?q=github-helpers/api" target="_blank">some features</a> to read data from public repositories
 		<li>The <code>public_repo</code> scope lets them edit your public repositories <span data-scope="public_repo"></span>
 		<li>The <code>repo</code> scope lets them edit private repositories as well <span data-scope="repo"></span>
