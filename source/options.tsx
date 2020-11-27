@@ -16,8 +16,8 @@ async function getHeaders(personalToken: string): Promise<string> {
 	const url = tokenLink.host === 'github.com' ?
 		'https://api.github.com/' :
 		`${tokenLink.origin}/api/v3/`;
-	console.log(url);
-	const response = await fetch('https://api.github.com/', {
+
+	const response = await fetch(url, {
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			Accept: 'application/vnd.github.v3+json',
@@ -33,12 +33,12 @@ async function getHeaders(personalToken: string): Promise<string> {
 
 async function validateToken(): Promise<void> {
 	const personalToken = select<HTMLInputElement>('[name="personalToken"]')!.value;
-	console.log(personalToken);
-	if (personalToken.length === 0) {
-		for (const scope of select.all('[data-scope]')) {
-			scope.textContent = '';
-		}
+	select('#result')!.textContent = '';
+	for (const scope of select.all('[data-scope]')) {
+		scope.textContent = '';
+	}
 
+	if (personalToken.length === 0) {
 		return;
 	}
 
@@ -149,7 +149,9 @@ function addEventListeners(): void {
 	select('.OptionsSyncPerDomain-picker select')?.addEventListener('change', ({currentTarget: dropdown}) => {
 		const host = (dropdown as HTMLSelectElement).value === 'default' ? 'github.com' : (dropdown as HTMLSelectElement).value;
 		select<HTMLAnchorElement>('#personal-token-link')!.host = host;
-		void validateToken();
+		setTimeout(() => {
+			void validateToken();
+		}, 100);
 	});
 
 	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)
