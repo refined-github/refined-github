@@ -43,7 +43,7 @@ async function validateToken(): Promise<void> {
 		scope.textContent = '';
 	}
 
-	if (personalToken.length === 0) {
+	if (!/[\da-f]{40}/.exec(personalToken)) {
 		return;
 	}
 
@@ -141,8 +141,8 @@ async function generateDom(): Promise<void> {
 	// Decorate list
 	moveDisabledFeaturesToTop();
 	void highlightNewFeatures();
-
 	void validateToken();
+
 	// Move debugging tools higher when side-loaded
 	if (process.env.NODE_ENV === 'development') {
 		select('#debugging-position')!.replaceWith(select('#debugging')!);
@@ -154,6 +154,7 @@ function addEventListeners(): void {
 	select('.OptionsSyncPerDomain-picker select')?.addEventListener('change', ({currentTarget: dropdown}) => {
 		const host = (dropdown as HTMLSelectElement).value === 'default' ? 'github.com' : (dropdown as HTMLSelectElement).value;
 		select<HTMLAnchorElement>('#personal-token-link')!.host = host;
+		// Delay validating to let options load first
 		setTimeout(() => {
 			void validateToken();
 		}, 100);
@@ -172,6 +173,8 @@ function addEventListeners(): void {
 
 	// Add cache clearer
 	select('#clear-cache')!.addEventListener('click', clearCacheHandler);
+
+	// Add token validation
 	select('[name="personalToken"]')!.addEventListener('change', validateToken);
 
 	// Ensure all links open in a new tab #3181

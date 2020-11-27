@@ -8,7 +8,6 @@
 	--github-red: #cb2431;
 }
 
-
 p {
 	margin-top: 0;
 }
@@ -29,7 +28,7 @@ ul {
 	line-height: 1.5;
 }
 
-#result{
+#result {
 	display: inline-block;
 }
 
