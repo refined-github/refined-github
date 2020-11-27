@@ -8,7 +8,6 @@ import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
-import LoadingIcon from './github-helpers/icon-loading';
 import {perDomainOptions} from './options-storage';
 
 async function getHeaders(personalToken: string): Promise<string> {
@@ -47,9 +46,7 @@ async function validateToken(): Promise<void> {
 		return;
 	}
 
-	for (const scope of select.all('[data-scope]')) {
-		scope.append(<LoadingIcon width={12}/>);
-	}
+	select('#result')!.textContent = 'Validating...';
 
 	const headers = (await getHeaders(personalToken)).split(', ');
 	if (headers.includes('repo')) {
