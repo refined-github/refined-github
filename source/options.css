@@ -21,7 +21,7 @@ ul {
 	margin-right: 50px;
 }
 
-[data-validated="false"] [data-scope] {
+.invalid [data-scope] {
 	display: none;
 }
 

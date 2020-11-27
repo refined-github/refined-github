@@ -12,6 +12,7 @@ import {perDomainOptions} from './options-storage';
 
 function setValidationStatus(text: string): void {
 	select('#validation')!.textContent = text;
+	select('form ul')!.classList.toggle('invalid', !text.includes('✔️'));
 }
 
 async function getHeaders(personalToken: string): Promise<string> {
@@ -44,7 +45,6 @@ async function getHeaders(personalToken: string): Promise<string> {
 async function validateToken(): Promise<void> {
 	const personalToken = select<HTMLInputElement>('[name="personalToken"]')!.value;
 	setValidationStatus('');
-	select('[data-validated]')!.dataset.validated = 'false';
 
 	if (!/[\da-f]{40}/.exec(personalToken)) {
 		return;
@@ -53,7 +53,6 @@ async function validateToken(): Promise<void> {
 	setValidationStatus('Validating...');
 
 	const headers = (await getHeaders(personalToken)).split(', ');
-	select('[data-validated]')!.dataset.validated = 'true';
 
 	if (headers.includes('repo')) {
 		headers.push('public_repo');
