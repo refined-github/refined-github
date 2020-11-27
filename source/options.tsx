@@ -18,15 +18,20 @@ async function getHeaders(personalToken: string): Promise<string> {
 		`${tokenLink.origin}/api/v3/`;
 
 	const response = await fetch(url, {
+		cache: 'no-store',
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			Accept: 'application/vnd.github.v3+json',
 			Authorization: `token ${personalToken}`
-		},
-		cache: 'no-store'
+		}
 	});
 
-	select('#result')!.textContent = response.ok ? '' : '❌ Invalid Token';
+	if (!response.ok) {
+		const statusText = response.status === 404 ?
+			'Invalid Domain' :
+			String((await response.json()).message);
+		select('#result')!.textContent = '❌ ' + statusText;
+	}
 
 	return response.headers.get('X-OAuth-Scopes')! ?? '';
 }
