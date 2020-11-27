@@ -20,9 +20,8 @@ async function getHeaders(personalToken: string): Promise<string> {
 		},
 		cache: 'no-store'
 	});
-	if (!response.ok) {
-		select('#de')!.textContent = 'Invalid Token';
-	}
+
+	select('#result')!.textContent = response.ok ? '' : '❌ Invalid Token';
 
 	return response.headers.get('X-OAuth-Scopes')! ?? '';
 }
@@ -48,11 +47,7 @@ async function validateToken(): Promise<void> {
 	}
 
 	for (const scope of select.all('[data-scope]')) {
-		if (headers.includes(scope.dataset.scope!)) {
-			scope.replaceWith(<span data-scope={scope.dataset.scope}>✔️</span>);
-		} else {
-			scope.replaceWith(<span data-scope={scope.dataset.scope}>❌</span>);
-		}
+		scope.replaceWith(<span data-scope={scope.dataset.scope}>{headers.includes(scope.dataset.scope!) ? '✔️' : '❌'}</span>);
 	}
 }
 
@@ -148,8 +143,6 @@ function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
 	select('.js-options-sync-selector')?.addEventListener('change', ({currentTarget: dropdown}) => {
 		select<HTMLAnchorElement>('#personal-token-link')!.host = (dropdown as HTMLSelectElement).value;
-		void validateToken();
-		console.log(' i ran');
 	});
 
 	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)
@@ -165,7 +158,7 @@ function addEventListeners(): void {
 
 	// Add cache clearer
 	select('#clear-cache')!.addEventListener('click', clearCacheHandler);
-	select('#clear-cachee')!.addEventListener('click', validateToken);
+	select('[name="personalToken"]')!.addEventListener('change', validateToken);
 
 	// Ensure all links open in a new tab #3181
 	delegate(document, '[href^="http"]', 'click', (event: delegate.Event<MouseEvent, HTMLAnchorElement>) => {
