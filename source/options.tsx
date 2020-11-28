@@ -30,13 +30,13 @@ async function getHeaders(personalToken: string): Promise<string> {
 		}
 	});
 
-	if (!response.ok) {
+	if (response.ok) {
+		setValidationStatus('✔️ Validated');
+	} else {
 		const statusText = response.status === 404 ?
 			'Invalid Domain' :
 			String((await response.json()).message);
 		setValidationStatus('❌ ' + statusText);
-	} else {
-		setValidationStatus('✔️ Validated');
 	}
 
 	return response.headers.get('X-OAuth-Scopes')! ?? '';
