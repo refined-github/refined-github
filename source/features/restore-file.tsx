@@ -1,14 +1,14 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
+import pushForm from 'push-form';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
-import postForm from '../helpers/post-form';
-import {getConversationNumber, getRepoGQL, getCurrentBranch} from '../github-helpers';
+import {getConversationNumber, getCurrentBranch, getPRHeadRepo} from '../github-helpers';
 
 function showError(menuItem: HTMLButtonElement, error: string): void {
 	menuItem.disabled = true;
@@ -22,7 +22,7 @@ This value is not consistently available on the page (appears in `/files` but no
 */
 const getBaseReference = onetime(async (): Promise<string> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			pullRequest(number: ${getConversationNumber()!}) {
 				baseRefOid
 			}
@@ -33,7 +33,7 @@ const getBaseReference = onetime(async (): Promise<string> => {
 
 async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | null> {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			file: object(expression: "${await getBaseReference()}:${filePath}") {
 				... on Blob {
 					isTruncated
@@ -45,21 +45,12 @@ async function getFile(filePath: string): Promise<{isTruncated: boolean; text: s
 	return repository.file;
 }
 
-async function deleteFile(menuItem: Element): Promise<void> {
-	menuItem.textContent = 'Deleting…';
-
-	const deleteFileLink = select<HTMLAnchorElement>('a[aria-label^="Delete this"]', menuItem.parentElement!)!;
-	const form = await fetchDom<HTMLFormElement>(deleteFileLink.href, '#new_blob');
-	await postForm(form!);
-}
-
 async function commitFileContent(menuItem: Element, content: string, filePath: string): Promise<void> {
 	let {pathname} = menuItem.previousElementSibling as HTMLAnchorElement;
 	// Check if file was deleted by PR
 	if (menuItem.closest('[data-file-deleted="true"]')) {
 		menuItem.textContent = 'Undeleting…';
-		const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
-		pathname = `/${user}/${repository}/new/${getCurrentBranch()}?filename=${filePath}`;
+		pathname = `/${getPRHeadRepo()!.nameWithOwner}/new/${getCurrentBranch()!}?filename=${filePath}`;
 	} else {
 		menuItem.textContent = 'Committing…';
 	}
@@ -69,7 +60,11 @@ async function commitFileContent(menuItem: Element, content: string, filePath: s
 	form.elements.value.value = content; // Restore content (`value` is the name of the file content field)
 	form.elements.message.value = (form.elements.message as HTMLInputElement).placeholder
 		.replace(/^Create|^Update/, 'Restore');
-	await postForm(form);
+
+	const response = await pushForm(form);
+	if (!response.ok) {
+		throw new Error(response.statusText);
+	}
 }
 
 const filesRestored = new WeakSet<HTMLButtonElement>();
@@ -92,9 +87,9 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 		const file = await getFile(filePath);
 
 		if (!file) {
-			// The file was created by this PR. Restore === Delete.
-			// If there was a way to tell if a file was created by the PR, we could skip `getFile`
-			await deleteFile(menuItem);
+			// The file was created by this PR.
+			// This code won’t be reached if `highlight-deleted-and-added-files-in-diffs` works.
+			showError(menuItem, 'Nothing to restore. Delete file instead');
 			return;
 		}
 
@@ -107,7 +102,7 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 
 		// Hide file from view
 		menuItem.closest('.file')!.remove();
-	} catch (error) {
+	} catch (error: unknown) {
 		showError(menuItem, 'Restore failed. See console for details');
 		features.error(__filebasename, error);
 	}
@@ -116,6 +111,12 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	const editFile = select<HTMLAnchorElement>('[aria-label^="Change this"]', dropdown);
 	if (!editFile || select.exists('.rgh-restore-file', dropdown)) {
+		return;
+	}
+
+	if (editFile.closest('.file-header')!.querySelector('[aria-label="File added"]')) {
+		// The file is new. "Restoring" it means deleting it, which is already possible.
+		// Depends on `highlight-deleted-and-added-files-in-diffs`.
 		return;
 	}
 
@@ -137,11 +138,7 @@ function init(): void {
 	delegate(document, '.rgh-restore-file', 'click', handleRestoreFileClick, true);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds button to revert all the changes to a file in a PR.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit

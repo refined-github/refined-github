@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import {XIcon} from '@primer/octicons-react';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -7,12 +6,13 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
+import addNotice from '../github-widgets/notice-bar';
 import {appendBefore} from '../helpers/dom-utils';
-import {getRepoURL, isPermalink, getRepoGQL} from '../github-helpers';
+import {buildRepoURL, isPermalink} from '../github-helpers';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			ref(qualifiedName: "${url.branch}") {
 				target {
 					... on Commit {
@@ -62,7 +62,7 @@ function addDropdownLink(comment: HTMLElement, timestamp: string): void {
 		<>
 			<div className="dropdown-divider"/>
 			<a
-				href={`/${getRepoURL()}/tree/HEAD@{${timestamp}}`}
+				href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
 				className="dropdown-item btn-link"
 				role="menuitem"
 				title="Browse repository like it appeared on this day"
@@ -107,13 +107,8 @@ async function showTimemachineBar(): Promise<void | false> {
 		url.pathname = parsedUrl.pathname;
 	}
 
-	const closeButton = <button className="flash-close js-flash-close" type="button" aria-label="Dismiss this message"><XIcon/></button>;
-	select('#start-of-content')!.after(
-		<div className="flash flash-full flash-notice">
-			<div className="container-lg px-3">
-				{closeButton} You can also <a className="rgh-link-date" href={String(url)}>view this object as it appeared at the time of the comment</a> (<relative-time datetime={date}/>)
-			</div>
-		</div>
+	addNotice(
+		<>You can also <a className="rgh-link-date" href={String(url)}>view this object as it appeared at the time of the comment</a> (<relative-time datetime={date}/>)</>
 	);
 }
 
@@ -133,11 +128,7 @@ function init(): void {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds links to browse the repository and linked files at the time of each comment.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/56450896-68076680-635b-11e9-8b24-ebd11cc4e655.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments
 	],

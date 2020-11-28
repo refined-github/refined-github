@@ -40,11 +40,7 @@ function addButton(): void {
 
 async function toggleHandler(): Promise<void> {
 	const isHidden = select('.repository-content')!.classList.toggle('rgh-files-hidden');
-	if (isHidden) {
-		await cache.set(cacheKey, true);
-	} else {
-		await cache.delete(cacheKey);
-	}
+	await (isHidden ? cache.set(cacheKey, true) : cache.delete(cacheKey));
 }
 
 async function init(): Promise<void> {
@@ -57,11 +53,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a button to toggle the repo file list.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoTree
 	],

@@ -42,11 +42,7 @@ function init(): void {
 	});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a link to the issues and pulls on the user profile repository tab and global search.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/78712349-82c54900-78e6-11ea-8328-3c2d39a78862.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isUserProfileRepoTab,
 		pageDetect.isGlobalSearchResults

@@ -13,9 +13,8 @@ import {
 
 import features from '.';
 import {appendBefore} from '../helpers/dom-utils';
-import {getRepoURL, getCurrentBranch} from '../github-helpers';
-
-const repoUrl = getRepoURL();
+import getDefaultBranch from '../github-helpers/get-default-branch';
+import {buildRepoURL, getCurrentBranch} from '../github-helpers';
 
 function createDropdown(): void {
 	// Markup copied from native GHE dropdown
@@ -61,10 +60,11 @@ async function init(): Promise<void> {
 		'.UnderlineNav-body + *'
 	].join());
 
-	const reference = getCurrentBranch();
-	const compareUrl = `/${repoUrl}/compare/${reference}`;
-	const commitsUrl = `/${repoUrl}/commits/${reference}`;
-	const dependenciesUrl = `/${repoUrl}/network/dependencies`;
+	const reference = getCurrentBranch() ?? await getDefaultBranch();
+	const compareUrl = buildRepoURL('compare', reference);
+	const commitsUrl = buildRepoURL('commits', reference);
+	const branchesUrl = buildRepoURL('branches');
+	const dependenciesUrl = buildRepoURL('network/dependencies');
 
 	const nav = select('.js-responsive-underlinenav .UnderlineNav-body');
 	if (nav) {
@@ -75,7 +75,7 @@ async function init(): Promise<void> {
 			createDropdownItem('Compare', compareUrl),
 			pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl),
 			createDropdownItem('Commits', commitsUrl),
-			createDropdownItem('Branches', `/${repoUrl}/branches`)
+			createDropdownItem('Branches', branchesUrl)
 		);
 
 		onlyShowInDropdown('security-tab');
@@ -95,7 +95,7 @@ async function init(): Promise<void> {
 		</a>,
 
 		pageDetect.isEnterprise() ? '' : (
-			<a href={`/${repoUrl}/network/dependencies`} className="rgh-reponav-more dropdown-item">
+			<a href={dependenciesUrl} className="rgh-reponav-more dropdown-item">
 				<PackageIcon/> Dependencies
 			</a>
 		),
@@ -104,7 +104,7 @@ async function init(): Promise<void> {
 			<HistoryIcon/> Commits
 		</a>,
 
-		<a href={`/${repoUrl}/branches`} className="rgh-reponav-more dropdown-item">
+		<a href={branchesUrl} className="rgh-reponav-more dropdown-item">
 			<GitBranchIcon/> Branches
 		</a>
 	);
@@ -123,11 +123,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds links to `Commits`, `Branches`, `Dependencies`, and `Compare` in a new `More` dropdown.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/55089736-d94f5300-50e8-11e9-9095-329ac74c1e9f.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo
 	],

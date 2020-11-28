@@ -2,12 +2,12 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
+import oneEvent from 'one-event';
+import oneMutation from 'one-mutation';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import oneEvent from '../helpers/one-event';
-import {observeOneMutation} from '../helpers/simplified-element-observer';
 
 const pendingSelector = '.timeline-comment-label.is-pending';
 
@@ -27,7 +27,7 @@ function updateUI(): void {
 
 async function handleReviewSubmission(event: delegate.Event): Promise<void> {
 	const container = event.delegateTarget.closest('.line-comments')!;
-	await observeOneMutation(container);
+	await oneMutation(container, {childList: true, subtree: true}); // TODO: subtree might not be necessary anywhere on the page
 	if (select.exists(pendingSelector, container)) {
 		updateUI();
 	}
@@ -82,16 +82,16 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 		deleteLink.click();
 
 		// Wait for the comment to be removed
-		await observeOneMutation(lineBeingCommentedOn.parentElement!);
+		await oneMutation(lineBeingCommentedOn.parentElement!, {childList: true, subtree: true});
 
 		// Enable form and submit new comment
 		submitButton.disabled = false;
 		submitButton.click();
 
 		// Wait for the comment to be added
-		await observeOneMutation(lineBeingCommentedOn.parentElement!);
+		await oneMutation(lineBeingCommentedOn.parentElement!, {childList: true, subtree: true});
 		commentForm.hidden = false;
-	} catch (error) {
+	} catch (error: unknown) {
 		commentForm.hidden = false;
 
 		// Place comment in console to allow recovery
@@ -108,11 +108,7 @@ function init(): void {
 	updateUI();
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a button to submit a single PR comment if you mistakenly started a new review.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/60331761-f6394200-99c7-11e9-81c2-c671cba9602a.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles
 	],

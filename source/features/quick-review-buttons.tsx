@@ -74,7 +74,7 @@ function init(): false | void {
 
 	// This will prevent submission when clicking "Comment" and "Request changes" without entering a comment and no other review comments are pending
 	delegate<HTMLButtonElement>(form, 'button', 'click', ({delegateTarget: {value}}) => {
-		const pendingComments = looseParseInt(select('.js-reviews-toggle .js-pending-review-comment-count')!.textContent!);
+		const pendingComments = looseParseInt(select('.js-reviews-toggle .js-pending-review-comment-count')!);
 		const submissionRequiresComment = pendingComments === 0 && (value === 'reject' || value === 'comment');
 		select('#pull_request_review_body', form)!.toggleAttribute('required', submissionRequiresComment);
 	});
@@ -90,11 +90,7 @@ function init(): false | void {
 	});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPR
 	],

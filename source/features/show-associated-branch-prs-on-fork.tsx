@@ -10,7 +10,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoGQL, getRepoURL, upperCaseFirst} from '../github-helpers';
+import {getRepo, upperCaseFirst} from '../github-helpers';
 
 interface PullRequest {
 	number: number;
@@ -21,7 +21,7 @@ interface PullRequest {
 
 const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Record<string, PullRequest>> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			refs(refPrefix: "refs/heads/", last: 100) {
 				nodes {
 					name
@@ -58,7 +58,7 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 4},
-	cacheKey: () => 'associatedBranchPullRequests:' + getRepoURL()
+	cacheKey: () => 'associatedBranchPullRequests:' + getRepo()!.nameWithOwner
 });
 
 const stateClass: Record<string, string> = {
@@ -102,11 +102,7 @@ async function init(): Promise<void> {
 	});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Shows the associated pull requests on branches for forked repository’s.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/81504659-7e5ec800-92b8-11ea-9ee6-924110e8cca1.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isBranches
 	],

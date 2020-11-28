@@ -6,11 +6,10 @@ import {GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoGQL} from '../github-helpers';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			${commits.map((commit: string) => `
 				${api.escapeKey(commit)}: object(expression: "${commit}") {
 				... on Commit {
@@ -56,11 +55,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Marks merge commits in commit lists.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/75561016-457eb900-5a14-11ea-95e1-a89e81ee7390.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isCommitList
 	],

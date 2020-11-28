@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import regexJoin from 'regex-join';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
@@ -61,7 +62,7 @@ function updatePRTitle(): void {
 
 	// Remove PR number from commit title
 	const prTitle = getCommitTitleField()!.value
-		.replace(new RegExp(`\\s*\\(${getPRNumber()}\\)$`), '');
+		.replace(regexJoin(/\s*\(/, getPRNumber(), /\)$/), '');
 
 	// Fill and submit title-change form
 	select<HTMLInputElement>(prTitleFieldSelector)!.value = prTitle;
@@ -102,11 +103,7 @@ function deinit(): void {
 	listeners.length = 0;
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Uses the PR’s title as the default squash commit title and updates the PR’s title to the match the commit title, if changed.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation
 	],

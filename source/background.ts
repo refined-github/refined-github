@@ -12,6 +12,8 @@ browser.runtime.onMessage.addListener((message, {tab}) => {
 				active: false
 			});
 		}
+	} else if (message?.closeTab) {
+		void browser.tabs.remove(tab!.id!);
 	}
 });
 
@@ -42,3 +44,11 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 
 // GitHub Enterprise support
 addDomainPermissionToggle();
+
+// `background` fetch required to avoid avoid CORB introduced in Chrome 73 https://chromestatus.com/feature/5629709824032768
+// Don’t turn this into an `async` function https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/onMessage#addListener_syntax
+browser.runtime.onMessage.addListener((message): Promise<string> | void => {
+	if (message?.request) {
+		return fetch(message.request).then(async response => response.text());
+	}
+});

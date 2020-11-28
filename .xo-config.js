@@ -20,7 +20,7 @@ module.exports = {
 		'ava/no-ignored-test-files': 'off',
 
 		'@typescript-eslint/no-extra-non-null-assertion': 'error',
-		'@typescript-eslint/consistent-type-definitions':'error',
+		'@typescript-eslint/consistent-type-definitions': 'error',
 		'@typescript-eslint/explicit-function-return-type': [
 			'error',
 			{

@@ -35,7 +35,7 @@ async function unwrapNotifications(): Promise<void | false> {
 	button.textContent = `Group by ${button.textContent!.toLowerCase()}`;
 }
 
-async function unwrapActionJobRun(): Promise<void | false> {
+async function unwrapActionRun(): Promise<void | false> {
 	const desiredForm = await elementReady('.js-check-suite-rerequest-form');
 	if (!desiredForm) {
 		return false;
@@ -58,11 +58,7 @@ async function unwrapActionJobRun(): Promise<void | false> {
 	replaceDropdownInPlace(dropdown, desiredForm);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Makes some dropdowns 1-click instead of unnecessarily 2-click.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/80859624-9bfdb300-8c62-11ea-837f-7b7a28e6fdfc.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isNotifications
 	],
@@ -70,8 +66,8 @@ void features.add({
 	init: unwrapNotifications
 }, {
 	include: [
-		pageDetect.isActionJobRun
+		pageDetect.isActionRun
 	],
 	awaitDomReady: false,
-	init: unwrapActionJobRun
+	init: unwrapActionRun
 });

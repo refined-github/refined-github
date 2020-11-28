@@ -7,10 +7,10 @@ import {GitPullRequestIcon} from '@primer/octicons-react';
 import features from '.';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepoURL, getRepoGQL} from '../github-helpers';
+import {buildRepoURL, getRepo} from '../github-helpers';
 
 function getPRUrl(prNumber: number): string {
-	return `/${getRepoURL()}/pull/${prNumber}/files`;
+	return buildRepoURL('pull', prNumber, 'files');
 }
 
 function getDropdown(prs: number[]): HTMLElement {
@@ -53,7 +53,7 @@ function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElem
 */
 const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			pullRequests(
 				first: 25,
 				states: OPEN,
@@ -90,7 +90,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 }, {
 	maxAge: {hours: 2},
 	staleWhileRevalidate: {days: 9},
-	cacheKey: () => __filebasename + ':' + getRepoURL()
+	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
 });
 
 async function init(): Promise<void> {
@@ -133,11 +133,7 @@ async function init(): Promise<void> {
 	select('.breadcrumb')!.before(link);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Shows PRs that touch the current file.',
-	screenshot: 'https://user-images.githubusercontent.com/55841/60622834-879e1f00-9de1-11e9-9a9e-bae5ec0b3728.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isEditingFile,
 		pageDetect.isSingleFile

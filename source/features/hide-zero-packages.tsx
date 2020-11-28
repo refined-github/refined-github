@@ -17,14 +17,14 @@ async function init(): Promise<void | false> {
 	packagesTab.closest('.BorderGrid-row, .UnderlineNav-item')!.remove();
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Hides the `Packages` tab if it’s empty (in repositories and user profiles).',
-	screenshot: 'https://user-images.githubusercontent.com/44045911/93543684-d1473b00-f98e-11ea-9957-e4464400f81b.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoRoot,
 		pageDetect.isUserProfile
+	],
+	exclude: [
+		// Keep it visible on your own profile due to #3737
+		pageDetect.isOwnUserProfile
 	],
 	awaitDomReady: false,
 	init

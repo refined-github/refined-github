@@ -6,14 +6,13 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
-import {getRepoURL} from '../github-helpers';
 
 async function convertToDraft({delegateTarget: draftButton}: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	try {
 		draftButton.append(<LoadingIcon className="ml-2 v-align-text-bottom" width={16}/>);
 
 		const tagName = location.pathname.split('/').pop()!;
-		const release = await api.v3(`repos/${getRepoURL()}/releases/tags/${tagName}`);
+		const release = await api.v3(`releases/tags/${tagName}`);
 		await api.v3(release.url, {
 			method: 'PATCH',
 			body: {
@@ -22,7 +21,7 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event<Mous
 		});
 
 		select('.BtnGroup a[href*="releases/edit"]')!.click(); // Visit "Edit release" page
-	} catch (error) {
+	} catch (error: unknown) {
 		draftButton.textContent = 'Error. Check console or retry';
 		features.error(__filebasename, error);
 	}
@@ -40,11 +39,7 @@ async function init(): Promise<void | false> {
 	delegate(document, '.rgh-convert-draft', 'click', convertToDraft);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a button to convert a release to draft.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/90017455-8e03f900-dc79-11ea-95c5-377e0a82d4ea.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleTag
 	],

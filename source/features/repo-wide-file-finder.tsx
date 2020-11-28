@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getRepoURL} from '../github-helpers';
+import {buildRepoURL} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void> {
@@ -12,16 +12,12 @@ async function init(): Promise<void> {
 			hidden
 			data-hotkey="t"
 			data-pjax="true"
-			href={`/${getRepoURL()}/find/${await getDefaultBranch()}`}
+			href={buildRepoURL('find', await getDefaultBranch())}
 		/>
 	);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Enables the File Finder keyboard shortcut (`t`) on Issues and Pull Request pages as well.',
-	screenshot: false
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoConversationList,
 		pageDetect.isPR,

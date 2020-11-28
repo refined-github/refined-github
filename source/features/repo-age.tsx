@@ -8,7 +8,20 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoURL, getRepoGQL} from '../github-helpers';
+import {getRepo} from '../github-helpers';
+
+const fresh = [
+	'Freshly baked',
+	'Freshly brewed',
+	'Newly minted',
+	'Hot off the presses',
+	'Straight out of the oven',
+	'Still hot',
+	'Smells fresh',
+	'Just a baby',
+	'It’s my birthday',
+	'So it begins, the great battle of our time'
+];
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	year: 'numeric',
@@ -18,7 +31,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 
 const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[committedDate: string, resourcePath: string]> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			defaultBranchRef {
 				target {
 					... on Commit {
@@ -44,7 +57,7 @@ const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[com
 
 const getFirstCommit = cache.function(async (): Promise<[committedDate: string, resourcePath: string]> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			defaultBranchRef {
 				target {
 					... on Commit {
@@ -68,18 +81,23 @@ const getFirstCommit = cache.function(async (): Promise<[committedDate: string, 
 
 	return getRepoAge(commitSha, commitsCount);
 }, {
-	cacheKey: () => __filebasename + ':' + getRepoURL()
+	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
 });
 
 async function init(): Promise<void> {
 	const [firstCommitDate, firstCommitHref] = await getFirstCommit()!;
-	const date = new Date(firstCommitDate);
+	const birthday = new Date(firstCommitDate);
 
 	// `twas` could also return `an hour ago` or `just now`
-	const [value, unit] = twas(date.getTime())
+	const [value, unit] = twas(birthday.getTime())
 		.replace('just now', '1 second')
 		.replace(/^an?/, '1')
 		.split(' ');
+
+	// About a day old or less ?
+	const age = Date.now() - birthday.getTime() < 10e7 ?
+		fresh[Math.floor(Math.random() * fresh.length)] :
+		`${value} ${unit} old`;
 
 	// TODO: simplify selector after https://github.com/sindresorhus/element-ready/issues/29
 	const secondSidebarSection = await elementReady('.repository-content .BorderGrid-row + .BorderGrid-row');
@@ -88,8 +106,8 @@ async function init(): Promise<void> {
 		select('.BorderGrid-cell', sidebarAboutSection)!.append(
 			<h3 className="sr-only">Repository age</h3>,
 			<div className="mt-3">
-				<a href={firstCommitHref} className="muted-link" title={`First commit dated ${dateFormatter.format(date)}`}>
-					<RepoIcon className="mr-2"/> {value} {unit} old
+				<a href={firstCommitHref} className="muted-link" title={`First commit dated ${dateFormatter.format(birthday)}`}>
+					<RepoIcon className="mr-2"/> {age}
 				</a>
 			</div>
 		);
@@ -99,7 +117,7 @@ async function init(): Promise<void> {
 
 	// Pre "Repository refresh" layout
 	const element = (
-		<li className="text-gray" title={`First commit dated ${dateFormatter.format(date)}`}>
+		<li className="text-gray" title={`First commit dated ${dateFormatter.format(birthday)}`}>
 			<a href={firstCommitHref}>
 				<RepoIcon/> <span className="num text-emphasized">{value}</span> {unit} old
 			</a>
@@ -114,11 +132,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Displays the age of the repository in the sidebar.',
-	screenshot: 'https://user-images.githubusercontent.com/3848317/69256318-95e6af00-0bb9-11ea-84c8-c6996d39da80.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoRoot
 	],

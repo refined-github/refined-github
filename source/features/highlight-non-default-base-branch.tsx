@@ -5,8 +5,8 @@ import {GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import {buildRepoURL} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepositoryInfo, getRepoGQL} from '../github-helpers';
 
 interface BranchInfo {
 	baseRef: string;
@@ -15,7 +15,7 @@ interface BranchInfo {
 
 function buildQuery(issueIds: string[]): string {
 	return `
-		repository(${getRepoGQL()}) {
+		repository() {
 			${issueIds.map(id => `
 				${id}: pullRequest(number: ${id.replace(/\D/g, '')}) {
 					baseRef {id}
@@ -32,7 +32,6 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const currentRepository = getRepositoryInfo();
 	const query = buildQuery(prLinks.map(pr => pr.id));
 	const [data, defaultBranch] = await Promise.all([
 		api.v4(query),
@@ -45,7 +44,7 @@ async function init(): Promise<false | void> {
 			continue;
 		}
 
-		const branch = pr.baseRef && `/${currentRepository.owner!}/${currentRepository.name!}/tree/${pr.baseRefName}`;
+		const branch = pr.baseRef && buildRepoURL(`tree/${pr.baseRefName}`);
 
 		prLink.parentElement!.querySelector('.text-small.text-gray')!.append(
 			<span className="issue-meta-section d-inline-block">
@@ -64,11 +63,7 @@ async function init(): Promise<false | void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Shows the base branch in PR lists if it’s not the default branch.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/88480306-39f4d700-cf4d-11ea-9e40-2b36d92d41aa.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoConversationList
 	],

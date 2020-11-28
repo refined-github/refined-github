@@ -17,7 +17,7 @@ function handleAltClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): v
 	const form = event.delegateTarget.form!;
 	const hiddenItemsCount = Math.min(
 		200, // https://github.com/sindresorhus/refined-github/issues/2931
-		looseParseInt(form.textContent!)
+		looseParseInt(form)
 	);
 
 	const url = new URL(form.action);
@@ -29,11 +29,7 @@ function init(): void {
 	delegate(document, '.ajax-pagination-form button[type="submit"]', 'click', handleAltClick);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'On long conversations where GitHub hides comments under a "Load more...", alt-clicking it will load up to 200 comments at once instead of 60.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/73838332-0c548e00-4846-11ea-935f-28d728b30ae9.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversation
 	],

@@ -10,11 +10,10 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
-import {getRepoURL, getRepoGQL} from '../github-helpers';
 
 const getBranchBaseSha = async (branchName: string): Promise<string> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			ref(qualifiedName: "${branchName}") {
 				target {
 					oid
@@ -27,7 +26,7 @@ const getBranchBaseSha = async (branchName: string): Promise<string> => {
 };
 
 async function createBranch(newBranchName: string, baseSha: string): Promise<true | string> {
-	const response = await api.v3(`repos/${getRepoURL()}/git/refs`, {
+	const response = await api.v3('git/refs', {
 		method: 'POST',
 		body: {
 			sha: baseSha,
@@ -95,11 +94,7 @@ async function init(): Promise<void | false> {
 	delegate(document, '.rgh-clone-branch', 'click', cloneBranch);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Clone a branch from the branches list.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/76802029-2a020500-67ad-11ea-95dc-bee1b1352976.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isBranches
 	],
