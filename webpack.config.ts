@@ -6,6 +6,7 @@ import {readdirSync, readFileSync} from 'fs';
 import stripIndent from 'strip-indent';
 import webpack, {Configuration} from 'webpack';
 import SizePlugin from 'size-plugin';
+import decamelize from 'decamelize';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -60,6 +61,16 @@ const config: Configuration = {
 	},
 	module: {
 		rules: [
+			{
+				test: /octicons-react\//,
+				loader: 'string-replace-loader',
+				options: {
+					search: /\n(.*)Icon.defaultProps = \{\n\s+className: 'octicon'/g,
+					replace: (match: string, name: string) => {
+						return match.replace('octicon', 'octicon octicon-' + decamelize(name, '-'))
+					},
+				}
+			},
 			{
 				test: /\.tsx?$/,
 				loader: 'ts-loader',
