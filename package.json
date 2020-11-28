@@ -102,6 +102,7 @@
 		"npm-run-all": "^4.1.5",
 		"rollup": "^2.33.3",
 		"size-plugin": "^2.0.1",
+		"string-replace-loader": "^2.3.0",
 		"stylelint": "^13.8.0",
 		"stylelint-config-xo": "^0.20.0",
 		"terser-webpack-plugin": "^5.0.3",
