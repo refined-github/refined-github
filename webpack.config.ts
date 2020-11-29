@@ -155,16 +155,6 @@ const config: Configuration = {
 				exclude: 'browser-polyfill.min.js', // #3451
 				terserOptions: {
 					mangle: false,
-					compress: {
-						defaults: false,
-						dead_code: true,
-						unused: true,
-						arguments: true,
-						join_vars: false,
-						booleans: false,
-						expression: false,
-						sequences: false
-					},
 					output: {
 						beautify: true,
 						indent_level: 2
