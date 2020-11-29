@@ -84,7 +84,7 @@ const config: Configuration = {
 				test: /octicons-react\//,
 				loader: 'string-replace-loader',
 				options: {
-					search: /\n(.*)Icon.defaultProps = {\n\s+className: octicon/g,
+					search: /(\w+)Icon\.defaultProps = {\n\s+className: 'octicon'/g,
 					replace: (match: string, name: string) => {
 						return match.replace('octicon', 'octicon octicon-' + decamelize(name, '-'));
 					}
