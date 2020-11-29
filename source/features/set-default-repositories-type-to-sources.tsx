@@ -1,7 +1,7 @@
 import select from 'select-dom';
-import elementReady from 'element-ready';
 
 import features from '.';
+import onFragmentLoad from '../github-events/on-fragment-load';
 
 function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	const search = new URLSearchParams(link.search);
@@ -28,9 +28,7 @@ async function init(): Promise<void> {
 		addSourceTypeToLink(link);
 	}
 
-	(await elementReady('[aria-label="View profile and more"]'))! // "Your repositories" in header dropdown
-		.closest('details')!
-		.addEventListener('toggle', headerDropdownListener, {once: true});
+	onFragmentLoad('.Header-item > details include-fragment', headerDropdownListener); // "Your repositories" in header dropdown
 }
 
 void features.add(__filebasename, {
