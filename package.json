@@ -85,6 +85,7 @@
 		"@types/jsdom": "^16.2.5",
 		"@types/mini-css-extract-plugin": "^1.2.1",
 		"@types/react": "^17.0.0",
+		"@types/terser-webpack-plugin": "^5.0.2",
 		"ava": "^3.12.1",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^6.3.2",
