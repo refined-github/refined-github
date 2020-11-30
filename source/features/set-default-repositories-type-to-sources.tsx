@@ -1,7 +1,7 @@
 import select from 'select-dom';
 
 import features from '.';
-import oneEvent from '../helpers/one-event';
+import oneEvent from 'one-event';
 
 function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	const search = new URLSearchParams(link.search);
