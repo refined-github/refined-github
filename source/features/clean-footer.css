@@ -11,7 +11,7 @@ body > .footer > div > ul:first-of-type li:first-of-type { /* The `© 2017 GitHu
 }
 
 .footer-octicon {
-	display: none;
+	display: none !important;
 }
 
 body > .footer li a,

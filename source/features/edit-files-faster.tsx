@@ -1,7 +1,7 @@
 import './edit-files-faster.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import PencilIcon from 'octicon/pencil.svg';
+import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';

@@ -25,9 +25,6 @@ declare module 'markdown-wasm/dist/markdown.node';
 
 declare module 'size-plugin';
 
-// TODO: until https://github.com/DefinitelyTyped/DefinitelyTyped/issues/48806
-declare module 'terser-webpack-plugin';
-
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
 	'details:toggled': CustomEvent;
@@ -70,9 +67,10 @@ interface HTMLFormControlsCollection {
 	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement;
 }
 
-declare module '*.svg' {
-	const Icon = (): JSX.Element => JSX.Element;
-	export default Icon;
+declare module 'react' {
+	const FC = (): JSX.Element => JSX.Element;
+	const React = {FC};
+	export default React;
 }
 
 // Make `element.cloneNode()` preserve its type instead of returning Node

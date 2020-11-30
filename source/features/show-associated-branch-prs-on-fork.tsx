@@ -2,9 +2,8 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
-import MergeIcon from 'octicon/git-merge.svg';
 import * as pageDetect from 'github-url-detection';
-import PullRequestIcon from 'octicon/git-pull-request.svg';
+import {GitMergeIcon, GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -74,7 +73,7 @@ async function init(): Promise<void> {
 			const branchName = branchCompareLink.closest('[branch]')!.getAttribute('branch')!;
 			const prInfo = associatedPullRequests[branchName];
 			if (prInfo) {
-				const StateIcon = prInfo.state === 'Merged' ? MergeIcon : PullRequestIcon;
+				const StateIcon = prInfo.state === 'Merged' ? GitMergeIcon : GitPullRequestIcon;
 
 				branchCompareLink.replaceWith(
 					<div className="d-inline-block text-right ml-3">

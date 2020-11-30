@@ -4,10 +4,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-
-import ForkIcon from 'octicon/repo-forked.svg';
-import CheckIcon from 'octicon/check.svg';
-import LinkExternalIcon from 'octicon/link-external.svg';
+import {CheckIcon, LinkExternalIcon, RepoForkedIcon} from '@primer/octicons-react';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
@@ -82,7 +79,7 @@ async function updateUI(forks: string[]): Promise<void> {
 							title={`Open your fork at ${fork}`}
 						>
 							<span className="select-menu-item-icon rgh-forked-to-icon">
-								{fork === getRepo()!.nameWithOwner ? <CheckIcon/> : <ForkIcon/>}
+								{fork === getRepo()!.nameWithOwner ? <CheckIcon/> : <RepoForkedIcon/>}
 							</span>
 							{fork}
 						</a>

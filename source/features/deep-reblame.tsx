@@ -3,7 +3,7 @@ import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import VersionIcon from 'octicon/versions.svg';
+import {VersionsIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -75,7 +75,7 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 		blameUrl.hash = 'L' + select('.js-line-number', blameHunk)!.textContent!;
 		location.href = String(blameUrl);
 	} catch (error: unknown) {
-		spinner.replaceWith(<VersionIcon/>);
+		spinner.replaceWith(<VersionsIcon/>);
 		alert((error as Error).message);
 	}
 }
@@ -101,7 +101,7 @@ function init(): void | false {
 					aria-label="View blame prior to this change (extracts commits from this PR first)"
 					className="reblame-link btn-link no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-reblame"
 				>
-					<VersionIcon/>
+					<VersionsIcon/>
 				</button>
 			);
 		}

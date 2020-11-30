@@ -1,10 +1,9 @@
 import './latest-tag-button.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import TagIcon from 'octicon/tag.svg';
-import DiffIcon from 'octicon/diff.svg';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {DiffIcon, TagIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';

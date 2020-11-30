@@ -2,7 +2,7 @@ import './mark-merge-commits-in-list.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import PullRequestIcon from 'octicon/git-pull-request.svg';
+import {GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -50,7 +50,7 @@ async function init(): Promise<void> {
 			select([
 				'.commit-title', // Pre "Repository refresh" layout
 				'div > p'
-			], commit)!.prepend(<PullRequestIcon/>);
+			], commit)!.prepend(<GitPullRequestIcon/>);
 		}
 	}
 }
