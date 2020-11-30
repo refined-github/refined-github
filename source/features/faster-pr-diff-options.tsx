@@ -1,11 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {
-	DiffIcon,
-	BookIcon,
-	CheckIcon
-} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import {BookIcon, CheckIcon, DiffIcon} from '@primer/octicons-react';
 
 import features from '.';
 

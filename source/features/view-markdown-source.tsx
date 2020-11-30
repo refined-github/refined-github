@@ -5,11 +5,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-
-import {
-	CodeIcon,
-	FileIcon
-} from '@primer/octicons-react';
+import {CodeIcon, FileIcon} from '@primer/octicons-react';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';

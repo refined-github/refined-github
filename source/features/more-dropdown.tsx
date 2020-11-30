@@ -3,13 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-
-import {
-	DiffIcon,
-	GitBranchIcon,
-	HistoryIcon,
-	PackageIcon
-} from '@primer/octicons-react';
+import {DiffIcon, GitBranchIcon, HistoryIcon, PackageIcon} from '@primer/octicons-react';
 
 import features from '.';
 import {appendBefore} from '../helpers/dom-utils';

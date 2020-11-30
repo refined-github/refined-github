@@ -4,12 +4,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-
-import {
-	RepoForkedIcon,
-	CheckIcon,
-	LinkExternalIcon
-} from '@primer/octicons-react';
+import {CheckIcon, LinkExternalIcon, RepoForkedIcon} from '@primer/octicons-react';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';

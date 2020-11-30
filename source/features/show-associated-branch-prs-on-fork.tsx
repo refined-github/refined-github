@@ -2,11 +2,8 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
-import {
-	GitMergeIcon,
-	GitPullRequestIcon
-} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import {GitMergeIcon, GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';

@@ -2,11 +2,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
-import {
-	IssueOpenedIcon,
-	GitPullRequestIcon
-} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import {GitPullRequestIcon, IssueOpenedIcon} from '@primer/octicons-react';
 
 import features from '.';
 
