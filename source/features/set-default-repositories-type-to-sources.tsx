@@ -28,7 +28,9 @@ async function init(): Promise<void> {
 		addSourceTypeToLink(link);
 	}
 
-	onFragmentLoad('.Header-item > details include-fragment', headerDropdownListener); // "Your repositories" in header dropdown
+	// "Your repositories" in header dropdown
+	await onProfileDropdownLoad();
+	addSourceTypeToLink(select<HTMLAnchorElement>('.header-nav-current-user ~ [href$="tab=repositories"]')!);
 }
 
 void features.add(__filebasename, {
