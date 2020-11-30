@@ -1,7 +1,7 @@
 import select from 'select-dom';
 
 import features from '.';
-import onFragmentLoad from '../github-events/on-fragment-load';
+import oneEvent from '../helpers/one-event';
 
 function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	const search = new URLSearchParams(link.search);
@@ -9,8 +9,12 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	link.search = String(search);
 }
 
-function headerDropdownListener(): void {
-	addSourceTypeToLink(select<HTMLAnchorElement>('.header-nav-current-user ~ [href$="tab=repositories"]')!);
+// If the dropdown exists, await it; If not, it probably already loaded
+async function onProfileDropdownLoad(): Promise<void> {
+	const dropdown = select('.Header details-menu[src^="/users/"] include-fragment');
+	if (dropdown) {
+		await oneEvent(dropdown, 'load');
+	}
 }
 
 async function init(): Promise<void> {
