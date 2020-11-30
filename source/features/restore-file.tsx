@@ -1,13 +1,13 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
+import pushForm from 'push-form';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
-import postForm from '../helpers/post-form';
 import {getConversationNumber, getCurrentBranch, getPRHeadRepo} from '../github-helpers';
 
 function showError(menuItem: HTMLButtonElement, error: string): void {
@@ -60,7 +60,11 @@ async function commitFileContent(menuItem: Element, content: string, filePath: s
 	form.elements.value.value = content; // Restore content (`value` is the name of the file content field)
 	form.elements.message.value = (form.elements.message as HTMLInputElement).placeholder
 		.replace(/^Create|^Update/, 'Restore');
-	await postForm(form);
+
+	const response = await pushForm(form);
+	if (!response.ok) {
+		throw new Error(response.statusText);
+	}
 }
 
 const filesRestored = new WeakSet<HTMLButtonElement>();
