@@ -51,7 +51,6 @@ import './features/view-markdown-source';
 import './features/copy-file';
 import './features/hide-own-stars';
 import './features/infinite-scroll';
-import './features/hide-empty-meta';
 import './features/shorten-links';
 import './features/linkify-code';
 import './features/download-folder-button';
@@ -203,6 +202,7 @@ import './features/jump-to-change-requested-comment';
 import './features/esc-to-cancel';
 import './features/quick-fork-deletion';
 import './features/pr-easy-toggle-files';
+import './features/clean-repo-sidebar';
 
 // Add global for easier debugging
 (window as any).select = select;

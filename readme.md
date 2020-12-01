@@ -300,7 +300,7 @@ Thanks for contributing! 🦋🙌
 ### Fixes for GitHub shortcomings
 
 - [](# "hide-navigation-hover-highlight") Removes the file hover effect in the repo file browser.
-- [](# "hide-empty-meta") Hides the placeholder text in repos without a description.
+- [](# "clean-repo-sidebar") Removes unnecessary or redundant infos from the repo sidebar.
 - [](# "fix-first-tab-length") [Corrects the width of the first `tab` in file diffs since it appears 2 columns shorter than it should be.](https://user-images.githubusercontent.com/37769974/87217980-741a8200-c36c-11ea-81e1-fc0782c4624d.png)
 - [](# "hide-disabled-milestone-sorter") [Hides the milestone sorter UI if you don’t have permission to use it.](https://user-images.githubusercontent.com/7753001/56913933-738a2880-6ae5-11e9-9d13-1973cbbf5df0.png)
 - [](# "linkify-branch-references") [Linkifies branch references in "Quick PR" pages.](https://user-images.githubusercontent.com/1402241/30208043-fa1ceaec-94bb-11e7-9c32-feabcf7db296.png)
