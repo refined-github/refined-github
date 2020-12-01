@@ -9,7 +9,7 @@ import features from '.';
 async function init(): Promise<void> {
 	// Hide empty meta if it’s not editable by the current user
 	if (!select.exists('.repository-content [aria-label="Edit repository metadata"]')) {
-		select('.repository-content .BorderGrid-cell:first-child > .text-italic')!.remove();
+		select('.repository-content .BorderGrid-cell:first-child > .text-italic')?.remove();
 	}
 
 	// Hide redundant "Releases" section from repo sidebar
