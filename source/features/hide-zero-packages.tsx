@@ -6,7 +6,7 @@ import getTabCount from './remove-projects-tab';
 
 async function init(): Promise<void | false> {
 	const packagesTab = await elementReady([
-		'.BorderGrid-cell a[href$="/packages"]', // `isRepoRoot`
+		'.BorderGrid-cell a[href*="/packages"]', // `isRepoRoot`
 		'.UnderlineNav-item[href$="?tab=packages"]:not(.selected)' // `isUserProfile`
 	].join());
 
