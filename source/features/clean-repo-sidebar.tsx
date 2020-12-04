@@ -12,9 +12,15 @@ async function init(): Promise<void> {
 		select('.repository-content .BorderGrid-cell:first-child > .text-italic')?.remove();
 	}
 
-	// Hide redundant "Releases" section from repo sidebar
+	// Hide redundant "Releases" section
 	const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]');
 	sidebarReleases!.closest('.BorderGrid-row')!.setAttribute('hidden', '');
+
+	// Hide empty "Packages" section
+	const packagesCounter = select('.BorderGrid-cell a[href*="/packages?"] .Counter')!;
+	if (packagesCounter.textContent === '0') {
+		packagesCounter.closest('.BorderGrid-row')!.remove();
+	}
 }
 
 void features.add(__filebasename, {
