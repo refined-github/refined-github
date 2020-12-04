@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import FileIcon from 'octicon/file.svg';
+import {FileIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';

@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import CodeSquareIcon from 'octicon/code-square.svg';
+import {CodeSquareIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';

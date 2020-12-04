@@ -1,8 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import PlusIcon from 'octicon/plus.svg';
-import SearchIcon from 'octicon/search.svg';
 import * as pageDetect from 'github-url-detection';
+import {PlusIcon, SearchIcon} from '@primer/octicons-react';
 
 import features from '.';
 

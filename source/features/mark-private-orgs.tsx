@@ -2,7 +2,7 @@ import './mark-private-orgs.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import EyeClosedIcon from 'octicon/eye-closed.svg';
+import {EyeClosedIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -20,7 +20,7 @@ const getPublicOrganizationsNames = cache.function(async (username: string): Pro
 });
 
 async function init(): Promise<false | void> {
-	const orgs = select.all<HTMLAnchorElement>('.avatar-group-item[data-hovercard-type="organization"]');
+	const orgs = select.all<HTMLAnchorElement>('.avatar-group-item[data-hovercard-type="organization"][itemprop="follows"]'); // `itemprop` excludes sponsorships #3770
 	if (orgs.length === 0) {
 		return false;
 	}

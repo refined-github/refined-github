@@ -3,7 +3,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import {observe} from 'selector-observer';
-import GitBranchIcon from 'octicon/git-branch.svg';
+import {GitBranchIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 

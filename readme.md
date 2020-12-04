@@ -174,7 +174,6 @@ Thanks for contributing! 🦋🙌
 - [](# "global-conversation-list-filters") [Adds filters for conversations _in your repos_ and _commented on by you_ in the global conversation search.](https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png)
 - [](# "clean-sidebar") 🔥 [Hides empty sections (or just their "empty" label) in the conversation sidebar.](https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png)
 - [](# "clean-conversation-filters") [Hides `Projects` and `Milestones` filters in conversation lists if they are empty.](https://user-images.githubusercontent.com/37769974/59083449-0ef88f80-8915-11e9-8296-68af1ddcf191.png)
-- [](# "cycle-lists-with-keyboard-shortcuts") [Allows the <kbd>↑</kbd> and <kbd>↓</kbd> keys to cycle "popover lists" (labels, milestones, etc).](https://user-images.githubusercontent.com/37769974/59158786-6fd2c400-8add-11e9-9db1-db80186fa6ea.gif)
 - [](# "toggle-everything-with-alt") [Adds a shortcut to toggle all similar items (minimized comments, deferred diffs, etc) at once: <kbd>alt</kbd> <kbd>click</kbd> on each button or checkbox.](https://user-images.githubusercontent.com/37769974/62208543-dcb75b80-b3b4-11e9-984f-ddb479ea149d.gif)
 - [](# "extend-conversation-status-filters") [Lets you toggle between is:open/is:closed/is:merged filters in searches.](https://user-images.githubusercontent.com/1402241/73605061-2125ed00-45cc-11ea-8cbd-41a53ae00cd3.gif)
 - [](# "bugs-tab") [Adds a "Bugs" tab to repos, if there are any open issues with the "bug" label.](https://user-images.githubusercontent.com/1402241/73720910-a688d900-4755-11ea-9c8d-70e5ddb3bfe5.png)
@@ -387,5 +386,5 @@ Read the [contribution guide](contributing.md) and join the [contributors](https
 - [Show All GitHub Issues](https://github.com/sindresorhus/show-all-github-issues) - Shows both Issues and Pull Requests in the Issues tab
 - [Refined Twitter](https://github.com/sindresorhus/refined-twitter) - Improves Twitter
 - [Friendly GitHub](https://github.com/Hermanya/friendly-github) - Make GitHub more social
-- [Sourcegraph](https://github.com/sourcegraph/sourcegraph/tree/master/browser) - Code search and navigation tool
+- [Sourcegraph](https://github.com/sourcegraph/sourcegraph/tree/main/client/browser) - Code search and navigation tool
 - [PR Monitor](https://github.com/fwouts/prmonitor) - Notifies you about incoming and outgoing PRs

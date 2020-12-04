@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import PencilIcon from 'octicon/pencil.svg';
+import {PencilIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 

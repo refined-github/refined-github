@@ -2,9 +2,8 @@ import './highest-rated-comment.css';
 import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
-import CheckIcon from 'octicon/check.svg';
-import ArrowDownIcon from 'octicon/arrow-down.svg';
 import * as pageDetect from 'github-url-detection';
+import {ArrowDownIcon, CheckIcon} from '@primer/octicons-react';
 
 import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
