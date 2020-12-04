@@ -293,7 +293,7 @@ Thanks for contributing! 🦋🙌
 - [](# "action-used-by-link") [Lets you see how others are using the current Action in the Marketplace.](https://user-images.githubusercontent.com/8360597/80250140-86d9c080-8673-11ea-9d28-f62faf9fd3d4.png)
 - [](# "improve-shortcut-help") [Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (<kbd>?</kbd> hotkey).](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
-- [](# "hide-zero-packages") [Hides the `Packages` tab if it’s empty (in repositories and user profiles).](https://user-images.githubusercontent.com/44045911/93543684-d1473b00-f98e-11ea-9957-e4464400f81b.png)
+- [](# "hide-zero-packages") [Hides the `Packages` tab in user profiles if it’s empty](https://user-images.githubusercontent.com/46634000/101151879-9ade9b00-3622-11eb-9755-50ed54099e02.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
