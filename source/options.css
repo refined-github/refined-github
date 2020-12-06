@@ -32,10 +32,6 @@ ul {
 	line-height: 1.5;
 }
 
-#validation {
-	display: inline-block;
-}
-
 [name='personalToken'] {
 	width: 20em !important; /* https://github.com/sindresorhus/refined-github/issues/1374#issuecomment-397906701 */
 	display: inline-block !important;

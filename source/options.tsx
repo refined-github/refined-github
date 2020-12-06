@@ -10,7 +10,19 @@ import * as indentTextarea from 'indent-textarea';
 
 import {perDomainOptions} from './options-storage';
 
-function setValidationStatus(text: string): void {
+async function setValidationStatus(response: Response): Promise<void> {
+	if (response.ok) {
+		displayValidationStatus('✔️ Validated');
+	} else {
+		try {
+			displayValidationStatus('❌ ' + String((await response.json()).message));
+		} catch (error: unknown) {
+			displayValidationStatus('❌ ' + (error as Error).message);
+		}
+	}
+}
+
+function displayValidationStatus(text: string): void {
 	select('#validation')!.textContent = text;
 	select('form ul')!.classList.toggle('invalid', !text.includes('✔️'));
 }
@@ -30,29 +42,22 @@ async function getHeaders(personalToken: string): Promise<string> {
 		}
 	});
 
-	if (response.ok) {
-		setValidationStatus('✔️ Validated');
-	} else {
-		const statusText = response.status === 404 ?
-			'Invalid Domain' :
-			String((await response.json()).message);
-		setValidationStatus('❌ ' + statusText);
-	}
+	void setValidationStatus(response);
 
-	return response.headers.get('X-OAuth-Scopes')! ?? '';
+	return response.headers.get('X-OAuth-Scopes') ?? '';
 }
 
 async function validateToken(): Promise<void> {
-	const personalToken = select<HTMLInputElement>('[name="personalToken"]')!.value;
-	setValidationStatus('');
+	const tokenField = select<HTMLInputElement>('[name="personalToken"]')!;
+	displayValidationStatus('');
 
-	if (!/[\da-f]{40}/.exec(personalToken)) {
+	if (!tokenField.validity.valid) {
 		return;
 	}
 
-	setValidationStatus('Validating...');
+	displayValidationStatus(' Validating…');
 
-	const headers = (await getHeaders(personalToken)).split(', ');
+	const headers = (await getHeaders(tokenField.value)).split(', ');
 
 	if (headers.includes('repo')) {
 		headers.push('public_repo');
@@ -157,9 +162,7 @@ function addEventListeners(): void {
 		const host = (dropdown as HTMLSelectElement).value === 'default' ? 'github.com' : (dropdown as HTMLSelectElement).value;
 		select<HTMLAnchorElement>('#personal-token-link')!.host = host;
 		// Delay validating to let options load first
-		setTimeout(() => {
-			void validateToken();
-		}, 100);
+		setTimeout(validateToken, 100);
 	});
 
 	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)
@@ -177,7 +180,7 @@ function addEventListeners(): void {
 	select('#clear-cache')!.addEventListener('click', clearCacheHandler);
 
 	// Add token validation
-	select('[name="personalToken"]')!.addEventListener('change', validateToken);
+	select('[name="personalToken"]')!.addEventListener('input', validateToken);
 
 	// Ensure all links open in a new tab #3181
 	delegate(document, '[href^="http"]', 'click', (event: delegate.Event<MouseEvent, HTMLAnchorElement>) => {

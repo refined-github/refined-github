@@ -6,11 +6,9 @@
 	<p>
 		<label>
 			<strong>Personal token</strong> (optional, <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo" target="_blank">generate one</a>)<br>
-			<div>
-				<!-- placeholder is set to enable use of :placeholder-shown CSS selector -->
-				<input type="text" name="personalToken" spellcheck="false" autocomplete="off" pattern="[\da-f]{40}" placeholder=" ">
-				<div id="validation"></div>
-			</div>
+			<!-- placeholder is set to enable use of :placeholder-shown CSS selector -->
+			<input type="text" name="personalToken" spellcheck="false" autocomplete="off" pattern="[\da-f]{40}" placeholder=" ">
+			<span id="validation"></span>
 		</label>
 	</p>
 	<ul class="invalid">
