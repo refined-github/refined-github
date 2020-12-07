@@ -14,12 +14,12 @@ async function init(): Promise<void> {
 
 	// Hide redundant "Releases" section
 	const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]');
-	sidebarReleases!.closest('.BorderGrid-row')!.setAttribute('hidden', '');
+	sidebarReleases!.closest<HTMLElement>('.BorderGrid-row')!.hidden = true;
 
 	// Hide empty "Packages" section
 	const packagesCounter = select('.BorderGrid-cell a[href*="/packages?"] .Counter')!;
 	if (packagesCounter.textContent === '0') {
-		packagesCounter.closest('.BorderGrid-row')!.remove();
+		packagesCounter.closest<HTMLElement>('.BorderGrid-row')!.hidden = true;
 	}
 }
 
