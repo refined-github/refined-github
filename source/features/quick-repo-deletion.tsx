@@ -24,14 +24,16 @@ function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
 	if (hasContent && !confirm('This repo has open issues/PRs, are you sure you want to delete everything?')) {
 		// Close the <details> element again
 		event.delegateTarget.open = false;
-	} else {
-		if (!pageDetect.isForkedRepo() && !confirm('⚠️ ⚠️ ARE YOU TOTALLY SURE YOU WANT TO DELETE THIS REPOSITORY? ⚠️ ⚠️')) {
-			event.delegateTarget.open = false;
-		}
-
-		// Without the timeout, the same toggle event will also trigger the AbortController
-		setTimeout(start, 1, event.delegateTarget);
+		return;
 	}
+
+	if (!pageDetect.isForkedRepo() && !confirm('⚠️ ⚠️ ARE YOU TOTALLY SURE YOU WANT TO DELETE THIS REPOSITORY? ⚠️ ⚠️')) {
+		event.delegateTarget.open = false;
+		return;
+	}
+
+	// Without the timeout, the same toggle event will also trigger the AbortController
+	setTimeout(start, 1, event.delegateTarget);
 }
 
 async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boolean> {
