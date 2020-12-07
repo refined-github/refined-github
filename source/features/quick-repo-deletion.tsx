@@ -104,7 +104,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 async function init(): Promise<void | false> {
 	if (
 		// Only if the user can delete the repository
-		!await elementReady('[data-tab-item="settings-tab"]') ||
+		!await elementReady('nav [data-content="Settings"]') ||
 
 		// Only if the repository hasn't been starred
 		looseParseInt(select('.starring-container .social-count')!) > 0
