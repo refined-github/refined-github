@@ -25,6 +25,10 @@ function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
 		// Close the <details> element again
 		event.delegateTarget.open = false;
 	} else {
+		if (!pageDetect.isForkedRepo() && !confirm('⚠️ ⚠️ ARE YOU TOTALLY SURE YOU WANT TO DELETE THIS REPOSITORY? ⚠️ ⚠️')) {
+			event.delegateTarget.open = false;
+		}
+
 		// Without the timeout, the same toggle event will also trigger the AbortController
 		setTimeout(start, 1, event.delegateTarget);
 	}
