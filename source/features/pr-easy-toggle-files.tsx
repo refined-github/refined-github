@@ -19,11 +19,9 @@ function toggleFile(event: MouseEvent): void {
 					button.click();
 				}
 			}
-
-			return;
+		} else {
+			select(toggleFileButtonSelector, headerBar)!.click();
 		}
-
-		select(toggleFileButtonSelector, headerBar)!.click();
 	}
 }
 
