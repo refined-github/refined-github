@@ -5,7 +5,7 @@ import features from '.';
 
 function toggleFile(event: Event): void {
 	const elementClicked = event.target as HTMLElement;
-	const headerBar = elementClicked.closest<HTMLElement>('.file-header.file-header--expandable')!;
+	const headerBar = elementClicked.closest<HTMLElement>('.file-header')!;
 
 	// The clicked element is either the bar itself or one of its 2 children
 	if (elementClicked === headerBar || elementClicked.parentElement === headerBar) {
