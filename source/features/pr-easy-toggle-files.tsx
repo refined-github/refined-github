@@ -3,13 +3,27 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function toggleFile(event: Event): void {
+const toggleFileButtonSelector = '[aria-label="Toggle diff contents"]';
+
+function toggleFile(event: MouseEvent): void {
 	const elementClicked = event.target as HTMLElement;
 	const headerBar = elementClicked.closest<HTMLElement>('.file-header')!;
 
 	// The clicked element is either the bar itself or one of its 2 children
 	if (elementClicked === headerBar || elementClicked.parentElement === headerBar) {
-		select('[aria-label="Toggle diff contents"]', headerBar)!.click();
+		if (event.altKey) {
+			const toggleFileButtonState = select(toggleFileButtonSelector, headerBar)!.getAttribute('aria-expanded');
+
+			for (const button of select.all(toggleFileButtonSelector)) {
+				if (button.getAttribute('aria-expanded') === toggleFileButtonState) {
+					button.click();
+				}
+			}
+
+			return;
+		}
+
+		select(toggleFileButtonSelector, headerBar)!.click();
 	}
 }
 
