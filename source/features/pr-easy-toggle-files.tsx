@@ -32,7 +32,8 @@ async function init(): Promise<void> {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
-		pageDetect.isPRCommit
+		pageDetect.isPRCommit,
+		pageDetect.isCompare
 	],
 	awaitDomReady: false,
 	init
