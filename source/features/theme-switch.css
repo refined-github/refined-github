@@ -1,0 +1,13 @@
+.rgh-theme-switch.js-color-mode-settings img {
+	display: none !important;
+}
+
+.rgh-theme-switch .hx_theme-toggle {
+	border: none;
+	font-weight: normal;
+}
+
+.rgh-theme-switch-title.dropdown-item:hover {
+	color: var(--color-text-primary);
+	background-color: var(--color-bg-overlay);
+}

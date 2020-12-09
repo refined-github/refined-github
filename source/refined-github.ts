@@ -203,6 +203,7 @@ import './features/jump-to-change-requested-comment';
 import './features/esc-to-cancel';
 import './features/quick-fork-deletion';
 import './features/pr-easy-toggle-files';
+import './features/theme-switch';
 
 // Add global for easier debugging
 (window as any).select = select;
