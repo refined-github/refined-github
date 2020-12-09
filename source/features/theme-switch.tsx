@@ -12,6 +12,9 @@ async function init(): Promise<void> {
 	const form = (await fetchDom('https://github.com/settings/appearance', '.js-color-mode-settings'))!;
 	form.classList.add('rgh-theme-switch-form', 'mt-1', 'ml-1');
 	select('.flex-column', form)!.classList.remove('flex-lg-row');
+	for (const image of select.all('img', form)) {
+		image.remove();
+	}
 	for (const radio of select.all('.position-relative', form)) {
 		radio.classList.remove('mb-4');
 	}
