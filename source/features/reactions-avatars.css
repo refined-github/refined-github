@@ -4,8 +4,8 @@
 }
 
 button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
-	border-top: 1px solid var(--color-border-primary, #e1e4e8); /* Required when the second line is longer than the first line */
-	border-bottom: 1px solid var(--color-border-primary, #e1e4e8); /* Required when the first line is longer than the second line */
+	border-top: 1px solid var(--github-border-color); /* Required when the second line is longer than the first line */
+	border-bottom: 1px solid var(--github-border-color); /* Required when the first line is longer than the second line */
 	margin-bottom: -1px; /* Makes up for `order-bottom` */
 }
 
