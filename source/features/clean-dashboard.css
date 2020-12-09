@@ -16,8 +16,8 @@
 
 /* Add background and border Whole list */
 .dashboard .js-all-activity-header + div {
-	background-color: #fff;
-	border: 1px solid var(--github-border-color);
+	background-color: var(--color-bg-canvas, #fff);
+	border: 1px solid var(--color-border-primary, var(--github-border-color));
 	border-radius: 6px;
 	margin-top: 8px !important;
 }
