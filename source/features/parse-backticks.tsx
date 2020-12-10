@@ -13,7 +13,7 @@ function init(): void {
 		'.js-commits-list-item .mb-1, .js-commits-list-item pre', // `isCommitList` commit message and description
 		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.link-gray-dark', // `isRepoRoot` commit message
 		'.commit-title, .commit-desc', // `isCommit` commit message and description
-		'.commit-message', // `isPRConversation`, `isCompare`, `isReleasesOrTags` pushed commits
+		'.js-commit .pr-1 > code', // `isPRConversation`, `isCompare`, `isReleasesOrTags` pushed commits
 		'.blame-commit-message', // `isBlame` commit message
 		'a[id^="issue_"]', // `isConversationList` issue and PR title
 		'.TimelineItem-body > del, .TimelineItem-body > ins', // `isIssue`, `isPRConversation` title edits
