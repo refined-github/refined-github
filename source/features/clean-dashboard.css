@@ -63,7 +63,7 @@
 
 /* Grouped events: Show separator */
 .dashboard-rollup-items .body {
-	border-top: 1px solid var(--color-border-primary, var(--github-border-color));
+	border-top: 1px solid var(--github-border-color);
 	margin-top: 8px;
 }
 
