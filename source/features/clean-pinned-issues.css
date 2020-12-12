@@ -1,10 +1,10 @@
 /* Changes the layout of pinned issues from side-by-side to a standard list. */
-.js-pinned-issues-reorder-container .f4 {
+.clean-pinned-issue .js-pinned-issues-reorder-container .f4 {
 	display: none !important; /* Hide title */
 }
 
 @media (min-width: 700px) {
-	:root .js-pinned-issues-reorder-list {
+	:root .clean-pinned-issue .js-pinned-issues-reorder-list {
 		display: table !important;
 		width: 100%;
 		margin: 0;
@@ -17,30 +17,30 @@
 		border-style: hidden;
 	}
 
-	:root .pinned-issue-item {
+	:root .clean-pinned-issue .pinned-issue-item {
 		display: table-row !important;
 		border-color: var(--github-border-color) !important;
 	}
 
-	.pinned-issue-item > * {
+	.clean-pinned-issue .pinned-issue-item > * {
 		display: table-cell !important;
 	}
 
-	:root .pinned-issue-item > * {
+	:root .clean-pinned-issue .pinned-issue-item > * {
 		padding: 6px 12px;
 	}
 
 	/* Move `x` before the title and align both icons */
-	.pinned-issue-item > :first-child {
+	.clean-pinned-issue .pinned-issue-item > :first-child {
 		display: flex !important;
 	}
 
-	.pinned-issue-handle {
+	.clean-pinned-issue .pinned-issue-handle {
 		order: -1;
 		margin-top: -2px;
 	}
 
-	.pinned-issue-item form button {
+	.clean-pinned-issue .pinned-issue-item form button {
 		float: unset !important;
 		margin-left: -10px;
 		margin-right: 2px !important;
