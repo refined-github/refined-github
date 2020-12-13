@@ -44,6 +44,7 @@ import './features/edit-comments-faster';
 import './features/open-all-notifications';
 import './features/copy-on-y';
 import './features/profile-hotkey';
+import './features/home-hotkey';
 import './features/close-out-of-view-modals';
 import './features/improve-shortcut-help';
 import './features/deprioritize-marketplace-link';
