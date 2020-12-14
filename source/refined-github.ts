@@ -4,7 +4,6 @@ import './refined-github.css';
 import './features/github-bugs.css';
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
-import './features/clean-dashboard.css';
 import './features/safer-destructive-actions.css';
 import './features/clean-mergeability-box.css';
 import './features/clean-footer.css';
@@ -203,6 +202,7 @@ import './features/jump-to-change-requested-comment';
 import './features/esc-to-cancel';
 import './features/quick-fork-deletion';
 import './features/pr-easy-toggle-files';
+import './features/clean-dashboard';
 
 // Add global for easier debugging
 (window as any).select = select;
