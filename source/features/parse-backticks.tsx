@@ -15,7 +15,9 @@ function init(): void {
 		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.link-gray-dark', // `isRepoRoot` commit message
 		'.commit-title', // `isCommit` commit message
 		'.commit-desc', // `isCommit` commit description
-		'.js-commit .pr-1 > code', // `isPRConversation`, `isCompare`, `isReleasesOrTags` pushed commits
+		'.js-commit .pr-1 > code', // `isPRConversation` pushed commits
+		'.js-details-container .pr-1 > code', // `isCompare` pushed commits
+		'.Box-row .mb-1 a', // `isCompare` open Pull Request title
 		'.blame-commit-message', // `isBlame` commit message
 		'a[id^="issue_"]', // `isConversationList` issue and PR title
 		'.TimelineItem-body > del', // `isIssue`, `isPRConversation` title edits
