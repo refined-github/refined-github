@@ -4,7 +4,6 @@ import './refined-github.css';
 import './features/github-bugs.css';
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
-import './features/clean-dashboard.css';
 import './features/safer-destructive-actions.css';
 import './features/clean-mergeability-box.css';
 import './features/clean-footer.css';
@@ -19,7 +18,6 @@ import './features/easier-pr-sha-copy.css';
 import './features/repo-stats-spacing.css';
 import './features/emphasize-draft-pr-label.css';
 import './features/clean-notifications.css';
-import './features/clean-pinned-issues.css';
 import './features/fix-first-tab-length.css';
 import './features/align-repository-header.css';
 
@@ -204,6 +202,8 @@ import './features/jump-to-change-requested-comment';
 import './features/esc-to-cancel';
 import './features/quick-fork-deletion';
 import './features/pr-easy-toggle-files';
+import './features/clean-pinned-issues';
+import './features/clean-dashboard';
 
 // Add global for easier debugging
 (window as any).select = select;
