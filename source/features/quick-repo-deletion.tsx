@@ -1,4 +1,4 @@
-import './quick-fork-deletion.css';
+import './quick-repo-deletion.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -21,13 +21,19 @@ function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
 		'.rgh-open-prs-of-forks' // PRs opened in the source repo
 	]);
 
-	if (hasContent && !confirm('This fork has open issues/PRs, are you sure you want to delete everything?')) {
+	if (hasContent && !confirm('This repo has open issues/PRs, are you sure you want to delete everything?')) {
 		// Close the <details> element again
 		event.delegateTarget.open = false;
-	} else {
-		// Without the timeout, the same toggle event will also trigger the AbortController
-		setTimeout(start, 1, event.delegateTarget);
+		return;
 	}
+
+	if (!pageDetect.isForkedRepo() && !confirm('⚠️ This action cannot be undone. This will permanently delete the repository, wiki, issues, comments, packages, secrets, workflow runs, and remove all collaborator associations.')) {
+		event.delegateTarget.open = false;
+		return;
+	}
+
+	// Without the timeout, the same toggle event will also trigger the AbortController
+	setTimeout(start, 1, event.delegateTarget);
 }
 
 async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boolean> {
@@ -58,11 +64,11 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 	try {
 		do {
 			button.style.transform = `scale(${1.2 - ((secondsLeft - 5) / 3)})`; // Dividend is zoom speed
-			button.textContent = `Deleting fork in ${pluralize(secondsLeft, '$$ second')}. Cancel?`;
+			button.textContent = `Deleting repo in ${pluralize(secondsLeft, '$$ second')}. Cancel?`;
 			await delay(1000, {signal: abortController.signal}); // eslint-disable-line no-await-in-loop
 		} while (--secondsLeft);
 	} catch {
-		button.textContent = 'Delete fork';
+		button.textContent = 'Delete repo';
 		button.style.transform = '';
 	}
 
@@ -74,7 +80,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		return;
 	}
 
-	select('.btn', buttonContainer)!.textContent = 'Deleting fork…';
+	select('.btn', buttonContainer)!.textContent = 'Deleting repo…';
 
 	try {
 		const {nameWithOwner} = getRepo()!;
@@ -104,7 +110,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 async function init(): Promise<void | false> {
 	if (
 		// Only if the user can delete the repository
-		!await elementReady('[data-tab-item="settings-tab"]') ||
+		!await elementReady('nav [data-content="Settings"]') ||
 
 		// Only if the repository hasn't been starred
 		looseParseInt(select('.starring-container .social-count')!) > 0
@@ -117,21 +123,21 @@ async function init(): Promise<void | false> {
 	// (Ab)use the details element as state and an accessible "click-anywhere-to-cancel" utility
 	select('.pagehead-actions')!.prepend(
 		<li>
-			<details className="details-reset details-overlay select-menu rgh-quick-fork-deletion">
+			<details className="details-reset details-overlay select-menu rgh-quick-repo-deletion">
 				<summary aria-haspopup="menu" role="button">
 					{/* This extra element is needed to keep the button above the <summary>’s lightbox */}
-					<span className="btn btn-sm btn-danger">Delete fork</span>
+					<span className="btn btn-sm btn-danger">Delete repo</span>
 				</summary>
 			</details>
 		</li>
 	);
 
-	delegate(document, '.rgh-quick-fork-deletion[open]', 'toggle', handleToggle, true);
+	delegate(document, '.rgh-quick-repo-deletion[open]', 'toggle', handleToggle, true);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isForkedRepo
+		pageDetect.isRepo
 	],
 	awaitDomReady: false,
 	init
