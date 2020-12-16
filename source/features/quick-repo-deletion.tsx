@@ -27,7 +27,7 @@ function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
 		return;
 	}
 
-	if (!pageDetect.isForkedRepo() && !confirm('⚠️ ⚠️ ARE YOU TOTALLY SURE YOU WANT TO DELETE THIS REPOSITORY? ⚠️ ⚠️')) {
+	if (!pageDetect.isForkedRepo() && !confirm('⚠️ This action cannot be undone. This will permanently delete the repository, wiki, issues, comments, packages, secrets, workflow runs, and remove all collaborator associations.')) {
 		event.delegateTarget.open = false;
 		return;
 	}
