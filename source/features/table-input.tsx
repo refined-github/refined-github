@@ -39,7 +39,7 @@ function init(): void {
 		anchor.after(
 			<details className="details-reset details-overlay flex-auto toolbar-item select-menu select-menu-modal-right hx_rsm">
 				<summary
-					className="text-center menu-target py-2 p-md-1 hx_rsm-trigger tooltipped tooltipped-n mx-1"
+					className="text-center menu-target py-2 p-md-1 hx_rsm-trigger ml-1"
 					role="button"
 					aria-label="Add a table"
 					aria-haspopup="menu"
