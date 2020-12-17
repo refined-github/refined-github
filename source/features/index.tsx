@@ -40,10 +40,6 @@ interface InternalRunConfig {
 
 	onlyAdditionalListeners: boolean;
 }
-interface CssInternalRunConfig {
-	include: BooleanFunction[];
-	exclude?: BooleanFunction[];
-}
 
 let log: typeof console.log;
 
@@ -248,16 +244,13 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 	}
 };
 
-const addCssFeature = async (id: FeatureID, loaders: CssInternalRunConfig): Promise<void> => {
-	async function cssOnlyFeature(featureName: string): Promise<void> {
-		await Promise.resolve(); // The event fires a bit before the document body loaded
-		document.body.classList.add('rgh-' + featureName);
-	}
-
+const addCssFeature = async (id: FeatureID, loaders: BooleanFunction[]): Promise<void> => {
 	void add(id, {
 		...loaders,
 		awaitDomReady: false,
-		init: () => void cssOnlyFeature(id)
+		init: () => {
+			document.body.classList.add('rgh-' + id);
+		}
 	});
 };
 

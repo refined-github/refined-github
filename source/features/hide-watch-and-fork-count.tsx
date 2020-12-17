@@ -3,8 +3,4 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-void features.addCssFeature(__filebasename, {
-	include: [
-		pageDetect.isRepo
-	]
-});
+void features.addCssFeature(__filebasename,	pageDetect.isRepo);

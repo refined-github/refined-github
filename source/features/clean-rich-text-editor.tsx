@@ -1,5 +1,6 @@
 import './clean-rich-text-editor.css';
 import select from 'select-dom';
+import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -24,5 +25,5 @@ void features.add(__filebasename, {
 		pageDetect.isRepo
 	],
 	awaitDomReady: false,
-	init: hideButtons
+	init: onetime(hideButtons)
 });
