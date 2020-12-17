@@ -19,7 +19,7 @@ function init(): void {
 	let uselessCount = 0;
 	for (const commentText of select.all('.comment-body > p:only-child')) {
 		// Find useless comments
-		if (!/^([+-]\d+!*|👍|🙏|👎|👌|)+$/.test(commentText.textContent!.trim())) {
+		if (!/^([+-]\d+|⬆️|(👍|👎|👌|🙏)[\u{1F3FB}-\u{1F3FF}]*|ditto|metoo|same(here)?(-?\w+)?|(same)?pleaseupdate(thanks)?.{0,2}|)+$/ui.test(commentText.textContent!.replace(/[\s.,!]+/g, ''))) {
 			continue;
 		}
 
