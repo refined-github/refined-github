@@ -1,9 +1,10 @@
 import './monospace-textareas.css';
+import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import cssOnlyFeature from '../helpers/css-only-feature';
 
-void features.add(__filebasename, {
-	awaitDomReady: false,
-	init: () => void cssOnlyFeature(__filebasename)
+void features.addCssFeature(__filebasename, {
+	include: [
+		pageDetect.hasRichTextEditor
+	]
 });

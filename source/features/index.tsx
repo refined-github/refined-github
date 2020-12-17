@@ -40,6 +40,10 @@ interface InternalRunConfig {
 
 	onlyAdditionalListeners: boolean;
 }
+interface CssInternalRunConfig {
+	include: BooleanFunction[];
+	exclude?: BooleanFunction[];
+}
 
 let log: typeof console.log;
 
@@ -244,6 +248,19 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 	}
 };
 
+const addCssFeature = async (id: FeatureID, loaders: CssInternalRunConfig): Promise<void> => {
+	async function cssOnlyFeature(featureName: string): Promise<void> {
+		await Promise.resolve(); // The event fires a bit before the document body loaded
+		document.body.classList.add('rgh-' + featureName);
+	}
+
+	void add(id, {
+		...loaders,
+		awaitDomReady: false,
+		init: () => void cssOnlyFeature(id)
+	});
+};
+
 /*
 When navigating back and forth in history, GitHub will preserve the DOM changes;
 This means that the old features will still be on the page and don't need to re-run.
@@ -260,6 +277,7 @@ void add(__filebasename, {
 
 const features = {
 	add,
+	addCssFeature,
 	error: logError,
 	shortcutMap
 };

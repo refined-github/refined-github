@@ -3,7 +3,10 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import cssOnlyFeature from '../helpers/css-only-feature';
+
+function hideButtons(): void {
+	document.body.classList.add('rgh-clean-rich-text-editor');
+}
 
 function hideTextareaTooltip(): void {
 	for (const textarea of select.all('.comment-form-textarea')) {
@@ -21,8 +24,5 @@ void features.add(__filebasename, {
 		pageDetect.isRepo
 	],
 	awaitDomReady: false,
-	init() {
-		// Hide buttons
-		void cssOnlyFeature(__filebasename);
-	}
+	init: hideButtons
 });
