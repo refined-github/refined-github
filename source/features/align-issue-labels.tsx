@@ -2,15 +2,12 @@ import './align-issue-labels.css';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-
-function init(): void {
-	document.body.classList.add('rgh-align-issue-labels');
-}
+import cssOnlyFeature from '../helpers/css-only-feature';
 
 void features.add(__filebasename, {
-	awaitDomReady: false,
 	include: [
 		pageDetect.isConversationList
 	],
-	init
+	awaitDomReady: false,
+	init: () => void cssOnlyFeature(__filebasename)
 });

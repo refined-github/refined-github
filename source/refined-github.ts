@@ -24,10 +24,19 @@ import './features/align-repository-header.css';
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
 
+// CSS ONLY features
+import './features/align-issue-labels';
+import './features/clean-pinned-issues';
+import './features/clean-dashboard';
+import './features/clean-rich-text-editor';
+import './features/hide-useless-newsfeed-events';
+import './features/hide-watch-and-fork-count';
+import './features/minimize-upload-bar';
+import './features/monospace-textareas';
+import './features/remove-diff-signs';
+
 import './features/useful-not-found-page';
 import './features/trending-menu-item';
-import './features/hide-useless-newsfeed-events';
-import './features/align-issue-labels';
 import './features/more-dropdown';
 import './features/releases-tab';
 import './features/remove-projects-tab';
@@ -35,7 +44,6 @@ import './features/comment-fields-keyboard-shortcuts';
 import './features/one-key-formatting';
 import './features/tab-to-indent';
 import './features/hide-navigation-hover-highlight';
-import './features/monospace-textareas';
 import './features/selection-in-new-tab';
 import './features/hide-comments-faster';
 import './features/edit-comments-faster';
@@ -87,7 +95,6 @@ import './features/mark-merge-commits-in-list';
 import './features/swap-branches-on-compare';
 import './features/reactions-avatars';
 import './features/show-names';
-import './features/remove-diff-signs';
 import './features/previous-next-commit-buttons';
 import './features/preserve-whitespace-option-in-nav';
 import './features/extend-diff-expander';
@@ -105,7 +112,6 @@ import './features/split-issue-pr-search-results';
 import './features/preview-hidden-comments';
 import './features/fit-textareas';
 import './features/collapsible-content-button';
-import './features/hide-watch-and-fork-count';
 import './features/resolve-conflicts';
 import './features/follow-file-renames';
 import './features/enable-file-links-in-compare-view'; // Must be before raw-file-link
@@ -125,7 +131,6 @@ import './features/toggle-everything-with-alt';
 import './features/suggest-commit-title-limit';
 import './features/highest-rated-comment';
 import './features/clean-conversation-filters';
-import './features/minimize-upload-bar';
 import './features/tags-on-commits-list';
 import './features/forked-to';
 import './features/submit-review-as-single-comment';
@@ -138,7 +143,6 @@ import './features/hide-zero-packages';
 import './features/restore-file';
 import './features/hidden-review-comments-indicator';
 import './features/reload-failed-proxied-images';
-import './features/clean-rich-text-editor';
 import './features/highlight-collaborators-and-own-conversations';
 import './features/embed-gist-via-iframe';
 import './features/expand-all-collapsed-code';
@@ -201,8 +205,6 @@ import './features/jump-to-change-requested-comment';
 import './features/esc-to-cancel';
 import './features/quick-repo-deletion';
 import './features/pr-easy-toggle-files';
-import './features/clean-pinned-issues';
-import './features/clean-dashboard';
 
 // Add global for easier debugging
 (window as any).select = select;

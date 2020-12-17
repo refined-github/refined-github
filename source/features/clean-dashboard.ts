@@ -2,14 +2,12 @@ import './clean-dashboard.css';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-
-function init(): void {
-	document.body.classList.add('rgh-clean-dashboard');
-}
+import cssOnlyFeature from '../helpers/css-only-feature';
 
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isDashboard
 	],
-	init
+	awaitDomReady: false,
+	init: () => void cssOnlyFeature(__filebasename)
 });

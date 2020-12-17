@@ -1,13 +1,9 @@
 import './clean-rich-text-editor.css';
 import select from 'select-dom';
-import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-
-function hideButtons(): void {
-	document.body.classList.add('rgh-clean-rich-text-editor');
-}
+import cssOnlyFeature from '../helpers/css-only-feature';
 
 function hideTextareaTooltip(): void {
 	for (const textarea of select.all('.comment-form-textarea')) {
@@ -25,5 +21,8 @@ void features.add(__filebasename, {
 		pageDetect.isRepo
 	],
 	awaitDomReady: false,
-	init: onetime(hideButtons)
+	init() {
+		// Hide buttons
+		void cssOnlyFeature(__filebasename);
+	}
 });
