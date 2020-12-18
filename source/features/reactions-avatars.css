@@ -28,13 +28,9 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 	margin-top: -0.3em;
 	margin-left: -0.5em;
 	vertical-align: middle;
-	background: #efefef; /* Placeholder before the images load */
+	background: var(--color-bg-canvas-inset, #efefef); /* Placeholder before the images load */
 	box-shadow: 0 0 0 2px var(--background, var(--color-bg-primary, #fff));
 	font-size: 10px; /* Base sizer */
-}
-
-[data-color-mode='dark'] .reaction-summary-item a {
-	background: #101010; /* Placeholder before the images load */
 }
 
 .reaction-summary-item a:first-of-type {
