@@ -10,16 +10,23 @@ import parseBackticksCore from '../github-helpers/parse-backticks';
 function init(): void {
 	const selectors = [
 		'.BorderGrid--spacious .f4.mt-3', // `isRepoHome` repository description
-		'.js-commits-list-item .mb-1, .js-commits-list-item pre', // `isCommitList` commit message and description
+		'.js-commits-list-item .mb-1', // `isCommitList` commit message
+		'.js-commits-list-item pre', // `isCommitList` commit description
 		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.link-gray-dark', // `isRepoRoot` commit message
-		'.commit-title, .commit-desc', // `isCommit` commit message and description
-		'.commit-message', // `isPRConversation`, `isCompare`, `isReleasesOrTags` pushed commits
+		'.commit-title', // `isCommit` commit message
+		'.commit-desc', // `isCommit` commit description
+		'.js-commit .pr-1 > code', // `isPRConversation` pushed commits
+		'.js-details-container .pr-1 > code', // `isCompare` pushed commits
+		'.Box-row .mb-1 a', // `isCompare` open Pull Request title
 		'.blame-commit-message', // `isBlame` commit message
 		'a[id^="issue_"]', // `isConversationList` issue and PR title
-		'.TimelineItem-body > del, .TimelineItem-body > ins', // `isIssue`, `isPRConversation` title edits
-		'[id^=ref-issue-], [id^=ref-pullrequest-]', // `isIssue`, `isPRConversation` issue and PR references
+		'.TimelineItem-body > del', // `isIssue`, `isPRConversation` title edits
+		'.TimelineItem-body > ins', // `isIssue`, `isPRConversation` title edits
+		'[id^=ref-issue-]', // `isIssue` issue and PR references
+		'[id^=ref-pullrequest-]', // `isPRConversation` issue and PR references
 		'[aria-label="Link issues"] a', // `isIssue`, `isPRConversation` linked issue and PR
-		'.Box-header.Details .link-gray, .Box-header.Details pre', // `isSingleFile` commit message and description
+		'.Box-header.Details .link-gray', // `isSingleFile` commit message
+		'.Box-header.Details pre', // `isSingleFile` commit description
 		'.js-pinned-issue-list-item > .d-block', // Pinned Issues
 		'.release-header', // `isReleasesOrTags` Headers
 		'.existing-pull-contents .list-group-item-link', // `isCompare` with existing PR
