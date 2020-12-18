@@ -199,8 +199,8 @@ import './features/unfinished-comments';
 import './features/single-diff-column-selection';
 import './features/jump-to-change-requested-comment';
 import './features/esc-to-cancel';
+import './features/easy-toggle-files';
 import './features/quick-repo-deletion';
-import './features/pr-easy-toggle-files';
 import './features/clean-pinned-issues';
 import './features/clean-dashboard';
 
