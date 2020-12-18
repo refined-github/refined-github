@@ -96,7 +96,7 @@ Thanks for contributing! 🦋🙌
 - [](# "sticky-sidebar") [Makes conversation sidebars and repository sidebars sticky, if they fit the viewport.](https://user-images.githubusercontent.com/10238474/62276723-5a2eaa80-b44d-11e9-810b-ff598d1c5c6a.gif)
 - [](# "link-to-github-io") [Adds a link to visit the user’s github.io website from its repo.](https://user-images.githubusercontent.com/31387795/94045261-dbcd5e80-fdec-11ea-83fa-30bb673cc26e.jpg)
 - [](# "next-scheduled-github-action") [Shows the next scheduled time of relevant GitHub Actions in the workflows sidebar.](https://user-images.githubusercontent.com/46634000/94690232-2476a180-0330-11eb-99d7-e174bb762cea.png)
-- [](# "quick-fork-deletion") [Lets you delete your forks in a click, if they have no stars, issues, or PRs.](https://user-images.githubusercontent.com/1402241/99716945-54a80a00-2a6e-11eb-9107-f3517a6ab1bc.gif)
+- [](# "quick-repo-deletion") [Lets you delete your repos in a click, if they have no stars, issues, or PRs.](https://user-images.githubusercontent.com/1402241/99716945-54a80a00-2a6e-11eb-9107-f3517a6ab1bc.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -386,5 +386,5 @@ Read the [contribution guide](contributing.md) and join the [contributors](https
 - [Show All GitHub Issues](https://github.com/sindresorhus/show-all-github-issues) - Shows both Issues and Pull Requests in the Issues tab
 - [Refined Twitter](https://github.com/sindresorhus/refined-twitter) - Improves Twitter
 - [Friendly GitHub](https://github.com/Hermanya/friendly-github) - Make GitHub more social
-- [Sourcegraph](https://github.com/sourcegraph/sourcegraph/tree/master/browser) - Code search and navigation tool
+- [Sourcegraph](https://github.com/sourcegraph/sourcegraph/tree/main/client/browser) - Code search and navigation tool
 - [PR Monitor](https://github.com/fwouts/prmonitor) - Notifies you about incoming and outgoing PRs

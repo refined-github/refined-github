@@ -72,8 +72,8 @@ async function init(): Promise<void> {
 			createDropdownItem('Branches', branchesUrl)
 		);
 
-		onlyShowInDropdown('security-tab');
-		onlyShowInDropdown('insights-tab');
+		onlyShowInDropdown('i4security-tab');
+		onlyShowInDropdown('i5insights-tab');
 		return;
 	}
 
