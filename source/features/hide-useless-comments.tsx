@@ -18,8 +18,8 @@ function unhide(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 function init(): void {
 	let uselessCount = 0;
 	for (const commentText of select.all('.comment-body > p:only-child')) {
-		// Find useless comments
-		if (!/^([+-]\d+|⬆️|(👍|👎|👌|🙏)[\u{1F3FB}-\u{1F3FF}]*|ditto|metoo|same(here)?(-?\w+)?|(same)?pleaseupdate(thanks)?.{0,2}|)+$/ui.test(commentText.textContent!.replace(/[\s.,!]+/g, ''))) {
+		// Find useless comments (note: the unicode range targets skin color modifiers for the hand emojis)
+		if (commentText.textContent!.replace(/[\s,.!?👍👎👌🙏⬆️\u{1F3FB}-\u{1F3FF}]+|[+-]\d+|ditto|me|too|same|here|please|update|thanks?/gui, '').length > 20) {
 			continue;
 		}
 
