@@ -19,7 +19,7 @@ function init(): void {
 	let uselessCount = 0;
 	for (const commentText of select.all('.comment-body > p:only-child')) {
 		// Find useless comments (note: the unicode range targets skin color modifiers for the hand emojis)
-		if (commentText.textContent!.replace(/[\s,.!?👍👎👌🙏⬆️\u{1F3FB}-\u{1F3FF}]+|[+-]\d+|ditto|me|too|same|here|please|update|thanks?/gui, '').length > 20) {
+		if (commentText.textContent!.replace(/[\s,.!?👍👎👌🙏]+|[\u{1F3FB}-\u{1F3FF}]|[+-]\d+|⬆️|ditto|me|too|same|here|please|update|thanks?/gui, '').length > 20) {
 			continue;
 		}
 
