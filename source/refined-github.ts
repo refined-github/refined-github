@@ -24,7 +24,7 @@ import './features/align-repository-header.css';
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
 
-// CSS ONLY features
+// CSS-only disableable features
 import './features/align-issue-labels';
 import './features/clean-pinned-issues';
 import './features/clean-dashboard';
