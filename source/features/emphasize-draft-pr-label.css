@@ -1,7 +1,7 @@
 .js-issue-row [aria-label='Open draft pull request'] svg {
-	stroke: #586069;
+	stroke: var(--color-text-secondary, #586069);
 	stroke-width: 1.2px;
-	color: #fff !important;
+	color: var(--color-bg-canvas, #fff) !important;
 	paint-order: stroke;
 	overflow: visible !important;
 }
