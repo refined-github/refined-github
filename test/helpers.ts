@@ -276,5 +276,5 @@ test('isUselessComment', t => {
 	t.true(isUselessComment('Same here! Please update, thank you.'));
 
 	t.false(isUselessComment('+1\n<some useful information>'));
-	t.false(isUselessComment('Same here. <some useul information>'));
+	t.false(isUselessComment('Same here. <some useful information>'));
 });
