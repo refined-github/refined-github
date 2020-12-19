@@ -12,7 +12,7 @@ const prTitleFieldSelector = '.js-issue-update [name="issue[title]"]';
 const prTitleSubmitSelector = '.js-issue-update [type="submit"]';
 
 function getCommitTitleField(): HTMLInputElement | undefined {
-	return select<HTMLInputElement>('.is-squashing #merge_title_field') ?? undefined;
+	return select('input.is-squashing #merge_title_field') ?? undefined;
 }
 
 function getPRNumber(): string {

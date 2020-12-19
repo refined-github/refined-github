@@ -15,7 +15,7 @@ async function init(): Promise<void | false> {
 	const [prTitle, ...prMessage] = select('#commits_bucket [data-url$="compare/commit"] a[title]')!.title.split(/\n\n/);
 
 	textFieldEdit.set(
-		select<HTMLInputElement>('.discussion-topic-header input')!,
+		select('input.discussion-topic-header input')!,
 		prTitle
 	);
 	textFieldEdit.insert(

@@ -8,7 +8,7 @@ import looseParseInt from '../helpers/loose-parse-int';
 
 function init(): false | void {
 	const form = select('[action$="/reviews"]')!;
-	const radios = select.all<HTMLInputElement>('[type="radio"][name="pull_request_review[event]"]', form);
+	const radios = select.all('input[type="radio"][name="pull_request_review[event]"]', form);
 
 	if (radios.length === 0) {
 		return false;

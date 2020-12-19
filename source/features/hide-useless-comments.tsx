@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function unhide(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	for (const comment of select.all('.rgh-hidden-comment')) {
+	for (const comment of select.all('div.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
 

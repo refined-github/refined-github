@@ -5,7 +5,7 @@ import features from '.';
 import {isEditable} from '../helpers/dom-utils';
 
 function openInNewTab({key, target}: KeyboardEvent): void {
-	const selected = select<HTMLAnchorElement>('.navigation-focus .js-navigation-open[href]');
+	const selected = select('a.navigation-focus .js-navigation-open[href]');
 	if (selected && key === 'O' && !isEditable(target)) {
 		void browser.runtime.sendMessage({
 			openUrls: [selected.href]

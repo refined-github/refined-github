@@ -59,7 +59,7 @@
 		"onetime": "^5.1.2",
 		"push-form": "^0.8.0",
 		"regex-join": "^1.0.0",
-		"select-dom": "^6.0.2",
+		"select-dom": "^7.0.0",
 		"selector-observer": "^2.1.6",
 		"shorten-repo-url": "^2.0.1",
 		"strip-indent": "^3.0.0",

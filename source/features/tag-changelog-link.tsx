@@ -17,7 +17,7 @@ interface TagDetails {
 }
 
 async function getNextPage(): Promise<DocumentFragment> {
-	const nextPageLink = select<HTMLAnchorElement>('.pagination a:last-child');
+	const nextPageLink = select('a.pagination a:last-child');
 	if (nextPageLink) {
 		return fetchDom(nextPageLink.href);
 	}

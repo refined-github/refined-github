@@ -20,7 +20,7 @@ const getPublicOrganizationsNames = cache.function(async (username: string): Pro
 });
 
 async function init(): Promise<false | void> {
-	const orgs = select.all<HTMLAnchorElement>('.avatar-group-item[data-hovercard-type="organization"][itemprop="follows"]'); // `itemprop` excludes sponsorships #3770
+	const orgs = select.all('a.avatar-group-item[data-hovercard-type="organization"][itemprop="follows"]'); // `itemprop` excludes sponsorships #3770
 	if (orgs.length === 0) {
 		return false;
 	}

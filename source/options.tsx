@@ -57,7 +57,7 @@ function featuresFilterHandler(event: Event): void {
 		.replace(/\W/g, ' ')
 		.split(/\s+/)
 		.filter(Boolean); // Ignore empty strings
-	for (const feature of select.all('.feature')) {
+	for (const feature of select.all('div.feature')) {
 		feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
 	}
 }
@@ -100,7 +100,7 @@ async function generateDom(): Promise<void> {
 function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
 	select('.js-options-sync-selector')?.addEventListener('change', ({currentTarget: dropdown}) => {
-		select<HTMLAnchorElement>('#personal-token-link')!.host = (dropdown as HTMLSelectElement).value;
+		select('a#personal-token-link')!.host = (dropdown as HTMLSelectElement).value;
 	});
 
 	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)

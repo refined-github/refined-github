@@ -24,7 +24,7 @@ const generateCheckbox = onetime(() => (
 ));
 
 function getCheckbox(): HTMLInputElement | null {
-	return select<HTMLInputElement>('[name="rgh-pr-check-waiter"]');
+	return select('input[name="rgh-pr-check-waiter"]');
 }
 
 // Only show the checkbox if there's a pending commit

@@ -15,7 +15,7 @@ function changeTabToTags(): void {
 
 function updateLinksToTag(): void {
 	// Change links, which point to the content of each tag, to open the tag page instead
-	for (const anchorElement of select.all<HTMLAnchorElement>('.rgh-tags-dropdown #tags-menu .SelectMenu-item[href*="/tree/"]')) {
+	for (const anchorElement of select.all('a.rgh-tags-dropdown #tags-menu .SelectMenu-item[href*="/tree/"]')) {
 		const pathnameParts = anchorElement.pathname.split('/');
 		pathnameParts[3] = 'releases/tag'; // Replace `tree`
 		anchorElement.pathname = pathnameParts.join('/');

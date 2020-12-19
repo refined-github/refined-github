@@ -33,7 +33,7 @@ function init(): void {
 			link.classList.add('selected');
 
 			// Other links will keep the current query, that's not what we want
-			for (const otherLink of select.all<HTMLAnchorElement>('.subnav-links a')) {
+			for (const otherLink of select.all('a.subnav-links a')) {
 				new SearchQuery(otherLink).remove(query);
 			}
 		}

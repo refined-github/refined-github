@@ -27,7 +27,7 @@ function init(): void {
 	subscriptionsLink.textContent = 'Everything you subscribed to';
 
 	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
-	const repositoryId = select<HTMLInputElement>('[name="repository_id"]')!.value;
+	const repositoryId = select('input[name="repository_id"]')!.value;
 	subscriptionsUrl.searchParams.set('repository', btoa(`010:Repository${repositoryId}`));
 	subscriptionsLink.href = subscriptionsUrl.href;
 

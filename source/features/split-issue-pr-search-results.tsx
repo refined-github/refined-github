@@ -7,7 +7,7 @@ import features from '.';
 import SearchQuery from '../github-helpers/search-query';
 
 function cleanLinks(): void {
-	for (const link of select.all<HTMLAnchorElement>('.menu-item')) {
+	for (const link of select.all('a.menu-item')) {
 		new SearchQuery(link).remove('is:pr', 'is:issue');
 	}
 }
