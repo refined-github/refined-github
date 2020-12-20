@@ -244,6 +244,16 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 	}
 };
 
+const addCssFeature = async (id: FeatureID, include: BooleanFunction[]): Promise<void> => {
+	void add(id, {
+		include,
+		awaitDomReady: false,
+		init: () => {
+			document.body.classList.add('rgh-' + id);
+		}
+	});
+};
+
 /*
 When navigating back and forth in history, GitHub will preserve the DOM changes;
 This means that the old features will still be on the page and don't need to re-run.
@@ -260,6 +270,7 @@ void add(__filebasename, {
 
 const features = {
 	add,
+	addCssFeature,
 	error: logError,
 	shortcutMap
 };

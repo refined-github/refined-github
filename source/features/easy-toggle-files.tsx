@@ -3,13 +3,14 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function toggleFile(event: Event): void {
+function toggleFile(event: MouseEvent): void {
 	const elementClicked = event.target as HTMLElement;
-	const headerBar = elementClicked.closest<HTMLElement>('.file-header.file-header--expandable')!;
+	const headerBar = elementClicked.closest<HTMLElement>('.file-header')!;
 
 	// The clicked element is either the bar itself or one of its 2 children
 	if (elementClicked === headerBar || elementClicked.parentElement === headerBar) {
-		select('[aria-label="Toggle diff contents"]', headerBar)!.click();
+		select('[aria-label="Toggle diff contents"]', headerBar)!
+			.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
 	}
 }
 
@@ -20,7 +21,8 @@ async function init(): Promise<void> {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
-		pageDetect.isPRCommit
+		pageDetect.isCommit,
+		pageDetect.isCompare
 	],
 	awaitDomReady: false,
 	init
