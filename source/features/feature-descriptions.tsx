@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import domify from 'doma';
-import {XIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 
 import features from '.';
@@ -40,44 +39,22 @@ async function init(): Promise<void | false> {
 	}
 
 	const descriptionElement = domify.one(description)!;
-	descriptionElement.classList.add('mb-0', 'mr-3', 'flex-auto', 'text-bold');
+	descriptionElement.classList.add('mb-0', 'ml-3', 'flex-auto', 'text-bold');
 
 	const branchSelector = await elementReady('[data-hotkey="w"]')!;
 	branchSelector!.closest('.d-flex')!.after(
 		<div className="Box mb-3">
 			<div className="Box-row d-flex flex-items-center" style={{boxShadow: '0 0 0 2px #d1d5da'}}>
-				{descriptionElement}
 				{screenshot && id !== __filebasename &&
-					<details className="details-reset details-overlay details-overlay-dark">
-						<summary className="btn btn-primary" aria-haspopup="dialog">
-							View Screenshot
-						</summary>
-						<details-dialog
-							className="Box Box--overlay d-flex flex-column anim-fade-in fast Box-overlay--wide"
-							role="dialog"
-							aria-modal="true"
-							tabindex="-1"
-						>
-							<div className="Box-header">
-								<button
-									data-close-dialog
-									className="Box-btn-octicon btn-octicon float-right"
-									type="button"
-									aria-label="Close dialog"
-								>
-									<XIcon/>
-								</button>
-							</div>
-							<div className="overflow-auto">
-								<div className="Box-body overflow-auto">
-									<a href={screenshot}>
-										<img className="width-fit" src={screenshot}/>
-									</a>
-								</div>
-
-							</div>
-						</details-dialog>
-					</details>}
+					<a href={screenshot}>
+						<img
+							src={screenshot}
+							className="d-block border"
+							height="100"
+							width="100"
+							style={{objectFit: 'cover'}}/>
+					</a>}
+				{descriptionElement}
 			</div>
 		</div>
 	);
