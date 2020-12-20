@@ -40,15 +40,13 @@ async function init(): Promise<void | false> {
 	}
 
 	const descriptionElement = domify.one(description)!;
-	descriptionElement.classList.add('mb-0', 'mr-3');
+	descriptionElement.classList.add('mb-0', 'mr-3', 'flex-auto', 'text-bold');
 
 	const branchSelector = await elementReady('[data-hotkey="w"]')!;
 	branchSelector!.closest('.d-flex')!.after(
 		<div className="Box mb-3">
 			<div className="Box-row d-flex flex-items-center" style={{boxShadow: '0 0 0 2px #d1d5da'}}>
-				<div className="flex-auto">
-					<strong>{descriptionElement}</strong>
-				</div>
+				{descriptionElement}
 				{screenshot && id !== __filebasename &&
 					<details className="details-reset details-overlay details-overlay-dark">
 						<summary className="btn btn-primary" aria-haspopup="dialog">
