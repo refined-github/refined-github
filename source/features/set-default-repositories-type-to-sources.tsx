@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import oneEvent from 'one-event';
+import oneMutation from 'one-mutation';
 
 import features from '.';
 
@@ -7,14 +7,6 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	const search = new URLSearchParams(link.search);
 	search.set('type', 'source');
 	link.search = String(search);
-}
-
-// If the dropdown exists, await it; If not, it probably already loaded
-async function onProfileDropdownLoad(): Promise<void> {
-	const dropdown = select('.Header details-menu[src^="/users/"] include-fragment');
-	if (dropdown) {
-		await oneEvent(dropdown, 'load');
-	}
 }
 
 async function init(): Promise<void> {
@@ -33,7 +25,7 @@ async function init(): Promise<void> {
 	}
 
 	// "Your repositories" in header dropdown
-	await onProfileDropdownLoad();
+	await oneMutation(select('.Header-item:last-child .dropdown-menu')!, {childList: true});
 	addSourceTypeToLink(select<HTMLAnchorElement>('.header-nav-current-user ~ [href$="tab=repositories"]')!);
 }
 
