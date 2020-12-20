@@ -1,11 +1,10 @@
 import React from 'dom-chef';
-import XIcon from 'octicon/x.svg';
 import domify from 'doma';
+import {XIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepoGQL} from '../github-helpers';
 
 interface FileHistory {
 	message: string;
@@ -14,7 +13,7 @@ interface FileHistory {
 
 const fileHistory = async (featureName: string): Promise<FileHistory | string[]> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			defaultBranchRef {
 				target {
 					...on Commit {
