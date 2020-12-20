@@ -4,6 +4,7 @@ import elementReady from 'element-ready';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import {wrapAll} from '../helpers/dom-utils';
 
 interface FileHistory {
 	message: string;
@@ -41,10 +42,13 @@ async function init(): Promise<void | false> {
 	const descriptionElement = domify.one(description)!;
 	descriptionElement.classList.add('mb-0', 'ml-3', 'flex-auto', 'text-bold');
 
-	const branchSelector = await elementReady('[data-hotkey="w"]')!;
-	branchSelector!.closest('.d-flex')!.after(
-		<div className="Box mb-3">
-			<div className="Box-row d-flex flex-items-center" style={{boxShadow: '0 0 0 2px #d1d5da'}}>
+	const commitInfoBox = (await elementReady('.Box-header--blue.Details'))!.parentElement!;
+	commitInfoBox.classList.add('width-fit', 'flex-auto');
+	commitInfoBox.classList.remove('mb-3');
+
+	const featureInfoBox = (
+		<div className="Box" style={{flex: '1 0 360px'}}>
+			<div className="Box-row d-flex">
 				{screenshot && id !== __filebasename &&
 					<a href={screenshot}>
 						<img
@@ -58,6 +62,8 @@ async function init(): Promise<void | false> {
 			</div>
 		</div>
 	);
+
+	wrapAll([commitInfoBox, featureInfoBox], <div className="d-flex flex-wrap" style={{gap: 16}}/>);
 
 	const history = await fileHistory(id!);
 	console.log(history);
