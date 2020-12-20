@@ -5,7 +5,7 @@ import cache from 'webext-storage-cache';
 import delay from 'delay';
 import select from 'select-dom';
 import onetime from 'onetime';
-import ClockIcon from 'octicon/clock.svg';
+import {ClockIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';

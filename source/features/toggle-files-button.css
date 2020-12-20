@@ -6,7 +6,7 @@
 
 .repository-content:not(.rgh-files-hidden) .rgh-toggle-files .octicon-unfold,
 .repository-content.rgh-files-hidden .rgh-toggle-files .octicon-fold {
-	display: none;
+	display: none !important;
 }
 
 .rgh-files-hidden .files, /* Pre "Repository refresh" layout */

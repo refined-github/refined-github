@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import DiffIcon from 'octicon/diff.svg';
+import {DiffIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import tinyVersionCompare from 'tiny-version-compare';
 

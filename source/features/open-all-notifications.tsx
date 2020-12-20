@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import LinkExternalIcon from 'octicon/link-external.svg';
+import {LinkExternalIcon} from '@primer/octicons-react';
 
 import features from '.';
 

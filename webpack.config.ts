@@ -5,6 +5,7 @@ import {readFileSync} from 'fs';
 
 import regexJoin from 'regex-join';
 import SizePlugin from 'size-plugin';
+import decamelize from 'decamelize';
 import TerserPlugin from 'terser-webpack-plugin';
 // @ts-expect-error
 import {ESBuildPlugin} from 'esbuild-loader';
@@ -80,6 +81,16 @@ const config: Configuration = {
 	module: {
 		rules: [
 			{
+				test: /octicons-react\//,
+				loader: 'string-replace-loader',
+				options: {
+					search: /(\w+)Icon\.defaultProps = {\n\s+className: 'octicon'/g,
+					replace: (match: string, name: string) => {
+						return match.replace('octicon', 'octicon octicon-' + decamelize(name, '-'));
+					}
+				}
+			},
+			{
 				test: /\.tsx?$/,
 				loader: 'esbuild-loader',
 				options: {
@@ -92,13 +103,6 @@ const config: Configuration = {
 				use: [
 					MiniCssExtractPlugin.loader,
 					'css-loader'
-				]
-			},
-			{
-				test: /\.svg$/i,
-				use: [
-					// Converts SVG files into a `export default () => actualDomElement`
-					path.resolve(__dirname, 'octicon-svg-loader.ts')
 				]
 			}
 		]
@@ -135,7 +139,7 @@ const config: Configuration = {
 	],
 	resolve: {
 		alias: {
-			octicon: '@primer/octicons-v2/build/svg'
+			react: 'dom-chef'
 		},
 		extensions: [
 			'.tsx',
@@ -151,16 +155,6 @@ const config: Configuration = {
 				exclude: 'browser-polyfill.min.js', // #3451
 				terserOptions: {
 					mangle: false,
-					compress: {
-						defaults: false,
-						dead_code: true,
-						unused: true,
-						arguments: true,
-						join_vars: false,
-						booleans: false,
-						expression: false,
-						sequences: false
-					},
 					output: {
 						beautify: true,
 						indent_level: 2

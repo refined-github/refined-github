@@ -1,6 +1,6 @@
 import React from 'dom-chef';
-import XIcon from 'octicon/x.svg';
 import select from 'select-dom';
+import {XIcon} from '@primer/octicons-react';
 
 interface Options {
 	action?: Element | false;
