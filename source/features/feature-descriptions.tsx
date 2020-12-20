@@ -90,7 +90,7 @@ async function init(): Promise<void | false> {
 
 void features.add(__filebasename, {
 	include: [
-		() => /refined-github\/blob\/\w+\/source\/features\/[\w.-]+$/.test(location.pathname)
+		() => /refined-github\/blob\/.+?\/source\/features\/[\w.-]+$/.test(location.pathname)
 	],
 	awaitDomReady: false,
 	init
