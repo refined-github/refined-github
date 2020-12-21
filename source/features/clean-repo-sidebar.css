@@ -1,4 +1,4 @@
 /* Hide "Readme" link made unnecessary by toggle-files-button #3580 */
-h3.sr-only + .mt-3 .muted-link[href='#readme'] {
+.rgh-clean-repo-sidebar h3.sr-only + .mt-3 .muted-link[href='#readme'] {
 	display: none;
 }
