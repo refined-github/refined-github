@@ -3,6 +3,10 @@ import oneMutation from 'one-mutation';
 
 import features from '.';
 
+async function onProfileDropdownLoad(): Promise<void> {
+	await oneMutation(select('.Header-item:last-child .dropdown-menu')!, {childList: true});
+}
+
 function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	const search = new URLSearchParams(link.search);
 	search.set('type', 'source');
@@ -25,7 +29,7 @@ async function init(): Promise<void> {
 	}
 
 	// "Your repositories" in header dropdown
-	await oneMutation(select('.Header-item:last-child .dropdown-menu')!, {childList: true});
+	await onProfileDropdownLoad();
 	addSourceTypeToLink(select<HTMLAnchorElement>('.header-nav-current-user ~ [href$="tab=repositories"]')!);
 }
 
