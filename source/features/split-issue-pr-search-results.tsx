@@ -27,6 +27,14 @@ function createUrl(type: GitHubConversationType, pathname = location.pathname): 
 	searchQuery.add(`is:${type}`);
 	url.searchParams.set('q', searchQuery.get());
 	url.searchParams.set('type', 'Issues');
+
+	// Copy the language (l) and state (closed/open) search parameters if they are set
+	for (const name of ['l', 'state']) {
+		if (searchQuery.searchParams.has(name)) {
+			url.searchParams.set(name, searchQuery.searchParams.get(name)!);
+		}
+	}
+
 	return String(url);
 }
 
