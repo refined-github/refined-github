@@ -30,5 +30,6 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoRoot
 	],
+	awaitDomReady: false,
 	init
 });
