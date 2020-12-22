@@ -12,20 +12,27 @@ function cleanLinks(): void {
 	}
 }
 
+function getPageSearchQuery(): SearchQuery {
+	const searchParameters = new URLSearchParams(location.search);
+	return new SearchQuery(searchParameters);
+}
+
 type GitHubConversationType = 'pr' | 'issue';
 
 function createUrl(type: GitHubConversationType, pathname = location.pathname): string {
 	const url = new URL(pathname, location.origin);
-	url.searchParams.set('q', pageSearchQuery.get() + ` is:${type}`);
+	const searchQuery = getPageSearchQuery();
+	// Remove all existing is:pr/issue query parts, only the last is used anyways
+	searchQuery.remove('is:pr', 'is:issue');
+	searchQuery.add(`is:${type}`);
+	url.searchParams.set('q', searchQuery.get());
 	url.searchParams.set('type', 'Issues');
 	return String(url);
 }
 
-let pageSearchQuery: SearchQuery;
-
 function init(): void {
 	cleanLinks();
-	pageSearchQuery = new SearchQuery(location);
+	const searchQuery = getPageSearchQuery();
 
 	const issueLink = select<HTMLAnchorElement>([
 		'nav.menu a[href*="&type=Issues"]', // Only for GHE
@@ -47,11 +54,11 @@ function init(): void {
 	issueLink.after(prLink);
 
 	const title = select('.codesearch-results h3')!.firstChild!;
-	if (pageSearchQuery.includes('is:pr')) {
+	if (searchQuery.includes('is:pr')) {
 		// Update UI in PR searches
 		issueLink.classList.remove('selected');
 		title.textContent = title.textContent!.replace('issue', 'pull request');
-	} else if (!pageSearchQuery.includes('is:issue') && /\btype=Issues\b/.test(location.search)) {
+	} else if (!searchQuery.includes('is:issue') && searchQuery.searchParams.get('type') === 'Issues') {
 		// Update UI in combined searches (where there's no `is:<type>` query)
 		title.textContent = title.textContent!
 			.replace(/issue\b/, 'issue or pull request')
