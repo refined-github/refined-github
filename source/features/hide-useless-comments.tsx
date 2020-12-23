@@ -15,8 +15,28 @@ function unhide(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	event.delegateTarget.parentElement!.remove();
 }
 
+function hideComments(commentsToHide: any[]): void {
+	for (const comment of commentsToHide) {
+		comment.hidden = true;
+		comment.classList.add('rgh-hidden-comment');
+	}
+}
+
 function init(): void {
-	let uselessCount = 0;
+	const commentsToHide: any[] = [];
+
+	// Get all "similar comment" boxes
+	const similarCommentBoxes = select.all('.Details-element');
+
+	for (const similarCommentsBox of similarCommentBoxes) {
+		const similarCommentBtn: HTMLElement = similarCommentsBox.querySelectorAll('.Details-content--closed')[0] as HTMLElement;
+		for (const comment of similarCommentsBox.querySelectorAll('.js-timeline-item')) {
+			commentsToHide.push(comment); // Add all similar comments to be hidden
+		}
+
+		similarCommentBtn.click(); // Expand all the similar comments on this box
+	}
+
 	for (const commentText of select.all('.comment-body > p:only-child')) {
 		// Find useless comments
 		if (!/^([+-]\d+!*|👍|🙏|👎|👌|)+$/.test(commentText.textContent!.trim())) {
@@ -43,10 +63,11 @@ function init(): void {
 			continue;
 		}
 
-		comment.hidden = true;
-		comment.classList.add('rgh-hidden-comment');
-		uselessCount++;
+		commentsToHide.push(comment);
 	}
+
+	hideComments(commentsToHide);
+	const uselessCount = commentsToHide.length;
 
 	if (uselessCount > 0) {
 		select('.discussion-timeline-actions')!.prepend(
