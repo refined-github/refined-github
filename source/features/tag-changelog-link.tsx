@@ -90,25 +90,22 @@ async function init(): Promise<void> {
 
 	for (const [index, container] of allTags.entries()) {
 		const previousTag = getPreviousTag(index, allTags);
+		if (!previousTag) {
+			return;
+		}
 
-		if (previousTag) {
-			for (const lastLink of select.all('.list-style-none > .d-block:nth-child(2), .list-style-none > .d-inline-block:last-child', container.element)) {
-				lastLink.after(
-					<li className={lastLink.className + ' rgh-changelog-link'}>
-						<a
-							className="muted-link tooltipped tooltipped-n"
-							aria-label={'See changes since ' + decodeURIComponent(previousTag)}
-							href={buildRepoURL(`compare/${previousTag}...${allTags[index].tag}`)}
-						>
-							<DiffIcon/> Changelog
-						</a>
-					</li>
-				);
-
-				// `lastLink` is no longer the last link, so it shouldn't push our new link away.
-				// Same page as before: https://github.com/tensorflow/tensorflow/releases?after=v1.12.0-rc1
-				lastLink.classList.remove('flex-auto');
-			}
+		for (const lastLink of select.all('.list-style-none > .d-block:nth-child(2), .list-style-none > .d-inline-block:last-child', container.element)) {
+			lastLink.after(
+				<li className={lastLink.className + ' rgh-changelog-link'}>
+					<a
+						className="muted-link tooltipped tooltipped-n"
+						aria-label={'See changes since ' + decodeURIComponent(previousTag)}
+						href={buildRepoURL(`compare/${previousTag}...${allTags[index].tag}`)}
+					>
+						<DiffIcon/> Changelog
+					</a>
+				</li>
+			);
 		}
 	}
 }
