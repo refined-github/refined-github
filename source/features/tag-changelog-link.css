@@ -1,0 +1,3 @@
+.rgh-tag-changelog-link .release:not(.label-draft) .list-style-none > .d-block:nth-child(3):not(.rgh-changelog-link) {
+	padding-top: 21px !important;
+}

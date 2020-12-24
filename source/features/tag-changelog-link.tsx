@@ -1,3 +1,4 @@
+import './tag-changelog-link.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import {DiffIcon} from '@primer/octicons-react';
@@ -70,6 +71,8 @@ const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefi
 };
 
 async function init(): Promise<void> {
+	document.body.classList.add('rgh-tag-changelog-link');
+
 	const tagsSelector = [
 		// https://github.com/facebook/react/releases (release in releases list)
 		'.release:not(.label-draft)',
@@ -89,11 +92,9 @@ async function init(): Promise<void> {
 		const previousTag = getPreviousTag(index, allTags);
 
 		if (previousTag) {
-			// Signed releases include on mobile include a "Verified" <details> inside the `ul`. `li:last-of-type` excludes it.
-			// Example: https://github.com/tensorflow/tensorflow/releases?after=v1.12.0-rc1
-			for (const lastLink of select.all('.list-style-none > li:last-of-type', container.element)) {
+			for (const lastLink of select.all('.list-style-none > .d-block:nth-child(2), .list-style-none > .d-inline-block:last-child', container.element)) {
 				lastLink.after(
-					<li className={lastLink.className}>
+					<li className={lastLink.className + ' rgh-changelog-link'}>
 						<a
 							className="muted-link tooltipped tooltipped-n"
 							aria-label={'See changes since ' + decodeURIComponent(previousTag)}
