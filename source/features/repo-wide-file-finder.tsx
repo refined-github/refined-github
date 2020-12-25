@@ -24,7 +24,8 @@ void features.add(__filebasename, {
 		pageDetect.isIssue
 	],
 	exclude: [
-		() => select.exists('[data-hotkey="t"]')
+		() => select.exists('[data-hotkey="t"]'),
+		pageDetect.isEmptyRepo
 	],
 	init
 });
