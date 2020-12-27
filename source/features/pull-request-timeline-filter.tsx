@@ -51,7 +51,7 @@ function regenerateFilterSummary()
 			{CurrentSettings.HideUnresolved ? "Hide": "Show"} unresolved comments. <br/>
 			{CurrentSettings.HideResolved ? "Hide": "Show"} resolved comments. <br/>
 			{CurrentSettings.hideNormalComment ? "Hide": "Show"} normal comments. <br/>
-			{CurrentSettings.HideOthers ? "Hide": "Show"} label informations. <br/>
+			{CurrentSettings.HideOthers ? "Hide": "Show"} other items. <br/>
 			{CurrentSettings.HideCommits ? "Hide": "Show"} commits. <br/>
 			auto loading {CurrentSettings.AutoLoadHidden ? "enabled": "disabled"}
 		</p>
