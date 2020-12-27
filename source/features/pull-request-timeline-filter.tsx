@@ -110,7 +110,7 @@ function createItem(form: JSX.Element, id: string, title: string, summary: strin
 	const el = (
 		<label className={'d-block p-3 ' + (hasTopBorder ? 'border-top' : '')}>
 			<div className="form-checkbox my-0">
-				<input id={id} type="checkbox" name="id" value="unsubscribe" checked={isSelected} /> {title}
+				<input id={id} type="checkbox" name="id" value="unsubscribe" checked={isSelected}/> {title}
 				<p className="note">
 					{summary}
 				</p>
@@ -133,7 +133,7 @@ async function addTimelineItemsFilter(): Promise<void> {
 
 	select('form.thread-subscribe-form', timelineFilter)!.remove();
 	const summary = select('summary', timelineFilter)!;
-	summary!.setAttribute('aria-label', 'Customize timeline filters');
+	summary.setAttribute('aria-label', 'Customize timeline filters');
 	select('div.text-bold', summary)!.textContent = 'Filters';
 
 	createDetailsDialog(timelineFilter);
