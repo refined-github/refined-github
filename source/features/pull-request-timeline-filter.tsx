@@ -168,9 +168,9 @@ function createDetailsDialog(timelineFilter : Element)
 
 	let form = <div></div>
 
-	createItem(form, hideResolvedSelectorId, "Hide resolved comments", "", CurrentSettings.HideResolved, true);
+	createItem(form, hideResolvedSelectorId, "Hide resolved comments", "", CurrentSettings.HideResolved, false);
 	createItem(form, hideCommitsSelectorId, "Hide commits", "", CurrentSettings.HideCommits, true);
-	createItem(form, hideUnresolvedSelectorId, "Hide unresolved comments", "", CurrentSettings.HideUnresolved, false);
+	createItem(form, hideUnresolvedSelectorId, "Hide unresolved comments", "", CurrentSettings.HideUnresolved, true);
 	createItem(form, hideNormalCommentsSelectorId, "Hide normal comments", "Hides comments that does not contain unresolved/resolved state.", CurrentSettings.hideNormalComment, true);
 	createItem(form, hideOthersSelectorId, "Hide other", "Hides any other kind of activity that was not specified above.", CurrentSettings.HideOthers, true);
 	createItem(form, autoLoadHiddenSelectorId, "Load hidden", "Automatically loads hidden timeline items.", CurrentSettings.AutoLoadHidden, true);
