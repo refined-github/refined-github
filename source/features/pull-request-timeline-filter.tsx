@@ -1,26 +1,25 @@
 import React from "dom-chef";
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import {observe} from 'selector-observer';
+import { observe } from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function sleep(s : number) {
-    return new Promise(resolve => setTimeout(resolve, s * 1000));
+function sleep(s: number) {
+	return new Promise(resolve => setTimeout(resolve, s * 1000));
 }
 
-interface FilterSettings
-{
-	HideUnresolved : boolean,
-	HideResolved : boolean,
-	hideNormalComment : boolean,
-	HideCommits : boolean,
+interface FilterSettings {
+	HideUnresolved: boolean,
+	HideResolved: boolean,
+	hideNormalComment: boolean,
+	HideCommits: boolean,
 	AutoLoadHidden: boolean,
-	HideOthers : boolean,
+	HideOthers: boolean,
 };
 
-let CurrentSettings : FilterSettings = 
+let CurrentSettings: FilterSettings =
 {
 	HideResolved: true,
 	HideUnresolved: false,
@@ -43,37 +42,32 @@ const notiticationsSelector = ".discussion-sidebar-item.sidebar-notifications"
 const timelineItemSelector = ".js-timeline-item";
 const loadMoreSelector = ".ajax-pagination-btn:not([disabled])";
 
-function regenerateFilterSummary()
-{
+function regenerateFilterSummary() {
 	const timelineFilter = select(`#${timelineFiltersSelectorId}`)!;
 	const newSummary = (
 		<p className="reason text-small text-gray">
-			{CurrentSettings.HideUnresolved ? "Hide": "Show"} unresolved comments. <br/>
-			{CurrentSettings.HideResolved ? "Hide": "Show"} resolved comments. <br/>
-			{CurrentSettings.hideNormalComment ? "Hide": "Show"} normal comments. <br/>
-			{CurrentSettings.HideOthers ? "Hide": "Show"} other items. <br/>
-			{CurrentSettings.HideCommits ? "Hide": "Show"} commits. <br/>
-			auto loading {CurrentSettings.AutoLoadHidden ? "enabled": "disabled"}
+			{CurrentSettings.HideUnresolved ? "Hide" : "Show"} unresolved comments. <br />
+			{CurrentSettings.HideResolved ? "Hide" : "Show"} resolved comments. <br />
+			{CurrentSettings.hideNormalComment ? "Hide" : "Show"} normal comments. <br />
+			{CurrentSettings.HideOthers ? "Hide" : "Show"} other items. <br />
+			{CurrentSettings.HideCommits ? "Hide" : "Show"} commits. <br />
+			auto loading {CurrentSettings.AutoLoadHidden ? "enabled" : "disabled"}
 		</p>
 	)
 
 	select("p.reason", timelineFilter)!.replaceWith(newSummary);
 }
 
-function applyDisplay(el: HTMLElement, isHidden: boolean)
-{
-	if(isHidden)
-	{
+function applyDisplay(el: HTMLElement, isHidden: boolean) {
+	if (isHidden) {
 		el.style.display = "none";
 	}
-	else
-	{
+	else {
 		el.style.display = "";
 	}
 }
 
-function saveSettings()
-{
+function saveSettings() {
 	CurrentSettings.HideUnresolved = (select("#" + hideUnresolvedSelectorId) as HTMLInputElement)!.checked;
 	CurrentSettings.HideResolved = (select("#" + hideResolvedSelectorId) as HTMLInputElement)!.checked;
 	CurrentSettings.HideCommits = (select("#" + hideCommitsSelectorId) as HTMLInputElement)!.checked;
@@ -89,25 +83,21 @@ function saveSettings()
 	// reapply settings to all timeline items
 	reapplySettings();
 
-	if(CurrentSettings.AutoLoadHidden)
-	{
+	if (CurrentSettings.AutoLoadHidden) {
 		const loadMoreButton = select(loadMoreSelector);
-		if(loadMoreButton)
-		{
+		if (loadMoreButton) {
 			tryClickLoadMore(loadMoreButton);
 		}
 	}
 }
 
-function reapplySettings()
-{
+function reapplySettings() {
 	select
 		.all(timelineItemSelector)
 		.forEach(el => processTimelineItem(el as HTMLElement));
 }
 
-function restoreSettings()
-{
+function restoreSettings() {
 	(select("#" + hideUnresolvedSelectorId) as HTMLInputElement)!.checked = CurrentSettings.HideUnresolved;
 	(select("#" + hideResolvedSelectorId) as HTMLInputElement)!.checked = CurrentSettings.HideResolved;
 	(select("#" + hideCommitsSelectorId) as HTMLInputElement)!.checked = CurrentSettings.HideCommits;
@@ -116,17 +106,16 @@ function restoreSettings()
 	(select("#" + autoLoadHiddenSelectorId) as HTMLInputElement)!.checked = CurrentSettings.AutoLoadHidden;
 }
 
-function createItem(form: JSX.Element, id : string, title: string, summary: string, isSelected: boolean, hasTopBorder: boolean)
-{
+function createItem(form: JSX.Element, id: string, title: string, summary: string, isSelected: boolean, hasTopBorder: boolean) {
 	const el = (
-		<label className={"d-block p-3 " + (hasTopBorder?"border-top":"")}>
-            <div className="form-checkbox my-0">
-              <input id={id} type="checkbox" name="id" value="unsubscribe" checked={isSelected}/> {title}
-              <p className="note">
-                {summary}
-              </p>
-            </div>
-          </label>
+		<label className={"d-block p-3 " + (hasTopBorder ? "border-top" : "")}>
+			<div className="form-checkbox my-0">
+				<input id={id} type="checkbox" name="id" value="unsubscribe" checked={isSelected} /> {title}
+				<p className="note">
+					{summary}
+				</p>
+			</div>
+		</label>
 	);
 
 	form.append(el);
@@ -153,8 +142,7 @@ async function addTimelineItemsFilter(): Promise<void> {
 	regenerateFilterSummary();
 }
 
-function createDetailsDialog(timelineFilter : Element)
-{
+function createDetailsDialog(timelineFilter: Element) {
 	const detailsDialog = select("details-dialog", timelineFilter)!;
 
 	detailsDialog.setAttribute("src", "");
@@ -177,9 +165,9 @@ function createDetailsDialog(timelineFilter : Element)
 
 	let actionButtons = (
 		<div className="Box-footer form-actions">
-          <button type="submit" className="btn btn-primary" data-disable-with="Saving…" onClick={() => saveSettings()}>Save</button>
-          <button type="reset" className="btn" data-close-dialog="" onClick={() => restoreSettings()}>Cancel</button>
-        </div>
+			<button type="submit" className="btn btn-primary" data-disable-with="Saving…" onClick={() => saveSettings()}>Save</button>
+			<button type="reset" className="btn" data-close-dialog="" onClick={() => restoreSettings()}>Cancel</button>
+		</div>
 	);
 
 	form.append(actionButtons);
@@ -192,9 +180,8 @@ function createDetailsDialog(timelineFilter : Element)
 	detailsDialog.append(form);
 }
 
-async function tryClickLoadMore(item : HTMLElement)
-{
-	if(CurrentSettings.AutoLoadHidden) {
+async function tryClickLoadMore(item: HTMLElement) {
+	if (CurrentSettings.AutoLoadHidden) {
 		// Just after loading page when user clicks that element he is redirected to some limbo. It happens because github javascript did not kick in yet.
 		// To mitigate that we always give 1 second for javascript to load and notice this element so clicking it will be handled properly.
 		await sleep(1);
@@ -203,65 +190,55 @@ async function tryClickLoadMore(item : HTMLElement)
 
 }
 
-function processTimelineItem(item : HTMLElement)
-{
+function processTimelineItem(item: HTMLElement) {
 	const pr = select(".js-comment[id^=pullrequestreview]", item);
 	const commitGroup = select(".js-commit-group", item);
 	const normalComment = select(".js-comment-container", item);
 
-	if(pr)
-	{
+	if (pr) {
 		processPR(item);
 	}
-	else if(commitGroup)
-	{
+	else if (commitGroup) {
 		applyDisplay(item, CurrentSettings.HideCommits);
 		return;
 	}
-	else if(normalComment)
-	{
+	else if (normalComment) {
 		applyDisplay(item, CurrentSettings.hideNormalComment);
 		return;
 	}
-	else
-	{
+	else {
 		applyDisplay(item, CurrentSettings.HideOthers);
 	}
 }
 
-function processPR(item : HTMLElement)
-{
+function processPR(item: HTMLElement) {
 	let hasVisibleElement = false;
 
-		for(let threadContainer of select.all(".js-resolvable-timeline-thread-container", item))
-		{
-			const commentContainer = select(".inline-comment-form-container", threadContainer);
-			
-			if(threadContainer.getAttribute("data-resolved") === "true")
-			{
-				applyDisplay(threadContainer, CurrentSettings.HideResolved);
-			}
-			// There is 1 special case here when github shows you a comment that was added to previous comment thread but it does not show whether it is resolved or not resolved comment.
-			// It's kinda tricky to know what to do with this so it is marked as normal comment for meantime.
-			// We are just checking here if user is able to comment inside that timeline thread, if not then it means we have this special situation that was just described.
-			else if(commentContainer === null)
-			{
-				applyDisplay(threadContainer, CurrentSettings.hideNormalComment)
-			}
-			else
-			{
-				applyDisplay(threadContainer, CurrentSettings.HideUnresolved);
-			}
+	for (let threadContainer of select.all(".js-resolvable-timeline-thread-container", item)) {
+		const commentContainer = select(".inline-comment-form-container", threadContainer);
 
-			// We need to hide whole thread group if we have hidden all comments inside.
-			hasVisibleElement = hasVisibleElement || threadContainer.style.display === "";
+		if (threadContainer.getAttribute("data-resolved") === "true") {
+			applyDisplay(threadContainer, CurrentSettings.HideResolved);
+		}
+		// There is 1 special case here when github shows you a comment that was added to previous comment thread but it does not show whether it is resolved or not resolved comment.
+		// It's kinda tricky to know what to do with this so it is marked as normal comment for meantime.
+		// We are just checking here if user is able to comment inside that timeline thread, if not then it means we have this special situation that was just described.
+		else if (commentContainer === null) {
+			applyDisplay(threadContainer, CurrentSettings.hideNormalComment)
+		}
+		else {
+			applyDisplay(threadContainer, CurrentSettings.HideUnresolved);
 		}
 
-		applyDisplay(item, !hasVisibleElement);
+		// We need to hide whole thread group if we have hidden all comments inside.
+		hasVisibleElement = hasVisibleElement || threadContainer.style.display === "";
+	}
+
+	applyDisplay(item, !hasVisibleElement);
 
 }
 
-async function init () {
+async function init() {
 	await addTimelineItemsFilter();
 
 	// There are some cases when github will remove this filter. In that case we need to add it again.
