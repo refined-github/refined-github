@@ -42,8 +42,8 @@ function showCheckboxIfNecessary(): void {
 }
 
 function disableForm(disabled = true): void {
-	for (const field of select.all(`
-		input[name="commit_message"],
+	for (const field of document.querySelectorAll(`
+		textarea[name="commit_message"],
 		input[name="commit_title"],
 		input[name="rgh-pr-check-waiter"],
 		button.js-merge-commit-button
