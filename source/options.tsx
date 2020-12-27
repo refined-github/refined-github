@@ -57,7 +57,7 @@ function featuresFilterHandler(event: Event): void {
 		.replace(/\W/g, ' ')
 		.split(/\s+/)
 		.filter(Boolean); // Ignore empty strings
-	for (const feature of select.all('div.feature')) {
+	for (const feature of select.all('.feature')) {
 		feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
 	}
 }
