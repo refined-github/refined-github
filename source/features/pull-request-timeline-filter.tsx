@@ -19,7 +19,7 @@ interface FilterSettings {
 	HideOthers: boolean;
 };
 
-let CurrentSettings: FilterSettings =
+const CurrentSettings: FilterSettings =
 {
 	HideResolved: true,
 	HideUnresolved: false,
@@ -163,7 +163,7 @@ function createDetailsDialog(timelineFilter: Element) {
 	createItem(form, hideOthersSelectorId, 'Hide other', 'Hides any other kind of activity that was not specified above.', CurrentSettings.HideOthers, true);
 	createItem(form, autoLoadHiddenSelectorId, 'Load hidden', 'Automatically loads hidden timeline items.', CurrentSettings.AutoLoadHidden, true);
 
-	let actionButtons = (
+	const actionButtons = (
 		<div className='Box-footer form-actions'>
 			<button type='submit' className='btn btn-primary' data-disable-with='Saving…' onClick={() => saveSettings()}>Save</button>
 			<button type='reset' className='btn' data-close-dialog='' onClick={() => restoreSettings()}>Cancel</button>
