@@ -43,12 +43,24 @@ function regenerateFilterSummary(): void {
 	const timelineFilter = select(`#${timelineFiltersSelectorId}`)!;
 	const newSummary = (
 		<p className="reason text-small text-gray">
-			{CurrentSettings.HideUnresolved ? 'Hide' : 'Show'} unresolved comments. <br/>
-			{CurrentSettings.HideResolved ? 'Hide' : 'Show'} resolved comments. <br/>
-			{CurrentSettings.hideNormalComment ? 'Hide' : 'Show'} normal comments. <br/>
-			{CurrentSettings.HideOthers ? 'Hide' : 'Show'} other items. <br/>
-			{CurrentSettings.HideCommits ? 'Hide' : 'Show'} commits. <br/>
-			auto loading {CurrentSettings.AutoLoadHidden ? 'enabled' : 'disabled'}
+			{ CurrentSettings.HideResolved &&
+				<p>Hide resolved comments </p>
+			}
+			{ CurrentSettings.HideCommits &&
+				<p>Hide commits </p>
+			}
+			{  CurrentSettings.HideUnresolved &&
+				<p>Hide unresolved comments</p>
+			}
+			{ CurrentSettings.hideNormalComment &&
+				<p>Hide normal comments </p>
+			}
+			{ CurrentSettings.HideOthers &&
+				<p>Hide others </p>
+			}
+			{ CurrentSettings.AutoLoadHidden &&
+				<p>Auto loading enabled </p>
+			}
 		</p>
 	);
 
@@ -251,7 +263,8 @@ async function init(): Promise<any> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRConversation
+		pageDetect.isPRConversation,
+		pageDetect.isIssue
 	],
 	init
 });

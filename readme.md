@@ -183,6 +183,7 @@ Thanks for contributing! 🦋🙌
 - [](# "clean-conversation-headers") [Removes duplicate information in conversation headers.](https://user-images.githubusercontent.com/44045911/89736767-686ec800-da9e-11ea-81c3-252e9813140b.png)
 - [](# "dim-bots") [Dims commits and PRs by bots to reduce noise.](https://user-images.githubusercontent.com/1402241/65263190-44c52b00-db36-11e9-9b33-d275d3c8479d.gif)
 - [](# "esc-to-cancel") [Adds a shortcut to cancel editing a conversation title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
+- [](# "conversation-timeline-filter") [Adds filters to hide unwanted things in conversations and adds ability to load all hidden items.](https://user-images.githubusercontent.com/3819892/103170243-2d014a00-4843-11eb-8a32-7e28eb755f00.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -206,7 +207,7 @@ Thanks for contributing! 🦋🙌
 - [](# "pr-jump-to-first-non-viewed-file") [Jumps to first non-viewed file in a pull request when clicking on the progress bar.](https://user-images.githubusercontent.com/16872793/85226580-3bf3d500-b3a6-11ea-8494-3d9b6280d033.gif)
 - [](# "git-checkout-pr") [Adds copy-pastable git commands to checkout a PR.](https://user-images.githubusercontent.com/16872793/96938908-8e024f80-1499-11eb-8976-0caf95175dd6.png)
 - [](# "jump-to-change-requested-comment") [Adds a link to jump to the latest changed requested comment.](https://user-images.githubusercontent.com/19198931/98718312-418b9f00-23c9-11eb-8da2-dfb616e95eb6.gif)
-- [](# "pull-request-timeline-filter") [Adds filters to hide unwanted things on pull request and adds ability to load all hidden items on PR page.](https://user-images.githubusercontent.com/3819892/103170243-2d014a00-4843-11eb-8a32-7e28eb755f00.gif)
+
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
