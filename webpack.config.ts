@@ -7,7 +7,7 @@ import regexJoin from 'regex-join';
 import SizePlugin from 'size-plugin';
 import decamelize from 'decamelize';
 import TerserPlugin from 'terser-webpack-plugin';
-
+// @ts-expect-error
 import {ESBuildPlugin} from 'esbuild-loader';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
