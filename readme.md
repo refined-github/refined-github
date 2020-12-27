@@ -172,7 +172,7 @@ Thanks for contributing! 🦋🙌
 - [](# "sort-conversations-by-update-time") 🔥 Changes the default sort order of conversations to `Recently updated`.
 - [](# "conversation-filters") [Adds `Everything commented by you` and `Everything you subscribed to` filters in the search box dropdown.](https://user-images.githubusercontent.com/202916/84156153-72a62300-aa69-11ea-8592-3094292fde3c.png)
 - [](# "global-conversation-list-filters") [Adds filters for conversations _in your repos_ and _commented on by you_ in the global conversation search.](https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png)
-- [](# "clean-sidebar") 🔥 [Hides empty sections (or just their "empty" label) in the conversation sidebar.](https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png)
+- [](# "clean-conversation-sidebar") 🔥 [Hides empty sections (or just their "empty" label) in the conversation sidebar.](https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png)
 - [](# "clean-conversation-filters") [Hides `Projects` and `Milestones` filters in conversation lists if they are empty.](https://user-images.githubusercontent.com/37769974/59083449-0ef88f80-8915-11e9-8296-68af1ddcf191.png)
 - [](# "toggle-everything-with-alt") [Adds a shortcut to toggle all similar items (minimized comments, deferred diffs, etc) at once: <kbd>alt</kbd> <kbd>click</kbd> on each button or checkbox.](https://user-images.githubusercontent.com/37769974/62208543-dcb75b80-b3b4-11e9-984f-ddb479ea149d.gif)
 - [](# "extend-conversation-status-filters") [Lets you toggle between is:open/is:closed/is:merged filters in searches.](https://user-images.githubusercontent.com/1402241/73605061-2125ed00-45cc-11ea-8cbd-41a53ae00cd3.gif)
@@ -293,14 +293,14 @@ Thanks for contributing! 🦋🙌
 - [](# "action-used-by-link") [Lets you see how others are using the current Action in the Marketplace.](https://user-images.githubusercontent.com/8360597/80250140-86d9c080-8673-11ea-9d28-f62faf9fd3d4.png)
 - [](# "improve-shortcut-help") [Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (<kbd>?</kbd> hotkey).](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
-- [](# "hide-zero-packages") [Hides the `Packages` tab if it’s empty (in repositories and user profiles).](https://user-images.githubusercontent.com/44045911/93543684-d1473b00-f98e-11ea-9957-e4464400f81b.png)
+- [](# "hide-zero-packages") [Hides the `Packages` tab in user profiles if it’s empty](https://user-images.githubusercontent.com/46634000/101151879-9ade9b00-3622-11eb-9755-50ed54099e02.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
 ### Fixes for GitHub shortcomings
 
 - [](# "hide-navigation-hover-highlight") Removes the file hover effect in the repo file browser.
-- [](# "hide-empty-meta") Hides the placeholder text in repos without a description.
+- [](# "clean-repo-sidebar") [Removes unnecessary or redundant information from the repository sidebar.](https://user-images.githubusercontent.com/46634000/102719129-781fd800-42ec-11eb-9552-dd3cfb4eeddd.png)
 - [](# "fix-first-tab-length") [Corrects the width of the first `tab` in file diffs since it appears 2 columns shorter than it should be.](https://user-images.githubusercontent.com/37769974/87217980-741a8200-c36c-11ea-81e1-fc0782c4624d.png)
 - [](# "hide-disabled-milestone-sorter") [Hides the milestone sorter UI if you don’t have permission to use it.](https://user-images.githubusercontent.com/7753001/56913933-738a2880-6ae5-11e9-9d13-1973cbbf5df0.png)
 - [](# "linkify-branch-references") [Linkifies branch references in "Quick PR" pages.](https://user-images.githubusercontent.com/1402241/30208043-fa1ceaec-94bb-11e7-9c32-feabcf7db296.png)
