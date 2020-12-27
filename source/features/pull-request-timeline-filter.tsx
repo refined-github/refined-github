@@ -45,7 +45,7 @@ const loadMoreSelector = '.ajax-pagination-btn:not([disabled])';
 function regenerateFilterSummary() {
 	const timelineFilter = select(`#${timelineFiltersSelectorId}`)!;
 	const newSummary = (
-		<p className='reason text-small text-gray'>
+		<p className="reason text-small text-gray">
 			{CurrentSettings.HideUnresolved ? 'Hide' : 'Show'} unresolved comments. <br />
 			{CurrentSettings.HideResolved ? 'Hide' : 'Show'} resolved comments. <br />
 			{CurrentSettings.hideNormalComment ? 'Hide' : 'Show'} normal comments. <br />
@@ -109,9 +109,9 @@ function restoreSettings() {
 function createItem(form: JSX.Element, id: string, title: string, summary: string, isSelected: boolean, hasTopBorder: boolean) {
 	const el = (
 		<label className={'d-block p-3 ' + (hasTopBorder ? 'border-top' : '')}>
-			<div className='form-checkbox my-0'>
-				<input id={id} type='checkbox' name='id' value='unsubscribe' checked={isSelected} /> {title}
-				<p className='note'>
+			<div className="form-checkbox my-0">
+				<input id={id} type="checkbox" name="id" value="unsubscribe" checked={isSelected} /> {title}
+				<p className="note">
 					{summary}
 				</p>
 			</div>
@@ -164,9 +164,9 @@ function createDetailsDialog(timelineFilter: Element) {
 	createItem(form, autoLoadHiddenSelectorId, 'Load hidden', 'Automatically loads hidden timeline items.', CurrentSettings.AutoLoadHidden, true);
 
 	const actionButtons = (
-		<div className='Box-footer form-actions'>
-			<button type='submit' className='btn btn-primary' data-disable-with='Saving…' onClick={() => saveSettings()}>Save</button>
-			<button type='reset' className='btn' data-close-dialog='' onClick={() => restoreSettings()}>Cancel</button>
+		<div className="Box-footer form-actions">
+			<button type="submit" className="btn btn-primary" data-disable-with="Saving…" onClick={() => saveSettings()}>Save</button>
+			<button type="reset" className="btn" data-close-dialog='' onClick={() => restoreSettings()}>Cancel</button>
 		</div>
 	);
 
