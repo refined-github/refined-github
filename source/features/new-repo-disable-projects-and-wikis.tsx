@@ -25,7 +25,7 @@ async function disableWikiAndProjects(): Promise<void> {
 }
 
 function setStorage(): void {
-	if (select<HTMLInputElement>('#rgh-disable-project')!.checked) {
+	if (select('input#rgh-disable-project')!.checked) {
 		sessionStorage.rghNewRepo = true;
 	}
 }

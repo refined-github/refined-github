@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-const expanderSelector = '.js-expand.directional-expander';
+const expanderSelector = 'button.js-expand.directional-expander';
 
 // Waits for the next loaded diff part and clicks on any additional "Expand" buttons it finds
 const expandingCodeObserver = new MutationObserver(([mutation]) => {

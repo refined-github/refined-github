@@ -8,7 +8,7 @@ import looseParseInt from '../helpers/loose-parse-int';
 
 function init(): false | void {
 	const form = select('[action$="/reviews"]')!;
-	const radios = select.all<HTMLInputElement>('[type="radio"][name="pull_request_review[event]"]', form);
+	const radios = select.all('input[type="radio"][name="pull_request_review[event]"]', form);
 
 	if (radios.length === 0) {
 		return false;
@@ -28,7 +28,7 @@ function init(): false | void {
 
 	// Generate the new buttons
 	for (const radio of radios) {
-		const tooltip = radio.parentElement!.getAttribute('aria-label');
+		const tooltip = radio.parentElement!.getAttribute('aria-label') ?? undefined;
 
 		const classes = ['btn btn-sm'];
 		if (radio.value === 'approve') {
@@ -47,7 +47,7 @@ function init(): false | void {
 				name="pull_request_review[event]"
 				value={radio.value}
 				className={classes.join(' ')}
-				aria-label={tooltip ?? undefined}
+				aria-label={tooltip}
 				disabled={radio.disabled}
 			>
 				{radio.nextSibling}

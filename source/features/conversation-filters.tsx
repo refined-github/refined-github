@@ -6,15 +6,12 @@ import SearchQuery from '../github-helpers/search-query';
 import {getUsername} from '../github-helpers';
 
 function init(): void {
-	// Use an existing dropdown item to preserve its DOM structure (supports old GHE versions)
-	const sourceItem = select<HTMLAnchorElement>([
-		'#filters-select-menu a:nth-last-child(2)', // GHE
-		'.subnav-search-context li:nth-last-child(2)' // TODO: this is not an anchor
-	])!;
+	// Use an existing dropdown item to preserve its DOM structure
+	const sourceItem = select('.subnav-search-context li:nth-last-child(2)')!;
 
 	// Add "Everything commented by you" filter
 	const commentsMenuItem = sourceItem.cloneNode(true);
-	const commentsLink = select('a', commentsMenuItem) ?? commentsMenuItem;
+	const commentsLink = select('a', commentsMenuItem)!;
 	commentsLink.textContent = 'Everything commented by you';
 	commentsLink.removeAttribute('target');
 	new SearchQuery(commentsLink).set(`is:open commenter:${getUsername()}`);
@@ -23,7 +20,7 @@ function init(): void {
 
 	// Add "Everything you subscribed to" link
 	const subscriptionsMenuItem = commentsMenuItem.cloneNode(true);
-	const subscriptionsLink = select('a', subscriptionsMenuItem) ?? subscriptionsMenuItem;
+	const subscriptionsLink = select('a', subscriptionsMenuItem)!;
 	subscriptionsLink.textContent = 'Everything you subscribed to';
 
 	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
