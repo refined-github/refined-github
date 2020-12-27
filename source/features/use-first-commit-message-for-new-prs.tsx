@@ -15,11 +15,11 @@ async function init(): Promise<void | false> {
 	const [prTitle, ...prMessage] = select('#commits_bucket [data-url$="compare/commit"] a[title]')!.title.split(/\n\n/);
 
 	textFieldEdit.set(
-		select('input.discussion-topic-header input')!,
+		select('.discussion-topic-header input')!,
 		prTitle
 	);
 	textFieldEdit.insert(
-		select<HTMLTextAreaElement>('#new_pull_request textArea[aria-label="Comment body"]')!,
+		select('#new_pull_request textarea[aria-label="Comment body"]')!,
 		prMessage.join('\n\n')
 	);
 }

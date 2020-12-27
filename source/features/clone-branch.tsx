@@ -64,7 +64,7 @@ async function cloneBranch({delegateTarget: cloneButton}: delegate.Event<MouseEv
 	}
 
 	textFieldEdit.set(
-		select('input[name="query"]')!,
+		select<HTMLInputElement>('[name="query"]')!,
 		newBranchName
 	);
 }

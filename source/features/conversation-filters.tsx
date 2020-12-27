@@ -9,7 +9,7 @@ function init(): void {
 	// Use an existing dropdown item to preserve its DOM structure (supports old GHE versions)
 	const sourceItem = select<HTMLAnchorElement>([
 		'#filters-select-menu a:nth-last-child(2)', // GHE
-		'.subnav-search-context li:nth-last-child(2)'
+		'.subnav-search-context li:nth-last-child(2)' // TODO: this is not an anchor
 	])!;
 
 	// Add "Everything commented by you" filter

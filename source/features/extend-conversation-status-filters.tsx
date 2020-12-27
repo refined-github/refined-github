@@ -15,7 +15,7 @@ function addMergeLink(): void {
 	// The links in `.table-list-header-toggle` are either:
 	//   1 Open | 1 Closed
 	//   1 Total            // Apparently appears with is:merged/is:unmerged
-	for (const lastLink of select.all('a.table-list-header-toggle.states a:last-child')) {
+	for (const lastLink of select.all('.table-list-header-toggle.states a:last-child')) {
 		const lastLinkQuery = new SearchQuery(lastLink);
 
 		if (lastLinkQuery.includes('is:merged')) {

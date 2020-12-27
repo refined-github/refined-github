@@ -23,7 +23,7 @@ const generateCheckbox = onetime(() => (
 	</label>
 ));
 
-function getCheckbox(): HTMLInputElement | null {
+function getCheckbox(): HTMLInputElement | undefined {
 	return select('input[name="rgh-pr-check-waiter"]');
 }
 

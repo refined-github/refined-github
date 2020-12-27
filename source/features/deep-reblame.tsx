@@ -64,7 +64,7 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 
 	const blameHunk = blameElement.closest('.blame-hunk')!;
 	const prNumber = looseParseInt(select('.issue-link', blameHunk)!);
-	const prCommit = select<HTMLAnchorElement>('a.message', blameHunk)!.pathname.split('/').pop()!;
+	const prCommit = select('a.message', blameHunk)!.pathname.split('/').pop()!;
 	const blameUrl = new GitHubURL(location.href);
 
 	const spinner = <LoadingIcon className="mr-2"/>;

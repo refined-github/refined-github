@@ -17,7 +17,7 @@ async function init(): Promise<void | false> {
 
 	const isPermalink_ = await isPermalink();
 	const filename = readmeHeader.textContent!.trim();
-	const fileLink = select<HTMLAnchorElement>(`.js-navigation-open[title="${filename}"]`)!;
+	const fileLink = select(`a.js-navigation-open[title="${filename}"]`)!;
 
 	const url = new GitHubURL(fileLink.href).assign({
 		route: 'edit'
@@ -28,7 +28,7 @@ async function init(): Promise<void | false> {
 	}
 
 	// The button already exists on repos you can push to.
-	const existingButton = select<HTMLAnchorElement>('a[aria-label="Edit this file"]');
+	const existingButton = select('a[aria-label="Edit this file"]');
 	if (existingButton) {
 		if (isPermalink_) {
 			// GitHub has a broken link in this case #2997

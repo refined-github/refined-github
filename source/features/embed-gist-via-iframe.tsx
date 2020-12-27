@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function init(): void {
-	const embedViaScript = select<HTMLButtonElement>('.file-navigation-option [value^="<script"]')!;
+	const embedViaScript = select('.file-navigation-option button[value^="<script"]')!;
 	const embedViaIframe = embedViaScript.cloneNode(true);
 
 	// Remove analytics attributes

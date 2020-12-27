@@ -28,7 +28,7 @@ function toggleHandler(event: delegate.Event<UIEvent, HTMLInputElement>): void {
 }
 
 function init(): void | false {
-	const checkbox = select('input[name="collab_privs"]');
+	const checkbox = select<HTMLInputElement>('[name="collab_privs"]');
 	if (!checkbox) {
 		return false;
 	}

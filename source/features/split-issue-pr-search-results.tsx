@@ -27,9 +27,9 @@ function init(): void {
 	cleanLinks();
 	pageSearchQuery = new SearchQuery(location);
 
-	const issueLink = select<HTMLAnchorElement>([
+	const issueLink = select([
 		'nav.menu a[href*="&type=Issues"]', // Only for GHE
-		'.menu-item[href*="&type=issues"]'
+		'a.menu-item[href*="&type=issues"]'
 	])!;
 	issueLink.textContent = 'Issues'; // Drops any possible counter
 	issueLink.href = createUrl('issue');

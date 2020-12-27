@@ -8,12 +8,9 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
-const prTitleFieldSelector = '.js-issue-update [name="issue[title]"]';
-const prTitleSubmitSelector = '.js-issue-update [type="submit"]';
-
-function getCommitTitleField(): HTMLInputElement | undefined {
-	return select('input.is-squashing #merge_title_field') ?? undefined;
-}
+const prTitleFieldSelector = '.js-issue-update input[name="issue[title]"]';
+const prTitleSubmitSelector = '.js-issue-update button[type="submit"]';
+const commitTitleField = '.is-squashing input#merge_title_field';
 
 function getPRNumber(): string {
 	return select('.gh-header-number')!.textContent!;
@@ -25,13 +22,13 @@ function createCommitTitle(): string {
 }
 
 function needsSubmission(): boolean {
-	const inputField = getCommitTitleField();
+	const inputField = select(commitTitleField);
 	if (!inputField || inputField.value === '') {
 		return false;
 	}
 
 	// Ensure that the required fields are on the page
-	if (!select.exists(prTitleFieldSelector) || !select.exists(prTitleSubmitSelector)) {
+	if (!select.exists(prTitleFieldSelector + ',' + prTitleSubmitSelector)) {
 		features.error(__filebasename, 'Can’t update the PR title');
 		return false;
 	}
@@ -49,7 +46,7 @@ function getUI(): HTMLElement {
 
 function updateUI(): void {
 	if (needsSubmission()) {
-		getCommitTitleField()!.after(getUI());
+		select(commitTitleField)!.after(getUI());
 	} else {
 		getUI().remove();
 	}
@@ -61,16 +58,16 @@ function updatePRTitle(): void {
 	}
 
 	// Remove PR number from commit title
-	const prTitle = getCommitTitleField()!.value
+	const prTitle = select(commitTitleField)!.value
 		.replace(regexJoin(/\s*\(/, getPRNumber(), /\)$/), '');
 
 	// Fill and submit title-change form
-	select<HTMLInputElement>(prTitleFieldSelector)!.value = prTitle;
+	select(prTitleFieldSelector)!.value = prTitle;
 	select(prTitleSubmitSelector)!.click(); // `form.submit()` isn't sent via ajax
 }
 
 async function updateCommitTitle(event: Event): Promise<void> {
-	const field = getCommitTitleField();
+	const field = select(commitTitleField);
 
 	// Only if the user hasn't already interacted with it in this session
 	if (field && event.type !== 'session:resume') {

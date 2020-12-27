@@ -33,7 +33,7 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 			'#all_commit_comments' // Single commit comments at the bottom
 		].join())!;
 		const lastOwnComment = select
-			.all<HTMLDetailsElement>('.js-comment.current-user', currentConversationContainer)
+			.all('.js-comment.current-user', currentConversationContainer)
 			.reverse()
 			.find(comment => {
 				const collapsible = comment.closest('details');
@@ -48,12 +48,12 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 			editButton.remove();
 			field
 				.closest('form')!
-				.querySelector<HTMLButtonElement>('.js-hide-inline-comment-form')
+				.querySelector('button.js-hide-inline-comment-form')
 				?.click();
 
 			// Move caret to end of field
 			requestAnimationFrame(() => {
-				select<HTMLTextAreaElement>('.js-comment-field', lastOwnComment)!.selectionStart = Number.MAX_SAFE_INTEGER;
+				select('textarea.js-comment-field', lastOwnComment)!.selectionStart = Number.MAX_SAFE_INTEGER;
 			});
 		}
 	}
