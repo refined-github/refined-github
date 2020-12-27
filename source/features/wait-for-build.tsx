@@ -47,7 +47,7 @@ function disableForm(disabled = true): void {
 		input[name="commit_title"],
 		input[name="rgh-pr-check-waiter"],
 		button.js-merge-commit-button
-		`)) {
+	`)) {
 		field.disabled = disabled;
 	}
 

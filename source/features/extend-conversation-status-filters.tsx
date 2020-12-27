@@ -40,7 +40,7 @@ function addMergeLink(): void {
 }
 
 function togglableFilters(): void {
-	for (const link of select.all('a.table-list-header-toggle.states a')) {
+	for (const link of select.all('.table-list-header-toggle.states a')) {
 		select('.octicon', link)?.remove();
 		if (link.classList.contains('selected')) {
 			link.prepend(<CheckIcon/>);

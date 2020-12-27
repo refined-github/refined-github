@@ -9,8 +9,8 @@ import features from '.';
 
 const confirmationRequiredCount = 10;
 
-function getUnreadNotifications(container: ParentNode = document): HTMLAnchorElement[] {
-	return select.all('a.notification-unread', container);
+function getUnreadNotifications(container: ParentNode = document): HTMLElement[] {
+	return select.all('.notification-unread', container);
 }
 
 function openNotifications({delegateTarget}: delegate.Event): void {

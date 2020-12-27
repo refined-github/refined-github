@@ -24,8 +24,8 @@ function handleClick({delegateTarget: button}: delegate.Event<MouseEvent, HTMLBu
 
 function renderButton(): void {
 	for (const button of select.all([
-		'.file-actions a.btn[href*="/raw/"]', // `isGist`
-		'a[data-hotkey="b"]'
+		'.file-actions .btn[href*="/raw/"]', // `isGist`
+		'[data-hotkey="b"]'
 	])) {
 		const copyButton = (
 			<button

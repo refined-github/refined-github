@@ -83,7 +83,7 @@ function parseOffset(date: string): number {
 }
 
 function init(): void {
-	const hovercard = select('.js-hovercard-content > div.Popover-message')!;
+	const hovercard = select('.js-hovercard-content > .Popover-message')!;
 
 	observeElement(hovercard, async () => {
 		if (
