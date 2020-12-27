@@ -205,6 +205,7 @@ import './features/jump-to-change-requested-comment';
 import './features/esc-to-cancel';
 import './features/easy-toggle-files';
 import './features/quick-repo-deletion';
+import './features/pull-request-timeline-filter';
 
 // Add global for easier debugging
 (window as any).select = select;
