@@ -17,7 +17,7 @@ interface FilterSettings {
 	HideCommits: boolean;
 	AutoLoadHidden: boolean;
 	HideOthers: boolean;
-};
+}
 
 const CurrentSettings: FilterSettings =
 {
@@ -37,8 +37,8 @@ const hideCommitsSelectorId = 'hide-commits';
 const autoLoadHiddenSelectorId = 'auto-load-hidden';
 
 const timelineFiltersSelectorId = 'timeline-filters';
-const detailsSelector = `#${timelineFiltersSelectorId} details`
-const notiticationsSelector = '.discussion-sidebar-item.sidebar-notifications'
+const detailsSelector = `#${timelineFiltersSelectorId} details`;
+const notiticationsSelector = '.discussion-sidebar-item.sidebar-notifications';
 const timelineItemSelector = '.js-timeline-item';
 const loadMoreSelector = '.ajax-pagination-btn:not([disabled])';
 
@@ -46,28 +46,27 @@ function regenerateFilterSummary(): void {
 	const timelineFilter = select(`#${timelineFiltersSelectorId}`)!;
 	const newSummary = (
 		<p className="reason text-small text-gray">
-			{CurrentSettings.HideUnresolved ? 'Hide' : 'Show'} unresolved comments. <br />
-			{CurrentSettings.HideResolved ? 'Hide' : 'Show'} resolved comments. <br />
-			{CurrentSettings.hideNormalComment ? 'Hide' : 'Show'} normal comments. <br />
-			{CurrentSettings.HideOthers ? 'Hide' : 'Show'} other items. <br />
-			{CurrentSettings.HideCommits ? 'Hide' : 'Show'} commits. <br />
+			{CurrentSettings.HideUnresolved ? 'Hide' : 'Show'} unresolved comments. <br/>
+			{CurrentSettings.HideResolved ? 'Hide' : 'Show'} resolved comments. <br/>
+			{CurrentSettings.hideNormalComment ? 'Hide' : 'Show'} normal comments. <br/>
+			{CurrentSettings.HideOthers ? 'Hide' : 'Show'} other items. <br/>
+			{CurrentSettings.HideCommits ? 'Hide' : 'Show'} commits. <br/>
 			auto loading {CurrentSettings.AutoLoadHidden ? 'enabled' : 'disabled'}
 		</p>
-	)
+	);
 
 	select('p.reason', timelineFilter)!.replaceWith(newSummary);
 }
 
-function applyDisplay(el: HTMLElement, isHidden: boolean): void {
+function applyDisplay(element: HTMLElement, isHidden: boolean): void {
 	if (isHidden) {
-		el.style.display = 'none';
-	}
-	else {
-		el.style.display = '';
+		element.style.display = 'none';
+	} else {
+		element.style.display = '';
 	}
 }
 
-function saveSettings() : void {
+function saveSettings(): void {
 	CurrentSettings.HideUnresolved = (select('#' + hideUnresolvedSelectorId) as HTMLInputElement)!.checked;
 	CurrentSettings.HideResolved = (select('#' + hideResolvedSelectorId) as HTMLInputElement)!.checked;
 	CurrentSettings.HideCommits = (select('#' + hideCommitsSelectorId) as HTMLInputElement)!.checked;
