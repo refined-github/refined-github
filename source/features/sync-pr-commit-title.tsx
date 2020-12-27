@@ -10,7 +10,10 @@ import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 const prTitleFieldSelector = '.js-issue-update input[name="issue[title]"]';
 const prTitleSubmitSelector = '.js-issue-update button[type="submit"]';
-const commitTitleField = '.is-squashing input#merge_title_field';
+
+function getCommitTitleField(): HTMLInputElement | undefined {
+	return select('input.is-squashing #merge_title_field');
+}
 
 function getPRNumber(): string {
 	return select('.gh-header-number')!.textContent!;
@@ -22,7 +25,7 @@ function createCommitTitle(): string {
 }
 
 function needsSubmission(): boolean {
-	const inputField = select(commitTitleField);
+	const inputField = getCommitTitleField();
 	if (!inputField || inputField.value === '') {
 		return false;
 	}
@@ -46,7 +49,7 @@ function getUI(): HTMLElement {
 
 function updateUI(): void {
 	if (needsSubmission()) {
-		select(commitTitleField)!.after(getUI());
+		getCommitTitleField()!.after(getUI());
 	} else {
 		getUI().remove();
 	}
@@ -58,7 +61,7 @@ function updatePRTitle(): void {
 	}
 
 	// Remove PR number from commit title
-	const prTitle = select(commitTitleField)!.value
+	const prTitle = getCommitTitleField()!.value
 		.replace(regexJoin(/\s*\(/, getPRNumber(), /\)$/), '');
 
 	// Fill and submit title-change form
@@ -67,7 +70,7 @@ function updatePRTitle(): void {
 }
 
 async function updateCommitTitle(event: Event): Promise<void> {
-	const field = select(commitTitleField);
+	const field = getCommitTitleField();
 
 	// Only if the user hasn't already interacted with it in this session
 	if (field && event.type !== 'session:resume') {
