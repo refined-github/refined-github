@@ -26,8 +26,6 @@ const getGistCount = cache.function(async (username: string): Promise<number> =>
 });
 
 async function init(): Promise<void> {
-	await elementReady('.UnderlineNav-body + *');
-
 	const username = getCleanPathname();
 	const href = pageDetect.isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
 	const link = (
@@ -36,7 +34,7 @@ async function init(): Promise<void> {
 		</a>
 	);
 
-	select('.UnderlineNav-body')!.append(link);
+	(await elementReady('.UnderlineNav-body'))!.append(link);
 
 	const count = await getGistCount(username);
 	if (count > 0) {

@@ -12,7 +12,7 @@ function replaceDropdownInPlace(dropdown: Element, form: Element): void {
 }
 
 async function unwrapNotifications(): Promise<void | false> {
-	await elementReady('.js-check-all-container > :nth-child(2)'); // Wait for filters to be ready
+	await elementReady('.js-check-all-container > :first-child'); // Ensure the entire dropdown has loaded
 	const forms = select.all('[action="/notifications/beta/update_view_preference"]');
 	if (forms.length === 0) {
 		return false;
