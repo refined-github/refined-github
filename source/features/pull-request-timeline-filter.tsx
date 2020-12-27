@@ -74,12 +74,12 @@ function saveSettings(): void {
 	CurrentSettings.HideOthers = (select('#' + hideOthersSelectorId) as HTMLInputElement)!.checked;
 	CurrentSettings.AutoLoadHidden = (select('#' + autoLoadHiddenSelectorId) as HTMLInputElement)!.checked;
 
-	// close window
+	// Close window
 	select(detailsSelector)!.removeAttribute('open');
 
 	regenerateFilterSummary();
 
-	// reapply settings to all timeline items
+	// Reapply settings to all timeline items
 	reapplySettings();
 
 	if (CurrentSettings.AutoLoadHidden) {
@@ -93,10 +93,10 @@ function saveSettings(): void {
 function reapplySettings(): void {
 	select
 		.all(timelineItemSelector)
-		.forEach(el => processTimelineItem(el as HTMLElement));
+		.forEach(element => processTimelineItem(element));
 }
 
-function restoreSettings() : void {
+function restoreSettings(): void {
 	(select('#' + hideUnresolvedSelectorId) as HTMLInputElement)!.checked = CurrentSettings.HideUnresolved;
 	(select('#' + hideResolvedSelectorId) as HTMLInputElement)!.checked = CurrentSettings.HideResolved;
 	(select('#' + hideCommitsSelectorId) as HTMLInputElement)!.checked = CurrentSettings.HideCommits;
@@ -105,8 +105,8 @@ function restoreSettings() : void {
 	(select('#' + autoLoadHiddenSelectorId) as HTMLInputElement)!.checked = CurrentSettings.AutoLoadHidden;
 }
 
-function createItem(form: JSX.Element, id: string, title: string, summary: string, isSelected: boolean, hasTopBorder: boolean) : void {
-	const el = (
+function createItem(form: JSX.Element, id: string, title: string, summary: string, isSelected: boolean, hasTopBorder: boolean): void {
+	const element = (
 		<label className={'d-block p-3 ' + (hasTopBorder ? 'border-top' : '')}>
 			<div className="form-checkbox my-0">
 				<input id={id} type="checkbox" name="id" value="unsubscribe" checked={isSelected}/> {title}
@@ -117,7 +117,7 @@ function createItem(form: JSX.Element, id: string, title: string, summary: strin
 		</label>
 	);
 
-	form.append(el);
+	form.append(element);
 }
 
 async function addTimelineItemsFilter(): Promise<void> {
@@ -149,11 +149,10 @@ function createDetailsDialog(timelineFilter: Element): void {
 	detailsDialog.setAttribute('aria-label', 'Timeline filter settings');
 	select('div.Box-header h3', detailsDialog)!.textContent = 'Timeline filter settings';
 
-	// close button should restore previous settings.
+	// Close button should restore previous settings.
 	select('div.Box-header button', detailsDialog)!.addEventListener('click', restoreSettings);
 
-
-	let form = <div></div>
+	const form = <div/>;
 
 	createItem(form, hideResolvedSelectorId, 'Hide resolved comments', '', CurrentSettings.HideResolved, false);
 	createItem(form, hideCommitsSelectorId, 'Hide commits', '', CurrentSettings.HideCommits, true);
@@ -165,7 +164,7 @@ function createDetailsDialog(timelineFilter: Element): void {
 	const actionButtons = (
 		<div className="Box-footer form-actions">
 			<button type="submit" className="btn btn-primary" data-disable-with="Saving…" onClick={() => saveSettings()}>Save</button>
-			<button type="reset" className="btn" data-close-dialog='' onClick={() => restoreSettings()}>Cancel</button>
+			<button type="reset" className="btn" data-close-dialog="" onClick={() => restoreSettings()}>Cancel</button>
 		</div>
 	);
 
@@ -186,7 +185,6 @@ async function tryClickLoadMore(item: HTMLElement): Promise<any> {
 		await sleep(1);
 		item.click();
 	}
-
 }
 
 function processTimelineItem(item: HTMLElement): void {
@@ -196,16 +194,11 @@ function processTimelineItem(item: HTMLElement): void {
 
 	if (pr) {
 		processPR(item);
-	}
-	else if (commitGroup) {
+	} else if (commitGroup) {
 		applyDisplay(item, CurrentSettings.HideCommits);
-		return;
-	}
-	else if (normalComment) {
+	} else if (normalComment) {
 		applyDisplay(item, CurrentSettings.hideNormalComment);
-		return;
-	}
-	else {
+	} else {
 		applyDisplay(item, CurrentSettings.HideOthers);
 	}
 }
@@ -213,7 +206,7 @@ function processTimelineItem(item: HTMLElement): void {
 function processPR(item: HTMLElement): void {
 	let hasVisibleElement = false;
 
-	for (let threadContainer of select.all('.js-resolvable-timeline-thread-container', item)) {
+	for (const threadContainer of select.all('.js-resolvable-timeline-thread-container', item)) {
 		const commentContainer = select('.inline-comment-form-container', threadContainer);
 
 		if (threadContainer.getAttribute('data-resolved') === 'true') {
@@ -223,9 +216,8 @@ function processPR(item: HTMLElement): void {
 		// It's kinda tricky to know what to do with this so it is marked as normal comment for meantime.
 		// We are just checking here if user is able to comment inside that timeline thread, if not then it means we have this special situation that was just described.
 		else if (commentContainer === null) {
-			applyDisplay(threadContainer, CurrentSettings.hideNormalComment)
-		}
-		else {
+			applyDisplay(threadContainer, CurrentSettings.hideNormalComment);
+		} else {
 			applyDisplay(threadContainer, CurrentSettings.HideUnresolved);
 		}
 
@@ -234,7 +226,6 @@ function processPR(item: HTMLElement): void {
 	}
 
 	applyDisplay(item, !hasVisibleElement);
-
 }
 
 async function init(): Promise<any> {
@@ -249,17 +240,17 @@ async function init(): Promise<any> {
 	});
 
 	observe(timelineItemSelector, {
-		add(el) {
-			const htmlElement = el as HTMLElement;
+		add(element) {
+			const htmlElement = element as HTMLElement;
 			processTimelineItem(htmlElement);
 		}
-	})
+	});
 
 	observe(loadMoreSelector, {
-		async add(el) {
-			tryClickLoadMore(el as HTMLElement);
+		async add(element) {
+			tryClickLoadMore(element as HTMLElement);
 		}
-	})
+	});
 }
 
 void features.add(__filebasename, {
