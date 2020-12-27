@@ -66,7 +66,7 @@ function applyDisplay(element: HTMLElement, isHidden: boolean): void {
 	}
 }
 
-function saveSettings(): void {
+async function saveSettings(): Promise<any> {
 	CurrentSettings.HideUnresolved = (select('#' + hideUnresolvedSelectorId) as HTMLInputElement)!.checked;
 	CurrentSettings.HideResolved = (select('#' + hideResolvedSelectorId) as HTMLInputElement)!.checked;
 	CurrentSettings.HideCommits = (select('#' + hideCommitsSelectorId) as HTMLInputElement)!.checked;
@@ -85,7 +85,7 @@ function saveSettings(): void {
 	if (CurrentSettings.AutoLoadHidden) {
 		const loadMoreButton = select(loadMoreSelector);
 		if (loadMoreButton) {
-			tryClickLoadMore(loadMoreButton);
+			await tryClickLoadMore(loadMoreButton);
 		}
 	}
 }
@@ -163,7 +163,7 @@ function createDetailsDialog(timelineFilter: Element): void {
 
 	const actionButtons = (
 		<div className="Box-footer form-actions">
-			<button type="submit" className="btn btn-primary" data-disable-with="Saving…" onClick={() => saveSettings()}>Save</button>
+			<button type="submit" className="btn btn-primary" data-disable-with="Saving…" onClick={async () => saveSettings()}>Save</button>
 			<button type="reset" className="btn" data-close-dialog="" onClick={() => restoreSettings()}>Cancel</button>
 		</div>
 	);
@@ -211,11 +211,10 @@ function processPR(item: HTMLElement): void {
 
 		if (threadContainer.getAttribute('data-resolved') === 'true') {
 			applyDisplay(threadContainer, CurrentSettings.HideResolved);
-		}
-		// There is 1 special case here when github shows you a comment that was added to previous comment thread but it does not show whether it is resolved or not resolved comment.
-		// It's kinda tricky to know what to do with this so it is marked as normal comment for meantime.
-		// We are just checking here if user is able to comment inside that timeline thread, if not then it means we have this special situation that was just described.
-		else if (commentContainer === null) {
+		} else if (commentContainer === null) {
+			// There is 1 special case here when github shows you a comment that was added to previous comment thread but it does not show whether it is resolved or not resolved comment.
+			// It's kinda tricky to know what to do with this so it is marked as normal comment for meantime.
+			// We are just checking here if user is able to comment inside that timeline thread, if not then it means we have this special situation that was just described.
 			applyDisplay(threadContainer, CurrentSettings.hideNormalComment);
 		} else {
 			applyDisplay(threadContainer, CurrentSettings.HideUnresolved);
@@ -248,7 +247,7 @@ async function init(): Promise<any> {
 
 	observe(loadMoreSelector, {
 		async add(element) {
-			tryClickLoadMore(element as HTMLElement);
+			await tryClickLoadMore(element as HTMLElement);
 		}
 	});
 }
