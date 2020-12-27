@@ -13,7 +13,6 @@ async function init(): Promise<void> {
 	sidebarReleases!.closest<HTMLElement>('.BorderGrid-row')!.hidden = true;
 
 	// Hide empty "Packages" section
-	const packagesCounter = await elementReady('.BorderGrid-cell a[href*="/packages?"] .Counter')!;
 	if (packagesCounter && packagesCounter.textContent === '0') {
 		packagesCounter.closest<HTMLElement>('.BorderGrid-row')!.hidden = true;
 	}
