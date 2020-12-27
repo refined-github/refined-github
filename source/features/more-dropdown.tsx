@@ -38,8 +38,8 @@ export function createDropdownItem(label: string, url: string, attributes?: Reco
 }
 
 function onlyShowInDropdown(id: string): void {
-	select(`[data-tab-item="${id}"]`)!.parentElement!.remove();
-	const menuItem = select(`[data-menu-item="${id}"]`)!;
+	select(`[data-tab-item$="${id}"]`)!.parentElement!.remove();
+	const menuItem = select(`[data-menu-item$="${id}"]`)!;
 	menuItem.removeAttribute('data-menu-item');
 	menuItem.hidden = false;
 
@@ -72,8 +72,8 @@ async function init(): Promise<void> {
 			createDropdownItem('Branches', branchesUrl)
 		);
 
-		onlyShowInDropdown('i4security-tab');
-		onlyShowInDropdown('i5insights-tab');
+		onlyShowInDropdown('security-tab');
+		onlyShowInDropdown('insights-tab');
 		return;
 	}
 
