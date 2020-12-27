@@ -192,23 +192,6 @@ function createDetailsDialog(timelineFilter : Element)
 	detailsDialog.append(form);
 }
 
-async function init () {
-	await addTimelineItemsFilter();
-
-	observe(timelineItemSelector, {
-		add(el) {
-			const htmlElement = el as HTMLElement;
-			processTimelineItem(htmlElement);
-		}
-	})
-
-	observe(loadMoreSelector, {
-		async add(el) {
-			tryClickLoadMore(el as HTMLElement);
-		}
-	})
-}
-
 async function tryClickLoadMore(item : HTMLElement)
 {
 	if(CurrentSettings.AutoLoadHidden) {
@@ -276,6 +259,31 @@ function processPR(item : HTMLElement)
 
 		applyDisplay(item, !hasVisibleElement);
 
+}
+
+async function init () {
+	await addTimelineItemsFilter();
+
+	// There are some cases when github will remove this filter. In that case we need to add it again.
+	// Example: Editing comment will make timeline filter to disappear.
+	observe(`#${timelineFiltersSelectorId}`, {
+		async remove() {
+			await addTimelineItemsFilter();
+		}
+	});
+
+	observe(timelineItemSelector, {
+		add(el) {
+			const htmlElement = el as HTMLElement;
+			processTimelineItem(htmlElement);
+		}
+	})
+
+	observe(loadMoreSelector, {
+		async add(el) {
+			tryClickLoadMore(el as HTMLElement);
+		}
+	})
 }
 
 void features.add(__filebasename, {
