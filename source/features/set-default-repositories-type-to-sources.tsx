@@ -1,11 +1,7 @@
 import select from 'select-dom';
-import oneMutation from 'one-mutation';
 
 import features from '.';
-
-async function onProfileDropdownLoad(): Promise<void> {
-	await oneMutation(select('.Header-item:last-child .dropdown-menu')!, {childList: true});
-}
+import onProfileDropdownLoad from '../github-events/on-profile-dropdown-load';
 
 function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	const search = new URLSearchParams(link.search);
