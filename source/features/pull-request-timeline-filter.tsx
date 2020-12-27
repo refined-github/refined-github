@@ -1,12 +1,12 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import { observe } from 'selector-observer';
+import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function sleep(s: number) {
+function sleep(s: number) : Promise<any> {
 	return new Promise(resolve => setTimeout(resolve, s * 1000));
 }
 
@@ -42,7 +42,7 @@ const notiticationsSelector = '.discussion-sidebar-item.sidebar-notifications'
 const timelineItemSelector = '.js-timeline-item';
 const loadMoreSelector = '.ajax-pagination-btn:not([disabled])';
 
-function regenerateFilterSummary() {
+function regenerateFilterSummary() : void {
 	const timelineFilter = select(`#${timelineFiltersSelectorId}`)!;
 	const newSummary = (
 		<p className="reason text-small text-gray">
@@ -58,7 +58,7 @@ function regenerateFilterSummary() {
 	select('p.reason', timelineFilter)!.replaceWith(newSummary);
 }
 
-function applyDisplay(el: HTMLElement, isHidden: boolean) {
+function applyDisplay(el: HTMLElement, isHidden: boolean) : void {
 	if (isHidden) {
 		el.style.display = 'none';
 	}
@@ -67,7 +67,7 @@ function applyDisplay(el: HTMLElement, isHidden: boolean) {
 	}
 }
 
-function saveSettings() {
+function saveSettings() : void {
 	CurrentSettings.HideUnresolved = (select('#' + hideUnresolvedSelectorId) as HTMLInputElement)!.checked;
 	CurrentSettings.HideResolved = (select('#' + hideResolvedSelectorId) as HTMLInputElement)!.checked;
 	CurrentSettings.HideCommits = (select('#' + hideCommitsSelectorId) as HTMLInputElement)!.checked;
@@ -91,13 +91,13 @@ function saveSettings() {
 	}
 }
 
-function reapplySettings() {
+function reapplySettings() : void {
 	select
 		.all(timelineItemSelector)
 		.forEach(el => processTimelineItem(el as HTMLElement));
 }
 
-function restoreSettings() {
+function restoreSettings() : void {
 	(select('#' + hideUnresolvedSelectorId) as HTMLInputElement)!.checked = CurrentSettings.HideUnresolved;
 	(select('#' + hideResolvedSelectorId) as HTMLInputElement)!.checked = CurrentSettings.HideResolved;
 	(select('#' + hideCommitsSelectorId) as HTMLInputElement)!.checked = CurrentSettings.HideCommits;
@@ -106,7 +106,7 @@ function restoreSettings() {
 	(select('#' + autoLoadHiddenSelectorId) as HTMLInputElement)!.checked = CurrentSettings.AutoLoadHidden;
 }
 
-function createItem(form: JSX.Element, id: string, title: string, summary: string, isSelected: boolean, hasTopBorder: boolean) {
+function createItem(form: JSX.Element, id: string, title: string, summary: string, isSelected: boolean, hasTopBorder: boolean) : void {
 	const el = (
 		<label className={'d-block p-3 ' + (hasTopBorder ? 'border-top' : '')}>
 			<div className="form-checkbox my-0">
@@ -142,7 +142,7 @@ async function addTimelineItemsFilter(): Promise<void> {
 	regenerateFilterSummary();
 }
 
-function createDetailsDialog(timelineFilter: Element) {
+function createDetailsDialog(timelineFilter: Element) : void {
 	const detailsDialog = select('details-dialog', timelineFilter)!;
 
 	detailsDialog.setAttribute('src', '');
@@ -180,7 +180,7 @@ function createDetailsDialog(timelineFilter: Element) {
 	detailsDialog.append(form);
 }
 
-async function tryClickLoadMore(item: HTMLElement) {
+async function tryClickLoadMore(item: HTMLElement) : Promise<any> {
 	if (CurrentSettings.AutoLoadHidden) {
 		// Just after loading page when user clicks that element he is redirected to some limbo. It happens because github javascript did not kick in yet.
 		// To mitigate that we always give 1 second for javascript to load and notice this element so clicking it will be handled properly.
@@ -190,7 +190,7 @@ async function tryClickLoadMore(item: HTMLElement) {
 
 }
 
-function processTimelineItem(item: HTMLElement) {
+function processTimelineItem(item: HTMLElement) : void {
 	const pr = select('.js-comment[id^=pullrequestreview]', item);
 	const commitGroup = select('.js-commit-group', item);
 	const normalComment = select('.js-comment-container', item);
@@ -211,7 +211,7 @@ function processTimelineItem(item: HTMLElement) {
 	}
 }
 
-function processPR(item: HTMLElement) {
+function processPR(item: HTMLElement) : void {
 	let hasVisibleElement = false;
 
 	for (let threadContainer of select.all('.js-resolvable-timeline-thread-container', item)) {
@@ -238,7 +238,7 @@ function processPR(item: HTMLElement) {
 
 }
 
-async function init() {
+async function init() : Promise<any> {
 	await addTimelineItemsFilter();
 
 	// There are some cases when github will remove this filter. In that case we need to add it again.
