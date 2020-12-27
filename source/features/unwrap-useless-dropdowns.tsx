@@ -36,7 +36,7 @@ async function unwrapNotifications(): Promise<void | false> {
 }
 
 async function unwrapActionRun(): Promise<void | false> {
-	const desiredForm = await elementReady('.js-check-suite-rerequest-form');
+	const desiredForm = await elementReady('.js-check-suite-rerequest-form', {waitForChildren: false});
 	if (!desiredForm) {
 		return false;
 	}

@@ -60,7 +60,7 @@ async function hideProjects(): Promise<void> {
 }
 
 async function init(): Promise<void | false> {
-	if (!await elementReady('#js-issues-toolbar')) {
+	if (!await elementReady('#js-issues-toolbar', {waitForChildren: false})) {
 		// Repo has no issues, so no toolbar is shown
 		return false;
 	}
