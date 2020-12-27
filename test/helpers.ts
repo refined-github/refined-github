@@ -15,6 +15,7 @@ import {
 	prCompareUrlRegex
 } from '../source/github-helpers';
 import {getParsedBackticksParts} from '../source/github-helpers/parse-backticks';
+import isUselessComment from '../source/helpers/useless-comments';
 
 test('getConversationNumber', t => {
 	const pairs = new Map<string, string | undefined>([
@@ -258,4 +259,22 @@ test('parseBackticks', t => {
 		parseBackticks('backtick-delimited string in a code span: `` `foo` ``'),
 		'backtick-delimited string in a code span: <code>`foo`</code>'
 	);
+});
+
+test('isUselessComment', t => {
+	t.true(isUselessComment('+1'));
+	t.true(isUselessComment('+1!'));
+	t.true(isUselessComment('+10'));
+	t.true(isUselessComment('+9000'));
+	t.true(isUselessComment('-1'));
+	t.true(isUselessComment('👍'));
+	t.true(isUselessComment('👍🏾'));
+	t.true(isUselessComment('me too'));
+	t.true(isUselessComment('please update!'));
+	t.true(isUselessComment('please update 🙏🏻'));
+	t.true(isUselessComment('Same here, please update, thanks'));
+	t.true(isUselessComment('Same here! Please update, thank you.'));
+
+	t.false(isUselessComment('+1\n<some useful information>'));
+	t.false(isUselessComment('Same here. <some useful information>'));
 });
