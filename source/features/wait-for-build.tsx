@@ -42,7 +42,7 @@ function showCheckboxIfNecessary(): void {
 }
 
 function disableForm(disabled = true): void {
-	for (const field of document.querySelectorAll(`
+	for (const field of select.all(`
 		textarea[name="commit_message"],
 		input[name="commit_title"],
 		input[name="rgh-pr-check-waiter"],
