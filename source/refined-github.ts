@@ -56,7 +56,6 @@ import './features/view-markdown-source';
 import './features/copy-file';
 import './features/hide-own-stars';
 import './features/infinite-scroll';
-import './features/hide-empty-meta';
 import './features/shorten-links';
 import './features/linkify-code';
 import './features/download-folder-button';
@@ -122,7 +121,7 @@ import './features/update-pr-from-base-branch';
 import './features/hide-disabled-milestone-sorter';
 import './features/tag-changelog-link';
 import './features/link-to-file-in-file-history';
-import './features/clean-sidebar';
+import './features/clean-conversation-sidebar';
 import './features/sticky-sidebar';
 import './features/release-download-count';
 import './features/open-issue-to-latest-comment';
@@ -206,6 +205,7 @@ import './features/esc-to-cancel';
 import './features/easy-toggle-files';
 import './features/quick-repo-deletion';
 import './features/pull-request-timeline-filter';
+import './features/clean-repo-sidebar';
 
 // Add global for easier debugging
 (window as any).select = select;

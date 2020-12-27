@@ -5,10 +5,7 @@ import features from '.';
 import getTabCount from './remove-projects-tab';
 
 async function init(): Promise<void | false> {
-	const packagesTab = await elementReady([
-		'.BorderGrid-cell a[href$="/packages"]', // `isRepoRoot`
-		'.UnderlineNav-item[href$="?tab=packages"]:not(.selected)' // `isUserProfile`
-	].join());
+	const packagesTab = await elementReady('.UnderlineNav-item[href$="?tab=packages"]:not(.selected)');
 
 	if (!packagesTab || await getTabCount(packagesTab) > 0) {
 		return false;
@@ -19,7 +16,6 @@ async function init(): Promise<void | false> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoRoot,
 		pageDetect.isUserProfile
 	],
 	exclude: [
