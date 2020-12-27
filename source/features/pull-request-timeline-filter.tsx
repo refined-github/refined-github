@@ -16,9 +16,9 @@ interface FilterSettings
 	HideUnresolved : boolean,
 	HideResolved : boolean,
 	hideNormalComment : boolean,
-	HideLabels : boolean,
 	HideCommits : boolean,
 	AutoLoadHidden: boolean,
+	HideOthers : boolean,
 };
 
 let CurrentSettings : FilterSettings = 
@@ -26,7 +26,7 @@ let CurrentSettings : FilterSettings =
 	HideResolved: true,
 	HideUnresolved: false,
 	hideNormalComment: false,
-	HideLabels: false,
+	HideOthers: false,
 	HideCommits: false,
 	AutoLoadHidden: false
 };
@@ -34,7 +34,7 @@ let CurrentSettings : FilterSettings =
 const hideUnresolvedSelectorId = "hide-unresolved";
 const hideResolvedSelectorId = "hide-resolved";
 const hideNormalCommentsSelectorId = "hide-normal-comments";
-const hideLabelsSelectorId = "hide-labels";
+const hideOthersSelectorId = "hide-others";
 const hideCommitsSelectorId = "hide-commits";
 const autoLoadHiddenSelectorId = "auto-load-hidden";
 
@@ -43,18 +43,21 @@ const detailsSelector = `#${timelineFiltersSelectorId} details`
 const notiticationsSelector = ".discussion-sidebar-item.sidebar-notifications"
 const timelineItemSelector = ".js-timeline-item";
 
-function stringifySettings(settings : FilterSettings)
+function regenerateFilterSummary()
 {
-	return (
+	const timelineFilter = select(`#${timelineFiltersSelectorId}`)!;
+	const newSummary = (
 		<p className="reason text-small text-gray">
-			{settings.HideUnresolved ? "Hide": "Show"} unresolved comments. <br/>
-			{settings.HideResolved ? "Hide": "Show"} resolved comments. <br/>
-			{settings.hideNormalComment ? "Hide": "Show"} normal comments. <br/>
-			{settings.HideLabels ? "Hide": "Show"} label informations. <br/>
-			{settings.HideCommits ? "Hide": "Show"} commits. <br/>
-			auto loading {settings.AutoLoadHidden ? "enabled": "disabled"}
+			{CurrentSettings.HideUnresolved ? "Hide": "Show"} unresolved comments. <br/>
+			{CurrentSettings.HideResolved ? "Hide": "Show"} resolved comments. <br/>
+			{CurrentSettings.hideNormalComment ? "Hide": "Show"} normal comments. <br/>
+			{CurrentSettings.HideOthers ? "Hide": "Show"} label informations. <br/>
+			{CurrentSettings.HideCommits ? "Hide": "Show"} commits. <br/>
+			auto loading {CurrentSettings.AutoLoadHidden ? "enabled": "disabled"}
 		</p>
 	)
+
+	select("p.reason", timelineFilter)!.replaceWith(newSummary);
 }
 
 function applyDisplay(el: HTMLElement, isHidden: boolean)
@@ -75,15 +78,13 @@ function saveSettings()
 	CurrentSettings.HideResolved = (select("#" + hideResolvedSelectorId) as HTMLInputElement)!.checked;
 	CurrentSettings.HideCommits = (select("#" + hideCommitsSelectorId) as HTMLInputElement)!.checked;
 	CurrentSettings.hideNormalComment = (select("#" + hideNormalCommentsSelectorId) as HTMLInputElement)!.checked;
-	CurrentSettings.HideLabels = (select("#" + hideLabelsSelectorId) as HTMLInputElement)!.checked;
+	CurrentSettings.HideOthers = (select("#" + hideOthersSelectorId) as HTMLInputElement)!.checked;
 	CurrentSettings.AutoLoadHidden = (select("#" + autoLoadHiddenSelectorId) as HTMLInputElement)!.checked;
 
 	// close window
 	select(detailsSelector)!.removeAttribute("open");
 
-	// Display filter settings summary
-	const timelineFilter = select(`#${timelineFiltersSelectorId}`)!;
-	select("p.reason", timelineFilter)!.replaceWith(stringifySettings(CurrentSettings));
+	regenerateFilterSummary();
 
 	// reapply settings to all timeline items
 	reapplySettings();
@@ -102,7 +103,7 @@ function restoreSettings()
 	(select("#" + hideResolvedSelectorId) as HTMLInputElement)!.checked = CurrentSettings.HideResolved;
 	(select("#" + hideCommitsSelectorId) as HTMLInputElement)!.checked = CurrentSettings.HideCommits;
 	(select("#" + hideNormalCommentsSelectorId) as HTMLInputElement)!.checked = CurrentSettings.hideNormalComment;
-	(select("#" + hideLabelsSelectorId) as HTMLInputElement)!.checked = CurrentSettings.HideLabels;
+	(select("#" + hideOthersSelectorId) as HTMLInputElement)!.checked = CurrentSettings.HideOthers;
 	(select("#" + autoLoadHiddenSelectorId) as HTMLInputElement)!.checked = CurrentSettings.AutoLoadHidden;
 }
 
@@ -136,8 +137,7 @@ async function addTimelineItemsFilter(): Promise<void> {
 	const summary = select("summary", timelineFilter)!;
 	summary!.setAttribute("aria-label", "Customize timeline filters");
 	select("div.text-bold", summary)!.textContent = "Filters";
-	// TODO: Maybe something here?
-	select("p.reason", timelineFilter)!.replaceWith(stringifySettings(CurrentSettings));
+	regenerateFilterSummary();
 
 	createDetailsDialog(timelineFilter);
 }
@@ -156,11 +156,12 @@ function createDetailsDialog(timelineFilter : Element)
 
 	let form = <div></div>
 
-	createItem(form, hideUnresolvedSelectorId, "Hide unresolved comments", "", CurrentSettings.HideUnresolved, false);
+
 	createItem(form, hideResolvedSelectorId, "Hide resolved comments", "", CurrentSettings.HideResolved, true);
-	createItem(form, hideLabelsSelectorId, "Hide label assignments", "", CurrentSettings.HideLabels, true);
-	createItem(form, hideNormalCommentsSelectorId, "Hide normal comments", "Hides comments that does not contain unresolved/resolved state.", CurrentSettings.hideNormalComment, true);
 	createItem(form, hideCommitsSelectorId, "Hide commits", "", CurrentSettings.HideCommits, true);
+	createItem(form, hideUnresolvedSelectorId, "Hide unresolved comments", "", CurrentSettings.HideUnresolved, false);
+	createItem(form, hideNormalCommentsSelectorId, "Hide normal comments", "Hides comments that does not contain unresolved/resolved state.", CurrentSettings.hideNormalComment, true);
+	createItem(form, hideOthersSelectorId, "Hide other", "Hides any other kind of activity that was not specified above.", CurrentSettings.HideOthers, true);
 	createItem(form, autoLoadHiddenSelectorId, "Load hidden", "Automatically loads hidden timeline items.", CurrentSettings.AutoLoadHidden, true);
 
 	let actionButtons = (
@@ -204,14 +205,9 @@ async function init () {
 
 function processTimelineItem(item : HTMLElement)
 {
-	const labelBadge = select(".TimelineItem .TimelineItem-badge .octicon-tag", item);
-	if(labelBadge)
-	{
-		applyDisplay(item, CurrentSettings.HideLabels);
-		return;
-	}
-
 	const pr = select(".js-comment[id^=pullrequestreview]", item);
+	const commitGroup = select(".js-commit-group", item);
+	const normalComment = select(".js-comment-container", item);
 
 	if(pr)
 	{
@@ -242,12 +238,8 @@ function processTimelineItem(item : HTMLElement)
 		}
 
 		applyDisplay(item, !hasVisibleElement);
-		return;
 	}
-
-	const commitGroup = select(".js-commit-group", item);
-	const normalComment = select(".js-comment-container", item);
-	if(commitGroup)
+	else if(commitGroup)
 	{
 		applyDisplay(item, CurrentSettings.HideCommits);
 		return;
@@ -256,6 +248,10 @@ function processTimelineItem(item : HTMLElement)
 	{
 		applyDisplay(item, CurrentSettings.hideNormalComment);
 		return;
+	}
+	else
+	{
+		applyDisplay(item, CurrentSettings.HideOthers);
 	}
 }
 
