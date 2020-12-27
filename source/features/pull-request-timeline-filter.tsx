@@ -11,12 +11,12 @@ function sleep(s: number) {
 }
 
 interface FilterSettings {
-	HideUnresolved: boolean,
-	HideResolved: boolean,
-	hideNormalComment: boolean,
-	HideCommits: boolean,
-	AutoLoadHidden: boolean,
-	HideOthers: boolean,
+	HideUnresolved: boolean;
+	HideResolved: boolean;
+	hideNormalComment: boolean;
+	HideCommits: boolean;
+	AutoLoadHidden: boolean;
+	HideOthers: boolean;
 };
 
 let CurrentSettings: FilterSettings =
