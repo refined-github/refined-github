@@ -5,10 +5,7 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-
-async function sleep(seconds: number): Promise<any> {
-	await new Promise(resolve => setTimeout(resolve, seconds * 1000));
-}
+import delay from 'delay';
 
 interface FilterSettings {
 	HideUnresolved: boolean;
@@ -182,7 +179,7 @@ async function tryClickLoadMore(item: HTMLElement): Promise<any> {
 	if (CurrentSettings.AutoLoadHidden) {
 		// Just after loading page when user clicks that element he is redirected to some limbo. It happens because github javascript did not kick in yet.
 		// To mitigate that we always give 1 second for javascript to load and notice this element so clicking it will be handled properly.
-		await sleep(1);
+		await delay(1000);
 		item.click();
 	}
 }
