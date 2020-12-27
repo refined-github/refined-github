@@ -6,8 +6,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function sleep(s: number) : Promise<any> {
-	return new Promise(resolve => setTimeout(resolve, s * 1000));
+async function sleep(s: number): Promise<any> {
+	await new Promise(resolve => setTimeout(resolve, s * 1000));
 }
 
 interface FilterSettings {
@@ -42,7 +42,7 @@ const notiticationsSelector = '.discussion-sidebar-item.sidebar-notifications'
 const timelineItemSelector = '.js-timeline-item';
 const loadMoreSelector = '.ajax-pagination-btn:not([disabled])';
 
-function regenerateFilterSummary() : void {
+function regenerateFilterSummary(): void {
 	const timelineFilter = select(`#${timelineFiltersSelectorId}`)!;
 	const newSummary = (
 		<p className="reason text-small text-gray">
@@ -58,7 +58,7 @@ function regenerateFilterSummary() : void {
 	select('p.reason', timelineFilter)!.replaceWith(newSummary);
 }
 
-function applyDisplay(el: HTMLElement, isHidden: boolean) : void {
+function applyDisplay(el: HTMLElement, isHidden: boolean): void {
 	if (isHidden) {
 		el.style.display = 'none';
 	}
@@ -91,7 +91,7 @@ function saveSettings() : void {
 	}
 }
 
-function reapplySettings() : void {
+function reapplySettings(): void {
 	select
 		.all(timelineItemSelector)
 		.forEach(el => processTimelineItem(el as HTMLElement));
@@ -142,7 +142,7 @@ async function addTimelineItemsFilter(): Promise<void> {
 	regenerateFilterSummary();
 }
 
-function createDetailsDialog(timelineFilter: Element) : void {
+function createDetailsDialog(timelineFilter: Element): void {
 	const detailsDialog = select('details-dialog', timelineFilter)!;
 
 	detailsDialog.setAttribute('src', '');
@@ -180,7 +180,7 @@ function createDetailsDialog(timelineFilter: Element) : void {
 	detailsDialog.append(form);
 }
 
-async function tryClickLoadMore(item: HTMLElement) : Promise<any> {
+async function tryClickLoadMore(item: HTMLElement): Promise<any> {
 	if (CurrentSettings.AutoLoadHidden) {
 		// Just after loading page when user clicks that element he is redirected to some limbo. It happens because github javascript did not kick in yet.
 		// To mitigate that we always give 1 second for javascript to load and notice this element so clicking it will be handled properly.
@@ -190,7 +190,7 @@ async function tryClickLoadMore(item: HTMLElement) : Promise<any> {
 
 }
 
-function processTimelineItem(item: HTMLElement) : void {
+function processTimelineItem(item: HTMLElement): void {
 	const pr = select('.js-comment[id^=pullrequestreview]', item);
 	const commitGroup = select('.js-commit-group', item);
 	const normalComment = select('.js-comment-container', item);
@@ -211,7 +211,7 @@ function processTimelineItem(item: HTMLElement) : void {
 	}
 }
 
-function processPR(item: HTMLElement) : void {
+function processPR(item: HTMLElement): void {
 	let hasVisibleElement = false;
 
 	for (let threadContainer of select.all('.js-resolvable-timeline-thread-container', item)) {
@@ -238,7 +238,7 @@ function processPR(item: HTMLElement) : void {
 
 }
 
-async function init() : Promise<any> {
+async function init(): Promise<any> {
 	await addTimelineItemsFilter();
 
 	// There are some cases when github will remove this filter. In that case we need to add it again.
