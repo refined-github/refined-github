@@ -6,7 +6,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-
 function sleep(s : number) {
     return new Promise(resolve => setTimeout(resolve, s * 1000));
 }
@@ -42,6 +41,7 @@ const timelineFiltersSelectorId = "timeline-filters";
 const detailsSelector = `#${timelineFiltersSelectorId} details`
 const notiticationsSelector = ".discussion-sidebar-item.sidebar-notifications"
 const timelineItemSelector = ".js-timeline-item";
+const loadMoreSelector = ".ajax-pagination-btn:not([disabled])";
 
 function regenerateFilterSummary()
 {
@@ -88,6 +88,15 @@ function saveSettings()
 
 	// reapply settings to all timeline items
 	reapplySettings();
+
+	if(CurrentSettings.AutoLoadHidden)
+	{
+		const loadMoreButton = select(loadMoreSelector);
+		if(loadMoreButton)
+		{
+			tryClickLoadMore(loadMoreButton);
+		}
+	}
 }
 
 function reapplySettings()
@@ -137,25 +146,27 @@ async function addTimelineItemsFilter(): Promise<void> {
 	const summary = select("summary", timelineFilter)!;
 	summary!.setAttribute("aria-label", "Customize timeline filters");
 	select("div.text-bold", summary)!.textContent = "Filters";
-	regenerateFilterSummary();
 
 	createDetailsDialog(timelineFilter);
+	notifications.after(timelineFilter);
+
+	regenerateFilterSummary();
 }
 
 function createDetailsDialog(timelineFilter : Element)
 {
 	const detailsDialog = select("details-dialog", timelineFilter)!;
-	const notifications = select(notiticationsSelector)!;
 
 	detailsDialog.setAttribute("src", "");
 
 	detailsDialog.setAttribute("aria-label", "Timeline filter settings");
-
 	select("div.Box-header h3", detailsDialog)!.textContent = "Timeline filter settings";
+
+	// close button should restore previous settings.
 	select("div.Box-header button", detailsDialog)!.addEventListener('click', restoreSettings);
 
-	let form = <div></div>
 
+	let form = <div></div>
 
 	createItem(form, hideResolvedSelectorId, "Hide resolved comments", "", CurrentSettings.HideResolved, true);
 	createItem(form, hideCommitsSelectorId, "Hide commits", "", CurrentSettings.HideCommits, true);
@@ -173,13 +184,12 @@ function createDetailsDialog(timelineFilter : Element)
 
 	form.append(actionButtons);
 
-	// This works on github enterprise - for is already preloaded
+	// This works on github enterprise - form is already preloaded
 	select("form", detailsDialog)?.remove();
-	// This works on normal github - form would be loaded with this thing.
+	// This works on normal github. Normally form is loaded in place of `include-fragment` after we open details dialog.
 	select("include-fragment", detailsDialog)?.remove();
 
 	detailsDialog.append(form);
-	notifications.after(timelineFilter);
 }
 
 async function init () {
@@ -192,15 +202,22 @@ async function init () {
 		}
 	})
 
-	observe(".ajax-pagination-btn:not([disabled])", {
+	observe(loadMoreSelector, {
 		async add(el) {
-			if(CurrentSettings.AutoLoadHidden) {
-				// TODO :Comment this
-				await sleep(1);
-				select(".text-gray", el.parentElement as Element)!.click();
-			}
+			tryClickLoadMore(el as HTMLElement);
 		}
 	})
+}
+
+async function tryClickLoadMore(item : HTMLElement)
+{
+	if(CurrentSettings.AutoLoadHidden) {
+		// Just after loading page when user clicks that element he is redirected to some limbo. It happens because github javascript did not kick in yet.
+		// To mitigate that we always give 1 second for javascript to load and notice this element so clicking it will be handled properly.
+		await sleep(1);
+		item.click();
+	}
+
 }
 
 function processTimelineItem(item : HTMLElement)
@@ -211,7 +228,27 @@ function processTimelineItem(item : HTMLElement)
 
 	if(pr)
 	{
-		let hasVisibleElement = false;
+		processPR(item);
+	}
+	else if(commitGroup)
+	{
+		applyDisplay(item, CurrentSettings.HideCommits);
+		return;
+	}
+	else if(normalComment)
+	{
+		applyDisplay(item, CurrentSettings.hideNormalComment);
+		return;
+	}
+	else
+	{
+		applyDisplay(item, CurrentSettings.HideOthers);
+	}
+}
+
+function processPR(item : HTMLElement)
+{
+	let hasVisibleElement = false;
 
 		for(let threadContainer of select.all(".js-resolvable-timeline-thread-container", item))
 		{
@@ -238,21 +275,7 @@ function processTimelineItem(item : HTMLElement)
 		}
 
 		applyDisplay(item, !hasVisibleElement);
-	}
-	else if(commitGroup)
-	{
-		applyDisplay(item, CurrentSettings.HideCommits);
-		return;
-	}
-	else if(normalComment)
-	{
-		applyDisplay(item, CurrentSettings.hideNormalComment);
-		return;
-	}
-	else
-	{
-		applyDisplay(item, CurrentSettings.HideOthers);
-	}
+
 }
 
 void features.add(__filebasename, {
