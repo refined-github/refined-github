@@ -1,3 +1,4 @@
+/* Reserve some space above the "Compare" dropdown (the selector will be disabled as soon as the "Changelog" link is inserted) */
 .rgh-tag-changelog-link .release:not(.label-draft) .list-style-none > .d-block:nth-child(3):not(.rgh-changelog-link) {
 	padding-top: 21px !important;
 }
