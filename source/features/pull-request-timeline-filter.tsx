@@ -6,8 +6,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-async function sleep(s: number): Promise<any> {
-	await new Promise(resolve => setTimeout(resolve, s * 1000));
+async function sleep(seconds: number): Promise<any> {
+	await new Promise(resolve => setTimeout(resolve, seconds * 1000));
 }
 
 interface FilterSettings {
