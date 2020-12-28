@@ -99,11 +99,9 @@ async function init(): Promise<void> {
 		fresh[Math.floor(Math.random() * fresh.length)] :
 		`${value} ${unit} old`;
 
-	// TODO: simplify selector after https://github.com/sindresorhus/element-ready/issues/29
-	const secondSidebarSection = await elementReady('.repository-content .BorderGrid-row + .BorderGrid-row');
-	if (secondSidebarSection) {
-		const sidebarAboutSection = secondSidebarSection.previousElementSibling!;
-		select('.BorderGrid-cell', sidebarAboutSection)!.append(
+	const sidebarAboutSection = await elementReady('.repository-content .BorderGrid-cell');
+	if (sidebarAboutSection) {
+		sidebarAboutSection.append(
 			<h3 className="sr-only">Repository age</h3>,
 			<div className="mt-3">
 				<a href={firstCommitHref} className="muted-link" title={`First commit dated ${dateFormatter.format(birthday)}`}>

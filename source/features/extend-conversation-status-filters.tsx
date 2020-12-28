@@ -55,7 +55,7 @@ function togglableFilters(): void {
 }
 
 async function init(): Promise<void | false> {
-	await elementReady('.table-list-filters + *');
+	await elementReady('.table-list-filters');
 
 	addMergeLink();
 	togglableFilters();
