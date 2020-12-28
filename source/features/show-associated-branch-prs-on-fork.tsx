@@ -11,7 +11,7 @@ import {getRepo, upperCaseFirst} from '../github-helpers';
 
 interface PullRequest {
 	number: number;
-	state: string;
+	state: 'Open' | 'Closed' | 'Merged' | 'Draft';
 	isDraft: boolean;
 	url: string;
 }
@@ -58,7 +58,7 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 	cacheKey: () => 'associatedBranchPullRequests:' + getRepo()!.nameWithOwner
 });
 
-const stateClass: Record<string, string> = {
+const stateClass = {
 	Open: '--green',
 	Closed: '--red',
 	Merged: '--purple',

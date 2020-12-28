@@ -153,8 +153,10 @@ export const v3paginated = async function * (
 		const response = await v3(query, options);
 		yield response;
 
-		[, query] = /<([^>]+)>; rel="next"/.exec(response.headers.get('link')!) ?? [];
-		if (!query) {
+		const match = /<([^>]+)>; rel="next"/.exec(response.headers.get('link')!);
+		if (match) {
+			query = match[1]!;
+		} else {
 			return;
 		}
 	}
