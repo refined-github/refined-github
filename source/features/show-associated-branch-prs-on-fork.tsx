@@ -11,7 +11,7 @@ import {getRepo, upperCaseFirst} from '../github-helpers';
 
 interface PullRequest {
 	number: number;
-	state: 'Open' | 'Closed' | 'Merged' | 'Draft';
+	state: keyof typeof stateClass;
 	isDraft: boolean;
 	url: string;
 }
