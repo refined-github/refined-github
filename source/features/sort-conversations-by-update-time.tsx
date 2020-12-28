@@ -7,7 +7,7 @@ import features from '.';
 import SearchQuery from '../github-helpers/search-query';
 
 async function cleanBar(): Promise<void> {
-	(await elementReady('input.header-search-input'))!.value = '';
+	(await elementReady<HTMLInputElement>('input.header-search-input'))!.value = '';
 }
 
 function init(): void {
