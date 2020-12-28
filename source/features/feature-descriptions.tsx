@@ -5,13 +5,17 @@ import elementReady from 'element-ready';
 import features from '.';
 import * as api from '../github-helpers/api';
 import {wrapAll} from '../helpers/dom-utils';
+import GitHubURL from '../github-helpers/github-url';
+import parseBackticks from '../github-helpers/parse-backticks';
 
-interface FileHistory {
-	message: string;
-	oid: string;
+interface Commit {
+	messageHeadline: string;
+	messageHeadlineHTML: string;
+	commitUrl: string;
+	committedDate: string;
 }
 
-const fileHistory = async (featureName: string): Promise<FileHistory | string[]> => {
+const getFeatureHistory = async (featureName: string): Promise<Commit[]> => {
 	const {repository} = await api.v4(`
 		repository() {
 			defaultBranchRef {
@@ -19,8 +23,10 @@ const fileHistory = async (featureName: string): Promise<FileHistory | string[]>
 					...on Commit {
 						history(first:100, path: "source/features/${featureName}.tsx") {
 							nodes {
-								message
-								oid
+								messageHeadline
+								messageHeadlineHTML
+								commitUrl
+								committedDate
 							}
 						}
 					}
@@ -28,9 +34,56 @@ const fileHistory = async (featureName: string): Promise<FileHistory | string[]>
 			}
 		}
 	`);
-	const history = repository.defaultBranchRef.target.history.nodes;
-	return history.filter((commit: FileHistory) => !/^Meta|^Document|^Readme|^Lint|^Update.+dependencies/.exec(commit.message));
+	return repository.defaultBranchRef.target.history.nodes;
 };
+
+function getCommitUrl(commit: Commit): string {
+	const [, pullRequestUrl] = /<a[^>]+href="([^"]+)">/.exec(commit.messageHeadlineHTML) ?? [];
+	return pullRequestUrl ?? commit.commitUrl;
+}
+
+async function getHistoryDropdown(featureName: string): Promise<Element> {
+	const history = await getFeatureHistory(featureName);
+	const filteredHistory = history.filter((commit: Commit) => !/^Meta|^Document|^Readme|^Lint|^Update.+dependencies/.test(commit.messageHeadline));
+	const skippedCommitsCount = history.length - filteredHistory.length;
+
+	const historyUrl = new GitHubURL(location.href);
+	historyUrl.assign({route: 'commits'});
+
+	return (
+		<details className="dropdown details-reset details-overlay d-inline-block">
+			<summary className="text-gray d-inline" aria-haspopup="true">
+				Feature history
+				<div className="dropdown-caret ml-1"/>
+			</summary>
+
+			<div className="dropdown-menu dropdown-menu-s" style={{width: 400}}>
+				<ul className="overflow-y-auto" style={{maxHeight: '60vh'}}>
+					{filteredHistory.map(commit => (
+						<li>
+							<a className="dropdown-item" href={getCommitUrl(commit)} title={commit.messageHeadline}>
+								{parseBackticks(commit.messageHeadline)}
+								<div className="text-small">
+									<relative-time datetime={commit.committedDate}/>
+								</div>
+							</a>
+						</li>
+					))}
+					{skippedCommitsCount > 0 && (
+						<>
+							<li className="dropdown-divider" role="separator"/>
+							<li>
+								<a className="dropdown-item" href={String(historyUrl)}>
+									View full history (+{skippedCommitsCount} commits)
+								</a>
+							</li>
+						</>
+					)}
+				</ul>
+			</div>
+		</details>
+	);
+}
 
 async function init(): Promise<void | false> {
 	const [, currentFeature] = /features\/([^.]+)/.exec(location.pathname)!;
@@ -40,7 +93,7 @@ async function init(): Promise<void | false> {
 	}
 
 	const descriptionElement = domify.one(description)!;
-	descriptionElement.classList.add('mb-0', 'ml-3', 'flex-auto', 'text-bold');
+	descriptionElement.classList.add('text-bold');
 
 	const commitInfoBox = (await elementReady('.Box-header--blue.Details'))!.parentElement!;
 	commitInfoBox.classList.add('width-fit', 'flex-auto');
@@ -58,15 +111,15 @@ async function init(): Promise<void | false> {
 							width="100"
 							style={{objectFit: 'cover'}}/>
 					</a>}
-				{descriptionElement}
+				<div className="ml-3 flex-auto">
+					{descriptionElement}
+					{await getHistoryDropdown(id!)}
+				</div>
 			</div>
 		</div>
 	);
 
 	wrapAll([commitInfoBox, featureInfoBox], <div className="d-flex flex-wrap" style={{gap: 16}}/>);
-
-	const history = await fileHistory(id!);
-	console.log(history);
 }
 
 void features.add(__filebasename, {
