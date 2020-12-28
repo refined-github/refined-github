@@ -6,7 +6,6 @@ import getTabCount from './remove-projects-tab';
 
 async function init(): Promise<void | false> {
 	const packagesTab = await elementReady('.UnderlineNav-item[href$="?tab=packages"]:not(.selected)');
-
 	if (!packagesTab || await getTabCount(packagesTab) > 0) {
 		return false;
 	}
