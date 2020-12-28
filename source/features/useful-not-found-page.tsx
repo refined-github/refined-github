@@ -126,7 +126,7 @@ async function initPRCommit(): Promise<void | false> {
 		return false;
 	}
 
-	const blankSlateParagraph = await elementReady('.blankslate p');
+	const blankSlateParagraph = await elementReady('.blankslate p', {waitForChildren: false});
 	blankSlateParagraph!.after(
 		<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>
 	);

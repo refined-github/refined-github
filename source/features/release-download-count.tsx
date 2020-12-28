@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import {DownloadIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import {abbreviateNumber} from 'js-abbreviation-number';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -11,6 +12,7 @@ interface Asset {
 	name: string;
 	downloadCount: number;
 }
+
 type Tag = Record<string, Asset[]>;
 async function getAssetsForTag(tags: string[]): Promise<Tag> {
 	const {repository} = await api.v4(`
@@ -34,18 +36,6 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 	}
 
 	return assets;
-}
-
-function prettyNumber(value: number): string {
-	let newValue = value;
-	const suffixes = ['', 'K', 'M', 'B', 'T'];
-	let suffixNumber = 0;
-	while (newValue >= 1000) {
-		newValue /= 1000;
-		suffixNumber++;
-	}
-
-	return `${Number(newValue.toPrecision(3))} ${suffixes[suffixNumber]}`;
 }
 
 async function init(): Promise<void | false> {
@@ -76,7 +66,7 @@ async function init(): Promise<void | false> {
 						.querySelector('small')!
 						.before(
 							<small className={classes} title="Downloads">
-								{prettyNumber(downloadCount)} <DownloadIcon/>
+								{abbreviateNumber(downloadCount)} <DownloadIcon/>
 							</small>
 						);
 				}
