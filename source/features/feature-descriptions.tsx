@@ -85,6 +85,17 @@ async function getHistoryDropdown(featureName: string): Promise<Element> {
 	);
 }
 
+function getConversationsLink(featureName: string): Element {
+	const searchParams = new URLSearchParams({
+		q: `"${featureName}" sort:updated-desc`
+	});
+
+	const searchUrl = new URL('https://github.com/sindresorhus/refined-github/issues');
+	searchUrl.search = String(searchParams);
+
+	return <a className="ml-3" href={String(searchUrl)}>Conversations</a>;
+}
+
 async function init(): Promise<void | false> {
 	const [, currentFeature] = /features\/([^.]+)/.exec(location.pathname)!;
 	const {id, description, screenshot} = __featuresMeta__.find(feature => feature.id === currentFeature) ?? {};
@@ -114,6 +125,7 @@ async function init(): Promise<void | false> {
 				<div className="ml-3 flex-auto">
 					{descriptionElement}
 					{await getHistoryDropdown(id!)}
+					{getConversationsLink(id!)}
 				</div>
 			</div>
 		</div>
