@@ -15,13 +15,13 @@ interface Commit {
 	committedDate: string;
 }
 
-const getFeatureHistory = async (featureName: string): Promise<Commit[]> => {
+const getFeatureHistory = async (fileName: string): Promise<Commit[]> => {
 	const {repository} = await api.v4(`
 		repository() {
 			defaultBranchRef {
 				target {
 					...on Commit {
-						history(first:100, path: "source/features/${featureName}.tsx") {
+						history(first:100, path: "source/features/${fileName}") {
 							nodes {
 								messageHeadline
 								messageHeadlineHTML
@@ -43,7 +43,13 @@ function getCommitUrl(commit: Commit): string {
 }
 
 async function getHistoryDropdown(featureName: string): Promise<Element> {
-	const history = await getFeatureHistory(featureName);
+	let history = await getFeatureHistory(featureName + '.tsx');
+
+	if (history.length === 0) {
+		// Feature might be CSS-only
+		history = await getFeatureHistory(featureName + '.css');
+	}
+
 	const filteredHistory = history.filter((commit: Commit) => !/^Meta|^Document|^Readme|^Lint|^Update.+dependencies/.test(commit.messageHeadline));
 	const skippedCommitsCount = history.length - filteredHistory.length;
 
