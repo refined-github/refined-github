@@ -59,7 +59,7 @@ function createButton(): HTMLElement {
 }
 
 async function addButton(): Promise<void> {
-	if ($.exists('.rgh-update-pr-from-base-branch, .branch-action-btn:not([action$="ready_for_review"]) > .btn')) {
+	if ($exists('.rgh-update-pr-from-base-branch, .branch-action-btn:not([action$="ready_for_review"]) > .btn')) {
 		return;
 	}
 
@@ -101,8 +101,8 @@ async function init(): Promise<void | false> {
 	// Button is disabled when:
 	// - There are conflicts (there's already a native "Resolve conflicts" button)
 	// - Draft PR (show the button anyway)
-	const canMerge = $.exists('[data-details-container=".js-merge-pr"]:not(:disabled)');
-	const isDraftPR = $.exists('[action$="ready_for_review"]');
+	const canMerge = $exists('[data-details-container=".js-merge-pr"]:not(:disabled)');
+	const isDraftPR = $exists('[action$="ready_for_review"]');
 	if (!canMerge && !isDraftPR) {
 		return false;
 	}

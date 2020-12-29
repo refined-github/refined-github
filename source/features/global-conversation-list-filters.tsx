@@ -28,7 +28,7 @@ function init(): void {
 		const isCurrentPage = new SearchQuery(location).includes(query);
 
 		// Highlight it, if that's the current page
-		if (isCurrentPage && !$.exists('.subnav-links .selected')) {
+		if (isCurrentPage && !$exists('.subnav-links .selected')) {
 			link.classList.add('selected');
 
 			// Other links will keep the current query, that's not what we want

@@ -6,7 +6,7 @@ import {wrap} from '../helpers/dom-utils';
 import features from '.';
 
 function init(): void | false {
-	const lastBranchAction = $.last('.TimelineItem-body .user-select-contain > span:not(.base-ref)');
+	const lastBranchAction = $last('.TimelineItem-body .user-select-contain > span:not(.base-ref)');
 	if (!lastBranchAction) {
 		return false;
 	}

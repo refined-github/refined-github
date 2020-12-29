@@ -6,7 +6,7 @@ import features from '.';
 
 function createDiffStyleToggle(): DocumentFragment {
 	const parameters = new URLSearchParams(location.search);
-	const isUnified = $.exists([
+	const isUnified = $exists([
 		'[value="unified"][checked]', // Form in PR
 		'.table-of-contents .selected[href$=unified]' // Link in single commit
 	]);
@@ -84,7 +84,7 @@ function init(): false | void {
 
 	// Trim title
 	const prTitle = $('.pr-toolbar .js-issue-title');
-	if (prTitle && $.exists('.pr-toolbar progress-bar')) { // Only review view has progress-bar
+	if (prTitle && $exists('.pr-toolbar progress-bar')) { // Only review view has progress-bar
 		prTitle.style.maxWidth = '24em';
 		prTitle.title = prTitle.textContent!;
 	}

@@ -31,7 +31,7 @@ function needsSubmission(): boolean {
 	}
 
 	// Ensure that the required fields are on the page
-	if (!$.exists(prTitleFieldSelector + ',' + prTitleSubmitSelector)) {
+	if (!$exists(prTitleFieldSelector + ',' + prTitleSubmitSelector)) {
 		features.error(__filebasename, 'Can’t update the PR title');
 		return false;
 	}

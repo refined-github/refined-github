@@ -124,7 +124,7 @@ void features.add(__filebasename, {
 		pageDetect.isSingleFile
 	],
 	exclude: [
-		() => !$.exists('.blob .markdown-body')
+		() => !$exists('.blob .markdown-body')
 	],
 	init
 });

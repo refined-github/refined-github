@@ -5,7 +5,7 @@ export default function onCommentFieldKeydown(callback: delegate.EventHandler<Ke
 		const field = event.delegateTarget;
 
 		// Don't do anything if the autocomplete helper is shown or if non-latin input is being used
-		if (field.form!.$.exists('.suggester') || event.isComposing) {
+		if (field.form!.$exists('.suggester') || event.isComposing) {
 			return;
 		}
 

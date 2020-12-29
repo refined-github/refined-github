@@ -23,7 +23,7 @@ void features.add(__filebasename, {
 		pageDetect.isIssue
 	],
 	exclude: [
-		() => $.exists('[data-hotkey="t"]')
+		() => $exists('[data-hotkey="t"]')
 	],
 	init
 });

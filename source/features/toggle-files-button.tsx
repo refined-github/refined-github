@@ -17,7 +17,7 @@ function addButton(): void {
 		'div.commit-tease',
 		'.Box-header--blue .Details > :last-child > ul' // "Repository refresh" layout
 	]);
-	if (!filesHeader || $.exists('.rgh-toggle-files')) {
+	if (!filesHeader || $exists('.rgh-toggle-files')) {
 		return;
 	}
 

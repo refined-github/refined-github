@@ -51,7 +51,7 @@ function removeButton(): void {
 function init(): void {
 	delegate(document, '.rgh-copy-file', 'click', handleClick);
 
-	if ($.exists('.blob > .markdown-body')) {
+	if ($exists('.blob > .markdown-body')) {
 		delegate(document, '.rgh-md-source', 'rgh:view-markdown-source', renderButton);
 		delegate(document, '.rgh-md-source', 'rgh:view-markdown-rendered', removeButton);
 	} else {

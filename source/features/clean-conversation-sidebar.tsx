@@ -7,7 +7,7 @@ import features from '.';
 import onElementRemoval from '../helpers/on-element-removal';
 import onReplacedElement from '../helpers/on-replaced-element';
 
-const canEditSidebar = onetime((): boolean => $.exists('.sidebar-labels .octicon-gear'));
+const canEditSidebar = onetime((): boolean => $exists('.sidebar-labels .octicon-gear'));
 
 function getNodesAfter(node: Node): Range {
 	const range = new Range();
@@ -57,7 +57,7 @@ function cleanSection(containerSelector: string): boolean {
 }
 
 async function clean(): Promise<void> {
-	if ($.exists('.rgh-clean-sidebar')) {
+	if ($exists('.rgh-clean-sidebar')) {
 		return;
 	}
 

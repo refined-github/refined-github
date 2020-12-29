@@ -6,7 +6,7 @@ import * as domFormatters from '../github-helpers/dom-formatters';
 
 function init(): void {
 	for (const title of $$('.js-issue-title')) {
-		if (!$.exists('a, code', title)) {
+		if (!$exists('a, code', title)) {
 			domFormatters.linkifyIssues(title);
 			domFormatters.parseBackticks(title);
 		}

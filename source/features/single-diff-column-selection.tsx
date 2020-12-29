@@ -39,7 +39,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		() => $.exists('meta[name="diff-view"][content="split"]')
+		() => $exists('meta[name="diff-view"][content="split"]')
 	],
 	init
 });

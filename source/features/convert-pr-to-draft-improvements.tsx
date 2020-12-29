@@ -21,7 +21,7 @@ function init(): void {
 		add(alternativeActions) {
 			const existingButton = $('[data-url$="/convert_to_draft"]');
 			// Needs to check the existence of both to guarantee the non-draft state
-			if (!existingButton || $.exists('[action$="/ready_for_review"]')) {
+			if (!existingButton || $exists('[action$="/ready_for_review"]')) {
 				return;
 			}
 

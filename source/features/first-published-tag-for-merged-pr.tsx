@@ -50,7 +50,7 @@ void features.add(__filebasename, {
 		pageDetect.isPRConversation
 	],
 	exclude: [
-		() => !$.exists('#partial-discussion-header [title="Status: Merged"]')
+		() => !$exists('#partial-discussion-header [title="Status: Merged"]')
 	],
 	init() {
 		observeElement($('#partial-discussion-header')!.parentElement!, init);

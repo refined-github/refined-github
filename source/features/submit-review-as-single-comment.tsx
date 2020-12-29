@@ -27,7 +27,7 @@ function updateUI(): void {
 async function handleReviewSubmission(event: delegate.Event): Promise<void> {
 	const container = event.delegateTarget.closest('.line-comments')!;
 	await oneMutation(container, {childList: true, subtree: true}); // TODO: subtree might not be necessary anywhere on the page
-	if ($.exists(pendingSelector, container)) {
+	if ($exists(pendingSelector, container)) {
 		updateUI();
 	}
 	// If no label is found, "Add single comment" was clicked

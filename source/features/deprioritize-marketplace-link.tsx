@@ -13,7 +13,7 @@ async function init(): Promise<void> {
 		marketplaceLink.closest('.border-top, .mr-3')!.remove();
 
 		await onProfileDropdownLoad();
-		$.last('.header-nav-current-user ~ .dropdown-divider')!.before(
+		$last('.header-nav-current-user ~ .dropdown-divider')!.before(
 			<div className="dropdown-divider"/>,
 			<a className="dropdown-item" href="/marketplace">Marketplace</a>
 		);

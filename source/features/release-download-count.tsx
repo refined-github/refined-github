@@ -40,7 +40,7 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 async function init(): Promise<void | false> {
 	const releases = new Map();
 	for (const release of $$('.release')) {
-		if ($.exists('.octicon-package', release)) {
+		if ($exists('.octicon-package', release)) {
 			const name = $('svg.octicon-tag ~ span', release)!.textContent!;
 			releases.set(name, release);
 		}

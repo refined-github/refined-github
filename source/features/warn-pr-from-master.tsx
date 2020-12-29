@@ -7,7 +7,7 @@ import {getRepo} from '../github-helpers';
 
 async function init(): Promise<false | void> {
 	let defaultBranch;
-	if ($.exists('.is-cross-repo')) {
+	if ($exists('.is-cross-repo')) {
 		const forkedRepository = getRepo($('[title^="head: "]')!.textContent!);
 		defaultBranch = await getDefaultBranch(forkedRepository);
 	} else {
@@ -31,7 +31,7 @@ void features.add(__filebasename, {
 		pageDetect.isCompare
 	],
 	exclude: [
-		() => $.exists('.blankslate')
+		() => $exists('.blankslate')
 	],
 	init
 });

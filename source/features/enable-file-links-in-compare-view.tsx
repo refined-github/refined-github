@@ -59,9 +59,9 @@ void features.add(__filebasename, {
 	],
 	exclude: [
 		// Only enabled on Open/Draft PRs. Editing files doesn't make sense after a PR is closed/merged.
-		() => !$.exists('.gh-header-meta [title$="Open"], .gh-header-meta [title$="Draft"]'),
+		() => !$exists('.gh-header-meta [title$="Open"], .gh-header-meta [title$="Draft"]'),
 		// If you're viewing changes from partial commits, ensure you're on the latest one.
-		() => $.exists('.js-commits-filtered') && !$.exists('[aria-label="You are viewing the latest commit"]')
+		() => $exists('.js-commits-filtered') && !$exists('[aria-label="You are viewing the latest commit"]')
 	],
 	init
 }, {
@@ -70,7 +70,7 @@ void features.add(__filebasename, {
 	],
 	exclude: [
 		// Only enable if you can create a PR or view an existing PR, if you cant you are probably looking at a permalink.
-		() => !$.exists('.existing-pull-button, [data-ga-click*="text:Create pull request"]')
+		() => !$exists('.existing-pull-button, [data-ga-click*="text:Create pull request"]')
 	],
 	init
 });

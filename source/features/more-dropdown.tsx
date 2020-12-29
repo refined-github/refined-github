@@ -77,7 +77,7 @@ async function init(): Promise<void> {
 	}
 
 	// Pre "Repository refresh" layout
-	if (!$.exists('.reponav-dropdown')) {
+	if (!$exists('.reponav-dropdown')) {
 		createDropdown();
 	}
 

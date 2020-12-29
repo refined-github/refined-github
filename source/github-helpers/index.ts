@@ -22,7 +22,7 @@ Example tag content on private repositories https://github.com/private/private/c
 */
 export const getCurrentBranch = (): string | undefined => {
 	// .last needed for #2799
-	const feedLink = $.last('link[type="application/atom+xml"]');
+	const feedLink = $last('link[type="application/atom+xml"]');
 	// The feedLink is not available on `isIssue` #3641
 	if (!feedLink) {
 		return;
@@ -143,6 +143,6 @@ export async function isPermalink(): Promise<boolean> {
 		/Tag|Tree/.test($('[data-hotkey="w"] i')?.textContent!) || // Text appears in the branch selector
 
 		// "Latest commit design updates"
-		$.exists('[data-hotkey="w"] .octicon-tag') // Tags have an icon
+		$exists('[data-hotkey="w"] .octicon-tag') // Tags have an icon
 	);
 }

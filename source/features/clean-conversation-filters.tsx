@@ -42,7 +42,7 @@ async function hasProjects(): Promise<boolean> {
 		return true;
 	}
 
-	const isOrganization = $.exists('[rel=author][data-hovercard-type="organization"]');
+	const isOrganization = $exists('[rel=author][data-hovercard-type="organization"]');
 	if (!activeProjectsCounter && !isOrganization) {
 		// No tab = Projects disabled in repo
 		// No organization = no Projects in organization

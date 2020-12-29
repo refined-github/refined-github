@@ -23,13 +23,13 @@ function init(): void {
 		}
 
 		// Comments that contain useful images shouldn't be removed
-		if ($.exists('a img', commentText)) {
+		if ($exists('a img', commentText)) {
 			continue;
 		}
 
 		// Ensure that they're not by VIPs (owner, collaborators, etc)
 		const comment = commentText.closest<HTMLElement>('.js-timeline-item')!;
-		if ($.exists('.timeline-comment-label', comment)) {
+		if ($exists('.timeline-comment-label', comment)) {
 			continue;
 		}
 

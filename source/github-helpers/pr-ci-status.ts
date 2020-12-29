@@ -8,7 +8,7 @@ type StatusListener = (status: CommitStatus) => void;
 const commitSelector = '.js-commit.TimelineItem--condensed';
 
 function getLastCommitReference(): string | null {
-	return $.last(`${commitSelector} code`)!.textContent;
+	return $last(`${commitSelector} code`)!.textContent;
 }
 
 export const SUCCESS = Symbol('Success');
@@ -18,7 +18,7 @@ export const COMMIT_CHANGED = Symbol('Commit changed');
 
 export function get(): CommitStatus {
 	// Excludes commit references. Sometimes commits don't have a status icon at all, yet
-	const lastCommit = $.last(commitSelector);
+	const lastCommit = $last(commitSelector);
 	if (lastCommit) {
 		if (lastCommit.$('.octicon-check')) {
 			return SUCCESS;

@@ -109,7 +109,7 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	const editFile = $('a[aria-label^="Change this"]', dropdown);
-	if (!editFile || $.exists('.rgh-restore-file', dropdown)) {
+	if (!editFile || $exists('.rgh-restore-file', dropdown)) {
 		return;
 	}
 

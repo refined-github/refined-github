@@ -32,7 +32,7 @@ function setStorage(): void {
 async function init(): Promise<void> {
 	await api.expectToken();
 
-	$.last('.js-repo-init-setting-container')!.after(
+	$last('.js-repo-init-setting-container')!.after(
 		<div className="form-checkbox checked mt-0 mb-3">
 			<label>
 				<input

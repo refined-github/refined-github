@@ -38,7 +38,7 @@ function fixKeys(dialog: Element): void {
 }
 
 const observer = new MutationObserver(([{target}]) => {
-	if (target instanceof Element && !$.exists('.js-details-dialog-spinner', target)) {
+	if (target instanceof Element && !$exists('.js-details-dialog-spinner', target)) {
 		improveShortcutHelp(target);
 		fixKeys(target);
 		observer.disconnect();

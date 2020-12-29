@@ -8,7 +8,7 @@ function hasDraftComments(): boolean {
 	// `[disabled]` excludes the PR description field that `wait-for-build` disables while it waits
 	return $$('textarea:not([disabled])').some(textarea =>
 		textarea.value !== textarea.textContent && // Exclude comments being edited but not yet changed (and empty comment fields)
-		!$.exists('.btn-primary[disabled]', textarea.form!) // Exclude forms being submitted
+		!$exists('.btn-primary[disabled]', textarea.form!) // Exclude forms being submitted
 	);
 }
 

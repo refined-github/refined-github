@@ -23,7 +23,7 @@ function initPR(): void {
 	observe('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)', {
 		add(byline) {
 			byline.classList.add('rgh-clean-conversation-header');
-			const isMerged = $.exists('#partial-discussion-header [title="Status: Merged"]');
+			const isMerged = $exists('#partial-discussion-header [title="Status: Merged"]');
 			const isSameAuthor = $('.js-discussion > .TimelineItem:first-child .author')?.textContent === byline.$('.author')!.textContent;
 			const baseBranch = byline.$('.commit-ref:not(.head-ref)')!;
 			const isDefaultBranch = (baseBranch.firstElementChild as HTMLAnchorElement).pathname.split('/').length === 3;

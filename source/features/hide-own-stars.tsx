@@ -9,7 +9,7 @@ function init(): void {
 	observe('#dashboard .news .watch_started, #dashboard .news .fork', {
 		constructor: HTMLElement,
 		add(item) {
-			if ($.exists(`a[href^="/${getUsername()}"]`, item)) {
+			if ($exists(`a[href^="/${getUsername()}"]`, item)) {
 				item.style.display = 'none';
 			}
 		}

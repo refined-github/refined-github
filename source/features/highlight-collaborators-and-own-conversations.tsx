@@ -41,7 +41,7 @@ void features.add(__filebasename, {
 		pageDetect.isRepoConversationList
 	],
 	exclude: [
-		() => $.exists('.blankslate')
+		() => $exists('.blankslate')
 	],
 	awaitDomReady: false,
 	init: highlightCollaborators

@@ -15,7 +15,7 @@ function init(): void {
 	observe(labelClass, {
 		add(label) {
 			const activity = label.closest('li, div:not([class])')!; // `div` is for the Newsfeed
-			const isPR = $.exists('.octicon-git-pull-request', activity);
+			const isPR = $exists('.octicon-git-pull-request', activity);
 			const repository = $('a[data-hovercard-type="repository"]', activity)!;
 			const url = new URL(`${repository.href}/${isPR ? 'pulls' : 'issues'}`);
 			const labelName = label.textContent!.trim();

@@ -30,7 +30,7 @@ async function init(): Promise<void | false> {
 	await api.expectToken();
 
 	const editButton = $('.BtnGroup a[href*="releases/edit"]');
-	if (!editButton || $.exists('.label-draft')) {
+	if (!editButton || $exists('.label-draft')) {
 		return false;
 	}
 

@@ -100,7 +100,7 @@ void features.add(__filebasename, {
 		pageDetect.isPR
 	],
 	exclude: [
-		() => $.exists('#partial-discussion-header [title="Status: Merged"], #partial-discussion-header [title="Status: Closed"]')
+		() => $exists('#partial-discussion-header [title="Status: Merged"], #partial-discussion-header [title="Status: Closed"]')
 	],
 	init
 });

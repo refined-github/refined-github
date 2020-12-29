@@ -12,7 +12,7 @@ async function addSidebarReviewButton(): Promise<void | false> {
 	reviewFormUrl.hash = 'submit-review';
 
 	const sidebarReviewsSection = await elementReady('[aria-label="Select reviewers"] .discussion-sidebar-heading');
-	if ($.exists('[data-hotkey="v"]', sidebarReviewsSection)) {
+	if ($exists('[data-hotkey="v"]', sidebarReviewsSection)) {
 		return false;
 	}
 

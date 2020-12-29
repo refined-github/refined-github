@@ -50,7 +50,7 @@ void features.add(__filebasename, {
 		pageDetect.isConversation
 	],
 	exclude: [
-		() => $.exists('.conversation-limited') // Conversation is locked
+		() => $exists('.conversation-limited') // Conversation is locked
 	],
 	additionalListeners: [
 		onNewComments

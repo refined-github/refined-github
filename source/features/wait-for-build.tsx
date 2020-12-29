@@ -106,7 +106,7 @@ void features.add(__filebasename, {
 	],
 	exclude: [
 		// The user cannot merge
-		() => !$.exists('[data-details-container=".js-merge-pr"]:not(:disabled)')
+		() => !$exists('[data-details-container=".js-merge-pr"]:not(:disabled)')
 	],
 	init
 });

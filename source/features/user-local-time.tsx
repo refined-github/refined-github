@@ -86,8 +86,8 @@ function init(): void {
 
 	observeElement(hovercard, async () => {
 		if (
-			hovercard.$.exists('.rgh-local-user-time') || // Time already added
-			!hovercard.$.exists('[data-hydro-view*="user-hovercard-hover"]') // It's not the hovercard type we expect
+			hovercard.$exists('.rgh-local-user-time') || // Time already added
+			!hovercard.$exists('[data-hydro-view*="user-hovercard-hover"]') // It's not the hovercard type we expect
 		) {
 			return;
 		}

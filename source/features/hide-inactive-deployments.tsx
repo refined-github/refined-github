@@ -9,7 +9,7 @@ function init(): void {
 	deployments.pop(); // Don't hide the last deployment, even if it is inactive
 
 	for (const deployment of deployments) {
-		if ($.exists('[title="Deployment Status Label: Inactive"]', deployment)) {
+		if ($exists('[title="Deployment Status Label: Inactive"]', deployment)) {
 			deployment.remove();
 		}
 	}

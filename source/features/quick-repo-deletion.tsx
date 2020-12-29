@@ -14,7 +14,7 @@ import looseParseInt from '../helpers/loose-parse-int';
 import parseBackticks from '../github-helpers/parse-backticks';
 
 function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
-	const hasContent = $.exists([
+	const hasContent = $exists([
 		'[data-hotkey="g i"] .Counter:not([hidden])', // Open issues
 		'[data-hotkey="g p"] .Counter:not([hidden])', // Open PRs
 		'.rgh-open-prs-of-forks' // PRs opened in the source repo

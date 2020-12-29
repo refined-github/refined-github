@@ -53,7 +53,7 @@ async function init(): Promise<false | void> {
 	}
 
 	for (const workflowListItem of $$('[href*="?query"]', await elementReady('.hx_actions-sidebar'))) {
-		if ($.exists('.octicon-stop', workflowListItem)) {
+		if ($exists('.octicon-stop', workflowListItem)) {
 			continue;
 		}
 
