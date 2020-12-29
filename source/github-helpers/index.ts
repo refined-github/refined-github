@@ -52,7 +52,8 @@ export const buildRepoURL = (...pathParts: Array<string | number> & {0: string})
 };
 
 export const getPRHeadRepo = (): ReturnType<typeof getRepo> => {
-	return getRepo(select('.commit-ref.head-ref a')!);
+	const headLink = select('.commit-ref.head-ref a');
+	return getRepo(headLink);
 };
 
 export function getForkedRepo(): string | undefined {
