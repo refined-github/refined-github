@@ -1,5 +1,4 @@
 import mem from 'mem';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -22,7 +21,7 @@ const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => string)): E
 });
 
 function clickAllExcept(elementsToClick: string, except: HTMLElement): void {
-	for (const item of select.all(elementsToClick)) {
+	for (const item of $$(elementsToClick)) {
 		if (item !== except) {
 			item.click();
 		}

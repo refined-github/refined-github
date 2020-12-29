@@ -1,4 +1,3 @@
-import select from 'select-dom';
 
 import features from '.';
 
@@ -17,12 +16,12 @@ const previousPageButtonSelectors = [
 ];
 
 function init(): void {
-	const createNextPageButton = select(nextPageButtonSelectors);
+	const createNextPageButton = $(nextPageButtonSelectors);
 	if (createNextPageButton) {
 		createNextPageButton.dataset.hotkey = 'ArrowRight';
 	}
 
-	const createPreviousPageButton = select(previousPageButtonSelectors);
+	const createPreviousPageButton = $(previousPageButtonSelectors);
 	if (createPreviousPageButton) {
 		createPreviousPageButton.dataset.hotkey = 'ArrowLeft';
 	}

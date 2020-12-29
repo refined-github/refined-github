@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
@@ -118,7 +117,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 async function init(): Promise<void | false> {
 	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
 
-	const commitsOnPage = select.all([
+	const commitsOnPage = $$([
 		'li.commit', // Pre "Repository refresh" layout
 		'li.js-commits-list-item'
 	]);
@@ -138,7 +137,7 @@ async function init(): Promise<void | false> {
 			// There was no tags for this commit, save that info to the cache
 			commitsWithNoTags.push(targetCommit);
 		} else if (targetTags.length > 0) {
-			select([
+			$([
 				'.commit-meta', // Pre "Repository refresh" layout
 				'.flex-auto .d-flex.mt-1'
 			], commit)!.append(

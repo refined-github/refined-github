@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import oneMutation from 'one-mutation';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -38,8 +37,8 @@ async function init(): Promise<void | false> {
 		add(filename) {
 			filename.classList.add('rgh-pr-file-state');
 			const sourceIcon = pageDetect.isPR() ?
-				select(`[href="${filename.hash}"] svg`, fileList)! :
-				select(`svg + [href="${filename.hash}"]`, fileList)?.previousElementSibling!;
+				$(`[href="${filename.hash}"] svg`, fileList)! :
+				$(`svg + [href="${filename.hash}"]`, fileList)?.previousElementSibling!;
 			const icon = sourceIcon.cloneNode(true);
 			const action = icon.getAttribute('title')!;
 			if (action === 'added') {

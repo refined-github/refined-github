@@ -1,6 +1,5 @@
 import './table-input.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
@@ -9,7 +8,7 @@ import features from '.';
 import smartBlockWrap from '../helpers/smart-block-wrap';
 
 function addTable({delegateTarget: square}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	const field = square.form!.querySelector('textarea')!;
+	const field = square.form!.$('textarea')!;
 	const cursorPosition = field.selectionStart;
 
 	field.focus();
@@ -35,7 +34,7 @@ function init(): void {
 	delegate(document, '.rgh-table-input-cell', 'click', addTable);
 	delegate(document, '.rgh-table-input-cell', 'mouseenter', highlightSquares, {capture: true});
 
-	for (const anchor of select.all('md-task-list')) {
+	for (const anchor of $$('md-task-list')) {
 		anchor.after(
 			<details className="details-reset details-overlay flex-auto toolbar-item select-menu select-menu-modal-right hx_rsm">
 				<summary

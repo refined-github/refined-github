@@ -3,7 +3,6 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import delay from 'delay';
-import select from 'select-dom';
 import onetime from 'onetime';
 import {ClockIcon} from '@primer/octicons-react';
 
@@ -83,17 +82,17 @@ function parseOffset(date: string): number {
 }
 
 function init(): void {
-	const hovercard = select('.js-hovercard-content > .Popover-message')!;
+	const hovercard = $('.js-hovercard-content > .Popover-message')!;
 
 	observeElement(hovercard, async () => {
 		if (
-			select.exists('.rgh-local-user-time', hovercard) || // Time already added
-			!select.exists('[data-hydro-view*="user-hovercard-hover"]', hovercard) // It's not the hovercard type we expect
+			hovercard.$.exists('.rgh-local-user-time') || // Time already added
+			!hovercard.$.exists('[data-hydro-view*="user-hovercard-hover"]') // It's not the hovercard type we expect
 		) {
 			return;
 		}
 
-		const login = select('a[data-octo-dimensions="link_type:profile"]', hovercard)?.pathname.slice(1);
+		const login = $('a[data-octo-dimensions="link_type:profile"]', hovercard)?.pathname.slice(1);
 		if (!login || login === getUsername()) {
 			return;
 		}
@@ -115,7 +114,7 @@ function init(): void {
 		// Adding the time element might change the height of the hovercard and thus break its positioning
 		const hovercardHeight = hovercard.offsetHeight;
 
-		select('div.d-flex.mt-3 > div.overflow-hidden.ml-3', hovercard)!.append(container);
+		$('div.d-flex.mt-3 > div.overflow-hidden.ml-3', hovercard)!.append(container);
 
 		if (hovercard.matches('.Popover-message--bottom-right, .Popover-message--bottom-left')) {
 			const diff = hovercard.offsetHeight - hovercardHeight;

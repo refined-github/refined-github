@@ -8,7 +8,7 @@ export const groupButtons = (buttons: Element[]): Element => {
 	for (let button of buttons) {
 		if (!button.matches('.btn')) {
 			button.classList.add('BtnGroup-parent');
-			button = button.querySelector('.btn')!;
+			button = button.$('.btn')!;
 		}
 
 		button.classList.add('BtnGroup-item');

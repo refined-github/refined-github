@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
@@ -86,7 +85,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		console.warn('%cRefined GitHub%c is only expected to work when you’re logged in to GitHub.', 'font-weight: bold', '');
 	}
 
-	if (select.exists('html.refined-github')) {
+	if ($.exists('html.refined-github')) {
 		console.warn('Refined GitHub has been loaded twice. If you didn’t install the developer version, this may be a bug. Please report it to: https://github.com/sindresorhus/refined-github/issues/565');
 		return;
 	}
@@ -237,7 +236,7 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 		}
 
 		document.addEventListener('pjax:end', () => {
-			if (repeatOnBackButton || !select.exists('has-rgh')) {
+			if (repeatOnBackButton || !$.exists('has-rgh')) {
 				void setupPageLoad(id, details);
 			}
 		});
@@ -264,7 +263,7 @@ void add(__filebasename, {
 	init: async () => {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
-		select('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);
+		$('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);
 	}
 });
 

@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import {DiffIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import tinyVersionCompare from 'tiny-version-compare';
@@ -17,7 +16,7 @@ interface TagDetails {
 }
 
 async function getNextPage(): Promise<DocumentFragment> {
-	const nextPageLink = select('.pagination a:last-child');
+	const nextPageLink = $('.pagination a:last-child');
 	if (nextPageLink) {
 		return fetchDom(nextPageLink.href);
 	}
@@ -31,13 +30,13 @@ async function getNextPage(): Promise<DocumentFragment> {
 }
 
 function parseTags(element: HTMLElement): TagDetails {
-	const {pathname: tagUrl} = select('a[href*="/releases/tag/"]', element)!;
+	const {pathname: tagUrl} = $('a[href*="/releases/tag/"]', element)!;
 	const tag = /\/releases\/tag\/(.*)/.exec(tagUrl)![1];
 
 	return {
 		element,
 		tag,
-		commit: select('[href*="/commit/"]', element)!.textContent!.trim(),
+		commit: $('[href*="/commit/"]', element)!.textContent!.trim(),
 		...parseTag(decodeURIComponent(tag)) // `version`, `namespace`
 	};
 }
@@ -83,7 +82,7 @@ async function init(): Promise<void> {
 
 	// Look for tags in the current page and the next page
 	const pages = [document, await getNextPage()];
-	const allTags = select.all(tagsSelector, pages).map(parseTags);
+	const allTags = $$(tagsSelector, pages).map(parseTags);
 
 	for (const [index, container] of allTags.entries()) {
 		const previousTag = getPreviousTag(index, allTags);
@@ -91,7 +90,7 @@ async function init(): Promise<void> {
 		if (previousTag) {
 			// Signed releases include on mobile include a "Verified" <details> inside the `ul`. `li:last-of-type` excludes it.
 			// Example: https://github.com/tensorflow/tensorflow/releases?after=v1.12.0-rc1
-			for (const lastLink of select.all('.list-style-none > li:last-of-type', container.element)) {
+			for (const lastLink of $$('.list-style-none > li:last-of-type', container.element)) {
 				lastLink.after(
 					<li className={lastLink.className}>
 						<a

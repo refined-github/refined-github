@@ -1,4 +1,3 @@
-import select from 'select-dom';
 import delegate from 'delegate-it';
 
 export default function onCommentFieldKeydown(callback: delegate.EventHandler<KeyboardEvent, HTMLTextAreaElement>): void {
@@ -6,7 +5,7 @@ export default function onCommentFieldKeydown(callback: delegate.EventHandler<Ke
 		const field = event.delegateTarget;
 
 		// Don't do anything if the autocomplete helper is shown or if non-latin input is being used
-		if (select.exists('.suggester', field.form!) || event.isComposing) {
+		if (field.form!.$.exists('.suggester') || event.isComposing) {
 			return;
 		}
 

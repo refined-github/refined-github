@@ -1,5 +1,4 @@
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -31,19 +30,19 @@ function getCount(element: HTMLElement): number {
 }
 
 async function hideMilestones(): Promise<void> {
-	const milestones = select('[data-selected-links^="repo_milestones"] .Counter')!;
+	const milestones = $('[data-selected-links^="repo_milestones"] .Counter')!;
 	if (getCount(milestones) === 0) {
-		select('[data-hotkey="m"]')!.parentElement!.remove();
+		$('[data-hotkey="m"]')!.parentElement!.remove();
 	}
 }
 
 async function hasProjects(): Promise<boolean> {
-	const activeProjectsCounter = select('[data-hotkey="g b"] .Counter');
+	const activeProjectsCounter = $('[data-hotkey="g b"] .Counter');
 	if (activeProjectsCounter && getCount(activeProjectsCounter) > 0) {
 		return true;
 	}
 
-	const isOrganization = select.exists('[rel=author][data-hovercard-type="organization"]');
+	const isOrganization = $.exists('[rel=author][data-hovercard-type="organization"]');
 	if (!activeProjectsCounter && !isOrganization) {
 		// No tab = Projects disabled in repo
 		// No organization = no Projects in organization
@@ -55,7 +54,7 @@ async function hasProjects(): Promise<boolean> {
 
 async function hideProjects(): Promise<void> {
 	if (!await hasProjects()) {
-		select('[data-hotkey="p"]')!.parentElement!.remove();
+		$('[data-hotkey="p"]')!.parentElement!.remove();
 	}
 }
 

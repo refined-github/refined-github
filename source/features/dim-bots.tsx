@@ -1,5 +1,4 @@
 import './dim-bots.css';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -17,7 +16,7 @@ export const botSelectors = [
 ];
 
 function init(): void {
-	for (const bot of select.all(botSelectors)) {
+	for (const bot of $$(botSelectors)) {
 		bot.closest('.commit, .Box-row')!.classList.add('rgh-dim-bot');
 	}
 }

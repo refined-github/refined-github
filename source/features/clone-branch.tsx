@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import {observe} from 'selector-observer';
@@ -64,7 +63,7 @@ async function cloneBranch({delegateTarget: cloneButton}: delegate.Event<MouseEv
 	}
 
 	textFieldEdit.set(
-		select('input[name="query"]')!,
+		$('input[name="query"]')!,
 		newBranchName
 	);
 }

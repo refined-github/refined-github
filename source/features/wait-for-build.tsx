@@ -1,6 +1,5 @@
 import './wait-for-build.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import {InfoIcon} from '@primer/octicons-react';
@@ -24,7 +23,7 @@ const generateCheckbox = onetime(() => (
 ));
 
 function getCheckbox(): HTMLInputElement | undefined {
-	return select('input[name="rgh-pr-check-waiter"]');
+	return $('input[name="rgh-pr-check-waiter"]');
 }
 
 // Only show the checkbox if there's a pending commit
@@ -32,7 +31,7 @@ function showCheckboxIfNecessary(): void {
 	const checkbox = getCheckbox();
 	const isNecessary = prCiStatus.get() === prCiStatus.PENDING;
 	if (!checkbox && isNecessary) {
-		const container = select('.commit-form-actions .select-menu');
+		const container = $('.commit-form-actions .select-menu');
 		if (container) {
 			container.append(generateCheckbox());
 		}
@@ -42,7 +41,7 @@ function showCheckboxIfNecessary(): void {
 }
 
 function disableForm(disabled = true): void {
-	for (const field of select.all(`
+	for (const field of $$(`
 		textarea[name="commit_message"],
 		input[name="commit_title"],
 		input[name="rgh-pr-check-waiter"],
@@ -107,7 +106,7 @@ void features.add(__filebasename, {
 	],
 	exclude: [
 		// The user cannot merge
-		() => !select.exists('[data-details-container=".js-merge-pr"]:not(:disabled)')
+		() => !$.exists('[data-details-container=".js-merge-pr"]:not(:disabled)')
 	],
 	init
 });

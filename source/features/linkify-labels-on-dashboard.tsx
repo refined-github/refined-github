@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
@@ -16,8 +15,8 @@ function init(): void {
 	observe(labelClass, {
 		add(label) {
 			const activity = label.closest('li, div:not([class])')!; // `div` is for the Newsfeed
-			const isPR = select.exists('.octicon-git-pull-request', activity);
-			const repository = select('a[data-hovercard-type="repository"]', activity)!;
+			const isPR = $.exists('.octicon-git-pull-request', activity);
+			const repository = $('a[data-hovercard-type="repository"]', activity)!;
 			const url = new URL(`${repository.href}/${isPR ? 'pulls' : 'issues'}`);
 			const labelName = label.textContent!.trim();
 			url.searchParams.set('q', `is:${isPR ? 'pr' : 'issue'} is:open sort:updated-desc label:"${labelName}"`);

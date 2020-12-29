@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
@@ -23,20 +22,20 @@ function pjaxStartHandler(event: CustomEvent): void {
 	const bufferField = getBufferField();
 	bufferField.value = '';
 
-	const repoName = select('.pagehead h1 strong, [itemprop="name"]')!;
+	const repoName = $('.pagehead h1 strong, [itemprop="name"]')!;
 	repoName.classList.remove('mr-2');
 	repoName.after(
 		<span className="mx-1 flex-self-stretch">/</span>,
 		<span className="flex-self-stretch mr-2">{bufferField}</span>
 	);
 	bufferField.focus();
-	for (const element of select.all('.pagehead-actions, .rgh-ci-link, .octotree-bookmark-btn')) {
+	for (const element of $$('.pagehead-actions, .rgh-ci-link, .octotree-bookmark-btn')) {
 		element.remove();
 	}
 }
 
 function pjaxCompleteHandler(): void {
-	const fileFinderInput = select('input#tree-finder-field');
+	const fileFinderInput = $('input#tree-finder-field');
 	if (fileFinderInput) {
 		const bufferField = getBufferField();
 		fileFinderInput.value = bufferField.value;

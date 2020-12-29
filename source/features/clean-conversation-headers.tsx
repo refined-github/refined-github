@@ -1,5 +1,4 @@
 import './clean-conversation-headers.css';
-import select from 'select-dom';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
@@ -24,9 +23,9 @@ function initPR(): void {
 	observe('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)', {
 		add(byline) {
 			byline.classList.add('rgh-clean-conversation-header');
-			const isMerged = select.exists('#partial-discussion-header [title="Status: Merged"]');
-			const isSameAuthor = select('.js-discussion > .TimelineItem:first-child .author')?.textContent === select('.author', byline)!.textContent;
-			const baseBranch = select('.commit-ref:not(.head-ref)', byline)!;
+			const isMerged = $.exists('#partial-discussion-header [title="Status: Merged"]');
+			const isSameAuthor = $('.js-discussion > .TimelineItem:first-child .author')?.textContent === byline.$('.author')!.textContent;
+			const baseBranch = byline.$('.commit-ref:not(.head-ref)')!;
 			const isDefaultBranch = (baseBranch.firstElementChild as HTMLAnchorElement).pathname.split('/').length === 3;
 
 			// Removes: [octocat wants to merge 1 commit into] github:master from octocat:feature

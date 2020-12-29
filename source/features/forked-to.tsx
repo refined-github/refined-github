@@ -1,7 +1,6 @@
 import './forked-to.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, LinkExternalIcon, RepoForkedIcon} from '@primer/octicons-react';

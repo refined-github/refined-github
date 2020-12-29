@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
@@ -15,10 +14,10 @@ function init(): void {
 
 	// Compares against the "base" branch if the URL only has one reference
 	if (references.length === 1) {
-		references.unshift(select('.branch span')!.textContent!);
+		references.unshift($('.branch span')!.textContent!);
 	}
 
-	const icon = select('.octicon-arrow-left')!;
+	const icon = $('.octicon-arrow-left')!;
 	icon.parentElement!.attributes['aria-label'].value += '.\nClick to swap.';
 	wrap(icon, <a href={buildRepoURL('compare/' + references.join('...'))}/>);
 }

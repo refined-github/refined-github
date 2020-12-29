@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import {CheckIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
@@ -50,7 +49,7 @@ function addDraftFilter({delegateTarget: reviewsFilter}: delegate.Event): void {
 
 	hasDraftFilter.add(reviewsFilter);
 
-	const dropdown = select('.SelectMenu-list', reviewsFilter)!;
+	const dropdown = $('.SelectMenu-list', reviewsFilter)!;
 
 	dropdown.append(
 		<div className="SelectMenu-divider">
@@ -99,10 +98,10 @@ async function addChecksFilter(): Promise<void> {
 	const checksFilter = reviewsFilter.cloneNode(true);
 	checksFilter.id = '';
 
-	select('summary', checksFilter)!.firstChild!.textContent = 'Checks\u00A0'; // Only replace text node, keep caret
-	select('.SelectMenu-title', checksFilter)!.textContent = 'Filter by checks status';
+	$('summary', checksFilter)!.firstChild!.textContent = 'Checks\u00A0'; // Only replace text node, keep caret
+	$('.SelectMenu-title', checksFilter)!.textContent = 'Filter by checks status';
 
-	const dropdown = select('.SelectMenu-list', checksFilter)!;
+	const dropdown = $('.SelectMenu-list', checksFilter)!;
 	dropdown.textContent = ''; // Drop previous filters
 
 	for (const status of ['Success', 'Failure', 'Pending']) {

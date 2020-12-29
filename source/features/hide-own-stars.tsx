@@ -1,4 +1,3 @@
-import select from 'select-dom';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
@@ -10,7 +9,7 @@ function init(): void {
 	observe('#dashboard .news .watch_started, #dashboard .news .fork', {
 		constructor: HTMLElement,
 		add(item) {
-			if (select.exists(`a[href^="/${getUsername()}"]`, item)) {
+			if ($.exists(`a[href^="/${getUsername()}"]`, item)) {
 				item.style.display = 'none';
 			}
 		}

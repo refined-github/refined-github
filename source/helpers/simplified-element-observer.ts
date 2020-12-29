@@ -6,7 +6,7 @@ export default function observeElement(
 	options: MutationObserverInit = {childList: true}
 ): MutationObserver | undefined {
 	if (typeof element === 'string') {
-		element = document.querySelector(element)!;
+		element = document.$(element)!;
 	}
 
 	// Run on updates

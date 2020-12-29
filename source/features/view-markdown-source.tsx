@@ -1,7 +1,6 @@
 import './view-markdown-source.css';
 import React from 'dom-chef';
 import domify from 'doma';
-import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -16,9 +15,9 @@ const lineActions = onetime(async () => {
 	// Avoid having to create the entire 60 lines of JSX. The URL is hardcoded to a file we know the DOM exists.
 	const randomKnownFile = 'https://github.com/sindresorhus/refined-github/blob/b1229bbaeb8cf071f0711bc2ed1b40dd96cd7a05/.editorconfig';
 	const html = await browser.runtime.sendMessage({request: randomKnownFile});
-	const blobToolbar = domify(html).querySelector('.BlobToolbar')!;
-	select('a#js-view-git-blame', blobToolbar)!.href = new GitHubURL(location.href).assign({route: 'blame'}).href;
-	select('a#js-new-issue', blobToolbar)!.href = buildRepoURL('issues/new');
+	const blobToolbar = domify(html).$('.BlobToolbar')!;
+	blobToolbar.$('a#js-view-git-blame')!.href = new GitHubURL(location.href).assign({route: 'blame'}).href;
+	blobToolbar.$('a#js-new-issue')!.href = buildRepoURL('issues/new');
 	return blobToolbar;
 });
 
@@ -48,13 +47,13 @@ This acts as an auto-discarded cache without globals, timers, etc.
 It should also work clicks on buttons sooner than the page loads.
 */
 async function showSource(): Promise<void> {
-	const sourceButton = select('button.rgh-md-source')!;
-	const renderedButton = select('button.rgh-md-rendered')!;
+	const sourceButton = $('button.rgh-md-source')!;
+	const renderedButton = $('button.rgh-md-rendered')!;
 
 	sourceButton.disabled = true;
 
 	const source = buttonBodyMap.get(sourceButton) ?? fetchSource();
-	const rendered = await buttonBodyMap.get(renderedButton) ?? select('.blob.js-code-block-container')!;
+	const rendered = await buttonBodyMap.get(renderedButton) ?? $('.blob.js-code-block-container')!;
 
 	buttonBodyMap.set(sourceButton, source);
 	buttonBodyMap.set(renderedButton, rendered);
@@ -72,8 +71,8 @@ async function showSource(): Promise<void> {
 }
 
 async function showRendered(): Promise<void> {
-	const sourceButton = select('button.rgh-md-source')!;
-	const renderedButton = select('button.rgh-md-rendered')!;
+	const sourceButton = $('button.rgh-md-source')!;
+	const renderedButton = $('button.rgh-md-rendered')!;
 
 	renderedButton.disabled = true;
 
@@ -94,9 +93,9 @@ async function init(): Promise<void> {
 	delegate(document, '.rgh-md-rendered:not(.selected)', 'click', showRendered);
 
 	const fileButtons =
-		select('.repository-content .Box-header.flex-md-items-center .d-flex') ??
+		$('.repository-content .Box-header.flex-md-items-center .d-flex') ??
 		// Pre "Repository refresh" layout
-		select('.repository-content .Box-header .d-flex')!;
+		$('.repository-content .Box-header .d-flex')!;
 	fileButtons.prepend(
 		<div className="BtnGroup">
 			<button className="btn btn-sm BtnGroup-item tooltipped tooltipped tooltipped-nw rgh-md-source" type="button" aria-label="Display the source blob">
@@ -125,7 +124,7 @@ void features.add(__filebasename, {
 		pageDetect.isSingleFile
 	],
 	exclude: [
-		() => !select.exists('.blob .markdown-body')
+		() => !$.exists('.blob .markdown-body')
 	],
 	init
 });

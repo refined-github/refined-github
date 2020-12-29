@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -14,7 +13,7 @@ async function init(): Promise<void> {
 		marketplaceLink.closest('.border-top, .mr-3')!.remove();
 
 		await onProfileDropdownLoad();
-		select.last('.header-nav-current-user ~ .dropdown-divider')!.before(
+		$.last('.header-nav-current-user ~ .dropdown-divider')!.before(
 			<div className="dropdown-divider"/>,
 			<a className="dropdown-item" href="/marketplace">Marketplace</a>
 		);

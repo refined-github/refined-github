@@ -1,7 +1,6 @@
 import './remove-label-faster.css';
 import React from 'dom-chef';
 import {XIcon} from '@primer/octicons-react';
-import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import {observe} from 'selector-observer';
@@ -11,7 +10,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getConversationNumber} from '../github-helpers';
 
-const canNotEditLabels = onetime((): boolean => !select.exists('.sidebar-labels .octicon-gear'));
+const canNotEditLabels = onetime((): boolean => !$.exists('.sidebar-labels .octicon-gear'));
 
 async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	event.preventDefault();
@@ -26,8 +25,8 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 	removeLabelButton.closest('a')!.remove();
 
 	// Force update of label selector if necessary
-	if (!select.exists('.sidebar-labels include-fragment')) {
-		const deferredContentWrapper = select('.sidebar-labels .hx_rsm-content')!;
+	if (!$.exists('.sidebar-labels include-fragment')) {
+		const deferredContentWrapper = $('.sidebar-labels .hx_rsm-content')!;
 		const menu = deferredContentWrapper.closest('[src]')!;
 		deferredContentWrapper.textContent = '';
 		deferredContentWrapper.append(<include-fragment src={menu.getAttribute('src')!}/>);

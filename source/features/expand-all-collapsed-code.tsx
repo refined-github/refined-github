@@ -1,4 +1,3 @@
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -8,7 +7,7 @@ const expanderSelector = 'a.js-expand.directional-expander';
 
 // Waits for the next loaded diff part and clicks on any additional "Expand" buttons it finds
 const expandingCodeObserver = new MutationObserver(([mutation]) => {
-	const expandButton = select(expanderSelector, mutation.target as Element);
+	const expandButton = $(expanderSelector, mutation.target as Element);
 	if (expandButton) {
 		expandButton.click();
 	} else {

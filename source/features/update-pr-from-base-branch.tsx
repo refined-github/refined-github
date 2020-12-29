@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -13,8 +12,8 @@ let observer: MutationObserver;
 
 function getBranches(): {base: string; head: string} {
 	return {
-		base: select('.base-ref')!.textContent!.trim(),
-		head: select('.head-ref')!.textContent!.trim()
+		base: $('.base-ref')!.textContent!.trim(),
+		head: $('.head-ref')!.textContent!.trim()
 	};
 }
 
@@ -60,11 +59,11 @@ function createButton(): HTMLElement {
 }
 
 async function addButton(): Promise<void> {
-	if (select.exists('.rgh-update-pr-from-base-branch, .branch-action-btn:not([action$="ready_for_review"]) > .btn')) {
+	if ($.exists('.rgh-update-pr-from-base-branch, .branch-action-btn:not([action$="ready_for_review"]) > .btn')) {
 		return;
 	}
 
-	const stillLoading = select('#partial-pull-merging poll-include-fragment');
+	const stillLoading = $('#partial-pull-merging poll-include-fragment');
 	if (stillLoading) {
 		stillLoading.addEventListener('load', addButton);
 		return;
@@ -77,7 +76,7 @@ async function addButton(): Promise<void> {
 	}
 
 	// Draft PRs already have this info on the page
-	const outOfDateContainer = select.all('.completeness-indicator-problem + .status-heading')
+	const outOfDateContainer = $$('.completeness-indicator-problem + .status-heading')
 		.find(title => title.textContent!.includes('out-of-date'));
 	if (outOfDateContainer) {
 		const meta = outOfDateContainer.nextElementSibling!;
@@ -90,7 +89,7 @@ async function addButton(): Promise<void> {
 		return;
 	}
 
-	for (const meta of select.all('.mergeability-details > :not(.js-details-container) .status-meta')) {
+	for (const meta of $$('.mergeability-details > :not(.js-details-container) .status-meta')) {
 		meta.after(' ', createButton());
 	}
 }
@@ -102,8 +101,8 @@ async function init(): Promise<void | false> {
 	// Button is disabled when:
 	// - There are conflicts (there's already a native "Resolve conflicts" button)
 	// - Draft PR (show the button anyway)
-	const canMerge = select.exists('[data-details-container=".js-merge-pr"]:not(:disabled)');
-	const isDraftPR = select.exists('[action$="ready_for_review"]');
+	const canMerge = $.exists('[data-details-container=".js-merge-pr"]:not(:disabled)');
+	const isDraftPR = $.exists('[action$="ready_for_review"]');
 	if (!canMerge && !isDraftPR) {
 		return false;
 	}

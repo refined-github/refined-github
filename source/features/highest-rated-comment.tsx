@@ -1,7 +1,6 @@
 import './highest-rated-comment.css';
 import mem from 'mem';
 import React from 'dom-chef';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {ArrowDownIcon, CheckIcon} from '@primer/octicons-react';
 
@@ -36,7 +35,7 @@ const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 
 function getBestComment(): HTMLElement | undefined {
 	let highest;
-	for (const reaction of select.all(positiveReactionsSelector)) {
+	for (const reaction of $$(positiveReactionsSelector)) {
 		const comment = reaction.closest<HTMLElement>(commentSelector)!;
 		const positiveReactions = getPositiveReactions(comment);
 		if (positiveReactions && (!highest || positiveReactions > highest.count)) {
@@ -48,12 +47,12 @@ function getBestComment(): HTMLElement | undefined {
 }
 
 function highlightBestComment(bestComment: Element): void {
-	const avatar = select('.TimelineItem-avatar', bestComment)!;
+	const avatar = $('.TimelineItem-avatar', bestComment)!;
 	avatar.classList.add('flex-column', 'flex-items-center', 'd-md-flex');
 	avatar.append(<CheckIcon width={24} height={32} className="mt-4 text-green"/>);
 
-	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
-	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
+	$('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
+	$('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
 		<span
 			className="d-flex flex-items-center text-green mr-1 tooltipped tooltipped-n"
 			aria-label="This comment has the most positive reactions on this issue."
@@ -65,15 +64,15 @@ function highlightBestComment(bestComment: Element): void {
 
 function linkBestComment(bestComment: HTMLElement): void {
 	// Find position of comment in thread
-	const position = select.all(commentSelector).indexOf(bestComment);
+	const position = $$(commentSelector).indexOf(bestComment);
 	// Only link to it if it doesn't already appear at the top of the conversation
 	if (position < 3) {
 		return;
 	}
 
-	const text = select('.comment-body', bestComment)!.textContent!.slice(0, 100);
-	const {hash} = select('a.js-timestamp', bestComment)!;
-	const avatar = select('img.avatar', bestComment)!.cloneNode();
+	const text = $('.comment-body', bestComment)!.textContent!.slice(0, 100);
+	const {hash} = $('a.js-timestamp', bestComment)!;
+	const avatar = $('img.avatar', bestComment)!.cloneNode();
 
 	bestComment.parentElement!.firstElementChild!.after(
 		<div className="timeline-comment-wrapper pl-0 my-0">
@@ -93,7 +92,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 
 function selectSum(selector: string, container: HTMLElement): number {
 	// eslint-disable-next-line unicorn/no-reduce -- The alternative `for` loop is too lengthy for a simple sum
-	return select.all(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
+	return $$(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
 }
 
 function init(): false | void {

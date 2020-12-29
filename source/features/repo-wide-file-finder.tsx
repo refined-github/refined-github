@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -24,7 +23,7 @@ void features.add(__filebasename, {
 		pageDetect.isIssue
 	],
 	exclude: [
-		() => select.exists('[data-hotkey="t"]')
+		() => $.exists('[data-hotkey="t"]')
 	],
 	init
 });

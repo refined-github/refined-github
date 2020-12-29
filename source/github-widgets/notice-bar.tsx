@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import {XIcon} from '@primer/octicons-react';
 
 interface Options {
@@ -19,7 +18,7 @@ export default function addNotice(
 		)
 	}: Options = {}
 ): void {
-	select('#start-of-content')!.after(
+	$('#start-of-content')!.after(
 		<div className={`flash flash-full flash-${type}`}>
 			<div className="container-lg px-3 d-flex flex-items-center flex-justify-between">
 				<div>{message}</div> {action}

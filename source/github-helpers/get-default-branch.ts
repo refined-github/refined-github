@@ -1,5 +1,4 @@
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import * as api from './api';
@@ -28,7 +27,7 @@ const getDefaultBranch = cache.function(async function (repository?: pageDetect.
 
 		if (!pageDetect.isForkedRepo()) {
 			// We can find the name in the infobar, available in folder views
-			const branchInfo = select('.branch-infobar')?.textContent!.trim();
+			const branchInfo = $('.branch-infobar')?.textContent!.trim();
 			const defaultBranch = branchInfoRegex.exec(branchInfo!)?.[1];
 			if (defaultBranch) {
 				return defaultBranch;

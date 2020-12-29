@@ -1,6 +1,5 @@
 import './more-dropdown.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {DiffIcon, GitBranchIcon, HistoryIcon, PackageIcon} from '@primer/octicons-react';
@@ -14,7 +13,7 @@ function createDropdown(): void {
 	// Markup copied from native GHE dropdown
 	appendBefore(
 		// GHE doesn't have `reponav > ul`
-		select('.reponav > ul') ?? select('.reponav')!,
+		$('.reponav > ul') ?? $('.reponav')!,
 		'[data-selected-links^="repo_settings"]',
 		<details className="reponav-dropdown details-overlay details-reset">
 			<summary className="btn-link reponav-item" aria-haspopup="menu">
@@ -38,13 +37,13 @@ export function createDropdownItem(label: string, url: string, attributes?: Reco
 }
 
 function onlyShowInDropdown(id: string): void {
-	select(`[data-tab-item$="${id}"]`)!.parentElement!.remove();
-	const menuItem = select(`[data-menu-item$="${id}"]`)!;
+	$(`[data-tab-item$="${id}"]`)!.parentElement!.remove();
+	const menuItem = $(`[data-menu-item$="${id}"]`)!;
 	menuItem.removeAttribute('data-menu-item');
 	menuItem.hidden = false;
 
 	// The item has to be moved somewhere else because the overflow nav is order-dependent
-	select('.js-responsive-underlinenav-overflow ul')!.append(menuItem);
+	$('.js-responsive-underlinenav-overflow ul')!.append(menuItem);
 }
 
 async function init(): Promise<void> {
@@ -60,11 +59,11 @@ async function init(): Promise<void> {
 	const branchesUrl = buildRepoURL('branches');
 	const dependenciesUrl = buildRepoURL('network/dependencies');
 
-	const nav = select('.js-responsive-underlinenav .UnderlineNav-body');
+	const nav = $('.js-responsive-underlinenav .UnderlineNav-body');
 	if (nav) {
 		// "Repository refresh" layout
 		nav.parentElement!.classList.add('rgh-has-more-dropdown');
-		select('.js-responsive-underlinenav-overflow ul')!.append(
+		$('.js-responsive-underlinenav-overflow ul')!.append(
 			<li className="dropdown-divider" role="separator"/>,
 			createDropdownItem('Compare', compareUrl),
 			pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl),
@@ -78,11 +77,11 @@ async function init(): Promise<void> {
 	}
 
 	// Pre "Repository refresh" layout
-	if (!select.exists('.reponav-dropdown')) {
+	if (!$.exists('.reponav-dropdown')) {
 		createDropdown();
 	}
 
-	const menu = select('.reponav-dropdown .dropdown-menu')!;
+	const menu = $('.reponav-dropdown .dropdown-menu')!;
 	menu.append(
 		<a href={compareUrl} className="rgh-reponav-more dropdown-item">
 			<DiffIcon/> Compare
@@ -104,7 +103,7 @@ async function init(): Promise<void> {
 	);
 
 	// Selector only affects desktop navigation
-	for (const tab of select.all(`
+	for (const tab of $$(`
 		.hx_reponav a[data-selected-links~="pulse"],
 		.hx_reponav a[data-selected-links~="security"]
 	`)) {

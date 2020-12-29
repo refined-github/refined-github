@@ -1,5 +1,4 @@
 import 'typed-query-selector';
-import select from 'select-dom';
 
 import './refined-github.css';
 import './features/github-bugs.css';
@@ -206,6 +205,3 @@ import './features/esc-to-cancel';
 import './features/easy-toggle-files';
 import './features/quick-repo-deletion';
 import './features/clean-repo-sidebar';
-
-// Add global for easier debugging
-(window as any).select = select;

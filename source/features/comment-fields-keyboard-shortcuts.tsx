@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -12,7 +11,7 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 
 	if (event.key === 'Escape') {
 		// Cancel buttons have different classes for inline comments and editable comments
-		const cancelButton = select(`
+		const cancelButton = $(`
 				button.js-hide-inline-comment-form,
 				button.js-comment-cancel-button
 			`, field.form!);
@@ -48,12 +47,12 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 			editButton.remove();
 			field
 				.closest('form')!
-				.querySelector('button.js-hide-inline-comment-form')
+				.$('button.js-hide-inline-comment-form')
 				?.click();
 
 			// Move caret to end of field
 			requestAnimationFrame(() => {
-				select('textarea.js-comment-field', lastOwnComment)!.selectionStart = Number.MAX_SAFE_INTEGER;
+				$('textarea.js-comment-field', lastOwnComment)!.selectionStart = Number.MAX_SAFE_INTEGER;
 			});
 		}
 	}

@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -15,10 +14,10 @@ function generateSubmenu(hideButton: Element): void {
 	detailsElement.classList.add('rgh-hide-comments-faster-details');
 
 	const comment = hideButton.closest('.unminimized-comment')!;
-	const hideCommentForm = select('.js-comment-minimize', comment)!;
+	const hideCommentForm = $('.js-comment-minimize', comment)!;
 
 	// Generate dropdown items
-	for (const reason of select.all('[name="classifier"] input:not([value=""])', comment)) {
+	for (const reason of $$('[name="classifier"] input:not([value=""])', comment)) {
 		hideCommentForm.append(
 			<button
 				type="submit"
@@ -33,8 +32,8 @@ function generateSubmenu(hideButton: Element): void {
 	}
 
 	// Drop previous form controls
-	select('.btn', hideCommentForm)!.remove();
-	select('[name="classifier"]', hideCommentForm)!.remove();
+	$('.btn', hideCommentForm)!.remove();
+	$('[name="classifier"]', hideCommentForm)!.remove();
 
 	// Imitate existing menu
 	hideCommentForm.classList.add('dropdown-menu', 'dropdown-menu-sw', 'text-gray-dark', 'show-more-popover', 'anim-scale-in');
@@ -49,10 +48,10 @@ function toggleSubMenu(hideButton: Element, show: boolean): void {
 	const dropdown = hideButton.closest('details')!;
 
 	// Native dropdown
-	select('details-menu', dropdown)!.classList.toggle('v-hidden', show);
+	$('details-menu', dropdown)!.classList.toggle('v-hidden', show);
 
 	// "Hide comment" dropdown
-	select('form.js-comment-minimize', dropdown)!.classList.toggle('d-none', !show);
+	$('form.js-comment-minimize', dropdown)!.classList.toggle('d-none', !show);
 }
 
 function resetDropdowns(event: delegate.Event): void {

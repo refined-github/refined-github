@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon} from '@primer/octicons-react';
 
@@ -95,7 +94,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 
 async function init(): Promise<void> {
 	// `clipboard-copy` on blob page, `#blob-edit-path` on edit page
-	const path = select('clipboard-copy, #blob-edit-path')!.getAttribute('value')!;
+	const path = $('clipboard-copy, #blob-edit-path')!.getAttribute('value')!;
 	const {[path]: prs} = await getPrsByFile();
 	if (!prs) {
 		return;
@@ -104,7 +103,7 @@ async function init(): Promise<void> {
 	const [prNumber] = prs; // First one or only one
 
 	if (pageDetect.isEditingFile()) {
-		select('.file')!.after(
+		$('.file')!.after(
 			<div className="form-warning p-3 mb-3 mx-lg-3">
 				{
 					prs.length === 1 ?
@@ -123,14 +122,14 @@ async function init(): Promise<void> {
 	}
 
 	if (prs.length > 1) {
-		select('.breadcrumb')!.before(getDropdown(prs));
+		$('.breadcrumb')!.before(getDropdown(prs));
 		return;
 	}
 
 	const link = getSingleButton(prNumber);
 	link.classList.add('ml-2', 'tooltipped', 'tooltipped-ne');
 	link.setAttribute('aria-label', `This file is touched by PR #${prNumber}`);
-	select('.breadcrumb')!.before(link);
+	$('.breadcrumb')!.before(link);
 }
 
 void features.add(__filebasename, {

@@ -1,4 +1,3 @@
-import select from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
@@ -23,7 +22,7 @@ Example tag content on private repositories https://github.com/private/private/c
 */
 export const getCurrentBranch = (): string | undefined => {
 	// .last needed for #2799
-	const feedLink = select.last('link[type="application/atom+xml"]');
+	const feedLink = $.last('link[type="application/atom+xml"]');
 	// The feedLink is not available on `isIssue` #3641
 	if (!feedLink) {
 		return;
@@ -52,11 +51,11 @@ export const buildRepoURL = (...pathParts: Array<string | number> & {0: string})
 };
 
 export const getPRHeadRepo = (): ReturnType<typeof getRepo> => {
-	return getRepo(select('.commit-ref.head-ref a')!);
+	return getRepo($('.commit-ref.head-ref a')!);
 };
 
 export function getForkedRepo(): string | undefined {
-	return select('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
+	return $('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
 }
 
 export const parseTag = (tag: string): {version: string; namespace: string} => {
@@ -141,9 +140,9 @@ export async function isPermalink(): Promise<boolean> {
 	await elementReady('[data-hotkey="w"]');
 	return (
 		// Pre "Latest commit design updates"
-		/Tag|Tree/.test(select('[data-hotkey="w"] i')?.textContent!) || // Text appears in the branch selector
+		/Tag|Tree/.test($('[data-hotkey="w"] i')?.textContent!) || // Text appears in the branch selector
 
 		// "Latest commit design updates"
-		select.exists('[data-hotkey="w"] .octicon-tag') // Tags have an icon
+		$.exists('[data-hotkey="w"] .octicon-tag') // Tags have an icon
 	);
 }

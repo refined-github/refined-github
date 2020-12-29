@@ -1,6 +1,5 @@
 import './preview-hidden-comments.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -9,15 +8,15 @@ import {upperCaseFirst} from '../github-helpers';
 const allowedReasons = new Set(['resolved', 'outdated', 'off-topic']);
 
 const init = (): void => {
-	for (const details of select.all('.minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments)')) {
+	for (const details of $$('.minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments)')) {
 		details.classList.add('rgh-preview-hidden-comments');
 
-		const commentText = select('.comment-body', details)!.textContent!.trim();
+		const commentText = $('.comment-body', details)!.textContent!.trim();
 		if (commentText.length === 0) {
 			continue;
 		}
 
-		const header = select([
+		const header = $([
 			'summary .timeline-comment-header-text', // Issue and commit comments
 			'.discussion-item-icon  + div' // Review Comments
 		], details)!;

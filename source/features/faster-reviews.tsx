@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -13,7 +12,7 @@ async function addSidebarReviewButton(): Promise<void | false> {
 	reviewFormUrl.hash = 'submit-review';
 
 	const sidebarReviewsSection = await elementReady('[aria-label="Select reviewers"] .discussion-sidebar-heading');
-	if (select.exists('[data-hotkey="v"]', sidebarReviewsSection)) {
+	if ($.exists('[data-hotkey="v"]', sidebarReviewsSection)) {
 		return false;
 	}
 
@@ -26,7 +25,7 @@ async function addSidebarReviewButton(): Promise<void | false> {
 
 function focusReviewTextarea({delegateTarget}: delegate.Event<Event, HTMLDetailsElement>): void {
 	if (delegateTarget.open) {
-		select('textarea', delegateTarget)!.focus();
+		$('textarea', delegateTarget)!.focus();
 	}
 }
 

@@ -1,11 +1,10 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 
 import features from '.';
 import {wrap, isEditable} from '../helpers/dom-utils';
 
 function addLocation(baseElement: HTMLElement): void {
-	for (const {nextElementSibling, nextSibling} of select.all('.octicon-location', baseElement)) {
+	for (const {nextElementSibling, nextSibling} of $$('.octicon-location', baseElement)) {
 		const location = nextElementSibling ?? nextSibling!; // `nextSibling` alone might point to an empty TextNode before an element, if there’s an element
 		if (isEditable(location)) {
 			continue;
@@ -26,7 +25,7 @@ const hovercardObserver = new MutationObserver(([mutation]) => {
 function init(): void {
 	addLocation(document.body);
 
-	const hovercardContainer = select('.js-hovercard-content > .Popover-message');
+	const hovercardContainer = $('.js-hovercard-content > .Popover-message');
 	if (hovercardContainer) {
 		hovercardObserver.observe(hovercardContainer, {childList: true});
 	}

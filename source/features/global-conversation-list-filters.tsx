@@ -1,6 +1,5 @@
 import './global-conversation-list-filters.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -29,16 +28,16 @@ function init(): void {
 		const isCurrentPage = new SearchQuery(location).includes(query);
 
 		// Highlight it, if that's the current page
-		if (isCurrentPage && !select.exists('.subnav-links .selected')) {
+		if (isCurrentPage && !$.exists('.subnav-links .selected')) {
 			link.classList.add('selected');
 
 			// Other links will keep the current query, that's not what we want
-			for (const otherLink of select.all('a.subnav-links a')) {
+			for (const otherLink of $$('a.subnav-links a')) {
 				new SearchQuery(otherLink).remove(query);
 			}
 		}
 
-		select('.subnav-links')!.append(link);
+		$('.subnav-links')!.append(link);
 	}
 }
 

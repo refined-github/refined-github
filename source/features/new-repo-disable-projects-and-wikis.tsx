@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
@@ -18,14 +17,14 @@ async function disableWikiAndProjects(): Promise<void> {
 		}
 	});
 	await domLoaded;
-	select('[data-content="Wiki"]')?.closest('.d-flex')!.remove();
-	select('[data-menu-item="wiki-tab"]')?.remove();
-	select('[data-content="Projects"]')?.closest('.d-flex')!.remove();
-	select('[data-menu-item="projects-tab"]')?.remove();
+	$('[data-content="Wiki"]')?.closest('.d-flex')!.remove();
+	$('[data-menu-item="wiki-tab"]')?.remove();
+	$('[data-content="Projects"]')?.closest('.d-flex')!.remove();
+	$('[data-menu-item="projects-tab"]')?.remove();
 }
 
 function setStorage(): void {
-	if (select('input#rgh-disable-project')!.checked) {
+	if ($('input#rgh-disable-project')!.checked) {
 		sessionStorage.rghNewRepo = true;
 	}
 }
@@ -33,7 +32,7 @@ function setStorage(): void {
 async function init(): Promise<void> {
 	await api.expectToken();
 
-	select.last('.js-repo-init-setting-container')!.after(
+	$.last('.js-repo-init-setting-container')!.after(
 		<div className="form-checkbox checked mt-0 mb-3">
 			<label>
 				<input

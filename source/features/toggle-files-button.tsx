@@ -1,7 +1,6 @@
 import './toggle-files-button.css';
 import cache from 'webext-storage-cache';
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -14,11 +13,11 @@ const cacheKey = 'files-hidden';
 
 function addButton(): void {
 	// `div` excludes `include-fragment`, which means the list is still loading. #2160
-	const filesHeader = select([
+	const filesHeader = $([
 		'div.commit-tease',
 		'.Box-header--blue .Details > :last-child > ul' // "Repository refresh" layout
 	]);
-	if (!filesHeader || select.exists('.rgh-toggle-files')) {
+	if (!filesHeader || $.exists('.rgh-toggle-files')) {
 		return;
 	}
 
@@ -35,7 +34,7 @@ function addButton(): void {
 }
 
 async function toggleHandler(): Promise<void> {
-	const isHidden = select('.repository-content')!.classList.toggle('rgh-files-hidden');
+	const isHidden = $('.repository-content')!.classList.toggle('rgh-files-hidden');
 	await (isHidden ? cache.set(cacheKey, true) : cache.delete(cacheKey));
 }
 

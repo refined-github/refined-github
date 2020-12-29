@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import domify from 'doma';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -46,7 +45,7 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 }
 
 function init(): void {
-	select.all('.js-comment-body p a:only-child')
+	$$('.js-comment-body p a:only-child')
 		.filter(item => isGist(item) && isOnlyChild(item))
 		.forEach(embedGist);
 }

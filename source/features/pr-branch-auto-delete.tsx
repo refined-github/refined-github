@@ -1,4 +1,3 @@
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -10,7 +9,7 @@ function init(): void {
 		subscription.destroy();
 
 		observeElement('.discussion-timeline-actions', (_, observer) => {
-			const deleteButton = select('[action$="/cleanup"] button[type="submit"]');
+			const deleteButton = $('[action$="/cleanup"] button[type="submit"]');
 			if (deleteButton) {
 				deleteButton.dataset.disableWith = 'Auto-deleting…';
 				deleteButton.click();

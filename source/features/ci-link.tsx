@@ -1,5 +1,4 @@
 import './ci-link.css';
-import select from 'select-dom';
 import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
@@ -27,7 +26,7 @@ async function init(): Promise<false | void> {
 	}
 
 	// Append to title (aware of forks and private repos)
-	select('[itemprop="name"]')!.parentElement!.append(icon);
+	$('[itemprop="name"]')!.parentElement!.append(icon);
 }
 
 void features.add(__filebasename, {

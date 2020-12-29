@@ -1,7 +1,6 @@
 import './hidden-review-comments-indicator.css';
 import mem from 'mem';
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import {CommentIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -16,7 +15,7 @@ const handleIndicatorClick = ({delegateTarget}: delegate.Event): void => {
 	const resetScroll = preserveScroll(commentedLine);
 	delegateTarget
 		.closest('.file.js-file')!
-		.querySelector('input.js-toggle-file-notes')!
+		.$('input.js-toggle-file-notes')!
 		.click();
 
 	resetScroll();
@@ -24,7 +23,7 @@ const handleIndicatorClick = ({delegateTarget}: delegate.Event): void => {
 
 // `mem` avoids adding the indicator twice to the same thread
 const addIndicator = mem((commentThread: HTMLElement): void => {
-	const commentCount = commentThread.querySelectorAll('.review-comment .js-comment').length;
+	const commentCount = commentThread.$$('.review-comment .js-comment').length;
 
 	commentThread.before(
 		<tr>
@@ -45,7 +44,7 @@ const observer = new MutationObserver(mutations => {
 		const wasVisible = mutation.oldValue!.includes('show-inline-notes');
 		const isHidden = !file.classList.contains('show-inline-notes');
 		if (wasVisible && isHidden) {
-			for (const thread of select.all('tr.inline-comments', file)) {
+			for (const thread of $$('tr.inline-comments', file)) {
 				addIndicator(thread);
 			}
 		}
@@ -53,7 +52,7 @@ const observer = new MutationObserver(mutations => {
 });
 
 function observeFiles(): void {
-	for (const element of select.all('.file.js-file')) {
+	for (const element of $$('.file.js-file')) {
 		// #observe won't observe the same element twice
 		observer.observe(element, {
 			attributes: true,

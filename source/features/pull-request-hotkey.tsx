@@ -1,14 +1,13 @@
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
 function init(): void {
-	const tabs = select.all([
+	const tabs = $$([
 		'.tabnav-pr .tabnav-tab', // Pre "Repository refresh" layout
 		'.tabnav-tabs .tabnav-tab'
 	]);
-	const selectedIndex = tabs.indexOf(select([
+	const selectedIndex = tabs.indexOf($([
 		'.tabnav-pr .selected', // Pre "Repository refresh" layout
 		'.tabnav-tabs .selected'
 	])!);

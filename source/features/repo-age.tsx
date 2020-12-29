@@ -1,7 +1,6 @@
 import twas from 'twas';
 import cache from 'webext-storage-cache';
 import React from 'dom-chef';
-import select from 'select-dom';
 import {RepoIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -103,7 +102,7 @@ async function init(): Promise<void> {
 	const secondSidebarSection = await elementReady('.repository-content .BorderGrid-row + .BorderGrid-row');
 	if (secondSidebarSection) {
 		const sidebarAboutSection = secondSidebarSection.previousElementSibling!;
-		select('.BorderGrid-cell', sidebarAboutSection)!.append(
+		$('.BorderGrid-cell', sidebarAboutSection)!.append(
 			<h3 className="sr-only">Repository age</h3>,
 			<div className="mt-3">
 				<a href={firstCommitHref} className="muted-link" title={`First commit dated ${dateFormatter.format(birthday)}`}>
@@ -124,11 +123,11 @@ async function init(): Promise<void> {
 		</li>
 	);
 
-	const license = select('.numbers-summary .octicon-law');
+	const license = $('.numbers-summary .octicon-law');
 	if (license) {
 		license.closest('li')!.before(element);
 	} else {
-		select('.numbers-summary')!.append(element);
+		$('.numbers-summary')!.append(element);
 	}
 }
 

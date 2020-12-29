@@ -1,7 +1,6 @@
 import './profile-gists-link.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import elementReady from 'element-ready';
 import {CodeSquareIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -36,7 +35,7 @@ async function init(): Promise<void> {
 		</a>
 	);
 
-	select('.UnderlineNav-body')!.append(link);
+	$('.UnderlineNav-body')!.append(link);
 
 	const count = await getGistCount(username);
 	if (count > 0) {

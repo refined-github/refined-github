@@ -1,11 +1,10 @@
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
 function jumpToFirstNonViewed(): void {
-	const firstNonViewedFile = select('.file:not([data-file-user-viewed])')!;
+	const firstNonViewedFile = $('.file:not([data-file-user-viewed])')!;
 	if (firstNonViewedFile) {
 		// Scroll to file without pushing to history
 		location.replace('#' + firstNonViewedFile.id);
@@ -17,7 +16,7 @@ function jumpToFirstNonViewed(): void {
 
 function init(): void {
 	delegate(document, '.diffbar-item progress-bar', 'click', jumpToFirstNonViewed);
-	select('.diffbar-item progress-bar')!.style.cursor = 'pointer';
+	$('.diffbar-item progress-bar')!.style.cursor = 'pointer';
 }
 
 void features.add(__filebasename, {

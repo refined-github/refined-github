@@ -1,11 +1,10 @@
-import select from 'select-dom';
 import delegate from 'delegate-it';
 
 import features from '.';
 
 function handleEscPress(event: delegate.Event<KeyboardEvent>): void {
 	if (event.key === 'Escape') {
-		select('button.js-cancel-issue-edit')!.click();
+		$('button.js-cancel-issue-edit')!.click();
 
 		event.stopImmediatePropagation();
 		event.preventDefault();

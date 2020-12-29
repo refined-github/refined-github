@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import {ClippyIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -18,7 +17,7 @@ function getRemoteName(): string | undefined {
 		return author;
 	}
 
-	if (select('[aria-label="Edit Pull Request title"]')) {
+	if ($('[aria-label="Edit Pull Request title"]')) {
 		return; // It's a collaborator, it's likely to be `origin`
 	}
 
@@ -63,9 +62,9 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-git-checkout'); // Mark this as processed
-	const tabContainer = select('[action="/users/checkout-preference"]', dropdown)!.closest<HTMLElement>('tab-container')!;
+	const tabContainer = $('[action="/users/checkout-preference"]', dropdown)!.closest<HTMLElement>('tab-container')!;
 	tabContainer.style.minWidth = '370px';
-	select('.UnderlineNav-body', tabContainer)!.append(
+	$('.UnderlineNav-body', tabContainer)!.append(
 		<button
 			name="type"
 			type="button"
@@ -101,7 +100,7 @@ void features.add(__filebasename, {
 		pageDetect.isPR
 	],
 	exclude: [
-		() => select.exists('#partial-discussion-header [title="Status: Merged"], #partial-discussion-header [title="Status: Closed"]')
+		() => $.exists('#partial-discussion-header [title="Status: Merged"], #partial-discussion-header [title="Status: Closed"]')
 	],
 	init
 });

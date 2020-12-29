@@ -20,6 +20,18 @@ declare const __filebasename: FeatureID;
 interface Window {
 	content: GlobalFetch;
 }
+const $: ParentNode['querySelector'] & {
+	last: ParentNode['querySelector'];
+	exists: (selector: string) => boolean;
+};
+const $$: ParentNode['querySelectorAll'];
+interface ParentNode {
+	$: ParentNode['querySelector'] & {
+		last: ParentNode['querySelector'];
+		exists: (selector: string) => boolean;
+	};
+	$$: ParentNode['querySelectorAll'];
+};
 
 declare module 'markdown-wasm/dist/markdown.node';
 

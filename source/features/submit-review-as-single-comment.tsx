@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import oneEvent from 'one-event';
@@ -17,7 +16,7 @@ const getButton = onetime(() => (
 
 function updateUI(): void {
 	// The feature only works with one comment
-	const labels = select.all(pendingSelector);
+	const labels = $$(pendingSelector);
 	if (labels.length === 1) {
 		labels[0].after(getButton());
 	} else {
@@ -28,7 +27,7 @@ function updateUI(): void {
 async function handleReviewSubmission(event: delegate.Event): Promise<void> {
 	const container = event.delegateTarget.closest('.line-comments')!;
 	await oneMutation(container, {childList: true, subtree: true}); // TODO: subtree might not be necessary anywhere on the page
-	if (select.exists(pendingSelector, container)) {
+	if ($.exists(pendingSelector, container)) {
 		updateUI();
 	}
 	// If no label is found, "Add single comment" was clicked
@@ -41,7 +40,7 @@ async function getNewCommentField(commentContainer: Element, lineBeingCommentedO
 	const listener = oneEvent(lineBeingCommentedOn.parentElement!, 'focusin');
 	if (isReplyingToExistingThread) {
 		const newCommentContainer = commentContainer.closest('.js-resolvable-thread-contents')!;
-		select('.review-thread-reply-button', newCommentContainer)!.click();
+		$('.review-thread-reply-button', newCommentContainer)!.click();
 	} else {
 		const isRightSide = commentContainer.closest('.js-addition');
 		(isRightSide ? select.last : select)('.js-add-line-comment', lineBeingCommentedOn)!.click();
@@ -53,7 +52,7 @@ async function getNewCommentField(commentContainer: Element, lineBeingCommentedO
 
 async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 	const commentContainer = event.delegateTarget.closest('.js-comment')!;
-	const commentText = select('textarea[name="pull_request_review_comment[body]"]', commentContainer)!.value;
+	const commentText = $('textarea[name="pull_request_review_comment[body]"]', commentContainer)!.value;
 	if (!commentText) {
 		alert('Error: Comment not found and not submitted. More info in the console.');
 		features.error(__filebasename, 'Comment not found');
@@ -65,11 +64,11 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 
 	// Use nearby comment box
 	const comment = await getNewCommentField(commentContainer, lineBeingCommentedOn);
-	const submitButton = select('button[name="single_comment"]', comment.form!)!;
+	const submitButton = $('button[name="single_comment"]', comment.form!)!;
 	const commentForm = comment.closest<HTMLElement>('.inline-comment-form-container')!;
 
 	// Copy comment to new comment box
-	const newComment = select('textarea[name="comment[body]"]', commentForm)!;
+	const newComment = $('textarea[name="comment[body]"]', commentForm)!;
 	textFieldEdit.insert(newComment, commentText);
 
 	// Safely try comment deletion
@@ -77,7 +76,7 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 		commentForm.hidden = true;
 
 		// Delete comment without asking confirmation
-		const deleteLink = select('button[aria-label="Delete comment"]', commentContainer)!;
+		const deleteLink = $('button[aria-label="Delete comment"]', commentContainer)!;
 		deleteLink.removeAttribute('data-confirm');
 		deleteLink.click();
 

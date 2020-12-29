@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -20,7 +19,7 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event<Mous
 			}
 		});
 
-		select('.BtnGroup a[href*="releases/edit"]')!.click(); // Visit "Edit release" page
+		$('.BtnGroup a[href*="releases/edit"]')!.click(); // Visit "Edit release" page
 	} catch (error: unknown) {
 		draftButton.textContent = 'Error. Check console or retry';
 		features.error(__filebasename, error);
@@ -30,8 +29,8 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event<Mous
 async function init(): Promise<void | false> {
 	await api.expectToken();
 
-	const editButton = select('.BtnGroup a[href*="releases/edit"]');
-	if (!editButton || select.exists('.label-draft')) {
+	const editButton = $('.BtnGroup a[href*="releases/edit"]');
+	if (!editButton || $.exists('.label-draft')) {
 		return false;
 	}
 

@@ -1,4 +1,3 @@
-import select from 'select-dom';
 import onetime from 'onetime';
 import debounce from 'debounce-fn';
 import {observe} from 'selector-observer';
@@ -7,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 const loadMore = debounce(() => {
-	const button = select('button.ajax-pagination-btn')!;
+	const button = $('button.ajax-pagination-btn')!;
 	button.click();
 	button.textContent = 'Loading…';
 

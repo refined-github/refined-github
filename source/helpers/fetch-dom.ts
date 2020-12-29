@@ -8,7 +8,7 @@ async function fetchDom(url: string, selector?: string): Promise<Node | undefine
 	const response = await fetch(absoluteURL);
 	const dom = domify(await response.text());
 	if (selector) {
-		return dom.querySelector(selector) ?? undefined;
+		return dom.$(selector) ?? undefined;
 	}
 
 	return dom;

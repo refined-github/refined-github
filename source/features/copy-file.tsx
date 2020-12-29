@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import copyToClipboard from 'copy-text-to-clipboard';
@@ -9,7 +8,7 @@ import {groupButtons} from '../github-helpers/group-buttons';
 
 function handleClick({delegateTarget: button}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const file = button.closest('.Box, .js-gist-file-update-container')!;
-	const content = select.all('.blob-code-inner', file)
+	const content = $$('.blob-code-inner', file)
 		.map(({innerText: line}) => line === '\n' ? '' : line) // Must be `.innerText`
 		.join('\n');
 	copyToClipboard(content);
@@ -23,7 +22,7 @@ function handleClick({delegateTarget: button}: delegate.Event<MouseEvent, HTMLBu
 }
 
 function renderButton(): void {
-	for (const button of select.all([
+	for (const button of $$([
 		'.file-actions .btn[href*="/raw/"]', // `isGist`
 		'[data-hotkey="b"]'
 	])) {
@@ -46,13 +45,13 @@ function renderButton(): void {
 }
 
 function removeButton(): void {
-	select('.rgh-copy-file')?.remove();
+	$('.rgh-copy-file')?.remove();
 }
 
 function init(): void {
 	delegate(document, '.rgh-copy-file', 'click', handleClick);
 
-	if (select.exists('.blob > .markdown-body')) {
+	if ($.exists('.blob > .markdown-body')) {
 		delegate(document, '.rgh-md-source', 'rgh:view-markdown-source', renderButton);
 		delegate(document, '.rgh-md-source', 'rgh:view-markdown-rendered', removeButton);
 	} else {

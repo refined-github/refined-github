@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import onetime from 'onetime';
 import oneMutation from 'one-mutation';
 import elementReady from 'element-ready';
@@ -25,7 +24,7 @@ async function addNewProjectLink(): Promise<void | false> {
 	// https://github.com/USER/REPO/projects/new
 	const path = location.pathname.split('/', 3);
 	const base = path.length > 2 ? path.join('/') : '/orgs' + path.join('/');
-	select('.Header [href="/new"]')!.parentElement!.append(
+	$('.Header [href="/new"]')!.parentElement!.append(
 		<a className="dropdown-item" href={base + '/projects/new'}>
 			New project
 		</a>
@@ -33,7 +32,7 @@ async function addNewProjectLink(): Promise<void | false> {
 }
 
 export default async function getTabCount(tab: Element): Promise<number> {
-	const counter = select('.Counter, .num', tab);
+	const counter = $('.Counter, .num', tab);
 	if (!counter) {
 		// GitHub might have already dropped the counter, which means it's 0
 		return 0;

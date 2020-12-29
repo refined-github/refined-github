@@ -1,6 +1,5 @@
 import './conflict-marker.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
@@ -30,7 +29,7 @@ function buildQuery(prs: PRConfig[]): string {
 }
 
 function getPRConfig(prIcon: Element): PRConfig {
-	const link = prIcon.closest('.js-navigation-item')!.querySelector('a.js-navigation-open')!;
+	const link = prIcon.closest('.js-navigation-item')!.$('a.js-navigation-open')!;
 	const [, user, repo, , number] = link.pathname.split('/');
 	return {
 		user,
@@ -42,7 +41,7 @@ function getPRConfig(prIcon: Element): PRConfig {
 }
 
 async function init(): Promise<false | void> {
-	const openPrIcons = select.all('.js-issue-row .octicon-git-pull-request.open');
+	const openPrIcons = $$('.js-issue-row .octicon-git-pull-request.open');
 	if (openPrIcons.length === 0) {
 		return false;
 	}

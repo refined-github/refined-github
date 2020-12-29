@@ -1,4 +1,3 @@
-import select from 'select-dom';
 
 import features from '.';
 import onProfileDropdownLoad from '../github-events/on-profile-dropdown-load';
@@ -10,7 +9,7 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 }
 
 async function init(): Promise<void> {
-	const links = select.all([
+	const links = $$([
 		// Pre "Repository refresh" layout
 		'#user-links a[href$="tab=repositories"]', // "Repositories" tab on user profile
 		'.orgnav > a.pagehead-tabs-item:first-child', // "Repositories" tab on organization profile
@@ -26,7 +25,7 @@ async function init(): Promise<void> {
 
 	// "Your repositories" in header dropdown
 	await onProfileDropdownLoad();
-	addSourceTypeToLink(select('.header-nav-current-user ~ a[href$="tab=repositories"]')!);
+	addSourceTypeToLink($('.header-nav-current-user ~ a[href$="tab=repositories"]')!);
 }
 
 void features.add(__filebasename, {

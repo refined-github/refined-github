@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import {parseCron} from '@cheap-glitch/mi-cron';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -53,8 +52,8 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	for (const workflowListItem of select.all('[href*="?query"]', await elementReady('.hx_actions-sidebar'))) {
-		if (select.exists('.octicon-stop', workflowListItem)) {
+	for (const workflowListItem of $$('[href*="?query"]', await elementReady('.hx_actions-sidebar'))) {
+		if ($.exists('.octicon-stop', workflowListItem)) {
 			continue;
 		}
 

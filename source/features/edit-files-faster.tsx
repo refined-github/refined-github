@@ -1,6 +1,5 @@
 import './edit-files-faster.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
@@ -13,8 +12,8 @@ import onFileListUpdate from '../github-events/on-file-list-update';
 
 async function init(): Promise<void> {
 	const isPermalink_ = await isPermalink();
-	for (const fileIcon of select.all('.js-navigation-container .octicon-file')) {
-		const fileLink = fileIcon.closest('.js-navigation-item')!.querySelector('a.js-navigation-open')!;
+	for (const fileIcon of $$('.js-navigation-container .octicon-file')) {
+		const fileLink = fileIcon.closest('.js-navigation-item')!.$('a.js-navigation-open')!;
 		const url = new GitHubURL(fileLink.href).assign({
 			route: 'edit'
 		});

@@ -1,4 +1,3 @@
-import select from 'select-dom';
 
 import onElementRemoval from './on-element-removal';
 
@@ -10,7 +9,7 @@ Tracks the replacement of an element, identified via selector.
 */
 
 export default async function onReplacedElement(selector: string, callback: VoidCallback): Promise<void> {
-	let trackedElement = select(selector);
+	let trackedElement = $(selector);
 	if (!trackedElement) {
 		throw new Error('The element can’t be found');
 	}
@@ -18,7 +17,7 @@ export default async function onReplacedElement(selector: string, callback: Void
 	while (trackedElement) {
 		// eslint-disable-next-line no-await-in-loop
 		await onElementRemoval(trackedElement);
-		trackedElement = select(selector);
+		trackedElement = $(selector);
 		if (trackedElement) {
 			callback();
 		}

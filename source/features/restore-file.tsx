@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import onetime from 'onetime';
 import pushForm from 'push-form';
 import delegate from 'delegate-it';
@@ -109,12 +108,12 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 }
 
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
-	const editFile = select('a[aria-label^="Change this"]', dropdown);
-	if (!editFile || select.exists('.rgh-restore-file', dropdown)) {
+	const editFile = $('a[aria-label^="Change this"]', dropdown);
+	if (!editFile || $.exists('.rgh-restore-file', dropdown)) {
 		return;
 	}
 
-	if (editFile.closest('.file-header')!.querySelector('[aria-label="File added"]')) {
+	if (editFile.closest('.file-header')!.$('[aria-label="File added"]')) {
 		// The file is new. "Restoring" it means deleting it, which is already possible.
 		// Depends on `highlight-deleted-and-added-files-in-diffs`.
 		return;

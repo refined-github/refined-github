@@ -1,4 +1,3 @@
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -12,7 +11,7 @@ function remember(event: delegate.Event<Event, HTMLFormElement>): void {
 
 function isChecked(file: HTMLElement): boolean {
 	// Use the attribute because the `checked` property seems unreliable in the `click` handler
-	return file.querySelector('.js-reviewed-checkbox')!.hasAttribute('checked');
+	return file.$('.js-reviewed-checkbox')!.hasAttribute('checked');
 }
 
 function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
@@ -25,7 +24,7 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 
 	const previousFileState = isChecked(previousFile);
 	const thisFile = event.delegateTarget.closest<HTMLElement>('.js-file')!;
-	const files = select.all('.js-file');
+	const files = $$('.js-file');
 	const selectedFiles = files.slice(...[
 		files.indexOf(previousFile) + 1,
 		files.indexOf(thisFile) + 1
@@ -33,7 +32,7 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 
 	for (const file of selectedFiles) {
 		if (isChecked(file) !== previousFileState) {
-			select('.js-reviewed-checkbox', file)!.click();
+			$('.js-reviewed-checkbox', file)!.click();
 		}
 	}
 }

@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -7,7 +6,7 @@ import features from '.';
 const isSingleHTMLFile = (): boolean => pageDetect.isSingleFile() && /\.html?$/.test(location.pathname);
 
 function init(): void {
-	const rawButton = select('a#raw-url')!;
+	const rawButton = $('a#raw-url')!;
 	rawButton
 		.parentElement! // `BtnGroup`
 		.prepend(

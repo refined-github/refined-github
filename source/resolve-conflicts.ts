@@ -27,7 +27,7 @@ function getLineNumber(lineChild: Element): number {
 		lineChild
 			.closest('.CodeMirror-gutter-wrapper, .CodeMirror-linewidget')!
 			.parentElement!
-			.querySelector('.CodeMirror-linenumber')!
+			.$('.CodeMirror-linenumber')!
 			.textContent
 	) - 1;
 }

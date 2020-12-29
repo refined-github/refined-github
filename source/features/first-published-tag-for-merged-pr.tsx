@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
@@ -21,7 +20,7 @@ const getFirstTag = cache.function(async (commit: string): Promise<string | unde
 });
 
 async function init(): Promise<void> {
-	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code.link-gray-dark`)!.textContent!;
+	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code.link-gray-dark`)!.textContent!;
 	const tagName = await getFirstTag(mergeCommit);
 
 	if (!tagName) {
@@ -29,7 +28,7 @@ async function init(): Promise<void> {
 	}
 
 	// Select the PR header and sticky header
-	for (const discussionHeader of select.all('#partial-discussion-header relative-time:not(.rgh-first-tag)')) {
+	for (const discussionHeader of $$('#partial-discussion-header relative-time:not(.rgh-first-tag)')) {
 		discussionHeader.classList.add('rgh-first-tag');
 
 		discussionHeader.parentElement!.append(
@@ -51,9 +50,9 @@ void features.add(__filebasename, {
 		pageDetect.isPRConversation
 	],
 	exclude: [
-		() => !select.exists('#partial-discussion-header [title="Status: Merged"]')
+		() => !$.exists('#partial-discussion-header [title="Status: Merged"]')
 	],
 	init() {
-		observeElement(select('#partial-discussion-header')!.parentElement!, init);
+		observeElement($('#partial-discussion-header')!.parentElement!, init);
 	}
 });

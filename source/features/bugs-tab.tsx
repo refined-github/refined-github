@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import {BugIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -55,34 +54,34 @@ async function init(): Promise<void | false> {
 	const bugsTab = issuesTab.cloneNode(true);
 
 	// Disable unwanted behavior #3001
-	const bugsLink = select('a', bugsTab)!;
+	const bugsLink = $('a', bugsTab)!;
 	bugsLink.removeAttribute('data-hotkey');
 	bugsLink.removeAttribute('data-selected-links');
-	select('a', issuesTab)!.removeAttribute('data-selected-links');
+	$('a', issuesTab)!.removeAttribute('data-selected-links');
 
 	// Update its appearance
-	const bugsTabTitle = select('[data-content]', bugsTab);
+	const bugsTabTitle = $('[data-content]', bugsTab);
 	if (bugsTabTitle) {
 		bugsTabTitle.dataset.content = 'Bugs';
 		bugsTabTitle.textContent = 'Bugs';
-		select('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline"/>);
+		$('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline"/>);
 
 		// Un-select one of the tabs if necessary
-		const selectedTabLink = !isBugsPage || pageDetect.isPRList() ? bugsLink : select('.selected', issuesTab);
+		const selectedTabLink = !isBugsPage || pageDetect.isPRList() ? bugsLink : $('.selected', issuesTab);
 		selectedTabLink?.classList.remove('selected');
 		selectedTabLink?.removeAttribute('aria-current');
 	} else {
 		// Pre "Repository refresh" layout
-		select('[itemprop="name"]', bugsTab)!.textContent = 'Bugs';
-		select('.octicon', bugsTab)!.replaceWith(<BugIcon/>);
+		$('[itemprop="name"]', bugsTab)!.textContent = 'Bugs';
+		$('.octicon', bugsTab)!.replaceWith(<BugIcon/>);
 
 		// Change the Selected tab if necessary
 		bugsLink.classList.toggle('selected', isBugsPage && !pageDetect.isPRList());
-		select('.selected', issuesTab)?.classList.toggle('selected', !isBugsPage);
+		$('.selected', issuesTab)?.classList.toggle('selected', !isBugsPage);
 	}
 
 	// Set temporary counter
-	const bugsCounter = select('.Counter', bugsTab)!;
+	const bugsCounter = $('.Counter', bugsTab)!;
 	bugsCounter.textContent = '0';
 	bugsCounter.title = '';
 

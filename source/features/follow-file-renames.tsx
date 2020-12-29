@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -19,7 +18,7 @@ async function findRename(lastCommitOnPage: string): Promise<File[]> {
 }
 
 function init(): false | void {
-	const disabledPagination = select.all('.paginate-container [disabled], .paginate-container .disabled');
+	const disabledPagination = $$('.paginate-container [disabled], .paginate-container .disabled');
 	const url = new GitHubURL(location.href);
 	// Clear the search from the url, so it does not get passed to the rename link.
 	url.search = '';

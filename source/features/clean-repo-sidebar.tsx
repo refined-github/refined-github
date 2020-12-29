@@ -1,5 +1,4 @@
 import './clean-repo-sidebar.css';
-import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -20,8 +19,8 @@ async function init(): Promise<void> {
 
 	// Hide empty meta if it’s not editable by the current user
 	// TODO: once it's fixed, use https://github.com/fregante/github-url-detection/blob/4840d85d31d59bfe71e884ef42c482fbfff2d955/index.ts#L490
-	if (!select.exists('.repository-content [aria-label="Edit repository metadata"]')) {
-		select('.repository-content .BorderGrid-cell:first-child > .text-italic')?.remove();
+	if (!$.exists('.repository-content [aria-label="Edit repository metadata"]')) {
+		$('.repository-content .BorderGrid-cell:first-child > .text-italic')?.remove();
 	}
 }
 

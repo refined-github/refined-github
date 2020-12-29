@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import {FoldDownIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -9,7 +8,7 @@ import features from '.';
 import smartBlockWrap from '../helpers/smart-block-wrap';
 
 function addContentToDetails(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	const field = event.delegateTarget.form!.querySelector('textarea')!;
+	const field = event.delegateTarget.form!.$('textarea')!;
 	const selection = field.value.slice(field.selectionStart, field.selectionEnd);
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
@@ -35,7 +34,7 @@ function addContentToDetails(event: delegate.Event<MouseEvent, HTMLButtonElement
 
 function init(): void {
 	delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails);
-	for (const anchor of select.all('md-ref')) {
+	for (const anchor of $$('md-ref')) {
 		anchor.after(
 			<button type="button" className="toolbar-item tooltipped tooltipped-n rgh-collapsible-content-btn" aria-label="Add collapsible content">
 				<FoldDownIcon/>

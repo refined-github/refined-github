@@ -1,6 +1,5 @@
 import './release-download-count.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import {DownloadIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';
@@ -40,9 +39,9 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 
 async function init(): Promise<void | false> {
 	const releases = new Map();
-	for (const release of select.all('.release')) {
-		if (select.exists('.octicon-package', release)) {
-			const name = select('svg.octicon-tag ~ span', release)!.textContent!;
+	for (const release of $$('.release')) {
+		if ($.exists('.octicon-package', release)) {
+			const name = $('svg.octicon-tag ~ span', release)!.textContent!;
 			releases.set(name, release);
 		}
 	}
@@ -55,7 +54,7 @@ async function init(): Promise<void | false> {
 
 	for (const [name, release] of releases) {
 		const sortedDownloads = assets[api.escapeKey(name)].sort((a, b) => b.downloadCount - a.downloadCount);
-		for (const assetName of select.all('.octicon-package ~ span', release)) {
+		for (const assetName of $$('.octicon-package ~ span', release)) {
 			// Match the asset in the DOM to the asset in the API response
 			for (const [index, {name, downloadCount}] of sortedDownloads.entries()) {
 				if (name === assetName.textContent && downloadCount > 0) {
@@ -63,7 +62,7 @@ async function init(): Promise<void | false> {
 					// Place next to asset size
 					assetName
 						.closest('.Box-body')!
-						.querySelector('small')!
+						.$('small')!
 						.before(
 							<small className={classes} title="Downloads">
 								{abbreviateNumber(downloadCount)} <DownloadIcon/>

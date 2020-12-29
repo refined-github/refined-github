@@ -1,5 +1,4 @@
 import './clean-rich-text-editor.css';
-import select from 'select-dom';
 import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
@@ -10,7 +9,7 @@ function hideButtons(): void {
 }
 
 function hideTextareaTooltip(): void {
-	for (const textarea of select.all('.comment-form-textarea')) {
+	for (const textarea of $$('.comment-form-textarea')) {
 		textarea.title = '';
 	}
 }

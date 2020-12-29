@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -9,7 +8,7 @@ import GitHubURL from '../github-helpers/github-url';
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-raw-file-link'); // Mark this as processed
 
-	const viewFile = select('a[data-ga-click^="View file"]', dropdown)!;
+	const viewFile = $('a[data-ga-click^="View file"]', dropdown)!;
 	const {href} = new GitHubURL(viewFile.href).assign({route: 'raw'});
 
 	viewFile.after(

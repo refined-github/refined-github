@@ -1,11 +1,10 @@
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
 function init(): void {
 	// There are two buttons: unstar and star
-	for (const button of select.all('.js-social-form > button')) {
+	for (const button of $$('.js-social-form > button')) {
 		button.dataset.hotkey = 'g s';
 	}
 }

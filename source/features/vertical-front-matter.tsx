@@ -1,6 +1,5 @@
 import './vertical-front-matter.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -9,17 +8,17 @@ import features from '.';
 const hasFrontMatter = (): boolean => pageDetect.isSingleFile() && /\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee)$/.test(location.pathname);
 
 function init(): void | false {
-	const table = select('[data-table-type="yaml-metadata"]')!;
-	const headers = select.all(':scope > thead th', table);
+	const table = $('[data-table-type="yaml-metadata"]')!;
+	const headers = table.$$(':scope > thead th');
 	if (headers.length <= 4) {
 		return false;
 	}
 
-	const values = select.all(':scope > tbody > tr > td', table);
+	const values = table.$$(':scope > tbody > tr > td');
 	table.replaceWith(
 		<table className="rgh-vertical-front-matter-table" data-table-type="yaml-metadata">
 			<tbody>
-				{headers.map((cell, index) => (
+				{[...headers].map((cell, index) => (
 					<tr>
 						{cell}
 						{values[index]}

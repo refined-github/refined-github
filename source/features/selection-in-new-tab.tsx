@@ -1,11 +1,10 @@
-import select from 'select-dom';
 import onetime from 'onetime';
 
 import features from '.';
 import {isEditable} from '../helpers/dom-utils';
 
 function openInNewTab({key, target}: KeyboardEvent): void {
-	const selected = select('.navigation-focus a.js-navigation-open[href]');
+	const selected = $('.navigation-focus a.js-navigation-open[href]');
 	if (selected && key === 'O' && !isEditable(target)) {
 		void browser.runtime.sendMessage({
 			openUrls: [selected.href]

@@ -1,4 +1,3 @@
-import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
@@ -8,18 +7,18 @@ import looseParseInt from '../helpers/loose-parse-int';
 
 async function init(): Promise<void | false> {
 	const commitCount = (await elementReady<HTMLElement>('div.Box.mb-3 .octicon-git-commit'))?.nextElementSibling;
-	if (!commitCount || looseParseInt(commitCount) < 2 || !select.exists('#new_pull_request')) {
+	if (!commitCount || looseParseInt(commitCount) < 2 || !$.exists('#new_pull_request')) {
 		return false;
 	}
 
-	const [prTitle, ...prMessage] = select('#commits_bucket [data-url$="compare/commit"] a[title]')!.title.split(/\n\n/);
+	const [prTitle, ...prMessage] = $('#commits_bucket [data-url$="compare/commit"] a[title]')!.title.split(/\n\n/);
 
 	textFieldEdit.set(
-		select('.discussion-topic-header input')!,
+		$('.discussion-topic-header input')!,
 		prTitle
 	);
 	textFieldEdit.insert(
-		select('#new_pull_request textarea[aria-label="Comment body"]')!,
+		$('#new_pull_request textarea[aria-label="Comment body"]')!,
 		prMessage.join('\n\n')
 	);
 }

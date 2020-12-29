@@ -1,7 +1,6 @@
 import './deep-reblame.css';
 import mem from 'mem';
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import {VersionsIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -63,8 +62,8 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	blameElement.blur(); // Hide tooltip after click, it’s shown on :focus
 
 	const blameHunk = blameElement.closest('.blame-hunk')!;
-	const prNumber = looseParseInt(select('.issue-link', blameHunk)!);
-	const prCommit = select('a.message', blameHunk)!.pathname.split('/').pop()!;
+	const prNumber = looseParseInt($('.issue-link', blameHunk)!);
+	const prCommit = $('a.message', blameHunk)!.pathname.split('/').pop()!;
 	const blameUrl = new GitHubURL(location.href);
 
 	const spinner = <LoadingIcon className="mr-2"/>;
@@ -72,7 +71,7 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 
 	try {
 		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumber, blameUrl.filePath);
-		blameUrl.hash = 'L' + select('.js-line-number', blameHunk)!.textContent!;
+		blameUrl.hash = 'L' + $('.js-line-number', blameHunk)!.textContent!;
 		location.href = String(blameUrl);
 	} catch (error: unknown) {
 		spinner.replaceWith(<VersionsIcon/>);
@@ -81,7 +80,7 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 }
 
 function init(): void | false {
-	const pullRequests = select.all('[data-hovercard-type="pull_request"]');
+	const pullRequests = $$('[data-hovercard-type="pull_request"]');
 	if (pullRequests.length === 0) {
 		return false;
 	}
@@ -90,12 +89,12 @@ function init(): void | false {
 	for (const pullRequest of pullRequests) {
 		const hunk = pullRequest.closest('.blame-hunk')!;
 
-		const reblameLink = select('.reblame-link', hunk);
+		const reblameLink = $('.reblame-link', hunk);
 		if (reblameLink) {
 			reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
 			reblameLink.classList.add('rgh-deep-reblame');
 		} else {
-			select('.blob-reblame', hunk)!.append(
+			$('.blob-reblame', hunk)!.append(
 				<button
 					type="button"
 					aria-label="View blame prior to this change (extracts commits from this PR first)"

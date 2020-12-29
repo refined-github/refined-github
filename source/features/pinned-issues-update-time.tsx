@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -30,11 +29,11 @@ const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Re
 });
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
-	return looseParseInt(select('.opened-by', pinnedIssue)!.firstChild!);
+	return looseParseInt($('.opened-by', pinnedIssue)!.firstChild!);
 }
 
 async function init(): Promise<void | false> {
-	const pinnedIssues = select.all('.pinned-issue-item');
+	const pinnedIssues = $$('.pinned-issue-item');
 	if (pinnedIssues.length === 0) {
 		return false;
 	}
@@ -43,7 +42,7 @@ async function init(): Promise<void | false> {
 	for (const pinnedIssue of pinnedIssues) {
 		const issueNumber = getPinnedIssueNumber(pinnedIssue);
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
-		select('.pinned-item-desc', pinnedIssue)!.append(
+		$('.pinned-item-desc', pinnedIssue)!.append(
 			' • ',
 			<span className="text-gray d-inline-block">
 				updated <relative-time datetime={updatedAt}/>

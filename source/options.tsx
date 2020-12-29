@@ -3,7 +3,6 @@ import './options.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import domify from 'doma';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
@@ -11,8 +10,8 @@ import * as indentTextarea from 'indent-textarea';
 import {perDomainOptions} from './options-storage';
 
 function moveDisabledFeaturesToTop(): void {
-	const container = select('.js-features')!;
-	for (const unchecked of select.all('.feature [type=checkbox]:not(:checked)', container).reverse()) {
+	const container = $('.js-features')!;
+	for (const unchecked of container.$$('.feature [type=checkbox]:not(:checked)').reverse()) {
 		// .reverse() needed to preserve alphabetical order while prepending
 		container.prepend(unchecked.closest('.feature')!);
 	}
@@ -57,7 +56,7 @@ function featuresFilterHandler(event: Event): void {
 		.replace(/\W/g, ' ')
 		.split(/\s+/)
 		.filter(Boolean); // Ignore empty strings
-	for (const feature of select.all('.feature')) {
+	for (const feature of $$('.feature')) {
 		feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
 	}
 }
@@ -67,7 +66,7 @@ async function highlightNewFeatures(): Promise<void> {
 	const isFirstVisit = Object.keys(featuresAlreadySeen).length === 0;
 	const tenDaysAgo = Date.now() - (10 * 24 * 60 * 60 * 1000);
 
-	for (const feature of select.all('.feature [type=checkbox]')) {
+	for (const feature of $$('.feature [type=checkbox]')) {
 		if (!(feature.id in featuresAlreadySeen)) {
 			featuresAlreadySeen[feature.id] = isFirstVisit ? tenDaysAgo : Date.now();
 		}
@@ -82,7 +81,7 @@ async function highlightNewFeatures(): Promise<void> {
 
 async function generateDom(): Promise<void> {
 	// Generate list
-	select('.js-features')!.append(...__featuresMeta__.map(buildFeatureCheckbox));
+	$('.js-features')!.append(...__featuresMeta__.map(buildFeatureCheckbox));
 
 	// Update list from saved options
 	await perDomainOptions.syncForm('form');
@@ -93,14 +92,14 @@ async function generateDom(): Promise<void> {
 
 	// Move debugging tools higher when side-loaded
 	if (process.env.NODE_ENV === 'development') {
-		select('#debugging-position')!.replaceWith(select('#debugging')!);
+		$('#debugging-position')!.replaceWith($('#debugging')!);
 	}
 }
 
 function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
-	select('.js-options-sync-selector')?.addEventListener('change', ({currentTarget: dropdown}) => {
-		select('a#personal-token-link')!.host = (dropdown as HTMLSelectElement).value;
+	$('.js-options-sync-selector')?.addEventListener('change', ({currentTarget: dropdown}) => {
+		$('a#personal-token-link')!.host = (dropdown as HTMLSelectElement).value;
 	});
 
 	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)
@@ -112,10 +111,10 @@ function addEventListeners(): void {
 	indentTextarea.watch('textarea');
 
 	// Filter feature list
-	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
+	$('#filter-features')!.addEventListener('input', featuresFilterHandler);
 
 	// Add cache clearer
-	select('#clear-cache')!.addEventListener('click', clearCacheHandler);
+	$('#clear-cache')!.addEventListener('click', clearCacheHandler);
 
 	// Ensure all links open in a new tab #3181
 	delegate(document, '[href^="http"]', 'click', (event: delegate.Event<MouseEvent, HTMLAnchorElement>) => {

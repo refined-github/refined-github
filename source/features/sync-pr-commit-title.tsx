@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import regexJoin from 'regex-join';
 import * as pageDetect from 'github-url-detection';
@@ -17,11 +16,11 @@ function getCommitTitleField(): HTMLInputElement | undefined {
 }
 
 function getPRNumber(): string {
-	return select('.gh-header-number')!.textContent!;
+	return $('.gh-header-number')!.textContent!;
 }
 
 function createCommitTitle(): string {
-	const prTitle = select('.js-issue-title')!.textContent!.trim();
+	const prTitle = $('.js-issue-title')!.textContent!.trim();
 	return `${prTitle} (${getPRNumber()})`;
 }
 
@@ -32,7 +31,7 @@ function needsSubmission(): boolean {
 	}
 
 	// Ensure that the required fields are on the page
-	if (!select.exists(prTitleFieldSelector + ',' + prTitleSubmitSelector)) {
+	if (!$.exists(prTitleFieldSelector + ',' + prTitleSubmitSelector)) {
 		features.error(__filebasename, 'Can’t update the PR title');
 		return false;
 	}
@@ -41,7 +40,7 @@ function needsSubmission(): boolean {
 }
 
 function getUI(): HTMLElement {
-	return select(`${mergeFormSelector} .rgh-sync-pr-commit-title-note`) ?? (
+	return $(`${mergeFormSelector} .rgh-sync-pr-commit-title-note`) ?? (
 		<p className="note rgh-sync-pr-commit-title-note">
 			The title of this PR will be updated to match this title. <button type="button" className="btn-link muted-link text-underline rgh-sync-pr-commit-title">Cancel</button>
 		</p>
@@ -66,8 +65,8 @@ function updatePRTitle(): void {
 		.replace(regexJoin(/\s*\(/, getPRNumber(), /\)$/), '');
 
 	// Fill and submit title-change form
-	select(prTitleFieldSelector)!.value = prTitle;
-	select(prTitleSubmitSelector)!.click(); // `form.submit()` isn't sent via ajax
+	$(prTitleFieldSelector)!.value = prTitle;
+	$(prTitleSubmitSelector)!.click(); // `form.submit()` isn't sent via ajax
 }
 
 async function updateCommitTitle(event: Event): Promise<void> {

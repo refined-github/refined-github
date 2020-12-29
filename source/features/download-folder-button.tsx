@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import {DownloadIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
@@ -9,7 +8,7 @@ function init(): void {
 	const downloadUrl = new URL('https://download-directory.github.io/');
 	downloadUrl.searchParams.set('url', location.href);
 
-	const folderButtonGroup = select('.file-navigation .BtnGroup.float-right');
+	const folderButtonGroup = $('.file-navigation .BtnGroup.float-right');
 	if (folderButtonGroup) {
 		folderButtonGroup.prepend(
 			<a
@@ -21,7 +20,7 @@ function init(): void {
 		);
 	} else {
 		// "Repository refresh" layout
-		select('.file-navigation > .d-flex:last-child')!.append(
+		$('.file-navigation > .d-flex:last-child')!.append(
 			<a
 				className="btn ml-2"
 				href={downloadUrl.href}

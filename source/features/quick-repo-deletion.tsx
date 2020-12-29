@@ -1,7 +1,6 @@
 import './quick-repo-deletion.css';
 import delay from 'delay';
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -15,7 +14,7 @@ import looseParseInt from '../helpers/loose-parse-int';
 import parseBackticks from '../github-helpers/parse-backticks';
 
 function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
-	const hasContent = select.exists([
+	const hasContent = $.exists([
 		'[data-hotkey="g i"] .Counter:not([hidden])', // Open issues
 		'[data-hotkey="g p"] .Counter:not([hidden])', // Open PRs
 		'.rgh-open-prs-of-forks' // PRs opened in the source repo
@@ -60,7 +59,7 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 	});
 
 	let secondsLeft = 5;
-	const button = select('.btn', buttonContainer)!;
+	const button = $('.btn', buttonContainer)!;
 	try {
 		do {
 			button.style.transform = `scale(${1.2 - ((secondsLeft - 5) / 3)})`; // Dividend is zoom speed
@@ -80,7 +79,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		return;
 	}
 
-	select('.btn', buttonContainer)!.textContent = 'Deleting repo…';
+	$('.btn', buttonContainer)!.textContent = 'Deleting repo…';
 
 	try {
 		const {nameWithOwner} = getRepo()!;
@@ -89,7 +88,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 			json: false
 		});
 		addNotice(`Repository ${nameWithOwner} deleted`, {action: false});
-		select('.application-main')!.remove();
+		$('.application-main')!.remove();
 		if (document.hidden) {
 			// Try closing the tab if in the background. Could fail, so we still update the UI above
 			void browser.runtime.sendMessage({closeTab: true});
@@ -113,7 +112,7 @@ async function init(): Promise<void | false> {
 		!await elementReady('nav [data-content="Settings"]') ||
 
 		// Only if the repository hasn't been starred
-		looseParseInt(select('.starring-container .social-count')!) > 0
+		looseParseInt($('.starring-container .social-count')!) > 0
 	) {
 		return false;
 	}
@@ -121,7 +120,7 @@ async function init(): Promise<void | false> {
 	await api.expectToken();
 
 	// (Ab)use the details element as state and an accessible "click-anywhere-to-cancel" utility
-	select('.pagehead-actions')!.prepend(
+	$('.pagehead-actions')!.prepend(
 		<li>
 			<details className="details-reset details-overlay select-menu rgh-quick-repo-deletion">
 				<summary aria-haspopup="menu" role="button">

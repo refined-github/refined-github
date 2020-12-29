@@ -1,4 +1,3 @@
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -6,8 +5,8 @@ import observeElement from '../helpers/simplified-element-observer';
 import * as domFormatters from '../github-helpers/dom-formatters';
 
 function init(): void {
-	for (const title of select.all('.js-issue-title')) {
-		if (!select.exists('a, code', title)) {
+	for (const title of $$('.js-issue-title')) {
+		if (!$.exists('a, code', title)) {
 			domFormatters.linkifyIssues(title);
 			domFormatters.parseBackticks(title);
 		}
@@ -20,7 +19,7 @@ void features.add(__filebasename, {
 		pageDetect.isIssue
 	],
 	init() {
-		observeElement(select('#partial-discussion-header')!.parentElement!, init, {
+		observeElement($('#partial-discussion-header')!.parentElement!, init, {
 			subtree: true,
 			childList: true
 		});

@@ -1,4 +1,3 @@
-import select from 'select-dom';
 import pushForm from 'push-form';
 
 import {getScopedSelector} from '../github-helpers';
@@ -33,11 +32,11 @@ pushForm.fetch = window.content?.fetch ?? window.fetch;
  */
 export const appendBefore = (parent: string | Element, before: string, child: Element): void => {
 	if (typeof parent === 'string') {
-		parent = select(parent)!;
+		parent = $(parent)!;
 	}
 
 	// Select direct children only
-	const beforeElement = select(getScopedSelector(before), parent);
+	const beforeElement = parent.$(getScopedSelector(before));
 	if (beforeElement) {
 		beforeElement.before(child);
 	} else {

@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -80,7 +79,7 @@ async function addDefaultBranchLink(bar: Element): Promise<void> {
 
 function init(): false | void {
 	const parts = parseCurrentURL();
-	if (parts.length <= 1 || !select.exists('[alt*="This is not the web page you are looking for"]')) {
+	if (parts.length <= 1 || !$.exists('[alt*="This is not the web page you are looking for"]')) {
 		return false;
 	}
 
@@ -101,7 +100,7 @@ function init(): false | void {
 		}
 	}
 
-	select('main > :first-child, #parallax_illustration')!.after(bar);
+	$('main > :first-child, #parallax_illustration')!.after(bar);
 
 	// Check parts from right to left; skip the last part
 	for (let i = bar.children.length - 2; i >= 0; i--) {

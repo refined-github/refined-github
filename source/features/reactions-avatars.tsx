@@ -1,6 +1,5 @@
 import './reactions-avatars.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
@@ -85,7 +84,7 @@ const viewportObserver = new IntersectionObserver(changes => {
 });
 
 function init(): void {
-	for (const commentReactions of select.all('.has-reactions .comment-reactions-options:not(.rgh-reactions)')) {
+	for (const commentReactions of $$('.has-reactions .comment-reactions-options:not(.rgh-reactions)')) {
 		commentReactions.classList.add('rgh-reactions');
 		viewportObserver.observe(commentReactions);
 	}

@@ -1,4 +1,3 @@
-import select from 'select-dom';
 
 export default async function onNewsfeedLoad(callback: VoidFunction): Promise<void> {
 	const observer = new MutationObserver((([{addedNodes}]) => {
@@ -6,12 +5,12 @@ export default async function onNewsfeedLoad(callback: VoidFunction): Promise<vo
 
 		// If the newly-loaded fragments allows further loading, observe them
 		for (const node of addedNodes) {
-			if (node instanceof Element && select.exists('.ajax-pagination-form', node)) {
+			if (node instanceof Element && node.$.exists('.ajax-pagination-form')) {
 				observer.observe(node, {childList: true});
 			}
 		}
 	}));
 
 	// Start from the main container
-	observer.observe(select('.news')!, {childList: true});
+	observer.observe($('.news')!, {childList: true});
 }

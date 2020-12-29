@@ -1,4 +1,3 @@
-import select from 'select-dom';
 
 import observeElement from '../helpers/simplified-element-observer';
 
@@ -9,7 +8,7 @@ type StatusListener = (status: CommitStatus) => void;
 const commitSelector = '.js-commit.TimelineItem--condensed';
 
 function getLastCommitReference(): string | null {
-	return select.last(`${commitSelector} code`)!.textContent;
+	return $.last(`${commitSelector} code`)!.textContent;
 }
 
 export const SUCCESS = Symbol('Success');
@@ -19,17 +18,17 @@ export const COMMIT_CHANGED = Symbol('Commit changed');
 
 export function get(): CommitStatus {
 	// Excludes commit references. Sometimes commits don't have a status icon at all, yet
-	const lastCommit = select.last(commitSelector);
+	const lastCommit = $.last(commitSelector);
 	if (lastCommit) {
-		if (lastCommit.querySelector('.octicon-check')) {
+		if (lastCommit.$('.octicon-check')) {
 			return SUCCESS;
 		}
 
-		if (lastCommit.querySelector('.octicon-x')) {
+		if (lastCommit.$('.octicon-x')) {
 			return FAILURE;
 		}
 
-		if (lastCommit.querySelector('.octicon-dot-fill')) {
+		if (lastCommit.$('.octicon-dot-fill')) {
 			return PENDING;
 		}
 	}

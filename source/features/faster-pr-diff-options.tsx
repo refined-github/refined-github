@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {BookIcon, CheckIcon, DiffIcon} from '@primer/octicons-react';
 
@@ -7,7 +6,7 @@ import features from '.';
 
 function createDiffStyleToggle(): DocumentFragment {
 	const parameters = new URLSearchParams(location.search);
-	const isUnified = select.exists([
+	const isUnified = $.exists([
 		'[value="unified"][checked]', // Form in PR
 		'.table-of-contents .selected[href$=unified]' // Link in single commit
 	]);
@@ -68,7 +67,7 @@ function wrap(...elements: Node[]): DocumentFragment {
 }
 
 function init(): false | void {
-	const container = select([
+	const container = $([
 		'#toc', // In single commit view
 		'.pr-review-tools' // In review view
 	]);
@@ -84,26 +83,26 @@ function init(): false | void {
 	);
 
 	// Trim title
-	const prTitle = select('.pr-toolbar .js-issue-title');
-	if (prTitle && select.exists('.pr-toolbar progress-bar')) { // Only review view has progress-bar
+	const prTitle = $('.pr-toolbar .js-issue-title');
+	if (prTitle && $.exists('.pr-toolbar progress-bar')) { // Only review view has progress-bar
 		prTitle.style.maxWidth = '24em';
 		prTitle.title = prTitle.textContent!;
 	}
 
 	// Remove previous options UI
-	const singleCommitUI = select('[data-ga-load^="Diff, view"]');
+	const singleCommitUI = $('[data-ga-load^="Diff, view"]');
 
 	if (singleCommitUI) {
 		singleCommitUI.remove();
 		return;
 	}
 
-	const prUI = select('.js-diff-settings');
+	const prUI = $('.js-diff-settings');
 	if (prUI) {
 		prUI.closest('details')!.remove();
 
 		// Make space for the new button by removing "Changes from" #655
-		select('[data-hotkey="c"]')!.firstChild!.remove();
+		$('[data-hotkey="c"]')!.firstChild!.remove();
 	}
 }
 

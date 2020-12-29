@@ -1,5 +1,4 @@
 import './single-diff-column-selection.css';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 
 import features from '.';
@@ -18,7 +17,7 @@ function pickSelectionSide(event: delegate.Event): void {
 
 function unpickSelectionSide(event: Event): void {
 	// Note: The table definitely exists or else this listener wouldn't be called, however the clicked element might be anywhere on the page
-	const table = select('[data-rgh-select]')!;
+	const table = $('[data-rgh-select]')!;
 	const clickedElement = event.target as Element;
 
 	// No changes are required if the user is clicking the same side
@@ -40,7 +39,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		() => select.exists('meta[name="diff-view"][content="split"]')
+		() => $.exists('meta[name="diff-view"][content="split"]')
 	],
 	init
 });

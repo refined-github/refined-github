@@ -1,4 +1,3 @@
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -7,11 +6,11 @@ import {getUsername} from '../github-helpers';
 
 function init(): void {
 	// Use an existing dropdown item to preserve its DOM structure
-	const sourceItem = select('.subnav-search-context li:nth-last-child(2)')!;
+	const sourceItem = $('.subnav-search-context li:nth-last-child(2)')!;
 
 	// Add "Everything commented by you" filter
 	const commentsMenuItem = sourceItem.cloneNode(true);
-	const commentsLink = select('a', commentsMenuItem)!;
+	const commentsLink = $('a', commentsMenuItem)!;
 	commentsLink.textContent = 'Everything commented by you';
 	commentsLink.removeAttribute('target');
 	new SearchQuery(commentsLink).set(`is:open commenter:${getUsername()}`);
@@ -20,11 +19,11 @@ function init(): void {
 
 	// Add "Everything you subscribed to" link
 	const subscriptionsMenuItem = commentsMenuItem.cloneNode(true);
-	const subscriptionsLink = select('a', subscriptionsMenuItem)!;
+	const subscriptionsLink = $('a', subscriptionsMenuItem)!;
 	subscriptionsLink.textContent = 'Everything you subscribed to';
 
 	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
-	const repositoryId = select('input[name="repository_id"]')!.value;
+	const repositoryId = $('input[name="repository_id"]')!.value;
 	subscriptionsUrl.searchParams.set('repository', btoa(`010:Repository${repositoryId}`));
 	subscriptionsLink.href = subscriptionsUrl.href;
 

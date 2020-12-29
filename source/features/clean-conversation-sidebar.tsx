@@ -1,6 +1,5 @@
 import './clean-conversation-sidebar.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
@@ -8,7 +7,7 @@ import features from '.';
 import onElementRemoval from '../helpers/on-element-removal';
 import onReplacedElement from '../helpers/on-replaced-element';
 
-const canEditSidebar = onetime((): boolean => select.exists('.sidebar-labels .octicon-gear'));
+const canEditSidebar = onetime((): boolean => $.exists('.sidebar-labels .octicon-gear'));
 
 function getNodesAfter(node: Node): Range {
 	const range = new Range();
@@ -33,12 +32,12 @@ Expected DOM:
 @param containerSelector Element that contains `details` or `.discussion-sidebar-heading`
 */
 function cleanSection(containerSelector: string): boolean {
-	const container = select(containerSelector);
+	const container = $(containerSelector);
 	if (!container) {
 		return false;
 	}
 
-	const header = select(':scope > details, :scope > .discussion-sidebar-heading', container)!;
+	const header = $(':scope > details, :scope > .discussion-sidebar-heading', container)!;
 
 	// Magic. Do not touch.
 	// Section is empty if: no sibling element OR empty sibling element
@@ -58,21 +57,21 @@ function cleanSection(containerSelector: string): boolean {
 }
 
 async function clean(): Promise<void> {
-	if (select.exists('.rgh-clean-sidebar')) {
+	if ($.exists('.rgh-clean-sidebar')) {
 		return;
 	}
 
-	select('#partial-discussion-sidebar')!.classList.add('rgh-clean-sidebar');
+	$('#partial-discussion-sidebar')!.classList.add('rgh-clean-sidebar');
 
 	// Assignees
-	const assignees = select('.js-issue-assignees')!;
+	const assignees = $('.js-issue-assignees')!;
 	if (assignees.children.length === 0) {
 		assignees.closest('.discussion-sidebar-item')!.remove();
 	} else {
-		const assignYourself = select('.js-issue-assign-self');
+		const assignYourself = $('.js-issue-assign-self');
 		if (assignYourself) {
 			assignYourself.previousSibling!.remove(); // Drop "No one — "
-			select('[aria-label="Select assignees"] summary')!.append(
+			$('[aria-label="Select assignees"] summary')!.append(
 				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>
 			);
 			assignees.closest('.discussion-sidebar-item')!.classList.add('rgh-clean-sidebar');
@@ -81,12 +80,12 @@ async function clean(): Promise<void> {
 
 	// Reviewers
 	if (pageDetect.isPR()) {
-		const possibleReviewers = select('[src$="/suggested-reviewers"]');
+		const possibleReviewers = $('[src$="/suggested-reviewers"]');
 		if (possibleReviewers) {
 			await onElementRemoval(possibleReviewers);
 		}
 
-		const content = select('[aria-label="Select reviewers"] > .css-truncate')!;
+		const content = $('[aria-label="Select reviewers"] > .css-truncate')!;
 		if (!content.firstElementChild) {
 			content.remove(); // Drop "No reviews"
 		}
@@ -95,11 +94,11 @@ async function clean(): Promise<void> {
 	// Labels
 	if (!cleanSection('.sidebar-labels') && !canEditSidebar()) {
 		// Hide header in any case except `canEditSidebar`
-		select('.sidebar-labels div.discussion-sidebar-heading')!.remove();
+		$('.sidebar-labels div.discussion-sidebar-heading')!.remove();
 	}
 
 	// Linked issues/PRs
-	select('[aria-label="Link issues"] p')!.remove(); // "Successfully merging a pull request may close this issue."
+	$('[aria-label="Link issues"] p')!.remove(); // "Successfully merging a pull request may close this issue."
 	cleanSection('[aria-label="Link issues"]');
 
 	// Projects

@@ -1,11 +1,10 @@
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {isEditable} from '../helpers/dom-utils';
 
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
-	select.exists('.minimized-comment:not(.d-none)', comment) ||
+	$.exists('.minimized-comment:not(.d-none)', comment) ||
 	Boolean(comment.closest([
 		'.js-resolvable-thread-contents.d-none', // Regular comments
 		'details.js-resolvable-timeline-thread-container:not([open])' // Review comments
@@ -16,7 +15,7 @@ function runShortcuts(event: KeyboardEvent): void {
 		return;
 	}
 
-	const focusedComment = select(':target')!;
+	const focusedComment = $(':target')!;
 
 	if (['j', 'k'].includes(event.key)) {
 		event.preventDefault();

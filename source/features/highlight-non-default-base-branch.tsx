@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon} from '@primer/octicons-react';
 
@@ -27,7 +26,7 @@ function buildQuery(issueIds: string[]): string {
 }
 
 async function init(): Promise<false | void> {
-	const prLinks = select.all('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]');
+	const prLinks = $$('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]');
 	if (prLinks.length === 0) {
 		return false;
 	}
@@ -46,7 +45,7 @@ async function init(): Promise<false | void> {
 
 		const branch = pr.baseRef && buildRepoURL(`tree/${pr.baseRefName}`);
 
-		prLink.parentElement!.querySelector('.text-small.text-gray')!.append(
+		prLink.parentElement!.$('.text-small.text-gray')!.append(
 			<span className="issue-meta-section d-inline-block">
 				<GitPullRequestIcon/>
 				{' To '}

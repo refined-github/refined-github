@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
@@ -13,13 +12,13 @@ const confirmationRequiredCount = 10;
 function getUrlFromItem(checkbox: Element): string {
 	return checkbox
 		.closest('.js-issue-row')!
-		.querySelector('a.js-navigation-open')!
+		.$('a.js-navigation-open')!
 		.href;
 }
 
 function openIssues(): void {
 	const modifier = pageDetect.isGlobalConversationList() ? '' : ' + div ';
-	const issues = select.all([
+	const issues = $$([
 		`#js-issues-toolbar.triage-mode ${modifier} [name="issues[]"]:checked`, // Get checked checkboxes
 		`#js-issues-toolbar:not(.triage-mode) ${modifier} .js-issue-row` // Or all items
 	]);
@@ -44,7 +43,7 @@ async function init(): Promise<void | false> {
 	delegate(document, '.rgh-batch-open-issues', 'click', openIssues);
 
 	// Add button to open all visible conversations
-	select('.table-list-header-toggle:not(.states)')?.prepend(
+	$('.table-list-header-toggle:not(.states)')?.prepend(
 		<button
 			type="button"
 			className="btn-link rgh-batch-open-issues px-2"
@@ -54,7 +53,7 @@ async function init(): Promise<void | false> {
 	);
 
 	// Add button to open selected conversations
-	const triageFiltersBar = select('.table-list-triage > .text-gray');
+	const triageFiltersBar = $('.table-list-triage > .text-gray');
 	if (triageFiltersBar) {
 		triageFiltersBar.classList.add('table-list-header-toggle'); // Handles link :hover style
 		triageFiltersBar.append(
@@ -67,7 +66,7 @@ async function init(): Promise<void | false> {
 		);
 	} else if (!pageDetect.isEnterprise() && pageDetect.isRepoConversationList()) { // Enterprise has the pre-"Repository refresh" layout
 		// GitHub doesn't have the checkboxes when the current user can't edit the repo, so let's add them
-		const issuesToolbar = select('#js-issues-toolbar')!;
+		const issuesToolbar = $('#js-issues-toolbar')!;
 		issuesToolbar.prepend(
 			<div className="mr-3 d-none d-md-block">
 				<input data-check-all type="checkbox" aria-label="Select all issues" autoComplete="off"/>
@@ -84,7 +83,7 @@ async function init(): Promise<void | false> {
 		);
 
 		await domLoaded;
-		for (const conversation of select.all('.js-issue-row')) {
+		for (const conversation of $$('.js-issue-row')) {
 			const number = looseParseInt(conversation.id);
 			conversation.firstElementChild!.prepend(
 				<label className="flex-shrink-0 py-2 pl-3  d-none d-md-block">

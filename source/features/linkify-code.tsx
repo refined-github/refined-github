@@ -1,4 +1,3 @@
-import select from 'select-dom';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
@@ -19,12 +18,12 @@ function init(): void {
 			// Linkify full URLs
 			// `.blob-code-inner` in diffs
 			// `pre` in GitHub comments
-			for (const element of select.all('.blob-code-inner, pre', wrappers)) {
+			for (const element of $$('.blob-code-inner, pre', wrappers)) {
 				linkifyURLs(element);
 			}
 
 			// Linkify issue refs in comments
-			for (const element of select.all('span.pl-c', wrappers)) {
+			for (const element of $$('span.pl-c', wrappers)) {
 				linkifyIssues(element);
 			}
 

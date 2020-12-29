@@ -1,4 +1,3 @@
-import select from 'select-dom';
 import delegate from 'delegate-it';
 
 const discussionsWithListeners = new WeakSet();
@@ -32,7 +31,7 @@ function getFragmentLoadHandler(callback: EventListener): delegate.EventHandler 
 }
 
 function addListeners(): void {
-	const discussion = select('.js-discussion');
+	const discussion = $('.js-discussion');
 	if (!discussion || discussionsWithListeners.has(discussion)) {
 		return;
 	}

@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -15,13 +14,13 @@ import {buildRepoURL, getRepo} from '../github-helpers';
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
 function parseCountFromDom(): number {
-	const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
+	const releasesCountElement = $('.numbers-summary a[href$="/releases"] .num');
 	if (releasesCountElement) {
 		return looseParseInt(releasesCountElement);
 	}
 
 	// In "Repository refresh" layout, look for the releases link in the sidebar
-	const moreReleasesCountElement = select('[href$="/tags"] strong');
+	const moreReleasesCountElement = $('[href$="/tags"] strong');
 	if (moreReleasesCountElement) {
 		return looseParseInt(moreReleasesCountElement);
 	}
@@ -64,7 +63,7 @@ async function init(): Promise<false | void> {
 		'.UnderlineNav-body + *'
 	].join());
 
-	const repoNavigationBar = select('.js-responsive-underlinenav');
+	const repoNavigationBar = $('.js-responsive-underlinenav');
 	if (repoNavigationBar) {
 		// "Repository refresh" layout
 		const releasesTab = (
@@ -81,7 +80,7 @@ async function init(): Promise<false | void> {
 			</a>
 		);
 
-		select(':scope > ul', repoNavigationBar)!.append(
+		$(':scope > ul', repoNavigationBar)!.append(
 			<li className="d-flex">
 				{releasesTab}
 			</li>
@@ -92,7 +91,7 @@ async function init(): Promise<false | void> {
 
 		// Update "selected" tab mark
 		if (pageDetect.isReleasesOrTags()) {
-			const selected = select('.UnderlineNav-item.selected');
+			const selected = $('.UnderlineNav-item.selected');
 			if (selected) {
 				selected.classList.remove('selected');
 				selected.removeAttribute('aria-current');
@@ -103,7 +102,7 @@ async function init(): Promise<false | void> {
 		}
 
 		appendBefore(
-			select('.js-responsive-underlinenav .dropdown-menu ul')!,
+			$('.js-responsive-underlinenav .dropdown-menu ul')!,
 			'.dropdown-divider', // Won't exist if `more-dropdown` is disabled
 			createDropdownItem('Releases', buildRepoURL('releases'), {
 				'data-menu-item': 'rgh-releases-item'
@@ -123,14 +122,14 @@ async function init(): Promise<false | void> {
 
 	appendBefore(
 		// GHE doesn't have `.reponav > ul`
-		select('.reponav > ul') ?? select('.reponav')!,
+		$('.reponav > ul') ?? $('.reponav')!,
 		'.reponav-dropdown, [data-selected-links^="repo_settings"]',
 		releasesTab
 	);
 
 	// Update "selected" tab mark
 	if (pageDetect.isReleasesOrTags()) {
-		select('.reponav-item.selected')?.classList.remove('js-selected-navigation-item', 'selected');
+		$('.reponav-item.selected')?.classList.remove('js-selected-navigation-item', 'selected');
 		releasesTab.classList.add('js-selected-navigation-item', 'selected');
 		releasesTab.dataset.selectedLinks = 'repo_releases'; // Required for ajaxLoad
 	}

@@ -12,7 +12,7 @@ function init(): void {
 		add(comment) {
 			comment.classList.add('rgh-edit-comment');
 
-			comment.closest('.js-comment')!.querySelector('.js-comment-header-reaction-button')!.after(
+			comment.closest('.js-comment')!.$('.js-comment-header-reaction-button')!.after(
 				<button
 					type="button"
 					role="menuitem"

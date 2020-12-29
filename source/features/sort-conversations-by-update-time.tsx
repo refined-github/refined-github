@@ -1,4 +1,3 @@
-import select from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -12,7 +11,7 @@ async function cleanBar(): Promise<void> {
 
 function init(): void {
 	// Get issues links that don't already have a specific sorting applied
-	for (const link of select.all(`
+	for (const link of $$(`
 		a[href*="/issues"]:not([href*="sort%3A"]):not(.issues-reset-query),
 		a[href*="/pulls" ]:not([href*="sort%3A"]):not(.issues-reset-query)
 	`)) {
@@ -25,7 +24,7 @@ function init(): void {
 	}
 
 	// Extra nicety: Avoid GitHub's unnecessary redirect, this is their own bug
-	for (const link of select.all('a[href*="/issues"][href*="is%3Apr"]')) {
+	for (const link of $$('a[href*="/issues"][href*="is%3Apr"]')) {
 		link.pathname = link.pathname.replace(/issues\/?$/, 'pulls');
 	}
 }

@@ -1,6 +1,5 @@
 import './show-names.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
@@ -10,7 +9,7 @@ import onNewsfeedLoad from '../github-events/on-newsfeed-load';
 import {getUsername, compareNames} from '../github-helpers';
 
 async function init(): Promise<false | void> {
-	const usernameElements = select.all([
+	const usernameElements = $$([
 		'.js-discussion a.author:not(.rgh-fullname):not([href*="/apps/"]):not([href*="/marketplace/"]):not([data-hovercard-type="organization"])', // `a` selector needed to skip commits by non-GitHub users.
 		'#dashboard a.text-bold[data-hovercard-type="user"]:not(.rgh-fullname)' // On dashboard `.text-bold` is required to not fetch avatars.
 	]);

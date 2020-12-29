@@ -1,5 +1,4 @@
 import './fit-textareas.css';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';
@@ -25,14 +24,14 @@ function focusListener({delegateTarget: textarea}: delegate.Event<Event, HTMLTex
 }
 
 function fitPrCommitMessageBox(): void {
-	watchTextarea(select('textarea[name="commit_message"]')!);
+	watchTextarea($('textarea[name="commit_message"]')!);
 }
 
 function init(): void {
 	// Exclude PR review box because it's in a `position:fixed` container; The scroll HAS to appear within the fixed element.
 	delegate(document, 'textarea:not(#pull_request_review_body)', 'focusin', focusListener);
 
-	select.all('textarea').forEach(watchTextarea);
+	$$('textarea').forEach(watchTextarea);
 }
 
 void features.add(__filebasename, {

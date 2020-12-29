@@ -1,13 +1,12 @@
 import './split-issue-pr-search-results.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import SearchQuery from '../github-helpers/search-query';
 
 function cleanLinks(): void {
-	for (const link of select.all('a.menu-item')) {
+	for (const link of $$('a.menu-item')) {
 		new SearchQuery(link).remove('is:pr', 'is:issue');
 	}
 }
@@ -27,7 +26,7 @@ function init(): void {
 	cleanLinks();
 	pageSearchQuery = new SearchQuery(location);
 
-	const issueLink = select([
+	const issueLink = $([
 		'nav.menu a[href*="&type=Issues"]', // Only for GHE
 		'a.menu-item[href*="&type=issues"]'
 	])!;
@@ -46,7 +45,7 @@ function init(): void {
 
 	issueLink.after(prLink);
 
-	const title = select('.codesearch-results h3')!.firstChild!;
+	const title = $('.codesearch-results h3')!.firstChild!;
 	if (pageSearchQuery.includes('is:pr')) {
 		// Update UI in PR searches
 		issueLink.classList.remove('selected');
