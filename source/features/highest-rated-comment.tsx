@@ -48,10 +48,6 @@ function getBestComment(): HTMLElement | undefined {
 }
 
 function highlightBestComment(bestComment: Element): void {
-	const avatar = select('.TimelineItem-avatar', bestComment)!;
-	avatar.classList.add('flex-column', 'flex-items-center', 'd-md-flex');
-	avatar.append(<CheckIcon width={24} height={32} className="mt-4 text-green"/>);
-
 	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
 	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
 		<span
