@@ -41,7 +41,7 @@ export function getCommitHash(commit: HTMLElement): string {
 async function init(): Promise<void> {
 	const pageCommits = select.all([
 		'li.commit', // Pre "Repository refresh" layout
-		'.js-commits-list-item'
+		'li.js-commits-list-item'
 	]);
 	const mergeCommits = await filterMergeCommits(pageCommits.map(getCommitHash));
 	for (const commit of pageCommits) {
