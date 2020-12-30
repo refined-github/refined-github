@@ -92,12 +92,8 @@ async function getHistoryDropdown(featureName: string): Promise<Element> {
 }
 
 function getConversationsLink(featureName: string): Element {
-	const searchParameters = new URLSearchParams({
-		q: `"${featureName}" sort:updated-desc`
-	});
-
 	const searchUrl = new URL('https://github.com/sindresorhus/refined-github/issues');
-	searchUrl.search = String(searchParameters);
+	searchUrl.searchParams.set('q', `"${featureName}" sort:updated-desc`);
 
 	return <a className="ml-3" href={String(searchUrl)}>Conversations</a>;
 }
