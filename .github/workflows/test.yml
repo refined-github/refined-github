@@ -14,16 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          persist-credentials: false
       - run: npx lockfile-lint --path package-lock.json --validate-https
 
   AVA:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          persist-credentials: false
       - uses: actions/setup-node@v1
         with:
           node-version: 14
@@ -34,8 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          persist-credentials: false
       - run: npm ci
       - run: npm run lint
 
@@ -43,8 +37,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          persist-credentials: false
       - run: npm ci
       - run: npm run build:typescript
 
@@ -52,8 +44,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          persist-credentials: false
       - uses: actions/setup-node@v1
         with:
           node-version: 14
@@ -69,8 +59,6 @@ jobs:
     needs: Build
     steps:
       - uses: actions/checkout@v2
-        with:
-          persist-credentials: false
       - uses: actions/download-artifact@v2 # npm install+build seems slow and problematic on macOS
         with:
           name: refined-github
