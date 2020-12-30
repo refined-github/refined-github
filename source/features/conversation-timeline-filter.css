@@ -1,0 +1,30 @@
+/* Stops displaying pull review when it has no visible children.  */
+.rgh-is-pull-review:empty(.rgh-is-pr-comment:not(:visible))
+{
+    display: none;
+}
+
+.rgh-filter-hide-commits .rgh-is-commit
+{
+    display:none;
+}
+
+.rgh-filter-hide-normal-comments .rgh-is-normal-comment
+{
+    display: none;
+}
+
+.rgh-filter-hide-resolved-comments .rgh-is-resolved-comment
+{
+    display: none;
+}
+
+.rgh-filter-hide-unresolved-comments .rgh-is-unresolved-comment
+{
+    display: none;
+}
+
+.rgh-filter-hide-others .rgh-is-other
+{
+    display:none;
+}

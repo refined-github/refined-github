@@ -1,3 +1,4 @@
+import './conversation-timeline-filter.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
@@ -6,6 +7,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import delay from 'delay';
+import onNewComments from '../github-events/on-new-comments';
 
 interface FilterSettings {
 	HideUnresolved: boolean;
@@ -38,6 +40,7 @@ const detailsSelector = `#${timelineFiltersSelectorId} details`;
 const notiticationsSelector = '.discussion-sidebar-item.sidebar-notifications';
 const timelineItemSelector = '.js-timeline-item';
 const loadMoreSelector = '.ajax-pagination-btn:not([disabled])';
+const discussionBucketSelector = "#discussion_bucket";
 
 function regenerateFilterSummary(): void {
 	const timelineFilter = select(`#${timelineFiltersSelectorId}`)!;
@@ -88,8 +91,18 @@ async function saveSettings(): Promise<any> {
 
 	regenerateFilterSummary();
 
-	// Reapply settings to all timeline items
-	reapplySettings();
+	// #discussion_bucket
+
+	const classOn = (element : HTMLElement, enabled : boolean, className : string) =>
+	 enabled ? element.classList.add(className) : element.classList.remove(className);
+
+	const discussionBucket = select(discussionBucketSelector)!;
+
+	classOn(discussionBucket, CurrentSettings.HideUnresolved, ".rgh-filter-hide-unresolved-comments");
+	classOn(discussionBucket, CurrentSettings.HideResolved, ".rgh-filter-hide-resolved-comments");
+	classOn(discussionBucket, CurrentSettings.HideCommits, ".rgh-filter-hide-commits");
+	classOn(discussionBucket, CurrentSettings.hideNormalComment, ".rgh-filter-hide-normal-comments");
+	classOn(discussionBucket, CurrentSettings.HideOthers, ".rgh-filter-hide-others");
 
 	if (CurrentSettings.AutoLoadHidden) {
 		const loadMoreButton = select(loadMoreSelector);
@@ -99,11 +112,6 @@ async function saveSettings(): Promise<any> {
 	}
 }
 
-function reapplySettings(): void {
-	select
-		.all(timelineItemSelector)
-		.forEach(element => processTimelineItem(element));
-}
 
 function restoreSettings(): void {
 	(select('#' + hideUnresolvedSelectorId) as HTMLInputElement)!.checked = CurrentSettings.HideUnresolved;
@@ -204,36 +212,29 @@ function processTimelineItem(item: HTMLElement): void {
 	if (pr) {
 		processPR(item);
 	} else if (commitGroup) {
-		applyDisplay(item, CurrentSettings.HideCommits);
+		item.classList.add("rgh-is-commit");
 	} else if (normalComment) {
-		applyDisplay(item, CurrentSettings.hideNormalComment);
+		item.classList.add("rgh-is-normal-comment")
 	} else {
-		applyDisplay(item, CurrentSettings.HideOthers);
+		item.classList.add("rgh-is-other")
 	}
 }
 
 function processPR(item: HTMLElement): void {
-	let hasVisibleElement = false;
-
 	for (const threadContainer of select.all('.js-resolvable-timeline-thread-container', item)) {
 		const commentContainer = select('.inline-comment-form-container', threadContainer);
 
 		if (threadContainer.getAttribute('data-resolved') === 'true') {
-			applyDisplay(threadContainer, CurrentSettings.HideResolved);
+			threadContainer.classList.add("rgh-is-resolved-comment");
 		} else if (commentContainer === null) {
 			// There is 1 special case here when github shows you a comment that was added to previous comment thread but it does not show whether it is resolved or not resolved comment.
 			// It's kinda tricky to know what to do with this so it is marked as normal comment for meantime.
 			// We are just checking here if user is able to comment inside that timeline thread, if not then it means we have this special situation that was just described.
-			applyDisplay(threadContainer, CurrentSettings.hideNormalComment);
+			threadContainer.classList.add("rgh-is-normal-comment");
 		} else {
-			applyDisplay(threadContainer, CurrentSettings.HideUnresolved);
+			threadContainer.classList.add("rgh-is-unresolved-comment");
 		}
-
-		// We need to hide whole thread group if we have hidden all comments inside.
-		hasVisibleElement = hasVisibleElement || threadContainer.style.display === '';
 	}
-
-	applyDisplay(item, !hasVisibleElement);
 }
 
 async function init(): Promise<any> {
@@ -247,12 +248,9 @@ async function init(): Promise<any> {
 		}
 	});
 
-	observe(timelineItemSelector, {
-		add(element) {
-			const htmlElement = element as HTMLElement;
-			processTimelineItem(htmlElement);
-		}
-	});
+	select
+		.all(timelineItemSelector)
+		.forEach(processTimelineItem);
 
 	observe(loadMoreSelector, {
 		async add(element) {
@@ -265,6 +263,9 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation,
 		pageDetect.isIssue
+	],
+	additionalListeners: [
+		onNewComments,
 	],
 	init
 });
