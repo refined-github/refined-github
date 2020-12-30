@@ -114,15 +114,16 @@ async function init(): Promise<void | false> {
 
 	const featureInfoBox = (
 		<div className="Box" style={{flex: '1 0 360px'}}>
-			<div className="Box-row d-flex">
+			<div className="Box-row d-flex height-full">
 				{screenshot && (
-					<a href={screenshot}>
+					<a href={screenshot} className="flex-self-center">
 						<img
 							src={screenshot}
 							className="d-block border"
-							height="100"
-							width="100"
-							style={{objectFit: 'cover'}}/>
+							style={{
+								maxHeight: 100,
+								maxWidth: 100
+							}}/>
 					</a>
 				)}
 				<div className="ml-3 flex-auto">
