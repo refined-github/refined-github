@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import domify from 'doma';
 import elementReady from 'element-ready';
 
@@ -15,7 +16,7 @@ interface Commit {
 	committedDate: string;
 }
 
-const getFeatureHistory = async (fileName: string): Promise<Commit[]> => {
+const getFeatureHistory = cache.function(async (fileName: string): Promise<Commit[]> => {
 	const {repository} = await api.v4(`
 		repository() {
 			defaultBranchRef {
@@ -35,7 +36,11 @@ const getFeatureHistory = async (fileName: string): Promise<Commit[]> => {
 		}
 	`);
 	return repository.defaultBranchRef.target.history.nodes;
-};
+}, {
+	maxAge: {days: 1},
+	staleWhileRevalidate: {days: 4},
+	cacheKey: ([fileName]): string => __filebasename + ':' + fileName
+});
 
 function getCommitUrl(commit: Commit): string {
 	const [, pullRequestUrl] = /<a[^>]+href="([^"]+)">/.exec(commit.messageHeadlineHTML) ?? [];
