@@ -10,7 +10,7 @@ function init(): void {
 		subscription.destroy();
 
 		observeElement('.discussion-timeline-actions', (_, observer) => {
-			const deleteButton = select('[action$="/cleanup"] button[type="submit"]');
+			const deleteButton = select('[action$="/cleanup"] [type="submit"]');
 			if (deleteButton) {
 				deleteButton.dataset.disableWith = 'Auto-deleting…';
 				deleteButton.click();
