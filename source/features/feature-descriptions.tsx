@@ -115,7 +115,7 @@ async function init(): Promise<void | false> {
 	const featureInfoBox = (
 		<div className="Box" style={{flex: '1 0 360px'}}>
 			<div className="Box-row d-flex">
-				{screenshot && id !== __filebasename &&
+				{screenshot && (
 					<a href={screenshot}>
 						<img
 							src={screenshot}
@@ -123,7 +123,8 @@ async function init(): Promise<void | false> {
 							height="100"
 							width="100"
 							style={{objectFit: 'cover'}}/>
-					</a>}
+					</a>
+				)}
 				<div className="ml-3 flex-auto">
 					{descriptionElement}
 					{await getHistoryDropdown(id!)}
