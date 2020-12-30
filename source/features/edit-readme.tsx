@@ -17,7 +17,7 @@ async function init(): Promise<void | false> {
 
 	const isPermalink_ = await isPermalink();
 	const filename = readmeHeader.textContent!.trim();
-	const fileLink = select<HTMLAnchorElement>(`a.js-navigation-open[title="${filename}"]`)!;
+	const fileLink = select<HTMLAnchorElement>(`.js-navigation-open[title="${filename}"]`)!;
 
 	const url = new GitHubURL(fileLink.href).assign({
 		route: 'edit'

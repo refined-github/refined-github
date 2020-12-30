@@ -8,7 +8,7 @@ import features from '.';
 function expandDiff(event: delegate.Event): void {
 	// Skip if the user clicked directly on the icon
 	if (!(event.target as Element).closest('.js-expand')) {
-		select('a.js-expand', event.delegateTarget)!.click();
+		select('.js-expand', event.delegateTarget)!.click();
 	}
 }
 

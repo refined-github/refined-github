@@ -28,7 +28,7 @@ function init(): false | void {
 
 	// Generate the new buttons
 	for (const radio of radios) {
-		const tooltip = radio.parentElement!.getAttribute('aria-label') ?? undefined;
+		const tooltip = radio.parentElement!.getAttribute('aria-label');
 
 		const classes = ['btn btn-sm'];
 		if (radio.value === 'approve') {
@@ -47,7 +47,7 @@ function init(): false | void {
 				name="pull_request_review[event]"
 				value={radio.value}
 				className={classes.join(' ')}
-				aria-label={tooltip}
+				aria-label={tooltip!}
 				disabled={radio.disabled}
 			>
 				{radio.nextSibling}

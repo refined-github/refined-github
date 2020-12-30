@@ -6,7 +6,6 @@ import SearchQuery from '../github-helpers/search-query';
 import {getUsername} from '../github-helpers';
 
 function init(): void {
-	// Use an existing dropdown item to preserve its DOM structure
 	const sourceItem = select('.subnav-search-context li:nth-last-child(2)')!;
 
 	// Add "Everything commented by you" filter
