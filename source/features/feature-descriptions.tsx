@@ -129,7 +129,7 @@ async function init(): Promise<void | false> {
 				)}
 				<div className="ml-3 flex-auto">
 					{descriptionElement}
-					<a className="ml-3" href={conversationsUrl}>Conversations</a>
+					<a href={conversationsUrl}>Conversations</a>
 				</div>
 			</div>
 		</div>
