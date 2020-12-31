@@ -6,12 +6,6 @@ import features from '.';
 let progressLoader: HTMLElement;
 const progressLoaderLoadingClass = 'is-loading';
 
-function fixProfileNavAndTimeline(): void {
-	for (const stickyElement of select.all('.js-sticky:not(.is-stuck)')) {
-		stickyElement.removeAttribute('style');
-	}
-}
-
 function keydownHandler(event: KeyboardEvent): void {
 	if (event.key !== 'Escape' || !progressLoader.classList.contains(progressLoaderLoadingClass)) {
 		return;
@@ -50,10 +44,6 @@ function init(): void {
 	progressLoader = select('.progress-pjax-loader')!;
 
 	window.addEventListener('keydown', keydownHandler);
-
-	if (pageDetect.isUserProfile()) {
-		window.addEventListener('pjax:end', fixProfileNavAndTimeline);
-	}
 }
 
 void features.add(__filebasename, {
