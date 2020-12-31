@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import domify from 'doma';
+import select from 'select-dom';
 import elementReady from 'element-ready';
 
 import features from '.';
@@ -62,7 +63,7 @@ async function getHistoryDropdown(featureName: string): Promise<Element> {
 	historyUrl.assign({route: 'commits'});
 
 	return (
-		<details className="dropdown details-reset details-overlay d-inline-block">
+		<details className="dropdown details-reset details-overlay d-inline-block ml-3">
 			<summary className="text-gray d-inline" aria-haspopup="true">
 				Feature history
 				<div className="dropdown-caret ml-1"/>
@@ -100,7 +101,7 @@ function getConversationsLink(featureName: string): Element {
 	const searchUrl = new URL('https://github.com/sindresorhus/refined-github/issues');
 	searchUrl.searchParams.set('q', `"${featureName}" sort:updated-desc`);
 
-	return <a className="ml-3" href={String(searchUrl)}>Conversations</a>;
+	return <a href={String(searchUrl)}>Conversations</a>;
 }
 
 async function init(): Promise<void | false> {
@@ -133,7 +134,6 @@ async function init(): Promise<void | false> {
 				)}
 				<div className="ml-3 flex-auto">
 					{descriptionElement}
-					{await getHistoryDropdown(id!)}
 					{getConversationsLink(id!)}
 				</div>
 			</div>
@@ -141,6 +141,8 @@ async function init(): Promise<void | false> {
 	);
 
 	wrapAll([commitInfoBox, featureInfoBox], <div className="d-flex flex-wrap" style={{gap: 16}}/>);
+
+	select('.flex-auto', featureInfoBox)!.append(await getHistoryDropdown(id!));
 }
 
 void features.add(__filebasename, {
