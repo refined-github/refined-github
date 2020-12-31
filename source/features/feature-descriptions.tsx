@@ -127,7 +127,7 @@ async function init(): Promise<void | false> {
 							className="d-block border"
 							style={{
 								maxHeight: 100,
-								maxWidth: 100
+								maxWidth: 150
 							}}/>
 					</a>
 				)}
