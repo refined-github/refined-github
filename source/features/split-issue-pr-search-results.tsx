@@ -18,7 +18,6 @@ function updateLinkElement(link: HTMLAnchorElement, type: GitHubConversationType
 	link.textContent = type === 'pr' ? 'Pull requests' : 'Issues'; // Drops any possible counter
 
 	const searchQuery = new SearchQuery(link);
-	searchQuery.remove('is:pr', 'is:issue');
 	searchQuery.add(`is:${type}`);
 
 	link.append(
