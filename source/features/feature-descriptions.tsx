@@ -106,12 +106,12 @@ function getConversationsLink(featureName: string): Element {
 
 async function init(): Promise<void | false> {
 	const [, currentFeature] = /features\/([^.]+)/.exec(location.pathname)!;
-	const {id, description, screenshot} = __featuresMeta__.find(feature => feature.id === currentFeature) ?? {};
-	if (!description) {
+	const feature = __featuresMeta__.find(feature => feature.id === currentFeature);
+	if (!feature) {
 		return false;
 	}
 
-	const descriptionElement = domify.one(description)!;
+	const descriptionElement = domify.one(feature.description)!;
 	descriptionElement.classList.add('text-bold');
 
 	const commitInfoBox = (await elementReady('.Box-header--blue.Details'))!.parentElement!;
@@ -121,10 +121,10 @@ async function init(): Promise<void | false> {
 	const featureInfoBox = (
 		<div className="Box" style={{flex: '1 0 360px'}}>
 			<div className="Box-row d-flex height-full">
-				{screenshot && (
-					<a href={screenshot} className="flex-self-center">
+				{feature.screenshot && (
+					<a href={feature.screenshot} className="flex-self-center">
 						<img
-							src={screenshot}
+							src={feature.screenshot}
 							className="d-block border"
 							style={{
 								maxHeight: 100,
@@ -134,7 +134,7 @@ async function init(): Promise<void | false> {
 				)}
 				<div className="ml-3 flex-auto">
 					{descriptionElement}
-					{getConversationsLink(id!)}
+					{getConversationsLink(feature.id)}
 				</div>
 			</div>
 		</div>
@@ -142,7 +142,7 @@ async function init(): Promise<void | false> {
 
 	wrapAll([commitInfoBox, featureInfoBox], <div className="d-flex flex-wrap" style={{gap: 16}}/>);
 
-	select('.flex-auto', featureInfoBox)!.append(await getHistoryDropdown(id!));
+	select('.flex-auto', featureInfoBox)!.append(await getHistoryDropdown(feature.id));
 }
 
 void features.add(__filebasename, {
