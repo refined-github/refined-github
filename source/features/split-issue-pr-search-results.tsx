@@ -12,30 +12,18 @@ function cleanLinks(): void {
 	}
 }
 
-function getPageSearchQuery(): SearchQuery {
-	const searchParameters = new URLSearchParams(location.search);
-	return new SearchQuery(searchParameters);
-}
-
 type GitHubConversationType = 'pr' | 'issue';
 
-function createUrl(type: GitHubConversationType, pathname = location.pathname): string {
-	const url = new URL(pathname, location.origin);
-	const searchQuery = getPageSearchQuery();
-	// Remove all existing is:pr/issue query parts, only the last is used anyways
+function updateLinkElement(link: HTMLAnchorElement, type: GitHubConversationType): void {
+	link.textContent = type === 'pr' ? 'Pull requests' : 'Issues'; // Drops any possible counter
+
+	const searchQuery = new SearchQuery(link);
 	searchQuery.remove('is:pr', 'is:issue');
 	searchQuery.add(`is:${type}`);
-	url.searchParams.set('q', searchQuery.get());
-	url.searchParams.set('type', 'Issues');
 
-	// Copy the language (l) and state (closed/open) search parameters if they are set
-	for (const name of ['l', 'state']) {
-		if (searchQuery.searchParams.has(name)) {
-			url.searchParams.set(name, searchQuery.searchParams.get(name)!);
-		}
-	}
-
-	return String(url);
+	link.append(
+		<include-fragment src={`${link.pathname}/count${link.search}`}/>
+	);
 }
 
 // Only the last is:pr/issue query part is used by github for the filter results so we find the one with the higher index
@@ -56,29 +44,21 @@ function searchQueryIs(searchQuery: SearchQuery): GitHubConversationType | null 
 
 function init(): void {
 	cleanLinks();
-	const searchQuery = getPageSearchQuery();
 
 	const issueLink = select<HTMLAnchorElement>([
 		'nav.menu a[href*="&type=Issues"]', // Only for GHE
 		'.menu-item[href*="&type=issues"]'
 	])!;
-	issueLink.textContent = 'Issues'; // Drops any possible counter
-	issueLink.href = createUrl('issue');
-	issueLink.append(
-		<include-fragment src={createUrl('issue', location.pathname + '/count')}/>
-	);
+	updateLinkElement(issueLink, 'issue');
 
-	const prLink = issueLink.cloneNode(true);
-	prLink.textContent = 'Pull requests';
-	prLink.href = createUrl('pr');
-	prLink.append(
-		<include-fragment src={createUrl('pr', location.pathname + '/count')}/>
-	);
-
+	// We don't need to clone the child nodes because they get replaced anyways
+	const prLink = issueLink.cloneNode();
+	updateLinkElement(prLink, 'pr');
 	issueLink.after(prLink);
 
 	const title = select('.codesearch-results h3')!.firstChild!;
 
+	const searchQuery = new SearchQuery(location);
 	const is = searchQueryIs(searchQuery);
 	if (is === 'pr') {
 		// Update UI in PR searches
