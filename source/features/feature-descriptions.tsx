@@ -97,13 +97,6 @@ async function getHistoryDropdown(featureName: string): Promise<Element> {
 	);
 }
 
-function getConversationsLink(featureName: string): Element {
-	const searchUrl = new URL('https://github.com/sindresorhus/refined-github/issues');
-	searchUrl.searchParams.set('q', `"${featureName}" sort:updated-desc`);
-
-	return <a href={String(searchUrl)}>Conversations</a>;
-}
-
 async function init(): Promise<void | false> {
 	const [, currentFeature] = /features\/([^.]+)/.exec(location.pathname)!;
 	const feature = __featuresMeta__.find(feature => feature.id === currentFeature);
@@ -113,6 +106,8 @@ async function init(): Promise<void | false> {
 
 	const descriptionElement = domify.one(feature.description)!;
 	descriptionElement.classList.add('text-bold');
+
+	const conversationsUrl = '/sindresorhus/refined-github/issues?q=' + encodeURIComponent(`"${feature.id}" sort:updated-desc`);
 
 	const commitInfoBox = (await elementReady('.Box-header--blue.Details'))!.parentElement!;
 	commitInfoBox.classList.add('width-fit', 'flex-auto');
@@ -134,7 +129,7 @@ async function init(): Promise<void | false> {
 				)}
 				<div className="ml-3 flex-auto">
 					{descriptionElement}
-					{getConversationsLink(feature.id)}
+					<a className="ml-3" href={conversationsUrl}>Conversations</a>
 				</div>
 			</div>
 		</div>
