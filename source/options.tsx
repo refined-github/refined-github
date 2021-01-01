@@ -12,7 +12,7 @@ import {perDomainOptions} from './options-storage';
 
 async function setValidationStatus(response: Response): Promise<void> {
 	if (response.ok) {
-		displayValidationStatus('✔️ Validated');
+		displayValidationStatus('✔️ Token Validated');
 	} else {
 		try {
 			displayValidationStatus('❌ ' + String((await response.json()).message));
@@ -50,8 +50,7 @@ async function getHeaders(personalToken: string): Promise<string> {
 async function validateToken(): Promise<void> {
 	const tokenField = select<HTMLInputElement>('[name="personalToken"]')!;
 	displayValidationStatus('');
-
-	if (!tokenField.validity.valid) {
+	if (!tokenField.validity.valid || tokenField.value.length === 0) {
 		return;
 	}
 
@@ -64,7 +63,7 @@ async function validateToken(): Promise<void> {
 	}
 
 	for (const scope of select.all('[data-scope]')) {
-		scope.textContent = headers.includes(scope.dataset.scope!) ? '✔️' : '❌';
+		scope.className = headers.includes(scope.dataset.scope!) ? 'valid' : 'invalid';
 	}
 }
 
