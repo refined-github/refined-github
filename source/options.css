@@ -16,11 +16,11 @@ ul {
 	padding-left: 1.5em;
 }
 
-li.valid {
+ul:not(.invalid) li.valid {
 	list-style: '✔️ ';
 }
 
-li.invalid {
+ul:not(.invalid) li.invalid {
 	list-style: '❌ ';
 }
 
