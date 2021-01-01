@@ -114,7 +114,7 @@ export const v3 = mem(async (
 	const {personalToken} = await settings;
 
 	if (!query.startsWith('https')) {
-		query = query.startsWith('/') ? query.slice(1) : 'repos/' + getRepo()!.nameWithOwner + '/' + query;
+		query = query.startsWith('/') ? query.slice(1) : ['repos', getRepo()!.nameWithOwner, query].filter(Boolean).join('/');
 	}
 
 	const url = new URL(query, api3);
@@ -153,8 +153,10 @@ export const v3paginated = async function * (
 		const response = await v3(query, options);
 		yield response;
 
-		[, query] = /<([^>]+)>; rel="next"/.exec(response.headers.get('link')!) ?? [];
-		if (!query) {
+		const match = /<([^>]+)>; rel="next"/.exec(response.headers.get('link')!);
+		if (match) {
+			query = match[1]!;
+		} else {
 			return;
 		}
 	}

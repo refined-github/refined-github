@@ -60,8 +60,8 @@ async function init(): Promise<false | void> {
 
 	// Wait for the tab bar to be loaded
 	await elementReady([
-		'.pagehead + *', // Pre "Repository refresh" layout
-		'.UnderlineNav-body + *'
+		'.pagehead', // Pre "Repository refresh" layout
+		'.UnderlineNav-body'
 	].join());
 
 	const repoNavigationBar = select('.js-responsive-underlinenav');
@@ -109,12 +109,6 @@ async function init(): Promise<false | void> {
 				'data-menu-item': 'rgh-releases-item'
 			})
 		);
-
-		// Hide redundant 'Releases' section from repo sidebar
-		if (pageDetect.isRepoRoot()) {
-			const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]');
-			sidebarReleases!.closest('.BorderGrid-row')!.setAttribute('hidden', '');
-		}
 
 		return;
 	}

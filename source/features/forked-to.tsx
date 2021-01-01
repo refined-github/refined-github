@@ -47,9 +47,9 @@ async function updateUI(forks: string[]): Promise<void> {
 	}
 
 	document.body.classList.add('rgh-forked-to');
-	const forkCounter = (await elementReady('.social-count[href$="/network/members"]'))!;
+	const forkCounter = await elementReady('.social-count[href$="/network/members"]', {waitForChildren: false});
 	if (forks.length === 1) {
-		forkCounter.before(
+		forkCounter!.before(
 			<a
 				href={createLink(forks[0])}
 				className="btn btn-sm float-left rgh-forked-button"
@@ -59,7 +59,7 @@ async function updateUI(forks: string[]): Promise<void> {
 			</a>
 		);
 	} else {
-		forkCounter.before(
+		forkCounter!.before(
 			<details className="details-reset details-overlay select-menu float-left">
 				<summary
 					className="select-menu-button float-left btn btn-sm btn-with-count rgh-forked-button"

@@ -38,5 +38,8 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.hasCode
 	],
+	exclude: [
+		pageDetect.isGist
+	],
 	init: onetime(init)
 });

@@ -79,7 +79,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 
 	for (const pr of repository.pullRequests.nodes) {
 		for (const {path} of pr.files.nodes) {
-			files[path] = files[path] || [];
+			files[path] = files[path] ?? [];
 			if (files[path].length < 10) {
 				files[path].push(pr.number);
 			}

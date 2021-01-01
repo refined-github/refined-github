@@ -38,8 +38,8 @@ export function createDropdownItem(label: string, url: string, attributes?: Reco
 }
 
 function onlyShowInDropdown(id: string): void {
-	select(`[data-tab-item="${id}"]`)!.parentElement!.remove();
-	const menuItem = select(`[data-menu-item="${id}"]`)!;
+	select(`[data-tab-item$="${id}"]`)!.parentElement!.remove();
+	const menuItem = select(`[data-menu-item$="${id}"]`)!;
 	menuItem.removeAttribute('data-menu-item');
 	menuItem.hidden = false;
 
@@ -50,8 +50,8 @@ function onlyShowInDropdown(id: string): void {
 async function init(): Promise<void> {
 	// Wait for the tab bar to be loaded
 	await elementReady([
-		'.pagehead + *', // Pre "Repository refresh" layout
-		'.UnderlineNav-body + *'
+		'.pagehead', // Pre "Repository refresh" layout
+		'.UnderlineNav-body'
 	].join());
 
 	const reference = getCurrentBranch() ?? await getDefaultBranch();
