@@ -51,12 +51,10 @@ function getCommitUrl(commit: Commit): string {
 	return pullRequestUrl ?? commit.commitUrl;
 }
 
-async function getHistoryDropdown(featureName: string): Promise<Element> {
-	let history = await getFeatureHistory(featureName + '.tsx');
-
+async function getHistoryDropdown(featureName: string): Promise<Element | undefined> {
+	const history = await getFeatureHistory(featureName + '.tsx');
 	if (history.length === 0) {
-		// Feature might be CSS-only
-		history = await getFeatureHistory(featureName + '.css');
+		return undefined;
 	}
 
 	const historyUrl = new GitHubURL(location.href);
@@ -127,7 +125,10 @@ async function init(): Promise<void | false> {
 
 	wrapAll([commitInfoBox, featureInfoBox], <div className="d-flex flex-wrap" style={{gap: 16}}/>);
 
-	select('.flex-auto', featureInfoBox)!.append(await getHistoryDropdown(feature.id));
+	const historyDropdown = await getHistoryDropdown(feature.id);
+	if (historyDropdown) {
+		select('.flex-auto', featureInfoBox)!.append(historyDropdown);
+	}
 }
 
 void features.add(__filebasename, {
