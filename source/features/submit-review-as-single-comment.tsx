@@ -53,7 +53,7 @@ async function getNewCommentField(commentContainer: Element, lineBeingCommentedO
 
 async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 	const commentContainer = event.delegateTarget.closest('.js-comment')!;
-	const commentText = select<HTMLTextAreaElement>('[name="pull_request_review_comment[body]"]', commentContainer)!.value;
+	const commentText = select('textarea[name="pull_request_review_comment[body]"]', commentContainer)!.value;
 	if (!commentText) {
 		alert('Error: Comment not found and not submitted. More info in the console.');
 		features.error(__filebasename, 'Comment not found');
@@ -65,11 +65,11 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 
 	// Use nearby comment box
 	const comment = await getNewCommentField(commentContainer, lineBeingCommentedOn);
-	const submitButton = select<HTMLButtonElement>('[name="single_comment"]', comment.form!)!;
+	const submitButton = select('button[name="single_comment"]', comment.form!)!;
 	const commentForm = comment.closest<HTMLElement>('.inline-comment-form-container')!;
 
 	// Copy comment to new comment box
-	const newComment = select<HTMLTextAreaElement>('[name="comment[body]"]', commentForm)!;
+	const newComment = select('textarea[name="comment[body]"]', commentForm)!;
 	textFieldEdit.insert(newComment, commentText);
 
 	// Safely try comment deletion
@@ -77,7 +77,7 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 		commentForm.hidden = true;
 
 		// Delete comment without asking confirmation
-		const deleteLink = select<HTMLButtonElement>('[aria-label="Delete comment"]', commentContainer)!;
+		const deleteLink = select('button[aria-label="Delete comment"]', commentContainer)!;
 		deleteLink.removeAttribute('data-confirm');
 		deleteLink.click();
 

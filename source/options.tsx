@@ -100,7 +100,7 @@ async function generateDom(): Promise<void> {
 function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
 	select('.js-options-sync-selector')?.addEventListener('change', ({currentTarget: dropdown}) => {
-		select<HTMLAnchorElement>('#personal-token-link')!.host = (dropdown as HTMLSelectElement).value;
+		select('a#personal-token-link')!.host = (dropdown as HTMLSelectElement).value;
 	});
 
 	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)

@@ -9,11 +9,11 @@ import features from '.';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 const mergeFormSelector = '.is-squashing form:not([hidden])';
-const prTitleFieldSelector = '.js-issue-update [name="issue[title]"]';
-const prTitleSubmitSelector = '.js-issue-update [type="submit"]';
+const prTitleFieldSelector = '.js-issue-update input[name="issue[title]"]';
+const prTitleSubmitSelector = '.js-issue-update button[type="submit"]';
 
 function getCommitTitleField(): HTMLInputElement | undefined {
-	return select<HTMLInputElement>(`${mergeFormSelector} #merge_title_field`) ?? undefined;
+	return select<HTMLInputElement>(`${mergeFormSelector} #merge_title_field`);
 }
 
 function getPRNumber(): string {
@@ -32,7 +32,7 @@ function needsSubmission(): boolean {
 	}
 
 	// Ensure that the required fields are on the page
-	if (!select.exists(prTitleFieldSelector) || !select.exists(prTitleSubmitSelector)) {
+	if (!select.exists(prTitleFieldSelector + ',' + prTitleSubmitSelector)) {
 		features.error(__filebasename, 'Can’t update the PR title');
 		return false;
 	}
@@ -66,7 +66,7 @@ function updatePRTitle(): void {
 		.replace(regexJoin(/\s*\(/, getPRNumber(), /\)$/), '');
 
 	// Fill and submit title-change form
-	select<HTMLInputElement>(prTitleFieldSelector)!.value = prTitle;
+	select(prTitleFieldSelector)!.value = prTitle;
 	select(prTitleSubmitSelector)!.click(); // `form.submit()` isn't sent via ajax
 }
 

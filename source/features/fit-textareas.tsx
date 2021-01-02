@@ -25,7 +25,7 @@ function focusListener({delegateTarget: textarea}: delegate.Event<Event, HTMLTex
 }
 
 function fitPrCommitMessageBox(): void {
-	watchTextarea(select<HTMLTextAreaElement>('[name="commit_message"]')!);
+	watchTextarea(select('textarea[name="commit_message"]')!);
 }
 
 function init(): void {

@@ -12,7 +12,7 @@ import onNewComments from '../github-events/on-new-comments';
 
 function mentionUser({delegateTarget: button}: delegate.Event): void {
 	const userMention = button.parentElement!.querySelector('img')!.alt;
-	const newComment = select<HTMLTextAreaElement>('#new_comment_field')!;
+	const newComment = select('textarea#new_comment_field')!;
 	newComment.focus();
 
 	// If the new comment field has selected text, don’t replace it

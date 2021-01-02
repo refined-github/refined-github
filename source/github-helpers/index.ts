@@ -23,7 +23,7 @@ Example tag content on private repositories https://github.com/private/private/c
 */
 export const getCurrentBranch = (): string | undefined => {
 	// .last needed for #2799
-	const feedLink = select.last<HTMLLinkElement>('[type="application/atom+xml"]');
+	const feedLink = select.last('link[type="application/atom+xml"]');
 	// The feedLink is not available on `isIssue` #3641
 	if (!feedLink) {
 		return;
@@ -52,11 +52,12 @@ export const buildRepoURL = (...pathParts: Array<string | number> & {0: string})
 };
 
 export const getPRHeadRepo = (): ReturnType<typeof getRepo> => {
-	return getRepo(select<HTMLAnchorElement>('.commit-ref.head-ref a')!);
+	const headLink = select('.commit-ref.head-ref a');
+	return getRepo(headLink);
 };
 
 export function getForkedRepo(): string | undefined {
-	return select<HTMLMetaElement>('[name="octolytics-dimension-repository_parent_nwo"]')?.content;
+	return select('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
 }
 
 export const parseTag = (tag: string): {version: string; namespace: string} => {

@@ -7,7 +7,7 @@ import features from '.';
 const isSingleHTMLFile = (): boolean => pageDetect.isSingleFile() && /\.html?$/.test(location.pathname);
 
 function init(): void {
-	const rawButton = select<HTMLAnchorElement>('#raw-url')!;
+	const rawButton = select('a#raw-url')!;
 	rawButton
 		.parentElement! // `BtnGroup`
 		.prepend(
