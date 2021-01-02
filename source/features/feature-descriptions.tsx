@@ -36,7 +36,10 @@ const getFeatureHistory = cache.function(async (fileName: string): Promise<Commi
 			}
 		}
 	`);
-	return repository.defaultBranchRef.target.history.nodes;
+
+	return repository.defaultBranchRef.target.history.nodes.filter(
+		(commit: Commit) => !/^Meta|^Document|^Readme|^Lint|^Update.+dependencies/.test(commit.messageHeadline)
+	);
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 4},
@@ -56,9 +59,6 @@ async function getHistoryDropdown(featureName: string): Promise<Element> {
 		history = await getFeatureHistory(featureName + '.css');
 	}
 
-	const filteredHistory = history.filter((commit: Commit) => !/^Meta|^Document|^Readme|^Lint|^Update.+dependencies/.test(commit.messageHeadline));
-	const skippedCommitsCount = history.length - filteredHistory.length;
-
 	const historyUrl = new GitHubURL(location.href);
 	historyUrl.assign({route: 'commits'});
 
@@ -71,7 +71,7 @@ async function getHistoryDropdown(featureName: string): Promise<Element> {
 
 			<div className="dropdown-menu dropdown-menu-s" style={{width: 400}}>
 				<ul className="overflow-y-auto" style={{maxHeight: '60vh'}}>
-					{filteredHistory.map(commit => (
+					{history.map(commit => (
 						<li>
 							<a className="dropdown-item" href={getCommitUrl(commit)} title={commit.messageHeadline}>
 								{parseBackticks(commit.messageHeadline)}
@@ -81,16 +81,6 @@ async function getHistoryDropdown(featureName: string): Promise<Element> {
 							</a>
 						</li>
 					))}
-					{skippedCommitsCount > 0 && (
-						<>
-							<li className="dropdown-divider" role="separator"/>
-							<li>
-								<a className="dropdown-item" href={String(historyUrl)}>
-									View full history (+{skippedCommitsCount} commits)
-								</a>
-							</li>
-						</>
-					)}
 				</ul>
 			</div>
 		</details>
