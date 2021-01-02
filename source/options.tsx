@@ -104,8 +104,12 @@ function addEventListeners(): void {
 	});
 
 	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)
-	browser.permissions.onRemoved.addListener(() => location.reload());
-	browser.permissions.onAdded.addListener(() => location.reload());
+	browser.permissions.onRemoved.addListener(() => {
+		location.reload();
+	});
+	browser.permissions.onAdded.addListener(() => {
+		location.reload();
+	});
 
 	// Improve textareas editing
 	fitTextarea.watch('textarea');
