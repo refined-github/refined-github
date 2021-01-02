@@ -37,7 +37,7 @@ function openIssues(): void {
 }
 
 async function init(): Promise<void | false> {
-	if (!await elementReady('.js-issue-row + .js-issue-row')) {
+	if (!await elementReady('.js-issue-row + .js-issue-row', {waitForChildren: false})) {
 		return false;
 	}
 

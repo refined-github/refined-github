@@ -72,7 +72,7 @@ function logError(id: FeatureID, error: Error | string | unknown, ...extras: unk
 // Rule assumes we don't want to leave it pending:
 // eslint-disable-next-line no-async-promise-executor
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
-	await elementReady('body');
+	await elementReady('body', {waitForChildren: false});
 
 	if (pageDetect.is500()) {
 		return;
