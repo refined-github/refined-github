@@ -47,21 +47,21 @@ async function validateToken(): Promise<void> {
 
 	displayValidationStatus('Validating…');
 
-	let headers;
+	let tokenScopes;
 	try {
-		headers = await getTokenScopes(tokenField.value);
+		tokenScopes = await getTokenScopes(tokenField.value);
 		displayValidationStatus('✔️ Token Validated');
 	} catch (error: unknown) {
 		displayValidationStatus('❌ ' + error);
 		return;
 	}
 
-	if (headers.includes('repo')) {
-		headers.push('public_repo');
+	if (tokenScopes.includes('repo')) {
+		tokenScopes.push('public_repo');
 	}
 
 	for (const scope of select.all('[data-scope]')) {
-		scope.className = headers.includes(scope.dataset.scope!) ? 'valid' : 'invalid';
+		scope.className = tokenScopes.includes(scope.dataset.scope!) ? 'valid' : 'invalid';
 	}
 }
 
