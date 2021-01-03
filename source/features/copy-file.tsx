@@ -23,7 +23,7 @@ function handleClick({delegateTarget: button}: delegate.Event<MouseEvent, HTMLBu
 }
 
 function renderButton(): void {
-	for (const button of select.all<HTMLAnchorElement>([
+	for (const button of select.all([
 		'.file-actions .btn[href*="/raw/"]', // `isGist`
 		'[data-hotkey="b"]'
 	])) {

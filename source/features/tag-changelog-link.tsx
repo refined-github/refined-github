@@ -17,7 +17,7 @@ interface TagDetails {
 }
 
 async function getNextPage(): Promise<DocumentFragment> {
-	const nextPageLink = select<HTMLAnchorElement>('.pagination a:last-child');
+	const nextPageLink = select('.pagination a:last-child');
 	if (nextPageLink) {
 		return fetchDom(nextPageLink.href);
 	}
@@ -31,7 +31,7 @@ async function getNextPage(): Promise<DocumentFragment> {
 }
 
 function parseTags(element: HTMLElement): TagDetails {
-	const {pathname: tagUrl} = select<HTMLAnchorElement>('[href*="/releases/tag/"]', element)!;
+	const {pathname: tagUrl} = select('a[href*="/releases/tag/"]', element)!;
 	const tag = /\/releases\/tag\/(.*)/.exec(tagUrl)![1];
 
 	return {

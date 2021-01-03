@@ -68,7 +68,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 	}
 
 	const text = select('.comment-body', bestComment)!.textContent!.slice(0, 100);
-	const {hash} = select<HTMLAnchorElement>('.js-timestamp', bestComment)!;
+	const {hash} = select('a.js-timestamp', bestComment)!;
 	const avatar = select('img.avatar', bestComment)!.cloneNode();
 
 	bestComment.parentElement!.firstElementChild!.after(
@@ -88,7 +88,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 }
 
 function selectSum(selector: string, container: HTMLElement): number {
-	// eslint-disable-next-line unicorn/no-reduce -- The alternative `for` loop is too lengthy for a simple sum
+	// eslint-disable-next-line unicorn/no-array-reduce -- The alternative `for` loop is too lengthy for a simple sum
 	return select.all(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
 }
 

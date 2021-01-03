@@ -28,7 +28,7 @@ async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> 
 	`);
 
 	const [{oid}] = repository.ref.target.history.nodes;
-	select<HTMLAnchorElement>('.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;
+	select('a.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;
 }
 
 function addInlineLinks(comment: HTMLElement, timestamp: string): void {

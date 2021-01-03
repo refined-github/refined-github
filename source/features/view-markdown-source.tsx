@@ -17,8 +17,8 @@ const lineActions = onetime(async () => {
 	const randomKnownFile = 'https://github.com/sindresorhus/refined-github/blob/b1229bbaeb8cf071f0711bc2ed1b40dd96cd7a05/.editorconfig';
 	const html = await browser.runtime.sendMessage({request: randomKnownFile});
 	const blobToolbar = domify(html).querySelector('.BlobToolbar')!;
-	select<HTMLAnchorElement>('#js-view-git-blame', blobToolbar)!.href = new GitHubURL(location.href).assign({route: 'blame'}).href;
-	select<HTMLAnchorElement>('#js-new-issue', blobToolbar)!.href = buildRepoURL('issues/new');
+	select('a#js-view-git-blame', blobToolbar)!.href = new GitHubURL(location.href).assign({route: 'blame'}).href;
+	select('a#js-new-issue', blobToolbar)!.href = buildRepoURL('issues/new');
 	return blobToolbar;
 });
 
@@ -48,8 +48,8 @@ This acts as an auto-discarded cache without globals, timers, etc.
 It should also work clicks on buttons sooner than the page loads.
 */
 async function showSource(): Promise<void> {
-	const sourceButton = select<HTMLButtonElement>('.rgh-md-source')!;
-	const renderedButton = select<HTMLButtonElement>('.rgh-md-rendered')!;
+	const sourceButton = select('button.rgh-md-source')!;
+	const renderedButton = select('button.rgh-md-rendered')!;
 
 	sourceButton.disabled = true;
 
@@ -72,8 +72,8 @@ async function showSource(): Promise<void> {
 }
 
 async function showRendered(): Promise<void> {
-	const sourceButton = select<HTMLButtonElement>('.rgh-md-source')!;
-	const renderedButton = select<HTMLButtonElement>('.rgh-md-rendered')!;
+	const sourceButton = select('button.rgh-md-source')!;
+	const renderedButton = select('button.rgh-md-rendered')!;
 
 	renderedButton.disabled = true;
 

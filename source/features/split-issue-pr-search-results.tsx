@@ -7,7 +7,7 @@ import features from '.';
 import SearchQuery from '../github-helpers/search-query';
 
 function cleanLinks(): void {
-	for (const link of select.all<HTMLAnchorElement>('.menu-item')) {
+	for (const link of select.all('a.menu-item')) {
 		new SearchQuery(link).remove('is:pr', 'is:issue');
 	}
 }
@@ -27,9 +27,9 @@ function init(): void {
 	cleanLinks();
 	pageSearchQuery = new SearchQuery(location);
 
-	const issueLink = select<HTMLAnchorElement>([
+	const issueLink = select([
 		'nav.menu a[href*="&type=Issues"]', // Only for GHE
-		'.menu-item[href*="&type=issues"]'
+		'a.menu-item[href*="&type=issues"]'
 	])!;
 	issueLink.textContent = 'Issues'; // Drops any possible counter
 	issueLink.href = createUrl('issue');

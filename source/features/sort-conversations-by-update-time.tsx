@@ -7,14 +7,14 @@ import features from '.';
 import SearchQuery from '../github-helpers/search-query';
 
 async function cleanBar(): Promise<void> {
-	(await elementReady<HTMLInputElement>('.header-search-input'))!.value = '';
+	(await elementReady<HTMLInputElement>('input.header-search-input'))!.value = '';
 }
 
 function init(): void {
 	// Get issues links that don't already have a specific sorting applied
-	for (const link of select.all<HTMLAnchorElement>(`
-		[href*="/issues"]:not([href*="sort%3A"]):not(.issues-reset-query),
-		[href*="/pulls" ]:not([href*="sort%3A"]):not(.issues-reset-query)
+	for (const link of select.all(`
+		a[href*="/issues"]:not([href*="sort%3A"]):not(.issues-reset-query),
+		a[href*="/pulls" ]:not([href*="sort%3A"]):not(.issues-reset-query)
 	`)) {
 		// Pick only links to lists, not single issues
 		// + skip pagination links
@@ -25,7 +25,7 @@ function init(): void {
 	}
 
 	// Extra nicety: Avoid GitHub's unnecessary redirect, this is their own bug
-	for (const link of select.all<HTMLAnchorElement>('[href*="/issues"][href*="is%3Apr"]')) {
+	for (const link of select.all('a[href*="/issues"][href*="is%3Apr"]')) {
 		link.pathname = link.pathname.replace(/issues\/?$/, 'pulls');
 	}
 }

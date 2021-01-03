@@ -8,7 +8,9 @@ const fragmentSelector = [
 
 // This lets you call `onPrFileLoad` multiple times with the same callback but only ever a `load` listener is registered
 const getDeduplicatedHandler = mem((callback: EventListener): delegate.EventHandler => {
-	return (event: delegate.Event) => event.delegateTarget.addEventListener('load', callback);
+	return (event: delegate.Event) => {
+		event.delegateTarget.addEventListener('load', callback);
+	};
 });
 
 export default function onPrFileLoad(callback: EventListener): delegate.Subscription {

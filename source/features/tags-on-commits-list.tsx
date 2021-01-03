@@ -120,7 +120,7 @@ async function init(): Promise<void | false> {
 
 	const commitsOnPage = select.all([
 		'li.commit', // Pre "Repository refresh" layout
-		'.js-commits-list-item'
+		'li.js-commits-list-item'
 	]);
 	const lastCommitOnPage = getCommitHash(commitsOnPage[commitsOnPage.length - 1]);
 	let cached = await cache.get<Record<string, string[]>>(cacheKey) ?? {};

@@ -93,7 +93,7 @@ function init(): void {
 			return;
 		}
 
-		const login = select<HTMLAnchorElement>('a[data-octo-dimensions="link_type:profile"]', hovercard)?.pathname.slice(1);
+		const login = select('a[data-octo-dimensions="link_type:profile"]', hovercard)?.pathname.slice(1);
 		if (!login || login === getUsername()) {
 			return;
 		}

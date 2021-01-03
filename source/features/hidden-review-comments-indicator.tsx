@@ -16,7 +16,7 @@ const handleIndicatorClick = ({delegateTarget}: delegate.Event): void => {
 	const resetScroll = preserveScroll(commentedLine);
 	delegateTarget
 		.closest('.file.js-file')!
-		.querySelector<HTMLInputElement>('.js-toggle-file-notes')!
+		.querySelector('input.js-toggle-file-notes')!
 		.click();
 
 	resetScroll();
