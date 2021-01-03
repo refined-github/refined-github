@@ -50,7 +50,7 @@ async function validateToken(): Promise<void> {
 	let tokenScopes;
 	try {
 		tokenScopes = await getTokenScopes(tokenField.value);
-		displayValidationStatus('✔️ Token Validated');
+		displayValidationStatus('✔️ Valid');
 	} catch (error: unknown) {
 		displayValidationStatus('❌ ' + String(error));
 		return;
