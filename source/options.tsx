@@ -10,25 +10,13 @@ import * as indentTextarea from 'indent-textarea';
 
 import {perDomainOptions} from './options-storage';
 
-async function setValidationStatus(response: Response): Promise<void> {
-	if (response.ok) {
-		displayValidationStatus('✔️ Token Validated');
-	} else {
-		try {
-			displayValidationStatus('❌ ' + String((await response.json()).message));
-		} catch (error: unknown) {
-			displayValidationStatus('❌ ' + (error as Error).message);
-		}
-	}
-}
-
 function displayValidationStatus(text: string): void {
 	select('#validation')!.textContent = text;
 	select('form ul')!.classList.toggle('invalid', !text.includes('✔️'));
 }
 
-async function getHeaders(personalToken: string): Promise<string> {
-	const tokenLink = select<HTMLAnchorElement>('#personal-token-link')!;
+async function getTokenScopes(personalToken: string): Promise<string[]> {
+	const tokenLink = select('a#personal-token-link')!;
 	const url = tokenLink.host === 'github.com' ?
 		'https://api.github.com/' :
 		`${tokenLink.origin}/api/v3/`;
@@ -42,21 +30,31 @@ async function getHeaders(personalToken: string): Promise<string> {
 		}
 	});
 
-	void setValidationStatus(response);
+	if (!response.ok) {
+		const message = (await response.json())?.message ?? response.status;
+		throw new Error(message);
+	}
 
-	return response.headers.get('X-OAuth-Scopes') ?? '';
+	return response.headers.get('X-OAuth-Scopes')!.split(', ');
 }
 
 async function validateToken(): Promise<void> {
-	const tokenField = select<HTMLInputElement>('[name="personalToken"]')!;
+	const tokenField = select('input[name="personalToken"]')!;
 	displayValidationStatus('');
 	if (!tokenField.validity.valid || tokenField.value.length === 0) {
 		return;
 	}
 
-	displayValidationStatus(' Validating…');
+	displayValidationStatus('Validating…');
 
-	const headers = (await getHeaders(tokenField.value)).split(', ');
+	let headers;
+	try {
+		headers = await getTokenScopes(tokenField.value);
+		displayValidationStatus('✔️ Token Validated');
+	} catch (error: unknown) {
+		displayValidationStatus('❌ ' + error);
+		return;
+	}
 
 	if (headers.includes('repo')) {
 		headers.push('public_repo');
