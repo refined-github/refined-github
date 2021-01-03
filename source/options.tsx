@@ -52,7 +52,7 @@ async function validateToken(): Promise<void> {
 		tokenScopes = await getTokenScopes(tokenField.value);
 		displayValidationStatus('✔️ Token Validated');
 	} catch (error: unknown) {
-		displayValidationStatus('❌ ' + error);
+		displayValidationStatus('❌ ' + String(error));
 		return;
 	}
 
