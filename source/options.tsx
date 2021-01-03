@@ -159,7 +159,7 @@ function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
 	select('.OptionsSyncPerDomain-picker select')?.addEventListener('change', ({currentTarget: dropdown}) => {
 		const host = (dropdown as HTMLSelectElement).value === 'default' ? 'github.com' : (dropdown as HTMLSelectElement).value;
-		select<HTMLAnchorElement>('#personal-token-link')!.host = host;
+		select('a#personal-token-link')!.host = host;
 		// Delay validating to let options load first
 		setTimeout(validateToken, 100);
 	});
