@@ -16,12 +16,18 @@ ul {
 	padding-left: 1.5em;
 }
 
-ul:not(.invalid) li.valid {
-	list-style: '✔️ ';
+ul:not(.invalid) li {
+	list-style: none;
 }
 
-ul:not(.invalid) li.invalid {
-	list-style: '❌ ';
+ul:not(.invalid) li.valid::before {
+	content: '✔️ ';
+	margin-left: -1.5em;
+}
+
+ul:not(.invalid) li.invalid::before {
+	content: '❌ ';
+	margin-left: -1.5em;
 }
 
 :root [name='customCSS'],
