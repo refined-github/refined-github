@@ -31,7 +31,7 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 	});
 
 	if (!response.ok) {
-		const message = (await response.json())?.message ?? response.status;
+		const {message} = (await response.json())!;
 		throw new Error(message);
 	}
 
