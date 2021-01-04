@@ -64,7 +64,7 @@ async function getHistoryDropdown(featureName: string): Promise<Element | void> 
 				Feature history
 				<div className="dropdown-caret ml-1"/>
 			</summary>
-			<details-menu className="SelectMenu right-0" role="menu">
+			<details-menu className="SelectMenu right-0 ws-normal" role="menu">
 				<div className="SelectMenu-modal">
 					<div className="SelectMenu-list">
 						{history.map(commit => (
@@ -115,7 +115,9 @@ async function init(): Promise<void | false> {
 				<div className={'flex-auto' + (feature.screenshot ? ' ml-3' : '')}>
 					{ /* eslint-disable-next-line react/no-danger */ }
 					<div dangerouslySetInnerHTML={{__html: feature.description}} className="text-bold"/>
-					<a href={conversationsUrl}>Conversations</a>
+					<div className="no-wrap">
+						<a href={conversationsUrl}>Conversations</a>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -125,7 +127,7 @@ async function init(): Promise<void | false> {
 
 	const historyDropdown = await getHistoryDropdown(feature.id);
 	if (historyDropdown) {
-		select('.flex-auto', featureInfoBox)!.append(historyDropdown);
+		select('.no-wrap', featureInfoBox)!.append(historyDropdown);
 	}
 }
 
