@@ -10,9 +10,28 @@ import * as indentTextarea from 'indent-textarea';
 
 import {perDomainOptions} from './options-storage';
 
-function displayValidationStatus(text: string): void {
-	select('#validation')!.textContent = text;
-	select('form ul')!.classList.toggle('invalid', !text.includes('✔️'));
+interface Status {
+	error?: true;
+	text?: string;
+	scopes?: string[];
+}
+
+function reportStatus({error, text, scopes}: Status): void {
+	const tokenStatus = select('#validation')!;
+	tokenStatus.textContent = text ?? '';
+	if (error) {
+		tokenStatus.dataset.validation = 'invalid';
+	} else {
+		delete tokenStatus.dataset.validation;
+	}
+
+	for (const scope of select.all('[data-scope]')) {
+		if (scopes) {
+			scope.dataset.validation = scopes.includes(scope.dataset.scope!) ? 'valid' : 'invalid';
+		} else {
+			scope.dataset.validation = '';
+		}
+	}
 }
 
 async function getTokenScopes(personalToken: string): Promise<string[]> {
@@ -35,33 +54,29 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 		throw new Error(message);
 	}
 
-	return response.headers.get('X-OAuth-Scopes')!.split(', ');
+	const scopes = response.headers.get('X-OAuth-Scopes')!.split(', ');
+	if (scopes.includes('repo')) {
+		scopes.push('public_repo');
+	}
+
+	return scopes;
 }
 
 async function validateToken(): Promise<void> {
 	const tokenField = select('input[name="personalToken"]')!;
-	displayValidationStatus('');
+	reportStatus({});
 	if (!tokenField.validity.valid || tokenField.value.length === 0) {
 		return;
 	}
 
-	displayValidationStatus('Validating…');
+	reportStatus({text: 'Validating…'});
 
-	let tokenScopes;
 	try {
-		tokenScopes = await getTokenScopes(tokenField.value);
-		displayValidationStatus('✔️ Valid');
+		const scopes = await getTokenScopes(tokenField.value);
+		reportStatus({scopes});
 	} catch (error: unknown) {
-		displayValidationStatus('❌ ' + String(error));
-		return;
-	}
-
-	if (tokenScopes.includes('repo')) {
-		tokenScopes.push('public_repo');
-	}
-
-	for (const scope of select.all('[data-scope]')) {
-		scope.className = tokenScopes.includes(scope.dataset.scope!) ? 'valid' : 'invalid';
+		reportStatus({error: true, text: (error as Error).message});
+		throw error;
 	}
 }
 
