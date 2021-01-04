@@ -51,14 +51,11 @@ function getCommitUrl(commit: Commit): string {
 	return pullRequestUrl ?? commit.commitUrl;
 }
 
-async function getHistoryDropdown(featureName: string): Promise<Element | undefined> {
+async function getHistoryDropdown(featureName: string): Promise<Element | void> {
 	const history = await getFeatureHistory(featureName + '.tsx');
 	if (history.length === 0) {
-		return undefined;
+		return;
 	}
-
-	const historyUrl = new GitHubURL(location.href);
-	historyUrl.assign({route: 'commits'});
 
 	return (
 		<details className="dropdown details-reset details-overlay d-inline-block ml-3">

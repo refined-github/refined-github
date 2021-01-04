@@ -82,8 +82,10 @@ async function highlightNewFeatures(): Promise<void> {
 
 async function generateDom(): Promise<void> {
 	// Generate list
-	const features = __featuresMeta__.filter(feature => !feature.id.startsWith('rgh-'));
-	select('.js-features')!.append(...features.map(buildFeatureCheckbox));
+	const checkboxes = __featuresMeta__
+		.filter(feature => !feature.id.startsWith('rgh-'))
+		.map(buildFeatureCheckbox);
+	select('.js-features')!.append(...checkboxes);
 
 	// Update list from saved options
 	await perDomainOptions.syncForm('form');
