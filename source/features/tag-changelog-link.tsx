@@ -95,8 +95,8 @@ async function init(): Promise<void> {
 		}
 
 		const lastLinks = select.all([
-			'.list-style-none > .d-block:nth-child(2)', // XXX
-			'.list-style-none > .d-inline-block:last-child' // YYY
+			'.list-style-none > .d-block:nth-child(2)', // Link to commit in release sidebar
+			'.list-style-none > .d-inline-block:last-child' // Link to source tarball under release tag
 		], container.element);
 		for (const lastLink of lastLinks) {
 			lastLink.after(
