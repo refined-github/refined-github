@@ -59,26 +59,28 @@ async function getHistoryDropdown(featureName: string): Promise<Element | void> 
 	}
 
 	return (
-		<details className="dropdown details-reset details-overlay d-inline-block ml-3">
+		<details className="details-reset details-overlay d-inline-block ml-3 position-relative">
 			<summary className="text-gray d-inline" aria-haspopup="true">
 				Feature history
 				<div className="dropdown-caret ml-1"/>
 			</summary>
-
-			<div className="dropdown-menu dropdown-menu-s" style={{width: 400}}>
-				<ul className="overflow-y-auto" style={{maxHeight: '60vh'}}>
-					{history.map(commit => (
-						<li>
-							<a className="dropdown-item" href={getCommitUrl(commit)} title={commit.messageHeadline}>
-								{parseBackticks(commit.messageHeadline)}
-								<div className="text-small">
-									<relative-time datetime={commit.committedDate}/>
-								</div>
+			<details-menu className="SelectMenu right-0" role="menu">
+				<div className="SelectMenu-modal">
+					<div className="SelectMenu-list">
+						{history.map(commit => (
+							<a
+								className="SelectMenu-item d-block"
+								role="menuitem"
+								href={getCommitUrl(commit)}
+								title={commit.messageHeadline}
+							>
+								<h5>{parseBackticks(commit.messageHeadline)}</h5>
+								<relative-time className="text-gray" datetime={commit.committedDate}/>
 							</a>
-						</li>
-					))}
-				</ul>
-			</div>
+						))}
+					</div>
+				</div>
+			</details-menu>
 		</details>
 	);
 }
