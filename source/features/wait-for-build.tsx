@@ -23,8 +23,8 @@ const generateCheckbox = onetime(() => (
 	</label>
 ));
 
-function getCheckbox(): HTMLInputElement | null {
-	return select<HTMLInputElement>('[name="rgh-pr-check-waiter"]');
+function getCheckbox(): HTMLInputElement | undefined {
+	return select('input[name="rgh-pr-check-waiter"]');
 }
 
 // Only show the checkbox if there's a pending commit
@@ -42,12 +42,12 @@ function showCheckboxIfNecessary(): void {
 }
 
 function disableForm(disabled = true): void {
-	for (const field of select.all<HTMLInputElement>(`
-		[name="commit_message"],
-		[name="commit_title"],
-		[name="rgh-pr-check-waiter"],
-		.js-merge-commit-button
-		`)) {
+	for (const field of select.all(`
+		textarea[name="commit_message"],
+		input[name="commit_title"],
+		input[name="rgh-pr-check-waiter"],
+		button.js-merge-commit-button
+	`)) {
 		field.disabled = disabled;
 	}
 

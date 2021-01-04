@@ -1,3 +1,4 @@
+import 'typed-query-selector';
 import select from 'select-dom';
 
 import './refined-github.css';

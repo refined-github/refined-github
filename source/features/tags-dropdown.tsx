@@ -10,12 +10,12 @@ import {buildRepoURL} from '../github-helpers';
 // We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
 function changeTabToTags(): void {
 	// Select "Tags" tab
-	select('.rgh-tags-dropdown .SelectMenu-tab:last-child')!.click();
+	select('.rgh-tags-dropdown button.SelectMenu-tab:last-child')!.click();
 }
 
 function updateLinksToTag(): void {
 	// Change links, which point to the content of each tag, to open the tag page instead
-	for (const anchorElement of select.all<HTMLAnchorElement>('.rgh-tags-dropdown #tags-menu .SelectMenu-item[href*="/tree/"]')) {
+	for (const anchorElement of select.all('.rgh-tags-dropdown #tags-menu a.SelectMenu-item[href*="/tree/"]')) {
 		const pathnameParts = anchorElement.pathname.split('/');
 		pathnameParts[3] = 'releases/tag'; // Replace `tree`
 		anchorElement.pathname = pathnameParts.join('/');

@@ -7,7 +7,7 @@ let documentTitle: string | undefined;
 
 function hasDraftComments(): boolean {
 	// `[disabled]` excludes the PR description field that `wait-for-build` disables while it waits
-	return select.all<HTMLTextAreaElement>('textarea:not([disabled])').some(textarea =>
+	return select.all('textarea:not([disabled])').some(textarea =>
 		textarea.value !== textarea.textContent && // Exclude comments being edited but not yet changed (and empty comment fields)
 		!select.exists('.btn-primary[disabled]', textarea.form!) // Exclude forms being submitted
 	);

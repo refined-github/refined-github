@@ -29,8 +29,13 @@ void features.add(__filebasename, {
 		pageDetect.isRepoRoot,
 		pageDetect.isConversation
 	],
+	exclude: [
+		pageDetect.isEmptyRepoRoot
+	],
 	additionalListeners: [
-		() => window.addEventListener('resize', onResize),
+		() => {
+			window.addEventListener('resize', onResize);
+		},
 		() => void onReplacedElement(sideBarSelector, updateStickiness)
 	],
 	init: updateStickiness,

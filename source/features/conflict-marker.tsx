@@ -30,7 +30,7 @@ function buildQuery(prs: PRConfig[]): string {
 }
 
 function getPRConfig(prIcon: Element): PRConfig {
-	const link = prIcon.closest('.js-navigation-item')!.querySelector<HTMLAnchorElement>('.js-navigation-open')!;
+	const link = prIcon.closest('.js-navigation-item')!.querySelector('a.js-navigation-open')!;
 	const [, user, repo, , number] = link.pathname.split('/');
 	return {
 		user,

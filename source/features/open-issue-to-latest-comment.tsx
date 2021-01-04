@@ -8,7 +8,7 @@ import features from '.';
 import {wrapAll} from '../helpers/dom-utils';
 
 function init(): void {
-	for (const link of select.all<HTMLAnchorElement>('.js-issue-row a[aria-label*="comment"], .js-pinned-issue-list-item a[aria-label*="comment"]')) {
+	for (const link of select.all('.js-issue-row a[aria-label*="comment"], .js-pinned-issue-list-item a[aria-label*="comment"]')) {
 		link.hash = '#partial-timeline';
 	}
 }
