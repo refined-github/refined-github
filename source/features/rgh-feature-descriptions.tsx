@@ -95,11 +95,11 @@ async function init(): Promise<void | false> {
 	const conversationsUrl = '/sindresorhus/refined-github/issues?q=' + encodeURIComponent(`"${feature.id}" sort:updated-desc`);
 
 	const commitInfoBox = (await elementReady('.Box-header--blue.Details, include-fragment.commit-loader'))!.parentElement!;
-	commitInfoBox.classList.add('width-fit', 'flex-auto');
-	commitInfoBox.classList.remove('mb-3');
+	commitInfoBox.classList.add('width-fit', 'min-width-0', 'flex-auto', 'mb-lg-0', 'mr-lg-3');
+	commitInfoBox.classList.remove('flex-shrink-0');
 
 	const featureInfoBox = (
-		<div className="Box" style={{flex: '1 0 360px'}}>
+		<div className="Box" style={{flex: '0 1 544px'}}>
 			<div className="Box-row d-flex height-full">
 				{feature.screenshot && (
 					<a href={feature.screenshot} className="flex-self-center">
@@ -121,7 +121,7 @@ async function init(): Promise<void | false> {
 		</div>
 	);
 
-	wrapAll([commitInfoBox, featureInfoBox], <div className="d-flex flex-wrap" style={{gap: 16}}/>);
+	wrapAll([commitInfoBox, featureInfoBox], <div className="d-lg-flex"/>);
 
 	const historyDropdown = await getHistoryDropdown(feature.id);
 	if (historyDropdown) {
