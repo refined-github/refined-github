@@ -7,7 +7,6 @@ import elementReady from 'element-ready';
 import features from '.';
 import * as api from '../github-helpers/api';
 import {wrapAll} from '../helpers/dom-utils';
-import GitHubURL from '../github-helpers/github-url';
 import parseBackticks from '../github-helpers/parse-backticks';
 
 interface Commit {
