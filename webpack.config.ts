@@ -42,6 +42,13 @@ function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta 
 		};
 	}
 
+	if (id.startsWith('rgh-')) {
+		return {
+			id,
+			description: '<p>Refined GitHub Meta feature</p>'
+		};
+	}
+
 	const error = `
 
 	❌ Feature \`${id}\` needs a description in readme.md. Please refer to the style guide there.
