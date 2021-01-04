@@ -50,8 +50,8 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 	});
 
 	if (!response.ok) {
-		const {message} = (await response.json())!;
-		throw new Error(message);
+		const details = await response.json();
+		throw new Error(details!.message);
 	}
 
 	const scopes = response.headers.get('X-OAuth-Scopes')!.split(', ');
