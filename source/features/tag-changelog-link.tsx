@@ -91,10 +91,14 @@ async function init(): Promise<void> {
 	for (const [index, container] of allTags.entries()) {
 		const previousTag = getPreviousTag(index, allTags);
 		if (!previousTag) {
-			return;
+			continue;
 		}
 
-		for (const lastLink of select.all('.list-style-none > .d-block:nth-child(2), .list-style-none > .d-inline-block:last-child', container.element)) {
+		const lastLinks = select.all([
+			'.list-style-none > .d-block:nth-child(2)', // XXX
+			'.list-style-none > .d-inline-block:last-child' // YYY
+		], container.element);
+		for (const lastLink of lastLinks) {
 			lastLink.after(
 				<li className={lastLink.className + ' rgh-changelog-link'}>
 					<a
