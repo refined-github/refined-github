@@ -42,13 +42,6 @@ function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta 
 		};
 	}
 
-	if (id.startsWith('rgh-')) {
-		return {
-			id,
-			description: '<p>Refined GitHub Meta feature</p>'
-		};
-	}
-
 	const error = `
 
 	❌ Feature \`${id}\` needs a description in readme.md. Please refer to the style guide there.
@@ -66,7 +59,7 @@ function getFeatures(): FeatureID[] {
 	return Array.from(
 		readFileSync(path.join(__dirname, 'source/refined-github.ts'), 'utf-8').matchAll(/^import '\.\/features\/([^.]+)';/gm),
 		match => match[1] as FeatureID
-	).sort();
+	).sort().filter(id => !id.startsWith('rgh-'));
 }
 
 const config: Configuration = {
