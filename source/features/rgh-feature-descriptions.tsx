@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import domify from 'doma';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 
@@ -88,9 +87,6 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const descriptionElement = domify.one(feature.description)!;
-	descriptionElement.classList.add('text-bold');
-
 	const conversationsUrl = '/sindresorhus/refined-github/issues?q=' + encodeURIComponent(`"${feature.id}" sort:updated-desc`);
 
 	const commitInfoBox = (await elementReady('.Box-header--blue.Details'))!.parentElement!;
@@ -112,7 +108,8 @@ async function init(): Promise<void | false> {
 					</a>
 				)}
 				<div className="ml-3 flex-auto">
-					{descriptionElement}
+					{ /* eslint-disable-next-line react/no-danger */ }
+					<div dangerouslySetInnerHTML={{__html: feature.description}} className="text-bold"/>
 					<a href={conversationsUrl}>Conversations</a>
 				</div>
 			</div>
