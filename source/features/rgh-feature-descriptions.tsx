@@ -107,7 +107,7 @@ async function init(): Promise<void | false> {
 							}}/>
 					</a>
 				)}
-				<div className="ml-3 flex-auto">
+				<div className={'flex-auto' + (feature.screenshot ? ' ml-3' : '')}>
 					{ /* eslint-disable-next-line react/no-danger */ }
 					<div dangerouslySetInnerHTML={{__html: feature.description}} className="text-bold"/>
 					<a href={conversationsUrl}>Conversations</a>
