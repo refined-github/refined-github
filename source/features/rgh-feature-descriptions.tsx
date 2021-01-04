@@ -35,8 +35,11 @@ const getFeatureHistory = cache.function(async (fileName: string): Promise<Commi
 		}
 	`);
 
+	// From https://github.com/notlmn/release-with-changelog/blob/5c804153ef8227047cf9bf373a704791aa3ee755/generate-release-notes.js#L6
+	const excludePreset = /^meta|^document|^lint|^refactor|readme|dependencies|^v?\d+\.\d+\.\d+/i;
+
 	return repository.defaultBranchRef.target.history.nodes.filter(
-		(commit: Commit) => !/^Meta|^Document|^Readme|^Lint|^Update.+dependencies/.test(commit.messageHeadline)
+		(commit: Commit) => !excludePreset.test(commit.messageHeadline)
 	);
 }, {
 	maxAge: {days: 1},
