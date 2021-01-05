@@ -63,8 +63,8 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 }
 
 async function validateToken(): Promise<void> {
-	const tokenField = select('input[name="personalToken"]')!;
 	reportStatus({});
+	const tokenField = select('input[name="personalToken"]')!;
 	if (!tokenField.validity.valid || tokenField.value.length === 0) {
 		return;
 	}
@@ -72,8 +72,9 @@ async function validateToken(): Promise<void> {
 	reportStatus({text: 'Validating…'});
 
 	try {
-		const scopes = await getTokenScopes(tokenField.value);
-		reportStatus({scopes});
+		reportStatus({
+			scopes: await getTokenScopes(tokenField.value)
+		});
 	} catch (error: unknown) {
 		reportStatus({error: true, text: (error as Error).message});
 		throw error;
@@ -171,8 +172,8 @@ async function generateDom(): Promise<void> {
 function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
 	select('.OptionsSyncPerDomain-picker select')?.addEventListener('change', ({currentTarget: dropdown}) => {
-		const host = (dropdown as HTMLSelectElement).value.replace(/^default$/, 'github.com');
-		select('a#personal-token-link')!.host = host;
+		const host = (dropdown as HTMLSelectElement).value;
+		select('a#personal-token-link')!.host = host === 'default' ? 'github.com' : host;
 		// Delay validating to let options load first
 		setTimeout(validateToken, 100);
 	});
