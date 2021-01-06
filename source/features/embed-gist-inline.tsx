@@ -20,15 +20,15 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 
 	try {
 		// Get the gist via background.js due to CORB policies introduced in Chrome 73
-		const gistData = await browser.runtime.sendMessage({request: `${link.href}.json`});
+		const gistData = JSON.parse(await browser.runtime.sendMessage({request: `${link.href}.json`}));
 
-		const files = domify.one(JSON.parse(gistData).div)!;
-		const fileCount = files.children.length;
+		const fileCount = gistData.files.length;
 
 		if (fileCount > 1) {
 			info.textContent = ` (${fileCount} files)`;
 		} else {
-			link.parentElement!.attachShadow({mode: 'open'}).append(
+			const container = <div/>;
+			container.attachShadow({mode: 'open'}).append(
 				<style>{`
 					.gist .gist-data {
 						max-height: 16em;
@@ -37,8 +37,10 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 				`}
 				</style>,
 				<link rel="stylesheet" href={gistData.stylesheet}/>,
-				files
+				domify.one(gistData.div as string)!
 			);
+			link.parentElement!.after(container);
+			info.remove();
 		}
 	} catch {
 		info.remove();
