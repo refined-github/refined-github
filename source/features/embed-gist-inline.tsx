@@ -22,7 +22,7 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 		// Get the gist via background.js due to CORB policies introduced in Chrome 73
 		const gistData = JSON.parse(await browser.runtime.sendMessage({request: `${link.href}.json`}));
 
-		const fileCount = gistData.files.length;
+		const fileCount: number = gistData.files.length;
 
 		if (fileCount > 1) {
 			info.textContent = ` (${fileCount} files)`;
