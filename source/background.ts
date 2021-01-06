@@ -3,6 +3,9 @@ import cache from 'webext-storage-cache'; // Also needed to regularly clear the 
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 import './options-storage';
 
+// GitHub Enterprise support
+addDomainPermissionToggle();
+
 const messageHandlers = {
 	openUrls(urls: string[], {tab}: browser.runtime.MessageSender) {
 		for (const [i, url] of urls.entries()) {
@@ -58,6 +61,3 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 	// Hope that the feature was fixed in this version
 	await cache.delete('hotfix');
 });
-
-// GitHub Enterprise support
-addDomainPermissionToggle();
