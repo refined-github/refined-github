@@ -3,17 +3,34 @@ import cache from 'webext-storage-cache'; // Also needed to regularly clear the 
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 import './options-storage';
 
-browser.runtime.onMessage.addListener((message, {tab}) => {
-	if (Array.isArray(message?.openUrls)) {
-		for (const [i, url] of (message.openUrls as string[]).entries()) {
+const messageHandlers = {
+	openUrls(urls: string[], {tab}: browser.runtime.MessageSender) {
+		for (const [i, url] of urls.entries()) {
 			void browser.tabs.create({
 				url,
 				index: tab!.index + i + 1,
 				active: false
 			});
 		}
-	} else if (message?.closeTab) {
+	},
+	closeTab(_: any, {tab}: browser.runtime.MessageSender) {
 		void browser.tabs.remove(tab!.id!);
+	},
+	async fetch(url: string) {
+		const response = await fetch(url);
+		return response.text();
+	},
+	async fetchJSON(url: string) {
+		const response = await fetch(url);
+		return response.json();
+	}
+};
+
+browser.runtime.onMessage.addListener((message, sender) => {
+	for (const id of Object.keys(message ?? {}) as Array<keyof typeof messageHandlers>) {
+		if (id in messageHandlers) {
+			return messageHandlers[id](message, sender);
+		}
 	}
 });
 
@@ -44,11 +61,3 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 
 // GitHub Enterprise support
 addDomainPermissionToggle();
-
-// `background` fetch required to avoid avoid CORB introduced in Chrome 73 https://chromestatus.com/feature/5629709824032768
-// Don’t turn this into an `async` function https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/onMessage#addListener_syntax
-browser.runtime.onMessage.addListener((message): Promise<string> | void => {
-	if (message?.request) {
-		return fetch(message.request).then(async response => response.text());
-	}
-});
