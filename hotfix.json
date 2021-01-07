@@ -1,5 +1,4 @@
 {
-  "feature:close-out-of-view-modals": false,
-  "feature:recently-pushed-branches-enhancements": false,
-  "unaffected": "20.11.26"
+  "feature:hide-comments-faster": false,
+  "unaffected": "9000.1.1"
 }
