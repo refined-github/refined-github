@@ -25,6 +25,9 @@ export default class SearchQuery {
 		} else {
 			this.searchParams = new URLSearchParams(link);
 		}
+
+		// Ensure the query string is set and cleaned up
+		this.set(this.get());
 	}
 
 	get(): string {
