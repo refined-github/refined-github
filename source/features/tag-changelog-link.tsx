@@ -121,5 +121,6 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isEmptyRepoRoot
 	],
+	awaitDomReady: false,
 	init
 });
