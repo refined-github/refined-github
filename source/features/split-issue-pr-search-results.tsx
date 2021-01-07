@@ -25,22 +25,6 @@ function updateLinkElement(link: HTMLAnchorElement, type: GitHubConversationType
 	);
 }
 
-// Only the last is:pr/issue query part is used by github for the filter results so we find the one with the higher index
-function searchQueryIs(searchQuery: SearchQuery): GitHubConversationType | null {
-	const queryParts = searchQuery.getQueryParts();
-	const pr = queryParts.lastIndexOf('is:pr');
-	const issue = queryParts.lastIndexOf('is:issue');
-	if (pr > issue) {
-		return 'pr';
-	}
-
-	if (issue !== -1) {
-		return 'issue';
-	}
-
-	return null;
-}
-
 function init(): void {
 	cleanLinks();
 
@@ -58,12 +42,11 @@ function init(): void {
 	const title = select('.codesearch-results h3')!.firstChild!;
 
 	const searchQuery = new SearchQuery(location.search);
-	const is = searchQueryIs(searchQuery);
-	if (is === 'pr') {
+	if (searchQuery.includes('is:pr')) {
 		// Update UI in PR searches
 		issueLink.classList.remove('selected');
 		title.textContent = title.textContent!.replace('issue', 'pull request');
-	} else if (is !== 'issue' && searchQuery.searchParams.get('type') === 'Issues') {
+	} else if (!searchQuery.includes('is:issue') && searchQuery.searchParams.get('type') === 'Issues') {
 		// Update UI in combined searches (where there's no `is:<type>` query)
 		title.textContent = title.textContent!
 			.replace(/issue\b/, 'issue or pull request')
