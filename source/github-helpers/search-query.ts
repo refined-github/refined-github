@@ -67,7 +67,7 @@ export default class SearchQuery {
 		const cleanQuery = newQuery
 			.trim()
 			// Deduplicate opposite flags by removing all but the last occurrence
-			.replace(/is:(?:pr|issue)(?=.*is:(?:pr|issue))/g, '')
+			.replace(/(^|\s)is:(?:pr|issue)(?=.*is:(?:pr|issue))/g, '')
 			.replace(/\s+/, ' ');
 
 		this.searchParams.set('q', cleanQuery);
