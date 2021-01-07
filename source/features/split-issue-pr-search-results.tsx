@@ -46,7 +46,7 @@ function init(): void {
 		// Update UI in PR searches
 		issueLink.classList.remove('selected');
 		title.textContent = title.textContent!.replace('issue', 'pull request');
-	} else if (!searchQuery.includes('is:issue') && searchQuery.searchParams.get('type') === 'Issues') {
+	} else if (!searchQuery.includes('is:issue') && searchQuery.searchParams.get('type')?.toLowerCase() === 'issues') {
 		// Update UI in combined searches (where there's no `is:<type>` query)
 		title.textContent = title.textContent!
 			.replace(/issue\b/, 'issue or pull request')
