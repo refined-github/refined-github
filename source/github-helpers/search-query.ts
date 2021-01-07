@@ -1,17 +1,17 @@
 import {getUsername} from '.';
 
-type Source = HTMLAnchorElement | URL | URLSearchParams | Location;
+type Source = HTMLAnchorElement | URL | URLSearchParams | string;
 
 /**
 Parser/Mutator of GitHub's search query directly on anchors and URL-like objects.
 Notice: if the <a> or `location` changes outside SearchQuery, `get()` will return an outdated value.
 */
 export default class SearchQuery {
-	link?: HTMLAnchorElement | Location;
+	link?: HTMLAnchorElement;
 	searchParams: URLSearchParams;
 
 	constructor(link: Source) {
-		if (link instanceof HTMLAnchorElement || link instanceof Location) {
+		if (link instanceof HTMLAnchorElement) {
 			this.link = link;
 			this.searchParams = new URLSearchParams(link.search);
 			// Keep `.search` property up to date with this `searchParams`
@@ -23,7 +23,7 @@ export default class SearchQuery {
 		} else if (link instanceof URL) {
 			this.searchParams = link.searchParams;
 		} else {
-			this.searchParams = link;
+			this.searchParams = new URLSearchParams(link);
 		}
 	}
 

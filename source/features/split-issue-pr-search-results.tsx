@@ -57,7 +57,7 @@ function init(): void {
 
 	const title = select('.codesearch-results h3')!.firstChild!;
 
-	const searchQuery = new SearchQuery(location);
+	const searchQuery = new SearchQuery(location.search);
 	const is = searchQueryIs(searchQuery);
 	if (is === 'pr') {
 		// Update UI in PR searches
