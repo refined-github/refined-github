@@ -2,6 +2,37 @@ import {getUsername} from '.';
 
 type Source = HTMLAnchorElement | URL | URLSearchParams | string;
 
+// TODO: add support for values with spaces, e.g. `label:"help wanted"`
+function splitQueryString(query: string): string[] {
+	const trimmed = query.trim();
+	if (trimmed.length === 0) {
+		return [];
+	}
+
+	return trimmed.split(/\s+/);
+}
+
+// Remove all values from array exept the last occurence of one of the values.
+function deduplicate(array: any[], ...values: any[]): any[] {
+	let indexToKeep = -1;
+	for (const value of values) {
+		const lastIndex = array.lastIndexOf(value);
+		if (lastIndex > indexToKeep) {
+			indexToKeep = lastIndex;
+		}
+	}
+
+	if (indexToKeep === -1) {
+		return array;
+	}
+
+	return array.filter((value, index) => index >= indexToKeep || !values.includes(value));
+}
+
+function cleanQueryParts(parts: string[]): string[] {
+	return deduplicate(parts, 'is:issue', 'is:pr');
+}
+
 /**
 Parser/Mutator of GitHub's search query directly on anchors and URL-like objects.
 Notice: if the <a> or `location` changes outside SearchQuery, `get()` will return an outdated value.
@@ -60,17 +91,13 @@ export default class SearchQuery {
 
 	// TODO: add support for values with spaces, e.g. `label:"help wanted"`
 	getQueryParts(): string[] {
-		return this.get().split(/\s+/);
+		return splitQueryString(this.get());
 	}
 
-	set(newQuery: string): void {
-		const cleanQuery = newQuery
-			.trim()
-			// Deduplicate opposite flags by removing all but the last occurrence
-			.replace(/\bis:(?:pr|issue)\s+(?=.*\bis:(?:pr|issue)\b)/g, '')
-			.replace(/\s+/, ' ');
-
-		this.searchParams.set('q', cleanQuery);
+	set(query: string): void {
+		const parts = splitQueryString(query);
+		const cleaned = cleanQueryParts(parts);
+		this.searchParams.set('q', cleaned.join(' '));
 	}
 
 	edit(callback: (query: string) => string): void {
