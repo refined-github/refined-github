@@ -66,3 +66,11 @@ test('defaults', t => {
 	const queryWithLink = new SearchQuery(link);
 	t.is(queryWithLink.get(), 'is:issue is:open');
 });
+
+test('deduplicate is:pr/issue', t => {
+	const query = new SearchQuery(new URLSearchParams('?q=refined+github+is%3Apr'));
+	query.add('is:issue');
+
+	t.false(query.includes('is:pr'));
+	t.true(query.includes('is:issue'));
+});
