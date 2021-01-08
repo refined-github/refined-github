@@ -1,6 +1,7 @@
 import './tag-changelog-link.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import domLoaded from 'dom-loaded';
 import {DiffIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import tinyVersionCompare from 'tiny-version-compare';
@@ -86,6 +87,7 @@ async function init(): Promise<void> {
 
 	// Look for tags in the current page and the next page
 	const pages = [document, await getNextPage()];
+	await domLoaded;
 	const allTags = select.all(tagsSelector, pages).map(parseTags);
 
 	for (const [index, container] of allTags.entries()) {
