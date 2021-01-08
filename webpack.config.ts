@@ -59,7 +59,7 @@ function getFeatures(): FeatureID[] {
 	return Array.from(
 		readFileSync(path.join(__dirname, 'source/refined-github.ts'), 'utf-8').matchAll(/^import '\.\/features\/([^.]+)';/gm),
 		match => match[1] as FeatureID
-	).sort();
+	).sort().filter(id => !id.startsWith('rgh-'));
 }
 
 const config: Configuration = {
