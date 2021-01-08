@@ -74,3 +74,8 @@ test('deduplicate is:pr/issue', t => {
 	t.false(query.includes('is:pr'));
 	t.true(query.includes('is:issue'));
 });
+
+test('remove additional spaces', t => {
+	const query = new SearchQuery(new URLSearchParams('?q=+refined+++github+'));
+	t.is(query.get(), 'refined github');
+});
