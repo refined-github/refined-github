@@ -2,14 +2,9 @@ import {getUsername} from '.';
 
 type Source = HTMLAnchorElement | URL | URLSearchParams | string;
 
-// TODO: add support for values with spaces, e.g. `label:"help wanted"`
+const queryPartsRegExp = /(?:[^\s"]+|"[^"]*")+/g;
 function splitQueryString(query: string): string[] {
-	const trimmed = query.trim();
-	if (trimmed.length === 0) {
-		return [];
-	}
-
-	return trimmed.split(/\s+/);
+	return query.match(queryPartsRegExp) ?? [];
 }
 
 // Remove all values from array exept the last occurence of one of the values.

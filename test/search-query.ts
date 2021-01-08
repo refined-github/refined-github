@@ -13,7 +13,7 @@ test('.getQueryParts', t => {
 	t.deepEqual(query.getQueryParts(), ['cool', 'is:issue']);
 });
 
-test.failing('getQueryParts with spaces support', t => {
+test('getQueryParts with spaces support', t => {
 	const query = new SearchQuery('?q=please+label%3A"under+discussion"');
 	t.deepEqual(query.getQueryParts(), ['please', 'label:"under discussion"']);
 });
