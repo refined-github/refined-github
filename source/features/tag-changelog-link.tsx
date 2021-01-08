@@ -1,5 +1,7 @@
+import './tag-changelog-link.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import domLoaded from 'dom-loaded';
 import {DiffIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import tinyVersionCompare from 'tiny-version-compare';
@@ -70,6 +72,8 @@ const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefi
 };
 
 async function init(): Promise<void> {
+	document.body.classList.add('rgh-tag-changelog-link');
+
 	const tagsSelector = [
 		// https://github.com/facebook/react/releases (release in releases list)
 		'.release:not(.label-draft)',
@@ -83,31 +87,33 @@ async function init(): Promise<void> {
 
 	// Look for tags in the current page and the next page
 	const pages = [document, await getNextPage()];
+	await domLoaded;
 	const allTags = select.all(tagsSelector, pages).map(parseTags);
 
 	for (const [index, container] of allTags.entries()) {
 		const previousTag = getPreviousTag(index, allTags);
+		if (!previousTag) {
+			continue;
+		}
 
-		if (previousTag) {
-			// Signed releases include on mobile include a "Verified" <details> inside the `ul`. `li:last-of-type` excludes it.
-			// Example: https://github.com/tensorflow/tensorflow/releases?after=v1.12.0-rc1
-			for (const lastLink of select.all('.list-style-none > li:last-of-type', container.element)) {
-				lastLink.after(
-					<li className={lastLink.className}>
-						<a
-							className="muted-link tooltipped tooltipped-n"
-							aria-label={'See changes since ' + decodeURIComponent(previousTag)}
-							href={buildRepoURL(`compare/${previousTag}...${allTags[index].tag}`)}
-						>
-							<DiffIcon/> Changelog
-						</a>
-					</li>
-				);
-
-				// `lastLink` is no longer the last link, so it shouldn't push our new link away.
-				// Same page as before: https://github.com/tensorflow/tensorflow/releases?after=v1.12.0-rc1
-				lastLink.classList.remove('flex-auto');
-			}
+		const lastLinks = select.all([
+			'.list-style-none > .d-block:nth-child(2)', // Link to commit in release sidebar
+			'.list-style-none > .d-inline-block:last-child' // Link to source tarball under release tag
+		], container.element);
+		for (const lastLink of lastLinks) {
+			lastLink.after(
+				<li className={lastLink.className + ' rgh-changelog-link'}>
+					<a
+						className="muted-link tooltipped tooltipped-n"
+						aria-label={'See changes since ' + decodeURIComponent(previousTag)}
+						href={buildRepoURL(`compare/${previousTag}...${allTags[index].tag}`)}
+					>
+						<DiffIcon/> Changelog
+					</a>
+				</li>
+			);
+			/* Fix spacing issue when the window is < 700px wide https://github.com/sindresorhus/refined-github/pull/3841#issuecomment-754325056 */
+			lastLink.classList.remove('flex-auto');
 		}
 	}
 }
@@ -119,5 +125,6 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isEmptyRepoRoot
 	],
+	awaitDomReady: false,
 	init
 });
