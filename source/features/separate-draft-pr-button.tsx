@@ -19,7 +19,7 @@ function init(): void | false {
 		return false;
 	}
 
-	const createPrDropdownItems = select.all('.select-menu-item', createPrButtonGroup);
+	const createPrDropdownItems = select.all('.select-menu-item', previewForm);
 
 	for (const dropdownItem of createPrDropdownItems) {
 		let title = select('.select-menu-item-heading', dropdownItem)!.textContent!.trim();
@@ -33,7 +33,7 @@ function init(): void | false {
 			classList.push('btn-primary');
 		}
 
-		buttonBar.prepend(
+		createPrButtonGroup.after(
 			<button
 				className={classList.join(' ')}
 				aria-label={description}
@@ -46,6 +46,7 @@ function init(): void | false {
 		);
 	}
 
+	select('details', createPrButtonGroup.parentElement!)!.remove();
 	createPrButtonGroup.remove();
 }
 
