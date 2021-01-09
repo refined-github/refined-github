@@ -13,8 +13,7 @@ function init(): void | false {
 		return false;
 	}
 
-	const buttonBar = select('.js-slash-command-surface > :last-child', previewForm)!;
-	const createPrButtonGroup = select('.BtnGroup', buttonBar);
+	const createPrButtonGroup = select('.hx_create-pr-button');
 	if (!createPrButtonGroup) {
 		// Free accounts can't open Draft PRs in private repos, so this element is missing
 		return false;
