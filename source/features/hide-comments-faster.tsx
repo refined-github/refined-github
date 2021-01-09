@@ -18,7 +18,7 @@ function generateSubmenu(hideButton: Element): void {
 	const hideCommentForm = select('.js-comment-minimize', comment)!;
 
 	// Generate dropdown items
-	for (const reason of select.all('[name="classifier"] input:not([value=""])', comment)) {
+	for (const reason of select.all('[name="classifier"] option:not([value=""])', comment)) {
 		hideCommentForm.append(
 			<button
 				type="submit"
