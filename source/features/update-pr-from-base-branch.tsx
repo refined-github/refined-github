@@ -41,12 +41,6 @@ async function handler({delegateTarget}: delegate.Event): Promise<void> {
 	const response = await mergeBranches();
 	if (response.ok) {
 		statusMeta.remove();
-	} else if (response.message?.toLowerCase().startsWith('merge conflict')) {
-		// Only shown on Draft PRs
-		statusMeta.textContent = '';
-		statusMeta.append(
-			<a href={location.pathname + '/conflicts'} className="btn float-right"><AlertIcon/> Resolve conflicts</a>
-		);
 	} else {
 		statusMeta.textContent = response.message ?? 'Error';
 		statusMeta.prepend(<AlertIcon/>, ' ');
@@ -104,7 +98,9 @@ async function init(): Promise<void | false> {
 	// - Draft PR (show the button anyway)
 	const canMerge = select.exists('[data-details-container=".js-merge-pr"]:not(:disabled)');
 	const isDraftPR = select.exists('[action$="ready_for_review"]');
-	if (!canMerge && !isDraftPR) {
+	const hasConflicts = select.exists('.js-merge-pr a[href$="/conflicts"]');
+
+	if ((!canMerge && !isDraftPR) || hasConflicts) {
 		return false;
 	}
 
