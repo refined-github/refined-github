@@ -19,13 +19,13 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoConversationList,
-		pageDetect.isPR,
-		pageDetect.isIssue
+		pageDetect.isRepo,
 	],
 	exclude: [
 		() => select.exists('[data-hotkey="t"]'),
-		pageDetect.isEmptyRepo
+		pageDetect.isEmptyRepo,
+		pageDetect.isPRFiles,
+		pageDetect.isFileFinder,
 	],
 	init
 });
