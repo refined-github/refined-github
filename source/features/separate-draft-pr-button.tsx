@@ -13,14 +13,13 @@ function init(): void | false {
 		return false;
 	}
 
-	const buttonBar = select('.timeline-comment > :last-child', previewForm)!;
-	const createPrButtonGroup = select('.BtnGroup', buttonBar);
+	const createPrButtonGroup = select('.hx_create-pr-button');
 	if (!createPrButtonGroup) {
 		// Free accounts can't open Draft PRs in private repos, so this element is missing
 		return false;
 	}
 
-	const createPrDropdownItems = select.all('.select-menu-item', createPrButtonGroup);
+	const createPrDropdownItems = select.all('.select-menu-item', previewForm);
 
 	for (const dropdownItem of createPrDropdownItems) {
 		let title = select('.select-menu-item-heading', dropdownItem)!.textContent!.trim();
@@ -34,7 +33,7 @@ function init(): void | false {
 			classList.push('btn-primary');
 		}
 
-		buttonBar.prepend(
+		createPrButtonGroup.after(
 			<button
 				className={classList.join(' ')}
 				aria-label={description}
@@ -47,6 +46,7 @@ function init(): void | false {
 		);
 	}
 
+	select('details', createPrButtonGroup.parentElement!)!.remove();
 	createPrButtonGroup.remove();
 }
 
