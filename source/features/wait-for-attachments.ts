@@ -3,9 +3,9 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function handleFileAttachment(mutations: Array<MutationRecord>): void {
+function handleFileAttachment(mutations: MutationRecord[]): void {
 	const target = mutations[0].target as HTMLElement;
-	const submitButton = select<HTMLElement>('button[type="submit"]', target.closest('form')!)!;
+	const submitButton = select('button[type="submit"]', target.closest('form')!)!;
 
 	if (target.classList.contains('is-uploading')) {
 		submitButton.setAttribute('disabled', '');
