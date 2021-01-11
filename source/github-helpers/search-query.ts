@@ -1,6 +1,6 @@
 import {getUsername} from '.';
 
-type Source = HTMLAnchorElement | URL | URLSearchParams | string;
+type Source = HTMLAnchorElement | URL | string | string[][] | Record<string, string> | URLSearchParams;
 
 const queryPartsRegExp = /(?:[^\s"]+|"[^"]*")+/g;
 function splitQueryString(query: string): string[] {
