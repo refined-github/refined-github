@@ -93,14 +93,11 @@ async function init(): Promise<void | false> {
 	await api.expectToken();
 
 	// Button exists when the current user can merge the PR.
-	// Button is disabled when:
-	// - There are conflicts (there's already a native "Resolve conflicts" button)
-	// - Draft PR (show the button anyway)
+	// Button is disabled when there are conflicts (there's already a native "Resolve conflicts" button)
 	const canMerge = select.exists('[data-details-container=".js-merge-pr"]:not(:disabled)');
-	const isDraftPR = select.exists('[action$="ready_for_review"]');
 	const hasConflicts = select.exists('.js-merge-pr a[href$="/conflicts"]');
 
-	if ((!canMerge && !isDraftPR) || hasConflicts) {
+	if (hasConflicts || !canMerge) {
 		return false;
 	}
 
