@@ -36,5 +36,8 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.hasRichTextEditor
 	],
+	exclude: [
+		pageDetect.isNewIssue
+	],
 	init
 });
