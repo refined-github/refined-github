@@ -23,8 +23,13 @@ const messageHandlers = {
 		const response = await fetch(url);
 		return response.text();
 	},
-	async fetchJSON(url: string) {
+	async fetchJSON(url: string, _: any, message: any) {
 		const response = await fetch(url);
+		if (response.headers.get('Content-Length')! > message.limit) {
+			response.body!.getReader().cancel();
+			throw new Error('Content over the limit');
+		}
+
 		return response.json();
 	}
 };
@@ -32,7 +37,7 @@ const messageHandlers = {
 browser.runtime.onMessage.addListener((message, sender) => {
 	for (const id of Object.keys(message ?? {}) as Array<keyof typeof messageHandlers>) {
 		if (id in messageHandlers) {
-			return messageHandlers[id](message[id], sender);
+			return messageHandlers[id](message[id], sender, message);
 		}
 	}
 });
