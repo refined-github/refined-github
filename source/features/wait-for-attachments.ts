@@ -8,7 +8,7 @@ function toggleSubmitButtons(target: HTMLElement, disabled: boolean): void {
 	if (disabled) {
 		textarea.removeAttribute('data-required-trimmed');
 	} else {
-		textarea.setAttribute('data-required-trimmed', 'Text field is empty');
+		textarea.dataset.requiredTrimmed = 'Text field is empty';
 	}
 }
 
