@@ -21,6 +21,10 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 	try {
 		// Fetch via background.js due to CORB policies
 		const gistData = await browser.runtime.sendMessage({fetchJSON: `${link.href}.json`});
+		if (gistData.div.length > 10000) {
+			info.textContent = ` (too large to embed)`;
+			return;
+		}
 
 		const fileCount: number = gistData.files.length;
 		if (fileCount > 1) {
