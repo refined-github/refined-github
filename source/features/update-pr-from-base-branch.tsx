@@ -92,9 +92,6 @@ async function addButton(): Promise<void> {
 async function init(): Promise<void | false> {
 	await api.expectToken();
 
-	const canPush = select.exists('.merge-pr > .text-gray:first-child');
-	const hasConflicts = select.exists('.js-merge-pr a[href$="/conflicts"]');
-
 	if (
 		select.exists('.js-merge-pr a[href$="/conflicts"]') || // The "Resolve conflicts" link does the same thing as this feature
 		!select.exists('.merge-pr > .text-gray:first-child') // This text appears when the current user can push to the current PR
