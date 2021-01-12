@@ -92,10 +92,10 @@ async function addButton(): Promise<void> {
 async function init(): Promise<void | false> {
 	await api.expectToken();
 
-	if (
-		select.exists('.js-merge-pr a[href$="/conflicts"]') || // The "Resolve conflicts" link does the same thing as this feature
-		!select.exists('.merge-pr > .text-gray:first-child') // This text appears when the current user can push to the current PR
-	) {
+	// This link does the same thing as this feature: Updates the head branch from the base
+	const hasResolveConflictsLink = select.exists('.js-merge-pr a[href$="/conflicts"]');
+	const currentUserCanPush = select.exists('.merge-pr > .text-gray:first-child');
+	if (!currentUserCanPush || hasResolveConflictsLink) {
 		return false;
 	}
 
