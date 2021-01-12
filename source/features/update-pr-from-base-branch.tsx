@@ -94,10 +94,10 @@ async function init(): Promise<void | false> {
 
 	// Button exists when the current user can merge the PR.
 	// Button is disabled when there are conflicts (there's already a native "Resolve conflicts" button)
-	const canMerge = select.exists('.merge-pr > .text-gray:first-child');
+	const canPush = select.exists('.merge-pr > .text-gray:first-child');
 	const hasConflicts = select.exists('.js-merge-pr a[href$="/conflicts"]');
 
-	if (hasConflicts || !canMerge) {
+	if (hasConflicts || !canPush) {
 		return false;
 	}
 
