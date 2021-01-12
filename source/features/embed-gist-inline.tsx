@@ -20,11 +20,8 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 
 	try {
 		// Fetch via background.js due to CORB policies
-		const gistData = await browser.runtime.sendMessage({
-			fetchJSON: `${link.href}.json`,
-			limit: 1000
-		});
-		debugger;
+		const gistData = await browser.runtime.sendMessage({fetchJSON: `${link.href}.json`});
+
 		const fileCount: number = gistData.files.length;
 		if (fileCount > 1) {
 			info.textContent = ` (${fileCount} files)`;
