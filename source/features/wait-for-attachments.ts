@@ -3,22 +3,28 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function handleFileAttachment(mutations: MutationRecord[]): void {
-	const target = mutations[0].target as HTMLElement;
-	const submitButton = select('button[type="submit"]', target.closest('form')!)!;
-
-	if (target.classList.contains('is-uploading')) {
-		submitButton.setAttribute('disabled', '');
+function toggleSubmitButtons(target: HTMLElement, disabled: boolean): void {
+	const textarea = select('textarea', target)!;
+	if (disabled) {
+		textarea.removeAttribute('data-required-trimmed');
 	} else {
-		submitButton.removeAttribute('disabled');
+		textarea.setAttribute('data-required-trimmed', 'Text field is empty');
 	}
 }
 
+function handleUploadStart(event: Event): void {
+	toggleSubmitButtons(event.target as HTMLElement, true);
+}
+
+function handleUploadStop(event: Event): void {
+	toggleSubmitButtons(event.target as HTMLElement, false);
+}
+
 function init(): void {
-	const observer = new MutationObserver(handleFileAttachment);
-	for (const fileAttachment of select.all('file-attachment')) {
-		observer.observe(fileAttachment, {attributes: true, attributeFilter: ['class']});
-	}
+	document.addEventListener('upload:setup', handleUploadStart, true);
+	document.addEventListener('upload:complete', handleUploadStop);
+	document.addEventListener('upload:error', handleUploadStop);
+	document.addEventListener('upload:invalid', handleUploadStop);
 }
 
 void features.add(__filebasename, {
