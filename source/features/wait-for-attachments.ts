@@ -34,7 +34,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasComments
+		pageDetect.hasRichTextEditor
 	],
 	init
 });
