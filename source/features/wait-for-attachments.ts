@@ -12,7 +12,7 @@ function toggleSubmitButtons(target: HTMLElement, disabled: boolean): void {
 	}
 
 	// Force the "Update comment"/"Create pull request" buttons to be disabled
-	for (const button of select.all('button[type="submit"]', target!.closest('form')!)) {
+	for (const button of select.all('button[type="submit"]', target.closest('form')!)) {
 		button.toggleAttribute('disabled', disabled);
 	}
 }
