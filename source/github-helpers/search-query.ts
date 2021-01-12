@@ -7,25 +7,23 @@ function splitQueryString(query: string): string[] {
 	return query.match(queryPartsRegExp) ?? [];
 }
 
-// Remove all values from array exept the last occurence of one of the values.
-function deduplicate(array: any[], ...values: any[]): any[] {
-	let indexToKeep = -1;
-	for (const value of values) {
-		const lastIndex = array.lastIndexOf(value);
-		if (lastIndex > indexToKeep) {
-			indexToKeep = lastIndex;
+// Remove all keywords from array exept the last occurence of one of the keywords.
+function deduplicateKeywords(array: string[], ...keywords: string[]): string[] {
+	const deduplicated = [];
+	let wasKeywordFound = false;
+	for (const current of array.reverse()) {
+		const isKeyword = keywords.includes(current);
+		if (!isKeyword || !wasKeywordFound) {
+			deduplicated.unshift(current);
+			wasKeywordFound = wasKeywordFound || isKeyword;
 		}
 	}
 
-	if (indexToKeep === -1) {
-		return array;
-	}
-
-	return array.filter((value, index) => index >= indexToKeep || !values.includes(value));
+	return deduplicated;
 }
 
 function cleanQueryParts(parts: string[]): string[] {
-	return deduplicate(parts, 'is:issue', 'is:pr');
+	return deduplicateKeywords(parts, 'is:issue', 'is:pr');
 }
 
 /**
