@@ -1,4 +1,3 @@
 {
-  "feature:hide-comments-faster": false,
-  "unaffected": "21.1.10"
+  "feature:embed-gist-inline": false
 }
