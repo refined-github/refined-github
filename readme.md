@@ -142,7 +142,7 @@ Thanks for contributing! 🦋🙌
 - [](# "quick-mention") [Adds a button to `@mention` a user in conversations.](https://user-images.githubusercontent.com/1402241/70406615-f445d580-1a73-11ea-9ab1-bf6bd9aa70a3.gif)
 - [](# "table-input") [Adds a button in the text editor to quickly insert a simplified HTML table.](https://user-images.githubusercontent.com/46634000/94559114-09892c00-0261-11eb-8fb0-c5a85ea76b6f.gif)
 - [](# "unfinished-comments") [Notifies the user of unfinished comments in hidden tabs.](https://user-images.githubusercontent.com/1402241/97792086-423d5d80-1b9f-11eb-9a3a-daf716d10b0e.gif)
-- [](# "wait-for-attachments") [Wait for the attachments to finish uploading before allowing to post a comment.]()
+- [](# "wait-for-attachments") [Wait for the attachments to finish uploading before allowing to post a comment.](https://user-images.githubusercontent.com/46634000/104159401-8646ad00-53ef-11eb-8fc4-74a60a9440e5.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
