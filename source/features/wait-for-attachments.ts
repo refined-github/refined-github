@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function toggleSubmitButtons(target: HTMLElement, disabled: boolean): void {
+	// We need to remove the `data-required-trimmed` attribute to disable the "Comment" button on new comment forms
 	const textarea = select('textarea', target)!;
 	if (disabled) {
 		textarea.removeAttribute('data-required-trimmed');
@@ -11,7 +12,6 @@ function toggleSubmitButtons(target: HTMLElement, disabled: boolean): void {
 		textarea.dataset.requiredTrimmed = 'Text field is empty';
 	}
 
-	// Force the "Update comment"/"Create pull request" buttons to be disabled
 	for (const button of select.all('button[type="submit"]', target.closest('form')!)) {
 		button.toggleAttribute('disabled', disabled);
 	}
