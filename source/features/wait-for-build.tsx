@@ -32,14 +32,7 @@ function showCheckboxIfNecessary(): void {
 	const checkbox = getCheckbox();
 	const isNecessary = prCiStatus.get() === prCiStatus.PENDING;
 	if (!checkbox && isNecessary) {
-		const containers = select.all('.commit-form-actions .select-menu');
-		for (const container of containers) {
-			const container_form = container.closest('form');
-			// Only show checkbox for merge form, not for auto merge form
-			if (container_form?.classList.contains('js-merge-form')) {
-				container.append(generateCheckbox());
-				break;
-			}
+		select('.js-merge-form .select-menu')?.append(generateCheckbox());
 		}
 	} else if (checkbox && !isNecessary) {
 		checkbox.parentElement!.remove();
