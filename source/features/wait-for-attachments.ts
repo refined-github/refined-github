@@ -11,10 +11,11 @@ function toggleSubmitButtons({target, type}: Event): void {
 	const form =  target as HTMLFormElement;
 	const textarea = select(`[${attribute}], [${attributeBackup}]`, form)!;
 	if (type === 'upload:setup') {
+		textarea.setAttribute(attributeBackup, textarea.getAttribute(attribute)!);
 		textarea.removeAttribute(attribute);
-		textarea.setAttribute(attributeBackup, '');
 	} else {
-		textarea.setAttribute(attribute, 'Text field is empty');
+		textarea.setAttribute(attribute, textarea.getAttribute(attributeBackup)!);
+		textarea.removeAttribute(attributeBackup);
 	}
 }
 
