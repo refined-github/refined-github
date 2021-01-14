@@ -3,13 +3,18 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
+// `data-required-trimmed` overrides the `disabled` state of the form
+const attribute = 'data-required-trimmed';
+const attributeBackup = 'data-rgh-required-trimmed';
+
 function toggleSubmitButtons({target, type}: Event): void {
-	// `data-required-trimmed` overrides the `disabled` state of the form
-	const textarea = select('textarea', target as HTMLFormElement)!;
+	const form =  target as HTMLFormElement;
+	const textarea = select(`[${attribute}], [${attributeBackup}]`, form)!;
 	if (type === 'upload:setup') {
-		delete textarea.dataset.requiredTrimmed;
+		textarea.removeAttribute(attribute);
+		textarea.setAttribute(attributeBackup, '');
 	} else {
-		textarea.dataset.requiredTrimmed = 'Text field is empty';
+		textarea.setAttribute(attribute, 'Text field is empty');
 	}
 }
 
