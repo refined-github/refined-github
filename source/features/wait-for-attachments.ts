@@ -11,10 +11,6 @@ function toggleSubmitButtons(target: HTMLElement, disabled: boolean): void {
 	} else {
 		textarea.dataset.requiredTrimmed = 'Text field is empty';
 	}
-
-	for (const button of select.all('button[type="submit"]', target.closest('form')!)) {
-		button.toggleAttribute('disabled', disabled);
-	}
 }
 
 function handleUploadStart(event: Event): void {
