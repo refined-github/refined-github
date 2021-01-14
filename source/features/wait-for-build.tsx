@@ -33,7 +33,6 @@ function showCheckboxIfNecessary(): void {
 	const isNecessary = prCiStatus.get() === prCiStatus.PENDING;
 	if (!checkbox && isNecessary) {
 		select('.js-merge-form .select-menu')?.append(generateCheckbox());
-		}
 	} else if (checkbox && !isNecessary) {
 		checkbox.parentElement!.remove();
 	}
