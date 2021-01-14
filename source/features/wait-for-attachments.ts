@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function toggleSubmitButtons(target: HTMLElement, disabled: boolean): void {
-	// We need to remove the `data-required-trimmed` attribute to disable the "Comment" button on new comment forms
+	// `data-required-trimmed` overrides the `disabled` state of the form
 	const textarea = select('textarea', target)!;
 	if (disabled) {
 		delete textarea.dataset.requiredTrimmed;
