@@ -7,7 +7,7 @@ function toggleSubmitButtons(target: HTMLElement, disabled: boolean): void {
 	// We need to remove the `data-required-trimmed` attribute to disable the "Comment" button on new comment forms
 	const textarea = select('textarea', target)!;
 	if (disabled) {
-		textarea.removeAttribute('data-required-trimmed');
+		delete textarea.dataset.requiredTrimmed;
 	} else {
 		textarea.dataset.requiredTrimmed = 'Text field is empty';
 	}
