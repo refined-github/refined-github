@@ -34,7 +34,7 @@ async function init(): Promise<void | false> {
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-	const isBugsPage = new SearchQuery(location).includes('label:bug');
+	const isBugsPage = new SearchQuery(location.search).includes('label:bug');
 	if (!isBugsPage && await countPromise === 0) {
 		return false;
 	}

@@ -26,7 +26,7 @@ function init(): void {
 		url.searchParams.set('q', `${typeQuery} ${defaultQuery} ${query}`);
 		const link = <a href={String(url)} title={title} className="subnav-item">{label}</a>;
 
-		const isCurrentPage = new SearchQuery(location).includes(query);
+		const isCurrentPage = new SearchQuery(location.search).includes(query);
 
 		// Highlight it, if that's the current page
 		if (isCurrentPage && !select.exists('.subnav-links .selected')) {
