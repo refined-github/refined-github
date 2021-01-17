@@ -10,7 +10,7 @@ import pluralize from '../helpers/pluralize';
 import {getForkedRepo, getUsername, getRepo} from '../github-helpers';
 
 function getLinkCopy(count: number): string {
-	return pluralize(count, 'one open pull request', '$$ open pull requests');
+	return pluralize(count, 'one open pull request', 'at least $$ open pull requests');
 }
 
 const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: number, singlePrNumber?: number]> => {
