@@ -137,9 +137,7 @@ function createDetailsDialog(timelineFilter: Element): void {
 			<button type="button" className="btn btn-primary" data-disable-with="Saving…" onClick={async () => saveSettings()}>Save</button>
 			<button type="reset" className="btn" data-close-dialog="">Cancel</button>
 		</div>
-
 	</form>
-	form.append(actionButtons);
 
 	// This works on github enterprise - form is already preloaded
 	select('form', detailsDialog)?.remove();
