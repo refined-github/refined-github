@@ -28,7 +28,7 @@ async function init(): Promise<void> {
 	const commitSha = location.pathname.split('/').pop()!;
 	const [additions, deletions] = await getCommitChanges(commitSha);
 	const tooltip = pluralize(additions + deletions, '1 line changed', '$$ lines changed');
-	const diffstat = await elementReady('.diffstat');
+	const diffstat = await elementReady('.diffstat', {waitForChildren: false});
 	diffstat!.replaceWith(
 		<span className="ml-2 diffstat tooltipped tooltipped-s" aria-label={tooltip}>
 			<span className="text-green">+{additions}</span>{' '}

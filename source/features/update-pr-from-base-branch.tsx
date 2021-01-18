@@ -41,12 +41,6 @@ async function handler({delegateTarget}: delegate.Event): Promise<void> {
 	const response = await mergeBranches();
 	if (response.ok) {
 		statusMeta.remove();
-	} else if (response.message?.toLowerCase().startsWith('merge conflict')) {
-		// Only shown on Draft PRs
-		statusMeta.textContent = '';
-		statusMeta.append(
-			<a href={location.pathname + '/conflicts'} className="btn float-right"><AlertIcon/> Resolve conflicts</a>
-		);
 	} else {
 		statusMeta.textContent = response.message ?? 'Error';
 		statusMeta.prepend(<AlertIcon/>, ' ');
@@ -98,13 +92,10 @@ async function addButton(): Promise<void> {
 async function init(): Promise<void | false> {
 	await api.expectToken();
 
-	// Button exists when the current user can merge the PR.
-	// Button is disabled when:
-	// - There are conflicts (there's already a native "Resolve conflicts" button)
-	// - Draft PR (show the button anyway)
-	const canMerge = select.exists('[data-details-container=".js-merge-pr"]:not(:disabled)');
-	const isDraftPR = select.exists('[action$="ready_for_review"]');
-	if (!canMerge && !isDraftPR) {
+	// This link does the same thing as this feature: Updates the head branch from the base
+	const hasResolveConflictsLink = select.exists('.js-merge-pr a[href$="/conflicts"]');
+	const currentUserCanPush = select.exists('.merge-pr > .text-gray:first-child');
+	if (!currentUserCanPush || hasResolveConflictsLink) {
 		return false;
 	}
 

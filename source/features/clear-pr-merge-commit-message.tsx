@@ -5,8 +5,7 @@ import features from '.';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 function init(): void {
-	const messageField = select<HTMLTextAreaElement>('#merge_message_field')!;
-
+	const messageField = select('textarea#merge_message_field')!;
 	const deduplicatedAuthors = new Set();
 
 	// This method ensures that "Co-authored-by" capitalization doesn't affect deduplication

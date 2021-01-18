@@ -19,16 +19,19 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 	link.after(info);
 
 	try {
-		// Get the gist via background.js due to CORB policies introduced in Chrome 73
-		const gistData = await browser.runtime.sendMessage({request: `${link.href}.json`});
+		// Fetch via background.js due to CORB policies
+		const gistData = await browser.runtime.sendMessage({fetchJSON: `${link.href}.json`});
+		if (gistData.div.length > 10000) {
+			info.textContent = ' (too large to embed)';
+			return;
+		}
 
-		const files = domify.one(JSON.parse(gistData).div)!;
-		const fileCount = files.children.length;
-
+		const fileCount: number = gistData.files.length;
 		if (fileCount > 1) {
 			info.textContent = ` (${fileCount} files)`;
 		} else {
-			link.parentElement!.attachShadow({mode: 'open'}).append(
+			const container = <div/>;
+			container.attachShadow({mode: 'open'}).append(
 				<style>{`
 					.gist .gist-data {
 						max-height: 16em;
@@ -37,8 +40,10 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 				`}
 				</style>,
 				<link rel="stylesheet" href={gistData.stylesheet}/>,
-				files
+				domify.one(gistData.div)!
 			);
+			link.parentElement!.after(container);
+			info.remove();
 		}
 	} catch {
 		info.remove();
@@ -46,7 +51,7 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 }
 
 function init(): void {
-	select.all<HTMLAnchorElement>('.js-comment-body p a:only-child')
+	select.all('.js-comment-body p a:only-child')
 		.filter(item => isGist(item) && isOnlyChild(item))
 		.forEach(embedGist);
 }

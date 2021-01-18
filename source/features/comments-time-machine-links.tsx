@@ -28,7 +28,7 @@ async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> 
 	`);
 
 	const [{oid}] = repository.ref.target.history.nodes;
-	select<HTMLAnchorElement>('.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;
+	select('a.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;
 }
 
 function addInlineLinks(comment: HTMLElement, timestamp: string): void {
@@ -94,7 +94,7 @@ async function showTimemachineBar(): Promise<void | false> {
 		const lastCommitDate = await elementReady([
 			'.repository-content .Box.Box--condensed relative-time',
 			'[itemprop="dateModified"] relative-time' // "Repository refresh" layout
-		].join());
+		].join(), {waitForChildren: false});
 		if (date > lastCommitDate?.attributes.datetime.value!) {
 			return false;
 		}
@@ -115,7 +115,7 @@ async function showTimemachineBar(): Promise<void | false> {
 function init(): void {
 	// PR reviews' main content has nested `.timeline-comment`, but the deepest one doesn't have `relative-time`. These are filtered out with `:not([id^="pullrequestreview"])`
 	const comments = select.all(`
-		:not(.js-new-comment-form):not([id^="pullrequestreview"]) > .timeline-comment:not(.rgh-time-machine-links),
+		:not(.js-new-comment-form):not(#issuecomment-new):not([id^="pullrequestreview"]) > .timeline-comment:not(.rgh-time-machine-links),
 		.review-comment > .previewable-edit:not(.is-pending):not(.rgh-time-machine-links)
 	`);
 

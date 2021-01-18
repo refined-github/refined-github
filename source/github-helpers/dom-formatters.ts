@@ -2,9 +2,9 @@ import zipTextNodes from 'zip-text-nodes';
 import linkifyURLsCore from 'linkify-urls';
 import linkifyIssuesCore from 'linkify-issues';
 
+import {getRepo} from '.';
 import getTextNodes from '../helpers/get-text-nodes';
 import parseBackticksCore from './parse-backticks';
-import {getRepo} from '.';
 
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';

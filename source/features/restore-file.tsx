@@ -31,7 +31,7 @@ const getBaseReference = onetime(async (): Promise<string> => {
 	return repository.pullRequest.baseRefOid;
 });
 
-async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | null> {
+async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | undefined> {
 	const {repository} = await api.v4(`
 		repository() {
 			file: object(expression: "${await getBaseReference()}:${filePath}") {
@@ -109,7 +109,7 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 }
 
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
-	const editFile = select<HTMLAnchorElement>('[aria-label^="Change this"]', dropdown);
+	const editFile = select('a[aria-label^="Change this"]', dropdown);
 	if (!editFile || select.exists('.rgh-restore-file', dropdown)) {
 		return;
 	}

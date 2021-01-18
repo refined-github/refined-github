@@ -10,14 +10,14 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 }
 
 async function init(): Promise<void> {
-	const links = select.all<HTMLAnchorElement>([
+	const links = select.all([
 		// Pre "Repository refresh" layout
-		'#user-links [href$="tab=repositories"]', // "Repositories" tab on user profile
-		'.orgnav > .pagehead-tabs-item:first-child', // "Repositories" tab on organization profile
+		'#user-links a[href$="tab=repositories"]', // "Repositories" tab on user profile
+		'.orgnav > a.pagehead-tabs-item:first-child', // "Repositories" tab on organization profile
 		// "Repository refresh" layout
-		'[aria-label="User profile"] [href$="tab=repositories"]', // "Repositories" tab on user profile
-		'[aria-label="Organization"] .UnderlineNav-item:first-child', // "Repositories" tab on organization profile
-		'[data-hovercard-type="organization"]' // Organization name on repo header + organization list on user profile
+		'[aria-label="User profile"] a[href$="tab=repositories"]', // "Repositories" tab on user profile
+		'[aria-label="Organization"] a.UnderlineNav-item:first-child', // "Repositories" tab on organization profile
+		'a[data-hovercard-type="organization"]' // Organization name on repo header + organization list on user profile
 	]);
 
 	for (const link of links) {
@@ -26,7 +26,7 @@ async function init(): Promise<void> {
 
 	// "Your repositories" in header dropdown
 	await onProfileDropdownLoad();
-	addSourceTypeToLink(select<HTMLAnchorElement>('.header-nav-current-user ~ [href$="tab=repositories"]')!);
+	addSourceTypeToLink(select('.header-nav-current-user ~ a[href$="tab=repositories"]')!);
 }
 
 void features.add(__filebasename, {

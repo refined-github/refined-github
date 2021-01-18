@@ -3,7 +3,8 @@
 	"compilerOptions": {
 		"target": "es2020",
 		"declaration": false,
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"noUncheckedIndexedAccess": false
 	},
 	"include": [
 		"source",

@@ -7,7 +7,6 @@ import regexJoin from 'regex-join';
 import SizePlugin from 'size-plugin';
 import decamelize from 'decamelize';
 import TerserPlugin from 'terser-webpack-plugin';
-
 import {ESBuildPlugin} from 'esbuild-loader';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -60,7 +59,7 @@ function getFeatures(): FeatureID[] {
 	return Array.from(
 		readFileSync(path.join(__dirname, 'source/refined-github.ts'), 'utf-8').matchAll(/^import '\.\/features\/([^.]+)';/gm),
 		match => match[1] as FeatureID
-	).sort();
+	).sort().filter(id => !id.startsWith('rgh-'));
 }
 
 const config: Configuration = {

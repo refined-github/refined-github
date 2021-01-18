@@ -56,7 +56,7 @@ function createWhitespaceButton(): HTMLElement {
 }
 
 function wrap(...elements: Node[]): DocumentFragment {
-	if (pageDetect.isSingleCommit()) {
+	if (pageDetect.isSingleCommit() || pageDetect.isCompare()) {
 		return (
 			<div className="float-right">
 				{elements.map(element => <div className="ml-3 BtnGroup">{element}</div>)}
@@ -110,7 +110,8 @@ function init(): false | void {
 void features.add(__filebasename, {
 	include: [
 		// Disabled because of #2291 // pageDetect.isPRFiles
-		pageDetect.isCommit
+		pageDetect.isCommit,
+		pageDetect.isCompare
 	],
 	shortcuts: {
 		'd w': 'Show/hide whitespaces in diffs'

@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 const loadMore = debounce(() => {
-	const button = select<HTMLButtonElement>('.ajax-pagination-btn')!;
+	const button = select('button.ajax-pagination-btn')!;
 	button.click();
 	button.textContent = 'Loading…';
 

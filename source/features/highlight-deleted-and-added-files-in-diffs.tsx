@@ -71,6 +71,8 @@ void features.add(__filebasename, {
 		pageDetect.isPRCommit404
 	],
 	init,
-	deinit: () => observer.abort(),
+	deinit: () => {
+		observer.abort();
+	},
 	awaitDomReady: false
 });

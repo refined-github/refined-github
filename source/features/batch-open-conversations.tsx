@@ -13,7 +13,7 @@ const confirmationRequiredCount = 10;
 function getUrlFromItem(checkbox: Element): string {
 	return checkbox
 		.closest('.js-issue-row')!
-		.querySelector<HTMLAnchorElement>('.js-navigation-open')!
+		.querySelector('a.js-navigation-open')!
 		.href;
 }
 
@@ -37,7 +37,7 @@ function openIssues(): void {
 }
 
 async function init(): Promise<void | false> {
-	if (!await elementReady('.js-issue-row + .js-issue-row')) {
+	if (!await elementReady('.js-issue-row + .js-issue-row', {waitForChildren: false})) {
 		return false;
 	}
 

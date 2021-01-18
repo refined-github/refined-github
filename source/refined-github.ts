@@ -1,3 +1,4 @@
+import 'typed-query-selector';
 import select from 'select-dom';
 
 import './refined-github.css';
@@ -206,6 +207,7 @@ import './features/easy-toggle-files';
 import './features/quick-repo-deletion';
 import './features/conversation-timeline-filter';
 import './features/clean-repo-sidebar';
+import './features/rgh-feature-descriptions';
 
 // Add global for easier debugging
 (window as any).select = select;

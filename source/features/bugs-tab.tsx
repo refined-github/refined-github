@@ -34,12 +34,12 @@ async function init(): Promise<void | false> {
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-	const isBugsPage = new SearchQuery(location).includes('label:bug');
+	const isBugsPage = new SearchQuery(location.search).includes('label:bug');
 	if (!isBugsPage && await countPromise === 0) {
 		return false;
 	}
 
-	const issuesTab = (await elementReady('.js-repo-nav [data-hotkey="g i"]'))?.parentElement;
+	const issuesTab = (await elementReady('.js-repo-nav [data-hotkey="g i"]', {waitForChildren: false}))?.parentElement;
 	if (!issuesTab) {
 		// Repo is archived
 		return false;
@@ -48,7 +48,7 @@ async function init(): Promise<void | false> {
 	if (isBugsPage) {
 		// Hide pinned issues on the tab page, they might not belong there
 		// Don't await; if there are no pinned issues, this would delay the bug count update
-		void elementReady('.js-pinned-issues-reorder-container').then(pinnedIssues => pinnedIssues?.remove());
+		void elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false}).then(pinnedIssues => pinnedIssues?.remove());
 	}
 
 	// Copy Issues tab

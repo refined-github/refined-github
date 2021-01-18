@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 async function init(): Promise<false | void> {
-	const exploreLink = await elementReady('.Header-link[href="/explore"]');
+	const exploreLink = await elementReady('.Header-link[href="/explore"]', {waitForChildren: false});
 	if (!exploreLink) {
 		return false;
 	}

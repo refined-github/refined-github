@@ -36,7 +36,7 @@ function appendLineInfo(lineHandle: CodeMirror.LineHandle, text: string): void {
 	// Only append text if it's not already there
 	if (!lineHandle.text.includes(text)) {
 		const line = lineHandle.lineNo();
-		editor.replaceRange(text, {line, ch: Infinity}); // Infinity = end of line
+		editor.replaceRange(text, {line, ch: Number.POSITIVE_INFINITY}); // Infinity = end of line
 		editor.clearHistory();
 	}
 }
@@ -92,7 +92,7 @@ function acceptBranch(branch: string, line: number): void {
 	let deleteNextLine = false;
 
 	const linesToRemove: number[] = [];
-	editor.eachLine(line, Infinity, lineHandle => {
+	editor.eachLine(line, Number.POSITIVE_INFINITY, lineHandle => {
 		// Determine whether to remove the following line(s)
 		if (lineHandle.text.startsWith('<<<<<<<')) {
 			deleteNextLine = branch === 'Current';

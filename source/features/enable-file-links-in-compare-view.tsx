@@ -13,14 +13,14 @@ function handlePRMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-actionable-link'); // Mark this as processed
 	const filePath = dropdown.closest('[data-path]')!.getAttribute('data-path')!;
 
-	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
+	const viewFile = select('a[data-ga-click^="View file"]', dropdown)!;
 	viewFile.pathname = [getPRHeadRepo()!.nameWithOwner, 'blob', getCurrentBranch()!, filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
 }
 
 function handleCompareMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-actionable-link'); // Mark this as processed
 
-	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
+	const viewFile = select('a[data-ga-click^="View file"]', dropdown)!;
 	const branch = select('[title^="compare"]')!.textContent!;
 	viewFile.before(
 		<div className="dropdown-header pl-5">

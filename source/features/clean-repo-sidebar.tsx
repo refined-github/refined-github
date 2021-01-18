@@ -9,11 +9,11 @@ async function init(): Promise<void> {
 	document.body.classList.add('rgh-clean-repo-sidebar');
 
 	// Hide redundant "Releases" section
-	const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]');
+	const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]', {waitForChildren: false});
 	sidebarReleases!.closest<HTMLElement>('.BorderGrid-row')!.hidden = true;
 
 	// Hide empty "Packages" section
-	const packagesCounter = await elementReady('.BorderGrid-cell a[href*="/packages?"] .Counter')!;
+	const packagesCounter = await elementReady('.BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false})!;
 	if (packagesCounter && packagesCounter.textContent === '0') {
 		packagesCounter.closest<HTMLElement>('.BorderGrid-row')!.hidden = true;
 	}

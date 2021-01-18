@@ -15,7 +15,7 @@ function addMergeLink(): void {
 	// The links in `.table-list-header-toggle` are either:
 	//   1 Open | 1 Closed
 	//   1 Total            // Apparently appears with is:merged/is:unmerged
-	for (const lastLink of select.all<HTMLAnchorElement>('.table-list-header-toggle.states a:last-child')) {
+	for (const lastLink of select.all('.table-list-header-toggle.states a:last-child')) {
 		const lastLinkQuery = new SearchQuery(lastLink);
 
 		if (lastLinkQuery.includes('is:merged')) {
@@ -33,14 +33,14 @@ function addMergeLink(): void {
 		// In this case, `lastLink` is expected to be a "Closed" link
 		const mergeLink = lastLink.cloneNode(true);
 		mergeLink.textContent = 'Merged';
-		mergeLink.classList.toggle('selected', new SearchQuery(location).includes('is:merged'));
+		mergeLink.classList.toggle('selected', new SearchQuery(location.search).includes('is:merged'));
 		new SearchQuery(mergeLink).replace('is:closed', 'is:merged');
 		lastLink.after(' ', mergeLink);
 	}
 }
 
 function togglableFilters(): void {
-	for (const link of select.all<HTMLAnchorElement>('.table-list-header-toggle.states a')) {
+	for (const link of select.all('.table-list-header-toggle.states a')) {
 		select('.octicon', link)?.remove();
 		if (link.classList.contains('selected')) {
 			link.prepend(<CheckIcon/>);
@@ -55,7 +55,7 @@ function togglableFilters(): void {
 }
 
 async function init(): Promise<void | false> {
-	await elementReady('.table-list-filters + *');
+	await elementReady('.table-list-filters');
 
 	addMergeLink();
 	togglableFilters();
