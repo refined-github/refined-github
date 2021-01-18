@@ -3,6 +3,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
+
 import features from '.';
 
 enum FilterSettings {
@@ -55,7 +56,7 @@ function regenerateFilterSummary(): void {
 }
 
 async function saveSettings(): Promise<any> {
-	let formData = new FormData(select(`#${filterFormId}`));
+	const formData = new FormData(select(`#${filterFormId}`));
 	currentSettings = Number.parseInt(formData.get(showFilterName) as string, 10);
 
 	// Close window
@@ -77,7 +78,7 @@ function restoreSettings(): void {
 	select.all<HTMLInputElement>(`#${showFilterName}`).forEach(element => {
 		element.checked = false;
 	});
-	select<HTMLInputElement>(`#${showFilterName}[value="${currentSettings.valueOf()}"]`)!.checked = true;
+	select<HTMLInputElement>(`input[name=${showFilterName}][value="${currentSettings.valueOf()}"]`)!.checked = true;
 }
 
 function createRadio(name: string, title: string, summary: string, value: number, hasTopBorder: boolean): JSX.Element {
@@ -122,22 +123,23 @@ function createDetailsDialog(timelineFilter: Element): void {
 	detailsDialog.setAttribute('aria-label', 'Timeline filter settings');
 	select('div.Box-header h3', detailsDialog)!.textContent = 'Timeline filter settings';
 
-
-	let showUnresolvedReviews = <></>;
+	let showUnresolvedReviews = null;
 	if (pageDetect.isPRConversation()) {
 		showUnresolvedReviews = createRadio(showFilterName, 'Show only unresolved reviews', 'Also hides regular comments (PR only)', FilterSettings.ShowOnlyUnresolvedReviews, true);
 	}
 
-	const form = <form id={filterFormId}>
-		{createRadio(showFilterName, 'Show all', '', FilterSettings.ShowAll, true)}
-		{createRadio(showFilterName, 'Show only comments', 'Hides commits and events', FilterSettings.ShowOnlyComments, true)}
-		{createRadio(showFilterName, 'Show only unresolved comments', 'Also hides resolved reviews and hidden comments', FilterSettings.ShowOnlyUnresolvedComments, true)}
-		{showUnresolvedReviews}
-		<div className="Box-footer form-actions">
-			<button type="button" className="btn btn-primary" data-disable-with="Saving…" onClick={async () => saveSettings()}>Save</button>
-			<button type="reset" className="btn" data-close-dialog="">Cancel</button>
-		</div>
-	</form>
+	const form = (
+		<form id={filterFormId}>
+			{createRadio(showFilterName, 'Show all', '', FilterSettings.ShowAll, true)}
+			{createRadio(showFilterName, 'Show only comments', 'Hides commits and events', FilterSettings.ShowOnlyComments, true)}
+			{createRadio(showFilterName, 'Show only unresolved comments', 'Also hides resolved reviews and hidden comments', FilterSettings.ShowOnlyUnresolvedComments, true)}
+			{showUnresolvedReviews}
+			<div className="Box-footer form-actions">
+				<button type="button" className="btn btn-primary" data-disable-with="Saving…" onClick={async () => saveSettings()}>Save</button>
+				<button type="reset" className="btn" data-close-dialog="">Cancel</button>
+			</div>
+		</form>
+	);
 
 	// This works on github enterprise - form is already preloaded
 	select('form', detailsDialog)?.remove();
