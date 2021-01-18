@@ -60,16 +60,20 @@ export default class SearchQuery {
 			return currentQuery;
 		}
 
+		if (!this.link?.pathname) {
+			return '';
+		}
+
 		// Query-less URLs imply some queries.
 		// When we explicitly set ?q=* they're overridden, so they need to be manually added again.
 		const queries = [];
 
 		// Repo example: is:issue is:open
-		queries.push(/\/pulls\/?$/.test(this.link!.pathname) ? 'is:pr' : 'is:issue');
+		queries.push(/\/pulls\/?$/.test(this.link.pathname) ? 'is:pr' : 'is:issue');
 		queries.push('is:open');
 
 		// Header nav example: is:open is:issue author:you archived:false
-		if (this.link!.pathname === '/issues' || this.link!.pathname === '/pulls') {
+		if (this.link.pathname === '/issues' || this.link.pathname === '/pulls') {
 			if (this.searchParams.has('user')) { // #1211
 				queries.push(`user:${this.searchParams.get('user')!}`);
 			} else {
