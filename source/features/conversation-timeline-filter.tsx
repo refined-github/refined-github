@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import elementReady from 'element-ready';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
+import {CheckIcon, GearIcon, XIcon} from '@primer/octicons-react';
 
 import features from '.';
 
@@ -21,7 +21,6 @@ const filterFormId = 'show-filter-form';
 // Every element on the timeline that is recognizable by this feature will be marked with tis class.
 const timelineFiltersSelectorId = 'timeline-filters';
 const detailsSelector = `#${timelineFiltersSelectorId} details`;
-const notiticationsSelector = '.discussion-sidebar-item.sidebar-notifications';
 const timelineItemSelector = '.js-timeline-item';
 
 function regenerateFilterSummary(): void {
@@ -55,6 +54,7 @@ function regenerateFilterSummary(): void {
 	select('p.reason', timelineFilter)!.replaceWith(newSummary);
 }
 
+// @ts-expect-error TODO: adjust to new select menu
 async function saveSettings(): Promise<any> {
 	const formData = new FormData(select(`#${filterFormId}`));
 	currentSettings = Number.parseInt(formData.get(showFilterName) as string, 10);
@@ -74,6 +74,7 @@ function reapplySettings(): void {
 		});
 }
 
+// @ts-expect-error TODO: adjust to new select menu
 function restoreSettings(): void {
 	select.all<HTMLInputElement>(`#${showFilterName}`).forEach(element => {
 		element.checked = false;
@@ -81,72 +82,44 @@ function restoreSettings(): void {
 	select<HTMLInputElement>(`input[name=${showFilterName}][value="${currentSettings.valueOf()}"]`)!.checked = true;
 }
 
-function createRadio(name: string, title: string, summary: string, value: number, hasTopBorder: boolean): JSX.Element {
+function createRadio(title: string, summary: string, checked: boolean): JSX.Element {
 	return (
-		<label className={'d-block p-3 ' + (hasTopBorder ? 'border-top' : '')}>
-			<div id={filterFormId} className="form-checkbox my-0">
-				<input type="radio" name={name} value={value} checked={value === currentSettings}/> {title}
-				<p className="note">
-					{summary}
-				</p>
+		<label className="select-menu-item d-flex text-normal css-truncate" aria-checked={String(checked)} role="menuitemcheckbox" tabIndex={0}>
+			<CheckIcon className="select-menu-item-icon" aria-hidden="true"/>
+			<div className="select-menu-item-text">
+				<strong>{title}</strong>
+				<div className="description">{summary}</div>
 			</div>
 		</label>
 	);
 }
 
 async function addTimelineItemsFilter(): Promise<void> {
-	const notifications = await elementReady(notiticationsSelector);
-	if (!notifications) {
-		return;
-	}
+	select('#partial-users-participants')!.before(
+		<div className="discussion-sidebar-item js-discussion-sidebar-item">
+			<details className="details-reset details-overlay select-menu hx_rsm">
+				<summary className="text-bold discussion-sidebar-heading discussion-sidebar-toggle hx_rsm-trigger" aria-haspopup="menu" data-hotkey="x" role="button">
+					<GearIcon/>
+					Filters
+				</summary>
 
-	// Copy existing element and adapt its content
-	const timelineFilter = notifications.cloneNode(true);
-	timelineFilter.id = 'timeline-filters';
-
-	select('form.thread-subscribe-form', timelineFilter)!.remove();
-	const summary = select('summary', timelineFilter)!;
-	summary.setAttribute('aria-label', 'Customize timeline filters');
-	summary.addEventListener('click', restoreSettings);
-	select('div.text-bold', summary)!.textContent = 'Filters';
-	createDetailsDialog(timelineFilter);
-	notifications.after(timelineFilter);
-
-	regenerateFilterSummary();
-}
-
-function createDetailsDialog(timelineFilter: Element): void {
-	const detailsDialog = select('details-dialog', timelineFilter)!;
-
-	detailsDialog.setAttribute('src', '');
-
-	detailsDialog.setAttribute('aria-label', 'Timeline filter settings');
-	select('div.Box-header h3', detailsDialog)!.textContent = 'Timeline filter settings';
-
-	let showUnresolvedReviews = null;
-	if (pageDetect.isPRConversation()) {
-		showUnresolvedReviews = createRadio(showFilterName, 'Show only unresolved reviews', 'Also hides regular comments (PR only)', FilterSettings.ShowOnlyUnresolvedReviews, true);
-	}
-
-	const form = (
-		<form id={filterFormId}>
-			{createRadio(showFilterName, 'Show all', '', FilterSettings.ShowAll, true)}
-			{createRadio(showFilterName, 'Show only comments', 'Hides commits and events', FilterSettings.ShowOnlyComments, true)}
-			{createRadio(showFilterName, 'Show only unresolved comments', 'Also hides resolved reviews and hidden comments', FilterSettings.ShowOnlyUnresolvedComments, true)}
-			{showUnresolvedReviews}
-			<div className="Box-footer form-actions">
-				<button type="button" className="btn btn-primary" data-disable-with="Saving…" onClick={async () => saveSettings()}>Save</button>
-				<button type="reset" className="btn" data-close-dialog="">Cancel</button>
-			</div>
-		</form>
+				<details-menu className="select-menu-modal position-absolute right-0 hx_rsm-modal js-discussion-sidebar-menu" style={{zIndex: 99, overflow: 'visible'}} data-menu-max-options="10">
+					<div className="select-menu-header">
+						<span className="select-menu-title">Temporarily hide content</span>
+						<button className="hx_rsm-close-button btn-link close-button" type="button" data-toggle-for="reference-select-menu">
+							<XIcon aria-label="Close menu" role="img"/>
+						</button>
+					</div>
+					<div className="hx_rsm-content" role="menu">
+						{createRadio('Show all', '', true)}
+						{createRadio('Show only comments', 'Hides commits and events', false)}
+						{createRadio('Show only unresolved comments', 'Also hides resolved reviews and hidden comments', false)}
+						{pageDetect.isPRConversation() && createRadio('Show only unresolved reviews', 'Also hides regular comments', false)}
+					</div>
+				</details-menu>
+			</details>
+		</div>
 	);
-
-	// This works on github enterprise - form is already preloaded
-	select('form', detailsDialog)?.remove();
-	// This works on normal github. Normally form is loaded in place of `include-fragment` after we open details dialog.
-	select('include-fragment', detailsDialog)?.remove();
-
-	detailsDialog.append(form);
 }
 
 function processTimelineItem(item: HTMLElement): void {
