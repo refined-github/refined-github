@@ -84,11 +84,11 @@ function restoreSettings(): void {
 
 function createRadio(title: string, summary: string, checked: boolean): JSX.Element {
 	return (
-		<label className="select-menu-item d-flex text-normal css-truncate" aria-checked={String(checked)} role="menuitemcheckbox" tabIndex={0}>
+		<label className="select-menu-item d-flex" aria-checked={String(checked)} role="menuitemradio" tabIndex={0}>
 			<CheckIcon className="select-menu-item-icon" aria-hidden="true"/>
 			<div className="select-menu-item-text">
-				<strong>{title}</strong>
-				<div className="description">{summary}</div>
+				{title}
+				<div className="text-normal description">{summary}</div>
 			</div>
 		</label>
 	);
@@ -103,7 +103,7 @@ async function addTimelineItemsFilter(): Promise<void> {
 					Filters
 				</summary>
 
-				<details-menu className="select-menu-modal position-absolute right-0 hx_rsm-modal js-discussion-sidebar-menu" style={{zIndex: 99, overflow: 'visible'}} data-menu-max-options="10">
+				<details-menu className="select-menu-modal position-absolute right-0 hx_rsm-modal js-discussion-sidebar-menu" style={{zIndex: 99}}>
 					<div className="select-menu-header">
 						<span className="select-menu-title">Temporarily hide content</span>
 						<button className="hx_rsm-close-button btn-link close-button" type="button" data-toggle-for="reference-select-menu">
@@ -118,6 +118,8 @@ async function addTimelineItemsFilter(): Promise<void> {
 					</div>
 				</details-menu>
 			</details>
+
+			<p className="reason text-small text-gray"/>
 		</div>
 	);
 }
