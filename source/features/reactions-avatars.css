@@ -21,6 +21,12 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 	--background: #111d2f;
 }
 
+@media (prefers-color-scheme: 'dark') {
+	[data-color-mode='auto'] .reaction-summary-item.user-has-reacted {
+		--background: #111d2f;
+	}
+}
+
 .reaction-summary-item a {
 	display: inline-block;
 	width: 2em;
