@@ -13,9 +13,9 @@ enum FilterSettings {
 }
 
 let currentSettings: FilterSettings = FilterSettings.ShowAll;
-let autoLoadEnabled = false;
 
-const showFilterId = 'rgh-show-filter';
+const showFilterName = 'rgh-show-filter';
+const filterFormId = 'show-filter-form';
 
 // Every element on the timeline that is recognizable by this feature will be marked with tis class.
 const timelineFiltersSelectorId = 'timeline-filters';
@@ -55,7 +55,8 @@ function regenerateFilterSummary(): void {
 }
 
 async function saveSettings(): Promise<any> {
-	currentSettings = Number.parseInt((select<HTMLInputElement>(`#${showFilterId}:checked`))!.value, 10);
+	let formData = new FormData(select(`#${filterFormId}`));
+	currentSettings = Number.parseInt(formData.get(showFilterName) as string, 10);
 
 	// Close window
 	select(detailsSelector)!.removeAttribute('open');
@@ -73,25 +74,23 @@ function reapplySettings(): void {
 }
 
 function restoreSettings(): void {
-	select.all<HTMLInputElement>(`#${showFilterId}`).forEach(element => {
+	select.all<HTMLInputElement>(`#${showFilterName}`).forEach(element => {
 		element.checked = false;
 	});
-	select<HTMLInputElement>(`#${showFilterId}[value="${currentSettings.valueOf()}"]`)!.checked = true;
+	select<HTMLInputElement>(`#${showFilterName}[value="${currentSettings.valueOf()}"]`)!.checked = true;
 }
 
-function createRadio(form: JSX.Element, id: string, title: string, summary: string, value: number, hasTopBorder: boolean): void {
-	const element = (
+function createRadio(name: string, title: string, summary: string, value: number, hasTopBorder: boolean): JSX.Element {
+	return (
 		<label className={'d-block p-3 ' + (hasTopBorder ? 'border-top' : '')}>
-			<div className="form-checkbox my-0">
-				<input id={id} type="radio" name="id" value={value} checked={value === currentSettings}/> {title}
+			<div id={filterFormId} className="form-checkbox my-0">
+				<input type="radio" name={name} value={value} checked={value === currentSettings}/> {title}
 				<p className="note">
 					{summary}
 				</p>
 			</div>
 		</label>
 	);
-
-	form.append(element);
 }
 
 async function addTimelineItemsFilter(): Promise<void> {
@@ -122,22 +121,24 @@ function createDetailsDialog(timelineFilter: Element): void {
 
 	detailsDialog.setAttribute('aria-label', 'Timeline filter settings');
 	select('div.Box-header h3', detailsDialog)!.textContent = 'Timeline filter settings';
-	const form = <div/>;
 
-	createRadio(form, showFilterId, 'Show all', '', FilterSettings.ShowAll, true);
-	createRadio(form, showFilterId, 'Show only comments', 'Hides commits and events', FilterSettings.ShowOnlyComments, true);
-	createRadio(form, showFilterId, 'Show only unresolved comments', 'Also hides resolved reviews and hidden comments', FilterSettings.ShowOnlyUnresolvedComments, true);
+
+	let showUnresolvedReviews = <></>;
 	if (pageDetect.isPRConversation()) {
-		createRadio(form, showFilterId, 'Show only unresolved reviews', 'Also hides regular comments (PR only)', FilterSettings.ShowOnlyUnresolvedReviews, true);
+		showUnresolvedReviews = createRadio(showFilterName, 'Show only unresolved reviews', 'Also hides regular comments (PR only)', FilterSettings.ShowOnlyUnresolvedReviews, true);
 	}
 
-	const actionButtons = (
+	const form = <form id={filterFormId}>
+		{createRadio(showFilterName, 'Show all', '', FilterSettings.ShowAll, true)}
+		{createRadio(showFilterName, 'Show only comments', 'Hides commits and events', FilterSettings.ShowOnlyComments, true)}
+		{createRadio(showFilterName, 'Show only unresolved comments', 'Also hides resolved reviews and hidden comments', FilterSettings.ShowOnlyUnresolvedComments, true)}
+		{showUnresolvedReviews}
 		<div className="Box-footer form-actions">
-			<button type="submit" className="btn btn-primary" data-disable-with="Saving…" onClick={async () => saveSettings()}>Save</button>
+			<button type="button" className="btn btn-primary" data-disable-with="Saving…" onClick={async () => saveSettings()}>Save</button>
 			<button type="reset" className="btn" data-close-dialog="">Cancel</button>
 		</div>
-	);
 
+	</form>
 	form.append(actionButtons);
 
 	// This works on github enterprise - form is already preloaded
