@@ -3,9 +3,6 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
-
-import delay from 'delay';
-
 import features from '.';
 
 enum FilterSettings {
@@ -19,14 +16,12 @@ let currentSettings: FilterSettings = FilterSettings.ShowAll;
 let autoLoadEnabled = false;
 
 const showFilterId = 'rgh-show-filter';
-const autoLoadHiddenSelectorId = 'auto-load-hidden';
 
 // Every element on the timeline that is recognizable by this feature will be marked with tis class.
 const timelineFiltersSelectorId = 'timeline-filters';
 const detailsSelector = `#${timelineFiltersSelectorId} details`;
 const notiticationsSelector = '.discussion-sidebar-item.sidebar-notifications';
 const timelineItemSelector = '.js-timeline-item';
-const loadMoreSelector = '.ajax-pagination-btn:not([disabled])';
 
 function regenerateFilterSummary(): void {
 	const timelineFilter = select(`#${timelineFiltersSelectorId}`)!;
@@ -60,7 +55,6 @@ function regenerateFilterSummary(): void {
 }
 
 async function saveSettings(): Promise<any> {
-	autoLoadEnabled = (select<HTMLInputElement>(`#${autoLoadHiddenSelectorId}`))!.checked;
 	currentSettings = Number.parseInt((select<HTMLInputElement>(`#${showFilterId}:checked`))!.value, 10);
 
 	// Close window
@@ -68,13 +62,6 @@ async function saveSettings(): Promise<any> {
 
 	regenerateFilterSummary();
 	reapplySettings();
-
-	if (autoLoadEnabled) {
-		const loadMoreButton = select(loadMoreSelector);
-		if (loadMoreButton) {
-			await tryClickLoadMore(loadMoreButton);
-		}
-	}
 }
 
 function reapplySettings(): void {
@@ -90,22 +77,6 @@ function restoreSettings(): void {
 		element.checked = false;
 	});
 	select<HTMLInputElement>(`#${showFilterId}[value="${currentSettings.valueOf()}"]`)!.checked = true;
-	select<HTMLInputElement>(`#${autoLoadHiddenSelectorId}`)!.checked = autoLoadEnabled;
-}
-
-function createCheckbox(form: JSX.Element, id: string, title: string, summary: string, isSelected: boolean, hasTopBorder: boolean): void {
-	const element = (
-		<label className={'d-block p-3 ' + (hasTopBorder ? 'border-top' : '')}>
-			<div className="form-checkbox my-0">
-				<input id={id} type="checkbox" name="id" checked={isSelected}/> {title}
-				<p className="note">
-					{summary}
-				</p>
-			</div>
-		</label>
-	);
-
-	form.append(element);
 }
 
 function createRadio(form: JSX.Element, id: string, title: string, summary: string, value: number, hasTopBorder: boolean): void {
@@ -160,8 +131,6 @@ function createDetailsDialog(timelineFilter: Element): void {
 		createRadio(form, showFilterId, 'Show only unresolved reviews', 'Also hides regular comments (PR only)', FilterSettings.ShowOnlyUnresolvedReviews, true);
 	}
 
-	createCheckbox(form, autoLoadHiddenSelectorId, 'Load hidden', 'Automatically loads hidden timeline items.', autoLoadEnabled, true);
-
 	const actionButtons = (
 		<div className="Box-footer form-actions">
 			<button type="submit" className="btn btn-primary" data-disable-with="Saving…" onClick={async () => saveSettings()}>Save</button>
@@ -177,15 +146,6 @@ function createDetailsDialog(timelineFilter: Element): void {
 	select('include-fragment', detailsDialog)?.remove();
 
 	detailsDialog.append(form);
-}
-
-async function tryClickLoadMore(item: HTMLElement): Promise<any> {
-	if (autoLoadEnabled) {
-		// Just after loading page when user clicks that element he is redirected to some limbo. It happens because github javascript did not kick in yet.
-		// To mitigate that we always give 1 second for javascript to load and notice this element so clicking it will be handled properly.
-		await delay(1000);
-		item.click();
-	}
 }
 
 function processTimelineItem(item: HTMLElement): void {
@@ -251,11 +211,6 @@ async function init(): Promise<any> {
 		add(element) {
 			const htmlElement = element as HTMLElement;
 			processTimelineItem(htmlElement);
-		}
-	});
-	observe(loadMoreSelector, {
-		async add(element) {
-			await tryClickLoadMore(element as HTMLElement);
 		}
 	});
 }
