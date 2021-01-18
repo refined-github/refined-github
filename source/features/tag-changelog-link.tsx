@@ -33,7 +33,7 @@ async function getNextPage(): Promise<DocumentFragment> {
 }
 
 function parseTags(element: HTMLElement): TagDetails {
-	const {pathname: tagUrl} = select('a[href*="/releases/tag/"]', element)!;
+	const {pathname: tagUrl} = new URL(select('a[href*="/releases/tag/"]', element)!);
 	const tag = /\/releases\/tag\/(.*)/.exec(tagUrl)![1];
 
 	return {
