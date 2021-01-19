@@ -21,7 +21,7 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 	margin-left: -0.5em;
 	vertical-align: middle;
 	background: var(--color-bg-canvas-inset, #efefef); /* Placeholder before the images load */
-	box-shadow: 0 0 0 2px var(--color-bg-info, var(--color-bg-primary, #fff));
+	box-shadow: 0 0 0 2px var(--color-bg-info, #fff);
 	font-size: 10px; /* Base sizer */
 }
 
@@ -40,5 +40,5 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 /* This image will start at height:0 and will expand once loaded, covering the gray placeholder */
 .reaction-summary-item a img { /* `a` required for #3237 */
 	max-width: 100%;
-	background-color: var(--color-bg-info, var(--color-bg-primary, #fff));
+	background-color: var(--color-bg-info, #fff);
 }
