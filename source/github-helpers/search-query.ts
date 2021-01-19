@@ -60,7 +60,7 @@ export default class SearchQuery {
 			return currentQuery;
 		}
 
-		if (!this.link?.pathname) {
+		if (!this.link) {
 			return '';
 		}
 
