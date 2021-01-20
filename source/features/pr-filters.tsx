@@ -36,7 +36,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 			aria-checked={isSelected ? 'true' : 'false'}
 			role="menuitemradio"
 		>
-			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
+			<CheckIcon className={CheckIcon.defaultProps.className + ' SelectMenu-icon SelectMenu-icon--check'}/>
 			<span>{title}</span>
 		</a>
 	);

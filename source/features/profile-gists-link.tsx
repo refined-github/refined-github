@@ -29,7 +29,7 @@ async function init(): Promise<void> {
 	const href = pageDetect.isEnterprise() ? `/gist/${username}` : `https://gist.github.com/${username}`;
 	const link = (
 		<a href={href} className="UnderlineNav-item" role="tab" aria-selected="false">
-			<CodeSquareIcon className="UnderlineNav-octicon hide-sm"/> Gists
+			<CodeSquareIcon className={CodeSquareIcon.defaultProps.className + ' UnderlineNav-octicon hide-sm'}/> Gists
 		</a>
 	);
 

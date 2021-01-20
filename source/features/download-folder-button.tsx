@@ -26,7 +26,7 @@ function init(): void {
 				className="btn ml-2"
 				href={downloadUrl.href}
 			>
-				<DownloadIcon className="mr-1"/>
+				<DownloadIcon className={DownloadIcon.defaultProps.className + ' mr-1'}/>
 				Download
 			</a>
 		);

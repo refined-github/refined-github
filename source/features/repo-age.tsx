@@ -105,7 +105,7 @@ async function init(): Promise<void> {
 			<h3 className="sr-only">Repository age</h3>,
 			<div className="mt-3">
 				<a href={firstCommitHref} className="muted-link" title={`First commit dated ${dateFormatter.format(birthday)}`}>
-					<RepoIcon className="mr-2"/> {age}
+					<RepoIcon className={RepoIcon.defaultProps.className + ' mr-2'}/> {age}
 				</a>
 			</div>
 		);

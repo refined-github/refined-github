@@ -75,7 +75,7 @@ async function init(): Promise<false | void> {
 				data-selected-links="repo_releases"
 				data-tab-item="rgh-releases-item"
 			>
-				<TagIcon className="UnderlineNav-octicon"/>
+				<TagIcon className={TagIcon.defaultProps.className + ' UnderlineNav-octicon'}/>
 				<span data-content="Releases">Releases</span>
 				{count && <span className="Counter">{count}</span>}
 			</a>

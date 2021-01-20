@@ -65,7 +65,7 @@ async function init(): Promise<void | false> {
 	if (bugsTabTitle) {
 		bugsTabTitle.dataset.content = 'Bugs';
 		bugsTabTitle.textContent = 'Bugs';
-		select('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline"/>);
+		select('.octicon', bugsTab)!.replaceWith(<BugIcon className={BugIcon.defaultProps.className + ' UnderlineNav-octicon d-none d-sm-inline'}/>);
 
 		// Un-select one of the tabs if necessary
 		const selectedTabLink = !isBugsPage || pageDetect.isPRList() ? bugsLink : select('.selected', issuesTab);

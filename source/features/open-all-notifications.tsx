@@ -61,7 +61,7 @@ function addOpenAllButton(): void {
 	// https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
 	select('.js-check-all-container .js-bulk-action-toasts ~ div .Box-header')!.append(
 		<button className="btn btn-sm rgh-open-notifications-button" type="button">
-			<LinkExternalIcon className="mr-1"/>Open all unread
+			<LinkExternalIcon className={LinkExternalIcon.defaultProps.className + ' mr-1'}/>Open all unread
 		</button>
 	);
 }
