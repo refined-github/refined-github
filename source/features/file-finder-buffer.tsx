@@ -10,7 +10,11 @@ const getBufferField = onetime((): HTMLInputElement => (
 	<input
 		type="text"
 		className="p-0 border-0"
-		style={{backgroundColor: 'transparent', outline: 0}}
+		style={{
+			backgroundColor: 'transparent',
+			outline: 0,
+			color: 'var(--color-text-primary)'
+		}}
 		placeholder="Search file…"
 	/> as unknown as HTMLInputElement
 ));
