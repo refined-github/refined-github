@@ -13,14 +13,6 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 	margin-top: -1px; /* Makes up for `.reaction-summary-item {border-top}` */
 }
 
-.reaction-summary-item.user-has-reacted {
-	--background: #f2f8fa;
-}
-
-[data-color-mode='dark'] .reaction-summary-item.user-has-reacted {
-	--background: #111d2f;
-}
-
 .reaction-summary-item a {
 	display: inline-block;
 	width: 2em;
@@ -29,7 +21,7 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 	margin-left: -0.5em;
 	vertical-align: middle;
 	background: var(--color-bg-canvas-inset, #efefef); /* Placeholder before the images load */
-	box-shadow: 0 0 0 2px var(--background, var(--color-bg-primary, #fff));
+	box-shadow: 0 0 0 2px var(--color-bg-info, #fff);
 	font-size: 10px; /* Base sizer */
 }
 
@@ -48,5 +40,5 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 /* This image will start at height:0 and will expand once loaded, covering the gray placeholder */
 .reaction-summary-item a img { /* `a` required for #3237 */
 	max-width: 100%;
-	background-color: var(--background);
+	background-color: var(--color-bg-info, #fff);
 }
