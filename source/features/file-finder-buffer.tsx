@@ -4,6 +4,7 @@ import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import isSafari from '../helpers/browser-detection';
 
 const getBufferField = onetime((): HTMLInputElement => (
 	<input
@@ -54,6 +55,9 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo
+	],
+	exclude: [
+		isSafari
 	],
 	awaitDomReady: false,
 	init: onetime(init)
