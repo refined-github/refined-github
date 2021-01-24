@@ -1,14 +1,4 @@
 .rgh-conflict-marker svg {
 	vertical-align: middle;
-	color: #c0c0c0;
-}
-
-[data-color-mode='dark'] .rgh-conflict-marker svg {
-	color: #505050;
-}
-
-@media (prefers-color-scheme: 'dark') {
-	[data-color-mode='auto'] .rgh-conflict-marker svg {
-		color: #505050;
-	}
+	color: var(--color-icon-warning);
 }
