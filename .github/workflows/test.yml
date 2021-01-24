@@ -6,7 +6,7 @@ on:
       - '*'
   push:
     branches:
-      - master
+      - main
       - 'test/*'
 
 jobs:
