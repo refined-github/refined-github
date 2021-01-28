@@ -6,20 +6,18 @@ import SearchQuery from '../github-helpers/search-query';
 import {getUsername} from '../github-helpers';
 
 function init(): void {
-	const sourceItem = select('.subnav-search-context li:nth-last-child(2)')!;
+	const sourceItem = select('#filters-select-menu a:nth-last-child(2)')!;
 
 	// Add "Everything commented by you" filter
-	const commentsMenuItem = sourceItem.cloneNode(true);
-	const commentsLink = select('a', commentsMenuItem)!;
+	const commentsLink = sourceItem.cloneNode(true);
 	commentsLink.textContent = 'Everything commented by you';
 	commentsLink.removeAttribute('target');
 	new SearchQuery(commentsLink).set(`is:open commenter:${getUsername()}`);
 
-	sourceItem.after(commentsMenuItem);
+	sourceItem.after(commentsLink);
 
 	// Add "Everything you subscribed to" link
-	const subscriptionsMenuItem = commentsMenuItem.cloneNode(true);
-	const subscriptionsLink = select('a', subscriptionsMenuItem)!;
+	const subscriptionsLink = commentsLink.cloneNode(true);
 	subscriptionsLink.textContent = 'Everything you subscribed to';
 
 	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
@@ -27,7 +25,7 @@ function init(): void {
 	subscriptionsUrl.searchParams.set('repository', btoa(`010:Repository${repositoryId}`));
 	subscriptionsLink.href = subscriptionsUrl.href;
 
-	commentsMenuItem.after(subscriptionsMenuItem);
+	commentsLink.after(subscriptionsLink);
 }
 
 void features.add(__filebasename, {

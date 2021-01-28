@@ -7,8 +7,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import SearchQuery from '../github-helpers/search-query';
 import {getRepo} from '../github-helpers';
+import SearchQuery from '../github-helpers/search-query';
 
 const numberFormatter = new Intl.NumberFormat();
 const countBugs = cache.function(async (): Promise<number> => {
@@ -34,7 +34,7 @@ async function init(): Promise<void | false> {
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-	const isBugsPage = new SearchQuery(location).includes('label:bug');
+	const isBugsPage = new SearchQuery(location.search).includes('label:bug');
 	if (!isBugsPage && await countPromise === 0) {
 		return false;
 	}
