@@ -19,7 +19,7 @@ function init(): void | false {
 		return false;
 	}
 
-	const createPrDropdownItems = select.all('.select-menu-item', previewForm);
+	const createPrButtonGroup = select(['.hx_create-pr-button', '.timeline-comment > :last-child > .BtnGroup']);
 
 	for (const dropdownItem of createPrDropdownItems) {
 		let title = select('.select-menu-item-heading', dropdownItem)!.textContent!.trim();
