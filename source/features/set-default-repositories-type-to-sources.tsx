@@ -29,6 +29,13 @@ async function init(): Promise<void> {
 	addSourceTypeToLink(select('.header-nav-current-user ~ a[href*="tab=repositories"]')!);
 }
 
+function profileDropdown () {
+	await onProfileDropdownLoad();
+	addSourceTypeToLink(select('.header-nav-current-user ~ a[href$="tab=repositories"]')!);		 
+}
+
 void features.add(__filebasename, {
+ 	init: once(profileDropdown)
+ }, {
 	init
 });
