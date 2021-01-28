@@ -17,7 +17,10 @@ const botSelectors = [
 
 function init(): void {
 	for (const bot of select.all(botSelectors)) {
-		bot.closest('.commit, .Box-row')!.classList.add('rgh-dim-bot');
+		// Exclude co-authored commits
+		if (select.all('a', bot.parentElement!).length === 1) {
+			bot.closest('.commit, .Box-row')!.classList.add('rgh-dim-bot');
+		}
 	}
 }
 
