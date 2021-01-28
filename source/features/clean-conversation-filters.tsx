@@ -33,8 +33,7 @@ function getCount(element: HTMLElement): number {
 async function hideMilestones(): Promise<void> {
 	const milestones = select('[data-selected-links^="repo_milestones"] .Counter')!;
 	if (getCount(milestones) === 0) {
-		const milestonesDropdown = await elementReady('[data-hotkey="m"]');
-		milestonesDropdown!.parentElement!.remove();
+		(await elementReady('[data-hotkey="m"]'))!.parentElement!.remove();
 	}
 }
 
@@ -56,8 +55,7 @@ async function hasProjects(): Promise<boolean> {
 
 async function hideProjects(): Promise<void> {
 	if (!await hasProjects()) {
-		const projectsDropdown = await elementReady('[data-hotkey="p"]');
-		projectsDropdown!.parentElement!.remove();
+		(await elementReady('[data-hotkey="p"]'))!.parentElement!.remove();
 	}
 }
 
