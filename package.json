@@ -55,6 +55,7 @@
 		"linkify-issues": "2.0.0-nolookbehind",
 		"linkify-urls": "3.1.0-nolookbehind",
 		"mem": "^8.0.0",
+		"once": "^1.4.0",
 		"one-event": "^2.0.0",
 		"one-mutation": "^1.0.0",
 		"onetime": "^5.1.2",
