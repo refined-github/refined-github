@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import once from 'once';
+import onetime from 'onetime';
 
 import features from '.';
 import onProfileDropdownLoad from '../github-events/on-profile-dropdown-load';
@@ -32,7 +32,7 @@ async function profileDropdown(): Promise<void> {
 }
 
 void features.add(__filebasename, {
-	init: once(profileDropdown)
+	init: onetime(profileDropdown)
 }, {
 	init
 });
