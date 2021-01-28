@@ -4,8 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-// eslint-disable-next-line import/prefer-default-export
-export const botSelectors = [
+const botSelectors = [
 	/* Commits */
 	'.commit-author[href$="%5Bbot%5D"]:first-child',
 	'.commit-author[href$="renovate-bot"]:first-child',
