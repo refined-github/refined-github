@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import once from 'once';
 
 import features from '.';
 import onProfileDropdownLoad from '../github-events/on-profile-dropdown-load';
@@ -23,15 +24,11 @@ async function init(): Promise<void> {
 	for (const link of links) {
 		addSourceTypeToLink(link);
 	}
-
-	// "Your repositories" in header dropdown
-	await onProfileDropdownLoad();
-	addSourceTypeToLink(select('.header-nav-current-user ~ a[href*="tab=repositories"]')!);
 }
 
-function profileDropdown () {
+async function profileDropdown () {
 	await onProfileDropdownLoad();
-	addSourceTypeToLink(select('.header-nav-current-user ~ a[href$="tab=repositories"]')!);		 
+	addSourceTypeToLink(select('.header-nav-current-user ~ a[href$="tab=repositories"]')!); // "Your repositories" in header dropdown
 }
 
 void features.add(__filebasename, {
