@@ -13,13 +13,13 @@ function init(): void | false {
 		return false;
 	}
 
-	const createPrButtonGroup = select('.hx_create-pr-button');
+	const createPrButtonGroup = select(['.hx_create-pr-button', '.timeline-comment > :last-child > .BtnGroup']);
 	if (!createPrButtonGroup) {
 		// Free accounts can't open Draft PRs in private repos, so this element is missing
 		return false;
 	}
 
-	const createPrButtonGroup = select(['.hx_create-pr-button', '.timeline-comment > :last-child > .BtnGroup']);
+	const createPrDropdownItems = select.all('.select-menu-item', previewForm);
 
 	for (const dropdownItem of createPrDropdownItems) {
 		let title = select('.select-menu-item-heading', dropdownItem)!.textContent!.trim();
