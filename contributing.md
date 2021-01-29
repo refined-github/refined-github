@@ -81,7 +81,7 @@ void features.add(__filebasename, {
 
 ## Requirements
 
-[Node.js](https://nodejs.org/en/download/) version 13 or later is required.
+[Node.js](https://nodejs.org/en/download/) version 15 is required.
 
 ## Workflow
 
