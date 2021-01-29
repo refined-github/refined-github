@@ -7,9 +7,10 @@ export default async function onProfileDropdownLoad(): Promise<Element> {
 	if (!dropdownContentExists()) {
 		await oneMutation(dropdown!, {childList: true, filter: dropdownContentExists});
 	}
+
 	return dropdown!;
 }
 
-function dropdownContentExists() {
-	return select.exists('.Header-item:last-child .dropdown-menu .dropdown-item')
+function dropdownContentExists(): boolean {
+	return select.exists('.Header-item:last-child .dropdown-menu .dropdown-item');
 }
