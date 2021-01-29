@@ -4,21 +4,21 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-const botSelectors = [
+const botSelector = [
 	/* Commits */
-	'.commit-author[href$="%5Bbot%5D"]:first-child',
-	'.commit-author[href$="renovate-bot"]:first-child',
-	'.commit-author[href$="scala-steward"]:first-child',
+	'.commit-author[href$="%5Bbot%5D"]',
+	'.commit-author[href$="renovate-bot"]',
+	'.commit-author[href$="scala-steward"]',
 
 	/* Issues/PRs */
 	'.opened-by [href*="author%3Aapp%2F"]',
 	'.labels [href$="label%3Abot"]'
-];
+].join();
 
 function init(): void {
-	for (const bot of select.all(botSelectors)) {
+	for (const bot of select.all(botSelector)) {
 		// Exclude co-authored commits
-		if (select.all('a', bot.parentElement!).length === 1) {
+		if (select.all('a', bot.parentElement!).every(link => link.matches(botSelector))) {
 			bot.closest('.commit, .Box-row')!.classList.add('rgh-dim-bot');
 		}
 	}
