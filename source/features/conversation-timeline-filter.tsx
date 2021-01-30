@@ -18,8 +18,7 @@ let currentSettings: FilterSettings = FilterSettings.ShowAll;
 const showFilterName = 'rgh-show-filter';
 const menuItemCheckbox = 'rgh-filter-menu-item-checkbox';
 
-// Every element on the timeline that is recognizable by this feature will be marked with tis class.
-const timelineFiltersSelectorId = 'timeline-filters';
+const timelineFiltersSelectorId = 'rgh-timeline-filters';
 
 const summaries = {
 	[FilterSettings.ShowAll]: '',
