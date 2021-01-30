@@ -125,14 +125,14 @@ async function addTimelineItemsFilter(): Promise<void> {
 }
 
 function processTimelineItem(item: HTMLElement): void {
-	const pr = select('.js-comment[id^=pullrequestreview]', item);
-	const normalComment = select('.js-comment-container', item);
-
-	if (pr) {
+	if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
+		// PR review thread
 		processPR(item);
-	} else if (normalComment) {
+	} else if (select.exists('.js-comment-container', item)) {
+		// regular comments
 		applyDisplay(item, FilterSettings.ShowOnlyComments, FilterSettings.ShowOnlyUnresolvedComments);
 	} else {
+		// other events
 		applyDisplay(item, FilterSettings.ShowAll);
 	}
 }
@@ -141,11 +141,9 @@ function processPR(item: HTMLElement): void {
 	let hasVisibleElement = false;
 
 	for (const threadContainer of select.all('.js-resolvable-timeline-thread-container', item)) {
-		const commentContainer = select('.inline-comment-form-container', threadContainer);
-
 		if (threadContainer.getAttribute('data-resolved') === 'true') {
 			applyDisplay(threadContainer, FilterSettings.ShowOnlyComments);
-		} else if (commentContainer === null) {
+		} else if (!select.exists('.inline-comment-form-container', threadContainer)) {
 			// There is 1 special case here when github shows you a comment that was added to previous comment thread but it does not show whether it is resolved or not resolved comment.
 			// It's kinda tricky to know what to do with this so it is marked as normal comment for meantime.
 			// We are just checking here if user is able to comment inside that timeline thread, if not then it means we have this special situation that was just described.
