@@ -13,6 +13,8 @@ enum FilterSettings {
 	ShowOnlyUnresolvedReviews = 4
 }
 
+let a = 0;
+
 let currentSettings: FilterSettings = FilterSettings.ShowAll;
 
 const showFilterName = 'rgh-show-filter';
@@ -102,7 +104,7 @@ async function addTimelineItemsFilter(): Promise<void> {
 			<details className="details-reset details-overlay select-menu hx_rsm">
 				<summary className="text-bold discussion-sidebar-heading discussion-sidebar-toggle hx_rsm-trigger" aria-haspopup="menu" data-hotkey="x" role="button">
 					<GearIcon/>
-					<p>Filters</p>
+					<p>Filters {a++}</p>
 					<div id={timelineFiltersSelectorId} />
 				</summary>
 
@@ -177,14 +179,12 @@ function applyDisplay(element: HTMLElement, ...displaySettings: FilterSettings[]
 }
 
 async function init(): Promise<any> {
-	await addTimelineItemsFilter();
-	regenerateFilterSummary();
-
 	// There are some cases when github will remove this filter. In that case we need to add it again.
 	// Example: Editing comment will make timeline filter to disappear.
-	observe(`#${timelineFiltersSelectorId}`, {
-		async remove() {
+	observe(`.discussion-sidebar-item.sidebar-notifications`, {
+		async add() {
 			await addTimelineItemsFilter();
+			regenerateFilterSummary();
 		}
 	});
 	observe(timelineItemSelector, {
