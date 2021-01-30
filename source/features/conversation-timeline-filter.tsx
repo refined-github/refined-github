@@ -74,8 +74,7 @@ function createRadio(
 		>
 			<CheckIcon
 				id={`rgh-filter-menu-item-checkbox-${filterSettings}`}
-				style={{display: checked ? 'inherit' : 'none'}}
-				className={`${menuItemCheckbox} select-menu-item-icon`}
+				className={`${menuItemCheckbox} select-menu-item-icon octicon octicon-check`}
 				aria-hidden="true"
 			/>
 			<div className="select-menu-item-text">
