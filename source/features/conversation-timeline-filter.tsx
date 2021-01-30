@@ -51,8 +51,6 @@ function regenerateFilterSummary(): void {
 		</div>
 	);
 
-	console.log("new summary : " + newSummary);
-
 	timelineFilter.replaceWith(newSummary);
 }
 
@@ -61,12 +59,12 @@ async function saveSettings(filterSettings: FilterSettings, test: string): Promi
 	regenerateFilterSummary();
 	reapplySettings();
 
-	select.all("." + menuItemCheckbox)
+	select.all('.' + menuItemCheckbox)
 		.forEach(el => {
-			el.style.display = "none"
+			el.style.display = 'none';
 		});
 
-	select(test)!.style.display = "";
+	select(test)!.style.display = '';
 }
 
 function reapplySettings(): void {
@@ -86,7 +84,7 @@ function restoreSettings(): void {
 function createRadio(title: string, summary: string, filterSettings: FilterSettings, checked: boolean): JSX.Element {
 	return (
 		<label onClick={() => saveSettings(filterSettings, "#rgh-filter-menu-item-checkbox-" + filterSettings)} className="select-menu-item d-flex" aria-checked={String(checked)} role="menuitemradio" tabIndex={0}>
-			<CheckIcon id={"rgh-filter-menu-item-checkbox-" + filterSettings} style={{display: checked ? "" : "none"}} className={menuItemCheckbox + " select-menu-item-icon"} aria-hidden="true"/>
+			<CheckIcon id={"rgh-filter-menu-item-checkbox-" + filterSettings} style={{display: checked ? 'inherit' : 'none'}} className={menuItemCheckbox + " select-menu-item-icon"} aria-hidden="true"/>
 			<div className="select-menu-item-text">
 				{title}
 				<div className="text-normal description">{summary}</div>
@@ -160,7 +158,7 @@ function processPR(item: HTMLElement): void {
 		hasVisibleElement = hasVisibleElement || threadContainer.style.display === '';
 	}
 
-	if (hasVisibleElement || currentSettings === FilterSettings.ShowAll) {
+	if (hasVisibleElement) {
 		item.style.display = '';
 	} else {
 		item.style.display = 'none';
