@@ -16,11 +16,10 @@ enum FilterSettings {
 let currentSettings: FilterSettings = FilterSettings.ShowAll;
 
 const showFilterName = 'rgh-show-filter';
-const filterFormId = 'show-filter-form';
+const menuItemCheckbox = 'rgh-filter-menu-item-checkbox';
 
 // Every element on the timeline that is recognizable by this feature will be marked with tis class.
 const timelineFiltersSelectorId = 'timeline-filters';
-const detailsSelector = `#${timelineFiltersSelectorId} details`;
 const timelineItemSelector = '.js-timeline-item';
 
 function regenerateFilterSummary(): void {
@@ -46,24 +45,27 @@ function regenerateFilterSummary(): void {
 	}
 
 	const newSummary = (
-		<p className="reason text-small text-gray">
+		<div id={timelineFiltersSelectorId} className="reason text-small text-gray">
 			{text}
-		</p>
+		</div>
 	);
 
-	select('p.reason', timelineFilter)!.replaceWith(newSummary);
+	console.log("new summary : " + newSummary);
+
+	timelineFilter.replaceWith(newSummary);
 }
 
-// @ts-expect-error TODO: adjust to new select menu
-async function saveSettings(): Promise<any> {
-	const formData = new FormData(select(`#${filterFormId}`));
-	currentSettings = Number.parseInt(formData.get(showFilterName) as string, 10);
-
-	// Close window
-	select(detailsSelector)!.removeAttribute('open');
-
+async function saveSettings(filterSettings: FilterSettings, test: string): Promise<any> {
+	currentSettings = filterSettings;
 	regenerateFilterSummary();
 	reapplySettings();
+
+	select.all("." + menuItemCheckbox)
+		.forEach(el => {
+			el.style.display = "none"
+		});
+
+	select(test)!.style.display = "";
 }
 
 function reapplySettings(): void {
@@ -82,10 +84,10 @@ function restoreSettings(): void {
 	select<HTMLInputElement>(`input[name=${showFilterName}][value="${currentSettings.valueOf()}"]`)!.checked = true;
 }
 
-function createRadio(title: string, summary: string, checked: boolean): JSX.Element {
+function createRadio(title: string, summary: string, filterSettings: FilterSettings, checked: boolean): JSX.Element {
 	return (
-		<label className="select-menu-item d-flex" aria-checked={String(checked)} role="menuitemradio" tabIndex={0}>
-			<CheckIcon className="select-menu-item-icon" aria-hidden="true"/>
+		<label onClick={() => saveSettings(filterSettings, "#rgh-filter-menu-item-checkbox-" + filterSettings)} className="select-menu-item d-flex" aria-checked={String(checked)} role="menuitemradio" tabIndex={0}>
+			<CheckIcon id={"rgh-filter-menu-item-checkbox-" + filterSettings} style={{display: checked ? "" : "none"}} className={menuItemCheckbox + " select-menu-item-icon"} aria-hidden="true"/>
 			<div className="select-menu-item-text">
 				{title}
 				<div className="text-normal description">{summary}</div>
@@ -100,7 +102,8 @@ async function addTimelineItemsFilter(): Promise<void> {
 			<details className="details-reset details-overlay select-menu hx_rsm">
 				<summary className="text-bold discussion-sidebar-heading discussion-sidebar-toggle hx_rsm-trigger" aria-haspopup="menu" data-hotkey="x" role="button">
 					<GearIcon/>
-					Filters
+					<p>Filters</p>
+					<div id={timelineFiltersSelectorId} />
 				</summary>
 
 				<details-menu className="select-menu-modal position-absolute right-0 hx_rsm-modal js-discussion-sidebar-menu" style={{zIndex: 99}}>
@@ -111,10 +114,10 @@ async function addTimelineItemsFilter(): Promise<void> {
 						</button>
 					</div>
 					<div className="hx_rsm-content" role="menu">
-						{createRadio('Show all', '', true)}
-						{createRadio('Show only comments', 'Hides commits and events', false)}
-						{createRadio('Show only unresolved comments', 'Also hides resolved reviews and hidden comments', false)}
-						{pageDetect.isPRConversation() && createRadio('Show only unresolved reviews', 'Also hides regular comments', false)}
+						{createRadio('Show all', '', FilterSettings.ShowAll, true)}
+						{createRadio('Show only comments', 'Hides commits and events', FilterSettings.ShowOnlyComments, false)}
+						{createRadio('Show only unresolved comments', 'Also hides resolved reviews and hidden comments', FilterSettings.ShowOnlyUnresolvedComments,  false)}
+						{pageDetect.isPRConversation() && createRadio('Show only unresolved reviews', 'Also hides regular comments', FilterSettings.ShowOnlyUnresolvedReviews, false)}
 					</div>
 				</details-menu>
 			</details>
@@ -158,7 +161,7 @@ function processPR(item: HTMLElement): void {
 		hasVisibleElement = hasVisibleElement || threadContainer.style.display === '';
 	}
 
-	if (hasVisibleElement) {
+	if (hasVisibleElement || currentSettings === FilterSettings.ShowAll) {
 		item.style.display = '';
 	} else {
 		item.style.display = 'none';
@@ -175,6 +178,7 @@ function applyDisplay(element: HTMLElement, ...displaySettings: FilterSettings[]
 
 async function init(): Promise<any> {
 	await addTimelineItemsFilter();
+	regenerateFilterSummary();
 
 	// There are some cases when github will remove this filter. In that case we need to add it again.
 	// Example: Editing comment will make timeline filter to disappear.
