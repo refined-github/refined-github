@@ -38,10 +38,10 @@ async function saveSettings(filterSettings: FilterSettings, test: string): Promi
 
 	select.all('.' + menuItemCheckbox)
 		.forEach(element => {
-			element.style.display = 'none';
+			element.hidden = true;
 		});
 
-	select(test)!.style.display = '';
+	select(test)!.hidden = false;
 }
 
 function reapplySettings(): void {
@@ -194,14 +194,10 @@ function processPR(item: HTMLElement): void {
 		}
 
 		// We need to hide whole thread group if we have hidden all comments inside.
-		hasVisibleElement = hasVisibleElement || threadContainer.style.display === '';
+		hasVisibleElement = hasVisibleElement || !threadContainer.hidden;
 	}
 
-	if (hasVisibleElement) {
-		item.style.display = '';
-	} else {
-		item.style.display = 'none';
-	}
+	item.hidden = !hasVisibleElement;
 }
 
 function applyDisplay(
@@ -212,9 +208,9 @@ function applyDisplay(
 		displaySettings.includes(currentSettings) ||
 		currentSettings === FilterSettings.ShowAll
 	) {
-		element.style.display = '';
+		element.hidden = false;
 	} else {
-		element.style.display = 'none';
+		element.hidden = true;
 	}
 }
 
