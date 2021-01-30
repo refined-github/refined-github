@@ -13,8 +13,6 @@ enum FilterSettings {
 	ShowOnlyUnresolvedReviews = 4
 }
 
-let a = 0;
-
 let currentSettings: FilterSettings = FilterSettings.ShowAll;
 
 const showFilterName = 'rgh-show-filter';
@@ -23,34 +21,21 @@ const menuItemCheckbox = 'rgh-filter-menu-item-checkbox';
 // Every element on the timeline that is recognizable by this feature will be marked with tis class.
 const timelineFiltersSelectorId = 'timeline-filters';
 
+const summaries = {
+	[FilterSettings.ShowOnlyComments]: 'Show only comments',
+	[FilterSettings.ShowOnlyUnresolvedComments]: 'Show only unresolved reviews',
+	[FilterSettings.ShowOnlyUnresolvedReviews]: 'Show unresolved comments',
+	[FilterSettings.ShowAll]: ''
+};
+
 function regenerateFilterSummary(): void {
 	const timelineFilter = select(`#${timelineFiltersSelectorId}`)!;
-
-	let text = '';
-	switch (currentSettings) {
-		case FilterSettings.ShowAll:
-			text = '';
-			break;
-		case FilterSettings.ShowOnlyComments:
-			text = 'Show only comments';
-			break;
-		case FilterSettings.ShowOnlyUnresolvedReviews:
-			text = 'Show only unresolved reviews';
-			break;
-		case FilterSettings.ShowOnlyUnresolvedComments:
-			text = 'Show unresolved comments';
-			break;
-		default:
-			text = '';
-			break;
-	}
-
+	let text = summaries[currentSettings];
 	const newSummary = (
 		<div id={timelineFiltersSelectorId} className="reason text-small text-gray">
 			{text}
 		</div>
 	);
-
 	timelineFilter.replaceWith(newSummary);
 }
 
@@ -99,7 +84,7 @@ async function addTimelineItemsFilter(): Promise<void> {
 			<details className="details-reset details-overlay select-menu hx_rsm">
 				<summary className="text-bold discussion-sidebar-heading discussion-sidebar-toggle hx_rsm-trigger" aria-haspopup="menu" data-hotkey="x" role="button">
 					<GearIcon/>
-					<p>Filters {a++}</p>
+					<p>Filters</p>
 					<div id={timelineFiltersSelectorId} />
 				</summary>
 
