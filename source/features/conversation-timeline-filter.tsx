@@ -59,10 +59,26 @@ function restoreSettings(): void {
 	select<HTMLInputElement>(`input[name=${showFilterName}][value="${currentSettings.valueOf()}"]`)!.checked = true;
 }
 
-function createRadio(title: string, summary: string, filterSettings: FilterSettings, checked: boolean): JSX.Element {
+function createRadio(
+	title: string,
+	summary: string,
+	filterSettings: FilterSettings,
+	checked: boolean
+): JSX.Element {
 	return (
-		<label className="select-menu-item d-flex" aria-checked={String(checked)} role="menuitemradio" tabIndex={0} onClick={async () => saveSettings(filterSettings, `#rgh-filter-menu-item-checkbox-${filterSettings}`)}>
-			<CheckIcon id={`rgh-filter-menu-item-checkbox-${filterSettings}`} style={{display: checked ? 'inherit' : 'none'}} className={`${menuItemCheckbox} select-menu-item-icon`} aria-hidden="true"/>
+		<label
+			className="select-menu-item d-flex"
+			aria-checked={String(checked)}
+			role="menuitemradio"
+			tabIndex={0}
+			onClick={async () => saveSettings(filterSettings, `#rgh-filter-menu-item-checkbox-${filterSettings}`)}
+		>
+			<CheckIcon
+				id={`rgh-filter-menu-item-checkbox-${filterSettings}`}
+				style={{display: checked ? 'inherit' : 'none'}}
+				className={`${menuItemCheckbox} select-menu-item-icon`}
+				aria-hidden="true"
+			/>
 			<div className="select-menu-item-text">
 				{title}
 				<div className="text-normal description">{summary}</div>
@@ -75,24 +91,57 @@ async function addTimelineItemsFilter(): Promise<void> {
 	select('#partial-users-participants')!.before(
 		<div className="discussion-sidebar-item js-discussion-sidebar-item">
 			<details className="details-reset details-overlay select-menu hx_rsm">
-				<summary className="text-bold discussion-sidebar-heading discussion-sidebar-toggle hx_rsm-trigger" aria-haspopup="menu" data-hotkey="x" role="button">
+				<summary
+					className="text-bold discussion-sidebar-heading discussion-sidebar-toggle hx_rsm-trigger"
+					aria-haspopup="menu"
+					data-hotkey="x"
+					role="button"
+				>
 					<GearIcon/>
 					<p>Filters</p>
 					<div id={timelineFiltersSelectorId}/>
 				</summary>
 
-				<details-menu className="select-menu-modal position-absolute right-0 hx_rsm-modal js-discussion-sidebar-menu" style={{zIndex: 99}}>
+				<details-menu
+					className="select-menu-modal position-absolute right-0 hx_rsm-modal js-discussion-sidebar-menu"
+					style={{zIndex: 99}}
+				>
 					<div className="select-menu-header">
 						<span className="select-menu-title">Temporarily hide content</span>
-						<button className="hx_rsm-close-button btn-link close-button" type="button" data-toggle-for="reference-select-menu">
+						<button
+							className="hx_rsm-close-button btn-link close-button"
+							type="button"
+							data-toggle-for="reference-select-menu"
+						>
 							<XIcon aria-label="Close menu" role="img"/>
 						</button>
 					</div>
 					<div className="hx_rsm-content" role="menu">
-						{createRadio('Show all', '', FilterSettings.ShowAll, true)}
-						{createRadio('Show only comments', 'Hides commits and events', FilterSettings.ShowOnlyComments, false)}
-						{createRadio('Show only unresolved comments', 'Also hides resolved reviews and hidden comments', FilterSettings.ShowOnlyUnresolvedComments, false)}
-						{pageDetect.isPRConversation() && createRadio('Show only unresolved reviews', 'Also hides regular comments', FilterSettings.ShowOnlyUnresolvedReviews, false)}
+						{createRadio(
+							'Show all',
+							'',
+							FilterSettings.ShowAll,
+							true
+						)}
+						{createRadio(
+							'Show only comments',
+							'Hides commits and events',
+							FilterSettings.ShowOnlyComments,
+							false
+						)}
+						{createRadio(
+							'Show only unresolved comments',
+							'Also hides resolved reviews and hidden comments',
+							FilterSettings.ShowOnlyUnresolvedComments,
+							false
+						)}
+						{pageDetect.isPRConversation() &&
+							createRadio(
+								'Show only unresolved reviews',
+								'Also hides regular comments',
+								FilterSettings.ShowOnlyUnresolvedReviews,
+								false
+							)}
 					</div>
 				</details-menu>
 			</details>
@@ -108,7 +157,11 @@ function processTimelineItem(item: HTMLElement): void {
 		processPR(item);
 	} else if (select.exists('.js-comment-container', item)) {
 		// Regular comments
-		applyDisplay(item, FilterSettings.ShowOnlyComments, FilterSettings.ShowOnlyUnresolvedComments);
+		applyDisplay(
+			item,
+			FilterSettings.ShowOnlyComments,
+			FilterSettings.ShowOnlyUnresolvedComments
+		);
 	} else {
 		// Other events
 		applyDisplay(item, FilterSettings.ShowAll);
@@ -121,13 +174,24 @@ function processPR(item: HTMLElement): void {
 	for (const threadContainer of select.all('.js-resolvable-timeline-thread-container', item)) {
 		if (threadContainer.getAttribute('data-resolved') === 'true') {
 			applyDisplay(threadContainer, FilterSettings.ShowOnlyComments);
-		} else if (select.exists('.inline-comment-form-container', threadContainer)) {
-			applyDisplay(threadContainer, FilterSettings.ShowOnlyUnresolvedComments, FilterSettings.ShowOnlyUnresolvedReviews, FilterSettings.ShowOnlyComments);
+		} else if (
+			select.exists('.inline-comment-form-container', threadContainer)
+		) {
+			applyDisplay(
+				threadContainer,
+				FilterSettings.ShowOnlyUnresolvedComments,
+				FilterSettings.ShowOnlyUnresolvedReviews,
+				FilterSettings.ShowOnlyComments
+			);
 		} else {
 			// There is 1 special case here when github shows you a comment that was added to previous comment thread but it does not show whether it is resolved or not resolved comment.
 			// It's kinda tricky to know what to do with this so it is marked as normal comment for meantime.
 			// We are just checking here if user is able to comment inside that timeline thread, if not then it means we have this special situation that was just described.
-			applyDisplay(threadContainer, FilterSettings.ShowOnlyComments, FilterSettings.ShowOnlyUnresolvedComments);
+			applyDisplay(
+				threadContainer,
+				FilterSettings.ShowOnlyComments,
+				FilterSettings.ShowOnlyUnresolvedComments
+			);
 		}
 
 		// We need to hide whole thread group if we have hidden all comments inside.
@@ -141,8 +205,14 @@ function processPR(item: HTMLElement): void {
 	}
 }
 
-function applyDisplay(element: HTMLElement, ...displaySettings: FilterSettings[]): void {
-	if (displaySettings.includes(currentSettings) || currentSettings === FilterSettings.ShowAll) {
+function applyDisplay(
+	element: HTMLElement,
+	...displaySettings: FilterSettings[]
+): void {
+	if (
+		displaySettings.includes(currentSettings) ||
+		currentSettings === FilterSettings.ShowAll
+	) {
 		element.style.display = '';
 	} else {
 		element.style.display = 'none';
