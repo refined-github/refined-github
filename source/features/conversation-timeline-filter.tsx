@@ -22,7 +22,6 @@ const menuItemCheckbox = 'rgh-filter-menu-item-checkbox';
 
 // Every element on the timeline that is recognizable by this feature will be marked with tis class.
 const timelineFiltersSelectorId = 'timeline-filters';
-const timelineItemSelector = '.js-timeline-item';
 
 function regenerateFilterSummary(): void {
 	const timelineFilter = select(`#${timelineFiltersSelectorId}`)!;
@@ -72,7 +71,7 @@ async function saveSettings(filterSettings: FilterSettings, test: string): Promi
 
 function reapplySettings(): void {
 	select
-		.all(timelineItemSelector)
+		.all(".js-timeline-item")
 		.forEach(element => {
 			processTimelineItem(element);
 		});
@@ -187,7 +186,7 @@ async function init(): Promise<any> {
 			regenerateFilterSummary();
 		}
 	});
-	observe(timelineItemSelector, {
+	observe(".js-timeline-item", {
 		add(element) {
 			const htmlElement = element as HTMLElement;
 			processTimelineItem(htmlElement);
