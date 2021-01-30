@@ -22,21 +22,14 @@ const menuItemCheckbox = 'rgh-filter-menu-item-checkbox';
 const timelineFiltersSelectorId = 'timeline-filters';
 
 const summaries = {
+	[FilterSettings.ShowAll]: '',
 	[FilterSettings.ShowOnlyComments]: 'Show only comments',
 	[FilterSettings.ShowOnlyUnresolvedComments]: 'Show only unresolved reviews',
 	[FilterSettings.ShowOnlyUnresolvedReviews]: 'Show unresolved comments',
-	[FilterSettings.ShowAll]: ''
 };
 
 function regenerateFilterSummary(): void {
-	const timelineFilter = select(`#${timelineFiltersSelectorId}`)!;
-	let text = summaries[currentSettings];
-	const newSummary = (
-		<div id={timelineFiltersSelectorId} className="reason text-small text-gray">
-			{text}
-		</div>
-	);
-	timelineFilter.replaceWith(newSummary);
+	select(`#${timelineFiltersSelectorId}`)!.textContent = summaries[currentSettings];
 }
 
 async function saveSettings(filterSettings: FilterSettings, test: string): Promise<any> {
@@ -45,8 +38,8 @@ async function saveSettings(filterSettings: FilterSettings, test: string): Promi
 	reapplySettings();
 
 	select.all('.' + menuItemCheckbox)
-		.forEach(el => {
-			el.style.display = 'none';
+		.forEach(element => {
+			element.style.display = 'none';
 		});
 
 	select(test)!.style.display = '';
@@ -68,8 +61,8 @@ function restoreSettings(): void {
 
 function createRadio(title: string, summary: string, filterSettings: FilterSettings, checked: boolean): JSX.Element {
 	return (
-		<label onClick={() => saveSettings(filterSettings, "#rgh-filter-menu-item-checkbox-" + filterSettings)} className="select-menu-item d-flex" aria-checked={String(checked)} role="menuitemradio" tabIndex={0}>
-			<CheckIcon id={"rgh-filter-menu-item-checkbox-" + filterSettings} style={{display: checked ? 'inherit' : 'none'}} className={menuItemCheckbox + " select-menu-item-icon"} aria-hidden="true"/>
+		<label className="select-menu-item d-flex" aria-checked={String(checked)} role="menuitemradio" tabIndex={0} onClick={async () => saveSettings(filterSettings, `#rgh-filter-menu-item-checkbox-${filterSettings}`)}>
+			<CheckIcon id={`rgh-filter-menu-item-checkbox-${filterSettings}`} style={{display: checked ? 'inherit' : 'none'}} className={`${menuItemCheckbox} select-menu-item-icon`} aria-hidden="true"/>
 			<div className="select-menu-item-text">
 				{title}
 				<div className="text-normal description">{summary}</div>
@@ -85,7 +78,7 @@ async function addTimelineItemsFilter(): Promise<void> {
 				<summary className="text-bold discussion-sidebar-heading discussion-sidebar-toggle hx_rsm-trigger" aria-haspopup="menu" data-hotkey="x" role="button">
 					<GearIcon/>
 					<p>Filters</p>
-					<div id={timelineFiltersSelectorId} />
+					<div id={timelineFiltersSelectorId}/>
 				</summary>
 
 				<details-menu className="select-menu-modal position-absolute right-0 hx_rsm-modal js-discussion-sidebar-menu" style={{zIndex: 99}}>
@@ -98,7 +91,7 @@ async function addTimelineItemsFilter(): Promise<void> {
 					<div className="hx_rsm-content" role="menu">
 						{createRadio('Show all', '', FilterSettings.ShowAll, true)}
 						{createRadio('Show only comments', 'Hides commits and events', FilterSettings.ShowOnlyComments, false)}
-						{createRadio('Show only unresolved comments', 'Also hides resolved reviews and hidden comments', FilterSettings.ShowOnlyUnresolvedComments,  false)}
+						{createRadio('Show only unresolved comments', 'Also hides resolved reviews and hidden comments', FilterSettings.ShowOnlyUnresolvedComments, false)}
 						{pageDetect.isPRConversation() && createRadio('Show only unresolved reviews', 'Also hides regular comments', FilterSettings.ShowOnlyUnresolvedReviews, false)}
 					</div>
 				</details-menu>
@@ -114,10 +107,10 @@ function processTimelineItem(item: HTMLElement): void {
 		// PR review thread
 		processPR(item);
 	} else if (select.exists('.js-comment-container', item)) {
-		// regular comments
+		// Regular comments
 		applyDisplay(item, FilterSettings.ShowOnlyComments, FilterSettings.ShowOnlyUnresolvedComments);
 	} else {
-		// other events
+		// Other events
 		applyDisplay(item, FilterSettings.ShowAll);
 	}
 }
@@ -128,13 +121,14 @@ function processPR(item: HTMLElement): void {
 	for (const threadContainer of select.all('.js-resolvable-timeline-thread-container', item)) {
 		if (threadContainer.getAttribute('data-resolved') === 'true') {
 			applyDisplay(threadContainer, FilterSettings.ShowOnlyComments);
-		} else if (!select.exists('.inline-comment-form-container', threadContainer)) {
+		} else if (select.exists('.inline-comment-form-container', threadContainer)) {
+			applyDisplay(threadContainer, FilterSettings.ShowOnlyUnresolvedComments, FilterSettings.ShowOnlyUnresolvedReviews, FilterSettings.ShowOnlyComments);
+
+		} else {
 			// There is 1 special case here when github shows you a comment that was added to previous comment thread but it does not show whether it is resolved or not resolved comment.
 			// It's kinda tricky to know what to do with this so it is marked as normal comment for meantime.
 			// We are just checking here if user is able to comment inside that timeline thread, if not then it means we have this special situation that was just described.
 			applyDisplay(threadContainer, FilterSettings.ShowOnlyComments, FilterSettings.ShowOnlyUnresolvedComments);
-		} else {
-			applyDisplay(threadContainer, FilterSettings.ShowOnlyUnresolvedComments, FilterSettings.ShowOnlyUnresolvedReviews, FilterSettings.ShowOnlyComments);
 		}
 
 		// We need to hide whole thread group if we have hidden all comments inside.
@@ -159,12 +153,12 @@ function applyDisplay(element: HTMLElement, ...displaySettings: FilterSettings[]
 async function init(): Promise<any> {
 	// There are some cases when github will remove this filter. In that case we need to add it again.
 	// Example: Editing comment will make timeline filter to disappear.
-	observe(`.discussion-sidebar-item.sidebar-notifications`, {
+	observe('.discussion-sidebar-item.sidebar-notifications', {
 		async add() {
 			await addTimelineItemsFilter();
 		}
 	});
-	observe(".js-timeline-item", {
+	observe('.js-timeline-item', {
 		add(element) {
 			const htmlElement = element as HTMLElement;
 			processTimelineItem(htmlElement);
