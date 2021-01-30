@@ -87,7 +87,7 @@ function createRadio(
 
 async function addTimelineItemsFilter(): Promise<void> {
 	select('#partial-users-participants')!.before(
-		<div className="discussion-sidebar-item js-discussion-sidebar-item">
+		<div className="discussion-sidebar-item js-discussion-sidebar-item rgh-clean-sidebar">
 			<details className="details-reset details-overlay select-menu hx_rsm">
 				<summary
 					className="text-bold discussion-sidebar-heading discussion-sidebar-toggle hx_rsm-trigger"
@@ -96,7 +96,7 @@ async function addTimelineItemsFilter(): Promise<void> {
 					role="button"
 				>
 					<GearIcon/>
-					<p>Filters</p>
+					Filters
 					<div id={timelineFiltersSelectorId}/>
 				</summary>
 
