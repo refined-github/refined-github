@@ -29,7 +29,7 @@ function regenerateFilterSummary(): void {
 	let text = '';
 	switch (currentSettings) {
 		case FilterSettings.ShowAll:
-			text = 'Show All';
+			text = '';
 			break;
 		case FilterSettings.ShowOnlyComments:
 			text = 'Show only comments';
@@ -70,11 +70,9 @@ async function saveSettings(filterSettings: FilterSettings, test: string): Promi
 }
 
 function reapplySettings(): void {
-	select
-		.all(".js-timeline-item")
-		.forEach(element => {
-			processTimelineItem(element);
-		});
+	for (const element of select.all('.js-timeline-item')) {
+		processTimelineItem(element);
+	}
 }
 
 // @ts-expect-error TODO: adjust to new select menu
@@ -183,7 +181,6 @@ async function init(): Promise<any> {
 	observe(`.discussion-sidebar-item.sidebar-notifications`, {
 		async add() {
 			await addTimelineItemsFilter();
-			regenerateFilterSummary();
 		}
 	});
 	observe(".js-timeline-item", {
