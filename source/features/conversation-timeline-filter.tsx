@@ -25,7 +25,7 @@ const summaries = {
 	[FilterSettings.ShowAll]: '',
 	[FilterSettings.ShowOnlyComments]: 'Show only comments',
 	[FilterSettings.ShowOnlyUnresolvedComments]: 'Show only unresolved reviews',
-	[FilterSettings.ShowOnlyUnresolvedReviews]: 'Show unresolved comments',
+	[FilterSettings.ShowOnlyUnresolvedReviews]: 'Show unresolved comments'
 };
 
 function regenerateFilterSummary(): void {
@@ -123,7 +123,6 @@ function processPR(item: HTMLElement): void {
 			applyDisplay(threadContainer, FilterSettings.ShowOnlyComments);
 		} else if (select.exists('.inline-comment-form-container', threadContainer)) {
 			applyDisplay(threadContainer, FilterSettings.ShowOnlyUnresolvedComments, FilterSettings.ShowOnlyUnresolvedReviews, FilterSettings.ShowOnlyComments);
-
 		} else {
 			// There is 1 special case here when github shows you a comment that was added to previous comment thread but it does not show whether it is resolved or not resolved comment.
 			// It's kinda tricky to know what to do with this so it is marked as normal comment for meantime.
