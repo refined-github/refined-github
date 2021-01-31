@@ -37,10 +37,9 @@ async function saveSettings(filterSettings: FilterSettings, test: string): Promi
 	regenerateFilterSummary();
 	reapplySettings();
 
-	select.all('.' + menuItemCheckbox)
-		.forEach(element => {
-			element.style.display = 'none';
-		});
+	for (const element of select.all(`.${menuItemCheckbox}`)) {
+		element.style.display = 'none';
+	}
 
 	select(test)!.style.display = '';
 }
