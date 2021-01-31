@@ -37,7 +37,7 @@ async function saveSettings(filterSettings: FilterSettings, test: string): Promi
 	reapplySettings();
 
 	for (const element of select.all(`.${menuItemCheckbox}`)) {
-		element.style.display = 'none';
+		element.hidden = true;
 	}
 
 	select(test)!.hidden = false;
