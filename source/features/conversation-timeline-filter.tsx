@@ -49,14 +49,6 @@ function reapplySettings(): void {
 	}
 }
 
-// @ts-expect-error TODO: adjust to new select menu
-function restoreSettings(): void {
-	select.all<HTMLInputElement>(`#${showFilterName}`).forEach(element => {
-		element.checked = false;
-	});
-	select<HTMLInputElement>(`input[name=${showFilterName}][value="${currentSettings.valueOf()}"]`)!.checked = true;
-}
-
 function createRadio(
 	title: string,
 	summary: string,
