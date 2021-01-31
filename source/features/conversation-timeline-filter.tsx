@@ -88,7 +88,6 @@ async function addTimelineItemsFilter(): Promise<void> {
 				>
 					<GearIcon/>
 					Filters
-					<div id={timelineFiltersSelectorId}/>
 				</summary>
 
 				<details-menu
@@ -135,7 +134,7 @@ async function addTimelineItemsFilter(): Promise<void> {
 				</details-menu>
 			</details>
 
-			<p className="reason text-small text-gray"/>
+			<p id={timelineFiltersSelectorId} className="reason text-small text-gray"/>
 		</div>
 	);
 }
