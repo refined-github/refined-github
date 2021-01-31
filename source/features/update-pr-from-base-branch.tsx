@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import debounce from 'debounce-fn';
 import delegate from 'delegate-it';
 import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -53,41 +54,37 @@ function createButton(): HTMLElement {
 	return <span className="status-meta rgh-update-pr-from-base-branch">You can {button}.</span>;
 }
 
-async function addButton(): Promise<void> {
-	if (select.exists('.rgh-update-pr-from-base-branch, .branch-action-btn:not([action$="ready_for_review"]) > .btn')) {
-		return;
-	}
+const addButton = debounce(
+	async () => {
+		if (select.exists('.rgh-update-pr-from-base-branch, .branch-action-btn:not([action$="ready_for_review"]) > .btn')) {
+			return;
+		}
 
-	const stillLoading = select('#partial-pull-merging poll-include-fragment');
-	if (stillLoading) {
-		stillLoading.addEventListener('load', addButton);
-		return;
-	}
+		const {base, head} = getBranches();
 
-	const {base, head} = getBranches();
+		if (head === 'unknown repository') {
+			return;
+		}
 
-	if (head === 'unknown repository') {
-		return;
-	}
+		// Draft PRs already have this info on the page
+		const outOfDateContainer = select.all('.completeness-indicator-problem + .status-heading')
+			.find(title => title.textContent!.includes('out-of-date'));
+		if (outOfDateContainer) {
+			const meta = outOfDateContainer.nextElementSibling!;
+			meta.after(' ', createButton());
+			return;
+		}
 
-	// Draft PRs already have this info on the page
-	const outOfDateContainer = select.all('.completeness-indicator-problem + .status-heading')
-		.find(title => title.textContent!.includes('out-of-date'));
-	if (outOfDateContainer) {
-		const meta = outOfDateContainer.nextElementSibling!;
-		meta.after(' ', createButton());
-		return;
-	}
+		const {status} = await api.v3(`compare/${base}...${head}`);
+		if (status !== 'diverged') {
+			return;
+		}
 
-	const {status} = await api.v3(`compare/${base}...${head}`);
-	if (status !== 'diverged') {
-		return;
-	}
-
-	for (const meta of select.all('.mergeability-details > :not(.js-details-container) .status-meta')) {
-		meta.after(' ', createButton());
-	}
-}
+		for (const meta of select.all('.mergeability-details > :not(.js-details-container) .status-meta')) {
+			meta.after(' ', createButton());
+		}
+	}, {wait: 1000}
+);
 
 async function init(): Promise<void | false> {
 	await api.expectToken();
