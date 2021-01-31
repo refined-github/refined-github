@@ -83,7 +83,7 @@ const addButton = debounce(
 		for (const meta of select.all('.mergeability-details > :not(.js-details-container) .status-meta')) {
 			meta.after(' ', createButton());
 		}
-	}, {wait: 1000}
+	}, {wait: 800}
 );
 
 async function init(): Promise<void | false> {
