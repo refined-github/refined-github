@@ -1,15 +1,16 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
-import {observe} from 'selector-observer';
 import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import {observe, Observer} from 'selector-observer';
 
 import features from '.';
 import * as api from '../github-helpers/api';
 import {getConversationNumber} from '../github-helpers';
 
 const selectorForPushablePRNotice = '.merge-pr > .text-gray:first-child:not(.rgh-update-pr)';
+let observer: Observer;
 
 function getBranches(): {base: string; head: string} {
 	return {
@@ -36,6 +37,7 @@ async function handler({currentTarget}: React.MouseEvent): Promise<void> {
 
 	const statusMeta = currentTarget.parentElement!;
 	statusMeta.textContent = 'Updating branch…';
+	observer.abort();
 
 	const response = await mergeBranches();
 	if (response.ok) {
@@ -61,7 +63,7 @@ async function addButton(position: Element): Promise<void> {
 }
 
 const waitForText = onetime(() => {
-	observe(selectorForPushablePRNotice, {
+	observer = observe(selectorForPushablePRNotice, {
 		add(position) {
 			position.classList.add('rgh-update-pr');
 			void addButton(position);
