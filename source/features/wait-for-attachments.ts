@@ -9,7 +9,7 @@ const attributeBackup = 'data-rgh-required-trimmed';
 
 function toggleSubmitButtons({target, type}: Event): void {
 	const form = target as HTMLFormElement;
-	const textarea = select(`[${attribute}], [${attributeBackup}]`, form)!;
+	const textarea = select('textarea', form)!;
 	if (type === 'upload:setup') {
 		textarea.setAttribute(attributeBackup, textarea.getAttribute(attribute)!);
 		textarea.removeAttribute(attribute);
