@@ -5,23 +5,16 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function init(): void | false {
-	const previewForm = select('.new-pr-form');
-
-	// PRs can't be created from some comparison pages:
-	// Either base is a tag, not a branch; or there already exists a PR.
-	if (!previewForm) {
+	const draftPROption = select('.new-pr-form [name="draft"]');
+	if (!draftPROption) {
+		// 1. Free accounts can't open Draft PRs in private repos, so this element is missing
+		// 2. PRs can't be created from some comparison pages: Either base is a tag, not a branch; or there already exists a PR.
 		return false;
 	}
 
-	const createPrButtonGroup = select('.hx_create-pr-button');
-	if (!createPrButtonGroup) {
-		// Free accounts can't open Draft PRs in private repos, so this element is missing
-		return false;
-	}
+	const initialGroupedButtons = draftPROption.closest('.BtnGroup')!;
 
-	const createPrDropdownItems = select.all('.select-menu-item', previewForm);
-
-	for (const dropdownItem of createPrDropdownItems) {
+	for (const dropdownItem of select.all('.select-menu-item', initialGroupedButtons)) {
 		let title = select('.select-menu-item-heading', dropdownItem)!.textContent!.trim();
 		const description = select('.description', dropdownItem)!.textContent!.trim();
 		const radioButton = select('input[type=radio]', dropdownItem)!;
@@ -33,7 +26,7 @@ function init(): void | false {
 			classList.push('btn-primary');
 		}
 
-		createPrButtonGroup.after(
+		initialGroupedButtons.after(
 			<button
 				className={classList.join(' ')}
 				aria-label={description}
@@ -46,8 +39,7 @@ function init(): void | false {
 		);
 	}
 
-	select('details', createPrButtonGroup.parentElement!)!.remove();
-	createPrButtonGroup.remove();
+	initialGroupedButtons.remove();
 }
 
 void features.add(__filebasename, {
