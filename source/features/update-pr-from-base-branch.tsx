@@ -56,7 +56,7 @@ async function addButton(position: Element): Promise<void> {
 	if (status === 'diverged') {
 		position.append(' ', (
 			<span className="status-meta d-inline-block rgh-update-pr-from-base-branch">
-				You can <button type="button" className="btn-link" onClick={handler}>update the PR</button>.
+				You can <button type="button" className="btn-link" onClick={handler}>update the base branch</button>.
 			</span>
 		));
 	}
