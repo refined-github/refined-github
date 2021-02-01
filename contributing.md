@@ -113,6 +113,6 @@ npm run start # Open extension in Chrome
 npm run start:firefox # Open extension in Firefox
 ```
 
-Note: They both require [web-ext](https://github.com/mozilla/web-ext) to be installed globally. Run `npm i -g web-ext`
+**Note**: They both require [web-ext](https://github.com/mozilla/web-ext) to be installed globally. Run `npm i -g web-ext`
 
 Or you can [load it manually in Chrome](https://www.smashingmagazine.com/2017/04/browser-extension-edge-chrome-firefox-opera-brave-vivaldi/#google-chrome-opera-vivaldi) or [Firefox](https://www.smashingmagazine.com/2017/04/browser-extension-edge-chrome-firefox-opera-brave-vivaldi/#mozilla-firefox).
