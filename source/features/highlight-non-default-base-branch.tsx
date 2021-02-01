@@ -13,6 +13,10 @@ interface BranchInfo {
 	baseRefName: string;
 }
 
+function isClosed(prLink: HTMLElement): boolean {
+	return Boolean(prLink.closest('.js-issue-row')!.querySelector('.octicon.merged, .octicon.closed'));
+}
+
 function buildQuery(issueIds: string[]): string {
 	return `
 		repository() {
@@ -41,6 +45,12 @@ async function init(): Promise<false | void> {
 	for (const prLink of prLinks) {
 		const pr: BranchInfo = data.repository[prLink.id];
 		if (pr.baseRefName === defaultBranch) {
+			continue;
+		}
+
+		// Avoid noise on old PRs pointing to `master` #3910
+		// If the PR is open, it means that `master` still exists
+		if (pr.baseRefName === 'master' && isClosed(prLink)) {
 			continue;
 		}
 
