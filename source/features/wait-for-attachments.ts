@@ -17,6 +17,11 @@ function toggleSubmitButtons({target, type}: Event): void {
 		textarea.setAttribute(attribute, textarea.getAttribute(attributeBackup)!);
 		textarea.removeAttribute(attributeBackup);
 	}
+
+	// Needed for "Update comment" and "Close with comment" buttons
+	for (const button of select.all('button[type="submit"]', form.closest('form')!)) {
+		button.toggleAttribute('disabled', type === 'upload:setup');
+	}
 }
 
 function init(): void {
