@@ -7,7 +7,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import observeElement from '../helpers/simplified-element-observer';
 import {getConversationNumber} from '../github-helpers';
 
 let observer: MutationObserver;
