@@ -8,10 +8,10 @@ const attribute = 'data-required-trimmed';
 const attributeBackup = 'data-rgh-required-trimmed';
 
 function toggleSubmitButtons({target, type}: Event): void {
-	const form = target as HTMLFormElement;
+	const fileAttachment = target as HTMLElement;
 
 	// Don't set `required-trimmed` unless it was there in the first place
-	const textarea = select(`[${attribute}], [${attributeBackup}]`, form)!;
+	const textarea = select(`[${attribute}], [${attributeBackup}]`, fileAttachment)!;
 	if (textarea) {
 		if (type === 'upload:setup') {
 			textarea.setAttribute(attributeBackup, textarea.getAttribute(attribute)!);
@@ -23,7 +23,7 @@ function toggleSubmitButtons({target, type}: Event): void {
 	}
 
 	// Needed for "Update comment" and "Close with comment" buttons
-	for (const button of select.all('button[type="submit"]', form.closest('form')!)) {
+	for (const button of select.all('button[type="submit"]', fileAttachment.closest('form')!)) {
 		button.toggleAttribute('disabled', type === 'upload:setup');
 	}
 }
