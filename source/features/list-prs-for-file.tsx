@@ -6,6 +6,7 @@ import {GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import looseParseInt from '../helpers/loose-parse-int';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
@@ -104,6 +105,11 @@ async function init(): Promise<void> {
 	const [prNumber] = prs; // First one or only one
 
 	if (pageDetect.isEditingFile()) {
+		const editingPRNumber = looseParseInt(location.search.split('%2F').slice(-1).toString());
+		if (editingPRNumber === prNumber) {
+			return;
+		}
+
 		select('.file')!.after(
 			<div className="form-warning p-3 mb-3 mx-lg-3">
 				{
