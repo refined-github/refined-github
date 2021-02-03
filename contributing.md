@@ -9,8 +9,8 @@ Suggestions and pull requests are highly encouraged! Have a look at the [open is
 - [JSX](https://reactjs.org/docs/introducing-jsx.html) is used to create DOM elements.
 - All the [latest DOM APIs](https://github.com/WebReflection/dom4#features) and JavaScript features are available because the extension only has to work in the latest Chrome and Firefox. 🎉
 - Each JavaScript feature lives in its own file under [`source/features`](https://github.com/sindresorhus/refined-github/tree/main/source/features) and it's imported in [`source/refined-github.ts`](https://github.com/sindresorhus/refined-github/blob/main/source/refined-github.ts).
-- See what a _feature_ [looks like](https://github.com/sindresorhus/refined-github/blob/main/source/features/user-profile-follower-badge.tsx).
-- Follow [the styleguide](https://github.com/sindresorhus/refined-github/blob/main/readme.md#L62) that appears in the Readme's source to write readable descriptions.
+- See what a feature [looks like](https://github.com/sindresorhus/refined-github/blob/main/source/features/user-profile-follower-badge.tsx).
+- Follow [the styleguide](https://github.com/sindresorhus/refined-github/blob/main/readme.md#L70) that appears in the Readme's source to write readable descriptions.
 - Refined GitHub tries to integrate as best as possible, so [GitHub's own styleguide](https://primer.style/css) might come in useful.
 
 ## `features.add`
@@ -53,15 +53,15 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
-	/** This only adds the shortcut to the help screen, it doesn't enable it. */
+	// This only adds the shortcut to the help screen, it doesn't enable it.
 	shortcuts: {
 		'↑': 'Edit your last comment'
 	},
 
-	/** Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true */
+	// Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true
 	awaitDomReady: false,
 
-	/** Rarely needed: When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway. @default false */
+	// Rarely needed: When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway. @default false
 	repeatOnBackButton: true,
 	include: [
 		pageDetect.isUserProfile,
@@ -112,5 +112,7 @@ npm run start # Open extension in Chrome
 ```sh
 npm run start:firefox # Open extension in Firefox
 ```
+
+**Note**: They both require [web-ext](https://github.com/mozilla/web-ext) to be installed globally. Run `npm i -g web-ext`
 
 Or you can [load it manually in Chrome](https://www.smashingmagazine.com/2017/04/browser-extension-edge-chrome-firefox-opera-brave-vivaldi/#google-chrome-opera-vivaldi) or [Firefox](https://www.smashingmagazine.com/2017/04/browser-extension-edge-chrome-firefox-opera-brave-vivaldi/#mozilla-firefox).
