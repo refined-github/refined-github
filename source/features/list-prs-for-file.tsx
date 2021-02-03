@@ -6,7 +6,6 @@ import {GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import looseParseInt from '../helpers/loose-parse-int';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
@@ -98,9 +97,10 @@ async function init(): Promise<void> {
 	// `clipboard-copy` on blob page, `#blob-edit-path` on edit page
 	const path = select('clipboard-copy, #blob-edit-path')!.getAttribute('value')!;
 	let {[path]: prs} = await getPrsByFile();
-	if (prs && pageDetect.isEditingFile()) {
-		const editingPRNumber = new URLSearchParams(location.search).get('pr')?.split('/').slice(-1)!;
-		prs = prs.splice(prs.indexOf(editingPRNumber), -1);
+
+	const editingPRNumber = new URLSearchParams(location.search).get('pr')?.split('/').slice(-1);
+	if (prs && editingPRNumber) {
+		prs = prs.filter(pr => pr !== Number(editingPRNumber));
 	}
 
 	if (prs.length === 0) {
