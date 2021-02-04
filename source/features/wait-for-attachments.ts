@@ -1,16 +1,20 @@
+// GitHub natively marks `.js-upload-markdown-image textarea.js-comment-field` as invalid while a file is uploading.
+// `button[data-disable-invalid]` are automatically disabled while the form is invalid, but some buttons don't have it.
+// `textarea[data-required-trimmed]` conflicts with this behavior by overriding the validity states in the meantime.
+
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-// `data-required-trimmed` overrides the `disabled` state of the form
 const attribute = 'data-required-trimmed';
 const attributeBackup = 'data-rgh-required-trimmed';
 
 function toggleSubmitButtons({target, type}: Event): void {
 	const fileAttachment = target as HTMLElement;
 
-	// Don't set `required-trimmed` unless it was there in the first place
+	// Temporarily disable `data-required-trimmed` so that it doesn't conflict with the desired behavior.
+	// The complex selector ensures that we don't add the attribute to fields that never had it in the first place.
 	const textarea = select(`[${attribute}], [${attributeBackup}]`, fileAttachment)!;
 	if (textarea) {
 		if (type === 'upload:setup') {
