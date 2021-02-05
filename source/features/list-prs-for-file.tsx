@@ -98,13 +98,16 @@ async function init(): Promise<void> {
 	const path = select('clipboard-copy, #blob-edit-path')!.getAttribute('value')!;
 	let {[path]: prs} = await getPrsByFile();
 
-	const editingPRNumber = new URLSearchParams(location.search).get('pr')?.split('/').slice(-1);
-	if (prs && editingPRNumber) {
-		prs = prs.filter(pr => pr !== Number(editingPRNumber));
+	if (!prs) {
+		return;
 	}
 
-	if (!prs || prs.length === 0) {
-		return;
+	const editingPRNumber = new URLSearchParams(location.search).get('pr')?.split('/').slice(-1);
+	if (editingPRNumber) {
+		prs = prs.filter(pr => pr !== Number(editingPRNumber));
+		if (prs.length === 0) {
+			return;
+		}
 	}
 
 	const [prNumber] = prs; // First one or only one
