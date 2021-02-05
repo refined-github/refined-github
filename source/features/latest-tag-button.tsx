@@ -1,7 +1,7 @@
 import './latest-tag-button.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {DiffIcon, TagIcon} from '@primer/octicons-react';
 
@@ -96,7 +96,7 @@ async function init(): Promise<false | void> {
 		</a>
 	);
 
-	select('#branch-select-menu')!.parentElement!.after(link);
+	(await elementReady('#branch-select-menu', {waitForChildren: false}))!.parentElement!.after(link);
 	if (currentBranch !== latestTag) {
 		link.append(' ', <span className="css-truncate-target">{latestTag}</span>);
 	}
