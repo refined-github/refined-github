@@ -94,7 +94,7 @@ async function showTimemachineBar(): Promise<void | false> {
 		const lastCommitDate = await elementReady([
 			'.repository-content .Box.Box--condensed relative-time',
 			'[itemprop="dateModified"] relative-time' // "Repository refresh" layout
-		].join(), {waitForChildren: false});
+		].join());
 		if (date > lastCommitDate?.attributes.datetime.value!) {
 			return false;
 		}
