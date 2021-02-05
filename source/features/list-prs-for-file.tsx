@@ -96,8 +96,14 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 async function init(): Promise<void> {
 	// `clipboard-copy` on blob page, `#blob-edit-path` on edit page
 	const path = select('clipboard-copy, #blob-edit-path')!.getAttribute('value')!;
-	const {[path]: prs} = await getPrsByFile();
-	if (!prs) {
+	let {[path]: prs} = await getPrsByFile();
+
+	const editingPRNumber = new URLSearchParams(location.search).get('pr')?.split('/').slice(-1);
+	if (prs && editingPRNumber) {
+		prs = prs.filter(pr => pr !== Number(editingPRNumber));
+	}
+
+	if (prs.length === 0) {
 		return;
 	}
 
