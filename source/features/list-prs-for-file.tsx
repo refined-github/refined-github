@@ -103,7 +103,7 @@ async function init(): Promise<void> {
 		prs = prs.filter(pr => pr !== Number(editingPRNumber));
 	}
 
-	if (prs.length === 0) {
+	if (!prs || prs.length === 0) {
 		return;
 	}
 
