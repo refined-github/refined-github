@@ -23,7 +23,7 @@ The Chrome version also works in Opera (using [this](https://addons.opera.com/en
 <div align="center">
 	<p>
 		<sup>
-			Sindre's open source work is supported by the community.<br>Special thanks to:
+			Sindre’s open source work is supported by the community.<br>Special thanks to:
 		</sup>
 	</p>
 	<br>
