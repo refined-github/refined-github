@@ -264,7 +264,12 @@ void add(__filebasename, {
 	init: async () => {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
-		select('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);
+
+		select.last(`
+			#repo-content-pjax-container,
+			#js-repo-pjax-container,
+			#js-pjax-container
+		`)?.append(<has-rgh/>); // They may be nested; .last should select the nested-est one.
 	}
 });
 
