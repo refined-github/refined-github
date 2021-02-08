@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {LinkExternalIcon} from '@primer/octicons-react';
+import {RepoForkedIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {getRepo} from '../github-helpers';
 
@@ -10,14 +10,9 @@ function init(): void {
 	const downloadUrl = new URL('https://useful-forks.github.io');
 	downloadUrl.searchParams.set('repo', getRepo()!.nameWithOwner);
 
-	select('#network')!.prepend(
-		<a
-			className="btn mt-2 mb-2"
-			href={downloadUrl.href}
-			target="_blank"
-			rel="noreferrer"
-		>
-			<LinkExternalIcon className="mr-2"/>
+	select('#repo-content-pjax-container')!.prepend(
+		<a className="btn mt-2 mb-2 float-right" href={downloadUrl.href}>
+			<RepoForkedIcon className="mr-2"/>
 			Find useful forks
 		</a>
 	);
