@@ -64,7 +64,7 @@ async function addButton(position: Element): Promise<void> {
 }
 
 const waitForText = onetime(() => {
-	delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler)
+	delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler);
 	observer = observe(selectorForPushablePRNotice, {
 		add(position) {
 			position.classList.add('rgh-update-pr');
