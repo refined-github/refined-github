@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
+import delegate from 'delegate-it';
 import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {observe, Observer} from 'selector-observer';
@@ -29,13 +30,13 @@ async function mergeBranches(): Promise<AnyObject> {
 	});
 }
 
-async function handler({currentTarget}: React.MouseEvent): Promise<void> {
+async function handler({delegateTarget}: delegate.Event): Promise<void> {
 	const {base, head} = getBranches();
 	if (!confirm(`Merge the ${base} branch into ${head}?`)) {
 		return;
 	}
 
-	const statusMeta = currentTarget.parentElement!;
+	const statusMeta = delegateTarget.parentElement!;
 	statusMeta.textContent = 'Updating branch…';
 	observer.abort();
 
@@ -56,13 +57,14 @@ async function addButton(position: Element): Promise<void> {
 	if (status === 'diverged') {
 		position.append(' ', (
 			<span className="status-meta d-inline-block rgh-update-pr-from-base-branch">
-				You can <button type="button" className="btn-link" onClick={handler}>update the base branch</button>.
+				You can <button type="button" className="btn-link">update the base branch</button>.
 			</span>
 		));
 	}
 }
 
 const waitForText = onetime(() => {
+	delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler)
 	observer = observe(selectorForPushablePRNotice, {
 		add(position) {
 			position.classList.add('rgh-update-pr');
