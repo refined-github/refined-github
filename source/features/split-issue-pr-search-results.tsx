@@ -14,44 +14,39 @@ function cleanLinks(): void {
 
 type GitHubConversationType = 'pr' | 'issue';
 
-function createUrl(type: GitHubConversationType, pathname = location.pathname): string {
-	const url = new URL(pathname, location.origin);
-	url.searchParams.set('q', pageSearchQuery.get() + ` is:${type}`);
-	url.searchParams.set('type', 'Issues');
-	return String(url);
-}
+function updateLinkElement(link: HTMLAnchorElement, type: GitHubConversationType): void {
+	link.textContent = type === 'pr' ? 'Pull requests' : 'Issues'; // Drops any possible counter
 
-let pageSearchQuery: SearchQuery;
+	const searchQuery = new SearchQuery(link);
+	searchQuery.add(`is:${type}`);
+
+	link.append(
+		<include-fragment src={`${link.pathname}/count${link.search}`}/>
+	);
+}
 
 function init(): void {
 	cleanLinks();
-	pageSearchQuery = new SearchQuery(location);
 
 	const issueLink = select([
 		'nav.menu a[href*="&type=Issues"]', // Only for GHE
 		'a.menu-item[href*="&type=issues"]'
 	])!;
-	issueLink.textContent = 'Issues'; // Drops any possible counter
-	issueLink.href = createUrl('issue');
-	issueLink.append(
-		<include-fragment src={createUrl('issue', location.pathname + '/count')}/>
-	);
+	updateLinkElement(issueLink, 'issue');
 
-	const prLink = issueLink.cloneNode(true);
-	prLink.textContent = 'Pull requests';
-	prLink.href = createUrl('pr');
-	prLink.append(
-		<include-fragment src={createUrl('pr', location.pathname + '/count')}/>
-	);
-
+	// We don't need to clone the child nodes because they get replaced anyways
+	const prLink = issueLink.cloneNode();
+	updateLinkElement(prLink, 'pr');
 	issueLink.after(prLink);
 
 	const title = select('.codesearch-results h3')!.firstChild!;
-	if (pageSearchQuery.includes('is:pr')) {
+
+	const searchQuery = new SearchQuery(location.search);
+	if (searchQuery.includes('is:pr')) {
 		// Update UI in PR searches
 		issueLink.classList.remove('selected');
 		title.textContent = title.textContent!.replace('issue', 'pull request');
-	} else if (!pageSearchQuery.includes('is:issue') && /\btype=Issues\b/.test(location.search)) {
+	} else if (!searchQuery.includes('is:issue') && searchQuery.searchParams.get('type')?.toLowerCase() === 'issues') {
 		// Update UI in combined searches (where there's no `is:<type>` query)
 		title.textContent = title.textContent!
 			.replace(/issue\b/, 'issue or pull request')

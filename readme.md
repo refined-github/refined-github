@@ -11,24 +11,33 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 
 GitHub Enterprise is also supported. More info in the options.
 
----
-
-<a href="https://alm.sh">
-	<img src="https://sindresorhus.com/assets/thanks/alm-refined-github-logo.svg" align="right">
-</a>
-
-- [Product Hunt submission](https://www.producthunt.com/posts/refined-github) *(2017-07-08)*
-- [What's new lately](https://blog.sindresorhus.com/whats-new-in-refined-github-836d05582df7) *(2017-06-23)*
-- [Original announcement](https://blog.sindresorhus.com/refined-github-21185789685d) *(2016-03-31)*
-
-
 ## Install
 
-- [**Chrome** extension][link-cws] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-cws]
+- [**Chrome** extension][link-cws] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-cws] also compatible with Opera and Edge
 - [**Firefox** add-on][link-amo] [<img valign="middle" src="https://img.shields.io/amo/v/refined-github-.svg?label=%20">][link-amo]
 
 The Chrome version also works in Opera (using [this](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/)) and Edge.
 
+---
+
+<div align="center">
+	<p>
+		<sup>
+			Sindre's open source work is supported by the community.<br>Special thanks to:
+		</sup>
+	</p>
+	<br>
+	<a href="https://alm.sh">
+		<img src="https://sindresorhus.com/assets/thanks/alm-logo.svg" width="160">
+	</a>
+	<br>
+	<br>
+	<a href="https://retool.com/?utm_campaign=sindresorhus">
+		<img src="https://sindresorhus.com/assets/thanks/retool-logo.svg" width="210">
+	</a>
+</div>
+
+---
 
 ## Highlights 🔥
 
@@ -213,7 +222,7 @@ Thanks for contributing! 🦋🙌
 ### Editing pull requests
 
 - [](# "sync-pr-commit-title") 🔥 [Uses the PR’s title as the default squash commit title](https://github.com/sindresorhus/refined-github/issues/276) and [updates the PR’s title to the match the commit title, if changed.](https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png)
-- [](# "update-pr-from-base-branch") [Adds a button to update a PR from the base branch to ensure it builds correctly before merging the PR itself.](https://user-images.githubusercontent.com/1402241/57941992-f2170080-7902-11e9-8f8a-594aad983559.png) GitHub only adds it when the base branch is "protected".
+- [](# "update-pr-from-base-branch") [Adds a button to update a PR from the base branch to ensure it builds correctly before merging the PR itself.](https://user-images.githubusercontent.com/1402241/106494023-816d9a00-647f-11eb-8cb1-7c97aa8a5546.png) GitHub only adds it when the base branch is "protected".
 - [](# "quick-review-buttons") [Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
 - [](# "warn-pr-from-master") [Warns you when creating a pull request from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
 - [](# "warning-for-disallow-edits") [Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
@@ -360,18 +369,21 @@ GitHub implemented dozens of features that used to be part of Refined GitHub �
 
 </details>
 
-
 ## Customization
 
 Most features [can be disabled](https://github.com/sindresorhus/refined-github/pull/877) if they are JavaScript-based *(Experimental)* and you can override our CSS with your own in [the extension options.](https://github.com/sindresorhus/refined-github/pull/1193)
 
 We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a high bar for adding features.](https://github.com/sindresorhus/refined-github/issues/2960) Users will always disagree with something. That being said, we're open to discussing things.
 
-
 ## Contribute
 
 Read the [contribution guide](contributing.md) and join the [contributors](https://github.com/sindresorhus/refined-github/graphs/contributors)!
 
+## Links
+
+- [Product Hunt submission](https://www.producthunt.com/posts/refined-github) *(2017-07-08)*
+- [What's new lately](https://blog.sindresorhus.com/whats-new-in-refined-github-836d05582df7) *(2017-06-23)*
+- [Original announcement](https://blog.sindresorhus.com/refined-github-21185789685d) *(2016-03-31)*
 
 ## Related
 

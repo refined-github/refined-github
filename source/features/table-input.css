@@ -1,9 +1,9 @@
 :root .rgh-table-input {
-	width: 108px;
+	width: auto;
 	padding: 3px;
 	z-index: 99;
-	display: flex;
-	flex-wrap: wrap;
+	display: grid;
+	grid-template: repeat(5, 20px) / repeat(5, 20px);
 }
 
 :root .rgh-table-input-cell {

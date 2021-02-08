@@ -1,6 +1,9 @@
-env: {}
+env:
+  DIRECTORY: distribution
 
-# DO NOT EDIT BELOW, USE: npx ghat fregante/ghatemplates/webext --set 'on.schedule=[{"cron": "42 17 * * 4"}]'
+# FILE GENERATED WITH: npx ghat fregante/ghatemplates/webext
+# SOURCE: https://github.com/fregante/ghatemplates
+# OPTIONS: {"set":["on.schedule=[{\"cron\": \"42 17 1 * *\"}]"]}
 
 name: Release
 on:
@@ -10,14 +13,15 @@ on:
 jobs:
   Version:
     outputs:
-      created: '${{ steps.daily-version.outputs.created }}'
-      version: '${{ steps.daily-version.outputs.version }}'
+      created: ${{ steps.daily-version.outputs.created }}
+      version: ${{ steps.daily-version.outputs.version }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 20
-      - run: npm ci
+      - name: install
+        run: npm ci || npm install
       - run: npm test
       - uses: fregante/daily-version-action@v1
         name: Create tag if necessary
@@ -25,7 +29,7 @@ jobs:
       - uses: notlmn/release-with-changelog@v3
         if: steps.daily-version.outputs.created
         with:
-          token: '${{ secrets.GITHUB_TOKEN }}'
+          token: ${{ secrets.GITHUB_TOKEN }}
           exclude: true
   Submit:
     needs: Version
@@ -39,17 +43,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm install
+      - name: install
+        run: npm ci || npm install
       - run: npm run build
       - name: Update extension’s meta
         run: >-
-          npx dot-json distribution/manifest.json version ${{
+          npx dot-json@1 $DIRECTORY/manifest.json version ${{
           needs.Version.outputs.version }}
-      - run: 'npm run release:${{ matrix.command }}'
+      - name: Submit
+        run: |
+          case ${{ matrix.command }} in
+            chrome)
+              cd $DIRECTORY && npx chrome-webstore-upload-cli@1 upload --auto-publish
+              ;;
+            firefox)
+              cd $DIRECTORY && npx web-ext-submit@5
+              ;;
+          esac
         env:
-          EXTENSION_ID: '${{ secrets.EXTENSION_ID }}'
-          CLIENT_ID: '${{ secrets.CLIENT_ID }}'
-          CLIENT_SECRET: '${{ secrets.CLIENT_SECRET }}'
-          REFRESH_TOKEN: '${{ secrets.REFRESH_TOKEN }}'
-          WEB_EXT_API_KEY: '${{ secrets.WEB_EXT_API_KEY }}'
-          WEB_EXT_API_SECRET: '${{ secrets.WEB_EXT_API_SECRET }}'
+          EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+          WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
+          WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}

@@ -85,7 +85,7 @@ const config: Configuration = {
 				options: {
 					search: /(\w+)Icon\.defaultProps = {\n\s+className: 'octicon'/g,
 					replace: (match: string, name: string) => {
-						return match.replace('octicon', 'octicon octicon-' + decamelize(name, '-'));
+						return match.replace('octicon', 'octicon octicon-' + decamelize(name, {separator: '-'}));
 					}
 				}
 			},

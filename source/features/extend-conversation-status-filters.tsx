@@ -21,19 +21,19 @@ function addMergeLink(): void {
 		if (lastLinkQuery.includes('is:merged')) {
 			// It's a "Total" link for "is:merged"
 			lastLink.lastChild!.textContent = lastLink.lastChild!.textContent!.replace('Total', 'Merged');
-			return;
+			continue;
 		}
 
 		if (lastLinkQuery.includes('is:unmerged')) {
 			// It's a "Total" link for "is:unmerged"
 			lastLink.lastChild!.textContent = lastLink.lastChild!.textContent!.replace('Total', 'Unmerged');
-			return;
+			continue;
 		}
 
 		// In this case, `lastLink` is expected to be a "Closed" link
 		const mergeLink = lastLink.cloneNode(true);
 		mergeLink.textContent = 'Merged';
-		mergeLink.classList.toggle('selected', new SearchQuery(location).includes('is:merged'));
+		mergeLink.classList.toggle('selected', new SearchQuery(location.search).includes('is:merged'));
 		new SearchQuery(mergeLink).replace('is:closed', 'is:merged');
 		lastLink.after(' ', mergeLink);
 	}
