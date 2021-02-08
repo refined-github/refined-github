@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {DownloadIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {getRepo} from '../github-helpers';
 
 function init(): void {
 	const downloadUrl = new URL('https://download-directory.github.io/');
@@ -21,15 +21,16 @@ function init(): void {
 		);
 	} else {
 		// "Repository refresh" layout
-		select('.file-navigation > .d-flex:last-child')!.append(
-			<a
-				className="btn ml-2"
-				href={downloadUrl.href}
-			>
-				<DownloadIcon className="mr-1"/>
-				Download
-			</a>
-		);
+		for (const deleteButton of select.all(`form[action^="/${getRepo()!.nameWithOwner}/tree/delete"]`)) {
+			deleteButton.before(
+				<a
+					className="dropdown-item btn-link"
+					href={downloadUrl.href}
+				>
+					Download directory
+				</a>
+			);
+		}
 	}
 }
 
@@ -40,5 +41,6 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isRepoRoot // Already has an native download ZIP button
 	],
+	repeatOnBackButton: true,
 	init
 });
