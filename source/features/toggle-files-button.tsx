@@ -13,11 +13,7 @@ import observeElement from '../helpers/simplified-element-observer';
 const cacheKey = 'files-hidden';
 
 function addButton(): void {
-	// `div` excludes `include-fragment`, which means the list is still loading. #2160
-	const filesHeader = select([
-		'div.commit-tease',
-		'.Box-header--blue .Details > :last-child > ul' // "Repository refresh" layout
-	]);
+	const filesHeader = select('.Box-header--blue .Details > :last-child > ul');
 	if (!filesHeader || select.exists('.rgh-toggle-files')) {
 		return;
 	}
