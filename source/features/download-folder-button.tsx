@@ -21,7 +21,8 @@ function init(): void {
 		);
 	} else {
 		// "Repository refresh" layout
-		for (const deleteButton of select.all(`form[action^="/${getRepo()!.nameWithOwner}/tree/delete"]`)) {
+		for (const deleteButton of select.all(`form[action^="/${getRepo()!.nameWithOwner}/tree/delete"]:not(.rgh-download-folder)`)) {
+			deleteButton.classList.add('rgh-download-folder');
 			deleteButton.before(
 				<a
 					className="dropdown-item btn-link"
