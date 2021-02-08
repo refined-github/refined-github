@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {RepoForkedIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
-import {getRepo} from '../github-helpers';
+import {RepoForkedIcon} from '@primer/octicons-react';
 
 import features from '.';
+import {getRepo} from '../github-helpers';
 
 function init(): void {
 	const downloadUrl = new URL('https://useful-forks.github.io');
