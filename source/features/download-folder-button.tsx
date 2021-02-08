@@ -41,6 +41,6 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isRepoRoot // Already has an native download ZIP button
 	],
-	repeatOnBackButton: true,
+	repeatOnBackButton: true, // Due to anti-duplication mechanism #3945
 	init
 });
