@@ -2,11 +2,13 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import {LinkExternalIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import {getRepo} from '../github-helpers';
 
 import features from '.';
 
 function init(): void {
-	const downloadUrl = new URL('https://useful-forks.github.io/?repo=' + pageDetect.utils.getRepoURL());
+	const downloadUrl = new URL('https://useful-forks.github.io');
+	downloadUrl.searchParams.set('repo', getRepo()!.nameWithOwner);
 
 	select('#network')!.prepend(
 		<a
