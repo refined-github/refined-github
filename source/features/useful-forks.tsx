@@ -5,10 +5,9 @@ import {RepoForkedIcon} from '@primer/octicons-react';
 
 import features from '.';
 import {getRepo} from '../github-helpers';
-import looseParseInt from "../helpers/loose-parse-int";
+import looseParseInt from '../helpers/loose-parse-int';
 
 function init(): void {
-
 	if (hasNoForks()) {
 		return;
 	}
@@ -25,7 +24,7 @@ function init(): void {
 }
 
 function hasNoForks(): boolean {
-	const forksAmount = looseParseInt(select(".social-count[href$='/network/members']")!);
+	const forksAmount = looseParseInt(select('.social-count[href$="/network/members"!]')!);
 	return forksAmount === 0;
 }
 
