@@ -39,11 +39,11 @@ export function createDropdownItem(label: string, url: string, attributes?: Reco
 
 function onlyShowInDropdown(id: string): void {
 	const tabItem = select(`[data-tab-item$="${id}"]`);
-	if (!tabItem) {
+	if (!tabItem && pageDetect.isEnterprise()) {
 		return;
 	}
 
-	tabItem.parentElement!.remove();
+	tabItem!.parentElement!.remove();
 	const menuItem = select(`[data-menu-item$="${id}"]`)!;
 	menuItem.removeAttribute('data-menu-item');
 	menuItem.hidden = false;
