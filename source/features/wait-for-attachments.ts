@@ -13,8 +13,7 @@ const attributeBackup = 'data-rgh-required-trimmed';
 function toggleSubmitButtons({target, type}: Event): void {
 	const fileAttachment = target as HTMLElement;
 
-	// Ensures every submit button has the `data-disable-invalid` attribute
-	for (const button of select.all('button[type="submit"]:not([data-disable-invalid])', fileAttachment.closest('form')!)) {
+	for (const button of select.all('.btn-primary[type="submit"]:not([data-disable-invalid])', fileAttachment.closest('form')!)) {
 		button.dataset.disableInvalid = '';
 	}
 
