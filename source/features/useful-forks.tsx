@@ -24,7 +24,7 @@ function init(): void {
 }
 
 function hasNoForks(): boolean {
-	const forksAmount = looseParseInt(select('.social-count[href$="/network/members"!]')!);
+	const forksAmount = looseParseInt(select('.social-count[href$="/network/members"]')!);
 	return forksAmount === 0;
 }
 
