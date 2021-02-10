@@ -1,7 +1,8 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import {FileIcon} from '@primer/octicons-react';
+import elementReady from 'element-ready';
+import {BookIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -48,21 +49,19 @@ async function init(): Promise<void | false> {
 	}
 
 	const url = buildRepoURL('blob', 'HEAD', changelog);
-	select('.details-reset.Details-element')!.before(
-		<a className="btn btn-sm btn-invisible mt-2 p-0" href={url} type="button">
-			<FileIcon/>
-			<span>View {changelog}</span>
+	(await elementReady('.subnav div', {waitForChildren: false}))!.after(
+		<a className="btn ml-2" href={url} style={{padding: '6px 16px'}} role="button">
+			<BookIcon className="text-blue mr-2"/>
+			<span>Changelog</span>
 		</a>
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isSingleTag
+		pageDetect.isReleasesOrTags
 	],
-	exclude: [
-		() => select.exists('.markdown-body, .label-draft')
-	],
+	awaitDomReady: false,
 	init
 }, {
 	include: [
