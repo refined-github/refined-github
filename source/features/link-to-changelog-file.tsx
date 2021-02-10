@@ -28,10 +28,16 @@ async function fetchFromApi(): Promise<string | false > {
 		}
 	`);
 
-	return repository.object.entries.find((file: {name: string}) => file.name.toLowerCase().startsWith('changelog.'))?.name ?? false;
+	for (const file of repository.object.entries) {
+		if (file.name.toLowerCase().startsWith('changelog')) {
+			return file.name;
+		}
+	}
+
+	return false;
 }
 
-const doesChangelogExist = cache.function(async () => pageDetect.isRepoHome() ? parseFromDom() : fetchFromApi(), {
+const getChangelogName = cache.function(async () => pageDetect.isRepoHome() ? parseFromDom() : fetchFromApi(), {
 	cacheKey: getCacheKey
 });
 
@@ -48,10 +54,14 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const url = buildRepoURL('blob', 'HEAD', changelog);
-	const tooltip = 'View the ' + changelog + ' file';
 	(await elementReady('.subnav div', {waitForChildren: false}))!.after(
-		<a className="btn ml-3 tooltipped tooltipped-n" aria-label={tooltip} href={url} style={{padding: '6px 16px'}} role="button">
+		<a
+			className="btn ml-3 tooltipped tooltipped-n"
+			aria-label={`View the ${changelog} file`}
+			href={buildRepoURL('blob', 'HEAD', changelog)}
+			style={{padding: '6px 16px'}}
+			role="button"
+		>
 			<BookIcon className="text-blue mr-2"/>
 			<span>Changelog</span>
 		</a>
