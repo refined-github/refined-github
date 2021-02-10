@@ -11,7 +11,7 @@ import {buildRepoURL, getRepo} from '../github-helpers';
 const getCacheKey = (): string => `changelog:${getRepo()!.nameWithOwner}`;
 
 function parseFromDom(): string | false {
-	return select('.js-navigation-item [title="changelog.md" i]')?.textContent ?? false;
+	return select('.js-navigation-item [title^="changelog" i]')?.textContent ?? false;
 }
 
 async function fetchFromApi(): Promise<string | false > {
@@ -27,7 +27,7 @@ async function fetchFromApi(): Promise<string | false > {
 		}
 	`);
 
-	return repository.object.entries.find((file: {name: string}) => /changelog\.md/i.exec(file.name))?.name ?? false;
+	return repository.object.entries.find((file: {name: string}) => file.name.toLowerCase().startsWith('changelog'))?.name ?? false;
 }
 
 const doesChangelogExist = cache.function(async () => pageDetect.isRepoHome() ? parseFromDom() : fetchFromApi(), {
