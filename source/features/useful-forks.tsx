@@ -12,7 +12,7 @@ async function init(): Promise<void> {
 		const downloadUrl = new URL('https://useful-forks.github.io');
 		downloadUrl.searchParams.set('repo', getRepo()!.nameWithOwner);
 
-		const selector = isForksListPage() ? '#network' : '#repo-content-pjax-container h2';
+		const selector = isForksPage() ? '#network' : '#repo-content-pjax-container h2';
 		(await elementReady(selector, {waitForChildren: false}))!.prepend(
 			<a className="btn mb-2 float-right" href={downloadUrl.href}>
 				<RepoForkedIcon className="mr-2"/>
@@ -20,10 +20,6 @@ async function init(): Promise<void> {
 			</a>
 		);
 	}
-}
-
-function isForksListPage(): boolean {
-	return getRepo()!.path.includes('members');
 }
 
 const isForksPage = (url: URL | HTMLAnchorElement | Location = location): boolean => pageDetect.utils.getRepoPath(url) === 'network/members';
