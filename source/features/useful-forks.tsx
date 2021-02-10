@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {RepoForkedIcon} from '@primer/octicons-react';
 
@@ -7,26 +7,19 @@ import features from '.';
 import {getRepo} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
 
-function init(): void {
-	if (hasNoForks()) {
-		return;
+async function init(): Promise<void> {
+	if (looseParseInt((await elementReady('.social-count[href$="/network/members"]', {waitForChildren: false}))!) > 0) {
+		const downloadUrl = new URL('https://useful-forks.github.io');
+		downloadUrl.searchParams.set('repo', getRepo()!.nameWithOwner);
+
+		const selector = isForksListPage() ? '#network' : '#repo-content-pjax-container h2';
+		(await elementReady(selector, {waitForChildren: false}))!.prepend(
+			<a className="btn mb-2 float-right" href={downloadUrl.href}>
+				<RepoForkedIcon className="mr-2"/>
+				Find useful forks
+			</a>
+		);
 	}
-
-	const downloadUrl = new URL('https://useful-forks.github.io');
-	downloadUrl.searchParams.set('repo', getRepo()!.nameWithOwner);
-
-	const selector = isForksListPage() ? '#network' : '#repo-content-pjax-container h2';
-	select(selector)!.prepend(
-		<a className="btn mb-2 float-right" href={downloadUrl.href}>
-			<RepoForkedIcon className="mr-2"/>
-			Find useful forks
-		</a>
-	);
-}
-
-function hasNoForks(): boolean {
-	const forksAmount = looseParseInt(select('.social-count[href$="/network/members"]')!);
-	return forksAmount === 0;
 }
 
 function isForksListPage(): boolean {
@@ -40,5 +33,6 @@ void features.add(__filebasename, {
 		isForksPage,
 		isNetworkPage
 	],
+	awaitDomReady: false,
 	init
 });
