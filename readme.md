@@ -262,7 +262,7 @@ Thanks for contributing! 🦋🙌
 - [](# "tag-changelog-link") 🔥 [Adds a link to an automatic changelog for each tag/release.](https://user-images.githubusercontent.com/1402241/57081611-ad4a7180-6d27-11e9-9cb6-c54ec1ac18bb.png)
 - [](# "latest-tag-button") [Adds a link to the latest version tag on directory listings and files.](https://user-images.githubusercontent.com/1402241/74594998-71df2080-5077-11ea-927c-b484ca656e88.png)
 - [](# "convert-release-to-draft") [Adds a button to convert a release to draft.](https://user-images.githubusercontent.com/16872793/90017455-8e03f900-dc79-11ea-95c5-377e0a82d4ea.png)
-- [](# "link-to-changelog.md") [Adds a button to view the changelog.md file if there is no release body.](https://user-images.githubusercontent.com/16872793/107317566-e40afb00-6a68-11eb-9d8b-b01da307dfb6.png)
+- [](# "link-to-changelog-file") [Adds a button to view the changelog.md file if there is no release body.](https://user-images.githubusercontent.com/16872793/107317566-e40afb00-6a68-11eb-9d8b-b01da307dfb6.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
