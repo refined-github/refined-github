@@ -13,7 +13,7 @@ const getCacheKey = (): string => `changelog:${getRepo()!.nameWithOwner}`;
 
 async function parseFromDom(): Promise<false> {
 	await cache.delete(getCacheKey());
-	void cache.set(getCacheKey(), select('.js-navigation-item [title^="changelog." i]')?.textContent ?? false);
+	void cache.set(getCacheKey(), select('.js-navigation-item [title^="changelog" i]')?.textContent ?? false);
 	return false;
 }
 
