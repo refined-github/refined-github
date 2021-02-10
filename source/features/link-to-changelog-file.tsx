@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import elementReady from 'element-ready';
 import {BookIcon} from '@primer/octicons-react';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
