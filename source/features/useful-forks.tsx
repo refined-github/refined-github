@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
-import {isRepoForksList, isRepoNetworkGraph} from 'github-url-detection';
+import * as pageDetect from 'github-url-detection';
 import {RepoForkedIcon} from '@primer/octicons-react';
 
 import features from '.';
@@ -16,7 +16,7 @@ async function init(): Promise<void | false> {
 	const downloadUrl = new URL('https://useful-forks.github.io');
 	downloadUrl.searchParams.set('repo', getRepo()!.nameWithOwner);
 
-	const selector = isRepoForksList() ? '#network' : '#repo-content-pjax-container h2';
+	const selector = pageDetect.isRepoForksList() ? '#network' : '#repo-content-pjax-container h2';
 	(await elementReady(selector, {waitForChildren: false}))!.prepend(
 		<a className="btn mb-2 float-right" href={downloadUrl.href}>
 			<RepoForkedIcon className="mr-2"/>
@@ -27,8 +27,8 @@ async function init(): Promise<void | false> {
 
 void features.add(__filebasename, {
 	include: [
-		isRepoForksList,
-		isRepoNetworkGraph
+		pageDetect.isRepoForksList,
+		pageDetect.isRepoNetworkGraph
 	],
 	awaitDomReady: false,
 	init
