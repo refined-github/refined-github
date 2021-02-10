@@ -51,7 +51,7 @@ async function init(): Promise<void | false> {
 	const url = buildRepoURL('blob', 'HEAD', changelog);
 	const tooltip = 'View the ' + changelog + ' file';
 	(await elementReady('.subnav div', {waitForChildren: false}))!.after(
-		<a className="btn ml-2 tooltipped tooltipped-s" aria-label={tooltip} href={url} style={{padding: '6px 16px'}} role="button">
+		<a className="btn ml-3 tooltipped tooltipped-n" aria-label={tooltip} href={url} style={{padding: '6px 16px'}} role="button">
 			<BookIcon className="text-blue mr-2"/>
 			<span>Changelog</span>
 		</a>
