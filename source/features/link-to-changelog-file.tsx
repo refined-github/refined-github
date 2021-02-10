@@ -11,11 +11,13 @@ import {buildRepoURL, getRepo} from '../github-helpers';
 
 const getCacheKey = (): string => `changelog:${getRepo()!.nameWithOwner}`;
 
-function parseFromDom(): string | false {
-	return select('.js-navigation-item [title^="changelog." i]')?.textContent ?? false;
+async function parseFromDom(): Promise<false> {
+	await cache.delete(getCacheKey());
+	void cache.set(getCacheKey(), select('.js-navigation-item [title^="changelog." i]')?.textContent ?? false);
+	return false;
 }
 
-async function fetchFromApi(): Promise<string | false > {
+const getChangelogName = cache.function(async (): Promise<string | false > => {
 	const {repository} = await api.v4(`
 		repository() {
 			object(expression: "HEAD:") {
@@ -35,21 +37,12 @@ async function fetchFromApi(): Promise<string | false > {
 	}
 
 	return false;
-}
-
-const getChangelogName = cache.function(async () => pageDetect.isRepoHome() ? parseFromDom() : fetchFromApi(), {
+}, {
 	cacheKey: getCacheKey
 });
 
 async function init(): Promise<void | false> {
-	// Always prefer the information in the DOM
-	if (pageDetect.isRepoHome()) {
-		await cache.delete(getCacheKey());
-		void doesChangelogExist();
-		return;
-	}
-
-	const changelog = await doesChangelogExist();
+	const changelog = await getChangelogName();
 	if (!changelog) {
 		return false;
 	}
@@ -81,5 +74,5 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isEmptyRepoRoot
 	],
-	init
+	init: parseFromDom
 });
