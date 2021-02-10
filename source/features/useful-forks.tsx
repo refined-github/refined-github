@@ -15,8 +15,9 @@ function init(): void {
 	const downloadUrl = new URL('https://useful-forks.github.io');
 	downloadUrl.searchParams.set('repo', getRepo()!.nameWithOwner);
 
-	select('#repo-content-pjax-container')!.prepend(
-		<a className="btn mt-2 mb-2 float-right" href={downloadUrl.href}>
+	const selector = isForksListPage() ? '#network' : '#repo-content-pjax-container h2';
+	select(selector)!.prepend(
+		<a className="btn mb-2 float-right" href={downloadUrl.href}>
 			<RepoForkedIcon className="mr-2"/>
 			Find useful forks
 		</a>
@@ -26,6 +27,10 @@ function init(): void {
 function hasNoForks(): boolean {
 	const forksAmount = looseParseInt(select('.social-count[href$="/network/members"]')!);
 	return forksAmount === 0;
+}
+
+function isForksListPage(): boolean {
+	return getRepo()!.path.includes('members');
 }
 
 const isForksPage = (url: URL | HTMLAnchorElement | Location = location): boolean => pageDetect.utils.getRepoPath(url) === 'network/members';
