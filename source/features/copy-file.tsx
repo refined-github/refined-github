@@ -65,5 +65,6 @@ void features.add(__filebasename, {
 		pageDetect.isSingleFile,
 		pageDetect.isGist
 	],
+	forceReinit: true,
 	init
 });

@@ -39,6 +39,6 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isRepoRoot // Already has an native download ZIP button
 	],
-	repeatOnBackButton: true, // TODO: Drop when #3945 is completely fixed
+	forceReinit: true,
 	init
 });
