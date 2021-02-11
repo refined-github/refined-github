@@ -11,8 +11,7 @@ import {buildRepoURL, getRepo} from '../github-helpers';
 
 const getCacheKey = (): string => `changelog:${getRepo()!.nameWithOwner}`;
 
-async function parseFromDom(): Promise<false> {
-	await cache.delete(getCacheKey());
+function parseFromDom(): false {
 	void cache.set(getCacheKey(), select('.js-navigation-item [title^="changelog" i]')?.textContent ?? false);
 	return false;
 }
