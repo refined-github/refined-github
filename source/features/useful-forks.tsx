@@ -8,7 +8,8 @@ import {getRepo} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
 
 async function init(): Promise<void | false> {
-	const forkCount = looseParseInt(await elementReady('.social-count[href$="/network/members"]')!);
+	const forkCountBadgeValue = await elementReady('.social-count[href$="/network/members"]');
+	const forkCount = looseParseInt(forkCountBadgeValue!);
 	if (forkCount === 0) {
 		return false;
 	}
