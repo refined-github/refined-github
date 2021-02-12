@@ -8,10 +8,10 @@ import {CheckIcon, GearIcon, XIcon} from '@primer/octicons-react';
 import features from '.';
 
 const levels = {
-	showAll: ['Show all'],
-	showOnlyComments: ['Show only comments'],
-	showOnlyUnresolvedComments: ['Show only unresolved comments'],
-	showOnlyUnresolvedReviews: ['Show only unresolved reviews']
+	showAll: 'Show all',
+	showOnlyComments: 'Show only comments',
+	showOnlyUnresolvedComments: 'Show only unresolved comments',
+	showOnlyUnresolvedReviews: 'Show only unresolved reviews'
 };
 
 type Level = keyof typeof levels;
@@ -27,7 +27,7 @@ async function handleSelection(): Promise<void> {
 	currentSettings = select(`#${filterId} [aria-checked="true"]`)!.dataset.value as Level;
 
 	select(`#${filterId} .reason`)!.textContent =
-		currentSettings === 'showAll' ? '' : levels[currentSettings][0];
+		currentSettings === 'showAll' ? '' : levels[currentSettings];
 
 	for (const element of select.all('.js-timeline-item')) {
 		processTimelineItem(element);
@@ -35,7 +35,7 @@ async function handleSelection(): Promise<void> {
 }
 
 function createRadio(filterSettings: Level): JSX.Element {
-	const [title, summary] = levels[filterSettings];
+	const label = levels[filterSettings];
 	return (
 		<label
 			className="select-menu-item"
@@ -45,10 +45,7 @@ function createRadio(filterSettings: Level): JSX.Element {
 			data-value={filterSettings}
 		>
 			<CheckIcon className="select-menu-item-icon octicon octicon-check" aria-hidden="true"/>
-			<div className="select-menu-item-text">
-				{title}
-				<div className="text-normal description">{summary}</div>
-			</div>
+			<div className="select-menu-item-text">{label}</div>
 		</label>
 	);
 }
