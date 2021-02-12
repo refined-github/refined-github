@@ -50,7 +50,7 @@ function createRadio(filterSettings: Level): JSX.Element {
 			data-value={filterSettings}
 			tabIndex={0}
 		>
-			<CheckIcon className="select-menu-item-icon octicon octicon-check" aria-hidden="true" />
+			<CheckIcon className="select-menu-item-icon octicon octicon-check" aria-hidden="true"/>
 			<div className="select-menu-item-text">
 				{title}
 				<div className="text-normal description">{summary}</div>
@@ -160,10 +160,10 @@ function processPR(item: HTMLElement): void {
 		hasVisibleElement = hasVisibleElement || !threadContainer.hidden;
 	}
 
-	item.hidden =
-		(threadContainerItems.length > 0 ||
-		currentSettings === 'showOnlyUnresolvedReviews') &&
-		!hasVisibleElement;
+	item.hidden = !hasVisibleElement && (
+		threadContainerItems.length > 0 ||
+		currentSettings === 'showOnlyUnresolvedReviews'
+	);
 }
 
 function applyDisplay(
@@ -182,15 +182,11 @@ function applyDisplay(
 
 async function init(): Promise<any> {
 	observe('.discussion-sidebar-item.sidebar-notifications', {
-		async add() {
-			await addTimelineItemsFilter();
-		}
+		add: addTimelineItemsFilter
 	});
 	observe('.js-timeline-item', {
-		add(element) {
-			const htmlElement = element as HTMLElement;
-			processTimelineItem(htmlElement);
-		}
+		constructor: HTMLElement,
+		add: processTimelineItem
 	});
 }
 
