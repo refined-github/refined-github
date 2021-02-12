@@ -7,10 +7,10 @@ import {CheckIcon, GearIcon, XIcon} from '@primer/octicons-react';
 import features from '.';
 
 const levels = {
-	showAll: '',
-	showOnlyComments: 'Show only comments',
-	showOnlyUnresolvedComments: 'Show only unresolved reviews',
-	showOnlyUnresolvedReviews: 'Show unresolved comments'
+	showAll: ['Show all', ''],
+	showOnlyComments: ['Show only comments', 'Hides commits and events'],
+	showOnlyUnresolvedComments: ['Show only unresolved reviews', 'Also hides resolved reviews and hidden comments'],
+	showOnlyUnresolvedReviews: ['Show unresolved comments', 'Also hides regular comments']
 };
 
 type Level = keyof typeof levels;
@@ -22,7 +22,7 @@ const menuItemCheckbox = 'rgh-filter-menu-item-checkbox';
 const timelineFiltersSelectorId = 'rgh-timeline-filters';
 
 function regenerateFilterSummary(): void {
-	select(`#${timelineFiltersSelectorId}`)!.textContent = levels[currentSettings];
+	select(`#${timelineFiltersSelectorId}`)!.textContent = currentSettings === 'showAll' ? '' : levels[currentSettings][0];
 }
 
 async function saveSettings(filterSettings: Level, test: string): Promise<any> {
@@ -43,11 +43,8 @@ function reapplySettings(): void {
 	}
 }
 
-function createRadio(
-	title: string,
-	summary: string,
-	filterSettings: Level
-): JSX.Element {
+function createRadio(filterSettings: Level): JSX.Element {
+	const [title, summary] = levels[filterSettings];
 	return (
 		<label
 			className="select-menu-item d-flex"
@@ -98,27 +95,11 @@ async function addTimelineItemsFilter(): Promise<void> {
 						</button>
 					</div>
 					<div className="hx_rsm-content" role="menu">
-						{createRadio(
-							'Show all',
-							'',
-							'showAll'
-						)}
-						{createRadio(
-							'Show only comments',
-							'Hides commits and events',
-							'showOnlyComments'
-						)}
-						{createRadio(
-							'Show only unresolved comments',
-							'Also hides resolved reviews and hidden comments',
-							'showOnlyUnresolvedComments'
-						)}
+						{createRadio('showAll')}
+						{createRadio('showOnlyComments')}
+						{createRadio('showOnlyUnresolvedComments')}
 						{pageDetect.isPRConversation() &&
-							createRadio(
-								'Show only unresolved reviews',
-								'Also hides regular comments',
-								'showOnlyUnresolvedReviews'
-							)}
+							createRadio('showOnlyUnresolvedReviews')}
 					</div>
 				</details-menu>
 			</details>
