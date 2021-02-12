@@ -1,6 +1,6 @@
+import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, GearIcon, XIcon} from '@primer/octicons-react';
@@ -25,16 +25,13 @@ function regenerateFilterSummary(): void {
 		currentSettings === 'showAll' ? '' : levels[currentSettings][0];
 }
 
-function handleSelection({delegateTarget}: delegate.Event<MouseEvent, HTMLElement>): void {
-	currentSettings = delegateTarget.dataset.value as Level;
+async function handleSelection(): Promise<void> {
+	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
+	await delay(1);
+
+	currentSettings = select(`#${filterId} [aria-checked="true"]`)!.dataset.value as Level;
 	regenerateFilterSummary();
 	reapplySettings();
-
-	for (const element of select.all(`.${filterId} .octicon-check`)) {
-		element.hidden = true;
-	}
-
-	select('.octicon-check', delegateTarget)!.hidden = false;
 }
 
 function reapplySettings(): void {
@@ -79,6 +76,7 @@ async function addTimelineItemsFilter(): Promise<void> {
 				<details-menu
 					className="select-menu-modal position-absolute right-0 hx_rsm-modal js-discussion-sidebar-menu"
 					style={{zIndex: 99}}
+					on-details-menu-select={handleSelection}
 				>
 					<div className="select-menu-header">
 						<span className="select-menu-title">Temporarily hide content</span>
@@ -183,9 +181,6 @@ function applyDisplay(
 }
 
 async function init(): Promise<any> {
-	delegate(document, `#${filterId} .select-menu-item`, 'click', handleSelection)
-	// There are some cases when github will remove this filter. In that case we need to add it again.
-	// Example: Editing comment will make timeline filter to disappear.
 	observe('.discussion-sidebar-item.sidebar-notifications', {
 		async add() {
 			await addTimelineItemsFilter();
