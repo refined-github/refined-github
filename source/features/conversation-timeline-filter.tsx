@@ -68,7 +68,7 @@ function addFilter(position: Element): void {
 				</summary>
 
 				<details-menu
-					className="select-menu-modal position-absolute right-0 hx_rsm-modal js-discussion-sidebar-menu"
+					className="select-menu-modal position-absolute right-0 hx_rsm-modal"
 					style={{zIndex: 99}}
 					on-details-menu-select={handleSelection}
 				>
