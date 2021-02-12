@@ -10,7 +10,9 @@ async function init(): Promise<void> {
 
 	// Hide redundant "Releases" section
 	const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]', {waitForChildren: false});
-	sidebarReleases!.closest<HTMLElement>('.BorderGrid-row')!.hidden = true;
+	if (sidebarReleases) {
+		sidebarReleases.closest<HTMLElement>('h2')!.hidden = true;
+	}
 
 	// Hide empty "Packages" section
 	const packagesCounter = await elementReady('.BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false})!;

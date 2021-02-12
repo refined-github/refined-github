@@ -7,8 +7,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import SearchQuery from '../github-helpers/search-query';
 import {getRepo} from '../github-helpers';
+import SearchQuery from '../github-helpers/search-query';
 
 const numberFormatter = new Intl.NumberFormat();
 const countBugs = cache.function(async (): Promise<number> => {

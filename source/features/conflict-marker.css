@@ -1,8 +1,4 @@
 .rgh-conflict-marker svg {
 	vertical-align: middle;
-	color: #c0c0c0;
-}
-
-[data-color-mode='dark'] .rgh-conflict-marker svg {
-	color: #505050;
+	color: var(--color-icon-tertiary, #ccc);
 }

@@ -11,24 +11,33 @@ Our hope is that GitHub will notice and implement some of these much needed impr
 
 GitHub Enterprise is also supported. More info in the options.
 
----
-
-<a href="https://alm.sh">
-	<img src="https://sindresorhus.com/assets/thanks/alm-refined-github-logo.svg" align="right">
-</a>
-
-- [Product Hunt submission](https://www.producthunt.com/posts/refined-github) *(2017-07-08)*
-- [What's new lately](https://blog.sindresorhus.com/whats-new-in-refined-github-836d05582df7) *(2017-06-23)*
-- [Original announcement](https://blog.sindresorhus.com/refined-github-21185789685d) *(2016-03-31)*
-
-
 ## Install
 
-- [**Chrome** extension][link-cws] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-cws]
+- [**Chrome** extension][link-cws] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-cws] also compatible with Opera and Edge
 - [**Firefox** add-on][link-amo] [<img valign="middle" src="https://img.shields.io/amo/v/refined-github-.svg?label=%20">][link-amo]
 
 The Chrome version also works in Opera (using [this](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/)) and Edge.
 
+---
+
+<div align="center">
+	<p>
+		<sup>
+			Sindre's open source work is supported by the community.<br>Special thanks to:
+		</sup>
+	</p>
+	<br>
+	<a href="https://alm.sh">
+		<img src="https://sindresorhus.com/assets/thanks/alm-logo.svg" width="160">
+	</a>
+	<br>
+	<br>
+	<a href="https://retool.com/?utm_campaign=sindresorhus">
+		<img src="https://sindresorhus.com/assets/thanks/retool-logo.svg" width="210">
+	</a>
+</div>
+
+---
 
 ## Highlights ðŸ”¥
 
@@ -361,18 +370,21 @@ GitHub implemented dozens of features that used to be part of Refined GitHub ðŸŽ
 
 </details>
 
-
 ## Customization
 
 Most features [can be disabled](https://github.com/sindresorhus/refined-github/pull/877) if they are JavaScript-based *(Experimental)* and you can override our CSS with your own in [the extension options.](https://github.com/sindresorhus/refined-github/pull/1193)
 
 We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a high bar for adding features.](https://github.com/sindresorhus/refined-github/issues/2960) Users will always disagree with something. That being said, we're open to discussing things.
 
-
 ## Contribute
 
 Read the [contribution guide](contributing.md) and join the [contributors](https://github.com/sindresorhus/refined-github/graphs/contributors)!
 
+## Links
+
+- [Product Hunt submission](https://www.producthunt.com/posts/refined-github) *(2017-07-08)*
+- [What's new lately](https://blog.sindresorhus.com/whats-new-in-refined-github-836d05582df7) *(2017-06-23)*
+- [Original announcement](https://blog.sindresorhus.com/refined-github-21185789685d) *(2016-03-31)*
 
 ## Related
 
