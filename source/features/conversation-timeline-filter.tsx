@@ -20,21 +20,15 @@ let currentSettings: Level = 'showAll';
 
 const filterId = 'rgh-timeline-filters';
 
-function regenerateFilterSummary(): void {
-	select(`#${filterId} .reason`)!.textContent =
-		currentSettings === 'showAll' ? '' : levels[currentSettings][0];
-}
-
 async function handleSelection(): Promise<void> {
 	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
 	await delay(1);
 
 	currentSettings = select(`#${filterId} [aria-checked="true"]`)!.dataset.value as Level;
-	regenerateFilterSummary();
-	reapplySettings();
-}
 
-function reapplySettings(): void {
+	select(`#${filterId} .reason`)!.textContent =
+		currentSettings === 'showAll' ? '' : levels[currentSettings][0];
+
 	for (const element of select.all('.js-timeline-item')) {
 		processTimelineItem(element);
 	}
@@ -60,7 +54,7 @@ function createRadio(filterSettings: Level): JSX.Element {
 }
 
 function addTimelineItemsFilter(position: Element): void {
-	position!.before(
+	position.before(
 		<div className="discussion-sidebar-item js-discussion-sidebar-item rgh-clean-sidebar" id={filterId}>
 			<details className="details-reset details-overlay select-menu hx_rsm">
 				<summary
