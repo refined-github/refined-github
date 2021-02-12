@@ -16,7 +16,7 @@ function parseFromDom(): false {
 	return false;
 }
 
-const getChangelogName = cache.function(async (): Promise<string | false > => {
+const getChangelogName = cache.function(async (): Promise<string | false> => {
 	const {repository} = await api.v4(`
 		repository() {
 			object(expression: "HEAD:") {
