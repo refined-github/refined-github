@@ -111,6 +111,14 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
+function setFeatureLoaded(id: FeatureID): void {
+	select('rgh-features')?.setAttribute(id, 'true');
+}
+
+function isFeatureLoaded(id: FeatureID): boolean {
+	return Boolean(select('rgh-features')?.hasAttribute(id));
+}
+
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
 	const {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
 
@@ -122,8 +130,9 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 	const runFeature = async (): Promise<void> => {
 		try {
 			// Features can return `false` when they decide not to run on the current page
-			// Also the condition avoids logging the fake feature added for `has-rgh`
+			// Also the condition avoids logging the fake feature added for `rgh-features`
 			if (await init() !== false && id !== __filebasename) {
+				setFeatureLoaded(id);
 				log('✅', id);
 			}
 		} catch (error: unknown) {
@@ -237,7 +246,7 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 		}
 
 		document.addEventListener('pjax:end', () => {
-			if (repeatOnBackButton || !select.exists('has-rgh')) {
+			if (repeatOnBackButton || !isFeatureLoaded(id)) {
 				void setupPageLoad(id, details);
 			}
 		});
@@ -261,10 +270,10 @@ This means that the old features will still be on the page and don't need to re-
 This marks each as "processed"
 */
 void add(__filebasename, {
-	init: async () => {
-		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
-		await Promise.resolve();
-		select('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);
+	init: () => {
+		if (!select.exists('rgh-features')) {
+			select('#js-repo-pjax-container, #js-pjax-container')?.append(<rgh-features/>);
+		}
 	}
 });
 
