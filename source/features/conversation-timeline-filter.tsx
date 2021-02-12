@@ -158,7 +158,10 @@ function processTimelineItem(item: HTMLElement): void {
 function processPR(item: HTMLElement): void {
 	let hasVisibleElement = false;
 
-	for (const threadContainer of select.all('.js-resolvable-timeline-thread-container', item)) {
+	const threadContainerItems = select.all('.js-resolvable-timeline-thread-container', item);
+
+	for (const threadContainer of threadContainerItems) {
+		hasAnyInnerComment = true;
 		if (threadContainer.getAttribute('data-resolved') === 'true') {
 			applyDisplay(threadContainer, FilterSettings.ShowOnlyComments);
 		} else if (
@@ -185,7 +188,11 @@ function processPR(item: HTMLElement): void {
 		hasVisibleElement = hasVisibleElement || !threadContainer.hidden;
 	}
 
-	item.hidden = !hasVisibleElement;
+	if(threadContainerItems.length > 0)
+	{
+		item.hidden = !hasVisibleElement;
+	}
+
 }
 
 function applyDisplay(
