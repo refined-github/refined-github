@@ -6,31 +6,26 @@ import {CheckIcon, GearIcon, XIcon} from '@primer/octicons-react';
 
 import features from '.';
 
-enum FilterSettings {
-	ShowAll = 1,
-	ShowOnlyComments = 2,
-	ShowOnlyUnresolvedComments = 3,
-	ShowOnlyUnresolvedReviews = 4
-}
+const levels = {
+	showAll: '',
+	showOnlyComments: 'Show only comments',
+	showOnlyUnresolvedComments: 'Show only unresolved reviews',
+	showOnlyUnresolvedReviews: 'Show unresolved comments'
+};
 
-let currentSettings: FilterSettings = FilterSettings.ShowAll;
+type Level = keyof typeof levels;
+
+let currentSettings: Level = 'showAll';
 
 const menuItemCheckbox = 'rgh-filter-menu-item-checkbox';
 
 const timelineFiltersSelectorId = 'rgh-timeline-filters';
 
-const summaries = {
-	[FilterSettings.ShowAll]: '',
-	[FilterSettings.ShowOnlyComments]: 'Show only comments',
-	[FilterSettings.ShowOnlyUnresolvedComments]: 'Show only unresolved reviews',
-	[FilterSettings.ShowOnlyUnresolvedReviews]: 'Show unresolved comments'
-};
-
 function regenerateFilterSummary(): void {
-	select(`#${timelineFiltersSelectorId}`)!.textContent = summaries[currentSettings];
+	select(`#${timelineFiltersSelectorId}`)!.textContent = levels[currentSettings];
 }
 
-async function saveSettings(filterSettings: FilterSettings, test: string): Promise<any> {
+async function saveSettings(filterSettings: Level, test: string): Promise<any> {
 	currentSettings = filterSettings;
 	regenerateFilterSummary();
 	reapplySettings();
@@ -51,7 +46,7 @@ function reapplySettings(): void {
 function createRadio(
 	title: string,
 	summary: string,
-	filterSettings: FilterSettings
+	filterSettings: Level
 ): JSX.Element {
 	return (
 		<label
@@ -106,23 +101,23 @@ async function addTimelineItemsFilter(): Promise<void> {
 						{createRadio(
 							'Show all',
 							'',
-							FilterSettings.ShowAll
+							'showAll'
 						)}
 						{createRadio(
 							'Show only comments',
 							'Hides commits and events',
-							FilterSettings.ShowOnlyComments
+							'showOnlyComments'
 						)}
 						{createRadio(
 							'Show only unresolved comments',
 							'Also hides resolved reviews and hidden comments',
-							FilterSettings.ShowOnlyUnresolvedComments
+							'showOnlyUnresolvedComments'
 						)}
 						{pageDetect.isPRConversation() &&
 							createRadio(
 								'Show only unresolved reviews',
 								'Also hides regular comments',
-								FilterSettings.ShowOnlyUnresolvedReviews
+								'showOnlyUnresolvedReviews'
 							)}
 					</div>
 				</details-menu>
@@ -142,19 +137,19 @@ function processTimelineItem(item: HTMLElement): void {
 			// Hidden comment
 			applyDisplay(
 				item,
-				FilterSettings.ShowOnlyComments
+				'showOnlyComments'
 			);
 		} else {
 			// Regular comments
 			applyDisplay(
 				item,
-				FilterSettings.ShowOnlyComments,
-				FilterSettings.ShowOnlyUnresolvedComments
+				'showOnlyComments',
+				'showOnlyUnresolvedComments'
 			);
 		}
 	} else {
 		// Other events
-		applyDisplay(item, FilterSettings.ShowAll);
+		applyDisplay(item, 'showAll');
 	}
 }
 
@@ -165,15 +160,15 @@ function processPR(item: HTMLElement): void {
 
 	for (const threadContainer of threadContainerItems) {
 		if (threadContainer.getAttribute('data-resolved') === 'true') {
-			applyDisplay(threadContainer, FilterSettings.ShowOnlyComments);
+			applyDisplay(threadContainer, 'showOnlyComments');
 		} else if (
 			select.exists('.inline-comment-form-container', threadContainer)
 		) {
 			applyDisplay(
 				threadContainer,
-				FilterSettings.ShowOnlyUnresolvedComments,
-				FilterSettings.ShowOnlyUnresolvedReviews,
-				FilterSettings.ShowOnlyComments
+				'showOnlyUnresolvedComments',
+				'showOnlyUnresolvedReviews',
+				'showOnlyComments'
 			);
 		} else {
 			// There is 1 special case here when github shows you a comment that was added to previous comment thread but it does not show whether it is resolved or not resolved comment.
@@ -181,8 +176,8 @@ function processPR(item: HTMLElement): void {
 			// We are just checking here if user is able to comment inside that timeline thread, if not then it means we have this special situation that was just described.
 			applyDisplay(
 				threadContainer,
-				FilterSettings.ShowOnlyComments,
-				FilterSettings.ShowOnlyUnresolvedComments
+				'showOnlyComments',
+				'showOnlyUnresolvedComments'
 			);
 		}
 
@@ -192,17 +187,17 @@ function processPR(item: HTMLElement): void {
 
 	item.hidden =
 		(threadContainerItems.length > 0 ||
-		currentSettings === FilterSettings.ShowOnlyUnresolvedReviews) &&
+		currentSettings === 'showOnlyUnresolvedReviews') &&
 		!hasVisibleElement;
 }
 
 function applyDisplay(
 	element: HTMLElement,
-	...displaySettings: FilterSettings[]
+	...displaySettings: Level[]
 ): void {
 	if (
 		displaySettings.includes(currentSettings) ||
-		currentSettings === FilterSettings.ShowAll
+		currentSettings === 'showAll'
 	) {
 		element.hidden = false;
 	} else {
