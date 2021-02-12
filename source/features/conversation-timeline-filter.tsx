@@ -101,25 +101,30 @@ function processTimelineItem(item: HTMLElement): void {
 	if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
 		// PR review thread
 		processPR(item);
-	} else if (select.exists('.js-comment-container', item)) {
-		if (select.exists('.rgh-preview-hidden-comments', item)) {
-			// Hidden comment
-			applyDisplay(
-				item,
-				'showOnlyComments'
-			);
-		} else {
-			// Regular comments
-			applyDisplay(
-				item,
-				'showOnlyComments',
-				'showOnlyUnresolvedComments'
-			);
-		}
-	} else {
+		return;
+	}
+
+	if (!select.exists('.js-comment-container', item)) {
 		// Other events
 		applyDisplay(item, 'showAll');
+		return;
 	}
+
+	if (select.exists('.rgh-preview-hidden-comments', item)) {
+		// Hidden comment
+		applyDisplay(
+			item,
+			'showOnlyComments'
+		);
+		return;
+	}
+
+	// Regular comments
+	applyDisplay(
+		item,
+		'showOnlyComments',
+		'showOnlyUnresolvedComments'
+	);
 }
 
 function processPR(item: HTMLElement): void {
