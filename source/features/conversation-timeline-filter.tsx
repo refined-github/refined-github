@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, GearIcon, XIcon} from '@primer/octicons-react';
@@ -17,24 +18,23 @@ type Level = keyof typeof levels;
 
 let currentSettings: Level = 'showAll';
 
-const menuItemCheckbox = 'rgh-filter-menu-item-checkbox';
-
-const timelineFiltersSelectorId = 'rgh-timeline-filters';
+const filterId = 'rgh-timeline-filters';
 
 function regenerateFilterSummary(): void {
-	select(`#${timelineFiltersSelectorId}`)!.textContent = currentSettings === 'showAll' ? '' : levels[currentSettings][0];
+	select(`#${filterId} .reason`)!.textContent =
+		currentSettings === 'showAll' ? '' : levels[currentSettings][0];
 }
 
-async function saveSettings(filterSettings: Level, test: string): Promise<any> {
-	currentSettings = filterSettings;
+function handleSelection({delegateTarget}: delegate.Event<MouseEvent, HTMLElement>): void {
+	currentSettings = delegateTarget.dataset.value as Level;
 	regenerateFilterSummary();
 	reapplySettings();
 
-	for (const element of select.all(`.${menuItemCheckbox}`)) {
+	for (const element of select.all(`.${filterId} .octicon-check`)) {
 		element.hidden = true;
 	}
 
-	select(test)!.hidden = false;
+	select('.octicon-check', delegateTarget)!.hidden = false;
 }
 
 function reapplySettings(): void {
@@ -50,14 +50,10 @@ function createRadio(filterSettings: Level): JSX.Element {
 			className="select-menu-item d-flex"
 			aria-checked={String(filterSettings === currentSettings)}
 			role="menuitemradio"
+			data-value={filterSettings}
 			tabIndex={0}
-			onClick={async () => saveSettings(filterSettings, `#rgh-filter-menu-item-checkbox-${filterSettings}`)}
 		>
-			<CheckIcon
-				id={`rgh-filter-menu-item-checkbox-${filterSettings}`}
-				className={`${menuItemCheckbox} select-menu-item-icon octicon octicon-check`}
-				aria-hidden="true"
-			/>
+			<CheckIcon className="select-menu-item-icon octicon octicon-check" aria-hidden="true" />
 			<div className="select-menu-item-text">
 				{title}
 				<div className="text-normal description">{summary}</div>
@@ -68,7 +64,7 @@ function createRadio(filterSettings: Level): JSX.Element {
 
 async function addTimelineItemsFilter(): Promise<void> {
 	select('#partial-users-participants')!.before(
-		<div className="discussion-sidebar-item js-discussion-sidebar-item rgh-clean-sidebar">
+		<div className="discussion-sidebar-item js-discussion-sidebar-item rgh-clean-sidebar" id={filterId}>
 			<details className="details-reset details-overlay select-menu hx_rsm">
 				<summary
 					className="text-bold discussion-sidebar-heading discussion-sidebar-toggle hx_rsm-trigger"
@@ -104,7 +100,7 @@ async function addTimelineItemsFilter(): Promise<void> {
 				</details-menu>
 			</details>
 
-			<p id={timelineFiltersSelectorId} className="reason text-small text-gray"/>
+			<p className="reason text-small text-gray"/>
 		</div>
 	);
 }
@@ -187,6 +183,7 @@ function applyDisplay(
 }
 
 async function init(): Promise<any> {
+	delegate(document, `#${filterId} .select-menu-item`, 'click', handleSelection)
 	// There are some cases when github will remove this filter. In that case we need to add it again.
 	// Example: Editing comment will make timeline filter to disappear.
 	observe('.discussion-sidebar-item.sidebar-notifications', {
