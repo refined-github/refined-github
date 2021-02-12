@@ -38,11 +38,11 @@ function createRadio(filterSettings: Level): JSX.Element {
 	const [title, summary] = levels[filterSettings];
 	return (
 		<label
-			className="select-menu-item d-flex"
-			aria-checked={String(filterSettings === currentSettings)}
+			className="select-menu-item"
 			role="menuitemradio"
-			data-value={filterSettings}
 			tabIndex={0}
+			aria-checked={String(filterSettings === currentSettings)}
+			data-value={filterSettings}
 		>
 			<CheckIcon className="select-menu-item-icon octicon octicon-check" aria-hidden="true"/>
 			<div className="select-menu-item-text">
