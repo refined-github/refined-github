@@ -208,6 +208,7 @@ import './features/quick-repo-deletion';
 import './features/clean-repo-sidebar';
 import './features/rgh-feature-descriptions';
 import './features/useful-forks';
+import './features/link-to-changelog-file';
 
 // Add global for easier debugging
 (window as any).select = select;
