@@ -2,10 +2,11 @@ import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
 import {observe} from 'selector-observer';
+import {CheckIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
-import {CheckIcon, GearIcon, XIcon} from '@primer/octicons-react';
 
 import features from '.';
+import sidebarItem from '../github-widgets/conversation-sidebar-item';
 
 const levels = {
 	showAll: 'Show all',
@@ -52,45 +53,18 @@ function createRadio(filterSettings: Level): JSX.Element {
 
 function addFilter(position: Element): void {
 	position.before(
-		<div className="discussion-sidebar-item js-discussion-sidebar-item rgh-clean-sidebar" id={filterId}>
-			<details className="details-reset details-overlay select-menu hx_rsm">
-				<summary
-					className="text-bold discussion-sidebar-heading discussion-sidebar-toggle hx_rsm-trigger"
-					aria-haspopup="menu"
-					data-hotkey="x"
-					role="button"
-				>
-					<GearIcon/>
-					Filters
-				</summary>
-
-				<details-menu
-					className="select-menu-modal position-absolute right-0 hx_rsm-modal"
-					style={{zIndex: 99}}
-					on-details-menu-select={handleSelection}
-				>
-					<div className="select-menu-header">
-						<span className="select-menu-title">Temporarily hide content</span>
-						<button
-							className="hx_rsm-close-button btn-link close-button"
-							type="button"
-							data-toggle-for="reference-select-menu"
-						>
-							<XIcon aria-label="Close menu" role="img"/>
-						</button>
-					</div>
-					<div className="hx_rsm-content" role="menu">
-						{createRadio('showAll')}
-						{createRadio('showOnlyComments')}
-						{createRadio('showOnlyUnresolvedComments')}
-						{pageDetect.isPRConversation() &&
-							createRadio('showOnlyUnresolvedReviews')}
-					</div>
-				</details-menu>
-			</details>
-
-			<p className="reason text-small text-gray"/>
-		</div>
+		sidebarItem({
+			id: filterId,
+			name: 'Filters',
+			subHeader: 'Temporarily hide content',
+			handleSelection,
+			content: [
+				createRadio('showAll'),
+				createRadio('showOnlyComments'),
+				createRadio('showOnlyUnresolvedComments'),
+				pageDetect.isPRConversation() && createRadio('showOnlyUnresolvedReviews')
+			]
+		})
 	);
 }
 
