@@ -9,9 +9,9 @@ import features from '.';
 
 const levels = {
 	showAll: ['Show all'],
-	showOnlyComments: ['Hide commits and events'],
-	showOnlyUnresolvedComments: ['Also hide resolved reviews and hidden comments'],
-	showOnlyUnresolvedReviews: ['Also hide regular comments', 'Only unresolved reviews are shown']
+	showOnlyComments: ['Show only comments'],
+	showOnlyUnresolvedComments: ['Show only unresolved comments'],
+	showOnlyUnresolvedReviews: ['Show only unresolved reviews']
 };
 
 type Level = keyof typeof levels;
