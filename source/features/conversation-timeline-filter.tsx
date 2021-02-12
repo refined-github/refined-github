@@ -135,13 +135,12 @@ function processPR(item: HTMLElement): void {
 	);
 }
 
-function applyDisplay(
-	element: HTMLElement,
-	...displaySettings: Level[]
-): void {
-	element.hidden =
-		!displaySettings.includes(currentSettings) &&
-		currentSettings !== 'showAll';
+function applyDisplay(element: HTMLElement, ...showOnStates: Level[]): void {
+	if (currentSettings === 'showAll') {
+		element.hidden = false;
+	} else {
+		element.hidden = !showOnStates.includes(currentSettings);
+	}
 }
 
 function init(): void {
