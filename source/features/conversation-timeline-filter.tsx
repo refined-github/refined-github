@@ -188,11 +188,10 @@ function processPR(item: HTMLElement): void {
 		hasVisibleElement = hasVisibleElement || !threadContainer.hidden;
 	}
 
-	if(threadContainerItems.length > 0)
-	{
-		item.hidden = !hasVisibleElement;
-	}
-
+	item.hidden = 
+		(threadContainerItems.length > 0 ||
+		currentSettings == FilterSettings.ShowOnlyUnresolvedReviews) &&
+		!hasVisibleElement;
 }
 
 function applyDisplay(
