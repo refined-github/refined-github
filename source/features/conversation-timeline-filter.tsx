@@ -9,10 +9,10 @@ import features from '.';
 import sidebarItem from '../github-widgets/conversation-sidebar-item';
 
 const levels = {
-	showAll: 'Show all',
-	showOnlyComments: 'Show only comments',
-	showOnlyUnresolvedComments: 'Show only unresolved comments',
-	showOnlyUnresolvedReviews: 'Show only unresolved reviews'
+	showAll: '',
+	showOnlyComments: 'Only show comments',
+	showOnlyUnresolvedComments: 'Only show unresolved comments',
+	showOnlyUnresolvedReviews: 'Only show unresolved reviews'
 };
 
 type Level = keyof typeof levels;
@@ -27,8 +27,7 @@ async function handleSelection(): Promise<void> {
 
 	currentSettings = select(`#${filterId} [aria-checked="true"]`)!.dataset.value as Level;
 
-	select(`#${filterId} .reason`)!.textContent =
-		currentSettings === 'showAll' ? '' : levels[currentSettings];
+	select(`#${filterId} .reason`)!.textContent = levels[currentSettings];
 
 	for (const element of select.all('.js-timeline-item')) {
 		processTimelineItem(element);
@@ -46,7 +45,7 @@ function createRadio(filterSettings: Level): JSX.Element {
 			data-value={filterSettings}
 		>
 			<CheckIcon className="select-menu-item-icon octicon octicon-check" aria-hidden="true"/>
-			<div className="select-menu-item-text">{label}</div>
+			<div className="select-menu-item-text">{label || 'Show all'}</div>
 		</label>
 	);
 }
@@ -55,7 +54,7 @@ function addFilter(position: Element): void {
 	position.before(
 		sidebarItem({
 			id: filterId,
-			name: 'Filters',
+			name: 'View options',
 			subHeader: 'Temporarily hide content',
 			handleSelection,
 			content: [
