@@ -15,7 +15,6 @@ enum FilterSettings {
 
 let currentSettings: FilterSettings = FilterSettings.ShowAll;
 
-const showFilterName = 'rgh-show-filter';
 const menuItemCheckbox = 'rgh-filter-menu-item-checkbox';
 
 const timelineFiltersSelectorId = 'rgh-timeline-filters';
