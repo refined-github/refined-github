@@ -143,16 +143,13 @@ function processTimelineItem(item: HTMLElement): void {
 		// PR review thread
 		processPR(item);
 	} else if (select.exists('.js-comment-container', item)) {
-		if(select.exists('.rgh-preview-hidden-comments', item))
-		{
+		if (select.exists('.rgh-preview-hidden-comments', item)) {
 			// Hidden comment
 			applyDisplay(
 				item,
 				FilterSettings.ShowOnlyComments
 			);
-		}
-		else
-		{
+		} else {
 			// Regular comments
 			applyDisplay(
 				item,
@@ -198,9 +195,9 @@ function processPR(item: HTMLElement): void {
 		hasVisibleElement = hasVisibleElement || !threadContainer.hidden;
 	}
 
-	item.hidden = 
+	item.hidden =
 		(threadContainerItems.length > 0 ||
-		currentSettings == FilterSettings.ShowOnlyUnresolvedReviews) &&
+		currentSettings === FilterSettings.ShowOnlyUnresolvedReviews) &&
 		!hasVisibleElement;
 }
 
