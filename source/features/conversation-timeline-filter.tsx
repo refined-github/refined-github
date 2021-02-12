@@ -51,13 +51,13 @@ function reapplySettings(): void {
 function createRadio(
 	title: string,
 	summary: string,
-	filterSettings: FilterSettings,
-	checked: boolean
+	filterSettings: FilterSettings
 ): JSX.Element {
+	console.log("Create radio");
 	return (
 		<label
 			className="select-menu-item d-flex"
-			aria-checked={String(checked)}
+			aria-checked={String(filterSettings === currentSettings)}
 			role="menuitemradio"
 			tabIndex={0}
 			onClick={async () => saveSettings(filterSettings, `#rgh-filter-menu-item-checkbox-${filterSettings}`)}
@@ -107,27 +107,23 @@ async function addTimelineItemsFilter(): Promise<void> {
 						{createRadio(
 							'Show all',
 							'',
-							FilterSettings.ShowAll,
-							true
+							FilterSettings.ShowAll
 						)}
 						{createRadio(
 							'Show only comments',
 							'Hides commits and events',
-							FilterSettings.ShowOnlyComments,
-							false
+							FilterSettings.ShowOnlyComments
 						)}
 						{createRadio(
 							'Show only unresolved comments',
 							'Also hides resolved reviews and hidden comments',
-							FilterSettings.ShowOnlyUnresolvedComments,
-							false
+							FilterSettings.ShowOnlyUnresolvedComments
 						)}
 						{pageDetect.isPRConversation() &&
 							createRadio(
 								'Show only unresolved reviews',
 								'Also hides regular comments',
-								FilterSettings.ShowOnlyUnresolvedReviews,
-								false
+								FilterSettings.ShowOnlyUnresolvedReviews
 							)}
 					</div>
 				</details-menu>
