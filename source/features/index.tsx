@@ -271,9 +271,11 @@ This marks each as "processed"
 */
 void add(__filebasename, {
 	init: () => {
-		if (!select.exists('rgh-features')) {
-			select('#js-repo-pjax-container, #js-pjax-container')?.append(<rgh-features/>);
+		if (select.exists('rgh-features')) {
+			select('rgh-features')?.remove()
 		}
+
+		select('#js-repo-pjax-container, #js-pjax-container')?.append(<rgh-features/>);
 	}
 });
 
