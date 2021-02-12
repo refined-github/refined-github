@@ -53,7 +53,6 @@ function createRadio(
 	summary: string,
 	filterSettings: FilterSettings
 ): JSX.Element {
-	console.log("Create radio");
 	return (
 		<label
 			className="select-menu-item d-flex"
