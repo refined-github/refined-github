@@ -8,10 +8,10 @@ import {CheckIcon, GearIcon, XIcon} from '@primer/octicons-react';
 import features from '.';
 
 const levels = {
-	showAll: ['Show all', ''],
-	showOnlyComments: ['Show only comments', 'Hides commits and events'],
-	showOnlyUnresolvedComments: ['Show unresolved comments', 'Also hides resolved reviews and hidden comments'],
-	showOnlyUnresolvedReviews: ['Show only unresolved reviews', 'Also hides regular comments']
+	showAll: ['Show all'],
+	showOnlyComments: ['Hide commits and events'],
+	showOnlyUnresolvedComments: ['Also hide resolved reviews and hidden comments'],
+	showOnlyUnresolvedReviews: ['Also hide regular comments', 'Only unresolved reviews are shown']
 };
 
 type Level = keyof typeof levels;
@@ -53,7 +53,7 @@ function createRadio(filterSettings: Level): JSX.Element {
 	);
 }
 
-function addTimelineItemsFilter(position: Element): void {
+function addFilter(position: Element): void {
 	position.before(
 		<div className="discussion-sidebar-item js-discussion-sidebar-item rgh-clean-sidebar" id={filterId}>
 			<details className="details-reset details-overlay select-menu hx_rsm">
@@ -176,7 +176,7 @@ function applyDisplay(
 
 function init(): void {
 	observe('#partial-users-participants', {
-		add: addTimelineItemsFilter
+		add: addFilter
 	});
 	observe('.js-timeline-item', {
 		constructor: HTMLElement,
