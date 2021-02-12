@@ -143,12 +143,23 @@ function processTimelineItem(item: HTMLElement): void {
 		// PR review thread
 		processPR(item);
 	} else if (select.exists('.js-comment-container', item)) {
-		// Regular comments
-		applyDisplay(
-			item,
-			FilterSettings.ShowOnlyComments,
-			FilterSettings.ShowOnlyUnresolvedComments
-		);
+		if(select.exists('.rgh-preview-hidden-comments', item))
+		{
+			// Hidden comment
+			applyDisplay(
+				item,
+				FilterSettings.ShowOnlyComments
+			);
+		}
+		else
+		{
+			// Regular comments
+			applyDisplay(
+				item,
+				FilterSettings.ShowOnlyComments,
+				FilterSettings.ShowOnlyUnresolvedComments
+			);
+		}
 	} else {
 		// Other events
 		applyDisplay(item, FilterSettings.ShowAll);
@@ -161,7 +172,6 @@ function processPR(item: HTMLElement): void {
 	const threadContainerItems = select.all('.js-resolvable-timeline-thread-container', item);
 
 	for (const threadContainer of threadContainerItems) {
-		hasAnyInnerComment = true;
 		if (threadContainer.getAttribute('data-resolved') === 'true') {
 			applyDisplay(threadContainer, FilterSettings.ShowOnlyComments);
 		} else if (
