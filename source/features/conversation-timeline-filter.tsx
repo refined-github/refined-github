@@ -59,8 +59,8 @@ function createRadio(filterSettings: Level): JSX.Element {
 	);
 }
 
-async function addTimelineItemsFilter(): Promise<void> {
-	select('#partial-users-participants')!.before(
+function addTimelineItemsFilter(position: Element): void {
+	position!.before(
 		<div className="discussion-sidebar-item js-discussion-sidebar-item rgh-clean-sidebar" id={filterId}>
 			<details className="details-reset details-overlay select-menu hx_rsm">
 				<summary
@@ -170,18 +170,13 @@ function applyDisplay(
 	element: HTMLElement,
 	...displaySettings: Level[]
 ): void {
-	if (
-		displaySettings.includes(currentSettings) ||
-		currentSettings === 'showAll'
-	) {
-		element.hidden = false;
-	} else {
-		element.hidden = true;
-	}
+	element.hidden =
+		!displaySettings.includes(currentSettings) &&
+		currentSettings !== 'showAll';
 }
 
-async function init(): Promise<any> {
-	observe('.discussion-sidebar-item.sidebar-notifications', {
+function init(): void {
+	observe('#partial-users-participants', {
 		add: addTimelineItemsFilter
 	});
 	observe('.js-timeline-item', {
