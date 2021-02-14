@@ -32,10 +32,6 @@ async function init(): Promise<void> {
 	// Hide empty meta if it’s not editable by the current user
 	if (!pageDetect.canUserEditRepo()) {
 		select('.repository-content .BorderGrid-cell:first-child > .text-italic')?.remove();
-		// Hide the "About" section entirely if empty
-		if (!select.exists('.repository-content .BorderGrid-row:first-child .BorderGrid-cell:first-child > :not(h2)')) {
-			select('.repository-content .BorderGrid-row:first-child')!.hidden = true;
-		}
 	}
 
 	// Hide "Language" header
