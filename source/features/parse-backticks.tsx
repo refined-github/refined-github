@@ -42,8 +42,8 @@ function init(): void {
 		'.profile-timeline-card .text-gray-dark', // `isUserProfileMainTab` issue and PR title
 		'#user-repositories-list [itemprop="description"]', // `isUserProfileRepoTab` repository description
 		'.js-hovercard-content > .Popover-message .link-gray-dark', // Hovercard
-		'.js-issue-title', // for discussion pages'
-		'a[data-hovercard-type="discussion"]' // for discussion listings
+		'.js-issue-title', // `isSingleDiscussion`
+		'a[data-hovercard-type="discussion"]' // `isDiscussionList`
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)').join();
 
 	observe(selectors, {
