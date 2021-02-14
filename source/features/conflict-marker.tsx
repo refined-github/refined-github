@@ -15,10 +15,10 @@ interface PRConfig {
 	key: string;
 }
 
-function createQueryFragment({key, user, repo, number}: PRConfig): string {
+function createQueryFragment(pr: PRConfig): string {
 	return `
-		${key}: repository(owner: "${user}", name: "${repo}") {
-			pullRequest(number: ${number}) {
+		${pr.key}: repository(owner: "${pr.user}", name: "${pr.repo}") {
+			pullRequest(number: ${pr.number}) {
 				mergeable
 			}
 		}
