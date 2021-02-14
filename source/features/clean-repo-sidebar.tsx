@@ -1,17 +1,26 @@
 import './clean-repo-sidebar.css';
+import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {wrap} from '../helpers/dom-utils';
 
 async function init(): Promise<void> {
 	document.body.classList.add('rgh-clean-repo-sidebar');
 
-	// Hide redundant "Releases" section
+	// Clean up "Releases" section
 	const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]', {waitForChildren: false});
 	if (sidebarReleases) {
-		sidebarReleases.closest<HTMLElement>('h2')!.hidden = true;
+		const releasesSection = sidebarReleases.closest<HTMLElement>('.BorderGrid-row')!;
+		const latestRelease = select('a[href*="/releases/"]', releasesSection);
+		if (latestRelease) {
+			releasesSection.previousElementSibling!.firstElementChild!.append(latestRelease);
+			wrap(latestRelease, <div className="mt-3"/>);
+		}
+
+		releasesSection.hidden = true;
 	}
 
 	// Hide empty "Packages" section
@@ -21,9 +30,18 @@ async function init(): Promise<void> {
 	}
 
 	// Hide empty meta if it’s not editable by the current user
-	// TODO: once it's fixed, use https://github.com/fregante/github-url-detection/blob/4840d85d31d59bfe71e884ef42c482fbfff2d955/index.ts#L490
-	if (!select.exists('.repository-content [aria-label="Edit repository metadata"]')) {
+	if (!pageDetect.canUserEditRepo()) {
 		select('.repository-content .BorderGrid-cell:first-child > .text-italic')?.remove();
+		// Hide the "About" section entirely if empty
+		if (!select.exists('.repository-content .BorderGrid-row:first-child .BorderGrid-cell:first-child > :not(h2)')) {
+			select('.repository-content .BorderGrid-row:first-child')!.hidden = true;
+		}
+	}
+
+	// Hide "Language" header
+	const lastSidebarHeader = select('.repository-content .BorderGrid-row:last-of-type h2');
+	if (lastSidebarHeader && lastSidebarHeader.textContent === 'Languages') {
+		lastSidebarHeader.hidden = true;
 	}
 }
 

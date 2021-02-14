@@ -1,3 +1,13 @@
+/* Hide "About" header */
+.rgh-clean-repo-sidebar .BorderGrid-row:first-of-type h2 {
+	display: none;
+}
+
+/* Align description with main content */
+.rgh-clean-repo-sidebar .BorderGrid-row:first-of-type p {
+	margin-top: 0 !important;
+}
+
 /* Hide "Readme" link made unnecessary by toggle-files-button #3580 */
 .rgh-clean-repo-sidebar h3.sr-only + .mt-3 .muted-link[href='#readme'] {
 	display: none;
