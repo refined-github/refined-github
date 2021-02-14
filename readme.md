@@ -106,6 +106,7 @@ Thanks for contributing! 🦋🙌
 - [](# "link-to-github-io") [Adds a link to visit the user’s github.io website from its repo.](https://user-images.githubusercontent.com/31387795/94045261-dbcd5e80-fdec-11ea-83fa-30bb673cc26e.jpg)
 - [](# "next-scheduled-github-action") [Shows the next scheduled time of relevant GitHub Actions in the workflows sidebar.](https://user-images.githubusercontent.com/46634000/94690232-2476a180-0330-11eb-99d7-e174bb762cea.png)
 - [](# "quick-repo-deletion") [Lets you delete your repos in a click, if they have no stars, issues, or PRs.](https://user-images.githubusercontent.com/1402241/99716945-54a80a00-2a6e-11eb-9107-f3517a6ab1bc.gif)
+- [](# "useful-forks") [Helps you find the most active forks.](https://user-images.githubusercontent.com/38117856/107463541-542e8500-6b2c-11eb-8b25-082f344c1587.png), via https://useful-forks.github.io.
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -262,6 +263,7 @@ Thanks for contributing! 🦋🙌
 - [](# "tag-changelog-link") 🔥 [Adds a link to an automatic changelog for each tag/release.](https://user-images.githubusercontent.com/1402241/57081611-ad4a7180-6d27-11e9-9cb6-c54ec1ac18bb.png)
 - [](# "latest-tag-button") [Adds a link to the latest version tag on directory listings and files.](https://user-images.githubusercontent.com/1402241/74594998-71df2080-5077-11ea-927c-b484ca656e88.png)
 - [](# "convert-release-to-draft") [Adds a button to convert a release to draft.](https://user-images.githubusercontent.com/16872793/90017455-8e03f900-dc79-11ea-95c5-377e0a82d4ea.png)
+- [](# "link-to-changelog-file") [Adds a button to view the changelog file from the releases page.](https://user-images.githubusercontent.com/16872793/107520428-684fa200-6b7f-11eb-8f7c-59172db71160.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
