@@ -5,14 +5,14 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-const isGist = ({pathname, hostname}: HTMLAnchorElement): boolean =>
-	!pathname.includes('.') && // Exclude links to embed files
+const isGist = (link: HTMLAnchorElement): boolean =>
+	!link.pathname.includes('.') && // Exclude links to embed files
 	(
-		(hostname.startsWith('gist.') && pathname.includes('/', 1)) || // Exclude user links
-		pathname.startsWith('gist/')
+		(link.hostname.startsWith('gist.') && link.pathname.includes('/', 1)) || // Exclude user links
+		link.pathname.startsWith('gist/')
 	);
 
-const isOnlyChild = ({textContent, parentNode}: HTMLAnchorElement): boolean => textContent!.trim() === parentNode!.textContent!.trim();
+const isOnlyChild = (link: HTMLAnchorElement): boolean => link.textContent!.trim() === link.parentNode!.textContent!.trim();
 
 async function embedGist(link: HTMLAnchorElement): Promise<void> {
 	const info = <em> (loading)</em>;
