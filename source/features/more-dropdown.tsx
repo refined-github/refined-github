@@ -38,7 +38,12 @@ export function createDropdownItem(label: string, url: string, attributes?: Reco
 }
 
 function onlyShowInDropdown(id: string): void {
-	select(`[data-tab-item$="${id}"]`)!.parentElement!.remove();
+	const tabItem = select(`[data-tab-item$="${id}"]`);
+	if (!tabItem && pageDetect.isEnterprise()) { // GHE might not have the Security tab #3962
+		return;
+	}
+
+	tabItem!.parentElement!.remove();
 	const menuItem = select(`[data-menu-item$="${id}"]`)!;
 	menuItem.removeAttribute('data-menu-item');
 	menuItem.hidden = false;
