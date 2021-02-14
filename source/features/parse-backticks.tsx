@@ -41,7 +41,9 @@ function init(): void {
 		'.notifications-list-item p.text-normal', // `isNotifications` issue and PR title
 		'.profile-timeline-card .text-gray-dark', // `isUserProfileMainTab` issue and PR title
 		'#user-repositories-list [itemprop="description"]', // `isUserProfileRepoTab` repository description
-		'.js-hovercard-content > .Popover-message .link-gray-dark' // Hovercard
+		'.js-hovercard-content > .Popover-message .link-gray-dark', // Hovercard
+		'.js-issue-title', // for discussion pages'
+		'a[data-hovercard-type="discussion"]' // for discussion listings
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)').join();
 
 	observe(selectors, {
