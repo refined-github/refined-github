@@ -40,7 +40,7 @@ async function init(): Promise<void> {
 
 	// Hide "Language" header
 	const lastSidebarHeader = select('.repository-content .BorderGrid-row:last-of-type h2');
-	if (lastSidebarHeader && lastSidebarHeader.textContent === 'Languages') {
+	if (lastSidebarHeader?.textContent === 'Languages') {
 		lastSidebarHeader.hidden = true;
 	}
 }
