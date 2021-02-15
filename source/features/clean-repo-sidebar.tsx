@@ -1,11 +1,9 @@
 import './clean-repo-sidebar.css';
-import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {wrap} from '../helpers/dom-utils';
 
 async function init(): Promise<void> {
 	document.body.classList.add('rgh-clean-repo-sidebar');
@@ -14,13 +12,10 @@ async function init(): Promise<void> {
 	const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]', {waitForChildren: false});
 	if (sidebarReleases) {
 		const releasesSection = sidebarReleases.closest<HTMLElement>('.BorderGrid-row')!;
-		const latestRelease = select('a[href*="/releases/"]', releasesSection);
-		if (latestRelease) {
-			releasesSection.previousElementSibling!.firstElementChild!.append(latestRelease);
-			wrap(latestRelease, <div className="mt-3"/>);
+		releasesSection.previousElementSibling!.classList.add('rgh-clean-releases');
+		for (const uselessInformation of select.all('.BorderGrid-cell > :not(a)', releasesSection)) {
+			uselessInformation.hidden = true;
 		}
-
-		releasesSection.hidden = true;
 	}
 
 	// Hide empty "Packages" section
