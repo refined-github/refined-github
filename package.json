@@ -18,6 +18,9 @@
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:webpack": "webpack --mode=development --watch"
 	},
+	"engines": {
+		"npm": ">= 7"
+	},
 	"stylelint": {
 		"extends": "stylelint-config-xo",
 		"rules": {
