@@ -56,7 +56,8 @@ function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta 
 }
 
 function getFeatures(): FeatureID[] {
-	return [...readFileSync(path.join(__dirname, 'source/refined-github.ts'), 'utf-8').matchAll(/^import '\.\/features\/([^.]+)';/gm)]
+	const features = [...readFileSync(path.join(__dirname, 'source/refined-github.ts'), 'utf-8').matchAll(/^import '\.\/features\/([^.]+)';/gm)];
+	return features
 		.map(match => match[1] as FeatureID)
 		.sort()
 		.filter(id => !id.startsWith('rgh-'));
