@@ -86,7 +86,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 			}
 		}
 		`);
-	const nodes: TagNode[] = repository.refs.nodes;
+	const {nodes} = repository.refs;
 
 	// If there are no tags in the repository
 	if (nodes.length === 0) {

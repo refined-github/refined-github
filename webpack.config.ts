@@ -56,10 +56,10 @@ function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta 
 }
 
 function getFeatures(): FeatureID[] {
-	return Array.from(
-		readFileSync(path.join(__dirname, 'source/refined-github.ts'), 'utf-8').matchAll(/^import '\.\/features\/([^.]+)';/gm),
-		match => match[1] as FeatureID
-	).sort().filter(id => !id.startsWith('rgh-'));
+	return [...readFileSync(path.join(__dirname, 'source/refined-github.ts'), 'utf-8').matchAll(/^import '\.\/features\/([^.]+)';/gm)]
+		.map(match => match[1] as FeatureID)
+		.sort()
+		.filter(id => !id.startsWith('rgh-'));
 }
 
 const config: Configuration = {

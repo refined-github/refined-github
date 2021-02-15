@@ -11,6 +11,7 @@ function featureWasRenamed(from: string, to: string): Migration<RGHOptions> {
 }
 
 // TypeScript doesn't merge the definitions so `...` is not equivalent.
+// eslint-disable-next-line prefer-object-spread
 const defaults = Object.assign({
 	customCSS: '',
 	personalToken: '',
