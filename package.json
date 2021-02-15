@@ -18,9 +18,6 @@
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:webpack": "webpack --mode=development --watch"
 	},
-	"engines": {
-		"npm": ">= 7"
-	},
 	"stylelint": {
 		"extends": "stylelint-config-xo",
 		"rules": {
@@ -63,7 +60,7 @@
 		"regex-join": "^1.0.0",
 		"select-dom": "^7.1.0",
 		"selector-observer": "^2.1.6",
-		"shorten-repo-url": "^2.0.1",
+		"shorten-repo-url": "^2.1.0",
 		"strip-indent": "^3.0.0",
 		"text-field-edit": "^3.1.0",
 		"tiny-version-compare": "^3.0.1",
@@ -116,6 +113,10 @@
 		"webpack": "^5.21.2",
 		"webpack-cli": "^4.5.0",
 		"xo": "^0.37.1"
+	},
+	"engines": {
+		"node": ">= 15",
+		"npm": ">= 7"
 	},
 	"webExt": {
 		"sourceDir": "distribution",
