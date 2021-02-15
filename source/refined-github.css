@@ -132,7 +132,7 @@ pr-branches
 	height: auto !important;
 }
 
-/* Fix #3925 */
+/* Keep diff stats in "Jump to" dropdown when header is fixed (fix https://github.com/sindresorhus/refined-github/issues/3925) */
 .select-menu-item-text .diffstat {
 	display: inline !important;
 }
