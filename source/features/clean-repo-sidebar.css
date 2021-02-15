@@ -16,7 +16,7 @@
 /* Merge "About" and "Releases" sections */
 .rgh-clean-releases .BorderGrid-cell {
 	border-color: transparent !important;
-	padding-bottom: 16px;
+	padding-bottom: 16px !important;
 }
 
 .rgh-clean-releases + .BorderGrid-row .BorderGrid-cell {
