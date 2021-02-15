@@ -131,3 +131,8 @@ pr-branches
 .WorkflowRunLogsScroll {
 	height: auto !important;
 }
+
+/* Fix #3925 */
+.select-menu-item-text .diffstat {
+	display: inline !important;
+}
