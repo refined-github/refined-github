@@ -8,8 +8,8 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import smartBlockWrap from '../helpers/smart-block-wrap';
 
-function addContentToDetails(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	const field = event.delegateTarget.form!.querySelector('textarea')!;
+function addContentToDetails({delegateTarget}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+	const field = delegateTarget.form!.querySelector('textarea')!;
 	const selection = field.value.slice(field.selectionStart, field.selectionEnd);
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content

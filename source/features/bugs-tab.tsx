@@ -48,6 +48,7 @@ async function init(): Promise<void | false> {
 	if (isBugsPage) {
 		// Hide pinned issues on the tab page, they might not belong there
 		// Don't await; if there are no pinned issues, this would delay the bug count update
+		// eslint-disable-next-line promise/prefer-await-to-then
 		void elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false}).then(pinnedIssues => pinnedIssues?.remove());
 	}
 
