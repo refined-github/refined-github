@@ -11,7 +11,7 @@ async function init(): Promise<void> {
 	// Clean up "Releases" section
 	const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]', {waitForChildren: false});
 	if (sidebarReleases) {
-		const releasesSection = sidebarReleases.closest('.BorderGrid-cell')!
+		const releasesSection = sidebarReleases.closest('.BorderGrid-cell')!;
 
 		// Collapse "Releases" section into previous section
 		releasesSection.classList.add('border-0', 'pt-3');
