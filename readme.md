@@ -7,7 +7,7 @@
 
 We use GitHub a lot and notice many annoyances we'd like to fix. So here be dragons.
 
-Our hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these improvements, please email [GitHub support](mailto:support@github.com) about doing it.
+Our hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these improvements, please email [GitHub support](https://support.github.com/contact) about doing it.
 
 GitHub Enterprise is also supported. More info in the options.
 
@@ -15,8 +15,7 @@ GitHub Enterprise is also supported. More info in the options.
 
 - [**Chrome** extension][link-cws] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-cws] also compatible with Opera and Edge
 - [**Firefox** add-on][link-amo] [<img valign="middle" src="https://img.shields.io/amo/v/refined-github-.svg?label=%20">][link-amo]
-
-The Chrome version also works in Opera (using [this](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/)) and Edge.
+- Safari version coming soon, [help us set it up](https://github.com/sindresorhus/refined-github/issues/3686)
 
 ---
 
