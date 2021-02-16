@@ -19,6 +19,8 @@ GitHub Enterprise is also supported. More info in the options.
 
 <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_128x128.png" width="48" valign="middle"> coming soon, [help us set it up](https://github.com/sindresorhus/refined-github/issues/3686)
 
+[<img src="https://raw.githubusercontent.com/iamcal/emoji-data/08ec822c38e0b7a6fea0b92a9c42e02b6ba24a84/img-apple-160/1f99a.png" width="48" valign="middle">](https://github.com/sponsors/fregante) _If you love Refined GitHub, consider [sponsoring or hiring](https://github.com/sponsors/fregante) the maintainer [@fregante](https://twitter.com/fregante)_
+
 ---
 
 <div align="center">
