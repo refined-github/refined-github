@@ -19,7 +19,6 @@ async function init(): Promise<void> {
 			<button className="btn btn-sm BtnGroup-item rgh-preview-button" type="button">View final result</button>
 		</div>
 	);
-
 	delegate(document, '.rgh-preview-button:not(.selected)', 'click', togglePreviewResult);
 }
 
