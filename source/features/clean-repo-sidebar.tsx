@@ -11,9 +11,17 @@ async function init(): Promise<void> {
 	// Clean up "Releases" section
 	const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]', {waitForChildren: false});
 	if (sidebarReleases) {
-		const releasesSection = sidebarReleases.closest<HTMLElement>('.BorderGrid-row')!;
-		releasesSection.previousElementSibling!.classList.add('rgh-clean-releases');
-		for (const uselessInformation of select.all('.BorderGrid-cell > :not(a)', releasesSection)) {
+		const releasesSection = sidebarReleases.closest('.BorderGrid-cell')!
+
+		// Collapse "Releases" section into previous section
+		releasesSection.classList.add('border-0');
+		sidebarReleases.closest('.BorderGrid-row')!
+			.previousElementSibling! // About’s .BorderGrid-row
+			.firstElementChild! // About’s .BorderGrid-cell
+			.classList.add('border-0', 'pb-0');
+
+		// Hide header and footer
+		for (const uselessInformation of select.all(':scope > :not(a)', releasesSection)) {
 			uselessInformation.hidden = true;
 		}
 	}
