@@ -14,7 +14,7 @@ async function init(): Promise<void> {
 		const releasesSection = sidebarReleases.closest('.BorderGrid-cell')!
 
 		// Collapse "Releases" section into previous section
-		releasesSection.classList.add('border-0');
+		releasesSection.classList.add('border-0', 'pt-3');
 		sidebarReleases.closest('.BorderGrid-row')!
 			.previousElementSibling! // About’s .BorderGrid-row
 			.firstElementChild! // About’s .BorderGrid-cell
