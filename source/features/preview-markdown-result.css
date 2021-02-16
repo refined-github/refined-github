@@ -1,0 +1,24 @@
+/* Hide removed content */
+.rgh-preview-markdown-result .markdown-body del,
+.rgh-preview-markdown-result .markdown-body .removed {
+	display: none !important;
+}
+
+/* Remove decorations on added/changed content */
+.rgh-preview-markdown-result .markdown-body ins,
+.rgh-preview-markdown-result .markdown-body .added,
+.rgh-preview-markdown-result .markdown-body .changed {
+	color: inherit !important;
+	background: none !important;
+	box-shadow: none !important;
+}
+
+/* Only show the toggle when the preview tab is selected */
+.rgh-preview-toggle {
+	display: none;
+}
+
+.loading-preview .rgh-preview-toggle,
+.show-preview .rgh-preview-toggle {
+	display: block;
+}
