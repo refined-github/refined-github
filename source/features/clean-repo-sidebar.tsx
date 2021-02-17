@@ -24,6 +24,14 @@ async function init(): Promise<void> {
 		for (const uselessInformation of select.all(':scope > :not(a)', releasesSection)) {
 			uselessInformation.hidden = true;
 		}
+
+		// Align latest tag icon with the icons of other meta links
+		const tagIcon = select('.octicon-tag:not(.text-green)', releasesSection);
+		if (tagIcon) {
+			tagIcon.classList.add('mr-2');
+			// Remove whitespace node
+			tagIcon.nextSibling!.remove();
+		}
 	}
 
 	// Hide empty "Packages" section
