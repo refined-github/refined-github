@@ -105,10 +105,14 @@ async function init(): Promise<void> {
 			<h3 className="sr-only">Repository age</h3>,
 			<div className="mt-3">
 				<a href={firstCommitHref} className="muted-link" title={`First commit dated ${dateFormatter.format(birthday)}`}>
-					<RepoIcon className="mr-2"/> {age}
+					<RepoIcon className="mr-2"/>{age}
 				</a>
 			</div>
 		);
+
+		// Remove whitespace in license link to fix vertical alignment https://github.com/sindresorhus/refined-github/pull/3974#issuecomment-780213892
+		const licenseLinkText = select('[href$="/license"]', sidebarAboutSection)!.childNodes[2]!;
+		licenseLinkText.textContent = licenseLinkText.textContent!.trim();
 
 		return;
 	}
