@@ -110,7 +110,7 @@ async function init(): Promise<void> {
 			</div>
 		);
 
-		// Remove whitespace in license link to fix vertical alignment https://github.com/sindresorhus/refined-github/pull/3974#issuecomment-780213892
+		// Remove whitespace in license link to fix alignment of icons https://github.com/sindresorhus/refined-github/pull/3974#issuecomment-780213892
 		const licenseLinkText = select('[href$="/license"]', sidebarAboutSection)!.childNodes[2]!;
 		licenseLinkText.textContent = licenseLinkText.textContent!.trim();
 
