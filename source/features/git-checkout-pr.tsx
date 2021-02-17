@@ -7,6 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {getCurrentBranch, getPRHeadRepo, getRepo, getUsername} from '../github-helpers';
 
+// eslint-disable-next-line import/prefer-default-export
 export const isMergedPR = (): boolean => select.exists('#partial-discussion-header [title="Status: Merged"]');
 
 // Logic explained in https://github.com/sindresorhus/refined-github/pull/3596#issuecomment-720910840
