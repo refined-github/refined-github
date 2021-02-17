@@ -49,10 +49,7 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRConversation
-	],
-	exclude: [
-		isMergedPR
+		() => pageDetect.isPRConversation() && isMergedPR()
 	],
 	init() {
 		observeElement(select('#partial-discussion-header')!.parentElement!, init);
