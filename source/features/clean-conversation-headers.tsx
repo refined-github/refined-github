@@ -40,7 +40,7 @@ function initPR(): void {
 				byline.prepend('by ');
 			}
 
-			if (isDefaultBranch || baseBranch.textContent!.endsWith(':master')) {
+			if (isDefaultBranch || baseBranch.title.endsWith(':master')) {
 				// Removes: octocat wants to merge 1 commit into [github:dev] from octocat:feature
 				baseBranch.hidden = true;
 			} else {
