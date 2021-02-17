@@ -5,6 +5,7 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {isMergedPR} from './git-checkout-pr';
 
 function initIssue(): void {
 	observe('.gh-header-meta .flex-auto', {
@@ -24,7 +25,6 @@ function initPR(): void {
 	observe('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)', {
 		add(byline) {
 			byline.classList.add('rgh-clean-conversation-header');
-			const isMerged = select.exists('#partial-discussion-header [title="Status: Merged"]');
 			const isSameAuthor = select('.js-discussion > .TimelineItem:first-child .author')?.textContent === select('.author', byline)!.textContent;
 			const baseBranch = select('.commit-ref:not(.head-ref)', byline)!;
 			const isDefaultBranch = (baseBranch.firstElementChild as HTMLAnchorElement).pathname.split('/').length === 3;
@@ -32,7 +32,7 @@ function initPR(): void {
 			// Removes: [octocat wants to merge 1 commit into] github:master from octocat:feature
 			// Removes: [octocat merged 1 commit into] master from feature
 			// Removes: octocat [merged 1 commit into] github:master from lovelycat:feature
-			for (const node of [...byline.childNodes].slice(isSameAuthor ? 0 : 2, isMerged ? 3 : 5)) {
+			for (const node of [...byline.childNodes].slice(isSameAuthor ? 0 : 2, isMergedPR() ? 3 : 5)) {
 				node.remove();
 			}
 
@@ -40,7 +40,7 @@ function initPR(): void {
 				byline.prepend('by ');
 			}
 
-			if (isDefaultBranch) {
+			if (isDefaultBranch || baseBranch.textContent!.endsWith(':master')) {
 				// Removes: octocat wants to merge 1 commit into [github:dev] from octocat:feature
 				baseBranch.hidden = true;
 			} else {
