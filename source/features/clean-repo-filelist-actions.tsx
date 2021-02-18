@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
-import {PlusIcon, SearchIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import {PlusIcon, SearchIcon} from '@primer/octicons-react';
 
 import features from '.';
 
