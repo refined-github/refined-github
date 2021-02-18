@@ -259,6 +259,24 @@ test('parseBackticks', t => {
 		parseBackticks('backtick-delimited string in a code span: `` `foo` ``'),
 		'backtick-delimited string in a code span: <code>`foo`</code>'
 	);
+	t.is(
+		parseBackticks(`
+			triple-backtick multiline block
+			${'```'}javascript
+			foo
+			bar
+			${'```'}
+			in some text #3990
+		`),
+		`
+			triple-backtick multiline block
+			${'```'}javascript
+			foo
+			bar
+			${'```'}
+			in some text #3990
+		`
+	);
 });
 
 test('isUselessComment', t => {
