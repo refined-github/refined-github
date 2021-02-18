@@ -1,45 +1,66 @@
 /// <reference types="./source/globals" />
 
 import path from 'path';
-import {readdirSync, readFileSync} from 'fs';
+import {readFileSync} from 'fs';
 
+import regexJoin from 'regex-join';
 import SizePlugin from 'size-plugin';
-import stripIndent from 'strip-indent';
-// @ts-expect-error
+import decamelize from 'decamelize';
+import TerserPlugin from 'terser-webpack-plugin';
 import {ESBuildPlugin} from 'esbuild-loader';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {Configuration} from 'webpack';
+import {parse as parseMarkdown} from 'markdown-wasm/dist/markdown.node';
 
-function parseFeatureDetails(id: FeatureID): FeatureMeta {
-	const content = readFileSync(`source/features/${id}.tsx`, {encoding: 'utf-8'});
-	const fields = ['disabled', 'description', 'screenshot'] as const;
+let isWatching = false;
 
-	const feature: Partial<FeatureMeta> = {id};
-	for (const field of fields) {
-		const value = new RegExp(`\n\t${field}: '([^\\n]+)'`).exec(content)?.[1];
-		if (value) {
-			const validValue = value.trim().replace(/\\'/g, '’'); // Catch trailing spaces and incorrect apostrophes
-			if (value !== validValue) {
-				throw new Error(stripIndent(`
-					❌ Invalid characters found in \`${id}\`. Apply this patch:
+function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta {
+	const lineRegex = regexJoin(/^/, `- [](# "${id}")`, /(?: 🔥)? (.+)$/m);
+	const lineMatch = lineRegex.exec(readmeContent);
+	if (lineMatch) {
+		const urls: string[] = [];
 
-					- ${field}: '${value}'
-					+ ${field}: '${validValue}'
-				`));
-			}
-
-			feature[field] = value.replace(/\\\\/g, '\\');
-		}
+		return {
+			id,
+			description: parseMarkdown(lineMatch[1].replace(/\[(.+?)]\((.+?)\)/g, (_match, title, url) => {
+				urls.push(url);
+				return title;
+			})),
+			screenshot: urls.find(url => /\.(png|gif)$/i.test(url))
+		};
 	}
 
-	return feature as FeatureMeta;
+	// Feature might be highlighted in the readme
+	const imageRegex = regexJoin(`<p><a title="${id}"></a> `, /(.+?)\n\t+<p><img src="(.+?)">/);
+	const imageMatch = imageRegex.exec(readmeContent);
+	if (imageMatch) {
+		return {
+			id,
+			description: parseMarkdown(imageMatch[1] + '.'),
+			screenshot: imageMatch[2]
+		};
+	}
+
+	const error = `
+
+	❌ Feature \`${id}\` needs a description in readme.md. Please refer to the style guide there.
+
+	`;
+	if (isWatching) {
+		console.error(error);
+		return {} as any;
+	}
+
+	throw new Error(error);
 }
 
 function getFeatures(): FeatureID[] {
-	return readdirSync(path.join(__dirname, 'source/features'))
-		.filter(filename => filename !== 'index.tsx' && filename.endsWith('.tsx'))
-		.map(filename => filename.replace('.tsx', '') as FeatureID);
+	const contents = readFileSync(path.join(__dirname, 'source/refined-github.ts'), 'utf-8');
+	return [...contents.matchAll(/^import '\.\/features\/([^.]+)';/gm)]
+		.map(match => match[1] as FeatureID)
+		.sort()
+		.filter(id => !id.startsWith('rgh-'));
 }
 
 const config: Configuration = {
@@ -60,6 +81,16 @@ const config: Configuration = {
 	module: {
 		rules: [
 			{
+				test: /octicons-react\//,
+				loader: 'string-replace-loader',
+				options: {
+					search: /(\w+)Icon\.defaultProps = {\n\s+className: 'octicon'/g,
+					replace: (match: string, name: string) => {
+						return match.replace('octicon', 'octicon octicon-' + decamelize(name, {separator: '-'}));
+					}
+				}
+			},
+			{
 				test: /\.tsx?$/,
 				loader: 'esbuild-loader',
 				options: {
@@ -72,13 +103,6 @@ const config: Configuration = {
 				use: [
 					MiniCssExtractPlugin.loader,
 					'css-loader'
-				]
-			},
-			{
-				test: /\.svg$/i,
-				use: [
-					// Converts SVG files into a `export default () => actualDomElement`
-					path.resolve(__dirname, 'octicon-svg-loader.ts')
 				]
 			}
 		]
@@ -93,7 +117,10 @@ const config: Configuration = {
 			),
 
 			__featuresMeta__: webpack.DefinePlugin.runtimeValue(
-				() => JSON.stringify(getFeatures().map(parseFeatureDetails)),
+				() => {
+					const readmeContent = readFileSync(path.join(__dirname, 'readme.md'), 'utf-8');
+					return JSON.stringify(getFeatures().map(id => parseFeatureDetails(readmeContent, id)));
+				},
 				true
 			),
 
@@ -112,14 +139,35 @@ const config: Configuration = {
 	],
 	resolve: {
 		alias: {
-			octicon: '@primer/octicons-v2/build/svg'
+			react: 'dom-chef'
 		},
 		extensions: [
 			'.tsx',
 			'.ts',
 			'.js'
 		]
+	},
+	optimization: {
+		// Keeps it somewhat readable for AMO reviewers
+		minimizer: [
+			new TerserPlugin({
+				parallel: true,
+				exclude: 'browser-polyfill.min.js', // #3451
+				terserOptions: {
+					mangle: false,
+					output: {
+						beautify: true,
+						indent_level: 2
+					}
+				}
+			})
+		]
 	}
 };
 
-export default config;
+const webpackSetup = (_: string, options: webpack.WebpackOptionsNormalized): Configuration => {
+	isWatching = Boolean(options.watch);
+	return config;
+};
+
+export default webpackSetup;

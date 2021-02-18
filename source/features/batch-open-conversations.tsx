@@ -13,7 +13,7 @@ const confirmationRequiredCount = 10;
 function getUrlFromItem(checkbox: Element): string {
 	return checkbox
 		.closest('.js-issue-row')!
-		.querySelector<HTMLAnchorElement>('.js-navigation-open')!
+		.querySelector('a.js-navigation-open')!
 		.href;
 }
 
@@ -37,7 +37,7 @@ function openIssues(): void {
 }
 
 async function init(): Promise<void | false> {
-	if (!await elementReady('.js-issue-row + .js-issue-row')) {
+	if (!await elementReady('.js-issue-row + .js-issue-row', {waitForChildren: false})) {
 		return false;
 	}
 
@@ -103,11 +103,7 @@ async function init(): Promise<void | false> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Lets you open multiple conversations at once via checkboxes.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversationList
 	],

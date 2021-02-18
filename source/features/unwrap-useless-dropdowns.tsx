@@ -12,7 +12,7 @@ function replaceDropdownInPlace(dropdown: Element, form: Element): void {
 }
 
 async function unwrapNotifications(): Promise<void | false> {
-	await elementReady('.js-check-all-container > :nth-child(2)'); // Wait for filters to be ready
+	await elementReady('.js-check-all-container > :first-child'); // Ensure the entire dropdown has loaded
 	const forms = select.all('[action="/notifications/beta/update_view_preference"]');
 	if (forms.length === 0) {
 		return false;
@@ -36,7 +36,7 @@ async function unwrapNotifications(): Promise<void | false> {
 }
 
 async function unwrapActionRun(): Promise<void | false> {
-	const desiredForm = await elementReady('.js-check-suite-rerequest-form');
+	const desiredForm = await elementReady('.js-check-suite-rerequest-form', {waitForChildren: false});
 	if (!desiredForm) {
 		return false;
 	}
@@ -58,11 +58,7 @@ async function unwrapActionRun(): Promise<void | false> {
 	replaceDropdownInPlace(dropdown, desiredForm);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Makes some dropdowns 1-click instead of unnecessarily 2-click.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/80859624-9bfdb300-8c62-11ea-837f-7b7a28e6fdfc.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isNotifications
 	],

@@ -5,7 +5,7 @@ import features from '.';
 import {isEditable} from '../helpers/dom-utils';
 
 function openInNewTab({key, target}: KeyboardEvent): void {
-	const selected = select<HTMLAnchorElement>('.navigation-focus .js-navigation-open[href]');
+	const selected = select('.navigation-focus a.js-navigation-open[href]');
 	if (selected && key === 'O' && !isEditable(target)) {
 		void browser.runtime.sendMessage({
 			openUrls: [selected.href]
@@ -20,14 +20,10 @@ function init(): void {
 	document.addEventListener('keypress', openInNewTab);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a keyboard shortcut to open selection in new tab when navigating via `j` and `k`: `Shift` `o`.',
-	screenshot: false,
+void features.add(__filebasename, {
 	shortcuts: {
 		'shift o': 'Open selection in new tab'
-	}
-}, {
+	},
 	awaitDomReady: false,
 	init: onetime(init)
 });

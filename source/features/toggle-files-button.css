@@ -6,7 +6,7 @@
 
 .repository-content:not(.rgh-files-hidden) .rgh-toggle-files .octicon-unfold,
 .repository-content.rgh-files-hidden .rgh-toggle-files .octicon-fold {
-	display: none;
+	display: none !important;
 }
 
 .rgh-files-hidden .files, /* Pre "Repository refresh" layout */
@@ -18,7 +18,6 @@
 	border: none;
 }
 
-/* Hide "Readme" link made unnecessary by this feature #3580 */
-h3.sr-only + .mt-3 .muted-link[href='#readme'] {
-	display: none;
+.rgh-files-hidden .Box-header {
+	border-radius: 6px;
 }

@@ -6,12 +6,6 @@ import features from '.';
 let progressLoader: HTMLElement;
 const progressLoaderLoadingClass = 'is-loading';
 
-function fixProfileNavAndTimeline(): void {
-	for (const stickyElement of select.all('.js-sticky:not(.is-stuck)')) {
-		stickyElement.removeAttribute('style');
-	}
-}
-
 function keydownHandler(event: KeyboardEvent): void {
 	if (event.key !== 'Escape' || !progressLoader.classList.contains(progressLoaderLoadingClass)) {
 		return;
@@ -50,17 +44,9 @@ function init(): void {
 	progressLoader = select('.progress-pjax-loader')!;
 
 	window.addEventListener('keydown', keydownHandler);
-
-	if (pageDetect.isUserProfile()) {
-		window.addEventListener('pjax:end', fixProfileNavAndTimeline);
-	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'After you click on an ajaxed link, this lets you stop loading a page by pressing the esc key, like the browser does for regular page loads.',
-	screenshot: 'https://user-images.githubusercontent.com/36174850/90323385-3c08ef00-df69-11ea-8c0e-c85241888a7b.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo,
 		pageDetect.isRepoSearch,

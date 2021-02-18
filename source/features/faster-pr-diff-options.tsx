@@ -1,9 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import DiffIcon from 'octicon/diff.svg';
-import BookIcon from 'octicon/book.svg';
-import CheckIcon from 'octicon/check.svg';
 import * as pageDetect from 'github-url-detection';
+import {BookIcon, CheckIcon, DiffIcon} from '@primer/octicons-react';
 
 import features from '.';
 
@@ -58,7 +56,7 @@ function createWhitespaceButton(): HTMLElement {
 }
 
 function wrap(...elements: Node[]): DocumentFragment {
-	if (pageDetect.isSingleCommit()) {
+	if (pageDetect.isSingleCommit() || pageDetect.isCompare()) {
 		return (
 			<div className="float-right">
 				{elements.map(element => <div className="ml-3 BtnGroup">{element}</div>)}
@@ -109,17 +107,14 @@ function init(): false | void {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds one-click buttons to change diff style and to ignore the whitespace and a keyboard shortcut to ignore the whitespace: `d` `w`.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/54178764-d1c96080-44d1-11e9-889c-734ffd2a602d.png',
-	shortcuts: {
-		'd w': 'Show/hide whitespaces in diffs'
-	}
-}, {
+void features.add(__filebasename, {
 	include: [
 		// Disabled because of #2291 // pageDetect.isPRFiles
-		pageDetect.isCommit
+		pageDetect.isCommit,
+		pageDetect.isCompare
 	],
+	shortcuts: {
+		'd w': 'Show/hide whitespaces in diffs'
+	},
 	init
 });

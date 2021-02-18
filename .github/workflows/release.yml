@@ -1,0 +1,69 @@
+env:
+  DIRECTORY: distribution
+
+# FILE GENERATED WITH: npx ghat fregante/ghatemplates/webext
+# SOURCE: https://github.com/fregante/ghatemplates
+# OPTIONS: {"set":["on.schedule=[{\"cron\": \"42 17 1 * *\"}]"]}
+
+name: Release
+on:
+  workflow_dispatch: null
+  schedule:
+    - cron: 42 17 1 * *
+jobs:
+  Version:
+    outputs:
+      created: ${{ steps.daily-version.outputs.created }}
+      version: ${{ steps.daily-version.outputs.version }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 20
+      - name: install
+        run: npm ci || npm install
+      - run: npm test
+      - uses: fregante/daily-version-action@v1
+        name: Create tag if necessary
+        id: daily-version
+      - uses: notlmn/release-with-changelog@v3
+        if: steps.daily-version.outputs.created
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          exclude: true
+  Submit:
+    needs: Version
+    if: github.event_name == 'workflow_dispatch' || needs.Version.outputs.created
+    strategy:
+      fail-fast: false
+      matrix:
+        command:
+          - firefox
+          - chrome
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: install
+        run: npm ci || npm install
+      - run: npm run build
+      - name: Update extension’s meta
+        run: >-
+          npx dot-json@1 $DIRECTORY/manifest.json version ${{
+          needs.Version.outputs.version }}
+      - name: Submit
+        run: |
+          case ${{ matrix.command }} in
+            chrome)
+              cd $DIRECTORY && npx chrome-webstore-upload-cli@1 upload --auto-publish
+              ;;
+            firefox)
+              cd $DIRECTORY && npx web-ext-submit@5
+              ;;
+          esac
+        env:
+          EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+          WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
+          WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}

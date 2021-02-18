@@ -11,6 +11,7 @@ function featureWasRenamed(from: string, to: string): Migration<RGHOptions> {
 }
 
 // TypeScript doesn't merge the definitions so `...` is not equivalent.
+// eslint-disable-next-line prefer-object-spread
 const defaults = Object.assign({
 	customCSS: '',
 	personalToken: '',
@@ -18,9 +19,7 @@ const defaults = Object.assign({
 }, __featuresOptionDefaults__); // This variable is replaced at build time
 
 const migrations = [
-	featureWasRenamed('sticky-conversation-sidebar', 'sticky-sidebar'), // Merged in September
-	featureWasRenamed('add-tags-to-commits', 'tags-on-commits-list'), // Merged in October
-	featureWasRenamed('cleanup-repo-filelist-actions', 'clean-repo-filelist-actions'), // Merged in October
+	featureWasRenamed('pr-easy-toggle-files', 'easy-toggle-files'), // Merged in December
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused

@@ -1,10 +1,25 @@
-a.timeline-chosen-answer {
+a.rgh-highest-rated-comment {
 	border: 2px solid #2cbe4e !important;
 }
 
-a.timeline-chosen-answer .timeline-comment-header-text {
+a.rgh-highest-rated-comment .timeline-comment-header-text {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
 	max-width: none;
+}
+
+a.rgh-highest-rated-comment .avatar {
+	position: absolute;
+	left: -55px;
+}
+
+.rgh-highest-rated-comment {
+	--color-auto-gray-1: var(--color-auto-green-1);
+	--color-auto-blue-4: var(--color-auto-green-4);
+	--color-auto-blue-2: var(--color-auto-green-2);
+}
+
+.rgh-highest-rated-comment .timeline-comment-header {
+	--color-bg-tertiary: var(--color-auto-green-1);
 }

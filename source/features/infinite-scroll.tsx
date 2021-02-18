@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 const loadMore = debounce(() => {
-	const button = select<HTMLButtonElement>('.ajax-pagination-btn')!;
+	const button = select('button.ajax-pagination-btn')!;
 	button.click();
 	button.textContent = 'Loading…';
 
@@ -35,11 +35,7 @@ function init(): void {
 	});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Automagically expands the newsfeed when you scroll down.',
-	screenshot: false
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isDashboard
 	],

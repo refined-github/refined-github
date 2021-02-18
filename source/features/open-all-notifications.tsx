@@ -3,14 +3,14 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import LinkExternalIcon from 'octicon/link-external.svg';
+import {LinkExternalIcon} from '@primer/octicons-react';
 
 import features from '.';
 
 const confirmationRequiredCount = 10;
 
-function getUnreadNotifications(container: ParentNode = document): HTMLAnchorElement[] {
-	return select.all<HTMLAnchorElement>('.notification-unread', container);
+function getUnreadNotifications(container: ParentNode = document): HTMLElement[] {
+	return select.all('.notification-unread', container);
 }
 
 function openNotifications({delegateTarget}: delegate.Event): void {
@@ -78,11 +78,7 @@ function init(): void {
 	update();
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds button to open all your unread notifications at once.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/80861295-fbad8b80-8c6d-11ea-87a4-8025fbc3a3f4.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isNotifications
 	],

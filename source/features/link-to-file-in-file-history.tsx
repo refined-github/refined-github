@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import FileIcon from 'octicon/file.svg';
+import {FileIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -13,7 +13,7 @@ function init(): void | false {
 		return false;
 	}
 
-	for (const rootLink of select.all<HTMLAnchorElement>('[aria-label="Browse the repository at this point in the history"]')) {
+	for (const rootLink of select.all('a[aria-label="Browse the repository at this point in the history"]')) {
 		// `rootLink.pathname` points to /tree/ but GitHub automatically redirects to /blob/ when the path is of a file
 		rootLink.before(
 			<a
@@ -29,11 +29,7 @@ function init(): void | false {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds links to the file itself in a file’s commit list.',
-	screenshot: 'https://user-images.githubusercontent.com/22439276/57195061-b88ddf00-6f6b-11e9-8ad9-13225d09266d.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoCommitList
 	],

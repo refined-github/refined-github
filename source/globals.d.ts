@@ -1,19 +1,12 @@
+/* eslint-disable @typescript-eslint/consistent-indexed-object-style */
+
 type AnyObject = Record<string, any>;
-type AsyncVoidFunction = () => Promise<void>;
 
 type FeatureID = 'use the __filebasename variable';
-
-type FeatureShortcuts = Record<string, string>;
 interface FeatureMeta {
-	/**
-	If it's disabled, this should be the issue that explains why, as a reference
-	@example '#123'
-	*/
-	disabled?: string;
 	id: FeatureID;
 	description: string;
-	screenshot: string | false;
-	shortcuts?: FeatureShortcuts;
+	screenshot?: string;
 }
 
 interface FeatureConfig {
@@ -28,11 +21,9 @@ interface Window {
 	content: GlobalFetch;
 }
 
-declare module 'size-plugin';
+declare module 'markdown-wasm/dist/markdown.node';
 
-declare module 'deep-weak-map' {
-	export default WeakMap;
-}
+declare module 'size-plugin';
 
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
@@ -48,20 +39,19 @@ interface GlobalEventHandlersEventMap {
 
 declare namespace JSX {
 	interface Element extends SVGElement, HTMLElement, DocumentFragment {}
-	type BaseIntrinsicElement = IntrinsicElements['div'];
-	type LabelIntrinsicElement = IntrinsicElements['label'];
 	interface IntrinsicElements {
-		'clipboard-copy': IntrinsicElements['button'];
-		'details-dialog': BaseIntrinsicElement & {tabindex: string};
-		'details-menu': BaseIntrinsicElement & {src?: string; preload?: boolean};
-		'has-rgh': BaseIntrinsicElement;
-		'include-fragment': BaseIntrinsicElement & {src?: string};
-		'label': LabelIntrinsicElement & {for?: string};
-		'relative-time': BaseIntrinsicElement & {datetime: string};
-		'time-ago': BaseIntrinsicElement & {datetime: string; format?: string};
+		'clipboard-copy': IntrinsicElements.button & {for?: string};
+		'details-dialog': IntrinsicElements.div & {tabindex: string};
+		'details-menu': IntrinsicElements.div & {src?: string; preload?: boolean};
+		'has-rgh': IntrinsicElements.div;
+		'include-fragment': IntrinsicElements.div & {src?: string};
+		'label': IntrinsicElements.label & {for?: string};
+		'relative-time': IntrinsicElements.div & {datetime: string};
+		'time-ago': IntrinsicElements.div & {datetime: string; format?: string};
 	}
 
-	interface IntrinsicAttributes extends BaseIntrinsicElement {
+	type BaseElement = IntrinsicElements['div'];
+	interface IntrinsicAttributes extends BaseElement {
 		width?: number;
 		height?: number;
 	}
@@ -77,14 +67,13 @@ interface HTMLFormControlsCollection {
 	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement;
 }
 
-declare module '*.svg' {
-	const Icon = (): JSX.Element => JSX.Element;
-	export default Icon;
+declare module 'react' {
+	const FC = (): JSX.Element => JSX.Element;
+	const React = {FC};
+	export default React;
 }
 
 // Make `element.cloneNode()` preserve its type instead of returning Node
 interface Node extends EventTarget {
-	// Not equivalent
-	// eslint-disable-next-line @typescript-eslint/method-signature-style
 	cloneNode(deep?: boolean): this;
 }

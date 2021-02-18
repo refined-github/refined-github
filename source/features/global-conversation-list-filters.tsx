@@ -18,7 +18,7 @@ function init(): void {
 	const links = [
 		['Commented', `${typeName} you’ve commented on`, `commenter:${getUsername()}`],
 		['Yours', `${typeName} on your repos`, `user:${getUsername()}`]
-	];
+	] as const;
 
 	for (const [label, title, query] of links) {
 		// Create link
@@ -26,14 +26,14 @@ function init(): void {
 		url.searchParams.set('q', `${typeQuery} ${defaultQuery} ${query}`);
 		const link = <a href={String(url)} title={title} className="subnav-item">{label}</a>;
 
-		const isCurrentPage = new SearchQuery(location).includes(query);
+		const isCurrentPage = new SearchQuery(location.search).includes(query);
 
 		// Highlight it, if that's the current page
 		if (isCurrentPage && !select.exists('.subnav-links .selected')) {
 			link.classList.add('selected');
 
 			// Other links will keep the current query, that's not what we want
-			for (const otherLink of select.all<HTMLAnchorElement>('.subnav-links a')) {
+			for (const otherLink of select.all('.subnav-links a')) {
 				new SearchQuery(otherLink).remove(query);
 			}
 		}
@@ -42,11 +42,7 @@ function init(): void {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds filters for conversations _in your repos_ and _commented on by you_ in the global conversation search.',
-	screenshot: 'https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isGlobalConversationList
 	],

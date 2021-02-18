@@ -1,28 +1,26 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import GitBranchIcon from 'octicon/git-branch.svg';
+import {GitBranchIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
-import {getCurrentBranch} from '../github-helpers';
+import {getCurrentBranch, getPRHeadRepo} from '../github-helpers';
 
 /** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
 function handlePRMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-actionable-link'); // Mark this as processed
-
-	const [, user, repository] = select<HTMLAnchorElement>('.commit-ref.head-ref a')!.pathname.split('/', 3);
 	const filePath = dropdown.closest('[data-path]')!.getAttribute('data-path')!;
 
-	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
-	viewFile.pathname = [user, repository, 'blob', getCurrentBranch(), filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
+	const viewFile = select('a[data-ga-click^="View file"]', dropdown)!;
+	viewFile.pathname = [getPRHeadRepo()!.nameWithOwner, 'blob', getCurrentBranch()!, filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
 }
 
 function handleCompareMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-actionable-link'); // Mark this as processed
 
-	const viewFile = select<HTMLAnchorElement>('[data-ga-click^="View file"]', dropdown)!;
+	const viewFile = select('a[data-ga-click^="View file"]', dropdown)!;
 	const branch = select('[title^="compare"]')!.textContent!;
 	viewFile.before(
 		<div className="dropdown-header pl-5">
@@ -55,11 +53,7 @@ function init(): void {
 	delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown:not(.rgh-actionable-link)', 'toggle', handleMenuOpening, true);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Points the "View file" on compare view pages to the branch instead of the commit, so the Edit/Delete buttons will be enabled on the "View file" page, if needed.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/69044026-c5b17d80-0a26-11ea-86ae-c95f89d3669a.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit

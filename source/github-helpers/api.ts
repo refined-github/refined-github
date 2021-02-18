@@ -6,7 +6,8 @@ next to the name of the feature that caused them.
 Usage:
 
 import * as api from '../github-helpers/api';
-const user = await api.v3(`users/${username}`);
+const user = await api.v3(`/users/${username}`);
+const repositoryCommits = await api.v3('commits'); // Without a leading `/`, this is equivalent to `/repo/$current-repository/commits`
 const data = await api.v4('{user(login: "user") {name}}');
 
 Returns:
@@ -28,6 +29,7 @@ import mem from 'mem';
 import * as pageDetect from 'github-url-detection';
 import {JsonObject, AsyncReturnType} from 'type-fest';
 
+import {getRepo} from '.';
 import optionsStorage from '../options-storage';
 
 interface JsonError {
@@ -49,6 +51,7 @@ interface RestResponse extends AnyObject {
 export const escapeKey = (value: string | number): string => '_' + String(value).replace(/[ ./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
+	response: AnyObject = {};
 	constructor(...messages: string[]) {
 		super(messages.join('\n'));
 	}
@@ -62,6 +65,14 @@ export async function expectToken(): Promise<string> {
 	}
 
 	return personalToken;
+}
+
+export async function expectTokenScope(scope: string): Promise<void> {
+	const {headers} = await v3('/');
+	const tokenScopes = headers.get('X-OAuth-Scopes')!;
+	if (!tokenScopes.split(', ').includes(scope)) {
+		throw new Error(`The token you provided does not have the \`${scope}\` scope. It only includes \`${tokenScopes}\``);
+	}
 }
 
 const api3 = pageDetect.isEnterprise() ?
@@ -102,8 +113,8 @@ export const v3 = mem(async (
 	const {ignoreHTTPStatus, method, body, headers, json} = {...v3defaults, ...options};
 	const {personalToken} = await settings;
 
-	if (query.startsWith('/')) {
-		throw new TypeError('The query parameter must not start with a slash.');
+	if (!query.startsWith('https')) {
+		query = query.startsWith('/') ? query.slice(1) : ['repos', getRepo()!.nameWithOwner, query].filter(Boolean).join('/');
 	}
 
 	const url = new URL(query, api3);
@@ -142,8 +153,10 @@ export const v3paginated = async function * (
 		const response = await v3(query, options);
 		yield response;
 
-		[, query] = /<([^>]+)>; rel="next"/.exec(response.headers.get('link')!) ?? [];
-		if (!query) {
+		const match = /<([^>]+)>; rel="next"/.exec(response.headers.get('link')!);
+		if (match) {
+			query = match[1]!;
+		} else {
 			return;
 		}
 	}
@@ -158,6 +171,8 @@ export const v4 = mem(async (
 	if (/^(query )?{/.test(query.trimStart())) {
 		throw new TypeError('`query` should only be what’s inside \'query {...}\', like \'user(login: "foo") { name }\', but is \n' + query);
 	}
+
+	query = query.replace('repository() {', () => `repository(owner: "${getRepo()!.owner}", name: "${getRepo()!.name}") {`);
 
 	const response = await fetch(api4, {
 		headers: {
@@ -206,11 +221,13 @@ export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAP
 		);
 	}
 
-	return new RefinedGitHubAPIError(
+	const error = new RefinedGitHubAPIError(
 		'Unable to fetch.',
 		personalToken ?
 			'Ensure that your token has access to this repo.' :
 			'Maybe adding a token in the options will fix this issue.',
 		JSON.stringify(apiResponse, null, '\t') // Beautify
 	);
+	error.response = apiResponse;
+	return error;
 }

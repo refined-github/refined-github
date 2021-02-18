@@ -5,7 +5,7 @@ import cache from 'webext-storage-cache';
 import delay from 'delay';
 import select from 'select-dom';
 import onetime from 'onetime';
-import ClockIcon from 'octicon/clock.svg';
+import {ClockIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -34,7 +34,7 @@ async function loadCommitPatch(commitUrl: string): Promise<string> {
 }
 
 const getLastCommitDate = cache.function(async (login: string): Promise<string | false> => {
-	for await (const page of api.v3paginated(`users/${login}/events`)) {
+	for await (const page of api.v3paginated(`/users/${login}/events`)) {
 		for (const event of page as any) {
 			if (event.type !== 'PushEvent') {
 				continue;
@@ -93,7 +93,7 @@ function init(): void {
 			return;
 		}
 
-		const login = select<HTMLAnchorElement>('a[data-octo-dimensions="link_type:profile"]', hovercard)?.pathname.slice(1);
+		const login = select('a[data-octo-dimensions="link_type:profile"]', hovercard)?.pathname.slice(1);
 		if (!login || login === getUsername()) {
 			return;
 		}
@@ -140,10 +140,6 @@ function init(): void {
 	});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Shows the user local time in their hovercard (based on their last commit).',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/69863648-ef449180-12cf-11ea-8f36-7c92fc487f31.gif'
-}, {
+void features.add(__filebasename, {
 	init: onetime(init)
 });

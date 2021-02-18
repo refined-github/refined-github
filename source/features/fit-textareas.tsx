@@ -7,8 +7,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
-function inputListener(event: Event): void {
-	fitTextarea(event.target as HTMLTextAreaElement);
+function inputListener({target}: Event): void {
+	fitTextarea(target as HTMLTextAreaElement);
 }
 
 function watchTextarea(textarea: HTMLTextAreaElement): void {
@@ -25,7 +25,7 @@ function focusListener({delegateTarget: textarea}: delegate.Event<Event, HTMLTex
 }
 
 function fitPrCommitMessageBox(): void {
-	watchTextarea(select<HTMLTextAreaElement>('[name="commit_message"]')!);
+	watchTextarea(select('textarea[name="commit_message"]')!);
 }
 
 function init(): void {
@@ -35,11 +35,7 @@ function init(): void {
 	select.all('textarea').forEach(watchTextarea);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Auto-resizes comment fields to fit their content and no longer show scroll bars, rather than have a height limit like GitHub’s native "fit to content" behavior.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/54336211-66fd5e00-4666-11e9-9c5e-111fccab004d.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasRichTextEditor
 	],

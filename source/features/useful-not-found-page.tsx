@@ -126,17 +126,13 @@ async function initPRCommit(): Promise<void | false> {
 		return false;
 	}
 
-	const blankSlateParagraph = await elementReady('.blankslate p');
+	const blankSlateParagraph = await elementReady('.blankslate p', {waitForChildren: false});
 	blankSlateParagraph!.after(
 		<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>
 	);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds possible related pages and alternatives on 404 pages.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/46402857-7bdada80-c733-11e8-91a1-856573078ff5.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.is404
 	],

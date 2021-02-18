@@ -6,9 +6,9 @@ added someone as a collaborator
 forked a repo
 followed someone
 */
-.rgh-no-useless-events .news .push,
-.rgh-no-useless-events .news .fork,
-.rgh-no-useless-events .news .delete,
-.rgh-no-useless-events .news .follow {
+.rgh-hide-useless-newsfeed-events .news .push,
+.rgh-hide-useless-newsfeed-events .news .fork,
+.rgh-hide-useless-newsfeed-events .news .delete,
+.rgh-hide-useless-newsfeed-events .news .follow {
 	display: none !important;
 }

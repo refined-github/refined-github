@@ -1,7 +1,7 @@
 import './conflict-marker.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import AlertIcon from 'octicon/alert.svg';
+import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -30,7 +30,7 @@ function buildQuery(prs: PRConfig[]): string {
 }
 
 function getPRConfig(prIcon: Element): PRConfig {
-	const link = prIcon.closest('.js-navigation-item')!.querySelector<HTMLAnchorElement>('.js-navigation-open')!;
+	const link = prIcon.closest('.js-navigation-item')!.querySelector('a.js-navigation-open')!;
 	const [, user, repo, , number] = link.pathname.split('/');
 	return {
 		user,
@@ -65,12 +65,7 @@ async function init(): Promise<false | void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Shows which PRs have conflicts in PR lists.',
-	screenshot:
-		'https://user-images.githubusercontent.com/9092510/62777551-2affe500-baae-11e9-8ba4-67f078347913.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversationList
 	],

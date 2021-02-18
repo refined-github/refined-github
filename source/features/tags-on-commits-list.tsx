@@ -1,17 +1,15 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import TagIcon from 'octicon/tag.svg';
+import {TagIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
 import {getCommitHash} from './mark-merge-commits-in-list';
-import {buildRepoURL, getRepoURL, getRepoGQL} from '../github-helpers';
+import {buildRepoURL, getRepo} from '../github-helpers';
 
-interface CommitTags {
-	[name: string]: string[];
-}
+type CommitTags = Record<string, string[]>;
 
 interface BaseTarget {
 	commitResourcePath: string;
@@ -52,7 +50,7 @@ function isTagTarget(target: CommonTarget): target is TagTarget {
 
 async function getTags(lastCommit: string, after?: string): Promise<CommitTags> {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			refs(
 				first: 100,
 				refPrefix: "refs/tags/",
@@ -88,7 +86,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 			}
 		}
 		`);
-	const nodes: TagNode[] = repository.refs.nodes;
+	const nodes = repository.refs.nodes as TagNode[];
 
 	// If there are no tags in the repository
 	if (nodes.length === 0) {
@@ -118,14 +116,14 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 }
 
 async function init(): Promise<void | false> {
-	const cacheKey = `tags:${getRepoURL()}`;
+	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
 
 	const commitsOnPage = select.all([
 		'li.commit', // Pre "Repository refresh" layout
-		'.js-commits-list-item'
+		'li.js-commits-list-item'
 	]);
 	const lastCommitOnPage = getCommitHash(commitsOnPage[commitsOnPage.length - 1]);
-	let cached = await cache.get<{[commit: string]: string[]}>(cacheKey) ?? {};
+	let cached = await cache.get<Record<string, string[]>>(cacheKey) ?? {};
 	const commitsWithNoTags = [];
 	for (const commit of commitsOnPage) {
 		const targetCommit = getCommitHash(commit);
@@ -167,11 +165,7 @@ async function init(): Promise<void | false> {
 	await cache.set(cacheKey, cached, {days: 1});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Display the corresponding tags next to commits.',
-	screenshot: 'https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoCommitList
 	],

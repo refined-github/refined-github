@@ -1,27 +1,27 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import TagIcon from 'octicon/tag.svg';
+import {TagIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import observeElement from '../helpers/simplified-element-observer';
-import {getRepoURL, buildRepoURL} from '../github-helpers';
+import {buildRepoURL, getRepo} from '../github-helpers';
 
 const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom<HTMLAnchorElement>(
-		`/${getRepoURL()}/branch_commits/${commit}`,
+		buildRepoURL('branch_commits', commit),
 		'ul.branches-tag-list li:last-child a'
 	);
 
 	return firstTag?.textContent!;
 }, {
-	cacheKey: ([commit]) => `first-tag:${getRepoURL()}:${commit}`
+	cacheKey: ([commit]) => `first-tag:${getRepo()!.nameWithOwner}:${commit}`
 });
 
 async function init(): Promise<void> {
-	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepoURL()}/commit/" i] > code.link-gray-dark`)!.textContent!;
+	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code.link-gray-dark`)!.textContent!;
 	const tagName = await getFirstTag(mergeCommit);
 
 	if (!tagName) {
@@ -46,11 +46,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Shows the first Git tag a merged PR was included in.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/81943321-38ac4300-95c9-11ea-8543-0f4858174e1e.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation
 	],

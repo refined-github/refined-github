@@ -18,7 +18,7 @@ function init(): void | false {
 
 	const deletedBranchName = lastBranchAction.textContent!.trim();
 
-	const headReferenceLink = select<HTMLAnchorElement>('.head-ref a')!;
+	const headReferenceLink = select('.head-ref a')!;
 	const repoRootUrl = headReferenceLink.href.split('/', 5).join('/');
 	const repoIsDeleted = headReferenceLink.textContent === 'unknown repository';
 
@@ -38,11 +38,7 @@ function init(): void | false {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a line-through to the deleted branches in PRs.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/75619638-9bef1300-5b4c-11ea-850e-3a8f95c86d83.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation
 	],

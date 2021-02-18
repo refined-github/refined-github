@@ -1,17 +1,19 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import regexJoin from 'regex-join';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
-const prTitleFieldSelector = '.js-issue-update [name="issue[title]"]';
-const prTitleSubmitSelector = '.js-issue-update [type="submit"]';
+const mergeFormSelector = '.is-squashing form:not([hidden])';
+const prTitleFieldSelector = '.js-issue-update input[name="issue[title]"]';
+const prTitleSubmitSelector = '.js-issue-update button[type="submit"]';
 
 function getCommitTitleField(): HTMLInputElement | undefined {
-	return select<HTMLInputElement>('.is-squashing #merge_title_field') ?? undefined;
+	return select<HTMLInputElement>(`${mergeFormSelector} #merge_title_field`);
 }
 
 function getPRNumber(): string {
@@ -30,7 +32,7 @@ function needsSubmission(): boolean {
 	}
 
 	// Ensure that the required fields are on the page
-	if (!select.exists(prTitleFieldSelector) || !select.exists(prTitleSubmitSelector)) {
+	if (!select.exists(prTitleFieldSelector + ',' + prTitleSubmitSelector)) {
 		features.error(__filebasename, 'Can’t update the PR title');
 		return false;
 	}
@@ -39,7 +41,7 @@ function needsSubmission(): boolean {
 }
 
 function getUI(): HTMLElement {
-	return select('.note.rgh-sync-pr-commit-title-note') ?? (
+	return select(`${mergeFormSelector} .rgh-sync-pr-commit-title-note`) ?? (
 		<p className="note rgh-sync-pr-commit-title-note">
 			The title of this PR will be updated to match this title. <button type="button" className="btn-link muted-link text-underline rgh-sync-pr-commit-title">Cancel</button>
 		</p>
@@ -61,10 +63,10 @@ function updatePRTitle(): void {
 
 	// Remove PR number from commit title
 	const prTitle = getCommitTitleField()!.value
-		.replace(new RegExp(`\\s*\\(${getPRNumber()}\\)$`), '');
+		.replace(regexJoin(/\s*\(/, getPRNumber(), /\)$/), '');
 
 	// Fill and submit title-change form
-	select<HTMLInputElement>(prTitleFieldSelector)!.value = prTitle;
+	select(prTitleFieldSelector)!.value = prTitle;
 	select(prTitleSubmitSelector)!.click(); // `form.submit()` isn't sent via ajax
 }
 
@@ -102,11 +104,7 @@ function deinit(): void {
 	listeners.length = 0;
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Uses the PR’s title as the default squash commit title and updates the PR’s title to the match the commit title, if changed.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation
 	],

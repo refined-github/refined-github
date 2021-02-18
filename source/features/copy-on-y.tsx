@@ -7,7 +7,7 @@ import {isEditable} from '../helpers/dom-utils';
 
 const handler = ({key, target}: KeyboardEvent): void => {
 	if (key === 'y' && !isEditable(target)) {
-		const permalink = select<HTMLAnchorElement>('.js-permalink-shortcut')!.href;
+		const permalink = select('a.js-permalink-shortcut')!.href;
 		copyToClipboard(permalink + location.hash);
 	}
 };
@@ -20,11 +20,7 @@ function deinit(): void {
 	window.removeEventListener('keyup', handler);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Enhances the `y` hotkey to also copy the permalink.',
-	screenshot: false
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleFile
 	],

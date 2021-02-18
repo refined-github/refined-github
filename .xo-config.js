@@ -15,12 +15,12 @@ module.exports = {
 		'no-alert': 'off',
 		'no-void': 'off',
 		'react/jsx-key': 'off',
-		'unicorn/no-fn-reference-in-iterator': 'off',
+		'unicorn/no-array-callback-reference': 'off',
 		// Test files are pre-compiled and bundled by rollup
 		'ava/no-ignored-test-files': 'off',
 
 		'@typescript-eslint/no-extra-non-null-assertion': 'error',
-		'@typescript-eslint/consistent-type-definitions':'error',
+		'@typescript-eslint/consistent-type-definitions': 'error',
 		'@typescript-eslint/explicit-function-return-type': [
 			'error',
 			{

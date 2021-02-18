@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import CheckIcon from 'octicon/check.svg';
+import {CheckIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -15,32 +15,32 @@ function addMergeLink(): void {
 	// The links in `.table-list-header-toggle` are either:
 	//   1 Open | 1 Closed
 	//   1 Total            // Apparently appears with is:merged/is:unmerged
-	for (const lastLink of select.all<HTMLAnchorElement>('.table-list-header-toggle.states a:last-child')) {
+	for (const lastLink of select.all('.table-list-header-toggle.states a:last-child')) {
 		const lastLinkQuery = new SearchQuery(lastLink);
 
 		if (lastLinkQuery.includes('is:merged')) {
 			// It's a "Total" link for "is:merged"
 			lastLink.lastChild!.textContent = lastLink.lastChild!.textContent!.replace('Total', 'Merged');
-			return;
+			continue;
 		}
 
 		if (lastLinkQuery.includes('is:unmerged')) {
 			// It's a "Total" link for "is:unmerged"
 			lastLink.lastChild!.textContent = lastLink.lastChild!.textContent!.replace('Total', 'Unmerged');
-			return;
+			continue;
 		}
 
 		// In this case, `lastLink` is expected to be a "Closed" link
 		const mergeLink = lastLink.cloneNode(true);
 		mergeLink.textContent = 'Merged';
-		mergeLink.classList.toggle('selected', new SearchQuery(location).includes('is:merged'));
+		mergeLink.classList.toggle('selected', new SearchQuery(location.search).includes('is:merged'));
 		new SearchQuery(mergeLink).replace('is:closed', 'is:merged');
 		lastLink.after(' ', mergeLink);
 	}
 }
 
 function togglableFilters(): void {
-	for (const link of select.all<HTMLAnchorElement>('.table-list-header-toggle.states a')) {
+	for (const link of select.all('.table-list-header-toggle.states a')) {
 		select('.octicon', link)?.remove();
 		if (link.classList.contains('selected')) {
 			link.prepend(<CheckIcon/>);
@@ -55,17 +55,13 @@ function togglableFilters(): void {
 }
 
 async function init(): Promise<void | false> {
-	await elementReady('.table-list-filters + *');
+	await elementReady('.table-list-filters');
 
 	addMergeLink();
 	togglableFilters();
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Lets you toggle between is:open/is:closed/is:merged filters in searches.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/73605061-2125ed00-45cc-11ea-8cbd-41a53ae00cd3.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversationList
 	],

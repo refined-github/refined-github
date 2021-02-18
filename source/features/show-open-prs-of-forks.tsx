@@ -7,10 +7,10 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import pluralize from '../helpers/pluralize';
-import {getForkedRepo, getUsername, getRepoURL} from '../github-helpers';
+import {getForkedRepo, getUsername, getRepo} from '../github-helpers';
 
 function getLinkCopy(count: number): string {
-	return pluralize(count, 'one open pull request', '$$ open pull requests');
+	return pluralize(count, 'one open pull request', 'at least $$ open pull requests');
 }
 
 const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: number, singlePrNumber?: number]> => {
@@ -32,7 +32,7 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: nu
 	`);
 
 	// Only show PRs originated from the current repo
-	const prs = search.nodes.filter((pr: AnyObject) => pr.headRepository.nameWithOwner.toLowerCase() === getRepoURL());
+	const prs = search.nodes.filter((pr: AnyObject) => pr.headRepository.nameWithOwner === getRepo()!.nameWithOwner);
 
 	// If only one is found, pass the PR number so we can link to the PR directly
 	if (prs.length === 1) {
@@ -43,14 +43,15 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: nu
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 2},
-	cacheKey: ([forkedRepo]): string => 'prs-on-forked-repo:' + forkedRepo + ':' + getRepoURL()
+	cacheKey: ([forkedRepo]): string => 'prs-on-forked-repo:' + forkedRepo + ':' + getRepo()!.nameWithOwner
 });
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 async function getPRs(): Promise<[prCount: number, url: string] | []> {
 	// Wait for the tab bar to be loaded
 	await elementReady([
-		'.pagehead + *', // Pre "Repository refresh" layout
-		'.UnderlineNav-body + *'
+		'.pagehead', // Pre "Repository refresh" layout
+		'.UnderlineNav-body'
 	].join());
 	if (!pageDetect.canUserEditRepo()) {
 		return [];
@@ -71,8 +72,9 @@ async function initHeadHint(): Promise<void | false> {
 		return false;
 	}
 
-	select<HTMLAnchorElement>(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`)!.after(
-		<> with <a href={url}>{getLinkCopy(count)}</a></>
+	select(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`)!.after(
+		// The class is used by `quick-fork-deletion`
+		<> with <a href={url} className="rgh-open-prs-of-forks">{getLinkCopy(count)}</a></>
 	);
 }
 
@@ -89,11 +91,7 @@ async function initDeleteHint(): Promise<void | false> {
 	);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'In your forked repos, shows number of your open PRs to the original repo.',
-	screenshot: 'https://user-images.githubusercontent.com/1922624/76398271-e0648500-637c-11ea-8210-53dda1be9d51.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo
 	],

@@ -2,58 +2,109 @@ import 'webext-base-css/webext-base.css';
 import './options.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
+import domify from 'doma';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
-import {applyToLink} from 'shorten-repo-url';
 import * as indentTextarea from 'indent-textarea';
 
 import {perDomainOptions} from './options-storage';
-import * as domFormatters from './github-helpers/dom-formatters';
 
-function parseDescription(description: string): DocumentFragment {
-	const descriptionElement = <span>{description}</span>;
-	domFormatters.linkifyIssues(descriptionElement, {
-		baseUrl: 'https://github.com',
-		user: 'sindresorhus',
-		repository: 'refined-github'
-	});
-	domFormatters.linkifyURLs(descriptionElement);
-	domFormatters.parseBackticks(descriptionElement);
+interface Status {
+	error?: true;
+	text?: string;
+	scopes?: string[];
+}
 
-	for (const a of select.all('a', descriptionElement)) {
-		applyToLink(a);
+function reportStatus({error, text, scopes}: Status): void {
+	const tokenStatus = select('#validation')!;
+	tokenStatus.textContent = text ?? '';
+	if (error) {
+		tokenStatus.dataset.validation = 'invalid';
+	} else {
+		delete tokenStatus.dataset.validation;
 	}
 
-	// eslint-disable-next-line react/jsx-no-useless-fragment
-	return <>{[...descriptionElement.childNodes]}</>;
+	for (const scope of select.all('[data-scope]')) {
+		if (scopes) {
+			scope.dataset.validation = scopes.includes(scope.dataset.scope!) ? 'valid' : 'invalid';
+		} else {
+			scope.dataset.validation = '';
+		}
+	}
+}
+
+async function getTokenScopes(personalToken: string): Promise<string[]> {
+	const tokenLink = select('a#personal-token-link')!;
+	const url = tokenLink.host === 'github.com' ?
+		'https://api.github.com/' :
+		`${tokenLink.origin}/api/v3/`;
+
+	const response = await fetch(url, {
+		cache: 'no-store',
+		headers: {
+			'User-Agent': 'Refined GitHub',
+			Accept: 'application/vnd.github.v3+json',
+			Authorization: `token ${personalToken}`
+		}
+	});
+
+	if (!response.ok) {
+		const details = await response.json();
+		throw new Error(details.message);
+	}
+
+	const scopes = response.headers.get('X-OAuth-Scopes')!.split(', ');
+	if (scopes.includes('repo')) {
+		scopes.push('public_repo');
+	}
+
+	return scopes;
+}
+
+async function validateToken(): Promise<void> {
+	reportStatus({});
+	const tokenField = select('input[name="personalToken"]')!;
+	if (!tokenField.validity.valid || tokenField.value.length === 0) {
+		return;
+	}
+
+	reportStatus({text: 'Validating…'});
+
+	try {
+		reportStatus({
+			scopes: await getTokenScopes(tokenField.value)
+		});
+	} catch (error: unknown) {
+		reportStatus({error: true, text: (error as Error).message});
+		throw error;
+	}
 }
 
 function moveDisabledFeaturesToTop(): void {
 	const container = select('.js-features')!;
-	for (const unchecked of select.all('.feature--enabled [type=checkbox]:not(:checked)', container).reverse()) {
+	for (const unchecked of select.all('.feature [type=checkbox]:not(:checked)', container).reverse()) {
 		// .reverse() needed to preserve alphabetical order while prepending
 		container.prepend(unchecked.closest('.feature')!);
 	}
 }
 
-function buildFeatureCheckbox({id, description, screenshot, disabled}: FeatureMeta): HTMLElement {
-	// `undefined` disconnects it from the options
-	const key = disabled ? undefined : `feature:${id}`;
+function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
+	const descriptionElement = domify.one(description)!;
+	descriptionElement.className = 'description';
 
 	return (
-		<div className={`feature feature--${disabled ? 'disabled' : 'enabled'}`} data-text={`${id} ${description}`.toLowerCase()}>
-			<input type="checkbox" name={key} id={id} disabled={Boolean(disabled)}/>
+		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
+			<input type="checkbox" name={`feature:${id}`} id={id}/>
 			<div className="info">
 				<label htmlFor={id}>
 					<span className="feature-name">{id}</span>
 					{' '}
-					{disabled && <small>{parseDescription(`(Disabled because of ${disabled}) `)}</small>}
-					<a href={`https://github.com/sindresorhus/refined-github/blob/master/source/features/${id}.tsx`}>
+					<a href={`https://github.com/sindresorhus/refined-github/blob/main/source/features/${id}.tsx`}>
 						source
 					</a>
 					{screenshot && <>, <a href={screenshot}>screenshot</a></>}
-					<p className="description">{parseDescription(description)}</p>
+					{descriptionElement}
 				</label>
 			</div>
 		</div>
@@ -110,6 +161,7 @@ async function generateDom(): Promise<void> {
 	// Decorate list
 	moveDisabledFeaturesToTop();
 	void highlightNewFeatures();
+	void validateToken();
 
 	// Move debugging tools higher when side-loaded
 	if (process.env.NODE_ENV === 'development') {
@@ -119,13 +171,20 @@ async function generateDom(): Promise<void> {
 
 function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
-	select('.js-options-sync-selector')?.addEventListener('change', ({currentTarget: dropdown}) => {
-		select<HTMLAnchorElement>('#personal-token-link')!.host = (dropdown as HTMLSelectElement).value;
+	select('.OptionsSyncPerDomain-picker select')?.addEventListener('change', ({currentTarget: dropdown}) => {
+		const host = (dropdown as HTMLSelectElement).value;
+		select('a#personal-token-link')!.host = host === 'default' ? 'github.com' : host;
+		// Delay validating to let options load first
+		setTimeout(validateToken, 100);
 	});
 
 	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)
-	browser.permissions.onRemoved.addListener(() => location.reload());
-	browser.permissions.onAdded.addListener(() => location.reload());
+	browser.permissions.onRemoved.addListener(() => {
+		location.reload();
+	});
+	browser.permissions.onAdded.addListener(() => {
+		location.reload();
+	});
 
 	// Improve textareas editing
 	fitTextarea.watch('textarea');
@@ -136,6 +195,9 @@ function addEventListeners(): void {
 
 	// Add cache clearer
 	select('#clear-cache')!.addEventListener('click', clearCacheHandler);
+
+	// Add token validation
+	select('[name="personalToken"]')!.addEventListener('input', validateToken);
 
 	// Ensure all links open in a new tab #3181
 	delegate(document, '[href^="http"]', 'click', (event: delegate.Event<MouseEvent, HTMLAnchorElement>) => {

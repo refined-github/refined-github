@@ -8,9 +8,9 @@ Suggestions and pull requests are highly encouraged! Have a look at the [open is
 - The extension can be loaded into Chrome or Firefox manually ([See notes below](#loading-into-the-browser))
 - [JSX](https://reactjs.org/docs/introducing-jsx.html) is used to create DOM elements.
 - All the [latest DOM APIs](https://github.com/WebReflection/dom4#features) and JavaScript features are available because the extension only has to work in the latest Chrome and Firefox. 🎉
-- Each JavaScript feature lives in its own file under [`source/features`](https://github.com/sindresorhus/refined-github/tree/master/source/features) and it's imported in [`source/refined-github.ts`](https://github.com/sindresorhus/refined-github/blob/master/source/refined-github.ts).
-- See what a _feature_ [looks like](https://github.com/sindresorhus/refined-github/blob/master/source/features/user-profile-follower-badge.tsx).
-- Follow [the styleguide](https://github.com/sindresorhus/refined-github/blob/master/readme.md#L100) that appears in the Readme's source to write readable descriptions.
+- Each JavaScript feature lives in its own file under [`source/features`](https://github.com/sindresorhus/refined-github/tree/main/source/features) and it's imported in [`source/refined-github.ts`](https://github.com/sindresorhus/refined-github/blob/main/source/refined-github.ts).
+- See what a feature [looks like](https://github.com/sindresorhus/refined-github/blob/main/source/features/user-profile-follower-badge.tsx).
+- Follow [the styleguide](https://github.com/sindresorhus/refined-github/blob/main/readme.md#L70) that appears in the Readme's source to write readable descriptions.
 - Refined GitHub tries to integrate as best as possible, so [GitHub's own styleguide](https://primer.style/css) might come in useful.
 
 ## `features.add`
@@ -21,15 +21,11 @@ The simplest usage of `feature.add` is the following. This will be run instantly
 import * as pageDetect from 'github-url-detection';
 import features from '.';
 
-function init () {
+function init() {
 	console.log('✨');
 }
 
-features.add({
-	id: __filebasename,
-	description: 'Simplify the GitHub interface and adds useful features.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/58238638-3cbcd080-7d7a-11e9-80f6-be6c0520cfed.jpg',
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPR // Find which one you need on https://fregante.github.io/github-url-detection/
 	],
@@ -56,18 +52,16 @@ function init(): void {
 	delegate(document, '.btn', 'click', append);
 }
 
-features.add({
-	id: __filebasename,
-	description: 'Simplify the GitHub interface and adds useful features.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/58238638-3cbcd080-7d7a-11e9-80f6-be6c0520cfed.jpg',
-	shortcuts: { // This only adds the shortcut to the help screen, it doesn't enable it
+void features.add(__filebasename, {
+	// This only adds the shortcut to the help screen, it doesn't enable it.
+	shortcuts: {
 		'↑': 'Edit your last comment'
 	},
-}, {
-	/** Whether to wait for DOM ready before runnin `init`. `false` makes `init` run right as soon as `body` is found. @default true */
+
+	// Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true
 	awaitDomReady: false,
 
-	/** Rarely needed: When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway. @default false */
+	// Rarely needed: When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway. @default false
 	repeatOnBackButton: true,
 	include: [
 		pageDetect.isUserProfile,
@@ -87,7 +81,7 @@ features.add({
 
 ## Requirements
 
-[Node.js](https://nodejs.org/en/download/) version 13 or later is required.
+[Node.js](https://nodejs.org/en/download/) version 15 or later is required.
 
 ## Workflow
 
@@ -118,5 +112,7 @@ npm run start # Open extension in Chrome
 ```sh
 npm run start:firefox # Open extension in Firefox
 ```
+
+**Note**: They both require [web-ext](https://github.com/mozilla/web-ext) to be installed globally. Run `npm i -g web-ext`
 
 Or you can [load it manually in Chrome](https://www.smashingmagazine.com/2017/04/browser-extension-edge-chrome-firefox-opera-brave-vivaldi/#google-chrome-opera-vivaldi) or [Firefox](https://www.smashingmagazine.com/2017/04/browser-extension-edge-chrome-firefox-opera-brave-vivaldi/#mozilla-firefox).

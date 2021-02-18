@@ -2,9 +2,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
-import IssueIcon from 'octicon/issue-opened.svg';
 import * as pageDetect from 'github-url-detection';
-import PullRequestIcon from 'octicon/git-pull-request.svg';
+import {GitPullRequestIcon, IssueOpenedIcon} from '@primer/octicons-react';
 
 import features from '.';
 
@@ -27,24 +26,20 @@ function init(): void {
 					className="muted-link mr-3"
 					href={repositoryLink.href + '/issues?q=is%3Aissue+is%3Aopen'}
 				>
-					<IssueIcon/>
+					<IssueOpenedIcon/>
 				</a>,
 				<a
 					className="muted-link mr-3"
 					href={repositoryLink.href + '/pulls?q=is%3Apr+is%3Aopen'}
 				>
-					<PullRequestIcon/>
+					<GitPullRequestIcon/>
 				</a>
 			);
 		}
 	});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a link to the issues and pulls on the user profile repository tab and global search.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/78712349-82c54900-78e6-11ea-8328-3c2d39a78862.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isUserProfileRepoTab,
 		pageDetect.isGlobalSearchResults

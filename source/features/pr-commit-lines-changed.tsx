@@ -6,11 +6,10 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import pluralize from '../helpers/pluralize';
-import {getRepoGQL} from '../github-helpers';
 
 const getCommitChanges = cache.function(async (commit: string): Promise<[additions: number, deletions: number]> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			object(expression: "${commit}") {
 				... on Commit {
 					additions
@@ -29,7 +28,7 @@ async function init(): Promise<void> {
 	const commitSha = location.pathname.split('/').pop()!;
 	const [additions, deletions] = await getCommitChanges(commitSha);
 	const tooltip = pluralize(additions + deletions, '1 line changed', '$$ lines changed');
-	const diffstat = await elementReady('.diffstat');
+	const diffstat = await elementReady('.diffstat', {waitForChildren: false});
 	diffstat!.replaceWith(
 		<span className="ml-2 diffstat tooltipped tooltipped-s" aria-label={tooltip}>
 			<span className="text-green">+{additions}</span>{' '}
@@ -43,11 +42,7 @@ async function init(): Promise<void> {
 	);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds diff stats on PR commits.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/76107253-48deeb00-5fa6-11ea-9931-721cde553bdf.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRCommit
 	],

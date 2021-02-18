@@ -2,12 +2,12 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import PullRequestIcon from 'octicon/git-pull-request.svg';
+import {GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {buildRepoURL, getRepoURL, getRepoGQL} from '../github-helpers';
+import {buildRepoURL, getRepo} from '../github-helpers';
 
 function getPRUrl(prNumber: number): string {
 	return buildRepoURL('pull', prNumber, 'files');
@@ -18,7 +18,7 @@ function getDropdown(prs: number[]): HTMLElement {
 	return (
 		<details className="ml-2 dropdown details-reset details-overlay d-inline-block flex-self-center">
 			<summary aria-haspopup="true" className="btn btn-sm">
-				<PullRequestIcon/> {prs.length} <div className="dropdown-caret"/>
+				<GitPullRequestIcon/> {prs.length} <div className="dropdown-caret"/>
 			</summary>
 
 			<ul className="dropdown-menu dropdown-menu-se">
@@ -43,7 +43,7 @@ function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElem
 			href={getPRUrl(prNumber)}
 			className={'btn btn-sm btn-outline flex-self-center' + (prs ? ' BtnGroup-item' : '')}
 		>
-			<PullRequestIcon/> #{prNumber}
+			<GitPullRequestIcon/> #{prNumber}
 		</a>
 	);
 }
@@ -53,7 +53,7 @@ function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElem
 */
 const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			pullRequests(
 				first: 25,
 				states: OPEN,
@@ -79,7 +79,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 
 	for (const pr of repository.pullRequests.nodes) {
 		for (const {path} of pr.files.nodes) {
-			files[path] = files[path] || [];
+			files[path] = files[path] ?? [];
 			if (files[path].length < 10) {
 				files[path].push(pr.number);
 			}
@@ -90,15 +90,24 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 }, {
 	maxAge: {hours: 2},
 	staleWhileRevalidate: {days: 9},
-	cacheKey: () => __filebasename + ':' + getRepoURL()
+	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
 });
 
 async function init(): Promise<void> {
 	// `clipboard-copy` on blob page, `#blob-edit-path` on edit page
 	const path = select('clipboard-copy, #blob-edit-path')!.getAttribute('value')!;
-	const {[path]: prs} = await getPrsByFile();
+	let {[path]: prs} = await getPrsByFile();
+
 	if (!prs) {
 		return;
+	}
+
+	const editingPRNumber = new URLSearchParams(location.search).get('pr')?.split('/').slice(-1);
+	if (editingPRNumber) {
+		prs = prs.filter(pr => pr !== Number(editingPRNumber));
+		if (prs.length === 0) {
+			return;
+		}
 	}
 
 	const [prNumber] = prs; // First one or only one
@@ -133,11 +142,7 @@ async function init(): Promise<void> {
 	select('.breadcrumb')!.before(link);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Shows PRs that touch the current file.',
-	screenshot: 'https://user-images.githubusercontent.com/55841/60622834-879e1f00-9de1-11e9-9a9e-bae5ec0b3728.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isEditingFile,
 		pageDetect.isSingleFile

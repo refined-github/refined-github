@@ -3,19 +3,18 @@ import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import VersionIcon from 'octicon/versions.svg';
+import {VersionsIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import LoadingIcon from '../github-helpers/icon-loading';
-import {getRepoGQL} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			file: object(expression: "${commit}:${currentFilename}") {
 				id
 			}
@@ -64,8 +63,8 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	blameElement.blur(); // Hide tooltip after click, it’s shown on :focus
 
 	const blameHunk = blameElement.closest('.blame-hunk')!;
-	const prNumber = looseParseInt(select('.issue-link', blameHunk)!.textContent!);
-	const prCommit = select<HTMLAnchorElement>('a.message', blameHunk)!.pathname.split('/').pop()!;
+	const prNumber = looseParseInt(select('.issue-link', blameHunk)!);
+	const prCommit = select('a.message', blameHunk)!.pathname.split('/').pop()!;
 	const blameUrl = new GitHubURL(location.href);
 
 	const spinner = <LoadingIcon className="mr-2"/>;
@@ -75,9 +74,9 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumber, blameUrl.filePath);
 		blameUrl.hash = 'L' + select('.js-line-number', blameHunk)!.textContent!;
 		location.href = String(blameUrl);
-	} catch (error) {
-		spinner.replaceWith(<VersionIcon/>);
-		alert(error.message);
+	} catch (error: unknown) {
+		spinner.replaceWith(<VersionsIcon/>);
+		alert((error as Error).message);
 	}
 }
 
@@ -102,18 +101,14 @@ function init(): void | false {
 					aria-label="View blame prior to this change (extracts commits from this PR first)"
 					className="reblame-link btn-link no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-reblame"
 				>
-					<VersionIcon/>
+					<VersionsIcon/>
 				</button>
 			);
 		}
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'When exploring blames, `Alt`-clicking the “Reblame” buttons will extract the associated PR’s commits first, instead of treating the commit a single change.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/77248541-8e3f2180-6c10-11ea-91d4-221ccc0ecebb.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isBlame
 	],

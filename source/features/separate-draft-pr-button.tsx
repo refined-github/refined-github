@@ -5,27 +5,19 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function init(): void | false {
-	const previewForm = select('.new-pr-form');
-
-	// PRs can't be created from some comparison pages:
-	// Either base is a tag, not a branch; or there already exists a PR.
-	if (!previewForm) {
+	const draftPROption = select('.new-pr-form [name="draft"]');
+	if (!draftPROption) {
+		// 1. Free accounts can't open Draft PRs in private repos, so this element is missing
+		// 2. PRs can't be created from some comparison pages: Either base is a tag, not a branch; or there already exists a PR.
 		return false;
 	}
 
-	const buttonBar = select('.timeline-comment > :last-child', previewForm)!;
-	const createPrButtonGroup = select('.BtnGroup', buttonBar);
-	if (!createPrButtonGroup) {
-		// Free accounts can't open Draft PRs in private repos, so this element is missing
-		return false;
-	}
+	const initialGroupedButtons = draftPROption.closest('.BtnGroup')!;
 
-	const createPrDropdownItems = select.all('.select-menu-item', createPrButtonGroup);
-
-	for (const dropdownItem of createPrDropdownItems) {
+	for (const dropdownItem of select.all('.select-menu-item', initialGroupedButtons)) {
 		let title = select('.select-menu-item-heading', dropdownItem)!.textContent!.trim();
 		const description = select('.description', dropdownItem)!.textContent!.trim();
-		const radioButton = select<HTMLInputElement>('[type=radio]', dropdownItem)!;
+		const radioButton = select('input[type=radio]', dropdownItem)!;
 		const classList = ['btn', 'ml-2', 'tooltipped', 'tooltipped-s'];
 
 		if (/\bdraft\b/i.test(title)) {
@@ -34,7 +26,7 @@ function init(): void | false {
 			classList.push('btn-primary');
 		}
 
-		buttonBar.prepend(
+		initialGroupedButtons.after(
 			<button
 				className={classList.join(' ')}
 				aria-label={description}
@@ -47,14 +39,10 @@ function init(): void | false {
 		);
 	}
 
-	createPrButtonGroup.remove();
+	initialGroupedButtons.remove();
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Lets you create draft pull requests in one click.',
-	screenshot: 'https://user-images.githubusercontent.com/202916/67269317-cd791300-f4b6-11e9-89d1-392de7ef71e1.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isCompare
 	],

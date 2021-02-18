@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
-import InfoIcon from 'octicon/info.svg';
+import {InfoIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -23,8 +23,8 @@ const generateCheckbox = onetime(() => (
 	</label>
 ));
 
-function getCheckbox(): HTMLInputElement | null {
-	return select<HTMLInputElement>('[name="rgh-pr-check-waiter"]');
+function getCheckbox(): HTMLInputElement | undefined {
+	return select('input[name="rgh-pr-check-waiter"]');
 }
 
 // Only show the checkbox if there's a pending commit
@@ -32,22 +32,19 @@ function showCheckboxIfNecessary(): void {
 	const checkbox = getCheckbox();
 	const isNecessary = prCiStatus.get() === prCiStatus.PENDING;
 	if (!checkbox && isNecessary) {
-		const container = select('.commit-form-actions .select-menu');
-		if (container) {
-			container.append(generateCheckbox());
-		}
+		select('.js-merge-form .select-menu')?.append(generateCheckbox());
 	} else if (checkbox && !isNecessary) {
 		checkbox.parentElement!.remove();
 	}
 }
 
 function disableForm(disabled = true): void {
-	for (const field of select.all<HTMLInputElement>(`
-		[name="commit_message"],
-		[name="commit_title"],
-		[name="rgh-pr-check-waiter"],
-		.js-merge-commit-button
-		`)) {
+	for (const field of select.all(`
+		textarea[name="commit_message"],
+		input[name="commit_title"],
+		input[name="rgh-pr-check-waiter"],
+		button.js-merge-commit-button
+	`)) {
 		field.disabled = disabled;
 	}
 
@@ -101,11 +98,7 @@ function init(): void {
 	});
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds the option to wait for checks when merging a PR.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/35192861-3f4a1bf6-fecc-11e7-8b9f-35ee019c6cdf.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation
 	],

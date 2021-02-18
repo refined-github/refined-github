@@ -6,39 +6,29 @@ import SearchQuery from '../github-helpers/search-query';
 import {getUsername} from '../github-helpers';
 
 function init(): void {
-	// Use an existing dropdown item to preserve its DOM structure (supports old GHE versions)
-	const sourceItem = select<HTMLAnchorElement>([
-		'#filters-select-menu a:nth-last-child(2)', // GHE
-		'.subnav-search-context li:nth-last-child(2)'
-	])!;
+	const sourceItem = select('#filters-select-menu a:nth-last-child(2)')!;
 
 	// Add "Everything commented by you" filter
-	const commentsMenuItem = sourceItem.cloneNode(true);
-	const commentsLink = select('a', commentsMenuItem) ?? commentsMenuItem;
+	const commentsLink = sourceItem.cloneNode(true);
 	commentsLink.textContent = 'Everything commented by you';
 	commentsLink.removeAttribute('target');
 	new SearchQuery(commentsLink).set(`is:open commenter:${getUsername()}`);
 
-	sourceItem.after(commentsMenuItem);
+	sourceItem.after(commentsLink);
 
 	// Add "Everything you subscribed to" link
-	const subscriptionsMenuItem = commentsMenuItem.cloneNode(true);
-	const subscriptionsLink = select('a', subscriptionsMenuItem) ?? subscriptionsMenuItem;
+	const subscriptionsLink = commentsLink.cloneNode(true);
 	subscriptionsLink.textContent = 'Everything you subscribed to';
 
 	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
-	const repositoryId = select<HTMLInputElement>('[name="repository_id"]')!.value;
+	const repositoryId = select('input[name="repository_id"]')!.value;
 	subscriptionsUrl.searchParams.set('repository', btoa(`010:Repository${repositoryId}`));
 	subscriptionsLink.href = subscriptionsUrl.href;
 
-	commentsMenuItem.after(subscriptionsMenuItem);
+	commentsLink.after(subscriptionsLink);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds `Everything commented by you` and `Everything you subscribed to` filters in the search box dropdown.',
-	screenshot: 'https://user-images.githubusercontent.com/202916/84156153-72a62300-aa69-11ea-8592-3094292fde3c.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoConversationList
 	],

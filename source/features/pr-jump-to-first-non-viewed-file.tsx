@@ -20,11 +20,7 @@ function init(): void {
 	select('.diffbar-item progress-bar')!.style.cursor = 'pointer';
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Jumps to first non-viewed file in a pull request when clicking on the progress bar.',
-	screenshot: 'https://user-images.githubusercontent.com/16872793/85226580-3bf3d500-b3a6-11ea-8494-3d9b6280d033.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles
 	],

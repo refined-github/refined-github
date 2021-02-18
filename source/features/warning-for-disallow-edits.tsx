@@ -28,7 +28,7 @@ function toggleHandler(event: delegate.Event<UIEvent, HTMLInputElement>): void {
 }
 
 function init(): void | false {
-	const checkbox = select<HTMLInputElement>('[name="collab_privs"]');
+	const checkbox = select('input[name="collab_privs"]');
 	if (!checkbox) {
 		return false;
 	}
@@ -37,11 +37,7 @@ function init(): void | false {
 	delegate(document, '[name="collab_privs"]', 'change', toggleHandler);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isCompare,
 		pageDetect.isPRConversation

@@ -3,14 +3,11 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-
-import DiffIcon from 'octicon/diff.svg';
-import BranchIcon from 'octicon/git-branch.svg';
-import HistoryIcon from 'octicon/history.svg';
-import PackageIcon from 'octicon/package.svg';
+import {DiffIcon, GitBranchIcon, HistoryIcon, PackageIcon} from '@primer/octicons-react';
 
 import features from '.';
 import {appendBefore} from '../helpers/dom-utils';
+import getDefaultBranch from '../github-helpers/get-default-branch';
 import {buildRepoURL, getCurrentBranch} from '../github-helpers';
 
 function createDropdown(): void {
@@ -41,8 +38,13 @@ export function createDropdownItem(label: string, url: string, attributes?: Reco
 }
 
 function onlyShowInDropdown(id: string): void {
-	select(`[data-tab-item="${id}"]`)!.parentElement!.remove();
-	const menuItem = select(`[data-menu-item="${id}"]`)!;
+	const tabItem = select(`[data-tab-item$="${id}"]`);
+	if (!tabItem && pageDetect.isEnterprise()) { // GHE might not have the Security tab #3962
+		return;
+	}
+
+	tabItem!.parentElement!.remove();
+	const menuItem = select(`[data-menu-item$="${id}"]`)!;
 	menuItem.removeAttribute('data-menu-item');
 	menuItem.hidden = false;
 
@@ -53,11 +55,11 @@ function onlyShowInDropdown(id: string): void {
 async function init(): Promise<void> {
 	// Wait for the tab bar to be loaded
 	await elementReady([
-		'.pagehead + *', // Pre "Repository refresh" layout
-		'.UnderlineNav-body + *'
+		'.pagehead', // Pre "Repository refresh" layout
+		'.UnderlineNav-body'
 	].join());
 
-	const reference = getCurrentBranch();
+	const reference = getCurrentBranch() ?? await getDefaultBranch();
 	const compareUrl = buildRepoURL('compare', reference);
 	const commitsUrl = buildRepoURL('commits', reference);
 	const branchesUrl = buildRepoURL('branches');
@@ -102,14 +104,14 @@ async function init(): Promise<void> {
 		</a>,
 
 		<a href={branchesUrl} className="rgh-reponav-more dropdown-item">
-			<BranchIcon/> Branches
+			<GitBranchIcon/> Branches
 		</a>
 	);
 
 	// Selector only affects desktop navigation
-	for (const tab of select.all<HTMLAnchorElement>(`
-		.hx_reponav [data-selected-links~="pulse"],
-		.hx_reponav [data-selected-links~="security"]
+	for (const tab of select.all(`
+		.hx_reponav a[data-selected-links~="pulse"],
+		.hx_reponav a[data-selected-links~="security"]
 	`)) {
 		tab.remove();
 		menu.append(
@@ -120,11 +122,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds links to `Commits`, `Branches`, `Dependencies`, and `Compare` in a new `More` dropdown.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/55089736-d94f5300-50e8-11e9-9095-329ac74c1e9f.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo
 	],

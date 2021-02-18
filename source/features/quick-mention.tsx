@@ -2,7 +2,7 @@ import './quick-mention.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import ReplyIcon from 'octicon/reply.svg';
+import {ReplyIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
@@ -12,7 +12,7 @@ import onNewComments from '../github-events/on-new-comments';
 
 function mentionUser({delegateTarget: button}: delegate.Event): void {
 	const userMention = button.parentElement!.querySelector('img')!.alt;
-	const newComment = select<HTMLTextAreaElement>('#new_comment_field')!;
+	const newComment = select('textarea#new_comment_field')!;
 	newComment.focus();
 
 	// If the new comment field has selected text, don’t replace it
@@ -46,11 +46,7 @@ function init(): void {
 	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a button to @mention a user in conversations.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/70406615-f445d580-1a73-11ea-9ab1-bf6bd9aa70a3.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversation
 	],

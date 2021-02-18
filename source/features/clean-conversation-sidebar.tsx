@@ -1,4 +1,4 @@
-import './clean-sidebar.css';
+import './clean-conversation-sidebar.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
@@ -109,11 +109,7 @@ async function clean(): Promise<void> {
 	cleanSection('[aria-label="Select milestones"]');
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Hides empty sections (or just their "empty" label) in the conversation sidebar.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/57199809-20691780-6fb6-11e9-9672-1ad3f9e1b827.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversation
 	],

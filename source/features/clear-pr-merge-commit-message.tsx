@@ -5,8 +5,7 @@ import features from '.';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 function init(): void {
-	const messageField = select<HTMLTextAreaElement>('#merge_message_field')!;
-
+	const messageField = select('textarea#merge_message_field')!;
 	const deduplicatedAuthors = new Set();
 
 	// This method ensures that "Co-authored-by" capitalization doesn't affect deduplication
@@ -17,11 +16,7 @@ function init(): void {
 	messageField.value = [...deduplicatedAuthors].join('\n');
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Clears the PR merge commit message of clutter, leaving only deduplicated co-authors.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/79257078-62b6fc00-7e89-11ea-8798-c06f33baa94b.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation
 	],

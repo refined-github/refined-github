@@ -23,7 +23,7 @@ function handleClick({delegateTarget: button}: delegate.Event<MouseEvent, HTMLBu
 }
 
 function renderButton(): void {
-	for (const button of select.all<HTMLAnchorElement>([
+	for (const button of select.all([
 		'.file-actions .btn[href*="/raw/"]', // `isGist`
 		'[data-hotkey="b"]'
 	])) {
@@ -60,11 +60,7 @@ function init(): void {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a button to copy a file’s content.',
-	screenshot: 'https://cloud.githubusercontent.com/assets/170270/14453865/8abeaefe-00c1-11e6-8718-9406cee1dc0d.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleFile,
 		pageDetect.isGist

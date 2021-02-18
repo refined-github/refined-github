@@ -18,7 +18,7 @@ function generateSubmenu(hideButton: Element): void {
 	const hideCommentForm = select('.js-comment-minimize', comment)!;
 
 	// Generate dropdown items
-	for (const reason of select.all<HTMLInputElement>('[name="classifier"] :not([value=""])', comment)) {
+	for (const reason of select.all('[name="classifier"] option:not([value=""])', comment)) {
 		hideCommentForm.append(
 			<button
 				type="submit"
@@ -44,7 +44,7 @@ function generateSubmenu(hideButton: Element): void {
 
 // Shows menu on top of mainDropdownContent when "Hide" is clicked;
 // Hide it when dropdown closes.
-// Uses `v-hidden` and `d-none` to avoid conflicts with `close-out-of-view-modals`
+// Uses `v-hidden` to avoid conflicts with `close-out-of-view-modals`
 function toggleSubMenu(hideButton: Element, show: boolean): void {
 	const dropdown = hideButton.closest('details')!;
 
@@ -52,7 +52,7 @@ function toggleSubMenu(hideButton: Element, show: boolean): void {
 	select('details-menu', dropdown)!.classList.toggle('v-hidden', show);
 
 	// "Hide comment" dropdown
-	select('form.js-comment-minimize', dropdown)!.classList.toggle('d-none', !show);
+	select('form.js-comment-minimize', dropdown)!.classList.toggle('v-hidden', !show);
 }
 
 function resetDropdowns(event: delegate.Event): void {
@@ -73,11 +73,7 @@ function init(): void {
 	delegate(document, '.rgh-hide-comments-faster-details', 'toggle', resetDropdowns, true);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Simplifies the UI to hide comments.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments
 	],

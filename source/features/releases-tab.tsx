@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import TagIcon from 'octicon/tag.svg';
+import {TagIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -10,20 +10,20 @@ import * as api from '../github-helpers/api';
 import looseParseInt from '../helpers/loose-parse-int';
 import {appendBefore} from '../helpers/dom-utils';
 import {createDropdownItem} from './more-dropdown';
-import {buildRepoURL, getRepoURL, getRepoGQL} from '../github-helpers';
+import {buildRepoURL, getRepo} from '../github-helpers';
 
-const cacheKey = `releases-count:${getRepoURL()}`;
+const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
 function parseCountFromDom(): number {
 	const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
 	if (releasesCountElement) {
-		return looseParseInt(releasesCountElement.textContent!);
+		return looseParseInt(releasesCountElement);
 	}
 
 	// In "Repository refresh" layout, look for the releases link in the sidebar
 	const moreReleasesCountElement = select('[href$="/tags"] strong');
 	if (moreReleasesCountElement) {
-		return looseParseInt(moreReleasesCountElement.textContent!);
+		return looseParseInt(moreReleasesCountElement);
 	}
 
 	return 0;
@@ -31,7 +31,7 @@ function parseCountFromDom(): number {
 
 async function fetchFromApi(): Promise<number> {
 	const {repository} = await api.v4(`
-		repository(${getRepoGQL()}) {
+		repository() {
 			refs(refPrefix: "refs/tags/") {
 				totalCount
 			}
@@ -44,13 +44,13 @@ async function fetchFromApi(): Promise<number> {
 const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? parseCountFromDom() : fetchFromApi(), {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 3},
-	cacheKey: () => cacheKey
+	cacheKey: getCacheKey
 });
 
 async function init(): Promise<false | void> {
 	// Always prefer the information in the DOM
 	if (pageDetect.isRepoRoot()) {
-		await cache.delete(cacheKey);
+		await cache.delete(getCacheKey());
 	}
 
 	const count = await getReleaseCount();
@@ -60,8 +60,8 @@ async function init(): Promise<false | void> {
 
 	// Wait for the tab bar to be loaded
 	await elementReady([
-		'.pagehead + *', // Pre "Repository refresh" layout
-		'.UnderlineNav-body + *'
+		'.pagehead', // Pre "Repository refresh" layout
+		'.UnderlineNav-body'
 	].join());
 
 	const repoNavigationBar = select('.js-responsive-underlinenav');
@@ -102,17 +102,13 @@ async function init(): Promise<false | void> {
 			releasesTab.setAttribute('aria-current', 'page');
 		}
 
-		select('.dropdown-divider', repoNavigationBar)!.before(
+		appendBefore(
+			select('.js-responsive-underlinenav .dropdown-menu ul')!,
+			'.dropdown-divider', // Won't exist if `more-dropdown` is disabled
 			createDropdownItem('Releases', buildRepoURL('releases'), {
 				'data-menu-item': 'rgh-releases-item'
 			})
 		);
-
-		// Hide redundant 'Releases' section from repo sidebar
-		if (pageDetect.isRepoRoot()) {
-			const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]');
-			sidebarReleases!.closest('.BorderGrid-row')!.setAttribute('hidden', '');
-		}
 
 		return;
 	}
@@ -134,24 +130,16 @@ async function init(): Promise<false | void> {
 
 	// Update "selected" tab mark
 	if (pageDetect.isReleasesOrTags()) {
-		const selected = select('.reponav-item.selected');
-		if (selected) {
-			selected.classList.remove('js-selected-navigation-item', 'selected');
-		}
-
+		select('.reponav-item.selected')?.classList.remove('js-selected-navigation-item', 'selected');
 		releasesTab.classList.add('js-selected-navigation-item', 'selected');
 		releasesTab.dataset.selectedLinks = 'repo_releases'; // Required for ajaxLoad
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a `Releases` tab and a keyboard shortcut: `g` `r`.',
-	screenshot: 'https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png',
+void features.add(__filebasename, {
 	shortcuts: {
 		'g r': 'Go to Releases'
-	}
-}, {
+	},
 	include: [
 		pageDetect.isRepo
 	],

@@ -8,7 +8,9 @@ const observer = new MutationObserver(run);
 
 function run(): void {
 	// Run all callbacks without letting an error stop the loop and without silencing it
-	handlers.forEach(async callback => callback());
+	handlers.forEach(async callback => {
+		callback();
+	});
 }
 
 // The form is detached just before the `page:loaded` event is triggered so the event won’t bubble up and `delegate` won’t catch it.
@@ -28,7 +30,9 @@ function removeListeners(): void {
 }
 
 function getFragmentLoadHandler(callback: EventListener): delegate.EventHandler {
-	return (event: delegate.Event) => event.delegateTarget.addEventListener('load', callback);
+	return ({delegateTarget}) => {
+		delegateTarget.addEventListener('load', callback);
+	};
 }
 
 function addListeners(): void {

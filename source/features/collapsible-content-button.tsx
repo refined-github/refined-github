@@ -1,15 +1,15 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import FoldDownIcon from 'octicon/fold-down.svg';
+import {FoldDownIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
 import smartBlockWrap from '../helpers/smart-block-wrap';
 
-function addContentToDetails(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	const field = event.delegateTarget.form!.querySelector('textarea')!;
+function addContentToDetails({delegateTarget}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+	const field = delegateTarget.form!.querySelector('textarea')!;
 	const selection = field.value.slice(field.selectionStart, field.selectionEnd);
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
@@ -44,11 +44,7 @@ function init(): void {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a button to insert collapsible content (via `<details>`).',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c24-4d11a697f67c.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasRichTextEditor
 	],

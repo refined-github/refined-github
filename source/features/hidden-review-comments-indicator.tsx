@@ -3,7 +3,7 @@ import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import CommentIcon from 'octicon/comment.svg';
+import {CommentIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -16,7 +16,7 @@ const handleIndicatorClick = ({delegateTarget}: delegate.Event): void => {
 	const resetScroll = preserveScroll(commentedLine);
 	delegateTarget
 		.closest('.file.js-file')!
-		.querySelector<HTMLInputElement>('.js-toggle-file-notes')!
+		.querySelector('input.js-toggle-file-notes')!
 		.click();
 
 	resetScroll();
@@ -69,12 +69,7 @@ function init(): void {
 	delegate(document, '.rgh-comments-indicator', 'click', handleIndicatorClick);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds comment indicators when comments are hidden in PR review.',
-	screenshot:
-		'https://user-images.githubusercontent.com/1402241/63112671-011d5580-bfbb-11e9-9e19-53e11641990e.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit

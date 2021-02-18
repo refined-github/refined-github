@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import DownloadIcon from 'octicon/download.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {getRepo} from '../github-helpers';
 
 function init(): void {
 	const downloadUrl = new URL('https://download-directory.github.io/');
@@ -21,28 +21,24 @@ function init(): void {
 		);
 	} else {
 		// "Repository refresh" layout
-		select('.file-navigation > .d-flex:last-child')!.append(
-			<a
-				className="btn ml-2 tooltipped tooltipped-ne"
-				href={downloadUrl.href}
-				aria-label="Download folder"
-			>
-				<DownloadIcon className="mr-1"/>
-			</a>
-		);
+		for (const deleteButton of select.all(`form[action^="/${getRepo()!.nameWithOwner}/tree/delete"]:not(.rgh-download-folder)`)) {
+			deleteButton.classList.add('rgh-download-folder'); // TODO: Drop when #3945 is completely fixed
+			deleteButton.before(
+				<a className="dropdown-item" href={downloadUrl.href}>
+					Download directory
+				</a>
+			);
+		}
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a button to a download button entire folders, via https://download-directory.github.io.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/35044451-fd3e2326-fbc2-11e7-82e1-61ec7bee612b.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoTree
 	],
 	exclude: [
 		pageDetect.isRepoRoot // Already has an native download ZIP button
 	],
+	repeatOnBackButton: true, // TODO: Drop when #3945 is completely fixed
 	init
 });

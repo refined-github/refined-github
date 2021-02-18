@@ -4,7 +4,6 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {isFirefox} from '../github-helpers';
 
 const isGist = (link: HTMLAnchorElement): boolean =>
 	!link.pathname.includes('.') && // Exclude links to embed files
@@ -20,16 +19,19 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 	link.after(info);
 
 	try {
-		const response = await fetch(`${link.href}.json`);
-		const gistData = await response.json();
+		// Fetch via background.js due to CORB policies
+		const gistData = await browser.runtime.sendMessage({fetchJSON: `${link.href}.json`});
+		if (gistData.div.length > 10000) {
+			info.textContent = ' (too large to embed)';
+			return;
+		}
 
-		const files = domify.one(gistData.div)!;
-		const fileCount = files.children.length;
-
+		const fileCount: number = gistData.files.length;
 		if (fileCount > 1) {
 			info.textContent = ` (${fileCount} files)`;
 		} else {
-			link.parentElement!.attachShadow({mode: 'open'}).append(
+			const container = <div/>;
+			container.attachShadow({mode: 'open'}).append(
 				<style>{`
 					.gist .gist-data {
 						max-height: 16em;
@@ -38,8 +40,10 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 				`}
 				</style>,
 				<link rel="stylesheet" href={gistData.stylesheet}/>,
-				files
+				domify.one(gistData.div)!
 			);
+			link.parentElement!.after(container);
+			info.remove();
 		}
 	} catch {
 		info.remove();
@@ -47,22 +51,14 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 }
 
 function init(): void {
-	select.all<HTMLAnchorElement>('.js-comment-body p a:only-child')
+	select.all('.js-comment-body p a:only-child')
 		.filter(item => isGist(item) && isOnlyChild(item))
 		.forEach(embedGist);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Embeds linked gists. Not supported by Firefox.',
-	screenshot: 'https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments
-	],
-	exclude: [
-		// https://github.com/sindresorhus/refined-github/issues/2022
-		() => isFirefox
 	],
 	init
 });

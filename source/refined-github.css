@@ -1,9 +1,8 @@
 :root {
-	--github-green: #28a745;
-	--github-red: #cb2431;
-	--github-gray-background: #fafbfc;
-	--github-gray-text: #6a737d;
-	--github-faint-yellow: #fffbdd;
+	/* 2020-12-15: these variables only exist for GHE. Remove in the future. */
+	--github-green: var(--color-text-success, #28a745);
+	--github-red: var(--color-text-danger, #cb2431);
+	--github-border-color: var(--color-border-primary, #e1e4e8);
 }
 
 /* Fade out the file icons */

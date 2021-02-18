@@ -39,14 +39,19 @@ function init(): void {
 		anchor.after(
 			<details className="details-reset details-overlay flex-auto toolbar-item select-menu select-menu-modal-right hx_rsm">
 				<summary
-					className="text-center menu-target py-2 p-md-1 hx_rsm-trigger tooltipped tooltipped-n mx-1"
+					className="text-center menu-target py-2 p-md-1 hx_rsm-trigger mx-1"
 					role="button"
 					aria-label="Add a table"
 					aria-haspopup="menu"
 				>
-					<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" className="octicon">
-						<path d="m2.75 1c-0.9665 0-1.75 0.7835-1.75 1.75v10.5c0 0.9665 0.7835 1.75 1.75 1.75h10.5c0.9665 0 1.75-0.7835 1.75-1.75v-10.5c0-0.9665-0.7835-1.75-1.75-1.75h-10.5zm0 1.5h4.5v4.75h-4.75v-4.5c0-0.13807 0.11193-0.25 0.25-0.25zm6 0h4.5c0.1381 0 0.25 0.11193 0.25 0.25v4.5h-4.75v-4.75zm-6.25 6.25h4.75v4.75h-4.5c-0.13807 0-0.25-0.1119-0.25-0.25v-4.5zm6.25 0h4.75v4.5c0 0.1381-0.1119 0.25-0.25 0.25h-4.5v-4.75z"/>
-					</svg>
+					<div
+						className="tooltipped tooltipped-n"
+						aria-label="Add a table"
+					>
+						<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" className="octicon">
+							<path d="m2.75 1c-0.9665 0-1.75 0.7835-1.75 1.75v10.5c0 0.9665 0.7835 1.75 1.75 1.75h10.5c0.9665 0 1.75-0.7835 1.75-1.75v-10.5c0-0.9665-0.7835-1.75-1.75-1.75h-10.5zm0 1.5h4.5v4.75h-4.75v-4.5c0-0.13807 0.11193-0.25 0.25-0.25zm6 0h4.5c0.1381 0 0.25 0.11193 0.25 0.25v4.5h-4.75v-4.75zm-6.25 6.25h4.75v4.75h-4.5c-0.13807 0-0.25-0.1119-0.25-0.25v-4.5zm6.25 0h4.75v4.5c0 0.1381-0.1119 0.25-0.25 0.25h-4.5v-4.75z"/>
+						</svg>
+					</div>
 				</summary>
 				<details-menu className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input" role="menu">
 					{Array.from({length: 25}).map((_, index) => (
@@ -66,11 +71,7 @@ function init(): void {
 	}
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a button in the text editor to quickly insert a simplified HTML table.',
-	screenshot: 'https://user-images.githubusercontent.com/46634000/94559114-09892c00-0261-11eb-8fb0-c5a85ea76b6f.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasRichTextEditor
 	],

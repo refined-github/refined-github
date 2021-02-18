@@ -1,21 +1,21 @@
 import './tags-dropdown.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import OctofaceIcon from '@primer/octicons/build/svg/octoface.svg';
+import {OctofaceIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getRepoURL} from '../github-helpers';
+import {buildRepoURL} from '../github-helpers';
 
 // We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
 function changeTabToTags(): void {
 	// Select "Tags" tab
-	select('.rgh-tags-dropdown .SelectMenu-tab:last-child')!.click();
+	select('.rgh-tags-dropdown button.SelectMenu-tab:last-child')!.click();
 }
 
 function updateLinksToTag(): void {
 	// Change links, which point to the content of each tag, to open the tag page instead
-	for (const anchorElement of select.all<HTMLAnchorElement>('.rgh-tags-dropdown #tags-menu .SelectMenu-item[href*="/tree/"]')) {
+	for (const anchorElement of select.all('.rgh-tags-dropdown #tags-menu a.SelectMenu-item[href*="/tree/"]')) {
 		const pathnameParts = anchorElement.pathname.split('/');
 		pathnameParts[3] = 'releases/tag'; // Replace `tree`
 		anchorElement.pathname = pathnameParts.join('/');
@@ -32,7 +32,7 @@ function init(): void {
 				<details-menu
 					preload
 					className="select-menu-modal position-absolute dropdown-menu-sw"
-					src={`/${getRepoURL()}/ref-list/master?source_action=disambiguate&source_controller=files`}
+					src={buildRepoURL('ref-list/master?source_action=disambiguate&source_controller=files')}
 					role="menu"
 					style={{zIndex: 99}}
 				>
@@ -50,11 +50,7 @@ function init(): void {
 	select('.rgh-tags-dropdown')!.addEventListener('remote-input-success', updateLinksToTag);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds a tags dropdown/search on tag/release pages.',
-	screenshot: 'https://user-images.githubusercontent.com/22439276/56373231-27ee9980-621e-11e9-9b21-601919d3dddf.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isReleasesOrTags
 	],

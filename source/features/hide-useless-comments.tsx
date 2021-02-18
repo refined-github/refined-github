@@ -5,6 +5,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import isUselessComment from '../helpers/useless-comments';
 
 function unhide(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	for (const comment of select.all('.rgh-hidden-comment')) {
@@ -18,8 +19,7 @@ function unhide(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 function init(): void {
 	let uselessCount = 0;
 	for (const commentText of select.all('.comment-body > p:only-child')) {
-		// Find useless comments
-		if (!/^([+-]\d+!*|👍|🙏|👎|👌|)+$/.test(commentText.textContent!.trim())) {
+		if (!isUselessComment(commentText.textContent!)) {
 			continue;
 		}
 
@@ -59,11 +59,7 @@ function init(): void {
 	}
 }
 
-void void features.add({
-	id: __filebasename,
-	description: 'Hides reaction comments ("+1", "👍", …).',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/45543717-d45f3c00-b847-11e8-84a5-8c439d0ad1a5.png'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.isIssue
 	],

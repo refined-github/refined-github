@@ -12,9 +12,9 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 
 	if (event.key === 'Escape') {
 		// Cancel buttons have different classes for inline comments and editable comments
-		const cancelButton = select<HTMLButtonElement>(`
-				.js-hide-inline-comment-form,
-				.js-comment-cancel-button
+		const cancelButton = select(`
+				button.js-hide-inline-comment-form,
+				button.js-comment-cancel-button
 			`, field.form!);
 
 		// Cancel if there is a button, else blur the field
@@ -33,7 +33,7 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 			'#all_commit_comments' // Single commit comments at the bottom
 		].join())!;
 		const lastOwnComment = select
-			.all<HTMLDetailsElement>('.js-comment.current-user', currentConversationContainer)
+			.all('.js-comment.current-user', currentConversationContainer)
 			.reverse()
 			.find(comment => {
 				const collapsible = comment.closest('details');
@@ -48,12 +48,12 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 			editButton.remove();
 			field
 				.closest('form')!
-				.querySelector<HTMLButtonElement>('.js-hide-inline-comment-form')
+				.querySelector('button.js-hide-inline-comment-form')
 				?.click();
 
 			// Move caret to end of field
 			requestAnimationFrame(() => {
-				select<HTMLTextAreaElement>('.js-comment-field', lastOwnComment)!.selectionStart = Number.MAX_SAFE_INTEGER;
+				select('textarea.js-comment-field', lastOwnComment)!.selectionStart = Number.MAX_SAFE_INTEGER;
 			});
 		}
 	}
@@ -63,15 +63,11 @@ function init(): void {
 	onCommentFieldKeydown(eventHandler);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Adds shortcuts to comment fields: `↑` to edit your previous comment; `esc` to blur field or cancel comment.',
-	screenshot: false,
+void features.add(__filebasename, {
 	shortcuts: {
 		'↑': 'Edit your last comment',
 		esc: 'Unfocuses comment field'
-	}
-}, {
+	},
 	include: [
 		pageDetect.hasRichTextEditor
 	],

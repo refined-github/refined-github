@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import AlertIcon from 'octicon/alert.svg';
+import {AlertIcon} from '@primer/octicons-react';
 import debounceFn from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
@@ -45,11 +45,7 @@ function init(): void {
 	delegate(document, '.rgh-fix-pr-commit-links', 'click', handleButtonClick);
 }
 
-void features.add({
-	id: __filebasename,
-	description: 'Suggests fixing your PR Commit links before commenting. GitHub has a bug that causes these link to appear as plain commit links, without association to the PR.',
-	screenshot: 'https://user-images.githubusercontent.com/1402241/82131169-93fd5180-97d2-11ea-9695-97051c55091f.gif'
-}, {
+void features.add(__filebasename, {
 	include: [
 		pageDetect.hasRichTextEditor
 	],
