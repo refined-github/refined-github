@@ -81,14 +81,14 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	}
 
 	select('.btn', buttonContainer)!.textContent = 'Deleting repo…';
-
+	const isOrganizationRepo = (): boolean => document.querySelector<HTMLFormElement>('[data-owner-scoped-search-url]')!.dataset.ownerScopedSearchUrl!.startsWith('/org');
 	try {
 		const {nameWithOwner, owner} = getRepo()!;
 		await api.v3('/repos/' + nameWithOwner, {
 			method: 'DELETE',
 			json: false
 		});
-		addNotice(<span>Repository {nameWithOwner} deleted. You can <a href="https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/restoring-a-deleted-repository">restore it</a> or see <a href={`/${owner}?tab=repositories&q=&type=fork`}>your other forks</a></span>, {action: false});
+		addNotice(<span>Repository {nameWithOwner} deleted. You can <a href={`${isOrganizationRepo() ? '/organizations/' + owner : ''}/settings/deleted_repositories`}>restore it</a> or see <a href={`/${owner}?tab=repositories&q=&type=fork`}>your other forks</a></span>, {action: false});
 		select('.application-main')!.remove();
 		if (document.hidden) {
 			// Try closing the tab if in the background. Could fail, so we still update the UI above
