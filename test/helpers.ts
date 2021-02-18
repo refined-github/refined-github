@@ -260,6 +260,10 @@ test('parseBackticks', t => {
 		'backtick-delimited string in a code span: <code>`foo`</code>'
 	);
 	t.is(
+		parseBackticks('single-character code span: `a`'),
+		'single-character code span: <code>a</code>'
+	);
+	t.is(
 		parseBackticks(`
 			triple-backtick multiline block
 			${'```'}javascript
