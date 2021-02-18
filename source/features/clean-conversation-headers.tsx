@@ -5,7 +5,7 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {isMergedPR} from './git-checkout-pr';
+import {isClosedPR, isMergedPR} from './git-checkout-pr';
 
 function initIssue(): void {
 	observe('.gh-header-meta .flex-auto', {
@@ -28,6 +28,7 @@ function initPR(): void {
 			const isSameAuthor = select('.js-discussion > .TimelineItem:first-child .author')?.textContent === select('.author', byline)!.textContent;
 			const baseBranch = select('.commit-ref:not(.head-ref)', byline)!;
 			const isDefaultBranch = (baseBranch.firstElementChild as HTMLAnchorElement).pathname.split('/').length === 3;
+			const prNotOpen = isClosedPR() || isMergedPR();
 
 			// Removes: [octocat wants to merge 1 commit into] github:master from octocat:feature
 			// Removes: [octocat merged 1 commit into] master from feature
@@ -40,7 +41,7 @@ function initPR(): void {
 				byline.prepend('by ');
 			}
 
-			if (isDefaultBranch || baseBranch.title.endsWith(':master')) {
+			if (isDefaultBranch || (prNotOpen && baseBranch.title.endsWith(':master'))) {
 				// Removes: octocat wants to merge 1 commit into [github:dev] from octocat:feature
 				baseBranch.hidden = true;
 			} else {

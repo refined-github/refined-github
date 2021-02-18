@@ -7,8 +7,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {getCurrentBranch, getPRHeadRepo, getRepo, getUsername} from '../github-helpers';
 
-// eslint-disable-next-line import/prefer-default-export
 export const isMergedPR = (): boolean => select.exists('#partial-discussion-header [title="Status: Merged"]');
+export const isClosedPR = (): boolean => select.exists('#partial-discussion-header [title="Status: Closed"]')
 
 // Logic explained in https://github.com/sindresorhus/refined-github/pull/3596#issuecomment-720910840
 function getRemoteName(): string | undefined {
@@ -105,7 +105,7 @@ void features.add(__filebasename, {
 	],
 	exclude: [
 		isMergedPR,
-		() => select.exists('#partial-discussion-header [title="Status: Draft"]')
+		isClosedPR
 	],
 	init
 });
