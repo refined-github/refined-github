@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-// The two selectors are present on conversation pages so we need to discriminate
+// Both selectors are present on conversation pages so we need to discriminate
 const sidebarSelector = pageDetect.isRepoRoot() ? '.repository-content .flex-column > :last-child [data-pjax]' : '#partial-discussion-sidebar';
 
 function updateStickiness(): void {
