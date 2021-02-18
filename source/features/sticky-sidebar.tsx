@@ -1,27 +1,25 @@
 import './sticky-sidebar.css';
-import select from 'select-dom';
-import debounce from 'debounce-fn';
+import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onReplacedElement from '../helpers/on-replaced-element';
 
-const sideBarSelector = [
-	'#partial-discussion-sidebar', // Conversations
-	'.repository-content .flex-column > :last-child [data-pjax]' // `isRepoRoot`
-].join();
+function init(): void {
+	const sidebarSelector = [
+		'#partial-discussion-sidebar', // Conversations
+		'.repository-content .flex-column > :last-child [data-pjax]' // `isRepoRoot`
+	].join();
 
-function updateStickiness(): void {
-	const sidebar = select(sideBarSelector)!;
-	const margin = pageDetect.isConversation() ? 60 : 0; // 60 matches sticky header's height
-	const sidebarHeight = sidebar.offsetHeight + margin;
-	sidebar.classList.toggle('rgh-sticky-sidebar', sidebarHeight < window.innerHeight);
-}
+	const resizeObserver = new ResizeObserver(([{target: sidebar}]) => {
+		const margin = pageDetect.isConversation() ? 60 : 0; // 60 matches sticky header's height
+		sidebar.classList.toggle('rgh-sticky-sidebar', (sidebar as HTMLElement).offsetHeight + margin < window.innerHeight);
+	});
 
-const onResize = debounce(updateStickiness, {wait: 100});
-
-function deinit(): void {
-	window.removeEventListener('resize', onResize);
+	observe(sidebarSelector, {
+		add(sidebar) {
+			resizeObserver.observe(sidebar, {box: 'border-box'});
+		}
+	});
 }
 
 void features.add(__filebasename, {
@@ -32,12 +30,5 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isEmptyRepoRoot
 	],
-	additionalListeners: [
-		() => {
-			window.addEventListener('resize', onResize);
-		},
-		() => void onReplacedElement(sideBarSelector, updateStickiness)
-	],
-	init: updateStickiness,
-	deinit
+	init
 });
