@@ -12,12 +12,28 @@ function unhide(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 		comment.hidden = false;
 	}
 
+	// Expand all "similar comments" boxes
+	for (const similarCommentsExpandButton of select.all('.Details-content--closed > :first-child')) {
+		similarCommentsExpandButton.click();
+	}
+
 	select('.rgh-hidden-comment')!.scrollIntoView();
 	event.delegateTarget.parentElement!.remove();
 }
 
+function hideComment(comment: HTMLElement): void {
+	comment.hidden = true;
+	comment.classList.add('rgh-hidden-comment');
+}
+
 function init(): void {
 	let uselessCount = 0;
+
+	for (const similarCommentsBox of select.all('.Details-element')) {
+		hideComment(similarCommentsBox);
+		uselessCount++;
+	}
+
 	for (const commentText of select.all('.comment-body > p:only-child')) {
 		if (!isUselessComment(commentText.textContent!)) {
 			continue;
@@ -43,8 +59,7 @@ function init(): void {
 			continue;
 		}
 
-		comment.hidden = true;
-		comment.classList.add('rgh-hidden-comment');
+		hideComment(comment);
 		uselessCount++;
 	}
 
