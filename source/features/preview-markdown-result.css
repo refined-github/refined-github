@@ -15,10 +15,10 @@
 
 /* Only show the toggle when the preview tab is selected */
 .rgh-preview-toggle {
-	display: none;
+	display: none !important;
 }
 
 .loading-preview .rgh-preview-toggle,
 .show-preview .rgh-preview-toggle {
-	display: block;
+	display: block !important;
 }
