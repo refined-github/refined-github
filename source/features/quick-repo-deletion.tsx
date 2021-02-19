@@ -132,7 +132,7 @@ async function init(): Promise<void | false> {
 			<details className="details-reset details-overlay select-menu rgh-quick-repo-deletion">
 				<summary aria-haspopup="menu" role="button">
 					{/* This extra element is needed to keep the button above the <summary>’s lightbox */}
-					<span className="btn btn-sm btn-danger">Delete repo</span>
+					<span className="btn btn-sm btn-danger">Delete fork</span>
 				</summary>
 			</details>
 		</li>
