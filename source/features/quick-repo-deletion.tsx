@@ -81,14 +81,20 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	}
 
 	select('.btn', buttonContainer)!.textContent = 'Deleting repo…';
-
 	try {
-		const {nameWithOwner} = getRepo()!;
+		const {nameWithOwner, owner} = getRepo()!;
 		await api.v3('/repos/' + nameWithOwner, {
 			method: 'DELETE',
 			json: false
 		});
-		addNotice(`Repository ${nameWithOwner} deleted`, {action: false});
+		const restoreURL = pageDetect.isOrganizationRepo() ?
+			`/organizations/${owner}/settings/deleted_repositories` :
+			'/settings/deleted_repositories';
+		const otherForksURL = `/${owner}?tab=repositories&type=fork`;
+		addNotice(
+			<span>Repository {nameWithOwner} deleted. You might be able to <a href={restoreURL}>restore it</a> or see <a href={otherForksURL}>your other forks</a></span>,
+			{action: false}
+		);
 		select('.application-main')!.remove();
 		if (document.hidden) {
 			// Try closing the tab if in the background. Could fail, so we still update the UI above
@@ -126,7 +132,7 @@ async function init(): Promise<void | false> {
 			<details className="details-reset details-overlay select-menu rgh-quick-repo-deletion">
 				<summary aria-haspopup="menu" role="button">
 					{/* This extra element is needed to keep the button above the <summary>’s lightbox */}
-					<span className="btn btn-sm btn-danger">Delete repo</span>
+					<span className="btn btn-sm btn-danger">Delete fork</span>
 				</summary>
 			</details>
 		</li>
