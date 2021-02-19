@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function togglePreviewResult({delegateTarget: target}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	document.body.classList.toggle('rgh-preview-markdown-result');
+	document.body.classList.toggle('rgh-preview-markdown-result', Boolean(target.value));
 	target.classList.add('selected');
 	(target.previousElementSibling ?? target.nextElementSibling)!.classList.remove('selected');
 }
