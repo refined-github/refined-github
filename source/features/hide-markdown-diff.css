@@ -1,13 +1,13 @@
 /* Hide removed content */
-.rgh-preview-markdown-result .markdown-body del,
-.rgh-preview-markdown-result .markdown-body .removed {
+.rgh-hide-markdown-diff .markdown-body del,
+.rgh-hide-markdown-diff .markdown-body .removed {
 	display: none !important;
 }
 
 /* Remove decorations on added/changed content */
-.rgh-preview-markdown-result .markdown-body ins,
-.rgh-preview-markdown-result .markdown-body .added,
-.rgh-preview-markdown-result .markdown-body .changed {
+.rgh-hide-markdown-diff .markdown-body ins,
+.rgh-hide-markdown-diff .markdown-body .added,
+.rgh-hide-markdown-diff .markdown-body .changed {
 	color: inherit !important;
 	background: none !important;
 	box-shadow: none !important;

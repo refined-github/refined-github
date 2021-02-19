@@ -1,4 +1,4 @@
-import './preview-markdown-result.css';
+import './hide-markdown-diff.css';
 import React from 'dom-chef';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function togglePreviewResult({delegateTarget: target}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	document.body.classList.toggle('rgh-preview-markdown-result', target.value === 'enable');
+	document.body.classList.toggle('rgh-hide-markdown-diff', target.value === 'enable');
 	target.classList.add('selected');
 	(target.previousElementSibling ?? target.nextElementSibling)!.classList.remove('selected');
 }
