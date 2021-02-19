@@ -91,4 +91,14 @@ test('parseBackticks', t => {
 			\`world
 		`
 	);
+	t.is(
+		parseBackticks(`
+			hello\`\` red
+			\`\`world
+		`),
+		`
+			hello\`\` red
+			\`\`world
+		`
+	);
 });
