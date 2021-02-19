@@ -23,6 +23,7 @@ function init(): void {
 			new ResizeObserver(onResize).observe(sidebar, {box: 'border-box'});
 		}
 	});
+	window.addEventListener('resize', onResize);
 }
 
 void features.add(__filebasename, {
@@ -32,11 +33,6 @@ void features.add(__filebasename, {
 	],
 	exclude: [
 		pageDetect.isEmptyRepoRoot
-	],
-	additionalListeners: [
-		() => {
-			window.addEventListener('resize', onResize);
-		}
 	],
 	init
 });
