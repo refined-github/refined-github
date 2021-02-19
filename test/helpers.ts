@@ -266,7 +266,7 @@ test('parseBackticks', t => {
 	t.is(
 		parseBackticks(`
 			triple-backtick multiline block
-			${'```'}javascript
+			${'```'}
 			foo
 			bar
 			${'```'}
@@ -274,6 +274,36 @@ test('parseBackticks', t => {
 		`),
 		`
 			triple-backtick multiline block
+			${'```'}
+			foo
+			bar
+			${'```'}
+			in some text #3990
+		`
+	);
+	t.is(
+		parseBackticks(`
+			empty triple-backtick block
+			${'```'}
+			${'```'}
+		`),
+		`
+			empty triple-backtick block
+			${'```'}
+			${'```'}
+		`
+	);
+	t.is(
+		parseBackticks(`
+			triple-backtick code block
+			${'```'}javascript
+			foo
+			bar
+			${'```'}
+			in some text #3990
+		`),
+		`
+			triple-backtick code block
 			${'```'}javascript
 			foo
 			bar
