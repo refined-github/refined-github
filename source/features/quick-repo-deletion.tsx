@@ -81,14 +81,20 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	}
 
 	select('.btn', buttonContainer)!.textContent = 'Deleting repo…';
-	const isOrganizationRepo = (): boolean => document.querySelector<HTMLFormElement>('[data-owner-scoped-search-url]')!.dataset.ownerScopedSearchUrl!.startsWith('/org');
 	try {
 		const {nameWithOwner, owner} = getRepo()!;
 		await api.v3('/repos/' + nameWithOwner, {
 			method: 'DELETE',
 			json: false
 		});
-		addNotice(<span>Repository {nameWithOwner} deleted. You might be able to <a href={`${isOrganizationRepo() ? '/organizations/' + owner : ''}/settings/deleted_repositories`}>restore it</a> or see <a href={`/${owner}?tab=repositories&type=fork`}>your other forks</a></span>, {action: false});
+		const restoreURL = pageDetect.isOrganizationRepo() ?
+			`/organizations/${owner}/settings/deleted_repositories` :
+			'/settings/deleted_repositories';
+		const otherForksURL = `/${owner}?tab=repositories&type=fork`;
+		addNotice(
+			<span>Repository {nameWithOwner} deleted. You might be able to <a href={restoreURL}>restore it</a> or see <a href={otherForksURL}>your other forks</a></span>,
+			{action: false}
+		);
 		select('.application-main')!.remove();
 		if (document.hidden) {
 			// Try closing the tab if in the background. Could fail, so we still update the UI above
