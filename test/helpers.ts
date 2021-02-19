@@ -281,6 +281,16 @@ test('parseBackticks', t => {
 			in some text #3990
 		`
 	);
+	t.is(
+		parseBackticks(`
+			hello\`
+			\`world
+		`),
+		`
+			hello\`
+			\`world
+		`
+	);
 });
 
 test('isUselessComment', t => {
