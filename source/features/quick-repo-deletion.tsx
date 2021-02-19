@@ -88,7 +88,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 			method: 'DELETE',
 			json: false
 		});
-		addNotice(<span>Repository {nameWithOwner} deleted. You can <a href={`${isOrganizationRepo() ? '/organizations/' + owner : ''}/settings/deleted_repositories`}>restore it</a> or see <a href={`/${owner}?tab=repositories&q=&type=fork`}>your other forks</a></span>, {action: false});
+		addNotice(<span>Repository {nameWithOwner} deleted. You might be able to <a href={`${isOrganizationRepo() ? '/organizations/' + owner : ''}/settings/deleted_repositories`}>restore it</a> or see <a href={`/${owner}?tab=repositories&type=fork`}>your other forks</a></span>, {action: false});
 		select('.application-main')!.remove();
 		if (document.hidden) {
 			// Try closing the tab if in the background. Could fail, so we still update the UI above
