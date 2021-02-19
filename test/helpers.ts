@@ -240,6 +240,10 @@ test('isUselessComment', t => {
 	t.true(isUselessComment('👍'));
 	t.true(isUselessComment('👍🏾'));
 	t.true(isUselessComment('me too'));
+	t.true(isUselessComment('ditto'));
+	t.true(isUselessComment('Dito'));
+	t.true(isUselessComment('following'));
+	t.true(isUselessComment('Followig'));
 	t.true(isUselessComment('please update!'));
 	t.true(isUselessComment('please update 🙏🏻'));
 	t.true(isUselessComment('Same here, please update, thanks'));
