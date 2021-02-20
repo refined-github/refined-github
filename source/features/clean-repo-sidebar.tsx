@@ -11,6 +11,12 @@ async function init(): Promise<void> {
 	// Hide "Readme" link made unnecessary by toggle-files-button #3580
 	(await elementReady('.repository-content .BorderGrid-row:first-child .muted-link[href="#readme"]', {waitForChildren: false}))?.parentElement!.remove();
 
+	// Remove whitespace in license link to fix alignment of icons https://github.com/sindresorhus/refined-github/pull/3974#issuecomment-780213892
+	const licenseLinkText = (await elementReady('.repository-content .BorderGrid-row:first-child [href*="/license" i]', {waitForChildren: false}))?.childNodes[2];
+	if (licenseLinkText) {
+		licenseLinkText.textContent = licenseLinkText.textContent!.trim();
+	}
+
 	// Clean up "Releases" section
 	const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]', {waitForChildren: false});
 	if (sidebarReleases) {
@@ -41,15 +47,15 @@ async function init(): Promise<void> {
 		}
 	}
 
-	// Hide empty meta if it’s not editable by the current user
-	if (!pageDetect.canUserEditRepo()) {
-		select('.repository-content .BorderGrid-cell > .text-italic')?.remove();
-	}
-
 	// Hide empty "Packages" section
 	const packagesCounter = await elementReady('.BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false})!;
 	if (packagesCounter && packagesCounter.textContent === '0') {
 		packagesCounter.closest<HTMLElement>('.BorderGrid-row')!.hidden = true;
+	}
+
+	// Hide empty meta if it’s not editable by the current user
+	if (!pageDetect.canUserEditRepo()) {
+		select('.repository-content .BorderGrid-cell > .text-italic')?.remove();
 	}
 
 	// Hide "Language" header
