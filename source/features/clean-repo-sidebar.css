@@ -3,16 +3,8 @@
 	display: none;
 }
 
-/* Align top of "About" section with main content */
-.rgh-clean-repo-sidebar .BorderGrid-row:first-of-type p,
-.rgh-clean-repo-sidebar .BorderGrid-row:first-of-type .mt-3:first-of-type,
-/* Targets repo-age link when it's the only one in the section */
-.rgh-clean-repo-sidebar .BorderGrid-row:first-of-type .mt-3:last-of-type:nth-of-type(2) {
-	margin-top: 0 !important;
-}
-
 /* Hide "Readme" link made unnecessary by toggle-files-button #3580 */
-.rgh-clean-repo-sidebar h3.sr-only + .mt-3 .muted-link[href='#readme'] {
+.rgh-clean-repo-sidebar .muted-link[href='#readme'] {
 	display: none;
 }
 

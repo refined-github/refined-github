@@ -12,15 +12,14 @@ async function init(): Promise<void> {
 	const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]', {waitForChildren: false});
 	if (sidebarReleases) {
 		const releasesSection = sidebarReleases.closest<HTMLElement>('.BorderGrid-cell')!;
-		const tagIcon = select('.octicon-tag:not(.text-green)', releasesSection);
-		if (!tagIcon) {
-			// Hide the whole section if there's no releases
-			releasesSection.hidden = true;
-		} else {
+		if (select.exists('.octicon-tag', releasesSection)) {
 			// Align latest tag icon with the icons of other meta links
-			tagIcon.classList.add('mr-2');
-			// Remove whitespace node
-			tagIcon.nextSibling!.remove();
+			const tagIcon = select('.octicon-tag:not(.text-green)', releasesSection)!;
+			if (tagIcon) {
+				tagIcon.classList.add('mr-2');
+				// Remove whitespace node
+				tagIcon.nextSibling!.remove();
+			}
 
 			// Collapse "Releases" section into previous section
 			releasesSection.classList.add('border-0', 'pt-3');
@@ -33,6 +32,9 @@ async function init(): Promise<void> {
 			for (const uselessInformation of select.all(':scope > :not(a)', releasesSection)) {
 				uselessInformation.hidden = true;
 			}
+		} else {
+			// Hide the whole section if there's no releases
+			releasesSection.hidden = true;
 		}
 	}
 
@@ -52,6 +54,9 @@ async function init(): Promise<void> {
 	if (lastSidebarHeader?.textContent === 'Languages') {
 		lastSidebarHeader.hidden = true;
 	}
+
+	// Align the top of the sidebar with the main page content
+	select('.repository-content .BorderGrid-cell:first-child > .mt-3')?.classList.remove('mt-3');
 }
 
 void features.add(__filebasename, {
