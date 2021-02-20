@@ -1,7 +1,8 @@
 {
 	"private": true,
+	"type": "module",
 	"scripts": {
-		"ava": "rollup test/*.ts --plugin typescript --dir .built/test --chunkFileNames _.mjs --entryFileNames [name].mjs && ava",
+		"ava": "ava",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
 		"build:webpack": "webpack --mode=production",
@@ -29,9 +30,19 @@
 		}
 	},
 	"ava": {
+		"extensions": {
+			"ts": "module"
+		},
 		"files": [
-			".built/test/*.mjs"
-		]
+			"test/*.ts"
+		],
+		"nodeArguments": [
+			"--loader=ts-node/esm",
+			"--experimental-specifier-resolution=node"
+		],
+		"nonSemVerExperiments": {
+			"configurableModuleFormat": true
+		}
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
