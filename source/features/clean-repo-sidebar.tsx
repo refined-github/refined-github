@@ -11,26 +11,28 @@ async function init(): Promise<void> {
 	// Clean up "Releases" section
 	const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]', {waitForChildren: false});
 	if (sidebarReleases) {
-		const releasesSection = sidebarReleases.closest('.BorderGrid-cell')!;
-
-		// Collapse "Releases" section into previous section
-		releasesSection.classList.add('border-0', 'pt-3');
-		sidebarReleases.closest('.BorderGrid-row')!
-			.previousElementSibling! // About’s .BorderGrid-row
-			.firstElementChild! // About’s .BorderGrid-cell
-			.classList.add('border-0', 'pb-0');
-
-		// Hide header and footer
-		for (const uselessInformation of select.all(':scope > :not(a)', releasesSection)) {
-			uselessInformation.hidden = true;
-		}
-
-		// Align latest tag icon with the icons of other meta links
+		const releasesSection = sidebarReleases.closest<HTMLElement>('.BorderGrid-cell')!;
 		const tagIcon = select('.octicon-tag:not(.text-green)', releasesSection);
-		if (tagIcon) {
+		if (!tagIcon) {
+			// Hide the whole section if there's no releases
+			releasesSection.hidden = true;
+		} else {
+			// Align latest tag icon with the icons of other meta links
 			tagIcon.classList.add('mr-2');
 			// Remove whitespace node
 			tagIcon.nextSibling!.remove();
+
+			// Collapse "Releases" section into previous section
+			releasesSection.classList.add('border-0', 'pt-3');
+			sidebarReleases.closest('.BorderGrid-row')!
+				.previousElementSibling! // About’s .BorderGrid-row
+				.firstElementChild! // About’s .BorderGrid-cell
+				.classList.add('border-0', 'pb-0');
+
+			// Hide header and footer
+			for (const uselessInformation of select.all(':scope > :not(a)', releasesSection)) {
+				uselessInformation.hidden = true;
+			}
 		}
 	}
 
