@@ -103,8 +103,7 @@ async function init(): Promise<void> {
 	if (sidebarAboutSection) {
 		sidebarAboutSection.append(
 			<h3 className="sr-only">Repository age</h3>,
-			// Only add a top margin if there's other visible elements in the "About" section
-			<div className={select.exists(':scope > .mt-3', sidebarAboutSection) ? 'mt-3' : ''}>
+			<div className="mt-3">
 				<a href={firstCommitHref} className="muted-link" title={`First commit dated ${dateFormatter.format(birthday)}`}>
 					<RepoIcon className="mr-2"/>{age}
 				</a>

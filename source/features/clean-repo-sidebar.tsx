@@ -13,14 +13,6 @@ async function init(): Promise<void> {
 	if (sidebarReleases) {
 		const releasesSection = sidebarReleases.closest<HTMLElement>('.BorderGrid-cell')!;
 		if (select.exists('.octicon-tag', releasesSection)) {
-			// Align latest tag icon with the icons of other meta links
-			const tagIcon = select('.octicon-tag:not(.text-green)', releasesSection)!;
-			if (tagIcon) {
-				tagIcon.classList.add('mr-2');
-				// Remove whitespace node
-				tagIcon.nextSibling!.remove();
-			}
-
 			// Collapse "Releases" section into previous section
 			releasesSection.classList.add('border-0', 'pt-3');
 			sidebarReleases.closest('.BorderGrid-row')!
@@ -32,10 +24,23 @@ async function init(): Promise<void> {
 			for (const uselessInformation of select.all(':scope > :not(a)', releasesSection)) {
 				uselessInformation.hidden = true;
 			}
+
+			// Align latest tag icon with the icons of other meta links
+			const tagIcon = select('.octicon-tag:not(.text-green)', releasesSection)!;
+			if (tagIcon) {
+				tagIcon.classList.add('mr-2');
+				// Remove whitespace node
+				tagIcon.nextSibling!.remove();
+			}
 		} else {
 			// Hide the whole section if there's no releases
 			releasesSection.hidden = true;
 		}
+	}
+
+	// Hide empty meta if it’s not editable by the current user
+	if (!pageDetect.canUserEditRepo()) {
+		select('.repository-content .BorderGrid-cell > .text-italic')?.remove();
 	}
 
 	// Hide empty "Packages" section
@@ -44,19 +49,11 @@ async function init(): Promise<void> {
 		packagesCounter.closest<HTMLElement>('.BorderGrid-row')!.hidden = true;
 	}
 
-	// Hide empty meta if it’s not editable by the current user
-	if (!pageDetect.canUserEditRepo()) {
-		select('.repository-content .BorderGrid-cell:first-child > .text-italic')?.remove();
-	}
-
 	// Hide "Language" header
 	const lastSidebarHeader = select('.repository-content .BorderGrid-row:last-of-type h2');
 	if (lastSidebarHeader?.textContent === 'Languages') {
 		lastSidebarHeader.hidden = true;
 	}
-
-	// Align the top of the sidebar with the main page content
-	select('.repository-content .BorderGrid-cell:first-child > .mt-3')?.classList.remove('mt-3');
 }
 
 void features.add(__filebasename, {
