@@ -44,7 +44,7 @@
 			"configurableModuleFormat": true
 		},
 		"environmentVariables": {
-			"TS_NODE_files": "true"
+			"TS_NODE_FILES": "true"
 		}
 	},
 	"dependencies": {
