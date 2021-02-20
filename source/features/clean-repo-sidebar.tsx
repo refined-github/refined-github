@@ -8,6 +8,9 @@ import features from '.';
 async function init(): Promise<void> {
 	document.body.classList.add('rgh-clean-repo-sidebar');
 
+	// Hide "Readme" link made unnecessary by toggle-files-button #3580
+	(await elementReady('.repository-content .BorderGrid-row:first-child .muted-link[href="#readme"]', {waitForChildren: false}))?.parentElement!.remove();
+
 	// Clean up "Releases" section
 	const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]', {waitForChildren: false});
 	if (sidebarReleases) {
