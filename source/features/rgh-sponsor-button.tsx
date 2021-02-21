@@ -1,3 +1,27 @@
+/*
+
+                                                       ..       :
+                    .                  .               .   .  .
+      .           .                .               .. .  .  *
+             *          .                    ..        .
+                           .             .     . :  .   .    .  .
+            .                         .   .  .  .   .
+                                         . .  *:. . .
+.                                 .  .   . .. .         .
+                         .     . .  . ...    .    .
+       .              .  .  . .    . .  . .
+                        .    .     . ...   ..   .       .               .
+                 .  .    . *.   . .
+    .                   :.  .           .
+                 .   .    .    .
+             .  .  .    ./|\
+            .  .. :.    . |             .               .
+     .   ... .            |
+ .    :.  . .   *.        |     .               .
+   .  *.             You are here.
+ . .    .               .             *.                         .
+
+*/
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -21,6 +45,8 @@ function wiggleWiggleWiggle(): void {
 
 async function suchLove({delegateTarget}: delegate.Event): Promise<void> {
 	const heart = select('.octicon-heart', delegateTarget);
+
+	// .closest ensures that clicking the lightbox’ background doesn't also trigger the animation
 	if (!heart || delegateTarget.closest('details[open]')) {
 		return;
 	}
