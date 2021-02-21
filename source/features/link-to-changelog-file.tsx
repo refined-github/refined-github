@@ -17,8 +17,7 @@ function isChangelogFilename(filename: string): boolean {
 }
 
 function parseFromDom(): false {
-	const selector = changelogNames.map(filename => `.js-navigation-open[title^="${filename}" i]`);
-	const filename = select.all(selector).map(filenameElement => filenameElement?.textContent ?? '').find(isChangelogFilename);
+	const filename = select.all('.js-navigation-open').map(filenameElement => filenameElement.textContent ?? '').find(isChangelogFilename);
 	void cache.set(getCacheKey(), filename ?? false);
 
 	return false;
