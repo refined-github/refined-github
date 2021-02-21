@@ -4,6 +4,7 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {PlusIcon, SearchIcon} from '@primer/octicons-react';
 
+import {wrap} from '../helpers/dom-utils';
 import features from '.';
 
 function init(): void {
@@ -18,21 +19,19 @@ function init(): void {
 			// Exclude logged out, mobile or file pages
 			const addButtonText = searchButton.nextElementSibling?.querySelector('.d-md-flex');
 			if (addButtonText) {
-				addButtonText.parentElement!.classList.add('tooltipped', 'tooltipped-ne');
-				addButtonText.parentElement!.setAttribute('aria-label', 'Add file');
-
 				addButtonText.classList.replace('d-md-flex', 'd-md-block');
 				addButtonText.firstChild!.replaceWith(<PlusIcon/>);
+				wrap(addButtonText.parentElement!.parentElement!, <div className="tooltipped tooltipped-ne" aria-label="Add file"/>);
 			}
 		}
 	});
 
 	observe('get-repo summary:not(.rgh-clean-actions)', {
 		add(button) {
-			button.classList.add('tooltipped', 'tooltipped-ne', 'rgh-clean-actions');
-			button.setAttribute('aria-label', 'Clone, open or download');
-
+			button.classList.add('rgh-clean-actions');
 			button.firstElementChild!.nextSibling!.remove();
+			console.info(button);
+			wrap(button.parentElement!.parentElement!.parentElement!, <div className="tooltipped tooltipped-ne" aria-label="Clone, open or download"/>);
 		}
 	});
 }
