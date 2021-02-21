@@ -10,8 +10,7 @@ function featureWasRenamed(from: string, to: string): Migration<RGHOptions> {
 	};
 }
 
-// TypeScript doesn't merge the definitions so `...` is not equivalent.
-// eslint-disable-next-line prefer-object-spread
+// eslint-disable-next-line prefer-object-spread -- TypeScript doesn't merge the definitions so `...` is not equivalent.
 const defaults = Object.assign({
 	customCSS: '',
 	personalToken: '',

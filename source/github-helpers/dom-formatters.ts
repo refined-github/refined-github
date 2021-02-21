@@ -9,8 +9,7 @@ import parseBackticksCore from './parse-backticks';
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';
 
-// If we are not in a repo, relative issue references won't make sense
-// but `user`/`repo` need to be set to avoid breaking errors in `linkify-issues`
+// If we are not in a repo, relative issue references won't make sense but `user`/`repo` need to be set to avoid breaking errors in `linkify-issues`
 // https://github.com/sindresorhus/refined-github/issues/1305
 const currentRepo = getRepo()!;
 
