@@ -78,8 +78,5 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoHome
 	],
-	exclude: [
-		pageDetect.isEmptyRepoRoot
-	],
 	init: parseFromDom
 });
