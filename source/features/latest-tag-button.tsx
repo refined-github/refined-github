@@ -96,7 +96,7 @@ async function init(): Promise<false | void> {
 		</a>
 	);
 
-	(await elementReady('#branch-select-menu', {waitForChildren: false}))!.parentElement!.after(link);
+	(await elementReady('#branch-select-menu', {waitForChildren: false}))!.closest('.position-relative')!.after(link);
 	if (currentBranch !== latestTag) {
 		link.append(' ', <span className="css-truncate-target">{latestTag}</span>);
 	}

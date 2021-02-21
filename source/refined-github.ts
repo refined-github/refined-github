@@ -211,6 +211,7 @@ import './features/wait-for-attachments';
 import './features/useful-forks';
 import './features/link-to-changelog-file';
 import './features/hide-markdown-diff';
+import './features/rgh-sponsor-button';
 
 // Add global for easier debugging
 (window as any).select = select;

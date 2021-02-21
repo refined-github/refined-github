@@ -46,7 +46,7 @@ function init(): void {
 
 	// https://github.com/github/remote-input-element#events
 	// Wait until the network request is finished and HTML body is updated
-	// "remote-input-success" event is bubbled
+	// "remote-input-success" event bubbles
 	select('.rgh-tags-dropdown')!.addEventListener('remote-input-success', updateLinksToTag);
 }
 
