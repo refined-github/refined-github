@@ -10,9 +10,10 @@ import * as api from '../github-helpers/api';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
 const getCacheKey = (): string => `changelog:${getRepo()!.nameWithOwner}`;
+const changelogNames = ['changelog', 'news', 'changes', 'history', 'release', 'whatsnew'];
 
 function parseFromDom(): false {
-	void cache.set(getCacheKey(), select('.js-navigation-item [title^="changelog" i]')?.textContent ?? false);
+	void cache.set(getCacheKey(), select(changelogNames.map(name => `.js-navigation-item [title^="${name}" i]`).join())?.textContent ?? false);
 	return false;
 }
 
@@ -30,7 +31,7 @@ const getChangelogName = cache.function(async (): Promise<string | false> => {
 	`);
 
 	for (const file of repository.object.entries) {
-		if (file.name.toLowerCase().startsWith('changelog')) {
+		if (changelogNames.includes(file.name.toLowerCase().split('.', 1)[0])) {
 			return file.name;
 		}
 	}
