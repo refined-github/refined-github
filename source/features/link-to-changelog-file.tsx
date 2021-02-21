@@ -13,7 +13,7 @@ const getCacheKey = (): string => `changelog:${getRepo()!.nameWithOwner}`;
 const changelogNames = ['changelog', 'news', 'changes', 'history', 'release', 'whatsnew'];
 
 function parseFromDom(): false {
-	void cache.set(getCacheKey(), select(changelogNames.map(filename => `.js-navigation-item [title^="${filename}" i]`).join())?.textContent ?? false);
+	void cache.set(getCacheKey(), select(changelogNames.map(filename => `.js-navigation-item .js-navigation.open[title^="${filename}" i]`).join())?.textContent ?? false);
 	return false;
 }
 
