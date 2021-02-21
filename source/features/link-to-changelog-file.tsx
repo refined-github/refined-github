@@ -12,16 +12,19 @@ import {buildRepoURL, getRepo} from '../github-helpers';
 const getCacheKey = (): string => `changelog:${getRepo()!.nameWithOwner}`;
 const changelogNames = ['changelog', 'news', 'changes', 'history', 'release', 'whatsnew'];
 
-function isChangelogFilename(filename: string): boolean {
-	return changelogNames.includes(filename.toLowerCase().split('.', 1)[0]);
+function getChangelogName(files: string[]): string | false {
+	for (const file of files) {
+		if (changelogNames.includes(files.toLowerCase().split('.', 1)[0])) {
+			return file.name;
+		}
+	}
+
+	return false;
 }
 
 function parseFromDom(): false {
-	const filename = select.all('[aria-labelledby="files"] .js-navigation-open')
-		.map(file => file.title!)
-		.find(isChangelogFilename);
-
-	void cache.set(getCacheKey(), filename ?? false);
+	const files = select.all('[aria-labelledby="files"] .js-navigation-open').map(file => file.title!);
+	void cache.set(getCacheKey(), getChangelogName(files));
 	return false;
 }
 
@@ -37,14 +40,8 @@ const getChangelogName = cache.function(async (): Promise<string | false> => {
 			}
 		}
 	`);
-
-	for (const file of repository.object.entries) {
-		if (isChangelogFilename(file.name)) {
-			return file.name;
-		}
-	}
-
-	return false;
+	const files: string[] = repository.object.entries.map(file => file.name);
+	return getChangelogName(files);
 }, {
 	cacheKey: getCacheKey
 });
