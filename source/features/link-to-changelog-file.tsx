@@ -17,9 +17,11 @@ function isChangelogFilename(filename: string): boolean {
 }
 
 function parseFromDom(): false {
-	const filename = select.all('.js-navigation-open').map(filenameElement => filenameElement.textContent ?? '').find(isChangelogFilename);
-	void cache.set(getCacheKey(), filename ?? false);
+	const filename = select.all('[aria-labelledby="files"] .js-navigation-open')
+		.map(file => file.title!)
+		.find(isChangelogFilename);
 
+	void cache.set(getCacheKey(), filename ?? false);
 	return false;
 }
 
