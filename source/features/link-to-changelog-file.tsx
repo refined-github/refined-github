@@ -10,11 +10,11 @@ import * as api from '../github-helpers/api';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
 const getCacheKey = (): string => `changelog:${getRepo()!.nameWithOwner}`;
-const changelogNames = ['changelog', 'news', 'changes', 'history', 'release', 'whatsnew'];
+const changelogNames = new Set(['changelog', 'news', 'changes', 'history', 'release', 'whatsnew']);
 
 function findChangelogName(files: string[]): string | false {
 	for (const file of files) {
-		if (changelogNames.includes(file.toLowerCase().split('.', 1)[0])) {
+		if (changelogNames.has(file.toLowerCase().split('.', 1)[0])) {
 			return file;
 		}
 	}
@@ -23,7 +23,7 @@ function findChangelogName(files: string[]): string | false {
 }
 
 function parseFromDom(): false {
-	const files = select.all('[aria-labelledby="files"] .js-navigation-open').map(file => file.title!);
+	const files = select.all('[aria-labelledby="files"] .js-navigation-open').map(file => file.title);
 	void cache.set(getCacheKey(), findChangelogName(files));
 	return false;
 }
