@@ -68,9 +68,7 @@ void features.add(__filebasename, {
 		pageDetect.isRepoIssueList
 	],
 	init: handleNewIssue
-});
-
-void features.add(__filebasename, {
+}, {
 	include: [
 		pageDetect.isRepo,
 		pageDetect.isUserProfile,
