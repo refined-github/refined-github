@@ -5,4 +5,3 @@ test/web-ext-profile
 !test/web-ext-profile/.gitkeep
 .cache
 .parcel-cache
-.built
