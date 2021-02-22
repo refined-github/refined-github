@@ -21,7 +21,7 @@ function init(): void {
 			if (addButtonText) {
 				addButtonText.classList.replace('d-md-flex', 'd-md-block');
 				addButtonText.firstChild!.replaceWith(<PlusIcon/>);
-				wrap(addButtonText.parentElement!.parentElement!, <div className="tooltipped tooltipped-ne" aria-label="Add file"/>);
+				wrap(addButtonText.closest('details')!, <div className="tooltipped tooltipped-ne" aria-label="Add file"/>);
 			}
 		}
 	});
@@ -30,8 +30,7 @@ function init(): void {
 		add(button) {
 			button.classList.add('rgh-clean-actions');
 			button.firstElementChild!.nextSibling!.remove();
-			console.info(button);
-			wrap(button.parentElement!.parentElement!.parentElement!, <div className="tooltipped tooltipped-ne" aria-label="Clone, open or download"/>);
+			wrap(button.closest('details')!, <div className="tooltipped tooltipped-ne" aria-label="Clone, open or download"/>);
 		}
 	});
 }
