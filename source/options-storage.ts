@@ -19,7 +19,6 @@ const defaults = Object.assign({
 }, __featuresOptionDefaults__); // This variable is replaced at build time
 
 const migrations = [
-	featureWasRenamed('pr-easy-toggle-files', 'easy-toggle-files'), // Merged in December
 	featureWasRenamed('cleanup-repo-filelist-actions', 'clean-repo-filelist-actions'), // Merged in February
 
 	// Removed features will be automatically removed from the options as well
