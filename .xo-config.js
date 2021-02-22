@@ -6,7 +6,7 @@ module.exports = {
 	extends: 'xo-react',
 	globals: [
 		'browser',
-		'__featuresOptionDefaults__',
+		'__features__',
 		'__featuresMeta__',
 		'__filebasename'
 	],
