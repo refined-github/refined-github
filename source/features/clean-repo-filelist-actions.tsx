@@ -20,6 +20,7 @@ function init(): void {
 			if (addButtonText) {
 				addButtonText.classList.replace('d-md-flex', 'd-md-block');
 				addButtonText.firstChild!.replaceWith(<PlusIcon/>);
+				// Add tooltip on a wrapper to avoid breaking dropdown functionality
 				wrap(addButtonText.closest('details')!, <div className="tooltipped tooltipped-ne" aria-label="Add file"/>);
 			}
 		}
@@ -28,7 +29,9 @@ function init(): void {
 	observe('get-repo summary:not(.rgh-clean-actions)', {
 		add(button) {
 			button.classList.add('rgh-clean-actions');
+			// Remove "Code" text in dropdown button
 			button.firstElementChild!.nextSibling!.remove();
+			// Add tooltip on a wrapper to avoid breaking dropdown functionality
 			wrap(button.closest('details')!, <div className="tooltipped tooltipped-ne" aria-label="Clone, open or download"/>);
 		}
 	});
