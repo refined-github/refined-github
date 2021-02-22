@@ -33,8 +33,6 @@ function init(): void {
 			// This dropdown doesn't appear on `isSingleFile`
 			const downloadIcon = select('get-repo .octicon-download');
 			if (downloadIcon) {
-				downloadIcon.classList.add('rgh-repo-filelist-actions');
-
 				// Remove "Code" text next to it
 				downloadIcon.nextSibling!.remove();
 
