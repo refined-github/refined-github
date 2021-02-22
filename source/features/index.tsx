@@ -194,7 +194,7 @@ function enforceDefaults(
 const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Feature filtering and running */
 	const options = await globalReady;
-	if (!options[`feature:${id}`]) {
+	if (id !== __filebasename && !options[`feature:${id}`]) {
 		log('↩️', 'Skipping', id);
 		return;
 	}
