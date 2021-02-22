@@ -271,7 +271,9 @@ const features = {
 	add,
 	addCssFeature,
 	error: logError,
-	shortcutMap
+	shortcutMap,
+	list: __features__,
+	meta: __featuresMeta__
 };
 
 export default features;
