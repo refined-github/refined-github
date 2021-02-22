@@ -42,8 +42,5 @@ void features.add(__filebasename, {
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile
 	],
-	exclude: [
-		pageDetect.isEmptyRepo
-	],
 	init: onetime(init)
 });
