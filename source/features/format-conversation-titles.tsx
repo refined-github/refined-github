@@ -7,12 +7,12 @@ import {linkifyFeature} from './rgh-linkify-features';
 import * as domFormatters from '../github-helpers/dom-formatters';
 import {isNotRefinedGitHubRepo} from '../github-helpers';
 
-
 function init(): void {
 	for (const title of select.all('.js-issue-title')) {
 		if (!select.exists('a, code', title)) {
 			domFormatters.linkifyIssues(title);
 			domFormatters.parseBackticks(title);
+
 			if (isNotRefinedGitHubRepo()) {
 				continue;
 			}
