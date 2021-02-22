@@ -13,7 +13,6 @@ function init(): void {
 		add(searchButton) {
 			searchButton.classList.add('tooltipped', 'tooltipped-ne', 'rgh-clean-actions');
 			searchButton.setAttribute('aria-label', 'Go to file');
-
 			searchButton.firstChild!.replaceWith(<SearchIcon/>);
 
 			// Exclude logged out, mobile or file pages
