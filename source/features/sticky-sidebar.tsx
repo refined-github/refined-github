@@ -18,9 +18,13 @@ function updateStickiness(): void {
 const onResize = debounce(updateStickiness, {wait: 100});
 
 function init(): void {
+	const observer = new ResizeObserver(onResize);
 	observe(sidebarSelector, {
 		add(sidebar) {
-			new ResizeObserver(onResize).observe(sidebar, {box: 'border-box'});
+			observer.observe(sidebar, {box: 'border-box'});
+		},
+		remove() {
+			observer.disconnect();
 		}
 	});
 	window.addEventListener('resize', onResize);
