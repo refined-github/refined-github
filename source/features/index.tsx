@@ -69,8 +69,7 @@ function logError(id: FeatureID, error: Error | string | unknown, ...extras: unk
 	);
 }
 
-// Rule assumes we don't want to leave it pending:
-// eslint-disable-next-line no-async-promise-executor
+// eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	await elementReady('body', {waitForChildren: false});
 
@@ -195,7 +194,8 @@ function enforceDefaults(
 const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Feature filtering and running */
 	const options = await globalReady;
-	if (options[`feature:${id}`] === false) {
+	// Skip disabled features, unless the "feature" is the fake feature in this file
+	if (!options[`feature:${id}`] && id as string !== __filebasename) {
 		log('↩️', 'Skipping', id);
 		return;
 	}
@@ -272,7 +272,9 @@ const features = {
 	add,
 	addCssFeature,
 	error: logError,
-	shortcutMap
+	shortcutMap,
+	list: __features__,
+	meta: __featuresMeta__
 };
 
 export default features;

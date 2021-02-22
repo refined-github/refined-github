@@ -59,8 +59,7 @@ function getFeatures(): FeatureID[] {
 	const contents = readFileSync(path.join(__dirname, 'source/refined-github.ts'), 'utf-8');
 	return [...contents.matchAll(/^import '\.\/features\/([^.]+)';/gm)]
 		.map(match => match[1] as FeatureID)
-		.sort()
-		.filter(id => !id.startsWith('rgh-'));
+		.sort();
 }
 
 const config: Configuration = {
@@ -111,15 +110,18 @@ const config: Configuration = {
 		new ESBuildPlugin(),
 		new webpack.DefinePlugin({
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
-			__featuresOptionDefaults__: webpack.DefinePlugin.runtimeValue(
-				() => JSON.stringify(Object.fromEntries(getFeatures().map(id => [`feature:${id}`, true]))),
+			__features__: webpack.DefinePlugin.runtimeValue(
+				() => JSON.stringify(getFeatures()),
 				true
 			),
 
 			__featuresMeta__: webpack.DefinePlugin.runtimeValue(
 				() => {
 					const readmeContent = readFileSync(path.join(__dirname, 'readme.md'), 'utf-8');
-					return JSON.stringify(getFeatures().map(id => parseFeatureDetails(readmeContent, id)));
+					const featuresWithMeta = getFeatures()
+						.filter(id => !id.startsWith('rgh-'))
+						.map(id => parseFeatureDetails(readmeContent, id));
+					return JSON.stringify(featuresWithMeta);
 				},
 				true
 			),

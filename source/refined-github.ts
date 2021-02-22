@@ -184,7 +184,7 @@ import './features/keyboard-navigation';
 import './features/vertical-front-matter';
 import './features/use-first-commit-message-for-new-prs';
 import './features/linkify-user-edit-history-popup';
-import './features/cleanup-repo-filelist-actions';
+import './features/clean-repo-filelist-actions';
 import './features/prevent-duplicate-pr-submission';
 import './features/remove-label-faster';
 import './features/clean-conversation-headers';
@@ -210,6 +210,8 @@ import './features/rgh-feature-descriptions';
 import './features/wait-for-attachments';
 import './features/useful-forks';
 import './features/link-to-changelog-file';
+import './features/hide-markdown-diff';
+import './features/rgh-sponsor-button';
 
 // Add global for easier debugging
 (window as any).select = select;
