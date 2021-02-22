@@ -194,7 +194,8 @@ function enforceDefaults(
 const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Feature filtering and running */
 	const options = await globalReady;
-	if (id !== __filebasename && !options[`feature:${id as unknown as string}`]) {
+	// Skip disabled features, unless the "feature" is the fake feature in this file
+	if (!options[`feature:${id}`] && id as string !== __filebasename) {
 		log('↩️', 'Skipping', id);
 		return;
 	}
