@@ -148,3 +148,8 @@ export async function isPermalink(): Promise<boolean> {
 		select.exists('[data-hotkey="w"] .octicon-tag') // Tags have an icon
 	);
 }
+
+// Negative function so it can be used directly in `exclude` array
+export function isNotRefinedGitHubRepo(): boolean {
+	return !location.pathname.startsWith('/sindresorhus/refined-github/');
+}

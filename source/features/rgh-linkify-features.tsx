@@ -2,11 +2,13 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
 import {wrap} from '../helpers/dom-utils';
+import features from '.';
+import {isNotRefinedGitHubRepo} from '../github-helpers';
 
-function linkifyFeature(codeElement: HTMLElement): void {
-		const id = codeElement.textContent as FeatureID;
+// eslint-disable-next-line import/prefer-default-export
+export function linkifyFeature(codeElement: HTMLElement): void {
+	const id = codeElement.textContent as FeatureID;
 	if (features.list.includes(id) && !codeElement.closest('a')) {
 		wrap(codeElement, <a href={`/sindresorhus/refined-github/blob/main/source/features/${id}.tsx`}/>);
 	}
@@ -23,7 +25,7 @@ void features.add(__filebasename, {
 		pageDetect.isConversation
 	],
 	exclude: [
-		() => !location.pathname.startsWith('/sindresorhus/refined-github/')
+		isNotRefinedGitHubRepo
 	],
 	init
 });
