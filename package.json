@@ -33,9 +33,6 @@
 		"extensions": {
 			"ts": "module"
 		},
-		"files": [
-			"test/*.ts"
-		],
 		"nodeArguments": [
 			"--loader=ts-node/esm",
 			"--experimental-specifier-resolution=node"
