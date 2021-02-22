@@ -16,7 +16,7 @@ function handleAltClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): v
 
 	const form = event.delegateTarget.form!;
 	const hiddenItemsCount = Math.min(
-		200, // https://github.com/sindresorhus/refined-github/issues/2931
+		200, // It fails with more than this https://github.com/sindresorhus/refined-github/issues/2931#issuecomment-603818778
 		looseParseInt(form)
 	);
 

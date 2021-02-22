@@ -69,8 +69,7 @@ function logError(id: FeatureID, error: Error | string | unknown, ...extras: unk
 	);
 }
 
-// Rule assumes we don't want to leave it pending:
-// eslint-disable-next-line no-async-promise-executor
+// eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	await elementReady('body', {waitForChildren: false});
 
