@@ -8,6 +8,15 @@ import {PlusIcon, SearchIcon} from '@primer/octicons-react';
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
 
+
+/** Add tooltip on a wrapper to avoid breaking dropdown functionality */
+function addTooltipToSummary(childElement: HTMLElement, tooltip: string): void {
+	wrap(
+		childElement.closest('details')!,
+		<div className="tooltipped tooltipped-ne" aria-label={tooltip}/>
+	);
+}
+
 function init(): void {
 	// `.btn` selects the desktop version
 	observe('.btn[data-hotkey="t"]:not(.rgh-repo-filelist-actions)', {
@@ -26,8 +35,7 @@ function init(): void {
 				// Replace "Add file" with icon
 				addFileDropdown.previousSibling!.replaceWith(<PlusIcon/>);
 
-				// Add tooltip on a wrapper to avoid breaking dropdown functionality
-				wrap(addFileDropdown.closest('details')!, <div className="tooltipped tooltipped-ne" aria-label="Add file"/>);
+				addTooltipToSummary(addFileDropdown, 'Add file');
 			}
 
 			// This dropdown doesn't appear on `isSingleFile`
@@ -36,8 +44,7 @@ function init(): void {
 				// Remove "Code" text next to it
 				downloadIcon.nextSibling!.remove();
 
-				// Add tooltip on a wrapper to avoid breaking dropdown functionality
-				wrap(downloadIcon.closest('details')!, <div className="tooltipped tooltipped-ne" aria-label="Clone, open or download"/>);
+				addTooltipToSummary(downloadIcon, 'Clone, open or download');
 			}
 		}
 	});
