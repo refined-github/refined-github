@@ -1,10 +1,11 @@
 {
 	"private": true,
+	"type": "module",
 	"scripts": {
-		"ava": "rollup test/*.ts --plugin typescript --dir .built/test --chunkFileNames _.mjs --entryFileNames [name].mjs && ava",
+		"ava": "ava",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
-		"build:webpack": "webpack --mode=production",
+		"build:webpack": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' webpack --mode=production",
 		"fix": "run-p 'lint:* -- --fix'",
 		"lint": "run-p lint:* --continue-on-error",
 		"lint:css": "stylelint 'source/**/*.css'",
@@ -16,7 +17,7 @@
 		"test": "run-p ava lint:* build:*",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
-		"watch:webpack": "webpack --mode=development --watch"
+		"watch:webpack": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' webpack --mode=development --watch"
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo",
@@ -29,9 +30,19 @@
 		}
 	},
 	"ava": {
-		"files": [
-			".built/test/*.mjs"
-		]
+		"extensions": {
+			"ts": "module"
+		},
+		"nodeArguments": [
+			"--loader=ts-node/esm",
+			"--experimental-specifier-resolution=node"
+		],
+		"nonSemVerExperiments": {
+			"configurableModuleFormat": true
+		},
+		"environmentVariables": {
+			"TS_NODE_FILES": "true"
+		}
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
@@ -75,7 +86,6 @@
 	},
 	"devDependencies": {
 		"@ava/typescript": "^1.1.1",
-		"@rollup/plugin-typescript": "^8.1.1",
 		"@sindresorhus/tsconfig": "^0.8.0",
 		"@types/chrome": "^0.0.130",
 		"@types/codemirror": "^0.0.108",
@@ -88,6 +98,7 @@
 		"@types/terser-webpack-plugin": "^5.0.2",
 		"ava": "^3.15.0",
 		"copy-webpack-plugin": "^7.0.0",
+		"cross-env": "^7.0.3",
 		"css-loader": "^5.0.2",
 		"daily-version": "^2.0.0",
 		"decamelize": "^5.0.0",
@@ -100,7 +111,6 @@
 		"markdown-wasm": "^1.1.2",
 		"mini-css-extract-plugin": "^1.3.6",
 		"npm-run-all": "^4.1.5",
-		"rollup": "^2.39.0",
 		"size-plugin": "^2.0.2",
 		"string-replace-loader": "^3.0.1",
 		"stylelint": "^13.10.0",
@@ -111,7 +121,7 @@
 		"type-fest": "^0.21.1",
 		"typed-query-selector": "^2.4.1",
 		"typescript": "^4.1.5",
-		"webpack": "^5.22.0",
+		"webpack": "^5.23.0",
 		"webpack-cli": "^4.5.0",
 		"xo": "^0.37.1"
 	},

@@ -10,9 +10,21 @@ import * as api from '../github-helpers/api';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
 const getCacheKey = (): string => `changelog:${getRepo()!.nameWithOwner}`;
+const changelogNames = new Set(['changelog', 'news', 'changes', 'history', 'release', 'whatsnew']);
+
+function findChangelogName(files: string[]): string | false {
+	for (const file of files) {
+		if (changelogNames.has(file.toLowerCase().split('.', 1)[0])) {
+			return file;
+		}
+	}
+
+	return false;
+}
 
 function parseFromDom(): false {
-	void cache.set(getCacheKey(), select('.js-navigation-item [title^="changelog" i]')?.textContent ?? false);
+	const files = select.all('[aria-labelledby="files"] .js-navigation-open').map(file => file.title);
+	void cache.set(getCacheKey(), findChangelogName(files));
 	return false;
 }
 
@@ -28,14 +40,8 @@ const getChangelogName = cache.function(async (): Promise<string | false> => {
 			}
 		}
 	`);
-
-	for (const file of repository.object.entries) {
-		if (file.name.toLowerCase().startsWith('changelog')) {
-			return file.name;
-		}
-	}
-
-	return false;
+	const files: string[] = repository.object.entries.map((file: AnyObject) => file.name);
+	return findChangelogName(files);
 }, {
 	cacheKey: getCacheKey
 });
@@ -69,9 +75,6 @@ void features.add(__filebasename, {
 }, {
 	include: [
 		pageDetect.isRepoHome
-	],
-	exclude: [
-		pageDetect.isEmptyRepoRoot
 	],
 	init: parseFromDom
 });
