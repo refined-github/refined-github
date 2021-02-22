@@ -8,9 +8,8 @@ import {PlusIcon, SearchIcon} from '@primer/octicons-react';
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
 
-
 /** Add tooltip on a wrapper to avoid breaking dropdown functionality */
-function addTooltipToSummary(childElement: HTMLElement, tooltip: string): void {
+function addTooltipToSummary(childElement: Element, tooltip: string): void {
 	wrap(
 		childElement.closest('details')!,
 		<div className="tooltipped tooltipped-ne" aria-label={tooltip}/>
