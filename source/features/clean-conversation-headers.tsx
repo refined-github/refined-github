@@ -7,8 +7,10 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function initIssue(): void {
-	observe('.gh-header-meta .flex-auto', {
-		add({childNodes: bylineNodes}) {
+	observe('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)', {
+		add(byline) {
+			byline.classList.add('rgh-clean-conversation-header');
+			const {childNodes: bylineNodes} = byline;
 			// Removes: octocat opened this issue on 1 Jan [·] 1 comments
 			bylineNodes[4].textContent = bylineNodes[4].textContent!.replace('·', '');
 
