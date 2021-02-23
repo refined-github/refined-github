@@ -29,7 +29,7 @@ function hideComment(comment: HTMLElement): void {
 function init(): void {
 	let uselessCount = 0;
 
-	for (const similarCommentsBox of select.all('.pagination-loader-container .Details-element')) {
+	for (const similarCommentsBox of select.all('.js-discussion .Details-element:not([data-body-version])')) {
 		hideComment(similarCommentsBox);
 		uselessCount++;
 	}
