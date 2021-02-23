@@ -59,7 +59,7 @@
 		"element-ready": "^5.0.0",
 		"fit-textarea": "^2.0.0",
 		"flat-zip": "^1.0.1",
-		"github-url-detection": "^4.8.0",
+		"github-url-detection": "^4.9.0",
 		"image-promise": "^7.0.1",
 		"indent-textarea": "^2.0.3",
 		"js-abbreviation-number": "^1.0.0",
