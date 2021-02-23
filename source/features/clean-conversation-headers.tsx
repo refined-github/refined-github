@@ -5,7 +5,6 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {isClosedPR, isMergedPR} from './git-checkout-pr';
 
 function initIssue(): void {
 	observe('.gh-header-meta .flex-auto', {
@@ -32,7 +31,7 @@ function initPR(): void {
 			// Removes: [octocat wants to merge 1 commit into] github:master from octocat:feature
 			// Removes: [octocat merged 1 commit into] master from feature
 			// Removes: octocat [merged 1 commit into] github:master from lovelycat:feature
-			for (const node of [...byline.childNodes].slice(isSameAuthor ? 0 : 2, isMergedPR() ? 3 : 5)) {
+			for (const node of [...byline.childNodes].slice(isSameAuthor ? 0 : 2, pageDetect.isMergedPR() ? 3 : 5)) {
 				node.remove();
 			}
 
@@ -40,7 +39,7 @@ function initPR(): void {
 				byline.prepend('by ');
 			}
 
-			if (isDefaultBranch || (isClosedPR() && baseBranch.title.endsWith(':master'))) {
+			if (isDefaultBranch || (pageDetect.isClosedPR() && baseBranch.title.endsWith(':master'))) {
 				// Removes: octocat wants to merge 1 commit into [github:dev] from octocat:feature
 				baseBranch.hidden = true;
 			} else {

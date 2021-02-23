@@ -6,7 +6,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import {isMergedPR} from './git-checkout-pr';
 import observeElement from '../helpers/simplified-element-observer';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
@@ -49,7 +48,7 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		() => pageDetect.isPRConversation() && isMergedPR()
+		() => pageDetect.isPRConversation() && pageDetect.isMergedPR()
 	],
 	init() {
 		observeElement(select('#partial-discussion-header')!.parentElement!, init);

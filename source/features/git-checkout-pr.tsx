@@ -7,9 +7,6 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {getCurrentBranch, getPRHeadRepo, getRepo, getUsername} from '../github-helpers';
 
-export const isMergedPR = (): boolean => select.exists('#partial-discussion-header [title="Status: Merged"]');
-export const isClosedPR = (): boolean => select.exists('#partial-discussion-header [title="Status: Closed"]') || isMergedPR();
-
 // Logic explained in https://github.com/sindresorhus/refined-github/pull/3596#issuecomment-720910840
 function getRemoteName(): string | undefined {
 	const author = getPRHeadRepo()!.owner;
@@ -104,7 +101,7 @@ void features.add(__filebasename, {
 		pageDetect.isPR
 	],
 	exclude: [
-		isClosedPR
+		pageDetect.isClosedPR
 	],
 	init
 });
