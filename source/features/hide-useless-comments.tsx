@@ -13,7 +13,7 @@ function unhide(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	}
 
 	// Expand all "similar comments" boxes
-	for (const similarCommentsExpandButton of select.all('.js-discussion .Details-content--closed > span:only-child')) {
+	for (const similarCommentsExpandButton of select.all('.pagination-loader-container .Details-content--closed > span:only-child')) {
 		similarCommentsExpandButton.click();
 	}
 
@@ -29,7 +29,7 @@ function hideComment(comment: HTMLElement): void {
 function init(): void {
 	let uselessCount = 0;
 
-	for (const similarCommentsBox of select.all('.js-discussion .Details-element')) {
+	for (const similarCommentsBox of select.all('.js-discussion .Details-element:not([data-body-version])')) {
 		hideComment(similarCommentsBox);
 		uselessCount++;
 	}
