@@ -1,4 +1,14 @@
-/* Hide "Readme" link made unnecessary by toggle-files-button #3580 */
-.rgh-clean-repo-sidebar h3.sr-only + .mt-3 .muted-link[href='#readme'] {
+/* Hide "About" header */
+.rgh-clean-repo-sidebar .BorderGrid-row:first-of-type h2 {
 	display: none;
+}
+
+/* Hide "+n contributors" link */
+.rgh-clean-repo-sidebar ul.flex-wrap + .mt-3 {
+	display: none;
+}
+
+/* Align the top of the sidebar with the main page content */
+.rgh-clean-repo-sidebar .gutter-condensed > :last-child {
+	margin-top: -16px !important;
 }

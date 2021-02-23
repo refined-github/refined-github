@@ -194,7 +194,8 @@ function enforceDefaults(
 const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> => {
 	/* Feature filtering and running */
 	const options = await globalReady;
-	if (options[`feature:${id}`] === false) {
+	// Skip disabled features, unless the "feature" is the fake feature in this file
+	if (!options[`feature:${id}`] && id as string !== __filebasename) {
 		log('↩️', 'Skipping', id);
 		return;
 	}
@@ -271,7 +272,9 @@ const features = {
 	add,
 	addCssFeature,
 	error: logError,
-	shortcutMap
+	shortcutMap,
+	list: __features__,
+	meta: __featuresMeta__
 };
 
 export default features;

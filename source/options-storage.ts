@@ -15,10 +15,11 @@ const defaults = Object.assign({
 	customCSS: '',
 	personalToken: '',
 	logging: false
-}, __featuresOptionDefaults__); // This variable is replaced at build time
+}, Object.fromEntries(__features__.map(id => [`feature:${id}`, true])));
 
 const migrations = [
 	featureWasRenamed('pr-easy-toggle-files', 'easy-toggle-files'), // Merged in December
+	featureWasRenamed('cleanup-repo-filelist-actions', 'clean-repo-filelist-actions'), // Merged in February
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused

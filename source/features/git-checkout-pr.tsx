@@ -101,7 +101,7 @@ void features.add(__filebasename, {
 		pageDetect.isPR
 	],
 	exclude: [
-		() => select.exists('#partial-discussion-header [title="Status: Merged"], #partial-discussion-header [title="Status: Closed"]')
+		pageDetect.isClosedPR
 	],
 	init
 });

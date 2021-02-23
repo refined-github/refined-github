@@ -9,11 +9,7 @@ interface FeatureMeta {
 	screenshot?: string;
 }
 
-interface FeatureConfig {
-	[id: string]: string | boolean;
-}
-
-declare const __featuresOptionDefaults__: FeatureConfig;
+declare const __features__: FeatureID[];
 declare const __featuresMeta__: FeatureMeta[];
 declare const __filebasename: FeatureID;
 
