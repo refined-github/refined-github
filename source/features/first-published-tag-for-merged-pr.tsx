@@ -48,10 +48,7 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRConversation
-	],
-	exclude: [
-		() => !select.exists('#partial-discussion-header [title="Status: Merged"]')
+		() => pageDetect.isPRConversation() && pageDetect.isMergedPR()
 	],
 	init() {
 		observeElement(select('#partial-discussion-header')!.parentElement!, init);
