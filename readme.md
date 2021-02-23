@@ -123,6 +123,7 @@ Thanks for contributing! 🦋🙌
 - [](# "file-finder-buffer") [Lets you start typing your search immediately after invoking the File Finder (<kbd>t</kbd>), instead of having you wait for it to load first.](https://user-images.githubusercontent.com/1402241/75542106-1c811700-5a5a-11ea-8aa5-bea0472c59e2.gif)
 - [](# "preserve-file-finder-term") Preserves the search terms when navigating back and forth between the File Finder and the files.
 - [](# "show-associated-branch-prs-on-fork") [Shows the associated pull requests on branches for forked repositories.](https://user-images.githubusercontent.com/16872793/81504659-7e5ec800-92b8-11ea-9ee6-924110e8cca1.png)
+- [](# "hide-markdown-diff") [When editing Markdown files, it lets you hide the Markdown diff in the preview.](https://user-images.githubusercontent.com/46634000/108093883-7f5e2a80-707e-11eb-9328-cb902a1061c7.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -315,7 +316,7 @@ Thanks for contributing! 🦋🙌
 ### Fixes for GitHub shortcomings
 
 - [](# "hide-navigation-hover-highlight") Removes the file hover effect in the repo file browser.
-- [](# "clean-repo-sidebar") [Removes unnecessary or redundant information from the repository sidebar.](https://user-images.githubusercontent.com/46634000/102719129-781fd800-42ec-11eb-9552-dd3cfb4eeddd.png)
+- [](# "clean-repo-sidebar") [Removes unnecessary or redundant information from the repository sidebar.](https://user-images.githubusercontent.com/46634000/107955448-18694480-6f9e-11eb-8bc6-80cc90d910bc.png)
 - [](# "fix-first-tab-length") [Corrects the width of the first `tab` in file diffs since it appears 2 columns shorter than it should be.](https://user-images.githubusercontent.com/37769974/87217980-741a8200-c36c-11ea-81e1-fc0782c4624d.png)
 - [](# "hide-disabled-milestone-sorter") [Hides the milestone sorter UI if you don’t have permission to use it.](https://user-images.githubusercontent.com/7753001/56913933-738a2880-6ae5-11e9-9d13-1973cbbf5df0.png)
 - [](# "linkify-branch-references") [Linkifies branch references in "Quick PR" pages.](https://user-images.githubusercontent.com/1402241/30208043-fa1ceaec-94bb-11e7-9c32-feabcf7db296.png)
