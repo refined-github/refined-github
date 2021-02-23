@@ -16,11 +16,12 @@ function updateStickiness(): void {
 }
 
 const onResize = debounce(updateStickiness, {wait: 100});
+const observer = new ResizeObserver(onResize);
 
 function init(): void {
 	observe(sidebarSelector, {
 		add(sidebar) {
-			new ResizeObserver(onResize).observe(sidebar, {box: 'border-box'});
+			observer.observe(sidebar, {box: 'border-box'});
 		}
 	});
 	window.addEventListener('resize', onResize);
@@ -34,5 +35,8 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isEmptyRepoRoot
 	],
-	init
+	init,
+	deinit: () => {
+		observer.disconnect();
+	}
 });
