@@ -104,7 +104,7 @@ async function init(): Promise<void> {
 		sidebarAboutSection.append(
 			<h3 className="sr-only">Repository age</h3>,
 			<div className="mt-3">
-				<a href={firstCommitHref} className="muted-link" title={`First commit dated ${dateFormatter.format(birthday)}`}>
+				<a href={firstCommitHref} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
 					<RepoIcon className="mr-2"/>{age}
 				</a>
 			</div>

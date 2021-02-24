@@ -80,7 +80,7 @@ async function init(): Promise<void> {
 						<a
 							data-issue-and-pr-hovercards-enabled
 							href={prInfo.url}
-							className="muted-link"
+							className="Link--muted"
 							data-hovercard-type="pull_request"
 							data-hovercard-url={prInfo.url + '/hovercard'}
 						>
