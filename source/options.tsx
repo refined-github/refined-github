@@ -152,8 +152,11 @@ async function highlightNewFeatures(): Promise<void> {
 }
 
 async function generateDom(): Promise<void> {
+	// Don't repeat the magic variable, the content will be injected multiple times
+	const features = __featuresMeta__;
+
 	// Generate list
-	select('.js-features')!.append(...__featuresMeta__.map(buildFeatureCheckbox));
+	select('.js-features')!.append(...features.map(buildFeatureCheckbox));
 
 	// Update list from saved options
 	await perDomainOptions.syncForm('form');
@@ -167,6 +170,9 @@ async function generateDom(): Promise<void> {
 	if (process.env.NODE_ENV === 'development') {
 		select('#debugging-position')!.replaceWith(select('#debugging')!);
 	}
+
+	// Add feature count. CSS-only features are added approximately
+	select('.features-header')!.append(` (${features.length + 25})`);
 }
 
 function addEventListeners(): void {
