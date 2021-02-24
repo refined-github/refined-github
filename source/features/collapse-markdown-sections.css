@@ -1,0 +1,4 @@
+/* Remove the default triangle marker and the padding */
+.rgh-markdown-section > summary {
+	display: block !important;
+}
