@@ -19,7 +19,7 @@ async function addSidebarReviewButton(): Promise<void | false> {
 
 	sidebarReviewsSection!.append(
 		<span style={{fontWeight: 'normal'}}>
-			– <a href={reviewFormUrl.href} className="btn-link muted-link" data-hotkey="v">review now</a>
+			– <a href={reviewFormUrl.href} className="btn-link muted-link Link--muted" data-hotkey="v">review now</a>
 		</span>
 	);
 }
