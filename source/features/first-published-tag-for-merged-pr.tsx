@@ -6,8 +6,9 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
+import * as api from '../github-helpers/api';
 import observeElement from '../helpers/simplified-element-observer';
-import {buildRepoURL, getRepo} from '../github-helpers';
+import {buildRepoURL, getConversationNumber, getRepo} from '../github-helpers';
 
 const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom<HTMLAnchorElement>(
@@ -20,8 +21,24 @@ const getFirstTag = cache.function(async (commit: string): Promise<string | unde
 	cacheKey: ([commit]) => `first-tag:${getRepo()!.nameWithOwner}:${commit}`
 });
 
+const getMergeCommit = cache.function(async (prNumber: string): Promise<string> => {
+	const {repository} = await api.v4(`
+		repository() {
+			pullRequest(number: ${prNumber}) {
+				mergeCommit {
+					abbreviatedOid
+				}
+			}
+		}
+	`);
+
+	return repository.pullRequest.mergeCommit.abbreviatedOid;
+}, {
+	cacheKey: ([prNumber]) => __filebasename + ':' + getRepo()!.nameWithOwner + ':' + String(prNumber)
+});
+
 async function init(): Promise<void> {
-	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code.link-gray-dark`)!.textContent!;
+	const mergeCommit = await getMergeCommit(getConversationNumber()!);
 	const tagName = await getFirstTag(mergeCommit);
 
 	if (!tagName) {
@@ -48,8 +65,9 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		() => pageDetect.isPRConversation() && pageDetect.isMergedPR()
+		() => pageDetect.isPR() && pageDetect.isMergedPR()
 	],
+	awaitDomReady: false,
 	init() {
 		observeElement(select('#partial-discussion-header')!.parentElement!, init);
 	}
