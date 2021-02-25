@@ -84,14 +84,14 @@ async function validateToken(): Promise<void> {
 function moveNewAndDisabledFeaturesToTop(): void {
 	const container = select('.js-features')!;
 
-	for (const newFeature of select.all('.feature-new', container).reverse()) {
-		// .reverse() needed to preserve alphabetical order while prepending
-		container.prepend(newFeature);
-	}
-
 	for (const unchecked of select.all('.feature [type=checkbox]:not(:checked)', container).reverse()) {
 		// .reverse() needed to preserve alphabetical order while prepending
 		container.prepend(unchecked.closest('.feature')!);
+	}
+
+	for (const newFeature of select.all('.feature-new', container).reverse()) {
+		// .reverse() needed to preserve alphabetical order while prepending
+		container.prepend(newFeature);
 	}
 }
 
