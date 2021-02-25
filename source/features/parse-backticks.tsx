@@ -12,7 +12,8 @@ function init(): void {
 		'.BorderGrid--spacious .f4.mt-3', // `isRepoHome` repository description
 		'.js-commits-list-item .mb-1', // `isCommitList` commit message
 		'.js-commits-list-item pre', // `isCommitList` commit description
-		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.link-gray-dark', // `isRepoRoot` commit message
+		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.Link--primary', // `isRepoRoot` commit message
+		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.link-gray-dark', // `isRepoRoot` commit message (GHE)
 		'.commit-title', // `isCommit` commit message
 		'.commit-desc', // `isCommit` commit description
 		'.js-commit .pr-1 > code', // `isPRConversation` pushed commits
@@ -30,8 +31,10 @@ function init(): void {
 		'.js-pinned-issue-list-item > .d-block', // Pinned Issues
 		'.release-header', // `isReleasesOrTags` Headers
 		'.existing-pull-contents .list-group-item-link', // `isCompare` with existing PR
-		'#pull-requests a.link-gray-dark', // `isPulse` issue and PR title
-		'[id^="check_suite"] a.link-gray-dark', // `isRepositoryActions`
+		'#pull-requests a.Link--primary', // `isPulse` issue and PR title
+		'#pull-requests a.link-gray-dark', // `isPulse` issue and PR title (GHE)
+		'[id^="check_suite"] a.Link--primary', // `isRepositoryActions`
+		'[id^="check_suite"] a.link-gray-dark', // `isRepositoryActions` (GHE)
 		'.checks-summary-conclusion + .flex-auto .f3', // `isActions` run
 		'.js-wiki-sidebar-toggle-display a', // `isWiki` sidebar pages title
 		'.wiki-wrapper .gh-header-title', // `isWiki` page title
@@ -41,7 +44,8 @@ function init(): void {
 		'.notifications-list-item p.text-normal', // `isNotifications` issue and PR title
 		'.profile-timeline-card .text-gray-dark', // `isUserProfileMainTab` issue and PR title
 		'#user-repositories-list [itemprop="description"]', // `isUserProfileRepoTab` repository description
-		'.js-hovercard-content > .Popover-message .link-gray-dark', // Hovercard
+		'.js-hovercard-content > .Popover-message .Link--primary', // Hovercard
+		'.js-hovercard-content > .Popover-message .link-gray-dark', // Hovercard (GHE)
 		'.js-issue-title', // `isDiscussion`
 		'a[data-hovercard-type="discussion"]' // `isDiscussionList`
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)').join();
