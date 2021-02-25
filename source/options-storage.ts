@@ -17,10 +17,10 @@ const defaults = Object.assign({
 	logging: false
 }, Object.fromEntries(__features__.map(id => [`feature:${id}`, true])));
 
+// TODO[2021-10-01]: Drop classes `muted-link` and `link-gray-dark` #4021
 const migrations = [
 	featureWasRenamed('pr-easy-toggle-files', 'easy-toggle-files'), // Merged in December
 	featureWasRenamed('cleanup-repo-filelist-actions', 'clean-repo-filelist-actions'), // Merged in February
-	// TODO[2021-10-01]: Drop classes `muted-link` and `link-gray-dark` #4021
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused
