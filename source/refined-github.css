@@ -113,12 +113,12 @@ highlight-collaborators-and-own-conversations
 parse-backticks
 pr-branches
 */
-.js-issue-row .text-small.text-gray {
+.js-issue-row .text-small.color-text-secondary {
 	line-height: 1.8;
 }
 
 /* Reset `vertical-align` for .octicons to work with above increased line-height */
-.js-issue-row .text-small.text-gray .octicon {
+.js-issue-row .text-small.color-text-secondary .octicon {
 	vertical-align: middle;
 }
 
