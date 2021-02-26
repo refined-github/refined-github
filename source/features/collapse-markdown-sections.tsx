@@ -22,7 +22,7 @@ function toggleAllSections(event: delegate.Event<MouseEvent, HTMLElement>): void
 
 function init(): void {
 	for (const sectionHeader of select.all('.markdown-body > h2')) {
-		wrap(sectionHeader, <details className="rgh-markdown-section" open/>);
+		wrap(sectionHeader, <details open className="rgh-markdown-section"/>);
 		wrap(sectionHeader, <summary/>);
 	}
 
