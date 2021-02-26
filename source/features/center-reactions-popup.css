@@ -1,4 +1,5 @@
 /* Hide reaction popover text */
+.js-add-reaction-popover .text-gray, /* GHE */
 .js-add-reaction-popover .color-text-secondary,
 .js-add-reaction-popover .dropdown-divider {
 	display: none;

@@ -13,6 +13,7 @@
 	padding-right: 4px; /* Space before the build status */
 }
 
+.rgh-align-issue-labels .js-issue-row .mt-1.text-small.text-gray, /* GHE */
 .rgh-align-issue-labels .js-issue-row .mt-1.text-small.color-text-secondary { /* Issue details line */
 	flex-basis: 100%;
 }
