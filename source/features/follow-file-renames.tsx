@@ -13,7 +13,7 @@ interface File {
 }
 
 async function findRename(lastCommitOnPage: string): Promise<File[]> {
-	// API v4 doesn't support it: https://github.community/t5/GitHub-API-Development-and/What-is-the-corresponding-object-in-GraphQL-API-v4-for-patch/m-p/14502?collapse_discussion=true&filter=location&location=board:api&q=files%20changed%20commit&search_type=thread
+	// API v4 doesn't support it: https://github.community/t/what-is-the-corresponding-object-in-graphql-api-v4-for-patch-which-is-available-in-rest-api-v3/13590
 	const {files} = await api.v3(`commits/${lastCommitOnPage}`);
 	return files;
 }

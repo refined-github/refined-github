@@ -30,8 +30,8 @@ function removeListeners(): void {
 }
 
 function getFragmentLoadHandler(callback: EventListener): delegate.EventHandler {
-	return (event: delegate.Event) => {
-		event.delegateTarget.addEventListener('load', callback);
+	return ({delegateTarget}) => {
+		delegateTarget.addEventListener('load', callback);
 	};
 }
 

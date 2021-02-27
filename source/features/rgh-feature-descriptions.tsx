@@ -87,7 +87,7 @@ async function getHistoryDropdown(featureName: string): Promise<Element | void> 
 
 async function init(): Promise<void | false> {
 	const [, currentFeature] = /features\/([^.]+)/.exec(location.pathname)!;
-	const feature = __featuresMeta__.find(feature => feature.id === currentFeature);
+	const feature = features.meta.find(feature => feature.id === currentFeature);
 	if (!feature) {
 		return false;
 	}

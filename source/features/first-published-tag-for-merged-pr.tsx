@@ -21,7 +21,7 @@ const getFirstTag = cache.function(async (commit: string): Promise<string | unde
 });
 
 async function init(): Promise<void> {
-	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code.link-gray-dark`)!.textContent!;
+	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`)!.textContent!;
 	const tagName = await getFirstTag(mergeCommit);
 
 	if (!tagName) {
@@ -48,10 +48,7 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRConversation
-	],
-	exclude: [
-		() => !select.exists('#partial-discussion-header [title="Status: Merged"]')
+		() => pageDetect.isPRConversation() && pageDetect.isMergedPR()
 	],
 	init() {
 		observeElement(select('#partial-discussion-header')!.parentElement!, init);

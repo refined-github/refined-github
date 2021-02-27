@@ -12,7 +12,7 @@ function init(): void {
 		add(avatar) {
 			const userName = avatar.alt.slice(1);
 			// Linkify name first
-			wrap(avatar.nextElementSibling!, <a className="link-gray-dark" href={`/${userName}`}/>);
+			wrap(avatar.nextElementSibling!, <a className="link-gray-dark Link--primary" href={`/${userName}`}/>);
 
 			// Then linkify avatar
 			wrap(avatar, <a href={`/${userName}`}/>);

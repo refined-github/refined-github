@@ -21,7 +21,7 @@ The simplest usage of `feature.add` is the following. This will be run instantly
 import * as pageDetect from 'github-url-detection';
 import features from '.';
 
-function init () {
+function init() {
 	console.log('✨');
 }
 

@@ -1,23 +1,42 @@
 import './hide-useless-comments.css';
+import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import isUselessComment from '../helpers/useless-comments';
+import isUselessComment from '../helpers/is-useless-comment';
 
-function unhide(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+async function unhide(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
+	}
+
+	await delay(10); // "Similar comments" aren't expanded without this in Safari #3830
+
+	// Expand all "similar comments" boxes
+	for (const similarCommentsExpandButton of select.all('.rgh-hidden-comment > summary')) {
+		similarCommentsExpandButton.click();
 	}
 
 	select('.rgh-hidden-comment')!.scrollIntoView();
 	event.delegateTarget.parentElement!.remove();
 }
 
+function hideComment(comment: HTMLElement): void {
+	comment.hidden = true;
+	comment.classList.add('rgh-hidden-comment');
+}
+
 function init(): void {
 	let uselessCount = 0;
+
+	for (const similarCommentsBox of select.all('.js-discussion .Details-element:not([data-body-version])')) {
+		hideComment(similarCommentsBox);
+		uselessCount++;
+	}
+
 	for (const commentText of select.all('.comment-body > p:only-child')) {
 		if (!isUselessComment(commentText.textContent!)) {
 			continue;
@@ -43,8 +62,7 @@ function init(): void {
 			continue;
 		}
 
-		comment.hidden = true;
-		comment.classList.add('rgh-hidden-comment');
+		hideComment(comment);
 		uselessCount++;
 	}
 

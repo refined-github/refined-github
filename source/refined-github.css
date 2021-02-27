@@ -113,12 +113,14 @@ highlight-collaborators-and-own-conversations
 parse-backticks
 pr-branches
 */
-.js-issue-row .text-small.text-gray {
+.js-issue-row .text-small.text-gray, /* GHE */
+.js-issue-row .text-small.color-text-secondary {
 	line-height: 1.8;
 }
 
 /* Reset `vertical-align` for .octicons to work with above increased line-height */
-.js-issue-row .text-small.text-gray .octicon {
+.js-issue-row .text-small.text-gray .octicon, /* GHE */
+.js-issue-row .text-small.color-text-secondary .octicon {
 	vertical-align: middle;
 }
 
@@ -130,4 +132,9 @@ pr-branches
 /* Increase scrollable area in GitHub Actions #3591 */
 .WorkflowRunLogsScroll {
 	height: auto !important;
+}
+
+/* Keep diff stats in "Jump to" dropdown when the header is fixed #3925 */
+.select-menu-item-text .diffstat {
+	display: inline !important;
 }

@@ -7,8 +7,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
-function inputListener(event: Event): void {
-	fitTextarea(event.target as HTMLTextAreaElement);
+function inputListener({target}: Event): void {
+	fitTextarea(target as HTMLTextAreaElement);
 }
 
 function watchTextarea(textarea: HTMLTextAreaElement): void {
