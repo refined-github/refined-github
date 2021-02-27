@@ -75,7 +75,7 @@ async function init(): Promise<void | false> {
 		);
 		issuesToolbar.append(
 			<div className="table-list-triage flex-auto js-issues-toolbar-triage">
-				<span className="text-gray table-list-header-toggle">
+				<span className="text-gray color-text-secondary table-list-header-toggle">
 					<span data-check-all-count="">1</span>
 					{' selected '}
 					<button type="button" className="btn-link rgh-batch-open-issues pl-3">Open selected</button>
@@ -87,7 +87,7 @@ async function init(): Promise<void | false> {
 		for (const conversation of select.all('.js-issue-row')) {
 			const number = looseParseInt(conversation.id);
 			conversation.firstElementChild!.prepend(
-				<label className="flex-shrink-0 py-2 pl-3  d-none d-md-block">
+				<label className="flex-shrink-0 py-2 pl-3 d-none d-md-block">
 					<input
 						data-check-all-item
 						type="checkbox"
