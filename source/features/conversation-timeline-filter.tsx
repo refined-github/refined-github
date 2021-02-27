@@ -120,22 +120,6 @@ function processPR(item: HTMLElement): void {
 	for (const threadContainer of threadContainerItems) {
 		if (threadContainer.getAttribute('data-resolved') === 'true') {
 			hideUnlessOnState(threadContainer, 'showOnlyComments');
-		} else if (select.exists('.inline-comment-form-container', threadContainer)) {
-			hideUnlessOnState(
-				threadContainer,
-				'showOnlyUnresolvedComments',
-				'showOnlyUnresolvedReviews',
-				'showOnlyComments'
-			);
-		} else {
-			// There is 1 special case here when github shows you a comment that was added to previous comment thread but it does not show whether it is resolved or not resolved comment.
-			// It's kinda tricky to know what to do with this so it is marked as normal comment for meantime.
-			// We are just checking here if user is able to comment inside that timeline thread, if not then it means we have this special situation that was just described.
-			hideUnlessOnState(
-				threadContainer,
-				'showOnlyComments',
-				'showOnlyUnresolvedComments'
-			);
 		}
 
 		// We need to hide whole thread group if we have hidden all comments inside.
