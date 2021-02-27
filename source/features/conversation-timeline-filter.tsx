@@ -1,12 +1,14 @@
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import {CheckIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import sidebarItem from '../github-widgets/conversation-sidebar-item';
+import onNewComments from '../github-events/on-new-comments';
 
 const levels = {
 	showAll: '',
@@ -29,9 +31,8 @@ async function handleSelection(): Promise<void> {
 
 	select(`#${filterId} .reason`)!.textContent = levels[currentSettings];
 
-	for (const element of select.all('.js-timeline-item')) {
-		processTimelineItem(element);
-	}
+	process();
+	onNewComments(process);
 }
 
 function createRadio(filterSettings: Level): JSX.Element {
@@ -65,6 +66,12 @@ function addFilter(position: Element): void {
 			]
 		})
 	);
+}
+
+function process(): void {
+	for (const element of select.all('.js-timeline-item')) {
+		processTimelineItem(element);
+	}
 }
 
 function processTimelineItem(item: HTMLElement): void {
@@ -147,10 +154,6 @@ function init(): void {
 	observe('#partial-users-participants', {
 		add: addFilter
 	});
-	observe('.js-timeline-item', {
-		constructor: HTMLElement,
-		add: processTimelineItem
-	});
 }
 
 void features.add(__filebasename, {
@@ -158,5 +161,5 @@ void features.add(__filebasename, {
 		pageDetect.isPRConversation,
 		pageDetect.isIssue
 	],
-	init
+	init: onetime(init)
 });
