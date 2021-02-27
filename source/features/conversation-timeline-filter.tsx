@@ -10,6 +10,9 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import sidebarItem from '../github-widgets/conversation-sidebar-item';
 import onNewComments from '../github-events/on-new-comments';
+import {removeClassFromAll} from '../helpers/dom-utils';
+
+const hiddenClassName = 'rgh-conversation-timeline-filtered';
 
 const levels = {
 	default: '',
@@ -71,9 +74,7 @@ function addFilter(position: Element): void {
 
 function process(): void {
 	if (currentSettings === 'default') {
-		for (const element of select.all('.rgh-conversation-timeline-filtered')) {
-			element.classList.remove('rgh-conversation-timeline-filtered');
-		}
+		removeClassFromAll(hiddenClassName);
 	} else {
 		for (const element of select.all('.js-timeline-item')) {
 			processTimelineItem(element);
@@ -89,7 +90,7 @@ function processTimelineItem(item: HTMLElement): void {
 	}
 
 	if (!select.exists('.js-comment-container', item)) {
-		// Non-comment events, always hide
+		// Non-comment event, always hide
 		hideUnlessOnState(item);
 		return;
 	}
@@ -138,17 +139,17 @@ function processPR(item: HTMLElement): void {
 		}
 
 		// We need to hide whole thread group if we have hidden all comments inside.
-		hasVisibleElement = hasVisibleElement || !threadContainer.hidden;
+		hasVisibleElement = hasVisibleElement || !threadContainer.classList.contains(hiddenClassName);
 	}
 
-	item.hidden = !hasVisibleElement && (
+	item.classList.toggle(hiddenClassName, !hasVisibleElement && (
 		threadContainerItems.length > 0 ||
 		currentSettings === 'showOnlyUnresolvedReviews'
-	);
+	));
 }
 
 function hideUnlessOnState(element: HTMLElement, ...showOnStates: Level[]): void {
-	element.classList.toggle('rgh-conversation-timeline-filtered', !showOnStates.includes(currentSettings));
+	element.classList.toggle(hiddenClassName, !showOnStates.includes(currentSettings));
 }
 
 function init(): void {
