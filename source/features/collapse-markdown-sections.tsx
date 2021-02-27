@@ -21,9 +21,9 @@ function toggleAllSections(event: delegate.Event<MouseEvent, HTMLElement>): void
 }
 
 function init(): void {
-	for (const sectionHeader of select.all('.markdown-body > h2')) {
-		wrap(sectionHeader, <details open className="rgh-markdown-section"/>);
-		wrap(sectionHeader, <summary/>);
+	for (const sectionHeading of select.all('.markdown-body > h2')) {
+		wrap(sectionHeading, <details open className="rgh-markdown-section"/>);
+		wrap(sectionHeading, <summary/>);
 	}
 
 	/* Move top-level content blocks to the <details> element directly above them */
