@@ -17,7 +17,6 @@ function generateSubmenu(hideButton: Element): void {
 	const comment = hideButton.closest('.unminimized-comment')!;
 	const hideCommentForm = select('.js-comment-minimize', comment)!;
 
-	// remove the d-flex class from the comment form
 	hideCommentForm.classList.remove('d-flex');
 
 	// Generate dropdown items
