@@ -1,19 +1,22 @@
 import './hide-useless-comments.css';
+import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import isUselessComment from '../helpers/useless-comments';
+import isUselessComment from '../helpers/is-useless-comment';
 
-function unhide(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+async function unhide(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
 
+	await delay(10); // "Similar comments" aren't expanded without this in Safari #3830
+
 	// Expand all "similar comments" boxes
-	for (const similarCommentsExpandButton of select.all('.pagination-loader-container .Details-content--closed > span:only-child')) {
+	for (const similarCommentsExpandButton of select.all('.rgh-hidden-comment > summary')) {
 		similarCommentsExpandButton.click();
 	}
 
