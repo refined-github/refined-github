@@ -14,16 +14,16 @@ import {removeClassFromAll} from '../helpers/dom-utils';
 
 const hiddenClassName = 'rgh-conversation-timeline-filtered';
 
-const levels = {
+const states = {
 	default: '',
 	showOnlyComments: 'Only show comments',
 	showOnlyUnresolvedComments: 'Only show unresolved comments',
 	showOnlyUnresolvedReviews: 'Only show unresolved reviews'
 };
 
-type Level = keyof typeof levels;
+type State = keyof typeof states;
 
-let currentSettings: Level = 'default';
+let currentSettings: State = 'default';
 
 const filterId = 'rgh-timeline-filters';
 
@@ -31,16 +31,16 @@ async function handleSelection(): Promise<void> {
 	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
 	await delay(1);
 
-	currentSettings = select(`#${filterId} [aria-checked="true"]`)!.dataset.value as Level;
+	currentSettings = select(`#${filterId} [aria-checked="true"]`)!.dataset.value as State;
 
-	select(`#${filterId} .reason`)!.textContent = levels[currentSettings];
+	select(`#${filterId} .reason`)!.textContent = states[currentSettings];
 
 	process();
 	onNewComments(process);
 }
 
-function createRadio(filterSettings: Level): JSX.Element {
-	const label = levels[filterSettings];
+function createRadio(filterSettings: State): JSX.Element {
+	const label = states[filterSettings];
 	return (
 		<label
 			className="select-menu-item"
@@ -85,30 +85,35 @@ function process(): void {
 function processTimelineItem(item: HTMLElement): void {
 	if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
 		// PR review thread
-		processPR(item);
+		processReview(item);
 		return;
 	}
 
 	if (!select.exists('.js-comment-container', item)) {
 		// Non-comment event, always hide
-		hideUnlessOnState(item);
+		hideWhen(
+			item,
+			'showOnlyComments',
+			'showOnlyUnresolvedComments',
+			'showOnlyUnresolvedReviews'
+		);
 		return;
 	}
 
 	if (select.exists('.rgh-preview-hidden-comments', item)) {
 		// The comment was "hidden", thefore it's considered resolved
-		hideUnlessOnState(
+		hideWhen(
 			item,
-			'showOnlyComments'
+			'showOnlyUnresolvedComments',
+			'showOnlyUnresolvedReviews'
 		);
 		return;
 	}
 
-	// Regular comments
-	hideUnlessOnState(
+	// Regular, unhidden comments
+	hideWhen(
 		item,
-		'showOnlyComments',
-		'showOnlyUnresolvedComments'
+		'showOnlyUnresolvedReviews'
 	);
 }
 
@@ -124,7 +129,7 @@ function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
 	return !hasUnresolvedThread || !hasUnresolvedThreadComment;
 }
 
-function processPR(review: HTMLElement): void {
+function processReview(review: HTMLElement): void {
 	const isWholeReviewHidden =
 		currentSettings === 'showOnlyUnresolvedReviews' &&
 		isWholeReviewEssentiallyResolved(review);
@@ -136,12 +141,15 @@ function processPR(review: HTMLElement): void {
 	}
 
 	for (const threadContainer of select.all('.js-resolvable-timeline-thread-container[data-resolved="true"]', review)) {
-		hideUnlessOnState(threadContainer, 'showOnlyComments');
+		hideWhen(
+			threadContainer,
+			'showOnlyUnresolvedReviews'
+		);
 	}
 }
 
-function hideUnlessOnState(element: HTMLElement, ...showOnStates: Level[]): boolean {
-	return element.classList.toggle(hiddenClassName, !showOnStates.includes(currentSettings));
+function hideWhen(event: HTMLElement, ...statesThatShouldHideIt: State[]): boolean {
+	return event.classList.toggle(hiddenClassName, statesThatShouldHideIt.includes(currentSettings));
 }
 
 function init(): void {
