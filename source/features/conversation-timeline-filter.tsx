@@ -2,10 +2,9 @@ import './conversation-timeline-filter.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
-import {observe} from 'selector-observer';
 import {CheckIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import SelectorObserver from 'selector-observer';
 
 import features from '.';
 import sidebarItem from '../github-widgets/conversation-sidebar-item';
@@ -13,6 +12,8 @@ import onNewComments from '../github-events/on-new-comments';
 import {removeClassFromAll} from '../helpers/dom-utils';
 
 const hiddenClassName = 'rgh-conversation-timeline-filtered';
+
+const observer = new SelectorObserver(document.documentElement);
 
 const states = {
 	default: '',
@@ -155,9 +156,13 @@ function hideWhen(event: HTMLElement, ...statesThatShouldHideIt: State[]): void 
 }
 
 function init(): void {
-	observe('#partial-users-participants', {
+	observer.observe('#partial-users-participants', {
 		add: addToSidebar
 	});
+}
+
+function deinit(): void {
+	observer.disconnect();
 }
 
 void features.add(__filebasename, {
@@ -165,5 +170,6 @@ void features.add(__filebasename, {
 		pageDetect.isPRConversation,
 		pageDetect.isIssue
 	],
-	init: onetime(init)
+	init,
+	deinit
 });
