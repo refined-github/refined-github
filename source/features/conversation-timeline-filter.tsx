@@ -28,6 +28,85 @@ let currentSettings: State = 'default';
 
 const filterId = 'rgh-timeline-filters';
 
+function hide(event: HTMLElement, hide: boolean): void {
+	event.classList.toggle(hiddenClassName, hide);
+}
+
+function hideWhen(event: HTMLElement, ...statesThatShouldHideIt: State[]): void {
+	hide(event, statesThatShouldHideIt.includes(currentSettings));
+}
+
+function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
+	const hasMainComment = select.exists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
+	if (hasMainComment) {
+		return false;
+	}
+
+	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
+	const hasUnresolvedThread = select.exists('div.js-resolvable-timeline-thread-container', review);
+	const hasUnresolvedThreadComment = select.exists('.minimized-comment.d-none', review);
+	return !hasUnresolvedThread || !hasUnresolvedThreadComment;
+}
+
+function processReview(review: HTMLElement): void {
+	const shouldHideWholeReview =
+		['showOnlyUnresolvedComments', 'showOnlyUnresolvedReviews'].includes(currentSettings) &&
+		isWholeReviewEssentiallyResolved(review);
+
+	hide(review, shouldHideWholeReview);
+
+	if (shouldHideWholeReview) {
+		return;
+	}
+
+	for (const threadContainer of select.all('.js-resolvable-timeline-thread-container[data-resolved="true"]', review)) {
+		hideWhen(
+			threadContainer,
+			'showOnlyUnresolvedReviews'
+		);
+	}
+}
+
+function processTimelineItem(item: HTMLElement): void {
+	// PR review thread
+	if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
+		processReview(item);
+		return;
+	}
+
+	// Non-comment event, always hide
+	if (!select.exists('.js-comment-container', item)) {
+		hide(item, true);
+		return;
+	}
+
+	// The comment was "hidden", thefore it's considered resolved
+	if (select.exists('.rgh-preview-hidden-comments', item)) {
+		hideWhen(
+			item,
+			'showOnlyUnresolvedComments',
+			'showOnlyUnresolvedReviews'
+		);
+		return;
+	}
+
+	// Regular, unhidden comments
+	hideWhen(
+		item,
+		'showOnlyUnresolvedReviews'
+	);
+}
+
+function processPage(): void {
+	if (currentSettings === 'default') {
+		removeClassFromAll(hiddenClassName);
+	} else {
+		for (const element of select.all('.js-timeline-item')) {
+			processTimelineItem(element);
+		}
+	}
+}
+
 async function handleSelection(): Promise<void> {
 	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
 	await delay(1);
@@ -74,85 +153,6 @@ function addToSidebar(position: Element): void {
 			]
 		})
 	);
-}
-
-function processPage(): void {
-	if (currentSettings === 'default') {
-		removeClassFromAll(hiddenClassName);
-	} else {
-		for (const element of select.all('.js-timeline-item')) {
-			processTimelineItem(element);
-		}
-	}
-}
-
-function processTimelineItem(item: HTMLElement): void {
-	// PR review thread
-	if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
-		processReview(item);
-		return;
-	}
-
-	// Non-comment event, always hide
-	if (!select.exists('.js-comment-container', item)) {
-		hide(item, true);
-		return;
-	}
-
-	// The comment was "hidden", thefore it's considered resolved
-	if (select.exists('.rgh-preview-hidden-comments', item)) {
-		hideWhen(
-			item,
-			'showOnlyUnresolvedComments',
-			'showOnlyUnresolvedReviews'
-		);
-		return;
-	}
-
-	// Regular, unhidden comments
-	hideWhen(
-		item,
-		'showOnlyUnresolvedReviews'
-	);
-}
-
-function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
-	const hasMainComment = select.exists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
-	if (hasMainComment) {
-		return false;
-	}
-
-	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
-	const hasUnresolvedThread = select.exists('div.js-resolvable-timeline-thread-container', review);
-	const hasUnresolvedThreadComment = select.exists('.minimized-comment.d-none', review);
-	return !hasUnresolvedThread || !hasUnresolvedThreadComment;
-}
-
-function processReview(review: HTMLElement): void {
-	const shouldHideWholeReview =
-		['showOnlyUnresolvedComments', 'showOnlyUnresolvedReviews'].includes(currentSettings) &&
-		isWholeReviewEssentiallyResolved(review);
-
-	hide(review, shouldHideWholeReview);
-
-	if (shouldHideWholeReview) {
-		return;
-	}
-
-	for (const threadContainer of select.all('.js-resolvable-timeline-thread-container[data-resolved="true"]', review)) {
-		hideWhen(
-			threadContainer,
-			'showOnlyUnresolvedReviews'
-		);
-	}
-}
-
-function hide(event: HTMLElement, hide: boolean): void {
-	event.classList.toggle(hiddenClassName, hide);
-}
-
-function hideWhen(event: HTMLElement, ...statesThatShouldHideIt: State[]): void {
-	hide(event, statesThatShouldHideIt.includes(currentSettings));
 }
 
 function init(): void {
