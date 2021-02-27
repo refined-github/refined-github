@@ -1,3 +1,4 @@
 {
-  "feature:align-issue-labels": false
+  "feature:align-issue-labels": false,
+  "feature:batch-open-conversations": false
 }
