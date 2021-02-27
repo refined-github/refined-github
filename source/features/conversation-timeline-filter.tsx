@@ -12,7 +12,7 @@ import sidebarItem from '../github-widgets/conversation-sidebar-item';
 import onNewComments from '../github-events/on-new-comments';
 
 const levels = {
-	showAll: '',
+	default: '',
 	showOnlyComments: 'Only show comments',
 	showOnlyUnresolvedComments: 'Only show unresolved comments',
 	showOnlyUnresolvedReviews: 'Only show unresolved reviews'
@@ -20,7 +20,7 @@ const levels = {
 
 type Level = keyof typeof levels;
 
-let currentSettings: Level = 'showAll';
+let currentSettings: Level = 'default';
 
 const filterId = 'rgh-timeline-filters';
 
@@ -60,7 +60,7 @@ function addFilter(position: Element): void {
 			subHeader: 'Temporarily hide content',
 			handleSelection,
 			content: [
-				createRadio('showAll'),
+				createRadio('default'),
 				createRadio('showOnlyComments'),
 				createRadio('showOnlyUnresolvedComments'),
 				pageDetect.isPRConversation() && createRadio('showOnlyUnresolvedReviews')
@@ -70,9 +70,7 @@ function addFilter(position: Element): void {
 }
 
 function process(): void {
-	console.log('process');
-	if (currentSettings === 'showAll') {
-		console.log('a');
+	if (currentSettings === 'default') {
 		for (const element of select.all('.rgh-conversation-timeline-filtered')) {
 			element.classList.remove('rgh-conversation-timeline-filtered');
 		}
@@ -91,14 +89,14 @@ function processTimelineItem(item: HTMLElement): void {
 	}
 
 	if (!select.exists('.js-comment-container', item)) {
-		// Other events
-		applyDisplay(item);
+		// Non-comment events, always hide
+		hideUnlessOnState(item);
 		return;
 	}
 
 	if (select.exists('.rgh-preview-hidden-comments', item)) {
-		// Hidden comment
-		applyDisplay(
+		// The comment was "hidden", thefore it's considered resolved
+		hideUnlessOnState(
 			item,
 			'showOnlyComments'
 		);
@@ -106,7 +104,7 @@ function processTimelineItem(item: HTMLElement): void {
 	}
 
 	// Regular comments
-	applyDisplay(
+	hideUnlessOnState(
 		item,
 		'showOnlyComments',
 		'showOnlyUnresolvedComments'
@@ -120,11 +118,9 @@ function processPR(item: HTMLElement): void {
 
 	for (const threadContainer of threadContainerItems) {
 		if (threadContainer.getAttribute('data-resolved') === 'true') {
-			applyDisplay(threadContainer, 'showOnlyComments');
-		} else if (
-			select.exists('.inline-comment-form-container', threadContainer)
-		) {
-			applyDisplay(
+			hideUnlessOnState(threadContainer, 'showOnlyComments');
+		} else if (select.exists('.inline-comment-form-container', threadContainer)) {
+			hideUnlessOnState(
 				threadContainer,
 				'showOnlyUnresolvedComments',
 				'showOnlyUnresolvedReviews',
@@ -134,7 +130,7 @@ function processPR(item: HTMLElement): void {
 			// There is 1 special case here when github shows you a comment that was added to previous comment thread but it does not show whether it is resolved or not resolved comment.
 			// It's kinda tricky to know what to do with this so it is marked as normal comment for meantime.
 			// We are just checking here if user is able to comment inside that timeline thread, if not then it means we have this special situation that was just described.
-			applyDisplay(
+			hideUnlessOnState(
 				threadContainer,
 				'showOnlyComments',
 				'showOnlyUnresolvedComments'
@@ -151,7 +147,7 @@ function processPR(item: HTMLElement): void {
 	);
 }
 
-function applyDisplay(element: HTMLElement, ...showOnStates: Level[]): void {
+function hideUnlessOnState(element: HTMLElement, ...showOnStates: Level[]): void {
 	element.classList.toggle('rgh-conversation-timeline-filtered', !showOnStates.includes(currentSettings));
 }
 
