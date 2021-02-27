@@ -112,28 +112,36 @@ function processTimelineItem(item: HTMLElement): void {
 	);
 }
 
-function processPR(item: HTMLElement): void {
-	let hasVisibleElement = false;
-
-	const threadContainerItems = select.all('.js-resolvable-timeline-thread-container', item);
-
-	for (const threadContainer of threadContainerItems) {
-		if (threadContainer.getAttribute('data-resolved') === 'true') {
-			hideUnlessOnState(threadContainer, 'showOnlyComments');
-		}
-
-		// We need to hide whole thread group if we have hidden all comments inside.
-		hasVisibleElement = hasVisibleElement || !threadContainer.classList.contains(hiddenClassName);
+function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
+	const hasMainComment = select.exists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
+	if (hasMainComment) {
+		return false;
 	}
 
-	item.classList.toggle(hiddenClassName, !hasVisibleElement && (
-		threadContainerItems.length > 0 ||
-		currentSettings === 'showOnlyUnresolvedReviews'
-	));
+	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
+	const hasUnresolvedThread = select.exists('div.js-resolvable-timeline-thread-container', review);
+	const hasUnresolvedThreadComment = select.exists('.minimized-comment.d-none', review);
+	return !hasUnresolvedThread || !hasUnresolvedThreadComment;
 }
 
-function hideUnlessOnState(element: HTMLElement, ...showOnStates: Level[]): void {
-	element.classList.toggle(hiddenClassName, !showOnStates.includes(currentSettings));
+function processPR(review: HTMLElement): void {
+	const isWholeReviewHidden =
+		currentSettings === 'showOnlyUnresolvedReviews' &&
+		isWholeReviewEssentiallyResolved(review);
+
+	review.classList.toggle(hiddenClassName, isWholeReviewHidden);
+
+	if (isWholeReviewHidden) {
+		return;
+	}
+
+	for (const threadContainer of select.all('.js-resolvable-timeline-thread-container[data-resolved="true"]', review)) {
+		hideUnlessOnState(threadContainer, 'showOnlyComments');
+	}
+}
+
+function hideUnlessOnState(element: HTMLElement, ...showOnStates: Level[]): boolean {
+	return element.classList.toggle(hiddenClassName, !showOnStates.includes(currentSettings));
 }
 
 function init(): void {
