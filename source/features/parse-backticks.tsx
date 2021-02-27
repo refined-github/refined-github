@@ -12,8 +12,8 @@ function init(): void {
 		'.BorderGrid--spacious .f4.mt-3', // `isRepoHome` repository description
 		'.js-commits-list-item .mb-1', // `isCommitList` commit message
 		'.js-commits-list-item pre', // `isCommitList` commit description
-		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.Link--primary', // `isRepoRoot` commit message
 		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.link-gray-dark', // `isRepoRoot` commit message (GHE)
+		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.Link--primary', // `isRepoRoot` commit message
 		'.commit-title', // `isCommit` commit message
 		'.commit-desc', // `isCommit` commit description
 		'.js-commit .pr-1 > code', // `isPRConversation` pushed commits
@@ -26,26 +26,29 @@ function init(): void {
 		'[id^=ref-issue-]', // `isIssue` issue and PR references
 		'[id^=ref-pullrequest-]', // `isPRConversation` issue and PR references
 		'[aria-label="Link issues"] a', // `isIssue`, `isPRConversation` linked issue and PR
-		'.Box-header.Details .link-gray', // `isSingleFile` commit message
+		'.Box-header.Details .link-gray', // `isSingleFile` commit message (GHE)
+		'.Box-header.Details .Link--secondary', // `isSingleFile` commit message
 		'.Box-header.Details pre', // `isSingleFile` commit description
 		'.js-pinned-issue-list-item > .d-block', // Pinned Issues
 		'.release-header', // `isReleasesOrTags` Headers
 		'.existing-pull-contents .list-group-item-link', // `isCompare` with existing PR
-		'#pull-requests a.Link--primary', // `isPulse` issue and PR title
 		'#pull-requests a.link-gray-dark', // `isPulse` issue and PR title (GHE)
-		'[id^="check_suite"] a.Link--primary', // `isRepositoryActions`
+		'#pull-requests a.Link--primary', // `isPulse` issue and PR title
 		'[id^="check_suite"] a.link-gray-dark', // `isRepositoryActions` (GHE)
+		'[id^="check_suite"] a.Link--primary', // `isRepositoryActions`
 		'.checks-summary-conclusion + .flex-auto .f3', // `isActions` run
 		'.js-wiki-sidebar-toggle-display a', // `isWiki` sidebar pages title
 		'.wiki-wrapper .gh-header-title', // `isWiki` page title
 		'.js-recent-activity-container .text-bold', // `isDashboard` "Recent activity" titles
-		'.issues_labeled .text-gray-dark > a', // `isDashboard` "help wanted" event titles
+		'.issues_labeled .text-gray-dark > a', // `isDashboard` "help wanted" event titles (GHE)
+		'.issues_labeled .color-text-primary > a', // `isDashboard` "help wanted" event titles
 		'.commits blockquote', // `isDashboard` newsfeed commits
 		'.notifications-list-item p.text-normal', // `isNotifications` issue and PR title
-		'.profile-timeline-card .text-gray-dark', // `isUserProfileMainTab` issue and PR title
+		'.profile-timeline-card .text-gray-dark', // `isUserProfileMainTab` issue and PR title (GHE)
+		'.TimelineItem-body .color-text-primary', // `isUserProfileMainTab` issue and PR title
 		'#user-repositories-list [itemprop="description"]', // `isUserProfileRepoTab` repository description
-		'.js-hovercard-content > .Popover-message .Link--primary', // Hovercard
 		'.js-hovercard-content > .Popover-message .link-gray-dark', // Hovercard (GHE)
+		'.js-hovercard-content > .Popover-message .Link--primary', // Hovercard
 		'.js-issue-title', // `isDiscussion`
 		'a[data-hovercard-type="discussion"]' // `isDiscussionList`
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)').join();
