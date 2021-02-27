@@ -1,3 +1,4 @@
+import './conversation-timeline-filter.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -69,8 +70,16 @@ function addFilter(position: Element): void {
 }
 
 function process(): void {
-	for (const element of select.all('.js-timeline-item')) {
-		processTimelineItem(element);
+	console.log('process');
+	if (currentSettings === 'showAll') {
+		console.log('a');
+		for (const element of select.all('.rgh-conversation-timeline-filtered')) {
+			element.classList.remove('rgh-conversation-timeline-filtered');
+		}
+	} else {
+		for (const element of select.all('.js-timeline-item')) {
+			processTimelineItem(element);
+		}
 	}
 }
 
@@ -83,7 +92,7 @@ function processTimelineItem(item: HTMLElement): void {
 
 	if (!select.exists('.js-comment-container', item)) {
 		// Other events
-		applyDisplay(item, 'showAll');
+		applyDisplay(item);
 		return;
 	}
 
@@ -143,11 +152,7 @@ function processPR(item: HTMLElement): void {
 }
 
 function applyDisplay(element: HTMLElement, ...showOnStates: Level[]): void {
-	if (currentSettings === 'showAll') {
-		element.hidden = false;
-	} else {
-		element.hidden = !showOnStates.includes(currentSettings);
-	}
+	element.classList.toggle('rgh-conversation-timeline-filtered', !showOnStates.includes(currentSettings));
 }
 
 function init(): void {
