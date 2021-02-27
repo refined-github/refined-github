@@ -131,7 +131,7 @@ function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
 
 function processReview(review: HTMLElement): void {
 	const isWholeReviewHidden =
-		currentSettings === 'showOnlyUnresolvedReviews' &&
+		['showOnlyUnresolvedComments', 'showOnlyUnresolvedReviews'].includes(currentSettings) &&
 		isWholeReviewEssentiallyResolved(review);
 
 	review.classList.toggle(hiddenClassName, isWholeReviewHidden);
