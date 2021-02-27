@@ -35,31 +35,34 @@ async function handleSelection(): Promise<void> {
 
 	select(`#${filterId} .reason`)!.textContent = states[currentSettings];
 
-	process();
-	onNewComments(process);
+	// `onNewComments` registers the selectors only once
+	onNewComments(processPage);
+
+	// Actually process it right now
+	processPage();
 }
 
 function createRadio(filterSettings: State): JSX.Element {
 	const label = states[filterSettings];
 	return (
-		<label
+		<div
 			className="select-menu-item"
 			role="menuitemradio"
 			tabIndex={0}
-			aria-checked={String(filterSettings === currentSettings)}
+			aria-checked={filterSettings === currentSettings ? 'true' : 'false'}
 			data-value={filterSettings}
 		>
 			<CheckIcon className="select-menu-item-icon octicon octicon-check" aria-hidden="true"/>
 			<div className="select-menu-item-text">{label || 'Show all'}</div>
-		</label>
+		</div>
 	);
 }
 
-function addFilter(position: Element): void {
+function addToSidebar(position: Element): void {
 	position.before(
 		sidebarItem({
 			id: filterId,
-			name: 'View options',
+			name: 'Conversation view options',
 			subHeader: 'Temporarily hide content',
 			handleSelection,
 			content: [
@@ -72,7 +75,7 @@ function addFilter(position: Element): void {
 	);
 }
 
-function process(): void {
+function processPage(): void {
 	if (currentSettings === 'default') {
 		removeClassFromAll(hiddenClassName);
 	} else {
@@ -83,25 +86,20 @@ function process(): void {
 }
 
 function processTimelineItem(item: HTMLElement): void {
+	// PR review thread
 	if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
-		// PR review thread
 		processReview(item);
 		return;
 	}
 
+	// Non-comment event, always hide
 	if (!select.exists('.js-comment-container', item)) {
-		// Non-comment event, always hide
-		hideWhen(
-			item,
-			'showOnlyComments',
-			'showOnlyUnresolvedComments',
-			'showOnlyUnresolvedReviews'
-		);
+		hide(item, true);
 		return;
 	}
 
+	// The comment was "hidden", thefore it's considered resolved
 	if (select.exists('.rgh-preview-hidden-comments', item)) {
-		// The comment was "hidden", thefore it's considered resolved
 		hideWhen(
 			item,
 			'showOnlyUnresolvedComments',
@@ -130,13 +128,13 @@ function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
 }
 
 function processReview(review: HTMLElement): void {
-	const isWholeReviewHidden =
+	const shouldHideWholeReview =
 		['showOnlyUnresolvedComments', 'showOnlyUnresolvedReviews'].includes(currentSettings) &&
 		isWholeReviewEssentiallyResolved(review);
 
-	review.classList.toggle(hiddenClassName, isWholeReviewHidden);
+	hide(review, shouldHideWholeReview);
 
-	if (isWholeReviewHidden) {
+	if (shouldHideWholeReview) {
 		return;
 	}
 
@@ -148,13 +146,17 @@ function processReview(review: HTMLElement): void {
 	}
 }
 
-function hideWhen(event: HTMLElement, ...statesThatShouldHideIt: State[]): boolean {
-	return event.classList.toggle(hiddenClassName, statesThatShouldHideIt.includes(currentSettings));
+function hide(event: HTMLElement, hide: boolean): void {
+	event.classList.toggle(hiddenClassName, hide);
+}
+
+function hideWhen(event: HTMLElement, ...statesThatShouldHideIt: State[]): void {
+	hide(event, statesThatShouldHideIt.includes(currentSettings));
 }
 
 function init(): void {
 	observe('#partial-users-participants', {
-		add: addFilter
+		add: addToSidebar
 	});
 }
 
