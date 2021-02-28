@@ -11,10 +11,12 @@
 .rgh-clean-dashboard .dashboard .watch_started .color-border-secondary.flex-items-baseline .text-bold.text-gray-dark,
 .rgh-clean-dashboard .dashboard .repo .color-border-secondary.flex-items-baseline .text-bold.text-gray-dark,
 .rgh-clean-dashboard .dashboard .public .color-border-secondary.flex-items-baseline .text-bold.text-gray-dark,
+.rgh-clean-dashboard .dashboard .fork .color-border-secondary.flex-items-baseline .text-bold.text-gray-dark,
 /* Hide duplicate repo name in some non-grouped events */
 .rgh-clean-dashboard .dashboard .watch_started .color-border-secondary.flex-items-baseline .text-bold.color-text-primary,
 .rgh-clean-dashboard .dashboard .repo .color-border-secondary.flex-items-baseline .text-bold.color-text-primary,
-.rgh-clean-dashboard .dashboard .public .color-border-secondary.flex-items-baseline .text-bold.color-text-primary {
+.rgh-clean-dashboard .dashboard .public .color-border-secondary.flex-items-baseline .text-bold.color-text-primary,
+.rgh-clean-dashboard .dashboard .fork .color-border-secondary.flex-items-baseline .text-bold.color-text-primary {
 	display: none;
 }
 
