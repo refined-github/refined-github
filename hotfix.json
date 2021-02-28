@@ -1,4 +1,5 @@
 {
   "feature:align-issue-labels": false,
-  "feature:batch-open-conversations": false
+  "feature:batch-open-conversations": false,
+  "unaffected": "21.3.1"
 }
