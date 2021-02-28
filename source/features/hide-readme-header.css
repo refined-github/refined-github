@@ -25,8 +25,7 @@
 	transition: opacity 0.25s;
 }
 
-.repository-content #readme:not(.blob) .Box-header .btn-octicon:hover,
-.repository-content #readme:not(.blob) .Box-header .btn-octicon:focus {
+.repository-content #readme:not(.blob) .Box-header .btn-octicon:is(:hover, :focus) {
 	opacity: 100%;
 }
 
