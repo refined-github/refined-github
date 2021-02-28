@@ -92,7 +92,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 			'/settings/deleted_repositories';
 		const otherForksURL = `/${owner}?tab=repositories&type=fork`;
 		addNotice(
-			<span>Repository {nameWithOwner} deleted. You might be able to <a href={restoreURL}>restore it</a> or see <a href={otherForksURL}>your other forks</a></span>,
+			<span>Repository {nameWithOwner} deleted. You might be able to <a href={restoreURL}>restore it</a> or see <a href={otherForksURL}>your other forks.</a></span>,
 			{action: false}
 		);
 		select('.application-main')!.remove();
