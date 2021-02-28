@@ -11,10 +11,6 @@ import sidebarItem from '../github-widgets/conversation-sidebar-item';
 import onNewComments from '../github-events/on-new-comments';
 import {removeClassFromAll} from '../helpers/dom-utils';
 
-const hiddenClassName = 'rgh-conversation-timeline-filtered';
-
-const observer = new SelectorObserver(document.documentElement);
-
 const states = {
 	default: '',
 	showOnlyComments: 'Only show comments',
@@ -25,8 +21,10 @@ const states = {
 type State = keyof typeof states;
 
 let currentSettings: State = 'default';
-
 const filterId = 'rgh-timeline-filters';
+const hiddenClassName = 'rgh-conversation-timeline-filtered';
+
+const observer = new SelectorObserver(document.documentElement);
 
 function hide(event: HTMLElement, hide: boolean): void {
 	event.classList.toggle(hiddenClassName, hide);
