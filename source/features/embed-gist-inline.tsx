@@ -51,10 +51,10 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 }
 
 function init(): void {
-	const gistLinks = select.all('.js-comment-body p a:only-child')
-		.filter(item => isGist(item) && isOnlyChild(item));
-	for (const link of gistLinks) {
-		void embedGist(link);
+	for (const link of select.all('.js-comment-body p a:only-child')) {
+		if (isGist(link) && isOnlyChild(link)) {
+			void embedGist(link);
+		}
 	}
 }
 
