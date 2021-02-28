@@ -9,6 +9,6 @@
 	padding-bottom: 0.2em;
 }
 
-.comment-body :is(details blockquote, details pre, blockquote blockquote, blockquote pre) {
+.comment-body :is(details, blockquote) :is(blockquote, pre) {
 	max-height: none;
 }
