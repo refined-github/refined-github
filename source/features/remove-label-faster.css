@@ -14,8 +14,7 @@
 	height: 14px;
 }
 
-.rgh-remove-label-faster:focus svg,
-.rgh-remove-label-faster:hover svg {
+.rgh-remove-label-faster:is(:focus, :hover) svg {
 	background-color: currentColor;
 	fill: var(--rgh-remove-label-faster-color);
 }
