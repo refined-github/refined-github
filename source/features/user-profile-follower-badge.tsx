@@ -23,7 +23,7 @@ async function init(): Promise<void> {
 	if (await doesUserFollow(getCleanPathname(), getUsername())) {
 		const newProfileElement = select('.js-profile-editable-area a:last-child');
 		if (newProfileElement) {
-			newProfileElement.after(<span className="text-gray"> · Follows you</span>);
+			newProfileElement.after(<span className="text-gray color-text-secondary"> · Follows you</span>);
 		} else {
 			// Pre "Repository refresh" layout
 			select('.vcard-names-container:not(.is-placeholder)')!.after(

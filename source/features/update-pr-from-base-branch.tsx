@@ -10,7 +10,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getConversationNumber} from '../github-helpers';
 
-const selectorForPushablePRNotice = '.merge-pr > .text-gray:first-child:not(.rgh-update-pr)';
+const selectorForPushablePRNotice = '.merge-pr > .color-text-secondary:first-child:not(.rgh-update-pr), .merge-pr > .text-gray:first-child:not(.rgh-update-pr)';
 let observer: Observer;
 
 function getBranches(): {base: string; head: string} {

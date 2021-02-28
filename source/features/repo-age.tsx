@@ -115,7 +115,7 @@ async function init(): Promise<void> {
 
 	// Pre "Repository refresh" layout
 	const element = (
-		<li className="text-gray" title={`First commit dated ${dateFormatter.format(birthday)}`}>
+		<li className="text-gray color-text-secondary" title={`First commit dated ${dateFormatter.format(birthday)}`}>
 			<a href={firstCommitHref}>
 				<RepoIcon/> <span className="num text-emphasized">{value}</span> {unit} old
 			</a>

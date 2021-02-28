@@ -45,7 +45,7 @@ async function init(): Promise<void | false> {
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
 		select('.pinned-item-desc', pinnedIssue)!.append(
 			' • ',
-			<span className="text-gray d-inline-block">
+			<span className="text-gray color-text-secondary d-inline-block">
 				updated <relative-time datetime={updatedAt}/>
 			</span>
 		);

@@ -54,7 +54,7 @@ async function init(): Promise<void | false> {
 	);
 
 	// Add button to open selected conversations
-	const triageFiltersBar = select('.table-list-triage > .text-gray');
+	const triageFiltersBar = select('.table-list-triage > .color-text-secondary, .table-list-triage > .text-gray');
 	if (triageFiltersBar) {
 		triageFiltersBar.classList.add('table-list-header-toggle'); // Handles link :hover style
 		triageFiltersBar.append(
