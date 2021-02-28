@@ -62,7 +62,8 @@
 }
 
 /* Grouped events: Make repo name smaller */
-.rgh-clean-dashboard .dashboard .Details .flex-items-baseline :is(.text-bold.text-gray-dark /* GHE */, .text-bold.color-text-primary) {
+.rgh-clean-dashboard .dashboard .Details .flex-items-baseline .text-bold.text-gray-dark, /* GHE */
+.rgh-clean-dashboard .dashboard .Details .flex-items-baseline .text-bold.color-text-primary {
 	font-size: 1em !important;
 }
 
