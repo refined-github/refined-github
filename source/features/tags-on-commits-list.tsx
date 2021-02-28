@@ -35,7 +35,6 @@ function mergeTags(oldTags: CommitTags, newTags: CommitTags): CommitTags {
 	const result: CommitTags = {...oldTags};
 	for (const commit in newTags) {
 		if (result[commit]) {
-			// eslint-disable-next-line unicorn/prefer-spread
 			result[commit] = [...new Set([...result[commit], ...newTags[commit]])];
 		} else {
 			result[commit] = newTags[commit];
