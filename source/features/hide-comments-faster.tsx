@@ -39,7 +39,7 @@ function generateSubmenu(hideButton: Element): void {
 	select('[name="classifier"]', hideCommentForm)!.remove();
 
 	// Imitate existing menu
-	hideCommentForm.classList.add('dropdown-menu', 'dropdown-menu-sw', 'text-gray-dark', 'show-more-popover', 'anim-scale-in');
+	hideCommentForm.classList.add('dropdown-menu', 'dropdown-menu-sw', 'text-gray-dark', 'color-text-primary', 'show-more-popover', 'anim-scale-in');
 
 	detailsElement.append(hideCommentForm);
 }

@@ -19,7 +19,7 @@ function init(): void {
 
 	select('.d-block.mb-2[href^="/contact"]')!.after(
 		<a href={String(actionURL)} className="d-block mb-2">
-			<SearchIcon width={14} className="text-gray-dark mr-2"/>Usage examples
+			<SearchIcon width={14} className="text-gray-dark color-text-primary mr-2"/>Usage examples
 		</a>
 	);
 }

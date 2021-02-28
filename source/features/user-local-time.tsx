@@ -107,7 +107,7 @@ function init(): void {
 
 		const placeholder = <span>Guessing local time…</span>;
 		const container = (
-			<div className="rgh-local-user-time mt-2 text-gray text-small">
+			<div className="rgh-local-user-time mt-2 text-gray color-text-secondary text-small">
 				<ClockIcon/> {placeholder}
 			</div>
 		);
