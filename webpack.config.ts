@@ -5,7 +5,6 @@ import {readFileSync} from 'fs';
 
 import regexJoin from 'regex-join';
 import SizePlugin from 'size-plugin';
-import decamelize from 'decamelize';
 import TerserPlugin from 'terser-webpack-plugin';
 import {ESBuildPlugin} from 'esbuild-loader';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -79,16 +78,6 @@ const config: Configuration = {
 	},
 	module: {
 		rules: [
-			{
-				test: /octicons-react\//,
-				loader: 'string-replace-loader',
-				options: {
-					search: /(\w+)Icon\.defaultProps = {\n\s+className: 'octicon'/g,
-					replace: (match: string, name: string) => {
-						return match.replace('octicon', 'octicon octicon-' + decamelize(name, {separator: '-'}));
-					}
-				}
-			},
 			{
 				test: /\.tsx?$/,
 				loader: 'esbuild-loader',
