@@ -31,6 +31,9 @@ void features.add(__filebasename, {
 		pageDetect.isRepoForksList,
 		pageDetect.isRepoNetworkGraph
 	],
+	exclude: [
+		pageDetect.isEnterprise
+	],
 	awaitDomReady: false,
 	init
 });
