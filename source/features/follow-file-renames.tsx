@@ -18,8 +18,43 @@ async function findRename(lastCommitOnPage: string): Promise<File[]> {
 	return files;
 }
 
-async function init(): Promise<void| false> {
-	const disabledPagination = select.all('.paginate-container [disabled], .paginate-container .disabled');
+async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void | false> {
+	const isNewer = button.textContent === 'Newer';
+
+	const fromKey = isNewer ? 'previous_filename' : 'filename';
+	const toKey = isNewer ? 'filename' : 'previous_filename';
+	const sha = (isNewer ? select : select.last)([
+		'.commit .sha', // Pre "Repository refresh" layout
+		'[aria-label="Copy the full SHA"] + a'
+	])!;
+
+	const files = await findRename(sha.textContent!.trim());
+
+	for (const file of files) {
+		if (file[fromKey] === url.filePath) {
+			if (file.status === 'renamed') {
+				url.assign({
+					route: 'commits',
+					filePath: file[toKey]
+				});
+				button.replaceWith(
+					<a
+						href={String(url)}
+						aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${file[toKey]}`}
+						className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
+					>
+						{button.textContent}
+					</a>
+				);
+			}
+
+			return;
+		}
+	}
+}
+
+function init(): void | false {
+	const disabledPagination = select.all<HTMLButtonElement>('.paginate-container [disabled], .paginate-container .disabled');
 	const url = new GitHubURL(location.href);
 	// Clear the search from the url, so it does not get passed to the rename link.
 	url.search = '';
@@ -28,39 +63,7 @@ async function init(): Promise<void| false> {
 	}
 
 	for (const button of disabledPagination) {
-		const isNewer = button.textContent === 'Newer';
-
-		const fromKey = isNewer ? 'previous_filename' : 'filename';
-		const toKey = isNewer ? 'filename' : 'previous_filename';
-		const sha = (isNewer ? select : select.last)([
-			'.commit .sha', // Pre "Repository refresh" layout
-			'[aria-label="Copy the full SHA"] + a'
-		])!;
-
-		// eslint-disable-next-line no-await-in-loop
-		const files = await findRename(sha.textContent!.trim());
-
-		for (const file of files) {
-			if (file[fromKey] === url.filePath) {
-				if (file.status === 'renamed') {
-					url.assign({
-						route: 'commits',
-						filePath: file[toKey]
-					});
-					button.replaceWith(
-						<a
-							href={String(url)}
-							aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${file[toKey]}`}
-							className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
-						>
-							{button.textContent}
-						</a>
-					);
-				}
-
-				return;
-			}
-		}
+		void linkify(button, url);
 	}
 }
 
