@@ -33,13 +33,13 @@
 	font-family: sans-serif;
 }
 
-.rgh-comments-indicator span {
-	margin-left: 3px;
-}
-
 /* Split diffs only have 1 line number on the left */
 .file-diff-split .rgh-comments-indicator:is(::before, ::after) {
 	width: 100%;
+}
+
+.rgh-comments-indicator span {
+	margin-left: 3px;
 }
 
 /* Split diffs fill the screen so there's only 18px available. We only show the icon */
