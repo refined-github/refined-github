@@ -8,13 +8,11 @@
 	order: 1;
 }
 
-.rgh-align-issue-labels .js-issue-row .h4, /* Title */
-.rgh-align-issue-labels .js-issue-row .d-inline-block.mr-1 { /* Build status */
+.rgh-align-issue-labels .js-issue-row :is(.h4 /* Title */, .d-inline-block.mr-1 /* Build status */) {
 	padding-right: 4px; /* Space before the build status */
 }
 
-.rgh-align-issue-labels .js-issue-row .mt-1.text-small.text-gray, /* GHE */
-.rgh-align-issue-labels .js-issue-row .mt-1.text-small.color-text-secondary { /* Issue details line */
+.rgh-align-issue-labels .js-issue-row :is(.mt-1.text-small.text-gray, /* GHE */, .mt-1.text-small.color-text-secondary /* Issue details line */) {
 	flex-basis: 100%;
 }
 
