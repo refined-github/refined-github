@@ -48,7 +48,7 @@
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
-		"@primer/octicons-react": "^12.0.0",
+		"@primer/octicons-react": "^12.1.0",
 		"copy-text-to-clipboard": "^3.0.0",
 		"debounce-fn": "^4.0.0",
 		"delay": "^5.0.0",
@@ -102,7 +102,6 @@
 		"copy-webpack-plugin": "^7.0.0",
 		"css-loader": "^5.0.2",
 		"daily-version": "^2.0.0",
-		"decamelize": "^5.0.0",
 		"dot-json": "^1.2.1",
 		"esbuild-loader": "^2.9.1",
 		"eslint-config-xo-react": "^0.23.0",
