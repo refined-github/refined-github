@@ -19,6 +19,11 @@
 	color: transparent;
 }
 
+/* Split diffs only have 1 line number on the left */
+.file-diff-split .rgh-comments-indicator:is(::before, ::after) {
+	width: 100%;
+}
+
 .show-inline-notes .rgh-comments-indicator {
 	display: none;
 }
@@ -31,11 +36,6 @@
 	color: inherit;
 	text-decoration: none !important; /* Needs to override .btn-link’s */
 	font-family: sans-serif;
-}
-
-/* Split diffs only have 1 line number on the left */
-.file-diff-split .rgh-comments-indicator:is(::before, ::after) {
-	width: 100%;
 }
 
 .rgh-comments-indicator span {
