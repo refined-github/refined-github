@@ -18,7 +18,7 @@ async function findRename(lastCommitOnPage: string): Promise<File[]> {
 	return files;
 }
 
-function init(): false | void {
+async function init(): Promise<void| false> {
 	const disabledPagination = select.all('.paginate-container [disabled], .paginate-container .disabled');
 	const url = new GitHubURL(location.href);
 	// Clear the search from the url, so it does not get passed to the rename link.
@@ -27,7 +27,7 @@ function init(): false | void {
 		return false;
 	}
 
-	disabledPagination.forEach(async button => {
+	for (const button of disabledPagination) {
 		const isNewer = button.textContent === 'Newer';
 
 		const fromKey = isNewer ? 'previous_filename' : 'filename';
@@ -37,6 +37,7 @@ function init(): false | void {
 			'[aria-label="Copy the full SHA"] + a'
 		])!;
 
+		// eslint-disable-next-line no-await-in-loop
 		const files = await findRename(sha.textContent!.trim());
 
 		for (const file of files) {
@@ -60,7 +61,7 @@ function init(): false | void {
 				return;
 			}
 		}
-	});
+	}
 }
 
 void features.add(__filebasename, {

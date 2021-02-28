@@ -51,9 +51,11 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 }
 
 function init(): void {
-	select.all('.js-comment-body p a:only-child')
-		.filter(item => isGist(item) && isOnlyChild(item))
-		.forEach(embedGist);
+	const gistLinks = select.all('.js-comment-body p a:only-child')
+		.filter(item => isGist(item) && isOnlyChild(item));
+	for (const link of gistLinks) {
+		void embedGist(link);
+	}
 }
 
 void features.add(__filebasename, {

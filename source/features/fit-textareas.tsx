@@ -31,8 +31,10 @@ function fitPrCommitMessageBox(): void {
 function init(): void {
 	// Exclude PR review box because it's in a `position:fixed` container; The scroll HAS to appear within the fixed element.
 	delegate(document, 'textarea:not(#pull_request_review_body)', 'focusin', focusListener);
+	for (const textArea of select.all('textarea')) {
+		watchTextarea(textArea)
+	}
 
-	select.all('textarea').forEach(watchTextarea);
 }
 
 void features.add(__filebasename, {
