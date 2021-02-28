@@ -205,7 +205,6 @@ import './features/jump-to-change-requested-comment';
 import './features/esc-to-cancel';
 import './features/easy-toggle-files';
 import './features/quick-repo-deletion';
-import './features/conversation-timeline-filter';
 import './features/clean-repo-sidebar';
 import './features/rgh-feature-descriptions';
 import './features/wait-for-attachments';
@@ -214,6 +213,7 @@ import './features/link-to-changelog-file';
 import './features/hide-markdown-diff';
 import './features/rgh-sponsor-button';
 import './features/rgh-linkify-features';
+import './features/conversation-timeline-filter';
 
 // Add global for easier debugging
 (window as any).select = select;
