@@ -2,6 +2,10 @@
 	position: absolute;
 }
 
+.show-inline-notes .rgh-comments-indicator {
+	display: none;
+}
+
 .rgh-comments-indicator:is(::before, ::after) {
 	content: '' !important; /* Needs to override .blob-num’s */
 	position: absolute;
@@ -19,8 +23,9 @@
 	color: transparent;
 }
 
-.show-inline-notes .rgh-comments-indicator {
-	display: none;
+/* Split diffs only have 1 line number on the left */
+.file-diff-split .rgh-comments-indicator:is(::before, ::after) {
+	width: 100%;
 }
 
 .rgh-comments-indicator button {
@@ -35,11 +40,6 @@
 
 .rgh-comments-indicator span {
 	margin-left: 3px;
-}
-
-/* Split diffs only have 1 line number on the left */
-.file-diff-split .rgh-comments-indicator:is(::before, ::after) {
-	width: 100%;
 }
 
 /* Split diffs fill the screen so there's only 18px available. We only show the icon */
