@@ -104,7 +104,7 @@ async function init(): Promise<void> {
 		sidebarAboutSection.append(
 			<h3 className="sr-only">Repository age</h3>,
 			<div className="mt-3">
-				<a href={firstCommitHref} className="muted-link" title={`First commit dated ${dateFormatter.format(birthday)}`}>
+				<a href={firstCommitHref} className="muted-link Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
 					<RepoIcon className="mr-2"/>{age}
 				</a>
 			</div>
@@ -115,7 +115,7 @@ async function init(): Promise<void> {
 
 	// Pre "Repository refresh" layout
 	const element = (
-		<li className="text-gray" title={`First commit dated ${dateFormatter.format(birthday)}`}>
+		<li className="text-gray color-text-secondary" title={`First commit dated ${dateFormatter.format(birthday)}`}>
 			<a href={firstCommitHref}>
 				<RepoIcon/> <span className="num text-emphasized">{value}</span> {unit} old
 			</a>

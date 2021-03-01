@@ -47,7 +47,7 @@ function createWhitespaceButton(): HTMLElement {
 		<a
 			href={`?${String(searchParameters)}`}
 			data-hotkey="d w"
-			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light' : ''}`}
+			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : ''}`}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}
 		>
 			{isHidingWhitespace && <CheckIcon/>} No Whitespace

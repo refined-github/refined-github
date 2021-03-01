@@ -13,11 +13,11 @@ GitHub Enterprise is also supported. More info in the options.
 [link-chrome]: https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf 'Version published on Chrome Web Store'
 [link-firefox]: https://addons.mozilla.org/en-US/firefox/addon/refined-github-/ 'Version published on Mozilla Add-ons'
 
-[<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/chrome/chrome_128x128.png" width="48" alt="Chrome" valign="middle">][link-chrome] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-chrome] also compatible with [<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/edge/edge_48x48.png" width="24" alt="Edge" valign="middle">][link-chrome] [<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/opera/opera_48x48.png" width="24" alt="Opera" valign="middle">][link-chrome]
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/chrome/chrome.svg" width="48" alt="Chrome" valign="middle">][link-chrome] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-chrome] also compatible with [<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/edge/edge.svg" width="24" alt="Edge" valign="middle">][link-chrome] [<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/opera/opera.svg" width="24" alt="Opera" valign="middle">][link-chrome]
 
-[<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/firefox/firefox_128x128.png" width="48" alt="Firefox" valign="middle">][link-firefox] [<img valign="middle" src="https://img.shields.io/amo/v/refined-github-.svg?label=%20">][link-firefox]
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/firefox/firefox.svg" width="48" alt="Firefox" valign="middle">][link-firefox] [<img valign="middle" src="https://img.shields.io/amo/v/refined-github-.svg?label=%20">][link-firefox]
 
-<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/safari/safari_128x128.png" width="48" alt="Safari" valign="middle"> Coming soon, [help us set it up](https://github.com/sindresorhus/refined-github/issues/3686)
+<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/safari/safari_128x128.png" width="48" alt="Safari" valign="middle"> Coming soon, [help us set it up](https://github.com/sindresorhus/refined-github/issues/3686)
 
 [<img src="https://raw.githubusercontent.com/iamcal/emoji-data/08ec822c38e0b7a6fea0b92a9c42e02b6ba24a84/img-apple-160/1f99a.png" width="48" valign="middle">](https://github.com/sponsors/fregante) _If you love Refined GitHub, consider [sponsoring or hiring](https://github.com/sponsors/fregante) the maintainer [@fregante](https://twitter.com/fregante)_
 
@@ -103,7 +103,7 @@ Thanks for contributing! 🦋🙌
 - [](# "go-to-action-from-file") [Adds a link to access the past runs of a GitHub Action workflow when seeing the workflow configuration file.](https://user-images.githubusercontent.com/1402241/80146153-ab6d6400-85b1-11ea-9f38-e87950692a62.png)
 - [](# "clone-branch") [Clone a branch from the branches list.](https://user-images.githubusercontent.com/16872793/76802029-2a020500-67ad-11ea-95dc-bee1b1352976.png)
 - [](# "fork-source-link-same-view") [Points the “Forked from user/repository” link to current folder or file in the upstream repository.](https://user-images.githubusercontent.com/1402241/84795784-3722d000-aff8-11ea-9b34-97c01acf4fd4.png)
-- [](# "clean-repo-filelist-actions") [Replaces the labels of some simple buttons on repository file lists with icons, making them take less space.](https://user-images.githubusercontent.com/44045911/88551471-7a3f7c80-d055-11ea-82f1-c558b7871824.png)
+- [](# "clean-repo-filelist-actions") [Makes some buttons on repository lists more compact to make room for other features.](https://user-images.githubusercontent.com/1402241/108955170-52d48080-7633-11eb-8979-67e0d3a53f16.png)
 - [](# "new-repo-disable-projects-and-wikis") [Automatically disables projects and wikis when creating a repository.](https://user-images.githubusercontent.com/16872793/92803886-dc460e00-f385-11ea-8af6-d6b7a0d3bf91.png)
 - [](# "sticky-sidebar") [Makes conversation sidebars and repository sidebars sticky, if they fit the viewport.](https://user-images.githubusercontent.com/10238474/62276723-5a2eaa80-b44d-11e9-810b-ff598d1c5c6a.gif)
 - [](# "link-to-github-io") [Adds a link to visit the user’s github.io website from its repo.](https://user-images.githubusercontent.com/31387795/94045261-dbcd5e80-fdec-11ea-83fa-30bb673cc26e.jpg)
@@ -183,7 +183,7 @@ Thanks for contributing! 🦋🙌
 - [](# "split-issue-pr-search-results") [Separates issues from PRs in the global search.](https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png)
 - [](# "sticky-conversation-list-toolbar") [Makes the conversation list’s filters toolbar sticky.](https://user-images.githubusercontent.com/380914/39878141-7632e61a-542c-11e8-9c66-74fcd3a134aa.gif)
 - [](# "highlight-collaborators-and-own-conversations") [Highlights conversations opened by you or the current repo’s collaborators.](https://user-images.githubusercontent.com/1402241/65013882-03225d80-d947-11e9-8eb8-5507bc1fc14b.png)
-- [](# "align-issue-labels") [Aligns labels in lists to the left.](https://user-images.githubusercontent.com/37769974/85866472-11aa7900-b7e5-11ea-80aa-d84e3aee2551.png)
+- [](# "align-issue-labels") [In conversation lists, aligns the labels to the left, below each title.](https://user-images.githubusercontent.com/37769974/85866472-11aa7900-b7e5-11ea-80aa-d84e3aee2551.png)
 - [](# "sort-conversations-by-update-time") 🔥 Changes the default sort order of conversations to `Recently updated`.
 - [](# "conversation-filters") [Adds `Everything commented by you` and `Everything you subscribed to` filters in the search box dropdown.](https://user-images.githubusercontent.com/202916/84156153-72a62300-aa69-11ea-8592-3094292fde3c.png)
 - [](# "global-conversation-list-filters") [Adds filters for conversations _in your repos_ and _commented on by you_ in the global conversation search.](https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png)
@@ -195,7 +195,7 @@ Thanks for contributing! 🦋🙌
 - [](# "pinned-issues-update-time") [Adds the updated time to pinned issues.](https://user-images.githubusercontent.com/1402241/75525936-bb524700-5a4b-11ea-9225-466bda58b7de.png)
 - [](# "clean-pinned-issues") [Changes the layout of pinned issues from side-by-side to a standard list.](https://user-images.githubusercontent.com/1402241/84509958-c82a3c00-acc4-11ea-8399-eaf06a59e9e4.png)
 - [](# "remove-label-faster") [Adds one-click buttons to remove labels in conversations.](https://user-images.githubusercontent.com/36174850/89980178-0bc80480-dc7a-11ea-8ded-9e25f5f13d1a.gif)
-- [](# "clean-conversation-headers") [Removes duplicate information in conversation headers.](https://user-images.githubusercontent.com/44045911/89736767-686ec800-da9e-11ea-81c3-252e9813140b.png)
+- [](# "clean-conversation-headers") [Removes duplicate information in the header of issues and PRs ("User wants to merge X commits from Y into Z")](https://user-images.githubusercontent.com/44045911/89736767-686ec800-da9e-11ea-81c3-252e9813140b.png)
 - [](# "dim-bots") [Dims commits and PRs by bots to reduce noise.](https://user-images.githubusercontent.com/1402241/65263190-44c52b00-db36-11e9-9b33-d275d3c8479d.gif)
 - [](# "esc-to-cancel") [Adds a shortcut to cancel editing a conversation title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
 

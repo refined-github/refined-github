@@ -22,13 +22,16 @@
  . .    .               .             *.                         .
 
 */
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {getRepo, getUsername} from '../github-helpers';
 
-function wiggleWiggleWiggle(): void {
+async function wiggleWiggleWiggle(): Promise<void> {
+	await cache.set('did-it-wiggle', 'yup', {days: 7});
 	select('#sponsor-button-repo')?.animate({
 		transform: [
 			'none',
@@ -79,9 +82,15 @@ async function suchLove({delegateTarget}: delegate.Event): Promise<void> {
 	love.remove(); // 💔
 }
 
-function handleNewIssue(): void {
-	select('.btn-primary[href$="/issues/new/choose"], .btn-primary[href$="/issues/new"]')
-		?.addEventListener('mouseenter', wiggleWiggleWiggle);
+async function handleNewIssue(): Promise<false> {
+	if (getRepo()!.owner !== getUsername() && !await cache.get('did-it-wiggle')) {
+		select('.btn-primary[href$="/issues/new/choose"], .btn-primary[href$="/issues/new"]')
+			?.addEventListener('mouseenter', wiggleWiggleWiggle, {
+				once: true
+			});
+	}
+
+	return false;
 }
 
 function handleSponsorButton(): void {

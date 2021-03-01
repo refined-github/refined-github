@@ -17,6 +17,8 @@ function generateSubmenu(hideButton: Element): void {
 	const comment = hideButton.closest('.unminimized-comment')!;
 	const hideCommentForm = select('.js-comment-minimize', comment)!;
 
+	hideCommentForm.classList.remove('d-flex');
+
 	// Generate dropdown items
 	for (const reason of select.all('[name="classifier"] option:not([value=""])', comment)) {
 		hideCommentForm.append(
@@ -37,7 +39,7 @@ function generateSubmenu(hideButton: Element): void {
 	select('[name="classifier"]', hideCommentForm)!.remove();
 
 	// Imitate existing menu
-	hideCommentForm.classList.add('dropdown-menu', 'dropdown-menu-sw', 'text-gray-dark', 'show-more-popover', 'anim-scale-in');
+	hideCommentForm.classList.add('dropdown-menu', 'dropdown-menu-sw', 'text-gray-dark', 'color-text-primary', 'show-more-popover', 'anim-scale-in');
 
 	detailsElement.append(hideCommentForm);
 }
