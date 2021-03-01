@@ -4,11 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function jumpToFirstNonViewed(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
-	if (event.altKey) {
-		return;
-	}
-
+function jumpToFirstNonViewed(): void {
 	const firstNonViewedFile = select('.file:not([data-file-user-viewed])')!;
 	if (firstNonViewedFile) {
 		// Scroll to file without pushing to history
