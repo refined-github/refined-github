@@ -12,7 +12,10 @@ function init(): void {
 		add(comment) {
 			comment.classList.add('rgh-edit-comment');
 
-			comment.closest('.js-comment')!.querySelector('.js-comment-header-reaction-button')!.after(
+			comment
+				.closest('.js-comment')!
+				.querySelector('.timeline-comment-actions > details:last-child')! // The dropdown
+				.before(
 				<button
 					type="button"
 					role="menuitem"
