@@ -1,5 +1,6 @@
 /* Remove diff signs from the layout flow */
-.file :is(.blob-code-inner, .blob-code-marker-cell)::before {
+.file .blob-code-inner::before,
+.file .blob-code-marker-cell::before {
 	position: absolute;
 	transform: translateX(-100%);
 }

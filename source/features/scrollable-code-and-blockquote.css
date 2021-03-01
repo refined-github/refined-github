@@ -1,4 +1,5 @@
-.comment-body :is(blockquote, pre) {
+.comment-body blockquote,
+.comment-body pre {
 	position: relative; /* OctoLinker compat: attach the purple balls to the scroll */
 	max-height: 30.5em;
 	overflow-y: auto;
@@ -9,6 +10,9 @@
 	padding-bottom: 0.2em;
 }
 
-.comment-body :is(details, blockquote) :is(blockquote, pre) {
+.comment-body details blockquote,
+.comment-body details pre,
+.comment-body blockquote blockquote,
+.comment-body blockquote pre {
 	max-height: none;
 }

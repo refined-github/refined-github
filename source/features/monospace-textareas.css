@@ -1,10 +1,13 @@
 /* Limit width of commit title to 72 characters */
-.rgh-monospace-textareas :is(#merge_title_field, #commit-summary-input) {
+.rgh-monospace-textareas #merge_title_field,
+.rgh-monospace-textareas #commit-summary-input {
 	width: calc(72ch + 18px);
 	max-width: 100%;
 }
 
-.rgh-monospace-textareas :is(#merge_title_field, #commit-summary-input, textarea) {
+.rgh-monospace-textareas #merge_title_field,
+.rgh-monospace-textareas #commit-summary-input,
+.rgh-monospace-textareas textarea {
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
 }
 

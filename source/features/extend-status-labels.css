@@ -3,6 +3,7 @@
 	text-decoration: none;
 }
 
-.gh-header-meta .State :is(a, code) {
+.gh-header-meta .State a,
+.gh-header-meta .State code {
 	color: #fff !important;
 }

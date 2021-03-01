@@ -2,11 +2,8 @@
 	position: absolute;
 }
 
-.show-inline-notes .rgh-comments-indicator {
-	display: none;
-}
-
-.rgh-comments-indicator:is(::before, ::after) {
+.rgh-comments-indicator::before,
+.rgh-comments-indicator::after {
 	content: '' !important; /* Needs to override .blob-num’s */
 	position: absolute;
 	top: -1px;
@@ -40,6 +37,12 @@
 
 .rgh-comments-indicator span {
 	margin-left: 3px;
+}
+
+/* Split diffs only have 1 line number on the left */
+.file-diff-split .rgh-comments-indicator::after,
+.file-diff-split .rgh-comments-indicator::before {
+	width: 100%;
 }
 
 /* Split diffs fill the screen so there's only 18px available. We only show the icon */
