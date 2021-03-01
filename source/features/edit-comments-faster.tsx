@@ -16,15 +16,15 @@ function init(): void {
 				.closest('.js-comment')!
 				.querySelector('.timeline-comment-actions > details:last-child')! // The dropdown
 				.before(
-				<button
-					type="button"
-					role="menuitem"
-					className="timeline-comment-action btn-link js-comment-edit-button"
-					aria-label="Edit comment"
-				>
-					<PencilIcon/>
-				</button>
-			);
+					<button
+						type="button"
+						role="menuitem"
+						className="timeline-comment-action btn-link js-comment-edit-button"
+						aria-label="Edit comment"
+					>
+						<PencilIcon/>
+					</button>
+				);
 		}
 	});
 }
