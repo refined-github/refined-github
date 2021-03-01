@@ -6,8 +6,9 @@ import {CheckIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import Toast from '../github-helpers/toast';
 import preserveScroll from '../helpers/preserve-scroll';
-import progressNotification from '../github-helpers/progress-notification';
+import {ToastSpinner} from '../helpers/icons';
 
 type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
 // eslint-disable-next-line import/prefer-default-export
@@ -25,18 +26,8 @@ export const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => stri
 });
 
 function clickAllExcept(elementsToClick: string, except: HTMLElement, displayProgress = false): void {
-	let notification: Element;
 	if (displayProgress) {
-		const spinner = (
-			<span className="Toast-icon">
-				<svg className="Toast--spinner" viewBox="0 0 32 32" width="18" height="18">
-					<path fill="#959da5" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"/>
-					<path fill="#ffffff" d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"/>
-				</svg>
-			</span>
-		);
-		notification = progressNotification('Toast--loading', spinner, 'Bulk actions currently being processed.');
-		document.body.append(notification);
+		new Toast('Toast--loading', <ToastSpinner/>, 'Bulk actions currently being processed.').show();
 	}
 
 	for (const item of select.all(elementsToClick)) {
@@ -46,7 +37,7 @@ function clickAllExcept(elementsToClick: string, except: HTMLElement, displayPro
 	}
 
 	if (displayProgress) {
-		notification.replaceWith(progressNotification('Toast--success', <CheckIcon/>, 'Bulk action processing complete.'));
+		new Toast('Toast--success', <CheckIcon/>, 'Bulk action processing complete.').show();
 		setTimeout(() => {
 			select('.Toast--success')!.remove();
 		}, 3000);
