@@ -91,7 +91,7 @@ async function init(): Promise<false | void> {
 	});
 
 	const link = (
-		<a className="btn btn-sm btn-outline ml-2 flex-self-center rgh-latest-tag-button" href={String(url)}>
+		<a className="btn btn-sm btn-outline ml-2 flex-self-center css-truncate rgh-latest-tag-button" href={String(url)}>
 			<TagIcon/>
 		</a>
 	);
