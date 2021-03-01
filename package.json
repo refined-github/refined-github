@@ -89,7 +89,7 @@
 	},
 	"devDependencies": {
 		"@ava/typescript": "^1.1.1",
-		"@sindresorhus/tsconfig": "^0.8.0",
+		"@sindresorhus/tsconfig": "^0.9.0",
 		"@types/chrome": "^0.0.133",
 		"@types/codemirror": "^0.0.108",
 		"@types/copy-webpack-plugin": "^6.4.0",

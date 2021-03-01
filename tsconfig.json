@@ -4,7 +4,8 @@
 		"target": "es2020",
 		"declaration": false,
 		"esModuleInterop": true,
-		"noUncheckedIndexedAccess": false
+		"noUncheckedIndexedAccess": false,
+		"noPropertyAccessFromIndexSignature": false
 	},
 	"include": [
 		"source",
