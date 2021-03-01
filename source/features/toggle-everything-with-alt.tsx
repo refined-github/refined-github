@@ -19,28 +19,25 @@ export const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => stri
 
 			// `parentElement` is the anchor because `clickedItem` might be hidden/replaced after the click
 			const resetScroll = preserveScroll(clickedItem.parentElement!);
-			clickAllExcept(selectorGetter(clickedItem), clickedItem, displayProgress);
+			if (displayProgress) {
+				new Toast('Toast--loading', <ToastSpinner/>, 'Bulk actions currently being processed.').show();
+			}
+
+			clickAllExcept(selectorGetter(clickedItem), clickedItem);
+			if (displayProgress) {
+				new Toast('Toast--success', <CheckIcon/>, 'Bulk action processing complete.').done();
+			}
+
 			resetScroll();
 		}
 	};
 });
 
-function clickAllExcept(elementsToClick: string, except: HTMLElement, displayProgress = false): void {
-	if (displayProgress) {
-		new Toast('Toast--loading', <ToastSpinner/>, 'Bulk actions currently being processed.').show();
-	}
-
+function clickAllExcept(elementsToClick: string, except: HTMLElement): void {
 	for (const item of select.all(elementsToClick)) {
 		if (item !== except) {
 			item.click();
 		}
-	}
-
-	if (displayProgress) {
-		new Toast('Toast--success', <CheckIcon/>, 'Bulk action processing complete.').show();
-		setTimeout(() => {
-			select('.Toast--success')!.remove();
-		}, 3000);
 	}
 }
 

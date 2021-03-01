@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import select from 'select-dom';
 
 export default class Toast {
 	toast: JSX.Element;
@@ -18,8 +19,15 @@ export default class Toast {
 	}
 
 	show(): void {
-		this.toast.remove();
 		document.body.append(this.toast);
+	}
+
+	done(): void {
+		select('[role="log"].Toast')!.remove();
+		document.body.append(this.toast);
+		setTimeout(() => {
+			select('.Toast--success')!.remove();
+		}, 3000);
 	}
 }
 
