@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
+import arrayUnion from 'array-union';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -35,7 +36,7 @@ function mergeTags(oldTags: CommitTags, newTags: CommitTags): CommitTags {
 	const result: CommitTags = {...oldTags};
 	for (const commit in newTags) {
 		if (result[commit]) {
-			result[commit] = [...new Set([...result[commit], ...newTags[commit]])];
+			result[commit] = arrayUnion(result[commit], newTags[commit]);
 		} else {
 			result[commit] = newTags[commit];
 		}
