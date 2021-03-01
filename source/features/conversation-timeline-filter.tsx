@@ -165,8 +165,7 @@ function deinit(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRConversation,
-		pageDetect.isIssue
+		pageDetect.isConversation
 	],
 	init,
 	deinit
