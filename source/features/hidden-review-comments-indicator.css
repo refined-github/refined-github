@@ -20,9 +20,8 @@
 	color: transparent;
 }
 
-/* Split diffs only have 1 line number on the left */
-.file-diff-split .rgh-comments-indicator:is(::before, ::after) {
-	width: 100%;
+.show-inline-notes .rgh-comments-indicator {
+	display: none;
 }
 
 .rgh-comments-indicator button {
