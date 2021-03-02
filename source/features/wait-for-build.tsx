@@ -1,5 +1,5 @@
 import './wait-for-build.css';
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';

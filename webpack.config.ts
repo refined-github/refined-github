@@ -130,8 +130,7 @@ const config: Configuration = {
 	],
 	resolve: {
 		alias: {
-			react: 'jsx-dom',
-			'dom-chef': 'jsx-dom'
+			react: 'jsx-dom'
 		},
 		extensions: [
 			'.tsx',

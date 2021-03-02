@@ -1,5 +1,5 @@
 import './quick-mention.css';
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import {ReplyIcon} from '@primer/octicons-react';

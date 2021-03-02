@@ -1,4 +1,4 @@
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import cache from 'webext-storage-cache';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';

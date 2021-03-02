@@ -1,5 +1,5 @@
 import './tags-dropdown.css';
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import select from 'select-dom';
 import {OctofaceIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';

@@ -1,4 +1,4 @@
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {RepoForkedIcon} from '@primer/octicons-react';

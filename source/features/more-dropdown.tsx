@@ -1,5 +1,5 @@
 import './more-dropdown.css';
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

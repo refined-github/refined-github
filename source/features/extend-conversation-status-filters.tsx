@@ -1,4 +1,4 @@
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import select from 'select-dom';
 import {CheckIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';

@@ -1,4 +1,4 @@
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import onetime from 'onetime';
 import {isEnterprise} from 'github-url-detection';
 

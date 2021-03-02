@@ -1,4 +1,4 @@
-import React from 'dom-chef';
+import React from 'jsx-dom';
 
 const splittingRegex = /`` (.*?) ``|`([^`\n]+)`/g;
 

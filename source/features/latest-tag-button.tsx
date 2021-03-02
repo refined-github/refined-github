@@ -1,5 +1,5 @@
 import './latest-tag-button.css';
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

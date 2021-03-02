@@ -1,6 +1,6 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import cache from 'webext-storage-cache';
 import domify from 'doma';
 import select from 'select-dom';

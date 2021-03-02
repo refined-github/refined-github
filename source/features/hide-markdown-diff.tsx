@@ -1,5 +1,5 @@
 import './hide-markdown-diff.css';
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

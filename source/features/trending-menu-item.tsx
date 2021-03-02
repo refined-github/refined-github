@@ -1,4 +1,4 @@
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

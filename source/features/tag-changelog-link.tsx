@@ -1,5 +1,5 @@
 import './tag-changelog-link.css';
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import {DiffIcon} from '@primer/octicons-react';

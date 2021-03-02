@@ -1,5 +1,5 @@
 import './user-profile-follower-badge.css';
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';

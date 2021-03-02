@@ -1,4 +1,4 @@
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import domify from 'doma';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';

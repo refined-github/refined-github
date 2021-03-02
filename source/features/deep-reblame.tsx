@@ -1,6 +1,6 @@
 import './deep-reblame.css';
 import mem from 'mem';
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import {VersionsIcon} from '@primer/octicons-react';

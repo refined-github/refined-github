@@ -1,4 +1,4 @@
-import React from 'dom-chef';
+import React from 'jsx-dom';
 
 export default function LoadingIcon(props: AnyObject): JSX.Element {
 	return (

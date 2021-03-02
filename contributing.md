@@ -37,7 +37,7 @@ void features.add(__filebasename, {
 Here's an example using all of the possible `feature.add` options:
 
 ```ts
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';

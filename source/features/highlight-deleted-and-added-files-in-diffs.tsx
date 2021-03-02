@@ -1,4 +1,4 @@
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import select from 'select-dom';
 import oneMutation from 'one-mutation';
 import elementReady from 'element-ready';
