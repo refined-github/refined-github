@@ -2,14 +2,13 @@ import './conversation-timeline-filter.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
-import {CheckIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import SelectorObserver from 'selector-observer';
+import {CheckIcon, EyeClosedIcon, EyeIcon} from '@primer/octicons-react';
 
 import features from '.';
-import sidebarItem from '../github-widgets/conversation-sidebar-item';
 import onNewComments from '../github-events/on-new-comments';
-import {removeClassFromAll} from '../helpers/dom-utils';
+import {removeClassFromAll, wrap} from '../helpers/dom-utils';
 
 const states = {
 	default: '',
@@ -20,7 +19,7 @@ const states = {
 type State = keyof typeof states;
 
 let currentSetting: State = 'default';
-const filterId = 'rgh-timeline-filters';
+const filterId = 'rgh-conversation-timeline-filter-dropdown';
 const hiddenClassName = 'rgh-conversation-timeline-filtered';
 
 const observer = new SelectorObserver(document.documentElement);
@@ -83,13 +82,16 @@ function processPage(): void {
 	}
 }
 
-async function handleSelection(): Promise<void> {
+async function handleSelection({target}: Event): Promise<void> {
 	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
 	await delay(1);
 
-	currentSetting = select(`#${filterId} [aria-checked="true"]`)!.dataset.value as State;
+	currentSetting = select('[aria-checked="true"]', target as Element)!.dataset.value as State;
 
-	select(`#${filterId} .reason`)!.textContent = states[currentSetting];
+	select('.repository-content')!.classList.toggle(
+		'rgh-conversation-timeline-is-filtered',
+		currentSetting !== 'default'
+	);
 
 	// `onNewComments` registers the selectors only once
 	onNewComments(processPage);
@@ -114,25 +116,36 @@ function createRadio(filterSettings: State): JSX.Element {
 	);
 }
 
-function addToSidebar(position: Element): void {
-	position.before(
-		sidebarItem({
-			id: filterId,
-			name: 'Conversation view options',
-			subHeader: 'Temporarily hide content',
-			handleSelection,
-			content: [
-				createRadio('default'),
-				createRadio('showOnlyComments'),
-				createRadio('showOnlyUnresolvedComments')
-			]
-		})
+function addWidget(position: Element): void {
+	wrap(position, <div className="d-flex flex-items-baseline"/>);
+	position.classList.add('rgh-conversation-timeline-filter');
+	position.after(
+		<details className={`details-reset details-overlay d-inline-block ml-1 position-relative ${filterId}`}>
+			<summary aria-haspopup="true">
+				<EyeIcon/>
+				<EyeClosedIcon/>
+				<div className="dropdown-caret ml-1"/>
+			</summary>
+			<details-menu
+				className="SelectMenu right-0"
+				role="menu"
+				on-details-menu-select={handleSelection}
+			>
+				<div className="SelectMenu-modal">
+					<div className="SelectMenu-list">
+						{createRadio('default')}
+						{createRadio('showOnlyComments')}
+						{createRadio('showOnlyUnresolvedComments')}
+					</div>
+				</div>
+			</details-menu>
+		</details>
 	);
 }
 
 function init(): void {
-	observer.observe('#partial-users-participants', {
-		add: addToSidebar
+	observer.observe('.gh-header-sticky .meta:not(.rgh-conversation-timeline-filter)', {
+		add: addWidget
 	});
 }
 
