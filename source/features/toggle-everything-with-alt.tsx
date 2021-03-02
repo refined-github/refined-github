@@ -17,12 +17,12 @@ export const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => stri
 			// `parentElement` is the anchor because `clickedItem` might be hidden/replaced after the click
 			const resetScroll = preserveScroll(clickedItem.parentElement!);
 			if (displayProgress) {
-				new Toast('Bulk actions currently being processed.').show();
+				new Toast().show();
 			}
 
 			clickAllExcept(selectorGetter(clickedItem), clickedItem);
 			if (displayProgress) {
-				new Toast('Bulk action processing complete.').done();
+				new Toast().done();
 			}
 
 			resetScroll();
