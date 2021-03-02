@@ -68,7 +68,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 	}
 
 	const text = select('.comment-body', bestComment)!.textContent!.slice(0, 100);
-	const {hash} = select('a.js-timestamp', bestComment)!;
+	const {hash} = select<HTMLAnchorElement>('a.js-timestamp', bestComment)!; // TODO: Drop generic once TypeScript sorts it out, it shouldn't be needed
 	const avatar = select('img.avatar', bestComment)!.cloneNode();
 
 	bestComment.parentElement!.firstElementChild!.after(
@@ -79,7 +79,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 					<ArrowDownIcon/>
 				</span>
 
-				<span className="text-gray timeline-comment-header-text">
+				<span className="text-gray color-text-secondary timeline-comment-header-text">
 					Highest-rated comment: <em>{text}</em>
 				</span>
 			</a>

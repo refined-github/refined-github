@@ -1,4 +1,3 @@
-import './profile-gists-link.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';

@@ -60,7 +60,7 @@ async function getHistoryDropdown(featureName: string): Promise<Element | void> 
 
 	return (
 		<details className="details-reset details-overlay d-inline-block ml-3 position-relative">
-			<summary className="text-gray d-inline" aria-haspopup="true">
+			<summary className="text-gray color-text-secondary d-inline" aria-haspopup="true">
 				Feature history
 				<div className="dropdown-caret ml-1"/>
 			</summary>
@@ -75,7 +75,7 @@ async function getHistoryDropdown(featureName: string): Promise<Element | void> 
 								title={commit.messageHeadline}
 							>
 								<h5>{parseBackticks(commit.messageHeadline)}</h5>
-								<relative-time className="text-gray" datetime={commit.committedDate}/>
+								<relative-time className="text-gray color-text-secondary" datetime={commit.committedDate}/>
 							</a>
 						))}
 					</div>
