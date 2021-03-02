@@ -25,9 +25,7 @@
 	filter: brightness(0.9) saturate(0.5);
 }
 
-[data-color-mode='dark'] .js-plaxify[height='415'],
-[data-color-mode='dark'] .js-plaxify[height='75'],
-[data-color-mode='dark'] .js-plaxify[height='50'] {
+[data-color-mode='dark'] .js-plaxify:is([height='415'], [height='75'], [height='50']) {
 	filter: brightness(0.1) saturate(0.5);
 }
 
@@ -53,9 +51,7 @@
 		filter: brightness(0.9) saturate(0.5);
 	}
 
-	[data-color-mode='auto'] .js-plaxify[height='415'],
-	[data-color-mode='auto'] .js-plaxify[height='75'],
-	[data-color-mode='auto'] .js-plaxify[height='50'] {
+	[data-color-mode='auto'] .js-plaxify:is([height='415'], [height='75'], [height='50']) {
 		filter: brightness(0.1) saturate(0.5);
 	}
 
