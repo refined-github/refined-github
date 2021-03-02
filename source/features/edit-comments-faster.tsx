@@ -12,16 +12,19 @@ function init(): void {
 		add(comment) {
 			comment.classList.add('rgh-edit-comment');
 
-			comment.closest('.js-comment')!.querySelector('.js-comment-header-reaction-button')!.after(
-				<button
-					type="button"
-					role="menuitem"
-					className="timeline-comment-action btn-link js-comment-edit-button"
-					aria-label="Edit comment"
-				>
-					<PencilIcon/>
-				</button>
-			);
+			comment
+				.closest('.js-comment')!
+				.querySelector('.timeline-comment-actions > details:last-child')! // The dropdown
+				.before(
+					<button
+						type="button"
+						role="menuitem"
+						className="timeline-comment-action btn-link js-comment-edit-button"
+						aria-label="Edit comment"
+					>
+						<PencilIcon/>
+					</button>
+				);
 		}
 	});
 }

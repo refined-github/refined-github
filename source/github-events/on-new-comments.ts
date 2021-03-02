@@ -8,6 +8,7 @@ const observer = new MutationObserver(run);
 
 function run(): void {
 	// Run all callbacks without letting an error stop the loop and without silencing it
+	// eslint-disable-next-line unicorn/no-array-for-each
 	handlers.forEach(async callback => {
 		callback();
 	});
