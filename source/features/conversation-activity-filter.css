@@ -8,8 +8,8 @@
 	width: max-content;
 }
 
-/* Debugging-only class. Drop WOW to enable it */
-WOW:root:root .rgh-conversation-activity-filtered {
+/* Debugging-only class. Drop wow to enable it */
+wow:root:root .rgh-conversation-activity-filtered {
 	display: block !important;
-	outline: solid 5px red;
+	outline: solid 5px #f00;
 }
