@@ -5,8 +5,6 @@ import {CheckIcon} from '@primer/octicons-react';
 import {ToastSpinner} from '../helpers/icons';
 
 export default class Toast {
-	constructor() {}
-
 	baseElement(backgroundClass: string, icon: JSX.Element, toastContent: string): JSX.Element {
 		return (
 			<div
