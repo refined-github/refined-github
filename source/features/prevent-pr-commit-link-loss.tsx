@@ -16,7 +16,7 @@ function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEven
 	fixButton.parentElement!.remove();
 }
 
-function getUI(field: HTMLTextAreaElement): HTMLElement {
+function getUI(field: HTMLTextAreaElement): JSX.Element {
 	return select('.rgh-fix-pr-commit-links-container', field.form!) ?? (
 		<div className="flash flash-warn mb-2 rgh-fix-pr-commit-links-container">
 			<AlertIcon/> Your PR Commit link may be <a target="_blank" rel="noopener noreferrer" href="https://github.com/sindresorhus/refined-github/issues/2327">misinterpreted by GitHub.</a>

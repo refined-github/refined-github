@@ -13,7 +13,7 @@ function getPRUrl(prNumber: number): string {
 	return buildRepoURL('pull', prNumber, 'files');
 }
 
-function getDropdown(prs: number[]): HTMLElement {
+function getDropdown(prs: number[]): JSX.Element {
 	// Markup copied from https://primer.style/css/components/dropdown
 	return (
 		<details className="ml-2 dropdown details-reset details-overlay d-inline-block flex-self-center">
@@ -37,7 +37,7 @@ function getDropdown(prs: number[]): HTMLElement {
 	);
 }
 
-function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElement {
+function getSingleButton(prNumber: number, _?: number, prs?: number[]): JSX.Element {
 	return (
 		<a
 			href={getPRUrl(prNumber)}

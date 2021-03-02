@@ -34,7 +34,6 @@ interface GlobalEventHandlersEventMap {
 }
 
 declare namespace JSX {
-	interface Element extends SVGElement, HTMLElement, DocumentFragment {}
 	interface IntrinsicElements {
 		'clipboard-copy': IntrinsicElements.button & {for?: string};
 		'details-dialog': IntrinsicElements.div & {tabindex: string};
@@ -44,12 +43,6 @@ declare namespace JSX {
 		'label': IntrinsicElements.label & {for?: string};
 		'relative-time': IntrinsicElements.div & {datetime: string};
 		'time-ago': IntrinsicElements.div & {datetime: string; format?: string};
-	}
-
-	type BaseElement = IntrinsicElements['div'];
-	interface IntrinsicAttributes extends BaseElement {
-		width?: number;
-		height?: number;
 	}
 }
 

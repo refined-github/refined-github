@@ -40,7 +40,7 @@ function needsSubmission(): boolean {
 	return createCommitTitle() !== inputField.value;
 }
 
-function getUI(): HTMLElement {
+function getUI(): JSX.Element {
 	return select(`${mergeFormSelector} .rgh-sync-pr-commit-title-note`) ?? (
 		<p className="note rgh-sync-pr-commit-title-note">
 			The title of this PR will be updated to match this title. <button type="button" className="btn-link muted-link Link--muted text-underline rgh-sync-pr-commit-title">Cancel</button>

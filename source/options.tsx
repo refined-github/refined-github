@@ -95,7 +95,7 @@ function moveNewAndDisabledFeaturesToTop(): void {
 	}
 }
 
-function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
+function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): JSX.Element {
 	const descriptionElement = domify.one(description)!;
 	descriptionElement.className = 'description';
 

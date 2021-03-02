@@ -5,14 +5,14 @@ import {BookIcon, CheckIcon, DiffIcon} from '@primer/octicons-react';
 
 import features from '.';
 
-function createDiffStyleToggle(): DocumentFragment {
+function createDiffStyleToggle(): JSX.Element {
 	const parameters = new URLSearchParams(location.search);
 	const isUnified = select.exists([
 		'[value="unified"][checked]', // Form in PR
 		'.table-of-contents .selected[href$=unified]' // Link in single commit
 	]);
 
-	function makeLink(type: string, icon: Element, selected: boolean): HTMLElement {
+	function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 		parameters.set('diff', type);
 		return (
 			<a
@@ -33,7 +33,7 @@ function createDiffStyleToggle(): DocumentFragment {
 	);
 }
 
-function createWhitespaceButton(): HTMLElement {
+function createWhitespaceButton(): JSX.Element {
 	const searchParameters = new URLSearchParams(location.search);
 	const isHidingWhitespace = searchParameters.get('w') === '1';
 
@@ -55,7 +55,7 @@ function createWhitespaceButton(): HTMLElement {
 	);
 }
 
-function wrap(...elements: Node[]): DocumentFragment {
+function wrap(...elements: JSX.Element[]): JSX.Element {
 	if (pageDetect.isSingleCommit() || pageDetect.isCompare()) {
 		return (
 			<div className="float-right">

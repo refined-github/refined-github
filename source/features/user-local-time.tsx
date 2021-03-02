@@ -110,7 +110,7 @@ function init(): void {
 			<div className="rgh-local-user-time mt-2 text-gray color-text-secondary text-small">
 				<ClockIcon/> {placeholder}
 			</div>
-		);
+		) as HTMLElement;
 
 		// Adding the time element might change the height of the hovercard and thus break its positioning
 		const hovercardHeight = hovercard.offsetHeight;

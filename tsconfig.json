@@ -5,7 +5,12 @@
 		"declaration": false,
 		"esModuleInterop": true,
 		"noUncheckedIndexedAccess": false,
-		"noPropertyAccessFromIndexSignature": false
+		"noPropertyAccessFromIndexSignature": false,
+		"paths": {
+			"dom-chef": [
+				"./node_modules/jsx-dom"
+			]
+		}
 	},
 	"include": [
 		"source",

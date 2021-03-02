@@ -5,7 +5,7 @@ import onetime from 'onetime';
 import features from '.';
 import {isEditable} from '../helpers/dom-utils';
 
-function splitKeys(keys: string): DocumentFragment[] {
+function splitKeys(keys: string): JSX.Element[] {
 	return keys.split(' ').map(key => <> <kbd>{key}</kbd></>);
 }
 
