@@ -48,7 +48,7 @@ function init(): void {
 	// `mousedown` required to avoid mouse selection on shift-click
 	delegate(document, '.js-toggle-user-reviewed-file-form', 'mousedown', batchToggle);
 	delegate(document, '.js-toggle-user-reviewed-file-form', 'submit', remember);
-	delegate(document, '.js-reviewed-checkbox', 'click', clickAll(markAsViewedSelector, true));
+	delegate(document, '.js-reviewed-checkbox', 'click', clickAll(markAsViewedSelector));
 }
 
 function deinit(): void {
