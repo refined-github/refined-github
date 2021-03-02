@@ -3,27 +3,20 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import Toast from '../github-helpers/toast';
 import features from '.';
 import preserveScroll from '../helpers/preserve-scroll';
 
 type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
 // eslint-disable-next-line import/prefer-default-export
-export const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => string), displayProgress?: boolean): EventHandler => {
+export const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler => {
 	return event => {
 		if (event.altKey && event.isTrusted) {
 			const clickedItem = event.delegateTarget;
 
 			// `parentElement` is the anchor because `clickedItem` might be hidden/replaced after the click
 			const resetScroll = preserveScroll(clickedItem.parentElement!);
-			if (displayProgress) {
-				new Toast().show();
-			}
 
 			clickAllExcept(selectorGetter(clickedItem), clickedItem);
-			if (displayProgress) {
-				new Toast().done();
-			}
 
 			resetScroll();
 		}
