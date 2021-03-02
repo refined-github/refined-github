@@ -1,4 +1,4 @@
-import './conversation-timeline-filter.css';
+import './conversation-activity-filter.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -19,8 +19,8 @@ const states = {
 type State = keyof typeof states;
 
 let currentSetting: State = 'default';
-const dropdownClass = 'rgh-conversation-timeline-filter-dropdown';
-const hiddenClassName = 'rgh-conversation-timeline-filtered';
+const dropdownClass = 'rgh-conversation-activity-filter-dropdown';
+const hiddenClassName = 'rgh-conversation-activity-filtered';
 
 const observer = new SelectorObserver(document.documentElement);
 
@@ -95,7 +95,7 @@ async function handleSelection({target}: Event): Promise<void> {
 	processPage();
 
 	select('.repository-content')!.classList.toggle(
-		'rgh-conversation-timeline-is-filtered',
+		'rgh-conversation-activity-is-filtered',
 		currentSetting !== 'default'
 	);
 
@@ -122,7 +122,7 @@ function createRadio(filterSettings: State): JSX.Element {
 
 function addWidget(position: Element): void {
 	wrap(position, <div className="d-flex flex-items-baseline"/>);
-	position.classList.add('rgh-conversation-timeline-filter');
+	position.classList.add('rgh-conversation-activity-filter');
 	position.after(
 		<details className={`details-reset details-overlay d-inline-block ml-1 position-relative ${dropdownClass}`}>
 			<summary aria-haspopup="true">
@@ -148,7 +148,7 @@ function addWidget(position: Element): void {
 }
 
 function init(): void {
-	observer.observe(':is(.gh-header-sticky .meta, .gh-header-meta .flex-auto):not(.rgh-conversation-timeline-filter)', {
+	observer.observe(':is(.gh-header-sticky .meta, .gh-header-meta .flex-auto):not(.rgh-conversation-activity-filter)', {
 		add: addWidget
 	});
 }

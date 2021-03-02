@@ -1,0 +1,15 @@
+:root:root .rgh-conversation-activity-filtered {
+	display: none !important;
+}
+
+.repository-content.rgh-conversation-activity-is-filtered .rgh-conversation-activity-filter-dropdown .octicon-eye {
+	display: none !important;
+}
+
+.repository-content:not(.rgh-conversation-activity-is-filtered) .rgh-conversation-activity-filter-dropdown .octicon-eye-closed {
+	display: none !important;
+}
+
+.rgh-conversation-activity-filter-dropdown .SelectMenu-modal {
+	width: max-content;
+}
