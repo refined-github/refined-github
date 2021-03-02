@@ -66,6 +66,13 @@ GitHub Enterprise is also supported. More info in the options.
 		<th width="50%">
 			<p><a title="restore-file"></a> Adds a button to revert all the changes to a file in a PR
 			<p><img src="https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif">
+	<tr>
+		<th width="50%">
+			<p><a title="conversation-activity-filter"></a> Lets you hide every event except comments or resolved comments in issues and PRs
+			<p><img src="https://user-images.githubusercontent.com/1402241/109592127-5f922200-7ad4-11eb-8dfa-1d80fb28e70e.png">
+		<th width="50%">
+			<p><a title="single-diff-column-selection"></a> Allows multiline selections on split diffs
+			<p><img src="https://user-images.githubusercontent.com/46634000/98137788-abd0ab00-1ec2-11eb-9e04-6f20786d5dd8.gif">
 </table>
 
 <!--
@@ -198,7 +205,6 @@ Thanks for contributing! 🦋🙌
 - [](# "clean-conversation-headers") [Removes duplicate information in the header of issues and PRs ("User wants to merge X commits from Y into Z")](https://user-images.githubusercontent.com/44045911/89736767-686ec800-da9e-11ea-81c3-252e9813140b.png)
 - [](# "dim-bots") [Dims commits and PRs by bots to reduce noise.](https://user-images.githubusercontent.com/1402241/65263190-44c52b00-db36-11e9-9b33-d275d3c8479d.gif)
 - [](# "esc-to-cancel") [Adds a shortcut to cancel editing a conversation title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
-- [](# "conversation-activity-filter") [Lets you hide every event except comments or resolved comments in issues and PRs.](https://user-images.githubusercontent.com/3819892/103170243-2d014a00-4843-11eb-8a32-7e28eb755f00.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -338,7 +344,6 @@ Thanks for contributing! 🦋🙌
 - [](# "same-page-definition-jump") [Avoids re-loading the page when jumping to function definition in the current file.](https://user-images.githubusercontent.com/16872793/90833649-7a5e2f80-e316-11ea-827d-a4e3ac8ced69.png)
 - [](# "linkify-full-profile-readme-title") [Linkify the readme text on profile pages.](https://user-images.githubusercontent.com/16872793/90910173-ebe4bf00-e3a4-11ea-8fc5-aea3d1a2e5e5.png)
 - [](# "convert-pr-to-draft-improvements") [Moves the "Convert PR to Draft" button to the mergeability box and adds visual feedback to its confirm button.](https://user-images.githubusercontent.com/1402241/95644892-885f3f80-0a7f-11eb-8428-8e0fb0c8dfa5.gif)
-- [](# "single-diff-column-selection") 🔥 [Allows multiline selections on split diffs.](https://user-images.githubusercontent.com/46634000/98137788-abd0ab00-1ec2-11eb-9e04-6f20786d5dd8.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
