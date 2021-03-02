@@ -20,7 +20,7 @@ const states = {
 
 type State = keyof typeof states;
 
-let currentSettings: State = 'default';
+let currentSetting: State = 'default';
 const filterId = 'rgh-timeline-filters';
 const hiddenClassName = 'rgh-conversation-timeline-filtered';
 
@@ -31,7 +31,7 @@ function hide(event: HTMLElement, hide: boolean): void {
 }
 
 function hideWhen(event: HTMLElement, ...statesThatShouldHideIt: State[]): void {
-	hide(event, statesThatShouldHideIt.includes(currentSettings));
+	hide(event, statesThatShouldHideIt.includes(currentSetting));
 }
 
 function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
@@ -48,7 +48,7 @@ function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
 
 function processReview(review: HTMLElement): void {
 	const shouldHideWholeReview =
-		['showOnlyUnresolvedComments', 'showOnlyUnresolvedReviews'].includes(currentSettings) &&
+		['showOnlyUnresolvedComments', 'showOnlyUnresolvedReviews'].includes(currentSetting) &&
 		isWholeReviewEssentiallyResolved(review);
 
 	hide(review, shouldHideWholeReview);
@@ -96,7 +96,7 @@ function processTimelineItem(item: HTMLElement): void {
 }
 
 function processPage(): void {
-	if (currentSettings === 'default') {
+	if (currentSetting === 'default') {
 		removeClassFromAll(hiddenClassName);
 	} else {
 		for (const element of select.all('.js-timeline-item')) {
@@ -109,9 +109,9 @@ async function handleSelection(): Promise<void> {
 	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
 	await delay(1);
 
-	currentSettings = select(`#${filterId} [aria-checked="true"]`)!.dataset.value as State;
+	currentSetting = select(`#${filterId} [aria-checked="true"]`)!.dataset.value as State;
 
-	select(`#${filterId} .reason`)!.textContent = states[currentSettings];
+	select(`#${filterId} .reason`)!.textContent = states[currentSetting];
 
 	// `onNewComments` registers the selectors only once
 	onNewComments(processPage);
@@ -127,7 +127,7 @@ function createRadio(filterSettings: State): JSX.Element {
 			className="select-menu-item"
 			role="menuitemradio"
 			tabIndex={0}
-			aria-checked={filterSettings === currentSettings ? 'true' : 'false'}
+			aria-checked={filterSettings === currentSetting ? 'true' : 'false'}
 			data-value={filterSettings}
 		>
 			<CheckIcon className="select-menu-item-icon octicon octicon-check" aria-hidden="true"/>
