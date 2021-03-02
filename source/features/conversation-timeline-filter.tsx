@@ -14,8 +14,7 @@ import {removeClassFromAll} from '../helpers/dom-utils';
 const states = {
 	default: '',
 	showOnlyComments: 'Only show comments',
-	showOnlyUnresolvedComments: 'Only show unresolved comments',
-	showOnlyUnresolvedReviews: 'Only show unresolved reviews'
+	showOnlyUnresolvedComments: 'Only show unresolved comments'
 };
 
 type State = keyof typeof states;
@@ -25,14 +24,6 @@ const filterId = 'rgh-timeline-filters';
 const hiddenClassName = 'rgh-conversation-timeline-filtered';
 
 const observer = new SelectorObserver(document.documentElement);
-
-function hide(event: HTMLElement, hide: boolean): void {
-	event.classList.toggle(hiddenClassName, hide);
-}
-
-function hideWhen(event: HTMLElement, ...statesThatShouldHideIt: State[]): void {
-	hide(event, statesThatShouldHideIt.includes(currentSetting));
-}
 
 function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
 	const hasMainComment = select.exists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
@@ -46,61 +37,48 @@ function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
 	return !hasUnresolvedThread || !hasUnresolvedThreadComment;
 }
 
+function processSimpleComment(item: HTMLElement): void {
+	if (currentSetting === 'showOnlyComments') {
+		return;
+	}
+
+	// Hide comments marked as resolved/hidden
+	if (select.exists('.minimized-comment:not(.d-none) > details', item)) {
+		item.classList.add(hiddenClassName);
+	}
+}
+
 function processReview(review: HTMLElement): void {
-	const shouldHideWholeReview =
-		['showOnlyUnresolvedComments', 'showOnlyUnresolvedReviews'].includes(currentSetting) &&
-		isWholeReviewEssentiallyResolved(review);
+	if (currentSetting === 'showOnlyComments') {
+		return;
+	}
 
-	hide(review, shouldHideWholeReview);
-
+	const shouldHideWholeReview = isWholeReviewEssentiallyResolved(review);
 	if (shouldHideWholeReview) {
+		review.classList.add(hiddenClassName);
 		return;
 	}
 
 	for (const threadContainer of select.all('.js-resolvable-timeline-thread-container[data-resolved="true"]', review)) {
-		hideWhen(
-			threadContainer,
-			'showOnlyUnresolvedReviews'
-		);
+		threadContainer.classList.add(hiddenClassName);
 	}
-}
-
-function processTimelineItem(item: HTMLElement): void {
-	// PR review thread
-	if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
-		processReview(item);
-		return;
-	}
-
-	// Non-comment event, always hide
-	if (!select.exists('.js-comment-container', item)) {
-		hide(item, true);
-		return;
-	}
-
-	// The comment was "hidden", thefore it's considered resolved
-	if (select.exists('.rgh-preview-hidden-comments', item)) {
-		hideWhen(
-			item,
-			'showOnlyUnresolvedComments',
-			'showOnlyUnresolvedReviews'
-		);
-		return;
-	}
-
-	// Regular, unhidden comments
-	hideWhen(
-		item,
-		'showOnlyUnresolvedReviews'
-	);
 }
 
 function processPage(): void {
+	removeClassFromAll(hiddenClassName);
+
 	if (currentSetting === 'default') {
-		removeClassFromAll(hiddenClassName);
-	} else {
-		for (const element of select.all('.js-timeline-item')) {
-			processTimelineItem(element);
+		return;
+	}
+
+	for (const item of select.all('.js-timeline-item')) {
+		if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
+			processReview(item);
+		} else if (select.exists('.comment-body', item)) {
+			processSimpleComment(item);
+		} else {
+			// Non-comment event, always hide
+			item.classList.add(hiddenClassName);
 		}
 	}
 }
@@ -146,8 +124,7 @@ function addToSidebar(position: Element): void {
 			content: [
 				createRadio('default'),
 				createRadio('showOnlyComments'),
-				createRadio('showOnlyUnresolvedComments'),
-				pageDetect.isPRConversation() && createRadio('showOnlyUnresolvedReviews')
+				createRadio('showOnlyUnresolvedComments')
 			]
 		})
 	);
