@@ -4,7 +4,7 @@ Thanks for contributing! 🍄 Do not ignore this template, plz.
 
 1. Does this PR close/fix an existing issue? Write something like `Closes #10`
 2. What pages does this PR affect? Include some URLs where you tested the code or where reviewers can test it.
-3. Add a screenshot if your PR makes visual changes
+3. If applicable, add demostrative screenshots or gifs to demonstrate any changes to reviewers.
 
 Lastly:
 
