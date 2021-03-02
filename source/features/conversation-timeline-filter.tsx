@@ -144,7 +144,7 @@ function addWidget(position: Element): void {
 }
 
 function init(): void {
-	observer.observe('.gh-header-sticky .meta:not(.rgh-conversation-timeline-filter)', {
+	observer.observe(':is(.gh-header-sticky .meta, .gh-header-meta .flex-auto):not(.rgh-conversation-timeline-filter)', {
 		add: addWidget
 	});
 }
