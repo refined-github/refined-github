@@ -10,7 +10,7 @@ import {ESBuildPlugin} from 'esbuild-loader';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {Configuration} from 'webpack';
-import {parse as parseMarkdown} from 'markdown-wasm/dist/markdown.node';
+import {parse as parseMarkdown} from 'markdown-wasm/dist/markdown.node.js';
 
 let isWatching = false;
 
