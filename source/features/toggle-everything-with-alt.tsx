@@ -1,14 +1,11 @@
 import mem from 'mem';
-import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import {CheckIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
 import Toast from '../github-helpers/toast';
+import features from '.';
 import preserveScroll from '../helpers/preserve-scroll';
-import {ToastSpinner} from '../helpers/icons';
 
 type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
 // eslint-disable-next-line import/prefer-default-export
@@ -20,12 +17,12 @@ export const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => stri
 			// `parentElement` is the anchor because `clickedItem` might be hidden/replaced after the click
 			const resetScroll = preserveScroll(clickedItem.parentElement!);
 			if (displayProgress) {
-				new Toast('Toast--loading', <ToastSpinner/>, 'Bulk actions currently being processed.').show();
+				new Toast('Bulk actions currently being processed.').show();
 			}
 
 			clickAllExcept(selectorGetter(clickedItem), clickedItem);
 			if (displayProgress) {
-				new Toast('Toast--success', <CheckIcon/>, 'Bulk action processing complete.').done();
+				new Toast('Bulk action processing complete.').done();
 			}
 
 			resetScroll();
