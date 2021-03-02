@@ -1,3 +1,15 @@
 :root:root .rgh-conversation-timeline-filtered {
 	display: none !important;
 }
+
+.repository-content.rgh-conversation-timeline-is-filtered .rgh-conversation-timeline-filter-dropdown .octicon-eye {
+	display: none !important;
+}
+
+.repository-content:not(.rgh-conversation-timeline-is-filtered) .rgh-conversation-timeline-filter-dropdown .octicon-eye-closed {
+	display: none !important;
+}
+
+.rgh-conversation-timeline-filter-dropdown .SelectMenu-modal {
+	width: max-content;
+}
