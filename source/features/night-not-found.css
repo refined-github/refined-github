@@ -54,3 +54,11 @@
 		filter: brightness(0.15) saturate(0.5);
 	}
 }
+
+.js-plaxify[height='230'] {
+	transition: transform 0.1s, filter 1s;
+}
+
+.js-plaxify[height='230']:hover {
+	filter: none;
+}
