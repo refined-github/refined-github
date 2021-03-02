@@ -1,3 +1,12 @@
+/* Brighten Octocat on hover */
+.js-plaxify[height='230'] {
+	transition: transform 0.1s, filter 1s;
+}
+
+.js-plaxify[height='230']:hover {
+	filter: none;
+}
+
 /* These are 2 exact copies: one for dark mode and the other one for auto mode */
 
 [data-color-mode='dark'] .js-plaxify[height='249'] {
@@ -53,12 +62,4 @@
 	[data-color-mode='auto'] .js-plaxify[height='123'] {
 		filter: brightness(0.15) saturate(0.5);
 	}
-}
-
-.js-plaxify[height='230'] {
-	transition: transform 0.1s, filter 1s;
-}
-
-.js-plaxify[height='230']:hover {
-	filter: none;
 }
