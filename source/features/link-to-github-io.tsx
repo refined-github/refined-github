@@ -20,7 +20,7 @@ function initRepoList(): void {
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					<LinkExternalIcon className="v-align-middle"/>
+					<span className="v-align-middle"><LinkExternalIcon/></span>
 				</a>
 			);
 		}
@@ -36,7 +36,7 @@ async function initRepo(): Promise<void> {
 			target="_blank"
 			rel="noopener noreferrer"
 		>
-			<LinkExternalIcon className="v-align-middle"/>
+			<span className="v-align-middle"><LinkExternalIcon/></span>
 		</a>
 	);
 }

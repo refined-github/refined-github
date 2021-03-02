@@ -20,8 +20,7 @@ async function init(): Promise<void | false> {
 	const container = await elementReady(selector, {waitForChildren: false});
 	container!.prepend(
 		<a className="btn mb-2 float-right" href={downloadUrl.href}>
-			<RepoForkedIcon className="mr-2"/>
-			Find useful forks
+			<span className="mr-2"><RepoForkedIcon/></span>Find useful forks
 		</a>
 	);
 }

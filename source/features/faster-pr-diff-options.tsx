@@ -50,7 +50,7 @@ function createWhitespaceButton(): JSX.Element {
 			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : ''}`}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}
 		>
-			{isHidingWhitespace && <CheckIcon/>} No Whitespace
+			{isHidingWhitespace && <span className="mx-1 text-gray-light color-text-tertiary v-align-middle"><CheckIcon/></span>} No Whitespace
 		</a>
 	);
 }
