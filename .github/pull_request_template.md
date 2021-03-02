@@ -1,11 +1,19 @@
-<!-- Please follow the template -->
-Thanks for contributing! 🍄
+<!--
 
-1. LINKED ISSUES:
-   Does this PR close/fix an existing issue? Write something like `Closes #10`
+Thanks for contributing! 🍄 Do not ignore this template, plz.
 
-2. TEST URLS:
-   Add some test URLs
+1. Does this PR close/fix an existing issue? Write something like `Closes #10`
+2. What pages does this PR affect? Include some URLs where you tested the code or where reviewers can test it.
+3. Add a screenshot if your PR makes visual changes
 
-3. SCREENSHOT:
-   Add a screenshot here if your PR makes visual changes
+Lastly:
+
+4. Open the PR as draft and review the code yourself first. Fix what you find and leave comments on weird code, if necessary.
+
+-->
+
+## Test URLs
+
+
+## Screenshot
+
