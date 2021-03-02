@@ -10,15 +10,14 @@ import features from '.';
 import onNewComments from '../github-events/on-new-comments';
 import {removeClassFromAll, wrap} from '../helpers/dom-utils';
 
-const states = {
-	default: '',
-	showOnlyComments: 'Only show comments',
-	showOnlyUnresolvedComments: 'Only show unresolved comments'
-};
+const states = [
+	'Only show comments',
+	'Only show unresolved comments'
+] as const;
 
-type State = keyof typeof states;
+type State = typeof states[number];
 
-let currentSetting: State = 'default';
+let currentSetting: State | undefined;
 const dropdownClass = 'rgh-conversation-activity-filter-dropdown';
 const hiddenClassName = 'rgh-conversation-activity-filtered';
 
@@ -37,7 +36,7 @@ function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
 }
 
 function processSimpleComment(item: HTMLElement): void {
-	if (currentSetting === 'showOnlyComments') {
+	if (currentSetting === 'Only show comments') {
 		return;
 	}
 
@@ -48,7 +47,7 @@ function processSimpleComment(item: HTMLElement): void {
 }
 
 function processReview(review: HTMLElement): void {
-	if (currentSetting === 'showOnlyComments') {
+	if (currentSetting === 'Only show comments') {
 		return;
 	}
 
@@ -66,7 +65,7 @@ function processReview(review: HTMLElement): void {
 function processPage(): void {
 	removeClassFromAll(hiddenClassName);
 
-	if (currentSetting === 'default') {
+	if (!currentSetting) {
 		return;
 	}
 
@@ -86,7 +85,7 @@ async function handleSelection({target}: Event): Promise<void> {
 	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
 	await delay(1);
 
-	currentSetting = select('[aria-checked="true"]', target as Element)!.dataset.value as State;
+	currentSetting = select('[aria-checked="true"]', target as Element)!.dataset.value as State | undefined;
 
 	// `onNewComments` registers the selectors only once
 	onNewComments(processPage);
@@ -96,7 +95,7 @@ async function handleSelection({target}: Event): Promise<void> {
 
 	select('.repository-content')!.classList.toggle(
 		'rgh-conversation-activity-is-filtered',
-		currentSetting !== 'default'
+		Boolean(currentSetting)
 	);
 
 	// Update the state of the other dropdown
@@ -104,8 +103,8 @@ async function handleSelection({target}: Event): Promise<void> {
 	select(`.${dropdownClass} [aria-checked="true"]:not([data-value="${currentSetting}"])`)!.setAttribute('aria-checked', 'false');
 }
 
-function createRadio(filterSettings: State): JSX.Element {
-	const label = states[filterSettings];
+function createRadio(filterSettings?: State): JSX.Element {
+	const label = filterSettings ?? 'Show all';
 	return (
 		<div
 			className="select-menu-item"
@@ -115,7 +114,7 @@ function createRadio(filterSettings: State): JSX.Element {
 			data-value={filterSettings}
 		>
 			<CheckIcon className="select-menu-item-icon octicon octicon-check" aria-hidden="true"/>
-			<div className="select-menu-item-text">{label || 'Show all'}</div>
+			<div className="select-menu-item-text">{label}</div>
 		</div>
 	);
 }
@@ -137,9 +136,9 @@ function addWidget(position: Element): void {
 			>
 				<div className="SelectMenu-modal">
 					<div className="SelectMenu-list">
-						{createRadio('default')}
-						{createRadio('showOnlyComments')}
-						{createRadio('showOnlyUnresolvedComments')}
+						{createRadio()}
+						{createRadio('Only show comments')}
+						{createRadio('Only show unresolved comments')}
 					</div>
 				</div>
 			</details-menu>
