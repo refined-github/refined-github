@@ -15,9 +15,7 @@ export const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => stri
 
 			// `parentElement` is the anchor because `clickedItem` might be hidden/replaced after the click
 			const resetScroll = preserveScroll(clickedItem.parentElement!);
-
 			clickAllExcept(selectorGetter(clickedItem), clickedItem);
-
 			resetScroll();
 		}
 	};
