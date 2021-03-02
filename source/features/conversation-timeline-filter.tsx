@@ -127,7 +127,7 @@ function addWidget(position: Element): void {
 		<details className={`details-reset details-overlay d-inline-block ml-1 position-relative ${dropdownClass}`}>
 			<summary aria-haspopup="true">
 				<EyeIcon/>
-				<EyeClosedIcon/>
+				<EyeClosedIcon className="color-icon-danger"/>
 				<div className="dropdown-caret ml-1"/>
 			</summary>
 			<details-menu
