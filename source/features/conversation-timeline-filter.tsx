@@ -19,7 +19,7 @@ const states = {
 type State = keyof typeof states;
 
 let currentSetting: State = 'default';
-const filterId = 'rgh-conversation-timeline-filter-dropdown';
+const dropdownClass = 'rgh-conversation-timeline-filter-dropdown';
 const hiddenClassName = 'rgh-conversation-timeline-filtered';
 
 const observer = new SelectorObserver(document.documentElement);
@@ -88,16 +88,20 @@ async function handleSelection({target}: Event): Promise<void> {
 
 	currentSetting = select('[aria-checked="true"]', target as Element)!.dataset.value as State;
 
-	select('.repository-content')!.classList.toggle(
-		'rgh-conversation-timeline-is-filtered',
-		currentSetting !== 'default'
-	);
-
 	// `onNewComments` registers the selectors only once
 	onNewComments(processPage);
 
 	// Actually process it right now
 	processPage();
+
+	select('.repository-content')!.classList.toggle(
+		'rgh-conversation-timeline-is-filtered',
+		currentSetting !== 'default'
+	);
+
+	// Update the state of the other dropdown
+	select(`.${dropdownClass} [aria-checked="false"][data-value="${currentSetting}"]`)!.setAttribute('aria-checked', 'true');
+	select(`.${dropdownClass} [aria-checked="true"]:not([data-value="${currentSetting}"])`)!.setAttribute('aria-checked', 'false');
 }
 
 function createRadio(filterSettings: State): JSX.Element {
@@ -120,7 +124,7 @@ function addWidget(position: Element): void {
 	wrap(position, <div className="d-flex flex-items-baseline"/>);
 	position.classList.add('rgh-conversation-timeline-filter');
 	position.after(
-		<details className={`details-reset details-overlay d-inline-block ml-1 position-relative ${filterId}`}>
+		<details className={`details-reset details-overlay d-inline-block ml-1 position-relative ${dropdownClass}`}>
 			<summary aria-haspopup="true">
 				<EyeIcon/>
 				<EyeClosedIcon/>
