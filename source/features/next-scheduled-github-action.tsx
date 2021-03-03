@@ -53,7 +53,7 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	for (const workflowListItem of select.all('[href*="?query"]', await elementReady('.hx_actions-sidebar'))) {
+	for (const workflowListItem of select.all('.filter-item[href*="/workflows/"]', await elementReady('.hx_actions-sidebar'))) {
 		if (select.exists('.octicon-stop', workflowListItem)) {
 			continue;
 		}
@@ -65,7 +65,10 @@ async function init(): Promise<false | void> {
 
 		const nextTime = parseCron.nextDate(workflows[workflowName]);
 		if (nextTime) {
-			workflowListItem.append(<em>(next <relative-time datetime={nextTime.toString()}/>)</em>);
+			const relativeTime = <relative-time datetime={nextTime.toString()}/>;
+			workflowListItem.append(<em>(next {relativeTime})</em>);
+			workflowListItem.parentElement!.classList.add('tooltipped', 'tooltipped-n');
+			workflowListItem.parentElement!.setAttribute('aria-label', 'Next ' + relativeTime.textContent!.toString());
 		}
 	}
 }
