@@ -1,13 +1,10 @@
 /* Hide removed content */
-.rgh-hide-markdown-diff .markdown-body del,
-.rgh-hide-markdown-diff .markdown-body .removed {
+.rgh-hide-markdown-diff .markdown-body :is(del, .removed) {
 	display: none !important;
 }
 
 /* Remove decorations on added/changed content */
-.rgh-hide-markdown-diff .markdown-body ins,
-.rgh-hide-markdown-diff .markdown-body .added,
-.rgh-hide-markdown-diff .markdown-body .changed {
+.rgh-hide-markdown-diff .markdown-body :is(ins, .added, .changed) {
 	color: var(--color-text-primary) !important;
 	background: none !important;
 	box-shadow: none !important;
@@ -29,7 +26,6 @@
 	display: none !important;
 }
 
-.loading-preview .rgh-preview-toggle,
-.show-preview .rgh-preview-toggle {
+:is(.loading-preview, .show-preview) .rgh-preview-toggle {
 	display: block !important;
 }

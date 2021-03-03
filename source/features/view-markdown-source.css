@@ -1,5 +1,4 @@
-.rgh-markdown-source .blame-commit,
-.rgh-markdown-source .blob-reblame {
+.rgh-markdown-source :is(.blame-commit, .blob-reblame) {
 	display: none;
 }
 
