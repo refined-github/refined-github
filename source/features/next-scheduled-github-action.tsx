@@ -77,7 +77,7 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepositoryActions,
 		// Enable feature on the pages of selected workflows
-		() => /actions\/workflows\/\w+\.ya?ml$/.test(location.pathname)
+		() => /actions\/workflows\/.+\.ya?ml$/.test(location.pathname)
 	],
 	awaitDomReady: false,
 	init
