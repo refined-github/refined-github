@@ -1,10 +1,25 @@
 import './hide-markdown-diff.css';
 import React from 'dom-chef';
+import select from 'select-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+
+// Fix duplicated content in changed quote blocks #4035
+function fixDuplicatedContent(): void {
+	if (!select.exists('.js-code-editor.show-preview')) {
+		return;
+	}
+
+	for (const possibleDuplicate of select.all('.markdown-body .changed > .changed_tag[data-before-tag="blockquote"] + p')) {
+		// Content is duplicated if already present in a sibling <ins> element
+		if (possibleDuplicate.textContent && select('ins', possibleDuplicate.parentElement!)?.textContent?.includes(possibleDuplicate.textContent)) {
+			possibleDuplicate.classList.add('removed');
+		}
+	}
+}
 
 function togglePreviewResult({delegateTarget: target}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	document.body.classList.toggle('rgh-hide-markdown-diff', target.value === 'enable');
@@ -20,6 +35,7 @@ async function init(): Promise<void> {
 		</div>
 	);
 	delegate(document, '.rgh-preview-button:not(.selected)', 'click', togglePreviewResult);
+	new MutationObserver(fixDuplicatedContent).observe((await elementReady('.js-code-editor'))!, {attributeFilter: ['class']});
 }
 
 void features.add(__filebasename, {

@@ -8,9 +8,20 @@
 .rgh-hide-markdown-diff .markdown-body ins,
 .rgh-hide-markdown-diff .markdown-body .added,
 .rgh-hide-markdown-diff .markdown-body .changed {
-	color: inherit !important;
+	color: var(--color-text-primary) !important;
 	background: none !important;
 	box-shadow: none !important;
+}
+
+.rgh-hide-markdown-diff .markdown-body code {
+	color: var(--color-text-primary) !important;
+	background-color: var(--color-markdown-code-bg) !important;
+	border: none !important;
+}
+
+/* Fix missing indentation in changed quote blocks #4035 */
+.rgh-hide-markdown-diff .markdown-body .changed > .changed_tag[data-before-tag='blockquote'] ~ * {
+	margin-left: 15px !important;
 }
 
 /* Only show the toggle when the preview tab is selected */
