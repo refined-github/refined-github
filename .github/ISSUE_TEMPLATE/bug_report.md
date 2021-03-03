@@ -1,15 +1,17 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Report a bug you encountered using Refined GitHub
 labels: bug
 ---
 
 <!--
 Thanks for reporting a bug! ⛰
 
-1. Make sure the bug is caused by Refined GitHub. Try disabling the extension first.
-2. Include a full URL where the bug appears.
-3. Include a screenshot/gif
+Make sure the bug is caused by Refined GitHub. Try disabling the extension first.
 
-Issues without a URL/screenshot will be closed
+Show us the bug and help us replicate it, include:
+
+1. A REAL URL where the bug appears. If it happens on a private repo, find an equivalent public URL.
+2. A screenshot/video/gif of the issue, if it’s visual.
+3. Any related errors in the browser’s console, if any.
 -->
