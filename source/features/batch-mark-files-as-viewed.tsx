@@ -2,6 +2,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
+import Toast from '../github-helpers/toast';
 import features from '.';
 import {clickAll} from './toggle-everything-with-alt';
 
@@ -39,6 +40,12 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 	}
 }
 
+function markAsViewed(): void {
+	new Toast().show();
+	clickAll(markAsViewedSelector);
+	new Toast().done();
+}
+
 function markAsViewedSelector(target: HTMLElement): string {
 	const checked = (target as HTMLInputElement).checked ? ':not([checked])' : '[checked]';
 	return '.js-reviewed-checkbox' + checked;
@@ -48,7 +55,7 @@ function init(): void {
 	// `mousedown` required to avoid mouse selection on shift-click
 	delegate(document, '.js-toggle-user-reviewed-file-form', 'mousedown', batchToggle);
 	delegate(document, '.js-toggle-user-reviewed-file-form', 'submit', remember);
-	delegate(document, '.js-reviewed-checkbox', 'click', clickAll(markAsViewedSelector));
+	delegate(document, '.js-reviewed-checkbox', 'click', markAsViewed);
 }
 
 function deinit(): void {
