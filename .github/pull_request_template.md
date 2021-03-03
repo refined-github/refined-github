@@ -7,7 +7,7 @@ Thanks for contributing! 🍄 Do not ignore this template, plz.
 Help us test and visualize this PR:
 
 2. What pages does this PR affect? Include some REAL URLs where you tested the code
-3. If applicable, add demostrative screenshots or gifs
+3. If applicable, add demonstrative screenshots or gifs
 
 Lastly:
 
