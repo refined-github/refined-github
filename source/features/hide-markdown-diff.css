@@ -16,7 +16,7 @@
 	border: none !important;
 }
 
-.rgh-hide-markdown-diff .markdown-body blockquote {
+.rgh-hide-markdown-diff .markdown-body blockquote :is(ins, .added, .changed) {
 	color: var(--color-text-tertiary) !important;
 }
 
