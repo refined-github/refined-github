@@ -1,10 +1,18 @@
 import './hide-markdown-diff.css';
 import React from 'dom-chef';
+import select from 'select-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+
+// Fix missing indentation in changed quote blocks #4035
+function fixMissingIndentation(): void {
+	for (const changedBlockquote of select.all('.js-code-editor.show-preview .markdown-body .changed > .changed_tag[data-before-tag="blockquote"]')) {
+		changedBlockquote.parentElement!.classList.add('ml-3');
+	}
+}
 
 function togglePreviewResult({delegateTarget: target}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	document.body.classList.toggle('rgh-hide-markdown-diff', target.value === 'enable');
@@ -20,6 +28,7 @@ async function init(): Promise<void> {
 		</div>
 	);
 	delegate(document, '.rgh-preview-button:not(.selected)', 'click', togglePreviewResult);
+	new MutationObserver(fixMissingIndentation).observe((await elementReady('.js-code-editor'))!, {attributeFilter: ['class']});
 }
 
 void features.add(__filebasename, {
