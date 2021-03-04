@@ -16,7 +16,11 @@
 	border: none !important;
 }
 
-/* Fix missing indentation in changed quote blocks #4035 */
+/* Fix duplicated content and missing indentation in changed quote blocks #4035 */
+.rgh-hide-markdown-diff .markdown-body .changed > p:not([class]):not(:empty) {
+	display: none !important;
+}
+
 .rgh-hide-markdown-diff .markdown-body .changed > .changed_tag[data-before-tag='blockquote'] ~ * {
 	margin-left: 15px !important;
 }
