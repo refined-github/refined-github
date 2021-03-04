@@ -10,14 +10,14 @@
 	box-shadow: none !important;
 }
 
-.rgh-hide-markdown-diff .markdown-body blockquote :is(ins, .added, .changed) {
-	color: var(--color-text-tertiary) !important;
-}
-
 .rgh-hide-markdown-diff .markdown-body code {
 	color: var(--color-text-primary) !important;
 	background-color: var(--color-markdown-code-bg) !important;
 	border: none !important;
+}
+
+.rgh-hide-markdown-diff .markdown-body blockquote {
+	color: var(--color-text-tertiary) !important;
 }
 
 /* Fix duplicated content and missing indentation in changed quote blocks #4035 */
