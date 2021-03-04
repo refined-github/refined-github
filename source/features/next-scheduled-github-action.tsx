@@ -75,9 +75,7 @@ async function init(): Promise<false | void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepositoryActions,
-		// Enable feature on the pages of selected workflows
-		() => /actions\/workflows\/.+\.ya?ml$/.test(location.pathname)
+		pageDetect.isRepositoryActions
 	],
 	awaitDomReady: false,
 	init
