@@ -9,7 +9,7 @@ import features from '.';
 
 // Fix missing indentation in changed quote blocks #4035
 function fixMissingIndentation(): void {
-	for (const changedBlockquote of select.all('.js-code-editor.show-preview .markdown-body .changed > .changed_tag[data-before-tag="blockquote"]')) {
+	for (const changedBlockquote of select.all('.show-preview .changed > .changed_tag[data-before-tag="blockquote"]')) {
 		changedBlockquote.parentElement!.classList.add('ml-3');
 	}
 }
