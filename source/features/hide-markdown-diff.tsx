@@ -28,6 +28,7 @@ async function init(): Promise<void> {
 		</div>
 	);
 	delegate(document, '.rgh-preview-button:not(.selected)', 'click', togglePreviewResult);
+	// Watch for when the content in the "Preview" tab has finished loading
 	new MutationObserver(fixMissingIndentation).observe((await elementReady('.js-code-editor'))!, {attributeFilter: ['class']});
 }
 
