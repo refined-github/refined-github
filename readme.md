@@ -71,8 +71,8 @@ GitHub Enterprise is also supported. More info in the options.
 			<p><a title="conversation-activity-filter"></a> Lets you hide every event except comments or resolved comments in issues and PRs
 			<p><img src="https://user-images.githubusercontent.com/1402241/109592127-5f922200-7ad4-11eb-8dfa-1d80fb28e70e.png">
 		<th width="50%">
-			<p><a title="single-diff-column-selection"></a> Allows multiline selections on split diffs
-			<p><img src="https://user-images.githubusercontent.com/46634000/98137788-abd0ab00-1ec2-11eb-9e04-6f20786d5dd8.gif">
+			<p><a title="batch-open-conversations"></a> Lets you open multiple conversations at once
+			<p><img src="https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif">
 </table>
 
 <!--
@@ -185,7 +185,6 @@ Thanks for contributing! 🦋🙌
 
 ### Conversations
 
-- [](# "batch-open-conversations") 🔥 [Lets you open multiple conversations at once via checkboxes.](https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif)
 - [](# "split-issue-pr-search-results") [Separates issues from PRs in the global search.](https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png)
 - [](# "sticky-conversation-list-toolbar") [Makes the conversation list’s filters toolbar sticky.](https://user-images.githubusercontent.com/380914/39878141-7632e61a-542c-11e8-9c66-74fcd3a134aa.gif)
 - [](# "highlight-collaborators-and-own-conversations") [Highlights conversations opened by you or the current repo’s collaborators.](https://user-images.githubusercontent.com/1402241/65013882-03225d80-d947-11e9-8eb8-5507bc1fc14b.png)
