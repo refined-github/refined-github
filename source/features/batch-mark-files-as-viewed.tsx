@@ -1,3 +1,4 @@
+import delay from 'delay';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -40,22 +41,27 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 	}
 }
 
-function markAsViewed(): void {
-	new Toast().show();
-	clickAll(markAsViewedSelector);
-	new Toast().done();
-}
-
 function markAsViewedSelector(target: HTMLElement): string {
 	const checked = (target as HTMLInputElement).checked ? ':not([checked])' : '[checked]';
 	return '.js-reviewed-checkbox' + checked;
+}
+
+const markAsViewed = clickAll(markAsViewedSelector);
+
+async function onAltClick(event: delegate.Event<MouseEvent, HTMLElement>): Promise<void> {
+	if (event.altKey && event.isTrusted) {
+		new Toast().show();
+		await delay(30); // Without this, the Toast doesn't appear in time
+		markAsViewed(event);
+		new Toast().done();
+	}
 }
 
 function init(): void {
 	// `mousedown` required to avoid mouse selection on shift-click
 	delegate(document, '.js-toggle-user-reviewed-file-form', 'mousedown', batchToggle);
 	delegate(document, '.js-toggle-user-reviewed-file-form', 'submit', remember);
-	delegate(document, '.js-reviewed-checkbox', 'click', markAsViewed);
+	delegate(document, '.js-reviewed-checkbox', 'click', onAltClick);
 }
 
 function deinit(): void {
