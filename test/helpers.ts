@@ -14,7 +14,6 @@ import {
 	prCommitUrlRegex,
 	prCompareUrlRegex
 } from '../source/github-helpers';
-import isUselessComment from '../source/helpers/useless-comments';
 
 test('getConversationNumber', t => {
 	const pairs = new Map<string, string | undefined>([
@@ -229,26 +228,4 @@ test('preventPrCommitLinkLoss', t => {
 		'I like [turtles](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)',
 		'It should ignore Markdown links'
 	);
-});
-
-test('isUselessComment', t => {
-	t.true(isUselessComment('+1'));
-	t.true(isUselessComment('+1!'));
-	t.true(isUselessComment('+10'));
-	t.true(isUselessComment('+9000'));
-	t.true(isUselessComment('-1'));
-	t.true(isUselessComment('👍'));
-	t.true(isUselessComment('👍🏾'));
-	t.true(isUselessComment('me too'));
-	t.true(isUselessComment('ditto'));
-	t.true(isUselessComment('Dito'));
-	t.true(isUselessComment('following'));
-	t.true(isUselessComment('Followig'));
-	t.true(isUselessComment('please update!'));
-	t.true(isUselessComment('please update 🙏🏻'));
-	t.true(isUselessComment('Same here, please update, thanks'));
-	t.true(isUselessComment('Same here! Please update, thank you.'));
-
-	t.false(isUselessComment('+1\n<some useful information>'));
-	t.false(isUselessComment('Same here. <some useful information>'));
 });

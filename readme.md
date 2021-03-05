@@ -13,11 +13,11 @@ GitHub Enterprise is also supported. More info in the options.
 [link-chrome]: https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf 'Version published on Chrome Web Store'
 [link-firefox]: https://addons.mozilla.org/en-US/firefox/addon/refined-github-/ 'Version published on Mozilla Add-ons'
 
-[<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/chrome/chrome_128x128.png" width="48" alt="Chrome" valign="middle">][link-chrome] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-chrome] also compatible with [<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/edge/edge_48x48.png" width="24" alt="Edge" valign="middle">][link-chrome] [<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/opera/opera_48x48.png" width="24" alt="Opera" valign="middle">][link-chrome]
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/chrome/chrome.svg" width="48" alt="Chrome" valign="middle">][link-chrome] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-chrome] also compatible with [<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/edge/edge.svg" width="24" alt="Edge" valign="middle">][link-chrome] [<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/opera/opera.svg" width="24" alt="Opera" valign="middle">][link-chrome]
 
-[<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/firefox/firefox_128x128.png" width="48" alt="Firefox" valign="middle">][link-firefox] [<img valign="middle" src="https://img.shields.io/amo/v/refined-github-.svg?label=%20">][link-firefox]
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/firefox/firefox.svg" width="48" alt="Firefox" valign="middle">][link-firefox] [<img valign="middle" src="https://img.shields.io/amo/v/refined-github-.svg?label=%20">][link-firefox]
 
-<img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/safari/safari_128x128.png" width="48" alt="Safari" valign="middle"> Coming soon, [help us set it up](https://github.com/sindresorhus/refined-github/issues/3686)
+<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/safari/safari_128x128.png" width="48" alt="Safari" valign="middle"> Coming soon, [help us set it up](https://github.com/sindresorhus/refined-github/issues/3686)
 
 [<img src="https://raw.githubusercontent.com/iamcal/emoji-data/08ec822c38e0b7a6fea0b92a9c42e02b6ba24a84/img-apple-160/1f99a.png" width="48" valign="middle">](https://github.com/sponsors/fregante) _If you love Refined GitHub, consider [sponsoring or hiring](https://github.com/sponsors/fregante) the maintainer [@fregante](https://twitter.com/fregante)_
 
@@ -66,6 +66,13 @@ GitHub Enterprise is also supported. More info in the options.
 		<th width="50%">
 			<p><a title="restore-file"></a> Adds a button to revert all the changes to a file in a PR
 			<p><img src="https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif">
+	<tr>
+		<th width="50%">
+			<p><a title="conversation-activity-filter"></a> Lets you hide every event except comments or resolved comments in issues and PRs
+			<p><img src="https://user-images.githubusercontent.com/1402241/109592127-5f922200-7ad4-11eb-8dfa-1d80fb28e70e.png">
+		<th width="50%">
+			<p><a title="batch-open-conversations"></a> Lets you open multiple conversations at once
+			<p><img src="https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif">
 </table>
 
 <!--
@@ -121,7 +128,6 @@ Thanks for contributing! 🦋🙌
 - [](# "edit-readme") [Ensures that the “Edit readme” button always appears (even when you have to make a fork) and works (GitHub’s link doesn’t work on git tags).](https://user-images.githubusercontent.com/1402241/62073307-a8378880-b26a-11e9-9e31-be6525d989d2.png)
 - [](# "repo-wide-file-finder") Enables the File Finder keyboard shortcut (<kbd>t</kbd>) on Issues and Pull Request pages as well.
 - [](# "file-finder-buffer") [Lets you start typing your search immediately after invoking the File Finder (<kbd>t</kbd>), instead of having you wait for it to load first.](https://user-images.githubusercontent.com/1402241/75542106-1c811700-5a5a-11ea-8aa5-bea0472c59e2.gif)
-- [](# "preserve-file-finder-term") Preserves the search terms when navigating back and forth between the File Finder and the files.
 - [](# "show-associated-branch-prs-on-fork") [Shows the associated pull requests on branches for forked repositories.](https://user-images.githubusercontent.com/16872793/81504659-7e5ec800-92b8-11ea-9ee6-924110e8cca1.png)
 - [](# "hide-markdown-diff") [When editing Markdown files, it lets you hide the Markdown diff in the preview.](https://user-images.githubusercontent.com/46634000/108093883-7f5e2a80-707e-11eb-9328-cb902a1061c7.gif)
 
@@ -179,11 +185,10 @@ Thanks for contributing! 🦋🙌
 
 ### Conversations
 
-- [](# "batch-open-conversations") 🔥 [Lets you open multiple conversations at once via checkboxes.](https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif)
 - [](# "split-issue-pr-search-results") [Separates issues from PRs in the global search.](https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png)
 - [](# "sticky-conversation-list-toolbar") [Makes the conversation list’s filters toolbar sticky.](https://user-images.githubusercontent.com/380914/39878141-7632e61a-542c-11e8-9c66-74fcd3a134aa.gif)
 - [](# "highlight-collaborators-and-own-conversations") [Highlights conversations opened by you or the current repo’s collaborators.](https://user-images.githubusercontent.com/1402241/65013882-03225d80-d947-11e9-8eb8-5507bc1fc14b.png)
-- [](# "align-issue-labels") [Aligns labels in lists to the left.](https://user-images.githubusercontent.com/37769974/85866472-11aa7900-b7e5-11ea-80aa-d84e3aee2551.png)
+- [](# "align-issue-labels") [In conversation lists, aligns the labels to the left, below each title.](https://user-images.githubusercontent.com/37769974/85866472-11aa7900-b7e5-11ea-80aa-d84e3aee2551.png)
 - [](# "sort-conversations-by-update-time") 🔥 Changes the default sort order of conversations to `Recently updated`.
 - [](# "conversation-filters") [Adds `Everything commented by you` and `Everything you subscribed to` filters in the search box dropdown.](https://user-images.githubusercontent.com/202916/84156153-72a62300-aa69-11ea-8592-3094292fde3c.png)
 - [](# "global-conversation-list-filters") [Adds filters for conversations _in your repos_ and _commented on by you_ in the global conversation search.](https://user-images.githubusercontent.com/8295888/36827126-8bfc79c4-1d37-11e8-8754-992968b082be.png)
@@ -195,7 +200,7 @@ Thanks for contributing! 🦋🙌
 - [](# "pinned-issues-update-time") [Adds the updated time to pinned issues.](https://user-images.githubusercontent.com/1402241/75525936-bb524700-5a4b-11ea-9225-466bda58b7de.png)
 - [](# "clean-pinned-issues") [Changes the layout of pinned issues from side-by-side to a standard list.](https://user-images.githubusercontent.com/1402241/84509958-c82a3c00-acc4-11ea-8399-eaf06a59e9e4.png)
 - [](# "remove-label-faster") [Adds one-click buttons to remove labels in conversations.](https://user-images.githubusercontent.com/36174850/89980178-0bc80480-dc7a-11ea-8ded-9e25f5f13d1a.gif)
-- [](# "clean-conversation-headers") [Removes duplicate information in conversation headers.](https://user-images.githubusercontent.com/44045911/89736767-686ec800-da9e-11ea-81c3-252e9813140b.png)
+- [](# "clean-conversation-headers") [Removes duplicate information in the header of issues and PRs ("User wants to merge X commits from Y into Z")](https://user-images.githubusercontent.com/44045911/89736767-686ec800-da9e-11ea-81c3-252e9813140b.png)
 - [](# "dim-bots") [Dims commits and PRs by bots to reduce noise.](https://user-images.githubusercontent.com/1402241/65263190-44c52b00-db36-11e9-9b33-d275d3c8479d.gif)
 - [](# "esc-to-cancel") [Adds a shortcut to cancel editing a conversation title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
 
@@ -338,7 +343,6 @@ Thanks for contributing! 🦋🙌
 - [](# "same-page-definition-jump") [Avoids re-loading the page when jumping to function definition in the current file.](https://user-images.githubusercontent.com/16872793/90833649-7a5e2f80-e316-11ea-827d-a4e3ac8ced69.png)
 - [](# "linkify-full-profile-readme-title") [Linkify the readme text on profile pages.](https://user-images.githubusercontent.com/16872793/90910173-ebe4bf00-e3a4-11ea-8fc5-aea3d1a2e5e5.png)
 - [](# "convert-pr-to-draft-improvements") [Moves the "Convert PR to Draft" button to the mergeability box and adds visual feedback to its confirm button.](https://user-images.githubusercontent.com/1402241/95644892-885f3f80-0a7f-11eb-8428-8e0fb0c8dfa5.gif)
-- [](# "single-diff-column-selection") 🔥 [Allows multiline selections on split diffs.](https://user-images.githubusercontent.com/46634000/98137788-abd0ab00-1ec2-11eb-9e04-6f20786d5dd8.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

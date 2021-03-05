@@ -83,7 +83,7 @@ async function init(): Promise<void | false> {
 				<button
 					type="button"
 					aria-label="Clone this branch"
-					className="link-gray btn-link tooltipped tooltipped-nw ml-3 rgh-clone-branch"
+					className="link-gray Link--secondary btn-link tooltipped tooltipped-nw ml-3 rgh-clone-branch"
 				>
 					<GitBranchIcon/>
 				</button>

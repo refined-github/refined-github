@@ -60,3 +60,9 @@ export const isEditable = (node: unknown): boolean => {
 		node instanceof HTMLInputElement ||
 		(node instanceof HTMLElement && node.isContentEditable);
 };
+
+export const removeClassFromAll = (className: string): void => {
+	for (const element of select.all('.' + className)) {
+		element.classList.remove(className);
+	}
+};

@@ -1,0 +1,15 @@
+:root:root .rgh-conversation-activity-filtered,
+.repository-content.rgh-conversation-activity-is-filtered .rgh-conversation-activity-filter-dropdown .octicon-eye,
+.repository-content:not(.rgh-conversation-activity-is-filtered) .rgh-conversation-activity-filter-dropdown .octicon-eye-closed {
+	display: none !important;
+}
+
+.rgh-conversation-activity-filter-dropdown .SelectMenu-modal {
+	width: max-content;
+}
+
+/* Debugging-only class. Drop wow to enable it */
+wow:root:root .rgh-conversation-activity-filtered {
+	display: block !important;
+	outline: solid 5px #f00;
+}

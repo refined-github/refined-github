@@ -33,7 +33,7 @@ const connectionType = {
 function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Element {
 	return (
 		<>
-			{remote && <p className="text-gray text-small my-1">{remoteType}</p>}
+			{remote && <p className="text-gray color-text-secondary text-small my-1">{remoteType}</p>}
 			<div className="copyable-terminal">
 				<div className="copyable-terminal-button">
 					<clipboard-copy
@@ -80,7 +80,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	const remoteName = getRemoteName();
 	tabContainer.append(
 		<div hidden role="tabpanel" className="p-3">
-			<p className="text-gray text-small">
+			<p className="text-gray color-text-secondary text-small">
 				Run in your project repository{remoteName && ', pick either one'}
 			</p>
 			{remoteName ? [

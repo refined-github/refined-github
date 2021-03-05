@@ -69,8 +69,7 @@ export default class SearchQuery {
 		const queries = [];
 
 		// Repo example: is:issue is:open
-		queries.push(/\/pulls\/?$/.test(this.link.pathname) ? 'is:pr' : 'is:issue');
-		queries.push('is:open');
+		queries.push(/\/pulls\/?$/.test(this.link.pathname) ? 'is:pr' : 'is:issue', 'is:open');
 
 		// Header nav example: is:open is:issue author:you archived:false
 		if (this.link.pathname === '/issues' || this.link.pathname === '/pulls') {
