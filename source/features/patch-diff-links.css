@@ -3,8 +3,7 @@
 	margin-left: 7px !important;
 }
 
-.commit .sha-block,
-.commit .sha {
+.commit :is(.sha-block, .sha) {
 	font-size: 10px !important;
 }
 

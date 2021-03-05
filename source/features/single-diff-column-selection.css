@@ -1,4 +1,0 @@
-[data-rgh-select='left'] td:nth-child(4),
-[data-rgh-select='right'] td:nth-child(2) {
-	user-select: none;
-}
