@@ -1,6 +1,9 @@
+/** @jsx h */
 import './quick-repo-deletion.css';
+
+import {h} from 'preact';
 import delay from 'delay';
-import React from 'dom-chef';
+import render from '../helpers/render';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';

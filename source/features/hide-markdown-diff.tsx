@@ -1,5 +1,8 @@
+/** @jsx h */
 import './hide-markdown-diff.css';
-import React from 'dom-chef';
+
+import {h} from 'preact';
+import render from '../helpers/render';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -13,12 +16,12 @@ function togglePreviewResult({delegateTarget: target}: delegate.Event<MouseEvent
 }
 
 async function init(): Promise<void> {
-	(await elementReady('.file-header'))!.append(
+	(await elementReady('.file-header'))!.append(render(
 		<div className="BtnGroup px-3 pr-md-6 px-lg-2 rgh-preview-toggle">
 			<button className="btn btn-sm BtnGroup-item rgh-preview-button selected" type="button" value="disable">View diff</button>
 			<button className="btn btn-sm BtnGroup-item rgh-preview-button" type="button" value="enable">View final result</button>
 		</div>
-	);
+	));
 	delegate(document, '.rgh-preview-button:not(.selected)', 'click', togglePreviewResult);
 }
 

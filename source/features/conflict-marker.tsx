@@ -1,5 +1,8 @@
+/** @jsx h */
 import './conflict-marker.css';
-import React from 'dom-chef';
+
+import {h} from 'preact';
+import render from '../helpers/render';
 import select from 'select-dom';
 import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -52,7 +55,7 @@ async function init(): Promise<false | void> {
 
 	for (const pr of prs) {
 		if (data[pr.key].pullRequest.mergeable === 'CONFLICTING') {
-			pr.link.after(
+			pr.link.after(render(
 				<a
 					className="rgh-conflict-marker tooltipped tooltipped-e m-0 text-gray color-text-secondary mr-1"
 					aria-label="This PR has conflicts that must be resolved"
@@ -60,7 +63,7 @@ async function init(): Promise<false | void> {
 				>
 					<AlertIcon/>
 				</a>
-			);
+			));
 		}
 	}
 }

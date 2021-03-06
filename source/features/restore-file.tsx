@@ -1,9 +1,12 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import onetime from 'onetime';
 import pushForm from 'push-form';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+
+import render from '../helpers/render';
 
 import features from '.';
 import * as api from '../github-helpers/api';

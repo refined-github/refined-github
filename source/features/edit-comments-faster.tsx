@@ -1,8 +1,11 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+
+import render from '../helpers/render';
 
 import features from '.';
 

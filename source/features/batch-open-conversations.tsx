@@ -1,9 +1,12 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+
+import render from '../helpers/render';
 
 import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
@@ -44,14 +47,14 @@ async function init(): Promise<void | false> {
 	delegate(document, '.rgh-batch-open-issues', 'click', openIssues);
 
 	// Add button to open all visible conversations
-	select('.table-list-header-toggle:not(.states)')?.prepend(
+	select('.table-list-header-toggle:not(.states)')?.prepend(render(
 		<button
 			type="button"
 			className="btn-link rgh-batch-open-issues px-2"
 		>
 			Open all
 		</button>
-	);
+	));
 
 	// Add button to open selected conversations
 	const triageFiltersBar = select('.table-list-triage > .color-text-secondary, .table-list-triage > .text-gray');

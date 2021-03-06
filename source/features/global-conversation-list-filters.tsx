@@ -1,8 +1,11 @@
+/** @jsx h */
 import './global-conversation-list-filters.css';
-import React from 'dom-chef';
+
+import {h} from 'preact';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
+import render from '../helpers/render';
 import features from '.';
 import SearchQuery from '../github-helpers/search-query';
 import {getUsername} from '../github-helpers';
@@ -24,21 +27,20 @@ function init(): void {
 		// Create link
 		const url = new URL(location.pathname, location.origin);
 		url.searchParams.set('q', `${typeQuery} ${defaultQuery} ${query}`);
-		const link = <a href={String(url)} title={title} className="subnav-item">{label}</a>;
 
 		const isCurrentPage = new SearchQuery(location.search).includes(query);
+		const isNoOtherPage = isCurrentPage && !select.exists('.subnav-links .selected');
 
-		// Highlight it, if that's the current page
-		if (isCurrentPage && !select.exists('.subnav-links .selected')) {
-			link.classList.add('selected');
+		const link = <a href={String(url)} title={title} className={`subnav-item ${isNoOtherPage ? 'selected' : ''}`}>{label}</a>;
 
+		if (isNoOtherPage) {
 			// Other links will keep the current query, that's not what we want
 			for (const otherLink of select.all('.subnav-links a')) {
 				new SearchQuery(otherLink).remove(query);
 			}
 		}
 
-		select('.subnav-links')!.append(link);
+		select('.subnav-links')!.append(render(link));
 	}
 }
 

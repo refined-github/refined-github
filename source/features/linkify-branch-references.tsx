@@ -1,6 +1,9 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+
+import render from '../helpers/render';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';

@@ -1,8 +1,11 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+
+import render from '../helpers/render';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
@@ -34,14 +37,14 @@ async function init(): Promise<void> {
 
 		discussionHeader.parentElement!.append(
 			' • ',
-			<TagIcon className="mx-1 text-gray-light color-text-tertiary v-align-middle"/>,
-			<a
+			render(<TagIcon className="mx-1 text-gray-light color-text-tertiary v-align-middle"/>),
+			render(<a
 				href={buildRepoURL('releases/tag', tagName)}
 				className="commit-ref"
 				title={`${tagName} was the first Git tag to include this PR`}
 			>
 				{tagName}
-			</a>
+			</a>)
 		);
 	}
 }

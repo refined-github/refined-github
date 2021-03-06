@@ -1,8 +1,11 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+
+import render from '../helpers/render';
 
 import features from '.';
 import * as api from '../github-helpers/api';

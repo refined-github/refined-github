@@ -1,8 +1,11 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import copyToClipboard from 'copy-text-to-clipboard';
+
+import render from '../helpers/render';
 
 import features from '.';
 import {groupButtons} from '../github-helpers/group-buttons';

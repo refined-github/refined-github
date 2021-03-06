@@ -1,5 +1,8 @@
+/** @jsx h */
 import './clean-conversation-sidebar.css';
-import React from 'dom-chef';
+
+import {h} from 'preact';
+import render from '../helpers/render';
 import select from 'select-dom';
 import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
@@ -72,9 +75,9 @@ async function clean(): Promise<void> {
 		const assignYourself = select('.js-issue-assign-self');
 		if (assignYourself) {
 			assignYourself.previousSibling!.remove(); // Drop "No one — "
-			select('[aria-label="Select assignees"] summary')!.append(
+			select('[aria-label="Select assignees"] summary')!.append(render(
 				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>
-			);
+			));
 			assignees.closest('.discussion-sidebar-item')!.classList.add('rgh-clean-sidebar');
 		}
 	}

@@ -1,5 +1,8 @@
+/** @jsx h */
 import './more-dropdown.css';
-import React from 'dom-chef';
+
+import {h} from 'preact';
+import render from '../helpers/render';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

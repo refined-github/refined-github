@@ -1,39 +1,41 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {BookIcon, CheckIcon, DiffIcon} from '@primer/octicons-react';
 
+import render from '../helpers/render';
+
 import features from '.';
 
-function createDiffStyleToggle(): DocumentFragment {
+function Link(props: AnyObject): h.JSX.Element {
+	props.parameters.set('diff', props.type);
+	return (
+		<a
+			className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${props.selected ? 'selected' : ''}`}
+			aria-label={`Show ${props.type} diffs`}
+			href={`?${String(props.parameters)}`}
+		>
+			{props.children}
+		</a>
+	);
+}
+function createDiffStyleToggle(): h.JSX.Element {
 	const parameters = new URLSearchParams(location.search);
 	const isUnified = select.exists([
 		'[value="unified"][checked]', // Form in PR
 		'.table-of-contents .selected[href$=unified]' // Link in single commit
 	]);
 
-	function makeLink(type: string, icon: Element, selected: boolean): HTMLElement {
-		parameters.set('diff', type);
-		return (
-			<a
-				className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${selected ? 'selected' : ''}`}
-				aria-label={`Show ${type} diffs`}
-				href={`?${String(parameters)}`}
-			>
-				{icon}
-			</a>
-		);
-	}
-
 	return (
 		<>
-			{makeLink('unified', <DiffIcon/>, isUnified)}
-			{makeLink('split', <BookIcon/>, !isUnified)}
+			<Link type="unified" selected={isUnified} parameters={parameters}><DiffIcon/></Link>
+			<Link type="split" selected={!isUnified} parameters={parameters}><BookIcon/></Link>
 		</>
 	);
 }
 
-function createWhitespaceButton(): HTMLElement {
+function createWhitespaceButton(): h.JSX.Element {
 	const searchParameters = new URLSearchParams(location.search);
 	const isHidingWhitespace = searchParameters.get('w') === '1';
 
@@ -55,7 +57,7 @@ function createWhitespaceButton(): HTMLElement {
 	);
 }
 
-function wrap(...elements: Node[]): DocumentFragment {
+function wrap(...elements: Node[]): h.JSX.Element {
 	if (pageDetect.isSingleCommit() || pageDetect.isCompare()) {
 		return (
 			<div className="float-right">

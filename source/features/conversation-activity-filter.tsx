@@ -1,6 +1,9 @@
+/** @jsx h */
 import './conversation-activity-filter.css';
+
+import {h} from 'preact';
 import delay from 'delay';
-import React from 'dom-chef';
+import render from '../helpers/render';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import SelectorObserver from 'selector-observer';
@@ -121,9 +124,11 @@ function createRadio(filterSettings: State): JSX.Element {
 }
 
 function addWidget(position: Element): void {
-	wrap(position, <div className="d-flex flex-items-baseline"/>);
+	const wrapper = document.createElement('div');
+	wrapper.classList.add('d-flex', 'flex-items-baseline');
+	wrap(position, wrapper);
 	position.classList.add('rgh-conversation-activity-filter');
-	position.after(
+	position.after(render(
 		<details className={`details-reset details-overlay d-inline-block ml-1 position-relative ${dropdownClass}`}>
 			<summary aria-haspopup="true">
 				<EyeIcon/>
@@ -144,7 +149,7 @@ function addWidget(position: Element): void {
 				</div>
 			</details-menu>
 		</details>
-	);
+	));
 }
 
 function init(): void {

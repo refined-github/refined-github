@@ -1,4 +1,5 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
@@ -6,6 +7,8 @@ import {observe} from 'selector-observer';
 import {GitBranchIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
+
+import render from '../helpers/render';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -44,13 +47,11 @@ async function cloneBranch({delegateTarget: cloneButton}: delegate.Event<MouseEv
 	const currentBranch = getBranchBaseSha(branchName);
 	let newBranchName = prompt('Enter the new branch name')?.trim();
 
-	const spinner = <LoadingIcon className="ml-2"/>;
-
 	while (newBranchName) {
-		cloneButton.replaceWith(spinner);
+		cloneButton.replaceWith(render(<LoadingIcon className="ml-2"/>));
 		// eslint-disable-next-line no-await-in-loop
 		const result = await createBranch(newBranchName, await currentBranch);
-		spinner.replaceWith(cloneButton);
+		select('.rgh-loading-icon')!.replaceWith(cloneButton);
 
 		if (result === true) {
 			break;
@@ -79,7 +80,7 @@ async function init(): Promise<void | false> {
 	observe(deleteIconClass, {
 		add(deleteIcon) {
 			// Branches with open PRs use `span`, the others use `form`
-			deleteIcon.closest('form, span')!.before(
+			deleteIcon.closest('form, span')!.before(render(
 				<button
 					type="button"
 					aria-label="Clone this branch"
@@ -87,7 +88,7 @@ async function init(): Promise<void | false> {
 				>
 					<GitBranchIcon/>
 				</button>
-			);
+			));
 		}
 	});
 

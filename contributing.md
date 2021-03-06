@@ -21,6 +21,7 @@ The simplest usage of `feature.add` is the following. This will be run instantly
 import * as pageDetect from 'github-url-detection';
 import features from '.';
 
+
 function init() {
 	console.log('✨');
 }
@@ -37,15 +38,17 @@ void features.add(__filebasename, {
 Here's an example using all of the possible `feature.add` options:
 
 ```ts
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import render from '../helpers/render';
 
 function append(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	event.delegateTarget.after('✨', <div className="rgh-jsx-element">Button clicked!</div>);
+	event.delegateTarget.after('✨', render(<div className="rgh-jsx-element">Button clicked!</div>));
 }
 function init(): void {
 	// Events must be set via delegate, unless shortlived

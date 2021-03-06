@@ -1,4 +1,5 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
@@ -7,6 +8,8 @@ import {Promisable} from 'type-fest';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
+
+import render from '../helpers/render';
 
 import onNewComments from '../github-events/on-new-comments';
 import optionsStorage, {RGHOptions} from '../options-storage';

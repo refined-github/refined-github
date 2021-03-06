@@ -1,6 +1,9 @@
+/** @jsx h */
 import twas from 'twas';
 import cache from 'webext-storage-cache';
-import React from 'dom-chef';
+
+import {h} from 'preact';
+import render from '../helpers/render';
 import select from 'select-dom';
 import {RepoIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';

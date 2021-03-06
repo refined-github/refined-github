@@ -1,5 +1,8 @@
+/** @jsx h */
 import './cross-deleted-pr-branches.css';
-import React from 'dom-chef';
+
+import {h} from 'preact';
+import render from '../helpers/render';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 

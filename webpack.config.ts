@@ -130,7 +130,7 @@ const config: Configuration = {
 	],
 	resolve: {
 		alias: {
-			react: 'dom-chef'
+			react: 'preact/compat'
 		},
 		extensions: [
 			'.tsx',

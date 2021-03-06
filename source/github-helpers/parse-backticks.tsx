@@ -1,4 +1,6 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
+import render from '../helpers/render';
 
 const splittingRegex = /`` (.*?) ``|`([^`\n]+)`/g;
 

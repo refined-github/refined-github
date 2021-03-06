@@ -1,11 +1,14 @@
+/** @jsx h */
 import './forked-to.css';
-import React from 'dom-chef';
+
+import {h} from 'preact';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, LinkExternalIcon, RepoForkedIcon} from '@primer/octicons-react';
 
+import render from '../helpers/render';
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
@@ -49,7 +52,7 @@ async function updateUI(forks: string[]): Promise<void> {
 	document.body.classList.add('rgh-forked-to');
 	const forkCounter = await elementReady('.social-count[href$="/network/members"]', {waitForChildren: false});
 	if (forks.length === 1) {
-		forkCounter!.before(
+		forkCounter!.before(render(
 			<a
 				href={createLink(forks[0])}
 				className="btn btn-sm float-left rgh-forked-button"
@@ -57,9 +60,9 @@ async function updateUI(forks: string[]): Promise<void> {
 			>
 				<LinkExternalIcon/>
 			</a>
-		);
+		));
 	} else {
-		forkCounter!.before(
+		forkCounter!.before(render(
 			<details className="details-reset details-overlay select-menu float-left">
 				<summary
 					className="select-menu-button float-left btn btn-sm btn-with-count rgh-forked-button"
@@ -86,7 +89,7 @@ async function updateUI(forks: string[]): Promise<void> {
 					))}
 				</details-menu>
 			</details>
-		);
+		));
 	}
 }
 

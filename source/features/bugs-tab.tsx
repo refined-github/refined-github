@@ -1,9 +1,12 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import {BugIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+
+import render from '../helpers/render';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -65,7 +68,7 @@ async function init(): Promise<void | false> {
 	if (bugsTabTitle) {
 		bugsTabTitle.dataset.content = 'Bugs';
 		bugsTabTitle.textContent = 'Bugs';
-		select('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline"/>);
+		select('.octicon', bugsTab)!.replaceWith(render(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline"/>));
 
 		// Un-select one of the tabs if necessary
 		const selectedTabLink = !isBugsPage || pageDetect.isPRList() ? bugsLink : select('.selected', issuesTab);
@@ -74,7 +77,7 @@ async function init(): Promise<void | false> {
 	} else {
 		// Pre "Repository refresh" layout
 		select('[itemprop="name"]', bugsTab)!.textContent = 'Bugs';
-		select('.octicon', bugsTab)!.replaceWith(<BugIcon/>);
+		select('.octicon', bugsTab)!.replaceWith(render(<BugIcon/>));
 
 		// Change the Selected tab if necessary
 		bugsLink.classList.toggle('selected', isBugsPage && !pageDetect.isPRList());

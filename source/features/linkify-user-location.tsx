@@ -1,5 +1,8 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
+
+import render from '../helpers/render';
 
 import features from '.';
 import {wrap, isEditable} from '../helpers/dom-utils';

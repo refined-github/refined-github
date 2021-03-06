@@ -1,7 +1,10 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {RepoForkedIcon} from '@primer/octicons-react';
+
+import render from '../helpers/render';
 
 import features from '.';
 import {getRepo} from '../github-helpers';

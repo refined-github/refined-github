@@ -1,10 +1,13 @@
+/** @jsx h */
 import './hide-useless-comments.css';
+
+import {h} from 'preact';
 import delay from 'delay';
-import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
+import render from '../helpers/render';
 import features from '.';
 import isUselessComment from '../helpers/is-useless-comment';
 
@@ -67,12 +70,12 @@ function init(): void {
 	}
 
 	if (uselessCount > 0) {
-		select('.discussion-timeline-actions')!.prepend(
+		select('.discussion-timeline-actions')!.prepend(render(
 			<p className="rgh-useless-comments-note">
 				{`${uselessCount} unhelpful comment${uselessCount > 1 ? 's were' : ' was'} automatically hidden. `}
 				<button className="btn-link text-emphasized rgh-unhide-useless-comments" type="button">Show</button>
 			</p>
-		);
+		));
 		delegate(document, '.rgh-unhide-useless-comments', 'click', unhide);
 	}
 }

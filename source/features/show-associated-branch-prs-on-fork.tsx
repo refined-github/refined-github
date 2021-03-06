@@ -1,9 +1,12 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import cache from 'webext-storage-cache';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {GitMergeIcon, GitPullRequestIcon} from '@primer/octicons-react';
+
+import render from '../helpers/render';
 
 import features from '.';
 import * as api from '../github-helpers/api';

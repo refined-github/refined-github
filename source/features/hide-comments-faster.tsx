@@ -1,7 +1,10 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+
+import render from '../helpers/render';
 
 import features from '.';
 
@@ -21,7 +24,7 @@ function generateSubmenu(hideButton: Element): void {
 
 	// Generate dropdown items
 	for (const reason of select.all('[name="classifier"] option:not([value=""])', comment)) {
-		hideCommentForm.append(
+		hideCommentForm.append(render(
 			<button
 				type="submit"
 				name="classifier"
@@ -31,7 +34,7 @@ function generateSubmenu(hideButton: Element): void {
 			>
 				{reason.textContent}
 			</button>
-		);
+		));
 	}
 
 	// Drop previous form controls

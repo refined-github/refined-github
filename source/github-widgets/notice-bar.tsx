@@ -1,6 +1,9 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import {XIcon} from '@primer/octicons-react';
+
+import render from '../helpers/render';
 
 interface Options {
 	action?: Element | false;

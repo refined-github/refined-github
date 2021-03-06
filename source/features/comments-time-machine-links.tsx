@@ -1,7 +1,10 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+
+import render from '../helpers/render';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -58,7 +61,7 @@ function addDropdownLink(comment: HTMLElement, timestamp: string): void {
 		return;
 	}
 
-	appendBefore(dropdown, '.dropdown-divider',
+	appendBefore(dropdown, '.dropdown-divider', render(
 		<>
 			<div className="dropdown-divider"/>
 			<a
@@ -70,7 +73,7 @@ function addDropdownLink(comment: HTMLElement, timestamp: string): void {
 				View repo at this time
 			</a>
 		</>
-	);
+	));
 }
 
 async function showTimemachineBar(): Promise<void | false> {

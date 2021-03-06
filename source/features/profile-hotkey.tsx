@@ -1,6 +1,9 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import onetime from 'onetime';
 import {isEnterprise} from 'github-url-detection';
+
+import render from '../helpers/render';
 
 import features from '.';
 import {getUsername} from '../github-helpers';

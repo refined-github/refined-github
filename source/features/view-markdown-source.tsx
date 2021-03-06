@@ -1,5 +1,8 @@
+/** @jsx h */
 import './view-markdown-source.css';
-import React from 'dom-chef';
+
+import {h} from 'preact';
+import render from '../helpers/render';
 import domify from 'doma';
 import select from 'select-dom';
 import onetime from 'onetime';

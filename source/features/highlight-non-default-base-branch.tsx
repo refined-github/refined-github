@@ -1,7 +1,10 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon} from '@primer/octicons-react';
+
+import render from '../helpers/render';
 
 import features from '.';
 import * as api from '../github-helpers/api';

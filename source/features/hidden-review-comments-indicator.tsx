@@ -1,6 +1,9 @@
+/** @jsx h */
 import './hidden-review-comments-indicator.css';
 import mem from 'mem';
-import React from 'dom-chef';
+
+import {h} from 'preact';
+import render from '../helpers/render';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import {CommentIcon} from '@primer/octicons-react';
@@ -26,7 +29,7 @@ const handleIndicatorClick = ({delegateTarget}: delegate.Event): void => {
 const addIndicator = mem((commentThread: HTMLElement): void => {
 	const commentCount = commentThread.querySelectorAll('.review-comment .js-comment').length;
 
-	commentThread.before(
+	commentThread.before(render(
 		<tr>
 			<td className="rgh-comments-indicator blob-num" colSpan={2}>
 				<button type="button" className="btn-link">
@@ -35,7 +38,7 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 				</button>
 			</td>
 		</tr>
-	);
+	));
 });
 
 // Add indicator when the `show-inline-notes` class is removed (i.e. the comments are hidden)

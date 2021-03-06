@@ -31,7 +31,7 @@ pushForm.fetch = window.content?.fetch ?? window.fetch;
  *   <nope/>
  * </parent>
  */
-export const appendBefore = (parent: string | Element, before: string, child: Element): void => {
+export const appendBefore = (parent: string | Element, before: string, child: Element | DocumentFragment): void => {
 	if (typeof parent === 'string') {
 		parent = select(parent)!;
 	}

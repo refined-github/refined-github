@@ -1,8 +1,11 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import {ClippyIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+
+import render from '../helpers/render';
 
 import features from '.';
 import {getCurrentBranch, getPRHeadRepo, getRepo, getUsername} from '../github-helpers';
@@ -30,7 +33,7 @@ const connectionType = {
 	SSH: `git@${location.hostname}:`
 };
 
-function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Element {
+function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): h.JSX.Element {
 	return (
 		<>
 			{remote && <p className="text-gray color-text-secondary text-small my-1">{remoteType}</p>}
@@ -65,7 +68,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-git-checkout'); // Mark this as processed
 	const tabContainer = select('[action="/users/checkout-preference"]', dropdown)!.closest<HTMLElement>('tab-container')!;
 	tabContainer.style.minWidth = '370px';
-	select('.UnderlineNav-body', tabContainer)!.append(
+	select('.UnderlineNav-body', tabContainer)!.append(render(
 		<button
 			name="type"
 			type="button"
@@ -75,10 +78,10 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 		>
 			Git Checkout
 		</button>
-	);
+	));
 
 	const remoteName = getRemoteName();
-	tabContainer.append(
+	tabContainer.append(render(
 		<div hidden role="tabpanel" className="p-3">
 			<p className="text-gray color-text-secondary text-small">
 				Run in your project repository{remoteName && ', pick either one'}
@@ -88,7 +91,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 				checkoutOption(remoteName, 'SSH')
 			] : checkoutOption()}
 		</div>
-	);
+	));
 }
 
 function init(): void {

@@ -1,18 +1,24 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {PlusIcon, SearchIcon} from '@primer/octicons-react';
 
+import render from '../helpers/render';
+
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
 
 /** Add tooltip on a wrapper to avoid breaking dropdown functionality */
 function addTooltipToSummary(childElement: Element, tooltip: string): void {
+	const wrapper = document.createElement('div');
+	wrapper.classList.add('tooltipped', 'tooltipped-ne');
+	wrapper.setAttribute('aria-label', tooltip);
 	wrap(
 		childElement.closest('details')!,
-		<div className="tooltipped tooltipped-ne" aria-label={tooltip}/>
+		wrapper
 	);
 }
 
@@ -24,7 +30,7 @@ function init(): void {
 			searchButton.setAttribute('aria-label', 'Go to file');
 
 			// Replace "Go to file" with  icon
-			searchButton.firstChild!.replaceWith(<SearchIcon/>);
+			searchButton.firstChild!.replaceWith(render(<SearchIcon/>));
 
 			// This button doesn't appear on `isSingleFile`
 			const addFileDropdown = searchButton.nextElementSibling!.querySelector('.dropdown-caret');
@@ -32,7 +38,7 @@ function init(): void {
 				addFileDropdown.parentElement!.classList.replace('d-md-flex', 'd-md-block');
 
 				// Replace "Add file" with icon
-				addFileDropdown.previousSibling!.replaceWith(<PlusIcon/>);
+				addFileDropdown.previousSibling!.replaceWith(render(<PlusIcon/>));
 
 				addTooltipToSummary(addFileDropdown, 'Add file');
 			}

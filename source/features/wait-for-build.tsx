@@ -1,5 +1,8 @@
+/** @jsx h */
 import './wait-for-build.css';
-import React from 'dom-chef';
+
+import {h} from 'preact';
+import render from '../helpers/render';
 import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';

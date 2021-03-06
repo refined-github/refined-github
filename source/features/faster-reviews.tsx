@@ -1,8 +1,11 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+
+import render from '../helpers/render';
 
 import features from '.';
 import onReplacedElement from '../helpers/on-replaced-element';
@@ -17,11 +20,11 @@ async function addSidebarReviewButton(): Promise<void | false> {
 		return false;
 	}
 
-	sidebarReviewsSection!.append(
+	sidebarReviewsSection!.append(render(
 		<span style={{fontWeight: 'normal'}}>
 			– <a href={reviewFormUrl.href} className="btn-link muted-link Link--muted" data-hotkey="v">review now</a>
 		</span>
-	);
+	));
 }
 
 function focusReviewTextarea({delegateTarget}: delegate.Event<Event, HTMLDetailsElement>): void {

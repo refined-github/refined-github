@@ -1,6 +1,9 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import onetime from 'onetime';
+
+import render from '../helpers/render';
 
 import features from '.';
 import {isEditable} from '../helpers/dom-utils';

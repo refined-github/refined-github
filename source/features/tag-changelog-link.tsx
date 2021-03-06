@@ -1,5 +1,8 @@
+/** @jsx h */
 import './tag-changelog-link.css';
-import React from 'dom-chef';
+
+import {h} from 'preact';
+import render from '../helpers/render';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import {DiffIcon} from '@primer/octicons-react';

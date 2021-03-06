@@ -1,4 +1,6 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
+import render from '../helpers/render';
 
 import {wrapAll} from '../helpers/dom-utils';
 

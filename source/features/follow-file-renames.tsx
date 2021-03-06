@@ -1,6 +1,9 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+
+import render from '../helpers/render';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -37,7 +40,7 @@ async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void 
 					route: 'commits',
 					filePath: file[toKey]
 				});
-				button.replaceWith(
+				button.replaceWith(render(
 					<a
 						href={String(url)}
 						aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${file[toKey]}`}
@@ -45,7 +48,7 @@ async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void 
 					>
 						{button.textContent}
 					</a>
-				);
+				));
 			}
 
 			return;

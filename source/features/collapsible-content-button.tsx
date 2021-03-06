@@ -1,9 +1,12 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import {FoldDownIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
+
+import render from '../helpers/render';
 
 import features from '.';
 import smartBlockWrap from '../helpers/smart-block-wrap';
@@ -36,11 +39,11 @@ function addContentToDetails({delegateTarget}: delegate.Event<MouseEvent, HTMLBu
 function init(): void {
 	delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails);
 	for (const anchor of select.all('md-ref')) {
-		anchor.after(
+		anchor.after(render(
 			<button type="button" className="toolbar-item tooltipped tooltipped-n rgh-collapsible-content-btn" aria-label="Add collapsible content">
 				<FoldDownIcon/>
 			</button>
-		);
+		));
 	}
 }
 

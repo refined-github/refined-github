@@ -1,12 +1,17 @@
+/** @jsx h */
+
 import 'webext-base-css/webext-base.css';
 import './options.css';
-import React from 'dom-chef';
+
+import {h} from 'preact';
 import cache from 'webext-storage-cache';
 import domify from 'doma';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
+
+import render from '../helpers/render';
 
 import {perDomainOptions} from './options-storage';
 

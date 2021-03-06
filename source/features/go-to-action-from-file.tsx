@@ -1,6 +1,9 @@
-import React from 'dom-chef';
+/** @jsx h */
+import {h} from 'preact';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+
+import render from '../helpers/render';
 
 import features from '.';
 import {buildRepoURL, getRepo} from '../github-helpers';
@@ -20,11 +23,11 @@ function init(): void {
 
 	select('#raw-url')!
 		.parentElement! // `BtnGroup`
-		.prepend(
+		.prepend(render(
 			<a className="btn btn-sm BtnGroup-item" href={String(actionURL)}>
 				Past runs
 			</a>
-		);
+		));
 }
 
 void features.add(__filebasename, {

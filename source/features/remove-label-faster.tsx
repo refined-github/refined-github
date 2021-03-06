@@ -1,5 +1,8 @@
+/** @jsx h */
 import './remove-label-faster.css';
-import React from 'dom-chef';
+
+import {h} from 'preact';
+import render from '../helpers/render';
 import {XIcon} from '@primer/octicons-react';
 import select from 'select-dom';
 import onetime from 'onetime';

@@ -1,6 +1,9 @@
+/** @jsx h */
 /* eslint-disable no-await-in-loop */
 
-import React from 'dom-chef';
+
+import {h} from 'preact';
+import render from '../helpers/render';
 import cache from 'webext-storage-cache';
 import delay from 'delay';
 import select from 'select-dom';
