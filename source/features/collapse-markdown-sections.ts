@@ -26,9 +26,11 @@ function toggleSection(event: delegate.Event<MouseEvent, HTMLElement>): void {
 			if (!isHeading(element)) {
 				continue;
 			}
+
 			if (isHigherLevelHeading(sectionHeading, element)) {
 				break;
 			}
+
 			if (isSameLevelHeading(sectionHeading, element)) {
 				sectionHeading = element;
 			}
@@ -40,6 +42,7 @@ function toggleSection(event: delegate.Event<MouseEvent, HTMLElement>): void {
 			if (isHigherLevelHeading(sectionHeading, element)) {
 				break;
 			}
+
 			if (isSameLevelHeading(sectionHeading, element) && !element.isSameNode(sectionHeading) && !event.altKey) {
 				break;
 			}
