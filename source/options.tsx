@@ -1,5 +1,4 @@
 /** @jsx h */
-
 import 'webext-base-css/webext-base.css';
 import './options.css';
 

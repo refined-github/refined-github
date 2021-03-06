@@ -12,12 +12,12 @@ import isSafari from '../helpers/browser-detection';
 const getBufferField = onetime((): HTMLInputElement => {
 	const input = document.createElement('input');
 
-	input.type="text"
-	input.className="p-0 border-0"
-	input.style.backgroundColor = 'transparent',
-	input.style.outline = 'none',
-	input.style.color = 'var(--color-text-primary)'
-	input.placeholder="Search file…"
+	input.type = 'text';
+	input.className = 'p-0 border-0';
+	input.style.backgroundColor = 'transparent';
+	input.style.outline = 'none';
+	input.style.color = 'var(--color-text-primary)';
+	input.placeholder = 'Search file…';
 	return input;
 });
 

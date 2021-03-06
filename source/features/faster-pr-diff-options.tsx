@@ -20,6 +20,7 @@ function Link(props: AnyObject): h.JSX.Element {
 		</a>
 	);
 }
+
 function createDiffStyleToggle(): h.JSX.Element {
 	const parameters = new URLSearchParams(location.search);
 	const isUnified = select.exists([
