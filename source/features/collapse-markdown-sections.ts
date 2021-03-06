@@ -3,34 +3,49 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function isSameLevelHeading(element: HTMLElement, heading: HTMLElement): boolean {
-	return element.tagName === heading.tagName;
+const allHeadingsSelector = 'h1, h2, h3, h4, h5, h6';
+
+function isHeading(element: HTMLElement): boolean {
+	return element.matches(allHeadingsSelector);
 }
 
-function isHigherLevelHeading(element: HTMLElement, heading: HTMLElement): boolean {
-	return /^H[1-6]$/.test(element.tagName) && element.tagName.localeCompare(heading.tagName) < 0;
+function isSameLevelHeading(referenceHeading: HTMLElement, compareHeading: HTMLElement): boolean {
+	return referenceHeading.tagName === compareHeading.tagName;
+}
+
+function isHigherLevelHeading(referenceHeading: HTMLElement, compareHeading: HTMLElement): boolean {
+	return referenceHeading.tagName.localeCompare(compareHeading.tagName) > 0;
 }
 
 function toggleSection(event: delegate.Event<MouseEvent, HTMLElement>): void {
-	let sectionHeading = (event.target as HTMLElement).closest<HTMLElement>('h2, h3, h4, h5, h6')!;
+	let sectionHeading = (event.target as HTMLElement).closest<HTMLElement>(allHeadingsSelector)!;
 	const sectionState = sectionHeading.classList.contains('rgh-markdown-section-collapsed');
 	if (event.altKey) {
 		// Set `sectionHeading` as the first same-level header of the larger section
-		for (let element = sectionHeading; element && !isHigherLevelHeading(element, sectionHeading); element = element.previousElementSibling as HTMLElement) {
-			if (isSameLevelHeading(element, sectionHeading)) {
+		for (let element = sectionHeading; element; element = element.previousElementSibling as HTMLElement) {
+			if (!isHeading(element)) {
+				continue;
+			}
+			if (isHigherLevelHeading(sectionHeading, element)) {
+				break;
+			}
+			if (isSameLevelHeading(sectionHeading, element)) {
 				sectionHeading = element;
 			}
 		}
 	}
 
-	for (let element = sectionHeading; element && !isHigherLevelHeading(element, sectionHeading); element = element.nextElementSibling as HTMLElement) {
-		if (isSameLevelHeading(element, sectionHeading)) {
-			if (element.isSameNode(sectionHeading) || event.altKey) {
-				element.classList.toggle('rgh-markdown-section-collapsed', !sectionState);
-				continue;
+	for (let element = sectionHeading; element; element = element.nextElementSibling as HTMLElement) {
+		if (isHeading(element)) {
+			if (isHigherLevelHeading(sectionHeading, element)) {
+				break;
+			}
+			if (isSameLevelHeading(sectionHeading, element) && !element.isSameNode(sectionHeading) && !event.altKey) {
+				break;
 			}
 
-			break;
+			element.classList.toggle('rgh-markdown-section-collapsed', !sectionState);
+			continue;
 		}
 
 		element.hidden = !sectionState;
@@ -38,7 +53,7 @@ function toggleSection(event: delegate.Event<MouseEvent, HTMLElement>): void {
 }
 
 function init(): void {
-	delegate(document, 'h2, h3, h4, h5, h6', 'click', toggleSection);
+	delegate(document, allHeadingsSelector, 'click', toggleSection);
 }
 
 void features.add(__filebasename, {
