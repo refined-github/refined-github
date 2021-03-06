@@ -4,11 +4,10 @@ function _render(
 	vnode: ComponentChild,
 	parent: Element,
 	action: 'before' | 'after' | 'prepend' | 'append' | 'replaceWith' = 'append'
-) {
+): void {
 	const tempRoot = new DocumentFragment();
-	const rendered = renderPreact(vnode, tempRoot);
+	renderPreact(vnode, tempRoot);
 	parent[action](tempRoot);
-	return rendered;
 }
 
 const render = {
