@@ -22,7 +22,7 @@ function init(): void {
 
 	render.after(
 		<a href={String(actionURL)} className="d-block mb-2">
-			<div ref={ref => ref && ref.replaceWith(SearchIcon({size: 14, className: 'text-gray-dark color-text-primary mr-2'}))}/>
+			<SearchIcon size={14} className="octicon octicon-search text-gray-dark color-text-primary mr-2"/>
 			Usage examples
 		</a>,
 		select('.d-block.mb-2[href^="/contact"]')!,
