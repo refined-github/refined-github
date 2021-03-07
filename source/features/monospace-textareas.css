@@ -1,7 +1,8 @@
 /* Limit width of commit title to 72 characters */
 .rgh-monospace-textareas :is(#merge_title_field, #commit-summary-input) {
-	width: calc(73ch + 18px);
+	width: calc(72ch + 18px);
 	max-width: 100%;
+	box-sizing: content-box;
 }
 
 .rgh-monospace-textareas :is(#merge_title_field, #commit-summary-input, textarea) {
