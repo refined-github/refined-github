@@ -5,58 +5,29 @@ import features from '.';
 
 const allHeadingsSelector = 'h1, h2, h3, h4, h5, h6';
 
-function isHeading(element: HTMLElement): boolean {
-	return element.matches(allHeadingsSelector);
-}
-
-function isSameLevelHeading(referenceHeading: HTMLElement, compareHeading: HTMLElement): boolean {
-	return referenceHeading.tagName === compareHeading.tagName;
-}
-
-function isHigherLevelHeading(referenceHeading: HTMLElement, compareHeading: HTMLElement): boolean {
-	return referenceHeading.tagName.localeCompare(compareHeading.tagName) > 0;
-}
-
 function toggleSection(event: delegate.Event<MouseEvent, HTMLElement>): void {
-	let sectionHeading = (event.target as HTMLElement).closest<HTMLElement>(allHeadingsSelector)!;
+	const sectionHeading = (event.target as HTMLElement).closest<HTMLElement>(allHeadingsSelector)!;
 	const sectionState = sectionHeading.classList.contains('rgh-markdown-section-collapsed');
-	if (event.altKey) {
-		// Set `sectionHeading` as the first same-level header of the larger section
-		for (let element = sectionHeading; element; element = element.previousElementSibling as HTMLElement) {
-			if (!isHeading(element)) {
-				continue;
-			}
+	sectionHeading.classList.toggle('rgh-markdown-section-collapsed');
 
-			if (isHigherLevelHeading(sectionHeading, element)) {
-				break;
-			}
-
-			if (isSameLevelHeading(sectionHeading, element)) {
-				sectionHeading = element;
-			}
-		}
-	}
-
-	for (let element = sectionHeading; element; element = element.nextElementSibling as HTMLElement) {
-		if (isHeading(element)) {
-			if (isHigherLevelHeading(sectionHeading, element)) {
-				break;
-			}
-
-			if (isSameLevelHeading(sectionHeading, element) && !element.isSameNode(sectionHeading) && !event.altKey) {
+	let element = sectionHeading.nextElementSibling as HTMLElement;
+	while (element) {
+		if (element.matches(allHeadingsSelector)) {
+			if (sectionHeading.tagName.localeCompare(element.tagName) >= 0) {
 				break;
 			}
 
 			element.classList.toggle('rgh-markdown-section-collapsed', !sectionState);
-			continue;
+		} else {
+			element.hidden = !sectionState;
 		}
 
-		element.hidden = !sectionState;
+		element = element.nextElementSibling as HTMLElement;
 	}
 }
 
 function init(): void {
-	delegate(document, allHeadingsSelector, 'click', toggleSection);
+	delegate(document, '.markdown-body > ' + allHeadingsSelector, 'click', toggleSection);
 }
 
 void features.add(__filebasename, {
