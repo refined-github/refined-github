@@ -22,7 +22,7 @@ let currentSetting: State = 'default';
 const dropdownClass = 'rgh-conversation-activity-filter-dropdown';
 const hiddenClassName = 'rgh-conversation-activity-filtered';
 
-let observer: Observer
+let observer: Observer;
 
 function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
 	const hasMainComment = select.exists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
