@@ -44,7 +44,7 @@ const getChangelogName = cache.function(async (): Promise<string | false> => {
 	const files: string[] = [];
 	for (const entry of repository.object.entries) {
 		if (entry.type === 'blob') {
-			files.push(file.name)
+			files.push(entry.name)
 		}
 	}
 	return findChangelogName(files);
