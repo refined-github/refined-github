@@ -41,7 +41,12 @@ const getChangelogName = cache.function(async (): Promise<string | false> => {
 			}
 		}
 	`);
-	const files: string[] = repository.object.entries.filter((entry: AnyObject) => entry.type === 'blob').map((file: AnyObject) => file.name);
+	const files: string[] = [];
+	for (const entry of repository.object.entries) {
+		if (entry.type === 'blob') {
+			files.push(file.name)
+		}
+	}
 	return findChangelogName(files);
 }, {
 	cacheKey: getCacheKey
