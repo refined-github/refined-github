@@ -6,7 +6,7 @@ import features from '.';
 const allHeadingsSelector = 'h1, h2, h3, h4, h5, h6';
 
 function toggleSection(event: delegate.Event<MouseEvent, HTMLElement>): void {
-	const sectionHeading = (event.target as HTMLElement).closest<HTMLElement>(allHeadingsSelector)!;
+	const sectionHeading = event.delegateTarget;
 	const sectionState = sectionHeading.classList.contains('rgh-markdown-section-collapsed');
 	sectionHeading.classList.toggle('rgh-markdown-section-collapsed');
 
