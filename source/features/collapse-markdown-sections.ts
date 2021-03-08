@@ -27,7 +27,7 @@ function toggleSection(event: delegate.Event<MouseEvent, HTMLElement>): void {
 }
 
 function init(): void {
-	delegate(document, '.markdown-body > ' + allHeadingsSelector, 'click', toggleSection);
+	delegate(document, `.markdown-body > :is(${allHeadingsSelector})`, 'click', toggleSection);
 }
 
 void features.add(__filebasename, {
