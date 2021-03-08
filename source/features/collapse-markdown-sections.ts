@@ -39,7 +39,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoRoot,
+		pageDetect.isRepoTree,
 		() => pageDetect.isSingleFile() && location.pathname.endsWith('.md')
 	],
 	init
