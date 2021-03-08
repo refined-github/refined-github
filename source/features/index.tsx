@@ -35,7 +35,7 @@ interface InternalRunConfig {
 	include: BooleanFunction[];
 	exclude: BooleanFunction[];
 	init: FeatureInit;
-	deinit?: VoidFunction | Array<VoidFunction>;
+	deinit?: VoidFunction | VoidFunction[];
 	additionalListeners: CallerFunction[];
 
 	onlyAdditionalListeners: boolean;
