@@ -5,9 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function toggleSection(sectionHeading: HTMLElement): void {
-	const sectionState = sectionHeading.classList.contains('rgh-markdown-section-collapsed');
-	sectionHeading.classList.toggle('rgh-markdown-section-collapsed');
-
+	const sectionState = sectionHeading.classList.toggle('rgh-markdown-section-collapsed');
 	let element = sectionHeading.nextElementSibling as HTMLElement;
 	while (element) {
 		if (/^H\d$/.test(element.tagName)) {
@@ -15,9 +13,9 @@ function toggleSection(sectionHeading: HTMLElement): void {
 				return;
 			}
 
-			element.classList.toggle('rgh-markdown-section-collapsed', !sectionState);
+			element.classList.toggle('rgh-markdown-section-collapsed', sectionState);
 		} else {
-			element.hidden = !sectionState;
+			element.hidden = sectionState;
 		}
 
 		element = element.nextElementSibling as HTMLElement;
