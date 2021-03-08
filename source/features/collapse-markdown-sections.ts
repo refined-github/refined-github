@@ -1,18 +1,16 @@
+import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-const allHeadingsSelector = 'h1, h2, h3, h4, h5, h6';
-
-function toggleSection(event: delegate.Event<MouseEvent, HTMLElement>): void {
-	const sectionHeading = event.delegateTarget;
+function toggleSection(sectionHeading: HTMLElement): void {
 	const sectionState = sectionHeading.classList.contains('rgh-markdown-section-collapsed');
 	sectionHeading.classList.toggle('rgh-markdown-section-collapsed');
 
 	let element = sectionHeading.nextElementSibling as HTMLElement;
 	while (element) {
-		if (element.matches(allHeadingsSelector)) {
+		if (element.matches('h1, h2, h3, h4, h5, h6')) {
 			if (sectionHeading.tagName.localeCompare(element.tagName) >= 0) {
 				return;
 			}
@@ -26,8 +24,19 @@ function toggleSection(event: delegate.Event<MouseEvent, HTMLElement>): void {
 	}
 }
 
+function toggleAllTopSections(): void {
+	for (const topHeading of select.all('.markdown-body > h1')) {
+		toggleSection(topHeading);
+	}
+}
+
+function toggleSingleSection({delegateTarget: sectionHeading}: delegate.Event<MouseEvent, HTMLElement>): void {
+	toggleSection(sectionHeading);
+}
+
 function init(): void {
-	delegate(document, `.markdown-body > :is(${allHeadingsSelector})`, 'click', toggleSection);
+	delegate(document, '.markdown-body > h1', 'click', toggleAllTopSections);
+	delegate(document, '.markdown-body > :is(h2, h3, h4, h5, h6)', 'click', toggleSingleSection);
 }
 
 void features.add(__filebasename, {
