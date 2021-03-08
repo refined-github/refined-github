@@ -2,8 +2,8 @@ import './conversation-activity-filter.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
+import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
-import {observe, Observer} from 'selector-observer';
 import {CheckIcon, EyeClosedIcon, EyeIcon} from '@primer/octicons-react';
 
 import features from '.';
@@ -22,7 +22,7 @@ let currentSetting: State = 'default';
 const dropdownClass = 'rgh-conversation-activity-filter-dropdown';
 const hiddenClassName = 'rgh-conversation-activity-filtered';
 
-let observer: Observer;
+const deinit: VoidFunction[] = [];
 
 function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
 	const hasMainComment = select.exists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
@@ -148,13 +148,10 @@ function addWidget(position: Element): void {
 }
 
 function init(): void {
-	observer = observe(':is(.gh-header-sticky .meta, .gh-header-meta .flex-auto):not(.rgh-conversation-activity-filter)', {
+	const observer = observe(':is(.gh-header-sticky .meta, .gh-header-meta .flex-auto):not(.rgh-conversation-activity-filter)', {
 		add: addWidget
 	});
-}
-
-function deinit(): void {
-	observer.abort();
+	deinit.push(observer.abort);
 }
 
 void features.add(__filebasename, {
