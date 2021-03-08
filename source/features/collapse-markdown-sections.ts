@@ -9,7 +9,7 @@ function toggleSection(sectionHeading: HTMLElement): void {
 	let element = sectionHeading.nextElementSibling as HTMLElement;
 	while (element) {
 		if (/^H\d$/.test(element.tagName)) {
-			if (sectionHeading.tagName.localeCompare(element.tagName) >= 0) {
+			if (element.tagName <= sectionHeading.tagName) {
 				return;
 			}
 
