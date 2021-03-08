@@ -2,7 +2,14 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import {CheckIcon} from '@primer/octicons-react';
 
-import {ToastSpinner} from '../helpers/icons';
+function ToastSpinner(): JSX.Element {
+	return (
+		<svg className="Toast--spinner" viewBox="0 0 32 32" width="18" height="18">
+			<path fill="#959da5" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"/>
+			<path fill="#ffffff" d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"/>
+		</svg>
+	);
+}
 
 export default class Toast {
 	baseElement(backgroundClass: string, icon: JSX.Element, toastContent: string): JSX.Element {

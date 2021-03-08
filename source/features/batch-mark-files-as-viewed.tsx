@@ -53,7 +53,7 @@ async function onAltClick(event: delegate.Event<MouseEvent, HTMLElement>): Promi
 		const toast = new Toast();
 		await delay(30); // Without this, the Toast doesn't appear in time
 		markAsViewed(event);
-		toast.hide();
+		toast.done();
 	}
 }
 
