@@ -15,7 +15,7 @@ type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
 type FeatureInit = () => Promisable<false | void>;
 
-interface FeatureLoader extends Partial<InternalRunConfig> {
+interface FeatureLoader extends InternalRunConfig {
 	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
 	shortcuts?: Record<string, string>;
 
@@ -26,19 +26,19 @@ interface FeatureLoader extends Partial<InternalRunConfig> {
 	repeatOnBackButton?: true;
 
 	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
-	onlyAdditionalListeners?: true;
+	onlyAdditionalListeners?: boolean;
 
 	init: FeatureInit; // Repeated here because this interface is Partial<>
 }
 
-interface InternalRunConfig {
-	include: BooleanFunction[];
-	exclude: BooleanFunction[];
-	init: FeatureInit;
-	deinit?: () => void;
-	additionalListeners: CallerFunction[];
 
-	onlyAdditionalListeners: boolean;
+interface InternalRunConfig {
+	include?: BooleanFunction[];
+	exclude?: BooleanFunction[];
+	init: FeatureInit;
+	deinit?: () => void | Array<() => void>;
+	additionalListeners?: CallerFunction[];
+	onlyAdditionalListeners?: boolean;
 }
 
 let log: typeof console.log;
@@ -110,7 +110,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
+const setupPageLoad = async (id: FeatureID, config: Required<InternalRunConfig>): Promise<void> => {
 	const {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
 
 	// If every `include` is false and no `exclude` is true, don’t run the feature
@@ -129,10 +129,12 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 			logError(id, error);
 		}
 
-		if (deinit) {
-			document.addEventListener('pjax:start', deinit, {
-				once: true
-			});
+		if (Array.isArray(deinit)) {
+			for (const callback of deinit) {
+				document.addEventListener('pjax:start', callback, {once: true});
+			}
+		} else if (typeof deinit === 'function') {
+			document.addEventListener('pjax:start', deinit, {once: true});
 		}
 	};
 
@@ -174,8 +176,8 @@ const defaultPairs = new Map([
 
 function enforceDefaults(
 	id: FeatureID,
-	include: InternalRunConfig['include'],
-	additionalListeners: InternalRunConfig['additionalListeners']
+	include: Required<InternalRunConfig>['include'],
+	additionalListeners:  Required<InternalRunConfig>['additionalListeners']
 ): void {
 	for (const [detection, listener] of defaultPairs) {
 		if (!include.includes(detection)) {
@@ -207,7 +209,7 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 			include = [() => true], // Default: every page
 			exclude = [], // Default: nothing
 			init,
-			deinit,
+			deinit = () => {},
 			awaitDomReady = true,
 			repeatOnBackButton = false,
 			onlyAdditionalListeners = false,
@@ -226,7 +228,7 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 
 		enforceDefaults(id, include, additionalListeners);
 
-		const details = {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
+		const details: Required<InternalRunConfig> = {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
 		if (awaitDomReady) {
 			(async () => {
 				await domLoaded;
