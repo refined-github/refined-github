@@ -130,6 +130,7 @@ Thanks for contributing! 🦋🙌
 - [](# "file-finder-buffer") [Lets you start typing your search immediately after invoking the File Finder (<kbd>t</kbd>), instead of having you wait for it to load first.](https://user-images.githubusercontent.com/1402241/75542106-1c811700-5a5a-11ea-8aa5-bea0472c59e2.gif)
 - [](# "show-associated-branch-prs-on-fork") [Shows the associated pull requests on branches for forked repositories.](https://user-images.githubusercontent.com/16872793/81504659-7e5ec800-92b8-11ea-9ee6-924110e8cca1.png)
 - [](# "hide-markdown-diff") [When editing Markdown files, it lets you hide the Markdown diff in the preview.](https://user-images.githubusercontent.com/46634000/108093883-7f5e2a80-707e-11eb-9328-cb902a1061c7.gif)
+- [](# "collapse-markdown-sections") [Toggles collapsing sections of Markdown files when their corresponding header is clicked](https://user-images.githubusercontent.com/46634000/110379737-7cd86a80-8057-11eb-92e2-aed6b0fe35b2.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -315,7 +316,6 @@ Thanks for contributing! 🦋🙌
 - [](# "improve-shortcut-help") [Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (<kbd>?</kbd> hotkey).](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
 - [](# "hide-zero-packages") [Hides the `Packages` tab in user profiles if it’s empty.](https://user-images.githubusercontent.com/46634000/101151879-9ade9b00-3622-11eb-9755-50ed54099e02.png)
-- [](# "collapse-markdown-sections") [Collapses sections of Markdown files when their corresponding header is clicked (and collapses every sibling sections when `Alt`-clicking)](https://user-images.githubusercontent.com/46634000/109290277-b0312300-7827-11eb-8816-81c0d963057e.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
