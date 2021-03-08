@@ -130,6 +130,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 		}
 
 		if (Array.isArray(deinit)) {
+			// The `deinit` array is allowed to until `pjax:start`. Do not loop `deinit` to add multiple listeners since `addEventListener` is run at `init` time
 			document.addEventListener('pjax:start', () => {
 				for (const callback of deinit) {
 					callback();
