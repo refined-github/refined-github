@@ -14,7 +14,7 @@ function toggleSection(event: delegate.Event<MouseEvent, HTMLElement>): void {
 	while (element) {
 		if (element.matches(allHeadingsSelector)) {
 			if (sectionHeading.tagName.localeCompare(element.tagName) >= 0) {
-				break;
+				return;
 			}
 
 			element.classList.toggle('rgh-markdown-section-collapsed', !sectionState);
