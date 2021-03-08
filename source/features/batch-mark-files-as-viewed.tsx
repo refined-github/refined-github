@@ -50,10 +50,10 @@ const markAsViewed = clickAll(markAsViewedSelector);
 
 async function onAltClick(event: delegate.Event<MouseEvent, HTMLElement>): Promise<void> {
 	if (event.altKey && event.isTrusted) {
-		new Toast().show();
+		const toast = new Toast();
 		await delay(30); // Without this, the Toast doesn't appear in time
 		markAsViewed(event);
-		new Toast().done();
+		toast.hide();
 	}
 }
 
