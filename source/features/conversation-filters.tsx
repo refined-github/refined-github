@@ -10,7 +10,7 @@ function init(): void {
 
 	// Add "Everything commented by you" filter
 	const commentsLink = sourceItem.cloneNode(true);
-	commentsLink.textContent = 'Everything commented by you';
+	commentsLink.lastChild!.textContent = 'Everything commented by you';
 	commentsLink.removeAttribute('target');
 	new SearchQuery(commentsLink).set(`is:open commenter:${getUsername()}`);
 
@@ -18,7 +18,7 @@ function init(): void {
 
 	// Add "Everything you subscribed to" link
 	const subscriptionsLink = commentsLink.cloneNode(true);
-	subscriptionsLink.textContent = 'Everything you subscribed to';
+	subscriptionsLink.lastChild!.textContent = 'Everything you subscribed to';
 
 	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
 	const repositoryId = select('input[name="repository_id"]')!.value;
