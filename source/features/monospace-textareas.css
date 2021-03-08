@@ -1,13 +1,11 @@
 /* Limit width of commit title to 72 characters */
-.rgh-monospace-textareas #merge_title_field,
-.rgh-monospace-textareas #commit-summary-input {
-	width: calc(72ch + 18px);
+.rgh-monospace-textareas :is(#merge_title_field, #commit-summary-input) {
+	width: 72ch;
 	max-width: 100%;
+	box-sizing: content-box;
 }
 
-.rgh-monospace-textareas #merge_title_field,
-.rgh-monospace-textareas #commit-summary-input,
-.rgh-monospace-textareas textarea {
+.rgh-monospace-textareas :is(#merge_title_field, #commit-summary-input, textarea) {
 	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
 }
 

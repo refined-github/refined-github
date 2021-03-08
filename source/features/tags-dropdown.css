@@ -1,6 +1,5 @@
 /* Drop unneeded elements */
-:root .rgh-tags-dropdown .SelectMenu-tabs,
-:root .rgh-tags-dropdown .SelectMenu-header {
+:root .rgh-tags-dropdown :is(.SelectMenu-tabs, .SelectMenu-header) {
 	display: none;
 }
 

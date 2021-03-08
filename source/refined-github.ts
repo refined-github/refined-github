@@ -21,6 +21,7 @@ import './features/emphasize-draft-pr-label.css';
 import './features/clean-notifications.css';
 import './features/fix-first-tab-length.css';
 import './features/align-repository-header.css';
+import './features/night-not-found.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -161,7 +162,6 @@ import './features/expand-all-hidden-comments';
 import './features/bugs-tab';
 import './features/cross-deleted-pr-branches';
 import './features/repo-wide-file-finder';
-import './features/preserve-file-finder-term';
 import './features/file-finder-buffer';
 import './features/pr-commit-lines-changed';
 import './features/show-open-prs-of-forks';
@@ -200,7 +200,6 @@ import './features/next-scheduled-github-action';
 import './features/convert-pr-to-draft-improvements';
 import './features/git-checkout-pr';
 import './features/unfinished-comments';
-import './features/single-diff-column-selection';
 import './features/jump-to-change-requested-comment';
 import './features/esc-to-cancel';
 import './features/easy-toggle-files';
@@ -213,6 +212,7 @@ import './features/link-to-changelog-file';
 import './features/hide-markdown-diff';
 import './features/rgh-sponsor-button';
 import './features/rgh-linkify-features';
+import './features/conversation-activity-filter';
 
 // Add global for easier debugging
 (window as any).select = select;
