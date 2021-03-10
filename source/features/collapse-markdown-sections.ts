@@ -3,7 +3,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function toggleSection({delegateTarget: sectionHeading}: delegate.Event<MouseEvent, HTMLElement>): void {
+function onHeadingClick({delegateTarget: sectionHeading}: delegate.Event<MouseEvent, HTMLElement>): void {
 	const isSectionHidden = sectionHeading.classList.toggle('rgh-markdown-section-collapsed');
 	let element = sectionHeading.tagName === 'H1' ?
 		sectionHeading.parentElement!.firstElementChild as HTMLElement :
@@ -24,7 +24,7 @@ function toggleSection({delegateTarget: sectionHeading}: delegate.Event<MouseEve
 }
 
 function init(): void {
-	delegate(document, '.markdown-body > :is(h1, h2, h3, h4, h5, h6)', 'click', toggleSection);
+	delegate(document, '.markdown-body > :is(h1, h2, h3, h4, h5, h6)', 'click', onHeadingClick);
 }
 
 void features.add(__filebasename, {
