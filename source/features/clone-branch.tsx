@@ -73,7 +73,7 @@ async function init(): Promise<void | false> {
 	await api.expectToken();
 	const deleteIconClass = [
 		'branch-filter-item-controller .octicon-trashcan', // Pre "Repository refresh" layout
-		'branch-filter-item .octicon-trashcan'
+		'branch-filter-item .octicon-trash'
 	].join();
 
 	observe(deleteIconClass, {
