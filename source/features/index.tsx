@@ -35,7 +35,7 @@ interface InternalRunConfig {
 	include: BooleanFunction[];
 	exclude: BooleanFunction[];
 	init: FeatureInit;
-	deinit?: () => void;
+	deinit?: VoidFunction | VoidFunction[];
 	additionalListeners: CallerFunction[];
 
 	onlyAdditionalListeners: boolean;
@@ -129,10 +129,17 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 			logError(id, error);
 		}
 
-		if (deinit) {
-			document.addEventListener('pjax:start', deinit, {
-				once: true
-			});
+		if (Array.isArray(deinit)) {
+			// The `deinit` array can change until `pjax:start`. Do not loop it outside the listener.
+			document.addEventListener('pjax:start', () => {
+				for (const callback of deinit) {
+					callback();
+				}
+
+				deinit.length = 0;
+			}, {once: true});
+		} else if (typeof deinit === 'function') {
+			document.addEventListener('pjax:start', deinit, {once: true});
 		}
 	};
 
