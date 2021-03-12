@@ -1,8 +1,6 @@
 import select from 'select-dom';
 import pushForm from 'push-form';
 
-import {getScopedSelector} from '../github-helpers';
-
 // `content.fetch` is Firefox’s way to make fetches from the page instead of from a different context
 // This will set the correct `origin` header without having to use XMLHttpRequest
 // https://stackoverflow.com/questions/47356375/firefox-fetch-api-how-to-omit-the-origin-header-in-the-request
@@ -37,7 +35,7 @@ export const appendBefore = (parent: string | Element, before: string, child: El
 	}
 
 	// Select direct children only
-	const beforeElement = select(getScopedSelector(before), parent);
+	const beforeElement = select(`:scope > :is(${before})`, parent);
 	if (beforeElement) {
 		beforeElement.before(child);
 	} else {
@@ -59,4 +57,10 @@ export const isEditable = (node: unknown): boolean => {
 	return node instanceof HTMLTextAreaElement ||
 		node instanceof HTMLInputElement ||
 		(node instanceof HTMLElement && node.isContentEditable);
+};
+
+export const removeClassFromAll = (className: string): void => {
+	for (const element of select.all('.' + className)) {
+		element.classList.remove(className);
+	}
 };

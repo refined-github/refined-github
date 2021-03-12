@@ -7,7 +7,6 @@ import {
 	getConversationNumber,
 	parseTag,
 	compareNames,
-	getScopedSelector,
 	getLatestVersionTag,
 	preventPrCommitLinkLoss,
 	preventPrCompareLinkLoss,
@@ -109,27 +108,6 @@ test('compareNames', t => {
 	t.true(compareNames('nicolo', 'Nicolò'));
 	t.false(compareNames('dotconnor', 'Connor Love'));
 	t.false(compareNames('fregante ', 'Federico Brigante'));
-});
-
-test('getScopedSelector', t => {
-	const pairs = new Map<string, string>([
-		[
-			'[href$="settings"]',
-			':scope > [href$="settings"]'
-		],
-		[
-			'.reponav-dropdown,[href$="settings"]',
-			':scope > .reponav-dropdown,:scope > [href$="settings"]'
-		],
-		[
-			'.reponav-dropdown, [href$="settings"]',
-			':scope > .reponav-dropdown,:scope > [href$="settings"]'
-		]
-	]);
-
-	for (const [selector, result] of pairs) {
-		t.is(result, getScopedSelector(selector));
-	}
 });
 
 test('looseParseInt', t => {

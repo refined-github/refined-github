@@ -1,16 +1,32 @@
 /* Hide removed content */
-.rgh-hide-markdown-diff .markdown-body del,
-.rgh-hide-markdown-diff .markdown-body .removed {
+.rgh-hide-markdown-diff .markdown-body :is(del, .removed) {
 	display: none !important;
 }
 
 /* Remove decorations on added/changed content */
-.rgh-hide-markdown-diff .markdown-body ins,
-.rgh-hide-markdown-diff .markdown-body .added,
-.rgh-hide-markdown-diff .markdown-body .changed {
-	color: inherit !important;
+.rgh-hide-markdown-diff .markdown-body :is(ins, .added, .changed) {
+	color: var(--color-text-primary) !important;
 	background: none !important;
 	box-shadow: none !important;
+}
+
+.rgh-hide-markdown-diff .markdown-body code {
+	color: var(--color-text-primary) !important;
+	background-color: var(--color-markdown-code-bg) !important;
+	border: none !important;
+}
+
+.rgh-hide-markdown-diff .markdown-body pre code {
+	background: none !important;
+}
+
+.rgh-hide-markdown-diff .markdown-body blockquote :is(ins, .added, .changed) {
+	color: var(--color-text-tertiary) !important;
+}
+
+/* Fix duplicated content issue in changed quote blocks #4035 */
+.rgh-hide-markdown-diff .markdown-body .changed > .changed_tag[data-before-tag='blockquote'] ~ p:not([class]):not(:empty) {
+	display: none !important;
 }
 
 /* Only show the toggle when the preview tab is selected */
@@ -18,7 +34,6 @@
 	display: none !important;
 }
 
-.loading-preview .rgh-preview-toggle,
-.show-preview .rgh-preview-toggle {
+:is(.loading-preview, .show-preview) .rgh-preview-toggle {
 	display: block !important;
 }

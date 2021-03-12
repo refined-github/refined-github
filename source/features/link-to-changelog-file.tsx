@@ -23,7 +23,7 @@ function findChangelogName(files: string[]): string | false {
 }
 
 function parseFromDom(): false {
-	const files = select.all('[aria-labelledby="files"] .js-navigation-open').map(file => file.title);
+	const files = select.all('[aria-labelledby="files"] .js-navigation-open[href*="/blob/"').map(file => file.title);
 	void cache.set(getCacheKey(), findChangelogName(files));
 	return false;
 }
@@ -35,12 +35,20 @@ const getChangelogName = cache.function(async (): Promise<string | false> => {
 				...on Tree {
 					entries {
 						name
+						type
 					}
 				}
 			}
 		}
 	`);
-	const files: string[] = repository.object.entries.map((file: AnyObject) => file.name);
+
+	const files: string[] = [];
+	for (const entry of repository.object.entries) {
+		if (entry.type === 'blob') {
+			files.push(entry.name);
+		}
+	}
+
 	return findChangelogName(files);
 }, {
 	cacheKey: getCacheKey

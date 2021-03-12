@@ -69,14 +69,6 @@ export function compareNames(username: string, realname: string): boolean {
 	return username.replace(/-/g, '').toLowerCase() === realname.normalize('NFD').replace(/[\u0300-\u036F\W.]/g, '').toLowerCase();
 }
 
-/**
- * Prepend `:scope >` to a single or group of css selectors.
- * @param {string} selector A css selector.
- */
-export function getScopedSelector(selector: string): string {
-	return selector.split(',').map(sub => `:scope > ${sub.trim()}`).join();
-}
-
 const validVersion = /^[vr]?\d+(?:\.\d+)+/;
 const isPrerelease = /^[vr]?\d+(?:\.\d+)+(-\d)/;
 export function getLatestVersionTag(tags: string[]): string {

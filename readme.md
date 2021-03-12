@@ -66,6 +66,13 @@ GitHub Enterprise is also supported. More info in the options.
 		<th width="50%">
 			<p><a title="restore-file"></a> Adds a button to revert all the changes to a file in a PR
 			<p><img src="https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif">
+	<tr>
+		<th width="50%">
+			<p><a title="conversation-activity-filter"></a> Lets you hide every event except comments or resolved comments in issues and PRs
+			<p><img src="https://user-images.githubusercontent.com/1402241/109592127-5f922200-7ad4-11eb-8dfa-1d80fb28e70e.png">
+		<th width="50%">
+			<p><a title="batch-open-conversations"></a> Lets you open multiple conversations at once
+			<p><img src="https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif">
 </table>
 
 <!--
@@ -121,7 +128,6 @@ Thanks for contributing! 🦋🙌
 - [](# "edit-readme") [Ensures that the “Edit readme” button always appears (even when you have to make a fork) and works (GitHub’s link doesn’t work on git tags).](https://user-images.githubusercontent.com/1402241/62073307-a8378880-b26a-11e9-9e31-be6525d989d2.png)
 - [](# "repo-wide-file-finder") Enables the File Finder keyboard shortcut (<kbd>t</kbd>) on Issues and Pull Request pages as well.
 - [](# "file-finder-buffer") [Lets you start typing your search immediately after invoking the File Finder (<kbd>t</kbd>), instead of having you wait for it to load first.](https://user-images.githubusercontent.com/1402241/75542106-1c811700-5a5a-11ea-8aa5-bea0472c59e2.gif)
-- [](# "preserve-file-finder-term") Preserves the search terms when navigating back and forth between the File Finder and the files.
 - [](# "show-associated-branch-prs-on-fork") [Shows the associated pull requests on branches for forked repositories.](https://user-images.githubusercontent.com/16872793/81504659-7e5ec800-92b8-11ea-9ee6-924110e8cca1.png)
 - [](# "hide-markdown-diff") [When editing Markdown files, it lets you hide the Markdown diff in the preview.](https://user-images.githubusercontent.com/46634000/108093883-7f5e2a80-707e-11eb-9328-cb902a1061c7.gif)
 
@@ -179,7 +185,6 @@ Thanks for contributing! 🦋🙌
 
 ### Conversations
 
-- [](# "batch-open-conversations") 🔥 [Lets you open multiple conversations at once via checkboxes.](https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif)
 - [](# "split-issue-pr-search-results") [Separates issues from PRs in the global search.](https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png)
 - [](# "sticky-conversation-list-toolbar") [Makes the conversation list’s filters toolbar sticky.](https://user-images.githubusercontent.com/380914/39878141-7632e61a-542c-11e8-9c66-74fcd3a134aa.gif)
 - [](# "highlight-collaborators-and-own-conversations") [Highlights conversations opened by you or the current repo’s collaborators.](https://user-images.githubusercontent.com/1402241/65013882-03225d80-d947-11e9-8eb8-5507bc1fc14b.png)
@@ -337,7 +342,6 @@ Thanks for contributing! 🦋🙌
 - [](# "same-page-definition-jump") [Avoids re-loading the page when jumping to function definition in the current file.](https://user-images.githubusercontent.com/16872793/90833649-7a5e2f80-e316-11ea-827d-a4e3ac8ced69.png)
 - [](# "linkify-full-profile-readme-title") [Linkify the readme text on profile pages.](https://user-images.githubusercontent.com/16872793/90910173-ebe4bf00-e3a4-11ea-8fc5-aea3d1a2e5e5.png)
 - [](# "convert-pr-to-draft-improvements") [Moves the "Convert PR to Draft" button to the mergeability box and adds visual feedback to its confirm button.](https://user-images.githubusercontent.com/1402241/95644892-885f3f80-0a7f-11eb-8428-8e0fb0c8dfa5.gif)
-- [](# "single-diff-column-selection") 🔥 [Allows multiline selections on split diffs.](https://user-images.githubusercontent.com/46634000/98137788-abd0ab00-1ec2-11eb-9e04-6f20786d5dd8.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
