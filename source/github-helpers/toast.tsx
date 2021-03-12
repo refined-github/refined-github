@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import {CheckIcon} from '@primer/octicons-react';
 
 function ToastSpinner(): JSX.Element {
@@ -12,6 +11,8 @@ function ToastSpinner(): JSX.Element {
 }
 
 export default class Toast {
+	loading: JSX.Element | undefined;
+	success: JSX.Element | undefined;
 	baseElement(backgroundClass: string, icon: JSX.Element, toastContent: string): JSX.Element {
 		return (
 			<div
@@ -28,20 +29,22 @@ export default class Toast {
 	}
 
 	show(textContent = 'Bulk actions currently being processed.'): void {
-		this.destroy();
-		document.body.append(this.baseElement('Toast--loading', <ToastSpinner/>, textContent));
+		this.loading = this.baseElement('Toast--loading', <ToastSpinner/>, textContent);
+		document.body.append(this.loading);
 	}
 
 	done(textContent = 'Bulk action processing complete.'): void {
-		this.destroy();
-		document.body.append(this.baseElement('Toast--success', <CheckIcon/>, textContent));
+		this.loading?.remove();
+		this.success = this.baseElement('Toast--success', <CheckIcon/>, textContent);
+		document.body.append(this.success);
 		setTimeout(() => {
-			this.destroy();
+			this.success?.remove();
 		}, 3000);
 	}
 
 	destroy(): void {
-		select('.rgh-toast')?.remove();
+		this.loading?.remove();
+		this.success?.remove();
 	}
 }
 
