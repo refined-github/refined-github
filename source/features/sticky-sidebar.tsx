@@ -38,6 +38,7 @@ void features.add(__filebasename, {
 	],
 	init,
 	deinit: () => {
+		selectObserver.abort();
 		resizeObserver.disconnect();
 		window.removeEventListener('resize', onResize);
 	}
