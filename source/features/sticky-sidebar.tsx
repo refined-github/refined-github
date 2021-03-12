@@ -1,7 +1,7 @@
 import './sticky-sidebar.css';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
-import {observe} from 'selector-observer';
+import {observe, Observer} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -17,9 +17,10 @@ function updateStickiness(): void {
 
 const onResize = debounce(updateStickiness, {wait: 100});
 const observer = new ResizeObserver(onResize);
+let selectObserver: Observer;
 
 function init(): void {
-	observe(sidebarSelector, {
+	selectObserver = observe(sidebarSelector, {
 		add(sidebar) {
 			observer.observe(sidebar, {box: 'border-box'});
 		}
@@ -38,5 +39,6 @@ void features.add(__filebasename, {
 	init,
 	deinit: () => {
 		observer.disconnect();
+		selectObserver.abort();
 	}
 });
