@@ -16,7 +16,7 @@ function updateStickiness(): void {
 }
 
 const onResize = debounce(updateStickiness, {wait: 100});
-const observer = new ResizeObserver(onResize);
+const resizeObserver = new ResizeObserver(onResize);
 let selectObserver: Observer;
 
 function init(): void {
@@ -38,7 +38,7 @@ void features.add(__filebasename, {
 	],
 	init,
 	deinit: () => {
-		observer.disconnect();
+		resizeObserver.disconnect();
 		selectObserver.abort();
 	}
 });
