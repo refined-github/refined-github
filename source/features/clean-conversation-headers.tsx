@@ -41,16 +41,13 @@ function initPR(): void {
 				byline.prepend('by ');
 			}
 
-			if (isDefaultBranch || (pageDetect.isClosedPR() && baseBranch.title.endsWith(':master'))) {
-				// Removes: octocat wants to merge 1 commit into [github:dev] from octocat:feature
-				baseBranch.hidden = true;
-			} else {
-				// Add back "into" if the PR base branch is not the default branch
-				baseBranch.before(' into ');
+			baseBranch.before(' into ');
+			if (!(isDefaultBranch || (pageDetect.isClosedPR() && baseBranch.title.endsWith(':master')))) {
 				baseBranch.classList.add('rgh-clean-conversation-headers-non-default-branch');
 			}
 		}
 	});
+	deinit.push(observer.abort);
 }
 
 void features.add(__filebasename, {
