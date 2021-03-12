@@ -72,7 +72,7 @@ GitHub Enterprise is also supported. More info in the options.
 			<p><img src="https://user-images.githubusercontent.com/1402241/109592127-5f922200-7ad4-11eb-8dfa-1d80fb28e70e.png">
 		<th width="50%">
 			<p><a title="open-all-conversations"></a> Lets you open multiple conversations at once
-			<p><img src="TODO">
+			<p><img src="https://user-images.githubusercontent.com/46634000/110980658-5face000-8366-11eb-88f9-0cc94f75ce57.gif">
 </table>
 
 <!--
