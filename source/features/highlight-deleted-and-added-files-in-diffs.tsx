@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import {observe} from 'selector-observer';
 import oneMutation from 'one-mutation';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {observe} from 'selector-observer';
 
 import features from '.';
 
