@@ -47,7 +47,6 @@ function initPR(): void {
 			}
 		}
 	});
-	deinit.push(observer.abort);
 }
 
 void features.add(__filebasename, {
