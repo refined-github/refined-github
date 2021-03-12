@@ -22,7 +22,7 @@ let selectObserver: Observer;
 function init(): void {
 	selectObserver = observe(sidebarSelector, {
 		add(sidebar) {
-			observer.observe(sidebar, {box: 'border-box'});
+			resizeObserver.observe(sidebar, {box: 'border-box'});
 		}
 	});
 	window.addEventListener('resize', onResize);
