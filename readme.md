@@ -71,8 +71,8 @@ GitHub Enterprise is also supported. More info in the options.
 			<p><a title="conversation-activity-filter"></a> Lets you hide every event except comments or resolved comments in issues and PRs
 			<p><img src="https://user-images.githubusercontent.com/1402241/109592127-5f922200-7ad4-11eb-8dfa-1d80fb28e70e.png">
 		<th width="50%">
-			<p><a title="batch-open-conversations"></a> Lets you open multiple conversations at once
-			<p><img src="https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif">
+			<p><a title="open-all-conversations"></a> Lets you open multiple conversations at once
+			<p><img src="TODO">
 </table>
 
 <!--

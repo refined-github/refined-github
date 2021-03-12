@@ -62,7 +62,7 @@ import './features/shorten-links';
 import './features/linkify-code';
 import './features/download-folder-button';
 import './features/linkify-branch-references';
-import './features/batch-open-conversations';
+import './features/open-all-conversations';
 import './features/hide-useless-comments';
 import './features/navigate-pages-with-arrow-keys';
 import './features/conversation-links-on-repo-lists';
