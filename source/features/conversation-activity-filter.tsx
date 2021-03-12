@@ -1,6 +1,6 @@
 import './conversation-activity-filter.css';
 import delay from 'delay';
-import React from 'dom-chef';
+import React from 'jsx-dom';
 import select from 'select-dom';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
