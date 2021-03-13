@@ -30,7 +30,7 @@ function getDropdown(prs: number[]): HTMLElement {
 						className="issue-link js-issue-link tooltipped tooltipped-e"
 						data-error-text="Failed to load PR title"
 						data-permission-text="PR title is private"
-						data-url={['', getRepo()?.nameWithOwner, 'issues', prNumber].join('/')}
+						data-url={['', getRepo()!.nameWithOwner, 'issues', prNumber].join('/')}
 						data-id={`rgh-pr-${prNumber}`}
 					>
 						<a className="dropdown-item" href={getPRUrl(prNumber)}>
