@@ -27,7 +27,7 @@ function getDropdown(prs: number[]): HTMLElement {
 				</div>
 				{prs.map(prNumber => (
 					<li
-						className="issue-link js-issue-link tooltipped tooltipped-ne"
+						className="issue-link js-issue-link tooltipped tooltipped-e"
 						data-error-text="Failed to load PR title"
 						data-permission-text="PR title is private"
 						data-url={['', getRepo()?.nameWithOwner, 'issues', prNumber].join('/')}
