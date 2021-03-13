@@ -8,12 +8,6 @@ const delegateHandler = mem((callback: EventListener) => (event: delegate.Event)
 	}
 });
 
-declare global {
-	interface DocumentEventMap {
-		'session:resume': CustomEvent;
-	}
-}
-
 const sessionResumeHandler = mem((callback: EventListener) => async (event: CustomEvent) => {
 	await Promise.resolve(); // The `session:resume` event fires a bit too early
 	// Avoid triggering the callback when a page with a non-empty comment field is reloaded #3932
