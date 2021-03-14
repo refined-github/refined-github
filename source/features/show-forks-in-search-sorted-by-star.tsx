@@ -6,8 +6,8 @@ import features from '.';
 import SearchQuery from '../github-helpers/search-query';
 
 function init(): void {
-	const option =  select<HTMLAnchorElement>('.codesearch-results .select-menu-item:nth-of-type(2)')!;
-	const query =		new SearchQuery(option);
+	const option = select<HTMLAnchorElement>('.codesearch-results .select-menu-item:nth-of-type(2)')!;
+	const query = new SearchQuery(option);
 	query.add('fork:true');
 	select('#codesearch_sort_repos option:nth-of-type(2)')!.value = `/search?${query.searchParams.toString()}`;
 }
