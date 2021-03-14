@@ -13,7 +13,7 @@ function onButtonClick(event: delegate.Event): void {
 function init(): void {
 	delegate(document, '.rgh-review-comment-delete-button', 'click', onButtonClick);
 
-	observe('.review-comment > :not(.minimized-comment) .btn-primary[type="submit"]', {
+	observe('.review-comment > .unminimized-comment .btn-primary[type="submit"]', {
 		add(submitButton) {
 			if (submitButton.classList.contains('rgh-delete-button-added')) {
 				return;
