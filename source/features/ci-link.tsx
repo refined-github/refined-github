@@ -16,7 +16,7 @@ const getRepoIcon = onetime(async () => fetchDom(
 ));
 
 const getPRIcon = onetime(async () => fetchDom(
-	buildRepoURL('pull', getConversationNumber(), 'commits'), '.js-commits-list-item:last-of-type .commit-build-statuses'
+	buildRepoURL('pull', getConversationNumber()!, 'commits'), '.js-commits-list-item:last-of-type .commit-build-statuses'
 ));
 
 async function initRepo(): Promise<false | void> {
