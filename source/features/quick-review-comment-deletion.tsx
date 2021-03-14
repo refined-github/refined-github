@@ -15,6 +15,11 @@ function init(): void {
 
 	observe('.review-comment > :not(.minimized-comment) .btn-primary[type="submit"]', {
 		add(submitButton) {
+			if (submitButton.classList.contains('rgh-delete-button-added')) {
+				return;
+			}
+
+			submitButton.classList.add('rgh-delete-button-added');
 			submitButton.after(
 				<button className="btn btn-danger rgh-review-comment-delete-button" type="button">
 					Delete comment
