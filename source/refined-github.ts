@@ -213,6 +213,7 @@ import './features/hide-markdown-diff';
 import './features/rgh-sponsor-button';
 import './features/rgh-linkify-features';
 import './features/conversation-activity-filter';
+import './features/quick-review-comment-deletion';
 
 // Add global for easier debugging
 (window as any).select = select;
