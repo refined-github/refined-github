@@ -1,7 +1,6 @@
 import './show-forks-in-search.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
