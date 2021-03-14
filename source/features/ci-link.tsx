@@ -41,7 +41,7 @@ async function initPR(): Promise<false | void> {
 	}
 
 	icon.classList.add('rgh-ci-link');
-	if (onetime.callCount(getRepoCIIcon) > 1) {
+	if (onetime.callCount(getPRCIIcon) > 1) {
 		icon.style.animation = 'none';
 	}
 
