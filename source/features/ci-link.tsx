@@ -8,21 +8,21 @@ import fetchDom from '../helpers/fetch-dom';
 import {buildRepoURL} from '../github-helpers';
 
 // Look for the CI icon in the latest 2 days of commits #2990
-const getIcon = onetime(async () => fetchDom(
+const getRepoCIIcon = onetime(async () => fetchDom(
 	buildRepoURL('commits'), [
 		'.commit-group:nth-of-type(-n+2) .commit-build-statuses', // Pre "Repository refresh" layout
 		'.TimelineItem--condensed:nth-of-type(-n+2) .commit-build-statuses'
 	].join()
 ));
 
-async function init(): Promise<false | void> {
-	const icon = await getIcon() as HTMLElement | undefined;
+async function initRepo(): Promise<false | void> {
+	const icon = await getRepoCIIcon() as HTMLElement | undefined;
 	if (!icon) {
 		return false;
 	}
 
 	icon.classList.add('rgh-ci-link');
-	if (onetime.callCount(getIcon) > 1) {
+	if (onetime.callCount(getRepoCIIcon) > 1) {
 		icon.style.animation = 'none';
 	}
 
@@ -38,5 +38,5 @@ void features.add(__filebasename, {
 		pageDetect.isEmptyRepo
 	],
 	awaitDomReady: false,
-	init
+	init: initRepo
 });
