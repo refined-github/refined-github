@@ -342,7 +342,7 @@ Thanks for contributing! 🦋🙌
 - [](# "same-page-definition-jump") [Avoids re-loading the page when jumping to function definition in the current file.](https://user-images.githubusercontent.com/16872793/90833649-7a5e2f80-e316-11ea-827d-a4e3ac8ced69.png)
 - [](# "linkify-full-profile-readme-title") [Linkify the readme text on profile pages.](https://user-images.githubusercontent.com/16872793/90910173-ebe4bf00-e3a4-11ea-8fc5-aea3d1a2e5e5.png)
 - [](# "convert-pr-to-draft-improvements") [Moves the "Convert PR to Draft" button to the mergeability box and adds visual feedback to its confirm button.](https://user-images.githubusercontent.com/1402241/95644892-885f3f80-0a7f-11eb-8428-8e0fb0c8dfa5.gif)
-- [](# "show-forks-in-search-sorted-by-star") [Show forked repositories in search results when sorted by stars.](https://user-images.githubusercontent.com/44045911/111064324-56e71600-84ee-11eb-80f6-826e4f2b347c.mp4)
+- [](# "show-forks-in-search") [Add a checkbox to show forked repositories in search results.](https://user-images.githubusercontent.com/44045911/111065724-2014fe00-84f6-11eb-9fed-d9837c277db5.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
