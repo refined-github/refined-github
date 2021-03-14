@@ -1,11 +1,10 @@
-import delay from 'delay';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import oneMutation from 'one-mutation';
 import * as pageDetect from 'github-url-detection';
 
-import Toast from '../github-helpers/toast';
 import features from '.';
+import showToast from '../github-helpers/toast';
 import {clickAll} from './toggle-everything-with-alt';
 
 let previousFile: HTMLElement | undefined;
@@ -51,13 +50,11 @@ const markAsViewed = clickAll(markAsViewedSelector);
 
 async function onAltClick(event: delegate.Event<MouseEvent, HTMLElement>): Promise<void> {
 	if (event.altKey && event.isTrusted) {
-		const lastCheckboxCompleted = oneMutation(select.last(markAsViewedSelector(event.target as HTMLElement))!, {attributes: true});
-		const toast = new Toast();
-		toast.show();
-		await delay(30); // Without this, the Toast doesn't appear in time
+		const lastCheckboxCompleted = oneMutation(select.last(markAsViewedSelector(event.delegateTarget))!, {attributes: true});
+		const hideToast = await showToast();
 		markAsViewed(event);
 		await lastCheckboxCompleted; // Without this, done will be called too early
-		toast.done();
+		await hideToast();
 	}
 }
 

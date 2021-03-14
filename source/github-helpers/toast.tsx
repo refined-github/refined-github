@@ -1,3 +1,4 @@
+import delay from 'delay';
 import React from 'dom-chef';
 import {CheckIcon} from '@primer/octicons-react';
 
@@ -10,41 +11,34 @@ function ToastSpinner(): JSX.Element {
 	);
 }
 
-export default class Toast {
-	loading: JSX.Element | undefined;
-	success: JSX.Element | undefined;
-	baseElement(backgroundClass: string, icon: JSX.Element, toastContent: string): JSX.Element {
-		return (
-			<div
-				role="log"
-				style={{zIndex: 101}}
-				className={`rgh-toast position-fixed bottom-0 right-0 ml-5 mb-5 anim-fade-in fast Toast ${backgroundClass}`}
-			>
-				<span className="Toast-icon">
-					{icon}
-				</span>
-				<span className="Toast-content">{toastContent}</span>
-			</div>
-		);
-	}
+export default async function showToast(
+	message = 'Bulk actions currently being processed.'
+): Promise<(message?: string) => Promise<void>> {
+	const iconWrapper = <span className="Toast-icon"><ToastSpinner/></span>;
+	const messageWrapper = <span className="Toast-content">{message}</span>;
+	const toast = (
+		<div
+			role="log"
+			style={{zIndex: 101}}
+			className="rgh-toast position-fixed bottom-0 right-0 ml-5 mb-5 anim-fade-in fast Toast Toast--loading"
+		>
+			{iconWrapper}
+			{messageWrapper}
+		</div>
+	);
 
-	show(textContent = 'Bulk actions currently being processed.'): void {
-		this.loading = this.baseElement('Toast--loading', <ToastSpinner/>, textContent);
-		document.body.append(this.loading);
-	}
+	document.body.append(toast);
+	await delay(30); // Without this, the Toast doesn't appear in time
 
-	done(textContent = 'Bulk action processing complete.'): void {
-		this.loading?.remove();
-		this.success = this.baseElement('Toast--success', <CheckIcon/>, textContent);
-		document.body.append(this.success);
-		setTimeout(() => {
-			this.success?.remove();
-		}, 3000);
-	}
+	return async (
+		message = 'Bulk action processing complete.'
+	): Promise<void> => {
+		toast.classList.replace('Toast--loading', 'Toast--success');
+		messageWrapper.textContent = message;
+		iconWrapper.firstChild!.replaceWith(<CheckIcon/>);
 
-	destroy(): void {
-		this.loading?.remove();
-		this.success?.remove();
+		await delay(3000);
+		toast.remove();
 	}
 }
 
