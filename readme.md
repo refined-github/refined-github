@@ -93,9 +93,9 @@ GitHub Enterprise is also supported. More info in the options.
   Demo screenshots/gifs style guide
 #####################################
 
-- Hide or delete irrelevant DOM elements to give an uncluttered preview of the feature
-- Zoom on the page if the changes are small
-- Re-use the "Before"/"After" arrows from https://user-images.githubusercontent.com/1402241/34438653-f66535a4-ecda-11e7-9406-2e1258050cfa.png
+- Try cleaning up the page by disabling nearby features or hiding clutter, e.g. everything below this tab bar has been hidden: https://user-images.githubusercontent.com/1402241/55089736-d94f5300-50e8-11e9-9095-329ac74c1e9f.png
+- If possible, zoom at 200% before taking a screenshot (native retina screens are fine at 100%)
+- If changes are subtle, add a before/after comparison using the arrows from https://user-images.githubusercontent.com/1402241/34438653-f66535a4-ecda-11e7-9406-2e1258050cfa.png
 - Include some visual context if the feature targets small UI elements, e.g.: https://user-images.githubusercontent.com/1402241/108955170-52d48080-7633-11eb-8979-67e0d3a53f16.png
 
 Thanks for contributing! 🦋🙌
@@ -356,9 +356,7 @@ Thanks for contributing! 🦋🙌
 
 ### Previously part of Refined GitHub
 
-GitHub implemented [dozens of features](https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+is%3Amerged+label%3A%22implemented+by+github%22) that used to be part of Refined GitHub 🎉
-
-See also [all the dropped features](https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+is%3Amerged+-label%3Ameta+in%3Atitle+drop+feature).
+[GitHub took inspiration from Refined GitHub](https://github.blog/2018-08-28-announcing-paper-cuts/) and natively implemented dozens of its features, 🎉 so they've been [removed from this extension.](https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+is%3Amerged+label%3A%22implemented+by+github%22) You can also see [all the past features](https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+is%3Amerged+-label%3Ameta+in%3Atitle+drop+feature) of Refined GitHub in a single list.
 
 ## Customization
 
