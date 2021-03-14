@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import {buildRepoURL, getPRNumber} from '../github-helpers';
+import {buildRepoURL, getConversationNumber} from '../github-helpers';
 
 // Look for the CI icon in the latest 2 days of commits #2990
 const getRepoIcon = onetime(async () => fetchDom(
@@ -16,7 +16,7 @@ const getRepoIcon = onetime(async () => fetchDom(
 ));
 
 const getPRIcon = onetime(async () => fetchDom(
-	buildRepoURL('pull', getPRNumber().slice(1), 'commits'), '.js-commits-list-item:last-of-type .commit-build-statuses'
+	buildRepoURL('pull', getConversationNumber(), 'commits'), '.js-commits-list-item:last-of-type .commit-build-statuses'
 ));
 
 async function initRepo(): Promise<false | void> {

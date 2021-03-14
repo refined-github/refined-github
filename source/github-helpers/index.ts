@@ -51,10 +51,6 @@ export const buildRepoURL = (...pathParts: Array<string | number> & {0: string})
 	return [location.origin, getRepo()?.nameWithOwner, ...pathParts].join('/');
 };
 
-export function getPRNumber(): string {
-	return select('.gh-header-number')!.textContent!;
-}
-
 export const getPRHeadRepo = (): ReturnType<typeof getRepo> => {
 	const headLink = select('.commit-ref.head-ref a');
 	return getRepo(headLink);
