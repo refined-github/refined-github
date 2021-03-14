@@ -6,8 +6,7 @@
 	vertical-align: 0;
 }
 
-/* 1. Adds space between `ci-link` and "Private" label, if present */
-/* 2. Adds space between `ci-link` and PR number */
+/* Adds space between `ci-link` and PR number or "Private" label, if present */
 .Label + .rgh-ci-link,
 .gh-header-title > .rgh-ci-link,
 .gh-header-number + .rgh-ci-link {
