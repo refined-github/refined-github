@@ -212,6 +212,7 @@ import './features/link-to-changelog-file';
 import './features/hide-markdown-diff';
 import './features/rgh-sponsor-button';
 import './features/rgh-linkify-features';
+import './features/collapse-markdown-sections';
 import './features/conversation-activity-filter';
 
 // Add global for easier debugging
