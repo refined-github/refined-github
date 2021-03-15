@@ -1,28 +1,22 @@
 import React from 'dom-chef';
-import onetime from 'onetime';
 import select from 'select-dom';
+import onetime from 'onetime';
+import oneEvent from 'one-event';
 import delegate from 'delegate-it';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function deleteComment(comment: HTMLElement): void {
-	select('.dropdown-menu .js-comment-delete > button', comment)!.click();
-}
-
-function onButtonClick(event: delegate.Event): void {
+async function onButtonClick(event: delegate.Event): Promise<void> {
 	const comment = event.delegateTarget.closest<HTMLElement>('.js-comment')!;
 	const dropdownFragment = select('include-fragment.SelectMenu-loading', comment);
 	if (dropdownFragment) {
 		select('.timeline-comment-actions > details:last-of-type', comment)!.dispatchEvent(new Event('mouseover'));
-		dropdownFragment.addEventListener('load', () => {
-			deleteComment(comment);
-		});
-		return;
+		await oneEvent(dropdownFragment, 'load');
 	}
 
-	deleteComment(comment);
+	select('.dropdown-menu .js-comment-delete > button', comment)!.click();
 }
 
 function init(): void {
