@@ -11,7 +11,7 @@ function deleteComment(comment: HTMLElement): void {
 }
 
 function onButtonClick(event: delegate.Event): void {
-	const comment = (event.target as HTMLElement).closest<HTMLElement>('.js-comment')!;
+	const comment = event.delegateTarget.closest<HTMLElement>('.js-comment')!;
 	const dropdownFragment = select('include-fragment.SelectMenu-loading', comment);
 	if (dropdownFragment) {
 		select('.timeline-comment-actions > details:last-of-type', comment)!.dispatchEvent(new Event('mouseover'));
