@@ -54,10 +54,10 @@ async function initPR(): Promise<false | void> {
 			heading.append(icon);
 		}
 	});
-	observe('.gh-header-number:not(.rgh-ci-link-heading)', {
+	observe('.js-sticky h1:not(.rgh-ci-link-heading)', {
 		add(heading) {
 			heading.classList.add('rgh-ci-link-heading');
-			heading.after(clone);
+			heading.append(clone);
 		}
 	});
 }
