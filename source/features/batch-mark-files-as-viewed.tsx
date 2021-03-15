@@ -48,10 +48,13 @@ function markAsViewedSelector(target: HTMLElement): string {
 
 const markAsViewed = clickAll(markAsViewedSelector);
 
-async function onAltClick(event: delegate.Event<MouseEvent, HTMLElement>): Promise<void> {
+async function onAltClick(event: delegate.Event<MouseEvent, HTMLInputElement>): Promise<void> {
 	if (event.altKey && event.isTrusted) {
 		const lastCheckboxCompleted = oneMutation(select.last(markAsViewedSelector(event.delegateTarget))!, {attributes: true});
-		const hideToast = await showToast();
+		const message = event.delegateTarget.checked ?
+			'Marking visible files as viewed' :
+			'Marking visible files as unviewed';
+		const hideToast = await showToast(message);
 		markAsViewed(event);
 		await lastCheckboxCompleted; // Without this, done will be called too early
 		await hideToast();

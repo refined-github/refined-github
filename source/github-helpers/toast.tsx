@@ -39,6 +39,6 @@ export default async function showToast(
 
 		await delay(3000);
 		toast.remove();
-	}
+	};
 }
 
