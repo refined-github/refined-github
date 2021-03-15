@@ -214,6 +214,7 @@ import './features/rgh-sponsor-button';
 import './features/rgh-linkify-features';
 import './features/collapse-markdown-sections';
 import './features/conversation-activity-filter';
+import './features/select-all-notifications';
 
 // Add global for easier debugging
 (window as any).select = select;
