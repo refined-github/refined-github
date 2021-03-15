@@ -31,6 +31,7 @@ interface GlobalEventHandlersEventMap {
 	'pjax:error': CustomEvent;
 	'page:loaded': CustomEvent;
 	'pjax:start': CustomEvent;
+	'session:resume': CustomEvent;
 }
 
 declare namespace JSX {
