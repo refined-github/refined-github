@@ -1,6 +1,5 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import oneMutation from 'one-mutation';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -50,13 +49,12 @@ const markAsViewed = clickAll(markAsViewedSelector);
 
 async function onAltClick(event: delegate.Event<MouseEvent, HTMLInputElement>): Promise<void> {
 	if (event.altKey && event.isTrusted) {
-		const lastCheckboxCompleted = oneMutation(select.last(markAsViewedSelector(event.delegateTarget))!, {attributes: true});
 		const message = event.delegateTarget.checked ?
 			'Marking visible files as viewed' :
 			'Marking visible files as unviewed';
+
 		const hideToast = await showToast(message);
 		markAsViewed(event);
-		await lastCheckboxCompleted; // Without this, done will be called too early
 		await hideToast();
 	}
 }

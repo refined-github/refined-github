@@ -37,6 +37,7 @@ export default async function showToast(
 		messageWrapper.textContent = message;
 		iconWrapper.firstChild!.replaceWith(<CheckIcon/>);
 
+		await new Promise(requestAnimationFrame); // Without this, the toast might be removed before the first page paint
 		await delay(3000);
 		toast.remove();
 	};
