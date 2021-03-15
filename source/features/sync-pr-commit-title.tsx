@@ -19,7 +19,7 @@ function getCommitTitleField(): HTMLInputElement | undefined {
 
 function createCommitTitle(): string {
 	const prTitle = select('.js-issue-title')!.textContent!.trim();
-	return `${prTitle} (${getConversationNumber()!})`;
+	return `${prTitle} (#${getConversationNumber()!})`;
 }
 
 function needsSubmission(): boolean {
@@ -60,7 +60,7 @@ function updatePRTitle(): void {
 
 	// Remove PR number from commit title
 	const prTitle = getCommitTitleField()!.value
-		.replace(regexJoin(/\s*\(/, getConversationNumber()!, /\)$/), '');
+		.replace(regexJoin(/\s*\(/, '#' + getConversationNumber()!, /\)$/), '');
 
 	// Fill and submit title-change form
 	select(prTitleFieldSelector)!.value = prTitle;
