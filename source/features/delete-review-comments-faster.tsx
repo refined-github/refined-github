@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import onetime from 'onetime';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import {observe} from 'selector-observer';
@@ -26,12 +27,8 @@ function onButtonClick(event: delegate.Event): void {
 
 function init(): void {
 	delegate(document, '.rgh-review-comment-delete-button', 'click', onButtonClick);
-	observe('.review-comment > .unminimized-comment .btn-primary[type="submit"]', {
+	observe('.review-comment > .unminimized-comment .btn-primary[type="submit"]:not(.rgh-delete-button-added)', {
 		add(submitButton) {
-			if (submitButton.classList.contains('rgh-delete-button-added')) {
-				return;
-			}
-
 			submitButton.classList.add('rgh-delete-button-added');
 			submitButton.after(
 				<button className="btn btn-danger rgh-review-comment-delete-button" type="button">
@@ -48,5 +45,5 @@ void features.add(__filebasename, {
 		pageDetect.isPRFiles
 	],
 	awaitDomReady: false,
-	init
+	init: onetime(init)
 });
