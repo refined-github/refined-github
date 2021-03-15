@@ -35,7 +35,7 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoTree,
-		() => Boolean(pageDetect.utils.getRepositoryInfo()?.path.startsWith('wiki')),
+		pageDetect.isRepoWiki,
 		() => pageDetect.isSingleFile() && location.pathname.endsWith('.md')
 	],
 	init
