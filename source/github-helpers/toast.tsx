@@ -2,6 +2,8 @@ import delay from 'delay';
 import React from 'dom-chef';
 import {CheckIcon} from '@primer/octicons-react';
 
+import {frame} from '../helpers/dom-utils';
+
 function ToastSpinner(): JSX.Element {
 	return (
 		<svg className="Toast--spinner" viewBox="0 0 32 32" width="18" height="18">
@@ -11,9 +13,14 @@ function ToastSpinner(): JSX.Element {
 	);
 }
 
-export default async function showToast(
-	message = 'Bulk actions currently being processed.'
-): Promise<(message?: string) => Promise<void>> {
+type Task = () => Promise<any>;
+export default async function showToast<TTask extends Task>(
+	task: TTask,
+	{
+		message = 'Bulk actions currently being processed.',
+		doneMessage = 'Bulk action processing complete.'
+	} = {}
+): Promise<ReturnType<TTask>> {
 	const iconWrapper = <span className="Toast-icon"><ToastSpinner/></span>;
 	const messageWrapper = <span className="Toast-content">{message}</span>;
 	const toast = (
@@ -30,16 +37,15 @@ export default async function showToast(
 	document.body.append(toast);
 	await delay(30); // Without this, the Toast doesn't appear in time
 
-	return async (
-		message = 'Bulk action processing complete.'
-	): Promise<void> => {
+	try {
+		return await task();
+	} finally {
 		toast.classList.replace('Toast--loading', 'Toast--success');
-		messageWrapper.textContent = message;
+		messageWrapper.textContent = doneMessage;
 		iconWrapper.firstChild!.replaceWith(<CheckIcon/>);
 
-		await new Promise(requestAnimationFrame); // Without this, the toast might be removed before the first page paint
+		await frame(); // Without this, the toast might be removed before the first page paint
 		await delay(3000);
 		toast.remove();
-	};
+	}
 }
-

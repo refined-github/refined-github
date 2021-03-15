@@ -47,16 +47,19 @@ function markAsViewedSelector(target: HTMLElement): string {
 
 const markAsViewed = clickAll(markAsViewedSelector);
 
-async function onAltClick(event: delegate.Event<MouseEvent, HTMLInputElement>): Promise<void> {
-	if (event.altKey && event.isTrusted) {
-		const message = event.delegateTarget.checked ?
-			'Marking visible files as viewed' :
-			'Marking visible files as unviewed';
-
-		const hideToast = await showToast(message);
-		markAsViewed(event);
-		await hideToast();
+function onAltClick(event: delegate.Event<MouseEvent, HTMLInputElement>): void {
+	if (!event.altKey || !event.isTrusted) {
+		return;
 	}
+
+	void showToast(async () => {
+		markAsViewed(event);
+	}, {
+		message: event.delegateTarget.checked ?
+			'Marking visible files as viewed' :
+			'Marking visible files as unviewed',
+		doneMessage: 'Done'
+	});
 }
 
 function init(): void {
