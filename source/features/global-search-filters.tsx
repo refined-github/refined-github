@@ -5,17 +5,18 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import SearchQuery from '../github-helpers/search-query';
-import {getUsername} from '../github-helpers';
+
+const filters = [
+	['Forks', 'fork:true'],
+	['Private', 'is:private'],
+	['Yours', 'user:@me']
+];
 
 function init(): void {
-	const items = [
-		['Forks', 'fork:true'],
-		['Private', 'is:private'],
-		['Yours', `user:${getUsername()}`]
-	].map(([name, filter]) => {
+	const items = [];
+	for (const [name, filter] of filters) {
 		const item = <a className="filter-item" href={location.href}>{name}</a>;
-		// @ts-expect-error
-		const query = new SearchQuery(item);
+		const query = new SearchQuery(item as unknown as HTMLAnchorElement);
 
 		if (query.includes(filter)) {
 			query.remove(filter);
@@ -25,10 +26,10 @@ function init(): void {
 			query.add(filter);
 		}
 
-		return <li>{item}</li>;
-	});
+		items.push(<li>{item}</li>);
+	}
 
-	select('.menu')!.nextElementSibling!.after(
+	select('#js-pjax-container .menu')!.nextElementSibling!.after(
 		<div className="border rounded-1 p-3 mb-3 d-none d-md-block">
 			<h2 className="d-inline-block f5 mb-2">
 				Filters

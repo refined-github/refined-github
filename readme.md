@@ -315,7 +315,7 @@ Thanks for contributing! 🦋🙌
 - [](# "improve-shortcut-help") [Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (<kbd>?</kbd> hotkey).](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
 - [](# "hide-zero-packages") [Hides the `Packages` tab in user profiles if it’s empty.](https://user-images.githubusercontent.com/46634000/101151879-9ade9b00-3622-11eb-9755-50ed54099e02.png)
-- [](# "search-filters") [Adds useful search filters in search page.](https://user-images.githubusercontent.com/44045911/111149280-a6e5db80-85c7-11eb-9e61-4badb9d3c685.png)
+- [](# "global-search-filters") [Adds useful search filters in search page.](https://user-images.githubusercontent.com/44045911/111149280-a6e5db80-85c7-11eb-9e61-4badb9d3c685.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
