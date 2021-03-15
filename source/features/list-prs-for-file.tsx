@@ -26,7 +26,13 @@ function getDropdown(prs: number[]): HTMLElement {
 					File touched by PRs
 				</div>
 				{prs.map(prNumber => (
-					<li>
+					<li
+						className="issue-link js-issue-link tooltipped tooltipped-e"
+						data-error-text="Failed to load PR title"
+						data-permission-text="PR title is private"
+						data-url={buildRepoURL('issues', prNumber)}
+						data-id={`rgh-pr-${prNumber}`}
+					>
 						<a className="dropdown-item" href={getPRUrl(prNumber)}>
 							#{prNumber}
 						</a>
