@@ -16,11 +16,6 @@ const getRepoIcon = onetime(async () => fetchDom<HTMLElement>(
 	].join()
 ));
 
-const getPRIcon = async () => fetchDom<HTMLElement>(
-	buildRepoURL('pull', getConversationNumber()!, 'commits'),
-	'.js-commits-list-item:last-of-type .commit-build-statuses'
-);
-
 async function initRepo(): Promise<false | void> {
 	const icon = await getRepoIcon();
 	if (!icon) {
@@ -37,7 +32,10 @@ async function initRepo(): Promise<false | void> {
 }
 
 async function initPR(): Promise<false | void> {
-	const icon = await getPRIcon();
+	const icon = await fetchDom<HTMLElement>(
+		buildRepoURL('pull', getConversationNumber()!, 'commits'),
+		'.js-commits-list-item:last-of-type .commit-build-statuses'
+	);
 	if (!icon) {
 		return false;
 	}
@@ -48,14 +46,16 @@ async function initPR(): Promise<false | void> {
 	observe('.gh-header-title:not(.rgh-ci-link-heading)', {
 		add(heading) {
 			heading.classList.add('rgh-ci-link-heading');
+
 			if (onetime.callCount(getRepoIcon) > 1) {
 				icon.style.animation = 'none';
 			}
+
 			heading.append(icon);
 		}
 	});
 
-  // Append to PR sticky header
+	// Append to PR sticky header
 	const clone = icon.cloneNode(true);
 	clone.style.animation = 'none';
 	observe('.js-sticky h1:not(.rgh-ci-link-heading)', {
