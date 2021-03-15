@@ -30,23 +30,18 @@ function initPR(): void {
 			const baseBranch = select('.commit-ref:not(.head-ref)', byline)!;
 			const isDefaultBranch = (baseBranch.firstElementChild as HTMLAnchorElement).pathname.split('/').length === 3;
 
-			// Removes: [octocat wants to merge 1 commit into] github:master from octocat:feature
-			// Removes: [octocat merged 1 commit into] master from feature
-			// Removes: octocat [merged 1 commit into] github:master from lovelycat:feature
-			for (const node of [...byline.childNodes].slice(isSameAuthor ? 0 : 2, pageDetect.isMergedPR() ? 3 : 5)) {
+			// Removes: [octocat wants to merge 1] commit into github:master from octocat:feature
+			// Removes: [octocat] merged 1 commit into master from feature
+			for (const node of [...byline.childNodes].slice(isSameAuthor ? 0 : 2, pageDetect.isMergedPR() ? 2 : 4)) {
 				node.remove();
 			}
 
+			baseBranch.previousSibling!.textContent = ' into ';
 			if (!isSameAuthor) {
 				byline.prepend('by ');
 			}
 
-			if (isDefaultBranch || (pageDetect.isClosedPR() && baseBranch.title.endsWith(':master'))) {
-				// Removes: octocat wants to merge 1 commit into [github:dev] from octocat:feature
-				baseBranch.hidden = true;
-			} else {
-				// Add back "into" if the PR base branch is not the default branch
-				baseBranch.before(' into ');
+			if (!isDefaultBranch && !(pageDetect.isClosedPR() && baseBranch.title.endsWith(':master'))) {
 				baseBranch.classList.add('rgh-clean-conversation-headers-non-default-branch');
 			}
 		}
