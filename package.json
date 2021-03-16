@@ -63,7 +63,7 @@
 		"github-url-detection": "^4.9.1",
 		"image-promise": "^7.0.1",
 		"indent-textarea": "^2.0.3",
-		"js-abbreviation-number": "^1.0.0",
+		"js-abbreviation-number": "^1.1.2",
 		"linkify-issues": "2.0.0-nolookbehind",
 		"linkify-urls": "3.1.0-nolookbehind",
 		"mem": "^8.0.0",
