@@ -4,12 +4,12 @@ import select from 'select-dom';
 import {BugIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {abbreviateNumber} from 'js-abbreviation-number';
 
 import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
+import issueNumberFormat from '../helpers/issue-number-format';
 
 const countBugs = cache.function(async (): Promise<number> => {
 	const {search} = await api.v4(`
@@ -93,7 +93,7 @@ async function init(): Promise<void | false> {
 
 	// Update bugs count
 	try {
-		bugsCounter.textContent = abbreviateNumber(await countPromise, 1, {padding: false}).toLowerCase();
+		bugsCounter.textContent = issueNumberFormat(await countPromise);
 	} catch (error: unknown) {
 		bugsCounter.remove();
 		features.error(__filebasename, error);

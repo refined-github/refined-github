@@ -4,12 +4,12 @@ import select from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {abbreviateNumber} from 'js-abbreviation-number';
 
 import features from '.';
 import * as api from '../github-helpers/api';
 import looseParseInt from '../helpers/loose-parse-int';
 import {appendBefore} from '../helpers/dom-utils';
+import issueNumberFormat from '../helpers/issue-number-format';
 import {createDropdownItem} from './more-dropdown';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
@@ -78,7 +78,7 @@ async function init(): Promise<false | void> {
 			>
 				<TagIcon className="UnderlineNav-octicon"/>
 				<span data-content="Releases">Releases</span>
-				{count && <span className="Counter">{abbreviateNumber(count, 1, {padding: false}).toLowerCase()}</span>}
+				{count && <span className="Counter">{issueNumberFormat(count)}</span>}
 			</a>
 		);
 
@@ -118,7 +118,7 @@ async function init(): Promise<false | void> {
 		<a href={buildRepoURL('releases')} className="reponav-item" data-hotkey="g r">
 			<TagIcon/>
 			<span> Releases </span>
-			{count && <span className="Counter">{abbreviateNumber(count, 1, {padding: false}).toLowerCase()}</span>}
+			{count && <span className="Counter">{issueNumberFormat(count)}</span>}
 		</a>
 	);
 
