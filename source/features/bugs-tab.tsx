@@ -9,7 +9,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
-import issueNumberFormat from '../helpers/issue-number-format';
+import abbreviateNumber from '../helpers/abbreviate-number';
 
 const countBugs = cache.function(async (): Promise<number> => {
 	const {search} = await api.v4(`
@@ -93,7 +93,7 @@ async function init(): Promise<void | false> {
 
 	// Update bugs count
 	try {
-		bugsCounter.textContent = issueNumberFormat(await countPromise);
+		bugsCounter.textContent = abbreviateNumber(await countPromise);
 	} catch (error: unknown) {
 		bugsCounter.remove();
 		features.error(__filebasename, error);
