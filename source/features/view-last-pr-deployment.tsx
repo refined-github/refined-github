@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {RocketIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import {LinkExternalIcon} from '@primer/octicons-react';
 
 import features from '.';
 import observeElement from '../helpers/simplified-element-observer';
@@ -12,13 +12,12 @@ function init(): void {
 	const {href} = select.last<HTMLAnchorElement>(deploymentSelector)!;
 	select('.gh-header-actions')!.prepend(
 		<a
-			className="btn btn-sm btn-outline tooltipped tooltipped-n"
-			aria-label="View the last deployment"
+			className="btn btn-sm btn-outline mr-1"
 			href={href}
 			target="_blank"
 			rel="noreferrer"
 		>
-			<RocketIcon className="mr-1"/> View Deployment
+			View Deployment <LinkExternalIcon className="ml-1"/>
 		</a>
 	);
 }
