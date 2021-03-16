@@ -6,8 +6,6 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {upperCaseFirst} from '../github-helpers';
 
-const forbiddenReasons = new Set(['spam', 'duplicate', 'disruptive content']);
-
 const init = (): void => {
 	for (const details of select.all('.minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments)')) {
 		details.classList.add('rgh-preview-hidden-comments');
@@ -22,14 +20,14 @@ const init = (): void => {
 			'.discussion-item-icon  + div' // Review Comments
 		], details)!;
 
-		const reason = /was marked as ([^.]+)/.exec(header.textContent!)?.[1] ?? (header.textContent!.trim().endsWith('has been minimized.') ? 'duplicate' : '');
-		if (forbiddenReasons.has(reason)) {
+		const reason = /off-topic|hidden/.exec(header.textContent!)?.[0];
+		if (!reason) {
 			continue;
 		}
 
 		header.append(
 			<span className="Details-content--open">{header.firstChild}</span>,
-			<span className="Details-content--closed">{(reason.length > 0 ? upperCaseFirst(reason) + ' — ' : '') + commentText}</span>
+			<span className="Details-content--closed">{`${upperCaseFirst(reason)} — ${commentText}`}</span>
 		);
 	}
 };
