@@ -29,7 +29,7 @@ function init(): void {
 		items.push(<li>{item}</li>);
 	}
 
-	select('#js-pjax-container .menu')!.nextElementSibling!.after(
+	select('#js-pjax-container .menu ~ .border')!.after(
 		<div className="border rounded-1 p-3 mb-3 d-none d-md-block">
 			<h2 className="d-inline-block f5 mb-2">
 				Filters
