@@ -214,6 +214,7 @@ import './features/rgh-sponsor-button';
 import './features/rgh-linkify-features';
 import './features/collapse-markdown-sections';
 import './features/conversation-activity-filter';
+import './features/no-duplicate-list-update-time';
 
 // Add global for easier debugging
 (window as any).select = select;
