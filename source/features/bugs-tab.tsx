@@ -93,9 +93,7 @@ async function init(): Promise<void | false> {
 
 	// Update bugs count
 	try {
-		bugsCounter.textContent = abbreviateNumber(await countPromise, 1, {padding: false})
-			// Matches GitHub lowercase `k` style
-			.toLowerCase();
+		bugsCounter.textContent = abbreviateNumber(await countPromise, 1, {padding: false}).toLowerCase();
 	} catch (error: unknown) {
 		bugsCounter.remove();
 		features.error(__filebasename, error);
