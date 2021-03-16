@@ -56,7 +56,7 @@ async function init(): Promise<false | void> {
 				insertionPoint.after(
 					' (',
 					<bdo className="css-truncate">
-						<span className="css-truncate-target v-align-middle" style={{maxWidth: '200px'}}>
+						<span className="css-truncate-target v-align-middle" style={{maxWidth: '200px', transform: 'translateY(1px)'}}>
 							{names[userKey].name}
 						</span>
 					</bdo>,
