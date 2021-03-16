@@ -71,8 +71,8 @@ GitHub Enterprise is also supported. More info in the options.
 			<p><a title="conversation-activity-filter"></a> Lets you hide every event except comments or resolved comments in issues and PRs
 			<p><img src="https://user-images.githubusercontent.com/1402241/109592127-5f922200-7ad4-11eb-8dfa-1d80fb28e70e.png">
 		<th width="50%">
-			<p><a title="batch-open-conversations"></a> Lets you open multiple conversations at once
-			<p><img src="https://user-images.githubusercontent.com/1402241/38084752-4820b0d8-3378-11e8-868c-a1582b16f915.gif">
+			<p><a title="open-all-conversations"></a> Lets you open multiple conversations at once
+			<p><img src="https://user-images.githubusercontent.com/46634000/110980658-5face000-8366-11eb-88f9-0cc94f75ce57.gif">
 </table>
 
 <!--
@@ -130,6 +130,7 @@ Thanks for contributing! 🦋🙌
 - [](# "file-finder-buffer") [Lets you start typing your search immediately after invoking the File Finder (<kbd>t</kbd>), instead of having you wait for it to load first.](https://user-images.githubusercontent.com/1402241/75542106-1c811700-5a5a-11ea-8aa5-bea0472c59e2.gif)
 - [](# "show-associated-branch-prs-on-fork") [Shows the associated pull requests on branches for forked repositories.](https://user-images.githubusercontent.com/16872793/81504659-7e5ec800-92b8-11ea-9ee6-924110e8cca1.png)
 - [](# "hide-markdown-diff") [When editing Markdown files, it lets you hide the Markdown diff in the preview.](https://user-images.githubusercontent.com/46634000/108093883-7f5e2a80-707e-11eb-9328-cb902a1061c7.gif)
+- [](# "collapse-markdown-sections") [Lets you collapse sections in Markdown and help you see the outline of the document.](https://user-images.githubusercontent.com/46634000/110379737-7cd86a80-8057-11eb-92e2-aed6b0fe35b2.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
