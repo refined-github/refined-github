@@ -116,6 +116,7 @@ const config: Configuration = {
 			),
 
 			__filebasename: webpack.DefinePlugin.runtimeValue(
+				// @ts-expect-error
 				info => JSON.stringify(path.parse(info.module.resource).name)
 			)
 		}),
