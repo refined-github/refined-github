@@ -7,8 +7,8 @@ import features from '.';
 import preserveScroll from '../helpers/preserve-scroll';
 
 type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
-
-const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler => {
+// eslint-disable-next-line import/prefer-default-export
+export const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler => {
 	return event => {
 		if (event.altKey && event.isTrusted) {
 			const clickedItem = event.delegateTarget;

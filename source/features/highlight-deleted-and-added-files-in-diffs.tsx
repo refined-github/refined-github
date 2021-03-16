@@ -1,13 +1,13 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import {observe} from 'selector-observer';
 import oneMutation from 'one-mutation';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {observe, Observer} from 'selector-observer';
 
 import features from '.';
 
-let observer: Observer;
+const deinit: VoidFunction[] = [];
 
 async function loadDeferred(jumpList: Element): Promise<void> {
 	// This event will trigger the loading, but if run too early, GitHub might not have attached the listener yet, so we try multiple times.
@@ -33,7 +33,7 @@ async function init(): Promise<void | false> {
 		await loadDeferred(fileList!);
 	}
 
-	observer = observe('.file-info [href]:not(.rgh-pr-file-state)', {
+	const observer = observe('.file-info [href]:not(.rgh-pr-file-state)', {
 		constructor: HTMLAnchorElement,
 		add(filename) {
 			filename.classList.add('rgh-pr-file-state');
@@ -58,6 +58,7 @@ async function init(): Promise<void | false> {
 			);
 		}
 	});
+	deinit.push(observer.abort);
 }
 
 void features.add(__filebasename, {
@@ -70,9 +71,7 @@ void features.add(__filebasename, {
 		pageDetect.isPRFile404,
 		pageDetect.isPRCommit404
 	],
+	awaitDomReady: false,
 	init,
-	deinit: () => {
-		observer.abort();
-	},
-	awaitDomReady: false
+	deinit
 });
