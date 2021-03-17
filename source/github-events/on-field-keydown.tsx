@@ -23,6 +23,6 @@ export function onCommentFieldKeydown(callback: DelegateFieldEvent): void {
 	onFieldKeydown('.js-comment-field, #commit-description-textarea', callback);
 }
 
-export function onTitleFieldKeydown(callback: DelegateFieldEvent): void {
+export function onConversationTitleFieldKeydown(callback: DelegateFieldEvent): void {
 	onFieldKeydown('#issue_title', callback);
 }

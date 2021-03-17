@@ -2,7 +2,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 
 import features from '.';
-import {onTitleFieldKeydown} from '../github-events/on-field-keydown';
+import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown';
 
 function handleEscPress(event: delegate.Event<KeyboardEvent>): void {
 	if (event.key === 'Escape') {
@@ -14,7 +14,7 @@ function handleEscPress(event: delegate.Event<KeyboardEvent>): void {
 }
 
 function init(): void {
-	onTitleFieldKeydown(handleEscPress);
+	onConversationTitleFieldKeydown(handleEscPress);
 }
 
 void features.add(__filebasename, {
