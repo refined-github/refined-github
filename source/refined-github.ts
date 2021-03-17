@@ -212,7 +212,9 @@ import './features/link-to-changelog-file';
 import './features/hide-markdown-diff';
 import './features/rgh-sponsor-button';
 import './features/rgh-linkify-features';
+import './features/collapse-markdown-sections';
 import './features/conversation-activity-filter';
+import './features/no-duplicate-list-update-time';
 import './features/global-search-filters';
 
 // Add global for easier debugging
