@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
 
-function onFieldKeydown(selector: string, callback: delegate.EventHandler<KeyboardEvent, HTMLTextAreaElement | HTMLInputElement>): void {
+function onFieldKeydown(selector: string, callback: delegate.EventHandler<KeyboardEvent, HTMLTextAreaElement>): void {
 	delegate<HTMLTextAreaElement, KeyboardEvent>(document, selector, 'keydown', event => {
 		const field = event.delegateTarget;
 
@@ -17,10 +17,10 @@ function onFieldKeydown(selector: string, callback: delegate.EventHandler<Keyboa
 	});
 }
 
-export function onCommentFieldKeydown (callback: delegate.EventHandler): void {
+export function onCommentFieldKeydown (callback: delegate.EventHandler<KeyboardEvent, HTMLTextAreaElement>): void {
 	onFieldKeydown('.js-comment-field, #commit-description-textarea', callback);
 };
 
-export function onTitleFieldKeydown (callback: delegate.EventHandler): void {
+export function onTitleFieldKeydown (callback: delegate.EventHandler<KeyboardEvent, HTMLTextAreaElement>): void {
 	onFieldKeydown('#issue_title', callback);
 };
