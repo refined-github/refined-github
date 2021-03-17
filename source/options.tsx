@@ -8,6 +8,7 @@ import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
+import bisectFeatures from './bisect';
 import {perDomainOptions} from './options-storage';
 
 interface Status {
@@ -129,6 +130,16 @@ async function clearCacheHandler(event: Event): Promise<void> {
 	}, 2000);
 }
 
+async function bisectFeaturesHandler(event: Event): Promise<void> {
+	const button = event.target as HTMLButtonElement;
+	const initialText = button.textContent;
+	button.textContent = 'Bisecting…';
+	button.disabled = true;
+	await bisectFeatures();
+	button.textContent = initialText;
+	button.disabled = false;
+}
+
 function featuresFilterHandler(event: Event): void {
 	const keywords = (event.currentTarget as HTMLInputElement).value.toLowerCase()
 		.replace(/\W/g, ' ')
@@ -207,6 +218,9 @@ function addEventListeners(): void {
 
 	// Add cache clearer
 	select('#clear-cache')!.addEventListener('click', clearCacheHandler);
+
+	// Add bisect tool
+	select('#bisect-features')!.addEventListener('click', bisectFeaturesHandler);
 
 	// Add token validation
 	select('[name="personalToken"]')!.addEventListener('input', validateToken);
