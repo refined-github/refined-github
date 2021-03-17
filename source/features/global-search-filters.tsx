@@ -5,14 +5,14 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import SearchQuery from '../github-helpers/search-query';
-
-const filters = [
-	['Forks', 'fork:true'],
-	['Private', 'is:private'],
-	['Yours', 'user:@me']
-];
+import {getUsername} from '../github-helpers';
 
 function init(): void {
+	const filters = [
+		['Forks', 'fork:true'],
+		['Private', 'is:private'],
+		['Yours', `user:${getUsername()}`]
+	];
 	const items = [];
 	for (const [name, filter] of filters) {
 		const item = <a className="filter-item" href={location.href}>{name}</a>;
