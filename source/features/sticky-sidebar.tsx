@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
+const deinit: VoidFunction[] = [];
 // Both selectors are present on conversation pages so we need to discriminate
 const sidebarSelector = pageDetect.isRepoRoot() ? '.repository-content .flex-column > :last-child [data-pjax]' : '#partial-discussion-sidebar';
 
@@ -16,15 +17,20 @@ function updateStickiness(): void {
 }
 
 const onResize = debounce(updateStickiness, {wait: 100});
-const observer = new ResizeObserver(onResize);
 
 function init(): void {
-	observe(sidebarSelector, {
+	const resizeObserver = new ResizeObserver(onResize);
+	const selectObserver = observe(sidebarSelector, {
 		add(sidebar) {
-			observer.observe(sidebar, {box: 'border-box'});
+			resizeObserver.observe(sidebar, {box: 'border-box'});
 		}
 	});
 	window.addEventListener('resize', onResize);
+	deinit.push(() => {
+		selectObserver.abort();
+		resizeObserver.disconnect();
+		window.removeEventListener('resize', onResize);
+	});
 }
 
 void features.add(__filebasename, {
@@ -36,7 +42,5 @@ void features.add(__filebasename, {
 		pageDetect.isEmptyRepoRoot
 	],
 	init,
-	deinit: () => {
-		observer.disconnect();
-	}
+	deinit
 });

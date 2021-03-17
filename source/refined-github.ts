@@ -62,7 +62,7 @@ import './features/shorten-links';
 import './features/linkify-code';
 import './features/download-folder-button';
 import './features/linkify-branch-references';
-import './features/batch-open-conversations';
+import './features/open-all-conversations';
 import './features/hide-useless-comments';
 import './features/navigate-pages-with-arrow-keys';
 import './features/conversation-links-on-repo-lists';
@@ -212,8 +212,10 @@ import './features/link-to-changelog-file';
 import './features/hide-markdown-diff';
 import './features/rgh-sponsor-button';
 import './features/rgh-linkify-features';
+import './features/collapse-markdown-sections';
 import './features/conversation-activity-filter';
 import './features/delete-review-comments-faster';
+import './features/no-duplicate-list-update-time';
 
 // Add global for easier debugging
 (window as any).select = select;

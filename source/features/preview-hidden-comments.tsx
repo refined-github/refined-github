@@ -6,8 +6,6 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {upperCaseFirst} from '../github-helpers';
 
-const allowedReasons = new Set(['resolved', 'outdated', 'off-topic']);
-
 const init = (): void => {
 	for (const details of select.all('.minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments)')) {
 		details.classList.add('rgh-preview-hidden-comments');
@@ -22,8 +20,8 @@ const init = (): void => {
 			'.discussion-item-icon  + div' // Review Comments
 		], details)!;
 
-		const reason = /was marked as ([^.]+)/.exec(header.textContent!)?.[1] ?? '';
-		if (!allowedReasons.has(reason)) {
+		const reason = /off-topic|hidden/.exec(header.textContent!)?.[0];
+		if (!reason) {
 			continue;
 		}
 

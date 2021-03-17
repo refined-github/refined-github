@@ -1,13 +1,14 @@
 import './clean-conversation-headers.css';
 import select from 'select-dom';
-import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
+const deinit: VoidFunction[] = [];
+
 function initIssue(): void {
-	observe('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)', {
+	const observer = observe('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)', {
 		add(byline) {
 			byline.classList.add('rgh-clean-conversation-header');
 			const {childNodes: bylineNodes} = byline;
@@ -20,10 +21,11 @@ function initIssue(): void {
 			}
 		}
 	});
+	deinit.push(observer.abort);
 }
 
 function initPR(): void {
-	observe('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)', {
+	const observer = observe('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)', {
 		add(byline) {
 			byline.classList.add('rgh-clean-conversation-header');
 			const isSameAuthor = select('.js-discussion > .TimelineItem:first-child .author')?.textContent === select('.author', byline)!.textContent;
@@ -51,6 +53,7 @@ function initPR(): void {
 			}
 		}
 	});
+	deinit.push(observer.abort);
 }
 
 void features.add(__filebasename, {
@@ -58,11 +61,13 @@ void features.add(__filebasename, {
 		pageDetect.isIssue
 	],
 	awaitDomReady: false,
-	init: onetime(initIssue)
+	init: initIssue,
+	deinit
 }, {
 	include: [
 		pageDetect.isPR
 	],
 	awaitDomReady: false,
-	init: onetime(initPR)
+	init: initPR,
+	deinit
 });

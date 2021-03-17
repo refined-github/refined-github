@@ -21,6 +21,7 @@ const defaults = Object.assign({
 const migrations = [
 	featureWasRenamed('pr-easy-toggle-files', 'easy-toggle-files'), // Merged in December
 	featureWasRenamed('cleanup-repo-filelist-actions', 'clean-repo-filelist-actions'), // Merged in February
+	featureWasRenamed('batch-open-conversations', 'open-all-conversations'), // Merged in March
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused
