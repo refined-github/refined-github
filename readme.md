@@ -68,11 +68,11 @@ GitHub Enterprise is also supported. More info in the options.
 			<p><img src="https://user-images.githubusercontent.com/1402241/62826118-73b7bb00-bbe0-11e9-9449-2dd64c469bb9.gif">
 	<tr>
 		<th width="50%">
-			<p><a title="conversation-activity-filter"></a> Lets you hide every event except comments or resolved comments in issues and PRs
+			<p><a title="conversation-activity-filter"></a> Lets you hide every event except comments or unresolved comments in issues and PRs
 			<p><img src="https://user-images.githubusercontent.com/1402241/109592127-5f922200-7ad4-11eb-8dfa-1d80fb28e70e.png">
 		<th width="50%">
-			<p><a title="open-all-conversations"></a> Lets you open multiple conversations at once
-			<p><img src="https://user-images.githubusercontent.com/46634000/110980658-5face000-8366-11eb-88f9-0cc94f75ce57.gif">
+			<p><a title="follow-file-renames"></a> Enhances files’ commit lists navigation to follow file renames
+			<p><img src="https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png">
 </table>
 
 <!--
@@ -88,6 +88,15 @@ GitHub Enterprise is also supported. More info in the options.
 	- "Adds keyboard shortcuts to ...: <kbd>a</kbd> and <kbd>alt</kbd> <kbd>a</kbd>"
 - Use smart apostrophes: ’ instead of '
 - Keep it concise.
+
+#####################################
+  Demo screenshots/gifs style guide
+#####################################
+
+- Try cleaning up the page by disabling nearby features or hiding clutter, e.g. everything below this tab bar has been hidden: https://user-images.githubusercontent.com/1402241/55089736-d94f5300-50e8-11e9-9095-329ac74c1e9f.png
+- If possible, zoom at 200% before taking a screenshot (native retina screens are fine at 100%)
+- If changes are subtle, add a before/after comparison using the arrows from https://user-images.githubusercontent.com/1402241/34438653-f66535a4-ecda-11e7-9406-2e1258050cfa.png
+- Include some visual context if the feature targets small UI elements, e.g.: https://user-images.githubusercontent.com/1402241/108955170-52d48080-7633-11eb-8979-67e0d3a53f16.png
 
 Thanks for contributing! 🦋🙌
 
@@ -129,7 +138,8 @@ Thanks for contributing! 🦋🙌
 - [](# "repo-wide-file-finder") Enables the File Finder keyboard shortcut (<kbd>t</kbd>) on Issues and Pull Request pages as well.
 - [](# "file-finder-buffer") [Lets you start typing your search immediately after invoking the File Finder (<kbd>t</kbd>), instead of having you wait for it to load first.](https://user-images.githubusercontent.com/1402241/75542106-1c811700-5a5a-11ea-8aa5-bea0472c59e2.gif)
 - [](# "show-associated-branch-prs-on-fork") [Shows the associated pull requests on branches for forked repositories.](https://user-images.githubusercontent.com/16872793/81504659-7e5ec800-92b8-11ea-9ee6-924110e8cca1.png)
-- [](# "hide-markdown-diff") [When editing Markdown files, it lets you hide the Markdown diff in the preview.](https://user-images.githubusercontent.com/46634000/108093883-7f5e2a80-707e-11eb-9328-cb902a1061c7.gif)
+- [](# "html-preview-link") [Adds a link to preview HTML files.](https://user-images.githubusercontent.com/44045911/67634792-48995980-f8fb-11e9-8b6a-7b57d5b12a2f.png)
+- [](# "hide-markdown-diff") 🔥 [When editing Markdown files, it lets you hide the Markdown diff in the preview.](https://user-images.githubusercontent.com/46634000/108093883-7f5e2a80-707e-11eb-9328-cb902a1061c7.gif)
 - [](# "collapse-markdown-sections") [Lets you collapse sections in Markdown and help you see the outline of the document.](https://user-images.githubusercontent.com/46634000/110379737-7cd86a80-8057-11eb-92e2-aed6b0fe35b2.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
@@ -143,7 +153,6 @@ Thanks for contributing! 🦋🙌
 - [](# "list-prs-for-file") [Shows PRs that touch the current file.](https://user-images.githubusercontent.com/55841/60622834-879e1f00-9de1-11e9-9a9e-bae5ec0b3728.png)
 - [](# "refined-github.css") [Reduces tabs’ size to 4 spaces instead of 8.](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
 - [](# "esc-to-deselect-line") [Adds a keyboard shortcut to deselect the current line: <kbd>esc</kbd>.](https://github.com/sindresorhus/refined-github/issues/1590)
-- [](# "html-preview-link") [Adds a link to preview HTML files.](https://user-images.githubusercontent.com/44045911/67634792-48995980-f8fb-11e9-8b6a-7b57d5b12a2f.png)
 - [](# "vertical-front-matter") [Shows Markdown front matter as vertical table.](https://user-images.githubusercontent.com/44045911/87251695-26069b00-c4a0-11ea-9077-53ce366490ed.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
@@ -186,6 +195,7 @@ Thanks for contributing! 🦋🙌
 
 ### Conversations
 
+- [](# "open-all-conversations") [Lets you open all visible conversations at once.](https://user-images.githubusercontent.com/46634000/110980658-5face000-8366-11eb-88f9-0cc94f75ce57.gif)
 - [](# "split-issue-pr-search-results") [Separates issues from PRs in the global search.](https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png)
 - [](# "sticky-conversation-list-toolbar") [Makes the conversation list’s filters toolbar sticky.](https://user-images.githubusercontent.com/380914/39878141-7632e61a-542c-11e8-9c66-74fcd3a134aa.gif)
 - [](# "highlight-collaborators-and-own-conversations") [Highlights conversations opened by you or the current repo’s collaborators.](https://user-images.githubusercontent.com/1402241/65013882-03225d80-d947-11e9-8eb8-5507bc1fc14b.png)
@@ -204,6 +214,7 @@ Thanks for contributing! 🦋🙌
 - [](# "clean-conversation-headers") [Removes duplicate information in the header of issues and PRs ("User wants to merge X commits from Y into Z")](https://user-images.githubusercontent.com/44045911/89736767-686ec800-da9e-11ea-81c3-252e9813140b.png)
 - [](# "dim-bots") [Dims commits and PRs by bots to reduce noise.](https://user-images.githubusercontent.com/1402241/65263190-44c52b00-db36-11e9-9b33-d275d3c8479d.gif)
 - [](# "esc-to-cancel") [Adds a shortcut to cancel editing a conversation title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
+- [](# "no-duplicate-list-update-time") [Hides the update time of conversations in lists when it matches the open/closed/merged time.](https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -251,7 +262,6 @@ Thanks for contributing! 🦋🙌
 - [](# "patch-diff-links") [Adds links to `.patch` and `.diff` files in commits.](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
 - [](# "raw-file-link") [Adds a link to view the raw version of files in PRs and commits.](https://user-images.githubusercontent.com/1402241/56484988-b99f2500-6504-11e9-9748-c944e1070cc8.png)
 - [](# "faster-pr-diff-options") [Adds one-click buttons to change diff style and to ignore the whitespace and a keyboard shortcut to ignore the whitespace: <kbd>d</kbd> <kbd>w</kbd>.](https://user-images.githubusercontent.com/1402241/54178764-d1c96080-44d1-11e9-889c-734ffd2a602d.png)
-- [](# "follow-file-renames") 🔥 [Enhances files’ commit lists navigation to follow file renames.](https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png)
 - [](# "link-to-file-in-file-history") [Adds links to the file itself in a file’s commit list.](https://user-images.githubusercontent.com/22439276/57195061-b88ddf00-6f6b-11e9-8ad9-13225d09266d.png)
 - [](# "extend-diff-expander") [Widens the `Expand diff` button to be clickable across the screen.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
 - [](# "remove-diff-signs") [Hides diff signs since diffs are color coded already.](https://user-images.githubusercontent.com/1402241/54807718-149cec80-4cb9-11e9-869c-e265863211e3.png)
@@ -349,37 +359,7 @@ Thanks for contributing! 🦋🙌
 
 ### Previously part of Refined GitHub
 
-GitHub implemented dozens of features that used to be part of Refined GitHub 🎉
-
-<details><summary>See list</summary>
-
-- [Blog post](https://github.blog/2017-01-18-navigate-file-history-faster-with-improved-blame-view/): [Blame parent commits in blame view.](https://github.com/sindresorhus/refined-github/issues/2#issuecomment-189141373)
-- [Blog post](https://cloud.githubusercontent.com/assets/170270/25772137/6a6b678e-3296-11e7-97c7-02e31ef17743.png): [Collapse/expand files in a PR diff.](https://cloud.githubusercontent.com/assets/170270/13954167/40caa604-f072-11e5-89ba-3145217c4e28.png)
-- [Blog post](https://user-images.githubusercontent.com/1402241/31265633-779ad0fe-aa35-11e7-8c42-a3b375f8f32c.png): [Preview a issue/PR reference’s title in comments.](https://user-images.githubusercontent.com/170270/30729486-2816df06-9f8a-11e7-8069-8999302e9ddd.png)
-- [Blog post](https://github.com/sindresorhus/refined-github/pull/1330): The dashboard organization switcher is moved to the right column.
-- [Blog post](https://github.blog/changelog/2018-07-24-button-to-edit-a-repositorys-readme-from-the-repository-root/): [Quickly edit a repository’s README from the repository root.](https://user-images.githubusercontent.com/170270/27501200-31a1fa20-586c-11e7-9a3f-ce270014bf0a.png)
-- [Blog post](https://github.blog/changelog/2018-07-25-access-your-repositories-straight-from-the-profile-dropdown/): [Access `Your repositories` from the profile dropdown.](https://user-images.githubusercontent.com/4201088/34920280-479e2454-f996-11e7-8e24-ad69793b9d9b.png)
-- [Blog post](https://github.blog/changelog/2018-07-26-highlighting-of-permalinked-comments/): [Permalinked comments are highlighted.](https://user-images.githubusercontent.com/1402241/37349492-226bd37a-2709-11e8-8087-d9686b330240.png)
-- [Blog post](https://github.blog/changelog/2018-07-24-keyboard-shortcut-to-leave-a-single-comment-in-pull-requests-reviews/): Leave a single comment in pull request diffs instead of starting a review by pressing <kbd>shift</kbd> <kbd>enter</kbd>.
-- [Blog post](https://github.blog/changelog/2018-07-31-removing-files-from-a-pull-request/): [Quickly delete a file from pull requests.](https://user-images.githubusercontent.com/1402241/42529637-578587e4-847f-11e8-9705-57384a1edd24.png)
-- [Blog post](https://github.com/sindresorhus/refined-github/issues/1521): Pressing `Cancel` on an inline comment opens a prompt to prevent accidental cancelling.
-- [Blog post](https://github.blog/changelog/2018-07-31-unselectable-diff-markers/): The `+` and `-` signs in diffs are made unselectable for easier copy-pasting.
-- [Blog post](https://github.blog/changelog/2018-08-17-collapse-all-diffs-in-a-pull-request-at-once/): Toggle all [outdated PR comments](https://user-images.githubusercontent.com/25818354/33240033-3e271588-d2af-11e7-93af-13b6e325f65d.gif) or [PR/commit files](https://user-images.githubusercontent.com/1402241/35192652-6f79dc42-fec9-11e7-89ad-2b4a9c5f4f52.gif) with <kbd>alt</kbd> <kbd>click</kbd>.
-- [Blog post](https://github.blog/changelog/2018-11-05-related-issues/): [Avoid opening duplicate issues thanks to the list of possibly-related issues.](https://user-images.githubusercontent.com/29176678/37566899-85953e6e-2abf-11e8-9f0e-52d18c87bbe3.gif)
-- [Blog post](https://github.blog/changelog/2018-11-16-copy-file-paths-in-diffs/): [Copy the path of a PR file.](https://cloud.githubusercontent.com/assets/4201088/26023064/18c9c77c-37d2-11e7-8926-b0a05a2706ae.png)
-- [Blog post](https://github.blog/changelog/2018-11-26-searching-by-user-from-a-profile-page/): [Search a user profile page when visiting it.](https://user-images.githubusercontent.com/1402241/35185441-24ad4b1e-fe37-11e7-9e1b-0dc09fc1ada2.png)
-- [Blog post](https://user-images.githubusercontent.com/36004334/52573199-ea365480-2e19-11e9-8ebf-3ea6a7a640f8.png): [Access the `Labels` `Milestones` navigation from individual milestone pages.](https://cloud.githubusercontent.com/assets/170270/25217211/37b67aea-25d0-11e7-8482-bead2b04ee74.png)
-- [Blog post](https://github.blog/changelog/2019-02-13-comment-author-label/): [The comments of who opened an issue/PR are marked with `Original Poster` label.](https://cloud.githubusercontent.com/assets/4331946/25075520/d62fbbd0-2316-11e7-921f-ab736dc3522e.png)
-- [Blog post](https://github.blog/changelog/2019-02-14-prompt-to-clean-up-merged-forks): [Quickly delete a forked repo after its pull request has been merged.](https://cloud.githubusercontent.com/assets/170270/13520281/b2c9335c-e211-11e5-9e36-b0f325166356.png)
-- [Blog post](https://github.blog/changelog/2019-03-05-exclude-labels-from-search/): [Exclude PR/issue filters from their list](https://user-images.githubusercontent.com/1402241/48470535-493cfb00-e824-11e8-863a-964f52b62553.png) with <kbd>alt</kbd> <kbd>click</kbd>.
-- [Blog post](https://github.blog/changelog/2019-03-18-sticky-file-headers-in-pull-requests/): [File headers are always visible.](https://user-images.githubusercontent.com/81981/28682784-78bac340-72fe-11e7-9386-bdbab7703693.gif)
-- [Blog Post](https://github.blog/changelog/2019-03-29-linking-branch-names-on-pull-request-headers/): [Linkify branch names in pull requests.](https://github.com/sindresorhus/refined-github/issues/1)
-- [Blog post](https://github.blog/changelog/2019-08-21-improved-visibility-for-related-pull-requests-in-issues/): Adds a link to an issue’s closing commit or pull request. [1](https://user-images.githubusercontent.com/1402241/35973522-5c00acb6-0d08-11e8-89ca-03071de15c6f.png) [2](https://user-images.githubusercontent.com/1402241/37037746-8b8eac8a-2185-11e8-94f6-4d50a9c8a152.png)
-- [Blog post](https://github.blog/changelog/2019-12-19-improved-attribution-when-squashing-commits/): [Adds `co-authored-by` to the commit when merging PRs with multiple committers.](https://user-images.githubusercontent.com/1402241/51468821-71a42100-1da2-11e9-86aa-fc2a6a29da84.png)
-- [Blog post](https://github.com/sindresorhus/refined-github/pull/3015): [Makes it easier to tell apart commits added to the current PR versus plain commits that reference the PR.](https://user-images.githubusercontent.com/1402241/64478939-398b0a80-d1da-11e9-8c6a-bb98668cb78c.gif)
-- [Blog post](https://github.blog/changelog/2020-06-23-design-updates-to-repositories-and-github-ui/): [Widens the discussion search box.](https://user-images.githubusercontent.com/1402241/55069759-bceaf080-50bf-11e9-84d0-7707de2eb9e9.png)
-
-</details>
+[GitHub took inspiration from Refined GitHub](https://github.blog/2018-08-28-announcing-paper-cuts/) and natively implemented dozens of its features, 🎉 so they've been [removed from this extension.](https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+is%3Amerged+label%3A%22implemented+by+github%22) You can also see [all the past features](https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+is%3Amerged+-label%3Ameta+in%3Atitle+drop+feature) of Refined GitHub in a single list.
 
 ## Customization
 

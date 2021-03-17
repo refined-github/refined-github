@@ -7,6 +7,7 @@ import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
+import {getConversationNumber} from '../github-helpers';
 
 const mergeFormSelector = '.is-squashing form:not([hidden])';
 const prTitleFieldSelector = '.js-issue-update input[name="issue[title]"]';
@@ -16,13 +17,9 @@ function getCommitTitleField(): HTMLInputElement | undefined {
 	return select<HTMLInputElement>(`${mergeFormSelector} #merge_title_field`);
 }
 
-function getPRNumber(): string {
-	return select('.gh-header-number')!.textContent!;
-}
-
 function createCommitTitle(): string {
 	const prTitle = select('.js-issue-title')!.textContent!.trim();
-	return `${prTitle} (${getPRNumber()})`;
+	return `${prTitle} (#${getConversationNumber()!})`;
 }
 
 function needsSubmission(): boolean {
@@ -63,7 +60,7 @@ function updatePRTitle(): void {
 
 	// Remove PR number from commit title
 	const prTitle = getCommitTitleField()!.value
-		.replace(regexJoin(/\s*\(/, getPRNumber(), /\)$/), '');
+		.replace(regexJoin(/\s*\(/, '#' + getConversationNumber()!, /\)$/), '');
 
 	// Fill and submit title-change form
 	select(prTitleFieldSelector)!.value = prTitle;
