@@ -10,7 +10,7 @@ function handleIssueComment(event: delegate.Event<MouseEvent, KeyboardEvent, HTM
 	let title = document.querySelector('input#issue_title')?.value.length;
 	if ( ((body && body < 3) || (title && title < 3)) && !confirm('Less than 3 chrs, are you sure?') ) {
 			event.preventDefault();
-			event.stopImmediatePropagation(); // I don't know if it's necessary to stop comments, they're sent via ajax
+			event.stopImmediatePropagation();
 	}
 }
 
@@ -30,7 +30,7 @@ function init(): void {
 void features.add(__filebasename, {
     awaitDomReady: false,
 	include: [
-		pageDetect.isNewIssue, // Find which one you need on https://fregante.github.io/github-url-detection/
+		pageDetect.isNewIssue,
 		pageDetect.isIssue
 	],
 	init
