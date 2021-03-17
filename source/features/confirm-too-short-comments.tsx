@@ -14,7 +14,7 @@ function handleIssueComment(event: delegate.Event<MouseEvent, KeyboardEvent, HTM
 }
 
 function init(): void {
-	delegate(document, 'form.js-new-comment-form' + ',' + 'form.new_issue', 'submit', handleIssueComment)
+	delegate(document, 'form.js-new-comment-form, form.new_issue', 'submit', handleIssueComment)
 }
 
 void features.add(__filebasename, {
