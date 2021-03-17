@@ -4,7 +4,10 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 async function init(): Promise<void> {
-	(await elementReady<HTMLElement>('.js-notifications-mark-all-prompt'))!.dataset.hotkey = 'a';
+	const selectAllNotifications = await elementReady<HTMLElement>('.js-notifications-mark-all-prompt');
+	if (selectAllNotifications) {
+		selectAllNotifications.dataset.hotkey = 'a';
+	}
 }
 
 void features.add(__filebasename, {
