@@ -15,16 +15,7 @@ function handleIssueComment(event: delegate.Event<MouseEvent, KeyboardEvent, HTM
 }
 
 function init(): void {
-
-	const formComment = 'form.js-new-comment-form';
-	const formNewIssue = 'form.new_issue';
-	
-	if (pageDetect.isIssue()){
-		document.querySelector(formComment)?.addEventListener('submit', handleIssueComment );
-	} else if (pageDetect.isNewIssue()){
-		document.querySelector(formNewIssue)?.addEventListener('submit', handleIssueComment );
-	}
-
+	delegate(document, 'form.js-new-comment-form' + ',' + 'form.new_issue', 'submit', handleIssueComment)
 }
 
 void features.add(__filebasename, {
