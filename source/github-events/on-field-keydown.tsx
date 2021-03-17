@@ -17,13 +17,10 @@ function onFieldKeydown(selector: string, callback: delegate.EventHandler<Keyboa
 	});
 }
 
-const onCommentFieldKeydown = (callback: delegate.EventHandler<KeyboardEvent, HTMLTextAreaElement>) => {
+export function onCommentFieldKeydown (callback: delegate.EventHandler<KeyboardEvent, HTMLTextAreaElement>): void {
 	onFieldKeydown('.js-comment-field, #commit-description-textarea', callback);
 };
 
-const onTitleFieldKeydown = (callback: delegate.EventHandler<KeyboardEvent, HTMLInputElement>) => {
+export function onTitleFieldKeydown (callback: delegate.EventHandler<KeyboardEvent, HTMLInputElement>): void {
 	onFieldKeydown('#issue_title', callback);
 };
-
-export {onCommentFieldKeydown, onTitleFieldKeydown};
-
