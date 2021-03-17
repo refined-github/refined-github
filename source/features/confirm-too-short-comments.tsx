@@ -5,7 +5,6 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 
-// function handleIssueComment() {
 function handleIssueComment(event: delegate.Event<MouseEvent, KeyboardEvent, HTMLAnchorElement>): void {
     let body = document.querySelector('textarea[name="comment[body]"], textarea#issue_body')?.value.length;
 	let title = document.querySelector('input#issue_title')?.value.length;
