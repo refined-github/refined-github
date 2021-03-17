@@ -5,7 +5,7 @@ import features from '.';
 
 async function init(): Promise<void> {
 	const selectAllNotifications = await elementReady<HTMLElement>('.js-notifications-mark-all-prompt');
-	if (selectAllNotifications) {
+	if (selectAllNotifications) { // Notifications page may be empty
 		selectAllNotifications.dataset.hotkey = 'a';
 	}
 }
