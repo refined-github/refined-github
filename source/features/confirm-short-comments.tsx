@@ -5,12 +5,17 @@ import features from '.';
 
 
 function handleIssueComment(event: delegate.Event<MouseEvent, KeyboardEvent, HTMLAnchorElement>): void {
-    let body = document.querySelector('textarea[name="comment[body]"], textarea#issue_body')?.value.length;
+    let textareas = document.querySelector('textarea[name="comment[body]"], textarea#issue_body')?.value.length;
 	let title = document.querySelector('input#issue_title')?.value.length;
-	if ( ((body && body < 3) || (title && title < 3)) && !confirm('Less than 3 chrs, are you sure?') ) {
-			event.preventDefault();
-			event.stopImmediatePropagation();
+	if ( (textareas && textareas < 3) && !confirm('Body is less than 3 characters, are you sure?') ) {
+		event.preventDefault();
+		event.stopImmediatePropagation();
 	}
+
+	if ( pageDetect.isNewIssue() && (title && title < 3) && !confirm('Title is less than 3 characters, are you sure?') ) {
+		event.preventDefault();
+	}
+
 }
 
 function init(): void {
