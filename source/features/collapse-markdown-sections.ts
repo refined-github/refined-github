@@ -3,12 +3,18 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function onHeadingClick({delegateTarget: sectionHeading}: delegate.Event<MouseEvent, HTMLElement>): void {
+function onHeadingClick(event: delegate.Event<MouseEvent, HTMLElement>): void {
 	// Don't toggle the section if the title text is being selected instead of clicked
 	if (document.getSelection()?.type === 'Range') {
 		return;
 	}
 
+	// Don't toggle the section if a link in the heading is clicked (either the content or the anchor)
+	if ((event.target as HTMLElement).closest('h1, h2, h3, h4, h5, h6, a')!.tagName === 'A') {
+		return;
+	}
+
+	const sectionHeading = event.delegateTarget;
 	const isSectionHidden = sectionHeading.classList.toggle('rgh-markdown-section-collapsed');
 	let element = sectionHeading.tagName === 'H1' ?
 		sectionHeading.parentElement!.firstElementChild as HTMLElement :
