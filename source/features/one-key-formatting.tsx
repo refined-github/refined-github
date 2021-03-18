@@ -33,6 +33,7 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement |
 function init(): void {
 	onCommentFieldKeydown(eventHandler);
 	onConversationTitleFieldKeydown(eventHandler);
+	delegate(document, 'input[name="commit_title"]', 'keydown', eventHandler);
 }
 
 void features.add(__filebasename, {
