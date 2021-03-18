@@ -23,10 +23,10 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
-    awaitDomReady: false,
 	include: [
 		pageDetect.isNewIssue,
 		pageDetect.isIssue
 	],
+	awaitDomReady: false,
 	init
 });
