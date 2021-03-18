@@ -10,7 +10,7 @@ function onHeadingClick(event: delegate.Event<MouseEvent, HTMLElement>): void {
 	}
 
 	// Don't toggle the section if a link in the heading is clicked (either the content or the anchor)
-	if ((event.target as HTMLElement).closest('h1, h2, h3, h4, h5, h6, a')!.tagName === 'A') {
+	if ((event.target as HTMLElement).closest('a')) {
 		return;
 	}
 
