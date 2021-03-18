@@ -1,3 +1,4 @@
+import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -5,8 +6,8 @@ import features from '.';
 
 
 function handleIssueComment(event: delegate.Event<MouseEvent, KeyboardEvent, HTMLAnchorElement>): void {
-    let textareas = document.querySelector('textarea[name="comment[body]"], textarea#issue_body')?.value.length;
-	let title = document.querySelector('input#issue_title')?.value.length;
+	const textareas = select('textarea[name="comment[body]"], textarea#issue_body')!.value.length;
+	const title = select('input#issue_title')?.value.length;
 	if ( (textareas && textareas < 3) && !confirm('Body is less than 3 characters, are you sure?') ) {
 		event.preventDefault();
 		event.stopImmediatePropagation();
