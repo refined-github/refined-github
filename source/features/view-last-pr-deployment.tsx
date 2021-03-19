@@ -21,7 +21,7 @@ function init(): void | false {
 			target="_blank"
 			rel="noreferrer"
 		>
-			View Deployment <LinkExternalIcon className="ml-1"/>
+			<LinkExternalIcon className="mr-1"/> View deployment
 		</a>
 	);
 }
