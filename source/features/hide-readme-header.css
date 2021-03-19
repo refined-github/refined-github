@@ -4,9 +4,8 @@
 
 .repository-content #readme:not(.blob) .Box-header {
 	margin-bottom: -40px;
-	/* fix for older Github Enterprise versions */
-	background-color: transparent !important;
-	border-bottom: none;
+	background-color: transparent !important; /* GHE #4137 */
+	border-bottom: none; /* GHE #4137 */
 }
 
 .repository-content #readme:not(.blob) .Box-header .btn-octicon {
