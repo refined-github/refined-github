@@ -4,15 +4,19 @@ import * as pageDetect from 'github-url-detection';
 import {LinkExternalIcon} from '@primer/octicons-react';
 
 import features from '.';
-import observeElement from '../helpers/simplified-element-observer';
+import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 const deploymentSelector = '.js-timeline-item [data-url$="deployed"] .TimelineItem-body .btn[target="_blank"]';
 
-function init(): void {
+function init(): void | false {
+	if (select.exists('.rgh-last-deployment')) {
+		return false;
+	}
+
 	const {href} = select.last<HTMLAnchorElement>(deploymentSelector)!;
 	select('.gh-header-actions')!.prepend(
 		<a
-			className="btn btn-sm btn-outline mr-1"
+			className="rgh-last-deployment btn btn-sm btn-outline mr-1"
 			href={href}
 			target="_blank"
 			rel="noreferrer"
@@ -29,7 +33,8 @@ void features.add(__filebasename, {
 	exclude: [
 		() => !select.exists(deploymentSelector)
 	],
-	init() {
-		observeElement(select('#partial-discussion-header')!.parentElement!, init);
-	}
+	additionalListeners: [
+		onConversationHeaderUpdate
+	],
+	init
 });
