@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-object-as-default-parameter -- We want to replace the whole default object, not just part of it */
 import select from 'select-dom';
 
 import observeElement from '../helpers/simplified-element-observer';
