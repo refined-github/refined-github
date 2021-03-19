@@ -75,10 +75,9 @@
 	color: #6a737d;
 }
 
-/* Expand merge status lists to fit more items */
-.branch-action-item-simple > .merge-status-list, /* Dropdowns */
-.branch-action-item.open > .merge-status-list { /* Pull requests */
-	max-height: 512px !important;
+/* Expand PR merge status list to fit all items */
+:root .branch-action-item.open:not(.branch-action-item-simple) > .merge-status-list {
+	max-height: none;
 }
 
 /* Make <details> visibly clickable */
