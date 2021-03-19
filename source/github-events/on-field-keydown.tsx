@@ -7,7 +7,7 @@ function onFieldKeydown(selector: string, callback: DelegateFieldEvent): void {
 	delegate<HTMLTextAreaElement, KeyboardEvent>(document, selector, 'keydown', event => {
 		const field = event.delegateTarget;
 
-		// Don't do anything if the autocomplete helper is shown or if non-latin input is being used
+		// The suggester is GitHub’s autocomplete dropdown
 		if (select.exists('.suggester', field.form!) || event.isComposing) {
 			return;
 		}
