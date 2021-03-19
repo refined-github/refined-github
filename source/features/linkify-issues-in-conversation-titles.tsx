@@ -7,7 +7,7 @@ import onConversationHeaderUpdate from '../github-events/on-conversation-header-
 
 function init(): void {
 	for (const title of select.all('.js-issue-title')) {
-		if (!select.exists('a, code', title)) {
+		if (!select.exists('a', title)) {
 			domFormatters.linkifyIssues(title);
 		}
 	}
