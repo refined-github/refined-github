@@ -78,7 +78,7 @@ async function init(): Promise<false | void> {
 			>
 				<TagIcon className="UnderlineNav-octicon"/>
 				<span data-content="Releases">Releases</span>
-				{count && <span className="Counter">{abbreviateNumber(count)}</span>}
+				{count && <span className="Counter" title={String(count)}>{abbreviateNumber(count)}</span>}
 			</a>
 		);
 
@@ -118,7 +118,7 @@ async function init(): Promise<false | void> {
 		<a href={buildRepoURL('releases')} className="reponav-item" data-hotkey="g r">
 			<TagIcon/>
 			<span> Releases </span>
-			{count && <span className="Counter">{abbreviateNumber(count)}</span>}
+			{count && <span className="Counter" title={String(count)}>{abbreviateNumber(count)}</span>}
 		</a>
 	);
 
