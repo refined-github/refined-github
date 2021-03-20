@@ -53,7 +53,7 @@
 		"copy-text-to-clipboard": "^3.0.1",
 		"debounce-fn": "^5.0.0",
 		"delay": "^5.0.0",
-		"delegate-it": "^2.0.2",
+		"delegate-it": "^3.0.0-1",
 		"dom-chef": "^5.0.0",
 		"dom-loaded": "^2.0.0",
 		"doma": "^3.0.1",

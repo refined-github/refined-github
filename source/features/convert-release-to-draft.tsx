@@ -7,7 +7,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
 
-async function convertToDraft({delegateTarget: draftButton}: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
+async function convertToDraft({delegateTarget: draftButton}: delegate.Event): Promise<void> {
 	try {
 		draftButton.append(<LoadingIcon className="ml-2 v-align-text-bottom" width={16}/>);
 
