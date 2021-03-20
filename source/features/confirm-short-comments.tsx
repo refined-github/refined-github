@@ -29,7 +29,6 @@ function handleIssueComment(event: delegate.Event<MouseEvent, KeyboardEvent, HTM
 
 	message += ' less than 3 characters, are you sure?';
 
-	console.log(title + '/' + textareas);
 	if ((title && title < 3) && !confirm(message)) {
 		event.preventDefault();
 		refocus();
