@@ -18,8 +18,6 @@ function handleIssueComment(event: delegate.Event<MouseEvent, KeyboardEvent, HTM
 	const textareas = select('textarea[name="comment[body]"], textarea#issue_body')!.value.length;
 	const title = select('form.new_issue input#issue_title')?.value.length;
 
-	console.log('TITLE: ' + title + ' | ' + 'TEXTAREAS: ' + textareas);
-
 	let message = '';
 	if ((title && title < 3) && (textareas < 3)) {
 		message = 'Body, title are';
