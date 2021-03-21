@@ -7,8 +7,7 @@ import features from '.';
 import {isNotRefinedGitHubRepo} from '../github-helpers';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
-// eslint-disable-next-line import/prefer-default-export
-export function linkifyFeature(codeElement: HTMLElement): void {
+function linkifyFeature(codeElement: HTMLElement): void {
 	const id = codeElement.textContent as FeatureID;
 	if (features.list.includes(id) && !codeElement.closest('a')) {
 		wrap(codeElement, <a href={`/sindresorhus/refined-github/blob/main/source/features/${id}.tsx`}/>);
@@ -25,8 +24,6 @@ function init(): void {
 	for (const possibleMention of select.all('.js-comment-body code')) {
 		linkifyFeature(possibleMention);
 	}
-
-	onConversationHeaderUpdate(initTitle);
 }
 
 void features.add(__filebasename, {
@@ -37,4 +34,13 @@ void features.add(__filebasename, {
 		isNotRefinedGitHubRepo
 	],
 	init
+}, {
+	include: [
+		pageDetect.isPR,
+		pageDetect.isIssue
+	],
+	additionalListeners: [
+		onConversationHeaderUpdate
+	],
+	init: initTitle
 });
