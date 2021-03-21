@@ -5,7 +5,7 @@ import features from '.';
 
 let previousSubmission = 0;
 
-function preventSubmit(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+function preventSubmit(event: delegate.Event): void {
 	if (Date.now() - previousSubmission < 1000) {
 		event.preventDefault();
 	}

@@ -4,7 +4,7 @@ import delegate from 'delegate-it';
 type DelegateFieldEvent = delegate.EventHandler<KeyboardEvent, HTMLTextAreaElement>;
 
 function onFieldKeydown(selector: string, callback: DelegateFieldEvent): void {
-	delegate<HTMLTextAreaElement, KeyboardEvent>(document, selector, 'keydown', event => {
+	delegate<HTMLTextAreaElement, 'keydown'>(document, selector, 'keydown', event => {
 		const field = event.delegateTarget;
 
 		// The suggester is GitHub’s autocomplete dropdown
