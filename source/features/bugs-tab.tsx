@@ -84,6 +84,7 @@ async function init(): Promise<void | false> {
 	// Set temporary counter
 	const bugsCounter = select('.Counter', bugsTab)!;
 	bugsCounter.textContent = '0';
+	bugsCounter.title = '';
 
 	// Update Bugs’ link
 	new SearchQuery(bugsLink).add('label:bug');
@@ -94,7 +95,7 @@ async function init(): Promise<void | false> {
 	try {
 		const bugCount = await countPromise;
 		bugsCounter.textContent = abbreviateNumber(bugCount);
-		bugsCounter.title = String(bugCount);
+		bugsCounter.title = bugCount > 999 ? String(bugCount) : '';
 	} catch (error: unknown) {
 		bugsCounter.remove();
 		features.error(__filebasename, error);
