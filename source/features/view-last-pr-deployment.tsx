@@ -8,15 +8,15 @@ import onConversationHeaderUpdate from '../github-events/on-conversation-header-
 
 const deploymentSelector = '.js-timeline-item [data-url$="deployed"] .TimelineItem-body .btn[target="_blank"]';
 
-function init(): void | false {
+function init(): void {
 	if (select.exists('.rgh-last-deployment')) {
-		return false;
+		return;
 	}
 
 	const {href} = select.last<HTMLAnchorElement>(deploymentSelector)!;
 	select('.gh-header-actions')!.prepend(
 		<a
-			className="rgh-last-deployment btn btn-sm btn-outline mr-1"
+			className="rgh-last-deployment btn btn-sm mr-1"
 			href={href}
 			target="_blank"
 			rel="noreferrer"
