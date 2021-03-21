@@ -55,7 +55,7 @@ async function init(): Promise<false | void> {
 				const insertionPoint = usernameElement.parentElement!.tagName === 'STRONG' ? usernameElement.parentElement! : usernameElement;
 				insertionPoint.after(
 					' (',
-					<bdo className="css-truncate">
+					<bdo className="css-truncate d-inline-block">
 						<span className="css-truncate-target" style={{maxWidth: '200px'}}>
 							{names[userKey].name}
 						</span>
