@@ -25,7 +25,7 @@ const observer = new IntersectionObserver(entries => {
 
 let lastOpen: number;
 let delegation: delegate.Subscription;
-function menuActivatedHandler(event: CustomEvent): void {
+function menuActivatedHandler(event: delegate.Event): void {
 	const details = event.target as HTMLDetailsElement;
 
 	// Safety check #3742

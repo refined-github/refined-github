@@ -93,7 +93,9 @@ async function init(): Promise<void | false> {
 
 	// Update bugs count
 	try {
-		bugsCounter.textContent = abbreviateNumber(await countPromise);
+		const bugCount = await countPromise;
+		bugsCounter.textContent = abbreviateNumber(bugCount);
+		bugsCounter.title = bugCount > 999 ? String(bugCount) : '';
 	} catch (error: unknown) {
 		bugsCounter.remove();
 		features.error(__filebasename, error);
