@@ -39,6 +39,9 @@ void features.add(__filebasename, {
 		pageDetect.isPR,
 		pageDetect.isIssue
 	],
+	exclude: [
+		isNotRefinedGitHubRepo
+	],
 	additionalListeners: [
 		onConversationHeaderUpdate
 	],
