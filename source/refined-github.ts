@@ -216,6 +216,7 @@ import './features/collapse-markdown-sections';
 import './features/conversation-activity-filter';
 import './features/select-all-notifications-shortcut';
 import './features/no-duplicate-list-update-time';
+import './features/view-last-pr-deployment';
 
 // Add global for easier debugging
 (window as any).select = select;
