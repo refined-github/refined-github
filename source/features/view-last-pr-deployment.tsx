@@ -16,7 +16,7 @@ function init(): void {
 	const {href} = select.last<HTMLAnchorElement>(deploymentSelector)!;
 	select('.gh-header-actions')!.prepend(
 		<a
-			className="rgh-last-deployment btn btn-sm"
+			className="rgh-last-deployment btn btn-sm d-none d-md-block"
 			href={href}
 			target="_blank"
 			rel="noreferrer"
