@@ -83,7 +83,6 @@ import './features/wait-for-build';
 import './features/hide-inactive-deployments';
 import './features/pull-request-hotkey';
 import './features/quick-review-buttons';
-import './features/format-conversation-titles';
 import './features/embed-gist-inline';
 import './features/comments-time-machine-links';
 import './features/hide-issue-list-autocomplete';
