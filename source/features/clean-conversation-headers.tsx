@@ -1,5 +1,5 @@
-import React from 'dom-chef';
 import './clean-conversation-headers.css';
+import React from 'dom-chef';
 import select from 'select-dom';
 import {observe} from 'selector-observer';
 import {ArrowLeftIcon} from '@primer/octicons-react';
