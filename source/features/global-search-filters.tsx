@@ -1,13 +1,13 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import {XIcon} from '@primer/octicons-react';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import SearchQuery from '../github-helpers/search-query';
 import {getUsername} from '../github-helpers';
 
-function init(): void {
+async function init(): Promise<void> {
 	const filters = [
 		['Forks', 'fork:true'],
 		['Private', 'is:private'],
@@ -30,7 +30,8 @@ function init(): void {
 		items.push(<li>{item}</li>);
 	}
 
-	select('#js-pjax-container .menu ~ .mt-3')!.before(
+	const links = await elementReady('#js-pjax-container .menu ~ .mt-3');
+	links!.before(
 		<div className="border rounded-1 p-3 mb-3 d-none d-md-block">
 			<h2 className="d-inline-block f5 mb-2">
 				Filters
@@ -46,5 +47,6 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isGlobalSearchResults
 	],
+	awaitDomReady: false,
 	init
 });
