@@ -4,7 +4,16 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters';
+
+function initTitle(): void {
+	for (const title of select.all('.js-issue-title')) {
+		if (!select.exists('a', title)) {
+			linkifyIssues(title);
+		}
+	}
+}
 
 function init(): void {
 	const selectors = [
@@ -42,4 +51,13 @@ void features.add(__filebasename, {
 		pageDetect.isGist
 	],
 	init: onetime(init)
+}, {
+	include: [
+		pageDetect.isPR,
+		pageDetect.isIssue
+	],
+	additionalListeners: [
+		onConversationHeaderUpdate
+	],
+	init: initTitle
 });

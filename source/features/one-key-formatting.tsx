@@ -4,12 +4,12 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import onCommentFieldKeydown from '../github-events/on-comment-field-keydown';
+import {onCommentFieldKeydown, onConversationTitleFieldKeydown} from '../github-events/on-field-keydown';
 
 const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~', '“', '‘'];
 const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~', '”', '’'];
 
-function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
+function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement | HTMLInputElement>): void {
 	const field = event.delegateTarget;
 
 	if (!formattingCharacters.includes(event.key)) {
@@ -32,6 +32,8 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 
 function init(): void {
 	onCommentFieldKeydown(eventHandler);
+	onConversationTitleFieldKeydown(eventHandler);
+	delegate(document, 'input[name="commit_title"]', 'keydown', eventHandler);
 }
 
 void features.add(__filebasename, {

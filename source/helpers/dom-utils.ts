@@ -64,3 +64,7 @@ export const removeClassFromAll = (className: string): void => {
 		element.classList.remove(className);
 	}
 };
+
+export const frame = async (): Promise<number> => new Promise(resolve => {
+	requestAnimationFrame(resolve);
+});

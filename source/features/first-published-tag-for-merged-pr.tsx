@@ -6,8 +6,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import observeElement from '../helpers/simplified-element-observer';
 import {buildRepoURL, getRepo} from '../github-helpers';
+import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom<HTMLAnchorElement>(
@@ -50,7 +50,8 @@ void features.add(__filebasename, {
 	include: [
 		() => pageDetect.isPRConversation() && pageDetect.isMergedPR()
 	],
-	init() {
-		observeElement(select('#partial-discussion-header')!.parentElement!, init);
-	}
+	additionalListeners: [
+		onConversationHeaderUpdate
+	],
+	init
 });

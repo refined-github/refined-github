@@ -5,7 +5,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onCommentFieldKeydown from '../github-events/on-comment-field-keydown';
+import {onCommentFieldKeydown} from '../github-events/on-field-keydown';
 
 function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
 	const field = event.delegateTarget;
@@ -13,9 +13,9 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 	if (event.key === 'Escape') {
 		// Cancel buttons have different classes for inline comments and editable comments
 		const cancelButton = select(`
-				button.js-hide-inline-comment-form,
-				button.js-comment-cancel-button
-			`, field.form!);
+			button.js-hide-inline-comment-form,
+			button.js-comment-cancel-button
+		`, field.form!);
 
 		// Cancel if there is a button, else blur the field
 		if (cancelButton) {
