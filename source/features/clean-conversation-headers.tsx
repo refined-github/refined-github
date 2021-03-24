@@ -1,9 +1,13 @@
+import React from 'dom-chef';
 import './clean-conversation-headers.css';
 import select from 'select-dom';
 import {observe} from 'selector-observer';
+import {ArrowLeftIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import getDefaultBranch from '../github-helpers/get-default-branch';
+import {getCurrentBranch} from '../github-helpers';
 
 const deinit: VoidFunction[] = [];
 
@@ -26,21 +30,26 @@ function initIssue(): void {
 
 function initPR(): void {
 	const observer = observe('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)', {
-		add(byline) {
+		async add(byline) {
 			byline.classList.add('rgh-clean-conversation-header');
-			const isSameAuthor = select('.js-discussion > .TimelineItem:first-child .author')?.textContent === select('.author', byline)!.textContent;
+			const isSameAuthor = select('.TimelineItem:first-child .author')?.textContent === select('.author', byline)!.textContent;
 			const baseBranch = select('.commit-ref:not(.head-ref)', byline)!;
-			const isDefaultBranch = (baseBranch.firstElementChild as HTMLAnchorElement).pathname.split('/').length === 3;
+			const isDefaultBranch = getCurrentBranch() === await getDefaultBranch();
 
-			// Removes: [octocat wants to merge 1] commit into github:master from octocat:feature
-			// Removes: [octocat] merged 1 commit into master from feature
-			for (const node of [...byline.childNodes].slice(isSameAuthor ? 0 : 2, pageDetect.isMergedPR() ? 2 : 4)) {
+			byline.childNodes[pageDetect.isClosedPR() ? pageDetect.isMergedPR() ? 5 : 7 : 9].replaceWith(<> <ArrowLeftIcon/> </>);
+
+			// Removes: [octocat wants to merge 1 commit into] github:master from octocat:feature
+			// Removes: [octocat merged 1 commit into] master from feature
+			for (const node of [...byline.childNodes].slice(isSameAuthor ? 0 : 2, pageDetect.isMergedPR() ? 3 : 5)) {
 				node.remove();
 			}
 
-			baseBranch.previousSibling!.textContent = ' into ';
 			if (!isSameAuthor) {
 				byline.prepend('by ');
+
+				if (pageDetect.isMergedPR()) {
+					baseBranch.before(' · ');
+				}
 			}
 
 			if (!isDefaultBranch && !(pageDetect.isClosedPR() && baseBranch.title.endsWith(':master'))) {
