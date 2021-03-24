@@ -83,7 +83,6 @@ import './features/wait-for-build';
 import './features/hide-inactive-deployments';
 import './features/pull-request-hotkey';
 import './features/quick-review-buttons';
-import './features/format-conversation-titles';
 import './features/embed-gist-inline';
 import './features/comments-time-machine-links';
 import './features/hide-issue-list-autocomplete';
@@ -214,7 +213,9 @@ import './features/rgh-sponsor-button';
 import './features/rgh-linkify-features';
 import './features/collapse-markdown-sections';
 import './features/conversation-activity-filter';
+import './features/select-all-notifications-shortcut';
 import './features/no-duplicate-list-update-time';
+import './features/view-last-pr-deployment';
 import './features/global-search-filters';
 
 // Add global for easier debugging

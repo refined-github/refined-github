@@ -25,7 +25,7 @@ function getUI(field: HTMLTextAreaElement): HTMLElement {
 	);
 }
 
-const updateUI = debounceFn(({delegateTarget: field}: delegate.Event<InputEvent, HTMLTextAreaElement>): void => {
+const updateUI = debounceFn(({delegateTarget: field}: delegate.Event<Event, HTMLTextAreaElement>): void => {
 	// The replacement logic is not just in the regex, so it alone can't be used to detect the need for the replacement
 	if (field.value === field.value.replace(prCommitUrlRegex, preventPrCommitLinkLoss) && field.value === field.value.replace(prCompareUrlRegex, preventPrCompareLinkLoss)) {
 		getUI(field).remove();

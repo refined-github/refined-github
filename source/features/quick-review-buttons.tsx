@@ -73,7 +73,7 @@ function init(): false | void {
 	select('[type="submit"]:not([name])', form)!.remove(); // The selector excludes the "Cancel" button
 
 	// This will prevent submission when clicking "Comment" and "Request changes" without entering a comment and no other review comments are pending
-	delegate<HTMLButtonElement>(form, 'button', 'click', ({delegateTarget: {value}}) => {
+	delegate(form, 'button', 'click', ({delegateTarget: {value}}) => {
 		const pendingComments = looseParseInt(select('.js-reviews-toggle .js-pending-review-comment-count')!);
 		const submissionRequiresComment = pendingComments === 0 && (value === 'reject' || value === 'comment');
 		select('#pull_request_review_body', form)!.toggleAttribute('required', submissionRequiresComment);
