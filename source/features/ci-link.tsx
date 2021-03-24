@@ -16,6 +16,11 @@ const getRepoIcon = onetime(async () => fetchDom<HTMLElement>(
 	].join()
 ));
 
+const getPRIcon = async (): Promise<HTMLElement | undefined> => fetchDom(
+	buildRepoURL('pull', getConversationNumber()!, 'commits'),
+	'.js-commits-list-item:last-of-type .commit-build-statuses'
+);
+
 async function initRepo(): Promise<false | void> {
 	const icon = await getRepoIcon();
 	if (!icon) {
@@ -32,18 +37,21 @@ async function initRepo(): Promise<false | void> {
 }
 
 async function initPR(): Promise<false | void> {
-	const icon = await fetchDom<HTMLElement>(
-		buildRepoURL('pull', getConversationNumber()!, 'commits'),
-		'.js-commits-list-item:last-of-type .commit-build-statuses'
-	);
+	const icon = await getPRIcon();
 	if (!icon) {
 		return false;
 	}
 
 	icon.classList.add('rgh-ci-link');
 
+	const headerIcon = icon.cloneNode(true);
+	headerIcon.classList.add('rgh-ci-link-header-icon');
+	select('svg', headerIcon)!.setAttribute('viewBox', '0 0 14 14');
+
+	icon.classList.add('rgh-ci-link-title-icon');
+
 	// Append to PR title
-	observe('.gh-header-title:not(.rgh-ci-link-heading)', {
+	observe('.gh-header-title .f1-light:not(.rgh-ci-link-heading)', {
 		add(heading) {
 			heading.classList.add('rgh-ci-link-heading');
 
@@ -56,12 +64,10 @@ async function initPR(): Promise<false | void> {
 	});
 
 	// Append to PR sticky header
-	const clone = icon.cloneNode(true);
-	clone.style.animation = 'none';
 	observe('.js-sticky h1:not(.rgh-ci-link-heading)', {
 		add(heading) {
 			heading.classList.add('rgh-ci-link-heading');
-			heading.append(clone);
+			heading.append(headerIcon);
 		}
 	});
 }

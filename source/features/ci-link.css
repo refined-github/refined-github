@@ -8,6 +8,17 @@
 
 /* Adds space between `ci-link` and PR number or "Private" label, if present */
 .Label + .rgh-ci-link,
-:is(.gh-header-title, .js-sticky h1) > .rgh-ci-link {
+.rgh-ci-link-title-icon,
+.rgh-ci-link-header-icon {
 	margin-left: 8px;
+}
+
+.rgh-ci-link-title-icon summary .octicon {
+	width: 24px;
+	height: 24px;
+}
+
+.rgh-ci-link-header-icon summary .octicon {
+	width: 14px;
+	height: 14px;
 }
