@@ -37,7 +37,7 @@ function initPR(): void {
 
 			const base = select('.commit-ref', byline)!;
 			const baseBranch = base.title.split(':')[1];
-			const isDefaultBranch = baseBranch === await getDefaultBranch() || (pageDetect.isClosedPR() && baseBranch === "master");
+			const isDefaultBranch = baseBranch === await getDefaultBranch() || (pageDetect.isClosedPR() && baseBranch === 'master');
 
 			byline.childNodes[pageDetect.isClosedPR() ? (pageDetect.isMergedPR() ? 5 : 7) : 9].replaceWith(<> <ArrowLeftIcon/> </>);
 
