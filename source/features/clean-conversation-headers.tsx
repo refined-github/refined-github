@@ -36,7 +36,7 @@ function initPR(): void {
 			const baseBranch = select('.commit-ref:not(.head-ref)', byline)!;
 			const isDefaultBranch = getCurrentBranch() === await getDefaultBranch();
 
-			byline.childNodes[pageDetect.isClosedPR() ? pageDetect.isMergedPR() ? 5 : 7 : 9].replaceWith(<> <ArrowLeftIcon/> </>);
+			byline.childNodes[pageDetect.isClosedPR() ? (pageDetect.isMergedPR() ? 5 : 7) : 9].replaceWith(<> <ArrowLeftIcon/> </>);
 
 			// Removes: [octocat wants to merge 1 commit into] github:master from octocat:feature
 			// Removes: [octocat merged 1 commit into] master from feature
