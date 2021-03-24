@@ -14,9 +14,9 @@ function init(): void {
 		}
 
 		if (pageDetect.isSingleFile(link)) {
-			const rawUrl = new GitHubURL(link.href).assign({route: 'raw'}).toString();
+			const rawUrl = new GitHubURL(link.href).assign({route: 'raw'});
 
-			if (image.src === rawUrl) {
+			if (image.src === rawUrl.href) {
 				link.replaceWith(image);
 			}
 		}
