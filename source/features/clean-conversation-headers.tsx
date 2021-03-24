@@ -33,7 +33,8 @@ function initPR(): void {
 		async add(byline) {
 			byline.classList.add('rgh-clean-conversation-header');
 
-			const isSameAuthor = select('.author', byline)!.textContent === select('.TimelineItem .author')?.textContent;
+			const author = select('.author', byline)!;
+			const isSameAuthor = pageDetect.isPRConversation() && author.textContent === select('.TimelineItem .author')!.textContent;
 
 			const base = select('.commit-ref', byline)!;
 			const baseBranch = base.title.split(':')[1];
@@ -48,11 +49,8 @@ function initPR(): void {
 			}
 
 			if (!isSameAuthor) {
-				byline.prepend('by ');
-
-				if (pageDetect.isMergedPR()) {
-					base.before(' • ');
-				}
+				author.before('by ');
+				author.after(' • ');
 			}
 
 			if (!isDefaultBranch) {
