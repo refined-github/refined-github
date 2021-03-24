@@ -7,7 +7,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getCurrentBranch} from '../github-helpers';
 
 const deinit: VoidFunction[] = [];
 
@@ -15,6 +14,7 @@ function initIssue(): void {
 	const observer = observe('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)', {
 		add(byline) {
 			byline.classList.add('rgh-clean-conversation-header');
+
 			const {childNodes: bylineNodes} = byline;
 			// Removes: octocat opened this issue on 1 Jan [·] 1 comments
 			bylineNodes[4].textContent = bylineNodes[4].textContent!.replace('·', '');
@@ -32,9 +32,12 @@ function initPR(): void {
 	const observer = observe('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)', {
 		async add(byline) {
 			byline.classList.add('rgh-clean-conversation-header');
-			const isSameAuthor = select('.TimelineItem:first-child .author')?.textContent === select('.author', byline)!.textContent;
-			const baseBranch = select('.commit-ref:not(.head-ref)', byline)!;
-			const isDefaultBranch = getCurrentBranch() === await getDefaultBranch();
+
+			const isSameAuthor = select('.author', byline)!.textContent === select('.TimelineItem:first-child .author')?.textContent;
+
+			const base = select('.commit-ref', byline)!;
+			const baseBranch = base.title.split(':')[1];
+			const isDefaultBranch = baseBranch === await getDefaultBranch() || (pageDetect.isClosedPR() && baseBranch === "master");
 
 			byline.childNodes[pageDetect.isClosedPR() ? (pageDetect.isMergedPR() ? 5 : 7) : 9].replaceWith(<> <ArrowLeftIcon/> </>);
 
@@ -48,12 +51,12 @@ function initPR(): void {
 				byline.prepend('by ');
 
 				if (pageDetect.isMergedPR()) {
-					baseBranch.before(' • ');
+					base.before(' • ');
 				}
 			}
 
-			if (!isDefaultBranch && !(pageDetect.isClosedPR() && baseBranch.title.endsWith(':master'))) {
-				baseBranch.classList.add('rgh-clean-conversation-headers-non-default-branch');
+			if (!isDefaultBranch) {
+				base.classList.add('rgh-clean-conversation-headers-non-default-branch');
 			}
 		}
 	});
