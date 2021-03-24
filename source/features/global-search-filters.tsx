@@ -11,7 +11,8 @@ function init(): void {
 	const filters = [
 		['Forks', 'fork:true'],
 		['Private', 'is:private'],
-		['Yours', `user:${getUsername()}`]
+		['Owned by you', 'user:' + getUsername()],
+		['Authored by you', 'author:@me']
 	];
 	const items = [];
 	for (const [name, filter] of filters) {
