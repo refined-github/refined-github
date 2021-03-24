@@ -48,7 +48,7 @@ function initPR(): void {
 				byline.prepend('by ');
 
 				if (pageDetect.isMergedPR()) {
-					baseBranch.before(' · ');
+					baseBranch.before(' • ');
 				}
 			}
 
