@@ -33,7 +33,7 @@ function initPR(): void {
 		async add(byline) {
 			byline.classList.add('rgh-clean-conversation-header');
 
-			const isSameAuthor = select('.author', byline)!.textContent === select('.TimelineItem:first-child .author')?.textContent;
+			const isSameAuthor = select('.author', byline)!.textContent === select('.TimelineItem .author')?.textContent;
 
 			const base = select('.commit-ref', byline)!;
 			const baseBranch = base.title.split(':')[1];
