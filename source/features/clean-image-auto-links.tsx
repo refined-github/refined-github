@@ -2,6 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {isSingleMarkdownFile} from '../github-helpers';
 import GitHubURL from '../github-helpers/github-url';
 
 function init(): void {
@@ -25,7 +26,7 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoTree,
-		() => pageDetect.isSingleFile() && location.pathname.endsWith('.md')
+		() => pageDetect.isSingleFile() && isSingleMarkdownFile()
 	],
 	init
 });

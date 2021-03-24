@@ -2,6 +2,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {isSingleMarkdownFile} from '../github-helpers';
 
 function onHeadingClick(event: delegate.Event<MouseEvent, HTMLElement>): void {
 	// Don't toggle the section if the title text is being selected instead of clicked
@@ -42,7 +43,7 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isRepoWiki,
-		() => pageDetect.isSingleFile() && location.pathname.endsWith('.md')
+		() => pageDetect.isSingleFile() && isSingleMarkdownFile()
 	],
 	init
 });
