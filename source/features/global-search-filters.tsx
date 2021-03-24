@@ -11,8 +11,8 @@ function init(): void {
 	const filters = [
 		['Forks', 'fork:true'],
 		['Private', 'is:private'],
-		['Owned by you', 'user:' + getUsername()],
-		['Authored by you', 'author:@me']
+		['Yours', 'user:' + getUsername()],
+		['Authored', 'author:@me']
 	];
 	const items = [];
 	for (const [name, filter] of filters) {
@@ -30,7 +30,7 @@ function init(): void {
 		items.push(<li>{item}</li>);
 	}
 
-	select('#js-pjax-container .menu ~ .border')!.after(
+	select('#js-pjax-container .menu ~ .mt-3')!.before(
 		<div className="border rounded-1 p-3 mb-3 d-none d-md-block">
 			<h2 className="d-inline-block f5 mb-2">
 				Filters
