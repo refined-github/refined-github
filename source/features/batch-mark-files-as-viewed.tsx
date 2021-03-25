@@ -41,7 +41,7 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 }
 
 function markAsViewedSelector(target: HTMLElement): string {
-	const checked = target.querySelector('input.js-reviewed-checkbox')!.checked ? ':not([checked])' : '[checked]';
+	const checked = isChecked(target) ? ':not([checked])' : '[checked]';
 	return '.js-reviewed-checkbox' + checked;
 }
 
