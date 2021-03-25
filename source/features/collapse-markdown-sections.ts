@@ -1,3 +1,4 @@
+import './collapse-markdown-sections.css';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -10,7 +11,7 @@ function onHeadingClick(event: delegate.Event<MouseEvent, HTMLElement>): void {
 	}
 
 	// Don't toggle the section if a link in the heading is clicked (either the content or the anchor)
-	if ((event.target as HTMLElement).closest('a')) {
+	if ((event.target as HTMLElement).closest('a, details')) {
 		return;
 	}
 
