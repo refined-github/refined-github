@@ -41,7 +41,7 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 }
 
 function markAsViewedSelector(target: HTMLElement): string {
-	const checked = (target as HTMLInputElement).checked ? ':not([checked])' : '[checked]';
+	const checked = target.querySelector('input.js-reviewed-checkbox')!.checked ? ':not([checked])' : '[checked]';
 	return '.js-reviewed-checkbox' + checked;
 }
 
@@ -66,7 +66,7 @@ function init(): void {
 	// `mousedown` required to avoid mouse selection on shift-click
 	delegate(document, '.js-toggle-user-reviewed-file-form', 'mousedown', batchToggle);
 	delegate(document, '.js-toggle-user-reviewed-file-form', 'submit', remember);
-	delegate(document, '.js-reviewed-checkbox', 'click', onAltClick);
+	delegate(document, '.js-toggle-user-reviewed-file-form', 'click', onAltClick);
 }
 
 function deinit(): void {
