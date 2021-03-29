@@ -226,7 +226,7 @@ function addEventListeners(): void {
 	select('[name="personalToken"]')!.addEventListener('input', validateToken);
 
 	// Ensure all links open in a new tab #3181
-	delegate(document, '[href^="http"]', 'click', (event: delegate.Event<MouseEvent, HTMLAnchorElement>) => {
+	delegate(document, 'a[href^="http"]', 'click', event => {
 		event.preventDefault();
 		window.open(event.delegateTarget.href);
 	});

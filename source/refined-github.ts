@@ -83,7 +83,6 @@ import './features/wait-for-build';
 import './features/hide-inactive-deployments';
 import './features/pull-request-hotkey';
 import './features/quick-review-buttons';
-import './features/format-conversation-titles';
 import './features/embed-gist-inline';
 import './features/comments-time-machine-links';
 import './features/hide-issue-list-autocomplete';
@@ -146,7 +145,6 @@ import './features/reload-failed-proxied-images';
 import './features/clean-rich-text-editor';
 import './features/highlight-collaborators-and-own-conversations';
 import './features/embed-gist-via-iframe';
-import './features/expand-all-collapsed-code';
 import './features/separate-draft-pr-button';
 import './features/link-to-prior-blame-line';
 import './features/dim-bots';
@@ -214,7 +212,9 @@ import './features/rgh-sponsor-button';
 import './features/rgh-linkify-features';
 import './features/collapse-markdown-sections';
 import './features/conversation-activity-filter';
+import './features/select-all-notifications-shortcut';
 import './features/no-duplicate-list-update-time';
+import './features/view-last-pr-deployment';
 
 // Add global for easier debugging
 (window as any).select = select;

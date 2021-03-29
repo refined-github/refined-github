@@ -8,7 +8,7 @@ import {clickAll} from './toggle-everything-with-alt';
 
 let previousFile: HTMLElement | undefined;
 
-function remember(event: delegate.Event<Event, HTMLFormElement>): void {
+function remember(event: delegate.Event): void {
 	previousFile = event.delegateTarget.closest<HTMLElement>('.js-file')!;
 }
 

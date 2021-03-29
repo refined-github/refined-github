@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import isUselessComment from '../helpers/is-useless-comment';
 
-async function unhide(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
+async function unhide(event: delegate.Event): Promise<void> {
 	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
