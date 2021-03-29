@@ -4,5 +4,5 @@
 }
 
 .gh-header-meta .State :is(a, code) {
-	color: #fff !important;
+	color: var(--color-btn-primary-text, #fff) !important; /* GHE */
 }

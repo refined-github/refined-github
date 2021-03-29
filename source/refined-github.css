@@ -72,7 +72,7 @@
 
 /* Lighten deletions in Markdown */
 .markdown-body del {
-	color: #6a737d;
+	color: var(--color-text-tertiary, #6a737d); /* GHE */
 }
 
 /* Expand PR merge status list to fit all items instead of just 5 */
