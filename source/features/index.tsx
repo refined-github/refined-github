@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
@@ -93,7 +94,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	document.documentElement.classList.add('refined-github');
 
 	// Options defaults
-	const options = await optionsStorage.getAll();
+	let options = await optionsStorage.getAll();
 	const hotfix = browser.runtime.getManifest().version === '0.0.0' || await cache.get('hotfix'); // Ignores the cache when loaded locally
 
 	// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
@@ -104,11 +105,80 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		document.head.append(<style>{options.customCSS}</style>);
 	}
 
+	const testedFeatures: [string[], string[]] | false | undefined = await cache.get('bisect');
+	if (testedFeatures !== undefined) {
+		if (testedFeatures === false) {
+			createMessageBox('Every feature has been disabled. If you still see the bug, try disabling the whole extension.', false);
+			return;
+		}
+
+		const [firstHalf] = testedFeatures;
+		options = {
+			...options,
+			...Object.fromEntries(__features__.map(feature => [`feature:${feature}`, firstHalf.includes(feature)]))
+		};
+
+		if (firstHalf.length === 0) {
+			createMessageBox('Every feature has been disabled. Can you see the bug?');
+			return;
+		}
+
+		if (firstHalf.length === 1) {
+			createMessageBox(<span>The bug is caused by <a href={'https://github.com/sindresorhus/refined-github/blob/main/source/features/' + firstHalf[0] + '.tsx'}><code>{firstHalf[0]}</code></a>.</span>, false);
+			return;
+		}
+
+		createMessageBox(`${Math.ceil(Math.log2(firstHalf.length))} steps remaining. Can you see the bug?`);
+	}
+
 	// Create logging function
 	log = options.logging ? console.log : () => {/* No logging */};
 
 	resolve(options);
 });
+
+function createMessageBox(message: string | Element, yesNoButtons = true): void {
+	delegate(document, '.rgh-bisect-button-choice', 'click', onBisectButtonChoiceClick);
+	delegate(document, '.rgh-bisect-button-end', 'click', onBisectButtonEndClick);
+
+	document.body.append(
+		<div className="Box" style={{position: 'fixed', top: 0, left: 0}}>
+			<p>{message}</p>
+			{yesNoButtons ? <button type="button" className="btn btn-danger rgh-bisect-button-choice" data-answer="no">No</button> : undefined}
+			{yesNoButtons ? <button type="button" className="btn btn-primary rgh-bisect-button-choice" data-answer="yes">Yes</button> : undefined}
+			{yesNoButtons ? undefined : <button type="button" className="btn btn-primary rgh-bisect-button-end">OK</button>}
+		</div>
+	);
+}
+
+async function onBisectButtonChoiceClick({target}: MouseEvent): Promise<void> {
+	const {answer} = (target as HTMLElement).dataset;
+	let testedFeatures: [string[], string[]] | false | undefined = await cache.get('bisect');
+	if (!testedFeatures) {
+		return;
+	}
+
+	const [firstHalf, secondHalf] = testedFeatures;
+	if (firstHalf.length === 0) {
+		testedFeatures = answer === 'yes' ? false : splitArray(__features__);
+	} else {
+		testedFeatures = splitArray(answer === 'yes' ? firstHalf : secondHalf);
+	}
+
+	await cache.set('bisect', testedFeatures);
+	await browser.runtime.sendMessage({reloadTab: true});
+}
+
+async function onBisectButtonEndClick(): Promise<void> {
+	await cache.delete('bisect');
+	await browser.runtime.sendMessage({reloadTab: true});
+}
+
+function splitArray<T>(array: T[]): [T[], T[]] {
+	const half = Math.ceil(array.length / 2);
+
+	return [array.slice(0, half), array.slice(half)];
+}
 
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
 	const {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;

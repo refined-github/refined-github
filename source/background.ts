@@ -19,6 +19,9 @@ const messageHandlers = {
 	closeTab(_: any, {tab}: browser.runtime.MessageSender) {
 		void browser.tabs.remove(tab!.id!);
 	},
+	reloadTab(_: any, {tab}: browser.runtime.MessageSender) {
+		void browser.tabs.reload(tab!.id!);
+	},
 	async fetch(url: string) {
 		const response = await fetch(url);
 		return response.text();
