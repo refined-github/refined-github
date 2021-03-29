@@ -68,8 +68,8 @@ async function init(): Promise<void | false> {
 
 		// Un-select one of the tabs if necessary
 		const selectedTab = !isBugsPage || pageDetect.isPRList() ? bugsTab : issuesTab;
-		selectedTab?.classList.remove('selected');
-		selectedTab?.removeAttribute('aria-current');
+		selectedTab.classList.remove('selected');
+		selectedTab.removeAttribute('aria-current');
 	} else {
 		// Pre "Repository refresh" layout
 		select('[itemprop="name"]', bugsTab)!.textContent = 'Bugs';

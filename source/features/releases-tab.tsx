@@ -81,7 +81,7 @@ async function init(): Promise<false | void> {
 				{count && <span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>}
 			</a>
 		);
-		repoNavigationBar!.append(releasesTab);
+		repoNavigationBar.append(releasesTab);
 
 		// This re-triggers the overflow listener forcing it to also hide this tab if necessary #3347
 		repoNavigationBar.replaceWith(repoNavigationBar);
