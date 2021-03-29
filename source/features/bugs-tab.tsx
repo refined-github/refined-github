@@ -39,7 +39,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const issuesTab = await elementReady('.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
+	const issuesTab = await elementReady<HTMLAnchorElement>('.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
 	if (!issuesTab) {
 		// Repo is archived
 		return false;
@@ -86,7 +86,7 @@ async function init(): Promise<void | false> {
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	new SearchQuery(bugsTab as HTMLAnchorElement).add('label:bug');
+	new SearchQuery(bugsTab).add('label:bug');
 
 	issuesTab.after(bugsTab);
 
