@@ -2,8 +2,3 @@
 	vertical-align: middle;
 	color: var(--color-icon-tertiary, #ccc);
 }
-
-/* Padding needed if `align-issue-labels` is disabled #4117 */
-.js-issue-row .h4 {
-	padding-right: 4px;
-}
