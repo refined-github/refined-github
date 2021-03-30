@@ -138,12 +138,3 @@ pr-branches
 .select-menu-item-text .diffstat {
 	display: inline !important;
 }
-
-/* Hide empty profile status on hover #4160 */
-.user-status-circle-badge-container:hover .user-status-emoji-container {
-	margin-right: 0 !important;
-}
-
-.user-status-circle-badge-container:hover .user-status-message-wrapper > div {
-	margin-left: 8px !important;
-}
