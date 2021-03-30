@@ -32,10 +32,10 @@ interface GlobalEventHandlersEventMap {
 	'page:loaded': CustomEvent;
 	'pjax:start': CustomEvent;
 	'session:resume': CustomEvent;
+	'input': InputEvent; // Remove once no longer necessary (2022?)
 }
 
 declare namespace JSX {
-	interface Element extends SVGElement, HTMLElement, DocumentFragment {}
 	interface IntrinsicElements {
 		'clipboard-copy': IntrinsicElements.button & {for?: string};
 		'details-dialog': IntrinsicElements.div & {tabindex: string};

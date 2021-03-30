@@ -7,7 +7,7 @@ import copyToClipboard from 'copy-text-to-clipboard';
 import features from '.';
 import {groupButtons} from '../github-helpers/group-buttons';
 
-function handleClick({delegateTarget: button}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+function handleClick({delegateTarget: button}: delegate.Event): void {
 	const file = button.closest('.Box, .js-gist-file-update-container')!;
 	const content = select.all('.blob-code-inner', file)
 		.map(({innerText: line}) => line === '\n' ? '' : line) // Must be `.innerText`

@@ -23,7 +23,7 @@ function update(checkbox: HTMLInputElement): void {
 	}
 }
 
-function toggleHandler(event: delegate.Event<UIEvent, HTMLInputElement>): void {
+function toggleHandler(event: delegate.Event<Event, HTMLInputElement>): void {
 	update(event.delegateTarget);
 }
 
@@ -34,7 +34,7 @@ function init(): void | false {
 	}
 
 	update(checkbox); // The sidebar checkbox may already be un-checked
-	delegate(document, '[name="collab_privs"]', 'change', toggleHandler);
+	delegate(document, 'input[name="collab_privs"]', 'change', toggleHandler);
 }
 
 void features.add(__filebasename, {
