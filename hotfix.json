@@ -1,3 +1,5 @@
 {
-  "more-dropdown": false
+  "feature:more-dropdown": false,
+  "feature:bugs-tab": false,
+  "feature:releases-tab": false
 }
