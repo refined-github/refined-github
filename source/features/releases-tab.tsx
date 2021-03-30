@@ -22,7 +22,7 @@ async function parseCountFromDom(): Promise<number> {
 	}
 
 	// In "Repository refresh" layout, look for the tags link in the header
-	const moreReleasesCountElement = await elementReady('[href$="/tags"] strong');
+	const moreReleasesCountElement = await elementReady('.repository-content .file-navigation [href$="/tags"] strong');
 	if (moreReleasesCountElement) {
 		return looseParseInt(moreReleasesCountElement);
 	}
