@@ -116,10 +116,10 @@ const config: Configuration = {
 			__filebasename: webpack.DefinePlugin.runtimeValue(
 				info => {
 					const fileInfo = path.parse(info.module.resource);
-					if (fileInfo.ext === '.ts') {
+					if (fileInfo.ext !== '.tsx') {
 						const error = `
 
-						❌ Feature \`${fileInfo.name}\` has a .ts extension but should be .tsx
+						❌ Feature \`${fileInfo.name}\` has a ${fileInfo.ext} extension but should be .tsx
 
 						`;
 						if (isWatching) {
