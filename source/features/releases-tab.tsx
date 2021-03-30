@@ -29,7 +29,9 @@ async function parseCountFromDom(): Promise<number> {
 		await oneMutation(repositoryHeader, {childList: true, filter: () => select.exists(tagsCounterSelector, repositoryHeader)});
 	}
 
-	return looseParseInt(select(tagsCounterSelector, repositoryHeader)!);
+	const tagsCounter = select(tagsCounterSelector, repositoryHeader);
+
+	return tagsCounter ? looseParseInt(tagsCounter) : 0;
 }
 
 async function fetchFromApi(): Promise<number> {
