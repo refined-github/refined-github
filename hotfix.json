@@ -1,4 +1,3 @@
 {
-  "feature:conversation-activity-filter": false,
-  "unaffected": "21.3.11"
+  "more-dropdown": false
 }
