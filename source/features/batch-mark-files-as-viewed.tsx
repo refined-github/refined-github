@@ -64,8 +64,8 @@ function onAltClick(event: delegate.Event<MouseEvent, HTMLInputElement>): void {
 
 function init(): void {
 	// `mousedown` required to avoid mouse selection on shift-click
-	delegate(document, '.js-toggle-user-reviewed-file-form', 'mousedown', batchToggle);
-	delegate(document, '.js-toggle-user-reviewed-file-form', 'submit', remember);
+	delegate(document, '.js-reviewed-toggle', 'mousedown', batchToggle);
+	delegate(document, '.js-reviewed-toggle', 'submit', remember);
 	delegate(document, '.js-toggle-user-reviewed-file-form', 'click', onAltClick);
 }
 
