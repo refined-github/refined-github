@@ -114,7 +114,24 @@ const config: Configuration = {
 			),
 
 			__filebasename: webpack.DefinePlugin.runtimeValue(
-				info => JSON.stringify(path.parse(info.module.resource).name)
+				info => {
+					const fileInfo = path.parse(info.module.resource);
+					if (fileInfo.ext === '.ts') {
+						const error = `
+
+						❌ Feature \`${fileInfo.name}\` has a .ts extension but should be .tsx
+
+						`;
+						if (isWatching) {
+							console.error(error);
+							return JSON.stringify(fileInfo.name);
+						}
+
+						throw new Error(error);
+					}
+
+					return JSON.stringify(fileInfo.name);
+				}
 			)
 		}),
 		new MiniCssExtractPlugin(),
