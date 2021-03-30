@@ -43,7 +43,7 @@ function onlyShowInDropdown(id: string): void {
 		return;
 	}
 
-	tabItem!.remove();
+	tabItem!.closest('.UnderlineNav-item')!.remove();
 	const menuItem = select(`[data-menu-item$="${id}"]`)!;
 	menuItem.removeAttribute('data-menu-item');
 	menuItem.hidden = false;
