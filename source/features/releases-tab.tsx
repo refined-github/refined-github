@@ -65,7 +65,7 @@ async function init(): Promise<false | void> {
 		'.UnderlineNav-body'
 	].join());
 
-	const repoNavigationBar = select('.js-responsive-underlinenav');
+	const repoNavigationBar = select('.js-responsive-underlinenav .UnderlineNav-body');
 	if (repoNavigationBar) {
 		// "Repository refresh" layout
 		const releasesTab = (
@@ -81,12 +81,7 @@ async function init(): Promise<false | void> {
 				{count && <span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>}
 			</a>
 		);
-
-		select(':scope > ul', repoNavigationBar)!.append(
-			<li className="d-flex">
-				{releasesTab}
-			</li>
-		);
+		repoNavigationBar.append(releasesTab);
 
 		// This re-triggers the overflow listener forcing it to also hide this tab if necessary #3347
 		repoNavigationBar.replaceWith(repoNavigationBar);
