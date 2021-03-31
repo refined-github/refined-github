@@ -124,7 +124,7 @@ async function bisectFeatures(): Promise<Record<string, boolean>> {
 		return {};
 	}
 
-	const [firstHalf] = splitArray(bisectedFeatures);
+	const firstHalf = bisectedFeatures.slice(0, Math.ceil(bisectedFeatures.length / 2));
 	if (firstHalf.length === 0) {
 		createMessageBox('Every feature has been disabled. Can you see the bug?');
 	} else if (firstHalf.length === 1) {
@@ -160,8 +160,8 @@ async function onBisectButtonChoiceClick({target}: MouseEvent): Promise<void> {
 	if (bisectedFeatures.length === 0) {
 		bisectedFeatures = answer === 'yes' ? false : features.list;
 	} else {
-		const [firstHalf, secondHalf] = splitArray(bisectedFeatures);
-		bisectedFeatures = answer === 'yes' ? firstHalf : secondHalf;
+		const half = Math.ceil(bisectedFeatures.length / 2);
+		bisectedFeatures = answer === 'yes' ? bisectedFeatures.slice(0, half) : bisectedFeatures.slice(half);
 	}
 
 	await cache.set('bisect', bisectedFeatures);
@@ -171,12 +171,6 @@ async function onBisectButtonChoiceClick({target}: MouseEvent): Promise<void> {
 async function onBisectButtonEndClick(): Promise<void> {
 	await cache.delete('bisect');
 	await browser.runtime.sendMessage({reloadTab: true});
-}
-
-function splitArray<T>(array: T[]): [T[], T[]] {
-	const half = Math.ceil(array.length / 2);
-
-	return [array.slice(0, half), array.slice(half)];
 }
 
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
