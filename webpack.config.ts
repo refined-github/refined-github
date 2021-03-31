@@ -41,7 +41,6 @@ function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta 
 	}
 
 	throwError(id, 'needs a description in readme.md. Please refer to the style guide there');
-
 	return {} as any;
 }
 
@@ -119,8 +118,6 @@ const config: Configuration = {
 					const fileInfo = path.parse(info.module.resource);
 					if (fileInfo.ext !== '.tsx') {
 						throwError(fileInfo.name, `has a ${fileInfo.ext} extension but should be .tsx`);
-
-						return JSON.stringify(fileInfo.name);
 					}
 
 					return JSON.stringify(fileInfo.name);
