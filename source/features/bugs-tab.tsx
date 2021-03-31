@@ -11,6 +11,22 @@ import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
 
+async function highlightBugsTabOnIssuePage(): Promise<void | false> {
+	if (!await cache.get<boolean>(__filebasename + ':' + getRepo()!.nameWithOwner)) {
+		return false;
+	}
+
+	const sideBarLables = await elementReady('#partial-discussion-sidebar .sidebar-labels');
+	const hasBugLabel = select.exists('.IssueLabel[href$="/bug" i]', sideBarLables);
+
+	const bugsTab = select('.rgh-bug-tab');
+	bugsTab!.classList.toggle('selected', hasBugLabel);
+
+	const issuesTab = select('.UnderlineNav-item[data-hotkey="g i"]')!;
+	issuesTab.classList.toggle('selected', !hasBugLabel);
+	issuesTab.removeAttribute('aria-current');
+}
+
 const countBugs = cache.function(async (): Promise<number> => {
 	const {search} = await api.v4(`
 		search(type: ISSUE, query: "label:bug is:open is:issue repo:${getRepo()!.nameWithOwner}") {
@@ -53,6 +69,7 @@ async function init(): Promise<void | false> {
 
 	// Copy Issues tab
 	const bugsTab = issuesTab.cloneNode(true);
+	bugsTab.classList.add('rgh-bug-tab');
 
 	// Disable unwanted behavior #3001
 	bugsTab.removeAttribute('data-hotkey');
@@ -107,4 +124,11 @@ void features.add(__filebasename, {
 	],
 	awaitDomReady: false,
 	init
+}, {
+	include: [
+		pageDetect.isIssue
+	],
+	awaitDomReady: false,
+	repeatOnBackButton: true,
+	init: highlightBugsTabOnIssuePage
 });
