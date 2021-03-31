@@ -115,12 +115,12 @@ const config: Configuration = {
 
 			__filebasename: webpack.DefinePlugin.runtimeValue(
 				info => {
-					const fileInfo = path.parse(info.module.resource);
-					if (fileInfo.ext !== '.tsx') {
-						throwError(fileInfo.name, `has a ${fileInfo.ext} extension but should be .tsx`);
+					const {name, ext} = path.parse(info.module.resource);
+					if (ext !== '.tsx') {
+						throwError(name, `has a ${ext} extension but should be .tsx`);
 					}
 
-					return JSON.stringify(fileInfo.name);
+					return JSON.stringify(name);
 				}
 			)
 		}),
