@@ -3,5 +3,5 @@
 }
 
 .rgh-clean-conversation-headers-non-default-branch a {
-	color: var(--color-text-white, #fff); /* GHE */
+	color: var(--color-state-hover-primary-text, #fff); /* GHE */
 }

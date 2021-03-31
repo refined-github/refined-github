@@ -18,6 +18,6 @@
 }
 
 .rgh-table-input:hover .selected div {
-	border-color: var(--color-state-hover-primary-border, #79b8ff); /* GHE */
+	border-color: #79b8ff;
 	background-color: var(--color-diff-blob-hunk-num-bg, #dbedff); /* GHE */
 }

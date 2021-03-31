@@ -1,8 +1,8 @@
 /* Hovering the line will highlight the first direction button, unless you hover the buttons directly */
 .js-expandable-line:hover .blob-num:not(:hover) .directional-expander:first-child,
 .js-expandable-line:hover .blob-num:not(:hover) + .blob-code {
-	border-color: var(--color-state-hover-primary-border, #0366d6); /* GHE */
-	color: var(--color-text-inverse, #fff); /* GHE */
+	color: var(--color-state-hover-primary-text, #fff); /* GHE */
 	background: var(--color-state-hover-primary-bg, #0366d6); /* GHE */
+	border-color: var(--color-state-hover-primary-border, #0366d6); /* GHE */
 	cursor: pointer;
 }
