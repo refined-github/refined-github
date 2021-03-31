@@ -40,17 +40,9 @@ function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta 
 		};
 	}
 
-	const error = `
+	throwError(id, 'needs a description in readme.md. Please refer to the style guide there');
 
-	❌ Feature \`${id}\` needs a description in readme.md. Please refer to the style guide there.
-
-	`;
-	if (isWatching) {
-		console.error(error);
-		return {} as any;
-	}
-
-	throw new Error(error);
+	return {} as any;
 }
 
 function getFeatures(): FeatureID[] {
@@ -58,6 +50,15 @@ function getFeatures(): FeatureID[] {
 	return [...contents.matchAll(/^import '\.\/features\/([^.]+)';/gm)]
 		.map(match => match[1] as FeatureID)
 		.sort();
+}
+
+function throwError(id: string, error: string): void {
+	const errorMessage = `❌ \`${id}\` → ${error}`;
+	if (!isWatching) {
+		throw new Error(errorMessage);
+	}
+
+	console.error(errorMessage);
 }
 
 const config: Configuration = {
@@ -117,17 +118,9 @@ const config: Configuration = {
 				info => {
 					const fileInfo = path.parse(info.module.resource);
 					if (fileInfo.ext !== '.tsx') {
-						const error = `
+						throwError(fileInfo.name, `has a ${fileInfo.ext} extension but should be .tsx`);
 
-						❌ Feature \`${fileInfo.name}\` has a ${fileInfo.ext} extension but should be .tsx
-
-						`;
-						if (isWatching) {
-							console.error(error);
-							return JSON.stringify(fileInfo.name);
-						}
-
-						throw new Error(error);
+						return JSON.stringify(fileInfo.name);
 					}
 
 					return JSON.stringify(fileInfo.name);
