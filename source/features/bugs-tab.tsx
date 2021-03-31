@@ -88,7 +88,12 @@ async function init(): Promise<void | false> {
 	// Update Bugs’ link
 	new SearchQuery(bugsTab).add('label:bug');
 
-	issuesTab.after(bugsTab);
+	// In case GitHub changes its layout again #4166
+	if (issuesTab.parentElement!.tagName === 'LI') {
+		issuesTab.parentElement!.after(<li className="d-flex">{bugsTab}</li>);
+	} else {
+		issuesTab.after(bugsTab);
+	}
 
 	// Update bugs count
 	try {
