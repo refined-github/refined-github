@@ -130,7 +130,7 @@ async function clearCacheHandler(event: Event): Promise<void> {
 }
 
 async function bisectFeaturesHandler(): Promise<void> {
-	await cache.set('bisect', [[], []], {minutes: 5});
+	await cache.set('bisect', [], {minutes: 5});
 	await browser.tabs.create({url: 'https://github.com'});
 }
 

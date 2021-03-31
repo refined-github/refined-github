@@ -153,19 +153,19 @@ function createMessageBox(message: string | Element, yesNoButtons = true): void 
 
 async function onBisectButtonChoiceClick({target}: MouseEvent): Promise<void> {
 	const {answer} = (target as HTMLElement).dataset;
-	let testedFeatures: [string[], string[]] | false | undefined = await cache.get('bisect');
-	if (!testedFeatures) {
+	let bisectedFeatures: string[] | false | undefined = await cache.get('bisect');
+	if (!bisectedFeatures) {
 		return;
 	}
 
-	const [firstHalf, secondHalf] = testedFeatures;
-	if (firstHalf.length === 0) {
-		testedFeatures = answer === 'yes' ? false : splitArray(__features__);
+	if (bisectedFeatures.length === 0) {
+		bisectedFeatures = answer === 'yes' ? false : features.list;
 	} else {
-		testedFeatures = splitArray(answer === 'yes' ? firstHalf : secondHalf);
+		const [firstHalf, secondHalf] = splitArray(bisectedFeatures);
+		bisectedFeatures = answer === 'yes' ? firstHalf : secondHalf;
 	}
 
-	await cache.set('bisect', testedFeatures);
+	await cache.set('bisect', bisectedFeatures);
 	await browser.runtime.sendMessage({reloadTab: true});
 }
 
