@@ -8,7 +8,7 @@ import {clickAll} from './toggle-everything-with-alt';
 
 let previousFile: HTMLElement | undefined;
 
-function remember(event: delegate.Event<Event, HTMLFormElement>): void {
+function remember(event: delegate.Event): void {
 	previousFile = event.delegateTarget.closest<HTMLElement>('.js-file')!;
 }
 
@@ -41,7 +41,7 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 }
 
 function markAsViewedSelector(target: HTMLElement): string {
-	const checked = (target as HTMLInputElement).checked ? ':not([checked])' : '[checked]';
+	const checked = isChecked(target) ? '[checked]' : ':not([checked])';
 	return '.js-reviewed-checkbox' + checked;
 }
 
@@ -55,18 +55,18 @@ function onAltClick(event: delegate.Event<MouseEvent, HTMLInputElement>): void {
 	void showToast(async () => {
 		markAsViewed(event);
 	}, {
-		message: event.delegateTarget.checked ?
-			'Marking visible files as viewed' :
-			'Marking visible files as unviewed',
+		message: isChecked(event.delegateTarget) ?
+			'Marking visible files as unviewed' :
+			'Marking visible files as viewed',
 		doneMessage: 'Marking files completed'
 	});
 }
 
 function init(): void {
 	// `mousedown` required to avoid mouse selection on shift-click
-	delegate(document, '.js-toggle-user-reviewed-file-form', 'mousedown', batchToggle);
-	delegate(document, '.js-toggle-user-reviewed-file-form', 'submit', remember);
-	delegate(document, '.js-reviewed-checkbox', 'click', onAltClick);
+	delegate(document, '.js-reviewed-toggle', 'mousedown', batchToggle);
+	delegate(document, '.js-reviewed-toggle', 'submit', remember);
+	delegate(document, '.js-reviewed-toggle', 'click', onAltClick);
 }
 
 function deinit(): void {
