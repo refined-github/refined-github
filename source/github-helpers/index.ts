@@ -22,15 +22,20 @@ Example tag content on public repositories: https://github.com/sindresorhus/refi
 Example tag content on private repositories https://github.com/private/private/commits/master.atom?token=AEAXKWNRHXA2XJ2ZWCMGUUN44LM62
 */
 export const getCurrentBranch = (): string | undefined => {
+	// Example title: 'tejanium/refined-github:bra/nch' or just 'local-branch`
+	if (pageDetect.isPRFiles()) {
+		return select('.head-ref a')!.title.replace(/^[^:]+:/, '');
+	}
+
 	// .last needed for #2799
 	const feedLink = select.last('link[type="application/atom+xml"]');
-	const findLink = pageDetect.isPRFiles() ? undefined : select.last('a[data-hotkey="t"]');
-	// The feedLink is not available on `isIssue` #3641
+	const findLink = select.last('a[data-hotkey="t"]');
+
 	if (!feedLink && !findLink) {
 		return;
 	}
 
-	return new URL(feedLink?.href ?? decodeURIComponent(findLink?.href!))
+	return new URL(feedLink?.href ?? decodeURIComponent(findLink!.href))
 		.pathname
 		.split('/')
 		.slice(4) // Drops the initial /user/repo/route/ part
