@@ -24,12 +24,13 @@ Example tag content on private repositories https://github.com/private/private/c
 export const getCurrentBranch = (): string | undefined => {
 	// .last needed for #2799
 	const feedLink = select.last('link[type="application/atom+xml"]');
+	const findLink = pageDetect.isPRFiles() ? false : select.last('a[data-hotkey="t"]');
 	// The feedLink is not available on `isIssue` #3641
-	if (!feedLink) {
+	if (!(feedLink && findLink)) {
 		return;
 	}
 
-	return new URL(feedLink.href)
+	return new URL(feedLink.href ?? decodeURIComponent(findLink.href))
 		.pathname
 		.split('/')
 		.slice(4) // Drops the initial /user/repo/route/ part
