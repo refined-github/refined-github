@@ -27,6 +27,11 @@ export const getCurrentBranch = (): string | undefined => {
 		return select('.head-ref a')!.title.replace(/^[^:]+:/, '');
 	}
 
+	// I dont know regex HELP PLEASE
+	if (document.title.includes(' at ')) {
+		return document.title.split(' at ')[1].split(' ·')[0];
+	}
+
 	// .last needed for #2799
 	const feedLink = select.last('link[type="application/atom+xml"]');
 	const findLink = select.last('a[data-hotkey="t"]');
