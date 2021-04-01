@@ -14,3 +14,4 @@ const {window} = new JSDOM('…');
 (global as any).URL = window.URL;
 
 document.head.insertAdjacentHTML('beforeend', '<link href="https://github.com/avajs/ava/commits/master.atom" rel="alternate" title="Recent Commits to ava:master" type="application/atom+xml">');
+document.head.insertAdjacentHTML('beforeend', '<a hidden="" data-hotkey="t" data-pjax="true" href="https://github.com/avajs/ava/find/mater"></a>');
