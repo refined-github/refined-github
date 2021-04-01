@@ -11,8 +11,10 @@ import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
 
+const cacheKey = (): string => __filebasename + ':' + getRepo()!.nameWithOwner;
+
 async function highlightBugsTabOnIssuePage(): Promise<void | false> {
-	if (!await cache.get<boolean>(__filebasename + ':' + getRepo()!.nameWithOwner)) {
+	if (!await cache.get<boolean>(cacheKey())) {
 		return false;
 	}
 
@@ -38,7 +40,7 @@ const countBugs = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: {minutes: 30},
 	staleWhileRevalidate: {days: 4},
-	cacheKey: (): string => __filebasename + ':' + getRepo()!.nameWithOwner
+	cacheKey: (): string => cacheKey()
 });
 
 async function init(): Promise<void | false> {
