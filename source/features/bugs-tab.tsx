@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
+import delay from 'delay';
 import select from 'select-dom';
 import {BugIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
@@ -11,21 +12,17 @@ import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
 
-const cacheKey = (): string => __filebasename + ':' + getRepo()!.nameWithOwner;
-
 async function highlightBugsTabOnIssuePage(): Promise<void | false> {
-	if (!await cache.get<boolean>(cacheKey())) {
+	if (await countBugs() > 0 && !await elementReady('.sidebar-labels .IssueLabel[href$="/bug" i]')) {
 		return false;
 	}
 
-	const sideBarLables = await elementReady('#partial-discussion-sidebar .sidebar-labels');
-	const hasBugLabel = select.exists('.IssueLabel[href$="/bug" i]', sideBarLables);
-
+	await delay(1); // Wait until the bug tab is created
 	const bugsTab = select('.rgh-bug-tab');
-	bugsTab!.classList.toggle('selected', hasBugLabel);
+	bugsTab!.classList.add('selected');
 
 	const issuesTab = select('.UnderlineNav-item[data-hotkey="g i"]')!;
-	issuesTab.classList.toggle('selected', !hasBugLabel);
+	issuesTab.classList.remove('selected');
 	issuesTab.removeAttribute('aria-current');
 }
 
@@ -40,7 +37,7 @@ const countBugs = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: {minutes: 30},
 	staleWhileRevalidate: {days: 4},
-	cacheKey: (): string => cacheKey()
+	cacheKey: (): string => __filebasename + ':' + getRepo()!.nameWithOwner
 });
 
 async function init(): Promise<void | false> {
