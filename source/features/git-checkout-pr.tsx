@@ -5,11 +5,11 @@ import {ClippyIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getPRHeadRepo, getRepo, getUsername} from '../github-helpers';
+import {getRepo, getUsername} from '../github-helpers';
 
 // Logic explained in https://github.com/sindresorhus/refined-github/pull/3596#issuecomment-720910840
 function getRemoteName(): string | undefined {
-	const author = getPRHeadRepo()!.owner;
+	const [author] = select('.head-ref')!.title.split('/');
 	if (author === getUsername()) {
 		return; // `origin`, don't add remote
 	}

@@ -59,11 +59,6 @@ export const buildRepoURL = (...pathParts: Array<string | number> & {0: string})
 	return [location.origin, getRepo()?.nameWithOwner, ...pathParts].join('/');
 };
 
-export const getPRHeadRepo = (): ReturnType<typeof getRepo> => {
-	const headLink = select('.commit-ref.head-ref a');
-	return getRepo(headLink);
-};
-
 export function getForkedRepo(): string | undefined {
 	return select('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
 }
