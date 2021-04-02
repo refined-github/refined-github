@@ -96,7 +96,7 @@ async function init(): Promise<false | void> {
 	);
 
 	const branchSelector = await elementReady('#branch-select-menu', {waitForChildren: false});
-	branchSelector.closest('.position-relative')!.after(link);
+	branchSelector!.closest('.position-relative')!.after(link);
 
 	const currentBranch = getCurrentCommittish();
 	if (currentBranch !== latestTag) {
