@@ -25,6 +25,7 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 
 	const [, _user, _repo, type, unslashedCommittish] = pathname.split('/');
 	if (!type) { // Root
+		console.trace('Branch could not be determined');
 		return;
 	}
 
@@ -35,6 +36,10 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 	const parsedTitle = titleWithCommittish.exec(title);
 	if (parsedTitle) {
 		return parsedTitle.groups!.branch;
+	}
+
+	if (!unslashedCommittish) {
+		console.trace('Branch could not be determined');
 	}
 
 	return unslashedCommittish;

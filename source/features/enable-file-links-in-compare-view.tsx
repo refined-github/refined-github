@@ -6,15 +6,16 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
-import {getCurrentCommittish, getPRHeadRepo} from '../github-helpers';
 
 /** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
 function handlePRMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-actionable-link'); // Mark this as processed
-	const filePath = dropdown.closest('[data-path]')!.getAttribute('data-path')!;
 
-	const viewFile = select('a[data-ga-click^="View file"]', dropdown)!;
-	viewFile.pathname = [getPRHeadRepo()!.nameWithOwner, 'blob', getCurrentCommittish()!, filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
+	const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
+	const filePath = dropdown.closest('[data-path]')!.getAttribute('data-path')!;
+	
+	select('a[data-ga-click^="View file"]', dropdown)!
+		.pathname = [nameWithOwner, 'blob', headBranch, filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
 }
 
 function handleCompareMenuOpening({delegateTarget: dropdown}: delegate.Event): void {

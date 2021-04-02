@@ -5,7 +5,7 @@ import {ClippyIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getCurrentCommittish, getPRHeadRepo, getRepo, getUsername} from '../github-helpers';
+import {getPRHeadRepo, getRepo, getUsername} from '../github-helpers';
 
 // Logic explained in https://github.com/sindresorhus/refined-github/pull/3596#issuecomment-720910840
 function getRemoteName(): string | undefined {
@@ -31,6 +31,8 @@ const connectionType = {
 };
 
 function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Element {
+	const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
+	const [owner] = nameWithOwner.split('/');
 	return (
 		<>
 			{remote && <p className="text-gray color-text-secondary text-small my-1">{remoteType}</p>}
@@ -51,9 +53,9 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 					className="copyable-terminal-content"
 				>
 					<span className="user-select-contain">
-						{remote && `git remote add ${remote} ${connectionType[remoteType!]}${getPRHeadRepo()!.nameWithOwner}.git\n`}
-						git fetch {remote ?? 'origin'} {getCurrentCommittish()}{'\n'}
-						git switch {remote && `--track ${getPRHeadRepo()!.owner}/`}{getCurrentCommittish()}
+						{remote && `git remote add ${remote} ${connectionType[remoteType!]}${nameWithOwner}.git\n`}
+						git fetch {remote ?? 'origin'} {headBranch}{'\n'}
+						git switch {remote && `--track ${owner}/`}{headBranch}
 					</span>
 				</pre>
 			</div>

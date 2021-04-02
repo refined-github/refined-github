@@ -83,7 +83,6 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const currentBranch = getCurrentCommittish()!;
 	const url = new GitHubURL(location.href);
 	url.assign({
 		route: url.route || 'tree', // If route is missing, it's a repo root
@@ -96,7 +95,10 @@ async function init(): Promise<false | void> {
 		</a>
 	);
 
-	(await elementReady('#branch-select-menu', {waitForChildren: false}))!.closest('.position-relative')!.after(link);
+	const branchSelector = await elementReady('#branch-select-menu', {waitForChildren: false});
+	branchSelector.closest('.position-relative')!.after(link);
+
+	const currentBranch = getCurrentCommittish();
 	if (currentBranch !== latestTag) {
 		link.append(' ', <span className="css-truncate-target">{latestTag}</span>);
 	}

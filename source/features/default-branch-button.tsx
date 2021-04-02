@@ -17,9 +17,10 @@ async function init(): Promise<false | void> {
 	}
 
 	const defaultBranch = await getDefaultBranch();
+	const currentBranch = getCurrentCommittish();
 
 	// Don't show the button if we’re already on the default branch
-	if (defaultBranch === getCurrentCommittish()) {
+	if (defaultBranch === currentBranch) {
 		return false;
 	}
 
