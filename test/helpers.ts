@@ -276,7 +276,7 @@ test('getCurrentCommittish', t => {
 		'History for docs/getting-started/README.md - typescript-eslint/typescript-eslint'
 	), 'master');
 	t.is(getCurrentCommittish(
-		'/typescript-eslint/typescript-eslint/blame/chore/lerna-4/docs/getting-started/README.md',
+		'/typescript-eslint/typescript-eslint/commits/chore/lerna-4/docs/getting-started/README.md',
 		'History for docs/getting-started/README.md - typescript-eslint/typescript-eslint'
 	), 'chore'); // Wrong, but
 
