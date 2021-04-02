@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import delay from 'delay';
 import select from 'select-dom';
 import {BugIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
@@ -17,8 +16,7 @@ async function highlightBugsTabOnIssuePage(): Promise<void | false> {
 		return false;
 	}
 
-	await delay(1); // Wait until the bug tab is created
-	const bugsTab = select('.rgh-bug-tab');
+	const bugsTab = await elementReady('.rgh-bug-tab', {stopOnDomReady: false});
 	bugsTab!.classList.add('selected');
 
 	const issuesTab = select('.UnderlineNav-item[data-hotkey="g i"]')!;
