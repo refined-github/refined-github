@@ -17,7 +17,7 @@ export const getConversationNumber = (): string | undefined => {
 };
 
 const typesWithCommittish = ['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare'];
-const titleWithCommittish = / at (?<branch>[a-z0-9-_/]+)( · [a-z0-9-_]+\/[a-z0-9-_]+)?$/i
+const titleWithCommittish = / at (?<branch>[\w-/]+)( · [\w-]+\/[\w-]+)?$/i;
 export const getCurrentCommittish = (pathname = location.pathname, title = document.title): string | undefined => {
 	if (!pathname.startsWith('/')) {
 		throw new TypeError(`Expected pathname starting with /, got "${pathname}"`);

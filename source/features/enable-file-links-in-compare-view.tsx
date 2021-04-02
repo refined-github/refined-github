@@ -13,7 +13,7 @@ function handlePRMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 
 	const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
 	const filePath = dropdown.closest('[data-path]')!.getAttribute('data-path')!;
-	
+
 	select('a[data-ga-click^="View file"]', dropdown)!
 		.pathname = [nameWithOwner, 'blob', headBranch, filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
 }

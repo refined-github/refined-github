@@ -49,7 +49,8 @@ export default class GitHubURL {
 		const currentBranch = getCurrentCommittish();
 		const currentBranchSections = currentBranch?.split('/');
 		if (
-			!currentBranchSections || // Current branch could not be determined
+			!currentBranch || // Current branch could not be determined (1/2)
+			!currentBranchSections || // Current branch could not be determined (2/2)
 			ambiguousReference.length === 1 || // Ref has no slashes
 			currentBranchSections.length === 1 // Current branch has no slashes
 		) {
