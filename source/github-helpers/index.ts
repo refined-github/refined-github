@@ -16,25 +16,28 @@ export const getConversationNumber = (): string | undefined => {
 	return undefined;
 };
 
-/**
-Tested on isRepoTree, isBlame, isSingleFile, isEditFile, isSingleCommit, isCommitList, isCompare. Subtly incompatible with isPR
-Example tag content on public repositories: https://github.com/sindresorhus/refined-github/commits/branch-or-commit/even/with/slashes.atom
-Example tag content on private repositories https://github.com/private/private/commits/master.atom?token=AEAXKWNRHXA2XJ2ZWCMGUUN44LM62
-*/
-export const getCurrentBranch = (): string | undefined => {
-	// .last needed for #2799
-	const feedLink = select.last('link[type="application/atom+xml"]');
-	// The feedLink is not available on `isIssue` #3641
-	if (!feedLink) {
+const typesWithCommittish = ['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare'];
+const titleWithCommittish = / at (?<branch>[a-z0-9-_/]+)( · [a-z0-9-_]+\/[a-z0-9-_]+)?$/i
+export const getCurrentCommittish = (pathname = location.pathname, title = document.title): string | undefined => {
+	if (!pathname.startsWith('/')) {
+		throw new TypeError(`Expected pathname starting with /, got "${pathname}"`);
+	}
+
+	const [, _user, _repo, type, unslashedCommittish] = pathname.split('/');
+	if (!type) { // Root
 		return;
 	}
 
-	return new URL(feedLink.href)
-		.pathname
-		.split('/')
-		.slice(4) // Drops the initial /user/repo/route/ part
-		.join('/')
-		.replace(/\.atom$/, '');
+	if (!typesWithCommittish.includes(type)) {
+		throw new TypeError(`Expected one of ${typesWithCommittish.join(', ')}; got "${type}"`);
+	}
+
+	const parsedTitle = titleWithCommittish.exec(title);
+	if (parsedTitle) {
+		return parsedTitle.groups!.branch;
+	}
+
+	return unslashedCommittish;
 };
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
@@ -126,7 +129,7 @@ export function upperCaseFirst(input: string): string {
 
 /** Is tag or commit, with elementReady */
 export async function isPermalink(): Promise<boolean> {
-	if (/^[\da-f]{40}$/.test(getCurrentBranch()!)) {
+	if (/^[\da-f]{40}$/.test(getCurrentCommittish()!)) {
 		// It's a commit
 		return true;
 	}

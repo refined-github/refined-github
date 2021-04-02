@@ -5,7 +5,7 @@ import {ClippyIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getCurrentBranch, getPRHeadRepo, getRepo, getUsername} from '../github-helpers';
+import {getCurrentCommittish, getPRHeadRepo, getRepo, getUsername} from '../github-helpers';
 
 // Logic explained in https://github.com/sindresorhus/refined-github/pull/3596#issuecomment-720910840
 function getRemoteName(): string | undefined {
@@ -52,8 +52,8 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 				>
 					<span className="user-select-contain">
 						{remote && `git remote add ${remote} ${connectionType[remoteType!]}${getPRHeadRepo()!.nameWithOwner}.git\n`}
-						git fetch {remote ?? 'origin'} {getCurrentBranch()}{'\n'}
-						git switch {remote && `--track ${getPRHeadRepo()!.owner}/`}{getCurrentBranch()}
+						git fetch {remote ?? 'origin'} {getCurrentCommittish()}{'\n'}
+						git switch {remote && `--track ${getPRHeadRepo()!.owner}/`}{getCurrentCommittish()}
 					</span>
 				</pre>
 			</div>

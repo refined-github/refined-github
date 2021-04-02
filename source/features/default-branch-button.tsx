@@ -7,7 +7,7 @@ import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getCurrentBranch} from '../github-helpers';
+import {getCurrentCommittish} from '../github-helpers';
 
 async function init(): Promise<false | void> {
 	const branchSelector = await elementReady<HTMLElement>('[data-hotkey="w"]');
@@ -17,10 +17,9 @@ async function init(): Promise<false | void> {
 	}
 
 	const defaultBranch = await getDefaultBranch();
-	const currentBranch = getCurrentBranch()!;
 
 	// Don't show the button if we’re already on the default branch
-	if (defaultBranch === currentBranch) {
+	if (defaultBranch === getCurrentCommittish()) {
 		return false;
 	}
 

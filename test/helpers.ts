@@ -11,7 +11,8 @@ import {
 	preventPrCommitLinkLoss,
 	preventPrCompareLinkLoss,
 	prCommitUrlRegex,
-	prCompareUrlRegex
+	prCompareUrlRegex,
+	getCurrentCommittish
 } from '../source/github-helpers';
 
 test('getConversationNumber', t => {
@@ -206,4 +207,82 @@ test('preventPrCommitLinkLoss', t => {
 		'I like [turtles](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)',
 		'It should ignore Markdown links'
 	);
+});
+
+// The titles supplied here listed here are real, not guessed.
+test('getCurrentCommittish', t => {
+	t.is(getCurrentCommittish(
+		'/typescript-eslint/typescript-eslint',
+		'typescript-eslint/typescript-eslint: Monorepo for all the tooling which enables ESLint to support TypeScript'
+	), undefined);
+	t.is(getCurrentCommittish(
+		'/typescript-eslint/typescript-eslint/tree/chore/lerna-4',
+		'typescript-eslint/typescript-eslint at chore/lerna-4'
+	), 'chore/lerna-4');
+
+	// Sub folder
+	t.is(getCurrentCommittish(
+		'/typescript-eslint/typescript-eslint/tree/master/docs',
+		'typescript-eslint/docs at master · typescript-eslint/typescript-eslint'
+	), 'master');
+	t.is(getCurrentCommittish(
+		'/typescript-eslint/typescript-eslint/tree/chore/lerna-4/docs',
+		'typescript-eslint/docs at chore/lerna-4 · typescript-eslint/typescript-eslint'
+	), 'chore/lerna-4');
+
+	// Sub sub folder
+	t.is(getCurrentCommittish(
+		'/typescript-eslint/typescript-eslint/tree/master/docs/getting-started',
+		'typescript-eslint/docs/getting-started at master · typescript-eslint/typescript-eslint'
+	), 'master');
+	t.is(getCurrentCommittish(
+		'/typescript-eslint/typescript-eslint/tree/chore/lerna-4/docs/getting-started',
+		'typescript-eslint/docs/getting-started at chore/lerna-4 · typescript-eslint/typescript-eslint'
+	), 'chore/lerna-4');
+
+	// File
+	t.is(getCurrentCommittish(
+		'/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/README.md',
+		'typescript-eslint/README.md at master · typescript-eslint/typescript-eslint'
+	), 'master');
+	t.is(getCurrentCommittish(
+		'/typescript-eslint/typescript-eslint/blob/chore/lerna-4/docs/getting-started/README.md',
+		'typescript-eslint/README.md at chore/lerna-4 · typescript-eslint/typescript-eslint'
+	), 'chore/lerna-4');
+
+	// Editing file
+	t.is(getCurrentCommittish(
+		'/typescript-eslint/typescript-eslint/edit/master/docs/getting-started/README.md',
+		'Editing typescript-eslint/README.md at master · typescript-eslint/typescript-eslint'
+	), 'master');
+	t.is(getCurrentCommittish(
+		'/typescript-eslint/typescript-eslint/edit/chore/lerna-4/docs/getting-started/README.md',
+		'Editing typescript-eslint/README.md at chore/lerna-4 · typescript-eslint/typescript-eslint'
+	), 'chore/lerna-4');
+
+	// Blame
+	t.is(getCurrentCommittish(
+		'/typescript-eslint/typescript-eslint/blame/master/docs/getting-started/README.md',
+		'typescript-eslint/docs/getting-started/README.md at master · typescript-eslint/typescript-eslint'
+	), 'master');
+	t.is(getCurrentCommittish(
+		'/typescript-eslint/typescript-eslint/blame/chore/lerna-4/docs/getting-started/README.md',
+		'typescript-eslint/docs/getting-started/README.md at chore/lerna-4 · typescript-eslint/typescript-eslint'
+	), 'chore/lerna-4');
+
+	// Commits
+	t.is(getCurrentCommittish(
+		'/typescript-eslint/typescript-eslint/commits/master/docs/getting-started/README.md',
+		'History for docs/getting-started/README.md - typescript-eslint/typescript-eslint'
+	), 'master');
+	t.is(getCurrentCommittish(
+		'/typescript-eslint/typescript-eslint/blame/chore/lerna-4/docs/getting-started/README.md',
+		'History for docs/getting-started/README.md - typescript-eslint/typescript-eslint'
+	), 'chore'); // Wrong, but
+
+	// Single commit
+	t.is(getCurrentCommittish(
+		'/typescript-eslint/typescript-eslint/commit/795fd1c529ee58e97283c9ddf8463703517b50ab',
+		'chore: add markdownlint (#1889) · typescript-eslint/typescript-eslint@795fd1c'
+	), '795fd1c529ee58e97283c9ddf8463703517b50ab');
 });

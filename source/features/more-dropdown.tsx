@@ -8,7 +8,7 @@ import {DiffIcon, GitBranchIcon, HistoryIcon, PackageIcon} from '@primer/octicon
 import features from '.';
 import {appendBefore} from '../helpers/dom-utils';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {buildRepoURL, getCurrentBranch} from '../github-helpers';
+import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
 
 function createDropdown(): void {
 	// Markup copied from native GHE dropdown
@@ -59,7 +59,7 @@ async function init(): Promise<void> {
 		'.UnderlineNav-body'
 	].join());
 
-	const reference = getCurrentBranch() ?? await getDefaultBranch();
+	const reference = getCurrentCommittish() ?? await getDefaultBranch();
 	const compareUrl = buildRepoURL('compare', reference);
 	const commitsUrl = buildRepoURL('commits', reference);
 	const branchesUrl = buildRepoURL('branches');
