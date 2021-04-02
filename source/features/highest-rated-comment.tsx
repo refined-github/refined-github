@@ -51,7 +51,7 @@ function highlightBestComment(bestComment: Element): void {
 	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
 	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
 		<span
-			className="d-flex flex-items-center text-green mr-1 tooltipped tooltipped-n"
+			className="d-flex flex-items-center text-green color-text-success mr-1 tooltipped tooltipped-n"
 			aria-label="This comment has the most positive reactions on this issue."
 		>
 			<CheckIcon/>
