@@ -43,11 +43,11 @@ function onlyShowInDropdown(id: string): void {
 		return;
 	}
 
-	tabItem!.closest('.UnderlineNav-item, li')!.remove();
+	(tabItem!.closest('li') ?? tabItem!.closest('.UnderlineNav-item'))!.remove();
+
 	const menuItem = select(`[data-menu-item$="${id}"]`)!;
 	menuItem.removeAttribute('data-menu-item');
 	menuItem.hidden = false;
-
 	// The item has to be moved somewhere else because the overflow nav is order-dependent
 	select('.js-responsive-underlinenav-overflow ul')!.append(menuItem);
 }

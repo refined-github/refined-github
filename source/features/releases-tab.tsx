@@ -69,17 +69,19 @@ async function init(): Promise<false | void> {
 	if (repoNavigationBar) {
 		// "Repository refresh" layout
 		const releasesTab = (
-			<a
-				href={buildRepoURL('releases')}
-				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item"
-				data-hotkey="g r"
-				data-selected-links="repo_releases"
-				data-tab-item="rgh-releases-item"
-			>
-				<TagIcon className="UnderlineNav-octicon"/>
-				<span data-content="Releases">Releases</span>
-				{count && <span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>}
-			</a>
+			<li className="d-flex">
+				<a
+					href={buildRepoURL('releases')}
+					className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item"
+					data-hotkey="g r"
+					data-selected-links="repo_releases"
+					data-tab-item="rgh-releases-item"
+				>
+					<TagIcon className="UnderlineNav-octicon"/>
+					<span data-content="Releases">Releases</span>
+					{count && <span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>}
+				</a>
+			</li>
 		);
 		repoNavigationBar.append(releasesTab);
 
