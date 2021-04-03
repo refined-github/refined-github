@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
@@ -10,6 +9,7 @@ import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
 import onNewComments from '../github-events/on-new-comments';
+import bisectFeatures from '../helpers/bisect';
 import optionsStorage, {RGHOptions} from '../options-storage';
 
 type BooleanFunction = () => boolean;
@@ -112,66 +112,6 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	resolve(options);
 });
-
-async function bisectFeatures(): Promise<Record<string, boolean>> {
-	const bisectedFeatures: string[] | false | undefined = await cache.get('bisect');
-	if (bisectedFeatures === undefined) {
-		return {};
-	}
-
-	if (bisectedFeatures === false) {
-		createMessageBox('Every feature has been disabled. If you still see the bug, try disabling the whole extension.', false);
-		return {};
-	}
-
-	const firstHalf = bisectedFeatures.slice(0, Math.ceil(bisectedFeatures.length / 2));
-	if (firstHalf.length === 0) {
-		createMessageBox('Every feature has been disabled. Can you see the bug?');
-	} else if (firstHalf.length === 1) {
-		createMessageBox(<span>The bug is caused by <a href={'https://github.com/sindresorhus/refined-github/blob/main/source/features/' + firstHalf[0] + '.tsx'}><code>{firstHalf[0]}</code></a>.</span>, false);
-	} else {
-		createMessageBox(`${Math.ceil(Math.log2(firstHalf.length))} steps remaining. Can you see the bug?`);
-	}
-
-	return Object.fromEntries(features.list.map(feature => [`feature:${feature}`, firstHalf.includes(feature)]));
-}
-
-function createMessageBox(message: string | Element, yesNoButtons = true): void {
-	delegate(document, '.rgh-bisect-button-choice', 'click', onBisectButtonChoiceClick);
-	delegate(document, '.rgh-bisect-button-end', 'click', onBisectButtonEndClick);
-
-	document.body.append(
-		<div className="Box" style={{position: 'fixed', top: 0, left: 0}}>
-			<p>{message}</p>
-			{yesNoButtons ? <button type="button" className="btn btn-danger rgh-bisect-button-choice" value="no">No</button> : undefined}
-			{yesNoButtons ? <button type="button" className="btn btn-primary rgh-bisect-button-choice" data-answer="yes">Yes</button> : undefined}
-			{yesNoButtons ? undefined : <button type="button" className="btn btn-primary rgh-bisect-button-end">End</button>}
-		</div>
-	);
-}
-
-async function onBisectButtonChoiceClick({target}: MouseEvent): Promise<void> {
-	const {answer} = (target as HTMLElement).dataset;
-	let bisectedFeatures: string[] | false | undefined = await cache.get('bisect');
-	if (!bisectedFeatures) {
-		return;
-	}
-
-	if (bisectedFeatures.length === 0) {
-		bisectedFeatures = answer === 'yes' ? false : features.list;
-	} else {
-		const half = Math.ceil(bisectedFeatures.length / 2);
-		bisectedFeatures = answer === 'yes' ? bisectedFeatures.slice(0, half) : bisectedFeatures.slice(half);
-	}
-
-	await cache.set('bisect', bisectedFeatures);
-	location.reload();
-}
-
-async function onBisectButtonEndClick(): Promise<void> {
-	await cache.delete('bisect');
-	await browser.runtime.sendMessage({reloadTab: true});
-}
 
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
 	const {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
