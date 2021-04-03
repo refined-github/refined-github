@@ -30,9 +30,15 @@ function createMessageBox(message: string | Element, yesNoButtons = true): void 
 	document.body.append(
 		<div className="Box p-3" style={{position: 'fixed', bottom: 10, left: '50%', transform: 'translateX(-50%)'}}>
 			<p>{message}</p>
-			{yesNoButtons ? <button type="button" className="btn btn-danger" value="no" onClick={onChoiceButtonClick}>No</button> : undefined}
-			{yesNoButtons ? <button type="button" className="btn btn-primary" value="yes" onClick={onChoiceButtonClick}>Yes</button> : undefined}
-			<button type="button" className="btn btn-primary" onClick={onEndButtonClick}>Exit</button>
+			<div className="d-flex flex-justify-between">
+				<div>
+					<button type="button" className="btn" onClick={onEndButtonClick}>Exit</button>
+				</div>
+				{yesNoButtons ? <div>
+					<button type="button" className="btn btn-danger mr-2" value="no" onClick={onChoiceButtonClick}>No</button>
+					<button type="button" className="btn btn-primary" value="yes" onClick={onChoiceButtonClick}>Yes</button>
+				</div> : undefined}
+			</div>
 		</div>
 	);
 }
