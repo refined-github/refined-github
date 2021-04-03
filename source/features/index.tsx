@@ -143,9 +143,9 @@ function createMessageBox(message: string | Element, yesNoButtons = true): void 
 	document.body.append(
 		<div className="Box" style={{position: 'fixed', top: 0, left: 0}}>
 			<p>{message}</p>
-			{yesNoButtons ? <button type="button" className="btn btn-danger rgh-bisect-button-choice" data-answer="no">No</button> : undefined}
+			{yesNoButtons ? <button type="button" className="btn btn-danger rgh-bisect-button-choice" value="no">No</button> : undefined}
 			{yesNoButtons ? <button type="button" className="btn btn-primary rgh-bisect-button-choice" data-answer="yes">Yes</button> : undefined}
-			{yesNoButtons ? undefined : <button type="button" className="btn btn-primary rgh-bisect-button-end">OK</button>}
+			{yesNoButtons ? undefined : <button type="button" className="btn btn-primary rgh-bisect-button-end">End</button>}
 		</div>
 	);
 }
@@ -165,7 +165,7 @@ async function onBisectButtonChoiceClick({target}: MouseEvent): Promise<void> {
 	}
 
 	await cache.set('bisect', bisectedFeatures);
-	await browser.runtime.sendMessage({reloadTab: true});
+	location.reload();
 }
 
 async function onBisectButtonEndClick(): Promise<void> {
