@@ -30,14 +30,14 @@ function createMessageBox(message: string | Element, yesNoButtons = true): void 
 	document.body.append(
 		<div className="Box" style={{position: 'fixed', top: 0, left: 0}}>
 			<p>{message}</p>
-			{yesNoButtons ? <button type="button" className="btn btn-danger" onClick={onChoiceButtonClick} value="no">No</button> : undefined}
-			{yesNoButtons ? <button type="button" className="btn btn-primary" onClick={onChoiceButtonClick} value="yes">Yes</button> : undefined}
+			{yesNoButtons ? <button type="button" className="btn btn-danger" value="no" onClick={onChoiceButtonClick}>No</button> : undefined}
+			{yesNoButtons ? <button type="button" className="btn btn-primary" value="yes" onClick={onChoiceButtonClick}>Yes</button> : undefined}
 			{yesNoButtons ? undefined : <button type="button" className="btn btn-primary" onClick={onEndButtonClick}>End</button>}
 		</div>
 	);
 }
 
-async function onChoiceButtonClick({target}: MouseEvent): Promise<void> {
+async function onChoiceButtonClick({target}: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const answer = (target as HTMLButtonElement).value;
 	let bisectedFeatures: string[] | false | undefined = await cache.get('bisect');
 	if (!bisectedFeatures) {
