@@ -24,22 +24,14 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 	}
 
 	const [, _user, _repo, type, unslashedCommittish] = pathname.split('/');
-	if (!type) { // Root
-		console.trace('Branch could not be determined');
+	if (!type || !typesWithCommittish.includes(type)) {
+		// Root; or piece of information not applicable to the page
 		return;
-	}
-
-	if (!typesWithCommittish.includes(type)) {
-		throw new TypeError(`Expected one of ${typesWithCommittish.join(', ')}; got "${type}"`);
 	}
 
 	const parsedTitle = titleWithCommittish.exec(title);
 	if (parsedTitle) {
 		return parsedTitle.groups!.branch;
-	}
-
-	if (!unslashedCommittish) {
-		console.trace('Branch could not be determined');
 	}
 
 	return unslashedCommittish;

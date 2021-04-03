@@ -209,8 +209,19 @@ test('preventPrCommitLinkLoss', t => {
 	);
 });
 
-// The titles supplied here listed here are real, not guessed.
+// The titles supplied here listed here are real, not guessed, except the error tester
 test('getCurrentCommittish', t => {
+	// Error testing
+	t.is(getCurrentCommittish(
+		'/',
+		'some page title'
+	), undefined, 'It should never throw with valid input');
+	t.throws(() => getCurrentCommittish(
+		'https://github.com',
+		'github.com'
+	));
+
+	// Root
 	t.is(getCurrentCommittish(
 		'/typescript-eslint/typescript-eslint',
 		'typescript-eslint/typescript-eslint: Monorepo for all the tooling which enables ESLint to support TypeScript'
