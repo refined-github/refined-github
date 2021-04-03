@@ -37,18 +37,17 @@ function createMessageBox(message: string | Element, yesNoButtons = true): void 
 	);
 }
 
-async function onChoiceButtonClick({target}: React.MouseEvent<HTMLButtonElement>): Promise<void> {
-	const answer = (target as HTMLButtonElement).value;
+async function onChoiceButtonClick({currentTarget}: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	let bisectedFeatures: string[] | false | undefined = await cache.get('bisect');
 	if (!bisectedFeatures) {
 		return;
 	}
 
 	if (bisectedFeatures.length === 0) {
-		bisectedFeatures = answer === 'yes' ? false : features.list;
+		bisectedFeatures = currentTarget.value === 'yes' ? false : features.list;
 	} else {
 		const half = Math.ceil(bisectedFeatures.length / 2);
-		bisectedFeatures = answer === 'yes' ? bisectedFeatures.slice(0, half) : bisectedFeatures.slice(half);
+		bisectedFeatures = currentTarget.value === 'yes' ? bisectedFeatures.slice(0, half) : bisectedFeatures.slice(half);
 	}
 
 	await cache.set('bisect', bisectedFeatures);
@@ -57,5 +56,5 @@ async function onChoiceButtonClick({target}: React.MouseEvent<HTMLButtonElement>
 
 async function onEndButtonClick(): Promise<void> {
 	await cache.delete('bisect');
-	await browser.runtime.sendMessage({reloadTab: true});
+	location.reload();
 }
