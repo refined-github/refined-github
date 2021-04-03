@@ -32,7 +32,7 @@ function createMessageBox(message: string | Element, yesNoButtons = true): void 
 			<p>{message}</p>
 			{yesNoButtons ? <button type="button" className="btn btn-danger" value="no" onClick={onChoiceButtonClick}>No</button> : undefined}
 			{yesNoButtons ? <button type="button" className="btn btn-primary" value="yes" onClick={onChoiceButtonClick}>Yes</button> : undefined}
-			{yesNoButtons ? undefined : <button type="button" className="btn btn-primary" onClick={onEndButtonClick}>End</button>}
+			<button type="button" className="btn btn-primary" onClick={onEndButtonClick}>Exit</button>
 		</div>
 	);
 }
