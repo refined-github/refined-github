@@ -16,7 +16,7 @@ export const getConversationNumber = (): string | undefined => {
 	return undefined;
 };
 
-const typesWithCommittish = ['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare'];
+const typesWithCommittish = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare']);
 const titleWithCommittish = / at (?<branch>[\w-/]+)( · [\w-]+\/[\w-]+)?$/i;
 export const getCurrentCommittish = (pathname = location.pathname, title = document.title): string | undefined => {
 	if (!pathname.startsWith('/')) {
@@ -24,7 +24,7 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 	}
 
 	const [, _user, _repo, type, unslashedCommittish] = pathname.split('/');
-	if (!type || !typesWithCommittish.includes(type)) {
+	if (!type || !typesWithCommittish.has(type)) {
 		// Root; or piece of information not applicable to the page
 		return;
 	}
