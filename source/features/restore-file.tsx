@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
-import {getConversationNumber, getCurrentBranch, getPRHeadRepo} from '../github-helpers';
+import {getConversationNumber} from '../github-helpers';
 
 function showError(menuItem: HTMLButtonElement, error: string): void {
 	menuItem.disabled = true;
@@ -50,7 +50,8 @@ async function commitFileContent(menuItem: Element, content: string, filePath: s
 	// Check if file was deleted by PR
 	if (menuItem.closest('[data-file-deleted="true"]')) {
 		menuItem.textContent = 'Undeleting…';
-		pathname = `/${getPRHeadRepo()!.nameWithOwner}/new/${getCurrentBranch()!}?filename=${filePath}`;
+		const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
+		pathname = `/${nameWithOwner}/new/${headBranch}?filename=${filePath}`;
 	} else {
 		menuItem.textContent = 'Committing…';
 	}
