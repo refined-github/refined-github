@@ -11,19 +11,22 @@ export default async function bisectFeatures(): Promise<Record<string, boolean>>
 
 	if (bisectedFeatures === false) {
 		createMessageBox('Every feature has been disabled. If you still see the bug, try disabling the whole extension.', false);
-		return {};
+		return buildOptionsObject([]);
 	}
 
-	const firstHalf = bisectedFeatures.slice(0, Math.ceil(bisectedFeatures.length / 2));
-	if (firstHalf.length === 0) {
+	if (bisectedFeatures.length === 0) {
 		createMessageBox('Every feature has been disabled. Can you see the bug?');
-	} else if (firstHalf.length === 1) {
-		createMessageBox(<span>The bug is caused by <a href={'https://github.com/sindresorhus/refined-github/blob/main/source/features/' + firstHalf[0] + '.tsx'}><code>{firstHalf[0]}</code></a>.</span>, false);
+	} else if (bisectedFeatures.length === 1) {
+		createMessageBox(<span>The bug is caused by <a href={'https://github.com/sindresorhus/refined-github/blob/main/source/features/' + bisectedFeatures[0] + '.tsx'}><code>{bisectedFeatures[0]}</code></a>.</span>, false);
 	} else {
-		createMessageBox(`${Math.ceil(Math.log2(firstHalf.length))} steps remaining. Can you see the bug?`);
+		createMessageBox(`Can you see the bug? (${Math.ceil(Math.log2(bisectedFeatures.length))} steps remaining.)`);
 	}
 
-	return Object.fromEntries(features.list.map(feature => [`feature:${feature}`, firstHalf.includes(feature)]));
+	return buildOptionsObject(bisectedFeatures.slice(0, Math.ceil(bisectedFeatures.length / 2)));
+}
+
+function buildOptionsObject(enabledFeatures: string[]): Record<string, boolean> {
+	return Object.fromEntries(features.list.map(feature => [`feature:${feature}`, enabledFeatures.includes(feature)]));
 }
 
 function createMessageBox(message: string | Element, yesNoButtons = true): void {
@@ -34,10 +37,13 @@ function createMessageBox(message: string | Element, yesNoButtons = true): void 
 				<div>
 					<button type="button" className="btn" onClick={onEndButtonClick}>Exit</button>
 				</div>
-				{yesNoButtons ? <div>
-					<button type="button" className="btn btn-danger mr-2" value="no" onClick={onChoiceButtonClick}>No</button>
-					<button type="button" className="btn btn-primary" value="yes" onClick={onChoiceButtonClick}>Yes</button>
-				</div> : undefined}
+				{yesNoButtons ?
+					<div>
+						<button type="button" className="btn btn-danger mr-2" value="no" onClick={onChoiceButtonClick}>No</button>
+						<button type="button" className="btn btn-primary" value="yes" onClick={onChoiceButtonClick}>Yes</button>
+					</div>
+					: undefined
+				}
 			</div>
 		</div>
 	);
