@@ -28,7 +28,7 @@ export default async function bisectFeatures(): Promise<Record<string, boolean>>
 
 function createMessageBox(message: string | Element, yesNoButtons = true): void {
 	document.body.append(
-		<div className="Box" style={{position: 'fixed', top: 0, left: 0}}>
+		<div className="Box p-3" style={{position: 'fixed', bottom: 10, left: '50%', transform: 'translateX(-50%)'}}>
 			<p>{message}</p>
 			{yesNoButtons ? <button type="button" className="btn btn-danger" value="no" onClick={onChoiceButtonClick}>No</button> : undefined}
 			{yesNoButtons ? <button type="button" className="btn btn-primary" value="yes" onClick={onChoiceButtonClick}>Yes</button> : undefined}
