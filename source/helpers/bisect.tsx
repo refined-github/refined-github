@@ -10,16 +10,16 @@ export default async function bisectFeatures(): Promise<Record<string, boolean>>
 	}
 
 	if (bisectedFeatures === false) {
-		createMessageBox('Every feature has been disabled. If you still see the bug, try disabling the whole extension.', false);
+		createMessageBox(<p>Every feature has been disabled. If you still see the change or issue, try disabling the whole extension.</p>, false);
 		return buildOptionsObject([]);
 	}
 
 	if (bisectedFeatures.length === 0) {
-		createMessageBox('Every feature has been disabled. Can you see the bug?');
+		createMessageBox(<div><p>This process will help you identify what Refined GitHub feature is making changes or causing issues on GitHub. Do you still see the change or issue?</p><p>Note: You can change page here, but don’t use multiple tabs.</p></div>);
 	} else if (bisectedFeatures.length === 1) {
-		createMessageBox(<span>The bug is caused by <a href={'https://github.com/sindresorhus/refined-github/blob/main/source/features/' + bisectedFeatures[0] + '.tsx'}><code>{bisectedFeatures[0]}</code></a>.</span>, false);
+		createMessageBox(<p>The change or issue is caused by <a href={'https://github.com/sindresorhus/refined-github/blob/main/source/features/' + bisectedFeatures[0] + '.tsx'}><code>{bisectedFeatures[0]}</code></a>.</p>, false);
 	} else {
-		createMessageBox(`Can you see the bug? (${Math.ceil(Math.log2(bisectedFeatures.length))} steps remaining.)`);
+		createMessageBox(<p>Can you see the change or issue? ({Math.ceil(Math.log2(bisectedFeatures.length))} steps remaining.)</p>);
 	}
 
 	return buildOptionsObject(bisectedFeatures.slice(0, Math.ceil(bisectedFeatures.length / 2)));
@@ -29,10 +29,10 @@ function buildOptionsObject(enabledFeatures: string[]): Record<string, boolean> 
 	return Object.fromEntries(features.list.map(feature => [`feature:${feature}`, enabledFeatures.includes(feature)]));
 }
 
-function createMessageBox(message: string | Element, yesNoButtons = true): void {
+function createMessageBox(message: Element, yesNoButtons = true): void {
 	document.body.append(
-		<div className="Box p-3" style={{position: 'fixed', bottom: 10, left: '50%', transform: 'translateX(-50%)'}}>
-			<p>{message}</p>
+		<div className="Box p-3" style={{position: 'fixed', bottom: 10, left: '50%', maxWidth: '600px', transform: 'translateX(-50%)'}}>
+			{message}
 			<div className="d-flex flex-justify-between">
 				<div>
 					<button type="button" className="btn" onClick={onEndButtonClick}>Exit</button>
