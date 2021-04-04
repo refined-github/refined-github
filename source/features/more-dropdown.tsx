@@ -8,7 +8,7 @@ import {DiffIcon, GitBranchIcon, HistoryIcon, PackageIcon} from '@primer/octicon
 import features from '.';
 import {appendBefore} from '../helpers/dom-utils';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {buildRepoURL, getCurrentBranch} from '../github-helpers';
+import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
 
 function createDropdown(): void {
 	// Markup copied from native GHE dropdown
@@ -43,11 +43,11 @@ function onlyShowInDropdown(id: string): void {
 		return;
 	}
 
-	tabItem!.parentElement!.remove();
+	(tabItem!.closest('li') ?? tabItem!.closest('.UnderlineNav-item'))!.remove();
+
 	const menuItem = select(`[data-menu-item$="${id}"]`)!;
 	menuItem.removeAttribute('data-menu-item');
 	menuItem.hidden = false;
-
 	// The item has to be moved somewhere else because the overflow nav is order-dependent
 	select('.js-responsive-underlinenav-overflow ul')!.append(menuItem);
 }
@@ -59,7 +59,7 @@ async function init(): Promise<void> {
 		'.UnderlineNav-body'
 	].join());
 
-	const reference = getCurrentBranch() ?? await getDefaultBranch();
+	const reference = getCurrentCommittish() ?? await getDefaultBranch();
 	const compareUrl = buildRepoURL('compare', reference);
 	const commitsUrl = buildRepoURL('commits', reference);
 	const branchesUrl = buildRepoURL('branches');

@@ -31,8 +31,8 @@ async function init(): Promise<void> {
 	const diffstat = await elementReady('.diffstat', {waitForChildren: false});
 	diffstat!.replaceWith(
 		<span className="ml-2 diffstat tooltipped tooltipped-s" aria-label={tooltip}>
-			<span className="text-green">+{additions}</span>{' '}
-			<span className="text-red">−{deletions}</span>{' '}
+			<span className="text-green color-text-success">+{additions}</span>{' '}
+			<span className="text-red color-text-danger">−{deletions}</span>{' '}
 			<span className="diffstat-block-neutral"/>
 			<span className="diffstat-block-neutral"/>
 			<span className="diffstat-block-neutral"/>

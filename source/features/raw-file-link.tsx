@@ -13,7 +13,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	const {href} = new GitHubURL(viewFile.href).assign({route: 'raw'});
 
 	viewFile.after(
-		<a href={href} className="pl-5 dropdown-item btn-link" role="menuitem">
+		<a data-skip-pjax href={href} className="pl-5 dropdown-item btn-link" role="menuitem">
 			View raw
 		</a>
 	);

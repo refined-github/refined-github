@@ -65,28 +65,25 @@ async function init(): Promise<false | void> {
 		'.UnderlineNav-body'
 	].join());
 
-	const repoNavigationBar = select('.js-responsive-underlinenav');
+	const repoNavigationBar = select('.js-responsive-underlinenav .UnderlineNav-body');
 	if (repoNavigationBar) {
 		// "Repository refresh" layout
 		const releasesTab = (
-			<a
-				href={buildRepoURL('releases')}
-				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item"
-				data-hotkey="g r"
-				data-selected-links="repo_releases"
-				data-tab-item="rgh-releases-item"
-			>
-				<TagIcon className="UnderlineNav-octicon"/>
-				<span data-content="Releases">Releases</span>
-				{count && <span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>}
-			</a>
-		);
-
-		select(':scope > ul', repoNavigationBar)!.append(
 			<li className="d-flex">
-				{releasesTab}
+				<a
+					href={buildRepoURL('releases')}
+					className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item"
+					data-hotkey="g r"
+					data-selected-links="repo_releases"
+					data-tab-item="rgh-releases-item"
+				>
+					<TagIcon className="UnderlineNav-octicon"/>
+					<span data-content="Releases">Releases</span>
+					{count && <span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>}
+				</a>
 			</li>
 		);
+		repoNavigationBar.append(releasesTab);
 
 		// This re-triggers the overflow listener forcing it to also hide this tab if necessary #3347
 		repoNavigationBar.replaceWith(repoNavigationBar);

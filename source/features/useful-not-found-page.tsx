@@ -18,7 +18,7 @@ async function is404(url: string): Promise<boolean> {
 }
 
 function getStrikeThrough(text: string): HTMLElement {
-	return <del style={{color: '#6a737d'}}>{text}</del>;
+	return <del className="color-text-tertiary">{text}</del>; /* GHE */
 }
 
 async function checkAnchor(anchor: HTMLAnchorElement): Promise<void> {
