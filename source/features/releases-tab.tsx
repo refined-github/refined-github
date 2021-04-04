@@ -2,7 +2,6 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
-import oneMutation from 'one-mutation';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -23,15 +22,12 @@ async function parseCountFromDom(): Promise<number> {
 	}
 
 	// In "Repository refresh" layout, look for the tags link in the header
-	const repositoryHeader = (await elementReady('.repository-content .file-navigation', {waitForChildren: false}))!;
-	const tagsCounterSelector = '.Link--primary[href$="/tags"] strong';
-	if (!select.exists(tagsCounterSelector, repositoryHeader)) {
-		await oneMutation(repositoryHeader, {childList: true, filter: () => select.exists(tagsCounterSelector, repositoryHeader)});
+	const moreReleasesCountElement = await elementReady('.repository-content .file-navigation [href$="/tags"] strong');
+	if (moreReleasesCountElement) {
+		return looseParseInt(moreReleasesCountElement);
 	}
 
-	const tagsCounter = select(tagsCounterSelector, repositoryHeader);
-
-	return tagsCounter ? looseParseInt(tagsCounter) : 0;
+	return 0;
 }
 
 async function fetchFromApi(): Promise<number> {
