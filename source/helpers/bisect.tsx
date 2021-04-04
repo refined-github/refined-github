@@ -1,19 +1,16 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
+import select from 'select-dom';
 
 import features from '../features';
 
 export default async function bisectFeatures(): Promise<Record<string, boolean>> {
-	const bisectedFeatures: string[] | false | undefined = await cache.get('bisect');
+	const bisectedFeatures: string[] | undefined = await cache.get('bisect');
 	if (bisectedFeatures === undefined) {
 		return {};
 	}
 
-	if (bisectedFeatures === false) {
-		createMessageBox(<p>Every feature has been disabled. If you still see the change or issue, try disabling the whole extension.</p>, false);
-		return buildOptionsObject([]);
-	}
-
+	const enabledFeatures = new Set(bisectedFeatures.slice(0, Math.ceil(bisectedFeatures.length / 2)));
 	if (bisectedFeatures.length === 0) {
 		createMessageBox(<div><p>This process will help you identify what Refined GitHub feature is making changes or causing issues on GitHub. Do you still see the change or issue?</p><p>Note: You can change page here, but don’t use multiple tabs.</p></div>);
 	} else if (bisectedFeatures.length === 1) {
@@ -22,16 +19,12 @@ export default async function bisectFeatures(): Promise<Record<string, boolean>>
 		createMessageBox(<p>Can you see the change or issue? ({Math.ceil(Math.log2(bisectedFeatures.length))} steps remaining.)</p>);
 	}
 
-	return buildOptionsObject(bisectedFeatures.slice(0, Math.ceil(bisectedFeatures.length / 2)));
-}
-
-function buildOptionsObject(enabledFeatures: string[]): Record<string, boolean> {
-	return Object.fromEntries(features.list.map(feature => [`feature:${feature}`, enabledFeatures.includes(feature)]));
+	return Object.fromEntries(features.list.map(feature => [`feature:${feature}`, enabledFeatures.has(feature)]));
 }
 
 function createMessageBox(message: Element, yesNoButtons = true): void {
 	document.body.append(
-		<div className="Box p-3" style={{position: 'fixed', bottom: 10, left: '50%', maxWidth: '600px', transform: 'translateX(-50%)'}}>
+		<div id="rgh-bisect-dialog" className="Box p-3" style={{position: 'fixed', bottom: 10, left: '50%', maxWidth: '600px', transform: 'translateX(-50%)'}}>
 			{message}
 			<div className="d-flex flex-justify-between">
 				<div>
@@ -49,19 +42,28 @@ function createMessageBox(message: Element, yesNoButtons = true): void {
 }
 
 async function onChoiceButtonClick({currentTarget}: React.MouseEvent<HTMLButtonElement>): Promise<void> {
-	let bisectedFeatures: string[] | false | undefined = await cache.get('bisect');
+	const answer = currentTarget.value;
+	const bisectedFeatures: string[] | undefined = await cache.get('bisect');
 	if (!bisectedFeatures) {
 		return;
 	}
 
 	if (bisectedFeatures.length === 0) {
-		bisectedFeatures = currentTarget.value === 'yes' ? false : features.list;
-	} else {
-		const half = Math.ceil(bisectedFeatures.length / 2);
-		bisectedFeatures = currentTarget.value === 'yes' ? bisectedFeatures.slice(0, half) : bisectedFeatures.slice(half);
+		if (answer === 'yes') {
+			select('#rgh-bisect-dialog')!.remove();
+			createMessageBox(<p>Every feature has been disabled. If you still see the change or issue, try disabling the whole extension.</p>, false);
+			return;
+		}
+
+		await cache.set('bisect', features.list);
+
+		location.reload();
+		return;
 	}
 
-	await cache.set('bisect', bisectedFeatures);
+	const half = Math.ceil(bisectedFeatures.length / 2);
+	await cache.set('bisect', answer === 'yes' ? bisectedFeatures.slice(0, half) : bisectedFeatures.slice(half));
+
 	location.reload();
 }
 
