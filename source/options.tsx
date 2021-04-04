@@ -129,9 +129,21 @@ async function clearCacheHandler(event: Event): Promise<void> {
 	}, 2000);
 }
 
-async function bisectFeaturesHandler(): Promise<void> {
+async function findFeatureHandler(event: Event): Promise<void> {
 	await cache.set('bisect', [], {minutes: 5});
-	await browser.tabs.create({url: 'https://github.com'});
+
+	const button = event.target as HTMLButtonElement;
+	button.disabled = true;
+	setTimeout(() => {
+		button.disabled = false;
+	}, 10_000);
+
+	const bisectMessage = select('#find-feature-message')!;
+	const initialMessage = bisectMessage.textContent;
+	bisectMessage.textContent = 'Go to the page where you want to find the feature and refresh it to see the instructions.';
+	setTimeout(() => {
+		bisectMessage.textContent = initialMessage;
+	}, 10_000);
 }
 
 function featuresFilterHandler(event: Event): void {
@@ -214,7 +226,7 @@ function addEventListeners(): void {
 	select('#clear-cache')!.addEventListener('click', clearCacheHandler);
 
 	// Add bisect tool
-	select('#bisect-features')!.addEventListener('click', bisectFeaturesHandler);
+	select('#find-feature')!.addEventListener('click', findFeatureHandler);
 
 	// Add token validation
 	select('[name="personalToken"]')!.addEventListener('input', validateToken);

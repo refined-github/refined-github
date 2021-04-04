@@ -12,7 +12,7 @@ export default async function bisectFeatures(): Promise<Record<string, boolean>>
 
 	const enabledFeatures = new Set(bisectedFeatures.slice(0, Math.ceil(bisectedFeatures.length / 2)));
 	if (bisectedFeatures.length === 0) {
-		createMessageBox(<div><p>This process will help you identify what Refined GitHub feature is making changes or causing issues on GitHub. Do you still see the change or issue?</p><p>Note: You can change page here, but don’t use multiple tabs.</p></div>);
+		createMessageBox(<div><p>Every feature has been disabled. Do you still see the change or issue?</p><p>Note: You can change page here, but don’t use multiple tabs.</p></div>);
 	} else if (bisectedFeatures.length === 1) {
 		createMessageBox(<p>The change or issue is caused by <a href={'https://github.com/sindresorhus/refined-github/blob/main/source/features/' + bisectedFeatures[0] + '.tsx'}><code>{bisectedFeatures[0]}</code></a>.</p>, false);
 	} else {
