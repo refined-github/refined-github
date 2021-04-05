@@ -138,12 +138,7 @@ async function findFeatureHandler(event: Event): Promise<void> {
 		button.disabled = false;
 	}, 10_000);
 
-	const bisectMessage = select('#find-feature-message')!;
-	const initialMessage = bisectMessage.textContent;
-	bisectMessage.textContent = 'Go to the page where you want to find the feature and refresh it to see the instructions.';
-	setTimeout(() => {
-		bisectMessage.textContent = initialMessage;
-	}, 10_000);
+	select('#find-feature-message')!.hidden = false;
 }
 
 function featuresFilterHandler(event: Event): void {
