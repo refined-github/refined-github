@@ -77,6 +77,7 @@ async function onChoiceButtonClick({currentTarget}: React.MouseEvent<HTMLButtonE
 			bisectedFeatures.slice(getMiddleStep(bisectedFeatures))
 		);
 
+		currentTarget.parentElement!.replaceWith(<div className="btn btn-disabled">Reloading…</div>);
 		location.reload();
 		return;
 	}
