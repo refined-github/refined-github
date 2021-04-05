@@ -4,10 +4,10 @@ import select from 'select-dom';
 
 import features from '../features';
 
-export default async function bisectFeatures(): Promise<Record<string, boolean>> {
+export default async function bisectFeatures(): Promise<Record<string, boolean> | void> {
 	const bisectedFeatures = await cache.get<FeatureID[]>('bisect');
 	if (!bisectedFeatures) {
-		return {};
+		return;
 	}
 
 	const enabledFeatures = new Set(bisectedFeatures.slice(0, Math.ceil(bisectedFeatures.length / 2)));
