@@ -5,8 +5,8 @@ import select from 'select-dom';
 import features from '../features';
 
 export default async function bisectFeatures(): Promise<Record<string, boolean>> {
-	const bisectedFeatures: string[] | undefined = await cache.get('bisect');
-	if (bisectedFeatures === undefined) {
+	const bisectedFeatures = await cache.get<FeatureID[]>('bisect');
+	if (!bisectedFeatures) {
 		return {};
 	}
 
@@ -56,7 +56,7 @@ function createMessageBox(message: Element, yesNoButtons = true): void {
 
 async function onChoiceButtonClick({currentTarget}: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const answer = currentTarget.value;
-	const bisectedFeatures: string[] | undefined = await cache.get('bisect');
+	const bisectedFeatures = (await cache.get<FeatureID[]>('bisect'))!;
 	if (!bisectedFeatures) {
 		return;
 	}
