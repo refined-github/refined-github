@@ -1,7 +1,7 @@
 /// <reference types="../source/globals" />
 import path from 'path';
-import {readFileSync} from 'fs';
 import regexJoin from 'regex-join';
+import {readFileSync} from 'fs';
 import {parse as parseMarkdown} from 'markdown-wasm/dist/markdown.node.js';
 
 import {throwError} from '../webpack.config';
