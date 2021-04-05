@@ -25,7 +25,19 @@ export default async function bisectFeatures(): Promise<Record<string, boolean>>
 function createMessageBox(message: Element, yesNoButtons = true): void {
 	select('#rgh-bisect-dialog')?.remove();
 	document.body.append(
-		<div id="rgh-bisect-dialog" className="Box p-3" style={{position: 'fixed', bottom: 10, left: '50%', maxWidth: '600px', transform: 'translateX(-50%)'}}>
+		<div
+			id="rgh-bisect-dialog"
+			className="Box p-3"
+			style={{
+				position: 'fixed',
+				bottom: '50%',
+				right: '50%',
+				maxWidth: '600px',
+				transform: 'translate(50%, 50%)',
+				boxShadow: 'var(--color-toast-shadow)',
+				zIndex: 2147483647
+			}}
+		>
 			{message}
 			<div className="d-flex flex-justify-between">
 				<div>
