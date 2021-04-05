@@ -1,7 +1,6 @@
 /// <reference types="./source/globals" />
 
 import path from 'path';
-
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
