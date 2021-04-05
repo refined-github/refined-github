@@ -55,5 +55,5 @@ td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::
 /* Keep colored button when reaction popup is open */
 .dropdown-details[open] .timeline-comment-action {
 	opacity: 100%;
-	color: #4078c0;
+	color: var(--color-mktg-btn-bg, #4078c0); /* GHE */
 }

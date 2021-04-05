@@ -15,14 +15,14 @@ import {buildRepoURL, getRepo} from '../github-helpers';
 
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
-function parseCountFromDom(): number {
+async function parseCountFromDom(): Promise<number> {
 	const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
 	if (releasesCountElement) {
 		return looseParseInt(releasesCountElement);
 	}
 
-	// In "Repository refresh" layout, look for the releases link in the sidebar
-	const moreReleasesCountElement = select('[href$="/tags"] strong');
+	// In "Repository refresh" layout, look for the tags link in the header
+	const moreReleasesCountElement = await elementReady('.repository-content .file-navigation [href$="/tags"] strong');
 	if (moreReleasesCountElement) {
 		return looseParseInt(moreReleasesCountElement);
 	}
@@ -69,17 +69,19 @@ async function init(): Promise<false | void> {
 	if (repoNavigationBar) {
 		// "Repository refresh" layout
 		const releasesTab = (
-			<a
-				href={buildRepoURL('releases')}
-				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item"
-				data-hotkey="g r"
-				data-selected-links="repo_releases"
-				data-tab-item="rgh-releases-item"
-			>
-				<TagIcon className="UnderlineNav-octicon"/>
-				<span data-content="Releases">Releases</span>
-				{count && <span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>}
-			</a>
+			<li className="d-flex">
+				<a
+					href={buildRepoURL('releases')}
+					className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item"
+					data-hotkey="g r"
+					data-selected-links="repo_releases"
+					data-tab-item="rgh-releases-item"
+				>
+					<TagIcon className="UnderlineNav-octicon"/>
+					<span data-content="Releases">Releases</span>
+					{count && <span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>}
+				</a>
+			</li>
 		);
 		repoNavigationBar.append(releasesTab);
 

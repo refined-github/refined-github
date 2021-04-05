@@ -16,36 +16,25 @@ export const getConversationNumber = (): string | undefined => {
 	return undefined;
 };
 
-/**
-Tested on isRepoTree, isBlame, isSingleFile, isEditFile, isSingleCommit, isCommitList, isCompare. Subtly incompatible with isPR
-Example tag content on public repositories: https://github.com/sindresorhus/refined-github/commits/branch-or-commit/even/with/slashes.atom
-Example tag content on private repositories https://github.com/private/private/commits/master.atom?token=AEAXKWNRHXA2XJ2ZWCMGUUN44LM62
-*/
-export const getCurrentBranch = (): string | undefined => {
-	// Example title: 'tejanium/refined-github:bra/nch' or just 'local-branch`
-	if (pageDetect.isPRFiles()) {
-		return select('.head-ref a')!.title.replace(/^[^:]+:/, '');
+const typesWithCommittish = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare']);
+const titleWithCommittish = / at (?<branch>[\w-/]+)( · [\w-]+\/[\w-]+)?$/i;
+export const getCurrentCommittish = (pathname = location.pathname, title = document.title): string | undefined => {
+	if (!pathname.startsWith('/')) {
+		throw new TypeError(`Expected pathname starting with /, got "${pathname}"`);
 	}
 
-	// I dont know regex HELP PLEASE
-	if (document.title.includes(' at ')) {
-		return document.title.split(' at ')[1].split(' ·')[0];
-	}
-
-	// .last needed for #2799
-	const feedLink = select.last('link[type="application/atom+xml"]');
-	const findLink = select.last('a[data-hotkey="t"]');
-
-	if (!feedLink && !findLink) {
+	const [, _user, _repo, type, unslashedCommittish] = pathname.split('/');
+	if (!type || !typesWithCommittish.has(type)) {
+		// Root; or piece of information not applicable to the page
 		return;
 	}
 
-	return new URL(feedLink?.href ?? decodeURIComponent(findLink!.href))
-		.pathname
-		.split('/')
-		.slice(4) // Drops the initial /user/repo/route/ part
-		.join('/')
-		.replace(/\.atom$/, '');
+	const parsedTitle = titleWithCommittish.exec(title);
+	if (parsedTitle) {
+		return parsedTitle.groups!.branch;
+	}
+
+	return unslashedCommittish;
 };
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
@@ -60,11 +49,6 @@ export const buildRepoURL = (...pathParts: Array<string | number> & {0: string})
 	}
 
 	return [location.origin, getRepo()?.nameWithOwner, ...pathParts].join('/');
-};
-
-export const getPRHeadRepo = (): ReturnType<typeof getRepo> => {
-	const headLink = select('.commit-ref.head-ref a');
-	return getRepo(headLink);
 };
 
 export function getForkedRepo(): string | undefined {
@@ -137,7 +121,7 @@ export function upperCaseFirst(input: string): string {
 
 /** Is tag or commit, with elementReady */
 export async function isPermalink(): Promise<boolean> {
-	if (/^[\da-f]{40}$/.test(getCurrentBranch()!)) {
+	if (/^[\da-f]{40}$/.test(getCurrentCommittish()!)) {
 		// It's a commit
 		return true;
 	}

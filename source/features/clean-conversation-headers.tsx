@@ -29,7 +29,7 @@ function initPR(): void {
 		add(byline) {
 			byline.classList.add('rgh-clean-conversation-header');
 			const isSameAuthor = select('.js-discussion > .TimelineItem:first-child .author')?.textContent === select('.author', byline)!.textContent;
-			const baseBranch = select('.commit-ref:not(.head-ref)', byline)!;
+			const baseBranch = select('.commit-ref.base-ref', byline)!;
 			const isDefaultBranch = (baseBranch.firstElementChild as HTMLAnchorElement).pathname.split('/').length === 3;
 
 			// Removes: [octocat wants to merge 1] commit into github:master from octocat:feature
