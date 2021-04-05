@@ -11,8 +11,8 @@ import pluralize from './pluralize';
 // Bisecting 1 feature: enable 0 // This is the last step, if the user says No, it's not caused by a JS feature
 const getMiddleStep = (list: any[]): number => Math.floor(list.length / 2);
 
-async function onChoiceButtonClick({currentTarget}: React.MouseEvent<HTMLButtonElement>): Promise<void> {
-	const answer = currentTarget.value;
+async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): Promise<void> {
+	const answer = button.value;
 	const bisectedFeatures = (await cache.get<FeatureID[]>('bisect'))!;
 
 	if (bisectedFeatures.length > 1) {
@@ -21,7 +21,7 @@ async function onChoiceButtonClick({currentTarget}: React.MouseEvent<HTMLButtonE
 			bisectedFeatures.slice(getMiddleStep(bisectedFeatures))
 		);
 
-		currentTarget.parentElement!.replaceWith(<div className="btn btn-disabled">Reloading…</div>);
+		button.parentElement!.replaceWith(<div className="btn" aria-disabled="true">Reloading…</div>);
 		location.reload();
 		return;
 	}
