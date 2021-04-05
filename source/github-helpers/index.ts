@@ -37,6 +37,21 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 	return unslashedCommittish;
 };
 
+export const getCurrentBranchFromFeedLink = (): string | undefined => {
+	// .last needed for #2799
+	const feedLink = select.last('link[type="application/atom+xml"]');
+	if (!feedLink) {
+		return;
+	}
+
+	return new URL(feedLink.href)
+		.pathname
+		.split('/')
+		.slice(4) // Drops the initial /user/repo/route/ part
+		.join('/')
+		.replace(/\.atom$/, '');
+};
+
 export const isFirefox = navigator.userAgent.includes('Firefox/');
 
 // The type requires at least one parameter https://stackoverflow.com/a/49910890

@@ -1,4 +1,4 @@
-import {getCurrentCommittish} from '.';
+import {getCurrentBranchFromFeedLink, getCurrentCommittish} from '.';
 
 export default class GitHubURL {
 	// @ts-expect-error https://github.com/microsoft/TypeScript/issues/26792
@@ -46,7 +46,7 @@ export default class GitHubURL {
 
 		const filePath = ambiguousReference.slice(1).join('/');
 
-		const currentBranch = getCurrentCommittish();
+		const currentBranch = getCurrentCommittish() ?? getCurrentBranchFromFeedLink();
 		const currentBranchSections = currentBranch?.split('/');
 		if (
 			!currentBranch || // Current branch could not be determined (1/2)
