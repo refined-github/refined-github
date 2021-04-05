@@ -16,6 +16,9 @@ interface Status {
 	scopes?: string[];
 }
 
+// Don't repeat the magic variable, the content will be injected multiple times
+const features = __featuresMeta__;
+
 function reportStatus({error, text, scopes}: Status): void {
 	const tokenStatus = select('#validation')!;
 	tokenStatus.textContent = text ?? '';
@@ -130,7 +133,7 @@ async function clearCacheHandler(event: Event): Promise<void> {
 }
 
 async function findFeatureHandler(event: Event): Promise<void> {
-	await cache.set('bisect', [], {minutes: 5});
+	await cache.set<FeatureID[]>('bisect', features.map(({id}) => id), {minutes: 5});
 
 	const button = event.target as HTMLButtonElement;
 	button.disabled = true;
@@ -170,9 +173,6 @@ async function highlightNewFeatures(): Promise<void> {
 }
 
 async function generateDom(): Promise<void> {
-	// Don't repeat the magic variable, the content will be injected multiple times
-	const features = __featuresMeta__;
-
 	// Generate list
 	select('.js-features')!.append(...features.map(buildFeatureCheckbox));
 
