@@ -5,14 +5,21 @@ import select from 'select-dom';
 import features from '../features';
 import pluralize from './pluralize';
 
+// Split current list of features in half and create an options-like object to be applied on load
+// Bisecting 3 features: enable 1
+// Bisecting 2 features: enable 1
+// Bisecting 1 feature: enable 0 // This is the last step, if the user says No, it's not caused by a JS feature
 const getMiddleStep = (list: any[]): number => Math.floor(list.length / 2);
 
 export default async function bisectFeatures(): Promise<Record<string, boolean> | void> {
+	// `bisect` stores the list of features to be split in half
 	const bisectedFeatures = await cache.get<FeatureID[]>('bisect');
 	if (!bisectedFeatures) {
 		return;
 	}
 
+	console.log(`Bisecting ${bisectedFeatures.length} features:\n${bisectedFeatures.join('\n')}`);
+	console.log(getMiddleStep(bisectedFeatures));
 
 	const steps = Math.ceil(Math.log2(Math.max(bisectedFeatures.length))) + 1;
 	createMessageBox(
@@ -39,6 +46,7 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 		];
 	});
 	const temporaryOptions = Object.fromEntries(temporaryOptionsPairs);
+	console.log(temporaryOptions);
 	return temporaryOptions;
 }
 
