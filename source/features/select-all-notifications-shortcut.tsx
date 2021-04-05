@@ -8,7 +8,7 @@ async function init(): Promise<void> {
 	const selectAllNotifications = await elementReady<HTMLElement>('.js-notifications-mark-all-prompt');
 	if (selectAllNotifications) { // Notifications page may be empty
 		selectAllNotifications.dataset.hotkey = 'a';
-		await onElementRemoval(selectAllNotifications);
+		await onElementRemoval(selectAllNotifications); // "Select all" checkbox will be replaced if there's more notifications to load #4199
 		void init();
 	}
 }
