@@ -28,7 +28,6 @@ function searchInList(readmeContent: string, id: FeatureID): FeatureMeta | void 
 }
 
 function searchInHighlights(readmeContent: string, id: FeatureID): FeatureMeta | void {
-	// Feature might be highlighted in the readme
 	const imageRegex = regexJoin(`<p><a title="${id}"></a> `, /(.+?)\n\t+<p><img src="(.+?)">/);
 	const imageMatch = imageRegex.exec(readmeContent);
 	if (imageMatch) {
