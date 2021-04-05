@@ -40,17 +40,8 @@ function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta 
 		};
 	}
 
-	const error = `
-
-	❌ Feature \`${id}\` needs a description in readme.md. Please refer to the style guide there.
-
-	`;
-	if (isWatching) {
-		console.error(error);
-		return {} as any;
-	}
-
-	throw new Error(error);
+	throwError(id, 'needs a description in readme.md. Please refer to the style guide there');
+	return {} as any;
 }
 
 function getFeatures(): FeatureID[] {
@@ -58,6 +49,15 @@ function getFeatures(): FeatureID[] {
 	return [...contents.matchAll(/^import '\.\/features\/([^.]+)';/gm)]
 		.map(match => match[1] as FeatureID)
 		.sort();
+}
+
+function throwError(id: string, error: string): void {
+	const errorMessage = `❌ \`${id}\` → ${error}`;
+	if (!isWatching) {
+		throw new Error(errorMessage);
+	}
+
+	console.error(errorMessage);
 }
 
 const config: Configuration = {
@@ -114,7 +114,14 @@ const config: Configuration = {
 			),
 
 			__filebasename: webpack.DefinePlugin.runtimeValue(
-				info => JSON.stringify(path.parse(info.module.resource).name)
+				info => {
+					const {name, ext} = path.parse(info.module.resource);
+					if (ext !== '.tsx') {
+						throwError(name, `has a ${ext} extension but should be .tsx`);
+					}
+
+					return JSON.stringify(name);
+				}
 			)
 		}),
 		new MiniCssExtractPlugin(),
