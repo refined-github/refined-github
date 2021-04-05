@@ -138,3 +138,13 @@ pr-branches
 .select-menu-item-text .diffstat {
 	display: inline !important;
 }
+
+/* Style the "Find feature" dialog that appears on top of the page */
+#rgh-bisect-dialog {
+	position: fixed;
+	bottom: 50%;
+	right: 50%;
+	transform: translate(50%, 50%);
+	box-shadow: var(--color-toast-shadow);
+	z-index: 2147483647;
+}
