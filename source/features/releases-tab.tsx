@@ -15,14 +15,14 @@ import {buildRepoURL, getRepo} from '../github-helpers';
 
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
-function parseCountFromDom(): number {
+async function parseCountFromDom(): Promise<number> {
 	const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
 	if (releasesCountElement) {
 		return looseParseInt(releasesCountElement);
 	}
 
-	// In "Repository refresh" layout, look for the releases link in the sidebar
-	const moreReleasesCountElement = select('[href$="/tags"] strong');
+	// In "Repository refresh" layout, look for the tags link in the header
+	const moreReleasesCountElement = await elementReady('.repository-content .file-navigation [href$="/tags"] strong');
 	if (moreReleasesCountElement) {
 		return looseParseInt(moreReleasesCountElement);
 	}
