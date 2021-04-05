@@ -60,9 +60,9 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 
 // TODO: Replace this with `State--${prInfo.state.toLowerCase()}`
 const stateClass = {
-	Open: '--green, State--open',
-	Closed: '--red, State--closed',
-	Merged: '--purple, State--merged',
+	Open: 'State--green State--open',
+	Closed: 'State--red State--closed',
+	Merged: 'State--purple State--merged',
 	Draft: ''
 };
 
@@ -88,7 +88,7 @@ async function init(): Promise<void> {
 							#{prInfo.number}{' '}
 						</a>
 						<a
-							className={`State State${stateClass[prInfo.state]} State--small ml-1 no-underline`}
+							className={`State ${stateClass[prInfo.state]} State--small ml-1 no-underline`}
 							title={`Status: ${prInfo.state}`}
 							href={prInfo.url}
 						>
