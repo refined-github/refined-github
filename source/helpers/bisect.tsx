@@ -23,6 +23,13 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 		</div>
 	);
 
+	// Hide message when the process is done elsewhere
+	window.addEventListener('visibilitychange', async () => {
+		if (!await cache.get<FeatureID[]>('bisect')) {
+			createMessageBox('Process completed in another tab');
+		}
+	});
+
 	const half = getMiddleStep(bisectedFeatures);
 	const temporaryOptionsPairs = features.list.map(feature => {
 		const index = bisectedFeatures.indexOf(feature);
