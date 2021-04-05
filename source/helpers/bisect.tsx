@@ -23,6 +23,7 @@ export default async function bisectFeatures(): Promise<Record<string, boolean>>
 }
 
 function createMessageBox(message: Element, yesNoButtons = true): void {
+	select('#rgh-bisect-dialog')?.remove();
 	document.body.append(
 		<div id="rgh-bisect-dialog" className="Box p-3" style={{position: 'fixed', bottom: 10, left: '50%', maxWidth: '600px', transform: 'translateX(-50%)'}}>
 			{message}
@@ -50,7 +51,6 @@ async function onChoiceButtonClick({currentTarget}: React.MouseEvent<HTMLButtonE
 
 	if (bisectedFeatures.length === 0) {
 		if (answer === 'yes') {
-			select('#rgh-bisect-dialog')!.remove();
 			createMessageBox(<p>Every feature has been disabled. If you still see the change or issue, try disabling the whole extension.</p>, false);
 			return;
 		}
