@@ -15,6 +15,8 @@ export default async function bisectFeatures(): Promise<Record<string, boolean>>
 		createMessageBox(<div><p>Every feature has been disabled. Do you still see the change or issue?</p><p>Note: You can change page here, but don’t use multiple tabs.</p></div>);
 	} else if (bisectedFeatures.length === 1) {
 		createMessageBox(<p>The change or issue is caused by <a href={'https://github.com/sindresorhus/refined-github/blob/main/source/features/' + bisectedFeatures[0] + '.tsx'}><code>{bisectedFeatures[0]}</code></a>.</p>, false);
+		await cache.delete('bisect');
+		return;
 	} else {
 		createMessageBox(<p>Can you see the change or issue? ({Math.ceil(Math.log2(bisectedFeatures.length))} steps remaining.)</p>);
 	}
@@ -45,10 +47,17 @@ async function onChoiceButtonClick({currentTarget}: React.MouseEvent<HTMLButtonE
 	const answer = currentTarget.value;
 	const bisectedFeatures: string[] | undefined = await cache.get('bisect');
 	if (!bisectedFeatures) {
+		location.reload();
 		return;
 	}
 
-	if (bisectedFeatures.length === 0) {
+	if (bisectedFeatures.length > 0) {
+		const half = Math.ceil(bisectedFeatures.length / 2);
+		await cache.set('bisect', answer === 'yes' ? bisectedFeatures.slice(0, half) : bisectedFeatures.slice(half));
+
+		location.reload();
+		return;
+	 }
 		if (answer === 'yes') {
 			select('#rgh-bisect-dialog')!.remove();
 			createMessageBox(<p>Every feature has been disabled. If you still see the change or issue, try disabling the whole extension.</p>, false);
