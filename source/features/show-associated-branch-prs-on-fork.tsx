@@ -58,10 +58,11 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 	cacheKey: () => 'associatedBranchPullRequests:' + getRepo()!.nameWithOwner
 });
 
+// TODO: Replace this with `State--${prInfo.state.toLowerCase()}`
 const stateClass = {
-	Open: '--green',
-	Closed: '--red',
-	Merged: '--purple',
+	Open: '--green, --open',
+	Closed: '--red, --closed',
+	Merged: '--purple, --merged',
 	Draft: ''
 };
 
