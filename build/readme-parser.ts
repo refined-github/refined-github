@@ -39,21 +39,21 @@ function searchInHighlights(readmeContent: string, id: FeatureID): FeatureMeta |
 	}
 }
 
-function parseFeatureDetails(readmeContent: string, id: FeatureID): FeatureMeta {
-	return (
-		searchInList(readmeContent, id) ??
-		searchInHighlights(readmeContent, id) ??
-		// eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
-		throwError(id, 'needs a description in readme.md. Please refer to the style guide there') ??
-		{} as any
-	);
-}
-
 export function getFeaturesMeta(): FeatureMeta[] {
 	const readmeContent = readFileSync(path.join(__dirname, '../readme.md'), 'utf-8');
-	return getFeatures()
-		.filter(id => !id.startsWith('rgh-'))
-		.map(id => parseFeatureDetails(readmeContent, id));
+	const features = [];
+	for (const id of getFeatures()) {
+		if (!id.startsWith('rgh-')) {
+			const details = searchInList(readmeContent, id) ?? searchInHighlights(readmeContent, id);
+			if (details) {
+				features.push(details);
+			} else {
+				throwError(id, 'needs a description in readme.md. Please refer to the style guide there');
+			}
+		}
+	}
+
+	return features;
 }
 
 export function getFeatures(): FeatureID[] {
