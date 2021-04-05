@@ -21,7 +21,7 @@ async function onButtonClick(event: delegate.Event): Promise<void> {
 
 function init(): void {
 	delegate(document, '.rgh-review-comment-delete-button', 'click', onButtonClick);
-	observe('.review-comment > .unminimized-comment .btn-primary[type="submit"]:not(.rgh-delete-button-added)', {
+	observe('.review-comment > .unminimized-comment form:not(.js-single-suggested-change-form) .btn-primary[type="submit"]:not(.rgh-delete-button-added)', {
 		add(submitButton) {
 			submitButton.classList.add('rgh-delete-button-added');
 			submitButton.after(
