@@ -22,6 +22,7 @@ import './features/clean-notifications.css';
 import './features/fix-first-tab-length.css';
 import './features/align-repository-header.css';
 import './features/night-not-found.css';
+import './features/hide-empty-profile-status.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -215,6 +216,7 @@ import './features/conversation-activity-filter';
 import './features/select-all-notifications-shortcut';
 import './features/no-duplicate-list-update-time';
 import './features/view-last-pr-deployment';
+import './features/global-search-filters';
 
 // Add global for easier debugging
 (window as any).select = select;

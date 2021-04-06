@@ -56,7 +56,7 @@ async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void 
 function init(): void | false {
 	const disabledPagination = select.all('.paginate-container button[disabled]');
 	const url = new GitHubURL(location.href);
-	// Clear the search from the url, so it does not get passed to the rename link.
+	// Clear the search from the url, so it does not get passed to the rename link
 	url.search = '';
 	if (disabledPagination.length === 0 || !url.filePath) {
 		return false;
