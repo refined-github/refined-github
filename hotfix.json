@@ -1,6 +1,5 @@
 {
   "feature:more-dropdown": false,
   "feature:bugs-tab": false,
-  "feature:releases-tab": false,
   "unaffected": "21.4.2"
 }
