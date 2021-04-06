@@ -53,6 +53,10 @@ export const getCurrentBranchFromFeedLink = (): string | undefined => {
 };
 
 export const getCurrentBranchFromFindLink = async (): Promise<string | undefined> => {
+	if (pageDetect.isPRFiles()) {
+		return;
+	}
+
 	const feedLink = select.last('a[data-hotkey="t"]') ?? await elementReady('a[data-hotkey="t"]');
 	if (!feedLink) {
 		return;
