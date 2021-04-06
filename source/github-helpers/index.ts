@@ -52,6 +52,15 @@ export const getCurrentBranchFromFeedLink = (): string | undefined => {
 		.replace(/\.atom$/, '');
 };
 
+export const getCurrentBranchFromFindLink = async (): Promise<string | undefined> => {
+	const feedLink = select.last('a[data-hotkey="t"]') ?? await elementReady('a[data-hotkey="t"]');
+	if (!feedLink) {
+		return;
+	}
+
+	return decodeURIComponent(String(feedLink.pathname.split('/').slice(-1)));
+};
+
 export const isFirefox = navigator.userAgent.includes('Firefox/');
 
 // The type requires at least one parameter https://stackoverflow.com/a/49910890
