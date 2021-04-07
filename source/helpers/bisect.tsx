@@ -74,10 +74,17 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 	createMessageBox(
 		`Do you see the change or issue? (${pluralize(steps, 'last step', '$$ steps remaining')})`,
 		<div>
-			<button type="button" className="btn btn-danger mr-2" value="no" onClick={onChoiceButtonClick}>No</button>
-			<button type="button" className="btn btn-primary" value="yes" onClick={onChoiceButtonClick}>Yes</button>
+			<button type="button" className="btn btn-danger mr-2" value="no" aria-disabled="true" onClick={onChoiceButtonClick}>No</button>
+			<button type="button" className="btn btn-primary" value="yes" aria-disabled="true" onClick={onChoiceButtonClick}>Yes</button>
 		</div>
 	);
+
+	// Enable "Yes"/"No" buttons when the page has done loading
+	window.addEventListener('load', () => {
+		for (const button of select.all('#rgh-bisect-dialog [aria-disabled]')) {
+			button.removeAttribute('aria-disabled');
+		}
+	});
 
 	// Hide message when the process is done elsewhere
 	window.addEventListener('visibilitychange', async () => {
