@@ -4,7 +4,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {isSingleMarkdownFile} from '../github-helpers';
+import {isMarkdownFile} from '../github-helpers';
 
 function init(): void | false {
 	const table = select('[data-table-type="yaml-metadata"]')!;
@@ -30,7 +30,7 @@ function init(): void | false {
 
 void features.add(__filebasename, {
 	include: [
-		() => pageDetect.isSingleFile() && isSingleMarkdownFile()
+		() => pageDetect.isSingleFile() && isMarkdownFile()
 	],
 	init
 });

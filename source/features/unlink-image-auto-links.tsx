@@ -2,7 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {isSingleMarkdownFile} from '../github-helpers';
+import {isMarkdownFile} from '../github-helpers';
 import GitHubURL from '../github-helpers/github-url';
 
 function getRawUrl(link: HTMLAnchorElement): string {
@@ -27,7 +27,7 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoTree,
-		() => pageDetect.isSingleFile() && isSingleMarkdownFile()
+		() => pageDetect.isSingleFile() && isMarkdownFile()
 	],
 	init
 });
