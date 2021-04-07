@@ -1,5 +1,6 @@
 import './ci-link.css';
 import select from 'select-dom';
+import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
@@ -12,29 +13,17 @@ const PRIconSelector = '.js-commits-list-item:last-of-type .commit-build-statuse
 const deinit: VoidFunction[] = [];
 
 // Look for the CI icon in the latest 2 days of commits #2990
-const getRepoIcon = async (): Promise<HTMLElement | undefined> => fetchDom(
+const getRepoIcon = onetime(async () => fetchDom<HTMLElement>(
 	buildRepoURL('commits'), [
 		'.commit-group:nth-of-type(-n+2) .commit-build-statuses', // Pre "Repository refresh" layout
 		'.TimelineItem--condensed:nth-of-type(-n+2) .commit-build-statuses'
 	].join()
-);
+));
 
-const getPRIcon = async (): Promise<HTMLElement | undefined> => fetchDom(
+const getPRIcon = onetime(async () => pageDetect.isPRCommitList() ? select<HTMLElement>(PRIconSelector) : fetchDom<HTMLElement>(
 	buildRepoURL('pull', getConversationNumber()!, 'commits'),
 	PRIconSelector
-);
-
-function removeAnimation(element: HTMLElement): void {
-	element.style.animation = 'none';
-}
-
-function animateOnce(element: HTMLElement): void {
-	element.addEventListener('animationend', event => {
-		removeAnimation(event.target as HTMLElement);
-	}, {
-		once: true
-	});
-}
+));
 
 async function initRepo(): Promise<false | void> {
 	const icon = await getRepoIcon();
@@ -43,22 +32,26 @@ async function initRepo(): Promise<false | void> {
 	}
 
 	icon.classList.add('rgh-ci-link');
-	animateOnce(icon);
+	if (onetime.callCount(getRepoIcon) > 1) {
+		icon.style.animation = 'none';
+	}
 
 	// Append to title (aware of forks and private repos)
 	select('[itemprop="name"]')!.parentElement!.append(icon);
 }
 
 async function initPR(): Promise<false | void> {
-	const icon = pageDetect.isPRCommitList() ? select(PRIconSelector) : await getPRIcon();
+	const icon = await getPRIcon();
 	if (!icon) {
 		return false;
 	}
 
 	icon.classList.add('rgh-ci-link', 'ml-2');
-	animateOnce(icon);
+	if (onetime.callCount(getPRIcon) > 1) {
+		icon.style.animation = 'none';
+	}
 	const headerIcon = icon.cloneNode(true);
-	removeAnimation(headerIcon);
+	headerIcon.style.animation = 'none';
 
 	deinit.push(observe('.gh-header-title .f1-light:not(.rgh-ci-link-heading)', {
 		// Append to PR title
