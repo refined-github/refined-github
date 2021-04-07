@@ -23,8 +23,9 @@ const getPRIcon = onetime(async () => {
 		document :
 		await fetchDom(buildRepoURL('pull', getConversationNumber()!, 'commits'));
 
-	// TS bug requires a generic here 🤷‍♂️
-	return select<HTMLElement>('.js-commits-list-item:last-of-type .commit-build-statuses', base);
+	// TS bug requires this 🤷‍♂️
+	const icon = select('.js-commits-list-item:last-of-type .commit-build-statuses', base);
+	return icon;
 });
 
 async function initRepo(): Promise<false | void> {
