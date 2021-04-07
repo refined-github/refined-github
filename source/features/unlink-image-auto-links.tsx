@@ -2,8 +2,8 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {isMarkdownFile} from '../github-helpers';
 import GitHubURL from '../github-helpers/github-url';
+import {isMarkdownFile} from '../github-helpers';
 
 function isMarkupFile(): boolean {
 	if (isMarkdownFile()) {
