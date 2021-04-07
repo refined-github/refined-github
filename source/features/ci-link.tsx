@@ -66,10 +66,7 @@ async function initPR(): Promise<false | void> {
 			heading.classList.add('rgh-ci-link-heading');
 			heading.append(icon);
 		}
-	}).abort);
-
-	// Append to PR sticky header
-	deinit.push(observe('.js-sticky h1:not(.rgh-ci-link-heading)', {
+	}).abort, observe('.js-sticky h1:not(.rgh-ci-link-heading)', {
 		add(heading) {
 			heading.classList.add('rgh-ci-link-heading');
 			heading.append(headerIcon);
