@@ -17,7 +17,7 @@ const getRepoIcon = async (): Promise<HTMLElement | undefined> => fetchDom(
 );
 
 const PRIconSelector = '.js-commits-list-item:last-of-type .commit-build-statuses';
-const getPRIcon = async (): Promise<HTMLElement | undefined> => fetchDom<HTMLElement>(
+const getPRIcon = async (): Promise<HTMLElement | undefined> => fetchDom(
 	buildRepoURL('pull', getConversationNumber()!, 'commits'),
 	PRIconSelector
 );
