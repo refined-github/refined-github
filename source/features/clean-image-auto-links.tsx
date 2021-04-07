@@ -5,20 +5,21 @@ import features from '.';
 import {isSingleMarkdownFile} from '../github-helpers';
 import GitHubURL from '../github-helpers/github-url';
 
+function getRawUrl(link: HTMLAnchorElement): string {
+	if (pageDetect.isSingleFile(link)) {
+		const rawLink = new GitHubURL(link.href).assign({route: 'raw'});
+		return rawLink.href;
+	}
+
+	return link.href;
+}
+
 function init(): void {
 	for (const image of select.all('.markdown-body a > img')) {
 		const link = image.parentElement as HTMLAnchorElement;
 
-		if (image.src === link.href) {
+		if (image.src === getRawUrl(link)) {
 			link.replaceWith(image);
-		}
-
-		if (pageDetect.isSingleFile(link)) {
-			const rawUrl = new GitHubURL(link.href).assign({route: 'raw'});
-
-			if (image.src === rawUrl.href) {
-				link.replaceWith(image);
-			}
 		}
 	}
 }
