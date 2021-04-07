@@ -7,6 +7,8 @@ import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import {buildRepoURL, getConversationNumber} from '../github-helpers';
 
+const PRIconSelector = '.js-commits-list-item:last-of-type .commit-build-statuses';
+
 const deinit: VoidFunction[] = [];
 
 // Look for the CI icon in the latest 2 days of commits #2990
@@ -17,7 +19,6 @@ const getRepoIcon = async (): Promise<HTMLElement | undefined> => fetchDom(
 	].join()
 );
 
-const PRIconSelector = '.js-commits-list-item:last-of-type .commit-build-statuses';
 const getPRIcon = async (): Promise<HTMLElement | undefined> => fetchDom(
 	buildRepoURL('pull', getConversationNumber()!, 'commits'),
 	PRIconSelector
@@ -27,6 +28,14 @@ function removeAnimation(element: HTMLElement): void {
 	element.style.animation = 'none';
 }
 
+function animateOnce(element: HTMLElement): void {
+	element.addEventListener('animationend', event => {
+		removeAnimation(event.target as HTMLElement);
+	}, {
+		once: true
+	});
+}
+
 async function initRepo(): Promise<false | void> {
 	const icon = await getRepoIcon();
 	if (!icon) {
@@ -34,11 +43,7 @@ async function initRepo(): Promise<false | void> {
 	}
 
 	icon.classList.add('rgh-ci-link');
-	icon.addEventListener('animationend', event => {
-		removeAnimation(event.target as HTMLElement);
-	}, {
-		once: true
-	});
+	animateOnce(icon);
 
 	// Append to title (aware of forks and private repos)
 	select('[itemprop="name"]')!.parentElement!.append(icon);
@@ -51,31 +56,25 @@ async function initPR(): Promise<false | void> {
 	}
 
 	icon.classList.add('rgh-ci-link', 'ml-2');
-	icon.addEventListener('animationend', event => {
-		removeAnimation(event.target as HTMLElement);
-	}, {
-		once: true
-	});
+	animateOnce(icon);
 	const headerIcon = icon.cloneNode(true);
 	removeAnimation(headerIcon);
 
 	// Append to PR title
-	const PRTitleObserver = observe('.gh-header-title .f1-light:not(.rgh-ci-link-heading)', {
+	deinit.push(observe('.gh-header-title .f1-light:not(.rgh-ci-link-heading)', {
 		add(heading) {
 			heading.classList.add('rgh-ci-link-heading');
 			heading.append(icon);
 		}
-	});
-	deinit.push(PRTitleObserver.abort);
+	}).abort);
 
 	// Append to PR sticky header
-	const PRHeaderObserver = observe('.js-sticky h1:not(.rgh-ci-link-heading)', {
+	deinit.push(observe('.js-sticky h1:not(.rgh-ci-link-heading)', {
 		add(heading) {
 			heading.classList.add('rgh-ci-link-heading');
 			heading.append(headerIcon);
 		}
-	});
-	deinit.push(PRHeaderObserver.abort);
+	}).abort);
 }
 
 void features.add(__filebasename, {
