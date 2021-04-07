@@ -217,7 +217,7 @@ import './features/select-all-notifications-shortcut';
 import './features/no-duplicate-list-update-time';
 import './features/view-last-pr-deployment';
 import './features/global-search-filters';
-import './features/clean-image-auto-links';
+import './features/unlink-image-auto-links';
 
 // Add global for easier debugging
 (window as any).select = select;
