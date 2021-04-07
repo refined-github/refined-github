@@ -45,7 +45,7 @@ async function initRepo(): Promise<false | void> {
 }
 
 async function initPR(): Promise<false | void> {
-	const icon = pageDetect.isPRFiles() ? select(PRIconSelector) : await getPRIcon();
+	const icon = pageDetect.isPRCommitList() ? select(PRIconSelector) : await getPRIcon();
 	if (!icon) {
 		return false;
 	}
