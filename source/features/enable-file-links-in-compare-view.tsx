@@ -60,7 +60,7 @@ void features.add(__filebasename, {
 		pageDetect.isPRCommit
 	],
 	exclude: [
-		// Only enabled on Open/Draft PRs. Editing files doesn't make sense after a PR is closed/merged.
+		// Editing files doesn't make sense after a PR is closed/merged
 		pageDetect.isClosedPR,
 		// If you're viewing changes from partial commits, ensure you're on the latest one.
 		() => select.exists('.js-commits-filtered') && !select.exists('[aria-label="You are viewing the latest commit"]')
