@@ -6,19 +6,18 @@
 	vertical-align: 0;
 }
 
-/* Adds space between `ci-link` and PR number or "Private" label, if present */
-.Label + .rgh-ci-link,
-.rgh-ci-link-title-icon,
-.rgh-ci-link-header-icon {
+/* Adds space between `ci-link` and "Private" label, if present */
+.Label + .rgh-ci-link {
 	margin-left: 8px;
 }
 
-.rgh-ci-link-title-icon summary .octicon {
+.gh-header-title summary > .octicon-check {
 	width: 24px;
 	height: 24px;
 }
 
-.rgh-ci-link-header-icon summary .octicon {
+.js-sticky h1 summary > .octicon-check {
 	width: 14px;
 	height: 14px;
+	vertical-align: -1px;
 }
