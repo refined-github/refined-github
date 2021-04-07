@@ -8,8 +8,6 @@ import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import {buildRepoURL, getConversationNumber} from '../github-helpers';
 
-const PRIconSelector = '.js-commits-list-item:last-of-type .commit-build-statuses';
-
 const deinit: VoidFunction[] = [];
 
 // Look for the CI icon in the latest 2 days of commits #2990
@@ -20,10 +18,13 @@ const getRepoIcon = onetime(async () => fetchDom<HTMLElement>(
 	].join()
 ));
 
-const getPRIcon = onetime(async () => pageDetect.isPRCommitList() ? select<HTMLElement>(PRIconSelector) : fetchDom<HTMLElement>(
-	buildRepoURL('pull', getConversationNumber()!, 'commits'),
-	PRIconSelector
-));
+const getPRIcon = onetime(async function() {
+	const document_ = pageDetect.isPRCommitList() ? document : await fetchDom(
+		buildRepoURL('pull', getConversationNumber()!, 'commits'),
+		PRIconSelector
+	);
+	return select<HTMLElement>('.js-commits-list-item:last-of-type .commit-build-statuses', document_);
+});
 
 async function initRepo(): Promise<false | void> {
 	const icon = await getRepoIcon();
