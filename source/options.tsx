@@ -22,7 +22,7 @@ function reportStatus({error, text, scopes}: Status): void {
 	if (error) {
 		tokenStatus.dataset.validation = 'invalid';
 	} else {
-		delete tokenStatus.dataset.validation;
+		tokenStatus.dataset.validation = 'valid';
 	}
 
 	for (const scope of select.all('[data-scope]')) {
