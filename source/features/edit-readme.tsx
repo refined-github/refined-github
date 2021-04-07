@@ -39,7 +39,7 @@ async function init(): Promise<void | false> {
 	}
 
 	const stickyHeader = readmeHeader.closest('.js-sticky .d-flex');
-	(stickyHeader || readmeHeader).after(
+	(stickyHeader ?? readmeHeader).after(
 		<a
 			href={String(url)}
 			className={`${stickyHeader ? 'm-0 p-2' : 'Box-btn-octicon'} btn-octicon float-right`}
