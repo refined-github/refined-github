@@ -1,3 +1,5 @@
+import './delete-review-comments-faster.css';
+
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
@@ -24,6 +26,7 @@ function init(): void {
 	observe('.review-comment > .unminimized-comment form:not(.js-single-suggested-change-form) .btn-primary[type="submit"]:not(.rgh-delete-button-added)', {
 		add(submitButton) {
 			submitButton.classList.add('rgh-delete-button-added');
+			submitButton.parentElement!.classList.add('d-flex', 'flex-row-reverse', 'flex-justify-between', 'rgh-delete-button-form');
 			submitButton.after(
 				<button className="btn btn-danger rgh-review-comment-delete-button" type="button">
 					Delete comment
