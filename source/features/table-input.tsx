@@ -2,9 +2,9 @@ import './table-input.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import {TableIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
-import {TableIcon} from '@primer/octicons-react';
 
 import features from '.';
 import smartBlockWrap from '../helpers/smart-block-wrap';
