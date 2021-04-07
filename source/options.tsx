@@ -22,7 +22,7 @@ function reportStatus({error, text, scopes}: Status): void {
 	if (error) {
 		tokenStatus.dataset.validation = 'invalid';
 	} else {
-		tokenStatus.dataset.validation = 'valid';
+		delete tokenStatus.dataset.validation;
 	}
 
 	for (const scope of select.all('[data-scope]')) {
@@ -55,6 +55,7 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 	}
 
 	const scopes = response.headers.get('X-OAuth-Scopes')!.split(', ');
+	scopes.push('valid_token');
 	if (scopes.includes('repo')) {
 		scopes.push('public_repo');
 	}
