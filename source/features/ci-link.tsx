@@ -18,12 +18,14 @@ const getRepoIcon = onetime(async () => fetchDom<HTMLElement>(
 	].join()
 ));
 
-const getPRIcon = onetime(async () => select(
-	'.js-commits-list-item:last-of-type .commit-build-statuses',
-	pageDetect.isPRCommitList() ? document : await fetchDom(
-		buildRepoURL('pull', getConversationNumber()!, 'commits')
-	)
-));
+const getPRIcon = onetime(async () => {
+	const base = pageDetect.isPRCommitList() ?
+		document :
+		await fetchDom(buildRepoURL('pull', getConversationNumber()!, 'commits'));
+
+	// TS bug requires a generic here 🤷‍♂️
+	return select<HTMLElement>('.js-commits-list-item:last-of-type .commit-build-statuses', base);
+});
 
 async function initRepo(): Promise<false | void> {
 	const icon = await getRepoIcon();
@@ -41,7 +43,7 @@ async function initRepo(): Promise<false | void> {
 }
 
 async function initPR(): Promise<false | void> {
-	const icon = await getPRIcon() as HTMLElement | undefined;
+	const icon = await getPRIcon();
 	if (!icon) {
 		return false;
 	}

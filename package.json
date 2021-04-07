@@ -72,7 +72,7 @@
 		"onetime": "^5.1.2",
 		"push-form": "^0.8.0",
 		"regex-join": "^1.0.0",
-		"select-dom": "^7.1.0",
+		"select-dom": "^7.1.1",
 		"selector-observer": "^2.1.6",
 		"shorten-repo-url": "^2.1.0",
 		"strip-indent": "^3.0.0",
