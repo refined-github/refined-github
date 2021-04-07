@@ -18,12 +18,12 @@ const getRepoIcon = onetime(async () => fetchDom<HTMLElement>(
 	].join()
 ));
 
-const getPRIcon = onetime(async function() {
-	const document_ = pageDetect.isPRCommitList() ? document : await fetchDom(
-		buildRepoURL('pull', getConversationNumber()!, 'commits'),
-	);
-	return select<HTMLElement>('.js-commits-list-item:last-of-type .commit-build-statuses', document_);
-});
+const getPRIcon = onetime(async () => select(
+	'.js-commits-list-item:last-of-type .commit-build-statuses',
+	pageDetect.isPRCommitList() ? document : await fetchDom(
+		buildRepoURL('pull', getConversationNumber()!, 'commits')
+	)
+));
 
 async function initRepo(): Promise<false | void> {
 	const icon = await getRepoIcon();
@@ -41,7 +41,7 @@ async function initRepo(): Promise<false | void> {
 }
 
 async function initPR(): Promise<false | void> {
-	const icon = await getPRIcon();
+	const icon = await getPRIcon() as HTMLElement | undefined;
 	if (!icon) {
 		return false;
 	}
@@ -50,6 +50,7 @@ async function initPR(): Promise<false | void> {
 	if (onetime.callCount(getPRIcon) > 1) {
 		icon.style.animation = 'none';
 	}
+
 	const headerIcon = icon.cloneNode(true);
 	headerIcon.style.animation = 'none';
 
