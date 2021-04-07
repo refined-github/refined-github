@@ -21,7 +21,6 @@ const getRepoIcon = onetime(async () => fetchDom<HTMLElement>(
 const getPRIcon = onetime(async function() {
 	const document_ = pageDetect.isPRCommitList() ? document : await fetchDom(
 		buildRepoURL('pull', getConversationNumber()!, 'commits'),
-		PRIconSelector
 	);
 	return select<HTMLElement>('.js-commits-list-item:last-of-type .commit-build-statuses', document_);
 });
