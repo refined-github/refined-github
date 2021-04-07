@@ -60,13 +60,14 @@ async function initPR(): Promise<false | void> {
 	const headerIcon = icon.cloneNode(true);
 	removeAnimation(headerIcon);
 
-	// Append to PR title
 	deinit.push(observe('.gh-header-title .f1-light:not(.rgh-ci-link-heading)', {
+		// Append to PR title
 		add(heading) {
 			heading.classList.add('rgh-ci-link-heading');
 			heading.append(icon);
 		}
 	}).abort, observe('.js-sticky h1:not(.rgh-ci-link-heading)', {
+		// Append to PR sticky header
 		add(heading) {
 			heading.classList.add('rgh-ci-link-heading');
 			heading.append(headerIcon);
