@@ -48,7 +48,7 @@
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
-		"@primer/octicons-react": "^12.1.0",
+		"@primer/octicons-react": "^13.0.0",
 		"array-union": "^3.0.1",
 		"copy-text-to-clipboard": "^3.0.1",
 		"debounce-fn": "^5.0.0",
@@ -90,7 +90,7 @@
 	"devDependencies": {
 		"@ava/typescript": "^1.1.1",
 		"@sindresorhus/tsconfig": "^0.9.0",
-		"@types/chrome": "^0.0.133",
+		"@types/chrome": "^0.0.134",
 		"@types/codemirror": "^0.0.108",
 		"@types/copy-webpack-plugin": "^6.4.1",
 		"@types/firefox-webext-browser": "^82.0.0",
@@ -104,7 +104,7 @@
 		"daily-version": "^2.0.0",
 		"dot-json": "^1.2.2",
 		"esbuild-loader": "^2.11.0",
-		"eslint-config-xo-react": "^0.24.0",
+		"eslint-config-xo-react": "^0.25.0",
 		"eslint-plugin-react": "^7.22.0",
 		"eslint-plugin-react-hooks": "^4.2.0",
 		"jsdom": "^16.5.1",

@@ -4,6 +4,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
+import {TableIcon} from '@primer/octicons-react';
 
 import features from '.';
 import smartBlockWrap from '../helpers/smart-block-wrap';
@@ -48,9 +49,7 @@ function init(): void {
 						className="tooltipped tooltipped-n"
 						aria-label="Add a table"
 					>
-						<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" className="octicon">
-							<path d="m2.75 1c-0.9665 0-1.75 0.7835-1.75 1.75v10.5c0 0.9665 0.7835 1.75 1.75 1.75h10.5c0.9665 0 1.75-0.7835 1.75-1.75v-10.5c0-0.9665-0.7835-1.75-1.75-1.75h-10.5zm0 1.5h4.5v4.75h-4.75v-4.5c0-0.13807 0.11193-0.25 0.25-0.25zm6 0h4.5c0.1381 0 0.25 0.11193 0.25 0.25v4.5h-4.75v-4.75zm-6.25 6.25h4.75v4.75h-4.5c-0.13807 0-0.25-0.1119-0.25-0.25v-4.5zm6.25 0h4.75v4.5c0 0.1381-0.1119 0.25-0.25 0.25h-4.5v-4.75z"/>
-						</svg>
+						<TableIcon/>
 					</div>
 				</summary>
 				<details-menu className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input" role="menu">
