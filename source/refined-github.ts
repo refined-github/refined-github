@@ -22,6 +22,7 @@ import './features/clean-notifications.css';
 import './features/fix-first-tab-length.css';
 import './features/align-repository-header.css';
 import './features/night-not-found.css';
+import './features/hide-empty-profile-status.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -145,7 +146,6 @@ import './features/reload-failed-proxied-images';
 import './features/clean-rich-text-editor';
 import './features/highlight-collaborators-and-own-conversations';
 import './features/embed-gist-via-iframe';
-import './features/expand-all-collapsed-code';
 import './features/separate-draft-pr-button';
 import './features/link-to-prior-blame-line';
 import './features/dim-bots';
@@ -216,6 +216,7 @@ import './features/conversation-activity-filter';
 import './features/select-all-notifications-shortcut';
 import './features/no-duplicate-list-update-time';
 import './features/view-last-pr-deployment';
+import './features/global-search-filters';
 
 // Add global for easier debugging
 (window as any).select = select;
