@@ -1,3 +1,4 @@
-.rgh-delete-button-form::before, .rgh-delete-button-form::after {
+.rgh-delete-button-form::before,
+.rgh-delete-button-form::after {
 	content: none !important;
 }
