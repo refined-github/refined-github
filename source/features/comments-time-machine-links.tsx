@@ -63,7 +63,7 @@ function addDropdownLink(comment: HTMLElement, timestamp: string): void {
 			<div className="dropdown-divider"/>
 			<a
 				href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
-				className="dropdown-item btn-link"
+				className="dropdown-item btn-link rgh-linkified-code"
 				role="menuitem"
 				title="Browse repository like it appeared on this day"
 			>

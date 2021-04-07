@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import * as api from './api';
-import {getRepo, getCurrentBranch} from '.';
+import {getRepo} from '.';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
@@ -23,7 +23,10 @@ const getDefaultBranch = cache.function(async function (repository?: pageDetect.
 
 	if (arguments.length === 0 || JSON.stringify(repository) === JSON.stringify(getRepo())) {
 		if (pageDetect.isRepoHome()) {
-			return getCurrentBranch()!;
+			const currentBranch = select('#branch-select-menu [data-menu-button]');
+			if (currentBranch) { // If missing, it'll default to the API call
+				return currentBranch.textContent!;
+			}
 		}
 
 		if (!pageDetect.isForkedRepo()) {

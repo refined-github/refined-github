@@ -54,7 +54,7 @@ async function init(): Promise<false | void> {
 		if (data[pr.key].pullRequest.mergeable === 'CONFLICTING') {
 			pr.link.after(
 				<a
-					className="rgh-conflict-marker tooltipped tooltipped-e m-0 text-gray color-text-secondary mr-1"
+					className="rgh-conflict-marker tooltipped tooltipped-e text-gray color-text-secondary ml-2"
 					aria-label="This PR has conflicts that must be resolved"
 					href={`${pr.link.pathname}#partial-pull-merging`}
 				>
