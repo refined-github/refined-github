@@ -11,7 +11,7 @@ import onConversationHeaderUpdate from '../github-events/on-conversation-header-
 
 const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom(
-		buildRepoURL('a.branch_commits', commit),
+		buildRepoURL('branch_commits', commit),
 		'ul.branches-tag-list li:last-child a'
 	);
 
