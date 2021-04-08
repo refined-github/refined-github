@@ -16,7 +16,7 @@ interface Status {
 	scopes?: string[];
 }
 
-// Don't repeat the magic variable, the content will be injected multiple times
+// Don't repeat the magic variable, or its content will be inlined multiple times
 const features = __featuresMeta__;
 
 function reportStatus({error, text, scopes}: Status): void {

@@ -79,7 +79,7 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 		</div>
 	);
 
-	// Enable "Yes"/"No" buttons when the page has done loading
+	// Enable "Yes"/"No" buttons once the page is done loading
 	window.addEventListener('load', () => {
 		for (const button of select.all('#rgh-bisect-dialog [aria-disabled]')) {
 			button.removeAttribute('aria-disabled');
