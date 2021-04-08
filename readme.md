@@ -327,6 +327,7 @@ Thanks for contributing! 🦋🙌
 - [](# "hide-zero-packages") [Hides the `Packages` tab in user profiles if it’s empty.](https://user-images.githubusercontent.com/46634000/101151879-9ade9b00-3622-11eb-9755-50ed54099e02.png)
 - [](# "select-all-notifications-shortcut") Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
 - [](# "global-search-filters") [Adds search filters in global search page: forks, private repos, own repos, authored commits.](https://user-images.githubusercontent.com/44045911/112261285-88a66c80-8ca6-11eb-82cb-933b72c57abd.png)
+- [](# "clean-header-search-field") [Clears duplicate queries in the header search field.](TODO)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
