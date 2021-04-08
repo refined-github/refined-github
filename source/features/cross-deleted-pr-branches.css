@@ -1,5 +1,4 @@
 .commit-ref[title='Deleted'],
-.commit-ref[title='Deleted'] *,
-.commit-ref[title='This repository has been deleted'] * {
+.commit-ref[title='Deleted'] * {
 	text-decoration: line-through !important;
 }
