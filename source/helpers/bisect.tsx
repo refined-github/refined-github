@@ -6,9 +6,10 @@ import features from '../features';
 import pluralize from './pluralize';
 
 // Split current list of features in half and create an options-like object to be applied on load
+// Bisecting 4 features: enable 2
 // Bisecting 3 features: enable 1
 // Bisecting 2 features: enable 1
-// Bisecting 1 feature: enable 0 // This is the last step, if the user says No, it's not caused by a JS feature
+// Bisecting 1 feature: enable 0 // This is the last step, if the user says Yes, it's not caused by a JS feature
 const getMiddleStep = (list: any[]): number => Math.floor(list.length / 2);
 
 async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): Promise<void> {
