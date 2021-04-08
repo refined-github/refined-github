@@ -215,6 +215,7 @@ Thanks for contributing! 🦋🙌
 - [](# "dim-bots") [Dims commits and PRs by bots to reduce noise.](https://user-images.githubusercontent.com/1402241/65263190-44c52b00-db36-11e9-9b33-d275d3c8479d.gif)
 - [](# "esc-to-cancel") [Adds a shortcut to cancel editing a conversation title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
 - [](# "no-duplicate-list-update-time") [Hides the update time of conversations in lists when it matches the open/closed/merged time.](https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png)
+- [](# "clean-header-search-field") [Clears duplicate queries in the header search field.](https://user-images.githubusercontent.com/46634000/114000463-5165bd00-985b-11eb-9389-8d0f145f5abe.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -327,7 +328,6 @@ Thanks for contributing! 🦋🙌
 - [](# "hide-zero-packages") [Hides the `Packages` tab in user profiles if it’s empty.](https://user-images.githubusercontent.com/46634000/101151879-9ade9b00-3622-11eb-9755-50ed54099e02.png)
 - [](# "select-all-notifications-shortcut") Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
 - [](# "global-search-filters") [Adds search filters in global search page: forks, private repos, own repos, authored commits.](https://user-images.githubusercontent.com/44045911/112261285-88a66c80-8ca6-11eb-82cb-933b72c57abd.png)
-- [](# "clean-header-search-field") [Clears duplicate queries in the header search field.](TODO)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
