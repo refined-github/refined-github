@@ -99,6 +99,7 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 		const index = bisectedFeatures.indexOf(feature);
 		temporaryOptions[`feature:${feature}`] = index > -1 && index < half;
 	}
+
 	console.log(temporaryOptions);
 	return temporaryOptions;
 }
