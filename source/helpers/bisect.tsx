@@ -94,7 +94,7 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 	});
 
 	const half = getMiddleStep(bisectedFeatures);
-	const temporaryOptions = {};
+	const temporaryOptions: Record<string, boolean> = {};
 	for (const feature of features.list) {
 		const index = bisectedFeatures.indexOf(feature);
 		temporaryOptions[`feature:${feature}`] = index > -1 && index < half;
