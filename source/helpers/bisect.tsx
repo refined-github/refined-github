@@ -68,7 +68,6 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 	}
 
 	console.log(`Bisecting ${bisectedFeatures.length} features:\n${bisectedFeatures.join('\n')}`);
-	console.log(getMiddleStep(bisectedFeatures));
 
 	const steps = Math.ceil(Math.log2(Math.max(bisectedFeatures.length))) + 1;
 	createMessageBox(
