@@ -23,7 +23,7 @@ const getPRIcon = onetime(async () => {
 		document :
 		await fetchDom(buildRepoURL('pull', getConversationNumber()!, 'commits'));
 
-	// TS bug requires this 🤷‍♂️
+	// TS bug does not allow us to directly return this 🤷‍♂️
 	const icon = select('.js-commits-list-item:last-of-type .commit-build-statuses', base);
 	return icon;
 });
