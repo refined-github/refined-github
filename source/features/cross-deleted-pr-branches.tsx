@@ -18,10 +18,9 @@ function init(): void | false {
 
 	const deletedBranchName = lastBranchAction.textContent!.trim();
 
-	const headReferenceLink = select('.head-ref a')!;
-	// If the repository is deleted the head ref will not have a link
-	const repoRootUrl = headReferenceLink?.href.split('/', 5).join('/');
-	const repoIsDeleted = headReferenceLink?.textContent === 'unknown repository' || select('.head-ref')!.title === 'This repository has been deleted';
+	const headReference = select('.head-ref')!;
+	const repoIsDeleted = headReference.textContent === 'unknown repository';
+	const repoRootUrl = select('a', headReference)?.href.split('/', 5).join('/');
 
 	for (const element of select.all('.commit-ref')) {
 		const branchName = element.textContent!.trim();
@@ -31,7 +30,7 @@ function init(): void | false {
 			if (repoIsDeleted) {
 				select('a', element)?.removeAttribute('href');
 			} else if (element.classList.contains('head-ref')) {
-				select('a', element)!.href = repoRootUrl;
+				select('a', element)!.href = repoRootUrl!;
 			} else {
 				wrap(element, <a href={repoRootUrl}/>);
 			}
