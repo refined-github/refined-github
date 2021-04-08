@@ -11,6 +11,10 @@
 	margin-left: 8px;
 }
 
+.gh-header-title .f1-light {
+	display: inline-block;
+}
+
 .gh-header-title summary > .octicon-check {
 	width: 24px;
 	height: 24px;
