@@ -11,8 +11,6 @@
 		"lint:css": "stylelint 'source/**/*.css'",
 		"lint:js": "xo",
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj'",
-		"start": "web-ext run --target=chromium || echo 'Install it first: npm i -g web-ext'",
-		"start:firefox": "web-ext run || echo 'Install it first: npm i -g web-ext'",
 		"start:safari": "open 'safari/build/Release/Refined GitHub.app'",
 		"test": "run-p ava lint:* build:*",
 		"watch": "run-p watch:* --continue-on-error",
