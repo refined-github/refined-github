@@ -1,5 +1,6 @@
 /* Move "close issue" and "cancel" buttons on authoring comments to the left */
 
+/* ...in issue comment form */
 #partial-new-comment-form-actions > .d-flex {
 	justify-content: space-between !important;
 }
