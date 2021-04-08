@@ -145,6 +145,7 @@ pr-branches
 	bottom: 50%;
 	right: 50%;
 	transform: translate(50%, 50%);
+	min-width: 380px; /* Avoids a width change on the last step which causes the YES button to be where NO was */
 	box-shadow: var(--color-toast-shadow);
 	z-index: 2147483647;
 }
