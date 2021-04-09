@@ -10,7 +10,7 @@ import {buildRepoURL, getRepo} from '../github-helpers';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
-	const firstTag = await fetchDom<HTMLAnchorElement>(
+	const firstTag = await fetchDom(
 		buildRepoURL('branch_commits', commit),
 		'ul.branches-tag-list li:last-child a'
 	);

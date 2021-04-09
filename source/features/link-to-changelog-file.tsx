@@ -68,7 +68,7 @@ async function init(): Promise<void | false> {
 			style={{padding: '6px 16px'}}
 			role="button"
 		>
-			<BookIcon className="text-blue mr-2"/>
+			<BookIcon className="text-blue color-text-link mr-2"/>
 			<span>Changelog</span>
 		</a>
 	);

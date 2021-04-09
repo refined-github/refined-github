@@ -58,6 +58,7 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 	}
 
 	const scopes = response.headers.get('X-OAuth-Scopes')!.split(', ');
+	scopes.push('valid_token');
 	if (scopes.includes('repo')) {
 		scopes.push('public_repo');
 	}

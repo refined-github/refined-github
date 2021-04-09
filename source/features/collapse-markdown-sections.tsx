@@ -37,7 +37,7 @@ function onHeadingClick(event: delegate.Event<MouseEvent, HTMLElement>): void {
 
 function init(): void {
 	delegate(document, '.markdown-body > :is(h1, h2, h3, h4, h5, h6)', 'click', onHeadingClick);
-	document.body.classList.add('.rgh-' + __filebasename);
+	document.body.classList.add('rgh-' + __filebasename);
 }
 
 void features.add(__filebasename, {
