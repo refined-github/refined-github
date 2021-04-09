@@ -1,17 +1,15 @@
 import './ci-link.css';
 import select from 'select-dom';
 import onetime from 'onetime';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
+import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 import {buildRepoURL, getConversationNumber} from '../github-helpers';
 
-const deinit: VoidFunction[] = [];
-
 // Look for the CI icon in the latest 2 days of commits #2990
-const getRepoIcon = onetime(async () => fetchDom<HTMLElement>(
+const getRepoIcon = onetime(async () => fetchDom(
 	buildRepoURL('commits'), [
 		'.commit-group:nth-of-type(-n+2) .commit-build-statuses', // Pre "Repository refresh" layout
 		'.TimelineItem--condensed:nth-of-type(-n+2) .commit-build-statuses'
@@ -28,6 +26,25 @@ const getPRIcon = onetime(async () => {
 	return icon;
 });
 
+async function initPR(): Promise<false | void> {
+	const icon = await getPRIcon();
+	if (!icon) {
+		return false;
+	}
+
+	icon.classList.add('rgh-ci-link', 'ml-2');
+	if (onetime.callCount(getPRIcon) > 1) {
+		icon.style.animation = 'none';
+	}
+
+	for (const heading of select.all(['.gh-header-title .f1-light:not(.rgh-ci-link-heading)', '.js-sticky h1:not(.rgh-ci-link-heading)'])) {
+		const headerIcon = icon.cloneNode(true);
+		headerIcon.style.animation = 'none';
+		heading.classList.add('rgh-ci-link-heading');
+		heading.append(headerIcon);
+	}
+}
+
 async function initRepo(): Promise<false | void> {
 	const icon = await getRepoIcon();
 	if (!icon) {
@@ -43,35 +60,6 @@ async function initRepo(): Promise<false | void> {
 	select('[itemprop="name"]')!.parentElement!.append(icon);
 }
 
-async function initPR(): Promise<false | void> {
-	const icon = await getPRIcon();
-	if (!icon) {
-		return false;
-	}
-
-	icon.classList.add('rgh-ci-link', 'ml-2');
-	if (onetime.callCount(getPRIcon) > 1) {
-		icon.style.animation = 'none';
-	}
-
-	const headerIcon = icon.cloneNode(true);
-	headerIcon.style.animation = 'none';
-
-	deinit.push(observe('.gh-header-title .f1-light:not(.rgh-ci-link-heading)', {
-		// Append to PR title
-		add(heading) {
-			heading.classList.add('rgh-ci-link-heading');
-			heading.append(icon);
-		}
-	}).abort, observe('.js-sticky h1:not(.rgh-ci-link-heading)', {
-		// Append to PR sticky header
-		add(heading) {
-			heading.classList.add('rgh-ci-link-heading');
-			heading.append(headerIcon);
-		}
-	}).abort);
-}
-
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo
@@ -85,7 +73,9 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isPR
 	],
+	additionalListeners: [
+		onConversationHeaderUpdate
+	],
 	awaitDomReady: false,
-	init: initPR,
-	deinit
+	init: initPR
 });
