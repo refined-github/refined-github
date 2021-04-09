@@ -43,7 +43,7 @@ export default class GitHubURL {
 		if (filePathFromSearch) {
 			this.searchParams.delete('branch');
 			this.searchParams.delete('path[]');
-			return {branch: branchFromSearch, filePath: filePathFromSearch};
+			return {branch: branchFromSearch || branch, filePath: filePathFromSearch};
 		}
 
 		const filePath = ambiguousReference.slice(1).join('/');
