@@ -9,6 +9,7 @@ import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
 import onNewComments from '../github-events/on-new-comments';
+import bisectFeatures from '../helpers/bisect';
 import optionsStorage, {RGHOptions} from '../options-storage';
 
 type BooleanFunction = () => boolean;
@@ -93,12 +94,19 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	document.documentElement.classList.add('refined-github');
 
 	// Options defaults
-	const options = await optionsStorage.getAll();
-	const hotfix = browser.runtime.getManifest().version === '0.0.0' || await cache.get('hotfix'); // Ignores the cache when loaded locally
+	const [options, hotfix, bisectedFeatures] = await Promise.all([
+		optionsStorage.getAll(),
+		browser.runtime.getManifest().version === '0.0.0' || await cache.get('hotfix'), // Ignores the cache when loaded locally
+		bisectFeatures()
+	]);
 
-	// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
-	void checkForHotfixes();
-	Object.assign(options, hotfix);
+	if (bisectedFeatures) {
+		Object.assign(options, bisectedFeatures);
+	} else {
+		// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
+		void checkForHotfixes();
+		Object.assign(options, hotfix);
+	}
 
 	if (options.customCSS.trim().length > 0) {
 		document.head.append(<style>{options.customCSS}</style>);

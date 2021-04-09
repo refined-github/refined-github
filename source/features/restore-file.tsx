@@ -57,7 +57,7 @@ async function commitFileContent(menuItem: Element, content: string, filePath: s
 	}
 
 	// This is either an `edit` or `create` form
-	const form = (await fetchDom<HTMLFormElement>(pathname, '.js-blob-form'))!;
+	const form = (await fetchDom(pathname, 'form.js-blob-form'))!;
 	form.elements.value.value = content; // Restore content (`value` is the name of the file content field)
 	form.elements.message.value = (form.elements.message as HTMLInputElement).placeholder
 		.replace(/^Create|^Update/, 'Restore');
