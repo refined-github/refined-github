@@ -3,7 +3,7 @@ import cache from 'webext-storage-cache'; // Also needed to regularly clear the 
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 import './options-storage';
 
-// GitHub Enterprise support
+// GHE support
 addDomainPermissionToggle();
 
 const messageHandlers = {
