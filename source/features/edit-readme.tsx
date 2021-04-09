@@ -10,7 +10,7 @@ import {isPermalink} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void | false> {
-	const readmeHeader = await elementReady('#readme .Box-header h2');
+	const readmeHeader = await elementReady('#readme .Box-title');
 	if (!readmeHeader) {
 		return false;
 	}
@@ -38,10 +38,11 @@ async function init(): Promise<void | false> {
 		return;
 	}
 
-	readmeHeader.after(
+	const stickyHeader = readmeHeader.closest('.js-sticky .d-flex');
+	(stickyHeader ?? readmeHeader).after(
 		<a
 			href={String(url)}
-			className="Box-btn-octicon btn-octicon float-right"
+			className={`${stickyHeader ? 'm-0 p-2' : 'Box-btn-octicon'} btn-octicon float-right`}
 			aria-label="Edit this file"
 		>
 			<PencilIcon/>

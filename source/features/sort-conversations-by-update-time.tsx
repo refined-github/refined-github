@@ -1,14 +1,7 @@
 import select from 'select-dom';
-import onetime from 'onetime';
-import elementReady from 'element-ready';
-import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import SearchQuery from '../github-helpers/search-query';
-
-async function cleanBar(): Promise<void> {
-	(await elementReady<HTMLInputElement>('input.header-search-input'))!.value = '';
-}
 
 function init(): void {
 	// Get issues links that don't already have a specific sorting applied
@@ -32,10 +25,4 @@ function init(): void {
 
 void features.add(__filebasename, {
 	init
-}, {
-	include: [
-		pageDetect.isGlobalConversationList
-	],
-	awaitDomReady: false,
-	init: onetime(cleanBar)
 });
