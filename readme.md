@@ -215,7 +215,6 @@ Thanks for contributing! 🦋🙌
 - [](# "dim-bots") [Dims commits and PRs by bots to reduce noise.](https://user-images.githubusercontent.com/1402241/65263190-44c52b00-db36-11e9-9b33-d275d3c8479d.gif)
 - [](# "esc-to-cancel") [Adds a shortcut to cancel editing a conversation title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
 - [](# "no-duplicate-list-update-time") [Hides the update time of conversations in lists when it matches the open/closed/merged time.](https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png)
-- [](# "clean-header-search-field") [Clears duplicate queries in the header search field.](https://user-images.githubusercontent.com/46634000/114000463-5165bd00-985b-11eb-9389-8d0f145f5abe.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -355,6 +354,7 @@ Thanks for contributing! 🦋🙌
 - [](# "same-page-definition-jump") [Avoids re-loading the page when jumping to function definition in the current file.](https://user-images.githubusercontent.com/16872793/90833649-7a5e2f80-e316-11ea-827d-a4e3ac8ced69.png)
 - [](# "linkify-full-profile-readme-title") [Linkifies the readme text on profile pages.](https://user-images.githubusercontent.com/16872793/90910173-ebe4bf00-e3a4-11ea-8fc5-aea3d1a2e5e5.png)
 - [](# "convert-pr-to-draft-improvements") [Moves the "Convert PR to Draft" button to the mergeability box and adds visual feedback to its confirm button.](https://user-images.githubusercontent.com/1402241/95644892-885f3f80-0a7f-11eb-8428-8e0fb0c8dfa5.gif)
+- [](# "clean-header-search-field") [Clears duplicate queries in the header search field.](https://user-images.githubusercontent.com/46634000/114152984-26dd3800-991f-11eb-808e-895a7e2545e3.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
