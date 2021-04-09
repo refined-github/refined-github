@@ -37,11 +37,14 @@ async function initPR(): Promise<false | void> {
 		icon.style.animation = 'none';
 	}
 
-	for (const heading of select.all(['.gh-header-title .f1-light:not(.rgh-ci-link-heading)', '.js-sticky h1:not(.rgh-ci-link-heading)'])) {
+	const headers = select.all(':is(.gh-header-title .f1-light, .js-sticky h1):not(.rgh-ci-link-heading)');
+
+	for (const header of headers) {
+		header.classList.add('rgh-ci-link-heading');
+
 		const headerIcon = icon.cloneNode(true);
 		headerIcon.style.animation = 'none';
-		heading.classList.add('rgh-ci-link-heading');
-		heading.append(headerIcon);
+		header.append(headerIcon);
 	}
 }
 
