@@ -57,12 +57,12 @@ export const getCurrentBranchFromFindLink = async (): Promise<string | undefined
 		return;
 	}
 
-	const feedLink = select.last('a[data-hotkey="t"]') ?? await elementReady('a[data-hotkey="t"]');
+	const feedLink = await elementReady<HTMLAnchorElement>('a[data-hotkey="t"]')!;
 	if (!feedLink) {
 		return;
 	}
 
-	return decodeURIComponent(String(feedLink.pathname.split('/').slice(-1)));
+	return decodeURIComponent(feedLink.pathname.split('/').pop()!);
 };
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
