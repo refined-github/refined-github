@@ -15,12 +15,12 @@
 	display: inline-block;
 }
 
-.gh-header-title summary > .octicon-check {
+.gh-header-title summary > :is(.octicon-check, .octicon-dot-fill, .octicon-x) {
 	width: 24px;
 	height: 24px;
 }
 
-.js-sticky h1 summary > .octicon-check {
+.js-sticky h1 summary > :is(.octicon-check, .octicon-dot-fill, .octicon-x) {
 	width: 14px;
 	height: 14px;
 	vertical-align: -1px;
