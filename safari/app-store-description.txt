@@ -12,3 +12,6 @@ Refined GitHub is a Safari extension that simplifies the GitHub interface and ad
 - Reduces tabs’ size to 4 spaces instead of 8.
 
 And so much more! See the website for a full list of features.
+
+
+The GITHUB and REFINED GITHUB trademarks are owned by GitHub, Inc. and used under license.
