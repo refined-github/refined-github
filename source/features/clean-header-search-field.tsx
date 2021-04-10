@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 async function init(): Promise<void> {
-	(await elementReady<HTMLInputElement>('.header-search-input'))!.value = '';
+	(await elementReady('input.header-search-input'))!.value = '';
 }
 
 void features.add(__filebasename, {
