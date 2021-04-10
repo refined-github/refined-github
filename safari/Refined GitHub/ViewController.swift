@@ -6,7 +6,7 @@ let appName = "Refined GitHub"
 let extensionBundleIdentifier = "com.sindresorhus.Refined-GitHub.Extension"
 
 final class ViewController: NSViewController {
-	@IBOutlet var appNameLabel: NSTextField!
+	@IBOutlet private var appNameLabel: NSTextField!
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -14,11 +14,17 @@ final class ViewController: NSViewController {
 		appNameLabel.stringValue = appName
 
 		SFSafariExtensionManager.getStateOfSafariExtension(withIdentifier: extensionBundleIdentifier) { state, error in
-			guard
-				let state = state,
-				error == nil
-			else {
-				// Insert code to inform the user that something went wrong.
+			if let error = error {
+				NSLog("%@", error.localizedDescription)
+				DispatchQueue.main.async {
+					NSApp.presentError(error)
+				}
+				return
+			}
+
+			guard let state = state else {
+				// This should in theory not be hit.
+				NSLog("Could not get state.")
 				return
 			}
 
@@ -32,11 +38,27 @@ final class ViewController: NSViewController {
 		}
 	}
 
+	override func viewDidAppear() {
+		super.viewDidAppear()
+
+		if let window = view.window {
+			window.title = appName
+			window.level = .floating
+			window.styleMask = [.titled]
+			window.center()
+		}
+
+		NSApp.activate(ignoringOtherApps: true)
+	}
+
 	@IBAction
-	func openSafariExtensionPreferences(_ sender: AnyObject?) {
+	private func openSafariExtensionPreferences(_ sender: AnyObject?) {
 		SFSafariApplication.showPreferencesForExtension(withIdentifier: extensionBundleIdentifier) { error in
-			guard error == nil else {
-				// Insert code to inform the user that something went wrong.
+			if let error = error {
+				NSLog("%@", error.localizedDescription)
+				DispatchQueue.main.async {
+					NSApp.presentError(error)
+				}
 				return
 			}
 
