@@ -96,8 +96,8 @@ async function init(): Promise<false | void> {
 				selected.removeAttribute('aria-current');
 			}
 
-			releasesTab.classList.add('selected');
-			releasesTab.setAttribute('aria-current', 'page');
+			releasesTab.firstElementChild!.classList.add('selected');
+			releasesTab.firstElementChild!.setAttribute('aria-current', 'page');
 		}
 
 		appendBefore(
