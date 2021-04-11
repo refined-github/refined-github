@@ -1,6 +1,7 @@
 import './ci-link.css';
 import select from 'select-dom';
 import onetime from 'onetime';
+import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -17,9 +18,13 @@ const getRepoIcon = onetime(async () => fetchDom(
 ));
 
 const getPRIcon = onetime(async () => {
-	const base = pageDetect.isPRCommitList() ?
-		document :
-		await fetchDom(buildRepoURL('pull', getConversationNumber()!, 'commits'));
+	let base;
+	if (pageDetect.isPRCommitList()) {
+		await domLoaded;
+		base = document;
+	} else {
+		base = await fetchDom(buildRepoURL('pull', getConversationNumber()!, 'commits'));
+	}
 
 	// TS bug does not allow us to directly return this 🤷‍♂️
 	const icon = select.last('.js-commits-list-item .commit-build-statuses', base);
@@ -78,6 +83,6 @@ void features.add(__filebasename, {
 	additionalListeners: [
 		onConversationHeaderUpdate
 	],
-	awaitDomReady: pageDetect.isPRCommitList(),
+	awaitDomReady: false,
 	init: initPR
 });
