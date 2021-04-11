@@ -12,13 +12,14 @@ function init(): void {
 		.replace('compare/', '')
 		.split('...')
 		.reverse();
-
+	
 	// Compares against the "base" branch if the URL only has one reference
 	if (references.length === 1) {
 		references.unshift(select('.branch span')!.textContent!);
 	}
 
-	const icon = select('.octicon-arrow-left')!;
+	const icons = select.all('.octicon-arrow-left')!;
+	const icon = icons[icons.length - 1];
 	icon.parentElement!.attributes['aria-label'].value += '.\nClick to swap.';
 	wrap(icon, <a href={buildRepoURL('compare/' + references.join('...'))}/>);
 }
