@@ -18,7 +18,7 @@ function getCommitTitleField(): HTMLInputElement | undefined {
 }
 
 function createCommitTitle(): string {
-	const prTitle = select('.js-issue-title')!.textContent!.trim();
+	const prTitle = select(prTitleFieldSelector)!.value.trim();
 	return `${prTitle} (#${getConversationNumber()!})`;
 }
 

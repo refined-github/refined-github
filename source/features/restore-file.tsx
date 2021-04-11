@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
-import {getConversationNumber, getCurrentBranch, getPRHeadRepo} from '../github-helpers';
+import {getConversationNumber} from '../github-helpers';
 
 function showError(menuItem: HTMLButtonElement, error: string): void {
 	menuItem.disabled = true;
@@ -50,13 +50,14 @@ async function commitFileContent(menuItem: Element, content: string, filePath: s
 	// Check if file was deleted by PR
 	if (menuItem.closest('[data-file-deleted="true"]')) {
 		menuItem.textContent = 'Undeleting…';
-		pathname = `/${getPRHeadRepo()!.nameWithOwner}/new/${getCurrentBranch()!}?filename=${filePath}`;
+		const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
+		pathname = `/${nameWithOwner}/new/${headBranch}?filename=${filePath}`;
 	} else {
 		menuItem.textContent = 'Committing…';
 	}
 
 	// This is either an `edit` or `create` form
-	const form = (await fetchDom<HTMLFormElement>(pathname, '.js-blob-form'))!;
+	const form = (await fetchDom(pathname, 'form.js-blob-form'))!;
 	form.elements.value.value = content; // Restore content (`value` is the name of the file content field)
 	form.elements.message.value = (form.elements.message as HTMLInputElement).placeholder
 		.replace(/^Create|^Update/, 'Restore');

@@ -72,7 +72,7 @@
 
 /* Lighten deletions in Markdown */
 .markdown-body del {
-	color: #6a737d;
+	color: var(--color-text-tertiary, #6a737d); /* GHE */
 }
 
 /* Expand PR merge status list to fit all items */
@@ -137,4 +137,15 @@ pr-branches
 /* Keep diff stats in "Jump to" dropdown when the header is fixed #3925 */
 .select-menu-item-text .diffstat {
 	display: inline !important;
+}
+
+/* Style the "Find feature" dialog that appears on top of the page */
+#rgh-bisect-dialog {
+	position: fixed;
+	bottom: 50%;
+	right: 50%;
+	transform: translate(50%, 50%);
+	min-width: 380px; /* Avoids a width change on the last step which causes the YES button to be where NO was */
+	box-shadow: var(--color-toast-shadow);
+	z-index: 2147483647;
 }
