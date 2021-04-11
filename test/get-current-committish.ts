@@ -83,7 +83,7 @@ test('getCurrentCommittish', t => {
 	t.is(getCurrentCommittish(
 		'/typescript-eslint/typescript-eslint/commits/chore/lerna-4/docs/getting-started/README.md',
 		'History for docs/getting-started/README.md - typescript-eslint/typescript-eslint'
-	), 'chore'); // Wrong, but
+	), 'master'); // Uses the feedlink
 
 	// Single commit
 	t.is(getCurrentCommittish(
