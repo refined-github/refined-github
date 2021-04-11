@@ -1,4 +1,4 @@
-import {getCurrentBranchFromFeedLink, getCurrentCommittish} from '.';
+import {getCurrentCommittish} from '.';
 
 export default class GitHubURL {
 	// @ts-expect-error https://github.com/microsoft/TypeScript/issues/26792
@@ -37,21 +37,18 @@ export default class GitHubURL {
 		ambiguousReference: string[]
 	): {branch: string; filePath: string} {
 		const branch = ambiguousReference[0];
+		const currentBranch = getCurrentCommittish();
 		// History pages might use search parameters
-		const branchFromSearch = String(this.searchParams.getAll('branch'));
+		const historyBranch = String(this.searchParams.getAll('branch')) ?? currentBranch ?? branch;
 		const filePathFromSearch = this.searchParams.getAll('path[]').join('/');
 		if (filePathFromSearch) {
 			this.searchParams.delete('branch');
 			this.searchParams.delete('path[]');
-			return {branch: branchFromSearch || branch, filePath: filePathFromSearch};
+			return {branch: historyBranch || branch, filePath: filePathFromSearch};
 		}
 
-		const filePath = ambiguousReference.slice(1).join('/');
-
-		// Some pages may still have the feedlink
-		const currentBranch = getCurrentBranchFromFeedLink() ??	getCurrentCommittish();
-
 		const currentBranchSections = currentBranch?.split('/');
+		const filePath = ambiguousReference.slice(1).join('/');
 		if (
 			!currentBranch || // Current branch could not be determined (1/2)
 			!currentBranchSections || // Current branch could not be determined (2/2)

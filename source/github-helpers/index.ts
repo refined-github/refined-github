@@ -34,22 +34,18 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 		return parsedTitle.groups!.branch;
 	}
 
-	return unslashedCommittish;
-};
-
-export const getCurrentBranchFromFeedLink = (): string | undefined => {
-	// .last needed for #2799
+	// .last needed for #2799 GHE
 	const feedLink = select.last('link[type="application/atom+xml"]');
-	if (!feedLink) {
-		return;
+	if (feedLink) {
+		return new URL(feedLink.href)
+			.pathname
+			.split('/')
+			.slice(4) // Drops the initial /user/repo/route/ part
+			.join('/')
+			.replace(/\.atom$/, '');
 	}
 
-	return new URL(feedLink.href)
-		.pathname
-		.split('/')
-		.slice(4) // Drops the initial /user/repo/route/ part
-		.join('/')
-		.replace(/\.atom$/, '');
+	return unslashedCommittish;
 };
 
 export const getCurrentBranchFromFindLink = async (): Promise<string | undefined> => {
