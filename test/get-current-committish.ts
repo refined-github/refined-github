@@ -91,3 +91,4 @@ test('getCurrentCommittish', t => {
 		'chore: add markdownlint (#1889) · typescript-eslint/typescript-eslint@795fd1c'
 	), '795fd1c529ee58e97283c9ddf8463703517b50ab');
 });
+
