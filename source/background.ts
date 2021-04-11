@@ -53,8 +53,7 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 		}
 
 		await browser.tabs.create({
-			url: 'https://github.com/sindresorhus/refined-github/issues/3543',
-			active: false
+			url: 'https://github.com/sindresorhus/refined-github/issues/3543'
 		});
 	}
 
