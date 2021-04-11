@@ -39,12 +39,12 @@ export default class GitHubURL {
 		const branch = ambiguousReference[0];
 		const currentBranch = getCurrentCommittish();
 		// History pages might use search parameters
-		const historyBranch = String(this.searchParams.getAll('branch')) ?? currentBranch ?? branch;
+		const branchFromSearch = String(this.searchParams.getAll('branch'));
 		const filePathFromSearch = this.searchParams.getAll('path[]').join('/');
 		if (filePathFromSearch) {
 			this.searchParams.delete('branch');
 			this.searchParams.delete('path[]');
-			return {branch: historyBranch || branch, filePath: filePathFromSearch};
+			return {branch: branchFromSearch ?? currentBranch ?? branch, filePath: filePathFromSearch};
 		}
 
 		const currentBranchSections = currentBranch?.split('/');
