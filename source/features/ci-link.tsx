@@ -38,6 +38,7 @@ async function initPR(): Promise<false | void> {
 	}
 
 	const headers = select.all(':is(.gh-header-title .f1-light, .js-sticky h1):not(.rgh-ci-link-heading)');
+
 	for (const header of headers) {
 		header.classList.add('rgh-ci-link-heading');
 
