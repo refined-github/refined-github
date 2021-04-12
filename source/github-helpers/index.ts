@@ -50,12 +50,8 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 
 export const getCurrentCommittishAnywhere = async (): Promise<string | undefined> => {
 	const committish = getCurrentCommittish();
-	if (committish) {
+	if (committish || !pageDetect.isRepoHome()) {
 		return committish;
-	}
-
-	if (!pageDetect.isRepoHome()) {
-		return;
 	}
 
 	const feedLink = await elementReady<HTMLAnchorElement>('a[data-hotkey="t"]')!;
