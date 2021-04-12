@@ -15,6 +15,7 @@ test('getCurrentCommittish', t => {
 		'github.com'
 	));
 
+	document.head.insertAdjacentHTML('beforeend', '<a data-hotkey="t" href="https://github.com/avajs/ava/find/master"></a>');
 	// Root
 	t.is(getCurrentCommittish(
 		'/typescript-eslint/typescript-eslint',
@@ -24,6 +25,7 @@ test('getCurrentCommittish', t => {
 		'/typescript-eslint/typescript-eslint/tree/chore/lerna-4',
 		'typescript-eslint/typescript-eslint at chore/lerna-4'
 	), 'chore/lerna-4');
+	document.querySelector('[data-hotkey="t"]')!.remove();
 
 	// Sub folder
 	t.is(getCurrentCommittish(

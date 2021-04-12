@@ -3,6 +3,8 @@ import test from 'ava';
 import './fixtures/globals';
 import GitHubURL from '../source/github-helpers/github-url';
 
+document.head.insertAdjacentHTML('beforeend', '<a hidden="" data-hotkey="t" data-pjax="true" href="https://github.com/avajs/ava/find/master"></a>');
+
 test('branch', t => {
 	const url = new GitHubURL('https://github.com/microsoft/TypeScript/tree/master');
 	t.is(url.user, 'microsoft');
@@ -92,3 +94,4 @@ test('get branch and filePath from search', t => {
 	t.is(url.search, '?after=ee8b6422d2ddd1199f557594d03e7ee850e843f0+34');
 	t.is(String(url), 'https://github.com/sindresorhus/refined-github/commits/Slash/slash/webpack.config.ts?after=ee8b6422d2ddd1199f557594d03e7ee850e843f0+34');
 });
+document.querySelector('[data-hotkey="t"]')!.remove();
