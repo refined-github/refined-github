@@ -48,8 +48,13 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 	return unslashedCommittish;
 };
 
-export const getCurrentBranchFromFindLink = async (): Promise<string | undefined> => {
-	if (pageDetect.isPRFiles()) {
+export const getCurrentCommittishAnywhere = async (): Promise<string | undefined> => {
+	const committish = getCurrentCommittish();
+	if (committish) {
+		return committish;
+	}
+
+	if (!pageDetect.isRepoHome()) {
 		return;
 	}
 
