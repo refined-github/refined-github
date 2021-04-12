@@ -48,6 +48,7 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 	return unslashedCommittish;
 };
 
+// Used on `isRepoHome` where can also determine the branch from the feedLink
 export const getCurrentCommittishAnywhere = async (): Promise<string | undefined> => {
 	const committish = getCurrentCommittish();
 	if (committish || !pageDetect.isRepoHome()) {
