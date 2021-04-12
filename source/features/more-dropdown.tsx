@@ -58,7 +58,7 @@ async function init(): Promise<void> {
 		'.UnderlineNav-body'
 	].join());
 
-	const reference = await getCurrentCommittishAnywhere();
+	const reference = await getCurrentCommittishAnywhere() ?? await getDefaultBranch();
 	const compareUrl = buildRepoURL('compare', reference!);
 	const commitsUrl = buildRepoURL('commits', reference!);
 	const branchesUrl = buildRepoURL('branches');
