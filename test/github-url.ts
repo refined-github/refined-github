@@ -79,3 +79,16 @@ test('get filePath from search', t => {
 	t.is(url.search, '?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
 	t.is(String(url), 'https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
 });
+
+test('get branch and filePath from search', t => {
+	const url = new GitHubURL('https://github.com/sindresorhus/refined-github/commits/Slash/slash?after=ee8b6422d2ddd1199f557594d03e7ee850e843f0+34&branch=Slash%2Fslash&path%5B%5D=webpack.config.ts');
+	t.is(url.user, 'sindresorhus');
+	t.is(url.repository, 'refined-github');
+	t.is(url.route, 'commits');
+	t.is(url.branch, 'Slash/slash');
+	t.is(url.filePath, 'webpack.config.ts');
+	t.is(url.pathname, '/sindresorhus/refined-github/commits/Slash/slash/webpack.config.ts');
+	t.is(url.href, 'https://github.com/sindresorhus/refined-github/commits/Slash/slash/webpack.config.ts?after=ee8b6422d2ddd1199f557594d03e7ee850e843f0+34');
+	t.is(url.search, '?after=ee8b6422d2ddd1199f557594d03e7ee850e843f0+34');
+	t.is(String(url), 'https://github.com/sindresorhus/refined-github/commits/Slash/slash/webpack.config.ts?after=ee8b6422d2ddd1199f557594d03e7ee850e843f0+34');
+});
