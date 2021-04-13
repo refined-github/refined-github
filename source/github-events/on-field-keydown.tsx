@@ -24,5 +24,5 @@ export function onCommentFieldKeydown(callback: DelegateFieldEvent): void {
 }
 
 export function onConversationTitleFieldKeydown(callback: DelegateFieldEvent): void {
-	onFieldKeydown('#issue_title, #pull_request_title, #saved-reply-title-field', callback);
+	onFieldKeydown('#issue_title, #pull_request_title', callback);
 }
