@@ -1,7 +1,6 @@
 import './latest-tag-button.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {DiffIcon, TagIcon} from '@primer/octicons-react';
 
@@ -11,6 +10,7 @@ import pluralize from '../helpers/pluralize';
 import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
+import addButtonNextToBranchSelectMenu from '../github-helpers/add-button-next-to-branch-select-menu';
 import {buildRepoURL, getCurrentCommittish, getLatestVersionTag, getRepo} from '../github-helpers';
 
 interface RepoPublishState {
@@ -90,13 +90,11 @@ async function init(): Promise<false | void> {
 	});
 
 	const link = (
-		<a className="btn btn-sm btn-outline ml-2 flex-self-center css-truncate rgh-latest-tag-button" href={String(url)}>
+		<a className="btn btn-sm btn-outline ml-0 mr-2 flex-self-center v-align-top css-truncate rgh-latest-tag-button" href={String(url)}>
 			<TagIcon/>
 		</a>
 	);
-
-	const branchSelector = await elementReady('#branch-select-menu', {waitForChildren: false});
-	branchSelector!.closest('.position-relative')!.after(link);
+	await addButtonNextToBranchSelectMenu(link);
 
 	const currentBranch = getCurrentCommittish();
 	if (currentBranch !== latestTag) {
