@@ -27,6 +27,14 @@ async function initIssue(): Promise<void> {
 	}
 }
 
+function childNodeNumber(): number {
+	if (pageDetect.isOpenPR()) {
+		return 9;
+	}
+
+	return pageDetect.isMergedPR() ? 5 : 7;
+}
+
 async function initPR(): Promise<void> {
 	const byline = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)');
 	if (!byline) {
@@ -40,9 +48,8 @@ async function initPR(): Promise<void> {
 
 	const base = select('.commit-ref', byline)!;
 	const baseBranch = base.title.split(':')[1];
-	const isDefaultBranch = baseBranch === await getDefaultBranch() || (pageDetect.isClosedPR() && baseBranch === 'master');
 
-	byline.childNodes[pageDetect.isClosedPR() ? (pageDetect.isMergedPR() ? 5 : 7) : 9].replaceWith(<> <ArrowLeftIcon/> </>);
+	byline.childNodes[childNodeNumber()].replaceWith(<> <ArrowLeftIcon/> </>);
 
 	// Removes: [octocat wants to merge 1 commit into] github:master from octocat:feature
 	// Removes: [octocat merged 1 commit into] master from feature
@@ -55,7 +62,9 @@ async function initPR(): Promise<void> {
 		author.after(' • ');
 	}
 
-	if (!isDefaultBranch) {
+	const wasDefaultBranch = pageDetect.isClosedPR() && baseBranch === 'master';
+	const isDefaultBranch = baseBranch === await getDefaultBranch();
+	if (!isDefaultBranch && !wasDefaultBranch) {
 		base.classList.add('rgh-clean-conversation-headers-non-default-branch');
 	}
 }
