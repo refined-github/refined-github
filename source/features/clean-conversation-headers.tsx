@@ -18,13 +18,13 @@ async function initIssue(): Promise<void> {
 	byline.classList.add('rgh-clean-conversation-header');
 
 	const {childNodes: bylineNodes} = byline;
-	// Removes: octocat opened this issue on 1 Jan [·] 1 comments
-	bylineNodes[4].textContent = bylineNodes[4].textContent!.replace('·', '');
-
 	// Removes: [octocat opened this issue on 1 Jan] · 1 comments
-	for (const node of [...bylineNodes].slice(0, 4)) {
-		node.remove();
+	for (let i = 0; i < 4; i++) {
+		bylineNodes[0].remove();
 	}
+
+	// Removes: octocat opened this issue on 1 Jan [·] 1 comments
+	byline.firstChild!.textContent = byline.firstChild!.textContent!.replace('·', '');
 }
 
 function fromNodeNumber(): number {
@@ -46,7 +46,7 @@ async function initPR(): Promise<void> {
 	const author = select('.author', byline)!;
 	const isSameAuthor = pageDetect.isPRConversation() && author.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
 
-	const base = select('.commit-ref', byline)!;
+	const base = select('.base-ref', byline)!;
 	const baseBranch = base.title.split(':')[1];
 
 	// Replace the word "from" with an arrow
