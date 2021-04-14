@@ -7,7 +7,7 @@ import {wrap} from '../helpers/dom-utils';
 import features from '.';
 
 function init(): void | false {
-	const lastBranchAction = select.last('.TimelineItem-body .commit-ref');
+	const lastBranchAction = select.last('.TimelineItem-body .user-select-contain > span:not(.base-ref)');
 
 	const headReferenceLink = select('.head-ref a');
 	if (!headReferenceLink && !lastBranchAction) {
