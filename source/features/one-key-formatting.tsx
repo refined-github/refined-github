@@ -33,12 +33,13 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement |
 function init(): void {
 	onCommentFieldKeydown(eventHandler);
 	onConversationTitleFieldKeydown(eventHandler);
-	delegate(document, 'input[name="commit_title"]', 'keydown', eventHandler);
+	delegate(document, 'input[name="commit_title"], input[name="gist[description]"], #saved-reply-title-field', 'keydown', eventHandler);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasCode
+		pageDetect.hasRichTextEditor,
+		pageDetect.isGist
 	],
 	awaitDomReady: false,
 	init: onetime(init)
