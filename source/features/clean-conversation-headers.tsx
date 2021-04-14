@@ -27,7 +27,7 @@ async function initIssue(): Promise<void> {
 	}
 }
 
-function childNodeNumber(): number {
+function fromNodeNumber(): number {
 	if (pageDetect.isOpenPR()) {
 		return 9;
 	}
@@ -49,11 +49,16 @@ async function initPR(): Promise<void> {
 	const base = select('.commit-ref', byline)!;
 	const baseBranch = base.title.split(':')[1];
 
-	byline.childNodes[childNodeNumber()].replaceWith(<> <ArrowLeftIcon/> </>);
+	// Replace the word "from" with an arrow
+	byline.childNodes[fromNodeNumber()].replaceWith(<> <ArrowLeftIcon/> </>);
 
 	// Removes: [octocat wants to merge 1 commit into] github:master from octocat:feature
 	// Removes: [octocat merged 1 commit into] master from feature
-	for (const node of [...byline.childNodes].slice(isSameAuthor ? 0 : 2, pageDetect.isMergedPR() ? 3 : 5)) {
+	const duplicateNodes = [...byline.childNodes].slice(
+		isSameAuthor ? 0 : 2,
+		pageDetect.isMergedPR() ? 3 : 5
+	);
+	for (const node of duplicateNodes) {
 		node.remove();
 	}
 
