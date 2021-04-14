@@ -18,7 +18,7 @@ function init(): void {
 		references.unshift(select('.branch span')!.textContent!);
 	}
 
-	const icon = select('.range-editor .octicon-arrow-left')!;	
+	const icon = select('.range-editor .octicon-arrow-left')!;
 	icon.parentElement!.attributes['aria-label'].value += '.\nClick to swap.';
 	wrap(icon, <a href={buildRepoURL('compare/' + references.join('...'))}/>);
 }
