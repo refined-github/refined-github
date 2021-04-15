@@ -3,10 +3,9 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getCleanPathname} from '../github-helpers';
 
 function buildUrl(): URL {
-	const url = new URL('/' + getCleanPathname(), location.href);
+	const url = new URL(location.pathname, location.href);
 	url.searchParams.set('tab', 'repositories');
 	url.searchParams.set('sort', 'stargazers');
 	return url;
