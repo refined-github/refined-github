@@ -7,8 +7,8 @@ import {GitPullRequestIcon} from '@primer/octicons-react';
 import features from '.';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import addAfterBranchSelector from './latest-tag-button';
 import {buildRepoURL, getRepo} from '../github-helpers';
+import {addAfterBranchSelector} from './latest-tag-button';
 
 function getPRUrl(prNumber: number): string {
 	return buildRepoURL('pull', prNumber, 'files');

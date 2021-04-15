@@ -1,8 +1,8 @@
 import './latest-tag-button.css';
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import cache from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import {DiffIcon, TagIcon} from '@primer/octicons-react';
 
@@ -14,7 +14,8 @@ import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {buildRepoURL, getCurrentCommittish, getLatestVersionTag, getRepo} from '../github-helpers';
 
-export default async function addAfterBranchSelector(button: Element): Promise<void> {
+// eslint-disable-next-line import/prefer-default-export
+export async function addAfterBranchSelector(button: Element): Promise<void> {
 	const branchSelector = (await elementReady('#branch-select-menu', {waitForChildren: false}))!;
 	const wrapper = branchSelector.closest('.position-relative')!;
 	button.classList.add('mt-md-2', 'mt-lg-0');
