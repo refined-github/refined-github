@@ -7,7 +7,7 @@ import {GitPullRequestIcon} from '@primer/octicons-react';
 import features from '.';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import addButtonNextToBranchSelectMenu from '../github-helpers/add-button-next-to-branch-select-menu';
+import addAfterBranchSelector from './latest-tag-button';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
 function getPRUrl(prNumber: number): string {
@@ -139,14 +139,14 @@ async function init(): Promise<void> {
 	}
 
 	if (prs.length > 1) {
-		await addButtonNextToBranchSelectMenu(getDropdown(prs));
+		await addAfterBranchSelector(getDropdown(prs));
 		return;
 	}
 
 	const link = getSingleButton(prNumber);
 	link.classList.add('tooltipped', 'tooltipped-ne');
 	link.setAttribute('aria-label', `This file is touched by PR #${prNumber}`);
-	await addButtonNextToBranchSelectMenu(link);
+	await addAfterBranchSelector(link);
 }
 
 void features.add(__filebasename, {

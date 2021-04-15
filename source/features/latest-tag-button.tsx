@@ -1,5 +1,7 @@
 import './latest-tag-button.css';
 import React from 'dom-chef';
+import select from 'select-dom';
+import elementReady from 'element-ready';
 import cache from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import {DiffIcon, TagIcon} from '@primer/octicons-react';
@@ -10,8 +12,21 @@ import pluralize from '../helpers/pluralize';
 import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import addButtonNextToBranchSelectMenu from '../github-helpers/add-button-next-to-branch-select-menu';
 import {buildRepoURL, getCurrentCommittish, getLatestVersionTag, getRepo} from '../github-helpers';
+
+export default async function addAfterBranchSelector(button: Element): Promise<void> {
+	const branchSelector = (await elementReady('#branch-select-menu', {waitForChildren: false}))!;
+	const wrapper = branchSelector.closest('.position-relative')!;
+	button.classList.add('mt-md-2', 'mt-lg-0');
+	wrapper.append(button);
+	if (wrapper.classList.contains('rgh-button-added')) {
+		return;
+	}
+
+	branchSelector.classList.add('mr-2');
+	wrapper.classList.add('d-flex', 'd-md-block', 'd-lg-flex', 'rgh-button-added');
+	select('.breadcrumb')!.classList.add('flex-md-self-baseline', 'flex-lg-self-center');
+}
 
 interface RepoPublishState {
 	latestTag: string | false;
@@ -94,7 +109,7 @@ async function init(): Promise<false | void> {
 			<TagIcon/>
 		</a>
 	);
-	await addButtonNextToBranchSelectMenu(link);
+	await addAfterBranchSelector(link);
 
 	const currentBranch = getCurrentCommittish();
 	if (currentBranch !== latestTag) {
