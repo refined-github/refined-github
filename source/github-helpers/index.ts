@@ -140,8 +140,3 @@ export async function isPermalink(): Promise<boolean> {
 export function isNotRefinedGitHubRepo(): boolean {
 	return !location.pathname.startsWith('/sindresorhus/refined-github/');
 }
-
-// https://github.com/github/markup/blob/cd01f9ec87c86ce5a7c70188a74ef40fc4669c5b/lib/github/markup/markdown.rb#L34
-export function isMarkdownFile(): boolean {
-	return /\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee)$/.test(location.pathname);
-}
