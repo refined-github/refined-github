@@ -98,7 +98,7 @@ async function init(): Promise<void> {
 	const fileButtons =
 		select('.repository-content .Box-header.flex-md-items-center .d-flex') ??
 		// Pre "Repository refresh" layout
-		select('.repository-content .Box-header .d-flex')!;
+		select('.repository-content readme-toc .Box-header .d-flex')!;
 	fileButtons.prepend(
 		<div className="BtnGroup">
 			<button className="btn btn-sm BtnGroup-item tooltipped tooltipped tooltipped-nw rgh-md-source" type="button" aria-label="Display the source blob">
