@@ -65,7 +65,7 @@ async function clean(): Promise<void> {
 	select('#partial-discussion-sidebar')!.classList.add('rgh-clean-sidebar');
 
 	// Assignees
-	const assignees = select('.js-issue-assignees')!;
+	const assignees = select('.js-issue-assignees, .sidebar-assignee')!; // `.sidebar-assignee` is for collaborators with only "triage access"
 	if (assignees.children.length === 0) {
 		assignees.closest('.discussion-sidebar-item')!.remove();
 	} else {
