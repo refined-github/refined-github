@@ -27,14 +27,6 @@ async function initIssue(): Promise<void> {
 	byline.firstChild!.textContent = byline.firstChild!.textContent!.replace('·', '');
 }
 
-function fromNodeNumber(): number {
-	if (pageDetect.isOpenPR()) {
-		return 9;
-	}
-
-	return pageDetect.isMergedPR() ? 5 : 7;
-}
-
 async function initPR(): Promise<void> {
 	const byline = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)');
 	if (!byline) {
@@ -46,11 +38,11 @@ async function initPR(): Promise<void> {
 	const author = select('.author', byline)!;
 	const isSameAuthor = pageDetect.isPRConversation() && author.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
 
-	const base = select('.base-ref', byline)!;
+	const [base, headBranch] = select.all('.commit-ref', byline)!;
 	const baseBranch = base.title.split(':')[1];
 
 	// Replace the word "from" with an arrow
-	byline.childNodes[fromNodeNumber()].replaceWith(<> <ArrowLeftIcon/> </>);
+	headBranch.previousSibling!.replaceWith(<> <ArrowLeftIcon/> </>);
 
 	// Removes: [octocat wants to merge 1 commit into] github:master from octocat:feature
 	// Removes: [octocat merged 1 commit into] master from feature
