@@ -6,18 +6,21 @@ We use GitHub a lot and notice many annoyances we'd like to fix. So here be drag
 
 Our hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these improvements, please email [GitHub support](https://support.github.com/contact) about doing it.
 
-GitHub Enterprise is also supported. More info in the options.
+GitHub Enterprise is also supported: [How to enable it](https://fregante.github.io/webext-domain-permission-toggle/?name=Refined%20GitHub&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fsindresorhus%2Frefined-github%2Fmain%2Fdistribution%2Ficon.png). <!-- icon.png renders best -->
+
+*The GITHUB and REFINED GITHUB trademarks are owned by GitHub, Inc. and used under license.*
 
 ## Install
 
 [link-chrome]: https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf 'Version published on Chrome Web Store'
 [link-firefox]: https://addons.mozilla.org/en-US/firefox/addon/refined-github-/ 'Version published on Mozilla Add-ons'
+[link-safari]: https://apps.apple.com/app/id1519867270 'Version published on the Mac App Store'
 
 [<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/chrome/chrome.svg" width="48" alt="Chrome" valign="middle">][link-chrome] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-chrome] also compatible with [<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/edge/edge.svg" width="24" alt="Edge" valign="middle">][link-chrome] [<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/opera/opera.svg" width="24" alt="Opera" valign="middle">][link-chrome]
 
 [<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/firefox/firefox.svg" width="48" alt="Firefox" valign="middle">][link-firefox] [<img valign="middle" src="https://img.shields.io/amo/v/refined-github-.svg?label=%20">][link-firefox]
 
-<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/safari/safari_128x128.png" width="48" alt="Safari" valign="middle"> Coming soon, [help us set it up](https://github.com/sindresorhus/refined-github/issues/3686)
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/safari/safari_128x128.png" width="48" alt="Safari" valign="middle">][link-safari] [<img valign="middle" src="https://img.shields.io/itunes/v/1519867270.svg?label=%20">][link-safari]
 
 [<img src="https://raw.githubusercontent.com/iamcal/emoji-data/08ec822c38e0b7a6fea0b92a9c42e02b6ba24a84/img-apple-160/1f99a.png" width="48" valign="middle">](https://github.com/sponsors/fregante) _If you love Refined GitHub, consider [sponsoring or hiring](https://github.com/sponsors/fregante) the maintainer [@fregante](https://twitter.com/fregante)_
 
@@ -212,7 +215,7 @@ Thanks for contributing! 🦋🙌
 - [](# "pinned-issues-update-time") [Adds the updated time to pinned issues.](https://user-images.githubusercontent.com/1402241/75525936-bb524700-5a4b-11ea-9225-466bda58b7de.png)
 - [](# "clean-pinned-issues") [Changes the layout of pinned issues from side-by-side to a standard list.](https://user-images.githubusercontent.com/1402241/84509958-c82a3c00-acc4-11ea-8399-eaf06a59e9e4.png)
 - [](# "remove-label-faster") [Adds one-click buttons to remove labels in conversations.](https://user-images.githubusercontent.com/36174850/89980178-0bc80480-dc7a-11ea-8ded-9e25f5f13d1a.gif)
-- [](# "clean-conversation-headers") [Removes duplicate information in the header of issues and PRs ("User wants to merge X commits from Y into Z")](https://user-images.githubusercontent.com/44045911/89736767-686ec800-da9e-11ea-81c3-252e9813140b.png)
+- [](# "clean-conversation-headers") [Removes duplicate information in the header of issues and PRs ("User wants to merge X commits from Y into Z")](https://user-images.githubusercontent.com/44045911/112314137-a34b0680-8ce3-11eb-9e0e-8afd6c8235c2.png)
 - [](# "dim-bots") [Dims commits and PRs by bots to reduce noise.](https://user-images.githubusercontent.com/1402241/65263190-44c52b00-db36-11e9-9b33-d275d3c8479d.gif)
 - [](# "esc-to-cancel") [Adds a shortcut to cancel editing a conversation title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
 - [](# "no-duplicate-list-update-time") [Hides the update time of conversations in lists when it matches the open/closed/merged time.](https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png)
@@ -327,6 +330,7 @@ Thanks for contributing! 🦋🙌
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
 - [](# "hide-zero-packages") [Hides the `Packages` tab in user profiles if it’s empty.](https://user-images.githubusercontent.com/46634000/101151879-9ade9b00-3622-11eb-9755-50ed54099e02.png)
 - [](# "select-all-notifications-shortcut") Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
+- [](# "global-search-filters") [Adds search filters in global search page: forks, private repos, own repos, authored commits.](https://user-images.githubusercontent.com/44045911/112261285-88a66c80-8ca6-11eb-82cb-933b72c57abd.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -354,6 +358,7 @@ Thanks for contributing! 🦋🙌
 - [](# "same-page-definition-jump") [Avoids re-loading the page when jumping to function definition in the current file.](https://user-images.githubusercontent.com/16872793/90833649-7a5e2f80-e316-11ea-827d-a4e3ac8ced69.png)
 - [](# "linkify-full-profile-readme-title") [Linkifies the readme text on profile pages.](https://user-images.githubusercontent.com/16872793/90910173-ebe4bf00-e3a4-11ea-8fc5-aea3d1a2e5e5.png)
 - [](# "convert-pr-to-draft-improvements") [Moves the "Convert PR to Draft" button to the mergeability box and adds visual feedback to its confirm button.](https://user-images.githubusercontent.com/1402241/95644892-885f3f80-0a7f-11eb-8428-8e0fb0c8dfa5.gif)
+- [](# "clean-header-search-field") [Clears duplicate queries in the header search field.](https://user-images.githubusercontent.com/1402241/114177338-7c890300-9966-11eb-83a3-a711a76fae99.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

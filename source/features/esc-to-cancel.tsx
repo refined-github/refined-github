@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown';
@@ -21,6 +22,10 @@ void features.add(__filebasename, {
 	shortcuts: {
 		esc: 'Cancel editing a conversation title'
 	},
+	include: [
+		pageDetect.isIssue,
+		pageDetect.isPR
+	],
 	awaitDomReady: false,
 	init
 });

@@ -11,7 +11,7 @@ import pluralize from '../helpers/pluralize';
 import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {buildRepoURL, getCurrentBranch, getLatestVersionTag, getRepo} from '../github-helpers';
+import {buildRepoURL, getCurrentCommittish, getLatestVersionTag, getRepo} from '../github-helpers';
 
 interface RepoPublishState {
 	latestTag: string | false;
@@ -83,7 +83,6 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const currentBranch = getCurrentBranch()!;
 	const url = new GitHubURL(location.href);
 	url.assign({
 		route: url.route || 'tree', // If route is missing, it's a repo root
@@ -96,7 +95,10 @@ async function init(): Promise<false | void> {
 		</a>
 	);
 
-	(await elementReady('#branch-select-menu', {waitForChildren: false}))!.closest('.position-relative')!.after(link);
+	const branchSelector = await elementReady('#branch-select-menu', {waitForChildren: false});
+	branchSelector!.closest('.position-relative')!.after(link);
+
+	const currentBranch = getCurrentCommittish();
 	if (currentBranch !== latestTag) {
 		link.append(' ', <span className="css-truncate-target">{latestTag}</span>);
 	}

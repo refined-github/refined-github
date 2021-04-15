@@ -6,15 +6,16 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
-import {getCurrentBranch, getPRHeadRepo} from '../github-helpers';
 
 /** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
 function handlePRMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-actionable-link'); // Mark this as processed
+
+	const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
 	const filePath = dropdown.closest('[data-path]')!.getAttribute('data-path')!;
 
-	const viewFile = select('a[data-ga-click^="View file"]', dropdown)!;
-	viewFile.pathname = [getPRHeadRepo()!.nameWithOwner, 'blob', getCurrentBranch()!, filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
+	select('a[data-ga-click^="View file"]', dropdown)!
+		.pathname = [nameWithOwner, 'blob', headBranch, filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
 }
 
 function handleCompareMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
@@ -59,8 +60,9 @@ void features.add(__filebasename, {
 		pageDetect.isPRCommit
 	],
 	exclude: [
-		// Only enabled on Open/Draft PRs. Editing files doesn't make sense after a PR is closed/merged.
-		() => !select.exists('.gh-header-meta [title$="Open"], .gh-header-meta [title$="Draft"]'),
+		// Editing files doesn't make sense after a PR is closed/merged
+		pageDetect.isClosedPR,
+		() => select('.head-ref')!.title === 'This repository has been deleted',
 		// If you're viewing changes from partial commits, ensure you're on the latest one.
 		() => select.exists('.js-commits-filtered') && !select.exists('[aria-label="You are viewing the latest commit"]')
 	],

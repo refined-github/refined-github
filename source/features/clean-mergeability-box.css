@@ -16,7 +16,8 @@
 	font-weight: 600;
 }
 
-.mergeability-details .js-details-container .text-red + .status-meta {
+.mergeability-details .js-details-container .text-red + .status-meta, /* GHE */
+.mergeability-details .js-details-container .color-text-danger + .status-meta {
 	color: var(--github-red);
 }
 

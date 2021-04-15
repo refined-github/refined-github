@@ -11,6 +11,19 @@ import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
 
+async function highlightBugsTabOnIssuePage(): Promise<void | false> {
+	if (await countBugs() === 0 || !await elementReady('.sidebar-labels .IssueLabel[href$="/bug" i]')) {
+		return false;
+	}
+
+	const bugsTab = await elementReady('.rgh-bug-tab', {stopOnDomReady: false, timeout: 10000});
+	bugsTab!.classList.add('selected');
+
+	const issuesTab = select('.UnderlineNav-item[data-hotkey="g i"]')!;
+	issuesTab.classList.remove('selected');
+	issuesTab.removeAttribute('aria-current');
+}
+
 const countBugs = cache.function(async (): Promise<number> => {
 	const {search} = await api.v4(`
 		search(type: ISSUE, query: "label:bug is:open is:issue repo:${getRepo()!.nameWithOwner}") {
@@ -39,7 +52,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const issuesTab = (await elementReady('.js-repo-nav [data-hotkey="g i"]', {waitForChildren: false}))?.parentElement;
+	const issuesTab = await elementReady<HTMLAnchorElement>('.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
 	if (!issuesTab) {
 		// Repo is archived
 		return false;
@@ -53,12 +66,12 @@ async function init(): Promise<void | false> {
 
 	// Copy Issues tab
 	const bugsTab = issuesTab.cloneNode(true);
+	bugsTab.classList.add('rgh-bug-tab');
 
 	// Disable unwanted behavior #3001
-	const bugsLink = select('a', bugsTab)!;
-	bugsLink.removeAttribute('data-hotkey');
-	bugsLink.removeAttribute('data-selected-links');
-	select('a', issuesTab)!.removeAttribute('data-selected-links');
+	bugsTab.removeAttribute('data-hotkey');
+	bugsTab.removeAttribute('data-selected-links');
+	issuesTab.removeAttribute('data-selected-links');
 
 	// Update its appearance
 	const bugsTabTitle = select('[data-content]', bugsTab);
@@ -68,16 +81,16 @@ async function init(): Promise<void | false> {
 		select('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline"/>);
 
 		// Un-select one of the tabs if necessary
-		const selectedTabLink = !isBugsPage || pageDetect.isPRList() ? bugsLink : select('.selected', issuesTab);
-		selectedTabLink?.classList.remove('selected');
-		selectedTabLink?.removeAttribute('aria-current');
+		const selectedTab = !isBugsPage || pageDetect.isPRList() ? bugsTab : issuesTab;
+		selectedTab.classList.remove('selected');
+		selectedTab.removeAttribute('aria-current');
 	} else {
 		// Pre "Repository refresh" layout
 		select('[itemprop="name"]', bugsTab)!.textContent = 'Bugs';
 		select('.octicon', bugsTab)!.replaceWith(<BugIcon/>);
 
 		// Change the Selected tab if necessary
-		bugsLink.classList.toggle('selected', isBugsPage && !pageDetect.isPRList());
+		bugsTab.classList.toggle('selected', isBugsPage && !pageDetect.isPRList());
 		select('.selected', issuesTab)?.classList.toggle('selected', !isBugsPage);
 	}
 
@@ -87,9 +100,14 @@ async function init(): Promise<void | false> {
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	new SearchQuery(bugsLink).add('label:bug');
+	new SearchQuery(bugsTab).add('label:bug');
 
-	issuesTab.after(bugsTab);
+	// In case GitHub changes its layout again #4166
+	if (issuesTab.parentElement!.tagName === 'LI') {
+		issuesTab.parentElement!.after(<li className="d-flex">{bugsTab}</li>);
+	} else {
+		issuesTab.after(bugsTab);
+	}
 
 	// Update bugs count
 	try {
@@ -108,4 +126,11 @@ void features.add(__filebasename, {
 	],
 	awaitDomReady: false,
 	init
+}, {
+	include: [
+		pageDetect.isIssue
+	],
+	awaitDomReady: false,
+	repeatOnBackButton: true,
+	init: highlightBugsTabOnIssuePage
 });

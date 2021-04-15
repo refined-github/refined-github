@@ -15,14 +15,14 @@ import {buildRepoURL, getRepo} from '../github-helpers';
 
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
-function parseCountFromDom(): number {
+async function parseCountFromDom(): Promise<number> {
 	const releasesCountElement = select('.numbers-summary a[href$="/releases"] .num');
 	if (releasesCountElement) {
 		return looseParseInt(releasesCountElement);
 	}
 
-	// In "Repository refresh" layout, look for the releases link in the sidebar
-	const moreReleasesCountElement = select('[href$="/tags"] strong');
+	// In "Repository refresh" layout, look for the tags link in the header
+	const moreReleasesCountElement = await elementReady('.repository-content .file-navigation [href$="/tags"] strong');
 	if (moreReleasesCountElement) {
 		return looseParseInt(moreReleasesCountElement);
 	}
@@ -65,28 +65,25 @@ async function init(): Promise<false | void> {
 		'.UnderlineNav-body'
 	].join());
 
-	const repoNavigationBar = select('.js-responsive-underlinenav');
+	const repoNavigationBar = select('.js-responsive-underlinenav .UnderlineNav-body');
 	if (repoNavigationBar) {
 		// "Repository refresh" layout
 		const releasesTab = (
-			<a
-				href={buildRepoURL('releases')}
-				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item"
-				data-hotkey="g r"
-				data-selected-links="repo_releases"
-				data-tab-item="rgh-releases-item"
-			>
-				<TagIcon className="UnderlineNav-octicon"/>
-				<span data-content="Releases">Releases</span>
-				{count && <span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>}
-			</a>
-		);
-
-		select(':scope > ul', repoNavigationBar)!.append(
 			<li className="d-flex">
-				{releasesTab}
+				<a
+					href={buildRepoURL('releases')}
+					className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item"
+					data-hotkey="g r"
+					data-selected-links="repo_releases"
+					data-tab-item="rgh-releases-item"
+				>
+					<TagIcon className="UnderlineNav-octicon"/>
+					<span data-content="Releases">Releases</span>
+					{count && <span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>}
+				</a>
 			</li>
 		);
+		repoNavigationBar.append(releasesTab);
 
 		// This re-triggers the overflow listener forcing it to also hide this tab if necessary #3347
 		repoNavigationBar.replaceWith(repoNavigationBar);
@@ -99,8 +96,8 @@ async function init(): Promise<false | void> {
 				selected.removeAttribute('aria-current');
 			}
 
-			releasesTab.classList.add('selected');
-			releasesTab.setAttribute('aria-current', 'page');
+			releasesTab.firstElementChild!.classList.add('selected');
+			releasesTab.firstElementChild!.setAttribute('aria-current', 'page');
 		}
 
 		appendBefore(

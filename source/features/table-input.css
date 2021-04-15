@@ -19,5 +19,5 @@
 
 .rgh-table-input:hover .selected div {
 	border-color: #79b8ff;
-	background-color: var(--color-diff-blob-hunk-num-bg, #dbedff);
+	background-color: var(--color-diff-blob-hunk-num-bg, #dbedff); /* GHE */
 }
