@@ -41,7 +41,7 @@ async function initPR(): Promise<void> {
 	const baseBranch = base.title.split(':')[1];
 
 	// Replace the word "from" with an arrow
-	headBranch.previousSibling!.replaceWith(<> <ArrowLeftIcon/> </>);
+	headBranch.previousSibling!.replaceWith(' ', <ArrowLeftIcon/>, ' ');
 
 	// Removes: [octocat wants to merge 1 commit into] github:master from octocat:feature
 	// Removes: [octocat merged 1 commit into] master from feature
