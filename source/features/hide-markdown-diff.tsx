@@ -6,7 +6,6 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {isMarkdownFile} from '../github-helpers';
 
 // Fix missing indentation in changed quote blocks #4035
 function fixMissingIndentation(): void {
@@ -35,7 +34,7 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		() => pageDetect.isEditingFile() && isMarkdownFile()
+		() => pageDetect.isEditingFile() && location.pathname.endsWith('.md')
 	],
 	awaitDomReady: false,
 	init
