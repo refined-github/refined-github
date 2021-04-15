@@ -2,22 +2,18 @@ import './delete-review-comments-faster.css';
 
 import React from 'dom-chef';
 import select from 'select-dom';
-import oneEvent from 'one-event';
 import delegate from 'delegate-it';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import onFragmentLoad from '../github-events/on-fragment-load';
 
 const deinit: VoidFunction[] = [];
 
 async function onButtonClick(event: delegate.Event): Promise<void> {
 	const comment = event.delegateTarget.closest<HTMLElement>('.js-comment')!;
-	const dropdownFragment = select('include-fragment.SelectMenu-loading', comment);
-	if (dropdownFragment) {
-		select('.timeline-comment-actions > details:last-of-type', comment)!.dispatchEvent(new Event('mouseover'));
-		await oneEvent(dropdownFragment, 'load');
-	}
+	await onFragmentLoad(select('include-fragment.SelectMenu-loading', comment), select('.timeline-comment-actions > details:last-of-type', comment)!);
 
 	select('.dropdown-menu .js-comment-delete > button', comment)!.click();
 }
