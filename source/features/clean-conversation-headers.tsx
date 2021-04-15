@@ -17,10 +17,9 @@ async function initIssue(): Promise<void> {
 
 	byline.classList.add('rgh-clean-conversation-header');
 
-	const {childNodes: bylineNodes} = byline;
 	// Removes: [octocat opened this issue on 1 Jan] · 1 comments
 	for (let i = 0; i < 4; i++) {
-		bylineNodes[0].remove();
+		byline.firstChild!.remove();
 	}
 
 	// Removes: octocat opened this issue on 1 Jan [·] 1 comments
