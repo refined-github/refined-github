@@ -12,6 +12,7 @@ import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {buildRepoURL, getCurrentCommittish, getLatestVersionTag, getRepo} from '../github-helpers';
+import select from 'select-dom';
 
 interface RepoPublishState {
 	latestTag: string | false;
@@ -144,5 +145,6 @@ void features.add(__filebasename, {
 		pageDetect.isSingleFile
 	],
 	awaitDomReady: false,
+	deduplicate: '.rgh-latest-tag-button', // #3945
 	init
 });

@@ -113,5 +113,6 @@ void features.add(__filebasename, {
 		pageDetect.isRepo
 	],
 	awaitDomReady: false,
+	deduplicate: '.rgh-forked-button', // #3945
 	init
 });
