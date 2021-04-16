@@ -95,11 +95,7 @@ async function init(): Promise<void> {
 	delegate(document, '.rgh-md-source:not(.selected)', 'click', showSource);
 	delegate(document, '.rgh-md-rendered:not(.selected)', 'click', showRendered);
 
-	const fileButtons =
-		select('.repository-content readme-toc .Box-header .d-flex') ??
-		// Pre "Repository refresh" layout
-		select('.repository-content .Box-header .d-flex')!;
-	fileButtons.prepend(
+	select('.repository-content readme-toc .Box-header .d-flex')!.prepend(
 		<div className="BtnGroup">
 			<button className="btn btn-sm BtnGroup-item tooltipped tooltipped tooltipped-nw rgh-md-source" type="button" aria-label="Display the source blob">
 				<CodeIcon/>
