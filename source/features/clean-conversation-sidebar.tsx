@@ -66,7 +66,6 @@ async function clean(): Promise<void> {
 
 	// Assignees
 	const assignees = select('.js-issue-assignees')!;
-	if (assignees.children.length === 0) {
 	if (assignees.children.length === 0 && !select('#assignees-select-menu')) {
 		assignees.closest('.discussion-sidebar-item')!.remove();
 	} else {
