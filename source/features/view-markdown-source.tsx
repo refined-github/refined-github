@@ -129,5 +129,6 @@ void features.add(__filebasename, {
 	exclude: [
 		() => !select.exists('.blob .markdown-body')
 	],
+	deduplicate: '.rgh-md-source',
 	init
 });

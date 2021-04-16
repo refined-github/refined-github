@@ -12,7 +12,6 @@ import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {buildRepoURL, getCurrentCommittish, getLatestVersionTag, getRepo} from '../github-helpers';
-import select from 'select-dom';
 
 interface RepoPublishState {
 	latestTag: string | false;
