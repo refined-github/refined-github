@@ -65,8 +65,9 @@ async function clean(): Promise<void> {
 	select('#partial-discussion-sidebar')!.classList.add('rgh-clean-sidebar');
 
 	// Assignees
-	const assignees = select('.js-issue-assignees, .sidebar-assignee')!; // `.sidebar-assignee` is for collaborators with only "triage access"
+	const assignees = select('.js-issue-assignees')!;
 	if (assignees.children.length === 0) {
+	if (assignees.children.length === 0 && !select('#assignees-select-menu')) {
 		assignees.closest('.discussion-sidebar-item')!.remove();
 	} else {
 		const assignYourself = select('.js-issue-assign-self');
