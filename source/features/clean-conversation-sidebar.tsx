@@ -66,6 +66,7 @@ async function clean(): Promise<void> {
 
 	// Assignees
 	const assignees = select('.js-issue-assignees')!;
+	// `#assignees-select-menu` check is for collaborators with only "triage access" #4238
 	if (assignees.children.length === 0 && !select('#assignees-select-menu')) {
 		assignees.closest('.discussion-sidebar-item')!.remove();
 	} else {
