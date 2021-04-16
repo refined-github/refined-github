@@ -15,6 +15,7 @@ import looseParseInt from '../helpers/loose-parse-int';
 import parseBackticks from '../github-helpers/parse-backticks';
 
 function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
+	document.body.classList.add('rgh-quick-repo-deletion');
 	const hasContent = select.exists([
 		'[data-hotkey="g i"] .Counter:not([hidden])', // Open issues
 		'[data-hotkey="g p"] .Counter:not([hidden])', // Open PRs
@@ -68,6 +69,7 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 			await delay(1000, {signal: abortController.signal}); // eslint-disable-line no-await-in-loop
 		} while (--secondsLeft);
 	} catch {
+		document.body.classList.remove('rgh-quick-repo-deletion');
 		button.textContent = 'Delete repo';
 		button.style.transform = '';
 	}
