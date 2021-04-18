@@ -4,19 +4,18 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-void features.addCssFeature(__filebasename, [pageDetect.isDashboard]);
+function onKeyDown(event: delegate.Event<HTMLInputElement, 'keydown'>): void {
+	if (event.key === 'Enter') {
+		event.preventDefault();
+		select('textarea', event.delegateTarget.form!.focus();
+	}
+}
 
 function init(): void {
-	delegate(document, '#issue_title, #pull_request_title, #commit-summary-input', 'keypress', event => {
-		if (event.key === 'Enter') {
-			event.preventDefault();
-			select('textarea', (event.delegateTarget as HTMLFormElement).form)!.focus();
-		}
-	});
+	delegate(document, 'input#issue_title, input#pull_request_title, input#commit-summary-input', 'keydown', onKeyDown);
 }
 
 void features.add(__filebasename, {
-
 	include: [
 		pageDetect.isNewIssue,
 		pageDetect.isCompare,
