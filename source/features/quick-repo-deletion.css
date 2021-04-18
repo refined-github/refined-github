@@ -1,14 +1,10 @@
-:root details.rgh-quick-repo-deletion[open] span {
+:root .rgh-quick-repo-deletion[open] span {
 	position: relative;
 	z-index: 81;
 	transform-origin: top;
 }
 
-:root details.rgh-quick-repo-deletion[open] summary::before {
+:root .rgh-quick-repo-deletion[open] summary::before {
 	background-color: var(--color-scale-red-6);
 	opacity: 30%;
-}
-
-.rgh-quick-repo-deletion #readme div {
-	z-index: 50 !important;
 }
