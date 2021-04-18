@@ -218,6 +218,7 @@ import './features/no-duplicate-list-update-time';
 import './features/view-last-pr-deployment';
 import './features/global-search-filters';
 import './features/clean-header-search-field';
+import './features/remap-enter-key-on-issue-pr-commit-title-fields';
 
 // Add global for easier debugging
 (window as any).select = select;
