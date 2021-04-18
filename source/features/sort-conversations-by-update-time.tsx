@@ -6,7 +6,7 @@ import SearchQuery from '../github-helpers/search-query';
 
 function init(): void {
 	// Get issues links that don't already have a specific sorting applied
-	const issueLinks = select.all<HTMLAnchorElement>(':is(a[href*="/issues"], a[href*="/pulls"]):not([href*="sort%3A"]):not(.issues-reset-query)');
+	const issueLinks = select.all(':is(a[href*="/issues"], a[href*="/pulls"]):not([href*="sort%3A"]):not(.issues-reset-query)');
 	for (const link of issueLinks) {
 		// Pick only links to lists, not single issues
 		// + skip pagination links
