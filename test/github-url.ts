@@ -3,7 +3,7 @@ import test from 'ava';
 import './fixtures/globals';
 import GitHubURL from '../source/github-helpers/github-url';
 
-document.head.insertAdjacentHTML('beforeend', '<a hidden="" data-hotkey="t" data-pjax="true" href="https://github.com/avajs/ava/find/master"></a>');
+document.head.insertAdjacentHTML('beforeend', '<a hidden="" data-hotkey="t" data-pjax="true" href="https://github.com/sindresorhus/refined-github/find/Slash%2Fslash"></a>');
 
 test('branch', t => {
 	const url = new GitHubURL('https://github.com/microsoft/TypeScript/tree/master');
