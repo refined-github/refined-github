@@ -15,12 +15,12 @@ test('getCurrentCommittish', t => {
 		'github.com'
 	));
 
-	document.head.insertAdjacentHTML('beforeend', '<a data-hotkey="t" href="https://github.com/avajs/ava/find/master"></a>');
+	document.head.insertAdjacentHTML('beforeend', '<a data-hotkey="t" href="https://github.com/typescript-eslint/typescript-eslint/find/cool%2Fdefault%2Fbranch"></a>');
 	// Root
 	t.is(getCurrentCommittish(
 		'/typescript-eslint/typescript-eslint',
 		'typescript-eslint/typescript-eslint: Monorepo for all the tooling which enables ESLint to support TypeScript'
-	), undefined);
+	), 'cool/default/branch');
 	t.is(getCurrentCommittish(
 		'/typescript-eslint/typescript-eslint/tree/chore/lerna-4',
 		'typescript-eslint/typescript-eslint at chore/lerna-4'
@@ -93,4 +93,3 @@ test('getCurrentCommittish', t => {
 		'chore: add markdownlint (#1889) · typescript-eslint/typescript-eslint@795fd1c'
 	), '795fd1c529ee58e97283c9ddf8463703517b50ab');
 });
-
