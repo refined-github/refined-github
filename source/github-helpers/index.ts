@@ -55,7 +55,7 @@ export const getCurrentCommittishAnywhere = async (): Promise<string | undefined
 		return committish;
 	}
 
-	const feedLink = await elementReady<HTMLAnchorElement>('a[data-hotkey="t"]')!;
+	const feedLink = await elementReady('a[data-hotkey="t"]')!;
 	if (!feedLink) {
 		return;
 	}
