@@ -7,6 +7,7 @@ import {DiffIcon, GitBranchIcon, HistoryIcon, PackageIcon} from '@primer/octicon
 
 import features from '.';
 import {appendBefore} from '../helpers/dom-utils';
+import getDefaultBranch from '../github-helpers/get-default-branch';
 import {buildRepoURL, getCurrentCommittishAnywhere} from '../github-helpers';
 
 function createDropdown(): void {
