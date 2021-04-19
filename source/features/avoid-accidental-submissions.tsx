@@ -4,10 +4,10 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function onKeyDown(event: delegate.Event<HTMLInputElement, 'keydown'>): void {
+function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLFormElement>): void {
 	if (event.key === 'Enter') {
 		event.preventDefault();
-		select('textarea', event.delegateTarget.form!.focus();
+		select('textarea', event.delegateTarget.form)!.focus();
 	}
 }
 
