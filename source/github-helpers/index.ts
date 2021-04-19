@@ -34,7 +34,7 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 		return parsedTitle.groups!.branch;
 	}
 
-	// TODO [2021-04-12]: .last needed for #2799 // GHE
+	// TODO [2021-08-12]: .last needed for #2799 // GHE
 	const feedLink = select.last('link[type="application/atom+xml"]');
 	if (feedLink) {
 		return new URL(feedLink.href)
