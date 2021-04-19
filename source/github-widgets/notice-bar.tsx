@@ -20,12 +20,10 @@ export default function addNotice(
 	}: Options = {}
 ): void {
 	select('#start-of-content')!.after(
-		<div className={`flash flash-full flash-${type}`}>
-			<div className="px-2">
-				{action}
-				<div>
-					{message}
-				</div>
+		<div className={`flash flash-full flash-${type} px-4`}>
+			{action}
+			<div>
+				{message}
 			</div>
 		</div>
 	);
