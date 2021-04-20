@@ -33,7 +33,7 @@ function focusReviewTextarea({delegateTarget}: delegate.Event<Event, HTMLDetails
 async function initReviewButtonEnhancements(): Promise<void> {
 	delegate(document, '.js-reviews-container > details', 'toggle', focusReviewTextarea, true);
 
-	const reviewDropdownButton = await elementReady<HTMLElement>('.js-reviews-toggle');
+	const reviewDropdownButton = await elementReady('.js-reviews-toggle');
 	if (reviewDropdownButton) {
 		reviewDropdownButton.dataset.hotkey = 'v';
 
