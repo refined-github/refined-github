@@ -15,7 +15,6 @@ function init(): void {
 			new SearchQuery(link).add('sort:updated-desc');
 		}
 	}
-
 }
 
 void features.add(__filebasename, {
