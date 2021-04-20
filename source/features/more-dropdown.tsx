@@ -126,6 +126,9 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo
 	],
+	exclude: [
+		pageDetect.isEmptyRepo
+	],
 	awaitDomReady: false,
 	init
 });
