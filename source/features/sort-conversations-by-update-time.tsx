@@ -11,14 +11,14 @@ function init(): void {
 		// Pick only links to lists, not single issues
 		// + skip pagination links
 		// + skip pr/issue filter dropdowns (some are lazyloaded)
-		if (pageDetect.isConversationList(link) && !link.closest('.pagination, .table-list-filters')) {
+		if (pageDetect.isConversationList(link) && link.host === location.host && !link.closest('.pagination, .table-list-filters')) {
 			new SearchQuery(link).add('sort:updated-desc');
 		}
 	}
 
 	// Extra nicety: Avoid GitHub's unnecessary redirect, this is their own bug
 	for (const link of select.all('a[href*="/issues"][href*="is%3Apr"]:not([href*="is%3Aprivate"])')) { // #4161
-		if (pageDetect.isConversationList(link)) {
+		if (pageDetect.isConversationList(link) && link.host === location.host) {
 			link.pathname = link.pathname.replace(/issues\/?$/, 'pulls');
 		}
 	}
