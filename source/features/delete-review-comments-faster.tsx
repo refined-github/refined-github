@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import {observe} from 'selector-observer';
-import * as pageDetect from 'github-url-detection';
 import {TrashIcon} from '@primer/octicons-react';
+import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import onFragmentLoad from '../github-events/on-fragment-load';
