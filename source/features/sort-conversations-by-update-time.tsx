@@ -18,7 +18,9 @@ function init(): void {
 
 	// Extra nicety: Avoid GitHub's unnecessary redirect, this is their own bug
 	for (const link of select.all('a[href*="/issues"][href*="is%3Apr"]:not([href*="is%3Aprivate"])')) { // #4161
-		link.pathname = link.pathname.replace(/issues\/?$/, 'pulls');
+		if (pageDetect.isConversationList(link)) {
+			link.pathname = link.pathname.replace(/issues\/?$/, 'pulls');
+		}
 	}
 }
 
