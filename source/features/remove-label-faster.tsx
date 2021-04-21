@@ -11,7 +11,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getConversationNumber} from '../github-helpers';
 
-const canNotEditLabels = onetime((): boolean => !select.exists('.sidebar-labels .octicon-gear'));
+const canNotEditLabels = onetime((): boolean => !select.exists('.label-select-menu .octicon-gear'));
 
 async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	event.preventDefault();
