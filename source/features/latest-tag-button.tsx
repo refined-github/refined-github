@@ -13,16 +13,24 @@ import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {buildRepoURL, getCurrentCommittish, getLatestVersionTag, getRepo} from '../github-helpers';
+import {wrapAll} from '../helpers/dom-utils';
 
 // eslint-disable-next-line import/prefer-default-export
 export async function addAfterBranchSelector(button: Element): Promise<void> {
 	const branchSelector = (await elementReady('#branch-select-menu', {waitForChildren: false}))!;
-	const wrapper = branchSelector.closest('.position-relative')!;
-	button.classList.add('mt-md-2', 'mt-lg-0');
-	wrapper.append(button);
-	branchSelector.classList.add('mr-2');
-	wrapper.classList.add('d-flex', 'd-md-block', 'd-lg-flex');
-	select('.breadcrumb')!.classList.add('flex-md-self-baseline', 'flex-lg-self-center');
+	const branchSelectorWrapper = branchSelector.closest('.position-relative')!;
+	button.classList.add('mr-2');
+	branchSelectorWrapper.append(button);
+	if (branchSelector.classList.contains('rgh-wrapper-added')) {
+		return;
+	}
+
+	const breadcrumb = select('.breadcrumb')!;
+	breadcrumb.classList.add('flex-shrink-0');
+	breadcrumb.classList.remove('mt-3', 'mx-2');
+	branchSelector.classList.add('mr-2', 'rgh-wrapper-added');
+	branchSelectorWrapper.classList.add('d-flex', 'flex-shrink-0');
+	wrapAll([branchSelectorWrapper, breadcrumb], <div className="d-flex flex-wrap flex-1 mr-2" style={{rowGap: '8px'}}></div>);
 }
 
 interface RepoPublishState {
@@ -102,7 +110,7 @@ async function init(): Promise<false | void> {
 	});
 
 	const link = (
-		<a className="btn btn-sm btn-outline ml-0 mr-2 flex-self-center v-align-top css-truncate rgh-latest-tag-button" href={String(url)}>
+		<a className="btn btn-sm btn-outline ml-0 flex-self-center css-truncate rgh-latest-tag-button" href={String(url)}>
 			<TagIcon/>
 		</a>
 	);
