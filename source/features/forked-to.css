@@ -9,7 +9,9 @@
 	border-top-right-radius: unset;
 }
 
-.rgh-forked-to.rgh-hide-watch-and-fork-count .rgh-forked-button {
-	border-bottom-right-radius: 6px; /* Matches GitHub's default */
-	border-top-right-radius: 6px; /* Matches GitHub's default */
+@media (max-width: 1000px) {
+	.rgh-forked-to.rgh-hide-watch-and-fork-count .rgh-forked-button {
+		border-bottom-right-radius: 6px; /* Matches GitHub's default */
+		border-top-right-radius: 6px; /* Matches GitHub's default */
+	}
 }
