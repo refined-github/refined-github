@@ -30,7 +30,7 @@ export async function addAfterBranchSelector(button: Element): Promise<void> {
 	breadcrumb.classList.remove('mt-3', 'mx-2');
 	branchSelector.classList.add('mr-2', 'rgh-wrapper-added');
 	branchSelectorWrapper.classList.add('d-flex', 'flex-shrink-0');
-	wrapAll([branchSelectorWrapper, breadcrumb], <div className="d-flex flex-wrap flex-1 mr-2" style={{rowGap: '8px'}}></div>);
+	wrapAll([branchSelectorWrapper, breadcrumb], <div className="d-flex flex-wrap flex-1 mr-2" style={{rowGap: '8px'}}/>);
 }
 
 interface RepoPublishState {
