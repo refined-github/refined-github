@@ -4,15 +4,22 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLFormElement>): void {
-	if (event.key === 'Enter') {
+function onKeyDownEnter(event: delegate.Event<KeyboardEvent, HTMLFormElement>): void {
+	if (event.key === 'Enter' && !event.ctrlKey) {
 		event.preventDefault();
 		select('#issue_body, #pull_request_body, #commit-description-textarea', event.delegateTarget.form)!.focus();
 	}
 }
 
+function onKeyDownCtrlEnter(event: delegate.Event<KeyboardEvent, HTMLFormElement>): void {
+	if (event.key === 'Enter' && event.ctrlKey) {
+		event.delegateTarget.form.submit();
+	}
+}
+
 function init(): void {
-	delegate(document, 'input#issue_title, input#pull_request_title, input#commit-summary-input', 'keydown', onKeyDown);
+	delegate(document, 'input#issue_title, input#pull_request_title, input#commit-summary-input', 'keydown', onKeyDownEnter);
+	delegate(document, 'input#commit-summary-input', 'keydown', onKeyDownCtrlEnter);
 }
 
 void features.add(__filebasename, {
