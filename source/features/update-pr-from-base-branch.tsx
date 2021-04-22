@@ -93,5 +93,9 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation
 	],
+	exclude: [
+		pageDetect.isClosedPR,
+		() => select('.head-ref')!.title === 'This repository has been deleted'
+	],
 	init
 });

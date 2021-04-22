@@ -37,7 +37,7 @@ function init(): void {
 	delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails);
 	for (const anchor of select.all('md-ref')) {
 		anchor.after(
-			<button type="button" className="toolbar-item tooltipped tooltipped-n rgh-collapsible-content-btn" aria-label="Add collapsible content">
+			<button type="button" className="toolbar-item tooltipped tooltipped-sw rgh-collapsible-content-btn" aria-label="Add collapsible content">
 				<FoldDownIcon/>
 			</button>
 		);
