@@ -7,7 +7,9 @@ import features from '.';
 function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLFormElement>): void {
 	if (event.key === 'Enter') {
 		event.preventDefault();
-		select('textarea', event.delegateTarget.form)!.focus();
+		( !pageDetect.isNewFile() && !pageDetect.isEditingFile() )? 
+			select('textarea', event.delegateTarget.form)!.focus() :                    // if not isNewFile and not isEditingFile
+			select('#commit-description-textarea', event.delegateTarget.form)!.focus(); // else
 	}
 }
 
