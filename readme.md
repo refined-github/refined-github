@@ -176,7 +176,7 @@ Thanks for contributing! 🦋🙌
 - [](# "table-input") [Adds a button in the text editor to quickly insert a simplified HTML table.](https://user-images.githubusercontent.com/46634000/94559114-09892c00-0261-11eb-8fb0-c5a85ea76b6f.gif)
 - [](# "unfinished-comments") [Notifies the user of unfinished comments in hidden tabs.](https://user-images.githubusercontent.com/1402241/97792086-423d5d80-1b9f-11eb-9a3a-daf716d10b0e.gif)
 - [](# "wait-for-attachments") [Wait for the attachments to finish uploading before allowing to post a comment.](https://user-images.githubusercontent.com/46634000/104294547-9b8b0c80-54bf-11eb-93e5-65ae158353b3.gif)
-- [](# "avoid-accidental-submissions") [Re-maps the enter key to act as a tab in issue/PR/commit title fields, so it will merely move the cursor to the textarea, to avoid accidental submissions.](https://user-images.githubusercontent.com/723651/115148453-5818df00-a068-11eb-92d4-51ac6e937b8b.gif)
+- [](# "avoid-accidental-submissions") [Disables the <kbd>enter</kbd>-to-submit shortcut in some commit/PR/issue title fields to avoid accidental submissions. Use <kbd>ctrl</kbd><kbd>enter</kbd> instead.](https://user-images.githubusercontent.com/723651/115148453-5818df00-a068-11eb-92d4-51ac6e937b8b.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
