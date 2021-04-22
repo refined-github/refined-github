@@ -21,14 +21,15 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	icon.classList.add('rgh-ci-link');
 	icon.querySelector('.octicon-check')?.classList.add('v-align-middle');
 	if (onetime.callCount(getIcon) > 1) {
 		icon.style.animation = 'none';
 	}
 
 	// Append to title (aware of forks and private repos)
-	select('[itemprop="name"]')!.parentElement!.append(icon);
+	const repoNameHeader = select('[itemprop="name"]')!.parentElement!;
+	repoNameHeader.append(icon);
+	repoNameHeader.classList.add('rgh-ci-link');
 }
 
 void features.add(__filebasename, {
