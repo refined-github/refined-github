@@ -1,4 +1,4 @@
-.rgh-ci-link {
+.rgh-ci-link .commit-build-statuses {
 	animation: fade-in 0.2s;
 }
 
@@ -7,6 +7,6 @@
 }
 
 /* Adds space between `ci-link` and "Private" label, if present */
-.Label + .rgh-ci-link {
+.rgh-ci-link .Label + .commit-build-statuses {
 	margin-left: 8px;
 }
