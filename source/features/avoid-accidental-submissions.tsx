@@ -18,10 +18,9 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isNewIssue,
-		pageDetect.isCompare,
-		pageDetect.isRepo,
+		() => pageDetect.isCompare() && select.exists('#new_pull_request'),
+		pageDetect.isNewFile,
 		pageDetect.isEditingFile
 	],
-	awaitDomReady: false,
 	init
 });
