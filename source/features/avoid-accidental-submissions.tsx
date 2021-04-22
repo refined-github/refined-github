@@ -4,7 +4,11 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function onKeyDownEnter(event: delegate.Event<KeyboardEvent, HTMLFormElement>): void {
+function addQuickSubmit(): void {
+	select('input#commit-summary-input')?.classList.add('js-quick-submit');
+}
+
+function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLFormElement>): void {
 	if (event.key === 'Enter' && !event.ctrlKey) {
 		event.preventDefault();
 		select('#issue_body, #pull_request_body, #commit-description-textarea', event.delegateTarget.form)!.focus();
@@ -12,11 +16,7 @@ function onKeyDownEnter(event: delegate.Event<KeyboardEvent, HTMLFormElement>): 
 }
 
 function init(): void {
-	delegate(document, 'input#issue_title, input#pull_request_title, input#commit-summary-input', 'keydown', onKeyDownEnter);
-}
-
-function addQuickSubmit(): void {
-	select('input#commit-summary-input')?.classList.add('js-quick-submit');
+	delegate(document, 'input#issue_title, input#pull_request_title, input#commit-summary-input', 'keydown', onKeyDown);
 }
 
 void features.add(__filebasename, {
