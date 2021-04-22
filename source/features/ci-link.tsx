@@ -11,7 +11,7 @@ import {buildRepoURL} from '../github-helpers';
 const getIcon = onetime(async () => fetchDom(
 	buildRepoURL('commits'), [
 		'.commit-group:nth-of-type(-n+2) .commit-build-statuses', // Pre "Repository refresh" layout
-		'.TimelineItem--condensed:nth-of-type(-n+2) .commit-build-statuses'
+		'.TimelineItem--condensed:nth-of-type(-n+2) batch-deferred-content'
 	].join()
 ));
 
@@ -22,6 +22,7 @@ async function init(): Promise<false | void> {
 	}
 
 	icon.classList.add('rgh-ci-link');
+	icon.querySelector('.octicon-check')?.classList.add('v-align-middle');
 	if (onetime.callCount(getIcon) > 1) {
 		icon.style.animation = 'none';
 	}
