@@ -7,11 +7,7 @@ import features from '.';
 function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLFormElement>): void {
 	if (event.key === 'Enter') {
 		event.preventDefault();
-		if (!pageDetect.isNewFile() && !pageDetect.isEditingFile()) {
-			select('textarea', event.delegateTarget.form)!.focus();
-		} else {
-			select('#commit-description-textarea', event.delegateTarget.form)!.focus();
-		}
+		select('#issue_body, #pull_request_body, #commit-description-textarea', event.delegateTarget.form)!.focus();
 	}
 }
 
