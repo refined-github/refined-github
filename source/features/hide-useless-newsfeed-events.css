@@ -5,7 +5,8 @@ deleted a branch
 added someone as a collaborator
 forked a repo
 followed someone
+published a release
 */
-.rgh-hide-useless-newsfeed-events .news :is(.push, .fork, .delete, .follow) {
+.rgh-hide-useless-newsfeed-events .news :is(.push, .fork, .delete, .follow, .release) {
 	display: none !important;
 }
