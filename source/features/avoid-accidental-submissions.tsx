@@ -11,6 +11,7 @@ function onKeyDownEnter(event: delegate.Event<KeyboardEvent, HTMLFormElement>): 
 	}
 }
 
+// Add ability to submit via Ctrl+Enter in isNewFile and isEditingFile pages (was not available before)
 function onKeyDownCtrlEnter(event: delegate.Event<KeyboardEvent, HTMLFormElement>): void {
 	if (event.key === 'Enter' && event.ctrlKey) {
 		event.delegateTarget.form.submit();
