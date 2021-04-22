@@ -1,5 +1,4 @@
 {
-  "feature:more-dropdown": false,
-  "feature:bugs-tab": false,
-  "unaffected": "21.4.2"
+  "feature:ci-link": false,
+  "unaffected": "21.40.2"
 }
