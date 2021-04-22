@@ -28,6 +28,9 @@ void features.add(__filebasename, {
 	],
 	init
 }, {
+	shortcuts: {
+		'ctrl enter': 'Publish a new/edited file'
+	},
 	include: [
 		pageDetect.isNewFile,
 		pageDetect.isEditingFile
