@@ -21,7 +21,6 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	icon.querySelector('.octicon-check')?.classList.add('v-align-middle');
 	if (onetime.callCount(getIcon) > 1) {
 		icon.style.animation = 'none';
 	}
