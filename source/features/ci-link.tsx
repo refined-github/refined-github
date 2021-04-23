@@ -37,11 +37,6 @@ async function initPR(): Promise<false | void> {
 		return false;
 	}
 
-	icon.classList.add('rgh-ci-link', 'ml-2');
-	if (onetime.callCount(getPRIcon) > 1) {
-		icon.style.animation = 'none';
-	}
-
 	const headers = select.all(':is(.gh-header-title .f1-light, .js-sticky h1):not(.rgh-ci-link-heading)');
 	for (const header of headers) {
 		header.classList.add('rgh-ci-link-heading');
