@@ -21,10 +21,6 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	if (onetime.callCount(getIcon) > 1) {
-		icon.style.animation = 'none';
-	}
-
 	// Append to title (aware of forks and private repos)
 	const repoNameHeader = select('[itemprop="name"]')!.parentElement!;
 	repoNameHeader.append(icon);

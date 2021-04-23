@@ -1,5 +1,5 @@
-.rgh-ci-link .commit-build-statuses {
-	animation: fade-in 0.2s;
+.rgh-ci-link batch-deferred-content {
+	display: none!important;
 }
 
 .rgh-ci-link summary .octicon {
