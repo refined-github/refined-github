@@ -10,11 +10,13 @@ import onFragmentLoad from '../github-events/on-fragment-load';
 
 const deinit: VoidFunction[] = [];
 
-async function onButtonClick(event: delegate.Event): Promise<void> {
-	const comment = event.delegateTarget.closest<HTMLElement>('.js-comment')!;
-	await onFragmentLoad(select('include-fragment.SelectMenu-loading', comment), select('.timeline-comment-actions > details:last-of-type', comment)!);
+async function onButtonClick({delegateTarget: button}: delegate.Event): Promise<void> {
+	select('.dropdown-menu .js-comment-delete > button', button.closest<HTMLElement>('.js-comment')!)!.click();
+}
 
-	select('.dropdown-menu .js-comment-delete > button', comment)!.click();
+async function onEditButtonClick({delegateTarget: button}: delegate.Event): Promise<void> {
+	const comment = button.closest<HTMLElement>('.js-comment')!;
+	await onFragmentLoad(select('include-fragment.SelectMenu-loading', comment), select('.timeline-comment-actions > details:last-of-type', comment)!);
 }
 
 function addDeleteButton(cancelButton: Element): void {
@@ -28,10 +30,11 @@ function addDeleteButton(cancelButton: Element): void {
 
 function init(): void {
 	const listener = delegate(document, '.rgh-review-comment-delete-button', 'click', onButtonClick);
+	const editButtonListener = delegate(document, '.rgh-edit-comments-faster-button', 'click', onEditButtonClick);
 	const observer = observe('.review-comment > .unminimized-comment form:not(.js-single-suggested-change-form) .js-comment-cancel-button:not(.rgh-delete-button-added)', {
 		add: addDeleteButton
 	});
-	deinit.push(listener.destroy, observer.abort);
+	deinit.push(listener.destroy, editButtonListener.destroy, observer.abort);
 }
 
 void features.add(__filebasename, {
