@@ -46,7 +46,7 @@ function init(): void {
 					aria-haspopup="menu"
 				>
 					<div
-						className="tooltipped tooltipped-n"
+						className="tooltipped tooltipped-sw"
 						aria-label="Add a table"
 					>
 						<TableIcon/>

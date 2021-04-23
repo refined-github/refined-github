@@ -7,7 +7,7 @@ import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
 
 async function init(): Promise<void | false> {
-	const commitCount = (await elementReady<HTMLElement>('div.Box.mb-3 .octicon-git-commit'))?.nextElementSibling;
+	const commitCount = (await elementReady('div.Box.mb-3 .octicon-git-commit'))?.nextElementSibling;
 	if (!commitCount || looseParseInt(commitCount) < 2 || !select.exists('#new_pull_request')) {
 		return false;
 	}

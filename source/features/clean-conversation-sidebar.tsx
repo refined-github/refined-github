@@ -99,7 +99,7 @@ async function clean(): Promise<void> {
 	}
 
 	// Linked issues/PRs
-	select('[aria-label="Link issues"] p')!.remove(); // "Successfully merging a pull request may close this issue."
+	select('[aria-label="Link issues"] p')?.remove(); // "Successfully merging a pull request may close this issue." This may not exist if issues are disabled
 	cleanSection('[aria-label="Link issues"]');
 
 	// Projects

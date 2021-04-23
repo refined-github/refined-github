@@ -12,7 +12,7 @@ import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
 
 async function highlightBugsTabOnIssuePage(): Promise<void | false> {
-	if (await countBugs() > 0 && !await elementReady('.sidebar-labels .IssueLabel[href$="/bug" i]')) {
+	if (await countBugs() === 0 || !await elementReady('.sidebar-labels .IssueLabel[href$="/bug" i]')) {
 		return false;
 	}
 
@@ -52,7 +52,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const issuesTab = await elementReady<HTMLAnchorElement>('.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
+	const issuesTab = await elementReady('a.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
 	if (!issuesTab) {
 		// Repo is archived
 		return false;
