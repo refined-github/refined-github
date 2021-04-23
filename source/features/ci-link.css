@@ -18,10 +18,12 @@
 .gh-header-title summary > :is(.octicon-check, .octicon-dot-fill, .octicon-x) {
 	width: 24px;
 	height: 24px;
+	vertical-align: 0;
 }
 
 .js-sticky h1 summary > :is(.octicon-check, .octicon-dot-fill, .octicon-x) {
 	width: 14px;
 	height: 14px;
+	margin-left: 8px;
 	vertical-align: -1px;
 }

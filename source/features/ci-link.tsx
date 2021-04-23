@@ -27,7 +27,7 @@ const getPRIcon = onetime(async () => {
 	}
 
 	// TS bug does not allow us to directly return this 🤷‍♂️
-	const icon = select.last('.js-commits-list-item .commit-build-statuses', base);
+	const icon = select.last('.js-commits-list-item batch-deferred-content[data-url$="commits/checks-statuses-rollups"]', base);
 	return icon;
 });
 
