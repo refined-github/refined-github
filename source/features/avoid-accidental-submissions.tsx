@@ -22,7 +22,7 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isNewIssue,
-		() => pageDetect.isCompare() && select.exists('#new_pull_request'),
+		pageDetect.isCompare,
 		pageDetect.isNewFile,
 		pageDetect.isEditingFile
 	],
