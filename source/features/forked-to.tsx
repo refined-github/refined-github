@@ -52,7 +52,7 @@ async function updateUI(forks: string[]): Promise<void> {
 		forkCounter!.before(
 			<a
 				href={createLink(forks[0])}
-				className="btn btn-sm float-left rgh-forked-button"
+				className="btn btn-sm float-left rgh-forked-button rgh-forked-link"
 				title={`Open your fork at ${forks[0]}`}
 			>
 				<LinkExternalIcon/>
@@ -75,7 +75,7 @@ async function updateUI(forks: string[]): Promise<void> {
 					{forks.map(fork => (
 						<a
 							href={createLink(fork)}
-							className={`select-menu-item ${fork === getRepo()!.nameWithOwner ? 'selected' : ''}`}
+							className={`rgh-forked-link select-menu-item ${fork === getRepo()!.nameWithOwner ? 'selected' : ''}`}
 							title={`Open your fork at ${fork}`}
 						>
 							<span className="select-menu-item-icon rgh-forked-to-icon">
@@ -92,6 +92,15 @@ async function updateUI(forks: string[]): Promise<void> {
 
 async function init(): Promise<void | false> {
 	const forks = await cache.get<string[]>(getCacheKey());
+
+	// If the feature has already run on this page, only update its links
+	if (forks && select.exists('.rgh-forked-button')) {
+		for (const fork of forks) {
+			select<HTMLAnchorElement>(`.rgh-forked-link[href^="/${fork}/"]`)!.href = createLink(fork);
+		}
+		return;
+	}
+
 	if (forks) {
 		await updateUI(forks);
 	}
@@ -113,6 +122,6 @@ void features.add(__filebasename, {
 		pageDetect.isRepo
 	],
 	awaitDomReady: false,
-	deduplicate: '.rgh-forked-button', // #3945
+	deduplicate: false,
 	init
 });
