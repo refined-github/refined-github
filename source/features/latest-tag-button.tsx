@@ -19,7 +19,7 @@ import {wrapAll} from '../helpers/dom-utils';
 export async function addAfterBranchSelector(button: Element): Promise<void> {
 	const branchSelector = (await elementReady('#branch-select-menu', {waitForChildren: false}))!;
 	const branchSelectorWrapper = branchSelector.closest('.position-relative')!;
-	button.classList.add('mr-2');
+	button.classList.add('ml-2');
 	branchSelectorWrapper.append(button);
 	if (branchSelector.classList.contains('rgh-wrapper-added')) {
 		return;
@@ -27,10 +27,10 @@ export async function addAfterBranchSelector(button: Element): Promise<void> {
 
 	const breadcrumb = select('.breadcrumb')!;
 	breadcrumb.classList.add('flex-shrink-0');
-	breadcrumb.classList.remove('mt-3', 'mx-2');
-	branchSelector.classList.add('mr-2', 'rgh-wrapper-added');
+	breadcrumb.classList.remove('mt-3');
+	branchSelector.classList.add('rgh-wrapper-added');
 	branchSelectorWrapper.classList.add('d-flex', 'flex-shrink-0');
-	wrapAll([branchSelectorWrapper, breadcrumb], <div className="d-flex flex-wrap flex-1 mr-2" style={{rowGap: '8px'}}/>);
+	wrapAll([branchSelectorWrapper, breadcrumb], <div className="d-flex flex-wrap flex-1 mr-2" style={{rowGap: '16px'}}/>);
 }
 
 interface RepoPublishState {
