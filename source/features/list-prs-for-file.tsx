@@ -120,7 +120,7 @@ async function init(): Promise<void> {
 
 	if (pageDetect.isEditingFile()) {
 		select('.file')!.after(
-			<div className="form-warning p-3 mb-3 mx-lg-3">
+			<div className="form-warning p-3 mb-3 mx-lg-3 list-pr-for-file">
 				{
 					prs.length === 1 ?
 						<>Careful, PR <a href={getPRUrl(prNumber)}>#{prNumber}</a> is already touching this file</> :
@@ -153,5 +153,6 @@ void features.add(__filebasename, {
 		pageDetect.isEditingFile,
 		pageDetect.isSingleFile
 	],
+	deduplicate: '.list-pr-for-file',
 	init
 });
