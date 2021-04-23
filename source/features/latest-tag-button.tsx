@@ -10,10 +10,10 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import pluralize from '../helpers/pluralize';
 import GitHubURL from '../github-helpers/github-url';
+import {wrapAll} from '../helpers/dom-utils';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {buildRepoURL, getCurrentCommittish, getLatestVersionTag, getRepo} from '../github-helpers';
-import {wrapAll} from '../helpers/dom-utils';
 
 // eslint-disable-next-line import/prefer-default-export
 export async function addAfterBranchSelector(button: Element): Promise<void> {
