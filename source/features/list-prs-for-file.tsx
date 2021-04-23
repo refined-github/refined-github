@@ -153,6 +153,6 @@ void features.add(__filebasename, {
 		pageDetect.isEditingFile,
 		pageDetect.isSingleFile
 	],
-	deduplicate: '.rgh-list-prs-for-file',
+	deduplicate: '.rgh-list-prs-for-file', // #3945
 	init
 });

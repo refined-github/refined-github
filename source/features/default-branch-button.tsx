@@ -63,6 +63,6 @@ void features.add(__filebasename, {
 		pageDetect.isRepoHome
 	],
 	awaitDomReady: false,
-	deduplicate: '.rgh-default-branch-button',
+	deduplicate: '.rgh-default-branch-button', // #3945
 	init
 });

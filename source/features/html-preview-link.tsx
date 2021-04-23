@@ -27,6 +27,6 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isEnterprise
 	],
-	deduplicate: '.rgh-html-preview-link',
+	deduplicate: '.rgh-html-preview-link', // #3945
 	init
 });

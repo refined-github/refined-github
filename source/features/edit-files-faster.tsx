@@ -36,6 +36,6 @@ void features.add(__filebasename, {
 	additionalListeners: [
 		onFileListUpdate
 	],
-	deduplicate: '.rgh-edit-files-faster',
+	deduplicate: '.rgh-edit-files-faster', // #3945
 	init
 });
