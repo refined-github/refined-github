@@ -12,7 +12,7 @@ function init(): void {
 		.parentElement! // `BtnGroup`
 		.prepend(
 			<a
-				className="btn btn-sm BtnGroup-item html-preview-link"
+				className="btn btn-sm BtnGroup-item rgh-html-preview-link"
 				href={`https://refined-github-html-preview.kidonng.workers.dev${rawButton.pathname}`}
 			>
 				Preview
@@ -27,6 +27,6 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isEnterprise
 	],
-	deduplicate: '.html-preview-link',
+	deduplicate: '.rgh-html-preview-link',
 	init
 });
