@@ -47,7 +47,7 @@ function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElem
 	return (
 		<a
 			href={getPRUrl(prNumber)}
-			className={'btn btn-sm btn-outline flex-self-center' + (prs ? ' BtnGroup-item' : '')}
+			className={'btn btn-sm btn-outline flex-self-center rgh-list-prs-for-file' + (prs ? ' BtnGroup-item' : '')}
 		>
 			<GitPullRequestIcon/> #{prNumber}
 		</a>
@@ -120,7 +120,7 @@ async function init(): Promise<void> {
 
 	if (pageDetect.isEditingFile()) {
 		select('.file')!.after(
-			<div className="form-warning p-3 mb-3 mx-lg-3 list-pr-for-file">
+			<div className="form-warning p-3 mb-3 mx-lg-3">
 				{
 					prs.length === 1 ?
 						<>Careful, PR <a href={getPRUrl(prNumber)}>#{prNumber}</a> is already touching this file</> :
@@ -153,6 +153,6 @@ void features.add(__filebasename, {
 		pageDetect.isEditingFile,
 		pageDetect.isSingleFile
 	],
-	deduplicate: '.list-pr-for-file',
+	deduplicate: '.rgh-list-prs-for-file',
 	init
 });
