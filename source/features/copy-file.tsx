@@ -65,5 +65,6 @@ void features.add(__filebasename, {
 		pageDetect.isSingleFile,
 		pageDetect.isGist
 	],
+	deduplicate: '.rgh-copy-file', // #3945
 	init
 });

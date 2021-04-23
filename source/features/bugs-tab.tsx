@@ -12,7 +12,7 @@ import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
 
 async function highlightBugsTabOnIssuePage(): Promise<void | false> {
-	if (await countBugs() === 0 || !await elementReady('.sidebar-labels .IssueLabel[href$="/bug" i]')) {
+	if (await countBugs() === 0 || !await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]')) {
 		return false;
 	}
 
@@ -131,6 +131,6 @@ void features.add(__filebasename, {
 		pageDetect.isIssue
 	],
 	awaitDomReady: false,
-	repeatOnBackButton: true,
+	deduplicate: false,
 	init: highlightBugsTabOnIssuePage
 });

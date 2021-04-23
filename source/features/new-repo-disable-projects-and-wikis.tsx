@@ -33,7 +33,10 @@ function setStorage(): void {
 async function init(): Promise<void> {
 	await api.expectToken();
 
-	select.last('.js-repo-init-setting-container')!.after(
+	select.last([
+		'.js-repo-init-setting-container', // IsNewRepo
+		'.form-checkbox' // IsNewRepoTemplate
+	])!.after(
 		<div className="form-checkbox checked mt-0 mb-3">
 			<label>
 				<input
@@ -48,12 +51,13 @@ async function init(): Promise<void> {
 		</div>
 	);
 
-	delegate(document, '#new_repository', 'submit', setStorage);
+	delegate(document, '#new_repository, #new_new_repository', 'submit', setStorage);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isNewRepo
+		pageDetect.isNewRepo,
+		pageDetect.isNewRepoTemplate
 	],
 	init
 }, {

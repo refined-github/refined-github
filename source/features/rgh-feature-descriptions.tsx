@@ -99,7 +99,7 @@ async function init(): Promise<void | false> {
 	commitInfoBox.classList.remove('flex-shrink-0');
 
 	const featureInfoBox = (
-		<div className="Box" style={{flex: '0 1 544px'}}>
+		<div className="Box rgh-feature-description" style={{flex: '0 1 544px'}}>
 			<div className="Box-row d-flex height-full">
 				{feature.screenshot && (
 					<a href={feature.screenshot} className="flex-self-center">
@@ -136,5 +136,6 @@ void features.add(__filebasename, {
 		() => /refined-github\/blob\/.+?\/source\/features\/[\w.-]+$/.test(location.pathname)
 	],
 	awaitDomReady: false,
+	deduplicate: '.rgh-feature-description', // #3945
 	init
 });

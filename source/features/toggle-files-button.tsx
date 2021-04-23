@@ -54,6 +54,6 @@ void features.add(__filebasename, {
 		pageDetect.isRepoTree
 	],
 	awaitDomReady: false,
-	repeatOnBackButton: true,
+	deduplicate: false,
 	init
 });
