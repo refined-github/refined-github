@@ -25,7 +25,7 @@ void features.add(__filebasename, {
 		pageDetect.isSingleFile
 	],
 	awaitDomReady: false,
-	repeatOnBackButton: true,
+	deduplicate: false,
 	init,
 	deinit
 });

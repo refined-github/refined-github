@@ -144,5 +144,6 @@ void features.add(__filebasename, {
 		pageDetect.isSingleFile
 	],
 	awaitDomReady: false,
+	deduplicate: '.rgh-latest-tag-button', // #3945
 	init
 });

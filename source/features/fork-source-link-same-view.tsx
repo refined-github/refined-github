@@ -16,7 +16,8 @@ async function init(): Promise<void> {
 	});
 
 	if (await doesFileExist(sameViewUrl)) {
-		select<HTMLAnchorElement>(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`)!.pathname = sameViewUrl.pathname;
+		select<HTMLAnchorElement>(`[data-hovercard-url="/${getForkedRepo()!}/hovercard"]`)!
+			.pathname = sameViewUrl.pathname;
 	}
 }
 
@@ -30,5 +31,6 @@ void features.add(__filebasename, {
 		() => !pageDetect.isForkedRepo(),
 		pageDetect.isRepoRoot
 	],
+	deduplicate: false,
 	init
 });

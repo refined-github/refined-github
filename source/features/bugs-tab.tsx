@@ -131,6 +131,6 @@ void features.add(__filebasename, {
 		pageDetect.isIssue
 	],
 	awaitDomReady: false,
-	repeatOnBackButton: true,
+	deduplicate: false,
 	init: highlightBugsTabOnIssuePage
 });
