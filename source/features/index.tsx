@@ -80,7 +80,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		return;
 	}
 
-	if (document.title === 'Confirm password') {
+	if (document.title === 'Confirm password' || document.title === 'Confirm access') {
 		return;
 	}
 
