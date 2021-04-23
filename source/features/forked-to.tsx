@@ -98,6 +98,7 @@ async function init(): Promise<void | false> {
 		for (const fork of forks) {
 			select<HTMLAnchorElement>(`.rgh-forked-link[href^="/${fork}/"]`)!.href = createLink(fork);
 		}
+
 		return;
 	}
 
