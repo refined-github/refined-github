@@ -1,3 +1,4 @@
+import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -19,6 +20,5 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleFile
 	],
-	deduplicate: false,
-	init
+	init: onetime(init)
 });
