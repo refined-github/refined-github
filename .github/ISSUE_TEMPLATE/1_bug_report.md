@@ -1,6 +1,6 @@
 ---
 name: Report a bug
-about: 🐛🐛🐛
+  about: ———
 labels: bug
 ---
 
