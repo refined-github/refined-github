@@ -1,6 +1,5 @@
 ---
-name: Feature request
-about: Suggest an idea for Refined GitHub
+name: Suggest new feature or improvement
 labels: enhancement, under discussion
 ---
 
