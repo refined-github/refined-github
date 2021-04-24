@@ -1,6 +1,6 @@
 ---
 name: Suggest an improvement or new feature
-about: 🆕🆕🆕
+about: ———
 labels: enhancement, under discussion
 ---
 
