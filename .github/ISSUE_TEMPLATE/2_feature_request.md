@@ -1,5 +1,6 @@
 ---
-name: Suggest new feature or improvement
+name: Suggest an improvement or new feature
+about: 🆕🆕🆕
 labels: enhancement, under discussion
 ---
 
