@@ -1,5 +1,5 @@
 ---
 name: Ask a question or open a discussion
-about: 🙋‍♂️🙋‍♀️🙋
+about: ———
 labels: under discussion
 ---
