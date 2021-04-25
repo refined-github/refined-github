@@ -38,11 +38,11 @@ async function init(): Promise<void | false> {
 		return;
 	}
 
-	const stickyHeader = readmeHeader.closest('.js-sticky .d-flex');
-	(stickyHeader ?? readmeHeader).after(
+	const headerContainer = readmeHeader.closest('.d-flex.flex-items-center')!;
+	headerContainer.after(
 		<a
 			href={String(url)}
-			className={`${stickyHeader ? 'm-0 p-2' : 'Box-btn-octicon'} btn-octicon float-right`}
+			className={`${headerContainer.parentElement!.classList.contains('js-sticky') ? 'p-2' : 'Box-btn-octicon'} btn-octicon`}
 			aria-label="Edit this file"
 		>
 			<PencilIcon/>
