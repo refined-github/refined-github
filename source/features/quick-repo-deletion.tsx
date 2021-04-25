@@ -42,7 +42,7 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 	buttonContainer.addEventListener('toggle', () => {
 		abortController.abort();
 	}, {once: true});
-
+	// eslint-disable-next-line promise/prefer-await-to-then
 	void api.expectTokenScope('delete_repo').catch((error: Error) => {
 		abortController.abort();
 		buttonContainer.open = false;

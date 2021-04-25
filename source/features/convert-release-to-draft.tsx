@@ -13,7 +13,7 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event): Pr
 
 		const tagName = location.pathname.split('/').pop()!;
 		const release = await api.v3(`releases/tags/${tagName}`);
-		await api.v3(release.url, {
+		await api.v3(String(release.url), {
 			method: 'PATCH',
 			body: {
 				draft: true

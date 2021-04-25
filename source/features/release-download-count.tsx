@@ -31,15 +31,15 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 	`);
 
 	const assets: Tag = {};
-	for (const [tag, release] of Object.entries(repository)) {
-		assets[tag] = (release as AnyObject).releaseAssets.nodes;
+	for (const [tag, release] of Object.entries<AnyObject>(repository)) {
+		assets[tag] = release.releaseAssets.nodes;
 	}
 
 	return assets;
 }
 
 async function init(): Promise<void | false> {
-	const releases = new Map();
+	const releases = new Map<string, HTMLElement>();
 	for (const release of select.all('.release')) {
 		if (select.exists('.octicon-package', release)) {
 			const name = select('svg.octicon-tag ~ span', release)!.textContent!;

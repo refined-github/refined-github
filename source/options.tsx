@@ -6,6 +6,7 @@ import domify from 'doma';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
+import {JsonObject} from 'type-fest';
 import * as indentTextarea from 'indent-textarea';
 
 import {perDomainOptions} from './options-storage';
@@ -53,8 +54,8 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 	});
 
 	if (!response.ok) {
-		const details = await response.json();
-		throw new Error(details.message);
+		const details: JsonObject = await response.json();
+		throw new Error(String(details.message));
 	}
 
 	const scopes = response.headers.get('X-OAuth-Scopes')!.split(', ');
