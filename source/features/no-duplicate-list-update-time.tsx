@@ -9,7 +9,7 @@ function parseTime(element: HTMLElement): number {
 
 function init(): void {
 	for (const issue of select.all('.js-navigation-item[id^="issue_"]')) {
-		const [stateChangeTime, updateTime] = select.all('relative-time', issue);
+		const [stateChangeTime, updateTime] = select.all<'relative-time'>('relative-time', issue);
 		if (parseTime(updateTime) - parseTime(stateChangeTime) < 10000) { // Hide if within 10 seconds
 			updateTime.parentElement!.remove();
 		}

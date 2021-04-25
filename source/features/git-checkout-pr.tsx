@@ -65,7 +65,7 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-git-checkout'); // Mark this as processed
-	const tabContainer = select('[action="/users/checkout-preference"]', dropdown)!.closest<HTMLElement>('tab-container')!;
+	const tabContainer = select('[action="/users/checkout-preference"]', dropdown)!.closest('tab-container')!;
 	tabContainer.style.minWidth = '370px';
 	select('.UnderlineNav-body', tabContainer)!.append(
 		<button

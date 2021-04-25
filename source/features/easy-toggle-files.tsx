@@ -5,7 +5,7 @@ import features from '.';
 
 function toggleFile(event: MouseEvent): void {
 	const elementClicked = event.target as HTMLElement;
-	const headerBar = elementClicked.closest<HTMLElement>('.file-header')!;
+	const headerBar = elementClicked.closest('.file-header')!;
 
 	// The clicked element is either the bar itself or one of its 2 children
 	if (elementClicked === headerBar || elementClicked.parentElement === headerBar) {

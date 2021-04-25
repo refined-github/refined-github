@@ -37,7 +37,7 @@ const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 function getBestComment(): HTMLElement | undefined {
 	let highest;
 	for (const reaction of select.all(positiveReactionsSelector)) {
-		const comment = reaction.closest<HTMLElement>(commentSelector)!;
+		const comment = reaction.closest(commentSelector)!;
 		const positiveReactions = getPositiveReactions(comment);
 		if (positiveReactions && (!highest || positiveReactions > highest.count)) {
 			highest = {comment, count: positiveReactions};
