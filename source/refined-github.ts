@@ -219,6 +219,7 @@ import './features/view-last-pr-deployment';
 import './features/global-search-filters';
 import './features/clean-header-search-field';
 import './features/avoid-accidental-submissions';
+import './features/delete-review-comments-faster';
 
 // Add global for easier debugging
 (window as any).select = select;
