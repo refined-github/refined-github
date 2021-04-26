@@ -67,7 +67,7 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 		);
 	}
 
-	const trackableElement = commentReactions.closest('[data-body-version]')!;
+	const trackableElement = commentReactions.closest<HTMLElement>('[data-body-version]')!;
 	const trackingSelector = `[data-body-version="${trackableElement.dataset.bodyVersion!}"]`;
 	await onReplacedElement(trackingSelector, init);
 }
