@@ -1,5 +1,5 @@
-.rgh-ci-link {
-	animation: fade-in 0.2s;
+.rgh-ci-link batch-deferred-content {
+	display: none !important;
 }
 
 .rgh-ci-link summary .octicon {
@@ -7,6 +7,6 @@
 }
 
 /* Adds space between `ci-link` and "Private" label, if present */
-.Label + .rgh-ci-link {
+.rgh-ci-link .Label + .commit-build-statuses {
 	margin-left: 8px;
 }

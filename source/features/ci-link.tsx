@@ -11,7 +11,7 @@ import {buildRepoURL} from '../github-helpers';
 const getIcon = onetime(async () => fetchDom(
 	buildRepoURL('commits'), [
 		'.commit-group:nth-of-type(-n+2) .commit-build-statuses', // Pre "Repository refresh" layout
-		'.TimelineItem--condensed:nth-of-type(-n+2) .commit-build-statuses'
+		'.TimelineItem--condensed:nth-of-type(-n+2) batch-deferred-content[data-url$="checks-statuses-rollups"]'
 	].join()
 ));
 
@@ -21,13 +21,10 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	icon.classList.add('rgh-ci-link');
-	if (onetime.callCount(getIcon) > 1) {
-		icon.style.animation = 'none';
-	}
-
 	// Append to title (aware of forks and private repos)
-	select('[itemprop="name"]')!.parentElement!.append(icon);
+	const repoNameHeader = select('[itemprop="name"]')!.parentElement!;
+	repoNameHeader.append(icon);
+	repoNameHeader.classList.add('rgh-ci-link');
 }
 
 void features.add(__filebasename, {

@@ -23,8 +23,10 @@ interface FeatureLoader extends Partial<InternalRunConfig> {
 	/** Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true */
 	awaitDomReady?: false;
 
-	/** When pressing the back button, the DOM and listeners are still there, so normally `init` isn’t called again. If this is true, it’s called anyway.  @default false */
-	repeatOnBackButton?: true;
+	/** When pressing the back button, DOM changes and listeners are still there, so normally `init` isn’t called again thanks to an automatic duplicate detection.
+	This detection however might cause problems or not work correctly in some cases #3945, so it can be disabled with `false` or by passing a custom selector to use as duplication check
+	@default true */
+	deduplicate?: false | string;
 
 	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
 	onlyAdditionalListeners?: true;
@@ -224,7 +226,7 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 			init,
 			deinit,
 			awaitDomReady = true,
-			repeatOnBackButton = false,
+			deduplicate = 'has-rgh',
 			onlyAdditionalListeners = false,
 			additionalListeners = []
 		} = loader;
@@ -252,7 +254,7 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 		}
 
 		document.addEventListener('pjax:end', () => {
-			if (repeatOnBackButton || !select.exists('has-rgh')) {
+			if (!deduplicate || !select.exists(deduplicate)) {
 				void setupPageLoad(id, details);
 			}
 		});

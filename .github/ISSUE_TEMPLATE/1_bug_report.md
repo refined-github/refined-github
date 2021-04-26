@@ -1,6 +1,6 @@
 ---
-name: Bug report
-about: Report a bug you encountered using Refined GitHub
+name: Report a bug
+about: ———
 labels: bug
 ---
 
