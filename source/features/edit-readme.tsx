@@ -10,13 +10,10 @@ import {isPermalink} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void | false> {
-	const readmeHeader = await elementReady('#readme .Box-title');
-	if (!readmeHeader) {
-		return false;
-	}
+	const readmeHeader = (await elementReady('#readme :is(.Box-header, .js-sticky)'))!;
 
 	const isPermalink_ = await isPermalink();
-	const filename = readmeHeader.textContent!.trim();
+	const filename = select('[href="#readme"]')!.textContent!.trim();
 	const fileLink = select<HTMLAnchorElement>(`.js-navigation-open[title="${filename}"]`)!;
 
 	const url = new GitHubURL(fileLink.href).assign({
@@ -33,11 +30,10 @@ async function init(): Promise<void | false> {
 		return;
 	}
 
-	const headerContainer = readmeHeader.closest('.d-flex.flex-items-center')!;
-	headerContainer.after(
+	readmeHeader.append(
 		<a
 			href={String(url)}
-			className={`${headerContainer.parentElement!.classList.contains('js-sticky') ? 'p-2' : 'Box-btn-octicon'} btn-octicon`}
+			className={`${readmeHeader.matches('.js-sticky') ? 'p-2' : 'Box-btn-octicon'} btn-octicon`}
 			aria-label="Edit this file"
 		>
 			<PencilIcon/>
