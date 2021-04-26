@@ -158,7 +158,7 @@ function featuresFilterHandler(event: Event): void {
 
 async function highlightNewFeatures(): Promise<void> {
 	const {featuresAlreadySeen} = await browser.storage.local.get({featuresAlreadySeen: {}});
-	const isFirstVisit = Object.keys(featuresAlreadySeen).length === 0;
+	const isFirstVisit = Object.keys(featuresAlreadySeen as AnyObject).length === 0;
 	const tenDaysAgo = Date.now() - (10 * 24 * 60 * 60 * 1000);
 
 	for (const feature of select.all('.feature [type=checkbox]')) {
