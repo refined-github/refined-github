@@ -213,13 +213,13 @@ import './features/rgh-sponsor-button';
 import './features/rgh-linkify-features';
 import './features/collapse-markdown-sections';
 import './features/conversation-activity-filter';
-import './features/delete-review-comments-faster';
 import './features/select-all-notifications-shortcut';
 import './features/no-duplicate-list-update-time';
 import './features/view-last-pr-deployment';
 import './features/global-search-filters';
 import './features/clean-header-search-field';
 import './features/avoid-accidental-submissions';
+import './features/delete-review-comments-faster';
 
 // Add global for easier debugging
 (window as any).select = select;

@@ -6,20 +6,20 @@ import {TrashIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onFragmentLoad from '../github-events/on-fragment-load';
+import loadDetailsMenu from '../github-helpers/load-details-menu';
 
 const deinit: VoidFunction[] = [];
 
 async function onButtonClick({delegateTarget: button}: delegate.Event): Promise<void> {
 	button
-		  .closest('.js-comment')!
-		  .querySelector('.dropdown-menu .js-comment-delete > button')!
-		  .click();
+		.closest('.js-comment')!
+		.querySelector('.show-more-popover .js-comment-delete > button')!
+		.click();
 }
 
 async function onEditButtonClick({delegateTarget: button}: delegate.Event): Promise<void> {
-	const comment = button.closest<HTMLElement>('.js-comment')!;
-	await onFragmentLoad(select('include-fragment.SelectMenu-loading', comment), select('.timeline-comment-actions > details:last-of-type', comment)!);
+	const comment = button.closest('.js-comment')!;
+	await loadDetailsMenu(select('details-menu.show-more-popover', comment)!);
 }
 
 function addDeleteButton(cancelButton: Element): void {
