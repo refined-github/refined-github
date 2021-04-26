@@ -49,7 +49,7 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 		// Check if the ref was deleted, since the result includes pr's that are not in fact related to this branch but rather to the branch name.
 		const headRefWasDeleted = prInfo?.timelineItems.nodes[0]?.__typename === 'HeadRefDeletedEvent';
 		if (prInfo && !headRefWasDeleted) {
-			prInfo.state = prInfo.isDraft && prInfo.state === 'OPEN' ? 'Draft' : upperCaseFirst(prInfo.state);
+			prInfo.state = prInfo.isDraft && upperCaseFirst(prInfo.state) === 'Open' ? 'Draft' : upperCaseFirst(prInfo.state) as keyof typeof stateClass;
 			pullRequests[name] = prInfo;
 		}
 	}
