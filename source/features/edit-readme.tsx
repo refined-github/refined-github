@@ -12,6 +12,11 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 async function init(): Promise<void | false> {
 	const readmeHeader = (await elementReady('#readme :is(.Box-header, .js-sticky)'))!;
 
+	// The button already exists on repos you can push to
+	if (select.exists('[aria-label="Edit this file"]', readmeHeader)) {
+		return false;
+	}
+
 	const isPermalink_ = await isPermalink();
 	const filename = select('[href="#readme"]')!.textContent!.trim();
 	const fileLink = select<HTMLAnchorElement>(`.js-navigation-open[title="${filename}"]`)!;
@@ -22,12 +27,6 @@ async function init(): Promise<void | false> {
 
 	if (isPermalink_) {
 		url.branch = await getDefaultBranch(); // Permalinks can't be edited
-	}
-
-	// The button already exists on repos you can push to.
-	const existingButton = select('a[aria-label="Edit this file"]');
-	if (existingButton) {
-		return;
 	}
 
 	readmeHeader.append(
