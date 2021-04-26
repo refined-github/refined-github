@@ -151,7 +151,7 @@ pr-branches
 }
 
 /* Correct spacing between "Edit" and "Open with" button on PR page */
-.gh-header-actions [aria-label="Edit Pull Request title"] {
+.gh-header-actions [aria-label='Edit Pull Request title'] {
 	margin-left: 4px !important;
 	margin-right: 4px !important;
 }
