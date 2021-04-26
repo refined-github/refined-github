@@ -14,18 +14,17 @@ function init(): void | false {
 		return false;
 	}
 
-	const headRow = select(':scope > thead > tr', table)!;
-	const bodyRows = select.all(':scope > tbody > tr', table);
-	if (bodyRows.length !== 1 || headRow.childElementCount !== bodyRows[0].childElementCount) {
-		return false;
-	}
-
 	const headers = select.all(':scope > thead th', table);
 	if (headers.length <= 4) {
 		return false;
 	}
 
-	const values = select.all(':scope > tbody > tr > td', table);
+	const rows = select.all(':scope > tbody > tr', table);
+	const values = [...rows[0]?.children];
+	if (rows.length !== 1 || headers.length !== values.length) {
+		return false;
+	}
+
 	table.replaceWith(
 		<table className="rgh-vertical-front-matter-table">
 			<tbody>
