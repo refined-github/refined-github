@@ -30,11 +30,6 @@ async function init(): Promise<void | false> {
 	// The button already exists on repos you can push to.
 	const existingButton = select('a[aria-label="Edit this file"]');
 	if (existingButton) {
-		if (isPermalink_) {
-			// GitHub has a broken link in this case #2997
-			existingButton.href = String(url);
-		}
-
 		return;
 	}
 
