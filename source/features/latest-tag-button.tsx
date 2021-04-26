@@ -17,9 +17,14 @@ import {buildRepoURL, getCurrentCommittish, getLatestVersionTag, getRepo} from '
 
 // eslint-disable-next-line import/prefer-default-export
 export async function addAfterBranchSelector(button: Element): Promise<void> {
+	button.classList.add('ml-2');
 	const branchSelector = (await elementReady('#branch-select-menu', {waitForChildren: false}))!;
 	const branchSelectorWrapper = branchSelector.closest('.position-relative')!;
-	button.classList.add('ml-2');
+	if (!select.exists('.breadcrumb')) {
+		branchSelectorWrapper.after(button);
+		return;
+	}
+
 	branchSelectorWrapper.append(button);
 	if (branchSelector.classList.contains('rgh-wrapper-added')) {
 		return;
