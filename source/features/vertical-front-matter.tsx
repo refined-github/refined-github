@@ -20,11 +20,11 @@ function init(): void | false {
 	}
 
 	const rows = select.all(':scope > tbody > tr', table);
-	const values = [...rows[0]?.children];
-	if (rows.length !== 1 || headers.length !== values.length) {
+	if (rows.length !== 1 || headers.length !== rows[0].childElementCount) {
 		return false;
 	}
 
+	const values = [...rows[0].children];
 	table.replaceWith(
 		<table className="rgh-vertical-front-matter-table">
 			<tbody>
