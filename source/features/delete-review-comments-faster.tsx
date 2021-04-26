@@ -11,7 +11,10 @@ import onFragmentLoad from '../github-events/on-fragment-load';
 const deinit: VoidFunction[] = [];
 
 async function onButtonClick({delegateTarget: button}: delegate.Event): Promise<void> {
-	select('.dropdown-menu .js-comment-delete > button', button.closest<HTMLElement>('.js-comment')!)!.click();
+	button
+		  .closest('.js-comment')!
+		  .querySelector('.dropdown-menu .js-comment-delete > button')!
+		  .click();
 }
 
 async function onEditButtonClick({delegateTarget: button}: delegate.Event): Promise<void> {
