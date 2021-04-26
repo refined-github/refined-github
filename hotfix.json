@@ -1,4 +1,5 @@
 {
   "feature:ci-link": false,
+  "feature:fit-textareas": false,
   "unaffected": "21.40.2"
 }
