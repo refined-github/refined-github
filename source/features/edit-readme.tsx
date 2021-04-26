@@ -10,13 +10,15 @@ import {isPermalink} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void | false> {
-	const readmeHeader = await elementReady('#readme .Box-title');
-	if (!readmeHeader) {
+	const readmeHeader = (await elementReady('#readme :is(.Box-header, .js-sticky)'))!;
+
+	// The button already exists on repos you can push to
+	if (select.exists('[aria-label="Edit this file"]', readmeHeader)) {
 		return false;
 	}
 
 	const isPermalink_ = await isPermalink();
-	const filename = readmeHeader.textContent!.trim();
+	const filename = select('[href="#readme"]')!.textContent!.trim();
 	const fileLink = select<HTMLAnchorElement>(`.js-navigation-open[title="${filename}"]`)!;
 
 	const url = new GitHubURL(fileLink.href).assign({
@@ -27,22 +29,10 @@ async function init(): Promise<void | false> {
 		url.branch = await getDefaultBranch(); // Permalinks can't be edited
 	}
 
-	// The button already exists on repos you can push to.
-	const existingButton = select('a[aria-label="Edit this file"]');
-	if (existingButton) {
-		if (isPermalink_) {
-			// GitHub has a broken link in this case #2997
-			existingButton.href = String(url);
-		}
-
-		return;
-	}
-
-	const stickyHeader = readmeHeader.closest('.js-sticky .d-flex');
-	(stickyHeader ?? readmeHeader).after(
+	readmeHeader.append(
 		<a
 			href={String(url)}
-			className={`${stickyHeader ? 'm-0 p-2' : 'Box-btn-octicon'} btn-octicon float-right`}
+			className={`${readmeHeader.matches('.js-sticky') ? 'p-2' : 'Box-btn-octicon'} btn-octicon`}
 			aria-label="Edit this file"
 		>
 			<PencilIcon/>
