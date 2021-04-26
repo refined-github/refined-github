@@ -18,6 +18,16 @@ interface RepoPublishState {
 	aheadBy?: number;
 }
 
+interface Tags {
+	name: string;
+	tag: {
+		oid: string;
+		commit?: {
+			oid: string;
+		};
+	};
+}
+
 const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> => {
 	const {repository} = await api.v4(`
 		repository() {
@@ -58,7 +68,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	}
 
 	const tags = new Map<string, string>();
-	for (const node of repository.refs.nodes) {
+	for (const node of repository.refs.nodes as Tags[]) {
 		tags.set(node.name, node.tag.commit?.oid ?? node.tag.oid);
 	}
 

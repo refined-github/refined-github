@@ -60,7 +60,7 @@ function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElem
 const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> => {
 	const {repository} = await api.v4(`
 		repository() {
-			pullRequests(
+			pullRequests (
 				first: 25,
 				states: OPEN,
 				baseRefName: "${await getDefaultBranch()}",

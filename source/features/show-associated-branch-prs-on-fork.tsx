@@ -10,6 +10,9 @@ import * as api from '../github-helpers/api';
 import {getRepo, upperCaseFirst} from '../github-helpers';
 
 interface PullRequest {
+	timelineItems: {
+		nodes: AnyObject;
+	};
 	number: number;
 	state: keyof typeof stateClass;
 	isDraft: boolean;
@@ -42,7 +45,7 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 
 	const pullRequests: Record<string, PullRequest> = {};
 	for (const {name, associatedPullRequests} of repository.refs.nodes) {
-		const [prInfo] = associatedPullRequests.nodes;
+		const [prInfo] = associatedPullRequests.nodes as PullRequest[];
 		// Check if the ref was deleted, since the result includes pr's that are not in fact related to this branch but rather to the branch name.
 		const headRefWasDeleted = prInfo?.timelineItems.nodes[0]?.__typename === 'HeadRefDeletedEvent';
 		if (prInfo && !headRefWasDeleted) {
