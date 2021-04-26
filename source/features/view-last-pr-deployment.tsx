@@ -14,10 +14,9 @@ function init(): void {
 	}
 
 	const {href} = select.last<HTMLAnchorElement>(deploymentSelector)!;
-	const headerActions = select('.gh-header-actions')!;
-	headerActions.prepend(
+	select('.gh-header-actions')!.prepend(
 		<a
-			className={`rgh-last-deployment btn btn-sm d-none d-md-block ${select.exists('[aria-label="Edit Pull Request title"]', headerActions) ? 'mr-1' : ''}`}
+			className="rgh-last-deployment btn btn-sm d-none d-md-block mr-1"
 			href={href}
 			target="_blank"
 			rel="noreferrer"
