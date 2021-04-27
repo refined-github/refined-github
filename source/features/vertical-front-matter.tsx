@@ -9,15 +9,24 @@ import features from '.';
 const hasFrontMatter = (): boolean => pageDetect.isSingleFile() && /\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee)$/.test(location.pathname);
 
 function init(): void | false {
-	const table = select('[data-table-type="yaml-metadata"]')!;
+	const table = select('.markdown-body > table:first-child');
+	if (!table) {
+		return false;
+	}
+
 	const headers = select.all(':scope > thead th', table);
 	if (headers.length <= 4) {
 		return false;
 	}
 
-	const values = select.all(':scope > tbody > tr > td', table);
+	const rows = select.all(':scope > tbody > tr', table);
+	if (rows.length !== 1 || headers.length !== rows[0].childElementCount) {
+		return false;
+	}
+
+	const values = [...rows[0].children];
 	table.replaceWith(
-		<table className="rgh-vertical-front-matter-table" data-table-type="yaml-metadata">
+		<table className="rgh-vertical-front-matter-table">
 			<tbody>
 				{headers.map((cell, index) => (
 					<tr>
