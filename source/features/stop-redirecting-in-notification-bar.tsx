@@ -3,13 +3,9 @@ import delegate from 'delegate-it';
 
 import features from '.';
 
-interface SessionStorage extends Storage {
-	notification_shelf: string;
-}
-
 const hasNotificationBar = (): boolean =>
 	location.search.startsWith('?notification_referrer_id=') ||
-	JSON.parse((sessionStorage as SessionStorage).notification_shelf ?? '{}').pathname === location.pathname;
+	JSON.parse(sessionStorage.getItem('.notification_shelf') ?? '{}').pathname === location.pathname;
 
 function handleClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	// Disable the redirect to the Notifications inbox if either:
