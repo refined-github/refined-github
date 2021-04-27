@@ -6,7 +6,6 @@ import domify from 'doma';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
-import {JsonObject} from 'type-fest';
 import * as indentTextarea from 'indent-textarea';
 
 import {perDomainOptions} from './options-storage';
@@ -54,8 +53,8 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 	});
 
 	if (!response.ok) {
-		const details: JsonObject = await response.json();
-		throw new Error(String(details.message));
+		const details = await response.json();
+		throw new Error(details.message);
 	}
 
 	const scopes = response.headers.get('X-OAuth-Scopes')!.split(', ');
@@ -158,7 +157,7 @@ function featuresFilterHandler(event: Event): void {
 
 async function highlightNewFeatures(): Promise<void> {
 	const {featuresAlreadySeen} = await browser.storage.local.get({featuresAlreadySeen: {}});
-	const isFirstVisit = Object.keys(featuresAlreadySeen as AnyObject).length === 0;
+	const isFirstVisit = Object.keys(featuresAlreadySeen).length === 0;
 	const tenDaysAgo = Date.now() - (10 * 24 * 60 * 60 * 1000);
 
 	for (const feature of select.all('.feature [type=checkbox]')) {
