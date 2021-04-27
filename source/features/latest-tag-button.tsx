@@ -20,7 +20,8 @@ export async function addAfterBranchSelector(button: Element): Promise<void> {
 	button.classList.add('ml-2');
 	const branchSelector = (await elementReady('#branch-select-menu', {waitForChildren: false}))!;
 	const branchSelectorWrapper = branchSelector.closest('.position-relative')!;
-	if (!select.exists('.breadcrumb')) {
+	const breadcrumb = select('.breadcrumb');
+	if (!breadcrumb) {
 		branchSelectorWrapper.after(button);
 		return;
 	}
@@ -30,7 +31,6 @@ export async function addAfterBranchSelector(button: Element): Promise<void> {
 		return;
 	}
 
-	const breadcrumb = select('.breadcrumb')!;
 	breadcrumb.classList.add('flex-shrink-0');
 	breadcrumb.classList.remove('mt-3');
 	branchSelector.classList.add('rgh-wrapper-added');
