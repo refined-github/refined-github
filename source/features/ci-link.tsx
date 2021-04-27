@@ -16,7 +16,7 @@ const getIcon = onetime(async () => fetchDom(
 ));
 
 async function init(): Promise<false | void> {
-	const icon = await getIcon() as HTMLElement | undefined;
+	const icon = await getIcon();
 	if (!icon) {
 		return false;
 	}
