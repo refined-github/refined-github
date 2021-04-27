@@ -171,7 +171,7 @@ const checkForHotfixes = cache.function(async () => {
 
 	// eslint-disable-next-line @typescript-eslint/prefer-optional-chain -- https://github.com/typescript-eslint/typescript-eslint/issues/1893
 	if (hotfixes && hotfixes.unaffected) {
-		const currentVersion: string = browser.runtime.getManifest().version;
+		const currentVersion = browser.runtime.getManifest().version;
 		if (compareVersions(hotfixes.unaffected, currentVersion) < 1) {
 			return {};
 		}
