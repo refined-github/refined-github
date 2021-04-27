@@ -23,7 +23,7 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 		throw new TypeError(`Expected pathname starting with /, got "${pathname}"`);
 	}
 
-	const [, _user, _repo, type, unslashedCommittish] = pathname.split('/');
+	const [type, unslashedCommittish] = pathname.split('/').slice(3);
 	if (!type || !typesWithCommittish.has(type)) {
 		// Root; or piece of information not applicable to the page
 		return;

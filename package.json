@@ -120,7 +120,7 @@
 		"typescript": "^4.2.4",
 		"webpack": "^5.35.1",
 		"webpack-cli": "^4.6.0",
-		"xo": "^0.38.2"
+		"xo": "^0.39.1"
 	},
 	"engines": {
 		"node": ">= 15",

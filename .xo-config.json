@@ -16,6 +16,7 @@
 		"no-void": "off",
 		"react/jsx-key": "off",
 		"unicorn/no-array-callback-reference": "off",
+		"@typescript-eslint/no-unsafe-argument": "off",
 		"@typescript-eslint/no-non-null-assertion": "off",
 		"@typescript-eslint/no-non-null-asserted-optional-chain": "off",
 		"@typescript-eslint/no-extra-non-null-assertion": "error",
