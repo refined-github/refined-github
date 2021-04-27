@@ -149,3 +149,9 @@ pr-branches
 	box-shadow: var(--color-toast-shadow);
 	z-index: 2147483647;
 }
+
+/* Space out "Edit" and "Open with" buttons on PR page, also for `view-last-pr-deployment` #4281 */
+.gh-header-actions [aria-label='Edit Pull Request title'] {
+	margin-left: 4px !important;
+	margin-right: 4px !important;
+}
