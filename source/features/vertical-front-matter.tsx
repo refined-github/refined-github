@@ -20,7 +20,7 @@ function init(): void | false {
 	}
 
 	const rows = select.all(':scope > tbody > tr', table);
-	if (rows.length !== 1) {
+	if (rows.length !== 1 || headers.length !== rows[0].childElementCount) {
 		return false;
 	}
 
