@@ -8,6 +8,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {buildRepoURL, getRepo} from '../github-helpers';
+import {addAfterBranchSelector} from './latest-tag-button';
 
 function getPRUrl(prNumber: number): string {
 	return buildRepoURL('pull', prNumber, 'files');
@@ -16,7 +17,7 @@ function getPRUrl(prNumber: number): string {
 function getDropdown(prs: number[]): HTMLElement {
 	// Markup copied from https://primer.style/css/components/dropdown
 	return (
-		<details className="ml-2 dropdown details-reset details-overlay d-inline-block flex-self-center">
+		<details className="dropdown details-reset details-overlay d-inline-block flex-self-center">
 			<summary aria-haspopup="true" className="btn btn-sm">
 				<GitPullRequestIcon/> {prs.length} <div className="dropdown-caret"/>
 			</summary>
@@ -138,14 +139,14 @@ async function init(): Promise<void> {
 	}
 
 	if (prs.length > 1) {
-		select('.breadcrumb')!.before(getDropdown(prs));
+		await addAfterBranchSelector(getDropdown(prs));
 		return;
 	}
 
 	const link = getSingleButton(prNumber);
-	link.classList.add('ml-2', 'tooltipped', 'tooltipped-ne');
+	link.classList.add('tooltipped', 'tooltipped-ne');
 	link.setAttribute('aria-label', `This file is touched by PR #${prNumber}`);
-	select('.breadcrumb')!.before(link);
+	await addAfterBranchSelector(link);
 }
 
 void features.add(__filebasename, {
