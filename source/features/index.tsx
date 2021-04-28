@@ -70,7 +70,7 @@ let logError = (id: FeatureID, error: unknown): void => {
 		URL: ${location.href}
 
 		\`\`\`
-		${error instanceof Error ? error.stack : error as string}
+		${error instanceof Error ? error.stack! : error as string}
 		\`\`\`
 	`));
 	console.group('Open an issue');
