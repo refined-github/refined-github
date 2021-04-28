@@ -74,3 +74,11 @@ declare module 'react' {
 interface Node extends EventTarget {
 	cloneNode(deep?: boolean): this;
 }
+
+interface HTMLCollectionOf<T extends HTMLElement> {
+	[Symbol.iterator](): Iterator<T>;
+}
+
+interface NodeListOf<T extends ChildNode> {
+	[Symbol.iterator](): Iterator<T>;
+}
