@@ -56,7 +56,7 @@ let logError = (id: FeatureID, error: unknown): void => {
 	}
 
 	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
-	console.group('❌', id, version, pageDetect.isEnterprise() ? 'GHE →': '→', error);
+	console.group('❌', id, version, pageDetect.isEnterprise() ? 'GHE →' : '→', error);
 
 	console.group('Search issue');
 	console.log(`https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}`);
@@ -83,8 +83,8 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	if (document.body.classList.contains('logged-out')) {
 		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
-		features.error = () => {};
-		logError = () => {};
+		features.error = () => {/* No logging */};
+		logError = () => {/* No logging */};
 	}
 
 	if (select.exists('html.refined-github')) {
@@ -176,10 +176,8 @@ const checkForHotfixes = cache.function(async () => {
 	const hotfixes: AnyObject | false = JSON.parse(atob(response.content));
 
 	// eslint-disable-next-line @typescript-eslint/prefer-optional-chain -- https://github.com/typescript-eslint/typescript-eslint/issues/1893
-	if (hotfixes && hotfixes.unaffected) {
-		if (compareVersions(hotfixes.unaffected, version) < 1) {
-			return {};
-		}
+	if (hotfixes && hotfixes.unaffected && compareVersions(hotfixes.unaffected, version) < 1) {
+		return {};
 	}
 
 	return hotfixes;
