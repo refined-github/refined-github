@@ -62,8 +62,19 @@ let logError = (id: FeatureID, error: unknown): void => {
 	console.log(`https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}`);
 	console.groupEnd();
 
+	const newIssueUrl = new URL('https://github.com/sindresorhus/refined-github/issues/new?labels=bug&template=1_bug_report.md');
+	newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
+	newIssueUrl.searchParams.set('body', stripIndent(`
+		<!-- Please also include a screenshot if the issue is visible -->
+
+		URL: ${location.href}
+
+		\`\`\`
+		${error instanceof Error ? error.stack : error as string}
+		\`\`\`
+	`));
 	console.group('Open an issue');
-	console.log(`https://github.com/sindresorhus/refined-github/issues/new?labels=bug&template=bug_report.md&title=${encodeURIComponent(`\`${id}\`: ${message}`)}`);
+	console.log(newIssueUrl.href);
 	console.groupEnd();
 
 	console.groupEnd();
