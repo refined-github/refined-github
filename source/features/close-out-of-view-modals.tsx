@@ -29,9 +29,9 @@ function menuActivatedHandler(event: delegate.Event): void {
 	const details = event.target as HTMLDetailsElement;
 
 	// Safety check #3742
-	if (!details.open && lastOpen > Date.now() - 1000) {
+	if (!details.open && lastOpen > Date.now() - 500) {
 		delegation!.destroy();
-		features.error(__filebasename, 'Modal was closed too quickly. Disabling feature');
+		console.warn(`The modal was closed too quickly. Disabling ${__filebasename} for this session.`);
 		return;
 	}
 
