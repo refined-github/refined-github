@@ -5,8 +5,6 @@ import {BookIcon, CheckIcon, DiffIcon} from '@primer/octicons-react';
 
 import features from '.';
 
-const prUIBreakpointClassses = pageDetect.isPRFiles() ? 'hide-sm hide-md hide-lg' : '';
-
 function createDiffStyleToggle(): DocumentFragment {
 	const parameters = new URLSearchParams(location.search);
 	const isUnified = select.exists([
@@ -18,7 +16,7 @@ function createDiffStyleToggle(): DocumentFragment {
 		parameters.set('diff', type);
 		return (
 			<a
-				className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${selected ? 'selected' : ''} ${prUIBreakpointClassses}`}
+				className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${selected ? 'selected' : ''} ${pageDetect.isPRFiles() ? 'd-none d-lg-block' : ''}`}
 				aria-label={`Show ${type} diffs`}
 				href={`?${String(parameters)}`}
 			>
@@ -49,7 +47,7 @@ function createWhitespaceButton(): HTMLElement {
 		<a
 			href={`?${String(searchParameters)}`}
 			data-hotkey="d w"
-			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : ''} ${prUIBreakpointClassses}`}
+			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : ''} ${pageDetect.isPRFiles() ? 'd-none d-lg-inline-block' : ''}`}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}
 		>
 			{isHidingWhitespace && <CheckIcon/>} No Whitespace
