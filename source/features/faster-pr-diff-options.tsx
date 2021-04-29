@@ -5,6 +5,8 @@ import {BookIcon, CheckIcon, DiffIcon} from '@primer/octicons-react';
 
 import features from '.';
 
+const prUIBreakpointClassses = pageDetect.isPRFiles() ? 'hide-sm hide-md hide-lg' : '';
+
 function createDiffStyleToggle(): DocumentFragment {
 	const parameters = new URLSearchParams(location.search);
 	const isUnified = select.exists([
@@ -16,7 +18,7 @@ function createDiffStyleToggle(): DocumentFragment {
 		parameters.set('diff', type);
 		return (
 			<a
-				className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${selected ? 'selected' : ''}`}
+				className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${selected ? 'selected' : ''} ${prUIBreakpointClassses}`}
 				aria-label={`Show ${type} diffs`}
 				href={`?${String(parameters)}`}
 			>
@@ -47,7 +49,7 @@ function createWhitespaceButton(): HTMLElement {
 		<a
 			href={`?${String(searchParameters)}`}
 			data-hotkey="d w"
-			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : ''}`}
+			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : ''} ${prUIBreakpointClassses}`}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}
 		>
 			{isHidingWhitespace && <CheckIcon/>} No Whitespace
@@ -92,7 +94,6 @@ function init(): false | void {
 
 	// Remove previous options UI
 	const singleCommitUI = select('[data-ga-load^="Diff, view"]');
-
 	if (singleCommitUI) {
 		singleCommitUI.remove();
 		return;
@@ -100,7 +101,8 @@ function init(): false | void {
 
 	const prUI = select('.js-diff-settings');
 	if (prUI) {
-		prUI.closest('details')!.remove();
+		// Only show the native dropdown on medium and small screens #2597
+		prUI.closest('details')!.classList.add('d-lg-none');
 
 		// Make space for the new button by removing "Changes from" #655
 		select('[data-hotkey="c"]')!.firstChild!.remove();
@@ -109,7 +111,7 @@ function init(): false | void {
 
 void features.add(__filebasename, {
 	include: [
-		// Disabled because of #2291 // pageDetect.isPRFiles
+		pageDetect.isPRFiles,
 		pageDetect.isCommit,
 		pageDetect.isCompare
 	],
