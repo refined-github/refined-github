@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function init(): void {
-	const link = select('.user-profile-nav + div .octicon-octoface + a');
+	const link = select('.user-profile-nav + div .text-mono a');
 	while (link?.nextSibling) {
 		link.append(link.nextSibling);
 	}
