@@ -16,7 +16,7 @@ function createDiffStyleToggle(): DocumentFragment {
 		parameters.set('diff', type);
 		return (
 			<a
-				className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${selected ? 'selected' : ''} ${pageDetect.isPRFiles() ? 'd-none d-lg-block' : ''}`}
+				className={`tooltipped tooltipped-s ${selected ? '' : 'text-gray color-text-secondary'} ${pageDetect.isPRFiles() ? 'd-none d-lg-block' : ''}`}
 				aria-label={`Show ${type} diffs`}
 				href={`?${String(parameters)}`}
 			>
@@ -28,6 +28,7 @@ function createDiffStyleToggle(): DocumentFragment {
 	return (
 		<>
 			{makeLink('unified', <DiffIcon/>, isUnified)}
+			<div className="mr-2"/>
 			{makeLink('split', <BookIcon/>, !isUnified)}
 		</>
 	);
@@ -47,7 +48,7 @@ function createWhitespaceButton(): HTMLElement {
 		<a
 			href={`?${String(searchParameters)}`}
 			data-hotkey="d w"
-			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : ''} ${pageDetect.isPRFiles() ? 'd-none d-lg-inline-block' : ''}`}
+			className={`tooltipped tooltipped-s text-gray color-text-secondary ${isHidingWhitespace ? '' : 'text-bold'} ${pageDetect.isPRFiles() ? 'd-none d-lg-inline-block' : ''}`}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}
 		>
 			{isHidingWhitespace && <CheckIcon/>} No Whitespace
@@ -58,13 +59,13 @@ function createWhitespaceButton(): HTMLElement {
 function wrap(...elements: Node[]): DocumentFragment {
 	if (pageDetect.isCommit() || pageDetect.isCompare()) {
 		return (
-			<div className="float-right">
-				{elements.map(element => <div className="ml-3 BtnGroup">{element}</div>)}
+			<div className="float-right d-flex">
+				{elements.map(element => <div className="d-flex ml-3">{element}</div>)}
 			</div>
 		);
 	}
 
-	return <>{elements.map(element => <div className="diffbar-item">{element}</div>)}</>;
+	return <>{elements.map(element => <div className="diffbar-item d-flex">{element}</div>)}</>;
 }
 
 function init(): false | void {
