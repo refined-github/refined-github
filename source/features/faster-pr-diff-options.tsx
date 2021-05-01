@@ -69,7 +69,7 @@ function wrap(...elements: Node[]): DocumentFragment {
 }
 
 function init(): false | void {
-	const container = (pageDetect.isPRFiles() || pageDetect.isPRCommit()) ? select('.js-file-filter')?.closest('.flex-auto') : select('#toc');
+	const container = (pageDetect.isSingleCommit() || pageDetect.isCompare()) ? select('#toc') : select('.js-file-filter')?.closest('.flex-auto');
 	if (!container) {
 		return false;
 	}
@@ -78,10 +78,10 @@ function init(): false | void {
 		createDiffStyleToggle(),
 		createWhitespaceButton()
 	);
-	if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
-		container.append(wrappedButtons);
-	} else {
+	if (pageDetect.isSingleCommit() || pageDetect.isCompare()) {
 		container.prepend(wrappedButtons);
+	} else {
+		container.append(wrappedButtons);
 	}
 
 	// Trim title
