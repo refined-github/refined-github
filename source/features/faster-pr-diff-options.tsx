@@ -57,7 +57,7 @@ function createWhitespaceButton(): HTMLElement {
 }
 
 function wrap(...elements: Node[]): DocumentFragment {
-	if (pageDetect.isCommit() || pageDetect.isCompare()) {
+	if (pageDetect.isSingleCommit() || pageDetect.isCompare()) {
 		return (
 			<div className="float-right d-flex">
 				{elements.map(element => <div className="d-flex ml-3">{element}</div>)}
@@ -69,7 +69,7 @@ function wrap(...elements: Node[]): DocumentFragment {
 }
 
 function init(): false | void {
-	const container = pageDetect.isPRFiles() ? select('.js-file-filter')?.closest('.flex-auto') : select('#toc');
+	const container = (pageDetect.isPRFiles() || pageDetect.isPRCommit()) ? select('.js-file-filter')?.closest('.flex-auto') : select('#toc');
 	if (!container) {
 		return false;
 	}
@@ -78,7 +78,7 @@ function init(): false | void {
 		createDiffStyleToggle(),
 		createWhitespaceButton()
 	);
-	if (pageDetect.isPRFiles()) {
+	if (pageDetect.isPRFiles() || pageDetect.isPRCommit()) {
 		container.append(wrappedButtons);
 	} else {
 		container.prepend(wrappedButtons);
