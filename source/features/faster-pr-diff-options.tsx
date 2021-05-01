@@ -56,7 +56,7 @@ function createWhitespaceButton(): HTMLElement {
 }
 
 function wrap(...elements: Node[]): DocumentFragment {
-	if (pageDetect.isSingleCommit() || pageDetect.isCompare()) {
+	if (pageDetect.isCommit() || pageDetect.isCompare()) {
 		return (
 			<div className="float-right">
 				{elements.map(element => <div className="ml-3 BtnGroup">{element}</div>)}
@@ -68,20 +68,20 @@ function wrap(...elements: Node[]): DocumentFragment {
 }
 
 function init(): false | void {
-	const container = select([
-		'#toc', // In single commit view
-		'.pr-review-tools' // In review view
-	]);
+	const container = pageDetect.isPRFiles() ? select('.js-file-filter')?.closest('.flex-auto') : select('#toc');
 	if (!container) {
 		return false;
 	}
 
-	container.prepend(
-		wrap(
-			createDiffStyleToggle(),
-			createWhitespaceButton()
-		)
+	const wrappedButtons = wrap(
+		createDiffStyleToggle(),
+		createWhitespaceButton()
 	);
+	if (pageDetect.isPRFiles()) {
+		container.append(wrappedButtons);
+	} else {
+		container.prepend(wrappedButtons);
+	}
 
 	// Trim title
 	const prTitle = select('.pr-toolbar .js-issue-title');
