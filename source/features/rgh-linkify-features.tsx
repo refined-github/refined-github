@@ -21,14 +21,15 @@ function initTitle(): void {
 }
 
 function init(): void {
-	for (const possibleMention of select.all('.js-comment-body code')) {
+	for (const possibleMention of select.all('.js-comment-body code, .markdown-body li code')) {
 		linkifyFeature(possibleMention);
 	}
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasComments
+		pageDetect.hasComments,
+		pageDetect.isReleasesOrTags
 	],
 	exclude: [
 		isNotRefinedGitHubRepo
