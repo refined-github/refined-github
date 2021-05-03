@@ -5,6 +5,10 @@ import {BookIcon, CheckIcon, DiffIcon} from '@primer/octicons-react';
 
 import features from '.';
 
+function isPRPage(): boolean {
+	return !pageDetect.isSingleCommit() && !pageDetect.isCompare();
+}
+
 function createDiffStyleToggle(): DocumentFragment {
 	const url = new URL(location.href);
 	const isUnified = select.exists([
@@ -16,7 +20,7 @@ function createDiffStyleToggle(): DocumentFragment {
 		url.searchParams.set('diff', type);
 		return (
 			<a
-				className={`tooltipped tooltipped-s ${selected ? '' : 'text-gray color-text-secondary'} ${pageDetect.isPRFiles() ? 'd-none d-lg-block' : ''}`}
+				className={'tooltipped tooltipped-s ' + (isPRPage() ? `d-none d-lg-block ${selected ? '' : 'text-gray color-text-secondary'}` : `btn btn-sm BtnGroup-item ${selected ? 'selected' : ''}`)}
 				aria-label={`Show ${type} diffs`}
 				href={url.href}
 			>
@@ -28,7 +32,7 @@ function createDiffStyleToggle(): DocumentFragment {
 	return (
 		<>
 			{makeLink('unified', <DiffIcon/>, isUnified)}
-			<div className="mr-2"/>
+			{isPRPage() && <div className="mr-2"/>}
 			{makeLink('split', <BookIcon/>, !isUnified)}
 		</>
 	);
@@ -48,7 +52,7 @@ function createWhitespaceButton(): HTMLElement {
 		<a
 			href={url.href}
 			data-hotkey="d w"
-			className={`tooltipped tooltipped-s text-gray color-text-secondary ${isHidingWhitespace ? '' : 'text-bold'} ${pageDetect.isPRFiles() ? 'd-none d-lg-inline-block' : ''}`}
+			className={'tooltipped tooltipped-s ' + (isPRPage() ? `text-gray color-text-secondary ${isHidingWhitespace ? '' : 'text-bold'}` : `btn btn-sm btn-outline tooltipped ${isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : ''}`)}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}
 		>
 			{isHidingWhitespace && <CheckIcon/>} No Whitespace
@@ -57,19 +61,19 @@ function createWhitespaceButton(): HTMLElement {
 }
 
 function wrap(...elements: Node[]): DocumentFragment {
-	if (pageDetect.isSingleCommit() || pageDetect.isCompare()) {
-		return (
-			<div className="float-right d-flex">
-				{elements.map(element => <div className="d-flex ml-3">{element}</div>)}
-			</div>
-		);
+	if (isPRPage()) {
+		return <>{elements.map(element => <div className="diffbar-item d-flex">{element}</div>)}</>;
 	}
 
-	return <>{elements.map(element => <div className="diffbar-item d-flex">{element}</div>)}</>;
+	return (
+		<div className="float-right d-flex">
+			{elements.map(element => <div className="d-flex ml-3 BtnGroup">{element}</div>)}
+		</div>
+	);
 }
 
 function init(): false | void {
-	const container = (pageDetect.isSingleCommit() || pageDetect.isCompare()) ? select('#toc') : select('.js-file-filter')?.closest('.flex-auto');
+	const container = isPRPage() ? select('.js-file-filter')?.closest('.flex-auto') : select('#toc');
 	if (!container) {
 		return false;
 	}
@@ -78,10 +82,10 @@ function init(): false | void {
 		createDiffStyleToggle(),
 		createWhitespaceButton()
 	);
-	if (pageDetect.isSingleCommit() || pageDetect.isCompare()) {
-		container.prepend(wrappedButtons);
-	} else {
+	if (isPRPage()) {
 		container.append(wrappedButtons);
+	} else {
+		container.prepend(wrappedButtons);
 	}
 
 	// Trim title
