@@ -11,7 +11,7 @@ function isPRPage(): boolean {
 
 function createDiffStyleToggle(): DocumentFragment {
 	const url = new URL(location.href);
-	const isUnified = select.exists([
+	const isUnified = url.searchParams.get('diff') === 'unified' || select.exists([
 		'[value="unified"][checked]', // Form in PR
 		'.table-of-contents .selected[href$=unified]' // Link in single commit
 	]);
