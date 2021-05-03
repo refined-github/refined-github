@@ -6,19 +6,19 @@ import {BookIcon, CheckIcon, DiffIcon} from '@primer/octicons-react';
 import features from '.';
 
 function createDiffStyleToggle(): DocumentFragment {
-	const parameters = new URLSearchParams(location.search);
+	const url = new URL(location.href);
 	const isUnified = select.exists([
 		'[value="unified"][checked]', // Form in PR
 		'.table-of-contents .selected[href$=unified]' // Link in single commit
 	]);
 
 	function makeLink(type: string, icon: Element, selected: boolean): HTMLElement {
-		parameters.set('diff', type);
+		url.searchParams.set('diff', type);
 		return (
 			<a
 				className={`tooltipped tooltipped-s ${selected ? '' : 'text-gray color-text-secondary'} ${pageDetect.isPRFiles() ? 'd-none d-lg-block' : ''}`}
 				aria-label={`Show ${type} diffs`}
-				href={`?${String(parameters)}`}
+				href={url.href}
 			>
 				{icon}
 			</a>
@@ -35,18 +35,18 @@ function createDiffStyleToggle(): DocumentFragment {
 }
 
 function createWhitespaceButton(): HTMLElement {
-	const searchParameters = new URLSearchParams(location.search);
-	const isHidingWhitespace = searchParameters.get('w') === '1';
+	const url = new URL(location.href);
+	const isHidingWhitespace = url.searchParams.get('w') === '1';
 
 	if (isHidingWhitespace) {
-		searchParameters.delete('w');
+		url.searchParams.delete('w');
 	} else {
-		searchParameters.set('w', '1');
+		url.searchParams.set('w', '1');
 	}
 
 	return (
 		<a
-			href={`?${String(searchParameters)}`}
+			href={url.href}
 			data-hotkey="d w"
 			className={`tooltipped tooltipped-s text-gray color-text-secondary ${isHidingWhitespace ? '' : 'text-bold'} ${pageDetect.isPRFiles() ? 'd-none d-lg-inline-block' : ''}`}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}

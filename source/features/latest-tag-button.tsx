@@ -133,7 +133,7 @@ async function init(): Promise<false | void> {
 	}
 
 	const defaultBranch = await getDefaultBranch();
-	if (currentBranch === defaultBranch) {
+	if (pageDetect.isRepoHome() || currentBranch === defaultBranch) {
 		link.append(<sup> +{aheadBy}</sup>);
 		link.setAttribute(
 			'aria-label',
