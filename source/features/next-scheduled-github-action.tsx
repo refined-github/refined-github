@@ -10,9 +10,9 @@ import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 
 const getScheduledWorkflows = cache.function(async (): Promise<Record<string, string> | false> => {
-	const {repository: {object: {entries: workflows}}} = await api.v4(`
+	const {repository: {workflowFiles}} = await api.v4(`
 		repository() {
-			object(expression: "HEAD:.github/workflows") {
+			workflowFiles: object(expression: "HEAD:.github/workflows") {
 				... on Tree {
 					entries {
 						object {
@@ -25,6 +25,8 @@ const getScheduledWorkflows = cache.function(async (): Promise<Record<string, st
 			}
 		}
 	`);
+
+	const workflows = workflowFiles?.entries;
 	if (!workflows) {
 		return false;
 	}
