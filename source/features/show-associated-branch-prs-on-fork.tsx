@@ -49,7 +49,7 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 		// Check if the ref was deleted, since the result includes pr's that are not in fact related to this branch but rather to the branch name.
 		const headRefWasDeleted = prInfo?.timelineItems.nodes[0]?.__typename === 'HeadRefDeletedEvent';
 		if (prInfo && !headRefWasDeleted) {
-			prInfo.state = prInfo.isDraft && prInfo.state === ('OPEN' as 'Open') ? 'Draft' : upperCaseFirst(prInfo.state) as keyof typeof stateClass;
+			prInfo.state = prInfo.isDraft && prInfo.state === 'OPEN' ? 'DRAFT' : prInfo.state;
 			pullRequests[name] = prInfo;
 		}
 	}
@@ -63,10 +63,10 @@ const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Rec
 
 // TODO: Replace this with `State--${prInfo.state.toLowerCase()}` GHE #4202
 const stateClass = {
-	Open: 'State--green State--open',
-	Closed: 'State--red State--closed',
-	Merged: 'State--purple State--merged',
-	Draft: ''
+	OPEN: 'State--green State--open',
+	CLOSED: 'State--red State--closed',
+	MERGED: 'State--purple State--merged',
+	DRAFT: ''
 };
 
 async function init(): Promise<void> {
@@ -77,7 +77,7 @@ async function init(): Promise<void> {
 			const branchName = branchCompareLink.closest('[branch]')!.getAttribute('branch')!;
 			const prInfo = associatedPullRequests[branchName];
 			if (prInfo) {
-				const StateIcon = prInfo.state === 'Merged' ? GitMergeIcon : GitPullRequestIcon;
+				const StateIcon = prInfo.state === 'MERGED' ? GitMergeIcon : GitPullRequestIcon;
 
 				branchCompareLink.replaceWith(
 					<div className="d-inline-block text-right ml-3">
@@ -92,7 +92,7 @@ async function init(): Promise<void> {
 						</a>
 						<a
 							className={`State ${stateClass[prInfo.state]} State--small ml-1 no-underline`}
-							title={`Status: ${prInfo.state}`}
+							title={`Status: ${upperCaseFirst(prInfo.state)}`}
 							href={prInfo.url}
 						>
 							<StateIcon width={10} height={14}/> {prInfo.state}
