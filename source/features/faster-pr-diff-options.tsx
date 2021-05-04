@@ -21,7 +21,7 @@ function createDiffStyleToggle(): DocumentFragment {
 		return (
 			<a
 				className={'tooltipped tooltipped-s ' + (isPRPage() ? 'd-none d-lg-block ml-2 color-icon-secondary' : `btn btn-sm BtnGroup-item ${selected ? 'selected' : ''}`)}
-				aria-label={`Show ${type} diffs`}
+				aria-label={`Switch to the ${type} diff view`}
 				href={url.href}
 			>
 				{icon}
