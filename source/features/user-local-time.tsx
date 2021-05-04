@@ -19,7 +19,8 @@ interface Commit {
 
 const timeFormatter = new Intl.DateTimeFormat(undefined, {
 	hour: 'numeric',
-	minute: 'numeric'
+	minute: 'numeric',
+	weekday: 'long'
 });
 
 async function loadCommitPatch(commitUrl: string): Promise<string> {
