@@ -16,6 +16,7 @@
 		"no-void": "off",
 		"react/jsx-key": "off",
 		"unicorn/no-array-callback-reference": "off",
+		"unicorn/expiring-todo-comments": "warn",
 		"@typescript-eslint/no-extra-non-null-assertion": "error",
 		"@typescript-eslint/consistent-type-definitions": "error",
 		"@typescript-eslint/explicit-function-return-type": [
