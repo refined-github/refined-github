@@ -113,6 +113,13 @@ function init(): false | void {
 		// Make space for the new button by removing "Changes from" #655
 		select('[data-hotkey="c"]')!.firstChild!.remove();
 	}
+
+	// Remove extraneous padding on "Clear filters" button
+	const clearFiltersButton = select('.subset-files-tab');
+	if (clearFiltersButton) {
+		clearFiltersButton.classList.remove('px-sm-3');
+		clearFiltersButton.classList.add('ml-2');
+	}
 }
 
 void features.add(__filebasename, {
