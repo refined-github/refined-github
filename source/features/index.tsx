@@ -45,32 +45,40 @@ interface InternalRunConfig {
 }
 
 let log: typeof console.log;
+const {version} = browser.runtime.getManifest();
 
-function logError(id: FeatureID, error: Error | string | unknown, ...extras: unknown[]): void {
-	if (error instanceof TypeError && error.message === 'Object(...)(...) is null') {
-		error.message = 'The element wasn’t found, the selector needs to be updated.';
-	}
-
+let logError = (id: FeatureID, error: unknown): void => {
 	const message = error instanceof Error ? error.message : String(error);
 
 	if (message.includes('token')) {
-		console.log(`ℹ️ Refined GitHub → ${id} →`, message);
+		console.log(`ℹ️ ${id} →`, message);
 		return;
 	}
 
-	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console.
-	// Use `return` after calling this function.
-	console.error(
-		`❌ Refined GitHub → ${id} →`,
-		error,
-		...extras,
-		stripIndent(`
-			Search issue: https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}
+	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
+	console.group('❌', id, version, pageDetect.isEnterprise() ? 'GHE →' : '→', error);
 
-			Open an issue: https://github.com/sindresorhus/refined-github/issues/new?labels=bug&template=bug_report.md&title=${encodeURIComponent(`\`${id}\`: ${message}`)}
-		`)
-	);
-}
+	console.group('Search issue');
+	console.log(`https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}`);
+	console.groupEnd();
+
+	const newIssueUrl = new URL('https://github.com/sindresorhus/refined-github/issues/new?labels=bug&template=1_bug_report.md');
+	newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
+	newIssueUrl.searchParams.set('body', stripIndent(`
+		<!-- Please also include a screenshot if the issue is visible -->
+
+		URL: ${location.href}
+
+		\`\`\`
+		${error instanceof Error ? error.stack! : error as string}
+		\`\`\`
+	`));
+	console.group('Open an issue');
+	console.log(newIssueUrl.href);
+	console.groupEnd();
+
+	console.groupEnd();
+};
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
@@ -85,11 +93,20 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	}
 
 	if (document.body.classList.contains('logged-out')) {
-		console.warn('%cRefined GitHub%c is only expected to work when you’re logged in to GitHub.', 'font-weight: bold', '');
+		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
+		features.error = () => {/* No logging */};
+		logError = () => {/* No logging */};
 	}
 
 	if (select.exists('html.refined-github')) {
-		console.warn('Refined GitHub has been loaded twice. If you didn’t install the developer version, this may be a bug. Please report it to: https://github.com/sindresorhus/refined-github/issues/565');
+		console.warn(stripIndent(`
+			Refined GitHub has been loaded twice. This may be because:
+
+			• You loaded the developer version, or
+			• The extension just updated
+
+			If you see this at every load, please open an issue mentioning the browser you're using and the URL where this appears.
+		`));
 		return;
 	}
 
@@ -98,7 +115,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	// Options defaults
 	const [options, hotfix, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
-		browser.runtime.getManifest().version === '0.0.0' || await cache.get('hotfix'), // Ignores the cache when loaded locally
+		version === '0.0.0' || await cache.get('hotfix'), // Ignores the cache when loaded locally
 		bisectFeatures()
 	]);
 
@@ -170,11 +187,8 @@ const checkForHotfixes = cache.function(async () => {
 	const hotfixes: AnyObject | false = JSON.parse(atob(response.content));
 
 	// eslint-disable-next-line @typescript-eslint/prefer-optional-chain -- https://github.com/typescript-eslint/typescript-eslint/issues/1893
-	if (hotfixes && hotfixes.unaffected) {
-		const currentVersion = browser.runtime.getManifest().version;
-		if (compareVersions(hotfixes.unaffected, currentVersion) < 1) {
-			return {};
-		}
+	if (hotfixes && hotfixes.unaffected && compareVersions(hotfixes.unaffected, version) < 1) {
+		return {};
 	}
 
 	return hotfixes;

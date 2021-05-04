@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import onetime from 'onetime';
+import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import onProfileDropdownLoad from '../github-events/on-profile-dropdown-load';
@@ -8,6 +9,11 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	const search = new URLSearchParams(link.search);
 	search.set('type', 'source');
 	link.search = String(search);
+}
+
+async function profileDropdown(): Promise<void> {
+	await onProfileDropdownLoad();
+	addSourceTypeToLink(select('.header-nav-current-user ~ a[href$="tab=repositories"]')!); // "Your repositories" in header dropdown
 }
 
 async function init(): Promise<void> {
@@ -26,13 +32,11 @@ async function init(): Promise<void> {
 	}
 }
 
-async function profileDropdown(): Promise<void> {
-	await onProfileDropdownLoad();
-	addSourceTypeToLink(select('.header-nav-current-user ~ a[href$="tab=repositories"]')!); // "Your repositories" in header dropdown
-}
-
 void features.add(__filebasename, {
-	init: onetime(profileDropdown)
-}, {
 	init
+}, {
+	exclude: [
+		pageDetect.isGist // "Your repositories" does not exist
+	],
+	init: onetime(profileDropdown)
 });
