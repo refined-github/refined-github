@@ -20,7 +20,7 @@ function createDiffStyleToggle(): DocumentFragment {
 		url.searchParams.set('diff', type);
 		return (
 			<a
-				className={'tooltipped tooltipped-s ' + (isPRPage() ? `d-none d-lg-block ${selected ? '' : 'text-gray color-text-secondary'}` : `btn btn-sm BtnGroup-item ${selected ? 'selected' : ''}`)}
+				className={'tooltipped tooltipped-s ' + (isPRPage() ? 'd-none d-lg-block ml-2 color-icon-secondary' : `btn btn-sm BtnGroup-item ${selected ? 'selected' : ''}`)}
 				aria-label={`Show ${type} diffs`}
 				href={url.href}
 			>
@@ -29,10 +29,13 @@ function createDiffStyleToggle(): DocumentFragment {
 		);
 	}
 
+	if (isPRPage()) {
+		return <>{makeLink(isUnified ? 'split' : 'unified', isUnified ? <BookIcon/> : <DiffIcon/>, false)}</>;
+	}
+
 	return (
 		<>
 			{makeLink('unified', <DiffIcon/>, isUnified)}
-			{isPRPage() && <div className="mr-2"/>}
 			{makeLink('split', <BookIcon/>, !isUnified)}
 		</>
 	);
