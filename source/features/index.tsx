@@ -1,13 +1,14 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
+import delay from 'delay';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
-import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
+import {frame} from '../helpers/dom-utils';
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import optionsStorage, {RGHOptions} from '../options-storage';
@@ -82,7 +83,16 @@ let logError = (id: FeatureID, error: unknown): void => {
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
-	await elementReady('body', {waitForChildren: false});
+	while (!document.body) {
+		// eslint-disable-next-line no-await-in-loop
+		await Promise.race([delay(10), frame()]);
+	}
+
+	const options = await optionsStorage.getAll();
+
+	if (options.customCSS.trim().length > 0) {
+		document.head.append(<style>{options.customCSS}</style>);
+	}
 
 	if (pageDetect.is500()) {
 		return;
@@ -113,8 +123,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	document.documentElement.classList.add('refined-github');
 
 	// Options defaults
-	const [options, hotfix, bisectedFeatures] = await Promise.all([
-		optionsStorage.getAll(),
+	const [hotfix, bisectedFeatures] = await Promise.all([
 		version === '0.0.0' || await cache.get('hotfix'), // Ignores the cache when loaded locally
 		bisectFeatures()
 	]);
@@ -125,10 +134,6 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
 		void checkForHotfixes();
 		Object.assign(options, hotfix);
-	}
-
-	if (options.customCSS.trim().length > 0) {
-		document.head.append(<style>{options.customCSS}</style>);
 	}
 
 	// Create logging function
