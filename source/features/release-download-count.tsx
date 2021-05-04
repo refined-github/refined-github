@@ -10,7 +10,7 @@ import * as api from '../github-helpers/api';
 
 interface ReleaseAssets {
 	releaseAssets: {
-		nodes: Asset[];
+		nodes: Record<string, Asset>;
 	};
 }
 interface Asset {
@@ -36,7 +36,7 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 	`);
 
 	const assets: Tag = {};
-	for (const [tag, release] of Object.entries(repository as ReleaseAssets[])) {
+	for (const [tag, release] of Object.entries(repository as ReleaseAssets)) {
 		assets[tag] = release.releaseAssets.nodes;
 	}
 
