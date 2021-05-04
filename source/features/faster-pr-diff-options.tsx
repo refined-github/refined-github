@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {BookIcon, CheckIcon, DiffIcon} from '@primer/octicons-react';
+import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-react';
 
 import features from '.';
 
@@ -55,10 +55,10 @@ function createWhitespaceButton(): HTMLElement {
 		<a
 			href={url.href}
 			data-hotkey="d w"
-			className={'tooltipped tooltipped-s ' + (isPRPage() ? `text-gray color-text-secondary ${isHidingWhitespace ? '' : 'text-bold'}` : `btn btn-sm btn-outline tooltipped ${isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : ''}`)}
+			className={'tooltipped tooltipped-s ' + (isPRPage() ? `d-none d-lg-block color-icon-secondary ${isHidingWhitespace ? '' : 'color-icon-info'}` : `btn btn-sm btn-outline tooltipped ${isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : ''}`)}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}
 		>
-			{isHidingWhitespace && <CheckIcon/>} No Whitespace
+			{isPRPage() ? <DiffModifiedIcon/> : <>{isHidingWhitespace && <CheckIcon/>} No Whitespace</>}
 		</a>
 	);
 }
