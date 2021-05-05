@@ -24,7 +24,7 @@ function init(): void | false {
 		return false;
 	}
 
-	const values = [...rows[0].children as HTMLCollectionOf<HTMLElement>];
+	const values = [...rows[0].children];
 	table.replaceWith(
 		<table className="rgh-vertical-front-matter-table">
 			<tbody>
