@@ -19,7 +19,10 @@ interface Commit {
 
 const timeFormatter = new Intl.DateTimeFormat(undefined, {
 	hour: 'numeric',
-	minute: 'numeric',
+	minute: 'numeric'
+});
+
+const dayOfWeek = Intl.DateTimeFormat(undefined, {
 	weekday: 'long'
 });
 
@@ -136,7 +139,8 @@ function init(): void {
 
 		const now = new Date();
 		now.setMinutes(parseOffset(date) + now.getTimezoneOffset() + now.getMinutes());
-		placeholder.textContent = timeFormatter.format(now);
+		const userDayOfWeek = dayOfWeek.format(new Date(now));
+		placeholder.textContent = timeFormatter.format(now) + (userDayOfWeek === dayOfWeek.format(new Date()) ? '' : ' ' + userDayOfWeek);
 		container.title = `Timezone guessed from their last commit: ${date}`;
 	});
 }
