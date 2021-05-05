@@ -22,7 +22,7 @@ const timeFormatter = new Intl.DateTimeFormat(undefined, {
 	minute: 'numeric'
 });
 
-const dayOfWeek = Intl.DateTimeFormat(undefined, {
+const dayOfWeek = new Intl.DateTimeFormat(undefined, {
 	weekday: 'long'
 });
 
