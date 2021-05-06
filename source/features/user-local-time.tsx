@@ -17,11 +17,6 @@ interface Commit {
 	sha: string;
 }
 
-const timeFormatter = new Intl.DateTimeFormat(undefined, {
-	hour: 'numeric',
-	minute: 'numeric'
-});
-
 async function loadCommitPatch(commitUrl: string): Promise<string> {
 	const {textContent} = await api.v3(commitUrl, {
 		json: false,
@@ -133,9 +128,16 @@ function init(): void {
 			return;
 		}
 
-		const now = new Date();
-		now.setMinutes(parseOffset(date) + now.getTimezoneOffset() + now.getMinutes());
-		placeholder.textContent = timeFormatter.format(now);
+		const userTime = new Date();
+		userTime.setMinutes(parseOffset(date) + userTime.getTimezoneOffset() + userTime.getMinutes());
+
+		const timeFormatter = new Intl.DateTimeFormat(undefined, {
+			hour: 'numeric',
+			minute: 'numeric',
+			weekday: userTime.getDay() === new Date().getDay() ? undefined : 'long'
+		});
+
+		placeholder.textContent = timeFormatter.format(userTime);
 		container.title = `Timezone guessed from their last commit: ${date}`;
 	});
 }
