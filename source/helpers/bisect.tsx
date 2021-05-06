@@ -41,6 +41,7 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 	}
 
 	await cache.delete('bisect');
+	window.removeEventListener('visibilitychange', hideMessage);
 }
 
 async function onEndButtonClick(): Promise<void> {
@@ -59,6 +60,12 @@ function createMessageBox(message: Element | string, extraButtons?: Element): vo
 			</div>
 		</div>
 	);
+}
+
+async function hideMessage(): Promise<void> {
+	if (!await cache.get<FeatureID[]>('bisect')) {
+		createMessageBox('Process completed in another tab');
+	}
 }
 
 export default async function bisectFeatures(): Promise<Record<string, boolean> | void> {
@@ -87,11 +94,7 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 	});
 
 	// Hide message when the process is done elsewhere
-	window.addEventListener('visibilitychange', async () => {
-		if (!await cache.get<FeatureID[]>('bisect')) {
-			createMessageBox('Process completed in another tab');
-		}
-	});
+	window.addEventListener('visibilitychange', hideMessage);
 
 	const half = getMiddleStep(bisectedFeatures);
 	const temporaryOptions: Record<string, boolean> = {};

@@ -29,8 +29,8 @@ const messageHandlers = {
 	}
 };
 
-browser.runtime.onMessage.addListener((message, sender) => {
-	for (const id of Object.keys(message ?? {}) as Array<keyof typeof messageHandlers>) {
+browser.runtime.onMessage.addListener((message: typeof messageHandlers, sender) => {
+	for (const id of Object.keys(message) as Array<keyof typeof messageHandlers>) {
 		if (id in messageHandlers) {
 			return messageHandlers[id](message[id], sender);
 		}

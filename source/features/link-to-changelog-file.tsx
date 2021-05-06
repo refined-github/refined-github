@@ -9,6 +9,11 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
+interface FileType {
+	name: string;
+	type: string;
+}
+
 const getCacheKey = (): string => `changelog:${getRepo()!.nameWithOwner}`;
 const changelogNames = new Set(['changelog', 'news', 'changes', 'history', 'release', 'whatsnew']);
 
@@ -43,7 +48,7 @@ const getChangelogName = cache.function(async (): Promise<string | false> => {
 	`);
 
 	const files: string[] = [];
-	for (const entry of repository.object.entries) {
+	for (const entry of repository.object.entries as FileType[]) {
 		if (entry.type === 'blob') {
 			files.push(entry.name);
 		}

@@ -41,6 +41,19 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 	<a href="https://retool.com/?utm_campaign=sindresorhus">
 		<img src="https://sindresorhus.com/assets/thanks/retool-logo.svg" width="210">
 	</a>
+	<br>
+	<br>
+	<a href="https://workos.com/?utm_campaign=github_repo&utm_medium=referral&utm_content=refined-github&utm_source=github">
+		<div>
+			<img src="https://sindresorhus.com/assets/thanks/workos-logo-white-bg.svg" width="210" alt="WorkOS">
+		</div>
+		<b>Your app, enterprise-ready.</b>
+		<div>
+			<sub>Start selling to enterprise customers with just a few lines of code.</sub>
+			<br>
+			<sup>Add Single Sign-On (and more) in minutes instead of months.</sup>
+		</div>
+	</a>
 </div>
 
 ---

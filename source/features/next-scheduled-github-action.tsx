@@ -33,7 +33,7 @@ const getScheduledWorkflows = cache.function(async (): Promise<Record<string, st
 
 	const schedules: Record<string, string> = {};
 	for (const workflow of workflows) {
-		const workflowYaml = workflow.object.text;
+		const workflowYaml: string = workflow.object.text;
 		const name = /^name[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
 		const cron = /schedule[:\s-]+cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
 
