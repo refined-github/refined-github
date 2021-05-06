@@ -8,10 +8,10 @@ function addQuickSubmit(): void {
 	select('input#commit-summary-input')!.classList.add('js-quick-submit');
 }
 
-function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLFormElement>): void {
+function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void {
 	if (event.key === 'Enter' && !event.ctrlKey) {
 		event.preventDefault();
-		select('#issue_body, #pull_request_body, #commit-description-textarea', event.delegateTarget.form)!.focus();
+		select('#issue_body, #pull_request_body, #commit-description-textarea', event.delegateTarget.form!)!.focus();
 	}
 }
 

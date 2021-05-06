@@ -10,6 +10,15 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 
+interface CommitTarget {
+	oid: string;
+	committedDate: string;
+	resourcePath: string;
+	history: {
+		totalCount: number;
+	};
+}
+
 const fresh = [
 	'Freshly baked',
 	'Freshly brewed',
@@ -50,7 +59,7 @@ const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[com
 	const {committedDate, resourcePath} = repository.defaultBranchRef.target.history.nodes
 		.reverse()
 		// Filter out any invalid commit dates #3185
-		.find((commit: AnyObject) => new Date(commit.committedDate).getFullYear() > 1970);
+		.find((commit: CommitTarget) => new Date(commit.committedDate).getFullYear() > 1970);
 
 	return [committedDate, resourcePath];
 };
@@ -73,7 +82,7 @@ const getFirstCommit = cache.function(async (): Promise<[committedDate: string, 
 		}
 	`);
 
-	const {oid: commitSha, history, committedDate, resourcePath} = repository.defaultBranchRef.target;
+	const {oid: commitSha, history, committedDate, resourcePath} = repository.defaultBranchRef.target as CommitTarget;
 	const commitsCount = history.totalCount;
 	if (commitsCount === 1) {
 		return [committedDate, resourcePath];
