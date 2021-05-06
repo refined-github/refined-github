@@ -83,23 +83,19 @@ let logError = (id: FeatureID, error: unknown): void => {
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
+	const options = await optionsStorage.getAll();
+
 	const oneFrame = frame();
 	while (!document.body) {
 		// eslint-disable-next-line no-await-in-loop
 		await Promise.race([delay(10), oneFrame]);
 	}
 
-	const options = await optionsStorage.getAll();
-
 	if (options.customCSS.trim().length > 0) {
 		document.head.append(<style>{options.customCSS}</style>);
 	}
 
-	if (pageDetect.is500()) {
-		return;
-	}
-
-	if (document.title === 'Confirm password' || document.title === 'Confirm access') {
+	if (pageDetect.is500() || document.title === 'Confirm password' || document.title === 'Confirm access') {
 		return;
 	}
 
