@@ -99,12 +99,6 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		return;
 	}
 
-	if (document.body.classList.contains('logged-out')) {
-		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
-		features.error = () => {/* No logging */};
-		logError = () => {/* No logging */};
-	}
-
 	if (select.exists('html.refined-github')) {
 		console.warn(stripIndent(`
 			Refined GitHub has been loaded twice. This may be because:
@@ -116,6 +110,13 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		`));
 		return;
 	}
+
+	if (select.exists('body.logged-out')) {
+		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
+		features.error = () => {/* No logging */};
+		logError = () => {/* No logging */};
+	}
+
 
 	document.documentElement.classList.add('refined-github');
 
