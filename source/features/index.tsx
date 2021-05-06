@@ -83,16 +83,32 @@ let logError = (id: FeatureID, error: unknown): void => {
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
-	const options = await optionsStorage.getAll();
+	const [options, hotfix, bisectedFeatures] = await Promise.all([
+		optionsStorage.getAll(),
+		version === '0.0.0' || await cache.get('hotfix'), // Ignores the cache when loaded locally
+		bisectFeatures()
+	]);
 
+	if (options.customCSS.trim().length > 0) {
+		document.head.append(<style>{options.customCSS}</style>);
+	}
+
+	if (bisectedFeatures) {
+		Object.assign(options, bisectedFeatures);
+	} else {
+		// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
+		void checkForHotfixes();
+		Object.assign(options, hotfix);
+	}
+
+	// Create logging function
+	log = options.logging ? console.log : () => {/* No logging */};
+
+	// Wait for the document to be at least partially available
 	const oneFrame = frame();
 	while (!document.body) {
 		// eslint-disable-next-line no-await-in-loop
 		await Promise.race([delay(10), oneFrame]);
-	}
-
-	if (options.customCSS.trim().length > 0) {
-		document.head.append(<style>{options.customCSS}</style>);
 	}
 
 	if (pageDetect.is500() || document.title === 'Confirm password' || document.title === 'Confirm access') {
@@ -117,25 +133,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		logError = () => {/* No logging */};
 	}
 
-
 	document.documentElement.classList.add('refined-github');
-
-	// Options defaults
-	const [hotfix, bisectedFeatures] = await Promise.all([
-		version === '0.0.0' || await cache.get('hotfix'), // Ignores the cache when loaded locally
-		bisectFeatures()
-	]);
-
-	if (bisectedFeatures) {
-		Object.assign(options, bisectedFeatures);
-	} else {
-		// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
-		void checkForHotfixes();
-		Object.assign(options, hotfix);
-	}
-
-	// Create logging function
-	log = options.logging ? console.log : () => {/* No logging */};
 
 	resolve(options);
 });
