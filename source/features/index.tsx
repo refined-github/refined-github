@@ -1,6 +1,6 @@
+import delay from 'delay';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import delay from 'delay';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
