@@ -9,10 +9,18 @@ function addQuickSubmit(): void {
 }
 
 function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void {
-	if (event.key === 'Enter' && !event.ctrlKey) {
-		event.preventDefault();
-		select('#issue_body, #pull_request_body, #commit-description-textarea', event.delegateTarget.form!)!.focus();
+	if (
+		event.key !== 'Enter' ||
+		event.ctrlKey ||
+		event.metaKey ||
+		event.isComposing || // #4323
+		select.exists('.suggester', event.delegateTarget.form!) // GitHub’s autocomplete dropdown
+	) {
+		return;
 	}
+
+	event.preventDefault();
+	select('#issue_body, #pull_request_body, #commit-description-textarea', event.delegateTarget.form!)!.focus();
 }
 
 function init(): void {
