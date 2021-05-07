@@ -9,7 +9,6 @@ function addQuickSubmit(): void {
 }
 
 function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void {
-	// The suggester is GitHub’s autocomplete dropdown
 	if (
 		event.key !== 'Enter' ||
 		event.ctrlKey ||
