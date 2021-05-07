@@ -3,16 +3,16 @@ READ BEFORE EDITING. Some selectors match the same items ("focused" selector vs 
 Commits that have a long commit message will not be dimmed after the user uncollapses the `<details>` element.
 */
 
-.rgh-dim-bot .commit-title, /* Pre "Repository refresh" layout */
-.rgh-dim-bot .commit-meta, /* Pre "Repository refresh" layout */
-.rgh-dim-bot .mb-1,
-.rgh-dim-bot .mb-1 ~ .d-flex,
-.rgh-dim-bot > .d-md-block,
-.rgh-dim-bot .commit-links-group, /* Hash and Copy hash buttons, pre "Repository refresh" layout */
-.rgh-dim-bot .commit-links-group + .btn, /* Browse repository button, pre "Repository refresh" layout */
-.rgh-dim-bot .Box-row--drag-hide, /* PR row */
-.rgh-dim-bot .labels, /* PR labels */
-.rgh-dim-bot .labels + .text-small /* PR meta */ {
+.rgh-dim-bot:not(.tagged) .commit-title, /* Pre "Repository refresh" layout */
+.rgh-dim-bot:not(.tagged) .commit-meta, /* Pre "Repository refresh" layout */
+.rgh-dim-bot:not(.tagged) .mb-1,
+.rgh-dim-bot:not(.tagged) .mb-1 ~ .d-flex,
+.rgh-dim-bot:not(.tagged) > .d-md-block,
+.rgh-dim-bot:not(.tagged) .commit-links-group, /* Hash and Copy hash buttons, pre "Repository refresh" layout */
+.rgh-dim-bot:not(.tagged) .commit-links-group + .btn, /* Browse repository button, pre "Repository refresh" layout */
+.rgh-dim-bot:not(.tagged) .Box-row--drag-hide, /* PR row */
+.rgh-dim-bot:not(.tagged) .labels, /* PR labels */
+.rgh-dim-bot:not(.tagged) .labels + .text-small /* PR meta */ {
 	/* Delay the "focused" status so it's not too annoying when moving the mouse over a list of dimmed items. */
 	transition: 0.1s;
 	transition-delay: 0.3s;
@@ -23,25 +23,25 @@ Commits that have a long commit message will not be dimmed after the user uncoll
 ALL the following rules define the non-focused state
 */
 
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-title, /* Commit titles, dim, pre "Repository refresh" layout */
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .mb-1, /* Commit titles, dim */
-.rgh-dim-bot:not(.navigation-focus) .Box-row--drag-hide { /* PR row, dim */
+.rgh-dim-bot:not(.tagged):not(.navigation-focus):not(.Details--on) .commit-title, /* Commit titles, dim, pre "Repository refresh" layout */
+.rgh-dim-bot:not(.tagged):not(.navigation-focus):not(.Details--on) .mb-1, /* Commit titles, dim */
+.rgh-dim-bot:not(.tagged):not(.navigation-focus) .Box-row--drag-hide { /* PR row, dim */
 	opacity: 20%;
 	transition-delay: 0s;
 }
 
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-meta, /* Pre "Repository refresh" layout */
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .mb-1 ~ .d-flex,
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-links-group, /* Hash and Copy hash buttons, pre "Repository refresh" layout */
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-links-group + .btn, /* Browse repository button, pre "Repository refresh" layout */
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) > .d-md-block {
+.rgh-dim-bot:not(.tagged):not(.navigation-focus):not(.Details--on) .commit-meta, /* Pre "Repository refresh" layout */
+.rgh-dim-bot:not(.tagged):not(.navigation-focus):not(.Details--on) .mb-1 ~ .d-flex,
+.rgh-dim-bot:not(.tagged):not(.navigation-focus):not(.Details--on) .commit-links-group, /* Hash and Copy hash buttons, pre "Repository refresh" layout */
+.rgh-dim-bot:not(.tagged):not(.navigation-focus):not(.Details--on) .commit-links-group + .btn, /* Browse repository button, pre "Repository refresh" layout */
+.rgh-dim-bot:not(.tagged):not(.navigation-focus):not(.Details--on) > .d-md-block {
 	opacity: 0%;
 	margin-bottom: -1.6em;
 	transition-delay: 0s;
 }
 
-.rgh-dim-bot:not(.navigation-focus) .labels, /* PR labels */
-.rgh-dim-bot:not(.navigation-focus) .labels + .text-small /* PR meta */ {
+.rgh-dim-bot:not(.tagged):not(.navigation-focus) .labels, /* PR labels */
+.rgh-dim-bot:not(.tagged):not(.navigation-focus) .labels + .text-small /* PR meta */ {
 	opacity: 0%;
 	margin-bottom: -2em;
 	transition-delay: 0s;

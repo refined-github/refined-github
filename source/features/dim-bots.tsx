@@ -33,7 +33,7 @@ async function init(): Promise<void> {
 	}
 
 	for (const tag of select.all('.js-navigation-container .octicon-tag')) {
-		tag.closest('.commit, .Box-row')!.classList.remove('rgh-dim-bot');
+		tag.closest('.rgh-dim-bot')?.classList.add('tagged');
 	}
 }
 
