@@ -10,10 +10,10 @@ import {isPermalink} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void | false> {
-	const readmeHeader = (await elementReady('#readme :is(.Box-header, .js-sticky)'))!;
+	const readmeHeader = await elementReady('#readme :is(.Box-header, .js-sticky)');
 
 	// The button already exists on repos you can push to
-	if (select.exists('[aria-label="Edit this file"]', readmeHeader)) {
+	if (!readmeHeader || select.exists('[aria-label="Edit this file"]', readmeHeader)) {
 		return false;
 	}
 
