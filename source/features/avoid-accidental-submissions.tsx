@@ -10,11 +10,15 @@ function addQuickSubmit(): void {
 
 function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void {
 	// The suggester is GitHub’s autocomplete dropdown
-	if (select.exists('.suggester', event.delegateTarget.form!) || event.isComposing) {
+	if (
+		event.key !== 'Enter' ||
+		event.ctrlKey ||
+		event.metaKey ||
+		event.isComposing || // #4323
+		select.exists('.suggester', event.delegateTarget.form!) // GitHub’s autocomplete dropdown
+	) {
 		return;
 	}
-
-	if (event.key === 'Enter' && !event.ctrlKey) {
 		event.preventDefault();
 		select('#issue_body, #pull_request_body, #commit-description-textarea', event.delegateTarget.form!)!.focus();
 	}
