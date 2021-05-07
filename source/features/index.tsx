@@ -111,7 +111,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		await Promise.race([delay(10), oneFrame]);
 	}
 
-	if (pageDetect.is500() || document.title === 'Confirm password' || document.title === 'Confirm access') {
+	if (pageDetect.is500() || pageDetect.isPasswordConfirmation()) {
 		return;
 	}
 
