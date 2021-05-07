@@ -19,9 +19,9 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 	) {
 		return;
 	}
-		event.preventDefault();
-		select('#issue_body, #pull_request_body, #commit-description-textarea', event.delegateTarget.form!)!.focus();
-	}
+
+	event.preventDefault();
+	select('#issue_body, #pull_request_body, #commit-description-textarea', event.delegateTarget.form!)!.focus();
 }
 
 function init(): void {
