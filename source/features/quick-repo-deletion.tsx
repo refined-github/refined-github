@@ -113,6 +113,22 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	}
 }
 
+function initWithoutAPI(): void {
+	const {nameWithOwner} = getRepo()!;
+	const deleteRepoURL = `/${nameWithOwner}/settings?confirm_delete=yes`;
+
+	select('.pagehead-actions')!.prepend(
+		<li>
+			<a
+				className="rgh-quick-repo-deletion btn btn-sm btn-danger"
+				href={deleteRepoURL}
+			>
+				Delete repo
+			</a>
+		</li>
+	);
+}
+
 async function init(): Promise<void | false> {
 	if (
 		// Only if the user can delete the repository
@@ -124,7 +140,11 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	await api.expectToken();
+	try {
+		await api.expectToken();
+	} catch {
+		return initWithoutAPI();
+	}
 
 	// (Ab)use the details element as state and an accessible "click-anywhere-to-cancel" utility
 	select('.pagehead-actions')!.prepend(
