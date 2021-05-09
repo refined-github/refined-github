@@ -42,7 +42,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoWiki,
+		pageDetect.isRepoWiki
 	],
 	init
 });
