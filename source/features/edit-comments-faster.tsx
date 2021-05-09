@@ -24,7 +24,7 @@ function init(): void {
 					<button
 						type="button"
 						role="menuitem"
-						className={`"timeline-comment-action btn-link js-comment-edit-button ${discussionsClassname} rgh-edit-comments-faster-button"`}
+						className={`timeline-comment-action btn-link js-comment-edit-button ${discussionsClassname} rgh-edit-comments-faster-button`}
 						aria-label="Edit comment"
 					>
 						<PencilIcon/>
