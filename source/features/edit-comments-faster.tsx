@@ -12,9 +12,9 @@ function init(): void {
 		add(comment) {
 			comment.classList.add('rgh-edit-comment');
 
-			let toAdd = '';
+			let discussionsClassname = '';
 			if (pageDetect.isDiscussion()) {
-				toAdd = 'js-discussions-comment-edit-button';
+				discussionsClassname = 'js-discussions-comment-edit-button';
 			}
 
 			comment
@@ -24,7 +24,7 @@ function init(): void {
 					<button
 						type="button"
 						role="menuitem"
-						className={`"timeline-comment-action btn-link js-comment-edit-button ${toAdd} rgh-edit-comments-faster-button"`}
+						className={`"timeline-comment-action btn-link js-comment-edit-button ${discussionsClassname} rgh-edit-comments-faster-button"`}
 						aria-label="Edit comment"
 					>
 						<PencilIcon/>
