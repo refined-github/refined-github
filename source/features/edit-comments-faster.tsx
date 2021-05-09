@@ -12,11 +12,6 @@ function init(): void {
 		add(comment) {
 			comment.classList.add('rgh-edit-comment');
 
-			let discussionsClassname = '';
-			if (pageDetect.isDiscussion()) {
-				discussionsClassname = 'js-discussions-comment-edit-button';
-			}
-
 			comment
 				.closest('.js-comment')!
 				.querySelector('.timeline-comment-actions > details:last-child, .timeline-comment-actions details:last-child')! // The dropdown
@@ -24,7 +19,7 @@ function init(): void {
 					<button
 						type="button"
 						role="menuitem"
-						className={`timeline-comment-action btn-link js-comment-edit-button ${discussionsClassname} rgh-edit-comments-faster-button`}
+						className={`timeline-comment-action btn-link ${pageDetect.isDiscussion() ? 'js-comment-edit-button js-discussions-comment-edit-button' : 'js-comment-edit-button'} rgh-edit-comments-faster-button`}
 						aria-label="Edit comment"
 					>
 						<PencilIcon/>
