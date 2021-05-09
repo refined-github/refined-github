@@ -14,7 +14,7 @@ function init(): void {
 
 			comment
 				.closest('.js-comment')!
-				.querySelector('.timeline-comment-actions > details:last-child, .timeline-comment-actions details:last-child')! // The dropdown
+				.querySelector('.timeline-comment-actions details:last-child')! // The dropdown
 				.before(
 					<button
 						type="button"
