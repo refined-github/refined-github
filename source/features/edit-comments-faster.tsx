@@ -12,14 +12,19 @@ function init(): void {
 		add(comment) {
 			comment.classList.add('rgh-edit-comment');
 
+			let toAdd = '';
+			if (pageDetect.isDiscussion()) {
+				toAdd = 'js-discussions-comment-edit-button';
+			}
+
 			comment
 				.closest('.js-comment')!
-				.querySelector('.timeline-comment-actions > details:last-child')! // The dropdown
+				.querySelector('.timeline-comment-actions > details:last-child, .timeline-comment-actions details:last-child')! // The dropdown
 				.before(
 					<button
 						type="button"
 						role="menuitem"
-						className="timeline-comment-action btn-link js-comment-edit-button rgh-edit-comments-faster-button"
+						className={`"timeline-comment-action btn-link js-comment-edit-button ${toAdd} rgh-edit-comments-faster-button"`}
 						aria-label="Edit comment"
 					>
 						<PencilIcon/>
@@ -31,7 +36,8 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasComments
+		pageDetect.hasComments,
+		pageDetect.isDiscussion
 	],
 	init: onetime(init)
 });
