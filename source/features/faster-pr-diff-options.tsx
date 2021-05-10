@@ -31,8 +31,8 @@ function createDiffStyleToggle(): DocumentFragment {
 
 	if (isPRPage()) {
 		return isUnified ?
-			makeLink('split', <BookIcon/>, false) :
-			makeLink('unified', <DiffIcon/>, false);
+			<>{makeLink('split', <BookIcon/>, false)}</> :
+			<>{makeLink('unified', <DiffIcon/>, false)}</>;
 	}
 
 	return (
@@ -53,11 +53,15 @@ function createWhitespaceButton(): HTMLElement {
 		url.searchParams.set('w', '1');
 	}
 
+	const classes = isPRPage() ?
+		'tooltipped tooltipped-s d-none d-lg-block color-icon-secondary ' + (isHidingWhitespace ? '' : 'color-icon-info') :
+		'tooltipped tooltipped-s btn btn-sm btn-outline tooltipped ' + (isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : '');
+
 	return (
 		<a
 			href={url.href}
 			data-hotkey="d w"
-			className={'tooltipped tooltipped-s ' + (isPRPage() ? `d-none d-lg-block color-icon-secondary ${isHidingWhitespace ? '' : 'color-icon-info'}` : `btn btn-sm btn-outline tooltipped ${isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : ''}`)}
+			className={classes}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace changes`}
 		>
 			{isPRPage() ? <DiffModifiedIcon/> : <>{isHidingWhitespace && <CheckIcon/>} No Whitespace</>}
@@ -119,10 +123,7 @@ function init(): false | void {
 	}
 
 	// Remove extraneous padding on "Clear filters" button
-	const clearFiltersButton = select('.subset-files-tab');
-	if (clearFiltersButton) {
-		clearFiltersButton.classList.replace('px-sm-3', 'ml-2');
-	}
+	select('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-2');
 }
 
 void features.add(__filebasename, {
