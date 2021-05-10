@@ -31,7 +31,7 @@ export async function getLocalHotfixes(version: string): Promise<Partial<RGHOpti
 	const options: Partial<RGHOptions> = {};
 
 	for (const [feature, unaffectedVersion] of hotfixes) {
-		if(compareVersions(unaffectedVersion, version) > 1) {
+		if (compareVersions(unaffectedVersion, version) > 1) {
 			options[`feature:${feature}`] = false;
 		}
 	}

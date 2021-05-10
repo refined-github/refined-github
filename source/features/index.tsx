@@ -10,7 +10,7 @@ import {frame} from '../helpers/dom-utils';
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import optionsStorage, {RGHOptions} from '../options-storage';
-import {getLocalHotfixes, updateHotfixes} from '../helpers/hotfix'
+import {getLocalHotfixes, updateHotfixes} from '../helpers/hotfix';
 
 type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
