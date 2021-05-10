@@ -8,6 +8,11 @@ export const updateHotfixes = cache.function(async (): Promise<string[][]> => {
 	const request = await fetch('https://api.github.com/repos/sindresorhus/refined-github/contents/hotfix.csv?ref=hotfix');
 	const {content} = await request.json();
 
+	// Rate-limit check
+	if (!content) {
+		return {};
+	}
+
 	return atob(content)
 		.trim()
 		.split('\n')
