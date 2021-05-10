@@ -30,7 +30,9 @@ function createDiffStyleToggle(): DocumentFragment {
 	}
 
 	if (isPRPage()) {
-		return <>{makeLink(isUnified ? 'split' : 'unified', isUnified ? <BookIcon/> : <DiffIcon/>, false)}</>;
+		return isUnified ?
+			makeLink('split', <BookIcon/>, false) :
+			makeLink('unified', <DiffIcon/>, false);
 	}
 
 	return (
@@ -56,7 +58,7 @@ function createWhitespaceButton(): HTMLElement {
 			href={url.href}
 			data-hotkey="d w"
 			className={'tooltipped tooltipped-s ' + (isPRPage() ? `d-none d-lg-block color-icon-secondary ${isHidingWhitespace ? '' : 'color-icon-info'}` : `btn btn-sm btn-outline tooltipped ${isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : ''}`)}
-			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}
+			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace changes`}
 		>
 			{isPRPage() ? <DiffModifiedIcon/> : <>{isHidingWhitespace && <CheckIcon/>} No Whitespace</>}
 		</a>
@@ -76,7 +78,9 @@ function wrap(...elements: Node[]): DocumentFragment {
 }
 
 function init(): false | void {
-	const container = isPRPage() ? select('.js-file-filter')?.closest('.flex-auto') : select('#toc');
+	const container = isPRPage() ?
+		select('.js-file-filter')?.closest('.flex-auto') :
+		select('#toc');
 	if (!container) {
 		return false;
 	}
@@ -117,8 +121,7 @@ function init(): false | void {
 	// Remove extraneous padding on "Clear filters" button
 	const clearFiltersButton = select('.subset-files-tab');
 	if (clearFiltersButton) {
-		clearFiltersButton.classList.remove('px-sm-3');
-		clearFiltersButton.classList.add('ml-2');
+		clearFiltersButton.classList.replace('px-sm-3', 'ml-2');
 	}
 }
 
