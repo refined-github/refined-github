@@ -1,14 +1,13 @@
-import delay from 'delay';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
+import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
-import {frame} from '../helpers/dom-utils';
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import optionsStorage, {RGHOptions} from '../options-storage';
@@ -83,36 +82,20 @@ let logError = (id: FeatureID, error: unknown): void => {
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
-	const [options, hotfix, bisectedFeatures] = await Promise.all([
-		optionsStorage.getAll(),
-		version === '0.0.0' || await cache.get('hotfix'), // Ignores the cache when loaded locally
-		bisectFeatures()
-	]);
+	await elementReady('body', {waitForChildren: false});
 
-	if (options.customCSS.trim().length > 0) {
-		document.head.append(<style>{options.customCSS}</style>);
-	}
-
-	if (bisectedFeatures) {
-		Object.assign(options, bisectedFeatures);
-	} else {
-		// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
-		void checkForHotfixes();
-		Object.assign(options, hotfix);
-	}
-
-	// Create logging function
-	log = options.logging ? console.log : () => {/* No logging */};
-
-	// Wait for the document to be at least partially available
-	const oneFrame = frame();
-	while (!document.body) {
-		// eslint-disable-next-line no-await-in-loop
-		await Promise.race([delay(10), oneFrame]);
-	}
-
-	if (pageDetect.is500() || pageDetect.isPasswordConfirmation()) {
+	if (pageDetect.is500()) {
 		return;
+	}
+
+	if (document.title === 'Confirm password' || document.title === 'Confirm access') {
+		return;
+	}
+
+	if (document.body.classList.contains('logged-out')) {
+		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
+		features.error = () => {/* No logging */};
+		logError = () => {/* No logging */};
 	}
 
 	if (select.exists('html.refined-github')) {
@@ -127,13 +110,29 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		return;
 	}
 
-	if (select.exists('body.logged-out')) {
-		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
-		features.error = () => {/* No logging */};
-		logError = () => {/* No logging */};
+	document.documentElement.classList.add('refined-github');
+
+	// Options defaults
+	const [options, hotfix, bisectedFeatures] = await Promise.all([
+		optionsStorage.getAll(),
+		version === '0.0.0' || await cache.get('hotfix'), // Ignores the cache when loaded locally
+		bisectFeatures()
+	]);
+
+	if (bisectedFeatures) {
+		Object.assign(options, bisectedFeatures);
+	} else {
+		// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
+		void checkForHotfixes();
+		Object.assign(options, hotfix);
 	}
 
-	document.documentElement.classList.add('refined-github');
+	if (options.customCSS.trim().length > 0) {
+		document.head.append(<style>{options.customCSS}</style>);
+	}
+
+	// Create logging function
+	log = options.logging ? console.log : () => {/* No logging */};
 
 	resolve(options);
 });
