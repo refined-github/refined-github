@@ -6,7 +6,7 @@ import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-
 import features from '.';
 
 function isPRPage(): boolean {
-	return !pageDetect.isSingleCommit() && !pageDetect.isCompare();
+	return pageDetect.isPRCommit() || pageDetect.isPRFiles();
 }
 
 function createDiffStyleToggle(): DocumentFragment {
