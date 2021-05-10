@@ -10,7 +10,7 @@ export const updateHotfixes = cache.function(async (): Promise<string[][]> => {
 
 	// Rate-limit check
 	if (!content) {
-		return {};
+		return [];
 	}
 
 	return atob(content)
