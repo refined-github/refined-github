@@ -156,7 +156,7 @@ Thanks for contributing! 🦋🙌
 - [](# "show-associated-branch-prs-on-fork") [Shows the associated pull requests on branches for forked repositories.](https://user-images.githubusercontent.com/16872793/81504659-7e5ec800-92b8-11ea-9ee6-924110e8cca1.png)
 - [](# "html-preview-link") [Adds a link to preview HTML files.](https://user-images.githubusercontent.com/44045911/67634792-48995980-f8fb-11e9-8b6a-7b57d5b12a2f.png)
 - [](# "hide-markdown-diff") 🔥 [When editing Markdown files, it lets you hide the Markdown diff in the preview.](https://user-images.githubusercontent.com/46634000/108093883-7f5e2a80-707e-11eb-9328-cb902a1061c7.gif)
-- [](# "collapse-markdown-sections") [Lets you collapse sections in Markdown and help you see the outline of the document.](https://user-images.githubusercontent.com/46634000/110379737-7cd86a80-8057-11eb-92e2-aed6b0fe35b2.gif)
+- [](# "collapse-wiki-sections") [Lets you collapse sections in Wikis and help you see the outline of the document.](https://user-images.githubusercontent.com/46634000/110379737-7cd86a80-8057-11eb-92e2-aed6b0fe35b2.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
