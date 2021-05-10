@@ -61,7 +61,6 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 
 	let secondsLeft = 5;
 	const button = select('.btn', buttonContainer)!;
-	const buttonText = button.textContent;
 	try {
 		do {
 			button.style.transform = `scale(${1.2 - ((secondsLeft - 5) / 3)})`; // Dividend is zoom speed
@@ -69,7 +68,7 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 			await delay(1000, {signal: abortController.signal}); // eslint-disable-line no-await-in-loop
 		} while (--secondsLeft);
 	} catch {
-		button.textContent = buttonText;
+		button.textContent = 'Delete fork';
 		button.style.transform = '';
 	}
 
