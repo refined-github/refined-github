@@ -38,7 +38,8 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasRichTextEditor
+		pageDetect.hasRichTextEditor,
+		pageDetect.isDiscussion
 	],
 	init
 }, {
