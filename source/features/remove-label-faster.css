@@ -16,7 +16,7 @@
 
 .rgh-remove-label-faster:is(:focus, :hover) svg {
 	background-color: currentColor;
-	fill: var(--rgh-remove-label-faster-color);
+	fill: rgb(var(--label-r) var(--label-g) var(--label-b));
 }
 
 :root:root .rgh-remove-label-faster-already-added {
