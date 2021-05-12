@@ -27,7 +27,8 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isCommitList,
-		pageDetect.isConversationList
+		pageDetect.isConversationList,
+		pageDetect.isPRList
 	],
 	init
 });
