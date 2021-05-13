@@ -15,7 +15,7 @@ const prSelector = [
 	/* Issues/PRs */
 	'.opened-by [href*="author%3Aapp%2F"]',
 	'.labels [href$="label%3Abot"]'
-].join();
+];
 
 function init(): void {
 	for (const bot of select.all(commitSelector)) {
