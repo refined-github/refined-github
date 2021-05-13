@@ -33,8 +33,7 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isCommitList,
-		pageDetect.isConversationList,
-		pageDetect.isPRList
+		pageDetect.isConversationList
 	],
 	init
 });
