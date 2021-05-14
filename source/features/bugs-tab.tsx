@@ -11,12 +11,18 @@ import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
 
+interface Search {
+	search: {
+		issueCount: number;
+	};
+}
+
 async function highlightBugsTabOnIssuePage(): Promise<void | false> {
 	if (await countBugs() === 0 || !await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]')) {
 		return false;
 	}
 
-	const bugsTab = await elementReady('.rgh-bug-tab', {stopOnDomReady: false, timeout: 10000});
+	const bugsTab = await elementReady('.rgh-bug-tab', {stopOnDomReady: false, timeout: 10_000});
 	bugsTab!.classList.add('selected');
 
 	const issuesTab = select('.UnderlineNav-item[data-hotkey="g i"]')!;
@@ -29,7 +35,7 @@ const countBugs = cache.function(async (): Promise<number> => {
 		search(type: ISSUE, query: "label:bug is:open is:issue repo:${getRepo()!.nameWithOwner}") {
 			issueCount
 		}
-	`);
+	`) as Search;
 
 	return search.issueCount;
 }, {
