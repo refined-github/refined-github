@@ -1,5 +1,6 @@
 import mem from 'mem';
 import domify from 'doma';
+
 import type {ParseSelector} from 'typed-query-selector/parser';
 
 async function fetchDom(url: string): Promise<DocumentFragment>;
