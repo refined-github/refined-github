@@ -5,7 +5,6 @@ import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
-import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
@@ -104,17 +103,10 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	// Create logging function
 	log = options.logging ? console.log : () => {/* No logging */};
 
-	await Promise.race([
-		// With comments
-		elementReady('body', {waitForChildren: false}),
-
-		// Maybe written better?
-		(async () => {
-			while (!document.body) {
-				await delay(10);
-			}
-		})()
-	]);
+	while (!document.body) {
+		// eslint-disable-next-line no-await-in-loop
+		await delay(10);
+	}
 
 	if (pageDetect.is500() || pageDetect.isPasswordConfirmation()) {
 		return;
