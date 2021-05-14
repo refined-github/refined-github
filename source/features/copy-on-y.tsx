@@ -22,7 +22,9 @@ function deinit(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isSingleFile
+		pageDetect.isSingleFile,
+		pageDetect.isBlame,
+		pageDetect.isSingleCommit
 	],
 	awaitDomReady: false,
 	deduplicate: false,
