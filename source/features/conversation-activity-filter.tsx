@@ -2,13 +2,14 @@ import './conversation-activity-filter.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
-import {observe} from 'selector-observer';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, EyeClosedIcon, EyeIcon} from '@primer/octicons-react';
 
 import features from '.';
 import onNewComments from '../github-events/on-new-comments';
 import {removeClassFromAll, wrap} from '../helpers/dom-utils';
+import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 const states = {
 	default: '',
@@ -21,8 +22,6 @@ type State = keyof typeof states;
 let currentSetting: State = 'default';
 const dropdownClass = 'rgh-conversation-activity-filter-dropdown';
 const hiddenClassName = 'rgh-conversation-activity-filtered';
-
-const deinit: VoidFunction[] = [];
 
 function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
 	const hasMainComment = select.exists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
@@ -147,17 +146,22 @@ function addWidget(position: Element): void {
 	);
 }
 
-function init(): void {
-	const observer = observe(':is(.gh-header-sticky .meta, .gh-header-meta .flex-auto):not(.rgh-conversation-activity-filter)', {
-		add: addWidget
-	});
-	deinit.push(observer.abort);
+async function init(): Promise<void> {
+	const headerSeectors = ':is(.gh-header-sticky .meta, .gh-header-meta .flex-auto):not(.rgh-conversation-activity-filter)';
+	await elementReady(headerSeectors);
+	const headers = select.all(headerSeectors);
+	for (const header of headers) {
+		addWidget(header);
+	}
 }
 
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversation
 	],
-	init,
-	deinit
+	additionalListeners: [
+		onConversationHeaderUpdate
+	],
+	awaitDomReady: false,
+	init
 });
