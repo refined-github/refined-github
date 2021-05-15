@@ -7,7 +7,6 @@ import features from '.';
 
 function createDiffStyleToggle(): DocumentFragment {
 	const url = new URL(location.href);
-
 	const isUnified = select.exists([
 		'[value="unified"][checked]', // Form in PR
 		'.table-of-contents .selected[href*="diff=unified"]' // Link in single commit
@@ -86,12 +85,10 @@ function initPR(): false | void {
 		prTitle.title = prTitle.textContent!;
 	}
 
-	const prUI = select('.js-diff-settings')!;
 	// Only show the native dropdown on medium and small screens #2597
-	prUI.closest('details')!.classList.add('d-lg-none');
+	select('.js-diff-settings')!.closest('details')!.classList.add('d-lg-none');
 	// Make space for the new button by removing "Changes from" #655
 	(select('.js-commits-filtered') ?? select('[data-hotkey="c"]'))!.firstChild!.remove();
-
 	// Remove extraneous padding around "Clear filters" button
 	select('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-2');
 }
