@@ -69,35 +69,14 @@ function createWhitespaceButton(): HTMLElement {
 	);
 }
 
-function wrap(...elements: Node[]): DocumentFragment {
-	if (isPRPage()) {
-		return <>{elements.map(element => <div className="diffbar-item d-flex">{element}</div>)}</>;
-	}
-
-	return (
-		<div className="float-right d-flex">
-			{elements.map(element => <div className="d-flex ml-3 BtnGroup">{element}</div>)}
-		</div>
+function initPR(): false | void {
+	const container = select('.js-file-filter')!.closest('.flex-auto')!;
+	container.append(
+		<>
+			<div className="diffbar-item d-flex">{createDiffStyleToggle()}</div>
+			<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>
+		</>
 	);
-}
-
-function init(): false | void {
-	const container = isPRPage() ?
-		select('.js-file-filter')?.closest('.flex-auto') :
-		select('#toc');
-	if (!container) {
-		return false;
-	}
-
-	const wrappedButtons = wrap(
-		createDiffStyleToggle(),
-		createWhitespaceButton()
-	);
-	if (isPRPage()) {
-		container.append(wrappedButtons);
-	} else {
-		container.prepend(wrappedButtons);
-	}
 
 	// Trim title
 	const prTitle = select('.pr-toolbar .js-issue-title');
@@ -106,34 +85,45 @@ function init(): false | void {
 		prTitle.title = prTitle.textContent!;
 	}
 
-	// Remove previous options UI
-	const singleCommitUI = select('[data-ga-load^="Diff, view"]');
-	if (singleCommitUI) {
-		singleCommitUI.remove();
-		return;
-	}
+	const prUI = select('.js-diff-settings')!;
+	// Only show the native dropdown on medium and small screens #2597
+	prUI.closest('details')!.classList.add('d-lg-none');
+	// Make space for the new button by removing "Changes from" #655
+	select('[data-hotkey="c"]')!.firstChild!.remove();
 
-	const prUI = select('.js-diff-settings');
-	if (prUI) {
-		// Only show the native dropdown on medium and small screens #2597
-		prUI.closest('details')!.classList.add('d-lg-none');
-
-		// Make space for the new button by removing "Changes from" #655
-		select('[data-hotkey="c"]')!.firstChild!.remove();
-	}
-
-	// Remove extraneous padding on "Clear filters" button
+	// Remove extraneous padding around "Clear filters" button
 	select('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-2');
+}
+
+function initCommitAndCompare(): false | void {
+	const container = select('#toc')!;
+	container.prepend(
+		<div className="float-right d-flex">
+			<div className="d-flex ml-3 BtnGroup">{createDiffStyleToggle()}</div>
+			<div className="d-flex ml-3 BtnGroup">{createWhitespaceButton()}</div>
+		</div>
+	);
+
+	// Remove previous options UI
+	select('[data-ga-load^="Diff, view"]')?.remove();
 }
 
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
-		pageDetect.isCommit,
+		pageDetect.isPRCommit
+	],
+	shortcuts: {
+		'd w': 'Show/hide whitespaces in diffs'
+	},
+	init: initPR
+}, {
+	include: [
+		pageDetect.isSingleCommit,
 		pageDetect.isCompare
 	],
 	shortcuts: {
 		'd w': 'Show/hide whitespaces in diffs'
 	},
-	init
+	init: initCommitAndCompare
 });
