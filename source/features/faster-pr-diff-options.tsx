@@ -93,7 +93,7 @@ function initPR(): false | void {
 	// Only show the native dropdown on medium and small screens #2597
 	prUI.closest('details')!.classList.add('d-lg-none');
 	// Make space for the new button by removing "Changes from" #655
-	select('[data-hotkey="c"]')!.firstChild!.remove();
+	(select('.js-commits-filtered') ?? select('[data-hotkey="c"]'))!.firstChild!.remove();
 
 	// Remove extraneous padding around "Clear filters" button
 	select('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-2');
