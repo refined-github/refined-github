@@ -5,10 +5,6 @@ import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-
 
 import features from '.';
 
-function isPRPage(): boolean {
-	return pageDetect.isPRCommit() || pageDetect.isPRFiles();
-}
-
 function createDiffStyleToggle(): DocumentFragment {
 	const url = new URL(location.href);
 	const isUnified = url.searchParams.get('diff') === 'unified' || select.exists([
@@ -18,7 +14,7 @@ function createDiffStyleToggle(): DocumentFragment {
 
 	function makeLink(type: string, icon: Element, selected: boolean): HTMLElement {
 		url.searchParams.set('diff', type);
-		const classes = isPRPage() ?
+		const classes = pageDetect.isPR() ?
 			'tooltipped tooltipped-s d-none d-lg-block ml-2 color-icon-secondary' :
 			'tooltipped tooltipped-s btn btn-sm BtnGroup-item ' + (selected ? 'selected' : '');
 
@@ -33,7 +29,7 @@ function createDiffStyleToggle(): DocumentFragment {
 		);
 	}
 
-	if (isPRPage()) {
+	if (pageDetect.isPR()) {
 		return isUnified ?
 			<>{makeLink('split', <BookIcon/>, false)}</> :
 			<>{makeLink('unified', <DiffIcon/>, false)}</>;
@@ -57,7 +53,7 @@ function createWhitespaceButton(): HTMLElement {
 		url.searchParams.set('w', '1');
 	}
 
-	const classes = isPRPage() ?
+	const classes = pageDetect.isPR() ?
 		'tooltipped tooltipped-s d-none d-lg-block color-icon-secondary ' + (isHidingWhitespace ? '' : 'color-icon-info') :
 		'tooltipped tooltipped-s btn btn-sm btn-outline tooltipped ' + (isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : '');
 
@@ -68,7 +64,7 @@ function createWhitespaceButton(): HTMLElement {
 			className={classes}
 			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace changes`}
 		>
-			{isPRPage() ? <DiffModifiedIcon/> : <>{isHidingWhitespace && <CheckIcon/>} No Whitespace</>}
+			{pageDetect.isPR() ? <DiffModifiedIcon/> : <>{isHidingWhitespace && <CheckIcon/>} No Whitespace</>}
 		</a>
 	);
 }
