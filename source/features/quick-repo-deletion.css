@@ -1,11 +1,11 @@
 :root .rgh-quick-repo-deletion[open] span {
 	position: relative;
-	z-index: 91; /* Higher than sticky readme header #4192 */
+	z-index: 91; /* Higher than sticky readme header and `sticky-sidebar` #4192 */
 	transform-origin: top;
 }
 
 :root .rgh-quick-repo-deletion[open] summary::before {
 	background-color: var(--color-scale-red-6);
 	opacity: 30%;
-	z-index: 91; /* Higher than sticky readme header #4192 */
+	z-index: 91; /* Higher than sticky readme header and `sticky-sidebar` #4192 */
 }

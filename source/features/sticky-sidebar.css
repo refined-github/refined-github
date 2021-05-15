@@ -8,7 +8,7 @@
 
 	/* `sticky` will trap the `fixed` dialog’s z-index in some sidebars #3732 */
 	/* Higher than sticky readme header #4192 */
-	z-index: 91;
+	z-index: 90;
 }
 
 #partial-discussion-sidebar.rgh-sticky-sidebar {
@@ -16,7 +16,7 @@
 
 	/* Needed so the backdrop of notification modal is over the other elements in the conversation */
 	/* Higher than sticky readme header #4192 */
-	z-index: 91;
+	z-index: 90;
 }
 
 /* Hides the last divider (on pull requests) to avoid https://user-images.githubusercontent.com/10238474/62282128-af6fb980-b457-11e9-8b18-c29687b88da1.gif */
