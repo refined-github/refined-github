@@ -18,9 +18,13 @@ function createDiffStyleToggle(): DocumentFragment {
 
 	function makeLink(type: string, icon: Element, selected: boolean): HTMLElement {
 		url.searchParams.set('diff', type);
+		const classes = isPRPage() ?
+			'tooltipped tooltipped-s d-none d-lg-block ml-2 color-icon-secondary' :
+			'tooltipped tooltipped-s btn btn-sm BtnGroup-item ' + (selected ? 'selected' : '');
+
 		return (
 			<a
-				className={'tooltipped tooltipped-s ' + (isPRPage() ? 'd-none d-lg-block ml-2 color-icon-secondary' : `btn btn-sm BtnGroup-item ${selected ? 'selected' : ''}`)}
+				className={classes}
 				aria-label={`Switch to the ${type} diff view`}
 				href={url.href}
 			>
