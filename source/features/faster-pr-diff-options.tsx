@@ -7,9 +7,10 @@ import features from '.';
 
 function createDiffStyleToggle(): DocumentFragment {
 	const url = new URL(location.href);
-	const isUnified = url.searchParams.get('diff') === 'unified' || select.exists([
+
+	const isUnified = select.exists([
 		'[value="unified"][checked]', // Form in PR
-		'.table-of-contents .selected[href$=unified]' // Link in single commit
+		'.table-of-contents .selected[href*="diff=unified"]' // Link in single commit
 	]);
 
 	function makeLink(type: string, icon: Element, selected: boolean): HTMLElement {
@@ -105,7 +106,7 @@ function initCommitAndCompare(): false | void {
 	);
 
 	// Remove previous options UI
-	select('[data-ga-load^="Diff, view"]')?.remove();
+	select('[data-ga-load^="Diff, view"]')!.remove();
 }
 
 void features.add(__filebasename, {
