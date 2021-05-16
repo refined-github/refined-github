@@ -70,8 +70,7 @@ function createWhitespaceButton(): HTMLElement {
 }
 
 function initPR(): false | void {
-	const container = select('.js-file-filter')!.closest('.flex-auto')!;
-	container.append(
+	select('.js-file-filter')!.closest('.flex-auto')!.append(
 		<div className="diffbar-item d-flex">{createDiffStyleToggle()}</div>,
 		<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>
 	);
@@ -85,15 +84,16 @@ function initPR(): false | void {
 
 	// Only show the native dropdown on medium and small screens #2597
 	select('.js-diff-settings')!.closest('details')!.classList.add('d-lg-none');
+
 	// Make space for the new button by removing "Changes from" #655
 	(select('.js-commits-filtered') ?? select('[data-hotkey="c"]'))!.firstChild!.remove();
+
 	// Remove extraneous padding around "Clear filters" button
 	select('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-2');
 }
 
 function initCommitAndCompare(): false | void {
-	const container = select('#toc')!;
-	container.prepend(
+	select('#toc')!.prepend(
 		<div className="float-right d-flex">
 			<div className="d-flex ml-3 BtnGroup">{createDiffStyleToggle()}</div>
 			<div className="d-flex ml-3 BtnGroup">{createWhitespaceButton()}</div>
