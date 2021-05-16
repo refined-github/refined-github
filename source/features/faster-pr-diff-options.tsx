@@ -12,7 +12,7 @@ function createDiffStyleToggle(): DocumentFragment {
 		'.table-of-contents .selected[href*="diff=unified"]' // Link in single commit
 	]);
 
-	function makeLink(type: string, icon: Element, selected: boolean): HTMLElement {
+	function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 		url.searchParams.set('diff', type);
 		const classes = pageDetect.isPR() ?
 			'tooltipped tooltipped-s d-none d-lg-block ml-2 color-icon-secondary' :
@@ -31,8 +31,8 @@ function createDiffStyleToggle(): DocumentFragment {
 
 	if (pageDetect.isPR()) {
 		return isUnified ?
-			<>{makeLink('split', <BookIcon/>, false)}</> :
-			<>{makeLink('unified', <DiffIcon/>, false)}</>;
+			makeLink('split', <BookIcon/>, false) :
+			makeLink('unified', <DiffIcon/>, false);
 	}
 
 	return (
@@ -72,10 +72,8 @@ function createWhitespaceButton(): HTMLElement {
 function initPR(): false | void {
 	const container = select('.js-file-filter')!.closest('.flex-auto')!;
 	container.append(
-		<>
-			<div className="diffbar-item d-flex">{createDiffStyleToggle()}</div>
-			<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>
-		</>
+		<div className="diffbar-item d-flex">{createDiffStyleToggle()}</div>,
+		<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>
 	);
 
 	// Trim title
