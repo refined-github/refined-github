@@ -86,7 +86,7 @@ function initPR(): false | void {
 	select('.js-diff-settings')!.closest('details')!.classList.add('d-lg-none');
 
 	// Make space for the new button by removing "Changes from" #655
-	(select('.js-commits-filtered') ?? select('[data-hotkey="c"]'))!.firstChild!.remove();
+	select('[data-hotkey="c"] strong')!.previousSibling!.remove();
 
 	// Remove extraneous padding around "Clear filters" button
 	select('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-2');
