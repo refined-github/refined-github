@@ -147,10 +147,9 @@ function addWidget(position: Element): void {
 }
 
 async function init(): Promise<void> {
-	const headerSeectors = ':is(.gh-header-sticky .meta, .gh-header-meta .flex-auto):not(.rgh-conversation-activity-filter)';
-	await elementReady(headerSeectors);
-	const headers = select.all(headerSeectors);
-	for (const header of headers) {
+	const headerSelectors = ':is(.gh-header-sticky .meta, .sticky-content .gh-header-meta .flex-auto):not([id]):not(.rgh-conversation-activity-filter)';
+	await elementReady(headerSelectors);
+	for (const header of select.all(headerSelectors)) {
 		addWidget(header);
 	}
 }
