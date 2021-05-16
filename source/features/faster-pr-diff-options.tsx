@@ -5,29 +5,29 @@ import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-
 
 import features from '.';
 
-function createDiffStyleToggle(): DocumentFragment {
+function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 	const url = new URL(location.href);
+	url.searchParams.set('diff', type);
+	const classes = pageDetect.isPR() ?
+		'tooltipped tooltipped-s d-none d-lg-block ml-2 color-icon-secondary' :
+		'tooltipped tooltipped-s btn btn-sm BtnGroup-item ' + (selected ? 'selected' : '');
+
+	return (
+		<a
+			className={classes}
+			aria-label={`Switch to the ${type} diff view`}
+			href={url.href}
+		>
+			{icon}
+		</a>
+	);
+}
+
+function createDiffStyleToggle(): DocumentFragment {
 	const isUnified = select.exists([
 		'[value="unified"][checked]', // Form in PR
 		'.table-of-contents .selected[href*="diff=unified"]' // Link in single commit
 	]);
-
-	function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
-		url.searchParams.set('diff', type);
-		const classes = pageDetect.isPR() ?
-			'tooltipped tooltipped-s d-none d-lg-block ml-2 color-icon-secondary' :
-			'tooltipped tooltipped-s btn btn-sm BtnGroup-item ' + (selected ? 'selected' : '');
-
-		return (
-			<a
-				className={classes}
-				aria-label={`Switch to the ${type} diff view`}
-				href={url.href}
-			>
-				{icon}
-			</a>
-		);
-	}
 
 	if (pageDetect.isPR()) {
 		return isUnified ?
