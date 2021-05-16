@@ -89,7 +89,7 @@ function initPR(): false | void {
 	select('[data-hotkey="c"] strong')!.previousSibling!.remove();
 
 	// Remove extraneous padding around "Clear filters" button
-	select('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-2');
+	select('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-sm-2');
 }
 
 function initCommitAndCompare(): false | void {
