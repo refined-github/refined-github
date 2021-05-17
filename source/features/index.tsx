@@ -6,7 +6,6 @@ import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 
-import {frame} from '../helpers/dom-utils';
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import optionsStorage, {RGHOptions} from '../options-storage';
@@ -103,11 +102,9 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	// Create logging function
 	log = options.logging ? console.log : () => {/* No logging */};
 
-	// Wait for the document to be at least partially available
-	const oneFrame = frame();
 	while (!document.body) {
 		// eslint-disable-next-line no-await-in-loop
-		await Promise.race([delay(10), oneFrame]);
+		await delay(10);
 	}
 
 	if (pageDetect.is500() || pageDetect.isPasswordConfirmation()) {

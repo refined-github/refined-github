@@ -132,6 +132,9 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments
 	],
+	exclude: [
+		pageDetect.isGist
+	],
 	init
 }, {
 	include: [
