@@ -1,16 +1,15 @@
 import delay from 'delay';
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
-import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import optionsStorage, {RGHOptions} from '../options-storage';
+import {getLocalHotfixes, updateHotfixes} from '../helpers/hotfix';
 
 type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
@@ -82,9 +81,9 @@ let logError = (id: FeatureID, error: unknown): void => {
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
-	const [options, hotfix, bisectedFeatures] = await Promise.all([
+	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
-		version === '0.0.0' || await cache.get('hotfix'), // Ignores the cache when loaded locally
+		getLocalHotfixes(version),
 		bisectFeatures()
 	]);
 
@@ -96,8 +95,8 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		Object.assign(options, bisectedFeatures);
 	} else {
 		// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
-		void checkForHotfixes();
-		Object.assign(options, hotfix);
+		void updateHotfixes();
+		Object.assign(options, localHotfixes);
 	}
 
 	// Create logging function
@@ -177,23 +176,6 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 		listener(runFeature);
 	}
 };
-
-const checkForHotfixes = cache.function(async () => {
-	// The explicit endpoint is necessary because it shouldn't change on GHE
-	const request = await fetch('https://api.github.com/repos/sindresorhus/refined-github/contents/hotfix.json?ref=hotfix');
-	const response = await request.json();
-	const hotfixes: AnyObject | false = JSON.parse(atob(response.content));
-
-	// eslint-disable-next-line @typescript-eslint/prefer-optional-chain -- https://github.com/typescript-eslint/typescript-eslint/issues/1893
-	if (hotfixes && hotfixes.unaffected && compareVersions(hotfixes.unaffected, version) < 1) {
-		return {};
-	}
-
-	return hotfixes;
-}, {
-	maxAge: {hours: 6},
-	cacheKey: () => 'hotfix'
-});
 
 const shortcutMap = new Map<string, string>();
 
