@@ -1,33 +1,40 @@
-The `hotfix.json` file allows the maintainers of Refined GitHub to immediately disable features that unexpectedly wreak havoc for a reason or another, without having to wait for the browser to download a new update.
+# Hotfixes branch
+
+The `hotfix.csv` file allows the maintainers of Refined GitHub to immediately disable features that unexpectedly wreak havoc for a reason or another, without having to wait for the browser to download a new update.
 
 More information can be found on: https://github.com/sindresorhus/refined-github/issues/3529
 
-## Please make sure it's valid JSON before committing
+Note: The JSON file has been deprecated and can be removed in September 2021.
 
-Here's some examples:
+## Adding a new broken feature
 
-```json
-{
-  "feature:cleanup-repo-filelist-actions": false
-}
+- Add the name of the feature on a new line, **followed by a comma**
+- Ensure that the table is rendered on GitHub.com. If not, the CSV isn't valid
+- Don't remove previous features unnecessarily, let's keep the file to about 10 lines
+
+Example:
+
+```diff
+  ci-link,21.5.1
+  fit-textareas,21.5.1
+  link-to-file-in-file-history,21.5.1
+  avoid-accidental-submissions,21.5.9
++ my-new-broken-feature,
 ```
 
-If a feature was fixed by a recent release, don't immediately remove it, you can add a `unaffected` property with the version where the feature works:
+## Marking a feature as fixed
 
-```json
-{
-  "feature:cleanup-repo-filelist-actions": false,
-  "unaffected": "20.9.4"
-}
+- Specify the version that contains the fixed feature on the same line
+- Ensure that there are no trailing spaces
+
+Example:
+
+```diff
+  ci-link,21.5.1
+  fit-textareas,21.5.1
+  link-to-file-in-file-history,21.5.1
+  avoid-accidental-submissions,21.5.9
+- my-new-broken-feature,
++ my-new-broken-feature,21.6.9
 ```
 
-You can specify multiple features at once
-
-```json
-{
-  "feature:close-out-of-view-modals": false,
-  "feature:recently-pushed-branches-enhancements": false
-}
-```
-
-But there's no way to mark only one feature as fixed via `unaffected`, so prefer keeping both features disabled for a little longer rather than dropping a hotfix too early.
