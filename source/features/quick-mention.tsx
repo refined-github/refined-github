@@ -29,7 +29,8 @@ function mentionUser({delegateTarget: button}: delegate.Event): void {
 function init(): void {
 	// `:first-child` avoids app badges #2630
 	// The hovercard attribute avoids `highest-rated-comment`
-	for (const avatar of select.all(`.TimelineItem-avatar > [data-hovercard-type="user"]:first-child:not([href="/${getUsername()}"], .rgh-quick-mention)`)) {
+	const avatars = select.all(`.TimelineItem-avatar > [data-hovercard-type="user"]:first-child:not([href="/${getUsername()}"], .rgh-quick-mention)`);
+	for (const avatar of avatars) {
 		const userMention = select('img', avatar)!.alt;
 		avatar.classList.add('rgh-quick-mention');
 		avatar.after(
