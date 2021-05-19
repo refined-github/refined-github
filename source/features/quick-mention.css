@@ -8,11 +8,11 @@ button.rgh-quick-mention {
 }
 
 /* Show icon in black if it's not hovered/focused, instead of the blue color caused by .btn-link */
-button.rgh-quick-mention:not(:hover):not(:focus) {
+button.rgh-quick-mention:not(:hover, :focus) {
 	color: inherit;
 }
 
 /* Show button when the avatar or the button itself are hovered/focused */
-:not(:hover):not(:focus) + button.rgh-quick-mention:not(:hover):not(:focus) {
+:not(:hover, :focus) + button.rgh-quick-mention:not(:hover, :focus) {
 	opacity: 10%;
 }

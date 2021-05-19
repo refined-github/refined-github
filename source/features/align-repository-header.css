@@ -1,21 +1,21 @@
 /* Align repo header to the content, just on the left side */
-body:not(.full-width):not(.enterprise) main > .hide-full-screen > * {
+body:not(.full-width, .enterprise) main > .hide-full-screen > * {
 	padding-left: calc(50% - 1280px / 2) !important;
 }
 
 /* Restore the original padding on those 2 elements. The media queries follows GitHub’s values */
-body:not(.full-width):not(.enterprise) main > .hide-full-screen > * > * {
+body:not(.full-width, .enterprise) main > .hide-full-screen > * > * {
 	margin-left: 16px !important;
 }
 
 @media (min-width: 768px) {
-	body:not(.full-width):not(.enterprise) main > .hide-full-screen > * > * {
+	body:not(.full-width, .enterprise) main > .hide-full-screen > * > * {
 		margin-left: 24px !important;
 	}
 }
 
 @media (min-width: 1012px) {
-	body:not(.full-width):not(.enterprise) main > .hide-full-screen > * > * {
+	body:not(.full-width, .enterprise) main > .hide-full-screen > * > * {
 		margin-left: 32px !important;
 	}
 }
