@@ -147,9 +147,9 @@ function addWidget(position: Element): void {
 }
 
 async function init(): Promise<void> {
-	const headerSelectors = ':is(.gh-header-sticky .meta, .sticky-content .gh-header-meta .flex-auto):not(.rgh-conversation-activity-filter)';
-	await elementReady(headerSelectors);
-	for (const header of select.all(headerSelectors)) {
+	await elementReady('.gh-header-sticky .meta');
+	await elementReady('.sticky-content .gh-header-meta .flex-auto');
+	for (const header of select.all(':is(.gh-header-sticky .meta, .sticky-content .gh-header-meta .flex-auto):not(.rgh-conversation-activity-filter)')) {
 		addWidget(header);
 	}
 }
