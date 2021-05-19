@@ -119,7 +119,7 @@ function createRadio(filterSettings: State): JSX.Element {
 	);
 }
 
-function addWidget(position: Element): void {
+function addWidget(position: HTMLElement): void {
 	wrap(position, <div className="d-flex flex-items-baseline"/>);
 	position.classList.add('rgh-conversation-activity-filter');
 	position.after(
@@ -147,10 +147,14 @@ function addWidget(position: Element): void {
 }
 
 async function init(): Promise<void> {
-	await elementReady('.gh-header-sticky .meta');
-	await elementReady('.sticky-content .gh-header-meta .flex-auto');
-	for (const header of select.all(':is(.gh-header-sticky .meta, .sticky-content .gh-header-meta .flex-auto):not(.rgh-conversation-activity-filter)')) {
-		addWidget(header);
+	const mainHeader = await elementReady('.gh-header-meta .flex-auto:not([id])');
+	const stickyHeader = await elementReady('.gh-header-sticky .meta');
+	for (const header of [mainHeader, stickyHeader]) {
+		if (select.exists('.rgh-conversation-activity-filter', header)) {
+			continue;
+		}
+
+		addWidget(header!);
 	}
 }
 
