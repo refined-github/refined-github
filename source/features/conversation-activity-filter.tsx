@@ -2,7 +2,7 @@ import './conversation-activity-filter.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
-import elementReady from 'element-ready';
+import elementReady, {StoppablePromise} from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, EyeClosedIcon, EyeIcon} from '@primer/octicons-react';
 
@@ -119,7 +119,12 @@ function createRadio(filterSettings: State): JSX.Element {
 	);
 }
 
-function addWidget(position: HTMLElement): void {
+async function addWidget(header: StoppablePromise<HTMLElement | undefined>): Promise<void> {
+	const position = (await header)!.closest('div')!;
+	if (position.classList.contains('rgh-conversation-activity-filter')) {
+		return;
+	}
+
 	wrap(position, <div className="d-flex flex-items-baseline"/>);
 	position.classList.add('rgh-conversation-activity-filter');
 	position.after(
@@ -146,16 +151,9 @@ function addWidget(position: HTMLElement): void {
 	);
 }
 
-async function init(): Promise<void> {
-	const mainHeader = await elementReady('.gh-header-meta .flex-auto:not([id])');
-	const stickyHeader = await elementReady('.gh-header-sticky .meta');
-	for (const header of [mainHeader, stickyHeader]) {
-		if (select.exists('.rgh-conversation-activity-filter', header)) {
-			continue;
-		}
-
-		addWidget(header!);
-	}
+function init(): void {
+	void addWidget(elementReady('#partial-discussion-header .gh-header-meta clipboard-copy'));
+	void addWidget(elementReady('#partial-discussion-header .gh-header-sticky clipboard-copy'));
 }
 
 void features.add(__filebasename, {
