@@ -152,7 +152,9 @@ async function addWidget(header: string): Promise<void> {
 }
 
 async function init(): Promise<void> {
-	await addWidget('#partial-discussion-header .gh-header-meta :is(clipboard-copy, relative-time)');
+	// Work around for `clean-conversation-headers`
+	const mainHeaderSelector = pageDetect.isPR() ? 'relative-time' : 'span[data-issue-and-pr-hovercards-enabled]';
+	await addWidget(`#partial-discussion-header .gh-header-meta :is(clipboard-copy, ${mainHeaderSelector})`);
 	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)');
 }
 
