@@ -152,8 +152,8 @@ async function addWidget(header: string): Promise<void> {
 }
 
 async function init(): Promise<void> {
-	await addWidget('#partial-discussion-header .gh-header-meta clipboard-copy');
-	await addWidget('#partial-discussion-header .gh-header-sticky clipboard-copy');
+	await addWidget('#partial-discussion-header .gh-header-meta :is(clipboard-copy, relative-time)');
+	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)');
 }
 
 void features.add(__filebasename, {
