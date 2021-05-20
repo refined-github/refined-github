@@ -151,9 +151,9 @@ async function addWidget(header: string): Promise<void> {
 	);
 }
 
-function init(): void {
-	void addWidget('#partial-discussion-header .gh-header-meta clipboard-copy');
-	void addWidget('#partial-discussion-header .gh-header-sticky clipboard-copy');
+async function init(): Promise<void> {
+	await addWidget('#partial-discussion-header .gh-header-meta clipboard-copy');
+	await addWidget('#partial-discussion-header .gh-header-sticky clipboard-copy');
 }
 
 void features.add(__filebasename, {
