@@ -2,7 +2,7 @@ import './conversation-activity-filter.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
-import elementReady, {StoppablePromise} from 'element-ready';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, EyeClosedIcon, EyeIcon} from '@primer/octicons-react';
 
