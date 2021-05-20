@@ -119,8 +119,8 @@ function createRadio(filterSettings: State): JSX.Element {
 	);
 }
 
-async function addWidget(header: StoppablePromise<HTMLElement | undefined>): Promise<void> {
-	const position = (await header)!.closest('div')!;
+async function addWidget(header: string): Promise<void> {
+	const position = (await elementReady(header))!.closest('div')!;
 	if (position.classList.contains('rgh-conversation-activity-filter')) {
 		return;
 	}
@@ -152,8 +152,8 @@ async function addWidget(header: StoppablePromise<HTMLElement | undefined>): Pro
 }
 
 function init(): void {
-	void addWidget(elementReady('#partial-discussion-header .gh-header-meta clipboard-copy'));
-	void addWidget(elementReady('#partial-discussion-header .gh-header-sticky clipboard-copy'));
+	void addWidget('#partial-discussion-header .gh-header-meta clipboard-copy');
+	void addWidget('#partial-discussion-header .gh-header-sticky clipboard-copy');
 }
 
 void features.add(__filebasename, {
