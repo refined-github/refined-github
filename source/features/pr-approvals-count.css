@@ -17,3 +17,7 @@
 .js-issue-row .color-text-secondary [aria-label*='changes'] {
 	color: var(--github-red) !important;
 }
+
+[aria-label*='approval']:after {
+	content: none;
+}
