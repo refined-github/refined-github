@@ -2,14 +2,13 @@ import './conversation-activity-filter.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
-import elementReady from 'element-ready';
+import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, EyeClosedIcon, EyeIcon} from '@primer/octicons-react';
 
 import features from '.';
 import onNewComments from '../github-events/on-new-comments';
 import {removeClassFromAll, wrap} from '../helpers/dom-utils';
-import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 const states = {
 	default: '',
@@ -22,6 +21,8 @@ type State = keyof typeof states;
 let currentSetting: State = 'default';
 const dropdownClass = 'rgh-conversation-activity-filter-dropdown';
 const hiddenClassName = 'rgh-conversation-activity-filtered';
+
+const deinit: VoidFunction[] = [];
 
 function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
 	const hasMainComment = select.exists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
@@ -119,12 +120,7 @@ function createRadio(filterSettings: State): JSX.Element {
 	);
 }
 
-async function addWidget(header: string): Promise<void> {
-	const position = (await elementReady(header))!.closest('div')!;
-	if (position.classList.contains('rgh-conversation-activity-filter')) {
-		return;
-	}
-
+function addWidget(position: Element): void {
 	wrap(position, <div className="d-flex flex-items-baseline"/>);
 	position.classList.add('rgh-conversation-activity-filter');
 	position.after(
@@ -151,20 +147,17 @@ async function addWidget(header: string): Promise<void> {
 	);
 }
 
-async function init(): Promise<void> {
-	// Work around for `clean-conversation-headers`
-	const mainHeaderSelector = pageDetect.isPR() ? 'relative-time' : 'span[data-issue-and-pr-hovercards-enabled]';
-	await addWidget(`#partial-discussion-header .gh-header-meta :is(clipboard-copy, ${mainHeaderSelector})`);
-	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)');
+function init(): void {
+	const observer = observe(':is(.gh-header-sticky .meta, .gh-header-meta .flex-auto):not(.rgh-conversation-activity-filter)', {
+		add: addWidget
+	});
+	deinit.push(observer.abort);
 }
 
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversation
 	],
-	additionalListeners: [
-		onConversationHeaderUpdate
-	],
-	awaitDomReady: false,
-	init
+	init,
+	deinit
 });
