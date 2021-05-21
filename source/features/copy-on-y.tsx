@@ -26,7 +26,8 @@ void features.add(__filebasename, {
 		pageDetect.isCompare,
 		pageDetect.isRepoTree,
 		pageDetect.isRepoCommitList,
-		pageDetect.isSingleCommit
+		pageDetect.isSingleCommit,
+		pageDetect.isSingleFile
 	],
 	awaitDomReady: false,
 	deduplicate: false,
