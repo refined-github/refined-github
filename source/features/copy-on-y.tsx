@@ -24,7 +24,10 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleFile,
 		pageDetect.isBlame,
-		pageDetect.isSingleCommit
+		pageDetect.isCompare,
+		pageDetect.isRepoTree,
+		pageDetect.isSingleCommit,
+		pageDetect.isRepoCommitList
 	],
 	awaitDomReady: false,
 	deduplicate: false,
