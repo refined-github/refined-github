@@ -25,7 +25,7 @@
 }
 
 /* Fix duplicated content issue in changed quote blocks #4035 */
-.rgh-hide-markdown-diff .markdown-body .changed > .changed_tag[data-before-tag='blockquote'] ~ p:not([class]):not(:empty) {
+.rgh-hide-markdown-diff .markdown-body .changed > .changed_tag[data-before-tag='blockquote'] ~ p:not([class], :empty) {
 	display: none !important;
 }
 

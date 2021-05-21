@@ -1,16 +1,15 @@
+import delay from 'delay';
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
-import elementReady from 'element-ready';
-import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import optionsStorage, {RGHOptions} from '../options-storage';
+import {getLocalHotfixes, updateHotfixes} from '../helpers/hotfix';
 
 type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
@@ -82,20 +81,34 @@ let logError = (id: FeatureID, error: unknown): void => {
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
-	await elementReady('body', {waitForChildren: false});
+	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
+		optionsStorage.getAll(),
+		getLocalHotfixes(version),
+		bisectFeatures()
+	]);
 
-	if (pageDetect.is500()) {
-		return;
+	if (options.customCSS.trim().length > 0) {
+		document.head.append(<style>{options.customCSS}</style>);
 	}
 
-	if (document.title === 'Confirm password' || document.title === 'Confirm access') {
-		return;
+	if (bisectedFeatures) {
+		Object.assign(options, bisectedFeatures);
+	} else {
+		// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
+		void updateHotfixes();
+		Object.assign(options, localHotfixes);
 	}
 
-	if (document.body.classList.contains('logged-out')) {
-		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
-		features.error = () => {/* No logging */};
-		logError = () => {/* No logging */};
+	// Create logging function
+	log = options.logging ? console.log : () => {/* No logging */};
+
+	while (!document.body) {
+		// eslint-disable-next-line no-await-in-loop
+		await delay(10);
+	}
+
+	if (pageDetect.is500() || pageDetect.isPasswordConfirmation()) {
+		return;
 	}
 
 	if (select.exists('html.refined-github')) {
@@ -110,29 +123,13 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		return;
 	}
 
+	if (select.exists('body.logged-out')) {
+		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
+		features.error = () => {/* No logging */};
+		logError = () => {/* No logging */};
+	}
+
 	document.documentElement.classList.add('refined-github');
-
-	// Options defaults
-	const [options, hotfix, bisectedFeatures] = await Promise.all([
-		optionsStorage.getAll(),
-		version === '0.0.0' || await cache.get('hotfix'), // Ignores the cache when loaded locally
-		bisectFeatures()
-	]);
-
-	if (bisectedFeatures) {
-		Object.assign(options, bisectedFeatures);
-	} else {
-		// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
-		void checkForHotfixes();
-		Object.assign(options, hotfix);
-	}
-
-	if (options.customCSS.trim().length > 0) {
-		document.head.append(<style>{options.customCSS}</style>);
-	}
-
-	// Create logging function
-	log = options.logging ? console.log : () => {/* No logging */};
 
 	resolve(options);
 });
@@ -179,23 +176,6 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 		listener(runFeature);
 	}
 };
-
-const checkForHotfixes = cache.function(async () => {
-	// The explicit endpoint is necessary because it shouldn't change on GHE
-	const request = await fetch('https://api.github.com/repos/sindresorhus/refined-github/contents/hotfix.json?ref=hotfix');
-	const response = await request.json();
-	const hotfixes: AnyObject | false = JSON.parse(atob(response.content));
-
-	// eslint-disable-next-line @typescript-eslint/prefer-optional-chain -- https://github.com/typescript-eslint/typescript-eslint/issues/1893
-	if (hotfixes && hotfixes.unaffected && compareVersions(hotfixes.unaffected, version) < 1) {
-		return {};
-	}
-
-	return hotfixes;
-}, {
-	maxAge: {hours: 6},
-	cacheKey: () => 'hotfix'
-});
 
 const shortcutMap = new Map<string, string>();
 

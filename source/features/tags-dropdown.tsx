@@ -1,11 +1,11 @@
 import './tags-dropdown.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import {OctofaceIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {buildRepoURL} from '../github-helpers';
+import {ToastSpinner} from '../github-helpers/toast';
 
 // We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
 function changeTabToTags(): void {
@@ -37,7 +37,7 @@ function init(): void {
 					style={{zIndex: 99}}
 				>
 					<include-fragment className="select-menu-loading-overlay anim-pulse" onLoad={changeTabToTags}>
-						<OctofaceIcon/>
+						<ToastSpinner/>
 					</include-fragment>
 				</details-menu>
 			</details>
