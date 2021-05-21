@@ -1,6 +1,5 @@
-
 /* For the 1st button "Create public Gist" */
-button[value="1"] {
-    margin-left: auto !important;
-    margin-right: 0;
+button[value='1'] {
+	margin-left: auto !important;
+	margin-right: 0;
 }
