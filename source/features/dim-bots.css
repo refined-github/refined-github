@@ -23,18 +23,18 @@ Commits that have a long commit message will not be dimmed after the user uncoll
 ALL the following rules define the non-focused state
 */
 
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-title, /* Commit titles, dim, pre "Repository refresh" layout */
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .mb-1, /* Commit titles, dim */
+.rgh-dim-bot:not(.navigation-focus, .Details--on) .commit-title, /* Commit titles, dim, pre "Repository refresh" layout */
+.rgh-dim-bot:not(.navigation-focus, .Details--on) .mb-1, /* Commit titles, dim */
 .rgh-dim-bot:not(.navigation-focus) .Box-row--drag-hide { /* PR row, dim */
 	opacity: 20%;
 	transition-delay: 0s;
 }
 
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-meta, /* Pre "Repository refresh" layout */
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .mb-1 ~ .d-flex,
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-links-group, /* Hash and Copy hash buttons, pre "Repository refresh" layout */
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) .commit-links-group + .btn, /* Browse repository button, pre "Repository refresh" layout */
-.rgh-dim-bot:not(.navigation-focus):not(.Details--on) > .d-md-block {
+.rgh-dim-bot:not(.navigation-focus, .Details--on) .commit-meta, /* Pre "Repository refresh" layout */
+.rgh-dim-bot:not(.navigation-focus, .Details--on) .mb-1 ~ .d-flex,
+.rgh-dim-bot:not(.navigation-focus, .Details--on) .commit-links-group, /* Hash and Copy hash buttons, pre "Repository refresh" layout */
+.rgh-dim-bot:not(.navigation-focus, .Details--on) .commit-links-group + .btn, /* Browse repository button, pre "Repository refresh" layout */
+.rgh-dim-bot:not(.navigation-focus, .Details--on) > .d-md-block {
 	opacity: 0%;
 	margin-bottom: -1.6em;
 	transition-delay: 0s;
