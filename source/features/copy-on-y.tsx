@@ -22,12 +22,11 @@ function deinit(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isSingleFile,
 		pageDetect.isBlame,
 		pageDetect.isCompare,
 		pageDetect.isRepoTree,
-		pageDetect.isSingleCommit,
-		pageDetect.isRepoCommitList
+		pageDetect.isRepoCommitList,
+		pageDetect.isSingleCommit
 	],
 	awaitDomReady: false,
 	deduplicate: false,
