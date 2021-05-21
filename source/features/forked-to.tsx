@@ -60,7 +60,7 @@ async function updateUI(forks: string[]): Promise<void> {
 		);
 	} else {
 		forkCounter!.before(
-			<details className="details-reset details-overlay select-menu float-left rgh-forked-details">
+			<details className="details-reset details-overlay select-menu float-left">
 				<summary
 					className="select-menu-button float-left btn btn-sm btn-with-count rgh-forked-button"
 					aria-haspopup="menu"
@@ -94,9 +94,9 @@ async function init(): Promise<void | false> {
 	const forks = await cache.get<string[]>(getCacheKey());
 
 	// If the feature has already run on this page, only update its links
-	if (forks && select.exists('.rgh-forked-button, .rgh-forked-details')) {
+	if (forks && select.exists('.rgh-forked-button')) {
 		for (const fork of forks) {
-			select<HTMLAnchorElement>(`.rgh-forked-link[href^="/${fork}/"]`)!.href = createLink(fork);
+			select<HTMLAnchorElement>(`.rgh-forked-link[href^="/${fork}"]`)!.href = createLink(fork);
 		}
 
 		return;
