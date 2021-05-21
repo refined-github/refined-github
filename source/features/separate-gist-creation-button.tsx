@@ -21,11 +21,7 @@ function init(): void | false {
 		const radioButton = select('input[type=radio]', dropdownItem)!;
 		const classList = ['btn', 'ml-2', 'tooltipped', 'tooltipped-s'];
 
-		if (/\bsecret\b/i.test(title)) {
-			title = 'Create secret Gist';
-		} else {
-			title = 'Create public Gist';
-		}
+		title = (/\bsecret\b/i.test(title)) ? 'Create secret Gist' : 'Create public Gist';
 
 		classList.push('btn-primary');
 
