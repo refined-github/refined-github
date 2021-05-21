@@ -20,16 +20,12 @@ function init(): void {
 		'.js-details-container .pr-1 > code', // `isCompare` pushed commits
 		'.Box-row .mb-1 a', // `isCompare` open Pull Request title
 		'.blame-commit-message', // `isBlame` commit message
-		'a[id^="issue_"]', // `isConversationList` issue and PR title
-		'.TimelineItem-body > del', // `isIssue`, `isPRConversation` title edits
-		'.TimelineItem-body > ins', // `isIssue`, `isPRConversation` title edits
 		'[id^=ref-issue-]', // `isIssue` issue and PR references
 		'[id^=ref-pullrequest-]', // `isPRConversation` issue and PR references
 		'[aria-label="Link issues"] a', // `isIssue`, `isPRConversation` linked issue and PR
 		'.Box-header.Details .link-gray', // `isSingleFile` commit message (GHE)
 		'.Box-header.Details .Link--secondary', // `isSingleFile` commit message
 		'.Box-header.Details pre', // `isSingleFile` commit description
-		'.js-pinned-issue-list-item > .d-block', // Pinned Issues
 		'.release-header', // `isReleasesOrTags` Headers
 		'.existing-pull-contents .list-group-item-link', // `isCompare` with existing PR
 		'#pull-requests a.link-gray-dark', // `isPulse` issue and PR title (GHE)
@@ -43,9 +39,6 @@ function init(): void {
 		'.issues_labeled .text-gray-dark > a', // `isDashboard` "help wanted" event titles (GHE)
 		'.issues_labeled .color-text-primary > a', // `isDashboard` "help wanted" event titles
 		'.commits blockquote', // `isDashboard` newsfeed commits
-		'.notifications-list-item p.text-normal', // `isNotifications` issue and PR title
-		'.profile-timeline-card .text-gray-dark', // `isUserProfileMainTab` issue and PR title (GHE)
-		'.TimelineItem-body .color-text-primary', // `isUserProfileMainTab` issue and PR title
 		'#user-repositories-list [itemprop="description"]', // `isUserProfileRepoTab` repository description
 		'.js-hovercard-content > .Popover-message .link-gray-dark', // Hovercard (GHE)
 		'.js-hovercard-content > .Popover-message .Link--primary', // Hovercard
