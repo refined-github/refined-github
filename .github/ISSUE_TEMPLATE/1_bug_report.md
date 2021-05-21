@@ -1,5 +1,5 @@
 ---
-name: Report a bug
+name: 🐛 Report a bug
 about: ———
 labels: bug
 ---

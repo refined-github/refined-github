@@ -68,7 +68,7 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 			await delay(1000, {signal: abortController.signal}); // eslint-disable-line no-await-in-loop
 		} while (--secondsLeft);
 	} catch {
-		button.textContent = 'Delete repo';
+		button.textContent = 'Delete fork';
 		button.style.transform = '';
 	}
 

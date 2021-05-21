@@ -115,8 +115,8 @@ async function showTimemachineBar(): Promise<void | false> {
 function init(): void {
 	// PR reviews' main content has nested `.timeline-comment`, but the deepest one doesn't have `relative-time`. These are filtered out with `:not([id^="pullrequestreview"])`
 	const comments = select.all(`
-		:not(.js-new-comment-form):not(#issuecomment-new):not([id^="pullrequestreview"]) > .timeline-comment:not(.rgh-time-machine-links),
-		.review-comment > .previewable-edit:not(.is-pending):not(.rgh-time-machine-links)
+		:not(.js-new-comment-form, #issuecomment-new, [id^="pullrequestreview"]) > .timeline-comment:not(.rgh-time-machine-links),
+		.review-comment > .previewable-edit:not(.is-pending, .rgh-time-machine-links)
 	`);
 
 	for (const comment of comments) {
@@ -131,6 +131,9 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments
+	],
+	exclude: [
+		pageDetect.isGist
 	],
 	init
 }, {
