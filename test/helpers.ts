@@ -228,6 +228,11 @@ test('preventDiscussionLinkLoss', t => {
 		'[#2789 (comment)](https://github.com/streetcomplete/StreetComplete/discussions/2789?sort=top#discussioncomment-646707)'
 	);
 	t.is(
+		replaceDiscussionLink('https://github.com/streetcomplete/StreetComplete/discussions/2789?sort=top\nhttps://github.com/streetcomplete/StreetComplete/discussions/2789#discussioncomment-646707'),
+		'[#2789](https://github.com/streetcomplete/StreetComplete/discussions/2789?sort=top)\nhttps://github.com/streetcomplete/StreetComplete/discussions/2789#discussioncomment-646707',
+		'It should work separately on links.'
+	);
+	t.is(
 		replaceDiscussionLink('lorem ipsum dolor https://github.com/streetcomplete/StreetComplete/discussions/2789?sort=top some random string'),
 		'lorem ipsum dolor [#2789](https://github.com/streetcomplete/StreetComplete/discussions/2789?sort=top) some random string'
 	);
