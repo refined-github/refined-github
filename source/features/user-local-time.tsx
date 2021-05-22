@@ -80,9 +80,9 @@ function parseOffset(date: string): number {
 function init(): void {
 	const hovercard = select('.js-hovercard-content > .Popover-message')!;
 
-	observeElement(hovercard, async () => {
+	observeElement(hovercard, async ([mutation]) => {
 		if (
-			select.exists('.rgh-local-user-time', hovercard) || // Time already added
+			mutation?.addedNodes?.length !== 1 || // Avoid duplicated time element issue #3634
 			!select.exists('[data-hydro-view*="user-hovercard-hover"]', hovercard) // It's not the hovercard type we expect
 		) {
 			return;
