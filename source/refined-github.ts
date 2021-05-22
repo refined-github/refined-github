@@ -174,7 +174,7 @@ import './features/batch-mark-files-as-viewed';
 import './features/unwrap-useless-dropdowns';
 import './features/linkify-notification-repository-header';
 import './features/stop-redirecting-in-notification-bar';
-import './features/prevent-pr-commit-link-loss';
+import './features/prevent-link-loss';
 import './features/first-published-tag-for-merged-pr';
 import './features/show-associated-branch-prs-on-fork';
 import './features/faster-reviews';

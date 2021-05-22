@@ -17,10 +17,10 @@ function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEven
 }
 
 function getUI(field: HTMLTextAreaElement): HTMLElement {
-	return select('.rgh-fix-pr-commit-links-container', field.form!) ?? (
-		<div className="flash flash-warn mb-2 rgh-fix-pr-commit-links-container">
+	return select('.rgh-prevent-link-loss-container', field.form!) ?? (
+		<div className="flash flash-warn mb-2 rgh-prevent-link-loss-container">
 			<AlertIcon/> Your PR Commit link may be <a target="_blank" rel="noopener noreferrer" href="https://github.com/sindresorhus/refined-github/issues/2327">misinterpreted by GitHub.</a>
-			<button type="button" className="btn btn-sm primary flash-action rgh-fix-pr-commit-links">Fix link</button>
+			<button type="button" className="btn btn-sm primary flash-action rgh-prevent-link-loss">Fix link</button>
 		</div>
 	);
 }
@@ -42,7 +42,7 @@ const updateUI = debounceFn(({delegateTarget: field}: delegate.Event<Event, HTML
 
 function init(): void {
 	delegate(document, 'form#new_issue textarea, form.js-new-comment-form textarea, textarea.comment-form-textarea', 'input', updateUI);
-	delegate(document, '.rgh-fix-pr-commit-links', 'click', handleButtonClick);
+	delegate(document, '.rgh-prevent-link-loss', 'click', handleButtonClick);
 }
 
 void features.add(__filebasename, {
