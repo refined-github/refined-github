@@ -10,8 +10,10 @@ import {
 	getLatestVersionTag,
 	preventPrCommitLinkLoss,
 	preventPrCompareLinkLoss,
+	preventDiscussionLinkLoss,
 	prCommitUrlRegex,
-	prCompareUrlRegex
+	prCompareUrlRegex,
+	discussionUrlRegex
 } from '../source/github-helpers';
 
 test('getConversationNumber', t => {
@@ -148,6 +150,10 @@ function replacePrCompareLink(string: string): string {
 	return string.replace(prCompareUrlRegex, preventPrCompareLinkLoss);
 }
 
+function replaceDiscussionLink(string: string): string {
+	return string.replace(discussionUrlRegex, preventDiscussionLinkLoss);
+}
+
 test('preventPrCommitLinkLoss', t => {
 	t.is(replacePrCommitLink('https://www.google.com/'), 'https://www.google.com/');
 	t.is(
@@ -207,6 +213,32 @@ test('preventPrCompareLinkLoss', t => {
 	t.is(
 		replacePrCompareLink('I like [turtles](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)'),
 		'I like [turtles](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)',
+		'It should ignore Markdown links'
+	);
+});
+
+test('preventDiscussionLinkLoss', t => {
+	t.is(
+		replaceDiscussionLink('https://github.com/streetcomplete/StreetComplete/discussions/2789'),
+		'https://github.com/streetcomplete/StreetComplete/discussions/2789',
+		'It should not affect discussion URLs without a query parameter'
+	);
+	t.is(
+		replaceDiscussionLink('https://github.com/streetcomplete/StreetComplete/discussions/2789?sort=top#discussioncomment-646707'),
+		'[#2789 (comment)](https://github.com/streetcomplete/StreetComplete/discussions/2789?sort=top#discussioncomment-646707)'
+	);
+	t.is(
+		replaceDiscussionLink('lorem ipsum dolor https://github.com/streetcomplete/StreetComplete/discussions/2789?sort=top some random string'),
+		'lorem ipsum dolor [#2789](https://github.com/streetcomplete/StreetComplete/discussions/2789?sort=top) some random string'
+	);
+	t.is(
+		replaceDiscussionLink(replaceDiscussionLink('lorem ipsum dolor https://github.com/streetcomplete/StreetComplete/discussions/2789?sort=top#discussioncomment-646707 some random string')),
+		'lorem ipsum dolor [#2789 (comment)](https://github.com/streetcomplete/StreetComplete/discussions/2789?sort=top#discussioncomment-646707) some random string',
+		'It should not apply it twice'
+	);
+	t.is(
+		replaceDiscussionLink('I like [turtles](https://github.com/streetcomplete/StreetComplete/discussions/2789?sort=top#discussioncomment-646707)'),
+		'I like [turtles](https://github.com/streetcomplete/StreetComplete/discussions/2789?sort=top#discussioncomment-646707)',
 		'It should ignore Markdown links'
 	);
 });
