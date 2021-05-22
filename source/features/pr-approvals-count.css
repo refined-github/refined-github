@@ -18,6 +18,7 @@
 	color: var(--github-red) !important;
 }
 
-[aria-label*='approval']:after {
+/* Disable now-duplicate tooltip */
+.js-issue-row .color-text-secondary [aria-label*='approval']::after {
 	content: none;
 }
