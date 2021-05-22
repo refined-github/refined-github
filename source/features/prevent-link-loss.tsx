@@ -21,16 +21,21 @@ function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEven
 	fixButton.parentElement!.remove();
 }
 
+function getRghIssueLink(issueShortcut: string): Element {
+	const issueNumber = issueShortcut.slice(1);
+	return <a target="_blank" rel="noopener noreferrer" href={`https://github.com/sindresorhus/refined-github/issues/${issueNumber}`}>{issueShortcut}</a>;
+}
+
 function getUI(field: HTMLTextAreaElement): HTMLElement {
 	return select('.rgh-prevent-link-loss-container', field.form!) ?? (
 		<div className="flash flash-warn mb-2 rgh-prevent-link-loss-container">
-			<AlertIcon/> Your link may be misinterpreted by GitHub (see <a target="_blank" rel="noopener noreferrer" href="https://github.com/sindresorhus/refined-github/issues/2327">#2327</a>, <a target="_blank" rel="noopener noreferrer" href="https://github.com/sindresorhus/refined-github/issues/3528">#3528</a>, <a target="_blank" rel="noopener noreferrer" href="https://github.com/sindresorhus/refined-github/issues/4357">#4357</a>).
+			<AlertIcon/> Your link may be misinterpreted by GitHub (see {getRghIssueLink('#2327')}, {getRghIssueLink('#3528')}, {getRghIssueLink('#4357')}).
 			<button type="button" className="btn btn-sm primary flash-action rgh-prevent-link-loss">Fix link</button>
 		</div>
 	);
 }
 
-function isVulnerableToLinkLoss(value: string) {
+function isVulnerableToLinkLoss(value: string): boolean {
 	// The replacement logic is not just in the regex, so it alone can't be used to detect the need for the replacement
 	return value !== value.replace(prCommitUrlRegex, preventPrCommitLinkLoss) ||
 		value !== value.replace(prCompareUrlRegex, preventPrCompareLinkLoss) ||
