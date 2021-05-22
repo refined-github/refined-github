@@ -1,4 +1,3 @@
-import './default-branch-button.css';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -52,6 +51,10 @@ async function init(): Promise<false | void> {
 	branchSelector.parentElement!.before(defaultLink);
 	groupButtons([defaultLink, branchSelector.parentElement!]).classList.add('d-flex');
 	branchSelector.style.float = 'none'; // Pre "Repository refresh" layout
+
+	// Fix #4240
+	branchSelector.style.zIndex = 'auto';
+	branchSelector.parentElement!.style.zIndex = 'auto';
 }
 
 void features.add(__filebasename, {
