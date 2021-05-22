@@ -1,0 +1,3 @@
+:is(#branch-select-menu, [data-hotkey='w'].BtnGroup-item):is(:focus, :active) {
+	z-index: auto !important; /* Fix #4240 */
+}
