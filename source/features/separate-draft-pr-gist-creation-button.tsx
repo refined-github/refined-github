@@ -1,4 +1,4 @@
-import './separate-gist-creation-button.css';
+import './separate-draft-pr-gist-creation-button.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
@@ -21,9 +21,11 @@ function init(): void | false {
 		const radioButton = select('input[type=radio]', dropdownItem)!;
 		const classList = ['btn', 'ml-2', 'tooltipped', 'tooltipped-s'];
 
-		title = (/\bsecret\b/i.test(title)) ? 'Create secret Gist' : 'Create public Gist';
-
-		classList.push('btn-primary');
+		if (/\bdraft\b/i.test(title)) {
+			title = 'Create draft PR';
+		} else {
+			classList.push('btn-primary');
+		}
 
 		initialGroupedButtons.after(
 			<button
@@ -43,6 +45,7 @@ function init(): void | false {
 
 void features.add(__filebasename, {
 	include: [
+		pageDetect.isCompare,
 		pageDetect.isGist
 	],
 	init
