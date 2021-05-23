@@ -25,7 +25,12 @@ function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEven
 }
 
 function getRghIssueLink(issueNumber: number): Element {
-	return <a target="_blank" rel="noopener noreferrer" href={`https://github.com/sindresorhus/refined-github/issues/${issueNumber}`}>#{issueNumber}</a>;
+	const issueLink = `https://github.com/sindresorhus/refined-github/issues/${issueNumber}`;
+	return (
+		<a target="_blank" rel="noopener noreferrer" data-hovercard-type="issue" data-hovercard-url={issueLink + '/hovercard'} href={issueLink}>
+			#{issueNumber}
+		</a>
+	);
 }
 
 function getUI(field: HTMLTextAreaElement): HTMLElement {
