@@ -8,9 +8,12 @@ import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
 import {
-	prCommitUrlRegex, preventPrCommitLinkLoss,
-	prCompareUrlRegex, preventPrCompareLinkLoss,
-	discussionUrlRegex, preventDiscussionLinkLoss
+	prCommitUrlRegex,
+	preventPrCommitLinkLoss,
+	prCompareUrlRegex,
+	preventPrCompareLinkLoss,
+	discussionUrlRegex,
+	preventDiscussionLinkLoss
 } from '../github-helpers';
 
 function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
