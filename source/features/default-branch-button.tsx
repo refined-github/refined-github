@@ -49,12 +49,9 @@ async function init(): Promise<false | void> {
 	}
 
 	branchSelector.parentElement!.before(defaultLink);
+	branchSelector.parentElement!.style.zIndex = 'auto'; // For #4240
 	groupButtons([defaultLink, branchSelector.parentElement!]).classList.add('d-flex');
 	branchSelector.style.float = 'none'; // Pre "Repository refresh" layout
-
-	// Fix #4240
-	branchSelector.style.zIndex = 'auto';
-	branchSelector.parentElement!.style.zIndex = 'auto';
 }
 
 void features.add(__filebasename, {
