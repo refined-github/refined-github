@@ -14,7 +14,7 @@ import {
 	preventPrCompareLinkLoss,
 	discussionUrlRegex,
 	preventDiscussionLinkLoss
-} from '../github-helpers';
+} from '../github-helpers/prevent-link-loss';
 
 function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = fixButton.form!.querySelector('textarea')!;
