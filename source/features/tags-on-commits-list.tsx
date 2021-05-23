@@ -154,6 +154,7 @@ async function init(): Promise<void | false> {
 					</span>
 				</div>
 			);
+			commit.classList.add('rgh-tagged');
 		}
 	}
 
