@@ -96,7 +96,7 @@ async function init(): Promise<void | false> {
 	// If the feature has already run on this page, only update its links
 	if (forks && select.exists('.rgh-forked-button')) {
 		for (const fork of forks) {
-			select<HTMLAnchorElement>(`.rgh-forked-link[href^="/${fork}/"]`)!.href = createLink(fork);
+			select<HTMLAnchorElement>(`.rgh-forked-link[href^="/${fork}"]`)!.href = createLink(fork);
 		}
 
 		return;
