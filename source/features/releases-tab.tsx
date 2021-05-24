@@ -54,9 +54,7 @@ async function init(): Promise<false | void> {
 	}
 
 	// Wait for the tab bar to be loaded
-	await elementReady('.UnderlineNav-body');
-
-	const repoNavigationBar = select('.js-responsive-underlinenav .UnderlineNav-body')!;
+	const repoNavigationBar = (await elementReady('.js-responsive-underlinenav .UnderlineNav-body'))!;
 	const releasesTab = (
 		<li className="d-flex">
 			<a
