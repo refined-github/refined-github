@@ -181,11 +181,10 @@ async function getFeaturesDisabledViaHotfix(): Promise<HTMLElement[]> {
 	}
 
 	const {version} = browser.runtime.getManifest();
-	const featureNames: Set<string> = new Set(features.map(({id}) => id));
+	const isDevelopmentVersion = version === '0.0.0';
 	const disabledFeatures = [];
-	for (const [feature, unaffectedVersion] of hotfixes) {
-		const relatedIssue = '#1234';
-		if (featureNames.has(feature) && (version === '0.0.0' || !unaffectedVersion || compareVersions(unaffectedVersion, version) > 0)) {
+	for (const [feature, unaffectedVersion, relatedIssue] of hotfixes) {
+		if (features.some(({id}) => id === feature) && (isDevelopmentVersion || !unaffectedVersion || compareVersions(unaffectedVersion, version) > 0)) {
 			disabledFeatures.push(
 				<p>
 					<code>{feature}</code> has been temporarily disabled
