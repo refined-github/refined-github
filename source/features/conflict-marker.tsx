@@ -7,7 +7,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import looseParseInt from '../helpers/loose-parse-int';
 
 interface PRConfig {
 	number: string;
@@ -45,7 +44,7 @@ function getPRConfig(prIcon: Element): PRConfig {
 
 async function init(): Promise<false | void> {
 	// Milestone issues are lazy-loaded
-	if (pageDetect.isMilestone() && looseParseInt(select('.table-list-header-toggle a')!) > 0) {
+	if (pageDetect.isMilestone() && !select.exists('.blankslate')) {
 		await oneMutation(select('.js-milestone-issues-container')!, {childList: true});
 	}
 
