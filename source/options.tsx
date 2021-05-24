@@ -188,7 +188,7 @@ async function getFeaturesDisabledViaHotfix(): Promise<HTMLElement[]> {
 			disabledFeatures.push(
 				<p>
 					<code>{feature}</code> has been temporarily disabled
-					{relatedIssue ? <> due to <a href={'https://github.com/sindresorhus/refined-github/issues/' + relatedIssue.slice(1)}>{relatedIssue}</a></> : false}.
+					{relatedIssue ? <> due to <a href={'https://github.com/sindresorhus/refined-github/issues/' + relatedIssue}>#{relatedIssue}</a></> : false}.
 				</p>
 			);
 		}
