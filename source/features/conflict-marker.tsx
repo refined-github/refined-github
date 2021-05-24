@@ -2,10 +2,12 @@ import './conflict-marker.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import {AlertIcon} from '@primer/octicons-react';
+import oneMutation from 'one-mutation';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import looseParseInt from '../helpers/loose-parse-int';
 
 interface PRConfig {
 	number: string;
@@ -42,6 +44,11 @@ function getPRConfig(prIcon: Element): PRConfig {
 }
 
 async function init(): Promise<false | void> {
+	// Milestone issues are lazy-loaded
+	if (pageDetect.isMilestone() && looseParseInt(select('.table-list-header-toggle a')!) > 0) {
+		await oneMutation(select('.js-milestone-issues-container')!, {childList: true});
+	}
+
 	const openPrIcons = select.all('.js-issue-row .octicon-git-pull-request.open');
 	if (openPrIcons.length === 0) {
 		return false;
