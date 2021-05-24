@@ -36,7 +36,7 @@ function onlyShowInDropdown(id: string): void {
 
 async function init(): Promise<void> {
 	// Wait for the tab bar to be loaded
-	await elementReady('.UnderlineNav-body');
+	const repoNavigationBar = (await elementReady('.UnderlineNav-body'))!;
 
 	const reference = getCurrentCommittish() ?? await getDefaultBranch();
 	const compareUrl = buildRepoURL('compare', reference);
@@ -44,7 +44,7 @@ async function init(): Promise<void> {
 	const branchesUrl = buildRepoURL('branches');
 	const dependenciesUrl = buildRepoURL('network/dependencies');
 
-	select('.js-responsive-underlinenav .UnderlineNav-body')!.parentElement!.classList.add('rgh-has-more-dropdown');
+	repoNavigationBar.parentElement!.classList.add('rgh-has-more-dropdown');
 
 	select('.js-responsive-underlinenav-overflow ul')!.append(
 		<li className="dropdown-divider" role="separator"/>,
