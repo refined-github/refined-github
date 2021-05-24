@@ -58,6 +58,13 @@ li[data-validation] {
 	display: flex;
 }
 
+.js-hotfixes:not(:empty) {
+	margin-bottom: 10px;
+	padding: 10px 10px 0 10px;
+	border: 1px solid var(--github-red);
+	border-radius: 0.2em;
+}
+
 .js-features input[type='checkbox'] {
 	flex-shrink: 0;
 }

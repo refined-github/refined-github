@@ -6,6 +6,7 @@ import domify from 'doma';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
+import compareVersions from 'tiny-version-compare';
 import * as indentTextarea from 'indent-textarea';
 
 import {perDomainOptions} from './options-storage';
@@ -173,9 +174,35 @@ async function highlightNewFeatures(): Promise<void> {
 	void browser.storage.local.set({featuresAlreadySeen});
 }
 
+async function getFeaturesDisabledViaHotfix(): Promise<HTMLElement[]> {
+	const hotfixes = await cache.get<string[][]>('hotfixes');
+	if (!hotfixes) {
+		return [];
+	}
+
+	const {version} = browser.runtime.getManifest();
+	const featureNames: Set<string> = new Set(features.map(({id}) => id));
+	const disabledFeatures = [];
+	for (const [feature, unaffectedVersion, relatedIssue] of hotfixes) {
+		if (featureNames.has(feature) && (version === '0.0.0' || !unaffectedVersion || compareVersions(unaffectedVersion, version) > 0)) {
+			disabledFeatures.push(
+				<p>
+					<code>{feature}</code> has been temporarily disabled
+					{relatedIssue ? <> due to <a href={'https://github.com/sindresorhus/refined-github/issues/' + relatedIssue.slice(1)}>{relatedIssue}</a></> : false}.
+				</p>
+			);
+		}
+	}
+
+	return disabledFeatures;
+}
+
 async function generateDom(): Promise<void> {
 	// Generate list
 	select('.js-features')!.append(...features.map(buildFeatureCheckbox));
+
+	// Add notices for features disabled via hotfix
+	select('.js-hotfixes')!.append(...await getFeaturesDisabledViaHotfix());
 
 	// Update list from saved options
 	await perDomainOptions.syncForm('form');
