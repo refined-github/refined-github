@@ -8,7 +8,7 @@
 		"build:webpack": "webpack --mode=production",
 		"fix": "run-p 'lint:* -- --fix'",
 		"lint": "run-p lint:* --continue-on-error",
-		"lint:css": "stylelint 'source/**/*.css'",
+		"lint:css": "stylelint \"source/**/*.css\"",
 		"lint:js": "xo",
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj'",
 		"start:safari": "open 'safari/build/Release/Refined GitHub.app'",
