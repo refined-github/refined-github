@@ -1,3 +1,4 @@
+import './one-click-pr-or-gist.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
@@ -5,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function init(): void | false {
-	const draftPROption = select('.new-pr-form [name="draft"]');
+	const draftPROption = select('.new-pr-form [name="draft"], #new_gist [name="gist[public]"]');
 	if (!draftPROption) {
 		// 1. Free accounts can't open Draft PRs in private repos, so this element is missing
 		// 2. PRs can't be created from some comparison pages: Either base is a tag, not a branch; or there already exists a PR.
@@ -44,7 +45,8 @@ function init(): void | false {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isCompare
+		pageDetect.isCompare,
+		pageDetect.isGist
 	],
 	init
 });
