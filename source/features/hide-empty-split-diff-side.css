@@ -8,3 +8,7 @@
 	display: none !important;
 	width: 0 !important;
 }
+
+:is(.rgh-empty-split-left, .rgh-empty-split-right) .inline-comments .empty-cell:not(.blob-num) {
+	display: none !important;
+}
