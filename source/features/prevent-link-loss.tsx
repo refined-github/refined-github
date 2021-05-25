@@ -24,7 +24,7 @@ function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEven
 	fixButton.parentElement!.remove();
 }
 
-function getRghIssueLink(issueNumber: number): Element {
+function createRghIssueLink(issueNumber: number): Element {
 	const issueLink = `https://github.com/sindresorhus/refined-github/issues/${issueNumber}`;
 	return (
 		<a target="_blank" rel="noopener noreferrer" data-hovercard-type="issue" data-hovercard-url={issueLink + '/hovercard'} href={issueLink}>
@@ -36,7 +36,7 @@ function getRghIssueLink(issueNumber: number): Element {
 function getUI(field: HTMLTextAreaElement): HTMLElement {
 	return select('.rgh-prevent-link-loss-container', field.form!) ?? (
 		<div className="flash flash-warn mb-2 rgh-prevent-link-loss-container">
-			<AlertIcon/> Your link may be misinterpreted by GitHub (see {getRghIssueLink(2327)}, {getRghIssueLink(3528)}, {getRghIssueLink(4357)}).
+			<AlertIcon/> Your link may be misinterpreted by GitHub (see {createRghIssueLink(2327)}, {createRghIssueLink(3528)}, {createRghIssueLink(4357)}).
 			<button type="button" className="btn btn-sm primary flash-action rgh-prevent-link-loss">Fix link</button>
 		</div>
 	);
