@@ -221,6 +221,7 @@ import './features/global-search-filters';
 import './features/clean-header-search-field';
 import './features/avoid-accidental-submissions';
 import './features/delete-review-comments-faster';
+import './features/hide-empty-split-diff-side';
 
 // Add global for easier debugging
 (window as any).select = select;
