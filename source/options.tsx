@@ -176,16 +176,19 @@ async function highlightNewFeatures(): Promise<void> {
 }
 
 async function getFeaturesDisabledViaHotfix(): Promise<HTMLElement[]> {
+	const {version} = browser.runtime.getManifest();
+	if (version === '0.0.0') {
+		return [];
+	}
+
 	const hotfixes = await cache.get<string[][]>('hotfixes');
 	if (!hotfixes) {
 		return [];
 	}
 
-	const {version} = browser.runtime.getManifest();
-	const isDevelopmentVersion = version === '0.0.0';
 	const disabledFeatures = [];
 	for (const [feature, unaffectedVersion, relatedIssue] of hotfixes) {
-		if (features.some(({id}) => id === feature) && (isDevelopmentVersion || !unaffectedVersion || compareVersions(unaffectedVersion, version) > 0)) {
+		if (features.some(({id}) => id === feature) && (!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0)) {
 			disabledFeatures.push(
 				<p>
 					<code>{feature}</code> has been temporarily disabled
