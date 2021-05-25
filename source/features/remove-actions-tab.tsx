@@ -32,6 +32,10 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo
 	],
+	exclude: [
+		// Repo owners should see the tab. If they don't need it, they should disable actions altogether
+		pageDetect.canUserEditRepo
+	],
 	awaitDomReady: false,
 	init: removeActionsTab
 });
