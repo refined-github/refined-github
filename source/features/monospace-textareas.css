@@ -6,7 +6,7 @@
 }
 
 .rgh-monospace-textareas :is(#merge_title_field, #commit-summary-input, textarea) {
-    font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
+	font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
 }
 
 .rgh-monospace-textareas textarea {
