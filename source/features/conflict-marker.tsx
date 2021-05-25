@@ -44,7 +44,7 @@ function getPRConfig(prIcon: Element): PRConfig {
 
 async function init(): Promise<false | void> {
 	// Milestone issues are lazy-loaded
-	if (pageDetect.isMilestone() && !select.exists('.blankslate')) {
+	if (pageDetect.isMilestone()) {
 		await oneMutation(select('.js-milestone-issues-container')!, {childList: true});
 	}
 
@@ -74,6 +74,9 @@ async function init(): Promise<false | void> {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversationList
+	],
+	exclude: [
+		() => select.exists('.blankslate')
 	],
 	init
 });
