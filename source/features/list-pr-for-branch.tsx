@@ -28,7 +28,7 @@ async function init(): Promise<void | false> {
 	const currentBranch = getCurrentBranch();
 	const defaultBranch = await getDefaultBranch();
 
-	if (defaultBranch === currentBranch) {
+	if (defaultBranch === currentBranch || /^[\da-f]{40}$/.test(currentBranch)) {
 		return false;
 	}
 
