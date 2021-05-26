@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import onetime from 'onetime';
+import select from 'select-dom';
 import {observe} from 'selector-observer';
 import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
