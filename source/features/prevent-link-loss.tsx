@@ -15,6 +15,7 @@ import {
 	discussionUrlRegex,
 	preventDiscussionLinkLoss
 } from '../github-helpers/prevent-link-loss';
+import {createRghIssueLink} from '../helpers/rgh-issue-link';
 
 function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = fixButton.form!.querySelector('textarea')!;
@@ -22,15 +23,6 @@ function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEven
 	textFieldEdit.replace(field, prCompareUrlRegex, preventPrCompareLinkLoss);
 	textFieldEdit.replace(field, discussionUrlRegex, preventDiscussionLinkLoss);
 	fixButton.parentElement!.remove();
-}
-
-function createRghIssueLink(issueNumber: number): Element {
-	const issueLink = `https://github.com/sindresorhus/refined-github/issues/${issueNumber}`;
-	return (
-		<a target="_blank" rel="noopener noreferrer" data-hovercard-type="issue" data-hovercard-url={issueLink + '/hovercard'} href={issueLink}>
-			#{issueNumber}
-		</a>
-	);
 }
 
 function getUI(field: HTMLTextAreaElement): HTMLElement {
