@@ -3,7 +3,7 @@ import cache from 'webext-storage-cache'; // Also needed to regularly clear the 
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 
 import './options-storage';
-import getRghRepoIssueLink from './helpers/get-rgh-repo-issue-link';
+import getRghIssueUrl from './helpers/get-rgh-issue-url';
 
 // GHE support
 addDomainPermissionToggle();
@@ -55,7 +55,7 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 		}
 
 		await browser.tabs.create({
-			url: getRghRepoIssueLink(3543)
+			url: getRghIssueUrl(3543)
 		});
 	}
 
