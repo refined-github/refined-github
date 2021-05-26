@@ -1,8 +1,8 @@
 {
 	"name": "Refined GitHub",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"description": "Simplifies the GitHub interface and adds useful features",
-	"homepage_url": "https://github.com/sindresorhus/refined-github",
+	"homepage_url": "https://github.com/l198881/refined-github",
 	"manifest_version": 2,
 	"minimum_chrome_version": "88",
 	"applications": {
