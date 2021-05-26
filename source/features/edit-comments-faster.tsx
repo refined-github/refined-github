@@ -8,7 +8,9 @@ import features from '.';
 
 function init(): void {
 	// Find editable comments first, then traverse to the correct position
-	observe('.js-comment.unminimized-comment .js-comment-update:not(.rgh-edit-comment)', {
+	observe((document.querySelector('.current-user span[title^="You are a"]') !== null || pageDetect.hasComments() ?
+		'.js-comment.unminimized-comment .js-comment-update:not(.rgh-edit-comment)' :
+		'.current-user.js-comment.unminimized-comment .js-comment-update:not(.rgh-edit-comment)'), {
 		add(comment) {
 			comment.classList.add('rgh-edit-comment');
 
