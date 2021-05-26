@@ -44,8 +44,7 @@ function getDropdown(prs: number[]): HTMLElement {
 	);
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElement {
+function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElement {
 	return (
 		<a
 			href={getPRUrl(prNumber)}

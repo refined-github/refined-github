@@ -1,12 +1,14 @@
+import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {GitMergeIcon, GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '.';
-import {getSingleButton} from './list-prs-for-file';
+import getDefaultBranch from '../github-helpers/get-default-branch';
 import {addAfterBranchSelector} from './latest-tag-button';
 import {getPullRequestsAssociatedWithBranch} from './show-associated-branch-prs-on-fork';
 
-function currentBranch(): string {
+function getCurrentBranch(): string {
 	const feedLink = select.last('link[type="application/atom+xml"]')!;
 	return new URL(feedLink.href)
 		.pathname
@@ -16,17 +18,41 @@ function currentBranch(): string {
 		.replace(/\.atom$/, '');
 }
 
-async function init(): Promise<void| false> {
-	const getPr = await getPullRequestsAssociatedWithBranch();
-	const prNumber = getPr[currentBranch()]?.number;
-	if (!prNumber) {
+const stateColorMap = {
+	OPEN: 'text-green color-text-success',
+	CLOSED: 'text-red color-text-danger',
+	MERGED: 'text-purple color-purple-5',
+	DRAFT: ''
+};
+async function init(): Promise<void | false> {
+	const currentBranch = getCurrentBranch();
+	const defaultBranch = await getDefaultBranch();
+
+	if (defaultBranch === currentBranch) {
 		return false;
 	}
 
-	const link = getSingleButton(prNumber);
-	link.classList.add('tooltipped', 'tooltipped-ne');
-	link.classList.remove('btn-sm');
-	link.setAttribute('aria-label', `This branch is associated with pr #${prNumber}`);
+	const getPr = await getPullRequestsAssociatedWithBranch();
+	const prNumber = getPr[currentBranch()]?.number;
+	const prInfo = getPr[currentBranch];
+	if (!prInfo) {
+		return false;
+	}
+
+	const StateIcon = prInfo.state === 'MERGED' ? GitMergeIcon : GitPullRequestIcon;
+	const link = (
+		<a
+			data-issue-and-pr-hovercards-enabled
+			aria-label={`This branch is associated with pr #${prInfo.number}`}
+			href={prInfo.url}
+			className="btn btn-outline flex-self-center rgh-list-pr-for-branch"
+			data-hovercard-type="pull_request"
+			data-hovercard-url={prInfo.url + '/hovercard'}
+		>
+			<StateIcon className={stateColorMap[prInfo.state]}/> #{prInfo.number}
+		</a>
+	);
+
 	await addAfterBranchSelector(link);
 }
 
