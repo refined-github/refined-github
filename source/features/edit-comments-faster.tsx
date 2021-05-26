@@ -8,18 +8,14 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function canEditDiscussion(): boolean {
-	return select.exists(`
-	.current-user span[title^="You are the author"],
-	.current-user span[title^="You are a collaborator"],
+	return pageDetect.isDiscussion() && select.exists(`
+	.current-user span:is([title^="You are the author"], [title^="You are a collaborator"]),
 	button[aria-label="Edit discussion title"]
 	`);
 }
 
 function init(): void {
-	let preSelector = '';
-	if (pageDetect.isDiscussion()) {
-		preSelector = canEditDiscussion() ? '' : '.current-user';
-	}
+	const preSelector = !pageDetect.isDiscussion() || canEditDiscussion() ? '' : '.current-user';
 
 	observe(preSelector + '.js-comment.unminimized-comment .js-comment-update:not(.rgh-edit-comment)', {
 		add(comment) {
