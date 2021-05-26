@@ -7,11 +7,11 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function canEditDiscussion(): boolean {
-	return document.querySelector(`
+	return select.exists(`
 	.current-user span[title^="You are the author"],
 	.current-user span[title^="You are a collaborator"],
 	button[aria-label="Edit discussion title"]
-	`) !== null;
+	`);
 }
 
 function init(): void {
