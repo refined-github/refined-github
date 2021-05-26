@@ -6,11 +6,21 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
+function canEditDiscussion(): boolean {
+	return document.querySelector(`
+	.current-user span[title^="You are the author"],
+	.current-user span[title^="You are a collaborator"],
+	button[aria-label="Edit discussion title"]
+	`) !== null;
+}
+
 function init(): void {
-	// Find editable comments first, then traverse to the correct position
-	observe((document.querySelector('.current-user span[title^="You are a"]') !== null || pageDetect.hasComments() ?
-		'.js-comment.unminimized-comment .js-comment-update:not(.rgh-edit-comment)' :
-		'.current-user.js-comment.unminimized-comment .js-comment-update:not(.rgh-edit-comment)'), {
+	let preSelector = '';
+	if (pageDetect.isDiscussion()) {
+		preSelector = canEditDiscussion() ? '' : '.current-user';
+	}
+
+	observe(preSelector + '.js-comment.unminimized-comment .js-comment-update:not(.rgh-edit-comment)', {
 		add(comment) {
 			comment.classList.add('rgh-edit-comment');
 
