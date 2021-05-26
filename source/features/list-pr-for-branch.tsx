@@ -33,7 +33,6 @@ async function init(): Promise<void | false> {
 	}
 
 	const getPr = await getPullRequestsAssociatedWithBranch();
-	const prNumber = getPr[currentBranch()]?.number;
 	const prInfo = getPr[currentBranch];
 	if (!prInfo) {
 		return false;
