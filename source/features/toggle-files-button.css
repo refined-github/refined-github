@@ -9,7 +9,6 @@
 	display: none !important;
 }
 
-.rgh-files-hidden .files, /* Pre "Repository refresh" layout */
 .rgh-files-hidden #files ~ .Details {
 	display: none;
 }
