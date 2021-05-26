@@ -12,27 +12,27 @@
 
 /* Make tab indented code more readable on GitHub and Gist */
 * {
-	-moz-tab-size: 4 !important;
-	tab-size: 4 !important;
+	-moz-tab-size: 4;
+	tab-size: 4;
 }
 
 /* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons for #1830 and #1904 */
 #js-issues-toolbar .table-list-header-toggle details {
-	padding: 0 !important;
+	padding: 0;
 }
 
 #js-issues-toolbar .table-list-header-toggle summary {
-	padding-left: 8px !important;
-	padding-right: 8px !important;
+	padding-left: 8px;
+	padding-right: 8px;
 }
 
 #js-issues-toolbar .table-list-header-toggle > :last-child > summary {
-	padding-right: 0 !important;
+	padding-right: 0;
 }
 
 /* Hide empty description of repo */
 .repository-meta.mb-3 > .repository-meta-content > em {
-	display: none !important;
+	display: none;
 }
 
 /* Remove user avatar from new comment form on threads */
@@ -49,8 +49,8 @@
 	display: none;
 }
 
-@keyframes fade-in {
-	from {
+fade-in {
+	{
 		opacity: 0%;
 	}
 }
@@ -67,7 +67,7 @@
 
 /* Remove the 'Review Summary' header from the form */
 .pull-request-review-menu label[for='pull_request_review_body'] {
-	display: none !important;
+	display: none;
 }
 
 /* Lighten deletions in Markdown */
@@ -92,8 +92,8 @@
 }
 
 .dashboard-sidebar .Box-title {
-	padding-top: 4px !important;
-	padding-bottom: 4px !important;
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
 
 /* Expand empty diffs in PRs */
@@ -131,12 +131,12 @@ pr-branches
 
 /* Increase scrollable area in GitHub Actions #3591 */
 .WorkflowRunLogsScroll {
-	height: auto !important;
+	height: auto;
 }
 
 /* Keep diff stats in "Jump to" dropdown when the header is fixed #3925 */
 .select-menu-item-text .diffstat {
-	display: inline !important;
+	display: inline;
 }
 
 /* Style the "Find feature" dialog that appears on top of the page */
@@ -152,6 +152,6 @@ pr-branches
 
 /* Space out "Edit" and "Open with" buttons on PR page, also for `view-last-pr-deployment` #4281 */
 .gh-header-actions [aria-label='Edit Pull Request title'] {
-	margin-left: 4px !important;
-	margin-right: 4px !important;
+	margin-left: 4px;
+	margin-right: 4px;
 }
