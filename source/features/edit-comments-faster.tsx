@@ -9,7 +9,7 @@ import features from '.';
 
 function canEditDiscussion(): boolean {
 	return pageDetect.isDiscussion() && select.exists(`
-	.current-user span:is([title^="You are the author"], [title^="You are a collaborator"]),
+	.current-user span:is([title^="You are a maintainer on this repository"], [title^="You have been invited to collaborate on"]),
 	button[aria-label="Edit discussion title"]
 	`);
 }
