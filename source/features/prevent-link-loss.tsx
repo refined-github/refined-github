@@ -15,7 +15,7 @@ import {
 	discussionUrlRegex,
 	preventDiscussionLinkLoss
 } from '../github-helpers/prevent-link-loss';
-import {createRghIssueLink} from '../helpers/rgh-issue-link';
+import createRghIssueLink from '../helpers/rgh-issue-link';
 
 function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = fixButton.form!.querySelector('textarea')!;
