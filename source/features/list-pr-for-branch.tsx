@@ -8,6 +8,15 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import {addAfterBranchSelector} from './latest-tag-button';
 import {getPullRequestsAssociatedWithBranch} from './show-associated-branch-prs-on-fork';
 
+// Taken from https://github.com/fregante/github-issue-link-status/blob/98792f2837352bacbf80664f3edbcec8e579ed17/source/github-issue-link-status.js#L10
+const stateColorMap = {
+	OPEN: 'text-green color-text-success',
+	CLOSED: 'text-red color-text-danger',
+	MERGED: 'text-purple color-purple-5',
+	DRAFT: ''
+};
+
+// TODO remove this after #4196 is fixed
 function getCurrentBranch(): string {
 	const feedLink = select.last('link[type="application/atom+xml"]')!;
 	return new URL(feedLink.href)
@@ -18,17 +27,10 @@ function getCurrentBranch(): string {
 		.replace(/\.atom$/, '');
 }
 
-const stateColorMap = {
-	OPEN: 'text-green color-text-success',
-	CLOSED: 'text-red color-text-danger',
-	MERGED: 'text-purple color-purple-5',
-	DRAFT: ''
-};
 async function init(): Promise<void | false> {
 	const currentBranch = getCurrentBranch();
-	const defaultBranch = await getDefaultBranch();
 
-	if (defaultBranch === currentBranch || /^[\da-f]{40}$/.test(currentBranch)) {
+	if (/^[\da-f]{40}$/.test(currentBranch) || await getDefaultBranch() === currentBranch) {
 		return false;
 	}
 
@@ -42,9 +44,8 @@ async function init(): Promise<void | false> {
 	const link = (
 		<a
 			data-issue-and-pr-hovercards-enabled
-			aria-label={`This branch is associated with pr #${prInfo.number}`}
 			href={prInfo.url}
-			className="btn btn-outline flex-self-center rgh-list-pr-for-branch"
+			className="btn flex-self-center rgh-list-pr-for-branch"
 			data-hovercard-type="pull_request"
 			data-hovercard-url={prInfo.url + '/hovercard'}
 		>
