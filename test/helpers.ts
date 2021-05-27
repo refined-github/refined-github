@@ -77,7 +77,7 @@ test('getConversationNumber', t => {
 			undefined
 		]
 	]);
-	([url, result] of pairs) {
+	([url, result] pairs) {
 		location.href = url;
 		t.is(result, getConversationNumber());
 	}
