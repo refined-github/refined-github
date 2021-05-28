@@ -1,6 +1,6 @@
 import React from 'dom-chef';
-import onetime from 'onetime';
 import select from 'select-dom';
+import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -16,7 +16,6 @@ function canEditDiscussion(): boolean {
 
 function init(): void {
 	const preSelector = !pageDetect.isDiscussion() || canEditDiscussion() ? '' : '.current-user';
-
 	observe(preSelector + '.js-comment.unminimized-comment .js-comment-update:not(.rgh-edit-comment)', {
 		add(comment) {
 			comment.classList.add('rgh-edit-comment');
