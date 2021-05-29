@@ -3,8 +3,8 @@
 	table-layout: auto !important;
 }
 
-.rgh-empty-split-left :is([data-hunk], .blob-expanded) :is(td:nth-child(1), td:nth-child(2)),
-.rgh-empty-split-right :is([data-hunk], .blob-expanded) :is(td:nth-child(3), td:nth-child(4)) {
+.rgh-empty-split-left :is([data-hunk], .blob-expanded) td:nth-child(2),
+.rgh-empty-split-right :is([data-hunk], .blob-expanded) td:nth-child(4) {
 	display: none !important;
 	width: 0 !important;
 }
