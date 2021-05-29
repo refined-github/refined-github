@@ -12,7 +12,9 @@ function canEditDiscussion(): boolean {
 }
 
 function init(): void {
+	// If true then the resulting selector will match all comments, otherwise it will only match made by you
 	const preSelector = !pageDetect.isDiscussion() || canEditDiscussion() ? '' : '.current-user';
+	// Find editable comments first, then traverse to the correct position
 	observe(preSelector + '.js-comment.unminimized-comment .js-comment-update:not(.rgh-edit-comment)', {
 		add(comment) {
 			comment.classList.add('rgh-edit-comment');
