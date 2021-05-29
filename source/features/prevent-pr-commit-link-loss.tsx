@@ -7,7 +7,6 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import getRghIssueUrl from '../helpers/get-rgh-issue-url';
 import {prCommitUrlRegex, preventPrCommitLinkLoss, prCompareUrlRegex, preventPrCompareLinkLoss} from '../github-helpers';
 
 function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
@@ -20,7 +19,7 @@ function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEven
 function getUI(field: HTMLTextAreaElement): HTMLElement {
 	return select('.rgh-fix-pr-commit-links-container', field.form!) ?? (
 		<div className="flash flash-warn mb-2 rgh-fix-pr-commit-links-container">
-			<AlertIcon/> Your PR Commit link may be <a target="_blank" rel="noopener noreferrer" href={getRghIssueUrl(2327)}>misinterpreted by GitHub.</a>
+			<AlertIcon/> Your PR Commit link may be <a target="_blank" rel="noopener noreferrer" href="https://github.com/sindresorhus/refined-github/issues/2327">misinterpreted by GitHub.</a>
 			<button type="button" className="btn btn-sm primary flash-action rgh-fix-pr-commit-links">Fix link</button>
 		</div>
 	);
