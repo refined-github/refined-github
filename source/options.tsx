@@ -175,15 +175,15 @@ async function highlightNewFeatures(): Promise<void> {
 	void browser.storage.local.set({featuresAlreadySeen});
 }
 
-async function getFeaturesDisabledViaHotfix(): Promise<HTMLElement[]> {
+async function getFeaturesDisabledViaHotfix(): Promise<HTMLElement | undefined> {
 	const {version} = browser.runtime.getManifest();
 	if (version === '0.0.0') {
-		return [];
+		return undefined;
 	}
 
 	const hotfixes = await cache.get<string[][]>('hotfixes');
 	if (!hotfixes) {
-		return [];
+		return undefined;
 	}
 
 	const disabledFeatures = [];
@@ -198,7 +198,7 @@ async function getFeaturesDisabledViaHotfix(): Promise<HTMLElement[]> {
 		}
 	}
 
-	return disabledFeatures;
+	return <p>{disabledFeatures}</p>;
 }
 
 async function generateDom(): Promise<void> {
@@ -206,7 +206,7 @@ async function generateDom(): Promise<void> {
 	select('.js-features')!.append(...features.map(buildFeatureCheckbox));
 
 	// Add notices for features disabled via hotfix
-	select('.js-hotfixes')!.append(<p>{await getFeaturesDisabledViaHotfix()}</p>);
+	select('.js-hotfixes')!.append((await getFeaturesDisabledViaHotfix()) ?? '');
 
 	// Update list from saved options
 	await perDomainOptions.syncForm('form');
