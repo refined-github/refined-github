@@ -190,10 +190,10 @@ async function getFeaturesDisabledViaHotfix(): Promise<HTMLElement[]> {
 	for (const [feature, unaffectedVersion, relatedIssue] of hotfixes) {
 		if (features.some(({id}) => id === feature) && (!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0)) {
 			disabledFeatures.push(
-				<p>
+				<>
 					<code>{feature}</code> has been temporarily disabled
-					{relatedIssue ? <> due to <a href={getRghIssueUrl(relatedIssue)}>#{relatedIssue}</a></> : false}.
-				</p>
+					{relatedIssue ? <> due to <a href={getRghIssueUrl(relatedIssue)}>#{relatedIssue}</a></> : false}.<br/>
+				</>
 			);
 		}
 	}
@@ -206,7 +206,7 @@ async function generateDom(): Promise<void> {
 	select('.js-features')!.append(...features.map(buildFeatureCheckbox));
 
 	// Add notices for features disabled via hotfix
-	select('.js-hotfixes')!.append(...await getFeaturesDisabledViaHotfix());
+	select('.js-hotfixes')!.append(<p>{await getFeaturesDisabledViaHotfix()}</p>);
 
 	// Update list from saved options
 	await perDomainOptions.syncForm('form');
