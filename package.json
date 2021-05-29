@@ -48,7 +48,6 @@
 		"@cheap-glitch/mi-cron": "^1.0.1",
 		"@primer/octicons-react": "^14.1.0",
 		"array-union": "^3.0.1",
-		"content-scripts-register-polyfill": "^2.2.0-0",
 		"copy-text-to-clipboard": "^3.0.1",
 		"debounce-fn": "^5.0.0",
 		"delay": "^5.0.0",
