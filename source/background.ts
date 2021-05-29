@@ -3,7 +3,7 @@ import cache from 'webext-storage-cache'; // Also needed to regularly clear the 
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 
 import './options-storage';
-import getRghIssueUrl from './helpers/get-rgh-issue-url';
+import {getRghIssueUrl} from './helpers/rgh-issue-link';
 
 // GHE support
 addDomainPermissionToggle();

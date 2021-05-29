@@ -10,7 +10,7 @@ import compareVersions from 'tiny-version-compare';
 import * as indentTextarea from 'indent-textarea';
 
 import {perDomainOptions} from './options-storage';
-import getRghIssueUrl from './helpers/get-rgh-issue-url';
+import {createRghIssueLink} from './helpers/rgh-issue-link';
 
 interface Status {
 	error?: true;
@@ -192,7 +192,7 @@ async function getFeaturesDisabledViaHotfix(): Promise<HTMLElement[]> {
 			disabledFeatures.push(
 				<>
 					<code>{feature}</code> has been temporarily disabled
-					{relatedIssue ? <> due to <a href={getRghIssueUrl(relatedIssue)}>#{relatedIssue}</a></> : false}.<br/>
+					{relatedIssue ? <> due to {createRghIssueLink(relatedIssue)}</> : false}.<br/>
 				</>
 			);
 		}
