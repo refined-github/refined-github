@@ -1,0 +1,5 @@
+/* For the 1st button "Create public Gist" */
+#gists + div button[value='1'] {
+	margin-left: auto !important;
+	margin-right: 0;
+}

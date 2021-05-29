@@ -1,28 +1,38 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {BookIcon, CheckIcon, DiffIcon} from '@primer/octicons-react';
+import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-react';
 
 import features from '.';
 
-function createDiffStyleToggle(): DocumentFragment {
+function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 	const url = new URL(location.href);
+	url.searchParams.set('diff', type);
+	const classes = pageDetect.isPR() ?
+		'tooltipped tooltipped-s d-none d-lg-block ml-2 color-icon-secondary' :
+		'tooltipped tooltipped-s btn btn-sm BtnGroup-item ' + (selected ? 'selected' : '');
+
+	return (
+		<a
+			className={classes}
+			aria-label={`Switch to the ${type} diff view`}
+			href={url.href}
+		>
+			{icon}
+		</a>
+	);
+}
+
+function createDiffStyleToggle(): DocumentFragment {
 	const isUnified = select.exists([
 		'[value="unified"][checked]', // Form in PR
-		'.table-of-contents .selected[href$=unified]' // Link in single commit
+		'.table-of-contents .selected[href*="diff=unified"]' // Link in single commit
 	]);
 
-	function makeLink(type: string, icon: Element, selected: boolean): HTMLElement {
-		url.searchParams.set('diff', type);
-		return (
-			<a
-				className={`btn btn-sm BtnGroup-item tooltipped tooltipped-s ${selected ? 'selected' : ''}`}
-				aria-label={`Show ${type} diffs`}
-				href={url.href}
-			>
-				{icon}
-			</a>
-		);
+	if (pageDetect.isPR()) {
+		return isUnified ?
+			makeLink('split', <BookIcon/>, false) :
+			makeLink('unified', <DiffIcon/>, false);
 	}
 
 	return (
@@ -43,44 +53,26 @@ function createWhitespaceButton(): HTMLElement {
 		url.searchParams.set('w', '1');
 	}
 
+	const classes = pageDetect.isPR() ?
+		'tooltipped tooltipped-s d-none d-lg-block color-icon-secondary ' + (isHidingWhitespace ? '' : 'color-icon-info') :
+		'tooltipped tooltipped-s btn btn-sm btn-outline tooltipped ' + (isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : '');
+
 	return (
 		<a
 			href={url.href}
 			data-hotkey="d w"
-			className={`btn btn-sm btn-outline tooltipped tooltipped-s ${isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : ''}`}
-			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace in diffs`}
+			className={classes}
+			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace changes`}
 		>
-			{isHidingWhitespace && <CheckIcon/>} No Whitespace
+			{pageDetect.isPR() ? <DiffModifiedIcon/> : <>{isHidingWhitespace && <CheckIcon/>} No Whitespace</>}
 		</a>
 	);
 }
 
-function wrap(...elements: Node[]): DocumentFragment {
-	if (pageDetect.isSingleCommit() || pageDetect.isCompare()) {
-		return (
-			<div className="float-right">
-				{elements.map(element => <div className="ml-3 BtnGroup">{element}</div>)}
-			</div>
-		);
-	}
-
-	return <>{elements.map(element => <div className="diffbar-item">{element}</div>)}</>;
-}
-
-function init(): false | void {
-	const container = select([
-		'#toc', // In single commit view
-		'.pr-review-tools' // In review view
-	]);
-	if (!container) {
-		return false;
-	}
-
-	container.prepend(
-		wrap(
-			createDiffStyleToggle(),
-			createWhitespaceButton()
-		)
+function initPR(): false | void {
+	select('.js-file-filter')!.closest('.flex-auto')!.append(
+		<div className="diffbar-item d-flex">{createDiffStyleToggle()}</div>,
+		<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>
 	);
 
 	// Trim title
@@ -90,31 +82,44 @@ function init(): false | void {
 		prTitle.title = prTitle.textContent!;
 	}
 
+	// Only show the native dropdown on medium and small screens #2597
+	select('.js-diff-settings')!.closest('details')!.classList.add('d-lg-none');
+
+	// Make space for the new button by removing "Changes from" #655
+	select('[data-hotkey="c"] strong')!.previousSibling!.remove();
+
+	// Remove extraneous padding around "Clear filters" button
+	select('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-sm-2');
+}
+
+function initCommitAndCompare(): false | void {
+	select('#toc')!.prepend(
+		<div className="float-right d-flex">
+			<div className="d-flex ml-3 BtnGroup">{createDiffStyleToggle()}</div>
+			<div className="d-flex ml-3 BtnGroup">{createWhitespaceButton()}</div>
+		</div>
+	);
+
 	// Remove previous options UI
-	const singleCommitUI = select('[data-ga-load^="Diff, view"]');
-
-	if (singleCommitUI) {
-		singleCommitUI.remove();
-		return;
-	}
-
-	const prUI = select('.js-diff-settings');
-	if (prUI) {
-		prUI.closest('details')!.remove();
-
-		// Make space for the new button by removing "Changes from" #655
-		select('[data-hotkey="c"]')!.firstChild!.remove();
-	}
+	select('[data-ga-load^="Diff, view"]')!.remove();
 }
 
 void features.add(__filebasename, {
 	include: [
-		// Disabled because of #2291 // pageDetect.isPRFiles
-		pageDetect.isCommit,
+		pageDetect.isPRFiles,
+		pageDetect.isPRCommit
+	],
+	shortcuts: {
+		'd w': 'Show/hide whitespaces in diffs'
+	},
+	init: initPR
+}, {
+	include: [
+		pageDetect.isSingleCommit,
 		pageDetect.isCompare
 	],
 	shortcuts: {
 		'd w': 'Show/hide whitespaces in diffs'
 	},
-	init
+	init: initCommitAndCompare
 });

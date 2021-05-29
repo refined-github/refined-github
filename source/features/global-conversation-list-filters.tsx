@@ -22,7 +22,7 @@ function init(): void {
 
 	for (const [label, title, query] of links) {
 		// Create link
-		const url = new URL(location.pathname, location.origin);
+		const url = new URL(isIssues ? '/issues' : '/pulls', location.origin);
 		url.searchParams.set('q', `${typeQuery} ${defaultQuery} ${query}`);
 		const link = <a href={String(url)} title={title} className="subnav-item">{label}</a>;
 
