@@ -20,7 +20,7 @@ async function cleanLicenseText(): Promise<void> {
 }
 
 async function cleanReleases(): Promise<void> {
-	const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]', {waitForChildren: false});
+	const sidebarReleases = await elementReady('.BorderGrid-cell h2 a[href$="/releases"]', {waitForChildren: false});
 	if (!sidebarReleases) {
 		return;
 	}
