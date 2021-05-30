@@ -19,7 +19,7 @@ export default function addNotice(
 		)
 	}: Options = {}
 ): void {
-	select('#start-of-content')!.after(
+	select('#js-flash-container')!.append(
 		<div className={`flash flash-full flash-${type} px-4`}>
 			{action}
 			<div>

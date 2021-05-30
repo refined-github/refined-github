@@ -7,11 +7,7 @@ import {
 	getConversationNumber,
 	parseTag,
 	compareNames,
-	getLatestVersionTag,
-	preventPrCommitLinkLoss,
-	preventPrCompareLinkLoss,
-	prCommitUrlRegex,
-	prCompareUrlRegex
+	getLatestVersionTag
 } from '../source/github-helpers';
 
 test('getConversationNumber', t => {
@@ -138,72 +134,4 @@ test('getLatestVersionTag', t => {
 		'2020-10-10',
 		'v1.0-1'
 	]), 'lol v0.0.0', 'Non-version tags should short-circuit the sorting and return the first tag');
-});
-
-function replace(string: string): string {
-	return string.replace(prCommitUrlRegex, preventPrCommitLinkLoss);
-}
-
-function replaceCompareLink(string: string): string {
-	return string.replace(prCompareUrlRegex, preventPrCompareLinkLoss);
-}
-
-test('preventPrCommitLinkLoss', t => {
-	t.is(replace('https://www.google.com/'), 'https://www.google.com/');
-	t.is(
-		replace('https://github.com/sindresorhus/refined-github/commit/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb'),
-		'https://github.com/sindresorhus/refined-github/commit/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb',
-		'It should not affect non PR commit URLs'
-	);
-	t.is(
-		replace('https://github.com/sindresorhus/refined-github/pull/3/commits/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb'),
-		'[`cb44a4e` (#3)](https://github.com/sindresorhus/refined-github/pull/3/commits/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb)'
-	);
-	t.is(
-		replace('lorem ipsum dolor https://github.com/sindresorhus/refined-github/pull/3/commits/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb some random string'),
-		'lorem ipsum dolor [`cb44a4e` (#3)](https://github.com/sindresorhus/refined-github/pull/3/commits/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb) some random string'
-	);
-	t.is(
-		replace(replace('lorem ipsum dolor https://github.com/sindresorhus/refined-github/pull/44/commits/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb some random string')),
-		'lorem ipsum dolor [`cb44a4e` (#44)](https://github.com/sindresorhus/refined-github/pull/44/commits/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb) some random string',
-		'It should not apply it twice'
-	);
-	t.is(
-		replace('I like [turtles](https://github.com/sindresorhus/refined-github/pull/3/commits/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb)'),
-		'I like [turtles](https://github.com/sindresorhus/refined-github/pull/3/commits/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb)',
-		'It should ignore Markdown links'
-	);
-	t.is(
-		replace('lorem ipsum dolor https://github.com/sindresorhus/refined-github/pull/3205/commits/1da152b3f8c51dd72d8ae6ad9cc96e0c2d8716f5#diff-932095cc3c0dff00495b4c392d78f0afR60 some random string'),
-		'lorem ipsum dolor [`1da152b` (#3205)](https://github.com/sindresorhus/refined-github/pull/3205/commits/1da152b3f8c51dd72d8ae6ad9cc96e0c2d8716f5#diff-932095cc3c0dff00495b4c392d78f0afR60) some random string',
-		'It should include any hashes'
-	);
-	t.is(
-		replace(replace('lorem ipsum dolor https://github.com/sindresorhus/refined-github/pull/3205/commits/1da152b3f8c51dd72d8ae6ad9cc96e0c2d8716f5#diff-932095cc3c0dff00495b4c392d78f0afR60 some random string')),
-		'lorem ipsum dolor [`1da152b` (#3205)](https://github.com/sindresorhus/refined-github/pull/3205/commits/1da152b3f8c51dd72d8ae6ad9cc96e0c2d8716f5#diff-932095cc3c0dff00495b4c392d78f0afR60) some random string',
-		'It should not apply it twice even with hashes'
-	);
-	t.is(
-		replaceCompareLink('https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0'),
-		'https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0',
-		'It should not affect compare URLs without a diff hash'
-	);
-	t.is(
-		replaceCompareLink('https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191'),
-		'[`v11.5.2...v11.6.0`#diff-6be2971b2b](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)'
-	);
-	t.is(
-		replaceCompareLink('lorem ipsum dolor https://github.com/sindresorhus/refined-github/compare/main...incremental-tag-changelog-link#diff-5b3cf6bcc7c5b1373313553dc6f93a5eR7-R9 some random string'),
-		'lorem ipsum dolor [`main...incremental-tag-changelog-link`#diff-5b3cf6bcc7](https://github.com/sindresorhus/refined-github/compare/main...incremental-tag-changelog-link#diff-5b3cf6bcc7c5b1373313553dc6f93a5eR7-R9) some random string'
-	);
-	t.is(
-		replaceCompareLink(replaceCompareLink('lorem ipsum dolor https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191 some random string')),
-		'lorem ipsum dolor [`v11.5.2...v11.6.0`#diff-6be2971b2b](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191) some random string',
-		'It should not apply it twice'
-	);
-	t.is(
-		replaceCompareLink('I like [turtles](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)'),
-		'I like [turtles](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)',
-		'It should ignore Markdown links'
-	);
 });
