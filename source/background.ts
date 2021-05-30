@@ -1,7 +1,9 @@
 import 'webext-dynamic-content-scripts';
 import cache from 'webext-storage-cache'; // Also needed to regularly clear the cache
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
+
 import './options-storage';
+import {getRghIssueUrl} from './helpers/rgh-issue-link';
 
 // GHE support
 addDomainPermissionToggle();
@@ -53,7 +55,7 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 		}
 
 		await browser.tabs.create({
-			url: 'https://github.com/sindresorhus/refined-github/issues/3543'
+			url: getRghIssueUrl(3543)
 		});
 	}
 

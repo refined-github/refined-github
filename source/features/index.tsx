@@ -9,7 +9,7 @@ import * as pageDetect from 'github-url-detection';
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import optionsStorage, {RGHOptions} from '../options-storage';
-import {getLocalHotfixes, updateHotfixes} from '../helpers/hotfix';
+import {getLocalHotfixesAsOptions, updateHotfixes} from '../helpers/hotfix';
 
 type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
@@ -83,7 +83,7 @@ let logError = (id: FeatureID, error: unknown): void => {
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
-		getLocalHotfixes(version),
+		getLocalHotfixesAsOptions(version),
 		bisectFeatures()
 	]);
 
