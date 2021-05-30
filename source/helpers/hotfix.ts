@@ -25,7 +25,6 @@ export const updateHotfixes = cache.function(async (): Promise<string[][]> => {
 export type HotfixStorage = Array<[FeatureID, string, string]>;
 
 export async function getRawHotfixes(version: string): Promise<HotfixStorage> {
-	debugger;
 	// To facilitate debugging, ignore hotfixes during development.
 	// Change the version in manifest.json to test hotfixes
 	if (version === '0.0.0') {
