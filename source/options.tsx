@@ -6,9 +6,9 @@ import domify from 'doma';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
-import compareVersions from 'tiny-version-compare';
 import * as indentTextarea from 'indent-textarea';
 
+import {getRawHotfixes} from './helpers/hotfix';
 import {perDomainOptions} from './options-storage';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
 
@@ -20,6 +20,8 @@ interface Status {
 
 // Don't repeat the magic variable, or its content will be inlined multiple times
 const features = __featuresMeta__;
+const featureList = features.map(({id}) => id);
+const {version} = browser.runtime.getManifest();
 
 function reportStatus({error, text, scopes}: Status): void {
 	const tokenStatus = select('#validation')!;
@@ -136,7 +138,7 @@ async function clearCacheHandler(event: Event): Promise<void> {
 }
 
 async function findFeatureHandler(event: Event): Promise<void> {
-	await cache.set<FeatureID[]>('bisect', features.map(({id}) => id), {minutes: 5});
+	await cache.set<FeatureID[]>('bisect', featureList, {minutes: 5});
 
 	const button = event.target as HTMLButtonElement;
 	button.disabled = true;
@@ -175,38 +177,26 @@ async function highlightNewFeatures(): Promise<void> {
 	void browser.storage.local.set({featuresAlreadySeen});
 }
 
-async function getFeaturesDisabledViaHotfix(): Promise<HTMLElement | undefined> {
-	const {version} = browser.runtime.getManifest();
-	if (version === '0.0.0') {
-		return undefined;
-	}
+async function getHotfixesNotice(): Promise<HTMLElement> {
+	const disabledFeatures = <div className="js-hotfixes"/>;
 
-	const hotfixes = await cache.get<string[][]>('hotfixes');
-	if (!hotfixes) {
-		return undefined;
-	}
-
-	const disabledFeatures = [];
-	for (const [feature, unaffectedVersion, relatedIssue] of hotfixes) {
-		if (features.some(({id}) => id === feature) && (!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0)) {
-			disabledFeatures.push(
-				<>
-					<code>{feature}</code> has been temporarily disabled
-					{relatedIssue ? <> due to {createRghIssueLink(relatedIssue)}</> : false}.<br/>
-				</>
+	for (const [feature,, relatedIssue] of await getRawHotfixes(version)) {
+		if (featureList.includes(feature)) {
+			disabledFeatures.append(
+				<p><code>{feature}</code> has been temporarily disabled due to {createRghIssueLink(relatedIssue)}.</p>
 			);
 		}
 	}
 
-	return <p>{disabledFeatures}</p>;
+	return disabledFeatures;
 }
 
 async function generateDom(): Promise<void> {
 	// Generate list
 	select('.js-features')!.append(...features.map(buildFeatureCheckbox));
 
-	// Add notices for features disabled via hotfix
-	select('.js-hotfixes')!.append((await getFeaturesDisabledViaHotfix()) ?? '');
+	// Add notice for features disabled via hotfix
+	select('.js-features')!.before(await getHotfixesNotice());
 
 	// Update list from saved options
 	await perDomainOptions.syncForm('form');

@@ -22,23 +22,26 @@ export const updateHotfixes = cache.function(async (): Promise<string[][]> => {
 	cacheKey: () => 'hotfixes'
 });
 
-export async function getLocalHotfixes(version: string): Promise<Partial<RGHOptions>> {
-	// To facilitate debugging, ignore hotfixes during development
+export type HotfixStorage = Array<[FeatureID, string, string]>;
+
+export async function getRawHotfixes(version: string): Promise<HotfixStorage> {
+	debugger;
+	// To facilitate debugging, ignore hotfixes during development.
+	// Change the version in manifest.json to test hotfixes
 	if (version === '0.0.0') {
-		return {};
+		return [];
 	}
 
-	const hotfixes = await cache.get<string[][]>('hotfixes');
-	if (!hotfixes) {
-		return {};
-	}
+	const storage = await cache.get<HotfixStorage>('hotfixes') ?? [];
+	return storage.filter(([_, unaffectedVersion]) =>
+		!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0
+	);
+}
 
+export async function getLocalHotfixesAsOptions(version: string): Promise<Partial<RGHOptions>> {
 	const options: Partial<RGHOptions> = {};
-
-	for (const [feature, unaffectedVersion] of hotfixes) {
-		if (!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0) {
-			options[`feature:${feature}`] = false;
-		}
+	for (const [feature] of await getRawHotfixes(version)) {
+		options[`feature:${feature}`] = false;
 	}
 
 	return options;
