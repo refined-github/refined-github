@@ -20,7 +20,10 @@ async function cleanLicenseText(): Promise<void> {
 }
 
 async function cleanReleases(): Promise<void> {
-	const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]', {waitForChildren: false});
+	// Intent: select "Releases" section in right sidebar.
+	// But if "repository details" - "Website" has a link end with "/releases", it will be wrongly selected.
+	// @see refined-github/issues/4424 for more details.
+	const sidebarReleases = await elementReady('.BorderGrid-cell a[href$="/releases"]:not([role])', {waitForChildren: false});
 	if (!sidebarReleases) {
 		return;
 	}
