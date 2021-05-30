@@ -8,7 +8,7 @@ import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
-import {getRawHotfixes} from './helpers/hotfix';
+import {getLocalHotfixes} from './helpers/hotfix';
 import {perDomainOptions} from './options-storage';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
 
@@ -177,10 +177,10 @@ async function highlightNewFeatures(): Promise<void> {
 	void browser.storage.local.set({featuresAlreadySeen});
 }
 
-async function getHotfixesNotice(): Promise<HTMLElement> {
+async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 	const disabledFeatures = <div className="js-hotfixes"/>;
 
-	for (const [feature,, relatedIssue] of await getRawHotfixes(version)) {
+	for (const [feature,, relatedIssue] of await getLocalHotfixes(version)) {
 		if (featureList.includes(feature)) {
 			disabledFeatures.append(
 				<p><code>{feature}</code> has been temporarily disabled due to {createRghIssueLink(relatedIssue)}.</p>
@@ -196,7 +196,7 @@ async function generateDom(): Promise<void> {
 	select('.js-features')!.append(...features.map(buildFeatureCheckbox));
 
 	// Add notice for features disabled via hotfix
-	select('.js-features')!.before(await getHotfixesNotice());
+	select('.js-features')!.before(await getLocalHotfixesAsNotice());
 
 	// Update list from saved options
 	await perDomainOptions.syncForm('form');

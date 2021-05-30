@@ -24,7 +24,7 @@ export const updateHotfixes = cache.function(async (): Promise<string[][]> => {
 
 export type HotfixStorage = Array<[FeatureID, string, string]>;
 
-export async function getRawHotfixes(version: string): Promise<HotfixStorage> {
+export async function getLocalHotfixes(version: string): Promise<HotfixStorage> {
 	// To facilitate debugging, ignore hotfixes during development.
 	// Change the version in manifest.json to test hotfixes
 	if (version === '0.0.0') {
@@ -39,7 +39,7 @@ export async function getRawHotfixes(version: string): Promise<HotfixStorage> {
 
 export async function getLocalHotfixesAsOptions(version: string): Promise<Partial<RGHOptions>> {
 	const options: Partial<RGHOptions> = {};
-	for (const [feature] of await getRawHotfixes(version)) {
+	for (const [feature] of await getLocalHotfixes(version)) {
 		options[`feature:${feature}`] = false;
 	}
 
