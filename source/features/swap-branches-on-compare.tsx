@@ -7,10 +7,13 @@ import features from '.';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
 function init(): void {
-	const references = getRepo()!
+	const referencePath = getRepo()!
 		.path
-		.replace('compare/', '')
-		.split('...')
+		.replace('compare/', '');
+	const isDirectComparision: boolean = referencePath.includes('..');
+	const branchDelimiter: string = isDirectComparision ? '..' : '...';
+	const references: string[] = referencePath
+		.split(branchDelimiter)
 		.reverse();
 
 	// Compares against the "base" branch if the URL only has one reference
@@ -18,9 +21,9 @@ function init(): void {
 		references.unshift(select('.branch span')!.textContent!);
 	}
 
-	const icon = select('.range-editor .octicon-arrow-left')!;
+	const icon = select('.range-editor .octicon-arrow-left,.octicon-arrow-both')!;
 	icon.parentElement!.attributes['aria-label'].value += '.\nClick to swap.';
-	wrap(icon, <a href={buildRepoURL('compare/' + references.join('...'))}/>);
+	wrap(icon, <a href={buildRepoURL('compare/' + references.join(branchDelimiter))}/>);
 }
 
 void features.add(__filebasename, {
