@@ -17,10 +17,15 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
+		pageDetect.isCommit,
+		pageDetect.isCompare,
 		pageDetect.isPRFiles
 	],
 	exclude: [
-		() => !select.exists('[value="split"][checked]')
+		() => !select.exists([
+			'[value="split"][checked]', // Form in PR
+			'.table-of-contents .selected[href*="diff=split"]' // Link in single commit
+		])
 	],
 	init
 });
