@@ -17,7 +17,10 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		() => pageDetect.isPRFiles() && select.exists('[value="split"][checked]')
+		pageDetect.isPRFiles
+	],
+	exclude: [
+		() => !select.exists('[value="split"][checked]')
 	],
 	init
 });
