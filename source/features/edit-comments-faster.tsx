@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function canEditDiscussion(): boolean {
-	return pageDetect.isDiscussion() && select.exists('.current-user span:is([title^="You are a maintainer on this repository"], [title^="You are a collaborator on this repository"])');
+	return pageDetect.isDiscussion() && select.exists('[title^="You are a maintainer"], [title^="You are a collaborator"]');
 }
 
 function init(): void {
