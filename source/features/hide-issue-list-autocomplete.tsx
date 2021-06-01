@@ -11,5 +11,8 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversationList
 	],
+	exclude: [
+		pageDetect.isMilestone
+	],
 	init
 });

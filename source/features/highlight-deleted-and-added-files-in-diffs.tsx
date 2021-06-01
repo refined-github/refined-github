@@ -20,7 +20,7 @@ async function loadDeferred(jumpList: Element): Promise<void> {
 
 async function init(): Promise<void | false> {
 	const fileList = await elementReady([
-		'.toc-select details-menu', // `isPR`
+		'.toc-select details-menu[src*="/show_toc?"]', // `isPR`
 		'.toc-diff-stats + .content' // `isSingleCommit` and `isCompare`
 	].join());
 
