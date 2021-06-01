@@ -49,10 +49,7 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: nu
 // eslint-disable-next-line @typescript-eslint/ban-types
 async function getPRs(): Promise<[prCount: number, url: string] | []> {
 	// Wait for the tab bar to be loaded
-	await elementReady([
-		'.pagehead', // Pre "Repository refresh" layout
-		'.UnderlineNav-body'
-	].join());
+	await elementReady('.UnderlineNav-body');
 	if (!pageDetect.canUserEditRepo()) {
 		return [];
 	}
