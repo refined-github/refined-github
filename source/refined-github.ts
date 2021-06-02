@@ -124,7 +124,7 @@ import './features/edit-files-faster';
 import './features/update-pr-from-base-branch';
 import './features/hide-disabled-milestone-sorter';
 import './features/tag-changelog-link';
-// #4258 // import './features/clean-conversation-sidebar';
+import './features/clean-conversation-sidebar';
 import './features/sticky-sidebar';
 import './features/release-download-count';
 import './features/open-issue-to-latest-comment';
@@ -174,7 +174,7 @@ import './features/batch-mark-files-as-viewed';
 import './features/unwrap-useless-dropdowns';
 import './features/linkify-notification-repository-header';
 import './features/stop-redirecting-in-notification-bar';
-import './features/prevent-pr-commit-link-loss';
+import './features/prevent-link-loss';
 import './features/first-published-tag-for-merged-pr';
 import './features/show-associated-branch-prs-on-fork';
 import './features/faster-reviews';
@@ -221,6 +221,7 @@ import './features/global-search-filters';
 import './features/clean-header-search-field';
 import './features/avoid-accidental-submissions';
 import './features/delete-review-comments-faster';
+import './features/list-pr-for-branch';
 
 // Add global for easier debugging
 (window as any).select = select;

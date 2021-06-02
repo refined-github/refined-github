@@ -4,14 +4,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function init(): void {
-	const tabs = select.all([
-		'.tabnav-pr .tabnav-tab', // Pre "Repository refresh" layout
-		'.tabnav-tabs .tabnav-tab'
-	]);
-	const selectedIndex = tabs.indexOf(select([
-		'.tabnav-pr .selected', // Pre "Repository refresh" layout
-		'.tabnav-tabs .selected'
-	])!);
+	const tabs = select.all('.tabnav-tabs .tabnav-tab');
+	const selectedIndex = tabs.indexOf(select('.tabnav-tabs .selected')!);
 	const lastTab = tabs.length - 1;
 
 	for (const [index, tab] of tabs.entries()) {
