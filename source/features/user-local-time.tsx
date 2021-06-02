@@ -81,7 +81,7 @@ function parseOffset(date: string): number {
 function init(): void {
 	observe('.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time-container-added)', {
 		add: async hovercardContainer => {
-			const hovercard = hovercardContainer.closest<HTMLElement>('.Popover-message')!;
+			const hovercard = hovercardContainer.closest('div.Popover-message')!;
 			if (!select.exists('[data-hydro-view*="user-hovercard-hover"]', hovercard)) {
 				// It's not the hovercard type we expect
 				return;
