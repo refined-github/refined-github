@@ -27,11 +27,12 @@ async function initIssue(): Promise<void> {
 }
 
 async function initPR(): Promise<void> {
-	const byline = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)');
-	const author = select('.author', byline);
-	if (!byline || !author) {
+	const author = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header) .author');
+	if (!author) {
 		return;
 	}
+
+	const byline = author.closest<HTMLElement>('.flex-auto')!;
 
 	byline.classList.add('rgh-clean-conversation-header');
 
