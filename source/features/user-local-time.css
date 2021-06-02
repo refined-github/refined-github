@@ -1,0 +1,5 @@
+/* Reserve some space in the hovercard to fix #4345 */
+.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time-container-added) {
+	/* 26px is the height of the div that is being inserted plus its margin TODO */
+	padding-bottom: 26px !important;
+}

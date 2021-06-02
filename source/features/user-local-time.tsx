@@ -1,5 +1,6 @@
 /* eslint-disable no-await-in-loop */
 
+import './user-local-time.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import delay from 'delay';
@@ -78,7 +79,7 @@ function parseOffset(date: string): number {
 }
 
 function init(): void {
-	observe('.js-hovercard-content div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time-added)', {
+	observe('.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time-container-added)', {
 		add: async hovercardContainer => {
 			const hovercard = hovercardContainer.closest<HTMLElement>('.Popover-message')!;
 			if (!select.exists('[data-hydro-view*="user-hovercard-hover"]', hovercard)) {
@@ -91,7 +92,7 @@ function init(): void {
 				return;
 			}
 
-			hovercardContainer.classList.add('rgh-user-local-time-added');
+			hovercardContainer.classList.add('rgh-user-local-time-container-added');
 
 			const datePromise = getLastCommitDate(login);
 			const race = await Promise.race([delay(300), datePromise]);
