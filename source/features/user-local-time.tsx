@@ -80,8 +80,6 @@ function parseOffset(date: string): number {
 function init(): void {
 	observe('.js-hovercard-content div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time-added)', {
 		add: async hovercardContainer => {
-			hovercardContainer.classList.add('rgh-user-local-time-added');
-
 			const hovercard = hovercardContainer.closest<HTMLElement>('.Popover-message')!;
 			if (!select.exists('[data-hydro-view*="user-hovercard-hover"]', hovercard)) {
 				// It's not the hovercard type we expect
@@ -92,6 +90,8 @@ function init(): void {
 			if (!login || login === getUsername()) {
 				return;
 			}
+
+			hovercardContainer.classList.add('rgh-user-local-time-added');
 
 			const datePromise = getLastCommitDate(login);
 			const race = await Promise.race([delay(300), datePromise]);
