@@ -12,7 +12,7 @@ import GitHubURL from '../github-helpers/github-url';
 import LoadingIcon from '../github-helpers/icon-loading';
 import looseParseInt from '../helpers/loose-parse-int';
 
-const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, currentFilename: string): Promise<string> => {
+const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(`
 		repository() {
 			file: object(expression: "${commit}:${currentFilename}") {
@@ -42,7 +42,7 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumber: number, c
 
 	const associatedPR = repository.object.associatedPullRequests.nodes[0];
 
-	if (!associatedPR || associatedPR.number !== prNumber || associatedPR.mergeCommit.oid !== commit) {
+	if (!associatedPR || !prNumbers.includes(associatedPR.number) || associatedPR.mergeCommit.oid !== commit) {
 		throw new Error('The PR linked in the title didn’t create this commit');
 	}
 
@@ -63,7 +63,11 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	blameElement.blur(); // Hide tooltip after click, it’s shown on :focus
 
 	const blameHunk = blameElement.closest('.blame-hunk')!;
-	const prNumber = looseParseInt(select('.issue-link', blameHunk)!);
+	const prNumbers = [];
+	for (const pr of select.all('.issue-link', blameHunk)) {
+		prNumbers.push(looseParseInt(pr));
+	}
+
 	const prCommit = select('a.message', blameHunk)!.pathname.split('/').pop()!;
 	const blameUrl = new GitHubURL(location.href);
 
@@ -71,7 +75,7 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	blameElement.firstElementChild!.replaceWith(spinner);
 
 	try {
-		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumber, blameUrl.filePath);
+		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumbers, blameUrl.filePath);
 		blameUrl.hash = 'L' + select('.js-line-number', blameHunk)!.textContent!;
 		location.href = String(blameUrl);
 	} catch (error: unknown) {
