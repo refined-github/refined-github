@@ -4,13 +4,26 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {getCleanPathname} from '../github-helpers';
 
-const isGist = (link: HTMLAnchorElement): boolean =>
-	!link.pathname.includes('.') && // Exclude links to embed files
-	(
-		(link.hostname.startsWith('gist.') && link.pathname.includes('/', 1)) || // Exclude user links
-		link.pathname.startsWith('gist/')
+function parseGistLink(link: HTMLAnchorElement): string | void {
+	if (link.host === 'gist.github.com') {
+		return getCleanPathname(link);
+	}
+
+	if (link.host === location.host && link.pathname.startsWith('gist/')) {
+		return link.pathname.replace('/gist', '').replace(/\/$/, '');
+	}
+}
+
+function isGist(link: HTMLAnchorElement): boolean {
+	const gistUrl = parseGistLink(link);
+	return Boolean(
+		gistUrl &&
+		!gistUrl.includes('.') && // Exclude links to embed files
+		gistUrl.includes('/', 1) // Exclude user links
 	);
+}
 
 const isOnlyChild = (link: HTMLAnchorElement): boolean => link.textContent!.trim() === link.parentNode!.textContent!.trim();
 

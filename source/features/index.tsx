@@ -1,4 +1,3 @@
-import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
@@ -6,10 +5,11 @@ import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 
+import waitFor from '../helpers/wait-for';
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import optionsStorage, {RGHOptions} from '../options-storage';
-import {getLocalHotfixes, updateHotfixes} from '../helpers/hotfix';
+import {getLocalHotfixesAsOptions, updateHotfixes} from '../helpers/hotfix';
 
 type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
@@ -83,11 +83,12 @@ let logError = (id: FeatureID, error: unknown): void => {
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
-		getLocalHotfixes(version),
+		getLocalHotfixesAsOptions(version),
 		bisectFeatures()
 	]);
 
 	if (options.customCSS.trim().length > 0) {
+		await waitFor(() => document.head);
 		document.head.append(<style>{options.customCSS}</style>);
 	}
 
@@ -102,10 +103,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	// Create logging function
 	log = options.logging ? console.log : () => {/* No logging */};
 
-	while (!document.body) {
-		// eslint-disable-next-line no-await-in-loop
-		await delay(10);
-	}
+	await waitFor(() => document.body);
 
 	if (pageDetect.is500() || pageDetect.isPasswordConfirmation()) {
 		return;
