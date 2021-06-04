@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon} from '@primer/octicons-react';
 
@@ -102,7 +102,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 
 async function init(): Promise<void> {
 	// `clipboard-copy` on blob page, `#blob-edit-path` on edit page
-	const path = select('clipboard-copy, #blob-edit-path')!.getAttribute('value')!;
+	const path = (await elementReady('clipboard-copy, #blob-edit-path', {waitForChildren: false}))!.getAttribute('value')!;
 	let {[path]: prs} = await getPrsByFile();
 
 	if (!prs) {
@@ -120,7 +120,7 @@ async function init(): Promise<void> {
 	const [prNumber] = prs; // First one or only one
 
 	if (pageDetect.isEditingFile()) {
-		select('.file')!.after(
+		(await elementReady('.file'))!.after(
 			<div className="form-warning p-3 mb-3 mx-lg-3">
 				{
 					prs.length === 1 ?
@@ -155,5 +155,6 @@ void features.add(__filebasename, {
 		pageDetect.isSingleFile
 	],
 	deduplicate: '.rgh-list-prs-for-file', // #3945
+	awaitDomReady: false,
 	init
 });
