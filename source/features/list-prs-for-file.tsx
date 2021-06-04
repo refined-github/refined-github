@@ -8,7 +8,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {buildRepoURL, getRepo} from '../github-helpers';
-import {addAfterBranchSelector} from './latest-tag-button';
+import addAfterBranchSelector from '../helpers/add-after-branch-selector';
 
 function getPRUrl(prNumber: number): string {
 	return buildRepoURL('pull', prNumber, 'files');
