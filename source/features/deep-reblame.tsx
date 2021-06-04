@@ -63,11 +63,7 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	blameElement.blur(); // Hide tooltip after click, it’s shown on :focus
 
 	const blameHunk = blameElement.closest('.blame-hunk')!;
-	const prNumbers = [];
-	for (const pr of select.all('.issue-link', blameHunk)) {
-		prNumbers.push(looseParseInt(pr));
-	}
-
+	const prNumbers = select.all('.issue-link', blameHunk).map(pr => looseParseInt(pr));
 	const prCommit = select('a.message', blameHunk)!.pathname.split('/').pop()!;
 	const blameUrl = new GitHubURL(location.href);
 
