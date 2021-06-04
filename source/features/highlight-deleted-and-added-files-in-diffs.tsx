@@ -40,7 +40,7 @@ async function init(): Promise<void | false> {
 			const sourceIcon = pageDetect.isPR() ?
 				select(`[href="${filename.hash}"] svg`, fileList)! :
 				select(`svg + [href="${filename.hash}"]`, fileList)?.previousElementSibling!;
-			const icon = sourceIcon.cloneNode(true);
+			const icon = sourceIcon.cloneNode(true) as HTMLElement;
 			const action = icon.getAttribute('title')!;
 			if (action === 'added') {
 				icon.classList.add('text-green', 'color-text-success');
