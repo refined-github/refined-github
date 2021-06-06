@@ -1,7 +1,6 @@
 import twas from 'twas';
 import cache from 'webext-storage-cache';
 import React from 'dom-chef';
-import select from 'select-dom';
 import {RepoIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -109,34 +108,14 @@ async function init(): Promise<void> {
 		`${value} ${unit} old`;
 
 	const sidebarAboutSection = await elementReady('.repository-content .BorderGrid-cell');
-	if (sidebarAboutSection) {
-		sidebarAboutSection.append(
-			<h3 className="sr-only">Repository age</h3>,
-			<div className="mt-3">
-				<a href={firstCommitHref} className="muted-link Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
-					<RepoIcon className="mr-2"/>{age}
-				</a>
-			</div>
-		);
-
-		return;
-	}
-
-	// Pre "Repository refresh" layout
-	const element = (
-		<li className="text-gray color-text-secondary" title={`First commit dated ${dateFormatter.format(birthday)}`}>
-			<a href={firstCommitHref}>
-				<RepoIcon/> <span className="num text-emphasized">{value}</span> {unit} old
+	sidebarAboutSection!.append(
+		<h3 className="sr-only">Repository age</h3>,
+		<div className="mt-3">
+			<a href={firstCommitHref} className="muted-link Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
+				<RepoIcon className="mr-2"/>{age}
 			</a>
-		</li>
+		</div>
 	);
-
-	const license = select('.numbers-summary .octicon-law');
-	if (license) {
-		license.closest('li')!.before(element);
-	} else {
-		select('.numbers-summary')!.append(element);
-	}
 }
 
 void features.add(__filebasename, {
