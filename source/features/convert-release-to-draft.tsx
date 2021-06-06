@@ -44,5 +44,6 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleTag
 	],
+	awaitDomReady: false,
 	init
 });
