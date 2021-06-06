@@ -102,7 +102,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 
 async function init(): Promise<void> {
 	// `clipboard-copy` on blob page, `#blob-edit-path` on edit page
-	const path = (await elementReady('clipboard-copy, #blob-edit-path', {waitForChildren: false}))!.getAttribute('value')!;
+	const path = (await elementReady('clipboard-copy, #blob-edit-path'))!.getAttribute('value')!;
 	let {[path]: prs} = await getPrsByFile();
 
 	if (!prs) {
