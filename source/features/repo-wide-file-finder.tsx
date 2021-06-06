@@ -12,7 +12,7 @@ async function init(): Promise<void> {
 			hidden
 			data-hotkey="t"
 			data-pjax="true"
-			href={buildRepoURL('find', await (getCurrentCommittish() ?? getDefaultBranch()))}
+			href={buildRepoURL('find', getCurrentCommittish() ?? await getDefaultBranch())}
 		/>
 	);
 }
