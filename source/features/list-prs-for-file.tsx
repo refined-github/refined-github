@@ -48,7 +48,7 @@ function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElem
 	return (
 		<a
 			href={getPRUrl(prNumber)}
-			className={'btn btn btn-outline flex-self-center rgh-list-prs-for-file' + (prs ? ' BtnGroup-item' : '')}
+			className={'btn btn-sm btn-outline flex-self-center rgh-list-prs-for-file' + (prs ? ' BtnGroup-item' : '')}
 		>
 			<GitPullRequestIcon/> #{prNumber}
 		</a>
