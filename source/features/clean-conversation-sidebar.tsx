@@ -95,10 +95,7 @@ async function clean(): Promise<void> {
 	// Labels
 	if (!cleanSection('.js-issue-labels') && !canEditSidebar()) {
 		// Hide heading in any case except `canEditSidebar`
-		select('.js-issue-labels')!
-			.closest('.discussion-sidebar-item')!
-			.querySelector(':scope > .discussion-sidebar-heading')!
-			.remove();
+		select('.discussion-sidebar-item [data-hotkey="l"]')!.remove();
 	}
 
 	// Linked issues/PRs
