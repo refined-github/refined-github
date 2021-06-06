@@ -3,6 +3,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';
+import isSafari from '../helpers/browser-detection';
 
 import features from '.';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
@@ -40,10 +41,16 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.hasRichTextEditor
 	],
+	exclude: [
+		isSafari
+	],
 	init
 }, {
 	include: [
 		pageDetect.isPRConversation
+	],
+	exclude: [
+		isSafari
 	],
 	init() {
 		onPrMergePanelOpen(fitPrCommitMessageBox);
