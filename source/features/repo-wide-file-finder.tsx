@@ -3,8 +3,8 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
+import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
 
 async function init(): Promise<void> {
 	document.body.append(
