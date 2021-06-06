@@ -49,6 +49,39 @@
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="Edit" id="pkp-b9-Izs">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Edit" id="xW8-dG-gh0">
+                                    <items>
+                                        <menuItem title="Undo" keyEquivalent="z" id="dGo-nU-lVt">
+                                            <connections>
+                                                <action selector="undo:" target="Ady-hI-5gd" id="GuI-v2-45f"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Redo" keyEquivalent="Z" id="dpx-sf-cSS">
+                                            <connections>
+                                                <action selector="redo:" target="Ady-hI-5gd" id="10S-xH-W8J"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="a6E-D4-u1P"/>
+                                        <menuItem title="Cut" keyEquivalent="x" id="SD6-MS-UbB">
+                                            <connections>
+                                                <action selector="cut:" target="Ady-hI-5gd" id="FnJ-xp-vQj"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Copy" keyEquivalent="c" id="WeB-4C-TNt">
+                                            <connections>
+                                                <action selector="copy:" target="Ady-hI-5gd" id="UY1-aU-4Ml"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Paste" keyEquivalent="v" id="35f-hq-xyh">
+                                            <connections>
+                                                <action selector="paste:" target="Ady-hI-5gd" id="I1G-0h-c8V"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
                             <menuItem title="Help" id="wpr-3q-Mcd">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
