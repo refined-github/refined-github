@@ -8,7 +8,7 @@ import features from '.';
 import onElementRemoval from '../helpers/on-element-removal';
 import onReplacedElement from '../helpers/on-replaced-element';
 
-const canEditSidebar = onetime((): boolean => select.exists('.sidebar-labels .octicon-gear'));
+const canEditSidebar = onetime((): boolean => select.exists('.discussion-sidebar-item [data-hotkey="l"]'));
 
 function getNodesAfter(node: Node): Range {
 	const range = new Range();
