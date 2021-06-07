@@ -96,7 +96,7 @@ async function init(): Promise<void> {
 							title={`Status: ${upperCaseFirst(prInfo.state)}`}
 							href={prInfo.url}
 						>
-							<StateIcon width={10} height={14}/> {prInfo.state}
+							<StateIcon width={10} height={14}/> {upperCaseFirst(prInfo.state)}
 						</a>
 					</div>);
 			}
