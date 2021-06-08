@@ -7,7 +7,14 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
 import looseParseInt from '../helpers/loose-parse-int';
+import abbreviateNumber from '../helpers/abbreviate-number';
 import {buildRepoURL, getRepo} from '../github-helpers';
+
+function setTabCounter(tab: HTMLElement, count: number): void {
+	const tabCounter = select('.Counter', tab)!;
+	tabCounter.textContent = abbreviateNumber(count);
+	tabCounter.title = count > 999 ? String(count) : '';
+}
 
 const getWikiPageCount = cache.function(async (): Promise<number | false> => {
 	const wikiPages = await fetchDom(buildRepoURL('wiki'), '#wiki-pages-box .Counter');
@@ -34,7 +41,7 @@ async function initWiki(): Promise<void | false> {
 		return false;
 	}
 
-	select('.Counter', wikiTab)!.textContent = String(wikiPageCount);
+	setTabCounter(wikiTab, wikiPageCount);
 }
 
 // eslint-disable-next-line import/prefer-default-export
@@ -70,16 +77,16 @@ export const getWorkflows = cache.function(async (): Promise<AnyObject[] | false
 async function initActions(): Promise<void | false> {
 	const actionsTab = await elementReady('[data-hotkey="g a"]');
 
-	if (
-		!actionsTab || // Actions Tab does not exist 🎉
-		await elementReady('nav [data-content="Settings"]') || // Repo owners should see the tab. If they don't need it, they should disable actions altogether
-		actionsTab.matches('.selected') || // User is on Actions tab 👀
-		await getWorkflows() // Actions Workflows are configured for the repository
-	) {
+	if (!actionsTab) {
 		return false;
 	}
 
-	actionsTab.remove();
+	const actionsCount = await getWorkflows();
+	if (!actionsCount || actionsCount?.length === 0) {
+		return false;
+	}
+
+	setTabCounter(actionsTab, actionsCount.length);
 }
 
 void features.add(__filebasename, {
