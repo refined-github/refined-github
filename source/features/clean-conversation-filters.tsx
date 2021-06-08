@@ -55,7 +55,7 @@ async function hasProjects(): Promise<boolean> {
 
 async function hideProjects(): Promise<void> {
 	if (!await hasProjects()) {
-		(await elementReady('[data-hotkey="p"]'))?.parentElement!.remove();
+		(await elementReady('[data-hotkey="p"]'))!.parentElement!.remove();
 	}
 }
 
