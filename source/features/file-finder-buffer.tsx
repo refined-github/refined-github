@@ -35,7 +35,7 @@ function pjaxStartHandler(event: CustomEvent): void {
 		<span className="flex-self-stretch mr-2">{bufferField}</span>
 	);
 	bufferField.focus();
-	for (const element of select.all('.pagehead-actions, .rgh-ci-link, .octotree-bookmark-btn')) {
+	for (const element of select.all('.pagehead-actions, .rgh-ci-link details, .octotree-bookmark-btn')) {
 		element.remove();
 	}
 }
