@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getWorkflows} from './remove-useless-tabs';
+import {getWorkflows} from './remove-unused-repo-tabs';
 
 const getScheduledWorkflows = async (): Promise<Record<string, string> | false> => {
 	const workflows = await getWorkflows();

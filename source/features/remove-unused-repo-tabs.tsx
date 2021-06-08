@@ -10,7 +10,11 @@ import looseParseInt from '../helpers/loose-parse-int';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
-function setTabCounter(tab: HTMLElement, count: number): void {
+function setTabCounter(tab: HTMLElement, count: number | false | undefined): void {
+	if (!tab || !count || count === 0) {
+		return;
+	}
+
 	const tabCounter = select('.Counter', tab)!;
 	tabCounter.textContent = abbreviateNumber(count);
 	tabCounter.title = count > 999 ? String(count) : '';
@@ -37,10 +41,6 @@ async function initWiki(): Promise<void | false> {
 	}
 
 	const wikiPageCount = await getWikiPageCount();
-	if (!wikiPageCount || wikiPageCount === 0) {
-		return false;
-	}
-
 	setTabCounter(wikiTab, wikiPageCount);
 }
 
@@ -82,11 +82,7 @@ async function initActions(): Promise<void | false> {
 	}
 
 	const actionsCount = await getWorkflows();
-	if (!actionsCount || actionsCount?.length === 0) {
-		return false;
-	}
-
-	setTabCounter(actionsTab, actionsCount.length);
+	setTabCounter(actionsTab, actionsCount?.length);
 }
 
 void features.add(__filebasename, {
