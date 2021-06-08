@@ -39,8 +39,8 @@ async function init(): Promise<void | false> {
 			filename.classList.add('rgh-pr-file-state');
 			const sourceIcon = pageDetect.isPR() ?
 				select(`[href="${filename.hash}"] svg`, fileList)! :
-				select(`svg + [href="${filename.hash}"]`, fileList)?.previousElementSibling!;
-			const icon = sourceIcon.cloneNode(true) as HTMLElement;
+				select(`svg + [href="${filename.hash}"]`, fileList)?.previousElementSibling as SVGSVGElement;
+			const icon = sourceIcon.cloneNode(true);
 			const action = icon.getAttribute('title')!;
 			if (action === 'added') {
 				icon.classList.add('text-green', 'color-text-success');
