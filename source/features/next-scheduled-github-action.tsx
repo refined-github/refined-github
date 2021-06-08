@@ -1,32 +1,14 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import {parseCron} from '@cheap-glitch/mi-cron';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api';
-import {getRepo} from '../github-helpers';
+import {getWorkflows} from './remove-useless-tabs';
 
-const getScheduledWorkflows = cache.function(async (): Promise<Record<string, string> | false> => {
-	const {repository: {workflowFiles}} = await api.v4(`
-		repository() {
-			workflowFiles: object(expression: "HEAD:.github/workflows") {
-				... on Tree {
-					entries {
-						object {
-							... on Blob {
-								text
-							}
-						}
-					}
-				}
-			}
-		}
-	`);
-
-	const workflows = workflowFiles?.entries;
+const getScheduledWorkflows = async (): Promise<Record<string, string> | false> => {
+	const workflows = await getWorkflows();
 	if (!workflows) {
 		return false;
 	}
@@ -43,11 +25,7 @@ const getScheduledWorkflows = cache.function(async (): Promise<Record<string, st
 	}
 
 	return schedules;
-}, {
-	maxAge: {days: 1},
-	staleWhileRevalidate: {days: 10},
-	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
-});
+};
 
 async function init(): Promise<false | void> {
 	const workflows = await getScheduledWorkflows();

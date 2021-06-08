@@ -222,7 +222,7 @@ import './features/clean-header-search-field';
 import './features/avoid-accidental-submissions';
 import './features/delete-review-comments-faster';
 import './features/list-pr-for-branch';
-import './features/remove-actions-tab';
+import './features/remove-useless-tabs';
 
 // Add global for easier debugging
 (window as any).select = select;
