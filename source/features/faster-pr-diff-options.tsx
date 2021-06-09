@@ -109,6 +109,9 @@ void features.add(__filebasename, {
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit
 	],
+	exclude: [
+		pageDetect.isPRFile404
+	],
 	shortcuts: {
 		'd w': 'Show/hide whitespaces in diffs'
 	},
