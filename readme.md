@@ -54,6 +54,16 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 			<sup>Add Single Sign-On (and more) in minutes instead of months.</sup>
 		</div>
 	</a>
+	<br>
+	<br>
+	<a href="https://oss.capital">
+		<div>
+			<img src="https://sindresorhus.com/assets/thanks/oss-capital-logo-white-bg2.svg" width="300" alt="OSS Capital">
+		</div>
+		<sub>Founded in 2018, OSS Capital is the first and only venture capital platform focused</sub>
+		<br>
+		<sup>exclusively on supporting early-stage COSS (commercial open source) startup founders.</sup>
+	</a>
 </div>
 
 ---
