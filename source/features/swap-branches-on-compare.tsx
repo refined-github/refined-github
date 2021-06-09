@@ -27,5 +27,8 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isCompare
 	],
+	exclude: [
+		() => select.exists('.range-editor .octicon-arrow-both')
+	],
 	init
 });
