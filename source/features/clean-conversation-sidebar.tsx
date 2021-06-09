@@ -8,7 +8,7 @@ import features from '.';
 import onElementRemoval from '../helpers/on-element-removal';
 import onReplacedElement from '../helpers/on-replaced-element';
 
-const canEditSidebar = onetime((): boolean => select.exists('.sidebar-labels .octicon-gear'));
+const canEditSidebar = onetime((): boolean => select.exists('.discussion-sidebar-item [data-hotkey="l"]'));
 
 function getNodesAfter(node: Node): Range {
 	const range = new Range();
@@ -30,25 +30,25 @@ Expected DOM:
 			"No issues"
 ```
 
-@param containerSelector Element that contains `details` or `.discussion-sidebar-heading`
+@param selector Element that contains `details` or `.discussion-sidebar-heading` or distinctive element inside it
 */
-function cleanSection(containerSelector: string): boolean {
-	const container = select(containerSelector);
+function cleanSection(selector: string): boolean {
+	const container = select(selector)?.closest('form, .discussion-sidebar-item');
 	if (!container) {
 		return false;
 	}
 
-	const header = select(':scope > details, :scope > .discussion-sidebar-heading', container)!;
+	const heading = select(':scope > details, :scope > .discussion-sidebar-heading', container)!;
 
 	// Magic. Do not touch.
 	// Section is empty if: no sibling element OR empty sibling element
-	if (header.nextElementSibling?.firstElementChild) {
+	if (heading.nextElementSibling?.firstElementChild) {
 		return false;
 	}
 
 	const section = container.closest('.discussion-sidebar-item')!;
 	if (canEditSidebar()) {
-		getNodesAfter(header).deleteContents();
+		getNodesAfter(heading).deleteContents();
 		section.classList.add('rgh-clean-sidebar');
 	} else {
 		section.remove();
@@ -93,9 +93,12 @@ async function clean(): Promise<void> {
 	}
 
 	// Labels
-	if (!cleanSection('.sidebar-labels') && !canEditSidebar()) {
-		// Hide header in any case except `canEditSidebar`
-		select('.sidebar-labels div.discussion-sidebar-heading')!.remove();
+	if (!cleanSection('.js-issue-labels') && !canEditSidebar()) {
+		// Hide heading in any case except `canEditSidebar`
+		select('.js-issue-labels')!
+			.closest('.discussion-sidebar-item')!
+			.querySelector(':scope > .discussion-sidebar-heading')!
+			.remove();
 	}
 
 	// Linked issues/PRs
