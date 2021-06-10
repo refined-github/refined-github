@@ -23,7 +23,7 @@ interface PullRequest {
 export const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Record<string, PullRequest>> => {
 	const {repository} = await api.v4(`
 		repository() {
-			refs(refPrefix: "refs/heads/", last: 100) {
+			refs(refPrefix: "refs/heads/", last: 100, direction: DESC) {
 				nodes {
 					name
 					associatedPullRequests(last: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
