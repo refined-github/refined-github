@@ -1,4 +1,4 @@
-import './hide-empty-split-diff-side.css';
+import './no-useless-split-diff-view.css';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
