@@ -15,7 +15,7 @@ function init(): void {
 	for (const diffTable of select.all('.js-diff-table')) {
 		for (const side of ['left', 'right']) {
 			if (!select.exists(`[data-split-side="${side}"]:is(.blob-code-addition, .blob-code-deletion)`, diffTable)) {
-				diffTable.classList.add('rgh-empty-split-' + side);
+				diffTable.setAttribute('data-rgh-no-useless-unified-diff', side);
 				break;
 			}
 		}

@@ -1,14 +1,13 @@
-.rgh-empty-split-left,
-.rgh-empty-split-right {
+[data-rgh-no-useless-unified-diff] {
 	table-layout: auto !important;
 }
 
-.rgh-empty-split-left :is([data-hunk], .blob-expanded) td:nth-child(2),
-.rgh-empty-split-right :is([data-hunk], .blob-expanded) td:nth-child(4) {
+[data-rgh-no-useless-unified-diff="left"] :is([data-hunk], .blob-expanded) td:nth-child(2),
+[data-rgh-no-useless-unified-diff="right"] :is([data-hunk], .blob-expanded) td:nth-child(4) {
 	display: none !important;
 	width: 0 !important;
 }
 
-:is(.rgh-empty-split-left, .rgh-empty-split-right) .inline-comments .empty-cell:not(.blob-num) {
+[data-rgh-no-useless-unified-diff] .inline-comments .empty-cell:not(.blob-num) {
 	display: none !important;
 }
