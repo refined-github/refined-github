@@ -91,7 +91,7 @@ async function showTimemachineBar(): Promise<void | false> {
 			return false;
 		}
 
-		const lastCommitDate = await elementReady('.Box-header--blue .Details relative-time', {waitForChildren: false});
+		const lastCommitDate = await elementReady('[itemprop="dateModified"] relative-time', {waitForChildren: false});
 		if (lastCommitDate && date > lastCommitDate.getAttribute('datetime')!) {
 			return false;
 		}
