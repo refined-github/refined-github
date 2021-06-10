@@ -1,5 +1,3 @@
-// To disable features temporarily, simply comment them out #3678
-
 import 'typed-query-selector';
 import select from 'select-dom';
 

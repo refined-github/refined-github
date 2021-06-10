@@ -1,8 +1,6 @@
 import './latest-tag-button.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {DiffIcon, TagIcon} from '@primer/octicons-react';
 
@@ -10,33 +8,10 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import pluralize from '../helpers/pluralize';
 import GitHubURL from '../github-helpers/github-url';
-import {wrapAll} from '../helpers/dom-utils';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
+import addAfterBranchSelector from '../helpers/add-after-branch-selector';
 import {buildRepoURL, getCurrentCommittish, getLatestVersionTag, getRepo} from '../github-helpers';
-
-// eslint-disable-next-line import/prefer-default-export
-export async function addAfterBranchSelector(button: Element): Promise<void> {
-	button.classList.add('ml-2');
-	const branchSelector = (await elementReady('#branch-select-menu', {waitForChildren: false}))!;
-	const branchSelectorWrapper = branchSelector.closest('.position-relative')!;
-	const breadcrumb = select('.breadcrumb');
-	if (!breadcrumb) {
-		branchSelectorWrapper.after(button);
-		return;
-	}
-
-	branchSelectorWrapper.append(button);
-	if (branchSelector.classList.contains('rgh-wrapper-added')) {
-		return;
-	}
-
-	breadcrumb.classList.add('flex-shrink-0');
-	breadcrumb.classList.remove('mt-3');
-	branchSelector.classList.add('rgh-wrapper-added');
-	branchSelectorWrapper.classList.add('d-flex', 'flex-shrink-0');
-	wrapAll([branchSelectorWrapper, breadcrumb], <div className="d-flex flex-wrap flex-1 mr-2" style={{rowGap: '16px'}}/>);
-}
 
 interface RepoPublishState {
 	latestTag: string | false;
@@ -159,7 +134,7 @@ async function init(): Promise<false | void> {
 					href={buildRepoURL(`compare/${latestTag}...${defaultBranch}`)}
 					aria-label={`Compare ${latestTag}...${defaultBranch}`}
 				>
-					<DiffIcon/>
+					<DiffIcon className="v-align-middle"/>
 				</a>
 			);
 			groupButtons([link, compareLink]).classList.add('flex-self-center', 'd-flex');
