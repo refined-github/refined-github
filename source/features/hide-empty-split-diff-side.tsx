@@ -4,6 +4,13 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
+function isUnifiedDiff(): boolean {
+	return select.exists([
+		'[value="unified"][checked]', // Form in PR
+		'.table-of-contents .selected[href*="diff=unified"]' // Link in single commit
+	]);
+}
+
 function init(): void {
 	for (const diffTable of select.all('.js-diff-table')) {
 		for (const side of ['left', 'right']) {
@@ -22,10 +29,7 @@ void features.add(__filebasename, {
 		pageDetect.isPRFiles
 	],
 	exclude: [
-		() => !select.exists([
-			'[value="split"][checked]', // Form in PR
-			'.table-of-contents .selected[href*="diff=split"]' // Link in single commit
-		])
+		isUnifiedDiff
 	],
 	init
 });
