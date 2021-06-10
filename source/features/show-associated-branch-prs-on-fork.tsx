@@ -23,7 +23,7 @@ interface PullRequest {
 export const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Record<string, PullRequest>> => {
 	const {repository} = await api.v4(`
 		repository() {
-			refs(refPrefix: "refs/heads/", last: 100, direction: DESC) {
+			refs(refPrefix: "refs/heads/", last: 100) {
 				nodes {
 					name
 					associatedPullRequests(last: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
@@ -96,7 +96,7 @@ async function init(): Promise<void> {
 							title={`Status: ${upperCaseFirst(prInfo.state)}`}
 							href={prInfo.url}
 						>
-							<StateIcon width={10} height={14}/> {upperCaseFirst(prInfo.state)}
+							<StateIcon width={10} height={14}/> {prInfo.state}
 						</a>
 					</div>);
 			}
