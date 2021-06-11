@@ -1,3 +1,4 @@
+import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
 import {parseCron} from '@cheap-glitch/mi-cron';
@@ -5,7 +6,38 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getWorkflows} from './remove-unused-repo-tabs';
+import * as api from '../github-helpers/api';
+import {getRepo} from '../github-helpers';
+
+// eslint-disable-next-line import/prefer-default-export
+export const getWorkflows = cache.function(async (): Promise<AnyObject[] | false> => {
+	const {repository: {workflowFiles}} = await api.v4(`
+		repository() {
+			workflowFiles: object(expression: "HEAD:.github/workflows") {
+				... on Tree {
+					entries {
+						object {
+							... on Blob {
+								text
+							}
+						}
+					}
+				}
+			}
+		}
+	`);
+
+	const workflows = workflowFiles?.entries;
+	if (!workflows) {
+		return false;
+	}
+
+	return workflows;
+}, {
+	maxAge: {days: 1},
+	staleWhileRevalidate: {days: 10},
+	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
+});
 
 const getScheduledWorkflows = async (): Promise<Record<string, string> | false> => {
 	const workflows = await getWorkflows();

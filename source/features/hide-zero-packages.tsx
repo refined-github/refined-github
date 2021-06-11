@@ -2,7 +2,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import getTabCount from './remove-projects-tab';
+import getTabCount from '../github-helpers/get-tab-count';
 
 async function init(): Promise<void | false> {
 	const packagesTab = await elementReady('.UnderlineNav-item[href$="?tab=packages"]:not(.selected)');
@@ -10,7 +10,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	packagesTab.closest('.BorderGrid-row, .UnderlineNav-item')!.remove();
+	packagesTab.closest('.UnderlineNav-item')!.remove();
 }
 
 void features.add(__filebasename, {
@@ -21,6 +21,5 @@ void features.add(__filebasename, {
 		// Keep it visible on your own profile due to #3737
 		pageDetect.isOwnUserProfile
 	],
-	awaitDomReady: false,
 	init
 });

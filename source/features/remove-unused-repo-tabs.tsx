@@ -4,26 +4,34 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
+import getTabCount from '../github-helpers/get-tab-count';
 import looseParseInt from '../helpers/loose-parse-int';
+import {getWorkflows} from './next-scheduled-github-action';
 import abbreviateNumber from '../helpers/abbreviate-number';
+import {getProjectsTab} from './remove-projects-tab';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
-function setTabCounter(tab: HTMLElement, count: number | false | undefined): void {
-	if (!tab || !count || count === 0) {
-		return;
+async function tabCanBeRemoved(tab: HTMLElement | undefined, counterFunction: Function): Promise<void | false> {
+	if (
+		!tab || // Tab disabled 🎉
+		tab.matches('.selected') || // User is on tab 👀
+		await counterFunction(tab)?.length > 0 // There are open whatever
+	) {
+		return false;
 	}
+}
 
+function setTabCounter(tab: HTMLElement, count: number): void {
 	const tabCounter = select('.Counter', tab)!;
 	tabCounter.textContent = abbreviateNumber(count);
 	tabCounter.title = count > 999 ? String(count) : '';
 }
 
-const getWikiPageCount = cache.function(async (): Promise<number | false> => {
+const getWikiPageCount = cache.function(async (): Promise<number> => {
 	const wikiPages = await fetchDom(buildRepoURL('wiki'), '#wiki-pages-box .Counter');
 	if (!wikiPages) {
-		return false;
+		return 0;
 	}
 
 	return looseParseInt(wikiPages);
@@ -36,56 +44,48 @@ const getWikiPageCount = cache.function(async (): Promise<number | false> => {
 async function initWiki(): Promise<void | false> {
 	const wikiTab = await elementReady('[data-hotkey="g w"]');
 
-	if (!wikiTab) {
-		return false;
+	if (await tabCanBeRemoved(wikiTab, getWikiPageCount)) {
+		wikiTab!.remove();
 	}
 
-	const wikiPageCount = await getWikiPageCount();
-	setTabCounter(wikiTab, wikiPageCount);
+	if (wikiTab) {
+		setTabCounter(wikiTab, await getWikiPageCount());
+	}
 }
-
-// eslint-disable-next-line import/prefer-default-export
-export const getWorkflows = cache.function(async (): Promise<AnyObject[] | false> => {
-	const {repository: {workflowFiles}} = await api.v4(`
-		repository() {
-			workflowFiles: object(expression: "HEAD:.github/workflows") {
-				... on Tree {
-					entries {
-						object {
-							... on Blob {
-								text
-							}
-						}
-					}
-				}
-			}
-		}
-	`);
-
-	const workflows = workflowFiles?.entries;
-	if (!workflows) {
-		return false;
-	}
-
-	return workflows;
-}, {
-	maxAge: {days: 1},
-	staleWhileRevalidate: {days: 10},
-	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
-});
 
 async function initActions(): Promise<void | false> {
 	const actionsTab = await elementReady('[data-hotkey="g a"]');
 
-	if (!actionsTab) {
-		return false;
+	if (await tabCanBeRemoved(actionsTab, getWorkflows)) {
+		actionsTab!.remove();
 	}
 
-	const actionsCount = await getWorkflows();
-	setTabCounter(actionsTab, actionsCount?.length);
+	if (actionsTab) {
+		setTabCounter(actionsTab, (await getWorkflows())?.length);
+	}
+}
+
+async function initProjects(): Promise<void | false> {
+	const projectsTab = await getProjectsTab();
+	if (await tabCanBeRemoved(projectsTab, getTabCount)) {
+		projectsTab!.remove();
+	}
 }
 
 void features.add(__filebasename, {
+	include: [
+		pageDetect.isRepo,
+		pageDetect.isUserProfile,
+		pageDetect.isOrganizationProfile
+	],
+	exclude: [
+		// Repo/Organization owners should see the tab. If they don't need it, they should disable Projects altogether
+		pageDetect.canUserEditRepo,
+		pageDetect.canUserEditOrganization
+	],
+	awaitDomReady: false,
+	init: initProjects
+}, {
 	include: [
 		pageDetect.isRepo
 	],
