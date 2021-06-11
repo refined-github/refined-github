@@ -54,6 +54,16 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 			<sup>Add Single Sign-On (and more) in minutes instead of months.</sup>
 		</div>
 	</a>
+	<br>
+	<br>
+	<a href="https://oss.capital">
+		<div>
+			<img src="https://sindresorhus.com/assets/thanks/oss-capital-logo-white-bg2.svg" width="300" alt="OSS Capital">
+		</div>
+		<sub>Founded in 2018, OSS Capital is the first and only venture capital platform focused</sub>
+		<br>
+		<sup>exclusively on supporting early-stage COSS (commercial open source) startup founders.</sup>
+	</a>
 </div>
 
 ---
@@ -259,6 +269,7 @@ Thanks for contributing! 🦋🙌
 - [](# "git-checkout-pr") [Adds copy-pastable git commands to checkout a PR.](https://user-images.githubusercontent.com/16872793/96938908-8e024f80-1499-11eb-8976-0caf95175dd6.png)
 - [](# "jump-to-change-requested-comment") [Adds a link to jump to the latest changed requested comment.](https://user-images.githubusercontent.com/19198931/98718312-418b9f00-23c9-11eb-8da2-dfb616e95eb6.gif)
 - [](# "view-last-pr-deployment") [Adds a link to open the last deployment from the header of a PR.](https://user-images.githubusercontent.com/16872793/111904355-ef185a00-8a1c-11eb-97dd-aa0272547e73.png)
+- [](# "no-useless-split-diff-view") [Always uses unified diffs on files where split diffs aren’t useful.](https://user-images.githubusercontent.com/46634000/121495005-89af8600-c9d9-11eb-822d-77e0b987e3b1.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

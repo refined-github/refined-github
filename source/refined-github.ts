@@ -1,5 +1,3 @@
-// To disable features temporarily, simply comment them out #3678
-
 import 'typed-query-selector';
 import select from 'select-dom';
 
@@ -221,6 +219,7 @@ import './features/global-search-filters';
 import './features/clean-header-search-field';
 import './features/avoid-accidental-submissions';
 import './features/delete-review-comments-faster';
+import './features/no-useless-split-diff-view';
 import './features/list-pr-for-branch';
 import './features/remove-unused-repo-tabs';
 

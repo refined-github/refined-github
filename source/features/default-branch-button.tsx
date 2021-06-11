@@ -10,13 +10,13 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getCurrentCommittish} from '../github-helpers';
 
 async function init(): Promise<false | void> {
+	const defaultBranch = await getDefaultBranch();
 	const branchSelector = await elementReady('[data-hotkey="w"]');
 	// The branch selector is missing from History pages of files and folders (it only appears on the root)
 	if (!branchSelector) {
 		return false;
 	}
 
-	const defaultBranch = await getDefaultBranch();
 	const currentBranch = getCurrentCommittish();
 
 	// Don't show the button if we’re already on the default branch

@@ -76,5 +76,6 @@ void features.add(__filebasename, {
 		onNewComments,
 		onPrFileLoad
 	],
+	deduplicate: '.rgh-observing-whitespace',
 	init
 });
