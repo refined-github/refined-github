@@ -219,6 +219,7 @@ import './features/global-search-filters';
 import './features/clean-header-search-field';
 import './features/avoid-accidental-submissions';
 import './features/delete-review-comments-faster';
+import './features/no-useless-split-diff-view';
 import './features/list-pr-for-branch';
 
 // Add global for easier debugging
