@@ -20,11 +20,21 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 	}
 
 	event.preventDefault();
-	select('#issue_body, #pull_request_body, #commit-description-textarea, #merge_message_field', event.delegateTarget.form!)!.focus();
+	select([
+		'#issue_body',
+		'#pull_request_body',
+		'#commit-description-textarea',
+		'#merge_message_field'
+	], event.delegateTarget.form!)!.focus();
 }
 
 function init(): void {
-	delegate(document, 'input#issue_title, input#pull_request_title, input#commit-summary-input, #merge_title_field', 'keydown', onKeyDown);
+	delegate(document, [
+		'input#issue_title',
+		'input#pull_request_title',
+		'input#commit-summary-input',
+		'#merge_title_field'
+	].join(), 'keydown', onKeyDown);
 }
 
 void features.add(__filebasename, {
