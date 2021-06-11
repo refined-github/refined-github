@@ -61,7 +61,8 @@ async function initActions(): Promise<void | false> {
 	}
 
 	if (actionsTab) {
-		setTabCounter(actionsTab, (await getWorkflows())?.length);
+		const actionsCount = await getWorkflows() as AnyObject[];
+		setTabCounter(actionsTab, actionsCount.length);
 	}
 }
 
