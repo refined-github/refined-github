@@ -10,7 +10,7 @@ import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 
 // eslint-disable-next-line import/prefer-default-export
-export const getWorkflows = cache.function(async (): Promise<AnyObject[] | false> => {
+export const getWorkflows = cache.function(async (): Promise<AnyObject[]> => {
 	const {repository: {workflowFiles}} = await api.v4(`
 		repository() {
 			workflowFiles: object(expression: "HEAD:.github/workflows") {
@@ -29,7 +29,7 @@ export const getWorkflows = cache.function(async (): Promise<AnyObject[] | false
 
 	const workflows = workflowFiles?.entries;
 	if (!workflows) {
-		return false;
+		return [];
 	}
 
 	return workflows;
@@ -41,7 +41,7 @@ export const getWorkflows = cache.function(async (): Promise<AnyObject[] | false
 
 const getScheduledWorkflows = async (): Promise<Record<string, string> | false> => {
 	const workflows = await getWorkflows();
-	if (!workflows) {
+	if (workflows.length === 0) {
 		return false;
 	}
 

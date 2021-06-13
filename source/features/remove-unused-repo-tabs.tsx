@@ -12,14 +12,15 @@ import abbreviateNumber from '../helpers/abbreviate-number';
 import {getProjectsTab} from './remove-projects-tab';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
-async function tabCanBeRemoved(tab: HTMLElement | undefined, counterFunction: Function): Promise<void | false> {
+function tabCannotBeRemoved(tab: HTMLElement | undefined): boolean {
 	if (
 		!tab || // Tab disabled 🎉
-		tab.matches('.selected') || // User is on tab 👀
-		await counterFunction(tab)?.length > 0 // There are open whatever
+		tab.matches('.selected') // User is on tab 👀
 	) {
-		return false;
+		return true;
 	}
+
+	return false;
 }
 
 function setTabCounter(tab: HTMLElement, count: number): void {
@@ -43,34 +44,39 @@ const getWikiPageCount = cache.function(async (): Promise<number> => {
 
 async function initWiki(): Promise<void | false> {
 	const wikiTab = await elementReady('[data-hotkey="g w"]');
-
-	if (await tabCanBeRemoved(wikiTab, getWikiPageCount)) {
-		wikiTab!.remove();
+	if (tabCannotBeRemoved(wikiTab)) {
+		return false;
 	}
 
-	if (wikiTab) {
-		setTabCounter(wikiTab, await getWikiPageCount());
+	const wikiPageCount = await getWikiPageCount();
+	if (wikiPageCount > 0) {
+		setTabCounter(wikiTab!, wikiPageCount);
+	} else {
+		wikiTab!.remove();
 	}
 }
 
 async function initActions(): Promise<void | false> {
 	const actionsTab = await elementReady('[data-hotkey="g a"]');
-
-	if (await tabCanBeRemoved(actionsTab, getWorkflows)) {
-		actionsTab!.remove();
+	if (tabCannotBeRemoved(actionsTab)) {
+		return false;
 	}
 
-	if (actionsTab) {
-		const actionsCount = await getWorkflows() as AnyObject[];
-		setTabCounter(actionsTab, actionsCount.length);
+	const actionsCount = (await getWorkflows()).length;
+	if (actionsCount > 0) {
+		setTabCounter(actionsTab!, actionsCount);
+	} else {
+		actionsTab!.remove();
 	}
 }
 
 async function initProjects(): Promise<void | false> {
 	const projectsTab = await getProjectsTab();
-	if (await tabCanBeRemoved(projectsTab, getTabCount)) {
-		projectsTab!.remove();
+	if (tabCannotBeRemoved(projectsTab) || await getTabCount(projectsTab!) > 0) {
+		return false;
 	}
+
+	projectsTab!.remove();
 }
 
 void features.add(__filebasename, {
