@@ -45,8 +45,8 @@ void features.add(__filebasename, {
 		pageDetect.isRepoWiki
 	],
 	exclude: [
-		pageDetect.isNewWikiPage,
-		pageDetect.isEditingWikiPage
+		pageDetect.isEditingWikiPage,
+		pageDetect.isNewWikiPage
 	],
 	init
 });
