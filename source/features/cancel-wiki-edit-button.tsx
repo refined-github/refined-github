@@ -4,13 +4,11 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-const regex = /\/_(edit|new)$/;
-
 async function init(): Promise<void> {
 	(await elementReady('#gollum-editor-submit'))!.after(
 		<a
 			className="flex-auto btn btn-danger"
-			href={location.href.replace(regex, '')}
+			href={location.href.replace(/\/_(edit|new)$/, '')}
 		>
 			Cancel
 		</a>
@@ -19,7 +17,8 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		() => pageDetect.isRepoWiki() && regex.test(location.href)
+		pageDetect.isEditingWikiPage,
+		pageDetect.isNewWikiPage
 	],
 	awaitDomReady: false,
 	init
