@@ -91,9 +91,14 @@ test('getCurrentCommittish', t => {
 		'chore: add markdownlint (#1889) · typescript-eslint/typescript-eslint@795fd1c'
 	), '795fd1c529ee58e97283c9ddf8463703517b50ab');
 
-	// Branch includes dot
+	// Branch includes period
 	t.is(getCurrentCommittish(
 		'/anggrayudi/SimpleStorage/tree/release/0.8.0',
 		'anggrayudi/SimpleStorage at release/0.8.0'
 	), 'release/0.8.0');
+
+	t.is(getCurrentCommittish(
+		'/ksh-code/repository/tree/h.l.o.o',
+		'ksh-code/repository at h.l.o.o'
+	), 'h.l.o.o');
 });
