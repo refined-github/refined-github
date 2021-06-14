@@ -10,7 +10,7 @@ import {buildRepoURL} from '../github-helpers';
 // Look for the CI icon in the latest 2 days of commits #2990
 const getIcon = onetime(async () => fetchDom(
 	buildRepoURL('commits'), [
-		'.TimelineItem--condensed:nth-of-type(-n+2) .commit-build-statuses', // TODO[2022-04-29]: GHE
+		'.TimelineItem--condensed:nth-of-type(-n+2) .commit-build-statuses', // TODO[2022-04-29]: GHE #4294
 		'.TimelineItem--condensed:nth-of-type(-n+2) batch-deferred-content[data-url$="checks-statuses-rollups"]'
 	].join()
 ));

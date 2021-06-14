@@ -16,5 +16,5 @@ body > .footer > div > ul:first-of-type li:first-of-type { /* The `© 2017 GitHu
 
 body > .footer li a,
 body > .footer li .btn-link {
-	color: var(--color-text-disabled, #666); /* GHE */
+	color: var(--color-text-disabled, #666); /* GHE #4121 */
 }
