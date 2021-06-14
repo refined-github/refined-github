@@ -17,7 +17,7 @@ export default class GitHubURL {
 	constructor(url: string) {
 		// Use Facade pattern instead of inheritance #3193
 		this.internalUrl = new URL(url);
-		this.pathname = this.internalUrl.pathname;
+		this.pathname = decodeURIComponent(this.internalUrl.pathname);
 	}
 
 	toString(): string {
