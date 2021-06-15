@@ -101,6 +101,9 @@
 	padding: 54px;
 	text-align: center;
 }
+:root .file .data table {
+	text-align: left !important;
+}
 
 /* Improve dropdown expansion animation (e.g. top-right dropdown in comments) */
 /* It normally pops in from the center */
