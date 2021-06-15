@@ -79,3 +79,15 @@ test('get filePath from search', t => {
 	t.is(url.search, '?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
 	t.is(String(url), 'https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
 });
+
+test('branch includes many slashes', t => {
+	const url = new GitHubURL('https://github.com/yakov116/TestR/tree/this/branch%2Fhas%2Fmany%2Fslashes');
+	t.is(url.user, 'yakov116');
+	t.is(url.repository, 'TestR');
+	t.is(url.route, 'tree');
+	t.is(url.branch, 'this/branch/has/many/slashes');
+	t.is(url.filePath, '');
+	t.is(url.pathname, '/yakov116/TestR/tree/this/branch/has/many/slashes');
+	t.is(url.href, 'https://github.com/yakov116/TestR/tree/this/branch/has/many/slashes');
+	t.is(String(url), 'https://github.com/yakov116/TestR/tree/this/branch/has/many/slashes');
+});

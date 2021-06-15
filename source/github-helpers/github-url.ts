@@ -17,7 +17,7 @@ export default class GitHubURL {
 	constructor(url: string) {
 		// Use Facade pattern instead of inheritance #3193
 		this.internalUrl = new URL(url);
-		this.pathname = decodeURIComponent(this.internalUrl.pathname);
+		this.pathname = this.internalUrl.pathname;
 	}
 
 	toString(): string {
@@ -36,15 +36,22 @@ export default class GitHubURL {
 	private disambiguateReference(
 		ambiguousReference: string[]
 	): {branch: string; filePath: string} {
-		const branch = ambiguousReference[0];
+		let branch;
+		let filePath;
+		if (ambiguousReference[1]?.includes('%2')) {
+			branch = `${ambiguousReference[0]}/${decodeURIComponent(ambiguousReference[1])}`;
+			filePath = ambiguousReference.slice(2).join('/');
+		} else {
+			branch = ambiguousReference[0];
+			filePath = ambiguousReference.slice(1).join('/');
+		}
+
 		// History pages might use search parameters
 		const filePathFromSearch = this.searchParams.getAll('path[]').join('/');
 		if (filePathFromSearch) {
 			this.searchParams.delete('path[]');
 			return {branch, filePath: filePathFromSearch};
 		}
-
-		const filePath = ambiguousReference.slice(1).join('/');
 
 		const currentBranch = getCurrentCommittish();
 		const currentBranchSections = currentBranch?.split('/');
