@@ -10,7 +10,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	packagesTab.closest('.BorderGrid-row, .UnderlineNav-item')!.remove();
+	packagesTab.closest('.UnderlineNav-item')!.remove();
 }
 
 void features.add(__filebasename, {
