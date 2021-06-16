@@ -36,22 +36,15 @@ export default class GitHubURL {
 	private disambiguateReference(
 		ambiguousReference: string[]
 	): {branch: string; filePath: string} {
-		let branch;
-		let filePath;
-		if (ambiguousReference[1]?.includes('%2')) {
-			branch = `${ambiguousReference[0]}/${decodeURIComponent(ambiguousReference[1])}`;
-			filePath = ambiguousReference.slice(2).join('/');
-		} else {
-			branch = ambiguousReference[0];
-			filePath = ambiguousReference.slice(1).join('/');
-		}
-
+		const branch = ambiguousReference[0];
 		// History pages might use search parameters
 		const filePathFromSearch = this.searchParams.getAll('path[]').join('/');
 		if (filePathFromSearch) {
 			this.searchParams.delete('path[]');
 			return {branch, filePath: filePathFromSearch};
 		}
+
+		const filePath = ambiguousReference.slice(1).join('/');
 
 		const currentBranch = getCurrentCommittish();
 		const currentBranchSections = currentBranch?.split('/');
