@@ -5,9 +5,9 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 async function init(): Promise<void> {
-	(await elementReady('#gollum-editor-submit'))!.after(
+	(await elementReady('#gollum-editor-submit'))!.before(
 		<a
-			className="flex-auto btn btn-danger"
+			className="flex-auto btn btn-danger float-left text-center mr-1"
 			href={location.href.replace(/\/_(edit|new)$/, '')}
 		>
 			Cancel
