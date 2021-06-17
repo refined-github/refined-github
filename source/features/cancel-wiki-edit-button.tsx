@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -8,7 +9,7 @@ async function init(): Promise<void> {
 	(await elementReady('#gollum-editor-submit'))!.before(
 		<a
 			className="flex-auto btn btn-danger float-left text-center mr-1"
-			href={location.href.replace(/\/_(edit|new)$/, '')}
+			href={select('[name="gollum-editor"]')!.getAttribute('action')!}
 		>
 			Cancel
 		</a>
