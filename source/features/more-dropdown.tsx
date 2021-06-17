@@ -21,7 +21,7 @@ export function createDropdownItem(label: string, url: string, attributes?: Reco
 
 function onlyShowInDropdown(id: string): void {
 	const tabItem = select(`[data-tab-item$="${id}"]`);
-	if (!tabItem && pageDetect.isEnterprise()) { // GHE might not have the Security tab #3962
+	if (!tabItem && pageDetect.isEnterprise()) { // GHE #3962
 		return;
 	}
 

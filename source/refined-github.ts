@@ -17,7 +17,6 @@ import './features/sticky-conversation-list-toolbar.css';
 import './features/always-show-branch-delete-buttons.css';
 import './features/easier-pr-sha-copy.css';
 import './features/repo-stats-spacing.css';
-import './features/emphasize-draft-pr-label.css';
 import './features/clean-notifications.css';
 import './features/fix-first-tab-length.css';
 import './features/align-repository-header.css';
@@ -138,7 +137,6 @@ import './features/list-prs-for-file';
 import './features/pr-branch-auto-delete';
 import './features/linkify-symbolic-links'; // Must be before show-whitespace
 import './features/show-whitespace';
-import './features/hide-zero-packages';
 import './features/restore-file';
 import './features/hidden-review-comments-indicator';
 import './features/reload-failed-proxied-images';
