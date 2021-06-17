@@ -101,8 +101,9 @@
 	padding: 54px;
 	text-align: center;
 }
+
 :root .file .data table {
-	text-align: left !important;
+	text-align: left;
 }
 
 /* Improve dropdown expansion animation (e.g. top-right dropdown in comments) */
