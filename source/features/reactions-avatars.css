@@ -39,6 +39,6 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 
 /* This image will start at height:0 and will expand once loaded, covering the gray placeholder */
 .reaction-summary-item a img { /* `a` required for #3237 */
-	max-width: 100%;
+	width: 100%;
 	background-color: var(--color-bg-info, #fff);
 }
