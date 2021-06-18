@@ -3,6 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import onPrFileLoad from '../github-events/on-pr-file-load';
 
 function isUnifiedDiff(): boolean {
 	return select.exists([
@@ -31,6 +32,9 @@ void features.add(__filebasename, {
 	],
 	exclude: [
 		isUnifiedDiff
+	],
+	additionalListeners: [
+		onPrFileLoad
 	],
 	init
 });
