@@ -9,8 +9,6 @@ import webpack, {Configuration} from 'webpack';
 
 import {getFeatures, getFeaturesMeta} from './build/readme-parser';
 
-let isWatching = false;
-
 const config: Configuration = {
 	devtool: 'source-map',
 	stats: {

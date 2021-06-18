@@ -1,11 +1,13 @@
 name: New feature checker
 
-on: 
+on:
   pull_request:
     types:
       - opened
       - edited
       - synchronize # push
+    path:
+      - source/refined-github.ts
 
 jobs:
   check:
@@ -15,13 +17,13 @@ jobs:
     if: startsWith(github.event.pull_request.title, 'Add') && endsWith(github.event.pull_request.title, 'feature')
     steps:
       - name: Find feature name
-        id: name 
+        id: name
         uses: AsasInnab/regex-action@v1
         with:
           regex_pattern: '(?<=Add `)\w+(?=` feature)'
           regex_flags: g
           search_string: ${{ github.event.pull_request.title }}
-      
+
   feature-file:
     needs: check
     runs-on: ubuntu-latest
