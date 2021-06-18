@@ -11,15 +11,6 @@ import {getFeatures, getFeaturesMeta} from './build/readme-parser';
 
 let isWatching = false;
 
-export function throwError(id: string, error: string): void {
-	const errorMessage = `❌ \`${id}\` → ${error}`;
-	if (!isWatching) {
-		throw new Error(errorMessage);
-	}
-
-	console.error(errorMessage);
-}
-
 const config: Configuration = {
 	devtool: 'source-map',
 	stats: {
@@ -59,16 +50,7 @@ const config: Configuration = {
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
 			__features__: webpack.DefinePlugin.runtimeValue(() => JSON.stringify(getFeatures()), true),
 			__featuresMeta__: webpack.DefinePlugin.runtimeValue(() => JSON.stringify(getFeaturesMeta()), true),
-			__filebasename: webpack.DefinePlugin.runtimeValue(
-				info => {
-					const {name, ext} = path.parse(info.module.resource);
-					if (ext !== '.tsx') {
-						throwError(name, `has a ${ext} extension but should be .tsx`);
-					}
-
-					return JSON.stringify(name);
-				}
-			)
+			__filebasename: webpack.DefinePlugin.runtimeValue(info => JSON.stringify(path.parse(info.module.resource).name))
 		}),
 		new MiniCssExtractPlugin(),
 		new CopyWebpackPlugin({
@@ -106,7 +88,4 @@ const config: Configuration = {
 	}
 };
 
-export default function webpackSetup(_: string, options: webpack.WebpackOptionsNormalized): Configuration {
-	isWatching = Boolean(options.watch);
-	return config;
-}
+export default config;
