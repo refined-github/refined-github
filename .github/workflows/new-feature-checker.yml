@@ -1,4 +1,4 @@
-name: New feature checker
+name: New feature
 
 on:
   pull_request:
@@ -10,12 +10,13 @@ on:
       - source/refined-github.ts
 
 jobs:
-  check:
+  Check:
     outputs:
       name: ${{ steps.name.outputs.first_match }}
     runs-on: ubuntu-latest
     if: startsWith(github.event.pull_request.title, 'Add') && endsWith(github.event.pull_request.title, 'feature')
     steps:
+      - uses: actions/checkout@v2
       - name: Find feature name
         id: name
         uses: AsasInnab/regex-action@v1
@@ -24,31 +25,13 @@ jobs:
           regex_flags: g
           search_string: ${{ github.event.pull_request.title }}
 
-  feature-file:
-    needs: check
-    runs-on: ubuntu-latest
-    if: needs.check.outputs.name
-    steps:
-      - uses: actions/checkout@v2
-      - name: Has ${{ needs.check.outputs.name }}.tsx been created?
+      - name: Has ${{ steps.name.outputs.first_match }}.tsx been created?
         uses: mudlabs/simple-diff@v1.2.0
         with:
-          path: source/features/${{ needs.check.outputs.name }}.tsx
+          path: source/features/${{ steps.name.outputs.first_match }}.tsx
 
-  content-script:
-    needs: check
-    runs-on: ubuntu-latest
-    if: needs.check.outputs.name
-    steps:
-      - uses: actions/checkout@v2
-      - name: Has `${{ needs.check.outputs.name }}` been imported
-        run: grep "import './features/${{ needs.check.outputs.name }}';" source/refined-github.ts -q
+      - name: Has `${{ steps.name.outputs.first_match }}` been imported
+        run: grep "import './features/${{ steps.name.outputs.first_match }}';" source/refined-github.ts -q
 
-  readme:
-    needs: check
-    runs-on: ubuntu-latest
-    if: needs.check.outputs.name
-    steps:
-      - uses: actions/checkout@v2
-      - name: Has `${{ needs.check.outputs.name }}` been documented
-        run: grep '"${{ needs.check.outputs.name }}"' readme.md -q
+      - name: Has `${{ steps.name.outputs.first_match }}` been documented
+        run: grep '"${{ steps.name.outputs.first_match }}"' readme.md -q
