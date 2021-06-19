@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onPrFileLoad from '../github-events/on-pr-file-load';
+import onDiffFileLoad from '../github-events/on-diff-file-load';
 
 function isUnifiedDiff(): boolean {
 	return select.exists([
@@ -34,7 +34,7 @@ void features.add(__filebasename, {
 		isUnifiedDiff
 	],
 	additionalListeners: [
-		onPrFileLoad
+		onDiffFileLoad
 	],
 	init
 });

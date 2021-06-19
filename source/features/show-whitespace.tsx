@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import getTextNodes from '../helpers/get-text-nodes';
-import onPrFileLoad from '../github-events/on-pr-file-load';
+import onDiffFileLoad from '../github-events/on-diff-file-load';
 import onNewComments from '../github-events/on-new-comments';
 
 // `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
@@ -74,7 +74,7 @@ void features.add(__filebasename, {
 	],
 	additionalListeners: [
 		onNewComments,
-		onPrFileLoad
+		onDiffFileLoad
 	],
 	deduplicate: '.rgh-observing-whitespace',
 	init
