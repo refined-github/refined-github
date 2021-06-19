@@ -1,4 +1,4 @@
-name: New feature
+name: Feature
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ on:
       - source/refined-github.ts
 
 jobs:
-  Check:
+  New:
     outputs:
       name: ${{ steps.name.outputs.first_match }}
     runs-on: ubuntu-latest
