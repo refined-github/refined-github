@@ -21,7 +21,7 @@ jobs:
         id: name
         uses: AsasInnab/regex-action@v1
         with:
-          regex_pattern: '(?<=Add `)\w+(?=` feature)'
+          regex_pattern: '(?<=Add `)[a-z-]+(?=` feature)'
           regex_flags: g
           search_string: ${{ github.event.pull_request.title }}
 
