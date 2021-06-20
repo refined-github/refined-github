@@ -7,8 +7,8 @@ import {CommentIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onPrFileLoad from '../github-events/on-pr-file-load';
 import preserveScroll from '../helpers/preserve-scroll';
+import onDiffFileLoad from '../github-events/on-diff-file-load';
 
 // When an indicator is clicked, this will show comments on the current file
 const handleIndicatorClick = ({delegateTarget}: delegate.Event): void => {
@@ -65,7 +65,7 @@ function observeFiles(): void {
 
 function init(): void {
 	observeFiles();
-	onPrFileLoad(observeFiles);
+	onDiffFileLoad(observeFiles);
 	delegate(document, '.rgh-comments-indicator', 'click', handleIndicatorClick);
 }
 
