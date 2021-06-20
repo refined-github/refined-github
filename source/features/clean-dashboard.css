@@ -15,7 +15,7 @@
 }
 
 /* Add background and border Whole list */
-.rgh-clean-dashboard .dashboard h2 + [data-repository-hovercards-enabled] {
+.rgh-clean-dashboard .news > .f4 + div {
 	background-color: var(--color-bg-canvas, #fff);
 	border: 1px solid var(--github-border-color);
 	border-radius: 6px;
@@ -23,7 +23,7 @@
 }
 
 /* Drop "box" style for all events */
-.rgh-clean-dashboard .dashboard h2 + [data-repository-hovercards-enabled] .Box {
+.rgh-clean-dashboard .news > .f4 + div .Box {
 	padding: 0 !important;
 	border: none;
 	background: none;
