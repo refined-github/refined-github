@@ -11,8 +11,7 @@ function init(): void {
 	// A `:not(.rgh)` selector is not needed since we already check for `not(a)` #3625
 	const labelClass = [
 		'.js-recent-activity-container :not(a) > .IssueLabel', // Recent activity
-		'.js-all-activity-header + div :not(a) > .IssueLabel', // Newsfeed
-		// '.Popover .IssueLabel' // Newsfeed (new layout)
+		'.js-all-activity-header + div :not(a) > .IssueLabel' // Newsfeed
 	].join();
 	observe(labelClass, {
 		add(label) {
