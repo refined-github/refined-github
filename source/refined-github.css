@@ -1,5 +1,5 @@
 :root {
-	/* 2020-12-15: these variables only exist for GHE. Remove in the future. */
+	/* 2020-12-15: these variables only exist for GHE #3798 */
 	--github-green: var(--color-text-success, #28a745);
 	--github-red: var(--color-text-danger, #cb2431);
 	--github-border-color: var(--color-border-primary, #e1e4e8);
@@ -72,7 +72,7 @@
 
 /* Lighten deletions in Markdown */
 .markdown-body del {
-	color: var(--color-text-tertiary, #6a737d); /* GHE */
+	color: var(--color-text-tertiary, #6a737d); /* GHE #4121 */
 }
 
 /* Expand PR merge status list to fit all items */
@@ -102,6 +102,10 @@
 	text-align: center;
 }
 
+:root .file .data table {
+	text-align: left;
+}
+
 /* Improve dropdown expansion animation (e.g. top-right dropdown in comments) */
 /* It normally pops in from the center */
 .dropdown-menu-sw {
@@ -113,13 +117,13 @@ highlight-collaborators-and-own-conversations
 parse-backticks
 pr-branches
 */
-.js-issue-row .text-small.text-gray, /* GHE */
+.js-issue-row .text-small.text-gray, /* GHE #4021 */
 .js-issue-row .text-small.color-text-secondary {
 	line-height: 1.8;
 }
 
 /* Reset `vertical-align` for .octicons to work with above increased line-height */
-.js-issue-row .text-small.text-gray .octicon, /* GHE */
+.js-issue-row .text-small.text-gray .octicon, /* GHE #4021 */
 .js-issue-row .text-small.color-text-secondary .octicon {
 	vertical-align: middle;
 }

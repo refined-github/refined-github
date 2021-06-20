@@ -28,7 +28,7 @@ function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEven
 function getUI(field: HTMLTextAreaElement): HTMLElement {
 	return select('.rgh-prevent-link-loss-container', field.form!) ?? (
 		<div className="flash flash-warn mb-2 rgh-prevent-link-loss-container">
-			<AlertIcon/> Your link may be misinterpreted by GitHub (see {createRghIssueLink(2327)}.
+			<AlertIcon/> Your link may be misinterpreted by GitHub (see {createRghIssueLink(2327)}).
 			<button type="button" className="btn btn-sm primary flash-action rgh-prevent-link-loss">Fix link</button>
 		</div>
 	);

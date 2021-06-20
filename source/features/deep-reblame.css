@@ -1,9 +1,9 @@
 button.rgh-deep-reblame .octicon-versions {
-	color: var(--color-scale-pink-5, #e40de4); /* GHE */
+	color: var(--color-scale-pink-5, #e40de4); /* GHE #4121 */
 	opacity: 70%;
 }
 
 .rgh-deep-reblame:hover .octicon-versions {
-	color: var(--color-scale-pink-7, #800080); /* GHE */
+	color: var(--color-scale-pink-7, #800080); /* GHE #4121 */
 	opacity: 70%;
 }
