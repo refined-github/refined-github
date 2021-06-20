@@ -21,17 +21,17 @@ jobs:
         id: name
         uses: AsasInnab/regex-action@v1
         with:
-          regex_pattern: '(?<=Add `)\w+(?=` feature)'
+          regex_pattern: '(?<=Add `)[a-z-]+(?=` feature)'
           regex_flags: g
           search_string: ${{ github.event.pull_request.title }}
 
-      - name: Has ${{ steps.name.outputs.first_match }}.tsx been created?
+      - name: Has `${{ steps.name.outputs.first_match }}.tsx` been created?
         uses: mudlabs/simple-diff@v1.2.0
         with:
           path: source/features/${{ steps.name.outputs.first_match }}.tsx
 
-      - name: Has `${{ steps.name.outputs.first_match }}` been imported
+      - name: Has `${{ steps.name.outputs.first_match }}` been imported?
         run: grep "import './features/${{ steps.name.outputs.first_match }}';" source/refined-github.ts -q
 
-      - name: Has `${{ steps.name.outputs.first_match }}` been documented
+      - name: Has `${{ steps.name.outputs.first_match }}` been documented?
         run: grep '"${{ steps.name.outputs.first_match }}"' readme.md -q
