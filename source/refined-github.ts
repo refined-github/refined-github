@@ -220,6 +220,7 @@ import './features/delete-review-comments-faster';
 import './features/no-useless-split-diff-view';
 import './features/list-pr-for-branch';
 import './features/remove-unused-repo-tabs';
+import './features/cancel-wiki-edit-button';
 
 // Add global for easier debugging
 (window as any).select = select;
