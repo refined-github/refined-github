@@ -17,7 +17,7 @@ async function tabCannotBeHidden(tab: HTMLElement | undefined): Promise<boolean>
 	if (
 		!tab || // Tab disabled 🎉
 		tab.matches('.selected') ||// User is on tab 👀
-		// Repo/Organization owners should see the tab. If they don't need it, they should disable the tab altogether
+		// Repo/Organization owners should see the tab. If they don't need it, they should disable the feature altogether
 		await elementReady('nav [data-content="Settings"]') ||
 		pageDetect.canUserEditOrganization()
 	) {
