@@ -10,12 +10,16 @@ import looseParseInt from '../helpers/loose-parse-int';
 import {getWorkflows} from './next-scheduled-github-action';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import {getProjectsTab} from './remove-projects-tab';
+import {onlyShowInDropdown} from './more-dropdown';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
-function tabCannotBeRemoved(tab: HTMLElement | undefined): boolean {
+async function tabCannotBeHidden(tab: HTMLElement | undefined): Promise<boolean> {
 	if (
 		!tab || // Tab disabled 🎉
-		tab.matches('.selected') // User is on tab 👀
+		tab.matches('.selected') ||// User is on tab 👀
+		// Repo/Organization owners should see the tab. If they don't need it, they should disable the tab altogether
+		await elementReady('nav [data-content="Settings"]') ||
+		pageDetect.canUserEditOrganization()
 	) {
 		return true;
 	}
@@ -44,7 +48,7 @@ const getWikiPageCount = cache.function(async (): Promise<number> => {
 
 async function initWiki(): Promise<void | false> {
 	const wikiTab = await elementReady('[data-hotkey="g w"]');
-	if (tabCannotBeRemoved(wikiTab)) {
+	if (await tabCannotBeHidden(wikiTab)) {
 		return false;
 	}
 
@@ -52,13 +56,13 @@ async function initWiki(): Promise<void | false> {
 	if (wikiPageCount > 0) {
 		setTabCounter(wikiTab!, wikiPageCount);
 	} else {
-		wikiTab!.remove();
+		onlyShowInDropdown('wiki-tab');
 	}
 }
 
 async function initActions(): Promise<void | false> {
 	const actionsTab = await elementReady('[data-hotkey="g a"]');
-	if (tabCannotBeRemoved(actionsTab)) {
+	if (await tabCannotBeHidden(actionsTab)) {
 		return false;
 	}
 
@@ -66,17 +70,17 @@ async function initActions(): Promise<void | false> {
 	if (actionsCount > 0) {
 		setTabCounter(actionsTab!, actionsCount);
 	} else {
-		actionsTab!.remove();
+		onlyShowInDropdown('actions-tab');
 	}
 }
 
 async function initProjects(): Promise<void | false> {
 	const projectsTab = await getProjectsTab();
-	if (tabCannotBeRemoved(projectsTab) || await getTabCount(projectsTab!) > 0) {
+	if (await tabCannotBeHidden(projectsTab) || await getTabCount(projectsTab!) > 0) {
 		return false;
 	}
 
-	projectsTab!.remove();
+	onlyShowInDropdown('projects-tab');
 }
 
 void features.add(__filebasename, {
@@ -84,11 +88,6 @@ void features.add(__filebasename, {
 		pageDetect.isRepo,
 		pageDetect.isUserProfile,
 		pageDetect.isOrganizationProfile
-	],
-	exclude: [
-		// Repo/Organization owners should see the tab. If they don't need it, they should disable Projects altogether
-		pageDetect.canUserEditRepo,
-		pageDetect.canUserEditOrganization
 	],
 	awaitDomReady: false,
 	init: initProjects

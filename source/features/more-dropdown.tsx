@@ -19,7 +19,8 @@ export function createDropdownItem(label: string, url: string, attributes?: Reco
 	);
 }
 
-function onlyShowInDropdown(id: string): void {
+// eslint-disable-next-line import/prefer-default-export
+export function onlyShowInDropdown(id: string): void {
 	const tabItem = select(`[data-tab-item$="${id}"]`);
 	if (!tabItem && pageDetect.isEnterprise()) { // GHE #3962
 		return;
