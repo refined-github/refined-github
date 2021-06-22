@@ -8,7 +8,6 @@ import features from '.';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
 
-/* eslint-disable-next-line import/prefer-default-export */
 export function createDropdownItem(label: string, url: string, attributes?: Record<string, string>): Element {
 	return (
 		<li {...attributes}>
@@ -19,7 +18,6 @@ export function createDropdownItem(label: string, url: string, attributes?: Reco
 	);
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export function onlyShowInDropdown(id: string): void {
 	const tabItem = select(`[data-tab-item$="${id}"]`);
 	if (!tabItem && pageDetect.isEnterprise()) { // GHE #3962
