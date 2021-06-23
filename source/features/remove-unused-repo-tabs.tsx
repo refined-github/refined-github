@@ -13,12 +13,12 @@ import {getProjectsTab} from './remove-projects-tab';
 import {onlyShowInDropdown} from './more-dropdown';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
-async function tabCannotBeHidden(tab: HTMLElement | undefined): Promise<boolean> {
+function tabCannotBeHidden(tab: HTMLElement | undefined): boolean {
 	if (
 		!tab || // Tab disabled 🎉
 		tab.matches('.selected') ||// User is on tab 👀
 		// Repo/Organization owners should see the tab. If they don't need it, they should disable the feature altogether
-		await elementReady('nav [data-content="Settings"]') ||
+		pageDetect.canUserEditRepo() ||
 		pageDetect.canUserEditOrganization()
 	) {
 		return true;
@@ -48,13 +48,13 @@ const getWikiPageCount = cache.function(async (): Promise<number> => {
 
 async function initWiki(): Promise<void | false> {
 	const wikiTab = await elementReady('[data-hotkey="g w"]');
-	if (await tabCannotBeHidden(wikiTab)) {
+	if (!wikiTab) {
 		return false;
 	}
 
 	const wikiPageCount = await getWikiPageCount();
-	if (wikiPageCount > 0) {
-		setTabCounter(wikiTab!, wikiPageCount);
+	if (await tabCannotBeHidden(wikiTab) || wikiPageCount > 0) {
+		setTabCounter(wikiTab, wikiPageCount);
 	} else {
 		onlyShowInDropdown('wiki-tab');
 	}
@@ -62,13 +62,13 @@ async function initWiki(): Promise<void | false> {
 
 async function initActions(): Promise<void | false> {
 	const actionsTab = await elementReady('[data-hotkey="g a"]');
-	if (await tabCannotBeHidden(actionsTab)) {
+	if (!actionsTab) {
 		return false;
 	}
 
 	const actionsCount = (await getWorkflows()).length;
-	if (actionsCount > 0) {
-		setTabCounter(actionsTab!, actionsCount);
+	if (tabCannotBeHidden(actionsTab) || actionsCount > 0) {
+		setTabCounter(actionsTab, actionsCount);
 	} else {
 		onlyShowInDropdown('actions-tab');
 	}
@@ -76,7 +76,7 @@ async function initActions(): Promise<void | false> {
 
 async function initProjects(): Promise<void | false> {
 	const projectsTab = await getProjectsTab();
-	if (await tabCannotBeHidden(projectsTab) || await getTabCount(projectsTab!) > 0) {
+	if (tabCannotBeHidden(projectsTab) || await getTabCount(projectsTab!) > 0) {
 		return false;
 	}
 
