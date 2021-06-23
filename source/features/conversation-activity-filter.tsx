@@ -46,6 +46,14 @@ function processSimpleComment(item: HTMLElement): void {
 	}
 }
 
+function processReviewsInFiles(review: HTMLElement): void {
+	if (currentSetting === 'showOnlyComments') {
+		return;
+	}
+
+	review.classList.add(hiddenClassName);
+}
+
 function processReview(review: HTMLElement): void {
 	if (currentSetting === 'showOnlyComments') {
 		return;
@@ -69,8 +77,10 @@ function processPage(): void {
 		return;
 	}
 
-	for (const item of select.all('.js-timeline-item')) {
-		if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
+	for (const item of select.all('.js-timeline-item, .js-inline-comments-container')) {
+		if (select.exists('.js-line-comments', item)) {
+			processReviewsInFiles(item);
+		} else if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
 			processReview(item);
 		} else if (select.exists('.comment-body', item)) {
 			processSimpleComment(item);
@@ -99,8 +109,8 @@ async function handleSelection({target}: Event): Promise<void> {
 	);
 
 	// Update the state of the other dropdown
-	select(`.${dropdownClass} [aria-checked="false"][data-value="${currentSetting}"]`)!.setAttribute('aria-checked', 'true');
-	select(`.${dropdownClass} [aria-checked="true"]:not([data-value="${currentSetting}"])`)!.setAttribute('aria-checked', 'false');
+	select(`.${dropdownClass} [aria-checked="false"][data-value="${currentSetting}"]`)?.setAttribute('aria-checked', 'true');
+	select(`.${dropdownClass} [aria-checked="true"]:not([data-value="${currentSetting}"])`)?.setAttribute('aria-checked', 'false');
 }
 
 function createRadio(filterSettings: State): JSX.Element {
@@ -158,7 +168,8 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isConversation
+		pageDetect.isConversation,
+		pageDetect.isPRFiles
 	],
 	additionalListeners: [
 		onConversationHeaderUpdate
