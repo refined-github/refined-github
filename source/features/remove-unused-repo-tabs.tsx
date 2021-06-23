@@ -53,7 +53,7 @@ async function initWiki(): Promise<void | false> {
 	}
 
 	const wikiPageCount = await getWikiPageCount();
-	if (await tabCannotBeHidden(wikiTab) || wikiPageCount > 0) {
+	if (tabCannotBeHidden(wikiTab) || wikiPageCount > 0) {
 		setTabCounter(wikiTab, wikiPageCount);
 	} else {
 		onlyShowInDropdown('wiki-tab');
