@@ -109,8 +109,10 @@ async function handleSelection({target}: Event): Promise<void> {
 	);
 
 	// Update the state of the other dropdown
-	select(`.${dropdownClass} [aria-checked="false"][data-value="${currentSetting}"]`)?.setAttribute('aria-checked', 'true');
-	select(`.${dropdownClass} [aria-checked="true"]:not([data-value="${currentSetting}"])`)?.setAttribute('aria-checked', 'false');
+	if (!pageDetect.isPRFiles()) {
+		select(`.${dropdownClass} [aria-checked="false"][data-value="${currentSetting}"]`)!.setAttribute('aria-checked', 'true');
+		select(`.${dropdownClass} [aria-checked="true"]:not([data-value="${currentSetting}"])`)!.setAttribute('aria-checked', 'false');
+	}
 }
 
 function createRadio(filterSettings: State): JSX.Element {
