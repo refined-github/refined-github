@@ -14,7 +14,8 @@ import onConversationHeaderUpdate from '../github-events/on-conversation-header-
 const states = {
 	default: '',
 	showOnlyComments: 'Only show comments',
-	showOnlyUnresolvedComments: 'Only show unresolved comments'
+	showOnlyUnresolvedComments: 'Only show unresolved comments',
+	hideResolvedComments: 'Hide resolved comments'
 };
 
 type State = keyof typeof states;
@@ -109,7 +110,7 @@ async function handleSelection({target}: Event): Promise<void> {
 	);
 
 	// Update the state of the other dropdown
-	if (!pageDetect.isPRFiles()) {
+	if (pageDetect.isConversation()) {
 		select(`.${dropdownClass} [aria-checked="false"][data-value="${currentSetting}"]`)!.setAttribute('aria-checked', 'true');
 		select(`.${dropdownClass} [aria-checked="true"]:not([data-value="${currentSetting}"])`)!.setAttribute('aria-checked', 'false');
 	}
@@ -154,8 +155,12 @@ async function addWidget(header: string): Promise<void> {
 				<div className="SelectMenu-modal">
 					<div className="SelectMenu-list">
 						{createRadio('default')}
-						{createRadio('showOnlyComments')}
-						{createRadio('showOnlyUnresolvedComments')}
+						{pageDetect.isPRFiles() ?
+							createRadio('hideResolvedComments') :
+							<>
+								{createRadio('showOnlyComments')}
+								{createRadio('showOnlyUnresolvedComments')}
+							</>}
 					</div>
 				</div>
 			</details-menu>
@@ -165,7 +170,9 @@ async function addWidget(header: string): Promise<void> {
 
 async function init(): Promise<void> {
 	await addWidget('#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)');
-	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)');
+	if (pageDetect.isConversation()) {
+		await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)');
+	}
 }
 
 void features.add(__filebasename, {
