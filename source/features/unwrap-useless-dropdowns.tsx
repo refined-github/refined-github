@@ -50,7 +50,7 @@ async function unwrapActionRun(): Promise<void | false> {
 
 	// Fix button’s style
 	const button = select('button', desiredForm)!;
-	button.className = 'btn btn-sm';
+	button.className = 'btn';
 	button.prepend(select('.octicon-sync')!);
 
 	// Replace dropdown
