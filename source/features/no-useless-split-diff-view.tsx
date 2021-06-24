@@ -57,7 +57,7 @@ function init(): void {
 			}
 
 			if (tds[1].classList.contains('blob-code-context')) {
-				// not in a hunk
+				// Not in a hunk
 				handleHunk(currentHunkEmpty, currentHunk);
 				currentHunkEmpty = [true, true];
 				currentHunk = [];
@@ -71,7 +71,7 @@ function init(): void {
 			}
 
 			if (!currentHunkEmpty[0] && !currentHunkEmpty[1]) {
-				// current hunk contains both sides
+				// Current hunk contains both sides
 				currentHunk = [];
 				continue;
 			}
