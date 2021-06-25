@@ -15,10 +15,6 @@ function isUnifiedDiff(): boolean {
 function init(): void {
 	for (const diffTable of select.all('.js-diff-table:not(.rgh-no-useless-split-diff-view-visited)')) {
 		diffTable.classList.add('rgh-no-useless-split-diff-view-visited');
-		if (!select.exists('.blob-code-addition, .blob-code-deletion', diffTable)) {
-			continue;
-		}
-
 		for (const side of ['left', 'right']) {
 			if (!select.exists(`[data-split-side="${side}"]:is(.blob-code-addition, .blob-code-deletion)`, diffTable)) {
 				// eslint-disable-next-line unicorn/prefer-dom-node-dataset -- CSS file has the same selector, this can be grepped
@@ -36,7 +32,9 @@ void features.add(__filebasename, {
 		pageDetect.isPRFiles
 	],
 	exclude: [
-		isUnifiedDiff
+		isUnifiedDiff,
+		// Make sure the class names we need exist on the page #4483
+		() => !select.exists('.js-diff-table :is([data-split-side="left"], [data-split-side="right"]):is(.blob-code-addition, .blob-code-deletion)')
 	],
 	additionalListeners: [
 		onDiffFileLoad
