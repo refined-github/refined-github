@@ -1,11 +1,11 @@
 /* Show approvals count in PR list */
-.js-issue-row .text-gray [aria-label*='approval'], /* GHE #4021 */
-.js-issue-row .color-text-secondary [aria-label*='approval'] {
+.js-issue-row .text-gray [href$='#partial-pull-merging'][aria-label*='approval'], /* GHE #4021 */
+.js-issue-row .color-text-secondary [href$='#partial-pull-merging'][aria-label*='approval'] {
 	font-size: 0;
 }
 
 .js-issue-row .text-gray [aria-label*='approval']::before, /* GHE #4021 */
-.js-issue-row .color-text-secondary [aria-label*='approval']::before {
+.js-issue-row .color-text-secondary [href$='#partial-pull-merging'][aria-label*='approval']::before {
 	all: unset;
 	content: attr(aria-label);
 	display: inline !important;
@@ -14,11 +14,11 @@
 }
 
 .js-issue-row .text-gray [aria-label*='changes'], /* GHE #4021 */
-.js-issue-row .color-text-secondary [aria-label*='changes'] {
+.js-issue-row .color-text-secondary [href$='#partial-pull-merging'][aria-label*='changes'] {
 	color: var(--github-red) !important;
 }
 
 /* Disable now-duplicate tooltip */
-.js-issue-row .color-text-secondary [aria-label*='approval']::after {
+.js-issue-row .color-text-secondary [href$='#partial-pull-merging'][aria-label*='approval']::after {
 	content: none;
 }
