@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import onNewComments from '../github-events/on-new-comments';
 
-function handleClicks(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+function handleClicks(): void {
 	const buttonsSingleComment = select.all([
 		'table:not([style="display: none"]) .review-simple-reply-button',
 		'table:not([style="display: none"]) .add-comment-label' // For when adding a single comment after having started a review
