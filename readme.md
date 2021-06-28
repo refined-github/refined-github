@@ -202,7 +202,7 @@ Thanks for contributing! 🦋🙌
 - [](# "wait-for-attachments") [Wait for the attachments to finish uploading before allowing to post a comment.](https://user-images.githubusercontent.com/46634000/104294547-9b8b0c80-54bf-11eb-93e5-65ae158353b3.gif)
 - [](# "delete-review-comments-faster") [Adds a button to delete review comments in one click when editing them.](https://user-images.githubusercontent.com/46634000/115445792-9fdd6900-a216-11eb-9ba3-6dab4d2f9d32.png)
 - [](# "avoid-accidental-submissions") [Disables the <kbd>enter</kbd>-to-submit shortcut in some commit/PR/issue title fields to avoid accidental submissions. Use <kbd>ctrl</kbd><kbd>enter</kbd> instead.](https://user-images.githubusercontent.com/723651/115148453-5818df00-a068-11eb-92d4-51ac6e937b8b.gif)
-- [](# "comment-on-draft-pr-rename-buttons") [Renames the submit buttons in draft PRs to indicate that they are draft.](https://user-images.githubusercontent.com/723651/123682081-39e31280-d853-11eb-9c86-97be400aca67.jpg)
+- [](# "comment-on-draft-pr-indicator") [Renames the submit buttons in draft PRs accordingly, to serve as a distinct indicator.](https://user-images.githubusercontent.com/723651/123682081-39e31280-d853-11eb-9c86-97be400aca67.jpg)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
