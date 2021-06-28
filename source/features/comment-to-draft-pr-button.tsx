@@ -36,7 +36,7 @@ void features.add(__filebasename, {
 		pageDetect.isPRFiles
 	],
 	exclude: [
-		() => !pageDetect.isDraftPR
+		() => !pageDetect.isDraftPR()
 	],
 	additionalListeners: [
 		onNewComments
