@@ -7,14 +7,14 @@ import onNewComments from '../github-events/on-new-comments';
 
 function handleClicks(): void {
 	const buttonsSingleComment = select.all([
-		'table:not([style="display: none"]) .review-simple-reply-button',
-		'table:not([style="display: none"]) .add-comment-label' // For when adding a single comment after having started a review
+		'.review-simple-reply-button',
+		'.add-comment-label' // For when adding a single comment after having started a review
 	]);
 	for (const element of buttonsSingleComment) {
 		element.textContent = 'Add single comment to draft PR';
 	}
 
-	const buttonsStartReview = select.all('table:not([style="display: none"]) .start-review-label');
+	const buttonsStartReview = select.all('.start-review-label');
 	for (const element of buttonsStartReview) {
 		element.textContent = 'Start a review on draft PR';
 	}
