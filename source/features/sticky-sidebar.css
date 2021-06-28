@@ -7,6 +7,10 @@
 	top: 0;
 
 	/* `sticky` will trap the `fixed` dialog’s z-index in some sidebars #3732 */
+	z-index: 1;
+}
+
+:not(#partial-discussion-sidebar).rgh-sticky-sidebar {
 	/* Higher than sticky readme header #4192 */
 	z-index: 90;
 }
@@ -15,16 +19,11 @@
 	top: 76px !important; /* Sticky header's height + sidebar item's margin */
 
 	/* Needed so the backdrop of notification modal is over the other elements in the conversation */
-	/* Higher than sticky readme header #4192 */
-	z-index: 90;
+	/* Lower than "Open with" PR dropdown #4490 */
+	z-index: 80;
 }
 
 /* Hides the last divider (on pull requests) to avoid https://user-images.githubusercontent.com/10238474/62282128-af6fb980-b457-11e9-8b18-c29687b88da1.gif */
 .rgh-sticky-sidebar + .border-top {
 	display: none;
-}
-
-.gh-header-actions tab-container {
-	/* Needed so the "Open with" PR dropdown is over the sidebar #4490 */
-	z-index: 91 !important;
 }
