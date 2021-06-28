@@ -355,6 +355,7 @@ Thanks for contributing! 🦋🙌
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
 - [](# "select-all-notifications-shortcut") Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
 - [](# "global-search-filters") [Adds search filters in global search page: forks, private repos, own repos, authored commits.](https://user-images.githubusercontent.com/44045911/112261285-88a66c80-8ca6-11eb-82cb-933b72c57abd.png)
+- [](# "notifications-filter") [Filter displayed notifications by type and status.](TODO)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
