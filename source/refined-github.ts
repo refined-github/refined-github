@@ -220,7 +220,7 @@ import './features/delete-review-comments-faster';
 import './features/no-useless-split-diff-view';
 import './features/list-pr-for-branch';
 import './features/cancel-wiki-edit-button';
-import './features/comment-to-draft-pr-button';
+import './features/comment-on-draft-pr-rename-buttons';
 
 // Add global for easier debugging
 (window as any).select = select;
