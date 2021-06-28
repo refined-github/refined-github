@@ -8,7 +8,7 @@ import features from '.';
 
 const deinit: VoidFunction[] = [];
 // Both selectors are present on conversation pages so we need to discriminate
-const sidebarSelector = pageDetect.isRepoRoot() ? '.repository-content .flex-column > :last-child [data-pjax]' : '#partial-discussion-sidebar';
+const sidebarSelector = pageDetect.isRepoRoot() ? '.repository-content .flex-column > .flex-shrink-0 > [data-pjax]' : '#partial-discussion-sidebar';
 
 function updateStickiness(): void {
 	const sidebar = select(sidebarSelector)!;
