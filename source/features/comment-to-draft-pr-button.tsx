@@ -11,12 +11,12 @@ function handleClicks(): void {
 		'table:not([style="display: none"]) .add-comment-label' // For when adding a single comment after having started a review
 	]);
 	for (const element of buttonsSingleComment) {
-		element.textContent = 'Add single comment to Draft PR';
+		element.textContent = 'Add single comment to draft PR';
 	}
 
 	const buttonsStartReview = select.all('table:not([style="display: none"]) .start-review-label');
 	for (const element of buttonsStartReview) {
-		element.textContent = 'Start a review to Draft PR';
+		element.textContent = 'Start a review on draft PR';
 	}
 }
 
@@ -24,7 +24,7 @@ function init(): void {
 	let commentButton;
 	if (pageDetect.isPRConversation()) {
 		commentButton = select('#partial-new-comment-form-actions .btn-primary');
-		commentButton!.textContent = 'Comment to Draft PR';
+		commentButton!.textContent = 'Comment on draft PR';
 	} else if (pageDetect.isPRFiles()) {
 		delegate('.diff-table', 'button', 'click', handleClicks);
 	}
