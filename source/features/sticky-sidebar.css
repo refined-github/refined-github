@@ -23,3 +23,8 @@
 .rgh-sticky-sidebar + .border-top {
 	display: none;
 }
+
+.gh-header-actions tab-container {
+	/* Needed so the "Open with" PR dropdown is over the sidebar #4490 */
+	z-index: 91 !important;
+}
