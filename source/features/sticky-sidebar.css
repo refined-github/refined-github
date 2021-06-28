@@ -4,13 +4,12 @@
 
 .rgh-sticky-sidebar {
 	position: sticky;
-	top: 0;
-
-	/* `sticky` will trap the `fixed` dialog’s z-index in some sidebars #3732 */
-	z-index: 1;
 }
 
 :not(#partial-discussion-sidebar).rgh-sticky-sidebar {
+	top: 0;
+
+	/* `sticky` will trap the `fixed` dialog’s z-index in some sidebars #3732 */
 	/* Higher than sticky readme header #4192 */
 	z-index: 90;
 }
