@@ -42,8 +42,13 @@ void features.add(__filebasename, {
 		pageDetect.isNewIssue,
 		pageDetect.isCompare,
 		pageDetect.isNewFile,
-		pageDetect.isEditingFile,
 		pageDetect.isPRConversation
+	],
+	exclude: [
+		pageDetect.isIssue,
+		pageDetect.isOpenPR,
+		pageDetect.isDraftPR,
+		pageDetect.isClosedPR
 	],
 	init
 }, {
