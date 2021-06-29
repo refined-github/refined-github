@@ -30,25 +30,31 @@ function handleSelection({target}: Event): void {
 	}
 
 	for (const notification of select.all('.notifications-list-item')) {
-		notification.hidden = false;
+		let isNotificationHidden = false;
 		for (const [category, categoryFilters] of Object.entries(activeFilters)) {
-			if (categoryFilters.length === 0) {
-				continue;
-			}
-
 			if (category === 'Read') {
 				if (categoryFilters.length === 1 && !notification.classList.contains(categoryFilters[0])) {
-					notification.hidden = true;
+					isNotificationHidden = true;
 					break;
 				}
 
 				continue;
 			}
 
-			if (!select.exists(categoryFilters, notification)) {
-				notification.hidden = true;
+			if (categoryFilters.length > 0 && !select.exists(categoryFilters, notification)) {
+				isNotificationHidden = true;
 				break;
 			}
+		}
+
+		notification.hidden = isNotificationHidden;
+		const selectCheckbox = select('.js-notification-bulk-action-check-item', notification)!;
+		if (isNotificationHidden) {
+			// Prevent hidden notifications from being selected by clicking "Select all" or pressing <a>
+			selectCheckbox.removeAttribute('data-check-all-item');
+		} else {
+			/* eslint-disable-next-line unicorn/prefer-dom-node-dataset -- For consistency with the line above */
+			selectCheckbox.setAttribute('data-check-all-item', '');
 		}
 	}
 
