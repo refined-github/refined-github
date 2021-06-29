@@ -19,7 +19,7 @@ const filters = {
 type Filter = keyof typeof filters;
 type Category = 'Type' | 'Status' | 'Read';
 
-async function handleSelection({target}: Event): Promise<void> {
+function handleSelection({target}: Event): void {
 	const activeFilters: Record<Category, string[]> = {
 		Type: [],
 		Status: [],
