@@ -46,7 +46,6 @@ void features.add(__filebasename, {
 		pageDetect.isPRConversation
 	],
 	exclude: [
-		pageDetect.isIssue,
 		pageDetect.isOpenPR,
 		pageDetect.isDraftPR,
 		pageDetect.isClosedPR
