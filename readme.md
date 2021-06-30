@@ -340,6 +340,15 @@ Thanks for contributing! 🦋🙌
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
+### Notifications
+
+- [](# "open-all-notifications") [Adds a button to open all your unread notifications at once.](https://user-images.githubusercontent.com/1402241/80861295-fbad8b80-8c6d-11ea-87a4-8025fbc3a3f4.png)
+- [](# "select-all-notifications-shortcut") Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
+- [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
+- [](# "notifications-filter") [Filter displayed notifications by type and status.](TODO)
+
+<!-- Refer to style guide above. Keep this message between sections. -->
+
 ### Global
 
 - [](# "useful-not-found-page") 🔥 [Adds possible related pages and alternatives on 404 pages.](https://user-images.githubusercontent.com/1402241/46402857-7bdada80-c733-11e8-91a1-856573078ff5.png)
@@ -349,13 +358,9 @@ Thanks for contributing! 🦋🙌
 - [](# "parse-backticks") [Renders `` `text in backticks` `` in issue titles, commit titles and more places.](https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png)
 - [](# "trending-menu-item") Adds a `Trending` link to the global navbar and a keyboard shortcut: <kbd>g</kbd> <kbd>t</kbd>.
 - [](# "navigate-pages-with-arrow-keys") Adds shortcuts to navigate through pages with pagination: <kbd>←</kbd> and <kbd>→</kbd>.
-- [](# "open-all-notifications") [Adds a button to open all your unread notifications at once.](https://user-images.githubusercontent.com/1402241/80861295-fbad8b80-8c6d-11ea-87a4-8025fbc3a3f4.png)
 - [](# "action-used-by-link") [Lets you see how others are using the current Action in the Marketplace.](https://user-images.githubusercontent.com/8360597/80250140-86d9c080-8673-11ea-9d28-f62faf9fd3d4.png)
 - [](# "improve-shortcut-help") [Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (<kbd>?</kbd> hotkey).](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)
-- [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
-- [](# "select-all-notifications-shortcut") Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
 - [](# "global-search-filters") [Adds search filters in global search page: forks, private repos, own repos, authored commits.](https://user-images.githubusercontent.com/44045911/112261285-88a66c80-8ca6-11eb-82cb-933b72c57abd.png)
-- [](# "notifications-filter") [Filter displayed notifications by type and status.](TODO)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
