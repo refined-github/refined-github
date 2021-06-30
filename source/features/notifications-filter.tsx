@@ -2,15 +2,15 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {
-	CheckIcon,
 	CheckCircleIcon,
-	XCircleIcon,
-	IssueOpenedIcon,
-	GitPullRequestIcon,
-	GitPullRequestDraftIcon,
-	GitMergeIcon,
+	CheckIcon,
+	DotFillIcon,
 	DotIcon,
-	DotFillIcon
+	GitMergeIcon,
+	GitPullRequestDraftIcon,
+	GitPullRequestIcon,
+	IssueOpenedIcon,
+	XCircleIcon
 } from '@primer/octicons-react';
 
 import features from '.';
@@ -69,7 +69,7 @@ function handleSelection({target}: Event): void {
 }
 
 function createDropdownList(category: Category, filters: Filter[]): JSX.Element {
-	const icons: { [Key in Filter]: JSX.Element } = {
+	const icons: {[Key in Filter]: JSX.Element} = {
 		'Pull requests': <GitPullRequestIcon className="color-text-secondary"/>,
 		Issues: <IssueOpenedIcon className="color-text-secondary"/>,
 		Open: <CheckCircleIcon className="color-text-success"/>,
