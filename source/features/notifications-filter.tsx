@@ -6,8 +6,8 @@ import {CheckIcon, CheckCircleIcon, XCircleIcon, IssueOpenedIcon, GitPullRequest
 import features from '.';
 
 const filters = {
-	PR: '[href*="/pull/"]',
-	Issue: '[href*="/issues/"]',
+	'Pull requests': '[href*="/pull/"]',
+	Issues: '[href*="/issues/"]',
 	Open: ':is(.octicon-issue-opened, .octicon-git-pull-request)',
 	Closed: ':is(.octicon-issue-closed, .octicon-git-pull-request-closed)',
 	Draft: '.octicon-git-pull-request-draft',
@@ -65,8 +65,8 @@ function handleSelection({target}: Event): void {
 }
 
 const icons: Record<Filter, JSX.Element> = {
-	PR: <GitPullRequestIcon className="color-text-secondary"/>,
-	Issue: <IssueOpenedIcon className="color-text-secondary"/>,
+	'Pull requests': <GitPullRequestIcon className="color-text-secondary"/>,
+	Issues: <IssueOpenedIcon className="color-text-secondary"/>,
 	Open: <CheckCircleIcon className="color-text-success"/>,
 	Closed: <XCircleIcon className="color-text-danger"/>,
 	Draft: <GitPullRequestDraftIcon className="color-text-tertiary"/>,
@@ -120,7 +120,7 @@ function createDropdown(): JSX.Element {
 				on-details-menu-selected={handleSelection}
 			>
 				<div className="SelectMenu-modal">
-					{createDropdownList('Type', ['PR', 'Issue'])}
+					{createDropdownList('Type', ['Pull requests', 'Issues'])}
 					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
 					{createDropdownList('Read', ['Read', 'Unread'])}
 				</div>
