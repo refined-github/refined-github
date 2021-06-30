@@ -1,7 +1,17 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {CheckIcon, CheckCircleIcon, XCircleIcon, IssueOpenedIcon, GitPullRequestIcon, GitPullRequestDraftIcon, GitMergeIcon, DotIcon, DotFillIcon} from '@primer/octicons-react';
+import {
+	CheckIcon,
+	CheckCircleIcon,
+	XCircleIcon,
+	IssueOpenedIcon,
+	GitPullRequestIcon,
+	GitPullRequestDraftIcon,
+	GitMergeIcon,
+	DotIcon,
+	DotFillIcon
+} from '@primer/octicons-react';
 
 import features from '.';
 
@@ -12,8 +22,8 @@ const filters = {
 	Closed: ':is(.octicon-issue-closed, .octicon-git-pull-request-closed)',
 	Draft: '.octicon-git-pull-request-draft',
 	Merged: '.octicon-git-merge',
-	Read: 'notification-read',
-	Unread: 'notification-unread'
+	Read: '.notification-read',
+	Unread: '.notification-unread'
 };
 
 type Filter = keyof typeof filters;
@@ -33,7 +43,7 @@ function handleSelection({target}: Event): void {
 		let isNotificationHidden = false;
 		for (const [category, categoryFilters] of Object.entries(activeFilters)) {
 			if (category === 'Read') {
-				if (categoryFilters.length === 1 && !notification.classList.contains(categoryFilters[0])) {
+				if (categoryFilters.length === 1 && !notification.matches(categoryFilters[0])) {
 					isNotificationHidden = true;
 					break;
 				}
@@ -48,14 +58,8 @@ function handleSelection({target}: Event): void {
 		}
 
 		notification.hidden = isNotificationHidden;
-		const selectCheckbox = select('.js-notification-bulk-action-check-item', notification)!;
-		if (isNotificationHidden) {
-			// Prevent hidden notifications from being selected by clicking "Select all" or pressing <a>
-			selectCheckbox.removeAttribute('data-check-all-item');
-		} else {
-			/* eslint-disable-next-line unicorn/prefer-dom-node-dataset -- For consistency with the line above */
-			selectCheckbox.setAttribute('data-check-all-item', '');
-		}
+		// Prevent hidden notifications from being selected by clicking "Select all" or pressing <a>
+		select('.js-notification-bulk-action-check-item', notification)!.toggleAttribute('data-check-all-item', !isNotificationHidden);
 	}
 
 	// Hide empty notifications groups
