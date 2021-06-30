@@ -68,18 +68,18 @@ function handleSelection({target}: Event): void {
 	}
 }
 
-const icons: Record<Filter, JSX.Element> = {
-	'Pull requests': <GitPullRequestIcon className="color-text-secondary"/>,
-	Issues: <IssueOpenedIcon className="color-text-secondary"/>,
-	Open: <CheckCircleIcon className="color-text-success"/>,
-	Closed: <XCircleIcon className="color-text-danger"/>,
-	Draft: <GitPullRequestDraftIcon className="color-text-tertiary"/>,
-	Merged: <GitMergeIcon className="text-purple"/>,
-	Read: <DotIcon className="color-text-link"/>,
-	Unread: <DotFillIcon className="color-text-link"/>
-};
-
 function createDropdownList(category: Category, filters: Filter[]): JSX.Element {
+	const icons: { [Key in Filter]: JSX.Element } = {
+		'Pull requests': <GitPullRequestIcon className="color-text-secondary"/>,
+		Issues: <IssueOpenedIcon className="color-text-secondary"/>,
+		Open: <CheckCircleIcon className="color-text-success"/>,
+		Closed: <XCircleIcon className="color-text-danger"/>,
+		Draft: <GitPullRequestDraftIcon className="color-text-tertiary"/>,
+		Merged: <GitMergeIcon className="text-purple"/>,
+		Read: <DotIcon className="color-text-link"/>,
+		Unread: <DotFillIcon className="color-text-link"/>
+	};
+
 	return (
 		<div className="SelectMenu-list">
 			<header className="SelectMenu-header">
