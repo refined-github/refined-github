@@ -29,17 +29,12 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 }
 
 function init(): void {
-	const elementsToDelegateKeydown = [
+	delegate(document, [
+		'form.new_issue input#issue_title',
 		'input#pull_request_title',
 		'input#commit-summary-input',
 		'#merge_title_field'
-	];
-
-	if (!pageDetect.isPRConversation()) { // In all cases other than isPRConversation, disallow title edit via Enter
-		elementsToDelegateKeydown.push('input#issue_title');
-	}
-
-	delegate(document, elementsToDelegateKeydown.join(), 'keydown', onKeyDown);
+	].join(), 'keydown', onKeyDown);
 }
 
 void features.add(__filebasename, {
