@@ -37,6 +37,13 @@ function selectNotification(notification: Element, state: boolean): void {
 	}
 }
 
+function resetFilters({target}: Event): void {
+	for (const checkbox of select.all('input[type="checkbox"]:checked', target as Element)) {
+		checkbox.checked = false;
+		checkbox.parentElement!.parentElement!.setAttribute('aria-checked', 'false');
+	}
+}
+
 function handleSelection({target}: Event): void {
 	const selectedFilters = select.all('[aria-checked="true"]', target as Element);
 	if (selectedFilters.length === 0) {
@@ -118,7 +125,10 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 
 function createDropdown(): JSX.Element {
 	return (
-		<details className="details-reset details-overlay position-relative d-none d-md-block">
+		<details
+			className="details-reset details-overlay position-relative"
+			on-toggle={resetFilters}
+		>
 			<summary
 				className="btn btn-sm ml-3 mr-1"
 				data-hotkey="f"
