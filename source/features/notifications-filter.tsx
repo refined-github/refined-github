@@ -120,16 +120,16 @@ function createDropdown(): JSX.Element {
 	return (
 		<details className="details-reset details-overlay position-relative d-none d-md-block">
 			<summary
-				className="btn ml-3"
+				className="btn btn-sm ml-3 mr-1"
 				data-hotkey="f"
 				aria-haspopup="menu"
 				role="button"
 			>
-				Filter by <span className="dropdown-caret ml-1"/>
+				Select by <span className="dropdown-caret ml-1"/>
 			</summary>
 			<details-menu
 				className="SelectMenu left-0"
-				aria-label="Filter by"
+				aria-label="Select by"
 				role="menu"
 				on-details-menu-selected={handleSelection}
 			>
@@ -144,14 +144,14 @@ function createDropdown(): JSX.Element {
 }
 
 function init(): false | void {
-	const notificationFilterWrapper = select('notification-filter')!.parentElement!;
-	notificationFilterWrapper.nextElementSibling?.classList.replace('ml-3', 'ml-2');
-	notificationFilterWrapper.after(createDropdown());
+	select('.js-notifications-mark-all-prompt')!
+		.closest('label')!
+		.after(createDropdown());
 }
 
 void features.add(__filebasename, {
 	shortcuts: {
-		f: 'Open the "Filter by" dropdown'
+		f: 'Open the "Select by" dropdown'
 	},
 	include: [
 		pageDetect.isNotifications
