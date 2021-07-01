@@ -18,8 +18,7 @@
 	top: 76px !important; /* Sticky header's height + sidebar item's margin */
 
 	/* Needed so the backdrop of notification modal is over the other elements in the conversation */
-	/* Lower than "Open with" PR dropdown #4490 */
-	z-index: 80;
+	z-index: 1;
 }
 
 /* Hides the last divider (on pull requests) to avoid https://user-images.githubusercontent.com/10238474/62282128-af6fb980-b457-11e9-8b18-c29687b88da1.gif */
