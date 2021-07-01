@@ -29,22 +29,39 @@ const filters = {
 type Filter = keyof typeof filters;
 type Category = 'Type' | 'Status' | 'Read';
 
+function selectNotification(notification: Element, state: boolean): void {
+	const checkbox = select('input[type="checkbox"]', notification)!;
+	if (checkbox.checked !== state) {
+		// We can't set the `checked` property directly because it doesn't update the "Select all" count
+		checkbox.dispatchEvent(new MouseEvent('click'));
+	}
+}
+
 function handleSelection({target}: Event): void {
+	const selectedFilters = select.all('[aria-checked="true"]', target as Element);
+	if (selectedFilters.length === 0) {
+		for (const notification of select.all('.notifications-list-item')) {
+			selectNotification(notification, false);
+		}
+
+		return;
+	}
+
 	const activeFilters: Record<Category, string[]> = {
 		Type: [],
 		Status: [],
 		Read: []
 	};
-	for (const selectedFilter of select.all('[aria-checked="true"]', target as Element)) {
+	for (const selectedFilter of selectedFilters) {
 		activeFilters[selectedFilter.dataset.category as Category].push(filters[selectedFilter.dataset.filter as Filter]);
 	}
 
 	for (const notification of select.all('.notifications-list-item')) {
-		let isNotificationHidden = false;
+		let isNotificationSelected = true;
 		for (const [category, categoryFilters] of Object.entries(activeFilters)) {
 			if (category === 'Read') {
 				if (categoryFilters.length === 1 && !notification.matches(categoryFilters[0])) {
-					isNotificationHidden = true;
+					isNotificationSelected = false;
 					break;
 				}
 
@@ -52,19 +69,12 @@ function handleSelection({target}: Event): void {
 			}
 
 			if (categoryFilters.length > 0 && !select.exists(categoryFilters, notification)) {
-				isNotificationHidden = true;
+				isNotificationSelected = false;
 				break;
 			}
 		}
 
-		notification.hidden = isNotificationHidden;
-		// Prevent hidden notifications from being selected by clicking "Select all" or pressing <a>
-		select('.js-notification-bulk-action-check-item', notification)!.toggleAttribute('data-check-all-item', !isNotificationHidden);
-	}
-
-	// Hide empty notifications groups
-	for (const group of select.all('.js-notifications-group')) {
-		group.hidden = !select.exists('.notifications-list-item:not([hidden])', group);
+		selectNotification(notification, isNotificationSelected);
 	}
 }
 
