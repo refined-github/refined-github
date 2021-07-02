@@ -27,7 +27,7 @@ const lineActions = onetime(async () => {
 const buttonBodyMap = new WeakMap<Element, Element | Promise<Element>>();
 
 async function fetchSource(): Promise<Element> {
-	const path = location.pathname + "?plain=1";
+	const path = location.pathname + '?plain=1';
 	const dom = await fetchDom(path, '.blob-wrapper');
 	dom!.classList.add('rgh-markdown-source');
 	return dom!;
@@ -50,10 +50,13 @@ This acts as an auto-discarded cache without globals, timers, etc.
 It should also work clicks on buttons sooner than the page loads.
 */
 async function showSource(): Promise<void> {
-	const newURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?plain=1' + window.location.hash;
+	const currentURL = new URL(window.location.href);
+	currentURL.searchParams.append('plain', '1');
 
-	window.history.pushState({path:newURL},'',newURL);
-	
+	const newURL = currentURL.toString();
+
+	window.history.pushState({path: newURL}, '', newURL);
+
 	const sourceButton = select('button.rgh-md-source')!;
 	const renderedButton = select('button.rgh-md-rendered')!;
 
@@ -78,9 +81,12 @@ async function showSource(): Promise<void> {
 }
 
 async function showRendered(): Promise<void> {
-	const newURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
+	const currentURL = new URL(window.location.href);
+	currentURL.searchParams.delete('plain');
 
-	window.history.pushState({path:newURL},'',newURL);
+	const newURL = currentURL.toString();
+
+	window.history.pushState({path: newURL}, '', newURL);
 
 	const sourceButton = select('button.rgh-md-source')!;
 	const renderedButton = select('button.rgh-md-rendered')!;
