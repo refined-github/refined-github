@@ -131,7 +131,7 @@ function createDropdown(): JSX.Element {
 		>
 			<summary
 				className="btn btn-sm ml-3 mr-1"
-				data-hotkey="f"
+				data-hotkey="S"
 				aria-haspopup="menu"
 				role="button"
 			>
@@ -161,7 +161,7 @@ function init(): false | void {
 
 void features.add(__filebasename, {
 	shortcuts: {
-		f: 'Open the "Select by" dropdown'
+		S: 'Open the "Select by" dropdown'
 	},
 	include: [
 		pageDetect.isNotifications
