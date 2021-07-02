@@ -29,14 +29,6 @@ const filters = {
 type Filter = keyof typeof filters;
 type Category = 'Type' | 'Status' | 'Read';
 
-function selectNotification(notification: Element, state: boolean): void {
-	const checkbox = select('input[type="checkbox"]', notification)!;
-	if (checkbox.checked !== state) {
-		// We can't set the `checked` property directly because it doesn't update the "Select all" count
-		checkbox.dispatchEvent(new MouseEvent('click'));
-	}
-}
-
 function resetFilters({target}: Event): void {
 	for (const checkbox of select.all('input[type="checkbox"]:checked', target as Element)) {
 		checkbox.checked = false;
@@ -46,42 +38,56 @@ function resetFilters({target}: Event): void {
 
 function handleSelection({target}: Event): void {
 	const selectedFilters = select.all('[aria-checked="true"]', target as Element);
-	if (selectedFilters.length === 0) {
-		for (const notification of select.all('.notifications-list-item')) {
-			selectNotification(notification, false);
+	const selectAllCheckbox = select('input[type="checkbox"].js-notifications-mark-all-prompt')!;
+	// Reset the "Select all" checkbox
+	if (selectAllCheckbox.checked) {
+		selectAllCheckbox.dispatchEvent(new MouseEvent('click'));
+	}
+
+	if (selectedFilters.length > 0) {
+		const activeFilters: Record<Category, string[]> = {
+			Type: [],
+			Status: [],
+			Read: []
+		};
+		for (const selectedFilter of selectedFilters) {
+			activeFilters[selectedFilter.dataset.category as Category].push(filters[selectedFilter.dataset.filter as Filter]);
 		}
 
-		return;
-	}
+		for (const notification of select.all('.notifications-list-item')) {
+			let isNotificationSelected = true;
+			for (const [category, categoryFilters] of Object.entries(activeFilters)) {
+				if (category === 'Read') {
+					if (categoryFilters.length === 1 && !notification.matches(categoryFilters[0])) {
+						isNotificationSelected = false;
+						break;
+					}
 
-	const activeFilters: Record<Category, string[]> = {
-		Type: [],
-		Status: [],
-		Read: []
-	};
-	for (const selectedFilter of selectedFilters) {
-		activeFilters[selectedFilter.dataset.category as Category].push(filters[selectedFilter.dataset.filter as Filter]);
-	}
+					continue;
+				}
 
-	for (const notification of select.all('.notifications-list-item')) {
-		let isNotificationSelected = true;
-		for (const [category, categoryFilters] of Object.entries(activeFilters)) {
-			if (category === 'Read') {
-				if (categoryFilters.length === 1 && !notification.matches(categoryFilters[0])) {
+				if (categoryFilters.length > 0 && !select.exists(categoryFilters, notification)) {
 					isNotificationSelected = false;
 					break;
 				}
-
-				continue;
 			}
 
-			if (categoryFilters.length > 0 && !select.exists(categoryFilters, notification)) {
-				isNotificationSelected = false;
-				break;
+			// Make excluded notifications unselectable
+			if (!isNotificationSelected) {
+				select('.js-notification-bulk-action-check-item', notification)!.removeAttribute('data-check-all-item');
 			}
 		}
 
-		selectNotification(notification, isNotificationSelected);
+		// If at least one notification is selectable, trigger the "Select all" checkbox
+		if (select.exists('.js-notification-bulk-action-check-item[data-check-all-item]')) {
+			selectAllCheckbox.dispatchEvent(new MouseEvent('click'));
+		}
+	}
+
+	// Make all notifications selectable again
+	for (const disabledNotificationCheckbox of select.all('.js-notification-bulk-action-check-item:not([data-check-all-item])')) {
+		// eslint-disable-next-line unicorn/prefer-dom-node-dataset -- For consistency with the `removeAttribute()` line
+		disabledNotificationCheckbox.setAttribute('data-check-all-item', '');
 	}
 }
 
