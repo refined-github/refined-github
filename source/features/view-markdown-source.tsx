@@ -6,7 +6,7 @@ import {CodeIcon, FileIcon} from '@primer/octicons-react';
 import features from '.';
 
 async function init(): Promise<void> {
-	const isPlain = new URL(location.href).searchParams.get('plain') === '1';
+	const isPlain = new URLSearchParams(location.search).get('plain') === '1';
 	select('#raw-url')!.closest('.d-flex')!.prepend(
 		<div className="BtnGroup rgh-view-markdown-source">
 			<a href="?plain=1" className="btn btn-sm BtnGroup-item tooltipped tooltipped-nw" aria-label="Display the source">
