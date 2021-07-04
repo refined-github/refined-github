@@ -30,7 +30,7 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 
 function init(): void {
 	delegate(document, [
-		'input#issue_title',
+		'form.new_issue input#issue_title',
 		'input#pull_request_title',
 		'input#commit-summary-input',
 		'#merge_title_field'
