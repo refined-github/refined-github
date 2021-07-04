@@ -80,6 +80,11 @@ async function initProjects(): Promise<void | false> {
 		return false;
 	}
 
+	if (pageDetect.isOrganizationProfile()) {
+		projectsTab!.remove();
+		return;
+	}
+
 	onlyShowInDropdown('projects-tab');
 }
 
