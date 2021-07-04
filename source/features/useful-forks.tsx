@@ -9,7 +9,7 @@ import looseParseInt from '../helpers/loose-parse-int';
 
 async function init(): Promise<void | false> {
 	const forkCount = await elementReady('.social-count[href$="/network/members"]');
-	if (looseParseInt(forkCount!) === 0) {
+	if (looseParseInt(forkCount) === 0) {
 		return false;
 	}
 

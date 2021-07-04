@@ -119,7 +119,7 @@ async function init(): Promise<void | false> {
 		!await elementReady('nav [data-content="Settings"]') ||
 
 		// Only if the repository hasn't been starred
-		looseParseInt(select('.starring-container .social-count')!) > 0
+		looseParseInt(select('.starring-container .social-count')) > 0
 	) {
 		return false;
 	}
