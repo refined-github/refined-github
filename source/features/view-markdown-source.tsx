@@ -18,7 +18,7 @@ async function init(): Promise<void> {
 		</div>
 	);
 
-	select('rgh-view-markdown-source').children[isPlain ? 1 : 0].classList.add('selected');
+	select('.rgh-view-markdown-source')!.children[isPlain ? 1 : 0].classList.add('selected');
 }
 
 void features.add(__filebasename, {
