@@ -9,7 +9,6 @@ import getTabCount from '../github-helpers/get-tab-count';
 import looseParseInt from '../helpers/loose-parse-int';
 import {getWorkflows} from './next-scheduled-github-action';
 import abbreviateNumber from '../helpers/abbreviate-number';
-import {getProjectsTab} from './remove-projects-tab';
 import {onlyShowInDropdown} from './more-dropdown';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
@@ -67,7 +66,10 @@ async function initActions(): Promise<void | false> {
 }
 
 async function initProjects(): Promise<void | false> {
-	const projectsTab = await getProjectsTab();
+	const projectsTab = await elementReady([
+		'[data-hotkey="g b"]', // In organizations and repos
+		'[aria-label="User profile"] [href$="?tab=projects"]' // In user profiles
+	].join());
 	if (tabCannotBeHidden(projectsTab) || await getTabCount(projectsTab!) > 0) {
 		return false;
 	}

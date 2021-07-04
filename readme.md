@@ -131,8 +131,6 @@ Thanks for contributing! 🦋🙌
 ### Repositories
 
 - [](# "ci-link") 🔥 [Adds a build/CI status icon next to the repo’s name.](https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png)
-- [](# "remove-projects-tab") Hides the `Projects` tab from repositories and profiles when it’s empty.
-    * New projects can still be created via the [`Create new…` menu](https://user-images.githubusercontent.com/1402241/34909214-18b6fb2e-f8cf-11e7-8556-bed748596d3b.png).
 - [](# "hide-watch-and-fork-count") [Hides watcher counter and on smaller screens the fork counter too.](https://user-images.githubusercontent.com/1402241/53681077-f3328b80-3d1e-11e9-9e29-2cb017141769.png)
 - [](# "sort-milestones-by-closest-due-date") Changes the default sort order of milestones `Closest due date`.
 - [](# "more-dropdown") [Adds useful links to the repository navigation dropdown and moves the "Security" and "Insights" tabs to it as well.](https://user-images.githubusercontent.com/1402241/55089736-d94f5300-50e8-11e9-9095-329ac74c1e9f.png)

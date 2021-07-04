@@ -40,7 +40,6 @@ import './features/useful-not-found-page';
 import './features/trending-menu-item';
 import './features/more-dropdown';
 import './features/releases-tab';
-import './features/remove-projects-tab';
 import './features/comment-fields-keyboard-shortcuts';
 import './features/one-key-formatting';
 import './features/tab-to-indent';
