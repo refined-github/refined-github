@@ -14,17 +14,13 @@ import {onlyShowInDropdown} from './more-dropdown';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
 function tabCannotBeHidden(tab: HTMLElement | undefined): boolean {
-	if (
+	return (
 		!tab || // Tab disabled 🎉
 		tab.matches('.selected') ||// User is on tab 👀
 		// Repo/Organization owners should see the tab. If they don't need it, they should disable the feature altogether
 		pageDetect.canUserEditRepo() ||
 		pageDetect.canUserEditOrganization()
-	) {
-		return true;
-	}
-
-	return false;
+	);
 }
 
 function setTabCounter(tab: HTMLElement, count: number): void {
@@ -35,15 +31,11 @@ function setTabCounter(tab: HTMLElement, count: number): void {
 
 const getWikiPageCount = cache.function(async (): Promise<number> => {
 	const wikiPages = await fetchDom(buildRepoURL('wiki'), '#wiki-pages-box .Counter');
-	if (!wikiPages) {
-		return 0;
-	}
-
 	return looseParseInt(wikiPages);
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 5},
-	cacheKey: () => __filebasename + 'wiki:' + getRepo()!.nameWithOwner
+	cacheKey: () => 'wiki-page-count:' + getRepo()!.nameWithOwner
 });
 
 async function initWiki(): Promise<void | false> {

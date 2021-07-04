@@ -27,12 +27,7 @@ export const getWorkflows = cache.function(async (): Promise<AnyObject[]> => {
 		}
 	`);
 
-	const workflows = workflowFiles?.entries;
-	if (!workflows) {
-		return [];
-	}
-
-	return workflows;
+	return workflowFiles?.entries ?? [];
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 10},
