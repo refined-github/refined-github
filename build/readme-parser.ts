@@ -1,7 +1,7 @@
 /// <reference types="../source/globals" />
-import path from 'path';
+import path from 'node:path';
 import regexJoin from 'regex-join';
-import {readFileSync} from 'fs';
+import {readFileSync} from 'node:fs';
 import {parse as parseMarkdown} from 'markdown-wasm/dist/markdown.node.js';
 
 function searchInList(readmeContent: string, id: FeatureID): FeatureMeta | void {
@@ -21,7 +21,7 @@ function searchInList(readmeContent: string, id: FeatureID): FeatureMeta | void 
 	return {
 		id,
 		description: parseMarkdown(markdownDescription),
-		screenshot: urls.find(url => /\.(png|gif)$/i.test(url))
+		screenshot: urls.find(url => /\.(png|gif)$/i.test(url)),
 	};
 }
 
@@ -32,7 +32,7 @@ function searchInHighlights(readmeContent: string, id: FeatureID): FeatureMeta |
 		return {
 			id,
 			description: parseMarkdown(imageMatch[1] + '.'),
-			screenshot: imageMatch[2]
+			screenshot: imageMatch[2],
 		};
 	}
 }

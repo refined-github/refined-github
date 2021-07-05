@@ -102,7 +102,7 @@ function init(): void | false {
 					className="reblame-link btn-link no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-reblame"
 				>
 					<VersionsIcon/>
-				</button>
+				</button>,
 			);
 		}
 	}
@@ -110,7 +110,7 @@ function init(): void | false {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isBlame
+		pageDetect.isBlame,
 	],
-	init
+	init,
 });

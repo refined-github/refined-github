@@ -18,7 +18,7 @@ function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
 	const hasContent = select.exists([
 		'[data-hotkey="g i"] .Counter:not([hidden])', // Open issues
 		'[data-hotkey="g p"] .Counter:not([hidden])', // Open PRs
-		'.rgh-open-prs-of-forks' // PRs opened in the source repo
+		'.rgh-open-prs-of-forks', // PRs opened in the source repo
 	]);
 
 	if (hasContent && !confirm('This repo has open issues/PRs, are you sure you want to delete everything?')) {
@@ -48,14 +48,14 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 		buttonContainer.open = false;
 		addNotice([
 			'Could not delete the repository. ',
-			parseBackticks(error.message)
+			parseBackticks(error.message),
 		], {
 			type: 'error',
 			action: (
 				<a className="btn btn-sm primary flash-action" href="https://github.com/settings/tokens">
 					Update token…
 				</a>
-			)
+			),
 		});
 	});
 
@@ -85,15 +85,15 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		const {nameWithOwner, owner} = getRepo()!;
 		await api.v3('/repos/' + nameWithOwner, {
 			method: 'DELETE',
-			json: false
+			json: false,
 		});
-		const restoreURL = pageDetect.isOrganizationRepo() ?
-			`/organizations/${owner}/settings/deleted_repositories` :
-			'/settings/deleted_repositories';
+		const restoreURL = pageDetect.isOrganizationRepo()
+			? `/organizations/${owner}/settings/deleted_repositories`
+			: '/settings/deleted_repositories';
 		const otherForksURL = `/${owner}?tab=repositories&type=fork`;
 		addNotice(
 			<span>Repository {nameWithOwner} deleted. You might be able to <a href={restoreURL}>restore it</a> or see <a href={otherForksURL}>your other forks.</a></span>,
-			{action: false}
+			{action: false},
 		);
 		select('.application-main')!.remove();
 		if (document.hidden) {
@@ -104,9 +104,9 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		buttonContainer.closest('li')!.remove(); // Remove button
 		addNotice([
 			'Could not delete the repository. ',
-			(error as any).response?.message ?? (error as any).message
+			(error as any).response?.message ?? (error as any).message,
 		], {
-			type: 'error'
+			type: 'error',
 		});
 
 		throw error;
@@ -116,10 +116,10 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 async function init(): Promise<void | false> {
 	if (
 		// Only if the user can delete the repository
-		!await elementReady('nav [data-content="Settings"]') ||
+		!await elementReady('nav [data-content="Settings"]')
 
 		// Only if the repository hasn't been starred
-		looseParseInt(select('.starring-container .social-count')!) > 0
+		|| looseParseInt(select('.starring-container .social-count')!) > 0
 	) {
 		return false;
 	}
@@ -135,7 +135,7 @@ async function init(): Promise<void | false> {
 					<span className="btn btn-sm btn-danger">Delete fork</span>
 				</summary>
 			</details>
-		</li>
+		</li>,
 	);
 
 	delegate(document, '.rgh-quick-repo-deletion[open]', 'toggle', handleToggle, true);
@@ -143,8 +143,8 @@ async function init(): Promise<void | false> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isForkedRepo
+		pageDetect.isForkedRepo,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

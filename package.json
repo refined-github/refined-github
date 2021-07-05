@@ -1,5 +1,6 @@
 {
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"ava": "ava",
 		"build": "run-p build:* --continue-on-error",
@@ -119,7 +120,7 @@
 		"typescript": "^4.3.5",
 		"webpack": "^5.42.0",
 		"webpack-cli": "^4.7.2",
-		"xo": "^0.38.2"
+		"xo": "^0.41.0"
 	},
 	"engines": {
 		"node": ">= 15",

@@ -4,8 +4,8 @@ import delegate from 'delegate-it';
 import features from '.';
 
 const hasNotificationBar = (): boolean =>
-	location.search.startsWith('?notification_referrer_id=') ||
-	JSON.parse(sessionStorage.getItem('notification_shelf') ?? '{}').pathname === location.pathname;
+	location.search.startsWith('?notification_referrer_id=')
+	|| JSON.parse(sessionStorage.getItem('notification_shelf') ?? '{}').pathname === location.pathname;
 
 function handleClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	// Disable the redirect to the Notifications inbox if either:
@@ -22,8 +22,8 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		hasNotificationBar
+		hasNotificationBar,
 	],
 	awaitDomReady: false,
-	init: onetime(init)
+	init: onetime(init),
 });

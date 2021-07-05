@@ -53,11 +53,9 @@ export const wrapAll = (targets: Array<Element | ChildNode>, wrapper: Element): 
 	wrapper.append(...targets);
 };
 
-export const isEditable = (node: unknown): boolean => {
-	return node instanceof HTMLTextAreaElement ||
-		node instanceof HTMLInputElement ||
-		(node instanceof HTMLElement && node.isContentEditable);
-};
+export const isEditable = (node: unknown): boolean => node instanceof HTMLTextAreaElement
+		|| node instanceof HTMLInputElement
+		|| (node instanceof HTMLElement && node.isContentEditable);
 
 export const removeClassFromAll = (className: string): void => {
 	for (const element of select.all('.' + className)) {

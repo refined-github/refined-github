@@ -146,7 +146,7 @@ async function init(): Promise<void | false> {
 						</>
 					))}
 					</span>
-				</div>
+				</div>,
 			);
 			commit.classList.add('rgh-tagged');
 		}
@@ -163,7 +163,7 @@ async function init(): Promise<void | false> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoCommitList
+		pageDetect.isRepoCommitList,
 	],
-	init
+	init,
 });

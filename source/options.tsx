@@ -43,17 +43,17 @@ function reportStatus({error, text, scopes}: Status): void {
 
 async function getTokenScopes(personalToken: string): Promise<string[]> {
 	const tokenLink = select('a#personal-token-link')!;
-	const url = tokenLink.host === 'github.com' ?
-		'https://api.github.com/' :
-		`${tokenLink.origin}/api/v3/`;
+	const url = tokenLink.host === 'github.com'
+		? 'https://api.github.com/'
+		: `${tokenLink.origin}/api/v3/`;
 
 	const response = await fetch(url, {
 		cache: 'no-store',
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			Accept: 'application/vnd.github.v3+json',
-			Authorization: `token ${personalToken}`
-		}
+			Authorization: `token ${personalToken}`,
+		},
 	});
 
 	if (!response.ok) {
@@ -81,7 +81,7 @@ async function validateToken(): Promise<void> {
 
 	try {
 		reportStatus({
-			scopes: await getTokenScopes(tokenField.value)
+			scopes: await getTokenScopes(tokenField.value),
 		});
 	} catch (error: unknown) {
 		reportStatus({error: true, text: (error as Error).message});
@@ -183,7 +183,7 @@ async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 	for (const [feature,, relatedIssue] of await getLocalHotfixes(version)) {
 		if (featureList.includes(feature)) {
 			disabledFeatures.append(
-				<p><code>{feature}</code> has been temporarily disabled due to {createRghIssueLink(relatedIssue)}.</p>
+				<p><code>{feature}</code> has been temporarily disabled due to {createRghIssueLink(relatedIssue)}.</p>,
 			);
 		}
 	}

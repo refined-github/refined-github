@@ -19,7 +19,7 @@ export const updateHotfixes = cache.function(async (): Promise<string[][]> => {
 		.map(line => line.split(','));
 }, {
 	maxAge: {hours: 6},
-	cacheKey: () => 'hotfixes'
+	cacheKey: () => 'hotfixes',
 });
 
 export type HotfixStorage = Array<[FeatureID, string, string]>;
@@ -33,7 +33,7 @@ export async function getLocalHotfixes(version: string): Promise<HotfixStorage> 
 
 	const storage = await cache.get<HotfixStorage>('hotfixes') ?? [];
 	return storage.filter(([_, unaffectedVersion]) =>
-		!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0
+		!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0,
 	);
 }
 

@@ -104,10 +104,10 @@ export async function isPermalink(): Promise<boolean> {
 	await elementReady('[data-hotkey="w"]');
 	return (
 		// Pre "Latest commit design updates"
-		/Tag|Tree/.test(select('[data-hotkey="w"] i')?.textContent!) || // Text appears in the branch selector
+		/Tag|Tree/.test(select('[data-hotkey="w"] i')?.textContent!) // Text appears in the branch selector
 
 		// "Latest commit design updates"
-		select.exists('[data-hotkey="w"] .octicon-tag') // Tags have an icon
+		|| select.exists('[data-hotkey="w"] .octicon-tag') // Tags have an icon
 	);
 }
 
