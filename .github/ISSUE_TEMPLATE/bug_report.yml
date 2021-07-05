@@ -1,11 +1,10 @@
-name: Bug Report
-description: File a bug report
-labels: [bug, triage]
+name: 🐛 Report a bug
+description: '___'
+labels: [bug]
 body:
   - type: markdown
     attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
+      value: Thanks for reporting a bug! ⛰
   - type: checkboxes
     id: terms
     attributes:
