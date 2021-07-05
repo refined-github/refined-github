@@ -1,0 +1,59 @@
+name: Bug Report
+description: File a bug report
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: "Please confirm the following:"
+      options:
+        - label: I performed a cursory search of the [issue tracker](https://github.com/sindresorhus/refined-github/issues) to avoid opening a duplicate issue.
+          required: true
+        - label: I am sure the bug is caused by Refined GitHub, I already tried disabling the extension first. (optionally, I also disabled any related userscripts/userstyles and/or in a fresh browser profile if needed).
+          required: true
+        - label: I am still having trouble identifying which feature is causing this, even though I have already tried the 'Find a feature' RG procedure.
+          required: false
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: "Also describe, what did you expect to happen? Show us the bug and help us replicate it (provide STR/steps to reproduce)."
+      placeholder: Describe the issue (be as specific as possible, we need to know where to look). Provide all necessary details.
+      value:
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots/video/gif
+      description: "Please drag'n'drop screenshots/video/gif of the issue, if it’s visual."
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console output
+      description: Please copy and paste any relevant console log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: input
+    id: example-url
+    attributes:
+      label: Example URL
+      description: A REAL URL where the bug appears. If it happens on a private repo, find an equivalent public URL.
+      placeholder: https://github.com/example.htm
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: Browser
+      description:  What browsers are you seeing the problem on? (make sure it is the latest version - old versions such as Waterfox are NOT supported)
+      multiple: true
+      options:
+        - Chrome (or Edge/Opera)
+        - Firefox
+        - Safari
+    validations:
+      required: true
