@@ -23,6 +23,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+          cache: npm
       - run: npm ci
       - run: npm run ava -- --serial
 
@@ -47,6 +48,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+          cache: npm
       - run: npm ci
       - run: npm run build:webpack
       - uses: actions/upload-artifact@v2
