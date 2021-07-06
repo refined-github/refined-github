@@ -1,5 +1,4 @@
 import cache from 'webext-storage-cache';
-import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -76,13 +75,10 @@ async function initProjects(): Promise<void | false> {
 	}
 
 	if (pageDetect.isOrganizationProfile()) {
-		// https://github.com/orgs/USER/projects/new
-		const path = '/orgs' + location.pathname.split('/', 3).join('/');
-		select('.Header [href="/new"]')!.parentElement!.append(
-			<a className="dropdown-item" href={path}>
-				New project
-			</a>
-		);
+		if (await elementReady('a.btn-primary[href$="repositories/new"]')) {
+			return;
+		}
+
 		projectsTab!.remove();
 		return;
 	}
