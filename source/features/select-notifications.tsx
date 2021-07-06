@@ -41,7 +41,7 @@ function handleSelection({target}: Event): void {
 	const selectAllCheckbox = select('input[type="checkbox"].js-notifications-mark-all-prompt')!;
 	// Reset the "Select all" checkbox
 	if (selectAllCheckbox.checked) {
-		selectAllCheckbox.dispatchEvent(new MouseEvent('click'));
+		selectAllCheckbox.click();
 	}
 
 	if (selectedFilters.length > 0) {
@@ -80,7 +80,7 @@ function handleSelection({target}: Event): void {
 
 		// If at least one notification is selectable, trigger the "Select all" checkbox
 		if (select.exists('.js-notification-bulk-action-check-item[data-check-all-item]')) {
-			selectAllCheckbox.dispatchEvent(new MouseEvent('click'));
+			selectAllCheckbox.click();
 		}
 	}
 
