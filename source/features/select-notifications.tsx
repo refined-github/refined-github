@@ -30,9 +30,9 @@ type Filter = keyof typeof filters;
 type Category = 'Type' | 'Status' | 'Read';
 
 function resetFilters({target}: Event): void {
-	for (const checkbox of select.all('input[type="checkbox"]:checked', target as Element)) {
-		checkbox.checked = false;
-		checkbox.parentElement!.parentElement!.setAttribute('aria-checked', 'false');
+	select('form#rgh-select-notifications-form')!.reset();
+	for (const label of select.all('label', target as Element)) {
+		label.setAttribute('aria-checked', 'false');
 	}
 }
 
@@ -44,7 +44,7 @@ function handleSelection({target}: Event): void {
 	}
 
 	if (select.exists(':checked', target as Element)) {
-		const formData = new FormData(select('#rgh-select-notifications-form'));
+		const formData = new FormData(select('form#rgh-select-notifications-form'));
 		const types = formData.getAll('Type').map(type => filters[type as Filter]);
 		const statuses = formData.getAll('Status').map(status => filters[status as Filter]);
 		const readStatus = formData.getAll('Read').map(read => filters[read as Filter]);
