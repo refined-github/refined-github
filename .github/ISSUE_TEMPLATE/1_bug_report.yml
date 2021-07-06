@@ -1,6 +1,6 @@
 name: 🐛 Report a bug
 description: '___'
-labels: [bug]
+labels: bug
 body:
   - type: markdown
     attributes:
