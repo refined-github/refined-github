@@ -18,7 +18,7 @@ function initPRFiles(): void {
 }
 
 function initConversation(): void {
-	select('#partial-new-comment-form-actions .btn-primary')!.textContent = 'Comment on draft PR';
+	select('#partial-new-comment-form-actions .btn-primary')!.textContent += ' on draft PR';
 }
 
 void features.add(__filebasename, {
@@ -31,7 +31,7 @@ void features.add(__filebasename, {
 	init: initPRFiles
 }, {
 	include: [
-		pageDetect.isPRConversation,
+		pageDetect.isPRConversation
 	],
 	exclude: [
 		() => !pageDetect.isDraftPR()
