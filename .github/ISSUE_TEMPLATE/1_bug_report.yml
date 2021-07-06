@@ -17,7 +17,6 @@ body:
   - type: textarea
     attributes:
       label: Describe the problem and how to replicate it
-      value:
     validations:
       required: true
   - type: textarea
