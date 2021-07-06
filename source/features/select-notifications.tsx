@@ -37,43 +37,25 @@ function resetFilters({target}: Event): void {
 }
 
 function handleSelection({target}: Event): void {
-	const selectedFilters = select.all('[aria-checked="true"]', target as Element);
 	const selectAllCheckbox = select('input[type="checkbox"].js-notifications-mark-all-prompt')!;
 	// Reset the "Select all" checkbox
 	if (selectAllCheckbox.checked) {
 		selectAllCheckbox.click();
 	}
 
-	if (selectedFilters.length > 0) {
-		const activeFilters: Record<Category, string[]> = {
-			Type: [],
-			Status: [],
-			Read: []
-		};
-		for (const selectedFilter of selectedFilters) {
-			activeFilters[selectedFilter.dataset.category as Category].push(filters[selectedFilter.dataset.filter as Filter]);
-		}
+	if (select.exists(':checked', target as Element)) {
+		const formData = new FormData(select('#rgh-select-notifications-form'));
+		const types = formData.getAll('Type').map(type => filters[type as Filter]);
+		const statuses = formData.getAll('Status').map(status => filters[status as Filter]);
+		const readStatus = formData.getAll('Read').map(read => filters[read as Filter]);
 
 		for (const notification of select.all('.notifications-list-item')) {
-			let isNotificationSelected = true;
-			for (const [category, categoryFilters] of Object.entries(activeFilters)) {
-				if (category === 'Read') {
-					if (categoryFilters.length === 1 && !notification.matches(categoryFilters[0])) {
-						isNotificationSelected = false;
-						break;
-					}
-
-					continue;
-				}
-
-				if (categoryFilters.length > 0 && !select.exists(categoryFilters, notification)) {
-					isNotificationSelected = false;
-					break;
-				}
-			}
-
-			// Make excluded notifications unselectable
-			if (!isNotificationSelected) {
+			if (
+				(types.length > 0 && !select.exists(types, notification)) ||
+				(statuses.length > 0 && !select.exists(statuses, notification)) ||
+				(readStatus.length === 1 && !notification.matches(readStatus[0]))
+			) {
+				// Make excluded notifications unselectable
 				select('.js-notification-bulk-action-check-item', notification)!.removeAttribute('data-check-all-item');
 			}
 		}
@@ -86,7 +68,7 @@ function handleSelection({target}: Event): void {
 
 	// Make all notifications selectable again
 	for (const disabledNotificationCheckbox of select.all('.js-notification-bulk-action-check-item:not([data-check-all-item])')) {
-		// eslint-disable-next-line unicorn/prefer-dom-node-dataset -- For consistency with the `removeAttribute()` line
+		// eslint-disable-next-line unicorn/prefer-dom-node-dataset -- For consistency with the `removeAttribute()` above
 		disabledNotificationCheckbox.setAttribute('data-check-all-item', '');
 	}
 }
@@ -114,12 +96,15 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 					role="menuitemcheckbox"
 					aria-checked="false"
 					tabIndex={0}
-					data-filter={filter}
-					data-category={category}
 				>
 					<CheckIcon className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2" aria-hidden="true"/>
 					<div className="SelectMenu-item-text">
-						<input hidden type="checkbox"/>
+						<input
+							hidden
+							type="checkbox"
+							name={category}
+							value={filter}
+						/>
 						{icons[filter]}
 						<span className="ml-2">{filter}</span>
 					</div>
@@ -150,9 +135,11 @@ function createDropdown(): JSX.Element {
 				on-details-menu-selected={handleSelection}
 			>
 				<div className="SelectMenu-modal">
-					{createDropdownList('Type', ['Pull requests', 'Issues'])}
-					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
-					{createDropdownList('Read', ['Read', 'Unread'])}
+					<form id="rgh-select-notifications-form">
+						{createDropdownList('Type', ['Pull requests', 'Issues'])}
+						{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
+						{createDropdownList('Read', ['Read', 'Unread'])}
+					</form>
 				</div>
 			</details-menu>
 		</details>
