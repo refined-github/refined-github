@@ -1,5 +1,5 @@
 name: 🐛 Report a bug
-description: '___'
+description: ___
 labels: bug
 body:
   - type: markdown
