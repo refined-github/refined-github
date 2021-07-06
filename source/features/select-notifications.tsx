@@ -36,6 +36,10 @@ function resetFilters({target}: Event): void {
 	}
 }
 
+function getFiltersSelector(formData: FormData, category: Category): string {
+	return formData.getAll(category).map(value => filters[value as Filter]).join();
+}
+
 function handleSelection({target}: Event): void {
 	const selectAllCheckbox = select('input[type="checkbox"].js-notifications-mark-all-prompt')!;
 	// Reset the "Select all" checkbox
@@ -45,15 +49,15 @@ function handleSelection({target}: Event): void {
 
 	if (select.exists(':checked', target as Element)) {
 		const formData = new FormData(select('form#rgh-select-notifications-form'));
-		const types = formData.getAll('Type').map(type => filters[type as Filter]);
-		const statuses = formData.getAll('Status').map(status => filters[status as Filter]);
-		const readStatus = formData.getAll('Read').map(read => filters[read as Filter]);
+		const types = getFiltersSelector(formData, 'Type');
+		const statuses = getFiltersSelector(formData, 'Status');
+		const readStatus = getFiltersSelector(formData, 'Read');
 
 		for (const notification of select.all('.notifications-list-item')) {
 			if (
-				(types.length > 0 && !select.exists(types, notification)) ||
-				(statuses.length > 0 && !select.exists(statuses, notification)) ||
-				(readStatus.length === 1 && !notification.matches(readStatus[0]))
+				(types && !select.exists(types, notification)) ||
+				(statuses && !select.exists(statuses, notification)) ||
+				(readStatus && !notification.matches(readStatus))
 			) {
 				// Make excluded notifications unselectable
 				select('.js-notification-bulk-action-check-item', notification)!.removeAttribute('data-check-all-item');
