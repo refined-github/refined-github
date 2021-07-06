@@ -6,34 +6,29 @@ body:
     attributes:
       value: |
         # Thanks for reporting a bug! ⛰
-        
+
         Help us replicate the issue by filling in this form.
   - type: checkboxes
-    id: terms
     attributes:
       label: "Please ensure:"
       options:
         - label: The bug is caused by Refined GitHub. It doesn't happen if I disable the extension.
           required: true
   - type: textarea
-    id: what-happened
     attributes:
       label: Describe the problem and how to replicate it
       value:
     validations:
       required: true
   - type: textarea
-    id: screenshots
     attributes:
       label: Screenshots/video/gif showing the issue, if it’s visual
       description: Files can be dropped in this field
   - type: textarea
-    id: logs
     attributes:
       label: Console errors, if any
       render: shell
   - type: input
-    id: example-url
     attributes:
       label: Example URL
       description: A REAL URL where the bug appears. If it happens on a private repo, find an equivalent public URL, even if it doesn't happen there.
@@ -41,7 +36,6 @@ body:
     validations:
       required: true
   - type: input
-    id: browsers
     attributes:
       label: Browser(s) used
     validations:
