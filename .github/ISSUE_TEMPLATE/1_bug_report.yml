@@ -7,7 +7,7 @@ body:
       value: |
         # Thanks for reporting a bug! ⛰
 
-        Help us replicate the issue by filling in this form.
+        Help us replicate the issue by filling in this form. You can use the "Find feature" button in the option to find which feature is causing the issue.
   - type: checkboxes
     attributes:
       label: "Please ensure:"
