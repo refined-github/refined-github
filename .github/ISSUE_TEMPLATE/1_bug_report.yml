@@ -4,13 +4,16 @@ labels: [bug]
 body:
   - type: markdown
     attributes:
-      value: Thanks for reporting a bug! ⛰
+      value: |
+        # Thanks for reporting a bug! ⛰
+        
+        Help us replicate the issue by filling in this form.
   - type: checkboxes
     id: terms
     attributes:
-      label: "Please confirm the following:"
+      label: "Please ensure:"
       options:
-        - label: I am sure the bug is caused by Refined GitHub, I already tried disabling the extension first. (optionally, I also disabled any related userscripts/userstyles and/or in a fresh browser profile if needed).
+        - label: The bug is caused by Refined GitHub. It doesn't happen if I disable the extension.
           required: true
   - type: textarea
     id: what-happened
@@ -22,25 +25,24 @@ body:
   - type: textarea
     id: screenshots
     attributes:
-      label: Screenshots/video/gif showing the issue, if it’s a visual
+      label: Screenshots/video/gif showing the issue, if it’s visual
       description: Files can be dropped in this field
   - type: textarea
     id: logs
     attributes:
-      label: Console output
-      description: Please copy and paste any relevant console log output. This will be automatically formatted into code, so no need for backticks.
+      label: Console errors, if any
       render: shell
   - type: input
     id: example-url
     attributes:
       label: Example URL
-      description: A REAL URL where the bug appears. If it happens on a private repo, find an equivalent public URL.
-      placeholder: https://github.com/example.htm
+      description: A REAL URL where the bug appears. If it happens on a private repo, find an equivalent public URL, even if it doesn't happen there.
+      placeholder: https://github.com/sindresorhus/refined-github/issues
     validations:
       required: true
   - type: input
     id: browsers
     attributes:
-      label: Browser used
+      label: Browser(s) used
     validations:
       required: true
