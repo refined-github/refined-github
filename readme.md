@@ -346,7 +346,7 @@ Thanks for contributing! 🦋🙌
 - [](# "select-all-notifications-shortcut") Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
 - [](# "linkify-notification-repository-header") [Linkifies the header of each notification group (when grouped by repository).](https://user-images.githubusercontent.com/1402241/80849887-81531c00-8c19-11ea-8777-7294ce318630.png)
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
-- [](# "select-notifications") [Select notifications by type and status.](https://user-images.githubusercontent.com/46634000/124293072-8df13e00-db56-11eb-952a-5c9e1bd11b24.mp4)
+- [](# "select-notifications") 🔥 [Select notifications by type and status.](https://user-images.githubusercontent.com/46634000/124293072-8df13e00-db56-11eb-952a-5c9e1bd11b24.mp4)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
