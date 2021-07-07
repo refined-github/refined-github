@@ -9,10 +9,18 @@ Tracks the replacement of an element, identified via selector.
 @param callback The function to call after it's replaced
 */
 
-export default async function onReplacedElement(selector: string, callback: VoidCallback): Promise<void> {
+export default async function onReplacedElement(
+	selector: string,
+	callback: (element: HTMLElement) => void,
+	callNow = false
+): Promise<void> {
 	let trackedElement = select(selector);
 	if (!trackedElement) {
 		throw new Error('The element can’t be found');
+	}
+
+	if (callNow) {
+		callback(trackedElement);
 	}
 
 	while (trackedElement) {
@@ -20,7 +28,7 @@ export default async function onReplacedElement(selector: string, callback: Void
 		await onElementRemoval(trackedElement);
 		trackedElement = select(selector);
 		if (trackedElement) {
-			callback();
+			callback(trackedElement);
 		}
 	}
 }

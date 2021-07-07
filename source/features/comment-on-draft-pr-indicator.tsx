@@ -2,6 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import onReplacedElement from '../helpers/on-replaced-element';
 
 function initPRFiles(): void {
 	const buttonsSingleComment = select.all([
@@ -18,7 +19,10 @@ function initPRFiles(): void {
 }
 
 function initConversation(): void {
-	select('#partial-new-comment-form-actions .btn-primary')!.textContent += ' on draft PR';
+	// The button is part of a .js-updatable-content partial
+	onReplacedElement('#partial-new-comment-form-actions .btn-primary', commentButton => {
+		commentButton.textContent += ' on draft PR';
+	});
 }
 
 void features.add(__filebasename, {
