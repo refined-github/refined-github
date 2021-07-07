@@ -34,7 +34,7 @@ const getWikiPageCount = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 5},
-	cacheKey: () => 'wiki-page-count:' + getRepo()!.nameWithOwner
+	cacheKey: () => 'wiki-page-count:' + getRepo()!.nameWithOwner,
 });
 
 async function initWiki(): Promise<void | false> {
@@ -87,20 +87,20 @@ async function initProjects(): Promise<void | false> {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo,
-		pageDetect.isOrganizationProfile
+		pageDetect.isOrganizationProfile,
 	],
 	awaitDomReady: false,
-	init: initProjects
+	init: initProjects,
 }, {
 	include: [
-		pageDetect.isRepo
+		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
-	init: initActions
+	init: initActions,
 }, {
 	include: [
-		pageDetect.isRepo
+		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
-	init: initWiki
+	init: initWiki,
 });
