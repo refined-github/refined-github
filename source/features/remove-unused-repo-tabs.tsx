@@ -71,16 +71,17 @@ async function initProjects(): Promise<void | false> {
 		return false;
 	}
 
-	if (pageDetect.isOrganizationProfile()) {
-		if (await elementReady('a.btn-primary[href$="repositories/new"]')) {
-			return;
-		}
-
-		projectsTab!.remove();
+	if (pageDetect.isRepo()) {
+		onlyShowInDropdown('projects-tab');
 		return;
 	}
 
-	onlyShowInDropdown('projects-tab');
+	// .isOrganizationProfile
+	if (await elementReady('a.btn-primary[href$="repositories/new"]')) {
+		return;
+	}
+
+	projectsTab!.remove();
 }
 
 void features.add(__filebasename, {
