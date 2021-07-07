@@ -48,7 +48,7 @@ async function addCommitHistoryLink(bar: Element): Promise<void> {
 	bar.after(
 		<p className="container mt-4 text-center">
 			See also the {getType()}’s <a href={url}>commit history</a>.
-		</p>
+		</p>,
 	);
 }
 
@@ -74,7 +74,7 @@ async function addDefaultBranchLink(bar: Element): Promise<void> {
 	bar.after(
 		<p className="container mt-4 text-center">
 			The {getType()} exists on the <a href={url}>default branch</a>.
-		</p>
+		</p>,
 	);
 }
 
@@ -128,19 +128,19 @@ async function initPRCommit(): Promise<void | false> {
 
 	const blankSlateParagraph = await elementReady('.blankslate p', {waitForChildren: false});
 	blankSlateParagraph!.after(
-		<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>
+		<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>,
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.is404
+		pageDetect.is404,
 	],
-	init: onetime(init)
+	init: onetime(init),
 }, {
 	include: [
-		pageDetect.isPRCommit404
+		pageDetect.isPRCommit404,
 	],
 	awaitDomReady: false,
-	init: onetime(initPRCommit)
+	init: onetime(initPRCommit),
 });

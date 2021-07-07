@@ -10,7 +10,7 @@ function hasDraftComments(): boolean {
 	// `[id^="convert-to-issue-body"]` excludes the hidden pre-filled textareas created when opening the dropdown menu of review comments
 	return select.all('textarea:not([disabled], [id^="convert-to-issue-body"])').some(textarea =>
 		textarea.value !== textarea.textContent && // Exclude comments being edited but not yet changed (and empty comment fields)
-		!select.exists('.btn-primary[disabled]', textarea.form!) // Exclude forms being submitted
+		!select.exists('.btn-primary[disabled]', textarea.form!), // Exclude forms being submitted
 	);
 }
 
@@ -30,7 +30,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasRichTextEditor
+		pageDetect.hasRichTextEditor,
 	],
-	init
+	init,
 });

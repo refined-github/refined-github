@@ -61,7 +61,7 @@ void features.add(__filebasename, {
 		pageDetect.isPRConversation,
 		pageDetect.isPRFiles,
 		pageDetect.isCommit,
-		pageDetect.isCompare
+		pageDetect.isCompare,
 	],
-	init
+	init,
 });

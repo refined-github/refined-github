@@ -25,7 +25,7 @@ function handleClick({delegateTarget: button}: delegate.Event): void {
 function renderButton(): void {
 	for (const button of select.all([
 		'.file-actions .btn[href*="/raw/"]', // `isGist`
-		'[data-hotkey="b"]'
+		'[data-hotkey="b"]',
 	])) {
 		const copyButton = (
 			<button
@@ -63,8 +63,8 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleFile,
-		pageDetect.isGist
+		pageDetect.isGist,
 	],
 	deduplicate: '.rgh-copy-file', // #3945
-	init
+	init,
 });

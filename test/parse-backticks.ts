@@ -4,34 +4,34 @@ import {getParsedBackticksParts} from '../source/github-helpers/parse-backticks'
 
 function parseBackticks(string: string): string {
 	return getParsedBackticksParts(string).map(
-		(part, index) => index % 2 && part.length > 0 ? `<code>${part.trim()}</code>` : part
+		(part, index) => index % 2 && part.length > 0 ? `<code>${part.trim()}</code>` : part,
 	).join('');
 }
 
 test('parseBackticks', t => {
 	t.is(
 		parseBackticks('multiple `code spans` between ` other ` text'),
-		'multiple <code>code spans</code> between <code>other</code> text'
+		'multiple <code>code spans</code> between <code>other</code> text',
 	);
 	t.is(
 		parseBackticks('`code` at the start'),
-		'<code>code</code> at the start'
+		'<code>code</code> at the start',
 	);
 	t.is(
 		parseBackticks('code at the `end`'),
-		'code at the <code>end</code>'
+		'code at the <code>end</code>',
 	);
 	t.is(
 		parseBackticks('single backtick in a code span: `` ` ``'),
-		'single backtick in a code span: <code>`</code>'
+		'single backtick in a code span: <code>`</code>',
 	);
 	t.is(
 		parseBackticks('backtick-delimited string in a code span: `` `foo` ``'),
-		'backtick-delimited string in a code span: <code>`foo`</code>'
+		'backtick-delimited string in a code span: <code>`foo`</code>',
 	);
 	t.is(
 		parseBackticks('single-character code span: `a`'),
-		'single-character code span: <code>a</code>'
+		'single-character code span: <code>a</code>',
 	);
 	t.is(
 		parseBackticks(`
@@ -49,7 +49,7 @@ test('parseBackticks', t => {
 			bar
 			\`\`\`
 			in some text #3990
-		`
+		`,
 	);
 	t.is(
 		parseBackticks(`
@@ -61,7 +61,7 @@ test('parseBackticks', t => {
 			empty triple-backtick block
 			\`\`\`
 			\`\`\`
-		`
+		`,
 	);
 	t.is(
 		parseBackticks(`
@@ -79,7 +79,7 @@ test('parseBackticks', t => {
 			bar
 			\`\`\`
 			in some text #3990
-		`
+		`,
 	);
 	t.is(
 		parseBackticks(`
@@ -89,7 +89,7 @@ test('parseBackticks', t => {
 		`
 			hello\`
 			\`world
-		`
+		`,
 	);
 	t.is(
 		parseBackticks(`
@@ -99,6 +99,6 @@ test('parseBackticks', t => {
 		`
 			hello\`\` red
 			\`\`world
-		`
+		`,
 	);
 });

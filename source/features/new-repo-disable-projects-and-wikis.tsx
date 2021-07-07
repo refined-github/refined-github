@@ -14,8 +14,8 @@ async function disableWikiAndProjects(): Promise<void> {
 		method: 'PATCH',
 		body: {
 			has_projects: false,
-			has_wiki: false
-		}
+			has_wiki: false,
+		},
 	});
 	await domLoaded;
 	select('[data-content="Wiki"]')?.closest('.d-flex')!.remove();
@@ -35,7 +35,7 @@ async function init(): Promise<void> {
 
 	select.last([
 		'.js-repo-init-setting-container', // IsNewRepo
-		'.form-checkbox' // IsNewRepoTemplate
+		'.form-checkbox', // IsNewRepoTemplate
 	])!.after(
 		<div className="form-checkbox checked mt-0 mb-3">
 			<label>
@@ -48,7 +48,7 @@ async function init(): Promise<void> {
 			<span className="note mb-2">
 				After creating the repository disable the projects and wiki.
 			</span>
-		</div>
+		</div>,
 	);
 
 	delegate(document, '#new_repository, #new_new_repository', 'submit', setStorage);
@@ -57,13 +57,13 @@ async function init(): Promise<void> {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isNewRepo,
-		pageDetect.isNewRepoTemplate
+		pageDetect.isNewRepoTemplate,
 	],
-	init
+	init,
 }, {
 	include: [
-		() => Boolean(sessionStorage.rghNewRepo)
+		() => Boolean(sessionStorage.rghNewRepo),
 	],
 	awaitDomReady: false,
-	init: disableWikiAndProjects
+	init: disableWikiAndProjects,
 });

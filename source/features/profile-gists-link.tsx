@@ -20,7 +20,7 @@ const getGistCount = cache.function(async (username: string): Promise<number> =>
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 3},
-	cacheKey: ([username]) => 'gist-count:' + username
+	cacheKey: ([username]) => 'gist-count:' + username,
 });
 
 async function init(): Promise<void> {
@@ -42,8 +42,8 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isUserProfile
+		pageDetect.isUserProfile,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

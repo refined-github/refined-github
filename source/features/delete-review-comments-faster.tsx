@@ -27,7 +27,7 @@ function addDeleteButton(cancelButton: Element): void {
 	cancelButton.after(
 		<button className="btn btn-danger float-left rgh-review-comment-delete-button" type="button">
 			<TrashIcon/>
-		</button>
+		</button>,
 	);
 }
 
@@ -35,7 +35,7 @@ function init(): void {
 	const listener = delegate(document, '.rgh-review-comment-delete-button', 'click', onButtonClick);
 	const editButtonListener = delegate(document, '.rgh-edit-comments-faster-button', 'click', onEditButtonClick);
 	const observer = observe('.review-comment > .unminimized-comment form:not(.js-single-suggested-change-form) .js-comment-cancel-button:not(.rgh-delete-button-added)', {
-		add: addDeleteButton
+		add: addDeleteButton,
 	});
 	deinit.push(listener.destroy, editButtonListener.destroy, observer.abort);
 }
@@ -43,9 +43,9 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation,
-		pageDetect.isPRFiles
+		pageDetect.isPRFiles,
 	],
 	awaitDomReady: false,
 	init,
-	deinit
+	deinit,
 });

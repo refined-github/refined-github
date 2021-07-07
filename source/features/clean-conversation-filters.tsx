@@ -16,14 +16,14 @@ const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 			projects { totalCount }
 		}
 	`, {
-		allowErrors: true
+		allowErrors: true,
 	});
 
 	return Boolean(repository.projects.totalCount) && Boolean(organization?.projects?.totalCount);
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: () => `has-projects:${getRepo()!.nameWithOwner}`
+	cacheKey: () => `has-projects:${getRepo()!.nameWithOwner}`,
 });
 
 function getCount(element: HTMLElement): number {
@@ -67,14 +67,14 @@ async function init(): Promise<void | false> {
 
 	await Promise.all([
 		hideMilestones(),
-		hideProjects()
+		hideProjects(),
 	]);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoConversationList
+		pageDetect.isRepoConversationList,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

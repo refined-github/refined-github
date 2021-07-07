@@ -97,7 +97,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 }, {
 	maxAge: {hours: 2},
 	staleWhileRevalidate: {days: 9},
-	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
+	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner,
 });
 
 async function init(): Promise<void> {
@@ -132,7 +132,7 @@ async function init(): Promise<void> {
 							</span>
 						</>
 				}
-			</div>
+			</div>,
 		);
 
 		return;
@@ -152,9 +152,9 @@ async function init(): Promise<void> {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isEditingFile,
-		pageDetect.isSingleFile
+		pageDetect.isSingleFile,
 	],
 	deduplicate: '.rgh-list-prs-for-file', // #3945
 	awaitDomReady: false,
-	init
+	init,
 });

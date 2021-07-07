@@ -16,8 +16,8 @@ export default function addNotice(
 			<button className="flash-close js-flash-close" type="button" aria-label="Dismiss this message">
 				<XIcon/>
 			</button>
-		)
-	}: Options = {}
+		),
+	}: Options = {},
 ): void {
 	select('#js-flash-container')!.append(
 		<div className={`flash flash-full flash-${type} px-4`}>
@@ -25,6 +25,6 @@ export default function addNotice(
 			<div>
 				{message}
 			</div>
-		</div>
+		</div>,
 	);
 }

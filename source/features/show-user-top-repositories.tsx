@@ -15,13 +15,13 @@ function init(): void {
 	// Showcase title
 	select('.js-pinned-items-reorder-container .text-normal')!.firstChild!.after(
 		' / ',
-		<a href={String(buildUrl())}>Top repositories</a>
+		<a href={String(buildUrl())}>Top repositories</a>,
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isUserProfileMainTab
+		pageDetect.isUserProfileMainTab,
 	],
-	init
+	init,
 });

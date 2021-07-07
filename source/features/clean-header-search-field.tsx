@@ -11,8 +11,8 @@ async function init(): Promise<void> {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversationList,
-		pageDetect.isGlobalConversationList
+		pageDetect.isGlobalConversationList,
 	],
 	awaitDomReady: false,
-	init: onetime(init)
+	init: onetime(init),
 });

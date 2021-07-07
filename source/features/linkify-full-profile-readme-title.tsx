@@ -12,7 +12,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isUserProfileMainTab
+		pageDetect.isUserProfileMainTab,
 	],
-	init
+	init,
 });

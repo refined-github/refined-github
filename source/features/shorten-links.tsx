@@ -11,14 +11,14 @@ function init(): void {
 		constructor: HTMLAnchorElement,
 		add(link) {
 			applyToLink(link, location.href);
-		}
+		},
 	});
 }
 
 void features.add(__filebasename, {
 	exclude: [
 		// Due to GitHub’s bug: #2828
-		pageDetect.isGlobalSearchResults
+		pageDetect.isGlobalSearchResults,
 	],
-	init: onetime(init)
+	init: onetime(init),
 });

@@ -73,7 +73,7 @@ async function init(): Promise<void | false> {
 						.before(
 							<small className={classes} title="Downloads">
 								{abbreviateNumber(downloadCount)} <DownloadIcon/>
-							</small>
+							</small>,
 						);
 				}
 			}
@@ -83,7 +83,7 @@ async function init(): Promise<void | false> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isReleasesOrTags
+		pageDetect.isReleasesOrTags,
 	],
-	init
+	init,
 });

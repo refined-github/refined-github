@@ -21,7 +21,7 @@ const getCommitChanges = cache.function(async (commit: string): Promise<[additio
 
 	return [repository.object.additions, repository.object.deletions];
 }, {
-	cacheKey: ([commit]) => 'commit-changes:' + commit
+	cacheKey: ([commit]) => 'commit-changes:' + commit,
 });
 
 async function init(): Promise<void> {
@@ -38,14 +38,14 @@ async function init(): Promise<void> {
 			<span className="diffstat-block-neutral"/>
 			<span className="diffstat-block-neutral"/>
 			<span className="diffstat-block-neutral"/>
-		</span>
+		</span>,
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRCommit
+		pageDetect.isPRCommit,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

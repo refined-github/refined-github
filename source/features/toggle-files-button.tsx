@@ -26,7 +26,7 @@ function addButton(): void {
 		>
 			<FoldIcon/>
 			<UnfoldIcon/>
-		</button>
+		</button>,
 	);
 }
 
@@ -47,9 +47,9 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoTree
+		pageDetect.isRepoTree,
 	],
 	awaitDomReady: false,
 	deduplicate: false,
-	init
+	init,
 });

@@ -24,7 +24,7 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 		'#issue_body',
 		'#pull_request_body',
 		'#commit-description-textarea',
-		'#merge_message_field'
+		'#merge_message_field',
 	], event.delegateTarget.form!)!.focus();
 }
 
@@ -33,7 +33,7 @@ function init(): void {
 		'form.new_issue input#issue_title',
 		'input#pull_request_title',
 		'input#commit-summary-input',
-		'#merge_title_field'
+		'#merge_title_field',
 	].join(), 'keydown', onKeyDown);
 }
 
@@ -43,16 +43,16 @@ void features.add(__filebasename, {
 		pageDetect.isCompare,
 		pageDetect.isNewFile,
 		pageDetect.isEditingFile,
-		pageDetect.isPRConversation
+		pageDetect.isPRConversation,
 	],
-	init
+	init,
 }, {
 	shortcuts: {
-		'ctrl enter': 'Publish a new/edited file'
+		'ctrl enter': 'Publish a new/edited file',
 	},
 	include: [
 		pageDetect.isNewFile,
-		pageDetect.isEditingFile
+		pageDetect.isEditingFile,
 	],
-	init: addQuickSubmit
+	init: addQuickSubmit,
 });
