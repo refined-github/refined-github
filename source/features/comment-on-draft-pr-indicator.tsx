@@ -19,7 +19,7 @@ function init(): void {
 		addIndicator(button);
 	}
 
-	if (pageDetect.isConversation()) {
+	if (pageDetect.isPRConversation()) {
 		// The button is part of a .js-updatable-content partial
 		void onReplacedElement('#partial-new-comment-form-actions .btn-primary', addIndicator, true);
 	}
