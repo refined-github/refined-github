@@ -44,7 +44,7 @@ async function initWiki(): Promise<void | false> {
 	}
 
 	const wikiPageCount = await getWikiPageCount();
-	if (mustKeepTab(wikiTab) || wikiPageCount > 0) {
+	if (wikiPageCount > 0 || mustKeepTab(wikiTab)) {
 		setTabCounter(wikiTab, wikiPageCount);
 	} else {
 		onlyShowInDropdown('wiki-tab');
@@ -58,7 +58,7 @@ async function initActions(): Promise<void | false> {
 	}
 
 	const actionsCount = (await getWorkflows()).length;
-	if (mustKeepTab(actionsTab) || actionsCount > 0) {
+	if (actionsCount > 0 || mustKeepTab(actionsTab)) {
 		setTabCounter(actionsTab, actionsCount);
 	} else {
 		onlyShowInDropdown('actions-tab');
@@ -67,7 +67,7 @@ async function initActions(): Promise<void | false> {
 
 async function initProjects(): Promise<void | false> {
 	const projectsTab = await elementReady('[data-hotkey="g b"]');
-	if (mustKeepTab(projectsTab) || await getTabCount(projectsTab!) > 0) {
+	if (await getTabCount(projectsTab!) > 0 || mustKeepTab(projectsTab)) {
 		return false;
 	}
 
