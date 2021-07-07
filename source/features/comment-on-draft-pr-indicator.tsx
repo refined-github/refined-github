@@ -4,25 +4,25 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import onReplacedElement from '../helpers/on-replaced-element';
 
-function initPRFiles(): void {
-	const buttonsSingleComment = select.all([
-		'.review-simple-reply-button',
-		'.add-comment-label' // For when adding a single comment after having started a review
-	]);
-	for (const element of buttonsSingleComment) {
-		element.textContent += ' to draft PR';
-	}
+function addIndicator(button: HTMLElement) {
+	const preposition = button.textContent!.includes('Add') ? ' to ' : ' on ';
+	button.textContent += preposition + 'draft PR';
+}
 
-	for (const element of select.all('.start-review-label')) {
-		element.textContent += ' on draft PR';
+function initPRFiles(): void {
+	const buttons = select.all([
+		'.review-simple-reply-button', // "Add single comment" button
+		'.add-comment-label', // "Add review comment" button
+		'.start-review-label' // "Start a review" button
+	]);
+	for (const button of buttons) {
+		addIndicator(button);
 	}
 }
 
 function initConversation(): void {
 	// The button is part of a .js-updatable-content partial
-	void onReplacedElement('#partial-new-comment-form-actions .btn-primary', commentButton => {
-		commentButton.textContent += ' on draft PR';
-	});
+	void onReplacedElement('#partial-new-comment-form-actions .btn-primary', addIndicator, true);
 }
 
 void features.add(__filebasename, {
