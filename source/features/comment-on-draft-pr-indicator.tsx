@@ -20,7 +20,7 @@ function initPRFiles(): void {
 
 function initConversation(): void {
 	// The button is part of a .js-updatable-content partial
-	onReplacedElement('#partial-new-comment-form-actions .btn-primary', commentButton => {
+	void onReplacedElement('#partial-new-comment-form-actions .btn-primary', commentButton => {
 		commentButton.textContent += ' on draft PR';
 	});
 }
