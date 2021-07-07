@@ -66,10 +66,7 @@ async function initActions(): Promise<void | false> {
 }
 
 async function initProjects(): Promise<void | false> {
-	const projectsTab = await elementReady([
-		'[data-hotkey="g b"]', // In organizations and repos
-		'[aria-label="User profile"] [href$="?tab=projects"]' // In user profiles
-	].join());
+	const projectsTab = await elementReady('[data-hotkey="g b"]');
 	if (tabCannotBeHidden(projectsTab) || await getTabCount(projectsTab!) > 0) {
 		return false;
 	}
@@ -89,7 +86,6 @@ async function initProjects(): Promise<void | false> {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo,
-		pageDetect.isUserProfile,
 		pageDetect.isOrganizationProfile
 	],
 	awaitDomReady: false,
