@@ -12,7 +12,7 @@ import abbreviateNumber from '../helpers/abbreviate-number';
 import {onlyShowInDropdown} from './more-dropdown';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
-function tabCannotBeHidden(tab: HTMLElement | undefined): boolean {
+function mustKeepTab(tab: HTMLElement | undefined): boolean {
 	return (
 		!tab || // Tab disabled 🎉
 		tab.matches('.selected') ||// User is on tab 👀
@@ -44,7 +44,7 @@ async function initWiki(): Promise<void | false> {
 	}
 
 	const wikiPageCount = await getWikiPageCount();
-	if (tabCannotBeHidden(wikiTab) || wikiPageCount > 0) {
+	if (mustKeepTab(wikiTab) || wikiPageCount > 0) {
 		setTabCounter(wikiTab, wikiPageCount);
 	} else {
 		onlyShowInDropdown('wiki-tab');
@@ -58,7 +58,7 @@ async function initActions(): Promise<void | false> {
 	}
 
 	const actionsCount = (await getWorkflows()).length;
-	if (tabCannotBeHidden(actionsTab) || actionsCount > 0) {
+	if (mustKeepTab(actionsTab) || actionsCount > 0) {
 		setTabCounter(actionsTab, actionsCount);
 	} else {
 		onlyShowInDropdown('actions-tab');
@@ -67,7 +67,7 @@ async function initActions(): Promise<void | false> {
 
 async function initProjects(): Promise<void | false> {
 	const projectsTab = await elementReady('[data-hotkey="g b"]');
-	if (tabCannotBeHidden(projectsTab) || await getTabCount(projectsTab!) > 0) {
+	if (mustKeepTab(projectsTab) || await getTabCount(projectsTab!) > 0) {
 		return false;
 	}
 
