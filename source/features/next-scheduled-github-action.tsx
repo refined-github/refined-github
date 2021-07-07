@@ -31,7 +31,7 @@ export const getWorkflows = cache.function(async (): Promise<AnyObject[]> => {
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 10},
-	cacheKey: () => 'workflows:' + getRepo()!.nameWithOwner
+	cacheKey: () => 'workflows:' + getRepo()!.nameWithOwner,
 });
 
 const getScheduledWorkflows = async (): Promise<Record<string, string> | false> => {
