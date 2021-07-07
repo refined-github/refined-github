@@ -15,7 +15,7 @@ async function init(): Promise<void> {
 			<a href={location.pathname} className="btn btn-sm BtnGroup-item tooltipped tooltipped-nw" aria-label="Display the rendered file">
 				<FileIcon/>
 			</a>
-		</div>
+		</div>,
 	);
 
 	select('.rgh-view-markdown-source')!.children[isPlain ? 0 : 1].classList.add('selected');
@@ -23,8 +23,8 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		() => pageDetect.isSingleFile() && /\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee)$/.test(location.pathname)
+		() => pageDetect.isSingleFile() && /\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee)$/.test(location.pathname),
 	],
 	deduplicate: '.rgh-view-markdown-source', // #3945
-	init
+	init,
 });
