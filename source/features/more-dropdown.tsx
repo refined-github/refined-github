@@ -50,7 +50,7 @@ async function init(): Promise<void> {
 		createDropdownItem('Compare', compareUrl),
 		pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl),
 		createDropdownItem('Commits', commitsUrl),
-		createDropdownItem('Branches', branchesUrl)
+		createDropdownItem('Branches', branchesUrl),
 	);
 
 	onlyShowInDropdown('security-tab');
@@ -59,11 +59,11 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepo
+		pageDetect.isRepo,
 	],
 	exclude: [
-		pageDetect.isEmptyRepo
+		pageDetect.isEmptyRepo,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

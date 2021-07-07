@@ -18,7 +18,7 @@ async function init(): Promise<void | false> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isQuickPR
+		pageDetect.isQuickPR,
 	],
-	init
+	init,
 });

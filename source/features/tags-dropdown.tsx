@@ -41,7 +41,7 @@ function init(): void {
 					</include-fragment>
 				</details-menu>
 			</details>
-		</div>
+		</div>,
 	);
 
 	// https://github.com/github/remote-input-element#events
@@ -52,10 +52,10 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isReleasesOrTags
+		pageDetect.isReleasesOrTags,
 	],
 	exclude: [
-		pageDetect.isEmptyRepoRoot
+		pageDetect.isEmptyRepoRoot,
 	],
-	init
+	init,
 });

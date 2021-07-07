@@ -46,7 +46,7 @@ function showWhiteSpacesOn(line: Element): void {
 			textNode.after(
 				<span data-rgh-whitespace={thisCharacter === '\t' ? 'tab' : 'space'}>
 					{textNode.nextSibling}
-				</span>
+				</span>,
 			);
 		}
 	}
@@ -70,12 +70,12 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasCode
+		pageDetect.hasCode,
 	],
 	additionalListeners: [
 		onNewComments,
-		onDiffFileLoad
+		onDiffFileLoad,
 	],
 	deduplicate: '.rgh-observing-whitespace',
-	init
+	init,
 });

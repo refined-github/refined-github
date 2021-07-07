@@ -22,7 +22,7 @@ function init(): false | void {
 			<input
 				type="hidden"
 				name="pull_request_review[event]"
-				value="comment"/>
+				value="comment"/>,
 		);
 	}
 
@@ -51,7 +51,7 @@ function init(): false | void {
 				disabled={radio.disabled}
 			>
 				{radio.nextSibling}
-			</button>
+			</button>,
 		);
 	}
 
@@ -92,7 +92,7 @@ function init(): false | void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPR
+		pageDetect.isPR,
 	],
-	init
+	init,
 });

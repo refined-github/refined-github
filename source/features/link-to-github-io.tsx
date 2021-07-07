@@ -21,9 +21,9 @@ function initRepoList(): void {
 					rel="noopener noreferrer"
 				>
 					<LinkExternalIcon className="v-align-middle"/>
-				</a>
+				</a>,
 			);
-		}
+		},
 	});
 }
 
@@ -37,19 +37,19 @@ async function initRepo(): Promise<void> {
 			rel="noopener noreferrer"
 		>
 			<LinkExternalIcon className="v-align-middle"/>
-		</a>
+		</a>,
 	);
 }
 
 void features.add(__filebasename, {
 	exclude: [
-		() => !getRepo()?.name.endsWith('.github.io')
+		() => !getRepo()?.name.endsWith('.github.io'),
 	],
-	init: initRepo
+	init: initRepo,
 }, {
 	include: [
 		pageDetect.isUserProfileRepoTab,
-		pageDetect.isOrganizationProfile
+		pageDetect.isOrganizationProfile,
 	],
-	init: onetime(initRepoList)
+	init: onetime(initRepoList),
 });

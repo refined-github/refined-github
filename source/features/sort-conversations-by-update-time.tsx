@@ -18,5 +18,5 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
-	init
+	init,
 });

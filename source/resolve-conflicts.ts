@@ -28,7 +28,7 @@ function getLineNumber(lineChild: Element): number {
 			.closest('.CodeMirror-gutter-wrapper, .CodeMirror-linewidget')!
 			.parentElement!
 			.querySelector('.CodeMirror-linenumber')!
-			.textContent
+			.textContent,
 	) - 1;
 }
 
@@ -54,7 +54,7 @@ function addWidget(): void {
 			editor.addLineClass(line, '', 'rgh-resolve-conflicts');
 			editor.addLineWidget(line, newWidget(), {
 				above: true,
-				noHScroll: true
+				noHScroll: true,
 			});
 		} else if (lineHandle.text.startsWith('>>>>>>>')) {
 			appendLineInfo(lineHandle, ' -- Current Change');
@@ -82,7 +82,7 @@ function newWidget(): HTMLDivElement {
 		' | ',
 		createButton('Incoming'),
 		' | ',
-		createButton('Both', 'Accept Both Changes')
+		createButton('Both', 'Accept Both Changes'),
 	);
 	return widget;
 }
@@ -111,7 +111,7 @@ function acceptBranch(branch: string, line: number): void {
 	// Delete all lines at once in a performant way
 	const ranges = linesToRemove.map(line => ({
 		anchor: {line, ch: 0},
-		head: {line, ch: 0}
+		head: {line, ch: 0},
 	}));
 	editor.setSelections(ranges);
 	editor.execCommand('deleteLine');

@@ -84,8 +84,8 @@ async function init(): Promise<false | void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepositoryActions
+		pageDetect.isRepositoryActions,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

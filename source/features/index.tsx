@@ -84,7 +84,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
 		getLocalHotfixesAsOptions(version),
-		bisectFeatures()
+		bisectFeatures(),
 	]);
 
 	if (options.customCSS.trim().length > 0) {
@@ -178,13 +178,13 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 const shortcutMap = new Map<string, string>();
 
 const defaultPairs = new Map([
-	[pageDetect.hasComments, onNewComments]
+	[pageDetect.hasComments, onNewComments],
 ]);
 
 function enforceDefaults(
 	id: FeatureID,
 	include: InternalRunConfig['include'],
-	additionalListeners: InternalRunConfig['additionalListeners']
+	additionalListeners: InternalRunConfig['additionalListeners'],
 ): void {
 	for (const [detection, listener] of defaultPairs) {
 		if (!include.includes(detection)) {
@@ -220,7 +220,7 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 			awaitDomReady = true,
 			deduplicate = 'has-rgh',
 			onlyAdditionalListeners = false,
-			additionalListeners = []
+			additionalListeners = [],
 		} = loader;
 
 		// Register feature shortcuts
@@ -259,7 +259,7 @@ const addCssFeature = async (id: FeatureID, include: BooleanFunction[]): Promise
 		awaitDomReady: false,
 		init: () => {
 			document.body.classList.add('rgh-' + id);
-		}
+		},
 	});
 };
 
@@ -274,7 +274,7 @@ void add(__filebasename, {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
 		select('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);
-	}
+	},
 });
 
 const features = {
@@ -283,7 +283,7 @@ const features = {
 	error: logError,
 	shortcutMap,
 	list: __features__,
-	meta: __featuresMeta__
+	meta: __featuresMeta__,
 };
 
 export default features;

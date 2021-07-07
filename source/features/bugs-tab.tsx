@@ -35,7 +35,7 @@ const countBugs = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: {minutes: 30},
 	staleWhileRevalidate: {days: 4},
-	cacheKey: (): string => __filebasename + ':' + getRepo()!.nameWithOwner
+	cacheKey: (): string => __filebasename + ':' + getRepo()!.nameWithOwner,
 });
 
 async function init(): Promise<void | false> {
@@ -112,15 +112,15 @@ async function init(): Promise<void | false> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepo
+		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
-	init
+	init,
 }, {
 	include: [
-		pageDetect.isIssue
+		pageDetect.isIssue,
 	],
 	awaitDomReady: false,
 	deduplicate: false,
-	init: highlightBugsTabOnIssuePage
+	init: highlightBugsTabOnIssuePage,
 });

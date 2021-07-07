@@ -17,7 +17,7 @@ const init = (): void => {
 
 		const header = select([
 			'summary .timeline-comment-header-text', // Issue and commit comments
-			'.discussion-item-icon  + div' // Review Comments
+			'.discussion-item-icon  + div', // Review Comments
 		], details)!;
 
 		const reason = /off-topic|hidden/.exec(header.textContent!)?.[0];
@@ -27,14 +27,14 @@ const init = (): void => {
 
 		header.append(
 			<span className="Details-content--open">{header.firstChild}</span>,
-			<span className="Details-content--closed">{`${upperCaseFirst(reason)} — ${commentText}`}</span>
+			<span className="Details-content--closed">{`${upperCaseFirst(reason)} — ${commentText}`}</span>,
 		);
 	}
 };
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasComments
+		pageDetect.hasComments,
 	],
-	init
+	init,
 });

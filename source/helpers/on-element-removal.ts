@@ -10,7 +10,7 @@ const onElementRemoval = mem(
 				}
 			}).observe(element);
 		})
-	)
+	),
 );
 
 export default onElementRemoval;

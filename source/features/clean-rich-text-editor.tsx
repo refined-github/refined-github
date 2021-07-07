@@ -17,13 +17,13 @@ function hideTextareaTooltip(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasRichTextEditor
+		pageDetect.hasRichTextEditor,
 	],
-	init: hideTextareaTooltip
+	init: hideTextareaTooltip,
 }, {
 	include: [
-		pageDetect.isRepo
+		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
-	init: onetime(hideButtons)
+	init: onetime(hideButtons),
 });

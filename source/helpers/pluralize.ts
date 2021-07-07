@@ -6,7 +6,7 @@ export default function pluralize(
 	count: number,
 	single: string,
 	plural = regular(single),
-	zero?: string
+	zero?: string,
 ): string {
 	if (count === 0 && zero) {
 		return zero.replace('$$', '0');

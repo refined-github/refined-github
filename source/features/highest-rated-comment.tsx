@@ -55,7 +55,7 @@ function highlightBestComment(bestComment: Element): void {
 			aria-label="This comment has the most positive reactions on this issue."
 		>
 			<CheckIcon/>
-		</span>
+		</span>,
 	);
 }
 
@@ -83,7 +83,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 					Highest-rated comment: <em>{text}</em>
 				</span>
 			</a>
-		</div>
+		</div>,
 	);
 }
 
@@ -104,7 +104,7 @@ function init(): false | void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isIssue
+		pageDetect.isIssue,
 	],
-	init
+	init,
 });

@@ -22,8 +22,8 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isCommit,
-		pageDetect.isCompare
+		pageDetect.isCompare,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

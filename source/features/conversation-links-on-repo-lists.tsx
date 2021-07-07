@@ -10,7 +10,7 @@ import features from '.';
 function init(): void {
 	observe([
 		'[itemprop="name codeRepository"]:not(.rgh-discussion-links)', // `isUserProfileRepoTab`
-		'[data-hydro-click*=\'"model_name":"Repository"\']:not(.rgh-discussion-links)' // `isGlobalSearchResults`
+		'[data-hydro-click*=\'"model_name":"Repository"\']:not(.rgh-discussion-links)', // `isGlobalSearchResults`
 	].join(), {
 		constructor: HTMLAnchorElement,
 		add(repositoryLink) {
@@ -33,16 +33,16 @@ function init(): void {
 					href={repositoryLink.href + '/pulls?q=is%3Apr+is%3Aopen'}
 				>
 					<GitPullRequestIcon/>
-				</a>
+				</a>,
 			);
-		}
+		},
 	});
 }
 
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isUserProfileRepoTab,
-		pageDetect.isGlobalSearchResults
+		pageDetect.isGlobalSearchResults,
 	],
-	init: onetime(init)
+	init: onetime(init),
 });

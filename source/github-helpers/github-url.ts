@@ -34,7 +34,7 @@ export default class GitHubURL {
 	}
 
 	private disambiguateReference(
-		ambiguousReference: string[]
+		ambiguousReference: string[],
 	): {branch: string; filePath: string} {
 		const branch = ambiguousReference[0];
 		// History pages might use search parameters
@@ -67,7 +67,7 @@ export default class GitHubURL {
 
 		return {
 			branch: currentBranch,
-			filePath: ambiguousReference.slice(currentBranchSections.length).join('/')
+			filePath: ambiguousReference.slice(currentBranchSections.length).join('/'),
 		};
 	}
 

@@ -60,14 +60,14 @@ async function unwrapActionRun(): Promise<void | false> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isNotifications
+		pageDetect.isNotifications,
 	],
 	awaitDomReady: false,
-	init: unwrapNotifications
+	init: unwrapNotifications,
 }, {
 	include: [
-		pageDetect.isActionRun
+		pageDetect.isActionRun,
 	],
 	awaitDomReady: false,
-	init: unwrapActionRun
+	init: unwrapActionRun,
 });

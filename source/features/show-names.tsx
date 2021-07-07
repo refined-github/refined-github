@@ -12,7 +12,7 @@ import {getUsername, compareNames} from '../github-helpers';
 async function init(): Promise<false | void> {
 	const usernameElements = select.all([
 		'.js-discussion a.author:not(.rgh-fullname, [href*="/apps/"], [href*="/marketplace/"], [data-hovercard-type="organization"])', // `a` selector needed to skip commits by non-GitHub users.
-		'#dashboard a.text-bold[data-hovercard-type="user"]:not(.rgh-fullname)' // On dashboard `.text-bold` is required to not fetch avatars.
+		'#dashboard a.text-bold[data-hovercard-type="user"]:not(.rgh-fullname)', // On dashboard `.text-bold` is required to not fetch avatars.
 	]);
 
 	const usernames = new Set<string>();
@@ -37,8 +37,8 @@ async function init(): Promise<false | void> {
 
 	const names = await api.v4(
 		[...usernames].map(user =>
-			api.escapeKey(user) + `: user(login: "${user}") {name}`
-		).join()
+			api.escapeKey(user) + `: user(login: "${user}") {name}`,
+		).join(),
 	);
 
 	for (const usernameElement of usernameElements) {
@@ -60,7 +60,7 @@ async function init(): Promise<false | void> {
 							{names[userKey].name}
 						</span>
 					</bdo>,
-					') '
+					') ',
 				);
 			}
 		}
@@ -69,15 +69,15 @@ async function init(): Promise<false | void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isDashboard
+		pageDetect.isDashboard,
 	],
 	additionalListeners: [
-		onNewsfeedLoad
+		onNewsfeedLoad,
 	],
-	init: onetime(init)
+	init: onetime(init),
 }, {
 	include: [
-		pageDetect.hasComments
+		pageDetect.hasComments,
 	],
-	init
+	init,
 });

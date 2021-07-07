@@ -71,7 +71,7 @@ function init(): void {
 			<p className="rgh-useless-comments-note">
 				{`${uselessCount} unhelpful comment${uselessCount > 1 ? 's were' : ' was'} automatically hidden. `}
 				<button className="btn-link text-emphasized rgh-unhide-useless-comments" type="button">Show</button>
-			</p>
+			</p>,
 		);
 		delegate(document, '.rgh-unhide-useless-comments', 'click', unhide);
 	}
@@ -79,7 +79,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isIssue
+		pageDetect.isIssue,
 	],
-	init
+	init,
 });

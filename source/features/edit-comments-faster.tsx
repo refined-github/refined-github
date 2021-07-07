@@ -30,16 +30,16 @@ function init(): void {
 						aria-label="Edit comment"
 					>
 						<PencilIcon/>
-					</button>
+					</button>,
 				);
-		}
+		},
 	});
 }
 
 void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments,
-		pageDetect.isDiscussion
+		pageDetect.isDiscussion,
 	],
-	init: onetime(init)
+	init: onetime(init),
 });

@@ -40,7 +40,7 @@ function init(): void {
 				aria-label={`Mention ${userMention} in a new comment`}
 			>
 				<ReplyIcon/>
-			</button>
+			</button>,
 		);
 	}
 
@@ -49,13 +49,13 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isConversation
+		pageDetect.isConversation,
 	],
 	exclude: [
-		() => select.exists('.conversation-limited') // Conversation is locked
+		() => select.exists('.conversation-limited'), // Conversation is locked
 	],
 	additionalListeners: [
-		onNewComments
+		onNewComments,
 	],
-	init
+	init,
 });
