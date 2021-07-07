@@ -36,9 +36,9 @@ function getUI(field: HTMLTextAreaElement): HTMLElement {
 
 function isVulnerableToLinkLoss(value: string): boolean {
 	// The replacement logic is not just in the regex, so it alone can't be used to detect the need for the replacement
-	return value !== value.replace(prCommitUrlRegex, preventPrCommitLinkLoss) ||
-		value !== value.replace(prCompareUrlRegex, preventPrCompareLinkLoss) ||
-		value !== value.replace(discussionUrlRegex, preventDiscussionLinkLoss);
+	return value !== value.replace(prCommitUrlRegex, preventPrCommitLinkLoss)
+		|| value !== value.replace(prCompareUrlRegex, preventPrCompareLinkLoss)
+		|| value !== value.replace(discussionUrlRegex, preventDiscussionLinkLoss);
 }
 
 const updateUI = debounceFn(({delegateTarget: field}: delegate.Event<Event, HTMLTextAreaElement>): void => {

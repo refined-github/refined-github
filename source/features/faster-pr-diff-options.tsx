@@ -8,9 +8,9 @@ import features from '.';
 function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 	const url = new URL(location.href);
 	url.searchParams.set('diff', type);
-	const classes = pageDetect.isPR() ?
-		'tooltipped tooltipped-s d-none d-lg-block ml-2 color-icon-secondary' :
-		'tooltipped tooltipped-s btn btn-sm BtnGroup-item ' + (selected ? 'selected' : '');
+	const classes = pageDetect.isPR()
+		? 'tooltipped tooltipped-s d-none d-lg-block ml-2 color-icon-secondary'
+		: 'tooltipped tooltipped-s btn btn-sm BtnGroup-item ' + (selected ? 'selected' : '');
 
 	return (
 		<a
@@ -30,9 +30,9 @@ function createDiffStyleToggle(): DocumentFragment {
 	]);
 
 	if (pageDetect.isPR()) {
-		return isUnified ?
-			makeLink('split', <BookIcon/>, false) :
-			makeLink('unified', <DiffIcon/>, false);
+		return isUnified
+			? makeLink('split', <BookIcon/>, false)
+			: makeLink('unified', <DiffIcon/>, false);
 	}
 
 	return (
@@ -53,9 +53,9 @@ function createWhitespaceButton(): HTMLElement {
 		url.searchParams.set('w', '1');
 	}
 
-	const classes = pageDetect.isPR() ?
-		'tooltipped tooltipped-s d-none d-lg-block color-icon-secondary ' + (isHidingWhitespace ? '' : 'color-icon-info') :
-		'tooltipped tooltipped-s btn btn-sm btn-outline tooltipped ' + (isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : '');
+	const classes = pageDetect.isPR()
+		? 'tooltipped tooltipped-s d-none d-lg-block color-icon-secondary ' + (isHidingWhitespace ? '' : 'color-icon-info')
+		: 'tooltipped tooltipped-s btn btn-sm btn-outline tooltipped ' + (isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : '');
 
 	return (
 		<a

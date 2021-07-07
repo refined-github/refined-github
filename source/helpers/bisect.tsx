@@ -17,9 +17,9 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 	const bisectedFeatures = (await cache.get<FeatureID[]>('bisect'))!;
 
 	if (bisectedFeatures.length > 1) {
-		await cache.set('bisect', answer === 'yes' ?
-			bisectedFeatures.slice(0, getMiddleStep(bisectedFeatures)) :
-			bisectedFeatures.slice(getMiddleStep(bisectedFeatures)),
+		await cache.set('bisect', answer === 'yes'
+			? bisectedFeatures.slice(0, getMiddleStep(bisectedFeatures))
+			: bisectedFeatures.slice(getMiddleStep(bisectedFeatures)),
 		);
 
 		button.parentElement!.replaceWith(<div className="btn" aria-disabled="true">Reloading…</div>);

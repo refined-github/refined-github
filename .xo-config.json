@@ -11,17 +11,16 @@
 		"__filebasename"
 	],
 	"rules": {
-		"@typescript-eslint/comma-dangle": [
-			"error",
-			"always-multiline"
-		],
+		"@typescript-eslint/no-unsafe-assignment": "warn",
+		"@typescript-eslint/no-unsafe-member-access": "warn",
+		"@typescript-eslint/no-unsafe-return": "warn",
+		"@typescript-eslint/no-unsafe-call": "warn",
+		"unicorn/no-array-callback-reference": "warn",
+
+		"import/no-cycle": "off",
 		"import/no-unassigned-import": "off",
 		"no-alert": "off",
-		"no-void": "off",
 		"react/jsx-key": "off",
-		"unicorn/no-array-callback-reference": "off",
-		"unicorn/expiring-todo-comments": "warn",
-		"@typescript-eslint/no-extra-non-null-assertion": "error",
 		"@typescript-eslint/consistent-type-definitions": "error",
 		"@typescript-eslint/explicit-function-return-type": [
 			"error",
@@ -32,9 +31,7 @@
 				"allowConciseArrowFunctionExpressionsStartingWithVoid": false
 			}
 		],
-		"import/first": "error",
 		"import/newline-after-import": "error",
-		"import/no-commonjs": "error",
 		"import/order": [
 			"error",
 			{
@@ -55,6 +52,18 @@
 			}
 		]
 	},
+	"overrides": [
+		{
+			"files": [
+				"webpack.config.ts",
+				"build/*"
+			],
+			"rules": {
+				"@typescript-eslint/triple-slash-reference": "off",
+				"unicorn/prefer-module": "off"
+			}
+		}
+	],
 	"settings:comment": "We don't use React, so it can't be automatically detected by the linter",
 	"settings": {
 		"react": {

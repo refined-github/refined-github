@@ -43,9 +43,9 @@ function reportStatus({error, text, scopes}: Status): void {
 
 async function getTokenScopes(personalToken: string): Promise<string[]> {
 	const tokenLink = select('a#personal-token-link')!;
-	const url = tokenLink.host === 'github.com' ?
-		'https://api.github.com/' :
-		`${tokenLink.origin}/api/v3/`;
+	const url = tokenLink.host === 'github.com'
+		? 'https://api.github.com/'
+		: `${tokenLink.origin}/api/v3/`;
 
 	const response = await fetch(url, {
 		cache: 'no-store',

@@ -75,13 +75,13 @@ export async function expectTokenScope(scope: string): Promise<void> {
 	}
 }
 
-const api3 = pageDetect.isEnterprise() ?
-	`${location.origin}/api/v3/` :
-	'https://api.github.com/';
+const api3 = pageDetect.isEnterprise()
+	? `${location.origin}/api/v3/`
+	: 'https://api.github.com/';
 
-const api4 = pageDetect.isEnterprise() ?
-	`${location.origin}/api/graphql` :
-	'https://api.github.com/graphql';
+const api4 = pageDetect.isEnterprise()
+	? `${location.origin}/api/graphql`
+	: 'https://api.github.com/graphql';
 
 interface GHRestApiOptions {
 	ignoreHTTPStatus?: boolean;
@@ -209,9 +209,9 @@ export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAP
 	if ((apiResponse.message as string)?.includes('API rate limit exceeded')) {
 		return new RefinedGitHubAPIError(
 			'Rate limit exceeded.',
-			personalToken ?
-				'It may be time for a walk! 🍃 🌞' :
-				'Set your token in the options or take a walk! 🍃 🌞',
+			personalToken
+				? 'It may be time for a walk! 🍃 🌞'
+				: 'Set your token in the options or take a walk! 🍃 🌞',
 		);
 	}
 
@@ -223,9 +223,9 @@ export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAP
 
 	const error = new RefinedGitHubAPIError(
 		'Unable to fetch.',
-		personalToken ?
-			'Ensure that your token has access to this repo.' :
-			'Maybe adding a token in the options will fix this issue.',
+		personalToken
+			? 'Ensure that your token has access to this repo.'
+			: 'Maybe adding a token in the options will fix this issue.',
 		JSON.stringify(apiResponse, null, '\t'), // Beautify
 	);
 	error.response = apiResponse;

@@ -1,5 +1,4 @@
 import 'typed-query-selector';
-import select from 'select-dom';
 
 import './refined-github.css';
 import './features/github-bugs.css';
@@ -220,6 +219,3 @@ import './features/delete-review-comments-faster';
 import './features/no-useless-split-diff-view';
 import './features/list-pr-for-branch';
 import './features/cancel-wiki-edit-button';
-
-// Add global for easier debugging
-(window as any).select = select;

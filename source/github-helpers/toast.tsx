@@ -13,7 +13,7 @@ export function ToastSpinner(): JSX.Element {
 	);
 }
 
-type Task = () => Promise<any>;
+type Task = () => Promise<unknown>;
 export default async function showToast<TTask extends Task>(
 	task: TTask,
 	{
