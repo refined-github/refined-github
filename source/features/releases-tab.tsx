@@ -39,7 +39,7 @@ async function fetchFromApi(): Promise<number> {
 const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? parseCountFromDom() : fetchFromApi(), {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 3},
-	cacheKey: getCacheKey
+	cacheKey: getCacheKey,
 });
 
 async function init(): Promise<false | void> {
@@ -91,18 +91,18 @@ async function init(): Promise<false | void> {
 		select('.js-responsive-underlinenav .dropdown-menu ul')!,
 		'.dropdown-divider', // Won't exist if `more-dropdown` is disabled
 		createDropdownItem('Releases', buildRepoURL('releases'), {
-			'data-menu-item': 'rgh-releases-item'
-		})
+			'data-menu-item': 'rgh-releases-item',
+		}),
 	);
 }
 
 void features.add(__filebasename, {
 	shortcuts: {
-		'g r': 'Go to Releases'
+		'g r': 'Go to Releases',
 	},
 	include: [
-		pageDetect.isRepo
+		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

@@ -11,8 +11,8 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasRichTextEditor
+		pageDetect.hasRichTextEditor,
 	],
 	awaitDomReady: false,
-	init: onetime(init)
+	init: onetime(init),
 });

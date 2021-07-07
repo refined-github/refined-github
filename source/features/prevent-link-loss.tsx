@@ -13,7 +13,7 @@ import {
 	prCompareUrlRegex,
 	preventPrCompareLinkLoss,
 	discussionUrlRegex,
-	preventDiscussionLinkLoss
+	preventDiscussionLinkLoss,
 } from '../github-helpers/prevent-link-loss';
 import {createRghIssueLink} from '../helpers/rgh-issue-link';
 
@@ -46,13 +46,13 @@ const updateUI = debounceFn(({delegateTarget: field}: delegate.Event<Event, HTML
 		getUI(field).remove();
 	} else if (pageDetect.isNewIssue() || pageDetect.isCompare()) {
 		select('file-attachment', field.form!)!.append(
-			<div className="m-2">{getUI(field)}</div>
+			<div className="m-2">{getUI(field)}</div>,
 		);
 	} else {
 		select('.form-actions', field.form!)!.prepend(getUI(field));
 	}
 }, {
-	wait: 300
+	wait: 300,
 });
 
 function init(): void {
@@ -62,7 +62,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasRichTextEditor
+		pageDetect.hasRichTextEditor,
 	],
-	init
+	init,
 });

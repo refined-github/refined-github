@@ -13,18 +13,18 @@ function init(): void {
 		deleteButton.before(
 			<a className="dropdown-item rgh-download-folder" href={downloadUrl.href}>
 				Download directory
-			</a>
+			</a>,
 		);
 	}
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoTree
+		pageDetect.isRepoTree,
 	],
 	exclude: [
-		pageDetect.isRepoRoot // Already has an native download ZIP button
+		pageDetect.isRepoRoot, // Already has an native download ZIP button
 	],
 	deduplicate: '.rgh-download-folder', // #3945
-	init
+	init,
 });

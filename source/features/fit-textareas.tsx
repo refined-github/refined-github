@@ -39,20 +39,20 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasRichTextEditor
+		pageDetect.hasRichTextEditor,
 	],
 	exclude: [
-		isSafari
+		isSafari,
 	],
-	init
+	init,
 }, {
 	include: [
-		pageDetect.isPRConversation
+		pageDetect.isPRConversation,
 	],
 	exclude: [
-		isSafari
+		isSafari,
 	],
 	init() {
 		onPrMergePanelOpen(fitPrCommitMessageBox);
-	}
+	},
 });

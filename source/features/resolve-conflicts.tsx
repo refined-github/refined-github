@@ -7,7 +7,7 @@ import features from '.';
 
 async function init(): Promise<void> {
 	await elementReady('.CodeMirror', {
-		stopOnDomReady: false
+		stopOnDomReady: false,
 	});
 
 	document.head.append(<script src={browser.runtime.getURL('build/resolve-conflicts.js')}/>);
@@ -15,7 +15,7 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRConflicts
+		pageDetect.isPRConflicts,
 	],
-	init
+	init,
 });

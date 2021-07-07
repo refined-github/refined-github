@@ -15,8 +15,8 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isNotifications
+		pageDetect.isNotifications,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

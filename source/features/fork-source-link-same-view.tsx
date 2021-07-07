@@ -12,7 +12,7 @@ async function init(): Promise<void> {
 	const sameViewUrl = new GitHubURL(location.href).assign({
 		user: forkedRepository.owner,
 		repository: forkedRepository.name,
-		branch: await getDefaultBranch(forkedRepository)
+		branch: await getDefaultBranch(forkedRepository),
 	});
 
 	if (await doesFileExist(sameViewUrl)) {
@@ -25,12 +25,12 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleFile,
 		pageDetect.isRepoTree,
-		pageDetect.isEditingFile
+		pageDetect.isEditingFile,
 	],
 	exclude: [
 		() => !pageDetect.isForkedRepo(),
-		pageDetect.isRepoRoot
+		pageDetect.isRepoRoot,
 	],
 	deduplicate: false,
-	init
+	init,
 });

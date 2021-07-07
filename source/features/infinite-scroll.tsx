@@ -24,20 +24,20 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 		loadMore();
 	}
 }, {
-	rootMargin: '500px' // https://github.com/sindresorhus/refined-github/pull/505#issuecomment-309273098
+	rootMargin: '500px', // https://github.com/sindresorhus/refined-github/pull/505#issuecomment-309273098
 });
 
 function init(): void {
 	observe('.ajax-pagination-btn', {
 		add(button) {
 			inView.observe(button);
-		}
+		},
 	});
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isDashboard
+		pageDetect.isDashboard,
 	],
-	init: onetime(init)
+	init: onetime(init),
 });

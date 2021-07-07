@@ -23,7 +23,7 @@ function init(): void {
 	const selectObserver = observe(sidebarSelector, {
 		add(sidebar) {
 			resizeObserver.observe(sidebar, {box: 'border-box'});
-		}
+		},
 	});
 	window.addEventListener('resize', onResize);
 	deinit.push(() => {
@@ -36,11 +36,11 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoRoot,
-		pageDetect.isConversation
+		pageDetect.isConversation,
 	],
 	exclude: [
-		pageDetect.isEmptyRepoRoot
+		pageDetect.isEmptyRepoRoot,
 	],
 	init,
-	deinit
+	deinit,
 });

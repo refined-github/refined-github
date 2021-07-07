@@ -50,7 +50,7 @@ function addListeners(): void {
 
 	// When new comments come in via AJAX
 	observer.observe(discussion, {
-		childList: true
+		childList: true,
 	});
 
 	// When hidden comments are loaded by clicking "Load more…"

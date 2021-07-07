@@ -56,7 +56,7 @@ const getChangelogName = cache.function(async (): Promise<string | false> => {
 
 	return findChangelogName(files);
 }, {
-	cacheKey: getCacheKey
+	cacheKey: getCacheKey,
 });
 
 async function init(): Promise<void | false> {
@@ -75,19 +75,19 @@ async function init(): Promise<void | false> {
 		>
 			<BookIcon className="text-blue color-text-link mr-2"/>
 			<span>Changelog</span>
-		</a>
+		</a>,
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isReleasesOrTags
+		pageDetect.isReleasesOrTags,
 	],
 	awaitDomReady: false,
-	init
+	init,
 }, {
 	include: [
-		pageDetect.isRepoHome
+		pageDetect.isRepoHome,
 	],
-	init: parseFromDom
+	init: parseFromDom,
 });

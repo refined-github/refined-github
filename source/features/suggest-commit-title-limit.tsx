@@ -8,7 +8,7 @@ import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 const fieldSelector = [
 	'#commit-summary-input', // Commit title on edit file page
-	'#merge_title_field' // PR merge message field
+	'#merge_title_field', // PR merge message field
 ].join();
 
 function validateInput(): void {
@@ -23,18 +23,18 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isEditingFile,
-		pageDetect.isPRConversation
+		pageDetect.isPRConversation,
 	],
-	init
+	init,
 }, {
 	include: [
-		pageDetect.isPRConversation
+		pageDetect.isPRConversation,
 	],
 	additionalListeners: [
 		// For PR merges, GitHub restores any saved commit messages on page load
 		// Triggering input event for these fields immediately validates the form
-		onPrMergePanelOpen
+		onPrMergePanelOpen,
 	],
 	onlyAdditionalListeners: true,
-	init: validateInput
+	init: validateInput,
 });

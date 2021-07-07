@@ -11,8 +11,8 @@ import {buildRepoURL} from '../github-helpers';
 const getIcon = onetime(async () => fetchDom(
 	buildRepoURL('commits'), [
 		'.TimelineItem--condensed:nth-of-type(-n+2) .commit-build-statuses', // TODO[2022-04-29]: GHE #4294
-		'.TimelineItem--condensed:nth-of-type(-n+2) batch-deferred-content[data-url$="checks-statuses-rollups"]'
-	].join()
+		'.TimelineItem--condensed:nth-of-type(-n+2) batch-deferred-content[data-url$="checks-statuses-rollups"]',
+	].join(),
 ));
 
 async function init(): Promise<false | void> {
@@ -29,11 +29,11 @@ async function init(): Promise<false | void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepo
+		pageDetect.isRepo,
 	],
 	exclude: [
-		pageDetect.isEmptyRepo
+		pageDetect.isEmptyRepo,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

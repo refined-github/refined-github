@@ -18,15 +18,15 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 	const searchParameter = new URLSearchParams(location.search);
 	const currentQuerySegments = searchParameter.get('q')?.split(/\s+/) ?? [];
 	const isSelected = currentQuerySegments.some(
-		segment => segment.toLowerCase() === filterQuery
+		segment => segment.toLowerCase() === filterQuery,
 	);
 
 	const query = currentQuerySegments.filter(
-		segment => !segment.startsWith(`${filterCategory}:`)
+		segment => !segment.startsWith(`${filterCategory}:`),
 	).join(' ');
 
 	const search = new URLSearchParams({
-		q: query + (isSelected ? '' : ` ${filterQuery}`)
+		q: query + (isSelected ? '' : ` ${filterQuery}`),
 	});
 
 	dropdown.append(
@@ -38,7 +38,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 		>
 			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
 			<span>{title}</span>
-		</a>
+		</a>,
 	);
 }
 
@@ -55,7 +55,7 @@ function addDraftFilter({delegateTarget: reviewsFilter}: delegate.Event): void {
 	dropdown.append(
 		<div className="SelectMenu-divider">
 			Filter by draft pull requests
-		</div>
+		</div>,
 	);
 
 	addDropdownItem(dropdown, 'Ready for review', 'draft', 'false');
@@ -82,7 +82,7 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 	return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
 }, {
 	maxAge: {days: 3},
-	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
+	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner,
 });
 
 async function addChecksFilter(): Promise<void> {
@@ -119,8 +119,8 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRList
+		pageDetect.isPRList,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

@@ -7,71 +7,71 @@ import {
 	getConversationNumber,
 	parseTag,
 	compareNames,
-	getLatestVersionTag
+	getLatestVersionTag,
 } from '../source/github-helpers';
 
 test('getConversationNumber', t => {
 	const pairs = new Map<string, string | undefined>([
 		[
 			'https://github.com',
-			undefined
+			undefined,
 		],
 		[
 			'https://gist.github.com/',
-			undefined
+			undefined,
 		],
 		[
 			'https://github.com/settings/developers',
-			undefined
+			undefined,
 		],
 		[
 			'https://github.com/sindresorhus/refined-github',
-			undefined
+			undefined,
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/',
-			undefined
+			undefined,
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/blame/main/package.json',
-			undefined
+			undefined,
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/commit/57bf4',
-			undefined
+			undefined,
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/compare/test-branch?quick_pull=0',
-			undefined
+			undefined,
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/tree/main/distribution',
-			undefined
+			undefined,
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/pull/148/commits/0019603b83bd97c2f7ef240969f49e6126c5ec85',
-			'148'
+			'148',
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/pull/148/commits/00196',
-			'148'
+			'148',
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/pull/148/commits',
-			'148'
+			'148',
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/pull/148',
-			'148'
+			'148',
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/issues/146',
-			'146'
+			'146',
 		],
 		[
 			'https://github.com/sindresorhus/refined-github/issues',
-			undefined
-		]
+			undefined,
+		],
 	]);
 	for (const [url, result] of pairs) {
 		location.href = url;
@@ -117,7 +117,7 @@ test('getLatestVersionTag', t => {
 		'0.0.0',
 		'v1.1',
 		'r2.0',
-		'3.0'
+		'3.0',
 	]), '3.0', 'Tags should be sorted by version');
 
 	t.is(getLatestVersionTag([
@@ -125,13 +125,13 @@ test('getLatestVersionTag', t => {
 		'v2.0',
 		'r1.5.5',
 		'r1.0',
-		'v1.0-1'
+		'v1.0-1',
 	]), 'v2.0', 'Prereleases should be ignored');
 
 	t.is(getLatestVersionTag([
 		'lol v0.0.0',
 		'2.0',
 		'2020-10-10',
-		'v1.0-1'
+		'v1.0-1',
 	]), 'lol v0.0.0', 'Non-version tags should short-circuit the sorting and return the first tag');
 });

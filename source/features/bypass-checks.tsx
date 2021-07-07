@@ -22,7 +22,7 @@ function init(): void {
 	// This selector excludes URLs that are already external
 	const thirdPartyApps = [
 		`a:not([href="/apps/github-actions"]) ~ div .status-actions[href^="${location.origin}"]:not(.rgh-bypass-link)`, // Hovercard status checks
-		'a:not([href="/apps/github-actions"]) ~ div .status-actions[href^="/"]:not(.rgh-bypass-link)'
+		'a:not([href="/apps/github-actions"]) ~ div .status-actions[href^="/"]:not(.rgh-bypass-link)',
 	].join();
 
 	observe(thirdPartyApps, {
@@ -30,13 +30,13 @@ function init(): void {
 		add(thirdPartyApp) {
 			thirdPartyApp.classList.add('rgh-bypass-link');
 			void bypass(thirdPartyApp);
-		}
+		},
 	});
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRConversation
+		pageDetect.isPRConversation,
 	],
-	init: onetime(init)
+	init: onetime(init),
 });

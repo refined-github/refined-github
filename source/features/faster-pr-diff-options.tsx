@@ -26,7 +26,7 @@ function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 function createDiffStyleToggle(): DocumentFragment {
 	const isUnified = select.exists([
 		'[value="unified"][checked]', // Form in PR
-		'.table-of-contents .selected[href*="diff=unified"]' // Link in single commit
+		'.table-of-contents .selected[href*="diff=unified"]', // Link in single commit
 	]);
 
 	if (pageDetect.isPR()) {
@@ -72,7 +72,7 @@ function createWhitespaceButton(): HTMLElement {
 function initPR(): false | void {
 	select('.js-file-filter')!.closest('.flex-auto')!.append(
 		<div className="diffbar-item d-flex">{createDiffStyleToggle()}</div>,
-		<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>
+		<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>,
 	);
 
 	// Trim title
@@ -97,7 +97,7 @@ function initCommitAndCompare(): false | void {
 		<div className="float-right d-flex">
 			<div className="d-flex ml-3 BtnGroup">{createDiffStyleToggle()}</div>
 			<div className="d-flex ml-3 BtnGroup">{createWhitespaceButton()}</div>
-		</div>
+		</div>,
 	);
 
 	// Remove previous options UI
@@ -107,22 +107,22 @@ function initCommitAndCompare(): false | void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
-		pageDetect.isPRCommit
+		pageDetect.isPRCommit,
 	],
 	exclude: [
-		pageDetect.isPRFile404
+		pageDetect.isPRFile404,
 	],
 	shortcuts: {
-		'd w': 'Show/hide whitespaces in diffs'
+		'd w': 'Show/hide whitespaces in diffs',
 	},
-	init: initPR
+	init: initPR,
 }, {
 	include: [
 		pageDetect.isSingleCommit,
-		pageDetect.isCompare
+		pageDetect.isCompare,
 	],
 	shortcuts: {
-		'd w': 'Show/hide whitespaces in diffs'
+		'd w': 'Show/hide whitespaces in diffs',
 	},
-	init: initCommitAndCompare
+	init: initCommitAndCompare,
 });

@@ -27,7 +27,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isSingleGist
+		pageDetect.isSingleGist,
 	],
-	init: onetime(init)
+	init: onetime(init),
 });

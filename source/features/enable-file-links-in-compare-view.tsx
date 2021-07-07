@@ -27,7 +27,7 @@ function handleCompareMenuOpening({delegateTarget: dropdown}: delegate.Event): v
 		<div className="dropdown-header pl-5">
 			<GitBranchIcon className="ml-n3 pr-1" height={13}/>
 			{branch}
-		</div>
+		</div>,
 	);
 
 	const url = new GitHubURL(viewFile.href);
@@ -57,23 +57,23 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
-		pageDetect.isPRCommit
+		pageDetect.isPRCommit,
 	],
 	exclude: [
 		// Editing files doesn't make sense after a PR is closed/merged
 		pageDetect.isClosedPR,
 		() => select('.head-ref')!.title === 'This repository has been deleted',
 		// If you're viewing changes from partial commits, ensure you're on the latest one.
-		() => select.exists('.js-commits-filtered') && !select.exists('[aria-label="You are viewing the latest commit"]')
+		() => select.exists('.js-commits-filtered') && !select.exists('[aria-label="You are viewing the latest commit"]'),
 	],
-	init
+	init,
 }, {
 	include: [
-		pageDetect.isCompare
+		pageDetect.isCompare,
 	],
 	exclude: [
 		// Only enable if you can create a PR or view an existing PR, if you cant you are probably looking at a permalink.
-		() => !select.exists('.existing-pull-button, [data-ga-click*="text:Create pull request"]')
+		() => !select.exists('.existing-pull-button, [data-ga-click*="text:Create pull request"]'),
 	],
-	init
+	init,
 });

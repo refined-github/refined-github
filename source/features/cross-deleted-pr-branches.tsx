@@ -40,7 +40,7 @@ function init(): void | false {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRConversation
+		pageDetect.isPRConversation,
 	],
-	init
+	init,
 });

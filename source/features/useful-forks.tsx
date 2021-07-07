@@ -22,18 +22,18 @@ async function init(): Promise<void | false> {
 		<a className="btn mb-2 float-right" href={downloadUrl.href}>
 			<RepoForkedIcon className="mr-2"/>
 			Find useful forks
-		</a>
+		</a>,
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoForksList,
-		pageDetect.isRepoNetworkGraph
+		pageDetect.isRepoNetworkGraph,
 	],
 	exclude: [
-		pageDetect.isEnterprise
+		pageDetect.isEnterprise,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

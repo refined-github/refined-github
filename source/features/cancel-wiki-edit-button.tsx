@@ -12,15 +12,15 @@ async function init(): Promise<void> {
 			href={submitButton!.form!.action}
 		>
 			Cancel
-		</a>
+		</a>,
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isEditingWikiPage,
-		pageDetect.isNewWikiPage
+		pageDetect.isNewWikiPage,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

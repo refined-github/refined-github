@@ -65,14 +65,14 @@ function init(): void {
 						</button>
 					))}
 				</details-menu>
-			</details>
+			</details>,
 		);
 	}
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasRichTextEditor
+		pageDetect.hasRichTextEditor,
 	],
-	init
+	init,
 });

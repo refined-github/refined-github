@@ -69,7 +69,7 @@ function addDropdownLink(comment: HTMLElement, timestamp: string): void {
 			>
 				View repo at this time
 			</a>
-		</>
+		</>,
 	);
 }
 
@@ -105,7 +105,7 @@ async function showTimemachineBar(): Promise<void | false> {
 	}
 
 	addNotice(
-		<>You can also <a className="rgh-link-date" href={String(url)}>view this object as it appeared at the time of the comment</a> (<relative-time datetime={date}/>)</>
+		<>You can also <a className="rgh-link-date" href={String(url)}>view this object as it appeared at the time of the comment</a> (<relative-time datetime={date}/>)</>,
 	);
 }
 
@@ -127,21 +127,21 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasComments
+		pageDetect.hasComments,
 	],
 	exclude: [
-		pageDetect.isGist
+		pageDetect.isGist,
 	],
-	init
+	init,
 }, {
 	include: [
 		pageDetect.is404,
 		pageDetect.isSingleFile,
-		pageDetect.isRepoTree
+		pageDetect.isRepoTree,
 	],
 	exclude: [
-		() => !new URLSearchParams(location.search).has('rgh-link-date')
+		() => !new URLSearchParams(location.search).has('rgh-link-date'),
 	],
 	awaitDomReady: false,
-	init: showTimemachineBar
+	init: showTimemachineBar,
 });
