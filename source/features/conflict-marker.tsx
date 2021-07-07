@@ -38,7 +38,7 @@ function getPRConfig(prIcon: Element): PRConfig {
 		repo,
 		number,
 		link,
-		key: api.escapeKey(`${user}_${repo}_${number}`)
+		key: api.escapeKey(`${user}_${repo}_${number}`),
 	};
 }
 
@@ -65,7 +65,7 @@ async function init(): Promise<false | void> {
 					href={`${pr.link.pathname}#partial-pull-merging`}
 				>
 					<AlertIcon/>
-				</a>
+				</a>,
 			);
 		}
 	}
@@ -73,10 +73,10 @@ async function init(): Promise<false | void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isConversationList
+		pageDetect.isConversationList,
 	],
 	exclude: [
-		() => select.exists('.blankslate')
+		() => select.exists('.blankslate'),
 	],
-	init
+	init,
 });

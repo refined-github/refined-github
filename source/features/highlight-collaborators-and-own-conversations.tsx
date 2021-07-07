@@ -16,7 +16,7 @@ const getCollaborators = cache.function(async (): Promise<string[]> => {
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: () => 'repo-collaborators:' + getRepo()!.nameWithOwner
+	cacheKey: () => 'repo-collaborators:' + getRepo()!.nameWithOwner,
 });
 
 async function highlightCollaborators(): Promise<void> {
@@ -39,16 +39,16 @@ function highlightSelf(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoConversationList
+		pageDetect.isRepoConversationList,
 	],
 	exclude: [
-		() => select.exists('.blankslate')
+		() => select.exists('.blankslate'),
 	],
 	awaitDomReady: false,
-	init: highlightCollaborators
+	init: highlightCollaborators,
 }, {
 	include: [
-		pageDetect.isConversationList
+		pageDetect.isConversationList,
 	],
-	init: highlightSelf
+	init: highlightSelf,
 });

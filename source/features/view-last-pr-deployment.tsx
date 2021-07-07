@@ -22,19 +22,19 @@ function init(): void {
 			rel="noreferrer"
 		>
 			<LinkExternalIcon className="mr-1"/> View deployment
-		</a>
+		</a>,
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRConversation
+		pageDetect.isPRConversation,
 	],
 	exclude: [
-		() => !select.exists(deploymentSelector)
+		() => !select.exists(deploymentSelector),
 	],
 	additionalListeners: [
-		onConversationHeaderUpdate
+		onConversationHeaderUpdate,
 	],
-	init
+	init,
 });

@@ -73,7 +73,7 @@ async function clean(): Promise<void> {
 		if (assignYourself) {
 			assignYourself.previousSibling!.remove(); // Drop "No one — "
 			select('[aria-label="Select assignees"] summary')!.append(
-				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>
+				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>,
 			);
 			assignees.closest('.discussion-sidebar-item')!.classList.add('rgh-clean-sidebar');
 		}
@@ -114,10 +114,10 @@ async function clean(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isConversation
+		pageDetect.isConversation,
 	],
 	additionalListeners: [
-		() => void onReplacedElement('#partial-discussion-sidebar', clean)
+		() => void onReplacedElement('#partial-discussion-sidebar', clean),
 	],
-	init: clean
+	init: clean,
 });

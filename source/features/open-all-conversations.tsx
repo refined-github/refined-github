@@ -27,7 +27,7 @@ function onButtonClick(): void {
 	}
 
 	void browser.runtime.sendMessage({
-		openUrls: issues.map(getUrlFromItem)
+		openUrls: issues.map(getUrlFromItem),
 	});
 }
 
@@ -43,14 +43,14 @@ async function init(): Promise<void | false> {
 			className="btn-link rgh-open-all-conversations px-2"
 		>
 			Open all
-		</button>
+		</button>,
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isConversationList
+		pageDetect.isConversationList,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

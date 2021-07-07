@@ -26,7 +26,7 @@ function improveShortcutHelp(dialog: Element): void {
 					</li>
 				))}
 			</ul>
-		</div>
+		</div>,
 	);
 }
 
@@ -63,5 +63,5 @@ function init(): void {
 
 void features.add(__filebasename, {
 	awaitDomReady: false,
-	init: onetime(init)
+	init: onetime(init),
 });

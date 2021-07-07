@@ -26,7 +26,7 @@ function openNotifications({delegateTarget}: delegate.Event): void {
 	}
 
 	void browser.runtime.sendMessage({
-		openUrls: unreadNotifications.map(element => element.querySelector('a')!.href)
+		openUrls: unreadNotifications.map(element => element.querySelector('a')!.href),
 	});
 
 	// Mark all as read
@@ -49,7 +49,7 @@ function addOpenReposButton(): void {
 		select('.js-grouped-notifications-mark-all-read-button', repository)!.before(
 			<button type="button" className="btn btn-sm mr-2 tooltipped tooltipped-w rgh-open-notifications-button" aria-label="Open all unread notifications from this repo">
 				<LinkExternalIcon width={16}/> Open unread
-			</button>
+			</button>,
 		);
 	}
 }
@@ -62,7 +62,7 @@ function addOpenAllButton(): void {
 	select('.js-check-all-container .js-bulk-action-toasts ~ div .Box-header')!.append(
 		<button className="btn btn-sm rgh-open-notifications-button" type="button">
 			<LinkExternalIcon className="mr-1"/>Open all unread
-		</button>
+		</button>,
 	);
 }
 
@@ -80,7 +80,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isNotifications
+		pageDetect.isNotifications,
 	],
-	init
+	init,
 });

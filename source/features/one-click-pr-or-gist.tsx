@@ -36,7 +36,7 @@ function init(): void | false {
 				value={radioButton.value}
 			>
 				{title}
-			</button>
+			</button>,
 		);
 	}
 
@@ -46,7 +46,7 @@ function init(): void | false {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isCompare,
-		pageDetect.isGist
+		pageDetect.isGist,
 	],
-	init
+	init,
 });

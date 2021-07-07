@@ -42,14 +42,14 @@ function init(): void {
 		'#user-repositories-list [itemprop="description"]', // `isUserProfileRepoTab` repository description
 		'.js-hovercard-content > .Popover-message .link-gray-dark', // Hovercard (GHE #4021)
 		'.js-hovercard-content > .Popover-message .Link--primary', // Hovercard
-		'a[data-hovercard-type="discussion"]' // `isDiscussionList`
+		'a[data-hovercard-type="discussion"]', // `isDiscussionList`
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)').join();
 
 	observe(selectors, {
 		add(element) {
 			element.classList.add('rgh-backticks-already-parsed');
 			parseBackticks(element);
-		}
+		},
 	});
 
 	// `isRepoSearch` might highlight keywords inside backticks, breaking the regular dom-formatter #3509
@@ -57,10 +57,10 @@ function init(): void {
 		add(element) {
 			element.classList.add('rgh-backticks-already-parsed');
 			zipTextNodes(element, parseBackticksCore(element.textContent!));
-		}
+		},
 	});
 }
 
 void features.add(__filebasename, {
-	init: onetime(init)
+	init: onetime(init),
 });

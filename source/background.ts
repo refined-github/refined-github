@@ -14,7 +14,7 @@ const messageHandlers = {
 			void browser.tabs.create({
 				url,
 				index: tab!.index + i + 1,
-				active: false
+				active: false,
 			});
 		}
 	},
@@ -28,7 +28,7 @@ const messageHandlers = {
 	async fetchJSON(url: string) {
 		const response = await fetch(url);
 		return response.json();
-	}
+	},
 };
 
 browser.runtime.onMessage.addListener((message: typeof messageHandlers, sender) => {
@@ -42,7 +42,7 @@ browser.runtime.onMessage.addListener((message: typeof messageHandlers, sender) 
 // Give the browserAction a reason to exist other than "Enable RGH on this domain"
 browser.browserAction.onClicked.addListener(() => {
 	void browser.tabs.create({
-		url: 'https://github.com'
+		url: 'https://github.com',
 	});
 });
 
@@ -55,7 +55,7 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 		}
 
 		await browser.tabs.create({
-			url: getRghIssueUrl(3543)
+			url: getRghIssueUrl(3543),
 		});
 	}
 

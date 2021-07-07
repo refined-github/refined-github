@@ -18,10 +18,10 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isConversationList
+		pageDetect.isConversationList,
 	],
 	exclude: [
-		() => !location.search.includes('sort%3Aupdated-')
+		() => !location.search.includes('sort%3Aupdated-'),
 	],
-	init
+	init,
 });

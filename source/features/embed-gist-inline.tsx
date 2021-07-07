@@ -50,7 +50,7 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 				`}
 				</style>,
 				<link rel="stylesheet" href={gistData.stylesheet}/>,
-				domify.one(gistData.div)!
+				domify.one(gistData.div)!,
 			);
 			link.parentElement!.after(container);
 			info.remove();
@@ -70,7 +70,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasComments
+		pageDetect.hasComments,
 	],
-	init
+	init,
 });

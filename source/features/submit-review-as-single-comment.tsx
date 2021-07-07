@@ -110,7 +110,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRFiles
+		pageDetect.isPRFiles,
 	],
-	init
+	init,
 });

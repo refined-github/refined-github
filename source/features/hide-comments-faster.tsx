@@ -30,7 +30,7 @@ function generateSubmenu(hideButton: Element): void {
 				role="menuitem"
 			>
 				{reason.textContent}
-			</button>
+			</button>,
 		);
 	}
 
@@ -77,7 +77,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasComments
+		pageDetect.hasComments,
 	],
-	init
+	init,
 });

@@ -20,7 +20,7 @@ async function addSidebarReviewButton(): Promise<void | false> {
 	sidebarReviewsSection!.append(
 		<span style={{fontWeight: 'normal'}}>
 			– <a href={reviewFormUrl.href} className="btn-link muted-link Link--muted" data-hotkey="v">review now</a>
-		</span>
+		</span>,
 	);
 }
 
@@ -46,20 +46,20 @@ async function initReviewButtonEnhancements(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRConversation
+		pageDetect.isPRConversation,
 	],
 	additionalListeners: [
-		() => void onReplacedElement('#partial-discussion-sidebar', addSidebarReviewButton)
+		() => void onReplacedElement('#partial-discussion-sidebar', addSidebarReviewButton),
 	],
 	awaitDomReady: false,
-	init: addSidebarReviewButton
+	init: addSidebarReviewButton,
 }, {
 	shortcuts: {
-		v: 'Open PR review popup'
+		v: 'Open PR review popup',
 	},
 	include: [
-		pageDetect.isPRFiles
+		pageDetect.isPRFiles,
 	],
 	awaitDomReady: false,
-	init: initReviewButtonEnhancements
+	init: initReviewButtonEnhancements,
 });

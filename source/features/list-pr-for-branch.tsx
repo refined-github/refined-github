@@ -13,7 +13,7 @@ const stateColorMap = {
 	OPEN: 'text-green color-text-success',
 	CLOSED: 'text-red color-text-danger',
 	MERGED: 'text-purple color-purple-5',
-	DRAFT: ''
+	DRAFT: '',
 };
 
 // TODO remove this after #4196 is fixed
@@ -58,8 +58,8 @@ async function init(): Promise<void | false> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoCommitList
+		pageDetect.isRepoCommitList,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

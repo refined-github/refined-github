@@ -30,7 +30,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoConversationList
+		pageDetect.isRepoConversationList,
 	],
-	init
+	init,
 });

@@ -15,7 +15,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	viewFile.after(
 		<a data-skip-pjax href={href} className="pl-5 dropdown-item btn-link" role="menuitem">
 			View raw
-		</a>
+		</a>,
 	);
 }
 
@@ -28,7 +28,7 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isCommit,
 		pageDetect.isPRFiles,
-		pageDetect.isCompare
+		pageDetect.isCompare,
 	],
-	init
+	init,
 });
