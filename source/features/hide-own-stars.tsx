@@ -13,13 +13,13 @@ function init(): void {
 			if (select.exists(`a[href^="/${getUsername()}"]`, item)) {
 				item.style.display = 'none';
 			}
-		}
+		},
 	});
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isDashboard
+		pageDetect.isDashboard,
 	],
-	init: onetime(init)
+	init: onetime(init),
 });

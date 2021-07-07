@@ -21,7 +21,7 @@ function searchInList(readmeContent: string, id: FeatureID): FeatureMeta | void 
 	return {
 		id,
 		description: parseMarkdown(markdownDescription),
-		screenshot: urls.find(url => /\.(png|gif)$/i.test(url))
+		screenshot: urls.find(url => /\.(png|gif)$/i.test(url)),
 	};
 }
 
@@ -32,7 +32,7 @@ function searchInHighlights(readmeContent: string, id: FeatureID): FeatureMeta |
 		return {
 			id,
 			description: parseMarkdown(imageMatch[1] + '.'),
-			screenshot: imageMatch[2]
+			screenshot: imageMatch[2],
 		};
 	}
 }

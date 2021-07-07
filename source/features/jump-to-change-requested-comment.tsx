@@ -17,13 +17,13 @@ function init(): void {
 			if (element) {
 				wrap(element, <a href={messageContainer.href}/>);
 			}
-		}
+		},
 	});
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRConversation
+		pageDetect.isPRConversation,
 	],
-	init: onetime(init)
+	init: onetime(init),
 });

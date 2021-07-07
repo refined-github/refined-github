@@ -27,10 +27,10 @@ void features.add(__filebasename, {
 		pageDetect.isRepoTree,
 		pageDetect.isRepoCommitList,
 		pageDetect.isSingleCommit,
-		pageDetect.isSingleFile
+		pageDetect.isSingleFile,
 	],
 	awaitDomReady: false,
 	deduplicate: false,
 	init,
-	deinit
+	deinit,
 });

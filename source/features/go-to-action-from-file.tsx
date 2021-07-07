@@ -23,13 +23,13 @@ function init(): void {
 		.prepend(
 			<a className="btn btn-sm BtnGroup-item" href={String(actionURL)}>
 				Past runs
-			</a>
+			</a>,
 		);
 }
 
 void features.add(__filebasename, {
 	include: [
-		isWorkflowFile
+		isWorkflowFile,
 	],
-	init
+	init,
 });

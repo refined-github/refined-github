@@ -15,7 +15,7 @@ export default function parseBackticks(description: string): DocumentFragment {
 			fragment.append(
 				<span className="sr-only">`</span>,
 				<code className="rgh-parse-backticks">{text.trim()}</code>,
-				<span className="sr-only">`</span>
+				<span className="sr-only">`</span>,
 			);
 		} else if (text.length > 0) {
 			fragment.append(text);

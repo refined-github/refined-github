@@ -16,7 +16,7 @@ let observer: Observer;
 function getBranches(): {base: string; head: string} {
 	return {
 		base: select('.base-ref')!.textContent!.trim(),
-		head: select('.head-ref')!.textContent!.trim()
+		head: select('.head-ref')!.textContent!.trim(),
 	};
 }
 
@@ -24,9 +24,9 @@ async function mergeBranches(): Promise<AnyObject> {
 	return api.v3(`pulls/${getConversationNumber()!}/update-branch`, {
 		method: 'PUT',
 		headers: {
-			Accept: 'application/vnd.github.lydian-preview+json'
+			Accept: 'application/vnd.github.lydian-preview+json',
 		},
-		ignoreHTTPStatus: true
+		ignoreHTTPStatus: true,
 	});
 }
 
@@ -69,7 +69,7 @@ const waitForText = onetime(() => {
 		add(position) {
 			position.classList.add('rgh-update-pr');
 			void addButton(position);
-		}
+		},
 	});
 });
 
@@ -91,11 +91,11 @@ async function init(): Promise<void | false> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRConversation
+		pageDetect.isPRConversation,
 	],
 	exclude: [
 		pageDetect.isClosedPR,
-		() => select('.head-ref')!.title === 'This repository has been deleted'
+		() => select('.head-ref')!.title === 'This repository has been deleted',
 	],
-	init
+	init,
 });

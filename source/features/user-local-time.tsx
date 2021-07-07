@@ -22,8 +22,8 @@ async function loadCommitPatch(commitUrl: string): Promise<string> {
 	const {textContent} = await api.v3(commitUrl, {
 		json: false,
 		headers: {
-			Accept: 'application/vnd.github.v3.patch'
-		}
+			Accept: 'application/vnd.github.v3.patch',
+		},
 	});
 
 	return textContent;
@@ -67,7 +67,7 @@ const getLastCommitDate = cache.function(async (login: string): Promise<string |
 }, {
 	maxAge: {days: 10},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: ([login]) => __filebasename + ':' + login
+	cacheKey: ([login]) => __filebasename + ':' + login,
 });
 
 function parseOffset(date: string): number {
@@ -133,7 +133,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 	const timeFormatter = new Intl.DateTimeFormat(undefined, {
 		hour: 'numeric',
 		minute: 'numeric',
-		weekday: userTime.getDay() === new Date().getDay() ? undefined : 'long'
+		weekday: userTime.getDay() === new Date().getDay() ? undefined : 'long',
 	});
 
 	placeholder.textContent = timeFormatter.format(userTime);
@@ -142,10 +142,10 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 
 function init(): void {
 	observe('.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time-container-added)', {
-		add: insertUserLocalTime
+		add: insertUserLocalTime,
 	});
 }
 
 void features.add(__filebasename, {
-	init: onetime(init)
+	init: onetime(init),
 });

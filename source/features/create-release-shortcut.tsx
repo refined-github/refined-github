@@ -17,17 +17,17 @@ function init(): void {
 void features.add(__filebasename, {
 	shortcuts: {
 		c: 'Create a new release',
-		'ctrl enter': 'Publish a release'
+		'ctrl enter': 'Publish a release',
 	},
 	include: [
-		pageDetect.isReleasesOrTags
+		pageDetect.isReleasesOrTags,
 	],
-	init
+	init,
 }, {
 	include: [
 		pageDetect.isReleasesOrTags, // If the release couldn't be published, GitHub changes the url to /releases while still being on the "New release" page
 		pageDetect.isNewRelease,
-		pageDetect.isEditingRelease
+		pageDetect.isEditingRelease,
 	],
-	init: addQuickSubmit
+	init: addQuickSubmit,
 });

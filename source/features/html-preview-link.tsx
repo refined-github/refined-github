@@ -16,17 +16,17 @@ function init(): void {
 				href={`https://refined-github-html-preview.kidonng.workers.dev${rawButton.pathname}`}
 			>
 				Preview
-			</a>
+			</a>,
 		);
 }
 
 void features.add(__filebasename, {
 	include: [
-		isSingleHTMLFile
+		isSingleHTMLFile,
 	],
 	exclude: [
-		pageDetect.isEnterprise
+		pageDetect.isEnterprise,
 	],
 	deduplicate: '.rgh-html-preview-link', // #3945
-	init
+	init,
 });

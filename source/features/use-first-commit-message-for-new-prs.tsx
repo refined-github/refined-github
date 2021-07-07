@@ -16,18 +16,18 @@ async function init(): Promise<void | false> {
 
 	textFieldEdit.set(
 		select('.discussion-topic-header input')!,
-		prTitle
+		prTitle,
 	);
 	textFieldEdit.insert(
 		select('#new_pull_request textarea[aria-label="Comment body"]')!,
-		prMessage.join('\n\n')
+		prMessage.join('\n\n'),
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isCompare
+		pageDetect.isCompare,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

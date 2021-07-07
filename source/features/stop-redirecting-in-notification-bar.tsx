@@ -22,8 +22,8 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		hasNotificationBar
+		hasNotificationBar,
 	],
 	awaitDomReady: false,
-	init: onetime(init)
+	init: onetime(init),
 });

@@ -17,8 +17,8 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event): Pr
 		await api.v3(release.url, {
 			method: 'PATCH',
 			body: {
-				draft: true
-			}
+				draft: true,
+			},
 		});
 
 		select('.BtnGroup a[href*="releases/edit"]')!.click(); // Visit "Edit release" page
@@ -42,8 +42,8 @@ async function init(): Promise<void | false> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isSingleTag
+		pageDetect.isSingleTag,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

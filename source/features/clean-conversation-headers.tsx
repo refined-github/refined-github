@@ -48,7 +48,7 @@ async function initPR(): Promise<void> {
 	// Removes: [octocat merged 1 commit into] master from feature
 	const duplicateNodes = [...byline.childNodes].slice(
 		isSameAuthor ? 0 : 2,
-		pageDetect.isMergedPR() ? 3 : 5
+		pageDetect.isMergedPR() ? 3 : 5,
 	);
 	for (const node of duplicateNodes) {
 		node.remove();
@@ -68,20 +68,20 @@ async function initPR(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isIssue
+		pageDetect.isIssue,
 	],
 	additionalListeners: [
-		onConversationHeaderUpdate
+		onConversationHeaderUpdate,
 	],
 	awaitDomReady: false,
-	init: initIssue
+	init: initIssue,
 }, {
 	include: [
-		pageDetect.isPR
+		pageDetect.isPR,
 	],
 	additionalListeners: [
-		onConversationHeaderUpdate
+		onConversationHeaderUpdate,
 	],
 	awaitDomReady: false,
-	init: initPR
+	init: initPR,
 });

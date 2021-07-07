@@ -5,7 +5,7 @@ export default function onFileListUpdate(callback: VoidFunction): void {
 	const ajaxFiles = select('#files ~ include-fragment[src*="/file-list/"]');
 	if (ajaxFiles) {
 		new MutationObserver(callback).observe(ajaxFiles.parentNode!, {
-			childList: true
+			childList: true,
 		});
 	}
 }

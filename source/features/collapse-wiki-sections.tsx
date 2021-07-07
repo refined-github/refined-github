@@ -42,11 +42,11 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoWiki
+		pageDetect.isRepoWiki,
 	],
 	exclude: [
 		pageDetect.isEditingWikiPage,
-		pageDetect.isNewWikiPage
+		pageDetect.isNewWikiPage,
 	],
-	init
+	init,
 });

@@ -28,7 +28,7 @@ function getRemoteName(): string | undefined {
 
 const connectionType = {
 	HTTPS: location.origin + '/',
-	SSH: `git@${location.hostname}:`
+	SSH: `git@${location.hostname}:`,
 };
 
 function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Element {
@@ -81,7 +81,7 @@ async function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): Pr
 			className="UnderlineNav-item flex-1 btn-link"
 		>
 			Git Checkout
-		</button>
+		</button>,
 	);
 
 	const remoteName = getRemoteName();
@@ -92,9 +92,9 @@ async function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): Pr
 			</p>
 			{remoteName ? [
 				checkoutOption(remoteName, 'HTTPS'),
-				checkoutOption(remoteName, 'SSH')
+				checkoutOption(remoteName, 'SSH'),
 			] : checkoutOption()}
-		</div>
+		</div>,
 	);
 }
 
@@ -105,10 +105,10 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPR
+		pageDetect.isPR,
 	],
 	exclude: [
-		pageDetect.isClosedPR
+		pageDetect.isClosedPR,
 	],
-	init
+	init,
 });

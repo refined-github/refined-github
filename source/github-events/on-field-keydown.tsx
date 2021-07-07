@@ -15,7 +15,7 @@ function onFieldKeydown(selector: string, callback: DelegateFieldEvent): void {
 		callback(event);
 	}, {
 		// Adds support for `esc` key; GitHub seems to use `stopPropagation` on it
-		capture: true
+		capture: true,
 	});
 }
 

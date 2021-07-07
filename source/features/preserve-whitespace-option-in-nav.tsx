@@ -13,10 +13,10 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepo
+		pageDetect.isRepo,
 	],
 	exclude: [
-		() => new URLSearchParams(location.search).get('w') !== '1'
+		() => new URLSearchParams(location.search).get('w') !== '1',
 	],
-	init
+	init,
 });

@@ -16,7 +16,7 @@ async function init(): Promise<void> {
 	for (const fileIcon of select.all('.js-navigation-container .octicon-file')) {
 		const fileLink = fileIcon.closest('.js-navigation-item')!.querySelector('a.js-navigation-open')!;
 		const url = new GitHubURL(fileLink.href).assign({
-			route: 'edit'
+			route: 'edit',
 		});
 
 		if (isPermalink_) {
@@ -31,11 +31,11 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoTree
+		pageDetect.isRepoTree,
 	],
 	additionalListeners: [
-		onFileListUpdate
+		onFileListUpdate,
 	],
 	deduplicate: '.rgh-edit-files-faster', // #3945
-	init
+	init,
 });

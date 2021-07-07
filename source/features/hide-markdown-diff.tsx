@@ -25,7 +25,7 @@ async function init(): Promise<void> {
 		<div className="BtnGroup px-3 pr-md-6 px-lg-2 rgh-preview-toggle">
 			<button className="btn btn-sm BtnGroup-item rgh-preview-button selected" type="button" value="disable">View diff</button>
 			<button className="btn btn-sm BtnGroup-item rgh-preview-button" type="button" value="enable">View final result</button>
-		</div>
+		</div>,
 	);
 	delegate(document, '.rgh-preview-button:not(.selected)', 'click', togglePreviewResult);
 	// Watch for when the content in the "Preview" tab has finished loading
@@ -34,8 +34,8 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		() => pageDetect.isEditingFile() && location.pathname.endsWith('.md')
+		() => pageDetect.isEditingFile() && location.pathname.endsWith('.md'),
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

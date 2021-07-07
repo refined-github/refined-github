@@ -52,12 +52,12 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
-		pageDetect.isRepoCommitList
+		pageDetect.isRepoCommitList,
 	],
 	exclude: [
-		pageDetect.isRepoHome
+		pageDetect.isRepoHome,
 	],
 	awaitDomReady: false,
 	deduplicate: '.rgh-default-branch-button', // #3945
-	init
+	init,
 });
