@@ -21,7 +21,7 @@ async function loadDeferred(jumpList: Element): Promise<void> {
 async function init(): Promise<void | false> {
 	const fileList = await elementReady([
 		'.toc-select details-menu[src*="/show_toc?"]', // `isPR`
-		'.toc-diff-stats + .content' // `isSingleCommit` and `isCompare`
+		'.toc-diff-stats + .content', // `isSingleCommit` and `isCompare`
 	].join());
 
 	// The file list does not exist if the diff is too large
@@ -54,9 +54,9 @@ async function init(): Promise<void | false> {
 			filename.parentElement!.append(
 				<span className="tooltipped tooltipped-s" aria-label={'File ' + action}>
 					{icon}
-				</span>
+				</span>,
 			);
-		}
+		},
 	});
 	deinit.push(observer.abort);
 }
@@ -65,13 +65,13 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isCommit,
-		pageDetect.isCompare
+		pageDetect.isCompare,
 	],
 	exclude: [
 		pageDetect.isPRFile404,
-		pageDetect.isPRCommit404
+		pageDetect.isPRCommit404,
 	],
 	awaitDomReady: false,
 	init,
-	deinit
+	deinit,
 });

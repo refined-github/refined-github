@@ -22,7 +22,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRConversation
+		pageDetect.isPRConversation,
 	],
-	init
+	init,
 });

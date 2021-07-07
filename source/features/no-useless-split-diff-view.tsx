@@ -8,7 +8,7 @@ import onDiffFileLoad from '../github-events/on-diff-file-load';
 function isUnifiedDiff(): boolean {
 	return select.exists([
 		'[value="unified"][checked]', // Form in PR
-		'.table-of-contents .selected[href*="diff=unified"]' // Link in single commit
+		'.table-of-contents .selected[href*="diff=unified"]', // Link in single commit
 	]);
 }
 
@@ -29,13 +29,15 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isCommit,
 		pageDetect.isCompare,
-		pageDetect.isPRFiles
+		pageDetect.isPRFiles,
 	],
 	exclude: [
-		isUnifiedDiff
+		isUnifiedDiff,
+		// Make sure the class names we need exist on the page #4483
+		() => !select.exists('.js-diff-table :is([data-split-side="left"], [data-split-side="right"]):is(.blob-code-addition, .blob-code-deletion)'),
 	],
 	additionalListeners: [
-		onDiffFileLoad
+		onDiffFileLoad,
 	],
-	init
+	init,
 });

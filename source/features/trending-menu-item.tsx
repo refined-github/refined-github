@@ -12,17 +12,17 @@ async function init(): Promise<false | void> {
 	}
 
 	exploreLink.before(
-		<a href="/trending" className={exploreLink.className} data-hotkey="g t">Trending</a>
+		<a href="/trending" className={exploreLink.className} data-hotkey="g t">Trending</a>,
 	);
 }
 
 void features.add(__filebasename, {
 	shortcuts: {
-		'g t': 'Go to Trending'
+		'g t': 'Go to Trending',
 	},
 	exclude: [
-		pageDetect.isGist
+		pageDetect.isGist,
 	],
 	awaitDomReady: false,
-	init: onetime(init)
+	init: onetime(init),
 });

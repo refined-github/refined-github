@@ -30,13 +30,13 @@ function init(): void {
 			const convertToDraft = existingButton.closest('details')!.cloneNode(true);
 			select('.muted-link, .Link--muted', convertToDraft)!.classList.remove('muted-link', 'Link--muted');
 			alternativeActions.prepend(convertToDraft);
-		}
+		},
 	});
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRConversation
+		pageDetect.isPRConversation,
 	],
-	init: onetime(init)
+	init: onetime(init),
 });

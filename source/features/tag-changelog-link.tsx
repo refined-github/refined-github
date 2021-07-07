@@ -41,7 +41,7 @@ function parseTags(element: HTMLElement): TagDetails {
 		element,
 		tag,
 		commit: select('[href*="/commit/"]', element)!.textContent!.trim(),
-		...parseTag(decodeURIComponent(tag)) // `version`, `namespace`
+		...parseTag(decodeURIComponent(tag)), // `version`, `namespace`
 	};
 }
 
@@ -83,7 +83,7 @@ async function init(): Promise<void> {
 		'.release-main-section .commit',
 
 		// https://github.com/facebook/react/tags (tags list)
-		'.Box-row .commit'
+		'.Box-row .commit',
 	];
 
 	// Look for tags in the current page and the next page
@@ -99,7 +99,7 @@ async function init(): Promise<void> {
 
 		const lastLinks = select.all([
 			'.list-style-none > .d-block:nth-child(2)', // Link to commit in release sidebar
-			'.list-style-none > .d-inline-block:last-child' // Link to source tarball under release tag
+			'.list-style-none > .d-inline-block:last-child', // Link to source tarball under release tag
 		], container.element);
 		for (const lastLink of lastLinks) {
 			lastLink.after(
@@ -111,7 +111,7 @@ async function init(): Promise<void> {
 					>
 						<DiffIcon/> Changelog
 					</a>
-				</li>
+				</li>,
 			);
 			/* Fix spacing issue when the window is < 700px wide https://github.com/sindresorhus/refined-github/pull/3841#issuecomment-754325056 */
 			lastLink.classList.remove('flex-auto');
@@ -121,11 +121,11 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isReleasesOrTags
+		pageDetect.isReleasesOrTags,
 	],
 	exclude: [
-		pageDetect.isEmptyRepoRoot
+		pageDetect.isEmptyRepoRoot,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

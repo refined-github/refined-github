@@ -20,7 +20,7 @@ function init(): void {
 		'.js-blob-wrapper',
 		'.blob-wrapper',
 		'.comment-body.d-block',
-		'.blob-expanded'
+		'.blob-expanded',
 	].map(selector => selector + `:not(.${linkifiedURLClass})`).join();
 
 	observe(selectors, {
@@ -39,25 +39,25 @@ function init(): void {
 
 			// Mark code block as touched
 			wrappers.classList.add(linkifiedURLClass);
-		}
+		},
 	});
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasCode
+		pageDetect.hasCode,
 	],
 	exclude: [
-		pageDetect.isGist
+		pageDetect.isGist,
 	],
-	init: onetime(init)
+	init: onetime(init),
 }, {
 	include: [
 		pageDetect.isPR,
-		pageDetect.isIssue
+		pageDetect.isIssue,
 	],
 	additionalListeners: [
-		onConversationHeaderUpdate
+		onConversationHeaderUpdate,
 	],
-	init: initTitle
+	init: initTitle,
 });

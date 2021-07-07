@@ -30,7 +30,7 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 		const currentConversationContainer = field.closest([
 			'.js-inline-comments-container', // Current review thread container
 			'#discussion_bucket', // Or just ALL the comments in issues
-			'#all_commit_comments' // Single commit comments at the bottom
+			'#all_commit_comments', // Single commit comments at the bottom
 		].join())!;
 		const lastOwnComment = select
 			.all('.js-comment.current-user', currentConversationContainer)
@@ -66,11 +66,11 @@ function init(): void {
 void features.add(__filebasename, {
 	shortcuts: {
 		'↑': 'Edit your last comment',
-		esc: 'Unfocuses comment field'
+		esc: 'Unfocuses comment field',
 	},
 	include: [
-		pageDetect.hasRichTextEditor
+		pageDetect.hasRichTextEditor,
 	],
 	awaitDomReady: false,
-	init: onetime(init)
+	init: onetime(init),
 });

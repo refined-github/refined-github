@@ -103,7 +103,7 @@ async function init(): Promise<void> {
 			<button className="btn btn-sm BtnGroup-item tooltipped tooltipped-nw rgh-md-rendered selected" type="button" aria-label="Display the rendered blob">
 				<FileIcon/>
 			</button>
-		</div>
+		</div>,
 	);
 
 	// Add support for permalinks to the code
@@ -113,18 +113,18 @@ async function init(): Promise<void> {
 		// Enable selected line highlight
 		window.dispatchEvent(new HashChangeEvent('hashchange', {
 			oldURL: location.href,
-			newURL: location.href
+			newURL: location.href,
 		}));
 	}
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isSingleFile
+		pageDetect.isSingleFile,
 	],
 	exclude: [
-		() => !select.exists('.blob .markdown-body')
+		() => !select.exists('.blob .markdown-body'),
 	],
 	deduplicate: '.rgh-md-source', // #3945
-	init
+	init,
 });

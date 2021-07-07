@@ -11,6 +11,10 @@
 		"__filebasename"
 	],
 	"rules": {
+		"@typescript-eslint/comma-dangle": [
+			"error",
+			"always-multiline"
+		],
 		"import/no-unassigned-import": "off",
 		"no-alert": "off",
 		"no-void": "off",

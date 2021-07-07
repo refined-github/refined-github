@@ -32,7 +32,7 @@ async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void 
 			if (file.status === 'renamed') {
 				url.assign({
 					route: 'commits',
-					filePath: file[toKey]
+					filePath: file[toKey],
 				});
 				button.replaceWith(
 					<a
@@ -41,7 +41,7 @@ async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void 
 						className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
 					>
 						{button.textContent}
-					</a>
+					</a>,
 				);
 			}
 
@@ -66,7 +66,7 @@ function init(): void | false {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoCommitList
+		pageDetect.isRepoCommitList,
 	],
-	init
+	init,
 });

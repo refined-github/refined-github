@@ -59,7 +59,7 @@ export const getPullRequestsAssociatedWithBranch = cache.function(async (): Prom
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 4},
-	cacheKey: () => 'associatedBranchPullRequests:' + getRepo()!.nameWithOwner
+	cacheKey: () => 'associatedBranchPullRequests:' + getRepo()!.nameWithOwner,
 });
 
 // TODO: Replace this with `State--${prInfo.state.toLowerCase()}` GHE #4202
@@ -67,7 +67,7 @@ const stateClass = {
 	OPEN: 'State--green State--open',
 	CLOSED: 'State--red State--closed',
 	MERGED: 'State--purple State--merged',
-	DRAFT: ''
+	DRAFT: '',
 };
 
 async function init(): Promise<void> {
@@ -100,17 +100,17 @@ async function init(): Promise<void> {
 						</a>
 					</div>);
 			}
-		}
+		},
 	});
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isBranches
+		pageDetect.isBranches,
 	],
 	exclude: [
-		() => !pageDetect.isForkedRepo()
+		() => !pageDetect.isForkedRepo(),
 	],
 	awaitDomReady: false,
-	init: onetime(init)
+	init: onetime(init),
 });

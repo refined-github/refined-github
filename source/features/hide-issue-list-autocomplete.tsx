@@ -9,10 +9,10 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isConversationList
+		pageDetect.isConversationList,
 	],
 	exclude: [
-		pageDetect.isMilestone
+		pageDetect.isMilestone,
 	],
-	init
+	init,
 });

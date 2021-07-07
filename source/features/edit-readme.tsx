@@ -22,7 +22,7 @@ async function init(): Promise<void | false> {
 	const fileLink = select<HTMLAnchorElement>(`.js-navigation-open[title="${filename}"]`)!;
 
 	const url = new GitHubURL(fileLink.href).assign({
-		route: 'edit'
+		route: 'edit',
 	});
 
 	if (isPermalink_) {
@@ -36,14 +36,14 @@ async function init(): Promise<void | false> {
 			aria-label="Edit this file"
 		>
 			<PencilIcon/>
-		</a>
+		</a>,
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoTree
+		pageDetect.isRepoTree,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

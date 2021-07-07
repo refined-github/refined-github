@@ -129,7 +129,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 			type="button"
 		>
 			Restore file
-		</button>
+		</button>,
 	);
 }
 
@@ -142,7 +142,7 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
-		pageDetect.isPRCommit
+		pageDetect.isPRCommit,
 	],
-	init
+	init,
 });
