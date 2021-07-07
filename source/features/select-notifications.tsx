@@ -10,7 +10,7 @@ import {
 	GitPullRequestDraftIcon,
 	GitPullRequestIcon,
 	IssueOpenedIcon,
-	XCircleIcon
+	XCircleIcon,
 } from '@primer/octicons-react';
 
 import features from '.';
@@ -23,7 +23,7 @@ const filters = {
 	Draft: '.octicon-git-pull-request-draft',
 	Merged: '.octicon-git-merge',
 	Read: '.notification-read',
-	Unread: '.notification-unread'
+	Unread: '.notification-unread',
 };
 
 type Filter = keyof typeof filters;
@@ -86,7 +86,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 		Draft: <GitPullRequestDraftIcon className="color-text-tertiary"/>,
 		Merged: <GitMergeIcon className="text-purple"/>,
 		Read: <DotIcon className="color-text-link"/>,
-		Unread: <DotFillIcon className="color-text-link"/>
+		Unread: <DotFillIcon className="color-text-link"/>,
 	};
 
 	return (
@@ -158,10 +158,10 @@ function init(): false | void {
 
 void features.add(__filebasename, {
 	shortcuts: {
-		S: 'Open the "Select by" dropdown'
+		S: 'Open the "Select by" dropdown',
 	},
 	include: [
-		pageDetect.isNotifications
+		pageDetect.isNotifications,
 	],
-	init
+	init,
 });
