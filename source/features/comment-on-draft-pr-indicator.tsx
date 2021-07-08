@@ -21,7 +21,7 @@ function init(): void {
 
 	if (pageDetect.isPRConversation()) {
 		// The button is part of a .js-updatable-content partial
-		void onReplacedElement('#partial-new-comment-form-actions .btn-primary', addIndicator, true);
+		void onReplacedElement('#partial-new-comment-form-actions .btn-primary', addIndicator, {runCallbackOnStart: true});
 	}
 }
 

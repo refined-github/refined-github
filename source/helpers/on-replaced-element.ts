@@ -12,14 +12,14 @@ Tracks the replacement of an element, identified via selector.
 export default async function onReplacedElement(
 	selector: string,
 	callback: (element: HTMLElement) => void,
-	callNow = false
+	{runCallbackOnStart = false} = {}
 ): Promise<void> {
 	let trackedElement = select(selector);
 	if (!trackedElement) {
 		throw new Error('The element can’t be found');
 	}
 
-	if (callNow) {
+	if (runCallbackOnStart) {
 		callback(trackedElement);
 	}
 
