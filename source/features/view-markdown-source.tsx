@@ -13,12 +13,16 @@ async function init(): Promise<void> {
 				href="?plain=1"
 				className="btn btn-sm BtnGroup-item tooltipped tooltipped-nw"
 				aria-label="Display the source"
-			><CodeIcon/></a>
+			>
+				<CodeIcon/>
+			</a>
 			<a
 				href={location.pathname}
 				className="btn btn-sm BtnGroup-item tooltipped tooltipped-nw"
 				aria-label="Display the rendered file"
-			><FileIcon/></a>
+			>
+				<FileIcon/>
+			</a>
 		</div>,
 	);
 
