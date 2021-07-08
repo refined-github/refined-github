@@ -103,9 +103,9 @@ async function init(): Promise<void> {
 		.split(' ');
 
 	// About a day old or less ?
-	const age = Date.now() - birthday.getTime() < 10e7 ?
-		fresh[Math.floor(Math.random() * fresh.length)] :
-		`${value} ${unit} old`;
+	const age = Date.now() - birthday.getTime() < 10e7
+		? fresh[Math.floor(Math.random() * fresh.length)]
+		: `${value} ${unit} old`;
 
 	const sidebarAboutSection = await elementReady('.repository-content .BorderGrid-cell');
 	sidebarAboutSection!.append(

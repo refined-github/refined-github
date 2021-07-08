@@ -19,8 +19,8 @@ function openNotifications({delegateTarget}: delegate.Event): void {
 	// Ask for confirmation
 	const unreadNotifications = getUnreadNotifications(container);
 	if (
-		unreadNotifications.length >= confirmationRequiredCount &&
-		!confirm(`This will open ${unreadNotifications.length} new tabs. Continue?`)
+		unreadNotifications.length >= confirmationRequiredCount
+		&& !confirm(`This will open ${unreadNotifications.length} new tabs. Continue?`)
 	) {
 		return;
 	}

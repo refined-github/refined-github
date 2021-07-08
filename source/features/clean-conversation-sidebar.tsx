@@ -117,7 +117,9 @@ void features.add(__filebasename, {
 		pageDetect.isConversation,
 	],
 	additionalListeners: [
-		() => void onReplacedElement('#partial-discussion-sidebar', clean),
+		() => {
+			void onReplacedElement('#partial-discussion-sidebar', clean);
+		},
 	],
 	init: clean,
 });

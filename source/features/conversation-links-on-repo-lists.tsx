@@ -11,7 +11,7 @@ function init(): void {
 	observe([
 		'[itemprop="name codeRepository"]:not(.rgh-discussion-links)', // `isUserProfileRepoTab`
 		'[data-hydro-click*=\'"model_name":"Repository"\']:not(.rgh-discussion-links)', // `isGlobalSearchResults`
-	].join(), {
+	].join(','), {
 		constructor: HTMLAnchorElement,
 		add(repositoryLink) {
 			repositoryLink.classList.add('rgh-discussion-links');

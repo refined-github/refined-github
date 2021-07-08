@@ -11,7 +11,7 @@ async function getProjectsTab(): Promise<HTMLElement | undefined> {
 	return elementReady([
 		'[data-hotkey="g b"]', // In organizations and repos
 		'[aria-label="User profile"] [href$="?tab=projects"]', // In user profiles
-	].join());
+	].join(','));
 }
 
 // We can't detect whether the user can create projects on a repo, so this link is potentially a 404
@@ -51,9 +51,9 @@ async function removeProjectsTab(): Promise<void | false> {
 	const projectsTab = await getProjectsTab();
 
 	if (
-		!projectsTab || // Projects disabled 🎉
-		projectsTab.matches('.selected') || // User is on Projects tab 👀
-		await getTabCount(projectsTab) > 0 // There are open projects
+		!projectsTab // Projects disabled 🎉
+		|| projectsTab.matches('.selected') // User is on Projects tab 👀
+		|| await getTabCount(projectsTab) > 0 // There are open projects
 	) {
 		return false;
 	}

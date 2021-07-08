@@ -9,7 +9,7 @@ const commitSelector = [
 	'.commit-author[href$="%5Bbot%5D"]',
 	'.commit-author[href$="renovate-bot"]',
 	'.commit-author[href$="scala-steward"]',
-].join();
+].join(',');
 
 const prSelector = [
 	/* Issues/PRs */

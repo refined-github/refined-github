@@ -43,7 +43,7 @@ function init(): void {
 		'.js-hovercard-content > .Popover-message .link-gray-dark', // Hovercard (GHE #4021)
 		'.js-hovercard-content > .Popover-message .Link--primary', // Hovercard
 		'a[data-hovercard-type="discussion"]', // `isDiscussionList`
-	].map(selector => selector + ':not(.rgh-backticks-already-parsed)').join();
+	].map(selector => selector + ':not(.rgh-backticks-already-parsed)').join(',');
 
 	observe(selectors, {
 		add(element) {

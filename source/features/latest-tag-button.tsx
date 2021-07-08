@@ -122,9 +122,9 @@ async function init(): Promise<false | void> {
 		link.append(<sup> +{aheadBy}</sup>);
 		link.setAttribute(
 			'aria-label',
-			aheadBy ?
-				`${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest release` :
-				`The HEAD of ${defaultBranch} isn’t tagged`,
+			aheadBy
+				? `${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest release`
+				: `The HEAD of ${defaultBranch} isn’t tagged`,
 		);
 
 		if (pageDetect.isRepoRoot()) {

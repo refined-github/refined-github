@@ -5,11 +5,11 @@ import features from '.';
 import {isEditable} from '../helpers/dom-utils';
 
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
-	select.exists('.minimized-comment:not(.d-none)', comment) ||
-	Boolean(comment.closest([
+	select.exists('.minimized-comment:not(.d-none)', comment)
+	|| Boolean(comment.closest([
 		'.js-resolvable-thread-contents.d-none', // Regular comments
 		'details.js-resolvable-timeline-thread-container:not([open])', // Review comments
-	].join()));
+	].join(',')));
 
 function runShortcuts(event: KeyboardEvent): void {
 	if (isEditable(event.target)) {
@@ -27,9 +27,9 @@ function runShortcuts(event: KeyboardEvent): void {
 				'.js-minimizable-comment-group', // Comments (to be `.filter()`ed)
 			])
 			.filter(element =>
-				element.classList.contains('js-minimizable-comment-group') ?
-					!isCommentGroupMinimized(element) :
-					true,
+				element.classList.contains('js-minimizable-comment-group')
+					? !isCommentGroupMinimized(element)
+					: true,
 			);
 
 		// `j` goes to the next comment, `k` goes back a comment

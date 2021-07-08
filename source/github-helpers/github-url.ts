@@ -49,10 +49,10 @@ export default class GitHubURL {
 		const currentBranch = getCurrentCommittish();
 		const currentBranchSections = currentBranch?.split('/');
 		if (
-			!currentBranch || // Current branch could not be determined (1/2)
-			!currentBranchSections || // Current branch could not be determined (2/2)
-			ambiguousReference.length === 1 || // Ref has no slashes
-			currentBranchSections.length === 1 // Current branch has no slashes
+			!currentBranch // Current branch could not be determined (1/2)
+			|| !currentBranchSections // Current branch could not be determined (2/2)
+			|| ambiguousReference.length === 1 // Ref has no slashes
+			|| currentBranchSections.length === 1 // Current branch has no slashes
 		) {
 			// Then the reference is not ambiguous
 			return {branch, filePath};

@@ -9,7 +9,7 @@ import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 const fieldSelector = [
 	'#commit-summary-input', // Commit title on edit file page
 	'#merge_title_field', // PR merge message field
-].join();
+].join(',');
 
 function validateInput(): void {
 	const inputField = select<HTMLInputElement>(fieldSelector)!;

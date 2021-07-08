@@ -21,7 +21,7 @@ function init(): void {
 		'.blob-wrapper',
 		'.comment-body.d-block',
 		'.blob-expanded',
-	].map(selector => selector + `:not(.${linkifiedURLClass})`).join();
+	].map(selector => selector + `:not(.${linkifiedURLClass})`).join(',');
 
 	observe(selectors, {
 		add(wrappers) {

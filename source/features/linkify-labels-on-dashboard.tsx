@@ -12,7 +12,7 @@ function init(): void {
 	const labelClass = [
 		'.js-recent-activity-container :not(a) > .IssueLabel', // Recent activity
 		'.js-all-activity-header + div :not(a) > .IssueLabel', // Newsfeed
-	].join();
+	].join(',');
 	observe(labelClass, {
 		add(label) {
 			const activity = label.closest('li, div:not([class])')!; // `div` is for the Newsfeed
