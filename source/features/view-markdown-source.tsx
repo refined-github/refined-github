@@ -8,7 +8,7 @@ import features from '.';
 async function init(): Promise<void> {
 	const isPlain = new URLSearchParams(location.search).get('plain') === '1';
 	select('#raw-url')!.closest('.d-flex')!.prepend(
-		<div className="BtnGroup rgh-view-markdown-source">
+		<div className="BtnGroup rgh-view-markdown-source mr-1">
 			<a
 				href="?plain=1"
 				className="btn btn-sm BtnGroup-item tooltipped tooltipped-nw"
