@@ -9,12 +9,16 @@ async function init(): Promise<void> {
 	const isPlain = new URLSearchParams(location.search).get('plain') === '1';
 	select('#raw-url')!.closest('.d-flex')!.prepend(
 		<div className="BtnGroup rgh-view-markdown-source">
-			<a href="?plain=1" className="btn btn-sm BtnGroup-item tooltipped tooltipped-nw" aria-label="Display the source">
-				<CodeIcon/>
-			</a>
-			<a href={location.pathname} className="btn btn-sm BtnGroup-item tooltipped tooltipped-nw" aria-label="Display the rendered file">
-				<FileIcon/>
-			</a>
+			<a
+				href="?plain=1"
+				className="btn btn-sm BtnGroup-item tooltipped tooltipped-nw"
+				aria-label="Display the source"
+			><CodeIcon/></a>
+			<a
+				href={location.pathname}
+				className="btn btn-sm BtnGroup-item tooltipped tooltipped-nw"
+				aria-label="Display the rendered file"
+			><FileIcon/></a>
 		</div>,
 	);
 
