@@ -219,3 +219,5 @@ import './features/delete-review-comments-faster';
 import './features/no-useless-split-diff-view';
 import './features/list-pr-for-branch';
 import './features/cancel-wiki-edit-button';
+import './features/comment-on-draft-pr-indicator';
+import './features/select-notifications';

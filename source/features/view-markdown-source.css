@@ -1,7 +1,0 @@
-.rgh-markdown-source :is(.blame-commit, .blob-reblame) {
-	display: none;
-}
-
-.rgh-markdown-source .blame-hunk {
-	border-bottom: none !important;
-}
