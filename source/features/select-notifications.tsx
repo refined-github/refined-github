@@ -37,7 +37,7 @@ function resetFilters({target}: Event): void {
 }
 
 function getFiltersSelector(formData: FormData, category: Category): string {
-	return formData.getAll(category).map(value => filters[value as Filter]).join();
+	return formData.getAll(category).map(value => filters[value as Filter]).join(',');
 }
 
 function handleSelection({target}: Event): void {
@@ -55,9 +55,9 @@ function handleSelection({target}: Event): void {
 
 		for (const notification of select.all('.notifications-list-item')) {
 			if (
-				(types && !select.exists(types, notification)) ||
-				(statuses && !select.exists(statuses, notification)) ||
-				(readStatus && !notification.matches(readStatus))
+				(types && !select.exists(types, notification))
+				|| (statuses && !select.exists(statuses, notification))
+				|| (readStatus && !notification.matches(readStatus))
 			) {
 				// Make excluded notifications unselectable
 				select('.js-notification-bulk-action-check-item', notification)!.removeAttribute('data-check-all-item');

@@ -20,8 +20,8 @@ function onButtonClick(): void {
 	const issues = select.all(`#js-issues-toolbar:not(.triage-mode) ${modifier} .js-issue-row`);
 
 	if (
-		issues.length >= confirmationRequiredCount &&
-		!confirm(`This will open ${issues.length} new tabs. Continue?`)
+		issues.length >= confirmationRequiredCount
+		&& !confirm(`This will open ${issues.length} new tabs. Continue?`)
 	) {
 		return;
 	}

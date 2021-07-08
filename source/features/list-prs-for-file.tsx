@@ -123,14 +123,16 @@ async function init(): Promise<void> {
 		(await elementReady('.file'))!.after(
 			<div className="form-warning p-3 mb-3 mx-lg-3">
 				{
-					prs.length === 1 ?
-						<>Careful, PR <a href={getPRUrl(prNumber)}>#{prNumber}</a> is already touching this file</> :
-						<>
-							Careful, {prs.length} open PRs are already touching this file
-							<span className="ml-2 BtnGroup" style={{verticalAlign: '-0.6em'}}>
-								{prs.map(getSingleButton)}
-							</span>
-						</>
+					prs.length === 1
+						? <>Careful, PR <a href={getPRUrl(prNumber)}>#{prNumber}</a> is already touching this file</>
+						: (
+							<>
+								Careful, {prs.length} open PRs are already touching this file
+								<span className="ml-2 BtnGroup" style={{verticalAlign: '-0.6em'}}>
+									{prs.map(getSingleButton)}
+								</span>
+							</>
+						)
 				}
 			</div>,
 		);

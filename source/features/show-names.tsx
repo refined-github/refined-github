@@ -38,7 +38,7 @@ async function init(): Promise<false | void> {
 	const names = await api.v4(
 		[...usernames].map(user =>
 			api.escapeKey(user) + `: user(login: "${user}") {name}`,
-		).join(),
+		).join(','),
 	);
 
 	for (const usernameElement of usernameElements) {

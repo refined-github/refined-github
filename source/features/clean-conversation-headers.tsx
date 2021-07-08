@@ -38,7 +38,7 @@ async function initPR(): Promise<void> {
 
 	const isSameAuthor = pageDetect.isPRConversation() && author.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
 
-	const [base, headBranch] = select.all('.commit-ref', byline)!;
+	const [base, headBranch] = select.all('.commit-ref', byline);
 	const baseBranch = base.title.split(':')[1];
 
 	// Replace the word "from" with an arrow

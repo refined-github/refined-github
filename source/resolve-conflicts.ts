@@ -1,5 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference -- TODO: Is any other way supported?
 /// <reference types="codemirror" />
 
+// eslint-disable-next-line @typescript-eslint/no-namespace -- TODO: Is any other way supported?
 declare namespace CodeMirror {
 	interface LineHandle {
 		widgets: unknown[];

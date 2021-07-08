@@ -55,9 +55,9 @@ function onAltClick(event: delegate.Event<MouseEvent, HTMLInputElement>): void {
 	void showToast(async () => {
 		markAsViewed(event);
 	}, {
-		message: isChecked(event.delegateTarget) ?
-			'Marking visible files as unviewed' :
-			'Marking visible files as viewed',
+		message: isChecked(event.delegateTarget)
+			? 'Marking visible files as unviewed'
+			: 'Marking visible files as viewed',
 		doneMessage: 'Marking files completed',
 	});
 }

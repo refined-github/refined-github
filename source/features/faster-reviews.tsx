@@ -49,7 +49,9 @@ void features.add(__filebasename, {
 		pageDetect.isPRConversation,
 	],
 	additionalListeners: [
-		() => void onReplacedElement('#partial-discussion-sidebar', addSidebarReviewButton),
+		() => {
+			void onReplacedElement('#partial-discussion-sidebar', addSidebarReviewButton);
+		},
 	],
 	awaitDomReady: false,
 	init: addSidebarReviewButton,

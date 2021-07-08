@@ -12,7 +12,7 @@ const getIcon = onetime(async () => fetchDom(
 	buildRepoURL('commits'), [
 		'.TimelineItem--condensed:nth-of-type(-n+2) .commit-build-statuses', // TODO[2022-04-29]: GHE #4294
 		'.TimelineItem--condensed:nth-of-type(-n+2) batch-deferred-content[data-url$="checks-statuses-rollups"]',
-	].join(),
+	].join(','),
 ));
 
 async function init(): Promise<false | void> {

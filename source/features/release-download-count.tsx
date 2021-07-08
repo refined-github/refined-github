@@ -32,7 +32,7 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 						}
 					}
 				}
-			`).join()}
+			`).join(',')}
 		}
 	`);
 

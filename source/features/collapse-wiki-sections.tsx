@@ -17,9 +17,9 @@ function onHeadingClick(event: delegate.Event<MouseEvent, HTMLElement>): void {
 
 	const sectionHeading = event.delegateTarget;
 	const isSectionHidden = sectionHeading.classList.toggle('rgh-markdown-section-collapsed');
-	let element = sectionHeading.tagName === 'H1' ?
-		sectionHeading.parentElement!.firstElementChild as HTMLElement :
-		sectionHeading.nextElementSibling as HTMLElement;
+	let element = sectionHeading.tagName === 'H1'
+		? sectionHeading.parentElement!.firstElementChild as HTMLElement
+		: sectionHeading.nextElementSibling as HTMLElement;
 	while (element) {
 		if (/^H\d$/.test(element.tagName)) {
 			if (sectionHeading.tagName !== 'H1' && element.tagName <= sectionHeading.tagName) {
