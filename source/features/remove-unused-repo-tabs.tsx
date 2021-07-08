@@ -14,11 +14,11 @@ import {buildRepoURL, getRepo} from '../github-helpers';
 
 function mustKeepTab(tab: HTMLElement | undefined): boolean {
 	return (
-		!tab || // Tab disabled 🎉
-		tab.matches('.selected') ||// User is on tab 👀
+		!tab // Tab disabled 🎉
+		|| tab.matches('.selected')// User is on tab 👀
 		// Repo/Organization owners should see the tab. If they don't need it, they should disable the feature altogether
-		pageDetect.canUserEditRepo() ||
-		pageDetect.canUserEditOrganization()
+		|| pageDetect.canUserEditRepo()
+		|| pageDetect.canUserEditOrganization()
 	);
 }
 
