@@ -13,7 +13,7 @@ function init(): void {
 	const buttons = select.all([
 		'.review-simple-reply-button', // "Add single comment" button
 		'.add-comment-label', // "Add review comment" button
-		'.start-review-label' // "Start a review" button
+		'.start-review-label', // "Start a review" button
 	]);
 	for (const button of buttons) {
 		addIndicator(button);
@@ -28,10 +28,10 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation,
-		pageDetect.isPRFiles
+		pageDetect.isPRFiles,
 	],
 	exclude: [
-		() => !pageDetect.isDraftPR()
+		() => !pageDetect.isDraftPR(),
 	],
-	init
+	init,
 });
