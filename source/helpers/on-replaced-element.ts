@@ -12,7 +12,7 @@ Tracks the replacement of an element, identified via selector.
 export default async function onReplacedElement(
 	selector: string,
 	callback: (element: HTMLElement) => void,
-	{runCallbackOnStart = false} = {}
+	{runCallbackOnStart = false} = {},
 ): Promise<void> {
 	let trackedElement = select(selector);
 	if (!trackedElement) {
