@@ -2,6 +2,12 @@ a.rgh-highest-rated-comment {
 	border: 2px solid #2cbe4e !important;
 }
 
+.rgh-highest-rated-comment .timeline-comment-header-text {
+	--color-text-primary: var(--color-text-success);
+	--color-text-secondary: var(--color-text-success);
+	--color-text-tertiary: var(--color-text-success);
+}
+
 a.rgh-highest-rated-comment .timeline-comment-header-text {
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -12,27 +18,4 @@ a.rgh-highest-rated-comment .timeline-comment-header-text {
 a.rgh-highest-rated-comment .avatar {
 	position: absolute;
 	left: -55px;
-}
-
-.rgh-highest-rated-comment .timeline-comment-header-text {
-	--color-text-primary: var(--color-text-success);
-	--color-text-secondary: var(--color-text-success);
-	--color-text-tertiary: var(--color-text-success);
-}
-
-.rgh-highest-rated-comment .timeline-comment-header-text::after {
-    background-color: var(--color-text-success);
-    content: '';
-    display: inline-block;
-    height: 18px;
-    -webkit-mask-image: url('https://raw.githubusercontent.com/primer/octicons/main/icons/thumbsup-16.svg');
-    -webkit-mask-position: center;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-size: 16px;
-    mask-image: url('https://raw.githubusercontent.com/primer/octicons/main/icons/thumbsup-16.svg');
-    mask-position: center;
-    mask-repeat: no-repeat;
-    mask-size: 16px;
-    width: 18px;
-    vertical-align: text-bottom;
 }

@@ -3,7 +3,7 @@ import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {ArrowDownIcon, CheckIcon} from '@primer/octicons-react';
+import {ArrowDownIcon, ThumbsupIcon} from '@primer/octicons-react';
 
 import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
@@ -49,12 +49,12 @@ function getBestComment(): HTMLElement | undefined {
 
 function highlightBestComment(bestComment: Element): void {
 	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
-	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
+	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.after(
 		<span
 			className="d-flex flex-items-center text-green color-text-success mr-1 tooltipped tooltipped-n"
 			aria-label="This comment has the most positive reactions on this issue."
 		>
-			<CheckIcon/>
+			<ThumbsupIcon/>
 		</span>,
 	);
 }
