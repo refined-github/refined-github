@@ -49,7 +49,7 @@ function getBestComment(): HTMLElement | undefined {
 
 function highlightBestComment(bestComment: Element): void {
 	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
-	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.after(
+	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.appendChild(
 		<span
 			className="d-flex flex-items-center text-green color-text-success mr-1 tooltipped tooltipped-n"
 			aria-label="This comment has the most positive reactions on this issue."
