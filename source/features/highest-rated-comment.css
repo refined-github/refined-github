@@ -16,14 +16,14 @@ a.rgh-highest-rated-comment .avatar {
 
 .rgh-highest-rated-comment::before,
 .rgh-highest-rated-comment::after {
-	--color-bg-info-inverse: var(--color-text-success, #3fb950);
-	--color-bg-tertiary: var(--color-text-success, #3fb950);
+	--color-bg-info-inverse: var(--color-text-success);
+	--color-bg-tertiary: var(--color-text-success);
 	left: initial;
 }
 
 .rgh-highest-rated-comment .timeline-comment-header {
-	--color-bg-tertiary: var(--color-text-success, #3fb950);
-	--color-text-primary: var(--color-text-white, #fff);
-	--color-text-secondary: var(--color-scale-gray-0, #f0f6fc);
-	--color-text-tertiary: var(--color-scale-gray-1, #c9d1d9);
+	--color-bg-tertiary: var(--color-text-success);
+	--color-text-primary: var(--color-text-white);
+	--color-text-secondary: var(--color-scale-gray-0);
+	--color-text-tertiary: var(--color-scale-gray-1);
 }
