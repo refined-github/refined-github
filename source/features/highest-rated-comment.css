@@ -14,13 +14,13 @@ a.rgh-highest-rated-comment .avatar {
 	left: -55px;
 }
 
-.rgh-highest-comment .timeline-comment-header-text {
+.rgh-highest-rated-comment .timeline-comment-header-text {
 	--color-text-primary: var(--color-text-success);
 	--color-text-secondary: var(--color-text-success);
 	--color-text-tertiary: var(--color-text-success);
 }
 
-.rgh-highest-comment .timeline-comment-header-text::after {
+.rgh-highest-rated-comment .timeline-comment-header-text::after {
     background-color: var(--color-text-success);
     content: '';
     display: inline-block;
