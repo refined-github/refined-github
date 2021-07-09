@@ -33,8 +33,6 @@ a.rgh-highest-rated-comment .avatar {
     mask-position: center;
     mask-repeat: no-repeat;
     mask-size: 16px;
-    position: relative;
-    top: -1px;
     width: 18px;
-    vertical-align: middle;
+    vertical-align: text-bottom;
 }
