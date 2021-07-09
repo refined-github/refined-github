@@ -14,6 +14,13 @@ a.rgh-highest-rated-comment .avatar {
 	left: -55px;
 }
 
+.rgh-highest-rated-comment:before,
+.rgh-highest-rated-comment:after {
+	--color-bg-info-inverse: var(--color-text-success, #3fb950);
+	--color-bg-tertiary: var(--color-text-success, #3fb950);
+	left: initial;
+}
+
 .rgh-highest-rated-comment .timeline-comment-header {
 	--color-bg-tertiary: var(--color-text-success, #3fb950);
 	--color-text-primary: var(--color-text-white, #ffffff);
