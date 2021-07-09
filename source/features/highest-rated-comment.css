@@ -19,3 +19,22 @@ a.rgh-highest-rated-comment .avatar {
 	--color-text-secondary: var(--color-text-success);
 	--color-text-tertiary: var(--color-text-success);
 }
+
+.rgh-highest-comment .timeline-comment-header-text::after {
+    background-color: var(--color-text-success);
+    content: '';
+    display: inline-block;
+    height: 18px;
+    -webkit-mask-image: url('https://raw.githubusercontent.com/primer/octicons/main/icons/check-16.svg');
+    -webkit-mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: 16px;
+    mask-image: url('https://raw.githubusercontent.com/primer/octicons/main/icons/check-16.svg');
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: 16px;
+    position: relative;
+    top: -1px;
+    width: 18px;
+    vertical-align: middle;
+}
