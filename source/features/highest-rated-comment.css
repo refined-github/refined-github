@@ -1,5 +1,5 @@
 a.rgh-highest-rated-comment {
-	border: 2px solid #2cbe4e !important;
+	border: 2px solid var(--color-text-success) !important;
 }
 
 .rgh-highest-rated-comment .timeline-comment-header-text {
