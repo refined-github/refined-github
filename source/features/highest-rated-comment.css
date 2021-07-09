@@ -14,12 +14,9 @@ a.rgh-highest-rated-comment .avatar {
 	left: -55px;
 }
 
-.rgh-highest-rated-comment {
-	--color-auto-gray-1: var(--color-auto-green-1);
-	--color-auto-blue-4: var(--color-auto-green-4);
-	--color-auto-blue-2: var(--color-auto-green-2);
-}
-
 .rgh-highest-rated-comment .timeline-comment-header {
-	--color-bg-tertiary: var(--color-auto-green-1);
+	--color-bg-tertiary: var(--color-text-success, #3fb950);
+	--color-text-primary: var(--color-text-white, #ffffff);
+	--color-text-secondary: var(--color-scale-gray-0, #f0f6fc);
+	--color-text-tertiary: var(--color-scale-gray-1, #c9d1d9);
 }
