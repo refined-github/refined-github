@@ -14,15 +14,8 @@ a.rgh-highest-rated-comment .avatar {
 	left: -55px;
 }
 
-.rgh-highest-rated-comment::before,
-.rgh-highest-rated-comment::after {
-	--color-bg-info-inverse: var(--color-text-success);
-	--color-bg-tertiary: var(--color-text-success);
-}
-
-.rgh-highest-rated-comment .timeline-comment-header {
-	--color-bg-tertiary: var(--color-text-success);
-	--color-text-primary: var(--color-text-white);
-	--color-text-secondary: var(--color-scale-gray-0);
-	--color-text-tertiary: var(--color-scale-gray-1);
+.rgh-highest-comment .timeline-comment-header-text {
+	--color-text-primary: var(--color-text-success);
+	--color-text-secondary: var(--color-text-success);
+	--color-text-tertiary: var(--color-text-success);
 }
