@@ -18,7 +18,6 @@ a.rgh-highest-rated-comment .avatar {
 .rgh-highest-rated-comment::after {
 	--color-bg-info-inverse: var(--color-text-success);
 	--color-bg-tertiary: var(--color-text-success);
-	left: initial;
 }
 
 .rgh-highest-rated-comment .timeline-comment-header {
