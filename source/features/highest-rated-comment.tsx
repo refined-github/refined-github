@@ -54,7 +54,7 @@ function highlightBestComment(bestComment: Element): void {
 			className="d-flex flex-items-center text-green color-text-success mr-1 tooltipped tooltipped-n"
 			aria-label="This comment has the most positive reactions on this issue."
 		>
-			<CheckCircleFillIcon size='small'/>
+			<CheckCircleFillIcon />
 		</span>,
 	);
 }
