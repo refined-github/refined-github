@@ -1,4 +1,4 @@
-.rgh-highest-rated-comment {
+.rgh-highest-rated-comment.timeline-comment {
 	border: 2px solid var(--github-green);
 }
 
