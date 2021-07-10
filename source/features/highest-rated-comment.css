@@ -7,7 +7,7 @@
 }
 
 .rgh-highest-rated-comment.timeline-comment--caret::after {
-	left: -6px;
+	left: -6px; /* make caret border 2px */
 }
 
 a.rgh-highest-rated-comment {
