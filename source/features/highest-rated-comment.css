@@ -1,9 +1,9 @@
 .rgh-highest-rated-comment {
-	border: 2px solid var(--color-text-success);
+	border: 2px solid var(--github-green);
 }
 
 .rgh-highest-rated-comment.timeline-comment--caret::before {
-	background-color: var(--color-text-success);
+	background-color: var(--github-green);
 }
 
 .rgh-highest-rated-comment.timeline-comment--caret::after {
@@ -11,7 +11,7 @@
 }
 
 a.rgh-highest-rated-comment {
-	border: 2px solid var(--color-text-success) !important;
+	border: 2px solid var(--github-green) !important;
 }
 
 a.rgh-highest-rated-comment .timeline-comment-header-text {
