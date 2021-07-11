@@ -26,7 +26,7 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 	}
 
 	form!.prepend(
-		<p className="flash flash-notice">A submission via enter has been prevented. You press enter again or use ctrl-enter next time</p>,
+		<p className="flash flash-notice">A submission via <kbd>enter</kbd> has been prevented. You press <kbd>enter</kbd> again or use <kbd>ctrl</kbd>-<kbd>enter</kbd> next time</p>,
 	);
 
 	event.preventDefault();
