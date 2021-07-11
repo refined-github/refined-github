@@ -80,7 +80,7 @@ async function initProjects(): Promise<void | false> {
 		return;
 	}
 
-	if (await canUserEditOrganization()) {	
+	if (await canUserEditOrganization()) {
 		// Leave Project tab visible to those who can create a new project
 		return;
 	}
