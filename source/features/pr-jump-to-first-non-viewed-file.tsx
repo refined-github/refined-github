@@ -22,10 +22,10 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRFiles
+		pageDetect.isPRFiles,
 	],
 	exclude: [
-		pageDetect.isPRFile404
+		pageDetect.isPRFile404,
 	],
-	init
+	init,
 });

@@ -29,7 +29,7 @@ function addContentToDetails({delegateTarget}: delegate.Event<MouseEvent, HTMLBu
 	// `selectionStart` will be right after the newly-inserted text
 	field.setSelectionRange(
 		field.value.lastIndexOf('</summary>', field.selectionStart) + '</summary>'.length + 2,
-		field.value.lastIndexOf('</details>', field.selectionStart) - 2
+		field.value.lastIndexOf('</details>', field.selectionStart) - 2,
 	);
 }
 
@@ -39,14 +39,14 @@ function init(): void {
 		anchor.after(
 			<button type="button" className="toolbar-item tooltipped tooltipped-sw rgh-collapsible-content-btn" aria-label="Add collapsible content">
 				<FoldDownIcon/>
-			</button>
+			</button>,
 		);
 	}
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasRichTextEditor
+		pageDetect.hasRichTextEditor,
 	],
-	init
+	init,
 });

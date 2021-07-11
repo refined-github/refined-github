@@ -34,7 +34,7 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 					<span>{commentCount}</span>
 				</button>
 			</td>
-		</tr>
+		</tr>,
 	);
 });
 
@@ -58,7 +58,7 @@ function observeFiles(): void {
 		observer.observe(element, {
 			attributes: true,
 			attributeOldValue: true,
-			attributeFilter: ['class']
+			attributeFilter: ['class'],
 		});
 	}
 }
@@ -72,7 +72,7 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
-		pageDetect.isPRCommit
+		pageDetect.isPRCommit,
 	],
-	init
+	init,
 });

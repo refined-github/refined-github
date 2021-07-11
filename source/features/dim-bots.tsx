@@ -8,13 +8,13 @@ const commitSelector = [
 	/* Commits */
 	'.commit-author[href$="%5Bbot%5D"]',
 	'.commit-author[href$="renovate-bot"]',
-	'.commit-author[href$="scala-steward"]'
-].join();
+	'.commit-author[href$="scala-steward"]',
+].join(',');
 
 const prSelector = [
 	/* Issues/PRs */
 	'.opened-by [href*="author%3Aapp%2F"]',
-	'.labels [href$="label%3Abot"]'
+	'.labels [href$="label%3Abot"]',
 ];
 
 function init(): void {
@@ -33,7 +33,7 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isCommitList,
-		pageDetect.isConversationList
+		pageDetect.isConversationList,
 	],
-	init
+	init,
 });

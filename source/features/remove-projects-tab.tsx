@@ -10,8 +10,8 @@ import features from '.';
 async function getProjectsTab(): Promise<HTMLElement | undefined> {
 	return elementReady([
 		'[data-hotkey="g b"]', // In organizations and repos
-		'[aria-label="User profile"] [href$="?tab=projects"]' // In user profiles
-	].join());
+		'[aria-label="User profile"] [href$="?tab=projects"]', // In user profiles
+	].join(','));
 }
 
 // We can't detect whether the user can create projects on a repo, so this link is potentially a 404
@@ -28,7 +28,7 @@ async function addNewProjectLink(): Promise<void | false> {
 	select('.Header [href="/new"]')!.parentElement!.append(
 		<a className="dropdown-item" href={base + '/projects/new'}>
 			New project
-		</a>
+		</a>,
 	);
 }
 
@@ -51,9 +51,9 @@ async function removeProjectsTab(): Promise<void | false> {
 	const projectsTab = await getProjectsTab();
 
 	if (
-		!projectsTab || // Projects disabled 🎉
-		projectsTab.matches('.selected') || // User is on Projects tab 👀
-		await getTabCount(projectsTab) > 0 // There are open projects
+		!projectsTab // Projects disabled 🎉
+		|| projectsTab.matches('.selected') // User is on Projects tab 👀
+		|| await getTabCount(projectsTab) > 0 // There are open projects
 	) {
 		return false;
 	}
@@ -65,20 +65,20 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo,
 		pageDetect.isUserProfile,
-		pageDetect.isOrganizationProfile
+		pageDetect.isOrganizationProfile,
 	],
 	exclude: [
 		// Repo/Organization owners should see the tab. If they don't need it, they should disable Projects altogether
 		pageDetect.canUserEditRepo,
-		pageDetect.canUserEditOrganization
+		pageDetect.canUserEditOrganization,
 	],
 	awaitDomReady: false,
-	init: removeProjectsTab
+	init: removeProjectsTab,
 }, {
 	include: [
 		pageDetect.isRepo,
-		pageDetect.isOrganizationProfile
+		pageDetect.isOrganizationProfile,
 	],
 	awaitDomReady: false,
-	init: onetime(addNewProjectLink)
+	init: onetime(addNewProjectLink),
 });

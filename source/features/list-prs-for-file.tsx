@@ -97,7 +97,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 }, {
 	maxAge: {hours: 2},
 	staleWhileRevalidate: {days: 9},
-	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
+	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner,
 });
 
 async function init(): Promise<void> {
@@ -123,16 +123,18 @@ async function init(): Promise<void> {
 		(await elementReady('.file'))!.after(
 			<div className="form-warning p-3 mb-3 mx-lg-3">
 				{
-					prs.length === 1 ?
-						<>Careful, PR <a href={getPRUrl(prNumber)}>#{prNumber}</a> is already touching this file</> :
-						<>
-							Careful, {prs.length} open PRs are already touching this file
-							<span className="ml-2 BtnGroup" style={{verticalAlign: '-0.6em'}}>
-								{prs.map(getSingleButton)}
-							</span>
-						</>
+					prs.length === 1
+						? <>Careful, PR <a href={getPRUrl(prNumber)}>#{prNumber}</a> is already touching this file</>
+						: (
+							<>
+								Careful, {prs.length} open PRs are already touching this file
+								<span className="ml-2 BtnGroup" style={{verticalAlign: '-0.6em'}}>
+									{prs.map(getSingleButton)}
+								</span>
+							</>
+						)
 				}
-			</div>
+			</div>,
 		);
 
 		return;
@@ -152,9 +154,9 @@ async function init(): Promise<void> {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isEditingFile,
-		pageDetect.isSingleFile
+		pageDetect.isSingleFile,
 	],
 	deduplicate: '.rgh-list-prs-for-file', // #3945
 	awaitDomReady: false,
-	init
+	init,
 });

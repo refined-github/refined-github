@@ -9,14 +9,14 @@ function init(): void {
 		header.append(
 			<a className="text-inherit" href={'/' + header.textContent!.trim()}>
 				{header.firstChild}
-			</a>
+			</a>,
 		);
 	}
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isNotifications
+		pageDetect.isNotifications,
 	],
-	init
+	init,
 });

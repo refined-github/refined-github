@@ -39,7 +39,7 @@ async function init(): Promise<false | void> {
 	const query = buildQuery(prLinks.map(pr => pr.id));
 	const [data, defaultBranch] = await Promise.all([
 		api.v4(query),
-		getDefaultBranch()
+		getDefaultBranch(),
 	]);
 
 	for (const prLink of prLinks) {
@@ -68,14 +68,14 @@ async function init(): Promise<false | void> {
 						{pr.baseRefName}
 					</a>
 				</span>
-			</span>
+			</span>,
 		);
 	}
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoConversationList
+		pageDetect.isRepoConversationList,
 	],
-	init
+	init,
 });

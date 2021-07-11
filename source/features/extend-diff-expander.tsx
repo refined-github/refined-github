@@ -20,7 +20,7 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isCommit,
-		pageDetect.isCompare
+		pageDetect.isCompare,
 	],
-	init
+	init,
 });

@@ -46,7 +46,7 @@ const getScheduledWorkflows = cache.function(async (): Promise<Record<string, st
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 10},
-	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
+	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner,
 });
 
 async function init(): Promise<false | void> {
@@ -79,8 +79,8 @@ async function init(): Promise<false | void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepositoryActions
+		pageDetect.isRepositoryActions,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

@@ -39,12 +39,12 @@ const getFeatureHistory = cache.function(async (fileName: string): Promise<Commi
 	const excludePreset = /^meta|^document|^lint|^refactor|readme|dependencies|^v?\d+\.\d+\.\d+/i;
 
 	return repository.defaultBranchRef.target.history.nodes.filter(
-		(commit: Commit) => !excludePreset.test(commit.messageHeadline)
+		(commit: Commit) => !excludePreset.test(commit.messageHeadline),
 	);
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 4},
-	cacheKey: ([fileName]): string => __filebasename + ':' + fileName
+	cacheKey: ([fileName]): string => __filebasename + ':' + fileName,
 });
 
 function getCommitUrl(commit: Commit): string {
@@ -108,7 +108,7 @@ async function init(): Promise<void | false> {
 							className="d-block border"
 							style={{
 								maxHeight: 100,
-								maxWidth: 150
+								maxWidth: 150,
 							}}/>
 					</a>
 				)}
@@ -133,9 +133,9 @@ async function init(): Promise<void | false> {
 
 void features.add(__filebasename, {
 	include: [
-		() => /refined-github\/blob\/.+?\/source\/features\/[\w.-]+$/.test(location.pathname)
+		() => /refined-github\/blob\/.+?\/source\/features\/[\w.-]+$/.test(location.pathname),
 	],
 	awaitDomReady: false,
 	deduplicate: '.rgh-feature-description', // #3945
-	init
+	init,
 });

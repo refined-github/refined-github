@@ -30,7 +30,7 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 	const files = select.all('.js-file');
 	const selectedFiles = files.slice(...[
 		files.indexOf(previousFile) + 1,
-		files.indexOf(thisFile) + 1
+		files.indexOf(thisFile) + 1,
 	].sort((a, b) => a - b));
 
 	for (const file of selectedFiles) {
@@ -55,10 +55,10 @@ function onAltClick(event: delegate.Event<MouseEvent, HTMLInputElement>): void {
 	void showToast(async () => {
 		markAsViewed(event);
 	}, {
-		message: isChecked(event.delegateTarget) ?
-			'Marking visible files as unviewed' :
-			'Marking visible files as viewed',
-		doneMessage: 'Marking files completed'
+		message: isChecked(event.delegateTarget)
+			? 'Marking visible files as unviewed'
+			: 'Marking visible files as viewed',
+		doneMessage: 'Marking files completed',
 	});
 }
 
@@ -76,8 +76,8 @@ function deinit(): void {
 void features.add(__filebasename, {
 	awaitDomReady: false,
 	include: [
-		pageDetect.isPRFiles
+		pageDetect.isPRFiles,
 	],
 	init,
-	deinit
+	deinit,
 });

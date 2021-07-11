@@ -5,11 +5,11 @@ import features from '.';
 import {isEditable} from '../helpers/dom-utils';
 
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
-	select.exists('.minimized-comment:not(.d-none)', comment) ||
-	Boolean(comment.closest([
+	select.exists('.minimized-comment:not(.d-none)', comment)
+	|| Boolean(comment.closest([
 		'.js-resolvable-thread-contents.d-none', // Regular comments
-		'details.js-resolvable-timeline-thread-container:not([open])' // Review comments
-	].join()));
+		'details.js-resolvable-timeline-thread-container:not([open])', // Review comments
+	].join(',')));
 
 function runShortcuts(event: KeyboardEvent): void {
 	if (isEditable(event.target)) {
@@ -24,12 +24,12 @@ function runShortcuts(event: KeyboardEvent): void {
 		const items = select
 			.all([
 				'.js-targetable-element[id^="diff-"]', // Files in diffs
-				'.js-minimizable-comment-group'// Comments (to be `.filter()`ed)
+				'.js-minimizable-comment-group', // Comments (to be `.filter()`ed)
 			])
 			.filter(element =>
-				element.classList.contains('js-minimizable-comment-group') ?
-					!isCommentGroupMinimized(element) :
-					true
+				element.classList.contains('js-minimizable-comment-group')
+					? !isCommentGroupMinimized(element)
+					: true,
 			);
 
 		// `j` goes to the next comment, `k` goes back a comment
@@ -40,7 +40,7 @@ function runShortcuts(event: KeyboardEvent): void {
 		// Start at 0 if nothing is; clamp index
 		const chosenCommentIndex = Math.min(
 			Math.max(0, currentIndex + direction),
-			items.length - 1
+			items.length - 1,
 		);
 
 		if (currentIndex !== chosenCommentIndex) {
@@ -57,10 +57,10 @@ function init(): void {
 void features.add(__filebasename, {
 	shortcuts: {
 		j: 'Focus the comment/file below',
-		k: 'Focus the comment/file above'
+		k: 'Focus the comment/file above',
 	},
 	include: [
-		pageDetect.hasComments
+		pageDetect.hasComments,
 	],
-	init
+	init,
 });

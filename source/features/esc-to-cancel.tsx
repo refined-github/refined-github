@@ -20,12 +20,12 @@ function init(): void {
 
 void features.add(__filebasename, {
 	shortcuts: {
-		esc: 'Cancel editing a conversation title'
+		esc: 'Cancel editing a conversation title',
 	},
 	include: [
 		pageDetect.isIssue,
-		pageDetect.isPR
+		pageDetect.isPR,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

@@ -13,7 +13,7 @@ const getBufferField = onetime((): HTMLInputElement => (
 		style={{
 			backgroundColor: 'transparent',
 			outline: 0,
-			color: 'var(--color-text-primary)'
+			color: 'var(--color-text-primary)',
 		}}
 		placeholder="Search file…"
 	/> as unknown as HTMLInputElement
@@ -32,7 +32,7 @@ function pjaxStartHandler(event: CustomEvent): void {
 	repoName.classList.remove('mr-2');
 	repoName.after(
 		<span className="mx-1 flex-self-stretch">/</span>,
-		<span className="flex-self-stretch mr-2">{bufferField}</span>
+		<span className="flex-self-stretch mr-2">{bufferField}</span>,
 	);
 	bufferField.focus();
 	for (const element of select.all('.pagehead-actions, .rgh-ci-link details, .octotree-bookmark-btn')) {
@@ -58,11 +58,11 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepo
+		pageDetect.isRepo,
 	],
 	exclude: [
-		isSafari
+		isSafari,
 	],
 	awaitDomReady: false,
-	init: onetime(init)
+	init: onetime(init),
 });

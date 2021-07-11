@@ -13,13 +13,13 @@ export function ToastSpinner(): JSX.Element {
 	);
 }
 
-type Task = () => Promise<any>;
+type Task = () => Promise<unknown>;
 export default async function showToast<TTask extends Task>(
 	task: TTask,
 	{
 		message = 'Bulk actions currently being processed.',
-		doneMessage = 'Bulk action processing complete.'
-	} = {}
+		doneMessage = 'Bulk action processing complete.',
+	} = {},
 ): Promise<ReturnType<TTask>> {
 	const iconWrapper = <span className="Toast-icon"><ToastSpinner/></span>;
 	const messageWrapper = <span className="Toast-content">{message}</span>;

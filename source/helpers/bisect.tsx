@@ -17,9 +17,9 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 	const bisectedFeatures = (await cache.get<FeatureID[]>('bisect'))!;
 
 	if (bisectedFeatures.length > 1) {
-		await cache.set('bisect', answer === 'yes' ?
-			bisectedFeatures.slice(0, getMiddleStep(bisectedFeatures)) :
-			bisectedFeatures.slice(getMiddleStep(bisectedFeatures))
+		await cache.set('bisect', answer === 'yes'
+			? bisectedFeatures.slice(0, getMiddleStep(bisectedFeatures))
+			: bisectedFeatures.slice(getMiddleStep(bisectedFeatures)),
 		);
 
 		button.parentElement!.replaceWith(<div className="btn" aria-disabled="true">Reloading…</div>);
@@ -58,7 +58,7 @@ function createMessageBox(message: Element | string, extraButtons?: Element): vo
 				<button type="button" className="btn" onClick={onEndButtonClick}>Exit</button>
 				{extraButtons}
 			</div>
-		</div>
+		</div>,
 	);
 }
 
@@ -83,7 +83,7 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 		<div>
 			<button type="button" className="btn btn-danger mr-2" value="no" aria-disabled="true" onClick={onChoiceButtonClick}>No</button>
 			<button type="button" className="btn btn-primary" value="yes" aria-disabled="true" onClick={onChoiceButtonClick}>Yes</button>
-		</div>
+		</div>,
 	);
 
 	// Enable "Yes"/"No" buttons once the page is done loading

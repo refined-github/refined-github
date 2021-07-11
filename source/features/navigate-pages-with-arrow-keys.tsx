@@ -6,14 +6,14 @@ const nextPageButtonSelectors = [
 	'a.next_page', // Issue/PR list, Search
 	'.paginate-container > .BtnGroup > :last-child', // Commits
 	'.paginate-container > .pagination > :last-child', // Releases
-	'.js-notifications-list-paginator-buttons > :last-child' // Notifications
+	'.js-notifications-list-paginator-buttons > :last-child', // Notifications
 ];
 
 const previousPageButtonSelectors = [
 	'a.previous_page', // Issue/PR list, Search
 	'.paginate-container > .BtnGroup > :first-child', // Commits
 	'.paginate-container > .pagination > :first-child', // Releases
-	'.js-notifications-list-paginator-buttons > :first-child' // Notifications
+	'.js-notifications-list-paginator-buttons > :first-child', // Notifications
 ];
 
 function init(): void {
@@ -31,7 +31,7 @@ function init(): void {
 void features.add(__filebasename, {
 	shortcuts: {
 		'→': 'Go to the next page',
-		'←': 'Go to the previous page'
+		'←': 'Go to the previous page',
 	},
-	init
+	init,
 });

@@ -14,7 +14,7 @@ import onConversationHeaderUpdate from '../github-events/on-conversation-header-
 const states = {
 	default: '',
 	showOnlyComments: 'Only show comments',
-	showOnlyUnresolvedComments: 'Only show unresolved comments'
+	showOnlyUnresolvedComments: 'Only show unresolved comments',
 };
 
 type State = keyof typeof states;
@@ -95,7 +95,7 @@ async function handleSelection({target}: Event): Promise<void> {
 
 	select('.repository-content')!.classList.toggle(
 		'rgh-conversation-activity-is-filtered',
-		currentSetting !== 'default'
+		currentSetting !== 'default',
 	);
 
 	// Update the state of the other dropdown
@@ -147,7 +147,7 @@ async function addWidget(header: string): Promise<void> {
 					</div>
 				</div>
 			</details-menu>
-		</details>
+		</details>,
 	);
 }
 
@@ -158,11 +158,11 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isConversation
+		pageDetect.isConversation,
 	],
 	additionalListeners: [
-		onConversationHeaderUpdate
+		onConversationHeaderUpdate,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

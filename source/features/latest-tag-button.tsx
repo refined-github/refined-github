@@ -63,7 +63,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 
 	if (repository.refs.nodes.length === 0) {
 		return {
-			latestTag: false
+			latestTag: false,
 		};
 	}
 
@@ -84,7 +84,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 2},
-	cacheKey: () => `tag-ahead-by:${getRepo()!.nameWithOwner}`
+	cacheKey: () => `tag-ahead-by:${getRepo()!.nameWithOwner}`,
 });
 
 async function init(): Promise<false | void> {
@@ -96,7 +96,7 @@ async function init(): Promise<false | void> {
 	const url = new GitHubURL(location.href);
 	url.assign({
 		route: url.route || 'tree', // If route is missing, it's a repo root
-		branch: latestTag
+		branch: latestTag,
 	});
 
 	const link = (
@@ -122,9 +122,9 @@ async function init(): Promise<false | void> {
 		link.append(<sup> +{aheadBy}</sup>);
 		link.setAttribute(
 			'aria-label',
-			aheadBy ?
-				`${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest release` :
-				`The HEAD of ${defaultBranch} isn’t tagged`
+			aheadBy
+				? `${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest release`
+				: `The HEAD of ${defaultBranch} isn’t tagged`,
 		);
 
 		if (pageDetect.isRepoRoot()) {
@@ -149,9 +149,9 @@ async function init(): Promise<false | void> {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoTree,
-		pageDetect.isSingleFile
+		pageDetect.isSingleFile,
 	],
 	awaitDomReady: false,
 	deduplicate: '.rgh-latest-tag-button', // #3945
-	init
+	init,
 });

@@ -3,7 +3,7 @@
 // Code adapted from GitHub.
 export default function smartBlockWrap(
 	content: string,
-	field: HTMLTextAreaElement
+	field: HTMLTextAreaElement,
 ): string {
 	const before = field.value.slice(0, field.selectionStart);
 	const after = field.value.slice(field.selectionEnd);

@@ -41,7 +41,7 @@ test('nested object', t => {
 
 test('change branch', t => {
 	const url = new GitHubURL('https://github.com/microsoft/TypeScript/tree/master/src/index.js').assign({
-		branch: 'dev'
+		branch: 'dev',
 	});
 	t.is(url.user, 'microsoft');
 	t.is(url.repository, 'TypeScript');
@@ -55,7 +55,7 @@ test('change branch', t => {
 
 test('change filePath', t => {
 	const url = new GitHubURL('https://github.com/microsoft/TypeScript/tree/master/src/index.js').assign({
-		filePath: 'package.json'
+		filePath: 'package.json',
 	});
 	t.is(url.user, 'microsoft');
 	t.is(url.repository, 'TypeScript');

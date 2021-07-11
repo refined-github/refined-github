@@ -12,12 +12,12 @@ import onConversationHeaderUpdate from '../github-events/on-conversation-header-
 const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom(
 		buildRepoURL('branch_commits', commit),
-		'ul.branches-tag-list li:last-child a'
+		'ul.branches-tag-list li:last-child a',
 	);
 
-	return firstTag?.textContent!;
+	return firstTag?.textContent ?? undefined;
 }, {
-	cacheKey: ([commit]) => `first-tag:${getRepo()!.nameWithOwner}:${commit}`
+	cacheKey: ([commit]) => `first-tag:${getRepo()!.nameWithOwner}:${commit}`,
 });
 
 async function init(): Promise<void> {
@@ -41,17 +41,17 @@ async function init(): Promise<void> {
 				title={`${tagName} was the first Git tag to include this PR`}
 			>
 				{tagName}
-			</a>
+			</a>,
 		);
 	}
 }
 
 void features.add(__filebasename, {
 	include: [
-		() => pageDetect.isPRConversation() && pageDetect.isMergedPR()
+		() => pageDetect.isPRConversation() && pageDetect.isMergedPR(),
 	],
 	additionalListeners: [
-		onConversationHeaderUpdate
+		onConversationHeaderUpdate,
 	],
-	init
+	init,
 });

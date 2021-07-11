@@ -28,13 +28,13 @@ const fresh = [
 	'Smells fresh',
 	'Just a baby',
 	'It’s my birthday',
-	'So it begins, the great battle of our time'
+	'So it begins, the great battle of our time',
 ];
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	year: 'numeric',
 	month: 'long',
-	day: 'numeric'
+	day: 'numeric',
 });
 
 const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[committedDate: string, resourcePath: string]> => {
@@ -89,7 +89,7 @@ const getFirstCommit = cache.function(async (): Promise<[committedDate: string, 
 
 	return getRepoAge(commitSha, commitsCount);
 }, {
-	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner
+	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner,
 });
 
 async function init(): Promise<void> {
@@ -103,9 +103,9 @@ async function init(): Promise<void> {
 		.split(' ');
 
 	// About a day old or less ?
-	const age = Date.now() - birthday.getTime() < 10e7 ?
-		fresh[Math.floor(Math.random() * fresh.length)] :
-		`${value} ${unit} old`;
+	const age = Date.now() - birthday.getTime() < 10e7
+		? fresh[Math.floor(Math.random() * fresh.length)]
+		: `${value} ${unit} old`;
 
 	const sidebarAboutSection = await elementReady('.repository-content .BorderGrid-cell');
 	sidebarAboutSection!.append(
@@ -114,17 +114,17 @@ async function init(): Promise<void> {
 			<a href={firstCommitHref} className="muted-link Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
 				<RepoIcon className="mr-2"/>{age}
 			</a>
-		</div>
+		</div>,
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoRoot
+		pageDetect.isRepoRoot,
 	],
 	exclude: [
-		pageDetect.isEmptyRepoRoot
+		pageDetect.isEmptyRepoRoot,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

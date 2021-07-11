@@ -20,14 +20,14 @@ function onButtonClick(): void {
 	const issues = select.all(`#js-issues-toolbar:not(.triage-mode) ${modifier} .js-issue-row`);
 
 	if (
-		issues.length >= confirmationRequiredCount &&
-		!confirm(`This will open ${issues.length} new tabs. Continue?`)
+		issues.length >= confirmationRequiredCount
+		&& !confirm(`This will open ${issues.length} new tabs. Continue?`)
 	) {
 		return;
 	}
 
 	void browser.runtime.sendMessage({
-		openUrls: issues.map(getUrlFromItem)
+		openUrls: issues.map(getUrlFromItem),
 	});
 }
 
@@ -43,14 +43,14 @@ async function init(): Promise<void | false> {
 			className="btn-link rgh-open-all-conversations px-2"
 		>
 			Open all
-		</button>
+		</button>,
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isConversationList
+		pageDetect.isConversationList,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

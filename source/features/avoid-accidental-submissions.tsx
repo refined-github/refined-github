@@ -10,11 +10,11 @@ function addQuickSubmit(): void {
 
 function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void {
 	if (
-		event.key !== 'Enter' ||
-		event.ctrlKey ||
-		event.metaKey ||
-		event.isComposing || // #4323
-		select.exists('.suggester', event.delegateTarget.form!) // GitHub’s autocomplete dropdown
+		event.key !== 'Enter'
+		|| event.ctrlKey
+		|| event.metaKey
+		|| event.isComposing // #4323
+		|| select.exists('.suggester', event.delegateTarget.form!) // GitHub’s autocomplete dropdown
 	) {
 		return;
 	}
@@ -24,17 +24,17 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 		'#issue_body',
 		'#pull_request_body',
 		'#commit-description-textarea',
-		'#merge_message_field'
+		'#merge_message_field',
 	], event.delegateTarget.form!)!.focus();
 }
 
 function init(): void {
 	delegate(document, [
-		'input#issue_title',
+		'form.new_issue input#issue_title',
 		'input#pull_request_title',
 		'input#commit-summary-input',
-		'#merge_title_field'
-	].join(), 'keydown', onKeyDown);
+		'#merge_title_field',
+	].join(','), 'keydown', onKeyDown);
 }
 
 void features.add(__filebasename, {
@@ -43,16 +43,16 @@ void features.add(__filebasename, {
 		pageDetect.isCompare,
 		pageDetect.isNewFile,
 		pageDetect.isEditingFile,
-		pageDetect.isPRConversation
+		pageDetect.isPRConversation,
 	],
-	init
+	init,
 }, {
 	shortcuts: {
-		'ctrl enter': 'Publish a new/edited file'
+		'ctrl enter': 'Publish a new/edited file',
 	},
 	include: [
 		pageDetect.isNewFile,
-		pageDetect.isEditingFile
+		pageDetect.isEditingFile,
 	],
-	init: addQuickSubmit
+	init: addQuickSubmit,
 });

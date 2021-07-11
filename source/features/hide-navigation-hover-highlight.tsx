@@ -14,5 +14,5 @@ function init(): void {
 
 void features.add(__filebasename, {
 	awaitDomReady: false,
-	init: onetime(init)
+	init: onetime(init),
 });

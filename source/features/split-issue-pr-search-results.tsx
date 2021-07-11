@@ -21,7 +21,7 @@ function updateLinkElement(link: HTMLAnchorElement, type: GitHubConversationType
 	searchQuery.add(`is:${type}`);
 
 	link.append(
-		<include-fragment src={`${link.pathname}/count${link.search}`}/>
+		<include-fragment src={`${link.pathname}/count${link.search}`}/>,
 	);
 }
 
@@ -60,7 +60,7 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoSearch,
-		pageDetect.isGlobalSearchResults
+		pageDetect.isGlobalSearchResults,
 	],
-	init
+	init,
 });

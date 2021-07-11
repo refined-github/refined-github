@@ -8,17 +8,15 @@ import preserveScroll from '../helpers/preserve-scroll';
 
 type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
 // eslint-disable-next-line import/prefer-default-export
-export const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler => {
-	return event => {
-		if (event.altKey && event.isTrusted) {
-			const clickedItem = event.delegateTarget;
+export const clickAll = mem((selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler => event => {
+	if (event.altKey && event.isTrusted) {
+		const clickedItem = event.delegateTarget;
 
-			// `parentElement` is the anchor because `clickedItem` might be hidden/replaced after the click
-			const resetScroll = preserveScroll(clickedItem.parentElement!);
-			clickAllExcept(selectorGetter(clickedItem), clickedItem);
-			resetScroll();
-		}
-	};
+		// `parentElement` is the anchor because `clickedItem` might be hidden/replaced after the click
+		const resetScroll = preserveScroll(clickedItem.parentElement!);
+		clickAllExcept(selectorGetter(clickedItem), clickedItem);
+		resetScroll();
+	}
 });
 
 function clickAllExcept(elementsToClick: string, except: HTMLElement): void {
@@ -61,7 +59,7 @@ void features.add(__filebasename, {
 		pageDetect.isPRConversation,
 		pageDetect.isPRFiles,
 		pageDetect.isCommit,
-		pageDetect.isCompare
+		pageDetect.isCompare,
 	],
-	init
+	init,
 });

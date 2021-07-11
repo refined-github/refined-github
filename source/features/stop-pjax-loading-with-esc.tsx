@@ -20,7 +20,7 @@ function keydownHandler(event: KeyboardEvent): void {
 				url: location.href,
 				title: '',
 				container: `#${pjaxContainer.id}`,
-				...history.state
+				...history.state,
 			}, '', location.href);
 		} else {
 			features.error(__filebasename, 'Pjax container not found.');
@@ -53,7 +53,7 @@ void features.add(__filebasename, {
 		pageDetect.isGlobalSearchResults,
 		pageDetect.isUserProfile,
 		pageDetect.isSingleGist,
-		pageDetect.isGlobalConversationList
+		pageDetect.isGlobalConversationList,
 	],
-	init
+	init,
 });

@@ -29,22 +29,22 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments,
-		pageDetect.isReleasesOrTags
+		pageDetect.isReleasesOrTags,
 	],
 	exclude: [
-		isNotRefinedGitHubRepo
+		isNotRefinedGitHubRepo,
 	],
-	init
+	init,
 }, {
 	include: [
 		pageDetect.isPR,
-		pageDetect.isIssue
+		pageDetect.isIssue,
 	],
 	exclude: [
-		isNotRefinedGitHubRepo
+		isNotRefinedGitHubRepo,
 	],
 	additionalListeners: [
-		onConversationHeaderUpdate
+		onConversationHeaderUpdate,
 	],
-	init: initTitle
+	init: initTitle,
 });

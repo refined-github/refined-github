@@ -17,16 +17,16 @@ function init(): void {
 			<a href={`${commitUrl}.patch`} className="sha">patch</a>
 			{ ' ' /* Workaround for: JSX eats whitespace between elements */ }
 			<a href={`${commitUrl}.diff`} className="sha">diff</a>
-		</span>
+		</span>,
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isCommit
+		pageDetect.isCommit,
 	],
 	exclude: [
-		pageDetect.isPRCommit404
+		pageDetect.isPRCommit404,
 	],
-	init
+	init,
 });

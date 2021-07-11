@@ -89,7 +89,7 @@ function init(): void {
 		onPrMergePanelOpen(updateCommitTitle),
 		delegate(document, '#merge_title_field', 'input', updateUI),
 		delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle),
-		delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission)
+		delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission),
 	];
 }
 
@@ -103,7 +103,7 @@ function deinit(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRConversation
+		pageDetect.isPRConversation,
 	],
-	init
+	init,
 });

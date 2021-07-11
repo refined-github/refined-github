@@ -12,8 +12,8 @@ function init(): void {
 
 void features.add(__filebasename, {
 	shortcuts: {
-		'g m': 'Go to Profile'
+		'g m': 'Go to Profile',
 	},
 	awaitDomReady: false,
-	init: onetime(init)
+	init: onetime(init),
 });

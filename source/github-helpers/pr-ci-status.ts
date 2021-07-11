@@ -74,7 +74,7 @@ export function addEventListener(listener: StatusListener): void {
 
 	const observer = observeElement('.js-discussion', filteredListener, {
 		childList: true,
-		subtree: true
+		subtree: true,
 	})!;
 	observers.set(listener, observer);
 }
