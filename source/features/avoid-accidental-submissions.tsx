@@ -11,7 +11,6 @@ function addQuickSubmit(): void {
 
 function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void {
 	const {form} = event.delegateTarget;
-	console.log(form);
 	if (
 		event.key !== 'Enter'
 		|| event.ctrlKey
