@@ -1,5 +1,10 @@
 {
 	"extends": "@sindresorhus/tsconfig",
+	"ts-node": {
+		"moduleTypes": {
+			"webpack.config.ts": "cjs"
+		}
+	},
 	"compilerOptions": {
 		"target": "es2020",
 		"declaration": false,
