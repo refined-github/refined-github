@@ -19,7 +19,7 @@ async function profileDropdown(): Promise<void> {
 async function init(): Promise<void> {
 	const links = select.all([
 		'[aria-label="User profile"] a[href$="tab=repositories"]', // "Repositories" tab on user profile
-		'[aria-label="Organization"] a.UnderlineNav-item:first-child', // "Repositories" tab on organization profile
+		'[aria-label="Organization"] [data-tab-item="org-header-repositories-tab"] a', // "Repositories" tab on organization profile
 		'a[data-hovercard-type="organization"]', // Organization name on repo header + organization list on user profile
 	]);
 
