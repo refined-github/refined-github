@@ -1,3 +1,4 @@
+import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -9,23 +10,27 @@ function addQuickSubmit(): void {
 }
 
 function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void {
+	const {form} = event.delegateTarget;
+	console.log(form);
 	if (
 		event.key !== 'Enter'
 		|| event.ctrlKey
 		|| event.metaKey
 		|| event.isComposing // #4323
-		|| select.exists('.suggester', event.delegateTarget.form!) // GitHub’s autocomplete dropdown
+		|| select.exists([
+			'.suggester', // GitHub’s autocomplete dropdown
+			'.flash.flash-warn',
+		],
+		event.delegateTarget.form!)
 	) {
 		return;
 	}
 
+	form!.prepend(
+		<p className="flash flash-warn">A submission via enter has been prevented. You press enter again or use ctrl-enter next time</p>,
+	);
+
 	event.preventDefault();
-	select([
-		'#issue_body',
-		'#pull_request_body',
-		'#commit-description-textarea',
-		'#merge_message_field',
-	], event.delegateTarget.form!)!.focus();
 }
 
 function init(): void {
