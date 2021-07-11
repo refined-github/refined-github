@@ -18,7 +18,7 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 		|| event.isComposing // #4323
 		|| select.exists([
 			'.suggester', // GitHub’s autocomplete dropdown
-			'.flash.flash-warn',
+			'.flash.flash-notice',
 		],
 		event.delegateTarget.form!)
 	) {
@@ -26,7 +26,7 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 	}
 
 	form!.prepend(
-		<p className="flash flash-warn">A submission via enter has been prevented. You press enter again or use ctrl-enter next time</p>,
+		<p className="flash flash-notice">A submission via enter has been prevented. You press enter again or use ctrl-enter next time</p>,
 	);
 
 	event.preventDefault();
