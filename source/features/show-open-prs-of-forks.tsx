@@ -18,7 +18,7 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: nu
 		search(
 			first: 100,
 			type: ISSUE,
-			query: "repo:${forkedRepo} is:pr is:open author:${getUsername()}"
+			query: "repo:${forkedRepo} is:pr is:open author:${getUsername()!}"
 		) {
 			nodes {
 				... on PullRequest {
@@ -60,7 +60,7 @@ async function getPRs(): Promise<[prCount: number, url: string] | []> {
 		return [count, `/${forkedRepo}/pull/${firstPr!}`];
 	}
 
-	return [count, `/${forkedRepo}/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc+author%3A${getUsername()}`];
+	return [count, `/${forkedRepo}/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc+author%3A${getUsername()!}`];
 }
 
 async function initHeadHint(): Promise<void | false> {

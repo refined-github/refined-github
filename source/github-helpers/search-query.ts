@@ -7,7 +7,7 @@ function splitQueryString(query: string): string[] {
 	return query.match(queryPartsRegExp) ?? [];
 }
 
-// Remove all keywords from array exept the last occurence of one of the keywords.
+// Remove all keywords from array except the last occurrence of one of the keywords.
 function deduplicateKeywords(array: string[], ...keywords: string[]): string[] {
 	const deduplicated = [];
 	let wasKeywordFound = false;
@@ -76,7 +76,7 @@ export default class SearchQuery {
 			if (this.searchParams.has('user')) { // #1211
 				queries.push(`user:${this.searchParams.get('user')!}`);
 			} else {
-				queries.push(`author:${getUsername()}`);
+				queries.push(`author:${getUsername()!}`);
 			}
 
 			queries.push('archived:false');
