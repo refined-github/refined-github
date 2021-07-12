@@ -20,7 +20,7 @@ const doesUserFollow = cache.function(async (userA: string, userB: string): Prom
 });
 
 async function init(): Promise<void> {
-	if (await doesUserFollow(getCleanPathname(), getUsername())) {
+	if (await doesUserFollow(getCleanPathname(), getUsername()!)) {
 		select('.js-profile-editable-area .octicon-star')!.closest('mb-3')!.append(
 			<span className="text-gray color-text-secondary"> · Follows you</span>,
 		);
