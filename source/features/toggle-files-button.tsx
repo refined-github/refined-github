@@ -13,7 +13,7 @@ import observeElement from '../helpers/simplified-element-observer';
 const cacheKey = 'files-hidden';
 
 function addButton(): void {
-	const filesHeader = select('.Box-header--blue .Details > :last-child > ul');
+	const filesHeader = select('.Box-header .Details > :last-child > ul');
 	if (!filesHeader || select.exists('.rgh-toggle-files')) {
 		return;
 	}
