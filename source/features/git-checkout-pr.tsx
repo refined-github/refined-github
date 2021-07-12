@@ -11,7 +11,7 @@ import {getRepo, getUsername} from '../github-helpers';
 // Logic explained in https://github.com/sindresorhus/refined-github/pull/3596#issuecomment-720910840
 function getRemoteName(): string | undefined {
 	const [author] = select('.head-ref')!.title.split('/');
-	if (author === getUsername()!) {
+	if (author === getUsername()) {
 		return; // `origin`, don't add remote
 	}
 

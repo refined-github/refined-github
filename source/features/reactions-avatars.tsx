@@ -18,7 +18,7 @@ interface Participant {
 }
 
 function getParticipants(container: HTMLElement): Participant[] {
-	const currentUser = getUsername()!;
+	const currentUser = getUsername();
 	const users = container.getAttribute('aria-label')!
 		.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
