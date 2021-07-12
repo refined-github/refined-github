@@ -16,7 +16,7 @@ async function init(): Promise<false | void> {
 	]);
 
 	const usernames = new Set<string>();
-	const myUsername = getUsername();
+	const myUsername = getUsername()!;
 	for (const element of usernameElements) {
 		element.classList.add('rgh-fullname');
 		const username = element.textContent;

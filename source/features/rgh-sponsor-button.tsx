@@ -83,7 +83,7 @@ async function suchLove({delegateTarget}: delegate.Event): Promise<void> {
 }
 
 async function handleNewIssue(): Promise<false> {
-	if (getRepo()!.owner !== getUsername() && !await cache.get('did-it-wiggle')) {
+	if (getRepo()!.owner !== getUsername()! && !await cache.get('did-it-wiggle')) {
 		select('.btn-primary[href$="/issues/new/choose"], .btn-primary[href$="/issues/new"]')
 			?.addEventListener('mouseenter', wiggleWiggleWiggle, {
 				once: true,
