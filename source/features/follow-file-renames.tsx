@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {ArrowLeftIcon, ArrowRightIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -15,7 +16,7 @@ interface File {
 async function findRename(lastCommitOnPage: string): Promise<File[]> {
 	// API v4 doesn't support it: https://github.community/t/what-is-the-corresponding-object-in-graphql-api-v4-for-patch-which-is-available-in-rest-api-v3/13590
 	const {files} = await api.v3(`commits/${lastCommitOnPage}`);
-	return files;
+	return files as File[];
 }
 
 async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void | false> {
@@ -40,7 +41,7 @@ async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void 
 						aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${file[toKey]}`}
 						className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
 					>
-						{button.textContent}
+						{isNewer && <ArrowLeftIcon className="mr-1"/>}{button.textContent}{!isNewer && <ArrowRightIcon className="ml-1"/>}
 					</a>,
 				);
 			}
