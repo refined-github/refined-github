@@ -10,7 +10,6 @@ function addQuickSubmit(): void {
 }
 
 function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void {
-	const {form} = event.delegateTarget;
 	if (
 		event.key !== 'Enter'
 		|| event.ctrlKey
@@ -18,27 +17,35 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 		|| event.isComposing // #4323
 		|| select.exists([
 			'.suggester', // GitHub’s autocomplete dropdown
-			'.flash.flash-notice',
+			'.toRemove',
 		],
 		event.delegateTarget.form!)
 	) {
 		return;
 	}
 
-	form!.prepend(
-		<p className="flash flash-notice">A submission via <kbd>enter</kbd> has been prevented. You press <kbd>enter</kbd> again or use <kbd>ctrl</kbd>-<kbd>enter</kbd> next time</p>,
-	);
+	const message = <p className="toRemove">A submission via <kbd>enter</kbd> has been prevented. You press <kbd>enter</kbd> again or use <kbd>ctrl</kbd>-<kbd>enter</kbd> next time</p>;
+
+	const focusedInput = select(inputElements)!;
+
+	if (pageDetect.isNewFile() || pageDetect.isEditingFile() || pageDetect.isPRConversation()) {
+		focusedInput.after(message);
+	} else if (!(pageDetect.isNewIssue() && (focusedInput as HTMLInputElement).value === '')) {
+		focusedInput.parentElement!.append(message);
+	}
 
 	event.preventDefault();
 }
 
+const inputElements = [
+	'form.new_issue input#issue_title',
+	'input#pull_request_title',
+	'input#commit-summary-input',
+	'#merge_title_field',
+];
+
 function init(): void {
-	delegate(document, [
-		'form.new_issue input#issue_title',
-		'input#pull_request_title',
-		'input#commit-summary-input',
-		'#merge_title_field',
-	].join(','), 'keydown', onKeyDown);
+	delegate(document, inputElements.join(','), 'keydown', onKeyDown);
 }
 
 void features.add(__filebasename, {
