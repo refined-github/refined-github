@@ -11,7 +11,7 @@ async function init(): Promise<void> {
 	const filters = [
 		['Forks', 'fork:true'],
 		['Private', 'is:private'],
-		['Yours', 'user:' + getUsername()],
+		['Yours', 'user:' + getUsername()!],
 		['Authored', 'author:@me'],
 	];
 	const items = [];

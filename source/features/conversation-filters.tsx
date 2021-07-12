@@ -12,7 +12,7 @@ function init(): void {
 	const commentsLink = sourceItem.cloneNode(true);
 	commentsLink.lastChild!.textContent = 'Everything commented by you';
 	commentsLink.removeAttribute('target');
-	new SearchQuery(commentsLink).set(`is:open commenter:${getUsername()}`);
+	new SearchQuery(commentsLink).set(`is:open commenter:${getUsername()!}`);
 
 	sourceItem.after(commentsLink);
 

@@ -31,7 +31,7 @@ async function highlightCollaborators(): Promise<void> {
 
 function highlightSelf(): void {
 	// "Opened by {user}" and "Created by {user}"
-	for (const author of select.all(`.opened-by a[title$="ed by ${CSS.escape(getUsername())}"]`)) {
+	for (const author of select.all(`.opened-by a[title$="ed by ${CSS.escape(getUsername()!)}"]`)) {
 		author.classList.add('rgh-collaborator');
 		author.style.fontStyle = 'italic';
 	}
