@@ -28,10 +28,12 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 
 	const focusedInput = select(inputElements)!;
 
-	if (pageDetect.isNewFile() || pageDetect.isEditingFile() || pageDetect.isPRConversation()) {
-		focusedInput.after(message);
-	} else if (!(pageDetect.isNewIssue() && (focusedInput as HTMLInputElement).value === '')) {
-		focusedInput.parentElement!.append(message);
+	if (select.exists('.btn-primary[type="submit"]:not([disabled])')) {
+		if (pageDetect.isNewFile() || pageDetect.isEditingFile() || pageDetect.isPRConversation()) {
+			focusedInput.after(message);
+		} else {
+			focusedInput.parentElement!.append(message);
+		}
 	}
 
 	event.preventDefault();
