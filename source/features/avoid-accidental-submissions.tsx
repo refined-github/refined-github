@@ -17,14 +17,14 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 		|| event.isComposing // #4323
 		|| select.exists([
 			'.suggester', // GitHub’s autocomplete dropdown
-			'.toRemove',
+			'.rgh-avoid-accidental-submissions.my-1',
 		],
 		event.delegateTarget.form!)
 	) {
 		return;
 	}
 
-	const message = <p className="toRemove">A submission via <kbd>enter</kbd> has been prevented. You press <kbd>enter</kbd> again or use <kbd>ctrl</kbd>-<kbd>enter</kbd> next time</p>;
+	const message = <p className="rgh-avoid-accidental-submissions my-1">A submission via <kbd>enter</kbd> has been prevented. You press <kbd>enter</kbd> again or use <kbd>ctrl</kbd>-<kbd>enter</kbd> next time</p>;
 
 	const focusedInput = select(inputElements)!;
 
