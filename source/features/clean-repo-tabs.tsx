@@ -83,7 +83,19 @@ async function initProjects(): Promise<void | false> {
 	projectsTab!.remove();
 }
 
+async function init(): Promise<void> {
+	(await elementReady('.UnderlineNav-body'))!;
+	onlyShowInDropdown('security-tab');
+	onlyShowInDropdown('insights-tab');
+}
+
 void features.add(__filebasename, {
+	include: [
+		pageDetect.isRepo,
+	],
+	awaitDomReady: false,
+	init,
+}, {
 	include: [
 		pageDetect.isRepo,
 		pageDetect.isOrganizationProfile,
