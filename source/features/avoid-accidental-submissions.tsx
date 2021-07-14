@@ -10,6 +10,7 @@ function addQuickSubmit(): void {
 }
 
 function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void {
+	const form = event.delegateTarget.form!;
 	if (
 		event.key !== 'Enter'
 		|| event.ctrlKey
@@ -18,20 +19,21 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 		|| select.exists([
 			'.suggester', // GitHub’s autocomplete dropdown
 			'.rgh-avoid-accidental-submissions.my-1',
-		],
-		event.delegateTarget.form!)
+		], form)
 	) {
 		return;
 	}
 
-	const message = <p className="rgh-avoid-accidental-submissions my-1">A submission via <kbd>enter</kbd> has been prevented. You press <kbd>enter</kbd> again or use <kbd>ctrl</kbd>-<kbd>enter</kbd> next time</p>;
-
-	const focusedInput = select(inputElements, event.delegateTarget.form!)!;
-
-	if (!(select.exists('.btn-primary[type="submit"]:not([disabled])'), event.delegateTarget.form!)) {
+	if (!select.exists('.btn-primary[type="submit"]:not(:disabled)', form)) {
 		return;
 	}
 
+	const focusedInput = select(inputElements, form)!;
+	const message = (
+		<p className="rgh-avoid-accidental-submissions my-1">
+			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use <kbd>ctrl</kbd>-<kbd>enter</kbd>.
+		</p>
+	);
 	if (pageDetect.isNewFile() || pageDetect.isEditingFile() || pageDetect.isPRConversation()) {
 		focusedInput.after(message);
 	} else {
