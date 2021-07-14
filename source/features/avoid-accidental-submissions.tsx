@@ -10,7 +10,8 @@ function addQuickSubmit(): void {
 }
 
 function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void {
-	const form = event.delegateTarget.form!;
+	const field = event.delegateTarget;
+	const form = field.form!;
 	if (
 		event.key !== 'Enter'
 		|| event.ctrlKey
@@ -28,20 +29,18 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 		return;
 	}
 
-	const focusedInput = event.delegateTarget;
 	const message = (
 		<p className="rgh-avoid-accidental-submissions my-1">
 			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use <kbd>ctrl</kbd>-<kbd>enter</kbd>.
 		</p>
 	);
 	if (pageDetect.isNewFile() || pageDetect.isEditingFile() || pageDetect.isPRConversation()) {
-		focusedInput.after(message);
+		field.after(message);
 	} else {
-		focusedInput.parentElement!.append(message);
+		field.parentElement!.append(message);
 	}
 
 	event.preventDefault();
-	select(inputElements, event.delegateTarget.form!)!.focus();
 }
 
 const inputElements = [
