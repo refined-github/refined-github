@@ -28,14 +28,14 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 
 	const focusedInput = select(inputElements, event.delegateTarget.form!)!;
 
-	if (!select.exists('.btn-primary[type="submit"]:not([disabled])')) {
-	   return
+	if (!(select.exists('.btn-primary[type="submit"]:not([disabled])'), event.delegateTarget.form!)) {
+		return;
 	}
-		if (pageDetect.isNewFile() || pageDetect.isEditingFile() || pageDetect.isPRConversation()) {
-			focusedInput.after(message);
-		} else {
-			focusedInput.parentElement!.append(message);
-		}
+
+	if (pageDetect.isNewFile() || pageDetect.isEditingFile() || pageDetect.isPRConversation()) {
+		focusedInput.after(message);
+	} else {
+		focusedInput.parentElement!.append(message);
 	}
 
 	event.preventDefault();
