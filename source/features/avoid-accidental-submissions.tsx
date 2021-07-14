@@ -24,7 +24,7 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 		return;
 	}
 
-	if (!select.exists('.btn-primary[type="submit"]:not(:disabled)', form)) {
+	if (select.exists('.btn-primary[type="submit"]:disabled', form)) {
 		return;
 	}
 
