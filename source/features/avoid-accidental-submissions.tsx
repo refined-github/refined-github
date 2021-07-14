@@ -28,7 +28,7 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 		return;
 	}
 
-	const focusedInput = select(inputElements, form)!;
+	const focusedInput = event.delegateTarget;
 	const message = (
 		<p className="rgh-avoid-accidental-submissions my-1">
 			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use <kbd>ctrl</kbd>-<kbd>enter</kbd>.
@@ -41,6 +41,7 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 	}
 
 	event.preventDefault();
+	select(inputElements, event.delegateTarget.form!)!.focus();
 }
 
 const inputElements = [
