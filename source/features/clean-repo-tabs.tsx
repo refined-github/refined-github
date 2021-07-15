@@ -84,7 +84,8 @@ async function initProjects(): Promise<void | false> {
 }
 
 async function init(): Promise<void> {
-	(await elementReady('.UnderlineNav-body'))!;
+	const repoNavigationBar = (await elementReady('.UnderlineNav-body'))!;
+	repoNavigationBar.parentElement!.classList.add('rgh-has-more-dropdown');
 	onlyShowInDropdown('security-tab');
 	onlyShowInDropdown('insights-tab');
 }
