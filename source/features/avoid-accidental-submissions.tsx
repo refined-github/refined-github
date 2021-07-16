@@ -3,8 +3,8 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
 import {isMac} from '../github-helpers';
+import features from '.';
 
 function addQuickSubmit(): void {
 	select('input#commit-summary-input')!.classList.add('js-quick-submit');
