@@ -30,7 +30,7 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 		return;
 	}
 
-	const preSelector = pageDetect.isNewFile() || pageDetect.isEditingFile() ? 'my-1' : 'mt-2 mb-n1';
+	const spacingClasses = pageDetect.isNewFile() || pageDetect.isEditingFile() ? 'my-1' : 'mt-2 mb-n1';
 
 	const message = (
 		<p className={'rgh-avoid-accidental-submissions ' + preSelector}>

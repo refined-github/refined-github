@@ -38,7 +38,7 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 };
 
 export const isFirefox = navigator.userAgent.includes('Firefox/');
-export const isMac = navigator.userAgent.includes('Macintosh/');
+export const isMac = navigator.userAgent.includes('Macintosh');
 
 // The type requires at least one parameter https://stackoverflow.com/a/49910890
 export const buildRepoURL = (...pathParts: Array<string | number> & {0: string}): string => {
