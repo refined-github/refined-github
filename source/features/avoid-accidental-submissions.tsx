@@ -29,8 +29,10 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 		return;
 	}
 
+	const preSelector = pageDetect.isEditingFile() ? 'my-1' : 'mt-2 mb-n1';
+
 	const message = (
-		<p className="rgh-avoid-accidental-submissions my-1">
+		<p className={'rgh-avoid-accidental-submissions ' + preSelector}>
 			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use <kbd>ctrl</kbd>-<kbd>enter</kbd>.
 		</p>
 	);
