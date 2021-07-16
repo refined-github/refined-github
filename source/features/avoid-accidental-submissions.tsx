@@ -33,7 +33,7 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 	const spacingClasses = pageDetect.isNewFile() || pageDetect.isEditingFile() ? 'my-1' : 'mt-2 mb-n1';
 
 	const message = (
-		<p className={'rgh-avoid-accidental-submissions ' + preSelector}>
+		<p className={'rgh-avoid-accidental-submissions ' + spacingClasses}>
 			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use <kbd>{isMac ? 'cmd' : 'ctrl'}</kbd><kbd>enter</kbd>.
 		</p>
 	);
