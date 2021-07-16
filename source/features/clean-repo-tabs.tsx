@@ -9,8 +9,8 @@ import getTabCount from '../github-helpers/get-tab-count';
 import looseParseInt from '../helpers/loose-parse-int';
 import {getWorkflows} from './next-scheduled-github-action';
 import abbreviateNumber from '../helpers/abbreviate-number';
-import {onlyShowInDropdown} from './more-dropdown';
 import {buildRepoURL, getRepo} from '../github-helpers';
+import {onlyShowInDropdown, unhideOverflowDropdown} from './more-dropdown';
 
 async function canUserEditOrganization(): Promise<boolean> {
 	return Boolean(await elementReady('.btn-primary[href$="repositories/new"]'));
@@ -88,9 +88,8 @@ async function initProjects(): Promise<void | false> {
 }
 
 async function init(): Promise<void> {
-	const repoNavigationBar = (await elementReady('.UnderlineNav-body'))!;
 	// The user may have disabled `more-dropdown` so un-hide it
-	repoNavigationBar.parentElement!.classList.add('rgh-has-more-dropdown');
+	await unhideOverflowDropdown();
 	onlyShowInDropdown('security-tab');
 	onlyShowInDropdown('insights-tab');
 }
