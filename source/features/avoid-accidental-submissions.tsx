@@ -31,7 +31,7 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 
 	const message = (
 		<p className="rgh-avoid-accidental-submissions my-1">
-			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use <kbd>ctrl</kbd>-<kbd>enter</kbd>.
+			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use <kbd>{isMac ? 'cmd' : 'ctrl'}</kbd><kbd>enter</kbd>.
 		</p>
 	);
 	if (pageDetect.isNewFile() || pageDetect.isEditingFile() || pageDetect.isPRConversation()) {
