@@ -96,6 +96,7 @@ void features.add(__filebasename, {
 		() => !pageDetect.isForkedRepo(),
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init: initHeadHint,
 }, {
 	include: [

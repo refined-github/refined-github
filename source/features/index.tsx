@@ -24,7 +24,7 @@ interface FeatureLoader extends Partial<InternalRunConfig> {
 
 	/** When pressing the back button, DOM changes and listeners are still there, so normally `init` isn’t called again thanks to an automatic duplicate detection.
 	This detection however might cause problems or not work correctly in some cases #3945, so it can be disabled with `false` or by passing a custom selector to use as duplication check
-	@default true */
+	@default undefined */
 	deduplicate?: false | string;
 
 	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
@@ -217,8 +217,8 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 			exclude = [], // Default: nothing
 			init,
 			deinit,
+			deduplicate,
 			awaitDomReady = true,
-			deduplicate = 'has-rgh',
 			onlyAdditionalListeners = false,
 			additionalListeners = [],
 		} = loader;
@@ -246,7 +246,19 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 		}
 
 		document.addEventListener('pjax:end', () => {
-			if (!deduplicate || !select.exists(deduplicate)) {
+			if (deduplicate === undefined) {
+				if (select.exists('#repo-content-pjax-container')) {
+					if (!select.exists('has-rgh-inner')) {
+						void setupPageLoad(id, details);
+					}
+				} else if (!select.exists('has-rgh')) {
+					void setupPageLoad(id, details);
+				}
+
+				return;
+			}
+
+			if (deduplicate === false || !select.exists(deduplicate)) {
 				void setupPageLoad(id, details);
 			}
 		});
@@ -274,6 +286,7 @@ void add(__filebasename, {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
 		select('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);
+		select('#repo-content-pjax-container')?.append(<has-rgh-inner/>); // #4567
 	},
 });
 

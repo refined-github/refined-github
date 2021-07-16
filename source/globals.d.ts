@@ -41,6 +41,7 @@ declare namespace JSX {
 		'details-dialog': IntrinsicElements.div & {tabindex: string};
 		'details-menu': IntrinsicElements.div & {src?: string; preload?: boolean};
 		'has-rgh': IntrinsicElements.div;
+		'has-rgh-inner': IntrinsicElements.div;
 		'include-fragment': IntrinsicElements.div & {src?: string};
 		'label': IntrinsicElements.label & {for?: string};
 		'relative-time': IntrinsicElements.div & {datetime: string};
