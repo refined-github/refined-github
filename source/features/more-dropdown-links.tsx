@@ -1,4 +1,4 @@
-import './more-dropdown.css';
+import './more-dropdown-links.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';

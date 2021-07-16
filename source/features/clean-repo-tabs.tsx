@@ -10,7 +10,7 @@ import looseParseInt from '../helpers/loose-parse-int';
 import {getWorkflows} from './next-scheduled-github-action';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import {buildRepoURL, getRepo} from '../github-helpers';
-import {onlyShowInDropdown, unhideOverflowDropdown} from './more-dropdown';
+import {onlyShowInDropdown, unhideOverflowDropdown} from './more-dropdown-links';
 
 async function canUserEditOrganization(): Promise<boolean> {
 	return Boolean(await elementReady('.btn-primary[href$="repositories/new"]'));
