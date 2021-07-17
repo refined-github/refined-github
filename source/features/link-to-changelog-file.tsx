@@ -16,14 +16,12 @@ interface FileType {
 
 const getCacheKey = (): string => `changelog:${getRepo()!.nameWithOwner}`;
 
-const regexChangelogMarkdownTextFiles = /^(changelog|news|changes|history|release|whatsnew)\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst)$/i
+const regexChangelogMarkdownTextFiles = /^(changelog|news|changes|history|release|whatsnew)\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst)$/i;
 function findChangelogName(files: string[]): string | false {
 	const filename = files.find(name => regexChangelogMarkdownTextFiles.test(name))!;
-	if (typeof filename !== 'undefined') {
-		return filename;
-	} else {
-		return false;
-	}
+	const result = (typeof filename === 'undefined') ? false : filename;
+
+	return result;
 }
 
 function parseFromDom(): false {
