@@ -246,8 +246,11 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 		}
 
 		document.addEventListener('pjax:end', () => {
-			if (typeof deduplicate === 'string' && !select.exists(deduplicate)) {
-				void setupPageLoad(id, details);
+			if (typeof deduplicate === 'string') {
+				if (!select.exists(deduplicate)) {
+					void setupPageLoad(id, details);
+				}
+
 				return;
 			}
 
