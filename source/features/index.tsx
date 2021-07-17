@@ -246,19 +246,21 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 		}
 
 		document.addEventListener('pjax:end', () => {
-			if (deduplicate === undefined) {
-				if (select.exists('#repo-content-pjax-container')) {
-					if (!select.exists('has-rgh-inner')) {
-						void setupPageLoad(id, details);
-					}
-				} else if (!select.exists('has-rgh')) {
-					void setupPageLoad(id, details);
-				}
-
+			if (typeof deduplicate === 'string' && !select.exists(deduplicate)) {
+				void setupPageLoad(id, details);
 				return;
 			}
 
-			if (deduplicate === false || !select.exists(deduplicate)) {
+			if (deduplicate === false) {
+				void setupPageLoad(id, details);
+				return;
+			}
+
+			if (select.exists('#repo-content-pjax-container')) {
+				if (!select.exists('has-rgh-inner')) {
+					void setupPageLoad(id, details);
+				}
+			} else if (!select.exists('has-rgh')) {
 				void setupPageLoad(id, details);
 			}
 		});
