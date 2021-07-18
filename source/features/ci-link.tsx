@@ -35,6 +35,5 @@ void features.add(__filebasename, {
 		pageDetect.isEmptyRepo,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh',
 	init,
 });

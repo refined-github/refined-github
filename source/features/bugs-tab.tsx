@@ -115,7 +115,6 @@ void features.add(__filebasename, {
 		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh',
 	init,
 }, {
 	include: [

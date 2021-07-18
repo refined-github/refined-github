@@ -24,7 +24,7 @@ interface FeatureLoader extends Partial<InternalRunConfig> {
 
 	/** When pressing the back button, DOM changes and listeners are still there, so normally `init` isn’t called again thanks to an automatic duplicate detection.
 	This detection however might cause problems or not work correctly in some cases #3945, so it can be disabled with `false` or by passing a custom selector to use as duplication check
-	@default undefined */
+	@default true */
 	deduplicate?: false | string;
 
 	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
@@ -217,8 +217,8 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 			exclude = [], // Default: nothing
 			init,
 			deinit,
-			deduplicate,
 			awaitDomReady = true,
+			deduplicate = 'has-rgh',
 			onlyAdditionalListeners = false,
 			additionalListeners = [],
 		} = loader;
@@ -246,24 +246,7 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 		}
 
 		document.addEventListener('pjax:end', () => {
-			if (typeof deduplicate === 'string') {
-				if (!select.exists(deduplicate)) {
-					void setupPageLoad(id, details);
-				}
-
-				return;
-			}
-
-			if (deduplicate === false) {
-				void setupPageLoad(id, details);
-				return;
-			}
-
-			if (select.exists('#repo-content-pjax-container')) {
-				if (!select.exists('has-rgh-inner')) {
-					void setupPageLoad(id, details);
-				}
-			} else if (!select.exists('has-rgh')) {
+			if (!deduplicate || !select.exists(deduplicate)) {
 				void setupPageLoad(id, details);
 			}
 		});

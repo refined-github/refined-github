@@ -89,20 +89,17 @@ void features.add(__filebasename, {
 		pageDetect.isOrganizationProfile,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh',
 	init: initProjects,
 }, {
 	include: [
 		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh',
 	init: initActions,
 }, {
 	include: [
 		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh',
 	init: initWiki,
 });
