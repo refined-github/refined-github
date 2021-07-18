@@ -33,5 +33,6 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversation,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

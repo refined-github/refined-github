@@ -72,5 +72,6 @@ void features.add(__filebasename, {
 		pageDetect.hasRichTextEditor,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init: onetime(init),
 });

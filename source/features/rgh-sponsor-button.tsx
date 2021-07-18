@@ -102,6 +102,7 @@ void features.add(__filebasename, {
 		pageDetect.isIssue,
 		pageDetect.isRepoIssueList,
 	],
+	deduplicate: 'has-rgh-inner',
 	init: handleNewIssue,
 }, {
 	include: [

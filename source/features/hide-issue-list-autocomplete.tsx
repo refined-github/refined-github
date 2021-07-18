@@ -14,5 +14,6 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isMilestone,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

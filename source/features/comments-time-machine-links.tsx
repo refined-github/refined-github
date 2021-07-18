@@ -132,6 +132,7 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isGist,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 }, {
 	include: [

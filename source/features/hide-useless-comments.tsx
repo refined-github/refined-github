@@ -81,5 +81,6 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isIssue,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

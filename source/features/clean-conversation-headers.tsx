@@ -74,6 +74,7 @@ void features.add(__filebasename, {
 		onConversationHeaderUpdate,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init: initIssue,
 }, {
 	include: [

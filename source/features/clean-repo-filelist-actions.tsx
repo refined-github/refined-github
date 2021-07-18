@@ -54,5 +54,6 @@ void features.add(__filebasename, {
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
 	],
+	deduplicate: 'has-rgh-inner',
 	init: onetime(init),
 });

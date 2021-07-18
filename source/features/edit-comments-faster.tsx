@@ -41,5 +41,6 @@ void features.add(__filebasename, {
 		pageDetect.hasComments,
 		pageDetect.isDiscussion,
 	],
+	deduplicate: 'has-rgh-inner',
 	init: onetime(init),
 });
