@@ -253,9 +253,10 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 	}
 };
 
-const addCssFeature = async (id: FeatureID, include: BooleanFunction[]): Promise<void> => {
+const addCssFeature = async (id: FeatureID, include: BooleanFunction[], deduplicate?: false | string): Promise<void> => {
 	void add(id, {
 		include,
+		deduplicate,
 		awaitDomReady: false,
 		init: () => {
 			document.body.classList.add('rgh-' + id);
