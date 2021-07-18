@@ -41,6 +41,7 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isEmptyRepoRoot,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 	deinit,
 });

@@ -34,6 +34,7 @@ void features.add(__filebasename, {
 	exclude: [
 		isNotRefinedGitHubRepo,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 }, {
 	include: [
@@ -46,5 +47,6 @@ void features.add(__filebasename, {
 	additionalListeners: [
 		onConversationHeaderUpdate,
 	],
+	deduplicate: 'has-rgh-inner',
 	init: initTitle,
 });

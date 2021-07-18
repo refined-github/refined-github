@@ -13,5 +13,6 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isConversationList,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

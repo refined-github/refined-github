@@ -56,5 +56,6 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoIssueList,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

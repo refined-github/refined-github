@@ -45,10 +45,12 @@ void features.add(__filebasename, {
 		() => select.exists('.blankslate'),
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init: highlightCollaborators,
 }, {
 	include: [
 		pageDetect.isConversationList,
 	],
+	deduplicate: 'has-rgh-inner',
 	init: highlightSelf,
 });

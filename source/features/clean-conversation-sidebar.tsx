@@ -121,5 +121,6 @@ void features.add(__filebasename, {
 			void onReplacedElement('#partial-discussion-sidebar', clean);
 		},
 	],
+	deduplicate: 'has-rgh-inner',
 	init: clean,
 });

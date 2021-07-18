@@ -66,5 +66,6 @@ void features.add(__filebasename, {
 		pageDetect.isConversationList,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init,
 });

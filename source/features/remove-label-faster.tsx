@@ -64,5 +64,6 @@ void features.add(__filebasename, {
 	exclude: [
 		canNotEditLabels,
 	],
+	deduplicate: 'has-rgh-inner',
 	init: onetime(init),
 });

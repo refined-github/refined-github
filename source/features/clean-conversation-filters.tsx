@@ -76,5 +76,6 @@ void features.add(__filebasename, {
 		pageDetect.isRepoConversationList,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init,
 });

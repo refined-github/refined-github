@@ -19,5 +19,6 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });
