@@ -4,13 +4,9 @@ labels: change request
 body:
   - type: textarea
     attributes:
-      label: Describe what part of RG you don't like. If needed, plase elaborate on your opinion.
-    validations:
-      required: true
-  - type: textarea
-    attributes:
-      label: If you find any related threads, link them here
+      label: Describe what part of Refined GitHub you don't like
   - type: markdown
     attributes:
       value: |
+        If you find any related threads, link them here.
         Duplicate issues are ok, but they may be closed pretty quickly

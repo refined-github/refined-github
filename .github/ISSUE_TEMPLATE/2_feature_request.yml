@@ -2,12 +2,11 @@ name: 🆕 Suggest an improvement or new feature
 description: ___
 labels: enhancement, under discussion
 body:
-  - type: checkboxes
+  - type: markdown
     attributes:
-      label: "Please ensure:"
-      options:
-        - label: Your requested feature makes sense for Refined GitHub.
-          required: true
+      value: |
+        Please ensure your requested feature makes sense for Refined GitHub:
+        https://github.com/sindresorhus/refined-github/issues/2960
   - type: textarea
     attributes:
       label: Describe your improvement or feature request.
