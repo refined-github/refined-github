@@ -50,18 +50,13 @@ function init(): void {
 	renderButton();
 }
 
-function isRenderedPage(): boolean {
-	const isSourcePage = select.exists('table.highlight');
-	return !isSourcePage
-}
-
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleFile,
 		pageDetect.isGist,
 	],
 	exclude: [
-		isRenderedPage,
+		()=> !select.exists('table.highlight'), // Rendered page
 	],
 	deduplicate: '.rgh-copy-file', // #3945
 	init,
