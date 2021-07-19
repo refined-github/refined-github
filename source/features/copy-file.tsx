@@ -45,17 +45,10 @@ function renderButton(): void {
 	}
 }
 
-function removeButton(): void {
-	select('.rgh-copy-file')?.remove();
-}
-
 function init(): void {
-	delegate(document, '.rgh-copy-file', 'click', handleClick);
-
-	if (select.exists(':is(.blob, .blob-wrapper) > .markdown-body')) {
-		delegate(document, '.rgh-md-source', 'rgh:view-markdown-source', renderButton);
-		delegate(document, '.rgh-md-source', 'rgh:view-markdown-rendered', removeButton);
-	} else {
+	const isSourcePage = select.exists('table.highlight');
+	if (isSourcePage) {
+		delegate(document, '.rgh-copy-file', 'click', handleClick);
 		renderButton();
 	}
 }
