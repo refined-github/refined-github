@@ -56,7 +56,7 @@ void features.add(__filebasename, {
 		pageDetect.isGist,
 	],
 	exclude: [
-		()=> !select.exists('table.highlight'), // Rendered page
+		() => !select.exists('table.highlight'), // Rendered page
 	],
 	deduplicate: '.rgh-copy-file', // #3945
 	init,
