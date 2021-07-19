@@ -46,17 +46,22 @@ function renderButton(): void {
 }
 
 function init(): void {
+	delegate(document, '.rgh-copy-file', 'click', handleClick);
+	renderButton();
+}
+
+function isRenderedPage(): boolean {
 	const isSourcePage = select.exists('table.highlight');
-	if (isSourcePage) {
-		delegate(document, '.rgh-copy-file', 'click', handleClick);
-		renderButton();
-	}
+	return !isSourcePage
 }
 
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isSingleFile,
 		pageDetect.isGist,
+	],
+	exclude: [
+		isRenderedPage,
 	],
 	deduplicate: '.rgh-copy-file', // #3945
 	init,
