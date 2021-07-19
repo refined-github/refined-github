@@ -14,7 +14,7 @@ async function loadDeferred(jumpList: Element): Promise<void> {
 	const retrier = setInterval(() => {
 		jumpList.parentElement!.dispatchEvent(new MouseEvent('mouseover'));
 	}, 100);
-	await oneMutation(jumpList, {childList: true, subtree: true}); // TODO: subtree might not be necessary
+	await oneMutation(jumpList, {childList: true, subtree: true});
 	clearInterval(retrier);
 }
 
