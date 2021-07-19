@@ -88,7 +88,7 @@ async function initProjects(): Promise<void | false> {
 }
 
 async function init(): Promise<void> {
-	// The user may have disabled `more-dropdown` so un-hide it
+	// The user may have disabled `more-dropdown-links` so un-hide it
 	await unhideOverflowDropdown();
 	onlyShowInDropdown('security-tab');
 	onlyShowInDropdown('insights-tab');
