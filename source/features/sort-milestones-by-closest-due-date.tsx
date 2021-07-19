@@ -17,7 +17,8 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepo
+		pageDetect.isRepo,
 	],
-	init
+	deduplicate: 'has-rgh-inner',
+	init,
 });

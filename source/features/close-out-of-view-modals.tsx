@@ -40,7 +40,7 @@ function menuActivatedHandler(event: delegate.Event): void {
 	const modals = select.all([
 		':scope > details-menu', // "Watch repo" dropdown
 		':scope > details-dialog', // "Watch repo" dropdown
-		':scope > div > .dropdown-menu' // "Clone or download" and "Repo nav overflow"
+		':scope > div > .dropdown-menu', // "Clone or download" and "Repo nav overflow"
 	], details);
 
 	for (const modal of modals) {
@@ -54,5 +54,5 @@ function init(): void {
 
 void features.add(__filebasename, {
 	awaitDomReady: false,
-	init: onetime(init)
+	init: onetime(init),
 });

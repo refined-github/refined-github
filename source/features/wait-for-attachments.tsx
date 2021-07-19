@@ -40,10 +40,11 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasRichTextEditor
+		pageDetect.hasRichTextEditor,
 	],
 	exclude: [
-		pageDetect.isNewIssue
+		pageDetect.isNewIssue,
 	],
-	init
+	deduplicate: 'has-rgh-inner',
+	init,
 });

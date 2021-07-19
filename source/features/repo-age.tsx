@@ -126,5 +126,6 @@ void features.add(__filebasename, {
 		pageDetect.isEmptyRepoRoot,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init,
 });

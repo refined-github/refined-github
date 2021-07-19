@@ -58,7 +58,7 @@
 		"element-ready": "^6.0.0",
 		"fit-textarea": "^2.0.0",
 		"flat-zip": "^1.0.1",
-		"github-url-detection": "^5.3.0",
+		"github-url-detection": "^5.3.1",
 		"image-promise": "^7.0.1",
 		"indent-textarea": "^2.1.0",
 		"js-abbreviation-number": "^1.1.2",
@@ -92,10 +92,11 @@
 		"@types/codemirror": "^5.60.1",
 		"@types/copy-webpack-plugin": "^8.0.0",
 		"@types/firefox-webext-browser": "^82.0.0",
-		"@types/jsdom": "^16.2.12",
-		"@types/mini-css-extract-plugin": "^2.0.0",
-		"@types/react": "^17.0.13",
-		"@types/terser-webpack-plugin": "^5.0.4",
+		"@types/jsdom": "^16.2.10",
+		"@types/mini-css-extract-plugin": "^1.4.3",
+		"@types/node": "^16.0.0",
+		"@types/react": "^17.0.9",
+		"@types/terser-webpack-plugin": "^5.0.3",
 		"ava": "^3.15.0",
 		"copy-webpack-plugin": "^9.0.1",
 		"css-loader": "^5.2.6",
@@ -123,7 +124,7 @@
 		"xo": "^0.41.0"
 	},
 	"engines": {
-		"node": ">= 15",
+		"node": ">= 16",
 		"npm": ">= 7"
 	},
 	"webExt": {

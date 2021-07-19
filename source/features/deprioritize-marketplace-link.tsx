@@ -16,15 +16,15 @@ async function init(): Promise<void> {
 		await onProfileDropdownLoad();
 		select.last('.header-nav-current-user ~ .dropdown-divider')!.before(
 			<div className="dropdown-divider"/>,
-			<a className="dropdown-item" href="/marketplace">Marketplace</a>
+			<a className="dropdown-item" href="/marketplace">Marketplace</a>,
 		);
 	}
 }
 
 void features.add(__filebasename, {
 	exclude: [
-		pageDetect.isGist
+		pageDetect.isGist,
 	],
 	awaitDomReady: false,
-	init: onetime(init)
+	init: onetime(init),
 });

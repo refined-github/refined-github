@@ -19,7 +19,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isCompare
+		pageDetect.isCompare,
 	],
-	init
+	init,
 });

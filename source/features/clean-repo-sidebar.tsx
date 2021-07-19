@@ -84,8 +84,9 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoRoot
+		pageDetect.isRepoRoot,
 	],
 	awaitDomReady: false,
-	init
+	deduplicate: 'has-rgh-inner',
+	init,
 });

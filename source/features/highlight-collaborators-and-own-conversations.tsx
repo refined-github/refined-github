@@ -16,7 +16,7 @@ const getCollaborators = cache.function(async (): Promise<string[]> => {
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: () => 'repo-collaborators:' + getRepo()!.nameWithOwner
+	cacheKey: () => 'repo-collaborators:' + getRepo()!.nameWithOwner,
 });
 
 async function highlightCollaborators(): Promise<void> {
@@ -31,7 +31,7 @@ async function highlightCollaborators(): Promise<void> {
 
 function highlightSelf(): void {
 	// "Opened by {user}" and "Created by {user}"
-	for (const author of select.all(`.opened-by a[title$="ed by ${CSS.escape(getUsername())}"]`)) {
+	for (const author of select.all(`.opened-by a[title$="ed by ${CSS.escape(getUsername()!)}"]`)) {
 		author.classList.add('rgh-collaborator');
 		author.style.fontStyle = 'italic';
 	}
@@ -39,16 +39,18 @@ function highlightSelf(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepoConversationList
+		pageDetect.isRepoConversationList,
 	],
 	exclude: [
-		() => select.exists('.blankslate')
+		() => select.exists('.blankslate'),
 	],
 	awaitDomReady: false,
-	init: highlightCollaborators
+	deduplicate: 'has-rgh-inner',
+	init: highlightCollaborators,
 }, {
 	include: [
-		pageDetect.isConversationList
+		pageDetect.isConversationList,
 	],
-	init: highlightSelf
+	deduplicate: 'has-rgh-inner',
+	init: highlightSelf,
 });

@@ -125,12 +125,14 @@ async function init(): Promise<void> {
 				{
 					prs.length === 1
 						? <>Careful, PR <a href={getPRUrl(prNumber)}>#{prNumber}</a> is already touching this file</>
-						: <>
-							Careful, {prs.length} open PRs are already touching this file
-							<span className="ml-2 BtnGroup" style={{verticalAlign: '-0.6em'}}>
-								{prs.map(getSingleButton)}
-							</span>
-        </>
+						: (
+							<>
+								Careful, {prs.length} open PRs are already touching this file
+								<span className="ml-2 BtnGroup" style={{verticalAlign: '-0.6em'}}>
+									{prs.map(getSingleButton)}
+								</span>
+							</>
+						)
 				}
 			</div>,
 		);

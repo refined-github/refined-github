@@ -3,14 +3,12 @@ import delegate from 'delegate-it';
 
 const fragmentSelector = [
 	'include-fragment.diff-progressive-loader', // Incremental file loader on scroll
-	'include-fragment.js-diff-entry-loader' // File diff loader on clicking "Load Diff"
-].join();
+	'include-fragment.js-diff-entry-loader', // File diff loader on clicking "Load Diff"
+].join(',');
 
 // This lets you call `onDiffFileLoad` multiple times with the same callback but only ever a `load` listener is registered
-const getDeduplicatedHandler = mem((callback: EventListener): delegate.EventHandler => {
-	return (event: delegate.Event) => {
-		event.delegateTarget.addEventListener('load', callback);
-	};
+const getDeduplicatedHandler = mem((callback: EventListener): delegate.EventHandler => (event: delegate.Event) => {
+	event.delegateTarget.addEventListener('load', callback);
 });
 
 export default function onDiffFileLoad(callback: EventListener): delegate.Subscription {

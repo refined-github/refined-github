@@ -34,7 +34,7 @@ export default class GitHubURL {
 	}
 
 	private disambiguateReference(
-		ambiguousReference: string[]
+		ambiguousReference: string[],
 	): {branch: string; filePath: string} {
 		const branch = ambiguousReference[0];
 		// History pages might use search parameters
@@ -49,10 +49,10 @@ export default class GitHubURL {
 		const currentBranch = getCurrentCommittish();
 		const currentBranchSections = currentBranch?.split('/');
 		if (
-			!currentBranch || // Current branch could not be determined (1/2)
-			!currentBranchSections || // Current branch could not be determined (2/2)
-			ambiguousReference.length === 1 || // Ref has no slashes
-			currentBranchSections.length === 1 // Current branch has no slashes
+			!currentBranch // Current branch could not be determined (1/2)
+			|| !currentBranchSections // Current branch could not be determined (2/2)
+			|| ambiguousReference.length === 1 // Ref has no slashes
+			|| currentBranchSections.length === 1 // Current branch has no slashes
 		) {
 			// Then the reference is not ambiguous
 			return {branch, filePath};
@@ -67,7 +67,7 @@ export default class GitHubURL {
 
 		return {
 			branch: currentBranch,
-			filePath: ambiguousReference.slice(currentBranchSections.length).join('/')
+			filePath: ambiguousReference.slice(currentBranchSections.length).join('/'),
 		};
 	}
 

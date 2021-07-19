@@ -48,7 +48,7 @@ function togglableFilters(): void {
 				'is:open',
 				'is:closed',
 				'is:merged',
-				'is:unmerged'
+				'is:unmerged',
 			);
 		}
 	}
@@ -63,8 +63,9 @@ async function init(): Promise<void | false> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isConversationList
+		pageDetect.isConversationList,
 	],
 	awaitDomReady: false,
-	init
+	deduplicate: 'has-rgh-inner',
+	init,
 });

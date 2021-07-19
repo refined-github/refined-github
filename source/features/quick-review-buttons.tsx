@@ -22,7 +22,7 @@ function init(): false | void {
 			<input
 				type="hidden"
 				name="pull_request_review[event]"
-				value="comment"/>
+				value="comment"/>,
 		);
 	}
 
@@ -51,7 +51,7 @@ function init(): false | void {
 				disabled={radio.disabled}
 			>
 				{radio.nextSibling}
-			</button>
+			</button>,
 		);
 	}
 
@@ -74,7 +74,7 @@ function init(): false | void {
 
 	// This will prevent submission when clicking "Comment" and "Request changes" without entering a comment and no other review comments are pending
 	delegate(form, 'button', 'click', ({delegateTarget: {value}}) => {
-		const pendingComments = looseParseInt(select('.js-reviews-toggle .js-pending-review-comment-count')!);
+		const pendingComments = looseParseInt(select('.js-reviews-toggle .js-pending-review-comment-count'));
 		const submissionRequiresComment = pendingComments === 0 && (value === 'reject' || value === 'comment');
 		select('#pull_request_review_body', form)!.toggleAttribute('required', submissionRequiresComment);
 	});
@@ -92,7 +92,7 @@ function init(): false | void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPR
+		pageDetect.isPR,
 	],
-	init
+	init,
 });

@@ -1,4 +1,4 @@
-import './more-dropdown.css';
+import './more-dropdown-links.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
@@ -8,7 +8,6 @@ import features from '.';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
 
-/* eslint-disable-next-line import/prefer-default-export */
 export function createDropdownItem(label: string, url: string, attributes?: Record<string, string>): Element {
 	return (
 		<li {...attributes}>
@@ -19,13 +18,13 @@ export function createDropdownItem(label: string, url: string, attributes?: Reco
 	);
 }
 
-function onlyShowInDropdown(id: string): void {
+export function onlyShowInDropdown(id: string): void {
 	const tabItem = select(`[data-tab-item$="${id}"]`);
 	if (!tabItem && pageDetect.isEnterprise()) { // GHE #3962
 		return;
 	}
 
-	(tabItem!.closest('li') ?? tabItem!.closest('.UnderlineNav-item'))!.remove();
+	(tabItem!.closest('li') ?? tabItem!.closest('.UnderlineNav-item'))!.classList.add('d-none');
 
 	const menuItem = select(`[data-menu-item$="${id}"]`)!;
 	menuItem.removeAttribute('data-menu-item');
@@ -34,37 +33,36 @@ function onlyShowInDropdown(id: string): void {
 	select('.js-responsive-underlinenav-overflow ul')!.append(menuItem);
 }
 
-async function init(): Promise<void> {
+export async function unhideOverflowDropdown(): Promise<void> {
 	// Wait for the tab bar to be loaded
 	const repoNavigationBar = (await elementReady('.UnderlineNav-body'))!;
+	repoNavigationBar.parentElement!.classList.add('rgh-has-more-dropdown');
+}
 
+async function init(): Promise<void> {
 	const reference = getCurrentCommittish() ?? await getDefaultBranch();
 	const compareUrl = buildRepoURL('compare', reference);
 	const commitsUrl = buildRepoURL('commits', reference);
 	const branchesUrl = buildRepoURL('branches');
 	const dependenciesUrl = buildRepoURL('network/dependencies');
-
-	repoNavigationBar.parentElement!.classList.add('rgh-has-more-dropdown');
+	await unhideOverflowDropdown();
 
 	select('.js-responsive-underlinenav-overflow ul')!.append(
 		<li className="dropdown-divider" role="separator"/>,
 		createDropdownItem('Compare', compareUrl),
 		pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl),
 		createDropdownItem('Commits', commitsUrl),
-		createDropdownItem('Branches', branchesUrl)
+		createDropdownItem('Branches', branchesUrl),
 	);
-
-	onlyShowInDropdown('security-tab');
-	onlyShowInDropdown('insights-tab');
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepo
+		pageDetect.isRepo,
 	],
 	exclude: [
-		pageDetect.isEmptyRepo
+		pageDetect.isEmptyRepo,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

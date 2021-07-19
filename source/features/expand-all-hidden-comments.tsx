@@ -17,7 +17,7 @@ function handleAltClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): v
 	const form = event.delegateTarget.form!;
 	const hiddenItemsCount = Math.min(
 		200, // It fails with more than this https://github.com/sindresorhus/refined-github/issues/2931#issuecomment-603818778
-		looseParseInt(form)
+		looseParseInt(form),
 	);
 
 	const url = new URL(form.action);
@@ -31,7 +31,8 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isConversation
+		pageDetect.isConversation,
 	],
-	init
+	deduplicate: 'has-rgh-inner',
+	init,
 });

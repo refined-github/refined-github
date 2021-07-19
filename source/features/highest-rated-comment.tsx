@@ -3,7 +3,7 @@ import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {ArrowDownIcon, CheckIcon} from '@primer/octicons-react';
+import {ArrowDownIcon, CheckCircleFillIcon} from '@primer/octicons-react';
 
 import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
@@ -25,10 +25,10 @@ const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 	const count = selectSum(positiveReactionsSelector, comment);
 	if (
 		// It needs to be upvoted enough times
-		count >= 10 &&
+		count >= 10
 
 		// It can't be a controversial comment
-		selectSum(negativeReactionsSelector, comment) < count / 2
+		&& selectSum(negativeReactionsSelector, comment) < count / 2
 	) {
 		return count;
 	}
@@ -54,8 +54,8 @@ function highlightBestComment(bestComment: Element): void {
 			className="d-flex flex-items-center text-green color-text-success mr-1 tooltipped tooltipped-n"
 			aria-label="This comment has the most positive reactions on this issue."
 		>
-			<CheckIcon/>
-		</span>
+			<CheckCircleFillIcon/>
+		</span>,
 	);
 }
 
@@ -83,7 +83,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 					Highest-rated comment: <em>{text}</em>
 				</span>
 			</a>
-		</div>
+		</div>,
 	);
 }
 
@@ -104,7 +104,8 @@ function init(): false | void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isIssue
+		pageDetect.isIssue,
 	],
-	init
+	deduplicate: 'has-rgh-inner',
+	init,
 });

@@ -1,5 +1,4 @@
 import 'typed-query-selector';
-import select from 'select-dom';
 
 import './refined-github.css';
 import './features/github-bugs.css';
@@ -38,9 +37,8 @@ import './features/remove-diff-signs';
 
 import './features/useful-not-found-page';
 import './features/trending-menu-item';
-import './features/more-dropdown';
+import './features/more-dropdown-links';
 import './features/releases-tab';
-import './features/remove-projects-tab';
 import './features/comment-fields-keyboard-shortcuts';
 import './features/one-key-formatting';
 import './features/tab-to-indent';
@@ -220,6 +218,6 @@ import './features/delete-review-comments-faster';
 import './features/no-useless-split-diff-view';
 import './features/list-pr-for-branch';
 import './features/cancel-wiki-edit-button';
-
-// Add global for easier debugging
-(window as any).select = select;
+import './features/comment-on-draft-pr-indicator';
+import './features/select-notifications';
+import './features/clean-repo-tabs';

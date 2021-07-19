@@ -20,7 +20,7 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 
 	removeLabelButton.disabled = true;
 	await api.v3(`issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
-		method: 'DELETE'
+		method: 'DELETE',
 	});
 
 	removeLabelButton.closest('a')!.remove();
@@ -49,9 +49,9 @@ async function init(): Promise<void> {
 					data-name={label.dataset.name}
 				>
 					<XIcon/>
-				</button>
+				</button>,
 			);
-		}
+		},
 	});
 
 	delegate(document, '.rgh-remove-label-faster:not([disabled])', 'click', removeLabelButtonClickHandler);
@@ -59,10 +59,11 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isConversation
+		pageDetect.isConversation,
 	],
 	exclude: [
-		canNotEditLabels
+		canNotEditLabels,
 	],
-	init: onetime(init)
+	deduplicate: 'has-rgh-inner',
+	init: onetime(init),
 });

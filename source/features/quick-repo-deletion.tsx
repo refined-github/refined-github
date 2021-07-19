@@ -36,19 +36,14 @@ function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
 	setTimeout(start, 1, event.delegateTarget);
 }
 
-async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boolean> {
-	// Watch for cancellations
-	const abortController = new AbortController();
-	buttonContainer.addEventListener('toggle', () => {
+async function verifyScopesWhileWaiting(abortController: AbortController): Promise<void> {
+	try {
+		await api.expectTokenScope('delete_repo');
+	} catch (error: unknown) {
 		abortController.abort();
-	}, {once: true});
-
-	void api.expectTokenScope('delete_repo').catch((error: Error) => {
-		abortController.abort();
-		buttonContainer.open = false;
 		addNotice([
 			'Could not delete the repository. ',
-			parseBackticks(error.message),
+			parseBackticks((error as Error).message),
 		], {
 			type: 'error',
 			action: (
@@ -57,7 +52,18 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 				</a>
 			),
 		});
-	});
+	}
+}
+
+async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boolean> {
+	// Sync AbortController and DOM state
+	const abortController = new AbortController();
+	buttonContainer.addEventListener('toggle', abortController.abort, {once: true});
+	abortController.signal.addEventListener('abort', () => {
+		buttonContainer.open = false;
+	}, {once: true});
+
+	void verifyScopesWhileWaiting(abortController);
 
 	let secondsLeft = 5;
 	const button = select('.btn', buttonContainer)!;
@@ -119,7 +125,7 @@ async function init(): Promise<void | false> {
 		!await elementReady('nav [data-content="Settings"]')
 
 		// Only if the repository hasn't been starred
-		|| looseParseInt(select('.starring-container .social-count')!) > 0
+		|| looseParseInt(select('.starring-container .social-count')) > 0
 	) {
 		return false;
 	}

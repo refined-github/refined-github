@@ -16,13 +16,14 @@ function init(): void {
 
 			// Then linkify avatar
 			wrap(avatar, <a href={`/${userName}`}/>);
-		}
+		},
 	});
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isConversation
+		pageDetect.isConversation,
 	],
-	init: onetime(init)
+	deduplicate: 'has-rgh-inner',
+	init: onetime(init),
 });

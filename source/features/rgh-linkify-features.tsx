@@ -29,22 +29,24 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments,
-		pageDetect.isReleasesOrTags
+		pageDetect.isReleasesOrTags,
 	],
 	exclude: [
-		isNotRefinedGitHubRepo
+		isNotRefinedGitHubRepo,
 	],
-	init
+	deduplicate: 'has-rgh-inner',
+	init,
 }, {
 	include: [
 		pageDetect.isPR,
-		pageDetect.isIssue
+		pageDetect.isIssue,
 	],
 	exclude: [
-		isNotRefinedGitHubRepo
+		isNotRefinedGitHubRepo,
 	],
 	additionalListeners: [
-		onConversationHeaderUpdate
+		onConversationHeaderUpdate,
 	],
-	init: initTitle
+	deduplicate: 'has-rgh-inner',
+	init: initTitle,
 });

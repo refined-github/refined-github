@@ -25,7 +25,7 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const publicOrganizationsNames = await getPublicOrganizationsNames(getUsername());
+	const publicOrganizationsNames = await getPublicOrganizationsNames(getUsername()!);
 	for (const org of orgs) {
 		if (!publicOrganizationsNames.includes(org.pathname.replace(/^\/(organizations\/)?/, ''))) {
 			org.classList.add('rgh-private-org');

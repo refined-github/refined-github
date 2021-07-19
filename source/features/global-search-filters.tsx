@@ -11,8 +11,8 @@ async function init(): Promise<void> {
 	const filters = [
 		['Forks', 'fork:true'],
 		['Private', 'is:private'],
-		['Yours', 'user:' + getUsername()],
-		['Authored', 'author:@me']
+		['Yours', 'user:' + getUsername()!],
+		['Authored', 'author:@me'],
 	];
 	const items = [];
 	for (const [name, filter] of filters) {
@@ -39,14 +39,14 @@ async function init(): Promise<void> {
 			<ul data-pjax className="filter-list small">
 				{items}
 			</ul>
-		</div>
+		</div>,
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isGlobalSearchResults
+		pageDetect.isGlobalSearchResults,
 	],
 	awaitDomReady: false,
-	init
+	init,
 });

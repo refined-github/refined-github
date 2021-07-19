@@ -23,7 +23,7 @@ function init(): void {
 	const thirdPartyApps = [
 		`a:not([href="/apps/github-actions"]) ~ div .status-actions[href^="${location.origin}"]:not(.rgh-bypass-link)`, // Hovercard status checks
 		'a:not([href="/apps/github-actions"]) ~ div .status-actions[href^="/"]:not(.rgh-bypass-link)',
-	].join();
+	].join(',');
 
 	observe(thirdPartyApps, {
 		constructor: HTMLAnchorElement,

@@ -35,13 +35,13 @@ function init(): void | false {
 					</tr>
 				))}
 			</tbody>
-		</table>
+		</table>,
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
-		hasFrontMatter
+		hasFrontMatter,
 	],
-	init
+	init,
 });

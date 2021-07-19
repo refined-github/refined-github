@@ -15,7 +15,7 @@ const currentRepo = getRepo()!;
 
 export function linkifyIssues(
 	element: Element,
-	options: Partial<linkifyIssuesCore.TypeDomOptions> = {}
+	options: Partial<linkifyIssuesCore.TypeDomOptions> = {},
 ): void {
 	const linkified = linkifyIssuesCore(element.textContent!, {
 		user: currentRepo.owner ?? '/',
@@ -26,8 +26,8 @@ export function linkifyIssues(
 		attributes: {
 			rel: 'noreferrer noopener',
 			class: linkifiedURLClass, // Necessary to avoid also shortening the links
-			...options.attributes
-		}
+			...options.attributes,
+		},
 	});
 	if (linkified.children.length === 0) { // Children are <a>
 		return;
@@ -55,8 +55,8 @@ export function linkifyURLs(element: Element): void {
 		type: 'dom' as const,
 		attributes: {
 			rel: 'noreferrer noopener',
-			class: linkifiedURLClass // Necessary to avoid also shortening the links
-		}
+			class: linkifiedURLClass, // Necessary to avoid also shortening the links
+		},
 	});
 
 	if (linkified.children.length === 0) { // Children are <a>

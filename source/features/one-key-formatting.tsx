@@ -39,8 +39,9 @@ function init(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.hasRichTextEditor,
-		pageDetect.isGist
+		pageDetect.isGist,
 	],
 	awaitDomReady: false,
-	init: onetime(init)
+	deduplicate: 'has-rgh-inner',
+	init: onetime(init),
 });

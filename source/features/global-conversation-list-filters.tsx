@@ -16,8 +16,8 @@ function init(): void {
 	const typeName = isIssues ? 'Issues' : 'Pull Requests';
 
 	const links = [
-		['Commented', `${typeName} you’ve commented on`, `commenter:${getUsername()}`],
-		['Yours', `${typeName} on your repos`, `user:${getUsername()}`]
+		['Commented', `${typeName} you’ve commented on`, `commenter:${getUsername()!}`],
+		['Yours', `${typeName} on your repos`, `user:${getUsername()!}`],
 	] as const;
 
 	for (const [label, title, query] of links) {
@@ -44,7 +44,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isGlobalConversationList
+		pageDetect.isGlobalConversationList,
 	],
-	init
+	init,
 });

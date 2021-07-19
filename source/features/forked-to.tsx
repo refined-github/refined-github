@@ -12,7 +12,7 @@ import GitHubURL from '../github-helpers/github-url';
 import {getUsername, getForkedRepo, getRepo} from '../github-helpers';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepo()!.nameWithOwner;
-const getCacheKey = (): string => `forked-to:${getForkSourceRepo()}@${getUsername()}`;
+const getCacheKey = (): string => `forked-to:${getForkSourceRepo()}@${getUsername()!}`;
 
 const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 	const document = await fetchDom(`/${getForkSourceRepo()}/fork?fragment=1`);
@@ -24,7 +24,7 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 5},
-	cacheKey: getCacheKey
+	cacheKey: getCacheKey,
 });
 
 function createLink(baseRepo: string): string {
@@ -32,7 +32,7 @@ function createLink(baseRepo: string): string {
 		const [user, repository] = baseRepo.split('/', 2);
 		const url = new GitHubURL(location.href).assign({
 			user,
-			repository
+			repository,
 		});
 		return url.pathname;
 	}
@@ -56,7 +56,7 @@ async function updateUI(forks: string[]): Promise<void> {
 				title={`Open your fork at ${forks[0]}`}
 			>
 				<LinkExternalIcon/>
-			</a>
+			</a>,
 		);
 	} else {
 		forkCounter!.before(
@@ -85,7 +85,7 @@ async function updateUI(forks: string[]): Promise<void> {
 						</a>
 					))}
 				</details-menu>
-			</details>
+			</details>,
 		);
 	}
 }
@@ -120,9 +120,9 @@ async function init(): Promise<void | false> {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isRepo
+		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
 	deduplicate: false,
-	init
+	init,
 });

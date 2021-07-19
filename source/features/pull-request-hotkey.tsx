@@ -25,10 +25,10 @@ void features.add(__filebasename, {
 		'g 1': 'Go to Conversation',
 		'g 2': 'Go to Commits',
 		'g 3': 'Go to Checks',
-		'g 4': 'Go to Files changed'
+		'g 4': 'Go to Files changed',
 	},
 	include: [
-		pageDetect.isPR
+		pageDetect.isPR,
 	],
-	init
+	init,
 });

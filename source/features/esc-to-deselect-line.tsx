@@ -25,8 +25,8 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasCode
+		pageDetect.hasCode,
 	],
 	awaitDomReady: false,
-	init: onetime(init)
+	init: onetime(init),
 });

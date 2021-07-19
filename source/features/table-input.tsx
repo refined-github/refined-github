@@ -14,12 +14,12 @@ function addTable({delegateTarget: square}: delegate.Event<MouseEvent, HTMLButto
 	const cursorPosition = field.selectionStart;
 
 	field.focus();
-	const table =
-		'<table>\n' +
-			('<tr>\n' +
-				'\t<td>\n'.repeat(Number(square.dataset.x))
-			).repeat(Number(square.dataset.y)) +
-		'</table>';
+	const table
+		= '<table>\n'
+			+ ('<tr>\n'
+				+ '\t<td>\n'.repeat(Number(square.dataset.x))
+			).repeat(Number(square.dataset.y))
+		+ '</table>';
 	textFieldEdit.insert(field, smartBlockWrap(table, field));
 
 	// Move caret to first cell
@@ -65,14 +65,15 @@ function init(): void {
 						</button>
 					))}
 				</details-menu>
-			</details>
+			</details>,
 		);
 	}
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasRichTextEditor
+		pageDetect.hasRichTextEditor,
 	],
-	init
+	deduplicate: 'has-rgh-inner',
+	init,
 });

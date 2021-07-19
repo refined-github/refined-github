@@ -8,13 +8,13 @@ function init(): void {
 	observe('[aria-label="You do not have permission to edit this milestone."]', {
 		add(icon) {
 			icon.parentElement!.remove();
-		}
+		},
 	});
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isMilestone
+		pageDetect.isMilestone,
 	],
-	init: onetime(init)
+	init: onetime(init),
 });

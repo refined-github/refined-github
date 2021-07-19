@@ -41,8 +41,8 @@ async function wiggleWiggleWiggle(): Promise<void> {
 			'rotate(2deg) scale(1.1)',
 			'rotate(-2deg) scale(1.1)',
 			'rotate(2deg) scale(1.05)',
-			'none'
-		]
+			'none',
+		],
 	}, 600);
 }
 
@@ -60,7 +60,7 @@ async function suchLove({delegateTarget}: delegate.Event): Promise<void> {
 		position: 'fixed',
 		zIndex: '9999999999',
 		left: `${rect.x}px`,
-		top: `${rect.y}px`
+		top: `${rect.y}px`,
 	});
 
 	document.body.append(love);
@@ -68,15 +68,15 @@ async function suchLove({delegateTarget}: delegate.Event): Promise<void> {
 	await love.animate({
 		transform: [
 			'translateZ(0)',
-			'translateZ(0) scale(80)'
+			'translateZ(0) scale(80)',
 		],
 		opacity: [
 			1,
-			0
-		]
+			0,
+		],
 	}, {
 		duration: 600,
-		easing: 'ease-out'
+		easing: 'ease-out',
 	}).finished;
 
 	love.remove(); // 💔
@@ -86,7 +86,7 @@ async function handleNewIssue(): Promise<false> {
 	if (getRepo()!.owner !== getUsername() && !await cache.get('did-it-wiggle')) {
 		select('.btn-primary[href$="/issues/new/choose"], .btn-primary[href$="/issues/new"]')
 			?.addEventListener('mouseenter', wiggleWiggleWiggle, {
-				once: true
+				once: true,
 			});
 	}
 
@@ -100,14 +100,15 @@ function handleSponsorButton(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isIssue,
-		pageDetect.isRepoIssueList
+		pageDetect.isRepoIssueList,
 	],
-	init: handleNewIssue
+	deduplicate: 'has-rgh-inner',
+	init: handleNewIssue,
 }, {
 	include: [
 		pageDetect.isRepo,
 		pageDetect.isUserProfile,
-		pageDetect.isOrganizationProfile
+		pageDetect.isOrganizationProfile,
 	],
-	init: handleSponsorButton
+	init: handleSponsorButton,
 });

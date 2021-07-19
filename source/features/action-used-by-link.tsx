@@ -20,13 +20,13 @@ function init(): void {
 	select('.d-block.mb-2[href^="/contact"]')!.after(
 		<a href={String(actionURL)} className="d-block mb-2">
 			<SearchIcon width={14} className="text-gray-dark color-text-primary mr-2"/>Usage examples
-		</a>
+		</a>,
 	);
 }
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isMarketplaceAction
+		pageDetect.isMarketplaceAction,
 	],
-	init
+	init,
 });

@@ -63,7 +63,7 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 			// Without this, Firefox will follow the link instead of submitting the reaction button
 			<a href={isFirefox ? undefined : `/${username}`} className="rounded-1 avatar-user">
 				<img src={imageUrl} className="avatar-user rounded-1"/>
-			</a>
+			</a>,
 		);
 	}
 
@@ -81,7 +81,7 @@ const viewportObserver = new IntersectionObserver(changes => {
 	}
 }, {
 	// Start loading a little before they become visible
-	rootMargin: '500px'
+	rootMargin: '500px',
 });
 
 function init(): void {
@@ -93,7 +93,8 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.hasComments
+		pageDetect.hasComments,
 	],
-	init
+	deduplicate: 'has-rgh-inner',
+	init,
 });
