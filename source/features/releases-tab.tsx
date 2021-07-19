@@ -10,7 +10,7 @@ import * as api from '../github-helpers/api';
 import looseParseInt from '../helpers/loose-parse-int';
 import {appendBefore} from '../helpers/dom-utils';
 import abbreviateNumber from '../helpers/abbreviate-number';
-import {createDropdownItem} from './more-dropdown';
+import {createDropdownItem} from './more-dropdown-links';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
