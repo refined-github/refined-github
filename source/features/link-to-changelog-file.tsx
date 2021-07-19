@@ -15,16 +15,10 @@ interface FileType {
 }
 
 const getCacheKey = (): string => `changelog:${getRepo()!.nameWithOwner}`;
-const changelogNames = new Set(['changelog', 'news', 'changes', 'history', 'release', 'whatsnew']);
 
+const changelogFiles = /^(changelog|news|changes|history|release|whatsnew)(\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
 function findChangelogName(files: string[]): string | false {
-	for (const file of files) {
-		if (changelogNames.has(file.toLowerCase().split('.', 1)[0])) {
-			return file;
-		}
-	}
-
-	return false;
+	return files.find(name => changelogFiles.test(name)) ?? false;
 }
 
 function parseFromDom(): false {
