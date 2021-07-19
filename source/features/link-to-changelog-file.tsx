@@ -17,13 +17,13 @@ interface FileType {
 const getCacheKey = (): string => `changelog:${getRepo()!.nameWithOwner}`;
 
 const changelogFiles = /^(changelog|news|changes|history|release|whatsnew)(\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
-function findChangelogName(files: string[]): string | undefined {
-	return files.find(name => changelogFiles.test(name));
+function findChangelogName(files: string[]): string | false {
+	return files.find(name => changelogFiles.test(name)) ?? false;
 }
 
 function parseFromDom(): false {
 	const files = select.all('[aria-labelledby="files"] .js-navigation-open[href*="/blob/"').map(file => file.title);
-	void cache.set(getCacheKey(), findChangelogName(files) ?? '');
+	void cache.set(getCacheKey(), findChangelogName(files));
 	return false;
 }
 
@@ -48,7 +48,7 @@ const getChangelogName = cache.function(async (): Promise<string | false> => {
 		}
 	}
 
-	return findChangelogName(files) ?? '';
+	return findChangelogName(files);
 }, {
 	cacheKey: getCacheKey,
 });
