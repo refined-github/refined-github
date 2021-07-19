@@ -34,7 +34,7 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 
 // eslint-disable-next-line import/prefer-default-export
 export function getCommitHash(commit: HTMLElement): string {
-	return select('[aria-label="Copy the full SHA"]', commit)!.getAttribute('value')!;
+	return select('clipboard-copy[aria-label="Copy the full SHA"]', commit)!.getAttribute('value')!;
 }
 
 async function init(): Promise<void> {
