@@ -95,5 +95,6 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

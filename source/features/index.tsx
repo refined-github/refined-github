@@ -253,9 +253,10 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 	}
 };
 
-const addCssFeature = async (id: FeatureID, include: BooleanFunction[]): Promise<void> => {
+const addCssFeature = async (id: FeatureID, include: BooleanFunction[], deduplicate?: false | string): Promise<void> => {
 	void add(id, {
 		include,
+		deduplicate,
 		awaitDomReady: false,
 		init: () => {
 			document.body.classList.add('rgh-' + id);
@@ -274,6 +275,7 @@ void add(__filebasename, {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
 		select('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);
+		select('#repo-content-pjax-container')?.append(<has-rgh-inner/>); // #4567
 	},
 });
 

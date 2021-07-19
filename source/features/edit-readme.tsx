@@ -45,5 +45,6 @@ void features.add(__filebasename, {
 		pageDetect.isRepoTree,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init,
 });

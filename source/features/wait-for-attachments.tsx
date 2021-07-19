@@ -45,5 +45,6 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isNewIssue,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });
