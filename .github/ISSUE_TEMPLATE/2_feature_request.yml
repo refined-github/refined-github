@@ -1,0 +1,26 @@
+name: 🆕 Suggest an improvement or new feature
+description: ___
+labels: enhancement, under discussion
+body:
+  - type: checkboxes
+    attributes:
+      label: "Please ensure:"
+      options:
+        - label: Your requested feature makes sense for Refined GitHub.
+          required: true
+  - type: textarea
+    attributes:
+      label: Describe your improvement or feature request.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Provide screenshots/mockups to better visualize your idea.
+      description: Files can be dropped in this field
+  - type: input
+    attributes:
+      label: Example URL
+      description: Include a REAL URL where the feature should appear. e.g. Do you want a feature to appear on the main page of a repo? Paste a link to a repo
+      placeholder: https://github.com/sindresorhus/refined-github
+    validations:
+      required: true

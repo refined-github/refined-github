@@ -1,0 +1,16 @@
+name: 🤌 Complain
+description: Is there something you don't like? Let's talk
+labels: change request
+body:
+  - type: textarea
+    attributes:
+      label: Describe what part of RG you don't like. If needed, plase elaborate on your opinion.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: If you find any related threads, link them here
+  - type: markdown
+    attributes:
+      value: |
+        Duplicate issues are ok, but they may be closed pretty quickly
