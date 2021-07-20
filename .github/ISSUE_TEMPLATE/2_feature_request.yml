@@ -2,14 +2,10 @@ name: 🆕 Suggest an improvement or new feature
 description: ___
 labels: enhancement, under discussion
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Please ensure your requested feature makes sense for Refined GitHub:
-        https://github.com/sindresorhus/refined-github/issues/2960
   - type: textarea
     attributes:
       label: Description
+      description: Please ensure your requested feature makes sense for Refined GitHub: https://github.com/sindresorhus/refined-github/issues/2960
     validations:
       required: true
   - type: textarea
