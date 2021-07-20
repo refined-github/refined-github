@@ -1,7 +1,7 @@
 name: 💬 Ask a question or open a discussion
-description: Issues that don't have a specific topic
+description: ___
 labels: under discussion
 body:
   - type: textarea
     attributes:
-      label: Ask a question or open a discussion
+      label: What’s up?

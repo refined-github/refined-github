@@ -1,5 +1,5 @@
-name: 🤌 Complain
-description: Is there something you don't like? Let's talk
+name: 👎 I don’t like something
+description: Let's talk
 labels: change request
 body:
   - type: textarea
@@ -9,4 +9,5 @@ body:
     attributes:
       value: |
         If you find any related threads, link them here.
-        Duplicate issues are ok, but they may be closed pretty quickly
+        Duplicate issues are ok, but they may be closed pretty quickly.
+        Keep in mind that most features can be disabled. Use the "Find feature" button at the bottom of the options page to find what feature you don't like.
