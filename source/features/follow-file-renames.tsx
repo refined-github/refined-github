@@ -24,7 +24,7 @@ async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void 
 
 	const fromKey = isNewer ? 'previous_filename' : 'filename';
 	const toKey = isNewer ? 'filename' : 'previous_filename';
-	const sha = (isNewer ? select : select.last)('[aria-label="Copy the full SHA"]')!;
+	const sha = (isNewer ? select : select.last)('clipboard-copy[aria-label="Copy the full SHA"]')!;
 
 	const files = await findRename(sha.getAttribute('value')!);
 
