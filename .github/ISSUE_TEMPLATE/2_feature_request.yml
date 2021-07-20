@@ -9,13 +9,13 @@ body:
         https://github.com/sindresorhus/refined-github/issues/2960
   - type: textarea
     attributes:
-      label: Describe your improvement or feature request.
+      label: Description
     validations:
       required: true
   - type: textarea
     attributes:
-      label: Provide screenshots/mockups to better visualize your idea.
-      description: Files can be dropped in this field
+      label: Screenshot
+      description: You can provide screenshots/mockups to better visualize your idea. Files can be dropped in this field
   - type: input
     attributes:
       label: Example URL
