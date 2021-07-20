@@ -26,13 +26,7 @@ async function highlightBugsTabOnIssuePage(): Promise<void | false> {
 
 const cacheKey = (): string => 'bugs-label' + ':' + getRepo()!.nameWithOwner;
 const countBugs = cache.function(async (): Promise<number> => {
-	const {search} = await api.v4(`
-		search(type: ISSUE, query: "label:${await cache.get(cacheKey()) ?? 'bug'} is:open is:issue repo:${getRepo()!.nameWithOwner}") {
-			issueCount
-		}
-	`);
-
-	if (search.issueCount === 0 && !await cache.get(cacheKey())) {
+	if (!await cache.get(cacheKey())) {
 		const {repository} = await api.v4(`
 			repository() {
 				labels(query: "bug", first: 10) {
@@ -47,12 +41,21 @@ const countBugs = cache.function(async (): Promise<number> => {
 		`);
 
 		const {name: bugLabel, issues} = [...repository.labels.nodes].find(label => [':bug: bug', 'bug', 'confirmed-bug', 'type: bug'].includes(label.name.toLowerCase()));
-		void cache.set(cacheKey(), bugLabel ?? false);
-		return issues.totalCount;
+		void cache.set(cacheKey(), bugLabel ?? '');
+		return issues?.totalCount ?? 0;
 	}
 
-	void cache.set(cacheKey(), 'bug');
-	return search.issueCount;
+	const {repository} = await api.v4(`
+		repository() {
+			label(name: "${await cache.get(cacheKey()) ?? 'bug'}") {
+				issues(states: OPEN) {
+					totalCount
+				}
+			}
+		}
+	`);
+
+	return repository.label?.issues.totalCount ?? 0;
 }, {
 	maxAge: {minutes: 0},
 	staleWhileRevalidate: {days: 4},
