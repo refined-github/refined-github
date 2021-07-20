@@ -1,11 +1,11 @@
 name: 🆕 Suggest an improvement or new feature
-description: ___
+description: ———
 labels: enhancement, under discussion
 body:
   - type: textarea
     attributes:
       label: Description
-      description: Please ensure your requested feature makes sense for Refined GitHub: https://github.com/sindresorhus/refined-github/issues/2960
+      description: 'Please ensure your requested feature makes sense for Refined GitHub: https://github.com/sindresorhus/refined-github/issues/2960'
     validations:
       required: true
   - type: textarea
