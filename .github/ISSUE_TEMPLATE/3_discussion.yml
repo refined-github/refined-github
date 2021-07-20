@@ -1,0 +1,7 @@
+name: 💬 Ask a question or open a discussion
+description: ___
+labels: under discussion
+body:
+  - type: textarea
+    attributes:
+      label: What’s up?
