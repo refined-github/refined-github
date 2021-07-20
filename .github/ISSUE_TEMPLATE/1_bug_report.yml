@@ -16,13 +16,13 @@ body:
           required: true
   - type: textarea
     attributes:
-      label: Describe the problem and how to replicate it
+      label: Description
     validations:
       required: true
   - type: textarea
     attributes:
-      label: Screenshots/video/gif showing the issue, if it’s visual
-      description: Files can be dropped in this field
+      label: Screenshot
+      description: You can provide screenshots/video/gif showing the issue, if it’s visual. Files can be dropped in this field
   - type: textarea
     attributes:
       label: Console errors, if any
