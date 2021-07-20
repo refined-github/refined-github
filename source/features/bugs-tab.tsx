@@ -41,13 +41,13 @@ const countBugs = cache.function(async (): Promise<number> => {
 		`);
 
 		const {name: bugLabel, issues} = [...repository.labels.nodes].find(label => [':bug: bug', 'bug', 'confirmed-bug', 'type: bug'].includes(label.name.toLowerCase()));
-		void cache.set(cacheKey(), bugLabel ?? '');
+		void cache.set(cacheKey(), bugLabel.includes(':') ? `"${bugLabel}"` : bugLabel ?? false);
 		return issues?.totalCount ?? 0;
 	}
 
 	const {repository} = await api.v4(`
 		repository() {
-			label(name: "${await cache.get(cacheKey()) ?? 'bug'}") {
+			label(name: "${(await cache.get(cacheKey())).replaceAll('"', '')}") {
 				issues(states: OPEN) {
 					totalCount
 				}
@@ -71,7 +71,7 @@ async function init(): Promise<void | false> {
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-	const isBugsPage = new SearchQuery(location.search).includes(`label:${await cache.get(cacheKey()) ?? 'bug'}`);
+	const isBugsPage = new SearchQuery(location.search).includes(`label:${await cache.get(cacheKey())}`);
 	if (!isBugsPage && await countPromise === 0) {
 		return false;
 	}
@@ -114,7 +114,7 @@ async function init(): Promise<void | false> {
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	new SearchQuery(bugsTab).add(`label:${await cache.get(cacheKey()) ?? 'bug'}`);
+	new SearchQuery(bugsTab).add(`label:${await cache.get(cacheKey())}`);
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement!.tagName === 'LI') {
