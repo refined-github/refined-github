@@ -24,16 +24,37 @@ async function highlightBugsTabOnIssuePage(): Promise<void | false> {
 	issuesTab.removeAttribute('aria-current');
 }
 
+const cacheKey = (): string => 'bugs-label' + ':' + getRepo()!.nameWithOwner;
 const countBugs = cache.function(async (): Promise<number> => {
 	const {search} = await api.v4(`
-		search(type: ISSUE, query: "label:bug is:open is:issue repo:${getRepo()!.nameWithOwner}") {
+		search(type: ISSUE, query: "label:${await cache.get(cacheKey()) ?? 'bug'} is:open is:issue repo:${getRepo()!.nameWithOwner}") {
 			issueCount
 		}
 	`);
 
+	if (search.issueCount === 0 && !await cache.get(cacheKey())) {
+		const {repository} = await api.v4(`
+			repository() {
+				labels(query: "bug", first: 10) {
+					nodes {
+						name
+						issues(states: OPEN) {
+							totalCount
+						}
+					}
+				}
+			}
+		`);
+
+		const {name: bugLabel, issues} = [...repository.labels.nodes].find(label => [':bug: bug', 'bug', 'confirmed-bug', 'type: bug'].includes(label.name.toLowerCase()));
+		void cache.set(cacheKey(), bugLabel ?? false);
+		return issues.totalCount;
+	}
+
+	void cache.set(cacheKey(), 'bug');
 	return search.issueCount;
 }, {
-	maxAge: {minutes: 30},
+	maxAge: {minutes: 0},
 	staleWhileRevalidate: {days: 4},
 	cacheKey: (): string => __filebasename + ':' + getRepo()!.nameWithOwner,
 });
@@ -47,7 +68,7 @@ async function init(): Promise<void | false> {
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-	const isBugsPage = new SearchQuery(location.search).includes('label:bug');
+	const isBugsPage = new SearchQuery(location.search).includes(`label:${await cache.get(cacheKey()) ?? 'bug'}`);
 	if (!isBugsPage && await countPromise === 0) {
 		return false;
 	}
@@ -90,7 +111,7 @@ async function init(): Promise<void | false> {
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	new SearchQuery(bugsTab).add('label:bug');
+	new SearchQuery(bugsTab).add(`label:${await cache.get(cacheKey()) ?? 'bug'}`);
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement!.tagName === 'LI') {
