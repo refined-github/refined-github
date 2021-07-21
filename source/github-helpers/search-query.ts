@@ -87,7 +87,20 @@ export default class SearchQuery {
 
 	// TODO: add support for values with spaces, e.g. `label:"help wanted"`
 	getQueryParts(): string[] {
-		return splitQueryString(this.get());
+		return this.fromEntries(splitQueryString(this.get()));
+	}
+
+	fromEntries(entries: string[]): string[] {
+		entries.map(([base, value]) => {
+			if (value === undefined) {
+				return base;
+			}
+
+			const escapedValue = /[:\s]/.test(value) ? `"${value}"` : value;
+			return base + ':' + escapedValue;
+		});
+
+		return entries;
 	}
 
 	set(query: string): void {

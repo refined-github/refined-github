@@ -79,9 +79,7 @@ async function init(): Promise<void | false> {
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-	const bugLabelKey = await bugLabel();
-	const bugLabel1 = bugLabelKey!.includes(':') ? `"${bugLabelKey}"` : bugLabelKey;
-	const isBugsPage = new SearchQuery(location.search).includes(`label:${bugLabel1}`);
+	const isBugsPage = new SearchQuery(location.search).includes(`label:${await bugLabel()}`);
 	if (!isBugsPage && await countPromise === 0) {
 		return false;
 	}
@@ -124,7 +122,7 @@ async function init(): Promise<void | false> {
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	new SearchQuery(bugsTab).add(`label:${bugLabel1}`);
+	new SearchQuery(bugsTab).add(`label:${await bugLabel()}`);
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement!.tagName === 'LI') {
