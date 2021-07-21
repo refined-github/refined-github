@@ -11,13 +11,6 @@ import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
 
-interface LabelInfo {
-	name: string;
-	issues: {
-		totslcCount: string;
-	};
-}
-
 async function highlightBugsTabOnIssuePage(): Promise<void | false> {
 	if (await countBugs() === 0 || !await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]')) {
 		return false;
@@ -55,8 +48,8 @@ const countBugs = cache.function(async (): Promise<number> => {
 		}
 
 		const bugTypes = new Set([':bug: bug', 'bug', 'confirmed-bug', 'type: bug']);
-		const {name: bugLabel, issues} = nodes.find((label: LabelInfo) => bugTypes.has(label.name.toLowerCase())) ?? {};
-		void cache.set(bugLabelCacheKey(), bugLabel ?? false);
+		const {name, issues} = nodes.find((label: AnyObject) => bugTypes.has(label.name.toLowerCase())) ?? {};
+		void cache.set(bugLabelCacheKey(), name ?? false);
 		return issues?.totalCount ?? 0;
 	}
 
