@@ -31,10 +31,11 @@ async function highlightBugsTabOnIssuePage(): Promise<void | false> {
 	issuesTab.removeAttribute('aria-current');
 }
 
-const cacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
+const bugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
+const bugLabel = async (): Promise<string | undefined> => cache.get<string>(bugLabelCacheKey());
 
 const countBugs = cache.function(async (): Promise<number> => {
-	if (!await cache.get(cacheKey())) {
+	if (!await bugLabel()) {
 		const {repository} = await api.v4(`
 			repository() {
 				labels(query: "bug", first: 10) {
@@ -55,13 +56,13 @@ const countBugs = cache.function(async (): Promise<number> => {
 
 		const bugTypes = new Set([':bug: bug', 'bug', 'confirmed-bug', 'type: bug']);
 		const {name: bugLabel, issues} = nodes.find((label: LabelInfo) => bugTypes.has(label.name.toLowerCase())) ?? {};
-		void cache.set(cacheKey(), bugLabel ?? false);
+		void cache.set(bugLabelCacheKey(), bugLabel ?? false);
 		return issues?.totalCount ?? 0;
 	}
 
 	const {repository} = await api.v4(`
 		repository() {
-			label(name: "${String((await cache.get(cacheKey())))}") {
+			label(name: "${await bugLabel()!}") {
 				issues(states: OPEN) {
 					totalCount
 				}
@@ -85,9 +86,9 @@ async function init(): Promise<void | false> {
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-	const bugLabelKey = String(await cache.get(cacheKey()))!;
-	const bugLabel = bugLabelKey.includes(':') ? `"${bugLabelKey}"` : bugLabelKey;
-	const isBugsPage = new SearchQuery(location.search).includes(`label:${bugLabel}`);
+	const bugLabelKey = await bugLabel();
+	const bugLabel1 = bugLabelKey!.includes(':') ? `"${bugLabelKey}"` : bugLabelKey;
+	const isBugsPage = new SearchQuery(location.search).includes(`label:${bugLabel1}`);
 	if (!isBugsPage && await countPromise === 0) {
 		return false;
 	}
@@ -130,7 +131,7 @@ async function init(): Promise<void | false> {
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	new SearchQuery(bugsTab).add(`label:${bugLabel}`);
+	new SearchQuery(bugsTab).add(`label:${bugLabel1}`);
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement!.tagName === 'LI') {
