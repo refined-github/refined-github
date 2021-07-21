@@ -33,7 +33,7 @@ async function highlightBugsTabOnIssuePage(): Promise<void | false> {
 	issuesTab.removeAttribute('aria-current');
 }
 
-const cacheKey = (): string => 'bugs-label' + ':' + getRepo()!.nameWithOwner;
+const cacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
 
 const countBugs = cache.function(async (): Promise<number> => {
 	if (!await cache.get(cacheKey())) {
@@ -87,8 +87,8 @@ async function init(): Promise<void | false> {
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-
-	const bugLabel = String(await cache.get(cacheKey()))!.includes(':') ? `"${await cache.get(cacheKey())}"` : await cache.get(cacheKey());
+	const bugLabelKey = String(await cache.get(cacheKey()))!;
+	const bugLabel = bugLabelKey.includes(':') ? `"${bugLabelKey}"` : bugLabelKey;
 	const isBugsPage = new SearchQuery(location.search).includes(`label:${bugLabel}`);
 	if (!isBugsPage && await countPromise === 0) {
 		return false;
