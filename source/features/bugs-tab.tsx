@@ -54,9 +54,9 @@ const countBugs = cache.function(async (): Promise<number> => {
 		}
 
 		const bugTypes = new Set([':bug: bug', 'bug', 'confirmed-bug', 'type: bug']);
-		const {name: bugLabel, issues} = nodes.find((label: LabelInfo) => bugTypes.has(label.name.toLowerCase()));
+		const {name: bugLabel, issues} = nodes.find((label: LabelInfo) => bugTypes.has(label.name.toLowerCase())) ?? {};
 		void cache.set(cacheKey(), bugLabel ?? false);
-		return issues.totalCount;
+		return issues?.totalCount ?? 0;
 	}
 
 	const {repository} = await api.v4(`
@@ -71,7 +71,7 @@ const countBugs = cache.function(async (): Promise<number> => {
 
 	return repository.label?.issues.totalCount ?? 0;
 }, {
-	maxAge: {minutes: 0},
+	maxAge: {minutes: 30},
 	staleWhileRevalidate: {days: 4},
 	cacheKey: (): string => __filebasename + ':' + getRepo()!.nameWithOwner,
 });
