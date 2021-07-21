@@ -133,6 +133,6 @@ export default class SearchQuery {
 	}
 
 	includes(...searchStrings: string[]): boolean {
-		return this.getQueryParts().some(queryPart => searchStrings.includes(queryPart.replace(/\"/g,'')));
+		return this.getQueryParts().some(queryPart => searchStrings.includes(queryPart.replace(/"/g, '')));
 	}
 }
