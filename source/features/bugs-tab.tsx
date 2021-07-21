@@ -3,7 +3,6 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import {BugIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
-
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -17,7 +16,6 @@ interface LabelInfo {
 	issues: {
 		totslcCount: string;
 	};
-
 }
 
 async function highlightBugsTabOnIssuePage(): Promise<void | false> {
@@ -58,7 +56,7 @@ const countBugs = cache.function(async (): Promise<number> => {
 		const bugTypes = new Set([':bug: bug', 'bug', 'confirmed-bug', 'type: bug']);
 		const {name: bugLabel, issues} = nodes.find((label: LabelInfo) => bugTypes.has(label.name.toLowerCase()));
 		void cache.set(cacheKey(), bugLabel ?? false);
-		return issues?.totalCount ?? 0;
+		return issues.totalCount;
 	}
 
 	const {repository} = await api.v4(`
