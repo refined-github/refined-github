@@ -3,6 +3,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import {BugIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
+
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -10,6 +11,14 @@ import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
+
+interface LabelInfo {
+	name: string;
+	issues: {
+		totslcCount: string;
+	};
+
+}
 
 async function highlightBugsTabOnIssuePage(): Promise<void | false> {
 	if (await countBugs() === 0 || !await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]')) {
@@ -25,6 +34,7 @@ async function highlightBugsTabOnIssuePage(): Promise<void | false> {
 }
 
 const cacheKey = (): string => 'bugs-label' + ':' + getRepo()!.nameWithOwner;
+
 const countBugs = cache.function(async (): Promise<number> => {
 	if (!await cache.get(cacheKey())) {
 		const {repository} = await api.v4(`
@@ -40,14 +50,20 @@ const countBugs = cache.function(async (): Promise<number> => {
 			}
 		`);
 
-		const {name: bugLabel, issues} = [...repository.labels.nodes].find(label => [':bug: bug', 'bug', 'confirmed-bug', 'type: bug'].includes(label.name.toLowerCase()));
-		void cache.set(cacheKey(), bugLabel.includes(':') ? `"${bugLabel}"` : bugLabel ?? false);
+		const {nodes}: AnyObject = repository.labels;
+		if (nodes.length === 0) {
+			return 0;
+		}
+
+		const bugTypes = new Set([':bug: bug', 'bug', 'confirmed-bug', 'type: bug']);
+		const {name: bugLabel, issues} = nodes.find((label: LabelInfo) => bugTypes.has(label.name.toLowerCase()));
+		void cache.set(cacheKey(), bugLabel ?? false);
 		return issues?.totalCount ?? 0;
 	}
 
 	const {repository} = await api.v4(`
 		repository() {
-			label(name: "${(await cache.get(cacheKey())).replaceAll('"', '')}") {
+			label(name: "${String((await cache.get(cacheKey())))}") {
 				issues(states: OPEN) {
 					totalCount
 				}
