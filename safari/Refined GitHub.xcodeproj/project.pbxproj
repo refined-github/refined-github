@@ -61,7 +61,7 @@
 		1FE2B23A2540F6F000A5D543 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../distribution/manifest.json; sourceTree = "<group>"; };
 		1FE2B23B2540F6F000A5D543 /* options.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = options.html; path = ../../distribution/options.html; sourceTree = "<group>"; };
 		1FE2B23C2540F6F000A5D543 /* build */ = {isa = PBXFileReference; lastKnownFileType = folder; name = build; path = ../../distribution/build; sourceTree = "<group>"; };
-		E3916F37254B228B0048E94C /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
+		E3916F37254B228B0048E94C /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +86,7 @@
 		1FE2B2082540F6EE00A5D543 = {
 			isa = PBXGroup;
 			children = (
-				E3916F37254B228B0048E94C /* Shared.xcconfig */,
+				E3916F37254B228B0048E94C /* Config.xcconfig */,
 				1FE2B2132540F6EE00A5D543 /* Refined GitHub */,
 				1FE2B22A2540F6EF00A5D543 /* Refined GitHub Extension */,
 				1FE2B2272540F6EF00A5D543 /* Frameworks */,
@@ -287,7 +287,7 @@
 /* Begin XCBuildConfiguration section */
 		1FE2B22F2540F6EF00A5D543 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E3916F37254B228B0048E94C /* Shared.xcconfig */;
+			baseConfigurationReference = E3916F37254B228B0048E94C /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -350,7 +350,7 @@
 		};
 		1FE2B2302540F6EF00A5D543 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E3916F37254B228B0048E94C /* Shared.xcconfig */;
+			baseConfigurationReference = E3916F37254B228B0048E94C /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
