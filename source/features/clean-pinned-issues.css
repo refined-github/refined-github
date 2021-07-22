@@ -25,6 +25,7 @@
 	.rgh-clean-pinned-issues .pinned-issue-item > * {
 		display: table-cell !important;
 		padding: 6px 12px;
+		vertical-align: middle;
 	}
 
 	/* Move `x` before the title and align both icons */
