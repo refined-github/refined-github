@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import onReplacedElement from '../helpers/on-replaced-element';
-import {getUsername, isFirefox} from '../github-helpers';
+import {getUsername} from '../github-helpers';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -60,8 +60,7 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 
 	for (const {container, username, imageUrl} of flatParticipants) {
 		container.append(
-			// Without this, Firefox will follow the link instead of submitting the reaction button
-			<a href={isFirefox ? undefined : `/${username}`} className="rounded-1 avatar-user">
+			<a className="rounded-1 avatar-user">
 				<img src={imageUrl} className="avatar-user rounded-1"/>
 			</a>,
 		);
