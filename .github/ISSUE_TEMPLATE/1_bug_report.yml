@@ -1,5 +1,5 @@
 name: 🐛 Report a bug
-description: ___
+description: ———
 labels: bug
 body:
   - type: markdown
@@ -10,22 +10,24 @@ body:
         Help us replicate the issue by filling in this form. You can use the "Find feature" button in the option to find which feature is causing the issue.
   - type: checkboxes
     attributes:
-      label: "Please ensure:"
+      label: 'Please ensure:'
       options:
         - label: The bug is caused by Refined GitHub. It doesn't happen if I disable the extension.
           required: true
   - type: textarea
     attributes:
-      label: Describe the problem and how to replicate it
+      label: Description
+      description: Describe the issue and how to replicate it
     validations:
       required: true
   - type: textarea
     attributes:
-      label: Screenshots/video/gif showing the issue, if it’s visual
-      description: Files can be dropped in this field
+      label: Screenshot
+      description: You can provide screenshots/video/gif showing the issue, if it’s visual. Files can be dropped in this field
   - type: textarea
     attributes:
-      label: Console errors, if any
+      label: Console errors
+      description: If any
       render: shell
   - type: input
     attributes:
