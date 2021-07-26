@@ -24,11 +24,12 @@ async function highlightBugsTabOnIssuePage(): Promise<void | false> {
 	issuesTab.removeAttribute('aria-current');
 }
 
-const bugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
-const bugLabel = async (): Promise<string | undefined> => cache.get<string>(bugLabelCacheKey());
+const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
+const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(getBugLabelCacheKey());
 
 const countBugs = cache.function(async (): Promise<number> => {
-	if (!await bugLabel()) {
+	const bugLabel = await getBugLabel();
+	if (!bugLabel) {
 		const {repository} = await api.v4(`
 			repository() {
 				labels(query: "bug", first: 10) {
@@ -47,15 +48,14 @@ const countBugs = cache.function(async (): Promise<number> => {
 			return 0;
 		}
 
-		const bugTypes = new Set([':bug: bug', 'bug', 'confirmed-bug', 'type: bug']);
-		const {name, issues} = nodes.find((label: AnyObject) => bugTypes.has(label.name.toLowerCase())) ?? {};
-		void cache.set(bugLabelCacheKey(), name ?? false);
+		const {name, issues} = nodes.find((label: AnyObject) => label.replace(/\s/g, '').match(/^(:bug:bug|bug|confirmed-bug|type:bug|:\w+:bug)$/)) ?? {};
+		void cache.set(getBugLabelCacheKey(), name ?? false);
 		return issues?.totalCount ?? 0;
 	}
 
 	const {repository} = await api.v4(`
 		repository() {
-			label(name: "${await bugLabel()!}") {
+			label(name: "${bugLabel}") {
 				issues(states: OPEN) {
 					totalCount
 				}
@@ -79,7 +79,7 @@ async function init(): Promise<void | false> {
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-	const isBugsPage = new SearchQuery(location.search).includes(`label:${await bugLabel()}`);
+	const isBugsPage = new SearchQuery(location.search).includes(`label:${await getBugLabel()}`);
 	if (!isBugsPage && await countPromise === 0) {
 		return false;
 	}
@@ -122,7 +122,7 @@ async function init(): Promise<void | false> {
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	new SearchQuery(bugsTab).add(`label:${await bugLabel()}`);
+	new SearchQuery(bugsTab).add(`label:${await getBugLabel()}`);
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement!.tagName === 'LI') {
