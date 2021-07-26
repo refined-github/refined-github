@@ -44,11 +44,11 @@ function resolvedCommentsSelector(clickedItem: HTMLElement): string {
 }
 
 function expandSelector(): string {
-	return '.js-expand-full';
+	return '.js-file .js-expand-full';
 }
 
 function collapseSelector(): string {
-	return '.js-collapse-diff';
+	return '.js-file .js-collapse-diff';
 }
 
 function init(): void {
@@ -62,8 +62,8 @@ function init(): void {
 	delegate(document, '.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector));
 
 	// "Expand all" and "Collapse expanded lines" buttons in commit files
-	delegate(document, '.js-expand-full', 'click', clickAll(expandSelector));
-	delegate(document, '.js-collapse-diff', 'click', clickAll(collapseSelector));
+	delegate(document, '.js-file .js-expand-full', 'click', clickAll(expandSelector));
+	delegate(document, '.js-file .js-collapse-diff', 'click', clickAll(collapseSelector));
 }
 
 void features.add(__filebasename, {
