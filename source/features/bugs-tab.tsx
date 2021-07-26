@@ -11,6 +11,11 @@ import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
 
+const supportedLabels = /^(bug|confirmed-bug|type:bug|:\w+:bug)$/;
+const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
+const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(getBugLabelCacheKey());
+const isBugLabel = (label: string): boolean => supportedLabels.test(label.replace(/\s/g, ''));
+
 async function highlightBugsTabOnIssuePage(): Promise<void | false> {
 	if (await countBugs() === 0 || !await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]')) {
 		return false;
@@ -23,12 +28,6 @@ async function highlightBugsTabOnIssuePage(): Promise<void | false> {
 	issuesTab.classList.remove('selected');
 	issuesTab.removeAttribute('aria-current');
 }
-
-const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
-const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(getBugLabelCacheKey());
-const isBugLabel = (label: string) => label
-	.replace(/\s/g, '')
-	.match(/^(bug|confirmed-bug|type:bug|:\w+:bug)$/);
 
 const countBugs = cache.function(async (): Promise<number> => {
 	const bugLabel = await getBugLabel();
