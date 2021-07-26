@@ -126,7 +126,7 @@ async function init(): Promise<void | false> {
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	new SearchQuery(bugsTab).add(`label:${(await getBugLabel())!}`);
+	new SearchQuery(bugsTab).add(`label:${await getBugLabel() ?? 'bug'}`); // TODO[2021-8-15] Drop `?? 'bug' its only needed until `countPromise` refreshed one time
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement!.tagName === 'LI') {

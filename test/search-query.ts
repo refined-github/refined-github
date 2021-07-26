@@ -57,6 +57,16 @@ test('.includes', t => {
 	t.true(query.includes('label:nonsense'));
 });
 
+test('.includes with quotes', t => {
+	const query = new SearchQuery({q: 'label:":bug: bug"'});
+	t.true(query.includes('label:":bug: bug"'));
+});
+
+test('.includes ignoring quotes', t => {
+	const query = new SearchQuery({q: 'label:":bug: bug"'});
+	t.true(query.includes('label::bug: bug'));
+});
+
 test('defaults', t => {
 	const query = new SearchQuery({q: ''});
 	t.is(query.get(), '');
