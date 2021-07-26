@@ -26,6 +26,9 @@ async function highlightBugsTabOnIssuePage(): Promise<void | false> {
 
 const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
 const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(getBugLabelCacheKey());
+const isBugLabel = (label: string) => label
+	.replace(/\s/g, '')
+	.match(/^(bug|confirmed-bug|type:bug|:\w+:bug)$/);
 
 const countBugs = cache.function(async (): Promise<number> => {
 	const bugLabel = await getBugLabel();
@@ -43,15 +46,12 @@ const countBugs = cache.function(async (): Promise<number> => {
 			}
 		`);
 
-		const {nodes}: AnyObject = repository.labels;
-		if (nodes.length === 0) {
+		const {nodes: labels}: AnyObject = repository.labels;
+		if (labels.length === 0) {
 			return 0;
 		}
 
-		const {name, issues} = nodes
-			.find((label: AnyObject) => label
-				.replace(/\s/g, '')
-				.match(/^(bug|confirmed-bug|type:bug|:\w+:bug)$/)) ?? {};
+		const {name, issues} = labels.find(label => isBugLabel(label)) ?? {};
 
 		void cache.set(getBugLabelCacheKey(), name ?? false);
 		return issues?.totalCount ?? 0;
