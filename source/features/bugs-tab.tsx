@@ -51,7 +51,7 @@ const countBugs = cache.function(async (): Promise<number> => {
 		const {name, issues} = nodes
 			.find((label: AnyObject) => label
 				.replace(/\s/g, '')
-				.match(/^(:bug:bug|bug|confirmed-bug|type:bug|:\w+:bug)$/)) ?? {};
+				.match(/^(bug|confirmed-bug|type:bug|:\w+:bug)$/)) ?? {};
 
 		void cache.set(getBugLabelCacheKey(), name ?? false);
 		return issues?.totalCount ?? 0;
