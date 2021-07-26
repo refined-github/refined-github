@@ -48,7 +48,11 @@ const countBugs = cache.function(async (): Promise<number> => {
 			return 0;
 		}
 
-		const {name, issues} = nodes.find((label: AnyObject) => label.replace(/\s/g, '').match(/^(:bug:bug|bug|confirmed-bug|type:bug|:\w+:bug)$/)) ?? {};
+		const {name, issues} = nodes
+			.find((label: AnyObject) => label
+				.replace(/\s/g, '')
+				.match(/^(:bug:bug|bug|confirmed-bug|type:bug|:\w+:bug)$/)) ?? {};
+
 		void cache.set(getBugLabelCacheKey(), name ?? false);
 		return issues?.totalCount ?? 0;
 	}
