@@ -54,6 +54,10 @@ export default class SearchQuery {
 		this.set(this.get());
 	}
 
+	static escapeValue(value: string): string {
+		return /:\s/.test(value) ? `"${value}"` : value;
+	}
+
 	get(): string {
 		const currentQuery = this.searchParams.get('q');
 		if (typeof currentQuery === 'string') {
@@ -120,6 +124,6 @@ export default class SearchQuery {
 	}
 
 	includes(...searchStrings: string[]): boolean {
-		return this.getQueryParts().some(queryPart => searchStrings.includes(queryPart) || searchStrings.includes(queryPart.replace(/"/g, '')));
+		return this.getQueryParts().some(queryPart => searchStrings.includes(queryPart));
 	}
 }

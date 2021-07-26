@@ -44,7 +44,7 @@ async function countBugsWithUnknownLabel(): Promise<number> {
 	`);
 
 	const label: AnyObject | undefined = repository.labels.nodes
-		.find((label: string) => isBugLabel(label));
+		.find((label: AnyObject) => isBugLabel(label?.name));
 	if (!label) {
 		return 0;
 	}
@@ -87,7 +87,7 @@ async function init(): Promise<void | false> {
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-	const isBugsPage = new SearchQuery(location.search).includes(`label:${await getBugLabel() ?? 'bug'}`);
+	const isBugsPage = new SearchQuery(location.search).includes(`label:${SearchQuery.escapeValue(await getBugLabel() ?? 'bug')}`);
 	if (!isBugsPage && await countPromise === 0) {
 		return false;
 	}
@@ -131,7 +131,7 @@ async function init(): Promise<void | false> {
 
 	// Update Bugs’ link
 	// TODO[2021-8-15] Drop `?? 'bug'`, it's only needed until `countPromise` refreshes one time
-	new SearchQuery(bugsTab).add(`label:${await getBugLabel() ?? 'bug'}`);
+	new SearchQuery(bugsTab).add(`label:${SearchQuery.escapeValue(await getBugLabel() ?? 'bug')}`);
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement!.tagName === 'LI') {
