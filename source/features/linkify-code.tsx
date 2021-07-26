@@ -17,7 +17,6 @@ function initTitle(): void {
 
 function init(): void {
 	const selectors = [
-		'.js-blob-wrapper',
 		'.blob-wrapper',
 		'.comment-body.d-block',
 		'.blob-expanded',
