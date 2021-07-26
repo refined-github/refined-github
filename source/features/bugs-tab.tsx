@@ -45,12 +45,12 @@ async function countBugsWithUnknownLabel(): Promise<number> {
 
 	const label: AnyObject | undefined = repository.labels.nodes
 		.find((label: string) => isBugLabel(label));
-	if (!labels) {
+	if (!label) {
 		return 0;
 	}
 
-	void cache.set(getBugLabelCacheKey(), name ?? false);
-	return issues.totalCount ?? 0;
+	void cache.set(getBugLabelCacheKey(), label.name ?? false);
+	return label.issues.totalCount ?? 0;
 }
 
 async function countIssuesWithLabel(label: string): Promise<number> {
