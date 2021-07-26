@@ -29,36 +29,35 @@ async function highlightBugsTabOnIssuePage(): Promise<void | false> {
 	issuesTab.removeAttribute('aria-current');
 }
 
-const countBugs = cache.function(async (): Promise<number> => {
-	const bugLabel = await getBugLabel();
-	if (!bugLabel) {
-		const {repository} = await api.v4(`
-			repository() {
-				labels(query: "bug", first: 10) {
-					nodes {
-						name
-						issues(states: OPEN) {
-							totalCount
-						}
+async function countBugsWithUnknownLabel(): Promise<number> {
+	const {repository} = await api.v4(`
+		repository() {
+			labels(query: "bug", first: 10) {
+				nodes {
+					name
+					issues(states: OPEN) {
+						totalCount
 					}
 				}
 			}
-		`);
-
-		const {nodes: labels}: AnyObject = repository.labels;
-		if (labels.length === 0) {
-			return 0;
 		}
+	`);
 
-		const {name, issues} = labels.find(label => isBugLabel(label)) ?? {};
-
-		void cache.set(getBugLabelCacheKey(), name ?? false);
-		return issues?.totalCount ?? 0;
+	const {nodes: labels}: AnyObject = repository.labels;
+	if (labels.length === 0) {
+		return 0;
 	}
 
+	const {name, issues} = labels.find(label => isBugLabel(label)) ?? {};
+
+	void cache.set(getBugLabelCacheKey(), name ?? false);
+	return issues?.totalCount ?? 0;
+}
+
+async function countIssuesWithLabel(label: string): Promise<number> {
 	const {repository} = await api.v4(`
 		repository() {
-			label(name: "${bugLabel}") {
+			label(name: "${label}") {
 				issues(states: OPEN) {
 					totalCount
 				}
@@ -67,6 +66,13 @@ const countBugs = cache.function(async (): Promise<number> => {
 	`);
 
 	return repository.label?.issues.totalCount ?? 0;
+}
+
+const countBugs = cache.function(async (): Promise<number> => {
+	const bugLabel = await getBugLabel();
+	return bugLabel
+		? countIssuesWithLabel(bugLabel)
+		: countBugsWithUnknownLabel();
 }, {
 	maxAge: {minutes: 30},
 	staleWhileRevalidate: {days: 4},
