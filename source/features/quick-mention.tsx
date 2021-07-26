@@ -31,6 +31,10 @@ function init(): void {
 	// The hovercard attribute avoids `highest-rated-comment`
 	const avatars = select.all(`.TimelineItem-avatar > [data-hovercard-type="user"]:first-child:not([href="/${getUsername()!}"], .rgh-quick-mention)`);
 	for (const avatar of avatars) {
+		if (avatar.closest('.TimelineItem')!.querySelector('.minimized-comment')) {
+			continue;
+		}
+
 		const userMention = select('img', avatar)!.alt;
 		avatar.classList.add('rgh-quick-mention');
 		avatar.after(
