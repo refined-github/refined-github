@@ -115,3 +115,18 @@ npx web-ext run # Open extension in Firefox
 ```
 
 Or you can [load it manually in Chrome](https://www.smashingmagazine.com/2017/04/browser-extension-edge-chrome-firefox-opera-brave-vivaldi/#google-chrome-opera-vivaldi) or [Firefox](https://www.smashingmagazine.com/2017/04/browser-extension-edge-chrome-firefox-opera-brave-vivaldi/#mozilla-firefox).
+
+## Reverse-engineering GitHub
+
+GitHub fires several custom events that we can listen to. You can run this piece of code in the console to start seeing every event being fired:
+
+```js
+d = Node.prototype.dispatchEvent;
+Node.prototype.dispatchEvent = function (...a) {
+	console.log(...a);
+	// debugger; // Uncomment when necessary
+	d.apply(this, a);
+}
+```
+
+<img width="379" alt="screen" src="https://user-images.githubusercontent.com/1402241/79168882-406ea100-7deb-11ea-9e9c-ad657202422f.png">
