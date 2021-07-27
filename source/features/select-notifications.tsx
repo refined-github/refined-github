@@ -164,7 +164,7 @@ void features.add(__filebasename, {
 		pageDetect.isNotifications,
 	],
 	exclude: [
-		() => !select.exists('.js-notifications-mark-all-prompt'), // Notifications page may be empty
+		() => select.exists('img[src$="notifications/inbox-zero.svg"]'), // Notifications page may be empty
 	],
 	init,
 });
