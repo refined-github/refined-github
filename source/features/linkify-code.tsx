@@ -17,9 +17,8 @@ function initTitle(): void {
 
 function init(): void {
 	const selectors = [
-		'.blob-wrapper',
-		'.comment-body.d-block',
-		'.blob-expanded',
+		'.js-blob-wrapper tr:not(.inline-comments)',
+		'.blob-wrapper tr',
 	].map(selector => selector + `:not(.${linkifiedURLClass})`).join(',');
 
 	observe(selectors, {
