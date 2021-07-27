@@ -17,8 +17,8 @@ function initTitle(): void {
 
 function init(): void {
 	const selectors = [
-		'.js-blob-wrapper tr:not(.inline-comments)',
-		'.blob-wrapper tr',
+		'.js-blob-wrapper tr:not(.inline-comments)', // `isPRFiles`, `isSingleFile`
+		'.blob-wrapper tr', // `hasComments`, `isPRFiles` review suggestion
 	].map(selector => selector + `:not(.${linkifiedURLClass})`).join(',');
 
 	observe(selectors, {
