@@ -89,7 +89,6 @@ export default class SearchQuery {
 		return queries.join(' ');
 	}
 
-	// TODO: add support for values with spaces, e.g. `label:"help wanted"`
 	getQueryParts(): string[] {
 		return splitQueryString(this.get());
 	}
