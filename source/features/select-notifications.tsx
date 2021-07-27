@@ -163,5 +163,8 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isNotifications,
 	],
+	exclude: [
+		() => !select.exists('.js-notifications-mark-all-prompt'), // Notifications page may be empty
+	],
 	init,
 });
