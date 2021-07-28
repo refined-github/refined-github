@@ -54,6 +54,10 @@ export default class SearchQuery {
 		this.set(this.get());
 	}
 
+	static escapeValue(value: string): string {
+		return value.includes(' ') ? `"${value}"` : value;
+	}
+
 	get(): string {
 		const currentQuery = this.searchParams.get('q');
 		if (typeof currentQuery === 'string') {
@@ -85,7 +89,6 @@ export default class SearchQuery {
 		return queries.join(' ');
 	}
 
-	// TODO: add support for values with spaces, e.g. `label:"help wanted"`
 	getQueryParts(): string[] {
 		return splitQueryString(this.get());
 	}

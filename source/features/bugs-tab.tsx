@@ -11,6 +11,11 @@ import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
 
+const supportedLabels = /^(bug|confirmed-bug|type:bug|:\w+:bug)$/;
+const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
+const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(getBugLabelCacheKey());
+const isBugLabel = (label: string): boolean => supportedLabels.test(label.replace(/\s/g, ''));
+
 async function highlightBugsTabOnIssuePage(): Promise<void | false> {
 	if (await countBugs() === 0 || !await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]')) {
 		return false;
@@ -24,14 +29,49 @@ async function highlightBugsTabOnIssuePage(): Promise<void | false> {
 	issuesTab.removeAttribute('aria-current');
 }
 
-const countBugs = cache.function(async (): Promise<number> => {
-	const {search} = await api.v4(`
-		search(type: ISSUE, query: "label:bug is:open is:issue repo:${getRepo()!.nameWithOwner}") {
-			issueCount
+async function countBugsWithUnknownLabel(): Promise<number> {
+	const {repository} = await api.v4(`
+		repository() {
+			labels(query: "bug", first: 10) {
+				nodes {
+					name
+					issues(states: OPEN) {
+						totalCount
+					}
+				}
+			}
 		}
 	`);
 
-	return search.issueCount;
+	const label: AnyObject | undefined = repository.labels.nodes
+		.find((label: AnyObject) => isBugLabel(label.name));
+	if (!label) {
+		return 0;
+	}
+
+	void cache.set(getBugLabelCacheKey(), label.name ?? false);
+	return label.issues.totalCount ?? 0;
+}
+
+async function countIssuesWithLabel(label: string): Promise<number> {
+	const {repository} = await api.v4(`
+		repository() {
+			label(name: "${label}") {
+				issues(states: OPEN) {
+					totalCount
+				}
+			}
+		}
+	`);
+
+	return repository.label?.issues.totalCount ?? 0;
+}
+
+const countBugs = cache.function(async (): Promise<number> => {
+	const bugLabel = await getBugLabel();
+	return bugLabel
+		? countIssuesWithLabel(bugLabel)
+		: countBugsWithUnknownLabel();
 }, {
 	maxAge: {minutes: 30},
 	staleWhileRevalidate: {days: 4},
@@ -47,7 +87,7 @@ async function init(): Promise<void | false> {
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-	const isBugsPage = new SearchQuery(location.search).includes('label:bug');
+	const isBugsPage = new SearchQuery(location.search).includes(`label:${SearchQuery.escapeValue(await getBugLabel() ?? 'bug')}`);
 	if (!isBugsPage && await countPromise === 0) {
 		return false;
 	}
@@ -90,7 +130,8 @@ async function init(): Promise<void | false> {
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	new SearchQuery(bugsTab).add('label:bug');
+	// TODO[2021-8-15] Drop `?? 'bug'`, it's only needed until `countPromise` refreshes one time
+	new SearchQuery(bugsTab).add(`label:${SearchQuery.escapeValue(await getBugLabel() ?? 'bug')}`);
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement!.tagName === 'LI') {
