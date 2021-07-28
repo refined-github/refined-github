@@ -55,7 +55,7 @@ export default class SearchQuery {
 	}
 
 	static escapeValue(value: string): string {
-		return /\s|^:/.test(value) ? `"${value}"` : value;
+		return value.includes(' ') ? `"${value}"` : value;
 	}
 
 	get(): string {
