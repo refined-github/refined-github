@@ -163,5 +163,8 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isNotifications,
 	],
+	exclude: [
+		() => select.exists('img[src$="notifications/inbox-zero.svg"]'), // Notifications page may be empty
+	],
 	init,
 });
