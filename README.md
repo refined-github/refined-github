@@ -8,18 +8,20 @@ Note: The JSON file has been deprecated and can be removed in September 2021.
 
 ## Adding a new broken feature
 
-- Add the name of the feature on a new line, **followed by a comma**
+- Add the name of the feature on a new line: `name,unaffected version,related issue number`
+- Ensure that there are exactly 2 commas on each line
+- Ensure that there are no spaces on each line (PR welcome to trim each value instead)
 - Ensure that the table is rendered on GitHub.com. If not, the CSV isn't valid
 - Don't remove previous features unnecessarily, let's keep the file to about 10 lines
 
 Example:
 
 ```diff
-  ci-link,21.5.1
-  fit-textareas,21.5.1
-  link-to-file-in-file-history,21.5.1
-  avoid-accidental-submissions,21.5.9
-+ my-new-broken-feature,
+  ci-link,21.5.1,1234
+  fit-textareas,21.5.1,2001
+  link-to-file-in-file-history,21.5.1,4532
+  avoid-accidental-submissions,21.5.9,5001
++ my-new-broken-feature,,5332
 ```
 
 ## Marking a feature as fixed
@@ -30,11 +32,11 @@ Example:
 Example:
 
 ```diff
-  ci-link,21.5.1
-  fit-textareas,21.5.1
-  link-to-file-in-file-history,21.5.1
-  avoid-accidental-submissions,21.5.9
-- my-new-broken-feature,
-+ my-new-broken-feature,21.6.9
+  ci-link,21.5.1,1234
+  fit-textareas,21.5.1,2001
+  link-to-file-in-file-history,21.5.1,4532
+  avoid-accidental-submissions,21.5.9,5001
+- my-new-broken-feature,,5332
++ my-new-broken-feature,21.6.9,5332
 ```
 
