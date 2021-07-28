@@ -28,6 +28,8 @@ const fresh = [
 	'Smells fresh',
 	'Just a baby',
 	'It’s my birthday',
+	'Brand spanking new',
+	'Certified Fresh Repo™',
 	'So it begins, the great battle of our time',
 ];
 
