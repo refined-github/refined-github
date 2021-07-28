@@ -39,7 +39,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const lastUpdated: Record<string, IssueInfo> = await getLastUpdated(pinnedIssues.map(getPinnedIssueNumber));
+	const lastUpdated: Record<string, IssueInfo> = await getLastUpdated(pinnedIssues.map(element => getPinnedIssueNumber(element)));
 	for (const pinnedIssue of pinnedIssues) {
 		const issueNumber = getPinnedIssueNumber(pinnedIssue);
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];

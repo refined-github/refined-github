@@ -54,7 +54,7 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 
 	const participantByReaction = select
 		.all(':scope > button', commentReactions)
-		.map(getParticipants);
+		.map(element => getParticipants(element));
 	const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
 	for (const {container, imageUrl} of flatParticipants) {

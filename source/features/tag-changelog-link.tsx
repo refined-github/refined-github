@@ -89,7 +89,7 @@ async function init(): Promise<void> {
 	// Look for tags in the current page and the next page
 	const pages = [document, await getNextPage()];
 	await domLoaded;
-	const allTags = select.all(tagsSelector, pages).map(parseTags);
+	const allTags = select.all(tagsSelector, pages).map(element => parseTags(element));
 
 	for (const [index, container] of allTags.entries()) {
 		const previousTag = getPreviousTag(index, allTags);
