@@ -6,14 +6,13 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import onReplacedElement from '../helpers/on-replaced-element';
-import {getUsername, isFirefox} from '../github-helpers';
+import {getUsername} from '../github-helpers';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
 
 interface Participant {
 	container: HTMLElement;
-	username: string;
 	imageUrl: string;
 }
 
@@ -36,14 +35,14 @@ function getParticipants(container: HTMLElement): Participant[] {
 		// Find image on page. Saves a request and a redirect + add support for bots
 		const existingAvatar = select<HTMLImageElement>(`[alt="@${cleanName}"]`);
 		if (existingAvatar) {
-			participants.push({container, username, imageUrl: existingAvatar.src});
+			participants.push({container, imageUrl: existingAvatar.src});
 			continue;
 		}
 
 		// If it's not a bot, use a shortcut URL #2125
 		if (cleanName === username) {
 			const imageUrl = `/${username}.png?size=${window.devicePixelRatio * 20}`;
-			participants.push({container, username, imageUrl});
+			participants.push({container, imageUrl});
 		}
 	}
 
@@ -58,12 +57,11 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 		.map(getParticipants);
 	const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
-	for (const {container, username, imageUrl} of flatParticipants) {
+	for (const {container, imageUrl} of flatParticipants) {
 		container.append(
-			// Without this, Firefox will follow the link instead of submitting the reaction button
-			<a href={isFirefox ? undefined : `/${username}`} className="rounded-1 avatar-user">
+			<span className="rounded-1 avatar-user">
 				<img src={imageUrl} className="avatar-user rounded-1"/>
-			</a>,
+			</span>,
 		);
 	}
 

@@ -13,7 +13,7 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 	margin-top: -1px; /* Makes up for `.reaction-summary-item {border-top}` */
 }
 
-.reaction-summary-item a {
+.reaction-summary-item span {
 	display: inline-block;
 	width: 2em;
 	height: 2em;
@@ -25,20 +25,20 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 	font-size: 10px; /* Base sizer */
 }
 
-.reaction-summary-item a:first-of-type {
+.reaction-summary-item span:first-of-type {
 	margin-left: 0.5em;
 }
 
-.review-comment .reaction-summary-item a {
+.review-comment .reaction-summary-item span {
 	font-size: 9px;
 }
 
-.discussion-post .reaction-summary-item a {
+.discussion-post .reaction-summary-item span {
 	margin-top: -1px;
 }
 
 /* This image will start at height:0 and will expand once loaded, covering the gray placeholder */
-.reaction-summary-item a img { /* `a` required for #3237 */
+.reaction-summary-item span img { /* `span` required for #3237 */
 	width: 100%;
 	background-color: var(--color-bg-info, #fff);
 }
