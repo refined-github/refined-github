@@ -39,7 +39,7 @@ export function getCommitHash(commit: HTMLElement): string {
 
 async function init(): Promise<void> {
 	const pageCommits = select.all('li.js-commits-list-item');
-	const mergeCommits = await filterMergeCommits(pageCommits.map(element => getCommitHash(element)));
+	const mergeCommits = await filterMergeCommits(pageCommits.map(commit => getCommitHash(commit)));
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
 			commit.classList.add('rgh-merge-commit');

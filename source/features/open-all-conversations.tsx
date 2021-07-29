@@ -27,7 +27,7 @@ function onButtonClick(): void {
 	}
 
 	void browser.runtime.sendMessage({
-		openUrls: issues.map(element => getUrlFromItem(element)),
+		openUrls: issues.map(issue => getUrlFromItem(issue)),
 	});
 }
 

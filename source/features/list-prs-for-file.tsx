@@ -129,7 +129,7 @@ async function init(): Promise<void> {
 							<>
 								Careful, {prs.length} open PRs are already touching this file
 								<span className="ml-2 BtnGroup" style={{verticalAlign: '-0.6em'}}>
-									{prs.map(element => getSingleButton(element))}
+									{prs.map(pr => getSingleButton(pr))}
 								</span>
 							</>
 						)
