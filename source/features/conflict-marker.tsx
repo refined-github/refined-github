@@ -27,7 +27,7 @@ function createQueryFragment(pr: PRConfig): string {
 }
 
 function buildQuery(prs: PRConfig[]): string {
-	return prs.map(element => createQueryFragment(element)).join('\n');
+	return prs.map(pr => createQueryFragment(pr)).join('\n');
 }
 
 function getPRConfig(prIcon: Element): PRConfig {
@@ -53,7 +53,7 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const prs = openPrIcons.map(element => getPRConfig(element));
+	const prs = openPrIcons.map(icon => getPRConfig(icon));
 	const data = await api.v4(buildQuery(prs));
 
 	for (const pr of prs) {
