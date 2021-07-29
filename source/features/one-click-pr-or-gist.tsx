@@ -29,6 +29,7 @@ function init(): void | false {
 
 		initialGroupedButtons.after(
 			<button
+				data-disable-invalid
 				className={classList.join(' ')}
 				aria-label={description}
 				type="submit"
