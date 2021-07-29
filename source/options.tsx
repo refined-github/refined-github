@@ -193,7 +193,7 @@ async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 
 async function generateDom(): Promise<void> {
 	// Generate list
-	select('.js-features')!.append(...features.map(buildFeatureCheckbox));
+	select('.js-features')!.append(...features.map(feature => buildFeatureCheckbox(feature)));
 
 	// Add notice for features disabled via hotfix
 	select('.js-features')!.before(await getLocalHotfixesAsNotice());

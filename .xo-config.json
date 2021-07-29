@@ -14,7 +14,6 @@
 		"@typescript-eslint/no-unsafe-member-access": "off",
 		"@typescript-eslint/no-unsafe-return": "off",
 		"@typescript-eslint/no-unsafe-call": "off",
-		"unicorn/no-array-callback-reference": "warn",
 
 		"import/no-cycle": "off",
 		"import/no-unassigned-import": "off",
