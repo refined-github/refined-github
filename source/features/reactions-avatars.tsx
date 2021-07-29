@@ -12,13 +12,13 @@ const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
 
 interface Participant {
-	container: HTMLElement;
+	button: HTMLButtonElement;
 	imageUrl: string;
 }
 
-function getParticipants(container: HTMLElement): Participant[] {
+function getParticipants(button: HTMLButtonElement): Participant[] {
 	const currentUser = getUsername();
-	const users = container.getAttribute('aria-label')!
+	const users = button.getAttribute('aria-label')!
 		.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')
@@ -35,14 +35,14 @@ function getParticipants(container: HTMLElement): Participant[] {
 		// Find image on page. Saves a request and a redirect + add support for bots
 		const existingAvatar = select<HTMLImageElement>(`[alt="@${cleanName}"]`);
 		if (existingAvatar) {
-			participants.push({container, imageUrl: existingAvatar.src});
+			participants.push({button, imageUrl: existingAvatar.src});
 			continue;
 		}
 
 		// If it's not a bot, use a shortcut URL #2125
 		if (cleanName === username) {
 			const imageUrl = `/${username}.png?size=${window.devicePixelRatio * 20}`;
-			participants.push({container, imageUrl});
+			participants.push({button, imageUrl});
 		}
 	}
 
@@ -54,11 +54,11 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 
 	const participantByReaction = select
 		.all(':scope > button', commentReactions)
-		.map(element => getParticipants(element));
+		.map(button => getParticipants(button));
 	const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
-	for (const {container, imageUrl} of flatParticipants) {
-		container.append(
+	for (const {button, imageUrl} of flatParticipants) {
+		button.append(
 			<span className="rounded-1 avatar-user">
 				<img src={imageUrl} className="avatar-user rounded-1"/>
 			</span>,
