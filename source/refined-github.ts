@@ -35,6 +35,7 @@ import './features/minimize-upload-bar';
 import './features/monospace-textareas';
 import './features/remove-diff-signs';
 
+import './features/rich-diff-for-images';
 import './features/useful-not-found-page';
 import './features/trending-menu-item';
 import './features/more-dropdown-links';
