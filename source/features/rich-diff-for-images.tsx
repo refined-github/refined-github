@@ -71,7 +71,6 @@ async function loadRichDiffAndSwitchButtonStates(richDiffButton: Element) {
 	const richDiffFormAction = richDiffForm.getAttribute("action");
 	if (richDiffFormAction === null) return;
 
-	// wait some time between fetches
 	const imagePreviewDocumentFragment = await fetchDom(richDiffFormAction);
 
 	const sourceFileContent = fileContentContainer.firstElementChild;
