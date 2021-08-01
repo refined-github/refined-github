@@ -40,7 +40,7 @@ function renderButton(): void {
 }
 
 function init(): void {
-	delegate(document, '.rgh-copy-file', 'click', handleClick, true);
+	delegate(document, '.rgh-copy-file:not([value])', 'click', handleClick, true);
 	renderButton();
 }
 
