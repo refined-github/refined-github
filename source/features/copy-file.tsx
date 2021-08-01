@@ -55,4 +55,3 @@ void features.add(__filebasename, {
 	deduplicate: '.rgh-copy-file', // #3945
 	init,
 });
-
