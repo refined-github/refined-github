@@ -2,7 +2,6 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import copyToClipboard from 'copy-text-to-clipboard';
 
 import features from '.';
 import {groupButtons} from '../github-helpers/group-buttons';
@@ -12,14 +11,7 @@ function handleClick({delegateTarget: button}: delegate.Event): void {
 	const content = select.all('.blob-code-inner', file)
 		.map(({innerText: line}) => line === '\n' ? '' : line) // Must be `.innerText`
 		.join('\n');
-	copyToClipboard(content);
-
-	button.textContent = 'Copied!';
-	button.classList.remove('tooltipped');
-	setTimeout(() => {
-		button.textContent = 'Copy';
-		button.classList.add('tooltipped');
-	}, 2000);
+	button.setAttribute('value', content);
 }
 
 function renderButton(): void {
@@ -28,13 +20,15 @@ function renderButton(): void {
 		'[data-hotkey="b"]',
 	])) {
 		const copyButton = (
-			<button
-				className="btn btn-sm tooltipped tooltipped-n BtnGroup-item rgh-copy-file"
+			<clipboard-copy
+				className="btn btn-sm js-clipboard-copy tooltipped tooltipped-n ClipboardButton BtnGroup-item rgh-copy-file"
 				aria-label="Copy file to clipboard"
-				type="button"
+				data-tooltip-direction="n"
+				role="button"
+				data-copy-feedback="Copied!"
 			>
 				Copy
-			</button>
+			</clipboard-copy>
 		);
 		const group = button.closest('.BtnGroup');
 		if (group) {
@@ -46,7 +40,7 @@ function renderButton(): void {
 }
 
 function init(): void {
-	delegate(document, '.rgh-copy-file', 'click', handleClick);
+	delegate(document, '.rgh-copy-file', 'click', handleClick, true);
 	renderButton();
 }
 
@@ -61,3 +55,4 @@ void features.add(__filebasename, {
 	deduplicate: '.rgh-copy-file', // #3945
 	init,
 });
+
