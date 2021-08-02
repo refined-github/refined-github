@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {groupButtons} from '../github-helpers/group-buttons';
 
-function handleClick({delegateTarget: button}: delegate.Event): void {
+function handleClick({delegateTarget: button}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const file = button.closest('.Box, .js-gist-file-update-container')!;
 	const content = select.all('.blob-code-inner', file)
 		.map(({innerText: line}) => line === '\n' ? '' : line) // Must be `.innerText`
@@ -21,7 +21,7 @@ function renderButton(): void {
 	])) {
 		const copyButton = (
 			<clipboard-copy
-				className="btn btn-sm js-clipboard-copy tooltipped tooltipped-n ClipboardButton BtnGroup-item rgh-copy-file"
+				className="btn btn-sm js-clipboard-copy tooltipped tooltipped-n BtnGroup-item rgh-copy-file"
 				aria-label="Copy file to clipboard"
 				data-tooltip-direction="n"
 				role="button"
