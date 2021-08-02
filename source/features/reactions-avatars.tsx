@@ -13,6 +13,7 @@ const approximateHeaderLength = 3; // Each button header takes about as much as 
 
 interface Participant {
 	button: HTMLButtonElement;
+	username: string;
 	imageUrl: string;
 }
 
@@ -35,14 +36,14 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 		// Find image on page. Saves a request and a redirect + add support for bots
 		const existingAvatar = select<HTMLImageElement>(`[alt="@${cleanName}"]`);
 		if (existingAvatar) {
-			participants.push({button, imageUrl: existingAvatar.src});
+			participants.push({button, username, imageUrl: existingAvatar.src});
 			continue;
 		}
 
 		// If it's not a bot, use a shortcut URL #2125
 		if (cleanName === username) {
 			const imageUrl = `/${username}.png?size=${window.devicePixelRatio * 20}`;
-			participants.push({button, imageUrl});
+			participants.push({button, username, imageUrl});
 		}
 	}
 
@@ -57,9 +58,9 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 		.map(button => getParticipants(button));
 	const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
-	for (const {button, imageUrl} of flatParticipants) {
+	for (const {button, username, imageUrl} of flatParticipants) {
 		button.append(
-			<span className="rounded-1 avatar-user">
+			<span className="rounded-1 avatar-user" title={'@' + username}>
 				<img src={imageUrl} className="avatar-user rounded-1"/>
 			</span>,
 		);
