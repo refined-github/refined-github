@@ -68,7 +68,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPRConversation,
+		pageDetect.isConversation,
 		pageDetect.isPRFiles,
 		pageDetect.isCommit,
 		pageDetect.isCompare,
