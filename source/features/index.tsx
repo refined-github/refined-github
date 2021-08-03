@@ -270,24 +270,15 @@ This means that the old features will still be on the page and don't need to re-
 
 This marks each as "processed"
 */
-void add(
-	__filebasename,
-	{
-		deduplicate: 'has-rgh',
-		init: async () => {
-			// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
-			await Promise.resolve();
-			select('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);
-		},
+void add(__filebasename, {
+	deduplicate: false,
+	init: async () => {
+		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
+		await Promise.resolve();
+		select('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);
+		select('#repo-content-pjax-container')?.append(<has-rgh-inner/>); // #456
 	},
-	{
-		deduplicate: 'has-rgh-inner',
-		init: async () => {
-			await Promise.resolve();
-			select('#repo-content-pjax-container')?.append(<has-rgh-inner/>); // #456
-		},
-	},
-);
+});
 
 const features = {
 	add,
