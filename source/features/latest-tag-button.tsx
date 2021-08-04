@@ -100,7 +100,11 @@ async function init(): Promise<false | void> {
 	});
 
 	const link = (
-		<a className="btn btn-sm btn-outline ml-0 flex-self-center css-truncate rgh-latest-tag-button" href={String(url)}>
+		<a
+			className="btn btn-sm btn-outline ml-0 flex-self-center css-truncate rgh-latest-tag-button"
+			href={String(url)}
+			data-pjax="#repo-content-pjax-container"
+		>
 			<TagIcon/>
 		</a>
 	);
@@ -132,6 +136,7 @@ async function init(): Promise<false | void> {
 				<a
 					className="btn btn-sm btn-outline tooltipped tooltipped-ne"
 					href={buildRepoURL(`compare/${latestTag}...${defaultBranch}`)}
+					data-pjax="#repo-content-pjax-container"
 					aria-label={`Compare ${latestTag}...${defaultBranch}`}
 				>
 					<DiffIcon className="v-align-middle"/>
