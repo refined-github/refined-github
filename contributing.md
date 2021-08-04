@@ -2,6 +2,10 @@
 
 Suggestions and pull requests are highly encouraged! Have a look at the [open issues](https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22+sort%3Areactions-%2B1-desc), especially [the easy ones](https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+sort%3Areactions-%2B1-desc).
 
+If you have internet connectivity, you can get a fully pre-configured development environment with one click:
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/sindresorhus/refined-github)
+
 ## Notions
 
 - You will need to be familiar with [npm](https://docs.npmjs.com/getting-started/) and TypeScript to build this extension.
