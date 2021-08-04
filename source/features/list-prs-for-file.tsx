@@ -34,7 +34,7 @@ function getDropdown(prs: number[]): HTMLElement {
 						data-url={buildRepoURL('issues', prNumber)}
 						data-id={`rgh-pr-${prNumber}`}
 					>
-						<a className="dropdown-item" href={getPRUrl(prNumber)}>
+						<a className="dropdown-item" href={getPRUrl(prNumber)} data-pjax="#js-repo-pjax-container">
 							#{prNumber}
 						</a>
 					</li>
@@ -49,6 +49,7 @@ function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElem
 		<a
 			href={getPRUrl(prNumber)}
 			className={'btn btn-sm btn-outline flex-self-center rgh-list-prs-for-file' + (prs ? ' BtnGroup-item' : '')}
+			data-pjax="#js-repo-pjax-container"
 		>
 			<GitPullRequestIcon/> #{prNumber}
 		</a>
