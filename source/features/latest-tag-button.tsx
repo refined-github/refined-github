@@ -136,7 +136,7 @@ async function init(): Promise<false | void> {
 				<a
 					className="btn btn-sm btn-outline tooltipped tooltipped-ne"
 					href={buildRepoURL(`compare/${latestTag}...${defaultBranch}`)}
-					data-pjax="#repo-content-pjax-container"
+					data-pjax="#js-repo-pjax-container"
 					aria-label={`Compare ${latestTag}...${defaultBranch}`}
 				>
 					<DiffIcon className="v-align-middle"/>
