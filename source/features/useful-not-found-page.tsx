@@ -2,9 +2,11 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
+import twas from 'twas';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getCleanPathname} from '../github-helpers';
 
@@ -36,7 +38,51 @@ function parseCurrentURL(): string[] {
 	return parts;
 }
 
-// If the resource was deleted, link to the commit history
+async function displayObjectStatus(bar: Element): Promise<void> {
+	// Object might have been deleted/moved
+	if (!await addObjectStatusInfo(bar)) {
+		// Or 410 Gone
+		await addCommitHistoryLink(bar);
+	}
+}
+
+async function addObjectStatusInfo(bar: Element): Promise<boolean> {
+	// Get the file path from the parts
+	const parts = parseCurrentURL();
+	const filePath = parts.slice(4).join("/")
+
+	// Get the last 2 commits that include the file
+	const previousCommitsIncludingFile = await api.v3(`commits?path=${filePath}&per_page=2`)
+	// The latest commit will be the first object in the array
+	if (previousCommitsIncludingFile[0]) {
+		// Get a list of changes that happened in the repo with this commit
+		const lastCommitInfo = await api.v3(`commits/${previousCommitsIncludingFile[0]['sha']}`);
+		
+		// Check what happened to this file
+		const [fileInfo] = lastCommitInfo.files.filter((file: Record<string, string>) => (file.filename === filePath));
+		// If it was removed, tell the user
+		if (fileInfo.status === 'removed') {
+			const commitAuthor = lastCommitInfo.author.login;
+			const urlToCommitAuthorProfile = lastCommitInfo.author.html_url;
+			const urlToLastVersionOfFile = fileInfo.blob_url;
+			const commitTime = new Date(lastCommitInfo.commit.committer.date);
+
+			bar.after(
+				<p className="container mt-4 text-center">
+					The file you are looking for was deleted/moved by <a href={urlToCommitAuthorProfile}>{commitAuthor}</a> { twas(commitTime.getTime()) }.
+					<br />
+					You can view the last version of the file <a href={urlToLastVersionOfFile}>here</a>.
+				</p>,
+			);
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+// If the object was deleted, link to the commit history
 async function addCommitHistoryLink(bar: Element): Promise<void> {
 	const parts = parseCurrentURL();
 	parts[2] = 'commits';
@@ -52,7 +98,26 @@ async function addCommitHistoryLink(bar: Element): Promise<void> {
 	);
 }
 
-// If the resource exists in the default branch, link to it
+async function addBranchStatusInfo(bar: Element): Promise<void> {
+	// Get the current branch
+	const parts = parseCurrentURL()
+	const currentBranch = parts[3]
+
+	// List all valid branches
+	const branches = await api.v3(`branches`)
+
+	// Check if the branch exists
+	const matchingBranches = branches.filter((branch: Record<string, string>) => (branch.name === currentBranch))
+	if (matchingBranches.length === 0) {
+		return bar.after(
+			<p className="container mt-4 text-center">
+				The branch you are trying to view does not exist.
+			</p>,
+		);
+	}
+}
+
+// If the object exists in the default branch, link to it
 async function addDefaultBranchLink(bar: Element): Promise<void> {
 	const parts = getCleanPathname().split('/');
 	const branch = parts[3];
@@ -109,14 +174,15 @@ function init(): false | void {
 	}
 
 	if (['tree', 'blob'].includes(parts[2])) {
-		// Object might be 410 Gone
-		void addCommitHistoryLink(bar);
+		void displayObjectStatus(bar)
 	}
 
 	if (['tree', 'blob', 'edit'].includes(parts[2])) {
 		// File might not be available on the current branch
 		// GitHub already redirects /tree/ and /blob/ natively
 		void addDefaultBranchLink(bar);
+		// Or the branch itself may not exist
+		void addBranchStatusInfo(bar);
 	}
 }
 
