@@ -52,7 +52,7 @@ async function addObjectStatusInfo(bar: Element): Promise<boolean> {
 	const filePath = parts.slice(4).join('/');
 
 	// Get the last 2 commits that include the file
-	const previousCommitsIncludingFile = await api.v3(`commits?path=${filePath}`);
+	const previousCommitsIncludingFile = await api.v3(`commits?path=${filePath}&per_page=2`);
 	// The latest commit will be the first object in the array
 	if (previousCommitsIncludingFile[0]) {
 		// Get a list of changes that happened in the repo with this commit
