@@ -49,21 +49,26 @@ async function displayObjectStatus(bar: Element): Promise<void> {
 async function addObjectStatusInfo(bar: Element): Promise<boolean> {
 	// Get the file path from the parts
 	const parts = parseCurrentURL();
-	const filePath = parts.slice(4).join("/")
+	const filePath = parts.slice(4).join('/');
 
 	// Get the last 2 commits that include the file
-	const previousCommitsIncludingFile = await api.v3(`commits?path=${filePath}`)
+	const previousCommitsIncludingFile = await api.v3(`commits?path=${filePath}`);
 	// The latest commit will be the first object in the array
 	if (previousCommitsIncludingFile[0]) {
 		// Get a list of changes that happened in the repo with this commit
-		const lastCommitInfo = await api.v3(`commits/${previousCommitsIncludingFile[0]['sha']}`);
-		
+		const lastCommitInfo = await api.v3(`commits/${previousCommitsIncludingFile[0].sha as string}`);
+
 		// Check what happened to this file
-		const [fileInfo] = lastCommitInfo.files.filter((file: Record<string, string>) => {
-			if (file.filename === filePath) return true
-			if (file.status === 'renamed' && file.previous_filename === filePath) return true
-			
-			return false
+		const fileInfo = lastCommitInfo.files.find((file: Record<string, string>) => {
+			if (file.filename === filePath) {
+				return true;
+			}
+
+			if (file.status === 'renamed' && file.previous_filename === filePath) {
+				return true;
+			}
+
+			return false;
 		});
 
 		const commitAuthor = lastCommitInfo.author.login;
@@ -76,7 +81,7 @@ async function addObjectStatusInfo(bar: Element): Promise<boolean> {
 			bar.after(
 				<p className="container mt-4 text-center">
 					The file you are looking for was deleted/moved by <a href={urlToCommitAuthorProfile}>{commitAuthor}</a> { twas(commitTime.getTime()) }.
-					<br />
+					<br/>
 					You can view the last version of the file <a href={urlToLastBlob}>here</a>.
 				</p>,
 			);
@@ -89,7 +94,7 @@ async function addObjectStatusInfo(bar: Element): Promise<boolean> {
 			bar.after(
 				<p className="container mt-4 text-center">
 					The file you are looking for was renamed by <a href={urlToCommitAuthorProfile}>{commitAuthor}</a> {twas(commitTime.getTime())}.
-					<br />
+					<br/>
 					You can find the renamed file <a href={urlToLastBlob}>here</a>.
 				</p>,
 			);
@@ -119,16 +124,16 @@ async function addCommitHistoryLink(bar: Element): Promise<void> {
 
 async function addBranchStatusInfo(bar: Element): Promise<void> {
 	// Get the current branch
-	const parts = parseCurrentURL()
-	const currentBranch = parts[3]
+	const parts = parseCurrentURL();
+	const currentBranch = parts[3];
 
 	// List all valid branches
-	const branches = await api.v3(`branches`)
+	const branches = await api.v3('branches');
 
 	// Check if the branch exists
-	const matchingBranches = branches.filter((branch: Record<string, string>) => (branch.name === currentBranch))
+	const matchingBranches = branches.filter((branch: Record<string, string>) => (branch.name === currentBranch));
 	if (matchingBranches.length === 0) {
-		return bar.after(
+		bar.after(
 			<p className="container mt-4 text-center">
 				The branch you are trying to view does not exist.
 			</p>,
@@ -193,7 +198,7 @@ function init(): false | void {
 	}
 
 	if (['tree', 'blob'].includes(parts[2])) {
-		void displayObjectStatus(bar)
+		void displayObjectStatus(bar);
 	}
 
 	if (['tree', 'blob', 'edit'].includes(parts[2])) {
