@@ -52,26 +52,45 @@ async function addObjectStatusInfo(bar: Element): Promise<boolean> {
 	const filePath = parts.slice(4).join("/")
 
 	// Get the last 2 commits that include the file
-	const previousCommitsIncludingFile = await api.v3(`commits?path=${filePath}&per_page=2`)
+	const previousCommitsIncludingFile = await api.v3(`commits?path=${filePath}`)
 	// The latest commit will be the first object in the array
 	if (previousCommitsIncludingFile[0]) {
 		// Get a list of changes that happened in the repo with this commit
 		const lastCommitInfo = await api.v3(`commits/${previousCommitsIncludingFile[0]['sha']}`);
 		
 		// Check what happened to this file
-		const [fileInfo] = lastCommitInfo.files.filter((file: Record<string, string>) => (file.filename === filePath));
+		const [fileInfo] = lastCommitInfo.files.filter((file: Record<string, string>) => {
+			if (file.filename === filePath) return true
+			if (file.status === 'renamed' && file.previous_filename === filePath) return true
+			
+			return false
+		});
+
+		const commitAuthor = lastCommitInfo.author.login;
+		const urlToCommitAuthorProfile = lastCommitInfo.author.html_url;
+		const urlToLastBlob = fileInfo.blob_url;
+		const commitTime = new Date(lastCommitInfo.commit.committer.date);
+
 		// If it was removed, tell the user
 		if (fileInfo.status === 'removed') {
-			const commitAuthor = lastCommitInfo.author.login;
-			const urlToCommitAuthorProfile = lastCommitInfo.author.html_url;
-			const urlToLastVersionOfFile = fileInfo.blob_url;
-			const commitTime = new Date(lastCommitInfo.commit.committer.date);
-
 			bar.after(
 				<p className="container mt-4 text-center">
 					The file you are looking for was deleted/moved by <a href={urlToCommitAuthorProfile}>{commitAuthor}</a> { twas(commitTime.getTime()) }.
 					<br />
-					You can view the last version of the file <a href={urlToLastVersionOfFile}>here</a>.
+					You can view the last version of the file <a href={urlToLastBlob}>here</a>.
+				</p>,
+			);
+
+			return true;
+		}
+
+		// If it was renamed, tell the user
+		if (fileInfo.status === 'renamed') {
+			bar.after(
+				<p className="container mt-4 text-center">
+					The file you are looking for was renamed by <a href={urlToCommitAuthorProfile}>{commitAuthor}</a> {twas(commitTime.getTime())}.
+					<br />
+					You can find the renamed file <a href={urlToLastBlob}>here</a>.
 				</p>,
 			);
 
