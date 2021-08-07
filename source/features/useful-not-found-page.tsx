@@ -62,11 +62,29 @@ async function addObjectStatus(bar: Element): Promise<boolean> {
 	const filePath = parts.slice(4).join('/');
 
 	// Get the last 2 commits that include the file
-	const previousCommitsIncludingFile = await api.v3(`commits?path=${filePath}&per_page=2`);
+	const commitsForFileResponse = await api.v4(`
+		repository() {
+			ref(qualifiedName: "${parts[3]}") {
+				target {
+					... on Commit {
+						history(first: 2, path: "${filePath}") {
+							nodes {
+								oid
+							}
+						}
+					}
+				}
+			}
+		}
+	`);
 	// The latest commit will be the first object in the array
-	if (previousCommitsIncludingFile[0]) {
+	const previousCommitsIncludingFile = commitsForFileResponse.repository.ref.target.history.nodes[0];
+
+	if (previousCommitsIncludingFile) {
 		// Get a list of changes that happened in the repo with this commit
-		const lastCommitInfo = await api.v3(`commits/${previousCommitsIncludingFile[0].sha as string}`);
+		// We seem to be unable to get a list of changed files using the GraphQL (v4) API
+		// See: https://github.community/t/graphql-api-get-list-of-files-related-to-commit/14047/2
+		const lastCommitInfo = await api.v3(`commits/${previousCommitsIncludingFile.oid as string}`);
 
 		// Check what happened to this file
 		const fileInfo = lastCommitInfo.files.find((file: Record<string, string>) => {
