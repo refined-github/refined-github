@@ -2,7 +2,6 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
-import twas from 'twas';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -95,7 +94,7 @@ async function addObjectStatus(bar: Element): Promise<boolean> {
 		if (fileInfo.status === 'removed') {
 			bar.after(
 				<p className="container mt-4 text-center">
-					The file you are looking for was deleted/moved by <a href={urlToCommitAuthorProfile}>{commitAuthor}</a> {twas(commitTime.getTime())} with commit <a href={commitUrl}>{shortenedCommitSha}</a>.
+					The file you are looking for was deleted/moved by <a href={urlToCommitAuthorProfile}>{commitAuthor}</a> <relative-time datetime={commitTime}/> with commit <a href={commitUrl}>{shortenedCommitSha}</a>.
 					<br/>
 					You can view the last version of the file <a href={urlToLastBlob}>here</a>.
 				</p>,
@@ -108,7 +107,7 @@ async function addObjectStatus(bar: Element): Promise<boolean> {
 		if (fileInfo.status === 'renamed') {
 			bar.after(
 				<p className="container mt-4 text-center">
-					The file you are looking for was renamed by <a href={urlToCommitAuthorProfile}>{commitAuthor}</a> {twas(commitTime.getTime())} with commit <a href={commitUrl}>{shortenedCommitSha}</a>.
+					The file you are looking for was renamed by <a href={urlToCommitAuthorProfile}>{commitAuthor}</a> <relative-time datetime={commitTime}/> with commit <a href={commitUrl}>{shortenedCommitSha}</a>.
 					<br/>
 					You can find the renamed file <a href={urlToLastBlob}>here</a>.
 				</p>,
