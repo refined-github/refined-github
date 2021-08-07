@@ -38,15 +38,26 @@ function parseCurrentURL(): string[] {
 	return parts;
 }
 
-async function displayObjectStatus(bar: Element): Promise<void> {
-	// Object might have been deleted/moved
-	if (!await addObjectStatusInfo(bar)) {
-		// Or 410 Gone
-		await addCommitHistoryLink(bar);
+async function findAndDisplayMissingPart(bar: Element): Promise<void> {
+	// The branch might have been deleted
+	const branchDeleted = await addBranchStatus(bar);
+	// Or the file exists, but on a different branch
+	const branchDoesNotHaveFile = await addDefaultBranchLink(bar);
+	// If either of the above are true, we don't need to go into the file's commit history.
+	if (branchDeleted || branchDoesNotHaveFile) {
+		return;
 	}
+
+	// The object might have been deleted/moved
+	if (await addObjectStatus(bar)) {
+		return;
+	}
+
+	// Or 410 Gone
+	await addCommitHistoryLink(bar);
 }
 
-async function addObjectStatusInfo(bar: Element): Promise<boolean> {
+async function addObjectStatus(bar: Element): Promise<boolean> {
 	// Get the file path from the parts
 	const parts = parseCurrentURL();
 	const filePath = parts.slice(4).join('/');
@@ -72,15 +83,19 @@ async function addObjectStatusInfo(bar: Element): Promise<boolean> {
 		});
 
 		const commitAuthor = lastCommitInfo.author.login;
+		const commitTime = new Date(lastCommitInfo.commit.committer.date);
+		const commitSha = lastCommitInfo.sha;
+		const shortenedCommitSha = commitSha.slice(0, 8);
+		const commitUrl = lastCommitInfo.html_url;
+
 		const urlToCommitAuthorProfile = lastCommitInfo.author.html_url;
 		const urlToLastBlob = fileInfo.blob_url;
-		const commitTime = new Date(lastCommitInfo.commit.committer.date);
 
 		// If it was removed, tell the user
 		if (fileInfo.status === 'removed') {
 			bar.after(
 				<p className="container mt-4 text-center">
-					The file you are looking for was deleted/moved by <a href={urlToCommitAuthorProfile}>{commitAuthor}</a> { twas(commitTime.getTime()) }.
+					The file you are looking for was deleted/moved by <a href={urlToCommitAuthorProfile}>{commitAuthor}</a> {twas(commitTime.getTime())} with commit <a href={commitUrl}>{shortenedCommitSha}</a>.
 					<br/>
 					You can view the last version of the file <a href={urlToLastBlob}>here</a>.
 				</p>,
@@ -93,7 +108,7 @@ async function addObjectStatusInfo(bar: Element): Promise<boolean> {
 		if (fileInfo.status === 'renamed') {
 			bar.after(
 				<p className="container mt-4 text-center">
-					The file you are looking for was renamed by <a href={urlToCommitAuthorProfile}>{commitAuthor}</a> {twas(commitTime.getTime())}.
+					The file you are looking for was renamed by <a href={urlToCommitAuthorProfile}>{commitAuthor}</a> {twas(commitTime.getTime())} with commit <a href={commitUrl}>{shortenedCommitSha}</a>.
 					<br/>
 					You can find the renamed file <a href={urlToLastBlob}>here</a>.
 				</p>,
@@ -107,12 +122,12 @@ async function addObjectStatusInfo(bar: Element): Promise<boolean> {
 }
 
 // If the object was deleted, link to the commit history
-async function addCommitHistoryLink(bar: Element): Promise<void> {
+async function addCommitHistoryLink(bar: Element): Promise<boolean> {
 	const parts = parseCurrentURL();
 	parts[2] = 'commits';
 	const url = '/' + parts.join('/');
 	if (await is404(location.origin + url)) {
-		return;
+		return false;
 	}
 
 	bar.after(
@@ -120,9 +135,11 @@ async function addCommitHistoryLink(bar: Element): Promise<void> {
 			See also the {getType()}’s <a href={url}>commit history</a>.
 		</p>,
 	);
+
+	return true;
 }
 
-async function addBranchStatusInfo(bar: Element): Promise<void> {
+async function addBranchStatus(bar: Element): Promise<boolean> {
 	// Get the current branch
 	const parts = parseCurrentURL();
 	const currentBranch = parts[3];
@@ -138,26 +155,30 @@ async function addBranchStatusInfo(bar: Element): Promise<void> {
 				The branch you are trying to view does not exist.
 			</p>,
 		);
+
+		return true;
 	}
+
+	return false;
 }
 
 // If the object exists in the default branch, link to it
-async function addDefaultBranchLink(bar: Element): Promise<void> {
+async function addDefaultBranchLink(bar: Element): Promise<boolean> {
 	const parts = getCleanPathname().split('/');
 	const branch = parts[3];
 	if (!branch) {
-		return;
+		return false;
 	}
 
 	const defaultBranch = await getDefaultBranch();
 	if (branch === defaultBranch) {
-		return;
+		return false;
 	}
 
 	parts[3] = defaultBranch; // Change branch
 	const url = '/' + parts.join('/');
 	if (await is404(location.origin + url)) {
-		return;
+		return false;
 	}
 
 	bar.after(
@@ -165,6 +186,8 @@ async function addDefaultBranchLink(bar: Element): Promise<void> {
 			The {getType()} exists on the <a href={url}>default branch</a>.
 		</p>,
 	);
+
+	return true;
 }
 
 function init(): false | void {
@@ -197,16 +220,12 @@ function init(): false | void {
 		void checkAnchor(bar.children[i] as HTMLAnchorElement);
 	}
 
-	if (['tree', 'blob'].includes(parts[2])) {
-		void displayObjectStatus(bar);
-	}
-
+	// Check for what exactly is missing in the following order:
+	// - check if the branch exists
+	// - check if the file exists on the default branch
+	// - check if the file was deleted/moved/renamed
 	if (['tree', 'blob', 'edit'].includes(parts[2])) {
-		// File might not be available on the current branch
-		// GitHub already redirects /tree/ and /blob/ natively
-		void addDefaultBranchLink(bar);
-		// Or the branch itself may not exist
-		void addBranchStatusInfo(bar);
+		void findAndDisplayMissingPart(bar);
 	}
 }
 
