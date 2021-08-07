@@ -99,22 +99,23 @@ async function addObjectStatus(bar: Element): Promise<boolean> {
 			return false;
 		});
 
-		const commitAuthor = lastCommitInfo.author.login;
+		if (!fileInfo) {
+			return false;
+		}
+
 		const commitTime = new Date(lastCommitInfo.commit.committer.date);
 		const commitSha = lastCommitInfo.sha;
 		const shortenedCommitSha = commitSha.slice(0, 8);
 		const commitUrl = lastCommitInfo.html_url;
-
-		const urlToCommitAuthorProfile = lastCommitInfo.author.html_url;
 		const urlToLastBlob = fileInfo.blob_url;
+
+		const commitHistoryUrl = '/' + parts.join('/');
 
 		// If it was removed, tell the user
 		if (fileInfo.status === 'removed') {
 			bar.after(
 				<p className="container mt-4 text-center">
-					The file you are looking for was deleted/moved by <a href={urlToCommitAuthorProfile}>{commitAuthor}</a> <relative-time datetime={commitTime}/> with commit <a href={commitUrl}>{shortenedCommitSha}</a>.
-					<br/>
-					You can view the last version of the file <a href={urlToLastBlob}>here</a>.
+					This {getType()} was deleted/moved by <a href={commitUrl}>{shortenedCommitSha}</a> (<relative-time datetime={commitTime}/>) - see the {getType()}&apos;s <a href={commitHistoryUrl}>commit history</a>.
 				</p>,
 			);
 
@@ -125,9 +126,7 @@ async function addObjectStatus(bar: Element): Promise<boolean> {
 		if (fileInfo.status === 'renamed') {
 			bar.after(
 				<p className="container mt-4 text-center">
-					The file you are looking for was renamed by <a href={urlToCommitAuthorProfile}>{commitAuthor}</a> <relative-time datetime={commitTime}/> with commit <a href={commitUrl}>{shortenedCommitSha}</a>.
-					<br/>
-					You can find the renamed file <a href={urlToLastBlob}>here</a>.
+					This {getType()} was renamed by <a href={commitUrl}>{shortenedCommitSha}</a> (<relative-time datetime={commitTime}/>) - see the {getType()}&apos;s <a href={commitHistoryUrl}>commit history</a> or view the <a href={urlToLastBlob}>renamed file</a>.
 				</p>,
 			);
 
