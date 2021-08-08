@@ -64,7 +64,7 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | undefined> {
 
 async function getLastCommitForFile(
 	branch?: string,
-): Promise<Record<string, string | undefined> | undefined> {
+): Promise<Record<string, string | undefined> | void> {
 	// Get the current branch and file path
 	const url = new GitHubURL(location.href);
 	const currentBranch = url.branch;
@@ -155,8 +155,6 @@ async function getLastCommitForFile(
 			linkToCommitHistory,
 		};
 	}
-
-	return undefined;
 }
 
 async function getLinkToCommitHistoryOnDefaultBranch(): Promise<string | undefined> {
@@ -186,7 +184,7 @@ async function getLinkToCommitHistoryOnDefaultBranch(): Promise<string | undefin
 	return url.toString();
 }
 
-async function whatHappenedToTheFile(): Promise<Record<string, string | undefined> | undefined> {
+async function whatHappenedToTheFile(): Promise<Record<string, string | undefined> | void> {
 	// First, check if the file exists on the default branch
 	const urlOnDefaultBranch = await getUrlToFileOnDefaultBranch();
 	if (urlOnDefaultBranch) {
@@ -211,8 +209,6 @@ async function whatHappenedToTheFile(): Promise<Record<string, string | undefine
 			linkToCommitHistory: linkToCommitHistoryOnDefaultBranch,
 		};
 	}
-
-	return undefined;
 }
 
 async function showAdditionalInformation(bar: Element): Promise<void> {
@@ -293,8 +289,7 @@ function init(): false | void {
 
 	// Check that this is actually a 404 page for a file/folder in a repo
 	if (
-		parts.length <= 1
-		|| !select.exists('[alt*="This is not the web page you are looking for"]')
+		parts.length <= 1 || !select.exists('[alt*="This is not the web page you are looking for"]')
 	) {
 		return false;
 	}
