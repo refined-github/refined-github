@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import GitHubURL from '../github-helpers/github-url';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getCleanPathname} from '../github-helpers';
 
@@ -36,8 +37,8 @@ function parseCurrentURL(): string[] {
 
 async function getUrlToFileOnDefaultBranch(): Promise<string | undefined> {
 	// Get the current branch
-	const parts = parseCurrentURL();
-	const currentBranch = parts[3];
+	const url = new GitHubURL(location.href);
+	const currentBranch = url.branch;
 
 	if (!currentBranch) {
 		return;
@@ -49,28 +50,30 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | undefined> {
 	}
 
 	// Change branch
-	parts[3] = defaultBranch;
-	const url = '/' + parts.join('/');
+	url.assign({
+		branch: defaultBranch
+	})
 	// Check if that path exists
-	if (await is404(location.origin + url)) {
+	if (await is404(url.toString())) {
 		return;
 	}
 
 	// If it does, return it
-	return url;
+	return url.toString();
 }
 
 async function getLastCommitForFile(
 	branch?: string,
 ): Promise<Record<string, string | undefined> | undefined> {
-	// Get the file path from the parts
-	const parts = parseCurrentURL();
-	let filePath = parts.slice(4).join('/');
+	// Get the current branch and file path
+	const url = new GitHubURL(location.href);
+	const currentBranch = url.branch;
+	let filePath = url.filePath;
 
 	// Get the last 2 commits that include the file
 	const commitsForFileResponse = await api.v4(`
 		repository() {
-			ref(qualifiedName: "${branch ?? parts[3]}") {
+			ref(qualifiedName: "${branch ?? currentBranch}") {
 				target {
 					... on Commit {
 						history(first: 2, path: "${filePath}") {
@@ -119,8 +122,10 @@ async function getLastCommitForFile(
 	const commitDate = lastCommitInfo.commit.committer.date;
 	const linkToCommit = lastCommitInfo.html_url;
 
-	parts[2] = 'commits';
-	const linkToCommitHistory = 'https://github.com/' + parts.join('/');
+	url.assign({
+		route: 'commits'
+	})
+	const linkToCommitHistory = url.toString();
 
 	if (fileInfo.status === 'removed') {
 		const linkToLastVersion = fileInfo.blob_url;
@@ -138,24 +143,15 @@ async function getLastCommitForFile(
 
 	if (fileInfo.status === 'renamed') {
 		filePath = fileInfo.previous_filename || filePath;
-		const newFilePath = fileInfo.previous_filename ? filePath : undefined;
+		const newFilePath = fileInfo.previous_filename;
 
 		const linkToNewVersion = fileInfo.blob_url;
-		let linkToLastVersion = '';
-
-		const lastToLastCommit
-			= commitsForFileResponse.repository.ref.target.history.nodes[1];
-		if (lastToLastCommit) {
-			// HACK: Generate a blob URL for the file at the time of the previous commit
-			linkToLastVersion = [
-				'https://github.com',
-				parts[0],
-				parts[1],
-				'blob',
-				lastToLastCommit.oid,
-				filePath,
-			].join('/');
-		}
+		url.assign({
+			route: 'blob',
+			branch: lastCommitInfo.parents[0].sha,
+			filePath
+		})
+		let linkToLastVersion = url.toString();
 
 		return {
 			type: 'renamed',
@@ -175,8 +171,8 @@ async function getLastCommitForFile(
 
 async function getLinkToCommitHistoryOnDefaultBranch(): Promise<string | undefined> {
 	// Get the current branch
-	const parts = parseCurrentURL();
-	const currentBranch = parts[3];
+	const url = new GitHubURL(location.href);
+	const currentBranch = url.branch;
 
 	if (!currentBranch) {
 		return;
@@ -187,19 +183,17 @@ async function getLinkToCommitHistoryOnDefaultBranch(): Promise<string | undefin
 		return;
 	}
 
-	// Change branch
-	parts[3] = defaultBranch;
-	// We need to view commits
-	parts[2] = 'commits';
-	// Create the url
-	const url = '/' + parts.join('/');
+	url.assign({
+		route: 'commits',
+		branch: defaultBranch,
+	})
 	// Check if that path exists
-	if (await is404(location.origin + url)) {
+	if (await is404(url.toString())) {
 		return;
 	}
 
 	// If it does, return it
-	return url;
+	return url.toString();
 }
 
 async function whatHappenedToTheFile(): Promise<Record<string, string | undefined> | undefined> {
