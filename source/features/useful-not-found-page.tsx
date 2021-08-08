@@ -288,10 +288,8 @@ async function showWhatIsMissingInPath(bar: Element): Promise<void> {
 
 		// The last part of the URL is a known 404
 		if (i === parts.length - 1) {
-			// Put a strikthrough through it by default
 			bar.append(' / ', getStrikeThrough(part));
 		} else {
-			// Else just show a hyperlink to that part of the link
 			const pathname = '/' + parts.slice(0, i + 1).join('/');
 			bar.append(i ? ' / ' : '', <a href={pathname}>{part}</a>);
 		}
@@ -301,7 +299,6 @@ async function showWhatIsMissingInPath(bar: Element): Promise<void> {
 
 	// Check parts from right to left; skip the last part
 	for (let i = bar.children.length - 2; i >= 0; i--) {
-		// Strikethrough the parts that don't exist
 		void checkAnchor(bar.children[i] as HTMLAnchorElement);
 	}
 }
@@ -322,12 +319,7 @@ function init(): false | void {
 	const bar = <h2 className="container mt-4 text-center"/>;
 	void showWhatIsMissingInPath(bar);
 
-	// What happened to the file?
-	// Check if it:
-	// - exists on the default branch
-	// - exists in commit history for the current branch (got deleted/moved/renamed)
-	// - exists in commit history for the default branch (if the above 2 fail)
-	// If not, the file does not exist (wrong URL), we don't need to show any extra info
+	// Show more info about what happened to the file
 	void showAdditionalInformation(bar);
 }
 
