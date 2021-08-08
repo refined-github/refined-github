@@ -1,16 +1,16 @@
-import React from "dom-chef";
-import select from "select-dom";
-import onetime from "onetime";
-import elementReady from "element-ready";
-import * as pageDetect from "github-url-detection";
+import React from 'dom-chef';
+import select from 'select-dom';
+import onetime from 'onetime';
+import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
 
-import features from ".";
-import * as api from "../github-helpers/api";
-import getDefaultBranch from "../github-helpers/get-default-branch";
-import { getCleanPathname } from "../github-helpers";
+import features from '.';
+import * as api from '../github-helpers/api';
+import getDefaultBranch from '../github-helpers/get-default-branch';
+import {getCleanPathname} from '../github-helpers';
 
 async function is404(url: string): Promise<boolean> {
-	const { status } = await fetch(url, { method: "head" });
+	const {status} = await fetch(url, {method: 'head'});
 	return status === 404;
 }
 
@@ -25,10 +25,10 @@ async function checkAnchor(anchor: HTMLAnchorElement): Promise<void> {
 }
 
 function parseCurrentURL(): string[] {
-	const parts = getCleanPathname().split("/");
+	const parts = getCleanPathname().split('/');
 	// Blob URLs are never useful
-	if (parts[2] === "blob") {
-		parts[2] = "tree";
+	if (parts[2] === 'blob') {
+		parts[2] = 'tree';
 	}
 
 	return parts;
@@ -50,7 +50,7 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | undefined> {
 
 	// Change branch
 	parts[3] = defaultBranch;
-	const url = "/" + parts.join("/");
+	const url = '/' + parts.join('/');
 	// Check if that path exists
 	if (await is404(location.origin + url)) {
 		return;
@@ -61,11 +61,11 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | undefined> {
 }
 
 async function getLastCommitForFile(
-	branch?: string
+	branch?: string,
 ): Promise<Record<string, string | undefined> | undefined> {
 	// Get the file path from the parts
 	const parts = parseCurrentURL();
-	let filePath = parts.slice(4).join("/");
+	let filePath = parts.slice(4).join('/');
 
 	// Get the last 2 commits that include the file
 	const commitsForFileResponse = await api.v4(`
@@ -84,8 +84,8 @@ async function getLastCommitForFile(
 		}
 	`);
 	// The latest commit will be the first object in the array
-	const previousCommitsIncludingFile =
-		commitsForFileResponse.repository.ref.target.history.nodes[0];
+	const previousCommitsIncludingFile
+		= commitsForFileResponse.repository.ref.target.history.nodes[0];
 	if (!previousCommitsIncludingFile) {
 		return;
 	}
@@ -95,7 +95,7 @@ async function getLastCommitForFile(
 	// API v4 doesn't support retrieving a list of changed files for a commit:
 	// https://github.community/t/graphql-api-get-list-of-files-related-to-commit/14047/2
 	const lastCommitInfo = await api.v3(
-		`commits/${previousCommitsIncludingFile.oid as string}`
+		`commits/${previousCommitsIncludingFile.oid as string}`,
 	);
 
 	// Check what happened to this particular file
@@ -104,7 +104,7 @@ async function getLastCommitForFile(
 			return true;
 		}
 
-		if (file.status === "renamed" && file.previous_filename === filePath) {
+		if (file.status === 'renamed' && file.previous_filename === filePath) {
 			return true;
 		}
 
@@ -119,14 +119,14 @@ async function getLastCommitForFile(
 	const commitDate = lastCommitInfo.commit.committer.date;
 	const linkToCommit = lastCommitInfo.html_url;
 
-	parts[2] = "commits";
-	const linkToCommitHistory = "https://github.com/" + parts.join("/");
+	parts[2] = 'commits';
+	const linkToCommitHistory = 'https://github.com/' + parts.join('/');
 
-	if (fileInfo.status === "removed") {
+	if (fileInfo.status === 'removed') {
 		const linkToLastVersion = fileInfo.blob_url;
 
 		return {
-			type: "removed",
+			type: 'removed',
 			filePath,
 			commitSha,
 			commitDate,
@@ -136,29 +136,29 @@ async function getLastCommitForFile(
 		};
 	}
 
-	if (fileInfo.status === "renamed") {
+	if (fileInfo.status === 'renamed') {
 		filePath = fileInfo.previous_filename || filePath;
 		const newFilePath = fileInfo.previous_filename ? filePath : undefined;
 
 		const linkToNewVersion = fileInfo.blob_url;
-		let linkToLastVersion = "";
+		let linkToLastVersion = '';
 
-		const lastToLastCommit =
-			commitsForFileResponse.repository.ref.target.history.nodes[1];
+		const lastToLastCommit
+			= commitsForFileResponse.repository.ref.target.history.nodes[1];
 		if (lastToLastCommit) {
 			// HACK: Generate a blob URL for the file at the time of the previous commit
 			linkToLastVersion = [
-				"https://github.com",
+				'https://github.com',
 				parts[0],
 				parts[1],
-				"blob",
+				'blob',
 				lastToLastCommit.oid,
 				filePath,
-			].join("/");
+			].join('/');
 		}
 
 		return {
-			type: "renamed",
+			type: 'renamed',
 			filePath,
 			newFilePath,
 			commitSha,
@@ -173,9 +173,7 @@ async function getLastCommitForFile(
 	return undefined;
 }
 
-async function getLinkToCommitHistoryOnDefaultBranch(): Promise<
-	string | undefined
-> {
+async function getLinkToCommitHistoryOnDefaultBranch(): Promise<string | undefined> {
 	// Get the current branch
 	const parts = parseCurrentURL();
 	const currentBranch = parts[3];
@@ -192,9 +190,9 @@ async function getLinkToCommitHistoryOnDefaultBranch(): Promise<
 	// Change branch
 	parts[3] = defaultBranch;
 	// We need to view commits
-	parts[2] = "commits";
+	parts[2] = 'commits';
 	// Create the url
-	const url = "/" + parts.join("/");
+	const url = '/' + parts.join('/');
 	// Check if that path exists
 	if (await is404(location.origin + url)) {
 		return;
@@ -204,14 +202,12 @@ async function getLinkToCommitHistoryOnDefaultBranch(): Promise<
 	return url;
 }
 
-async function whatHappenedToTheFile(): Promise<
-	Record<string, string | undefined> | undefined
-> {
+async function whatHappenedToTheFile(): Promise<Record<string, string | undefined> | undefined> {
 	// First, check if the file exists on the default branch
 	const urlOnDefaultBranch = await getUrlToFileOnDefaultBranch();
 	if (urlOnDefaultBranch) {
 		return {
-			type: "isOnDefaultBranch",
+			type: 'isOnDefaultBranch',
 			linkToLastVersion: urlOnDefaultBranch,
 		};
 	}
@@ -223,11 +219,11 @@ async function whatHappenedToTheFile(): Promise<
 	}
 
 	// Else, check if the file exists in the default branch's history
-	const linkToCommitHistoryOnDefaultBranch =
-		await getLinkToCommitHistoryOnDefaultBranch();
+	const linkToCommitHistoryOnDefaultBranch
+		= await getLinkToCommitHistoryOnDefaultBranch();
 	if (linkToCommitHistoryOnDefaultBranch) {
 		return {
-			type: "wasOnDefaultBranch",
+			type: 'wasOnDefaultBranch',
 			linkToCommitHistory: linkToCommitHistoryOnDefaultBranch,
 		};
 	}
@@ -243,56 +239,38 @@ async function showAdditionalInformation(bar: Element): Promise<void> {
 	}
 
 	// Parse that and do/show something
-	if (eventThatHappened.type === "isOnDefaultBranch") {
+	if (eventThatHappened.type === 'isOnDefaultBranch') {
 		bar.after(
 			<p className="container mt-4 text-center">
-				<a href={eventThatHappened.linkToLastVersion}>This file</a> only exists
-				on the default branch.
-			</p>
+				<a href={eventThatHappened.linkToLastVersion}>This file</a> only exists on the default branch.
+			</p>,
 		);
 		return;
 	}
 
-	if (eventThatHappened.type === "wasOnDefaultBranch") {
+	if (eventThatHappened.type === 'wasOnDefaultBranch') {
 		bar.after(
 			<p className="container mt-4 text-center">
-				This file used to exist on the default branch - see{" "}
-				<a href={eventThatHappened.linkToCommitHistory}>commit history</a>.
-			</p>
+				This file used to exist on the default branch - see <a href={eventThatHappened.linkToCommitHistory}>commit history</a>.
+			</p>,
 		);
 		return;
 	}
 
-	if (eventThatHappened.type === "removed") {
+	if (eventThatHappened.type === 'removed') {
 		bar.after(
 			<p className="container mt-4 text-center">
-				<a href={eventThatHappened.linkToLastVersion}>This file</a> was deleted
-				by{" "}
-				<a href={eventThatHappened.linkToCommit}>
-					{eventThatHappened.commitSha}
-				</a>{" "}
-				(<relative-time datetime={new Date(eventThatHappened.commitDate!)} />) -
-				see <a href={eventThatHappened.linkToCommitHistory}>commit history</a>.
-			</p>
+				<a href={eventThatHappened.linkToLastVersion}>This file</a> was deleted by <a href={eventThatHappened.linkToCommit}> {eventThatHappened.commitSha} </a> 	(<relative-time datetime={new Date(eventThatHappened.commitDate!)}/>) - see <a href={eventThatHappened.linkToCommitHistory}>commit history</a>.
+			</p>,
 		);
 		return;
 	}
 
-	if (eventThatHappened.type === "renamed") {
+	if (eventThatHappened.type === 'renamed') {
 		bar.after(
 			<p className="container mt-4 text-center">
-				<a href={eventThatHappened.linkToLastVersion}>This file</a> was renamed
-				to{" "}
-				<a href={eventThatHappened.linkToNewVersion}>
-					{eventThatHappened.newFilePath}
-				</a>{" "}
-				by{" "}
-				<a href={eventThatHappened.linkToCommit}>
-					{eventThatHappened.commitSha}
-				</a>{" "}
-				(<relative-time datetime={new Date(eventThatHappened.commitDate!)} />) -
-				see <a href={eventThatHappened.linkToCommitHistory}>commit history</a>.
-			</p>
+				<a href={eventThatHappened.linkToLastVersion}>This file</a> was renamed to <a href={eventThatHappened.linkToNewVersion}> {eventThatHappened.newFilePath} </a> by <a href={eventThatHappened.linkToCommit}> {eventThatHappened.commitSha} </a> (<relative-time datetime={new Date(eventThatHappened.commitDate!)}/>) - see <a href={eventThatHappened.linkToCommitHistory}>commit history</a>.
+			</p>,
 		);
 	}
 }
@@ -304,22 +282,22 @@ async function showWhatIsMissingInPath(bar: Element): Promise<void> {
 	// Display the path of the file (including repo owner, repo name and branch name)
 	for (const [i, part] of parts.entries()) {
 		// Exclude parts that don't exist as standalones
-		if (i === 2 && ["tree", "blob", "edit"].includes(part)) {
+		if (i === 2 && ['tree', 'blob', 'edit'].includes(part)) {
 			continue;
 		}
 
 		// The last part of the URL is a known 404
 		if (i === parts.length - 1) {
 			// Put a strikthrough through it by default
-			bar.append(" / ", getStrikeThrough(part));
+			bar.append(' / ', getStrikeThrough(part));
 		} else {
 			// Else just show a hyperlink to that part of the link
-			const pathname = "/" + parts.slice(0, i + 1).join("/");
-			bar.append(i ? " / " : "", <a href={pathname}>{part}</a>);
+			const pathname = '/' + parts.slice(0, i + 1).join('/');
+			bar.append(i ? ' / ' : '', <a href={pathname}>{part}</a>);
 		}
 	}
 
-	select("main > :first-child, #parallax_illustration")!.after(bar);
+	select('main > :first-child, #parallax_illustration')!.after(bar);
 
 	// Check parts from right to left; skip the last part
 	for (let i = bar.children.length - 2; i >= 0; i--) {
@@ -334,14 +312,14 @@ function init(): false | void {
 
 	// Check that this is actually a 404 page for a file/folder in a repo
 	if (
-		parts.length <= 1 ||
-		!select.exists('[alt*="This is not the web page you are looking for"]')
+		parts.length <= 1
+		|| !select.exists('[alt*="This is not the web page you are looking for"]')
 	) {
 		return false;
 	}
 
 	// Create a bar to show the path of the file and which parts of it caused the 404
-	const bar = <h2 className="container mt-4 text-center" />;
+	const bar = <h2 className="container mt-4 text-center"/>;
 	void showWhatIsMissingInPath(bar);
 
 	// What happened to the file?
@@ -354,19 +332,18 @@ function init(): false | void {
 }
 
 async function initPRCommit(): Promise<void | false> {
-	const commitUrl = location.href.replace(/pull\/\d+\/commits/, "commit");
+	const commitUrl = location.href.replace(/pull\/\d+\/commits/, 'commit');
 	if (await is404(commitUrl)) {
 		return false;
 	}
 
-	const blankSlateParagraph = await elementReady(".blankslate p", {
+	const blankSlateParagraph = await elementReady('.blankslate p', {
 		waitForChildren: false,
 	});
 	blankSlateParagraph!.after(
 		<p>
-			You can also try to{" "}
-			<a href={commitUrl}>view the detached standalone commit</a>.
-		</p>
+			You can also try to <a href={commitUrl}>view the detached standalone commit</a>.
+		</p>,
 	);
 }
 
@@ -380,5 +357,5 @@ void features.add(
 		include: [pageDetect.isPRCommit404],
 		awaitDomReady: false,
 		init: onetime(initPRCommit),
-	}
+	},
 );
