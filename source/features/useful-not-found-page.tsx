@@ -102,17 +102,7 @@ async function getLastCommitForFile(
 	);
 
 	// Check what happened to this particular file
-	const fileInfo = lastCommitInfo.files.find((file: Record<string, string>) => {
-		if (file.filename === filePath) {
-			return true;
-		}
-
-		if (file.status === 'renamed' && file.previous_filename === filePath) {
-			return true;
-		}
-
-		return false;
-	});
+	const fileInfo = lastCommitInfo.files.find((file: AnyObject) => [file.filename, file.previous_filename].includes(filePath));
 	if (!fileInfo) {
 		return;
 	}
@@ -142,8 +132,8 @@ async function getLastCommitForFile(
 	}
 
 	if (fileInfo.status === 'renamed') {
-		filePath = fileInfo.previous_filename || filePath;
-		const newFilePath = fileInfo.previous_filename;
+		const newFilePath = fileInfo.filename;
+		filePath = fileInfo.previous_filename;
 
 		const linkToNewVersion = fileInfo.blob_url;
 		url.assign({
