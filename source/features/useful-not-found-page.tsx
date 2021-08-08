@@ -260,7 +260,7 @@ async function showAdditionalInformation(bar: Element): Promise<void> {
 	if (eventThatHappened.type === 'removed') {
 		bar.after(
 			<p className="container mt-4 text-center">
-				<a href={eventThatHappened.linkToLastVersion}>This file</a> was deleted by <a href={eventThatHappened.linkToCommit}> {eventThatHappened.commitSha} </a> 	(<relative-time datetime={new Date(eventThatHappened.commitDate!)}/>) - see <a href={eventThatHappened.linkToCommitHistory}>commit history</a>.
+				<a href={eventThatHappened.linkToLastVersion}>This file</a> was deleted <a href={eventThatHappened.linkToCommit}><relative-time datetime={new Date(eventThatHappened.commitDate!)}/></a> - see <a href={eventThatHappened.linkToCommitHistory}>commit history</a>.
 			</p>,
 		);
 		return;
@@ -269,7 +269,7 @@ async function showAdditionalInformation(bar: Element): Promise<void> {
 	if (eventThatHappened.type === 'renamed') {
 		bar.after(
 			<p className="container mt-4 text-center">
-				<a href={eventThatHappened.linkToLastVersion}>This file</a> was renamed to <a href={eventThatHappened.linkToNewVersion}> {eventThatHappened.newFilePath} </a> by <a href={eventThatHappened.linkToCommit}> {eventThatHappened.commitSha} </a> (<relative-time datetime={new Date(eventThatHappened.commitDate!)}/>) - see <a href={eventThatHappened.linkToCommitHistory}>commit history</a>.
+				<a href={eventThatHappened.linkToLastVersion}>This file</a> was renamed to <a href={eventThatHappened.linkToNewVersion}>{eventThatHappened.newFilePath}</a> (<a href={eventThatHappened.linkToCommit}><relative-time datetime={new Date(eventThatHappened.commitDate!)}/></a>) - see <a href={eventThatHappened.linkToCommitHistory}>commit history</a>.
 			</p>,
 		);
 	}
