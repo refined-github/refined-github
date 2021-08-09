@@ -38,6 +38,87 @@ function parseCurrentURL(): string[] {
 	return parts;
 }
 
+async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
+	const url = new GitHubURL(location.href);
+	const currentBranch = url.branch;
+	const {filePath} = url;
+	if (!currentBranch || !filePath) {
+		return;
+	}
+
+	const commits = await api.v3(`commits?path=${filePath}&sha=${currentBranch}&per_page=2`);
+	if (!commits[0]) {
+		return;
+	}
+
+	const commitInfo = await api.v3(`commits/${commits[0].sha as string}`);
+	const fileInfo = commitInfo.files.find((file: AnyObject) => [file.filename, file.previous_filename].includes(filePath));
+	if (!fileInfo) {
+		return;
+	}
+
+	const commitSha = commitInfo.sha.slice(0, 8);
+	const commitDate = commitInfo.commit.committer.date;
+	const linkToCommit = commitInfo.html_url;
+
+	url.assign({
+		route: 'commits',
+	});
+	const linkToCommitHistory = url.toString();
+
+	if (fileInfo.status === 'removed') {
+		return {
+			type: 'removed',
+			commitDetails: {
+				filePath,
+				commitSha, commitDate,
+				linkToCommit, linkToCommitHistory,
+				linkToLastVersion: fileInfo.blob_url,
+			},
+		};
+	}
+
+	if (fileInfo.status === 'renamed') {
+		url.assign({
+			route: 'blob',
+			branch: commitInfo.parents[0].sha,
+			filePath,
+		});
+
+		return {
+			type: 'renamed',
+			commitDetails: {
+				filePath: fileInfo.previous_filename, newFilePath: fileInfo.filename,
+				commitSha, commitDate,
+				linkToCommit, linkToCommitHistory,
+				linkToLastVersion: url.toString(), linkToNewVersion: fileInfo.blob_url,
+			},
+		};
+	}
+}
+
+async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
+	const url = new GitHubURL(location.href);
+	const currentBranch = url.branch;
+	if (!currentBranch) {
+		return;
+	}
+
+	const defaultBranch = await getDefaultBranch();
+	if (currentBranch === defaultBranch) {
+		return;
+	}
+
+	url.assign({
+		branch: defaultBranch,
+	});
+	if (await is404(url.toString())) {
+		return;
+	}
+
+	return url.toString();
+}
+
 async function showMissingPart(bar: Element): Promise<void> {
 	const parts = parseCurrentURL();
 
@@ -69,28 +150,7 @@ async function showHelpfulLinks(bar: Element): Promise<void> {
 	//  1. Check if the file is on the default branch
 	//  2. Check the current branch's history for the file (was it deleted or renamed)
 
-	const urlToFileOnDefaultBranch = await (async () => {
-		const url = new GitHubURL(location.href);
-		const currentBranch = url.branch;
-		if (!currentBranch) {
-			return;
-		}
-
-		const defaultBranch = await getDefaultBranch();
-		if (currentBranch === defaultBranch) {
-			return;
-		}
-
-		url.assign({
-			branch: defaultBranch,
-		});
-		if (await is404(url.toString())) {
-			return;
-		}
-
-		return url.toString();
-	})();
-
+	const urlToFileOnDefaultBranch = await getUrlToFileOnDefaultBranch();
 	if (urlToFileOnDefaultBranch) {
 		bar.after(
 			<p className="container mt-4 text-center">
@@ -100,65 +160,7 @@ async function showHelpfulLinks(bar: Element): Promise<void> {
 		return;
 	}
 
-	const change = await (async (): Promise<Record<string, any> | void> => {
-		const url = new GitHubURL(location.href);
-		const currentBranch = url.branch;
-		const {filePath} = url;
-		if (!currentBranch || !filePath) {
-			return;
-		}
-
-		const commits = await api.v3(`commits?path=${filePath}&sha=${currentBranch}&per_page=2`);
-		if (!commits[0]) {
-			return;
-		}
-
-		const commitInfo = await api.v3(`commits/${commits[0].sha as string}`);
-		const fileInfo = commitInfo.files.find((file: AnyObject) => [file.filename, file.previous_filename].includes(filePath));
-		if (!fileInfo) {
-			return;
-		}
-
-		const commitSha = commitInfo.sha.slice(0, 8);
-		const commitDate = commitInfo.commit.committer.date;
-		const linkToCommit = commitInfo.html_url;
-
-		url.assign({
-			route: 'commits',
-		});
-		const linkToCommitHistory = url.toString();
-
-		if (fileInfo.status === 'removed') {
-			return {
-				type: 'removed',
-				commitDetails: {
-					filePath,
-					commitSha, commitDate,
-					linkToCommit, linkToCommitHistory,
-					linkToLastVersion: fileInfo.blob_url,
-				},
-			};
-		}
-
-		if (fileInfo.status === 'renamed') {
-			url.assign({
-				route: 'blob',
-				branch: commitInfo.parents[0].sha,
-				filePath,
-			});
-
-			return {
-				type: 'renamed',
-				commitDetails: {
-					filePath: fileInfo.previous_filename, newFilePath: fileInfo.filename,
-					commitSha, commitDate,
-					linkToCommit, linkToCommitHistory,
-					linkToLastVersion: url.toString(), linkToNewVersion: fileInfo.blob_url,
-				},
-			};
-		}
-	})();
-
+	const change = await getLatestChangeToFile();
 	if (change) {
 		if (change.type === 'renamed') {
 			bar.after(
