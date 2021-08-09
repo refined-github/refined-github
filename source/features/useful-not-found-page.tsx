@@ -1,36 +1,37 @@
 import React from 'dom-chef';
-import onetime from 'onetime';
 import select from 'select-dom';
+import onetime from 'onetime';
 import elementReady from 'element-ready';
-
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api';
-import GitHubURL from '../github-helpers/github-url';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getCleanPathname} from '../github-helpers';
-
-function parseCurrentURL(): string[] {
-	const parts = getCleanPathname().split('/');
-	if (parts[2] === 'blob') {
-		parts[2] = 'tree';
-	}
-
-	return parts;
-}
+import * as api from '../github-helpers/api';
+import GitHubURL from '../github-helpers/github-url';
 
 async function is404(url: string): Promise<boolean> {
-	const {status} = await fetch(url, {
-		method: 'head',
-	});
+	const {status} = await fetch(url, {method: 'head'});
 	return status === 404;
+}
+
+function getStrikeThrough(text: string): HTMLElement {
+	return <del className="color-text-tertiary">{text}</del>; /* GHE #4121 */
 }
 
 async function checkIfPartExists(element: HTMLAnchorElement): Promise<void> {
 	if (await is404(element.href)) {
-		element.replaceWith(<del className="color-text-tertiary">{element.textContent}</del>);
+		element.replaceWith(getStrikeThrough(element.textContent!));
 	}
+}
+
+function parseCurrentURL(): string[] {
+	const parts = getCleanPathname().split('/');
+	if (parts[2] === 'blob') { // Blob URLs are never useful
+		parts[2] = 'tree';
+	}
+
+	return parts;
 }
 
 async function showMissingPart(bar: Element): Promise<void> {
@@ -38,12 +39,13 @@ async function showMissingPart(bar: Element): Promise<void> {
 
 	for (const [i, part] of parts.entries()) {
 		if (i === 2 && ['tree', 'blob', 'edit'].includes(part)) {
+			// Exclude parts that don't exist as standalones
 			continue;
 		}
 
-		// Last part caused the 404; we know that it does not exist for sure
+		// The last part of the URL is a known 404
 		if (i === parts.length - 1) {
-			bar.append(' / ', <del className="color-text-tertiary">{part}</del>);
+			bar.append(' / ', getStrikeThrough(part));
 		} else {
 			const pathname = '/' + parts.slice(0, i + 1).join('/');
 			bar.append(i ? ' / ' : '', <a href={pathname}>{part}</a>);
@@ -52,6 +54,7 @@ async function showMissingPart(bar: Element): Promise<void> {
 
 	select('main > :first-child, #parallax_illustration')!.after(bar);
 
+	// Check parts from right to left; skip the last part
 	for (let i = bar.children.length - 2; i >= 0; i--) {
 		void checkIfPartExists(bar.children[i] as HTMLAnchorElement);
 	}
@@ -184,36 +187,27 @@ function initUsefulNotFoundPage(): void {
 	void showHelpfulLinks(bar);
 }
 
-async function initPRCommitNotFoundPage(): Promise<void | false> {
+async function initPRCommit(): Promise<void | false> {
 	const commitUrl = location.href.replace(/pull\/\d+\/commits/, 'commit');
 	if (await is404(commitUrl)) {
 		return false;
 	}
 
-	const blankSlateParagraph = await elementReady('.blankslate p', {
-		waitForChildren: false,
-	});
-
+	const blankSlateParagraph = await elementReady('.blankslate p', {waitForChildren: false});
 	blankSlateParagraph!.after(
-		<p>
-			You can also try to <a href={commitUrl}>view the detached standalone commit</a>.
-		</p>,
+		<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>,
 	);
 }
 
-void features.add(
-	__filebasename,
-	{
-		include: [
-			pageDetect.is404,
-		],
-		init: onetime(initUsefulNotFoundPage),
-	},
-	{
-		include: [
-			pageDetect.isPRCommit404,
-		],
-		awaitDomReady: false,
-		init: onetime(initPRCommitNotFoundPage),
-	},
-);
+void features.add(__filebasename, {
+	include: [
+		pageDetect.is404,
+	],
+	init: onetime(initUsefulNotFoundPage),
+}, {
+	include: [
+		pageDetect.isPRCommit404,
+	],
+	awaitDomReady: false,
+	init: onetime(initPRCommit),
+});
