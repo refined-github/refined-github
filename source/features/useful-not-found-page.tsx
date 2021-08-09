@@ -71,8 +71,10 @@ async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
 			type: 'removed',
 			commitDetails: {
 				filePath,
-				commitSha, commitDate,
-				linkToCommit, linkToCommitHistory,
+				commitSha,
+				commitDate,
+				linkToCommit,
+				linkToCommitHistory,
 				linkToLastVersion: fileInfo.blob_url,
 			},
 		};
@@ -88,9 +90,12 @@ async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
 		return {
 			type: 'renamed',
 			commitDetails: {
-				filePath: fileInfo.previous_filename, newFilePath: fileInfo.filename,
-				commitSha, commitDate,
-				linkToCommit, linkToCommitHistory,
+				filePath: fileInfo.previous_filename,
+				newFilePath: fileInfo.filename,
+				commitSha,
+				commitDate,
+				linkToCommit,
+				linkToCommitHistory,
 				linkToLastVersion: url.toString(), linkToNewVersion: fileInfo.blob_url,
 			},
 		};
