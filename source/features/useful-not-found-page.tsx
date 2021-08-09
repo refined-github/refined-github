@@ -23,9 +23,9 @@ function getStrikeThrough(text: string): HTMLElement {
 	return <del className="color-text-tertiary">{text}</del>; /* GHE #4121 */
 }
 
-async function checkIfPartExists(element: HTMLAnchorElement): Promise<void> {
-	if (await is404(element.href)) {
-		element.replaceWith(getStrikeThrough(element.textContent!));
+async function checkAnchor(anchor: HTMLAnchorElement): Promise<void> {
+	if (await is404(anchor.href)) {
+		anchor.replaceWith(getStrikeThrough(anchor.textContent!));
 	}
 }
 
@@ -47,8 +47,8 @@ async function showMissingPart(bar: Element): Promise<void> {
 			continue;
 		}
 
-		// The last part of the URL is a known 404
 		if (i === parts.length - 1) {
+			// The last part of the URL is a known 404
 			bar.append(' / ', getStrikeThrough(part));
 		} else {
 			const pathname = '/' + parts.slice(0, i + 1).join('/');
@@ -60,7 +60,7 @@ async function showMissingPart(bar: Element): Promise<void> {
 
 	// Check parts from right to left; skip the last part
 	for (let i = bar.children.length - 2; i >= 0; i--) {
-		void checkIfPartExists(bar.children[i] as HTMLAnchorElement);
+		void checkAnchor(bar.children[i] as HTMLAnchorElement);
 	}
 }
 
@@ -179,7 +179,7 @@ async function showHelpfulLinks(bar: Element): Promise<void> {
 	}
 }
 
-function initUsefulNotFoundPage(): void {
+function init(): void {
 	if (
 		parseCurrentURL().length <= 1 || !select.exists('[alt*="This is not the web page you are looking for"]')
 	) {
@@ -207,7 +207,7 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.is404,
 	],
-	init: onetime(initUsefulNotFoundPage),
+	init: onetime(init),
 }, {
 	include: [
 		pageDetect.isPRCommit404,
