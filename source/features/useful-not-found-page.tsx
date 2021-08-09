@@ -179,11 +179,10 @@ async function showHelpfulLinks(bar: Element): Promise<void> {
 	}
 }
 
-function init(): void {
-	if (
-		parseCurrentURL().length <= 1 || !select.exists('[alt*="This is not the web page you are looking for"]')
-	) {
-		return;
+function init(): false | void {
+	const parts = parseCurrentURL();
+	if (parts.length <= 1 || !select.exists('[alt*="This is not the web page you are looking for"]')) {
+		return false;
 	}
 
 	const bar = <h2 className="container mt-4 text-center"/>;
