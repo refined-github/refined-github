@@ -10,6 +10,10 @@ import {getCleanPathname} from '../github-helpers';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 
+function getType(): string {
+	return location.pathname.split('/').pop()!.includes('.') ? 'file' : 'object';
+}
+
 async function is404(url: string): Promise<boolean> {
 	const {status} = await fetch(url, {method: 'head'});
 	return status === 404;
@@ -90,7 +94,7 @@ async function showHelpfulLinks(bar: Element): Promise<void> {
 	if (urlToFileOnDefaultBranch) {
 		bar.after(
 			<p className="container mt-4 text-center">
-				View <a href={urlToFileOnDefaultBranch}>this file</a> on the default branch.
+				View <a href={urlToFileOnDefaultBranch}>this {getType()}</a> on the default branch.
 			</p>,
 		);
 		return;
@@ -168,7 +172,7 @@ async function showHelpfulLinks(bar: Element): Promise<void> {
 		if (change.type === 'removed') {
 			bar.after(
 				<p className="container mt-4 text-center">
-					<a href={change.commitDetails.linkToLastVersion}>This file</a> was removed (<a href={change.commitDetails.linkToCommit}><relative-time datetime={change.commitDetails.commitDate}/></a>) - view the file&apos;s <a href={change.commitDetails.linkToCommitHistory}>commit history</a>.
+					<a href={change.commitDetails.linkToLastVersion}>This {getType()}</a> was removed (<a href={change.commitDetails.linkToCommit}><relative-time datetime={change.commitDetails.commitDate}/></a>) - view the file&apos;s <a href={change.commitDetails.linkToCommitHistory}>commit history</a>.
 				</p>,
 			);
 		}
