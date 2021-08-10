@@ -134,7 +134,7 @@ async function showHelpfulLinks(): Promise<void> {
 	if (urlToFileOnDefaultBranch) {
 		select('h2')!.after(
 			<p className="container mt-4 text-center">
-				View <a href={urlToFileOnDefaultBranch}>this {getType()}</a> on the default branch.
+				<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
 			</p>,
 		);
 		return;
@@ -148,7 +148,7 @@ async function showHelpfulLinks(): Promise<void> {
 		url.assign({route: 'commits'});
 		const commitHistory = <a href={url.toString()}>Commit history</a>;
 		url.assign({route: 'blob', branch: commitInfo.parents[0].sha, filePath: url.filePath});
-		const lastVersion = <a href={fileInfo.status === 'removed' ? fileInfo.blob_url : url.toString()}>The file</a>;
+		const lastVersion = <a href={fileInfo.status === 'removed' ? fileInfo.blob_url : url.toString()}>This {getType()}</a>;
 		const permalink = <a href={commitInfo.html_url}><relative-time datetime={commitInfo.commit.committer.date}/></a>;
 		const verb = fileInfo.status === 'removed'
 			? 'deleted'
