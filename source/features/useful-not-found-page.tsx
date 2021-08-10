@@ -39,7 +39,7 @@ function parseCurrentURL(): string[] {
 }
 
 async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
-	const {branch, filePath} = new GitHubURL(location.href);;
+	const {branch, filePath} = new GitHubURL(location.href);
 	if (!branch || !filePath) {
 		return;
 	}
@@ -69,7 +69,7 @@ async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
 	const commitInfo = await api.v3(`commits/${commits[0].oid as string}`);
 	for (const fileInfo of commitInfo.files) {
 		if ([fileInfo.filename, fileInfo.previous_filename].includes(filePath)) {
-			return {fileInfo, commitInfo}
+			return {fileInfo, commitInfo};
 		}
 	}
 }
@@ -126,7 +126,9 @@ async function showHelpfulLinks(): Promise<void> {
 	}
 
 	const change = await getLatestChangeToFile();
-	if (!change) return;
+	if (!change) {
+		return;
+	}
 
 	const {fileInfo, commitInfo} = change;
 	const url = new GitHubURL(location.href);
