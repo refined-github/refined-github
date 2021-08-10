@@ -114,17 +114,20 @@ async function showMissingPart(): Promise<void> {
 	}
 }
 
-async function showHelpfulLinks(): Promise<void> {
+async function showDefaultBranchLink(): Promise<void> {
 	const urlToFileOnDefaultBranch = await getUrlToFileOnDefaultBranch();
-	if (urlToFileOnDefaultBranch) {
-		select('main > .container-lg')!.before(
-			<p className="container mt-4 text-center">
-				<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
-			</p>,
-		);
+	if (!urlToFileOnDefaultBranch) {
 		return;
 	}
 
+	select('main > .container-lg')!.before(
+		<p className="container mt-4 text-center">
+			<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
+		</p>,
+	);
+}
+
+async function showAlternateLink(): Promise<void> {
 	const change = await getLatestChangeToFile();
 	if (!change) {
 		return;
@@ -157,7 +160,8 @@ function init(): false | void {
 	}
 
 	void showMissingPart();
-	void showHelpfulLinks();
+	void showDefaultBranchLink();
+	void showAlternateLink();
 }
 
 async function initPRCommit(): Promise<void | false> {
