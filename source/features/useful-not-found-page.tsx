@@ -137,7 +137,7 @@ async function showAlternateLink(): Promise<void> {
 	const url = new GitHubURL(location.href);
 
 	url.assign({route: 'commits'});
-	const commitHistory = <a href={url.toString()}>see commit history</a>;
+	const commitHistory = <a href={url.toString()}>Commit history</a>;
 	url.assign({route: 'blob', branch: commitInfo.parents[0].sha, filePath: url.filePath});
 	const lastVersionUrl = fileInfo.status === 'removed' ? fileInfo.blob_url : url.toString();
 	const lastVersion = <a href={lastVersionUrl}>This {getType()}</a>;
