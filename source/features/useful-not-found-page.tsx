@@ -40,15 +40,14 @@ function parseCurrentURL(): string[] {
 
 async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
 	const url = new GitHubURL(location.href);
-	const currentBranch = url.branch;
-	const {filePath} = url;
-	if (!currentBranch || !filePath) {
+	const {branch, filePath} = url;
+	if (!branch || !filePath) {
 		return;
 	}
 
 	const commitsResponseObject = await api.v4(`
 		repository() {
-			ref(qualifiedName: "${currentBranch}") {
+			ref(qualifiedName: "${branch}") {
 				target {
 					... on Commit {
 						history(first: 1, path: "${filePath}") {
