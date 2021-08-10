@@ -77,25 +77,16 @@ async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
 }
 
 async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
-	const url = new GitHubURL(location.href);
-	const currentBranch = url.branch;
-	if (!currentBranch) {
+	const parsedUrl = new GitHubURL(location.href);
+	if (!parsedUrl.branch) {
 		return;
 	}
 
-	const defaultBranch = await getDefaultBranch();
-	if (currentBranch === defaultBranch) {
-		return;
+	parsedUrl.assign({branch: await getDefaultBranch()});
+	const urlOnDefault = parsedUrl.toString();
+	if (urlOnDefault !== location.href && !await is404(urlOnDefault)) {
+		return urlOnDefault;
 	}
-
-	url.assign({
-		branch: defaultBranch,
-	});
-	if (await is404(url.toString())) {
-		return;
-	}
-
-	return url.toString();
 }
 
 async function showMissingPart(): Promise<void> {
