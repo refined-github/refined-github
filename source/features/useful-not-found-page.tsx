@@ -117,7 +117,7 @@ async function showMissingPart(): Promise<void> {
 async function showHelpfulLinks(): Promise<void> {
 	const urlToFileOnDefaultBranch = await getUrlToFileOnDefaultBranch();
 	if (urlToFileOnDefaultBranch) {
-		select('h2')!.after(
+		select('main > .container-lg')!.before(
 			<p className="container mt-4 text-center">
 				<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
 			</p>,
@@ -132,7 +132,7 @@ async function showHelpfulLinks(): Promise<void> {
 	const url = new GitHubURL(location.href);
 
 	url.assign({route: 'commits'});
-	const commitHistory = <a href={url.toString()}>Commit history</a>;
+	const commitHistory = <a href={url.toString()}>see commit history</a>;
 	url.assign({route: 'blob', branch: commitInfo.parents[0].sha, filePath: url.filePath});
 	const lastVersionUrl = fileInfo.status === 'removed' ? fileInfo.blob_url : url.toString();
 	const lastVersion = <a href={lastVersionUrl}>This {getType()}</a>;
@@ -141,7 +141,7 @@ async function showHelpfulLinks(): Promise<void> {
 		? 'deleted'
 		: <a href={fileInfo.blob_url}>moved</a>;
 
-	select('h2')!.after(
+	select('main > .container-lg')!.before(
 		<p className="container mt-4 text-center">
 			{lastVersion} was {verb} ({permalink}) - {commitHistory}.
 		</p>,
