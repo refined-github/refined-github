@@ -39,8 +39,7 @@ function parseCurrentURL(): string[] {
 }
 
 async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
-	const url = new GitHubURL(location.href);
-	const {branch, filePath} = url;
+	const {branch, filePath} = new GitHubURL(location.href);;
 	if (!branch || !filePath) {
 		return;
 	}
@@ -68,12 +67,11 @@ async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
 	// API v4 doesn't support retrieving a list of changed files for a commit:
 	// https://github.community/t/graphql-api-get-list-of-files-related-to-commit/14047/2
 	const commitInfo = await api.v3(`commits/${commits[0].oid as string}`);
-	const fileInfo = commitInfo.files.find((file: AnyObject) => [file.filename, file.previous_filename].includes(filePath));
-	if (!fileInfo) {
-		return;
+	for (const fileInfo of commitInfo.files) {
+		if ([fileInfo.filename, fileInfo.previous_filename].includes(filePath)) {
+			return {fileInfo, commitInfo}
+		}
 	}
-
-	return {fileInfo, commitInfo};
 }
 
 async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
@@ -117,10 +115,6 @@ async function showMissingPart(): Promise<void> {
 }
 
 async function showHelpfulLinks(): Promise<void> {
-	// What we should try to do to be helpful:
-	//  1. Check if the file is on the default branch
-	//  2. Check the current branch's history for the file (was it deleted or renamed)
-
 	const urlToFileOnDefaultBranch = await getUrlToFileOnDefaultBranch();
 	if (urlToFileOnDefaultBranch) {
 		select('h2')!.after(
@@ -132,25 +126,26 @@ async function showHelpfulLinks(): Promise<void> {
 	}
 
 	const change = await getLatestChangeToFile();
-	if (change) {
-		const {fileInfo, commitInfo} = change;
-		const url = new GitHubURL(location.href);
+	if (!change) return;
 
-		url.assign({route: 'commits'});
-		const commitHistory = <a href={url.toString()}>Commit history</a>;
-		url.assign({route: 'blob', branch: commitInfo.parents[0].sha, filePath: url.filePath});
-		const lastVersion = <a href={fileInfo.status === 'removed' ? fileInfo.blob_url : url.toString()}>This {getType()}</a>;
-		const permalink = <a href={commitInfo.html_url}><relative-time datetime={commitInfo.commit.committer.date}/></a>;
-		const verb = fileInfo.status === 'removed'
-			? 'deleted'
-			: <a href={fileInfo.status === 'renamed' ? fileInfo.blob_url : url.toString()}>moved</a>;
+	const {fileInfo, commitInfo} = change;
+	const url = new GitHubURL(location.href);
 
-		select('h2')!.after(
-			<p className="container mt-4 text-center">
-				{lastVersion} was {verb} ({permalink}) - {commitHistory}.
-			</p>,
-		);
-	}
+	url.assign({route: 'commits'});
+	const commitHistory = <a href={url.toString()}>Commit history</a>;
+	url.assign({route: 'blob', branch: commitInfo.parents[0].sha, filePath: url.filePath});
+	const lastVersionUrl = fileInfo.status === 'removed' ? fileInfo.blob_url : url.toString();
+	const lastVersion = <a href={lastVersionUrl}>This {getType()}</a>;
+	const permalink = <a href={commitInfo.html_url}><relative-time datetime={commitInfo.commit.committer.date}/></a>;
+	const verb = fileInfo.status === 'removed'
+		? 'deleted'
+		: <a href={fileInfo.blob_url}>moved</a>;
+
+	select('h2')!.after(
+		<p className="container mt-4 text-center">
+			{lastVersion} was {verb} ({permalink}) - {commitHistory}.
+		</p>,
+	);
 }
 
 function init(): false | void {
