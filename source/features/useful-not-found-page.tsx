@@ -61,8 +61,7 @@ async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
 			}
 		}
 	`);
-	const commits =
-		commitsResponseObject.repository.ref.target.history.nodes[0];
+	const commits = commitsResponseObject.repository.ref.target.history.nodes[0];
 	if (!commits[0]) {
 		return;
 	}
