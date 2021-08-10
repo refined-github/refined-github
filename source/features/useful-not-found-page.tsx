@@ -98,8 +98,9 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
 	return url.toString();
 }
 
-async function showMissingPart(bar: Element): Promise<void> {
+async function showMissingPart(): Promise<void> {
 	const parts = parseCurrentURL();
+	const bar = <h2 className="container mt-4 text-center"/>;
 
 	for (const [i, part] of parts.entries()) {
 		if (i === 2 && ['tree', 'blob', 'edit'].includes(part)) {
@@ -124,14 +125,14 @@ async function showMissingPart(bar: Element): Promise<void> {
 	}
 }
 
-async function showHelpfulLinks(bar: Element): Promise<void> {
+async function showHelpfulLinks(): Promise<void> {
 	// What we should try to do to be helpful:
 	//  1. Check if the file is on the default branch
 	//  2. Check the current branch's history for the file (was it deleted or renamed)
 
 	const urlToFileOnDefaultBranch = await getUrlToFileOnDefaultBranch();
 	if (urlToFileOnDefaultBranch) {
-		bar.after(
+		select('h2')!.after(
 			<p className="container mt-4 text-center">
 				View <a href={urlToFileOnDefaultBranch}>this {getType()}</a> on the default branch.
 			</p>,
@@ -153,7 +154,7 @@ async function showHelpfulLinks(bar: Element): Promise<void> {
 			? 'deleted'
 			: <a href={fileInfo.status === 'renamed' ? fileInfo.blob_url : url.toString()}>moved</a>;
 
-		bar.after(
+		select('h2')!.after(
 			<p className="container mt-4 text-center">
 				{lastVersion} was {verb} ({permalink}) - {commitHistory}.
 			</p>,
@@ -167,9 +168,8 @@ function init(): false | void {
 		return false;
 	}
 
-	const bar = <h2 className="container mt-4 text-center"/>;
-	void showMissingPart(bar);
-	void showHelpfulLinks(bar);
+	void showMissingPart();
+	void showHelpfulLinks();
 }
 
 async function initPRCommit(): Promise<void | false> {
