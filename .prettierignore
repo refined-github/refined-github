@@ -1,2 +1,2 @@
-# Ignore all files and directories
+# Ensure Prettier is not automatically run by editors
 *.*
