@@ -44,7 +44,7 @@ async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
 		return;
 	}
 
-	const commitsResponseObject = await api.v4(`
+	const {repository} = await api.v4(`
 		repository() {
 			ref(qualifiedName: "${branch}") {
 				target {
@@ -59,14 +59,14 @@ async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
 			}
 		}
 	`);
-	const [commits] = commitsResponseObject.repository.ref.target.history.nodes;
-	if (!commits) {
+	const [commit] = repository.ref.target.history.nodes;
+	if (!commit) {
 		return;
 	}
 
 	// API v4 doesn't support retrieving a list of changed files for a commit:
 	// https://github.community/t/graphql-api-get-list-of-files-related-to-commit/14047/2
-	const commitInfo = await api.v3(`commits/${commits.oid as string}`);
+	const commitInfo = await api.v3(`commits/${commit.oid as string}`);
 	for (const fileInfo of commitInfo.files) {
 		if ([fileInfo.filename, fileInfo.previous_filename].includes(filePath)) {
 			return {fileInfo, commitInfo};
