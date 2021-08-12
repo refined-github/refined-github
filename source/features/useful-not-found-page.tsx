@@ -46,20 +46,18 @@ async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
 
 	const {repository} = await api.v4(`
 		repository() {
-			ref(qualifiedName: "${branch}") {
-				target {
-					... on Commit {
-						history(first: 1, path: "${filePath}") {
-							nodes {
-								oid
-							}
+			object(expression: "${branch}") {
+				... on Commit {
+					history(first: 1, path: "${filePath}") {
+						nodes {
+							oid
 						}
 					}
 				}
 			}
 		}
 	`);
-	const [commit] = repository.ref.target.history.nodes;
+	const [commit] = repository.object.history.nodes;
 	if (!commit) {
 		return;
 	}
