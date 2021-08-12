@@ -7,6 +7,11 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 
+interface File {
+	previous_filename: string;
+	filename: string;
+	status: string;
+}
 // eslint-disable-next-line import/prefer-default-export
 export async function getCommitInfo(oid: string): Promise<AnyObject> {
 	// API v4 doesn't support it: https://github.community/t/what-is-the-corresponding-object-in-graphql-api-v4-for-patch-which-is-available-in-rest-api-v3/13590
@@ -22,7 +27,7 @@ async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void 
 
 	const {files} = await getCommitInfo(sha.getAttribute('value')!);
 
-	for (const file of files) {
+	for (const file of (files as File[])) {
 		if (file[fromKey] === url.filePath) {
 			if (file.status === 'renamed') {
 				url.assign({
