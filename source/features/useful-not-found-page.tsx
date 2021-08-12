@@ -7,6 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
+import {getCommitInfo} from './follow-file-renames';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getCleanPathname} from '../github-helpers';
 
@@ -62,9 +63,7 @@ async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
 		return;
 	}
 
-	// API v4 doesn't support retrieving a list of changed files for a commit:
-	// https://github.community/t/graphql-api-get-list-of-files-related-to-commit/14047/2
-	const commitInfo = await api.v3(`commits/${commit.oid as string}`);
+	const commitInfo = await getCommitInfo(commit.oid as string);
 	for (const fileInfo of commitInfo.files) {
 		if ([fileInfo.filename, fileInfo.previous_filename].includes(filePath)) {
 			return {fileInfo, commitInfo};
