@@ -48,7 +48,7 @@ interface RestResponse extends AnyObject {
 	ok: boolean;
 }
 
-async function log(message: string) {
+export async function log(message: string): Promise<void> {
 	const {logAPI} = (await optionsStorage.getAll());
 	if (logAPI) {
 		console.log(message);
@@ -125,6 +125,7 @@ export const v3 = mem(async (
 	}
 
 	const url = new URL(query, api3);
+	void log(String(url));
 	const response = await fetch(url.href, {
 		method,
 		body: body && JSON.stringify(body),
