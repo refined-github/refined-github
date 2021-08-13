@@ -58,7 +58,7 @@ async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
 			}
 		}
 	`);
-	const [commit] = repository.object.history.nodes;
+	const commit = repository.object?.history.nodes[0];
 	if (!commit) {
 		return;
 	}
