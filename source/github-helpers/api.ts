@@ -48,6 +48,13 @@ interface RestResponse extends AnyObject {
 	ok: boolean;
 }
 
+export async function log(message: string): Promise<void> {
+	const {logAPI} = (await optionsStorage.getAll());
+	if (logAPI) {
+		console.log(message);
+	}
+}
+
 export const escapeKey = (value: string | number): string => '_' + String(value).replace(/[ ./-]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
@@ -118,6 +125,7 @@ export const v3 = mem(async (
 	}
 
 	const url = new URL(query, api3);
+	void log(String(url));
 	const response = await fetch(url.href, {
 		method,
 		body: body && JSON.stringify(body),
@@ -173,6 +181,10 @@ export const v4 = mem(async (
 	}
 
 	query = query.replace('repository() {', () => `repository(owner: "${getRepo()!.owner}", name: "${getRepo()!.name}") {`);
+
+	void log(`{
+		${query}
+	}`);
 
 	const response = await fetch(api4, {
 		headers: {
