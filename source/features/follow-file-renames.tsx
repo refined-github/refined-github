@@ -12,11 +12,10 @@ interface File {
 	filename: string;
 	status: string;
 }
-
-async function findRename(lastCommitOnPage: string): Promise<File[]> {
+// eslint-disable-next-line import/prefer-default-export
+export async function getCommitInfo(oid: string): Promise<AnyObject> {
 	// API v4 doesn't support it: https://github.community/t/what-is-the-corresponding-object-in-graphql-api-v4-for-patch-which-is-available-in-rest-api-v3/13590
-	const {files} = await api.v3(`commits/${lastCommitOnPage}`);
-	return files;
+	return api.v3(`commits/${oid}`);
 }
 
 async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void | false> {
@@ -26,9 +25,9 @@ async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void 
 	const toKey = isNewer ? 'filename' : 'previous_filename';
 	const sha = (isNewer ? select : select.last)('clipboard-copy[aria-label="Copy the full SHA"]')!;
 
-	const files = await findRename(sha.getAttribute('value')!);
+	const {files} = await getCommitInfo(sha.getAttribute('value')!);
 
-	for (const file of files) {
+	for (const file of (files as File[])) {
 		if (file[fromKey] === url.filePath) {
 			if (file.status === 'renamed') {
 				url.assign({

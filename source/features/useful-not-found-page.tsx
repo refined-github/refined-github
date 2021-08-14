@@ -5,6 +5,9 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import * as api from '../github-helpers/api';
+import GitHubURL from '../github-helpers/github-url';
+import {getCommitInfo} from './follow-file-renames';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getCleanPathname} from '../github-helpers';
 
@@ -36,54 +39,53 @@ function parseCurrentURL(): string[] {
 	return parts;
 }
 
-// If the resource was deleted, link to the commit history
-async function addCommitHistoryLink(bar: Element): Promise<void> {
-	const parts = parseCurrentURL();
-	parts[2] = 'commits';
-	const url = '/' + parts.join('/');
-	if (await is404(location.origin + url)) {
+async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
+	const {branch, filePath} = new GitHubURL(location.href);
+	if (!branch || !filePath) {
 		return;
 	}
 
-	bar.after(
-		<p className="container mt-4 text-center">
-			See also the {getType()}’s <a href={url}>commit history</a>.
-		</p>,
-	);
+	const {repository} = await api.v4(`
+		repository() {
+			object(expression: "${branch}") {
+				... on Commit {
+					history(first: 1, path: "${filePath}") {
+						nodes {
+							oid
+						}
+					}
+				}
+			}
+		}
+	`);
+	const commit = repository.object?.history.nodes[0];
+	if (!commit) {
+		return;
+	}
+
+	const commitInfo = await getCommitInfo(commit.oid as string);
+	for (const fileInfo of commitInfo.files) {
+		if ([fileInfo.filename, fileInfo.previous_filename].includes(filePath)) {
+			return {fileInfo, commitInfo};
+		}
+	}
 }
 
-// If the resource exists in the default branch, link to it
-async function addDefaultBranchLink(bar: Element): Promise<void> {
-	const parts = getCleanPathname().split('/');
-	const branch = parts[3];
-	if (!branch) {
+async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
+	const parsedUrl = new GitHubURL(location.href);
+	if (!parsedUrl.branch) {
 		return;
 	}
 
-	const defaultBranch = await getDefaultBranch();
-	if (branch === defaultBranch) {
-		return;
+	parsedUrl.assign({branch: await getDefaultBranch()});
+	const urlOnDefault = parsedUrl.toString();
+	if (urlOnDefault !== location.href && !await is404(urlOnDefault)) {
+		return urlOnDefault;
 	}
-
-	parts[3] = defaultBranch; // Change branch
-	const url = '/' + parts.join('/');
-	if (await is404(location.origin + url)) {
-		return;
-	}
-
-	bar.after(
-		<p className="container mt-4 text-center">
-			The {getType()} exists on the <a href={url}>default branch</a>.
-		</p>,
-	);
 }
 
-function init(): false | void {
+async function showMissingPart(): Promise<void> {
 	const parts = parseCurrentURL();
-	if (parts.length <= 1 || !select.exists('[alt*="This is not the web page you are looking for"]')) {
-		return false;
-	}
-
 	const bar = <h2 className="container mt-4 text-center"/>;
 
 	for (const [i, part] of parts.entries()) {
@@ -107,17 +109,56 @@ function init(): false | void {
 	for (let i = bar.children.length - 2; i >= 0; i--) {
 		void checkAnchor(bar.children[i] as HTMLAnchorElement);
 	}
+}
 
-	if (['tree', 'blob'].includes(parts[2])) {
-		// Object might be 410 Gone
-		void addCommitHistoryLink(bar);
+async function showDefaultBranchLink(): Promise<void> {
+	const urlToFileOnDefaultBranch = await getUrlToFileOnDefaultBranch();
+	if (!urlToFileOnDefaultBranch) {
+		return;
 	}
 
-	if (['tree', 'blob', 'edit'].includes(parts[2])) {
-		// File might not be available on the current branch
-		// GitHub already redirects /tree/ and /blob/ natively
-		void addDefaultBranchLink(bar);
+	select('main > .container-lg')!.before(
+		<p className="container mt-4 text-center">
+			<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
+		</p>,
+	);
+}
+
+async function showAlternateLink(): Promise<void> {
+	const change = await getLatestChangeToFile();
+	if (!change) {
+		return;
 	}
+
+	const {fileInfo, commitInfo} = change;
+	const url = new GitHubURL(location.href);
+
+	url.assign({route: 'commits'});
+	const commitHistory = <a href={url.toString()}>Commit history</a>;
+	url.assign({route: 'blob', branch: commitInfo.parents[0].sha, filePath: url.filePath});
+	const lastVersionUrl = fileInfo.status === 'removed' ? fileInfo.blob_url : url.toString();
+	const lastVersion = <a href={lastVersionUrl}>This {getType()}</a>;
+	const permalink = <a href={commitInfo.html_url}><relative-time datetime={commitInfo.commit.committer.date}/></a>;
+	const verb = fileInfo.status === 'removed'
+		? 'deleted'
+		: <a href={fileInfo.blob_url}>moved</a>;
+
+	select('main > .container-lg')!.before(
+		<p className="container mt-4 text-center">
+			{lastVersion} was {verb} ({permalink}) - {commitHistory}.
+		</p>,
+	);
+}
+
+function init(): false | void {
+	const parts = parseCurrentURL();
+	if (parts.length <= 1 || !select.exists('[alt*="This is not the web page you are looking for"]')) {
+		return false;
+	}
+
+	void showMissingPart();
+	void showDefaultBranchLink();
+	void showAlternateLink();
 }
 
 async function initPRCommit(): Promise<void | false> {
