@@ -292,8 +292,8 @@ const features = {
 export default features;
 
 export async function logQuery(message: string): Promise<void> {
-	const {logAPI} = (await optionsStorage.getAll());
-	if (logAPI) {
+	const {logHTTP} = (await optionsStorage.getAll());
+	if (logHTTP) {
 		console.log(message);
 	}
 }
