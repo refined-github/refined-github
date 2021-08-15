@@ -29,7 +29,8 @@ import mem from 'mem';
 import * as pageDetect from 'github-url-detection';
 import {JsonObject, AsyncReturnType} from 'type-fest';
 
-import {getRepo, logQuery} from '.';
+import {getRepo} from '.';
+import {logQuery} from '../features/index';
 import optionsStorage from '../options-storage';
 
 interface JsonError {

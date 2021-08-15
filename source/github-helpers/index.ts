@@ -4,7 +4,6 @@ import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
-import optionsStorage from '../options-storage';
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);
 export const {getRepositoryInfo: getRepo, getCleanPathname} = pageDetect.utils;
@@ -116,12 +115,4 @@ export async function isPermalink(): Promise<boolean> {
 // Negative function so it can be used directly in `exclude` array
 export function isNotRefinedGitHubRepo(): boolean {
 	return !location.pathname.startsWith('/sindresorhus/refined-github/');
-}
-
-const settings = optionsStorage.getAll();
-export async function logQuery(message: string): Promise<void> {
-	const {logHTTP} = await settings;
-	if (logHTTP) {
-		console.log(message);
-	}
 }
