@@ -290,11 +290,3 @@ const features = {
 };
 
 export default features;
-
-const settings = optionsStorage.getAll();
-export async function logQuery(message: string): Promise<void> {
-	const {logHTTP} = await settings;
-	if (logHTTP) {
-		console.log(message);
-	}
-}
