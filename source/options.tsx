@@ -209,7 +209,7 @@ async function generateDom(): Promise<void> {
 	// Move debugging tools higher when side-loaded
 	if (process.env.NODE_ENV === 'development') {
 		select('#debugging-position')!.replaceWith(select('#debugging')!);
-		select('#debugging [name="logAPI"]')!.hidden = false;
+		select('#logAPI-line')!.hidden = false;
 	}
 
 	// Add feature count. CSS-only features are added approximately
