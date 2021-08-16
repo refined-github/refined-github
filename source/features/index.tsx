@@ -44,6 +44,7 @@ interface InternalRunConfig {
 }
 
 let log: typeof console.log;
+export let logHTTP: typeof console.log;
 const {version} = browser.runtime.getManifest();
 
 let logError = (id: FeatureID, error: unknown): void => {
@@ -102,6 +103,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	// Create logging function
 	log = options.logging ? console.log : () => {/* No logging */};
+	logHTTP = options.logHTTP ? console.log : () => {/* No logging */};
 
 	await waitFor(() => document.body);
 
@@ -290,11 +292,3 @@ const features = {
 };
 
 export default features;
-
-const settings = optionsStorage.getAll();
-export async function logQuery(message: string): Promise<void> {
-	const {logHTTP} = await settings;
-	if (logHTTP) {
-		console.log(message);
-	}
-}

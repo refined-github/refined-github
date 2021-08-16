@@ -30,7 +30,7 @@ import * as pageDetect from 'github-url-detection';
 import {JsonObject, AsyncReturnType} from 'type-fest';
 
 import {getRepo} from '.';
-import {logQuery} from '../features/index';
+import {logHTTP} from '../features';
 import optionsStorage from '../options-storage';
 
 interface JsonError {
@@ -119,7 +119,7 @@ export const v3 = mem(async (
 	}
 
 	const url = new URL(query, api3);
-	void logQuery(String(url));
+	logHTTP(url);
 	const response = await fetch(url.href, {
 		method,
 		body: body && JSON.stringify(body),
@@ -176,7 +176,7 @@ export const v4 = mem(async (
 
 	query = query.replace('repository() {', () => `repository(owner: "${getRepo()!.owner}", name: "${getRepo()!.name}") {`);
 
-	void logQuery(`{
+	void logHTTP(`{
 		${query}
 	}`);
 
