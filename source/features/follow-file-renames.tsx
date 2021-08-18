@@ -18,7 +18,7 @@ export async function getCommitInfo(oid: string): Promise<AnyObject> {
 	return api.v3(`commits/${oid}`);
 }
 
-async function linkify(button: HTMLButtonElement, filePath: String): Promise<void | false> {
+async function linkify(button: HTMLButtonElement, filePath: string): Promise<void | false> {
 	const isNewer = button.textContent === 'Newer';
 
 	const fromKey = isNewer ? 'previous_filename' : 'filename';
