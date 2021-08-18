@@ -96,9 +96,9 @@ function acceptBranch(branch: string, line: number): void {
 	const linesToRemove: number[] = [];
 	editor.eachLine(line, Number.POSITIVE_INFINITY, lineHandle => {
 		// Determine whether to remove the following line(s)
-		if (lineHandle.text.startsWith('<<<<<<<')) {
+		if (lineHandle.text === '<<<<<<<') {
 			deleteNextLine = branch === 'Current';
-		} else if (lineHandle.text.startsWith('=======')) {
+		} else if (lineHandle.text === '=======') {
 			deleteNextLine = branch === 'Incoming';
 		}
 
@@ -107,7 +107,7 @@ function acceptBranch(branch: string, line: number): void {
 			linesToRemove.push(lineHandle.lineNo());
 		}
 
-		return lineHandle.text.startsWith('>>>>>>>'); // `true` ends loop
+		return lineHandle.text === '>>>>>>>'; // `true` ends loop
 	});
 
 	// Delete all lines at once in a performant way
