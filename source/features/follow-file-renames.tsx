@@ -18,7 +18,7 @@ export async function getCommitInfo(oid: string): Promise<AnyObject> {
 	return api.v3(`commits/${oid}`);
 }
 
-async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void | false> {
+async function linkify(button: HTMLButtonElement, filePath: String): Promise<void | false> {
 	const isNewer = button.textContent === 'Newer';
 
 	const fromKey = isNewer ? 'previous_filename' : 'filename';
@@ -28,7 +28,7 @@ async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void 
 	const {files} = await getCommitInfo(sha.getAttribute('value')!);
 
 	for (const file of (files as File[])) {
-		if (file[fromKey] === url.filePath) {
+		if (file[fromKey] === filePath) {
 			if (file.status === 'renamed') {
 				const linkifiedURL = new GitHubURL(location.href);
 				linkifiedURL.assign({
@@ -63,7 +63,7 @@ function init(): void | false {
 	}
 
 	for (const button of disabledPagination) {
-		void linkify(button, url);
+		void linkify(button, url.filePath);
 	}
 }
 
