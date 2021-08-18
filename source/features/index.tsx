@@ -78,6 +78,12 @@ let logError = (id: FeatureID, error: unknown): void => {
 	console.groupEnd();
 };
 
+const log = {
+	info: console.log,
+	http: console.log,
+	error: logError,
+};
+
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
@@ -98,6 +104,10 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		void updateHotfixes();
 		Object.assign(options, localHotfixes);
 	}
+
+	// Create logging function
+	log.info = options.logging ? console.log : () => {/* No logging */};
+	log.http = options.logHTTP ? console.log : () => {/* No logging */};
 
 	await waitFor(() => document.body);
 
@@ -127,12 +137,6 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	resolve(options);
 });
-
-const log = {
-	info: console.log,
-	http: console.log,
-	error: logError,
-};
 
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
 	const {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
