@@ -30,13 +30,14 @@ async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void 
 	for (const file of (files as File[])) {
 		if (file[fromKey] === url.filePath) {
 			if (file.status === 'renamed') {
-				url.assign({
+				const linkifiedURL = new GitHubURL(location.href);
+				linkifiedURL.assign({
 					route: 'commits',
 					filePath: file[toKey],
 				});
 				button.replaceWith(
 					<a
-						href={String(url)}
+						href={String(linkifiedURL)}
 						aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${file[toKey]}`}
 						className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
 					>
