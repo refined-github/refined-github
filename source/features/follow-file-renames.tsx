@@ -34,6 +34,8 @@ async function linkify(button: HTMLButtonElement, filePath: String): Promise<voi
 				linkifiedURL.assign({
 					route: 'commits',
 					filePath: file[toKey],
+					// Clear the search from the URL
+					search: '',
 				});
 				button.replaceWith(
 					<a
@@ -56,8 +58,6 @@ async function linkify(button: HTMLButtonElement, filePath: String): Promise<voi
 function init(): void | false {
 	const disabledPagination = select.all('.paginate-container button[disabled]');
 	const url = new GitHubURL(location.href);
-	// Clear the search from the url, so it does not get passed to the rename link
-	url.search = '';
 	if (disabledPagination.length === 0 || !url.filePath) {
 		return false;
 	}
