@@ -43,8 +43,6 @@ interface InternalRunConfig {
 	onlyAdditionalListeners: boolean;
 }
 
-let log: typeof console.log;
-export let logHTTP: typeof console.log;
 const {version} = browser.runtime.getManifest();
 
 let logError = (id: FeatureID, error: unknown): void => {
@@ -101,10 +99,6 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		Object.assign(options, localHotfixes);
 	}
 
-	// Create logging function
-	log = options.logging ? console.log : () => {/* No logging */};
-	logHTTP = options.logHTTP ? console.log : () => {/* No logging */};
-
 	await waitFor(() => document.body);
 
 	if (pageDetect.is500() || pageDetect.isPasswordConfirmation()) {
@@ -134,6 +128,12 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
+const log = {
+	info: console.log,
+	http: console.log,
+	error: logError,
+};
+
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
 	const {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
 
@@ -147,7 +147,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 			// Features can return `false` when they decide not to run on the current page
 			// Also the condition avoids logging the fake feature added for `has-rgh`
 			if (await init() !== false && id !== __filebasename) {
-				log('✅', id);
+				log.info('✅', id);
 			}
 		} catch (error: unknown) {
 			logError(id, error);
@@ -207,7 +207,7 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 	const options = await globalReady;
 	// Skip disabled features, unless the "feature" is the fake feature in this file
 	if (!options[`feature:${id}`] && id as string !== __filebasename) {
-		log('↩️', 'Skipping', id);
+		log.info('↩️', 'Skipping', id);
 		return;
 	}
 
@@ -286,6 +286,7 @@ const features = {
 	add,
 	addCssFeature,
 	error: logError,
+	log,
 	shortcutMap,
 	list: __features__,
 	meta: __featuresMeta__,
