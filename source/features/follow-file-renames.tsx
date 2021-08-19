@@ -43,7 +43,7 @@ async function linkify(button: HTMLButtonElement, filePath: string): Promise<voi
 						aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${file[toKey]}`}
 						className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
 					>
-						{isNewer && <DiffRenamedIcon className="mr-1" style="transform: rotate(180deg)"/>}
+						{isNewer && <DiffRenamedIcon className="mr-1" style={{transform: 'rotate(180deg)'}}/>}
 						{button.textContent}
 						{!isNewer && <DiffRenamedIcon className="ml-1"/>}
 					</a>,
