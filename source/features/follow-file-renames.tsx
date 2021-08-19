@@ -7,48 +7,69 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 
-interface File {
-	previous_filename: string;
-	filename: string;
+export interface File {
+	previous_name: string | undefined;
+	name: string;
 	status: string;
+	url: string;
 }
-// eslint-disable-next-line import/prefer-default-export
-export async function getCommitInfo(oid: string): Promise<AnyObject> {
+export interface CommitInfo {
+	file: File | undefined;
+	parentSha: string | undefined;
+	date: Date;
+	url: string;
+}
+
+export async function getChangesToFileInCommit(sha: string, filePath: string): Promise<CommitInfo> {
 	// API v4 doesn't support it: https://github.community/t/what-is-the-corresponding-object-in-graphql-api-v4-for-patch-which-is-available-in-rest-api-v3/13590
-	return api.v3(`commits/${oid}`);
+	const commitObject = await api.v3(`commits/${sha}`);
+	const commitInfo: CommitInfo = {
+		file: undefined,
+		parentSha: commitObject.parents[0],
+		date: commitObject.commit.committer.date,
+		url: commitObject.html_url,
+	};
+	for (const f of commitObject.files) {
+		if ([f.filename, f.previous_filename].includes(filePath)) {
+			commitInfo.file = {
+				name: f.filename,
+				previous_name: f.previous_filename,
+				status: f.status,
+				url: f.blob_url,
+			};
+		}
+	}
+
+	return commitInfo;
 }
 
 async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void | false> {
 	const isNewer = button.textContent === 'Newer';
 
-	const fromKey = isNewer ? 'previous_filename' : 'filename';
-	const toKey = isNewer ? 'filename' : 'previous_filename';
+	const toKey = isNewer ? 'name' : 'previous_name';
 	const sha = (isNewer ? select : select.last)('clipboard-copy[aria-label="Copy the full SHA"]')!;
 
-	const {files} = await getCommitInfo(sha.getAttribute('value')!);
+	const commitInfo = await getChangesToFileInCommit(sha.getAttribute('value')!, url.filePath);
+	if (!commitInfo.file) {
+		return;
+	}
 
-	for (const file of (files as File[])) {
-		if (file[fromKey] === url.filePath) {
-			if (file.status === 'renamed') {
-				url.assign({
-					route: 'commits',
-					filePath: file[toKey],
-				});
-				button.replaceWith(
-					<a
-						href={String(url)}
-						aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${file[toKey]}`}
-						className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
-					>
-						{isNewer && <DiffRenamedIcon className="mr-1" transform="rotate(180)"/>}
-						{button.textContent}
-						{!isNewer && <DiffRenamedIcon className="ml-1"/>}
-					</a>,
-				);
-			}
-
-			return;
-		}
+	if (commitInfo.file.status === 'renamed') {
+		url.assign({
+			route: 'commits',
+			filePath: commitInfo.file[toKey],
+		});
+		button.replaceWith(
+			<a
+				href={String(url)}
+				aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${commitInfo.file[toKey] ?? ''}`}
+				className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
+			>
+				{isNewer && <DiffRenamedIcon className="mr-1" transform="rotate(180)"/>}
+				{button.textContent}
+				{!isNewer && <DiffRenamedIcon className="ml-1"/>}
+			</a>,
+		);
 	}
 }
 

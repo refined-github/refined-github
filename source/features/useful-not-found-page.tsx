@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
-import {getCommitInfo} from './follow-file-renames';
+import {getChangesToFileInCommit, CommitInfo} from './follow-file-renames';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getCleanPathname} from '../github-helpers';
 
@@ -39,7 +39,7 @@ function parseCurrentURL(): string[] {
 	return parts;
 }
 
-async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
+async function getLatestChangeToFile(): Promise<CommitInfo | void> {
 	const {branch, filePath} = new GitHubURL(location.href);
 	if (!branch || !filePath) {
 		return;
@@ -63,12 +63,7 @@ async function getLatestChangeToFile(): Promise<Record<string, any> | void> {
 		return;
 	}
 
-	const commitInfo = await getCommitInfo(commit.oid as string);
-	for (const fileInfo of commitInfo.files) {
-		if ([fileInfo.filename, fileInfo.previous_filename].includes(filePath)) {
-			return {fileInfo, commitInfo};
-		}
-	}
+	return getChangesToFileInCommit(commit.oid as string, filePath);
 }
 
 async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
@@ -126,22 +121,21 @@ async function showDefaultBranchLink(): Promise<void> {
 
 async function showAlternateLink(): Promise<void> {
 	const change = await getLatestChangeToFile();
-	if (!change) {
+	if (!change || !change.file) {
 		return;
 	}
 
-	const {fileInfo, commitInfo} = change;
 	const url = new GitHubURL(location.href);
 
 	url.assign({route: 'commits'});
 	const commitHistory = <a href={url.toString()}>Commit history</a>;
-	url.assign({route: 'blob', branch: commitInfo.parents[0].sha, filePath: url.filePath});
-	const lastVersionUrl = fileInfo.status === 'removed' ? fileInfo.blob_url : url.toString();
+	url.assign({route: 'blob', branch: change.parentSha, filePath: url.filePath});
+	const lastVersionUrl = change.file.status === 'removed' ? change.file.url : url.toString();
 	const lastVersion = <a href={lastVersionUrl}>This {getType()}</a>;
-	const permalink = <a href={commitInfo.html_url}><relative-time datetime={commitInfo.commit.committer.date}/></a>;
-	const verb = fileInfo.status === 'removed'
+	const permalink = <a href={change.url}><relative-time datetime={change.date}/></a>;
+	const verb = change.file.status === 'removed'
 		? 'deleted'
-		: <a href={fileInfo.blob_url}>moved</a>;
+		: <a href={change.file.url}>moved</a>;
 
 	select('main > .container-lg')!.before(
 		<p className="container mt-4 text-center">
