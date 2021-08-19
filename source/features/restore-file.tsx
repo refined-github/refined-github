@@ -11,12 +11,6 @@ import fetchDom from '../helpers/fetch-dom';
 import {getConversationNumber} from '../github-helpers';
 import showToast, { ToastOnDoneState } from '../github-helpers/toast';
 
-// function showError(menuItem: HTMLButtonElement, error: string): void {
-// 	menuItem.disabled = true;
-// 	menuItem.style.background = 'none'; // Disables hover background color
-// 	menuItem.textContent = error;
-// }
-
 /**
 Get the current base commit of this PR. It should change after rebases and merges in this PR.
 This value is not consistently available on the page (appears in `/files` but not when only 1 commit is selected)
@@ -50,11 +44,15 @@ async function commitFileContent(menuItem: Element, content: string, filePath: s
 	let {pathname} = menuItem.previousElementSibling as HTMLAnchorElement;
 	// Check if file was deleted by PR
 	if (menuItem.closest('[data-file-deleted="true"]')) {
-		menuItem.textContent = 'Undeleting…';
+		void showToast(async () => { }, {
+			message: 'Undeleting…',
+		});
 		const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
 		pathname = `/${nameWithOwner}/new/${headBranch}?filename=${filePath}`;
 	} else {
-		menuItem.textContent = 'Committing…';
+		void showToast(async () => { }, {
+			message: 'Committing changes…',
+		});
 	}
 
 	// This is either an `edit` or `create` form
@@ -89,10 +87,12 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 		if (!file) {
 			// The file was created by this PR.
 			// This code won’t be reached if `highlight-deleted-and-added-files-in-diffs` works.
+			menuItem.disabled = true;
 			throw new Error('Nothing to restore. Delete file instead');
 		}
 
 		if (file.isTruncated) {
+			menuItem.disabled = true;
 			throw new Error('Restore failed: File too big');
 		}
 
@@ -113,7 +113,6 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 		menuItem.closest('.file')!.remove();
 	} catch (error: unknown) {
 		void showToast(async () => { }, {
-			message: 'Restore failed. See console for details',
 			doneMessage: 'Restore failed. See console for details',
 			onDone: ToastOnDoneState.error,
 		});			
