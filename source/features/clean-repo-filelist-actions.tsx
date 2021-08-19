@@ -38,7 +38,7 @@ function init(): void {
 			}
 
 			// This dropdown doesn't appear on `isSingleFile`
-			const downloadIcon = select('get-repo .octicon-download');
+			const downloadIcon = select('get-repo :is(.octicon-code, .octicon-download)');
 			if (downloadIcon) {
 				// Remove "Code" text next to it
 				downloadIcon.nextSibling!.remove();
