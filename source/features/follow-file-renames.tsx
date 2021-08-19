@@ -54,23 +54,23 @@ async function linkify(button: HTMLButtonElement, filePath: string): Promise<voi
 
 	if (fileChanges.file.status === 'renamed') {
 		const linkifiedURL = new GitHubURL(location.href);
-    linkifiedURL.assign({
-      route: 'commits',
-      filePath: fileChanges.file[toKey],
-      // Clear the search from the url, so it does not get passed to the rename link
-      search: '',
-    });
-    button.replaceWith(
-      <a
-        href={String(linkifiedURL)}
-        aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${fileChanges.file[toKey]}`}
-        className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
-      >
-        {isNewer && <DiffRenamedIcon className="mr-1" style={{transform: 'rotate(180deg)'}}/>}
-        {button.textContent}
-        {!isNewer && <DiffRenamedIcon className="ml-1"/>}
-      </a>,
-    );
+		linkifiedURL.assign({
+			route: 'commits',
+			filePath: fileChanges.file[toKey],
+			// Clear the search from the url, so it does not get passed to the rename link
+			search: '',
+		});
+		button.replaceWith(
+			<a
+				href={String(linkifiedURL)}
+				aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${fileChanges.file[toKey]!}`}
+				className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
+			>
+				{isNewer && <DiffRenamedIcon className="mr-1" style={{transform: 'rotate(180deg)'}}/>}
+				{button.textContent}
+				{!isNewer && <DiffRenamedIcon className="ml-1"/>}
+			</a>,
+		);
 	}
 }
 
