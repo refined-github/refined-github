@@ -38,12 +38,13 @@ function init(): void {
 			}
 
 			// This dropdown doesn't appear on `isSingleFile`
-			const downloadIcon = select('get-repo :is(.octicon-code, .octicon-download)');
-			if (downloadIcon) {
+			// Remove `.octicon-download` in November
+			const codeIcon = select('get-repo :is(.octicon-code, .octicon-download)');
+			if (codeIcon) {
 				// Remove "Code" text next to it
-				downloadIcon.nextSibling!.remove();
+				codeIcon.nextSibling!.remove();
 
-				addTooltipToSummary(downloadIcon, 'Clone, open or download');
+				addTooltipToSummary(codeIcon, 'Clone, open or download');
 			}
 		},
 	});
