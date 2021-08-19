@@ -1,17 +1,18 @@
 import delay from 'delay';
 import React from 'dom-chef';
 import {CheckIcon, StopIcon, InfoIcon} from '@primer/octicons-react';
+
 import {frame} from '../helpers/dom-utils';
 
-// onDoneState when toast is done animating 
+// ToastOnDoneState when toast is done animating
 export enum ToastOnDoneState {
-	success = "success",
-	error = "error",
-	info = "info",
+	success = 'success',
+	error = 'error',
+	info = 'info',
 }
 
 function assertToastOnDoneState(value: never): never {
-	throw new Error(`Toast state ${value} is not valid, Use ToastOnDoneState.`);
+	throw new Error(`Toast state ${JSON.stringify(value)} is not valid, Use ToastOnDoneState.`);
 }
 
 export function ToastSpinner(): JSX.Element {
@@ -51,20 +52,19 @@ export default async function showToast<TTask extends Task>(
 	try {
 		return await task();
 	} finally {
-
 		messageWrapper.replaceWith(<span className="Toast-content">{doneMessage}</span>);
 		switch (onDone) {
 			case ToastOnDoneState.success:
 				toast.classList.replace('Toast--loading', 'Toast--success');
-				iconWrapper.replaceWith(<span className="Toast-icon"><CheckIcon /></span>);
+				iconWrapper.replaceWith(<span className="Toast-icon"><CheckIcon/></span>);
 				break;
 			case ToastOnDoneState.error:
 				toast.classList.replace('Toast--loading', 'Toast--error');
-				iconWrapper.replaceWith(<span className="Toast-icon"><StopIcon /></span>);
+				iconWrapper.replaceWith(<span className="Toast-icon"><StopIcon/></span>);
 				break;
 			case ToastOnDoneState.info:
 				toast.classList.replace('Toast--loading', 'Toast--info');
-				iconWrapper.replaceWith(<span className="Toast-icon"><InfoIcon /></span>);
+				iconWrapper.replaceWith(<span className="Toast-icon"><InfoIcon/></span>);
 				break;
 			default:
 				assertToastOnDoneState(onDone);

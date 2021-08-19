@@ -9,7 +9,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
 import {getConversationNumber} from '../github-helpers';
-import showToast, { ToastOnDoneState } from '../github-helpers/toast';
+import showToast, {ToastOnDoneState} from '../github-helpers/toast';
 
 /**
 Get the current base commit of this PR. It should change after rebases and merges in this PR.
@@ -44,7 +44,9 @@ async function commitFileContent(menuItem: Element, content: string, filePath: s
 	let {pathname} = menuItem.previousElementSibling as HTMLAnchorElement;
 	// Check if file was deleted by PR
 	if (menuItem.closest('[data-file-deleted="true"]')) {
-		void showToast(async () => { }, {
+		void showToast(async () => {
+			// Fake a task
+		}, {
 			message: 'Undeleting…',
 			doneMessage: 'Undeleted!',
 			onDone: ToastOnDoneState.success,
@@ -52,7 +54,9 @@ async function commitFileContent(menuItem: Element, content: string, filePath: s
 		const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
 		pathname = `/${nameWithOwner}/new/${headBranch}?filename=${filePath}`;
 	} else {
-		void showToast(async () => { }, {
+		void showToast(async () => {
+			// Fake a task
+		}, {
 			message: 'Committing changes…',
 			doneMessage: 'Changes committed!',
 			onDone: ToastOnDoneState.success,
@@ -116,10 +120,12 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 	} catch (error: unknown) {
 		menuItem.disabled = true;
 		menuItem.style.background = 'none'; // Disables hover background color
-		void showToast(async () => { }, {
+		void showToast(async () => {
+			// Fake a task to show the error message
+		}, {
 			doneMessage: 'Restore failed. See console for details',
 			onDone: ToastOnDoneState.error,
-		});			
+		});
 		features.error(__filebasename, error);
 	}
 }

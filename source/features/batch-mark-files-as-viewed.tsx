@@ -3,7 +3,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import showToast, { ToastOnDoneState } from '../github-helpers/toast';
+import showToast, {ToastOnDoneState} from '../github-helpers/toast';
 import {clickAll} from './toggle-everything-with-alt';
 
 let previousFile: HTMLElement | undefined;
