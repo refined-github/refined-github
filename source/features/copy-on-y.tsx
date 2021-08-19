@@ -1,6 +1,5 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import copyToClipboard from 'copy-text-to-clipboard';
 
 import features from '.';
 import {isEditable} from '../helpers/dom-utils';
@@ -8,7 +7,7 @@ import {isEditable} from '../helpers/dom-utils';
 const handler = ({key, target}: KeyboardEvent): void => {
 	if (key === 'y' && !isEditable(target)) {
 		const permalink = select('a.js-permalink-shortcut')!.href;
-		copyToClipboard(permalink + location.hash);
+		void navigator.clipboard.writeText(permalink + location.hash);
 	}
 };
 

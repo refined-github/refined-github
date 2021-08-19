@@ -56,10 +56,11 @@ async function verifyScopesWhileWaiting(abortController: AbortController): Promi
 }
 
 async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boolean> {
-	// Sync AbortController and DOM state
 	const abortController = new AbortController();
-	buttonContainer.addEventListener('toggle', abortController.abort, {once: true});
-	abortController.signal.addEventListener('abort', () => {
+	// Add a global click listener to avoid potential future issues with z-index
+	document.addEventListener('click', event => {
+		event.preventDefault();
+		abortController.abort();
 		buttonContainer.open = false;
 	}, {once: true});
 

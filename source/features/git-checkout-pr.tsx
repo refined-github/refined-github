@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import oneMutation from 'one-mutation';
-import {ClippyIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import {PasteIcon, TerminalIcon} from '@primer/octicons-react';
 
 import features from '.';
 import {getRepo, getUsername} from '../github-helpers';
@@ -46,7 +46,7 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 						aria-label="Copy to clipboard"
 						data-copy-feedback="Copied!"
 					>
-						<ClippyIcon/>
+						<PasteIcon/>
 					</clipboard-copy>
 				</div>
 				<pre
@@ -70,31 +70,23 @@ async function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): Pr
 		await oneMutation(dropdown, {childList: true, subtree: true});
 	}
 
-	const tabContainer = select('[action="/users/checkout-preference"]', dropdown)!.closest<HTMLElement>('tab-container')!;
-	tabContainer.style.minWidth = '370px';
-	select('.UnderlineNav-body', tabContainer)!.append(
-		<button
-			name="type"
-			type="button"
-			role="tab"
-			aria-selected="false"
-			className="UnderlineNav-item flex-1 btn-link"
-		>
-			Git Checkout
-		</button>,
-	);
-
 	const remoteName = getRemoteName();
-	tabContainer.append(
-		<div hidden role="tabpanel" className="p-3">
-			<p className="text-gray color-text-secondary text-small">
-				Run in your project repository{remoteName && ', pick either one'}
-			</p>
-			{remoteName ? [
-				checkoutOption(remoteName, 'HTTPS'),
-				checkoutOption(remoteName, 'SSH'),
-			] : checkoutOption()}
-		</div>,
+	select('.octicon-terminal', dropdown)!.closest('li.Box-row')!.after(
+		<li className="Box-row p-3 mt-0">
+			<span className="d-flex flex-items-center color-text-primary text-bold no-underline">
+				<TerminalIcon className="mr-2"/>
+				Checkout with Git
+			</span>
+			<div className="mt-2 pl-5">
+				<p className="text-gray color-text-secondary text-small">
+					Run in your project repository{remoteName && ', pick either one'}
+				</p>
+				{remoteName ? [
+					checkoutOption(remoteName, 'HTTPS'),
+					checkoutOption(remoteName, 'SSH'),
+				] : checkoutOption()}
+			</div>
+		</li>,
 	);
 }
 
@@ -110,5 +102,6 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isClosedPR,
 	],
+	deduplicate: false,
 	init,
 });

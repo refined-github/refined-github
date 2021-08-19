@@ -1,9 +1,9 @@
-.reaction-summary-item {
+.reaction-summary-item:not(.js-reaction-group-button) {
 	padding-right: 0.7em !important;
 	padding-left: 0.7em !important;
 }
 
-button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
+button.reaction-summary-item:not(.js-reaction-group-button) { /* `button` excludes the "Add reaction" icon */
 	border-top: 1px solid var(--github-border-color); /* Required when the second line is longer than the first line */
 	border-bottom: 1px solid var(--github-border-color); /* Required when the first line is longer than the second line */
 	margin-bottom: -1px; /* Makes up for `order-bottom` */
@@ -13,7 +13,7 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 	margin-top: -1px; /* Makes up for `.reaction-summary-item {border-top}` */
 }
 
-.reaction-summary-item span {
+.reaction-summary-item:not(.js-reaction-group-button) span {
 	display: inline-block;
 	width: 2em;
 	height: 2em;
@@ -25,20 +25,20 @@ button.reaction-summary-item { /* `button` excludes the "Add reaction" icon */
 	font-size: 10px; /* Base sizer */
 }
 
-.reaction-summary-item span:first-of-type {
+.reaction-summary-item:not(.js-reaction-group-button) span:first-of-type {
 	margin-left: 0.5em;
 }
 
-.review-comment .reaction-summary-item span {
+.review-comment .reaction-summary-item:not(.js-reaction-group-button) span {
 	font-size: 9px;
 }
 
-.discussion-post .reaction-summary-item span {
+.discussion-post .reaction-summary-item:not(.js-reaction-group-button) span {
 	margin-top: -1px;
 }
 
 /* This image will start at height:0 and will expand once loaded, covering the gray placeholder */
-.reaction-summary-item span img { /* `span` required for #3237 */
+.reaction-summary-item:not(.js-reaction-group-button) span img { /* `span` required for #3237 */
 	width: 100%;
 	background-color: var(--color-bg-info, #fff);
 }

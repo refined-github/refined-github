@@ -11,7 +11,7 @@ import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
 
-const supportedLabels = /^(bug|confirmed-bug|type:bug|:\w+:bug)$/;
+const supportedLabels = /^(bug|confirmed-bug|type:bug|kind:bug|:\w+:bug)$/;
 const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
 const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(getBugLabelCacheKey());
 const isBugLabel = (label: string): boolean => supportedLabels.test(label.replace(/\s/g, ''));
@@ -130,8 +130,7 @@ async function init(): Promise<void | false> {
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	// TODO[2021-8-15] Drop `?? 'bug'`, it's only needed until `countPromise` refreshes one time
-	new SearchQuery(bugsTab).add(`label:${SearchQuery.escapeValue(await getBugLabel() ?? 'bug')}`);
+	new SearchQuery(bugsTab).add(`label:${SearchQuery.escapeValue((await getBugLabel())!)}`);
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement!.tagName === 'LI') {
