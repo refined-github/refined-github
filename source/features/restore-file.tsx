@@ -46,12 +46,16 @@ async function commitFileContent(menuItem: Element, content: string, filePath: s
 	if (menuItem.closest('[data-file-deleted="true"]')) {
 		void showToast(async () => { }, {
 			message: 'Undeleting…',
+			doneMessage: 'Undeleted!',
+			onDone: ToastOnDoneState.success,
 		});
 		const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
 		pathname = `/${nameWithOwner}/new/${headBranch}?filename=${filePath}`;
 	} else {
 		void showToast(async () => { }, {
 			message: 'Committing changes…',
+			doneMessage: 'Changes committed!',
+			onDone: ToastOnDoneState.success,
 		});
 	}
 
@@ -87,12 +91,10 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 		if (!file) {
 			// The file was created by this PR.
 			// This code won’t be reached if `highlight-deleted-and-added-files-in-diffs` works.
-			menuItem.disabled = true;
 			throw new Error('Nothing to restore. Delete file instead');
 		}
 
 		if (file.isTruncated) {
-			menuItem.disabled = true;
 			throw new Error('Restore failed: File too big');
 		}
 
@@ -112,6 +114,8 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 		await task;
 		menuItem.closest('.file')!.remove();
 	} catch (error: unknown) {
+		menuItem.disabled = true;
+		menuItem.style.background = 'none'; // Disables hover background color
 		void showToast(async () => { }, {
 			doneMessage: 'Restore failed. See console for details',
 			onDone: ToastOnDoneState.error,
