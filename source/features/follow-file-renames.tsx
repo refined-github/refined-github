@@ -34,7 +34,7 @@ async function linkify(button: HTMLButtonElement, filePath: string): Promise<voi
 				linkifiedURL.assign({
 					route: 'commits',
 					filePath: file[toKey],
-					// Clear the search from the URL
+					// Clear the search from the url, so it does not get passed to the rename link
 					search: '',
 				});
 				button.replaceWith(
