@@ -41,47 +41,48 @@ export async function getChangesToFileInCommit(sha: string, filePath: string): P
 	}
 }
 
-async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void | false> {
+async function linkify(button: HTMLButtonElement, filePath: string): Promise<void | false> {
 	const isNewer = button.textContent === 'Newer';
 
 	const toKey = isNewer ? 'filename' : 'previous_filename';
 	const sha = (isNewer ? select : select.last)('clipboard-copy[aria-label="Copy the full SHA"]')!;
 
-	const fileChanges = await getChangesToFileInCommit(sha.getAttribute('value')!, url.filePath);
+	const fileChanges = await getChangesToFileInCommit(sha.getAttribute('value')!, filePath);
 	if (fileChanges?.file?.status !== 'renamed') {
 		return;
 	}
 
 	if (fileChanges.file.status === 'renamed') {
-		url.assign({
-			route: 'commits',
-			filePath: fileChanges.file[toKey],
-		});
-		button.replaceWith(
-			<a
-				href={String(url)}
-				aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${fileChanges.file[toKey] ?? ''}`}
-				className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
-			>
-				{isNewer && <DiffRenamedIcon className="mr-1" transform="rotate(180)"/>}
-				{button.textContent}
-				{!isNewer && <DiffRenamedIcon className="ml-1"/>}
-			</a>,
-		);
+		const linkifiedURL = new GitHubURL(location.href);
+    linkifiedURL.assign({
+      route: 'commits',
+      filePath: fileChanges.file[toKey],
+      // Clear the search from the url, so it does not get passed to the rename link
+      search: '',
+    });
+    button.replaceWith(
+      <a
+        href={String(linkifiedURL)}
+        aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${fileChanges.file[toKey]}`}
+        className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
+      >
+        {isNewer && <DiffRenamedIcon className="mr-1" style={{transform: 'rotate(180deg)'}}/>}
+        {button.textContent}
+        {!isNewer && <DiffRenamedIcon className="ml-1"/>}
+      </a>,
+    );
 	}
 }
 
 function init(): void | false {
 	const disabledPagination = select.all('.paginate-container button[disabled]');
 	const url = new GitHubURL(location.href);
-	// Clear the search from the url, so it does not get passed to the rename link
-	url.search = '';
 	if (disabledPagination.length === 0 || !url.filePath) {
 		return false;
 	}
 
 	for (const button of disabledPagination) {
-		void linkify(button, url);
+		void linkify(button, url.filePath);
 	}
 }
 
