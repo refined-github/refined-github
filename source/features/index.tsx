@@ -129,7 +129,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	if (select.exists('body.logged-out')) {
 		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
-		features.error = () => {/* No logging */};
+		features.log.error = () => {/* No logging */};
 		logError = () => {/* No logging */};
 	}
 
@@ -289,7 +289,6 @@ void add(__filebasename, {
 const features = {
 	add,
 	addCssFeature,
-	error: logError,
 	log,
 	shortcutMap,
 	list: __features__,

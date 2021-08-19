@@ -23,7 +23,7 @@ function keydownHandler(event: KeyboardEvent): void {
 				...history.state,
 			}, '', location.href);
 		} else {
-			features.error(__filebasename, 'Pjax container not found.');
+			features.log.error(__filebasename, 'Pjax container not found.');
 		}
 	}
 
