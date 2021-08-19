@@ -45,7 +45,7 @@ interface InternalRunConfig {
 
 const {version} = browser.runtime.getManifest();
 
-let logError = (id: FeatureID, error: unknown): void => {
+const logError = (id: FeatureID, error: unknown): void => {
 	const message = error instanceof Error ? error.message : String(error);
 
 	if (message.includes('token')) {
@@ -130,7 +130,6 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	if (select.exists('body.logged-out')) {
 		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
 		features.log.error = () => {/* No logging */};
-		logError = () => {/* No logging */};
 	}
 
 	document.documentElement.classList.add('refined-github');
