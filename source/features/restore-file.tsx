@@ -9,12 +9,13 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
 import {getConversationNumber} from '../github-helpers';
+import showToast, { ToastOnDoneState } from '../github-helpers/toast';
 
-function showError(menuItem: HTMLButtonElement, error: string): void {
-	menuItem.disabled = true;
-	menuItem.style.background = 'none'; // Disables hover background color
-	menuItem.textContent = error;
-}
+// function showError(menuItem: HTMLButtonElement, error: string): void {
+// 	menuItem.disabled = true;
+// 	menuItem.style.background = 'none'; // Disables hover background color
+// 	menuItem.textContent = error;
+// }
 
 /**
 Get the current base commit of this PR. It should change after rebases and merges in this PR.
@@ -79,32 +80,43 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 
 	filesRestored.add(menuItem);
 
-	menuItem.textContent = 'Restoring…';
 	event.preventDefault();
 	event.stopPropagation();
 
-	try {
-		const filePath = menuItem.closest<HTMLDivElement>('[data-path]')!.dataset.path!;
+	async function restoreFile(filePath: string): Promise<void> {
 		const file = await getFile(filePath);
 
 		if (!file) {
 			// The file was created by this PR.
 			// This code won’t be reached if `highlight-deleted-and-added-files-in-diffs` works.
-			showError(menuItem, 'Nothing to restore. Delete file instead');
-			return;
+			throw new Error('Nothing to restore. Delete file instead');
 		}
 
 		if (file.isTruncated) {
-			showError(menuItem, 'Restore failed: File too big');
-			return;
+			throw new Error('Restore failed: File too big');
 		}
 
 		await commitFileContent(menuItem, file.text, filePath);
+	}
 
+	try {
+		const filePath = menuItem.closest<HTMLDivElement>('[data-path]')!.dataset.path!;
+		const task = restoreFile(filePath);
+		// Show toast while restoring
+		void showToast(async () => task, {
+			message: 'Restoring…',
+			doneMessage: 'Restored!',
+			onDone: ToastOnDoneState.success,
+		});
 		// Hide file from view
+		await task;
 		menuItem.closest('.file')!.remove();
 	} catch (error: unknown) {
-		showError(menuItem, 'Restore failed. See console for details');
+		void showToast(async () => { }, {
+			message: 'Restore failed. See console for details',
+			doneMessage: 'Restore failed. See console for details',
+			onDone: ToastOnDoneState.error,
+		});			
 		features.error(__filebasename, error);
 	}
 }
