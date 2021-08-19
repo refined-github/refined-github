@@ -19,8 +19,8 @@ interface CommitInfo {
 	url: string;
 }
 export interface FileChanges {
-	commit: CommitInfo,
-	file: File
+	commit: CommitInfo;
+	file: File;
 }
 
 export async function getChangesToFileInCommit(sha: string, filePath: string): Promise<FileChanges | void> {
@@ -35,7 +35,7 @@ export async function getChangesToFileInCommit(sha: string, filePath: string): P
 		if ([fileInfo.filename, fileInfo.previous_filename].includes(filePath)) {
 			return {
 				commit: commitInfo,
-				file: fileInfo
+				file: fileInfo,
 			};
 		}
 	}
