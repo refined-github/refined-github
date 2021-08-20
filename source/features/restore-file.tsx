@@ -40,27 +40,15 @@ async function getFile(filePath: string): Promise<{isTruncated: boolean; text: s
 	return repository.file;
 }
 
-async function commitFileContent(menuItem: Element, content: string, filePath: string): Promise<void> {
+async function commitFileContent(menuItem: Element, content: string, filePath: string, progress: (message: string) => void): Promise<void> {
 	let {pathname} = menuItem.previousElementSibling as HTMLAnchorElement;
 	// Check if file was deleted by PR
 	if (menuItem.closest('[data-file-deleted="true"]')) {
-		void showToast(async () => {
-			// Fake a task
-		}, {
-			message: 'Undeleting…',
-			doneMessage: 'Undeleted!',
-			onDone: ToastOnDoneState.success,
-		});
+		progress('Undeleting…');
 		const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
 		pathname = `/${nameWithOwner}/new/${headBranch}?filename=${filePath}`;
 	} else {
-		void showToast(async () => {
-			// Fake a task
-		}, {
-			message: 'Committing changes…',
-			doneMessage: 'Changes committed!',
-			onDone: ToastOnDoneState.success,
-		});
+		progress('Committing…');
 	}
 
 	// This is either an `edit` or `create` form
@@ -86,10 +74,8 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 
 	filesRestored.add(menuItem);
 
-	event.preventDefault();
-	event.stopPropagation();
-
-	async function restoreFile(filePath: string): Promise<void> {
+	async function restoreFile(filePath: string, progress: (message: string) => void): Promise<void> {
+		progress('Restoring...');
 		const file = await getFile(filePath);
 
 		if (!file) {
@@ -102,18 +88,21 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 			throw new Error('Restore failed: File too big');
 		}
 
-		await commitFileContent(menuItem, file.text, filePath);
+		await commitFileContent(menuItem, file.text, filePath, progress);
 	}
 
 	try {
 		const filePath = menuItem.closest<HTMLDivElement>('[data-path]')!.dataset.path!;
-		const task = restoreFile(filePath);
 		// Show toast while restoring
-		void showToast(async () => task, {
-			message: 'Restoring…',
-			doneMessage: 'Restored!',
-			onDone: ToastOnDoneState.success,
-		});
+		const progress = async (message: string): Promise<void> => {
+			void showToast(async () => task, {
+				message,
+				doneMessage: 'Restored!',
+				onDone: ToastOnDoneState.success,
+			});
+		};
+
+		const task = restoreFile(filePath, progress);
 		// Hide file from view
 		await task;
 		menuItem.closest('.file')!.remove();
