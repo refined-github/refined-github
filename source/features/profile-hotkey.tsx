@@ -12,7 +12,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	shortcuts: {
-		'g m': 'Go to Profile',
+		'g m': 'Go to my profile',
 	},
 	exclude: [ isOwnUserProfile ],
 	awaitDomReady: false,
