@@ -7,6 +7,7 @@ const nextPageButtonSelectors = [
 	'.paginate-container > .BtnGroup > :last-child', // Commits
 	'.paginate-container > .pagination > :last-child', // Releases
 	'.js-notifications-list-paginator-buttons > :last-child', // Notifications
+	'.prh-commit > .BtnGroup > :last-child', // PR Commits
 ];
 
 const previousPageButtonSelectors = [
@@ -14,6 +15,7 @@ const previousPageButtonSelectors = [
 	'.paginate-container > .BtnGroup > :first-child', // Commits
 	'.paginate-container > .pagination > :first-child', // Releases
 	'.js-notifications-list-paginator-buttons > :first-child', // Notifications
+	'.prh-commit > .BtnGroup > :first-child', // PR Commits
 ];
 
 function init(): void {
