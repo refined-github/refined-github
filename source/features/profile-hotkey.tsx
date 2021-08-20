@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import onetime from 'onetime';
-import {isEnterprise} from 'github-url-detection';
+import {isEnterprise, isOwnUserProfile} from 'github-url-detection';
 
 import features from '.';
 import {getUsername} from '../github-helpers';
@@ -14,6 +14,7 @@ void features.add(__filebasename, {
 	shortcuts: {
 		'g m': 'Go to Profile',
 	},
+	exclude: [ isOwnUserProfile ],
 	awaitDomReady: false,
 	init: onetime(init),
 });
