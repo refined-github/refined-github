@@ -204,7 +204,6 @@ import './features/useful-forks';
 import './features/link-to-changelog-file';
 import './features/rgh-sponsor-button';
 import './features/rgh-linkify-features';
-import './features/collapse-wiki-sections';
 import './features/conversation-activity-filter';
 import './features/select-all-notifications-shortcut';
 import './features/no-duplicate-list-update-time';
