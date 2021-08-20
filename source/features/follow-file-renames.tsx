@@ -13,28 +13,26 @@ interface File {
 	status: string;
 	blob_url: string;
 }
-interface CommitInfo {
-	parentSha: string | undefined;
-	date: Date;
-	url: string;
-}
 export interface FileChanges {
-	commit: CommitInfo;
 	file: File;
+	commit: {
+		parentSha: string | undefined;
+		date: Date;
+		url: string;
+	};
 }
 
 export async function getChangesToFileInCommit(sha: string, filePath: string): Promise<FileChanges | void> {
 	// API v4 doesn't support it: https://github.community/t/what-is-the-corresponding-object-in-graphql-api-v4-for-patch-which-is-available-in-rest-api-v3/13590
 	const commit = await api.v3(`commits/${sha}`);
-	const commitInfo: CommitInfo = {
-		parentSha: commit.parents[0],
-		date: commit.commit.committer.date,
-		url: commit.html_url,
-	};
 	for (const fileInfo of commit.files as File[]) {
 		if ([fileInfo.filename, fileInfo.previous_filename].includes(filePath)) {
 			return {
-				commit: commitInfo,
+				commit: {
+					parentSha: commit.parents[0],
+					date: commit.commit.committer.date,
+					url: commit.html_url,
+				},
 				file: fileInfo,
 			};
 		}

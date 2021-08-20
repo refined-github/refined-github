@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
-import {getChangesToFileInCommit, FileChanges} from './follow-file-renames';
+import {getChangesToFileInCommit} from './follow-file-renames';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getCleanPathname} from '../github-helpers';
 
@@ -39,12 +39,7 @@ function parseCurrentURL(): string[] {
 	return parts;
 }
 
-async function getLatestChangeToFile(): Promise<FileChanges | void> {
-	const {branch, filePath} = new GitHubURL(location.href);
-	if (!branch || !filePath) {
-		return;
-	}
-
+async function getLatestCommitToFile(branch: string, filePath: string): Promise<string | void> {
 	const {repository} = await api.v4(`
 		repository() {
 			object(expression: "${branch}") {
@@ -59,11 +54,7 @@ async function getLatestChangeToFile(): Promise<FileChanges | void> {
 		}
 	`);
 	const commit = repository.object?.history.nodes[0];
-	if (!commit) {
-		return;
-	}
-
-	return getChangesToFileInCommit(commit.oid as string, filePath);
+	return commit.oid;
 }
 
 async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
@@ -120,12 +111,20 @@ async function showDefaultBranchLink(): Promise<void> {
 }
 
 async function showAlternateLink(): Promise<void> {
-	const fileChanges = await getLatestChangeToFile();
-	if (!fileChanges) {
+	const url = new GitHubURL(location.href);
+	if (!url.branch || !url.filePath) {
 		return;
 	}
 
-	const url = new GitHubURL(location.href);
+	const commitSha = await getLatestCommitToFile(url.branch, url.filePath);
+	if (!commitSha) {
+		return;
+	}
+
+	const fileChanges = await getChangesToFileInCommit(commitSha, url.filePath);
+	if (!fileChanges) {
+		return;
+	}
 
 	url.assign({route: 'commits'});
 	const commitHistory = <a href={url.toString()}>Commit history</a>;
