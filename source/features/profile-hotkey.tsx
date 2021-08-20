@@ -14,7 +14,7 @@ void features.add(__filebasename, {
 	shortcuts: {
 		'g m': 'Go to my profile',
 	},
-	exclude: [ isOwnUserProfile ],
+	exclude: [isOwnUserProfile],
 	awaitDomReady: false,
 	init: onetime(init),
 });
