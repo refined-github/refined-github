@@ -1,6 +1,6 @@
 import delay from 'delay';
 import React from 'dom-chef';
-import {CheckIcon} from '@primer/octicons-react';
+import {CheckIcon, StopIcon} from '@primer/octicons-react';
 
 import {frame} from '../helpers/dom-utils';
 
@@ -38,12 +38,19 @@ export default async function showToast<TTask extends Task>(
 	await delay(30); // Without this, the Toast doesn't appear in time
 
 	try {
-		return await task();
-	} finally {
+		const result = await task((message: string) => {
+			messageWrapper.textContent = message;
+		});
 		toast.classList.replace('Toast--loading', 'Toast--success');
 		messageWrapper.textContent = doneMessage;
 		iconWrapper.firstChild!.replaceWith(<CheckIcon/>);
-
+		return result;
+	} catch (error) {
+		toast.classList.replace('Toast--loading', 'Toast--error');
+		messageWrapper.textContent = error.message;
+		iconWrapper.firstChild!.replaceWith(<StopIcon/>);
+		throw error;
+	} finally {
 		await frame(); // Without this, the toast might be removed before the first page paint
 		await delay(3000);
 		toast.remove();
