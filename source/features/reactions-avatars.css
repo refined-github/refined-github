@@ -1,9 +1,8 @@
 :root .rgh-reactions-avatar {
-	--size: 1.5em;
+	--size: 1.3em;
 	display: inline-block;
 	width: var(--size);
 	height: var(--size);
-	font-size: 10px; /* Base sizer */
 	padding: 0;
 	margin: 0;
 	margin-right: calc(var(--size) / -3);
@@ -12,19 +11,10 @@
 }
 
 :root .rgh-reactions-avatar:last-of-type {
-	margin-right: 0 !important;
+	margin-right: -0.15em !important;
 }
 
-:root .review-comment .rgh-reactions-avatar {
-	font-size: 9px;
-}
-
-:root .discussion-post .rgh-reactions-avatar {
-	margin-top: -1px;
-}
-
-/* This image will start at height:0 and will expand once loaded, covering the gray placeholder */
-.rgh-reactions-avatar img {
+:root .rgh-reactions-avatar img {
 	display: block;
 	margin: 0;
 	width: var(--size);
