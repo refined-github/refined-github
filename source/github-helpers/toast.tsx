@@ -46,11 +46,11 @@ export default async function showToast<TTask extends Task>(
 		iconWrapper.firstChild!.replaceWith(<CheckIcon/>);
 		return result;
 	} catch (error: unknown) {
-			if (error instanceof Error) {
-				toast.classList.replace('Toast--loading', 'Toast--error');
-				messageWrapper.textContent = error.message;
-				iconWrapper.firstChild!.replaceWith(<StopIcon />);
-				throw error;
+		if (error instanceof Error) {
+			toast.classList.replace('Toast--loading', 'Toast--error');
+			messageWrapper.textContent = error.message;
+			iconWrapper.firstChild!.replaceWith(<StopIcon/>);
+			throw error;
 		}
 	} finally {
 		await frame(); // Without this, the toast might be removed before the first page paint
