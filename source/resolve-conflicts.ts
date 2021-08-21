@@ -1,8 +1,8 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference -- TODO: Is any other way supported?
-/// <reference types="codemirror" />
+/* eslint-disable unicorn/better-regex -- Go home you're drunk */
 
-// eslint-disable-next-line @typescript-eslint/no-namespace -- TODO: Is any other way supported?
-declare namespace CodeMirror {
+import regexJoin from 'regex-join';
+import type CodeMirror from 'codemirror';
+declare module 'codemirror' {
 	interface LineHandle {
 		widgets: unknown[];
 		lineNo: () => number;
@@ -89,25 +89,31 @@ function newWidget(): HTMLDivElement {
 	return widget;
 }
 
+const currentChange = /^>>>>>>> .+ -- Current Change$/;
+const incomingChange = /^<<<<<<< .+ -- Incoming Change$/;
+const anyMarker = regexJoin(currentChange, /|/, incomingChange, /|^=======$/);
+
 // Accept one or both of branches and remove unnecessary lines
 function acceptBranch(branch: string, line: number): void {
 	let deleteNextLine = false;
 
 	const linesToRemove: number[] = [];
 	editor.eachLine(line, Number.POSITIVE_INFINITY, lineHandle => {
+		const currentLine = lineHandle.text;
+
 		// Determine whether to remove the following line(s)
-		if (lineHandle.text === '<<<<<<<') {
+		if (incomingChange.test(currentLine)) {
 			deleteNextLine = branch === 'Current';
-		} else if (lineHandle.text === '=======') {
+		} else if (currentLine === '=======') {
 			deleteNextLine = branch === 'Incoming';
 		}
 
 		// Delete tracked lines and all conflict markers
-		if (deleteNextLine || /^([<=>])\1{6}/.test(lineHandle.text)) {
+		if (deleteNextLine || anyMarker.test(currentLine)) {
 			linesToRemove.push(lineHandle.lineNo());
 		}
 
-		return lineHandle.text === '>>>>>>>'; // `true` ends loop
+		return currentChange.test(currentLine); // `true` ends loop
 	});
 
 	// Delete all lines at once in a performant way
@@ -119,3 +125,5 @@ function acceptBranch(branch: string, line: number): void {
 	editor.execCommand('deleteLine');
 	editor.setCursor(linesToRemove[0]);
 }
+
+/* eslint-enable unicorn/better-regex */
