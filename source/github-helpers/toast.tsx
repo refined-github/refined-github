@@ -38,14 +38,14 @@ export default async function showToast<TTask extends Task>(
 	await delay(30); // Without this, the Toast doesn't appear in time
 
 	try {
-		const result = await task((message: string) => {
+		const result = task((message: string) => {
 			messageWrapper.textContent = message;
 		});
 		toast.classList.replace('Toast--loading', 'Toast--success');
 		messageWrapper.textContent = doneMessage;
 		iconWrapper.firstChild!.replaceWith(<CheckIcon/>);
 		return result;
-	} catch (error) {
+	} catch (error: any) {
 		toast.classList.replace('Toast--loading', 'Toast--error');
 		messageWrapper.textContent = error.message;
 		iconWrapper.firstChild!.replaceWith(<StopIcon/>);
