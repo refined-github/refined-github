@@ -15,12 +15,12 @@ export function ToastSpinner(): JSX.Element {
 
 type Task = () => Promise<unknown>;
 export default async function showToast<TTask extends Task>(
-	task: TTask,
+	task: (progress: (message: string) => void) => TTask,
 	{
 		message = 'Bulk actions currently being processed.',
 		doneMessage = 'Bulk action processing complete.',
 	} = {},
-): Promise<ReturnType<TTask>> {
+): Promise<ReturnType<((progress: (message: string) => void) => TTask)>> {
 	const iconWrapper = <span className="Toast-icon"><ToastSpinner/></span>;
 	const messageWrapper = <span className="Toast-content">{message}</span>;
 	const toast = (
