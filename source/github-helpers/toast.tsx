@@ -20,7 +20,7 @@ export default async function showToast<TTask extends Task>(
 		message = 'Bulk actions currently being processed.',
 		doneMessage = 'Bulk action processing complete.',
 	} = {},
-): Promise<ReturnType<((progress: (message: string) => void) => TTask)>> {
+): Promise<ReturnType<TTask>> {
 	const iconWrapper = <span className="Toast-icon"><ToastSpinner/></span>;
 	const messageWrapper = <span className="Toast-content">{message}</span>;
 	const toast = (
@@ -46,12 +46,10 @@ export default async function showToast<TTask extends Task>(
 		iconWrapper.firstChild!.replaceWith(<CheckIcon/>);
 		return result;
 	} catch (error: unknown) {
-		if (error instanceof Error) {
-			toast.classList.replace('Toast--loading', 'Toast--error');
-			messageWrapper.textContent = error.message;
-			iconWrapper.firstChild!.replaceWith(<StopIcon/>);
-			throw error;
-		}
+		toast.classList.replace('Toast--loading', 'Toast--error');
+		messageWrapper.textContent = error instanceof Error ? error.message : 'Unknown Error';
+		iconWrapper.firstChild!.replaceWith(<StopIcon/>);
+		throw error;
 	} finally {
 		await frame(); // Without this, the toast might be removed before the first page paint
 		await delay(3000);
