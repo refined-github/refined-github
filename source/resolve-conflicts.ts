@@ -2,6 +2,7 @@
 
 import regexJoin from 'regex-join';
 import type CodeMirror from 'codemirror';
+
 declare module 'codemirror' {
 	interface LineHandle {
 		widgets: unknown[];
@@ -95,7 +96,8 @@ const anyMarker = regexJoin(currentChange, /|/, incomingChange, /|^=======$/);
 
 // Accept one or both of branches and remove unnecessary lines
 function acceptBranch(branch: string, line: number): void {
-	let deleteNextLine = false;
+	// This variable is only changed when a marker is encountered and is meant to stay positive/negative until the next marker
+	let inDeletableSection = false;
 
 	const linesToRemove: number[] = [];
 	editor.eachLine(line, Number.POSITIVE_INFINITY, lineHandle => {
@@ -103,13 +105,13 @@ function acceptBranch(branch: string, line: number): void {
 
 		// Determine whether to remove the following line(s)
 		if (incomingChange.test(currentLine)) {
-			deleteNextLine = branch === 'Current';
+			inDeletableSection = branch === 'Current';
 		} else if (currentLine === '=======') {
-			deleteNextLine = branch === 'Incoming';
+			inDeletableSection = branch === 'Incoming';
 		}
 
 		// Delete tracked lines and all conflict markers
-		if (deleteNextLine || anyMarker.test(currentLine)) {
+		if (inDeletableSection || anyMarker.test(currentLine)) {
 			linesToRemove.push(lineHandle.lineNo());
 		}
 
