@@ -8,7 +8,7 @@ import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 
 interface File {
-	previous_filename: string | undefined;
+	previous_filename?: string;
 	filename: string;
 	status: string;
 	blob_url: string;
@@ -16,7 +16,7 @@ interface File {
 export interface FileChanges {
 	file: File;
 	commit: {
-		parentSha: string | undefined;
+		parentSha: string;
 		date: Date;
 		url: string;
 	};
