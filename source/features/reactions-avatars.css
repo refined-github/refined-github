@@ -1,44 +1,33 @@
-.reaction-summary-item:not(.js-reaction-group-button) {
-	padding-right: 0.7em !important;
-	padding-left: 0.7em !important;
-}
 
-button.reaction-summary-item:not(.js-reaction-group-button) { /* `button` excludes the "Add reaction" icon */
-	border-top: 1px solid var(--github-border-color); /* Required when the second line is longer than the first line */
-	border-bottom: 1px solid var(--github-border-color); /* Required when the first line is longer than the second line */
-	margin-bottom: -1px; /* Makes up for `order-bottom` */
-}
-
-.comment-reactions .js-pick-reaction {
-	margin-top: -1px; /* Makes up for `.reaction-summary-item {border-top}` */
-}
-
-.reaction-summary-item:not(.js-reaction-group-button) span {
+:root:root .rgh-reactions-avatar {
+	--size: 1.5em;
 	display: inline-block;
-	width: 2em;
-	height: 2em;
-	margin-top: -0.3em;
-	margin-left: -0.5em;
-	vertical-align: middle;
-	background: var(--color-bg-canvas-inset, #efefef); /* Placeholder before the images load */
-	box-shadow: 0 0 0 2px var(--color-bg-info, #fff);
+	width: var(--size);
+	height: var(--size);
 	font-size: 10px; /* Base sizer */
+	padding: 0;
+	margin: 0;
+	margin-right: calc(var(--size) / -3);
+	box-sizing: content-box;
+	align-self: center;
 }
 
-.reaction-summary-item:not(.js-reaction-group-button) span:first-of-type {
-	margin-left: 0.5em;
+:root:root .rgh-reactions-avatar:last-of-type {
+	margin-right: 0 !important;
 }
 
-.review-comment .reaction-summary-item:not(.js-reaction-group-button) span {
+.review-comment .rgh-reactions-avatar {
 	font-size: 9px;
 }
 
-.discussion-post .reaction-summary-item:not(.js-reaction-group-button) span {
+.discussion-post .rgh-reactions-avatar {
 	margin-top: -1px;
 }
 
 /* This image will start at height:0 and will expand once loaded, covering the gray placeholder */
-.reaction-summary-item:not(.js-reaction-group-button) span img { /* `span` required for #3237 */
-	width: 100%;
-	background-color: var(--color-bg-info, #fff);
+.rgh-reactions-avatar img {
+	display: block;
+	margin: 0;
+	width: var(--size);
+	height: var(--size);
 }

@@ -59,7 +59,7 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 
 	for (const {button, imageUrl} of flatParticipants) {
 		button.append(
-			<span className="rounded-1 avatar-user">
+			<span className="rounded-1 avatar-user avatar rgh-reactions-avatar">
 				<img src={imageUrl} className="avatar-user rounded-1"/>
 			</span>,
 		);
