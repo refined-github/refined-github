@@ -18,7 +18,7 @@ export async function getCommitInfo(oid: string): Promise<AnyObject> {
 	return api.v3(`commits/${oid}`);
 }
 
-async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void | false> {
+async function linkify(button: HTMLButtonElement, filePath: string): Promise<void | false> {
 	const isNewer = button.textContent === 'Newer';
 
 	const fromKey = isNewer ? 'previous_filename' : 'filename';
@@ -28,19 +28,22 @@ async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void 
 	const {files} = await getCommitInfo(sha.getAttribute('value')!);
 
 	for (const file of (files as File[])) {
-		if (file[fromKey] === url.filePath) {
+		if (file[fromKey] === filePath) {
 			if (file.status === 'renamed') {
-				url.assign({
+				const linkifiedURL = new GitHubURL(location.href);
+				linkifiedURL.assign({
 					route: 'commits',
 					filePath: file[toKey],
+					// Clear the search from the url, so it does not get passed to the rename link
+					search: '',
 				});
 				button.replaceWith(
 					<a
-						href={String(url)}
+						href={String(linkifiedURL)}
 						aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${file[toKey]}`}
 						className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
 					>
-						{isNewer && <DiffRenamedIcon className="mr-1" transform="rotate(180)"/>}
+						{isNewer && <DiffRenamedIcon className="mr-1" style={{transform: 'rotate(180deg)'}}/>}
 						{button.textContent}
 						{!isNewer && <DiffRenamedIcon className="ml-1"/>}
 					</a>,
@@ -55,14 +58,12 @@ async function linkify(button: HTMLButtonElement, url: GitHubURL): Promise<void 
 function init(): void | false {
 	const disabledPagination = select.all('.paginate-container button[disabled]');
 	const url = new GitHubURL(location.href);
-	// Clear the search from the url, so it does not get passed to the rename link
-	url.search = '';
 	if (disabledPagination.length === 0 || !url.filePath) {
 		return false;
 	}
 
 	for (const button of disabledPagination) {
-		void linkify(button, url);
+		void linkify(button, url.filePath);
 	}
 }
 

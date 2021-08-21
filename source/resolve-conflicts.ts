@@ -1,8 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference -- TODO: Is any other way supported?
-/// <reference types="codemirror" />
+/* eslint-disable unicorn/better-regex -- Go home you're drunk */
 
-// eslint-disable-next-line @typescript-eslint/no-namespace -- TODO: Is any other way supported?
-declare namespace CodeMirror {
+import regexJoin from 'regex-join';
+import type CodeMirror from 'codemirror';
+
+declare module 'codemirror' {
 	interface LineHandle {
 		widgets: unknown[];
 		lineNo: () => number;
@@ -89,25 +90,32 @@ function newWidget(): HTMLDivElement {
 	return widget;
 }
 
+const currentChange = /^>>>>>>> .+ -- Current Change$/;
+const incomingChange = /^<<<<<<< .+ -- Incoming Change$/;
+const anyMarker = regexJoin(currentChange, /|/, incomingChange, /|^=======$/);
+
 // Accept one or both of branches and remove unnecessary lines
 function acceptBranch(branch: string, line: number): void {
-	let deleteNextLine = false;
+	// This variable is only changed when a marker is encountered and is meant to stay positive/negative until the next marker
+	let inDeletableSection = false;
 
 	const linesToRemove: number[] = [];
 	editor.eachLine(line, Number.POSITIVE_INFINITY, lineHandle => {
+		const currentLine = lineHandle.text;
+
 		// Determine whether to remove the following line(s)
-		if (lineHandle.text.startsWith('<<<<<<<')) {
-			deleteNextLine = branch === 'Current';
-		} else if (lineHandle.text.startsWith('=======')) {
-			deleteNextLine = branch === 'Incoming';
+		if (incomingChange.test(currentLine)) {
+			inDeletableSection = branch === 'Current';
+		} else if (currentLine === '=======') {
+			inDeletableSection = branch === 'Incoming';
 		}
 
 		// Delete tracked lines and all conflict markers
-		if (deleteNextLine || /^([<=>])\1{6}/.test(lineHandle.text)) {
+		if (inDeletableSection || anyMarker.test(currentLine)) {
 			linesToRemove.push(lineHandle.lineNo());
 		}
 
-		return lineHandle.text.startsWith('>>>>>>>'); // `true` ends loop
+		return currentChange.test(currentLine); // `true` ends loop
 	});
 
 	// Delete all lines at once in a performant way
@@ -119,3 +127,5 @@ function acceptBranch(branch: string, line: number): void {
 	editor.execCommand('deleteLine');
 	editor.setCursor(linesToRemove[0]);
 }
+
+/* eslint-enable unicorn/better-regex */

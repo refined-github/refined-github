@@ -14,10 +14,6 @@
 		1FE2B2242540F6EF00A5D543 /* Refined GitHub Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1FE2B2232540F6EF00A5D543 /* Refined GitHub Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1FE2B2292540F6EF00A5D543 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE2B2282540F6EF00A5D543 /* Cocoa.framework */; };
 		1FE2B22C2540F6EF00A5D543 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE2B22B2540F6EF00A5D543 /* SafariWebExtensionHandler.swift */; };
-		1FE2B23D2540F6F000A5D543 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FE2B2392540F6F000A5D543 /* icon.png */; };
-		1FE2B23E2540F6F000A5D543 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 1FE2B23A2540F6F000A5D543 /* manifest.json */; };
-		1FE2B23F2540F6F000A5D543 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 1FE2B23B2540F6F000A5D543 /* options.html */; };
-		1FE2B2402540F6F000A5D543 /* build in Resources */ = {isa = PBXBuildFile; fileRef = 1FE2B23C2540F6F000A5D543 /* build */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,10 +53,6 @@
 		1FE2B22B2540F6EF00A5D543 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
 		1FE2B22D2540F6EF00A5D543 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1FE2B22E2540F6EF00A5D543 /* Refined_GitHub_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Refined_GitHub_Extension.entitlements; sourceTree = "<group>"; };
-		1FE2B2392540F6F000A5D543 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../../distribution/icon.png; sourceTree = "<group>"; };
-		1FE2B23A2540F6F000A5D543 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../distribution/manifest.json; sourceTree = "<group>"; };
-		1FE2B23B2540F6F000A5D543 /* options.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = options.html; path = ../../distribution/options.html; sourceTree = "<group>"; };
-		1FE2B23C2540F6F000A5D543 /* build */ = {isa = PBXFileReference; lastKnownFileType = folder; name = build; path = ../../distribution/build; sourceTree = "<group>"; };
 		E3916F37254B228B0048E94C /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,25 +119,12 @@
 		1FE2B22A2540F6EF00A5D543 /* Refined GitHub Extension */ = {
 			isa = PBXGroup;
 			children = (
-				1FE2B2382540F6F000A5D543 /* Resources */,
 				1FE2B22B2540F6EF00A5D543 /* SafariWebExtensionHandler.swift */,
 				1FE2B22D2540F6EF00A5D543 /* Info.plist */,
 				1FE2B22E2540F6EF00A5D543 /* Refined_GitHub_Extension.entitlements */,
 			);
 			path = "Refined GitHub Extension";
 			sourceTree = "<group>";
-		};
-		1FE2B2382540F6F000A5D543 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				1FE2B2392540F6F000A5D543 /* icon.png */,
-				1FE2B23A2540F6F000A5D543 /* manifest.json */,
-				1FE2B23B2540F6F000A5D543 /* options.html */,
-				1FE2B23C2540F6F000A5D543 /* build */,
-			);
-			name = Resources;
-			path = "Refined GitHub Extension";
-			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -176,6 +155,7 @@
 				1FE2B21F2540F6EF00A5D543 /* Sources */,
 				1FE2B2202540F6EF00A5D543 /* Frameworks */,
 				1FE2B2212540F6EF00A5D543 /* Resources */,
+				E3CAF33726CF0BB700BEBFC7 /* Copy Custom Resources */,
 			);
 			buildRules = (
 			);
@@ -236,14 +216,33 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FE2B23E2540F6F000A5D543 /* manifest.json in Resources */,
-				1FE2B2402540F6F000A5D543 /* build in Resources */,
-				1FE2B23D2540F6F000A5D543 /* icon.png in Resources */,
-				1FE2B23F2540F6F000A5D543 /* options.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E3CAF33726CF0BB700BEBFC7 /* Copy Custom Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Custom Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp -a \"$PROJECT_DIR/../distribution/.\" \"$CONFIGURATION_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1FE2B20D2540F6EE00A5D543 /* Sources */ = {
