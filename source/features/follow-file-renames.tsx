@@ -29,7 +29,7 @@ export async function getChangesToFileInCommit(sha: string, filePath: string): P
 		if ([fileInfo.filename, fileInfo.previous_filename].includes(filePath)) {
 			return {
 				commit: {
-					parentSha: commit.parents[0],
+					parentSha: commit.parents[0].sha,
 					date: commit.commit.committer.date,
 					url: commit.html_url,
 				},
