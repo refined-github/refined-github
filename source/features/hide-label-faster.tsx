@@ -23,7 +23,7 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 		method: 'DELETE',
 	});
 
-	removeLabelButton.closest('a')!.hide();
+	removeLabelButton.closest('a')!.remove();
 
 	// Force update of label selector if necessary
 	if (!select.exists('.sidebar-labels include-fragment')) {
