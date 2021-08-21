@@ -1,5 +1,4 @@
-
-:root:root .rgh-reactions-avatar {
+:root .rgh-reactions-avatar {
 	--size: 1.5em;
 	display: inline-block;
 	width: var(--size);
@@ -12,15 +11,15 @@
 	align-self: center;
 }
 
-:root:root .rgh-reactions-avatar:last-of-type {
+:root .rgh-reactions-avatar:last-of-type {
 	margin-right: 0 !important;
 }
 
-.review-comment .rgh-reactions-avatar {
+:root .review-comment .rgh-reactions-avatar {
 	font-size: 9px;
 }
 
-.discussion-post .rgh-reactions-avatar {
+:root .discussion-post .rgh-reactions-avatar {
 	margin-top: -1px;
 }
 
