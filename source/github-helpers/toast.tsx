@@ -1,19 +1,8 @@
 import delay from 'delay';
 import React from 'dom-chef';
-import {CheckIcon, StopIcon, InfoIcon} from '@primer/octicons-react';
+import {CheckIcon} from '@primer/octicons-react';
 
 import {frame} from '../helpers/dom-utils';
-
-// ToastOnDoneState when toast is done animating
-export enum ToastOnDoneState {
-	success = 'success',
-	error = 'error',
-	info = 'info',
-}
-
-function assertToastOnDoneState(value: never): never {
-	throw new Error(`Toast state ${JSON.stringify(value)} is not valid, Use ToastOnDoneState.`);
-}
 
 export function ToastSpinner(): JSX.Element {
 	return (
@@ -30,7 +19,6 @@ export default async function showToast<TTask extends Task>(
 	{
 		message = 'Bulk actions currently being processed.',
 		doneMessage = 'Bulk action processing complete.',
-		onDone = ToastOnDoneState.info,
 	} = {},
 ): Promise<ReturnType<TTask>> {
 	const iconWrapper = <span className="Toast-icon"><ToastSpinner/></span>;
@@ -52,23 +40,9 @@ export default async function showToast<TTask extends Task>(
 	try {
 		return await task();
 	} finally {
-		messageWrapper.replaceWith(<span className="Toast-content">{doneMessage}</span>);
-		switch (onDone) {
-			case ToastOnDoneState.success:
-				toast.classList.replace('Toast--loading', 'Toast--success');
-				iconWrapper.replaceWith(<span className="Toast-icon"><CheckIcon/></span>);
-				break;
-			case ToastOnDoneState.error:
-				toast.classList.replace('Toast--loading', 'Toast--error');
-				iconWrapper.replaceWith(<span className="Toast-icon"><StopIcon/></span>);
-				break;
-			case ToastOnDoneState.info:
-				toast.classList.replace('Toast--loading', 'Toast--info');
-				iconWrapper.replaceWith(<span className="Toast-icon"><InfoIcon/></span>);
-				break;
-			default:
-				assertToastOnDoneState(onDone);
-		}
+		toast.classList.replace('Toast--loading', 'Toast--success');
+		messageWrapper.textContent = doneMessage;
+		iconWrapper.firstChild!.replaceWith(<CheckIcon/>);
 
 		await frame(); // Without this, the toast might be removed before the first page paint
 		await delay(3000);
