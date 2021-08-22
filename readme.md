@@ -99,7 +99,7 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 	<tr>
 		<th width="50%">
 			<p><a title="reactions-avatars"></a> Adds reaction avatars showing <i>who</i> reacted to a comment
-			<p><img src="https://user-images.githubusercontent.com/1402241/34438653-f66535a4-ecda-11e7-9406-2e1258050cfa.png">
+			<p><img src="https://user-images.githubusercontent.com/1402241/130341871-6a0d69f4-8d0c-4882-a5ed-aac9b7613b0a.png">
 		<th width="50%">
 			<p><a title="wait-for-build"></a> Adds the option to wait for checks when merging a PR
 			<p><img src="https://user-images.githubusercontent.com/1402241/35192861-3f4a1bf6-fecc-11e7-8b9f-35ee019c6cdf.gif">
