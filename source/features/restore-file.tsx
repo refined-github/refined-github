@@ -100,12 +100,7 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 	} catch (error: unknown) {
 		menuItem.disabled = true;
 		menuItem.style.background = 'none'; // Disables hover background color
-		// void showToast(async () => {
-		// 	// Fake a task to show the error message
-		// }, {
-		// 	doneMessage: 'Restore failed. See console for details',
-		// });
-		features.error(__filebasename, error);
+		features.log.error(__filebasename, error);
 	}
 }
 

@@ -15,7 +15,7 @@ const defaults = Object.assign({
 	customCSS: '',
 	personalToken: '',
 	logging: false,
-	logAPI: false,
+	logHTTP: false,
 }, Object.fromEntries(__features__.map(id => [`feature:${id}`, true])));
 
 // TODO[2021-10-01]: Drop classes `muted-link`, `link-gray`, `link-gray-dark`, `text-gray`, `text-gray-light`, `text-gray-dark`, `text-green`, `text-red` `text-blue` #4021

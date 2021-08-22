@@ -24,7 +24,7 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event): Pr
 		select('.BtnGroup a[href*="releases/edit"]')!.click(); // Visit "Edit release" page
 	} catch (error: unknown) {
 		draftButton.textContent = 'Error. Check console or retry';
-		features.error(__filebasename, error);
+		features.log.error(__filebasename, error);
 	}
 }
 
