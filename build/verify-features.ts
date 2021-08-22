@@ -3,15 +3,6 @@ import {readdirSync as readDirSync, readFileSync} from 'node:fs';
 
 import {getFeaturesMeta} from './readme-parser';
 
-function getFileExtension(fileName: string): string | void {
-	const splitFileName = fileName.split('.');
-	if (splitFileName.length === 1) {
-		return;
-	}
-
-	return splitFileName[splitFileName.length - 1];
-}
-
 const featuresDirContents = readDirSync(path.join(__dirname, '../source/features/'));
 const refinedGithubTs = readFileSync(path.join(__dirname, '../source/refined-github.ts')).toString('utf-8');
 const featuresInReadme = getFeaturesMeta();
@@ -19,12 +10,11 @@ const featuresInReadme = getFeaturesMeta();
 const errors: string[] = [];
 
 for (let fileName of featuresDirContents) {
-	const fileExt = getFileExtension(fileName);
-	if (fileExt === 'css' || fileName === 'index.tsx' || fileName.includes('rgh')) {
+	if (['css', 'index.tsx'].includes(fileName) || fileName.includes('rgh')) {
 		continue;
 	}
 
-	if (fileExt !== 'tsx') {
+	if (fileName.endsWith('tsx')) {
 		errors.push(`fileext: The \`/source/features\` folder should only contain .css and .tsx files. File \`${fileName}\` violates that rule.`);
 		continue;
 	}
