@@ -105,7 +105,7 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 		menuItem.closest('.file')!.remove();
 	} catch (error: unknown) {
 		showError(menuItem, 'Restore failed. See console for details');
-		features.error(__filebasename, error);
+		features.log.error(__filebasename, error);
 	}
 }
 
