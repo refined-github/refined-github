@@ -20,7 +20,12 @@ for (let fileName of featuresDirContents) {
 	if (fileExt === 'css' || fileName === 'index.tsx' || fileName.includes('rgh')) {
 		continue;
 	}
-	fileName = fileName.replace('.tsx', '').replace('.ts', '')
+	if (fileExt !== 'tsx') {
+		errors.push(`fileext: The \`/source/features\` folder should only contain .css and .tsx files. File \`${fileName}\` violates that rule.`)
+		continue
+	}
+	
+	fileName = fileName.replace('.tsx', '')
 	
 	const featureMeta = featuresInReadme.find((feature) => feature.id === fileName)
 	if (!featureMeta) {
