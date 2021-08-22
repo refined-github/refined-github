@@ -14,7 +14,7 @@ for (let fileName of featuresDirContents) {
 		continue;
 	}
 
-	if (!fileName.includes('.tsx')) {
+	if (!fileName.endsWith('.tsx')) {
 		errors.push(`fileext: The \`/source/features\` folder should only contain .css and .tsx files. File \`${fileName}\` violates that rule.`);
 		continue;
 	}
