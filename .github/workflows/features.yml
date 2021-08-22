@@ -1,37 +1,22 @@
-name: Feature
+name: Verify Features
 
 on:
   pull_request:
-    types:
-      - opened
-      - edited
-      - synchronize # push
-    path:
-      - source/refined-github.ts
+    branches:
+      - '*'
+  push:
+    branches:
+      - main
+      - 'test/*'
 
 jobs:
-  New:
-    outputs:
-      name: ${{ steps.name.outputs.first_match }}
+  Verify Features:
     runs-on: ubuntu-latest
-    if: startsWith(github.event.pull_request.title, 'Add') && endsWith(github.event.pull_request.title, 'feature')
     steps:
       - uses: actions/checkout@v2
-      - name: Find feature name
-        id: name
-        uses: AsasInnab/regex-action@v1
+      - uses: actions/setup-node@v2
         with:
-          regex_pattern: '(?<=Add `)[a-z-]+(?=` feature)'
-          regex_flags: g
-          search_string: ${{ github.event.pull_request.title }}
-
-      - name: Has `${{ steps.name.outputs.first_match }}.tsx` been created?
-        uses: mudlabs/simple-diff@v1.2.0
-        with:
-          path: source/features/${{ steps.name.outputs.first_match }}.tsx
-
-      - name: Has `${{ steps.name.outputs.first_match }}` been imported?
-        run: grep "import './features/${{ steps.name.outputs.first_match }}';" source/refined-github.ts -q
-
-      - name: Has `${{ steps.name.outputs.first_match }}` been documented?
-        run: grep '"${{ steps.name.outputs.first_match }}"' readme.md -q
+          node-version: 16
+          cache: npm
+      - name: Run the `verify-features` script
+        run: npx ts-node build/verify-features.ts
