@@ -5,7 +5,8 @@
 	height: var(--size);
 	padding: 0;
 	margin: 0;
-	margin-right: calc(var(--size) / -3);
+	margin-left: calc(var(--size) * 0.3); /* Move away from count */
+	margin-right: calc(var(--size) * -0.5);
 	box-sizing: content-box;
 	align-self: center;
 }
