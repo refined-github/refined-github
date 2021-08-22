@@ -43,10 +43,9 @@ interface InternalRunConfig {
 	onlyAdditionalListeners: boolean;
 }
 
-let log: typeof console.log;
 const {version} = browser.runtime.getManifest();
 
-let logError = (id: FeatureID, error: unknown): void => {
+const logError = (id: FeatureID, error: unknown): void => {
 	const message = error instanceof Error ? error.message : String(error);
 
 	if (message.includes('token')) {
@@ -79,6 +78,12 @@ let logError = (id: FeatureID, error: unknown): void => {
 	console.groupEnd();
 };
 
+const log = {
+	info: console.log,
+	http: console.log,
+	error: logError,
+};
+
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
@@ -101,7 +106,8 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	}
 
 	// Create logging function
-	log = options.logging ? console.log : () => {/* No logging */};
+	log.info = options.logging ? console.log : () => {/* No logging */};
+	log.http = options.logHTTP ? console.log : () => {/* No logging */};
 
 	await waitFor(() => document.body);
 
@@ -123,8 +129,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	if (select.exists('body.logged-out')) {
 		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
-		features.error = () => {/* No logging */};
-		logError = () => {/* No logging */};
+		features.log.error = () => {/* No logging */};
 	}
 
 	document.documentElement.classList.add('refined-github');
@@ -145,7 +150,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 			// Features can return `false` when they decide not to run on the current page
 			// Also the condition avoids logging the fake feature added for `has-rgh`
 			if (await init() !== false && id !== __filebasename) {
-				log('✅', id);
+				log.info('✅', id);
 			}
 		} catch (error: unknown) {
 			logError(id, error);
@@ -205,7 +210,7 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 	const options = await globalReady;
 	// Skip disabled features, unless the "feature" is the fake feature in this file
 	if (!options[`feature:${id}`] && id as string !== __filebasename) {
-		log('↩️', 'Skipping', id);
+		log.info('↩️', 'Skipping', id);
 		return;
 	}
 
@@ -283,7 +288,7 @@ void add(__filebasename, {
 const features = {
 	add,
 	addCssFeature,
-	error: logError,
+	log,
 	shortcutMap,
 	list: __features__,
 	meta: __featuresMeta__,

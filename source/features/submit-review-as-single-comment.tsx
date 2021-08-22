@@ -56,7 +56,7 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 	const commentText = select('textarea[name="pull_request_review_comment[body]"]', commentContainer)!.value;
 	if (!commentText) {
 		alert('Error: Comment not found and not submitted. More info in the console.');
-		features.error(__filebasename, 'Comment not found');
+		features.log.error(__filebasename, 'Comment not found');
 		return;
 	}
 
@@ -98,7 +98,7 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 		alert('There was an error sending the comment. More info in the console.');
 		console.log('You were trying to sending this comment:');
 		console.log(commentText);
-		features.error(__filebasename, error);
+		features.log.error(__filebasename, error);
 	}
 }
 

@@ -146,7 +146,7 @@ async function init(): Promise<void | false> {
 		bugsCounter.title = bugCount > 999 ? String(bugCount) : '';
 	} catch (error: unknown) {
 		bugsCounter.remove();
-		features.error(__filebasename, error);
+		features.log.error(__filebasename, error);
 	}
 }
 
