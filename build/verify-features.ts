@@ -1,52 +1,57 @@
-import path from 'node:path'
-import {readdirSync as readDirSync, readFileSync} from 'node:fs'
-import { getFeaturesMeta } from './readme-parser'
+import path from 'node:path';
+import {readdirSync as readDirSync, readFileSync} from 'node:fs';
+
+import {getFeaturesMeta} from './readme-parser';
 
 function getFileExtension(fileName: string): string | void {
-	const splitFileName = fileName.split('.')
-	if (splitFileName.length == 1) return
-	
-	return splitFileName[splitFileName.length - 1]
+	const splitFileName = fileName.split('.');
+	if (splitFileName.length === 1) {
+		return;
+	}
+
+	return splitFileName[splitFileName.length - 1];
 }
 
 const featuresDirContents = readDirSync(path.join(__dirname, '../source/features/'));
 const refinedGithubTs = readFileSync(path.join(__dirname, '../source/refined-github.ts')).toString('utf-8');
-const featuresInReadme = getFeaturesMeta()
+const featuresInReadme = getFeaturesMeta();
 
-let errors: string[] = []
+const errors: string[] = [];
 
 for (let fileName of featuresDirContents) {
-	const fileExt = getFileExtension(fileName)
+	const fileExt = getFileExtension(fileName);
 	if (fileExt === 'css' || fileName === 'index.tsx' || fileName.includes('rgh')) {
 		continue;
 	}
+
 	if (fileExt !== 'tsx') {
-		errors.push(`fileext: The \`/source/features\` folder should only contain .css and .tsx files. File \`${fileName}\` violates that rule.`)
-		continue
+		errors.push(`fileext: The \`/source/features\` folder should only contain .css and .tsx files. File \`${fileName}\` violates that rule.`);
+		continue;
 	}
-	
-	fileName = fileName.replace('.tsx', '')
-	
-	const featureMeta = featuresInReadme.find((feature) => feature.id === fileName)
+
+	fileName = fileName.replace('.tsx', '');
+
+	const featureMeta = featuresInReadme.find(feature => feature.id === fileName);
 	if (!featureMeta) {
-		errors.push(`readme: The feature ${fileName} is not included in the readme.`)
-		continue
+		errors.push(`readme: The feature ${fileName} is not included in the readme.`);
+		continue;
 	}
 
-	if (featureMeta!.description.length < 20) {
-		errors.push(`desc: The description for ${featureMeta!.id} is less than 20 characters. Try explaining it better!`)
+	if (featureMeta.description.length < 20) {
+		errors.push(`desc: The description for ${featureMeta.id} is less than 20 characters. Try explaining it better!`);
 	}
 
-	if (!refinedGithubTs.includes(featureMeta!.id)) {
-		errors.push(`import: The feature ${featureMeta!.id} has not been imported in \`/sources/refined-github.ts\`.`)
+	if (!refinedGithubTs.includes(featureMeta.id)) {
+		errors.push(`import: The feature ${featureMeta.id} has not been imported in \`/sources/refined-github.ts\`.`);
 	}
 }
 
 if (errors.length > 0) {
 	for (const error of errors) {
-		console.error('ERR:', error)
+		console.error('ERR:', error);
 	}
-	process.exit(1)
+
+	throw new Error('Feature verification failed!');
 } else {
-	console.info('All features verified!')
+	console.info('All features verified!');
 }
