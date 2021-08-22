@@ -1,11 +1,12 @@
 import 'webext-dynamic-content-scripts';
-import cache from 'webext-storage-cache'; // Also needed to regularly clear the cache'
+import cache from 'webext-storage-cache'; // Also needed to regularly clear the cache
+import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 
 import './options-storage';
 import {getRghIssueUrl} from './helpers/rgh-issue-link';
 
 // GHE support
-addDomainPermissionToggleBroken();
+addDomainPermissionToggle();
 
 const messageHandlers = {
 	openUrls(urls: string[], {tab}: browser.runtime.MessageSender) {
