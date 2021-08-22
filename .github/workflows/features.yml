@@ -18,5 +18,6 @@ jobs:
         with:
           node-version: 16
           cache: npm
+      - run: npm ci
       - name: Run the `verify-features` script
         run: npx ts-node build/verify-features.ts
