@@ -15,7 +15,7 @@ export function ToastSpinner(): JSX.Element {
 
 type Task = () => Promise<unknown>;
 export default async function showToast<TTask extends Task>(
-	task: (progress: (message: string) => void) => Promise<TTask>,
+	task: ((progress: (message: string) => void) => Promise<void>) | TTask,
 	{
 		message = 'Bulk actions currently being processed.',
 		doneMessage = 'Bulk action processing complete.',

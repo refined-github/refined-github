@@ -89,15 +89,13 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 
 	try {
 		const filePath = menuItem.closest<HTMLDivElement>('[data-path]')!.dataset.path!;
-		// Const task = restoreFile(menuItem, filePath);
-		// Hide file from view
-		// await task;
 		// Show toast while restoring
 		void showToast(async progress => restoreFile(progress, menuItem, filePath), {
 			message: 'Restoring…',
 			doneMessage: 'Restored!',
 		});
 
+		// Hide file from view
 		menuItem.closest('.file')!.remove();
 	} catch (error: unknown) {
 		menuItem.disabled = true;
