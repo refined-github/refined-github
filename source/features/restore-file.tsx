@@ -90,7 +90,7 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 	try {
 		const filePath = menuItem.closest<HTMLDivElement>('[data-path]')!.dataset.path!;
 		// Show toast while restoring
-		void showToast(async progress => restoreFile(progress, menuItem, filePath), {
+		await showToast(async progress => restoreFile(progress!, menuItem, filePath), {
 			message: 'Restoring…',
 			doneMessage: 'Restored!',
 		});
