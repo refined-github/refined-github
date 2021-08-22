@@ -8,8 +8,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
-import {getConversationNumber} from '../github-helpers';
 import showToast from '../github-helpers/toast';
+import {getConversationNumber} from '../github-helpers';
 
 /**
 Get the current base commit of this PR. It should change after rebases and merges in this PR.
