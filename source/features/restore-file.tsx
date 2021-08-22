@@ -48,12 +48,12 @@ async function restoreFile(progress: (message: string) => void, menuItem: Elemen
 		// This code won’t be reached if `highlight-deleted-and-added-files-in-diffs` works.
 		throw new Error('Nothing to restore. Delete file instead');
 	}
-	
+
 	if (file.isTruncated) {
 		throw new Error('Restore failed: File too big');
 	}
-	
-	let { pathname } = menuItem.previousElementSibling as HTMLAnchorElement;
+
+	let {pathname} = menuItem.previousElementSibling as HTMLAnchorElement;
 	// Check if file was deleted by PR
 	if (menuItem.closest('[data-file-deleted="true"]')) {
 		progress('Undeleting…');
@@ -89,12 +89,15 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 
 	try {
 		const filePath = menuItem.closest<HTMLDivElement>('[data-path]')!.dataset.path!;
-		// const task = restoreFile(menuItem, filePath);
+		// Const task = restoreFile(menuItem, filePath);
 		// Hide file from view
 		// await task;
 		// Show toast while restoring
-		// await showToast(async () => restoreFile() , {message: 'Restoring…',doneMessage: 'Restored!'});
-		
+		void showToast(async progress => restoreFile(progress, menuItem, filePath), {
+			message: 'Restoring…',
+			doneMessage: 'Restored!',
+		});
+
 		menuItem.closest('.file')!.remove();
 	} catch (error: unknown) {
 		menuItem.disabled = true;

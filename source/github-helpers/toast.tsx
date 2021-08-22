@@ -15,7 +15,7 @@ export function ToastSpinner(): JSX.Element {
 
 type Task = () => Promise<unknown>;
 export default async function showToast<TTask extends Task>(
-	task: (progress: (message: string) => void) => TTask,
+	task: (progress: (message: string) => void) => Promise<TTask>,
 	{
 		message = 'Bulk actions currently being processed.',
 		doneMessage = 'Bulk action processing complete.',
@@ -38,7 +38,7 @@ export default async function showToast<TTask extends Task>(
 	await delay(30); // Without this, the Toast doesn't appear in time
 
 	try {
-		const result = task((message: string) => {
+		const result = await task((message: string) => {
 			messageWrapper.textContent = message;
 		});
 		toast.classList.replace('Toast--loading', 'Toast--success');
