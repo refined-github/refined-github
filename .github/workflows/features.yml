@@ -10,7 +10,7 @@ on:
       - 'test/*'
 
 jobs:
-  Verify Features:
+  Verify-Features:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
