@@ -10,11 +10,11 @@ const featuresInReadme = getFeaturesMeta();
 const errors: string[] = [];
 
 for (let fileName of featuresDirContents) {
-	if (fileName === 'index.tsx' || fileName.endsWith('.css') || fileName.includes('rgh')) {
+	if (fileName === 'index.tsx' || fileName.includes('.css') || fileName.includes('rgh')) {
 		continue;
 	}
 
-	if (fileName.endsWith('tsx')) {
+	if (!fileName.includes('.tsx')) {
 		errors.push(`fileext: The \`/source/features\` folder should only contain .css and .tsx files. File \`${fileName}\` violates that rule.`);
 		continue;
 	}
