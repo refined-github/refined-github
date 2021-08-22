@@ -10,7 +10,7 @@ const featuresInReadme = getFeaturesMeta();
 const errors: string[] = [];
 
 for (let fileName of featuresDirContents) {
-	if (['css', 'index.tsx'].includes(fileName) || fileName.includes('rgh')) {
+	if (fileName === 'index.tsx' || fileName.endsWith('.css') || fileName.includes('rgh')) {
 		continue;
 	}
 
