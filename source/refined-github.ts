@@ -33,7 +33,7 @@ import './features/hide-useless-newsfeed-events';
 import './features/hide-watch-and-fork-count';
 import './features/minimize-upload-bar';
 import './features/monospace-textareas';
-import './features/remove-diff-signs';
+import './features/hide-diff-signs';
 
 import './features/useful-not-found-page';
 import './features/trending-menu-item';
@@ -179,7 +179,7 @@ import './features/use-first-commit-message-for-new-prs';
 import './features/linkify-user-edit-history-popup';
 import './features/clean-repo-filelist-actions';
 import './features/prevent-duplicate-pr-submission';
-import './features/remove-label-faster';
+import './features/hide-label-faster';
 import './features/clean-conversation-headers';
 import './features/stop-pjax-loading-with-esc';
 import './features/highlight-deleted-and-added-files-in-diffs';

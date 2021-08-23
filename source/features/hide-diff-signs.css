@@ -1,0 +1,4 @@
+.rgh-hide-diff-signs .blob-code-inner::before, /* Inline review blocks in PRs */
+.rgh-hide-diff-signs .blob-code-marker-cell::before { /* Commit page */
+	visibility: hidden;
+}

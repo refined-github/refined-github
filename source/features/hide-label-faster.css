@@ -1,11 +1,11 @@
-.rgh-remove-label-faster {
+.rgh-hide-label-faster {
 	display: flex !important;
 	margin-left: 2px;
 	margin-right: -7px;
 	color: inherit !important;
 }
 
-.rgh-remove-label-faster svg {
+.rgh-hide-label-faster svg {
 	margin: 2px;
 	margin-left: 0;
 	border-radius: 50%;
@@ -14,15 +14,15 @@
 	height: 14px;
 }
 
-.rgh-remove-label-faster:is(:focus, :hover) svg {
+.rgh-hide-label-faster:is(:focus, :hover) svg {
 	background-color: currentColor;
 	fill: rgb(var(--label-r) var(--label-g) var(--label-b));
 }
 
-[data-color-mode='dark'][data-dark-theme*='dark'] .rgh-remove-label-faster:is(:focus, :hover) svg {
+[data-color-mode='dark'][data-dark-theme*='dark'] .rgh-hide-label-faster:is(:focus, :hover) svg {
 	fill: var(--color-bg-canvas);
 }
 
-:root:root .rgh-remove-label-faster-already-added {
+:root:root .rgh-hide-label-faster-already-added {
 	display: inline-flex !important;
 }
