@@ -73,18 +73,9 @@ async function linkify(button: HTMLButtonElement, filePath: string): Promise<voi
 async function init(): Promise<void | false> {
 	const disabledPagination = select.all('.paginate-container button[disabled]');
 	const url = new GitHubURL(location.href);
-
-	const isFile = await fetch(
-		`${location.protocol}//${location.hostname}${select('a[aria-label="View at this point in the history"]')!.getAttribute('href')}`,
-		{method: 'HEAD'}
-	)
-	.then(response => {
-		if (new GitHubURL(response.url).route === 'blob') {
-			return true;
-		} else {
-			return false;
-		}
-	});
+	const blobURL = `${location.protocol}//${location.hostname}${select('a[aria-label="View at this point in the history"]')!.getAttribute('href')}`;
+	const isFile = await fetch(blobURL, {method: 'HEAD'})
+		.then(response => new GitHubURL(response.url).route === 'blob' ? true : false);
 
 	if (disabledPagination.length === 0 || !url.filePath || !isFile ) {
 		return false;
