@@ -37,6 +37,10 @@ function searchInHighlights(readmeContent: string, id: FeatureID): FeatureMeta |
 	}
 }
 
+export function getImportedFeatures(): string {
+	return readFileSync(path.join(__dirname, '../source/refined-github.ts')).toString('utf-8');
+}
+
 export function getFeaturesMeta(): FeatureMeta[] {
 	const readmeContent = readFileSync(path.join(__dirname, '../readme.md'), 'utf-8');
 	const features = [];
@@ -53,7 +57,7 @@ export function getFeaturesMeta(): FeatureMeta[] {
 }
 
 export function getFeatures(): FeatureID[] {
-	const contents = readFileSync(path.join(__dirname, '../source/refined-github.ts'), 'utf-8');
+	const contents = getImportedFeatures()
 	return [...contents.matchAll(/^import '\.\/features\/([^.]+)';/gm)]
 		.map(match => match[1] as FeatureID)
 		.sort();

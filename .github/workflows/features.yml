@@ -1,4 +1,4 @@
-name: Verify Features
+name: Features
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ on:
       - 'test/*'
 
 jobs:
-  Verify-Features:
+  Verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,5 +19,4 @@ jobs:
           node-version: 16
           cache: npm
       - run: npm ci
-      - name: Run the `verify-features` script
-        run: npx ts-node build/verify-features.ts
+      - run: node --loader ts-node/esm ./build/verify-features.ts
