@@ -1,5 +1,6 @@
 {
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"ava": "ava",
 		"build": "run-p build:* --continue-on-error",

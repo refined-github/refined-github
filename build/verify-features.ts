@@ -40,4 +40,4 @@ for (const error of errors) {
 	console.error('ERR:', error);
 }
 
-process.exitCode = errors.length
+process.exitCode = errors.length;

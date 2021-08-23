@@ -57,7 +57,7 @@ export function getFeaturesMeta(): FeatureMeta[] {
 }
 
 export function getFeatures(): FeatureID[] {
-	const contents = getImportedFeatures()
+	const contents = getImportedFeatures();
 	return [...contents.matchAll(/^import '\.\/features\/([^.]+)';/gm)]
 		.map(match => match[1] as FeatureID)
 		.sort();
