@@ -76,7 +76,7 @@ async function init(): Promise<void | false> {
 
 	const isFile = await fetch(
 		// https://github.com/Microsoft/TypeScript/issues/30239
-		// eslint-disable-next-line restrict-template-expressions
+		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 		`${location.protocol}//${location.hostname}${select('a[aria-label="View at this point in the history"]')!.getAttribute('href')}`,
 		{method: 'HEAD'},
 	)
