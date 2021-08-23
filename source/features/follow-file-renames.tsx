@@ -75,11 +75,12 @@ async function init(): Promise<void | false> {
 	const url = new GitHubURL(location.href);
 
 	const isFile = await fetch(
-		// eslint-disable-next-line restrict-template-expressions // https://github.com/Microsoft/TypeScript/issues/30239
+		// https://github.com/Microsoft/TypeScript/issues/30239
+		// eslint-disable-next-line restrict-template-expressions
 		`${location.protocol}//${location.hostname}${select('a[aria-label="View at this point in the history"]')!.getAttribute('href')}`,
 		{method: 'HEAD'},
 	)
-		.then(response => !!(new GitHubURL(response.url).route === 'blob'));
+		.then(response => Boolean(new GitHubURL(response.url).route === 'blob'));
 
 	if (disabledPagination.length === 0 || !url.filePath || !isFile) {
 		return false;
