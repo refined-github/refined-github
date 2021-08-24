@@ -18,7 +18,8 @@ function initTitle(): void {
 function init(): void {
 	const selectors = [
 		'.js-blob-wrapper tr:not(.inline-comments)', // File blocks in pages like `isPRFiles`, `isSingleFile`
-		'.blob-wrapper tr', // Every other code blocks
+		'.blob-wrapper tr', // File blocks in blob URLs
+		'.comment-body' // Markdown code blocks
 	].map(selector => selector + `:not(.${linkifiedURLClass})`).join(',');
 
 	observe(selectors, {
