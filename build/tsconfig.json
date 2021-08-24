@@ -1,0 +1,12 @@
+{
+	"extends": "@sindresorhus/tsconfig",
+	"compilerOptions": {
+		"module": "es2020",
+		"target": "es2020",
+		"declaration": false,
+		"esModuleInterop": true,
+		"noUncheckedIndexedAccess": false,
+		"noPropertyAccessFromIndexSignature": false
+	},
+	"files": ["readme-parser.ts", "verify-features.ts"]
+}

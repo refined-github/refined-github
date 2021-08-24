@@ -1,9 +1,8 @@
-import path from 'node:path';
 import {readdirSync} from 'node:fs';
 
-import {getFeaturesMeta, getImportedFeatures} from './readme-parser';
+import {getFeaturesMeta, getImportedFeatures} from './readme-parser.js'; // Must import as `.js`
 
-const featuresDirContents = readdirSync(path.join(__dirname, '../source/features/'));
+const featuresDirContents = readdirSync('source/features/');
 const importedFeatures = getImportedFeatures();
 const featuresInReadme = getFeaturesMeta();
 
