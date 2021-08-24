@@ -12,7 +12,7 @@
 		"lint:js": "xo",
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj'",
 		"start:safari": "open 'safari/build/Release/Refined GitHub.app'",
-		"test": "run-p ava lint:* build:* test:*",
+		"test": "run-p ava lint:* build:* test:features",
 		"test:features": "./build/verify-features.ts",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
