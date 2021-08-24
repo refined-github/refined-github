@@ -1,3 +1,5 @@
+#!/usr/bin/env -S TS_NODE_PROJECT=./build/tsconfig.json node --loader ts-node/esm
+
 import {readdirSync} from 'node:fs';
 
 import {getFeaturesMeta, getImportedFeatures} from './readme-parser.js'; // Must import as `.js`
