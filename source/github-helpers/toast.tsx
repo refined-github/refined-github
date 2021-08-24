@@ -14,7 +14,7 @@ export function ToastSpinner(): JSX.Element {
 }
 
 type ProgressCallback = (message: string) => void;
-type Task = (progress?: ProgressCallback) => Promise<void>;
+type Task = (progress?: ProgressCallback) => Promise<unknown>;
 export default async function showToast<TTask extends Task>(
 	task: TTask,
 	{
@@ -34,21 +34,22 @@ export default async function showToast<TTask extends Task>(
 			{messageWrapper}
 		</div>
 	);
+	const updateToast = (message: string): void => {
+		messageWrapper.textContent = message;
+	};
 
 	document.body.append(toast);
 	await delay(30); // Without this, the Toast doesn't appear in time
 
 	try {
-		const result = await task((message: string): void => {
-			messageWrapper.textContent = message;
-		});
+		const result = await task(updateToast);
 		toast.classList.replace('Toast--loading', 'Toast--success');
-		messageWrapper.textContent = doneMessage;
+		updateToast(doneMessage);
 		iconWrapper.firstChild!.replaceWith(<CheckIcon/>);
 		return result;
 	} catch (error: unknown) {
 		toast.classList.replace('Toast--loading', 'Toast--error');
-		messageWrapper.textContent = error instanceof Error ? error.message : 'Unknown Error';
+		updateToast(error instanceof Error ? error.message : 'Unknown Error');
 		iconWrapper.firstChild!.replaceWith(<StopIcon/>);
 		throw error;
 	} finally {
