@@ -1,6 +1,7 @@
 {
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
+		"module": "es2020",
 		"target": "es2020",
 		"declaration": false,
 		"esModuleInterop": true,
