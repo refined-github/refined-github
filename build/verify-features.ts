@@ -11,7 +11,7 @@ const featuresInReadme = getFeaturesMeta();
 const errors: string[] = [];
 
 for (let fileName of featuresDirContents) {
-	if (fileName === 'index.tsx' || fileName.endsWith('.css') || fileName.startsWith('rgh-')) {
+	if (fileName === 'index.tsx' || fileName.endsWith('.css')) {
 		continue;
 	}
 
@@ -20,21 +20,25 @@ for (let fileName of featuresDirContents) {
 		continue;
 	}
 
-	fileName = fileName.replace('.tsx', '');
+	if (!importedFeatures.includes(featureMeta.id)) {
+		errors.push(`ERR: ${fileName} should be imported by \`/sources/refined-github.ts\`.`);
+	}
 
-	const featureMeta = featuresInReadme.find(feature => feature.id === fileName);
+	if (fileName.startsWith('rgh-')) {
+		continue;
+	}
+
+	const featureId = fileName.replace('.tsx', '');
+	const featureMeta = featuresInReadme.find(feature => feature.id === featureId);
 	if (!featureMeta) {
-		errors.push(`ERR: The feature ${fileName} should be described in the readme.`);
+		errors.push(`ERR: The feature ${featureId} should be described in the readme.`);
 		continue;
 	}
 
 	if (featureMeta.description.length < 20) {
-		errors.push(`ERR: ${fileName} should be described better in the readme (at least 20 characters)`);
+		errors.push(`ERR: ${featureId} should be described better in the readme (at least 20 characters)`);
 	}
 
-	if (!importedFeatures.includes(featureMeta.id)) {
-		errors.push(`ERR: ${fileName} should be imported by \`/sources/refined-github.ts\`.`);
-	}
 }
 
 console.error(errors.join('\n'));
