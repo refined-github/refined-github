@@ -8,13 +8,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
+import showToast from '../github-helpers/toast';
 import {getConversationNumber} from '../github-helpers';
-
-function showError(menuItem: HTMLButtonElement, error: string): void {
-	menuItem.disabled = true;
-	menuItem.style.background = 'none'; // Disables hover background color
-	menuItem.textContent = error;
-}
 
 /**
 Get the current base commit of this PR. It should change after rebases and merges in this PR.
@@ -45,17 +40,30 @@ async function getFile(filePath: string): Promise<{isTruncated: boolean; text: s
 	return repository.file;
 }
 
-async function commitFileContent(menuItem: Element, content: string, filePath: string): Promise<void> {
+async function restoreFile(progress: (message: string) => void, menuItem: Element, filePath: string): Promise<void> {
+	const file = await getFile(filePath);
+
+	if (!file) {
+		// The file was created by this PR.
+		// This code won’t be reached if `highlight-deleted-and-added-files-in-diffs` works.
+		throw new Error('Nothing to restore. Delete file instead');
+	}
+
+	if (file.isTruncated) {
+		throw new Error('Restore failed: File too big');
+	}
+
 	let {pathname} = menuItem.previousElementSibling as HTMLAnchorElement;
 	// Check if file was deleted by PR
 	if (menuItem.closest('[data-file-deleted="true"]')) {
-		menuItem.textContent = 'Undeleting…';
+		progress('Undeleting…');
 		const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
 		pathname = `/${nameWithOwner}/new/${headBranch}?filename=${filePath}`;
 	} else {
-		menuItem.textContent = 'Committing…';
+		progress('Committing…');
 	}
 
+	const content = file.text;
 	// This is either an `edit` or `create` form
 	const form = (await fetchDom(pathname, 'form.js-blob-form'))!;
 	form.elements.value.value = content; // Restore content (`value` is the name of the file content field)
@@ -79,32 +87,17 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 
 	filesRestored.add(menuItem);
 
-	menuItem.textContent = 'Restoring…';
-	event.preventDefault();
-	event.stopPropagation();
-
 	try {
 		const filePath = menuItem.closest<HTMLDivElement>('[data-path]')!.dataset.path!;
-		const file = await getFile(filePath);
-
-		if (!file) {
-			// The file was created by this PR.
-			// This code won’t be reached if `highlight-deleted-and-added-files-in-diffs` works.
-			showError(menuItem, 'Nothing to restore. Delete file instead');
-			return;
-		}
-
-		if (file.isTruncated) {
-			showError(menuItem, 'Restore failed: File too big');
-			return;
-		}
-
-		await commitFileContent(menuItem, file.text, filePath);
+		// Show toast while restoring
+		await showToast(async progress => restoreFile(progress!, menuItem, filePath), {
+			message: 'Restoring…',
+			doneMessage: 'Restored!',
+		});
 
 		// Hide file from view
 		menuItem.closest('.file')!.remove();
 	} catch (error: unknown) {
-		showError(menuItem, 'Restore failed. See console for details');
 		features.log.error(__filebasename, error);
 	}
 }
