@@ -98,8 +98,6 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 		// Hide file from view
 		menuItem.closest('.file')!.remove();
 	} catch (error: unknown) {
-		menuItem.disabled = true;
-		menuItem.style.background = 'none'; // Disables hover background color
 		features.log.error(__filebasename, error);
 	}
 }
