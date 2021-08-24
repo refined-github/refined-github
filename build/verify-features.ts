@@ -16,13 +16,13 @@ for (const fileName of featuresDirContents) {
 	}
 
 	if (!fileName.endsWith('.tsx')) {
-		errors.push(`ERR: The \`/source/features\` folder should only contain .css and .tsx files. File \`${fileName}\` violates that rule.`);
+		errors.push(`ERR: The \`/source/features\` folder should only contain .css and .tsx files. File \`${fileName}\` violates that rule`);
 		continue;
 	}
 
 	const featureId = fileName.replace('.tsx', '');
-	if (!importedFeatures.includes(featureId)) {
-		errors.push(`ERR: ${featureId} should be imported by \`/sources/refined-github.ts\`.`);
+	if (!importedFeatures.includes(featureId as FeatureID)) {
+		errors.push(`ERR: ${featureId} should be imported by \`/sources/refined-github.ts\``);
 	}
 
 	if (fileName.startsWith('rgh-')) {
@@ -31,7 +31,7 @@ for (const fileName of featuresDirContents) {
 
 	const featureMeta = featuresInReadme.find(feature => feature.id === featureId);
 	if (!featureMeta) {
-		errors.push(`ERR: The feature ${featureId} should be described in the readme.`);
+		errors.push(`ERR: The feature ${featureId} should be described in the readme`);
 		continue;
 	}
 
