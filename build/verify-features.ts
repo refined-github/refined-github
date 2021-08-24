@@ -1,4 +1,4 @@
-#!/usr/bin/env -S TS_NODE_PROJECT=./build/tsconfig.json node --loader ts-node/esm
+#!/usr/bin/env -S TS_NODE_COMPILER_OPTIONS='{"module":"es2020"}' node --loader ts-node/esm
 
 import {readdirSync} from 'node:fs';
 
