@@ -1,5 +1,3 @@
-#!/usr/bin/env node --loader ts-node/esm
-
 import {readdirSync} from 'node:fs';
 
 import {getFeaturesMeta, getImportedFeatures} from './readme-parser.js'; // Must import as `.js`

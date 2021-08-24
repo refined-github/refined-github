@@ -19,4 +19,4 @@ jobs:
           node-version: 16
           cache: npm
       - run: npm ci
-      - run: npm run test:features
+      - run: TS_NODE_PROJECT="./build/tsconfig.json" node --loader ts-node/esm ./build/verify-features.ts
