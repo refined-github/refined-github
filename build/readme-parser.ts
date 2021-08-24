@@ -1,5 +1,5 @@
 /// <reference types="../source/globals" />
-import path from 'node:path';
+
 import regexJoin from 'regex-join';
 import {readFileSync} from 'node:fs';
 import {parse as parseMarkdown} from 'markdown-wasm/dist/markdown.node.js';
@@ -38,7 +38,7 @@ function searchInHighlights(readmeContent: string, id: FeatureID): FeatureMeta |
 }
 
 export function getFeaturesMeta(): FeatureMeta[] {
-	const readmeContent = readFileSync(path.join(__dirname, '../readme.md'), 'utf-8');
+	const readmeContent = readFileSync('readme.md', 'utf-8');
 	const features = [];
 	for (const id of getFeatures()) {
 		if (!id.startsWith('rgh-')) {
@@ -53,7 +53,7 @@ export function getFeaturesMeta(): FeatureMeta[] {
 }
 
 export function getFeatures(): FeatureID[] {
-	const contents = readFileSync(path.join(__dirname, '../source/refined-github.ts'), 'utf-8');
+	const contents = readFileSync('source/refined-github.ts', 'utf-8');
 	return [...contents.matchAll(/^import '\.\/features\/([^.]+)';/gm)]
 		.map(match => match[1] as FeatureID)
 		.sort();
