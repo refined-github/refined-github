@@ -2,10 +2,10 @@
 
 import {readdirSync} from 'node:fs';
 
-import {getFeaturesMeta, getImportedFeatures} from './readme-parser.js'; // Must import as `.js`
+import {getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
 
 const featuresDirContents = readdirSync('source/features/');
-const importedFeatures = getImportedFeatures();
+const importedFeatures = getFeatures();
 const featuresInReadme = getFeaturesMeta();
 
 const errors: string[] = [];
@@ -16,7 +16,7 @@ for (let fileName of featuresDirContents) {
 	}
 
 	if (!fileName.endsWith('.tsx')) {
-		errors.push(`fileext: The \`/source/features\` folder should only contain .css and .tsx files. File \`${fileName}\` violates that rule.`);
+		errors.push(`ERR: The \`/source/features\` folder should only contain .css and .tsx files. File \`${fileName}\` violates that rule.`);
 		continue;
 	}
 
@@ -24,21 +24,19 @@ for (let fileName of featuresDirContents) {
 
 	const featureMeta = featuresInReadme.find(feature => feature.id === fileName);
 	if (!featureMeta) {
-		errors.push(`readme: The feature ${fileName} is not included in the readme.`);
+		errors.push(`ERR: The feature ${fileName} should be described in the readme.`);
 		continue;
 	}
 
 	if (featureMeta.description.length < 20) {
-		errors.push(`desc: The description for ${featureMeta.id} is less than 20 characters. Try explaining it better!`);
+		errors.push(`ERR: ${fileName} should be described better in the readme (at least 20 characters)`);
 	}
 
 	if (!importedFeatures.includes(featureMeta.id)) {
-		errors.push(`import: The feature ${featureMeta.id} has not been imported in \`/sources/refined-github.ts\`.`);
+		errors.push(`ERR: ${fileName} should be imported by \`/sources/refined-github.ts\`.`);
 	}
 }
 
-for (const error of errors) {
-	console.error('ERR:', error);
-}
+console.error(errors.join('\n'));
 
 process.exitCode = errors.length;
