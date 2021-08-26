@@ -1,25 +1,25 @@
 import test from 'ava';
 
-import isUselessComment from '../source/helpers/is-useless-comment';
+import isNoiseComment from '../source/helpers/is-noise-comment';
 
-test('isUselessComment', t => {
-	t.true(isUselessComment('+1'));
-	t.true(isUselessComment('+1!'));
-	t.true(isUselessComment('+10'));
-	t.true(isUselessComment('+9000'));
-	t.true(isUselessComment('-1'));
-	t.true(isUselessComment('👍'));
-	t.true(isUselessComment('👍🏾'));
-	t.true(isUselessComment('me too'));
-	t.true(isUselessComment('ditto'));
-	t.true(isUselessComment('Dito'));
-	t.true(isUselessComment('following'));
-	t.true(isUselessComment('Followig'));
-	t.true(isUselessComment('please update!'));
-	t.true(isUselessComment('please update 🙏🏻'));
-	t.true(isUselessComment('Same here, please update, thanks'));
-	t.true(isUselessComment('Same here! Please update, thank you.'));
+test('isNoiseComment', t => {
+	t.true(isNoiseComment('+1'));
+	t.true(isNoiseComment('+1!'));
+	t.true(isNoiseComment('+10'));
+	t.true(isNoiseComment('+9000'));
+	t.true(isNoiseComment('-1'));
+	t.true(isNoiseComment('👍'));
+	t.true(isNoiseComment('👍🏾'));
+	t.true(isNoiseComment('me too'));
+	t.true(isNoiseComment('ditto'));
+	t.true(isNoiseComment('Dito'));
+	t.true(isNoiseComment('following'));
+	t.true(isNoiseComment('Followig'));
+	t.true(isNoiseComment('please update!'));
+	t.true(isNoiseComment('please update 🙏🏻'));
+	t.true(isNoiseComment('Same here, please update, thanks'));
+	t.true(isNoiseComment('Same here! Please update, thank you.'));
 
-	t.false(isUselessComment('+1\n<some useful information>'));
-	t.false(isUselessComment('Same here. <some useful information>'));
+	t.false(isNoiseComment('+1\n<some useful information>'));
+	t.false(isNoiseComment('Same here. <some useful information>'));
 });

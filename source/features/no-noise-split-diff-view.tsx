@@ -1,4 +1,4 @@
-import './no-useless-split-diff-view.css';
+import './no-noise-split-diff-view.css';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
@@ -13,8 +13,8 @@ function isUnifiedDiff(): boolean {
 }
 
 function init(): void {
-	for (const diffTable of select.all('.js-diff-table:not(.rgh-no-useless-split-diff-view-visited)')) {
-		diffTable.classList.add('rgh-no-useless-split-diff-view-visited');
+	for (const diffTable of select.all('.js-diff-table:not(.rgh-no-noise-split-diff-view-visited)')) {
+		diffTable.classList.add('rgh-no-noise-split-diff-view-visited');
 		for (const side of ['left', 'right']) {
 			if (!select.exists(`[data-split-side="${side}"]:is(.blob-code-addition, .blob-code-deletion)`, diffTable)) {
 				// eslint-disable-next-line unicorn/prefer-dom-node-dataset -- CSS file has the same selector, this can be grepped
