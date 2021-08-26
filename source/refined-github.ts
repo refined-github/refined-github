@@ -212,7 +212,7 @@ import './features/global-search-filters';
 import './features/clean-header-search-field';
 import './features/avoid-accidental-submissions';
 import './features/delete-review-comments-faster';
-import './features/no-noise-split-diff-view';
+import './features/no-unnecessary-split-diff-view';
 import './features/list-pr-for-branch';
 import './features/cancel-wiki-edit-button';
 import './features/comment-on-draft-pr-indicator';
