@@ -1,17 +1,45 @@
 #!/usr/bin/env -S TS_NODE_COMPILER_OPTIONS='{"module":"es2020"}' node --loader ts-node/esm
 
-import {readdirSync} from 'node:fs';
+import {existsSync, readdirSync, readFileSync} from 'node:fs';
 
 import {getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
 
 const featuresDirContents = readdirSync('source/features/');
+const entryPoint = 'source/refined-github.ts';
+const entryPointSource = readFileSync(entryPoint);
 const importedFeatures = getFeatures();
 const featuresInReadme = getFeaturesMeta();
 
 const errors: string[] = [];
 
+function checkIfCssFileIsImported(fileName: string): string | null {
+	if (!entryPointSource.includes(`import './features/${fileName}';`)) {
+		const correspondingTsxFile = `source/features/${fileName.replace(/.css$/, '.tsx')}`;
+
+		if (existsSync(correspondingTsxFile)) {
+			if (!readFileSync(correspondingTsxFile).includes(`import './${fileName}';`)) {
+				return `ERR: The file \`${fileName}\` is not imported \`${correspondingTsxFile}\``;
+			}
+		} else {
+			return `ERR: The file \`${fileName}\` is not imported in \`${entryPoint}\``;
+		}
+	}
+
+	return null;
+}
+
 for (const fileName of featuresDirContents) {
-	if (fileName === 'index.tsx' || fileName.endsWith('.css')) {
+	if (fileName === 'index.tsx') {
+		continue;
+	}
+
+	if (fileName.endsWith('.css')) {
+		const error = checkIfCssFileIsImported(fileName);
+
+		if (error) {
+			errors.push(error);
+		}
+
 		continue;
 	}
 
@@ -22,7 +50,7 @@ for (const fileName of featuresDirContents) {
 
 	const featureId = fileName.replace('.tsx', '');
 	if (!importedFeatures.includes(featureId as FeatureID)) {
-		errors.push(`ERR: ${featureId} should be imported by \`/sources/refined-github.ts\``);
+		errors.push(`ERR: ${featureId} should be imported by \`${entryPoint}\``);
 	}
 
 	if (fileName.startsWith('rgh-')) {
