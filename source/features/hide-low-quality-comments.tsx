@@ -30,11 +30,11 @@ function hideComment(comment: HTMLElement): void {
 }
 
 function init(): void {
-	let noiseCount = 0;
+	let lowQualityCount = 0;
 
 	for (const similarCommentsBox of select.all('.js-discussion .Details-element:not([data-body-version])')) {
 		hideComment(similarCommentsBox);
-		noiseCount++;
+		lowQualityCount++;
 	}
 
 	for (const commentText of select.all('.comment-body > p:only-child')) {
@@ -55,7 +55,7 @@ function init(): void {
 
 		// If the person is having a conversation, then don't hide it
 		const author = select('.author', comment)!.getAttribute('href')!;
-		// If the first comment left by the author isn't a noise comment
+		// If the first comment left by the author isn't a low quality comment
 		// (previously hidden or about to be hidden), then leave this one as well
 		const previousComment = select(`.js-timeline-item:not([hidden]) .unminimized-comment .author[href="${author}"]`);
 		if (previousComment?.closest('.js-timeline-item') !== comment) {
@@ -63,13 +63,13 @@ function init(): void {
 		}
 
 		hideComment(comment);
-		noiseCount++;
+		lowQualityCount++;
 	}
 
-	if (noiseCount > 0) {
+	if (lowQualityCount > 0) {
 		select('.discussion-timeline-actions')!.prepend(
 			<p className="rgh-noise-comments-note">
-				{`${noiseCount} unhelpful comment${noiseCount > 1 ? 's were' : ' was'} automatically hidden. `}
+				{`${lowQualityCount} unhelpful comment${lowQualityCount > 1 ? 's were' : ' was'} automatically hidden. `}
 				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>
 			</p>,
 		);
