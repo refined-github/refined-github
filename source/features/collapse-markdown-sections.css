@@ -1,7 +1,0 @@
-.markdown-body a :is(h1, h2, h3, h4, h5, h6) {
-	cursor: initial;
-}
-
-.rgh-collapse-markdown-selections .markdown-body > :is(h1, h2, h3, h4, h5, h6) {
-	cursor: pointer;
-}
