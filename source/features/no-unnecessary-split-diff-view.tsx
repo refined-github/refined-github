@@ -1,4 +1,4 @@
-import './no-noise-split-diff-view.css';
+import './no-unnecessary-split-diff-view.css';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
