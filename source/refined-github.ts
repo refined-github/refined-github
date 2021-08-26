@@ -61,7 +61,7 @@ import './features/linkify-code';
 import './features/download-folder-button';
 import './features/linkify-branch-references';
 import './features/open-all-conversations';
-import './features/hide-noise-comments';
+import './features/hide-noisy-comments';
 import './features/navigate-pages-with-arrow-keys';
 import './features/conversation-links-on-repo-lists';
 import './features/global-conversation-list-filters';

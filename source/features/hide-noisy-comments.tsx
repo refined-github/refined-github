@@ -1,4 +1,4 @@
-import './hide-noise-comments.css';
+import './hide-noisy-comments.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -70,10 +70,10 @@ function init(): void {
 		select('.discussion-timeline-actions')!.prepend(
 			<p className="rgh-noise-comments-note">
 				{`${noiseCount} unhelpful comment${noiseCount > 1 ? 's were' : ' was'} automatically hidden. `}
-				<button className="btn-link text-emphasized rgh-unhide-noise-comments" type="button">Show</button>
+				<button className="btn-link text-emphasized rgh-unhide-noisy-comments" type="button">Show</button>
 			</p>,
 		);
-		delegate(document, '.rgh-unhide-noise-comments', 'click', unhide);
+		delegate(document, '.rgh-unhide-noisy-comments', 'click', unhide);
 	}
 }
 
