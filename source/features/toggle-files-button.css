@@ -13,10 +13,6 @@
 	display: none;
 }
 
-.rgh-files-hidden .file-wrap {
-	border: none;
-}
-
 .rgh-files-hidden .Box-header {
 	border-radius: 6px;
 	border-bottom: none;
