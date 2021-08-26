@@ -31,7 +31,7 @@ const migrations = [
 	featureWasRenamed('hide-useless-comments', 'hide-noisy-comments'), // Merged in August
 	featureWasRenamed('hide-useless-newsfeed-events', 'hide-noisy-newsfeed-events'), // Merged in August
 	featureWasRenamed('no-useless-split-diff-view', 'no-noise-split-diff-view'), // Merged in August
-	featureWasRenamed('unwrap-useless-dropdowns', 'unwrap-twofold-dropdowns'), // Merged in August
+	featureWasRenamed('unwrap-useless-dropdowns', 'unwrap-unnecessary-dropdowns'), // Merged in August
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused,

@@ -164,7 +164,7 @@ import './features/deep-reblame';
 import './features/clear-pr-merge-commit-message';
 import './features/action-used-by-link';
 import './features/batch-mark-files-as-viewed';
-import './features/unwrap-twofold-dropdowns';
+import './features/unwrap-unnecessary-dropdowns';
 import './features/linkify-notification-repository-header';
 import './features/stop-redirecting-in-notification-bar';
 import './features/prevent-link-loss';
