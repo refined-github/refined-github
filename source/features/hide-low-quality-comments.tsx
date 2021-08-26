@@ -1,4 +1,4 @@
-import './hide-noisy-comments.css';
+import './hide-low-quality-comments.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -6,7 +6,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import isNoiseComment from '../helpers/is-noise-comment';
+import isLowQualityComment from '../helpers/is-low-quality-comment';
 
 async function unhide(event: delegate.Event): Promise<void> {
 	for (const comment of select.all('.rgh-hidden-comment')) {
@@ -38,7 +38,7 @@ function init(): void {
 	}
 
 	for (const commentText of select.all('.comment-body > p:only-child')) {
-		if (!isNoiseComment(commentText.textContent!)) {
+		if (!isLowQualityComment(commentText.textContent!)) {
 			continue;
 		}
 
@@ -70,10 +70,10 @@ function init(): void {
 		select('.discussion-timeline-actions')!.prepend(
 			<p className="rgh-noise-comments-note">
 				{`${noiseCount} unhelpful comment${noiseCount > 1 ? 's were' : ' was'} automatically hidden. `}
-				<button className="btn-link text-emphasized rgh-unhide-noisy-comments" type="button">Show</button>
+				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>
 			</p>,
 		);
-		delegate(document, '.rgh-unhide-noisy-comments', 'click', unhide);
+		delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide);
 	}
 }
 
