@@ -19,4 +19,5 @@
 
 .rgh-files-hidden .Box-header {
 	border-radius: 6px;
+	border-bottom: 0;
 }
