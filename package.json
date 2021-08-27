@@ -13,7 +13,7 @@
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj'",
 		"start:safari": "open 'safari/build/Release/Refined GitHub.app'",
 		"test": "run-p ava lint:* build:* test:features",
-		"test:features": "./build/verify-features.ts",
+		"test:features": "tsc \"./build/verify-features.ts\"",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:webpack": "webpack --mode=development --watch"
