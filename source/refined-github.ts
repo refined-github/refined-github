@@ -16,6 +16,7 @@ import './features/sticky-conversation-list-toolbar.css';
 import './features/always-show-branch-delete-buttons.css';
 import './features/easier-pr-sha-copy.css';
 import './features/repo-stats-spacing.css';
+import './features/emphasize-draft-pr-label.css';
 import './features/clean-notifications.css';
 import './features/fix-first-tab-length.css';
 import './features/align-repository-header.css';
