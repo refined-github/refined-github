@@ -20,7 +20,6 @@ const defaults = Object.assign({
 
 // TODO[2021-10-01]: Drop classes `muted-link`, `link-gray`, `link-gray-dark`, `text-gray`, `text-gray-light`, `text-gray-dark`, `text-green`, `text-red` `text-blue` #4021
 const migrations = [
-	featureWasRenamed('collapse-markdown-sections', 'collapse-wiki-sections'), // Merged in May
 	featureWasRenamed('separate-draft-pr-button', 'one-click-pr-or-gist'), // Merged in May
 	featureWasRenamed('prevent-pr-commit-link-loss', 'prevent-link-loss'), // Merged in May
 	featureWasRenamed('remove-projects-tab', 'remove-unused-repo-tabs'), // Merged in July
