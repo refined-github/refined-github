@@ -1,8 +1,0 @@
-/* Colorize */
-.gh-header-meta .State {
-	text-decoration: none;
-}
-
-.gh-header-meta .State :is(a, code) {
-	color: var(--color-btn-primary-text, #fff) !important; /* GHE #4121 */
-}
