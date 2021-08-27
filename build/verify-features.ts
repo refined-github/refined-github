@@ -24,6 +24,8 @@ function findError(fileName): string | void {
 		if (!entryPointSource.includes(`import './features/${fileName}';`)) {
 			return `ERR: \`${fileName}\` should be imported by \`${entryPoint}\``;
 		}
+
+		return;
 	}
 
 	if (!fileName.endsWith('.tsx')) {
