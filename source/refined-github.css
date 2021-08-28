@@ -5,11 +5,6 @@
 	--github-border-color: var(--color-border-primary, #e1e4e8);
 }
 
-/* Fade out the file icons */
-.file-wrap .files .octicon {
-	opacity: 60%;
-}
-
 /* Make tab indented code more readable on GitHub and Gist */
 * {
 	-moz-tab-size: 4 !important;
