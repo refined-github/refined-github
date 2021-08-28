@@ -13,7 +13,7 @@
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj'",
 		"start:safari": "open 'safari/build/Release/Refined GitHub.app'",
 		"test": "run-p ava lint:* build:* test:features",
-		"test:features": "tsc \"./build/verify-features.ts\"",
+		"test:features": "cross-env TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"es2020\\\"} node --loader ts-node/esm \"build/verify-features.ts\"",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:webpack": "webpack --mode=development --watch"
@@ -99,6 +99,7 @@
 		"@types/terser-webpack-plugin": "^5.0.4",
 		"ava": "^3.15.0",
 		"copy-webpack-plugin": "^9.0.1",
+		"cross-env": "^7.0.3",
 		"css-loader": "^6.2.0",
 		"daily-version": "^2.0.0",
 		"dot-json": "^1.2.2",
