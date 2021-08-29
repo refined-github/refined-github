@@ -373,7 +373,7 @@ Thanks for contributing! 🦋🙌
 - [](# "deprioritize-marketplace-link") Moves the "Marketplace" link from the black header bar to the profile dropdown.
 - [](# "parse-backticks") [Renders `` `text in backticks` `` in issue titles, commit titles and more places.](https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png)
 - [](# "trending-menu-item") Adds a `Trending` link to the global navbar and a keyboard shortcut: <kbd>g</kbd> <kbd>t</kbd>.
-- [](# "navigate-pages-with-arrow-keys") Adds shortcuts to navigate through pages with pagination: <kbd>←</kbd> and <kbd>→</kbd>.
+- [](# "pagination-hotkey") Adds shortcuts to navigate through pages with pagination: <kbd>p</kbd> and <kbd>n</kbd>. On repository issues and pull requests lists, the shortcuts are <kbd>←</kbd> and <kbd>→</kbd>.
 - [](# "action-used-by-link") [Lets you see how others are using the current Action in the Marketplace.](https://user-images.githubusercontent.com/8360597/80250140-86d9c080-8673-11ea-9d28-f62faf9fd3d4.png)
 - [](# "improve-shortcut-help") [Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (<kbd>?</kbd> hotkey).](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)
 - [](# "global-search-filters") [Adds search filters in global search page: forks, private repos, own repos, authored commits.](https://user-images.githubusercontent.com/44045911/112261285-88a66c80-8ca6-11eb-82cb-933b72c57abd.png)
