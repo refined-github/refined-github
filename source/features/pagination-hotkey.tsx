@@ -4,7 +4,7 @@ import {isRepoConversationList, isPRCommit} from 'github-url-detection';
 import features from '.';
 
 const nextPageButtonSelectors = [
-	'a.next_page', // Search
+	'a.next_page', // Issue/PR list, Search
 	'.paginate-container > .BtnGroup > :last-child', // Commits
 	'.paginate-container > .pagination > :last-child', // Releases
 	'.js-notifications-list-paginator-buttons > :last-child', // Notifications
@@ -12,7 +12,7 @@ const nextPageButtonSelectors = [
 ];
 
 const previousPageButtonSelectors = [
-	'a.previous_page', // Search
+	'a.previous_page', // Issue/PR list, Search
 	'.paginate-container > .BtnGroup > :first-child', // Commits
 	'.paginate-container > .pagination > :first-child', // Releases
 	'.js-notifications-list-paginator-buttons > :first-child', // Notifications
@@ -20,24 +20,20 @@ const previousPageButtonSelectors = [
 ];
 
 function init(): void {
-	if (isRepoConversationList()) {
-		const createPreviousPageButton = select('a.previous_page');
-		if (createPreviousPageButton) {
-			createPreviousPageButton.dataset.hotkey = 'ArrowLeft';
-		}
-
-		const createNextPageButton = select('a.next_page');
-		if (createNextPageButton) {
+	const createNextPageButton = select(nextPageButtonSelectors);
+	if (createNextPageButton) {
+		if (isRepoConversationList()) {
 			createNextPageButton.dataset.hotkey = 'ArrowRight';
-		}
-	} else {
-		const createNextPageButton = select(nextPageButtonSelectors);
-		if (createNextPageButton) {
+		} else {
 			createNextPageButton.dataset.hotkey = 'n';
 		}
+	}
 
-		const createPreviousPageButton = select(previousPageButtonSelectors);
-		if (createPreviousPageButton) {
+	const createPreviousPageButton = select(previousPageButtonSelectors);
+	if (createPreviousPageButton) {
+		if (isRepoConversationList()) {
+			createPreviousPageButton.dataset.hotkey = 'ArrowLeft';
+		} else {
 			createPreviousPageButton.dataset.hotkey = 'p';
 		}
 	}
