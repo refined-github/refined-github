@@ -1,9 +1,10 @@
 import select from 'select-dom';
+import {isPRCommit} from 'github-url-detection';
 
 import features from '.';
 
 const nextPageButtonSelectors = [
-	'a.next_page', // Issue/PR list, Search
+	'a.next_page', // Search
 	'.paginate-container > .BtnGroup > :last-child', // Commits
 	'.paginate-container > .pagination > :last-child', // Releases
 	'.js-notifications-list-paginator-buttons > :last-child', // Notifications
@@ -11,7 +12,7 @@ const nextPageButtonSelectors = [
 ];
 
 const previousPageButtonSelectors = [
-	'a.previous_page', // Issue/PR list, Search
+	'a.previous_page', // Search
 	'.paginate-container > .BtnGroup > :first-child', // Commits
 	'.paginate-container > .pagination > :first-child', // Releases
 	'.js-notifications-list-paginator-buttons > :first-child', // Notifications
@@ -35,5 +36,9 @@ void features.add(__filebasename, {
 		'n': 'Go to the next page',
 		'p': 'Go to the previous page',
 	},
+	exclude: [
+		// exclude on pull request commit pages because GitHub already supports it natively
+		isPRCommit,
+	],
 	init,
 });
