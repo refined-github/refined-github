@@ -1,11 +1,11 @@
 /* Only shows one icon at a time, depending on hover status */
-.rgh-edit-files-faster:not(:hover) .octicon-pencil,
-.rgh-edit-files-faster:hover > :first-child {
+.rgh-quick-files-edit:not(:hover) .octicon-pencil,
+.rgh-quick-files-edit:hover > :first-child {
 	display: none !important;
 }
 
 /* Widen column to avoid bumps in directory-less listings */
-.rgh-edit-files-faster {
+.rgh-quick-files-edit {
 	width: 16px;
 	display: inline-block;
 }
