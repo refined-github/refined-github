@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import {isPRCommit} from 'github-url-detection';
+import {isGlobalConversationList,isPRCommit} from 'github-url-detection';
 
 import features from '.';
 
@@ -37,6 +37,8 @@ void features.add(__filebasename, {
 		'p': 'Go to the previous page',
 	},
 	exclude: [
+		// exclude on issue and pull request lists because the `p` hotkey conflicts with the Projects filter
+		isGlobalConversationList,
 		// exclude on pull request commit pages because GitHub already supports it natively
 		isPRCommit,
 	],
