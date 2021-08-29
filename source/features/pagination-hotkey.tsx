@@ -36,6 +36,10 @@ void features.add(__filebasename, {
 		'n': 'Go to the next page',
 		'p': 'Go to the previous page',
 	},
+	include: [
+		// activate only on pages with pagination
+		() => select.exists('.paginate-container'),
+	],
 	exclude: [
 		// exclude on issue and pull request lists because the `p` hotkey conflicts with the Projects filter
 		isGlobalConversationList,
