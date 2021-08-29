@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import {isRepoConversationList,isPRCommit} from 'github-url-detection';
+import {isRepoConversationList, isPRCommit} from 'github-url-detection';
 
 import features from '.';
 
@@ -45,15 +45,15 @@ function init(): void {
 
 void features.add(__filebasename, {
 	shortcuts: {
-		'n': 'Go to the next page',
-		'p': 'Go to the previous page',
+		n: 'Go to the next page',
+		p: 'Go to the previous page',
 	},
 	include: [
-		// activate only on pages with pagination
+		// Activate only on pages with pagination
 		() => select.exists('.paginate-container'),
 	],
 	exclude: [
-		// exclude on pull request commit pages because GitHub already supports it natively
+		// Exclude on pull request commit pages because GitHub natively supports it
 		isPRCommit,
 	],
 	init,
