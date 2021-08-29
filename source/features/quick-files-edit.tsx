@@ -1,4 +1,4 @@
-import './edit-files-faster.css';
+import './quick-files-edit.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import {PencilIcon} from '@primer/octicons-react';
@@ -24,7 +24,7 @@ async function init(): Promise<void> {
 			url.branch = await getDefaultBranch(); // Permalinks can't be edited
 		}
 
-		wrap(fileIcon, <a href={String(url)} className="rgh-edit-files-faster"/>);
+		wrap(fileIcon, <a href={String(url)} className="rgh-quick-files-edit"/>);
 		fileIcon.after(<PencilIcon/>);
 	}
 }
@@ -36,6 +36,6 @@ void features.add(__filebasename, {
 	additionalListeners: [
 		onFileListUpdate,
 	],
-	deduplicate: '.rgh-edit-files-faster', // #3945
+	deduplicate: '.rgh-quick-files-edit', // #3945
 	init,
 });

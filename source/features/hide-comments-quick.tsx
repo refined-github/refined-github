@@ -6,13 +6,13 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function generateSubmenu(hideButton: Element): void {
-	if (hideButton.closest('.rgh-hide-comments-faster-details')) {
+	if (hideButton.closest('.rgh-hide-comments-quick-details')) {
 		// Already generated
 		return;
 	}
 
 	const detailsElement = hideButton.closest('details')!;
-	detailsElement.classList.add('rgh-hide-comments-faster-details');
+	detailsElement.classList.add('rgh-hide-comments-quick-details');
 
 	const comment = hideButton.closest('.unminimized-comment')!;
 	const hideCommentForm = select('.js-comment-minimize', comment)!;
@@ -72,7 +72,7 @@ function showSubmenu(event: delegate.Event): void {
 function init(): void {
 	// `useCapture` required to be fired before GitHub's handlers
 	delegate(document, '.js-comment-hide-button', 'click', showSubmenu, true);
-	delegate(document, '.rgh-hide-comments-faster-details', 'toggle', resetDropdowns, true);
+	delegate(document, '.rgh-hide-comments-quick-details', 'toggle', resetDropdowns, true);
 }
 
 void features.add(__filebasename, {
