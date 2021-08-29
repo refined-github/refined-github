@@ -22,20 +22,12 @@ const previousPageButtonSelectors = [
 function init(): void {
 	const createNextPageButton = select(nextPageButtonSelectors);
 	if (createNextPageButton) {
-		if (isRepoConversationList()) {
-			createNextPageButton.dataset.hotkey = 'ArrowRight';
-		} else {
-			createNextPageButton.dataset.hotkey = 'n';
-		}
+		createNextPageButton.dataset.hotkey = isRepoConversationList() ? 'ArrowRight' : 'n';
 	}
 
 	const createPreviousPageButton = select(previousPageButtonSelectors);
 	if (createPreviousPageButton) {
-		if (isRepoConversationList()) {
-			createPreviousPageButton.dataset.hotkey = 'ArrowLeft';
-		} else {
-			createPreviousPageButton.dataset.hotkey = 'p';
-		}
+		createPreviousPageButton.dataset.hotkey = isRepoConversationList() ? 'ArrowLeft' : 'p';
 	}
 }
 
