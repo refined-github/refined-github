@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import {isGlobalConversationList,isPRCommit} from 'github-url-detection';
+import {isRepoConversationList,isPRCommit} from 'github-url-detection';
 
 import features from '.';
 
@@ -20,14 +20,26 @@ const previousPageButtonSelectors = [
 ];
 
 function init(): void {
-	const createNextPageButton = select(nextPageButtonSelectors);
-	if (createNextPageButton) {
-		createNextPageButton.dataset.hotkey = 'n';
-	}
+	if (isRepoConversationList()) {
+		const createPreviousPageButton = select('a.previous_page');
+		if (createPreviousPageButton) {
+			createPreviousPageButton.dataset.hotkey = 'ArrowLeft';
+		}
 
-	const createPreviousPageButton = select(previousPageButtonSelectors);
-	if (createPreviousPageButton) {
-		createPreviousPageButton.dataset.hotkey = 'p';
+		const createNextPageButton = select('a.next_page');
+		if (createNextPageButton) {
+			createNextPageButton.dataset.hotkey = 'ArrowRight';
+		}
+	} else {
+		const createNextPageButton = select(nextPageButtonSelectors);
+		if (createNextPageButton) {
+			createNextPageButton.dataset.hotkey = 'n';
+		}
+
+		const createPreviousPageButton = select(previousPageButtonSelectors);
+		if (createPreviousPageButton) {
+			createPreviousPageButton.dataset.hotkey = 'p';
+		}
 	}
 }
 
@@ -41,8 +53,6 @@ void features.add(__filebasename, {
 		() => select.exists('.paginate-container'),
 	],
 	exclude: [
-		// exclude on issue and pull request lists because the `p` hotkey conflicts with the Projects filter
-		isGlobalConversationList,
 		// exclude on pull request commit pages because GitHub already supports it natively
 		isPRCommit,
 	],
