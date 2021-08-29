@@ -11,6 +11,7 @@ async function init(): Promise<void> {
 		<div className="BtnGroup rgh-view-markdown-source mr-1">
 			<a
 				href="?plain=1"
+				data-pjax="#repo-content-pjax-container"
 				className="btn btn-sm BtnGroup-item tooltipped tooltipped-nw"
 				aria-label="Display the source"
 			>
@@ -18,6 +19,7 @@ async function init(): Promise<void> {
 			</a>
 			<a
 				href={location.pathname}
+				data-pjax="#repo-content-pjax-container"
 				className="btn btn-sm BtnGroup-item tooltipped tooltipped-nw"
 				aria-label="Display the rendered file"
 			>

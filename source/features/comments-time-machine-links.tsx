@@ -104,8 +104,13 @@ async function showTimemachineBar(): Promise<void | false> {
 		url.pathname = parsedUrl.pathname;
 	}
 
+	const link = (
+		<a className="rgh-link-date" href={String(url)} data-pjax="#repo-content-pjax-container">
+			view this object as it appeared at the time of the comment
+		</a>
+	);
 	addNotice(
-		<>You can also <a className="rgh-link-date" href={String(url)}>view this object as it appeared at the time of the comment</a> (<relative-time datetime={date}/>)</>,
+		<>You can also {link} (<relative-time datetime={date}/>)</>,
 	);
 }
 
