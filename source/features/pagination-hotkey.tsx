@@ -21,19 +21,19 @@ const previousPageButtonSelectors = [
 function init(): void {
 	const createNextPageButton = select(nextPageButtonSelectors);
 	if (createNextPageButton) {
-		createNextPageButton.dataset.hotkey = 'ArrowRight';
+		createNextPageButton.dataset.hotkey = 'n';
 	}
 
 	const createPreviousPageButton = select(previousPageButtonSelectors);
 	if (createPreviousPageButton) {
-		createPreviousPageButton.dataset.hotkey = 'ArrowLeft';
+		createPreviousPageButton.dataset.hotkey = 'p';
 	}
 }
 
 void features.add(__filebasename, {
 	shortcuts: {
-		'→': 'Go to the next page',
-		'←': 'Go to the previous page',
+		'n': 'Go to the next page',
+		'p': 'Go to the previous page',
 	},
 	init,
 });

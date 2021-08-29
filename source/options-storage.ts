@@ -27,6 +27,7 @@ const migrations = [
 	featureWasRenamed('more-dropdown', 'clean-repo-tabs'), // Merged in July
 	featureWasRenamed('remove-diff-signs', 'hide-diff-signs'), // Merged in August
 	featureWasRenamed('remove-label-faster', 'hide-label-faster'), // Merged in August
+	featureWasRenamed('navigate-pages-with-arrow-keys', 'pagination-hotkey'), // Merged in August
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused,
