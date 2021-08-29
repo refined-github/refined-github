@@ -32,10 +32,15 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
-	shortcuts: {
-		n: 'Go to the next page',
-		p: 'Go to the previous page',
-	},
+	shortcuts: (isRepoConversationList()) ?
+		{
+			'←': 'Go to the previous page',
+			'→': 'Go to the next page',
+		} :
+		{
+			n: 'Go to the next page',
+			p: 'Go to the previous page',
+		},
 	include: [
 		// Activate only on pages with pagination
 		() => select.exists('.paginate-container'),
