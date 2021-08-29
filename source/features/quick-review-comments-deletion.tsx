@@ -33,7 +33,7 @@ function addDeleteButton(cancelButton: Element): void {
 
 function init(): void {
 	const listener = delegate(document, '.rgh-review-comment-delete-button', 'click', onButtonClick);
-	const editButtonListener = delegate(document, '.rgh-quick-comments-edit-button', 'click', onEditButtonClick);
+	const editButtonListener = delegate(document, '.rgh-quick-comment-edit-button', 'click', onEditButtonClick);
 	const observer = observe('.review-comment > .unminimized-comment form:not(.js-single-suggested-change-form) .js-comment-cancel-button:not(.rgh-delete-button-added)', {
 		add: addDeleteButton,
 	});

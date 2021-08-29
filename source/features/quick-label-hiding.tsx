@@ -1,4 +1,4 @@
-import './hide-label-quick.css';
+import './quick-label-hiding.css';
 import React from 'dom-chef';
 import {XIcon} from '@primer/octicons-react';
 import select from 'select-dom';
@@ -37,15 +37,15 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 async function init(): Promise<void> {
 	await api.expectToken();
 
-	observe('.js-issue-labels .IssueLabel:not(.rgh-hide-label-quick-already-added)', {
+	observe('.js-issue-labels .IssueLabel:not(.rgh-quick-label-hiding-already-added)', {
 		constructor: HTMLElement,
 		add(label) {
-			label.classList.add('rgh-hide-label-quick-already-added');
+			label.classList.add('rgh-quick-label-hiding-already-added');
 			label.append(
 				<button
 					type="button"
 					aria-label="Remove this label"
-					className="btn-link tooltipped tooltipped-nw rgh-hide-label-quick"
+					className="btn-link tooltipped tooltipped-nw rgh-quick-label-hiding"
 					data-name={label.dataset.name}
 				>
 					<XIcon/>
@@ -54,7 +54,7 @@ async function init(): Promise<void> {
 		},
 	});
 
-	delegate(document, '.rgh-hide-label-quick:not([disabled])', 'click', removeLabelButtonClickHandler);
+	delegate(document, '.rgh-quick-label-hiding:not([disabled])', 'click', removeLabelButtonClickHandler);
 }
 
 void features.add(__filebasename, {
