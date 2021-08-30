@@ -42,9 +42,10 @@ void features.add(__filebasename, {
 			p: 'Go to the previous page',
 		},
 	include: [
-		pageDetect.isRepoCommitList,
 		pageDetect.isConversationList,
 		pageDetect.isLabelList,
+		pageDetect.isNotifications,
+		pageDetect.isRepoCommitList,
 	],
 	exclude: [
 		// GitHub natively supports on pull request commit pages
