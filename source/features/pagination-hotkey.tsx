@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import {isRepoConversationList, isPRCommit} from 'github-url-detection';
+import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
@@ -22,17 +22,17 @@ const previousPageButtonSelectors = [
 function init(): void {
 	const createNextPageButton = select(nextPageButtonSelectors);
 	if (createNextPageButton) {
-		createNextPageButton.dataset.hotkey = isRepoConversationList() ? 'ArrowRight' : 'n';
+		createNextPageButton.dataset.hotkey = pageDetect.isRepoConversationList() ? 'ArrowRight' : 'n';
 	}
 
 	const createPreviousPageButton = select(previousPageButtonSelectors);
 	if (createPreviousPageButton) {
-		createPreviousPageButton.dataset.hotkey = isRepoConversationList() ? 'ArrowLeft' : 'p';
+		createPreviousPageButton.dataset.hotkey = pageDetect.isRepoConversationList() ? 'ArrowLeft' : 'p';
 	}
 }
 
 void features.add(__filebasename, {
-	shortcuts: (isRepoConversationList())
+	shortcuts: (pageDetect.isRepoConversationList())
 		? {
 			'←': 'Go to the previous page',
 			'→': 'Go to the next page',
@@ -42,12 +42,11 @@ void features.add(__filebasename, {
 			p: 'Go to the previous page',
 		},
 	include: [
-		// Activate only on pages with pagination
 		() => select.exists('.paginate-container'),
 	],
 	exclude: [
-		// Exclude on pull request commit pages because GitHub natively supports it
-		isPRCommit,
+		// GitHub natively supports on pull request commit pages
+		pageDetect.isPRCommit,
 	],
 	init,
 });
