@@ -19,16 +19,17 @@ async function addContributions(baseElement: HTMLElement): Promise<void> {
 	const values = await getContributionsCountPosition(repo, login);
 	console.log(values);
 
-	const commitCount = values[0];
-	// Const contributionsIndex = values[1] + 1;
-	const contributionsIndex = Number.parseInt(values[1], 10) + 1;
+	const commitCount: string = values[0];
+	// Const contributionsOrder = values[1] + 1;
+	const contributionsOrder = Number.parseInt(values[1], 10) + 1;
 
 	const issueCount = await getIssuePRCount(repo, login, 'issue');
 	const prCount = await getIssuePRCount(repo, login, 'pr');
 
+	// Authored {commitCount} commits(#{contributionsOrder}), merged {prCount} PRs, opened {issueCount} issues
 	const message = (
 		<div data-view-component="true" className="d-flex flex-items-baseline f6 mt-1 color-text-secondary">
-			Authored {commitCount} commits(#{contributionsIndex}), merged {prCount} PRs, opened {issueCount} issues
+			{Number.parseInt(commitCount, 10) > 0 ? `Authored ${commitCount} commits(#${contributionsOrder},` : ''} {`merged ${prCount} PRs, opened ${issueCount} issues`}
 		</div>
 	);
 	const lastline = select.last('.js-hovercard-content .color-text-secondary');
