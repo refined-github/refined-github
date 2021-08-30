@@ -1,4 +1,4 @@
-import OptionsSyncPerDomain, {Migration} from 'webext-options-sync-per-domain';
+import OptionsSyncPerDomain, { Migration } from 'webext-options-sync-per-domain';
 
 export type RGHOptions = typeof defaults;
 
@@ -27,16 +27,17 @@ const migrations = [
 	featureWasRenamed('more-dropdown', 'clean-repo-tabs'), // Merged in July
 	featureWasRenamed('remove-diff-signs', 'hide-diff-signs'), // Merged in August
 	featureWasRenamed('remove-label-faster', 'quick-label-hiding'), // Merged in August
-	featureWasRenamed('edit-files-faster', 'quick-file-edit'), //Merged in August
-	featureWasRenamed('edit-comments-faster', 'quick-comment-edit'), //Merged in August
-	featureWasRenamed('delete-review-comments-faster', 'quick-review-comments-deletion'), //Merged in August
-	featureWasRenamed('hide-comments-faster', 'quick-comment-hiding'), //Merged in August
-	featureWasRenamed('faster-reviews', 'quick-reviews'), //Merged in August
-	featureWasRenamed('faster-pr-diff-options', 'quick-pr-diff-options'), //Merged in August
+	featureWasRenamed('hide-label-faster', 'quick-label-hiding'), // Merged in August
+	featureWasRenamed('edit-files-faster', 'quick-file-edit'), // Merged in August
+	featureWasRenamed('edit-comments-faster', 'quick-comment-edit'), // Merged in August
+	featureWasRenamed('delete-review-comments-faster', 'quick-review-comments-deletion'), // Merged in August
+	featureWasRenamed('hide-comments-faster', 'quick-comment-hiding'), // Merged in August
+	featureWasRenamed('faster-reviews', 'quick-reviews'), // Merged in August
+	featureWasRenamed('faster-pr-diff-options', 'quick-pr-diff-options'), // Merged in August
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused,
 ];
 
-export const perDomainOptions = new OptionsSyncPerDomain({defaults, migrations});
+export const perDomainOptions = new OptionsSyncPerDomain({ defaults, migrations });
 export default perDomainOptions.getOptionsForOrigin();
