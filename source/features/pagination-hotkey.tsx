@@ -43,6 +43,7 @@ void features.add(__filebasename, {
 		},
 	include: [
 		pageDetect.isConversationList,
+		pageDetect.isGlobalSearchResults,
 		pageDetect.isLabelList,
 		pageDetect.isNotifications,
 		pageDetect.isRepoCommitList,
