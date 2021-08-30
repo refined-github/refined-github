@@ -1,4 +1,4 @@
-import OptionsSyncPerDomain, { Migration } from 'webext-options-sync-per-domain';
+import OptionsSyncPerDomain, {Migration} from 'webext-options-sync-per-domain';
 
 export type RGHOptions = typeof defaults;
 
@@ -39,5 +39,5 @@ const migrations = [
 	OptionsSyncPerDomain.migrations.removeUnused,
 ];
 
-export const perDomainOptions = new OptionsSyncPerDomain({ defaults, migrations });
+export const perDomainOptions = new OptionsSyncPerDomain({defaults, migrations});
 export default perDomainOptions.getOptionsForOrigin();
