@@ -42,7 +42,9 @@ void features.add(__filebasename, {
 			p: 'Go to the previous page',
 		},
 	include: [
-		() => select.exists('.paginate-container'),
+		pageDetect.isRepoCommitList,
+		pageDetect.isConversationList,
+		pageDetect.isLabelList,
 	],
 	exclude: [
 		// GitHub natively supports on pull request commit pages
