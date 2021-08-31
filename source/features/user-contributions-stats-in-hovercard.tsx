@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import {CodeIcon} from '@primer/octicons-react';
 
 import * as pageDetect from 'github-url-detection';
 
@@ -10,6 +11,19 @@ async function addContributions(baseElement: HTMLElement): Promise<void> {
 	if (!login) {
 		return;
 	}
+
+	// File: user-local-time.tsx
+	const placeholder = <span data-view-component="true" className="lh-condensed">Retrieving stats…</span>;
+	const container = (
+		<div data-view-component="true" className="d-flex flex-items-baseline f6 mt-1 color-text-secondary">
+			<div data-view-component="true" className="mr-1 flex-shrink-0">
+				<CodeIcon/> {placeholder}
+			</div>
+		</div>
+	);
+
+	let lastline = select.last('.js-hovercard-content .color-text-secondary');
+	lastline!.after(container);
 
 	const contributorInfo = getContributorInfo(login);
 
@@ -27,13 +41,9 @@ async function addContributions(baseElement: HTMLElement): Promise<void> {
 	const prCount = await getIssuePRCount(repo, login, 'pr');
 
 	// Authored {commitCount} commits(#{contributionsOrder}), merged {prCount} PRs, opened {issueCount} issues
-	const message = (
-		<div data-view-component="true" className="d-flex flex-items-baseline f6 mt-1 color-text-secondary">
-			{Number.parseInt(commitCount, 10) > 0 ? `Authored ${commitCount} commits(#${contributionsOrder},` : ''} {`merged ${prCount} PRs, opened ${issueCount} issues`}
-		</div>
-	);
-	const lastline = select.last('.js-hovercard-content .color-text-secondary');
-	lastline!.after(message);
+	const message = (Number.parseInt(commitCount, 10) > 0 ? `Authored ${commitCount} commits(#${contributionsOrder}),` : '') + `merged ${prCount} PRs, opened ${issueCount} issues`;
+	lastline = select.last('.js-hovercard-content .color-text-secondary span');
+	lastline!.textContent = message;
 }
 
 async function getContributionsCountPosition(repoPath: string, login: string): Promise<any[]> {
