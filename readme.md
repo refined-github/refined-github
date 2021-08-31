@@ -214,7 +214,7 @@ Thanks for contributing! 🦋🙌
 - [](# "table-input") [Adds a button in the text editor to quickly insert a simplified HTML table.](https://user-images.githubusercontent.com/46634000/94559114-09892c00-0261-11eb-8fb0-c5a85ea76b6f.gif)
 - [](# "unfinished-comments") [Notifies the user of unfinished comments in hidden tabs.](https://user-images.githubusercontent.com/1402241/97792086-423d5d80-1b9f-11eb-9a3a-daf716d10b0e.gif)
 - [](# "wait-for-attachments") [Wait for the attachments to finish uploading before allowing to post a comment.](https://user-images.githubusercontent.com/46634000/104294547-9b8b0c80-54bf-11eb-93e5-65ae158353b3.gif)
-- [](# "quick-review-comments-deletion") [Adds a button to delete review comments in one click when editing them.](https://user-images.githubusercontent.com/46634000/115445792-9fdd6900-a216-11eb-9ba3-6dab4d2f9d32.png)
+- [](# "quick-review-comment-deletion") [Adds a button to delete review comments in one click when editing them.](https://user-images.githubusercontent.com/46634000/115445792-9fdd6900-a216-11eb-9ba3-6dab4d2f9d32.png)
 - [](# "avoid-accidental-submissions") [Disables the <kbd>enter</kbd>-to-submit shortcut in some commit/PR/issue title fields to avoid accidental submissions. Use <kbd>ctrl</kbd><kbd>enter</kbd> instead.](https://user-images.githubusercontent.com/723651/125863341-6cf0bce0-f120-4cec-ac1f-1ce35920e7a7.gif)
 - [](# "comment-on-draft-pr-indicator") [Reminds you you’re commenting on a draft PR by changing the submit button’s label.](https://user-images.githubusercontent.com/723651/123682081-39e31280-d853-11eb-9c86-97be400aca67.jpg)
 
@@ -298,7 +298,7 @@ Thanks for contributing! 🦋🙌
 - [](# "pr-branch-auto-delete") Automatically deletes the branch right after merging a PR, if possible.
 - [](# "one-click-pr-or-gist") [Lets you create draft pull requests and public gists in one click.](https://user-images.githubusercontent.com/723651/119256942-cacb2c00-bbcb-11eb-905b-3434e5c2fdcc.jpg)
 - [](# "clear-pr-merge-commit-message") [Clears the PR merge commit message of clutter, leaving only deduplicated co-authors.](https://user-images.githubusercontent.com/1402241/79257078-62b6fc00-7e89-11ea-8798-c06f33baa94b.png)
-- [](# "quick-reviews") [Adds a review button to the PR sidebar, automatically focuses the review textarea and adds a keyboard shortcut to open the review popup: <kbd>v</kbd>.](https://user-images.githubusercontent.com/202916/83269671-bb3b2200-a1c7-11ea-90b3-b9457a454162.png)
+- [](# "quick-review") [Adds a review button to the PR sidebar, automatically focuses the review textarea and adds a keyboard shortcut to open the review popup: <kbd>v</kbd>.](https://user-images.githubusercontent.com/202916/83269671-bb3b2200-a1c7-11ea-90b3-b9457a454162.png)
 - [](# "use-first-commit-message-for-new-prs") [Uses the first commit for a new PR’s title and description.](https://user-images.githubusercontent.com/16872793/87246205-ccf42400-c419-11ea-86d5-0e6570d99e6e.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->

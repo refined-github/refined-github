@@ -30,9 +30,9 @@ const migrations = [
 	featureWasRenamed('hide-label-faster', 'quick-label-hiding'), // Merged in August
 	featureWasRenamed('edit-files-faster', 'quick-file-edit'), // Merged in August
 	featureWasRenamed('edit-comments-faster', 'quick-comment-edit'), // Merged in August
-	featureWasRenamed('delete-review-comments-faster', 'quick-review-comments-deletion'), // Merged in August
+	featureWasRenamed('delete-review-comments-faster', 'quick-review-comment-deletion'), // Merged in August
 	featureWasRenamed('hide-comments-faster', 'quick-comment-hiding'), // Merged in August
-	featureWasRenamed('faster-reviews', 'quick-reviews'), // Merged in August
+	featureWasRenamed('faster-reviews', 'quick-review'), // Merged in August
 	featureWasRenamed('faster-pr-diff-options', 'quick-pr-diff-options'), // Merged in August
 
 	// Removed features will be automatically removed from the options as well
