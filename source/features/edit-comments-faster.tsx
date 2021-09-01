@@ -7,13 +7,13 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function canEditDiscussion(): boolean {
-	return pageDetect.isDiscussion() && select.exists('[title^="You are a maintainer"], [title^="You are a collaborator"]');
+function canEditComments(): boolean {
+	return select.exists('[aria-label^="You are the owner"], [title^="You are a maintainer"], [title^="You are a collaborator"]');
 }
 
 function init(): void {
 	// If true then the resulting selector will match all comments, otherwise it will only match those made by you
-	const preSelector = !pageDetect.isDiscussion() || canEditDiscussion() ? '' : '.current-user';
+	const preSelector = canEditComments() ? '' : '.current-user';
 	// Find editable comments first, then traverse to the correct position
 	observe(preSelector + '.js-comment.unminimized-comment .js-comment-update:not(.rgh-edit-comment)', {
 		add(comment) {
