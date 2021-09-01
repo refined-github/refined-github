@@ -1,12 +1,12 @@
-const {readdirSync} = require('fs');
+import {readdirSync} from 'node:fs';
 
-const {getFeatures, getFeaturesMeta} = require('./readme-parser.ts'); // Must import as `.js`
+import {getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
 
 const featuresDirContents = readdirSync('source/features/');
 const importedFeatures = getFeatures();
 const featuresInReadme = getFeaturesMeta();
 
-const errors = [];
+const errors: string[] = [];
 
 for (const fileName of featuresDirContents) {
 	if (fileName === 'index.tsx' || fileName.endsWith('.css')) {
@@ -19,7 +19,7 @@ for (const fileName of featuresDirContents) {
 	}
 
 	const featureId = fileName.replace('.tsx', '');
-	if (!importedFeatures.includes(featureId)) {
+	if (!importedFeatures.includes(featureId as FeatureID)) {
 		errors.push(`ERR: ${featureId} should be imported by \`/sources/refined-github.ts\``);
 	}
 
@@ -40,4 +40,4 @@ for (const fileName of featuresDirContents) {
 
 console.error(errors.join('\n'));
 
-process.exitCode(errors.length);
+process.exitCode = errors.length;

@@ -13,7 +13,7 @@
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj'",
 		"start:safari": "open 'safari/build/Release/Refined GitHub.app'",
 		"test": "run-p ava lint:* build:* test:features",
-		"test:features": "ts-node \"build/verify-features.cjs\"",
+		"test:features": "cross-env TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"es2020\\\"} node --loader ts-node/esm \"build/verify-features.ts\"",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:webpack": "webpack --mode=development --watch"
