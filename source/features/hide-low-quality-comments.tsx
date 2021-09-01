@@ -1,4 +1,4 @@
-import './hide-useless-comments.css';
+import './hide-low-quality-comments.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -6,7 +6,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import isUselessComment from '../helpers/is-useless-comment';
+import isLowQualityComment from '../helpers/is-low-quality-comment';
 
 async function unhide(event: delegate.Event): Promise<void> {
 	for (const comment of select.all('.rgh-hidden-comment')) {
@@ -30,15 +30,15 @@ function hideComment(comment: HTMLElement): void {
 }
 
 function init(): void {
-	let uselessCount = 0;
+	let lowQualityCount = 0;
 
 	for (const similarCommentsBox of select.all('.js-discussion .Details-element:not([data-body-version])')) {
 		hideComment(similarCommentsBox);
-		uselessCount++;
+		lowQualityCount++;
 	}
 
 	for (const commentText of select.all('.comment-body > p:only-child')) {
-		if (!isUselessComment(commentText.textContent!)) {
+		if (!isLowQualityComment(commentText.textContent!)) {
 			continue;
 		}
 
@@ -55,7 +55,7 @@ function init(): void {
 
 		// If the person is having a conversation, then don't hide it
 		const author = select('.author', comment)!.getAttribute('href')!;
-		// If the first comment left by the author isn't a useless comment
+		// If the first comment left by the author isn't a low quality comment
 		// (previously hidden or about to be hidden), then leave this one as well
 		const previousComment = select(`.js-timeline-item:not([hidden]) .unminimized-comment .author[href="${author}"]`);
 		if (previousComment?.closest('.js-timeline-item') !== comment) {
@@ -63,17 +63,17 @@ function init(): void {
 		}
 
 		hideComment(comment);
-		uselessCount++;
+		lowQualityCount++;
 	}
 
-	if (uselessCount > 0) {
+	if (lowQualityCount > 0) {
 		select('.discussion-timeline-actions')!.prepend(
-			<p className="rgh-useless-comments-note">
-				{`${uselessCount} unhelpful comment${uselessCount > 1 ? 's were' : ' was'} automatically hidden. `}
-				<button className="btn-link text-emphasized rgh-unhide-useless-comments" type="button">Show</button>
+			<p className="rgh-noise-comments-note">
+				{`${lowQualityCount} unhelpful comment${lowQualityCount > 1 ? 's were' : ' was'} automatically hidden. `}
+				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>
 			</p>,
 		);
-		delegate(document, '.rgh-unhide-useless-comments', 'click', unhide);
+		delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide);
 	}
 }
 
