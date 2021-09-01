@@ -40,4 +40,4 @@ for (const fileName of featuresDirContents) {
 
 console.error(errors.join('\n'));
 
-process.exitCode = errors.length;
+process.exitCode(errors.length);
