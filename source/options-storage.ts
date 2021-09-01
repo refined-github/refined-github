@@ -27,6 +27,10 @@ const migrations = [
 	featureWasRenamed('more-dropdown', 'clean-repo-tabs'), // Merged in July
 	featureWasRenamed('remove-diff-signs', 'hide-diff-signs'), // Merged in August
 	featureWasRenamed('remove-label-faster', 'hide-label-faster'), // Merged in August
+	featureWasRenamed('hide-useless-comments', 'hide-low-quality-comments'), // Merged in August
+	featureWasRenamed('hide-useless-newsfeed-events', 'hide-noisy-newsfeed-events'), // Merged in August
+	featureWasRenamed('no-useless-split-diff-view', 'no-unnecessary-split-diff-view'), // Merged in August
+	featureWasRenamed('unwrap-useless-dropdowns', 'unwrap-unnecessary-dropdowns'), // Merged in August
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused,
