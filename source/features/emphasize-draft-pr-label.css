@@ -1,7 +1,11 @@
-.js-issue-row [aria-label='Open draft pull request'] svg {
-	stroke: var(--color-text-secondary, #586069);
-	stroke-width: 1.2px;
-	color: var(--color-bg-canvas, #fff) !important;
-	paint-order: stroke;
-	overflow: visible !important;
+// Details in https://github.com/sindresorhus/refined-github/pull/4728/files
+
+@media (-webkit-min-device-pixel-ratio: 2) {
+	.js-issue-row [aria-label='Open draft pull request'] svg {
+		stroke: var(--color-text-secondary, #586069);
+		stroke-width: 1.2px;
+		color: var(--color-bg-canvas, #fff) !important;
+		paint-order: stroke;
+		overflow: visible !important;
+	}
 }
