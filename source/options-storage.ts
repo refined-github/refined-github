@@ -26,11 +26,18 @@ const migrations = [
 	featureWasRenamed('remove-unused-repo-tabs', 'clean-repo-tabs'), // Merged in July
 	featureWasRenamed('more-dropdown', 'clean-repo-tabs'), // Merged in July
 	featureWasRenamed('remove-diff-signs', 'hide-diff-signs'), // Merged in August
-	featureWasRenamed('remove-label-faster', 'hide-label-faster'), // Merged in August
+	featureWasRenamed('remove-label-faster', 'quick-label-hiding'), // Merged in August
+	featureWasRenamed('edit-files-faster', 'quick-file-edit'), // Merged in August
+	featureWasRenamed('edit-comments-faster', 'quick-comment-edit'), // Merged in August
+	featureWasRenamed('delete-review-comments-faster', 'quick-review-comment-deletion'), // Merged in August
+	featureWasRenamed('hide-comments-faster', 'quick-comment-hiding'), // Merged in August
+	featureWasRenamed('faster-reviews', 'quick-review'), // Merged in August
+	featureWasRenamed('faster-pr-diff-options', 'quick-pr-diff-options'), // Merged in August
 	featureWasRenamed('hide-useless-comments', 'hide-low-quality-comments'), // Merged in August
 	featureWasRenamed('hide-useless-newsfeed-events', 'hide-noisy-newsfeed-events'), // Merged in August
 	featureWasRenamed('no-useless-split-diff-view', 'no-unnecessary-split-diff-view'), // Merged in August
 	featureWasRenamed('unwrap-useless-dropdowns', 'unwrap-unnecessary-dropdowns'), // Merged in August
+
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused,
