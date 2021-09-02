@@ -38,7 +38,6 @@ const migrations = [
 	featureWasRenamed('no-useless-split-diff-view', 'no-unnecessary-split-diff-view'), // Merged in August
 	featureWasRenamed('unwrap-useless-dropdowns', 'unwrap-unnecessary-dropdowns'), // Merged in August
 
-
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused,
 ];
