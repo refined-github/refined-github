@@ -44,6 +44,5 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isUserProfile,
 	],
-	awaitDomReady: false,
 	init,
 });
