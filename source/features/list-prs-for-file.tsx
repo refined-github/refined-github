@@ -10,8 +10,10 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import addAfterBranchSelector from '../helpers/add-after-branch-selector';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
+let path: string;
+
 function getPRUrl(prNumber: number): string {
-	return buildRepoURL('pull', prNumber, 'files');
+	return buildRepoURL('pull', prNumber, 'files') + `#:~:text=${path}`;
 }
 
 function getDropdown(prs: number[]): HTMLElement {
@@ -103,7 +105,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 
 async function init(): Promise<void> {
 	// `clipboard-copy` on blob page, `#blob-edit-path` on edit page
-	const path = (await elementReady('clipboard-copy, #blob-edit-path'))!.getAttribute('value')!;
+	path = (await elementReady('clipboard-copy, #blob-edit-path'))!.getAttribute('value')!;
 	let {[path]: prs} = await getPrsByFile();
 
 	if (!prs) {
