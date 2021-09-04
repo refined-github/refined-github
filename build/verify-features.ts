@@ -26,7 +26,7 @@ function findError(filename: string): string | void {
 		}
 
 		if (!entryPointSource.includes(`import './features/${filename}';`)) {
-			return `ERR: \`${filename}\` should be imported by \`${entryPoint}\``;
+			return `ERR: \`${filename}\` should be imported by \`${entryPoint}\` or removed if it is not needed`;
 		}
 
 		return;
