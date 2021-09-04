@@ -22,6 +22,10 @@ function findError(filename: string): string | void {
 				return `ERR: \`${filename}\` should be imported by \`${correspondingTsxFile}\``;
 			}
 
+			if (entryPointSource.includes(`import './features/${filename}';`)) {
+				return `ERR: \`${filename}\` should only be imported by \`${correspondingTsxFile}\`, not by \`${entryPoint}\``;
+			}
+
 			return;
 		}
 
