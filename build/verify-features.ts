@@ -17,8 +17,12 @@ function findError(fileName: string): string | void {
 
 	if (fileName.endsWith('.css')) {
 		const correspondingTsxFile = `source/features/${fileName.replace(/.css$/, '.tsx')}`;
-		if (existsSync(correspondingTsxFile) && !readFileSync(correspondingTsxFile).includes(`import './${fileName}';`)) {
-			return `ERR: \`${fileName}\` should be imported by \`${correspondingTsxFile}\``;
+		if (existsSync(correspondingTsxFile)) {
+			if (!readFileSync(correspondingTsxFile).includes(`import './${fileName}';`)) {
+				return `ERR: \`${fileName}\` should be imported by \`${correspondingTsxFile}\``;
+			}
+
+			return;
 		}
 
 		if (!entryPointSource.includes(`import './features/${fileName}';`)) {
