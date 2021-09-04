@@ -10,9 +10,9 @@ const entryPointSource = readFileSync(entryPoint);
 const importedFeatures = getFeatures();
 const featuresInReadme = getFeaturesMeta();
 
-function findError(fileName): string | void {
+function findError(fileName: string): string | void {
 	if (fileName === 'index.tsx') {
-		continue;
+		return;
 	}
 
 	if (fileName.endsWith('.css')) {
@@ -20,7 +20,7 @@ function findError(fileName): string | void {
 		if (existsSync(correspondingTsxFile) && !readFileSync(correspondingTsxFile).includes(`import './${fileName}';`)) {
 			return `ERR: \`${fileName}\` should be imported by \`${correspondingTsxFile}\``;
 		}
-		
+
 		if (!entryPointSource.includes(`import './features/${fileName}';`)) {
 			return `ERR: \`${fileName}\` should be imported by \`${entryPoint}\``;
 		}
