@@ -10,31 +10,33 @@ const entryPointSource = readFileSync(entryPoint);
 const importedFeatures = getFeatures();
 const featuresInReadme = getFeaturesMeta();
 
+function findCssFileError(filename: string): string | void {
+	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${filename}';`);
+	const correspondingTsxFile = `source/features/${filename.replace(/.css$/, '.tsx')}`;
+	if (existsSync(correspondingTsxFile)) {
+		if (!readFileSync(correspondingTsxFile).includes(`import './${filename}';`)) {
+			return `ERR: \`${filename}\` should be imported by \`${correspondingTsxFile}\``;
+		}
+
+		if (isImportedByEntrypoint) {
+			return `ERR: \`${filename}\` should only be imported by \`${correspondingTsxFile}\`, not by \`${entryPoint}\``;
+		}
+
+		return;
+	}
+
+	if (!isImportedByEntrypoint) {
+		return `ERR: \`${filename}\` should be imported by \`${entryPoint}\` or removed if it is not needed`;
+	}
+}
+
 function findError(filename: string): string | void {
 	if (filename === 'index.tsx') {
 		return;
 	}
 
 	if (filename.endsWith('.css')) {
-		const isImportedByEntrypoint = entryPointSource.includes(`import './features/${filename}';`);
-		const correspondingTsxFile = `source/features/${filename.replace(/.css$/, '.tsx')}`;
-		if (existsSync(correspondingTsxFile)) {
-			if (!readFileSync(correspondingTsxFile).includes(`import './${filename}';`)) {
-				return `ERR: \`${filename}\` should be imported by \`${correspondingTsxFile}\``;
-			}
-
-			if (isImportedByEntrypoint) {
-				return `ERR: \`${filename}\` should only be imported by \`${correspondingTsxFile}\`, not by \`${entryPoint}\``;
-			}
-
-			return;
-		}
-
-		if (!isImportedByEntrypoint) {
-			return `ERR: \`${filename}\` should be imported by \`${entryPoint}\` or removed if it is not needed`;
-		}
-
-		return;
+		return findCssFileError(filename);
 	}
 
 	if (!filename.endsWith('.tsx')) {
