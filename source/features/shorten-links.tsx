@@ -7,7 +7,7 @@ import features from '.';
 import {linkifiedURLClass} from '../github-helpers/dom-formatters';
 
 function init(): void {
-	observe(`a[href]:not(.${linkifiedURLClass})`, {
+	observe(`a[href]:not(:is(.${linkifiedURLClass}, .octolinker-link))`, {
 		constructor: HTMLAnchorElement,
 		add(link) {
 			applyToLink(link, location.href);
