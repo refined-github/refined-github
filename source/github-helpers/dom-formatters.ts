@@ -7,7 +7,7 @@ import getTextNodes from '../helpers/get-text-nodes';
 import parseBackticksCore from './parse-backticks';
 
 // Shared class necessary to avoid also shortening the links
-export const linkifiedURLClass = 'rgh-linkified-code';
+export const linkifiedURLClass = '.highlight, .js-suggested-changes-blob';
 
 // If we are not in a repo, relative issue references won't make sense but `user`/`repo` need to be set to avoid breaking errors in `linkify-issues`
 // https://github.com/sindresorhus/refined-github/issues/1305
@@ -25,7 +25,6 @@ export function linkifyIssues(
 		...options,
 		attributes: {
 			rel: 'noreferrer noopener',
-			class: linkifiedURLClass, // Necessary to avoid also shortening the links
 			...options.attributes,
 		},
 	});
@@ -55,7 +54,6 @@ export function linkifyURLs(element: Element): void {
 		type: 'dom' as const,
 		attributes: {
 			rel: 'noreferrer noopener',
-			class: linkifiedURLClass, // Necessary to avoid also shortening the links
 		},
 	});
 

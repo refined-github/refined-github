@@ -16,13 +16,12 @@ function initTitle(): void {
 }
 
 function init(): void {
-	const selectors = [
-		'.js-blob-wrapper tr:not(.inline-comments)', // File blocks in pages like `isPRFiles`, `isSingleFile`
-		'.blob-wrapper tr', // Every other code blocks
-	].map(selector => selector + `:not(.${linkifiedURLClass})`).join(',');
-
-	observe(selectors, {
+	observe(linkifiedURLClass, {
 		add(wrappers) {
+			if (wrappers.closest('.inline-comments')) {
+				return;
+			}
+
 			// Linkify full URLs
 			// `.blob-code-inner` in diffs
 			// `pre` in GitHub comments
@@ -34,9 +33,6 @@ function init(): void {
 			for (const element of select.all('span.pl-c', wrappers)) {
 				linkifyIssues(element);
 			}
-
-			// Mark code block as touched
-			wrappers.classList.add(linkifiedURLClass);
 		},
 	});
 }
