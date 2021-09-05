@@ -16,20 +16,21 @@ function findError(filename: string): string | void {
 	}
 
 	if (filename.endsWith('.css')) {
+		const isImportedByEntrypoint = entryPointSource.includes(`import './features/${filename}';`);
 		const correspondingTsxFile = `source/features/${filename.replace(/.css$/, '.tsx')}`;
 		if (existsSync(correspondingTsxFile)) {
 			if (!readFileSync(correspondingTsxFile).includes(`import './${filename}';`)) {
 				return `ERR: \`${filename}\` should be imported by \`${correspondingTsxFile}\``;
 			}
 
-			if (entryPointSource.includes(`import './features/${filename}';`)) {
+			if (isImportedByEntrypoint) {
 				return `ERR: \`${filename}\` should only be imported by \`${correspondingTsxFile}\`, not by \`${entryPoint}\``;
 			}
 
 			return;
 		}
 
-		if (!entryPointSource.includes(`import './features/${filename}';`)) {
+		if (!isImportedByEntrypoint) {
 			return `ERR: \`${filename}\` should be imported by \`${entryPoint}\` or removed if it is not needed`;
 		}
 
