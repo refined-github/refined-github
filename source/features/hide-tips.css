@@ -13,7 +13,7 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none !important;
 }
 
-/* Remove the useless "Continuous integration has not been set up" message on PRs */
+/* Remove the unnecessary "Continuous integration has not been set up" message on PRs */
 .branch-action-item.marketplace-product-callout {
 	display: none;
 }
