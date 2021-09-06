@@ -48,6 +48,7 @@ function findError(filename: string): string | void {
 		return `ERR: ${featureId} should be imported by \`${entryPoint}\``;
 	}
 
+	// The previous checks apply to RGH features, but the next ones don't
 	if (filename.startsWith('rgh-')) {
 		return;
 	}
