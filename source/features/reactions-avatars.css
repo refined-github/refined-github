@@ -1,6 +1,6 @@
 :root .reaction-summary-item span:nth-child(2) {
 	background: transparent;
-	border-radius: 50%;
+	border-radius: 8px;
 	border: inherit;
 	line-height: 16px;
 	margin-top: 2px;
