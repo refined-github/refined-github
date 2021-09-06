@@ -1,3 +1,12 @@
+:root .reaction-summary-item span:nth-child(2) {
+	background: transparent;
+	border-radius: 50%;
+	border: inherit;
+	line-height: 16px;
+	margin-top: 2px;
+	min-width: 18px;
+}
+
 :root .rgh-reactions-avatar {
 	--size: 1.3em;
 	display: inline-block;
@@ -17,7 +26,7 @@
 
 :root .rgh-reactions-avatar img {
 	display: block;
-	margin: 0;
+	margin: -1px 0 0;
 	width: var(--size);
 	height: var(--size);
 }
