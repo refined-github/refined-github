@@ -22,35 +22,26 @@ const previousPageButtonSelectors = [
 function init(): void {
 	const createNextPageButton = select(nextPageButtonSelectors);
 	if (createNextPageButton) {
-		createNextPageButton.dataset.hotkey = pageDetect.isRepoConversationList() ? 'ArrowRight' : 'n';
+		createNextPageButton.dataset.hotkey = 'ArrowRight';
 	}
 
 	const createPreviousPageButton = select(previousPageButtonSelectors);
 	if (createPreviousPageButton) {
-		createPreviousPageButton.dataset.hotkey = pageDetect.isRepoConversationList() ? 'ArrowLeft' : 'p';
+		createPreviousPageButton.dataset.hotkey = 'ArrowLeft';
 	}
 }
 
 void features.add(__filebasename, {
-	shortcuts: (pageDetect.isRepoConversationList())
-		? {
-			'←': 'Go to the previous page',
-			'→': 'Go to the next page',
-		}
-		: {
-			n: 'Go to the next page',
-			p: 'Go to the previous page',
-		},
+	shortcuts: {
+		'←': 'Go to the previous page',
+		'→': 'Go to the next page',
+	}
 	include: [
 		pageDetect.isConversationList,
 		pageDetect.isGlobalSearchResults,
 		pageDetect.isLabelList,
 		pageDetect.isNotifications,
 		pageDetect.isRepoCommitList,
-	],
-	exclude: [
-		// GitHub natively supports on pull request commit pages
-		pageDetect.isPRCommit,
 	],
 	init,
 });
