@@ -13,7 +13,7 @@ async function init(): Promise<void | false> {
 	}
 
 	const branchUrl = buildRepoURL('tree', element.textContent!);
-	wrap(element.closest('.branch-name')!, <a href={branchUrl}/>);
+	wrap(element.closest('.branch-name')!, <a href={branchUrl} data-pjax="#repo-content-pjax-container"/>);
 }
 
 void features.add(__filebasename, {

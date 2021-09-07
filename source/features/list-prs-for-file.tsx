@@ -10,8 +10,10 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import addAfterBranchSelector from '../helpers/add-after-branch-selector';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
+let path: string;
+
 function getPRUrl(prNumber: number): string {
-	return buildRepoURL('pull', prNumber, 'files');
+	return buildRepoURL('pull', prNumber, 'files') + `#:~:text=${path}`;
 }
 
 function getDropdown(prs: number[]): HTMLElement {
@@ -34,7 +36,7 @@ function getDropdown(prs: number[]): HTMLElement {
 						data-url={buildRepoURL('issues', prNumber)}
 						data-id={`rgh-pr-${prNumber}`}
 					>
-						<a className="dropdown-item" href={getPRUrl(prNumber)}>
+						<a className="dropdown-item" href={getPRUrl(prNumber)} data-pjax="#js-repo-pjax-container">
 							#{prNumber}
 						</a>
 					</li>
@@ -49,6 +51,7 @@ function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElem
 		<a
 			href={getPRUrl(prNumber)}
 			className={'btn btn-sm btn-outline flex-self-center rgh-list-prs-for-file' + (prs ? ' BtnGroup-item' : '')}
+			data-pjax="#js-repo-pjax-container"
 		>
 			<GitPullRequestIcon/> #{prNumber}
 		</a>
@@ -102,7 +105,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 
 async function init(): Promise<void> {
 	// `clipboard-copy` on blob page, `#blob-edit-path` on edit page
-	const path = (await elementReady('clipboard-copy, #blob-edit-path'))!.getAttribute('value')!;
+	path = (await elementReady('clipboard-copy, #blob-edit-path'))!.getAttribute('value')!;
 	let {[path]: prs} = await getPrsByFile();
 
 	if (!prs) {

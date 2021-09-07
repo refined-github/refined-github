@@ -1,43 +1,66 @@
-import {readdirSync} from 'node:fs';
+import {existsSync, readdirSync, readFileSync} from 'node:fs';
 
 import {getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
 
 const featuresDirContents = readdirSync('source/features/');
+const entryPoint = 'source/refined-github.ts';
+const entryPointSource = readFileSync(entryPoint);
 const importedFeatures = getFeatures();
 const featuresInReadme = getFeaturesMeta();
 
-const errors: string[] = [];
+function findCssFileError(filename: string): string | void {
+	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${filename}';`);
+	const correspondingTsxFile = `source/features/${filename.replace(/.css$/, '.tsx')}`;
+	if (existsSync(correspondingTsxFile)) {
+		if (!readFileSync(correspondingTsxFile).includes(`import './${filename}';`)) {
+			return `ERR: \`${filename}\` should be imported by \`${correspondingTsxFile}\``;
+		}
 
-for (const fileName of featuresDirContents) {
-	if (fileName === 'index.tsx' || fileName.endsWith('.css')) {
-		continue;
+		if (isImportedByEntrypoint) {
+			return `ERR: \`${filename}\` should only be imported by \`${correspondingTsxFile}\`, not by \`${entryPoint}\``;
+		}
+
+		return;
 	}
 
-	if (!fileName.endsWith('.tsx')) {
-		errors.push(`ERR: The \`/source/features\` folder should only contain .css and .tsx files. File \`${fileName}\` violates that rule`);
-		continue;
+	if (!isImportedByEntrypoint) {
+		return `ERR: \`${filename}\` should be imported by \`${entryPoint}\` or removed if it is not needed`;
+	}
+}
+
+function findError(filename: string): string | void {
+	if (filename === 'index.tsx') {
+		return;
 	}
 
-	const featureId = fileName.replace('.tsx', '');
+	if (filename.endsWith('.css')) {
+		return findCssFileError(filename);
+	}
+
+	if (!filename.endsWith('.tsx')) {
+		return `ERR: The \`/source/features\` folder should only contain .css and .tsx files. File \`${filename}\` violates that rule`;
+	}
+
+	const featureId = filename.replace('.tsx', '');
 	if (!importedFeatures.includes(featureId as FeatureID)) {
-		errors.push(`ERR: ${featureId} should be imported by \`/sources/refined-github.ts\``);
+		return `ERR: ${featureId} should be imported by \`${entryPoint}\``;
 	}
 
-	if (fileName.startsWith('rgh-')) {
-		continue;
+	// The previous checks apply to RGH features, but the next ones don't
+	if (filename.startsWith('rgh-')) {
+		return;
 	}
 
 	const featureMeta = featuresInReadme.find(feature => feature.id === featureId);
 	if (!featureMeta) {
-		errors.push(`ERR: The feature ${featureId} should be described in the readme`);
-		continue;
+		return `ERR: The feature ${featureId} should be described in the readme`;
 	}
 
 	if (featureMeta.description.length < 20) {
-		errors.push(`ERR: ${featureId} should be described better in the readme (at least 20 characters)`);
+		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
 	}
 }
 
+const errors = featuresDirContents.map(name => findError(name)).filter(Boolean);
 console.error(errors.join('\n'));
-
 process.exitCode = errors.length;
