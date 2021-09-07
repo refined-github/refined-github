@@ -73,6 +73,7 @@ async function getHistoryDropdown(featureName: string): Promise<Element | void> 
 								role="menuitem"
 								href={getCommitUrl(commit)}
 								title={commit.messageHeadline}
+								data-pjax="#repo-content-pjax-container"
 							>
 								<h5>{parseBackticks(commit.messageHeadline)}</h5>
 								<relative-time className="text-gray color-text-secondary" datetime={commit.committedDate}/>
@@ -94,7 +95,7 @@ async function init(): Promise<void | false> {
 
 	const conversationsUrl = '/sindresorhus/refined-github/issues?q=' + encodeURIComponent(`"${feature.id}" sort:updated-desc`);
 
-	const commitInfoBox = (await elementReady('.Box-header--blue.Details, include-fragment.commit-loader'))!.parentElement!;
+	const commitInfoBox = (await elementReady('.hx_commit-tease, include-fragment.commit-loader'))!.parentElement!;
 	commitInfoBox.classList.add('width-fit', 'min-width-0', 'flex-auto', 'mb-lg-0', 'mr-lg-3');
 	commitInfoBox.classList.remove('flex-shrink-0');
 
@@ -116,7 +117,7 @@ async function init(): Promise<void | false> {
 					{ /* eslint-disable-next-line react/no-danger */ }
 					<div dangerouslySetInnerHTML={{__html: feature.description}} className="text-bold"/>
 					<div className="no-wrap">
-						<a href={conversationsUrl}>Conversations</a>
+						<a href={conversationsUrl} data-pjax="#repo-content-pjax-container">Conversations</a>
 					</div>
 				</div>
 			</div>
