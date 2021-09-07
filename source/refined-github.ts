@@ -29,7 +29,7 @@ import './features/hide-empty-profile-status.css';
 import './features/align-issue-labels';
 import './features/clean-pinned-issues';
 import './features/clean-dashboard';
-import './features/hide-/-comments';
+import './features/hide-low-quality-comments';
 import './features/hide-noisy-newsfeed-events';
 import './features/hide-watch-and-fork-count';
 import './features/minimize-upload-bar';
