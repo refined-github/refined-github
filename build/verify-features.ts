@@ -1,5 +1,3 @@
-#!/usr/bin/env -S TS_NODE_COMPILER_OPTIONS='{"module":"es2020"}' node --loader ts-node/esm
-
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 
 import {getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
