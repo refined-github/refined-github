@@ -1,23 +1,34 @@
+:root .social-button-emoji {
+	align-self: center;
+	box-sizing: content-box;
+}
+
 :root .reaction-summary-item span:nth-child(2) {
-	background: transparent;
-	border-radius: 8px;
-	border: inherit;
-	line-height: 16px;
-	margin-top: 2px;
-	min-width: 18px;
+	align-self: center;
+	box-sizing: content-box;
+	display: inline-block;
+	font-size: 1em !important;
+	height: 16px;
+	line-height: 1.25;
+	min-width: 16px;
+	vertical-align: -1px;
+}
+
+:root .reaction-summary-item span:nth-child(2):not(:last-child) {
+	margin-right: 3px;
 }
 
 :root .rgh-reactions-avatar {
 	--size: 1.3em;
+	align-self: center;
+	box-sizing: content-box;
 	display: inline-block;
-	width: var(--size);
 	height: var(--size);
-	padding: 0;
-	margin: 0;
 	margin-left: calc(var(--size) * 0.3); /* Move away from count */
 	margin-right: calc(var(--size) * -0.5);
-	box-sizing: content-box;
-	align-self: center;
+	margin: 0;
+	padding: 0;
+	width: var(--size);
 }
 
 :root .rgh-reactions-avatar:last-of-type {
@@ -26,7 +37,7 @@
 
 :root .rgh-reactions-avatar img {
 	display: block;
+	height: var(--size);
 	margin: -1px 0 0;
 	width: var(--size);
-	height: var(--size);
 }
