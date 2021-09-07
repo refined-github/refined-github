@@ -33,9 +33,9 @@ function init(): void {
 
 void features.add(__filebasename, {
 	shortcuts: {
-		'←': 'Go to the previous page',
 		'→': 'Go to the next page',
-	}
+		'←': 'Go to the previous page',
+	},
 	include: [
 		pageDetect.isConversationList,
 		pageDetect.isGlobalSearchResults,
