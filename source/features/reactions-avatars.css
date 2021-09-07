@@ -1,17 +1,8 @@
-:root .social-button-emoji {
-	align-self: center;
-	box-sizing: content-box;
-}
-
+:root .social-button-emoji,
 :root .reaction-summary-item span:nth-child(2) {
 	align-self: center;
 	box-sizing: content-box;
-	display: inline-block;
-	font-size: 1em !important;
-	height: 16px;
-	line-height: 1.25;
 	min-width: 16px;
-	vertical-align: -1px;
 }
 
 :root .reaction-summary-item span:nth-child(2):not(:last-child) {
