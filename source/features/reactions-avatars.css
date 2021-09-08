@@ -11,13 +11,13 @@
 
 :root .rgh-reactions-avatar {
 	--size: 1.3em;
-	align-self: center;
-	box-sizing: content-box;
 	display: inline-block;
-	height: var(--size);
-	margin: 0;
-	padding: 0;
 	width: var(--size);
+	height: var(--size);
+	padding: 0;
+	margin: 0;
+	box-sizing: content-box;
+	align-self: center;
 }
 
 :root .rgh-reactions-avatar:last-of-type {
@@ -26,7 +26,7 @@
 
 :root .rgh-reactions-avatar img {
 	display: block;
-	height: var(--size);
 	margin: -1px 0 0;
 	width: var(--size);
+	height: var(--size);
 }
