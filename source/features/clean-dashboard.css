@@ -75,7 +75,7 @@
 }
 
 /* Grouped events: Bring horizontal lines to right border */
-.rgh-clean-dashboard .js-news-feed-event-group {
+.rgh-clean-dashboard.rgh-hide-low-quality-newsfeed-events .js-news-feed-event-group {
 	padding-right: 0 !important;
 }
 
