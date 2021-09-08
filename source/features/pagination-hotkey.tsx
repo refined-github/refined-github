@@ -42,6 +42,7 @@ void features.add(__filebasename, {
 		pageDetect.isLabelList,
 		pageDetect.isNotifications,
 		pageDetect.isRepoCommitList,
+		pageDetect.isPRCommit,
 	],
 	init,
 });
