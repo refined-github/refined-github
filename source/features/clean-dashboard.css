@@ -36,11 +36,6 @@
 	padding-right: 16px;
 }
 
-/* When there are two or more following */
-.rgh-clean-dashboard .dashboard .follow > .body > .border-bottom {
-	padding-right: 16px !important;
-}
-
 /* Align avatar with first 2 lines */
 .rgh-clean-dashboard .dashboard .flex-items-baseline.py-3 {
 	align-items: flex-start !important;
