@@ -14,7 +14,7 @@ interface PullRequest {
 		nodes: AnyObject;
 	};
 	number: number;
-	state: keyof typeof stateClass;
+	state: keyof typeof stateIcon;
 	isDraft: boolean;
 	url: string;
 }
@@ -62,14 +62,6 @@ export const getPullRequestsAssociatedWithBranch = cache.function(async (): Prom
 	cacheKey: () => 'associatedBranchPullRequests:' + getRepo()!.nameWithOwner,
 });
 
-// TODO: Replace this with `State--${prInfo.state.toLowerCase()}` GHE #4202
-const stateClass = {
-	OPEN: 'State--open',
-	CLOSED: 'State--closed',
-	MERGED: 'State--merged',
-	DRAFT: '',
-};
-
 const stateIcon = {
 	OPEN: GitPullRequestIcon,
 	CLOSED: GitPullRequestClosedIcon,
@@ -100,7 +92,7 @@ async function init(): Promise<void> {
 						</a>
 						{' '}
 						<span
-							className={`State ${stateClass[prInfo.state]} State--small ml-1`}
+							className={`State State--${prInfo.state.toLowerCase()} State--small ml-1`}
 							title={`Status: ${state}`}
 						>
 							<StateIcon width={14} height={14}/> {state}
