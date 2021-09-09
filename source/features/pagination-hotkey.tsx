@@ -36,6 +36,7 @@ void features.add(__filebasename, {
 		'→': 'Go to the next page',
 		'←': 'Go to the previous page',
 	},
+	// TODO: enable for isDiscussionList after #4695 is fixed
 	include: [
 		pageDetect.isConversationList,
 		pageDetect.isGlobalSearchResults,
