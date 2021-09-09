@@ -3,6 +3,7 @@ import onetime from 'onetime';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
+import {GitMergeIcon, GitPullRequestIcon, GitPullRequestClosedIcon, GitPullRequestDraftIcon} from '@primer/octicons-react';
 
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);
@@ -116,3 +117,10 @@ export async function isPermalink(): Promise<boolean> {
 export function isNotRefinedGitHubRepo(): boolean {
 	return !location.pathname.startsWith('/sindresorhus/refined-github/');
 }
+
+export const stateIcon = {
+	OPEN: GitPullRequestIcon,
+	CLOSED: GitPullRequestClosedIcon,
+	MERGED: GitMergeIcon,
+	DRAFT: GitPullRequestDraftIcon,
+};

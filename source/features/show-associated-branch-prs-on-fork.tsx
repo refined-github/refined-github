@@ -3,11 +3,10 @@ import cache from 'webext-storage-cache';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
-import {GitMergeIcon, GitPullRequestIcon, GitPullRequestClosedIcon, GitPullRequestDraftIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepo, upperCaseFirst} from '../github-helpers';
+import {getRepo, upperCaseFirst, stateIcon} from '../github-helpers';
 
 interface PullRequest {
 	timelineItems: {
@@ -61,13 +60,6 @@ export const getPullRequestsAssociatedWithBranch = cache.function(async (): Prom
 	staleWhileRevalidate: {days: 4},
 	cacheKey: () => 'associatedBranchPullRequests:' + getRepo()!.nameWithOwner,
 });
-
-const stateIcon = {
-	OPEN: GitPullRequestIcon,
-	CLOSED: GitPullRequestClosedIcon,
-	MERGED: GitMergeIcon,
-	DRAFT: GitPullRequestDraftIcon,
-};
 
 async function init(): Promise<void> {
 	const associatedPullRequests = await getPullRequestsAssociatedWithBranch();
