@@ -3,7 +3,7 @@ import cache from 'webext-storage-cache';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
-import {GitMergeIcon, GitPullRequestIcon} from '@primer/octicons-react';
+import {GitMergeIcon, GitPullRequestIcon, GitPullRequestClosedIcon, GitPullRequestDraftIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -64,10 +64,17 @@ export const getPullRequestsAssociatedWithBranch = cache.function(async (): Prom
 
 // TODO: Replace this with `State--${prInfo.state.toLowerCase()}` GHE #4202
 const stateClass = {
-	OPEN: 'State--green State--open',
-	CLOSED: 'State--red State--closed',
-	MERGED: 'State--purple State--merged',
+	OPEN: 'State--open',
+	CLOSED: 'State--closed',
+	MERGED: 'State--merged',
 	DRAFT: '',
+};
+
+const stateIcon = {
+	OPEN: GitPullRequestIcon,
+	CLOSED: GitPullRequestClosedIcon,
+	MERGED: GitMergeIcon,
+	DRAFT: GitPullRequestDraftIcon,
 };
 
 async function init(): Promise<void> {
@@ -78,26 +85,26 @@ async function init(): Promise<void> {
 			const branchName = branchCompareLink.closest('[branch]')!.getAttribute('branch')!;
 			const prInfo = associatedPullRequests[branchName];
 			if (prInfo) {
-				const StateIcon = prInfo.state === 'MERGED' ? GitMergeIcon : GitPullRequestIcon;
+				const StateIcon = stateIcon[prInfo.state];
+				const state = upperCaseFirst(prInfo.state);
 
 				branchCompareLink.replaceWith(
 					<div className="d-inline-block text-right ml-3">
 						<a
 							data-issue-and-pr-hovercards-enabled
 							href={prInfo.url}
-							className="muted-link Link--muted"
 							data-hovercard-type="pull_request"
 							data-hovercard-url={prInfo.url + '/hovercard'}
 						>
-							#{prInfo.number}{' '}
+							#{prInfo.number}
 						</a>
-						<a
-							className={`State ${stateClass[prInfo.state]} State--small ml-1 no-underline`}
-							title={`Status: ${upperCaseFirst(prInfo.state)}`}
-							href={prInfo.url}
+						{' '}
+						<span
+							className={`State ${stateClass[prInfo.state]} State--small ml-1`}
+							title={`Status: ${state}`}
 						>
-							<StateIcon width={10} height={14}/> {prInfo.state}
-						</a>
+							<StateIcon width={14} height={14}/> {state}
+						</span>
 					</div>);
 			}
 		},
