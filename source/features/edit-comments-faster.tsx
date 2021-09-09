@@ -8,12 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function canEditEveryComment(): boolean {
-	return select.exists(`
-		[aria-label^="You have been invited to collaborate"],
-		[aria-label^="You are the owner"],
-		[title^="You are a maintainer"],
-		[title^="You are a collaborator"]')
-	`) && select.exists('div.js-previewable-comment-form');
+	return select.exists('[aria-label^="You have been invited to collaborate"], [aria-label^="You are the owner"], [title^="You are a maintainer"], [title^="You are a collaborator"]') && select.exists('div.js-previewable-comment-form');
 }
 
 function init(): void {
