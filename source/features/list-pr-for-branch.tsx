@@ -35,6 +35,9 @@ async function init(): Promise<void | false> {
 
 	const getPr = await getPullRequestsAssociatedWithBranch();
 	const prInfo = getPr[currentBranch];
+	if (!prInfo) {
+		return;
+	}
 
 	const StateIcon = stateIcon[prInfo.state];
 	const link = (
