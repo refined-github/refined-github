@@ -1,4 +1,3 @@
-import './patch-diff-links.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';

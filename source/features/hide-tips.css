@@ -3,17 +3,17 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none !important;
 }
 
-/* Remove annoying "helpful" banner on the issue tracker listing */
+/* Remove the "helpful" banner on the issue tracker listing */
 .repository-content .mb-4.js-notice {
 	display: none !important;
 }
 
-/* Remove annoying "helpful" popover on the repo label page */
+/* Remove the "helpful" popover on the repo label page */
 .labels-list .TutorialPopover {
 	display: none !important;
 }
 
-/* Remove the useless "Continuous integration has not been set up" message on PRs */
+/* Remove "Continuous integration has not been set up" message on PRs */
 .branch-action-item.marketplace-product-callout {
 	display: none;
 }
