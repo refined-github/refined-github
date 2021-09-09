@@ -19,7 +19,6 @@ interface PullRequest {
 	url: string;
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Record<string, PullRequest>> => {
 	const {repository} = await api.v4(`
 		repository() {
