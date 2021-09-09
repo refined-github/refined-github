@@ -55,7 +55,7 @@ function createWhitespaceButton(): HTMLElement {
 
 	const classes = pageDetect.isPR()
 		? 'tooltipped tooltipped-s d-none d-lg-block color-icon-secondary ' + (isHidingWhitespace ? '' : 'color-icon-info')
-		: 'tooltipped tooltipped-s btn btn-sm btn-outline tooltipped ' + (isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : '');
+		: 'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : '');
 
 	return (
 		<a
