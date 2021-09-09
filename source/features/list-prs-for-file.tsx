@@ -21,7 +21,9 @@ function getDropdown(prs: number[]): HTMLElement {
 	return (
 		<details className="dropdown details-reset details-overlay d-inline-block flex-self-center">
 			<summary aria-haspopup="true" className="btn btn-sm">
-				<GitPullRequestIcon/> {prs.length} <div className="dropdown-caret"/>
+				<GitPullRequestIcon/>
+				<span> {prs.length} </span>
+				<div className="dropdown-caret"/>
 			</summary>
 
 			<ul className="dropdown-menu dropdown-menu-se">
