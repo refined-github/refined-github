@@ -7,6 +7,6 @@
 }
 
 /* Adds space between `ci-link` and "Private" label, if present */
-.rgh-ci-link .Label + .commit-build-statuses {
+.rgh-ci-link .Label:not([hidden]) + .commit-build-statuses {
 	margin-left: 8px;
 }

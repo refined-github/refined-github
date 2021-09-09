@@ -8,7 +8,7 @@ function init(): void {
 	observe('[itemprop^="name"] + .Label, .pinned-item-list-item-content .Label, .Popover .f5 + .Label', {
 		constructor: HTMLElement,
 		add(badge) {
-			const newText = badge.textContent!.replace(/Public ?/, '');
+			const newText = badge.textContent!.replace(/^Public ?/, '');
 
 			if (newText === '') {
 				badge.hidden = true;
@@ -20,6 +20,5 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
-	awaitDomReady: false,
 	init: onetime(init),
 });
