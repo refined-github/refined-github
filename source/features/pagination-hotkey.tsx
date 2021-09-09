@@ -44,6 +44,7 @@ void features.add(__filebasename, {
 		pageDetect.isNotifications,
 		pageDetect.isRepoCommitList,
 		pageDetect.isPRCommit,
+		pageDetect.isUserProfileRepoTab,
 	],
 	init,
 });
