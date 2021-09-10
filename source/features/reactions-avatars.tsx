@@ -84,20 +84,35 @@ const viewportObserver = new IntersectionObserver(changes => {
 	rootMargin: '500px',
 });
 
+const selector = '.has-reactions .comment-reactions-options:not(.rgh-reactions)';
+
+function observeReactions(commentReactions: Element): void {
+	commentReactions.classList.add('rgh-reactions');
+	viewportObserver.observe(commentReactions);
+}
+
 function init(): void {
-	observe('.has-reactions .comment-reactions-options:not(.rgh-reactions)', {
-		add(commentReactions) {
-			commentReactions.classList.add('rgh-reactions');
-			viewportObserver.observe(commentReactions);
-		},
+	for (const commentReactions of select.all(selector)) {
+		observeReactions(commentReactions);
+	}
+}
+
+function discussionInit(): void {
+	observe(selector, {
+		add: observeReactions,
 	});
 }
 
 void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments,
-		pageDetect.isDiscussion,
 		pageDetect.isReleasesOrTags,
 	],
-	init: onetime(init),
+	deduplicate: 'has-rgh-inner',
+	init,
+}, {
+	include: [
+		pageDetect.isDiscussion,
+	],
+	init: onetime(discussionInit),
 });
