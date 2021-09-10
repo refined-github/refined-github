@@ -1,8 +1,8 @@
 import './reactions-avatars.css';
 import React from 'dom-chef';
+import select from 'select-dom';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
-import select from 'select-dom';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
