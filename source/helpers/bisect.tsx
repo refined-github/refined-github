@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 
+import waitFor from './wait-for';
 import features from '../features';
 import pluralize from './pluralize';
 
@@ -78,6 +79,7 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 	console.log(`Bisecting ${bisectedFeatures.length} features:\n${bisectedFeatures.join('\n')}`);
 
 	const steps = Math.ceil(Math.log2(Math.max(bisectedFeatures.length))) + 1;
+	await waitFor(() => document.body);
 	createMessageBox(
 		`Do you see the change or issue? (${pluralize(steps, 'last step', '$$ steps remaining')})`,
 		<div>
