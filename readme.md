@@ -6,9 +6,9 @@ We use GitHub a lot and notice many annoyances we'd like to fix. So here be drag
 
 Our hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these improvements, please email [GitHub support](https://support.github.com/contact) about doing it.
 
-GitHub Enterprise is also supported: [How to enable it](https://fregante.github.io/webext-domain-permission-toggle/?name=Refined%20GitHub&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fsindresorhus%2Frefined-github%2Fmain%2Fdistribution%2Ficon.png). <!-- icon.png renders best -->
+GitHub Enterprise is also supported by: [How to enable it](https://fregante.github.io/webext-domain-permission-toggle/?name=Refined%20GitHub&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fsindresorhus%2Frefined-github%2Fmain%2Fdistribution%2Ficon.png). <!-- icon.png renders best -->
 
-*The GITHUB and REFINED GITHUB trademarks are owned by GitHub, Inc. and used under license.*
+*The GITHUB and REFINED GITHUB trademarks are owned by GitHub Inc. and used under license.*
 
 ## Install
 
@@ -416,7 +416,7 @@ Thanks for contributing! 🦋🙌
 
 Most features [can be disabled](https://github.com/sindresorhus/refined-github/pull/877) if they are JavaScript-based *(Experimental)* and you can override our CSS with your own in [the extension options.](https://github.com/sindresorhus/refined-github/pull/1193)
 
-We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a high bar for adding features.](https://github.com/sindresorhus/refined-github/issues/2960) Users will always disagree with something. That being said, we're open to discussing things.
+We're happy to receive suggestions and contributions, but be aware that this is a highly opinionated project. There's [a high bar for adding features.](https://github.com/sindresorhus/refined-github/issues/2960) Users will always disagree with something. That being said, we're open to discussing things.
 
 ## Contribute
 
@@ -432,7 +432,7 @@ Read the [contribution guide](contributing.md) and join the [contributors](https
 
 - [Awesome browser extensions for GitHub](https://github.com/stefanbuck/awesome-browser-extensions-for-github) - Awesome list
 - [OctoLinker](https://github.com/OctoLinker/OctoLinker) - Navigate across files and packages
-- [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification unread count
+- [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification's unread count
 - [Mottie's Userscripts](https://github.com/Mottie/GitHub-userscripts) - Countless features to improve GitHub granularly
 - [Contributors on GitHub](https://github.com/hzoo/contributors-on-github) - Shows stats about contributors
 - [Hide Files on GitHub](https://github.com/sindresorhus/hide-files-on-github) - Hides dotfiles from the file browser
