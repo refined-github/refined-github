@@ -1,6 +1,8 @@
 import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
+import {observe} from 'selector-observer';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
@@ -53,7 +55,7 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 	const avatarLimit = arbitraryAvatarLimit - (commentReactions.children.length * approximateHeaderLength);
 
 	const participantByReaction = select
-		.all(':scope > button', commentReactions)
+		.all(':scope > button[aria-label$="emoji"]', commentReactions)
 		.map(button => getParticipants(button));
 	const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
@@ -82,11 +84,23 @@ const viewportObserver = new IntersectionObserver(changes => {
 	rootMargin: '500px',
 });
 
+const selector = '.has-reactions .comment-reactions-options:not(.rgh-reactions)';
+
+function observeReactions(commentReactions: Element): void {
+	commentReactions.classList.add('rgh-reactions');
+	viewportObserver.observe(commentReactions);
+}
+
 function init(): void {
-	for (const commentReactions of select.all('.has-reactions .comment-reactions-options:not(.rgh-reactions)')) {
-		commentReactions.classList.add('rgh-reactions');
-		viewportObserver.observe(commentReactions);
+	for (const commentReactions of select.all(selector)) {
+		observeReactions(commentReactions);
 	}
+}
+
+function discussionInit(): void {
+	observe(selector, {
+		add: observeReactions,
+	});
 }
 
 void features.add(__filebasename, {
@@ -95,4 +109,14 @@ void features.add(__filebasename, {
 	],
 	deduplicate: 'has-rgh-inner',
 	init,
+}, {
+	include: [
+		pageDetect.isReleasesOrTags,
+	],
+	init,
+}, {
+	include: [
+		pageDetect.isDiscussion,
+	],
+	init: onetime(discussionInit),
 });
