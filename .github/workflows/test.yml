@@ -65,7 +65,7 @@ jobs:
           path: distribution
 
   Safari:
-    runs-on: macos-latest
+    runs-on: macos-11
     needs: Build
     steps:
       - uses: actions/checkout@v2
@@ -74,4 +74,6 @@ jobs:
           name: refined-github
           path: distribution
       - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest
       - run: npm run pack:safari

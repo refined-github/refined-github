@@ -10,7 +10,7 @@
 		"lint": "run-p lint:* --continue-on-error",
 		"lint:css": "stylelint \"source/**/*.css\"",
 		"lint:js": "xo",
-		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj'",
+		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj' -scheme 'Refined GitHub (macOS)'",
 		"start:safari": "open 'safari/build/Release/Refined GitHub.app'",
 		"test": "run-p ava lint:* build:* test:features",
 		"test:features": "cross-env TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"es2020\\\"} node --loader ts-node/esm \"build/verify-features.ts\"",

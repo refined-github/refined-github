@@ -33,6 +33,7 @@
 		"page": "options.html"
 	},
 	"background": {
+		"persistent": false,
 		"scripts": [
 			"build/browser-polyfill.js",
 			"build/background.js"
