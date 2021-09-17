@@ -17,8 +17,9 @@ async function addContributions(baseElement: HTMLElement): Promise<void> {
 	const container = (
 		<div data-view-component="true" className="d-flex flex-items-baseline f6 mt-1 color-text-secondary">
 			<div data-view-component="true" className="mr-1 flex-shrink-0">
-				<CodeIcon/> {placeholder}
+				<CodeIcon/>
 			</div>
+			{placeholder}
 		</div>
 	);
 
