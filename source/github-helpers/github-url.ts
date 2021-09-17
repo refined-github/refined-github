@@ -77,8 +77,12 @@ export default class GitHubURL {
 
 	set pathname(pathname: string) {
 		const [user, repository, route, ...ambiguousReference] = pathname.replace(/^\/|\/$/g, '').split('/');
-		const {branch, filePath} = this.disambiguateReference(ambiguousReference);
-		this.assign({user, repository, route, branch, filePath});
+		if (route === 'blob' || route === 'tree') {
+			let { branch, filePath } = this.disambiguateReference(ambiguousReference);
+			this.assign({ user, repository, route, branch, filePath });
+		} else {
+			this.assign({ user, repository, route, branch: undefined, filePath: undefined });
+		}
 	}
 
 	get href(): string {
