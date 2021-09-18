@@ -5,7 +5,7 @@
 }
 
 /* For iOS Safari */
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-device-width: 1000px) {
 	:root {
 		min-width: 0;
 	}
