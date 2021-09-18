@@ -12,7 +12,6 @@ async function addContributions(baseElement: HTMLElement): Promise<void> {
 		return;
 	}
 
-	// File: user-local-time.tsx
 	const placeholder = <span data-view-component="true" className="lh-condensed">Retrieving stats…</span>;
 	const container = (
 		<div data-view-component="true" className="d-flex flex-items-baseline f6 mt-1 color-text-secondary">
@@ -28,7 +27,6 @@ async function addContributions(baseElement: HTMLElement): Promise<void> {
 
 	const contributorInfo = getContributorInfo(login);
 
-	// Const access_token = await api.expectToken();
 	const repo = contributorInfo.repoPath;
 
 	const values = await getContributionsCountPosition(repo, login);
@@ -42,7 +40,7 @@ async function addContributions(baseElement: HTMLElement): Promise<void> {
 	const prCount = await getIssuePRCount(repo, login, 'pr');
 
 	// Authored {commitCount} commits(#{contributionsOrder}), merged {prCount} PRs, opened {issueCount} issues
-	const message = (Number.parseInt(commitCount, 10) > 0 ? `Authored ${commitCount} commits(#${contributionsOrder}),` : '') + `merged ${prCount} PRs, opened ${issueCount} issues`;
+	const message = (Number.parseInt(commitCount, 10) > 0 ? `Authored ${commitCount} commits(#${contributionsOrder}), ` : '') + `merged ${prCount} PRs, opened ${issueCount} issues`;
 	lastline = select.last('.js-hovercard-content .color-text-secondary span');
 	lastline!.textContent = message;
 }
@@ -94,9 +92,6 @@ function getContributorInfo(login: string): any {
 
 	return returnValue;
 }
-
-// https://api.github.com/search/issues?q=+author:fregante+repo:sindresorhus/refined-github+type:issue&order=asc&per_page=1&sort=created
-// https://api.github.com/search/issues?q=+author:fregante+repo:sindresorhus/refined-github+type:pr   &order=asc&per_page=1&sort=created
 
 async function getIssuePRCount(repoPath: string, login: string, type: string): Promise<string> {
 	const URL = `https://api.github.com/search/issues?q=+author:${login}+repo:${repoPath}+type:${type}&order=asc&per_page=1&sort=created`;
