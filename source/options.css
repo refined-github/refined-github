@@ -4,6 +4,13 @@
 	}
 }
 
+/* For iOS Safari */
+@media only screen and (max-device-width: 1000px) {
+	:root {
+		min-width: 0;
+	}
+}
+
 :root {
 	--github-red: #cb2431;
 }
