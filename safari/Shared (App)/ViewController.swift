@@ -9,7 +9,7 @@ import SafariServices
 typealias XViewController = NSViewController
 #endif
 
-let extensionBundleIdentifier = "com.github.Refined-GitHub.Extension"
+let extensionBundleIdentifier = "com.sindresorhus.Refined-GitHub.Extension"
 
 final class ViewController: XViewController, WKNavigationDelegate, WKScriptMessageHandler {
 	@IBOutlet var webView: WKWebView!

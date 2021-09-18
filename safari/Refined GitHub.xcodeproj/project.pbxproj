@@ -666,7 +666,7 @@
 					"-framework",
 					SafariServices,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.github.Refined-GitHub.Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub.Extension";
 				PRODUCT_NAME = "Refined GitHub Extension";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -694,7 +694,7 @@
 					"-framework",
 					SafariServices,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.github.Refined-GitHub.Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub.Extension";
 				PRODUCT_NAME = "Refined GitHub Extension";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -731,7 +731,7 @@
 					"-framework",
 					WebKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.github.Refined-GitHub";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub";
 				PRODUCT_NAME = "Refined GitHub";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -766,7 +766,7 @@
 					"-framework",
 					WebKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.github.Refined-GitHub";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub";
 				PRODUCT_NAME = "Refined GitHub";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -796,7 +796,7 @@
 					"-framework",
 					SafariServices,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.github.Refined-GitHub.Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub.Extension";
 				PRODUCT_NAME = "Refined GitHub Extension";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -825,7 +825,7 @@
 					"-framework",
 					SafariServices,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.github.Refined-GitHub.Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub.Extension";
 				PRODUCT_NAME = "Refined GitHub Extension";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -848,6 +848,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (App)/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Refined GitHub";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -860,7 +861,7 @@
 					"-framework",
 					WebKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.github.Refined-GitHub";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub";
 				PRODUCT_NAME = "Refined GitHub";
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -882,6 +883,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (App)/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Refined GitHub";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -894,7 +896,7 @@
 					"-framework",
 					WebKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.github.Refined-GitHub";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub";
 				PRODUCT_NAME = "Refined GitHub";
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
