@@ -30,7 +30,6 @@ async function addContributions(baseElement: HTMLElement): Promise<void> {
 	const repo = contributorInfo.repoPath;
 
 	const values = await getContributionsCountPosition(repo, login);
-	console.log(values);
 
 	const commitCount: string = values[0];
 	// Const contributionsOrder = values[1] + 1;
