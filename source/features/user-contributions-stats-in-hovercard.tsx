@@ -110,8 +110,8 @@ function init(): void {
 
 void features.add(__filebasename, {
 	include: [
-		pageDetect.isPR,
 		pageDetect.isIssue,
+		pageDetect.isPR,
 	],
 	init,
 });
