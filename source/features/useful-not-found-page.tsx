@@ -98,11 +98,6 @@ async function showMissingPart(): Promise<void> {
 }
 
 async function showDefaultBranchLink(): Promise<void> {
-	const parts = parseCurrentURL();
-	if (!['tree', 'blob', 'edit'].includes(parts[2])) {
-		return;
-	}
-
 	const urlToFileOnDefaultBranch = await getUrlToFileOnDefaultBranch();
 	if (!urlToFileOnDefaultBranch) {
 		return;
@@ -116,11 +111,6 @@ async function showDefaultBranchLink(): Promise<void> {
 }
 
 async function showAlternateLink(): Promise<void> {
-	const parts = parseCurrentURL();
-	if (!['tree', 'blob', 'edit'].includes(parts[2])) {
-		return;
-	}
-
 	const url = new GitHubURL(location.href);
 	if (!url.branch || !url.filePath) {
 		return;
@@ -160,8 +150,11 @@ function init(): false | void {
 	}
 
 	void showMissingPart();
-	void showDefaultBranchLink();
-	void showAlternateLink();
+
+	if (['tree', 'blob', 'edit'].includes(parts[2])) {
+		void showDefaultBranchLink();
+		void showAlternateLink();
+	}
 }
 
 async function initPRCommit(): Promise<void | false> {
