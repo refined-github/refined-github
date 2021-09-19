@@ -143,6 +143,11 @@ async function showAlternateLink(): Promise<void> {
 	);
 }
 
+function init(): void {
+	void showDefaultBranchLink();
+	void showAlternateLink();
+}
+
 async function initPRCommit(): Promise<void | false> {
 	const commitUrl = location.href.replace(/pull\/\d+\/commits/, 'commit');
 	if (await is404(commitUrl)) {
@@ -157,7 +162,7 @@ async function initPRCommit(): Promise<void | false> {
 
 void features.add(__filebasename, 	{
 	always: [
-		pageDetect.is404
+		pageDetect.is404,
 	],
 	include: [() => parseCurrentURL().length > 1],
 	init: showMissingPart,
@@ -169,9 +174,7 @@ void features.add(__filebasename, 	{
 		pageDetect.isRepoTree,
 		pageDetect.isEditingFile,
 	],
-	init: () => {
-		showDefaultBranchLink(); showAlternateLink();
-	},
+	init: onetime(init),
 }, {
 	include: [
 		pageDetect.isPRCommit404,
