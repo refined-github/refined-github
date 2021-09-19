@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {
 	CheckCircleIcon,
@@ -121,7 +122,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 function createDropdown(): JSX.Element {
 	return (
 		<details
-			className="details-reset details-overlay position-relative"
+			className="details-reset details-overlay position-relative rgh-select-notifications"
 			on-toggle={resetFilters}
 		>
 			<summary
@@ -150,10 +151,23 @@ function createDropdown(): JSX.Element {
 	);
 }
 
-function init(): false | void {
+function insertDropdown(dropdown: JSX.Element): void {
 	select('.js-notifications-mark-all-prompt')!
 		.closest('label')!
-		.after(createDropdown());
+		.after(dropdown);
+}
+
+const deinit: VoidFunction[] = [];
+function init(): false | void {
+	const dropdown = createDropdown();
+	insertDropdown(dropdown);
+
+	const selectObserver = observe('.rgh-select-notifications', {
+		remove() {
+			insertDropdown(dropdown);
+		},
+	});
+	deinit.push(selectObserver.abort);
 }
 
 void features.add(__filebasename, {
@@ -167,4 +181,5 @@ void features.add(__filebasename, {
 		() => select.exists('img[src$="notifications/inbox-zero.svg"]'), // Notifications page may be empty
 	],
 	init,
+	deinit,
 });
