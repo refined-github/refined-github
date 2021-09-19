@@ -156,19 +156,21 @@ async function initPRCommit(): Promise<void | false> {
 }
 
 void features.add(__filebasename, 	{
-		always: [pageDetect.is404],
-		include: [() => parseCurrentURL().length > 1],
-		init: showMissingPart
+	always: [pageDetect.is404],
+	include: [() => parseCurrentURL().length > 1],
+	init: showMissingPart,
+},
+{
+	always: [pageDetect.is404],
+	include: [
+		pageDetect.isSingleFile,
+		pageDetect.isRepoTree,
+		pageDetect.isEditingFile,
+	],
+	init: () => {
+		showDefaultBranchLink(); showAlternateLink();
 	},
-	{
-		always: [pageDetect.is404],
-		include: [
-			pageDetect.isSingleFile,
-			pageDetect.isRepoTree,
-			pageDetect.isEditingFile,
-		],
-		init: () => {showDefaultBranchLink(); showAlternateLink() }
-	}, {
+}, {
 	include: [
 		pageDetect.isPRCommit404,
 	],
