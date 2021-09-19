@@ -145,7 +145,7 @@ async function showAlternateLink(): Promise<void> {
 
 function init(): false | void {
 	const parts = parseCurrentURL();
-	if (parts.length <= 1 || !select.exists('[alt*="This is not the web page you are looking for"]')) {
+	if (parts.length < 2) {
 		return false;
 	}
 
