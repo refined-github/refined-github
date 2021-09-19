@@ -100,7 +100,7 @@ async function showMissingPart(): Promise<void> {
 async function showDefaultBranchLink(): Promise<void> {
 	const parts = parseCurrentURL();
 	if (!['tree', 'blob', 'edit'].includes(parts[2])) {
-		return
+		return;
 	}
 
 	const urlToFileOnDefaultBranch = await getUrlToFileOnDefaultBranch();
@@ -118,7 +118,7 @@ async function showDefaultBranchLink(): Promise<void> {
 async function showAlternateLink(): Promise<void> {
 	const parts = parseCurrentURL();
 	if (!['tree', 'blob', 'edit'].includes(parts[2])) {
-		return
+		return;
 	}
 
 	const url = new GitHubURL(location.href);
