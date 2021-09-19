@@ -153,7 +153,7 @@ function createDropdown(): JSX.Element {
 }
 
 function closeDropdown(): void {
-	select('.rgh-select-notifications[open] summary')?.dispatchEvent(new MouseEvent('click'));
+	select('.rgh-select-notifications')?.removeAttribute('open');
 }
 
 function init(): false | void {
