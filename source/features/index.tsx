@@ -34,6 +34,7 @@ interface FeatureLoader extends Partial<InternalRunConfig> {
 }
 
 interface InternalRunConfig {
+	always: BooleanFunction[];
 	include: BooleanFunction[];
 	exclude: BooleanFunction[];
 	init: FeatureInit;
@@ -138,10 +139,10 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 });
 
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
-	const {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
+	const {always, include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
 
-	// If every `include` is false and no `exclude` is true, don’t run the feature
-	if (include.every(c => !c()) || exclude.some(c => c())) {
+	// If any always is false, every `include` is false or no `exclude` is true, don’t run the feature
+	if (!always.every(c => c()) || include.every(c => !c()) || exclude.some(c => c())) {
 		return;
 	}
 
@@ -218,6 +219,7 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 		// Input defaults and validation
 		const {
 			shortcuts = {},
+			always = [], // Default: nothing
 			include = [() => true], // Default: every page
 			exclude = [], // Default: nothing
 			init,
@@ -234,13 +236,13 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 		}
 
 		// 404 pages should only run 404-only features
-		if (pageDetect.is404() && !include.includes(pageDetect.is404)) {
+		if (pageDetect.is404() && !include.includes(pageDetect.is404) && !always.includes(pageDetect.is404)) {
 			continue;
 		}
 
 		enforceDefaults(id, include, additionalListeners);
 
-		const details = {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
+		const details = {always, include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
 		if (awaitDomReady) {
 			(async () => {
 				await domLoaded;

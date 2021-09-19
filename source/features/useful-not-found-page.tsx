@@ -143,20 +143,6 @@ async function showAlternateLink(): Promise<void> {
 	);
 }
 
-function init(): false | void {
-	const parts = parseCurrentURL();
-	if (parts.length < 2) {
-		return false;
-	}
-
-	void showMissingPart();
-
-	if (['tree', 'blob', 'edit'].includes(parts[2])) {
-		void showDefaultBranchLink();
-		void showAlternateLink();
-	}
-}
-
 async function initPRCommit(): Promise<void | false> {
 	const commitUrl = location.href.replace(/pull\/\d+\/commits/, 'commit');
 	if (await is404(commitUrl)) {
@@ -169,12 +155,20 @@ async function initPRCommit(): Promise<void | false> {
 	);
 }
 
-void features.add(__filebasename, {
-	include: [
-		pageDetect.is404,
-	],
-	init: onetime(init),
-}, {
+void features.add(__filebasename, 	{
+		always: [pageDetect.is404],
+		include: [() => parseCurrentURL().length > 1],
+		init: showMissingPart
+	},
+	{
+		always: [pageDetect.is404],
+		include: [
+			pageDetect.isSingleFile,
+			pageDetect.isRepoTree,
+			pageDetect.isEditingFile,
+		],
+		init: () => {showDefaultBranchLink(); showAlternateLink() }
+	}, {
 	include: [
 		pageDetect.isPRCommit404,
 	],
