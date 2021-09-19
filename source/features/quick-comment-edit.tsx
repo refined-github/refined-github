@@ -12,8 +12,8 @@ function canEditEveryComment(): boolean {
 		'[aria-label^="You have been invited to collaborate"]',
 		'[aria-label^="You are the owner"]',
 		'[title^="You are a maintainer"]',
-		'[title^="You are a collaborator"]']
-	) && select.exists('div.js-previewable-comment-form');
+		'[title^="You are a collaborator"]'
+	]) && select.exists('div.js-previewable-comment-form');
 }
 
 function init(): void {
