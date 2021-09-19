@@ -1,5 +1,7 @@
+import './select-notifications.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {
 	CheckCircleIcon,
@@ -121,7 +123,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 function createDropdown(): JSX.Element {
 	return (
 		<details
-			className="details-reset details-overlay position-relative"
+			className="details-reset details-overlay position-relative rgh-select-notifications"
 			on-toggle={resetFilters}
 		>
 			<summary
@@ -150,10 +152,17 @@ function createDropdown(): JSX.Element {
 	);
 }
 
+function closeDropdown(): void {
+	select('.rgh-select-notifications[open] summary')?.dispatchEvent(new MouseEvent('click'));
+}
+
 function init(): false | void {
 	select('.js-notifications-mark-all-prompt')!
 		.closest('label')!
 		.after(createDropdown());
+
+	// Close the dropdown when one of the toolbar buttons is clicked
+	delegate(document, '.js-notifications-mark-selected-actions > *', 'click', closeDropdown);
 }
 
 void features.add(__filebasename, {
