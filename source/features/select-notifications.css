@@ -1,4 +1,4 @@
 .js-notifications-mark-selected-actions > * {
-	/* Allow clicking on "Done" and other toolbar buttons even when the dropdown (z-index of 99) is still open #4753 */
+	/* Allow clicking on "Done" and other toolbar buttons even when the dropdown (z-index of 99) is open #4753 */
 	z-index: 100;
 }
