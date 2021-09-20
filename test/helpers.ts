@@ -8,6 +8,7 @@ import {
 	parseTag,
 	compareNames,
 	getLatestVersionTag,
+	shouldFeatureRun,
 } from '../source/github-helpers';
 
 test('getConversationNumber', t => {
@@ -134,4 +135,57 @@ test('getLatestVersionTag', t => {
 		'2020-10-10',
 		'v1.0-1',
 	]), 'lol v0.0.0', 'Non-version tags should short-circuit the sorting and return the first tag');
+});
+
+test('shouldFeatureRun', t => {
+	const returnsTrue = (): boolean => true;
+	const returnsFalse = (): boolean => false;
+
+	t.is(shouldFeatureRun({
+		asLongAs: [],
+		include: [],
+		exclude: [],
+	}), false, 'Feature should not run if no conditions are passed');
+
+	t.is(shouldFeatureRun({
+		asLongAs: [returnsTrue, returnsFalse],
+		include: [],
+		exclude: [],
+	}), false, 'Feature should not run when any `asLongAs` condition returns false');
+
+	t.is(shouldFeatureRun({
+		asLongAs: [returnsFalse, returnsTrue],
+		include: [returnsTrue, returnsFalse],
+		exclude: [],
+	}), false, 'Feature should not run when any `asLongAs` condition returns false, even if any `include` condition returns true');
+
+	t.is(shouldFeatureRun({
+		asLongAs: [],
+		include: [returnsFalse, returnsFalse],
+		exclude: [],
+	}), false, 'Feature should not run when all `include` condition returns false');
+
+	t.is(shouldFeatureRun({
+		asLongAs: [],
+		include: [returnsTrue, returnsFalse],
+		exclude: [],
+	}), true, 'Feature should run even if only one `include` condition returns true');
+
+	t.is(shouldFeatureRun({
+		asLongAs: [],
+		include: [],
+		exclude: [returnsTrue, returnsFalse],
+	}), false, 'Feature should not run when any `exclude` condition returns true');
+
+	t.is(shouldFeatureRun({
+		asLongAs: [returnsTrue],
+		include: [],
+		exclude: [returnsTrue, returnsFalse],
+	}), false, 'Feature should not run when any `exclude` condition returns true, even if all `asLongAs` conditions return true');
+
+	t.is(shouldFeatureRun({
+		asLongAs: [],
+		include: [returnsTrue],
+		exclude: [returnsTrue, returnsFalse],
+	}), false, 'Feature should not run when any `exclude` condition returns true, even if all `include` conditions return true');
 });

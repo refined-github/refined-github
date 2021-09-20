@@ -116,3 +116,17 @@ export async function isPermalink(): Promise<boolean> {
 export function isNotRefinedGitHubRepo(): boolean {
 	return !location.pathname.startsWith('/sindresorhus/refined-github/');
 }
+
+type BooleanFunction = () => boolean;
+export function shouldFeatureRun(conditions: {
+	include: BooleanFunction[];
+	exclude: BooleanFunction[];
+	asLongAs: BooleanFunction[];
+}): boolean {
+	// Features are enabled if every `asLongAs` matches, at least one `include` matches, none of `exclude` matches
+	if (!conditions.asLongAs.every(c => c()) || conditions.include.every(c => !c()) || conditions.exclude.some(c => c())) {
+		return false;
+	}
+
+	return true;
+}

@@ -10,6 +10,7 @@ import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import optionsStorage, {RGHOptions} from '../options-storage';
 import {getLocalHotfixesAsOptions, updateHotfixes} from '../helpers/hotfix';
+import {shouldFeatureRun} from '../github-helpers';
 
 type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
@@ -141,8 +142,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
 	const {asLongAs, include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
 
-	// Features are enabled if every `asLongAs` matches, at least one `include` matches, none of `exclude` matches
-	if (!asLongAs.every(c => c()) || include.every(c => !c()) || exclude.some(c => c())) {
+	if (!shouldFeatureRun({asLongAs, include, exclude})) {
 		return;
 	}
 
