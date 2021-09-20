@@ -161,14 +161,16 @@ async function initPRCommit(): Promise<void | false> {
 }
 
 void features.add(__filebasename, 	{
-	always: [
+	asLongAs: [
 		pageDetect.is404,
+		() => parseCurrentURL().length > 1,
 	],
-	include: [() => parseCurrentURL().length > 1],
 	init: showMissingPart,
 },
 {
-	always: [pageDetect.is404],
+	asLongAs: [
+		pageDetect.is404,
+	],
 	include: [
 		pageDetect.isSingleFile,
 		pageDetect.isRepoTree,
