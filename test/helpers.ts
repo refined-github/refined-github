@@ -138,54 +138,42 @@ test('getLatestVersionTag', t => {
 });
 
 test('shouldFeatureRun', t => {
-	const returnsTrue = (): boolean => true;
-	const returnsFalse = (): boolean => false;
+	const yes = (): boolean => true;
+	const no = (): boolean => false;
+	const yesYes = [yes, yes];
+	const yesNo = [yes, no];
+	const noNo = [no, no];
 
-	t.is(shouldFeatureRun({
-		asLongAs: [],
-		include: [],
-		exclude: [],
-	}), false, 'Feature should not run if no conditions are passed');
+	t.true(shouldFeatureRun({}), 'A lack of conditions should mean "run everywhere"');
 
-	t.is(shouldFeatureRun({
-		asLongAs: [returnsTrue, returnsFalse],
-		include: [],
-		exclude: [],
-	}), false, 'Feature should not run when any `asLongAs` condition returns false');
+	t.false(shouldFeatureRun({
+		asLongAs: yesNo,
+	}), 'Every `asLongAs` should be true to run');
 
-	t.is(shouldFeatureRun({
-		asLongAs: [returnsFalse, returnsTrue],
-		include: [returnsTrue, returnsFalse],
-		exclude: [],
-	}), false, 'Feature should not run when any `asLongAs` condition returns false, even if any `include` condition returns true');
+	t.false(shouldFeatureRun({
+		asLongAs: yesNo,
+		include: [yes],
+	}), 'Every `asLongAs` should be true to run, regardless of `include`');
 
-	t.is(shouldFeatureRun({
-		asLongAs: [],
-		include: [returnsFalse, returnsFalse],
-		exclude: [],
-	}), false, 'Feature should not run when all `include` condition returns false');
+	t.false(shouldFeatureRun({
+		include: noNo,
+	}), 'At least one `include` should be true to run');
 
-	t.is(shouldFeatureRun({
-		asLongAs: [],
-		include: [returnsTrue, returnsFalse],
-		exclude: [],
-	}), true, 'Feature should run even if only one `include` condition returns true');
+	t.true(shouldFeatureRun({
+		include: yesNo,
+	}), 'If one `include` is true, then it should run');
 
-	t.is(shouldFeatureRun({
-		asLongAs: [],
-		include: [],
-		exclude: [returnsTrue, returnsFalse],
-	}), false, 'Feature should not run when any `exclude` condition returns true');
+	t.false(shouldFeatureRun({
+		exclude: yesNo,
+	}), 'If any `exclude` is true, then it should not run');
 
-	t.is(shouldFeatureRun({
-		asLongAs: [returnsTrue],
-		include: [],
-		exclude: [returnsTrue, returnsFalse],
-	}), false, 'Feature should not run when any `exclude` condition returns true, even if all `asLongAs` conditions return true');
+	t.false(shouldFeatureRun({
+		include: [yes],
+		exclude: yesNo,
+	}), 'If any `exclude` is true, then it should not run, regardless of `include`');
 
-	t.is(shouldFeatureRun({
-		asLongAs: [],
-		include: [returnsTrue],
-		exclude: [returnsTrue, returnsFalse],
-	}), false, 'Feature should not run when any `exclude` condition returns true, even if all `include` conditions return true');
+	t.false(shouldFeatureRun({
+		asLongAs: [yes],
+		exclude: yesNo,
+	}), 'If any `exclude` is true, then it should not run, regardless of `asLongAs`');
 });
