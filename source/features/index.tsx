@@ -141,7 +141,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
 	const {asLongAs, include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
 
-	// If any asLongAs is false, every `include` is false or no `exclude` is true, don’t run the feature
+	// Features are enabled if every `asLongAs` matches, at least one `include` matches, none of `exclude` matches
 	if (!asLongAs.every(c => c()) || include.every(c => !c()) || exclude.some(c => c())) {
 		return;
 	}
