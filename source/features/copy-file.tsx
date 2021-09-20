@@ -45,12 +45,12 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
+	asLongAs: [
+		() => select.exists('table.highlight'), // Rendered page
+	],
 	include: [
 		pageDetect.isSingleFile,
 		pageDetect.isGist,
-	],
-	exclude: [
-		() => !select.exists('table.highlight'), // Rendered page
 	],
 	deduplicate: '.rgh-copy-file', // #3945
 	init,

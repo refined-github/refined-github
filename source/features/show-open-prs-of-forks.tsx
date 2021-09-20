@@ -89,20 +89,20 @@ async function initDeleteHint(): Promise<void | false> {
 }
 
 void features.add(__filebasename, {
+	asLongAs: [
+		pageDetect.isForkedRepo,
+	],
 	include: [
 		pageDetect.isRepo,
-	],
-	exclude: [
-		() => !pageDetect.isForkedRepo(),
 	],
 	awaitDomReady: false,
 	init: initHeadHint,
 }, {
+	asLongAs: [
+		pageDetect.isForkedRepo,
+	],
 	include: [
 		pageDetect.isRepoMainSettings,
-	],
-	exclude: [
-		() => !pageDetect.isForkedRepo(),
 	],
 	awaitDomReady: false,
 	init: initDeleteHint,

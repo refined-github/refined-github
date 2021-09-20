@@ -27,11 +27,11 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
+	asLongAs: [
+		() => select.exists(deploymentSelector),
+	],
 	include: [
 		pageDetect.isPRConversation,
-	],
-	exclude: [
-		() => !select.exists(deploymentSelector),
 	],
 	additionalListeners: [
 		onConversationHeaderUpdate,

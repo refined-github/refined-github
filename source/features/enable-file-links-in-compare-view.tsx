@@ -68,12 +68,12 @@ void features.add(__filebasename, {
 	],
 	init,
 }, {
+	asLongAs: [
+		// Only enable if you can create a PR or view an existing PR, if you can't you are probably looking at a permalink.
+		() => select.exists('.existing-pull-button, [data-ga-click*="text:Create pull request"]'),
+	],
 	include: [
 		pageDetect.isCompare,
-	],
-	exclude: [
-		// Only enable if you can create a PR or view an existing PR, if you cant you are probably looking at a permalink.
-		() => !select.exists('.existing-pull-button, [data-ga-click*="text:Create pull request"]'),
 	],
 	init,
 });
