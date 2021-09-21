@@ -9,11 +9,15 @@ import features from '.';
 
 function canEditEveryComment(): boolean {
 	return select.exists([
+		// These are only found if you left any comments on the page
 		'[aria-label^="You have been invited to collaborate"]',
 		'[aria-label^="You are the owner"]',
 		'[title^="You are a maintainer"]',
 		'[title^="You are a collaborator"]',
-	]) || select.exists('#settings-tab');
+
+		// If you can change the repo’s settings, then can change anything
+		'#settings-tab',
+	]);
 }
 
 function init(): void {
