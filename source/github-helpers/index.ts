@@ -127,5 +127,5 @@ export function shouldFeatureRun({
 	/** No conditions must be true */
 	exclude = [],
 }): boolean {
-	return asLongAs.every(c => c()) && include.some(c => c()) && exclude.every(c => !c()))
+	return asLongAs.every(c => c()) && include.some(c => c()) && exclude.every(c => !c());
 }
