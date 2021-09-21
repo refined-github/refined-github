@@ -83,7 +83,7 @@ async function restoreFile(progress: (message: string) => void, menuItem: Elemen
 	}
 
 	const content = file.text;
-	await api.v4mutation(`mutation {
+	await api.v4(`mutation {
 		createCommitOnBranch(input: {
 			branch: {
 				repositoryNameWithOwner: "${owner}/${repo}",
