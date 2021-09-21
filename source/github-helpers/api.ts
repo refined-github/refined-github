@@ -209,6 +209,45 @@ export const v4 = mem(async (
 	cacheKey: JSON.stringify,
 });
 
+export const v4mutation = mem(async (
+	mutation: string,
+	options: GHGraphQLApiOptions = v4defaults,
+): Promise<AnyObject> => {
+	const personalToken = await expectToken();
+
+	features.log.http(`{
+		${mutation}
+	}`);
+
+	const response = await fetch(api4, {
+		headers: {
+			'User-Agent': 'Refined GitHub',
+			Authorization: `bearer ${personalToken}`,
+		},
+		method: 'POST',
+		body: JSON.stringify({query: mutation}),
+	});
+
+	const apiResponse: GraphQLResponse = await response.json();
+
+	const {
+		data = {},
+		errors = [],
+	} = apiResponse;
+
+	if (errors.length > 0 && !options.allowErrors) {
+		throw new RefinedGitHubAPIError('GraphQL:', ...errors.map(error => error.message));
+	}
+
+	if (response.ok) {
+		return data;
+	}
+
+	throw await getError(apiResponse as JsonObject);
+}, {
+	cacheKey: JSON.stringify,
+});
+
 export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {
 	const {personalToken} = await settings;
 

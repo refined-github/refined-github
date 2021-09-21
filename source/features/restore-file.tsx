@@ -1,13 +1,11 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
-import pushForm from 'push-form';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import fetchDom from '../helpers/fetch-dom';
 import showToast from '../github-helpers/toast';
 import {getConversationNumber} from '../github-helpers';
 
@@ -25,6 +23,17 @@ const getBaseReference = onetime(async (): Promise<string> => {
 	`);
 	return repository.pullRequest.baseRefOid;
 });
+const getHeadReference = async (): Promise<string> => {
+	// Get the sha of the latest commit to the PR, required to create a new commit
+	const {repository} = await api.v4(`
+		repository() {
+			pullRequest(number: ${getConversationNumber()!}) {
+				headRefOid
+			}
+		}
+	`);
+	return repository.pullRequest.headRefOid;
+};
 
 async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | undefined> {
 	const {repository} = await api.v4(`
@@ -53,27 +62,51 @@ async function restoreFile(progress: (message: string) => void, menuItem: Elemen
 		throw new Error('Restore failed: File too big');
 	}
 
-	let {pathname} = menuItem.previousElementSibling as HTMLAnchorElement;
-	// Check if file was deleted by PR
+	// Attempt to get details from the `Edit` button in the menu
+	const {pathname: blobOrEditPath} = menuItem.previousElementSibling as HTMLAnchorElement;
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Error comes up even though route and pathToFile are prefixed with a _
+	let [owner, repo, _route, branch, ..._pathToFile] = blobOrEditPath.startsWith('/')
+		? blobOrEditPath.slice(1).split('/') : blobOrEditPath.split('/');
+
 	if (menuItem.closest('[data-file-deleted="true"]')) {
+		// The file was deleted by the PR, restore it from the base commit
 		progress('Undeleting…');
-		const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
-		pathname = `/${nameWithOwner}/new/${headBranch}?filename=${filePath}`;
+		// The `Edit` button doesn't exist if the file is deleted
+		const [nameWithOwner, prBranch] = select('.head-ref')!.title.split(':');
+		owner = nameWithOwner.split('/')[0];
+		repo = nameWithOwner.split('/')[1];
+		branch = prBranch;
 	} else {
+		// The file has been modified, restore it to its original state
 		progress('Committing…');
+		// In this case, the edit button exists, so we already have the required info
 	}
 
 	const content = file.text;
-	// This is either an `edit` or `create` form
-	const form = (await fetchDom(pathname, 'form.js-blob-form'))!;
-	form.elements.value.value = content; // Restore content (`value` is the name of the file content field)
-	form.elements.message.value = (form.elements.message as HTMLInputElement).placeholder
-		.replace(/^Create|^Update/, 'Restore');
-
-	const response = await pushForm(form);
-	if (!response.ok) {
-		throw new Error(response.statusText);
-	}
+	await api.v4mutation(`mutation {
+		createCommitOnBranch(input: {
+			branch: {
+				repositoryNameWithOwner: "${owner}/${repo}",
+				branchName: "${branch}"
+			},
+			expectedHeadOid: "${await getHeadReference()}",
+			fileChanges: {
+				additions: [
+					{
+						path: "${filePath}",
+						contents: "${btoa(content)}"
+					}
+				]
+			},
+			message: {
+				headline: "Restore ${filePath}"
+			}
+		}) {
+			commit {
+				oid
+			}
+		}
+	}`);
 }
 
 const filesRestored = new WeakSet<HTMLButtonElement>();
