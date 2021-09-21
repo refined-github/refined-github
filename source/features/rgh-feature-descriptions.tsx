@@ -1,12 +1,8 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import elementReady from 'element-ready';
 
 import features from '.';
-import * as api from '../github-helpers/api';
 import {wrapAll} from '../helpers/dom-utils';
-import parseBackticks from '../github-helpers/parse-backticks';
 
 async function init(): Promise<void | false> {
 	const [, currentFeature] = /features\/([^.]+)/.exec(location.pathname)!;
