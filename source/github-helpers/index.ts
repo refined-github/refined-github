@@ -117,26 +117,13 @@ export function isNotRefinedGitHubRepo(): boolean {
 	return !location.pathname.startsWith('/sindresorhus/refined-github/');
 }
 
-type BooleanFunction = () => boolean;
-export function shouldFeatureRun(conditions: {
-	include?: BooleanFunction[];
-	exclude?: BooleanFunction[];
-	asLongAs?: BooleanFunction[];
+export function shouldFeatureRun({
+	asLongAs = [() => true],
+	include = [() => true],
+	exclude = [() => false],
 }): boolean {
-	if (!conditions.asLongAs) {
-		conditions.asLongAs = [];
-	}
-
-	if (!conditions.include) {
-		conditions.include = [() => true];
-	}
-
-	if (!conditions.exclude) {
-		conditions.exclude = [];
-	}
-
 	// Features are enabled if every `asLongAs` matches, at least one `include` matches, none of `exclude` matches
-	if (!conditions.asLongAs.every(c => c()) || conditions.include.every(c => !c()) || conditions.exclude.some(c => c())) {
+	if (!asLongAs.every(c => c()) || include.every(c => !c()) || exclude.some(c => c())) {
 		return false;
 	}
 
