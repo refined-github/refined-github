@@ -119,13 +119,13 @@ export function isNotRefinedGitHubRepo(): boolean {
 
 export function shouldFeatureRun({
 	/** Every condition must be true */
-	asLongAs = [],
-	
+	asLongAs = [() => true],
+
 	/** At least one condition must be true */
 	include = [() => true],
-	
+
 	/** No conditions must be true */
-	exclude = [],
+	exclude = [() => false],
 }): boolean {
 	return asLongAs.every(c => c()) && include.some(c => c()) && exclude.every(c => !c());
 }
