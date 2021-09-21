@@ -118,14 +118,14 @@ export function isNotRefinedGitHubRepo(): boolean {
 }
 
 export function shouldFeatureRun({
-	asLongAs = [() => true],
+	/** Every condition must be true */
+	asLongAs = [],
+	
+	/** At least one condition must be true */
 	include = [() => true],
-	exclude = [() => false],
+	
+	/** No conditions must be true */
+	exclude = [],
 }): boolean {
-	// Features are enabled if every `asLongAs` matches, at least one `include` matches, none of `exclude` matches
-	if (!asLongAs.every(c => c()) || include.every(c => !c()) || exclude.some(c => c())) {
-		return false;
-	}
-
-	return true;
+	return asLongAs.every(c => c()) && include.some(c => c()) && exclude.every(c => !c()))
 }
