@@ -176,4 +176,10 @@ test('shouldFeatureRun', t => {
 		asLongAs: [yes],
 		exclude: yesNo,
 	}), 'If any `exclude` is true, then it should not run, regardless of `asLongAs`');
+
+	t.false(shouldFeatureRun({
+		asLongAs: [yes],
+		include: yesYes,
+		exclude: yesNo,
+	}), 'If any `exclude` is true, then it should not run, regardless of `asLongAs` and `include`');
 });

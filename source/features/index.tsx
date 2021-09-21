@@ -35,9 +35,9 @@ interface FeatureLoader extends Partial<InternalRunConfig> {
 }
 
 interface InternalRunConfig {
-	asLongAs: BooleanFunction[];
-	include: BooleanFunction[];
-	exclude: BooleanFunction[];
+	asLongAs: BooleanFunction[] | undefined;
+	include: BooleanFunction[] | undefined;
+	exclude: BooleanFunction[] | undefined;
 	init: FeatureInit;
 	deinit?: VoidFunction | VoidFunction[];
 	additionalListeners: CallerFunction[];
@@ -193,7 +193,7 @@ function enforceDefaults(
 	additionalListeners: InternalRunConfig['additionalListeners'],
 ): void {
 	for (const [detection, listener] of defaultPairs) {
-		if (!include.includes(detection)) {
+		if (!include?.includes(detection)) {
 			continue;
 		}
 
@@ -219,9 +219,9 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 		// Input defaults and validation
 		const {
 			shortcuts = {},
-			asLongAs = [], // Default: nothing
-			include = [() => true], // Default: every page
-			exclude = [], // Default: nothing
+			asLongAs,
+			include,
+			exclude,
 			init,
 			deinit,
 			awaitDomReady = true,
@@ -236,7 +236,7 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 		}
 
 		// 404 pages should only run 404-only features
-		if (pageDetect.is404() && !include.includes(pageDetect.is404) && !asLongAs.includes(pageDetect.is404)) {
+		if (pageDetect.is404() && !include?.includes(pageDetect.is404) && !asLongAs?.includes(pageDetect.is404)) {
 			continue;
 		}
 
@@ -260,7 +260,7 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 	}
 };
 
-const addCssFeature = async (id: FeatureID, include: BooleanFunction[], deduplicate?: false | string): Promise<void> => {
+const addCssFeature = async (id: FeatureID, include: BooleanFunction[] | undefined, deduplicate?: false | string): Promise<void> => {
 	void add(id, {
 		include,
 		deduplicate,
