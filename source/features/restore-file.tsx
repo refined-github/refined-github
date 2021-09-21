@@ -26,7 +26,7 @@ const getBaseReference = onetime(async (): Promise<string> => {
 const getHeadReference = async (): Promise<string> => {
 	// Get the sha of the latest commit to the PR, required to create a new commit
 	const {repository} = await api.v4(`
-		repository() {
+		repository() { # Cache buster ${Math.random()}
 			pullRequest(number: ${getConversationNumber()!}) {
 				headRefOid
 			}
