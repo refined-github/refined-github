@@ -62,32 +62,21 @@ async function restoreFile(progress: (message: string) => void, menuItem: Elemen
 		throw new Error('Restore failed: File too big');
 	}
 
-	// Attempt to get details from the `Edit` button in the menu
-	const {pathname: blobOrEditPath} = menuItem.previousElementSibling as HTMLAnchorElement;
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Error comes up even though route and pathToFile are prefixed with a _
-	let [owner, repo, _route, branch, ..._pathToFile] = blobOrEditPath.startsWith('/')
-		? blobOrEditPath.slice(1).split('/') : blobOrEditPath.split('/');
-
+	const [nameWithOwner, prBranch] = select('.head-ref')!.title.split(':');
 	if (menuItem.closest('[data-file-deleted="true"]')) {
 		// The file was deleted by the PR, restore it from the base commit
 		progress('Undeleting…');
-		// The `Edit` button doesn't exist if the file is deleted
-		const [nameWithOwner, prBranch] = select('.head-ref')!.title.split(':');
-		owner = nameWithOwner.split('/')[0];
-		repo = nameWithOwner.split('/')[1];
-		branch = prBranch;
 	} else {
 		// The file has been modified, restore it to its original state
 		progress('Committing…');
-		// In this case, the edit button exists, so we already have the required info
 	}
 
 	const content = file.text;
 	await api.v4(`mutation {
 		createCommitOnBranch(input: {
 			branch: {
-				repositoryNameWithOwner: "${owner}/${repo}",
-				branchName: "${branch}"
+				repositoryNameWithOwner: "${nameWithOwner}",
+				branchName: "${prBranch}"
 			},
 			expectedHeadOid: "${await getHeadReference()}",
 			fileChanges: {
