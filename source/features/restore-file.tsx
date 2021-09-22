@@ -63,13 +63,7 @@ async function restoreFile(progress: (message: string) => void, menuItem: Elemen
 	}
 
 	const [nameWithOwner, prBranch] = select('.head-ref')!.title.split(':');
-	if (menuItem.closest('[data-file-deleted="true"]')) {
-		// The file was deleted by the PR, restore it from the base commit
-		progress('Undeleting…');
-	} else {
-		// The file has been modified, restore it to its original state
-		progress('Committing…');
-	}
+	progress(menuItem.closest('[data-file-deleted="true"]') ? 'Undeleting…' : 'Committing…');
 
 	const content = file.text;
 	await api.v4(`mutation {
