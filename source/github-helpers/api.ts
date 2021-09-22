@@ -186,7 +186,7 @@ export const v4 = mem(async (
 			Authorization: `bearer ${personalToken}`,
 		},
 		method: 'POST',
-		body: JSON.stringify({query: (/^(mutation )?{/.test(query.trimStart())) ? query : `{${query}}`}),
+		body: JSON.stringify({query: query.trimStart().startsWith('mutation') ? query : `{${query}}`}),
 	});
 
 	const apiResponse: GraphQLResponse = await response.json();
