@@ -8,9 +8,9 @@ import * as pageDetect from 'github-url-detection';
 import waitFor from '../helpers/wait-for';
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
+import {shouldFeatureRun} from '../github-helpers';
 import optionsStorage, {RGHOptions} from '../options-storage';
 import {getLocalHotfixesAsOptions, updateHotfixes} from '../helpers/hotfix';
-import {shouldFeatureRun} from '../github-helpers';
 
 type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
