@@ -18,11 +18,11 @@
 }
 
 /* Style backticked code in links #4817 */
-.js-commits-list-item code .markdown-title, /* `isCommitList` commit message */
+.js-commits-list-item code, /* `isCommitList` commit message */
 code .markdown-title[data-test-selector='commit-tease-commit-message'] /* `isRepoTree` commit message */ {
 	padding: 2px 4px;
 	background-color: var(--color-neutral-muted);
-	font-size: 1.05em;
+	font-size: 12.6px;
 	line-height: 1;
 	border-radius: 6px;
 }
