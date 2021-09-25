@@ -157,9 +157,9 @@ pr-branches
 
 /* Style backticked code in links #4817 */
 code .markdown-title {
-    padding: 2px 4px;
-    background-color: var(--color-neutral-muted);
+	padding: 2px 4px;
+	background-color: var(--color-neutral-muted);
 	font-size: 1.05em;
-    line-height: 1;
-    border-radius: 6px;
+	line-height: 1;
+	border-radius: 6px;
 }
