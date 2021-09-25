@@ -92,7 +92,6 @@ async function init(): Promise<void> {
 						{' '}
 						<span
 							className={`State State--${prInfo.state.toLowerCase()} State--small ml-1`}
-							title={`Status: ${state}`}
 						>
 							<StateIcon width={14} height={14}/> {state}
 						</span>
