@@ -35,14 +35,6 @@ function init(): void {
 			parseBackticks(element);
 		},
 	});
-
-	// `isRepoSearch` might highlight keywords inside backticks, breaking the regular dom-formatter #3509
-	observe('.codesearch-results .f4:not(.rgh-backticks-already-parsed)', {
-		add(element) {
-			element.classList.add('rgh-backticks-already-parsed');
-			zipTextNodes(element, parseBackticksCore(element.textContent!));
-		},
-	});
 }
 
 void features.add(__filebasename, {
