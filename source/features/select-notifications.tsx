@@ -161,7 +161,9 @@ function init(): void {
 	const selectObserver = observe('.js-notifications-mark-all-prompt:not(.rgh-select-notifications-added)', {
 		add(selectAllCheckbox) {
 			selectAllCheckbox.classList.add('rgh-select-notifications-added');
-			selectAllCheckbox.closest('label')!.after(createDropdown());
+			selectAllCheckbox
+				.closest('label')!
+				.after(createDropdown());
 		},
 	});
 	deinit.push(selectObserver.abort);
