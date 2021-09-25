@@ -11,9 +11,6 @@ function init(): void {
 	const selectors = [
 		'.BorderGrid--spacious .f4.mt-3', // `isRepoHome` repository description
 		'.Box-row .mb-1 a', // `isCompare` open Pull Request title
-		'[id^=ref-issue-]', // `isIssue` issue and PR references
-		'[id^=ref-pullrequest-]', // `isPRConversation` issue and PR references
-		'[aria-label="Link issues"] a', // `isIssue`, `isPRConversation` linked issue and PR
 		'.release-header', // `isReleasesOrTags` Headers
 		'.existing-pull-contents .list-group-item-link', // `isCompare` with existing PR
 		'#pull-requests a.link-gray-dark', // `isPulse` issue and PR title (GHE #4021)
