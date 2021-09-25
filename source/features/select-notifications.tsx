@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {
@@ -119,52 +120,42 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 	);
 }
 
-function createDropdown(): JSX.Element {
-	return (
-		<details
-			className="details-reset details-overlay position-relative rgh-select-notifications"
-			on-toggle={resetFilters}
+const createDropdown = onetime(() => (
+	<details
+		className="details-reset details-overlay position-relative rgh-select-notifications"
+		on-toggle={resetFilters}
+	>
+		<summary
+			className="btn btn-sm ml-3 mr-1"
+			data-hotkey="S"
+			aria-haspopup="menu"
+			role="button"
 		>
-			<summary
-				className="btn btn-sm ml-3 mr-1"
-				data-hotkey="S"
-				aria-haspopup="menu"
-				role="button"
-			>
-				Select by <span className="dropdown-caret ml-1"/>
-			</summary>
-			<details-menu
-				className="SelectMenu left-0"
-				aria-label="Select by"
-				role="menu"
-				on-details-menu-selected={handleSelection}
-			>
-				<div className="SelectMenu-modal">
-					<form id="rgh-select-notifications-form">
-						{createDropdownList('Type', ['Pull requests', 'Issues'])}
-						{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
-						{createDropdownList('Read', ['Read', 'Unread'])}
-					</form>
-				</div>
-			</details-menu>
-		</details>
-	);
-}
-
-function insertDropdown(dropdown: JSX.Element): void {
-	select('.js-notifications-mark-all-prompt')!
-		.closest('label')!
-		.after(dropdown);
-}
+			Select by <span className="dropdown-caret ml-1"/>
+		</summary>
+		<details-menu
+			className="SelectMenu left-0"
+			aria-label="Select by"
+			role="menu"
+			on-details-menu-selected={handleSelection}
+		>
+			<div className="SelectMenu-modal">
+				<form id="rgh-select-notifications-form">
+					{createDropdownList('Type', ['Pull requests', 'Issues'])}
+					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
+					{createDropdownList('Read', ['Read', 'Unread'])}
+				</form>
+			</div>
+		</details-menu>
+	</details>
+));
 
 const deinit: VoidFunction[] = [];
 function init(): false | void {
-	const dropdown = createDropdown();
-	insertDropdown(dropdown);
-
-	const selectObserver = observe('.rgh-select-notifications', {
-		remove() {
-			insertDropdown(dropdown);
+	const selectObserver = observe('.js-notifications-mark-all-prompt:not(.rgh-select-notifications-added)', {
+		add(wrapper) {
+			wrapper.classList.add('rgh-select-notifications-added');
+			wrapper.closest('label')!.after(createDropdown());
 		},
 	});
 	deinit.push(selectObserver.abort);
