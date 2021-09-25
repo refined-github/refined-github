@@ -88,7 +88,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 		Open: <CheckCircleIcon className="color-text-success"/>,
 		Closed: <XCircleIcon className="color-text-danger"/>,
 		Draft: <GitPullRequestDraftIcon className="color-text-tertiary"/>,
-		Merged: <GitMergeIcon className="text-purple"/>,
+		Merged: <GitMergeIcon className="color-fg-done"/>,
 		Read: <DotIcon className="color-text-link"/>,
 		Unread: <DotFillIcon className="color-text-link"/>,
 	};
