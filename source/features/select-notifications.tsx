@@ -159,9 +159,9 @@ function closeDropdown(): void {
 const deinit: VoidFunction[] = [];
 function init(): void {
 	const selectObserver = observe('.js-notifications-mark-all-prompt:not(.rgh-select-notifications-added)', {
-		add(wrapper) {
-			wrapper.classList.add('rgh-select-notifications-added');
-			wrapper.closest('label')!.after(createDropdown());
+		add(selectAllCheckbox) {
+			selectAllCheckbox.classList.add('rgh-select-notifications-added');
+			selectAllCheckbox.closest('label')!.after(createDropdown());
 		},
 	});
 	deinit.push(selectObserver.abort);
