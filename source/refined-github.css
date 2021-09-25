@@ -155,6 +155,7 @@ pr-branches
 	margin-right: 4px !important;
 }
 
+/* Style backticked code in links #4817 */
 code .markdown-title {
     padding: 2px 4px;
     background-color: var(--color-neutral-muted);
