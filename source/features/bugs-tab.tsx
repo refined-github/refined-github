@@ -17,10 +17,10 @@ const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(g
 const isBugLabel = (label: string): boolean => supportedLabels.test(label.replace(/\s/g, ''));
 
 async function highlightBugsTabOnIssuePage(): Promise<void | false> {
-	const isBugsPage = new SearchQuery(location.search).includes(`label:${SearchQuery.escapeValue(await getBugLabel() ?? 'bug')}`);
-
 	if (await countBugs() === 0
-	|| (pageDetect.isIssue() ? !await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]') : !isBugsPage)) {
+	|| (pageDetect.isIssue()
+		? !await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]')
+		: !new SearchQuery(location.search).includes(`label:${SearchQuery.escapeValue(await getBugLabel() ?? 'bug')}`))) {
 		return false;
 	}
 
