@@ -156,7 +156,8 @@ pr-branches
 }
 
 /* Style backticked code in links #4817 */
-.js-commits-list-item code .markdown-title {
+.js-commits-list-item code .markdown-title,
+code .markdown-title[data-test-selector="commit-tease-commit-message"] {
 	padding: 2px 4px;
 	background-color: var(--color-neutral-muted);
 	font-size: 1.05em;
