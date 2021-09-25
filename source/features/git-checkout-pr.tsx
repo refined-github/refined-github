@@ -3,7 +3,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import oneMutation from 'one-mutation';
 import * as pageDetect from 'github-url-detection';
-import {PasteIcon, TerminalIcon} from '@primer/octicons-react';
+import {CopyIcon, TerminalIcon} from '@primer/octicons-react';
 
 import features from '.';
 import {getRepo, getUsername} from '../github-helpers';
@@ -46,7 +46,7 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 						aria-label="Copy to clipboard"
 						data-copy-feedback="Copied!"
 					>
-						<PasteIcon/>
+						<CopyIcon/>
 					</clipboard-copy>
 				</div>
 				<pre
