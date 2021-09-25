@@ -10,9 +10,8 @@ import parseBackticksCore from '../github-helpers/parse-backticks';
 function init(): void {
 	const selectors = [
 		'.BorderGrid--spacious .f4.mt-3', // `isRepoHome` repository description
-		'.Box-row .mb-1 a', // `isCompare` open Pull Request title
 		'.release-header', // `isReleasesOrTags` Headers
-		'.existing-pull-contents .list-group-item-link', // `isCompare` with existing PR
+		'.Box-row .mb-1 a', // `isCompare` with existing PR
 		'#pull-requests a.link-gray-dark', // `isPulse` issue and PR title (GHE #4021)
 		'#pull-requests a.Link--primary', // `isPulse` issue and PR title
 		'[id^="check_suite"] a.link-gray-dark', // `isRepositoryActions` (GHE #4021)
