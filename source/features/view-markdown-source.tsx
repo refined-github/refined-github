@@ -33,7 +33,7 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		() => pageDetect.isSingleFile() && /\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee)$/.test(location.pathname),
+		() => pageDetect.isSingleFile() && /\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|rst)$/.test(location.pathname),
 	],
 	deduplicate: '.rgh-view-markdown-source', // #3945
 	init,

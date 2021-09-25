@@ -41,7 +41,7 @@ export async function getChangesToFileInCommit(sha: string, filePath: string): P
 
 async function linkify(button: HTMLButtonElement, filePath: string): Promise<void | false> {
 	const isNewer = button.textContent === 'Newer';
-
+	const fromKey = isNewer ? 'previous_filename' : 'filename';
 	const toKey = isNewer ? 'filename' : 'previous_filename';
 	const sha = (isNewer ? select : select.last)('clipboard-copy[aria-label="Copy the full SHA"]')!;
 
@@ -57,17 +57,20 @@ async function linkify(button: HTMLButtonElement, filePath: string): Promise<voi
 		// Clear the search from the url, so it does not get passed to the rename link
 		search: '',
 	});
-	button.replaceWith(
-		<a
-			href={String(linkifiedURL)}
-			aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${fileChanges.file[toKey]!}`}
-			className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
-		>
-			{isNewer && <DiffRenamedIcon className="mr-1" style={{transform: 'rotate(180deg)'}}/>}
-			{button.textContent}
-			{!isNewer && <DiffRenamedIcon className="ml-1"/>}
-		</a>,
-	);
+	// Check that the file was actually renamed
+	if (fileChanges.file[fromKey] === filePath) {
+		button.replaceWith(
+			<a
+				href={String(linkifiedURL)}
+				aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${fileChanges.file[toKey]!}`}
+				className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
+			>
+				{isNewer && <DiffRenamedIcon className="mr-1" style={{transform: 'rotate(180deg)'}}/>}
+				{button.textContent}
+				{!isNewer && <DiffRenamedIcon className="ml-1"/>}
+			</a>,
+		);
+	}
 }
 
 function init(): void | false {

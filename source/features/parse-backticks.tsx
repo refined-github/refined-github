@@ -42,6 +42,7 @@ function init(): void {
 		'#user-repositories-list [itemprop="description"]', // `isUserProfileRepoTab` repository description
 		'.js-hovercard-content > .Popover-message .link-gray-dark', // Hovercard (GHE #4021)
 		'.js-hovercard-content > .Popover-message .Link--primary', // Hovercard
+		'.js-discussions-title-container h1 > .js-issue-title', // `isDiscussion`
 		'a[data-hovercard-type="discussion"]', // `isDiscussionList`
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)').join(',');
 
