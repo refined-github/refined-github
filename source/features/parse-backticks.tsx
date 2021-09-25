@@ -16,7 +16,7 @@ function init(): void {
 		'#pull-requests a.Link--primary', // `isPulse` issue and PR title
 		'[id^="check_suite"] a.link-gray-dark', // `isRepositoryActions` (GHE #4021)
 		'[id^="check_suite"] a.Link--primary', // `isRepositoryActions`
-		'.checks-summary-conclusion + .flex-auto .f3', // `isActions` run
+		'.js-socket-channel[data-url*="/header_partial"] h3', // `isActions` run
 		'.js-wiki-sidebar-toggle-display a', // `isWiki` sidebar pages title
 		'#wiki-wrapper .gh-header-title', // `isWiki` page title
 		'.js-recent-activity-container .text-bold', // `isDashboard` "Recent activity" titles
