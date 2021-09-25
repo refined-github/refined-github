@@ -17,7 +17,10 @@ const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(g
 const isBugLabel = (label: string): boolean => supportedLabels.test(label.replace(/\s/g, ''));
 
 async function highlightBugsTabOnIssuePage(): Promise<void | false> {
-	if (await countBugs() === 0 || !await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]')) {
+	const isBugsPage = new SearchQuery(location.search).includes(`label:${SearchQuery.escapeValue(await getBugLabel() ?? 'bug')}`);
+
+	if (await countBugs() === 0
+	|| (pageDetect.isIssue() ? !await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]') : !isBugsPage)) {
 		return false;
 	}
 
@@ -111,7 +114,7 @@ async function init(): Promise<void | false> {
 	// Disable unwanted behavior #3001
 	bugsTab.removeAttribute('data-hotkey');
 	bugsTab.removeAttribute('data-selected-links');
-	issuesTab.removeAttribute('data-selected-links');
+	bugsTab.removeAttribute('id');
 
 	// Update its appearance
 	const bugsTabTitle = select('[data-content]', bugsTab)!;
@@ -158,7 +161,7 @@ void features.add(__filebasename, {
 	init,
 }, {
 	include: [
-		pageDetect.isIssue,
+		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
 	deduplicate: false,
