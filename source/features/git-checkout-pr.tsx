@@ -3,7 +3,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import oneMutation from 'one-mutation';
 import * as pageDetect from 'github-url-detection';
-import {CopyIcon, TerminalIcon} from '@primer/octicons-react';
+import {CopyIcon, CheckIcon, TerminalIcon} from '@primer/octicons-react';
 
 import features from '.';
 import {getRepo, getUsername} from '../github-helpers';
@@ -35,32 +35,32 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 	const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
 	const [owner] = nameWithOwner.split('/');
 	return (
-		<>
+		<div className="markdown-body">
 			{remote && <p className="text-gray color-text-secondary text-small my-1">{remoteType}</p>}
-			<div className="copyable-terminal">
-				<div className="copyable-terminal-button">
-					<clipboard-copy
-						className="btn btn-sm zeroclipboard-button"
-						role="button"
-						for={`rgh-checkout-pr-${remoteType!}`}
-						aria-label="Copy to clipboard"
-						data-copy-feedback="Copied!"
-					>
-						<CopyIcon/>
-					</clipboard-copy>
-				</div>
-				<pre
-					id={`rgh-checkout-pr-${remoteType!}`}
-					className="copyable-terminal-content"
-				>
-					<span className="user-select-contain">
+			<div className="snippet-clipboard-content position-relative">
+				<pre id={`rgh-checkout-pr-${remoteType!}`}>
+					<code>
 						{remote && `git remote add ${remote} ${connectionType[remoteType!]}${nameWithOwner}.git\n`}
 						git fetch {remote ?? 'origin'} {headBranch}{'\n'}
 						git switch {remote && `--track ${owner}/`}{headBranch}
-					</span>
+					</code>
 				</pre>
+				<div className="zeroclipboard-container position-absolute right-0 top-0">
+					<clipboard-copy
+						aria-label="Copy"
+						className="ClipboardButton btn js-clipboard-copy m-2 p-0 tooltipped-no-delay"
+						data-copy-feedback="Copied!"
+						data-tooltip-direction="w"
+						for={`rgh-checkout-pr-${remoteType!}`}
+						tabindex="0"
+						role="button"
+					>
+						<CopyIcon className="js-clipboard-copy-icon m-2"/>
+						<CheckIcon className="js-clipboard-check-icon color-text-success d-none m-2"/>
+					</clipboard-copy>
+				</div>
 			</div>
-		</>
+		</div>
 	);
 }
 
