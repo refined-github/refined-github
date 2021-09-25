@@ -156,7 +156,7 @@ pr-branches
 }
 
 /* Style backticked code in links #4817 */
-code .markdown-title {
+.js-commits-list-item code .markdown-title {
 	padding: 2px 4px;
 	background-color: var(--color-neutral-muted);
 	font-size: 1.05em;
