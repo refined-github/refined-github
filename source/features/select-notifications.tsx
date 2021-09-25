@@ -157,7 +157,7 @@ function closeDropdown(): void {
 }
 
 const deinit: VoidFunction[] = [];
-function init(): false | void {
+function init(): void {
 	const selectObserver = observe('.js-notifications-mark-all-prompt:not(.rgh-select-notifications-added)', {
 		add(wrapper) {
 			wrapper.classList.add('rgh-select-notifications-added');
