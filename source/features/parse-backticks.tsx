@@ -19,7 +19,6 @@ function init(): void {
 		'.js-socket-channel[data-url*="/header_partial"] h3', // `isActions` run
 		'.js-wiki-sidebar-toggle-display a', // `isWiki` sidebar pages title
 		'#wiki-wrapper .gh-header-title', // `isWiki` page title
-		'.js-recent-activity-container .text-bold', // `isDashboard` "Recent activity" titles
 		'.issues_labeled .text-gray-dark > a', // `isDashboard` "help wanted" event titles (GHE #4021)
 		'.issues_labeled .color-text-primary > a', // `isDashboard` "help wanted" event titles
 		'.commits blockquote', // `isDashboard` newsfeed commits
