@@ -10,22 +10,10 @@ import parseBackticksCore from '../github-helpers/parse-backticks';
 function init(): void {
 	const selectors = [
 		'.BorderGrid--spacious .f4.mt-3', // `isRepoHome` repository description
-		'.js-commits-list-item .mb-1', // `isCommitList` commit message
-		'.js-commits-list-item pre', // `isCommitList` commit description
-		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.link-gray-dark', // `isRepoRoot` commit message (GHE #4021)
-		'.Details[data-issue-and-pr-hovercards-enabled] .d-none a.Link--primary', // `isRepoRoot` commit message
-		'.commit-title', // `isCommit` commit message
-		'.commit-desc', // `isCommit` commit description
-		'.js-commit .pr-1 > code', // `isPRConversation` pushed commits
-		'.js-details-container .pr-1 > code', // `isCompare` pushed commits
 		'.Box-row .mb-1 a', // `isCompare` open Pull Request title
-		'.blame-commit-message', // `isBlame` commit message
 		'[id^=ref-issue-]', // `isIssue` issue and PR references
 		'[id^=ref-pullrequest-]', // `isPRConversation` issue and PR references
 		'[aria-label="Link issues"] a', // `isIssue`, `isPRConversation` linked issue and PR
-		'.Box-header.Details .link-gray', // `isSingleFile` commit message (GHE #4021)
-		'.Box-header.Details .Link--secondary', // `isSingleFile` commit message
-		'.Box-header.Details pre', // `isSingleFile` commit description
 		'.release-header', // `isReleasesOrTags` Headers
 		'.existing-pull-contents .list-group-item-link', // `isCompare` with existing PR
 		'#pull-requests a.link-gray-dark', // `isPulse` issue and PR title (GHE #4021)
