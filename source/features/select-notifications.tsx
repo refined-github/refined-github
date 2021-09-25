@@ -1,6 +1,8 @@
+import './select-notifications.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
+import delegate from 'delegate-it';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {
@@ -150,6 +152,10 @@ const createDropdown = onetime(() => (
 	</details>
 ));
 
+function closeDropdown(): void {
+	select('.rgh-select-notifications')?.removeAttribute('open');
+}
+
 const deinit: VoidFunction[] = [];
 function init(): false | void {
 	const selectObserver = observe('.js-notifications-mark-all-prompt:not(.rgh-select-notifications-added)', {
@@ -159,6 +165,9 @@ function init(): false | void {
 		},
 	});
 	deinit.push(selectObserver.abort);
+
+	// Close the dropdown when one of the toolbar buttons is clicked
+	delegate(document, '.js-notifications-mark-selected-actions > *', 'click', closeDropdown);
 }
 
 void features.add(__filebasename, {

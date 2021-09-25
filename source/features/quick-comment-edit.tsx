@@ -7,13 +7,22 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function canEditDiscussion(): boolean {
-	return pageDetect.isDiscussion() && select.exists('[title^="You are a maintainer"], [title^="You are a collaborator"]');
+function canEditEveryComment(): boolean {
+	return select.exists([
+		// These are only found if you left any comments on the page
+		'[aria-label^="You have been invited to collaborate"]',
+		'[aria-label^="You are the owner"]',
+		'[title^="You are a maintainer"]',
+		'[title^="You are a collaborator"]',
+
+		// If you can change the repo’s settings, then can change anything
+		'#settings-tab',
+	]);
 }
 
 function init(): void {
 	// If true then the resulting selector will match all comments, otherwise it will only match those made by you
-	const preSelector = !pageDetect.isDiscussion() || canEditDiscussion() ? '' : '.current-user';
+	const preSelector = canEditEveryComment() ? '' : '.current-user';
 	// Find editable comments first, then traverse to the correct position
 	observe(preSelector + '.js-comment.unminimized-comment .js-comment-update:not(.rgh-edit-comment)', {
 		add(comment) {
