@@ -107,6 +107,10 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 	const descriptionElement = domify.one(description)!;
 	descriptionElement.className = 'description';
 
+	if (screenshot) {
+		descriptionElement.append(<img hidden data-src={screenshot} loading="lazy"/>);
+	}
+
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
 			<input type="checkbox" name={`feature:${id}`} id={id}/>
@@ -147,6 +151,16 @@ async function findFeatureHandler(event: Event): Promise<void> {
 	}, 10_000);
 
 	select('#find-feature-message')!.hidden = false;
+}
+
+function showScreenshotsHandler(): void {
+	for (const screenshot of select.all('img')) {
+		if (!screenshot.hasAttribute('src')) {
+			screenshot.setAttribute('src', screenshot.getAttribute('data-src')!);
+		}
+
+		screenshot.hidden = !screenshot.hidden;
+	}
 }
 
 function featuresFilterHandler(event: Event): void {
@@ -236,6 +250,9 @@ function addEventListeners(): void {
 	// Improve textareas editing
 	fitTextarea.watch('textarea');
 	indentTextarea.watch('textarea');
+
+	// Toggle screenshots
+	select('#show-screenshots')!.addEventListener('change', showScreenshotsHandler);
 
 	// Filter feature list
 	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
