@@ -13,7 +13,11 @@ async function init(): Promise<void | false> {
 
 	const conversationsUrl = '/sindresorhus/refined-github/issues?q=' + encodeURIComponent(`"${feature.id}" sort:updated-desc`);
 
-	const commitInfoBox = (await elementReady('.hx_commit-tease, .Box-header.Details, include-fragment.commit-loader'))!.parentElement!;
+	const commitInfoBox = (await elementReady([
+		'.hx_commit-tease', // Selector for commit message
+		'.Box-header.Details', // Generic selector for entire commit box
+		'include-fragment.commit-loader', // Required according to 2683e30
+	].join(',')))!.parentElement!;
 	commitInfoBox.classList.add('width-fit', 'min-width-0', 'flex-auto', 'mb-lg-0', 'mr-lg-3');
 	commitInfoBox.classList.remove('flex-shrink-0');
 
