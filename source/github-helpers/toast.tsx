@@ -2,8 +2,6 @@ import delay from 'delay';
 import React from 'dom-chef';
 import {CheckIcon, StopIcon} from '@primer/octicons-react';
 
-import {frame} from '../helpers/dom-utils';
-
 export function ToastSpinner(): JSX.Element {
 	return (
 		<svg className="Toast--spinner" viewBox="0 0 32 32" width="18" height="18">
@@ -53,8 +51,12 @@ export default async function showToast<TTask extends Task>(
 		iconWrapper.firstChild!.replaceWith(<StopIcon/>);
 		throw error;
 	} finally {
-		await frame(); // Without this, the toast might be removed before the first page paint
-		await delay(3000);
-		toast.remove();
+		// Without rAF the toast might be removed before the first page paint
+		// rAF also allows showToast to resolve as soon as task is done
+		requestAnimationFrame(() => {
+			setTimeout(() => {
+				toast.remove();
+			}, 3000);
+		});
 	}
 }

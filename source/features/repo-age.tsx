@@ -29,6 +29,7 @@ const fresh = [
 	'Just a baby',
 	'It’s my birthday',
 	'Brand spanking new',
+	'It’s a new world ✨',
 	'Certified Fresh Repo™',
 	'So it begins, the great battle of our time',
 ];
