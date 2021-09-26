@@ -99,12 +99,12 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
+	asLongAs: [
+		// The user cannot merge
+		() => select.exists('[data-details-container=".js-merge-pr"]:not(:disabled)'),
+	],
 	include: [
 		pageDetect.isPRConversation,
-	],
-	exclude: [
-		// The user cannot merge
-		() => !select.exists('[data-details-container=".js-merge-pr"]:not(:disabled)'),
 	],
 	init,
 });

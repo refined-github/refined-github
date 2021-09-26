@@ -105,11 +105,11 @@ async function init(): Promise<void> {
 }
 
 void features.add(__filebasename, {
+	asLongAs: [
+		pageDetect.isForkedRepo,
+	],
 	include: [
 		pageDetect.isBranches,
-	],
-	exclude: [
-		() => !pageDetect.isForkedRepo(),
 	],
 	awaitDomReady: false,
 	init: onetime(init),

@@ -8,6 +8,7 @@ import {
 	parseTag,
 	compareNames,
 	getLatestVersionTag,
+	shouldFeatureRun,
 } from '../source/github-helpers';
 
 test('getConversationNumber', t => {
@@ -134,4 +135,51 @@ test('getLatestVersionTag', t => {
 		'2020-10-10',
 		'v1.0-1',
 	]), 'lol v0.0.0', 'Non-version tags should short-circuit the sorting and return the first tag');
+});
+
+test('shouldFeatureRun', t => {
+	const yes = (): boolean => true;
+	const no = (): boolean => false;
+	const yesYes = [yes, yes];
+	const yesNo = [yes, no];
+	const noNo = [no, no];
+
+	t.true(shouldFeatureRun({}), 'A lack of conditions should mean "run everywhere"');
+
+	t.false(shouldFeatureRun({
+		asLongAs: yesNo,
+	}), 'Every `asLongAs` should be true to run');
+
+	t.false(shouldFeatureRun({
+		asLongAs: yesNo,
+		include: [yes],
+	}), 'Every `asLongAs` should be true to run, regardless of `include`');
+
+	t.false(shouldFeatureRun({
+		include: noNo,
+	}), 'At least one `include` should be true to run');
+
+	t.true(shouldFeatureRun({
+		include: yesNo,
+	}), 'If one `include` is true, then it should run');
+
+	t.false(shouldFeatureRun({
+		exclude: yesNo,
+	}), 'If any `exclude` is true, then it should not run');
+
+	t.false(shouldFeatureRun({
+		include: [yes],
+		exclude: yesNo,
+	}), 'If any `exclude` is true, then it should not run, regardless of `include`');
+
+	t.false(shouldFeatureRun({
+		asLongAs: [yes],
+		exclude: yesNo,
+	}), 'If any `exclude` is true, then it should not run, regardless of `asLongAs`');
+
+	t.false(shouldFeatureRun({
+		asLongAs: [yes],
+		include: yesYes,
+		exclude: yesNo,
+	}), 'If any `exclude` is true, then it should not run, regardless of `asLongAs` and `include`');
 });

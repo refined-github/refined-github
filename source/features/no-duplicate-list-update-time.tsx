@@ -17,11 +17,11 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
+	asLongAs: [
+		() => location.search.includes('sort%3Aupdated-'),
+	],
 	include: [
 		pageDetect.isConversationList,
-	],
-	exclude: [
-		() => !location.search.includes('sort%3Aupdated-'),
 	],
 	init,
 });

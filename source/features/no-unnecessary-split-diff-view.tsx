@@ -26,6 +26,10 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
+	asLongAs: [
+		// Make sure the class names we need exist on the page #4483
+		() => select.exists('.js-diff-table :is([data-split-side="left"], [data-split-side="right"]):is(.blob-code-addition, .blob-code-deletion)'),
+	],
 	include: [
 		pageDetect.isCommit,
 		pageDetect.isCompare,
@@ -33,8 +37,6 @@ void features.add(__filebasename, {
 	],
 	exclude: [
 		isUnifiedDiff,
-		// Make sure the class names we need exist on the page #4483
-		() => !select.exists('.js-diff-table :is([data-split-side="left"], [data-split-side="right"]):is(.blob-code-addition, .blob-code-deletion)'),
 	],
 	additionalListeners: [
 		onDiffFileLoad,

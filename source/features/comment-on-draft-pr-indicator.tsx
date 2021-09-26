@@ -26,12 +26,12 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
+	asLongAs: [
+		pageDetect.isDraftPR,
+	],
 	include: [
 		pageDetect.isPRConversation,
 		pageDetect.isPRFiles,
-	],
-	exclude: [
-		() => !pageDetect.isDraftPR(),
 	],
 	init,
 });
