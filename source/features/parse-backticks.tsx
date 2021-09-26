@@ -19,7 +19,6 @@ function init(): void {
 		'#wiki-wrapper .gh-header-title', // `isWiki` page title
 		'.issues_labeled .text-gray-dark > a', // `isDashboard` "help wanted" event titles (GHE #4021)
 		'.issues_labeled .color-text-primary > a', // `isDashboard` "help wanted" event titles
-		'.commits blockquote', // `isDashboard` newsfeed commits
 		'#user-repositories-list [itemprop="description"]', // `isUserProfileRepoTab` repository description
 		'.js-hovercard-content > .Popover-message .link-gray-dark', // Hovercard (GHE #4021)
 		'.js-hovercard-content > .Popover-message .Link--primary', // Hovercard
