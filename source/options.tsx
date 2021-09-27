@@ -160,7 +160,7 @@ async function findFeatureHandler(event: Event): Promise<void> {
 }
 
 function summaryHandler(event: delegate.Event): void {
-	const screenshot = (event.delegateTarget as HTMLElement).nextElementSibling!;
+	const screenshot = event.delegateTarget.nextElementSibling!;
 
 	if (!screenshot.hasAttribute('src')) {
 		screenshot.setAttribute('src', screenshot.getAttribute('data-src')!);
