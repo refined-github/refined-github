@@ -20,5 +20,6 @@ void features.add(__filebasename, {
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

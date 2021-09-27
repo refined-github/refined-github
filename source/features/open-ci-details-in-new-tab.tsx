@@ -15,5 +15,6 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isPR,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

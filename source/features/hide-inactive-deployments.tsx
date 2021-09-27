@@ -23,5 +23,6 @@ void features.add(__filebasename, {
 	additionalListeners: [
 		onNewComments,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

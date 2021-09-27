@@ -53,5 +53,6 @@ void features.add(__filebasename, {
 	additionalListeners: [
 		onConversationHeaderUpdate,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });
