@@ -118,7 +118,16 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 						source
 					</a>
 					{screenshot
-						? <p><details><summary className="description">{[...descriptionElement.childNodes]}</summary><img data-src={screenshot}/></details></p>
+						? (
+							<p>
+								<details>
+									<summary className="description">
+										{[...descriptionElement.childNodes]}
+									</summary>
+									<img data-src={screenshot}/>
+								</details>
+							</p>
+						)
 						: descriptionElement}
 				</label>
 			</div>
@@ -151,7 +160,7 @@ async function findFeatureHandler(event: Event): Promise<void> {
 }
 
 function detailsHandler(event: Event): void {
-	const screenshot = (event.target as HTMLElement).closest('details')!.querySelector('img')!;
+	const screenshot = (event.currentTarget as HTMLElement).nextElementSibling!;
 
 	if (!screenshot.hasAttribute('src')) {
 		screenshot.setAttribute('src', screenshot.getAttribute('data-src')!);
@@ -246,8 +255,8 @@ function addEventListeners(): void {
 	fitTextarea.watch('textarea');
 	indentTextarea.watch('textarea');
 
-	// Toggle screenshots
-	delegate(document, 'details', 'click', detailsHandler);
+	// Load screenshots
+	delegate(document, 'summary', 'click', detailsHandler);
 
 	// Filter feature list
 	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
