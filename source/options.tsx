@@ -107,10 +107,6 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 	const descriptionElement = domify.one(description)!;
 	descriptionElement.className = 'description';
 
-	if (screenshot) {
-		descriptionElement.append(<img hidden data-src={screenshot} loading="lazy"/>);
-	}
-
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
 			<input type="checkbox" name={`feature:${id}`} id={id}/>
@@ -121,8 +117,9 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 					<a href={`https://github.com/sindresorhus/refined-github/blob/main/source/features/${id}.tsx`}>
 						source
 					</a>
-					{screenshot && <>, <a href={screenshot}>screenshot</a></>}
-					{descriptionElement}
+					{screenshot
+						? <p><details><summary className="description">{[...descriptionElement.childNodes]}</summary><img data-src={screenshot}/></details></p>
+						: descriptionElement}
 				</label>
 			</div>
 		</div>
@@ -153,13 +150,11 @@ async function findFeatureHandler(event: Event): Promise<void> {
 	select('#find-feature-message')!.hidden = false;
 }
 
-function showScreenshotsHandler(): void {
-	for (const screenshot of select.all('img')) {
-		if (!screenshot.hasAttribute('src')) {
-			screenshot.setAttribute('src', screenshot.getAttribute('data-src')!);
-		}
+function detailsHandler(event: Event): void {
+	const screenshot = (event.target as HTMLElement).closest('details')!.querySelector('img')!;
 
-		screenshot.hidden = !screenshot.hidden;
+	if (!screenshot.hasAttribute('src')) {
+		screenshot.setAttribute('src', screenshot.getAttribute('data-src')!);
 	}
 }
 
@@ -252,7 +247,7 @@ function addEventListeners(): void {
 	indentTextarea.watch('textarea');
 
 	// Toggle screenshots
-	select('#show-screenshots')!.addEventListener('change', showScreenshotsHandler);
+	delegate(document, 'details', 'click', detailsHandler);
 
 	// Filter feature list
 	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
