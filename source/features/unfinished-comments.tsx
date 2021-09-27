@@ -13,10 +13,7 @@ function hasDraftComments(): boolean {
 		&& (
       !select.exists('.btn-primary[disabled]', textarea.form!) // Exclude forms being submitted
       || 
-      (
-        select.exists('input[aria-label="Title"]', textarea.form!)
-        && !(select('input[aria-label="Title"]', textarea.form!))?.value // Exclude forms doesn't fill in required title but have draft comments
-      )
+      select.exists('input[aria-label="Title"]', textarea.form!) // Exclude forms doesn't fill in required title but have draft comments
     )
 	);
 }
