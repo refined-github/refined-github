@@ -159,8 +159,8 @@ async function findFeatureHandler(event: Event): Promise<void> {
 	select('#find-feature-message')!.hidden = false;
 }
 
-function detailsHandler(event: Event): void {
-	const screenshot = (event.currentTarget as HTMLElement).nextElementSibling!;
+function summaryHandler(event: delegate.Event): void {
+	const screenshot = (event.delegateTarget as HTMLElement).nextElementSibling!;
 
 	if (!screenshot.hasAttribute('src')) {
 		screenshot.setAttribute('src', screenshot.getAttribute('data-src')!);
@@ -256,7 +256,7 @@ function addEventListeners(): void {
 	indentTextarea.watch('textarea');
 
 	// Load screenshots
-	delegate(document, 'summary', 'click', detailsHandler);
+	delegate(document, 'summary', 'click', summaryHandler);
 
 	// Filter feature list
 	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
