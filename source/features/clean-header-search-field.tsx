@@ -14,5 +14,6 @@ void features.add(__filebasename, {
 		pageDetect.isGlobalConversationList,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init: onetime(init),
 });
