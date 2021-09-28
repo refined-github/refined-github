@@ -97,5 +97,6 @@ void features.add(__filebasename, {
 		pageDetect.isClosedPR,
 		() => select('.head-ref')!.title === 'This repository has been deleted',
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

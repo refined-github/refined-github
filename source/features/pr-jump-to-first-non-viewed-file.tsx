@@ -27,5 +27,6 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isPRFile404,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

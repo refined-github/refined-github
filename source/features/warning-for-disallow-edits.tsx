@@ -42,5 +42,6 @@ void features.add(__filebasename, {
 		pageDetect.isCompare,
 		pageDetect.isPRConversation,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

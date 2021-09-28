@@ -41,5 +41,6 @@ void features.add(__filebasename, {
 	additionalListeners: [
 		onDiffFileLoad,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

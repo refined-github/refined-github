@@ -112,5 +112,6 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

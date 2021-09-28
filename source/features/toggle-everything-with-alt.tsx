@@ -73,5 +73,6 @@ void features.add(__filebasename, {
 		pageDetect.isCommit,
 		pageDetect.isCompare,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

@@ -78,5 +78,6 @@ void features.add(__filebasename, {
 	exclude: [
 		() => select.exists('.blankslate'),
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

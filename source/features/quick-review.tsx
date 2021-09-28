@@ -54,6 +54,7 @@ void features.add(__filebasename, {
 		},
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init: addSidebarReviewButton,
 }, {
 	shortcuts: {
@@ -63,5 +64,6 @@ void features.add(__filebasename, {
 		pageDetect.isPRFiles,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init: initReviewButtonEnhancements,
 });

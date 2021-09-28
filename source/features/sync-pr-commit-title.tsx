@@ -105,5 +105,6 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRConversation,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

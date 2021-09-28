@@ -115,6 +115,7 @@ void features.add(__filebasename, {
 	shortcuts: {
 		'd w': 'Show/hide whitespaces in diffs',
 	},
+	deduplicate: 'has-rgh-inner',
 	init: initPR,
 }, {
 	include: [
