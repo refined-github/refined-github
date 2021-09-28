@@ -11,10 +11,9 @@ function hasDraftComments(): boolean {
 	return select.all('textarea:not([disabled], [id^="convert-to-issue-body"])').some(textarea =>
 		textarea.value !== textarea.textContent // Exclude comments being edited but not yet changed (and empty comment fields)
 		&& (
-      !select.exists('.btn-primary[disabled]', textarea.form!) // Exclude forms being submitted
-      || 
-      select.exists('input[aria-label="Title"]', textarea.form!) // Exclude forms doesn't fill in required title but have draft comments
-    )
+			!select.exists('.btn-primary[disabled]', textarea.form!) // Exclude forms being submitted
+			|| select.exists('input[aria-label="Title"]', textarea.form!) // Exclude forms doesn't fill in required title but have draft comments
+		),
 	);
 }
 
