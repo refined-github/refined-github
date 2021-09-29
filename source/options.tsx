@@ -124,7 +124,9 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 									<summary className="description">
 										{[...descriptionElement.childNodes]}
 									</summary>
-									<img data-src={screenshot}/>
+									<a className="screenshot-link" href={screenshot}>
+										<img data-src={screenshot}/>
+									</a>
 								</details>
 							</p>
 						)
@@ -160,7 +162,7 @@ async function findFeatureHandler(event: Event): Promise<void> {
 }
 
 function summaryHandler(event: delegate.Event): void {
-	const screenshot = event.delegateTarget.nextElementSibling!;
+	const screenshot = event.delegateTarget.nextElementSibling!.firstElementChild!;
 
 	if (!screenshot.hasAttribute('src')) {
 		screenshot.setAttribute('src', screenshot.getAttribute('data-src')!);

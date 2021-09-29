@@ -156,9 +156,14 @@ li[data-validation] {
 	margin-bottom: 0;
 }
 
-img {
-	max-width: 100%;
+.screenshot-link {
+	display: inline-block;
 	margin-top: 0.5em;
+	margin-left: 0 !important;
 	border: 1px solid #d1d5da;
 	border-radius: 0.2em;
+}
+
+img {
+	max-width: 100%;
 }
