@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import showToast from '../github-helpers/toast';
-import {clickAll} from './toggle-everything-with-alt';
+import clickAll from './toggle-everything-with-alt';
 
 let previousFile: HTMLElement | undefined;
 
