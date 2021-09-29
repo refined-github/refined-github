@@ -11,6 +11,7 @@ import * as indentTextarea from 'indent-textarea';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {perDomainOptions} from './options-storage';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
+import clickAll from './helpers/click-all';
 
 interface Status {
 	error?: true;
@@ -161,6 +162,10 @@ async function findFeatureHandler(event: Event): Promise<void> {
 	select('#find-feature-message')!.hidden = false;
 }
 
+function summarySelector(clickedItem: HTMLElement): string {
+	return `details${(clickedItem.parentElement as HTMLDetailsElement).open ? '[open]' : ':not([open])'} summary`;
+}
+
 function summaryHandler(event: delegate.Event): void {
 	const screenshot = event.delegateTarget.nextElementSibling!.firstElementChild!;
 
@@ -259,6 +264,7 @@ function addEventListeners(): void {
 
 	// Load screenshots
 	delegate(document, 'summary', 'click', summaryHandler);
+	delegate(document, 'summary', 'click', clickAll(summarySelector));
 
 	// Filter feature list
 	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
