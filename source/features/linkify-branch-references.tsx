@@ -1,8 +1,11 @@
 import React from 'dom-chef';
+import onetime from 'onetime';
+import {observe} from 'selector-observer';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import GitHubURL from '../github-helpers/github-url';
 import {buildRepoURL} from '../github-helpers';
 
 async function init(): Promise<void | false> {
@@ -21,10 +24,26 @@ async function init(): Promise<void | false> {
 	);
 }
 
+function hovercardInit(): void {
+	observe('[data-hydro-view*="pull-request-hovercard-hover"] ~ .d-flex.mt-2 .commit-ref', {
+		constructor: HTMLElement,
+		add(reference) {
+			const url = new GitHubURL(location.href).assign({
+				user: reference.querySelector('.user')!.textContent!,
+				route: 'tree',
+				branch: reference.title,
+			});
+			reference.replaceChildren(<a className="color-text-secondary" href={url.pathname}>{[...reference.childNodes]}</a>);
+		},
+	});
+}
+
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isQuickPR,
 		pageDetect.isEditingFile,
 	],
 	init,
+}, {
+	init: onetime(hovercardInit),
 });
