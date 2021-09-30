@@ -8,6 +8,9 @@ import {parseBackticks} from '../github-helpers/dom-formatters';
 function init(): void {
 	const selectors = [
 		'.BorderGrid--spacious .f4.mt-3', // `isRepoHome` repository description
+		'.js-commits-list-item pre', // `isCommitList` commit description
+		'.js-commit-group .pr-1 code', // `isPRConversation` commit message
+		'.js-commit-group pre', // `isPRConversation` commit description
 		'.release-header', // `isReleasesOrTags` Headers
 		'.Box-row .mb-1 a', // `isCompare` with existing PR
 		'#pull-requests a.link-gray-dark', // `isPulse` issue and PR title (GHE #4021)
