@@ -6,6 +6,10 @@ import {CodeIcon, FileIcon} from '@primer/octicons-react';
 import features from '.';
 
 async function init(): Promise<void> {
+	if (select.exists('[href^="?plain=1"]')) {
+		throw new Error('GitHub has implemented this feature. Please report this issue here https://github.com/sindresorhus/refined-github/pull/4837');
+	}
+
 	select('#raw-url')!.closest('.d-flex')!.prepend(
 		<div className="BtnGroup rgh-view-markdown-source">
 			<a
@@ -39,7 +43,6 @@ void features.add(__filebasename, {
 	],
 	asLongAs: [
 		() => /\.(mdx|mdwn|litcoffee|rst)$/.test(location.pathname),
-		() => !select.exists('[href^="?plain=1"]'),
 	],
 	deduplicate: '.rgh-view-markdown-source', // #3945
 	init,
