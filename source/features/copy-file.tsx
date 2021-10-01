@@ -47,6 +47,7 @@ function init(): void {
 void features.add(__filebasename, {
 	asLongAs: [
 		() => select.exists('table.highlight'), // Rendered page
+		() => select.exists('remote-clipboard-copy'), // Native copy button #4802
 	],
 	include: [
 		pageDetect.isSingleFile,
