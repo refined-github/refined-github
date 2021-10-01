@@ -150,7 +150,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 		try {
 			// Features can return `false` when they decide not to run on the current page
 			// Also the condition avoids logging the fake feature added for `has-rgh`
-			if (await init() !== false && id !== __filebasename) {
+			if (await init() !== false && !id?.startsWith('rgh') && id !== __filebasename) {
 				log.info('✅', id);
 			}
 		} catch (error: unknown) {
