@@ -7,7 +7,7 @@
 
 /* Make tab indented code more readable on GitHub and Gist */
 :root, /* GHE, drop in February 2022 */
-.comment-body [data-tab-size] { /* User setting is ignored in comments #4833 */
+.comment-body [data-tab-size="8"] { /* User setting is ignored in comments #4833 */
 	--tab-size: 4;
 }
 
