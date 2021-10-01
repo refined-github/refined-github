@@ -1,3 +1,32 @@
+/*
+Can't use this because attributes are strings and calc() won't cast them
+ttps://stackoverflow.com/a/40815884
+
+[data-tab-size] {
+	--tab-size: attr(data-tab-size);
+}
+*/
+
+[data-tab-size='2'] {
+	--tab-size: 2;
+}
+
+[data-tab-size='4'] {
+	--tab-size: 4;
+}
+
+[data-tab-size='8'] {
+	--tab-size: 8;
+}
+
+[data-tab-size='10'] {
+	--tab-size: 10;
+}
+
+[data-tab-size='12'] {
+	--tab-size: 12;
+}
+
 [data-rgh-whitespace] {
 	line-height: 1em;
 	background-clip: border-box;
