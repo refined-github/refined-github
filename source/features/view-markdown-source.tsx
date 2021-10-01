@@ -33,7 +33,11 @@ async function init(): Promise<void> {
 
 void features.add(__filebasename, {
 	include: [
-		() => pageDetect.isSingleFile() && /\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|rst)$/.test(location.pathname),
+		pageDetect.isSingleFile,
+	],
+	asLongAs: [
+		() => /\.(mdx|mdwn|litcoffee|rst)$/.test(location.pathname),
+		() => !select.exists('[href^="?plain=1"]'),
 	],
 	deduplicate: '.rgh-view-markdown-source', // #3945
 	init,
