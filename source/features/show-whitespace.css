@@ -23,6 +23,11 @@ ttps://stackoverflow.com/a/40815884
 	--tab-size: 12;
 }
 
+.ghe * {
+	-moz-tab-size: 4 !important;
+	tab-size: 4 !important;
+}
+
 [data-rgh-whitespace] {
 	line-height: 1em;
 	background-clip: border-box;
