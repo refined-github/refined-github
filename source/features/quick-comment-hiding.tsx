@@ -69,10 +69,30 @@ function showSubmenu(event: delegate.Event): void {
 	event.preventDefault();
 }
 
+function addLoadingIcon(event: delegate.Event): void {
+	if (event.delegateTarget.firstElementChild) {
+		return;
+	}
+
+	event.delegateTarget.append(
+		<svg width="16" height="16" viewBox="0 0 16 16" className="anim-rotate ml-2 v-align-text-bottom">
+			<circle cx="8" cy="8" r="7" stroke="currentColor" {...{'stroke-opacity': 0.25, 'stroke-width': 2, 'vector-effect': 'non-scaling-stroke'}}/>
+			<path d="M15 8a7.002 7.002 0 00-7-7" stroke="currentColor" {...{'stroke-width': 2, 'stroke-inecap': 'round', 'vector-effect': 'non-scaling-stroke'}}/>
+		</svg>,
+	);
+
+	for (const button of event.delegateTarget.parentElement!.querySelectorAll<HTMLButtonElement>('.dropdown-item')) {
+		if (button !== event.delegateTarget) {
+			button.disabled = true;
+		}
+	}
+}
+
 function init(): void {
 	// `useCapture` required to be fired before GitHub's handlers
 	delegate(document, '.js-comment-hide-button', 'click', showSubmenu, true);
 	delegate(document, '.rgh-quick-comment-hiding-details', 'toggle', resetDropdowns, true);
+	delegate(document, '.rgh-quick-comment-hiding-details .dropdown-item', 'click', addLoadingIcon);
 }
 
 void features.add(__filebasename, {
