@@ -36,11 +36,10 @@ function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
 	setTimeout(start, 1, event.delegateTarget);
 }
 
-async function verifyScopesWhileWaiting(abortController: AbortController): Promise<void> {
+async function verifyScopes(): Promise<boolean> {
 	try {
 		await api.expectTokenScope('delete_repo');
 	} catch (error: unknown) {
-		abortController.abort();
 		addNotice([
 			'Could not delete the repository. ',
 			parseBackticks((error as Error).message),
@@ -52,7 +51,9 @@ async function verifyScopesWhileWaiting(abortController: AbortController): Promi
 				</a>
 			),
 		});
+		return false
 	}
+	return true
 }
 
 async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boolean> {
@@ -64,7 +65,10 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 		buttonContainer.open = false;
 	}, {once: true});
 
-	void verifyScopesWhileWaiting(abortController);
+	if(!await verifyScopes()) {
+		document.body.click()
+		return false
+	}
 
 	let secondsLeft = 5;
 	const button = select('.btn', buttonContainer)!;
