@@ -11,3 +11,7 @@
 .rgh-hidden-comment .timeline-comment--caret::before {
 	background-color: var(--github-red);
 }
+
+.rgh-hidden-comment .timeline-comment--caret::after {
+	left: -7px; /* make caret border 1px */
+}
