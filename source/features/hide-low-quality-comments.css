@@ -7,3 +7,7 @@
 .rgh-hidden-comment .timeline-comment {
 	border-color: var(--github-red);
 }
+
+.rgh-hidden-comment .timeline-comment--caret::before {
+	background-color: var(--github-red);
+}
