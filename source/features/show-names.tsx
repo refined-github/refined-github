@@ -54,13 +54,12 @@ async function init(): Promise<false | void> {
 			} else {
 				const insertionPoint = usernameElement.parentElement!.tagName === 'STRONG' ? usernameElement.parentElement! : usernameElement;
 				insertionPoint.after(
-					' (',
-					<bdo className="css-truncate d-inline-block">
-						<span className="css-truncate-target" style={{maxWidth: '200px'}}>
+					// That obnoxious part is to comfort the linter
+					<span className="color-text-secondary">{`${'('}`}
+						<bdo className="css-truncate css-truncate-target" style={{maxWidth: '200px'}}>
 							{names[userKey].name}
-						</span>
-					</bdo>,
-					') ',
+						</bdo>)
+					</span>,
 				);
 			}
 		}

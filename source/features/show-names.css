@@ -2,7 +2,3 @@
 .timeline-comment-header-text bdo {
 	display: inline-block;
 }
-
-.review-comment h4 {
-	color: var(--color-fg-muted, #8b949e);
-}
