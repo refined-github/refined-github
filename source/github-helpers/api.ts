@@ -72,7 +72,7 @@ export async function expectTokenScope(scope: string): Promise<void> {
 	const {headers} = await v3('/');
 	const tokenScopes = headers.get('X-OAuth-Scopes')!;
 	if (!tokenScopes.split(', ').includes(scope)) {
-		throw new Error(`The token you provided does not have the \`${scope}\` scope. It only includes \`${tokenScopes}\``);
+		throw new Error(`The token you provided does not have the \`${scope}\` scope. It only includes \`${tokenScopes || 'public access'}\`.`);
 	}
 }
 
