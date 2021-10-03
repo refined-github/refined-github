@@ -118,7 +118,7 @@ import './features/pr-filters';
 import './features/quick-file-edit';
 import './features/update-pr-from-base-branch';
 import './features/hide-disabled-milestone-sorter';
-import './features/tag-changelog-link';
+import './features/tag-changes-link';
 import './features/clean-conversation-sidebar';
 import './features/sticky-sidebar';
 import './features/release-download-count';
