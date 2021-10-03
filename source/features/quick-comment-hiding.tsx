@@ -40,8 +40,8 @@ function generateSubmenu(hideButton: Element): void {
 
 	// Close immediately after the clicking option
 	hideCommentForm.addEventListener('click', () => {
-		detailsElement.removeAttribute("open");
-	})
+		detailsElement.removeAttribute('open');
+	});
 
 	// Imitate existing menu
 	hideCommentForm.classList.add('dropdown-menu', 'dropdown-menu-sw', 'text-gray-dark', 'color-text-primary', 'show-more-popover', 'anim-scale-in');
