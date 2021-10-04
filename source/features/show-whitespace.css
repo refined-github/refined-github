@@ -1,6 +1,6 @@
 /*
 Can't use this because attributes are strings and calc() won't cast them
-ttps://stackoverflow.com/a/40815884
+https://stackoverflow.com/a/40815884
 
 [data-tab-size] {
 	--tab-size: attr(data-tab-size);
