@@ -112,27 +112,21 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
 			<input type="checkbox" name={`feature:${id}`} id={id}/>
 			<div className="info">
-				<label htmlFor={id}>
-					<span className="feature-name">{id}</span>
-					{' '}
-					<a href={`https://github.com/sindresorhus/refined-github/blob/main/source/features/${id}.tsx`}>
-						source
+				<label className="feature-name" htmlFor={id}>{id}</label>
+				{' '}
+				<a href={`https://github.com/sindresorhus/refined-github/blob/main/source/features/${id}.tsx`} className="feature-link">
+					source
+				</a>
+				<input hidden type="checkbox" className="screenshot-toggle"/>
+				{screenshot && (
+					<a href={screenshot} className="screenshot-link">
+						screenshot
 					</a>
-					{screenshot
-						? (
-							<p>
-								<details>
-									<summary className="description">
-										{[...descriptionElement.childNodes]}
-									</summary>
-									<a className="screenshot-link" href={screenshot}>
-										<img data-src={screenshot}/>
-									</a>
-								</details>
-							</p>
-						)
-						: descriptionElement}
-				</label>
+				)}
+				{descriptionElement}
+				{screenshot && (
+					<img hidden data-src={screenshot} className="screenshot"/>
+				)}
 			</div>
 		</div>
 	);
@@ -166,12 +160,21 @@ function summarySelector(clickedItem: HTMLElement): string {
 	return `details${(clickedItem.parentElement as HTMLDetailsElement).open ? '[open]' : ':not([open])'} summary`;
 }
 
-function summaryHandler(event: delegate.Event): void {
-	const screenshot = event.delegateTarget.nextElementSibling!.firstElementChild!;
-
-	if (!screenshot.hasAttribute('src')) {
-		screenshot.setAttribute('src', screenshot.getAttribute('data-src')!);
+function summaryHandler(event: delegate.Event<MouseEvent>): void {
+	if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+		return;
 	}
+
+	event.preventDefault();
+	const feature = event.delegateTarget.parentElement!;
+
+	// Toggle checkbox
+	const toggle = feature.querySelector('input.screenshot-toggle')!;
+	toggle.checked = !toggle.checked;
+
+	// Lazy-load image
+	const screenshot = feature.querySelector('.screenshot')!;
+	screenshot.src = screenshot.dataset.src!;
 }
 
 function featuresFilterHandler(event: Event): void {
@@ -189,7 +192,7 @@ async function highlightNewFeatures(): Promise<void> {
 	const isFirstVisit = Object.keys(featuresAlreadySeen).length === 0;
 	const tenDaysAgo = Date.now() - (10 * 24 * 60 * 60 * 1000);
 
-	for (const feature of select.all('.feature [type=checkbox]')) {
+	for (const feature of select.all('.feature [type=checkbox]:first-child')) {
 		if (!(feature.id in featuresAlreadySeen)) {
 			featuresAlreadySeen[feature.id] = isFirstVisit ? tenDaysAgo : Date.now();
 		}
@@ -263,8 +266,8 @@ function addEventListeners(): void {
 	indentTextarea.watch('textarea');
 
 	// Load screenshots
-	delegate(document, 'summary', 'click', summaryHandler);
-	delegate(document, 'summary', 'click', clickAll(summarySelector));
+	delegate(document, '.screenshot-link', 'click', summaryHandler);
+	delegate(document, '.screenshot-link', 'click', clickAll(summarySelector));
 
 	// Filter feature list
 	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
@@ -280,8 +283,10 @@ function addEventListeners(): void {
 
 	// Ensure all links open in a new tab #3181
 	delegate(document, 'a[href^="http"]', 'click', event => {
-		event.preventDefault();
-		window.open(event.delegateTarget.href);
+		if (!event.defaultPrevented) {
+			event.preventDefault();
+			window.open(event.delegateTarget.href);
+		}
 	});
 }
 
