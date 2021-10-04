@@ -8,10 +8,10 @@ import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
+import clickAll from './helpers/click-all';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {perDomainOptions} from './options-storage';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
-import clickAll from './helpers/click-all';
 
 interface Status {
 	error?: true;
