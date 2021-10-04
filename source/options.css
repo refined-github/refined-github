@@ -12,7 +12,13 @@
 }
 
 :root {
-	--github-red: #cb2431;
+	--github-red: #cf222e;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--github-red: #f85149;
+	}
 }
 
 p {

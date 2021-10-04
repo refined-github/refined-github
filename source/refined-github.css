@@ -1,8 +1,7 @@
 :root {
-	/* 2020-12-15: these variables only exist for GHE #3798 */
-	--github-green: var(--color-text-success, #28a745);
-	--github-red: var(--color-text-danger, #cb2431);
-	--github-border-color: var(--color-border-muted, #e1e4e8);
+	--github-green: var(--color-success-fg, #1a7f37);
+	--github-red: var(--color-danger-fg, #cf222e);
+	--github-border-color: var(--color-border-muted, #d8dee4);
 }
 
 /* Make tab indented code more readable on GitHub and Gist */
