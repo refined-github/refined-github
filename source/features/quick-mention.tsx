@@ -12,7 +12,8 @@ import {getUsername} from '../github-helpers';
 import onNewComments from '../github-events/on-new-comments';
 
 function prefixUserMention(userMention: string): string {
-	return userMention.startsWith('@') ? userMention : '@' + userMention;
+	// The alt may or may not have it #4859
+	return '@' + userMention.replace('@', '');
 }
 
 function mentionUser({delegateTarget: button}: delegate.Event): void {
