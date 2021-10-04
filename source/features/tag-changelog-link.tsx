@@ -105,7 +105,7 @@ async function init(): Promise<void> {
 			lastLink.after(
 				<li className={lastLink.className + ' rgh-changelog-link'}>
 					<a
-						className="muted-link Link--muted tooltipped tooltipped-n"
+						className="Link--muted tooltipped tooltipped-n"
 						aria-label={'See changes since ' + decodeURIComponent(previousTag)}
 						href={buildRepoURL(`compare/${previousTag}...${allTags[index].tag}`)}
 					>
