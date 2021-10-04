@@ -36,7 +36,7 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 	const [owner] = nameWithOwner.split('/');
 	return (
 		<div className="markdown-body">
-			{remote && <p className="text-gray color-text-secondary text-small my-1">{remoteType}</p>}
+			{remote && <p className="color-text-secondary text-small my-1">{remoteType}</p>}
 			<div className="snippet-clipboard-content position-relative">
 				<div className="zeroclipboard-container position-absolute right-0 top-0">
 					<clipboard-copy
@@ -78,7 +78,7 @@ async function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): Pr
 				Checkout with Git
 			</span>
 			<div className="mt-2 pl-5">
-				<p className="text-gray color-text-secondary text-small">
+				<p className="color-text-secondary text-small">
 					Run in your project repository{remoteName && ', pick either one'}
 				</p>
 				{remoteName ? [

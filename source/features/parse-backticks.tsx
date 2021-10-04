@@ -13,17 +13,13 @@ function init(): void {
 		'.js-commit-group pre', // `isPRConversation` commit description
 		'.release-header', // `isReleasesOrTags` Headers
 		'.Box-row .mb-1 a', // `isCompare` with existing PR
-		'#pull-requests a.link-gray-dark', // `isPulse` issue and PR title (GHE #4021)
 		'#pull-requests a.Link--primary', // `isPulse` issue and PR title
-		'[id^="check_suite"] a.link-gray-dark', // `isRepositoryActions` (GHE #4021)
 		'[id^="check_suite"] a.Link--primary', // `isRepositoryActions`
 		'.js-socket-channel[data-url*="/header_partial"] h3', // `isActions` run
 		'.js-wiki-sidebar-toggle-display a', // `isWiki` sidebar pages title
 		'#wiki-wrapper .gh-header-title', // `isWiki` page title
-		'.issues_labeled .text-gray-dark > a', // `isDashboard` "help wanted" event titles (GHE #4021)
 		'.issues_labeled .color-text-primary > a', // `isDashboard` "help wanted" event titles
 		'#user-repositories-list [itemprop="description"]', // `isUserProfileRepoTab` repository description
-		'.js-hovercard-content > .Popover-message .link-gray-dark', // Hovercard (GHE #4021)
 		'.js-hovercard-content > .Popover-message .Link--primary', // Hovercard
 		'.js-discussions-title-container h1 > .js-issue-title', // `isDiscussion`
 		'a[data-hovercard-type="discussion"]', // `isDiscussionList`

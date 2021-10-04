@@ -8,7 +8,7 @@ import features from '.';
 
 async function removeReadmeLink(): Promise<void> {
 	// Hide "Readme" link made unnecessary by toggle-files-button #3580
-	(await elementReady('.muted-link[href="#readme"], .Link--muted[href="#readme"]'))?.parentElement!.remove();
+	(await elementReady('.Link--muted[href="#readme"]'))?.parentElement!.remove();
 }
 
 async function cleanLicenseText(): Promise<void> {
@@ -45,7 +45,7 @@ async function cleanReleases(): Promise<void> {
 	}
 
 	// Align latest tag icon with the icons of other meta links
-	const tagIcon = select('.octicon-tag:not(:is(.text-green, .color-text-success))', releasesSection)!;
+	const tagIcon = select('.octicon-tag:not(.color-text-success)', releasesSection)!;
 	if (tagIcon) {
 		tagIcon.classList.add('mr-2');
 		// Remove whitespace node

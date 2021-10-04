@@ -28,7 +28,7 @@ function init(): void {
 
 			alternativeActions.classList.add('rgh-convert-pr-draft-position');
 			const convertToDraft = existingButton.closest('details')!.cloneNode(true);
-			select('.muted-link, .Link--muted', convertToDraft)!.classList.remove('muted-link', 'Link--muted');
+			select('.Link--muted', convertToDraft)!.classList.remove('Link--muted');
 			alternativeActions.prepend(convertToDraft);
 		},
 	});

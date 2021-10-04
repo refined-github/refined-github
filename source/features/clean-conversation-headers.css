@@ -1,7 +1,7 @@
 :root .rgh-clean-conversation-headers-non-default-branch {
-	background-color: var(--color-state-hover-primary-bg, #0366d6); /* GHE #4121 */
+	background-color: var(--color-state-hover-primary-bg, #0366d6);
 }
 
 .rgh-clean-conversation-headers-non-default-branch a {
-	color: var(--color-state-hover-primary-text, #fff); /* GHE #4121 */
+	color: var(--color-state-hover-primary-text, #fff);
 }
