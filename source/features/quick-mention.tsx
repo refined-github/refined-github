@@ -42,7 +42,7 @@ function init(): void {
 			continue;
 		}
 
-		// Handles avatars next to review events
+		// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
 		if (avatar.classList.contains('TimelineItem-avatar')) {
 			avatar.classList.remove('TimelineItem-avatar');
 			wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block"/>);
