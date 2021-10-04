@@ -9,6 +9,7 @@
 }
 
 /* Align the top of the sidebar with the main page content */
-.rgh-clean-repo-sidebar .gutter-condensed > :last-child {
+/* Avoid breaking the sidebar alignment in PR discussions #4642 */
+.rgh-clean-repo-sidebar div:not(#discussion_bucket) > .gutter-condensed > :last-child {
 	margin-top: -16px !important;
 }
