@@ -1,5 +1,9 @@
+import './select-notifications.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
+import delegate from 'delegate-it';
+import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {
 	CheckCircleIcon,
@@ -84,7 +88,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 		Open: <CheckCircleIcon className="color-text-success"/>,
 		Closed: <XCircleIcon className="color-text-danger"/>,
 		Draft: <GitPullRequestDraftIcon className="color-text-tertiary"/>,
-		Merged: <GitMergeIcon className="text-purple"/>,
+		Merged: <GitMergeIcon className="color-fg-done"/>,
 		Read: <DotIcon className="color-text-link"/>,
 		Unread: <DotFillIcon className="color-text-link"/>,
 	};
@@ -118,42 +122,54 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 	);
 }
 
-function createDropdown(): JSX.Element {
-	return (
-		<details
-			className="details-reset details-overlay position-relative"
-			on-toggle={resetFilters}
+const createDropdown = onetime(() => (
+	<details
+		className="details-reset details-overlay position-relative rgh-select-notifications"
+		on-toggle={resetFilters}
+	>
+		<summary
+			className="btn btn-sm ml-3 mr-1"
+			data-hotkey="S"
+			aria-haspopup="menu"
+			role="button"
 		>
-			<summary
-				className="btn btn-sm ml-3 mr-1"
-				data-hotkey="S"
-				aria-haspopup="menu"
-				role="button"
-			>
-				Select by <span className="dropdown-caret ml-1"/>
-			</summary>
-			<details-menu
-				className="SelectMenu left-0"
-				aria-label="Select by"
-				role="menu"
-				on-details-menu-selected={handleSelection}
-			>
-				<div className="SelectMenu-modal">
-					<form id="rgh-select-notifications-form">
-						{createDropdownList('Type', ['Pull requests', 'Issues'])}
-						{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
-						{createDropdownList('Read', ['Read', 'Unread'])}
-					</form>
-				</div>
-			</details-menu>
-		</details>
-	);
+			Select by <span className="dropdown-caret ml-1"/>
+		</summary>
+		<details-menu
+			className="SelectMenu left-0"
+			aria-label="Select by"
+			role="menu"
+			on-details-menu-selected={handleSelection}
+		>
+			<div className="SelectMenu-modal">
+				<form id="rgh-select-notifications-form">
+					{createDropdownList('Type', ['Pull requests', 'Issues'])}
+					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
+					{createDropdownList('Read', ['Read', 'Unread'])}
+				</form>
+			</div>
+		</details-menu>
+	</details>
+));
+
+function closeDropdown(): void {
+	select('.rgh-select-notifications')?.removeAttribute('open');
 }
 
-function init(): false | void {
-	select('.js-notifications-mark-all-prompt')!
-		.closest('label')!
-		.after(createDropdown());
+const deinit: VoidFunction[] = [];
+function init(): void {
+	const selectObserver = observe('.js-notifications-mark-all-prompt:not(.rgh-select-notifications-added)', {
+		add(selectAllCheckbox) {
+			selectAllCheckbox.classList.add('rgh-select-notifications-added');
+			selectAllCheckbox
+				.closest('label')!
+				.after(createDropdown());
+		},
+	});
+	deinit.push(selectObserver.abort);
+
+	// Close the dropdown when one of the toolbar buttons is clicked
+	delegate(document, '.js-notifications-mark-selected-actions > *', 'click', closeDropdown);
 }
 
 void features.add(__filebasename, {
@@ -167,4 +183,5 @@ void features.add(__filebasename, {
 		() => select.exists('img[src$="notifications/inbox-zero.svg"]'), // Notifications page may be empty
 	],
 	init,
+	deinit,
 });

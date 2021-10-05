@@ -42,8 +42,8 @@ async function initRepo(): Promise<void> {
 }
 
 void features.add(__filebasename, {
-	exclude: [
-		() => !getRepo()?.name.endsWith('.github.io'),
+	asLongAs: [
+		() => Boolean(getRepo()?.name.endsWith('.github.io')),
 	],
 	init: initRepo,
 }, {

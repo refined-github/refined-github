@@ -12,7 +12,7 @@ import features from '.';
 const pendingSelector = '.timeline-comment-label.is-pending';
 
 const getButton = onetime(() => (
-	<button className="rgh-submit-single btn-link ml-2 text-gray color-text-secondary text-small" type="button">Send now</button>
+	<button className="rgh-submit-single btn-link ml-2 color-text-secondary text-small" type="button">Send now</button>
 ));
 
 function updateUI(): void {
@@ -112,5 +112,6 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

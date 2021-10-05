@@ -27,5 +27,6 @@ void features.add(__filebasename, {
 	exclude: [
 		pageDetect.isPRCommit404,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

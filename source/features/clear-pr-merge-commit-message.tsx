@@ -29,5 +29,6 @@ void features.add(__filebasename, {
 	],
 	onlyAdditionalListeners: true,
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init,
 });

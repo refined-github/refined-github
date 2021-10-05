@@ -72,7 +72,7 @@ export async function expectTokenScope(scope: string): Promise<void> {
 	const {headers} = await v3('/');
 	const tokenScopes = headers.get('X-OAuth-Scopes')!;
 	if (!tokenScopes.split(', ').includes(scope)) {
-		throw new Error(`The token you provided does not have the \`${scope}\` scope. It only includes \`${tokenScopes}\``);
+		throw new Error('The token you provided does not have ' + (tokenScopes ? `the \`${scope}\` scope. It only includes \`${tokenScopes}\`.` : 'any scope.'));
 	}
 }
 
@@ -186,7 +186,7 @@ export const v4 = mem(async (
 			Authorization: `bearer ${personalToken}`,
 		},
 		method: 'POST',
-		body: JSON.stringify({query: `{${query}}`}),
+		body: JSON.stringify({query: query.trimStart().startsWith('mutation') ? query : `{${query}}`}),
 	});
 
 	const apiResponse: GraphQLResponse = await response.json();

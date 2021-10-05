@@ -21,7 +21,7 @@ async function is404(url: string): Promise<boolean> {
 }
 
 function getStrikeThrough(text: string): HTMLElement {
-	return <del className="color-text-tertiary">{text}</del>; /* GHE #4121 */
+	return <del className="color-text-tertiary">{text}</del>;
 }
 
 async function checkAnchor(anchor: HTMLAnchorElement): Promise<void> {
@@ -143,13 +143,7 @@ async function showAlternateLink(): Promise<void> {
 	);
 }
 
-function init(): false | void {
-	const parts = parseCurrentURL();
-	if (parts.length <= 1 || !select.exists('[alt*="This is not the web page you are looking for"]')) {
-		return false;
-	}
-
-	void showMissingPart();
+function init(): void {
 	void showDefaultBranchLink();
 	void showAlternateLink();
 }
@@ -166,9 +160,21 @@ async function initPRCommit(): Promise<void | false> {
 	);
 }
 
-void features.add(__filebasename, {
-	include: [
+void features.add(__filebasename, 	{
+	asLongAs: [
 		pageDetect.is404,
+		() => parseCurrentURL().length > 1,
+	],
+	init: showMissingPart,
+},
+{
+	asLongAs: [
+		pageDetect.is404,
+	],
+	include: [
+		pageDetect.isSingleFile,
+		pageDetect.isRepoTree,
+		pageDetect.isEditingFile,
 	],
 	init: onetime(init),
 }, {

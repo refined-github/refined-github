@@ -46,21 +46,21 @@ async function init(): Promise<false | void> {
 		const userKey = api.escapeKey(username);
 
 		// For the currently logged in user, `names[userKey]` would not be present.
-		if (names[userKey]?.name) {
+		const {name} = names[userKey] ?? {};
+
+		if (name) {
 			// If it's a regular comment author, add it outside <strong>
 			// otherwise it's something like "User added some commits"
-			if (compareNames(username, names[userKey].name)) {
-				usernameElement.textContent = names[userKey].name;
+			if (compareNames(username, name)) {
+				usernameElement.textContent = name;
 			} else {
-				const insertionPoint = usernameElement.parentElement!.tagName === 'STRONG' ? usernameElement.parentElement! : usernameElement;
+				const insertionPoint = usernameElement.parentElement!.tagName === 'STRONG'
+					? usernameElement.parentElement!
+					: usernameElement;
 				insertionPoint.after(
-					' (',
-					<bdo className="css-truncate d-inline-block">
-						<span className="css-truncate-target" style={{maxWidth: '200px'}}>
-							{names[userKey].name}
-						</span>
-					</bdo>,
-					') ',
+					<span className="color-text-secondary css-truncate">
+						(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{name}</bdo>)
+					</span>,
 				);
 			}
 		}

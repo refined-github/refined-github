@@ -46,6 +46,7 @@ void features.add(__filebasename, {
 		pageDetect.isPRFiles,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init,
 	deinit,
 });

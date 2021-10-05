@@ -7,8 +7,6 @@
 * `.js-news-feed-event-group` is only for grouped events
 */
 
-/* GHE #4021 */
-.rgh-clean-dashboard .dashboard :is(.watch_started, .repo, .public) .color-border-secondary.flex-items-baseline .text-bold.text-gray-dark,
 /* Hide duplicate repo name in some non-grouped events */
 .rgh-clean-dashboard .dashboard :is(.watch_started, .repo, .public) .color-border-secondary.flex-items-baseline .text-bold.color-text-primary {
 	display: none;
@@ -16,7 +14,7 @@
 
 /* Add background and border Whole list */
 .rgh-clean-dashboard .news > .f4 + div {
-	background-color: var(--color-bg-canvas, #fff);
+	background-color: var(--color-canvas-default, var(--color-bg-canvas));
 	border: 1px solid var(--github-border-color);
 	border-radius: 6px;
 	margin-top: 8px !important;
@@ -52,13 +50,11 @@
 }
 
 /* Hide footer date on Created Repository events */
-.rgh-clean-dashboard .dashboard .repo .f6.text-gray, /* GHE #4021 */
 .rgh-clean-dashboard .dashboard .repo .f6.color-text-secondary {
 	display: none;
 }
 
 /* Grouped events: Make repo name smaller */
-.rgh-clean-dashboard .dashboard .Details .flex-items-baseline .text-bold.text-gray-dark, /* GHE #4021 */
 .rgh-clean-dashboard .dashboard .Details .flex-items-baseline .text-bold.color-text-primary {
 	font-size: 1em !important;
 }

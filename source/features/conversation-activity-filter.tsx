@@ -13,8 +13,8 @@ import onConversationHeaderUpdate from '../github-events/on-conversation-header-
 
 const states = {
 	default: '',
-	showOnlyComments: 'Only show comments',
-	showOnlyUnresolvedComments: 'Only show unresolved comments',
+	hideEvents: 'Hide events',
+	hideEventsAndCollapsedComments: 'Hide events and collapsed comments',
 };
 
 type State = keyof typeof states;
@@ -36,7 +36,7 @@ function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
 }
 
 function processSimpleComment(item: HTMLElement): void {
-	if (currentSetting === 'showOnlyComments') {
+	if (currentSetting === 'hideEvents') {
 		return;
 	}
 
@@ -47,7 +47,7 @@ function processSimpleComment(item: HTMLElement): void {
 }
 
 function processReview(review: HTMLElement): void {
-	if (currentSetting === 'showOnlyComments') {
+	if (currentSetting === 'hideEvents') {
 		return;
 	}
 
@@ -142,8 +142,8 @@ async function addWidget(header: string): Promise<void> {
 				<div className="SelectMenu-modal">
 					<div className="SelectMenu-list">
 						{createRadio('default')}
-						{createRadio('showOnlyComments')}
-						{createRadio('showOnlyUnresolvedComments')}
+						{createRadio('hideEvents')}
+						{createRadio('hideEventsAndCollapsedComments')}
 					</div>
 				</div>
 			</details-menu>

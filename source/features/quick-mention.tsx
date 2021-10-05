@@ -6,9 +6,15 @@ import {ReplyIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
+import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import {getUsername} from '../github-helpers';
 import onNewComments from '../github-events/on-new-comments';
+
+function prefixUserMention(userMention: string): string {
+	// The alt may or may not have it #4859
+	return '@' + userMention.replace('@', '');
+}
 
 function mentionUser({delegateTarget: button}: delegate.Event): void {
 	const userMention = button.parentElement!.querySelector('img')!.alt;
@@ -23,16 +29,23 @@ function mentionUser({delegateTarget: button}: delegate.Event): void {
 	const spacer = /\s|^$/.test(precedingCharacter) ? '' : ' ';
 
 	// The space after closes the autocomplete box and places the cursor where the user would start typing
-	textFieldEdit.insert(newComment, `${spacer}${userMention} `);
+	textFieldEdit.insert(newComment, `${spacer}${prefixUserMention(userMention)} `);
 }
 
 function init(): void {
 	// `:first-child` avoids app badges #2630
 	// The hovercard attribute avoids `highest-rated-comment`
-	const avatars = select.all(`.TimelineItem-avatar > [data-hovercard-type="user"]:first-child:not([href="/${getUsername()!}"], .rgh-quick-mention)`);
+	// Avatars next to review events aren't wrapped in a <div> #4844
+	const avatars = select.all(`:is(div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child, a.TimelineItem-avatar):not([href="/${getUsername()!}"], .rgh-quick-mention)`);
 	for (const avatar of avatars) {
 		if (avatar.closest('.TimelineItem')!.querySelector('.minimized-comment')) {
 			continue;
+		}
+
+		// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
+		if (avatar.classList.contains('TimelineItem-avatar')) {
+			avatar.classList.remove('TimelineItem-avatar');
+			wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block"/>);
 		}
 
 		const userMention = select('img', avatar)!.alt;
@@ -41,7 +54,7 @@ function init(): void {
 			<button
 				type="button"
 				className="rgh-quick-mention tooltipped tooltipped-e btn-link"
-				aria-label={`Mention ${userMention} in a new comment`}
+				aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
 			>
 				<ReplyIcon/>
 			</button>,

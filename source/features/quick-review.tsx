@@ -19,7 +19,7 @@ async function addSidebarReviewButton(): Promise<void | false> {
 
 	sidebarReviewsSection!.append(
 		<span style={{fontWeight: 'normal'}}>
-			– <a href={reviewFormUrl.href} className="btn-link muted-link Link--muted" data-hotkey="v">review now</a>
+			– <a href={reviewFormUrl.href} className="btn-link Link--muted" data-hotkey="v">review now</a>
 		</span>,
 	);
 }
@@ -54,6 +54,7 @@ void features.add(__filebasename, {
 		},
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init: addSidebarReviewButton,
 }, {
 	shortcuts: {
@@ -63,5 +64,6 @@ void features.add(__filebasename, {
 		pageDetect.isPRFiles,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init: initReviewButtonEnhancements,
 });

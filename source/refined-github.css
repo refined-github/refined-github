@@ -1,14 +1,18 @@
 :root {
-	/* 2020-12-15: these variables only exist for GHE #3798 */
-	--github-green: var(--color-text-success, #28a745);
-	--github-red: var(--color-text-danger, #cb2431);
-	--github-border-color: var(--color-border-primary, #e1e4e8);
+	--github-green: var(--color-success-fg, #1a7f37);
+	--github-red: var(--color-danger-fg, #cf222e);
+	--github-border-color: var(--color-border-muted, #d8dee4);
 }
 
 /* Make tab indented code more readable on GitHub and Gist */
+:root, /* GHE, drop in February 2022 */
+.comment-body [data-tab-size='8'] { /* User setting is ignored in comments #4833 */
+	--tab-size: 4;
+}
+
 * {
-	-moz-tab-size: 4 !important;
-	tab-size: 4 !important;
+	-moz-tab-size: var(--tab-size) !important;
+	tab-size: var(--tab-size) !important;
 }
 
 /* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons for #1830 and #1904 */
@@ -67,7 +71,7 @@
 
 /* Lighten deletions in Markdown */
 .markdown-body del {
-	color: var(--color-text-tertiary, #6a737d); /* GHE #4121 */
+	color: var(--color-text-tertiary, #6a737d);
 }
 
 /* Expand PR merge status list to fit all items */
@@ -112,13 +116,11 @@ highlight-collaborators-and-own-conversations
 parse-backticks
 pr-branches
 */
-.js-issue-row .text-small.text-gray, /* GHE #4021 */
 .js-issue-row .text-small.color-text-secondary {
 	line-height: 1.8;
 }
 
 /* Reset `vertical-align` for .octicons to work with above increased line-height */
-.js-issue-row .text-small.text-gray .octicon, /* GHE #4021 */
 .js-issue-row .text-small.color-text-secondary .octicon {
 	vertical-align: middle;
 }
