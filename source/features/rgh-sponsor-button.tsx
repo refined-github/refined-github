@@ -99,7 +99,7 @@ function handleSponsorButton(): void {
 }
 
 // GitHub has a bug where the sponsor nudge does not reflect the funding.yml. Reported to GitHub, still not fixed.
-// https://github.com/sindresorhus/refined-github/blob/891dec097db8f2581985efb131499986fb04b661/.github/funding.yml
+// https://github.com/refined-github/refined-github/blob/891dec097db8f2581985efb131499986fb04b661/.github/funding.yml
 async function fixGitHubSponsorsBug(): Promise<void> {
 	const wrongSponsorButton = await elementReady('[aria-label="Sponsor @sindresorhus"][data-hydro-click*="ISSUE_NUDGE_SPONSOR"]', {stopOnDomReady: false, timeout: 1000});
 	if (wrongSponsorButton) {
@@ -128,7 +128,7 @@ void features.add(__filebasename, {
 	init: handleSponsorButton,
 }, {
 	include: [
-		() => location.pathname.startsWith('/sindresorhus/refined-github/issues/'),
+		() => location.pathname.startsWith('/refined-github/refined-github/issues/'),
 	],
 	init: fixGitHubSponsorsBug,
 });

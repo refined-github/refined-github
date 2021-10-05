@@ -56,7 +56,7 @@ final class ViewController: XViewController, WKNavigationDelegate, WKScriptMessa
 		}
 
 		if action == "open-help" {
-			NSWorkspace.shared.open(URL(string: "https://github.com/sindresorhus/refined-github/issues/4216#issuecomment-817097886")!)
+			NSWorkspace.shared.open(URL(string: "https://github.com/refined-github/refined-github/issues/4216#issuecomment-817097886")!)
 			return
 		}
 
