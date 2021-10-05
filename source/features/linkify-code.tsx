@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters';
+import {selectors} from './show-whitespace';
 
 function initTitle(): void {
 	for (const title of select.all('.js-issue-title')) {
@@ -16,23 +17,17 @@ function initTitle(): void {
 }
 
 function init(): void {
-	observe(linkifiedURLClass, {
+	observe(`:is(${selectors}):not(.${linkifiedURLClass})`, {
 		add(wrappers) {
-			if (wrappers.closest('.inline-comments')) {
-				return;
-			}
-
-			// Linkify full URLs
-			// `.blob-code-inner` in diffs
-			// `pre` in GitHub comments
-			for (const element of select.all('.blob-code-inner, pre', wrappers)) {
-				linkifyURLs(element);
-			}
+			linkifyURLs(wrappers);
 
 			// Linkify issue refs in comments
-			for (const element of select.all('span.pl-c', wrappers)) {
+			for (const element of select.all('.pl-c', wrappers)) {
 				linkifyIssues(element);
 			}
+
+			// Mark code block as touched
+			wrappers.classList.add(linkifiedURLClass);
 		},
 	});
 }

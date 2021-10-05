@@ -7,13 +7,9 @@ import features from '.';
 import {linkifiedURLClass} from '../github-helpers/dom-formatters';
 
 function init(): void {
-	observe('a[href]', {
+	observe(`a[href]:not(.${linkifiedURLClass})`, {
 		constructor: HTMLAnchorElement,
 		add(link) {
-			if (link.closest(linkifiedURLClass)) {
-				return;
-			}
-
 			applyToLink(link, location.href);
 		},
 	});
