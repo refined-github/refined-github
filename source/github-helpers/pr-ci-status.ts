@@ -6,7 +6,7 @@ type CommitStatus = false | typeof SUCCESS | typeof FAILURE | typeof PENDING | t
 type StatusListener = (status: CommitStatus) => void;
 
 // `.TimelineItem--condensed` excludes unrelated references. See `deemphasize-unrelated-commit-references` feature
-const commitSelector = '.js-commit.TimelineItem--condensed';
+const commitSelector = '.js-commit-group .TimelineItem--condensed';
 
 function getLastCommitReference(): string | null {
 	return select.last(`${commitSelector} code`)!.textContent;
