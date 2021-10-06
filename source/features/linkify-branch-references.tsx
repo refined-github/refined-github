@@ -25,15 +25,28 @@ async function init(): Promise<void | false> {
 }
 
 function hovercardInit(): void {
-	observe('[data-hydro-view*="pull-request-hovercard-hover"] ~ .d-flex.mt-2 .commit-ref', {
+	observe('[data-hydro-view*="pull-request-hovercard-hover"] ~ .d-flex.mt-2', {
 		constructor: HTMLElement,
-		add(reference) {
-			const url = new GitHubURL(location.href).assign({
-				user: reference.querySelector('.user')!.textContent!,
-				route: 'tree',
-				branch: reference.title,
-			});
-			reference.replaceChildren(<a className="color-text-secondary" href={url.pathname}>{[...reference.childNodes]}</a>);
+		add(hovercard) {
+			const repository = hovercard.querySelector<HTMLAnchorElement>('.Link--primary')!.href;
+
+			for (const reference of hovercard.querySelectorAll<HTMLElement>('.commit-ref')) {
+				const url = new GitHubURL(repository).assign({
+					route: 'tree',
+					branch: reference.title,
+				});
+
+				const user = reference.querySelector('.user');
+				if (user) {
+					url.user = user.textContent!;
+				}
+
+				reference.replaceChildren(
+					<a className="color-text-secondary" href={url.pathname}>
+						{[...reference.childNodes]}
+					</a>,
+				);
+			}
 		},
 	});
 }
