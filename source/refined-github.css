@@ -156,3 +156,8 @@ pr-branches
 	margin-left: 4px !important;
 	margin-right: 4px !important;
 }
+
+/* removes the underline for whitespace on hover, working for issue #4871*/
+.Link--onHover:hover{
+	text-decoration: none;
+}
