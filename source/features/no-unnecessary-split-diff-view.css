@@ -8,6 +8,6 @@
 	width: 0 !important;
 }
 
-[data-rgh-hide-empty-split-diff-side] .inline-comments .empty-cell:not(.blob-num) {
+[data-rgh-hide-empty-split-diff-side] :is(.inline-comments, .js-inline-annotations) .empty-cell:not(.blob-num) {
 	display: none !important;
 }
