@@ -54,6 +54,7 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isQuickPR,
 		pageDetect.isEditingFile,
+		pageDetect.isDeletingFile,
 	],
 	init,
 }, {
