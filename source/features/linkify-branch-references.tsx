@@ -17,7 +17,7 @@ async function init(): Promise<void | false> {
 	const branchUrl = buildRepoURL('tree', element.textContent!);
 	element.replaceWith(
 		<span className="commit-ref">
-			<a className="no-underline " href={branchUrl} data-pjax="#repo-content-pjax-container">
+			<a className="no-underline" href={branchUrl} data-pjax="#repo-content-pjax-container">
 				{element.textContent}
 			</a>
 		</span>,
