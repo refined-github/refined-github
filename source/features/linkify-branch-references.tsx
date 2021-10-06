@@ -26,9 +26,8 @@ async function init(): Promise<void | false> {
 
 function hovercardInit(): void {
 	observe('[data-hydro-view*="pull-request-hovercard-hover"] ~ .d-flex.mt-2', {
-		constructor: HTMLElement,
 		add(hovercard) {
-			const repository = hovercard.querySelector<HTMLAnchorElement>('.Link--primary')!.href;
+			const repository = hovercard.querySelector('a.Link--primary')!.href;
 
 			for (const reference of hovercard.querySelectorAll<HTMLElement>('.commit-ref')) {
 				const url = new GitHubURL(repository).assign({
