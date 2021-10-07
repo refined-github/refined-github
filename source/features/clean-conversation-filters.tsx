@@ -55,6 +55,7 @@ async function hasProjects(): Promise<boolean> {
 
 async function hideProjects(): Promise<void> {
 	if (!await hasProjects()) {
+		// The targeted dropdown doesn't exist if the organization has disabled Projects #4874
 		(await elementReady('[data-hotkey="p"]'))?.parentElement?.remove();
 	}
 }
