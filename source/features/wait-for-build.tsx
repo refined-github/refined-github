@@ -100,7 +100,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	asLongAs: [
-		// The user is a maintainer or the PR owner
+		// The user is a maintainer, so they can probably merge the PR
 		() => select.exists('.discussion-sidebar-item .octicon-lock'),
 	],
 	include: [
