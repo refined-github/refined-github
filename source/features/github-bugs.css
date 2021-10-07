@@ -26,3 +26,8 @@
 	line-height: 1;
 	border-radius: 6px;
 }
+
+/* Add missing spacing for file template buttons #4817 */
+.js-template-suggestion:not(.d-none) {
+    margin-left: 8px;
+}
