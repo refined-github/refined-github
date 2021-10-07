@@ -27,10 +27,10 @@ async function init(): Promise<void | false> {
 function hovercardInit(): void {
 	observe('[data-hydro-view*="pull-request-hovercard-hover"] ~ .d-flex.mt-2', {
 		add(hovercard) {
-			const repository = hovercard.querySelector('a.Link--primary')!.href;
+			const {href} = hovercard.querySelector('a.Link--primary')!;
 
 			for (const reference of hovercard.querySelectorAll<HTMLElement>('.commit-ref')) {
-				const url = new GitHubURL(repository).assign({
+				const url = new GitHubURL(href).assign({
 					route: 'tree',
 					branch: reference.title,
 				});
@@ -41,7 +41,7 @@ function hovercardInit(): void {
 				}
 
 				reference.replaceChildren(
-					<a className="color-text-secondary" href={url.pathname}>
+					<a className="color-text-secondary" href={url.href}>
 						{[...reference.childNodes]}
 					</a>,
 				);
