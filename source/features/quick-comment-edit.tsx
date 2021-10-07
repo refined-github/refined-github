@@ -15,6 +15,8 @@ function canEditEveryComment(): boolean {
 		'[title^="You are a maintainer"]',
 		'[title^="You are a collaborator"]',
 
+		// If you can lock conversations, you have write access
+		'.lock-toggle-link',
 		// If you can change the repo’s settings, then can change anything
 		'#settings-tab',
 	]);
