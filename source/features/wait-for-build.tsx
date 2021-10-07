@@ -101,7 +101,7 @@ function init(): void {
 void features.add(__filebasename, {
 	asLongAs: [
 		// The user is a maintainer or the PR owner
-		() => select.exists('[aria-label="Edit Pull Request title"]'),
+		() => select.exists('.discussion-sidebar-item .octicon-lock'),
 	],
 	include: [
 		pageDetect.isPRConversation,
