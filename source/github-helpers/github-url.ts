@@ -24,10 +24,6 @@ export default class GitHubURL {
 		return this.href;
 	}
 
-	toJSON(): string {
-		return this.href;
-	}
-
 	assign(...replacements: Array<Partial<GitHubURL>>): this {
 		Object.assign(this, ...replacements);
 		return this;
