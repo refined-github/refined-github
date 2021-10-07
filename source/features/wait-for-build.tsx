@@ -100,7 +100,7 @@ function init(): void {
 
 void features.add(__filebasename, {
 	asLongAs: [
-		// The user can merge
+		// The user is a maintainer or the PR owner
 		() => select.exists('[aria-label="Edit Pull Request title"]'),
 	],
 	include: [
