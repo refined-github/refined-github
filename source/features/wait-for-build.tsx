@@ -100,8 +100,8 @@ function init(): void {
 
 void features.add(__filebasename, {
 	asLongAs: [
-		// The user cannot merge
-		() => select.exists('[data-details-container=".js-merge-pr"]:not(:disabled)'),
+		// The user is a maintainer, so they can probably merge the PR
+		() => select.exists('.discussion-sidebar-item .octicon-lock'),
 	],
 	include: [
 		pageDetect.isPRConversation,
