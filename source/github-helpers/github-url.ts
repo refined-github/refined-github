@@ -20,6 +20,10 @@ export default class GitHubURL {
 		this.pathname = this.internalUrl.pathname;
 	}
 
+	toString(): string {
+		return this.href;
+	}
+
 	assign(...replacements: Array<Partial<GitHubURL>>): this {
 		Object.assign(this, ...replacements);
 		return this;
