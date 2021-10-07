@@ -62,7 +62,13 @@ const viewportObserver = new IntersectionObserver(changes => {
 });
 
 function init(): void {
-	for (const line of select.all('.blob-code-inner:not(.rgh-observing-whitespace)')) {
+	const selectors = [
+		'.blob-code-inner', // Code lines
+		'.highlight pre', // Highlighted code blocks in comments
+		'.snippet-clipboard-content pre', // Not highlighted code blocks in comments
+	].join(',');
+
+	for (const line of select.all(`:is(${selectors}):not(.rgh-observing-whitespace, .blob-code-hunk)`)) {
 		line.classList.add('rgh-observing-whitespace');
 		viewportObserver.observe(line);
 	}

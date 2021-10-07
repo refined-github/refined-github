@@ -10,7 +10,7 @@ import parseBackticksCore from './parse-backticks';
 export const linkifiedURLClass = 'rgh-linkified-code';
 
 // If we are not in a repo, relative issue references won't make sense but `user`/`repo` need to be set to avoid breaking errors in `linkify-issues`
-// https://github.com/sindresorhus/refined-github/issues/1305
+// https://github.com/refined-github/refined-github/issues/1305
 const currentRepo = getRepo()!;
 
 export function linkifyIssues(

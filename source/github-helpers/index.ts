@@ -114,5 +114,18 @@ export async function isPermalink(): Promise<boolean> {
 
 // Negative function so it can be used directly in `exclude` array
 export function isNotRefinedGitHubRepo(): boolean {
-	return !location.pathname.startsWith('/sindresorhus/refined-github/');
+	return !location.pathname.startsWith('/refined-github/refined-github/');
+}
+
+export function shouldFeatureRun({
+	/** Every condition must be true */
+	asLongAs = [() => true],
+
+	/** At least one condition must be true */
+	include = [() => true],
+
+	/** No conditions must be true */
+	exclude = [() => false],
+}): boolean {
+	return asLongAs.every(c => c()) && include.some(c => c()) && exclude.every(c => !c());
 }

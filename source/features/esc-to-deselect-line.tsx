@@ -28,5 +28,6 @@ void features.add(__filebasename, {
 		pageDetect.hasCode,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init: onetime(init),
 });

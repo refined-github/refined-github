@@ -33,7 +33,7 @@ body:
     attributes:
       label: Example URL
       description: A REAL URL where the bug appears. If it happens on a private repo, find an equivalent public URL, even if it doesn't happen there.
-      placeholder: https://github.com/sindresorhus/refined-github/issues
+      placeholder: https://github.com/refined-github/refined-github/issues
     validations:
       required: true
   - type: input

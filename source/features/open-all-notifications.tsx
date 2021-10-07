@@ -34,7 +34,7 @@ function openNotifications({delegateTarget}: delegate.Event): void {
 		notification.classList.replace('notification-unread', 'notification-read');
 	}
 
-	// Remove all now-useless buttons
+	// Remove all now-unnecessary buttons
 	for (const button of select.all('.rgh-open-notifications-button', container)) {
 		button.remove();
 	}

@@ -79,7 +79,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 					<ArrowDownIcon/>
 				</span>
 
-				<span className="text-gray color-text-secondary timeline-comment-header-text">
+				<span className="color-text-secondary timeline-comment-header-text">
 					Highest-rated comment: <em>{text}</em>
 				</span>
 			</a>

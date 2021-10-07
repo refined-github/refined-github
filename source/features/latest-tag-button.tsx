@@ -101,7 +101,7 @@ async function init(): Promise<false | void> {
 
 	const link = (
 		<a
-			className="btn btn-sm btn-outline ml-0 flex-self-center css-truncate rgh-latest-tag-button"
+			className="btn btn-sm ml-0 flex-self-center css-truncate rgh-latest-tag-button"
 			href={String(url)}
 			data-pjax="#repo-content-pjax-container"
 		>
@@ -134,7 +134,7 @@ async function init(): Promise<false | void> {
 		if (pageDetect.isRepoRoot()) {
 			const compareLink = (
 				<a
-					className="btn btn-sm btn-outline tooltipped tooltipped-ne"
+					className="btn btn-sm tooltipped tooltipped-ne"
 					href={buildRepoURL(`compare/${latestTag}...${defaultBranch}`)}
 					data-pjax="#repo-content-pjax-container"
 					aria-label={`Compare ${latestTag}...${defaultBranch}`}

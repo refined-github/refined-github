@@ -65,6 +65,7 @@ void features.add(__filebasename, {
 		pageDetect.isEditingFile,
 		pageDetect.isPRConversation,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 }, {
 	shortcuts: {

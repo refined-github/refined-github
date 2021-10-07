@@ -8,6 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import waitFor from '../helpers/wait-for';
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
+import {shouldFeatureRun} from '../github-helpers';
 import optionsStorage, {RGHOptions} from '../options-storage';
 import {getLocalHotfixesAsOptions, updateHotfixes} from '../helpers/hotfix';
 
@@ -34,8 +35,9 @@ interface FeatureLoader extends Partial<InternalRunConfig> {
 }
 
 interface InternalRunConfig {
-	include: BooleanFunction[];
-	exclude: BooleanFunction[];
+	asLongAs: BooleanFunction[] | undefined;
+	include: BooleanFunction[] | undefined;
+	exclude: BooleanFunction[] | undefined;
 	init: FeatureInit;
 	deinit?: VoidFunction | VoidFunction[];
 	additionalListeners: CallerFunction[];
@@ -57,10 +59,10 @@ const logError = (id: FeatureID, error: unknown): void => {
 	console.group('❌', id, version, pageDetect.isEnterprise() ? 'GHE →' : '→', error);
 
 	console.group('Search issue');
-	console.log(`https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}`);
+	console.log(`https://github.com/refined-github/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}`);
 	console.groupEnd();
 
-	const newIssueUrl = new URL('https://github.com/sindresorhus/refined-github/issues/new?labels=bug&template=1_bug_report.md');
+	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new?labels=bug&template=1_bug_report.md');
 	newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
 	newIssueUrl.searchParams.set('body', stripIndent(`
 		<!-- Please also include a screenshot if the issue is visible -->
@@ -138,10 +140,9 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 });
 
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
-	const {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
+	const {asLongAs, include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
 
-	// If every `include` is false and no `exclude` is true, don’t run the feature
-	if (include.every(c => !c()) || exclude.some(c => c())) {
+	if (!shouldFeatureRun({asLongAs, include, exclude})) {
 		return;
 	}
 
@@ -149,7 +150,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 		try {
 			// Features can return `false` when they decide not to run on the current page
 			// Also the condition avoids logging the fake feature added for `has-rgh`
-			if (await init() !== false && id !== __filebasename) {
+			if (await init() !== false && !id?.startsWith('rgh') && id !== __filebasename) {
 				log.info('✅', id);
 			}
 		} catch (error: unknown) {
@@ -192,7 +193,7 @@ function enforceDefaults(
 	additionalListeners: InternalRunConfig['additionalListeners'],
 ): void {
 	for (const [detection, listener] of defaultPairs) {
-		if (!include.includes(detection)) {
+		if (!include?.includes(detection)) {
 			continue;
 		}
 
@@ -218,8 +219,9 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 		// Input defaults and validation
 		const {
 			shortcuts = {},
-			include = [() => true], // Default: every page
-			exclude = [], // Default: nothing
+			asLongAs,
+			include,
+			exclude,
 			init,
 			deinit,
 			awaitDomReady = true,
@@ -234,13 +236,13 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 		}
 
 		// 404 pages should only run 404-only features
-		if (pageDetect.is404() && !include.includes(pageDetect.is404)) {
+		if (pageDetect.is404() && !include?.includes(pageDetect.is404) && !asLongAs?.includes(pageDetect.is404)) {
 			continue;
 		}
 
 		enforceDefaults(id, include, additionalListeners);
 
-		const details = {include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
+		const details = {asLongAs, include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
 		if (awaitDomReady) {
 			(async () => {
 				await domLoaded;
@@ -258,7 +260,7 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 	}
 };
 
-const addCssFeature = async (id: FeatureID, include: BooleanFunction[], deduplicate?: false | string): Promise<void> => {
+const addCssFeature = async (id: FeatureID, include: BooleanFunction[] | undefined, deduplicate?: false | string): Promise<void> => {
 	void add(id, {
 		include,
 		deduplicate,

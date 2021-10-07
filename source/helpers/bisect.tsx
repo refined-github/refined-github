@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 
 import features from '../features';
 import pluralize from './pluralize';
@@ -32,7 +33,7 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 		createMessageBox('No features were enabled on this page. Try disabling Refined GitHub to see if it belongs to it at all.');
 	} else {
 		const feature = (
-			<a href={'https://github.com/sindresorhus/refined-github/blob/main/source/features/' + bisectedFeatures[0] + '.tsx'}>
+			<a href={'https://github.com/refined-github/refined-github/blob/main/source/features/' + bisectedFeatures[0] + '.tsx'}>
 				<code>{bisectedFeatures[0]}</code>
 			</a>
 		);
@@ -78,6 +79,7 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 	console.log(`Bisecting ${bisectedFeatures.length} features:\n${bisectedFeatures.join('\n')}`);
 
 	const steps = Math.ceil(Math.log2(Math.max(bisectedFeatures.length))) + 1;
+	await elementReady('body');
 	createMessageBox(
 		`Do you see the change or issue? (${pluralize(steps, 'last step', '$$ steps remaining')})`,
 		<div>

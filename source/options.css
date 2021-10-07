@@ -4,8 +4,21 @@
 	}
 }
 
+/* For iOS Safari */
+@media only screen and (max-device-width: 1000px) {
+	:root {
+		min-width: 0;
+	}
+}
+
 :root {
-	--github-red: #cb2431;
+	--github-red: #cf222e;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--github-red: #f85149;
+	}
 }
 
 p {
@@ -40,13 +53,13 @@ li[data-validation] {
 
 :root [name='customCSS'],
 :root [name='personalToken'] {
-	font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace !important;
 	font-size: 11px;
 	line-height: 1.5;
 }
 
 [name='personalToken'] {
-	width: 20em !important; /* https://github.com/sindresorhus/refined-github/issues/1374#issuecomment-397906701 */
+	width: 20em !important; /* https://github.com/refined-github/refined-github/issues/1374#issuecomment-397906701 */
 	display: inline-block !important;
 }
 

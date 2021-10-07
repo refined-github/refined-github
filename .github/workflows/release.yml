@@ -62,7 +62,7 @@ jobs:
         run: |
           case ${{ matrix.command }} in
             chrome)
-              cd $DIRECTORY && npx chrome-webstore-upload-cli@1 upload --auto-publish
+              cd $DIRECTORY && npx chrome-webstore-upload-cli@next upload --auto-publish
               ;;
             firefox)
               cd $DIRECTORY && npx web-ext-submit@5
