@@ -105,7 +105,7 @@ async function showTimemachineBar(): Promise<void | false> {
 	}
 
 	const link = (
-		<a className="rgh-link-date" href={String(url)} data-pjax="#repo-content-pjax-container">
+		<a className="rgh-link-date" href={url.href} data-pjax="#repo-content-pjax-container">
 			view this object as it appeared at the time of the comment
 		</a>
 	);
