@@ -29,5 +29,5 @@ code .markdown-title[data-test-selector='commit-tease-commit-message'] /* `isRep
 
 /* Add missing spacing for file template buttons #4817 */
 .js-template-suggestion:not(.d-none) {
-    margin-left: 8px;
+	margin-left: 8px;
 }
