@@ -214,7 +214,6 @@ import './features/avoid-accidental-submissions';
 import './features/quick-review-comment-deletion';
 import './features/no-unnecessary-split-diff-view';
 import './features/list-pr-for-branch';
-import './features/cancel-wiki-edit-button';
 import './features/comment-on-draft-pr-indicator';
 import './features/select-notifications';
 import './features/clean-repo-tabs';
