@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function canEditEveryComment(): boolean {
-	return select.exists([
+	return pageDetect.canUserEditRepo() || select.exists([
 		// These are only found if you left any comments on the page
 		'[aria-label^="You have been invited to collaborate"]',
 		'[aria-label^="You are the owner"]',
@@ -17,8 +17,6 @@ function canEditEveryComment(): boolean {
 
 		// If you can lock conversations, you have write access
 		'.lock-toggle-link',
-		// If you can change the repo’s settings, then can change anything
-		'#settings-tab',
 	]);
 }
 
