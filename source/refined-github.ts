@@ -217,3 +217,4 @@ import './features/list-pr-for-branch';
 import './features/comment-on-draft-pr-indicator';
 import './features/select-notifications';
 import './features/clean-repo-tabs';
+import './features/multiple-linked-prs-dropdown';

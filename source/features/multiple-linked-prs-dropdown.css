@@ -1,0 +1,9 @@
+/* Cancels the effect of `.tooltipped-ne` that GitHub automatically adds to issue links when they're first hovered */
+.rgh-multiple-linked-prs-dropdown li::before {
+	border-top-color: transparent !important;
+}
+
+.rgh-multiple-linked-prs-dropdown li::after {
+	left: auto !important;
+	margin-bottom: 0 !important;
+}
