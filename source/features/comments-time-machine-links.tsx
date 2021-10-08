@@ -114,19 +114,33 @@ async function showTimemachineBar(): Promise<void | false> {
 	);
 }
 
-function init(): void {
-	// PR reviews' main content has nested `.timeline-comment`, but the deepest one doesn't have `relative-time`. These are filtered out with `:not([id^="pullrequestreview"])`
-	const comments = select.all(`
-		:not(.js-new-comment-form, #issuecomment-new, [id^="pullrequestreview"]) > .timeline-comment:not(.rgh-time-machine-links),
-		.review-comment > .previewable-edit:not(.is-pending, .rgh-time-machine-links)
-	`);
+function updateComment(comment: HTMLElement, timestamp: string): void {
+	addDropdownLink(comment, timestamp);
+	addInlineLinks(comment, timestamp);
+	comment.classList.add('rgh-time-machine-links');
+}
 
+function init(): void {
+	const commentsSelector = `
+		:not(.js-new-comment-form, #issuecomment-new) > .timeline-comment:not(.rgh-time-machine-links),
+		.review-comment > .previewable-edit:not(.is-pending, .rgh-time-machine-links)
+	`;
+
+	// PR reviews' main content has nested `.timeline-comment`, but the deepest one doesn't have `relative-time`.
+	const reviews = select.all('[id^="pullrequestreview"].js-comment');
+	for (const review of reviews) {
+		const comments = select.all(commentsSelector, review);
+		const timestamp = select('relative-time', review)!.attributes.datetime.value;
+
+		for (const comment of comments) {
+			updateComment(comment, timestamp);
+		}
+	}
+
+	const comments = select.all(commentsSelector);
 	for (const comment of comments) {
 		const timestamp = select('relative-time', comment)!.attributes.datetime.value;
-
-		addDropdownLink(comment, timestamp);
-		addInlineLinks(comment, timestamp);
-		comment.classList.add('rgh-time-machine-links');
+		updateComment(comment, timestamp);
 	}
 }
 
