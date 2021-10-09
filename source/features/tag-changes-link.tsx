@@ -1,4 +1,4 @@
-import './tag-changelog-link.css';
+import './tag-changes-link.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
@@ -73,7 +73,7 @@ const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefi
 };
 
 async function init(): Promise<void> {
-	document.body.classList.add('rgh-tag-changelog-link');
+	document.body.classList.add('rgh-tag-changes-link');
 
 	const tagsSelector = [
 		// https://github.com/facebook/react/releases (release in releases list)
@@ -109,7 +109,7 @@ async function init(): Promise<void> {
 						aria-label={'See changes since ' + decodeURIComponent(previousTag)}
 						href={buildRepoURL(`compare/${previousTag}...${allTags[index].tag}`)}
 					>
-						<DiffIcon/> Changelog
+						<DiffIcon/> Changes
 					</a>
 				</li>,
 			);
