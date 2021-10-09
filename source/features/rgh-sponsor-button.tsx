@@ -25,7 +25,6 @@
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
