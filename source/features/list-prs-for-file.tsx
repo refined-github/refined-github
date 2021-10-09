@@ -52,7 +52,7 @@ function getSingleButton(prNumber: number): HTMLElement {
 	return (
 		<a
 			href={getPRUrl(prNumber)}
-			className="btn btn-sm flex-self-center rgh-list-prs-for-file BtnGroup-item"
+			className="btn btn-sm flex-self-center rgh-list-prs-for-file"
 			data-pjax="#js-repo-pjax-container"
 		>
 			<GitPullRequestIcon/>
