@@ -6,7 +6,7 @@ We use GitHub a lot and notice many annoyances we'd like to fix. So here be drag
 
 Our hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these improvements, please email [GitHub support](https://support.github.com/contact) about doing it.
 
-GitHub Enterprise is also supported: [How to enable it](https://fregante.github.io/webext-domain-permission-toggle/?name=Refined%20GitHub&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fsindresorhus%2Frefined-github%2Fmain%2Fdistribution%2Ficon.png). <!-- icon.png renders best -->
+GitHub Enterprise is also supported: [How to enable it](https://fregante.github.io/webext-domain-permission-toggle/?name=Refined%20GitHub&icon=https%3A%2F%2Fraw.githubusercontent.com%2Frefined-github%2Frefined-github%2Fmain%2Fdistribution%2Ficon.png). <!-- icon.png renders best -->
 
 *The GITHUB and REFINED GITHUB trademarks are owned by GitHub, Inc. and used under license.*
 
@@ -325,7 +325,7 @@ Thanks for contributing! 🦋🙌
 - [](# "releases-tab") [Adds a `Releases` tab and a keyboard shortcut: <kbd>g</kbd> <kbd>r</kbd>.](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png)
 - [](# "create-release-shortcut") Adds a keyboard shortcut to create a new release while on the Releases page: <kbd>c</kbd>.
 - [](# "tags-dropdown") [Adds a tags dropdown/search on tag/release pages.](https://user-images.githubusercontent.com/22439276/56373231-27ee9980-621e-11e9-9b21-601919d3dddf.png)
-- [](# "tag-changelog-link") 🔥 [Adds a link to an automatic changelog for each tag/release.](https://user-images.githubusercontent.com/1402241/57081611-ad4a7180-6d27-11e9-9cb6-c54ec1ac18bb.png)
+- [](# "tag-changes-link") 🔥 [Adds a link to changes since last tag/release for each tag/release.](https://user-images.githubusercontent.com/1402241/57081611-ad4a7180-6d27-11e9-9cb6-c54ec1ac18bb.png)
 - [](# "latest-tag-button") [Adds a link to the latest version tag on directory listings and files.](https://user-images.githubusercontent.com/1402241/74594998-71df2080-5077-11ea-927c-b484ca656e88.png)
 - [](# "convert-release-to-draft") [Adds a button to convert a release to draft.](https://user-images.githubusercontent.com/16872793/90017455-8e03f900-dc79-11ea-95c5-377e0a82d4ea.png)
 - [](# "link-to-changelog-file") [Adds a button to view the changelog file from the releases page.](https://user-images.githubusercontent.com/16872793/107520428-684fa200-6b7f-11eb-8f7c-59172db71160.png)
@@ -404,7 +404,6 @@ Thanks for contributing! 🦋🙌
 - [](# "linkify-full-profile-readme-title") [Linkifies the readme text on profile pages.](https://user-images.githubusercontent.com/16872793/90910173-ebe4bf00-e3a4-11ea-8fc5-aea3d1a2e5e5.png)
 - [](# "convert-pr-to-draft-improvements") [Moves the "Convert PR to Draft" button to the mergeability box and adds visual feedback to its confirm button.](https://user-images.githubusercontent.com/1402241/95644892-885f3f80-0a7f-11eb-8428-8e0fb0c8dfa5.gif)
 - [](# "clean-header-search-field") [Clears duplicate queries in the header search field.](https://user-images.githubusercontent.com/1402241/114177338-7c890300-9966-11eb-83a3-a711a76fae99.png)
-- [](# "cancel-wiki-edit-button") [Adds a cancel button when editing wiki pages.](https://user-images.githubusercontent.com/44045911/122222158-93a71c80-cee4-11eb-9a43-98457cac93df.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
