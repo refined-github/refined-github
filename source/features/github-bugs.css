@@ -22,7 +22,7 @@
 .Box-header .commit-author + span code /* `isRepoTree` commit message */ {
 	padding: 2px 4px;
 	background-color: var(--color-neutral-muted);
-	font-size: 12.6px;
+	font-size: 0.9em;
 	line-height: 1;
 	border-radius: 6px;
 }
