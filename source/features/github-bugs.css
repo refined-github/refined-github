@@ -17,9 +17,9 @@
 	border-bottom-right-radius: 5px;
 }
 
-/* Style backticked code in links #4817 */
+/* Style backticked code in links #4817, matches GitHub’s `.markdown-title code` rule */
 .js-commits-list-item code, /* `isCommitList` commit message */
-code .markdown-title[data-test-selector='commit-tease-commit-message'] /* `isRepoTree` commit message */ {
+.Box-header .commit-author + span code /* `isRepoTree` commit message */ {
 	padding: 2px 4px;
 	background-color: var(--color-neutral-muted);
 	font-size: 12.6px;
