@@ -157,7 +157,7 @@ pr-branches
 	margin-right: 4px !important;
 }
 
-/* removes the underline for whitespace on hover, working for issue #4871 */
+/* Remove the underline on PR filename copy button hover #4871 */
 .file-header .file-info .Link--onHover:hover {
 	text-decoration: none;
 }
