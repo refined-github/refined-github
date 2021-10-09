@@ -98,20 +98,6 @@ function handleSponsorButton(): void {
 	delegate(document, '#sponsor-button-repo, #sponsor-profile-button, [aria-label^="Sponsor @"]', 'click', suchLove);
 }
 
-// GitHub has a bug where the sponsor nudge does not reflect the funding.yml. Reported to GitHub, still not fixed.
-// https://github.com/refined-github/refined-github/blob/891dec097db8f2581985efb131499986fb04b661/.github/funding.yml
-async function fixGitHubSponsorsBug(): Promise<void> {
-	const wrongSponsorButton = await elementReady('[aria-label="Sponsor @sindresorhus"][data-hydro-click*="ISSUE_NUDGE_SPONSOR"]', {stopOnDomReady: false, timeout: 1000});
-	if (wrongSponsorButton) {
-		wrongSponsorButton.outerHTML = wrongSponsorButton.outerHTML.replace(/sindresorhus/g, 'fregante');
-	}
-
-	const wrongSponsor = select('img[src$="sponsors/mona.png"] + span a[href="/sindresorhus"]');
-	if (wrongSponsor) {
-		wrongSponsor.outerHTML = wrongSponsor.outerHTML.replace(/sindresorhus/g, 'fregante');
-	}
-}
-
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isIssue,
@@ -126,9 +112,4 @@ void features.add(__filebasename, {
 		pageDetect.isOrganizationProfile,
 	],
 	init: handleSponsorButton,
-}, {
-	include: [
-		() => location.pathname.startsWith('/refined-github/refined-github/issues/'),
-	],
-	init: fixGitHubSponsorsBug,
 });
