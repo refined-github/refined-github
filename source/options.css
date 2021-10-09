@@ -100,12 +100,8 @@ li[data-validation] {
 	opacity: 80%;
 }
 
-.js-features a {
-	font-size: 0.9em;
-}
-
-.js-features a:first-of-type {
-	margin-left: 0.6em;
+.feature-link {
+	margin: 0 0.6em;
 }
 
 .js-features .info {
@@ -160,4 +156,25 @@ li[data-validation] {
 
 #debugging p:last-child {
 	margin-bottom: 0;
+}
+
+details {
+	margin-bottom: 1em;
+}
+
+.screenshot {
+	max-width: 100%;
+	margin-bottom: 2em;
+	border: 1px solid #d1d5da;
+	border-radius: 0.5em;
+	min-width: 2em;
+	min-height: 2em;
+}
+
+.screenshot-toggle:checked ~ .screenshot-link {
+	font-style: italic;
+}
+
+.screenshot-toggle:checked ~ .screenshot {
+	display: block;
 }

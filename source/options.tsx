@@ -111,15 +111,21 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
 			<input type="checkbox" name={`feature:${id}`} id={id}/>
 			<div className="info">
-				<label htmlFor={id}>
-					<span className="feature-name">{id}</span>
-					{' '}
-					<a href={`https://github.com/refined-github/refined-github/blob/main/source/features/${id}.tsx`}>
-						source
+				<label className="feature-name" htmlFor={id}>{id}</label>
+				{' '}
+				<a href={`https://github.com/refined-github/refined-github/blob/main/source/features/${id}.tsx`} className="feature-link">
+					source
+				</a>
+				<input hidden type="checkbox" className="screenshot-toggle"/>
+				{screenshot && (
+					<a href={screenshot} className="screenshot-link">
+						screenshot
 					</a>
-					{screenshot && <>, <a href={screenshot}>screenshot</a></>}
-					{descriptionElement}
-				</label>
+				)}
+				{descriptionElement}
+				{screenshot && (
+					<img hidden data-src={screenshot} className="screenshot"/>
+				)}
 			</div>
 		</div>
 	);
@@ -149,6 +155,23 @@ async function findFeatureHandler(event: Event): Promise<void> {
 	select('#find-feature-message')!.hidden = false;
 }
 
+function summaryHandler(event: delegate.Event<MouseEvent>): void {
+	if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+		return;
+	}
+
+	event.preventDefault();
+	const feature = event.delegateTarget.parentElement!;
+
+	// Toggle checkbox
+	const toggle = feature.querySelector('input.screenshot-toggle')!;
+	toggle.checked = !toggle.checked;
+
+	// Lazy-load image
+	const screenshot = feature.querySelector('img.screenshot')!;
+	screenshot.src = screenshot.dataset.src!;
+}
+
 function featuresFilterHandler(event: Event): void {
 	const keywords = (event.currentTarget as HTMLInputElement).value.toLowerCase()
 		.replace(/\W/g, ' ')
@@ -164,7 +187,7 @@ async function highlightNewFeatures(): Promise<void> {
 	const isFirstVisit = Object.keys(featuresAlreadySeen).length === 0;
 	const tenDaysAgo = Date.now() - (10 * 24 * 60 * 60 * 1000);
 
-	for (const feature of select.all('.feature [type=checkbox]')) {
+	for (const feature of select.all('.feature [type=checkbox]:first-child')) {
 		if (!(feature.id in featuresAlreadySeen)) {
 			featuresAlreadySeen[feature.id] = isFirstVisit ? tenDaysAgo : Date.now();
 		}
@@ -237,6 +260,9 @@ function addEventListeners(): void {
 	fitTextarea.watch('textarea');
 	indentTextarea.watch('textarea');
 
+	// Load screenshots
+	delegate(document, '.screenshot-link', 'click', summaryHandler);
+
 	// Filter feature list
 	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
 
@@ -251,8 +277,10 @@ function addEventListeners(): void {
 
 	// Ensure all links open in a new tab #3181
 	delegate(document, 'a[href^="http"]', 'click', event => {
-		event.preventDefault();
-		window.open(event.delegateTarget.href);
+		if (!event.defaultPrevented) {
+			event.preventDefault();
+			window.open(event.delegateTarget.href);
+		}
 	});
 }
 
