@@ -73,7 +73,7 @@ function addDropdownLink(comment: HTMLElement, timestamp: string): void {
 	);
 }
 
-async function showTimemachineBar(): Promise<void | false> {
+async function showTimeMachineBar(): Promise<void | false> {
 	const url = new URL(location.href); // This can't be replaced with `GitHubURL` because `getCurrentBranch` throws on 404s
 	const date = url.searchParams.get('rgh-link-date')!;
 
@@ -126,20 +126,9 @@ function init(): void {
 		.review-comment > .previewable-edit:not(.is-pending, .rgh-time-machine-links)
 	`;
 
-	// PR reviews' main content has nested `.timeline-comment`, but the deepest one doesn't have `relative-time`.
-	const reviews = select.all('[id^="pullrequestreview"].js-comment');
-	for (const review of reviews) {
-		const comments = select.all(commentsSelector, review);
-		const timestamp = select('relative-time', review)!.attributes.datetime.value;
-
-		for (const comment of comments) {
-			updateComment(comment, timestamp);
-		}
-	}
-
 	const comments = select.all(commentsSelector);
 	for (const comment of comments) {
-		const timestamp = select('relative-time', comment)!.attributes.datetime.value;
+		const timestamp = comment.closest('.js-comment:not(.timeline-comment-group)')!.querySelector('relative-time')!.attributes.datetime.value;
 		updateComment(comment, timestamp);
 	}
 }
@@ -163,5 +152,5 @@ void features.add(__filebasename, {
 		pageDetect.isRepoTree,
 	],
 	awaitDomReady: false,
-	init: showTimemachineBar,
+	init: showTimeMachineBar,
 });
