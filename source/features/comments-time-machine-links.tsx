@@ -2,13 +2,13 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import delegate from 'delegate-it';
 
 import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import addNotice from '../github-widgets/notice-bar';
 import {buildRepoURL, isPermalink} from '../github-helpers';
-import delegate from 'delegate-it';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
 	const {repository} = await api.v4(`
@@ -32,7 +32,7 @@ async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> 
 }
 
 function addInlineLinks(menu: HTMLElement, timestamp: string): void {
-	const comment = menu.closest('.js-comment')!
+	const comment = menu.closest('.js-comment')!;
 
 	const links = select.all<HTMLAnchorElement>(`
 		[href^="${location.origin}"][href*="/blob/"]:not(.rgh-linkified-code),
@@ -55,7 +55,7 @@ function addInlineLinks(menu: HTMLElement, timestamp: string): void {
 function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 	const dropdown = select('.show-more-popover', menu.parentElement!)!;
 
-	dropdown.appendChild(
+	dropdown.append(
 		<>
 			<div className="dropdown-divider"/>
 			<a
@@ -113,8 +113,9 @@ async function showTimeMachineBar(): Promise<void | false> {
 
 function updateMenu({delegateTarget: menu}: delegate.Event<MouseEvent, HTMLElement>): void {
 	if (menu.classList.contains('rgh-time-machine-links')) {
-		return
+		return;
 	}
+
 	const timestamp = menu.closest('.js-comment:not(.timeline-comment-group), .js-timeline-item')!.querySelector('relative-time')!.attributes.datetime.value;
 
 	addDropdownLink(menu, timestamp);
