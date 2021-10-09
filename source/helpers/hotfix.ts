@@ -5,7 +5,7 @@ import {RGHOptions} from '../options-storage';
 
 export const updateHotfixes = cache.function(async (): Promise<string[][]> => {
 	// The explicit endpoint is necessary because it shouldn't change on GHE
-	const request = await fetch('https://api.github.com/repos/sindresorhus/refined-github/contents/hotfix.csv?ref=hotfix');
+	const request = await fetch('https://api.github.com/repos/refined-github/refined-github/contents/hotfix.csv?ref=hotfix');
 	const {content} = await request.json();
 
 	// Rate-limit check

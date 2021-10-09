@@ -10,7 +10,7 @@ import onConversationHeaderUpdate from '../github-events/on-conversation-header-
 function linkifyFeature(codeElement: HTMLElement): void {
 	const id = codeElement.textContent as FeatureID;
 	if (features.list.includes(id) && !codeElement.closest('a')) {
-		wrap(codeElement, <a href={`/sindresorhus/refined-github/blob/main/source/features/${id}.tsx`}/>);
+		wrap(codeElement, <a href={`/refined-github/refined-github/blob/main/source/features/${id}.tsx`}/>);
 	}
 }
 

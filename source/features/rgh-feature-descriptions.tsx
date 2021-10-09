@@ -11,7 +11,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const conversationsUrl = '/sindresorhus/refined-github/issues?q=' + encodeURIComponent(`"${feature.id}" sort:updated-desc`);
+	const conversationsUrl = '/refined-github/refined-github/issues?q=' + encodeURIComponent(`"${feature.id}" sort:updated-desc`);
 
 	const commit = await elementReady([
 		'.Box-header.Details', // Already loaded

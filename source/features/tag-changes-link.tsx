@@ -113,7 +113,7 @@ async function init(): Promise<void> {
 					</a>
 				</li>,
 			);
-			/* Fix spacing issue when the window is < 700px wide https://github.com/sindresorhus/refined-github/pull/3841#issuecomment-754325056 */
+			/* Fix spacing issue when the window is < 700px wide https://github.com/refined-github/refined-github/pull/3841#issuecomment-754325056 */
 			lastLink.classList.remove('flex-auto');
 		}
 	}

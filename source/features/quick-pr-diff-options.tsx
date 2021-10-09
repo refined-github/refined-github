@@ -70,7 +70,7 @@ function createWhitespaceButton(): HTMLElement {
 }
 
 function initPR(): false | void {
-	select('.js-file-filter')!.closest('.flex-auto')!.append(
+	select('.js-file-filter')!.parentElement!.append(
 		<div className="diffbar-item d-flex">{createDiffStyleToggle()}</div>,
 		<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>,
 	);

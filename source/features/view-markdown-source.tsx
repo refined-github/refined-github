@@ -7,7 +7,7 @@ import features from '.';
 
 async function init(): Promise<void> {
 	if (select.exists('[href^="?plain=1"]')) {
-		throw new Error('GitHub has implemented this feature. Please report this issue here https://github.com/sindresorhus/refined-github/pull/4837');
+		throw new Error('GitHub has implemented this feature. Please report this issue here https://github.com/refined-github/refined-github/pull/4837');
 	}
 
 	select('#raw-url')!.closest('.d-flex')!.prepend(

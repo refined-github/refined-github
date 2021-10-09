@@ -38,6 +38,11 @@ function generateSubmenu(hideButton: Element): void {
 	select('.btn', hideCommentForm)!.remove();
 	select('[name="classifier"]', hideCommentForm)!.remove();
 
+	// Close immediately after the clicking option
+	hideCommentForm.addEventListener('click', () => {
+		detailsElement.removeAttribute('open');
+	});
+
 	// Imitate existing menu
 	hideCommentForm.classList.add('dropdown-menu', 'dropdown-menu-sw', 'color-text-primary', 'show-more-popover', 'anim-scale-in');
 
