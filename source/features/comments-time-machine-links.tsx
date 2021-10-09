@@ -7,8 +7,8 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import addNotice from '../github-widgets/notice-bar';
-import {appendBefore} from '../helpers/dom-utils';
 import {buildRepoURL, isPermalink} from '../github-helpers';
+import delegate from 'delegate-it';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
 	const {repository} = await api.v4(`
@@ -31,7 +31,9 @@ async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> 
 	select('a.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;
 }
 
-function addInlineLinks(comment: HTMLElement, timestamp: string): void {
+function addInlineLinks(menu: HTMLElement, timestamp: string): void {
+	const comment = menu.closest('.js-comment')!
+
 	const links = select.all<HTMLAnchorElement>(`
 		[href^="${location.origin}"][href*="/blob/"]:not(.rgh-linkified-code),
 		[href^="${location.origin}"][href*="/tree/"]:not(.rgh-linkified-code)
@@ -50,15 +52,10 @@ function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 	}
 }
 
-function addDropdownLink(comment: HTMLElement, timestamp: string): void {
-	const dropdown = select('.show-more-popover', comment);
+function addDropdownLink(menu: HTMLElement, timestamp: string): void {
+	const dropdown = select('.show-more-popover', menu.parentElement!)!;
 
-	// Comment-less reviews don't have a dropdown
-	if (!dropdown) {
-		return;
-	}
-
-	appendBefore(dropdown, '.dropdown-divider',
+	dropdown.appendChild(
 		<>
 			<div className="dropdown-divider"/>
 			<a
@@ -114,23 +111,19 @@ async function showTimeMachineBar(): Promise<void | false> {
 	);
 }
 
-function updateComment(comment: HTMLElement, timestamp: string): void {
-	addDropdownLink(comment, timestamp);
-	addInlineLinks(comment, timestamp);
-	comment.classList.add('rgh-time-machine-links');
+function updateMenu({delegateTarget: menu}: delegate.Event<MouseEvent, HTMLElement>): void {
+	if (menu.classList.contains('rgh-time-machine-links')) {
+		return
+	}
+	const timestamp = menu.closest('.js-comment:not(.timeline-comment-group), .js-timeline-item')!.querySelector('relative-time')!.attributes.datetime.value;
+
+	addDropdownLink(menu, timestamp);
+	addInlineLinks(menu, timestamp);
+	menu.classList.add('rgh-time-machine-links');
 }
 
 function init(): void {
-	const commentsSelector = `
-		:not(.js-new-comment-form, #issuecomment-new) > .timeline-comment:not(.rgh-time-machine-links),
-		.review-comment > .previewable-edit:not(.is-pending, .rgh-time-machine-links)
-	`;
-
-	const comments = select.all(commentsSelector);
-	for (const comment of comments) {
-		const timestamp = comment.closest('.js-comment:not(.timeline-comment-group)')!.querySelector('relative-time')!.attributes.datetime.value;
-		updateComment(comment, timestamp);
-	}
+	delegate(document, 'details:not(.js-comment-header-reaction-button) > summary.timeline-comment-action', 'click', updateMenu);
 }
 
 void features.add(__filebasename, {
