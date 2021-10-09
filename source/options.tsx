@@ -8,7 +8,6 @@ import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
-import clickAll from './helpers/click-all';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {perDomainOptions} from './options-storage';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
@@ -154,10 +153,6 @@ async function findFeatureHandler(event: Event): Promise<void> {
 	}, 10_000);
 
 	select('#find-feature-message')!.hidden = false;
-}
-
-function summarySelector(clickedItem: HTMLElement): string {
-	return `details${(clickedItem.parentElement as HTMLDetailsElement).open ? '[open]' : ':not([open])'} summary`;
 }
 
 function summaryHandler(event: delegate.Event<MouseEvent>): void {
