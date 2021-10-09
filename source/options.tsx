@@ -9,7 +9,7 @@ import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
 import {getLocalHotfixes} from './helpers/hotfix';
-import {perDomainOptions, migratedFeatures} from './options-storage';
+import {perDomainOptions} from './options-storage';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
 
 interface Status {
@@ -114,7 +114,7 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 				<label htmlFor={id}>
 					<span className="feature-name">{id}</span>
 					{' '}
-					<a href={`https://github.com/sindresorhus/refined-github/blob/main/source/features/${id}.tsx`}>
+					<a href={`https://github.com/refined-github/refined-github/blob/main/source/features/${id}.tsx`}>
 						source
 					</a>
 					{screenshot && <>, <a href={screenshot}>screenshot</a></>}
@@ -163,10 +163,6 @@ async function highlightNewFeatures(): Promise<void> {
 	const {featuresAlreadySeen} = await browser.storage.local.get({featuresAlreadySeen: {}});
 	const isFirstVisit = Object.keys(featuresAlreadySeen).length === 0;
 	const tenDaysAgo = Date.now() - (10 * 24 * 60 * 60 * 1000);
-
-	for (const [from, to] of migratedFeatures) {
-		featuresAlreadySeen[to] = featuresAlreadySeen[from];
-	}
 
 	for (const feature of select.all('.feature [type=checkbox]')) {
 		if (!(feature.id in featuresAlreadySeen)) {
