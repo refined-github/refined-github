@@ -173,7 +173,7 @@ function summaryHandler(event: delegate.Event<MouseEvent>): void {
 	toggle.checked = !toggle.checked;
 
 	// Lazy-load image
-	const screenshot = feature.querySelector('.screenshot')!;
+	const screenshot = feature.querySelector('img.screenshot')!;
 	screenshot.src = screenshot.dataset.src!;
 }
 
@@ -267,7 +267,6 @@ function addEventListeners(): void {
 
 	// Load screenshots
 	delegate(document, '.screenshot-link', 'click', summaryHandler);
-	delegate(document, '.screenshot-link', 'click', clickAll(summarySelector));
 
 	// Filter feature list
 	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
