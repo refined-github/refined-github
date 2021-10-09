@@ -114,7 +114,7 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 			<div className="info">
 				<label className="feature-name" htmlFor={id}>{id}</label>
 				{' '}
-				<a href={`https://github.com/sindresorhus/refined-github/blob/main/source/features/${id}.tsx`} className="feature-link">
+				<a href={`https://github.com/refined-github/refined-github/blob/main/source/features/${id}.tsx`} className="feature-link">
 					source
 				</a>
 				<input hidden type="checkbox" className="screenshot-toggle"/>

@@ -43,9 +43,9 @@ async function init(): Promise<void | false> {
 			const icon = sourceIcon.cloneNode(true);
 			const action = icon.getAttribute('title')!;
 			if (action === 'added') {
-				icon.classList.add('text-green', 'color-text-success');
+				icon.classList.add('color-text-success');
 			} else if (action === 'removed') {
-				icon.classList.add('text-red', 'color-text-danger');
+				icon.classList.add('color-text-danger');
 			} else {
 				return;
 			}
@@ -72,6 +72,7 @@ void features.add(__filebasename, {
 		pageDetect.isPRCommit404,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init,
 	deinit,
 });

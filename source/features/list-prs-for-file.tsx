@@ -21,7 +21,9 @@ function getDropdown(prs: number[]): HTMLElement {
 	return (
 		<details className="dropdown details-reset details-overlay d-inline-block flex-self-center">
 			<summary aria-haspopup="true" className="btn btn-sm">
-				<GitPullRequestIcon/> {prs.length} <div className="dropdown-caret"/>
+				<GitPullRequestIcon/>
+				<span> {prs.length} </span>
+				<div className="dropdown-caret"/>
 			</summary>
 
 			<ul className="dropdown-menu dropdown-menu-se">
@@ -46,14 +48,15 @@ function getDropdown(prs: number[]): HTMLElement {
 	);
 }
 
-function getSingleButton(prNumber: number, _?: number, prs?: number[]): HTMLElement {
+function getSingleButton(prNumber: number): HTMLElement {
 	return (
 		<a
 			href={getPRUrl(prNumber)}
-			className={'btn btn-sm btn-outline flex-self-center rgh-list-prs-for-file' + (prs ? ' BtnGroup-item' : '')}
+			className="btn btn-sm flex-self-center rgh-list-prs-for-file BtnGroup-item"
 			data-pjax="#js-repo-pjax-container"
 		>
-			<GitPullRequestIcon/> #{prNumber}
+			<GitPullRequestIcon/>
+			<span> #{prNumber}</span>
 		</a>
 	);
 }
@@ -131,7 +134,7 @@ async function init(): Promise<void> {
 						: (
 							<>
 								Careful, {prs.length} open PRs are already touching this file
-								<span className="ml-2 BtnGroup" style={{verticalAlign: '-0.6em'}}>
+								<span className="ml-2 BtnGroup">
 									{prs.map(pr => getSingleButton(pr))}
 								</span>
 							</>

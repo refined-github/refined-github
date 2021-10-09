@@ -35,5 +35,6 @@ void features.add(__filebasename, {
 		pageDetect.isCommitList,
 		pageDetect.isConversationList,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

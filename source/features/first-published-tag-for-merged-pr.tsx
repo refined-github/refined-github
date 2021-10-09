@@ -34,7 +34,7 @@ async function init(): Promise<void> {
 
 		discussionHeader.parentElement!.append(
 			' • ',
-			<TagIcon className="mx-1 text-gray color-text-secondary"/>,
+			<TagIcon className="mx-1 color-text-secondary"/>,
 			<a
 				href={buildRepoURL('releases/tag', tagName)}
 				className="commit-ref"
@@ -53,5 +53,6 @@ void features.add(__filebasename, {
 	additionalListeners: [
 		onConversationHeaderUpdate,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

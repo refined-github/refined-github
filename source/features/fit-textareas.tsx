@@ -52,6 +52,7 @@ void features.add(__filebasename, {
 	exclude: [
 		isSafari,
 	],
+	deduplicate: 'has-rgh-inner',
 	init() {
 		onPrMergePanelOpen(fitPrCommitMessageBox);
 	},

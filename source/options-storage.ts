@@ -18,7 +18,6 @@ const defaults = Object.assign({
 	logHTTP: false,
 }, Object.fromEntries(__features__.map(id => [`feature:${id}`, true])));
 
-// TODO[2021-10-01]: Drop classes `muted-link`, `link-gray`, `link-gray-dark`, `text-gray`, `text-gray-light`, `text-gray-dark`, `text-green`, `text-red` `text-blue` #4021
 const migrations = [
 	featureWasRenamed('separate-draft-pr-button', 'one-click-pr-or-gist'), // Merged in May
 	featureWasRenamed('prevent-pr-commit-link-loss', 'prevent-link-loss'), // Merged in May
@@ -37,6 +36,7 @@ const migrations = [
 	featureWasRenamed('hide-useless-newsfeed-events', 'hide-noisy-newsfeed-events'), // Merged in August
 	featureWasRenamed('no-useless-split-diff-view', 'no-unnecessary-split-diff-view'), // Merged in August
 	featureWasRenamed('unwrap-useless-dropdowns', 'unwrap-unnecessary-dropdowns'), // Merged in August
+	featureWasRenamed('navigate-pages-with-arrow-keys', 'pagination-hotkey'), // Merged in September
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused,

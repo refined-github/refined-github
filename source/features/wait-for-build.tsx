@@ -17,7 +17,7 @@ const generateCheckbox = onetime(() => (
 	<label className="d-inline-block">
 		<input checked type="checkbox" name="rgh-pr-check-waiter"/>
 		{' Wait for successful checks '}
-		<a className="discussion-item-help tooltipped tooltipped-n" target="_blank" rel="noopener noreferrer" href="https://github.com/sindresorhus/refined-github/pull/975" aria-label="This only works if you keep this tab open while waiting.">
+		<a className="discussion-item-help tooltipped tooltipped-n" target="_blank" rel="noopener noreferrer" href="https://github.com/refined-github/refined-github/pull/975" aria-label="This only works if you keep this tab open while waiting.">
 			<InfoIcon/>
 		</a>
 	</label>
@@ -99,12 +99,13 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
+	asLongAs: [
+		// The user is a maintainer, so they can probably merge the PR
+		() => select.exists('.discussion-sidebar-item .octicon-lock'),
+	],
 	include: [
 		pageDetect.isPRConversation,
 	],
-	exclude: [
-		// The user cannot merge
-		() => !select.exists('[data-details-container=".js-merge-pr"]:not(:disabled)'),
-	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

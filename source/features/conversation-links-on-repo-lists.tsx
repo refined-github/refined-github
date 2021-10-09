@@ -23,13 +23,13 @@ function init(): void {
 			// Place before the "Updated on" element
 			select('relative-time', repository)!.previousSibling!.before(
 				<a
-					className="muted-link Link--muted mr-3"
+					className="Link--muted mr-3"
 					href={repositoryLink.href + '/issues?q=is%3Aissue+is%3Aopen'}
 				>
 					<IssueOpenedIcon/>
 				</a>,
 				<a
-					className="muted-link Link--muted mr-3"
+					className="Link--muted mr-3"
 					href={repositoryLink.href + '/pulls?q=is%3Apr+is%3Aopen'}
 				>
 					<GitPullRequestIcon/>

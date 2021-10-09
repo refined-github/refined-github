@@ -8,6 +8,7 @@ import {
 	parseTag,
 	compareNames,
 	getLatestVersionTag,
+	shouldFeatureRun,
 } from '../source/github-helpers';
 
 test('getConversationNumber', t => {
@@ -25,51 +26,51 @@ test('getConversationNumber', t => {
 			undefined,
 		],
 		[
-			'https://github.com/sindresorhus/refined-github',
+			'https://github.com/refined-github/refined-github',
 			undefined,
 		],
 		[
-			'https://github.com/sindresorhus/refined-github/',
+			'https://github.com/refined-github/refined-github/',
 			undefined,
 		],
 		[
-			'https://github.com/sindresorhus/refined-github/blame/main/package.json',
+			'https://github.com/refined-github/refined-github/blame/main/package.json',
 			undefined,
 		],
 		[
-			'https://github.com/sindresorhus/refined-github/commit/57bf4',
+			'https://github.com/refined-github/refined-github/commit/57bf4',
 			undefined,
 		],
 		[
-			'https://github.com/sindresorhus/refined-github/compare/test-branch?quick_pull=0',
+			'https://github.com/refined-github/refined-github/compare/test-branch?quick_pull=0',
 			undefined,
 		],
 		[
-			'https://github.com/sindresorhus/refined-github/tree/main/distribution',
+			'https://github.com/refined-github/refined-github/tree/main/distribution',
 			undefined,
 		],
 		[
-			'https://github.com/sindresorhus/refined-github/pull/148/commits/0019603b83bd97c2f7ef240969f49e6126c5ec85',
+			'https://github.com/refined-github/refined-github/pull/148/commits/0019603b83bd97c2f7ef240969f49e6126c5ec85',
 			'148',
 		],
 		[
-			'https://github.com/sindresorhus/refined-github/pull/148/commits/00196',
+			'https://github.com/refined-github/refined-github/pull/148/commits/00196',
 			'148',
 		],
 		[
-			'https://github.com/sindresorhus/refined-github/pull/148/commits',
+			'https://github.com/refined-github/refined-github/pull/148/commits',
 			'148',
 		],
 		[
-			'https://github.com/sindresorhus/refined-github/pull/148',
+			'https://github.com/refined-github/refined-github/pull/148',
 			'148',
 		],
 		[
-			'https://github.com/sindresorhus/refined-github/issues/146',
+			'https://github.com/refined-github/refined-github/issues/146',
 			'146',
 		],
 		[
-			'https://github.com/sindresorhus/refined-github/issues',
+			'https://github.com/refined-github/refined-github/issues',
 			undefined,
 		],
 	]);
@@ -134,4 +135,51 @@ test('getLatestVersionTag', t => {
 		'2020-10-10',
 		'v1.0-1',
 	]), 'lol v0.0.0', 'Non-version tags should short-circuit the sorting and return the first tag');
+});
+
+test('shouldFeatureRun', t => {
+	const yes = (): boolean => true;
+	const no = (): boolean => false;
+	const yesYes = [yes, yes];
+	const yesNo = [yes, no];
+	const noNo = [no, no];
+
+	t.true(shouldFeatureRun({}), 'A lack of conditions should mean "run everywhere"');
+
+	t.false(shouldFeatureRun({
+		asLongAs: yesNo,
+	}), 'Every `asLongAs` should be true to run');
+
+	t.false(shouldFeatureRun({
+		asLongAs: yesNo,
+		include: [yes],
+	}), 'Every `asLongAs` should be true to run, regardless of `include`');
+
+	t.false(shouldFeatureRun({
+		include: noNo,
+	}), 'At least one `include` should be true to run');
+
+	t.true(shouldFeatureRun({
+		include: yesNo,
+	}), 'If one `include` is true, then it should run');
+
+	t.false(shouldFeatureRun({
+		exclude: yesNo,
+	}), 'If any `exclude` is true, then it should not run');
+
+	t.false(shouldFeatureRun({
+		include: [yes],
+		exclude: yesNo,
+	}), 'If any `exclude` is true, then it should not run, regardless of `include`');
+
+	t.false(shouldFeatureRun({
+		asLongAs: [yes],
+		exclude: yesNo,
+	}), 'If any `exclude` is true, then it should not run, regardless of `asLongAs`');
+
+	t.false(shouldFeatureRun({
+		asLongAs: [yes],
+		include: yesYes,
+		exclude: yesNo,
+	}), 'If any `exclude` is true, then it should not run, regardless of `asLongAs` and `include`');
 });

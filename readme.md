@@ -6,7 +6,7 @@ We use GitHub a lot and notice many annoyances we'd like to fix. So here be drag
 
 Our hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these improvements, please email [GitHub support](https://support.github.com/contact) about doing it.
 
-GitHub Enterprise is also supported: [How to enable it](https://fregante.github.io/webext-domain-permission-toggle/?name=Refined%20GitHub&icon=https%3A%2F%2Fraw.githubusercontent.com%2Fsindresorhus%2Frefined-github%2Fmain%2Fdistribution%2Ficon.png). <!-- icon.png renders best -->
+GitHub Enterprise is also supported: [How to enable it](https://fregante.github.io/webext-domain-permission-toggle/?name=Refined%20GitHub&icon=https%3A%2F%2Fraw.githubusercontent.com%2Frefined-github%2Frefined-github%2Fmain%2Fdistribution%2Ficon.png). <!-- icon.png renders best -->
 
 *The GITHUB and REFINED GITHUB trademarks are owned by GitHub, Inc. and used under license.*
 
@@ -192,7 +192,7 @@ Thanks for contributing! 🦋🙌
 - [](# "linkify-symbolic-links") [Linkifies symbolic links files.](https://user-images.githubusercontent.com/1402241/62036664-6d0e6880-b21c-11e9-9270-4ae30cc10de2.png)
 - [](# "list-prs-for-file") [Shows PRs that touch the current file.](https://user-images.githubusercontent.com/55841/60622834-879e1f00-9de1-11e9-9a9e-bae5ec0b3728.png)
 - [](# "refined-github.css") [Reduces tabs’ size to 4 spaces instead of 8.](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png)
-- [](# "esc-to-deselect-line") [Adds a keyboard shortcut to deselect the current line: <kbd>esc</kbd>.](https://github.com/sindresorhus/refined-github/issues/1590)
+- [](# "esc-to-deselect-line") [Adds a keyboard shortcut to deselect the current line: <kbd>esc</kbd>.](https://github.com/refined-github/refined-github/issues/1590)
 - [](# "vertical-front-matter") [Shows Markdown front matter as vertical table.](https://user-images.githubusercontent.com/44045911/87251695-26069b00-c4a0-11ea-9077-53ce366490ed.png)
 - [](# "list-pr-for-branch") [On branch commit lists, shows the PR that touches the current branch.](https://user-images.githubusercontent.com/16872793/119760295-b8751a80-be77-11eb-87da-91d0c403bb49.png)
 
@@ -205,7 +205,7 @@ Thanks for contributing! 🦋🙌
 - [](# "collapsible-content-button") [Adds a button to insert collapsible content (via `<details>`).](https://user-images.githubusercontent.com/1402241/53678019-0c721280-3cf4-11e9-9c24-4d11a697f67c.png)
 - [](# "fit-textareas") 🔥 [Auto-resizes comment fields to fit their content and no longer show scroll bars.](https://user-images.githubusercontent.com/1402241/54336211-66fd5e00-4666-11e9-9c5e-111fccab004d.gif)
 - [](# "quick-comment-edit") [Lets you edit any comment with one click instead of having to open a dropdown.](https://user-images.githubusercontent.com/1402241/54864831-92372a00-4d97-11e9-8c29-efba2dde1baa.png)
-- [](# "comment-fields-keyboard-shortcuts") [Adds a shortcut to edit your last comment: <kbd>↑</kbd>.](https://github.com/sindresorhus/refined-github/pull/961) (Only works in the following comment field, if it’s empty.)
+- [](# "comment-fields-keyboard-shortcuts") [Adds a shortcut to edit your last comment: <kbd>↑</kbd>.](https://github.com/refined-github/refined-github/pull/961) (Only works in the following comment field, if it’s empty.)
 - [](# "one-key-formatting") [Wraps selected text when pressing one of Markdown symbols instead of replacing it:](https://user-images.githubusercontent.com/1402241/65020298-1f2dfb00-d957-11e9-9a2a-1c0ceab8d9e0.gif) `[` `` ` `` `'` `"` `*` `~` `_`
 - [](# "minimize-upload-bar") [Reduces the upload bar to a small button.](https://user-images.githubusercontent.com/17612510/99140148-205dd380-2693-11eb-9a61-9c228f8f9e36.png)
 - [](# "clean-rich-text-editor") [Hides unnecessary comment field tooltips and toolbar items](https://user-images.githubusercontent.com/1402241/53629083-a4fe8900-3c47-11e9-8211-bfe2d254ffcb.png) (each one has a keyboard shortcut.)
@@ -229,7 +229,7 @@ Thanks for contributing! 🦋🙌
 - [](# "preview-hidden-comments") 🔥 [Previews hidden comments inline.](https://user-images.githubusercontent.com/1402241/52545036-6e271700-2def-11e9-8c0c-b5e0fa6f37dd.png)
 - [](# "highest-rated-comment") 🔥 [Highlights the most useful comment in conversations.](https://user-images.githubusercontent.com/1402241/99895146-16b50c80-2c4d-11eb-8038-210e6fd5e798.png)
 - [](# "hide-low-quality-comments") [Hides reaction comments ("+1", "👍", …)](https://user-images.githubusercontent.com/1402241/45543717-d45f3c00-b847-11e8-84a5-8c439d0ad1a5.png) (except the maintainers’) [but they can still be shown.](https://user-images.githubusercontent.com/1402241/45543720-d628ff80-b847-11e8-9fb6-758a3102e3a9.png)
-- [](# "scrollable-code-and-blockquote") [Limits the height of tall code blocks and quotes.](https://github.com/sindresorhus/refined-github/issues/1123)
+- [](# "scrollable-code-and-blockquote") [Limits the height of tall code blocks and quotes.](https://github.com/refined-github/refined-github/issues/1123)
 - [](# "quick-comment-hiding") [Simplifies the UI to hide comments.](https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif)
 - [](# "open-issue-to-latest-comment") [Makes the "comment" icon in issue lists link to the latest comment of the issue.](https://user-images.githubusercontent.com/14323370/57962709-7019de00-78e8-11e9-8398-7e617ba7a96f.png)
 - [](# "expand-all-hidden-comments") [On long conversations where GitHub hides comments under a "Load more...", alt-clicking it will load up to 200 comments at once instead of 60.](https://user-images.githubusercontent.com/1402241/73838332-0c548e00-4846-11ea-935f-28d728b30ae9.png)
@@ -268,7 +268,7 @@ Thanks for contributing! 🦋🙌
 - [](# "pr-filters") [Adds Checks and Draft PR dropdown filters in PR lists.](https://user-images.githubusercontent.com/202916/74453250-6d9de200-4e82-11ea-8fd4-7c0de57e001a.png)
 - [](# "pr-approvals-count") [Shows color-coded review counts in PR lists.](https://user-images.githubusercontent.com/1402241/33474535-a814ee78-d6ad-11e7-8f08-a8b72799e376.png)
 - [](# "highlight-non-default-base-branch") [Shows the base branch in PR lists if it’s not the default branch.](https://user-images.githubusercontent.com/1402241/88480306-39f4d700-cf4d-11ea-9e40-2b36d92d41aa.png)
-- [](# "hide-inactive-deployments") [Hides inactive deployments in PRs.](https://github.com/sindresorhus/refined-github/issues/1144)
+- [](# "hide-inactive-deployments") [Hides inactive deployments in PRs.](https://github.com/refined-github/refined-github/issues/1144)
 - [](# "previous-next-commit-buttons") [Adds duplicate commit navigation buttons at the bottom of the `Commits` tab page.](https://user-images.githubusercontent.com/24777/41755271-741773de-75a4-11e8-9181-fcc1c73df633.png)
 - [](# "preserve-whitespace-option-in-nav") Preserves the "ignore whitespace" setting when navigating with Next/Previous in PR review mode.
 - [](# "bypass-checks") [Bypasses the "Checks" interstitial when clicking the "Details" links on a PR Checks added by third-party services like Travis.](https://user-images.githubusercontent.com/2103975/49071220-c6596e80-f22d-11e8-8a1e-bdcd62aa6ece.png)
@@ -289,7 +289,7 @@ Thanks for contributing! 🦋🙌
 
 ### Editing pull requests
 
-- [](# "sync-pr-commit-title") 🔥 [Uses the PR’s title as the default squash commit title](https://github.com/sindresorhus/refined-github/issues/276) and [updates the PR’s title to match the commit title, if changed.](https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png)
+- [](# "sync-pr-commit-title") 🔥 [Uses the PR’s title as the default squash commit title](https://github.com/refined-github/refined-github/issues/276) and [updates the PR’s title to match the commit title, if changed.](https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png)
 - [](# "update-pr-from-base-branch") [Adds a button to update a PR from the base branch to ensure it builds correctly before merging the PR itself.](https://user-images.githubusercontent.com/1402241/106494023-816d9a00-647f-11eb-8cb1-7c97aa8a5546.png) GitHub only adds it when the base branch is "protected".
 - [](# "quick-review-buttons") [Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
 - [](# "warn-pr-from-master") [Warns you when creating a pull request from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
@@ -368,12 +368,12 @@ Thanks for contributing! 🦋🙌
 ### Global
 
 - [](# "useful-not-found-page") 🔥 [Adds possible related pages and alternatives on 404 pages.](https://user-images.githubusercontent.com/1402241/46402857-7bdada80-c733-11e8-91a1-856573078ff5.png)
-- [](# "selection-in-new-tab") [Adds a keyboard shortcut to open selection in new tab when navigating via <kbd>j</kbd> and <kbd>k</kbd>: <kbd>shift</kbd> <kbd>o</kbd>.](https://github.com/sindresorhus/refined-github/issues/1110)
+- [](# "selection-in-new-tab") [Adds a keyboard shortcut to open selection in new tab when navigating via <kbd>j</kbd> and <kbd>k</kbd>: <kbd>shift</kbd> <kbd>o</kbd>.](https://github.com/refined-github/refined-github/issues/1110)
 - [](# "close-out-of-view-modals") [Automatically closes dropdown menus when they’re no longer visible.](https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif)
 - [](# "deprioritize-marketplace-link") Moves the "Marketplace" link from the black header bar to the profile dropdown.
 - [](# "parse-backticks") [Renders `` `text in backticks` `` in issue titles, commit titles and more places.](https://user-images.githubusercontent.com/170270/55060505-31179b00-50a4-11e9-99a9-c3691ba38d66.png)
 - [](# "trending-menu-item") Adds a `Trending` link to the global navbar and a keyboard shortcut: <kbd>g</kbd> <kbd>t</kbd>.
-- [](# "navigate-pages-with-arrow-keys") Adds shortcuts to navigate through pages with pagination: <kbd>←</kbd> and <kbd>→</kbd>.
+- [](# "pagination-hotkey") Adds shortcuts to navigate through pages with pagination: <kbd>←</kbd> and <kbd>→</kbd>.
 - [](# "action-used-by-link") [Lets you see how others are using the current Action in the Marketplace.](https://user-images.githubusercontent.com/8360597/80250140-86d9c080-8673-11ea-9d28-f62faf9fd3d4.png)
 - [](# "improve-shortcut-help") [Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (<kbd>?</kbd> hotkey).](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)
 - [](# "global-search-filters") [Adds search filters in global search page: forks, private repos, own repos, authored commits.](https://user-images.githubusercontent.com/44045911/112261285-88a66c80-8ca6-11eb-82cb-933b72c57abd.png)
@@ -404,23 +404,22 @@ Thanks for contributing! 🦋🙌
 - [](# "linkify-full-profile-readme-title") [Linkifies the readme text on profile pages.](https://user-images.githubusercontent.com/16872793/90910173-ebe4bf00-e3a4-11ea-8fc5-aea3d1a2e5e5.png)
 - [](# "convert-pr-to-draft-improvements") [Moves the "Convert PR to Draft" button to the mergeability box and adds visual feedback to its confirm button.](https://user-images.githubusercontent.com/1402241/95644892-885f3f80-0a7f-11eb-8428-8e0fb0c8dfa5.gif)
 - [](# "clean-header-search-field") [Clears duplicate queries in the header search field.](https://user-images.githubusercontent.com/1402241/114177338-7c890300-9966-11eb-83a3-a711a76fae99.png)
-- [](# "cancel-wiki-edit-button") [Adds a cancel button when editing wiki pages.](https://user-images.githubusercontent.com/44045911/122222158-93a71c80-cee4-11eb-9a43-98457cac93df.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
 ### Previously part of Refined GitHub
 
-[GitHub took inspiration from Refined GitHub](https://github.blog/2018-08-28-announcing-paper-cuts/) and natively implemented dozens of its features, 🎉 so they've been [removed from this extension.](https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+is%3Amerged+label%3A%22implemented+by+github%22) You can also see [all the past features](https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+is%3Amerged+-label%3Ameta+in%3Atitle+drop+feature) of Refined GitHub in a single list.
+[GitHub took inspiration from Refined GitHub](https://github.blog/2018-08-28-announcing-paper-cuts/) and natively implemented dozens of its features, 🎉 so they've been [removed from this extension.](https://github.com/refined-github/refined-github/pulls?q=is%3Apr+is%3Amerged+label%3A%22implemented+by+github%22) You can also see [all the past features](https://github.com/refined-github/refined-github/pulls?q=is%3Apr+is%3Amerged+-label%3Ameta+in%3Atitle+drop+feature) of Refined GitHub in a single list.
 
 ## Customization
 
-Most features [can be disabled](https://github.com/sindresorhus/refined-github/pull/877) if they are JavaScript-based *(Experimental)* and you can override our CSS with your own in [the extension options.](https://github.com/sindresorhus/refined-github/pull/1193)
+Most features [can be disabled](https://github.com/refined-github/refined-github/pull/877) if they are JavaScript-based *(Experimental)* and you can override our CSS with your own in [the extension options.](https://github.com/refined-github/refined-github/pull/1193)
 
-We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a high bar for adding features.](https://github.com/sindresorhus/refined-github/issues/2960) Users will always disagree with something. That being said, we're open to discussing things.
+We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a high bar for adding features.](https://github.com/refined-github/refined-github/issues/2960) Users will always disagree with something. That being said, we're open to discussing things.
 
 ## Contribute
 
-Read the [contribution guide](contributing.md) and join the [contributors](https://github.com/sindresorhus/refined-github/graphs/contributors)!
+Read the [contribution guide](contributing.md) and join the [contributors](https://github.com/refined-github/refined-github/graphs/contributors)!
 
 ## Links
 

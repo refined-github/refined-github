@@ -1,10 +1,8 @@
 /* Show approvals count in PR list */
-.js-issue-row .text-gray [href$='#partial-pull-merging'][aria-label*='approval'], /* GHE #4021 */
 .js-issue-row .color-text-secondary [href$='#partial-pull-merging'][aria-label*='approval'] {
 	font-size: 0;
 }
 
-.js-issue-row .text-gray [href$='#partial-pull-merging'][aria-label*='approval']::before, /* GHE #4021 */
 .js-issue-row .color-text-secondary [href$='#partial-pull-merging'][aria-label*='approval']::before {
 	all: unset;
 	content: attr(aria-label);
@@ -13,7 +11,6 @@
 	font-size: 12px;
 }
 
-.js-issue-row .text-gray [href$='#partial-pull-merging'][aria-label*='changes'], /* GHE #4021 */
 .js-issue-row .color-text-secondary [href$='#partial-pull-merging'][aria-label*='changes'] {
 	color: var(--github-red) !important;
 }

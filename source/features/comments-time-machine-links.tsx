@@ -140,13 +140,13 @@ void features.add(__filebasename, {
 	deduplicate: 'has-rgh-inner',
 	init,
 }, {
+	asLongAs: [
+		() => new URLSearchParams(location.search).has('rgh-link-date'),
+	],
 	include: [
 		pageDetect.is404,
 		pageDetect.isSingleFile,
 		pageDetect.isRepoTree,
-	],
-	exclude: [
-		() => !new URLSearchParams(location.search).has('rgh-link-date'),
 	],
 	awaitDomReady: false,
 	init: showTimemachineBar,

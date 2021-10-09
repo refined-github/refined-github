@@ -55,7 +55,7 @@ function createWhitespaceButton(): HTMLElement {
 
 	const classes = pageDetect.isPR()
 		? 'tooltipped tooltipped-s d-none d-lg-block color-icon-secondary ' + (isHidingWhitespace ? '' : 'color-icon-info')
-		: 'tooltipped tooltipped-s btn btn-sm btn-outline tooltipped ' + (isHidingWhitespace ? 'bg-gray-light text-gray-light color-text-tertiary' : '');
+		: 'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace ? 'bg-gray-light color-text-tertiary' : '');
 
 	return (
 		<a
@@ -70,7 +70,7 @@ function createWhitespaceButton(): HTMLElement {
 }
 
 function initPR(): false | void {
-	select('.js-file-filter')!.closest('.flex-auto')!.append(
+	select('.js-file-filter')!.parentElement!.append(
 		<div className="diffbar-item d-flex">{createDiffStyleToggle()}</div>,
 		<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>,
 	);
@@ -115,6 +115,7 @@ void features.add(__filebasename, {
 	shortcuts: {
 		'd w': 'Show/hide whitespaces in diffs',
 	},
+	deduplicate: 'has-rgh-inner',
 	init: initPR,
 }, {
 	include: [

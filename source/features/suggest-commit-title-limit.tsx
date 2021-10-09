@@ -25,6 +25,7 @@ void features.add(__filebasename, {
 		pageDetect.isEditingFile,
 		pageDetect.isPRConversation,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 }, {
 	include: [
@@ -36,5 +37,6 @@ void features.add(__filebasename, {
 		onPrMergePanelOpen,
 	],
 	onlyAdditionalListeners: true,
+	deduplicate: 'has-rgh-inner',
 	init: validateInput,
 });

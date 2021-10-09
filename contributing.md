@@ -1,6 +1,6 @@
 # Contributing
 
-Suggestions and pull requests are highly encouraged! Have a look at the [open issues](https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22+sort%3Areactions-%2B1-desc), especially [the easy ones](https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+sort%3Areactions-%2B1-desc).
+Suggestions and pull requests are highly encouraged! Have a look at the [open issues](https://github.com/refined-github/refined-github/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22+sort%3Areactions-%2B1-desc), especially [the easy ones](https://github.com/refined-github/refined-github/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+sort%3Areactions-%2B1-desc).
 
 ## Notions
 
@@ -8,9 +8,9 @@ Suggestions and pull requests are highly encouraged! Have a look at the [open is
 - The extension can be loaded into Chrome or Firefox manually ([See notes below](#loading-into-the-browser))
 - [JSX](https://reactjs.org/docs/introducing-jsx.html) is used to create DOM elements.
 - All the [latest DOM APIs](https://github.com/WebReflection/dom4#features) and JavaScript features are available because the extension only has to work in the latest Chrome and Firefox. 🎉
-- Each JavaScript feature lives in its own file under [`source/features`](https://github.com/sindresorhus/refined-github/tree/main/source/features) and it's imported in [`source/refined-github.ts`](https://github.com/sindresorhus/refined-github/blob/main/source/refined-github.ts).
-- See what a feature [looks like](https://github.com/sindresorhus/refined-github/blob/main/source/features/user-profile-follower-badge.tsx).
-- Follow [the styleguide](https://github.com/sindresorhus/refined-github/blob/main/readme.md#L80) that appears in the Readme's source to write readable descriptions.
+- Each JavaScript feature lives in its own file under [`source/features`](https://github.com/refined-github/refined-github/tree/main/source/features) and it's imported in [`source/refined-github.ts`](https://github.com/refined-github/refined-github/blob/main/source/refined-github.ts).
+- See what a feature [looks like](https://github.com/refined-github/refined-github/blob/main/source/features/user-profile-follower-badge.tsx).
+- Follow [the styleguide](https://github.com/refined-github/refined-github/blob/main/readme.md#L80) that appears in the Readme's source to write readable descriptions.
 - Refined GitHub tries to integrate as best as possible, so [GitHub's own styleguide](https://primer.style/css) might come in useful.
 
 ## `features.add`
@@ -64,12 +64,16 @@ void features.add(__filebasename, {
 	// When pressing the back button, DOM changes and listeners are still there, so normally `init` isn’t called again thanks to an automatic duplicate detection.
 	// This detection however might cause problems or not work correctly in some cases #3945, so it can be disabled with `false`
 	deduplicate: false,
+	asLongAs: [
+		pageDetect.isForkedRepo,
+	],
 	include: [
-		pageDetect.isUserProfile,
-		pageDetect.isRepo
+		pageDetect.isSingleFile,
+		pageDetect.isRepoTree,
+		pageDetect.isEditingFile,
 	],
 	exclude: [
-		pageDetect.isOwnUserProfile
+		pageDetect.isRepoRoot,
 	],
 	init
 }, {
@@ -89,7 +93,7 @@ void features.add(__filebasename, {
 First clone:
 
 ```sh
-git clone https://github.com/sindresorhus/refined-github
+git clone https://github.com/refined-github/refined-github
 cd refined-github
 npm install
 ```

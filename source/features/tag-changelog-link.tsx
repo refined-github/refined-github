@@ -105,7 +105,7 @@ async function init(): Promise<void> {
 			lastLink.after(
 				<li className={lastLink.className + ' rgh-changelog-link'}>
 					<a
-						className="muted-link Link--muted tooltipped tooltipped-n"
+						className="Link--muted tooltipped tooltipped-n"
 						aria-label={'See changes since ' + decodeURIComponent(previousTag)}
 						href={buildRepoURL(`compare/${previousTag}...${allTags[index].tag}`)}
 					>
@@ -113,7 +113,7 @@ async function init(): Promise<void> {
 					</a>
 				</li>,
 			);
-			/* Fix spacing issue when the window is < 700px wide https://github.com/sindresorhus/refined-github/pull/3841#issuecomment-754325056 */
+			/* Fix spacing issue when the window is < 700px wide https://github.com/refined-github/refined-github/pull/3841#issuecomment-754325056 */
 			lastLink.classList.remove('flex-auto');
 		}
 	}

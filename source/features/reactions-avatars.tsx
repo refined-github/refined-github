@@ -7,8 +7,8 @@ import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onReplacedElement from '../helpers/on-replaced-element';
 import {getUsername} from '../github-helpers';
+import onElementRemoval from '../helpers/on-element-removal';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -67,9 +67,8 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 		);
 	}
 
-	const trackableElement = commentReactions.closest<HTMLElement>('[data-body-version]')!;
-	const trackingSelector = `[data-body-version="${trackableElement.dataset.bodyVersion!}"]`;
-	await onReplacedElement(trackingSelector, init);
+	await onElementRemoval(commentReactions.closest('.comment-reactions')!);
+	init();
 }
 
 const viewportObserver = new IntersectionObserver(changes => {
