@@ -13,30 +13,43 @@ function getUnreadNotifications(container: ParentNode = document): HTMLElement[]
 	return select.all('.notification-unread', container);
 }
 
-function openNotifications({delegateTarget}: delegate.Event): void {
-	const container = delegateTarget.closest('.js-notifications-group') ?? document;
-
+function openNotifications(notifications: Element[]): void {
 	// Ask for confirmation
-	const unreadNotifications = getUnreadNotifications(container);
 	if (
-		unreadNotifications.length >= confirmationRequiredCount
-		&& !confirm(`This will open ${unreadNotifications.length} new tabs. Continue?`)
+		notifications.length >= confirmationRequiredCount
+		&& !confirm(`This will open ${notifications.length} new tabs. Continue?`)
 	) {
 		return;
 	}
 
-	void browser.runtime.sendMessage({
-		openUrls: unreadNotifications.map(element => element.querySelector('a')!.href),
-	});
-
-	// Mark all as read
-	for (const notification of unreadNotifications) {
+	const urls: string[] = [];
+	for (const notification of notifications) {
+		// Mark all as read
 		notification.classList.replace('notification-unread', 'notification-read');
+		urls.push(notification.querySelector('a')!.href);
 	}
+
+	void browser.runtime.sendMessage({openUrls: urls});
+}
+
+function openUnreadNotifications({delegateTarget}: delegate.Event): void {
+	const container = delegateTarget.closest('.js-notifications-group') ?? document;
+	openNotifications(getUnreadNotifications(container));
 
 	// Remove all now-unnecessary buttons
 	for (const button of select.all('.rgh-open-notifications-button', container)) {
 		button.remove();
+	}
+}
+
+function openSelectedNotifications(): void {
+	const selectedNotifications = select.all('.notifications-list-item :checked').map(checkbox => checkbox.closest('.notifications-list-item')!);
+	openNotifications(selectedNotifications);
+
+	if (!select.exists('.notification-unread')) {
+		for (const button of select.all('.rgh-open-notifications-button')) {
+			button.remove();
+		}
 	}
 }
 
@@ -54,28 +67,37 @@ function addOpenReposButton(): void {
 	}
 }
 
-function addOpenAllButton(): void {
-	// Selector works on:
-	// https://github.com/notifications (Grouped by date)
-	// https://github.com/notifications (Grouped by repo)
-	// https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
-	select('.js-check-all-container .js-bulk-action-toasts ~ div .Box-header')!.append(
+// Selector works on:
+// https://github.com/notifications (Grouped by date)
+// https://github.com/notifications (Grouped by repo)
+// https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
+const notificationsHeaderSelector = '.js-check-all-container .js-bulk-action-toasts ~ div .Box-header';
+
+function addOpenAllUnreadButton(): void {
+	select(notificationsHeaderSelector)!.append(
 		<button className="btn btn-sm rgh-open-notifications-button" type="button">
 			<LinkExternalIcon className="mr-1"/>Open all unread
 		</button>,
 	);
 }
 
-function update(): void {
-	if (getUnreadNotifications().length > 0) {
-		addOpenAllButton();
-		addOpenReposButton();
-	}
+function addOpenAllSelectedButton(): void {
+	select(notificationsHeaderSelector)!.append(
+		<button className="btn btn-sm rgh-open-selected-button" type="button">
+			<LinkExternalIcon className="mr-1"/>Open all selected
+		</button>,
+	);
 }
 
 function init(): void {
-	delegate(document, '.rgh-open-notifications-button', 'click', openNotifications);
-	update();
+	delegate(document, '.rgh-open-notifications-button', 'click', openUnreadNotifications);
+	delegate(document, '.rgh-open-selected-button', 'click', openSelectedNotifications);
+	if (getUnreadNotifications().length > 0) {
+		addOpenAllUnreadButton();
+		addOpenReposButton();
+	}
+
+	addOpenAllSelectedButton();
 }
 
 void features.add(__filebasename, {
