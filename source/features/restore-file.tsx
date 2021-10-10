@@ -1,11 +1,13 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
+import pushForm from 'push-form';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import fetchDom from '../helpers/fetch-dom';
 import showToast from '../github-helpers/toast';
 import {getConversationNumber} from '../github-helpers';
 
@@ -23,17 +25,6 @@ const getBaseReference = onetime(async (): Promise<string> => {
 	`);
 	return repository.pullRequest.baseRefOid;
 });
-const getHeadReference = async (): Promise<string> => {
-	// Get the sha of the latest commit to the PR, required to create a new commit
-	const {repository} = await api.v4(`
-		repository() { # Cache buster ${Math.random()}
-			pullRequest(number: ${getConversationNumber()!}) {
-				headRefOid
-			}
-		}
-	`);
-	return repository.pullRequest.headRefOid;
-};
 
 async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | undefined> {
 	const {repository} = await api.v4(`
@@ -62,34 +53,27 @@ async function restoreFile(progress: (message: string) => void, menuItem: Elemen
 		throw new Error('Restore failed: File too big');
 	}
 
-	const [nameWithOwner, prBranch] = select('.head-ref')!.title.split(':');
-	progress(menuItem.closest('[data-file-deleted="true"]') ? 'Undeleting…' : 'Committing…');
+	let {pathname} = menuItem.previousElementSibling as HTMLAnchorElement;
+	// Check if file was deleted by PR
+	if (menuItem.closest('[data-file-deleted="true"]')) {
+		progress('Undeleting…');
+		const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
+		pathname = `/${nameWithOwner}/new/${headBranch}?filename=${filePath}`;
+	} else {
+		progress('Committing…');
+	}
 
 	const content = file.text;
-	await api.v4(`mutation {
-		createCommitOnBranch(input: {
-			branch: {
-				repositoryNameWithOwner: "${nameWithOwner}",
-				branchName: "${prBranch}"
-			},
-			expectedHeadOid: "${await getHeadReference()}",
-			fileChanges: {
-				additions: [
-					{
-						path: "${filePath}",
-						contents: "${btoa(content)}"
-					}
-				]
-			},
-			message: {
-				headline: "Restore ${filePath}"
-			}
-		}) {
-			commit {
-				oid
-			}
-		}
-	}`);
+	// This is either an `edit` or `create` form
+	const form = (await fetchDom(pathname, 'form.js-blob-form'))!;
+	form.elements.value.value = content; // Restore content (`value` is the name of the file content field)
+	form.elements.message.value = (form.elements.message as HTMLInputElement).placeholder
+		.replace(/^Create|^Update/, 'Restore');
+
+	const response = await pushForm(form);
+	if (!response.ok) {
+		throw new Error(response.statusText);
+	}
 }
 
 const filesRestored = new WeakSet<HTMLButtonElement>();
