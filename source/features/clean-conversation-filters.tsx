@@ -63,7 +63,7 @@ async function hideProjects(): Promise<void> {
 	const projectsState = await hasProjects(isOrganization);
 
 	if (projectsState === 'disabled' && isOrganization) {
-		// Sometimes the dropdown still exists even if the repository has disabled Projects https://github.com/refined-github/refined-github/pull/4884#discussion_r724372207
+		// If the repository's organization hasn't disabled Projects, the dropdown will exist even if they're disabled in the repo #4884
 		(await elementReady(projectsDropdownSelector))?.parentElement?.remove();
 	}
 
