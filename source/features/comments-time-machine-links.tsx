@@ -125,7 +125,7 @@ function updateMenu({delegateTarget: menu}: delegate.Event<MouseEvent, HTMLEleme
 
 function init(): void {
 	// Use `click` handler instead of `toggle` because there's no easy selector just for `details`
-	delegate(document, 'details:not(.js-comment-header-reaction-button) > summary.timeline-comment-action', 'click', updateMenu);
+	delegate(document, '.js-reaction-popover-container ~ details:last-child', 'click', updateMenu);
 }
 
 void features.add(__filebasename, {
