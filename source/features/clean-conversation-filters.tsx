@@ -7,10 +7,11 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 
-const hasAnyProjects = cache.function(async (): Promise<boolean> => {
+const hasAnyProjects = cache.function(async (): Promise<boolean | 'disabled'> => {
 	const {repository, organization} = await api.v4(`
 		repository() {
 			projects { totalCount }
+			hasProjectsEnabled
 		}
 		organization(login: "${getRepo()!.owner}") {
 			projects { totalCount }
@@ -19,7 +20,11 @@ const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 		allowErrors: true,
 	});
 
-	return Boolean(repository.projects.totalCount) && Boolean(organization?.projects?.totalCount);
+	if (!repository.hasProjectsEnabled && organization?.projects?.totalCount === 0) {
+		return 'disabled';
+	}
+
+	return Boolean(repository.projects.totalCount) || Boolean(organization?.projects?.totalCount);
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
@@ -37,13 +42,12 @@ async function hideMilestones(): Promise<void> {
 	}
 }
 
-async function hasProjects(): Promise<boolean> {
+async function hasProjects(isOrganization: boolean): Promise<boolean | 'disabled'> {
 	const activeProjectsCounter = select('[data-hotkey="g b"] .Counter');
 	if (activeProjectsCounter && getCount(activeProjectsCounter) > 0) {
 		return true;
 	}
 
-	const isOrganization = select.exists('[rel=author][data-hovercard-type="organization"]');
 	if (!activeProjectsCounter && !isOrganization) {
 		// No tab = Projects disabled in repo
 		// No organization = no Projects in organization
@@ -53,10 +57,18 @@ async function hasProjects(): Promise<boolean> {
 	return hasAnyProjects();
 }
 
+const projectsDropdownSelector = '[data-hotkey="p"]';
 async function hideProjects(): Promise<void> {
-	if (!await hasProjects()) {
-		// The targeted dropdown doesn't exist if the organization has disabled Projects #4874
-		(await elementReady('[data-hotkey="p"]'))?.parentElement?.remove();
+	const isOrganization = select.exists('[rel=author][data-hovercard-type="organization"]');
+	const projectsState = await hasProjects(isOrganization);
+
+	if (projectsState === 'disabled' && isOrganization) {
+		// Sometimes the dropdown still exists even if the repository has disabled Projects https://github.com/refined-github/refined-github/pull/4884#discussion_r724372207
+		(await elementReady(projectsDropdownSelector))?.parentElement?.remove();
+	}
+
+	if (projectsState === false) {
+		(await elementReady(projectsDropdownSelector))!.parentElement!.remove();
 	}
 }
 
