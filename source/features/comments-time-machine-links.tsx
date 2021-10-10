@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import delegate from 'delegate-it';
 
 import features from '.';
 import * as api from '../github-helpers/api';
