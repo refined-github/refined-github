@@ -17,12 +17,12 @@ const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(g
 const isBugLabel = (label: string): boolean => supportedLabels.test(label.replace(/\s/g, ''));
 
 async function highlightBugsTab(): Promise<void> {
-	const bugsTab = await elementReady('.rgh-bug-tab', {stopOnDomReady: false, timeout: 10_000});
-	bugsTab!.classList.add('selected');
-
 	const issuesTab = select('.UnderlineNav-item[data-hotkey="g i"]')!;
 	issuesTab.classList.remove('selected');
 	issuesTab.removeAttribute('aria-current');
+
+	const bugsTab = await elementReady('.rgh-bug-tab', {stopOnDomReady: false, timeout: 10_000});
+	bugsTab!.classList.add('selected');
 }
 
 async function updateBugsTagHighlighting(): Promise<void | false> {
