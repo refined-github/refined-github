@@ -87,6 +87,10 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 		return false;
 	}
 
+	if (pageDetect.isRepoTaxonomyConversationList() && location.href.endsWith('/labels/' + await getEscapedBugsLabel())) {
+		return highlightBugsTab();
+	}
+
 	if (pageDetect.isRepoIssueList() && await isBugsListing()) {
 		return highlightBugsTab();
 	}
