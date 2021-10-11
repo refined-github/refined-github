@@ -32,24 +32,24 @@ function openNotifications(notifications: Element[]): void {
 	void browser.runtime.sendMessage({openUrls: urls});
 }
 
-function openUnreadNotifications({delegateTarget}: delegate.Event): void {
-	const container = delegateTarget.closest('.js-notifications-group') ?? document;
-	openNotifications(getUnreadNotifications(container));
-
-	// Remove all now-unnecessary buttons
+function removeOpenAllButtons(container: ParentNode = document): void {
 	for (const button of select.all('.rgh-open-notifications-button', container)) {
 		button.remove();
 	}
 }
 
+function openUnreadNotifications({delegateTarget}: delegate.Event): void {
+	const container = delegateTarget.closest('.js-notifications-group') ?? document;
+	openNotifications(getUnreadNotifications(container));
+	// Remove all now-unnecessary buttons
+	removeOpenAllButtons(container);
+}
+
 function openSelectedNotifications(): void {
 	const selectedNotifications = select.all('.notifications-list-item :checked').map(checkbox => checkbox.closest('.notifications-list-item')!);
 	openNotifications(selectedNotifications);
-
 	if (!select.exists('.notification-unread')) {
-		for (const button of select.all('.rgh-open-notifications-button')) {
-			button.remove();
-		}
+		removeOpenAllButtons();
 	}
 }
 
@@ -67,24 +67,14 @@ function addOpenReposButton(): void {
 	}
 }
 
-// Selector works on:
-// https://github.com/notifications (Grouped by date)
-// https://github.com/notifications (Grouped by repo)
-// https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
-const notificationsHeaderSelector = '.js-check-all-container .js-bulk-action-toasts ~ div .Box-header';
-
-function addOpenAllUnreadButton(): void {
-	select(notificationsHeaderSelector)!.append(
-		<button className="btn btn-sm rgh-open-notifications-button" type="button">
-			<LinkExternalIcon className="mr-1"/>Open all unread
-		</button>,
-	);
-}
-
-function addOpenAllSelectedButton(): void {
-	select(notificationsHeaderSelector)!.append(
-		<button className="btn btn-sm rgh-open-selected-button" type="button">
-			<LinkExternalIcon className="mr-1"/>Open all selected
+function addOpenAllButton(className: string, text: string): void {
+	// Selector works on:
+	// https://github.com/notifications (Grouped by date)
+	// https://github.com/notifications (Grouped by repo)
+	// https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
+	select('.js-check-all-container .js-bulk-action-toasts ~ div .Box-header')!.append(
+		<button className={"btn btn-sm d-none " + className} type="button">
+			<LinkExternalIcon className="mr-1"/>{text}
 		</button>,
 	);
 }
@@ -93,11 +83,11 @@ function init(): void {
 	delegate(document, '.rgh-open-notifications-button', 'click', openUnreadNotifications);
 	delegate(document, '.rgh-open-selected-button', 'click', openSelectedNotifications);
 	if (getUnreadNotifications().length > 0) {
-		addOpenAllUnreadButton();
+		addOpenAllButton('rgh-open-notifications-button', 'Open all unread');
 		addOpenReposButton();
 	}
 
-	addOpenAllSelectedButton();
+	addOpenAllButton('rgh-open-selected-button', 'Open all selected');
 }
 
 void features.add(__filebasename, {

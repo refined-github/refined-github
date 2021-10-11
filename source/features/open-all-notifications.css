@@ -3,16 +3,8 @@
 	margin-left: auto;
 }
 
-/* Hide main button when user has selected some notifications */
-.js-notifications-mark-selected-actions:not([hidden]) ~ .rgh-open-notifications-button {
-	display: none;
-}
-
-/* Show "Open all selected" only when user has selected some notifications */
-.rgh-open-selected-button {
-	display: none;
-}
-
+/* Only show "Open all selected" if some notifications are selected, otherwise show main "Open all unread" button */
+.js-notifications-mark-selected-actions[hidden] ~ .rgh-open-notifications-button,
 .js-notifications-mark-selected-actions:not([hidden]) ~ .rgh-open-selected-button {
-	display: inline-block;
+	display: inline-block !important;
 }
