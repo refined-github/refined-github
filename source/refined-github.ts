@@ -72,7 +72,6 @@ import './features/latest-tag-button';
 import './features/default-branch-button';
 import './features/quick-pr-diff-options';
 import './features/ci-link';
-import './features/sort-milestones-by-closest-due-date';
 import './features/star-repo-hotkey';
 import './features/toggle-files-button';
 import './features/sync-pr-commit-title';
