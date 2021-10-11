@@ -99,7 +99,7 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 		return;
 	}
 
-	if (pageDetect.isIssue() && await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]')) {
+	if (pageDetect.isIssue() && await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${await getBugLabel() ?? 'bug'}"]`)) {
 		return highlightBugsTab();
 	}
 
@@ -148,7 +148,7 @@ async function init(): Promise<void | false> {
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	new SearchQuery(bugsTab).add(`label:${SearchQuery.escapeValue((await getBugLabel())!)}`);
+	new SearchQuery(bugsTab).add('label:' + await getEscapedBugsLabel());
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement!.tagName === 'LI') {
