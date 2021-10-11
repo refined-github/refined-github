@@ -92,7 +92,7 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 	}
 
 	if (
-		(pageDetect.isRepoTaxonomyConversationList() && location.href.endsWith('/labels/' + await getEscapedBugsLabel()))
+		(pageDetect.isRepoTaxonomyConversationList() && location.href.endsWith('/labels/' + encodeURIComponent(await getBugLabel() ?? 'bug')))
 		|| (pageDetect.isRepoIssueList() && await isBugsListing())
 	) {
 		await Promise.all([highlightBugsTab(), hidePinnedIssues()]);
