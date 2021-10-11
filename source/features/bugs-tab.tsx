@@ -16,31 +16,6 @@ const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwn
 const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(getBugLabelCacheKey());
 const isBugLabel = (label: string): boolean => supportedLabels.test(label.replace(/\s/g, ''));
 
-async function highlightBugsTab(): Promise<void> {
-	const issuesTab = select('.UnderlineNav-item[data-hotkey="g i"]')!;
-	issuesTab.classList.remove('selected');
-	issuesTab.removeAttribute('aria-current');
-
-	const bugsTab = await elementReady('.rgh-bug-tab', {stopOnDomReady: false, timeout: 10_000});
-	bugsTab!.classList.add('selected');
-}
-
-async function updateBugsTagHighlighting(): Promise<void | false> {
-	if (await countBugs() === 0) {
-		return false;
-	}
-
-	if (pageDetect.isRepoIssueList() && new SearchQuery(location.search).includes(`label:${SearchQuery.escapeValue(await getBugLabel() ?? 'bug')}`)) {
-		return highlightBugsTab();
-	}
-
-	if (pageDetect.isIssue() && await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]')) {
-		return highlightBugsTab();
-	}
-
-	return false;
-}
-
 async function countBugsWithUnknownLabel(): Promise<number> {
 	const {repository} = await api.v4(`
 		repository() {
@@ -90,6 +65,39 @@ const countBugs = cache.function(async (): Promise<number> => {
 	cacheKey: (): string => __filebasename + ':' + getRepo()!.nameWithOwner,
 });
 
+async function getEscapedBugsLabel(): Promise<string> {
+	return SearchQuery.escapeValue(await getBugLabel() ?? 'bug');
+}
+
+async function isBugsListing(): Promise<boolean> {
+	return new SearchQuery(location.search).includes('label:' + await getEscapedBugsLabel());
+}
+
+async function highlightBugsTab(): Promise<void> {
+	const issuesTab = select('.UnderlineNav-item[data-hotkey="g i"]')!;
+	issuesTab.classList.remove('selected');
+	issuesTab.removeAttribute('aria-current');
+
+	const bugsTab = await elementReady('.rgh-bug-tab', {stopOnDomReady: false, timeout: 10_000});
+	bugsTab!.classList.add('selected');
+}
+
+async function updateBugsTagHighlighting(): Promise<void | false> {
+	if (await countBugs() === 0) {
+		return false;
+	}
+
+	if (pageDetect.isRepoIssueList() && await isBugsListing()) {
+		return highlightBugsTab();
+	}
+
+	if (pageDetect.isIssue() && await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]')) {
+		return highlightBugsTab();
+	}
+
+	return false;
+}
+
 async function init(): Promise<void | false> {
 	// Query API as early as possible, even if it's not necessary on archived repos
 	const countPromise = countBugs();
@@ -99,7 +107,7 @@ async function init(): Promise<void | false> {
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-	const isBugsPage = new SearchQuery(location.search).includes(`label:${SearchQuery.escapeValue(await getBugLabel() ?? 'bug')}`);
+	const isBugsPage = await isBugsListing();
 	if (!isBugsPage && await countPromise === 0) {
 		return false;
 	}
