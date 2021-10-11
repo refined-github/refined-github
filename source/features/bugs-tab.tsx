@@ -16,25 +16,29 @@ const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwn
 const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(getBugLabelCacheKey());
 const isBugLabel = (label: string): boolean => supportedLabels.test(label.replace(/\s/g, ''));
 
-async function highlightBugsTabOnIssuePage(): Promise<void | false> {
-	if (await countBugs() === 0) {
-		return false;
-	}
-
-	if (pageDetect.isIssue() && !await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]')) {
-		return false;
-	}
-
-	if (!pageDetect.isIssue() && !new SearchQuery(location.search).includes(`label:${SearchQuery.escapeValue(await getBugLabel() ?? 'bug')}`)) {
-		return false;
-	}
-
+async function highlightBugsTab(): Promise<void> {
 	const bugsTab = await elementReady('.rgh-bug-tab', {stopOnDomReady: false, timeout: 10_000});
 	bugsTab!.classList.add('selected');
 
 	const issuesTab = select('.UnderlineNav-item[data-hotkey="g i"]')!;
 	issuesTab.classList.remove('selected');
 	issuesTab.removeAttribute('aria-current');
+}
+
+async function updateBugsTagHighlighting(): Promise<void | false> {
+	if (await countBugs() === 0) {
+		return false;
+	}
+
+	if (pageDetect.isRepoIssueList() && new SearchQuery(location.search).includes(`label:${SearchQuery.escapeValue(await getBugLabel() ?? 'bug')}`)) {
+		return highlightBugsTab();
+	}
+
+	if (pageDetect.isIssue() && await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]')) {
+		return highlightBugsTab();
+	}
+
+	return false;
 }
 
 async function countBugsWithUnknownLabel(): Promise<number> {
@@ -114,6 +118,8 @@ async function init(): Promise<void | false> {
 
 	// Copy Issues tab
 	const bugsTab = issuesTab.cloneNode(true);
+	bugsTab.classList.remove('selected');
+	bugsTab.removeAttribute('aria-current');
 	bugsTab.classList.add('rgh-bug-tab');
 
 	// Disable unwanted behavior #3001
@@ -126,11 +132,6 @@ async function init(): Promise<void | false> {
 	bugsTabTitle.dataset.content = 'Bugs';
 	bugsTabTitle.textContent = 'Bugs';
 	select('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline"/>);
-
-	// Un-select one of the tabs if necessary
-	const selectedTab = !isBugsPage || pageDetect.isPRList() ? bugsTab : issuesTab;
-	selectedTab.classList.remove('selected');
-	selectedTab.removeAttribute('aria-current');
 
 	// Set temporary counter
 	const bugsCounter = select('.Counter', bugsTab)!;
@@ -170,5 +171,5 @@ void features.add(__filebasename, {
 	],
 	awaitDomReady: false,
 	deduplicate: false,
-	init: highlightBugsTabOnIssuePage,
+	init: updateBugsTagHighlighting,
 });
