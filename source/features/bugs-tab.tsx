@@ -82,17 +82,21 @@ async function highlightBugsTab(): Promise<void> {
 	bugsTab!.classList.add('selected');
 }
 
+async function hidePinnedIssues(): Promise<void> {
+	(await elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false}))?.remove();
+}
+
 async function updateBugsTagHighlighting(): Promise<void | false> {
 	if (await countBugs() === 0) {
 		return false;
 	}
 
-	if (pageDetect.isRepoTaxonomyConversationList() && location.href.endsWith('/labels/' + await getEscapedBugsLabel())) {
-		return highlightBugsTab();
-	}
-
-	if (pageDetect.isRepoIssueList() && await isBugsListing()) {
-		return highlightBugsTab();
+	if (
+		(pageDetect.isRepoTaxonomyConversationList() && location.href.endsWith('/labels/' + await getEscapedBugsLabel()))
+		|| (pageDetect.isRepoIssueList() && await isBugsListing())
+	) {
+		await Promise.all([highlightBugsTab(), hidePinnedIssues()]);
+		return;
 	}
 
 	if (pageDetect.isIssue() && await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]')) {
@@ -111,8 +115,7 @@ async function init(): Promise<void | false> {
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-	const isBugsPage = await isBugsListing();
-	if (!isBugsPage && await countPromise === 0) {
+	if (!await isBugsListing() && await countPromise === 0) {
 		return false;
 	}
 
@@ -120,12 +123,6 @@ async function init(): Promise<void | false> {
 	if (!issuesTab) {
 		// Repo is archived
 		return false;
-	}
-
-	if (isBugsPage) {
-		// Hide pinned issues on the tab page, they might not belong there
-		// eslint-disable-next-line promise/prefer-await-to-then -- Don't await; if there are no pinned issues, this would delay the bug count update
-		void elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false}).then(pinnedIssues => pinnedIssues?.remove());
 	}
 
 	// Copy Issues tab
