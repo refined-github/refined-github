@@ -65,12 +65,12 @@ const countBugs = cache.function(async (): Promise<number> => {
 	cacheKey: (): string => __filebasename + ':' + getRepo()!.nameWithOwner,
 });
 
-async function getEscapedBugsLabel(): Promise<string> {
-	return SearchQuery.escapeValue(await getBugLabel() ?? 'bug');
+async function getSearchQueryBugLabel(): Promise<string> {
+	return 'label:' + SearchQuery.escapeValue(await getBugLabel() ?? 'bug');
 }
 
 async function isBugsListing(): Promise<boolean> {
-	return new SearchQuery(location.search).includes('label:' + await getEscapedBugsLabel());
+	return new SearchQuery(location.search).includes(await getSearchQueryBugLabel());
 }
 
 async function highlightBugsTab(): Promise<void> {
@@ -91,15 +91,16 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 		return false;
 	}
 
+	const bugLabel = await getBugLabel() ?? 'bug';
 	if (
-		(pageDetect.isRepoTaxonomyConversationList() && location.href.endsWith('/labels/' + encodeURIComponent(await getBugLabel() ?? 'bug')))
+		(pageDetect.isRepoTaxonomyConversationList() && location.href.endsWith('/labels/' + encodeURIComponent(bugLabel)))
 		|| (pageDetect.isRepoIssueList() && await isBugsListing())
 	) {
 		await Promise.all([highlightBugsTab(), hidePinnedIssues()]);
 		return;
 	}
 
-	if (pageDetect.isIssue() && await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${await getBugLabel() ?? 'bug'}"]`)) {
+	if (pageDetect.isIssue() && await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${bugLabel}"]`)) {
 		return highlightBugsTab();
 	}
 
@@ -148,7 +149,7 @@ async function init(): Promise<void | false> {
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	new SearchQuery(bugsTab).add('label:' + await getEscapedBugsLabel());
+	new SearchQuery(bugsTab).add(await getSearchQueryBugLabel());
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement!.tagName === 'LI') {
