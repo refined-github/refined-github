@@ -9,7 +9,7 @@ import {upperCaseFirst} from '../github-helpers';
 function init(): void {
 	for (const details of select.all('.minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments)')) {
 		const comment = select('.comment-body', details);
-		/* Review comments are loaded asynchronously */
+		/* Hidden review comments are loaded asynchronously */
 		if (!comment) {
 			continue;
 		}
@@ -21,7 +21,7 @@ function init(): void {
 		}
 
 		const header = select([
-			'summary .timeline-comment-header-text', // Issue and commit comments
+			'.timeline-comment-header-text', // Issue and commit comments
 			'summary h3', // Review Comments
 		], details)!;
 
