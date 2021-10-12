@@ -9,7 +9,8 @@ import {upperCaseFirst} from '../github-helpers';
 function init(): void {
 	for (const details of select.all('.minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments)')) {
 		const comment = select('.comment-body', details);
-		/* Hidden review comments are loaded asynchronously */
+		// Hidden review comments are only loaded when first expanded, except when opening a link pointing to another review comment in the same thread
+		// (e.g. https://github.com/refined-github/refined-github/pull/4520#discussion_r659341139)
 		if (!comment) {
 			continue;
 		}
