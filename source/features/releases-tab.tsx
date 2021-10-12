@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import {observe} from 'selector-observer';
 import {TagIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -42,17 +43,21 @@ const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? par
 	cacheKey: getCacheKey,
 });
 
+const deinit: VoidFunction[] = [];
+
 async function updateReleasesTabHighlighting(): Promise<void> {
 	if (!pageDetect.isReleasesOrTags()) {
 		return;
 	}
 
-	const selected = await elementReady('.UnderlineNav-item.selected:not(.rgh-releases-tab)', {stopOnDomReady: false, timeout: 10_000});
-	console.log(selected);
-	if (selected) {
-		selected.classList.remove('selected');
-		selected.removeAttribute('aria-current');
-	}
+	const selectorObserver = observe('.UnderlineNav-item.selected:not(.rgh-releases-tab)', {
+		add(selected) {
+			selected.classList.remove('selected');
+			selected.removeAttribute('aria-current');
+			selectorObserver.abort();
+		},
+	});
+	deinit.push(selectorObserver.abort);
 
 	const releasesTab = await elementReady('.rgh-releases-tab', {stopOnDomReady: false, timeout: 10_000});
 	releasesTab!.classList.add('selected');
@@ -117,4 +122,5 @@ void features.add(__filebasename, {
 	awaitDomReady: false,
 	deduplicate: false,
 	init: updateReleasesTabHighlighting,
+	deinit,
 });
