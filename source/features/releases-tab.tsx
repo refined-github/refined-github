@@ -42,6 +42,23 @@ const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? par
 	cacheKey: getCacheKey,
 });
 
+async function updateReleasesTabHighlighting(): Promise<void> {
+	if (!pageDetect.isReleasesOrTags()) {
+		return;
+	}
+
+	const selected = await elementReady('.UnderlineNav-item.selected:not(.rgh-releases-tab)', {stopOnDomReady: false, timeout: 10_000});
+	console.log(selected);
+	if (selected) {
+		selected.classList.remove('selected');
+		selected.removeAttribute('aria-current');
+	}
+
+	const releasesTab = await elementReady('.rgh-releases-tab', {stopOnDomReady: false, timeout: 10_000});
+	releasesTab!.classList.add('selected');
+	releasesTab!.setAttribute('aria-current', 'page');
+}
+
 async function init(): Promise<false | void> {
 	// Always prefer the information in the DOM
 	if (pageDetect.isRepoRoot()) {
@@ -59,7 +76,7 @@ async function init(): Promise<false | void> {
 		<li className="d-flex">
 			<a
 				href={buildRepoURL('releases')}
-				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item"
+				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item rgh-releases-tab"
 				data-hotkey="g r"
 				data-selected-links="repo_releases"
 				data-tab-item="rgh-releases-item"
@@ -74,18 +91,6 @@ async function init(): Promise<false | void> {
 
 	// This re-triggers the overflow listener forcing it to also hide this tab if necessary #3347
 	repoNavigationBar.replaceWith(repoNavigationBar);
-
-	// Update "selected" tab mark
-	if (pageDetect.isReleasesOrTags()) {
-		const selected = select('.UnderlineNav-item.selected');
-		if (selected) {
-			selected.classList.remove('selected');
-			selected.removeAttribute('aria-current');
-		}
-
-		releasesTab.firstElementChild!.classList.add('selected');
-		releasesTab.firstElementChild!.setAttribute('aria-current', 'page');
-	}
 
 	appendBefore(
 		select('.js-responsive-underlinenav .dropdown-menu ul')!,
@@ -105,4 +110,11 @@ void features.add(__filebasename, {
 	],
 	awaitDomReady: false,
 	init,
+}, {
+	include: [
+		pageDetect.isRepo,
+	],
+	awaitDomReady: false,
+	deduplicate: false,
+	init: updateReleasesTabHighlighting,
 });
