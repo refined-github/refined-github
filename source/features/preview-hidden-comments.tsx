@@ -28,8 +28,10 @@ function init(): void {
 			continue;
 		}
 
+		// Hidden review comments that have been preloaded have their header text wrapped in an extra <div>
+		const headerTextWrapper = header.tagName === 'H3' ? select(':scope > .d-inline-block', header) : undefined;
 		header.append(
-			<span className="Details-content--open">{header.firstChild}</span>,
+			<span className="Details-content--open">{headerTextWrapper ?? header.firstChild}</span>,
 			<span className="Details-content--closed">{`${upperCaseFirst(reason)} — ${commentText.slice(0, 100)}`}</span>,
 		);
 	}
