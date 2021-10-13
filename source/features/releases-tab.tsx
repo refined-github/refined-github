@@ -46,10 +46,6 @@ const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? par
 const deinit: VoidFunction[] = [];
 
 async function updateReleasesTabHighlighting(): Promise<void> {
-	if (!pageDetect.isReleasesOrTags()) {
-		return;
-	}
-
 	const selectorObserver = observe('.UnderlineNav-item.selected:not(.rgh-releases-tab)', {
 		add(selected) {
 			selected.classList.remove('selected');
@@ -117,7 +113,7 @@ void features.add(__filebasename, {
 	init,
 }, {
 	include: [
-		pageDetect.isRepo,
+		pageDetect.isReleasesOrTags,
 	],
 	awaitDomReady: false,
 	deduplicate: false,
