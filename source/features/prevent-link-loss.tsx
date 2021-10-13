@@ -28,7 +28,7 @@ function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEven
 
 function getUI(field: HTMLTextAreaElement): HTMLElement {
 	return select('.rgh-prevent-link-loss-container', field.form!) ?? (
-		<div className="flash flash-warn mb-2 rgh-prevent-link-loss-container">
+		<div className="flash flash-warn rgh-prevent-link-loss-container">
 			<AlertIcon/> Your link may be misinterpreted by GitHub (see {createRghIssueLink(2327)}).
 			<button type="button" className="btn btn-sm primary flash-action rgh-prevent-link-loss">Fix link</button>
 		</div>
@@ -47,10 +47,12 @@ const updateUI = debounceFn(({delegateTarget: field}: delegate.Event<Event, HTML
 		getUI(field).remove();
 	} else if (pageDetect.isNewIssue() || pageDetect.isCompare()) {
 		select('file-attachment', field.form!)!.append(
-			<div className="m-2">{getUI(field)}</div>,
+			<div className="mt-2">{getUI(field)}</div>,
 		);
 	} else {
-		select('.form-actions', field.form!)!.prepend(getUI(field));
+		select('.form-actions', field.form!)!.before(
+			<div className="mx-2 mb-2">{getUI(field)}</div>,
+		);
 	}
 }, {
 	wait: 300,
