@@ -18,7 +18,7 @@ import {
 import {createRghIssueLink} from '../helpers/rgh-issue-link';
 
 function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	/* The class helps select the correct (i.e. visible) textarea in custom issue forms #4678 */
+	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #4678 */
 	const field = fixButton.form!.querySelector('textarea.comment-form-textarea')!;
 	textFieldEdit.replace(field, prCommitUrlRegex, preventPrCommitLinkLoss);
 	textFieldEdit.replace(field, prCompareUrlRegex, preventPrCompareLinkLoss);
