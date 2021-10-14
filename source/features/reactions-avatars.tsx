@@ -43,7 +43,7 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 
 		// If it's not a bot, use a shortcut URL #2125
 		if (cleanName === username) {
-			const imageUrl = `/${username}.png?size=${window.devicePixelRatio * 20}`;
+			const imageUrl = `https://avatars.githubusercontent.com/${username}?size=${window.devicePixelRatio * 20}`;
 			participants.push({button, imageUrl});
 		}
 	}
