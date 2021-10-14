@@ -10,7 +10,7 @@ import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
-import {unhighlightTab, highlightCustomTab, notifyCustomTabAdded} from '../helpers/custom-tab-highlighting';
+import * as tabHighlighting from '../helpers/custom-tab-highlighting';
 
 const supportedLabels = /^(bug|confirmed-bug|type:bug|kind:bug|:\w+:bug)$/i;
 const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
@@ -78,8 +78,8 @@ const deinit: VoidFunction[] = [];
 
 function highlightBugsTab(): void {
 	// Remove highlighting from "Issues" tab
-	unhighlightTab(select('.UnderlineNav-item[data-hotkey="g i"]')!);
-	deinit.push(highlightCustomTab('bugs'));
+	tabHighlighting.remove(select('.UnderlineNav-item[data-hotkey="g i"]')!);
+	deinit.push(tabHighlighting.highlightCustomTab('bugs'));
 }
 
 async function removePinnedIssues(): Promise<void> {
@@ -131,8 +131,8 @@ async function init(): Promise<void | false> {
 	// Copy Issues tab
 	const bugsTab = issuesTab.cloneNode(true);
 	bugsTab.classList.add('rgh-bugs-tab');
-	unhighlightTab(bugsTab);
-	notifyCustomTabAdded('releases');
+	tabHighlighting.remove(bugsTab);
+	tabHighlighting.notifyCustomTabAdded('releases');
 
 	// Disable unwanted behavior #3001
 	bugsTab.removeAttribute('data-hotkey');

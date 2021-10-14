@@ -30,7 +30,7 @@ export function highlightCustomTab(tabName: string): VoidFunction {
 	});
 }
 
-export function unhighlightTab(tabElement: Element): void {
+export function remove(tabElement: Element): void {
 	tabElement.classList.remove('selected');
 	tabElement.removeAttribute('aria-current');
 }

@@ -12,8 +12,8 @@ import looseParseInt from '../helpers/loose-parse-int';
 import {appendBefore} from '../helpers/dom-utils';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import {createDropdownItem} from './more-dropdown-links';
+import * as tabHighlighting from '../helpers/custom-tab-highlighting';
 import {buildRepoURL, getRepo} from '../github-helpers';
-import {unhighlightTab, highlightCustomTab, notifyCustomTabAdded} from '../helpers/custom-tab-highlighting';
 
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
@@ -49,13 +49,13 @@ const deinit: VoidFunction[] = [];
 async function updateReleasesTabHighlighting(): Promise<void> {
 	const selectorObserver = observe('.UnderlineNav-item.selected:not(.rgh-releases-tab)', {
 		add(selectedTab) {
-			unhighlightTab(selectedTab);
+			tabHighlighting.remove(selectedTab);
 			selectorObserver.abort();
 		},
 	});
 	deinit.push(
 		selectorObserver.abort,
-		highlightCustomTab('releases'),
+		tabHighlighting.highlightCustomTab('releases'),
 	);
 }
 
@@ -88,7 +88,7 @@ async function init(): Promise<false | void> {
 		</li>
 	);
 	repoNavigationBar.append(releasesTab);
-	notifyCustomTabAdded('releases');
+	tabHighlighting.notifyCustomTabAdded('releases');
 
 	// This re-triggers the overflow listener forcing it to also hide this tab if necessary #3347
 	repoNavigationBar.replaceWith(repoNavigationBar);
