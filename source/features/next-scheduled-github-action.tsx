@@ -87,5 +87,6 @@ void features.add(__filebasename, {
 		pageDetect.isRepositoryActions,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init,
 });
