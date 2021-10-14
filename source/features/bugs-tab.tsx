@@ -158,6 +158,7 @@ async function init(): Promise<void | false> {
 	} else {
 		issuesTab.after(bugsTab);
 	}
+
 	tabHighlighting.notifyCustomTabAdded('bugs');
 
 	// Update bugs count
