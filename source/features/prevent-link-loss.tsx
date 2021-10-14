@@ -18,7 +18,8 @@ import {
 import {createRghIssueLink} from '../helpers/rgh-issue-link';
 
 function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	const field = fixButton.form!.querySelector('textarea')!;
+	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #4678 */
+	const field = fixButton.form!.querySelector('textarea.js-comment-field')!;
 	textFieldEdit.replace(field, prCommitUrlRegex, preventPrCommitLinkLoss);
 	textFieldEdit.replace(field, prCompareUrlRegex, preventPrCompareLinkLoss);
 	textFieldEdit.replace(field, discussionUrlRegex, preventDiscussionLinkLoss);
@@ -27,7 +28,7 @@ function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEven
 
 function getUI(field: HTMLTextAreaElement): HTMLElement {
 	return select('.rgh-prevent-link-loss-container', field.form!) ?? (
-		<div className="flash flash-warn mb-2 rgh-prevent-link-loss-container">
+		<div className="flash flash-warn rgh-prevent-link-loss-container">
 			<AlertIcon/> Your link may be misinterpreted by GitHub (see {createRghIssueLink(2327)}).
 			<button type="button" className="btn btn-sm primary flash-action rgh-prevent-link-loss">Fix link</button>
 		</div>
@@ -44,19 +45,21 @@ function isVulnerableToLinkLoss(value: string): boolean {
 const updateUI = debounceFn(({delegateTarget: field}: delegate.Event<Event, HTMLTextAreaElement>): void => {
 	if (!isVulnerableToLinkLoss(field.value)) {
 		getUI(field).remove();
-	} else if (pageDetect.isNewIssue() || pageDetect.isCompare()) {
+	} else if (pageDetect.isNewIssue() || pageDetect.isNewRelease() || pageDetect.isCompare()) {
 		select('file-attachment', field.form!)!.append(
-			<div className="m-2">{getUI(field)}</div>,
+			<div className="mt-2">{getUI(field)}</div>,
 		);
 	} else {
-		select('.form-actions', field.form!)!.prepend(getUI(field));
+		select('.form-actions', field.form!)!.before(
+			<div className="mx-2 mb-2">{getUI(field)}</div>,
+		);
 	}
 }, {
 	wait: 300,
 });
 
 function init(): void {
-	delegate(document, 'form#new_issue textarea, form.js-new-comment-form textarea, textarea.comment-form-textarea', 'input', updateUI);
+	delegate(document, 'form:is(#new_issue, #new_release) textarea, form.js-new-comment-form textarea, textarea.comment-form-textarea', 'input', updateUI);
 	delegate(document, '.rgh-prevent-link-loss', 'click', handleButtonClick);
 }
 
