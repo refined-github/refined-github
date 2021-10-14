@@ -37,7 +37,6 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 	return unslashedCommittish;
 };
 
-export const isFirefox = navigator.userAgent.includes('Firefox/');
 export const isMac = navigator.userAgent.includes('Macintosh');
 
 // The type requires at least one parameter https://stackoverflow.com/a/49910890

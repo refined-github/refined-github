@@ -24,7 +24,7 @@ async function init(): Promise<void> {
 			url.branch = await getDefaultBranch(); // Permalinks can't be edited
 		}
 
-		wrap(fileIcon, <a href={String(url)} className="rgh-quick-file-edit"/>);
+		wrap(fileIcon, <a href={url.href} className="rgh-quick-file-edit"/>);
 		fileIcon.after(<PencilIcon/>);
 	}
 }

@@ -76,7 +76,7 @@ async function init(): Promise<false | void> {
 			workflowListItem.append(<em>(next {relativeTime})</em>);
 			setTimeout(() => { // The content of `relative-time` might not be immediately available
 				workflowListItem.parentElement!.classList.add('tooltipped', 'tooltipped-e');
-				workflowListItem.parentElement!.setAttribute('aria-label', 'Next ' + relativeTime.textContent!.toString());
+				workflowListItem.parentElement!.setAttribute('aria-label', 'Next ' + relativeTime.textContent!);
 			}, 500);
 		}
 	}
