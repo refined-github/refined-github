@@ -13,6 +13,7 @@ import {appendBefore} from '../helpers/dom-utils';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import {createDropdownItem} from './more-dropdown-links';
 import {buildRepoURL, getRepo} from '../github-helpers';
+import {unhighlightTab, highlightCustomTab, notifyCustomTabAdded} from '../helpers/custom-tab-highlighting';
 
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
@@ -47,17 +48,15 @@ const deinit: VoidFunction[] = [];
 
 async function updateReleasesTabHighlighting(): Promise<void> {
 	const selectorObserver = observe('.UnderlineNav-item.selected:not(.rgh-releases-tab)', {
-		add(selected) {
-			selected.classList.remove('selected');
-			selected.removeAttribute('aria-current');
+		add(selectedTab) {
+			unhighlightTab(selectedTab);
 			selectorObserver.abort();
 		},
 	});
-	deinit.push(selectorObserver.abort);
-
-	const releasesTab = await elementReady('.rgh-releases-tab', {stopOnDomReady: false, timeout: 10_000});
-	releasesTab!.classList.add('selected');
-	releasesTab!.setAttribute('aria-current', 'page');
+	deinit.push(
+		selectorObserver.abort,
+		highlightCustomTab('releases'),
+	);
 }
 
 async function init(): Promise<false | void> {
@@ -89,6 +88,7 @@ async function init(): Promise<false | void> {
 		</li>
 	);
 	repoNavigationBar.append(releasesTab);
+	notifyCustomTabAdded('releases');
 
 	// This re-triggers the overflow listener forcing it to also hide this tab if necessary #3347
 	repoNavigationBar.replaceWith(repoNavigationBar);
