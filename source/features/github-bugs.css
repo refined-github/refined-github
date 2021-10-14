@@ -42,4 +42,3 @@
 :is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type="user"] {
 	font-weight: 600;
 }
-
