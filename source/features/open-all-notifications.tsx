@@ -80,17 +80,19 @@ function addOpenAllButton(className: string, text: string): void {
 }
 
 function init(): void {
+	delegate(document, '.rgh-open-selected-button', 'click', openSelectedNotifications);
+	addOpenAllButton('rgh-open-selected-button', 'Open all selected');
 	if (getUnreadNotifications().length > 0) {
 		delegate(document, '.rgh-open-notifications-button', 'click', openUnreadNotifications);
 		addOpenAllButton('rgh-open-notifications-button', 'Open all unread');
 		addOpenReposButton();
 	}
-
-	delegate(document, '.rgh-open-selected-button', 'click', openSelectedNotifications);
-	addOpenAllButton('rgh-open-selected-button', 'Open all selected');
 }
 
 void features.add(__filebasename, {
+	asLongAs: [
+		() => select.exists('.notifications-list-item'),
+	],
 	include: [
 		pageDetect.isNotifications,
 	],
