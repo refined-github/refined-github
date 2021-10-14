@@ -132,7 +132,6 @@ async function init(): Promise<void | false> {
 	const bugsTab = issuesTab.cloneNode(true);
 	bugsTab.classList.add('rgh-bugs-tab');
 	tabHighlighting.remove(bugsTab);
-	tabHighlighting.notifyCustomTabAdded('releases');
 
 	// Disable unwanted behavior #3001
 	bugsTab.removeAttribute('data-hotkey');
@@ -159,6 +158,7 @@ async function init(): Promise<void | false> {
 	} else {
 		issuesTab.after(bugsTab);
 	}
+	tabHighlighting.notifyCustomTabAdded('bugs');
 
 	// Update bugs count
 	try {
