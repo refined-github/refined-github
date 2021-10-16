@@ -31,6 +31,10 @@ Parser/Mutator of GitHub's search query directly on anchors and URL-like objects
 Notice: if the <a> or `location` changes outside SearchQuery, `get()` will return an outdated value.
 */
 export default class SearchQuery {
+	static escapeValue(value: string): string {
+		return value.includes(' ') ? `"${value}"` : value;
+	}
+
 	link?: HTMLAnchorElement;
 	searchParams: URLSearchParams;
 
@@ -52,10 +56,6 @@ export default class SearchQuery {
 
 		// Ensure the query string is set and cleaned up
 		this.set(this.get());
-	}
-
-	static escapeValue(value: string): string {
-		return value.includes(' ') ? `"${value}"` : value;
 	}
 
 	get(): string {

@@ -88,7 +88,6 @@ function linkBestComment(bestComment: HTMLElement): void {
 }
 
 function selectSum(selector: string, container: HTMLElement): number {
-	// eslint-disable-next-line unicorn/no-array-reduce -- The alternative `for` loop is too lengthy for a simple sum
 	return select.all(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
 }
 
