@@ -1,4 +1,4 @@
-import './quick-label-hiding.css';
+import './quick-label-removal.css';
 import React from 'dom-chef';
 import {XIcon} from '@primer/octicons-react';
 import select from 'select-dom';
