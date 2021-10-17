@@ -37,7 +37,7 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 async function init(): Promise<void> {
 	await api.expectToken();
 
-	observe('.js-issue-labels .IssueLabel:not(.rgh-quick-label-removal-hiding-already-added)', {
+	observe('.js-issue-labels .IssueLabel:not(.rgh-quick-label-removal-already-added)', {
 		constructor: HTMLElement,
 		add(label) {
 			label.classList.add('rgh-quick-label-removal-already-added');
