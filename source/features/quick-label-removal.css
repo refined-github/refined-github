@@ -23,6 +23,6 @@
 	fill: var(--color-bg-canvas);
 }
 
-:root .rgh-quick-label-removal-already-added {
+:root:root .rgh-quick-label-removal-already-added {
 	display: inline-flex !important;
 }
