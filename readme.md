@@ -253,7 +253,7 @@ Thanks for contributing! 🦋🙌
 - [](# "bugs-tab") [Adds a "Bugs" tab to repos, if there are any open issues with the "bug" label.](https://user-images.githubusercontent.com/1402241/73720910-a688d900-4755-11ea-9c8d-70e5ddb3bfe5.png)
 - [](# "pinned-issues-update-time") [Adds the updated time to pinned issues.](https://user-images.githubusercontent.com/1402241/75525936-bb524700-5a4b-11ea-9225-466bda58b7de.png)
 - [](# "clean-pinned-issues") [Changes the layout of pinned issues from side-by-side to a standard list.](https://user-images.githubusercontent.com/1402241/84509958-c82a3c00-acc4-11ea-8399-eaf06a59e9e4.png)
-- [](# "quick-label-hiding") [Adds one-click buttons to remove labels in conversations.](https://user-images.githubusercontent.com/36174850/89980178-0bc80480-dc7a-11ea-8ded-9e25f5f13d1a.gif)
+- [](# "quick-label-removal") [Adds one-click buttons to remove labels in conversations.](https://user-images.githubusercontent.com/36174850/89980178-0bc80480-dc7a-11ea-8ded-9e25f5f13d1a.gif)
 - [](# "clean-conversation-headers") [Removes duplicate information in the header of issues and PRs ("User wants to merge X commits from Y into Z")](https://user-images.githubusercontent.com/44045911/112314137-a34b0680-8ce3-11eb-9e0e-8afd6c8235c2.png)
 - [](# "dim-bots") [Dims commits and PRs by bots to reduce noise.](https://user-images.githubusercontent.com/1402241/65263190-44c52b00-db36-11e9-9b33-d275d3c8479d.gif)
 - [](# "esc-to-cancel") [Adds a shortcut to cancel editing a conversation title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
