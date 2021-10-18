@@ -19,6 +19,11 @@ const defaults = Object.assign({
 }, Object.fromEntries(__features__.map(id => [`feature:${id}`, true])));
 
 const migrations = [
+	featureWasRenamed('separate-draft-pr-button', 'one-click-pr-or-gist'), // Merged in May
+	featureWasRenamed('prevent-pr-commit-link-loss', 'prevent-link-loss'), // Merged in May
+	featureWasRenamed('remove-projects-tab', 'remove-unused-repo-tabs'), // Merged in July
+	featureWasRenamed('remove-unused-repo-tabs', 'clean-repo-tabs'), // Merged in July
+	featureWasRenamed('more-dropdown', 'clean-repo-tabs'), // Merged in July
 	featureWasRenamed('remove-diff-signs', 'hide-diff-signs'), // Merged in August
 	featureWasRenamed('remove-label-faster', 'quick-label-hiding'), // Merged in August
 	featureWasRenamed('edit-files-faster', 'quick-file-edit'), // Merged in August
