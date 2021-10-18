@@ -40,7 +40,7 @@ async function init(): Promise<void> {
 	observe('.js-issue-labels .IssueLabel:not(.rgh-quick-label-removal-already-added)', {
 		constructor: HTMLElement,
 		add(label) {
-			label.classList.add('rgh-quick-label-removal-already-added');
+			label.classList.add('rgh-quick-label-removal-already-added', 'd-inline-flex');
 			label.append(
 				<button
 					type="button"
