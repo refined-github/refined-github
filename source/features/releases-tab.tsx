@@ -12,8 +12,8 @@ import looseParseInt from '../helpers/loose-parse-int';
 import {appendBefore} from '../helpers/dom-utils';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import {createDropdownItem} from './more-dropdown-links';
-import * as tabHighlighting from '../helpers/custom-tab-highlighting';
 import {buildRepoURL, getRepo} from '../github-helpers';
+import {highlightTab, unhighlightTab} from '../helpers/tab-highlighting';
 
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
@@ -44,22 +44,7 @@ const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? par
 	cacheKey: getCacheKey,
 });
 
-const deinit: VoidFunction[] = [];
-
-async function updateReleasesTabHighlighting(): Promise<void> {
-	const selectorObserver = observe('.UnderlineNav-item.selected:not(.rgh-releases-tab)', {
-		add(selectedTab) {
-			tabHighlighting.remove(selectedTab);
-			selectorObserver.abort();
-		},
-	});
-	deinit.push(
-		selectorObserver.abort,
-		tabHighlighting.highlightCustomTab('releases'),
-	);
-}
-
-async function init(): Promise<false | void> {
+async function addReleasesTab(): Promise<false | void> {
 	// Always prefer the information in the DOM
 	if (pageDetect.isRepoRoot()) {
 		await cache.delete(getCacheKey());
@@ -88,7 +73,6 @@ async function init(): Promise<false | void> {
 		</li>
 	);
 	repoNavigationBar.append(releasesTab);
-	tabHighlighting.notifyCustomTabAdded('releases');
 
 	// This re-triggers the overflow listener forcing it to also hide this tab if necessary #3347
 	repoNavigationBar.replaceWith(repoNavigationBar);
@@ -102,6 +86,29 @@ async function init(): Promise<false | void> {
 	);
 }
 
+const deinit: VoidFunction[] = [];
+
+async function updateReleasesTabHighlighting(): Promise<void> {
+	const selectorObserver = observe('.UnderlineNav-item.selected:not(.rgh-releases-tab)', {
+		add(selectedTab) {
+			unhighlightTab(selectedTab);
+			selectorObserver.abort();
+		},
+	});
+	deinit.push(selectorObserver.abort);
+	highlightTab(select('.rgh-releases-tab')!);
+}
+
+async function init(): Promise<void | false> {
+	if (!select.exists('.rgh-releases-tab')) {
+		await addReleasesTab();
+	}
+
+	if (pageDetect.isReleasesOrTags()) {
+		await updateReleasesTabHighlighting();;
+	}
+}
+
 void features.add(__filebasename, {
 	shortcuts: {
 		'g r': 'Go to Releases',
@@ -110,13 +117,7 @@ void features.add(__filebasename, {
 		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
-	init,
-}, {
-	include: [
-		pageDetect.isReleasesOrTags,
-	],
-	awaitDomReady: false,
 	deduplicate: false,
-	init: updateReleasesTabHighlighting,
+	init,
 	deinit,
 });

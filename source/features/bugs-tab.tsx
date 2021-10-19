@@ -10,7 +10,7 @@ import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
-import * as tabHighlighting from '../helpers/custom-tab-highlighting';
+import {highlightTab, unhighlightTab} from '../helpers/tab-highlighting';
 
 const supportedLabels = /^(bug|confirmed-bug|type:bug|kind:bug|:\w+:bug)$/i;
 const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
@@ -74,12 +74,71 @@ async function isBugsListing(): Promise<boolean> {
 	return new SearchQuery(location.search).includes(await getSearchQueryBugLabel());
 }
 
-const deinit: VoidFunction[] = [];
+async function addBugsTab(): Promise<void | false> {
+	// Query API as early as possible, even if it's not necessary on archived repos
+	const countPromise = countBugs();
+
+	// On a label:bug listing:
+	// - always show the tab, as soon as possible
+	// - update the count later
+	// On other pages:
+	// - only show the tab if needed
+	if (!await isBugsListing() && await countPromise === 0) {
+		return false;
+	}
+
+	const issuesTab = await elementReady('a.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
+	if (!issuesTab) {
+		// Repo is archived
+		return false;
+	}
+
+	// Copy Issues tab
+	const bugsTab = issuesTab.cloneNode(true);
+	bugsTab.classList.add('rgh-bugs-tab');
+	unhighlightTab(bugsTab);
+
+	// Disable unwanted behavior #3001
+	bugsTab.removeAttribute('data-hotkey');
+	bugsTab.removeAttribute('data-selected-links');
+	bugsTab.removeAttribute('id');
+
+	// Update its appearance
+	const bugsTabTitle = select('[data-content]', bugsTab)!;
+	bugsTabTitle.dataset.content = 'Bugs';
+	bugsTabTitle.textContent = 'Bugs';
+	select('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline"/>);
+
+	// Set temporary counter
+	const bugsCounter = select('.Counter', bugsTab)!;
+	bugsCounter.textContent = '0';
+	bugsCounter.title = '';
+
+	// Update Bugs’ link
+	new SearchQuery(bugsTab).add(await getSearchQueryBugLabel());
+
+	// In case GitHub changes its layout again #4166
+	if (issuesTab.parentElement!.tagName === 'LI') {
+		issuesTab.parentElement!.after(<li className="d-flex">{bugsTab}</li>);
+	} else {
+		issuesTab.after(bugsTab);
+	}
+
+	// Update bugs count
+	try {
+		const bugCount = await countPromise;
+		bugsCounter.textContent = abbreviateNumber(bugCount);
+		bugsCounter.title = bugCount > 999 ? String(bugCount) : '';
+	} catch (error: unknown) {
+		bugsCounter.remove();
+		features.log.error(__filebasename, error);
+	}
+}
 
 function highlightBugsTab(): void {
 	// Remove highlighting from "Issues" tab
-	tabHighlighting.remove(select('.UnderlineNav-item[data-hotkey="g i"]')!);
-	deinit.push(tabHighlighting.highlightCustomTab('bugs'));
+	unhighlightTab(select('.UnderlineNav-item[data-hotkey="g i"]')!);
+	highlightTab(select('.rgh-bugs-tab')!);
 }
 
 async function removePinnedIssues(): Promise<void> {
@@ -110,66 +169,11 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 }
 
 async function init(): Promise<void | false> {
-	// Query API as early as possible, even if it's not necessary on archived repos
-	const countPromise = countBugs();
-
-	// On a label:bug listing:
-	// - always show the tab, as soon as possible
-	// - update the count later
-	// On other pages:
-	// - only show the tab if needed
-	if (!await isBugsListing() && await countPromise === 0) {
-		return false;
+	if (!select.exists('.rgh-bugs-tab')) {
+		await addBugsTab();
 	}
 
-	const issuesTab = await elementReady('a.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
-	if (!issuesTab) {
-		// Repo is archived
-		return false;
-	}
-
-	// Copy Issues tab
-	const bugsTab = issuesTab.cloneNode(true);
-	bugsTab.classList.add('rgh-bugs-tab');
-	tabHighlighting.remove(bugsTab);
-
-	// Disable unwanted behavior #3001
-	bugsTab.removeAttribute('data-hotkey');
-	bugsTab.removeAttribute('data-selected-links');
-	bugsTab.removeAttribute('id');
-
-	// Update its appearance
-	const bugsTabTitle = select('[data-content]', bugsTab)!;
-	bugsTabTitle.dataset.content = 'Bugs';
-	bugsTabTitle.textContent = 'Bugs';
-	select('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline"/>);
-
-	// Set temporary counter
-	const bugsCounter = select('.Counter', bugsTab)!;
-	bugsCounter.textContent = '0';
-	bugsCounter.title = '';
-
-	// Update Bugs’ link
-	new SearchQuery(bugsTab).add(await getSearchQueryBugLabel());
-
-	// In case GitHub changes its layout again #4166
-	if (issuesTab.parentElement!.tagName === 'LI') {
-		issuesTab.parentElement!.after(<li className="d-flex">{bugsTab}</li>);
-	} else {
-		issuesTab.after(bugsTab);
-	}
-
-	tabHighlighting.notifyCustomTabAdded('bugs');
-
-	// Update bugs count
-	try {
-		const bugCount = await countPromise;
-		bugsCounter.textContent = abbreviateNumber(bugCount);
-		bugsCounter.title = bugCount > 999 ? String(bugCount) : '';
-	} catch (error: unknown) {
-		bugsCounter.remove();
-		features.log.error(__filebasename, error);
-	}
+	await updateBugsTagHighlighting();
 }
 
 void features.add(__filebasename, {
@@ -177,13 +181,6 @@ void features.add(__filebasename, {
 		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
-	init,
-}, {
-	include: [
-		pageDetect.isRepo,
-	],
-	awaitDomReady: false,
 	deduplicate: false,
-	init: updateBugsTagHighlighting,
-	deinit,
+	init,
 });
