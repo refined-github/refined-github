@@ -30,11 +30,7 @@ jobs:
       - uses: fregante/daily-version-action@v1
         name: Create tag if necessary
         id: daily-version
-      - uses: notlmn/release-with-changelog@v3
-        if: steps.daily-version.outputs.created
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          exclude: true
+
   Submit:
     needs: Version
     if: github.event_name == 'workflow_dispatch' || needs.Version.outputs.created

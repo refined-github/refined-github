@@ -59,10 +59,10 @@ const logError = (id: FeatureID, error: unknown): void => {
 	console.group('❌', id, version, pageDetect.isEnterprise() ? 'GHE →' : '→', error);
 
 	console.group('Search issue');
-	console.log(`https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}`);
+	console.log(`https://github.com/refined-github/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}`);
 	console.groupEnd();
 
-	const newIssueUrl = new URL('https://github.com/sindresorhus/refined-github/issues/new?labels=bug&template=1_bug_report.md');
+	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new?labels=bug&template=1_bug_report.md');
 	newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
 	newIssueUrl.searchParams.set('body', stripIndent(`
 		<!-- Please also include a screenshot if the issue is visible -->

@@ -58,9 +58,11 @@ async function init(): Promise<false | void> {
 					? usernameElement.parentElement!
 					: usernameElement;
 				insertionPoint.after(
-					<span className="color-text-secondary css-truncate">
+					' ',
+					<span className="color-text-secondary css-truncate d-inline-block">
 						(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{name}</bdo>)
 					</span>,
+					' ',
 				);
 			}
 		}
@@ -74,6 +76,7 @@ void features.add(__filebasename, {
 	additionalListeners: [
 		onNewsfeedLoad,
 	],
+	// TODO [2022-02-01]: Use `onlyAdditionalListeners` #4876
 	init: onetime(init),
 }, {
 	include: [

@@ -37,7 +37,6 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 	return unslashedCommittish;
 };
 
-export const isFirefox = navigator.userAgent.includes('Firefox/');
 export const isMac = navigator.userAgent.includes('Macintosh');
 
 // The type requires at least one parameter https://stackoverflow.com/a/49910890
@@ -114,7 +113,7 @@ export async function isPermalink(): Promise<boolean> {
 
 // Negative function so it can be used directly in `exclude` array
 export function isNotRefinedGitHubRepo(): boolean {
-	return !location.pathname.startsWith('/sindresorhus/refined-github/');
+	return !location.pathname.startsWith('/refined-github/refined-github/');
 }
 
 export function shouldFeatureRun({

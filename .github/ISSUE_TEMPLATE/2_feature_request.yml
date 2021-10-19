@@ -5,12 +5,12 @@ body:
   - type: markdown
     attributes:
       value: |
-        ⚠️ To focus on bugfixes, Refined GitHub won't be adding new features while the [feature freeze](https://github.com/sindresorhus/refined-github/issues/4596) is active.
-        👋 There might be some [easy bugs](https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22+label%3Abug) to tackle for new contributors.
+        ⚠️ To focus on bugfixes, Refined GitHub won't be adding new features while the [feature freeze](https://github.com/refined-github/refined-github/issues/4596) is active.
+        👋 There might be some [easy bugs](https://github.com/refined-github/refined-github/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22+label%3Abug) to tackle for new contributors.
   - type: textarea
     attributes:
       label: Description
-      description: 'Please ensure your requested feature makes sense for Refined GitHub: https://github.com/sindresorhus/refined-github/issues/2960'
+      description: 'Please ensure your requested feature makes sense for Refined GitHub: https://github.com/refined-github/refined-github/issues/2960'
     validations:
       required: true
   - type: textarea
@@ -21,6 +21,6 @@ body:
     attributes:
       label: Example URL
       description: Include a REAL URL where the feature should appear. e.g. Do you want a feature to appear on the main page of a repo? Paste a link to a repo
-      placeholder: https://github.com/sindresorhus/refined-github
+      placeholder: https://github.com/refined-github/refined-github
     validations:
       required: true

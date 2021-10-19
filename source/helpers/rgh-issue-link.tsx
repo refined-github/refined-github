@@ -10,5 +10,5 @@ export function createRghIssueLink(issueNumber: number | string): Element {
 }
 
 export function getRghIssueUrl(issueNumber: number | string): string {
-	return `https://github.com/sindresorhus/refined-github/issues/${issueNumber}`;
+	return `https://github.com/refined-github/refined-github/issues/${issueNumber}`;
 }

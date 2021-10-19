@@ -52,7 +52,7 @@ async function init(): Promise<void | false> {
 
 			icon.classList.remove('select-menu-item-icon');
 			filename.parentElement!.append(
-				<span className="tooltipped tooltipped-s" aria-label={'File ' + action}>
+				<span className="tooltipped tooltipped-s ml-1" aria-label={'File ' + action}>
 					{icon}
 				</span>,
 			);

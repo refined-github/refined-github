@@ -9,7 +9,8 @@ import {groupButtons} from '../github-helpers/group-buttons';
 function handleClick({delegateTarget: button}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const file = button.closest('.Box, .js-gist-file-update-container')!;
 	const content = select.all('.blob-code-inner', file)
-		.map(({innerText: line}) => line === '\n' ? '' : line) // Must be `.innerText`
+		// eslint-disable-next-line unicorn/prefer-dom-node-text-content -- Must be `.innerText`
+		.map(({innerText: line}) => line === '\n' ? '' : line)
 		.join('\n');
 	button.setAttribute('value', content);
 }

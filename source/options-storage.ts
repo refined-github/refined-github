@@ -36,6 +36,10 @@ const migrations = [
 	featureWasRenamed('hide-useless-newsfeed-events', 'hide-noisy-newsfeed-events'), // Merged in August
 	featureWasRenamed('no-useless-split-diff-view', 'no-unnecessary-split-diff-view'), // Merged in August
 	featureWasRenamed('unwrap-useless-dropdowns', 'unwrap-unnecessary-dropdowns'), // Merged in August
+	featureWasRenamed('tag-changelog-link', 'tag-changes-link'), // Merged in October
+	featureWasRenamed('navigate-pages-with-arrow-keys', 'pagination-hotkey'), // Merged in September
+	featureWasRenamed('list-pr-for-branch', 'list-prs-for-branch'), // Merged in October
+	featureWasRenamed('quick-label-hiding', 'quick-label-removal'), // Merged in October
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused,

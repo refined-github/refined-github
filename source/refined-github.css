@@ -74,11 +74,6 @@
 	color: var(--color-text-tertiary, #6a737d);
 }
 
-/* Expand PR merge status list to fit all items */
-:root .branch-action-item.open:not(.branch-action-item-simple) > .merge-status-list {
-	max-height: none;
-}
-
 /* Make <details> visibly clickable */
 .markdown-body summary, /* Summary elements are always clickable when present */
 .markdown-body details:not([open]) { /* Summary-less details have unselectable clickable elements */
@@ -155,4 +150,9 @@ pr-branches
 .gh-header-actions [aria-label='Edit Pull Request title'] {
 	margin-left: 4px !important;
 	margin-right: 4px !important;
+}
+
+/* Remove the underline on PR filename copy button hover #4871 */
+.file-header .file-info clipboard-copy {
+	display: inline-block;
 }

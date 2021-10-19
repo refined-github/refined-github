@@ -12,7 +12,7 @@ async function removeReadmeLink(): Promise<void> {
 }
 
 async function cleanLicenseText(): Promise<void> {
-	// Remove whitespace in license link to fix alignment of icons https://github.com/sindresorhus/refined-github/pull/3974#issuecomment-780213892
+	// Remove whitespace in license link to fix alignment of icons https://github.com/refined-github/refined-github/pull/3974#issuecomment-780213892
 	const licenseLink = await elementReady('.repository-content .octicon-law');
 	if (licenseLink) {
 		licenseLink.nextSibling!.textContent = licenseLink.nextSibling!.textContent!.trim();
