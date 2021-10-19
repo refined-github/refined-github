@@ -42,9 +42,14 @@ void features.add(__filebasename, {
 		pageDetect.isGlobalSearchResults,
 		pageDetect.isLabelList,
 		pageDetect.isNotifications,
-		pageDetect.isRepoCommitList,
 		pageDetect.isPRCommit,
 		pageDetect.isUserProfileRepoTab,
 	],
+	init,
+}, {
+	include: [
+		pageDetect.isRepoCommitList,
+	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });
