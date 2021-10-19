@@ -105,7 +105,7 @@ async function init(): Promise<void | false> {
 	}
 
 	if (pageDetect.isReleasesOrTags()) {
-		await updateReleasesTabHighlighting();;
+		await updateReleasesTabHighlighting();
 	}
 }
 
