@@ -26,11 +26,11 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 	removeLabelButton.closest('a')!.remove();
 
 	// Force update of label selector if necessary
-	const deferredContentWrapper = select('.label-select-menu [src] .hx_rsm-content')!;
+	const deferredContentWrapper = select('.label-select-menu [src] .hx_rsm-content');
 	if (deferredContentWrapper) {
-			const menu = deferredContentWrapper.closest('[src]')!;
+		const menu = deferredContentWrapper.closest('[src]')!;
 		deferredContentWrapper.replaceChildren(
-			<include-fragment src={menu.getAttribute('src')!}/>
+			<include-fragment src={menu.getAttribute('src')!}/>,
 		);
 	}
 }
