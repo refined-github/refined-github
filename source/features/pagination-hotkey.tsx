@@ -46,5 +46,6 @@ void features.add(__filebasename, {
 		pageDetect.isPRCommit,
 		pageDetect.isUserProfileRepoTab,
 	],
+	deduplicate: false,
 	init,
 });

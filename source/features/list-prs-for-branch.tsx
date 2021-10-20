@@ -61,5 +61,6 @@ void features.add(__filebasename, {
 		pageDetect.isRepoCommitList,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init,
 });

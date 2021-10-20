@@ -165,5 +165,6 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepoCommitList,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });
