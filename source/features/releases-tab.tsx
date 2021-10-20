@@ -87,7 +87,7 @@ async function addReleasesTab(): Promise<false | void> {
 
 const deinit: VoidFunction[] = [];
 
-async function updateReleasesTabHighlighting(): Promise<void> {
+async function highlightReleasesTab(): Promise<void> {
 	const selectorObserver = observe('.UnderlineNav-item.selected:not(.rgh-releases-tab)', {
 		add(selectedTab) {
 			unhighlightTab(selectedTab);
@@ -104,7 +104,7 @@ async function init(): Promise<void | false> {
 	}
 
 	if (pageDetect.isReleasesOrTags()) {
-		await updateReleasesTabHighlighting();
+		await highlightReleasesTab();
 	}
 }
 
