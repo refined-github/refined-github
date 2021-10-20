@@ -92,7 +92,7 @@ async function validateToken(): Promise<void> {
 function moveNewAndDisabledFeaturesToTop(): void {
 	const container = select('.js-features')!;
 
-	for (const unchecked of select.all('.feature [type=checkbox]:not(:checked)', container).reverse()) {
+	for (const unchecked of select.all('.feature [type=checkbox]:first-child:not(:checked)', container).reverse()) {
 		// .reverse() needed to preserve alphabetical order while prepending
 		container.prepend(unchecked.closest('.feature')!);
 	}
