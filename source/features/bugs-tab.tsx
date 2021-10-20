@@ -10,7 +10,7 @@ import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
-import {highlightTab, unhighlightTab} from '../helpers/tab-highlighting';
+import {highlightTab, unhighlightTab} from '../helpers/dom-utils';
 
 const supportedLabels = /^(bug|confirmed-bug|type:bug|kind:bug|:\w+:bug)$/i;
 const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;

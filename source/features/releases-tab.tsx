@@ -9,11 +9,10 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import looseParseInt from '../helpers/loose-parse-int';
-import {appendBefore} from '../helpers/dom-utils';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import {createDropdownItem} from './more-dropdown-links';
 import {buildRepoURL, getRepo} from '../github-helpers';
-import {highlightTab, unhighlightTab} from '../helpers/tab-highlighting';
+import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils';
 
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
