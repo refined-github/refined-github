@@ -6,6 +6,7 @@ import {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 
 import waitFor from '../helpers/wait-for';
+import showToast from '../github-helpers/toast';
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import {shouldFeatureRun} from '../github-helpers';
@@ -51,6 +52,7 @@ const logError = (id: FeatureID, error: unknown): void => {
 	const message = error instanceof Error ? error.message : String(error);
 
 	if (message.includes('token')) {
+		void showToast(async () => Promise.reject(new Error(message)));
 		console.log(`ℹ️ ${id} →`, message);
 		return;
 	}
