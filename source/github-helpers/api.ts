@@ -31,6 +31,7 @@ import {JsonObject, AsyncReturnType} from 'type-fest';
 
 import features from '../features';
 import {getRepo} from '.';
+import showToast from './toast';
 import optionsStorage from '../options-storage';
 
 interface JsonError {
@@ -55,6 +56,7 @@ export class RefinedGitHubAPIError extends Error {
 	response: AnyObject = {};
 	constructor(...messages: string[]) {
 		super(messages.join('\n'));
+		void showToast(async () => Promise.reject(new Error(messages.join('\n'))));
 	}
 }
 
