@@ -1,5 +1,5 @@
 /* Hide reaction popover text */
-.js-add-reaction-popover .color-text-secondary,
+.js-add-reaction-popover :is(.color-text-secondary, .js-reaction-description),
 .js-add-reaction-popover .dropdown-divider {
 	display: none;
 }
