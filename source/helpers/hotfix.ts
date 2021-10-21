@@ -22,6 +22,20 @@ export const updateHotfixes = cache.function(async (): Promise<string[][]> => {
 	cacheKey: () => 'hotfixes',
 });
 
+export const updateStyleHotfixes = cache.function(async (version: string): Promise<string> => {
+	const request = await fetch(`https://api.github.com/repos/refined-github/refined-github/contents/style/${version}.css?ref=hotfix`);
+	const {content} = await request.json();
+
+	if (!content) {
+		return '';
+	}
+
+	return atob(content).trim();
+}, {
+	maxAge: {hours: 6},
+	cacheKey: ([version]) => 'style-hotfixes:' + version,
+});
+
 export type HotfixStorage = Array<[FeatureID, string, string]>;
 
 export async function getLocalHotfixes(version: string): Promise<HotfixStorage> {
@@ -44,4 +58,12 @@ export async function getLocalHotfixesAsOptions(version: string): Promise<Partia
 	}
 
 	return options;
+}
+
+export async function getStyleHotfixes(version: string): Promise<string> {
+	if (version === '0.0.0') {
+		return '';
+	}
+
+	return await cache.get<string>('style-hotfixes:' + version) ?? '';
 }
