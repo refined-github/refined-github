@@ -16,19 +16,6 @@ const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwn
 const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(getBugLabelCacheKey());
 const isBugLabel = (label: string): boolean => supportedLabels.test(label.replace(/\s/g, ''));
 
-async function highlightBugsTabOnIssuePage(): Promise<void | false> {
-	if (await countBugs() === 0 || !await elementReady('#partial-discussion-sidebar .IssueLabel[href$="/bug" i]')) {
-		return false;
-	}
-
-	const bugsTab = await elementReady('.rgh-bug-tab', {stopOnDomReady: false, timeout: 10_000});
-	bugsTab!.classList.add('selected');
-
-	const issuesTab = select('.UnderlineNav-item[data-hotkey="g i"]')!;
-	issuesTab.classList.remove('selected');
-	issuesTab.removeAttribute('aria-current');
-}
-
 async function countBugsWithUnknownLabel(): Promise<number> {
 	const {repository} = await api.v4(`
 		repository() {
@@ -78,6 +65,48 @@ const countBugs = cache.function(async (): Promise<number> => {
 	cacheKey: (): string => __filebasename + ':' + getRepo()!.nameWithOwner,
 });
 
+async function getSearchQueryBugLabel(): Promise<string> {
+	return 'label:' + SearchQuery.escapeValue(await getBugLabel() ?? 'bug');
+}
+
+async function isBugsListing(): Promise<boolean> {
+	return new SearchQuery(location.search).includes(await getSearchQueryBugLabel());
+}
+
+async function highlightBugsTab(): Promise<void> {
+	const issuesTab = select('.UnderlineNav-item[data-hotkey="g i"]')!;
+	issuesTab.classList.remove('selected');
+	issuesTab.removeAttribute('aria-current');
+
+	const bugsTab = await elementReady('.rgh-bug-tab', {stopOnDomReady: false, timeout: 10_000});
+	bugsTab!.classList.add('selected');
+}
+
+async function hidePinnedIssues(): Promise<void> {
+	(await elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false}))?.remove();
+}
+
+async function updateBugsTagHighlighting(): Promise<void | false> {
+	if (await countBugs() === 0) {
+		return false;
+	}
+
+	const bugLabel = await getBugLabel() ?? 'bug';
+	if (
+		(pageDetect.isRepoTaxonomyConversationList() && location.href.endsWith('/labels/' + encodeURIComponent(bugLabel)))
+		|| (pageDetect.isRepoIssueList() && await isBugsListing())
+	) {
+		await Promise.all([highlightBugsTab(), hidePinnedIssues()]);
+		return;
+	}
+
+	if (pageDetect.isIssue() && await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${bugLabel}"]`)) {
+		return highlightBugsTab();
+	}
+
+	return false;
+}
+
 async function init(): Promise<void | false> {
 	// Query API as early as possible, even if it's not necessary on archived repos
 	const countPromise = countBugs();
@@ -87,8 +116,7 @@ async function init(): Promise<void | false> {
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-	const isBugsPage = new SearchQuery(location.search).includes(`label:${SearchQuery.escapeValue(await getBugLabel() ?? 'bug')}`);
-	if (!isBugsPage && await countPromise === 0) {
+	if (!await isBugsListing() && await countPromise === 0) {
 		return false;
 	}
 
@@ -98,20 +126,16 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	if (isBugsPage) {
-		// Hide pinned issues on the tab page, they might not belong there
-		// eslint-disable-next-line promise/prefer-await-to-then -- Don't await; if there are no pinned issues, this would delay the bug count update
-		void elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false}).then(pinnedIssues => pinnedIssues?.remove());
-	}
-
 	// Copy Issues tab
 	const bugsTab = issuesTab.cloneNode(true);
+	bugsTab.classList.remove('selected');
+	bugsTab.removeAttribute('aria-current');
 	bugsTab.classList.add('rgh-bug-tab');
 
 	// Disable unwanted behavior #3001
 	bugsTab.removeAttribute('data-hotkey');
 	bugsTab.removeAttribute('data-selected-links');
-	issuesTab.removeAttribute('data-selected-links');
+	bugsTab.removeAttribute('id');
 
 	// Update its appearance
 	const bugsTabTitle = select('[data-content]', bugsTab)!;
@@ -119,18 +143,13 @@ async function init(): Promise<void | false> {
 	bugsTabTitle.textContent = 'Bugs';
 	select('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline"/>);
 
-	// Un-select one of the tabs if necessary
-	const selectedTab = !isBugsPage || pageDetect.isPRList() ? bugsTab : issuesTab;
-	selectedTab.classList.remove('selected');
-	selectedTab.removeAttribute('aria-current');
-
 	// Set temporary counter
 	const bugsCounter = select('.Counter', bugsTab)!;
 	bugsCounter.textContent = '0';
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	new SearchQuery(bugsTab).add(`label:${SearchQuery.escapeValue((await getBugLabel())!)}`);
+	new SearchQuery(bugsTab).add(await getSearchQueryBugLabel());
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement!.tagName === 'LI') {
@@ -158,9 +177,9 @@ void features.add(__filebasename, {
 	init,
 }, {
 	include: [
-		pageDetect.isIssue,
+		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
 	deduplicate: false,
-	init: highlightBugsTabOnIssuePage,
+	init: updateBugsTagHighlighting,
 });

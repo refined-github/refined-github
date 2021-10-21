@@ -31,20 +31,20 @@ function handleCompareMenuOpening({delegateTarget: dropdown}: delegate.Event): v
 	);
 
 	const url = new GitHubURL(viewFile.href);
-	viewFile.href = url.assign({branch}).toString();
+	viewFile.href = url.assign({branch}).href;
 
 	// Fix the edit link
 	const editFile = viewFile.cloneNode(true);
 	editFile.textContent = 'Edit file';
 	editFile.removeAttribute('data-ga-click');
-	editFile.href = url.assign({route: 'edit'}).toString();
+	editFile.href = url.assign({route: 'edit'}).href;
 	select('[aria-label$="to make changes."]', dropdown)!.replaceWith(editFile);
 
 	// Fix the delete link
 	const deleteFile = editFile.cloneNode(true);
 	deleteFile.textContent = 'Delete file';
 	deleteFile.classList.add('menu-item-danger');
-	deleteFile.href = url.assign({route: 'delete'}).toString();
+	deleteFile.href = url.assign({route: 'delete'}).href;
 	select('[aria-label$="delete this file."]', dropdown)!.replaceWith(deleteFile);
 }
 

@@ -169,7 +169,7 @@ function init(): void {
 	deinit.push(selectObserver.abort);
 
 	// Close the dropdown when one of the toolbar buttons is clicked
-	delegate(document, '.js-notifications-mark-selected-actions > *', 'click', closeDropdown);
+	delegate(document, '.js-notifications-mark-selected-actions > *, .rgh-open-selected-button', 'click', closeDropdown);
 }
 
 void features.add(__filebasename, {

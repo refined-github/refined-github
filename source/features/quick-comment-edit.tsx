@@ -9,15 +9,16 @@ import features from '.';
 
 function canEditEveryComment(): boolean {
 	return select.exists([
-		// These are only found if you left any comments on the page
+		// If you can lock conversations, you have write access
+		'.lock-toggle-link',
+
+		// Some pages like `isPRFiles` does not have a lock button
+		// These elements only exist if you commented on the page
 		'[aria-label^="You have been invited to collaborate"]',
 		'[aria-label^="You are the owner"]',
 		'[title^="You are a maintainer"]',
 		'[title^="You are a collaborator"]',
-
-		// If you can change the repo’s settings, then can change anything
-		'#settings-tab',
-	]);
+	]) || pageDetect.canUserEditRepo();
 }
 
 function init(): void {

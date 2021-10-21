@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -7,7 +8,6 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import addNotice from '../github-widgets/notice-bar';
-import {appendBefore} from '../helpers/dom-utils';
 import {buildRepoURL, isPermalink} from '../github-helpers';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
@@ -31,7 +31,9 @@ async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> 
 	select('a.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;
 }
 
-function addInlineLinks(comment: HTMLElement, timestamp: string): void {
+function addInlineLinks(menu: HTMLElement, timestamp: string): void {
+	const comment = menu.closest('.js-comment')!;
+
 	const links = select.all<HTMLAnchorElement>(`
 		[href^="${location.origin}"][href*="/blob/"]:not(.rgh-linkified-code),
 		[href^="${location.origin}"][href*="/tree/"]:not(.rgh-linkified-code)
@@ -50,15 +52,10 @@ function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 	}
 }
 
-function addDropdownLink(comment: HTMLElement, timestamp: string): void {
-	const dropdown = select('.show-more-popover', comment);
+function addDropdownLink(menu: HTMLElement, timestamp: string): void {
+	const dropdown = select('.show-more-popover', menu.parentElement!)!;
 
-	// Comment-less reviews don't have a dropdown
-	if (!dropdown) {
-		return;
-	}
-
-	appendBefore(dropdown, '.dropdown-divider',
+	dropdown.append(
 		<>
 			<div className="dropdown-divider"/>
 			<a
@@ -73,7 +70,7 @@ function addDropdownLink(comment: HTMLElement, timestamp: string): void {
 	);
 }
 
-async function showTimemachineBar(): Promise<void | false> {
+async function showTimeMachineBar(): Promise<void | false> {
 	const url = new URL(location.href); // This can't be replaced with `GitHubURL` because `getCurrentBranch` throws on 404s
 	const date = url.searchParams.get('rgh-link-date')!;
 
@@ -105,7 +102,7 @@ async function showTimemachineBar(): Promise<void | false> {
 	}
 
 	const link = (
-		<a className="rgh-link-date" href={String(url)} data-pjax="#repo-content-pjax-container">
+		<a className="rgh-link-date" href={url.href} data-pjax="#repo-content-pjax-container">
 			view this object as it appeared at the time of the comment
 		</a>
 	);
@@ -114,20 +111,21 @@ async function showTimemachineBar(): Promise<void | false> {
 	);
 }
 
-function init(): void {
-	// PR reviews' main content has nested `.timeline-comment`, but the deepest one doesn't have `relative-time`. These are filtered out with `:not([id^="pullrequestreview"])`
-	const comments = select.all(`
-		:not(.js-new-comment-form, #issuecomment-new, [id^="pullrequestreview"]) > .timeline-comment:not(.rgh-time-machine-links),
-		.review-comment > .previewable-edit:not(.is-pending, .rgh-time-machine-links)
-	`);
-
-	for (const comment of comments) {
-		const timestamp = select('relative-time', comment)!.attributes.datetime.value;
-
-		addDropdownLink(comment, timestamp);
-		addInlineLinks(comment, timestamp);
-		comment.classList.add('rgh-time-machine-links');
+function updateMenu({delegateTarget: menu}: delegate.Event<MouseEvent, HTMLElement>): void {
+	if (menu.classList.contains('rgh-time-machine-links')) {
+		return;
 	}
+
+	const timestamp = menu.closest('.js-comment:not(.timeline-comment-group), .js-timeline-item')!.querySelector('relative-time')!.attributes.datetime.value;
+
+	addDropdownLink(menu, timestamp);
+	addInlineLinks(menu, timestamp);
+	menu.classList.add('rgh-time-machine-links');
+}
+
+function init(): void {
+	// Use `click` handler instead of `toggle` because there's no easy selector just for `details`
+	delegate(document, '.js-reaction-popover-container ~ details:last-child', 'click', updateMenu);
 }
 
 void features.add(__filebasename, {
@@ -149,5 +147,5 @@ void features.add(__filebasename, {
 		pageDetect.isRepoTree,
 	],
 	awaitDomReady: false,
-	init: showTimemachineBar,
+	init: showTimeMachineBar,
 });

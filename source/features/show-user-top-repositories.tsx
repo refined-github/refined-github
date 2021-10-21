@@ -4,18 +4,18 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function buildUrl(): URL {
-	const url = new URL(location.pathname, location.href);
-	url.searchParams.set('tab', 'repositories');
-	url.searchParams.set('sort', 'stargazers');
-	return url;
-}
-
 function init(): void {
+	const url = new URL(location.pathname, location.href);
+	// DO NOT add type: 'source' since forks could also have many stars
+	url.search = new URLSearchParams({
+		tab: 'repositories',
+		sort: 'stargazers',
+	}).toString();
+
 	// Showcase title
 	select('.js-pinned-items-reorder-container .text-normal')!.firstChild!.after(
 		' / ',
-		<a href={String(buildUrl())}>Top repositories</a>,
+		<a href={url.href}>Top repositories</a>,
 	);
 }
 

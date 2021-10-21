@@ -44,7 +44,7 @@ async function init(): Promise<void | false> {
 		<a
 			data-issue-and-pr-hovercards-enabled
 			href={prInfo.url}
-			className="btn flex-self-center rgh-list-pr-for-branch"
+			className="btn flex-self-center rgh-list-prs-for-branch"
 			data-hovercard-type="pull_request"
 			data-hovercard-url={prInfo.url + '/hovercard'}
 		>
@@ -61,5 +61,6 @@ void features.add(__filebasename, {
 		pageDetect.isRepoCommitList,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init,
 });

@@ -1,11 +1,11 @@
-.rgh-quick-label-hiding {
+.rgh-quick-label-removal {
 	display: flex !important;
 	margin-left: 2px;
 	margin-right: -7px;
 	color: inherit !important;
 }
 
-.rgh-quick-label-hiding svg {
+.rgh-quick-label-removal svg {
 	margin: 2px;
 	margin-left: 0;
 	border-radius: 50%;
@@ -14,15 +14,11 @@
 	height: 14px;
 }
 
-.rgh-quick-label-hiding:is(:focus, :hover) svg {
+.rgh-quick-label-removal:is(:focus, :hover) svg {
 	background-color: currentColor;
 	fill: rgb(var(--label-r) var(--label-g) var(--label-b));
 }
 
-[data-color-mode='dark'][data-dark-theme*='dark'] .rgh-quick-label-hiding:is(:focus, :hover) svg {
+[data-color-mode='dark'][data-dark-theme*='dark'] .rgh-quick-label-removal:is(:focus, :hover) svg {
 	fill: var(--color-bg-canvas);
-}
-
-:root:root .rgh-quick-label-hiding-already-added {
-	display: inline-flex !important;
 }
