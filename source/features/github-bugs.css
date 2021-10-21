@@ -33,7 +33,7 @@
 }
 
 /* Avoid scroll bar on single-line `pre` in Markdown #4899 */
-.zeroclipboard-container .clipboard-copy {
+.zeroclipboard-container clipboard-copy {
 	margin-bottom: 0 !important;
 }
 
