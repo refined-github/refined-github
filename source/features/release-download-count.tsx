@@ -65,7 +65,7 @@ async function init(): Promise<void | false> {
 			// Match the asset in the DOM to the asset in the API response
 			for (const [index, {name, downloadCount}] of sortedDownloads.entries()) {
 				if (name === assetName.textContent && downloadCount > 0) {
-					const classes = 'rgh-release-download-count mr-2 color-text-secondary' + (index === 0 ? ' text-bold' : '');
+					const classes = 'rgh-release-download-count mr-2 color-text-secondary color-fg-muted' + (index === 0 ? ' text-bold' : '');
 					// Place next to asset size
 					assetName
 						.closest('.Box-body')!

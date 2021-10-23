@@ -59,7 +59,7 @@ async function init(): Promise<false | void> {
 					: usernameElement;
 				insertionPoint.after(
 					' ',
-					<span className="color-text-secondary css-truncate d-inline-block">
+					<span className="color-text-secondary color-fg-muted css-truncate d-inline-block">
 						(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{name}</bdo>)
 					</span>,
 					' ',
