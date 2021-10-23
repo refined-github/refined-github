@@ -46,10 +46,20 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 
 async function init(): Promise<void | false> {
 	const releases = new Map<string, HTMLElement>();
-	for (const release of select.all('.release')) {
-		if (select.exists('.octicon-package', release)) {
-			const name = select('svg.octicon-tag ~ span', release)!.textContent!;
-			releases.set(name, release);
+
+	if (!pageDetect.isEnterprise() && pageDetect.isSingleTag() && select.exists('.Box-footer .octicon-package')) {
+		// Single release page -- Releases UI refresh #4902
+		const name = select('.Box svg.octicon-tag ~ span')!.textContent!.trim();
+		releases.set(name, select('.Box-footer')!);
+	} else {
+		for (const release of select.all('.release, .js-release-expandable')) {
+			if (select.exists('.octicon-package', release)) {
+				const name = pageDetect.isEnterprise()
+					? select('svg.octicon-tag ~ span', release)!.textContent!
+					: select('.Box-body a.Link--primary', release)!.href.split('/').pop()!; // Get the tag name from the link to the release -- Releases UI refresh #4902
+
+				releases.set(name, release);
+			}
 		}
 	}
 
@@ -61,20 +71,32 @@ async function init(): Promise<void | false> {
 
 	for (const [name, release] of releases) {
 		const sortedDownloads = assets[api.escapeKey(name)].sort((a, b) => b.downloadCount - a.downloadCount);
-		for (const assetName of select.all('.octicon-package ~ span', release)) {
+		for (const assetName of select.all(pageDetect.isEnterprise() ? '.octicon-package ~ span' : '.octicon-package ~ a .text-bold', release)) {
 			// Match the asset in the DOM to the asset in the API response
 			for (const [index, {name, downloadCount}] of sortedDownloads.entries()) {
-				if (name === assetName.textContent && downloadCount > 0) {
-					const classes = 'rgh-release-download-count mr-2 color-text-secondary' + (index === 0 ? ' text-bold' : '');
-					// Place next to asset size
+				if (name !== assetName.textContent || downloadCount === 0) {
+					continue;
+				}
+
+				const classes = (index === 0 ? 'text-bold' : '') + (pageDetect.isEnterprise() ? '' : ' float-right');
+				const downloadCountElement = (
+					<small className={'rgh-release-download-count mr-2 color-text-secondary color-fg-muted ' + classes} title="Downloads">
+						{abbreviateNumber(downloadCount)} <DownloadIcon/>
+					</small>
+				);
+
+				// Place next to asset size
+				if (pageDetect.isEnterprise()) {
 					assetName
 						.closest('.Box-body')!
 						.querySelector('small')!
-						.before(
-							<small className={classes} title="Downloads">
-								{abbreviateNumber(downloadCount)} <DownloadIcon/>
-							</small>,
-						);
+						.before(downloadCountElement);
+				} else {
+					// Releases UI refresh #4902
+					assetName
+						.closest('.Box-row')!
+						.querySelector('.float-right')!
+						.after(downloadCountElement);
 				}
 			}
 		}
@@ -85,5 +107,6 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.isReleasesOrTags,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

@@ -53,31 +53,45 @@ const getChangelogName = cache.function(async (): Promise<string | false> => {
 	cacheKey: getCacheKey,
 });
 
+// eslint-disable-next-line import/prefer-default-export
+export const releasesOrTagsNavbarSelector = 'nav[aria-label^="Releases and Tags"], .subnav-links';
+
 async function init(): Promise<void | false> {
 	const changelog = await getChangelogName();
 	if (!changelog) {
 		return false;
 	}
 
-	(await elementReady('.subnav div', {waitForChildren: false}))!.after(
+	const changelogButton = (
 		<a
-			className="btn ml-3 tooltipped tooltipped-n"
+			className={'tooltipped tooltipped-n ' + (pageDetect.isEnterprise() ? 'btn ml-3' : 'subnav-item')}
 			aria-label={`View the ${changelog} file`}
 			href={buildRepoURL('blob', 'HEAD', changelog)}
-			style={{padding: '6px 16px'}}
+			style={pageDetect.isEnterprise() ? {padding: '6px 16px'} : {}}
 			role="button"
 		>
 			<BookIcon className="color-text-link mr-2"/>
 			<span>Changelog</span>
-		</a>,
+		</a>
 	);
+
+	if (pageDetect.isEnterprise()) {
+		(await elementReady('.subnav div', {waitForChildren: false}))!.after(changelogButton);
+	} else {
+		// Releases UI refresh #4902
+		(await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!.append(changelogButton);
+	}
 }
 
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isReleasesOrTags,
 	],
+	exclude: [
+		() => !pageDetect.isEnterprise() && pageDetect.isSingleTag(),
+	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init,
 }, {
 	include: [
