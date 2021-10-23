@@ -9,7 +9,10 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
 
-const editReleaseButtonSelector = '.BtnGroup a[href*="releases/edit"], .Box-btn-octicon[aria-label="Edit"]';
+const editReleaseButtonSelector = [
+	'.BtnGroup a[href*="releases/edit"]',
+	'.Box-btn-octicon[aria-label="Edit"]', // Releases UI refresh #4902
+].join(',');
 
 async function convertToDraft({delegateTarget: draftButton}: delegate.Event): Promise<void> {
 	try {

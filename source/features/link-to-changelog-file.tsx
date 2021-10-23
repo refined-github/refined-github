@@ -54,7 +54,10 @@ const getChangelogName = cache.function(async (): Promise<string | false> => {
 });
 
 // eslint-disable-next-line import/prefer-default-export
-export const releasesOrTagsNavbarSelector = 'nav[aria-label^="Releases and Tags"], .subnav-links';
+export const releasesOrTagsNavbarSelector = [
+	'nav[aria-label^="Releases and Tags"]', // Release list
+	'.subnav-links', // Tag list
+].join(',');
 
 async function init(): Promise<void | false> {
 	const changelog = await getChangelogName();
