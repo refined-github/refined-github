@@ -83,7 +83,7 @@ function initPR(): false | void {
 	}
 
 	// Only show the native dropdown on medium and small screens #2597
-	select('.js-diff-settings')!.closest('details')!.classList.add('d-lg-none');
+	select('.js-diff-settings, [aria-label="Diff settings"]')!.closest('details')!.classList.add('d-lg-none');
 
 	// Make space for the new button by removing "Changes from" #655
 	select('[data-hotkey="c"] strong')!.previousSibling!.remove();
