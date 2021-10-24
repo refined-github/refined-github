@@ -1,6 +1,7 @@
 /// <reference types="./source/globals" />
 
 import path from 'node:path';
+import {createRequire} from 'node:module';
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -8,6 +9,8 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {Configuration} from 'webpack';
 
 import {getFeatures, getFeaturesMeta} from './build/readme-parser.js';
+
+const {resolve: resolvePackage} = createRequire(import.meta.url);
 
 const config: Configuration = {
 	devtool: 'source-map',
@@ -53,10 +56,7 @@ const config: Configuration = {
 		new MiniCssExtractPlugin(),
 		new CopyWebpackPlugin({
 			patterns: [{
-				// We can't use `ts-expect-error` because the error will only occur when type-checking the config in watch mode, not when actually executing it
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
-				// @ts-ignore
-				from: new URL('./node_modules/webextension-polyfill', import.meta.url).pathname,
+				from: resolvePackage('webextension-polyfill'),
 			}],
 		}),
 		new SizePlugin({writeFile: false}),
