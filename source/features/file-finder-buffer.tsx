@@ -31,7 +31,7 @@ function pjaxStartHandler(event: CustomEvent): void {
 	const repoName = select('.pagehead h1 strong, [itemprop="name"]')!;
 	repoName.classList.remove('mr-2');
 	repoName.after(
-		<span className="mx-1 flex-self-stretch color-text-secondary">/</span>,
+		<span className="mx-1 flex-self-stretch color-text-secondary color-fg-muted">/</span>,
 		<span className="flex-self-stretch mr-2">{bufferField}</span>,
 	);
 	bufferField.focus();
