@@ -12,7 +12,7 @@ import features from '.';
 const pendingSelector = '.timeline-comment-label.is-pending';
 
 const getButton = onetime(() => (
-	<button className="rgh-submit-single btn-link ml-2 color-text-secondary text-small" type="button">Send now</button>
+	<button className="rgh-submit-single btn-link ml-2 color-text-secondary color-fg-muted text-small" type="button">Send now</button>
 ));
 
 function updateUI(): void {
