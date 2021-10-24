@@ -83,6 +83,7 @@ function initPR(): false | void {
 	}
 
 	// Only show the native dropdown on medium and small screens #2597
+	// TODO [2022-05-01]: Remove `.js-diff-settings` from the selector (kept for GHE)
 	select('.js-diff-settings, [aria-label="Diff settings"]')!.closest('details')!.classList.add('d-lg-none');
 
 	// Make space for the new button by removing "Changes from" #655
