@@ -8,6 +8,10 @@
 	order: 1;
 }
 
+.rgh-align-issue-labels .js-issue-row .min-width-0 .text-small {
+	flex-basis: 100%; /* #4949 */
+}
+
 .rgh-align-issue-labels .js-issue-row .d-inline-block.mr-1 { /* Build status */
 	margin-left: 4px;
 }
