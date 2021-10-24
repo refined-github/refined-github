@@ -5,7 +5,7 @@
 		"ava": "ava",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
-		"build:webpack": "cross-env NODE_OPTIONS='--loader ts-node/esm' TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"es2020\\\"} webpack --mode=production",
+		"build:webpack": "cross-env NODE_OPTIONS='--loader ts-node/esm' webpack --mode=production",
 		"fix": "run-p \"lint:* -- --fix\"",
 		"lint": "run-p lint:* --continue-on-error",
 		"lint:css": "stylelint \"source/**/*.css\"",
@@ -13,10 +13,10 @@
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj' -scheme 'Refined GitHub (macOS)'",
 		"start:safari": "open 'safari/build/Release/Refined GitHub.app'",
 		"test": "run-p ava lint:* build:* test:features",
-		"test:features": "cross-env TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"es2020\\\"} node --loader ts-node/esm \"build/verify-features.ts\"",
+		"test:features": "node --loader ts-node/esm \"build/verify-features.ts\"",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
-		"watch:webpack": "cross-env NODE_OPTIONS='--loader ts-node/esm' TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"es2020\\\"} webpack --mode=development --watch"
+		"watch:webpack": "cross-env NODE_OPTIONS='--loader ts-node/esm' webpack --mode=development --watch"
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo",
