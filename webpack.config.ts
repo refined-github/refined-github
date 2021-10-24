@@ -53,6 +53,7 @@ const config: Configuration = {
 		new MiniCssExtractPlugin(),
 		new CopyWebpackPlugin({
 			patterns: [{
+				// @ts-ignore
 				from: new URL('./node_modules/webextension-polyfill', import.meta.url).pathname,
 			}],
 		}),
