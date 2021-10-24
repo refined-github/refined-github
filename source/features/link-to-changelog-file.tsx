@@ -54,12 +54,6 @@ const getChangelogName = cache.function(async (): Promise<string | false> => {
 	cacheKey: getCacheKey,
 });
 
-// eslint-disable-next-line import/prefer-default-export
-export const releasesOrTagsNavbarSelector = [
-	'nav[aria-label^="Releases and Tags"]', // Release list
-	'.subnav-links', // Tag list
-].join(',');
-
 async function init(): Promise<void | false> {
 	const changelog = await getChangelogName();
 	if (!changelog) {
@@ -83,6 +77,11 @@ async function init(): Promise<void | false> {
 		(await elementReady('.subnav div', {waitForChildren: false}))!.after(changelogButton);
 	} else {
 		// Releases UI refresh #4902
+		const releasesOrTagsNavbarSelector = [
+			'nav[aria-label^="Releases and Tags"]', // Release list
+			'.subnav-links', // Tag list
+		].join(',');
+
 		const navbar = (await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!;
 		navbar.classList.remove('flex-1');
 		wrapAll([navbar, changelogButton], <div className="d-flex flex-justify-start flex-1"/>);

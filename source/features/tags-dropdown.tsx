@@ -6,7 +6,6 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {buildRepoURL} from '../github-helpers';
 import {ToastSpinner} from '../github-helpers/toast';
-import {releasesOrTagsNavbarSelector} from './link-to-changelog-file';
 
 // We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
 function changeTabToTags(): void {
@@ -49,7 +48,7 @@ function init(): void {
 		select('.subnav')!.append(tagsDropdown);
 	} else {
 		// Release UI refresh #4902
-		select(releasesOrTagsNavbarSelector)!.after(
+		select('.subnav-search-input')!.closest('.d-flex')!.before(
 			<div className={window.location.href.endsWith('/tags') ? 'ml-2' : 'mb-2 mr-2'}>
 				{tagsDropdown}
 			</div>,
