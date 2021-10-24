@@ -1,13 +1,16 @@
 /// <reference types="./source/globals" />
 
 import path from 'node:path';
+import {createRequire} from 'node:module';
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {Configuration} from 'webpack';
 
-import {getFeatures, getFeaturesMeta} from './build/readme-parser';
+import {getFeatures, getFeaturesMeta} from './build/readme-parser.js';
+
+const {resolve: resolvePackage} = createRequire(import.meta.url);
 
 const config: Configuration = {
 	devtool: 'source-map',
@@ -53,7 +56,7 @@ const config: Configuration = {
 		new MiniCssExtractPlugin(),
 		new CopyWebpackPlugin({
 			patterns: [{
-				from: require.resolve('webextension-polyfill'),
+				from: resolvePackage('webextension-polyfill'),
 			}],
 		}),
 		new SizePlugin({writeFile: false}),
