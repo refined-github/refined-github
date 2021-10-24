@@ -52,7 +52,12 @@ async function init(): Promise<void | false> {
 		const name = select('.Box svg.octicon-tag ~ span')!.textContent!.trim();
 		releases.set(name, select('.Box-footer')!);
 	} else {
-		for (const release of select.all('.release, .js-release-expandable')) {
+		const releasesSelectors = [
+			'.js-release-expandable', // Releases UI refresh #4902
+			'.release', // Pre-refresh
+		].join(',');
+
+		for (const release of select.all(releasesSelectors)) {
 			if (select.exists('.octicon-package', release)) {
 				const name = pageDetect.isEnterprise()
 					? select('svg.octicon-tag ~ span', release)!.textContent!

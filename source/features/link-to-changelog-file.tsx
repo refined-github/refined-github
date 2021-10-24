@@ -7,6 +7,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import {wrapAll} from '../helpers/dom-utils';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
 interface FileType {
@@ -67,7 +68,7 @@ async function init(): Promise<void | false> {
 
 	const changelogButton = (
 		<a
-			className={'tooltipped tooltipped-n ' + (pageDetect.isEnterprise() ? 'btn ml-3' : 'subnav-item')}
+			className={'tooltipped tooltipped-n btn ml-3' + (pageDetect.isEnterprise() ? '' : ' flex-self-start')}
 			aria-label={`View the ${changelog} file`}
 			href={buildRepoURL('blob', 'HEAD', changelog)}
 			style={pageDetect.isEnterprise() ? {padding: '6px 16px'} : {}}
@@ -82,7 +83,9 @@ async function init(): Promise<void | false> {
 		(await elementReady('.subnav div', {waitForChildren: false}))!.after(changelogButton);
 	} else {
 		// Releases UI refresh #4902
-		(await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!.append(changelogButton);
+		const navbar = (await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!;
+		navbar.classList.remove('flex-1');
+		wrapAll([navbar, changelogButton], <div className="d-flex flex-justify-start flex-1"/>);
 	}
 }
 
