@@ -95,7 +95,7 @@
 		"@types/firefox-webext-browser": "^94.0.0",
 		"@types/jsdom": "^16.2.13",
 		"@types/mini-css-extract-plugin": "^2.4.0",
-		"@types/node": "^16.11.1",
+		"@types/node": "^16.11.4",
 		"@types/react": "^17.0.30",
 		"ava": "^3.15.0",
 		"copy-webpack-plugin": "^9.0.1",
