@@ -3,15 +3,14 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {GitPullRequestDraftIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
 
 const editReleaseButtonSelector = [
-	'.BtnGroup a[href*="releases/edit"]',
 	'.Box-btn-octicon[aria-label="Edit"]', // Releases UI refresh #4902
+	'.BtnGroup a[href*="releases/edit"]', // Pre-refresh
 ].join(',');
 
 async function convertToDraft({delegateTarget: draftButton}: delegate.Event): Promise<void> {
@@ -44,7 +43,7 @@ async function init(): Promise<void | false> {
 
 	editButton.after(pageDetect.isEnterprise()
 		? <button type="button" className="btn BtnGroup-item rgh-convert-draft">Convert to draft</button>
-		: <button type="button" className="btn-octicon Box-btn-octicon ml-0 rgh-convert-draft"><GitPullRequestDraftIcon/></button>, // Releases UI refresh #4902
+		: <button type="button" className="btn-octicon Box-btn-octicon ml-0 rgh-convert-draft">Convert to draft</button>, // Releases UI refresh #4902
 	);
 	delegate(document, '.rgh-convert-draft', 'click', convertToDraft);
 }
