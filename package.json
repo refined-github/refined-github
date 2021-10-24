@@ -43,7 +43,8 @@
 		"environmentVariables": {
 			"TS_NODE_FILES": "true",
 			"TS_NODE_COMPILER_OPTIONS": "{\"module\": \"esnext\"}"
-		}
+		},
+		"compile": false
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
@@ -86,16 +87,16 @@
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
-		"@ava/typescript": "^1.1.1",
-		"@sindresorhus/tsconfig": "^0.9.0",
-		"@types/chrome": "^0.0.159",
+		"@ava/typescript": "^2.0.0",
+		"@sindresorhus/tsconfig": "^2.0.0",
+		"@types/chrome": "^0.0.161",
 		"@types/codemirror": "^5.60.5",
 		"@types/copy-webpack-plugin": "^8.0.1",
 		"@types/firefox-webext-browser": "^94.0.0",
 		"@types/jsdom": "^16.2.13",
 		"@types/mini-css-extract-plugin": "^2.4.0",
-		"@types/node": "^16.11.1",
-		"@types/react": "^17.0.30",
+		"@types/node": "^16.11.4",
+		"@types/react": "^17.0.32",
 		"ava": "^3.15.0",
 		"copy-webpack-plugin": "^9.0.1",
 		"cross-env": "^7.0.3",
@@ -106,9 +107,9 @@
 		"eslint-config-xo-react": "^0.25.0",
 		"eslint-plugin-react": "^7.26.1",
 		"eslint-plugin-react-hooks": "^4.2.0",
-		"jsdom": "^17.0.0",
+		"jsdom": "^18.0.0",
 		"markdown-wasm": "^1.2.0",
-		"mini-css-extract-plugin": "^2.4.2",
+		"mini-css-extract-plugin": "^2.4.3",
 		"npm-run-all": "^4.1.5",
 		"size-plugin": "^2.0.2",
 		"stylelint": "^13.13.1",
@@ -116,11 +117,11 @@
 		"terser-webpack-plugin": "^5.2.4",
 		"ts-node": "^10.4.0",
 		"tslib": "^2.3.1",
-		"type-fest": "^1.3.0",
+		"type-fest": "^2.5.1",
 		"typed-query-selector": "^2.6.0",
 		"typescript": "^4.4.4",
-		"webpack": "^5.58.2",
-		"webpack-cli": "^4.8.0",
+		"webpack": "^5.59.1",
+		"webpack-cli": "^4.9.1",
 		"xo": "^0.45.0"
 	},
 	"engines": {
