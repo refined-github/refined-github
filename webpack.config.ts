@@ -7,7 +7,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {Configuration} from 'webpack';
 
-import {getFeatures, getFeaturesMeta} from './build/readme-parser';
+import {getFeatures, getFeaturesMeta} from './build/readme-parser.js';
 
 const config: Configuration = {
 	devtool: 'source-map',
@@ -53,7 +53,7 @@ const config: Configuration = {
 		new MiniCssExtractPlugin(),
 		new CopyWebpackPlugin({
 			patterns: [{
-				from: require.resolve('webextension-polyfill'),
+				from: new URL('./node_modules/webextension-polyfill', import.meta.url).pathname,
 			}],
 		}),
 		new SizePlugin({writeFile: false}),
