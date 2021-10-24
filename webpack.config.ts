@@ -53,6 +53,8 @@ const config: Configuration = {
 		new MiniCssExtractPlugin(),
 		new CopyWebpackPlugin({
 			patterns: [{
+				// We can't use `ts-expect-error` because the error will only occur when type-checking the config in watch mode, not when actually executing it
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
 				// @ts-ignore
 				from: new URL('./node_modules/webextension-polyfill', import.meta.url).pathname,
 			}],
