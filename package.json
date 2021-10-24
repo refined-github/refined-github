@@ -43,7 +43,8 @@
 		"environmentVariables": {
 			"TS_NODE_FILES": "true",
 			"TS_NODE_COMPILER_OPTIONS": "{\"module\": \"esnext\"}"
-		}
+		},
+		"compile": false
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
@@ -86,7 +87,7 @@
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
-		"@ava/typescript": "^1.1.1",
+		"@ava/typescript": "^2.0.0",
 		"@sindresorhus/tsconfig": "^0.9.0",
 		"@types/chrome": "^0.0.159",
 		"@types/codemirror": "^5.60.5",
