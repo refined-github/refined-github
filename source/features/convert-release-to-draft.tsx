@@ -41,10 +41,24 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	editButton.after(pageDetect.isEnterprise()
-		? <button type="button" className="btn BtnGroup-item rgh-convert-draft">Convert to draft</button>
-		: <button type="button" className="btn-octicon Box-btn-octicon ml-0 rgh-convert-draft">Convert to draft</button>, // Releases UI refresh #4902
+	const convertToDraftButton = (
+		<button
+			type="button"
+			className={'btn rgh-convert-draft ' + (pageDetect.isEnterprise() ? 'BtnGroup-item' : 'btn-sm ml-3')}
+		>
+			Convert to draft
+		</button>
 	);
+
+	if (pageDetect.isEnterprise()) {
+		editButton.after(convertToDraftButton);
+	} else {
+		// Releases UI refresh #4902
+		editButton.before(convertToDraftButton);
+		// Fix spacing but avoid the two buttons sticking together
+		editButton.classList.replace('ml-1', 'ml-0');
+	}
+
 	delegate(document, '.rgh-convert-draft', 'click', convertToDraft);
 }
 
