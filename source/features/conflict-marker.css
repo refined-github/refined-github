@@ -1,4 +1,4 @@
 .rgh-conflict-marker svg {
 	vertical-align: middle;
-	color: var(--color-icon-tertiary, #ccc);
+	color: var(--color-fg-muted, var(--color-icon-tertiary, #ccc));
 }

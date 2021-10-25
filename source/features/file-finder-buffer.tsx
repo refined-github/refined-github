@@ -13,7 +13,7 @@ const getBufferField = onetime((): HTMLInputElement => (
 		style={{
 			backgroundColor: 'transparent',
 			outline: 0,
-			color: 'var(--color-text-primary)',
+			color: 'var(--color-fg-default, var(--color-text-primary))',
 		}}
 		placeholder="Search file…"
 	/> as unknown as HTMLInputElement
