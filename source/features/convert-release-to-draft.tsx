@@ -8,6 +8,11 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
 
+const editReleaseButtonSelector = [
+	'.Box-btn-octicon[aria-label="Edit"]', // Releases UI refresh #4902
+	'.BtnGroup a[href*="releases/edit"]', // Pre-refresh
+].join(',');
+
 async function convertToDraft({delegateTarget: draftButton}: delegate.Event): Promise<void> {
 	try {
 		draftButton.append(<LoadingIcon className="ml-2 v-align-text-bottom" width={16}/>);
@@ -21,7 +26,7 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event): Pr
 			},
 		});
 
-		select('.BtnGroup a[href*="releases/edit"]')!.click(); // Visit "Edit release" page
+		select(editReleaseButtonSelector)!.click(); // Visit "Edit release" page
 	} catch (error: unknown) {
 		draftButton.textContent = 'Error. Check console or retry';
 		features.log.error(__filebasename, error);
@@ -31,12 +36,29 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event): Pr
 async function init(): Promise<void | false> {
 	await api.expectToken();
 
-	const editButton = await elementReady('.BtnGroup a[href*="releases/edit"]');
+	const editButton = await elementReady(editReleaseButtonSelector);
 	if (!editButton || select.exists('.label-draft')) {
 		return false;
 	}
 
-	editButton.after(<button type="button" className="btn BtnGroup-item rgh-convert-draft">Convert to draft</button>);
+	const convertToDraftButton = (
+		<button
+			type="button"
+			className={'btn rgh-convert-draft ' + (pageDetect.isEnterprise() ? 'BtnGroup-item' : 'btn-sm ml-3')}
+		>
+			Convert to draft
+		</button>
+	);
+
+	if (pageDetect.isEnterprise()) {
+		editButton.after(convertToDraftButton);
+	} else {
+		// Releases UI refresh #4902
+		editButton.before(convertToDraftButton);
+		// Fix spacing but avoid the two buttons sticking together
+		editButton.classList.replace('ml-1', 'ml-0');
+	}
+
 	delegate(document, '.rgh-convert-draft', 'click', convertToDraft);
 }
 
@@ -45,5 +67,6 @@ void features.add(__filebasename, {
 		pageDetect.isSingleTag,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init,
 });
