@@ -183,7 +183,6 @@ import './features/clean-conversation-headers';
 import './features/stop-pjax-loading-with-esc';
 import './features/highlight-deleted-and-added-files-in-diffs';
 import './features/convert-release-to-draft';
-import './features/linkify-full-profile-readme-title';
 import './features/same-page-definition-jump';
 import './features/new-repo-disable-projects-and-wikis';
 import './features/table-input';
