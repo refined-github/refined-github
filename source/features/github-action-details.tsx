@@ -37,7 +37,7 @@ export const getWorkflows = cache.function(async (): Promise<AnyObject[]> => {
 
 interface WorkflowDetails {
 	schedule?: string;
-	manuallyDispatchable: boolean;
+	dispatchable: boolean;
 }
 
 const getWorkflowsDetails = async (): Promise<Record<string, WorkflowDetails> | false> => {
@@ -57,7 +57,7 @@ const getWorkflowsDetails = async (): Promise<Record<string, WorkflowDetails> | 
 		const cron = /schedule[:\s-]+cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
 		details[name[1]] = {
 			schedule: cron?.[1] ?? undefined,
-			manuallyDispatchable: workflowYaml.includes('workflow_dispatch:'),
+			dispatchable: workflowYaml.includes('workflow_dispatch:'),
 		};
 	}
 
@@ -82,12 +82,10 @@ async function init(): Promise<false | void> {
 			continue;
 		}
 
-		const tooltipContents: string[] = [];
-		if (workflow.manuallyDispatchable) {
+		if (workflow.dispatchable) {
 			workflowListItem.append(<PlayIcon className="ml-1"/>);
-			tooltipContents.push('This workflow can be triggered manually');
 			workflowListItem.parentElement!.classList.add('tooltipped', 'tooltipped-e');
-			workflowListItem.parentElement!.setAttribute('aria-label', tooltipContents[0]);
+			workflowListItem.parentElement!.setAttribute('aria-label', 'This workflow can be triggered manually');
 		}
 
 		if (workflow.schedule) {
@@ -98,14 +96,13 @@ async function init(): Promise<false | void> {
 
 			const relativeTime = <relative-time datetime={nextTime.toString()}/>;
 			workflowListItem.append(
-				<em className={workflow.manuallyDispatchable ? 'ml-2' : ''}>
+				<em className={workflow.dispatchable ? 'ml-2' : ''}>
 					(next {relativeTime})
 				</em>,
 			);
 			setTimeout(() => { // The content of `relative-time` might not be immediately available
-				tooltipContents.push('Next ' + relativeTime.textContent!);
 				workflowListItem.parentElement!.classList.add('tooltipped', 'tooltipped-e');
-				workflowListItem.parentElement!.setAttribute('aria-label', tooltipContents.join('\n'));
+				workflowListItem.parentElement!.setAttribute('aria-label', (workflow.dispatchable ? 'This workflow can be triggered manually\n' : '') + 'Next ' + relativeTime.textContent!);
 			}, 500);
 		}
 	}
