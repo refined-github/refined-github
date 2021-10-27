@@ -18,6 +18,7 @@ const defaults = Object.assign({
 	logHTTP: false,
 }, Object.fromEntries(__features__.map(id => [`feature:${id}`, true])));
 
+// TODO [2022-05-01]: Remove obsolete color classes & variables #4970 #4982
 const migrations = [
 	featureWasRenamed('separate-draft-pr-button', 'one-click-pr-or-gist'), // Merged in May
 	featureWasRenamed('prevent-pr-commit-link-loss', 'prevent-link-loss'), // Merged in May
