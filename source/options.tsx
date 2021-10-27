@@ -211,7 +211,7 @@ async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 
 			const input = select<HTMLInputElement>(`#${feature}`)!;
 			input.disabled = true;
-			input.checked = false;
+			input.removeAttribute('name');
 		}
 	}
 
@@ -222,11 +222,11 @@ async function generateDom(): Promise<void> {
 	// Generate list
 	select('.js-features')!.append(...features.map(feature => buildFeatureCheckbox(feature)));
 
-	// Update list from saved options
-	await perDomainOptions.syncForm('form');
-
 	// Add notice for features disabled via hotfix
 	select('.js-features')!.before(await getLocalHotfixesAsNotice());
+
+	// Update list from saved options
+	await perDomainOptions.syncForm('form');
 
 	// Decorate list
 	await highlightNewFeatures();
