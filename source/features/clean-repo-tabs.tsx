@@ -7,7 +7,7 @@ import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import getTabCount from '../github-helpers/get-tab-count';
 import looseParseInt from '../helpers/loose-parse-int';
-import {getWorkflows} from './next-scheduled-github-action';
+import {getWorkflows} from './github-action-details';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import {buildRepoURL, getRepo} from '../github-helpers';
 import {onlyShowInDropdown, unhideOverflowDropdown} from './more-dropdown-links';

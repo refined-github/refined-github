@@ -40,6 +40,7 @@ const migrations = [
 	featureWasRenamed('navigate-pages-with-arrow-keys', 'pagination-hotkey'), // Merged in September
 	featureWasRenamed('list-pr-for-branch', 'list-prs-for-branch'), // Merged in October
 	featureWasRenamed('quick-label-hiding', 'quick-label-removal'), // Merged in October
+	featureWasRenamed('next-scheduled-github-action', 'github-action-details'), // Merged in November
 
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused,
