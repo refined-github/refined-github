@@ -82,7 +82,7 @@ async function init(): Promise<false | void> {
 			continue;
 		}
 
-		let tooltipContents: string[] = [];
+		const tooltipContents: string[] = [];
 		if (workflow.manuallyDispatchable) {
 			workflowListItem.append(<PlayIcon className="ml-1"/>);
 			tooltipContents.push('This workflow can be triggered manually');
