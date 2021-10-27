@@ -17,7 +17,7 @@ function init(): void {
 
 		if (pageDetect.utils.getRepositoryInfo(link)?.path === 'projects' && link.host === location.host && !link.closest('.table-list-header-toggle')) {
 			const search = new URLSearchParams(link.search);
-			const query = search.get('query') ?? 'is:open';
+			const query = search.get('query') ?? 'is:open'; // Default value query is missing
 			search.set('query', `${query} sort:updated-desc`);
 			link.search = search.toString();
 		}
