@@ -121,7 +121,7 @@ async function init(): Promise<void> {
 				lastLink.after(
 					<li className={lastLink.className + ' rgh-changelog-link'}>
 						{compareLink}
-					</li>
+					</li>,
 				);
 				/* Fix spacing issue when the window is < 700px wide https://github.com/refined-github/refined-github/pull/3841#issuecomment-754325056 */
 				lastLink.classList.remove('flex-auto');
@@ -130,7 +130,7 @@ async function init(): Promise<void> {
 				lastLink.parentElement!.after(
 					<div className="mb-md-2 mr-3 mr-md-0 rgh-changelog-link">
 						{compareLink}
-					</div>
+					</div>,
 				);
 				lastLink.classList.remove('mb-2');
 				lastLink.parentElement!.classList.remove('mb-md-2');
