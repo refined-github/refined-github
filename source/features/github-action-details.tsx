@@ -37,7 +37,7 @@ export const getWorkflows = cache.function(async (): Promise<AnyObject[]> => {
 
 interface WorkflowDetails {
 	schedule?: string;
-	dispatchable: boolean;
+	manuallyDispatchable: boolean;
 }
 
 const getWorkflowsDetails = async (): Promise<Record<string, WorkflowDetails> | false> => {
@@ -57,7 +57,7 @@ const getWorkflowsDetails = async (): Promise<Record<string, WorkflowDetails> | 
 		const cron = /schedule[:\s-]+cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
 		details[name[1]] = {
 			schedule: cron?.[1] ?? undefined,
-			dispatchable: workflowYaml.includes('workflow_dispatch:'),
+			manuallyDispatchable: workflowYaml.includes('workflow_dispatch:'),
 		};
 	}
 
@@ -82,10 +82,11 @@ async function init(): Promise<false | void> {
 			continue;
 		}
 
-		if (workflow.dispatchable) {
+		const dispatchableTooltip = 'This workflow can be triggered manually';
+		if (workflow.manuallyDispatchable) {
 			workflowListItem.append(<PlayIcon className="ml-1"/>);
 			workflowListItem.parentElement!.classList.add('tooltipped', 'tooltipped-e');
-			workflowListItem.parentElement!.setAttribute('aria-label', 'This workflow can be triggered manually');
+			workflowListItem.parentElement!.setAttribute('aria-label', dispatchableTooltip);
 		}
 
 		if (workflow.schedule) {
@@ -96,13 +97,13 @@ async function init(): Promise<false | void> {
 
 			const relativeTime = <relative-time datetime={nextTime.toString()}/>;
 			workflowListItem.append(
-				<em className={workflow.dispatchable ? 'ml-2' : ''}>
+				<em className={workflow.manuallyDispatchable ? 'ml-2' : ''}>
 					(next {relativeTime})
 				</em>,
 			);
 			setTimeout(() => { // The content of `relative-time` might not be immediately available
 				workflowListItem.parentElement!.classList.add('tooltipped', 'tooltipped-e');
-				workflowListItem.parentElement!.setAttribute('aria-label', (workflow.dispatchable ? 'This workflow can be triggered manually\n' : '') + 'Next ' + relativeTime.textContent!);
+				workflowListItem.parentElement!.setAttribute('aria-label', (workflow.manuallyDispatchable ? dispatchableTooltip + '\n' : '') + 'Next ' + relativeTime.textContent!);
 			}, 500);
 		}
 	}
