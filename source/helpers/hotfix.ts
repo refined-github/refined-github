@@ -6,6 +6,7 @@ import {RGHOptions} from '../options-storage';
 
 export const updateHotfixes = cache.function(async (): Promise<string[][]> => {
 	// The explicit endpoint is necessary because it shouldn't change on GHE
+	// We can't use `https://raw.githubusercontent.com` because of permission issues https://github.com/refined-github/refined-github/pull/3530#issuecomment-691595925
 	const request = await fetch('https://api.github.com/repos/refined-github/refined-github/contents/hotfix.csv?ref=hotfix');
 	const {content} = await request.json();
 
@@ -24,6 +25,7 @@ export const updateHotfixes = cache.function(async (): Promise<string[][]> => {
 });
 
 export const updateStyleHotfixes = cache.function(async (version: string): Promise<string> => {
+	// We can't use `https://raw.githubusercontent.com` because of permission issues https://github.com/refined-github/refined-github/pull/3530#issuecomment-691595925
 	const request = await fetch(`https://api.github.com/repos/refined-github/refined-github/contents/style/${version}.css?ref=hotfix`);
 	const {content} = await request.json();
 
