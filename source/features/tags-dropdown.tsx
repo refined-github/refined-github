@@ -44,7 +44,7 @@ function init(): void {
 		</div>
 	);
 
-	if (pageDetect.isEnterprise()) {
+	if (pageDetect.isEnterprise() || location.href.endsWith('/tags')) {
 		select('.subnav')!.append(tagsDropdown);
 	} else {
 		// Release UI refresh #4902

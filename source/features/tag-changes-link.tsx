@@ -34,8 +34,8 @@ async function getNextPage(): Promise<DocumentFragment> {
 
 function parseTags(element: HTMLElement): TagDetails {
 	// Safari doesn't correctly parse links if they're loaded via AJAX #3899
-	const {pathname: tagUrl} = new URL(select('a[href*="/releases/tag/"]', element)!.href);
-	const tag = /\/releases\/tag\/(.*)/.exec(tagUrl)![1];
+	const {pathname: tagUrl} = new URL(select('a:is([href*="/releases/tag/"], [href*="/tree/"])', element)!.href);
+	const tag = /\/(?:releases\/tag|tree)\/(.*)/.exec(tagUrl)![1];
 
 	return {
 		element,
@@ -78,12 +78,16 @@ async function init(): Promise<void> {
 	const tagsSelector = [
 		// https://github.com/facebook/react/releases (release in releases list)
 		'.release:not(.label-draft)',
+		'.repository-content .col-md-2', // Releases UI refresh #4902
 
 		// https://github.com/facebook/react/releases?after=v16.7.0 (tags in releases list)
 		'.release-main-section .commit',
 
 		// https://github.com/facebook/react/tags (tags list)
 		'.Box-row .commit',
+
+		// https://github.com/facebook/react/releases/tag/v17.0.2 (single release page) -- Releases UI refresh #4902
+		'.Box-body .border-md-bottom',
 	];
 
 	// Look for tags in the current page and the next page
@@ -99,22 +103,38 @@ async function init(): Promise<void> {
 
 		const lastLinks = select.all([
 			'.list-style-none > .d-block:nth-child(2)', // Link to commit in release sidebar
+			'.Link--muted[data-hovercard-type="commit"]', // Link to commit in release sidebar -- Releases UI refresh #4902
 			'.list-style-none > .d-inline-block:last-child', // Link to source tarball under release tag
 		], container.element);
 		for (const lastLink of lastLinks) {
-			lastLink.after(
-				<li className={lastLink.className + ' rgh-changelog-link'}>
-					<a
-						className="Link--muted tooltipped tooltipped-n"
-						aria-label={'See changes since ' + decodeURIComponent(previousTag)}
-						href={buildRepoURL(`compare/${previousTag}...${allTags[index].tag}`)}
-					>
-						<DiffIcon/> Changes
-					</a>
-				</li>,
+			const compareLink = (
+				<a
+					className="Link--muted tooltipped tooltipped-n"
+					aria-label={'See changes since ' + decodeURIComponent(previousTag)}
+					href={buildRepoURL(`compare/${previousTag}...${allTags[index].tag}`)}
+				>
+					{pageDetect.isEnterprise() ? <><DiffIcon/> Changes</> : <><DiffIcon/> <span className="ml-1 wb-break-all">Changes</span></>}
+				</a>
 			);
-			/* Fix spacing issue when the window is < 700px wide https://github.com/refined-github/refined-github/pull/3841#issuecomment-754325056 */
-			lastLink.classList.remove('flex-auto');
+
+			if (pageDetect.isEnterprise() || location.href.endsWith('/tags')) {
+				lastLink.after(
+					<li className={lastLink.className + ' rgh-changelog-link'}>
+						{compareLink}
+					</li>
+				);
+				/* Fix spacing issue when the window is < 700px wide https://github.com/refined-github/refined-github/pull/3841#issuecomment-754325056 */
+				lastLink.classList.remove('flex-auto');
+			} else {
+				// Releases UI refresh #4902
+				lastLink.parentElement!.after(
+					<div className="mb-md-2 mr-3 mr-md-0 rgh-changelog-link">
+						{compareLink}
+					</div>
+				);
+				lastLink.classList.remove('mb-2');
+				lastLink.parentElement!.classList.remove('mb-md-2');
+			}
 		}
 	}
 }
