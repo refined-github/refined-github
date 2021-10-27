@@ -41,7 +41,7 @@ function hovercardInit(): void {
 				}
 
 				reference.replaceChildren(
-					<a className="color-text-secondary" href={url.href}>
+					<a className="color-text-secondary color-fg-muted" href={url.href}>
 						{[...reference.childNodes]}
 					</a>,
 				);

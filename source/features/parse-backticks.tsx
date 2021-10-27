@@ -18,7 +18,7 @@ function init(): void {
 		'.js-socket-channel[data-url*="/header_partial"] h3', // `isActions` run
 		'.js-wiki-sidebar-toggle-display a', // `isWiki` sidebar pages title
 		'#wiki-wrapper .gh-header-title', // `isWiki` page title
-		'.issues_labeled .color-text-primary > a', // `isDashboard` "help wanted" event titles
+		'.issues_labeled :is(.color-text-primary, .color-fg-default) > a', // `isDashboard` "help wanted" event titles
 		'#user-repositories-list [itemprop="description"]', // `isUserProfileRepoTab` repository description
 		'.js-hovercard-content > .Popover-message .Link--primary', // Hovercard
 		'.js-discussions-title-container h1 > .js-issue-title', // `isDiscussion`

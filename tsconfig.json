@@ -2,6 +2,7 @@
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
 		"target": "es2020",
+		"module": "es2020",
 		"declaration": false,
 		"esModuleInterop": true,
 		"noUncheckedIndexedAccess": false,
