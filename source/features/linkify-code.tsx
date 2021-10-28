@@ -26,7 +26,7 @@ function init(): void {
 				linkifyIssues(element);
 			}
 
-			// Mark code block as touched
+			// Mark code block as touched to avoid linkifying twice https://github.com/refined-github/refined-github/pull/4710#discussion_r694896008
 			wrappers.classList.add(linkifiedURLClass);
 		},
 	});
