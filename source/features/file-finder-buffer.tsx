@@ -1,3 +1,4 @@
+import './file-finder-buffer.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
@@ -13,7 +14,7 @@ const getBufferField = onetime((): HTMLInputElement => (
 		style={{
 			backgroundColor: 'transparent',
 			outline: 0,
-			color: 'var(--color-text-primary)',
+			color: 'var(--color-fg-default, var(--color-text-primary))',
 		}}
 		placeholder="Search file…"
 	/> as unknown as HTMLInputElement
@@ -28,26 +29,28 @@ function pjaxStartHandler(event: CustomEvent): void {
 	const bufferField = getBufferField();
 	bufferField.value = '';
 
-	const repoName = select('.pagehead h1 strong, [itemprop="name"]')!;
-	repoName.classList.remove('mr-2');
-	repoName.after(
-		<span className="mx-1 flex-self-stretch color-text-secondary color-fg-muted">/</span>,
+	select('.pagehead h1 strong, [itemprop="name"]')!.after(
+		<span className="mr-1 ml-n2 flex-self-stretch color-text-secondary color-fg-muted">/</span>,
 		<span className="flex-self-stretch mr-2">{bufferField}</span>,
 	);
 	bufferField.focus();
-	for (const element of select.all('.pagehead-actions, .rgh-ci-link details, .octotree-bookmark-btn')) {
-		element.remove();
-	}
+	document.body.classList.add('rgh-file-finder-buffer');
 }
 
 function pjaxCompleteHandler(): void {
+	const bufferField = getBufferField();
 	const fileFinderInput = select('input#tree-finder-field');
 	if (fileFinderInput) {
-		const bufferField = getBufferField();
 		fileFinderInput.value = bufferField.value;
 		fileFinderInput.selectionStart = bufferField.selectionStart;
 		fileFinderInput.selectionEnd = bufferField.selectionEnd;
 		fileFinderInput.dispatchEvent(new Event('input')); // Trigger search
+	}
+
+	if (bufferField) {
+		bufferField.parentElement!.previousElementSibling!.remove();
+		bufferField.parentElement!.remove();
+		document.body.classList.remove('rgh-file-finder-buffer');
 	}
 }
 
