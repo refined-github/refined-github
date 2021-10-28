@@ -47,7 +47,7 @@ function pjaxCompleteHandler(): void {
 		fileFinderInput.dispatchEvent(new Event('input')); // Trigger search
 	}
 
-	if (bufferField) {
+	if (document.body.classList.contains('rgh-file-finder-buffer')) {
 		bufferField.parentElement!.previousElementSibling!.remove();
 		bufferField.parentElement!.remove();
 		document.body.classList.remove('rgh-file-finder-buffer');
