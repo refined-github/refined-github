@@ -71,7 +71,8 @@ async function init(): Promise<false | void> {
 	}
 
 	// TODO [2022-05-01]: Remove `.hx_actions-sidebar` (kept for GHE)
-	for (const workflowListItem of select.all('.filter-item[href*="/workflows/"]', await elementReady('.hx_actions-sidebar, .Layout-sidebar'))) {
+	const workflowsSidebar = await elementReady('.hx_actions-sidebar, .Layout-sidebar');
+	for (const workflowListItem of select.all('.filter-item[href*="/workflows/"]', workflowsSidebar)) {
 		if (select.exists('.octicon-stop', workflowListItem)) {
 			continue;
 		}
@@ -82,11 +83,12 @@ async function init(): Promise<false | void> {
 			continue;
 		}
 
-		const dispatchableTooltip = 'This workflow can be triggered manually';
+		const tooltip: string[] = [];
 		if (workflow.manuallyDispatchable) {
 			workflowListItem.append(<PlayIcon className="ml-1"/>);
+			tooltip.push('This workflow can be triggered manually');
 			workflowListItem.parentElement!.classList.add('tooltipped', 'tooltipped-e');
-			workflowListItem.parentElement!.setAttribute('aria-label', dispatchableTooltip);
+			workflowListItem.parentElement!.setAttribute('aria-label', tooltip.join('\n'));
 		}
 
 		if (workflow.schedule) {
@@ -102,8 +104,9 @@ async function init(): Promise<false | void> {
 				</em>,
 			);
 			setTimeout(() => { // The content of `relative-time` might not be immediately available
+				tooltip.push('Next ' + relativeTime.textContent!);
 				workflowListItem.parentElement!.classList.add('tooltipped', 'tooltipped-e');
-				workflowListItem.parentElement!.setAttribute('aria-label', (workflow.manuallyDispatchable ? dispatchableTooltip + '\n' : '') + 'Next ' + relativeTime.textContent!);
+				workflowListItem.parentElement!.setAttribute('aria-label', tooltip.join('\n'));
 			}, 500);
 		}
 	}
