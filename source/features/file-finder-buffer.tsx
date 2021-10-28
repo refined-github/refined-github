@@ -34,6 +34,8 @@ function pjaxStartHandler(event: CustomEvent): void {
 		<span className="flex-self-stretch mr-2">{bufferField}</span>,
 	);
 	bufferField.focus();
+
+	// Hide the header elements instead of removing them so they can be restored #4999
 	document.body.classList.add('rgh-file-finder-buffer');
 }
 
@@ -47,6 +49,7 @@ function pjaxCompleteHandler(): void {
 		fileFinderInput.dispatchEvent(new Event('input')); // Trigger search
 	}
 
+	// Make sure to clean up the repo header #4999
 	if (document.body.classList.contains('rgh-file-finder-buffer')) {
 		bufferField.parentElement!.previousElementSibling!.remove();
 		bufferField.parentElement!.remove();
