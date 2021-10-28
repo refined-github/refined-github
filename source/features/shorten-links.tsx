@@ -10,7 +10,9 @@ function init(): void {
 	observe(`a[href]:not(.${linkifiedURLClass})`, {
 		constructor: HTMLAnchorElement,
 		add(link) {
-			if (link.closest(linkifiedURLClass)) {
+			// Shorten links in review comments but not code suggestions https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
+			// (see also https://github.com/refined-github/refined-github/pull/4710#discussion_r694896008)
+			if (link.closest('.blob-code, .comment-body, .js-suggested-changes-blob')?.classList.contains('.comment-body') === false) {
 				return;
 			}
 
