@@ -19,6 +19,7 @@ function init(): void {
 			new SearchQuery(link).add('sort:updated-desc');
 		}
 
+		// Also sort projects #4957
 		if (pageDetect.utils.getRepositoryInfo(link)?.path === 'projects') {
 			// Projects use a different parameter name so don't use SearchQuery
 			const search = new URLSearchParams(link.search);
