@@ -44,7 +44,7 @@ function generateSubmenu(hideButton: Element): void {
 	});
 
 	// Imitate existing menu
-	hideCommentForm.classList.add('dropdown-menu', 'dropdown-menu-sw', 'color-text-primary', 'show-more-popover', 'anim-scale-in');
+	hideCommentForm.classList.add('dropdown-menu', 'dropdown-menu-sw', 'color-text-primary', 'color-fg-default', 'show-more-popover', 'anim-scale-in');
 
 	detailsElement.append(hideCommentForm);
 }

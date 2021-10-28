@@ -26,3 +26,23 @@
 	line-height: 1;
 	border-radius: 6px;
 }
+
+/* Add missing spacing for file template buttons #4899 */
+.js-template-suggestion:not(.d-none) {
+	margin-left: 8px;
+}
+
+/* Avoid scroll bar on single-line `pre` in Markdown #4899 */
+.zeroclipboard-container clipboard-copy {
+	margin-bottom: 0 !important;
+}
+
+/* Bold username in conversation lists #4899 */
+:is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type='user'] {
+	font-weight: 600;
+}
+
+/* Monospace commit SHA in PR commit lists #4899 */
+#commits_bucket [aria-label='View commit details'] {
+	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace !important;
+}

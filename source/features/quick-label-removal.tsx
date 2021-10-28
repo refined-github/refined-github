@@ -24,14 +24,6 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 	});
 
 	removeLabelButton.closest('a')!.remove();
-
-	// Force update of label selector if necessary
-	if (!select.exists('.sidebar-labels include-fragment')) {
-		const deferredContentWrapper = select('.sidebar-labels .hx_rsm-content')!;
-		const menu = deferredContentWrapper.closest('[src]')!;
-		deferredContentWrapper.textContent = '';
-		deferredContentWrapper.append(<include-fragment src={menu.getAttribute('src')!}/>);
-	}
 }
 
 async function init(): Promise<void> {

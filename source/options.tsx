@@ -92,7 +92,7 @@ async function validateToken(): Promise<void> {
 function moveNewAndDisabledFeaturesToTop(): void {
 	const container = select('.js-features')!;
 
-	for (const unchecked of select.all('.feature [type=checkbox]:not(:checked)', container).reverse()) {
+	for (const unchecked of select.all('.feature-checkbox:not(:checked)', container).reverse()) {
 		// .reverse() needed to preserve alphabetical order while prepending
 		container.prepend(unchecked.closest('.feature')!);
 	}
@@ -109,7 +109,7 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
-			<input type="checkbox" name={`feature:${id}`} id={id}/>
+			<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox"/>
 			<div className="info">
 				<label className="feature-name" htmlFor={id}>{id}</label>
 				{' '}
@@ -187,7 +187,7 @@ async function highlightNewFeatures(): Promise<void> {
 	const isFirstVisit = Object.keys(featuresAlreadySeen).length === 0;
 	const tenDaysAgo = Date.now() - (10 * 24 * 60 * 60 * 1000);
 
-	for (const feature of select.all('.feature [type=checkbox]:first-child')) {
+	for (const feature of select.all('.feature-checkbox')) {
 		if (!(feature.id in featuresAlreadySeen)) {
 			featuresAlreadySeen[feature.id] = isFirstVisit ? tenDaysAgo : Date.now();
 		}

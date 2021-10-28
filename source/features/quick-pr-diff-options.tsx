@@ -9,7 +9,7 @@ function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 	const url = new URL(location.href);
 	url.searchParams.set('diff', type);
 	const classes = pageDetect.isPR()
-		? 'tooltipped tooltipped-s d-none d-lg-block ml-2 color-icon-secondary'
+		? 'tooltipped tooltipped-s d-none d-lg-block ml-2 color-icon-secondary color-fg-muted'
 		: 'tooltipped tooltipped-s btn btn-sm BtnGroup-item ' + (selected ? 'selected' : '');
 
 	return (
@@ -54,8 +54,8 @@ function createWhitespaceButton(): HTMLElement {
 	}
 
 	const classes = pageDetect.isPR()
-		? 'tooltipped tooltipped-s d-none d-lg-block color-icon-secondary ' + (isHidingWhitespace ? '' : 'color-icon-info')
-		: 'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace ? 'bg-gray-light color-text-tertiary' : '');
+		? 'tooltipped tooltipped-s d-none d-lg-block color-icon-secondary color-fg-muted ' + (isHidingWhitespace ? '' : 'color-icon-info color-fg-accent')
+		: 'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace ? 'color-text-tertiary color-fg-muted' : '');
 
 	return (
 		<a
@@ -83,7 +83,8 @@ function initPR(): false | void {
 	}
 
 	// Only show the native dropdown on medium and small screens #2597
-	select('.js-diff-settings')!.closest('details')!.classList.add('d-lg-none');
+	// TODO [2022-05-01]: Remove `.js-diff-settings` from the selector (kept for GHE)
+	select('.js-diff-settings, [aria-label="Diff settings"]')!.closest('details')!.classList.add('d-lg-none');
 
 	// Make space for the new button by removing "Changes from" #655
 	select('[data-hotkey="c"] strong')!.previousSibling!.remove();
