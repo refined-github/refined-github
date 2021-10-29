@@ -3,10 +3,12 @@ import elementReady from 'element-ready';
 
 import features from '.';
 import {wrapAll} from '../helpers/dom-utils';
+import {getNewFeatureName} from '../options-storage';
 
 async function init(): Promise<void | false> {
 	const [, currentFeature] = /features\/([^.]+)/.exec(location.pathname)!;
-	const feature = features.meta.find(feature => feature.id === currentFeature);
+	const currentFeatureName = getNewFeatureName(currentFeature);
+	const feature = features.meta.find(feature => feature.id === currentFeatureName);
 	if (!feature) {
 		return false;
 	}

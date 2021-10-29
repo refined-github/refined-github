@@ -9,8 +9,8 @@ import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
 import {getLocalHotfixes} from './helpers/hotfix';
-import {perDomainOptions} from './options-storage';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
+import {perDomainOptions, renamedFeatures} from './options-storage';
 
 interface Status {
 	error?: true;
@@ -184,9 +184,12 @@ function featuresFilterHandler(event: Event): void {
 
 async function highlightNewFeatures(): Promise<void> {
 	const {featuresAlreadySeen} = await browser.storage.local.get({featuresAlreadySeen: {}});
+	for (const [from, to] of renamedFeatures) {
+		featuresAlreadySeen[to] = featuresAlreadySeen[from];
+	}
+
 	const isFirstVisit = Object.keys(featuresAlreadySeen).length === 0;
 	const tenDaysAgo = Date.now() - (10 * 24 * 60 * 60 * 1000);
-
 	for (const feature of select.all('.feature-checkbox')) {
 		if (!(feature.id in featuresAlreadySeen)) {
 			featuresAlreadySeen[feature.id] = isFirstVisit ? tenDaysAgo : Date.now();
