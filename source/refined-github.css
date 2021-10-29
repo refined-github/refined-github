@@ -71,7 +71,7 @@
 
 /* Lighten deletions in Markdown */
 .markdown-body del {
-	color: var(--color-fg-muted, var(--color-text-tertiary, #6a737d));
+	color: var(--color-fg-subtle, var(--color-text-tertiary, #6a737d));
 }
 
 /* Make <details> visibly clickable */
