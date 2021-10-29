@@ -66,7 +66,7 @@ void features.add(__filebasename, {
 	],
 	exclude: [
 		pageDetect.isEmptyRepoRoot,
-		() => !pageDetect.isEnterprise() && pageDetect.isSingleTag(),
+		pageDetect.isSingleTag,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,

@@ -113,7 +113,7 @@ async function init(): Promise<void> {
 					aria-label={'See changes since ' + decodeURIComponent(previousTag)}
 					href={buildRepoURL(`compare/${previousTag}...${allTags[index].tag}`)}
 				>
-					{pageDetect.isEnterprise() ? <><DiffIcon/> Changes</> : <><DiffIcon/> <span className="ml-1 wb-break-all">Changes</span></>}
+					<DiffIcon/> {pageDetect.isEnterprise() ? 'Changes' : <span className="ml-1 wb-break-all">Changes</span>}
 				</a>
 			);
 

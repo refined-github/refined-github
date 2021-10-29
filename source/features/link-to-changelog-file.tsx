@@ -92,7 +92,7 @@ void features.add(__filebasename, {
 		pageDetect.isReleasesOrTags,
 	],
 	exclude: [
-		() => !pageDetect.isEnterprise() && pageDetect.isSingleTag(),
+		pageDetect.isSingleTag,
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
