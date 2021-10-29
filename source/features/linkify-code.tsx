@@ -4,7 +4,7 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {selectors} from './show-whitespace';
+import {codeElementsSelectors} from './show-whitespace';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters';
 
@@ -17,7 +17,7 @@ function initTitle(): void {
 }
 
 function init(): void {
-	observe(`:is(${selectors}):not(.${linkifiedURLClass})`, {
+	observe(`:is(${codeElementsSelectors}):not(.${linkifiedURLClass})`, {
 		add(wrappers) {
 			linkifyURLs(wrappers);
 
