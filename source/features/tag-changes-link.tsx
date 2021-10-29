@@ -34,7 +34,10 @@ async function getNextPage(): Promise<DocumentFragment> {
 
 function parseTags(element: HTMLElement): TagDetails {
 	// Safari doesn't correctly parse links if they're loaded via AJAX #3899
-	const {pathname: tagUrl} = new URL(select('a:is([href*="/releases/tag/"], [href*="/tree/"])', element)!.href);
+	const {pathname: tagUrl} = new URL(select([
+		'a:is([href*="/releases/tag/"]', // Before "Releases UI refresh" #4902
+		'a[href*="/tree/"])',
+	], element)!.href);
 	const tag = /\/(?:releases\/tag|tree)\/(.*)/.exec(tagUrl)![1];
 
 	return {
