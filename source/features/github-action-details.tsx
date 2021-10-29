@@ -56,7 +56,7 @@ const getWorkflowsDetails = async (): Promise<Record<string, WorkflowDetails> | 
 
 		const cron = /schedule[:\s-]+cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
 		details[name[1]] = {
-			schedule: cron?.[1] ?? undefined,
+			schedule: cron?.[1],
 			manuallyDispatchable: workflowYaml.includes('workflow_dispatch:'),
 		};
 	}
