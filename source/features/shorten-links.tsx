@@ -11,7 +11,7 @@ function init(): void {
 		constructor: HTMLAnchorElement,
 		add(link) {
 			// Don't shorten links in code or code suggestions (but shorten them in review comments) https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-			if (link.closest('.blob-code, .comment-body, .js-suggested-changes-blob')?.classList.contains('comment-body') === false) {
+			if (link.closest('.blob-code, .comment-body, .js-suggested-changes-blob')?.matches('.blob-code, .js-suggested-changes-blob')) {
 				return;
 			}
 
