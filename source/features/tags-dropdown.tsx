@@ -47,7 +47,6 @@ function init(): void {
 	if (pageDetect.isEnterprise() || location.href.endsWith('/tags')) {
 		select('.subnav')!.append(tagsDropdown);
 	} else {
-		// Release UI refresh #4902
 		select('.subnav-search-input')!.closest('.d-flex')!.before(
 			<div className={window.location.href.endsWith('/tags') ? 'ml-2' : 'mb-2 mr-2'}>
 				{tagsDropdown}

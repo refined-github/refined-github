@@ -73,10 +73,9 @@ async function init(): Promise<void | false> {
 		</a>
 	);
 
-	if (pageDetect.isEnterprise()) {
+	if (pageDetect.isEnterprise()) { // Before "Releases UI refresh" #4902
 		(await elementReady('.subnav div', {waitForChildren: false}))!.after(changelogButton);
 	} else {
-		// Releases UI refresh #4902
 		const releasesOrTagsNavbarSelector = [
 			'nav[aria-label^="Releases and Tags"]', // Release list
 			'.subnav-links', // Tag list

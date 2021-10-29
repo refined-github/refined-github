@@ -77,16 +77,16 @@ async function init(): Promise<void> {
 
 	const tagsSelector = [
 		// https://github.com/facebook/react/releases (release in releases list)
-		'.release:not(.label-draft)',
-		'.repository-content .col-md-2', // Releases UI refresh #4902
+		'.release:not(.label-draft)', // Before "Releases UI refresh" #4902
+		'.repository-content .col-md-2',
 
 		// https://github.com/facebook/react/releases?after=v16.7.0 (tags in releases list)
-		'.release-main-section .commit',
+		'.release-main-section .commit', // Before "Releases UI refresh" #4902
 
 		// https://github.com/facebook/react/tags (tags list)
 		'.Box-row .commit',
 
-		// https://github.com/facebook/react/releases/tag/v17.0.2 (single release page) -- Releases UI refresh #4902
+		// https://github.com/facebook/react/releases/tag/v17.0.2 (single release page)
 		'.Box-body .border-md-bottom',
 	];
 
@@ -102,8 +102,8 @@ async function init(): Promise<void> {
 		}
 
 		const lastLinks = select.all([
-			'.list-style-none > .d-block:nth-child(2)', // Link to commit in release sidebar
-			'.Link--muted[data-hovercard-type="commit"]', // Link to commit in release sidebar -- Releases UI refresh #4902
+			'.list-style-none > .d-block:nth-child(2)', // Link to commit in release sidebar -- Before "Releases UI refresh" #4902
+			'.Link--muted[data-hovercard-type="commit"]', // Link to commit in release sidebar
 			'.list-style-none > .d-inline-block:last-child', // Link to source tarball under release tag
 		], container.element);
 		for (const lastLink of lastLinks) {
@@ -126,7 +126,6 @@ async function init(): Promise<void> {
 				/* Fix spacing issue when the window is < 700px wide https://github.com/refined-github/refined-github/pull/3841#issuecomment-754325056 */
 				lastLink.classList.remove('flex-auto');
 			} else {
-				// Releases UI refresh #4902
 				lastLink.parentElement!.after(
 					<div className="mb-md-2 mr-3 mr-md-0 rgh-changelog-link">
 						{compareLink}

@@ -9,8 +9,8 @@ import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
 
 const editReleaseButtonSelector = [
-	'.Box-btn-octicon[aria-label="Edit"]', // Releases UI refresh #4902
-	'.BtnGroup a[href*="releases/edit"]', // Pre-refresh
+	'.BtnGroup a[href*="releases/edit"]', // Before "Releases UI refresh" #4902
+	'.Box-btn-octicon[aria-label="Edit"]',
 ].join(',');
 
 async function convertToDraft({delegateTarget: draftButton}: delegate.Event): Promise<void> {
@@ -50,10 +50,9 @@ async function init(): Promise<void | false> {
 		</button>
 	);
 
-	if (pageDetect.isEnterprise()) {
+	if (pageDetect.isEnterprise()) { // Before "Releases UI refresh" #4902
 		editButton.after(convertToDraftButton);
 	} else {
-		// Releases UI refresh #4902
 		editButton.before(convertToDraftButton);
 		// Fix spacing but avoid the two buttons sticking together
 		editButton.classList.replace('ml-1', 'ml-0');
