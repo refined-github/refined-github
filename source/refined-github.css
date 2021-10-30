@@ -1,3 +1,27 @@
+/* DO NOT add CSS files here if they are part of a JavaScript feature. */
+/* Import the `.css` file from the `.tsx` instead. */
+
+@import './features/github-bugs.css';
+@import './features/scrollable-code-and-blockquote.css';
+@import './features/center-reactions-popup.css';
+@import './features/safer-destructive-actions.css';
+@import './features/clean-mergeability-box.css';
+@import './features/clean-footer.css';
+@import './features/pr-approvals-count.css';
+@import './features/hide-tips.css';
+@import './features/hide-obvious-tooltips.css';
+@import './features/clean-conversations.css';
+@import './features/sticky-conversation-list-toolbar.css';
+@import './features/always-show-branch-delete-buttons.css';
+@import './features/easier-pr-sha-copy.css';
+@import './features/repo-stats-spacing.css';
+@import './features/emphasize-draft-pr-label.css';
+@import './features/clean-notifications.css';
+@import './features/fix-first-tab-length.css';
+@import './features/align-repository-header.css';
+@import './features/night-not-found.css';
+@import './features/hide-empty-profile-status.css';
+
 :root {
 	--github-green: var(--color-fg-success, #1a7f37);
 	--github-red: var(--color-fg-danger, #cf222e);
@@ -155,4 +179,11 @@ pr-branches
 /* Remove the underline on PR filename copy button hover #4871 */
 .file-header .file-info clipboard-copy {
 	display: inline-block;
+}
+
+/* Limit width of commit title to 72 characters */
+.rgh-monospace-textareas :is(#merge_title_field, #commit-summary-input) {
+	/* 12px for the padding and 1px for the border https://user-images.githubusercontent.com/46634000/136789268-442caa39-33bc-4af3-8fb2-9cf6db722127.png */
+	width: calc(72ch + 26px);
+	max-width: 100%;
 }

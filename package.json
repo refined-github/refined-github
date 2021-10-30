@@ -4,6 +4,7 @@
 	"scripts": {
 		"ava": "ava",
 		"build": "run-p build:* --continue-on-error",
+		"build:parcel": "parcel build --dist-dir distribution --no-source-maps",
 		"build:typescript": "tsc --noEmit",
 		"build:webpack": "cross-env NODE_OPTIONS='--loader ts-node/esm' webpack --mode=production",
 		"fix": "run-p \"lint:* -- --fix\"",
@@ -15,6 +16,7 @@
 		"test": "run-p ava lint:* build:* test:features",
 		"test:features": "node --loader ts-node/esm \"build/verify-features.ts\"",
 		"watch": "run-p watch:* --continue-on-error",
+		"watch:parcel": "parcel watch --dist-dir distribution",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:webpack": "cross-env NODE_OPTIONS='--loader ts-node/esm' webpack --mode=development --watch"
 	},
@@ -88,6 +90,7 @@
 	},
 	"devDependencies": {
 		"@ava/typescript": "^2.0.0",
+		"@parcel/config-webextension": "^2.0.0",
 		"@sindresorhus/tsconfig": "^2.0.0",
 		"@types/chrome": "^0.0.161",
 		"@types/codemirror": "^5.60.5",
@@ -111,6 +114,7 @@
 		"markdown-wasm": "^1.2.0",
 		"mini-css-extract-plugin": "^2.4.3",
 		"npm-run-all": "^4.1.5",
+		"parcel": "^2.0.0",
 		"size-plugin": "^2.0.2",
 		"stylelint": "^13.13.1",
 		"stylelint-config-xo": "^0.20.0",
@@ -127,6 +131,19 @@
 	"engines": {
 		"node": ">= 16",
 		"npm": ">= 7"
+	},
+	"alias": {
+		"react": "dom-chef"
+	},
+	"targets": {
+		"main": false,
+		"default": {
+			"source": "source/manifest.json",
+			"context": "browser",
+			"sourceMap": {
+				"inline": true
+			}
+		}
 	},
 	"webExt": {
 		"sourceDir": "distribution",

@@ -42,7 +42,7 @@
 	font-weight: 600;
 }
 
-/* Monospace commit SHA in PR commit lists #4899 */
-#commits_bucket [aria-label='View commit details'] {
+#commits_bucket [aria-label='View commit details'], /* Monospace commit SHA in PR commit lists #4899 */
+:is(.new_public_key, .new_gpg_key) textarea { /* Monospace textareas for new SSH/GPG keys #4917 */
 	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace !important;
 }

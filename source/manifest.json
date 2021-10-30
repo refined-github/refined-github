@@ -35,8 +35,8 @@
 	"background": {
 		"persistent": false,
 		"scripts": [
-			"build/browser-polyfill.js",
-			"build/background.js"
+			"~/node_modules/webextension-polyfill/dist/browser-polyfill.js",
+			"background.ts"
 		]
 	},
 	"content_scripts": [
@@ -47,15 +47,15 @@
 				"https://gist.github.com/*"
 			],
 			"css": [
-				"build/refined-github.css"
+				"refined-github.css"
 			],
-			"js": [
-				"build/browser-polyfill.js",
-				"build/refined-github.js"
+			"ts": [
+				"~/node_modules/webextension-polyfill/dist/browser-polyfill.js",
+				"refined-github.ts"
 			]
 		}
 	],
 	"web_accessible_resources": [
-		"build/resolve-conflicts.js"
+		"resolve-conflicts.ts"
 	]
 }
