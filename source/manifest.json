@@ -49,7 +49,7 @@
 			"css": [
 				"refined-github.css"
 			],
-			"ts": [
+			"js": [
 				"~/node_modules/webextension-polyfill/dist/browser-polyfill.js",
 				"refined-github.ts"
 			]
