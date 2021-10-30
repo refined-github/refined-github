@@ -7,7 +7,7 @@ import features from '.';
 import {getUsername} from '../github-helpers';
 
 function init(): void {
-	observe('#dashboard .news .watch_started', {
+	observe('#dashboard .news .fork', {
 		constructor: HTMLElement,
 		add(item) {
 			if (select.exists(`a[href^="/${getUsername()!}"]`, item)) {
