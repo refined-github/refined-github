@@ -8,12 +8,10 @@ import features from '.';
 
 const deinit: VoidFunction[] = [];
 
-function getSidebarSelector(): string {
-	return pageDetect.isRepoRoot() ? '.Layout-sidebar > .BorderGrid' : '#partial-discussion-sidebar';
-}
+const sidebarSelector = '.Layout-sidebar > div';
 
 function updateStickiness(): void {
-	const sidebar = select(getSidebarSelector())!;
+	const sidebar = select(sidebarSelector)!;
 	const margin = pageDetect.isConversation() ? 60 : 0; // 60 matches sticky header's height
 	sidebar.classList.toggle('rgh-sticky-sidebar', sidebar.offsetHeight + margin < window.innerHeight);
 }
@@ -22,7 +20,7 @@ const onResize = debounce(updateStickiness, {wait: 100});
 
 function init(): void {
 	const resizeObserver = new ResizeObserver(onResize);
-	const selectObserver = observe(getSidebarSelector(), {
+	const selectObserver = observe(sidebarSelector, {
 		add(sidebar) {
 			resizeObserver.observe(sidebar, {box: 'border-box'});
 		},
