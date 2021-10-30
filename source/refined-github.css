@@ -158,7 +158,8 @@ pr-branches
 }
 
 /* Limit width of commit title to 72 characters */
-.rgh-monospace-textareas :is(#merge_title_field, #commit-summary-input) {
+#merge_title_field,
+#commit-summary-input {
 	/* 12px for the padding and 1px for the border https://user-images.githubusercontent.com/46634000/136789268-442caa39-33bc-4af3-8fb2-9cf6db722127.png */
 	width: calc(72ch + 26px);
 	max-width: 100%;
