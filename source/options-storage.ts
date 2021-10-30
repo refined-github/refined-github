@@ -44,6 +44,7 @@ export function getNewFeatureName(oldFeatureName: string): string {
 	return newFeatureName;
 }
 
+// TODO [2022-05-01]: Remove obsolete color classes & variables https://primer.style/css/support/v18-migration #4970 #4982
 const migrations = [
 	function (options: RGHOptions): void {
 		for (const [from, to] of renamedFeatures) {

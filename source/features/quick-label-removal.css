@@ -20,5 +20,5 @@
 }
 
 [data-color-mode='dark'][data-dark-theme*='dark'] .rgh-quick-label-removal:is(:focus, :hover) svg {
-	fill: var(--color-bg-canvas);
+	fill: var(--color-bg-default, var(--color-bg-canvas));
 }

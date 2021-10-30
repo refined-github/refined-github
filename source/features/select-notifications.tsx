@@ -87,7 +87,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 		Issues: <IssueOpenedIcon className="color-text-secondary color-fg-muted"/>,
 		Open: <CheckCircleIcon className="color-text-success color-fg-success"/>,
 		Closed: <XCircleIcon className="color-text-danger color-fg-danger"/>,
-		Draft: <GitPullRequestDraftIcon className="color-text-tertiary color-fg-muted"/>,
+		Draft: <GitPullRequestDraftIcon className="color-text-tertiary color-fg-subtle"/>,
 		Merged: <GitMergeIcon className="color-fg-done"/>,
 		Read: <DotIcon className="color-text-link color-fg-accent"/>,
 		Unread: <DotFillIcon className="color-text-link color-fg-accent"/>,

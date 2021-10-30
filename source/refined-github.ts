@@ -33,7 +33,6 @@ import './features/hide-low-quality-comments';
 import './features/hide-noisy-newsfeed-events';
 import './features/hide-watch-and-fork-count';
 import './features/minimize-upload-bar';
-import './features/monospace-textareas';
 import './features/hide-diff-signs';
 
 import './features/useful-not-found-page';

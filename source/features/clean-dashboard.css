@@ -14,7 +14,7 @@
 
 /* Add background and border Whole list */
 .rgh-clean-dashboard .news > .f4 + div {
-	background-color: var(--color-canvas-default, var(--color-bg-canvas));
+	background-color: var(--color-bg-default, var(--color-bg-canvas));
 	border: 1px solid var(--github-border-color);
 	border-radius: 6px;
 	margin-top: 8px !important;

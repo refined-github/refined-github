@@ -106,13 +106,9 @@ function discussionInit(): void {
 void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments,
-	],
-	deduplicate: 'has-rgh-inner',
-	init,
-}, {
-	include: [
 		pageDetect.isReleasesOrTags,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 }, {
 	include: [
