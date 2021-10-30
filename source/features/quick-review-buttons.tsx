@@ -31,10 +31,8 @@ function init(): false | void {
 		const tooltip = radio.parentElement!.getAttribute('aria-label');
 
 		const classes = ['btn btn-sm'];
-		if (radio.value === 'approve') {
+		if (radio.value === 'comment') {
 			classes.push('btn-primary');
-		} else if (radio.value === 'reject') {
-			classes.push('btn-danger');
 		}
 
 		if (tooltip) {
