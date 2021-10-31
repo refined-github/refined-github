@@ -45,7 +45,7 @@ function createDiffStyleToggle(): DocumentFragment {
 
 function isHidingWhitespace(): boolean {
 	// The selector is the native button
-	return new URL(location.href).searchParams.get('w') === '1' || select.exists('button[name="w"][value="0"]');
+	return new URL(location.href).searchParams.get('w') === '1' || select.exists('button[name="w"][value="0"]:not([hidden])');
 }
 
 function createWhitespaceButton(): HTMLElement {
@@ -58,7 +58,7 @@ function createWhitespaceButton(): HTMLElement {
 	}
 
 	const classes = pageDetect.isPR()
-		? 'tooltipped tooltipped-s d-none d-lg-block color-icon-secondary color-fg-muted ' + (isHidingWhitespace() ? '' : 'color-icon-info color-fg-accent')
+		? 'tooltipped tooltipped-s d-none d-lg-block color-icon-secondary color-fg-muted'
 		: 'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-text-tertiary color-fg-subtle' : '');
 
 	return (
@@ -68,7 +68,7 @@ function createWhitespaceButton(): HTMLElement {
 			className={classes}
 			aria-label={`${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`}
 		>
-			{pageDetect.isPR() ? <DiffModifiedIcon/> : <>{isHidingWhitespace() && <CheckIcon/>} No Whitespace</>}
+			{pageDetect.isPR() ? <DiffModifiedIcon className="v-align-middle"/> : <>{isHidingWhitespace() && <CheckIcon/>} No Whitespace</>}
 		</a>
 	);
 }
