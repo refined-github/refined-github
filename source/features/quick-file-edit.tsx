@@ -17,8 +17,7 @@ function onClick(event: React.MouseEvent): void {
 		return;
 	}
 
-	event.preventDefault();
-	location.href = (event.target as HTMLElement).closest('a')!.href;
+	(event.target as HTMLElement).closest('.js-navigation-container')!.removeAttribute('data-pjax');
 }
 
 async function init(): Promise<void> {
