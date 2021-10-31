@@ -8,7 +8,7 @@ import features from '.';
 
 const deinit: VoidFunction[] = [];
 
-// The first class in parentheses is for the repo root, the second one for conversation pages
+// The first selector in the parentheses is for the repo root, the second one for conversation pages
 const sidebarSelector = '.Layout-sidebar :is(.BorderGrid, #partial-discussion-sidebar)';
 
 function updateStickiness(): void {
