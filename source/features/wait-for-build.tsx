@@ -75,6 +75,12 @@ async function handleMergeConfirmation(event: delegate.Event<Event, HTMLButtonEl
 	}
 }
 
+function onBeforeunload(event: BeforeUnloadEvent): void {
+	if (waiting) {
+		event.returnValue = '';
+	}
+}
+
 function init(): void {
 	// Watch for new commits and their statuses
 	prCiStatus.addEventListener(showCheckboxIfNecessary);
@@ -90,11 +96,11 @@ function init(): void {
 	});
 
 	// Warn user if it's not yet submitted.
-	window.addEventListener('beforeunload', event => {
-		if (waiting) {
-			event.returnValue = '';
-		}
-	});
+	window.addEventListener('beforeunload', onBeforeunload);
+}
+
+function deinit(): void {
+	window.removeEventListener('beforeunload', onBeforeunload);
 }
 
 void features.add(__filebasename, {
@@ -107,4 +113,5 @@ void features.add(__filebasename, {
 	],
 	deduplicate: 'has-rgh-inner',
 	init,
+	deinit,
 });
