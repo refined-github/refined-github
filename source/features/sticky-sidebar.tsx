@@ -9,7 +9,7 @@ import features from '.';
 const deinit: VoidFunction[] = [];
 
 // The first class in parentheses is for the repo root, the second one for conversation pages
-const sidebarSelector = '.Layout-sidebar > :is(.Border-grid, #partial-discussion-sidebar)';
+const sidebarSelector = '.Layout-sidebar :is(.BorderGrid, #partial-discussion-sidebar)';
 
 function updateStickiness(): void {
 	const sidebar = select(sidebarSelector)!;
