@@ -112,7 +112,7 @@ function initCommitAndCompare(): false | void {
 	);
 
 	// Remove previous options UI
-	select('[data-ga-load^="Diff, view"]')!.remove();
+	select('[action="/users/diffview"]')!.parentElement!.remove();
 }
 
 void features.add(__filebasename, {
