@@ -34,8 +34,6 @@ function init(): false | void {
 		const classes = ['btn btn-sm'];
 		if (radio.value === 'comment') {
 			classes.push('btn-primary');
-		} else {
-			classes.push('float-left mr-2');
 		}
 
 		if (tooltip) {
@@ -66,9 +64,8 @@ function init(): false | void {
 		container.append(button);
 	}
 
-	// Comment button must be last; cancel button must be first
+	// Cancel button must be first
 	if (radios.length > 1) {
-		container.append(select('button[value="comment"]', form)!);
 		const cancelReview = select('.review-cancel-button', form);
 		if (cancelReview) {
 			cancelReview.classList.add('float-left');
