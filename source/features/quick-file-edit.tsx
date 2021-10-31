@@ -8,8 +8,18 @@ import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 import {isPermalink} from '../github-helpers';
+import isModifierKeys from '../helpers/is-modifier-keys';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onFileListUpdate from '../github-events/on-file-list-update';
+
+function onClick(event: React.MouseEvent): void {
+	if (isModifierKeys(event)) {
+		return;
+	}
+
+	event.preventDefault();
+	location.href = (event.target as HTMLElement).closest('a')!.href;
+}
 
 async function init(): Promise<void> {
 	const isPermalink_ = await isPermalink();
@@ -24,7 +34,7 @@ async function init(): Promise<void> {
 			url.branch = await getDefaultBranch(); // Permalinks can't be edited
 		}
 
-		wrap(fileIcon, <a href={url.href} className="rgh-quick-file-edit"/>);
+		wrap(fileIcon, <a href={url.href} className="rgh-quick-file-edit" onClick={onClick}/>);
 		fileIcon.after(<PencilIcon/>);
 	}
 }

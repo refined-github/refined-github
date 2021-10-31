@@ -8,6 +8,7 @@ import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
+import isModifierKeys from './helpers/is-modifier-keys';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
 import {perDomainOptions, renamedFeatures} from './options-storage';
@@ -156,7 +157,7 @@ async function findFeatureHandler(event: Event): Promise<void> {
 }
 
 function summaryHandler(event: delegate.Event<MouseEvent>): void {
-	if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+	if (isModifierKeys(event)) {
 		return;
 	}
 
