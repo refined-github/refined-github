@@ -7,7 +7,6 @@ import * as pageDetect from 'github-url-detection';
 import tinyVersionCompare from 'tiny-version-compare';
 
 import features from '.';
-import {isTags} from './tags-dropdown';
 import fetchDom from '../helpers/fetch-dom';
 import {buildRepoURL, getRepo, parseTag} from '../github-helpers';
 
@@ -121,7 +120,7 @@ async function init(): Promise<void> {
 				</a>
 			);
 
-			if (pageDetect.isEnterprise() || isTags()) {
+			if (pageDetect.isEnterprise() || pageDetect.isTags()) {
 				lastLink.after(
 					<li className={lastLink.className + ' rgh-changelog-link'}>
 						{compareLink}

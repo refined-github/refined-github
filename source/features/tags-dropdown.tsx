@@ -22,11 +22,6 @@ function updateLinksToTag(): void {
 	}
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export function isTags(): boolean {
-	return pageDetect.utils.getRepositoryInfo()?.path === 'tags';
-}
-
 function init(): void {
 	const tagsDropdown = (
 		<div className="rgh-tags-dropdown float-right d-flex flex-shrink-0 flex-items-center">
@@ -49,11 +44,11 @@ function init(): void {
 		</div>
 	);
 
-	if (pageDetect.isEnterprise() || isTags()) {
+	if (pageDetect.isEnterprise() || pageDetect.isTags()) {
 		select('.subnav')!.append(tagsDropdown);
 	} else {
 		select('.subnav-search-input')!.closest('.d-flex')!.before(
-			<div className={isTags() ? 'ml-2' : 'mb-2 mr-2'}>
+			<div className={pageDetect.isTags() ? 'ml-2' : 'mb-2 mr-2'}>
 				{tagsDropdown}
 			</div>,
 		);
