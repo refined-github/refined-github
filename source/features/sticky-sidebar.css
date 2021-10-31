@@ -23,7 +23,7 @@
 	display: none;
 }
 
-/* Restores the top margin on repo root */
+/* Resets the top margin on repo root */
 .rgh-sticky-sidebar.BorderGrid--spacious {
 	margin-top: 0;
 }
