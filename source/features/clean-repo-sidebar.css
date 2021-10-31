@@ -8,8 +8,8 @@
 	display: none;
 }
 
-/* Align the top of the sidebar with the main page content */
-/* Avoid breaking the sidebar alignment in PR discussions #4642 */
-.rgh-clean-repo-sidebar div:not(#discussion_bucket) > .gutter-condensed > :last-child {
+/* Align the top of the repo root sidebar with the main page content */
+/* `:not(#discussion_bucket)` avoids breaking the sidebar alignment in PR discussions #4642 */
+.rgh-clean-repo-sidebar div:not(#discussion_bucket) > div > .Layout-sidebar {
 	margin-top: -16px !important;
 }
