@@ -104,17 +104,6 @@ function initPR(): false | void {
 }
 
 function initCommitAndCompare(): false | void {
-	const container = select('#toc')!;
-	container.append(
-		<div className="diffbar-item d-flex">{createDiffStyleToggle()}</div>,
-	);
-
-	if (!isHidingWhitespace()) {
-		container.append(
-			<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>,
-		);
-	}
-
 	select('#toc')!.prepend(
 		<div className="float-right d-flex">
 			<div className="d-flex ml-3 BtnGroup">{createDiffStyleToggle()}</div>
