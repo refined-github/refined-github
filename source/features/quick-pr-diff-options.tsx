@@ -73,7 +73,7 @@ function createWhitespaceButton(): HTMLElement {
 	);
 }
 
-function initPR(): false | void {
+function init(): false | void {
 	// TODO [2022-05-01]: Remove `.js-diff-settings` from the selector (kept for GHE)
 	const originalToggle = select('.js-diff-settings, [aria-label="Diff settings"]')!.closest('details')!.parentElement!;
 
@@ -103,18 +103,6 @@ function initPR(): false | void {
 	select('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-sm-2');
 }
 
-function initCommitAndCompare(): false | void {
-	select('#toc')!.prepend(
-		<div className="float-right d-flex">
-			<div className="d-flex ml-3 BtnGroup">{createDiffStyleToggle()}</div>
-			<div className="d-flex ml-3 BtnGroup">{createWhitespaceButton()}</div>
-		</div>,
-	);
-
-	// Remove previous options UI
-	select('[action="/users/diffview"]')!.parentElement!.remove();
-}
-
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isPRFiles,
@@ -127,14 +115,5 @@ void features.add(__filebasename, {
 		'd w': 'Show/hide whitespaces in diffs',
 	},
 	deduplicate: 'has-rgh-inner',
-	init: initPR,
-}, {
-	include: [
-		pageDetect.isSingleCommit,
-		pageDetect.isCompare,
-	],
-	shortcuts: {
-		'd w': 'Show/hide whitespaces in diffs',
-	},
-	init: initCommitAndCompare,
+	init,
 });
