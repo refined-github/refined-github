@@ -7,8 +7,9 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 const deinit: VoidFunction[] = [];
-// Both selectors are present on conversation pages so we need to discriminate
-const sidebarSelector = pageDetect.isRepoRoot() ? '.repository-content .flex-column > .flex-shrink-0 > [data-pjax]' : '#partial-discussion-sidebar';
+
+// The first selector in the parentheses is for the repo root, the second one for conversation pages
+const sidebarSelector = '.Layout-sidebar :is(.BorderGrid, #partial-discussion-sidebar)';
 
 function updateStickiness(): void {
 	const sidebar = select(sidebarSelector)!;

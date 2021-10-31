@@ -12,12 +12,12 @@
 }
 
 :root {
-	--github-red: #cf222e;
+	--rgh-red: #cf222e;
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--github-red: #f85149;
+		--rgh-red: #f85149;
 	}
 }
 
@@ -64,7 +64,7 @@ li[data-validation] {
 }
 
 [name='personalToken']:invalid {
-	border-color: var(--github-red) !important;
+	border-color: var(--rgh-red) !important;
 }
 
 .feature:not([hidden]) {
@@ -74,7 +74,7 @@ li[data-validation] {
 .js-hotfixes:not(:empty) {
 	margin-bottom: 15px;
 	padding: 10px 15px;
-	border: 1px solid var(--github-red);
+	border: 1px solid var(--rgh-red);
 	border-radius: 0.2em;
 }
 
@@ -130,7 +130,7 @@ li[data-validation] {
 	padding: 0 0.3em;
 	margin-left: 0.8em;
 	text-transform: uppercase;
-	color: var(--github-red);
+	color: var(--rgh-red);
 }
 
 .sr-only {
@@ -141,8 +141,8 @@ li[data-validation] {
 	--background:
 		repeating-linear-gradient(
 			45deg,
-			var(--github-red),
-			var(--github-red) 7px,
+			var(--rgh-red),
+			var(--rgh-red) 7px,
 			transparent 7px,
 			transparent 14px
 		) no-repeat;

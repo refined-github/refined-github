@@ -17,7 +17,7 @@
 }
 
 .mergeability-details .js-details-container :is(.color-text-danger, .color-fg-danger) + .status-meta {
-	color: var(--github-red);
+	color: var(--rgh-red);
 }
 
 .mergeability-details .branch-action-item-icon {
