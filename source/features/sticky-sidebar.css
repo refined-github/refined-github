@@ -25,10 +25,10 @@
 
 /* Restores the top margin on repo root */
 .rgh-sticky-sidebar.BorderGrid--spacious {
-    margin-top: 0;
+	margin-top: 0;
 }
 
 /* Hides the top padding on repo root */
 .rgh-sticky-sidebar.BorderGrid--spacious .BorderGrid-cell {
-    padding-top: 0;
+	padding-top: 0;
 }
