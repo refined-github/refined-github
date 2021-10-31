@@ -120,7 +120,7 @@ async function init(): Promise<void> {
 				</a>
 			);
 
-			if (pageDetect.isEnterprise() || location.href.endsWith('/tags')) {
+			if (pageDetect.isEnterprise() || pageDetect.utils.getRepositoryInfo()?.path === 'tags') {
 				lastLink.after(
 					<li className={lastLink.className + ' rgh-changelog-link'}>
 						{compareLink}
