@@ -73,6 +73,13 @@ export default class GitHubURL {
 
 	set pathname(pathname: string) {
 		const [user, repository, route, ...ambiguousReference] = pathname.replace(/^\/|\/$/g, '').split('/');
+		// Handle branch names containing multiple slashes #4492
+		if (ambiguousReference.length === 2 && ambiguousReference[1].includes('%2F')) {
+			const branch = ambiguousReference.join('/').replace(/%2F/g, '/');
+			this.assign({user, repository, route, branch, filePath: ''});
+			return;
+		}
+
 		const {branch, filePath} = this.disambiguateReference(ambiguousReference);
 		this.assign({user, repository, route, branch, filePath});
 	}
