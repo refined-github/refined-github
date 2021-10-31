@@ -43,33 +43,39 @@ function createDiffStyleToggle(): DocumentFragment {
 	);
 }
 
-function isHidingWhitespace() : boolean {
-	 // The selector is the native button
+function isHidingWhitespace(): boolean {
+	// The selector is the native button
 	return new URL(location.href).searchParams.get('w') === '1' || select.exists('button[name="w"][value="0"]');
 }
 
 function createWhitespaceButton(): HTMLElement {
 	const url = new URL(location.href);
-	url.searchParams.set('w', '1');
+
+	if (isHidingWhitespace()) {
+		url.searchParams.delete('w');
+	} else {
+		url.searchParams.set('w', '1');
+	}
 
 	const classes = pageDetect.isPR()
-		? 'tooltipped tooltipped-s d-none d-lg-block color-icon-secondary color-fg-muted color-icon-info color-fg-accent'
-		: 'tooltipped tooltipped-s btn btn-sm tooltipped';
+		? 'tooltipped tooltipped-s d-none d-lg-block color-icon-secondary color-fg-muted ' + (isHidingWhitespace() ? '' : 'color-icon-info color-fg-accent')
+		: 'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-text-tertiary color-fg-subtle' : '');
 
 	return (
 		<a
 			href={url.href}
 			data-hotkey="d w"
 			className={classes}
-			aria-label="Hide whitespace changes"
+			aria-label={`${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`}
 		>
-			{pageDetect.isPR() ? <DiffModifiedIcon/> : <><CheckIcon/> No Whitespace</>}
+			{pageDetect.isPR() ? <DiffModifiedIcon/> : <>{isHidingWhitespace() && <CheckIcon/>} No Whitespace</>}
 		</a>
 	);
 }
+
 function initPR(): false | void {
 	// TODO [2022-05-01]: Remove `.js-diff-settings` from the selector (kept for GHE)
-	const originalToggle = select('.js-diff-settings, [aria-label="Diff settings"]')!.closest('details')!.parentElement!
+	const originalToggle = select('.js-diff-settings, [aria-label="Diff settings"]')!.closest('details')!.parentElement!;
 
 	if (!isHidingWhitespace()) {
 		originalToggle.after(
