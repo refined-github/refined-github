@@ -2,7 +2,7 @@
 	--rgh-green: var(--color-fg-success, #1a7f37);
 	--rgh-red: var(--color-fg-danger, #cf222e);
 	--rgh-border-color: var(--color-border-muted, #d8dee4);
-	--rgh-background: var(--color-canvas-default, var(--color-bg-default, var(--color-bg-canvas, #fff)));
+	--rgh-background: var(--color-canvas-default, var(--color-bg-canvas, #fff));
 }
 
 /* Make tab indented code more readable on GitHub and Gist */
