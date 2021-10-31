@@ -53,11 +53,9 @@ function init(): false | void {
 			</button>
 		);
 
-		if (radio.value === 'approve') {
+		if (!radio.disabled && radio.value === 'approve') {
 			button.prepend(<CheckIcon className="color-fg-success"/>);
-		}
-
-		if (radio.value === 'reject') {
+		} else if (!radio.disabled && radio.value === 'reject') {
 			button.prepend(<FileDiffIcon className="color-fg-danger"/>);
 		}
 
