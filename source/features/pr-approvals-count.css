@@ -7,12 +7,12 @@
 	all: unset;
 	content: attr(aria-label);
 	display: inline !important;
-	color: var(--github-green);
+	color: var(--rgh-green);
 	font-size: 12px;
 }
 
 .js-issue-row :is(.color-text-secondary, .color-fg-muted) [href$='#partial-pull-merging'][aria-label*='changes'] {
-	color: var(--github-red) !important;
+	color: var(--rgh-red) !important;
 }
 
 /* Disable now-duplicate tooltip */

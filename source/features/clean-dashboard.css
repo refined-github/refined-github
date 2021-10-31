@@ -15,7 +15,7 @@
 /* Add background and border Whole list */
 .rgh-clean-dashboard .news > .f4 + div {
 	background-color: var(--rgh-background);
-	border: 1px solid var(--github-border-color);
+	border: 1px solid var(--rgh-border-color);
 	border-radius: 6px;
 	margin-top: 8px !important;
 }
@@ -61,7 +61,7 @@
 
 /* Grouped events: Show separator */
 .rgh-clean-dashboard .dashboard-rollup-items .body {
-	border-top: 1px solid var(--github-border-color);
+	border-top: 1px solid var(--rgh-border-color);
 	margin-top: 8px;
 }
 
