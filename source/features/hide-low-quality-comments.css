@@ -5,11 +5,11 @@
 }
 
 .rgh-hidden-comment .timeline-comment {
-	border-color: var(--github-red);
+	border-color: var(--rgh-red);
 }
 
 .rgh-hidden-comment .timeline-comment--caret::before {
-	background-color: var(--github-red);
+	background-color: var(--rgh-red);
 }
 
 .rgh-hidden-comment .timeline-comment--caret::after {
