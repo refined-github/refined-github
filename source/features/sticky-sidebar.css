@@ -23,7 +23,7 @@
 	display: none;
 }
 
-/* Hides the top margin on repo root */
+/* Removes the top margin of the sidebar on the repo root */
 .BorderGrid.rgh-sticky-sidebar h2 + p.f4 {
 	margin-top: 0 !important;
 }
