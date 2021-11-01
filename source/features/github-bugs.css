@@ -46,3 +46,8 @@
 :is(.new_public_key, .new_gpg_key) textarea { /* Monospace textareas for new SSH/GPG keys #4917 */
 	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace !important;
 }
+
+/* Limit width of comment form on commit pages #5032 */
+#all_commit_comments .timeline-comment-wrapper {
+	max-width: 780px;
+}
