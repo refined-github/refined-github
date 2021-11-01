@@ -23,18 +23,7 @@
 	display: none;
 }
 
-/* Resets the top margin on repo root */
-.rgh-sticky-sidebar.BorderGrid--spacious {
-	margin-top: 0;
-}
-
-/* Hides the top padding on repo root */
-.rgh-sticky-sidebar.BorderGrid--spacious .BorderGrid-cell {
-	padding-top: 0;
-}
-
-/* Adds top margin when sidebar settings icon is present */
-.rgh-sticky-sidebar.BorderGrid--spacious .BorderGrid-cell > details {
-	margin-top: 8px;
-	padding-top: 8px;
+/* Hides the top margin on repo root */
+.BorderGrid.rgh-sticky-sidebar h2 + p.f4 {
+	margin-top: 0 !important;
 }
