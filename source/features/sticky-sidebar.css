@@ -22,8 +22,3 @@
 .rgh-sticky-sidebar + .border-top {
 	display: none;
 }
-
-/* Removes the top margin of the sidebar on the repo root */
-.BorderGrid.rgh-sticky-sidebar h2 + p.f4 {
-	margin-top: 0 !important;
-}
