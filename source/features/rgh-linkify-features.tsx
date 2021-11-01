@@ -15,7 +15,7 @@ function linkifyFeature(codeElement: HTMLElement): void {
 		const href = featureLink(id);
 
 		const possibleLink = codeElement.firstElementChild ?? codeElement;
-		if (possibleLink instanceof HTMLAnchorElement) {
+		if (possibleLink instanceof HTMLAnchorElement && possibleLink.pathname.startsWith('/refined-github/refined-github/commit/')) {
 			possibleLink.href = href;
 			possibleLink.classList.add('color-fg-accent');
 		} else if (!codeElement.closest('a')) {
