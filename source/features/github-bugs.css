@@ -49,5 +49,5 @@
 
 /* Limit width of comment form on commit pages #5032 */
 #all_commit_comments .timeline-comment-wrapper {
-	max-width: 780px;
+	max-width: 780px; /* This is the limit applied on the comment thread by `.comment-holder` */
 }
