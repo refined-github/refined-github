@@ -60,7 +60,7 @@ async function getPRs(): Promise<[prCount: number, url: string] | []> {
 		return [count, `/${forkedRepo}/pull/${firstPr!}`];
 	}
 
-	return [count, `/${forkedRepo}/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc+author%3A%40me`];
+	return [count, `/${forkedRepo}/pulls?q=${encodeURIComponent('is:pr is:open sort:updated-desc author:@me')}`];
 }
 
 async function initHeadHint(): Promise<void | false> {
