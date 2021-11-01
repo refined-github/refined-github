@@ -18,7 +18,13 @@ function linkifyFeature(codeElement: HTMLElement): void {
 			possibleLink.href = href;
 			possibleLink.classList.add('color-fg-accent');
 		} else if (!codeElement.closest('a')) {
-			wrap(codeElement, <a className="color-fg-accent" href={href}/>);
+			const link = <a className="color-fg-accent" href={href}/>;
+
+			if (pageDetect.isSingleCommit()) {
+				link.dataset.pjax = '#repo-content-pjax-container';
+			}
+
+			wrap(codeElement, link);
 		}
 	}
 }
