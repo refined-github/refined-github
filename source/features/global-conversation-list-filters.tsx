@@ -5,7 +5,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import SearchQuery from '../github-helpers/search-query';
-import {getUsername} from '../github-helpers';
 
 function init(): void {
 	const defaultQuery = 'is:open archived:false';
@@ -16,8 +15,8 @@ function init(): void {
 	const typeName = isIssues ? 'Issues' : 'Pull Requests';
 
 	const links = [
-		['Commented', `${typeName} you’ve commented on`, `commenter:${getUsername()!}`],
-		['Yours', `${typeName} on your repos`, `user:${getUsername()!}`],
+		['Commented', `${typeName} you’ve commented on`, 'commenter:@me'],
+		['Yours', `${typeName} on your repos`, 'user:@me'],
 	] as const;
 
 	for (const [label, title, query] of links) {
