@@ -10,8 +10,16 @@ import onConversationHeaderUpdate from '../github-events/on-conversation-header-
 
 function linkifyFeature(codeElement: HTMLElement): void {
 	const id = getNewFeatureName(codeElement.textContent!) as FeatureID;
-	if (features.list.includes(id) && !codeElement.closest('a')) {
-		wrap(codeElement, <a href={`/refined-github/refined-github/blob/main/source/features/${id}.tsx`}/>);
+	if (features.list.includes(id)) {
+		const href = `/refined-github/refined-github/blob/main/source/features/${id}.tsx`;
+
+		const possibleLink = codeElement.firstElementChild ?? codeElement;
+		if (possibleLink instanceof HTMLAnchorElement) {
+			possibleLink.href = href;
+			possibleLink.classList.add('color-fg-accent');
+		} else if (!codeElement.closest('a')) {
+			wrap(codeElement, <a className="color-fg-accent" href={href}/>);
+		}
 	}
 }
 
@@ -22,7 +30,7 @@ function initTitle(): void {
 }
 
 function init(): void {
-	for (const possibleMention of select.all('.js-comment-body code, .markdown-body li code')) {
+	for (const possibleMention of select.all(':is(.js-comment-body, .markdown-body li, .markdown-title) code, code .markdown-title')) {
 		linkifyFeature(possibleMention);
 	}
 }
@@ -31,6 +39,9 @@ void features.add(__filebasename, {
 	include: [
 		pageDetect.hasComments,
 		pageDetect.isReleasesOrTags,
+		pageDetect.isCommitList,
+		pageDetect.isSingleCommit,
+		pageDetect.isRepoTree,
 	],
 	exclude: [
 		isNotRefinedGitHubRepo,
