@@ -37,7 +37,11 @@ function initTitle(): void {
 }
 
 function init(): void {
-	for (const possibleMention of select.all(':is(.js-comment-body, .markdown-body li, .markdown-title) code, code .markdown-title')) {
+	// `.js-comment-body code': `hasComments`
+	// `.markdown-body code: `isReleasesOrTags`
+	// `.markdown-title code`: `isSingleCommit`, `isRepoTree`
+	// `code .markdown-title`: `isCommitList`, `isRepoTree`
+	for (const possibleMention of select.all(':is(.js-comment-body, .markdown-body, .markdown-title) code, code .markdown-title')) {
 		linkifyFeature(possibleMention);
 	}
 }
