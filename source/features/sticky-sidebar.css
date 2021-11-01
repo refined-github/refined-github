@@ -19,7 +19,7 @@
 }
 
 .notification-shelf ~ .application-main #partial-discussion-sidebar.rgh-sticky-sidebar {
-	top: 145px !important; /* Sticky header's height + sidebar item's margin */
+	top: 145px !important; /* Notification header's height + sticky header's height + sidebar item's margin */
 }
 
 /* Hides the last divider (on pull requests) to avoid https://user-images.githubusercontent.com/10238474/62282128-af6fb980-b457-11e9-8b18-c29687b88da1.gif */
