@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
+import featureLink from '../helpers/feature-link';
 import {getNewFeatureName} from '../options-storage';
 import {isRefinedGitHubRepo} from '../github-helpers';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
@@ -11,7 +12,7 @@ import onConversationHeaderUpdate from '../github-events/on-conversation-header-
 function linkifyFeature(codeElement: HTMLElement): void {
 	const id = getNewFeatureName(codeElement.textContent!) as FeatureID;
 	if (features.list.includes(id)) {
-		const href = `/refined-github/refined-github/blob/main/source/features/${id}.tsx`;
+		const href = featureLink(id);
 
 		const possibleLink = codeElement.firstElementChild ?? codeElement;
 		if (possibleLink instanceof HTMLAnchorElement) {
