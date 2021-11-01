@@ -87,6 +87,11 @@
 	display: none;
 }
 
+/* Restore right margin for repo descriptions #5024 */
+.rgh-clean-dashboard .dashboard .repo-description {
+	margin-right: 8px;
+}
+
 /* Fade out last line */
 .rgh-clean-dashboard .dashboard .flex-items-baseline .f6.mt-2 {
 	opacity: 50%;
