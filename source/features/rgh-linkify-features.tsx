@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import {getNewFeatureName} from '../options-storage';
-import {isNotRefinedGitHubRepo} from '../github-helpers';
+import {isRefinedGitHubRepo} from '../github-helpers';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 function linkifyFeature(codeElement: HTMLElement): void {
@@ -36,6 +36,9 @@ function init(): void {
 }
 
 void features.add(__filebasename, {
+	asLongAs: [
+		isRefinedGitHubRepo,
+	],
 	include: [
 		pageDetect.hasComments,
 		pageDetect.isReleasesOrTags,
@@ -43,18 +46,15 @@ void features.add(__filebasename, {
 		pageDetect.isSingleCommit,
 		pageDetect.isRepoTree,
 	],
-	exclude: [
-		isNotRefinedGitHubRepo,
-	],
 	deduplicate: 'has-rgh-inner',
 	init,
 }, {
+	asLongAs: [
+		isRefinedGitHubRepo,
+	],
 	include: [
 		pageDetect.isPR,
 		pageDetect.isIssue,
-	],
-	exclude: [
-		isNotRefinedGitHubRepo,
 	],
 	additionalListeners: [
 		onConversationHeaderUpdate,
