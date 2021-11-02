@@ -7,6 +7,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import {wrapAll} from '../helpers/dom-utils';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
 interface FileType {
@@ -59,25 +60,42 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	(await elementReady('.subnav div', {waitForChildren: false}))!.after(
+	const changelogButton = (
 		<a
-			className="btn ml-3 tooltipped tooltipped-n"
+			className={'tooltipped tooltipped-n btn ml-3' + (pageDetect.isEnterprise() ? '' : ' flex-self-start')}
 			aria-label={`View the ${changelog} file`}
 			href={buildRepoURL('blob', 'HEAD', changelog)}
-			style={{padding: '6px 16px'}}
+			style={pageDetect.isEnterprise() ? {padding: '6px 16px'} : {}}
 			role="button"
 		>
-			<BookIcon className="color-text-link mr-2"/>
+			<BookIcon className="color-text-link color-fg-accent mr-2"/>
 			<span>Changelog</span>
-		</a>,
+		</a>
 	);
+
+	if (pageDetect.isEnterprise()) { // Before "Releases UI refresh" #4902
+		(await elementReady('.subnav div', {waitForChildren: false}))!.after(changelogButton);
+	} else {
+		const releasesOrTagsNavbarSelector = [
+			'nav[aria-label^="Releases and Tags"]', // Release list
+			'.subnav-links', // Tag list
+		].join(',');
+
+		const navbar = (await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!;
+		navbar.classList.remove('flex-1');
+		wrapAll([navbar, changelogButton], <div className="d-flex flex-justify-start flex-1"/>);
+	}
 }
 
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isReleasesOrTags,
 	],
+	exclude: [
+		pageDetect.isSingleTag,
+	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init,
 }, {
 	include: [

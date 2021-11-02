@@ -101,7 +101,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 
 	const placeholder = <span>Guessing local time…</span>;
 	const container = (
-		<div className="mt-2 color-text-secondary text-small">
+		<div className="mt-2 color-text-secondary color-fg-muted text-small">
 			<ClockIcon/> {placeholder}
 		</div>
 	);

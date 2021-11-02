@@ -14,10 +14,10 @@ let waiting: symbol | undefined;
 
 // Reuse the same checkbox to preserve its status
 const generateCheckbox = onetime(() => (
-	<label className="d-inline-block">
+	<label className="v-align-text-top">
 		<input checked type="checkbox" name="rgh-pr-check-waiter"/>
 		{' Wait for successful checks '}
-		<a className="discussion-item-help tooltipped tooltipped-n" target="_blank" rel="noopener noreferrer" href="https://github.com/refined-github/refined-github/pull/975" aria-label="This only works if you keep this tab open while waiting.">
+		<a className="tooltipped tooltipped-n ml-1" target="_blank" rel="noopener noreferrer" href="https://github.com/refined-github/refined-github/pull/975" aria-label="This only works if you keep this tab open while waiting.">
 			<InfoIcon/>
 		</a>
 	</label>
@@ -75,6 +75,12 @@ async function handleMergeConfirmation(event: delegate.Event<Event, HTMLButtonEl
 	}
 }
 
+function onBeforeunload(event: BeforeUnloadEvent): void {
+	if (waiting) {
+		event.returnValue = '';
+	}
+}
+
 function init(): void {
 	// Watch for new commits and their statuses
 	prCiStatus.addEventListener(showCheckboxIfNecessary);
@@ -90,12 +96,11 @@ function init(): void {
 	});
 
 	// Warn user if it's not yet submitted.
-	// Sadly the message isn't shown
-	window.addEventListener('beforeunload', event => {
-		if (waiting) {
-			event.returnValue = 'The PR hasn’t merged yet.';
-		}
-	});
+	window.addEventListener('beforeunload', onBeforeunload);
+}
+
+function deinit(): void {
+	window.removeEventListener('beforeunload', onBeforeunload);
 }
 
 void features.add(__filebasename, {
@@ -108,4 +113,5 @@ void features.add(__filebasename, {
 	],
 	deduplicate: 'has-rgh-inner',
 	init,
+	deinit,
 });

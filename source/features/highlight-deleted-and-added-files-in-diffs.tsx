@@ -43,9 +43,9 @@ async function init(): Promise<void | false> {
 			const icon = sourceIcon.cloneNode(true);
 			const action = icon.getAttribute('title')!;
 			if (action === 'added') {
-				icon.classList.add('color-text-success');
+				icon.classList.add('color-text-success', 'color-fg-success');
 			} else if (action === 'removed') {
-				icon.classList.add('color-text-danger');
+				icon.classList.add('color-text-danger', 'color-fg-danger');
 			} else {
 				return;
 			}

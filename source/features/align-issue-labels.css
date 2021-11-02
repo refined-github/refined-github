@@ -8,11 +8,15 @@
 	order: 1;
 }
 
+.rgh-align-issue-labels .js-issue-row .min-width-0 .text-small {
+	flex-basis: 100%; /* #4949 */
+}
+
 .rgh-align-issue-labels .js-issue-row .d-inline-block.mr-1 { /* Build status */
 	margin-left: 4px;
 }
 
-.rgh-align-issue-labels .js-issue-row .mt-1.text-small.color-text-secondary { /* Issue details line */
+.rgh-align-issue-labels .js-issue-row .mt-1.text-small:is(.color-text-secondary, .color-fg-muted) { /* Issue details line */
 	flex-basis: 100%;
 }
 

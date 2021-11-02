@@ -11,7 +11,8 @@ import {getUsername, compareNames} from '../github-helpers';
 
 async function init(): Promise<false | void> {
 	const usernameElements = select.all([
-		'.js-discussion a.author:not(.rgh-fullname, [href*="/apps/"], [href*="/marketplace/"], [data-hovercard-type="organization"])', // `a` selector needed to skip commits by non-GitHub users.
+		// `a` selector needed to skip commits by non-GitHub users.
+		':is(.js-discussion, .inline-comments) a.author:not(.rgh-fullname, [href*="/apps/"], [href*="/marketplace/"], [data-hovercard-type="organization"])',
 		'#dashboard a.text-bold[data-hovercard-type="user"]:not(.rgh-fullname)', // On dashboard `.text-bold` is required to not fetch avatars.
 	]);
 
@@ -58,9 +59,11 @@ async function init(): Promise<false | void> {
 					? usernameElement.parentElement!
 					: usernameElement;
 				insertionPoint.after(
-					<span className="color-text-secondary css-truncate">
-						{' ('}<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{name}</bdo>{') '}
+					' ',
+					<span className="color-text-secondary color-fg-muted css-truncate d-inline-block">
+						(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{name}</bdo>)
 					</span>,
+					' ',
 				);
 			}
 		}

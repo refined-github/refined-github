@@ -102,7 +102,7 @@ async function init(): Promise<false | void> {
 	const link = (
 		<a
 			className="btn btn-sm ml-0 flex-self-center css-truncate rgh-latest-tag-button"
-			href={String(url)}
+			href={url.href}
 			data-pjax="#repo-content-pjax-container"
 		>
 			<TagIcon/>

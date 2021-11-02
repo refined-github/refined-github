@@ -61,7 +61,7 @@ async function linkify(button: HTMLButtonElement, filePath: string): Promise<voi
 	if (fileChanges.file[fromKey] === filePath) {
 		button.replaceWith(
 			<a
-				href={String(linkifiedURL)}
+				href={linkifiedURL.href}
 				aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${fileChanges.file[toKey]!}`}
 				className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
 			>

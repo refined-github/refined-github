@@ -9,7 +9,7 @@ function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 	const url = new URL(location.href);
 	url.searchParams.set('diff', type);
 	const classes = pageDetect.isPR()
-		? 'tooltipped tooltipped-s d-none d-lg-block ml-2 color-icon-secondary'
+		? 'tooltipped tooltipped-s d-none d-lg-block ml-2 color-icon-secondary color-fg-muted'
 		: 'tooltipped tooltipped-s btn btn-sm BtnGroup-item ' + (selected ? 'selected' : '');
 
 	return (
@@ -31,8 +31,8 @@ function createDiffStyleToggle(): DocumentFragment {
 
 	if (pageDetect.isPR()) {
 		return isUnified
-			? makeLink('split', <BookIcon/>, false)
-			: makeLink('unified', <DiffIcon/>, false);
+			? makeLink('split', <BookIcon className="v-align-middle"/>, false)
+			: makeLink('unified', <DiffIcon className="v-align-middle"/>, false);
 	}
 
 	return (
@@ -43,36 +43,48 @@ function createDiffStyleToggle(): DocumentFragment {
 	);
 }
 
+function isHidingWhitespace(): boolean {
+	// The selector is the native button
+	return new URL(location.href).searchParams.get('w') === '1' || select.exists('button[name="w"][value="0"]:not([hidden])');
+}
+
 function createWhitespaceButton(): HTMLElement {
 	const url = new URL(location.href);
-	const isHidingWhitespace = url.searchParams.get('w') === '1';
 
-	if (isHidingWhitespace) {
+	if (isHidingWhitespace()) {
 		url.searchParams.delete('w');
 	} else {
 		url.searchParams.set('w', '1');
 	}
 
 	const classes = pageDetect.isPR()
-		? 'tooltipped tooltipped-s d-none d-lg-block color-icon-secondary ' + (isHidingWhitespace ? '' : 'color-icon-info')
-		: 'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace ? 'bg-gray-light color-text-tertiary' : '');
+		? 'tooltipped tooltipped-s d-none d-lg-block color-icon-secondary color-fg-muted'
+		: 'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-text-tertiary color-fg-subtle' : '');
 
 	return (
 		<a
 			href={url.href}
 			data-hotkey="d w"
 			className={classes}
-			aria-label={`${isHidingWhitespace ? 'Show' : 'Hide'} whitespace changes`}
+			aria-label={`${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`}
 		>
-			{pageDetect.isPR() ? <DiffModifiedIcon/> : <>{isHidingWhitespace && <CheckIcon/>} No Whitespace</>}
+			{pageDetect.isPR() ? <DiffModifiedIcon className="v-align-middle"/> : <>{isHidingWhitespace() && <CheckIcon/>} No Whitespace</>}
 		</a>
 	);
 }
 
 function initPR(): false | void {
-	select('.js-file-filter')!.parentElement!.append(
+	// TODO [2022-05-01]: Remove `.js-diff-settings` from the selector (kept for GHE)
+	const originalToggle = select('.js-diff-settings, [aria-label="Diff settings"]')!.closest('details')!.parentElement!;
+
+	if (!isHidingWhitespace()) {
+		originalToggle.after(
+			<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>,
+		);
+	}
+
+	originalToggle.after(
 		<div className="diffbar-item d-flex">{createDiffStyleToggle()}</div>,
-		<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>,
 	);
 
 	// Trim title
@@ -82,8 +94,7 @@ function initPR(): false | void {
 		prTitle.title = prTitle.textContent!;
 	}
 
-	// Only show the native dropdown on medium and small screens #2597
-	select('.js-diff-settings')!.closest('details')!.classList.add('d-lg-none');
+	originalToggle.classList.add('d-lg-none');
 
 	// Make space for the new button by removing "Changes from" #655
 	select('[data-hotkey="c"] strong')!.previousSibling!.remove();

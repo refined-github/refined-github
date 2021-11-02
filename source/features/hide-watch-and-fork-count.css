@@ -9,7 +9,7 @@
 }
 
 @media (max-width: 1000px) {
-	.rgh-hide-watch-and-fork-count:not(.rgh-forked-to) :is(.btn[title^='Fork your own'], .btn[aria-label^='Cannot fork']) {
+	.rgh-hide-watch-and-fork-count:not(.rgh-forked-to) .btn:is([title^='Fork your own'], [aria-label^='Fork your own'], [aria-label^='Cannot fork']) {
 		border-radius: 6px !important; /* Matches GitHub's default */
 	}
 

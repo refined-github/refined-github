@@ -23,7 +23,7 @@ function updateLinksToTag(): void {
 }
 
 function init(): void {
-	select('.subnav')!.append(
+	const tagsDropdown = (
 		<div className="rgh-tags-dropdown float-right d-flex flex-shrink-0 flex-items-center">
 			<details className="details-reset details-overlay select-menu branch-select-menu position-relative">
 				<summary className="btn select-menu-button css-truncate" data-hotkey="w" title="Find tags" aria-haspopup="menu">
@@ -41,8 +41,18 @@ function init(): void {
 					</include-fragment>
 				</details-menu>
 			</details>
-		</div>,
+		</div>
 	);
+
+	if (pageDetect.isEnterprise() || pageDetect.isTags()) {
+		select('.subnav')!.append(tagsDropdown);
+	} else {
+		select('.subnav-search-input')!.closest('.d-flex')!.before(
+			<div className={pageDetect.isTags() ? 'ml-2' : 'mb-2 mr-2'}>
+				{tagsDropdown}
+			</div>,
+		);
+	}
 
 	// https://github.com/github/remote-input-element#events
 	// Wait until the network request is finished and HTML body is updated
@@ -56,6 +66,8 @@ void features.add(__filebasename, {
 	],
 	exclude: [
 		pageDetect.isEmptyRepoRoot,
+		pageDetect.isSingleTag,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

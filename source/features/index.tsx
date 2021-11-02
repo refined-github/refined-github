@@ -10,7 +10,7 @@ import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import {shouldFeatureRun} from '../github-helpers';
 import optionsStorage, {RGHOptions} from '../options-storage';
-import {getLocalHotfixesAsOptions, updateHotfixes} from '../helpers/hotfix';
+import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyleHotfixes} from '../helpers/hotfix';
 
 type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
@@ -88,16 +88,22 @@ const log = {
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
-	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
+	const [options, localHotfixes, hotfixCSS, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
 		getLocalHotfixesAsOptions(version),
+		getStyleHotfixes(version),
 		bisectFeatures(),
 	]);
 
-	if (options.customCSS.trim().length > 0) {
+	if (hotfixCSS.length > 0 || options.customCSS.trim().length > 0) {
 		await waitFor(() => document.head);
-		document.head.append(<style>{options.customCSS}</style>);
+		document.head.append(
+			<style>{hotfixCSS}</style>,
+			<style>{options.customCSS}</style>,
+		);
 	}
+
+	void updateStyleHotfixes(version);
 
 	if (bisectedFeatures) {
 		Object.assign(options, bisectedFeatures);

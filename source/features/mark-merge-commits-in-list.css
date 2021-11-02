@@ -3,6 +3,6 @@
 }
 
 .rgh-merge-commit .octicon-git-pull-request {
-	color: var(--color-icon-info, #4078c0);
+	color: var(--color-fg-accent, var(--color-icon-info, #4078c0));
 	width: 20px;
 }

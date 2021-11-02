@@ -1,7 +1,7 @@
-import './quick-label-hiding.css';
+import './quick-label-removal.css';
 import React from 'dom-chef';
-import {XIcon} from '@primer/octicons-react';
 import select from 'select-dom';
+import {XIcon} from '@primer/octicons-react';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import {observe} from 'selector-observer';
@@ -24,28 +24,20 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 	});
 
 	removeLabelButton.closest('a')!.remove();
-
-	// Force update of label selector if necessary
-	if (!select.exists('.sidebar-labels include-fragment')) {
-		const deferredContentWrapper = select('.sidebar-labels .hx_rsm-content')!;
-		const menu = deferredContentWrapper.closest('[src]')!;
-		deferredContentWrapper.textContent = '';
-		deferredContentWrapper.append(<include-fragment src={menu.getAttribute('src')!}/>);
-	}
 }
 
 async function init(): Promise<void> {
 	await api.expectToken();
 
-	observe('.js-issue-labels .IssueLabel:not(.rgh-quick-label-hiding-already-added)', {
+	observe('.js-issue-labels .IssueLabel:not(.rgh-quick-label-removal-already-added)', {
 		constructor: HTMLElement,
 		add(label) {
-			label.classList.add('rgh-quick-label-hiding-already-added');
+			label.classList.add('rgh-quick-label-removal-already-added', 'd-inline-flex');
 			label.append(
 				<button
 					type="button"
 					aria-label="Remove this label"
-					className="btn-link tooltipped tooltipped-nw rgh-quick-label-hiding"
+					className="btn-link tooltipped tooltipped-nw rgh-quick-label-removal"
 					data-name={label.dataset.name}
 				>
 					<XIcon/>
@@ -54,7 +46,7 @@ async function init(): Promise<void> {
 		},
 	});
 
-	delegate(document, '.rgh-quick-label-hiding:not([disabled])', 'click', removeLabelButtonClickHandler);
+	delegate(document, '.rgh-quick-label-removal:not([disabled])', 'click', removeLabelButtonClickHandler);
 }
 
 void features.add(__filebasename, {
