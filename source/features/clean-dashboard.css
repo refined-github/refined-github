@@ -89,7 +89,7 @@
 
 /* Restore right margin for repo descriptions #5024 */
 .rgh-clean-dashboard .dashboard .repo-description {
-	margin-right: 8px;
+	margin-right: 16px;
 }
 
 /* Fade out last line */
