@@ -29,8 +29,8 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 <div align="center">
 	<p><sup><b>@fregante</b>’s open source work is supported by the community.<br>Special thanks to:
 	<p>
-		<a href="https://flowdash.com">
-			<img src="https://raw.githubusercontent.com/FlowdashHQ/flowdash-assets/20653cfb0f707924f0da204810b6024a834a3b14/logos/logo-bg-white.svg" width="220" alt="FlowdashHQ"><br>
+		<a href="https://flowdash.com/?utm_source=refined_github&utm_medium=sponsor&utm_campaign=github">
+			<img src="https://raw.githubusercontent.com/FlowdashHQ/flowdash-assets/20653cfb0f707924f0da204810b6024a834a3b14/logos/logo-bg-white.png" width="220" alt="FlowdashHQ"><br>
 			Design, automate, and manage business workflows in one place.<br>
 			<sub>Quickly create the tools your business needs with little to no code.
 		</a>
