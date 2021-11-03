@@ -1,0 +1,12 @@
+#review-changes-modal .form-actions {
+  display: flex
+}  
+
+#review-changes-modal button[value="comment"] {
+  margin-left: auto;
+  margin-right: 5px;
+}
+
+#review-changes-modal button[value="approve"] {
+  order: 111
+}
