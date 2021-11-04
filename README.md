@@ -4,8 +4,6 @@ The `hotfix.csv` file allows the maintainers of Refined GitHub to immediately di
 
 More information can be found on: https://github.com/sindresorhus/refined-github/issues/3529
 
-Note: The JSON file has been deprecated and can be removed in September 2021.
-
 ## Adding a new broken feature
 
 - Add the name of the feature on a new line: `name,unaffected version,related issue number`
