@@ -1,6 +1,0 @@
-{
-  "feature:ci-link": false,
-  "feature:fit-textareas": false,
-  "feature:link-to-file-in-file-history": false,
-  "unaffected": "21.5.1"
-}
