@@ -30,6 +30,10 @@ const config: Configuration = {
 	module: {
 		rules: [
 			{
+				test: /readme\.md?$/,
+				loader: './build/readme.loader.cts',
+			},
+			{
 				test: /\.tsx?$/,
 				loader: 'esbuild-loader',
 				options: {
@@ -49,8 +53,6 @@ const config: Configuration = {
 	plugins: [
 		new webpack.DefinePlugin({
 			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
-			__features__: webpack.DefinePlugin.runtimeValue(() => JSON.stringify(getFeatures()), true),
-			__featuresMeta__: webpack.DefinePlugin.runtimeValue(() => JSON.stringify(getFeaturesMeta()), true),
 			__filebasename: webpack.DefinePlugin.runtimeValue(info => JSON.stringify(path.parse(info.module.resource).name)),
 		}),
 		new MiniCssExtractPlugin(),

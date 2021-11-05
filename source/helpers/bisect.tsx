@@ -3,7 +3,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 
-import features from '../features';
+import {features} from '../../readme.md';
 import pluralize from './pluralize';
 
 // Split current list of features in half and create an options-like object to be applied on load
@@ -100,7 +100,7 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 
 	const half = getMiddleStep(bisectedFeatures);
 	const temporaryOptions: Record<string, boolean> = {};
-	for (const feature of features.list) {
+	for (const feature of features) {
 		const index = bisectedFeatures.indexOf(feature);
 		temporaryOptions[`feature:${feature}`] = index > -1 && index < half;
 	}

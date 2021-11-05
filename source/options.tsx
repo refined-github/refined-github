@@ -11,6 +11,7 @@ import * as indentTextarea from 'indent-textarea';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
 import {perDomainOptions, renamedFeatures} from './options-storage';
+import {featuresMeta as features} from '../readme.md';
 
 interface Status {
 	error?: true;
@@ -18,8 +19,6 @@ interface Status {
 	scopes?: string[];
 }
 
-// Don't repeat the magic variable, or its content will be inlined multiple times
-const features = __featuresMeta__;
 const featureList = features.map(({id}) => id);
 const {version} = browser.runtime.getManifest();
 

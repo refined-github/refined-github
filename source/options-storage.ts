@@ -1,4 +1,5 @@
 import OptionsSyncPerDomain from 'webext-options-sync-per-domain';
+import {features} from '../readme.md';
 
 export type RGHOptions = typeof defaults;
 
@@ -8,7 +9,7 @@ const defaults = Object.assign({
 	personalToken: '',
 	logging: false,
 	logHTTP: false,
-}, Object.fromEntries(__features__.map(id => [`feature:${id}`, true])));
+}, Object.fromEntries(features.map(id => [`feature:${id}`, true])));
 
 export const renamedFeatures = new Map<string, string>([
 	['separate-draft-pr-button', 'one-click-pr-or-gist'],

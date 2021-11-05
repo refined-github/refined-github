@@ -9,8 +9,6 @@ interface FeatureMeta {
 	screenshot?: string;
 }
 
-declare const __features__: FeatureID[];
-declare const __featuresMeta__: FeatureMeta[];
 declare const __filebasename: FeatureID;
 
 interface Window {
@@ -20,6 +18,11 @@ interface Window {
 declare module 'markdown-wasm/dist/markdown.node.js';
 
 declare module 'size-plugin';
+
+declare module '*.md' { // It should be just for readme.md, but 🤷‍♂️
+	export const featuresMeta: FeatureMeta[];
+	export const features: FeatureID[];
+}
 
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {

@@ -4,12 +4,13 @@ import elementReady from 'element-ready';
 import features from '.';
 import {wrapAll} from '../helpers/dom-utils';
 import {getNewFeatureName} from '../options-storage';
+import {featuresMeta} from '../../readme.md';
 
 async function init(): Promise<void | false> {
 	const [, currentFeature] = /features\/([^.]+)/.exec(location.pathname)!;
 	// Enable link even on past commits
 	const currentFeatureName = getNewFeatureName(currentFeature);
-	const feature = features.meta.find(feature => feature.id === currentFeatureName);
+	const feature = featuresMeta.find(feature => feature.id === currentFeatureName);
 	if (!feature) {
 		return false;
 	}
