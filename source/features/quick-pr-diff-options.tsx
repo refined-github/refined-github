@@ -106,13 +106,9 @@ function initPR(): false | void {
 function initCommitAndCompare(): false | void {
 	select('#toc')!.prepend(
 		<div className="float-right d-flex">
-			<div className="d-flex ml-3 BtnGroup">{createDiffStyleToggle()}</div>
 			<div className="d-flex ml-3 BtnGroup">{createWhitespaceButton()}</div>
 		</div>,
 	);
-
-	// Remove previous options UI
-	select('[data-ga-load^="Diff, view"]')!.remove();
 }
 
 void features.add(__filebasename, {
