@@ -1,4 +1,5 @@
 import OptionsSyncPerDomain from 'webext-options-sync-per-domain';
+
 import {features} from '../readme.md';
 
 export type RGHOptions = typeof defaults;

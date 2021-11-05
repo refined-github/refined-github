@@ -3,8 +3,8 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 
-import {features} from '../../readme.md';
 import pluralize from './pluralize';
+import {features} from '../../readme.md';
 
 // Split current list of features in half and create an options-like object to be applied on load
 // Bisecting 4 features: enable 2

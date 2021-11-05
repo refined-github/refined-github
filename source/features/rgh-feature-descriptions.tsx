@@ -3,8 +3,8 @@ import elementReady from 'element-ready';
 
 import features from '.';
 import {wrapAll} from '../helpers/dom-utils';
-import {getNewFeatureName} from '../options-storage';
 import {featuresMeta} from '../../readme.md';
+import {getNewFeatureName} from '../options-storage';
 
 async function init(): Promise<void | false> {
 	const [, currentFeature] = /features\/([^.]+)/.exec(location.pathname)!;

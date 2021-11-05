@@ -10,8 +10,8 @@ import * as indentTextarea from 'indent-textarea';
 
 import {getLocalHotfixes} from './helpers/hotfix';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
-import {perDomainOptions, renamedFeatures} from './options-storage';
 import {featuresMeta as features} from '../readme.md';
+import {perDomainOptions, renamedFeatures} from './options-storage';
 
 interface Status {
 	error?: true;
