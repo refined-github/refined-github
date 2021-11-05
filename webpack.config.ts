@@ -8,8 +8,6 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {Configuration} from 'webpack';
 
-import {getFeatures, getFeaturesMeta} from './build/readme-parser.js';
-
 const {resolve: resolvePackage} = createRequire(import.meta.url);
 
 const config: Configuration = {
