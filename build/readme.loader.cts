@@ -2,7 +2,7 @@
 module.exports = async function ReadmeLoader () {
 	const {getFeatures, getFeaturesMeta} = await import("./readme-parser.js");
 	return `
-		export const features = ${JSON.stringify(getFeatures())};
+		export const featureList = ${JSON.stringify(getFeatures())};
 		export const featuresMeta = ${JSON.stringify(getFeaturesMeta())};
 	`;
 }
