@@ -6,7 +6,7 @@ import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import {getNewFeatureName} from '../options-storage';
 import {isNotRefinedGitHubRepo} from '../github-helpers';
-import {features as featureList} from '../../readme.md';
+import {featureList} from '../../readme.md';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 function linkifyFeature(codeElement: HTMLElement): void {

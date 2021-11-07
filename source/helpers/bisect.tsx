@@ -4,7 +4,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 
 import pluralize from './pluralize';
-import {features} from '../../readme.md';
+import {featureList} from '../../readme.md';
 
 // Split current list of features in half and create an options-like object to be applied on load
 // Bisecting 4 features: enable 2
@@ -100,7 +100,7 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 
 	const half = getMiddleStep(bisectedFeatures);
 	const temporaryOptions: Record<string, boolean> = {};
-	for (const feature of features) {
+	for (const feature of featureList) {
 		const index = bisectedFeatures.indexOf(feature);
 		temporaryOptions[`feature:${feature}`] = index > -1 && index < half;
 	}

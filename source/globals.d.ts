@@ -21,7 +21,7 @@ declare module 'size-plugin';
 
 declare module '*.md' { // It should be just for readme.md, but 🤷‍♂️
 	export const featuresMeta: FeatureMeta[];
-	export const features: FeatureID[];
+	export const featureList: FeatureID[];
 }
 
 // Custom UI events specific to RGH
