@@ -61,8 +61,10 @@ function findError(filename: string): string | void {
 		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
 	}
 
-	const featureMatch = findFeatureRegex(featureId as FeatureID).exec(readmeContent);
-	const highlightedFeatureMatch = findHighlightedFeatureRegex(featureId as FeatureID).exec(readmeContent);
+	// eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
+	const featureMatch = readmeContent.match(findFeatureRegex(featureId as FeatureID));
+	// eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
+	const highlightedFeatureMatch = readmeContent.match(findHighlightedFeatureRegex(featureId as FeatureID));
 	if (
 		(featureMatch && featureMatch.length > 1) // If the description occurs more than once in the large list of features
 		|| (highlightedFeatureMatch && featureMatch) // If the description appears in both the feature list and the highlighted features section
