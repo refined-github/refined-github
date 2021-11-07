@@ -1,10 +1,12 @@
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
+import regexJoin from 'regex-join';
 
 import {getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
 
 const featuresDirContents = readdirSync('source/features/');
 const entryPoint = 'source/refined-github.ts';
 const entryPointSource = readFileSync(entryPoint);
+const readmeContent = readFileSync('readme.md', 'utf-8');
 const importedFeatures = getFeatures();
 const featuresInReadme = getFeaturesMeta();
 
@@ -58,6 +60,14 @@ function findError(filename: string): string | void {
 
 	if (featureMeta.description.length < 20) {
 		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
+	}
+
+	const lineRegex = regexJoin(/^/, `- [](# "${featureId}")`, /(?: 🔥)? (.+)$/gm);
+	const lineMatch = readmeContent.match(lineRegex);
+	// `lineMatch` might be null, but in that case the feature might be described
+	// as a highlight. Also, line 56-59 checks if all features are described already
+	if (lineMatch && lineMatch.length > 1) {
+		return `ERR: ${featureId} should be described only once in the readme`;
 	}
 }
 
