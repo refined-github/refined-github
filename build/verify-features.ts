@@ -61,19 +61,19 @@ function findError(filename: string): string | void {
 		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
 	}
 
-	const featureMatch = readmeContent.match(findFeatureRegex(featureId as FeatureID));
-	const highlightedFeatureMatch = readmeContent.match(findHighlightedFeatureRegex(featureId as FeatureID));
+	const featureMatch = findFeatureRegex(featureId as FeatureID).exec(readmeContent);
+	const highlightedFeatureMatch = findHighlightedFeatureRegex(featureId as FeatureID).exec(readmeContent);
 	if (
 		(featureMatch && featureMatch.length > 1) // If the description occurs more than once in the large list of features
 		|| (highlightedFeatureMatch && featureMatch) // If the description appears in both the feature list and the highlighted features section
 	) {
 		// Uncomment the following to print out line numbers
-		//const matches = readmeContent.split(/\r?\n/).map((lineContent: string, lineNumber: number) =>
+		// const matches = readmeContent.split(/\r?\n/).map((lineContent: string, lineNumber: number) =>
 		//	findFeatureRegex(featureId).test(lineContent)
 		//		|| regexJoin(`<p><a title="${featureId}"></a> `).test(lineContent)
 		//		? lineNumber + 1 : -1,
-		//).filter(lineNumber => lineNumber > 0);
-		//return `ERR: ${featureId} is described more than once in the readme on lines ${matches.join(', ')}`;
+		// ).filter(lineNumber => lineNumber > 0);
+		// return `ERR: ${featureId} is described more than once in the readme on lines ${matches.join(', ')}`;
 
 		return `ERR: ${featureId} should be described only once in the readme`;
 	}

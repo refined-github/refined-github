@@ -5,8 +5,9 @@ import {readFileSync} from 'node:fs';
 import {parse as parseMarkdown} from 'markdown-wasm/dist/markdown.node.js';
 
 export function findFeatureRegex(id: FeatureID): RegExp {
-	return regexJoin(/^/, `- [](# "${id}")`, /(?: 🔥)? (.+)$/mg);
+	return regexJoin(/^/, `- [](# "${id}")`, /(?: 🔥)? (.+)$/gm);
 }
+
 export function findHighlightedFeatureRegex(id: FeatureID): RegExp {
 	return regexJoin(`<p><a title="${id}"></a> `, /(.+?)\n\t+<p><img src="(.+?)">/);
 }
