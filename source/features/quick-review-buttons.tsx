@@ -28,9 +28,9 @@ function init(): false | void {
 		);
 	}
 
-	// "Approve" button must be last
+	// "Comment" button must be first
 	if (radios.length > 1) {
-		radios.push(radios.splice(1, 1)[0]);
+		radios.push(radios.shift()!);
 	}
 
 	// Generate the new buttons
@@ -65,7 +65,7 @@ function init(): false | void {
 			button.prepend(<FileDiffIcon className="color-fg-danger"/>);
 		}
 
-		container.prepend(button);
+		container.append(button);
 	}
 
 	// Remove original fields at last to avoid leaving a broken form
