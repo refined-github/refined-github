@@ -55,7 +55,7 @@ function findError(filename: string): string | void {
 
 	const featureMeta = featuresInReadme.find(feature => feature.id === featureId);
 	if (!featureMeta) {
-		return `ERR: The feature ${featureId} should be described in the readme`;
+		return `ERR: ${featureId} should be described in the readme`;
 	}
 
 	if (featureMeta.description.length < 20) {
@@ -70,7 +70,13 @@ function findError(filename: string): string | void {
 		(lineMatch && lineMatch.length > 1) // If the description occurs more than once in the large list of features
 		|| (imageMatch && lineMatch) // If the description appears in both the feature list and the highlighted features section
 	) {
-		return `ERR: ${featureId} should be described only once in the readme`;
+		const matches = readmeContent.split(/\r?\n/).map((lineContent: string, lineNumber: number) =>
+			lineRegex.test(lineContent)
+				|| regexJoin(`<p><a title="${featureId}"></a> `).test(lineContent)
+				? lineNumber + 1 : -1,
+		).filter(lineNumber => lineNumber > 0);
+
+		return `ERR: ${featureId} is described more than once on lines ${matches.join(', ')}`;
 	}
 }
 
