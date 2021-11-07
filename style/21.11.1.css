@@ -11,11 +11,3 @@
 #review-changes-modal button[value="approve"] {
   order: 111
 }
-
-
-/* https://github.com/refined-github/refined-github/issues/4917#issuecomment-962593818 */
-#merge_title_field,
-#commit-summary-input,
-textarea {
-	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace !important;
-}
