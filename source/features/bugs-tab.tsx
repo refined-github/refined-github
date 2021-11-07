@@ -10,6 +10,7 @@ import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
+import {highlightTab, unhighlightTab} from '../helpers/dom-utils';
 
 const supportedLabels = /^(bug|confirmed-bug|type:bug|kind:bug|:\w+:bug)$/i;
 const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
@@ -73,41 +74,7 @@ async function isBugsListing(): Promise<boolean> {
 	return new SearchQuery(location.search).includes(await getSearchQueryBugLabel());
 }
 
-async function highlightBugsTab(): Promise<void> {
-	const issuesTab = select('.UnderlineNav-item[data-hotkey="g i"]')!;
-	issuesTab.classList.remove('selected');
-	issuesTab.removeAttribute('aria-current');
-
-	const bugsTab = await elementReady('.rgh-bug-tab', {stopOnDomReady: false, timeout: 10_000});
-	bugsTab!.classList.add('selected');
-}
-
-async function hidePinnedIssues(): Promise<void> {
-	(await elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false}))?.remove();
-}
-
-async function updateBugsTagHighlighting(): Promise<void | false> {
-	if (await countBugs() === 0) {
-		return false;
-	}
-
-	const bugLabel = await getBugLabel() ?? 'bug';
-	if (
-		(pageDetect.isRepoTaxonomyConversationList() && location.href.endsWith('/labels/' + encodeURIComponent(bugLabel)))
-		|| (pageDetect.isRepoIssueList() && await isBugsListing())
-	) {
-		await Promise.all([highlightBugsTab(), hidePinnedIssues()]);
-		return;
-	}
-
-	if (pageDetect.isIssue() && await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${bugLabel}"]`)) {
-		return highlightBugsTab();
-	}
-
-	return false;
-}
-
-async function init(): Promise<void | false> {
+async function addBugsTab(): Promise<void | false> {
 	// Query API as early as possible, even if it's not necessary on archived repos
 	const countPromise = countBugs();
 
@@ -128,9 +95,8 @@ async function init(): Promise<void | false> {
 
 	// Copy Issues tab
 	const bugsTab = issuesTab.cloneNode(true);
-	bugsTab.classList.remove('selected');
-	bugsTab.removeAttribute('aria-current');
-	bugsTab.classList.add('rgh-bug-tab');
+	bugsTab.classList.add('rgh-bugs-tab');
+	unhighlightTab(bugsTab);
 
 	// Disable unwanted behavior #3001
 	bugsTab.removeAttribute('data-hotkey');
@@ -169,17 +135,52 @@ async function init(): Promise<void | false> {
 	}
 }
 
+function highlightBugsTab(): void {
+	// Remove highlighting from "Issues" tab
+	unhighlightTab(select('.UnderlineNav-item[data-hotkey="g i"]')!);
+	highlightTab(select('.rgh-bugs-tab')!);
+}
+
+async function removePinnedIssues(): Promise<void> {
+	(await elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false}))?.remove();
+}
+
+async function updateBugsTagHighlighting(): Promise<void | false> {
+	if (await countBugs() === 0) {
+		return false;
+	}
+
+	const bugLabel = await getBugLabel() ?? 'bug';
+	if (
+		(pageDetect.isRepoTaxonomyConversationList() && location.href.endsWith('/labels/' + encodeURIComponent(bugLabel)))
+		|| (pageDetect.isRepoIssueList() && await isBugsListing())
+	) {
+		void removePinnedIssues();
+		highlightBugsTab();
+		return;
+	}
+
+	if (pageDetect.isIssue() && await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${bugLabel}"]`)) {
+		highlightBugsTab();
+		return;
+	}
+
+	return false;
+}
+
+async function init(): Promise<void | false> {
+	if (!select.exists('.rgh-bugs-tab')) {
+		await addBugsTab();
+	}
+
+	await updateBugsTagHighlighting();
+}
+
 void features.add(__filebasename, {
 	include: [
 		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
-	init,
-}, {
-	include: [
-		pageDetect.isRepo,
-	],
-	awaitDomReady: false,
 	deduplicate: false,
-	init: updateBugsTagHighlighting,
+	init,
 });
