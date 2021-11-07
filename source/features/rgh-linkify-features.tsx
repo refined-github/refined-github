@@ -4,9 +4,9 @@ import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
+import {featureList} from '../../readme.md';
 import {getNewFeatureName} from '../options-storage';
 import {isNotRefinedGitHubRepo} from '../github-helpers';
-import {featureList} from '../../readme.md';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 function linkifyFeature(codeElement: HTMLElement): void {
