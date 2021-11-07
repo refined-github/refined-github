@@ -1,5 +1,5 @@
-import {existsSync, readdirSync, readFileSync} from 'node:fs';
 import regexJoin from 'regex-join';
+import {existsSync, readdirSync, readFileSync} from 'node:fs';
 
 import {getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
 
