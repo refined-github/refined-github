@@ -1,0 +1,4 @@
+/* Hide everything after the repo title */
+.rgh-file-finder-buffer :is(.pagehead-actions, .rgh-ci-link :is(details, .Label), .octotree-bookmark-btn) {
+	display: none !important;
+}

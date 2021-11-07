@@ -1,15 +1,15 @@
 .rgh-low-quality-comments-note {
 	margin: 15px 0 10px 60px;
 	font-size: 12px;
-	color: var(--color-text-secondary, #586069);
+	color: var(--color-fg-muted, var(--color-text-secondary, #586069));
 }
 
 .rgh-hidden-comment .timeline-comment {
-	border-color: var(--github-red);
+	border-color: var(--rgh-red);
 }
 
 .rgh-hidden-comment .timeline-comment--caret::before {
-	background-color: var(--github-red);
+	background-color: var(--rgh-red);
 }
 
 .rgh-hidden-comment .timeline-comment--caret::after {

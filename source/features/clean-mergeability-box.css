@@ -16,8 +16,8 @@
 	font-weight: 600;
 }
 
-.mergeability-details .js-details-container .color-text-danger + .status-meta {
-	color: var(--github-red);
+.mergeability-details .js-details-container :is(.color-text-danger, .color-fg-danger) + .status-meta {
+	color: var(--rgh-red);
 }
 
 .mergeability-details .branch-action-item-icon {

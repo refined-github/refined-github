@@ -3,13 +3,13 @@ import {getCurrentCommittish} from '.';
 export default class GitHubURL {
 	// @ts-expect-error https://github.com/microsoft/TypeScript/issues/26792
 	user: string;
-	// @ts-expect-error
+	// @ts-expect-error https://github.com/microsoft/TypeScript/issues/26792
 	repository: string;
-	// @ts-expect-error
+	// @ts-expect-error https://github.com/microsoft/TypeScript/issues/26792
 	route: string;
-	// @ts-expect-error
+	// @ts-expect-error https://github.com/microsoft/TypeScript/issues/26792
 	branch: string;
-	// @ts-expect-error
+	// @ts-expect-error https://github.com/microsoft/TypeScript/issues/26792
 	filePath: string;
 
 	private internalUrl: URL;
@@ -21,10 +21,6 @@ export default class GitHubURL {
 	}
 
 	toString(): string {
-		return this.href;
-	}
-
-	toJSON(): string {
 		return this.href;
 	}
 
@@ -77,6 +73,13 @@ export default class GitHubURL {
 
 	set pathname(pathname: string) {
 		const [user, repository, route, ...ambiguousReference] = pathname.replace(/^\/|\/$/g, '').split('/');
+		// Handle branch names containing multiple slashes #4492
+		if (ambiguousReference.length === 2 && ambiguousReference[1].includes('%2F')) {
+			const branch = ambiguousReference.join('/').replace(/%2F/g, '/');
+			this.assign({user, repository, route, branch, filePath: ''});
+			return;
+		}
+
 		const {branch, filePath} = this.disambiguateReference(ambiguousReference);
 		this.assign({user, repository, route, branch, filePath});
 	}

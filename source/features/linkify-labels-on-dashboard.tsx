@@ -17,7 +17,7 @@ function init(): void {
 			const url = new URL(`${repository.href}/${isPR ? 'pulls' : 'issues'}`);
 			const labelName = label.textContent!.trim();
 			url.searchParams.set('q', `is:${isPR ? 'pr' : 'issue'} is:open sort:updated-desc label:"${labelName}"`);
-			wrap(label, <a href={String(url)}/>);
+			wrap(label, <a href={url.href}/>);
 		},
 	});
 }

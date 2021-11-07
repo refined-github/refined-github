@@ -13,7 +13,7 @@
 .rgh-table-input-cell div {
 	width: 18px;
 	height: 18px;
-	border: 2px solid var(--github-border-color);
+	border: 2px solid var(--rgh-border-color);
 	border-radius: 2px;
 }
 

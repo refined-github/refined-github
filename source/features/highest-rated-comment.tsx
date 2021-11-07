@@ -51,7 +51,7 @@ function highlightBestComment(bestComment: Element): void {
 	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
 	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
 		<span
-			className="d-flex flex-items-center text-green color-text-success mr-1 tooltipped tooltipped-n"
+			className="d-flex flex-items-center color-text-success color-fg-success mr-1 tooltipped tooltipped-n"
 			aria-label="This comment has the most positive reactions on this issue."
 		>
 			<CheckCircleFillIcon/>
@@ -73,13 +73,13 @@ function linkBestComment(bestComment: HTMLElement): void {
 
 	bestComment.parentElement!.firstElementChild!.after(
 		<div className="timeline-comment-wrapper pl-0 my-0">
-			<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment bg-gray px-2 d-flex flex-items-center">
+			<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-tertiary color-bg-subtle px-2 d-flex flex-items-center">
 				{avatar}
 				<span className="btn btn-sm mr-2">
 					<ArrowDownIcon/>
 				</span>
 
-				<span className="color-text-secondary timeline-comment-header-text">
+				<span className="color-text-secondary color-fg-muted timeline-comment-header-text">
 					Highest-rated comment: <em>{text}</em>
 				</span>
 			</a>
@@ -88,7 +88,6 @@ function linkBestComment(bestComment: HTMLElement): void {
 }
 
 function selectSum(selector: string, container: HTMLElement): number {
-	// eslint-disable-next-line unicorn/no-array-reduce -- The alternative `for` loop is too lengthy for a simple sum
 	return select.all(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
 }
 

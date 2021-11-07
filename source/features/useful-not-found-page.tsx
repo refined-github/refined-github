@@ -21,7 +21,7 @@ async function is404(url: string): Promise<boolean> {
 }
 
 function getStrikeThrough(text: string): HTMLElement {
-	return <del className="color-text-tertiary">{text}</del>;
+	return <del className="color-text-tertiary color-fg-subtle">{text}</del>;
 }
 
 async function checkAnchor(anchor: HTMLAnchorElement): Promise<void> {
@@ -64,7 +64,7 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
 	}
 
 	parsedUrl.assign({branch: await getDefaultBranch()});
-	const urlOnDefault = parsedUrl.toString();
+	const urlOnDefault = parsedUrl.href;
 	if (urlOnDefault !== location.href && !await is404(urlOnDefault)) {
 		return urlOnDefault;
 	}
@@ -127,9 +127,9 @@ async function showAlternateLink(): Promise<void> {
 	}
 
 	url.assign({route: 'commits'});
-	const commitHistory = <a href={url.toString()}>Commit history</a>;
+	const commitHistory = <a href={url.href}>Commit history</a>;
 	url.assign({route: 'blob', branch: fileChanges.commit.parentSha, filePath: url.filePath});
-	const lastVersionUrl = fileChanges.file.status === 'removed' ? fileChanges.file.blob_url : url.toString();
+	const lastVersionUrl = fileChanges.file.status === 'removed' ? fileChanges.file.blob_url : url.href;
 	const lastVersion = <a href={lastVersionUrl}>This {getType()}</a>;
 	const permalink = <a href={fileChanges.commit.url}><relative-time datetime={fileChanges.commit.date}/></a>;
 	const verb = fileChanges.file.status === 'removed'

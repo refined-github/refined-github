@@ -3,9 +3,9 @@
 /* stylelint-disable-next-line media-feature-name-no-vendor-prefix -- It's the only cross-browser media query */
 @media (-webkit-min-device-pixel-ratio: 2) {
 	.js-issue-row [aria-label='Open draft pull request'] svg {
-		stroke: var(--color-text-secondary, #586069);
+		stroke: var(--color-fg-muted, var(--color-text-secondary, #586069));
 		stroke-width: 1.2px;
-		color: var(--color-bg-canvas, #fff) !important;
+		color: var(--rgh-background) !important;
 		paint-order: stroke;
 		overflow: visible !important;
 	}

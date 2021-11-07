@@ -15,6 +15,18 @@ test('branch', t => {
 	t.is(String(url), 'https://github.com/microsoft/TypeScript/tree/master');
 });
 
+test('branch with multiple slashes', t => {
+	const url = new GitHubURL('https://github.com/yakov116/TestR/tree/this/branch%2Fhas%2Fmany%2Fslashes');
+	t.is(url.user, 'yakov116');
+	t.is(url.repository, 'TestR');
+	t.is(url.route, 'tree');
+	t.is(url.branch, 'this/branch/has/many/slashes');
+	t.is(url.filePath, '');
+	t.is(url.pathname, '/yakov116/TestR/tree/this/branch/has/many/slashes');
+	t.is(url.href, 'https://github.com/yakov116/TestR/tree/this/branch/has/many/slashes');
+	t.is(String(url), 'https://github.com/yakov116/TestR/tree/this/branch/has/many/slashes');
+});
+
 test('object', t => {
 	const url = new GitHubURL('https://github.com/microsoft/TypeScript/tree/master/src');
 	t.is(url.user, 'microsoft');

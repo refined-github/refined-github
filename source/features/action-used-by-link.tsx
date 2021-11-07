@@ -12,14 +12,16 @@ function init(): void {
 		.slice(1);
 
 	const actionURL = new URL('search', location.origin);
-	actionURL.searchParams.set('q', `${actionRepo} path:.github/workflows/ language:YAML`);
-	actionURL.searchParams.set('type', 'Code');
-	actionURL.searchParams.set('s', 'indexed');
-	actionURL.searchParams.set('o', 'desc');
+	actionURL.search = new URLSearchParams({
+		q: `${actionRepo} path:.github/workflows/ language:YAML`,
+		type: 'Code',
+		s: 'indexed',
+		o: 'desc',
+	}).toString();
 
 	select('.d-block.mb-2[href^="/contact"]')!.after(
-		<a href={String(actionURL)} className="d-block mb-2">
-			<SearchIcon width={14} className="color-text-primary mr-2"/>Usage examples
+		<a href={actionURL.href} className="d-block mb-2">
+			<SearchIcon width={14} className="color-text-primary color-fg-default mr-2"/>Usage examples
 		</a>,
 	);
 }

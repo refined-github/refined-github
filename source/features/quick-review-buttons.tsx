@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
 
 import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
@@ -31,17 +32,15 @@ function init(): false | void {
 		const tooltip = radio.parentElement!.getAttribute('aria-label');
 
 		const classes = ['btn btn-sm'];
-		if (radio.value === 'approve') {
+		if (radio.value === 'comment') {
 			classes.push('btn-primary');
-		} else if (radio.value === 'reject') {
-			classes.push('btn-danger');
 		}
 
 		if (tooltip) {
 			classes.push('tooltipped tooltipped-nw tooltipped-no-delay');
 		}
 
-		container.append(
+		const button = (
 			<button
 				type="submit"
 				name="pull_request_review[event]"
@@ -51,13 +50,20 @@ function init(): false | void {
 				disabled={radio.disabled}
 			>
 				{radio.nextSibling}
-			</button>,
+			</button>
 		);
+
+		if (!radio.disabled && radio.value === 'approve') {
+			button.prepend(<CheckIcon className="color-fg-success"/>);
+		} else if (!radio.disabled && radio.value === 'reject') {
+			button.prepend(<FileDiffIcon className="color-fg-danger"/>);
+		}
+
+		container.append(button);
 	}
 
-	// Comment button must be last; cancel button must be first
+	// Cancel button must be first
 	if (radios.length > 1) {
-		container.append(select('button[value="comment"]', form)!);
 		const cancelReview = select('.review-cancel-button', form);
 		if (cancelReview) {
 			cancelReview.classList.add('float-left');
