@@ -67,8 +67,8 @@ function findError(filename: string): string | void {
 	const lineMatch = readmeContent.match(lineRegex);
 	const imageMatch = readmeContent.match(imageRegex);
 	if (
-		(lineMatch && lineMatch.length > 1) || // If the description occurs more than once in the large list of features
-		(imageMatch && lineMatch) // If the description appears in both the feature list and the highlighted features section
+		(lineMatch && lineMatch.length > 1) // If the description occurs more than once in the large list of features
+		|| (imageMatch && lineMatch) // If the description appears in both the feature list and the highlighted features section
 	) {
 		return `ERR: ${featureId} should be described only once in the readme`;
 	}
