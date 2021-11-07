@@ -1,7 +1,6 @@
-import regexJoin from 'regex-join';
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 
-import {getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
+import {findFeatureRegex, findHighlightedFeatureRegex, getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
 
 const featuresDirContents = readdirSync('source/features/');
 const entryPoint = 'source/refined-github.ts';
@@ -62,21 +61,21 @@ function findError(filename: string): string | void {
 		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
 	}
 
-	const lineRegex = regexJoin(/^/, `- [](# "${featureId}")`, /(?: 🔥)? (.+)$/gm);
-	const imageRegex = regexJoin(`<p><a title="${featureId}"></a> `, /(.+?)\n\t+<p><img src="(.+?)">/);
-	const lineMatch = readmeContent.match(lineRegex);
-	const imageMatch = readmeContent.match(imageRegex);
+	const featureMatch = readmeContent.match(findFeatureRegex(featureId as FeatureID));
+	const highlightedFeatureMatch = readmeContent.match(findHighlightedFeatureRegex(featureId as FeatureID));
 	if (
-		(lineMatch && lineMatch.length > 1) // If the description occurs more than once in the large list of features
-		|| (imageMatch && lineMatch) // If the description appears in both the feature list and the highlighted features section
+		(featureMatch && featureMatch.length > 1) // If the description occurs more than once in the large list of features
+		|| (highlightedFeatureMatch && featureMatch) // If the description appears in both the feature list and the highlighted features section
 	) {
-		const matches = readmeContent.split(/\r?\n/).map((lineContent: string, lineNumber: number) =>
-			lineRegex.test(lineContent)
-				|| regexJoin(`<p><a title="${featureId}"></a> `).test(lineContent)
-				? lineNumber + 1 : -1,
-		).filter(lineNumber => lineNumber > 0);
+		// Uncomment the following to print out line numbers
+		//const matches = readmeContent.split(/\r?\n/).map((lineContent: string, lineNumber: number) =>
+		//	findFeatureRegex(featureId).test(lineContent)
+		//		|| regexJoin(`<p><a title="${featureId}"></a> `).test(lineContent)
+		//		? lineNumber + 1 : -1,
+		//).filter(lineNumber => lineNumber > 0);
+		//return `ERR: ${featureId} is described more than once in the readme on lines ${matches.join(', ')}`;
 
-		return `ERR: ${featureId} is described more than once on lines ${matches.join(', ')}`;
+		return `ERR: ${featureId} should be described only once in the readme`;
 	}
 }
 

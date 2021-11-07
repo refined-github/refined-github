@@ -4,9 +4,15 @@ import regexJoin from 'regex-join';
 import {readFileSync} from 'node:fs';
 import {parse as parseMarkdown} from 'markdown-wasm/dist/markdown.node.js';
 
+export function findFeatureRegex(id: FeatureID): RegExp {
+	return regexJoin(/^/, `- [](# "${id}")`, /(?: 🔥)? (.+)$/mg);
+}
+export function findHighlightedFeatureRegex(id: FeatureID): RegExp {
+	return regexJoin(`<p><a title="${id}"></a> `, /(.+?)\n\t+<p><img src="(.+?)">/);
+}
+
 function searchInList(readmeContent: string, id: FeatureID): FeatureMeta | void {
-	const lineRegex = regexJoin(/^/, `- [](# "${id}")`, /(?: 🔥)? (.+)$/m);
-	const lineMatch = lineRegex.exec(readmeContent);
+	const lineMatch = findFeatureRegex(id).exec(readmeContent);
 	if (!lineMatch) {
 		return;
 	}
@@ -26,8 +32,7 @@ function searchInList(readmeContent: string, id: FeatureID): FeatureMeta | void 
 }
 
 function searchInHighlights(readmeContent: string, id: FeatureID): FeatureMeta | void {
-	const imageRegex = regexJoin(`<p><a title="${id}"></a> `, /(.+?)\n\t+<p><img src="(.+?)">/);
-	const imageMatch = imageRegex.exec(readmeContent);
+	const imageMatch = findHighlightedFeatureRegex(id).exec(readmeContent);
 	if (imageMatch) {
 		return {
 			id,
