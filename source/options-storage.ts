@@ -1,5 +1,7 @@
 import OptionsSyncPerDomain from 'webext-options-sync-per-domain';
 
+import {featureList} from '../readme.md';
+
 export type RGHOptions = typeof defaults;
 
 // eslint-disable-next-line prefer-object-spread -- TypeScript doesn't merge the definitions so `...` is not equivalent.
@@ -8,7 +10,7 @@ const defaults = Object.assign({
 	personalToken: '',
 	logging: false,
 	logHTTP: false,
-}, Object.fromEntries(__features__.map(id => [`feature:${id}`, true])));
+}, Object.fromEntries(featureList.map(id => [`feature:${id}`, true])));
 
 export const renamedFeatures = new Map<string, string>([
 	['separate-draft-pr-button', 'one-click-pr-or-gist'],

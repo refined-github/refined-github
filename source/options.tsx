@@ -8,6 +8,7 @@ import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
+import {featuresMeta} from '../readme.md';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
 import {perDomainOptions, renamedFeatures} from './options-storage';
@@ -18,9 +19,7 @@ interface Status {
 	scopes?: string[];
 }
 
-// Don't repeat the magic variable, or its content will be inlined multiple times
-const features = __featuresMeta__;
-const featureList = features.map(({id}) => id);
+const featureList = featuresMeta.map(({id}) => id);
 const {version} = browser.runtime.getManifest();
 
 function reportStatus({error, text, scopes}: Status): void {
@@ -219,7 +218,7 @@ async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 
 async function generateDom(): Promise<void> {
 	// Generate list
-	select('.js-features')!.append(...features.map(feature => buildFeatureCheckbox(feature)));
+	select('.js-features')!.append(...featuresMeta.map(feature => buildFeatureCheckbox(feature)));
 
 	// Add notice for features disabled via hotfix
 	select('.js-features')!.before(await getLocalHotfixesAsNotice());
@@ -239,7 +238,7 @@ async function generateDom(): Promise<void> {
 	}
 
 	// Add feature count. CSS-only features are added approximately
-	select('.features-header')!.append(` (${features.length + 25})`);
+	select('.features-header')!.append(` (${featuresMeta.length + 25})`);
 }
 
 function addEventListeners(): void {

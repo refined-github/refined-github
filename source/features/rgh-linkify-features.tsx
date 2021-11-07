@@ -4,13 +4,14 @@ import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
+import {featureList} from '../../readme.md';
 import {getNewFeatureName} from '../options-storage';
 import {isNotRefinedGitHubRepo} from '../github-helpers';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 function linkifyFeature(codeElement: HTMLElement): void {
 	const id = getNewFeatureName(codeElement.textContent!) as FeatureID;
-	if (features.list.includes(id) && !codeElement.closest('a')) {
+	if (featureList.includes(id) && !codeElement.closest('a')) {
 		wrap(codeElement, <a href={`/refined-github/refined-github/blob/main/source/features/${id}.tsx`}/>);
 	}
 }
