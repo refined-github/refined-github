@@ -160,6 +160,8 @@ Thanks for contributing! 🦋🙌
 
 ### Repositories
 
+- [](# "follow-file-renames") [Enhances files’ commit lists navigation to follow file renames](https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png)
+- [](# "warning-for-disallow-edits") [Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
 - [](# "ci-link") 🔥 [Adds a build/CI status icon next to the repo’s name.](https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png)
 - [](# "hide-watch-and-fork-count") [Hides watcher counter and on smaller screens the fork counter too.](https://user-images.githubusercontent.com/1402241/53681077-f3328b80-3d1e-11e9-9e29-2cb017141769.png)
 - [](# "more-dropdown-links") [Adds useful links to the repository navigation dropdown](https://user-images.githubusercontent.com/16872793/124681432-856e6f80-de96-11eb-89c9-6d78e8ae4329.png)
