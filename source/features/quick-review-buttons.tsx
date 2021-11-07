@@ -28,6 +28,11 @@ function init(): false | void {
 		);
 	}
 
+	// "Approve" button must be last
+	if (radios.length > 1) {
+		radios.push(radios.splice(1, 1)[0]);
+	}
+
 	// Generate the new buttons
 	for (const radio of radios) {
 		const tooltip = radio.parentElement!.getAttribute('aria-label');
