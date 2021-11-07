@@ -63,10 +63,13 @@ function findError(filename: string): string | void {
 	}
 
 	const lineRegex = regexJoin(/^/, `- [](# "${featureId}")`, /(?: 🔥)? (.+)$/gm);
+	const imageRegex = regexJoin(`<p><a title="${featureId}"></a> `, /(.+?)\n\t+<p><img src="(.+?)">/);
 	const lineMatch = readmeContent.match(lineRegex);
-	// `lineMatch` might be null, but in that case the feature might be described
-	// as a highlight. Also, line 56-59 checks if all features are described already
-	if (lineMatch && lineMatch.length > 1) {
+	const imageMatch = readmeContent.match(imageRegex);
+	if (
+		(lineMatch && lineMatch.length > 1) || // If the description occurs more than once in the large list of features
+		(imageMatch && lineMatch) // If the description appears in both the feature list and the highlighted features section
+	) {
 		return `ERR: ${featureId} should be described only once in the readme`;
 	}
 }
