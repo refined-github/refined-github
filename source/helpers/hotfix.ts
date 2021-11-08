@@ -4,7 +4,9 @@ import compareVersions from 'tiny-version-compare';
 
 import {RGHOptions} from '../options-storage';
 
-export const updateHotfixes = cache.function(async (): Promise<string[][]> => {
+export type HotfixStorage = Array<[FeatureID, string]>;
+
+export const updateHotfixes = cache.function(async (version: string): Promise<HotfixStorage> => {
 	// The explicit endpoint is necessary because it shouldn't change on GHE
 	// We can't use `https://raw.githubusercontent.com` because of permission issues https://github.com/refined-github/refined-github/pull/3530#issuecomment-691595925
 	const request = await fetch('https://api.github.com/repos/refined-github/refined-github/contents/hotfix.csv?ref=hotfix');
@@ -15,10 +17,16 @@ export const updateHotfixes = cache.function(async (): Promise<string[][]> => {
 		return [];
 	}
 
-	return atob(content)
-		.trim()
-		.split('\n')
-		.map(line => line.split(','));
+	const storage: HotfixStorage = [];
+	const lines = atob(content).trim().split('\n');
+	for (const line of lines) {
+		const [featureID, unaffectedVersion, relatedIssue] = line.split(',');
+		if (!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0) {
+			storage.push([featureID as FeatureID, relatedIssue]);
+		}
+	}
+
+	return storage;
 }, {
 	maxAge: {hours: 6},
 	cacheKey: () => 'hotfixes',
@@ -36,10 +44,8 @@ export const updateStyleHotfixes = cache.function(async (version: string): Promi
 	return atob(content).trim();
 }, {
 	maxAge: {hours: 6},
-	cacheKey: ([version]) => 'style-hotfixes:' + version,
+	cacheKey: () => 'style-hotfixes',
 });
-
-export type HotfixStorage = Array<[FeatureID, string, string]>;
 
 export async function getLocalHotfixes(version: string): Promise<HotfixStorage> {
 	// To facilitate debugging, ignore hotfixes during development.
@@ -48,10 +54,7 @@ export async function getLocalHotfixes(version: string): Promise<HotfixStorage> 
 		return [];
 	}
 
-	const storage = await cache.get<HotfixStorage>('hotfixes') ?? [];
-	return storage.filter(([_, unaffectedVersion]) =>
-		!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0,
-	);
+	return await cache.get<HotfixStorage>('hotfixes') ?? [];
 }
 
 export async function getLocalHotfixesAsOptions(version: string): Promise<Partial<RGHOptions>> {
@@ -68,5 +71,5 @@ export async function getStyleHotfixes(version: string): Promise<string> {
 		return '';
 	}
 
-	return await cache.get<string>('style-hotfixes:' + version) ?? '';
+	return await cache.get<string>('style-hotfixes') ?? '';
 }
