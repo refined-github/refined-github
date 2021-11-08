@@ -211,7 +211,7 @@ function enforceDefaults(
 	}
 }
 
-const getFeatureID = (url: string): FeatureID => url.split('/').pop()!.split('.', 1)[0];
+const getFeatureID = (url: string): FeatureID => url.split('/').pop()!.split('.')[0];
 
 /** Register a new feature */
 const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
