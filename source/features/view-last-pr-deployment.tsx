@@ -26,7 +26,7 @@ function init(): void {
 	);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	asLongAs: [
 		() => select.exists(deploymentSelector),
 	],

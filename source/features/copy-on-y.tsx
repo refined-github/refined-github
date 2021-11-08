@@ -19,7 +19,7 @@ function deinit(): void {
 	window.removeEventListener('keyup', handler);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isBlame,
 		pageDetect.isCompare,

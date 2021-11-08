@@ -54,7 +54,7 @@ async function init(): Promise<void> {
 	delegate(document, '#new_repository, #new_new_repository', 'submit', setStorage);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNewRepo,
 		pageDetect.isNewRepoTemplate,

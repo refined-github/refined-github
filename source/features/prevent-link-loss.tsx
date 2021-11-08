@@ -63,7 +63,7 @@ function init(): void {
 	delegate(document, '.rgh-prevent-link-loss', 'click', handleButtonClick);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
 	],

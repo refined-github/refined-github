@@ -55,7 +55,7 @@ async function init(): Promise<void | false> {
 	wrapAll([commitInfoBox, featureInfoBox], <div className="d-lg-flex"/>);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		() => /refined-github\/blob\/.+?\/source\/features\/[\w.-]+$/.test(location.pathname),
 	],

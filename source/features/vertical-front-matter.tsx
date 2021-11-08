@@ -39,7 +39,7 @@ function init(): void | false {
 	);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		hasFrontMatter,
 	],

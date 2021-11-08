@@ -8,7 +8,7 @@ async function init(): Promise<void> {
 	(await elementReady('input.header-search-input'))!.value = '';
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversationList,
 		pageDetect.isGlobalConversationList,

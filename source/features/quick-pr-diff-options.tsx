@@ -111,7 +111,7 @@ function initCommitAndCompare(): false | void {
 	);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit,

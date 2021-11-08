@@ -103,7 +103,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 }, {
 	maxAge: {hours: 2},
 	staleWhileRevalidate: {days: 9},
-	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner,
+	cacheKey: () => features.getFeatureID(import.meta.url) + ':' + getRepo()!.nameWithOwner,
 });
 
 async function init(): Promise<void> {
@@ -157,7 +157,7 @@ async function init(): Promise<void> {
 	await addAfterBranchSelector(link);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isEditingFile,
 		pageDetect.isSingleFile,

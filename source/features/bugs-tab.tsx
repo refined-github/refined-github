@@ -63,7 +63,7 @@ const countBugs = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: {minutes: 30},
 	staleWhileRevalidate: {days: 4},
-	cacheKey: (): string => __filebasename + ':' + getRepo()!.nameWithOwner,
+	cacheKey: (): string => features.getFeatureID(import.meta.url) + ':' + getRepo()!.nameWithOwner,
 });
 
 async function getSearchQueryBugLabel(): Promise<string> {
@@ -131,7 +131,7 @@ async function addBugsTab(): Promise<void | false> {
 		bugsCounter.title = bugCount > 999 ? String(bugCount) : '';
 	} catch (error: unknown) {
 		bugsCounter.remove();
-		features.log.error(__filebasename, error);
+		features.log.error(features.getFeatureID(import.meta.url), error);
 	}
 }
 
@@ -176,7 +176,7 @@ async function init(): Promise<void | false> {
 	await updateBugsTagHighlighting();
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepo,
 	],

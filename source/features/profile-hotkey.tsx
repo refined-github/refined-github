@@ -10,7 +10,7 @@ function init(): void {
 	document.body.append(<a hidden data-hotkey="g m" href={profileLink}/>);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	shortcuts: {
 		'g m': 'Go to Profile',
 	},

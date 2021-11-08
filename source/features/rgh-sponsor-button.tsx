@@ -97,7 +97,7 @@ function handleSponsorButton(): void {
 	delegate(document, '#sponsor-button-repo, #sponsor-profile-button, [aria-label^="Sponsor @"]', 'click', suchLove);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssue,
 		pageDetect.isRepoIssueList,

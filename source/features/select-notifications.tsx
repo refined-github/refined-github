@@ -172,7 +172,7 @@ function init(): void {
 	delegate(document, '.js-notifications-mark-selected-actions > *, .rgh-open-selected-button', 'click', closeDropdown);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	shortcuts: {
 		S: 'Open the "Select by" dropdown',
 	},

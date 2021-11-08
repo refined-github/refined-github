@@ -16,7 +16,7 @@ function init(): void {
 	delegate(document, '.TagsearchPopover-item', 'click', followLocalLink);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
 	],

@@ -156,7 +156,7 @@ async function init(): Promise<void> {
 	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)');
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],

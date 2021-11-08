@@ -31,7 +31,7 @@ function menuActivatedHandler(event: delegate.Event): void {
 	// Safety check #3742
 	if (!details.open && lastOpen > Date.now() - 500) {
 		delegation!.destroy();
-		console.warn(`The modal was closed too quickly. Disabling ${__filebasename} for this session.`);
+		console.warn(`The modal was closed too quickly. Disabling ${features.getFeatureID(import.meta.url)} for this session.`);
 		return;
 	}
 
@@ -52,7 +52,7 @@ function init(): void {
 	delegation = delegate(document, '.details-overlay', 'toggle', menuActivatedHandler, true);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	awaitDomReady: false,
 	init: onetime(init),
 });

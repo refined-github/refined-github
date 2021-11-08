@@ -2,14 +2,12 @@
 
 type AnyObject = Record<string, any>;
 
-type FeatureID = 'use the __filebasename variable';
+type FeatureID = string;
 interface FeatureMeta {
 	id: FeatureID;
 	description: string;
 	screenshot?: string;
 }
-
-declare const __filebasename: FeatureID;
 
 interface Window {
 	content: GlobalFetch;

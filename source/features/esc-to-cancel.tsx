@@ -18,7 +18,7 @@ function init(): void {
 	onConversationTitleFieldKeydown(handleEscPress);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	shortcuts: {
 		esc: 'Cancel editing a conversation title',
 	},

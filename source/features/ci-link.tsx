@@ -27,7 +27,7 @@ async function init(): Promise<false | void> {
 	repoNameHeader.classList.add('rgh-ci-link');
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepo,
 	],

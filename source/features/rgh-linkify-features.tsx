@@ -10,7 +10,7 @@ import {isNotRefinedGitHubRepo} from '../github-helpers';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 function linkifyFeature(codeElement: HTMLElement): void {
-	const id = getNewFeatureName(codeElement.textContent!) as FeatureID;
+	const id = getNewFeatureName(codeElement.textContent!);
 	if (featureList.includes(id) && !codeElement.closest('a')) {
 		wrap(codeElement, <a href={`/refined-github/refined-github/blob/main/source/features/${id}.tsx`}/>);
 	}
@@ -28,7 +28,7 @@ function init(): void {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 		pageDetect.isReleasesOrTags,

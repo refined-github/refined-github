@@ -151,7 +151,7 @@ async function init(): Promise<false | void> {
 	link.classList.add('tooltipped', 'tooltipped-ne');
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,

@@ -29,7 +29,7 @@ function init(): void {
 	delegate(document, '.ajax-pagination-form button[type="submit"]', 'click', handleAltClick);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],

@@ -16,7 +16,7 @@ function init(): void {
 	delegate(document, '.diff-view .js-expandable-line', 'click', expandDiff);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isCommit,

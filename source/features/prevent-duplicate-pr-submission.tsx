@@ -17,7 +17,7 @@ function init(): void {
 	delegate(document, '#new_pull_request', 'submit', preventSubmit);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isCompare,
 	],

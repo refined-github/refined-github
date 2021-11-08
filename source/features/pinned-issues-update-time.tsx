@@ -26,7 +26,7 @@ const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Re
 	return repository;
 }, {
 	maxAge: {minutes: 30},
-	cacheKey: ([issues]) => __filebasename + ':' + getRepo()!.nameWithOwner + ':' + String(issues),
+	cacheKey: ([issues]) => features.getFeatureID(import.meta.url) + ':' + getRepo()!.nameWithOwner + ':' + String(issues),
 });
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
@@ -52,7 +52,7 @@ async function init(): Promise<void | false> {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoIssueList,
 	],

@@ -101,7 +101,7 @@ function init(): false | void {
 	highlightBestComment(bestComment);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssue,
 	],
