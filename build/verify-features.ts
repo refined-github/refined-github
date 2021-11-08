@@ -42,7 +42,7 @@ function findError(filename: string): string | void {
 	}
 
 	const featureId = filename.replace('.tsx', '');
-	if (!importedFeatures.includes(featureId as FeatureID)) {
+	if (!importedFeatures.includes(featureId)) {
 		return `ERR: ${featureId} should be imported by \`${entryPoint}\``;
 	}
 
