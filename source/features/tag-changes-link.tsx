@@ -120,20 +120,24 @@ async function init(): Promise<void> {
 				</a>
 			);
 
-			if (pageDetect.isEnterprise() || pageDetect.isTags()) {
+			// The page of a tag without a release still uses the old layout #5037
+			if (pageDetect.isEnterprise() || pageDetect.isTags() || (pageDetect.isSingleTag() && select.exists('.release'))) {
 				lastLink.after(
 					<li className={lastLink.className + ' rgh-changelog-link'}>
 						{compareLink}
 					</li>,
 				);
-				/* Fix spacing issue when the window is < 700px wide https://github.com/refined-github/refined-github/pull/3841#issuecomment-754325056 */
+				// Fix spacing issue when the window is < 700px wide https://github.com/refined-github/refined-github/pull/3841#issuecomment-754325056
 				lastLink.classList.remove('flex-auto');
-			} else {
-				lastLink.parentElement!.after(
-					<div className="mb-md-2 mr-3 mr-md-0 rgh-changelog-link">
-						{compareLink}
-					</div>,
-				);
+				continue;
+			}
+
+			lastLink.parentElement!.after(
+				<div className={'rgh-changelog-link ' + (pageDetect.isReleases() ? 'mb-md-2 mr-3 mr-md-0' : 'mr-4 mb-2')}>
+					{compareLink}
+				</div>,
+			);
+			if (pageDetect.isReleases()) {
 				lastLink.classList.remove('mb-2');
 				lastLink.parentElement!.classList.remove('mb-md-2');
 			}
