@@ -10,8 +10,12 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 
-// eslint-disable-next-line import/prefer-default-export
-export const getWorkflows = cache.function(async (): Promise<AnyObject[]> => {
+interface WorkflowDetails {
+	schedule?: string;
+	manuallyDispatchable: boolean;
+}
+
+const getWorkflowsDetails = cache.function(async (): Promise<Record<string, WorkflowDetails> | false> => {
 	const {repository: {workflowFiles}} = await api.v4(`
 		repository() {
 			workflowFiles: object(expression: "HEAD:.github/workflows") {
@@ -28,20 +32,7 @@ export const getWorkflows = cache.function(async (): Promise<AnyObject[]> => {
 		}
 	`);
 
-	return workflowFiles?.entries ?? [];
-}, {
-	maxAge: {days: 1},
-	staleWhileRevalidate: {days: 10},
-	cacheKey: () => 'workflows:' + getRepo()!.nameWithOwner,
-});
-
-interface WorkflowDetails {
-	schedule?: string;
-	manuallyDispatchable: boolean;
-}
-
-const getWorkflowsDetails = async (): Promise<Record<string, WorkflowDetails> | false> => {
-	const workflows = await getWorkflows();
+	const workflows = workflowFiles?.entries ?? [];
 	if (workflows.length === 0) {
 		return false;
 	}
@@ -62,7 +53,11 @@ const getWorkflowsDetails = async (): Promise<Record<string, WorkflowDetails> | 
 	}
 
 	return details;
-};
+}, {
+	maxAge: {days: 1},
+	staleWhileRevalidate: {days: 10},
+	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner,
+});
 
 async function init(): Promise<false | void> {
 	const workflows = await getWorkflowsDetails();
