@@ -9,7 +9,7 @@ export function findFeatureRegex(id: FeatureID): RegExp {
 }
 
 export function findHighlightedFeatureRegex(id: FeatureID): RegExp {
-	return regexJoin(`<p><a title="${id}"></a> `, /(.+?)\n\t+<p><img src="(.+?)">/);
+	return regexJoin(`<p><a title="${id}"></a> `, /(.+?)\n\t+<p><img src="(.+?)">/g);
 }
 
 function searchInList(readmeContent: string, id: FeatureID): FeatureMeta | void {

@@ -1,7 +1,6 @@
-import regexJoin from 'regex-join';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 
-import {findFeatureRegex, findHighlightedFeatureRegex, getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
+import {findFeatureRegex, getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
 
 const featuresDirContents = readdirSync('source/features/');
 const entryPoint = 'source/refined-github.ts';
@@ -43,8 +42,8 @@ function findError(filename: string): string | void {
 		return `ERR: The \`/source/features\` folder should only contain .css and .tsx files. File \`${filename}\` violates that rule`;
 	}
 
-	const featureId = filename.replace('.tsx', '');
-	if (!importedFeatures.includes(featureId as FeatureID)) {
+	const featureId = filename.replace('.tsx', '') as FeatureID;
+	if (!importedFeatures.includes(featureId)) {
 		return `ERR: ${featureId} should be imported by \`${entryPoint}\``;
 	}
 
@@ -62,24 +61,18 @@ function findError(filename: string): string | void {
 		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
-	// This returns one match for every description it finds in the feature list
-	const featureMatch = readmeContent.match(findFeatureRegex(featureId as FeatureID));
-	// eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
-	// This returns three matches for every description in the highlights section
-	const highlightedFeatureMatch = readmeContent.match(findHighlightedFeatureRegex(featureId as FeatureID));
-	if (
-		(featureMatch?.length ?? 0) > 1 // If the description occurs more than once in the large list of features
-		|| (highlightedFeatureMatch?.length ?? 0) > 3 // If the description occurs more than once in the list of highlighted features
-		|| ((featureMatch?.length ?? 0) + (highlightedFeatureMatch?.length ?? 0) > 3) // If the description appears in both the feature list and the highlighted features section
-	) {
-		const matches = readmeContent.split(/\r?\n/).map((lineContent: string, lineNumber: number) =>
-		findFeatureRegex(featureId as FeatureID).test(lineContent)
-			|| regexJoin(`<p><a title="${featureId}"></a> `).test(lineContent)
-			? lineNumber + 1 : -1,
-		).filter(lineNumber => lineNumber > 0);
-		
-		return `ERR: ${featureId} is described more than once in the readme on lines ${matches.join(', ')}`;
+	const featureRegex = findFeatureRegex(featureId)
+	let listedFeatureMatch;
+	let lines: number[] = [];
+	do {
+		listedFeatureMatch = featureRegex.exec(readmeContent);
+    if (listedFeatureMatch) {
+			lines.push(readmeContent.substring(0, listedFeatureMatch.index).split(/\r?\n/).length);
+    }
+	} while (listedFeatureMatch);
+
+	if (lines.length > 1) {
+		return `ERR: ${featureId} should be described only once in the readme, but it was described on lines ${lines.join(', ')}`
 	}
 }
 
