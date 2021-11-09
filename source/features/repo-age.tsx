@@ -92,7 +92,7 @@ const getFirstCommit = cache.function(async (): Promise<[committedDate: string, 
 
 	return getRepoAge(commitSha, commitsCount);
 }, {
-	cacheKey: () => features.getFeatureID(import.meta.url) + ':' + getRepo()!.nameWithOwner,
+	cacheKey: () => 'first-commit:' + getRepo()!.nameWithOwner,
 });
 
 async function init(): Promise<void> {

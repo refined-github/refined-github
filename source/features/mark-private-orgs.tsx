@@ -16,7 +16,7 @@ const getPublicOrganizationsNames = cache.function(async (username: string): Pro
 	return response.map((organization: AnyObject) => organization.login);
 }, {
 	maxAge: {days: 10},
-	cacheKey: ([username]) => features.getFeatureID(import.meta.url) + ':' + username,
+	cacheKey: ([username]) => 'public-organizations:' + username,
 });
 
 async function init(): Promise<false | void> {

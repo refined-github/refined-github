@@ -67,7 +67,7 @@ const getLastCommitDate = cache.function(async (login: string): Promise<string |
 }, {
 	maxAge: {days: 10},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: ([login]) => features.getFeatureID(import.meta.url) + ':' + login,
+	cacheKey: ([login]) => 'last-commit:' + login,
 });
 
 function parseOffset(date: string): number {
