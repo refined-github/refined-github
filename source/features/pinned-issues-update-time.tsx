@@ -26,7 +26,7 @@ const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Re
 	return repository;
 }, {
 	maxAge: {minutes: 30},
-	cacheKey: ([issues]) => 'pinned-issues:' + getRepo()!.nameWithOwner + ':' + String(issues),
+	cacheKey: ([issues]) => `pinned-issues:${getRepo()!.nameWithOwner}:${String(issues)}`,
 });
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
