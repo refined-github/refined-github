@@ -208,10 +208,6 @@ async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 			disabledFeatures.append(
 				<p><code>{feature}</code> has been temporarily disabled due to {createRghIssueLink(relatedIssue)}.</p>,
 			);
-
-			const input = select<HTMLInputElement>(`#${feature}`)!;
-			input.disabled = true;
-			input.removeAttribute('name');
 		}
 	}
 
