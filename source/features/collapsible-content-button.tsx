@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
+import onCommentEdit from '../github-events/on-comment-edit';
 import smartBlockWrap from '../helpers/smart-block-wrap';
 
 function addContentToDetails({delegateTarget}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
@@ -33,15 +34,21 @@ function addContentToDetails({delegateTarget}: delegate.Event<MouseEvent, HTMLBu
 	);
 }
 
-function init(): void {
-	delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails);
-	for (const anchor of select.all('md-ref')) {
+function addButtons(): void {
+	for (const anchor of select.all('md-ref:not(.rgh-collapsible-content-btn-added)')) {
+		anchor.classList.add('rgh-collapsible-content-btn-added');
 		anchor.after(
 			<button type="button" className="toolbar-item tooltipped tooltipped-sw rgh-collapsible-content-btn" aria-label="Add collapsible content">
 				<FoldDownIcon/>
 			</button>,
 		);
 	}
+}
+
+function init(): void {
+	delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails);
+	addButtons();
+	onCommentEdit(addButtons);
 }
 
 void features.add(import.meta.url, {
