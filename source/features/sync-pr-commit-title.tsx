@@ -30,7 +30,7 @@ function needsSubmission(): boolean {
 
 	// Ensure that the required fields are on the page
 	if (!select.exists(prTitleFieldSelector + ',' + prTitleSubmitSelector)) {
-		features.log.error(features.getFeatureID(import.meta.url), 'Can’t update the PR title');
+		features.log.error(import.meta.url, 'Can’t update the PR title');
 		return false;
 	}
 

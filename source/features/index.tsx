@@ -47,7 +47,8 @@ interface InternalRunConfig {
 
 const {version} = browser.runtime.getManifest();
 
-const logError = (id: FeatureID, error: unknown): void => {
+const logError = (url: string, error: unknown): void => {
+	const id = getFeatureID(url);
 	const message = error instanceof Error ? error.message : String(error);
 
 	if (message.includes('token')) {

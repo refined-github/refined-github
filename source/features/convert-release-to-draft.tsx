@@ -29,7 +29,7 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event): Pr
 		select(editReleaseButtonSelector)!.click(); // Visit "Edit release" page
 	} catch (error: unknown) {
 		draftButton.textContent = 'Error. Check console or retry';
-		features.log.error(features.getFeatureID(import.meta.url), error);
+		features.log.error(import.meta.url, error);
 	}
 }
 
