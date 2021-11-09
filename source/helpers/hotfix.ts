@@ -4,6 +4,17 @@ import compareVersions from 'tiny-version-compare';
 
 import {RGHOptions} from '../options-storage';
 
+function parseCsv(content: string): string[][] {
+	const lines = [];
+	for (const line of content.split('\n')) {
+		if (line.trim()) {
+			lines.push(line.split(',').map(cell => cell.trim()));
+		}
+	}
+
+	return lines;
+}
+
 export type HotfixStorage = Array<[FeatureID, string]>;
 
 export const updateHotfixes = cache.function(async (version: string): Promise<HotfixStorage> => {
@@ -18,10 +29,8 @@ export const updateHotfixes = cache.function(async (version: string): Promise<Ho
 	}
 
 	const storage: HotfixStorage = [];
-	const lines = atob(content).trim().split('\n');
-	for (const line of lines) {
-		const [featureID, unaffectedVersion, relatedIssue] = line.split(',');
-		if (!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0) {
+	for (const [featureID, unaffectedVersion, relatedIssue] of parseCsv(atob(content))) {
+		if (featureID && relatedIssue && (!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0)) {
 			storage.push([featureID as FeatureID, relatedIssue]);
 		}
 	}
