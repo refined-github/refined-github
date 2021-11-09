@@ -10,7 +10,7 @@ import {isNotRefinedGitHubRepo} from '../github-helpers';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 function linkifyFeature(codeElement: HTMLElement): void {
-	const id = getNewFeatureName(codeElement.textContent!);
+	const id = getNewFeatureName(codeElement.textContent!) as FeatureID;
 	if (featureList.includes(id) && !codeElement.closest('a')) {
 		wrap(codeElement, <a href={`/refined-github/refined-github/blob/main/source/features/${id}.tsx`}/>);
 	}

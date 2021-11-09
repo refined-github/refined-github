@@ -41,7 +41,7 @@ function findError(filename: string): string | void {
 		return `ERR: The \`/source/features\` folder should only contain .css and .tsx files. File \`${filename}\` violates that rule`;
 	}
 
-	const featureId = filename.replace('.tsx', '');
+	const featureId = filename.replace('.tsx', '') as FeatureID;
 	if (!importedFeatures.includes(featureId)) {
 		return `ERR: ${featureId} should be imported by \`${entryPoint}\``;
 	}
