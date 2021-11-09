@@ -21,6 +21,7 @@ const getWorkflowsDetails = cache.function(async (): Promise<Record<string, Work
 			workflowFiles: object(expression: "HEAD:.github/workflows") {
 				... on Tree {
 					entries {
+						name
 						object {
 							... on Blob {
 								text
@@ -40,13 +41,8 @@ const getWorkflowsDetails = cache.function(async (): Promise<Record<string, Work
 	const details: Record<string, WorkflowDetails> = {};
 	for (const workflow of workflows) {
 		const workflowYaml: string = workflow.object.text;
-		const name = /^name[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
-		if (!name) {
-			continue;
-		}
-
 		const cron = /schedule[:\s-]+cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
-		details[name[1]] = {
+		details[workflow.name] = {
 			schedule: cron?.[1],
 			manuallyDispatchable: workflowYaml.includes('workflow_dispatch:'),
 		};
@@ -67,12 +63,12 @@ async function init(): Promise<false | void> {
 
 	// TODO [2022-05-01]: Remove `.hx_actions-sidebar` (kept for GHE)
 	const workflowsSidebar = await elementReady('.hx_actions-sidebar, .Layout-sidebar');
-	for (const workflowListItem of select.all('.filter-item[href*="/workflows/"]', workflowsSidebar)) {
+	for (const workflowListItem of select.all('a.filter-item[href*="/workflows/"]', workflowsSidebar)) {
 		if (select.exists('.octicon-stop', workflowListItem)) {
 			continue;
 		}
 
-		const workflowName = workflowListItem.textContent!.trim();
+		const workflowName = workflowListItem.href.split('/').pop()!;
 		const workflow = workflows[workflowName];
 		if (!workflow) {
 			continue;
