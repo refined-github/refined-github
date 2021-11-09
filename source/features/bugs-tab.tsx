@@ -118,8 +118,8 @@ async function addBugsTab(): Promise<void | false> {
 	new SearchQuery(bugsTab).add(await getSearchQueryBugLabel());
 
 	// In case GitHub changes its layout again #4166
-	if (issuesTab.parentElement!.tagName === 'LI') {
-		issuesTab.parentElement!.after(<li className="d-flex">{bugsTab}</li>);
+	if (issuesTab.parentElement instanceof HTMLLIElement) {
+		issuesTab.parentElement.after(<li className="d-flex">{bugsTab}</li>);
 	} else {
 		issuesTab.after(bugsTab);
 	}

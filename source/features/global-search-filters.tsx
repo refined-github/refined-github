@@ -5,13 +5,12 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import SearchQuery from '../github-helpers/search-query';
-import {getUsername} from '../github-helpers';
 
 async function init(): Promise<void> {
 	const filters = [
 		['Forks', 'fork:true'],
 		['Private', 'is:private'],
-		['Yours', 'user:' + getUsername()!],
+		['Yours', 'user:@me'],
 		['Authored', 'author:@me'],
 	];
 	const items = [];

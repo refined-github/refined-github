@@ -110,11 +110,12 @@ async function init(): Promise<void> {
 			'.list-style-none > .d-inline-block:last-child', // Link to source tarball under release tag
 		], container.element);
 		for (const lastLink of lastLinks) {
+			const currentTag = allTags[index].tag;
 			const compareLink = (
 				<a
 					className="Link--muted tooltipped tooltipped-n"
-					aria-label={'See changes since ' + decodeURIComponent(previousTag)}
-					href={buildRepoURL(`compare/${previousTag}...${allTags[index].tag}`)}
+					aria-label={`See changes between ${decodeURIComponent(previousTag)} and ${currentTag}`}
+					href={buildRepoURL(`compare/${previousTag}...${currentTag}`)}
 				>
 					<DiffIcon/> {pageDetect.isEnterprise() ? 'Changes' : <span className="ml-1 wb-break-all">Changes</span>}
 				</a>
