@@ -63,7 +63,7 @@ const countBugs = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: {minutes: 30},
 	staleWhileRevalidate: {days: 4},
-	cacheKey: (): string => features.getFeatureID(import.meta.url) + ':' + getRepo()!.nameWithOwner,
+	cacheKey: (): string => 'bugs:' + getRepo()!.nameWithOwner,
 });
 
 async function getSearchQueryBugLabel(): Promise<string> {

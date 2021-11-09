@@ -103,7 +103,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 }, {
 	maxAge: {hours: 2},
 	staleWhileRevalidate: {days: 9},
-	cacheKey: () => features.getFeatureID(import.meta.url) + ':' + getRepo()!.nameWithOwner,
+	cacheKey: () => 'files-with-prs:' + getRepo()!.nameWithOwner,
 });
 
 async function init(): Promise<void> {
