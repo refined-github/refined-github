@@ -2,7 +2,7 @@
 
 type AnyObject = Record<string, any>;
 
-type FeatureID = string;
+type FeatureID = string & {feature: true};
 interface FeatureMeta {
 	id: FeatureID;
 	description: string;
