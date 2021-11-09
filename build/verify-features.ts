@@ -67,8 +67,21 @@ function findError(filename: string): string | void {
 		isHighlightedFeature = true;
 	}
 
-	const featureRegex = findFeatureRegex(featureId);
 	const lines = [];
+	let highlightedFeatureMatch;
+	do {
+		highlightedFeatureMatch = highlightedFeatureRegex.exec(readmeContent);
+		if (highlightedFeatureMatch) {
+			lines.push(readmeContent.slice(0, highlightedFeatureMatch.index).split(/\r?\n/).length);
+		}
+	} while (highlightedFeatureMatch);
+
+	if (lines.length > 0) {
+		return `ERR: ${featureId} should be described only once in the readme, but it is also described on line(s) ${lines.join(', ')}`;
+	}
+
+	lines.length = 0;
+	const featureRegex = findFeatureRegex(featureId);
 	let listedFeatureMatch;
 	do {
 		listedFeatureMatch = featureRegex.exec(readmeContent);
