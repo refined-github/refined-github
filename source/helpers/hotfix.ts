@@ -38,6 +38,7 @@ export const updateHotfixes = cache.function(async (version: string): Promise<Ho
 	return storage;
 }, {
 	maxAge: {hours: 6},
+	staleWhileRevalidate: {days: 3},
 	cacheKey: () => 'hotfixes',
 });
 
@@ -53,6 +54,7 @@ export const updateStyleHotfixes = cache.function(async (version: string): Promi
 	return atob(content).trim();
 }, {
 	maxAge: {hours: 6},
+	staleWhileRevalidate: {days: 3},
 	cacheKey: () => 'style-hotfixes',
 });
 
