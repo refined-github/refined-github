@@ -41,7 +41,7 @@ async function initRepo(): Promise<void> {
 	);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	asLongAs: [
 		() => Boolean(getRepo()?.name.endsWith('.github.io')),
 	],

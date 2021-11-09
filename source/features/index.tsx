@@ -47,7 +47,8 @@ interface InternalRunConfig {
 
 const {version} = browser.runtime.getManifest();
 
-const logError = (id: FeatureID, error: unknown): void => {
+const logError = (url: string, error: unknown): void => {
+	const id = getFeatureID(url);
 	const message = error instanceof Error ? error.message : String(error);
 
 	if (message.includes('token')) {
@@ -156,7 +157,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 		try {
 			// Features can return `false` when they decide not to run on the current page
 			// Also the condition avoids logging the fake feature added for `has-rgh`
-			if (await init() !== false && !id?.startsWith('rgh') && id !== __filebasename) {
+			if (await init() !== false && !id?.startsWith('rgh')) {
 				log.info('✅', id);
 			}
 		} catch (error: unknown) {
@@ -211,12 +212,15 @@ function enforceDefaults(
 	}
 }
 
+const getFeatureID = (url: string): FeatureID => url.split('/').pop()!.split('.')[0] as FeatureID;
+
 /** Register a new feature */
-const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> => {
+const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
+	const id = getFeatureID(url);
 	/* Feature filtering and running */
 	const options = await globalReady;
 	// Skip disabled features, unless the "feature" is the fake feature in this file
-	if (!options[`feature:${id}`] && id as string !== __filebasename) {
+	if (!options[`feature:${id}`] && !id.startsWith('rgh')) {
 		log.info('↩️', 'Skipping', id);
 		return;
 	}
@@ -266,7 +270,8 @@ const add = async (id: FeatureID, ...loaders: FeatureLoader[]): Promise<void> =>
 	}
 };
 
-const addCssFeature = async (id: FeatureID, include: BooleanFunction[] | undefined, deduplicate?: false | string): Promise<void> => {
+const addCssFeature = async (url: string, include: BooleanFunction[] | undefined, deduplicate?: false | string): Promise<void> => {
+	const id = getFeatureID(url);
 	void add(id, {
 		include,
 		deduplicate,
@@ -283,7 +288,7 @@ This means that the old features will still be on the page and don't need to re-
 
 This marks each as "processed"
 */
-void add(__filebasename, {
+void add('rgh-deduplicator' as FeatureID, {
 	deduplicate: false,
 	init: async () => {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
@@ -298,6 +303,7 @@ const features = {
 	addCssFeature,
 	log,
 	shortcutMap,
+	getFeatureID,
 };
 
 export default features;

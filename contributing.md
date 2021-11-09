@@ -25,7 +25,7 @@ function init() {
 	console.log('✨');
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPR // Find which one you need on https://fregante.github.io/github-url-detection/
 	],
@@ -52,7 +52,7 @@ function init(): void {
 	delegate(document, '.btn', 'click', append);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	// This only adds the shortcut to the help screen, it doesn't enable it.
 	shortcuts: {
 		'↑': 'Edit your last comment'

@@ -60,7 +60,7 @@ function init(): void {
 	select('.rgh-tags-dropdown')!.addEventListener('remote-input-success', updateLinksToTag);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isReleasesOrTags,
 	],

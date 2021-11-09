@@ -54,7 +54,7 @@ function init(): void {
 	document.addEventListener('keypress', runShortcuts);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	shortcuts: {
 		j: 'Focus the comment/file below',
 		k: 'Focus the comment/file above',

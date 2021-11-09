@@ -161,7 +161,7 @@ async function init(): Promise<void | false> {
 	await cache.set(cacheKey, cached, {days: 1});
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoCommitList,
 	],

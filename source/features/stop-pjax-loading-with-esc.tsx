@@ -23,7 +23,7 @@ function keydownHandler(event: KeyboardEvent): void {
 				...history.state,
 			}, '', location.href);
 		} else {
-			features.log.error(__filebasename, 'Pjax container not found.');
+			features.log.error(import.meta.url, 'Pjax container not found.');
 		}
 	}
 
@@ -46,7 +46,7 @@ function init(): void {
 	window.addEventListener('keydown', keydownHandler);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepo,
 		pageDetect.isRepoSearch,

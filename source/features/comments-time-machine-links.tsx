@@ -129,7 +129,7 @@ function init(): void {
 	delegate(document, '.js-reaction-popover-container ~ details:last-child', 'click', updateMenu);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 	],

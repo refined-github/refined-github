@@ -160,7 +160,7 @@ async function initPRCommit(): Promise<void | false> {
 	);
 }
 
-void features.add(__filebasename, 	{
+void features.add(import.meta.url, 	{
 	asLongAs: [
 		pageDetect.is404,
 		() => parseCurrentURL().length > 1,

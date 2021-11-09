@@ -27,7 +27,7 @@ function init(): void {
 	commentsLink.after(subscriptionsLink);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoConversationList,
 	],

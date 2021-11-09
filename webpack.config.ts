@@ -1,12 +1,12 @@
 /// <reference types="./source/globals" />
 
 import path from 'node:path';
-import {createRequire} from 'node:module';
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
+import {Configuration} from 'webpack';
+import {createRequire} from 'node:module';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import webpack, {Configuration} from 'webpack';
 
 const {resolve: resolvePackage} = createRequire(import.meta.url);
 
@@ -49,10 +49,6 @@ const config: Configuration = {
 		],
 	},
 	plugins: [
-		new webpack.DefinePlugin({
-			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
-			__filebasename: webpack.DefinePlugin.runtimeValue(info => JSON.stringify(path.parse(info.module.resource).name)),
-		}),
 		new MiniCssExtractPlugin(),
 		new CopyWebpackPlugin({
 			patterns: [{

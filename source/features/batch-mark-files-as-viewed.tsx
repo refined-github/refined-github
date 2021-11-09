@@ -73,7 +73,7 @@ function deinit(): void {
 	previousFile = undefined;
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	awaitDomReady: false,
 	include: [
 		pageDetect.isPRFiles,

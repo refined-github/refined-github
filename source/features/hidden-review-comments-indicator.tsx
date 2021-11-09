@@ -69,7 +69,7 @@ function init(): void {
 	delegate(document, '.rgh-comments-indicator', 'click', handleIndicatorClick);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit,

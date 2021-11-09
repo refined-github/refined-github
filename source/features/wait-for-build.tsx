@@ -103,7 +103,7 @@ function deinit(): void {
 	window.removeEventListener('beforeunload', onBeforeunload);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	asLongAs: [
 		// The user is a maintainer, so they can probably merge the PR
 		() => select.exists('.discussion-sidebar-item .octicon-lock'),

@@ -94,7 +94,7 @@ async function init(): Promise<void> {
 	onlyShowInDropdown('insights-tab');
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepo,
 	],

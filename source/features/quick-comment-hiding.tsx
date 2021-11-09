@@ -80,7 +80,7 @@ function init(): void {
 	delegate(document, '.rgh-quick-comment-hiding-details', 'toggle', resetDropdowns, true);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 	],

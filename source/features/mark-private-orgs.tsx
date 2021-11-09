@@ -16,7 +16,7 @@ const getPublicOrganizationsNames = cache.function(async (username: string): Pro
 	return response.map((organization: AnyObject) => organization.login);
 }, {
 	maxAge: {days: 10},
-	cacheKey: ([username]) => __filebasename + ':' + username,
+	cacheKey: ([username]) => 'public-organizations:' + username,
 });
 
 async function init(): Promise<false | void> {
@@ -34,7 +34,7 @@ async function init(): Promise<false | void> {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isOwnUserProfile,
 	],
