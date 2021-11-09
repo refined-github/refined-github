@@ -52,7 +52,7 @@ const getWorkflowsDetails = cache.function(async (): Promise<Record<string, Work
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 10},
-	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner,
+	cacheKey: () => 'workflows:' + getRepo()!.nameWithOwner,
 });
 
 async function init(): Promise<false | void> {
