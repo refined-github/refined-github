@@ -109,7 +109,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 	// Adding the time element might change the height of the hovercard and thus break its positioning
 	const hovercardHeight = hovercard.offsetHeight;
 
-	// Only remove the reserved space when the time element is actually inserted in the hovercard to avoid #4527
+	// Only remove the space reserved via CSS when the element is actually inserted in the hovercard #4527
 	hovercardContainer.classList.add('rgh-user-local-time-added');
 	hovercardContainer.append(container);
 
