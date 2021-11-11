@@ -51,7 +51,7 @@ function highlightBestComment(bestComment: Element): void {
 	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
 	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
 		<span
-			className="d-flex flex-items-center color-text-success color-fg-success mr-1 tooltipped tooltipped-n"
+			className="d-inline-block color-text-success color-fg-success mr-1 tooltipped tooltipped-n" // `.d-inline-block` is needed to correctly align with the reaction button #5064
 			aria-label="This comment has the most positive reactions on this issue."
 		>
 			<CheckCircleFillIcon/>
