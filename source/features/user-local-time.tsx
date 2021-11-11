@@ -90,7 +90,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 		return;
 	}
 
-	hovercardContainer.classList.add('rgh-user-local-time-container-added');
+	hovercardContainer.classList.add('rgh-user-local-time');
 
 	const datePromise = getLastCommitDate(login);
 	const race = await Promise.race([delay(300), datePromise]);
@@ -109,6 +109,8 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 	// Adding the time element might change the height of the hovercard and thus break its positioning
 	const hovercardHeight = hovercard.offsetHeight;
 
+	// Only remove the reserved space when the time element is actually inserted in the hovercard to avoid #4527
+	hovercardContainer.classList.add('rgh-user-local-time-added');
 	hovercardContainer.append(container);
 
 	if (hovercard.matches('.Popover-message--bottom-right, .Popover-message--bottom-left')) {
@@ -141,7 +143,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 }
 
 function init(): void {
-	observe('.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time-container-added)', {
+	observe('.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time)', {
 		add: insertUserLocalTime,
 	});
 }
