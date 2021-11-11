@@ -73,7 +73,7 @@ function init(): void {
 	delegate(document, '.rgh-table-input-cell', 'click', addTable);
 	delegate(document, '.rgh-table-input-cell', 'mouseenter', highlightSquares, {capture: true});
 	insertEditorButtons();
-	void onCommentEdit(insertEditorButtons);
+	onCommentEdit(insertEditorButtons);
 }
 
 void features.add(import.meta.url, {

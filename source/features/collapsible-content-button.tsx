@@ -48,7 +48,7 @@ function insertEditorButtons(): void {
 function init(): void {
 	delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails);
 	insertEditorButtons();
-	void onCommentEdit(insertEditorButtons);
+	onCommentEdit(insertEditorButtons);
 }
 
 void features.add(import.meta.url, {
