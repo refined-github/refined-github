@@ -205,7 +205,7 @@ async function highlightNewFeatures(): Promise<void> {
 async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 	const disabledFeatures = <div className="js-hotfixes"/>;
 
-	for (const [feature,, relatedIssue] of await getLocalHotfixes(version)) {
+	for (const [feature, relatedIssue] of await getLocalHotfixes(version)) {
 		if (featureList.includes(feature)) {
 			disabledFeatures.append(
 				<p><code>{feature}</code> has been temporarily disabled due to {createRghIssueLink(relatedIssue)}.</p>,

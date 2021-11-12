@@ -110,7 +110,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		Object.assign(options, bisectedFeatures);
 	} else {
 		// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
-		void updateHotfixes();
+		void updateHotfixes(version);
 		Object.assign(options, localHotfixes);
 	}
 
