@@ -34,7 +34,6 @@ interface GlobalEventHandlersEventMap {
 	'pjax:start': CustomEvent;
 	'session:resume': CustomEvent;
 	'input': InputEvent; // Remove once no longer necessary (2022?)
-	'loadend': CustomEvent;
 }
 
 declare namespace JSX {
