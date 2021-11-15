@@ -3,7 +3,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
-import {PlusIcon, SearchIcon} from '@primer/octicons-react';
+import {PlusIcon, SearchIcon, DownloadIcon} from '@primer/octicons-react';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
@@ -38,13 +38,11 @@ function init(): void {
 			}
 
 			// This dropdown doesn't appear on `isSingleFile`
-			// Remove `.octicon-download` in November
-			const codeIcon = select('get-repo :is(.octicon-code, .octicon-download)');
-			if (codeIcon) {
-				// Remove "Code" text next to it
-				codeIcon.nextSibling!.remove();
-
-				addTooltipToSummary(codeIcon, 'Clone, open or download');
+			const codeDropdownButton = select('get-repo summary');
+			if (codeDropdownButton) {
+				// Replace "Code" text with icon
+				codeDropdownButton.firstChild!.replaceWith(<DownloadIcon/>);
+				addTooltipToSummary(codeDropdownButton, 'Clone, open or download');
 			}
 		},
 	});
