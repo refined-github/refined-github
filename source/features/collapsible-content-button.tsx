@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
+import onNewReview from '../github-events/on-new-review';
 import onCommentEdit from '../github-events/on-comment-edit';
 import smartBlockWrap from '../helpers/smart-block-wrap';
 
@@ -34,7 +35,7 @@ function addContentToDetails({delegateTarget}: delegate.Event<MouseEvent, HTMLBu
 	);
 }
 
-function insertEditorButtons(): void {
+function addButtons(): void {
 	for (const anchor of select.all('md-ref:not(.rgh-collapsible-content-btn-added)')) {
 		anchor.classList.add('rgh-collapsible-content-btn-added');
 		anchor.after(
@@ -47,8 +48,9 @@ function insertEditorButtons(): void {
 
 function init(): void {
 	delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails);
-	insertEditorButtons();
-	onCommentEdit(insertEditorButtons);
+	addButtons();
+	onCommentEdit(addButtons);
+	onNewReview(addButtons);
 }
 
 void features.add(import.meta.url, {
