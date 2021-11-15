@@ -1,7 +1,7 @@
-import select from 'select-dom';
+import delegate from 'delegate-it';
 
-export default function onCommentEdit(callback: VoidFunction): void {
-	for (const includeFragment of select.all('.js-comment-edit-form-deferred-include-fragment')) {
-		includeFragment.addEventListener('loadend', callback);
-	}
+import {createFragmentLoadListener} from './on-diff-file-load';
+
+export default function onCommentEdit(callback: EventListener): delegate.Subscription {
+	return createFragmentLoadListener('.js-comment-edit-form-deferred-include-fragment', callback);
 }
