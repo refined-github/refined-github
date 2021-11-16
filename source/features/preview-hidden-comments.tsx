@@ -9,7 +9,7 @@ import {upperCaseFirst} from '../github-helpers';
 function init(): void {
 	// We target `.comment-body` directly because hidden review comments are only loaded when first expanded, except when opening a link
 	// pointing to another review comment in the same thread (e.g. https://github.com/refined-github/refined-github/pull/4520#discussion_r659341139) #4915
-	for (const comment of select.all('.minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments) .comment-body')) {
+	for (const comment of select.all('.minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments) .comment-body:not(.js-preview-body)')) {
 		const details = comment.closest('details')!;
 		details.classList.add('rgh-preview-hidden-comments');
 
