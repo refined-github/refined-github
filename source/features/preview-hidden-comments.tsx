@@ -28,12 +28,9 @@ function init(): void {
 			continue;
 		}
 
-		// Hidden review comments that have been preloaded have their header text wrapped in an extra <div>
-		// Comments that have just been hidden already have a `.Details-content--open` element #4983
-		const headerText = select(':scope > :is(.d-inline-block:last-child, .Details-content--open)', header) ?? header.firstChild;
 		header.append(
-			<span className="Details-content--open">{headerText}</span>,
-			<span className="Details-content--closed rgh-preview-hidden-comments-details">{`${upperCaseFirst(reason)} — ${commentText.slice(0, 100)}`}</span>,
+			<span className="Details-content--open">{select(':scope > .d-inline-block', header) ?? header.firstChild}</span>,
+			<span className="Details-content--closed">{`${upperCaseFirst(reason)} — ${commentText.slice(0, 100)}`}</span>,
 		);
 	}
 }
