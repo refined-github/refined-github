@@ -73,7 +73,7 @@
 		"regex-join": "^1.0.0",
 		"select-dom": "^7.1.1",
 		"selector-observer": "^2.1.6",
-		"shorten-repo-url": "^2.2.0",
+		"shorten-repo-url": "^2.3.0",
 		"strip-indent": "^4.0.0",
 		"text-field-edit": "^3.1.1",
 		"tiny-version-compare": "^3.0.1",
