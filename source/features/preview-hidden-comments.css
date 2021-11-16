@@ -4,3 +4,7 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
+
+.rgh-preview-hidden-comments .Details-content--closed:not(.rgh-preview-hidden-comments-details) {
+	display: none !important; /* 4983 */
+}
