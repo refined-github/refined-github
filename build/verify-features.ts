@@ -67,35 +67,35 @@ function findError(filename: string): string | void {
 		isHighlightedFeature = true;
 	}
 
-	const lines = [];
+	let duplicates = 0;
 	let highlightedFeatureMatch;
 	do {
 		highlightedFeatureMatch = highlightedFeatureRegex.exec(readmeContent);
 		if (highlightedFeatureMatch) {
-			lines.push(readmeContent.slice(0, highlightedFeatureMatch.index).split(/\r?\n/).length);
+			duplicates++;
 		}
 	} while (highlightedFeatureMatch);
 
-	if (lines.length > 0) {
-		return `ERR: ${featureId} should be described only once in the readme, but it is also described on line(s) ${lines.join(', ')}`;
+	if (duplicates > 0) {
+		return `ERR: ${featureId} should be described only once in the readme`;
 	}
 
-	lines.length = 0;
+	let occurrences = 0;
 	const featureRegex = findFeatureRegex(featureId);
 	let listedFeatureMatch;
 	do {
 		listedFeatureMatch = featureRegex.exec(readmeContent);
 		if (listedFeatureMatch) {
-			lines.push(readmeContent.slice(0, listedFeatureMatch.index).split(/\r?\n/).length);
+			occurrences++;
 		}
 	} while (listedFeatureMatch);
 
-	if (isHighlightedFeature && lines.length > 0) {
-		return `ERR: ${featureId} should be described only once in the readme, but it is described in the highlights section and on line(s) ${lines.join(', ')}`;
+	if (isHighlightedFeature && occurrences > 0) {
+		return `ERR: ${featureId} should be described only once in the readme`;
 	}
 
-	if (!isHighlightedFeature && lines.length > 1) {
-		return `ERR: ${featureId} should be described only once in the readme, but it is described on lines ${lines.join(', ')}`;
+	if (!isHighlightedFeature && occurrences > 1) {
+		return `ERR: ${featureId} should be described only once in the readme`;
 	}
 }
 
