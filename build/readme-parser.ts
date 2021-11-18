@@ -16,7 +16,7 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 		simpleDescription,
 		highlightedId,
 		highlightedDescripion,
-		highlightedImage
+		highlightedImage,
 	} = match.groups!;
 	if (highlightedId) {
 		return {
