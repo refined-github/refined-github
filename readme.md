@@ -106,7 +106,7 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 			<p><a title="show-whitespace"></a> Makes whitespace characters visible
 			<p><img src="https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png">
 		<th width="50%">
-			<p><a title="resolve-conflicts"></a> Adds one-click merge conflict fixers
+			<p><a title="useful-forks"></a> Adds one-click merge conflict fixers
 			<p><img src="https://user-images.githubusercontent.com/1402241/54978791-45906080-4fdc-11e9-8fe1-45374f8ff636.png">
 	<tr>
 		<th width="50%">
