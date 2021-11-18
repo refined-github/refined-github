@@ -1,10 +1,11 @@
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 
-import {getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
+import {findFeatureRegex, findHighlightedFeatureRegex, getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
 
 const featuresDirContents = readdirSync('source/features/');
 const entryPoint = 'source/refined-github.ts';
 const entryPointSource = readFileSync(entryPoint);
+const readmeContent = readFileSync('readme.md', 'utf-8');
 const importedFeatures = getFeatures();
 const featuresInReadme = getFeaturesMeta();
 
@@ -53,11 +54,48 @@ function findError(filename: string): string | void {
 
 	const featureMeta = featuresInReadme.find(feature => feature.id === featureId);
 	if (!featureMeta) {
-		return `ERR: The feature ${featureId} should be described in the readme`;
+		return `ERR: ${featureId} should be described in the readme`;
 	}
 
 	if (featureMeta.description.length < 20) {
 		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
+	}
+
+	const highlightedFeatureRegex = findHighlightedFeatureRegex(featureId);
+	let isHighlightedFeature = false;
+	if (highlightedFeatureRegex.test(readmeContent)) {
+		isHighlightedFeature = true;
+	}
+
+	let duplicates = 0;
+	let highlightedFeatureMatch;
+	do {
+		highlightedFeatureMatch = highlightedFeatureRegex.exec(readmeContent);
+		if (highlightedFeatureMatch) {
+			duplicates++;
+		}
+	} while (highlightedFeatureMatch);
+
+	if (duplicates > 0) {
+		return `ERR: ${featureId} should be described only once in the readme`;
+	}
+
+	let occurrences = 0;
+	const featureRegex = findFeatureRegex(featureId);
+	let listedFeatureMatch;
+	do {
+		listedFeatureMatch = featureRegex.exec(readmeContent);
+		if (listedFeatureMatch) {
+			occurrences++;
+		}
+	} while (listedFeatureMatch);
+
+	if (isHighlightedFeature && occurrences > 0) {
+		return `ERR: ${featureId} should be described only once in the readme`;
+	}
+
+	if (!isHighlightedFeature && occurrences > 1) {
+		return `ERR: ${featureId} should be described only once in the readme`;
 	}
 }
 
