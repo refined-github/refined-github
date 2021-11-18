@@ -5,15 +5,19 @@ import {readFileSync} from 'node:fs';
 import {parse as parseMarkdown} from 'markdown-wasm/dist/markdown.node.js';
 
 // Group names must be unique because they will be merged
-const simpleFeatureRegex = /^- \[\]\(# "(?<simpleId>[^"]+)"\)(?: 🔥)? (?<simpleDescription>.+)$/gm;
+const simpleFeatureRegex = /^- \[]\(# "(?<simpleId>[^"]+)"\)(?: 🔥)? (?<simpleDescription>.+)$/gm;
 const highlightedFeatureRegex = /<p><a title="(?<highlightedId>[^"]+)"><\/a> (?<highlightedDescripion>.+?)\n\t+<p><img src="(?<highlightedImage>.+?)">/g;
+// eslint-disable-next-line unicorn/better-regex -- ur wrong
 const featureRegex = regexJoin(simpleFeatureRegex, /|/, highlightedFeatureRegex);
 
 function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
-	const {simpleId
-,		simpleDescription
-,		highlightedId
-,		highlightedDescripion, highlightedImage} = match.groups!;
+	const {
+		simpleId,
+		simpleDescription,
+		highlightedId,
+		highlightedDescripion,
+		highlightedImage
+	} = match.groups!;
 	if (highlightedId) {
 		return {
 			id: highlightedId as FeatureID,
