@@ -1,11 +1,10 @@
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 
-import {findFeatureRegex, getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
+import {getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
 
 const featuresDirContents = readdirSync('source/features/');
 const entryPoint = 'source/refined-github.ts';
 const entryPointSource = readFileSync(entryPoint);
-const readmeContent = readFileSync('readme.md', 'utf-8');
 const importedFeatures = getFeatures();
 const featuresInReadme = getFeaturesMeta();
 
@@ -52,7 +51,7 @@ function findError(filename: string): string | void {
 		return;
 	}
 
-	const featureMeta = featuresInReadme.find(feature => feature.id === featureId);
+	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
 	if (!featureMeta) {
 		return `ERR: ${featureId} should be described in the readme`;
 	}
@@ -61,7 +60,7 @@ function findError(filename: string): string | void {
 		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
 	}
 
-	if ([...readmeContent.matchAll(findFeatureRegex(featureId))].length > 1) {
+	if (duplicate) {
 		return `ERR: ${featureId} should be described only once in the readme`;
 	}
 }

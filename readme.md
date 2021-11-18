@@ -37,7 +37,7 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 </div>
 
 ---
-	
+
 <div align="center">
 	<p>
 		<sup>
