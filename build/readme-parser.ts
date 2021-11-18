@@ -5,17 +5,22 @@ import {readFileSync} from 'node:fs';
 import {parse as parseMarkdown} from 'markdown-wasm/dist/markdown.node.js';
 
 export function findFeatureRegex(id: FeatureID): RegExp {
-	return regexJoin(/^/, `- [](# "${id}")`, /(?: 🔥)? (.+)$/gm);
+	return regexJoin(/^/, `- [](# "${id}")`, /(?: 🔥)? (?<plainFeatureDescription>.+)$|/gm, `<p><a title="${id}"></a> `, /(?<description>.+?)\n\t+<p><img src="(?<image>.+?)">/gm);
 }
 
-export function findHighlightedFeatureRegex(id: FeatureID): RegExp {
-	return regexJoin(`<p><a title="${id}"></a> `, /(.+?)\n\t+<p><img src="(.+?)">/g);
-}
-
-function searchInList(readmeContent: string, id: FeatureID): FeatureMeta | void {
-	const lineMatch = findFeatureRegex(id).exec(readmeContent);
-	if (!lineMatch) {
+function searchFeature(readmeContent: string, id: FeatureID): FeatureMeta | void {
+	const match = findFeatureRegex(id).exec(readmeContent);
+	if (!match) {
 		return;
+	}
+
+	const {plainFeatureDescription, description, image} = match.groups!;
+	if (description) {
+		return {
+			id,
+			description: parseMarkdown(description + '.'),
+			screenshot: image,
+		};
 	}
 
 	const urls: string[] = [];
@@ -24,23 +29,12 @@ function searchInList(readmeContent: string, id: FeatureID): FeatureMeta | void 
 		return title;
 	};
 
-	const markdownDescription = lineMatch[1].replace(/\[(.+?)]\((.+?)\)/g, urlExtracter);
+	const linkLessMarkdownDescription = plainFeatureDescription.replace(/\[(.+?)]\((.+?)\)/g, urlExtracter);
 	return {
 		id,
-		description: parseMarkdown(markdownDescription),
+		description: parseMarkdown(linkLessMarkdownDescription),
 		screenshot: urls.find(url => /\.(png|gif)$/i.test(url)),
 	};
-}
-
-function searchInHighlights(readmeContent: string, id: FeatureID): FeatureMeta | void {
-	const imageMatch = findHighlightedFeatureRegex(id).exec(readmeContent);
-	if (imageMatch) {
-		return {
-			id,
-			description: parseMarkdown(imageMatch[1] + '.'),
-			screenshot: imageMatch[2],
-		};
-	}
 }
 
 export function getFeaturesMeta(): FeatureMeta[] {
@@ -48,7 +42,7 @@ export function getFeaturesMeta(): FeatureMeta[] {
 	const features = [];
 	for (const id of getFeatures()) {
 		if (!id.startsWith('rgh-')) {
-			const details = searchInList(readmeContent, id) ?? searchInHighlights(readmeContent, id);
+			const details = searchFeature(readmeContent, id);
 			if (details) {
 				features.push(details);
 			}

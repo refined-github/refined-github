@@ -1,6 +1,6 @@
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 
-import {findFeatureRegex, findHighlightedFeatureRegex, getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
+import {findFeatureRegex, getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
 
 const featuresDirContents = readdirSync('source/features/');
 const entryPoint = 'source/refined-github.ts';
@@ -61,40 +61,7 @@ function findError(filename: string): string | void {
 		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
 	}
 
-	const highlightedFeatureRegex = findHighlightedFeatureRegex(featureId);
-	let isHighlightedFeature = false;
-	if (highlightedFeatureRegex.test(readmeContent)) {
-		isHighlightedFeature = true;
-	}
-
-	let duplicates = 0;
-	let highlightedFeatureMatch;
-	do {
-		highlightedFeatureMatch = highlightedFeatureRegex.exec(readmeContent);
-		if (highlightedFeatureMatch) {
-			duplicates++;
-		}
-	} while (highlightedFeatureMatch);
-
-	if (duplicates > 0) {
-		return `ERR: ${featureId} should be described only once in the readme`;
-	}
-
-	let occurrences = 0;
-	const featureRegex = findFeatureRegex(featureId);
-	let listedFeatureMatch;
-	do {
-		listedFeatureMatch = featureRegex.exec(readmeContent);
-		if (listedFeatureMatch) {
-			occurrences++;
-		}
-	} while (listedFeatureMatch);
-
-	if (isHighlightedFeature && occurrences > 0) {
-		return `ERR: ${featureId} should be described only once in the readme`;
-	}
-
-	if (!isHighlightedFeature && occurrences > 1) {
+	if ([...readmeContent.matchAll(findFeatureRegex(featureId))].length > 1) {
 		return `ERR: ${featureId} should be described only once in the readme`;
 	}
 }
