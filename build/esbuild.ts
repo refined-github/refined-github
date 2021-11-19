@@ -29,7 +29,7 @@ void esbuild.build({
 	],
 	bundle: true,
 	watch: process.argv[2] === '--watch',
-	outdir: 'distribution/build',
+	outdir: 'distribution',
 	external: ['chrome:*', 'typed-query-selector'],
 	plugins: [readmeLoader],
 });
