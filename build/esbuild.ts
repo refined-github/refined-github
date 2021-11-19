@@ -25,11 +25,17 @@ void esbuild.build({
 		'source/options.tsx',
 		'source/resolve-conflicts.ts',
 		'source/refined-github.ts',
-		resolvePackage('webextension-polyfill'),
 	],
 	bundle: true,
 	watch: process.argv[2] === '--watch',
-	outdir: 'distribution',
-	external: ['chrome:*', 'typed-query-selector'],
+	outdir: 'distribution/build',
+	external: ['chrome:*'],
 	plugins: [readmeLoader],
+});
+
+void esbuild.build({
+	entryPoints: [
+		resolvePackage('webextension-polyfill'),
+	],
+	outdir: 'distribution/build',
 });
