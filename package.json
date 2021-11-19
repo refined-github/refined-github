@@ -16,7 +16,7 @@
 		"test:features": "node --loader ts-node/esm \"build/verify-features.ts\"",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
-		"watch:esbuild": "npm run build:esbuild -- --watch"
+		"watch:esbuild": "npm run build:esbuild -- - --watch"
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo",
