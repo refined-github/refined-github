@@ -1,10 +1,6 @@
-import {createRequire} from 'node:module';
-
 import esbuild from 'esbuild';
 
 import {getFeatures, getFeaturesMeta} from './readme-parser.js';
-
-const {resolve: resolvePackage} = createRequire(import.meta.url);
 
 const readmeLoader: esbuild.Plugin = {
 	name: 'Readme Loader',
@@ -25,7 +21,7 @@ void esbuild.build({
 		'source/options.tsx',
 		'source/resolve-conflicts.ts',
 		'source/refined-github.ts',
-		resolvePackage('webextension-polyfill'),
+		require.resolve('webextension-polyfill'),
 	],
 	bundle: true,
 	watch: process.argv[2] === '--watch',
