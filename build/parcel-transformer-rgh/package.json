@@ -1,0 +1,6 @@
+{
+	"name": "parcel-transformer-rgh",
+	"version": "0.0.0",
+	"main": "index.ts",
+	"type": "module"
+}
