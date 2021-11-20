@@ -61,7 +61,7 @@ function init(): void {
 	document.addEventListener('keypress', observeShortcutModal);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	awaitDomReady: false,
 	init: onetime(init),
 });

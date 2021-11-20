@@ -41,8 +41,8 @@ function findError(filename: string): string | void {
 		return `ERR: The \`/source/features\` folder should only contain .css and .tsx files. File \`${filename}\` violates that rule`;
 	}
 
-	const featureId = filename.replace('.tsx', '');
-	if (!importedFeatures.includes(featureId as FeatureID)) {
+	const featureId = filename.replace('.tsx', '') as FeatureID;
+	if (!importedFeatures.includes(featureId)) {
 		return `ERR: ${featureId} should be imported by \`${entryPoint}\``;
 	}
 
@@ -51,13 +51,17 @@ function findError(filename: string): string | void {
 		return;
 	}
 
-	const featureMeta = featuresInReadme.find(feature => feature.id === featureId);
+	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
 	if (!featureMeta) {
-		return `ERR: The feature ${featureId} should be described in the readme`;
+		return `ERR: ${featureId} should be described in the readme`;
 	}
 
 	if (featureMeta.description.length < 20) {
 		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
+	}
+
+	if (duplicate) {
+		return `ERR: ${featureId} should be described only once in the readme`;
 	}
 }
 

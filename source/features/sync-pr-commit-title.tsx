@@ -30,7 +30,7 @@ function needsSubmission(): boolean {
 
 	// Ensure that the required fields are on the page
 	if (!select.exists(prTitleFieldSelector + ',' + prTitleSubmitSelector)) {
-		features.log.error(__filebasename, 'Can’t update the PR title');
+		features.log.error(import.meta.url, 'Can’t update the PR title');
 		return false;
 	}
 
@@ -101,7 +101,7 @@ function deinit(): void {
 	listeners.length = 0;
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],

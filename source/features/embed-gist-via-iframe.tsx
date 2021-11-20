@@ -25,7 +25,7 @@ function init(): void {
 	embedViaScript.after(embedViaIframe);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleGist,
 	],

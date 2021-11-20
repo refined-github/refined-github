@@ -49,7 +49,7 @@ async function init(): Promise<false | void> {
 	groupButtons([defaultLink, branchSelector.parentElement!]).classList.add('d-flex');
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,

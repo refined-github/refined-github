@@ -10,13 +10,18 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 
-// eslint-disable-next-line import/prefer-default-export
-export const getWorkflows = cache.function(async (): Promise<AnyObject[]> => {
+interface WorkflowDetails {
+	schedule?: string;
+	manuallyDispatchable: boolean;
+}
+
+const getWorkflowsDetails = cache.function(async (): Promise<Record<string, WorkflowDetails> | false> => {
 	const {repository: {workflowFiles}} = await api.v4(`
 		repository() {
 			workflowFiles: object(expression: "HEAD:.github/workflows") {
 				... on Tree {
 					entries {
+						name
 						object {
 							... on Blob {
 								text
@@ -28,20 +33,7 @@ export const getWorkflows = cache.function(async (): Promise<AnyObject[]> => {
 		}
 	`);
 
-	return workflowFiles?.entries ?? [];
-}, {
-	maxAge: {days: 1},
-	staleWhileRevalidate: {days: 10},
-	cacheKey: () => 'workflows:' + getRepo()!.nameWithOwner,
-});
-
-interface WorkflowDetails {
-	schedule?: string;
-	manuallyDispatchable: boolean;
-}
-
-const getWorkflowsDetails = async (): Promise<Record<string, WorkflowDetails> | false> => {
-	const workflows = await getWorkflows();
+	const workflows = workflowFiles?.entries ?? [];
 	if (workflows.length === 0) {
 		return false;
 	}
@@ -49,20 +41,19 @@ const getWorkflowsDetails = async (): Promise<Record<string, WorkflowDetails> | 
 	const details: Record<string, WorkflowDetails> = {};
 	for (const workflow of workflows) {
 		const workflowYaml: string = workflow.object.text;
-		const name = /^name[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
-		if (!name) {
-			continue;
-		}
-
 		const cron = /schedule[:\s-]+cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
-		details[name[1]] = {
+		details[workflow.name] = {
 			schedule: cron?.[1],
 			manuallyDispatchable: workflowYaml.includes('workflow_dispatch:'),
 		};
 	}
 
 	return details;
-};
+}, {
+	maxAge: {days: 1},
+	staleWhileRevalidate: {days: 10},
+	cacheKey: () => 'workflows:' + getRepo()!.nameWithOwner,
+});
 
 async function init(): Promise<false | void> {
 	const workflows = await getWorkflowsDetails();
@@ -72,12 +63,12 @@ async function init(): Promise<false | void> {
 
 	// TODO [2022-05-01]: Remove `.hx_actions-sidebar` (kept for GHE)
 	const workflowsSidebar = await elementReady('.hx_actions-sidebar, .Layout-sidebar');
-	for (const workflowListItem of select.all('.filter-item[href*="/workflows/"]', workflowsSidebar)) {
+	for (const workflowListItem of select.all('a.filter-item[href*="/workflows/"]', workflowsSidebar)) {
 		if (select.exists('.octicon-stop', workflowListItem)) {
 			continue;
 		}
 
-		const workflowName = workflowListItem.textContent!.trim();
+		const workflowName = workflowListItem.href.split('/').pop()!;
 		const workflow = workflows[workflowName];
 		if (!workflow) {
 			continue;
@@ -112,7 +103,7 @@ async function init(): Promise<false | void> {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepositoryActions,
 	],

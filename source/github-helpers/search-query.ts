@@ -1,5 +1,3 @@
-import {getUsername} from '.';
-
 type Source = HTMLAnchorElement | URL | string | string[][] | Record<string, string> | URLSearchParams;
 
 const queryPartsRegExp = /(?:[^\s"]+|"[^"]*")+/g;
@@ -80,7 +78,7 @@ export default class SearchQuery {
 			if (this.searchParams.has('user')) { // #1211
 				queries.push(`user:${this.searchParams.get('user')!}`);
 			} else {
-				queries.push(`author:${getUsername()!}`);
+				queries.push('author:@me');
 			}
 
 			queries.push('archived:false');

@@ -15,7 +15,7 @@ function isLineSelected(): boolean {
 function listener({key, target}: KeyboardEvent): void {
 	if (key === 'Escape' && isLineSelected() && !isEditable(target)) {
 		location.hash = '#no-line'; // Update UI, without `scroll-to-top` behavior
-		history.replaceState({}, document.title, location.pathname); // Drop remaining # from url
+		history.replaceState(undefined, document.title, location.pathname); // Drop remaining # from url
 	}
 }
 
@@ -23,7 +23,7 @@ function init(): void {
 	document.body.addEventListener('keyup', listener);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasCode,
 	],

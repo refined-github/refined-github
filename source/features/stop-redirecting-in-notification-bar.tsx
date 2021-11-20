@@ -20,7 +20,7 @@ function init(): void {
 	delegate(document, '.notification-shelf .js-notification-action button', 'click', handleClick);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		hasNotificationBar,
 	],

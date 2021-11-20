@@ -24,7 +24,7 @@ function init(): void {
 	delegate(document, '.file-header .js-file-header-dropdown:not(.rgh-raw-file-link)', 'toggle', handleMenuOpening, true);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isCommit,
 		pageDetect.isPRFiles,

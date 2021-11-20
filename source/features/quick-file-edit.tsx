@@ -24,12 +24,12 @@ async function init(): Promise<void> {
 			url.branch = await getDefaultBranch(); // Permalinks can't be edited
 		}
 
-		wrap(fileIcon, <a href={url.href} className="rgh-quick-file-edit"/>);
+		wrap(fileIcon, <a data-skip-pjax href={url.href} className="rgh-quick-file-edit"/>);
 		fileIcon.after(<PencilIcon/>);
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoTree,
 	],

@@ -1,5 +1,5 @@
 :is(#commit-summary-input, #merge_title_field).rgh-title-over-limit {
-	border-color: var(--github-red);
+	border-color: var(--rgh-red);
 	background-color: rgb(203 36 49 / 3%);
 }
 

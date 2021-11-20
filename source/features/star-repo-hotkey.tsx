@@ -10,7 +10,7 @@ function init(): void {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	shortcuts: {
 		'g s': 'Star and unstar repository',
 	},

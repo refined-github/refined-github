@@ -44,7 +44,7 @@ function init(): void | false {
 	initialGroupedButtons.remove();
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isCompare,
 		pageDetect.isGist,

@@ -28,7 +28,7 @@ function init(): void {
 	document.addEventListener('visibilitychange', updateDocumentTitle);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
 	],

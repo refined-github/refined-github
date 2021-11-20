@@ -3,10 +3,14 @@ import elementReady from 'element-ready';
 
 import features from '.';
 import {wrapAll} from '../helpers/dom-utils';
+import {featuresMeta} from '../../readme.md';
+import {getNewFeatureName} from '../options-storage';
 
 async function init(): Promise<void | false> {
 	const [, currentFeature] = /features\/([^.]+)/.exec(location.pathname)!;
-	const feature = features.meta.find(feature => feature.id === currentFeature);
+	// Enable link even on past commits
+	const currentFeatureName = getNewFeatureName(currentFeature);
+	const feature = featuresMeta.find(feature => feature.id === currentFeatureName);
 	if (!feature) {
 		return false;
 	}
@@ -51,7 +55,7 @@ async function init(): Promise<void | false> {
 	wrapAll([commitInfoBox, featureInfoBox], <div className="d-lg-flex"/>);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		() => /refined-github\/blob\/.+?\/source\/features\/[\w.-]+$/.test(location.pathname),
 	],

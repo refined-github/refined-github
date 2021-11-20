@@ -1,23 +1,9 @@
 :root .rgh-reactions-avatar {
-	--size: 1.3em;
-	display: inline-block;
-	width: var(--size);
-	height: var(--size);
-	padding: 0;
-	margin: 0;
+	--size: 16px;
 	margin-left: calc(var(--size) * 0.3); /* Move away from count */
 	margin-right: calc(var(--size) * -0.5);
-	box-sizing: content-box;
-	align-self: center;
 }
 
 :root .rgh-reactions-avatar:last-of-type {
 	margin-right: -0.15em !important;
-}
-
-:root .rgh-reactions-avatar img {
-	display: block;
-	margin: 0;
-	width: var(--size);
-	height: var(--size);
 }

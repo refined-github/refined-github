@@ -57,7 +57,7 @@ function init(): void {
 	delegate(document, inputElements.join(','), 'keydown', onKeyDown);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNewIssue,
 		pageDetect.isCompare,

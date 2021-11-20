@@ -14,7 +14,7 @@ function init(): void {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	shortcuts: {
 		c: 'Create a new release',
 		'ctrl enter': 'Publish a release',

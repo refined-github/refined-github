@@ -40,7 +40,7 @@ function init(): void {
 	deinit.push(listener.destroy, editButtonListener.destroy, observer.abort);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 		pageDetect.isPRFiles,

@@ -101,7 +101,7 @@ async function init(): Promise<void> {
 	});
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isForkedRepo,
 	],

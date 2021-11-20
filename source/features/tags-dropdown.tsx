@@ -44,11 +44,11 @@ function init(): void {
 		</div>
 	);
 
-	if (pageDetect.isEnterprise() || location.href.endsWith('/tags')) {
+	if (pageDetect.isEnterprise() || pageDetect.isTags()) {
 		select('.subnav')!.append(tagsDropdown);
 	} else {
 		select('.subnav-search-input')!.closest('.d-flex')!.before(
-			<div className={window.location.href.endsWith('/tags') ? 'ml-2' : 'mb-2 mr-2'}>
+			<div className={pageDetect.isTags() ? 'ml-2' : 'mb-2 mr-2'}>
 				{tagsDropdown}
 			</div>,
 		);
@@ -60,7 +60,7 @@ function init(): void {
 	select('.rgh-tags-dropdown')!.addEventListener('remote-input-success', updateLinksToTag);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isReleasesOrTags,
 	],

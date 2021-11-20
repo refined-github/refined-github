@@ -56,7 +56,7 @@ async function init(): Promise<void | false> {
 	await addAfterBranchSelector(link);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoCommitList,
 	],
