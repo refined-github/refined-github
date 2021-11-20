@@ -1,8 +1,8 @@
-import {Transformer} from '@parcel/plugin';
-import {getFeatures, getFeaturesMeta} from "../readme-parser.js";
+const {Transformer} = require('@parcel/plugin');
 
-export default new Transformer({
+exports.default = new Transformer({
 	async transform({asset}) {
+		const {getFeatures, getFeaturesMeta} = await import("../../build/readme-parser.ts");
 		const code = `
 			export const featureList = ${JSON.stringify(getFeatures())};
 			export const featuresMeta = ${JSON.stringify(getFeaturesMeta())};
