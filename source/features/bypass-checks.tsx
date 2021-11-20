@@ -5,6 +5,13 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 
+const uselessDetailsLinks = new Set([
+	'https://codecov.io', // https://github.com/sindresorhus/eslint-plugin-unicorn/pull/1088
+	'https://github.com/jusx/mergeable', // https://github.com/mergeability/mergeable/pull/519
+	'https://github.com/marketplace/wip', // https://github.com/InsightSoftwareConsortium/ITK/pull/2881
+	'https://github.com/apps/kwrobot-v1',
+]);
+
 async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 	const runId = pageDetect.isActionJobRun(detailsLink)
 		? detailsLink.pathname.split('/').pop() // https://github.com/xojs/xo/runs/1104625522
@@ -15,6 +22,10 @@ async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 	}
 
 	const directLink = await api.v3(`check-runs/${runId}`);
+	if (uselessDetailsLinks.has(directLink.details_url)) { // #3938
+		return;
+	}
+
 	detailsLink.href = directLink.details_url;
 }
 
