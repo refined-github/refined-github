@@ -22,11 +22,9 @@ async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 	}
 
 	const directLink = await api.v3(`check-runs/${runId}`);
-	if (uselessDetailsLinks.has(directLink.details_url)) { // #3938
-		return;
+	if (!uselessDetailsLinks.has(directLink.details_url)) { // #3938
+		detailsLink.href = directLink.details_url;
 	}
-
-	detailsLink.href = directLink.details_url;
 }
 
 function init(): void {
