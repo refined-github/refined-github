@@ -19,9 +19,14 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 
 	const possibleLink = possibleFeature.firstElementChild ?? possibleFeature;
 	if (possibleLink instanceof HTMLAnchorElement) {
+		// Possible DOM structure:
+		// - <a>
+		// - <code> > <a>
 		possibleLink.href = href;
 		possibleLink.classList.add('color-fg-accent');
 	} else if (!possibleFeature.closest('a')) {
+		// Possible DOM structure:
+		// - <code>
 		wrap(
 			possibleFeature,
 			<a
