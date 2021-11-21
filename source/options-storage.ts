@@ -37,13 +37,13 @@ export const renamedFeatures = new Map<string, string>([
 	['next-scheduled-github-action', 'scheduled-and-manual-workflow-indicators'],
 ]);
 
-export function getNewFeatureName(oldFeatureName: string): string {
-	let newFeatureName = oldFeatureName;
+export function getNewFeatureName(possibleFeatureName: string): FeatureID | undefined {
+	let newFeatureName = possibleFeatureName;
 	while (renamedFeatures.has(newFeatureName)) {
 		newFeatureName = renamedFeatures.get(newFeatureName)!;
 	}
 
-	return newFeatureName;
+	return featureList.includes(newFeatureName as FeatureID) ? newFeatureName as FeatureID : undefined;
 }
 
 // TODO [2022-05-01]: Remove obsolete color classes & variables https://primer.style/css/support/v18-migration #4970 #4982

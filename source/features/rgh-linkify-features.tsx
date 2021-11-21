@@ -5,29 +5,30 @@ import * as pageDetect from 'github-url-detection';
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import featureLink from '../helpers/feature-link';
-import {featureList} from '../../readme.md';
 import {getNewFeatureName} from '../options-storage';
 import {isRefinedGitHubRepo} from '../github-helpers';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 function linkifyFeature(possibleFeature: HTMLElement): void {
-	const id = getNewFeatureName(possibleFeature.textContent!) as FeatureID;
-	if (featureList.includes(id)) {
-		const href = featureLink(id);
+	const id = getNewFeatureName(possibleFeature.textContent!);
+	if (!id) {
+		return;
+	}
 
-		const possibleLink = possibleFeature.firstElementChild ?? possibleFeature;
-		if (possibleLink instanceof HTMLAnchorElement) {
-			possibleLink.href = href;
-			possibleLink.classList.add('color-fg-accent');
-		} else if (!possibleFeature.closest('a')) {
-			const link = <a className="color-fg-accent" href={href}/>;
+	const href = featureLink(id);
 
-			if (pageDetect.isSingleCommit()) {
-				link.dataset.pjax = '#repo-content-pjax-container';
-			}
+	const possibleLink = possibleFeature.firstElementChild ?? possibleFeature;
+	if (possibleLink instanceof HTMLAnchorElement) {
+		possibleLink.href = href;
+		possibleLink.classList.add('color-fg-accent');
+	} else if (!possibleFeature.closest('a')) {
+		const link = <a className="color-fg-accent" href={href}/>;
 
-			wrap(possibleFeature, link);
+		if (pageDetect.isSingleCommit()) {
+			link.dataset.pjax = '#repo-content-pjax-container';
 		}
+
+		wrap(possibleFeature, link);
 	}
 }
 

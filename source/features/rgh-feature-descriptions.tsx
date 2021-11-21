@@ -1,15 +1,21 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {wrapAll} from '../helpers/dom-utils';
 import {featuresMeta} from '../../readme.md';
+import {isRefinedGitHubRepo} from '../github-helpers';
 import {getNewFeatureName} from '../options-storage';
 
 async function init(): Promise<void | false> {
-	const [, currentFeature] = /features\/([^.]+)/.exec(location.pathname)!;
+	const match = /features\/([^.]+)/.exec(location.pathname);
+	if (!match) {
+		return;
+	}
+
 	// Enable link even on past commits
-	const currentFeatureName = getNewFeatureName(currentFeature);
+	const currentFeatureName = getNewFeatureName(match[1]);
 	const feature = featuresMeta.find(feature => feature.id === currentFeatureName);
 	if (!feature) {
 		return false;
@@ -56,8 +62,11 @@ async function init(): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isRefinedGitHubRepo,
+	],
 	include: [
-		() => /refined-github\/blob\/.+?\/source\/features\/[\w.-]+$/.test(location.pathname),
+		pageDetect.isSingleFile,
 	],
 	awaitDomReady: false,
 	deduplicate: '.rgh-feature-description', // #3945
