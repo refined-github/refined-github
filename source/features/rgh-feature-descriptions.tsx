@@ -9,7 +9,7 @@ import {getNewFeatureName} from '../options-storage';
 import {isRefinedGitHubRepo} from '../github-helpers';
 
 async function init(): Promise<void | false> {
-	const [, currentFeature] = /features\/([^.]+)/.exec(location.pathname) ?? [];
+	const [, currentFeature] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
 	// Enable link even on past commits
 	const currentFeatureName = getNewFeatureName(currentFeature);
 	const feature = featuresMeta.find(feature => feature.id === currentFeatureName);
