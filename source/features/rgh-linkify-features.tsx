@@ -10,23 +10,23 @@ import {getNewFeatureName} from '../options-storage';
 import {isRefinedGitHubRepo} from '../github-helpers';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
-function linkifyFeature(codeElement: HTMLElement): void {
-	const id = getNewFeatureName(codeElement.textContent!) as FeatureID;
+function linkifyFeature(possibleFeature: HTMLElement): void {
+	const id = getNewFeatureName(possibleFeature.textContent!) as FeatureID;
 	if (featureList.includes(id)) {
 		const href = featureLink(id);
 
-		const possibleLink = codeElement.firstElementChild ?? codeElement;
+		const possibleLink = possibleFeature.firstElementChild ?? possibleFeature;
 		if (possibleLink instanceof HTMLAnchorElement) {
 			possibleLink.href = href;
 			possibleLink.classList.add('color-fg-accent');
-		} else if (!codeElement.closest('a')) {
+		} else if (!possibleFeature.closest('a')) {
 			const link = <a className="color-fg-accent" href={href}/>;
 
 			if (pageDetect.isSingleCommit()) {
 				link.dataset.pjax = '#repo-content-pjax-container';
 			}
 
-			wrap(codeElement, link);
+			wrap(possibleFeature, link);
 		}
 	}
 }
