@@ -5,8 +5,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {wrapAll} from '../helpers/dom-utils';
 import {featuresMeta} from '../../readme.md';
-import {isRefinedGitHubRepo} from '../github-helpers';
 import {getNewFeatureName} from '../options-storage';
+import {isRefinedGitHubRepo} from '../github-helpers';
 
 async function init(): Promise<void | false> {
 	const match = /features\/([^.]+)/.exec(location.pathname);
