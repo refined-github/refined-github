@@ -15,6 +15,9 @@ function showWhiteSpacesOn(line: Element): void {
 	for (const [nodeIndex, textNode] of textNodesOnThisLine.entries()) {
 		// `textContent` reads must be cached #2737
 		let text = textNode.textContent!;
+		if (text.length > 1000) { // #5092
+			continue;
+		}
 
 		const startingCharacter = shouldAvoidSurroundingSpaces && nodeIndex === 0 ? 1 : 0;
 		const skipLastCharacter = shouldAvoidSurroundingSpaces && nodeIndex === textNodesOnThisLine.length - 1;
