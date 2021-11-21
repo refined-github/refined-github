@@ -22,13 +22,14 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 		possibleLink.href = href;
 		possibleLink.classList.add('color-fg-accent');
 	} else if (!possibleFeature.closest('a')) {
-		const link = <a className="color-fg-accent" href={href}/>;
-
-		if (pageDetect.isSingleCommit()) {
-			link.dataset.pjax = '#repo-content-pjax-container';
-		}
-
-		wrap(possibleFeature, link);
+		wrap(
+			possibleFeature,
+			<a
+				className="color-fg-accent"
+				href={href}
+				data-pjax="#repo-content-pjax-container"
+			/>,
+		);
 	}
 }
 
@@ -39,11 +40,12 @@ function initTitle(): void {
 }
 
 function init(): void {
-	// `.js-comment-body code': `hasComments`
-	// `.markdown-body code: `isReleasesOrTags`
-	// `.markdown-title code`: `isSingleCommit`, `isRepoTree`
-	// `code .markdown-title`: `isCommitList`, `isRepoTree`
-	for (const possibleMention of select.all(':is(.js-comment-body, .markdown-body, .markdown-title) code, code .markdown-title')) {
+	for (const possibleMention of select.all([
+		'.js-comment-body code', // `hasComments`
+		'.markdown-body code', // `isReleasesOrTags`
+		'.markdown-title code', // `isSingleCommit`, `isRepoTree`
+		'code .markdown-title', // `isCommitList`, `isRepoTree`
+	].join(','))) {
 		linkifyFeature(possibleMention);
 	}
 }
