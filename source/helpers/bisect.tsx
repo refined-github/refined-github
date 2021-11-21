@@ -4,7 +4,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 
 import pluralize from './pluralize';
-import featureLink from '../helpers/feature-link';
+import featureLink from './feature-link';
 import {featureList} from '../../readme.md';
 
 // Split current list of features in half and create an options-like object to be applied on load

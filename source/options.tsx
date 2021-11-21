@@ -8,7 +8,7 @@ import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
-import featureLink from '../helpers/feature-link';
+import featureLink from './helpers/feature-link';
 import {featuresMeta} from '../readme.md';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
