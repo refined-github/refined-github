@@ -10,14 +10,13 @@ import {isRefinedGitHubRepo} from '../github-helpers';
 
 async function init(): Promise<void | false> {
 	const [, currentFeature] = /features\/([^.]+)/.exec(location.pathname) ?? [];
-
 	// Enable link even on past commits
 	const currentFeatureName = getNewFeatureName(currentFeature);
 	if (!currentFeatureName) {
 		return false;
 	}
 
-	const feature = featuresMeta.find(feature => feature.id === currentFeatureName);
+	const feature = featuresMeta.find(feature => feature.id === currentFeatureName)!;
 
 	const conversationsUrl = '/refined-github/refined-github/issues?q=' + encodeURIComponent(`"${feature.id}" sort:updated-desc`);
 
