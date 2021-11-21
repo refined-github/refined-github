@@ -22,7 +22,7 @@ async function init(): Promise<void | false> {
 	const fileList = await elementReady([
 		'.toc-select details-menu[src*="/show_toc?"]', // `isPR`
 		'.toc-diff-stats + .content', // `isSingleCommit` and `isCompare`
-	].join(','));
+	].join(','), {stopOnDomReady: false});
 
 	// The file list does not exist if the diff is too large
 	if (pageDetect.isCompare() && !fileList) {
