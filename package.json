@@ -39,12 +39,7 @@
 		],
 		"nonSemVerExperiments": {
 			"configurableModuleFormat": true
-		},
-		"environmentVariables": {
-			"TS_NODE_FILES": "true",
-			"TS_NODE_COMPILER_OPTIONS": "{\"module\": \"esnext\"}"
-		},
-		"compile": false
+		}
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
@@ -59,7 +54,7 @@
 		"element-ready": "^6.2.0",
 		"fit-textarea": "^2.0.0",
 		"flat-zip": "^1.0.1",
-		"github-url-detection": "^5.6.0",
+		"github-url-detection": "^5.7.0",
 		"image-promise": "^7.0.1",
 		"indent-textarea": "^2.1.0",
 		"js-abbreviation-number": "^1.2.0",
@@ -73,7 +68,7 @@
 		"regex-join": "^1.0.0",
 		"select-dom": "^7.1.1",
 		"selector-observer": "^2.1.6",
-		"shorten-repo-url": "^2.2.0",
+		"shorten-repo-url": "^2.3.0",
 		"strip-indent": "^4.0.0",
 		"text-field-edit": "^3.1.1",
 		"tiny-version-compare": "^3.0.1",
@@ -87,15 +82,12 @@
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
-		"@ava/typescript": "^2.0.0",
 		"@sindresorhus/tsconfig": "^2.0.0",
-		"@types/chrome": "^0.0.161",
 		"@types/codemirror": "^5.60.5",
 		"@types/copy-webpack-plugin": "^8.0.1",
 		"@types/firefox-webext-browser": "^94.0.0",
 		"@types/jsdom": "^16.2.13",
 		"@types/mini-css-extract-plugin": "^2.4.0",
-		"@types/node": "^16.11.4",
 		"@types/react": "^17.0.32",
 		"ava": "^3.15.0",
 		"copy-webpack-plugin": "^9.0.1",
@@ -116,7 +108,6 @@
 		"stylelint-config-xo": "^0.20.0",
 		"terser-webpack-plugin": "^5.2.4",
 		"ts-node": "^10.4.0",
-		"tslib": "^2.3.1",
 		"type-fest": "^2.5.1",
 		"typed-query-selector": "^2.6.0",
 		"typescript": "^4.4.4",

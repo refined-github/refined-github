@@ -16,7 +16,7 @@ function init(): void {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	asLongAs: [
 		() => location.search.includes('sort%3Aupdated-'),
 	],

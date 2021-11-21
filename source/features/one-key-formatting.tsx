@@ -36,7 +36,7 @@ function init(): void {
 	delegate(document, 'input[name="commit_title"], input[name="gist[description]"], #saved-reply-title-field', 'keydown', eventHandler);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
 		pageDetect.isGist,

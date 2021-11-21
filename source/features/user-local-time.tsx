@@ -67,7 +67,7 @@ const getLastCommitDate = cache.function(async (login: string): Promise<string |
 }, {
 	maxAge: {days: 10},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: ([login]) => __filebasename + ':' + login,
+	cacheKey: ([login]) => 'last-commit:' + login,
 });
 
 function parseOffset(date: string): number {
@@ -90,7 +90,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 		return;
 	}
 
-	hovercardContainer.classList.add('rgh-user-local-time-container-added');
+	hovercardContainer.classList.add('rgh-user-local-time');
 
 	const datePromise = getLastCommitDate(login);
 	const race = await Promise.race([delay(300), datePromise]);
@@ -109,6 +109,8 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 	// Adding the time element might change the height of the hovercard and thus break its positioning
 	const hovercardHeight = hovercard.offsetHeight;
 
+	// Only remove the space reserved via CSS when the element is actually inserted in the hovercard #4527
+	hovercardContainer.classList.add('rgh-user-local-time-added');
 	hovercardContainer.append(container);
 
 	if (hovercard.matches('.Popover-message--bottom-right, .Popover-message--bottom-left')) {
@@ -141,11 +143,11 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 }
 
 function init(): void {
-	observe('.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time-container-added)', {
+	observe('.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time)', {
 		add: insertUserLocalTime,
 	});
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	init: onetime(init),
 });

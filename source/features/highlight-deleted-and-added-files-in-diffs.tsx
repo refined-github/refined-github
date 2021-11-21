@@ -61,7 +61,7 @@ async function init(): Promise<void | false> {
 	deinit.push(observer.abort);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isCommit,

@@ -43,7 +43,7 @@ function init(): void {
 	delegate(document, '.js-file .js-collapse-diff', 'click', clickAll(collapseSelector));
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 		pageDetect.isPRFiles,

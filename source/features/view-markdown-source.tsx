@@ -37,7 +37,7 @@ async function init(): Promise<void> {
 	select('.rgh-view-markdown-source')!.children[isPlain ? 0 : 1].classList.add('selected');
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
 	],

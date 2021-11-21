@@ -3,7 +3,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import SearchQuery from '../github-helpers/search-query';
-import {getUsername} from '../github-helpers';
 
 function init(): void {
 	const sourceItem = select('#filters-select-menu a:nth-last-child(2)')!;
@@ -12,7 +11,7 @@ function init(): void {
 	const commentsLink = sourceItem.cloneNode(true);
 	commentsLink.lastChild!.textContent = 'Everything commented by you';
 	commentsLink.removeAttribute('target');
-	new SearchQuery(commentsLink).set(`is:open commenter:${getUsername()!}`);
+	new SearchQuery(commentsLink).set('is:open commenter:@me');
 
 	sourceItem.after(commentsLink);
 
@@ -28,7 +27,7 @@ function init(): void {
 	commentsLink.after(subscriptionsLink);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoConversationList,
 	],

@@ -20,7 +20,7 @@ function init(): void {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	shortcuts: {
 		'g 1': 'Go to Conversation',
 		'g 2': 'Go to Commits',

@@ -55,8 +55,9 @@ async function init(): Promise<false | void> {
 			if (compareNames(username, name)) {
 				usernameElement.textContent = name;
 			} else {
-				const insertionPoint = usernameElement.parentElement!.tagName === 'STRONG'
-					? usernameElement.parentElement!
+				const {parentElement} = usernameElement;
+				const insertionPoint = parentElement!.tagName === 'STRONG'
+					? parentElement!
 					: usernameElement;
 				insertionPoint.after(
 					' ',
@@ -70,7 +71,7 @@ async function init(): Promise<false | void> {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isDashboard,
 	],

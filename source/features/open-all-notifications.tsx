@@ -6,8 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import {LinkExternalIcon} from '@primer/octicons-react';
 
 import features from '.';
-
-const confirmationRequiredCount = 10;
+import {confirmOpen} from './open-all-conversations';
 
 function getUnreadNotifications(container: ParentNode = document): HTMLElement[] {
 	return select.all('.notification-unread', container);
@@ -15,10 +14,7 @@ function getUnreadNotifications(container: ParentNode = document): HTMLElement[]
 
 function openNotifications(notifications: Element[]): void {
 	// Ask for confirmation
-	if (
-		notifications.length >= confirmationRequiredCount
-		&& !confirm(`This will open ${notifications.length} new tabs. Continue?`)
-	) {
+	if (!confirmOpen(notifications.length)) {
 		return;
 	}
 
@@ -89,7 +85,7 @@ function init(): void {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	asLongAs: [
 		() => select.exists('.notifications-list-item'),
 	],

@@ -23,8 +23,14 @@ function init(): false | void {
 			<input
 				type="hidden"
 				name="pull_request_review[event]"
-				value="comment"/>,
+				value="comment"
+			/>,
 		);
+	}
+
+	// "Comment" button must be first
+	if (radios.length > 1) {
+		radios.push(radios.shift()!);
 	}
 
 	// Generate the new buttons
@@ -62,15 +68,6 @@ function init(): false | void {
 		container.append(button);
 	}
 
-	// Cancel button must be first
-	if (radios.length > 1) {
-		const cancelReview = select('.review-cancel-button', form);
-		if (cancelReview) {
-			cancelReview.classList.add('float-left');
-			container.prepend(cancelReview);
-		}
-	}
-
 	// Remove original fields at last to avoid leaving a broken form
 	for (const radio of radios) {
 		radio.closest('.form-checkbox')!.remove();
@@ -96,7 +93,7 @@ function init(): false | void {
 	});
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPR,
 	],

@@ -16,12 +16,12 @@ async function init(): Promise<void> {
 		await onProfileDropdownLoad();
 		select.last('.header-nav-current-user ~ .dropdown-divider')!.before(
 			<div className="dropdown-divider"/>,
-			<a className="dropdown-item" href="/marketplace">Marketplace</a>,
+			<a role="menuitem" className="dropdown-item" href="/marketplace">Marketplace</a>,
 		);
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isGist,
 	],

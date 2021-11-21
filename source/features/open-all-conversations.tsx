@@ -6,8 +6,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-const confirmationRequiredCount = 10;
-
 function getUrlFromItem(issue: Element): string {
 	return issue
 		.closest('.js-issue-row')!
@@ -15,14 +13,16 @@ function getUrlFromItem(issue: Element): string {
 		.href;
 }
 
+// eslint-disable-next-line import/prefer-default-export
+export function confirmOpen(count: number): boolean {
+	return count < 10 || confirm(`This will open ${count} new tabs. Continue?`);
+}
+
 function onButtonClick(): void {
 	const modifier = pageDetect.isGlobalConversationList() ? '' : ' + div ';
 	const issues = select.all(`#js-issues-toolbar:not(.triage-mode) ${modifier} .js-issue-row`);
 
-	if (
-		issues.length >= confirmationRequiredCount
-		&& !confirm(`This will open ${issues.length} new tabs. Continue?`)
-	) {
+	if (!confirmOpen(issues.length)) {
 		return;
 	}
 
@@ -47,7 +47,7 @@ async function init(): Promise<void | false> {
 	);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversationList,
 	],

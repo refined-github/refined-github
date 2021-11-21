@@ -2,16 +2,12 @@
 
 type AnyObject = Record<string, any>;
 
-type FeatureID = 'use the __filebasename variable';
+type FeatureID = string & {feature: true};
 interface FeatureMeta {
 	id: FeatureID;
 	description: string;
 	screenshot?: string;
 }
-
-declare const __features__: FeatureID[];
-declare const __featuresMeta__: FeatureMeta[];
-declare const __filebasename: FeatureID;
 
 interface Window {
 	content: GlobalFetch;
@@ -20,6 +16,11 @@ interface Window {
 declare module 'markdown-wasm/dist/markdown.node.js';
 
 declare module 'size-plugin';
+
+declare module '*.md' { // It should be just for readme.md, but 🤷‍♂️
+	export const featuresMeta: FeatureMeta[];
+	export const featureList: FeatureID[];
+}
 
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {

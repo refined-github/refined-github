@@ -5,8 +5,6 @@
 	"extends": "xo-react",
 	"globals": [
 		"browser",
-		"__features__",
-		"__featuresMeta__",
 		"__filebasename"
 	],
 	"rules": {

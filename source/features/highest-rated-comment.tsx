@@ -51,7 +51,7 @@ function highlightBestComment(bestComment: Element): void {
 	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
 	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
 		<span
-			className="d-flex flex-items-center color-text-success color-fg-success mr-1 tooltipped tooltipped-n"
+			className="d-inline-block color-text-success color-fg-success mr-1 tooltipped tooltipped-n"
 			aria-label="This comment has the most positive reactions on this issue."
 		>
 			<CheckCircleFillIcon/>
@@ -101,7 +101,7 @@ function init(): false | void {
 	highlightBestComment(bestComment);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssue,
 	],

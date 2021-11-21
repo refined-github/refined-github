@@ -5,13 +5,14 @@ import * as pageDetect from 'github-url-detection';
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import featureLink from '../helpers/feature-link';
+import {featureList} from '../../readme.md';
 import {getNewFeatureName} from '../options-storage';
 import {isRefinedGitHubRepo} from '../github-helpers';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 function linkifyFeature(codeElement: HTMLElement): void {
 	const id = getNewFeatureName(codeElement.textContent!) as FeatureID;
-	if (features.list.includes(id)) {
+	if (featureList.includes(id)) {
 		const href = featureLink(id);
 
 		const possibleLink = codeElement.firstElementChild ?? codeElement;
@@ -46,7 +47,7 @@ function init(): void {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	asLongAs: [
 		isRefinedGitHubRepo,
 	],

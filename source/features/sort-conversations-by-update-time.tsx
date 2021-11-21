@@ -20,7 +20,7 @@ function init(): void {
 		}
 
 		// Also sort projects #4957
-		if (pageDetect.utils.getRepositoryInfo(link)?.path === 'projects') {
+		if (pageDetect.isProjects()) {
 			// Projects use a different parameter name so don't use SearchQuery
 			const search = new URLSearchParams(link.search);
 			const query = search.get('query') ?? 'is:open'; // Default value query is missing
@@ -30,6 +30,6 @@ function init(): void {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	init,
 });

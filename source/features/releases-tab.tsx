@@ -9,10 +9,10 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import looseParseInt from '../helpers/loose-parse-int';
-import {appendBefore} from '../helpers/dom-utils';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import {createDropdownItem} from './more-dropdown-links';
 import {buildRepoURL, getRepo} from '../github-helpers';
+import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils';
 
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
@@ -43,24 +43,7 @@ const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? par
 	cacheKey: getCacheKey,
 });
 
-const deinit: VoidFunction[] = [];
-
-async function updateReleasesTabHighlighting(): Promise<void> {
-	const selectorObserver = observe('.UnderlineNav-item.selected:not(.rgh-releases-tab)', {
-		add(selected) {
-			selected.classList.remove('selected');
-			selected.removeAttribute('aria-current');
-			selectorObserver.abort();
-		},
-	});
-	deinit.push(selectorObserver.abort);
-
-	const releasesTab = await elementReady('.rgh-releases-tab', {stopOnDomReady: false, timeout: 10_000});
-	releasesTab!.classList.add('selected');
-	releasesTab!.setAttribute('aria-current', 'page');
-}
-
-async function init(): Promise<false | void> {
+async function addReleasesTab(): Promise<false | void> {
 	// Always prefer the information in the DOM
 	if (pageDetect.isRepoRoot()) {
 		await cache.delete(getCacheKey());
@@ -102,7 +85,30 @@ async function init(): Promise<false | void> {
 	);
 }
 
-void features.add(__filebasename, {
+const deinit: VoidFunction[] = [];
+
+async function highlightReleasesTab(): Promise<void> {
+	const selectorObserver = observe('.UnderlineNav-item.selected:not(.rgh-releases-tab)', {
+		add(selectedTab) {
+			unhighlightTab(selectedTab);
+			selectorObserver.abort();
+		},
+	});
+	deinit.push(selectorObserver.abort);
+	highlightTab(select('.rgh-releases-tab')!);
+}
+
+async function init(): Promise<void | false> {
+	if (!select.exists('.rgh-releases-tab')) {
+		await addReleasesTab();
+	}
+
+	if (pageDetect.isReleasesOrTags()) {
+		await highlightReleasesTab();
+	}
+}
+
+void features.add(import.meta.url, {
 	shortcuts: {
 		'g r': 'Go to Releases',
 	},
@@ -110,13 +116,7 @@ void features.add(__filebasename, {
 		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
-	init,
-}, {
-	include: [
-		pageDetect.isReleasesOrTags,
-	],
-	awaitDomReady: false,
 	deduplicate: false,
-	init: updateReleasesTabHighlighting,
+	init,
 	deinit,
 });

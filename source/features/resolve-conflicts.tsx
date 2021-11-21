@@ -13,7 +13,7 @@ async function init(): Promise<void> {
 	document.head.append(<script src={browser.runtime.getURL('build/resolve-conflicts.js')}/>);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConflicts,
 	],
