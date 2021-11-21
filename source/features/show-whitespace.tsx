@@ -15,7 +15,7 @@ function showWhiteSpacesOn(line: Element): void {
 	for (const [nodeIndex, textNode] of textNodesOnThisLine.entries()) {
 		// `textContent` reads must be cached #2737
 		let text = textNode.textContent!;
-		if (text.length > 10_000) { // #5092
+		if (text.length > 1000) { // #5092
 			continue;
 		}
 
