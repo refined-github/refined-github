@@ -9,17 +9,15 @@ import {getNewFeatureName} from '../options-storage';
 import {isRefinedGitHubRepo} from '../github-helpers';
 
 async function init(): Promise<void | false> {
-	const match = /features\/([^.]+)/.exec(location.pathname);
-	if (!match) {
-		return;
-	}
+	const [, currentFeature] = /features\/([^.]+)/.exec(location.pathname) ?? [];
 
 	// Enable link even on past commits
-	const currentFeatureName = getNewFeatureName(match[1]);
-	const feature = featuresMeta.find(feature => feature.id === currentFeatureName);
-	if (!feature) {
+	const currentFeatureName = getNewFeatureName(currentFeature);
+	if (!currentFeatureName) {
 		return false;
 	}
+
+	const feature = featuresMeta.find(feature => feature.id === currentFeatureName);
 
 	const conversationsUrl = '/refined-github/refined-github/issues?q=' + encodeURIComponent(`"${feature.id}" sort:updated-desc`);
 
