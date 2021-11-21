@@ -4,6 +4,7 @@ import delegate from 'delegate-it';
 const fragmentSelector = [
 	'include-fragment.diff-progressive-loader', // Incremental file loader on scroll
 	'include-fragment.js-diff-entry-loader', // File diff loader on clicking "Load Diff"
+	'#files_bucket include-fragment', // Diff on compare pages
 ].join(',');
 
 // This lets you call `onDiffFileLoad` multiple times with the same callback but only ever a `load` listener is registered
