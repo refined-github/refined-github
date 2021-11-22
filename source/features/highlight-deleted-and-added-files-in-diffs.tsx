@@ -57,10 +57,6 @@ async function init(): Promise<void | false> {
 	deinit.push(observer.abort);
 }
 
-function initCompare(): void {
-	onDiffFileLoad(init);
-}
-
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
@@ -81,5 +77,9 @@ void features.add(import.meta.url, {
 	exclude: [
 		() => select.exists('.blankslate:not(.blankslate-large)'),
 	],
-	init: initCompare,
+	additionalListeners: [
+		onDiffFileLoad,
+	],
+	onlyAdditionalListeners: true,
+	init,
 });
