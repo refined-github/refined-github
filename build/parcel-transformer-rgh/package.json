@@ -1,5 +1,15 @@
 {
 	"name": "parcel-transformer-rgh",
 	"version": "0.0.0",
-	"main": "index.js"
+	"main": "dist/index.js",
+	"source": "index.ts",
+	"scripts": {
+		"prepare": "npx parcel build"
+	},
+	"dependencies": {
+		"@parcel/plugin": "^2.0.1"
+	},
+	"engines": {
+		"node": ">= 16"
+	}
 }
