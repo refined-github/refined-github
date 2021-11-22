@@ -133,6 +133,10 @@ li[data-validation] {
 	color: var(--rgh-red);
 }
 
+.feature-checkbox:disabled + .info > *:not(.hotfix-notice) {
+	opacity: 0.5;
+}
+
 .sr-only {
 	display: none;
 }
