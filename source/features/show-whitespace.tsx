@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import getTextNodes from '../helpers/get-text-nodes';
 import onNewComments from '../github-events/on-new-comments';
-import onDiffFileLoad from '../github-events/on-diff-file-load';
+import {onDiffFileLoad} from '../github-events/on-fragment-load';
 
 // `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
 function showWhiteSpacesOn(line: Element): void {
