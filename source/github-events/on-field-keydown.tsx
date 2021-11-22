@@ -20,7 +20,7 @@ function onFieldKeydown(selector: string, callback: DelegateFieldEvent): void {
 }
 
 export function onCommentFieldKeydown(callback: DelegateFieldEvent): void {
-	onFieldKeydown('.js-comment-field, #commit-description-textarea', callback);
+	onFieldKeydown('.js-comment-field, #commit-description-textarea, #merge_message_field', callback);
 }
 
 export function onConversationTitleFieldKeydown(callback: DelegateFieldEvent): void {
