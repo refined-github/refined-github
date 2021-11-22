@@ -26,3 +26,7 @@ export function onCommentFieldKeydown(callback: DelegateFieldEvent): void {
 export function onConversationTitleFieldKeydown(callback: DelegateFieldEvent): void {
 	onFieldKeydown('#issue_title, #pull_request_title', callback);
 }
+
+export function onCommitTitleFieldKeydown(callback: DelegateFieldEvent): void {
+	onFieldKeydown('#commit-summary-input', callback);
+}

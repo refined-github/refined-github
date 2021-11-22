@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import {onCommentFieldKeydown, onConversationTitleFieldKeydown} from '../github-events/on-field-keydown';
+import {onCommentFieldKeydown, onConversationTitleFieldKeydown, onCommitTitleFieldKeydown} from '../github-events/on-field-keydown';
 
 const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~', '“', '‘'];
 const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~', '”', '’'];
@@ -33,6 +33,7 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement |
 function init(): void {
 	onCommentFieldKeydown(eventHandler);
 	onConversationTitleFieldKeydown(eventHandler);
+	onCommitTitleFieldKeydown(eventHandler);
 	delegate(document, 'input[name="commit_title"], input[name="gist[description]"], #saved-reply-title-field', 'keydown', eventHandler);
 }
 
@@ -40,6 +41,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
 		pageDetect.isGist,
+		pageDetect.isEditingFile,
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
