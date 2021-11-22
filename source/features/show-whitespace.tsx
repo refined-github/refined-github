@@ -7,6 +7,7 @@ import features from '.';
 import getTextNodes from '../helpers/get-text-nodes';
 import onNewComments from '../github-events/on-new-comments';
 import {onDiffFileLoad} from '../github-events/on-fragment-load';
+import onNewReviewComment from '../github-events/on-new-review';
 
 // `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
 function showWhiteSpacesOn(line: Element): void {
@@ -84,6 +85,7 @@ void features.add(import.meta.url, {
 	],
 	additionalListeners: [
 		onNewComments,
+		onNewReviewComment,
 		onDiffFileLoad,
 	],
 	deduplicate: '.rgh-observing-whitespace',
