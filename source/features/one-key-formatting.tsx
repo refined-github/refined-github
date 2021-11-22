@@ -41,6 +41,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
 		pageDetect.isGist,
+		pageDetect.isNewFile,
 		pageDetect.isEditingFile,
 	],
 	awaitDomReady: false,
