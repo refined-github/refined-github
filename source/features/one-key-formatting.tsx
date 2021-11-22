@@ -43,6 +43,7 @@ void features.add(import.meta.url, {
 		pageDetect.isGist,
 		pageDetect.isNewFile,
 		pageDetect.isEditingFile,
+		pageDetect.isDeletingFile,
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
