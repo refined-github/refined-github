@@ -6,6 +6,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {onDiffFileLoad} from '../github-events/on-fragment-load';
 
 const deinit: VoidFunction[] = [];
 
@@ -23,11 +24,6 @@ async function init(): Promise<void | false> {
 		'.toc-select details-menu[src*="/show_toc?"]', // `isPR`
 		'.toc-diff-stats + .content', // `isSingleCommit` and `isCompare`
 	].join(','));
-
-	// The file list does not exist if the diff is too large
-	if (pageDetect.isCompare() && !fileList) {
-		return false;
-	}
 
 	if (pageDetect.isPR()) {
 		await loadDeferred(fileList!);
@@ -65,7 +61,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isCommit,
-		pageDetect.isCompare,
 	],
 	exclude: [
 		pageDetect.isPRFile404,
@@ -75,4 +70,16 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 	deinit,
+}, {
+	include: [
+		pageDetect.isCompare,
+	],
+	exclude: [
+		() => select.exists('.blankslate:not(.blankslate-large)'),
+	],
+	additionalListeners: [
+		onDiffFileLoad,
+	],
+	onlyAdditionalListeners: true,
+	init,
 });
