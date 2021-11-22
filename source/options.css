@@ -134,7 +134,7 @@ li[data-validation] {
 }
 
 .feature-checkbox:disabled + .info > *:not(.hotfix-notice) {
-	opacity: 0.5;
+	opacity: 50%;
 }
 
 .sr-only {
