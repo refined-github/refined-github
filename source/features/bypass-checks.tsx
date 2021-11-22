@@ -15,9 +15,16 @@ async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 	}
 
 	const {details_url: detailsUrl} = await api.v3(`check-runs/${runId}`);
-	if (detailsUrl && !detailsUrl.startsWith('https://github.com/') && new URL(detailsUrl).pathname !== '/') { // Ignore links to GitHub repos or static product pages #3938
-		detailsLink.href = detailsUrl;
+	if (!detailsUrl) {
+		return;
 	}
+
+	const {pathname, search: queryString} = new URL(detailsUrl);
+	if (detailsUrl.startsWith('https://github.com/') || (pathname === '/' && queryString === '')) { // Ignore links to GitHub repos or static product pages #3938
+		return;
+	}
+
+	detailsLink.href = detailsUrl;
 }
 
 function init(): void {
