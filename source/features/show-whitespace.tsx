@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import getTextNodes from '../helpers/get-text-nodes';
 import onNewComments from '../github-events/on-new-comments';
-import onDiffFileLoad from '../github-events/on-diff-file-load';
+import {onDiffFileLoad} from '../github-events/on-fragment-load';
 
 // `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
 function showWhiteSpacesOn(line: Element): void {
@@ -15,6 +15,9 @@ function showWhiteSpacesOn(line: Element): void {
 	for (const [nodeIndex, textNode] of textNodesOnThisLine.entries()) {
 		// `textContent` reads must be cached #2737
 		let text = textNode.textContent!;
+		if (text.length > 1000) { // #5092
+			continue;
+		}
 
 		const startingCharacter = shouldAvoidSurroundingSpaces && nodeIndex === 0 ? 1 : 0;
 		const skipLastCharacter = shouldAvoidSurroundingSpaces && nodeIndex === textNodesOnThisLine.length - 1;
