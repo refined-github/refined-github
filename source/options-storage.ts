@@ -1,6 +1,6 @@
 import OptionsSyncPerDomain from 'webext-options-sync-per-domain';
 
-import {featureList} from '../readme.md';
+import {importedFeatures} from '../readme.md';
 
 export type RGHOptions = typeof defaults;
 
@@ -10,7 +10,7 @@ const defaults = Object.assign({
 	personalToken: '',
 	logging: false,
 	logHTTP: false,
-}, Object.fromEntries(featureList.map(id => [`feature:${id}`, true])));
+}, Object.fromEntries(importedFeatures.map(id => [`feature:${id}`, true])));
 
 export const renamedFeatures = new Map<string, string>([
 	['separate-draft-pr-button', 'one-click-pr-or-gist'],
@@ -43,7 +43,7 @@ export function getNewFeatureName(possibleFeatureName: string): FeatureID | unde
 		newFeatureName = renamedFeatures.get(newFeatureName)!;
 	}
 
-	return featureList.includes(newFeatureName as FeatureID) ? newFeatureName as FeatureID : undefined;
+	return importedFeatures.includes(newFeatureName as FeatureID) ? newFeatureName as FeatureID : undefined;
 }
 
 // TODO [2022-05-01]: Remove obsolete color classes & variables https://primer.style/css/support/v18-migration #4970 #4982

@@ -9,9 +9,9 @@ import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
 import featureLink from './helpers/feature-link';
-import {featuresMeta} from '../readme.md';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
+import {importedFeatures, featuresMeta} from '../readme.md';
 import {perDomainOptions, renamedFeatures} from './options-storage';
 
 interface Status {
@@ -20,7 +20,6 @@ interface Status {
 	scopes?: string[];
 }
 
-const featureList = featuresMeta.map(({id}) => id);
 const {version} = browser.runtime.getManifest();
 
 function reportStatus({error, text, scopes}: Status): void {
@@ -144,7 +143,7 @@ async function clearCacheHandler(event: Event): Promise<void> {
 }
 
 async function findFeatureHandler(event: Event): Promise<void> {
-	await cache.set<FeatureID[]>('bisect', featureList, {minutes: 5});
+	await cache.set<FeatureID[]>('bisect', importedFeatures, {minutes: 5});
 
 	const button = event.target as HTMLButtonElement;
 	button.disabled = true;
@@ -207,7 +206,7 @@ async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 	const disabledFeatures = <div className="js-hotfixes"/>;
 
 	for (const [feature, relatedIssue] of await getLocalHotfixes(version)) {
-		if (featureList.includes(feature)) {
+		if (importedFeatures.includes(feature)) {
 			disabledFeatures.append(
 				<p><code>{feature}</code> has been temporarily disabled due to {createRghIssueLink(relatedIssue)}.</p>,
 			);
@@ -219,7 +218,10 @@ async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 
 async function generateDom(): Promise<void> {
 	// Generate list
-	select('.js-features')!.append(...featuresMeta.map(feature => buildFeatureCheckbox(feature)));
+	select('.js-features')!.append(...featuresMeta
+		.filter(feature => importedFeatures.includes(feature.id))
+		.map(feature => buildFeatureCheckbox(feature)),
+	);
 
 	// Add notice for features disabled via hotfix
 	select('.js-features')!.before(await getLocalHotfixesAsNotice());
@@ -238,8 +240,8 @@ async function generateDom(): Promise<void> {
 		select('#logHTTP-line')!.hidden = false;
 	}
 
-	// Add feature count. CSS-only features are added approximately
-	select('.features-header')!.append(` (${featuresMeta.length + 25})`);
+	// Add feature count
+	select('.features-header')!.append(` (${featuresMeta.length})`);
 }
 
 function addEventListeners(): void {

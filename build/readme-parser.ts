@@ -42,12 +42,12 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 
 export function getFeaturesMeta(): FeatureMeta[] {
 	const readmeContent = readFileSync('readme.md', 'utf-8');
-	return [...readmeContent.matchAll(featureRegex)].map(match => extractDataFromMatch(match));
+	return [...readmeContent.matchAll(featureRegex)]
+		.map(match => extractDataFromMatch(match))
+		.sort((firstFeature, secondFeature) => firstFeature.id.localeCompare(secondFeature.id));
 }
 
-export function getFeatures(): FeatureID[] {
+export function getImportedFeatures(): FeatureID[] {
 	const contents = readFileSync('source/refined-github.ts', 'utf-8');
-	return [...contents.matchAll(/^import '\.\/features\/([^.]+)';/gm)]
-		.map(match => match[1] as FeatureID)
-		.sort();
+	return [...contents.matchAll(/^import '\.\/features\/([^.]+)';/gm)].map(match => match[1] as FeatureID);
 }

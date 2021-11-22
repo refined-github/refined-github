@@ -1,11 +1,11 @@
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 
-import {getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
+import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
 
 const featuresDirContents = readdirSync('source/features/');
 const entryPoint = 'source/refined-github.ts';
 const entryPointSource = readFileSync(entryPoint);
-const importedFeatures = getFeatures();
+const importedFeatures = getImportedFeatures();
 const featuresInReadme = getFeaturesMeta();
 
 function findCssFileError(filename: string): string | void {
