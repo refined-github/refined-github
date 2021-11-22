@@ -8,6 +8,7 @@ import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
+import featureLink from './helpers/feature-link';
 import {featuresMeta} from '../readme.md';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
@@ -112,7 +113,7 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 			<div className="info">
 				<label className="feature-name" htmlFor={id}>{id}</label>
 				{' '}
-				<a href={`https://github.com/refined-github/refined-github/blob/main/source/features/${id}.tsx`} className="feature-link">
+				<a href={featureLink(id)} className="feature-link">
 					source
 				</a>
 				<input hidden type="checkbox" className="screenshot-toggle"/>

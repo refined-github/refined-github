@@ -4,6 +4,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 
 import pluralize from './pluralize';
+import featureLink from './feature-link';
 import {featureList} from '../../readme.md';
 
 // Split current list of features in half and create an options-like object to be applied on load
@@ -33,7 +34,7 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 		createMessageBox('No features were enabled on this page. Try disabling Refined GitHub to see if it belongs to it at all.');
 	} else {
 		const feature = (
-			<a href={'https://github.com/refined-github/refined-github/blob/main/source/features/' + bisectedFeatures[0] + '.tsx'}>
+			<a href={featureLink(bisectedFeatures[0])}>
 				<code>{bisectedFeatures[0]}</code>
 			</a>
 		);
