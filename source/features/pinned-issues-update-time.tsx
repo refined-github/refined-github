@@ -26,7 +26,7 @@ const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Re
 	return repository;
 }, {
 	maxAge: {minutes: 30},
-	cacheKey: ([issues]) => __filebasename + ':' + getRepo()!.nameWithOwner + ':' + String(issues),
+	cacheKey: ([issues]) => 'pinned-issues:' + getRepo()!.nameWithOwner + ':' + String(issues),
 });
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
@@ -45,14 +45,14 @@ async function init(): Promise<void | false> {
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
 		select('.pinned-item-desc', pinnedIssue)!.append(
 			' • ',
-			<span className="color-text-secondary d-inline-block">
+			<span className="color-text-secondary color-fg-muted d-inline-block">
 				updated <relative-time datetime={updatedAt}/>
 			</span>,
 		);
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoIssueList,
 	],

@@ -6,6 +6,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {onDiffFileLoad} from '../github-events/on-fragment-load';
 
 const deinit: VoidFunction[] = [];
 
@@ -24,11 +25,6 @@ async function init(): Promise<void | false> {
 		'.toc-diff-stats + .content', // `isSingleCommit` and `isCompare`
 	].join(','));
 
-	// The file list does not exist if the diff is too large
-	if (pageDetect.isCompare() && !fileList) {
-		return false;
-	}
-
 	if (pageDetect.isPR()) {
 		await loadDeferred(fileList!);
 	}
@@ -43,9 +39,9 @@ async function init(): Promise<void | false> {
 			const icon = sourceIcon.cloneNode(true);
 			const action = icon.getAttribute('title')!;
 			if (action === 'added') {
-				icon.classList.add('color-text-success');
+				icon.classList.add('color-text-success', 'color-fg-success');
 			} else if (action === 'removed') {
-				icon.classList.add('color-text-danger');
+				icon.classList.add('color-text-danger', 'color-fg-danger');
 			} else {
 				return;
 			}
@@ -61,11 +57,10 @@ async function init(): Promise<void | false> {
 	deinit.push(observer.abort);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isCommit,
-		pageDetect.isCompare,
 	],
 	exclude: [
 		pageDetect.isPRFile404,
@@ -75,4 +70,16 @@ void features.add(__filebasename, {
 	deduplicate: 'has-rgh-inner',
 	init,
 	deinit,
+}, {
+	include: [
+		pageDetect.isCompare,
+	],
+	exclude: [
+		() => select.exists('.blankslate:not(.blankslate-large)'),
+	],
+	additionalListeners: [
+		onDiffFileLoad,
+	],
+	onlyAdditionalListeners: true,
+	init,
 });

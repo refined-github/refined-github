@@ -34,7 +34,7 @@ async function init(): Promise<void> {
 
 		discussionHeader.parentElement!.append(
 			' • ',
-			<TagIcon className="mx-1 color-text-secondary"/>,
+			<TagIcon className="mx-1 color-text-secondary color-fg-muted"/>,
 			<a
 				href={buildRepoURL('releases/tag', tagName)}
 				className="commit-ref"
@@ -46,7 +46,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		() => pageDetect.isPRConversation() && pageDetect.isMergedPR(),
 	],

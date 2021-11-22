@@ -63,7 +63,7 @@ function init(): void {
 	onCommentFieldKeydown(eventHandler);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	shortcuts: {
 		'↑': 'Edit your last comment',
 		esc: 'Unfocuses comment field',

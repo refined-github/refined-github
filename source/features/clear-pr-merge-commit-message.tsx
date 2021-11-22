@@ -16,7 +16,7 @@ function init(): void {
 	messageField.value = [...deduplicatedAuthors].join('\n');
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],

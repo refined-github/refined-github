@@ -98,7 +98,7 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 		// Hide file from view
 		menuItem.closest('.file')!.remove();
 	} catch (error: unknown) {
-		features.log.error(__filebasename, error);
+		features.log.error(import.meta.url, error);
 	}
 }
 
@@ -132,7 +132,7 @@ function init(): void {
 	delegate(document, '.rgh-restore-file', 'click', handleRestoreFileClick, true);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit,

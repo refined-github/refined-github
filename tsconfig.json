@@ -1,5 +1,5 @@
 {
-	"extends": "@sindresorhus/tsconfig",
+	"extends": "@sindresorhus/tsconfig/tsconfig.json",
 	"compilerOptions": {
 		"target": "es2020",
 		"declaration": false,

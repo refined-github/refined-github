@@ -26,3 +26,28 @@
 	line-height: 1;
 	border-radius: 6px;
 }
+
+/* Add missing spacing for file template buttons #4899 */
+.js-template-suggestion:not(.d-none) {
+	margin-left: 8px;
+}
+
+/* Avoid scroll bar on single-line `pre` in Markdown #4899 */
+.zeroclipboard-container clipboard-copy {
+	margin-bottom: 0 !important;
+}
+
+/* Bold username in conversation lists #4899 */
+:is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type='user'] {
+	font-weight: 600;
+}
+
+#commits_bucket [aria-label='View commit details'], /* Monospace commit SHA in PR commit lists #4899 */
+:is(.new_public_key, .new_gpg_key) textarea { /* Monospace textareas for new SSH/GPG keys #4917 */
+	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace !important;
+}
+
+/* Limit width of comment form on commit pages #5032 */
+#all_commit_comments .timeline-comment-wrapper {
+	max-width: 780px; /* This is the limit applied on the comment thread by `.comment-holder` */
+}

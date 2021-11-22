@@ -41,7 +41,7 @@ function hovercardInit(): void {
 				}
 
 				reference.replaceChildren(
-					<a className="color-text-secondary" href={url.href}>
+					<a className="color-text-secondary color-fg-muted" href={url.href}>
 						{[...reference.childNodes]}
 					</a>,
 				);
@@ -50,7 +50,7 @@ function hovercardInit(): void {
 	});
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isQuickPR,
 		pageDetect.isEditingFile,

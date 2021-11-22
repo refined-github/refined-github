@@ -10,7 +10,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getConversationNumber} from '../github-helpers';
 
-const selectorForPushablePRNotice = '.merge-pr > .color-text-secondary:first-child:not(.rgh-update-pr)';
+const selectorForPushablePRNotice = '.merge-pr > :is(.color-text-secondary, .color-fg-muted):first-child:not(.rgh-update-pr)';
 let observer: Observer;
 
 function getBranches(): {base: string; head: string} {
@@ -89,7 +89,7 @@ async function init(): Promise<void | false> {
 	waitForText();
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],

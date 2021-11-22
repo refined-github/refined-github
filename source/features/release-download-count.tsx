@@ -46,9 +46,18 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 
 async function init(): Promise<void | false> {
 	const releases = new Map<string, HTMLElement>();
-	for (const release of select.all('.release')) {
-		if (select.exists('.octicon-package', release)) {
-			const name = select('svg.octicon-tag ~ span', release)!.textContent!;
+
+	if (pageDetect.isSingleTag() && select.exists('.Box-footer .octicon-package')) {
+		const name = select('.Box svg.octicon-tag ~ span')!.textContent!.trim();
+		releases.set(name, select('.Box-footer')!);
+	} else {
+		for (const release of select.all('.js-release-expandable')) {
+			if (!select.exists('.octicon-package', release)) {
+				return;
+			}
+
+			// Get the tag name from the heading link
+			const name = select('.Box-body a.Link--primary', release)!.href.split('/').pop()!;
 			releases.set(name, release);
 		}
 	}
@@ -61,29 +70,34 @@ async function init(): Promise<void | false> {
 
 	for (const [name, release] of releases) {
 		const sortedDownloads = assets[api.escapeKey(name)].sort((a, b) => b.downloadCount - a.downloadCount);
-		for (const assetName of select.all('.octicon-package ~ span', release)) {
+		for (const assetName of select.all('.octicon-package ~ a .text-bold', release)) {
 			// Match the asset in the DOM to the asset in the API response
 			for (const [index, {name, downloadCount}] of sortedDownloads.entries()) {
-				if (name === assetName.textContent && downloadCount > 0) {
-					const classes = 'rgh-release-download-count mr-2 color-text-secondary' + (index === 0 ? ' text-bold' : '');
-					// Place next to asset size
-					assetName
-						.closest('.Box-body')!
-						.querySelector('small')!
-						.before(
-							<small className={classes} title="Downloads">
-								{abbreviateNumber(downloadCount)} <DownloadIcon/>
-							</small>,
-						);
+				if (name !== assetName.textContent || downloadCount === 0) {
+					continue;
 				}
+
+				// Place next to asset size
+				assetName
+					.closest('.Box-row')!
+					.querySelector('.float-right')!
+					.after(
+						<small
+							className={'rgh-release-download-count float-right mr-2 color-text-secondary color-fg-muted' + (index === 0 ? ' text-bold' : '')}
+							title="Downloads"
+						>
+							{abbreviateNumber(downloadCount)} <DownloadIcon/>
+						</small>,
+					);
 			}
 		}
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isReleasesOrTags,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

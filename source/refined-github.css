@@ -1,7 +1,8 @@
 :root {
-	--github-green: var(--color-success-fg, #1a7f37);
-	--github-red: var(--color-danger-fg, #cf222e);
-	--github-border-color: var(--color-border-muted, #d8dee4);
+	--rgh-green: var(--color-fg-success, #1a7f37);
+	--rgh-red: var(--color-fg-danger, #cf222e);
+	--rgh-border-color: var(--color-border-muted, #d8dee4);
+	--rgh-background: var(--color-canvas-default, var(--color-bg-canvas, #fff));
 }
 
 /* Make tab indented code more readable on GitHub and Gist */
@@ -71,7 +72,7 @@
 
 /* Lighten deletions in Markdown */
 .markdown-body del {
-	color: var(--color-text-tertiary, #6a737d);
+	color: var(--color-fg-subtle, var(--color-text-tertiary, #6a737d));
 }
 
 /* Make <details> visibly clickable */
@@ -111,12 +112,12 @@ highlight-collaborators-and-own-conversations
 parse-backticks
 pr-branches
 */
-.js-issue-row .text-small.color-text-secondary {
+.js-issue-row .text-small:is(.color-text-secondary, .color-fg-muted) {
 	line-height: 1.8;
 }
 
 /* Reset `vertical-align` for .octicons to work with above increased line-height */
-.js-issue-row .text-small.color-text-secondary .octicon {
+.js-issue-row .text-small:is(.color-text-secondary, .color-fg-muted) .octicon {
 	vertical-align: middle;
 }
 
@@ -142,7 +143,7 @@ pr-branches
 	right: 50%;
 	transform: translate(50%, 50%);
 	min-width: 380px; /* Avoids a width change on the last step which causes the YES button to be where NO was */
-	box-shadow: var(--color-toast-shadow);
+	box-shadow: var(--color-shadow-large, var(--color-toast-shadow));
 	z-index: 2147483647;
 }
 
@@ -155,4 +156,12 @@ pr-branches
 /* Remove the underline on PR filename copy button hover #4871 */
 .file-header .file-info clipboard-copy {
 	display: inline-block;
+}
+
+/* Limit width of commit title to 72 characters */
+#merge_title_field,
+#commit-summary-input {
+	/* 12px for the padding and 1px for the border https://user-images.githubusercontent.com/46634000/136789268-442caa39-33bc-4af3-8fb2-9cf6db722127.png */
+	width: calc(72ch + 26px);
+	max-width: 100%;
 }

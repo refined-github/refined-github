@@ -36,7 +36,7 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 	const [owner] = nameWithOwner.split('/');
 	return (
 		<div className="markdown-body">
-			{remote && <p className="color-text-secondary text-small my-1">{remoteType}</p>}
+			{remote && <p className="color-text-secondary color-fg-muted text-small my-1">{remoteType}</p>}
 			<div className="snippet-clipboard-content position-relative">
 				<div className="zeroclipboard-container position-absolute right-0 top-0">
 					<clipboard-copy
@@ -49,7 +49,7 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 						tabindex="0"
 					>
 						<CopyIcon className="js-clipboard-copy-icon m-2"/>
-						<CheckIcon className="js-clipboard-check-icon color-text-success d-none m-2"/>
+						<CheckIcon className="js-clipboard-check-icon color-text-success color-fg-success d-none m-2"/>
 					</clipboard-copy>
 				</div>
 				<pre id={`rgh-checkout-pr-${remoteType!}`}>
@@ -73,12 +73,12 @@ async function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): Pr
 	const remoteName = getRemoteName();
 	select('.octicon-terminal', dropdown)!.closest('li.Box-row')!.after(
 		<li className="Box-row p-3 mt-0">
-			<span className="d-flex flex-items-center color-text-primary text-bold no-underline">
+			<span className="d-flex flex-items-center color-text-primary color-fg-default text-bold no-underline">
 				<TerminalIcon className="mr-2"/>
 				Checkout with Git
 			</span>
 			<div className="mt-2 pl-5">
-				<p className="color-text-secondary text-small">
+				<p className="color-text-secondary color-fg-muted text-small">
 					Run in your project repository{remoteName && ', pick either one'}
 				</p>
 				{remoteName ? [
@@ -95,7 +95,7 @@ function init(): void {
 	delegate(document, '.gh-header-actions Details:not(.rgh-git-checkout)', 'toggle', handleMenuOpening, true);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPR,
 	],

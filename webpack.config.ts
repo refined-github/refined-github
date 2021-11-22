@@ -3,11 +3,12 @@
 import path from 'node:path';
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
+import {Configuration} from 'webpack';
+import {createRequire} from 'node:module';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import webpack, {Configuration} from 'webpack';
 
-import {getFeatures, getFeaturesMeta} from './build/readme-parser';
+const {resolve: resolvePackage} = createRequire(import.meta.url);
 
 const config: Configuration = {
 	devtool: 'source-map',
@@ -27,6 +28,10 @@ const config: Configuration = {
 	module: {
 		rules: [
 			{
+				test: /\/readme\.md$/,
+				loader: './build/readme.loader.cts',
+			},
+			{
 				test: /\.tsx?$/,
 				loader: 'esbuild-loader',
 				options: {
@@ -44,16 +49,10 @@ const config: Configuration = {
 		],
 	},
 	plugins: [
-		new webpack.DefinePlugin({
-			// Passing `true` as the second argument makes these values dynamic — so every file change will update their value.
-			__features__: webpack.DefinePlugin.runtimeValue(() => JSON.stringify(getFeatures()), true),
-			__featuresMeta__: webpack.DefinePlugin.runtimeValue(() => JSON.stringify(getFeaturesMeta()), true),
-			__filebasename: webpack.DefinePlugin.runtimeValue(info => JSON.stringify(path.parse(info.module.resource).name)),
-		}),
 		new MiniCssExtractPlugin(),
 		new CopyWebpackPlugin({
 			patterns: [{
-				from: require.resolve('webextension-polyfill'),
+				from: resolvePackage('webextension-polyfill'),
 			}],
 		}),
 		new SizePlugin({writeFile: false}),

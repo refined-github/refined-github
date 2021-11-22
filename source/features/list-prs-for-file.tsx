@@ -52,7 +52,7 @@ function getSingleButton(prNumber: number): HTMLElement {
 	return (
 		<a
 			href={getPRUrl(prNumber)}
-			className="btn btn-sm flex-self-center rgh-list-prs-for-file BtnGroup-item"
+			className="btn btn-sm flex-self-center rgh-list-prs-for-file"
 			data-pjax="#js-repo-pjax-container"
 		>
 			<GitPullRequestIcon/>
@@ -103,7 +103,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 }, {
 	maxAge: {hours: 2},
 	staleWhileRevalidate: {days: 9},
-	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner,
+	cacheKey: () => 'files-with-prs:' + getRepo()!.nameWithOwner,
 });
 
 async function init(): Promise<void> {
@@ -157,7 +157,7 @@ async function init(): Promise<void> {
 	await addAfterBranchSelector(link);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isEditingFile,
 		pageDetect.isSingleFile,

@@ -21,7 +21,7 @@ async function is404(url: string): Promise<boolean> {
 }
 
 function getStrikeThrough(text: string): HTMLElement {
-	return <del className="color-text-tertiary">{text}</del>;
+	return <del className="color-text-tertiary color-fg-subtle">{text}</del>;
 }
 
 async function checkAnchor(anchor: HTMLAnchorElement): Promise<void> {
@@ -54,7 +54,7 @@ async function getLatestCommitToFile(branch: string, filePath: string): Promise<
 		}
 	`);
 	const commit = repository.object?.history.nodes[0];
-	return commit.oid;
+	return commit?.oid;
 }
 
 async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
@@ -160,7 +160,7 @@ async function initPRCommit(): Promise<void | false> {
 	);
 }
 
-void features.add(__filebasename, 	{
+void features.add(import.meta.url, 	{
 	asLongAs: [
 		pageDetect.is404,
 		() => parseCurrentURL().length > 1,

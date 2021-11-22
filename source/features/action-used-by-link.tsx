@@ -21,12 +21,12 @@ function init(): void {
 
 	select('.d-block.mb-2[href^="/contact"]')!.after(
 		<a href={actionURL.href} className="d-block mb-2">
-			<SearchIcon width={14} className="color-text-primary mr-2"/>Usage examples
+			<SearchIcon width={14} className="color-text-primary color-fg-default mr-2"/>Usage examples
 		</a>,
 	);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isMarketplaceAction,
 	],

@@ -18,7 +18,7 @@ async function init(): Promise<void> {
 	document.body.addEventListener('click', toggleFile);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isCommit,

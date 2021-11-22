@@ -8,6 +8,7 @@ import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
 import smartBlockWrap from '../helpers/smart-block-wrap';
+import {onCommentEdit} from '../github-events/on-fragment-load';
 
 function addTable({delegateTarget: square}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = square.form!.querySelector('textarea')!;
@@ -32,11 +33,9 @@ function highlightSquares({delegateTarget: hover}: delegate.Event<MouseEvent, HT
 	}
 }
 
-function init(): void {
-	delegate(document, '.rgh-table-input-cell', 'click', addTable);
-	delegate(document, '.rgh-table-input-cell', 'mouseenter', highlightSquares, {capture: true});
-
-	for (const anchor of select.all('md-task-list')) {
+function addButtons(): void {
+	for (const anchor of select.all('md-task-list:not(.rgh-table-input-added)')) {
+		anchor.classList.add('rgh-table-input-added');
 		anchor.after(
 			<details className="details-reset details-overlay flex-auto toolbar-item select-menu select-menu-modal-right hx_rsm">
 				<summary
@@ -70,7 +69,14 @@ function init(): void {
 	}
 }
 
-void features.add(__filebasename, {
+function init(): void {
+	delegate(document, '.rgh-table-input-cell', 'click', addTable);
+	delegate(document, '.rgh-table-input-cell', 'mouseenter', highlightSquares, {capture: true});
+	addButtons();
+	onCommentEdit(addButtons);
+}
+
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
 	],

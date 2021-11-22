@@ -130,8 +130,8 @@ async function addWidget(header: string): Promise<void> {
 	position.after(
 		<details className={`details-reset details-overlay d-inline-block ml-2 position-relative ${dropdownClass}`}>
 			<summary aria-haspopup="true">
-				<EyeIcon className="color-text-secondary"/>
-				<EyeClosedIcon className="color-icon-danger"/>
+				<EyeIcon className="color-text-secondary color-fg-muted"/>
+				<EyeClosedIcon className="color-icon-danger color-fg-danger"/>
 				<div className="dropdown-caret ml-1"/>
 			</summary>
 			<details-menu
@@ -152,11 +152,15 @@ async function addWidget(header: string): Promise<void> {
 }
 
 async function init(): Promise<void> {
+	// Reset the dropdown state #4997
+	currentSetting = 'default';
+	select('.repository-content')!.classList.remove('rgh-conversation-activity-is-filtered');
+
 	await addWidget('#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)');
 	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)');
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],

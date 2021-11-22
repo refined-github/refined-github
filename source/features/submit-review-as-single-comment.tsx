@@ -12,7 +12,7 @@ import features from '.';
 const pendingSelector = '.timeline-comment-label.is-pending';
 
 const getButton = onetime(() => (
-	<button className="rgh-submit-single btn-link ml-2 color-text-secondary text-small" type="button">Send now</button>
+	<button className="rgh-submit-single btn-link ml-2 color-text-secondary color-fg-muted text-small" type="button">Send now</button>
 ));
 
 function updateUI(): void {
@@ -56,7 +56,7 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 	const commentText = select('textarea[name="pull_request_review_comment[body]"]', commentContainer)!.value;
 	if (!commentText) {
 		alert('Error: Comment not found and not submitted. More info in the console.');
-		features.log.error(__filebasename, 'Comment not found');
+		features.log.error(import.meta.url, 'Comment not found');
 		return;
 	}
 
@@ -98,7 +98,7 @@ async function handleSubmitSingle(event: delegate.Event): Promise<void> {
 		alert('There was an error sending the comment. More info in the console.');
 		console.log('You were trying to sending this comment:');
 		console.log(commentText);
-		features.log.error(__filebasename, error);
+		features.log.error(import.meta.url, error);
 	}
 }
 
@@ -108,7 +108,7 @@ function init(): void {
 	updateUI();
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 	],

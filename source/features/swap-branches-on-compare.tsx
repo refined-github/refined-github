@@ -23,7 +23,7 @@ function init(): void {
 	wrap(icon, <a href={buildRepoURL('compare/' + references.join('...'))} data-pjax="#repo-content-pjax-container"/>);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isCompare,
 	],

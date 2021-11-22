@@ -83,14 +83,14 @@ function handleSelection({target}: Event): void {
 
 function createDropdownList(category: Category, filters: Filter[]): JSX.Element {
 	const icons: {[Key in Filter]: JSX.Element} = {
-		'Pull requests': <GitPullRequestIcon className="color-text-secondary"/>,
-		Issues: <IssueOpenedIcon className="color-text-secondary"/>,
-		Open: <CheckCircleIcon className="color-text-success"/>,
-		Closed: <XCircleIcon className="color-text-danger"/>,
-		Draft: <GitPullRequestDraftIcon className="color-text-tertiary"/>,
+		'Pull requests': <GitPullRequestIcon className="color-text-secondary color-fg-muted"/>,
+		Issues: <IssueOpenedIcon className="color-text-secondary color-fg-muted"/>,
+		Open: <CheckCircleIcon className="color-text-success color-fg-success"/>,
+		Closed: <XCircleIcon className="color-text-danger color-fg-danger"/>,
+		Draft: <GitPullRequestDraftIcon className="color-text-tertiary color-fg-subtle"/>,
 		Merged: <GitMergeIcon className="color-fg-done"/>,
-		Read: <DotIcon className="color-text-link"/>,
-		Unread: <DotFillIcon className="color-text-link"/>,
+		Read: <DotIcon className="color-text-link color-fg-accent"/>,
+		Unread: <DotFillIcon className="color-text-link color-fg-accent"/>,
 	};
 
 	return (
@@ -172,7 +172,7 @@ function init(): void {
 	delegate(document, '.js-notifications-mark-selected-actions > *, .rgh-open-selected-button', 'click', closeDropdown);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	shortcuts: {
 		S: 'Open the "Select by" dropdown',
 	},

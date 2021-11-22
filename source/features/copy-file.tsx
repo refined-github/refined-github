@@ -45,7 +45,7 @@ function init(): void {
 	renderButton();
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	asLongAs: [
 		() => select.exists('table.highlight'), // Rendered page
 		() => !select.exists('remote-clipboard-copy'), // Native copy button #4802

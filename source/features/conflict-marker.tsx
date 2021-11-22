@@ -60,18 +60,18 @@ async function init(): Promise<false | void> {
 		if (data[pr.key].pullRequest.mergeable === 'CONFLICTING') {
 			pr.link.after(
 				<a
-					className="rgh-conflict-marker tooltipped tooltipped-e color-text-secondary ml-2"
+					className="rgh-conflict-marker tooltipped tooltipped-e color-text-secondary color-fg-muted ml-2"
 					aria-label="This PR has conflicts that must be resolved"
 					href={`${pr.link.pathname}#partial-pull-merging`}
 				>
-					<AlertIcon/>
+					<AlertIcon className="v-align-middle"/>
 				</a>,
 			);
 		}
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversationList,
 	],

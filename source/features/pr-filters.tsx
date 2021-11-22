@@ -82,7 +82,7 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 	return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
 }, {
 	maxAge: {days: 3},
-	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner,
+	cacheKey: () => 'has-checks:' + getRepo()!.nameWithOwner,
 });
 
 async function addChecksFilter(): Promise<void> {
@@ -117,7 +117,7 @@ async function init(): Promise<void> {
 	await addChecksFilter();
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRList,
 	],

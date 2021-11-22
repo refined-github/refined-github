@@ -92,7 +92,7 @@ const getFirstCommit = cache.function(async (): Promise<[committedDate: string, 
 
 	return getRepoAge(commitSha, commitsCount);
 }, {
-	cacheKey: () => __filebasename + ':' + getRepo()!.nameWithOwner,
+	cacheKey: () => 'first-commit:' + getRepo()!.nameWithOwner,
 });
 
 async function init(): Promise<void> {
@@ -121,7 +121,7 @@ async function init(): Promise<void> {
 	);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoRoot,
 	],

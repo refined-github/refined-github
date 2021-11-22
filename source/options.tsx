@@ -8,9 +8,11 @@ import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
+import featureLink from './helpers/feature-link';
+import {featuresMeta} from '../readme.md';
 import {getLocalHotfixes} from './helpers/hotfix';
-import {perDomainOptions} from './options-storage';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
+import {perDomainOptions, renamedFeatures} from './options-storage';
 
 interface Status {
 	error?: true;
@@ -18,9 +20,7 @@ interface Status {
 	scopes?: string[];
 }
 
-// Don't repeat the magic variable, or its content will be inlined multiple times
-const features = __featuresMeta__;
-const featureList = features.map(({id}) => id);
+const featureList = featuresMeta.map(({id}) => id);
 const {version} = browser.runtime.getManifest();
 
 function reportStatus({error, text, scopes}: Status): void {
@@ -92,7 +92,7 @@ async function validateToken(): Promise<void> {
 function moveNewAndDisabledFeaturesToTop(): void {
 	const container = select('.js-features')!;
 
-	for (const unchecked of select.all('.feature [type=checkbox]:not(:checked)', container).reverse()) {
+	for (const unchecked of select.all('.feature-checkbox:not(:checked)', container).reverse()) {
 		// .reverse() needed to preserve alphabetical order while prepending
 		container.prepend(unchecked.closest('.feature')!);
 	}
@@ -109,11 +109,11 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
-			<input type="checkbox" name={`feature:${id}`} id={id}/>
+			<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox"/>
 			<div className="info">
 				<label className="feature-name" htmlFor={id}>{id}</label>
 				{' '}
-				<a href={`https://github.com/refined-github/refined-github/blob/main/source/features/${id}.tsx`} className="feature-link">
+				<a href={featureLink(id)} className="feature-link">
 					source
 				</a>
 				<input hidden type="checkbox" className="screenshot-toggle"/>
@@ -184,10 +184,13 @@ function featuresFilterHandler(event: Event): void {
 
 async function highlightNewFeatures(): Promise<void> {
 	const {featuresAlreadySeen} = await browser.storage.local.get({featuresAlreadySeen: {}});
+	for (const [from, to] of renamedFeatures) {
+		featuresAlreadySeen[to] = featuresAlreadySeen[from];
+	}
+
 	const isFirstVisit = Object.keys(featuresAlreadySeen).length === 0;
 	const tenDaysAgo = Date.now() - (10 * 24 * 60 * 60 * 1000);
-
-	for (const feature of select.all('.feature [type=checkbox]:first-child')) {
+	for (const feature of select.all('.feature-checkbox')) {
 		if (!(feature.id in featuresAlreadySeen)) {
 			featuresAlreadySeen[feature.id] = isFirstVisit ? tenDaysAgo : Date.now();
 		}
@@ -203,7 +206,7 @@ async function highlightNewFeatures(): Promise<void> {
 async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 	const disabledFeatures = <div className="js-hotfixes"/>;
 
-	for (const [feature,, relatedIssue] of await getLocalHotfixes(version)) {
+	for (const [feature, relatedIssue] of await getLocalHotfixes(version)) {
 		if (featureList.includes(feature)) {
 			disabledFeatures.append(
 				<p><code>{feature}</code> has been temporarily disabled due to {createRghIssueLink(relatedIssue)}.</p>,
@@ -216,7 +219,7 @@ async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 
 async function generateDom(): Promise<void> {
 	// Generate list
-	select('.js-features')!.append(...features.map(feature => buildFeatureCheckbox(feature)));
+	select('.js-features')!.append(...featuresMeta.map(feature => buildFeatureCheckbox(feature)));
 
 	// Add notice for features disabled via hotfix
 	select('.js-features')!.before(await getLocalHotfixesAsNotice());
@@ -236,7 +239,7 @@ async function generateDom(): Promise<void> {
 	}
 
 	// Add feature count. CSS-only features are added approximately
-	select('.features-header')!.append(` (${features.length + 25})`);
+	select('.features-header')!.append(` (${featuresMeta.length + 25})`);
 }
 
 function addEventListeners(): void {

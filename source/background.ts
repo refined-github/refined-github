@@ -60,5 +60,6 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 	}
 
 	// Hope that the feature was fixed in this version
-	await cache.delete('hotfix');
+	await cache.delete('hotfixes');
+	await cache.delete('style-hotfixes');
 });

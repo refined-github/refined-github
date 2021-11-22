@@ -45,7 +45,7 @@ async function cleanReleases(): Promise<void> {
 	}
 
 	// Align latest tag icon with the icons of other meta links
-	const tagIcon = select('.octicon-tag:not(.color-text-success)', releasesSection)!;
+	const tagIcon = select('.octicon-tag:not(.color-text-success, .color-fg-success)', releasesSection)!;
 	if (tagIcon) {
 		tagIcon.classList.add('mr-2');
 		// Remove whitespace node
@@ -82,7 +82,7 @@ async function init(): Promise<void> {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoRoot,
 	],

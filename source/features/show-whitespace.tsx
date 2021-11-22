@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import getTextNodes from '../helpers/get-text-nodes';
 import onNewComments from '../github-events/on-new-comments';
-import onDiffFileLoad from '../github-events/on-diff-file-load';
+import {onDiffFileLoad} from '../github-events/on-fragment-load';
 
 // `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
 function showWhiteSpacesOn(line: Element): void {
@@ -15,6 +15,9 @@ function showWhiteSpacesOn(line: Element): void {
 	for (const [nodeIndex, textNode] of textNodesOnThisLine.entries()) {
 		// `textContent` reads must be cached #2737
 		let text = textNode.textContent!;
+		if (text.length > 1000) { // #5092
+			continue;
+		}
 
 		const startingCharacter = shouldAvoidSurroundingSpaces && nodeIndex === 0 ? 1 : 0;
 		const skipLastCharacter = shouldAvoidSurroundingSpaces && nodeIndex === textNodesOnThisLine.length - 1;
@@ -61,20 +64,21 @@ const viewportObserver = new IntersectionObserver(changes => {
 	}
 });
 
-function init(): void {
-	const selectors = [
-		'.blob-code-inner', // Code lines
-		'.highlight pre', // Highlighted code blocks in comments
-		'.snippet-clipboard-content pre', // Not highlighted code blocks in comments
-	].join(',');
+// eslint-disable-next-line import/prefer-default-export
+export const codeElementsSelectors = [
+	'.blob-code-inner', // Code lines
+	'.highlight > pre', // Highlighted code blocks in comments
+	'.snippet-clipboard-content > pre', // Not highlighted code blocks in comments
+].join(',');
 
-	for (const line of select.all(`:is(${selectors}):not(.rgh-observing-whitespace, .blob-code-hunk)`)) {
+function init(): void {
+	for (const line of select.all(`:is(${codeElementsSelectors}):not(.rgh-observing-whitespace, .blob-code-hunk)`)) {
 		line.classList.add('rgh-observing-whitespace');
 		viewportObserver.observe(line);
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasCode,
 	],

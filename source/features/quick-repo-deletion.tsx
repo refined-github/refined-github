@@ -148,7 +148,7 @@ async function init(): Promise<void | false> {
 	delegate(document, '.rgh-quick-repo-deletion[open]', 'toggle', handleToggle, true);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isForkedRepo,
 	],

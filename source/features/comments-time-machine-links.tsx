@@ -8,6 +8,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import addNotice from '../github-widgets/notice-bar';
+import {linkifiedURLClass} from '../github-helpers/dom-formatters';
 import {buildRepoURL, isPermalink} from '../github-helpers';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
@@ -35,8 +36,8 @@ function addInlineLinks(menu: HTMLElement, timestamp: string): void {
 	const comment = menu.closest('.js-comment')!;
 
 	const links = select.all<HTMLAnchorElement>(`
-		[href^="${location.origin}"][href*="/blob/"]:not(.rgh-linkified-code),
-		[href^="${location.origin}"][href*="/tree/"]:not(.rgh-linkified-code)
+		[href^="${location.origin}"][href*="/blob/"]:not(.${linkifiedURLClass}),
+		[href^="${location.origin}"][href*="/tree/"]:not(.${linkifiedURLClass})
 	`, comment);
 
 	for (const link of links) {
@@ -60,7 +61,7 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 			<div className="dropdown-divider"/>
 			<a
 				href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
-				className="dropdown-item btn-link rgh-linkified-code"
+				className={'dropdown-item btn-link ' + linkifiedURLClass}
 				role="menuitem"
 				title="Browse repository like it appeared on this day"
 			>
@@ -128,7 +129,7 @@ function init(): void {
 	delegate(document, '.js-reaction-popover-container ~ details:last-child', 'click', updateMenu);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 	],

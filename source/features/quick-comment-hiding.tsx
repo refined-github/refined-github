@@ -44,7 +44,7 @@ function generateSubmenu(hideButton: Element): void {
 	});
 
 	// Imitate existing menu
-	hideCommentForm.classList.add('dropdown-menu', 'dropdown-menu-sw', 'color-text-primary', 'show-more-popover', 'anim-scale-in');
+	hideCommentForm.classList.add('dropdown-menu', 'dropdown-menu-sw', 'color-text-primary', 'color-fg-default', 'show-more-popover', 'anim-scale-in');
 
 	detailsElement.append(hideCommentForm);
 }
@@ -80,7 +80,7 @@ function init(): void {
 	delegate(document, '.rgh-quick-comment-hiding-details', 'toggle', resetDropdowns, true);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 	],

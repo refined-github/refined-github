@@ -64,7 +64,7 @@ function init(): void {
 	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],

@@ -4,11 +4,26 @@ import regexJoin from 'regex-join';
 import {readFileSync} from 'node:fs';
 import {parse as parseMarkdown} from 'markdown-wasm/dist/markdown.node.js';
 
-function searchInList(readmeContent: string, id: FeatureID): FeatureMeta | void {
-	const lineRegex = regexJoin(/^/, `- [](# "${id}")`, /(?: 🔥)? (.+)$/m);
-	const lineMatch = lineRegex.exec(readmeContent);
-	if (!lineMatch) {
-		return;
+// Group names must be unique because they will be merged
+const simpleFeatureRegex = /^- \[]\(# "(?<simpleId>[^"]+)"\)(?: 🔥)? (?<simpleDescription>.+)$/gm;
+const highlightedFeatureRegex = /<p><a title="(?<highlightedId>[^"]+)"><\/a> (?<highlightedDescripion>.+?)\n\t+<p><img src="(?<highlightedImage>.+?)">/g;
+// eslint-disable-next-line unicorn/better-regex -- ur wrong
+const featureRegex = regexJoin(simpleFeatureRegex, /|/, highlightedFeatureRegex);
+
+function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
+	const {
+		simpleId,
+		simpleDescription,
+		highlightedId,
+		highlightedDescripion,
+		highlightedImage,
+	} = match.groups!;
+	if (highlightedId) {
+		return {
+			id: highlightedId as FeatureID,
+			description: parseMarkdown(highlightedDescripion + '.'),
+			screenshot: highlightedImage,
+		};
 	}
 
 	const urls: string[] = [];
@@ -17,39 +32,17 @@ function searchInList(readmeContent: string, id: FeatureID): FeatureMeta | void 
 		return title;
 	};
 
-	const markdownDescription = lineMatch[1].replace(/\[(.+?)]\((.+?)\)/g, urlExtracter);
+	const linkLessMarkdownDescription = simpleDescription.replace(/\[(.+?)]\((.+?)\)/g, urlExtracter);
 	return {
-		id,
-		description: parseMarkdown(markdownDescription),
+		id: simpleId as FeatureID,
+		description: parseMarkdown(linkLessMarkdownDescription),
 		screenshot: urls.find(url => /\.(png|gif)$/i.test(url)),
 	};
 }
 
-function searchInHighlights(readmeContent: string, id: FeatureID): FeatureMeta | void {
-	const imageRegex = regexJoin(`<p><a title="${id}"></a> `, /(.+?)\n\t+<p><img src="(.+?)">/);
-	const imageMatch = imageRegex.exec(readmeContent);
-	if (imageMatch) {
-		return {
-			id,
-			description: parseMarkdown(imageMatch[1] + '.'),
-			screenshot: imageMatch[2],
-		};
-	}
-}
-
 export function getFeaturesMeta(): FeatureMeta[] {
 	const readmeContent = readFileSync('readme.md', 'utf-8');
-	const features = [];
-	for (const id of getFeatures()) {
-		if (!id.startsWith('rgh-')) {
-			const details = searchInList(readmeContent, id) ?? searchInHighlights(readmeContent, id);
-			if (details) {
-				features.push(details);
-			}
-		}
-	}
-
-	return features;
+	return [...readmeContent.matchAll(featureRegex)].map(match => extractDataFromMatch(match));
 }
 
 export function getFeatures(): FeatureID[] {

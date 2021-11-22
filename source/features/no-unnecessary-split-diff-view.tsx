@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onDiffFileLoad from '../github-events/on-diff-file-load';
+import {onDiffFileLoad} from '../github-events/on-fragment-load';
 
 function isUnifiedDiff(): boolean {
 	return select.exists([
@@ -25,7 +25,7 @@ function init(): void {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	asLongAs: [
 		// Make sure the class names we need exist on the page #4483
 		() => select.exists('.js-diff-table :is([data-split-side="left"], [data-split-side="right"]):is(.blob-code-addition, .blob-code-deletion)'),

@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import preserveScroll from '../helpers/preserve-scroll';
-import onDiffFileLoad from '../github-events/on-diff-file-load';
+import {onDiffFileLoad} from '../github-events/on-fragment-load';
 
 // When an indicator is clicked, this will show comments on the current file
 const handleIndicatorClick = ({delegateTarget}: delegate.Event): void => {
@@ -69,7 +69,7 @@ function init(): void {
 	delegate(document, '.rgh-comments-indicator', 'click', handleIndicatorClick);
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit,

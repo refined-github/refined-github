@@ -31,7 +31,7 @@ function init(): void {
 	}
 }
 
-void features.add(__filebasename, {
+void features.add(import.meta.url, {
 	shortcuts: {
 		'→': 'Go to the next page',
 		'←': 'Go to the previous page',
@@ -46,5 +46,6 @@ void features.add(__filebasename, {
 		pageDetect.isPRCommit,
 		pageDetect.isUserProfileRepoTab,
 	],
+	deduplicate: false,
 	init,
 });
