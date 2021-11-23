@@ -12,12 +12,14 @@ function init(): void {
 	commentsLink.lastChild!.textContent = 'Everything commented by you';
 	commentsLink.removeAttribute('target');
 	new SearchQuery(commentsLink).set('is:open commenter:@me');
+	commentsLink.setAttribute('aria-checked', String(commentsLink.href === location.href)); // #4589
 
 	sourceItem.after(commentsLink);
 
 	// Add "Everything you subscribed to" link
 	const subscriptionsLink = commentsLink.cloneNode(true);
 	subscriptionsLink.lastChild!.textContent = 'Everything you subscribed to';
+	subscriptionsLink.setAttribute('aria-checked', 'false'); // #4589
 
 	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
 	const repositoryId = select('input[name="repository_id"]')!.value;
