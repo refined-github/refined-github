@@ -16,7 +16,7 @@ function createFragmentLoadListener(fragmentSelector: string, callback: EventLis
 const diffFileFragmentsSelector = [
 	'include-fragment.diff-progressive-loader', // Incremental file loader on scroll
 	'include-fragment.js-diff-entry-loader', // File diff loader on clicking "Load Diff"
-	'#files_bucket include-fragment', // Diff on compare pages
+	'#files_bucket:not(.pull-request-tab-content) include-fragment', // Diff on compare pages
 ].join(',');
 
 export function onDiffFileLoad(callback: EventListener): delegate.Subscription {
