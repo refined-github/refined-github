@@ -54,7 +54,7 @@ async function getLatestCommitToFile(branch: string, filePath: string): Promise<
 		}
 	`);
 	const commit = repository.object?.history.nodes[0];
-	return commit.oid;
+	return commit?.oid;
 }
 
 async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
