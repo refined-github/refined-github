@@ -240,8 +240,8 @@ async function generateDom(): Promise<void> {
 		select('#logHTTP-line')!.hidden = false;
 	}
 
-	// Add feature count
-	select('.features-header')!.append(` (${featuresMeta.length})`);
+ 	// Add feature count. CSS-only features are added approximately
+ 	select('.features-header')!.append(` (${featuresMeta.length + 25})`);
 }
 
 function addEventListeners(): void {
