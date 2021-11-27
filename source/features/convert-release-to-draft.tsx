@@ -6,15 +6,17 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import showToast from '../github-helpers/toast';
+import LoadingIcon from '../github-helpers/icon-loading';
 
 const editReleaseButtonSelector = [
 	'.BtnGroup a[href*="releases/edit"]', // Before "Releases UI refresh" #4902
 	'.Box-btn-octicon[aria-label="Edit"]',
 ].join(',');
 
-async function convertToDraft(): Promise<void> {
-	await showToast(async () => {
+async function convertToDraft({delegateTarget: draftButton}: delegate.Event): Promise<void> {
+	try {
+		draftButton.append(<LoadingIcon className="ml-2 v-align-text-bottom" width={16}/>);
+
 		const tagName = location.pathname.split('/').pop()!;
 		const release = await api.v3(`releases/tags/${tagName}`);
 		await api.v3(release.url, {
@@ -25,10 +27,10 @@ async function convertToDraft(): Promise<void> {
 		});
 
 		select(editReleaseButtonSelector)!.click(); // Visit "Edit release" page
-	}, {
-		message: 'Converting to draft',
-		doneMessage: 'Converting to draft',
-	});
+	} catch (error: unknown) {
+		draftButton.textContent = 'Error. Check console or retry';
+		features.log.error(import.meta.url, error);
+	}
 }
 
 async function init(): Promise<void | false> {
