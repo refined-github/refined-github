@@ -47,7 +47,7 @@ const config: Configuration = {
 	plugins: [
 		new MiniCssExtractPlugin(),
 		new webpack.ProvidePlugin({
-			browser: "webextension-polyfill"
+			browser: 'webextension-polyfill',
 		}),
 		new SizePlugin({writeFile: false}),
 	],
