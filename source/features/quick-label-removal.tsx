@@ -9,8 +9,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getConversationNumber} from '../github-helpers';
 import showToast from '../github-helpers/toast';
+import {getConversationNumber} from '../github-helpers';
 
 const canNotEditLabels = onetime((): boolean => !select.exists('.label-select-menu .octicon-gear'));
 
