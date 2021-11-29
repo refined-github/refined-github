@@ -48,7 +48,7 @@ function init(): void {
 		<div className="footer">
 			{feedFooter}
 			{footer}
-		</div>
+		</div>,
 	);
 }
 
