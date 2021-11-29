@@ -165,3 +165,9 @@ pr-branches
 	width: calc(72ch + 26px);
 	max-width: 100%;
 }
+
+/* Hide all repo badges ("Public", "Template", etc.) #4767 */
+:is(#repository-container-header h1, .pinned-item-list-item-content) .Label,
+a[itemprop='name codeRepository'] ~ .Label {
+	display: none !important;
+}
