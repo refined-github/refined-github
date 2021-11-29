@@ -11,8 +11,7 @@ async function init(): Promise<void> {
 		return;
 	}
 
-	// The link seems to have an additional wrapper that other links don't have https://i.imgur.com/KV9rtSq.png
-	marketplaceLink.closest('.border-top, .mr-3')!.remove();
+	marketplaceLink.remove();
 
 	const link = <a href="/marketplace">Marketplace</a>;
 	const item = <li>{link}</li>;
