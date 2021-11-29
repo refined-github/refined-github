@@ -48,7 +48,7 @@ async function init(): Promise<void | false> {
 					{ /* eslint-disable-next-line react/no-danger */ }
 					<div dangerouslySetInnerHTML={{__html: feature.description}} className="text-bold"/>
 					<div className="no-wrap">
-						<a href={conversationsUrl} data-pjax="#repo-content-pjax-container">Conversations</a>
+						<a href={conversationsUrl.href} data-pjax="#repo-content-pjax-container">Conversations</a>
 					</div>
 				</div>
 			</div>
