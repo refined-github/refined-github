@@ -13,11 +13,17 @@ async function init(): Promise<void> {
 
 	// The link seems to have an additional wrapper that other links don't have https://i.imgur.com/KV9rtSq.png
 	marketplaceLink.closest('.border-top, .mr-3')!.remove();
-	select.last('footer ul')!.append(
-		<li className="ml-3 ml-lg-0">
-			<a href="/marketplace">Marketplace</a>
-		</li>,
-	);
+
+	const link = <a href="/marketplace">Marketplace</a>;
+	const item = <li>{link}</li>;
+
+	if (pageDetect.isDashboard()) {
+		link.classList.add('Link--secondary');
+	} else {
+		item.classList.add('ml-3', 'ml-lg-0');
+	}
+
+	select.last('.footer ul')!.append(item);
 }
 
 void features.add(import.meta.url, {
