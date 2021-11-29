@@ -69,15 +69,15 @@ const logError = (url: string, error: unknown): void => {
 	newIssueUrl.searchParams.set('labels', 'bug');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 	newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
-	newIssueUrl.searchParams.set('body', stripIndent(`
+	newIssueUrl.searchParams.set('description', stripIndent(`
 		<!-- Please also include a screenshot if the issue is visible -->
-
-		URL: ${location.href}
 
 		\`\`\`
 		${error instanceof Error ? error.stack! : error as string}
 		\`\`\`
 	`));
+	newIssueUrl.searchParams.set('example_url', location.href);
+	newIssueUrl.searchParams.set('browser_s_used', navigator.userAgent);
 	console.group('Open an issue');
 	console.log(newIssueUrl.href);
 	console.groupEnd();
