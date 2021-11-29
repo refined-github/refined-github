@@ -59,11 +59,15 @@ const logError = (url: string, error: unknown): void => {
 	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
 	console.group('❌', id, version, pageDetect.isEnterprise() ? 'GHE →' : '→', error);
 
+	const searchIssueUrl = new URL('https://github.com/refined-github/refined-github/issues');
+	searchIssueUrl.searchParams.set('q', `is:issue "${message}"`);
 	console.group('Search issue');
-	console.log(`https://github.com/refined-github/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}`);
+	console.log(searchIssueUrl.href);
 	console.groupEnd();
 
-	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new?labels=bug&template=1_bug_report.md');
+	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
+	newIssueUrl.searchParams.set('labels', 'bug');
+	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 	newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
 	newIssueUrl.searchParams.set('body', stripIndent(`
 		<!-- Please also include a screenshot if the issue is visible -->
