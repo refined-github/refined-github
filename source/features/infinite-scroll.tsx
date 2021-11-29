@@ -1,3 +1,4 @@
+import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import debounce from 'debounce-fn';
@@ -43,7 +44,12 @@ function init(): void {
 		child.classList.remove('pl-lg-4', 'col-xl-3');
 	}
 
-	select('[aria-label="Explore"]')!.append(feedFooter, footer);
+	select('[aria-label="Explore"]')!.append(
+		<div className="footer">
+			{feedFooter}
+			{footer}
+		</div>
+	);
 }
 
 void features.add(import.meta.url, {
