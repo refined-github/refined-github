@@ -152,6 +152,10 @@ async function addWidget(header: string): Promise<void> {
 }
 
 async function init(): Promise<void> {
+	// Reset dropdowns state #4997
+	currentSetting = 'default';
+	(await elementReady('.repository-content'))!.classList.remove('rgh-conversation-activity-is-filtered');
+
 	await addWidget('#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)');
 	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)');
 }

@@ -1,11 +1,11 @@
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 
-import {getFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
+import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
 
 const featuresDirContents = readdirSync('source/features/');
 const entryPoint = 'source/refined-github.ts';
 const entryPointSource = readFileSync(entryPoint);
-const importedFeatures = getFeatures();
+const importedFeatures = getImportedFeatures();
 const featuresInReadme = getFeaturesMeta();
 
 function findCssFileError(filename: string): string | void {
@@ -51,13 +51,17 @@ function findError(filename: string): string | void {
 		return;
 	}
 
-	const featureMeta = featuresInReadme.find(feature => feature.id === featureId);
+	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
 	if (!featureMeta) {
-		return `ERR: The feature ${featureId} should be described in the readme`;
+		return `ERR: ${featureId} should be described in the readme`;
 	}
 
 	if (featureMeta.description.length < 20) {
 		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
+	}
+
+	if (duplicate) {
+		return `ERR: ${featureId} should be described only once in the readme`;
 	}
 }
 
