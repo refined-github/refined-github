@@ -74,8 +74,10 @@ function createWhitespaceButton(): HTMLElement {
 }
 
 function initPR(): false | void {
-	// TODO [2022-05-01]: Remove `.js-diff-settings` from the selector (kept for GHE)
-	const originalToggle = select('.js-diff-settings, [aria-label="Diff settings"]')!.closest('details')!.parentElement!;
+	// TODO [2022-05-01]: Remove GHE code
+	const originalToggle = pageDetect.isEnterprise()
+		? select('.js-diff-settings')!.closest('details')!
+		: select('[aria-label="Diff settings"]')!.closest('details')!.parentElement!;
 
 	if (!isHidingWhitespace()) {
 		originalToggle.after(
