@@ -59,6 +59,11 @@ function init(): void {
 				<ReplyIcon/>
 			</button>,
 		);
+
+		const timelineItem = avatar.closest('.js-timeline-item')!;
+		if (timelineItem && !timelineItem.querySelector('.timeline-comment')) {
+			timelineItem.classList.add('mb-2');
+		}
 	}
 
 	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser);
