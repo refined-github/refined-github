@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-react';
 
 import features from '.';
+import {onDiffFileLoad} from '../github-events/on-fragment-load';
 
 function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 	const url = new URL(location.href);
@@ -112,7 +113,12 @@ function initCommitAndCompare(): false | void {
 	);
 }
 
+const shortcuts = {
+	'd w': 'Show/hide whitespaces in diffs',
+};
+
 void features.add(import.meta.url, {
+	shortcuts,
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit,
@@ -120,18 +126,22 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isPRFile404,
 	],
-	shortcuts: {
-		'd w': 'Show/hide whitespaces in diffs',
-	},
 	deduplicate: 'has-rgh-inner',
 	init: initPR,
 }, {
+	shortcuts,
 	include: [
 		pageDetect.isSingleCommit,
+	],
+	init: initCommitAndCompare,
+}, {
+	shortcuts,
+	include: [
 		pageDetect.isCompare,
 	],
-	shortcuts: {
-		'd w': 'Show/hide whitespaces in diffs',
-	},
+	additionalListeners: [
+		onDiffFileLoad,
+	],
+	onlyAdditionalListeners: true,
 	init: initCommitAndCompare,
 });
