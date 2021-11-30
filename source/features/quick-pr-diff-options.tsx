@@ -112,6 +112,10 @@ function initCommitAndCompare(): false | void {
 	);
 }
 
+const shortcuts: {
+	'd w': 'Show/hide whitespaces in diffs',
+};
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
@@ -120,18 +124,14 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isPRFile404,
 	],
-	shortcuts: {
-		'd w': 'Show/hide whitespaces in diffs',
-	},
+	shortcuts,
 	deduplicate: 'has-rgh-inner',
 	init: initPR,
 }, {
 	include: [
 		pageDetect.isSingleCommit,
 	],
-	shortcuts: {
-		'd w': 'Show/hide whitespaces in diffs',
-	},
+	shortcuts,
 	init: initCommitAndCompare,
 }, {
 	include: [
@@ -141,8 +141,6 @@ void features.add(import.meta.url, {
 		onDiffFileLoad,
 	],
 	onlyAdditionalListeners: true,
-	shortcuts: {
-		'd w': 'Show/hide whitespaces in diffs',
-	},
+	shortcuts,
 	init: initCommitAndCompare,
 });
