@@ -12,9 +12,8 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	// TODO [2022-05-01]: Remove GHE code
 	const [prTitle, ...prMessage] = (pageDetect.isEnterprise()
-		? select('#commits_bucket [data-url$="compare/commit"] a[title]')!.title
+		? select('#commits_bucket [data-url$="compare/commit"] a[title]')!.title // TODO [2022-05-01]: Remove GHE code
 		: select('#commits_bucket .js-commits-list-item a.Link--primary')!.innerHTML.replace(/<\/?code>/g, '`')
 	)!.split(/\n\n/);
 
