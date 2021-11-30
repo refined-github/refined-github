@@ -9,6 +9,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import showToast from '../github-helpers/toast';
 import {getConversationNumber} from '../github-helpers';
 
 const canNotEditLabels = onetime((): boolean => !select.exists('.label-select-menu .octicon-gear'));
@@ -17,13 +18,23 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 	event.preventDefault();
 
 	const removeLabelButton = event.delegateTarget;
-
 	removeLabelButton.disabled = true;
-	await api.v3(`issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
-		method: 'DELETE',
-	});
 
-	removeLabelButton.closest('a')!.remove();
+	const label = removeLabelButton.closest('a')!;
+	label.hidden = true;
+	try {
+		await api.v3(`issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
+			method: 'DELETE',
+		});
+	} catch (error: unknown) {
+		void showToast(error as Error);
+		removeLabelButton.disabled = false;
+		removeLabelButton.blur();
+		label.hidden = false;
+		return;
+	}
+
+	label.remove();
 }
 
 async function init(): Promise<void> {
