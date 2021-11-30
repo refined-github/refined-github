@@ -48,7 +48,6 @@ export default async function showToast(
 		toast.classList.replace('Toast--loading', 'Toast--success');
 		updateToast(doneMessage);
 		iconWrapper.firstChild!.replaceWith(<CheckIcon/>);
-		return;
 	} catch (error: unknown) {
 		toast.classList.replace('Toast--loading', 'Toast--error');
 		updateToast(error instanceof Error ? error.message : 'Unknown Error');
