@@ -18,9 +18,8 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 	event.preventDefault();
 
 	const removeLabelButton = event.delegateTarget;
-	removeLabelButton.disabled = true;
-
 	const label = removeLabelButton.closest('a')!;
+
 	label.hidden = true;
 	try {
 		await api.v3(`issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
@@ -28,7 +27,6 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 		});
 	} catch (error: unknown) {
 		void showToast(error as Error);
-		removeLabelButton.disabled = false;
 		removeLabelButton.blur();
 		label.hidden = false;
 		return;
