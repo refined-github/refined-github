@@ -58,10 +58,11 @@ function cleanSection(selector: string): boolean {
 }
 
 async function clean(): Promise<void> {
-	document.body.classList.add('rgh-clean-sidebar-done')
 	if (select.exists('.rgh-clean-sidebar')) {
 		return;
 	}
+
+	document.body.classList.add('rgh-clean-sidebar-done');
 
 	select('#partial-discussion-sidebar')!.classList.add('rgh-clean-sidebar');
 
