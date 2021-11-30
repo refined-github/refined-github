@@ -79,7 +79,7 @@ function initPR(): false | void {
 		? select('.js-diff-settings')!.closest('details')!
 		: select('[aria-label="Diff settings"]')!.closest('details')!.parentElement!;
 
-	if (!isHidingWhitespace()) {
+	if (!isHidingWhitespace() || pageDetect.isEnterprise()) {
 		originalToggle.after(
 			<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>,
 		);
