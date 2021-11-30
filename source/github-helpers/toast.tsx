@@ -12,14 +12,14 @@ export function ToastSpinner(): JSX.Element {
 }
 
 type ProgressCallback = (message: string) => void;
-type Task<T> = (progress?: ProgressCallback) => Promise<T>;
-export default async function showToast<TaskOrError extends Task<any> | Error>(
-	task: TaskOrError,
+type Task = (progress?: ProgressCallback) => Promise<unknown>;
+export default async function showToast(
+	task: Task | Error,
 	{
 		message = 'Bulk actions currently being processed.',
 		doneMessage = 'Bulk action processing complete.',
 	} = {},
-): Promise<[TaskOrError] extends [Task<infer R>] ? R : void> {
+): Promise<void> {
 	const iconWrapper = <span className="Toast-icon"><ToastSpinner/></span>;
 	const messageWrapper = <span className="Toast-content">{message}</span>;
 	const toast = (
@@ -44,11 +44,11 @@ export default async function showToast<TaskOrError extends Task<any> | Error>(
 			throw task;
 		}
 
-		const result = await task(updateToast);
+		await task(updateToast);
 		toast.classList.replace('Toast--loading', 'Toast--success');
 		updateToast(doneMessage);
 		iconWrapper.firstChild!.replaceWith(<CheckIcon/>);
-		return result;
+		return;
 	} catch (error: unknown) {
 		toast.classList.replace('Toast--loading', 'Toast--error');
 		updateToast(error instanceof Error ? error.message : 'Unknown Error');
