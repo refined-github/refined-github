@@ -77,7 +77,10 @@ const logError = (url: string, error: unknown): void => {
 		\`\`\`
 	`));
 	newIssueUrl.searchParams.set('example_url', location.href);
-	newIssueUrl.searchParams.set('browser_s_used', navigator.userAgent);
+	// @ts-expect-error navigator.userAgentData is not typed
+	const {platform} = navigator.userAgentData || navigator;
+	const browser = /(Chrome|Firefox|Safari)\/\d+/.exec(navigator.userAgent)?.[0];
+	newIssueUrl.searchParams.set('browser_s_used', [platform, browser].join(' '));
 	console.group('Open an issue');
 	console.log(newIssueUrl.href);
 	console.groupEnd();
