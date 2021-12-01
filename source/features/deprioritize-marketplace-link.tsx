@@ -1,11 +1,11 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
 async function init(): Promise<void> {
-	const marketplaceLink = select('.Header-link[href="/marketplace"]');
+	const marketplaceLink = await elementReady('.Header-link[href="/marketplace"]', {waitForChildren: false});
 	// On GHE it can be disabled #3725
 	if (!marketplaceLink) {
 		return;
@@ -22,12 +22,13 @@ async function init(): Promise<void> {
 		item.classList.add('ml-3', 'ml-lg-0');
 	}
 
-	select.last('.footer ul')!.append(item);
+	(await elementReady('.footer ul:last-of-type'))!.append(item);
 }
 
 void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isGist,
 	],
+	awaitDomReady: false,
 	init,
 });
