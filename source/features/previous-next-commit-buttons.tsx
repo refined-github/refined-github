@@ -10,9 +10,13 @@ function init(): false | void {
 	}
 
 	const previousNext = originalPreviousNext.cloneNode(true);
-	const files = select('#files')!;
-
-	files.after(previousNext);
+	const condensedVersionWarningBox = select('#files ~ .flash-warn');
+	if (condensedVersionWarningBox) {
+		previousNext.classList.add('mt-3');
+		condensedVersionWarningBox.after(previousNext); // #4503
+	} else {
+		select('#files')!.after(previousNext);
+	}
 }
 
 void features.add(import.meta.url, {
