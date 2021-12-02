@@ -24,6 +24,9 @@ async function initIssue(): Promise<void> {
 
 	// Removes: octocat opened this issue on 1 Jan [·] 1 comments
 	byline.firstChild!.textContent = byline.firstChild!.textContent!.replace('·', '');
+
+	// Removes: octocat opened this issue on 1 Jan · 1 comments [· May be fixed by #2]
+	byline.querySelector('[data-issue-and-pr-hovercards-enabled]')?.remove();
 }
 
 async function initPR(): Promise<void> {
