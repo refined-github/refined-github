@@ -32,11 +32,13 @@ function init(): void {
 	});
 }
 
+const searchType = (): string | null => new URLSearchParams(location.search).get('type');
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasCode,
-		() => pageDetect.isGlobalSearchResults() && new URLSearchParams(location.search).get('type') === 'code',
-		() => pageDetect.isRepoSearch() && (new URLSearchParams(location.search).get('type') === 'code' || !new URLSearchParams(location.search).get('type')),
+		() => pageDetect.isGlobalSearchResults() && searchType() === 'code',
+		() => pageDetect.isRepoSearch() && (searchType() === 'code' || !searchType()),
 	],
 	exclude: [
 		pageDetect.isGist,
