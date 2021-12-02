@@ -49,8 +49,11 @@ function searchInit(): void {
 void features.add(import.meta.url, {
 	init,
 }, {
+	asLongAs: [
+		() => new URLSearchParams(location.search).get('type') === 'users',
+	],
 	include: [
-		() => pageDetect.isGlobalSearchResults() && new URLSearchParams(location.search).get('type') === 'users',
+		pageDetect.isGlobalSearchResults,
 	],
 	init: searchInit,
 });
