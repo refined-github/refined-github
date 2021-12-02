@@ -38,7 +38,12 @@ function init(): void {
 	// Avatars next to review events aren't wrapped in a <div> #4844
 	const avatars = select.all(`:is(div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child, a.TimelineItem-avatar):not([href="/${getUsername()!}"], .rgh-quick-mention)`);
 	for (const avatar of avatars) {
-		if (avatar.closest('.TimelineItem')!.querySelector('.minimized-comment')) {
+		const timelineItem = avatar.closest('.TimelineItem')!;
+
+		if (
+			timelineItem.querySelector('.minimized-comment') // Hidden comments
+			|| !timelineItem.querySelector('.timeline-comment') // Reviews without a comment
+		) {
 			continue;
 		}
 
@@ -59,11 +64,6 @@ function init(): void {
 				<ReplyIcon/>
 			</button>,
 		);
-
-		const timelineItem = avatar.closest('.js-timeline-item')!;
-		if (timelineItem && !timelineItem.querySelector('.timeline-comment')) {
-			timelineItem.classList.add('mb-2');
-		}
 	}
 
 	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser);
