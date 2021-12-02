@@ -19,13 +19,6 @@ async function cleanLicenseText(): Promise<void> {
 	}
 }
 
-async function cleanCodeOfConductText(): Promise<void> {
-	const codeOfConductLink = await elementReady('.Layout-sidebar .octicon-checklist');
-	if (codeOfConductLink) {
-		codeOfConductLink.nextSibling!.textContent = codeOfConductLink.nextSibling!.textContent!.trim();
-	}
-}
-
 async function cleanReleases(): Promise<void> {
 	const sidebarReleases = await elementReady('.BorderGrid-cell h2 a[href$="/releases"]', {waitForChildren: false});
 	if (!sidebarReleases) {
@@ -72,7 +65,6 @@ async function init(): Promise<void> {
 
 	void removeReadmeLink();
 	void cleanLicenseText();
-	void cleanCodeOfConductText();
 	void cleanReleases();
 	void hideEmptyPackages();
 

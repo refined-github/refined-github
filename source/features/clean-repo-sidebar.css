@@ -12,3 +12,11 @@
 .rgh-clean-repo-sidebar ul.flex-wrap + .mt-3 {
 	display: none;
 }
+
+/* Hide Code of conduct links */
+.rgh-clean-repo-sidebar .Layout-sidebar .Link--muted:is(
+	[href$='/code-of-conduct.md' i],
+	[href$='/code_of_conduct.md' i]
+ ) {
+	display: none;
+}
