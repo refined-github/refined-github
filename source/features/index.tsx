@@ -83,7 +83,7 @@ const logError = (url: string, error: unknown): void => {
 	if (browser) {
 		// @ts-expect-error navigator.userAgentData is not typed
 		const {platform} = navigator.userAgentData || navigator;
-		newIssueUrl.searchParams.set('browser_s_used', `${platform} ${browser[0]}`);
+		newIssueUrl.searchParams.set('browser_s_used', `${platform as string} ${browser[0]}`);
 	}
 
 	console.group('Open an issue');
