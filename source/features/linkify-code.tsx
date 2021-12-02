@@ -35,6 +35,8 @@ function init(): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasCode,
+		() => pageDetect.isGlobalSearchResults() && new URLSearchParams(location.search).get('type') === 'code',
+		() => pageDetect.isRepoSearch() && (new URLSearchParams(location.search).get('type') === 'code' || !new URLSearchParams(location.search).get('type')),
 	],
 	exclude: [
 		pageDetect.isGist,
