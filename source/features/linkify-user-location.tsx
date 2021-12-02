@@ -15,14 +15,7 @@ function addLocation(baseElement: HTMLElement): void {
 		const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
 
 		location.before(' '); // Keeps the link’s underline from extending out to the icon
-		const link = <a className="Link--primary" href={googleMapsLink}/>;
-
-		// The location is in a hovercard
-		if (baseElement !== document.body) {
-			link.classList.add('no-underline');
-		}
-
-		wrap(location, link);
+		wrap(location, <a href={googleMapsLink}/>);
 	}
 }
 
