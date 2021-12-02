@@ -38,7 +38,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasCode,
 		() => pageDetect.isGlobalSearchResults() && searchType() === 'code',
-		() => pageDetect.isRepoSearch() && (searchType() === 'code' || !searchType()),
+		() => pageDetect.isRepoSearch() && (searchType() ?? 'code') === 'code',
 	],
 	exclude: [
 		pageDetect.isGist,
