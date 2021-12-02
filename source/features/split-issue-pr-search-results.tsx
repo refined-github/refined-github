@@ -28,7 +28,11 @@ function updateLinkElement(link: HTMLAnchorElement, type: GitHubConversationType
 function init(): void {
 	cleanLinks();
 
-	const issueLink = select('a.menu-item[href*="&type=issues"]')!;
+	const issueLink = select('a.menu-item[href*="&type=issues"]');
+	if (!issueLink) {
+		return;
+	}
+
 	updateLinkElement(issueLink, 'issue');
 
 	// We don't need to clone the child nodes because they get replaced anyways
