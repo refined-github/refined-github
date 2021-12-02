@@ -23,8 +23,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isUserProfileMainTab,
 	],
-	exclude: [
-		pageDetect.isGist,
-	],
 	init,
 });
