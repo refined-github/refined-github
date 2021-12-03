@@ -62,8 +62,6 @@ async function clean(): Promise<void> {
 		return;
 	}
 
-	document.body.classList.add('rgh-clean-sidebar-done');
-
 	select('#partial-discussion-sidebar')!.classList.add('rgh-clean-sidebar');
 
 	// Assignees
