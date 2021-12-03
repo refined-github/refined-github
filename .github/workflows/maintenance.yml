@@ -21,7 +21,7 @@ jobs:
             --no-progress
             --exclude-file "safari/Shared (App)/Base.lproj/Main.html"
             --exclude-file "distribution/options.html"
-             **/*.md **/*.html **/*.css **/*.ts **/*.tsx
+            -- '**/*.md' '**/*.html' '**/*.css' '**/*.ts' '**/*.tsx'
             
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
