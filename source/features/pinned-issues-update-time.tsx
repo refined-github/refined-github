@@ -46,7 +46,7 @@ async function init(): Promise<void | false> {
 		select('.pinned-item-desc', pinnedIssue)!.append(
 			' • ',
 			<span className="color-text-secondary color-fg-muted d-inline-block">
-				updated <relative-time datetime={updatedAt}/>
+				Updated <relative-time datetime={updatedAt}/>
 			</span>,
 		);
 	}
