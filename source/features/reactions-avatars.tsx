@@ -21,7 +21,7 @@ interface Participant {
 
 function getParticipants(button: HTMLButtonElement): Participant[] {
 	const currentUser = getUsername();
-	const users = button.getAttribute('aria-label')!
+	const users = (pageDetect.isReleasesOrTags() ? button.getAttribute('title') : button.getAttribute('aria-label'))!
 		.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')
@@ -56,8 +56,8 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 	const avatarLimit = arbitraryAvatarLimit - (commentReactions.children.length * approximateHeaderLength);
 
 	const participantByReaction = select
-		.all(':scope > button[aria-label$="emoji"]', commentReactions)
-		.map(button => getParticipants(button));
+		.all(':scope > button:is([aria-label$="emoji"], [title$="emoji"])', commentReactions) // `aria-label` is for PR/issue comments, `title` for releases
+		.map(button => getParticipants(button as HTMLButtonElement));
 	const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
 	for (const {button, username, imageUrl} of flatParticipants) {
