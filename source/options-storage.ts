@@ -35,6 +35,7 @@ export const renamedFeatures = new Map<string, string>([
 	['list-pr-for-branch', 'list-prs-for-branch'],
 	['quick-label-hiding', 'quick-label-removal'],
 	['next-scheduled-github-action', 'scheduled-and-manual-workflow-indicators'],
+	['raw-file-link', 'raw-and-blame-file-links'],
 ]);
 
 export function getNewFeatureName(possibleFeatureName: string): FeatureID | undefined {
