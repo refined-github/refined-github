@@ -10,11 +10,15 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-raw-file-link'); // Mark this as processed
 
 	const viewFile = select('a[data-ga-click^="View file"]', dropdown)!;
-	const {href} = new GitHubURL(viewFile.href).assign({route: 'raw'});
+	const {href: rawUrl} = new GitHubURL(viewFile.href).assign({route: 'raw'});
+	const {href: blameUlr} = new GitHubURL(viewFile.href).assign({route: 'blame'});
 
 	viewFile.after(
-		<a data-skip-pjax href={href} className="pl-5 dropdown-item btn-link" role="menuitem">
+		<a data-skip-pjax href={rawUrl} className="pl-5 dropdown-item btn-link" role="menuitem">
 			View raw
+		</a>,
+		<a data-skip-pjax href={blameUlr} className="pl-5 dropdown-item btn-link" role="menuitem">
+			View blame
 		</a>,
 	);
 }

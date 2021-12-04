@@ -315,7 +315,7 @@ Thanks for contributing! 🦋🙌
 ### Commits
 
 - [](# "patch-diff-links") [Adds links to `.patch` and `.diff` files in commits.](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
-- [](# "raw-file-link") [Adds a link to view the raw version of files in PRs and commits.](https://user-images.githubusercontent.com/1402241/56484988-b99f2500-6504-11e9-9748-c944e1070cc8.png)
+- [](# "raw-and-blame-file-links") [Adds links to view the raw version and the blame of files in PRs and commits.](https://user-images.githubusercontent.com/1402241/56484988-b99f2500-6504-11e9-9748-c944e1070cc8.png)
 - [](# "quick-pr-diff-options") [Adds one-click buttons to change diff style and to ignore the whitespace and a keyboard shortcut to ignore the whitespace: <kbd>d</kbd> <kbd>w</kbd>.](https://user-images.githubusercontent.com/1402241/54178764-d1c96080-44d1-11e9-889c-734ffd2a602d.png)
 - [](# "extend-diff-expander") [Widens the `Expand diff` button to be clickable across the screen.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
 - [](# "hide-diff-signs") [Hides diff signs since diffs are color coded already.](https://user-images.githubusercontent.com/1402241/54807718-149cec80-4cb9-11e9-869c-e265863211e3.png)
