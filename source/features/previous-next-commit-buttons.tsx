@@ -1,3 +1,4 @@
+import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
@@ -9,14 +10,14 @@ function init(): false | void {
 		return false;
 	}
 
-	const previousNext = originalPreviousNext.cloneNode(true);
-	const condensedVersionWarningBox = select('#files ~ .flash-warn');
-	if (condensedVersionWarningBox) {
-		previousNext.classList.add('mt-3');
-		condensedVersionWarningBox.after(previousNext); // #4503
-	} else {
-		select('#files')!.after(previousNext);
-	}
+	// Wrap the button in a <div> to avoid #4503
+	select('#files')!.after(
+		<div className="d-flex flex-justify-end">
+			{originalPreviousNext.cloneNode(true)}
+		</div>,
+	);
+
+	select('#files ~ .flash-warn')?.classList.add('mt-3');
 }
 
 void features.add(import.meta.url, {
