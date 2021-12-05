@@ -15,7 +15,7 @@
 		<label>
 			<strong>Personal token</strong> (optional, <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,delete_repo" target="_blank">generate one</a>)<br>
 			<!-- placeholder is set to enable use of :placeholder-shown CSS selector -->
-			<input type="text" name="personalToken" spellcheck="false" autocomplete="off" pattern="[\da-f]{40}|ghp_\w{36,251}" placeholder=" ">
+			<input type="text" name="personalToken" pattern="[\da-f]{40}|ghp_\w{36,251}" placeholder=" " spellcheck="false" autocomplete="off" autocapitalize="off">
 			<span id="validation"></span>
 		</label>
 	</p>
@@ -41,7 +41,7 @@
 		<p>
 			<label>
 				<strong class="features-header">Features</strong>
-				<input id="filter-features" type="text" placeholder="Find features" />
+				<input id="filter-features" type="text" placeholder="Find features" spellcheck="false" autocomplete="off" autocapitalize="off">
 			</label>
 		</p>
 		<div class="js-features"></div>
