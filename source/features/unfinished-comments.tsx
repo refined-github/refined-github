@@ -29,7 +29,7 @@ function updateDocumentTitle(): void {
 
 	if (document.visibilityState === 'hidden' && hasDraftComments()) {
 		documentTitle = document.title;
-		document.title = '(Draft comment) ' + document.title;
+		document.title = '✏️ (unsent) ' + document.title;
 	} else if (documentTitle) {
 		document.title = documentTitle;
 		documentTitle = undefined;
