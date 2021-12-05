@@ -36,7 +36,6 @@ import './features/minimize-upload-bar';
 import './features/hide-diff-signs';
 
 import './features/useful-not-found-page';
-import './features/trending-menu-item';
 import './features/more-dropdown-links';
 import './features/releases-tab';
 import './features/comment-fields-keyboard-shortcuts';
