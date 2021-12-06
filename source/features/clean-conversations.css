@@ -1,5 +1,5 @@
-/* Remove user avatar from new comment form on threads */
-.review-thread-reply .avatar {
+/* Remove user avatar from new comment form */
+:is(.review-thread-reply, #issuecomment-new) .avatar {
 	display: none;
 }
 
@@ -7,9 +7,8 @@
 	margin-left: 0;
 }
 
-/* Collapse multiple discussion items */
-/* https://github.com/refined-github/refined-github/commit/efa38bfd1048f0daa1d3d147840b1709f53713bd */
-.discussion-item + .discussion-item {
-	padding-top: 0 !important;
-	border-top: none !important;
+/* Hide arrow on new comment form */
+.timeline-comment--caret::before,
+.timeline-comment--caret::after {
+	content: none !important;
 }
