@@ -33,13 +33,13 @@ function mentionUser({delegateTarget: button}: delegate.Event): void {
 }
 
 function init(): void {
-	// `:first-child` avoids app badges #2630
-	// The hovercard attribute avoids `highest-rated-comment`
-	// Avatars next to review events aren't wrapped in a <div> #4844
 	const avatars = select.all(`:is(${[
+		// `:first-child` avoids app badges #2630
+		// The hovercard attribute avoids `highest-rated-comment`
+		// Avatars next to review events aren't wrapped in a <div> #4844
 		'div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child',
 		'a.TimelineItem-avatar',
-	]}):not([href="/${getUsername()!}"], .rgh-quick-mention)`);
+	].join(',')}):not([href="/${getUsername()!}"], .rgh-quick-mention)`);
 	for (const avatar of avatars) {
 		const timelineItem = avatar.closest('.TimelineItem')!;
 
