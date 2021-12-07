@@ -1,13 +1,13 @@
 import './show-whitespace.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import getTextNodes from '../helpers/get-text-nodes';
 import onNewComments from '../github-events/on-new-comments';
 import {onDiffFileLoad} from '../github-events/on-fragment-load';
-import onNewReviewComment from '../github-events/on-new-review';
 
 // `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
 function showWhiteSpacesOn(line: Element): void {
@@ -72,11 +72,18 @@ export const codeElementsSelectors = [
 	'.snippet-clipboard-content > pre', // Not highlighted code blocks in comments
 ].join(',');
 
-function init(): void {
+function observeWhiteSpace(): void {
 	for (const line of select.all(`:is(${codeElementsSelectors}):not(.rgh-observing-whitespace, .blob-code-hunk)`)) {
 		line.classList.add('rgh-observing-whitespace');
 		viewportObserver.observe(line);
 	}
+}
+
+function init(): void {
+	observeWhiteSpace();
+	// Show whitespace on new review suggestions #2852
+	// This event is not very reliable as it also triggers when review comments are edited or deleted
+	delegate(document, '.js-pull-refresh-on-pjax', 'socket:message', observeWhiteSpace, {capture: true});
 }
 
 void features.add(import.meta.url, {
@@ -85,7 +92,6 @@ void features.add(import.meta.url, {
 	],
 	additionalListeners: [
 		onNewComments,
-		onNewReviewComment,
 		onDiffFileLoad,
 	],
 	deduplicate: '.rgh-observing-whitespace',
