@@ -43,7 +43,7 @@ export const updateHotfixes = cache.function(async (version: string): Promise<Ho
 });
 
 export const updateStyleHotfixes = cache.function(async (version: string): Promise<string> => {
-	// See comments in `updateHotfixes`
+	// See comments for `updateHotfixes`
 	const request = await fetch(`https://api.github.com/repos/refined-github/refined-github/contents/style/${version}.css?ref=hotfix`);
 	const {content} = await request.json();
 
