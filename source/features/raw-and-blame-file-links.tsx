@@ -20,6 +20,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 		<a data-skip-pjax className="pl-5 dropdown-item btn-link" role="menuitem" href={blameUlr}>
 			View blame
 		</a>,
+		<div className="dropdown-divider" role="none"/>,
 	);
 }
 
