@@ -10,16 +10,20 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	dropdown.classList.add('rgh-raw-file-link'); // Mark this as processed
 
 	const viewFile = select('a[data-ga-click^="View file"]', dropdown)!;
-	const {href: rawUrl} = new GitHubURL(viewFile.href).assign({route: 'raw'});
-	const {href: historyUrl} = new GitHubURL(viewFile.href).assign({route: 'commits'});
+	const getDropdownLink = (name: string, route: string): JSX.Element => {
+		const {href} = new GitHubURL(viewFile.href).assign({route});
+
+		return (
+			<a href={href} data-skip-pjax className="pl-5 dropdown-item btn-link" role="menuitem">
+				View {name}
+			</a>
+		);
+	}
 
 	viewFile.after(
-		<a data-skip-pjax className="pl-5 dropdown-item btn-link" role="menuitem" href={rawUrl}>
-			View raw
-		</a>,
-		<a data-skip-pjax className="pl-5 dropdown-item btn-link" role="menuitem" href={historyUrl}>
-			View history
-		</a>,
+		getDropdownLink('raw', 'raw'),
+		getDropdownLink('blame', 'blame'),
+		getDropdownLink('history', 'commits'),
 		<div className="dropdown-divider" role="none"/>,
 	);
 }
