@@ -44,8 +44,8 @@ function init(): void {
 		const timelineItem = avatar.closest('.TimelineItem')!;
 
 		if (
-			timelineItem.querySelector('.minimized-comment') // Hidden comments
-			|| !timelineItem.querySelector('.timeline-comment') // Reviews without a comment
+			select.exists('.minimized-comment', timelineItem) // Hidden comments
+			|| !select.exists('.timeline-comment', timelineItem) // Reviews without a comment
 		) {
 			continue;
 		}
