@@ -7,7 +7,7 @@ import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
-	dropdown.classList.add('rgh-raw-file-link'); // Mark this as processed
+	dropdown.classList.add('rgh-more-file-links'); // Mark this as processed
 
 	const viewFile = select('a[data-ga-click^="View file"]', dropdown)!;
 	const getDropdownLink = (name: string, route: string): JSX.Element => {
@@ -30,7 +30,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 
 function init(): void {
 	// `useCapture` required to be fired before GitHub's handlers
-	delegate(document, '.file-header .js-file-header-dropdown:not(.rgh-raw-file-link)', 'toggle', handleMenuOpening, true);
+	delegate(document, '.file-header .js-file-header-dropdown:not(.rgh-more-file-links)', 'toggle', handleMenuOpening, true);
 }
 
 void features.add(import.meta.url, {
