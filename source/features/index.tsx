@@ -69,22 +69,12 @@ const logError = (url: string, error: unknown): void => {
 	newIssueUrl.searchParams.set('labels', 'bug');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 	newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
+	newIssueUrl.searchParams.set('example_url', location.href);
 	newIssueUrl.searchParams.set('description', stripIndent(`
-		<!-- Please also include a screenshot if the issue is visible -->
-
 		\`\`\`
 		${error instanceof Error ? error.stack! : error as string}
 		\`\`\`
 	`));
-	newIssueUrl.searchParams.set('example_url', location.href);
-
-	const browser = /(Chrome|Firefox|Safari)\/\d+/.exec(navigator.userAgent);
-	// Unknown browsers will need to be specified manually
-	if (browser) {
-		// @ts-expect-error navigator.userAgentData is not typed
-		const {platform} = navigator.userAgentData || navigator;
-		newIssueUrl.searchParams.set('browser_s_used', `${platform as string} ${browser[0]}`);
-	}
 
 	console.group('Open an issue');
 	console.log(newIssueUrl.href);
