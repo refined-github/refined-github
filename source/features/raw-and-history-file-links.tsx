@@ -11,14 +11,14 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 
 	const viewFile = select('a[data-ga-click^="View file"]', dropdown)!;
 	const {href: rawUrl} = new GitHubURL(viewFile.href).assign({route: 'raw'});
-	const {href: blameUlr} = new GitHubURL(viewFile.href).assign({route: 'blame'});
+	const {href: historyUrl} = new GitHubURL(viewFile.href).assign({route: 'commits'});
 
 	viewFile.after(
 		<a data-skip-pjax className="pl-5 dropdown-item btn-link" role="menuitem" href={rawUrl}>
 			View raw
 		</a>,
-		<a data-skip-pjax className="pl-5 dropdown-item btn-link" role="menuitem" href={blameUlr}>
-			View blame
+		<a data-skip-pjax className="pl-5 dropdown-item btn-link" role="menuitem" href={historyUrl}>
+			View history
 		</a>,
 		<div className="dropdown-divider" role="none"/>,
 	);
