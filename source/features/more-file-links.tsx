@@ -14,11 +14,11 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 		const {href} = new GitHubURL(viewFile.href).assign({route});
 
 		return (
-			<a href={href} data-skip-pjax className="pl-5 dropdown-item btn-link" role="menuitem">
+			<a data-skip-pjax href={href} className="pl-5 dropdown-item btn-link" role="menuitem">
 				View {name}
 			</a>
 		);
-	}
+	};
 
 	viewFile.after(
 		getDropdownLink('raw', 'raw'),
