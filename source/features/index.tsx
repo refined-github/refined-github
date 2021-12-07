@@ -60,7 +60,7 @@ const logError = (url: string, error: unknown): void => {
 	console.group('❌', id, version, pageDetect.isEnterprise() ? 'GHE →' : '→', error);
 
 	const searchIssueUrl = new URL('https://github.com/refined-github/refined-github/issues');
-	searchIssueUrl.searchParams.set('q', `is:issue is:open sort:updated-desc "${message}"`);
+	searchIssueUrl.searchParams.set('q', `is:issue is:open sort:updated-desc ${message}`);
 	console.group('Search issue');
 	console.log(searchIssueUrl.href);
 	console.groupEnd();
@@ -72,7 +72,7 @@ const logError = (url: string, error: unknown): void => {
 	newIssueUrl.searchParams.set('example_url', location.href);
 	newIssueUrl.searchParams.set('description', stripIndent(`
 		\`\`\`
-		${error instanceof Error ? error.stack! : error as string}
+		${error instanceof Error ? error.stack! : String(error)}
 		\`\`\`
 	`));
 
