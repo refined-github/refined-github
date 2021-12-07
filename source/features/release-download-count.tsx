@@ -51,9 +51,9 @@ async function init(): Promise<void | false> {
 		const name = select('.Box svg.octicon-tag ~ span')!.textContent!.trim();
 		releases.set(name, select('.Box-footer')!);
 	} else {
-		for (const release of select.all('.js-release-expandable')) {
+		for (const release of select.all('[data-test-selector="release-card"] > .Box')) {
 			if (!select.exists('.octicon-package', release)) {
-				return;
+				continue;
 			}
 
 			// Get the tag name from the heading link
