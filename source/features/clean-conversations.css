@@ -1,5 +1,5 @@
 /* Remove user avatar from new comment form on threads */
-.review-thread-reply .avatar { {
+.review-thread-reply .avatar {
 	display: none;
 }
 
