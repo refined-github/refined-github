@@ -170,8 +170,3 @@ pr-branches
 :is(#repository-container-header h1, .pinned-item-list-item-content) .Label {
 	display: none !important;
 }
-
-/* Hide trailing separator in PR/commit file diff dropdown */
-.js-file-header-dropdown .dropdown-menu > .dropdown-divider:last-child {
-	display: none !important;
-}
