@@ -6,9 +6,3 @@
 .review-thread-reply .review-thread-reply-button {
 	margin-left: 0;
 }
-
-/* Hide arrow on new comment form */
-.timeline-comment--caret::before,
-.timeline-comment--caret::after {
-	content: none !important;
-}
