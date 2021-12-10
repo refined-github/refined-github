@@ -16,6 +16,7 @@
 
 		"import/no-cycle": "off",
 		"import/no-unassigned-import": "off",
+		"import/extensions": "off",
 		"no-alert": "off",
 		"react/jsx-key": "off",
 		"node/prefer-global/process": "off",
