@@ -5,6 +5,7 @@ import cache from 'webext-storage-cache';
 import domify from 'doma';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import {isSafari} from 'webext-detect-page';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
@@ -298,6 +299,11 @@ function addEventListeners(): void {
 async function init(): Promise<void> {
 	await generateDom();
 	addEventListeners();
+
+	// Safari’s storage is inexplicably limited #4823
+	if (isSafari()) {
+		void cache.clear();
+	}
 }
 
 void init();

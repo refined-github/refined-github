@@ -1,4 +1,4 @@
-/* eslint-disable unicorn/filename-case, unicorn/require-post-message-target-origin */
+/* eslint-disable unicorn/filename-case */
 /* eslint-env browser */
 /* global webkit */
 

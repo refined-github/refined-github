@@ -25,8 +25,3 @@ form.thread-subscribe-form { /* `form` excludes the header */
 .thread-subscription-status .reason {
 	margin: 0 0 10px !important;
 }
-
-/* Hide links that are hideable via CSS */
-.rgh-clean-sidebar-done .Layout-sidebar .Link--muted[href$='/code-of-conduct.md' i] {
-	display: none;
-}
