@@ -24,13 +24,11 @@ function openOptions(): void {
 
 function init(): void {
 	const [opening, closing] = select.all<HTMLAnchorElement>(placeholdersSelector);
-	if (!closing) {
-		// Already done
-		return;
-	}
-
-	opening.append(opening.nextSibling!);
 	closing.remove();
+
+	// Move the wrapped text into the existing link
+	opening.append(opening.nextSibling!);
+	opening.classList.add('rgh-linkify-welcome-issue');
 	delegate(document, placeholdersSelector, 'click', openOptions);
 }
 
@@ -38,6 +36,6 @@ void features.add(import.meta.url, {
 	include: [
 		() => location.href.startsWith(issueUrl),
 	],
-	deduplicate: false,
+	deduplicate: '.rgh-linkify-welcome-issue',
 	init,
 });
