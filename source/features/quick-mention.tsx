@@ -38,9 +38,12 @@ function init(): void {
 	// Avatars next to review events aren't wrapped in a <div> #4844
 	const avatars = select.all(`:is(div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child, a.TimelineItem-avatar):not([href="/${getUsername()!}"], .rgh-quick-mention)`);
 	for (const avatar of avatars) {
-		if (avatar.closest('.TimelineItem')!.querySelector('.minimized-comment')) {
-			continue;
-		}
+		const timelineItem = avatar.closest('.TimelineItem')!;
+
+		if (
+			select.exists('.minimized-comment', timelineItem) // Hidden comments
+			|| !select.exists('.timeline-comment', timelineItem) // Reviews without a comment
+		) {
 
 		// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
 		if (avatar.classList.contains('TimelineItem-avatar')) {
