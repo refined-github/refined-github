@@ -21,7 +21,7 @@ interface Participant {
 
 function getParticipants(button: HTMLButtonElement): Participant[] {
 	const currentUser = getUsername();
-	const users = (pageDetect.isReleasesOrTags() ? button.getAttribute('title') : button.getAttribute('aria-label'))!
+	const users = pageDetect.isReleasesOrTags() ? button.getAttribute('title')! : button.getAttribute('aria-label')!
 		.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')
