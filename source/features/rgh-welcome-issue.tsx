@@ -19,7 +19,8 @@ This is done so that when editing that issue we're aware that something is up wi
 const issueUrl = 'https://github.com/refined-github/refined-github/issues/3543';
 const placeholdersSelector = 'a[href="#rgh-linkify-welcome-issue"]';
 
-function openOptions(): void {
+function openOptions(event: Event): void {
+	event.preventDefault();
 	void browser.runtime.sendMessage({openOptionsPage: true});
 }
 
