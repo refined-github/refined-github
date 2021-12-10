@@ -1,3 +1,4 @@
+import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
@@ -9,10 +10,12 @@ function init(): false | void {
 		return false;
 	}
 
-	const previousNext = originalPreviousNext.cloneNode(true);
-	const files = select('#files')!;
-
-	files.after(previousNext);
+	// Wrap the button in a <div> to avoid #4503
+	select('#files')!.after(
+		<div className="d-flex flex-justify-end mb-3">
+			{originalPreviousNext.cloneNode(true)}
+		</div>,
+	);
 }
 
 void features.add(import.meta.url, {
