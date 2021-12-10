@@ -5,7 +5,7 @@ import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import isSafari from '../helpers/browser-detection';
+import {isSafari} from 'webext-detect-page';
 
 const getBufferField = onetime((): HTMLInputElement => (
 	<input
