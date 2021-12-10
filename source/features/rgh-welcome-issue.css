@@ -1,20 +1,25 @@
-/* Clean it up */
-/* .gh-header-title is to exclude the sticky header */
+/**
 
-:root .gh-header-meta,
+!!!!!! Don't forget to add `[data-url]` selectors or else it will affect unrelated pages
+
+.gh-header-title is to exclude the sticky header
+
+*/
+
+[data-url^='/refined-github/refined-github/issues/3543/show_partial'] .gh-header-meta, /* Issue details */
 [data-url^='/refined-github/refined-github/issues/3543/show_partial?partial=issues%2Fsidebar'] /* Sidebar */ {
 	display: none !important;
 }
 
 @media (min-width: 768px) {
-	[data-url^='/refined-github/refined-github/issues/3543/show_partial?partial=issues%2Ftitle'] .gh-header-title .js-issue-title {
+	[data-url^='/refined-github/refined-github/issues/3543/show_partial'] .gh-header-title .js-issue-title {
 		font-size: 5vw !important;
 		font-weight: 300;
 	}
 
-	[data-url^='/refined-github/refined-github/issues/3543/show_partial?partial=issues%2Ftitle'] :is(
-	.gh-header-actions,
-	.gh-header-title .color-fg-muted
+	[data-url^='/refined-github/refined-github/issues/3543/show_partial'] :is(
+	.gh-header-actions, /* "New issue" button */
+	.gh-header-title .color-fg-muted /* Issue number */
 ) {
 		display: none !important;
 	}
