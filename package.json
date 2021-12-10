@@ -126,7 +126,7 @@
 			"firefoxProfile": "./test/web-ext-profile",
 			"chromiumProfile": "./test/web-ext-profile",
 			"startUrl": [
-				"github.com"
+				"https://github.com/refined-github/refined-github/issues"
 			]
 		}
 	}

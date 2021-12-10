@@ -51,7 +51,7 @@ const getDefaultBranch = cache.function(async function (repository?: pageDetect.
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: ([repository = getRepo()]) => `default-branch:${repository!.nameWithOwner}`,
+	cacheKey: ([repository = getRepo()]) => 'default-branch:' + repository!.nameWithOwner,
 });
 
 export default getDefaultBranch;
