@@ -1,5 +1,5 @@
-import delegate from 'delegate-it';
 import select from 'select-dom';
+import delegate from 'delegate-it';
 
 import features from '.';
 
