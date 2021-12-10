@@ -1,11 +1,11 @@
 import './fit-textareas.css';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import {isSafari} from 'webext-detect-page';
 import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {isSafari} from 'webext-detect-page';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 function inputListener({target}: Event): void {

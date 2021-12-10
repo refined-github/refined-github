@@ -2,10 +2,10 @@ import './file-finder-buffer.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
+import {isSafari} from 'webext-detect-page';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {isSafari} from 'webext-detect-page';
 
 const getBufferField = onetime((): HTMLInputElement => (
 	<input
