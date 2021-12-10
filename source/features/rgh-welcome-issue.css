@@ -1,7 +1,7 @@
 /* Clean it up */
 /* .gh-header-title is to exclude the sticky header */
 
-:root .gh-header-meta, 
+:root .gh-header-meta,
 [data-url^='/refined-github/refined-github/issues/3543/show_partial?partial=issues%2Fsidebar'] /* Sidebar */ {
 	display: none !important;
 }
@@ -13,8 +13,8 @@
 	}
 
 	[data-url^='/refined-github/refined-github/issues/3543/show_partial?partial=issues%2Ftitle'] :is(
-	.gh-header-actions, 
-	.gh-header-title .color-fg-muted 
+	.gh-header-actions,
+	.gh-header-title .color-fg-muted
 ) {
 		display: none !important;
 	}
