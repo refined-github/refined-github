@@ -44,6 +44,8 @@ function init(): void {
 			select.exists('.minimized-comment', timelineItem) // Hidden comments
 			|| !select.exists('.timeline-comment', timelineItem) // Reviews without a comment
 		) {
+			continue;
+		}
 
 		// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
 		if (avatar.classList.contains('TimelineItem-avatar')) {
