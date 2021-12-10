@@ -234,6 +234,9 @@ async function generateDom(): Promise<void> {
 
 	// Update list from saved options
 	await perDomainOptions.syncForm('form');
+	if (navigator.userAgent.includes('Safari')) {
+		void cache.clear();
+	}
 
 	// Decorate list
 	await highlightNewFeatures();
