@@ -12,7 +12,7 @@ function init(): false | void {
 
 	// Wrap the button in a <div> to avoid #4503
 	select('#files')!.after(
-		<div className={'d-flex flex-justify-end' + (select.exists('#files ~ .flash-warn') ? ' mb-3' : '')}>
+		<div className="d-flex flex-justify-end mb-3">
 			{originalPreviousNext.cloneNode(true)}
 		</div>,
 	);
