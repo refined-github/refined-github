@@ -1,0 +1,18 @@
+/* Clean it up */
+:root .gh-header-meta, /* Issue details in header */
+[data-url^="/refined-github/refined-github/issues/3543/show_partial?partial=issues%2Fsidebar"] /* Sidebar */ {
+	display: none !important;
+}
+@media (min-width: 768px) {
+	[data-url^="/refined-github/refined-github/issues/3543/show_partial?partial=issues%2Ftitle"] .js-issue-title {
+		font-size: 5vw !important;
+		font-weight: 300;
+	}
+	[data-url^="/refined-github/refined-github/issues/3543/show_partial?partial=issues%2Ftitle"] :is(
+		.gh-header-actions, /* "New issue" button */
+		.color-fg-muted /* Issue number */
+	)
+	 {
+		display: none !important;
+	}
+}
