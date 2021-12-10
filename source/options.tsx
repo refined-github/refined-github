@@ -234,9 +234,6 @@ async function generateDom(): Promise<void> {
 
 	// Update list from saved options
 	await perDomainOptions.syncForm('form');
-	if (navigator.userAgent.includes('Safari')) {
-		void cache.clear();
-	}
 
 	// Decorate list
 	await highlightNewFeatures();
@@ -301,6 +298,11 @@ function addEventListeners(): void {
 async function init(): Promise<void> {
 	await generateDom();
 	addEventListeners();
+
+	// Safari’s storage is inexplicably limited #4823
+	if (navigator.userAgent.includes('Safari')) {
+		void cache.clear();
+	}
 }
 
 void init();
