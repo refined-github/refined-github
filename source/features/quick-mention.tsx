@@ -33,21 +33,12 @@ function mentionUser({delegateTarget: button}: delegate.Event): void {
 }
 
 function init(): void {
-	const avatars = select.all(`:is(${[
-		// `:first-child` avoids app badges #2630
-		// The hovercard attribute avoids `highest-rated-comment`
-		'div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child',
-
-		// Avatars next to review events aren't wrapped in a <div> #4844
-		'a.TimelineItem-avatar',
-	].join(',')}):not([href="/${getUsername()!}"], .rgh-quick-mention)`);
+	// `:first-child` avoids app badges #2630
+	// The hovercard attribute avoids `highest-rated-comment`
+	// Avatars next to review events aren't wrapped in a <div> #4844
+	const avatars = select.all(`:is(div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child, a.TimelineItem-avatar):not([href="/${getUsername()!}"], .rgh-quick-mention)`);
 	for (const avatar of avatars) {
-		const timelineItem = avatar.closest('.TimelineItem')!;
-
-		if (
-			select.exists('.minimized-comment', timelineItem) // Hidden comments
-			|| !select.exists('.timeline-comment', timelineItem) // Reviews without a comment
-		) {
+		if (avatar.closest('.TimelineItem')!.querySelector('.minimized-comment')) {
 			continue;
 		}
 
