@@ -1,0 +1,4 @@
+/* https://github.com/refined-github/refined-github/issues/5152 */
+:root .CheckStep-line .CheckStep-line-content {
+  overflow: visible;
+}
