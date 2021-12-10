@@ -142,7 +142,8 @@ function highlightBugsTab(): void {
 }
 
 async function removePinnedIssues(): Promise<void> {
-	(await elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false}))?.remove();
+	const pinnedIssues = await elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false});
+	pinnedIssues?.remove();
 }
 
 async function updateBugsTagHighlighting(): Promise<void | false> {
