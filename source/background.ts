@@ -29,6 +29,9 @@ const messageHandlers = {
 		const response = await fetch(url);
 		return response.json();
 	},
+	openOptionsPage() {
+		void browser.runtime.openOptionsPage();
+	},
 };
 
 browser.runtime.onMessage.addListener((message: typeof messageHandlers, sender) => {

@@ -1,3 +1,4 @@
+/* eslint-disable max-params */
 import {getRepo} from '.';
 
 const currentRepo = getRepo() ?? {nameWithOwner: 'refined-github/refined-github'};
