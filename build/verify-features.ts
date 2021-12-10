@@ -1,6 +1,6 @@
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 
-import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js.js'; // Must import as `.js`
+import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
 
 const featuresDirContents = readdirSync('source/features/');
 const entryPoint = 'source/refined-github.ts';
