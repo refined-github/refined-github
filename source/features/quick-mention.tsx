@@ -36,8 +36,9 @@ function init(): void {
 	const avatars = select.all(`:is(${[
 		// `:first-child` avoids app badges #2630
 		// The hovercard attribute avoids `highest-rated-comment`
-		// Avatars next to review events aren't wrapped in a <div> #4844
 		'div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child',
+
+		// Avatars next to review events aren't wrapped in a <div> #4844
 		'a.TimelineItem-avatar',
 	].join(',')}):not([href="/${getUsername()!}"], .rgh-quick-mention)`);
 	for (const avatar of avatars) {
