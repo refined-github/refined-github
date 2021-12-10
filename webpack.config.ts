@@ -29,7 +29,7 @@ const config: Configuration = {
 		rules: [
 			{
 				test: /\/readme\.md$/,
-				loader: './build/readme.loader.cts.js',
+				loader: './build/readme.loader.cts',
 			},
 			{
 				test: /\.tsx?$/,
