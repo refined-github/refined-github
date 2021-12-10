@@ -1,15 +1,15 @@
 import test from 'ava';
 
-import './fixtures/globals.js';
-import pluralize from '../source/helpers/pluralize.js';
-import looseParseInt from '../source/helpers/loose-parse-int.js';
+import './fixtures/globals';
+import pluralize from '../source/helpers/pluralize';
+import looseParseInt from '../source/helpers/loose-parse-int';
 import {
 	getConversationNumber,
 	parseTag,
 	compareNames,
 	getLatestVersionTag,
 	shouldFeatureRun,
-} from '../source/github-helpers.js';
+} from '../source/github-helpers';
 
 test('getConversationNumber', t => {
 	const pairs = new Map<string, string | undefined>([

@@ -4,12 +4,12 @@ import select from 'select-dom';
 import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils.js';
+import {wrap} from '../helpers/dom-utils';
 import features from '.';
-import GitHubURL from '../github-helpers/github-url.js';
-import {isPermalink} from '../github-helpers.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import onFileListUpdate from '../github-events/on-file-list-update.js';
+import GitHubURL from '../github-helpers/github-url';
+import {isPermalink} from '../github-helpers';
+import getDefaultBranch from '../github-helpers/get-default-branch';
+import onFileListUpdate from '../github-events/on-file-list-update';
 
 async function init(): Promise<void> {
 	const isPermalink_ = await isPermalink();

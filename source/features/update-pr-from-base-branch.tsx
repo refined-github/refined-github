@@ -7,8 +7,8 @@ import * as pageDetect from 'github-url-detection';
 import {observe, Observer} from 'selector-observer';
 
 import features from '.';
-import * as api from '../github-helpers/api.js';
-import {getConversationNumber} from '../github-helpers.js';
+import * as api from '../github-helpers/api';
+import {getConversationNumber} from '../github-helpers';
 
 const selectorForPushablePRNotice = '.merge-pr > :is(.color-text-secondary, .color-fg-muted):first-child:not(.rgh-update-pr)';
 let observer: Observer;

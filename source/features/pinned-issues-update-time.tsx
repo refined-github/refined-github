@@ -4,9 +4,9 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api.js';
-import {getRepo} from '../github-helpers.js';
-import looseParseInt from '../helpers/loose-parse-int.js';
+import * as api from '../github-helpers/api';
+import {getRepo} from '../github-helpers';
+import looseParseInt from '../helpers/loose-parse-int';
 
 interface IssueInfo {
 	updatedAt: string;

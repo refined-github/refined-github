@@ -2,7 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onReplacedElement from '../helpers/on-replaced-element.js';
+import onReplacedElement from '../helpers/on-replaced-element';
 
 function addIndicator(button: HTMLElement): void {
 	const preposition = button.textContent!.includes('Add') ? ' to ' : ' on ';

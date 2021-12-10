@@ -2,7 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open.js';
+import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 function init(): void {
 	const messageField = select('textarea#merge_message_field')!;

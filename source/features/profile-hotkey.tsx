@@ -3,7 +3,7 @@ import onetime from 'onetime';
 import {isEnterprise} from 'github-url-detection';
 
 import features from '.';
-import {getUsername} from '../github-helpers.js';
+import {getUsername} from '../github-helpers';
 
 function init(): void {
 	const profileLink = (isEnterprise() ? location.origin : 'https://github.com') + '/' + getUsername()!;

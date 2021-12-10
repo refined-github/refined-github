@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import {getParsedBackticksParts} from '../source/github-helpers/parse-backticks.js';
+import {getParsedBackticksParts} from '../source/github-helpers/parse-backticks';
 
 function parseBackticks(string: string): string {
 	return getParsedBackticksParts(string).map(

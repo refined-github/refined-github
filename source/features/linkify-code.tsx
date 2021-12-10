@@ -4,9 +4,9 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {codeElementsSelectors} from './show-whitespace.js';
-import onConversationHeaderUpdate from '../github-events/on-conversation-header-update.js';
-import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters.js';
+import {codeElementsSelectors} from './show-whitespace';
+import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
+import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters';
 
 function initTitle(): void {
 	for (const title of select.all('.js-issue-title')) {

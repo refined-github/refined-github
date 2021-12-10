@@ -6,7 +6,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {onDiffFileLoad} from '../github-events/on-fragment-load.js';
+import {onDiffFileLoad} from '../github-events/on-fragment-load';
 
 const deinit: VoidFunction[] = [];
 

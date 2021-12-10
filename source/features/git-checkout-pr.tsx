@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import {CopyIcon, CheckIcon, TerminalIcon} from '@primer/octicons-react';
 
 import features from '.';
-import {getRepo, getUsername} from '../github-helpers.js';
+import {getRepo, getUsername} from '../github-helpers';
 
 // Logic explained in https://github.com/refined-github/refined-github/pull/3596#issuecomment-720910840
 function getRemoteName(): string | undefined {

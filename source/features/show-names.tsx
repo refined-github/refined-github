@@ -5,9 +5,9 @@ import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api.js';
-import onNewsfeedLoad from '../github-events/on-newsfeed-load.js';
-import {getUsername, compareNames} from '../github-helpers.js';
+import * as api from '../github-helpers/api';
+import onNewsfeedLoad from '../github-events/on-newsfeed-load';
+import {getUsername, compareNames} from '../github-helpers';
 
 async function init(): Promise<false | void> {
 	const usernameElements = select.all([

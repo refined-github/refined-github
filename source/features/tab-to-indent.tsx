@@ -3,7 +3,7 @@ import {eventHandler} from 'indent-textarea';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {onCommentFieldKeydown} from '../github-events/on-field-keydown.js';
+import {onCommentFieldKeydown} from '../github-events/on-field-keydown';
 
 function init(): void {
 	onCommentFieldKeydown(eventHandler);

@@ -5,13 +5,13 @@ import * as pageDetect from 'github-url-detection';
 import {DiffIcon, TagIcon} from '@primer/octicons-react';
 
 import features from '.';
-import * as api from '../github-helpers/api.js';
-import pluralize from '../helpers/pluralize.js';
-import GitHubURL from '../github-helpers/github-url.js';
-import {groupButtons} from '../github-helpers/group-buttons.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import addAfterBranchSelector from '../helpers/add-after-branch-selector.js';
-import {buildRepoURL, getCurrentCommittish, getLatestVersionTag, getRepo} from '../github-helpers.js';
+import * as api from '../github-helpers/api';
+import pluralize from '../helpers/pluralize';
+import GitHubURL from '../github-helpers/github-url';
+import {groupButtons} from '../github-helpers/group-buttons';
+import getDefaultBranch from '../github-helpers/get-default-branch';
+import addAfterBranchSelector from '../helpers/add-after-branch-selector';
+import {buildRepoURL, getCurrentCommittish, getLatestVersionTag, getRepo} from '../github-helpers';
 
 interface RepoPublishState {
 	latestTag: string | false;

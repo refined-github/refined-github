@@ -4,7 +4,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getCleanPathname} from '../github-helpers.js';
+import {getCleanPathname} from '../github-helpers';
 
 function parseGistLink(link: HTMLAnchorElement): string | undefined {
 	if (link.host === 'gist.github.com') {

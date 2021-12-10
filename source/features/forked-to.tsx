@@ -7,9 +7,9 @@ import * as pageDetect from 'github-url-detection';
 import {CheckIcon, LinkExternalIcon, RepoForkedIcon} from '@primer/octicons-react';
 
 import features from '.';
-import fetchDom from '../helpers/fetch-dom.js';
-import GitHubURL from '../github-helpers/github-url.js';
-import {getUsername, getForkedRepo, getRepo} from '../github-helpers.js';
+import fetchDom from '../helpers/fetch-dom';
+import GitHubURL from '../github-helpers/github-url';
+import {getUsername, getForkedRepo, getRepo} from '../github-helpers';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepo()!.nameWithOwner;
 const getCacheKey = (): string => `forked-to:${getForkSourceRepo()}@${getUsername()!}`;

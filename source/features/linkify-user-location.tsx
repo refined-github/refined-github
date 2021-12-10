@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 
 import features from '.';
-import {wrap, isEditable} from '../helpers/dom-utils.js';
+import {wrap, isEditable} from '../helpers/dom-utils';
 
 function addLocation(baseElement: HTMLElement): void {
 	for (const {nextElementSibling, nextSibling} of select.all('.octicon-location', baseElement)) {

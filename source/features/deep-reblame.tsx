@@ -7,10 +7,10 @@ import {VersionsIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api.js';
-import GitHubURL from '../github-helpers/github-url.js';
-import LoadingIcon from '../github-helpers/icon-loading.js';
-import looseParseInt from '../helpers/loose-parse-int.js';
+import * as api from '../github-helpers/api';
+import GitHubURL from '../github-helpers/github-url';
+import LoadingIcon from '../github-helpers/icon-loading';
+import looseParseInt from '../helpers/loose-parse-int';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(`

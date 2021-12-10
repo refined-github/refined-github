@@ -6,8 +6,8 @@ import {ArrowLeftIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import onConversationHeaderUpdate from '../github-events/on-conversation-header-update.js';
+import getDefaultBranch from '../github-helpers/get-default-branch';
+import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 async function initIssue(): Promise<void> {
 	const byline = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)');

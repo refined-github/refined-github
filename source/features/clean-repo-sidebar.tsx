@@ -8,8 +8,7 @@ import features from '.';
 
 async function removeReadmeLink(): Promise<void> {
 	// Hide "Readme" link made unnecessary by toggle-files-button #3580
-	const link = await elementReady('.Link--muted[href="#readme"]');
-	link?.parentElement!.remove();
+	(await elementReady('.Link--muted[href="#readme"]'))?.parentElement!.remove();
 }
 
 async function cleanLicenseText(): Promise<void> {

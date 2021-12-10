@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
 
 import features from '.';
-import looseParseInt from '../helpers/loose-parse-int.js';
+import looseParseInt from '../helpers/loose-parse-int';
 
 function init(): false | void {
 	const form = select('[action$="/reviews"]')!;

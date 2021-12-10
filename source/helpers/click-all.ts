@@ -2,7 +2,7 @@ import mem from 'mem';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 
-import preserveScroll from './preserve-scroll.js';
+import preserveScroll from './preserve-scroll';
 
 type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
 export default mem((selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler => event => {

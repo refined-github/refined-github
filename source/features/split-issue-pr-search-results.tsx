@@ -4,7 +4,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import SearchQuery from '../github-helpers/search-query.js';
+import SearchQuery from '../github-helpers/search-query';
 
 function cleanLinks(): void {
 	for (const link of select.all('a.menu-item')) {

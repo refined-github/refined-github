@@ -2,7 +2,7 @@ import cache from 'webext-storage-cache';
 import {isEnterprise} from 'github-url-detection';
 import compareVersions from 'tiny-version-compare';
 
-import {RGHOptions} from '../options-storage.js';
+import {RGHOptions} from '../options-storage';
 
 function parseCsv(content: string): string[][] {
 	const lines = [];

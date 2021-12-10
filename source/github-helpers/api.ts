@@ -5,7 +5,7 @@ next to the name of the feature that caused them.
 
 Usage:
 
-import * as api from '../github-helpers/api.js';
+import * as api from '../github-helpers/api';
 const user = await api.v3(`/users/${username}`);
 const repositoryCommits = await api.v3('commits'); // Without a leading `/`, this is equivalent to `/repo/$current-repository/commits`
 const data = await api.v4('{user(login: "user") {name}}');
@@ -29,9 +29,9 @@ import mem from 'mem';
 import * as pageDetect from 'github-url-detection';
 import {JsonObject, AsyncReturnType} from 'type-fest';
 
-import features from '../features.js';
+import features from '../features';
 import {getRepo} from '.';
-import optionsStorage from '../options-storage.js';
+import optionsStorage from '../options-storage';
 
 interface JsonError {
 	message: string;

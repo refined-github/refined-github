@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import isLowQualityComment from '../source/helpers/is-low-quality-comment.js';
+import isLowQualityComment from '../source/helpers/is-low-quality-comment';
 
 test('isLowQualityComment', t => {
 	t.true(isLowQualityComment('+1'));

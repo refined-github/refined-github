@@ -5,8 +5,8 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import {buildRepoURL, getCurrentCommittish} from '../github-helpers.js';
+import getDefaultBranch from '../github-helpers/get-default-branch';
+import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
 
 export function createDropdownItem(label: string, url: string, attributes?: Record<string, string>): Element {
 	return (

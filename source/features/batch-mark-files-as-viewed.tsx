@@ -3,8 +3,8 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import clickAll from '../helpers/click-all.js';
-import showToast from '../github-helpers/toast.js';
+import clickAll from '../helpers/click-all';
+import showToast from '../github-helpers/toast';
 
 let previousFile: HTMLElement | undefined;
 

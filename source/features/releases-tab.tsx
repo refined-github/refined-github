@@ -7,12 +7,12 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api.js';
-import looseParseInt from '../helpers/loose-parse-int.js';
-import abbreviateNumber from '../helpers/abbreviate-number.js';
-import {createDropdownItem} from './more-dropdown-links.js';
-import {buildRepoURL, getRepo} from '../github-helpers.js';
-import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
+import * as api from '../github-helpers/api';
+import looseParseInt from '../helpers/loose-parse-int';
+import abbreviateNumber from '../helpers/abbreviate-number';
+import {createDropdownItem} from './more-dropdown-links';
+import {buildRepoURL, getRepo} from '../github-helpers';
+import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils';
 
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 

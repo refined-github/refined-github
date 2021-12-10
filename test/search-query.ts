@@ -1,7 +1,7 @@
 import test from 'ava';
 
-import './fixtures/globals.js';
-import SearchQuery from '../source/github-helpers/search-query.js';
+import './fixtures/globals';
+import SearchQuery from '../source/github-helpers/search-query';
 
 test('.get', t => {
 	const query = new SearchQuery({q: 'wow'});

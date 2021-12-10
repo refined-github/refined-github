@@ -2,12 +2,12 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils.js';
+import {wrap} from '../helpers/dom-utils';
 import features from '.';
-import featureLink from '../helpers/feature-link.js';
-import {getNewFeatureName} from '../options-storage.js';
-import {isRefinedGitHubRepo} from '../github-helpers.js';
-import onConversationHeaderUpdate from '../github-events/on-conversation-header-update.js';
+import featureLink from '../helpers/feature-link';
+import {getNewFeatureName} from '../options-storage';
+import {isRefinedGitHubRepo} from '../github-helpers';
+import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 function linkifyFeature(possibleFeature: HTMLElement): void {
 	const id = getNewFeatureName(possibleFeature.textContent!);

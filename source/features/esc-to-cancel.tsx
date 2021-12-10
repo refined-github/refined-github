@@ -3,7 +3,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown.js';
+import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown';
 
 function handleEscPress(event: delegate.Event<KeyboardEvent>): void {
 	if (event.key === 'Escape') {

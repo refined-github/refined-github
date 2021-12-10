@@ -2,9 +2,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils.js';
+import {wrap} from '../helpers/dom-utils';
 import features from '.';
-import {buildRepoURL, getRepo} from '../github-helpers.js';
+import {buildRepoURL, getRepo} from '../github-helpers';
 
 function init(): void {
 	const references = getRepo()!

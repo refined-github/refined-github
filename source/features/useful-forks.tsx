@@ -4,8 +4,8 @@ import * as pageDetect from 'github-url-detection';
 import {RepoForkedIcon} from '@primer/octicons-react';
 
 import features from '.';
-import {getRepo} from '../github-helpers.js';
-import looseParseInt from '../helpers/loose-parse-int.js';
+import {getRepo} from '../github-helpers';
+import looseParseInt from '../helpers/loose-parse-int';
 
 async function init(): Promise<void | false> {
 	const forkCount = await elementReady('.social-count[href$="/network/members"]');

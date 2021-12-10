@@ -3,7 +3,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 
 import features from '.';
-import {isEditable} from '../helpers/dom-utils.js';
+import {isEditable} from '../helpers/dom-utils';
 
 function splitKeys(keys: string): DocumentFragment[] {
 	return keys.split(' ').map(key => <> <kbd>{key}</kbd></>);

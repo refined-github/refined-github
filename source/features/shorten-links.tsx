@@ -4,7 +4,7 @@ import {applyToLink} from 'shorten-repo-url';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {linkifiedURLClass} from '../github-helpers/dom-formatters.js';
+import {linkifiedURLClass} from '../github-helpers/dom-formatters';
 
 function init(): void {
 	observe(`a[href]:not(.${linkifiedURLClass})`, {

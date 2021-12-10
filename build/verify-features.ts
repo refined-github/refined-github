@@ -9,10 +9,10 @@ const importedFeatures = getImportedFeatures();
 const featuresInReadme = getFeaturesMeta();
 
 function findCssFileError(filename: string): string | void {
-	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${filename}.js';`);
+	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${filename}';`);
 	const correspondingTsxFile = `source/features/${filename.replace(/.css$/, '.tsx')}`;
 	if (existsSync(correspondingTsxFile)) {
-		if (!readFileSync(correspondingTsxFile).includes(`import './${filename}.js';`)) {
+		if (!readFileSync(correspondingTsxFile).includes(`import './${filename}';`)) {
 			return `ERR: \`${filename}\` should be imported by \`${correspondingTsxFile}\``;
 		}
 

@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '.';
-import * as api from '../github-helpers/api.js';
+import * as api from '../github-helpers/api';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`

@@ -5,9 +5,9 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import GitHubURL from '../github-helpers/github-url.js';
-import {isPermalink} from '../github-helpers.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import GitHubURL from '../github-helpers/github-url';
+import {isPermalink} from '../github-helpers';
+import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void | false> {
 	const readmeHeader = await elementReady('#readme :is(.Box-header, .js-sticky)');

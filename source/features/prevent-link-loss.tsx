@@ -14,8 +14,8 @@ import {
 	preventPrCompareLinkLoss,
 	discussionUrlRegex,
 	preventDiscussionLinkLoss,
-} from '../github-helpers/prevent-link-loss.js';
-import {createRghIssueLink} from '../helpers/rgh-issue-link.js';
+} from '../github-helpers/prevent-link-loss';
+import {createRghIssueLink} from '../helpers/rgh-issue-link';
 
 function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #4678 */

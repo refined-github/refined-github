@@ -6,9 +6,9 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api.js';
-import {wrapAll} from '../helpers/dom-utils.js';
-import {buildRepoURL, getRepo} from '../github-helpers.js';
+import * as api from '../github-helpers/api';
+import {wrapAll} from '../helpers/dom-utils';
+import {buildRepoURL, getRepo} from '../github-helpers';
 
 interface FileType {
 	name: string;

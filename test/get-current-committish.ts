@@ -1,7 +1,7 @@
 import test from 'ava';
 
-import './fixtures/globals.js';
-import {getCurrentCommittish} from '../source/github-helpers.js';
+import './fixtures/globals';
+import {getCurrentCommittish} from '../source/github-helpers';
 
 // The titles supplied here listed here are real, not guessed, except the error tester
 test('getCurrentCommittish', t => {

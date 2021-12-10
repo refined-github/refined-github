@@ -3,7 +3,7 @@ import onetime from 'onetime';
 import {observe} from 'selector-observer';
 
 import features from '.';
-import {parseBackticks} from '../github-helpers/dom-formatters.js';
+import {parseBackticks} from '../github-helpers/dom-formatters';
 
 function init(): void {
 	const selectors = [

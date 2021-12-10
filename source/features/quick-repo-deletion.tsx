@@ -7,12 +7,12 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api.js';
-import {getRepo} from '../github-helpers.js';
-import pluralize from '../helpers/pluralize.js';
-import addNotice from '../github-widgets/notice-bar.js';
-import looseParseInt from '../helpers/loose-parse-int.js';
-import parseBackticks from '../github-helpers/parse-backticks.js';
+import * as api from '../github-helpers/api';
+import {getRepo} from '../github-helpers';
+import pluralize from '../helpers/pluralize';
+import addNotice from '../github-widgets/notice-bar';
+import looseParseInt from '../helpers/loose-parse-int';
+import parseBackticks from '../github-helpers/parse-backticks';
 
 function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
 	const hasContent = select.exists([

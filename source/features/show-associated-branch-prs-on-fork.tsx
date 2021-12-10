@@ -6,8 +6,8 @@ import * as pageDetect from 'github-url-detection';
 import {GitMergeIcon, GitPullRequestIcon, GitPullRequestClosedIcon, GitPullRequestDraftIcon} from '@primer/octicons-react';
 
 import features from '.';
-import * as api from '../github-helpers/api.js';
-import {getRepo, upperCaseFirst} from '../github-helpers.js';
+import * as api from '../github-helpers/api';
+import {getRepo, upperCaseFirst} from '../github-helpers';
 
 interface PullRequest {
 	timelineItems: {

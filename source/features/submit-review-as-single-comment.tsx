@@ -47,9 +47,8 @@ async function getNewCommentField(commentContainer: Element, lineBeingCommentedO
 		(isRightSide ? select.last : select)('.js-add-line-comment', lineBeingCommentedOn)!.click();
 	}
 
-	const {target} = await listener;
 	// TODO: this is wrong. `target` is a button. Maybe instead of listening to `focusin` it should just use select or elementReady
-	return target as HTMLTextAreaElement;
+	return (await listener).target as HTMLTextAreaElement;
 }
 
 async function handleSubmitSingle(event: delegate.Event): Promise<void> {

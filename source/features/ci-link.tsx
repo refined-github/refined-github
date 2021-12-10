@@ -4,8 +4,8 @@ import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import fetchDom from '../helpers/fetch-dom.js';
-import {buildRepoURL} from '../github-helpers.js';
+import fetchDom from '../helpers/fetch-dom';
+import {buildRepoURL} from '../github-helpers';
 
 // Look for the CI icon in the latest 2 days of commits #2990
 const getIcon = onetime(async () => fetchDom(

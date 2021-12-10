@@ -2,7 +2,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onElementRemoval from '../helpers/on-element-removal.js';
+import onElementRemoval from '../helpers/on-element-removal';
 
 async function init(): Promise<void> {
 	const selectAllNotifications = await elementReady('.js-notifications-mark-all-prompt');

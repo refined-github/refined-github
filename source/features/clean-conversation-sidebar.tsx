@@ -5,8 +5,8 @@ import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onElementRemoval from '../helpers/on-element-removal.js';
-import onReplacedElement from '../helpers/on-replaced-element.js';
+import onElementRemoval from '../helpers/on-element-removal';
+import onReplacedElement from '../helpers/on-replaced-element';
 
 const canEditSidebar = onetime((): boolean => select.exists('.discussion-sidebar-item [data-hotkey="l"]'));
 

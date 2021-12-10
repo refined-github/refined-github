@@ -4,11 +4,10 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import looseParseInt from '../helpers/loose-parse-int.js';
+import looseParseInt from '../helpers/loose-parse-int';
 
 async function init(): Promise<void | false> {
-	const commitCountIcon = await elementReady('div.Box.mb-3 .octicon-git-commit');
-	const commitCount = commitCountIcon?.nextElementSibling;
+	const commitCount = (await elementReady('div.Box.mb-3 .octicon-git-commit'))?.nextElementSibling;
 	if (!commitCount || looseParseInt(commitCount) < 2 || !select.exists('#new_pull_request')) {
 		return false;
 	}

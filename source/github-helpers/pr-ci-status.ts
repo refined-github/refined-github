@@ -1,6 +1,6 @@
 import select from 'select-dom';
 
-import observeElement from '../helpers/simplified-element-observer.js';
+import observeElement from '../helpers/simplified-element-observer';
 
 type CommitStatus = false | typeof SUCCESS | typeof FAILURE | typeof PENDING | typeof COMMIT_CHANGED;
 type StatusListener = (status: CommitStatus) => void;

@@ -5,8 +5,8 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api.js';
-import LoadingIcon from '../github-helpers/icon-loading.js';
+import * as api from '../github-helpers/api';
+import LoadingIcon from '../github-helpers/icon-loading';
 
 const editReleaseButtonSelector = [
 	'.BtnGroup a[href*="releases/edit"]', // Before "Releases UI refresh" #4902

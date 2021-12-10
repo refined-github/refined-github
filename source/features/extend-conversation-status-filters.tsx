@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import SearchQuery from '../github-helpers/search-query.js';
+import SearchQuery from '../github-helpers/search-query';
 
 function addMergeLink(): void {
 	if (!pageDetect.isPRList()) {

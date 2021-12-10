@@ -4,10 +4,10 @@ import * as pageDetect from 'github-url-detection';
 import {ChevronLeftIcon} from '@primer/octicons-react';
 
 import features from '.';
-import GitHubURL from '../github-helpers/github-url.js';
-import {groupButtons} from '../github-helpers/group-buttons.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import {getCurrentCommittish} from '../github-helpers.js';
+import GitHubURL from '../github-helpers/github-url';
+import {groupButtons} from '../github-helpers/group-buttons';
+import getDefaultBranch from '../github-helpers/get-default-branch';
+import {getCurrentCommittish} from '../github-helpers';
 
 async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();

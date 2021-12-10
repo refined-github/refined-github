@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getRepo} from '../github-helpers.js';
+import {getRepo} from '../github-helpers';
 
 function init(): void {
 	const downloadUrl = new URL('https://download-directory.github.io/');

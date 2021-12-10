@@ -7,8 +7,8 @@ import * as pageDetect from 'github-url-detection';
 import tinyVersionCompare from 'tiny-version-compare';
 
 import features from '.';
-import fetchDom from '../helpers/fetch-dom.js';
-import {buildRepoURL, getRepo, parseTag} from '../github-helpers.js';
+import fetchDom from '../helpers/fetch-dom';
+import {buildRepoURL, getRepo, parseTag} from '../github-helpers';
 
 interface TagDetails {
 	element: HTMLElement;

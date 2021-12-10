@@ -3,9 +3,9 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import addAfterBranchSelector from '../helpers/add-after-branch-selector.js';
-import {getPullRequestsAssociatedWithBranch, stateIcon} from './show-associated-branch-prs-on-fork.js';
+import getDefaultBranch from '../github-helpers/get-default-branch';
+import addAfterBranchSelector from '../helpers/add-after-branch-selector';
+import {getPullRequestsAssociatedWithBranch, stateIcon} from './show-associated-branch-prs-on-fork';
 
 // Taken from https://github.com/fregante/github-issue-link-status/blob/98792f2837352bacbf80664f3edbcec8e579ed17/source/github-issue-link-status.js#L10
 const stateColorMap = {

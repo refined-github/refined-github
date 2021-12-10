@@ -4,8 +4,8 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api.js';
-import {getRepo} from '../github-helpers.js';
+import * as api from '../github-helpers/api';
+import {getRepo} from '../github-helpers';
 
 const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 	const {repository, organization} = await api.v4(`

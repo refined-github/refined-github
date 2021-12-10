@@ -2,7 +2,7 @@ import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {isEditable} from '../helpers/dom-utils.js';
+import {isEditable} from '../helpers/dom-utils';
 
 function isLineSelected(): boolean {
 	// Example hashes:

@@ -6,8 +6,8 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open.js';
-import {getConversationNumber} from '../github-helpers.js';
+import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
+import {getConversationNumber} from '../github-helpers';
 
 const mergeFormSelector = '.is-squashing form:not([hidden])';
 const prTitleFieldSelector = '.js-issue-update input[name="issue[title]"]';

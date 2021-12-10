@@ -2,7 +2,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 
 import features from '.';
-import {isEditable} from '../helpers/dom-utils.js';
+import {isEditable} from '../helpers/dom-utils';
 
 function openInNewTab({key, target}: KeyboardEvent): void {
 	const selected = select('.navigation-focus a.js-navigation-open[href]');

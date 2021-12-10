@@ -4,7 +4,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {groupButtons} from '../github-helpers/group-buttons.js';
+import {groupButtons} from '../github-helpers/group-buttons';
 
 function handleClick({delegateTarget: button}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const file = button.closest('.Box, .js-gist-file-update-container')!;

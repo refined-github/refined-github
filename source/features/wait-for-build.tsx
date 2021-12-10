@@ -7,8 +7,8 @@ import {InfoIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as prCiStatus from '../github-helpers/pr-ci-status.js';
-import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open.js';
+import * as prCiStatus from '../github-helpers/pr-ci-status';
+import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 let waiting: symbol | undefined;
 
