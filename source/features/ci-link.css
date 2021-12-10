@@ -5,8 +5,3 @@
 .rgh-ci-link summary .octicon {
 	vertical-align: 0;
 }
-
-/* Adds space between `ci-link` and "Private" label, if present */
-.rgh-ci-link .Label + .commit-build-statuses {
-	margin-left: 8px;
-}

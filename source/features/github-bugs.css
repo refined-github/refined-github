@@ -50,3 +50,8 @@
 #all_commit_comments .timeline-comment-wrapper {
 	max-width: 780px; /* This is the limit applied on the comment thread by `.comment-holder` */
 }
+
+/* Hide trailing separator in PR/commit file diff dropdown */
+.js-file-header-dropdown .dropdown-menu > .dropdown-divider:last-child {
+	display: none !important;
+}

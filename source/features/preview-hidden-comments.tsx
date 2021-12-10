@@ -9,7 +9,7 @@ import {upperCaseFirst} from '../github-helpers';
 function init(): void {
 	// We target `.comment-body` directly because hidden review comments are only loaded when first expanded, except when opening a link
 	// pointing to another review comment in the same thread (e.g. https://github.com/refined-github/refined-github/pull/4520#discussion_r659341139) #4915
-	for (const comment of select.all('.minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments) .comment-body')) {
+	for (const comment of select.all('.minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments) .comment-body:not(.js-preview-body)')) {
 		const details = comment.closest('details')!;
 		details.classList.add('rgh-preview-hidden-comments');
 
@@ -28,10 +28,8 @@ function init(): void {
 			continue;
 		}
 
-		// Hidden review comments that have been preloaded have their header text wrapped in an extra <div>
-		const headerTextWrapper = header.tagName === 'H3' ? select(':scope > .d-inline-block:last-child', header) : undefined;
 		header.append(
-			<span className="Details-content--open">{headerTextWrapper ?? header.firstChild}</span>,
+			<span className="Details-content--open">{select(':scope > .d-inline-block', header) ?? header.firstChild}</span>,
 			<span className="Details-content--closed">{`${upperCaseFirst(reason)} — ${commentText.slice(0, 100)}`}</span>,
 		);
 	}

@@ -165,3 +165,8 @@ pr-branches
 	width: calc(72ch + 26px);
 	max-width: 100%;
 }
+
+/* Hide repo badges ("Public", "Template", etc.) in the repo header and pinned repo cards #4767 */
+:is(#repository-container-header h1, .pinned-item-list-item-content) .Label {
+	display: none !important;
+}
