@@ -298,6 +298,11 @@ function addEventListeners(): void {
 async function init(): Promise<void> {
 	await generateDom();
 	addEventListeners();
+
+	// Safari’s storage is inexplicably limited #4823
+	if (navigator.userAgent.includes('Safari')) {
+		void cache.clear();
+	}
 }
 
 void init();
