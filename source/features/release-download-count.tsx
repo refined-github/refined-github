@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';
 
 import features from '.';
-import * as api from '../github-helpers/api';
+import * as api from '../github-helpers/api.js';
 
 interface Release {
 	releaseAssets: {

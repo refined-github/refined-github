@@ -6,7 +6,7 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import IconLoading from '../github-helpers/icon-loading';
+import IconLoading from '../github-helpers/icon-loading.js';
 
 function closeModal({delegateTarget: button}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	button.append(' ', <IconLoading className="v-align-middle"/>);

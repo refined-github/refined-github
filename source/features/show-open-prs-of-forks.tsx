@@ -5,9 +5,9 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api';
-import pluralize from '../helpers/pluralize';
-import {getForkedRepo, getUsername, getRepo} from '../github-helpers';
+import * as api from '../github-helpers/api.js';
+import pluralize from '../helpers/pluralize.js';
+import {getForkedRepo, getUsername, getRepo} from '../github-helpers.js';
 
 function getLinkCopy(count: number): string {
 	return pluralize(count, 'one open pull request', 'at least $$ open pull requests');

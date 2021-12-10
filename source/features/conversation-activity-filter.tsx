@@ -7,9 +7,9 @@ import * as pageDetect from 'github-url-detection';
 import {CheckIcon, EyeClosedIcon, EyeIcon} from '@primer/octicons-react';
 
 import features from '.';
-import onNewComments from '../github-events/on-new-comments';
-import {removeClassFromAll, wrap} from '../helpers/dom-utils';
-import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
+import onNewComments from '../github-events/on-new-comments.js';
+import {removeClassFromAll, wrap} from '../helpers/dom-utils.js';
+import onConversationHeaderUpdate from '../github-events/on-conversation-header-update.js';
 
 const states = {
 	default: '',

@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import {ArrowDownIcon, CheckCircleFillIcon} from '@primer/octicons-react';
 
 import features from '.';
-import looseParseInt from '../helpers/loose-parse-int';
+import looseParseInt from '../helpers/loose-parse-int.js';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
 const commentSelector = '.js-timeline-item';

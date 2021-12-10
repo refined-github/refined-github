@@ -9,11 +9,11 @@ import {isSafari} from 'webext-detect-page';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
-import featureLink from './helpers/feature-link';
-import {getLocalHotfixes} from './helpers/hotfix';
-import {createRghIssueLink} from './helpers/rgh-issue-link';
+import featureLink from './helpers/feature-link.js';
+import {getLocalHotfixes} from './helpers/hotfix.js';
+import {createRghIssueLink} from './helpers/rgh-issue-link.js';
 import {importedFeatures, featuresMeta} from '../readme.md';
-import {perDomainOptions, renamedFeatures} from './options-storage';
+import {perDomainOptions, renamedFeatures} from './options-storage.js';
 
 interface Status {
 	error?: true;

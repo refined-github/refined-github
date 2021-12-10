@@ -7,8 +7,8 @@ import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getUsername} from '../github-helpers';
-import onElementRemoval from '../helpers/on-element-removal';
+import {getUsername} from '../github-helpers.js';
+import onElementRemoval from '../helpers/on-element-removal.js';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars

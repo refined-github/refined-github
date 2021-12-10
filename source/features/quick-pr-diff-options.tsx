@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-react';
 
 import features from '.';
-import {onDiffFileLoad} from '../github-events/on-fragment-load';
+import {onDiffFileLoad} from '../github-events/on-fragment-load.js';
 
 function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 	const url = new URL(location.href);

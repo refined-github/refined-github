@@ -5,12 +5,12 @@ import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 
-import waitFor from '../helpers/wait-for';
-import onNewComments from '../github-events/on-new-comments';
-import bisectFeatures from '../helpers/bisect';
-import {shouldFeatureRun} from '../github-helpers';
-import optionsStorage, {RGHOptions} from '../options-storage';
-import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyleHotfixes} from '../helpers/hotfix';
+import waitFor from '../helpers/wait-for.js';
+import onNewComments from '../github-events/on-new-comments.js';
+import bisectFeatures from '../helpers/bisect.js';
+import {shouldFeatureRun} from '../github-helpers.js';
+import optionsStorage, {RGHOptions} from '../options-storage.js';
+import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyleHotfixes} from '../helpers/hotfix.js';
 
 type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;

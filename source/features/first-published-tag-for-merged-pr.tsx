@@ -5,9 +5,9 @@ import {TagIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import fetchDom from '../helpers/fetch-dom';
-import {buildRepoURL, getRepo} from '../github-helpers';
-import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
+import fetchDom from '../helpers/fetch-dom.js';
+import {buildRepoURL, getRepo} from '../github-helpers.js';
+import onConversationHeaderUpdate from '../github-events/on-conversation-header-update.js';
 
 const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom(

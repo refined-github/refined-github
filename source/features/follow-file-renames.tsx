@@ -4,8 +4,8 @@ import * as pageDetect from 'github-url-detection';
 import {DiffRenamedIcon} from '@primer/octicons-react';
 
 import features from '.';
-import * as api from '../github-helpers/api';
-import GitHubURL from '../github-helpers/github-url';
+import * as api from '../github-helpers/api.js';
+import GitHubURL from '../github-helpers/github-url.js';
 
 interface File {
 	previous_filename?: string;

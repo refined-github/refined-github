@@ -6,8 +6,8 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import smartBlockWrap from '../helpers/smart-block-wrap';
-import {onCommentEdit} from '../github-events/on-fragment-load';
+import smartBlockWrap from '../helpers/smart-block-wrap.js';
+import {onCommentEdit} from '../github-events/on-fragment-load.js';
 
 function addContentToDetails({delegateTarget}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	const field = delegateTarget.form!.querySelector('textarea')!;

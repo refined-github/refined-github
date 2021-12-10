@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
-import looseParseInt from '../helpers/loose-parse-int';
+import looseParseInt from '../helpers/loose-parse-int.js';
 
 async function init(): Promise<void | false> {
 	const commitCount = (await elementReady('div.Box.mb-3 .octicon-git-commit'))?.nextElementSibling;

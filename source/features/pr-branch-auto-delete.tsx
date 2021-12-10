@@ -3,7 +3,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import observeElement from '../helpers/simplified-element-observer';
+import observeElement from '../helpers/simplified-element-observer.js';
 
 function init(): void {
 	const subscription = delegate(document, '.js-merge-commit-button', 'click', () => {

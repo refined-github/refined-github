@@ -4,7 +4,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {upperCaseFirst} from '../github-helpers';
+import {upperCaseFirst} from '../github-helpers.js';
 
 function init(): void {
 	// We target `.comment-body` directly because hidden review comments are only loaded when first expanded, except when opening a link

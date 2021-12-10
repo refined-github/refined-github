@@ -10,8 +10,8 @@ import {observe} from 'selector-observer';
 import {ClockIcon} from '@primer/octicons-react';
 
 import features from '.';
-import * as api from '../github-helpers/api';
-import {getUsername} from '../github-helpers';
+import * as api from '../github-helpers/api.js';
+import {getUsername} from '../github-helpers.js';
 
 interface Commit {
 	url: string;

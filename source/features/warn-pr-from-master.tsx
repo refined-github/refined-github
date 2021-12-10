@@ -3,8 +3,8 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepo} from '../github-helpers';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import {getRepo} from '../github-helpers.js';
 
 async function init(): Promise<false | void> {
 	let defaultBranch;

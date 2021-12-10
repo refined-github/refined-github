@@ -2,7 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {isEditable} from '../helpers/dom-utils';
+import {isEditable} from '../helpers/dom-utils.js';
 
 const handler = ({key, target}: KeyboardEvent): void => {
 	if (key === 'y' && !isEditable(target)) {

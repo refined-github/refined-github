@@ -2,7 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import SearchQuery from '../github-helpers/search-query';
+import SearchQuery from '../github-helpers/search-query.js';
 
 function init(): void {
 	// Get issues links that don't already have a specific sorting applied

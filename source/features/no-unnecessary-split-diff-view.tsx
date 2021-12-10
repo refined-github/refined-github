@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {onDiffFileLoad} from '../github-events/on-fragment-load';
+import {onDiffFileLoad} from '../github-events/on-fragment-load.js';
 
 function isUnifiedDiff(): boolean {
 	return select.exists([

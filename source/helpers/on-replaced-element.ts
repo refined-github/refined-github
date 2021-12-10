@@ -1,6 +1,6 @@
 import select from 'select-dom';
 
-import onElementRemoval from './on-element-removal';
+import onElementRemoval from './on-element-removal.js';
 
 /**
 Tracks the replacement of an element, identified via selector.

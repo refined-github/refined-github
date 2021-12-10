@@ -5,8 +5,8 @@ import * as pageDetect from 'github-url-detection';
 import {CodeSquareIcon} from '@primer/octicons-react';
 
 import features from '.';
-import * as api from '../github-helpers/api';
-import {getCleanPathname} from '../github-helpers';
+import * as api from '../github-helpers/api.js';
+import {getCleanPathname} from '../github-helpers.js';
 
 const getGistCount = cache.function(async (username: string): Promise<number> => {
 	const {user} = await api.v4(`

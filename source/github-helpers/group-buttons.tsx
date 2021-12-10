@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 
-import {wrapAll} from '../helpers/dom-utils';
+import {wrapAll} from '../helpers/dom-utils.js';
 
 // Wrap a list of elements with BtnGroup + ensure each has BtnGroup-item
 export const groupButtons = (buttons: Element[]): Element => {

@@ -1,7 +1,7 @@
 import test from 'ava';
 
-import './fixtures/globals';
-import GitHubURL from '../source/github-helpers/github-url';
+import './fixtures/globals.js';
+import GitHubURL from '../source/github-helpers/github-url.js';
 
 test('branch', t => {
 	const url = new GitHubURL('https://github.com/microsoft/TypeScript/tree/master');

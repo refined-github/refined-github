@@ -3,7 +3,7 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api';
+import * as api from '../github-helpers/api.js';
 
 async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 	const runId = pageDetect.isActionJobRun(detailsLink)

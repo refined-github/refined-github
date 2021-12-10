@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import {LinkExternalIcon} from '@primer/octicons-react';
 
 import features from '.';
-import {getRepo} from '../github-helpers';
+import {getRepo} from '../github-helpers.js';
 
 function initRepoList(): void {
 	observe('a[href$=".github.io"][itemprop="name codeRepository"]:not(.rgh-github-io)', {

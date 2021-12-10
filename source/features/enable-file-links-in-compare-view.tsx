@@ -5,7 +5,7 @@ import {GitBranchIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import GitHubURL from '../github-helpers/github-url';
+import GitHubURL from '../github-helpers/github-url.js';
 
 /** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
 function handlePRMenuOpening({delegateTarget: dropdown}: delegate.Event): void {

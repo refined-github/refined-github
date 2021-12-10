@@ -2,7 +2,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from './api';
+import * as api from './api.js';
 import {getRepo} from '.';
 
 // This regex should match all of these combinations:

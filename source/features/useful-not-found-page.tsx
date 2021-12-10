@@ -5,11 +5,11 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api';
-import GitHubURL from '../github-helpers/github-url';
-import {getChangesToFileInCommit} from './follow-file-renames';
-import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getCleanPathname} from '../github-helpers';
+import * as api from '../github-helpers/api.js';
+import GitHubURL from '../github-helpers/github-url.js';
+import {getChangesToFileInCommit} from './follow-file-renames.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import {getCleanPathname} from '../github-helpers.js';
 
 function getType(): string {
 	return location.pathname.split('/').pop()!.includes('.') ? 'file' : 'object';

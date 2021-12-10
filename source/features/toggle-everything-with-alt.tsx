@@ -2,7 +2,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import clickAll from '../helpers/click-all';
+import clickAll from '../helpers/click-all.js';
 
 function diffsSelector(): string {
 	return '.js-file .js-diff-load';

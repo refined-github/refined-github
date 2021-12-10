@@ -3,7 +3,7 @@ import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onProfileDropdownLoad from '../github-events/on-profile-dropdown-load';
+import onProfileDropdownLoad from '../github-events/on-profile-dropdown-load.js';
 
 function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	const search = new URLSearchParams(link.search);

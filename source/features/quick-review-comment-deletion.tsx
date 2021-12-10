@@ -6,7 +6,7 @@ import {TrashIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import loadDetailsMenu from '../github-helpers/load-details-menu';
+import loadDetailsMenu from '../github-helpers/load-details-menu.js';
 
 const deinit: VoidFunction[] = [];
 

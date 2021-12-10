@@ -5,7 +5,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {onCommentFieldKeydown} from '../github-events/on-field-keydown';
+import {onCommentFieldKeydown} from '../github-events/on-field-keydown.js';
 
 function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void {
 	const field = event.delegateTarget;

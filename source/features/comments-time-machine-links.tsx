@@ -5,11 +5,11 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api';
-import GitHubURL from '../github-helpers/github-url';
-import addNotice from '../github-widgets/notice-bar';
-import {linkifiedURLClass} from '../github-helpers/dom-formatters';
-import {buildRepoURL, isPermalink} from '../github-helpers';
+import * as api from '../github-helpers/api.js';
+import GitHubURL from '../github-helpers/github-url.js';
+import addNotice from '../github-widgets/notice-bar.js';
+import {linkifiedURLClass} from '../github-helpers/dom-formatters.js';
+import {buildRepoURL, isPermalink} from '../github-helpers.js';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
 	const {repository} = await api.v4(`

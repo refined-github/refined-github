@@ -6,7 +6,7 @@ import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
+import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open.js';
 
 function inputListener({target}: Event): void {
 	fitTextarea(target as HTMLTextAreaElement);

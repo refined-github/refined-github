@@ -5,7 +5,7 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {PlusIcon, SearchIcon} from '@primer/octicons-react';
 
-import {wrap} from '../helpers/dom-utils';
+import {wrap} from '../helpers/dom-utils.js';
 import features from '.';
 
 /** Add tooltip on a wrapper to avoid breaking dropdown functionality */

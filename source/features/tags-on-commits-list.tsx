@@ -6,9 +6,9 @@ import arrayUnion from 'array-union';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import * as api from '../github-helpers/api';
-import {getCommitHash} from './mark-merge-commits-in-list';
-import {buildRepoURL, getRepo} from '../github-helpers';
+import * as api from '../github-helpers/api.js';
+import {getCommitHash} from './mark-merge-commits-in-list.js';
+import {buildRepoURL, getRepo} from '../github-helpers.js';
 
 type CommitTags = Record<string, string[]>;
 

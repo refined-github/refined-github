@@ -3,7 +3,7 @@ import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils';
+import {wrap} from '../helpers/dom-utils.js';
 import features from '.';
 
 function init(): void {

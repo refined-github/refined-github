@@ -5,8 +5,8 @@ import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import fetchDom from '../helpers/fetch-dom';
-import {buildRepoURL, getRepo, getUsername} from '../github-helpers';
+import fetchDom from '../helpers/fetch-dom.js';
+import {buildRepoURL, getRepo, getUsername} from '../github-helpers.js';
 
 const getCollaborators = cache.function(async (): Promise<string[]> => {
 	const dom = await fetchDom(buildRepoURL('issues/show_menu_content?partial=issues/filters/authors_content'));

@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import {FoldIcon, UnfoldIcon} from '@primer/octicons-react';
 
 import features from '.';
-import observeElement from '../helpers/simplified-element-observer';
+import observeElement from '../helpers/simplified-element-observer.js';
 
 const cacheKey = 'files-hidden';
 

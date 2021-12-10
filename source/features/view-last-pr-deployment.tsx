@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import {LinkExternalIcon} from '@primer/octicons-react';
 
 import features from '.';
-import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
+import onConversationHeaderUpdate from '../github-events/on-conversation-header-update.js';
 
 const deploymentSelector = '.js-timeline-item [data-url$="deployed"] .TimelineItem-body .btn[target="_blank"]';
 

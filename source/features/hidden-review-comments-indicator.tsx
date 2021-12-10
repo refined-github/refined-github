@@ -7,8 +7,8 @@ import {CommentIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import preserveScroll from '../helpers/preserve-scroll';
-import {onDiffFileLoad} from '../github-events/on-fragment-load';
+import preserveScroll from '../helpers/preserve-scroll.js';
+import {onDiffFileLoad} from '../github-events/on-fragment-load.js';
 
 // When an indicator is clicked, this will show comments on the current file
 const handleIndicatorClick = ({delegateTarget}: delegate.Event): void => {

@@ -3,10 +3,10 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {wrapAll} from '../helpers/dom-utils';
+import {wrapAll} from '../helpers/dom-utils.js';
 import {featuresMeta} from '../../readme.md';
-import {getNewFeatureName} from '../options-storage';
-import {isRefinedGitHubRepo} from '../github-helpers';
+import {getNewFeatureName} from '../options-storage.js';
+import {isRefinedGitHubRepo} from '../github-helpers.js';
 
 async function init(): Promise<void | false> {
 	const [, currentFeature] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];

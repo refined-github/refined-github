@@ -6,10 +6,10 @@ import {ReplyIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
-import {wrap} from '../helpers/dom-utils';
+import {wrap} from '../helpers/dom-utils.js';
 import features from '.';
-import {getUsername} from '../github-helpers';
-import onNewComments from '../github-events/on-new-comments';
+import {getUsername} from '../github-helpers.js';
+import onNewComments from '../github-events/on-new-comments.js';
 
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859

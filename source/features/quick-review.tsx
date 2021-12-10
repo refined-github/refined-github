@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onReplacedElement from '../helpers/on-replaced-element';
+import onReplacedElement from '../helpers/on-replaced-element.js';
 
 async function addSidebarReviewButton(): Promise<void | false> {
 	const reviewFormUrl = new URL(location.href);

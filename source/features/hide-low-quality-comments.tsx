@@ -6,7 +6,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import isLowQualityComment from '../helpers/is-low-quality-comment';
+import isLowQualityComment from '../helpers/is-low-quality-comment.js';
 
 async function unhide(event: delegate.Event): Promise<void> {
 	for (const comment of select.all('.rgh-hidden-comment')) {

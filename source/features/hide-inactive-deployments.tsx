@@ -2,7 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onNewComments from '../github-events/on-new-comments';
+import onNewComments from '../github-events/on-new-comments.js';
 
 function init(): void {
 	// Selects all the deployments first so that we can leave the last one on the page

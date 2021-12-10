@@ -1,6 +1,6 @@
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 
-import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
+import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js.js'; // Must import as `.js`
 
 const featuresDirContents = readdirSync('source/features/');
 const entryPoint = 'source/refined-github.ts';
@@ -9,10 +9,10 @@ const importedFeatures = getImportedFeatures();
 const featuresInReadme = getFeaturesMeta();
 
 function findCssFileError(filename: string): string | void {
-	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${filename}';`);
+	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${filename}.js';`);
 	const correspondingTsxFile = `source/features/${filename.replace(/.css$/, '.tsx')}`;
 	if (existsSync(correspondingTsxFile)) {
-		if (!readFileSync(correspondingTsxFile).includes(`import './${filename}';`)) {
+		if (!readFileSync(correspondingTsxFile).includes(`import './${filename}.js';`)) {
 			return `ERR: \`${filename}\` should be imported by \`${correspondingTsxFile}\``;
 		}
 
