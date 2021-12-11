@@ -2,10 +2,10 @@ import './file-finder-buffer.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
+import {isSafari} from 'webext-detect-page';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import isSafari from '../helpers/browser-detection';
 
 const getBufferField = onetime((): HTMLInputElement => (
 	<input
@@ -30,7 +30,7 @@ function pjaxStartHandler(event: CustomEvent): void {
 	bufferField.value = '';
 
 	select('.pagehead h1 strong, [itemprop="name"]')!.after(
-		<span className="mr-1 ml-n2 flex-self-stretch color-text-secondary color-fg-muted">/</span>,
+		<span className="mr-1 ml-n1 flex-self-stretch color-text-secondary color-fg-muted">/</span>,
 		<span className="flex-self-stretch mr-2">{bufferField}</span>,
 	);
 	bufferField.focus();

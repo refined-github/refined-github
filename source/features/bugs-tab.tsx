@@ -12,7 +12,7 @@ import SearchQuery from '../github-helpers/search-query';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import {highlightTab, unhighlightTab} from '../helpers/dom-utils';
 
-const supportedLabels = /^(bug|confirmed-bug|type:bug|kind:bug|:\w+:bug)$/i;
+const supportedLabels = /^(bug|confirmed-bug|type:bug|kind:bug|(:[\w-]+:|\p{Emoji})bug)$/iu;
 const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
 const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(getBugLabelCacheKey());
 const isBugLabel = (label: string): boolean => supportedLabels.test(label.replace(/\s/g, ''));
@@ -142,7 +142,8 @@ function highlightBugsTab(): void {
 }
 
 async function removePinnedIssues(): Promise<void> {
-	(await elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false}))?.remove();
+	const pinnedIssues = await elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false});
+	pinnedIssues?.remove();
 }
 
 async function updateBugsTagHighlighting(): Promise<void | false> {

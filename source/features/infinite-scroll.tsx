@@ -1,3 +1,4 @@
+import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import debounce from 'debounce-fn';
@@ -33,6 +34,22 @@ function init(): void {
 			inView.observe(button);
 		},
 	});
+
+	// Use cloneNode to keep the original ones for responsive layout
+	const feedFooter = select('.news > .f6')!.cloneNode(true);
+	const footer = select('.footer > .d-flex')!.cloneNode(true);
+	footer.classList.add('mt-3');
+
+	for (const child of footer.children) {
+		child.classList.remove('pl-lg-4', 'col-xl-3');
+	}
+
+	select('[aria-label="Explore"]')!.append(
+		<div className="footer">
+			{feedFooter}
+			{footer}
+		</div>,
+	);
 }
 
 void features.add(import.meta.url, {

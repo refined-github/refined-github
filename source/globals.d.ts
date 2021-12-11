@@ -18,8 +18,8 @@ declare module 'markdown-wasm/dist/markdown.node.js';
 declare module 'size-plugin';
 
 declare module '*.md' { // It should be just for readme.md, but 🤷‍♂️
+	export const importedFeatures: FeatureID[];
 	export const featuresMeta: FeatureMeta[];
-	export const featureList: FeatureID[];
 }
 
 // Custom UI events specific to RGH
@@ -33,6 +33,7 @@ interface GlobalEventHandlersEventMap {
 	'page:loaded': CustomEvent;
 	'pjax:start': CustomEvent;
 	'session:resume': CustomEvent;
+	'socket:message': CustomEvent;
 	'input': InputEvent; // Remove once no longer necessary (2022?)
 }
 
