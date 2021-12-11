@@ -6,7 +6,7 @@ import SearchQuery from '../github-helpers/search-query';
 
 function init(): void {
 	// Get issues links that don't already have a specific sorting applied
-	const issueLinks = select.all('a:is([href*="/issues"], [href*="/pulls"], [href*="/projects"]):not([href*="sort%3A"], .issues-reset-query)');
+	const issueLinks = select.all('a:is([href*="/issues"], [href*="/pulls"], [href*="/projects"], [href*="/labels"]):not([href*="sort%3A"], .issues-reset-query)');
 	for (const link of issueLinks) {
 		if (link.host !== location.host || link.closest('.pagination, .table-list-header-toggle')) {
 			return;
