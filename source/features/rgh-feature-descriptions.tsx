@@ -1,13 +1,15 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {wrapAll} from '../helpers/dom-utils';
 import {featuresMeta} from '../../readme.md';
 import {getNewFeatureName} from '../options-storage';
+import {isRefinedGitHubRepo} from '../github-helpers';
 
 async function init(): Promise<void | false> {
-	const [, currentFeature] = /features\/([^.]+)/.exec(location.pathname)!;
+	const [, currentFeature] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
 	// Enable link even on past commits
 	const currentFeatureName = getNewFeatureName(currentFeature);
 	const feature = featuresMeta.find(feature => feature.id === currentFeatureName);
@@ -15,7 +17,8 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const conversationsUrl = '/refined-github/refined-github/issues?q=' + encodeURIComponent(`"${feature.id}" sort:updated-desc`);
+	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
+	conversationsUrl.searchParams.set('q', `sort:updated-desc "${feature.id}"`);
 
 	const commit = await elementReady([
 		'.Box-header.Details', // Already loaded
@@ -45,7 +48,7 @@ async function init(): Promise<void | false> {
 					{ /* eslint-disable-next-line react/no-danger */ }
 					<div dangerouslySetInnerHTML={{__html: feature.description}} className="text-bold"/>
 					<div className="no-wrap">
-						<a href={conversationsUrl} data-pjax="#repo-content-pjax-container">Conversations</a>
+						<a href={conversationsUrl.href} data-pjax="#repo-content-pjax-container">Conversations</a>
 					</div>
 				</div>
 			</div>
@@ -56,8 +59,11 @@ async function init(): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isRefinedGitHubRepo,
+	],
 	include: [
-		() => /refined-github\/blob\/.+?\/source\/features\/[\w.-]+$/.test(location.pathname),
+		pageDetect.isSingleFile,
 	],
 	awaitDomReady: false,
 	deduplicate: '.rgh-feature-description', // #3945

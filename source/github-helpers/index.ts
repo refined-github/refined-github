@@ -111,9 +111,8 @@ export async function isPermalink(): Promise<boolean> {
 	);
 }
 
-// Negative function so it can be used directly in `exclude` array
-export function isNotRefinedGitHubRepo(): boolean {
-	return !location.pathname.startsWith('/refined-github/refined-github/');
+export function isRefinedGitHubRepo(): boolean {
+	return location.pathname.startsWith('/refined-github/refined-github');
 }
 
 export function shouldFeatureRun({

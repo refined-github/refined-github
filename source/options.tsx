@@ -5,12 +5,14 @@ import cache from 'webext-storage-cache';
 import domify from 'doma';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import {isSafari} from 'webext-detect-page';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
-import {featuresMeta} from '../readme.md';
+import featureLink from './helpers/feature-link';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
+import {importedFeatures, featuresMeta} from '../readme.md';
 import {perDomainOptions, renamedFeatures} from './options-storage';
 
 interface Status {
@@ -19,7 +21,6 @@ interface Status {
 	scopes?: string[];
 }
 
-const featureList = featuresMeta.map(({id}) => id);
 const {version} = browser.runtime.getManifest();
 
 function reportStatus({error, text, scopes}: Status): void {
@@ -112,7 +113,7 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 			<div className="info">
 				<label className="feature-name" htmlFor={id}>{id}</label>
 				{' '}
-				<a href={`https://github.com/refined-github/refined-github/blob/main/source/features/${id}.tsx`} className="feature-link">
+				<a href={featureLink(id)} className="feature-link">
 					source
 				</a>
 				<input hidden type="checkbox" className="screenshot-toggle"/>
@@ -143,7 +144,7 @@ async function clearCacheHandler(event: Event): Promise<void> {
 }
 
 async function findFeatureHandler(event: Event): Promise<void> {
-	await cache.set<FeatureID[]>('bisect', featureList, {minutes: 5});
+	await cache.set<FeatureID[]>('bisect', importedFeatures, {minutes: 5});
 
 	const button = event.target as HTMLButtonElement;
 	button.disabled = true;
@@ -206,9 +207,15 @@ async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 	const disabledFeatures = <div className="js-hotfixes"/>;
 
 	for (const [feature, relatedIssue] of await getLocalHotfixes(version)) {
-		if (featureList.includes(feature)) {
+		if (importedFeatures.includes(feature)) {
 			disabledFeatures.append(
 				<p><code>{feature}</code> has been temporarily disabled due to {createRghIssueLink(relatedIssue)}.</p>,
+			);
+			const input = select<HTMLInputElement>('#' + feature)!;
+			input.disabled = true;
+			input.removeAttribute('name');
+			select(`.feature-name[for="${feature}"]`)!.after(
+				<span className="hotfix-notice"> (Disabled due to {createRghIssueLink(relatedIssue)})</span>,
 			);
 		}
 	}
@@ -218,7 +225,10 @@ async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 
 async function generateDom(): Promise<void> {
 	// Generate list
-	select('.js-features')!.append(...featuresMeta.map(feature => buildFeatureCheckbox(feature)));
+	select('.js-features')!.append(...featuresMeta
+		.filter(feature => importedFeatures.includes(feature.id))
+		.map(feature => buildFeatureCheckbox(feature)),
+	);
 
 	// Add notice for features disabled via hotfix
 	select('.js-features')!.before(await getLocalHotfixesAsNotice());
@@ -289,6 +299,11 @@ function addEventListeners(): void {
 async function init(): Promise<void> {
 	await generateDom();
 	addEventListeners();
+
+	// Safari’s storage is inexplicably limited #4823
+	if (isSafari()) {
+		void cache.clear();
+	}
 }
 
 void init();

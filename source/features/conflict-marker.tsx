@@ -76,8 +76,17 @@ void features.add(import.meta.url, {
 		pageDetect.isConversationList,
 	],
 	exclude: [
+		pageDetect.isGlobalConversationList,
 		() => select.exists('.blankslate'),
 	],
 	deduplicate: 'has-rgh-inner',
+	init,
+}, {
+	include: [
+		pageDetect.isGlobalConversationList,
+	],
+	exclude: [
+		() => select.exists('.blankslate'),
+	],
 	init,
 });

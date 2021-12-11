@@ -1,12 +1,12 @@
-body > .footer {
+.footer {
 	transition: opacity 0.2s ease;
 }
 
-body > .footer:not(:hover) {
+.footer:not(:hover) {
 	opacity: 30%;
 }
 
-body > .footer > div > ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.` text */
+.footer > div > ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.` text */
 	display: none;
 }
 
@@ -14,7 +14,7 @@ body > .footer > div > ul:first-of-type li:first-of-type { /* The `© 2017 GitHu
 	display: none !important;
 }
 
-body > .footer li a,
-body > .footer li .btn-link {
+.footer li a,
+.footer li .btn-link {
 	color: var(--color-text-disabled, #666);
 }

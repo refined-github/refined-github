@@ -7,12 +7,16 @@ import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
 
 async function init(): Promise<void | false> {
-	const commitCount = (await elementReady('div.Box.mb-3 .octicon-git-commit'))?.nextElementSibling;
+	const commitCountIcon = await elementReady('div.Box.mb-3 .octicon-git-commit');
+	const commitCount = commitCountIcon?.nextElementSibling;
 	if (!commitCount || looseParseInt(commitCount) < 2 || !select.exists('#new_pull_request')) {
 		return false;
 	}
 
-	const [prTitle, ...prMessage] = select('#commits_bucket [data-url$="compare/commit"] a[title]')!.title.split(/\n\n/);
+	const [prTitle, ...prMessage] = (pageDetect.isEnterprise()
+		? select('#commits_bucket [data-url$="compare/commit"] a[title]')!.title // TODO [2022-05-01]: Remove GHE code
+		: select('#commits_bucket .js-commits-list-item a.Link--primary')!.innerHTML.replace(/<\/?code>/g, '`')
+	)!.split(/\n\n/);
 
 	textFieldEdit.set(
 		select('.discussion-topic-header input')!,
