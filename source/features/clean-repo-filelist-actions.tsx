@@ -3,7 +3,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
-import {PlusIcon, SearchIcon, DownloadIcon} from '@primer/octicons-react';
+import {PlusIcon, SearchIcon, CodeIcon} from '@primer/octicons-react';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
@@ -41,7 +41,7 @@ function init(): void {
 			const codeDropdownButton = select('get-repo summary');
 			if (codeDropdownButton) {
 				// Replace "Code" text with icon
-				codeDropdownButton.firstChild!.replaceWith(<DownloadIcon/>);
+				codeDropdownButton.firstChild!.replaceWith(<CodeIcon/>);
 				addTooltipToSummary(codeDropdownButton, 'Clone, open or download');
 			}
 		},
