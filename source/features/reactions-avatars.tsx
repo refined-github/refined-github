@@ -20,13 +20,15 @@ interface Participant {
 }
 
 function getParticipants(button: HTMLButtonElement): Participant[] {
-	const currentUser = getUsername();
-	const users = pageDetect.isReleasesOrTags() ? button.getAttribute('title')! : button.getAttribute('aria-label')!
+	// Reaction buttons on releases and review comments have the list of people in their `title` attribute instead of `aria-label` #5150
+	const buttonTitle = button.getAttribute('title')!;
+	const users = (buttonTitle.length > 0 ? buttonTitle : button.getAttribute('aria-label')!)
 		.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')
 		.split(', ');
 
+	const currentUser = getUsername();
 	const participants = [];
 	for (const username of users) {
 		if (username === currentUser) {
@@ -56,8 +58,8 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 	const avatarLimit = arbitraryAvatarLimit - (commentReactions.children.length * approximateHeaderLength);
 
 	const participantByReaction = select
-		.all(':scope > button.social-reaction-summary-item', commentReactions) // `aria-label` is for PR/issue comments, `title` for releases
-		.map(button => getParticipants(button as HTMLButtonElement));
+		.all(':scope > button.social-reaction-summary-item', commentReactions)
+		.map(button => getParticipants(button));
 	const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
 	for (const {button, username, imageUrl} of flatParticipants) {
