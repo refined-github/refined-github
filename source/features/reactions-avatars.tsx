@@ -21,8 +21,7 @@ interface Participant {
 
 function getParticipants(button: HTMLButtonElement): Participant[] {
 	// Reaction buttons on releases and review comments have the list of people in their `title` attribute instead of `aria-label` #5150
-	const buttonTitle = button.getAttribute('title')!;
-	const users = (buttonTitle.length > 0 ? buttonTitle : button.getAttribute('aria-label')!)
+	const users = (button.getAttribute('title')! || button.getAttribute('aria-label')!)
 		.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')
