@@ -56,7 +56,7 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 	const avatarLimit = arbitraryAvatarLimit - (commentReactions.children.length * approximateHeaderLength);
 
 	const participantByReaction = select
-		.all(':scope > button:is([aria-label$="emoji"], [title$="emoji"])', commentReactions) // `aria-label` is for PR/issue comments, `title` for releases
+		.all(':scope > button.social-reaction-summary-item', commentReactions) // `aria-label` is for PR/issue comments, `title` for releases
 		.map(button => getParticipants(button as HTMLButtonElement));
 	const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
