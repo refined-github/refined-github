@@ -6,7 +6,11 @@ import SearchQuery from '../github-helpers/search-query';
 
 function selectCurrentConversationFilter(): void {
 	const currentSearchURL = location.href.replace('/pulls?', '/issues?'); // Replacement needed to make up for the redirection of "Your pull requests" link
-	select(`#filters-select-menu a.SelectMenu-item[href="${currentSearchURL}"]`)?.setAttribute('aria-checked', 'true');
+	const currentFilter = select(`#filters-select-menu a.SelectMenu-item[href="${currentSearchURL}"]`);
+	if (currentFilter) {
+		select('#filters-select-menu [aria-checked="true"]')?.setAttribute('aria-checked', 'false');
+		currentFilter.setAttribute('aria-checked', 'true');
+	}
 }
 
 function init(): void {
