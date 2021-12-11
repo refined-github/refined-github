@@ -33,6 +33,7 @@ interface GlobalEventHandlersEventMap {
 	'page:loaded': CustomEvent;
 	'pjax:start': CustomEvent;
 	'session:resume': CustomEvent;
+	'socket:message': CustomEvent;
 	'input': InputEvent; // Remove once no longer necessary (2022?)
 }
 
