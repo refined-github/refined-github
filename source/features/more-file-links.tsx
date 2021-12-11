@@ -12,9 +12,8 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	const viewFile = select('a[data-ga-click^="View file"]', dropdown)!;
 	const getDropdownLink = (name: string, route: string): JSX.Element => {
 		const {href} = new GitHubURL(viewFile.href).assign({route});
-
 		return (
-			<a data-skip-pjax href={href} className="pl-5 dropdown-item btn-link" role="menuitem">
+			<a href={href} data-skip-pjax={route === 'raw'} className="pl-5 dropdown-item btn-link" role="menuitem">
 				View {name}
 			</a>
 		);
