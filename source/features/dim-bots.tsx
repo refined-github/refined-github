@@ -4,15 +4,24 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-const commitSelector = [
-	/* Commits */
-	'.commit-author[href$="%5Bbot%5D"]',
-	'.commit-author[href$="renovate-bot"]',
-	'.commit-author[href$="scala-steward"]',
-].join(',');
+const commitSelectors = [
+	'actions-user',
+	'bors',
+	'imgbot',
+	'octomerger',
+	'renovate-bot',
+	'rust-highfive',
+	'rust-lang',
+	'scala-steward',
+	'snyk-bot',
+	'web-flow',
+].map(bot => `.commit-author[href$="?author=${bot}"]`);
+
+commitSelectors.push('.commit-author[href$="%5Bbot%5D"]'); // Generic [bot] label
+
+const commitSelector = commitSelectors.join(',');
 
 const prSelector = [
-	/* Issues/PRs */
 	'.opened-by [href*="author%3Aapp%2F"]',
 	'.labels [href$="label%3Abot"]',
 ];
