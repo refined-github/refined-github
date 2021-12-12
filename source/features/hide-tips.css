@@ -23,8 +23,8 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 	display: none !important;
 }
 
-/* Remove random protip at the bottom of the page */
-.protip {
+/* Remove random protip at the bottom of conversations lists */
+.paginate-container + .text-center:last-child {
 	display: none !important;
 }
 
