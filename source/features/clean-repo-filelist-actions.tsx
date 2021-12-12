@@ -37,12 +37,19 @@ function init(): void {
 				addTooltipToSummary(addFileDropdown, 'Add file');
 			}
 
-			// This dropdown doesn't appear on `isSingleFile`
 			const codeDropdownButton = select('get-repo summary');
-			if (codeDropdownButton) {
-				// Replace "Code" text with icon
-				codeDropdownButton.firstChild!.replaceWith(<CodeIcon/>);
+			if (codeDropdownButton) { // This dropdown doesn't appear on `isSingleFile`
 				addTooltipToSummary(codeDropdownButton, 'Clone, open or download');
+
+				// Users with Codespaces enabled already have an icon in the button https://github.com/refined-github/refined-github/pull/5074#issuecomment-983251719
+				const codeIcon = select('.octicon-code', codeDropdownButton);
+				if (codeIcon) {
+					// Remove "Code" text
+					codeIcon.nextSibling!.remove();
+				} else {
+					// Replace "Code" text with icon
+					codeDropdownButton.firstChild!.replaceWith(<CodeIcon/>);
+				}
 			}
 		},
 	});
