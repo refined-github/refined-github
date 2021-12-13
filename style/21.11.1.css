@@ -16,3 +16,9 @@
  :root .CheckStep-line .CheckStep-line-content {
    overflow: visible;
  }
+
+
+/* https://github.com/refined-github/refined-github/issues/5161 */
+.rgh-hide-watch-and-fork-count :is(#repo-network-counter, #repo-notifications-counter) {
+  display: none;
+}
