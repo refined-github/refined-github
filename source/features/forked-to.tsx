@@ -2,7 +2,6 @@ import './forked-to.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, LinkExternalIcon, RepoForkedIcon} from '@primer/octicons-react';
 
@@ -114,7 +113,7 @@ async function init(): Promise<void | false> {
 	}
 
 	// This feature only applies to users that have multiple organizations, because that makes a fork picker modal appear when clicking on "Fork"
-	const hasOrganizations = await elementReady('details-dialog[src*="/fork"]');
+	const hasOrganizations = select('details-dialog[src*="/fork"]');
 
 	// Only fetch/update forks when we see a fork (on the current page or in the cache).
 	// This avoids having to `updateCache` for every single repo you visit.
