@@ -40,7 +40,7 @@ function init(): void {
 
 	// Delay collapsing, but only after they're collapsed on load #5158
 	requestAnimationFrame(() => {
-		document.documentElement.classList.add('rgh-dim-bots--after-hover')
+		document.documentElement.classList.add('rgh-dim-bots--after-hover');
 	});
 }
 

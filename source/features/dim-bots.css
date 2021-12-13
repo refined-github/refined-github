@@ -6,9 +6,9 @@ Commits that have a long commit message will not be dimmed after the user uncoll
 :root {
 	--rgh-dim-bots-delay: 0s;
 }
+
 .rgh-dim-bots--after-hover {
-	/* #5158 */
-	--rgh-dim-bots-delay: 60s;
+	--rgh-dim-bots-delay: 60s; /* #5158 */
 }
 
 .rgh-dim-bot:not(.rgh-tagged) .mb-1,
