@@ -12,14 +12,6 @@ async function hideReadmeLink(): Promise<void> {
 	link?.parentElement!.setAttribute('hidden', 'true');
 }
 
-async function cleanLicenseText(): Promise<void> {
-	// Remove whitespace in license link to fix alignment of icons https://github.com/refined-github/refined-github/pull/3974#issuecomment-780213892
-	const licenseLink = await elementReady('.repository-content .octicon-law');
-	if (licenseLink) {
-		licenseLink.nextSibling!.textContent = licenseLink.nextSibling!.textContent!.trim();
-	}
-}
-
 async function cleanReleases(): Promise<void> {
 	const sidebarReleases = await elementReady('.BorderGrid-cell h2 a[href$="/releases"]', {waitForChildren: false});
 	if (!sidebarReleases) {
@@ -84,7 +76,6 @@ async function init(): Promise<void> {
 
 	await Promise.all([
 		hideReadmeLink(),
-		cleanLicenseText(),
 		cleanReleases(),
 		hideEmptyPackages(),
 		hideLanguageHeader(),
