@@ -47,14 +47,13 @@ async function updateUI(forks: string[]): Promise<void> {
 	}
 
 	document.body.classList.add('rgh-forked-to');
+	const forkContainer = select('.pagehead-actions > li > div.float-left')!;
 	const forkCounter = select('#repo-network-counter');
 	const forkBoxContents = forkCounter!.parentElement!;
 	const forkBox = forkBoxContents.parentElement!;
-	const forkContainer = forkBox.parentElement!;
 
-	forkBoxContents.className += ' rounded-left-2 border-right-0 BtnGroup-item';
-	forkBox.className += ' details-reset details-overlay details-overlay-dark';
-	forkContainer.className += ' d-flex';
+	forkBoxContents.classList.add('rounded-left-2', 'border-right-0', 'BtnGroup-item');
+	forkContainer.classList.add('d-flex');
 
 	if (forks.length === 1) {
 		forkBox.after(
