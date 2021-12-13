@@ -108,14 +108,14 @@ async function init(): Promise<void> {
 	// About a day old or less ?
 	const age = Date.now() - birthday.getTime() < 10e7
 		? fresh[Math.floor(Math.random() * fresh.length)]
-		: `${value} ${unit} old`;
+		: <><strong>{value}</strong> {unit} old</>;
 
 	const sidebarAboutSection = await elementReady('.repository-content .BorderGrid-cell');
 	sidebarAboutSection!.append(
 		<h3 className="sr-only">Repository age</h3>,
 		<div className="mt-2">
 			<a href={firstCommitHref} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
-				<RepoIcon className="mr-2"/>{age}
+				<RepoIcon className="mr-2"/> {age}
 			</a>
 		</div>,
 	);
