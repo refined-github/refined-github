@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E3312B3627691C89006DA596 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3312B3527691C89006DA596 /* Utilities.swift */; };
+		E3312B3727691C89006DA596 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3312B3527691C89006DA596 /* Utilities.swift */; };
 		E35EB4BB26F36E0900DDEA60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35EB4BA26F36E0900DDEA60 /* AppDelegate.swift */; };
 		E35EB4BD26F36E0900DDEA60 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35EB4BC26F36E0900DDEA60 /* SceneDelegate.swift */; };
 		E35EB4C026F36E0900DDEA60 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35EB4BE26F36E0900DDEA60 /* LaunchScreen.storyboard */; };
@@ -74,6 +76,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E3312B3527691C89006DA596 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		E33F1EF826F380AF00ACEB0F /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		E35EB4AB26F36E0800DDEA60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = ../Base.lproj/Main.html; sourceTree = "<group>"; };
 		E35EB4AC26F36E0800DDEA60 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -150,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				E35EB4AF26F36E0800DDEA60 /* ViewController.swift */,
+				E3312B3527691C89006DA596 /* Utilities.swift */,
 				E35EB4B026F36E0900DDEA60 /* Assets.xcassets */,
 				E35EB4A926F36E0800DDEA60 /* Resources */,
 			);
@@ -320,7 +324,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1300;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					E35EB4B626F36E0900DDEA60 = {
 						CreatedOnToolsVersion = 13.0;
@@ -451,6 +455,7 @@
 			files = (
 				E35EB4EF26F36E0900DDEA60 /* ViewController.swift in Sources */,
 				E35EB4BB26F36E0900DDEA60 /* AppDelegate.swift in Sources */,
+				E3312B3627691C89006DA596 /* Utilities.swift in Sources */,
 				E35EB4BD26F36E0900DDEA60 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -459,6 +464,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3312B3727691C89006DA596 /* Utilities.swift in Sources */,
 				E35EB4F026F36E0900DDEA60 /* ViewController.swift in Sources */,
 				E35EB4CC26F36E0900DDEA60 /* AppDelegate.swift in Sources */,
 			);
@@ -780,8 +786,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Refined GitHub.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = YG56YK5RN5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
@@ -809,8 +816,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Refined GitHub.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = YG56YK5RN5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
@@ -841,9 +849,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/Refined GitHub.entitlements";
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = YG56YK5RN5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (App)/Info.plist";

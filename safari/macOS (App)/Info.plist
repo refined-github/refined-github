@@ -4,5 +4,7 @@
 <dict>
 	<key>SFSafariWebExtensionConverterVersion</key>
 	<string>13.0</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>
