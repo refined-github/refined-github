@@ -20,6 +20,7 @@ import './features/fix-first-tab-length.css';
 import './features/align-repository-header.css';
 import './features/night-not-found.css';
 import './features/hide-empty-profile-status.css';
+import './features/hide-watch-and-fork-count.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -30,7 +31,6 @@ import './features/clean-pinned-issues';
 import './features/clean-dashboard';
 import './features/hide-low-quality-comments';
 import './features/hide-noisy-newsfeed-events';
-import './features/hide-watch-and-fork-count';
 import './features/minimize-upload-bar';
 import './features/hide-diff-signs';
 
