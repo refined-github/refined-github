@@ -46,9 +46,8 @@ async function updateUI(forks: string[]): Promise<void> {
 	}
 
 	document.body.classList.add('rgh-forked-to');
-	const forkContainer = select('.pagehead-actions > li > div.float-left')!;
-	const forkCounter = select('#repo-network-counter');
-	const forkBoxContents = forkCounter!.parentElement!;
+	const forkContainer = select('.pagehead-actions .octicon-repo-forked')!.closest('.float-left')!;
+	const forkBoxContents = select('#repo-network-counter')!.parentElement!;
 	const forkBox = forkBoxContents.parentElement!;
 
 	forkBoxContents.classList.add('rounded-left-2', 'border-right-0', 'BtnGroup-item');
