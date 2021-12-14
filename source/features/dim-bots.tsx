@@ -37,6 +37,11 @@ function init(): void {
 	for (const bot of select.all(prSelector)) {
 		bot.closest('.commit, .Box-row')!.classList.add('rgh-dim-bot');
 	}
+
+	// Delay collapsing, but only after they're collapsed on load #5158
+	requestAnimationFrame(() => {
+		document.documentElement.classList.add('rgh-dim-bots--after-hover');
+	});
 }
 
 void features.add(import.meta.url, {
