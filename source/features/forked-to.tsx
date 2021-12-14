@@ -2,6 +2,7 @@ import './forked-to.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, LinkExternalIcon, RepoForkedIcon} from '@primer/octicons-react';
 
@@ -46,8 +47,8 @@ async function updateUI(forks: string[]): Promise<void> {
 	}
 
 	document.body.classList.add('rgh-forked-to');
-	const forkContainer = select('.pagehead-actions .octicon-repo-forked')!.closest('.float-left')!;
-	const forkBoxContents = select('#repo-network-counter')!.parentElement!;
+	const forkContainer = (await elementReady('.pagehead-actions .octicon-repo-forked'))!.closest('.float-left')!;
+	const forkBoxContents = (await elementReady('#repo-network-counter'))!.parentElement!;
 	const forkBox = forkBoxContents.parentElement!;
 
 	forkBoxContents.classList.add('rounded-left-2', 'border-right-0', 'BtnGroup-item');
@@ -112,7 +113,7 @@ async function init(): Promise<void | false> {
 	}
 
 	// This feature only applies to users that have multiple organizations, because that makes a fork picker modal appear when clicking on "Fork"
-	const hasOrganizations = select('details-dialog[src*="/fork"]');
+	const hasOrganizations = await elementReady('details-dialog[src*="/fork"]');
 
 	// Only fetch/update forks when we see a fork (on the current page or in the cache).
 	// This avoids having to `updateCache` for every single repo you visit.
