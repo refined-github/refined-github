@@ -36,6 +36,9 @@ export const renamedFeatures = new Map<string, string>([
 	['quick-label-hiding', 'quick-label-removal'],
 	['next-scheduled-github-action', 'scheduled-and-manual-workflow-indicators'],
 	['raw-file-link', 'more-file-links'],
+	['conversation-filters', 'more-conversation-filters'],
+	['quick-pr-diff-options', 'quick-diff-options'],
+	['quick-review-buttons', 'review-type-buttons'],
 ]);
 
 export function getNewFeatureName(possibleFeatureName: string): FeatureID | undefined {
