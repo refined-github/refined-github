@@ -46,7 +46,7 @@ async function updateUI(forks: string[]): Promise<void> {
 		return;
 	}
 
-	const forkBoxContents = (await elementReady('#repo-network-counter'))!.parentElement!;
+	const forkBoxContents = (await elementReady('#repo-network-counter', {waitForChildren: false}))!.parentElement!;
 	const forkContainer = select('.pagehead-actions .octicon-repo-forked')!.closest('.float-left')!;
 	const forkBox = forkBoxContents.parentElement!;
 
@@ -113,7 +113,7 @@ async function init(): Promise<void | false> {
 	}
 
 	// This feature only applies to users that have multiple organizations, because that makes a fork picker modal appear when clicking on "Fork"
-	const hasOrganizations = await elementReady('details-dialog[src*="/fork"]');
+	const hasOrganizations = await elementReady('details-dialog[src*="/fork"]', {waitForChildren: false});
 
 	// Only fetch/update forks when we see a fork (on the current page or in the cache).
 	// This avoids having to `updateCache` for every single repo you visit.
