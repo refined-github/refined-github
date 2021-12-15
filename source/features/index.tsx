@@ -163,7 +163,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 				log.info('✅', id);
 			}
 		} catch (error: unknown) {
-			logError(id, error);
+			log.error(id, error);
 		}
 
 		if (Array.isArray(deinit)) {
