@@ -2,6 +2,7 @@
 	--size: 16px;
 	margin-left: calc(var(--size) * 0.3); /* Move away from count */
 	margin-right: calc(var(--size) * -0.5);
+	height: var(--size);
 }
 
 :root .rgh-reactions-avatar:last-of-type {

@@ -6,18 +6,10 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-async function removeReadmeLink(): Promise<void> {
+async function hideReadmeLink(): Promise<void> {
 	// Hide "Readme" link made unnecessary by toggle-files-button #3580
 	const link = await elementReady('.Link--muted[href="#readme"]');
-	link?.parentElement!.remove();
-}
-
-async function cleanLicenseText(): Promise<void> {
-	// Remove whitespace in license link to fix alignment of icons https://github.com/refined-github/refined-github/pull/3974#issuecomment-780213892
-	const licenseLink = await elementReady('.repository-content .octicon-law');
-	if (licenseLink) {
-		licenseLink.nextSibling!.textContent = licenseLink.nextSibling!.textContent!.trim();
-	}
+	link?.parentElement!.setAttribute('hidden', 'true');
 }
 
 async function cleanReleases(): Promise<void> {
@@ -61,26 +53,34 @@ async function hideEmptyPackages(): Promise<void> {
 	}
 }
 
-async function init(): Promise<void> {
-	document.body.classList.add('rgh-clean-repo-sidebar');
-
-	void removeReadmeLink();
-	void cleanLicenseText();
-	void cleanReleases();
-	void hideEmptyPackages();
-
+async function hideLanguageHeader(): Promise<void> {
 	await domLoaded;
 
-	// Hide empty meta if it’s not editable by the current user
-	if (!pageDetect.canUserEditRepo()) {
-		select('.repository-content .BorderGrid-cell > .text-italic')?.remove();
-	}
-
-	// Hide "Language" header
 	const lastSidebarHeader = select('.repository-content .BorderGrid-row:last-of-type h2');
 	if (lastSidebarHeader?.textContent === 'Languages') {
 		lastSidebarHeader.hidden = true;
 	}
+}
+
+// Hide empty meta if it’s not editable by the current user
+async function hideEmptyMeta(): Promise<void> {
+	await domLoaded;
+
+	if (!pageDetect.canUserEditRepo()) {
+		select('.repository-content .BorderGrid-cell > .text-italic')?.remove();
+	}
+}
+
+async function init(): Promise<void> {
+	document.body.classList.add('rgh-clean-repo-sidebar');
+
+	await Promise.all([
+		hideReadmeLink(),
+		cleanReleases(),
+		hideEmptyPackages(),
+		hideLanguageHeader(),
+		hideEmptyMeta(),
+	]);
 }
 
 void features.add(import.meta.url, {

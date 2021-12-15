@@ -4,15 +4,24 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-const commitSelector = [
-	/* Commits */
-	'.commit-author[href$="%5Bbot%5D"]',
-	'.commit-author[href$="renovate-bot"]',
-	'.commit-author[href$="scala-steward"]',
-].join(',');
+const commitSelectors = [
+	'actions-user',
+	'bors',
+	'ImgBotApp',
+	'Octomerger',
+	'renovate-bot',
+	'rust-highfive',
+	'rust-lang',
+	'scala-steward',
+	'snyk-bot',
+	'web-flow',
+].map(bot => `.commit-author[href$="?author=${bot}"]`);
+
+commitSelectors.push('.commit-author[href$="%5Bbot%5D"]'); // Generic [bot] label
+
+const commitSelector = commitSelectors.join(',');
 
 const prSelector = [
-	/* Issues/PRs */
 	'.opened-by [href*="author%3Aapp%2F"]',
 	'.labels [href$="label%3Abot"]',
 ];
@@ -28,6 +37,11 @@ function init(): void {
 	for (const bot of select.all(prSelector)) {
 		bot.closest('.commit, .Box-row')!.classList.add('rgh-dim-bot');
 	}
+
+	// Delay collapsing, but only after they're collapsed on load #5158
+	requestAnimationFrame(() => {
+		document.documentElement.classList.add('rgh-dim-bots--after-hover');
+	});
 }
 
 void features.add(import.meta.url, {

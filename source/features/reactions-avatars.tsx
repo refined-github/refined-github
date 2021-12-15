@@ -20,13 +20,14 @@ interface Participant {
 }
 
 function getParticipants(button: HTMLButtonElement): Participant[] {
-	const currentUser = getUsername();
-	const users = button.getAttribute('aria-label')!
+	// Reaction buttons on releases and review comments have the list of people in their `title` attribute instead of `aria-label` #5150
+	const users = (button.getAttribute('title')! || button.getAttribute('aria-label')!)
 		.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')
 		.split(', ');
 
+	const currentUser = getUsername();
 	const participants = [];
 	for (const username of users) {
 		if (username === currentUser) {
@@ -56,7 +57,7 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 	const avatarLimit = arbitraryAvatarLimit - (commentReactions.children.length * approximateHeaderLength);
 
 	const participantByReaction = select
-		.all(':scope > button[aria-label$="emoji"]', commentReactions)
+		.all(':scope > button.social-reaction-summary-item', commentReactions)
 		.map(button => getParticipants(button));
 	const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
