@@ -83,7 +83,11 @@ test('getCurrentCommittish', t => {
 	t.is(getCurrentCommittish(
 		'/typescript-eslint/typescript-eslint/commits/chore/lerna-4/docs/getting-started/README.md',
 		'History for docs/getting-started/README.md - typescript-eslint/typescript-eslint',
-	), 'chore'); // Wrong, but
+	), 'chore/lerna-4');
+	t.is(getCurrentCommittish(
+		'/yakov116/TestR/commits/this/branch/has/many/slashes',
+		'Commits · yakov116/TestR',
+	), 'this/branch/has/many/slashes');
 
 	// Single commit
 	t.is(getCurrentCommittish(

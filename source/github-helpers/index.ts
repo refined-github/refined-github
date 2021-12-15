@@ -29,6 +29,20 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 		return;
 	}
 
+	// Handle slashed branches in commits pages
+	if (type === 'commits') {
+		const branchAndFilepath = pathname.split('/').slice(4).join('/');
+
+		// List of all commits of current branch (no filename)
+		if (title.startsWith('Commits · ')) {
+			return branchAndFilepath;
+		}
+
+		// List of commits touching a particular file ("History")
+		const filepath = /^History for ([^ ]+) - /.exec(title)![1];
+		return branchAndFilepath.slice(0, branchAndFilepath.lastIndexOf('/' + filepath));
+	}
+
 	const parsedTitle = titleWithCommittish.exec(title);
 	if (parsedTitle) {
 		return parsedTitle.groups!.branch;
