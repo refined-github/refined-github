@@ -30,8 +30,8 @@ function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
 	}
 
 	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
-	const hasUnresolvedThread = select.exists('details.js-resolvable-timeline-thread-container', review);
-	const hasUnresolvedThreadComment = select.exists('.js-minimize-comment.d-none', review);
+	const hasUnresolvedThread = select.exists('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
+	const hasUnresolvedThreadComment = select.exists('.timeline-comment-group:not(.minimized-comment)', review);
 	return !hasUnresolvedThread || !hasUnresolvedThreadComment;
 }
 
