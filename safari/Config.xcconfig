@@ -1,2 +1,4 @@
 MARKETING_VERSION = 21.12.12
 CURRENT_PROJECT_VERSION = 16
+
+#include? "LocalOverrides.xcconfig"
