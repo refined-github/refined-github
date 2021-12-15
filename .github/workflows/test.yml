@@ -76,4 +76,4 @@ jobs:
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest
-      # - run: npm run pack:safari
+      - run: npm run pack:safari
