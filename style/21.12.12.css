@@ -2,3 +2,8 @@
 .rgh-hide-watch-and-fork-count :is(#repo-network-counter, #repo-notifications-counter) {
   display: none;
 }
+
+/* https://github.com/refined-github/refined-github/issues/5204 */
+:root .rgh-reactions-avatar {
+	height: var(--size);
+}
