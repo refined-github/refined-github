@@ -66,6 +66,11 @@ export default class SearchQuery {
 			return '';
 		}
 
+		// Parse label links #5176
+		if (this.link.pathname.includes('/labels/')) {
+			return `is:open label:"${decodeURIComponent(/\/labels\/(.+)$/.exec(this.link.pathname)![1])}"`;
+		}
+
 		// Query-less URLs imply some queries.
 		// When we explicitly set ?q=* they're overridden, so they need to be manually added again.
 		const queries = [];
@@ -95,6 +100,10 @@ export default class SearchQuery {
 		const parts = splitQueryString(query);
 		const cleaned = cleanQueryParts(parts);
 		this.searchParams.set('q', cleaned.join(' '));
+		if (this.link?.pathname.includes('/labels/')) {
+			// Avoid a redirection to the conversation list that would erase the search query #5176
+			this.link.pathname = this.link.pathname.replace(/\/labels\/.+$/, '/issues');
+		}
 	}
 
 	edit(callback: (query: string) => string): void {
