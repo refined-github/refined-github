@@ -7,8 +7,8 @@ import features from '.';
 const commitSelectors = [
 	'actions-user',
 	'bors',
-	'imgbot',
-	'octomerger',
+	'ImgBotApp',
+	'Octomerger',
 	'renovate-bot',
 	'rust-highfive',
 	'rust-lang',
