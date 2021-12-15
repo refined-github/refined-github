@@ -51,8 +51,7 @@ function processReview(review: HTMLElement): void {
 		return;
 	}
 
-	const shouldHideWholeReview = isWholeReviewEssentiallyResolved(review);
-	if (shouldHideWholeReview) {
+	if (isWholeReviewEssentiallyResolved(review)) {
 		review.classList.add(hiddenClassName);
 		return;
 	}
