@@ -11,12 +11,12 @@ const handler = ({key, target}: KeyboardEvent): void => {
 	}
 };
 
-function init(): void {
+function init(): VoidFunction {
 	window.addEventListener('keyup', handler);
-}
 
-function deinit(): void {
-	window.removeEventListener('keyup', handler);
+	return () => {
+		window.removeEventListener('keyup', handler);
+	};
 }
 
 void features.add(import.meta.url, {
@@ -31,5 +31,4 @@ void features.add(import.meta.url, {
 	awaitDomReady: false,
 	deduplicate: false,
 	init,
-	deinit,
 });

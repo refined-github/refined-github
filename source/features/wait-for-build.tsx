@@ -81,7 +81,7 @@ function onBeforeunload(event: BeforeUnloadEvent): void {
 	}
 }
 
-function init(): void {
+function init(): VoidFunction {
 	// Watch for new commits and their statuses
 	prCiStatus.addEventListener(showCheckboxIfNecessary);
 
@@ -97,10 +97,10 @@ function init(): void {
 
 	// Warn user if it's not yet submitted.
 	window.addEventListener('beforeunload', onBeforeunload);
-}
 
-function deinit(): void {
-	window.removeEventListener('beforeunload', onBeforeunload);
+	return () => {
+		window.removeEventListener('beforeunload', onBeforeunload);
+	};
 }
 
 void features.add(import.meta.url, {
@@ -113,5 +113,4 @@ void features.add(import.meta.url, {
 	],
 	deduplicate: 'has-rgh-inner',
 	init,
-	deinit,
 });

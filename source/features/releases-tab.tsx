@@ -85,26 +85,25 @@ async function addReleasesTab(): Promise<false | void> {
 	);
 }
 
-const deinit: VoidFunction[] = [];
-
-async function highlightReleasesTab(): Promise<void> {
+function highlightReleasesTab(): VoidFunction {
 	const selectorObserver = observe('.UnderlineNav-item.selected:not(.rgh-releases-tab)', {
 		add(selectedTab) {
 			unhighlightTab(selectedTab);
 			selectorObserver.abort();
 		},
 	});
-	deinit.push(selectorObserver.abort);
 	highlightTab(select('.rgh-releases-tab')!);
+
+	return selectorObserver.abort;
 }
 
-async function init(): Promise<void | false> {
+async function init(): Promise<VoidFunction | void> {
 	if (!select.exists('.rgh-releases-tab')) {
 		await addReleasesTab();
 	}
 
 	if (pageDetect.isReleasesOrTags()) {
-		await highlightReleasesTab();
+		return highlightReleasesTab();
 	}
 }
 
@@ -118,5 +117,4 @@ void features.add(import.meta.url, {
 	awaitDomReady: false,
 	deduplicate: false,
 	init,
-	deinit,
 });

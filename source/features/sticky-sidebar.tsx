@@ -6,8 +6,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-const deinit: VoidFunction[] = [];
-
 // The first selector in the parentheses is for the repo root, the second one for conversation pages
 const sidebarSelector = '.Layout-sidebar :is(.BorderGrid, #partial-discussion-sidebar)';
 
@@ -19,7 +17,7 @@ function updateStickiness(): void {
 
 const onResize = debounce(updateStickiness, {wait: 100});
 
-function init(): void {
+function init(): VoidFunction {
 	const resizeObserver = new ResizeObserver(onResize);
 	const selectObserver = observe(sidebarSelector, {
 		add(sidebar) {
@@ -27,11 +25,12 @@ function init(): void {
 		},
 	});
 	window.addEventListener('resize', onResize);
-	deinit.push(() => {
+
+	return () => {
 		selectObserver.abort();
 		resizeObserver.disconnect();
 		window.removeEventListener('resize', onResize);
-	});
+	};
 }
 
 void features.add(import.meta.url, {
@@ -44,5 +43,4 @@ void features.add(import.meta.url, {
 	],
 	deduplicate: 'has-rgh-inner',
 	init,
-	deinit,
 });
