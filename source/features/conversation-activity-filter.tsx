@@ -41,7 +41,7 @@ function processSimpleComment(item: HTMLElement): void {
 	}
 
 	// Hide comments marked as resolved/hidden
-	if (select.exists('.minimized-comment:not(.d-none) > details', item)) {
+	if (select.exists('.minimized-comment > details', item)) {
 		item.classList.add(hiddenClassName);
 	}
 }
