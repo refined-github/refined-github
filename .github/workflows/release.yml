@@ -30,6 +30,15 @@ jobs:
       - uses: fregante/daily-version-action@v1
         name: Create tag if necessary
         id: daily-version
+      - name: Create Release Notes
+        uses: actions/github-script@v4.0.2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.request(`POST /repos/${{ github.repository }}/releases`, {
+              tag_name: "${{ steps.version.outputs.version }}",
+              generate_release_notes: true
+            });
 
   Submit:
     needs: Version
