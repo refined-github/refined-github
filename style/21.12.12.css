@@ -7,3 +7,8 @@
 :root .rgh-reactions-avatar {
 	height: var(--size);
 }
+
+/* https://github.com/refined-github/refined-github/issues/5214 */
+.pagehead-actions .js-user-list-menu {
+	z-index: unset;
+}
