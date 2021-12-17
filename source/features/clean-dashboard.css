@@ -83,8 +83,8 @@
 }
 
 /* Hide star button */
-.rgh-clean-dashboard .dashboard .flex-items-baseline :is([value='Star'], [value='Unstar']) {
-	display: none;
+.rgh-clean-dashboard .dashboard .starring-container {
+	display: none !important;
 }
 
 /* Restore right margin for repo descriptions #5024 */
