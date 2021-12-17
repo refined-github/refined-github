@@ -17,11 +17,11 @@ Suggestions and pull requests are highly encouraged! Have a look at the [open is
 
 The simplest usage of `feature.add` is the following. This will be run instantly on all page-loads:
 
-```js
+```ts
 import * as pageDetect from 'github-url-detection';
 import features from '.';
 
-function init() {
+function init(): void {
 	console.log('✨');
 }
 
