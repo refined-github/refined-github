@@ -124,7 +124,6 @@ import './features/highest-rated-comment';
 import './features/clean-conversation-filters';
 import './features/tags-on-commits-list';
 import './features/forked-to';
-import './features/submit-review-as-single-comment';
 import './features/edit-readme';
 import './features/list-prs-for-file';
 import './features/pr-branch-auto-delete';
