@@ -156,8 +156,7 @@ function closeDropdown(): void {
 	select('.rgh-select-notifications')?.removeAttribute('open');
 }
 
-const deinit: VoidFunction[] = [];
-function init(): void {
+function init(): VoidFunction {
 	const selectObserver = observe('.js-notifications-mark-all-prompt:not(.rgh-select-notifications-added)', {
 		add(selectAllCheckbox) {
 			selectAllCheckbox.classList.add('rgh-select-notifications-added');
@@ -166,10 +165,11 @@ function init(): void {
 				.after(createDropdown());
 		},
 	});
-	deinit.push(selectObserver.abort);
 
 	// Close the dropdown when one of the toolbar buttons is clicked
 	delegate(document, '.js-notifications-mark-selected-actions > *, .rgh-open-selected-button', 'click', closeDropdown);
+
+	return selectObserver.abort;
 }
 
 void features.add(import.meta.url, {
@@ -183,5 +183,4 @@ void features.add(import.meta.url, {
 		() => select.exists('img[src$="notifications/inbox-zero.svg"]'), // Notifications page may be empty
 	],
 	init,
-	deinit,
 });

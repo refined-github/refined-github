@@ -14,7 +14,8 @@ import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyle
 
 type BooleanFunction = () => boolean;
 type CallerFunction = (callback: VoidFunction) => void;
-type FeatureInit = () => Promisable<false | void>;
+type FeatureInitResult = false | void | VoidFunction | VoidFunction[];
+type FeatureInit = () => Promisable<FeatureInitResult>;
 
 interface FeatureLoader extends Partial<InternalRunConfig> {
 	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
@@ -39,7 +40,6 @@ interface InternalRunConfig {
 	include: BooleanFunction[] | undefined;
 	exclude: BooleanFunction[] | undefined;
 	init: FeatureInit;
-	deinit?: VoidFunction | VoidFunction[];
 	additionalListeners: CallerFunction[];
 
 	onlyAdditionalListeners: boolean;
@@ -149,33 +149,32 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 });
 
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
-	const {asLongAs, include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
+	const {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners} = config;
 
 	if (!shouldFeatureRun({asLongAs, include, exclude})) {
 		return;
 	}
 
 	const runFeature = async (): Promise<void> => {
+		let result: FeatureInitResult;
+
 		try {
+			result = await init();
 			// Features can return `false` when they decide not to run on the current page
 			// Also the condition avoids logging the fake feature added for `has-rgh`
-			if (await init() !== false && !id?.startsWith('rgh')) {
+			if (result !== false && !id?.startsWith('rgh')) {
 				log.info('✅', id);
 			}
 		} catch (error: unknown) {
 			log.error(id, error);
 		}
 
-		if (Array.isArray(deinit)) {
-			// The `deinit` array can change until `pjax:start`. Do not loop it outside the listener.
-			document.addEventListener('pjax:start', () => {
-				for (const callback of deinit) {
-					callback();
-				}
+		if (!result) {
+			return;
+		}
 
-				deinit.length = 0;
-			}, {once: true});
-		} else if (typeof deinit === 'function') {
+		const deinitFunctions = Array.isArray(result) ? result : [result];
+		for (const deinit of deinitFunctions) {
 			document.addEventListener('pjax:start', deinit, {once: true});
 		}
 	};
@@ -235,7 +234,6 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 			include,
 			exclude,
 			init,
-			deinit,
 			awaitDomReady = true,
 			deduplicate = 'has-rgh',
 			onlyAdditionalListeners = false,
@@ -254,7 +252,7 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 
 		enforceDefaults(id, include, additionalListeners);
 
-		const details = {asLongAs, include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
+		const details = {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners};
 		if (awaitDomReady) {
 			(async () => {
 				await domLoaded;

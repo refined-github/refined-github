@@ -8,8 +8,6 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {onDiffFileLoad} from '../github-events/on-fragment-load';
 
-const deinit: VoidFunction[] = [];
-
 async function loadDeferred(jumpList: Element): Promise<void> {
 	// This event will trigger the loading, but if run too early, GitHub might not have attached the listener yet, so we try multiple times.
 	const retrier = setInterval(() => {
@@ -19,7 +17,7 @@ async function loadDeferred(jumpList: Element): Promise<void> {
 	clearInterval(retrier);
 }
 
-async function init(): Promise<void | false> {
+async function init(): Promise<VoidFunction> {
 	const fileList = await elementReady([
 		'.toc-select details-menu[src*="/show_toc?"]', // `isPR`
 		'.toc-diff-stats + .content', // `isSingleCommit` and `isCompare`
@@ -54,7 +52,8 @@ async function init(): Promise<void | false> {
 			);
 		},
 	});
-	deinit.push(observer.abort);
+
+	return observer.abort;
 }
 
 void features.add(import.meta.url, {
@@ -69,7 +68,6 @@ void features.add(import.meta.url, {
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init,
-	deinit,
 }, {
 	include: [
 		pageDetect.isCompare,
