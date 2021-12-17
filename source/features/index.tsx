@@ -13,7 +13,7 @@ import optionsStorage, {RGHOptions} from '../options-storage';
 import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyleHotfixes} from '../helpers/hotfix';
 
 type BooleanFunction = () => boolean;
-type CallerFunction = (callback: VoidFunction) => void;
+type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void;
 type FeatureInitResult = false | void | VoidFunction | VoidFunction[];
 type FeatureInit = () => Promisable<FeatureInitResult>;
 
@@ -155,6 +155,9 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 		return;
 	}
 
+	const controller = new AbortController();
+	document.addEventListener('pjax:start', () => { controller.abort(); }, {once: true});
+
 	const runFeature = async (): Promise<void> => {
 		let result: FeatureInitResult;
 
@@ -185,7 +188,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 
 	await domLoaded; // Listeners likely need to work on the whole page
 	for (const listener of additionalListeners) {
-		listener(runFeature);
+		listener(runFeature, controller.signal);
 	}
 };
 

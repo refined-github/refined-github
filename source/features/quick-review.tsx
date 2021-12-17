@@ -49,8 +49,8 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 	],
 	additionalListeners: [
-		runFeature => {
-			void onReplacedElement('#partial-discussion-sidebar', runFeature);
+		(runFeature, signal) => {
+			void onReplacedElement('#partial-discussion-sidebar', runFeature, {signal});
 		},
 	],
 	awaitDomReady: false,
