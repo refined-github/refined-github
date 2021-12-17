@@ -27,8 +27,6 @@ interface GlobalEventHandlersEventMap {
 	'details:toggled': CustomEvent;
 	'filterable:change': CustomEvent;
 	'menu:activated': CustomEvent;
-	'rgh:view-markdown-rendered': CustomEvent;
-	'rgh:view-markdown-source': CustomEvent;
 	'pjax:error': CustomEvent;
 	'page:loaded': CustomEvent;
 	'pjax:start': CustomEvent;
