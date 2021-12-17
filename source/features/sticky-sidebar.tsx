@@ -26,6 +26,8 @@ function init(): VoidFunction {
 	});
 	window.addEventListener('resize', onResize);
 
+	document.body.classList.add('rgh-sticky-sidebar-enabled');
+
 	return () => {
 		selectObserver.abort();
 		resizeObserver.disconnect();
