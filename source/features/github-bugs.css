@@ -42,6 +42,8 @@
 	font-weight: 600;
 }
 
+#merge_title_field,
+#commit-summary-input, /* Restore monospace font in commit/merge title fields #5188 */
 :is(.new_public_key, .new_gpg_key) textarea { /* Monospace textareas for new SSH/GPG keys #4917 */
 	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace !important;
 }
