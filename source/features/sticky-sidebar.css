@@ -26,3 +26,8 @@
 .rgh-sticky-sidebar + .border-top {
 	display: none;
 }
+
+/* Avoid z-index issue with Stars dropdown in repo header #5214 */
+.rgh-sticky-sidebar-enabled .pagehead-actions .js-user-list-menu {
+	z-index: unset;
+}
