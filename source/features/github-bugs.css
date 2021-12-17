@@ -55,3 +55,8 @@
 .js-file-header-dropdown .dropdown-menu > .dropdown-divider:last-child {
 	display: none !important;
 }
+
+/* Avoid multi-column wrapping in PR lists on small displays #4405 */
+.js-issue-row .js-navigation-open ~ .text-small:last-child {
+	flex-wrap: wrap;
+}
