@@ -300,7 +300,7 @@ Thanks for contributing! 🦋🙌
 
 - [](# "sync-pr-commit-title") 🔥 [Uses the PR’s title as the default squash commit title](https://github.com/refined-github/refined-github/issues/276) and [updates the PR’s title to match the commit title, if changed.](https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png)
 - [](# "update-pr-from-base-branch") [Adds a button to update a PR from the base branch to ensure it builds correctly before merging the PR itself.](https://user-images.githubusercontent.com/1402241/106494023-816d9a00-647f-11eb-8cb1-7c97aa8a5546.png) GitHub only adds it when the base branch is "protected".
-- [](# "review-type-buttons") [Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
+- [](# "one-click-review-submission") [Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
 - [](# "warn-pr-from-master") [Warns you when creating a pull request from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
 - [](# "warning-for-disallow-edits") [Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
 - [](# "pull-request-hotkey") [Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>](https://user-images.githubusercontent.com/16872793/94634958-7e7b5680-029f-11eb-82ea-1f96cd11e4cd.png).
@@ -316,7 +316,7 @@ Thanks for contributing! 🦋🙌
 
 - [](# "patch-diff-links") [Adds links to `.patch` and `.diff` files in commits.](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
 - [](# "more-file-links") [Adds links to view the raw version, the blame and the history of files in PRs and commits.](https://user-images.githubusercontent.com/46634000/145016304-aec5a8b8-4cdb-48e6-936f-b214a3fb4b49.png)
-- [](# "quick-diff-options") [Adds one-click buttons to change diff style and to ignore the whitespace and a keyboard shortcut to ignore the whitespace: <kbd>d</kbd> <kbd>w</kbd>.](https://user-images.githubusercontent.com/1402241/54178764-d1c96080-44d1-11e9-889c-734ffd2a602d.png)
+- [](# "one-click-diff-options") [Adds one-click buttons to change diff style and to ignore the whitespace and a keyboard shortcut to ignore the whitespace: <kbd>d</kbd> <kbd>w</kbd>.](https://user-images.githubusercontent.com/1402241/54178764-d1c96080-44d1-11e9-889c-734ffd2a602d.png)
 - [](# "extend-diff-expander") [Widens the `Expand diff` button to be clickable across the screen.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
 - [](# "hide-diff-signs") [Hides diff signs since diffs are color coded already.](https://user-images.githubusercontent.com/1402241/54807718-149cec80-4cb9-11e9-869c-e265863211e3.png)
 - [](# "suggest-commit-title-limit") [Suggests limiting commit titles to 72 characters.](https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif)
