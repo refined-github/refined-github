@@ -24,7 +24,7 @@ function cleanQueryParts(parts: string[]): string[] {
 	return deduplicateKeywords(parts, 'is:issue', 'is:pr');
 }
 
-const labelLinkRegex = /\/labels\/([^/]+)$/;
+const labelLinkRegex = /^(?:\/[^/]+){2}\/labels\/([^/]+)\/?$/;
 
 /**
 Parser/Mutator of GitHub's search query directly on anchors and URL-like objects.
