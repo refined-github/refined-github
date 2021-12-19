@@ -24,6 +24,8 @@ function cleanQueryParts(parts: string[]): string[] {
 	return deduplicateKeywords(parts, 'is:issue', 'is:pr');
 }
 
+const labelLinkRegex = /^(?:\/[^/]+){2}\/labels\/([^/]+)\/?$/;
+
 /**
 Parser/Mutator of GitHub's search query directly on anchors and URL-like objects.
 Notice: if the <a> or `location` changes outside SearchQuery, `get()` will return an outdated value.
@@ -66,6 +68,12 @@ export default class SearchQuery {
 			return '';
 		}
 
+		// Parse label links #5176
+		const labelName = labelLinkRegex.exec(this.link.pathname)?.[1];
+		if (labelName) {
+			return `is:open label:"${decodeURIComponent(labelName)}"`;
+		}
+
 		// Query-less URLs imply some queries.
 		// When we explicitly set ?q=* they're overridden, so they need to be manually added again.
 		const queries = [];
@@ -95,6 +103,11 @@ export default class SearchQuery {
 		const parts = splitQueryString(query);
 		const cleaned = cleanQueryParts(parts);
 		this.searchParams.set('q', cleaned.join(' '));
+
+		if (this.link && labelLinkRegex.test(this.link.pathname)) {
+			// Avoid a redirection to the conversation list that would erase the search query #5176
+			this.link.pathname = this.link.pathname.replace(/\/labels\/.+$/, '/issues');
+		}
 	}
 
 	edit(callback: (query: string) => string): void {
