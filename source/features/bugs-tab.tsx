@@ -131,7 +131,7 @@ async function addBugsTab(): Promise<void | false> {
 		bugsCounter.title = bugCount > 999 ? String(bugCount) : '';
 	} catch (error: unknown) {
 		bugsCounter.remove();
-		features.log.error(import.meta.url, error);
+		throw error; // Likely an API call error that will be handled by the init
 	}
 }
 
