@@ -30,8 +30,8 @@ function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
 	}
 
 	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
-	const hasUnresolvedThread = select.exists('div.js-resolvable-timeline-thread-container', review);
-	const hasUnresolvedThreadComment = select.exists('.minimized-comment.d-none', review);
+	const hasUnresolvedThread = select.exists('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
+	const hasUnresolvedThreadComment = select.exists('.timeline-comment-group:not(.minimized-comment)', review);
 	return !hasUnresolvedThread || !hasUnresolvedThreadComment;
 }
 
@@ -41,7 +41,7 @@ function processSimpleComment(item: HTMLElement): void {
 	}
 
 	// Hide comments marked as resolved/hidden
-	if (select.exists('.minimized-comment:not(.d-none) > details', item)) {
+	if (select.exists('.minimized-comment > details', item)) {
 		item.classList.add(hiddenClassName);
 	}
 }
@@ -51,8 +51,7 @@ function processReview(review: HTMLElement): void {
 		return;
 	}
 
-	const shouldHideWholeReview = isWholeReviewEssentiallyResolved(review);
-	if (shouldHideWholeReview) {
+	if (isWholeReviewEssentiallyResolved(review)) {
 		review.classList.add(hiddenClassName);
 		return;
 	}
