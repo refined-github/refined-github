@@ -1,9 +1,9 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import getDefaultBranch from '../github-helpers/get-default-branch';
+import {getCurrentCommittish} from '../github-helpers';
 import addAfterBranchSelector from '../helpers/add-after-branch-selector';
 import {getPullRequestsAssociatedWithBranch, stateIcon} from './show-associated-branch-prs-on-fork';
 
@@ -15,21 +15,9 @@ const stateColorMap = {
 	DRAFT: '',
 };
 
-// TODO remove this after #4196 is fixed
-function getCurrentBranch(): string {
-	const feedLink = select.last('link[type="application/atom+xml"]')!;
-	return new URL(feedLink.href)
-		.pathname
-		.split('/')
-		.slice(4) // Drops the initial /user/repo/route/ part
-		.join('/')
-		.replace(/\.atom$/, '');
-}
-
 async function init(): Promise<void | false> {
-	const currentBranch = getCurrentBranch();
-
-	if (/^[\da-f]{40}$/.test(currentBranch) || await getDefaultBranch() === currentBranch) {
+	const currentBranch = getCurrentCommittish();
+	if (!currentBranch || /^[\da-f]{40}$/.test(currentBranch) || await getDefaultBranch() === currentBranch) {
 		return false;
 	}
 
