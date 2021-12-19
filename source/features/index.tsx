@@ -73,7 +73,7 @@ const logError = (url: string, error: unknown): void => {
 	newIssueUrl.searchParams.set('description', [
 		'```',
 		String(error instanceof Error ? error.stack! : error).trim(),
-		'```'
+		'```',
 	].join('\n'));
 
 	console.group('Open an issue');
