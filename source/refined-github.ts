@@ -49,7 +49,6 @@ import './features/copy-on-y';
 import './features/profile-hotkey';
 import './features/close-out-of-view-modals';
 import './features/improve-shortcut-help';
-import './features/view-markdown-source';
 import './features/copy-file';
 import './features/hide-own-stars';
 import './features/infinite-scroll';
