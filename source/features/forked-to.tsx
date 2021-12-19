@@ -46,23 +46,29 @@ async function updateUI(forks: string[]): Promise<void> {
 		return;
 	}
 
+	const forkBoxContents = (await elementReady('#repo-network-counter', {waitForChildren: false}))!.parentElement!;
+	const forkContainer = select('.pagehead-actions .octicon-repo-forked')!.closest('.float-left')!;
+	const forkBox = forkBoxContents.parentElement!;
+
 	document.body.classList.add('rgh-forked-to');
-	const forkCounter = await elementReady('.social-count[href$="/network/members"]', {waitForChildren: false});
+	forkContainer.classList.add('d-flex');
+	forkBoxContents.classList.add('rounded-left-2', 'border-right-0', 'BtnGroup-item');
+
 	if (forks.length === 1) {
-		forkCounter!.before(
+		forkBox.after(
 			<a
 				href={createLink(forks[0])}
-				className="btn btn-sm float-left rgh-forked-button rgh-forked-link"
+				className="btn btn-sm rounded-right-2 rgh-forked-button rgh-forked-link"
 				title={`Open your fork at ${forks[0]}`}
 			>
 				<LinkExternalIcon/>
 			</a>,
 		);
 	} else {
-		forkCounter!.before(
-			<details className="details-reset details-overlay select-menu float-left">
+		forkBox.after(
+			<details className="details-reset details-overlay select-menu float-right">
 				<summary
-					className="select-menu-button float-left btn btn-sm btn-with-count rgh-forked-button"
+					className="select-menu-button btn btn-sm btn-with-count rounded-right-2 rgh-forked-button"
 					aria-haspopup="menu"
 					title="Open any of your forks"/>
 				<details-menu
@@ -107,7 +113,7 @@ async function init(): Promise<void | false> {
 	}
 
 	// This feature only applies to users that have multiple organizations, because that makes a fork picker modal appear when clicking on "Fork"
-	const hasOrganizations = await elementReady('details-dialog[src*="/fork"] include-fragment');
+	const hasOrganizations = await elementReady('details-dialog[src*="/fork"]', {waitForChildren: false});
 
 	// Only fetch/update forks when we see a fork (on the current page or in the cache).
 	// This avoids having to `updateCache` for every single repo you visit.
