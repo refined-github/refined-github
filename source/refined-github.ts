@@ -61,12 +61,12 @@ import './features/open-all-conversations';
 import './features/pagination-hotkey';
 import './features/conversation-links-on-repo-lists';
 import './features/global-conversation-list-filters';
-import './features/conversation-filters';
-import './features/sort-conversations-by-update-time'; // Must be after global-conversation-list-filters and conversation-filters and conversation-links-on-repo-lists
+import './features/more-conversation-filters';
+import './features/sort-conversations-by-update-time'; // Must be after global-conversation-list-filters and more-conversation-filters and conversation-links-on-repo-lists
 import './features/pinned-issues-update-time';
 import './features/latest-tag-button';
 import './features/default-branch-button';
-import './features/quick-pr-diff-options';
+import './features/one-click-diff-options';
 import './features/ci-link';
 import './features/star-repo-hotkey';
 import './features/toggle-files-button';
@@ -75,7 +75,7 @@ import './features/open-ci-details-in-new-tab';
 import './features/wait-for-build';
 import './features/hide-inactive-deployments';
 import './features/pull-request-hotkey';
-import './features/quick-review-buttons';
+import './features/one-click-review-submission';
 import './features/embed-gist-inline';
 import './features/comments-time-machine-links';
 import './features/hide-issue-list-autocomplete';
