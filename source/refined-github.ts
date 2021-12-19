@@ -1,4 +1,4 @@
-import 'typed-query-selector';
+import './helpers/types.d.ts';
 
 import './refined-github.css';
 import './features/github-bugs.css';

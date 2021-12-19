@@ -31,7 +31,7 @@ const hovercardObserver = new MutationObserver(([mutation]) => {
 
 	const {href} = hovercard.querySelector('a.Link--primary')!;
 
-	for (const reference of hovercard.querySelectorAll<HTMLElement>('.commit-ref')) {
+	for (const reference of hovercard.querySelectorAll('.commit-ref')) {
 		const url = new GitHubURL(href).assign({
 			route: 'tree',
 			branch: reference.title,

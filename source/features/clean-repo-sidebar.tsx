@@ -18,7 +18,7 @@ async function cleanReleases(): Promise<void> {
 		return;
 	}
 
-	const releasesSection = sidebarReleases.closest<HTMLElement>('.BorderGrid-cell')!;
+	const releasesSection = sidebarReleases.closest('.BorderGrid-cell')!;
 	if (!select.exists('.octicon-tag', releasesSection)) {
 		// Hide the whole section if there's no releases
 		releasesSection.hidden = true;
@@ -49,7 +49,7 @@ async function cleanReleases(): Promise<void> {
 async function hideEmptyPackages(): Promise<void> {
 	const packagesCounter = await elementReady('.BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false})!;
 	if (packagesCounter && packagesCounter.textContent === '0') {
-		packagesCounter.closest<HTMLElement>('.BorderGrid-row')!.hidden = true;
+		packagesCounter.closest('.BorderGrid-row')!.hidden = true;
 	}
 }
 
