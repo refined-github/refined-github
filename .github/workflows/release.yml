@@ -30,8 +30,9 @@ jobs:
       - uses: fregante/daily-version-action@v1
         name: Create tag if necessary
         id: daily-version
-      - name: Create release
-        uses: actions/github-script@v4.0.2
+      - if: steps.daily-version.outputs.created
+        name: Create release
+        uses: actions/github-script@v5.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
