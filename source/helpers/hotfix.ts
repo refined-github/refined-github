@@ -3,7 +3,7 @@ import {isEnterprise} from 'github-url-detection';
 import compareVersions from 'tiny-version-compare';
 
 import {RGHOptions} from '../options-storage';
-import isDevelopmentVersion from '../helpers/is-development-version';
+import isDevelopmentVersion from './is-development-version';
 
 function parseCsv(content: string): string[][] {
 	const lines = [];
