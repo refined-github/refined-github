@@ -57,7 +57,7 @@ function cleanSection(selector: string): boolean {
 	return true;
 }
 
-async function clean(): Promise<void> {
+async function init(): Promise<void> {
 	if (select.exists('.rgh-clean-sidebar')) {
 		return;
 	}
@@ -117,10 +117,10 @@ void features.add(import.meta.url, {
 		pageDetect.isConversation,
 	],
 	additionalListeners: [
-		() => {
-			void onReplacedElement('#partial-discussion-sidebar', clean);
+		runFeature => {
+			void onReplacedElement('#partial-discussion-sidebar', runFeature);
 		},
 	],
 	deduplicate: 'has-rgh-inner',
-	init: clean,
+	init,
 });
