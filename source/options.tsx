@@ -21,8 +21,6 @@ interface Status {
 	scopes?: string[];
 }
 
-const {version} = browser.runtime.getManifest();
-
 function reportStatus({error, text, scopes}: Status): void {
 	const tokenStatus = select('#validation')!;
 	tokenStatus.textContent = text ?? '';
@@ -206,7 +204,7 @@ async function highlightNewFeatures(): Promise<void> {
 async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 	const disabledFeatures = <div className="js-hotfixes"/>;
 
-	for (const [feature, relatedIssue] of await getLocalHotfixes(version)) {
+	for (const [feature, relatedIssue] of await getLocalHotfixes()) {
 		if (importedFeatures.includes(feature)) {
 			disabledFeatures.append(
 				<p><code>{feature}</code> has been temporarily disabled due to {createRghIssueLink(relatedIssue)}.</p>,

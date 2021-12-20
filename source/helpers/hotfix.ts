@@ -3,6 +3,7 @@ import {isEnterprise} from 'github-url-detection';
 import compareVersions from 'tiny-version-compare';
 
 import {RGHOptions} from '../options-storage';
+import isDevelopmentVersion from './is-development-version';
 
 function parseCsv(content: string): string[][] {
 	const lines = [];
@@ -58,27 +59,27 @@ export const updateStyleHotfixes = cache.function(async (version: string): Promi
 	cacheKey: () => 'style-hotfixes',
 });
 
-export async function getLocalHotfixes(version: string): Promise<HotfixStorage> {
+export async function getLocalHotfixes(): Promise<HotfixStorage> {
 	// To facilitate debugging, ignore hotfixes during development.
 	// Change the version in manifest.json to test hotfixes
-	if (version === '0.0.0') {
+	if (isDevelopmentVersion()) {
 		return [];
 	}
 
 	return await cache.get<HotfixStorage>('hotfixes') ?? [];
 }
 
-export async function getLocalHotfixesAsOptions(version: string): Promise<Partial<RGHOptions>> {
+export async function getLocalHotfixesAsOptions(): Promise<Partial<RGHOptions>> {
 	const options: Partial<RGHOptions> = {};
-	for (const [feature] of await getLocalHotfixes(version)) {
+	for (const [feature] of await getLocalHotfixes()) {
 		options[`feature:${feature}`] = false;
 	}
 
 	return options;
 }
 
-export async function getStyleHotfixes(version: string): Promise<string> {
-	if (version === '0.0.0' || isEnterprise()) {
+export async function getStyleHotfixes(): Promise<string> {
+	if (isDevelopmentVersion() || isEnterprise()) {
 		return '';
 	}
 
