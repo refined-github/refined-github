@@ -16,3 +16,8 @@
 #merge_title_field, #commit-summary-input {
 	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace !important;
 }
+
+/* https://github.com/refined-github/refined-github/issues/5182 */
+.rgh-clean-dashboard .dashboard .starring-container {
+ 	display: none !important;
+}
