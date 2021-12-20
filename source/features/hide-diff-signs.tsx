@@ -5,5 +5,5 @@ import features from '.';
 
 void features.addCssFeature(import.meta.url, [
 	pageDetect.hasCode,
-	() => pageDetect.isEditingFile() && !location.href.endsWith('.md'),
+	pageDetect.isEditingFile,
 ], 'has-rgh-inner');
