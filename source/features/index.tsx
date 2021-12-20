@@ -93,8 +93,8 @@ const log = {
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	const [options, localHotfixes, hotfixCSS, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
-		getLocalHotfixesAsOptions(version),
-		getStyleHotfixes(version),
+		getLocalHotfixesAsOptions(),
+		getStyleHotfixes(),
 		bisectFeatures(),
 	]);
 

@@ -4,6 +4,7 @@ import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 
 import './options-storage';
 import {getRghIssueUrl} from './helpers/rgh-issue-link';
+import isDevelopmentVersion from './helpers/is-development-version';
 
 // GHE support
 addDomainPermissionToggle();
@@ -51,12 +52,7 @@ browser.browserAction.onClicked.addListener(() => {
 
 browser.runtime.onInstalled.addListener(async ({reason}) => {
 	// Only notify on install
-	if (reason === 'install') {
-		const {installType} = await browser.management.getSelf();
-		if (installType === 'development') {
-			return;
-		}
-
+	if (reason === 'install' && !isDevelopmentVersion()) {
 		await browser.tabs.create({
 			url: getRghIssueUrl(3543),
 		});
