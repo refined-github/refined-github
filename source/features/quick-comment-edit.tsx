@@ -10,7 +10,7 @@ import features from '.';
 function canEditEveryComment(): boolean {
 	return select.exists([
 		// If you can lock conversations, you have write access
-		'.lock-toggle-link',
+		'.lock-toggle-link > .octicon-lock',
 
 		// Some pages like `isPRFiles` does not have a lock button
 		// These elements only exist if you commented on the page
