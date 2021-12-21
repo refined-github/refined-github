@@ -32,7 +32,7 @@ async function initPR(): Promise<void> {
 		return;
 	}
 
-	const byline = author.closest<HTMLElement>('.flex-auto')!;
+	const byline = author.closest('.flex-auto')!;
 
 	byline.classList.add('rgh-clean-conversation-header');
 

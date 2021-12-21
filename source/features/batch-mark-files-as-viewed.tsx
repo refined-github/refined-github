@@ -9,7 +9,7 @@ import showToast from '../github-helpers/toast';
 let previousFile: HTMLElement | undefined;
 
 function remember(event: delegate.Event): void {
-	previousFile = event.delegateTarget.closest<HTMLElement>('.js-file')!;
+	previousFile = event.delegateTarget.closest('.js-file')!;
 }
 
 function isChecked(file: HTMLElement): boolean {
@@ -26,7 +26,7 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 	event.stopImmediatePropagation();
 
 	const previousFileState = isChecked(previousFile);
-	const thisFile = event.delegateTarget.closest<HTMLElement>('.js-file')!;
+	const thisFile = event.delegateTarget.closest('.js-file')!;
 	const files = select.all('.js-file');
 	const selectedFiles = files.slice(...[
 		files.indexOf(previousFile) + 1,
