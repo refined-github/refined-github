@@ -11,7 +11,7 @@ function init(): void {
 	const commentsLink = sourceItem.cloneNode(true);
 	commentsLink.lastChild!.textContent = 'Everything commented by you';
 	commentsLink.removeAttribute('target');
-	new SearchQuery(commentsLink).set('is:open commenter:@me');
+	new SearchQuery(commentsLink).set('is:open commenter:@me').applyChanges();
 	commentsLink.setAttribute('aria-checked', String(commentsLink.href === location.href)); // #4589
 
 	sourceItem.after(commentsLink);

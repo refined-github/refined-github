@@ -9,7 +9,7 @@ function splitQueryString(query: string): string[] {
 function deduplicateKeywords(array: string[], ...keywords: string[]): string[] {
 	const deduplicated = [];
 	let wasKeywordFound = false;
-	for (const current of array.reverse()) {
+	for (const current of [...array].reverse()) {
 		const isKeyword = keywords.includes(current);
 		if (!isKeyword || !wasKeywordFound) {
 			deduplicated.unshift(current);
@@ -37,41 +37,35 @@ export default class SearchQuery {
 
 	link?: HTMLAnchorElement;
 	searchParams: URLSearchParams;
+	queryParts: string[];
 
 	constructor(link: Source) {
 		if (link instanceof HTMLAnchorElement) {
 			this.link = link;
 			this.searchParams = new URLSearchParams(link.search);
-			// Keep `.search` property up to date with this `searchParams`
-			const nativeSet = this.searchParams.set;
-			this.searchParams.set = (name, value) => {
-				nativeSet.call(this.searchParams, name, value);
-				link.search = String(this.searchParams);
-			};
 		} else if (link instanceof URL) {
 			this.searchParams = link.searchParams;
 		} else {
 			this.searchParams = new URLSearchParams(link);
 		}
 
-		// Ensure the query string is set and cleaned up
-		this.set(this.get());
+		this.queryParts = this.getQueryParts();
 	}
 
-	get(): string {
+	getQueryParts(): string[] {
 		const currentQuery = this.searchParams.get('q');
 		if (typeof currentQuery === 'string') {
-			return currentQuery;
+			return splitQueryString(currentQuery);
 		}
 
 		if (!this.link) {
-			return '';
+			return [];
 		}
 
 		// Parse label links #5176
 		const labelName = labelLinkRegex.exec(this.link.pathname)?.[1];
 		if (labelName) {
-			return `is:open label:"${decodeURIComponent(labelName)}"`;
+			return ['is:open', 'label:' + SearchQuery.escapeValue(decodeURIComponent(labelName))];
 		}
 
 		// Query-less URLs imply some queries.
@@ -84,7 +78,7 @@ export default class SearchQuery {
 		// Header nav example: is:open is:issue author:you archived:false
 		if (this.link.pathname === '/issues' || this.link.pathname === '/pulls') {
 			if (this.searchParams.has('user')) { // #1211
-				queries.push(`user:${this.searchParams.get('user')!}`);
+				queries.push('user:' + this.searchParams.get('user')!);
 			} else {
 				queries.push('author:@me');
 			}
@@ -92,48 +86,50 @@ export default class SearchQuery {
 			queries.push('archived:false');
 		}
 
-		return queries.join(' ');
+		return queries;
 	}
 
-	getQueryParts(): string[] {
-		return splitQueryString(this.get());
+	get(): string {
+		return cleanQueryParts(this.queryParts).join(' ');
 	}
 
-	set(query: string): void {
-		const parts = splitQueryString(query);
-		const cleaned = cleanQueryParts(parts);
-		this.searchParams.set('q', cleaned.join(' '));
+	set(query: string): this {
+		this.queryParts = splitQueryString(query);
+		return this;
+	}
 
-		if (this.link && labelLinkRegex.test(this.link.pathname)) {
-			// Avoid a redirection to the conversation list that would erase the search query #5176
-			this.link.pathname = this.link.pathname.replace(/\/labels\/.+$/, '/issues');
+	applyChanges(): void {
+		this.searchParams.set('q', this.get());
+		if (this.link) {
+			this.link.search = String(this.searchParams);
+			if (labelLinkRegex.test(this.link.pathname)) {
+				// Avoid a redirection to the conversation list that would drop the search query #5176
+				this.link.pathname = this.link.pathname.replace(/\/labels\/.+$/, '/issues');
+			}
 		}
 	}
 
-	edit(callback: (query: string) => string): void {
-		this.set(callback(this.get()));
+	edit(callback: (queryParts: string[]) => string[]): this {
+		this.queryParts = callback(this.queryParts);
+		return this;
 	}
 
-	replace(searchValue: string | RegExp, replaceValue: string): void {
+	replace(searchValue: string | RegExp, replaceValue: string): this {
 		this.set(this.get().replace(searchValue, replaceValue));
+		return this;
 	}
 
-	remove(...queryPartToRemove: string[]): void {
-		const newQuery = this
-			.getQueryParts()
-			.filter(queryPart => !queryPartToRemove.includes(queryPart))
-			.join(' ');
-
-		this.set(newQuery);
+	remove(...queryPartsToRemove: string[]): this {
+		this.queryParts = this.queryParts.filter(queryPart => !queryPartsToRemove.includes(queryPart));
+		return this;
 	}
 
-	add(...queryParts: string[]): void {
-		const newQuery = this.getQueryParts();
-		newQuery.push(...queryParts);
-		this.set(newQuery.join(' '));
+	add(...queryPartsToAdd: string[]): this {
+		this.queryParts.push(...queryPartsToAdd);
+		return this;
 	}
 
 	includes(...searchStrings: string[]): boolean {
-		return this.getQueryParts().some(queryPart => searchStrings.includes(queryPart));
+		return cleanQueryParts(this.queryParts).some(queryPart => searchStrings.includes(queryPart));
 	}
 }

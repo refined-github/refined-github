@@ -26,7 +26,7 @@ test('.set', t => {
 
 test('.edit', t => {
 	const query = new SearchQuery({q: 'gone fishing'});
-	query.edit(query => query.split(' ')[0]);
+	query.edit(queryParts => queryParts.slice(0, 1));
 	t.is(query.get(), 'gone');
 });
 
@@ -78,4 +78,14 @@ test('deduplicate is:pr/issue', t => {
 test('remove additional spaces', t => {
 	const query = new SearchQuery({q: ' refined   github '});
 	t.is(query.get(), 'refined github');
+});
+
+test('parse label link', t => {
+	const link = document.createElement('a');
+	link.href = 'https://github.com/owner/repo/labels/bug';
+	const query = new SearchQuery(link);
+	query.applyChanges();
+
+	t.is(query.get(), 'is:open label:bug');
+	t.is(query.link?.pathname, '/owner/repo/issues');
 });

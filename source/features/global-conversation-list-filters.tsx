@@ -33,7 +33,7 @@ function init(): void {
 
 			// Other links will keep the current query, that's not what we want
 			for (const otherLink of select.all('.subnav-links a')) {
-				new SearchQuery(otherLink).remove(query);
+				new SearchQuery(otherLink).remove(query).applyChanges();
 			}
 		}
 

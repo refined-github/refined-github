@@ -27,6 +27,7 @@ async function init(): Promise<void> {
 			query.add(filter);
 		}
 
+		query.applyChanges();
 		items.push(<li>{item}</li>);
 	}
 

@@ -34,7 +34,7 @@ function addMergeLink(): void {
 		const mergeLink = lastLink.cloneNode(true);
 		mergeLink.textContent = 'Merged';
 		mergeLink.classList.toggle('selected', new SearchQuery(location.search).includes('is:merged'));
-		new SearchQuery(mergeLink).replace('is:closed', 'is:merged');
+		new SearchQuery(mergeLink).replace('is:closed', 'is:merged').applyChanges();
 		lastLink.after(' ', mergeLink);
 	}
 }
@@ -49,7 +49,7 @@ function togglableFilters(): void {
 				'is:closed',
 				'is:merged',
 				'is:unmerged',
-			);
+			).applyChanges();
 		}
 	}
 }
