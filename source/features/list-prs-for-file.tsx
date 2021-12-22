@@ -52,7 +52,7 @@ function getSingleButton(prNumber: number): HTMLElement {
 	return (
 		<a
 			href={getPRUrl(prNumber)}
-			className="btn btn-sm flex-self-center rgh-list-prs-for-file"
+			className="btn btn-sm flex-self-center"
 			data-pjax="#js-repo-pjax-container"
 		>
 			<GitPullRequestIcon/>
@@ -162,7 +162,7 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 		pageDetect.isSingleFile,
 	],
-	deduplicate: '.rgh-list-prs-for-file', // #3945
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init,
 });
