@@ -156,7 +156,9 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 	}
 
 	const controller = new AbortController();
-	document.addEventListener('pjax:start', () => { controller.abort(); }, {once: true});
+	document.addEventListener('pjax:start', () => {
+		controller.abort();
+	}, {once: true});
 
 	const runFeature = async (): Promise<void> => {
 		let result: FeatureInitResult;
