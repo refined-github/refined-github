@@ -20,12 +20,6 @@ body:
       options:
         - label: Screenshots/video/gif demonstrating the bug, if it’s visual
         - label: Console errors, if any
-  - type: textarea
-    attributes:
-      label: Description
-      description: Describe the issue and how to replicate it
-    validations:
-      required: true
   - type: input
     attributes:
       label: Example URL
@@ -36,5 +30,11 @@ body:
   - type: input
     attributes:
       label: Browser(s) used
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Description
+      description: Describe the issue and how to replicate it
     validations:
       required: true
