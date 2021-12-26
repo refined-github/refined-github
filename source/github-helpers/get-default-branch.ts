@@ -1,5 +1,6 @@
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import * as api from './api';
@@ -12,6 +13,16 @@ import {getRepo} from '.';
 // "This branch is 1 commit ahead, 27 commits behind master."
 const branchInfoRegex = /([^ ]+)\.$/;
 
+export function getCurrentBranchFromFeed(): string {
+	const feedLink = select('link[type="application/atom+xml"]')!;
+	return new URL(feedLink.href)
+		.pathname
+		.split('/')
+		.slice(4) // Drops the initial /user/repo/route/ part
+		.join('/')
+		.replace(/\.atom$/, '');
+}
+
 const getDefaultBranch = cache.function(async function (repository?: pageDetect.RepositoryInfo): Promise<string> {
 	if (arguments.length === 0) {
 		repository = getRepo();
@@ -23,10 +34,14 @@ const getDefaultBranch = cache.function(async function (repository?: pageDetect.
 
 	if (arguments.length === 0 || JSON.stringify(repository) === JSON.stringify(getRepo())) {
 		if (pageDetect.isRepoHome()) {
-			const currentBranch = select('#branch-select-menu [data-menu-button]');
+			const currentBranch = await elementReady('[data-hotkey="w"]');
 			if (currentBranch) { // If missing, it'll default to the API call
-				return currentBranch.textContent!;
+				return currentBranch.title;
 			}
+		}
+
+		if (pageDetect.utils.getRepositoryInfo()!.path === 'commits') {
+			return getCurrentBranchFromFeed();
 		}
 
 		if (!pageDetect.isForkedRepo()) {

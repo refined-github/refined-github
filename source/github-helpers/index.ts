@@ -3,6 +3,7 @@ import onetime from 'onetime';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
+import {getCurrentBranchFromFeed} from './get-default-branch';
 
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);
@@ -31,6 +32,10 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 
 	// Handle slashed branches in commits pages
 	if (type === 'commits') {
+		if (!unslashedCommittish) {
+			return getCurrentBranchFromFeed();
+		}
+
 		const branchAndFilepath = pathname.split('/').slice(4).join('/');
 
 		// List of all commits of current branch (no filename)
