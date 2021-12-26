@@ -3,6 +3,7 @@ import onetime from 'onetime';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
+
 import {getCurrentBranchFromFeed} from './get-default-branch';
 
 // This never changes, so it can be cached here
