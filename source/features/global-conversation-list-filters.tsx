@@ -25,7 +25,7 @@ function init(): void {
 		url.searchParams.set('q', `${typeQuery} ${defaultQuery} ${query}`);
 		const link = <a href={url.href} title={title} className="subnav-item">{label}</a>;
 
-		const isCurrentPage = new SearchQuery(location.search).includes(query);
+		const isCurrentPage = new SearchQuery(location.href).includes(query);
 
 		// Highlight it, if that's the current page
 		if (isCurrentPage && !select.exists('.subnav-links .selected')) {
@@ -33,7 +33,7 @@ function init(): void {
 
 			// Other links will keep the current query, that's not what we want
 			for (const otherLink of select.all('.subnav-links a')) {
-				new SearchQuery(otherLink).remove(query).applyChanges();
+				otherLink.href = SearchQuery.from(otherLink).remove(query).href;
 			}
 		}
 

@@ -25,7 +25,7 @@ function init(): void {
 		// + skip pagination links
 		// + skip pr/issue filter dropdowns (some are lazyloaded)
 		if (pageDetect.isConversationList(link)) {
-			new SearchQuery(link).add('sort:updated-desc').applyChanges();
+			link.href = SearchQuery.from(link).add('sort:updated-desc').href;
 		}
 
 		// Also sort projects #4957

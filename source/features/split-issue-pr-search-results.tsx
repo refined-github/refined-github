@@ -8,7 +8,7 @@ import SearchQuery from '../github-helpers/search-query';
 
 function cleanLinks(): void {
 	for (const link of select.all('a.menu-item')) {
-		new SearchQuery(link).remove('is:pr', 'is:issue').applyChanges();
+		link.href = SearchQuery.from(link).remove('is:pr', 'is:issue').href;
 	}
 }
 
@@ -16,7 +16,7 @@ type GitHubConversationType = 'pr' | 'issue';
 
 function updateLinkElement(link: HTMLAnchorElement, type: GitHubConversationType): void {
 	link.textContent = type === 'pr' ? 'Pull requests' : 'Issues'; // Drops any possible counter
-	new SearchQuery(link).add(`is:${type}`).applyChanges();
+	link.href = SearchQuery.from(link).add(`is:${type}`).href;
 	link.append(
 		<include-fragment src={`${link.pathname}/count${link.search}`}/>,
 	);
@@ -35,7 +35,7 @@ function init(): void {
 
 	const title = select('.codesearch-results h3')!.firstChild!;
 
-	const searchQuery = new SearchQuery(location.search);
+	const searchQuery = new SearchQuery(location.href);
 	if (searchQuery.includes('is:pr')) {
 		// Update UI in PR searches
 		issueLink.classList.remove('selected');

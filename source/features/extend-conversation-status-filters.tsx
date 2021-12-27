@@ -16,7 +16,7 @@ function addMergeLink(): void {
 	//   1 Open | 1 Closed
 	//   1 Total            // Apparently appears with is:merged/is:unmerged
 	for (const lastLink of select.all('.table-list-header-toggle.states a:last-child')) {
-		const lastLinkQuery = new SearchQuery(lastLink);
+		const lastLinkQuery = SearchQuery.from(lastLink);
 
 		if (lastLinkQuery.includes('is:merged')) {
 			// It's a "Total" link for "is:merged"
@@ -33,8 +33,8 @@ function addMergeLink(): void {
 		// In this case, `lastLink` is expected to be a "Closed" link
 		const mergeLink = lastLink.cloneNode(true);
 		mergeLink.textContent = 'Merged';
-		mergeLink.classList.toggle('selected', new SearchQuery(location.search).includes('is:merged'));
-		new SearchQuery(mergeLink).replace('is:closed', 'is:merged').applyChanges();
+		mergeLink.classList.toggle('selected', new SearchQuery(location.href).includes('is:merged'));
+		mergeLink.href = SearchQuery.from(mergeLink).replace('is:closed', 'is:merged').href;
 		lastLink.after(' ', mergeLink);
 	}
 }
@@ -44,12 +44,15 @@ function togglableFilters(): void {
 		select('.octicon', link)?.remove();
 		if (link.classList.contains('selected')) {
 			link.prepend(<CheckIcon/>);
-			new SearchQuery(link).remove(
-				'is:open',
-				'is:closed',
-				'is:merged',
-				'is:unmerged',
-			).applyChanges();
+			link.href = SearchQuery
+				.from(link)
+				.remove(
+					'is:open',
+					'is:closed',
+					'is:merged',
+					'is:unmerged',
+				)
+				.href;
 		}
 	}
 }

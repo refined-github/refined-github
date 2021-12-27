@@ -16,8 +16,8 @@ async function init(): Promise<void> {
 	];
 	const items = [];
 	for (const [name, filter] of filters) {
-		const item = <a className="filter-item" href={location.href}>{name}</a>;
-		const query = new SearchQuery(item as unknown as HTMLAnchorElement);
+		const item = <a className="filter-item" href={location.href}>{name}</a> as unknown as HTMLAnchorElement;
+		const query = SearchQuery.from(item);
 
 		if (query.includes(filter)) {
 			query.remove(filter);
@@ -27,7 +27,7 @@ async function init(): Promise<void> {
 			query.add(filter);
 		}
 
-		query.applyChanges();
+		item.href = query.href;
 		items.push(<li>{item}</li>);
 	}
 
