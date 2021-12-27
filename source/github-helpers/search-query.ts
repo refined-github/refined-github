@@ -28,12 +28,12 @@ function cleanQueryParts(parts: string[]): string[] {
 Parser/Mutator of GitHub's search query directly on anchors and URL-like objects.
 Notice: if the <a> or `location` changes outside SearchQuery, `get()` will return an outdated value.
 */
-export default class SearchQuery extends URL {
+export default class SearchQuery {
 	static escapeValue(value: string): string {
 		return value.includes(' ') ? `"${value}"` : value;
 	}
 
-	static from(link: HTMLAnchorElement | Record<string, string>): SearchQuery {
+	static from(link: HTMLAnchorElement): SearchQuery {
 		return new SearchQuery(link.href);
 	}
 
@@ -46,20 +46,21 @@ export default class SearchQuery extends URL {
 		return new SearchQuery(url);
 	}
 
+	private url: URL;
 	private queryParts: string[];
 
-	constructor(url: string | URL) {
-		super(url);
+	constructor(url: string | URL, base?: string) {
+		this.url = new URL(url, base);
 		this.queryParts = [];
 
-		const currentQuery = this.searchParams.get('q');
+		const currentQuery = this.url.searchParams.get('q');
 		if (typeof currentQuery === 'string') {
 			this.queryParts = splitQueryString(currentQuery);
 			return;
 		}
 
 		// Parse label links #5176
-		const labelName = labelLinkRegex.exec(this.pathname)?.[1];
+		const labelName = labelLinkRegex.exec(this.url.pathname)?.[1];
 		if (labelName) {
 			this.queryParts = ['is:open', 'label:' + SearchQuery.escapeValue(decodeURIComponent(labelName))];
 			return;
@@ -69,12 +70,12 @@ export default class SearchQuery extends URL {
 		// When we explicitly set ?q=* they're overridden, so they need to be manually added again.
 
 		// Repo example: is:issue is:open
-		this.queryParts.push(/\/pulls\/?$/.test(this.pathname) ? 'is:pr' : 'is:issue', 'is:open');
+		this.queryParts.push(/\/pulls\/?$/.test(this.url.pathname) ? 'is:pr' : 'is:issue', 'is:open');
 
 		// Header nav example: is:open is:issue author:you archived:false
-		if (this.pathname === '/issues' || this.pathname === '/pulls') {
-			if (this.searchParams.has('user')) { // #1211
-				this.queryParts.push('user:' + this.searchParams.get('user')!);
+		if (this.url.pathname === '/issues' || this.url.pathname === '/pulls') {
+			if (this.url.searchParams.has('user')) { // #1211
+				this.queryParts.push('user:' + this.url.searchParams.get('user')!);
 			} else {
 				this.queryParts.push('author:@me');
 			}
@@ -96,14 +97,18 @@ export default class SearchQuery extends URL {
 		return this;
 	}
 
-	override get href(): string {
-		this.searchParams.set('q', this.get());
-		if (labelLinkRegex.test(this.pathname)) {
+	get searchParams(): URLSearchParams {
+		return this.url.searchParams;
+	}
+
+	get href(): string {
+		this.url.searchParams.set('q', this.get());
+		if (labelLinkRegex.test(this.url.pathname)) {
 			// Avoid a redirection to the conversation list that would drop the search query #5176
-			this.pathname = this.pathname.replace(/\/labels\/.+$/, '/issues');
+			this.url.pathname = this.url.pathname.replace(/\/labels\/.+$/, '/issues');
 		}
 
-		return super.href;
+		return this.url.href;
 	}
 
 	edit(callback: (queryParts: string[]) => string[]): this {
