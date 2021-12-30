@@ -154,14 +154,22 @@ async function findFeatureHandler(event: Event): Promise<void> {
 }
 
 function summaryHandler(event: delegate.Event<MouseEvent>): void {
-	if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+	if (event.ctrlKey || event.metaKey || event.shiftKey) {
 		return;
 	}
 
 	event.preventDefault();
-	const feature = event.delegateTarget.parentElement!;
+	if (event.altKey) {
+		for (const screenshotLink of select.all('.screenshot-link')) {
+			toggleScreenshot(screenshotLink.parentElement!);
+		}
+	} else {
+		const feature = event.delegateTarget.parentElement!;
+		toggleScreenshot(feature);
+	}
+}
 
-	// Toggle checkbox
+function toggleScreenshot(feature: Element): void {
 	const toggle = feature.querySelector('input.screenshot-toggle')!;
 	toggle.checked = !toggle.checked;
 
