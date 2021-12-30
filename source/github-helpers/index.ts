@@ -4,8 +4,6 @@ import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import * as pageDetect from 'github-url-detection';
 
-import {getCurrentBranchFromFeed} from './get-default-branch';
-
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);
 export const {getRepositoryInfo: getRepo, getCleanPathname} = pageDetect.utils;
@@ -17,6 +15,16 @@ export const getConversationNumber = (): string | undefined => {
 
 	return undefined;
 };
+
+export function getCurrentBranchFromFeed(): string {
+	const feedLink = select('link[type="application/atom+xml"]')!;
+	return new URL(feedLink.href)
+		.pathname
+		.split('/')
+		.slice(4) // Drops the initial /user/repo/route/ part
+		.join('/')
+		.replace(/\.atom$/, '');
+}
 
 const typesWithCommittish = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare']);
 const titleWithCommittish = / at (?<branch>[.\w-/]+)( · [\w-]+\/[\w-]+)?$/i;

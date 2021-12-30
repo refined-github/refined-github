@@ -4,7 +4,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import * as api from './api';
-import {getRepo} from '.';
+import {getRepo, getCurrentBranchFromFeed} from '.';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
@@ -12,16 +12,6 @@ import {getRepo} from '.';
 // "This branch is 1 commit ahead of master."
 // "This branch is 1 commit ahead, 27 commits behind master."
 const branchInfoRegex = /([^ ]+)\.$/;
-
-export function getCurrentBranchFromFeed(): string {
-	const feedLink = select('link[type="application/atom+xml"]')!;
-	return new URL(feedLink.href)
-		.pathname
-		.split('/')
-		.slice(4) // Drops the initial /user/repo/route/ part
-		.join('/')
-		.replace(/\.atom$/, '');
-}
 
 const getDefaultBranch = cache.function(async function (repository?: pageDetect.RepositoryInfo): Promise<string> {
 	if (arguments.length === 0) {
