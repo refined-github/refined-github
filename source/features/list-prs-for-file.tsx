@@ -21,8 +21,8 @@ function getDropdown(prs: number[]): HTMLElement {
 	return (
 		<details className="dropdown details-reset details-overlay d-inline-block flex-self-center">
 			<summary aria-haspopup="true" className="btn btn-sm">
-				<GitPullRequestIcon/>
-				<span> {prs.length} </span>
+				<GitPullRequestIcon className="v-align-middle"/>
+				<span className="v-align-middle"> {prs.length} </span>
 				<div className="dropdown-caret"/>
 			</summary>
 
@@ -55,8 +55,8 @@ function getSingleButton(prNumber: number): HTMLElement {
 			className="btn btn-sm flex-self-center"
 			data-pjax="#js-repo-pjax-container"
 		>
-			<GitPullRequestIcon/>
-			<span> #{prNumber}</span>
+			<GitPullRequestIcon className="v-align-middle"/>
+			<span className="v-align-middle"> #{prNumber}</span>
 		</a>
 	);
 }
