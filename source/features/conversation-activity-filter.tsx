@@ -8,6 +8,7 @@ import {CheckIcon, EyeClosedIcon, EyeIcon} from '@primer/octicons-react';
 
 import features from '.';
 import onNewComments from '../github-events/on-new-comments';
+import {getRghIssueUrl} from '../helpers/rgh-issue-link';
 import {removeClassFromAll, wrap} from '../helpers/dom-utils';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
@@ -85,7 +86,10 @@ async function handleSelection({target}: Event): Promise<void> {
 	await delay(1);
 
 	currentSetting = select('[aria-checked="true"]', target as Element)!.dataset.value as State;
+	applyCurrentSetting();
+}
 
+function applyCurrentSetting(): void {
 	// `onNewComments` registers the selectors only once
 	onNewComments(processPage);
 
@@ -150,6 +154,11 @@ async function addWidget(header: string): Promise<void> {
 	);
 }
 
+const minorFixesIssuePages = new Set([
+	getRghIssueUrl(5222),
+	getRghIssueUrl(4008),
+]);
+
 async function init(): Promise<void> {
 	// Reset dropdowns state #4997
 	currentSetting = 'default';
@@ -157,6 +166,12 @@ async function init(): Promise<void> {
 
 	await addWidget('#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)');
 	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)');
+
+	// Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
+	if (minorFixesIssuePages.has(location.href)) {
+		currentSetting = 'hideEventsAndCollapsedComments';
+		applyCurrentSetting();
+	}
 }
 
 void features.add(import.meta.url, {
