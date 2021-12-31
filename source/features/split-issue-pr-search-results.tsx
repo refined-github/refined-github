@@ -35,7 +35,7 @@ function init(): void {
 
 	const title = select('.codesearch-results h3')!.firstChild!;
 
-	const searchQuery = new SearchQuery(location.href);
+	const searchQuery = SearchQuery.from(location);
 	if (searchQuery.includes('is:pr')) {
 		// Update UI in PR searches
 		issueLink.classList.remove('selected');

@@ -33,7 +33,7 @@ export default class SearchQuery {
 		return value.includes(' ') ? `"${value}"` : value;
 	}
 
-	static from(link: HTMLAnchorElement): SearchQuery {
+	static from(link: Source): SearchQuery {
 		return new SearchQuery(link.href);
 	}
 

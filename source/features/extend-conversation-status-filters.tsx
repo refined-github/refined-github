@@ -33,7 +33,7 @@ function addMergeLink(): void {
 		// In this case, `lastLink` is expected to be a "Closed" link
 		const mergeLink = lastLink.cloneNode(true);
 		mergeLink.textContent = 'Merged';
-		mergeLink.classList.toggle('selected', new SearchQuery(location.href).includes('is:merged'));
+		mergeLink.classList.toggle('selected', SearchQuery.from(location).includes('is:merged'));
 		mergeLink.href = SearchQuery.from(mergeLink).replace('is:closed', 'is:merged').href;
 		lastLink.after(' ', mergeLink);
 	}

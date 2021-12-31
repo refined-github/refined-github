@@ -71,7 +71,7 @@ async function getSearchQueryBugLabel(): Promise<string> {
 }
 
 async function isBugsListing(): Promise<boolean> {
-	return new SearchQuery(location.href).includes(await getSearchQueryBugLabel());
+	return SearchQuery.from(location).includes(await getSearchQueryBugLabel());
 }
 
 async function addBugsTab(): Promise<void | false> {
