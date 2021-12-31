@@ -24,6 +24,8 @@ function cleanQueryParts(parts: string[]): string[] {
 	return deduplicateKeywords(parts, 'is:issue', 'is:pr');
 }
 
+type Source = Location | HTMLAnchorElement | Record<string, string>;
+
 /**
 Parser/Mutator of GitHub's search query directly on anchors and URL-like objects.
 Notice: if the <a> or `location` changes outside SearchQuery, `get()` will return an outdated value.
@@ -33,13 +35,13 @@ export default class SearchQuery {
 		return value.includes(' ') ? `"${value}"` : value;
 	}
 
-	static from(link: Source): SearchQuery {
-		return new SearchQuery(link.href);
-	}
+	static from(source: Source): SearchQuery {
+		if (source instanceof Location || source instanceof HTMLAnchorElement) {
+			return new SearchQuery(source.href);
+		}
 
-	static fromSearchParams(searchParameters: Record<string, string>): SearchQuery {
 		const url = new URL('https://github.com');
-		for (const [name, value] of Object.entries(searchParameters)) {
+		for (const [name, value] of Object.entries(source)) {
 			url.searchParams.set(name, value);
 		}
 
