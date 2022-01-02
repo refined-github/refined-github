@@ -171,7 +171,7 @@ pr-branches
 	display: none !important;
 }
 
-/* Mute visited conversation link on conversation lists */
+/* Mute visited conversation links on conversation lists #5258 */
 .js-issue-row .h4:visited:not(:hover) {
 	color: var(--color-fg-muted) !important;
 }
