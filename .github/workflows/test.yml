@@ -59,6 +59,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build:webpack
+        env:
+          RELATIVE_CI_KEY: ${{ secrets.RELATIVE_CI_KEY }}
       - uses: actions/upload-artifact@v2
         with:
           name: refined-github

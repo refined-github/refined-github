@@ -8,7 +8,7 @@ import {createRequire} from 'node:module';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 // @ts-expect-error No types
-import { RelativeCiAgentWebpackPlugin } from '@relative-ci/agent';
+import {RelativeCiAgentWebpackPlugin} from '@relative-ci/agent';
 
 const {resolve: resolvePackage} = createRequire(import.meta.url);
 
@@ -58,7 +58,7 @@ const config: Configuration = {
 			}],
 		}),
 		new SizePlugin({writeFile: false}),
-		new RelativeCiAgentWebpackPlugin()
+		new RelativeCiAgentWebpackPlugin(),
 	],
 	resolve: {
 		alias: {
