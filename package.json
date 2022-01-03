@@ -83,6 +83,7 @@
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
+		"@relative-ci/agent": "^3.0.0",
 		"@sindresorhus/tsconfig": "^2.0.0",
 		"@types/codemirror": "^5.60.5",
 		"@types/copy-webpack-plugin": "^8.0.1",
