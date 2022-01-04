@@ -87,7 +87,6 @@ const config: Configuration = {
 
 if (process.env.CI) {
   config.stats = {
-    context: './source',
     assets: true,
     entrypoints: true,
     chunks: true,
