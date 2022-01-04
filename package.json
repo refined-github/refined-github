@@ -36,10 +36,7 @@
 		"nodeArguments": [
 			"--loader=ts-node/esm",
 			"--experimental-specifier-resolution=node"
-		],
-		"nonSemVerExperiments": {
-			"configurableModuleFormat": true
-		}
+		]
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
