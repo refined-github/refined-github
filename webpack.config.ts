@@ -86,12 +86,12 @@ const config: Configuration = {
 };
 
 if (process.env.CI) {
-  config.stats = {
-    assets: true,
-    entrypoints: true,
-    chunks: true,
-    modules: true
-  }
+	config.stats = {
+		assets: true,
+		entrypoints: true,
+		chunks: true,
+		modules: true,
+	};
 }
 
 export default config;
