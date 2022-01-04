@@ -58,11 +58,16 @@ jobs:
           node-version: 16
           cache: npm
       - run: npm ci
-      - run: npm run build:webpack
+      - run: npm run build:webpack -- --json > artifacts/webpack-stats.json
       - uses: actions/upload-artifact@v2
         with:
           name: refined-github
           path: distribution
+      - name: Send webpack stats to RelativeCI
+        uses: relative-ci/agent-action@v1.1.0
+        with:
+          webpackStatsFile: ./artifacts/webpack-stats.json
+          key: ${{ secrets.RELATIVE_CI_KEY }}
 
   Safari:
     runs-on: macos-11
