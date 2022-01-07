@@ -17,6 +17,11 @@ export const getConversationNumber = (): string | undefined => {
 };
 
 export function getCurrentBranchFromFeed(): string {
+	// Not `isRepoCommitList` because this works exclusively on the default branch
+	if (pageDetect.utils.getRepositoryInfo()!.path !== 'commits') {
+		return '';
+	}
+
 	const feedLink = select('link[type="application/atom+xml"]')!;
 	return new URL(feedLink.href)
 		.pathname

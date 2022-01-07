@@ -30,8 +30,9 @@ const getDefaultBranch = cache.function(async function (repository?: pageDetect.
 			}
 		}
 
-		if (pageDetect.utils.getRepositoryInfo()!.path === 'commits') {
-			return getCurrentBranchFromFeed();
+		const defaultBranch = getCurrentBranchFromFeed();
+		if (defaultBranch) {
+			return defaultBranch;
 		}
 
 		if (!pageDetect.isForkedRepo()) {
