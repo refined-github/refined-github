@@ -122,7 +122,9 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 				)}
 				{descriptionElement}
 				{screenshot && (
-					<img hidden data-src={screenshot} className="screenshot"/>
+					screenshot.endsWith('.mp4') || screenshot.endsWith('.mov')
+						? <video hidden controls data-src={screenshot} className="screenshot"/>
+						: <img hidden data-src={screenshot} className="screenshot"/>
 				)}
 			</div>
 		</div>
@@ -165,8 +167,8 @@ function summaryHandler(event: delegate.Event<MouseEvent>): void {
 	const toggle = feature.querySelector('input.screenshot-toggle')!;
 	toggle.checked = !toggle.checked;
 
-	// Lazy-load image
-	const screenshot = feature.querySelector('img.screenshot')!;
+	// Lazy-load image/video
+	const screenshot = feature.querySelector<HTMLImageElement | HTMLVideoElement>('.screenshot')!;
 	screenshot.src = screenshot.dataset.src!;
 }
 
