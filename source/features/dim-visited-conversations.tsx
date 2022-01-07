@@ -11,7 +11,7 @@ function init(): void {
 		const count = select('.octicon-comment + .text-small', row)?.textContent;
 
 		if (count) {
-			select('a.h4', row)!.hash = 'rgh-dim-visited-conversations-' + count;
+			select('a.Link--primary', row)!.hash = 'rgh-dim-visited-conversations-' + count;
 		}
 	}
 }
