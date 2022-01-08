@@ -82,7 +82,7 @@
 }
 
 /* Remove the "New repository" button in the dashboard sidebar */
-.dashboard-sidebar a[href='/new'] {
+.dashboard-sidebar a.btn[href$='/new'] {
 	display: none;
 }
 
