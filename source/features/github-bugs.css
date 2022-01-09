@@ -65,5 +65,5 @@
 
 /* Restore margin between reactions on releases #5287 */
 [data-test-selector='release-card'] .social-reaction-summary-item:not(:first-child) {
-    margin-left: 8px !important;
+	margin-left: 8px !important;
 }
