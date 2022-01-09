@@ -1,19 +1,39 @@
 import './ci-link.css';
 import select from 'select-dom';
-import onetime from 'onetime';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import getDefaultBranch from '../github-helpers/get-default-branch';
+import {getCurrentCommittish} from '../github-helpers';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import {buildRepoURL} from '../github-helpers';
 
-// Look for the CI icon in the latest 2 days of commits #2990
-const getIcon = onetime(async () => fetchDom(
-	buildRepoURL('commits'), [
+async function getIcon(): Promise<HTMLElement | void> {
+	// Look for the CI icon in the latest 2 days of commits #2990
+	const iconSelector = [
 		'.TimelineItem--condensed:nth-of-type(-n+2) .commit-build-statuses', // TODO[2022-04-29]: GHE #4294
 		'.TimelineItem--condensed:nth-of-type(-n+2) batch-deferred-content[data-url$="checks-statuses-rollups"]',
-	].join(','),
-));
+	].join(',');
+
+	if (pageDetect.isRepoHome()) {
+		const icon = await elementReady('.file-navigation + .Box .commit-build-statuses', {
+			stopOnDomReady: false,
+			timeout: 10000,
+		});
+
+		if (icon) {
+			return icon.cloneNode(true);
+		}
+	}
+
+	if (pageDetect.isRepoCommitList() && getCurrentCommittish() === await getDefaultBranch()) {
+		const icon = await elementReady(iconSelector);
+		return icon!.cloneNode(true)
+	}
+
+	return fetchDom(buildRepoURL('commits'), iconSelector);
+}
 
 async function init(): Promise<false | void> {
 	const icon = await getIcon();
