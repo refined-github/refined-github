@@ -63,6 +63,7 @@ jobs:
       - run: npm ci
       - run: npm run build:webpack -- --json webpack-stats.json
       - uses: actions/upload-artifact@v2
+        if: matrix.os == 'ubuntu-latest'
         with:
           name: refined-github
           path: distribution
