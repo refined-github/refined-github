@@ -27,6 +27,7 @@ const prSelector = [
 ];
 
 function init(): void {
+	document.documentElement.classList.remove('rgh-dim-bots--after-hover'); // #5260
 	for (const bot of select.all(commitSelector)) {
 		// Exclude co-authored commits
 		if (select.all('a', bot.parentElement!).every(link => link.matches(commitSelector))) {
