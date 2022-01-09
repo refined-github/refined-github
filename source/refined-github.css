@@ -170,3 +170,8 @@ pr-branches
 :is(#repository-container-header h1, .pinned-item-list-item-content) .Label {
 	display: none !important;
 }
+
+/* Mute visited conversation link on conversation lists */
+.js-issue-row .h4:visited:not(:hover) {
+	color: var(--color-fg-muted) !important;
+}
