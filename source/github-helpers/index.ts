@@ -16,10 +16,10 @@ export const getConversationNumber = (): string | undefined => {
 	return undefined;
 };
 
-export function getCurrentBranchFromFeed(): string {
+export function getCurrentBranchFromFeed(): string | void {
 	// Not `isRepoCommitList` because this works exclusively on the default branch
 	if (pageDetect.utils.getRepositoryInfo()!.path !== 'commits') {
-		return '';
+		return;
 	}
 
 	const feedLink = select('link[type="application/atom+xml"]')!;
@@ -47,7 +47,7 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 	// Handle slashed branches in commits pages
 	if (type === 'commits') {
 		if (!unslashedCommittish) {
-			return getCurrentBranchFromFeed();
+			return getCurrentBranchFromFeed()!;
 		}
 
 		const branchAndFilepath = pathname.split('/').slice(4).join('/');
