@@ -29,7 +29,7 @@ async function getIcon(): Promise<HTMLElement | void> {
 
 	if (pageDetect.isRepoCommitList() && getCurrentCommittish() === await getDefaultBranch()) {
 		const icon = await elementReady(iconSelector);
-		return icon!.cloneNode(true)
+		return icon!.cloneNode(true);
 	}
 
 	return fetchDom(buildRepoURL('commits'), iconSelector);
