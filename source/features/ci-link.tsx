@@ -2,12 +2,11 @@ import './ci-link.css';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getCurrentCommittish} from '../github-helpers';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import {buildRepoURL} from '../github-helpers';
+import getDefaultBranch from '../github-helpers/get-default-branch';
+import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
 
 async function getIcon(): Promise<HTMLElement | void> {
 	// Look for the CI icon in the latest 2 days of commits #2990
@@ -19,7 +18,7 @@ async function getIcon(): Promise<HTMLElement | void> {
 	if (pageDetect.isRepoHome()) {
 		const icon = await elementReady('.file-navigation + .Box .commit-build-statuses', {
 			stopOnDomReady: false,
-			timeout: 10000,
+			timeout: 10_000,
 		});
 
 		if (icon) {
