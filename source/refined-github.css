@@ -82,7 +82,7 @@
 }
 
 /* Remove the "New repository" button in the dashboard sidebar */
-.dashboard-sidebar a[href='/new'] {
+.dashboard-sidebar a.btn[href$='/new'] {
 	display: none;
 }
 
@@ -164,11 +164,6 @@ pr-branches
 	/* 12px for the padding and 1px for the border https://user-images.githubusercontent.com/46634000/136789268-442caa39-33bc-4af3-8fb2-9cf6db722127.png */
 	width: calc(72ch + 26px);
 	max-width: 100%;
-}
-
-/* Hide repo badges ("Public", "Template", etc.) in the repo header and pinned repo cards #4767 */
-:is(#repository-container-header h1, .pinned-item-list-item-content) .Label {
-	display: none !important;
 }
 
 /* Mute visited conversation link on conversation lists */
