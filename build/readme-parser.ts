@@ -36,7 +36,7 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 	return {
 		id: simpleId as FeatureID,
 		description: parseMarkdown(linkLessMarkdownDescription),
-		screenshot: urls.find(url => /\.(png|gif)$/i.test(url)),
+		screenshot: urls.find(url => /\.(png|gif|jpg|mp4|mov)$/.test(url)),
 	};
 }
 
