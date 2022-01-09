@@ -31,7 +31,14 @@ async function getIcon(): Promise<HTMLElement | void> {
 		return icon!.cloneNode(true);
 	}
 
-	return fetchDom(buildRepoURL('commits'), iconSelector);
+	const dom = await fetchDom(buildRepoURL('commits'));
+
+	if (pageDetect.isDiscussion() || pageDetect.isDiscussionList()) {
+		const style = select('link[href*="/assets/github-"]', dom)!;
+		document.head.append(style);
+	}
+
+	return select<HTMLElement>(iconSelector, dom);
 }
 
 async function init(): Promise<false | void> {
