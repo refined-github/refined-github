@@ -3,18 +3,14 @@ READ BEFORE EDITING. Some selectors match the same items ("focused" selector vs 
 Commits that have a long commit message will not be dimmed after the user uncollapses the `<details>` element.
 */
 
-:root {
-	--rgh-dim-bots-delay: 0s;
-}
-
 .rgh-dim-bots--after-hover {
 	--rgh-dim-bots-delay: 60s; /* #5158 */
 }
 
 .rgh-dim-bot:not(.rgh-tagged) .mb-1,
+.rgh-dim-bot:not(.rgh-tagged) .Box-row--drag-hide, /* PR row */
 .rgh-dim-bot:not(.rgh-tagged) .mb-1 ~ .d-flex,
 .rgh-dim-bot:not(.rgh-tagged) > .d-md-block,
-.rgh-dim-bot:not(.rgh-tagged) .Box-row--drag-hide, /* PR row */
 .rgh-dim-bot:not(.rgh-tagged) .labels, /* PR labels */
 .rgh-dim-bot:not(.rgh-tagged) .text-small:is(.color-text-secondary, .color-fg-muted) /* PR meta */ {
 	/* Delay the "focused" status so it's not too annoying when moving the mouse over a list of dimmed items. */
