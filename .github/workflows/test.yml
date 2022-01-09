@@ -67,6 +67,7 @@ jobs:
           name: refined-github
           path: distribution
       - name: Send webpack stats to RelativeCI
+        if: matrix.os == 'ubuntu-latest'
         uses: relative-ci/agent-action@v1.1.0
         with:
           webpackStatsFile: ./webpack-stats.json
