@@ -27,7 +27,6 @@ const prSelector = [
 ];
 
 function init(): void {
-	document.documentElement.classList.remove('rgh-dim-bots--after-hover'); // #5260
 	for (const bot of select.all(commitSelector)) {
 		// Exclude co-authored commits
 		if (select.all('a', bot.parentElement!).every(link => link.matches(commitSelector))) {
@@ -41,7 +40,7 @@ function init(): void {
 
 	// Delay collapsing, but only after they're collapsed on load #5158
 	requestAnimationFrame(() => {
-		document.documentElement.classList.add('rgh-dim-bots--after-hover');
+		select('#repo-content-pjax-container .js-navigation-container')!.classList.add('rgh-dim-bots--after-hover');
 	});
 }
 
