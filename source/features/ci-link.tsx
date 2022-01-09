@@ -38,6 +38,7 @@ async function getIcon(): Promise<HTMLElement | void> {
 		document.head.append(style);
 	}
 
+	// eslint-disable-next-line no-unnecessary-type-arguments -- Rule doesn't respect overloads
 	return select<HTMLElement>(iconSelector, dom);
 }
 
