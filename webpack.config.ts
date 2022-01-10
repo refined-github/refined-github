@@ -28,7 +28,7 @@ const config: Configuration = {
 	module: {
 		rules: [
 			{
-				test: /\/readme\.md$/,
+				test: /[/\\]readme\.md$/,
 				loader: './build/readme.loader.cts',
 			},
 			{
