@@ -18,7 +18,7 @@ export const getConversationNumber = (): string | undefined => {
 
 export function getCurrentBranchFromFeed(): string | void {
 	// Not `isRepoCommitList` because this works exclusively on the default branch
-	if (pageDetect.utils.getRepositoryInfo()!.path !== 'commits') {
+	if (getRepo()!.path !== 'commits') {
 		return;
 	}
 
