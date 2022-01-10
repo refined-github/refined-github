@@ -32,14 +32,18 @@ async function getIcon(): Promise<HTMLElement | void> {
 	}
 
 	const dom = await fetchDom(buildRepoURL('commits'));
+	const icon = select(iconSelector, dom);
+
+	if (!icon) {
+		return;
+	}
 
 	if (pageDetect.isDiscussion() || pageDetect.isDiscussionList()) {
 		const style = select('link[href*="/assets/github-"]', dom)!;
 		document.head.append(style);
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments -- Rule doesn't respect overloads
-	return select<HTMLElement>(iconSelector, dom);
+	return icon;
 }
 
 async function init(): Promise<false | void> {
