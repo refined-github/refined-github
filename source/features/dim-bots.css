@@ -38,6 +38,7 @@ ALL the following rules define the non-focused state
 	opacity: 20%;
 	margin-bottom: -1.6em;
 	visibility: hidden;
+	/* Delay visibility transition for a slightly shorter time than --rgh-dim-bots-delay, to make the animation smoother */
 	transition-delay: 0s, var(--rgh-dim-bots-delay), 9.9s;
 }
 
