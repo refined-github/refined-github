@@ -210,3 +210,4 @@ import './features/select-notifications';
 import './features/clean-repo-tabs';
 import './features/rgh-welcome-issue';
 import './features/hide-repo-badges';
+import './features/same-branch-author-commits';
