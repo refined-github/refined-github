@@ -1,9 +1,10 @@
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import * as api from './api';
-import {getRepo} from '.';
+import {getRepo, getCurrentBranchFromFeed} from '.';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
@@ -23,10 +24,15 @@ const getDefaultBranch = cache.function(async function (repository?: pageDetect.
 
 	if (arguments.length === 0 || JSON.stringify(repository) === JSON.stringify(getRepo())) {
 		if (pageDetect.isRepoHome()) {
-			const currentBranch = select('#branch-select-menu [data-menu-button]');
+			const currentBranch = await elementReady('[data-hotkey="w"]');
 			if (currentBranch) { // If missing, it'll default to the API call
-				return currentBranch.textContent!;
+				return currentBranch.title;
 			}
+		}
+
+		const defaultBranch = getCurrentBranchFromFeed();
+		if (defaultBranch) {
+			return defaultBranch;
 		}
 
 		if (!pageDetect.isForkedRepo()) {
