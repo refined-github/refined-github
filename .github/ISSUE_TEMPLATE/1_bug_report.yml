@@ -25,7 +25,7 @@ body:
       required: true
   - type: input
     attributes:
-      label: Refined GitHub version
+      label: Extension version
     validations:
       required: true
   - type: input
