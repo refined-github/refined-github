@@ -27,11 +27,9 @@ const getDefaultBranch = cache.function(async function (repository?: pageDetect.
 			const branchSelector = await elementReady('[data-hotkey="w"]');
 
 			if (branchSelector) {
-				if (branchSelector.title === 'Switch branches or tags') {
-					return branchSelector.textContent!.trim();
-				} else {
-					return branchSelector.title;
-				}
+				return branchSelector.title === 'Switch branches or tags'
+					? branchSelector.textContent!.trim()
+					: branchSelector.title;
 			}
 
 			console.error(`Could not find the branch selector. Calling API to get the default branch of ${repository.nameWithOwner}.`);
