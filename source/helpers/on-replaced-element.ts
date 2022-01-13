@@ -25,7 +25,7 @@ export default async function onReplacedElement(
 
 	while (trackedElement) {
 		// eslint-disable-next-line no-await-in-loop
-		await onElementRemoval(trackedElement, {signal});
+		await onElementRemoval(trackedElement, signal);
 		if (signal?.aborted) {
 			return;
 		}
