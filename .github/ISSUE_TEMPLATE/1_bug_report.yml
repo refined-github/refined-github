@@ -14,11 +14,19 @@ body:
       options:
         - label: The bug is caused by Refined GitHub. It doesn't happen if I disable the extension.
           required: true
+      options:
+        - label: The bug is not caused by stale cache. It still happens after clearing extension cache.
+          required: true
   - type: textarea
     attributes:
       label: Example URLs
       description: A REAL URL where the bug appears. If it happens on a private repo, find an equivalent public URL, even if it doesn't happen there.
       placeholder: https://github.com/refined-github/refined-github/issues
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Refined GitHub version
     validations:
       required: true
   - type: input
