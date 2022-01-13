@@ -25,7 +25,6 @@ const getDefaultBranch = cache.function(async function (repository?: pageDetect.
 	if (arguments.length === 0 || JSON.stringify(repository) === JSON.stringify(getRepo())) {
 		if (pageDetect.isRepoHome()) {
 			const branchSelector = await elementReady('[data-hotkey="w"]');
-
 			if (branchSelector) {
 				return branchSelector.title === 'Switch branches or tags'
 					? branchSelector.textContent!.trim()
