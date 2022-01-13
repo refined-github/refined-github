@@ -24,10 +24,17 @@ const getDefaultBranch = cache.function(async function (repository?: pageDetect.
 
 	if (arguments.length === 0 || JSON.stringify(repository) === JSON.stringify(getRepo())) {
 		if (pageDetect.isRepoHome()) {
-			const currentBranch = await elementReady('[data-hotkey="w"]');
-			if (currentBranch) { // If missing, it'll default to the API call
-				return currentBranch.title;
+			const branchSelector = await elementReady('[data-hotkey="w"]');
+
+			if (branchSelector) {
+				if (branchSelector.title === 'Switch branches or tags') {
+					return branchSelector.textContent!.trim();
+				} else {
+					return branchSelector.title;
+				}
 			}
+
+			console.error(`Could not find the branch selector. Calling API to get the default branch of ${repository.nameWithOwner}.`);
 		}
 
 		const defaultBranch = getCurrentBranchFromFeed();
