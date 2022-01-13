@@ -105,14 +105,14 @@ async function init(): Promise<false | void> {
 			href={url.href}
 			data-pjax="#repo-content-pjax-container"
 		>
-			<TagIcon/>
+			<TagIcon className="v-align-middle"/>
 		</a>
 	);
 	await addAfterBranchSelector(link);
 
 	const currentBranch = getCurrentCommittish();
 	if (currentBranch !== latestTag) {
-		link.append(' ', <span className="css-truncate-target">{latestTag}</span>);
+		link.append(' ', <span className="css-truncate-target v-align-middle">{latestTag}</span>);
 	}
 
 	if (currentBranch === latestTag || aheadBy === 0) {

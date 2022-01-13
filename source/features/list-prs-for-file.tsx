@@ -21,8 +21,8 @@ function getDropdown(prs: number[]): HTMLElement {
 	return (
 		<details className="dropdown details-reset details-overlay d-inline-block flex-self-center">
 			<summary aria-haspopup="true" className="btn btn-sm">
-				<GitPullRequestIcon/>
-				<span> {prs.length} </span>
+				<GitPullRequestIcon className="v-align-middle"/>
+				<span className="v-align-middle"> {prs.length} </span>
 				<div className="dropdown-caret"/>
 			</summary>
 
@@ -52,11 +52,11 @@ function getSingleButton(prNumber: number): HTMLElement {
 	return (
 		<a
 			href={getPRUrl(prNumber)}
-			className="btn btn-sm flex-self-center rgh-list-prs-for-file"
+			className="btn btn-sm flex-self-center"
 			data-pjax="#js-repo-pjax-container"
 		>
-			<GitPullRequestIcon/>
-			<span> #{prNumber}</span>
+			<GitPullRequestIcon className="v-align-middle"/>
+			<span className="v-align-middle"> #{prNumber}</span>
 		</a>
 	);
 }
@@ -162,7 +162,7 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 		pageDetect.isSingleFile,
 	],
-	deduplicate: '.rgh-list-prs-for-file', // #3945
 	awaitDomReady: false,
+	deduplicate: 'has-rgh-inner',
 	init,
 });

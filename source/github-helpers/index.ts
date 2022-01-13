@@ -16,6 +16,21 @@ export const getConversationNumber = (): string | undefined => {
 	return undefined;
 };
 
+export function getCurrentBranchFromFeed(): string | void {
+	// Not `isRepoCommitList` because this works exclusively on the default branch
+	if (getRepo()!.path !== 'commits') {
+		return;
+	}
+
+	const feedLink = select('link[type="application/atom+xml"]')!;
+	return new URL(feedLink.href)
+		.pathname
+		.split('/')
+		.slice(4) // Drops the initial /user/repo/route/ part
+		.join('/')
+		.replace(/\.atom$/, '');
+}
+
 const typesWithCommittish = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare']);
 const titleWithCommittish = / at (?<branch>[.\w-/]+)( · [\w-]+\/[\w-]+)?$/i;
 export const getCurrentCommittish = (pathname = location.pathname, title = document.title): string | undefined => {
@@ -31,6 +46,10 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 
 	// Handle slashed branches in commits pages
 	if (type === 'commits') {
+		if (!unslashedCommittish) {
+			return getCurrentBranchFromFeed()!;
+		}
+
 		const branchAndFilepath = pathname.split('/').slice(4).join('/');
 
 		// List of all commits of current branch (no filename)

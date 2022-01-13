@@ -178,6 +178,7 @@ Thanks for contributing! 🦋🙌
 - [](# "quick-repo-deletion") [Lets you delete your repos in a click, if they have no stars, issues, or PRs.](https://user-images.githubusercontent.com/1402241/99716945-54a80a00-2a6e-11eb-9107-f3517a6ab1bc.gif)
 - [](# "useful-forks") [Helps you find the most active forks](https://user-images.githubusercontent.com/38117856/107463541-542e8500-6b2c-11eb-8b25-082f344c1587.png), via https://useful-forks.github.io.
 - [](# "clean-repo-tabs") [Moves the "Security" and "Insights"  to the repository navigation dropdown. Also moves the "Projects", "Actions" and "Wiki" tabs if they're empty/unused.](https://user-images.githubusercontent.com/16872793/124681343-4a6c3c00-de96-11eb-9055-a8fc551e6eb8.png)
+- [](# "hide-repo-badges") [Hide repo badges ("Public", "Template", etc.) in the repo header and pinned repo cards.](https://user-images.githubusercontent.com/46634000/148645393-d3fa4ca9-6df4-4bb2-b810-7d73cc057772.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -229,7 +230,7 @@ Thanks for contributing! 🦋🙌
 
 ### Reading comments
 
-- [](# "embed-gist-inline") [Embeds linked gists.](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.PNG)
+- [](# "embed-gist-inline") [Embeds linked gists.](https://user-images.githubusercontent.com/6978877/33911900-c62ee968-df8b-11e7-8685-506ffafc60b4.png)
 - [](# "comments-time-machine-links") Adds links to [browse the repository](https://user-images.githubusercontent.com/1402241/56450896-68076680-635b-11e9-8b24-ebd11cc4e655.png) and [linked files](https://user-images.githubusercontent.com/1402241/56450895-68076680-635b-11e9-86b4-b6c2f3745d51.png) at the time of each comment.
 - [](# "show-names") [Adds the real name of users by their usernames.](https://user-images.githubusercontent.com/1402241/62075835-5f82ce00-b270-11e9-91eb-4680b70cb3cb.png)
 - [](# "shorten-links") [Shortens URLs and repo URLs to readable references like "_user/repo/.file@`d71718d`".](https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png)
@@ -315,14 +316,15 @@ Thanks for contributing! 🦋🙌
 - [](# "patch-diff-links") [Adds links to `.patch` and `.diff` files in commits.](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
 - [](# "more-file-links") [Adds links to view the raw version, the blame and the history of files in PRs and commits.](https://user-images.githubusercontent.com/46634000/145016304-aec5a8b8-4cdb-48e6-936f-b214a3fb4b49.png)
 - [](# "one-click-diff-options") [Adds one-click buttons to change diff style and to ignore the whitespace and a keyboard shortcut to ignore the whitespace: <kbd>d</kbd> <kbd>w</kbd>.](https://user-images.githubusercontent.com/1402241/54178764-d1c96080-44d1-11e9-889c-734ffd2a602d.png)
-- [](# "extend-diff-expander") [Widens the `Expand diff` button to be clickable across the screen.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.PNG)
+- [](# "extend-diff-expander") [Widens the `Expand diff` button to be clickable across the screen.](https://user-images.githubusercontent.com/6978877/34470024-eee4f43e-ef20-11e7-9036-65094bd58960.png)
 - [](# "hide-diff-signs") [Hides diff signs since diffs are color coded already.](https://user-images.githubusercontent.com/1402241/54807718-149cec80-4cb9-11e9-869c-e265863211e3.png)
 - [](# "suggest-commit-title-limit") [Suggests limiting commit titles to 72 characters.](https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif)
 - [](# "tags-on-commits-list") [Displays the corresponding tags next to commits.](https://user-images.githubusercontent.com/14323370/66400400-64ba7280-e9af-11e9-8d6c-07b35afde91f.png)
 - [](# "mark-merge-commits-in-list") [Marks merge commits in commit lists.](https://user-images.githubusercontent.com/16872793/75561016-457eb900-5a14-11ea-95e1-a89e81ee7390.png)
 - [](# "deep-reblame") [When exploring blames, `Alt`-clicking the “Reblame” buttons will extract the associated PR’s commits first, instead of treating the commit a single change.](https://user-images.githubusercontent.com/16872793/77248541-8e3f2180-6c10-11ea-91d4-221ccc0ecebb.png)
 - [](# "highlight-deleted-and-added-files-in-diffs") [Indicates with an icon whether files in commits and pull requests being added or removed.](https://user-images.githubusercontent.com/1402241/90332474-23262b00-dfb5-11ea-9a03-8fd676ea0fdd.png)
-- [](# "easy-toggle-files") [Toggle file diffs by clicking on their header bar.](https://user-images.githubusercontent.com/47531779/99855419-be173e00-2b7e-11eb-9a55-0f6251aeb0ef.gif)
+- [](# "easy-toggle-files") [Enables toggling file diffs by clicking on their header bar.](https://user-images.githubusercontent.com/47531779/99855419-be173e00-2b7e-11eb-9a55-0f6251aeb0ef.gif)
+- [](# "same-branch-author-commits") [Enables viewing all commits by an author on the same branch you are viewing.](https://user-images.githubusercontent.com/44045911/148764372-ee443213-e61a-4227-9219-0ee54ed832e8.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

@@ -3,24 +3,20 @@ READ BEFORE EDITING. Some selectors match the same items ("focused" selector vs 
 Commits that have a long commit message will not be dimmed after the user uncollapses the `<details>` element.
 */
 
-:root {
-	--rgh-dim-bots-delay: 0s;
-}
-
 .rgh-dim-bots--after-hover {
-	--rgh-dim-bots-delay: 60s; /* #5158 */
+	--rgh-dim-bots-delay: 10s; /* #5158 */
 }
 
 .rgh-dim-bot:not(.rgh-tagged) .mb-1,
+.rgh-dim-bot:not(.rgh-tagged) .Box-row--drag-hide, /* PR row */
 .rgh-dim-bot:not(.rgh-tagged) .mb-1 ~ .d-flex,
 .rgh-dim-bot:not(.rgh-tagged) > .d-md-block,
-.rgh-dim-bot:not(.rgh-tagged) .Box-row--drag-hide, /* PR row */
 .rgh-dim-bot:not(.rgh-tagged) .labels, /* PR labels */
 .rgh-dim-bot:not(.rgh-tagged) .text-small:is(.color-text-secondary, .color-fg-muted) /* PR meta */ {
 	/* Delay the "focused" status so it's not too annoying when moving the mouse over a list of dimmed items. */
 	transition: 0.1s;
 	transition-delay: 0.3s;
-	transition-property: opacity, margin-bottom;
+	transition-property: opacity, margin-bottom, visibility;
 }
 
 /*
@@ -30,19 +26,21 @@ ALL the following rules define the non-focused state
 .rgh-dim-bot:not(.rgh-tagged, .navigation-focus, .Details--on) .mb-1, /* Commit titles, dim */
 .rgh-dim-bot:not(.rgh-tagged, .navigation-focus) .Box-row--drag-hide { /* PR row, dim */
 	opacity: 20%;
-	transition-delay: var(--rgh-dim-bots-delay);
+	transition-delay: 0s;
 }
 
 .rgh-dim-bot:not(.rgh-tagged, .navigation-focus, .Details--on) .mb-1 ~ .d-flex,
 .rgh-dim-bot:not(.rgh-tagged, .navigation-focus, .Details--on) > .d-md-block {
-	opacity: 0%;
+	opacity: 20%;
 	margin-bottom: -1.6em;
-	transition-delay: var(--rgh-dim-bots-delay);
+	visibility: hidden;
+	/* Delay visibility transition for a slightly shorter time than --rgh-dim-bots-delay, to make the animation smoother */
+	transition-delay: 0s, var(--rgh-dim-bots-delay), 9.9s;
 }
 
 .rgh-dim-bot:not(.rgh-tagged, .navigation-focus) .labels, /* PR labels */
 .rgh-dim-bot:not(.rgh-tagged, .navigation-focus) .text-small:is(.color-text-secondary, .color-fg-muted) /* PR meta */ {
-	opacity: 0%;
 	margin-bottom: -2em;
-	transition-delay: var(--rgh-dim-bots-delay);
+	visibility: hidden;
+	transition-delay: 0s, var(--rgh-dim-bots-delay), 9.9s;
 }

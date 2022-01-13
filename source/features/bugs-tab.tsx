@@ -71,7 +71,7 @@ async function getSearchQueryBugLabel(): Promise<string> {
 }
 
 async function isBugsListing(): Promise<boolean> {
-	return new SearchQuery(location.search).includes(await getSearchQueryBugLabel());
+	return SearchQuery.from(location).includes(await getSearchQueryBugLabel());
 }
 
 async function addBugsTab(): Promise<void | false> {
@@ -115,7 +115,7 @@ async function addBugsTab(): Promise<void | false> {
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	new SearchQuery(bugsTab).add(await getSearchQueryBugLabel());
+	bugsTab.href = SearchQuery.from(bugsTab).add(await getSearchQueryBugLabel()).href;
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement instanceof HTMLLIElement) {

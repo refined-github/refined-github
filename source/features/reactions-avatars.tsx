@@ -20,8 +20,11 @@ interface Participant {
 }
 
 function getParticipants(button: HTMLButtonElement): Participant[] {
-	// Reaction buttons on releases and review comments have the list of people in their `title` attribute instead of `aria-label` #5150
-	const users = (button.getAttribute('title')! || button.getAttribute('aria-label')!)
+	// Reaction buttons on releases and review comments have the list of people in subsequent `<primer-tooltip>` element instead of `aria-label` #5287
+	const tooltip = button.classList.contains('tooltipped')
+		? button.getAttribute('aria-label')!
+		: button.nextElementSibling!.textContent!;
+	const users = tooltip
 		.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')

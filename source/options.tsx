@@ -122,7 +122,9 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 				)}
 				{descriptionElement}
 				{screenshot && (
-					<img hidden data-src={screenshot} className="screenshot"/>
+					screenshot.endsWith('.mp4') || screenshot.endsWith('.mov')
+						? <video hidden controls data-src={screenshot} className="screenshot"/>
+						: <img hidden data-src={screenshot} className="screenshot"/>
 				)}
 			</div>
 		</div>
@@ -154,19 +156,27 @@ async function findFeatureHandler(event: Event): Promise<void> {
 }
 
 function summaryHandler(event: delegate.Event<MouseEvent>): void {
-	if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+	if (event.ctrlKey || event.metaKey || event.shiftKey) {
 		return;
 	}
 
 	event.preventDefault();
-	const feature = event.delegateTarget.parentElement!;
+	if (event.altKey) {
+		for (const screenshotLink of select.all('.screenshot-link')) {
+			toggleScreenshot(screenshotLink.parentElement!);
+		}
+	} else {
+		const feature = event.delegateTarget.parentElement!;
+		toggleScreenshot(feature);
+	}
+}
 
-	// Toggle checkbox
+function toggleScreenshot(feature: Element): void {
 	const toggle = feature.querySelector('input.screenshot-toggle')!;
 	toggle.checked = !toggle.checked;
 
-	// Lazy-load image
-	const screenshot = feature.querySelector('img.screenshot')!;
+	// Lazy-load image/video
+	const screenshot = feature.querySelector<HTMLImageElement | HTMLVideoElement>('.screenshot')!;
 	screenshot.src = screenshot.dataset.src!;
 }
 
