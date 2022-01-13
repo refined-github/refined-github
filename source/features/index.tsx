@@ -70,6 +70,7 @@ const logError = (url: string, error: unknown): void => {
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 	newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
 	newIssueUrl.searchParams.set('example_url', location.href);
+	newIssueUrl.searchParams.set('extension_version', version);
 	newIssueUrl.searchParams.set('description', [
 		'```',
 		String(error instanceof Error ? error.stack! : error).trim(),
