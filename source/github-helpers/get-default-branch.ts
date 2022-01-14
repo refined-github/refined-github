@@ -30,8 +30,6 @@ const getDefaultBranch = cache.function(async function (repository?: pageDetect.
 					? branchSelector.textContent!.trim()
 					: branchSelector.title;
 			}
-
-			console.error(`Could not find the branch selector. Calling API to get the default branch of ${repository.nameWithOwner}.`);
 		}
 
 		const defaultBranch = getCurrentBranchFromFeed();
