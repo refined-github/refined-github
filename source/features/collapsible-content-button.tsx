@@ -10,7 +10,8 @@ import smartBlockWrap from '../helpers/smart-block-wrap';
 import {onCommentEdit} from '../github-events/on-fragment-load';
 
 function addContentToDetails({delegateTarget}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	const field = delegateTarget.form!.querySelector('textarea')!;
+	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
+	const field = delegateTarget.form!.querySelector('textarea.js-comment-field')!;
 	const selection = field.value.slice(field.selectionStart, field.selectionEnd);
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
