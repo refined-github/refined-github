@@ -1,4 +1,3 @@
-import './user-profile-follower-badge.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';

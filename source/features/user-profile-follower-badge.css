@@ -1,8 +1,0 @@
-.rgh-follower-badge {
-	font-size: 10px;
-	display: block;
-	animation: fade-in 0.2s;
-	clear: both;
-	height: 0; /* Avoid content jump/relayout */
-	transform: translateY(-1.8em); /* Reposition text in the available area */
-}
