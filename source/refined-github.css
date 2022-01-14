@@ -166,7 +166,3 @@ pr-branches
 	max-width: 100%;
 }
 
-/* Mute visited conversation link on conversation lists */
-.js-issue-row .h4:visited:not(:hover) {
-	color: var(--color-fg-muted) !important;
-}

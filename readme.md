@@ -267,6 +267,7 @@ Thanks for contributing! 🦋🙌
 - [](# "dim-bots") [Dims commits and PRs by bots to reduce noise.](https://user-images.githubusercontent.com/1402241/65263190-44c52b00-db36-11e9-9b33-d275d3c8479d.gif)
 - [](# "esc-to-cancel") [Adds a shortcut to cancel editing a conversation title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
 - [](# "no-duplicate-list-update-time") [Hides the update time of conversations in lists when it matches the open/closed/merged time.](https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png)
+- [](# "dim-visited-conversations") [Dims titles of visited conversations, unless you have write access to the repo.](https://user-images.githubusercontent.com/44045911/148573545-39a72dab-a37a-491d-83f3-d6fd015f5dcf.mov)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
