@@ -7,14 +7,14 @@ body:
       value: |
         # Thanks for reporting a bug! ⛰
 
-        Help us replicate the issue by filling in this form. You can use the "Find feature" button in the option to find which feature is causing the issue.
+        Help us replicate the issue by filling in this form. Use the "Find feature" button in the options page to find which feature is causing the issue.
   - type: checkboxes
     attributes:
       label: 'Please ensure:'
       options:
-        - label: The bug is caused by Refined GitHub. It doesn't happen if I disable the extension.
+        - label: The bug is caused by Refined GitHub. It doesn't happen if the extension is disabled.
           required: true
-        - label: The bug is not caused by stale cache. It still happens after clearing extension cache.
+        - label: The bug happens after clearing extension cache. The "Clear cache" button can be found at the bottom of the options page.
           required: true
   - type: textarea
     attributes:
