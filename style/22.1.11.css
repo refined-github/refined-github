@@ -1,0 +1,4 @@
+/* https://github.com/refined-github/refined-github/issues/5299 */
+.js-issue-row .h4.h4:visited:not(:hover) {
+	color: var(--color-fg-default) !important;
+}
