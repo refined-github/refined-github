@@ -100,10 +100,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	if (hotfixCSS.length > 0 || options.customCSS.trim().length > 0) {
 		await waitFor(() => document.head);
-		document.head.append(
-			<style>{hotfixCSS}</style>,
-			<style>{options.customCSS}</style>,
-		);
+		document.head.append(<style>{hotfixCSS}{options.customCSS}</style>);
 	}
 
 	void updateStyleHotfixes(version);
