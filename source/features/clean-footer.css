@@ -1,20 +1,19 @@
-.footer {
+.footer > div:not([data-test-selector]) {
 	transition: opacity 0.2s ease;
 }
 
-.footer:not(:hover) {
+.footer:not(:hover) > div:not([data-test-selector]) {
 	opacity: 30%;
 }
 
-.footer > div > ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.` text */
-	display: none;
-}
-
-.footer-octicon {
+.footer > div:not([data-test-selector]) > ul:first-of-type li:first-of-type { /* The `© 2022 GitHub, Inc.` text */
 	display: none !important;
 }
 
-.footer li a,
-.footer li .btn-link {
+.footer > div:not([data-test-selector]) .footer-octicon {
+	display: none !important;
+}
+
+.footer > div:not([data-test-selector]) li :is(a, .btn-link) {
 	color: var(--color-text-disabled, #666);
 }
