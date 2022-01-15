@@ -211,4 +211,5 @@ import './features/clean-repo-tabs';
 import './features/rgh-welcome-issue';
 import './features/hide-repo-badges';
 import './features/same-branch-author-commits';
+import './features/prevent-pr-merge-panel-opening';
 import './features/dim-visited-conversations';

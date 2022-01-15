@@ -66,9 +66,15 @@ async function init(): Promise<void | false> {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isConversationList,
+		pageDetect.isRepoConversationList,
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
+	init,
+}, {
+	include: [
+		pageDetect.isGlobalConversationList,
+	],
+	awaitDomReady: false,
 	init,
 });
