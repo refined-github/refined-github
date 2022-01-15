@@ -154,16 +154,15 @@ async function init(): Promise<void> {
 		return;
 	}
 
-	if (prs.length > 1) {
-		await addAfterBranchSelector(getDropdown(prs));
-		return;
+	const button = prs.length === 1 ? getSingleButton(prNumber) : getDropdown(prs);
+
+	if (prs.length === 1) {
+		button.classList.add('tooltipped', 'tooltipped-ne');
+		button.setAttribute('aria-label', `This file is touched by PR #${prNumber}`);
+		button.dataset.pjax = '#js-repo-pjax-container';
 	}
 
-	const link = getSingleButton(prNumber);
-	link.classList.add('tooltipped', 'tooltipped-ne');
-	link.setAttribute('aria-label', `This file is touched by PR #${prNumber}`);
-	link.dataset.pjax = '#js-repo-pjax-container';
-	await addAfterBranchSelector(link);
+	await addAfterBranchSelector(button);
 }
 
 void features.add(import.meta.url, {
