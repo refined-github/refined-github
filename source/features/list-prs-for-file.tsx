@@ -15,6 +15,10 @@ function getPRUrl(prNumber: number): string {
 	return buildRepoURL('pull', prNumber, 'files');
 }
 
+function getHovercardUrl(prNumber: number): string {
+	return buildRepoURL('pull', prNumber, 'hovercard');
+}
+
 function getDropdown(prs: number[]): HTMLElement {
 	// Markup copied from https://primer.style/css/components/dropdown
 	return (
@@ -30,17 +34,14 @@ function getDropdown(prs: number[]): HTMLElement {
 					File touched by PRs
 				</div>
 				{prs.map(prNumber => (
-					<li
-						className="issue-link js-issue-link tooltipped tooltipped-e"
-						data-error-text="Failed to load PR title"
-						data-permission-text="PR title is private"
-						data-url={buildRepoURL('issues', prNumber)}
-						data-id={`rgh-pr-${prNumber}`}
+					<a
+						className="dropdown-item"
+						href={getPRUrl(prNumber)}
+						data-pjax="#js-repo-pjax-container"
+						data-hovercard-url={getHovercardUrl(prNumber)}
 					>
-						<a className="dropdown-item" href={getPRUrl(prNumber)} data-pjax="#js-repo-pjax-container">
-							#{prNumber}
-						</a>
-					</li>
+						#{prNumber}
+					</a>
 				))}
 			</ul>
 		</details>
@@ -52,6 +53,7 @@ function getSingleButton(prNumber: number): HTMLElement {
 		<a
 			href={getPRUrl(prNumber)}
 			className="btn btn-sm flex-self-center"
+			data-hovercard-url={getHovercardUrl(prNumber)}
 		>
 			<GitPullRequestIcon className="v-align-middle"/>
 			<span className="v-align-middle"> #{prNumber}</span>
@@ -123,8 +125,6 @@ async function init(): Promise<void> {
 	const button = prs.length === 1 ? getSingleButton(prNumber) : getDropdown(prs);
 
 	if (prs.length === 1) {
-		button.classList.add('tooltipped', 'tooltipped-ne');
-		button.setAttribute('aria-label', `This file is touched by PR #${prNumber}`);
 		button.dataset.pjax = '#js-repo-pjax-container';
 	}
 
