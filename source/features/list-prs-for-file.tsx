@@ -160,6 +160,7 @@ async function initEditing(): Promise<void> {
 							<span className="ml-2 BtnGroup">
 								{prs.map(pr => {
 									const button = getSingleButton(pr) as unknown as HTMLAnchorElement;
+									button.classList.add('BtnGroup-item');
 
 									// Only Chrome supports Scroll To Text Fragment
 									// https://caniuse.com/url-scroll-to-text-fragment
