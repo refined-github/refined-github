@@ -112,6 +112,27 @@ async function getCurrentPath(): Promise<string> {
 
 async function init(): Promise<void> {
 	const path = await getCurrentPath();
+	const {[path]: prs} = await getPrsByFile();
+
+	if (!prs) {
+		return;
+	}
+
+	const [prNumber] = prs; // First one or only one
+
+	const button = prs.length === 1 ? getSingleButton(prNumber) : getDropdown(prs);
+
+	if (prs.length === 1) {
+		button.classList.add('tooltipped', 'tooltipped-ne');
+		button.setAttribute('aria-label', `This file is touched by PR #${prNumber}`);
+		button.dataset.pjax = '#js-repo-pjax-container';
+	}
+
+	await addAfterBranchSelector(button);
+}
+
+async function initEditing(): Promise<void> {
+	const path = await getCurrentPath();
 	let {[path]: prs} = await getPrsByFile();
 
 	if (!prs) {
@@ -128,54 +149,45 @@ async function init(): Promise<void> {
 
 	const [prNumber] = prs; // First one or only one
 
-	if (pageDetect.isEditingFile()) {
-		(await elementReady('.file'))!.after(
-			<div className="form-warning p-3 mb-3 mx-lg-3">
-				{
-					prs.length === 1
-						? <>Careful, PR <a href={getPRUrl(prNumber)}>#{prNumber}</a> is already touching this file</>
-						: (
-							<>
-								Careful, {prs.length} open PRs are already touching this file
-								<span className="ml-2 BtnGroup">
-									{prs.map(pr => {
-										const button = getSingleButton(pr) as unknown as HTMLAnchorElement;
+	(await elementReady('.file'))!.after(
+		<div className="form-warning p-3 mb-3 mx-lg-3">
+			{
+				prs.length === 1
+					? <>Careful, PR <a href={getPRUrl(prNumber)}>#{prNumber}</a> is already touching this file</>
+					: (
+						<>
+							Careful, {prs.length} open PRs are already touching this file
+							<span className="ml-2 BtnGroup">
+								{prs.map(pr => {
+									const button = getSingleButton(pr) as unknown as HTMLAnchorElement;
 
-										// Only Chrome supports Scroll To Text Fragment
-										// https://caniuse.com/url-scroll-to-text-fragment
-										if (isChrome()) {
-											button.hash = `:~:text=${path}`;
-										}
+									// Only Chrome supports Scroll To Text Fragment
+									// https://caniuse.com/url-scroll-to-text-fragment
+									if (isChrome()) {
+										button.hash = `:~:text=${path}`;
+									}
 
-										return button;
-									})}
-								</span>
-							</>
-						)
-				}
-			</div>,
-		);
-
-		return;
-	}
-
-	const button = prs.length === 1 ? getSingleButton(prNumber) : getDropdown(prs);
-
-	if (prs.length === 1) {
-		button.classList.add('tooltipped', 'tooltipped-ne');
-		button.setAttribute('aria-label', `This file is touched by PR #${prNumber}`);
-		button.dataset.pjax = '#js-repo-pjax-container';
-	}
-
-	await addAfterBranchSelector(button);
+									return button;
+								})}
+							</span>
+						</>
+					)
+			}
+		</div>,
+	);
 }
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isEditingFile,
 		pageDetect.isSingleFile,
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init,
+}, {
+	include: [
+		pageDetect.isEditingFile,
+	],
+	awaitDomReady: false,
+	init: initEditing,
 });
