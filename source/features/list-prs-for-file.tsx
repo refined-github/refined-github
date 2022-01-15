@@ -104,9 +104,14 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 	cacheKey: () => 'files-with-prs:' + getRepo()!.nameWithOwner,
 });
 
-async function init(): Promise<void> {
+async function getCurrentPath(): Promise<string> {
 	// `[aria-label="Copy path"]` on blob page, `#blob-edit-path` on edit page
-	const path = (await elementReady('[aria-label="Copy path"], #blob-edit-path'))!.getAttribute('value')!;
+	const element = await elementReady('[aria-label="Copy path"], #blob-edit-path');
+	return element!.getAttribute('value')!;
+}
+
+async function init(): Promise<void> {
+	const path = await getCurrentPath();
 	let {[path]: prs} = await getPrsByFile();
 
 	if (!prs) {
