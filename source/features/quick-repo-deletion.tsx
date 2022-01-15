@@ -105,7 +105,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 			{action: false},
 		);
 		select('.application-main')!.remove();
-		await cache.delete(getCacheKey())
+		await cache.delete(getCacheKey());
 		if (document.hidden) {
 			// Try closing the tab if in the background. Could fail, so we still update the UI above
 			void browser.runtime.sendMessage({closeTab: true});
