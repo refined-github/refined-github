@@ -419,7 +419,7 @@ Thanks for contributing! 🦋🙌
 
 ## Customization
 
-Most features [can be disabled](https://github.com/refined-github/refined-github/pull/877) if they are JavaScript-based *(Experimental)* and you can override our CSS with your own in [the extension options.](https://github.com/refined-github/refined-github/pull/1193)
+Most features [can be disabled](https://github.com/refined-github/refined-github/pull/877) if they are JavaScript-based and you can override our CSS with your own in [the extension options.](https://github.com/refined-github/refined-github/pull/1193)
 
 We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a high bar for adding features.](https://github.com/refined-github/refined-github/issues/2960) Users will always disagree with something. That being said, we're open to discussing things.
 
