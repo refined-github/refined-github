@@ -3,20 +3,17 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-let controller: AbortController;
-
 async function sessionResumeHandler(): Promise<void> {
 	await Promise.resolve(); // The `session:resume` event fires a bit too early
 	const cancelMergeButton = select('.merge-branch-form .js-details-target');
 	if (cancelMergeButton) {
 		cancelMergeButton.click();
-		controller.abort();
+		document.removeEventListener('session:resume', sessionResumeHandler);
 	}
 }
 
 function init(): void {
-	controller = new AbortController();
-	document.addEventListener('session:resume', sessionResumeHandler, {signal: controller.signal});
+	document.addEventListener('session:resume', sessionResumeHandler);
 }
 
 void features.add(import.meta.url, {
