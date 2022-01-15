@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
+import {isChrome} from 'webext-detect-page';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon} from '@primer/octicons-react';
@@ -10,10 +11,8 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import addAfterBranchSelector from '../helpers/add-after-branch-selector';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
-let path: string;
-
 function getPRUrl(prNumber: number): string {
-	return buildRepoURL('pull', prNumber, 'files') + `#:~:text=${path}`;
+	return buildRepoURL('pull', prNumber, 'files');
 }
 
 function getDropdown(prs: number[]): HTMLElement {
@@ -107,7 +106,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 
 async function init(): Promise<void> {
 	// `[aria-label="Copy path"]` on blob page, `#blob-edit-path` on edit page
-	path = (await elementReady('[aria-label="Copy path"], #blob-edit-path'))!.getAttribute('value')!;
+	const path = (await elementReady('[aria-label="Copy path"], #blob-edit-path'))!.getAttribute('value')!;
 	let {[path]: prs} = await getPrsByFile();
 
 	if (!prs) {
@@ -134,7 +133,17 @@ async function init(): Promise<void> {
 							<>
 								Careful, {prs.length} open PRs are already touching this file
 								<span className="ml-2 BtnGroup">
-									{prs.map(pr => getSingleButton(pr))}
+									{prs.map(pr => {
+										const button = getSingleButton(pr) as unknown as HTMLAnchorElement;
+
+										// Only Chrome supports Scroll To Text Fragment
+										// https://caniuse.com/url-scroll-to-text-fragment
+										if (isChrome()) {
+											button.hash = `:~:text=${path}`;
+										}
+
+										return button;
+									})}
 								</span>
 							</>
 						)
