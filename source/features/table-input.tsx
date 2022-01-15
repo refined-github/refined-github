@@ -11,7 +11,8 @@ import smartBlockWrap from '../helpers/smart-block-wrap';
 import {onCommentEdit} from '../github-events/on-fragment-load';
 
 function addTable({delegateTarget: square}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	const field = square.form!.querySelector('textarea')!;
+	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
+	const field = square.form!.querySelector('textarea.js-comment-field')!;
 	const cursorPosition = field.selectionStart;
 
 	field.focus();
