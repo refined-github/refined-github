@@ -53,7 +53,6 @@ function getSingleButton(prNumber: number): HTMLElement {
 		<a
 			href={getPRUrl(prNumber)}
 			className="btn btn-sm flex-self-center"
-			data-pjax="#js-repo-pjax-container"
 		>
 			<GitPullRequestIcon className="v-align-middle"/>
 			<span className="v-align-middle"> #{prNumber}</span>
@@ -154,6 +153,7 @@ async function init(): Promise<void> {
 	const link = getSingleButton(prNumber);
 	link.classList.add('tooltipped', 'tooltipped-ne');
 	link.setAttribute('aria-label', `This file is touched by PR #${prNumber}`);
+	link.dataset.pjax = '#js-repo-pjax-container';
 	await addAfterBranchSelector(link);
 }
 
