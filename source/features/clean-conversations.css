@@ -1,5 +1,5 @@
 /* Remove user avatar from new comment form */
-:is(.review-thread-reply, #issuecomment-new) .avatar {
+:is(.review-thread-reply, .timeline-new-comment) .avatar {
 	display: none;
 }
 
@@ -8,7 +8,7 @@
 }
 
 /* Hide arrow on new comment form */
-#issuecomment-new .timeline-comment--caret::before,
-#issuecomment-new .timeline-comment--caret::after {
+.timeline-new-comment .timeline-comment--caret::before,
+.timeline-new-comment .timeline-comment--caret::after {
 	content: none !important;
 }
