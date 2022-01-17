@@ -8,7 +8,7 @@
 }
 
 /* Hide arrow on new comment form */
-.timeline-comment--caret::before,
-.timeline-comment--caret::after {
+#issuecomment-new .timeline-comment--caret::before,
+#issuecomment-new .timeline-comment--caret::after {
 	content: none !important;
 }
