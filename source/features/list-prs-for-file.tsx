@@ -112,13 +112,16 @@ async function getCurrentPath(): Promise<string> {
 	return element!.getAttribute('value')!;
 }
 
-async function init(): Promise<void> {
+function getPrsForCurrentPath(): Promise<number[]> {
 	const [path, prsByFile] = await Promise.all([
 		getCurrentPath(),
 		getPrsByFile(),
 	]);
-	const prs = prsByFile[path];
+	return prsByFile[path];
+}
 
+async function init(): Promise<void> {
+	const prs = await getPrsForCurrentPath();
 	if (!prs) {
 		return;
 	}
@@ -135,11 +138,7 @@ async function init(): Promise<void> {
 }
 
 async function initEditing(): Promise<void> {
-	const [path, prsByFile] = await Promise.all([
-		getCurrentPath(),
-		getPrsByFile(),
-	]);
-	let prs = prsByFile[path];
+	let prs = await getPrsForCurrentPath();
 
 	if (!prs) {
 		return;
