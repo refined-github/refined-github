@@ -1,12 +1,12 @@
 /* https://github.com/refined-github/refined-github/issues/5292#issuecomment-1016380973 */
-.footer:not(:hover) > div:first-of-type {
+.footer:not(:hover) > div:first-of-type:not(:first-child) {
 	opacity: 1 !important;
 }
 
-.footer.footer > div:first-of-type > ul:first-of-type li:first-of-type {
+.footer.footer > div:first-of-type:not(:first-child) > ul:first-of-type li:first-of-type {
 	display: block !important;
 }
 
-.footer.footer > div:first-of-type .footer-octicon {
+.footer.footer > div:first-of-type:not(:first-child) .footer-octicon {
 	display: inline-block !important;
 }
