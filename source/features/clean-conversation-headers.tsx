@@ -32,7 +32,7 @@ async function initPR(): Promise<void> {
 
 	const shouldHideAuthor = pageDetect.isPRConversation() && select('.author', byline)!.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
 	if (shouldHideAuthor) {
-		byline.classList.add('rgh-clean-conversation-headers-hide-author')
+		byline.classList.add('rgh-clean-conversation-headers-hide-author');
 	}
 
 	const base = select('.commit-ref', byline)!;
