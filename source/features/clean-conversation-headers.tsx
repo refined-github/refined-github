@@ -23,16 +23,14 @@ async function initIssue(): Promise<void> {
 }
 
 async function initPR(): Promise<void> {
-	const author = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header) .author');
-	if (!author) {
+	const byline = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)');
+	if (!byline) {
 		return;
 	}
 
-	const byline = author.closest('.flex-auto')!;
-
 	byline.classList.add('rgh-clean-conversation-header');
 
-	const isSameAuthor = pageDetect.isPRConversation() && author.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
+	const isSameAuthor = pageDetect.isPRConversation() && select('.author', byline)!.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
 
 	const base = select('.commit-ref', byline)!;
 	const baseBranch = base.title.split(':')[1];
