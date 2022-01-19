@@ -15,15 +15,11 @@ async function initIssue(): Promise<void> {
 		return;
 	}
 
-	byline.classList.add('rgh-clean-conversation-header');
-
-	// Removes: [octocat opened this issue on 1 Jan] · 1 comments
-	for (let i = 0; i < 4; i++) {
-		byline.firstChild!.remove();
-	}
+	byline.classList.add('rgh-clean-conversation-header', 'rgh-clean-conversation-headers-hide-author');
 
 	// Removes: octocat opened this issue on 1 Jan [·] 1 comments
-	byline.firstChild!.textContent = byline.firstChild!.textContent!.replace('·', '');
+	const commentCount = select('relative-time', byline)!.nextSibling!;
+	commentCount.replaceWith(<span>{commentCount.textContent!.replace('·', '')}</span>);
 }
 
 async function initPR(): Promise<void> {
@@ -38,25 +34,13 @@ async function initPR(): Promise<void> {
 
 	const isSameAuthor = pageDetect.isPRConversation() && author.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
 
-	const [base, headBranch] = select.all('.commit-ref', byline);
+	const base = select('.commit-ref', byline)!;
 	const baseBranch = base.title.split(':')[1];
 
-	// Replace the word "from" with an arrow
-	headBranch.previousSibling!.replaceWith(' ', <ArrowLeftIcon className="v-align-middle"/>, ' ');
+	base.nextElementSibling!.replaceChildren(<ArrowLeftIcon className="v-align-middle mx-1"/>);
 
-	// Removes: [octocat wants to merge 1 commit into] github:master from octocat:feature
-	// Removes: [octocat merged 1 commit into] master from feature
-	const duplicateNodes = [...byline.childNodes].slice(
-		isSameAuthor ? 0 : 2,
-		pageDetect.isMergedPR() ? 3 : 5,
-	);
-	for (const node of duplicateNodes) {
-		node.remove();
-	}
-
-	if (!isSameAuthor) {
-		author.before('by ');
-		author.after(' • ');
+	if (isSameAuthor) {
+		byline.classList.add('rgh-clean-conversation-headers-hide-author')
 	}
 
 	const wasDefaultBranch = pageDetect.isClosedPR() && baseBranch === 'master';

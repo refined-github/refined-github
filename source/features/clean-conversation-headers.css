@@ -5,3 +5,36 @@
 .rgh-clean-conversation-headers-non-default-branch a {
 	color: var(--color-state-hover-primary-text, #fff);
 }
+
+.rgh-clean-conversation-header {
+	font-size: 0;
+}
+
+.rgh-clean-conversation-header > :not(.js-updating-pull-request-commits-count) {
+	font-size: 14px;
+}
+
+.rgh-clean-conversation-header:not(.rgh-clean-conversation-headers-hide-author)::before {
+	content: 'by ';
+	font-size: 14px;
+}
+
+.rgh-clean-conversation-header .author {
+	margin-right: 4px;
+}
+
+.rgh-clean-conversation-headers-hide-author .author {
+	display: none !important;
+}
+
+.rgh-clean-conversation-header .commit-ref {
+	font-size: 11.9px;
+}
+
+.rgh-clean-conversation-header relative-time {
+	margin-left: 4px;
+}
+
+.rgh-header.issue .rgh-clean-conversation-header relative-time {
+	display: none;
+}
