@@ -30,16 +30,15 @@ async function initPR(): Promise<void> {
 
 	byline.classList.add('rgh-clean-conversation-header');
 
-	const isSameAuthor = pageDetect.isPRConversation() && select('.author', byline)!.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
+	const shouldHideAuthor = pageDetect.isPRConversation() && select('.author', byline)!.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
+	if (shouldHideAuthor) {
+		byline.classList.add('rgh-clean-conversation-headers-hide-author')
+	}
 
 	const base = select('.commit-ref', byline)!;
 	const baseBranch = base.title.split(':')[1];
 
 	base.nextElementSibling!.replaceChildren(<ArrowLeftIcon className="v-align-middle mx-1"/>);
-
-	if (isSameAuthor) {
-		byline.classList.add('rgh-clean-conversation-headers-hide-author')
-	}
 
 	const wasDefaultBranch = pageDetect.isClosedPR() && baseBranch === 'master';
 	const isDefaultBranch = baseBranch === await getDefaultBranch();
