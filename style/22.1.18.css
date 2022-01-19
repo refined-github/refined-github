@@ -1,0 +1,12 @@
+/* https://github.com/refined-github/refined-github/issues/5292#issuecomment-1016380973 */
+.footer:not(:hover) > div:first-of-type {
+	opacity: 1 !important;
+}
+
+.footer.footer > div:first-of-type > ul:first-of-type li:first-of-type {
+	display: block !important;
+}
+
+.footer.footer > div:first-of-type .footer-octicon {
+	display: inline-block !important;
+}
