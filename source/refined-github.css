@@ -35,15 +35,6 @@
 	display: none !important;
 }
 
-/* Remove user avatar from new comment form on threads */
-.review-thread-reply .avatar {
-	display: none;
-}
-
-.review-thread-reply .review-thread-reply-button {
-	margin-left: 0;
-}
-
 /* Hide `New pull request button` near file list */
 .file-navigation .new-pull-request-btn {
 	display: none;
