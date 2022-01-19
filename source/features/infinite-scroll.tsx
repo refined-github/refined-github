@@ -1,3 +1,4 @@
+import './infinite-scroll.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
