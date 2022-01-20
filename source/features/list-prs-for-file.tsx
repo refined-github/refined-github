@@ -22,14 +22,14 @@ function getHovercardUrl(prNumber: number): string {
 function getDropdown(prs: number[]): HTMLElement {
 	// Markup copied from https://primer.style/css/components/dropdown
 	return (
-		<details className="dropdown details-reset details-overlay d-inline-block flex-self-center">
-			<summary aria-haspopup="true" className="btn btn-sm">
+		<details className="dropdown details-reset details-overlay flex-self-center">
+			<summary className="btn btn-sm">
 				<GitPullRequestIcon className="v-align-middle"/>
 				<span className="v-align-middle"> {prs.length} </span>
 				<div className="dropdown-caret"/>
 			</summary>
 
-			<ul className="dropdown-menu dropdown-menu-se">
+			<details-menu className="dropdown-menu dropdown-menu-sw">
 				<div className="dropdown-header">
 					File touched by PRs
 				</div>
@@ -43,7 +43,7 @@ function getDropdown(prs: number[]): HTMLElement {
 						#{prNumber}
 					</a>
 				))}
-			</ul>
+			</details-menu>
 		</details>
 	);
 }
