@@ -1,8 +1,3 @@
-/* Remove the "Styling with Markdown is supported" link when a PR comment is in edit mode */
-a.tabnav-extra[href$='mastering-markdown/'] {
-	display: none !important;
-}
-
 /* Remove the "helpful" banner on the issue tracker listing */
 .repository-content .mb-4.js-notice {
 	display: none !important;
