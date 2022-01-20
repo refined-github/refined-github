@@ -1,8 +1,3 @@
-/* Remove the "helpful" banner on the issue tracker listing */
-.repository-content .mb-4.js-notice {
-	display: none !important;
-}
-
 /* Remove the "helpful" popover on the repo label page */
 .labels-list .TutorialPopover {
 	display: none !important;
