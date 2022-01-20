@@ -1,8 +1,3 @@
-/* Remove "Continuous integration has not been set up" message on PRs */
-.branch-action-item.marketplace-product-callout {
-	display: none;
-}
-
 /* Remove "pro tip!" box on profile page (appears when name isn't set) */
 .new-user-avatar-cta {
 	display: none !important;
