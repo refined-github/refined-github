@@ -24,8 +24,10 @@ a.tabnav-extra[href$='mastering-markdown/'] {
 }
 
 /* Remove random protip at the bottom of some pages */
+.protip, /* Conversations */
+.js-notifications-list-protip, /* "Save" and "Done" notification lists */
 .paginate-container + .text-center:last-child, /* Conversation lists */
-.js-notifications-container .js-navigation-container + .flex-items-center:last-child { /* Notification list */
+.js-notifications-container .js-navigation-container + .flex-items-center:last-child { /* Notifications inbox */
 	display: none !important;
 }
 
