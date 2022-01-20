@@ -2,7 +2,3 @@ aside[aria-label='Explore'] > .footer {
 	position: sticky !important;
 	top: 24px;
 }
-
-aside[aria-label='Explore'] > .footer > :first-child {
-	display: none !important;
-}
