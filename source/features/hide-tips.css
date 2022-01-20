@@ -5,8 +5,3 @@
 .js-notifications-container .js-navigation-container + .flex-items-center:last-child { /* Notifications inbox */
 	display: none !important;
 }
-
-/* Remove Marketplace marketing box on PRs */
-.js-marketplace-callout-container {
-	display: none !important;
-}
