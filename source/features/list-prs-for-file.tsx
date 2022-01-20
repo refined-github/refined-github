@@ -112,7 +112,7 @@ async function getCurrentPath(): Promise<string> {
 	return element!.getAttribute('value')!;
 }
 
-async function getPrsForCurrentPath(): Promise<number[]> {
+function getPrsForCurrentPath(): Promise<number[]> {
 	const [path, prsByFile] = await Promise.all([
 		getCurrentPath(),
 		getPrsByFile(),
