@@ -17,7 +17,8 @@ async function initIssue(): Promise<void> {
 
 	byline.classList.add('rgh-clean-conversation-header', 'rgh-clean-conversation-headers-hide-author');
 
-	// Removes: octocat opened this issue on 1 Jan [·] 1 comments
+	// Shows on issues: octocat opened this issue on 1 Jan · [1 comments]
+	// Removes on issues: octocat opened this issue on 1 Jan [·] 1 comments
 	const commentCount = select('relative-time', byline)!.nextSibling!;
 	commentCount.replaceWith(<span>{commentCount.textContent!.replace('·', '')}</span>);
 }
@@ -30,6 +31,8 @@ async function initPR(): Promise<void> {
 
 	byline.classList.add('rgh-clean-conversation-header');
 
+	// Extra author name is only shown on `isPRConversation`
+	// Hide if it's the same as the opener (always) or merger
 	const shouldHideAuthor = pageDetect.isPRConversation() && select('.author', byline)!.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
 	if (shouldHideAuthor) {
 		byline.classList.add('rgh-clean-conversation-headers-hide-author');
@@ -38,6 +41,7 @@ async function initPR(): Promise<void> {
 	const base = select('.commit-ref', byline)!;
 	const baseBranch = base.title.split(':')[1];
 
+	// Shows on PRs: main [←] feature
 	base.nextElementSibling!.replaceChildren(<ArrowLeftIcon className="v-align-middle mx-1"/>);
 
 	const wasDefaultBranch = pageDetect.isClosedPR() && baseBranch === 'master';
