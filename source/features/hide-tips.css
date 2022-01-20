@@ -2,6 +2,6 @@
 .protip, /* Conversations */
 .js-notifications-list-protip, /* "Save" and "Done" notification lists */
 .paginate-container + .text-center:last-child, /* Conversation lists */
-.js-notifications-container .js-navigation-container + .flex-items-center:last-child { /* Notifications inbox */
+.js-notifications-container :is(.octicon-light-bulb, .octicon-light-bulb + div) { /* Notifications inbox */
 	display: none !important;
 }
