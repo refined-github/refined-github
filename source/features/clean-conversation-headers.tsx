@@ -10,12 +10,12 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 async function initIssue(): Promise<void> {
-	const byline = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)');
+	const byline = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-headers)');
 	if (!byline) {
 		return;
 	}
 
-	byline.classList.add('rgh-clean-conversation-header', 'rgh-clean-conversation-headers-hide-author');
+	byline.classList.add('rgh-clean-conversation-headers', 'rgh-clean-conversation-headers-hide-author');
 
 	// Shows on issues: octocat opened this issue on 1 Jan · [1 comments]
 	// Removes on issues: octocat opened this issue on 1 Jan [·] 1 comments
@@ -24,12 +24,12 @@ async function initIssue(): Promise<void> {
 }
 
 async function initPR(): Promise<void> {
-	const byline = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-header)');
+	const byline = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-headers)');
 	if (!byline) {
 		return;
 	}
 
-	byline.classList.add('rgh-clean-conversation-header');
+	byline.classList.add('rgh-clean-conversation-headers');
 
 	// Extra author name is only shown on `isPRConversation`
 	// Hide if it's the same as the opener (always) or merger
