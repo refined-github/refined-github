@@ -140,10 +140,10 @@ async function init(): Promise<void | false> {
 				<div className="ml-2">
 					<TagIcon/>
 					<span className="ml-1">{targetTags.map((tags, i) => (
-						<>
-							<a href={buildRepoURL('releases/tag', tags)}>{tags}</a>
+						<span className="commit-ref lh-condensed d-inline py-1">
+							<a className="no-underline" href={buildRepoURL('releases/tag', tags)}>{tags}</a>
 							{(i + 1) === targetTags.length ? '' : ', '}
-						</>
+						</span>
 					))}
 					</span>
 				</div>,
