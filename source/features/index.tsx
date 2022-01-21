@@ -13,7 +13,7 @@ import optionsStorage, {RGHOptions} from '../options-storage';
 import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyleHotfixes} from '../helpers/hotfix';
 
 type BooleanFunction = () => boolean;
-type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void;
+export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void;
 type FeatureInitResult = false | void | VoidFunction | VoidFunction[];
 type FeatureInit = () => Promisable<FeatureInitResult>;
 

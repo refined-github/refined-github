@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onReplacedElement from '../helpers/on-replaced-element';
+import onDiscussionSidebarUpdate from '../github-events/on-discussion-sidebar-update';
 
 async function addSidebarReviewButton(): Promise<void | false> {
 	const reviewFormUrl = new URL(location.href);
@@ -49,9 +49,7 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 	],
 	additionalListeners: [
-		(runFeature, signal) => {
-			void onReplacedElement('#partial-discussion-sidebar', runFeature, {signal});
-		},
+		onDiscussionSidebarUpdate,
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
