@@ -14,18 +14,14 @@ const iconSelector = [
 	'.TimelineItem--condensed:nth-of-type(-n+2) batch-deferred-content[data-url$="checks-statuses-rollups"]',
 ].join(',');
 
-async function getIcon(): Promise<HTMLElement | void> {
+async function getIcon(): Promise<HTMLElement | undefined> {
 	if (pageDetect.isRepoCommitList() && getCurrentCommittish() === await getDefaultBranch()) {
 		return select(iconSelector)!.cloneNode(true);
 	}
 
 	const dom = await fetchDom(buildRepoURL('commits'));
 	const icon = select(iconSelector, dom);
-	if (!icon) {
-		return;
-	}
-
-	if (pageDetect.isDiscussion() || pageDetect.isDiscussionList()) {
+	if (icon && (pageDetect.isDiscussion() || pageDetect.isDiscussionList())) {
 		const style = select('link[href*="/assets/github-"]', dom)!;
 		document.head.append(style); // #5283
 	}
