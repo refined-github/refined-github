@@ -27,6 +27,6 @@ export function onCommentEdit(callback: EventListener): delegate.Subscription {
 	return createFragmentLoadListener('.js-comment-edit-form-deferred-include-fragment', callback);
 }
 
-export function onCiIconLoad(callback: EventListener): delegate.Subscription {
+export function onRepoHomeCiDetailsLoad(callback: EventListener): delegate.Subscription {
 	return createFragmentLoadListener('.file-navigation + .Box .js-details-container include-fragment[src*="/rollup?"]', callback);
 }

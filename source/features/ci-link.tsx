@@ -4,57 +4,57 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import {onCiIconLoad} from '../github-events/on-fragment-load';
 import getDefaultBranch from '../github-helpers/get-default-branch';
+import {onRepoHomeCiDetailsLoad} from '../github-events/on-fragment-load';
 import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
 
-// Look for the CI icon in the latest 2 days of commits #2990
-const iconSelector = [
+// Look for the CI details dropdown in the latest 2 days of commits #2990
+const ciDetailsSelector = [
 	'.TimelineItem--condensed:nth-of-type(-n+2) .commit-build-statuses', // TODO[2022-04-29]: GHE #4294
 	'.TimelineItem--condensed:nth-of-type(-n+2) batch-deferred-content[data-url$="checks-statuses-rollups"]',
 ].join(',');
 
-async function getIcon(): Promise<HTMLElement | undefined> {
+async function getCiDetails(): Promise<HTMLElement | undefined> {
 	if (pageDetect.isRepoCommitList() && getCurrentCommittish() === await getDefaultBranch()) {
-		return select(iconSelector)!.cloneNode(true);
+		return select(ciDetailsSelector)!.cloneNode(true);
 	}
 
 	const dom = await fetchDom(buildRepoURL('commits'));
-	const icon = select(iconSelector, dom);
-	if (icon && (pageDetect.isDiscussion() || pageDetect.isDiscussionList())) {
+	const ciDetails = select(ciDetailsSelector, dom);
+	if (ciDetails && (pageDetect.isDiscussion() || pageDetect.isDiscussionList())) {
 		const style = select('link[href*="/assets/github-"]', dom)!;
 		document.head.append(style); // #5283
 	}
 
-	return icon;
+	return ciDetails;
 }
 
-function appendIconToRepoHeader(icon: HTMLElement): void {
+function appendCiDetailsToRepoTitle(ciDetails: HTMLElement): void {
 	// Append to title (aware of forks and private repos)
 	const repoNameHeader = select('[itemprop="name"]')!.parentElement!;
-	repoNameHeader.append(icon);
+	repoNameHeader.append(ciDetails);
 	repoNameHeader.classList.add('rgh-ci-link');
 }
 
 async function init(): Promise<false | void> {
-	const icon = await getIcon();
-	if (!icon) {
+	const ciDetails = await getCiDetails();
+	if (!ciDetails) {
 		return false;
 	}
 
-	appendIconToRepoHeader(icon);
+	appendCiDetailsToRepoTitle(ciDetails);
 }
 
 function initRepoHome(): void | false {
-	const icon = select('.file-navigation + .Box .commit-build-statuses');
-	if (!icon) {
+	const ciDetails = select('.file-navigation + .Box .commit-build-statuses');
+	if (!ciDetails) {
 		return false;
 	}
 
-	const clonedIcon = icon.cloneNode(true);
+	const clonedDetails = ciDetails.cloneNode(true);
 	// Fix the dropdown orientation
-	select('.dropdown-menu', clonedIcon)!.classList.replace('dropdown-menu-sw', 'dropdown-menu-se');
-	appendIconToRepoHeader(clonedIcon);
+	select('.dropdown-menu', clonedDetails)!.classList.replace('dropdown-menu-sw', 'dropdown-menu-se');
+	appendCiDetailsToRepoTitle(clonedDetails);
 }
 
 void features.add(import.meta.url, {
@@ -75,7 +75,7 @@ void features.add(import.meta.url, {
 		pageDetect.isEmptyRepo,
 	],
 	additionalListeners: [
-		onCiIconLoad,
+		onRepoHomeCiDetailsLoad,
 	],
 	awaitDomReady: false,
 	onlyAdditionalListeners: true,
