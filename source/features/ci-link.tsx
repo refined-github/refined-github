@@ -51,7 +51,10 @@ function initRepoHome(): void | false {
 		return false;
 	}
 
-	appendIconToRepoHeader(icon.cloneNode(true));
+	const clonedIcon = icon.cloneNode(true);
+	// Fix the dropdown orientation
+	select('.dropdown-menu', clonedIcon)!.classList.replace('dropdown-menu-sw', 'dropdown-menu-se');
+	appendIconToRepoHeader(clonedIcon);
 }
 
 void features.add(import.meta.url, {
