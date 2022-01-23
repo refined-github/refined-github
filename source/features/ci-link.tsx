@@ -33,20 +33,16 @@ async function getCiDetails(): Promise<HTMLElement | undefined> {
 	return ciDetails;
 }
 
-function appendCiDetailsToRepoTitle(ciDetails: HTMLElement): void {
-	// Append to title (aware of forks and private repos)
-	const repoNameHeader = select('[itemprop="name"]')!.parentElement!;
-	repoNameHeader.append(ciDetails);
-	repoNameHeader.classList.add('rgh-ci-link');
-}
-
 async function init(): Promise<false | void> {
 	const ciDetails = await getCiDetails();
 	if (!ciDetails) {
 		return false;
 	}
 
-	appendCiDetailsToRepoTitle(ciDetails);
+	// Append to repo title (aware of forks and private repos)
+	const repoNameHeader = select('[itemprop="name"]')!.parentElement!;
+	repoNameHeader.append(ciDetails);
+	repoNameHeader.classList.add('rgh-ci-link');
 }
 
 void features.add(import.meta.url, {
