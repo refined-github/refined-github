@@ -276,11 +276,11 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 	}
 };
 
-const addCssFeature = async (url: string, include: BooleanFunction[] | undefined, deduplicate?: false | string): Promise<void> => {
+const addCssFeature = async (url: string, include: BooleanFunction[] | undefined): Promise<void> => {
 	const id = getFeatureID(url);
 	void add(id, {
 		include,
-		deduplicate,
+		deduplicate: false,
 		awaitDomReady: false,
 		init: () => {
 			document.body.classList.add('rgh-' + id);
