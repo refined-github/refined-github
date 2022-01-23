@@ -5,7 +5,6 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {onRepoHomeCiDetailsLoad} from '../github-events/on-fragment-load';
 import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
 
 // Look for the CI details dropdown in the latest 2 days of commits #2990
@@ -15,6 +14,11 @@ const ciDetailsSelector = [
 ].join(',');
 
 async function getCiDetails(): Promise<HTMLElement | undefined> {
+	if (pageDetect.isRepoHome()) {
+		// Clone the CI details if they're already loaded, otherwise clone the include-fragment
+		return select('.file-navigation + .Box :is(.commit-build-statuses, .js-details-container include-fragment[src*="/rollup?"])')!.cloneNode(true);
+	}
+
 	if (pageDetect.isRepoCommitList() && getCurrentCommittish() === await getDefaultBranch()) {
 		return select(ciDetailsSelector)!.cloneNode(true);
 	}
@@ -45,36 +49,14 @@ async function init(): Promise<false | void> {
 	appendCiDetailsToRepoTitle(ciDetails);
 }
 
-function initRepoHome(): void | false {
-	const ciDetails = select('.file-navigation + .Box .commit-build-statuses');
-	if (!ciDetails) {
-		return false;
-	}
-
-	appendCiDetailsToRepoTitle(ciDetails.cloneNode(true));
-}
-
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepo,
 	],
 	exclude: [
-		pageDetect.isRepoHome,
+		// PageDetect.isRepoHome,
 		pageDetect.isEmptyRepo,
 	],
 	awaitDomReady: false,
 	init,
-}, {
-	include: [
-		pageDetect.isRepoHome,
-	],
-	exclude: [
-		pageDetect.isEmptyRepo,
-	],
-	additionalListeners: [
-		onRepoHomeCiDetailsLoad,
-	],
-	awaitDomReady: false,
-	onlyAdditionalListeners: true,
-	init: initRepoHome,
 });
