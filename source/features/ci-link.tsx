@@ -51,10 +51,7 @@ function initRepoHome(): void | false {
 		return false;
 	}
 
-	const clonedDetails = ciDetails.cloneNode(true);
-	// Fix the dropdown orientation
-	select('.dropdown-menu', clonedDetails)!.classList.replace('dropdown-menu-sw', 'dropdown-menu-se');
-	appendCiDetailsToRepoTitle(clonedDetails);
+	appendCiDetailsToRepoTitle(ciDetails.cloneNode(true));
 }
 
 void features.add(import.meta.url, {
