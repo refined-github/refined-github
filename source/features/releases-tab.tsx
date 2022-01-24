@@ -77,7 +77,7 @@ async function addReleasesTab(): Promise<false | void> {
 		'li:not([data-menu-item])', // Add the dropdown item after the last "overflow" item that's linked to a native tab
 		createDropdownItem('Releases', buildRepoURL('releases'), {
 			'data-menu-item': 'rgh-releases-item',
-			hidden: '', // Hide by default because the tabs reflow isn't triggered when navigating to the "Releases" page from another tab
+			hidden: '', // Hide on creation because the tabs overflow mechanism isn't triggered when navigating to the "Releases" page from another tab
 		}),
 	);
 }
