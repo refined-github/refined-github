@@ -12,7 +12,7 @@ import looseParseInt from '../helpers/loose-parse-int';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import {createDropdownItem} from './more-dropdown-links';
 import {buildRepoURL, getRepo} from '../github-helpers';
-import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils';
+import {highlightTab, unhighlightTab} from '../helpers/dom-utils';
 
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
@@ -57,7 +57,7 @@ async function addReleasesTab(): Promise<false | void> {
 	// Wait for the tab bar to be loaded
 	const repoNavigationBar = (await elementReady('.UnderlineNav-body'))!;
 	const releasesTab = (
-		<li className="d-flex">
+		<li className="d-inline-flex">
 			<a
 				href={buildRepoURL('releases')}
 				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item rgh-releases-tab"
@@ -73,16 +73,15 @@ async function addReleasesTab(): Promise<false | void> {
 	);
 	repoNavigationBar.append(releasesTab);
 
-	// This re-triggers the overflow listener forcing it to also hide this tab if necessary #3347
-	repoNavigationBar.replaceWith(repoNavigationBar);
-
-	appendBefore(
-		select('.js-responsive-underlinenav .dropdown-menu ul')!,
-		'.dropdown-divider', // Won't exist if `more-dropdown` is disabled
+	// Add the dropdown link after the last "overflow" link that's linked to a native tab
+	select('.js-responsive-underlinenav .dropdown-menu li:not([data-menu-item]')!.before(
 		createDropdownItem('Releases', buildRepoURL('releases'), {
 			'data-menu-item': 'rgh-releases-item',
 		}),
 	);
+
+	// This re-triggers the overflow listener forcing it to also hide this tab if necessary #3347
+	repoNavigationBar.replaceWith(repoNavigationBar);
 }
 
 function highlightReleasesTab(): VoidFunction {
