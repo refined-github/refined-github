@@ -1,29 +1,55 @@
 import './ci-link.css';
 import select from 'select-dom';
-import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import {buildRepoURL} from '../github-helpers';
+import getDefaultBranch from '../github-helpers/get-default-branch';
+import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
 
-// Look for the CI icon in the latest 2 days of commits #2990
-const getIcon = onetime(async () => fetchDom(
-	buildRepoURL('commits'), [
-		'.TimelineItem--condensed:nth-of-type(-n+2) .commit-build-statuses', // TODO[2022-04-29]: GHE #4294
-		'.TimelineItem--condensed:nth-of-type(-n+2) batch-deferred-content[data-url$="checks-statuses-rollups"]',
-	].join(','),
-));
+// Look for the CI details dropdown in the latest 2 days of commits #2990
+const ciDetailsSelector = [
+	'.TimelineItem--condensed:nth-of-type(-n+2) .commit-build-statuses', // TODO[2022-04-29]: GHE #4294
+	'.TimelineItem--condensed:nth-of-type(-n+2) batch-deferred-content[data-url$="checks-statuses-rollups"]',
+].join(',');
+
+async function getCiDetails(): Promise<HTMLElement | undefined> {
+	if (pageDetect.isRepoHome()) {
+		const ciDetails = select([
+			'.file-navigation + .Box .commit-build-statuses', // Select the CI details if they're already loaded
+			'.file-navigation + .Box .js-details-container include-fragment[src*="/rollup?"]', // Otherwise select the include-fragment
+		].join(','));
+		if (ciDetails) {
+			return ciDetails.cloneNode(true);
+		}
+	}
+
+	if (pageDetect.isRepoCommitList() && getCurrentCommittish() === await getDefaultBranch()) {
+		const ciDetails = select(ciDetailsSelector);
+		if (ciDetails) {
+			return ciDetails.cloneNode(true);
+		}
+	}
+
+	const dom = await fetchDom(buildRepoURL('commits'));
+	const ciDetails = select(ciDetailsSelector, dom);
+	if (ciDetails && (pageDetect.isDiscussion() || pageDetect.isDiscussionList())) {
+		const style = select('link[href*="/assets/github-"]', dom)!;
+		document.head.append(style); // #5283
+	}
+
+	return ciDetails;
+}
 
 async function init(): Promise<false | void> {
-	const icon = await getIcon();
-	if (!icon) {
+	const ciDetails = await getCiDetails();
+	if (!ciDetails) {
 		return false;
 	}
 
-	// Append to title (aware of forks and private repos)
+	// Append to repo title (aware of forks and private repos)
 	const repoNameHeader = select('[itemprop="name"]')!.parentElement!;
-	repoNameHeader.append(icon);
+	repoNameHeader.append(ciDetails);
 	repoNameHeader.classList.add('rgh-ci-link');
 }
 
