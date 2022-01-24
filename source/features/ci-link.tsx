@@ -15,8 +15,11 @@ const ciDetailsSelector = [
 
 async function getCiDetails(): Promise<HTMLElement | undefined> {
 	if (pageDetect.isRepoHome()) {
-		// Clone the CI details if they're already loaded, otherwise clone the include-fragment
-		return select('.file-navigation + .Box :is(.commit-build-statuses, .js-details-container include-fragment[src*="/rollup?"])')!.cloneNode(true);
+		const ciDetails = select([
+			'.file-navigation + .Box .commit-build-statuses', // Select the CI details if they're already loaded
+			'.file-navigation + .Box .js-details-container include-fragment[src*="/rollup?"]', // Otherwise select the include-fragment
+		].join(','));
+		return ciDetails!.cloneNode(true);
 	}
 
 	if (pageDetect.isRepoCommitList() && getCurrentCommittish() === await getDefaultBranch()) {
