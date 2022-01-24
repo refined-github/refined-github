@@ -19,11 +19,16 @@ async function getCiDetails(): Promise<HTMLElement | undefined> {
 			'.file-navigation + .Box .commit-build-statuses', // Select the CI details if they're already loaded
 			'.file-navigation + .Box .js-details-container include-fragment[src*="/rollup?"]', // Otherwise select the include-fragment
 		].join(','));
-		return ciDetails!.cloneNode(true);
+		if (ciDetails) {
+			return ciDetails.cloneNode(true);
+		}
 	}
 
 	if (pageDetect.isRepoCommitList() && getCurrentCommittish() === await getDefaultBranch()) {
-		return select(ciDetailsSelector)!.cloneNode(true);
+		const ciDetails = select(ciDetailsSelector);
+		if (ciDetails) {
+			return ciDetails.cloneNode(true);
+		}
 	}
 
 	const dom = await fetchDom(buildRepoURL('commits'));
