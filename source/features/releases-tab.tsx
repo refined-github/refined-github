@@ -12,7 +12,7 @@ import looseParseInt from '../helpers/loose-parse-int';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import {createDropdownItem} from './more-dropdown-links';
 import {buildRepoURL, getRepo} from '../github-helpers';
-import {highlightTab, unhighlightTab} from '../helpers/dom-utils';
+import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils';
 
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
@@ -56,7 +56,7 @@ async function addReleasesTab(): Promise<false | void> {
 
 	// Wait for the tab bar to be loaded
 	const repoNavigationBar = (await elementReady('.UnderlineNav-body'))!;
-	const releasesTab = (
+	repoNavigationBar.append(
 		<li className="d-inline-flex">
 			<a
 				href={buildRepoURL('releases')}
@@ -69,12 +69,12 @@ async function addReleasesTab(): Promise<false | void> {
 				<span data-content="Releases">Releases</span>
 				{count && <span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>}
 			</a>
-		</li>
+		</li>,
 	);
-	repoNavigationBar.append(releasesTab);
 
-	// Add the dropdown link after the last "overflow" link that's linked to a native tab
-	select('.js-responsive-underlinenav .dropdown-menu li:not([data-menu-item]')!.before(
+	appendBefore(
+		select('.js-responsive-underlinenav .dropdown-menu ul')!,
+		'li:not([data-menu-item])', // Add the dropdown item after the last "overflow" item that's linked to a native tab
 		createDropdownItem('Releases', buildRepoURL('releases'), {
 			'data-menu-item': 'rgh-releases-item',
 		}),
