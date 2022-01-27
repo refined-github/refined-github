@@ -19,6 +19,10 @@ test('isLowQualityComment', t => {
 	t.true(isLowQualityComment('please update 🙏🏻'));
 	t.true(isLowQualityComment('Same here, please update, thanks'));
 	t.true(isLowQualityComment('Same here! Please update, thank you.'));
+	t.true(isLowQualityComment('same issue'));
+	t.true(isLowQualityComment('this same issues'));
+	t.true(isLowQualityComment('same question'));
+	t.true(isLowQualityComment('any updates there?'));
 
 	t.false(isLowQualityComment('+1\n<some useful information>'));
 	t.false(isLowQualityComment('Same here. <some useful information>'));
