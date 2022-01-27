@@ -13,9 +13,9 @@ function init(): void {
 
 	select('.commit-meta > :last-child')!.append(
 		<span className="sha-block patch-diff-links">
-			<a href={`${commitUrl}.patch`} className="sha">patch</a>
+			<a data-skip-pjax href={`${commitUrl}.patch`} className="sha">patch</a>
 			{ ' ' /* Workaround for: JSX eats whitespace between elements */ }
-			<a href={`${commitUrl}.diff`} className="sha">diff</a>
+			<a data-skip-pjax href={`${commitUrl}.diff`} className="sha">diff</a>
 		</span>,
 	);
 }
