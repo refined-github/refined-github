@@ -9,7 +9,7 @@ function improveShortcutHelp(dialog: Element): void {
 	select('.Box-body .col-5 .Box:first-child', dialog)!.after(
 		<div className="Box Box--condensed m-4">
 			<div className="Box-header">
-				<h3 className="Box-title">Added by Refined GitHub</h3>
+				<h2 className="Box-title">Refined GitHub</h2>
 			</div>
 
 			<ul>
