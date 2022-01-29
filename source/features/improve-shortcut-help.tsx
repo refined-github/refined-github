@@ -51,7 +51,7 @@ function observeShortcutModal({key, target}: KeyboardEvent): void {
 		return;
 	}
 
-	const modal = select('body > details > details-dialog');
+	const modal = select('body > details:not(.js-command-palette-dialog) > details-dialog');
 	if (modal) {
 		observer.observe(modal, {childList: true});
 	}
