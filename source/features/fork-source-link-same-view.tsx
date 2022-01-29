@@ -9,7 +9,7 @@ import {getRepo, getForkedRepo} from '../github-helpers';
 
 const isFilePath = (): boolean => pageDetect.isSingleFile()
 	|| (pageDetect.isRepoTree() && !pageDetect.isRepoRoot())
-	|| pageDetect.isEditingFile();
+	|| pageDetect.hasFileEditor();
 
 async function init(): Promise<void> {
 	const forkedRepository = getRepo(getForkedRepo())!;
