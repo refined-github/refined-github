@@ -5,6 +5,10 @@ import onetime from 'onetime';
 import features from '.';
 import {isEditable} from '../helpers/dom-utils';
 
+function splitKeys(keys: string): DocumentFragment[] {
+	return keys.split(' ').map(key => <> <kbd>{key}</kbd></>);
+}
+
 function improveShortcutHelp(dialog: Element): void {
 	select('.Box-body .col-5 .Box:first-child', dialog)!.after(
 		<div className="Box Box--condensed m-4">
@@ -17,7 +21,7 @@ function improveShortcutHelp(dialog: Element): void {
 					<li className="Box-row d-flex flex-row">
 						<div className="flex-auto">{description}</div>
 						<div className="ml-2 no-wrap">
-							<kbd>{hotkey}</kbd>
+							{splitKeys(hotkey)}
 						</div>
 					</li>
 				))}
