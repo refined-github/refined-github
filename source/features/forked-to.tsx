@@ -29,7 +29,7 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 });
 
 function createLink(baseRepo: string): string {
-	if (pageDetect.isConversation()) {
+	if (pageDetect.isIssue() || pageDetect.isPR()) {
 		return '/' + baseRepo;
 	}
 

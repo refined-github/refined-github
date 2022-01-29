@@ -22,6 +22,14 @@ async function init(): Promise<void> {
 		sameViewUrl.branch = await getDefaultBranch(forkedRepository);
 	}
 
+	if (pageDetect.isIssue() || pageDetect.isPR()) {
+		sameViewUrl.assign({
+			route: '',
+			branch: '',
+			filePath: '',
+		});
+	}
+
 	if (!isFilePath() || await doesFileExist(sameViewUrl)) {
 		select<HTMLAnchorElement>(`[data-hovercard-url="/${getForkedRepo()!}/hovercard"]`)!
 			.pathname = sameViewUrl.pathname;
@@ -31,9 +39,6 @@ async function init(): Promise<void> {
 void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isForkedRepo,
-	],
-	exclude: [
-		pageDetect.isConversation,
 	],
 	deduplicate: false,
 	init,
