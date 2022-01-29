@@ -29,7 +29,7 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 });
 
 function createLink(baseRepo: string): string {
-	if (pageDetect.isSingleFile() || pageDetect.isRepoTree() || pageDetect.isEditingFile()) {
+	if (!pageDetect.isConversation()) {
 		const [user, repository] = baseRepo.split('/', 2);
 		const url = new GitHubURL(location.href).assign({
 			user,
