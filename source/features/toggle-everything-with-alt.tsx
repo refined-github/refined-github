@@ -28,6 +28,8 @@ function collapseSelector(): string {
 	return '.js-file .js-collapse-diff';
 }
 
+const commitMessageSelector = '.TimelineItem .ellipsis-expander';
+
 function init(): void {
 	// Collapsed comments in PR conversations and files
 	delegate(document, '.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector));
@@ -41,6 +43,9 @@ function init(): void {
 	// "Expand all" and "Collapse expanded lines" buttons in commit files
 	delegate(document, '.js-file .js-expand-full', 'click', clickAll(expandSelector));
 	delegate(document, '.js-file .js-collapse-diff', 'click', clickAll(collapseSelector));
+
+	// Commit message buttons in commit lists and PR conversations
+	delegate(document, commitMessageSelector, 'click', clickAll(() => commitMessageSelector));
 }
 
 void features.add(import.meta.url, {
@@ -49,6 +54,7 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFiles,
 		pageDetect.isCommit,
 		pageDetect.isCompare,
+		pageDetect.isCommitList,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,
