@@ -5,10 +5,6 @@ import onetime from 'onetime';
 import features from '.';
 import {isEditable} from '../helpers/dom-utils';
 
-function splitKeys(keys: string): DocumentFragment[] {
-	return keys.split(' ').map(key => <> <kbd>{key}</kbd></>);
-}
-
 function improveShortcutHelp(dialog: Element): void {
 	select('.Box-body .col-5 .Box:first-child', dialog)!.after(
 		<div className="Box Box--condensed m-4">
@@ -30,18 +26,9 @@ function improveShortcutHelp(dialog: Element): void {
 	);
 }
 
-function fixKeys(dialog: Element): void {
-	for (const key of select.all('kbd', dialog)) {
-		if (key.textContent!.includes(' ')) {
-			key.replaceWith(...splitKeys(key.textContent!));
-		}
-	}
-}
-
 const observer = new MutationObserver(([{target}]) => {
 	if (target instanceof Element && !select.exists('.js-details-dialog-spinner', target)) {
 		improveShortcutHelp(target);
-		fixKeys(target);
 		observer.disconnect();
 	}
 });
