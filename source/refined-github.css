@@ -35,15 +35,6 @@
 	display: none !important;
 }
 
-/* Remove user avatar from new comment form on threads */
-.review-thread-reply .avatar {
-	display: none;
-}
-
-.review-thread-reply .review-thread-reply-button {
-	margin-left: 0;
-}
-
 /* Hide `New pull request button` near file list */
 .file-navigation .new-pull-request-btn {
 	display: none;
@@ -164,9 +155,4 @@ pr-branches
 	/* 12px for the padding and 1px for the border https://user-images.githubusercontent.com/46634000/136789268-442caa39-33bc-4af3-8fb2-9cf6db722127.png */
 	width: calc(72ch + 26px);
 	max-width: 100%;
-}
-
-/* Mute visited conversation link on conversation lists */
-.js-issue-row .h4:visited:not(:hover) {
-	color: var(--color-fg-muted) !important;
 }

@@ -1,4 +1,4 @@
-import './align-issue-labels.css';
+import './dim-visited-conversations.css';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';

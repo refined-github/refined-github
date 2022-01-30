@@ -1,20 +1,17 @@
-.footer {
+.footer > div:nth-last-child(2) ul {
 	transition: opacity 0.2s ease;
+	margin: auto;
 }
 
-.footer:not(:hover) {
+.footer:not(:hover) > div:nth-last-child(2) ul {
 	opacity: 30%;
 }
 
-.footer > div > ul:first-of-type li:first-of-type { /* The `© 2017 GitHub, Inc.` text */
-	display: none;
-}
-
-.footer-octicon {
+/* The `© 2022 GitHub, Inc.` text */
+.footer > div:nth-last-child(2) ul:first-child {
 	display: none !important;
 }
 
-.footer li a,
-.footer li .btn-link {
+.footer > div:nth-last-child(2) a {
 	color: var(--color-text-disabled, #666);
 }

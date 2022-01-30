@@ -267,6 +267,7 @@ Thanks for contributing! 🦋🙌
 - [](# "dim-bots") [Dims commits and PRs by bots to reduce noise.](https://user-images.githubusercontent.com/1402241/65263190-44c52b00-db36-11e9-9b33-d275d3c8479d.gif)
 - [](# "esc-to-cancel") [Adds a shortcut to cancel editing a conversation title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
 - [](# "no-duplicate-list-update-time") [Hides the update time of conversations in lists when it matches the open/closed/merged time.](https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png)
+- [](# "dim-visited-conversations") [Dims the title of visited conversations.](https://user-images.githubusercontent.com/44045911/149634307-1ed0e554-6957-4afa-8458-9c5bb4f80ebb.mp4)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -324,7 +325,7 @@ Thanks for contributing! 🦋🙌
 - [](# "deep-reblame") [When exploring blames, `Alt`-clicking the “Reblame” buttons will extract the associated PR’s commits first, instead of treating the commit a single change.](https://user-images.githubusercontent.com/16872793/77248541-8e3f2180-6c10-11ea-91d4-221ccc0ecebb.png)
 - [](# "highlight-deleted-and-added-files-in-diffs") [Indicates with an icon whether files in commits and pull requests being added or removed.](https://user-images.githubusercontent.com/1402241/90332474-23262b00-dfb5-11ea-9a03-8fd676ea0fdd.png)
 - [](# "easy-toggle-files") [Enables toggling file diffs by clicking on their header bar.](https://user-images.githubusercontent.com/47531779/99855419-be173e00-2b7e-11eb-9a55-0f6251aeb0ef.gif)
-- [](# "same-branch-author-commits") [Enables viewing all commits by an author on the same branch you are viewing.](https://user-images.githubusercontent.com/44045911/148764372-ee443213-e61a-4227-9219-0ee54ed832e8.png)
+- [](# "same-branch-author-commits") [Preserves current branch and path when viewing all commits by an author.](https://user-images.githubusercontent.com/44045911/148764372-ee443213-e61a-4227-9219-0ee54ed832e8.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -409,6 +410,7 @@ Thanks for contributing! 🦋🙌
 - [](# "same-page-definition-jump") [Avoids re-loading the page when jumping to function definition in the current file.](https://user-images.githubusercontent.com/16872793/90833649-7a5e2f80-e316-11ea-827d-a4e3ac8ced69.png)
 - [](# "convert-pr-to-draft-improvements") [Moves the "Convert PR to Draft" button to the mergeability box and adds visual feedback to its confirm button.](https://user-images.githubusercontent.com/1402241/95644892-885f3f80-0a7f-11eb-8428-8e0fb0c8dfa5.gif)
 - [](# "clean-header-search-field") [Clears duplicate queries in the header search field.](https://user-images.githubusercontent.com/1402241/114177338-7c890300-9966-11eb-83a3-a711a76fae99.png)
+- [](# "prevent-pr-merge-panel-opening") Prevents the merge panel from automatically opening on every page load after it’s been opened once.
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -418,7 +420,7 @@ Thanks for contributing! 🦋🙌
 
 ## Customization
 
-Most features [can be disabled](https://github.com/refined-github/refined-github/pull/877) if they are JavaScript-based *(Experimental)* and you can override our CSS with your own in [the extension options.](https://github.com/refined-github/refined-github/pull/1193)
+Most features [can be disabled](https://github.com/refined-github/refined-github/pull/877) if they are JavaScript-based and you can override our CSS with your own in [the extension options.](https://github.com/refined-github/refined-github/pull/1193)
 
 We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a high bar for adding features.](https://github.com/refined-github/refined-github/issues/2960) Users will always disagree with something. That being said, we're open to discussing things.
 

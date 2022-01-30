@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -30,45 +29,6 @@ async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> 
 
 	const [{oid}] = repository.ref.target.history.nodes;
 	select('a.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;
-}
-
-function addInlineLinks(menu: HTMLElement, timestamp: string): void {
-	const comment = menu.closest('.js-comment')!;
-
-	const links = select.all<HTMLAnchorElement>(`
-		[href^="${location.origin}"][href*="/blob/"]:not(.${linkifiedURLClass}),
-		[href^="${location.origin}"][href*="/tree/"]:not(.${linkifiedURLClass})
-	`, comment);
-
-	for (const link of links) {
-		const linkParts = link.pathname.split('/');
-		// Skip permalinks
-		if (/^[\da-f]{40}$/.test(linkParts[4])) {
-			continue;
-		}
-
-		const searchParameters = new URLSearchParams(link.search);
-		searchParameters.set('rgh-link-date', timestamp);
-		link.search = String(searchParameters);
-	}
-}
-
-function addDropdownLink(menu: HTMLElement, timestamp: string): void {
-	const dropdown = select('.show-more-popover', menu.parentElement!)!;
-
-	dropdown.append(
-		<>
-			<div className="dropdown-divider"/>
-			<a
-				href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
-				className={'dropdown-item btn-link ' + linkifiedURLClass}
-				role="menuitem"
-				title="Browse repository like it appeared on this day"
-			>
-				View repo at this time
-			</a>
-		</>,
-	);
 }
 
 async function showTimeMachineBar(): Promise<void | false> {
@@ -112,21 +72,48 @@ async function showTimeMachineBar(): Promise<void | false> {
 	);
 }
 
-function updateMenu({delegateTarget: menu}: delegate.Event<MouseEvent, HTMLElement>): void {
-	if (menu.classList.contains('rgh-time-machine-links')) {
-		return;
+function addInlineLinks(menu: HTMLElement, timestamp: string): void {
+	const comment = menu.closest('.js-comment')!;
+	const links = select.all<HTMLAnchorElement>(`
+		[href^="${location.origin}"][href*="/blob/"]:not(.${linkifiedURLClass}),
+		[href^="${location.origin}"][href*="/tree/"]:not(.${linkifiedURLClass})
+	`, comment);
+
+	for (const link of links) {
+		const linkParts = link.pathname.split('/');
+		// Skip permalinks
+		if (/^[\da-f]{40}$/.test(linkParts[4])) {
+			continue;
+		}
+
+		const searchParameters = new URLSearchParams(link.search);
+		searchParameters.set('rgh-link-date', timestamp);
+		link.search = String(searchParameters);
 	}
+}
 
-	const timestamp = menu.closest('.js-comment:not(.timeline-comment-group), .js-timeline-item')!.querySelector('relative-time')!.attributes.datetime.value;
-
-	addDropdownLink(menu, timestamp);
-	addInlineLinks(menu, timestamp);
-	menu.classList.add('rgh-time-machine-links');
+function addDropdownLink(menu: HTMLElement, timestamp: string): void {
+	select('.show-more-popover', menu.parentElement!)!.append(
+		<div className="dropdown-divider"/>,
+		<a
+			href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
+			className={'dropdown-item btn-link ' + linkifiedURLClass}
+			role="menuitem"
+			title="Browse repository like it appeared on this day"
+		>
+			View repo at this time
+		</a>,
+	);
 }
 
 function init(): void {
-	// Use `click` handler instead of `toggle` because there's no easy selector just for `details`
-	delegate(document, '.js-reaction-popover-container ~ details:last-child', 'click', updateMenu);
+	const commentPopupMenus = select.all('.js-reaction-popover-container ~ details:last-child:not(.rgh-time-machine-links)');
+	for (const menu of commentPopupMenus) {
+		menu.classList.add('rgh-time-machine-links');
+		const timestamp = menu.closest('.js-comment:not(.timeline-comment-group), .js-timeline-item')!.querySelector('relative-time')!.attributes.datetime.value;
+		addInlineLinks(menu, timestamp);
+		addDropdownLink(menu, timestamp);
+	}
 }
 
 void features.add(import.meta.url, {

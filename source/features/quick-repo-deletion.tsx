@@ -1,6 +1,7 @@
 import './quick-repo-deletion.css';
 import delay from 'delay';
 import React from 'dom-chef';
+import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
@@ -11,6 +12,7 @@ import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 import pluralize from '../helpers/pluralize';
 import addNotice from '../github-widgets/notice-bar';
+import {getCacheKey} from './forked-to';
 import looseParseInt from '../helpers/loose-parse-int';
 import parseBackticks from '../github-helpers/parse-backticks';
 
@@ -103,6 +105,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 			{action: false},
 		);
 		select('.application-main')!.remove();
+		await cache.delete(getCacheKey());
 		if (document.hidden) {
 			// Try closing the tab if in the background. Could fail, so we still update the UI above
 			void browser.runtime.sendMessage({closeTab: true});
