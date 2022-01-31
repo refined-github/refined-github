@@ -72,18 +72,17 @@ function linkBestComment(bestComment: HTMLElement): void {
 	const avatar = select('img.avatar', bestComment)!.cloneNode();
 
 	bestComment.parentElement!.firstElementChild!.after(
-		<div className="timeline-comment-wrapper pl-0 my-0">
-			<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-tertiary color-bg-subtle px-2 d-flex flex-items-center">
-				{avatar}
-				<span className="btn btn-sm mr-2">
-					<ArrowDownIcon/>
-				</span>
+		<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-tertiary color-bg-subtle px-2 d-flex flex-items-center">
+			{avatar}
 
-				<span className="color-text-secondary color-fg-muted timeline-comment-header-text">
-					Highest-rated comment: <em>{text}</em>
-				</span>
-			</a>
-		</div>,
+			<h3 className="timeline-comment-header-text f5 color-fg-muted text-normal text-italic">
+				<strong>Highest-rated comment</strong> — {text}
+			</h3>
+
+			<div className="color-fg-muted f6 no-wrap">
+				<ArrowDownIcon className="mr-1"/>Jump to comment
+			</div>
+		</a>,
 	);
 }
 
