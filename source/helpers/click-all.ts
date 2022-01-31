@@ -5,13 +5,13 @@ import delegate from 'delegate-it';
 import preserveScroll from './preserve-scroll';
 
 type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
-export default mem((selectorGetter: ((clickedItem: HTMLElement) => string)): EventHandler => event => {
+export default mem((selector: string | ((clickedItem: HTMLElement) => string)): EventHandler => event => {
 	if (event.altKey && event.isTrusted) {
 		const clickedItem = event.delegateTarget;
 
 		// `parentElement` is the anchor because `clickedItem` might be hidden/replaced after the click
 		const resetScroll = preserveScroll(clickedItem.parentElement!);
-		clickAllExcept(selectorGetter(clickedItem), clickedItem);
+		clickAllExcept(typeof selector === 'string' ? selector : selector(clickedItem), clickedItem);
 		resetScroll();
 	}
 });
