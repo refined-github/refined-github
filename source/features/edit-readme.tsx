@@ -7,6 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 import {isPermalink} from '../github-helpers';
+import isArchivedRepo from '../helpers/is-archived-repo';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void | false> {
@@ -43,6 +44,9 @@ async function init(): Promise<void | false> {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoTree,
+	],
+	exclude: [
+		isArchivedRepo,
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
