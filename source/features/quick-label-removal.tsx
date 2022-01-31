@@ -10,6 +10,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import showToast from '../github-helpers/toast';
+import isArchivedRepo from '../helpers/is-archived-repo';
 import {getConversationNumber} from '../github-helpers';
 
 const canNotEditLabels = onetime((): boolean => !select.exists('.label-select-menu .octicon-gear'));
@@ -64,6 +65,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		canNotEditLabels,
+		isArchivedRepo,
 	],
 	deduplicate: 'has-rgh-inner',
 	init: onetime(init),
