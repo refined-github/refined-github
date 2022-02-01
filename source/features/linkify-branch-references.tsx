@@ -43,7 +43,7 @@ const hovercardObserver = new MutationObserver(([mutation]) => {
 		}
 
 		reference.replaceChildren(
-			<a className="color-text-secondary color-fg-muted" href={url.href}>
+			<a className="no-underline" href={url.href}>
 				{[...reference.childNodes]}
 			</a>,
 		);
