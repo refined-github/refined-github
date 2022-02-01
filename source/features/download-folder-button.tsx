@@ -19,23 +19,24 @@ function init(): void {
 	downloadUrl.searchParams.set('url', location.href);
 
 	const deleteButtons = select.all(`form[action^="/${getRepo()!.nameWithOwner}/tree/delete"]`);
-	if (deleteButtons.length === 0) { // There are no buttons to delete the folder on "commit tree" pages #5335
-		select('a.btn[data-hotkey="t"]')!.after(
-			<a
-				className="btn d-none d-md-block tooltipped tooltipped-nw rgh-download-folder"
-				aria-label="Download directory"
-				href={downloadUrl.href}
-			>
-				<DownloadIcon/>
-			</a>,
-		);
-		select('a.dropdown-item[data-hotkey="t"]')!.after(getDropdownItem(downloadUrl));
+	if (deleteButtons.length > 0) { // There are no buttons to delete the folder on "commit tree" pages #5335
+		for (const deleteButton of deleteButtons) {
+			deleteButton.before(getDropdownItem(downloadUrl));
+		}
+		
 		return;
 	}
 
-	for (const deleteButton of deleteButtons) {
-		deleteButton.before(getDropdownItem(downloadUrl));
-	}
+	select('a.dropdown-item[data-hotkey="t"]')!.after(getDropdownItem(downloadUrl));
+	select('a.btn[data-hotkey="t"]')!.after(
+		<a
+			className="btn d-none d-md-block tooltipped tooltipped-nw rgh-download-folder"
+			aria-label="Download directory"
+			href={downloadUrl.href}
+		>
+			<DownloadIcon/>
+		</a>,
+	);
 }
 
 void features.add(import.meta.url, {
