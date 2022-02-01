@@ -8,8 +8,12 @@ function toggleCommitMessage(event: delegate.Event<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
 	// The clicked element is not a button or a link
 	if (!elementClicked.closest('a, button, clipboard-copy')) {
-		select('.ellipsis-expander', event.delegateTarget)!
-			.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
+		select('.ellipsis-expander', event.delegateTarget)?.dispatchEvent(
+			new MouseEvent('click', {
+				bubbles: true,
+				altKey: event.altKey,
+			}),
+		);
 	}
 }
 
