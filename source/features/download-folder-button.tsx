@@ -23,7 +23,7 @@ function init(): void {
 		for (const deleteButton of deleteButtons) {
 			deleteButton.before(getDropdownItem(downloadUrl));
 		}
-		
+
 		return;
 	}
 
