@@ -8,7 +8,7 @@ function toggleCommitMessage(event: MouseEvent): void {
 	const commitBox = elementClicked.closest('.js-commits-list-item')!;
 
 	// The clicked element is not a button or a link
-	if (!elementClicked.closest('a, button')) {
+	if (!elementClicked.closest('a, button, clipboard-copy')) {
 		select('.ellipsis-expander', commitBox)!
 			.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
 	}
