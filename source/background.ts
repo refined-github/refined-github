@@ -2,7 +2,7 @@ import 'webext-dynamic-content-scripts';
 import cache from 'webext-storage-cache'; // Also needed to regularly clear the cache
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 
-import './options-storage';
+import optionsStorage from './options-storage';
 import {getRghIssueUrl} from './helpers/rgh-issue-link';
 import isDevelopmentVersion from './helpers/is-development-version';
 
@@ -44,9 +44,10 @@ browser.runtime.onMessage.addListener((message: typeof messageHandlers, sender) 
 });
 
 // Give the browserAction a reason to exist other than "Enable RGH on this domain"
-browser.browserAction.onClicked.addListener(() => {
+browser.browserAction.onClicked.addListener(async () => {
+	const {actionUrl} = await optionsStorage.getAll();
 	void browser.tabs.create({
-		url: 'https://github.com',
+		url: actionUrl || 'https://github.com',
 	});
 });
 
