@@ -60,6 +60,10 @@ function findError(filename: string): string | void {
 		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
 	}
 
+	if (!featureMeta.screenshot) {
+		return `ERR: ${featureId} should have a screenshot in the readme`;
+	}
+
 	if (duplicate) {
 		return `ERR: ${featureId} should be described only once in the readme`;
 	}
