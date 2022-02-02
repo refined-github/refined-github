@@ -156,3 +156,9 @@ pr-branches
 	width: calc(72ch + 26px);
 	max-width: 100%;
 }
+
+/* Ensure all buttons in the repo file navigation header are aligned in the center rather than to the top */
+
+.file-navigation.flex-items-start {
+	align-items: center !important
+}
