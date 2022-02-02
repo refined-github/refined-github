@@ -37,7 +37,11 @@ function init(): void {
 		lowQualityCount++;
 	}
 
-	for (const commentText of select.all('.comment-body > p:only-child')) {
+	const notLinkedCommentSelector = window.location.hash.startsWith('#issuecomment-')
+		? `.timeline-comment-group:not(${window.location.hash}) .comment-body > p:only-child`
+		: '.comment-body > p:only-child';
+
+	for (const commentText of select.all(notLinkedCommentSelector)) {
 		if (!isLowQualityComment(commentText.textContent!)) {
 			continue;
 		}
