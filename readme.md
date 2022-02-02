@@ -267,7 +267,7 @@ Thanks for contributing! 🦋🙌
 - [](# "dim-bots") [Dims commits and PRs by bots to reduce noise.](https://user-images.githubusercontent.com/1402241/65263190-44c52b00-db36-11e9-9b33-d275d3c8479d.gif)
 - [](# "esc-to-cancel") [Adds a shortcut to cancel editing a conversation title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
 - [](# "no-duplicate-list-update-time") [Hides the update time of conversations in lists when it matches the open/closed/merged time.](https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png)
-- [](# "dim-visited-conversations") [Dims the title of visited conversations.](https://user-images.githubusercontent.com/44045911/149634307-1ed0e554-6957-4afa-8458-9c5bb4f80ebb.mp4)
+- [](# "dim-visited-conversations") [Dims the title of visited conversations.](https://user-images.githubusercontent.com/1402241/152119410-0d90e11e-66e6-4938-b839-861e9e186f33.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -371,7 +371,7 @@ Thanks for contributing! 🦋🙌
 - [](# "select-all-notifications-shortcut") Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
 - [](# "linkify-notification-repository-header") [Linkifies the header of each notification group (when grouped by repository).](https://user-images.githubusercontent.com/1402241/80849887-81531c00-8c19-11ea-8777-7294ce318630.png)
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
-- [](# "select-notifications") 🔥 [Select notifications by type and status.](https://user-images.githubusercontent.com/46634000/124293072-8df13e00-db56-11eb-952a-5c9e1bd11b24.mp4)
+- [](# "select-notifications") 🔥 [Select notifications by type and status.](https://user-images.githubusercontent.com/1402241/152119039-4ea8333f-a744-4106-b56f-cf09f50678be.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
