@@ -37,8 +37,8 @@ function init(): void {
 		lowQualityCount++;
 	}
 
-	const notLinkedCommentSelector = window.location.hash.startsWith('#issuecomment-')
-		? `.timeline-comment-group:not(${window.location.hash}) .comment-body > p:only-child`
+	const notLinkedCommentSelector = location.hash.startsWith('#issuecomment-')
+		? `.timeline-comment-group:not(${location.hash}) .comment-body > p:only-child`
 		: '.comment-body > p:only-child';
 
 	for (const commentText of select.all(notLinkedCommentSelector)) {
