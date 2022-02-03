@@ -6,11 +6,7 @@ import features from '.';
 import clearCacheHandler from '../helpers/clear-cache-handler';
 import {isRefinedGitHubRepo} from '../github-helpers';
 
-function init(): false | void {
-	if (new URL(location.href).searchParams.get('template') !== '1_bug_report.yml') {
-		return false;
-	}
-
+function init(): void {
 	const {version} = browser.runtime.getManifest();
 	select('input#issue_form_extension_version')!.value = version;
 	select('input[id*="extension_cache"]')!.parentElement!.after(
@@ -29,7 +25,7 @@ void features.add(import.meta.url, {
 		isRefinedGitHubRepo,
 	],
 	include: [
-		pageDetect.isNewIssue,
+		() => pageDetect.isNewIssue() && new URL(location.href).searchParams.get('template') === '1_bug_report.yml',
 	],
 	deduplicate: 'has-rgh-inner',
 	init,
