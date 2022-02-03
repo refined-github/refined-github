@@ -25,5 +25,4 @@ test('isLowQualityComment', t => {
 	t.false(isLowQualityComment('Same here. <some useful information>'));
 	t.false(isLowQualityComment('Same here, please update, thanks'));
 	t.false(isLowQualityComment('Same here! Please update, thank you.'));
-	t.false(isLowQualityComment('[here](https://www.example.com)'));
 });
