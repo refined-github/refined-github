@@ -37,7 +37,15 @@ function init(): void {
 		lowQualityCount++;
 	}
 
-	for (const commentText of select.all('.comment-body > p:only-child')) {
+	const commentSelector = '.comment-body > p:only-child';
+	const linkedComment = location.hash.startsWith('#issuecomment-') ? select(`${location.hash} ${commentSelector}`) : undefined;
+
+	for (const commentText of select.all(commentSelector)) {
+		// Exclude explicitely linked comments #5363
+		if (commentText === linkedComment) {
+			continue;
+		}
+
 		if (!isLowQualityComment(commentText.textContent!)) {
 			continue;
 		}
