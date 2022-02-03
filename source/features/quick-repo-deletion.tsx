@@ -9,12 +9,13 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepo} from '../github-helpers';
 import pluralize from '../helpers/pluralize';
 import addNotice from '../github-widgets/notice-bar';
+import GitHubURL from '../github-helpers/github-url';
 import {getCacheKey} from './forked-to';
 import looseParseInt from '../helpers/loose-parse-int';
 import parseBackticks from '../github-helpers/parse-backticks';
+import {getForkedRepo, getRepo} from '../github-helpers';
 
 function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
 	const hasContent = select.exists([
@@ -90,6 +91,11 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	}
 
 	select('.btn', buttonContainer)!.textContent = 'Deleting repo…';
+	const forkedRepository = getRepo(getForkedRepo())!;
+	const forkURL = new GitHubURL(location.href).assign({
+		user: forkedRepository.owner,
+		repository: forkedRepository.name,
+	});
 	try {
 		const {nameWithOwner, owner} = getRepo()!;
 		await api.v3('/repos/' + nameWithOwner, {
@@ -101,7 +107,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 			: '/settings/deleted_repositories';
 		const otherForksURL = `/${owner}?tab=repositories&type=fork`;
 		addNotice(
-			<span>Repository {nameWithOwner} deleted. You might be able to <a href={restoreURL}>restore it</a> or see <a href={otherForksURL}>your other forks.</a></span>,
+			<span>Repository <strong>{nameWithOwner}</strong> deleted. You might be able to <a href={restoreURL}>restore it</a> or see <a href={otherForksURL}>your other forks.</a> You can also visit <a href={forkURL.toString()}>{forkURL}</a></span>,
 			{action: false},
 		);
 		select('.application-main')!.remove();
