@@ -5,10 +5,11 @@ import {readFileSync} from 'node:fs';
 import {parse as parseMarkdown} from 'markdown-wasm/dist/markdown.node.js';
 
 // Group names must be unique because they will be merged
-const simpleFeatureRegex = /^- \[]\(# "(?<simpleId>[^"]+)"\)(?: 🔥)? (?<simpleDescription>.+)$/gm;
-const highlightedFeatureRegex = /<p><a title="(?<highlightedId>[^"]+)"><\/a> (?<highlightedDescripion>.+?)\n\t+<p><img src="(?<highlightedImage>.+?)">/g;
+export const simpleFeatureRegex = /^- \[]\(# "(?<simpleId>[^"]+)"\)(?: 🔥)? (?<simpleDescription>.+)$/gm;
+export const highlightedFeatureRegex = /<p><a title="(?<highlightedId>[^"]+)"><\/a> (?<highlightedDescripion>.+?)\n\t+<p><img src="(?<highlightedImage>.+?)">/g;
 // eslint-disable-next-line unicorn/better-regex -- ur wrong
-const featureRegex = regexJoin(simpleFeatureRegex, /|/, highlightedFeatureRegex);
+export const featureRegex = regexJoin(simpleFeatureRegex, /|/, highlightedFeatureRegex);
+export const screenshotRegex = /\.\w{3}$/ // 3 since .png, .jpg and .gif all have 3 letters
 
 function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 	const {
@@ -36,7 +37,7 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 	return {
 		id: simpleId as FeatureID,
 		description: parseMarkdown(linkLessMarkdownDescription),
-		screenshot: urls.find(url => /\.(png|gif)$/i.test(url)),
+		screenshot: urls.find(url => screenshotRegex.test(url)),
 	};
 }
 
