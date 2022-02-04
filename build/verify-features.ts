@@ -60,8 +60,8 @@ function findError(filename: string): string | void {
 		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
 	}
 
-	if (featureMeta.screenshot && !/\.(png|jpg|gif)$/.test(featureMeta.screenshot)) {
-		return `ERR: ${featureId} should have a screenshot (png/jpg/gif) in the readme`;
+	if (featureMeta.screenshot && !/\.(png|gif)$/.test(featureMeta.screenshot)) {
+		return `ERR: ${featureId} should have a screenshot (png/gif) in the readme`;
 	}
 
 	if (duplicate) {
