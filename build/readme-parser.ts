@@ -9,6 +9,7 @@ const simpleFeatureRegex = /^- \[]\(# "(?<simpleId>[^"]+)"\)(?: 🔥)? (?<simple
 const highlightedFeatureRegex = /<p><a title="(?<highlightedId>[^"]+)"><\/a> (?<highlightedDescripion>.+?)\n\t+<p><img src="(?<highlightedImage>.+?)">/g;
 // eslint-disable-next-line unicorn/better-regex -- ur wrong
 const featureRegex = regexJoin(simpleFeatureRegex, /|/, highlightedFeatureRegex);
+const screenshotRegex = /\.\w{3}$/; // 3 since .png and .gif have 3 letters
 
 function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 	const {
@@ -36,7 +37,7 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 	return {
 		id: simpleId as FeatureID,
 		description: parseMarkdown(linkLessMarkdownDescription),
-		screenshot: urls.find(url => /\.(png|gif)$/i.test(url)),
+		screenshot: urls.find(url => screenshotRegex.test(url)),
 	};
 }
 
