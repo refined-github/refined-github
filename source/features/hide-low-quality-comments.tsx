@@ -51,7 +51,7 @@ function init(): void {
 		}
 
 		// Comments that contain useful images shouldn't be removed
-		if (select.exists('a img', commentText)) {
+		if (select.exists('a', commentText)) {
 			continue;
 		}
 
