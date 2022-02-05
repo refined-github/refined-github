@@ -50,7 +50,8 @@ function init(): void {
 			continue;
 		}
 
-		// Comments that contain useful images shouldn't be removed
+		// Comments that contain useful images or links shouldn't be removed
+		// Images are wrapped in <a> tags on GitHub hence included in the selector
 		if (select.exists('a', commentText)) {
 			continue;
 		}
