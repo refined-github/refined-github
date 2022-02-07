@@ -105,9 +105,8 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		const restoreURL = pageDetect.isOrganizationRepo()
 			? `/organizations/${owner}/settings/deleted_repositories`
 			: '/settings/deleted_repositories';
-		const otherForksURL = `/${owner}?tab=repositories&type=fork`;
 		addNotice(
-			<span>Repository <strong>{nameWithOwner}</strong> deleted. You might be able to <a href={restoreURL}>restore it</a> or see <a href={otherForksURL}>your other forks.</a> You can also visit <a href={forkURL.toString()}>{forkURL}</a></span>,
+			<span>Repository <strong>{nameWithOwner}</strong> deleted. You might be able to <a href={restoreURL}>restore it</a> or you can also visit <a href={forkURL.toString()}>{forkURL}</a>.</span>,
 			{action: false},
 		);
 		select('.application-main')!.remove();
