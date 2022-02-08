@@ -309,6 +309,7 @@ Thanks for contributing! 🦋🙌
 - [](# "clear-pr-merge-commit-message") [Clears the PR merge commit message of clutter, leaving only deduplicated co-authors.](https://user-images.githubusercontent.com/1402241/79257078-62b6fc00-7e89-11ea-8798-c06f33baa94b.png)
 - [](# "quick-review") [Adds a review button to the PR sidebar, automatically focuses the review textarea and adds a keyboard shortcut to open the review popup: <kbd>v</kbd>.](https://user-images.githubusercontent.com/202916/83269671-bb3b2200-a1c7-11ea-90b3-b9457a454162.png)
 - [](# "use-first-commit-message-for-new-prs") [Uses the first commit for a new PR’s title and description.](https://user-images.githubusercontent.com/16872793/87246205-ccf42400-c419-11ea-86d5-0e6570d99e6e.gif)
+- [](# "pr-merge-commit-reviewers") [Adds reviewers who have approved the PR to the default merge commit description.](https://user-images.githubusercontent.com/9374207/152912033-231286ea-96aa-4178-804e-04f9e5cbe154.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
