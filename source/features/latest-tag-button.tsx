@@ -118,7 +118,7 @@ async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();
 
 	if (currentBranch === latestTag || (currentBranch === defaultBranch && aheadBy === 0)) {
-		link.setAttribute('aria-label', 'You’re on the latest tag');
+		link.setAttribute('aria-label', 'You’re on the latest version');
 		link.classList.add('disabled', 'tooltipped', 'tooltipped-ne');
 		return;
 	}
@@ -128,7 +128,7 @@ async function init(): Promise<false | void> {
 		link.setAttribute(
 			'aria-label',
 			aheadBy
-				? `${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest tag`
+				? `${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest version`
 				: `The HEAD of ${defaultBranch} isn’t tagged`,
 		);
 
@@ -146,7 +146,7 @@ async function init(): Promise<false | void> {
 			groupButtons([link, compareLink]).classList.add('flex-self-center', 'd-flex');
 		}
 	} else {
-		link.setAttribute('aria-label', 'Visit the latest tag');
+		link.setAttribute('aria-label', 'Visit the latest version');
 	}
 
 	link.classList.add('tooltipped', 'tooltipped-ne');
