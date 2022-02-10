@@ -214,3 +214,4 @@ import './features/hide-repo-badges';
 import './features/same-branch-author-commits';
 import './features/prevent-pr-merge-panel-opening';
 import './features/dim-visited-conversations';
+import './features/easy-toggle-commit-messages';
