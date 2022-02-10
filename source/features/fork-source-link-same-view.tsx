@@ -20,9 +20,7 @@ async function init(): Promise<void> {
 
 	if (isFilePath()) {
 		sameViewUrl.branch = await getDefaultBranch(forkedRepository);
-	}
-
-	if (pageDetect.isIssue() || pageDetect.isPR()) {
+	} else if (pageDetect.isIssue() || pageDetect.isPR()) {
 		sameViewUrl.assign({
 			route: '',
 			branch: '',
