@@ -12,6 +12,7 @@ export const commitSelector = [
 	'[data-test-selector="pr-timeline-commits-list"] .TimelineItem',
 ].join(',');
 
+// `summary` is needed because the details dropdown contains the list of check runs, each with its status icon
 export const commitStatusIconSelector = 'details.commit-build-statuses summary .octicon';
 
 export function getLastCommitReference(): string | null {
