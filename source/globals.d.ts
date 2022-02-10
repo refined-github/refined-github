@@ -45,6 +45,7 @@ declare namespace JSX {
 		'include-fragment': IntrinsicElements.div & {src?: string};
 		'label': IntrinsicElements.label & {for?: string};
 		'relative-time': IntrinsicElements.div & {datetime: string};
+		'tab-container': IntrinsicElements.div;
 		'time-ago': IntrinsicElements.div & {datetime: string; format?: string};
 	}
 
