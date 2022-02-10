@@ -5,19 +5,26 @@ import onetime from 'onetime';
 import delegate from 'delegate-it';
 import {InfoIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import pRetry, {AbortError} from 'p-retry';
 
 import features from '.';
+import observeElement from '../helpers/simplified-element-observer';
 import * as prCiStatus from '../github-helpers/pr-ci-status';
+import getWorkflowsCount from '../github-helpers/get-workflows-count';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
-
-let waiting: symbol | undefined;
 
 // Reuse the same checkbox to preserve its status
 const generateCheckbox = onetime(() => (
 	<label className="v-align-text-top">
 		<input checked type="checkbox" name="rgh-pr-check-waiter"/>
 		{' Wait for successful checks '}
-		<a className="tooltipped tooltipped-n ml-1" target="_blank" rel="noopener noreferrer" href="https://github.com/refined-github/refined-github/pull/975" aria-label="This only works if you keep this tab open while waiting.">
+		<a
+			className="tooltipped tooltipped-n ml-1"
+			target="_blank"
+			rel="noopener noreferrer"
+			href="https://github.com/refined-github/refined-github/pull/975"
+			aria-label="This only works if you keep this tab open in the background while waiting."
+		>
 			<InfoIcon/>
 		</a>
 	</label>
@@ -27,16 +34,23 @@ function getCheckbox(): HTMLInputElement | undefined {
 	return select('input[name="rgh-pr-check-waiter"]');
 }
 
-// Only show the checkbox if there's a pending commit
+// Only show the checkbox if the last commit doesn't have a green or red CI icon
 function showCheckboxIfNecessary(): void {
 	const checkbox = getCheckbox();
-	const isNecessary = prCiStatus.get() === prCiStatus.PENDING;
+	const lastCommitStatus = prCiStatus.getLastCommitStatus();
+
+	const isNecessary = lastCommitStatus === prCiStatus.PENDING
+		// In case the last commit is missing a CI icon but other commits have one
+		|| (lastCommitStatus === false && select.exists(`${prCiStatus.commitSelector} ${prCiStatus.commitStatusIconSelector}`));
+
 	if (!checkbox && isNecessary) {
 		select('.js-merge-form .select-menu')?.append(generateCheckbox());
 	} else if (checkbox && !isNecessary) {
 		checkbox.parentElement!.remove();
 	}
 }
+
+let waiting: symbol | undefined;
 
 function disableForm(disabled = true): void {
 	for (const field of select.all(`
@@ -55,24 +69,72 @@ function disableForm(disabled = true): void {
 }
 
 async function handleMergeConfirmation(event: delegate.Event<Event, HTMLButtonElement>): Promise<void> {
-	const checkbox = getCheckbox();
-	if (checkbox?.checked) {
-		event.preventDefault();
-
-		disableForm();
-		const currentConfirmation = Symbol('');
-		waiting = currentConfirmation;
-		const status = await prCiStatus.wait();
-
-		// Ensure that it wasn't cancelled/changed in the meanwhile
-		if (waiting === currentConfirmation) {
-			disableForm(false);
-
-			if (status === prCiStatus.SUCCESS) {
-				event.delegateTarget.click();
-			}
-		}
+	if (!getCheckbox()?.checked) {
+		return;
 	}
+
+	const lastCommitSha = prCiStatus.getLastCommitReference()?.trim();
+	if (!lastCommitSha) {
+		return;
+	}
+
+	event.preventDefault();
+	disableForm();
+	const currentConfirmation = Symbol('');
+	waiting = currentConfirmation;
+
+	let result: prCiStatus.CommitStatus;
+	try {
+		result = await pRetry(async () => {
+			const status = await prCiStatus.getCommitStatus(lastCommitSha);
+
+			// Ensure that it wasn't cancelled/changed in the meanwhile
+			if (waiting !== currentConfirmation) {
+				throw new AbortError('The merge was cancelled or a new commit was pushed');
+			}
+
+			if (status === prCiStatus.PENDING) {
+				throw new Error('CI is not done yet');
+			}
+
+			return status;
+		}, {
+			forever: true,
+			minTimeout: 5000,
+			maxTimeout: 10_000,
+		});
+	} catch {
+		return;
+	} finally {
+		disableForm(false);
+	}
+
+	if (result === prCiStatus.SUCCESS) {
+		event.delegateTarget.classList.add('rgh-merging'); // Avoid triggering the event listener again
+		event.delegateTarget.click();
+	}
+}
+
+function watchForNewCommits(): VoidFunction {
+	let previousCommit = prCiStatus.getLastCommitReference();
+	const filteredListener = (): void => {
+		const newCommit = prCiStatus.getLastCommitReference();
+		if (newCommit === previousCommit) {
+			return;
+		}
+
+		previousCommit = newCommit;
+		// Cancel submission if a new commit was pushed
+		disableForm(false);
+		showCheckboxIfNecessary();
+	};
+
+	const observer = observeElement('.js-discussion', filteredListener, {
+		childList: true,
+		subtree: true,
+	})!;
+
+	return observer.disconnect;
 }
 
 function onBeforeunload(event: BeforeUnloadEvent): void {
@@ -81,35 +143,47 @@ function onBeforeunload(event: BeforeUnloadEvent): void {
 	}
 }
 
-function init(): VoidFunction {
-	// Watch for new commits and their statuses
-	prCiStatus.addEventListener(showCheckboxIfNecessary);
+async function init(): Promise<false | VoidFunction[]> {
+	if (await getWorkflowsCount() === 0) {
+		return false;
+	}
 
 	onPrMergePanelOpen(showCheckboxIfNecessary);
 
-	// One of the merge buttons has been clicked
-	delegate(document, '.js-merge-commit-button', 'click', handleMergeConfirmation);
+	const deinit: VoidFunction[] = [
+		watchForNewCommits(),
 
-	// Cancel wait when the user presses the Cancel button
-	delegate(document, '.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
-		disableForm(false);
+		// One of the merge buttons has been clicked
+		delegate(document, '.js-merge-commit-button:not(.rgh-merging)', 'click', handleMergeConfirmation).destroy,
+
+		// Cancel wait when the user presses the Cancel button
+		delegate(document, '.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
+			disableForm(false);
+		}).destroy,
+	];
+
+	// Warn user if it's not yet submitted
+	window.addEventListener('beforeunload', onBeforeunload);
+	deinit.push(() => {
+		window.removeEventListener('beforeunload', onBeforeunload);
 	});
 
-	// Warn user if it's not yet submitted.
-	window.addEventListener('beforeunload', onBeforeunload);
-
-	return () => {
-		window.removeEventListener('beforeunload', onBeforeunload);
-	};
+	return deinit;
 }
 
 void features.add(import.meta.url, {
 	asLongAs: [
+		pageDetect.isOpenPR,
+		// The repo has enabled Actions
+		() => select.exists('#actions-tab'),
 		// The user is a maintainer, so they can probably merge the PR
 		() => select.exists('.discussion-sidebar-item .octicon-lock'),
 	],
 	include: [
 		pageDetect.isPRConversation,
+	],
+	exclude: [
+		pageDetect.isDraftPR,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,
