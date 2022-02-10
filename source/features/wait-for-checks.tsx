@@ -39,8 +39,8 @@ function showCheckboxIfNecessary(): void {
 	const lastCommitStatus = prCiStatus.getLastCommitStatus();
 
 	const isNecessary = lastCommitStatus === prCiStatus.PENDING
-		// In case the last commit is missing a CI icon but other commits have one
-		|| (lastCommitStatus === false && select.exists(`${prCiStatus.commitSelector} ${prCiStatus.commitStatusIconSelector}`));
+		// If the latest commit is missing an icon, add the checkbox as long as there's at least one CI icon on the page (including `ci-link`)
+		|| (lastCommitStatus === false && select.exists(prCiStatus.commitStatusIconSelector));
 
 	if (!checkbox && isNecessary) {
 		select('.js-merge-form .select-menu')?.append(generateCheckbox());
