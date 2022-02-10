@@ -37,13 +37,22 @@ function init(): void {
 		lowQualityCount++;
 	}
 
-	for (const commentText of select.all('.comment-body > p:only-child')) {
+	const commentSelector = '.comment-body > p:only-child';
+	const linkedComment = location.hash.startsWith('#issuecomment-') ? select(`${location.hash} ${commentSelector}`) : undefined;
+
+	for (const commentText of select.all(commentSelector)) {
+		// Exclude explicitely linked comments #5363
+		if (commentText === linkedComment) {
+			continue;
+		}
+
 		if (!isLowQualityComment(commentText.textContent!)) {
 			continue;
 		}
 
-		// Comments that contain useful images shouldn't be removed
-		if (select.exists('a img', commentText)) {
+		// Comments that contain useful images or links shouldn't be removed
+		// Images are wrapped in <a> tags on GitHub hence included in the selector
+		if (select.exists('a', commentText)) {
 			continue;
 		}
 
