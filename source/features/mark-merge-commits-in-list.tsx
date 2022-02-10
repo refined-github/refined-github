@@ -53,5 +53,6 @@ void features.add(import.meta.url, {
 		pageDetect.isCommitList,
 		pageDetect.isPRConversation,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });
