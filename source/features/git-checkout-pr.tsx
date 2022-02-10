@@ -51,7 +51,7 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 						<CheckIcon className="js-clipboard-check-icon color-text-success color-fg-success d-none m-2"/>
 					</clipboard-copy>
 				</div>
-				<pre id={`rgh-checkout-pr-${remoteType!}`} className="mb-2 rgh-linkified-code">
+				<pre id={`rgh-checkout-pr-${remoteType!}`} className="mb-2 rgh-linkified-code">{/* `.rgh-linkified-code` is intentionally added to avoid parsing */}
 					<code>
 						{remote && `git remote add ${remote} ${connectionType[remoteType!]}${nameWithOwner}.git\n`}
 						git fetch {remote ?? 'origin'} {headBranch}{'\n'}
