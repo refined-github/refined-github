@@ -5,10 +5,10 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
+import * as api from '../github-helpers/api';
 import getTabCount from '../github-helpers/get-tab-count';
 import looseParseInt from '../helpers/loose-parse-int';
 import abbreviateNumber from '../helpers/abbreviate-number';
-import getWorkflowsCount from '../github-helpers/get-workflows-count';
 import {buildRepoURL, getRepo} from '../github-helpers';
 import {onlyShowInDropdown, unhideOverflowDropdown} from './more-dropdown-links';
 
@@ -38,6 +38,22 @@ const getWikiPageCount = cache.function(async (): Promise<number> => {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 5},
 	cacheKey: () => 'wiki-page-count:' + getRepo()!.nameWithOwner,
+});
+
+const getWorkflowsCount = cache.function(async (): Promise<number> => {
+	const {repository: {workflowFiles}} = await api.v4(`
+		repository() {
+			workflowFiles: object(expression: "HEAD:.github/workflows") {
+				... on Tree { entries { oid } }
+			}
+		}
+	`);
+
+	return workflowFiles?.entries.length ?? 0;
+}, {
+	maxAge: {days: 1},
+	staleWhileRevalidate: {days: 10},
+	cacheKey: () => 'workflows-count:' + getRepo()!.nameWithOwner,
 });
 
 async function initWiki(): Promise<void | false> {

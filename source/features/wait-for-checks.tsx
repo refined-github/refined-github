@@ -10,7 +10,6 @@ import pRetry, {AbortError} from 'p-retry';
 import features from '.';
 import observeElement from '../helpers/simplified-element-observer';
 import * as prCiStatus from '../github-helpers/pr-ci-status';
-import getWorkflowsCount from '../github-helpers/get-workflows-count';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 // Reuse the same checkbox to preserve its status
@@ -144,10 +143,6 @@ function onBeforeunload(event: BeforeUnloadEvent): void {
 }
 
 async function init(): Promise<false | VoidFunction[]> {
-	if (await getWorkflowsCount() === 0) {
-		return false;
-	}
-
 	onPrMergePanelOpen(showCheckboxIfNecessary);
 
 	const deinit: VoidFunction[] = [
