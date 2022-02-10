@@ -12,16 +12,16 @@ import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 import pluralize from '../helpers/pluralize';
 import addNotice from '../github-widgets/notice-bar';
-import {getPRCount} from './show-open-prs-of-forks';
 import {getCacheKey} from './forked-to';
 import looseParseInt from '../helpers/loose-parse-int';
 import parseBackticks from '../github-helpers/parse-backticks';
 
-async function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): Promise<void> {
+function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
 	const hasContent = select.exists([
 		'[data-hotkey="g i"] .Counter:not([hidden])', // Open issues
 		'[data-hotkey="g p"] .Counter:not([hidden])', // Open PRs
-	]) || (pageDetect.isForkedRepo() && await getPRCount() !== 0); // PRs opened in the source repo
+		'.rgh-open-prs-of-forks', // PRs opened in the source repo
+	]);
 
 	if (hasContent && !confirm('This repo has open issues/PRs, are you sure you want to delete everything?')) {
 		// Close the <details> element again

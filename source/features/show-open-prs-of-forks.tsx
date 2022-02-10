@@ -46,13 +46,6 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: nu
 	cacheKey: ([forkedRepo]): string => `prs-on-forked-repo:${forkedRepo}:${getRepo()!.nameWithOwner}`,
 });
 
-// eslint-disable-next-line import/prefer-default-export
-export async function getPRCount(): Promise<number> {
-	const forkedRepo = getForkedRepo()!;
-	const [count] = await countPRs(forkedRepo);
-	return count;
-}
-
 // eslint-disable-next-line @typescript-eslint/ban-types
 async function getPRs(): Promise<[prCount: number, url: string] | []> {
 	// Wait for the tab bar to be loaded
@@ -79,7 +72,8 @@ async function initHeadHint(): Promise<void | false> {
 	}
 
 	select(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`)!.after(
-		<> with <a href={url}>{getLinkCopy(count)}</a></>,
+		// The class is used by `quick-fork-deletion`
+		<> with <a href={url} className="rgh-open-prs-of-forks">{getLinkCopy(count)}</a></>,
 	);
 }
 
