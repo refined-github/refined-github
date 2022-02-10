@@ -1,8 +1,8 @@
 import './mark-merge-commits-in-list.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import {GitMergeIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
-import {GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -43,7 +43,7 @@ async function init(): Promise<void> {
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
 			commit.classList.add('rgh-merge-commit');
-			select('div > p', commit)!.prepend(<GitPullRequestIcon/>);
+			select('div > p', commit)!.prepend(<GitMergeIcon/>);
 		}
 	}
 }
