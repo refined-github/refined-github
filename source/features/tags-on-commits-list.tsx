@@ -119,7 +119,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 async function init(): Promise<void | false> {
 	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
 
-	const commitsOnPage = select.all('li.js-commits-list-item');
+	const commitsOnPage = select.all('.js-commits-list-item');
 	const lastCommitOnPage = getCommitHash(commitsOnPage[commitsOnPage.length - 1]);
 	let cached = await cache.get<Record<string, string[]>>(cacheKey) ?? {};
 	const commitsWithNoTags = [];

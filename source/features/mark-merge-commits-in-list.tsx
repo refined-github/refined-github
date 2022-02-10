@@ -34,16 +34,16 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 
 // eslint-disable-next-line import/prefer-default-export
 export function getCommitHash(commit: HTMLElement): string {
-	return select('clipboard-copy[aria-label="Copy the full SHA"]', commit)!.getAttribute('value')!;
+	return select('a.markdown-title', commit)!.pathname.split('/').pop()!;
 }
 
 async function init(): Promise<void> {
-	const pageCommits = select.all('li.js-commits-list-item');
+	const pageCommits = select.all('.js-commits-list-item, [data-test-selector="pr-timeline-commits-list"] .TimelineItem');
 	const mergeCommits = await filterMergeCommits(pageCommits.map(commit => getCommitHash(commit)));
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
 			commit.classList.add('rgh-merge-commit');
-			select('div > p', commit)!.prepend(<GitMergeIcon/>);
+			select('a.markdown-title', commit)!.before(<GitMergeIcon className="mr-1"/>);
 		}
 	}
 }
@@ -51,6 +51,7 @@ async function init(): Promise<void> {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isCommitList,
+		pageDetect.isPRConversation,
 	],
 	init,
 });
