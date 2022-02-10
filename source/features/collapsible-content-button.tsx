@@ -39,7 +39,7 @@ function addButtons(): void {
 	for (const anchor of select.all('md-ref:not(.rgh-collapsible-content-btn-added)')) {
 		anchor.classList.add('rgh-collapsible-content-btn-added');
 		anchor.after(
-			<button type="button" className="toolbar-item tooltipped tooltipped-sw rgh-collapsible-content-btn" aria-label="Add collapsible content">
+			<button type="button" className="toolbar-item btn-octicon p-2 p-md-1 tooltipped tooltipped-sw rgh-collapsible-content-btn" aria-label="Add collapsible content">
 				<FoldDownIcon/>
 			</button>,
 		);
