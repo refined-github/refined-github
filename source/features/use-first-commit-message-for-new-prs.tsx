@@ -13,12 +13,12 @@ function getFirstCommitMessage(): string[] {
 	}
 
 	// Linkified commit summaries are split into several adjacent links #5382
-	const commitSummary = select.all('#commits_bucket .js-commits-list-item:first-child .js-details-container > p > a')
+	const commitSummary = select.all('.js-commits-list-item:first-child .js-details-container > p > a')
 		.map(commitTitleLink => commitTitleLink.innerHTML)
 		.join('')
 		.replace(/<\/?code>/g, '`');
 
-	const commitDescription = select('#commits_bucket .js-commits-list-item pre')?.textContent ?? '';
+	const commitDescription = select('.js-commits-list-item pre')?.textContent ?? '';
 
 	return [commitSummary, commitDescription];
 }
