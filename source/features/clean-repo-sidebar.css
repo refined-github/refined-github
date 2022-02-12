@@ -9,17 +9,17 @@
 }
 
 /* Hide "Readme" link made unnecessary by `toggle-files-button` #3580 */
-.rgh-clean-repo-sidebar [href$="#readme"] {
+.rgh-clean-repo-sidebar [href$='#readme'] {
 	display: none;
 }
 
 /* Hide "Releases" header */
 @media (min-width: 768px) {
-	.rgh-clean-repo-sidebar h2 [href$="/releases"] {
+	.rgh-clean-repo-sidebar h2 [href$='/releases'] {
 		display: none;
 	}
 
-	.rgh-clean-repo-sidebar [href*="/releases/tag"] {
+	.rgh-clean-repo-sidebar [href*='/releases/tag'] {
 		margin-top: -16px;
 	}
 }
