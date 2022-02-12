@@ -64,7 +64,7 @@
 	flex-wrap: wrap;
 }
 
-/* Restore margin between reactions on releases #5287 */
-[data-test-selector='release-card'] .social-reaction-summary-item:not(:first-child) {
+/* Restore margin between reactions on PRs and releases #5287 */
+:is(#discussion_bucket.pull-request-tab-content, [data-test-selector='release-card']) .social-reaction-summary-item:not(:first-child) {
 	margin-left: 8px !important;
 }
