@@ -138,10 +138,6 @@ li[data-validation] {
 	opacity: 50%;
 }
 
-.sr-only {
-	display: none;
-}
-
 #debugging {
 	--background:
 		repeating-linear-gradient(
