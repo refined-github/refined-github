@@ -12,7 +12,7 @@
 
 /* Limit dropdown height */
 :root .rgh-tags-dropdown .SelectMenu-list {
-	max-height: 300px !important;
+	max-height: 330px !important;
 }
 
 /* Fix layout breakage on smaller screens */
