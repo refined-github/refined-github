@@ -6,12 +6,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-async function hideReadmeLink(): Promise<void> {
-	// Hide "Readme" link made unnecessary by toggle-files-button #3580
-	const link = await elementReady('.Link--muted[href="#readme"]');
-	link?.parentElement!.setAttribute('hidden', 'true');
-}
-
 async function cleanReleases(): Promise<void> {
 	const sidebarReleases = await elementReady('.BorderGrid-cell h2 a[href$="/releases"]', {waitForChildren: false});
 	if (!sidebarReleases) {
@@ -26,16 +20,11 @@ async function cleanReleases(): Promise<void> {
 	}
 
 	// Collapse "Releases" section into previous section
-	releasesSection.classList.add('border-0', 'pt-3');
+	releasesSection.classList.add('border-0', 'pt-md-3');
 	sidebarReleases.closest('.BorderGrid-row')!
 		.previousElementSibling! // About’s .BorderGrid-row
 		.firstElementChild! // About’s .BorderGrid-cell
 		.classList.add('border-0', 'pb-0');
-
-	// Hide header and footer
-	for (const unnecessaryInformation of select.all(':scope > :not(a)', releasesSection)) {
-		unnecessaryInformation.hidden = true;
-	}
 
 	// Align latest tag icon with the icons of other meta links
 	const tagIcon = select('.octicon-tag:not(.color-text-success, .color-fg-success)', releasesSection)!;
@@ -75,7 +64,6 @@ async function init(): Promise<void> {
 	document.body.classList.add('rgh-clean-repo-sidebar');
 
 	await Promise.all([
-		hideReadmeLink(),
 		cleanReleases(),
 		hideEmptyPackages(),
 		hideLanguageHeader(),
