@@ -15,13 +15,6 @@ a.rgh-highest-rated-comment {
 	border: 2px solid var(--color-success-emphasis) !important;
 }
 
-a.rgh-highest-rated-comment .timeline-comment-header-text {
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
-	max-width: none;
-}
-
 a.rgh-highest-rated-comment .avatar {
 	position: absolute;
 	left: -58px;

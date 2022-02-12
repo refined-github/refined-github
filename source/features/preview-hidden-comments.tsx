@@ -1,4 +1,3 @@
-import './preview-hidden-comments.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
@@ -28,6 +27,7 @@ function init(): void {
 			continue;
 		}
 
+		header.classList.add('css-truncate', 'css-truncate-overflow', 'mr-2');
 		header.append(
 			<span className="Details-content--open">{select(':scope > .d-inline-block', header) ?? header.firstChild}</span>,
 			<span className="Details-content--closed">

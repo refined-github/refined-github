@@ -74,7 +74,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 		<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-tertiary color-bg-subtle px-2 d-flex flex-items-center">
 			{avatar}
 
-			<h3 className="timeline-comment-header-text f5 color-fg-muted text-normal text-italic">
+			<h3 className="timeline-comment-header-text f5 color-fg-muted text-normal text-italic css-truncate css-truncate-overflow mr-2">
 				<span className="Label mr-2">Highest-rated</span>{text}
 			</h3>
 
