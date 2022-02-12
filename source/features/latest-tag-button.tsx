@@ -142,7 +142,7 @@ async function init(): Promise<false | void> {
 					<DiffIcon className="v-align-middle"/>
 				</a>
 			);
-			groupButtons([link, compareLink]).classList.add('flex-self-center', 'd-flex');
+			groupButtons([link, compareLink]).classList.add('d-flex');
 		}
 	} else {
 		link.setAttribute('aria-label', 'Visit the latest release');

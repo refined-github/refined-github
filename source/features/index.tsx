@@ -13,7 +13,7 @@ import optionsStorage, {RGHOptions} from '../options-storage';
 import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyleHotfixes} from '../helpers/hotfix';
 
 type BooleanFunction = () => boolean;
-type CallerFunction = (callback: VoidFunction) => void;
+export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void;
 type FeatureInitResult = false | void | VoidFunction | VoidFunction[];
 type FeatureInit = () => Promisable<FeatureInitResult>;
 
@@ -70,7 +70,6 @@ const logError = (url: string, error: unknown): void => {
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 	newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
 	newIssueUrl.searchParams.set('example_urls', location.href);
-	newIssueUrl.searchParams.set('extension_version', version);
 	newIssueUrl.searchParams.set('description', [
 		'```',
 		String(error instanceof Error ? error.stack! : error).trim(),
@@ -156,6 +155,11 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 		return;
 	}
 
+	const controller = new AbortController();
+	document.addEventListener('pjax:start', () => {
+		controller.abort();
+	}, {once: true});
+
 	const runFeature = async (): Promise<void> => {
 		let result: FeatureInitResult;
 
@@ -186,7 +190,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 
 	await domLoaded; // Listeners likely need to work on the whole page
 	for (const listener of additionalListeners) {
-		listener(runFeature);
+		listener(runFeature, controller.signal);
 	}
 };
 
@@ -271,11 +275,11 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 	}
 };
 
-const addCssFeature = async (url: string, include: BooleanFunction[] | undefined, deduplicate?: false | string): Promise<void> => {
+const addCssFeature = async (url: string, include: BooleanFunction[] | undefined): Promise<void> => {
 	const id = getFeatureID(url);
 	void add(id, {
 		include,
-		deduplicate,
+		deduplicate: false,
 		awaitDomReady: false,
 		init: () => {
 			document.body.classList.add('rgh-' + id);

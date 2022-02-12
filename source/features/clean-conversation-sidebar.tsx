@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import onElementRemoval from '../helpers/on-element-removal';
-import onReplacedElement from '../helpers/on-replaced-element';
+import onDiscussionSidebarUpdate from '../github-events/on-discussion-sidebar-update';
 
 const canEditSidebar = onetime((): boolean => select.exists('.discussion-sidebar-item [data-hotkey="l"]'));
 
@@ -117,9 +117,7 @@ void features.add(import.meta.url, {
 		pageDetect.isConversation,
 	],
 	additionalListeners: [
-		runFeature => {
-			void onReplacedElement('#partial-discussion-sidebar', runFeature);
-		},
+		onDiscussionSidebarUpdate,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,

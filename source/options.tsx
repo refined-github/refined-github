@@ -10,6 +10,7 @@ import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
 import featureLink from './helpers/feature-link';
+import clearCacheHandler from './helpers/clear-cache-handler';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
 import {importedFeatures, featuresMeta} from '../readme.md';
@@ -122,25 +123,11 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 				)}
 				{descriptionElement}
 				{screenshot && (
-					screenshot.endsWith('.mp4') || screenshot.endsWith('.mov')
-						? <video hidden controls data-src={screenshot} className="screenshot"/>
-						: <img hidden data-src={screenshot} className="screenshot"/>
+					<img hidden data-src={screenshot} className="screenshot"/>
 				)}
 			</div>
 		</div>
 	);
-}
-
-async function clearCacheHandler(event: Event): Promise<void> {
-	await cache.clear();
-	const button = event.target as HTMLButtonElement;
-	const initialText = button.textContent;
-	button.textContent = 'Cache cleared!';
-	button.disabled = true;
-	setTimeout(() => {
-		button.textContent = initialText;
-		button.disabled = false;
-	}, 2000);
 }
 
 async function findFeatureHandler(event: Event): Promise<void> {
@@ -175,8 +162,8 @@ function toggleScreenshot(feature: Element): void {
 	const toggle = feature.querySelector('input.screenshot-toggle')!;
 	toggle.checked = !toggle.checked;
 
-	// Lazy-load image/video
-	const screenshot = feature.querySelector<HTMLImageElement | HTMLVideoElement>('.screenshot')!;
+	// Lazy-load image
+	const screenshot = feature.querySelector('img.screenshot')!;
 	screenshot.src = screenshot.dataset.src!;
 }
 

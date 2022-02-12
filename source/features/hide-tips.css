@@ -1,35 +1,7 @@
-/* Remove the "Styling with Markdown is supported" link when a PR comment is in edit mode */
-a.tabnav-extra[href$='mastering-markdown/'] {
-	display: none !important;
-}
-
-/* Remove the "helpful" banner on the issue tracker listing */
-.repository-content .mb-4.js-notice {
-	display: none !important;
-}
-
-/* Remove the "helpful" popover on the repo label page */
-.labels-list .TutorialPopover {
-	display: none !important;
-}
-
-/* Remove "Continuous integration has not been set up" message on PRs */
-.branch-action-item.marketplace-product-callout {
-	display: none;
-}
-
-/* Remove "pro tip!" box on profile page (appears when name isn't set) */
-.new-user-avatar-cta {
-	display: none !important;
-}
-
 /* Remove random protip at the bottom of some pages */
+.protip, /* Conversations */
+.js-notifications-list-protip, /* "Save" and "Done" notification lists */
 .paginate-container + .text-center:last-child, /* Conversation lists */
-.js-notifications-container .js-navigation-container + .flex-items-center:last-child { /* Notification list */
-	display: none !important;
-}
-
-/* Remove Marketplace marketing box on PRs */
-.js-marketplace-callout-container {
+.js-notifications-container :is(.octicon-light-bulb, .octicon-light-bulb + div) { /* Notifications inbox */
 	display: none !important;
 }

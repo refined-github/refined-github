@@ -156,3 +156,13 @@ pr-branches
 	width: calc(72ch + 26px);
 	max-width: 100%;
 }
+
+/* Ensure all buttons in the repo file navigation header are aligned in the center rather than to the top */
+.file-navigation.flex-items-start {
+	align-items: center !important;
+}
+
+/* Hide "Unpin" button in repo header https://github.com/refined-github/refined-github/issues/5398#issuecomment-1036112206 */
+.pagehead-actions [data-test-selector='pin-repo-button'] {
+	display: none !important;
+}

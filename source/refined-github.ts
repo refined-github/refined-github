@@ -21,6 +21,7 @@ import './features/align-repository-header.css';
 import './features/night-not-found.css';
 import './features/hide-empty-profile-status.css';
 import './features/hide-watch-and-fork-count.css';
+import './features/clean-commit-form.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -213,3 +214,5 @@ import './features/hide-repo-badges';
 import './features/same-branch-author-commits';
 import './features/prevent-pr-merge-panel-opening';
 import './features/dim-visited-conversations';
+import './features/rgh-improve-new-issue-form';
+import './features/easy-toggle-commit-messages';
