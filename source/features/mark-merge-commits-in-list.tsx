@@ -38,7 +38,10 @@ export function getCommitHash(commit: HTMLElement): string {
 }
 
 async function init(): Promise<void> {
-	const pageCommits = select.all('.js-commits-list-item, [data-test-selector="pr-timeline-commits-list"] .TimelineItem');
+	const pageCommits = select.all([
+		'.js-commits-list-item', // `isCommitList`
+		'[data-test-selector="pr-timeline-commits-list"] .TimelineItem', // `isPRConversation`
+	].join(','));
 	const mergeCommits = await filterMergeCommits(pageCommits.map(commit => getCommitHash(commit)));
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
