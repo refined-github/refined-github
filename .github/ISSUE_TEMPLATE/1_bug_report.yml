@@ -14,7 +14,7 @@ body:
       options:
         - label: The bug is caused by Refined GitHub. It doesn't happen if I disable the extension.
           required: true
-        - label: The bug happens after clearing extension cache. The "Clear cache" button can be found at the bottom of the options page.
+        - label: The bug happens after clearing extension cache. The "Clear cache" button below can also be found at the bottom of the options page.
           required: true
   - type: textarea
     attributes:
