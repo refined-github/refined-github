@@ -13,6 +13,11 @@
 	margin-left: 8px;
 }
 
+/* Avoid scroll bar on single-line `pre` in Markdown #4899 */
+.zeroclipboard-container clipboard-copy {
+	margin-bottom: 0 !important;
+}
+
 /* Bold username in conversation lists #4899 */
 :is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type='user'] {
 	font-weight: 600;
