@@ -75,7 +75,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 			{avatar}
 
 			<h3 className="timeline-comment-header-text f5 color-fg-muted text-normal text-italic">
-				<strong>Highest-rated comment</strong> — {text}
+				<span className="Label mr-2">Highest-rated</span>{text}
 			</h3>
 
 			<div className="color-fg-muted f6 no-wrap">

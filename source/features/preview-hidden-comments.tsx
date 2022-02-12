@@ -31,7 +31,7 @@ function init(): void {
 		header.append(
 			<span className="Details-content--open">{select(':scope > .d-inline-block', header) ?? header.firstChild}</span>,
 			<span className="Details-content--closed">
-				<strong>{upperCaseFirst(reason)}</strong> — {commentText.slice(0, 100)}
+				<span className="Label mr-2">{upperCaseFirst(reason)}</span>{commentText.slice(0, 100)}
 			</span>,
 		);
 	}
