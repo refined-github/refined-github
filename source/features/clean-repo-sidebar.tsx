@@ -20,7 +20,7 @@ async function cleanReleases(): Promise<void> {
 	}
 
 	// Collapse "Releases" section into previous section
-	releasesSection.classList.add('border-0', 'pt-md-3');
+	releasesSection.classList.add('border-0', 'pt-md-0');
 	sidebarReleases.closest('.BorderGrid-row')!
 		.previousElementSibling! // About’s .BorderGrid-row
 		.firstElementChild! // About’s .BorderGrid-cell

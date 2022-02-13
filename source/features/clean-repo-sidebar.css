@@ -18,10 +18,6 @@
 	.rgh-clean-repo-sidebar h2 [href$='/releases'] {
 		display: none;
 	}
-
-	.rgh-clean-repo-sidebar [href*='/releases/tag'] {
-		margin-top: -16px;
-	}
 }
 
 /*
