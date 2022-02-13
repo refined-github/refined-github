@@ -40,6 +40,7 @@ export const renamedFeatures = new Map<string, string>([
 	['conversation-filters', 'more-conversation-filters'],
 	['quick-pr-diff-options', 'one-click-diff-options'],
 	['quick-review-buttons', 'one-click-review-submission'],
+	['wait-for-build', 'wait-for-checks'],
 ]);
 
 export function getNewFeatureName(possibleFeatureName: string): FeatureID | undefined {

@@ -61,6 +61,7 @@
 		"one-event": "^3.0.0",
 		"one-mutation": "^2.0.0",
 		"onetime": "^6.0.0",
+		"p-retry": "^5.0.0",
 		"push-form": "^0.8.0",
 		"regex-join": "^1.0.0",
 		"select-dom": "^7.1.1",
