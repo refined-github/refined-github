@@ -1,0 +1,33 @@
+.rgh-duplicated-review summary > .d-flex {
+	position: relative;
+}
+
+.rgh-duplicated-review summary > .d-flex::after,
+.rgh-duplicated-review summary > .d-flex::before {
+	position: absolute;
+	top: 0;
+	color: var(--color-fg-muted);
+	cursor: pointer;
+}
+
+.rgh-duplicated-review summary > .d-flex::before {
+	/* https://primer.style/octicons/unfold-16 */
+	content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016%2016%22%20width%3D%2216%22%20height%3D%2216%22%3E%3Cpath%20fill%3D%22%2357606a%22%20d%3D%22M8.177.677l2.896%202.896a.25.25%200%2001-.177.427H8.75v1.25a.75.75%200%2001-1.5%200V4H5.104a.25.25%200%2001-.177-.427L7.823.677a.25.25%200%2001.354%200zM7.25%2010.75a.75.75%200%20011.5%200V12h2.146a.25.25%200%2001.177.427l-2.896%202.896a.25.25%200%2001-.354%200l-2.896-2.896A.25.25%200%20015.104%2012H7.25v-1.25zm-5-2a.75.75%200%20000-1.5h-.5a.75.75%200%20000%201.5h.5zM6%208a.75.75%200%2001-.75.75h-.5a.75.75%200%20010-1.5h.5A.75.75%200%20016%208zm2.25.75a.75.75%200%20000-1.5h-.5a.75.75%200%20000%201.5h.5zM12%208a.75.75%200%2001-.75.75h-.5a.75.75%200%20010-1.5h.5A.75.75%200%200112%208zm2.25.75a.75.75%200%20000-1.5h-.5a.75.75%200%20000%201.5h.5z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+	right: 94px;
+}
+
+.rgh-duplicated-review[open] summary > .d-flex::before {
+	/* https://primer.style/octicons/fold-16 */
+	content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016%2016%22%20width%3D%2216%22%20height%3D%2216%22%3E%3Cpath%20fill%3D%22%2357606a%22%20d%3D%22M10.896%202H8.75V.75a.75.75%200%2000-1.5%200V2H5.104a.25.25%200%2000-.177.427l2.896%202.896a.25.25%200%2000.354%200l2.896-2.896A.25.25%200%200010.896%202zM8.75%2015.25a.75.75%200%2001-1.5%200V14H5.104a.25.25%200%2001-.177-.427l2.896-2.896a.25.25%200%2001.354%200l2.896%202.896a.25.25%200%2001-.177.427H8.75v1.25zm-6.5-6.5a.75.75%200%20000-1.5h-.5a.75.75%200%20000%201.5h.5zM6%208a.75.75%200%2001-.75.75h-.5a.75.75%200%20010-1.5h.5A.75.75%200%20016%208zm2.25.75a.75.75%200%20000-1.5h-.5a.75.75%200%20000%201.5h.5zM12%208a.75.75%200%2001-.75.75h-.5a.75.75%200%20010-1.5h.5A.75.75%200%200112%208zm2.25.75a.75.75%200%20000-1.5h-.5a.75.75%200%20000%201.5h.5z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+	right: 90px;
+}
+
+.rgh-duplicated-review summary > .d-flex::after {
+	content: "Show duplicated";
+	right: 0;
+	font-size: 12px;
+}
+
+.rgh-duplicated-review[open] summary > .d-flex::after {
+	content: "Hide duplicated";
+}
