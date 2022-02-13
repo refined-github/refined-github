@@ -4,7 +4,7 @@
 
 We use GitHub a lot and notice many annoyances we'd like to fix. So here be dragons.
 
-Our hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these improvements, please email [GitHub support](https://support.github.com/contact) about doing it.
+Our hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these improvements, please open a discussion on [GitHub feedback](https://github.com/github/feedback/discussions) or email [GitHub support](https://support.github.com/contact) about doing it.
 
 GitHub Enterprise is also supported: [How to enable it](https://fregante.github.io/webext-domain-permission-toggle/?name=Refined%20GitHub&icon=https%3A%2F%2Fraw.githubusercontent.com%2Frefined-github%2Frefined-github%2Fmain%2Fdistribution%2Ficon.png). <!-- icon.png renders best -->
 
