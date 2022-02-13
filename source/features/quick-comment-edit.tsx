@@ -6,6 +6,7 @@ import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import isArchivedRepo from '../helpers/is-archived-repo';
 
 function canEditEveryComment(): boolean {
 	return select.exists([
@@ -50,6 +51,9 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 		pageDetect.isDiscussion,
+	],
+	exclude: [
+		isArchivedRepo,
 	],
 	deduplicate: 'has-rgh-inner',
 	init: onetime(init),
