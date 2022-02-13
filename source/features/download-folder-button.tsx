@@ -30,7 +30,7 @@ function init(): void {
 	select('a.dropdown-item[data-hotkey="t"]')!.after(getDropdownItem(downloadUrl));
 	select('a.btn[data-hotkey="t"]')!.after(
 		<a
-			className="btn d-none d-md-block tooltipped tooltipped-nw rgh-download-folder"
+			className="btn d-none d-md-block tooltipped tooltipped-ne rgh-download-folder"
 			aria-label="Download directory"
 			href={downloadUrl.href}
 		>

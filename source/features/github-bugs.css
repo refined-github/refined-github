@@ -45,6 +45,7 @@
 #merge_title_field,
 #commit-summary-input, /* Restore monospace font in commit/merge title fields #5188 */
 :is(.new_public_key, .new_gpg_key) textarea { /* Monospace textareas for new SSH/GPG keys #4917 */
+	/* Same as GitHub style for `code` */
 	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace !important;
 }
 
@@ -63,7 +64,7 @@
 	flex-wrap: wrap;
 }
 
-/* Restore margin between reactions on releases #5287 */
-[data-test-selector='release-card'] .social-reaction-summary-item:not(:first-child) {
+/* Restore margin between reactions on PRs and releases #5287 */
+:is(#discussion_bucket.pull-request-tab-content, [data-test-selector='release-card']) .social-reaction-summary-item:not(:first-child) {
 	margin-left: 8px !important;
 }

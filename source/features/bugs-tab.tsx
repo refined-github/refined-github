@@ -89,7 +89,7 @@ async function addBugsTab(): Promise<void | false> {
 
 	const issuesTab = await elementReady('a.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
 	if (!issuesTab) {
-		// Repo is archived
+		// Issues are disabled
 		return false;
 	}
 
