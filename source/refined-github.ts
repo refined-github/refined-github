@@ -19,7 +19,6 @@ import './features/clean-notifications.css';
 import './features/fix-first-tab-length.css';
 import './features/align-repository-header.css';
 import './features/night-not-found.css';
-import './features/hide-empty-profile-status.css';
 import './features/hide-watch-and-fork-count.css';
 import './features/clean-commit-form.css';
 
