@@ -57,7 +57,7 @@ function cleanSection(selector: string): boolean {
 	return true;
 }
 
-async function init(): Promise<void> {
+async function init(signal: AbortSignal): Promise<void> {
 	if (select.exists('.rgh-clean-sidebar')) {
 		return;
 	}
@@ -83,7 +83,7 @@ async function init(): Promise<void> {
 	if (pageDetect.isPR()) {
 		const possibleReviewers = select('[src$="/suggested-reviewers"]');
 		if (possibleReviewers) {
-			await onElementRemoval(possibleReviewers);
+			await onElementRemoval(possibleReviewers, signal);
 		}
 
 		const content = select('[aria-label="Select reviewers"] > .css-truncate')!;

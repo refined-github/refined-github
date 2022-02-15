@@ -97,7 +97,7 @@ function highlightReleasesTab(): VoidFunction {
 	return selectorObserver.abort;
 }
 
-async function init(): Promise<VoidFunction | void> {
+async function init(): Promise<Deinit | void> {
 	if (!select.exists('.rgh-releases-tab')) {
 		await addReleasesTab();
 	}

@@ -22,7 +22,7 @@ function updateLinksToTag(): void {
 	}
 }
 
-function init(): void {
+function init(signal: AbortSignal): void {
 	const tagsDropdown = (
 		<div className="rgh-tags-dropdown float-right d-flex flex-shrink-0 flex-items-center">
 			<details className="details-reset details-overlay select-menu branch-select-menu position-relative">
@@ -59,7 +59,7 @@ function init(): void {
 	// https://github.com/github/remote-input-element#events
 	// Wait until the network request is finished and HTML body is updated
 	// "remote-input-success" event bubbles
-	select('.rgh-tags-dropdown')!.addEventListener('remote-input-success', updateLinksToTag);
+	select('.rgh-tags-dropdown')!.addEventListener('remote-input-success', updateLinksToTag, {signal});
 }
 
 void features.add(import.meta.url, {

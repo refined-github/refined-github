@@ -17,22 +17,21 @@ function updateStickiness(): void {
 
 const onResize = debounce(updateStickiness, {wait: 100});
 
-function init(): VoidFunction {
+function init(signal: AbortSignal): Deinit[] {
+	document.body.classList.add('rgh-sticky-sidebar-enabled');
+	window.addEventListener('resize', onResize, {signal});
+
 	const resizeObserver = new ResizeObserver(onResize);
 	const selectObserver = observe(sidebarSelector, {
 		add(sidebar) {
 			resizeObserver.observe(sidebar, {box: 'border-box'});
 		},
 	});
-	window.addEventListener('resize', onResize);
 
-	document.body.classList.add('rgh-sticky-sidebar-enabled');
-
-	return () => {
-		selectObserver.abort();
-		resizeObserver.disconnect();
-		window.removeEventListener('resize', onResize);
-	};
+	return [
+		selectObserver.abort,
+		resizeObserver.disconnect,
+	];
 }
 
 void features.add(import.meta.url, {

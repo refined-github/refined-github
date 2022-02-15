@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 
 import features from '.';
 import {isEditable} from '../helpers/dom-utils';
@@ -48,11 +47,13 @@ function observeShortcutModal({key, target}: KeyboardEvent): void {
 	}
 }
 
-function init(): void {
-	document.addEventListener('keypress', observeShortcutModal);
+function init(signal: AbortSignal): Deinit {
+	document.addEventListener('keypress', observeShortcutModal, {signal});
+
+	return observer.disconnect;
 }
 
 void features.add(import.meta.url, {
 	awaitDomReady: false,
-	init: onetime(init),
+	init,
 });

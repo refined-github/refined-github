@@ -53,8 +53,8 @@ const inputElements = [
 	'#merge_title_field',
 ];
 
-function init(): void {
-	delegate(document, inputElements.join(','), 'keydown', onKeyDown);
+function init(): Deinit {
+	return delegate(document, inputElements.join(','), 'keydown', onKeyDown);
 }
 
 void features.add(import.meta.url, {

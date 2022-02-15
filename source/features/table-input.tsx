@@ -70,11 +70,14 @@ function addButtons(): void {
 	}
 }
 
-function init(): void {
-	delegate(document, '.rgh-table-input-cell', 'click', addTable);
-	delegate(document, '.rgh-table-input-cell', 'mouseenter', highlightSquares, {capture: true});
+function init(): Deinit[] {
 	addButtons();
-	onCommentEdit(addButtons);
+
+	return [
+		onCommentEdit(addButtons),
+		delegate(document, '.rgh-table-input-cell', 'click', addTable),
+		delegate(document, '.rgh-table-input-cell', 'mouseenter', highlightSquares, {capture: true}),
+	];
 }
 
 void features.add(import.meta.url, {

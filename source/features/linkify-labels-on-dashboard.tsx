@@ -1,15 +1,14 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
 
-function init(): void {
+function init(): Deinit {
 	// A `:not(.rgh)` selector is not needed since we already check for `not(a)` #3625
-	observe('.news :not(a) > .IssueLabel', {
+	return observe('.news :not(a) > .IssueLabel', {
 		add(label) {
 			const activity = label.closest('div:not([class])')!;
 			const isPR = select.exists('.octicon-git-pull-request', activity);
@@ -26,5 +25,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isDashboard,
 	],
-	init: onetime(init),
+	init,
 });

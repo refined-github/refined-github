@@ -35,14 +35,16 @@ async function toggleHandler(): Promise<void> {
 	await (isHidden ? cache.set(cacheKey, true) : cache.delete(cacheKey));
 }
 
-async function init(): Promise<void> {
+async function init(): Promise<Deinit[]> {
 	const repoContent = (await elementReady('.repository-content'))!;
-	observeElement(repoContent, addButton);
-	delegate(document, '.rgh-toggle-files', 'click', toggleHandler);
-
 	if (await cache.get<boolean>(cacheKey)) {
 		repoContent.classList.add('rgh-files-hidden');
 	}
+
+	return [
+		observeElement(repoContent, addButton),
+		delegate(document, '.rgh-toggle-files', 'click', toggleHandler),
+	];
 }
 
 void features.add(import.meta.url, {

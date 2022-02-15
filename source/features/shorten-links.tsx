@@ -1,4 +1,3 @@
-import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import {applyToLink} from 'shorten-repo-url';
 import * as pageDetect from 'github-url-detection';
@@ -6,8 +5,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {linkifiedURLClass} from '../github-helpers/dom-formatters';
 
-function init(): void {
-	observe(`a[href]:not(.${linkifiedURLClass})`, {
+function init(): Deinit {
+	return observe(`a[href]:not(.${linkifiedURLClass})`, {
 		constructor: HTMLAnchorElement,
 		add(link) {
 			// Don't shorten links in code or code suggestions (but shorten them in review comments)
@@ -27,5 +26,5 @@ void features.add(import.meta.url, {
 		// Due to GitHub’s bug: #2828
 		pageDetect.isGlobalSearchResults,
 	],
-	init: onetime(init),
+	init,
 });

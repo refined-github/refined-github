@@ -1,11 +1,10 @@
 import './parse-backticks.css';
-import onetime from 'onetime';
 import {observe} from 'selector-observer';
 
 import features from '.';
 import {parseBackticks} from '../github-helpers/dom-formatters';
 
-function init(): void {
+function init(): Deinit {
 	const selectors = [
 		'.BorderGrid--spacious .f4.mt-3', // `isRepoHome` repository description
 		'.js-commits-list-item pre', // `isCommitList` commit description
@@ -25,7 +24,7 @@ function init(): void {
 		'a[data-hovercard-type="discussion"]', // `isDiscussionList`
 	].map(selector => selector + ':not(.rgh-backticks-already-parsed)').join(',');
 
-	observe(selectors, {
+	return observe(selectors, {
 		add(element) {
 			element.classList.add('rgh-backticks-already-parsed');
 			parseBackticks(element);
@@ -34,5 +33,5 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	init,
 });

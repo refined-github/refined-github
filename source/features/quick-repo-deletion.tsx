@@ -123,7 +123,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	}
 }
 
-async function init(): Promise<void | false> {
+async function init(): Promise<Deinit | false> {
 	if (
 		// Only if the user can delete the repository
 		!await elementReady('nav [data-content="Settings"]')
@@ -149,7 +149,7 @@ async function init(): Promise<void | false> {
 		</li>,
 	);
 
-	delegate(document, '.rgh-quick-repo-deletion[open]', 'toggle', handleToggle, true);
+	return delegate(document, '.rgh-quick-repo-deletion[open]', 'toggle', handleToggle, true);
 }
 
 void features.add(import.meta.url, {

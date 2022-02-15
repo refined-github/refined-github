@@ -1,7 +1,6 @@
 import './infinite-scroll.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import debounce from 'debounce-fn';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
@@ -29,8 +28,8 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	rootMargin: '500px', // https://github.com/refined-github/refined-github/pull/505#issuecomment-309273098
 });
 
-function init(): void {
-	observe('.ajax-pagination-btn', {
+function init(): Deinit[] {
+	const selectorObserver = observe('.ajax-pagination-btn', {
 		add(button) {
 			inView.observe(button);
 		},
@@ -52,11 +51,16 @@ function init(): void {
 			{footer}
 		</div>,
 	);
+
+	return [
+		selectorObserver.abort,
+		inView.disconnect,
+	];
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isDashboard,
 	],
-	init: onetime(init),
+	init,
 });

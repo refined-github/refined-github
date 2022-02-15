@@ -1,4 +1,3 @@
-import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -19,8 +18,8 @@ function listener({key, target}: KeyboardEvent): void {
 	}
 }
 
-function init(): void {
-	document.body.addEventListener('keyup', listener);
+function init(signal: AbortSignal): void {
+	document.body.addEventListener('keyup', listener, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -29,5 +28,5 @@ void features.add(import.meta.url, {
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
-	init: onetime(init),
+	init,
 });

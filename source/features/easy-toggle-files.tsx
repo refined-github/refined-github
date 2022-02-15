@@ -15,8 +15,8 @@ function toggleFile(event: delegate.Event<MouseEvent>): void {
 	}
 }
 
-async function init(): Promise<void> {
-	delegate(document, '.file-header', 'click', toggleFile);
+function init(): Deinit {
+	return delegate(document, '.file-header', 'click', toggleFile);
 }
 
 void features.add(import.meta.url, {

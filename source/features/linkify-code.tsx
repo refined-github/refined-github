@@ -1,5 +1,4 @@
 import select from 'select-dom';
-import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
@@ -16,8 +15,8 @@ function initTitle(): void {
 	}
 }
 
-function init(): void {
-	observe(`:is(${codeElementsSelectors}):not(.${linkifiedURLClass})`, {
+function init(): Deinit {
+	return observe(`:is(${codeElementsSelectors}):not(.${linkifiedURLClass})`, {
 		add(wrappers) {
 			linkifyURLs(wrappers);
 
@@ -39,7 +38,7 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isGist,
 	],
-	init: onetime(init),
+	init,
 }, {
 	include: [
 		pageDetect.isPR,

@@ -14,8 +14,8 @@ async function handleErroredImage({delegateTarget}: delegate.Event<ErrorEvent, H
 	} catch {}
 }
 
-function init(): void {
-	delegate(document, 'img[src^="https://camo.githubusercontent.com/"]', 'error', handleErroredImage, true);
+function init(): Deinit {
+	return delegate(document, 'img[src^="https://camo.githubusercontent.com/"]', 'error', handleErroredImage, true);
 }
 
 void features.add(import.meta.url, {

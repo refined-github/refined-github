@@ -23,12 +23,13 @@ const hovercardObserver = new MutationObserver(([mutation]) => {
 	addLocation(mutation.target as HTMLElement);
 });
 
-function init(): void {
+function init(): void | Deinit {
 	addLocation(document.body);
 
 	const hovercardContainer = select('.js-hovercard-content > .Popover-message');
 	if (hovercardContainer) {
 		hovercardObserver.observe(hovercardContainer, {childList: true});
+		return hovercardObserver.disconnect;
 	}
 }
 

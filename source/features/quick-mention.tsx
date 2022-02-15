@@ -33,7 +33,7 @@ function mentionUser({delegateTarget: button}: delegate.Event): void {
 	textFieldEdit.insert(newComment, `${spacer}${prefixUserMention(userMention)} `);
 }
 
-function init(): void {
+function init(): Deinit {
 	// `:first-child` avoids app badges #2630
 	// The hovercard attribute avoids `highest-rated-comment`
 	// Avatars next to review events aren't wrapped in a <div> #4844
@@ -67,7 +67,7 @@ function init(): void {
 		);
 	}
 
-	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser);
+	return delegate(document, 'button.rgh-quick-mention', 'click', mentionUser);
 }
 
 void features.add(import.meta.url, {

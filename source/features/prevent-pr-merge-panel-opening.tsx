@@ -12,8 +12,8 @@ async function sessionResumeHandler(): Promise<void> {
 	}
 }
 
-function init(): void {
-	document.addEventListener('session:resume', sessionResumeHandler);
+function init(signal: AbortSignal): void {
+	document.addEventListener('session:resume', sessionResumeHandler, {signal});
 }
 
 void features.add(import.meta.url, {

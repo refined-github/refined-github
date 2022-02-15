@@ -20,23 +20,13 @@ function paginationSubmitHandler({delegateTarget: form}: delegate.Event): void {
 	form.addEventListener('page:loaded', run, {once: true});
 }
 
-function removeListeners(): void {
-	for (const subscription of delegates) {
-		subscription.destroy();
-	}
-
-	delegates.clear();
-	handlers.clear();
-	observer.disconnect();
-}
-
-function getFragmentLoadHandler(callback: EventListener): delegate.EventHandler {
+function getFragmentLoadHandler(callback: EventListener, signal: AbortSignal): delegate.EventHandler {
 	return ({delegateTarget}) => {
-		delegateTarget.addEventListener('load', callback);
+		delegateTarget.addEventListener('load', callback, {signal});
 	};
 }
 
-function addListeners(): void {
+function addListeners(signal: AbortSignal): void {
 	const discussion = select('.js-discussion');
 	if (!discussion || discussionsWithListeners.has(discussion)) {
 		return;
@@ -44,9 +34,6 @@ function addListeners(): void {
 
 	// Ensure listeners are only ever added once
 	discussionsWithListeners.add(discussion);
-
-	// Remember to remove all listeners when a new page is loaded
-	document.addEventListener('pjax:beforeReplace', removeListeners);
 
 	// When new comments come in via AJAX
 	observer.observe(discussion, {
@@ -57,10 +44,25 @@ function addListeners(): void {
 	delegates.add(delegate(document, '.js-ajax-pagination', 'submit', paginationSubmitHandler));
 
 	// Collapsed comments are loaded later using an include-fragment element
-	delegates.add(delegate(document, 'details.js-comment-container include-fragment', 'loadstart', getFragmentLoadHandler(run), true));
+	delegates.add(delegate(document, 'details.js-comment-container include-fragment', 'loadstart', getFragmentLoadHandler(run, signal), true));
 }
 
-export default function onNewComments(callback: VoidFunction): void {
-	addListeners();
+function removeListeners(): void {
+	for (const subscription of delegates) {
+		subscription.destroy();
+	}
+
+	delegates.clear();
+	handlers.clear();
+	observer.disconnect();
+}
+
+export default function onNewComments(callback: VoidFunction, signal: AbortSignal): void {
+	if (signal.aborted) {
+		return;
+	}
+
+	addListeners(signal);
 	handlers.add(callback);
+	signal.addEventListener('abort', removeListeners, {once: true});
 }

@@ -40,9 +40,9 @@ function renderButton(): void {
 	}
 }
 
-function init(): void {
-	delegate(document, '.rgh-copy-file:not([value])', 'click', handleClick, true);
+function init(): Deinit {
 	renderButton();
+	return delegate(document, '.rgh-copy-file:not([value])', 'click', handleClick, true);
 }
 
 void features.add(import.meta.url, {

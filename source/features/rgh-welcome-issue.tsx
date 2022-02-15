@@ -24,14 +24,14 @@ function openOptions(event: Event): void {
 	void browser.runtime.sendMessage({openOptionsPage: true});
 }
 
-function init(): void {
+function init(): Deinit {
 	const [opening, closing] = select.all<HTMLAnchorElement>(placeholdersSelector);
 	closing.remove();
 
 	// Move the wrapped text into the existing link
 	opening.append(opening.nextSibling!);
 	opening.classList.add('rgh-linkify-welcome-issue');
-	delegate(document, placeholdersSelector, 'click', openOptions);
+	return delegate(document, placeholdersSelector, 'click', openOptions);
 }
 
 void features.add(import.meta.url, {

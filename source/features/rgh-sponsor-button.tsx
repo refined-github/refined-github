@@ -82,19 +82,20 @@ async function suchLove({delegateTarget}: delegate.Event): Promise<void> {
 	love.remove(); // 💔
 }
 
-async function handleNewIssue(): Promise<false> {
+async function handleNewIssue(signal: AbortSignal): Promise<false> {
 	if (getRepo()!.owner !== getUsername() && !await cache.get('did-it-wiggle')) {
 		select('.btn-primary[href$="/issues/new/choose"], .btn-primary[href$="/issues/new"]')
 			?.addEventListener('mouseenter', wiggleWiggleWiggle, {
 				once: true,
+				signal,
 			});
 	}
 
 	return false;
 }
 
-function handleSponsorButton(): void {
-	delegate(document, '#sponsor-button-repo, #sponsor-profile-button, [aria-label^="Sponsor @"]', 'click', suchLove);
+function handleSponsorButton(): Deinit {
+	return delegate(document, '#sponsor-button-repo, #sponsor-profile-button, [aria-label^="Sponsor @"]', 'click', suchLove);
 }
 
 void features.add(import.meta.url, {

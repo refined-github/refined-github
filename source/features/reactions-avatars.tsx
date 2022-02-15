@@ -1,7 +1,6 @@
 import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
@@ -95,16 +94,23 @@ function observeReactions(commentReactions: Element): void {
 	viewportObserver.observe(commentReactions);
 }
 
-function init(): void {
+function init(): Deinit {
 	for (const commentReactions of select.all(selector)) {
 		observeReactions(commentReactions);
 	}
+
+	return viewportObserver.disconnect;
 }
 
-function discussionInit(): void {
-	observe(selector, {
+function discussionInit(): Deinit[] {
+	const observer = observe(selector, {
 		add: observeReactions,
 	});
+
+	return [
+		observer.abort,
+		viewportObserver.disconnect,
+	];
 }
 
 void features.add(import.meta.url, {
@@ -118,5 +124,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isDiscussion,
 	],
-	init: onetime(discussionInit),
+	init: discussionInit,
 });

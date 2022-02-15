@@ -5,7 +5,6 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import delay from 'delay';
 import select from 'select-dom';
-import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import {ClockIcon} from '@primer/octicons-react';
 
@@ -142,12 +141,12 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 	container.title = `Timezone guessed from their last commit: ${date}`;
 }
 
-function init(): void {
-	observe('.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time)', {
+function init(): Deinit {
+	return observe('.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time)', {
 		add: insertUserLocalTime,
 	});
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	init,
 });

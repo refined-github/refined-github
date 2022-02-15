@@ -36,9 +36,9 @@ function updateDocumentTitle(): void {
 	}
 }
 
-function init(): void {
-	document.addEventListener('visibilitychange', updateDocumentTitle);
-	delegate(document, 'form', 'submit', disableOnSubmit, {capture: true});
+function init(signal: AbortSignal): Deinit {
+	document.addEventListener('visibilitychange', updateDocumentTitle, {signal});
+	return delegate(document, 'form', 'submit', disableOnSubmit, {capture: true});
 }
 
 void features.add(import.meta.url, {

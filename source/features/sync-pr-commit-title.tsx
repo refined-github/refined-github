@@ -83,14 +83,17 @@ function disableSubmission(): void {
 	getUI().remove();
 }
 
-let listeners: delegate.Subscription[];
-function init(): void {
-	listeners = [
-		onPrMergePanelOpen(updateCommitTitle),
+const listeners: delegate.Subscription[] = [];
+
+function init(signal: AbortSignal): Deinit[] {
+	listeners.push(
+		onPrMergePanelOpen(updateCommitTitle, signal),
 		delegate(document, '#merge_title_field', 'input', updateUI),
 		delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle),
 		delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission),
-	];
+	);
+
+	return listeners;
 }
 
 function deinit(): void {

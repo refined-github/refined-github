@@ -114,8 +114,10 @@ async function handleMergeConfirmation(event: delegate.Event<Event, HTMLButtonEl
 	}
 }
 
-const watchForNewCommits = onetime((): VoidFunction => {
-	console.log('Watching new commits');
+function watchForNewCommits(signal: AbortSignal): void {
+	if (signal.aborted) {
+		return;
+	}
 
 	let previousCommit = prCiStatus.getLastCommitReference();
 	const filteredListener = (): void => {
@@ -134,9 +136,8 @@ const watchForNewCommits = onetime((): VoidFunction => {
 		childList: true,
 		subtree: true,
 	})!;
-
-	return observer.disconnect;
-});
+	signal.addEventListener('abort', observer.disconnect, {once: true});
+}
 
 function onBeforeunload(event: BeforeUnloadEvent): void {
 	if (waiting) {
@@ -144,27 +145,23 @@ function onBeforeunload(event: BeforeUnloadEvent): void {
 	}
 }
 
-async function init(): Promise<VoidFunction[]> {
+async function init(signal: AbortSignal): Promise<Deinit[]> {
 	// Warn user if it's not yet submitted
-	window.addEventListener('beforeunload', onBeforeunload);
+	window.addEventListener('beforeunload', onBeforeunload, {signal});
 
 	return [
 		onPrMergePanelOpen(() => {
 			showCheckboxIfNecessary();
-			watchForNewCommits();
-		}).destroy,
+			watchForNewCommits(signal);
+		}, signal),
 
 		// One of the merge buttons has been clicked
-		delegate(document, '.js-merge-commit-button:not(.rgh-merging)', 'click', handleMergeConfirmation).destroy,
+		delegate(document, '.js-merge-commit-button:not(.rgh-merging)', 'click', handleMergeConfirmation),
 
 		// Cancel wait when the user presses the Cancel button
 		delegate(document, '.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
 			disableForm(false);
-		}).destroy,
-
-		() => {
-			window.removeEventListener('beforeunload', onBeforeunload);
-		},
+		}),
 	];
 }
 

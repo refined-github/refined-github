@@ -8,8 +8,8 @@ import {LinkExternalIcon} from '@primer/octicons-react';
 import features from '.';
 import {getRepo} from '../github-helpers';
 
-function initRepoList(): void {
-	observe('a[href$=".github.io"][itemprop="name codeRepository"]:not(.rgh-github-io)', {
+function initRepoList(): Deinit {
+	return observe('a[href$=".github.io"][itemprop="name codeRepository"]:not(.rgh-github-io)', {
 		constructor: HTMLAnchorElement,
 		add(repository) {
 			repository.classList.add('rgh-github-io');

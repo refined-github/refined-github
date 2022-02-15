@@ -1,14 +1,13 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon, IssueOpenedIcon} from '@primer/octicons-react';
 
 import features from '.';
 
-function init(): void {
-	observe([
+function init(): Deinit {
+	return observe([
 		'[itemprop="name codeRepository"]:not(.rgh-discussion-links)', // `isUserProfileRepoTab`
 		'[data-hydro-click*=\'"model_name":"Repository"\']:not(.rgh-discussion-links)', // `isGlobalSearchResults`
 	].join(','), {
@@ -44,5 +43,5 @@ void features.add(import.meta.url, {
 		pageDetect.isUserProfileRepoTab,
 		pageDetect.isGlobalSearchResults,
 	],
-	init: onetime(init),
+	init,
 });
