@@ -1,0 +1,8 @@
+/* https://github.com/refined-github/refined-github/issues/5410 */
+.rgh-clean-repo-sidebar.rgh-clean-repo-sidebar [href$='#readme'] {
+	display: inline !important;
+}
+
+.rgh-clean-repo-sidebar .Layout-sidebar [href$='#readme'] {
+	display: none !important;
+}
