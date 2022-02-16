@@ -142,7 +142,7 @@ async function init(): Promise<void | false> {
 						className="Link--muted ml-2"
 						href={buildRepoURL('releases/tag', tag)}
 					>
-						<TagIcon/> {tag}
+						<TagIcon/> <code>{tag}</code>
 					</a>
 				)),
 			);

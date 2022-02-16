@@ -36,10 +36,10 @@ async function init(): Promise<void> {
 			' • ',
 			<a
 				href={buildRepoURL('releases/tag', tagName)}
-				className="Link--muted"
+				className="Link--muted markdown-title"
 				title={`${tagName} was the first Git tag to include this PR`}
 			>
-				<TagIcon/> {tagName}
+				<TagIcon/> <code>{tagName}</code>
 			</a>,
 		);
 	}
