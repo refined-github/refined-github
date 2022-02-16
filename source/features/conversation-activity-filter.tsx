@@ -97,9 +97,8 @@ function apply(state: State): void {
 	select(`.${dropdownClass} [aria-checked="true"]:not([data-value="${state}"])`)!.setAttribute('aria-checked', 'false');
 }
 
-function createRadio(state: State, current: State): JSX.Element {
-	const label = states[state];
-	return (
+function createRadios(current: State): JSX.Element[] {
+	return Object.entries(states).map(([state, label]) => (
 		<div
 			className="SelectMenu-item"
 			role="menuitemradio"
@@ -109,7 +108,7 @@ function createRadio(state: State, current: State): JSX.Element {
 			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
 			{label || 'Show all'}
 		</div>
-	);
+	));
 }
 
 async function addWidget(header: string, state: State): Promise<void> {
@@ -138,9 +137,7 @@ async function addWidget(header: string, state: State): Promise<void> {
 						</h3>
 					</div>
 					<div className="SelectMenu-list">
-						{createRadio('default', state)}
-						{createRadio('hideEvents', state)}
-						{createRadio('hideEventsAndCollapsedComments', state)}
+						{createRadios(state)}
 					</div>
 				</div>
 			</details-menu>
