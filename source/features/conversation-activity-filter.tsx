@@ -71,11 +71,11 @@ async function handleSelection({target}: Event): Promise<void> {
 	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
 	await delay(1);
 
-	const currentSetting = select('[aria-checked="true"]', target as Element)!.dataset.value as State;
-	applyCurrentSetting(currentSetting);
+	const state = select('[aria-checked="true"]', target as Element)!.dataset.value as State;
+	apply(state);
 }
 
-function applyCurrentSetting(currentSetting: State): void {
+function apply(state: State): void {
 	// `onNewComments` registers the selectors only once
 	onNewComments(processPage);
 
@@ -85,26 +85,26 @@ function applyCurrentSetting(currentSetting: State): void {
 	const container = select('.repository-content')!;
 	container.classList.toggle(
 		'rgh-conversation-activity-is-filtered',
-		currentSetting !== 'default',
+		state !== 'default',
 	);
 	container.classList.toggle(
 		'rgh-conversation-activity-is-collapsed-filtered',
-		currentSetting === 'hideEventsAndCollapsedComments',
+		state === 'hideEventsAndCollapsedComments',
 	);
 
 	// Update the state of the other dropdown
-	select(`.${dropdownClass} [aria-checked="false"][data-value="${currentSetting}"]`)!.setAttribute('aria-checked', 'true');
-	select(`.${dropdownClass} [aria-checked="true"]:not([data-value="${currentSetting}"])`)!.setAttribute('aria-checked', 'false');
+	select(`.${dropdownClass} [aria-checked="false"][data-value="${state}"]`)!.setAttribute('aria-checked', 'true');
+	select(`.${dropdownClass} [aria-checked="true"]:not([data-value="${state}"])`)!.setAttribute('aria-checked', 'false');
 }
 
-function createRadio(filterSettings: State, currentSetting: State): JSX.Element {
-	const label = states[filterSettings];
+function createRadio(state: State, current: State): JSX.Element {
+	const label = states[state];
 	return (
 		<div
 			className="SelectMenu-item"
 			role="menuitemradio"
-			aria-checked={filterSettings === currentSetting ? 'true' : 'false'}
-			data-value={filterSettings}
+			aria-checked={state === current ? 'true' : 'false'}
+			data-value={state}
 		>
 			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
 			{label || 'Show all'}
@@ -112,7 +112,7 @@ function createRadio(filterSettings: State, currentSetting: State): JSX.Element 
 	);
 }
 
-async function addWidget(header: string, currentSetting: State): Promise<void> {
+async function addWidget(header: string, state: State): Promise<void> {
 	const position = (await elementReady(header))!.closest('div')!;
 	if (position.classList.contains('rgh-conversation-activity-filter')) {
 		return;
@@ -138,9 +138,9 @@ async function addWidget(header: string, currentSetting: State): Promise<void> {
 						</h3>
 					</div>
 					<div className="SelectMenu-list">
-						{createRadio('default', currentSetting)}
-						{createRadio('hideEvents', currentSetting)}
-						{createRadio('hideEventsAndCollapsedComments', currentSetting)}
+						{createRadio('default', state)}
+						{createRadio('hideEvents', state)}
+						{createRadio('hideEventsAndCollapsedComments', state)}
 					</div>
 				</div>
 			</details-menu>
@@ -155,7 +155,7 @@ const minorFixesIssuePages = new Set([
 
 async function init(): Promise<void> {
 	// Reset dropdowns state #4997
-	const currentSetting = minorFixesIssuePages.has(location.href)
+	const state = minorFixesIssuePages.has(location.href)
 		? 'hideEventsAndCollapsedComments'
 		: 'default';
 	(await elementReady('.repository-content'))!.classList.remove(
@@ -163,12 +163,12 @@ async function init(): Promise<void> {
 		'rgh-conversation-activity-is-collapsed-filtered',
 	);
 
-	await addWidget('#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)', currentSetting);
-	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)', currentSetting);
+	await addWidget('#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)', state);
+	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)', state);
 
 	// Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 	if (minorFixesIssuePages.has(location.href)) {
-		applyCurrentSetting(currentSetting);
+		apply(state);
 	}
 }
 
