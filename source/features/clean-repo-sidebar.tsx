@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 async function cleanReleases(): Promise<void> {
-	const sidebarReleases = await elementReady('.BorderGrid-cell h2 a[href$="/releases"]', {waitForChildren: false});
+	const sidebarReleases = await elementReady('.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]', {waitForChildren: false});
 	if (!sidebarReleases) {
 		return;
 	}
@@ -36,7 +36,7 @@ async function cleanReleases(): Promise<void> {
 }
 
 async function hideEmptyPackages(): Promise<void> {
-	const packagesCounter = await elementReady('.BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false})!;
+	const packagesCounter = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false})!;
 	if (packagesCounter && packagesCounter.textContent === '0') {
 		packagesCounter.closest('.BorderGrid-row')!.hidden = true;
 	}
@@ -45,7 +45,7 @@ async function hideEmptyPackages(): Promise<void> {
 async function hideLanguageHeader(): Promise<void> {
 	await domLoaded;
 
-	const lastSidebarHeader = select('.repository-content .BorderGrid-row:last-of-type h2');
+	const lastSidebarHeader = select('.Layout-sidebar .BorderGrid-row:last-of-type h2');
 	if (lastSidebarHeader?.textContent === 'Languages') {
 		lastSidebarHeader.hidden = true;
 	}
@@ -56,7 +56,7 @@ async function hideEmptyMeta(): Promise<void> {
 	await domLoaded;
 
 	if (!pageDetect.canUserEditRepo()) {
-		select('.repository-content .BorderGrid-cell > .text-italic')?.remove();
+		select('.Layout-sidebar .BorderGrid-cell > .text-italic')?.remove();
 	}
 }
 
