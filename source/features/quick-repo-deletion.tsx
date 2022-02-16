@@ -59,18 +59,25 @@ async function verifyScopesWhileWaiting(abortController: AbortController): Promi
 
 async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boolean> {
 	const abortController = new AbortController();
-	// Add a global click listener to avoid potential future issues with z-index
-	document.addEventListener('click', event => {
+	const abortHandler = (event: Event): void => {
 		event.preventDefault();
 		abortController.abort();
 		buttonContainer.open = false;
-	}, {once: true});
+	};
+
+	// Add a global click listener to avoid potential future issues with z-index
+	document.addEventListener('click', abortHandler, {once: true});
+	// Abort on keypress
+	document.addEventListener('keypress', abortHandler, {once: true});
 
 	void verifyScopesWhileWaiting(abortController);
 
 	try {
 		await delay(5000, {signal: abortController.signal});
 	} catch {}
+
+	document.removeEventListener('click', abortHandler);
+	document.removeEventListener('keypress', abortHandler);
 
 	return !abortController.signal.aborted;
 }
