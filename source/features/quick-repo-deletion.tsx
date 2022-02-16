@@ -120,7 +120,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	}
 }
 
-async function init(): Promise<void | false> {
+async function init(): Promise<VoidFunction | false> {
 	if (
 		// Only if the user can delete the repository
 		!await elementReady('nav [data-content="Settings"]')
@@ -149,6 +149,12 @@ async function init(): Promise<void | false> {
 	);
 
 	delegate(document, '.rgh-quick-repo-deletion[open]', 'toggle', handleToggle, true);
+
+	return async () => {
+		// Wait for PJAX to restore DOM
+		await delay(0);
+		select('details.rgh-quick-repo-deletion')!.open = false;
+	};
 }
 
 void features.add(import.meta.url, {
