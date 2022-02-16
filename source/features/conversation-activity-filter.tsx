@@ -110,14 +110,13 @@ function createRadio(filterSettings: State): JSX.Element {
 	const label = states[filterSettings];
 	return (
 		<div
-			className="select-menu-item"
+			className="SelectMenu-item"
 			role="menuitemradio"
-			tabIndex={0}
 			aria-checked={filterSettings === currentSetting ? 'true' : 'false'}
 			data-value={filterSettings}
 		>
-			<CheckIcon className="select-menu-item-icon octicon octicon-check" aria-hidden="true"/>
-			<div className="select-menu-item-text">{label || 'Show all'}</div>
+			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
+			{label || 'Show all'}
 		</div>
 	);
 }
