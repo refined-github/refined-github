@@ -2,14 +2,15 @@ import './conversation-activity-filter.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, EyeClosedIcon, EyeIcon} from '@primer/octicons-react';
 
+import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import onNewComments from '../github-events/on-new-comments';
 import {getRghIssueUrl} from '../helpers/rgh-issue-link';
-import {removeClassFromAll, wrap} from '../helpers/dom-utils';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 const states = {
@@ -23,6 +24,7 @@ type State = keyof typeof states;
 let currentSetting: State = 'default';
 const dropdownClass = 'rgh-conversation-activity-filter-dropdown';
 const hiddenClassName = 'rgh-conversation-activity-filtered';
+const collapsedClassName = 'rgh-conversation-activity-collapsed';
 
 function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
 	const hasMainComment = select.exists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
@@ -37,38 +39,24 @@ function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
 }
 
 function processSimpleComment(item: HTMLElement): void {
-	if (currentSetting === 'hideEvents') {
-		return;
-	}
-
 	// Hide comments marked as resolved/hidden
 	if (select.exists('.minimized-comment > details', item)) {
-		item.classList.add(hiddenClassName);
+		item.classList.add(collapsedClassName);
 	}
 }
 
 function processReview(review: HTMLElement): void {
-	if (currentSetting === 'hideEvents') {
-		return;
-	}
-
 	if (isWholeReviewEssentiallyResolved(review)) {
-		review.classList.add(hiddenClassName);
+		review.classList.add(collapsedClassName);
 		return;
 	}
 
 	for (const threadContainer of select.all('.js-resolvable-timeline-thread-container[data-resolved="true"]', review)) {
-		threadContainer.classList.add(hiddenClassName);
+		threadContainer.classList.add(collapsedClassName);
 	}
 }
 
-function processPage(): void {
-	removeClassFromAll(hiddenClassName);
-
-	if (currentSetting === 'default') {
-		return;
-	}
-
+const processPage = onetime(() => {
 	for (const item of select.all('.js-timeline-item')) {
 		if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
 			processReview(item);
@@ -79,7 +67,7 @@ function processPage(): void {
 			item.classList.add(hiddenClassName);
 		}
 	}
-}
+});
 
 async function handleSelection({target}: Event): Promise<void> {
 	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
@@ -96,9 +84,14 @@ function applyCurrentSetting(): void {
 	// Actually process it right now
 	processPage();
 
-	select('.repository-content')!.classList.toggle(
+	const container = select('.repository-content')!;
+	container.classList.toggle(
 		'rgh-conversation-activity-is-filtered',
 		currentSetting !== 'default',
+	);
+	container.classList.toggle(
+		'rgh-conversation-activity-is-collapsed-filtered',
+		currentSetting === 'hideEventsAndCollapsedComments',
 	);
 
 	// Update the state of the other dropdown
@@ -165,7 +158,10 @@ const minorFixesIssuePages = new Set([
 async function init(): Promise<void> {
 	// Reset dropdowns state #4997
 	currentSetting = 'default';
-	(await elementReady('.repository-content'))!.classList.remove('rgh-conversation-activity-is-filtered');
+	(await elementReady('.repository-content'))!.classList.remove(
+		'rgh-conversation-activity-is-filtered',
+		'rgh-conversation-activity-is-collapsed-filtered',
+	);
 
 	await addWidget('#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)');
 	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)');
