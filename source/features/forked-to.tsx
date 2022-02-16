@@ -1,4 +1,3 @@
-import './forked-to.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
@@ -59,10 +58,10 @@ async function updateUI(forks: string[]): Promise<void> {
 		forkBox.after(
 			<a
 				href={createLink(forks[0])}
-				className="btn btn-sm rounded-right-2 rgh-forked-button rgh-forked-link"
+				className="btn btn-sm BtnGroup-item px-2 rgh-forked-button rgh-forked-link"
 				title={`Open your fork at ${forks[0]}`}
 			>
-				<LinkExternalIcon/>
+				<LinkExternalIcon className="v-align-text-top"/>
 			</a>,
 		);
 	} else {
