@@ -72,10 +72,10 @@ async function handleSelection({target}: Event): Promise<void> {
 	await delay(1);
 
 	const state = select('[aria-checked="true"]', target as Element)!.dataset.value as State;
-	apply(state);
+	applyState(state);
 }
 
-function apply(state: State): void {
+function applyState(state: State): void {
 	// `onNewComments` registers the selectors only once
 	onNewComments(processPage);
 
@@ -160,7 +160,7 @@ async function init(): Promise<void> {
 
 	// Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 	if (state === 'hideEventsAndCollapsedComments') {
-		apply(state);
+		applyState(state);
 	}
 }
 
