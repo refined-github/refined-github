@@ -139,10 +139,14 @@ async function addWidget(header: string): Promise<void> {
 			</summary>
 			<details-menu
 				className="SelectMenu right-0"
-				role="menu"
 				on-details-menu-select={handleSelection}
 			>
 				<div className="SelectMenu-modal">
+					<div className="SelectMenu-header">
+						<h3 className="SelectMenu-title color-fg-default">
+							Filter Conversation Activities
+						</h3>
+					</div>
 					<div className="SelectMenu-list">
 						{createRadio('default')}
 						{createRadio('hideEvents')}
