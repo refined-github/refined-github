@@ -13,3 +13,16 @@ wow:root:root .rgh-conversation-activity-filtered {
 	display: block !important;
 	outline: solid 5px #f00;
 }
+
+.gh-header-meta .rgh-conversation-activity-filter {
+	display: inline;
+}
+
+.gh-header-sticky .rgh-conversation-activity-filter-wrapper {
+	display: flex;
+}
+
+.gh-header-sticky .rgh-conversation-activity-filter-dropdown summary {
+	display: flex;
+	align-items: center;
+}

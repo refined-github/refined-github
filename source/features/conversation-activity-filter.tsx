@@ -128,11 +128,11 @@ async function addWidget(header: string): Promise<void> {
 		return;
 	}
 
-	wrap(position, <div className="d-flex flex-items-baseline"/>);
+	wrap(position, <div className="rgh-conversation-activity-filter-wrapper"/>);
 	position.classList.add('rgh-conversation-activity-filter');
 	position.after(
-		<details className={`details-reset details-overlay d-inline-block ml-2 position-relative ${dropdownClass}`}>
-			<summary aria-haspopup="true">
+		<details className={`details-reset details-overlay d-inline-block position-relative ${dropdownClass}`}>
+			<summary className="ml-2">
 				<EyeIcon className="color-text-secondary color-fg-muted"/>
 				<EyeClosedIcon className="color-icon-danger color-fg-danger"/>
 				<div className="dropdown-caret ml-1"/>
