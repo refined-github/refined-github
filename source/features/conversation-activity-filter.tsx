@@ -162,7 +162,7 @@ async function init(): Promise<void> {
 	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)', state);
 
 	// Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
-	if (minorFixesIssuePages.has(location.href)) {
+	if (state === 'hideEventsAndCollapsedComments') {
 		apply(state);
 	}
 }
