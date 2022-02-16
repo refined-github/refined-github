@@ -3,7 +3,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {CheckIcon, LinkExternalIcon, RepoForkedIcon} from '@primer/octicons-react';
+import {CheckIcon, ArrowRightIcon, RepoForkedIcon} from '@primer/octicons-react';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
@@ -61,7 +61,7 @@ async function updateUI(forks: string[]): Promise<void> {
 				className="btn btn-sm BtnGroup-item px-2 rgh-forked-button rgh-forked-link"
 				title={`Open your fork at ${forks[0]}`}
 			>
-				<LinkExternalIcon className="v-align-text-top"/>
+				<ArrowRightIcon className="v-align-text-top"/>
 			</a>,
 		);
 	} else {
