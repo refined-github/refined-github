@@ -4,7 +4,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {CheckIcon, EyeClosedIcon, EyeIcon} from '@primer/octicons-react';
+import {CheckIcon, EyeClosedIcon, EyeIcon, XIcon} from '@primer/octicons-react';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
@@ -120,7 +120,10 @@ async function addWidget(header: string, state: State): Promise<void> {
 	wrap(position, <div className="rgh-conversation-activity-filter-wrapper"/>);
 	position.classList.add('rgh-conversation-activity-filter');
 	position.after(
-		<details className={`details-reset details-overlay d-inline-block position-relative ${dropdownClass}`}>
+		<details
+			className={`details-reset details-overlay d-inline-block position-relative ${dropdownClass}`}
+			id="rgh-conversation-activity-filter-select-menu"
+		>
 			<summary className="ml-2">
 				<EyeIcon className="color-text-secondary color-fg-muted"/>
 				<EyeClosedIcon className="color-icon-danger color-fg-danger"/>
@@ -135,6 +138,13 @@ async function addWidget(header: string, state: State): Promise<void> {
 						<h3 className="SelectMenu-title color-fg-default">
 							Filter conversation activities
 						</h3>
+						<button
+							className="SelectMenu-closeButton"
+							type="button"
+							data-toggle-for="rgh-conversation-activity-filter-select-menu"
+						>
+							<XIcon/>
+						</button>
 					</div>
 					<div className="SelectMenu-list">
 						{createRadios(state)}
