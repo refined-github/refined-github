@@ -34,16 +34,13 @@ async function init(): Promise<void> {
 
 		discussionHeader.parentElement!.append(
 			' • ',
-			<TagIcon className="mx-1 color-text-secondary color-fg-muted"/>,
-			<span className="commit-ref">
-				<a
-					href={buildRepoURL('releases/tag', tagName)}
-					className="no-underline"
-					title={`${tagName} was the first Git tag to include this PR`}
-				>
-					{tagName}
-				</a>
-			</span>,
+			<a
+				href={buildRepoURL('releases/tag', tagName)}
+				className="Link--muted"
+				title={`${tagName} was the first Git tag to include this PR`}
+			>
+				<TagIcon/> {tagName}
+			</a>,
 		);
 	}
 }
