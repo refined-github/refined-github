@@ -78,7 +78,6 @@ async function handleSelection({target}: Event): Promise<void> {
 function applyState(state: State): void {
 	// `onNewComments` registers the selectors only once
 	onNewComments(processPage);
-
 	// Actually process it right now
 	processPage();
 
@@ -162,14 +161,13 @@ const minorFixesIssuePages = new Set([
 
 async function init(): Promise<void> {
 	const state = minorFixesIssuePages.has(location.href)
-		? 'hideEventsAndCollapsedComments'
+		? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 		: 'default';
 
 	await addWidget('#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)', state);
 	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)', state);
 
-	// Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
-	if (state === 'hideEventsAndCollapsedComments') {
+	if (state !== 'default') {
 		applyState(state);
 	}
 }
