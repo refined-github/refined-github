@@ -133,7 +133,7 @@ async function addWidget(header: string, state: State): Promise<void> {
 				<div className="SelectMenu-modal">
 					<div className="SelectMenu-header">
 						<h3 className="SelectMenu-title color-fg-default">
-							Filter Conversation Activities
+							Filter conversation activities
 						</h3>
 					</div>
 					<div className="SelectMenu-list">
