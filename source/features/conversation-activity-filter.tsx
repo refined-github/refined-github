@@ -21,7 +21,6 @@ const states = {
 
 type State = keyof typeof states;
 
-let currentSetting: State = 'default';
 const dropdownClass = 'rgh-conversation-activity-filter-dropdown';
 const hiddenClassName = 'rgh-conversation-activity-filtered';
 const collapsedClassName = 'rgh-conversation-activity-collapsed';
@@ -73,11 +72,11 @@ async function handleSelection({target}: Event): Promise<void> {
 	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
 	await delay(1);
 
-	currentSetting = select('[aria-checked="true"]', target as Element)!.dataset.value as State;
-	applyCurrentSetting();
+	const currentSetting = select('[aria-checked="true"]', target as Element)!.dataset.value as State;
+	applyCurrentSetting(currentSetting);
 }
 
-function applyCurrentSetting(): void {
+function applyCurrentSetting(currentSetting: State): void {
 	// `onNewComments` registers the selectors only once
 	onNewComments(processPage);
 
@@ -99,7 +98,7 @@ function applyCurrentSetting(): void {
 	select(`.${dropdownClass} [aria-checked="true"]:not([data-value="${currentSetting}"])`)!.setAttribute('aria-checked', 'false');
 }
 
-function createRadio(filterSettings: State): JSX.Element {
+function createRadio(filterSettings: State, currentSetting: State): JSX.Element {
 	const label = states[filterSettings];
 	return (
 		<div
@@ -114,7 +113,7 @@ function createRadio(filterSettings: State): JSX.Element {
 	);
 }
 
-async function addWidget(header: string): Promise<void> {
+async function addWidget(header: string, currentSetting: State): Promise<void> {
 	const position = (await elementReady(header))!.closest('div')!;
 	if (position.classList.contains('rgh-conversation-activity-filter')) {
 		return;
@@ -140,9 +139,9 @@ async function addWidget(header: string): Promise<void> {
 						</h3>
 					</div>
 					<div className="SelectMenu-list">
-						{createRadio('default')}
-						{createRadio('hideEvents')}
-						{createRadio('hideEventsAndCollapsedComments')}
+						{createRadio('default', currentSetting)}
+						{createRadio('hideEvents', currentSetting)}
+						{createRadio('hideEventsAndCollapsedComments', currentSetting)}
 					</div>
 				</div>
 			</details-menu>
@@ -157,19 +156,20 @@ const minorFixesIssuePages = new Set([
 
 async function init(): Promise<void> {
 	// Reset dropdowns state #4997
-	currentSetting = 'default';
+	const currentSetting = minorFixesIssuePages.has(location.href)
+		? 'hideEventsAndCollapsedComments'
+		: 'default';
 	(await elementReady('.repository-content'))!.classList.remove(
 		'rgh-conversation-activity-is-filtered',
 		'rgh-conversation-activity-is-collapsed-filtered',
 	);
 
-	await addWidget('#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)');
-	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)');
+	await addWidget('#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)', currentSetting);
+	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)', currentSetting);
 
 	// Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 	if (minorFixesIssuePages.has(location.href)) {
-		currentSetting = 'hideEventsAndCollapsedComments';
-		applyCurrentSetting();
+		applyCurrentSetting(currentSetting);
 	}
 }
 
