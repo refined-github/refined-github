@@ -82,7 +82,7 @@ function apply(state: State): void {
 	// Actually process it right now
 	processPage();
 
-	const container = select('.repository-content')!;
+	const container = select('.js-issues-results')!;
 	container.classList.toggle(
 		'rgh-conversation-activity-is-filtered',
 		state !== 'default',
@@ -154,14 +154,9 @@ const minorFixesIssuePages = new Set([
 ]);
 
 async function init(): Promise<void> {
-	// Reset dropdowns state #4997
 	const state = minorFixesIssuePages.has(location.href)
 		? 'hideEventsAndCollapsedComments'
 		: 'default';
-	(await elementReady('.repository-content'))!.classList.remove(
-		'rgh-conversation-activity-is-filtered',
-		'rgh-conversation-activity-is-collapsed-filtered',
-	);
 
 	await addWidget('#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)', state);
 	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)', state);

@@ -1,7 +1,7 @@
 .rgh-conversation-activity-is-filtered .rgh-conversation-activity-filtered,
 .rgh-conversation-activity-is-collapsed-filtered .rgh-conversation-activity-collapsed,
-.repository-content.rgh-conversation-activity-is-filtered .rgh-conversation-activity-filter-dropdown .octicon-eye,
-.repository-content:not(.rgh-conversation-activity-is-filtered) .rgh-conversation-activity-filter-dropdown .octicon-eye-closed {
+.rgh-conversation-activity-is-filtered .rgh-conversation-activity-filter-dropdown .octicon-eye,
+.js-issues-results:not(.rgh-conversation-activity-is-filtered) .rgh-conversation-activity-filter-dropdown .octicon-eye-closed {
 	display: none !important;
 }
 
