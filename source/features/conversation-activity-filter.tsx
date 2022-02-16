@@ -2,7 +2,6 @@ import './conversation-activity-filter.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, EyeClosedIcon, EyeIcon} from '@primer/octicons-react';
@@ -55,8 +54,8 @@ function processReview(review: HTMLElement): void {
 	}
 }
 
-const processPage = onetime(() => {
-	for (const item of select.all('.js-timeline-item')) {
+function processPage(): void {
+	for (const item of select.all(`.js-timeline-item:not(.${hiddenClassName}, .${collapsedClassName})`)) {
 		if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
 			processReview(item);
 		} else if (select.exists('.comment-body', item)) {
@@ -66,7 +65,7 @@ const processPage = onetime(() => {
 			item.classList.add(hiddenClassName);
 		}
 	}
-});
+}
 
 async function handleSelection({target}: Event): Promise<void> {
 	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
