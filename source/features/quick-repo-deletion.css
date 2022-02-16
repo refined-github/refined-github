@@ -9,3 +9,68 @@
 	opacity: 30%;
 	z-index: 91; /* Higher than sticky readme header and `sticky-sidebar` #4192 */
 }
+
+.rgh-quick-repo-deletion:not([open]) .btn::after {
+	content: 'Delete';
+}
+
+.rgh-quick-repo-deletion[open] .btn {
+	animation: 6s step-end forwards rgh-quick-repo-deletion-scale;
+}
+
+.rgh-quick-repo-deletion[open] .btn::after {
+	animation: 6s step-end forwards rgh-quick-repo-deletion-countdown;
+	content: '';
+}
+
+@keyframes rgh-quick-repo-deletion-scale {
+	0% {
+		transform: scale(1.2);
+	}
+
+	20% {
+		transform: scale(1.5);
+	}
+
+	40% {
+		transform: scale(1.8);
+	}
+
+	60% {
+		transform: scale(2.1);
+	}
+
+	80% {
+		transform: scale(2.4);
+	}
+
+	100% {
+		transform: scale(2.4);
+	}
+}
+
+@keyframes rgh-quick-repo-deletion-countdown {
+	0% {
+		content: 'Deleting in 5 seconds. Cancel?';
+	}
+
+	20% {
+		content: 'Deleting in 4 seconds. Cancel?';
+	}
+
+	40% {
+		content: 'Deleting in 3 seconds. Cancel?';
+	}
+
+	60% {
+		content: 'Deleting in 2 seconds. Cancel?';
+	}
+
+	80% {
+		content: 'Deleting in 1 second. Cancel?';
+	}
+
+	100% {
+		content: 'Deleting…';
+	}
+}

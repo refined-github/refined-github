@@ -4,13 +4,13 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import {TrashIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
-import pluralize from '../helpers/pluralize';
 import addNotice from '../github-widgets/notice-bar';
 import {getCacheKey} from './forked-to';
 import looseParseInt from '../helpers/loose-parse-int';
@@ -68,18 +68,9 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 
 	void verifyScopesWhileWaiting(abortController);
 
-	let secondsLeft = 5;
-	const button = select('.btn', buttonContainer)!;
 	try {
-		do {
-			button.style.transform = `scale(${1.2 - ((secondsLeft - 5) / 3)})`; // Dividend is zoom speed
-			button.textContent = `Deleting repo in ${pluralize(secondsLeft, '$$ second')}. Cancel?`;
-			await delay(1000, {signal: abortController.signal}); // eslint-disable-line no-await-in-loop
-		} while (--secondsLeft);
-	} catch {
-		button.textContent = 'Delete fork';
-		button.style.transform = '';
-	}
+		await delay(5000, {signal: abortController.signal});
+	} catch {}
 
 	return !abortController.signal.aborted;
 }
@@ -89,7 +80,6 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		return;
 	}
 
-	select('.btn', buttonContainer)!.textContent = 'Deleting repo…';
 	try {
 		const {nameWithOwner, owner} = getRepo()!;
 		await api.v3('/repos/' + nameWithOwner, {
@@ -140,10 +130,12 @@ async function init(): Promise<void | false> {
 	// (Ab)use the details element as state and an accessible "click-anywhere-to-cancel" utility
 	select('.pagehead-actions')!.prepend(
 		<li>
-			<details className="details-reset details-overlay select-menu rgh-quick-repo-deletion">
-				<summary aria-haspopup="menu" role="button">
+			<details className="details-reset details-overlay rgh-quick-repo-deletion">
+				<summary role="button">
 					{/* This extra element is needed to keep the button above the <summary>’s lightbox */}
-					<span className="btn btn-sm btn-danger">Delete fork</span>
+					<span className="btn btn-sm btn-danger">
+						<TrashIcon className="v-align-text-top mr-2"/>
+					</span>
 				</summary>
 			</details>
 		</li>,
