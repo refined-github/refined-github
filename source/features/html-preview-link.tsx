@@ -13,6 +13,7 @@ function init(): void {
 		.prepend(
 			<a
 				className="btn btn-sm BtnGroup-item rgh-html-preview-link"
+				// #3305
 				href={`https://refined-github-html-preview.kidonng.workers.dev${rawButton.pathname}`}
 			>
 				Preview

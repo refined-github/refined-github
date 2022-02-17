@@ -115,19 +115,20 @@ async function init(): Promise<false | void> {
 		link.append(' ', <span className="css-truncate-target v-align-middle">{latestTag}</span>);
 	}
 
-	if (currentBranch === latestTag || aheadBy === 0) {
-		link.setAttribute('aria-label', 'You’re on the latest release');
+	const defaultBranch = await getDefaultBranch();
+
+	if (currentBranch === latestTag || (currentBranch === defaultBranch && aheadBy === 0)) {
+		link.setAttribute('aria-label', 'You’re on the latest version');
 		link.classList.add('disabled', 'tooltipped', 'tooltipped-ne');
 		return;
 	}
 
-	const defaultBranch = await getDefaultBranch();
 	if (pageDetect.isRepoHome() || currentBranch === defaultBranch) {
 		link.append(<sup> +{aheadBy}</sup>);
 		link.setAttribute(
 			'aria-label',
 			aheadBy
-				? `${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest release`
+				? `${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest version`
 				: `The HEAD of ${defaultBranch} isn’t tagged`,
 		);
 
@@ -142,10 +143,10 @@ async function init(): Promise<false | void> {
 					<DiffIcon className="v-align-middle"/>
 				</a>
 			);
-			groupButtons([link, compareLink]).classList.add('flex-self-center', 'd-flex');
+			groupButtons([link, compareLink]).classList.add('d-flex');
 		}
 	} else {
-		link.setAttribute('aria-label', 'Visit the latest release');
+		link.setAttribute('aria-label', 'Visit the latest version');
 	}
 
 	link.classList.add('tooltipped', 'tooltipped-ne');

@@ -10,6 +10,7 @@ import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import {getUsername} from '../github-helpers';
 import onNewComments from '../github-events/on-new-comments';
+import isArchivedRepo from '../helpers/is-archived-repo';
 
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
@@ -75,6 +76,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		() => select.exists('.conversation-limited'), // Conversation is locked
+		isArchivedRepo,
 	],
 	additionalListeners: [
 		onNewComments,

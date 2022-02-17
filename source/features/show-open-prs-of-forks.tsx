@@ -94,9 +94,6 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isForkedRepo,
 	],
-	include: [
-		pageDetect.isRepo,
-	],
 	awaitDomReady: false,
 	init: initHeadHint,
 }, {

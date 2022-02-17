@@ -53,6 +53,7 @@ li[data-validation] {
 
 :root [name='customCSS'],
 :root [name='personalToken'] {
+	/* Same as GitHub style for `code` */
 	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace !important;
 	font-size: 11px;
 	line-height: 1.5;
@@ -135,10 +136,6 @@ li[data-validation] {
 
 .feature-checkbox:disabled + .info > *:not(.hotfix-notice) {
 	opacity: 50%;
-}
-
-.sr-only {
-	display: none;
 }
 
 #debugging {

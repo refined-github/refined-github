@@ -38,9 +38,9 @@ function addButtons(): void {
 	for (const anchor of select.all('md-task-list:not(.rgh-table-input-added)')) {
 		anchor.classList.add('rgh-table-input-added');
 		anchor.after(
-			<details className="details-reset details-overlay flex-auto toolbar-item select-menu select-menu-modal-right hx_rsm">
+			<details className="details-reset details-overlay flex-auto toolbar-item btn-octicon mx-1 select-menu select-menu-modal-right hx_rsm">
 				<summary
-					className="text-center menu-target py-2 p-md-1 hx_rsm-trigger mx-1"
+					className="text-center menu-target p-2 p-md-1 hx_rsm-trigger"
 					role="button"
 					aria-label="Add a table"
 					aria-haspopup="menu"

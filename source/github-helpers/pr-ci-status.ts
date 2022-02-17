@@ -1,36 +1,39 @@
 import select from 'select-dom';
 
-import observeElement from '../helpers/simplified-element-observer';
-
-type CommitStatus = false | typeof SUCCESS | typeof FAILURE | typeof PENDING | typeof COMMIT_CHANGED;
-type StatusListener = (status: CommitStatus) => void;
-
-// `.TimelineItem--condensed` excludes unrelated references. See `deemphasize-unrelated-commit-references` feature
-// TODO [2022-05-01]: Remove `.js-commit-group` (GHE)
-const commitSelector = ':is(.js-commit-group, [data-test-selector="pr-timeline-commits-list"]) .TimelineItem--condensed';
-
-function getLastCommitReference(): string | null {
-	return select.last(`${commitSelector} code`)!.textContent;
-}
+import * as api from './api';
 
 export const SUCCESS = Symbol('Success');
 export const FAILURE = Symbol('Failure');
 export const PENDING = Symbol('Pending');
-export const COMMIT_CHANGED = Symbol('Commit changed');
+export type CommitStatus = false | typeof SUCCESS | typeof FAILURE | typeof PENDING;
 
-export function get(): CommitStatus {
-	// Excludes commit references. Sometimes commits don't have a status icon at all, yet
-	const lastCommit = select.last(commitSelector);
-	if (lastCommit) {
-		if (lastCommit.querySelector('.octicon-check')) {
+export const commitSelector = [
+	'.js-commit-group .TimelineItem--condensed', // TODO [2022-05-01]: GHE
+	'[data-test-selector="pr-timeline-commits-list"] .TimelineItem',
+].join(',');
+
+// `summary` is needed because the details dropdown contains the list of check runs, each with its status icon
+export const commitStatusIconSelector = 'details.commit-build-statuses summary .octicon';
+
+export function getLastCommitReference(): string | null {
+	return select.last(`${commitSelector} code`)!.textContent;
+}
+
+export function getLastCommitStatus(): CommitStatus {
+	const lastCommit = select.last(commitSelector)!;
+	const lastCommitStatusIcon = lastCommit.querySelector(commitStatusIconSelector);
+
+	// Some commits don't have a CI status icon at all
+	if (lastCommitStatusIcon) {
+		if (lastCommitStatusIcon.classList.contains('octicon-check')) {
 			return SUCCESS;
 		}
 
-		if (lastCommit.querySelector('.octicon-x')) {
+		if (lastCommitStatusIcon.classList.contains('octicon-x')) {
 			return FAILURE;
 		}
 
-		if (lastCommit.querySelector('.octicon-dot-fill')) {
+		if (lastCommitStatusIcon.classList.contains('octicon-dot-fill')) {
 			return PENDING;
 		}
 	}
@@ -38,48 +41,42 @@ export function get(): CommitStatus {
 	return false;
 }
 
-export async function wait(): Promise<CommitStatus> {
-	return new Promise(resolve => {
-		addEventListener(function handler(newStatus: CommitStatus) {
-			removeEventListener(handler);
-			resolve(newStatus);
-		});
-	});
-}
+export async function getCommitStatus(commitSha: string): Promise<CommitStatus> {
+	const {repository} = await api.v4(`
+		repository() {
+			object(expression: "${commitSha}") {
+				... on Commit {
+					checkSuites(first: 100) {
+						nodes {
+							checkRuns { totalCount }
+							status
+							conclusion
+						}
+					}
+				}
+			}
+		}
+		# Cache buster: ${Date.now()}
+	`);
 
-const observers = new WeakMap<StatusListener, MutationObserver>();
-
-export function addEventListener(listener: StatusListener): void {
-	if (observers.has(listener)) {
-		return;
+	if (repository.object.checkSuites.nodes === 0) {
+		return false; // The commit doesn't have any CI checks associated to it
 	}
 
-	let previousCommit = getLastCommitReference();
-	let previousStatus = get();
-	const filteredListener = (): void => {
-		// Cancel submission if a new commit was pushed
-		const newCommit = getLastCommitReference();
-		if (newCommit !== previousCommit) {
-			previousCommit = newCommit;
-			listener(COMMIT_CHANGED);
-			return;
+	for (const {checkRuns, status, conclusion} of repository.object.checkSuites.nodes) {
+		// Check suites with no runs will always have a status of "QUEUED" (e.g. Dependabot when it's disabled on the repo)
+		if (checkRuns.totalCount === 0) {
+			continue;
 		}
 
-		// Ignore update if the status hasn't changed
-		const newStatus = get();
-		if (newStatus !== previousStatus) {
-			previousStatus = newStatus;
-			listener(newStatus);
+		if (status !== 'COMPLETED') {
+			return PENDING;
 		}
-	};
 
-	const observer = observeElement('.js-discussion', filteredListener, {
-		childList: true,
-		subtree: true,
-	})!;
-	observers.set(listener, observer);
-}
+		if (conclusion !== 'SUCCESS' && conclusion !== 'NEUTRAL' && conclusion !== 'SKIPPED') {
+			return FAILURE;
+		}
+	}
 
-export function removeEventListener(listener: StatusListener): void {
-	observers.get(listener)!.disconnect();
+	return SUCCESS;
 }

@@ -1,11 +1,12 @@
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function toggleFile(event: MouseEvent): void {
+function toggleFile(event: delegate.Event<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
-	const headerBar = elementClicked.closest('.file-header')!;
+	const headerBar = event.delegateTarget;
 
 	// The clicked element is either the bar itself or one of its 2 children
 	if (elementClicked === headerBar || elementClicked.parentElement === headerBar) {
@@ -15,7 +16,7 @@ function toggleFile(event: MouseEvent): void {
 }
 
 async function init(): Promise<void> {
-	document.body.addEventListener('click', toggleFile);
+	delegate(document, '.file-header', 'click', toggleFile);
 }
 
 void features.add(import.meta.url, {

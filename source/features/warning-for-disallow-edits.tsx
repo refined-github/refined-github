@@ -42,6 +42,7 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 		pageDetect.isPRConversation,
 	],
+	// No need to exclude `isClosedPR` as the checkbox won't be present
 	deduplicate: 'has-rgh-inner',
 	init,
 });
