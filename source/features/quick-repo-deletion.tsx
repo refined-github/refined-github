@@ -23,13 +23,8 @@ function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
 		'.rgh-open-prs-of-forks', // PRs opened in the source repo
 	]);
 
-	if (hasContent && !confirm('This repo has open issues/PRs, are you sure you want to delete everything?')) {
+	if (hasContent && !confirm('This repository has open issues or pull requests, are you absolutely sure?')) {
 		// Close the <details> element again
-		event.delegateTarget.open = false;
-		return;
-	}
-
-	if (!pageDetect.isForkedRepo() && !confirm('⚠️ This action cannot be undone. This will permanently delete the repository, wiki, issues, comments, packages, secrets, workflow runs, and remove all collaborator associations.')) {
 		event.delegateTarget.open = false;
 		return;
 	}
