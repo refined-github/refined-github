@@ -43,7 +43,7 @@ const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? par
 	cacheKey: getCacheKey,
 });
 
-async function addReleasesTab(): Promise<false | void> {
+async function addReleasesTab(): Promise<false | number> {
 	// Always prefer the information in the DOM
 	if (pageDetect.isRepoRoot()) {
 		await cache.delete(getCacheKey());
@@ -83,7 +83,7 @@ async function addReleasesTab(): Promise<false | void> {
 		}),
 	);
 
-	setTimeout(checkReleaseTabOverflow, 5000);
+	return window.setTimeout(checkReleaseTabOverflow, 5000);
 }
 
 // Fallback to ensure the tab is always hidden when it overflows, because GitHub's mechanism is unreliable
@@ -113,14 +113,23 @@ function highlightReleasesTab(): VoidFunction {
 	return selectorObserver.abort;
 }
 
-async function init(): Promise<VoidFunction | void> {
+async function init(): Promise<void | VoidFunction[]> {
+	const deinit: VoidFunction[] = [];
+
 	if (!select.exists('.rgh-releases-tab')) {
-		await addReleasesTab();
+		const timeoutID = await addReleasesTab();
+		if (timeoutID !== false) {
+			deinit.push(() => {
+				window.clearTimeout(timeoutID);
+			});
+		}
 	}
 
 	if (pageDetect.isReleasesOrTags()) {
-		return highlightReleasesTab();
+		deinit.push(highlightReleasesTab());
 	}
+
+	return deinit;
 }
 
 void features.add(import.meta.url, {
