@@ -12,13 +12,14 @@ function getFirstCommitMessage(): string[] {
 		return select('#commits_bucket [data-url$="compare/commit"] a[title]')!.title.split('\n\n');
 	}
 
+	const commitSummaryWrapper = select('.js-commits-list-item a.Link--primary')!.parentElement!;
+	const commitDescription = select('.js-commits-list-item pre')?.textContent ?? '';
+
 	// Linkified commit summaries are split into several adjacent links #5382
-	const commitSummary = select.all('.js-commits-list-item:first-child .js-details-container > p > a')
+	const commitSummary = select.all(':scope > a', commitSummaryWrapper)
 		.map(commitTitleLink => commitTitleLink.innerHTML)
 		.join('')
 		.replace(/<\/?code>/g, '`');
-
-	const commitDescription = select('.js-commits-list-item pre')?.textContent ?? '';
 
 	return [commitSummary, commitDescription];
 }
