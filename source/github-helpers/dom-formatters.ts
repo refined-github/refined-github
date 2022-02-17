@@ -24,7 +24,6 @@ export function linkifyIssues(
 		baseUrl: '',
 		...options,
 		attributes: {
-			rel: 'noreferrer noopener',
 			class: linkifiedURLClass, // Necessary to avoid also shortening the links
 			...options.attributes,
 		},
@@ -36,11 +35,13 @@ export function linkifyIssues(
 	// Enable native issue title fetch
 	for (const link of linkified.children as HTMLCollectionOf<HTMLAnchorElement>) {
 		const issue = link.href.split('/').pop();
-		link.setAttribute('class', 'issue-link js-issue-link tooltipped tooltipped-ne');
-		link.dataset.errorText = 'Failed to load issue title';
-		link.dataset.permissionText = 'Issue title is private';
+		link.setAttribute('class', 'issue-link js-issue-link');
+		link.dataset.errorText = 'Failed to load title';
+		link.dataset.permissionText = 'Title is private';
 		link.dataset.url = link.href;
 		link.dataset.id = `rgh-issue-${issue!}`;
+		link.dataset.hovercardType = 'issue';
+		link.dataset.hovercardUrl = `${link.pathname}/hovercard`;
 	}
 
 	zipTextNodes(element, linkified);
