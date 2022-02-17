@@ -35,39 +35,10 @@ async function unwrapNotifications(): Promise<void | false> {
 	button.textContent = `Group by ${button.textContent!.toLowerCase()}`;
 }
 
-async function unwrapActionRun(): Promise<void | false> {
-	const desiredForm = await elementReady('.js-check-suite-rerequest-form', {waitForChildren: false});
-	if (!desiredForm) {
-		return false;
-	}
-
-	const availableOptions = desiredForm
-		.closest('.dropdown-menu')!
-		.querySelectorAll('li > *'); // GitHub left an empty `li` in there 😒
-	if (availableOptions.length > 1) {
-		throw new Error('GitHub added items to the dropdown. This feature is obsolete.');
-	}
-
-	// Fix button’s style
-	const button = select('button', desiredForm)!;
-	button.className = 'btn';
-	button.prepend(select('.octicon-sync')!);
-
-	// Replace dropdown
-	const dropdown = desiredForm.closest('details')!;
-	replaceDropdownInPlace(dropdown, desiredForm);
-}
-
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNotifications,
 	],
 	awaitDomReady: false,
 	init: unwrapNotifications,
-}, {
-	include: [
-		pageDetect.isActionRun,
-	],
-	awaitDomReady: false,
-	init: unwrapActionRun,
 });
