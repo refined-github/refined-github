@@ -154,13 +154,13 @@ async function addWidget(header: string, state: State): Promise<void> {
 	);
 }
 
-const minorFixesIssuePages = new Set([
+const minorFixesIssuePages = [
 	getRghIssueUrl(5222),
 	getRghIssueUrl(4008),
-]);
+];
 
 async function init(): Promise<void> {
-	const state = minorFixesIssuePages.has(location.href)
+	const state = minorFixesIssuePages.map(page => location.href.startsWith(page))
 		? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 		: 'default';
 
