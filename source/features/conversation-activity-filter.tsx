@@ -160,7 +160,7 @@ const minorFixesIssuePages = [
 ];
 
 async function init(): Promise<void> {
-	const state = minorFixesIssuePages.map(page => location.href.startsWith(page))
+	const state = minorFixesIssuePages.some(url => location.href.startsWith(url))
 		? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 		: 'default';
 
