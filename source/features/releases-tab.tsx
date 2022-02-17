@@ -74,12 +74,31 @@ async function addReleasesTab(): Promise<false | void> {
 
 	appendBefore(
 		select('.js-responsive-underlinenav .dropdown-menu ul')!,
-		'li:not([data-menu-item])', // Add the dropdown item after the last "overflow" item that's linked to a native tab
+		'li:not([data-menu-item])', // Add the dropdown item after the last overflow item linked to a native tab
 		createDropdownItem('Releases', buildRepoURL('releases'), {
 			'data-menu-item': 'rgh-releases-item',
-			hidden: '', // Hide on creation because the tabs overflow mechanism isn't triggered when navigating to the "Releases" page from another tab
+			// Hide on creation because the overflow mechanism isn't triggered when navigating to the "Releases" page from another tab
+			// https://github.com/refined-github/refined-github/pull/5333#pullrequestreview-860658750
+			hidden: '',
 		}),
 	);
+
+	setTimeout(checkReleaseTabOverflow, 5000);
+}
+
+// Fallback to ensure the tab is always hidden when it overflows, because GitHub's mechanism is unreliable
+function checkReleaseTabOverflow(): void {
+	const releaseTab = select('.rgh-releases-tab')!;
+	if (releaseTab.classList.contains('d-none')) {
+		return;
+	}
+
+	const {right: releaseTabRight} = releaseTab.getBoundingClientRect();
+	const {left: dropdownLeft} = select('.UnderlineNav-actions')!.getBoundingClientRect();
+	if (releaseTabRight >= dropdownLeft) { // The tab overlaps with the dropdown button
+		releaseTab.classList.add('d-none');
+		select('[data-menu-item="rgh-releases-item"]')!.removeAttribute('hidden');
+	}
 }
 
 function highlightReleasesTab(): VoidFunction {
