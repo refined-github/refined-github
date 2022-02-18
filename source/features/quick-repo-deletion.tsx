@@ -62,8 +62,8 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 
 	// Add a global click listener to avoid potential future issues with z-index
 	document.addEventListener('click', abortHandler, {once: true});
-	// Abort on keypress
-	document.addEventListener('keypress', abortHandler, {once: true});
+	// Abort on keydown
+	document.addEventListener('keydown', abortHandler, {once: true});
 
 	void verifyScopesWhileWaiting(abortController);
 
@@ -72,7 +72,7 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 	} catch {}
 
 	document.removeEventListener('click', abortHandler);
-	document.removeEventListener('keypress', abortHandler);
+	document.removeEventListener('keydown', abortHandler);
 
 	return !abortController.signal.aborted;
 }
