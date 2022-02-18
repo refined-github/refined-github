@@ -159,20 +159,18 @@ const minorFixesIssuePages = new Set([
 	getRghIssueUrl(4008),
 ]);
 
-function runShortcuts(event: KeyboardEvent): void {
-	if (isEditable(event.target)) {
+function runShortcuts({key, target}: KeyboardEvent): void {
+	if (isEditable(target)) {
 		return;
 	}
 
-	if (event.key === 'h' && currentSetting !== 'hideEventsAndCollapsedComments') {
-		currentSetting = 'hideEventsAndCollapsedComments';
-	} else if (event.key === 'f' && currentSetting !== 'hideEvents') {
-		currentSetting = 'hideEvents';
-	} else {
-		currentSetting = 'default';
+	if (key === 'h') {
+		currentSetting = currentSetting === 'hideEventsAndCollapsedComments' ? 'default' : 'hideEventsAndCollapsedComments';
+		applyCurrentSetting();
+	} else if (key === 'f') {
+		currentSetting = currentSetting === 'hideEvents' ? 'default' : 'hideEvents';
+		applyCurrentSetting();
 	}
-
-	applyCurrentSetting();
 }
 
 async function init(): Promise<void> {
@@ -200,8 +198,8 @@ void features.add(import.meta.url, {
 		onConversationHeaderUpdate,
 	],
 	shortcuts: {
-		h: 'Hide/show events and collapsed comments',
-		f: 'Hide/show events',
+		h: 'Toggle events and collapsed comments',
+		f: 'Toggle events',
 	},
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
