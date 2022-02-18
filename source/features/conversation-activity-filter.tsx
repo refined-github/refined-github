@@ -9,8 +9,7 @@ import {CheckIcon, EyeClosedIcon, EyeIcon} from '@primer/octicons-react';
 import features from '.';
 import onNewComments from '../github-events/on-new-comments';
 import {getRghIssueUrl} from '../helpers/rgh-issue-link';
-import {isEditable} from '../helpers/dom-utils';
-import {removeClassFromAll, wrap} from '../helpers/dom-utils';
+import {removeClassFromAll, wrap, isEditable} from '../helpers/dom-utils';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 const states = {
@@ -167,9 +166,9 @@ function runShortcuts(event: KeyboardEvent): void {
 
 	if (event.key === 'h' && currentSetting !== 'hideEventsAndCollapsedComments') {
 		currentSetting = 'hideEventsAndCollapsedComments';
-	} else if(event.key === 'f' && currentSetting !== 'hideEvents'){
+	} else if (event.key === 'f' && currentSetting !== 'hideEvents') {
 		currentSetting = 'hideEvents';
-	} else{
+	} else {
 		currentSetting = 'default';
 	}
 	applyCurrentSetting();
@@ -200,7 +199,7 @@ void features.add(import.meta.url, {
 	],
 	shortcuts: {
 		h: 'Hide/show events and collapsed comments',
-		f: 'Hide/show events'
+		f: 'Hide/show events',
 	},
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
