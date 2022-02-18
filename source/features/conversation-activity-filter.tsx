@@ -171,6 +171,7 @@ function runShortcuts(event: KeyboardEvent): void {
 	} else {
 		currentSetting = 'default';
 	}
+
 	applyCurrentSetting();
 }
 
@@ -187,6 +188,7 @@ async function init(): Promise<void> {
 		currentSetting = 'hideEventsAndCollapsedComments';
 		applyCurrentSetting();
 	}
+
 	document.body.addEventListener('keypress', runShortcuts);
 }
 
