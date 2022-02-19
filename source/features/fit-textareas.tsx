@@ -40,12 +40,6 @@ function init(): Deinit {
 	});
 }
 
-function initPrConversation(signal: AbortSignal): Deinit {
-	return onPrMergePanelOpen(() => {
-		fitPrCommitMessageBox();
-	}, signal);
-}
-
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
@@ -62,5 +56,9 @@ void features.add(import.meta.url, {
 		isSafari,
 	],
 	deduplicate: 'has-rgh-inner',
-	init: initPrConversation,
+	additionalListeners: [
+		onPrMergePanelOpen,
+	],
+	onlyAdditionalListeners: true,
+	init: fitPrCommitMessageBox,
 });
