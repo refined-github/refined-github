@@ -81,17 +81,17 @@ function processPage(): void {
 	}
 }
 
-async function handleSelection({target}: Event, deinitSignal: AbortSignal): Promise<void> {
+async function handleSelection({target}: Event): Promise<void> {
 	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
 	await delay(1);
 
 	currentSetting = select('[aria-checked="true"]', target as Element)!.dataset.value as State;
-	applyCurrentSetting(deinitSignal);
+	applyCurrentSetting();
 }
 
-function applyCurrentSetting(deinitSignal: AbortSignal): void {
+function applyCurrentSetting(): void {
 	// `onNewComments` registers the selectors only once
-	onNewComments(processPage, deinitSignal);
+	onNewComments(processPage);
 
 	// Actually process it right now
 	processPage();
@@ -122,7 +122,7 @@ function createRadio(filterSettings: State): JSX.Element {
 	);
 }
 
-async function addWidget(header: string, deinitSignal: AbortSignal): Promise<void> {
+async function addWidget(header: string): Promise<void> {
 	const position = (await elementReady(header))!.closest('div')!;
 	if (position.classList.contains('rgh-conversation-activity-filter')) {
 		return;
@@ -140,7 +140,7 @@ async function addWidget(header: string, deinitSignal: AbortSignal): Promise<voi
 			<details-menu
 				className="SelectMenu right-0"
 				role="menu"
-				on-details-menu-select={async (event: Event) => handleSelection(event, deinitSignal)}
+				on-details-menu-select={handleSelection}
 			>
 				<div className="SelectMenu-modal">
 					<div className="SelectMenu-list">
@@ -159,18 +159,18 @@ const minorFixesIssuePages = new Set([
 	getRghIssueUrl(4008),
 ]);
 
-async function init(deinitSignal: AbortSignal): Promise<void> {
+async function init(): Promise<void> {
 	// Reset dropdowns state #4997
 	currentSetting = 'default';
 	(await elementReady('.repository-content'))!.classList.remove('rgh-conversation-activity-is-filtered');
 
-	await addWidget('#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)', deinitSignal);
-	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)', deinitSignal);
+	await addWidget('#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)');
+	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)');
 
 	// Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 	if (minorFixesIssuePages.has(location.href)) {
 		currentSetting = 'hideEventsAndCollapsedComments';
-		applyCurrentSetting(deinitSignal);
+		applyCurrentSetting();
 	}
 }
 

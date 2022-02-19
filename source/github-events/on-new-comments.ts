@@ -3,7 +3,6 @@ import delegate from 'delegate-it';
 
 const discussionsWithListeners = new WeakSet();
 const handlers = new Set<VoidFunction>();
-const delegates = new Set<delegate.Subscription>();
 const observer = new MutationObserver(run);
 
 function run(): void {
@@ -26,10 +25,10 @@ function getFragmentLoadHandler(callback: EventListener): delegate.EventHandler 
 	};
 }
 
-function addListeners(): void {
+function addListeners(): Deinit[] {
 	const discussion = select('.js-discussion');
 	if (!discussion || discussionsWithListeners.has(discussion)) {
-		return;
+		return [];
 	}
 
 	// Ensure listeners are only ever added once
@@ -40,29 +39,21 @@ function addListeners(): void {
 		childList: true,
 	});
 
-	// When hidden comments are loaded by clicking "Load more…"
-	delegates.add(delegate(document, '.js-ajax-pagination', 'submit', paginationSubmitHandler));
+	return [
+		// When hidden comments are loaded by clicking "Load more…"
+		delegate(document, '.js-ajax-pagination', 'submit', paginationSubmitHandler),
 
-	// Collapsed comments are loaded later using an include-fragment element
-	delegates.add(delegate(document, 'details.js-comment-container include-fragment', 'loadstart', getFragmentLoadHandler(run), true));
+		// Collapsed comments are loaded later using an include-fragment element
+		delegate(document, 'details.js-comment-container include-fragment', 'loadstart', getFragmentLoadHandler(run), true),
+	];
 }
 
-function removeListeners(): void {
-	for (const subscription of delegates) {
-		subscription.destroy();
-	}
-
-	delegates.clear();
-	handlers.clear();
-	observer.disconnect();
-}
-
-export default function onNewComments(callback: VoidFunction, signal: AbortSignal): void {
-	if (signal.aborted) {
-		return;
-	}
-
-	addListeners();
+export default function onNewComments(callback: VoidFunction): Deinit[] {
 	handlers.add(callback);
-	signal.addEventListener('abort', removeListeners, {once: true});
+
+	return [
+		...addListeners(),
+		handlers.clear,
+		observer.disconnect,
+	];
 }
