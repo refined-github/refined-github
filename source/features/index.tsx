@@ -149,6 +149,8 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 });
 
 function setupDeinit(deinit: Deinit): void {
+	document.addEventListener('pjax:start', getDeinitHandler(deinit), {once: true});
+}
 	if (deinit instanceof AbortController) {
 		document.addEventListener('pjax:start', () => {
 			deinit.abort();
