@@ -12,37 +12,37 @@ function inputListener({target}: Event): void {
 	fitTextarea(target as HTMLTextAreaElement);
 }
 
-function watchTextarea(textarea: HTMLTextAreaElement, signal: AbortSignal): void {
-	textarea.addEventListener('input', inputListener, {signal}); // The user triggers `input` event
-	textarea.addEventListener('change', inputListener, {signal}); // File uploads trigger `change` events
+function watchTextarea(textarea: HTMLTextAreaElement): void {
+	textarea.addEventListener('input', inputListener); // The user triggers `input` event
+	textarea.addEventListener('change', inputListener); // File uploads trigger `change` events
 	fitTextarea(textarea);
 
 	// Disable constrained native feature
 	textarea.classList.replace('js-size-to-fit', 'rgh-fit-textareas');
 }
 
-function focusListener({delegateTarget: textarea}: delegate.Event<Event, HTMLTextAreaElement>, signal: AbortSignal): void {
-	watchTextarea(textarea, signal);
+function focusListener({delegateTarget: textarea}: delegate.Event<Event, HTMLTextAreaElement>): void {
+	watchTextarea(textarea);
 }
 
-function fitPrCommitMessageBox(signal: AbortSignal): void {
-	watchTextarea(select('textarea[name="commit_message"]')!, signal);
+function fitPrCommitMessageBox(): void {
+	watchTextarea(select('textarea[name="commit_message"]')!);
 }
 
-function init(signal: AbortSignal): Deinit {
+function init(): Deinit {
 	for (const textArea of select.all('textarea')) {
-		watchTextarea(textArea, signal);
+		watchTextarea(textArea);
 	}
 
 	// Exclude PR review box because it's in a `position:fixed` container; The scroll HAS to appear within the fixed element.
 	return delegate(document, 'textarea:not(#pull_request_review_body)', 'focusin', event => {
-		focusListener(event, signal);
+		focusListener(event);
 	});
 }
 
 function initPrConversation(signal: AbortSignal): Deinit {
 	return onPrMergePanelOpen(() => {
-		fitPrCommitMessageBox(signal);
+		fitPrCommitMessageBox();
 	}, signal);
 }
 

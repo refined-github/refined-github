@@ -20,13 +20,13 @@ function paginationSubmitHandler({delegateTarget: form}: delegate.Event): void {
 	form.addEventListener('page:loaded', run, {once: true});
 }
 
-function getFragmentLoadHandler(callback: EventListener, signal: AbortSignal): delegate.EventHandler {
+function getFragmentLoadHandler(callback: EventListener): delegate.EventHandler {
 	return ({delegateTarget}) => {
-		delegateTarget.addEventListener('load', callback, {signal});
+		delegateTarget.addEventListener('load', callback);
 	};
 }
 
-function addListeners(signal: AbortSignal): void {
+function addListeners(): void {
 	const discussion = select('.js-discussion');
 	if (!discussion || discussionsWithListeners.has(discussion)) {
 		return;
@@ -44,7 +44,7 @@ function addListeners(signal: AbortSignal): void {
 	delegates.add(delegate(document, '.js-ajax-pagination', 'submit', paginationSubmitHandler));
 
 	// Collapsed comments are loaded later using an include-fragment element
-	delegates.add(delegate(document, 'details.js-comment-container include-fragment', 'loadstart', getFragmentLoadHandler(run, signal), true));
+	delegates.add(delegate(document, 'details.js-comment-container include-fragment', 'loadstart', getFragmentLoadHandler(run), true));
 }
 
 function removeListeners(): void {
@@ -62,7 +62,7 @@ export default function onNewComments(callback: VoidFunction, signal: AbortSigna
 		return;
 	}
 
-	addListeners(signal);
+	addListeners();
 	handlers.add(callback);
 	signal.addEventListener('abort', removeListeners, {once: true});
 }

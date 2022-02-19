@@ -7,7 +7,7 @@ import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
 import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
 
-function init(signal: AbortSignal): false | Deinit {
+function init(): false | Deinit {
 	const form = select('[action$="/reviews"]')!;
 	const radios = select.all('input[type="radio"][name="pull_request_review[event]"]', form);
 
@@ -83,7 +83,7 @@ function init(signal: AbortSignal): false | Deinit {
 				control.disabled = true;
 			}
 		});
-	}, {signal});
+	});
 
 	// This will prevent submission when clicking "Comment" and "Request changes" without entering a comment and no other review comments are pending
 	return delegate(form, 'button', 'click', ({delegateTarget: {value}}) => {

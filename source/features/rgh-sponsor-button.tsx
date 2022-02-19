@@ -82,13 +82,10 @@ async function suchLove({delegateTarget}: delegate.Event): Promise<void> {
 	love.remove(); // 💔
 }
 
-async function handleNewIssue(signal: AbortSignal): Promise<false> {
+async function handleNewIssue(): Promise<false> {
 	if (getRepo()!.owner !== getUsername() && !await cache.get('did-it-wiggle')) {
 		select('.btn-primary[href$="/issues/new/choose"], .btn-primary[href$="/issues/new"]')
-			?.addEventListener('mouseenter', wiggleWiggleWiggle, {
-				once: true,
-				signal,
-			});
+			?.addEventListener('mouseenter', wiggleWiggleWiggle, {once: true});
 	}
 
 	return false;
