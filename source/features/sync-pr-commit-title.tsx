@@ -79,29 +79,16 @@ async function updateCommitTitle(event: Event): Promise<void> {
 }
 
 function disableSubmission(): void {
-	deinit();
 	getUI().remove();
 }
 
-const listeners: delegate.Subscription[] = [];
-
 function init(signal: AbortSignal): Deinit[] {
-	listeners.push(
+	return [
 		onPrMergePanelOpen(updateCommitTitle, signal),
 		delegate(document, '#merge_title_field', 'input', updateUI),
 		delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle),
 		delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission),
-	);
-
-	return listeners;
-}
-
-function deinit(): void {
-	for (const delegation of listeners) {
-		delegation.destroy();
-	}
-
-	listeners.length = 0;
+	];
 }
 
 void features.add(import.meta.url, {
