@@ -148,29 +148,26 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-function setupDeinit(deinit: Deinit): void {
-	document.addEventListener('pjax:start', getDeinitHandler(deinit), {once: true});
-}
+function getDeinitHandler(deinit: Deinit): VoidFunction {
 	if (deinit instanceof AbortController) {
-		document.addEventListener('pjax:start', () => {
+		return () => { // Passing AbortController.abort directly to addEventListener doesn't work on Firefox
 			deinit.abort();
-		}, {
-			once: true,
-		});
-		return;
+		};
 	}
 
 	if ('abort' in deinit) { // Selector observer
-		document.addEventListener('pjax:start', deinit.abort, {once: true});
-		return;
+		return deinit.abort;
 	}
 
 	if ('destroy' in deinit) { // Delegate subscription
-		document.addEventListener('pjax:start', deinit.destroy, {once: true});
-		return;
+		return deinit.destroy;
 	}
 
-	document.addEventListener('pjax:start', deinit, {once: true});
+	return deinit;
+}
+
+function setupDeinit(deinit: Deinit): void {
+	document.addEventListener('pjax:start', getDeinitHandler(deinit), {once: true});
 }
 
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
