@@ -29,8 +29,8 @@ function init(signal: AbortSignal): Deinit[] {
 	});
 
 	return [
-		selectObserver.abort,
-		resizeObserver.disconnect,
+		selectObserver,
+		resizeObserver,
 	];
 }
 
