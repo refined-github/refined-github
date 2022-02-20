@@ -107,7 +107,7 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 }
 
 function init(): void {
-	const commentPopupMenus = select.all('.js-reaction-popover-container ~ details:last-child:not(.rgh-time-machine-links)');
+	const commentPopupMenus = select.all('.timeline-comment-actions > details:last-child:not(.rgh-time-machine-links)');
 	for (const menu of commentPopupMenus) {
 		menu.classList.add('rgh-time-machine-links');
 		// The timestamp of main review comments isn't in their header but in the timeline event above #5423

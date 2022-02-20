@@ -7,6 +7,8 @@ const delegates = new Set<delegate.Subscription>();
 const observer = new MutationObserver(run);
 
 function run(): void {
+	console.log(new Date().toLocaleString().split(',').pop()!.trim());
+
 	// Run all callbacks without letting an error stop the loop and without silencing it
 	// eslint-disable-next-line unicorn/no-array-for-each
 	handlers.forEach(async callback => {
