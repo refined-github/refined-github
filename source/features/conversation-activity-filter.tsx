@@ -200,7 +200,7 @@ void features.add(import.meta.url, {
 		onConversationHeaderUpdate,
 	],
 	shortcuts: {
-		h: 'Hide events or/and collapsed comments',
+		h: 'Cycle between conversation activity filters',
 	},
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
