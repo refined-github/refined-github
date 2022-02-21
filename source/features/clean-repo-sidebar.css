@@ -18,6 +18,10 @@
 	.rgh-clean-repo-sidebar .Layout-sidebar h2 [href$='/releases'] {
 		display: none;
 	}
+
+	.rgh-clean-repo-sidebar .Layout-sidebar .octicon-tag + div {
+		margin-left: 12px !important;
+	}
 }
 
 /*
