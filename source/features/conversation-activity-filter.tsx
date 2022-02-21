@@ -160,7 +160,7 @@ const minorFixesIssuePages = new Set([
 ]);
 
 function runShortcuts({key, target}: KeyboardEvent): void {
-	if (isEditable(target) || key !== 'h') {
+	if (key !== 'h' || isEditable(target)) {
 		return;
 	}
 
