@@ -9,7 +9,7 @@ import {CheckIcon, EyeClosedIcon, EyeIcon} from '@primer/octicons-react';
 import features from '.';
 import onNewComments from '../github-events/on-new-comments';
 import {getRghIssueUrl} from '../helpers/rgh-issue-link';
-import {removeClassFromAll, wrap} from '../helpers/dom-utils';
+import {removeClassFromAll, wrap, isEditable} from '../helpers/dom-utils';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 const states = {
@@ -159,6 +159,22 @@ const minorFixesIssuePages = new Set([
 	getRghIssueUrl(4008),
 ]);
 
+function runShortcuts({key, target}: KeyboardEvent): void {
+	if (key !== 'h' || isEditable(target)) {
+		return;
+	}
+
+	if (currentSetting === 'default') {
+		currentSetting = 'hideEvents';
+	} else if (currentSetting === 'hideEvents') {
+		currentSetting = 'hideEventsAndCollapsedComments';
+	} else {
+		currentSetting = 'default';
+	}
+
+	applyCurrentSetting();
+}
+
 async function init(): Promise<void> {
 	// Reset dropdowns state #4997
 	currentSetting = 'default';
@@ -172,6 +188,8 @@ async function init(): Promise<void> {
 		currentSetting = 'hideEventsAndCollapsedComments';
 		applyCurrentSetting();
 	}
+
+	document.body.addEventListener('keypress', runShortcuts);
 }
 
 void features.add(import.meta.url, {
@@ -181,6 +199,9 @@ void features.add(import.meta.url, {
 	additionalListeners: [
 		onConversationHeaderUpdate,
 	],
+	shortcuts: {
+		h: 'Cycle between conversation activity filters',
+	},
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init,
