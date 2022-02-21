@@ -111,7 +111,8 @@ function init(): void {
 	for (const menu of commentPopupMenus) {
 		menu.classList.add('rgh-time-machine-links');
 		// The timestamp of main review comments isn't in their header but in the timeline event above #5423
-		const timestamp = menu.closest('.js-comment:not([id^="pullrequestreview-"]), .js-timeline-item')!
+		const timestamp = menu
+			.closest('.js-comment:not([id^="pullrequestreview-"]), .js-timeline-item')!
 			.querySelector('relative-time')!
 			.attributes.datetime.value;
 		addInlineLinks(menu, timestamp);
