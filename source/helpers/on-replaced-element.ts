@@ -14,6 +14,10 @@ export default async function onReplacedElement(
 	callback: (element: HTMLElement) => void,
 	{runCallbackOnStart = false, signal}: {runCallbackOnStart?: boolean; signal?: AbortSignal} = {},
 ): Promise<void> {
+	if (signal?.aborted) {
+		return;
+	}
+
 	let trackedElement = select(selector);
 	if (!trackedElement) {
 		throw new Error('The element can’t be found');
