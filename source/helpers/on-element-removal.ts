@@ -1,7 +1,11 @@
 import mem from 'mem';
 
-const onElementRemoval = mem(async (element: Element, signal?: AbortSignal): Promise<void> => (
-	new Promise(resolve => {
+const onElementRemoval = mem(async (element: Element, signal?: AbortSignal): Promise<void> => {
+	if (signal?.aborted) {
+		return Promise.reject();
+	}
+
+	return new Promise((resolve, reject) => {
 		const observer = new ResizeObserver(([{target}], observer) => {
 			if (!target.isConnected) {
 				observer.disconnect();
@@ -10,19 +14,16 @@ const onElementRemoval = mem(async (element: Element, signal?: AbortSignal): Pro
 		});
 
 		if (signal) {
-			if (signal.aborted) {
-				resolve();
-				return;
-			}
-
 			signal.addEventListener('abort', () => {
 				observer.disconnect();
-				resolve();
-			}, {once: true});
+				reject();
+			}, {
+				once: true,
+			});
 		}
 
 		observer.observe(element);
-	})
-));
+	});
+});
 
 export default onElementRemoval;
