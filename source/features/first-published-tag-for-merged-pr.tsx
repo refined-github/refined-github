@@ -34,12 +34,14 @@ async function init(): Promise<void> {
 
 		discussionHeader.parentElement!.append(
 			' • ',
+			<TagIcon/>,
+			' ',
 			<a
 				href={buildRepoURL('releases/tag', tagName)}
 				className="Link--muted markdown-title"
 				title={`${tagName} was the first Git tag to include this PR`}
 			>
-				<TagIcon/> <code>{tagName}</code>
+				<code>{tagName}</code>
 			</a>,
 		);
 	}

@@ -137,14 +137,20 @@ async function init(): Promise<void | false> {
 			commitsWithNoTags.push(targetCommit);
 		} else if (targetTags.length > 0) {
 			select('.flex-auto .d-flex.mt-1', commit)!.append(
-				...targetTags.map(tag => (
-					<a
-						className="Link--muted ml-2"
-						href={buildRepoURL('releases/tag', tag)}
-					>
-						<TagIcon/> <code>{tag}</code>
-					</a>
-				)),
+				<span>
+					<TagIcon className="ml-1"/>
+					{...targetTags.map(tag => (
+						<>
+							{' '}
+							<a
+								className="Link--muted"
+								href={buildRepoURL('releases/tag', tag)}
+							>
+								<code>{tag}</code>
+							</a>
+						</>
+					))}
+				</span>,
 			);
 			commit.classList.add('rgh-tagged');
 		}
