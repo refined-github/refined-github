@@ -15,7 +15,7 @@ import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyle
 type BooleanFunction = () => boolean;
 export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Deinit;
 type FeatureInitResult = false | void | Deinit | Deinit[];
-type FeatureInit = (deinitSignal: AbortSignal) => Promisable<FeatureInitResult>;
+type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
 
 interface FeatureLoader extends Partial<InternalRunConfig> {
 	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
@@ -149,10 +149,8 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 });
 
 function getDeinitHandler(deinit: Deinit): VoidFunction {
-	if (deinit instanceof AbortController) {
-		return () => { // Passing AbortController.abort directly to addEventListener doesn't work on Firefox
-			deinit.abort();
-		};
+	if (deinit instanceof MutationObserver || deinit instanceof ResizeObserver || deinit instanceof IntersectionObserver) {
+		return deinit.disconnect;
 	}
 
 	if ('abort' in deinit) { // Selector observer
@@ -166,7 +164,7 @@ function getDeinitHandler(deinit: Deinit): VoidFunction {
 	return deinit;
 }
 
-function setupDeinit(deinit: Deinit): void {
+export function setupDeinit(deinit: Deinit): void {
 	document.addEventListener('pjax:start', getDeinitHandler(deinit), {once: true});
 }
 

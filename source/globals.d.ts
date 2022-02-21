@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 
 type AnyObject = Record<string, any>;
-type Deinit = AbortController | Observer | delegate.Subscription | VoidFunction;
+type Deinit = delegate.Subscription | Observer | MutationObserver | ResizeObserver | IntersectionObserver | VoidFunction;
 
 type FeatureID = string & {feature: true};
 interface FeatureMeta {
