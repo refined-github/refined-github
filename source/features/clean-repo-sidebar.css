@@ -19,8 +19,8 @@
 		display: none;
 	}
 
-	.rgh-clean-repo-sidebar .Layout-sidebar .octicon-tag + div {
-		margin-left: 12px !important;
+	.rgh-clean-repo-sidebar .Layout-sidebar .Link--muted .octicon {
+		margin-right: 4px !important;
 	}
 }
 
