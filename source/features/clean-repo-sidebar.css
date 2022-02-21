@@ -13,12 +13,13 @@
 	display: none;
 }
 
-/* Hide "Releases" header */
 @media (min-width: 768px) {
+	/* Hide "Releases" header */
 	.rgh-clean-repo-sidebar .Layout-sidebar h2 [href$='/releases'] {
 		display: none;
 	}
 
+	/* Align data section with latest tag/release link #5428 */
 	.rgh-clean-repo-sidebar .Layout-sidebar .Link--muted .octicon {
 		margin-right: 4px !important;
 	}
