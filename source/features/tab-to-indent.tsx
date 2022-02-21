@@ -1,12 +1,11 @@
-import onetime from 'onetime';
 import {eventHandler} from 'indent-textarea';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {onCommentFieldKeydown} from '../github-events/on-field-keydown';
 
-function init(): void {
-	onCommentFieldKeydown(eventHandler);
+function init(): Deinit {
+	return onCommentFieldKeydown(eventHandler);
 }
 
 void features.add(import.meta.url, {
@@ -15,5 +14,5 @@ void features.add(import.meta.url, {
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
-	init: onetime(init),
+	init,
 });
