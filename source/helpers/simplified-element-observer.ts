@@ -3,12 +3,8 @@
 export default function observeElement(
 	element: Node | string,
 	listener: MutationCallback,
-	options: MutationObserverInit & {signal?: AbortSignal} = {childList: true},
-): MutationObserver | undefined {
-	if (options.signal?.aborted) {
-		return;
-	}
-
+	options: MutationObserverInit = {childList: true},
+): MutationObserver {
 	if (typeof element === 'string') {
 		element = document.querySelector(element)!;
 	}
@@ -16,9 +12,6 @@ export default function observeElement(
 	// Run on updates
 	const observer = new MutationObserver(listener);
 	observer.observe(element, options);
-	if (options.signal) {
-		options.signal.addEventListener('abort', observer.disconnect, {once: true});
-	}
 
 	// Run the first time
 	listener.call(observer, [], observer);

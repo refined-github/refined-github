@@ -11,8 +11,12 @@ const handler = ({key, target}: KeyboardEvent): void => {
 	}
 };
 
-function init(signal: AbortSignal): void {
-	window.addEventListener('keyup', handler, {signal});
+function init(): Deinit {
+	window.addEventListener('keyup', handler);
+
+	return () => {
+		window.removeEventListener('keyup', handler);
+	};
 }
 
 void features.add(import.meta.url, {

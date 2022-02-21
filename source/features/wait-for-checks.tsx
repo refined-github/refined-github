@@ -7,10 +7,10 @@ import {InfoIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import pRetry, {AbortError} from 'p-retry';
 
-import features from '.';
 import observeElement from '../helpers/simplified-element-observer';
 import * as prCiStatus from '../github-helpers/pr-ci-status';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
+import features, {setupDeinit} from '.';
 
 // Reuse the same checkbox to preserve its status
 const generateCheckbox = onetime(() => (
@@ -114,11 +114,7 @@ async function handleMergeConfirmation(event: delegate.Event<Event, HTMLButtonEl
 	}
 }
 
-function watchForNewCommits(signal: AbortSignal): void {
-	if (signal.aborted) {
-		return;
-	}
-
+function watchForNewCommits(): MutationObserver {
 	let previousCommit = prCiStatus.getLastCommitReference();
 	const filteredListener = (): void => {
 		const newCommit = prCiStatus.getLastCommitReference();
@@ -132,11 +128,10 @@ function watchForNewCommits(signal: AbortSignal): void {
 		showCheckboxIfNecessary();
 	};
 
-	const observer = observeElement('.js-discussion', filteredListener, {
+	return observeElement('.js-discussion', filteredListener, {
 		childList: true,
 		subtree: true,
 	})!;
-	signal.addEventListener('abort', observer.disconnect, {once: true});
 }
 
 function onBeforeunload(event: BeforeUnloadEvent): void {
@@ -145,15 +140,15 @@ function onBeforeunload(event: BeforeUnloadEvent): void {
 	}
 }
 
-async function init(signal: AbortSignal): Promise<Deinit[]> {
+async function init(): Promise<Deinit[]> {
 	// Warn user if it's not yet submitted
-	window.addEventListener('beforeunload', onBeforeunload, {signal});
+	window.addEventListener('beforeunload', onBeforeunload);
 
 	return [
 		onPrMergePanelOpen(() => {
 			showCheckboxIfNecessary();
-			watchForNewCommits(signal);
-		}, signal),
+			setupDeinit(watchForNewCommits());
+		}),
 
 		// One of the merge buttons has been clicked
 		delegate(document, '.js-merge-commit-button:not(.rgh-merging)', 'click', handleMergeConfirmation),
@@ -162,6 +157,10 @@ async function init(signal: AbortSignal): Promise<Deinit[]> {
 		delegate(document, '.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
 			disableForm(false);
 		}),
+
+		() => {
+			window.removeEventListener('beforeunload', onBeforeunload);
+		},
 	];
 }
 

@@ -82,9 +82,9 @@ function disableSubmission(): void {
 	getUI().remove();
 }
 
-function init(signal: AbortSignal): Deinit[] {
+function init(): Deinit[] {
 	return [
-		onPrMergePanelOpen(updateCommitTitle, signal),
+		onPrMergePanelOpen(updateCommitTitle),
 		delegate(document, '#merge_title_field', 'input', updateUI),
 		delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle),
 		delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission),

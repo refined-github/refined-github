@@ -2,14 +2,13 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
 import observeElement from '../helpers/simplified-element-observer';
+import features, {setupDeinit} from '.';
 
-function init(signal: AbortSignal): Deinit {
+function init(): Deinit {
 	const subscription = delegate(document, '.js-merge-commit-button', 'click', () => {
 		subscription.destroy();
-
-		observeElement('.discussion-timeline-actions', (_, observer) => {
+		setupDeinit(observeElement('.discussion-timeline-actions', (_, observer) => {
 			const deleteButton = select('[action$="/cleanup"] [type="submit"]');
 			if (deleteButton) {
 				deleteButton.dataset.disableWith = 'Auto-deleting…';
@@ -18,8 +17,7 @@ function init(signal: AbortSignal): Deinit {
 			}
 		}, {
 			childList: true,
-			signal,
-		});
+		}));
 	});
 
 	return subscription;

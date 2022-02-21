@@ -15,8 +15,12 @@ function openInNewTab({key, target}: KeyboardEvent): void {
 	}
 }
 
-function init(signal: AbortSignal): void {
-	document.addEventListener('keypress', openInNewTab, {signal});
+function init(): Deinit {
+	document.addEventListener('keypress', openInNewTab);
+
+	return () => {
+		document.removeEventListener('keypress', openInNewTab);
+	};
 }
 
 void features.add(import.meta.url, {

@@ -18,8 +18,12 @@ function listener({key, target}: KeyboardEvent): void {
 	}
 }
 
-function init(signal: AbortSignal): void {
-	document.body.addEventListener('keyup', listener, {signal});
+function init(): Deinit {
+	document.body.addEventListener('keyup', listener);
+
+	return () => {
+		document.body.removeEventListener('keyup', listener);
+	};
 }
 
 void features.add(import.meta.url, {

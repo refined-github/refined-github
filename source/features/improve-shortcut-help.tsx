@@ -47,10 +47,15 @@ function observeShortcutModal({key, target}: KeyboardEvent): void {
 	}
 }
 
-function init(signal: AbortSignal): Deinit {
-	document.addEventListener('keypress', observeShortcutModal, {signal});
+function init(): Deinit[] {
+	document.addEventListener('keypress', observeShortcutModal);
 
-	return observer.disconnect;
+	return [
+		observer,
+		() => {
+			document.removeEventListener('keypress', observeShortcutModal);
+		},
+	];
 }
 
 void features.add(import.meta.url, {
