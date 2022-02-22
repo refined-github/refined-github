@@ -1,10 +1,9 @@
-import './forked-to.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {CheckIcon, LinkExternalIcon, RepoForkedIcon} from '@primer/octicons-react';
+import {CheckIcon, ChevronRightIcon, TriangleDownIcon, XIcon} from '@primer/octicons-react';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
@@ -59,38 +58,48 @@ async function updateUI(forks: string[]): Promise<void> {
 		forkBox.after(
 			<a
 				href={createLink(forks[0])}
-				className="btn btn-sm rounded-right-2 rgh-forked-button rgh-forked-link"
+				className="btn btn-sm BtnGroup-item px-2 rgh-forked-button rgh-forked-link"
 				title={`Open your fork at ${forks[0]}`}
 			>
-				<LinkExternalIcon/>
+				<ChevronRightIcon className="v-align-text-top"/>
 			</a>,
 		);
 	} else {
 		forkBox.after(
-			<details className="details-reset details-overlay select-menu float-right">
+			<details
+				className="details-reset details-overlay BtnGroup-parent position-relative"
+				id="rgh-forked-to-select-menu"
+			>
 				<summary
-					className="select-menu-button btn btn-sm btn-with-count rounded-right-2 rgh-forked-button"
-					aria-haspopup="menu"
-					title="Open any of your forks"/>
-				<details-menu
-					style={{zIndex: 99}}
-					className="select-menu-modal position-absolute right-0 mt-5"
+					className="btn btn-sm BtnGroup-item px-2 float-none rgh-forked-button"
 				>
-					<div className="select-menu-header">
-						<span className="select-menu-title">Your forks</span>
+					<TriangleDownIcon className="v-align-text-top"/>
+				</summary>
+				<details-menu className="SelectMenu right-0">
+					<div className="SelectMenu-modal">
+						<div className="SelectMenu-header">
+							<h3 className="SelectMenu-title">Your forks</h3>
+							<button
+								className="SelectMenu-closeButton"
+								type="button"
+								data-toggle-for="rgh-forked-to-select-menu"
+							>
+								<XIcon/>
+							</button>
+						</div>
+						<div className="SelectMenu-list">
+							{forks.map(fork => (
+								<a
+									href={createLink(fork)}
+									className="rgh-forked-link SelectMenu-item"
+									aria-checked={fork === getRepo()!.nameWithOwner ? 'true' : 'false'}
+								>
+									<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
+									{fork}
+								</a>
+							))}
+						</div>
 					</div>
-					{forks.map(fork => (
-						<a
-							href={createLink(fork)}
-							className={`rgh-forked-link select-menu-item ${fork === getRepo()!.nameWithOwner ? 'selected' : ''}`}
-							title={`Open your fork at ${fork}`}
-						>
-							<span className="select-menu-item-icon rgh-forked-to-icon">
-								{fork === getRepo()!.nameWithOwner ? <CheckIcon/> : <RepoForkedIcon/>}
-							</span>
-							{fork}
-						</a>
-					))}
 				</details-menu>
 			</details>,
 		);
