@@ -49,3 +49,8 @@
 :is(#discussion_bucket.pull-request-tab-content, [data-test-selector='release-card']) .social-reaction-summary-item:not(:first-child) {
 	margin-left: 8px !important;
 }
+
+/* Fix spacing of diff icon in commit diff stats #5429 */
+#toc .toc-diff-stats .octicon-file-diff {
+	margin-right: 4px !important;
+}
