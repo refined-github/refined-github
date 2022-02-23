@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import {PencilIcon} from '@primer/octicons-react';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -11,7 +10,7 @@ import isArchivedRepo from '../helpers/is-archived-repo';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void | false> {
-	const readmeHeader = await elementReady('#readme :is(.Box-header, .js-sticky)');
+	const readmeHeader = select('#readme :is(.Box-header, .js-sticky)');
 
 	// The button already exists on repos you can push to
 	if (!readmeHeader || select.exists('[aria-label="Edit this file"]', readmeHeader)) {
@@ -48,7 +47,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		isArchivedRepo,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init,
 });
