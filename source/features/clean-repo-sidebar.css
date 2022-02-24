@@ -1,22 +1,27 @@
 /* Hide "About" header */
-.rgh-clean-repo-sidebar .BorderGrid-row:first-child h2 {
+.rgh-clean-repo-sidebar .Layout-sidebar .BorderGrid-row:first-child h2 {
 	display: none;
 }
 
 /* Align the top of the repo root sidebar with the main page content */
-.rgh-clean-repo-sidebar .BorderGrid-row:first-child h2 + p.f4 {
+.rgh-clean-repo-sidebar .Layout-sidebar .BorderGrid-row:first-child h2 + p.f4 {
 	margin-top: 0 !important;
 }
 
 /* Hide "Readme" link made unnecessary by `toggle-files-button` #3580 */
-.rgh-clean-repo-sidebar [href$='#readme'] {
+.rgh-clean-repo-sidebar .Layout-sidebar [href$='#readme'] {
 	display: none;
 }
 
-/* Hide "Releases" header */
 @media (min-width: 768px) {
-	.rgh-clean-repo-sidebar h2 [href$='/releases'] {
+	/* Hide "Releases" header */
+	.rgh-clean-repo-sidebar .Layout-sidebar h2 [href$='/releases'] {
 		display: none;
+	}
+
+	/* Align data section with latest tag/release link #5428 */
+	.rgh-clean-repo-sidebar .Layout-sidebar .Link--muted .octicon {
+		margin-right: 4px !important;
 	}
 }
 
@@ -25,7 +30,7 @@
  * Hide "Learn more about GitHub Sponsors" link
  * Hide "+ 123 contributors" link
  */
-.rgh-clean-repo-sidebar .BorderGrid-cell > .mt-3 {
+.rgh-clean-repo-sidebar .Layout-sidebar .BorderGrid-cell > .mt-3 {
 	display: none;
 }
 

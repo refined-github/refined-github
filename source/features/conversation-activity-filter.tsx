@@ -11,6 +11,7 @@ import features from '.';
 import onNewComments from '../github-events/on-new-comments';
 import {getRghIssueUrl} from '../helpers/rgh-issue-link';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
+import {removeClassFromAll, wrap, isEditable} from '../helpers/dom-utils';
 
 const states = {
 	default: '',
@@ -159,6 +160,22 @@ const minorFixesIssuePages = [
 	getRghIssueUrl(4008),
 ];
 
+function runShortcuts({key, target}: KeyboardEvent): void {
+	if (key !== 'h' || isEditable(target)) {
+		return;
+	}
+
+	if (currentSetting === 'default') {
+		currentSetting = 'hideEvents';
+	} else if (currentSetting === 'hideEvents') {
+		currentSetting = 'hideEventsAndCollapsedComments';
+	} else {
+		currentSetting = 'default';
+	}
+
+	applyCurrentSetting();
+}
+
 async function init(): Promise<void> {
 	const state = minorFixesIssuePages.some(url => location.href.startsWith(url))
 		? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
@@ -170,6 +187,8 @@ async function init(): Promise<void> {
 	if (state !== 'default') {
 		applyState(state);
 	}
+
+	document.body.addEventListener('keypress', runShortcuts);
 }
 
 void features.add(import.meta.url, {
@@ -179,6 +198,9 @@ void features.add(import.meta.url, {
 	additionalListeners: [
 		onConversationHeaderUpdate,
 	],
+	shortcuts: {
+		h: 'Cycle between conversation activity filters',
+	},
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init,
