@@ -24,8 +24,8 @@ function init(): void {
 
 void features.add(import.meta.url, {
 	shortcuts: {
-		n: 'Select next item in command palette',
-		p: 'Select previous item in command palette',
+		'ctrl n': 'Select next item in command palette',
+		'ctrl p': 'Select previous item in command palette',
 	},
 	awaitDomReady: false,
 	init: onetime(init),
