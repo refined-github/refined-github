@@ -6,12 +6,11 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, EyeClosedIcon, EyeIcon, XIcon} from '@primer/octicons-react';
 
-import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import onNewComments from '../github-events/on-new-comments';
 import {getRghIssueUrl} from '../helpers/rgh-issue-link';
+import {wrap, isEditable} from '../helpers/dom-utils';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
-import {removeClassFromAll, wrap, isEditable} from '../helpers/dom-utils';
 
 const states = {
 	default: '',
