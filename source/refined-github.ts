@@ -67,7 +67,6 @@ import './features/latest-tag-button';
 import './features/default-branch-button';
 import './features/one-click-diff-options';
 import './features/ci-link';
-import './features/star-repo-hotkey';
 import './features/toggle-files-button';
 import './features/sync-pr-commit-title';
 import './features/open-ci-details-in-new-tab';

@@ -163,7 +163,6 @@ Thanks for contributing! 🦋🙌
 - [](# "ci-link") 🔥 [Adds a build/CI status icon next to the repo’s name.](https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png)
 - [](# "hide-watch-and-fork-count") [Hides watcher counter and on smaller screens the fork counter too.](https://user-images.githubusercontent.com/1402241/53681077-f3328b80-3d1e-11e9-9e29-2cb017141769.png)
 - [](# "more-dropdown-links") [Adds useful links to the repository navigation dropdown](https://user-images.githubusercontent.com/16872793/124681432-856e6f80-de96-11eb-89c9-6d78e8ae4329.png)
-- [](# "star-repo-hotkey") Adds a keyboard shortcut to star/unstar the current repo: <kbd>g</kbd> <kbd>s</kbd>.
 - [](# "default-branch-button") 🔥 [Adds a link to the default branch on directory listings and files.](https://user-images.githubusercontent.com/1402241/71886648-2891dc00-316f-11ea-98d8-c5bf6c24d85c.png)
 - [](# "swap-branches-on-compare") [Adds a link to swap branches in the branch compare view.](https://user-images.githubusercontent.com/857700/42854438-821096f2-8a01-11e8-8752-76f7563b5e18.png)
 - [](# "forked-to") [Adds a shortcut to your forks next to the `Fork` button on the current repo.](https://user-images.githubusercontent.com/55841/64077281-17bbf000-cccf-11e9-9123-092063f65357.png)
