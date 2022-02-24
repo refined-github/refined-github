@@ -3,10 +3,14 @@ import onetime from 'onetime';
 
 import features from '.';
 
-function commandPaletteKeydown({key, ctrlKey, target}: delegate.Event<KeyboardEvent>): void {
+function commandPaletteKeydown(event: delegate.Event<KeyboardEvent>): void {
+	const {key, ctrlKey, target} = event;
+
 	if (!target || !ctrlKey || (key !== 'n' && key !== 'p')) {
 		return;
 	}
+
+	event.preventDefault();
 
 	const targetKey = key === 'n' ? 'ArrowDown' : 'ArrowUp';
 	target.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: targetKey, code: targetKey}));
