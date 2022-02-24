@@ -10,10 +10,12 @@ function commandPaletteKeydown({key, ctrlKey}: KeyboardEvent): void {
 
 	const commandPalette = select('command-palette');
 
-	if (commandPalette) {
-		const targetKey = key === 'n' ? 'ArrowDown' : 'ArrowUp';
-		commandPalette.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: targetKey, code: targetKey}));
+	if (!commandPalette) {
+		return;
 	}
+
+	const targetKey = key === 'n' ? 'ArrowDown' : 'ArrowUp';
+	commandPalette.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: targetKey, code: targetKey}));
 }
 
 function init(): void {
