@@ -3,23 +3,23 @@ import onetime from 'onetime';
 
 import features from '.';
 
-function commandPaletteKeydown({key, ctrlKey}: KeyboardEvent): void {
-	if (!ctrlKey || (key !== 'n' && key !== 'p')) {
+function commandPaletteKeydown({key, ctrlKey, currentTarget}: KeyboardEvent): void {
+	if (!currentTarget || !ctrlKey || (key !== 'n' && key !== 'p')) {
 		return;
 	}
 
+	const targetKey = key === 'n' ? 'ArrowDown' : 'ArrowUp';
+	currentTarget.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: targetKey, code: targetKey}));
+}
+
+function init(): void {
 	const commandPalette = select('command-palette');
 
 	if (!commandPalette) {
 		return;
 	}
 
-	const targetKey = key === 'n' ? 'ArrowDown' : 'ArrowUp';
-	commandPalette.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: targetKey, code: targetKey}));
-}
-
-function init(): void {
-	document.addEventListener('keydown', commandPaletteKeydown);
+	commandPalette.addEventListener('keydown', commandPaletteKeydown);
 }
 
 void features.add(import.meta.url, {
