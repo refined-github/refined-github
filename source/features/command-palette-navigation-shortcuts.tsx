@@ -20,11 +20,15 @@ function init(): void {
 	delegate(document, 'command-palette', 'keydown', commandPaletteKeydown);
 }
 
-void features.add(import.meta.url, {
-	shortcuts: {
-		'ctrl n': 'Select next item in command palette',
-		'ctrl p': 'Select previous item in command palette',
-	},
-	awaitDomReady: false,
-	init: onetime(init),
-});
+const onMacOs = !!navigator.userAgent.match(/Macintosh/);
+
+if (onMacOs) {
+	void features.add(import.meta.url, {
+		shortcuts: {
+			'ctrl n': 'Select next item in command palette',
+			'ctrl p': 'Select previous item in command palette',
+		},
+		awaitDomReady: false,
+		init: onetime(init),
+	});
+}
