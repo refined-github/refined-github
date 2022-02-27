@@ -6,13 +6,13 @@ import features from '.';
 function commandPaletteKeydown(event: delegate.Event<KeyboardEvent>): void {
 	const {key, ctrlKey, target} = event;
 
-	if (!target || !ctrlKey || !['n', 'p', 'j', 'k'].includes(key)) {
+	if (!target || !ctrlKey || (key !== 'n' && key !== 'p')) {
 		return;
 	}
 
 	event.preventDefault();
 
-	const targetKey = key === 'n' || key === 'j' ? 'ArrowDown' : 'ArrowUp';
+	const targetKey = key === 'n' ? 'ArrowDown' : 'ArrowUp';
 	target.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: targetKey, code: targetKey}));
 }
 
@@ -22,8 +22,8 @@ function init(): void {
 
 void features.add(import.meta.url, {
 	shortcuts: {
-		'ctrl j': 'Select next item in command palette',
-		'ctrl k': 'Select previous item in command palette',
+		'ctrl n': 'Select next item in command palette',
+		'ctrl p': 'Select previous item in command palette',
 	},
 	awaitDomReady: false,
 	init: onetime(init),
