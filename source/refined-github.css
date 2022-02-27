@@ -35,12 +35,6 @@
 	display: none !important;
 }
 
-@keyframes fade-in {
-	from {
-		opacity: 0%;
-	}
-}
-
 /* Smoothen mouse animation on 404 pages */
 .js-plaxify {
 	transition: transform 0.1s;
