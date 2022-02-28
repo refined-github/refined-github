@@ -1,20 +1,20 @@
-import delegate from 'delegate-it';
 import onetime from 'onetime';
+import delegate from 'delegate-it';
 
-import features from '.';
 import {isMac} from '../github-helpers';
+import features from '.';
 
 function commandPaletteKeydown(event: delegate.Event<KeyboardEvent>): void {
-	const {key, ctrlKey, target} = event;
+	const {key, ctrlKey, delegateTarget} = event;
 
-	if (!target || !ctrlKey || (key !== 'n' && key !== 'p')) {
+	if (!ctrlKey || (key !== 'n' && key !== 'p')) {
 		return;
 	}
 
 	event.preventDefault();
 
 	const targetKey = key === 'n' ? 'ArrowDown' : 'ArrowUp';
-	target.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: targetKey, code: targetKey}));
+	delegateTarget.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: targetKey, code: targetKey}));
 }
 
 function init(): void {
