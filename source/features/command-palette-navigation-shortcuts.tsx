@@ -22,7 +22,7 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
+	asLongAs: [
 		() => isMac,
 	],
 	shortcuts: {
