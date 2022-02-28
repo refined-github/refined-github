@@ -412,6 +412,7 @@ Thanks for contributing! 🦋🙌
 - [](# "clean-header-search-field") [Clears duplicate queries in the header search field.](https://user-images.githubusercontent.com/1402241/114177338-7c890300-9966-11eb-83a3-a711a76fae99.png)
 - [](# "prevent-pr-merge-panel-opening") Prevents the merge panel from automatically opening on every page load after it’s been opened once.
 - [](# "command-palette-navigation-shortcuts") Adds keyboard shortcuts to select items in command palette using <kbd>ctrl</kbd> <kbd>n</kbd> and <kbd>ctrl</kbd> <kbd>p</kbd> (macOS only).
+- [](# "link-to-compare-diff") [Linkifies the "X files changed" text on compare pages to allow jumping to the diff.](TODO)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
