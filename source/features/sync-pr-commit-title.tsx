@@ -9,7 +9,7 @@ import features from '.';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 import {getConversationNumber} from '../github-helpers';
 
-const mergeFormSelector = '.is-squashing form:not([hidden])';
+const mergeFormSelector = '.merge-pr form:not([hidden])';
 const prTitleFieldSelector = '.js-issue-update input[name="issue[title]"]';
 const prTitleSubmitSelector = '.js-issue-update button[type="submit"]';
 

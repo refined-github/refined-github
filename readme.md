@@ -297,7 +297,7 @@ Thanks for contributing! 🦋🙌
 
 ### Editing pull requests
 
-- [](# "sync-pr-commit-title") 🔥 [Uses the PR’s title as the default squash commit title](https://github.com/refined-github/refined-github/issues/276) and [updates the PR’s title to match the commit title, if changed.](https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png)
+- [](# "sync-pr-commit-title") 🔥 [Uses the PR’s title as the default commit title](https://github.com/refined-github/refined-github/issues/276) and [updates the PR’s title to match the commit title, if changed.](https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png)
 - [](# "update-pr-from-base-branch") [Adds a button to update a PR from the base branch to ensure it builds correctly before merging the PR itself.](https://user-images.githubusercontent.com/1402241/106494023-816d9a00-647f-11eb-8cb1-7c97aa8a5546.png) GitHub only adds it when the base branch is "protected".
 - [](# "one-click-review-submission") [Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
 - [](# "warn-pr-from-master") [Warns you when creating a pull request from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
