@@ -21,6 +21,11 @@ const collapseSelector = '.js-file .js-collapse-diff';
 
 const commitMessageSelector = '.TimelineItem .ellipsis-expander';
 
+function markdownCommentSelector(clickedItem: HTMLElement): string {
+	const {id} = clickedItem.closest('.TimelineItem-body[id]')!;
+	return `#${id} .markdown-body details > summary`;
+}
+
 function init(): void {
 	// Collapsed comments in PR conversations and files
 	delegate(document, '.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector));
@@ -37,6 +42,9 @@ function init(): void {
 
 	// Commit message buttons in commit lists and PR conversations
 	delegate(document, commitMessageSelector, 'click', clickAll(commitMessageSelector));
+
+	// <details> elements in issue/PR comment Markdown content
+	delegate(document, '.TimelineItem-body[id] .markdown-body details > summary', 'click', clickAll(markdownCommentSelector));
 }
 
 void features.add(import.meta.url, {
