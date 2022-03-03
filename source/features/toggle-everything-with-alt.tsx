@@ -40,10 +40,10 @@ function init(): Deinit[] {
 		// "Expand all" and "Collapse expanded lines" buttons in commit files
 		delegate(document, expandSelector, 'click', clickAll(expandSelector)),
 		delegate(document, collapseSelector, 'click', clickAll(collapseSelector)),
-		
+
 		// Commit message buttons in commit lists and PR conversations
 		delegate(document, commitMessageSelector, 'click', clickAll(commitMessageSelector)),
-		
+
 		// <details> elements in issue/PR comment Markdown content
 		delegate(document, '.TimelineItem-body[id] .markdown-body details > summary', 'click', clickAll(markdownCommentSelector)),
 	];
