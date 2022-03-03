@@ -3,7 +3,17 @@ import delegate from 'delegate-it';
 
 const discussionsWithListeners = new WeakSet();
 const handlers = new Set<VoidFunction>();
-const observer = new MutationObserver(run);
+
+let commentsCount = 0;
+const observer = new MutationObserver(() => {
+	const commentsNewCount = select.all('.js-comment').length;
+	if (commentsNewCount > commentsCount) {
+		commentsCount = commentsNewCount; // Update the count ASAP to avoid duplicate calls
+		run();
+	}
+
+	commentsCount = commentsNewCount;
+});
 
 function run(): void {
 	// Run all callbacks without letting an error stop the loop and without silencing it
@@ -35,6 +45,7 @@ function addListeners(): Deinit[] {
 	discussionsWithListeners.add(discussion);
 
 	// When new comments come in via AJAX
+	commentsCount = select.all('.js-comment').length;
 	observer.observe(discussion, {
 		childList: true,
 	});
@@ -44,7 +55,7 @@ function addListeners(): Deinit[] {
 		delegate(document, '.js-ajax-pagination', 'submit', paginationSubmitHandler),
 
 		// Collapsed comments are loaded later using an include-fragment element
-		delegate(document, 'details.js-comment-container include-fragment', 'loadstart', getFragmentLoadHandler(run), true),
+		delegate(document, 'details.js-comment-container include-fragment:not([class])', 'loadstart', getFragmentLoadHandler(run), true),
 	];
 }
 
