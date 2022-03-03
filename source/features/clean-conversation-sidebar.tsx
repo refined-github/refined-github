@@ -101,8 +101,16 @@ async function init(): Promise<void> {
 			.remove();
 	}
 
-	// Linked issues/PRs
+	// Development (linked issues/PRs)
 	select('[aria-label="Link issues"] p')?.remove(); // "Successfully merging a pull request may close this issue." This may not exist if issues are disabled
+	const createBranchLink = select('button[data-action="click:create-issue-branch#openDialog"]');
+	if (createBranchLink) {
+		createBranchLink.classList.add('Link--muted');
+		select('[aria-label="Link issues"] summary')!.append(
+			<span style={{fontWeight: 'normal'}}> – {createBranchLink}</span>,
+		);
+	}
+
 	cleanSection('[aria-label="Link issues"]');
 
 	// Projects
