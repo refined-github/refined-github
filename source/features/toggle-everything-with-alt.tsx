@@ -22,7 +22,7 @@ const collapseSelector = '.js-file .js-collapse-diff';
 const commitMessageSelector = '.TimelineItem .ellipsis-expander';
 
 function markdownCommentSelector(clickedItem: HTMLElement): string {
-	const id = clickedItem.closest('.TimelineItem-body[id]')!.id
+	const {id} = clickedItem.closest('.TimelineItem-body[id]')!;
 	return `#${id} .markdown-body details > summary`;
 }
 
