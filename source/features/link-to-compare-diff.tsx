@@ -10,9 +10,8 @@ function init(): void {
 	const changedFilesSummary = select('.Box .octicon-file-diff')!.closest('li')!;
 	wrapAll(
 		[...changedFilesSummary.children],
-		<a className="no-underline" href="#diff"/>,
+		<a className="Link--muted rgh-link-to-compare-diff" href="#diff"/>,
 	);
-	document.body.classList.add('rgh-link-to-compare-diff');
 }
 
 void features.add(import.meta.url, {
