@@ -117,7 +117,8 @@ async function init(): Promise<false | void> {
 
 	const defaultBranch = await getDefaultBranch();
 
-	if (currentBranch === latestTag || (currentBranch === defaultBranch && aheadBy === 0)) {
+	// `getCurrentCommittish` returns `undefined` when at the repo root on the default branch #5446
+	if (currentBranch === latestTag || ((!currentBranch || currentBranch === defaultBranch) && aheadBy === 0)) {
 		link.setAttribute('aria-label', 'You’re on the latest version');
 		link.classList.add('disabled', 'tooltipped', 'tooltipped-ne');
 		return;
