@@ -88,7 +88,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 });
 
 async function init(): Promise<false | void> {
-	const {latestTag, aheadBy} = await getRepoPublishState();
+	const {latestTag, aheadBy = 0} = await getRepoPublishState();
 	if (!latestTag) {
 		return false;
 	}
@@ -116,19 +116,21 @@ async function init(): Promise<false | void> {
 	}
 
 	const defaultBranch = await getDefaultBranch();
+	const onLatestTag = currentBranch === latestTag;
+	const onDefaultBranch = !currentBranch || currentBranch === defaultBranch; // `getCurrentCommittish` returns `undefined` when at the repo root on the default branch #5446
+	const isAhead = aheadBy > 0;
 
-	// `getCurrentCommittish` returns `undefined` when at the repo root on the default branch #5446
-	if (currentBranch === latestTag || ((!currentBranch || currentBranch === defaultBranch) && aheadBy === 0)) {
+	if (onLatestTag || (onDefaultBranch && !isAhead)) {
 		link.setAttribute('aria-label', 'You’re on the latest version');
 		link.classList.add('disabled', 'tooltipped', 'tooltipped-ne');
 		return;
 	}
 
-	if (pageDetect.isRepoHome() || currentBranch === defaultBranch) {
+	if (pageDetect.isRepoHome() || onDefaultBranch) {
 		link.append(<sup> +{aheadBy}</sup>);
 		link.setAttribute(
 			'aria-label',
-			aheadBy
+			isAhead
 				? `${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest version`
 				: `The HEAD of ${defaultBranch} isn’t tagged`,
 		);
