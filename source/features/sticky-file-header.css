@@ -1,0 +1,16 @@
+/* `.sticky-file-header` excludes native sticky header */
+.file-header:not(.sticky-file-header) {
+    position: sticky;
+    top: 0;
+	/* Same as `.sticky-file-header.is-stuck */
+    z-index: 6;
+}
+
+/* Same as `.sticky-file-header.has-open-dropdown` */
+.file-header.has-open-dropdown:not(.sticky-file-header) {
+    z-index: 10;
+}
+
+.notification-shelf ~ .application-main .file-header:not(.sticky-file-header) {
+    top: 69px;
+}
