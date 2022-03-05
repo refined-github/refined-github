@@ -33,15 +33,23 @@ function getCheckbox(): HTMLInputElement | undefined {
 	return select('input[name="rgh-pr-check-waiter"]');
 }
 
+function ciIconPresentOnPage(): boolean {
+	const commitsCount = select.all(prCiStatus.commitSelector).length;
+	if (commitsCount > 1) {
+		// If more than one commit was pushed, only check for a status icon in the conversation feed
+		return select.exists(`#discussion_bucket ${prCiStatus.commitStatusIconSelector}`);
+	}
+
+	// Otherwise, search on the whole page (including `ci-link`)
+	return select.exists(prCiStatus.commitStatusIconSelector);
+}
+
 // Only show the checkbox if the last commit doesn't have a green or red CI icon
 function showCheckboxIfNecessary(): void {
 	const checkbox = getCheckbox();
 	const lastCommitStatus = prCiStatus.getLastCommitStatus();
 
-	const isNecessary = lastCommitStatus === prCiStatus.PENDING
-		// If the latest commit is missing an icon, add the checkbox as long as there's at least one CI icon on the page (including `ci-link`)
-		|| (lastCommitStatus === false && select.exists(prCiStatus.commitStatusIconSelector));
-
+	const isNecessary = lastCommitStatus === prCiStatus.PENDING || (lastCommitStatus === false && ciIconPresentOnPage());
 	if (!checkbox && isNecessary) {
 		select('.js-merge-form .select-menu')?.append(generateCheckbox());
 	} else if (checkbox && !isNecessary) {
@@ -84,12 +92,16 @@ async function handleMergeConfirmation(event: delegate.Event<Event, HTMLButtonEl
 
 	let result: prCiStatus.CommitStatus;
 	try {
-		result = await pRetry(async () => {
+		result = await pRetry(async attemptNumber => {
 			const status = await prCiStatus.getCommitStatus(lastCommitSha);
 
 			// Ensure that it wasn't cancelled/changed in the meanwhile
 			if (waiting !== currentConfirmation) {
 				throw new AbortError('The merge was cancelled or a new commit was pushed');
+			}
+
+			if (attemptNumber > 1 && status === false) {
+				throw new AbortError('The commit has no associated checks');
 			}
 
 			if (status === prCiStatus.PENDING) {
@@ -115,8 +127,6 @@ async function handleMergeConfirmation(event: delegate.Event<Event, HTMLButtonEl
 }
 
 const watchForNewCommits = onetime((): VoidFunction => {
-	console.log('Watching new commits');
-
 	let previousCommit = prCiStatus.getLastCommitReference();
 	const filteredListener = (): void => {
 		const newCommit = prCiStatus.getLastCommitReference();
