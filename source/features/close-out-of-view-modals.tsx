@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import onetime from 'onetime';
 import delegate from 'delegate-it';
 
 import features from '.';
@@ -47,13 +48,11 @@ function menuActivatedHandler(event: delegate.Event): void {
 	}
 }
 
-function init(): Deinit {
+function init(): void {
 	delegation = delegate(document, '.details-overlay', 'toggle', menuActivatedHandler, true);
-
-	return delegation;
 }
 
 void features.add(import.meta.url, {
 	awaitDomReady: false,
-	init,
+	init: onetime(init),
 });

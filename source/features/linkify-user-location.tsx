@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 
 import features from '.';
 import {wrap, isEditable} from '../helpers/dom-utils';
@@ -23,16 +24,15 @@ const hovercardObserver = new MutationObserver(([mutation]) => {
 	addLocation(mutation.target as HTMLElement);
 });
 
-function init(): void | Deinit {
+function init(): void {
 	addLocation(document.body);
 
 	const hovercardContainer = select('.js-hovercard-content > .Popover-message');
 	if (hovercardContainer) {
 		hovercardObserver.observe(hovercardContainer, {childList: true});
-		return hovercardObserver.disconnect;
 	}
 }
 
 void features.add(import.meta.url, {
-	init,
+	init: onetime(init),
 });

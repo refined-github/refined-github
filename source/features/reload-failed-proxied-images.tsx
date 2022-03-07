@@ -1,4 +1,5 @@
 import delay from 'delay';
+import onetime from 'onetime';
 import delegate from 'delegate-it';
 import loadImage from 'image-promise';
 
@@ -14,10 +15,10 @@ async function handleErroredImage({delegateTarget}: delegate.Event<ErrorEvent, H
 	} catch {}
 }
 
-function init(): Deinit {
-	return delegate(document, 'img[src^="https://camo.githubusercontent.com/"]', 'error', handleErroredImage, true);
+function init(): void {
+	delegate(document, 'img[src^="https://camo.githubusercontent.com/"]', 'error', handleErroredImage, true);
 }
 
 void features.add(import.meta.url, {
-	init,
+	init: onetime(init),
 });
