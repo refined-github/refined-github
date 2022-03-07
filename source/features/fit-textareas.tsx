@@ -35,9 +35,7 @@ function init(): Deinit {
 	}
 
 	// Exclude PR review box because it's in a `position:fixed` container; The scroll HAS to appear within the fixed element.
-	return delegate(document, 'textarea:not(#pull_request_review_body)', 'focusin', event => {
-		focusListener(event);
-	});
+	return delegate(document, 'textarea:not(#pull_request_review_body)', 'focusin', focusListener);
 }
 
 void features.add(import.meta.url, {
