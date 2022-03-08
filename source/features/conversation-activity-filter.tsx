@@ -91,9 +91,14 @@ function applyState(state: State): void {
 		state === 'hideEventsAndCollapsedComments',
 	);
 
-	// Update the state of the other dropdown
-	select(`.${dropdownClass} [aria-checked="false"][data-value="${state}"]`)!.setAttribute('aria-checked', 'true');
-	select(`.${dropdownClass} [aria-checked="true"]:not([data-value="${state}"])`)!.setAttribute('aria-checked', 'false');
+	// Update the state of the dropdowns
+	for (const dropdownItem of select.all(`.${dropdownClass} [aria-checked="false"][data-value="${state}"]`)) {
+		dropdownItem.setAttribute('aria-checked', 'true');
+	}
+
+	for (const dropdownItem of select.all(`.${dropdownClass} [aria-checked="true"]:not([data-value="${state}"])`)) {
+		dropdownItem.setAttribute('aria-checked', 'false');
+	}
 }
 
 function createRadios(current: State): JSX.Element[] {
