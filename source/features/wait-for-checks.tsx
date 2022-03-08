@@ -7,10 +7,10 @@ import {InfoIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import pRetry, {AbortError} from 'p-retry';
 
+import features from '.';
 import observeElement from '../helpers/simplified-element-observer';
 import * as prCiStatus from '../github-helpers/pr-ci-status';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
-import features, {setupDeinit} from '.';
 
 // Reuse the same checkbox to preserve its status
 const generateCheckbox = onetime(() => (
@@ -141,13 +141,23 @@ function onBeforeunload(event: BeforeUnloadEvent): void {
 }
 
 async function init(): Promise<Deinit[]> {
+	const deinitController = new AbortController();
+
 	// Warn user if it's not yet submitted
 	window.addEventListener('beforeunload', onBeforeunload);
 
 	return [
+		deinitController.abort,
+
 		onPrMergePanelOpen(() => {
+			const {signal} = deinitController;
+			if (signal.aborted) {
+				return;
+			}
+
 			showCheckboxIfNecessary();
-			setupDeinit(watchForNewCommits());
+			const observer = watchForNewCommits();
+			signal.addEventListener('abort', observer.disconnect, {once: true});
 		}),
 
 		// One of the merge buttons has been clicked

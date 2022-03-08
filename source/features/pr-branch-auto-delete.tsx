@@ -2,25 +2,27 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import observeElement from '../helpers/simplified-element-observer';
-import features, {setupDeinit} from '.';
+import features from '.';
 
 function init(): Deinit {
-	const subscription = delegate(document, '.js-merge-commit-button', 'click', () => {
-		subscription.destroy();
-		setupDeinit(observeElement('.discussion-timeline-actions', (_, observer) => {
-			const deleteButton = select('[action$="/cleanup"] [type="submit"]');
-			if (deleteButton) {
-				deleteButton.dataset.disableWith = 'Auto-deleting…';
-				deleteButton.click();
-				observer.disconnect();
-			}
-		}, {
-			childList: true,
-		}));
+	const observer = new MutationObserver(() => {
+		const deleteButton = select('[action$="/cleanup"] [type="submit"]');
+		if (deleteButton) {
+			deleteButton.dataset.disableWith = 'Auto-deleting…';
+			deleteButton.click();
+			observer.disconnect();
+		}
 	});
 
-	return subscription;
+	const subscription = delegate(document, '.js-merge-commit-button', 'click', () => {
+		subscription.destroy();
+		observer.observe(select('.discussion-timeline-actions')!, {childList: true});
+	});
+
+	return [
+		observer,
+		subscription,
+	];
 }
 
 void features.add(import.meta.url, {
