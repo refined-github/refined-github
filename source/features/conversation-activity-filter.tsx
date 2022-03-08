@@ -164,15 +164,14 @@ function runShortcuts({key, target}: KeyboardEvent): void {
 		return;
 	}
 
-	if (currentSetting === 'default') {
-		currentSetting = 'hideEvents';
-	} else if (currentSetting === 'hideEvents') {
-		currentSetting = 'hideEventsAndCollapsedComments';
-	} else {
-		currentSetting = 'default';
+	const container = select('.js-issues-results')!;
+	if (container.classList.contains('rgh-conversation-activity-is-collapsed-filtered')) { // `hideEventsAndCollapsedComments`
+		applyState('default');
+	} else if (container.classList.contains('rgh-conversation-activity-is-filtered')) { // `hideEvents`
+		applyState('hideEventsAndCollapsedComments');
+	} else { // `default`
+		applyState('hideEvents');
 	}
-
-	applyCurrentSetting();
 }
 
 async function init(): Promise<void> {
