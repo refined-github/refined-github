@@ -10,14 +10,12 @@ function init(): void {
 	observe(`a[href]:not(.${linkifiedURLClass})`, {
 		constructor: HTMLAnchorElement,
 		add(link) {
-			// Don't shorten links in code or code suggestions (but shorten them in review comments)
-			// Code explanation: Exclude links if the closest element found is not `.comment-body`
+			// Exclude the link if the closest element found is not `.comment-body`
+			// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 			// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-			if (link.closest('.blob-code, .comment-body, .js-suggested-changes-blob')?.matches('.blob-code, .js-suggested-changes-blob')) {
-				return;
+			if (link.closest('pre, .blob-code, .js-suggested-changes-blob, .comment-body')?.classList.contains('comment-body')) {
+				applyToLink(link, location.href);
 			}
-
-			applyToLink(link, location.href);
 		},
 	});
 }
