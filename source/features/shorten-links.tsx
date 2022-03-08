@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {linkifiedURLClass} from '../github-helpers/dom-formatters';
+import {codeElementsSelectors} from './show-whitespace';
 
 function init(): void {
 	observe(`a[href]:not(.${linkifiedURLClass})`, {
@@ -13,7 +14,7 @@ function init(): void {
 			// Exclude the link if the closest element found is not `.comment-body`
 			// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 			// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-			if (link.closest('pre, .blob-code, .js-suggested-changes-blob, .comment-body')?.classList.contains('comment-body')) {
+			if (link.closest(`${codeElementsSelectors}, .js-suggested-changes-blob, .comment-body`)?.classList.contains('comment-body')) {
 				applyToLink(link, location.href);
 			}
 		},
