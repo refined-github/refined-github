@@ -164,13 +164,20 @@ function runShortcuts({key, target}: KeyboardEvent): void {
 		return;
 	}
 
-	const container = select('.js-issues-results')!;
-	if (container.classList.contains('rgh-conversation-activity-is-collapsed-filtered')) { // `hideEventsAndCollapsedComments`
-		applyState('default');
-	} else if (container.classList.contains('rgh-conversation-activity-is-filtered')) { // `hideEvents`
-		applyState('hideEventsAndCollapsedComments');
-	} else { // `default`
-		applyState('hideEvents');
+	const state = select(`.${dropdownClass} [aria-checked="true"]`)!.dataset.value as State;
+	// eslint-disable-next-line default-case
+	switch (state) {
+		case 'default':
+			applyState('hideEvents');
+			break;
+
+		case 'hideEvents':
+			applyState('hideEventsAndCollapsedComments');
+			break;
+
+		case 'hideEventsAndCollapsedComments':
+			applyState('default');
+			break;
 	}
 }
 
