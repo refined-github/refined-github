@@ -53,6 +53,7 @@ function init(): Deinit[] {
 	);
 
 	return [
+		loadMore.cancel,
 		selectorObserver.abort,
 		inView.disconnect,
 	];

@@ -29,6 +29,7 @@ function init(): Deinit[] {
 	window.addEventListener('resize', onResize);
 
 	return [
+		onResize.cancel,
 		resizeObserver,
 		selectObserver,
 		() => {
