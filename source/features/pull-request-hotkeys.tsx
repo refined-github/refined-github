@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 function init(): void {
-	const tabs = select.all('.tabnav-tabs a.tabnav-tab');
+	const tabs = select.all('#partial-discussion-header + .tabnav .tabnav-tab');
 	const lastTab = tabs.length - 1;
 	const selectedIndex = tabs.findIndex(tab => tab.classList.contains('selected'));
 
