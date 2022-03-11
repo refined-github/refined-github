@@ -73,7 +73,7 @@ import './features/sync-pr-commit-title';
 import './features/open-ci-details-in-new-tab';
 import './features/wait-for-checks';
 import './features/hide-inactive-deployments';
-import './features/pull-request-hotkey';
+import './features/pull-request-hotkeys';
 import './features/one-click-review-submission';
 import './features/embed-gist-inline';
 import './features/comments-time-machine-links';
