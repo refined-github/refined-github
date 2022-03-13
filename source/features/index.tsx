@@ -100,6 +100,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	if (hotfixCSS.length > 0 || options.customCSS.trim().length > 0) {
 		void waitFor(() => document.body).then(() => {
+			// Prepend to body because that's the only way to guarantee they come after the static file
 			document.body.prepend(
 				<style>{hotfixCSS}</style>,
 				<style>{options.customCSS}</style>,
