@@ -15,12 +15,6 @@ function init(): void {
 			}
 		},
 	});
-
-	for (const link of document.querySelectorAll('.comment-body a[href*="/tree/"]')) {
-		if (!isLinkInCode(link)) {
-			applyToLink(link, location.href);
-		}
-	}
 }
 
 function isLinkInCode(link: HTMLAnchorElement): boolean {
