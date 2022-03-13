@@ -52,7 +52,7 @@ export const renamedFeatures = new Map<string, string>([
 	['swap-branches-on-compare', 'swap-compared-branches-link'],
 	['link-to-github-io', 'github-io-link'],
 	['show-names', 'show-user-names'],
-	['tags-on-commits-list', 'commit-associated-tags'],
+	['tags-on-commits-list', 'show-associated-tags-of-commits'],
 	['same-branch-author-commits', 'authored-commits-same-view'],
 	['link-to-changelog-file', 'changelog-file-link'],
 	['conversation-links-on-repo-lists', 'repo-conversation-links'],
