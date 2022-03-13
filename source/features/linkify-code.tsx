@@ -4,7 +4,7 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {codeElementsSelectors} from './show-whitespace';
+import {codeElementsSelectors} from './render-whitespace';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters';
 

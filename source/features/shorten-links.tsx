@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {linkifiedURLClass} from '../github-helpers/dom-formatters';
-import {codeElementsSelectors} from './show-whitespace';
+import {codeElementsSelectors} from './render-whitespace';
 
 function init(): void {
 	observe(`a[href]:not(.${linkifiedURLClass})`, {
