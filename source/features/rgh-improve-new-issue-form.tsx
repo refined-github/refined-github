@@ -43,7 +43,7 @@ function init(): void {
 		select('#issue_body_template_name')!.before(
 			<div className="flash flash-warn m-2">
 				{error.message}
-			</div>
+			</div>,
 		);
 	});
 }
