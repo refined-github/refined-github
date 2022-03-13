@@ -1,5 +1,6 @@
 import 'webext-dynamic-content-scripts';
 import cache from 'webext-storage-cache'; // Also needed to regularly clear the cache
+import {isSafari} from 'webext-detect-page';
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 
 import optionsStorage from './options-storage';
@@ -51,9 +52,30 @@ browser.browserAction.onClicked.addListener(async () => {
 	});
 });
 
+async function hasUsedStorage(): Promise<boolean> {
+	return (
+		await browser.storage.sync.getBytesInUse() > 0
+		// Note: Not available in Firefox https://bugzilla.mozilla.org/show_bug.cgi?id=1385832
+		|| Number(await browser.storage.local.getBytesInUse?.()) > 0
+	);
+}
+
+async function isFirstInstall(suggestedReason: string): Promise<boolean> {
+	return (
+		// Always exclude local installs from the welcome screen
+		!isDevelopmentVersion()
+
+		// Only if the reason is explicitly "install"
+    && suggestedReason === 'install'
+
+		// Safari reports "install" even on updates #5412
+    && (isSafari() ? !(await hasUsedStorage()) : true)
+	);
+}
+
 browser.runtime.onInstalled.addListener(async ({reason}) => {
 	// Only notify on install
-	if (reason === 'install' && !isDevelopmentVersion()) {
+	if (await isFirstInstall(reason)) {
 		await browser.tabs.create({
 			url: getRghIssueUrl(3543),
 		});
