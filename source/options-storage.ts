@@ -59,6 +59,7 @@ export const renamedFeatures = new Map<string, string>([
 	['link-to-prior-blame-line', 'blame-prior-change-same-line'],
 	['linkify-labels-on-dashboard', 'linkify-dashboard-labels'],
 	['same-page-definition-jump', 'quick-go-to-definition'],
+	['user-profile-follower-badge', 'profile-follower-badge'],
 ]);
 
 export function getNewFeatureName(possibleFeatureName: string): FeatureID | undefined {

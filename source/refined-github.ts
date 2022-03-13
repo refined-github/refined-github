@@ -94,7 +94,7 @@ import './features/extend-diff-expander';
 import './features/profile-gists-link';
 import './features/user-top-repositories-link';
 import './features/set-default-repositories-type-to-sources';
-import './features/user-profile-follower-badge';
+import './features/profile-follower-badge';
 import './features/highlight-non-default-base-branch';
 import './features/mark-private-orgs';
 import './features/linkify-commit-sha';
