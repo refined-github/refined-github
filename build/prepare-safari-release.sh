@@ -6,7 +6,7 @@ set -e
 CONFIG_FILE=./safari/LocalOverrides.xcconfig
 
 TAG=$(git describe --tags --abbrev=0)
-PROJECT_VERSION=$(sed -n 's/^CURRENT_PROJECT_VERSION = \(.*\)/\1/p' < ./safari/LocalOverrides.xcconfig)
+PROJECT_VERSION=$(sed -n 's/^CURRENT_PROJECT_VERSION = \(.*\)/\1/p' < $CONFIG_FILE)
 NEXT_PROJECT_VERSION=$((PROJECT_VERSION + 1))
 
 echo "Will bump the project version" "$PROJECT_VERSION"
