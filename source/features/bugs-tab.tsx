@@ -124,6 +124,9 @@ async function addBugsTab(): Promise<void | false> {
 		issuesTab.after(bugsTab);
 	}
 
+	// Trigger a reflow to push the right-most tab into the overflow dropdown
+	window.dispatchEvent(new Event('resize'));
+
 	// Update bugs count
 	try {
 		const bugCount = await countPromise;

@@ -76,6 +76,9 @@ async function addReleasesTab(): Promise<false | void> {
 	// This re-triggers the overflow listener forcing it to also hide this tab if necessary #3347
 	repoNavigationBar.replaceWith(repoNavigationBar);
 
+	// Trigger a reflow to push the right-most tab into the overflow dropdown (second attempt #4254)
+	window.dispatchEvent(new Event('resize'));
+
 	appendBefore(
 		select('.js-responsive-underlinenav .dropdown-menu ul')!,
 		'.dropdown-divider', // Won't exist if `more-dropdown` is disabled
