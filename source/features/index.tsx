@@ -72,7 +72,7 @@ const logError = (url: string, error: unknown): void => {
 
 	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
 	console.group(`❌ ${id}`); // Safari supports only one parameter
-	console.log('📕', version, pageDetect.isEnterprise() ? 'GHE →' : '→', error)
+	console.log('📕', version, pageDetect.isEnterprise() ? 'GHE →' : '→', error);
 	console.log('🔍 Search issue', searchIssueUrl.href);
 	console.log('🚨 Report issue', newIssueUrl.href);
 	console.groupEnd();
