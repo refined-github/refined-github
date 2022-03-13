@@ -66,10 +66,10 @@ async function isFirstInstall(suggestedReason: string): Promise<boolean> {
 		!isDevelopmentVersion()
 
 		// Only if the reason is explicitly "install"
-    && suggestedReason === 'install'
+		&& suggestedReason === 'install'
 
 		// Safari reports "install" even on updates #5412
-    && (isSafari() ? !(await hasUsedStorage()) : true)
+		&& (isSafari() ? !(await hasUsedStorage()) : true)
 	);
 }
 
