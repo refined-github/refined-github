@@ -21,6 +21,7 @@ import './features/align-repository-header.css';
 import './features/night-not-found.css';
 import './features/hide-watch-and-fork-count.css';
 import './features/clean-commit-form.css';
+import './features/sticky-file-header.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -72,7 +73,7 @@ import './features/sync-pr-commit-title';
 import './features/open-ci-details-in-new-tab';
 import './features/wait-for-checks';
 import './features/hide-inactive-deployments';
-import './features/pull-request-hotkey';
+import './features/pull-request-hotkeys';
 import './features/one-click-review-submission';
 import './features/embed-gist-inline';
 import './features/comments-time-machine-links';
@@ -215,3 +216,4 @@ import './features/dim-visited-conversations';
 import './features/rgh-improve-new-issue-form';
 import './features/easy-toggle-commit-messages';
 import './features/command-palette-navigation-shortcuts';
+import './features/link-to-compare-diff';
