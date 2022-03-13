@@ -11,17 +11,13 @@ const isFilePath = (): boolean => pageDetect.isSingleFile()
 	|| (pageDetect.isRepoTree())
 	|| pageDetect.hasFileEditor();
 
-function updateHeaderLink(url: string): void {
-	select<HTMLAnchorElement>(`[data-hovercard-url="/${getForkedRepo()!}/hovercard"]`)!.href = url;
-}
-
-async function init(): Promise<void | false> {
+async function getEquivalentURL(): Promise<string> {
 	const forkedRepository = getRepo(getForkedRepo())!;
+	const defaultUrl = '/' + forkedRepository.nameWithOwner;
 
 	if (pageDetect.isConversation() || pageDetect.isRepoRoot()) {
 		// We must reset the link because the header is outside the ajaxed area
-		updateHeaderLink('/' + forkedRepository.nameWithOwner);
-		return false;
+		return defaultUrl;
 	}
 
 	const sameViewUrl = new GitHubURL(location.href).assign({
@@ -32,11 +28,15 @@ async function init(): Promise<void | false> {
 	if (isFilePath()) {
 		sameViewUrl.branch = await getDefaultBranch(forkedRepository);
 		if (!await doesFileExist(sameViewUrl)) {
-			return false;
+			return 	defaultUrl;
 		}
 	}
 
-	updateHeaderLink(sameViewUrl.href);
+	return (sameViewUrl.href);
+}
+
+async function init(): Promise<void> {
+	select<HTMLAnchorElement>(`[data-hovercard-url="/${getForkedRepo()!}/hovercard"]`)!.href = await getEquivalentURL();
 }
 
 void features.add(import.meta.url, {
