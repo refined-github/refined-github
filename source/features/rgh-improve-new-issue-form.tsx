@@ -41,7 +41,7 @@ function init(): void {
 	);
 	void validateToken().catch(error => {
 		select('#issue_body_template_name')!.before(
-			<div className="flash flash-warn m-2 rgh-warning-for-disallow-edits">
+			<div className="flash flash-warn m-2">
 				{error.message}
 			</div>
 		);
