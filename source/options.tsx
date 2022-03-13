@@ -131,7 +131,10 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 }
 
 async function findFeatureHandler(event: Event): Promise<void> {
-	await cache.set<FeatureID[]>('bisect', importedFeatures, {minutes: 5});
+	// TODO: Add support for GHE
+	const options = await perDomainOptions.getOptionsForOrigin().getAll();
+	const enabledFeatures = importedFeatures.filter(featureId => options['feature:' + featureId]);
+	await cache.set<FeatureID[]>('bisect', enabledFeatures, {minutes: 5});
 
 	const button = event.target as HTMLButtonElement;
 	button.disabled = true;
