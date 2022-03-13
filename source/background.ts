@@ -63,3 +63,27 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 	await cache.delete('hotfixes');
 	await cache.delete('style-hotfixes');
 });
+
+let customCssRegistration: browser.contentScripts.RegisteredContentScript;
+async function setCustomStyleSheet(css: string): Promise<void> {
+	customCssRegistration = await browser.contentScripts.register({
+		matches: [
+			'https://github.com/*',
+			'https://gist.github.com/*',
+		],
+		css: [
+			{
+				code: css,
+			},
+		],
+	});
+}
+
+browser.storage.onChanged.addListener(async (changes, areaName) => {
+	if (areaName === 'sync' && 'customCSS' in changes) {
+		await customCssRegistration?.unregister();
+		if (changes.customCSS.newValue.trim()) {
+			await setCustomStyleSheet(changes.customCSS.newValue.trim());
+		}
+	}
+});
