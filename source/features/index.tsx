@@ -98,14 +98,14 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		bisectFeatures(),
 	]);
 
+	await waitFor(() => document.body);
+
 	if (hotfixCSS.length > 0 || options.customCSS.trim().length > 0) {
-		void waitFor(() => document.body).then(() => {
-			// Prepend to body because that's the only way to guarantee they come after the static file
-			document.body.prepend(
-				<style>{hotfixCSS}</style>,
-				<style>{options.customCSS}</style>,
-			);
-		});
+		// Prepend to body because that's the only way to guarantee they come after the static file
+		document.body.prepend(
+			<style>{hotfixCSS}</style>,
+			<style>{options.customCSS}</style>,
+		);
 	}
 
 	void updateStyleHotfixes(version);
@@ -121,8 +121,6 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	// Create logging function
 	log.info = options.logging ? console.log : () => {/* No logging */};
 	log.http = options.logHTTP ? console.log : () => {/* No logging */};
-
-	await waitFor(() => document.body);
 
 	if (pageDetect.is500() || pageDetect.isPasswordConfirmation()) {
 		return;
