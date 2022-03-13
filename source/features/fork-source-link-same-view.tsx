@@ -8,7 +8,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepo, getForkedRepo} from '../github-helpers';
 
 const isFilePath = (): boolean => pageDetect.isSingleFile()
-	|| (pageDetect.isRepoTree())
+	|| pageDetect.isRepoTree()
 	|| pageDetect.hasFileEditor();
 
 async function getEquivalentURL(): Promise<string> {
@@ -28,11 +28,11 @@ async function getEquivalentURL(): Promise<string> {
 	if (isFilePath()) {
 		sameViewUrl.branch = await getDefaultBranch(forkedRepository);
 		if (!await doesFileExist(sameViewUrl)) {
-			return 	defaultUrl;
+			return defaultUrl;
 		}
 	}
 
-	return (sameViewUrl.href);
+	return sameViewUrl.href;
 }
 
 async function init(): Promise<void> {
