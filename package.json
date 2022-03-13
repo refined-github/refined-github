@@ -12,6 +12,7 @@
 		"lint:js": "xo",
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj' -scheme 'Refined GitHub (macOS)'",
 		"start:safari": "open 'safari/build/Release/Refined GitHub.app'",
+		"prepare:safari": "bash build/prepare-safari-release.sh",
 		"test": "run-p ava lint:* build:* test:features",
 		"test:features": "node --loader ts-node/esm \"build/verify-features.ts\"",
 		"watch": "run-p watch:* --continue-on-error",
