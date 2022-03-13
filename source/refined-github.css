@@ -63,7 +63,7 @@
 
 /* Lighten deletions in Markdown */
 .markdown-body del {
-	color: var(--color-fg-subtle, var(--color-text-tertiary, #6a737d));
+	color: var(--color-fg-muted);
 }
 
 /* Make <details> visibly clickable */
@@ -165,4 +165,15 @@ pr-branches
 /* Hide "Unpin" button in repo header https://github.com/refined-github/refined-github/issues/5398#issuecomment-1036112206 */
 .pagehead-actions [data-test-selector='pin-repo-button'] {
 	display: none !important;
+}
+
+/* Make our "Example URLs" but report field smaller https://github.com/refined-github/refined-github/issues/5222#issuecomment-1064769358 */
+[action='/refined-github/refined-github/issues'] #issue_form_example_urls {
+	min-height: 4em !important;
+	height: 4em !important;
+}
+
+[action='/refined-github/refined-github/issues'] #issue_form_example_urls + div textarea { /* Also the WYSIWYG editor */
+	min-height: 4em;
+	height: 4em;
 }

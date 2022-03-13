@@ -25,6 +25,7 @@ function getFirstCommitMessage(): string[] {
 }
 
 async function init(): Promise<void | false> {
+	const requestedContent = new URL(location.href).searchParams;
 	const commitCountIcon = await elementReady('div.Box.mb-3 .octicon-git-commit');
 	const commitCount = commitCountIcon?.nextElementSibling;
 	if (!commitCount || looseParseInt(commitCount) < 2 || !select.exists('#new_pull_request')) {
@@ -32,14 +33,19 @@ async function init(): Promise<void | false> {
 	}
 
 	const [prTitle, ...prBody] = getFirstCommitMessage();
-	textFieldEdit.set(
-		select('.discussion-topic-header input')!,
-		prTitle,
-	);
-	textFieldEdit.insert(
-		select('#new_pull_request textarea[aria-label="Comment body"]')!,
-		prBody.join('\n\n'),
-	);
+	if (!requestedContent.has('pull_request[title]')) {
+		textFieldEdit.set(
+			select('.discussion-topic-header input')!,
+			prTitle,
+		);
+	}
+
+	if (!requestedContent.has('pull_request[body]')) {
+		textFieldEdit.insert(
+			select('#new_pull_request textarea[aria-label="Comment body"]')!,
+			prBody.join('\n\n'),
+		);
+	}
 }
 
 void features.add(import.meta.url, {
