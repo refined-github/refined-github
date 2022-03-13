@@ -44,7 +44,7 @@ export const renamedFeatures = new Map<string, string>([
 	['pull-request-hotkey', 'pull-request-shortcuts'],
 	['keyboard-navigation', 'extend-navigation-shortcuts'],
 	['pagination-hotkey', 'pagination-shortcuts'],
-	['profile-hotkey', 'profile-shortcut'],
+	['profile-hotkey', 'your-profile-shortcut'],
 	['show-associated-branch-prs-on-fork', 'fork-branches-associated-prs'],
 	['copy-on-y', 'copy-permalink-shortcut'],
 	['show-user-top-repositories', 'user-top-repositories-link'],

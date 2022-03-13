@@ -49,7 +49,7 @@ import './features/quick-comment-hiding';
 import './features/quick-comment-edit';
 import './features/open-all-notifications';
 import './features/copy-permalink-shortcut';
-import './features/profile-shortcut';
+import './features/your-profile-shortcut';
 import './features/close-out-of-view-modals';
 import './features/improve-shortcut-help';
 import './features/copy-file';
