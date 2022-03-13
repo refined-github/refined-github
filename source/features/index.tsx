@@ -52,18 +52,12 @@ const logError = (url: string, error: unknown): void => {
 	const message = error instanceof Error ? error.message : String(error);
 
 	if (message.includes('token')) {
-		console.log(`ℹ️ ${id} →`, message);
+		console.log('ℹ️', id, '→', message);
 		return;
 	}
 
-	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
-	console.group('❌', id, version, pageDetect.isEnterprise() ? 'GHE →' : '→', error);
-
 	const searchIssueUrl = new URL('https://github.com/refined-github/refined-github/issues');
 	searchIssueUrl.searchParams.set('q', `is:issue is:open sort:updated-desc ${message}`);
-	console.group('Search issue');
-	console.log(searchIssueUrl.href);
-	console.groupEnd();
 
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 	newIssueUrl.searchParams.set('labels', 'bug');
@@ -76,10 +70,11 @@ const logError = (url: string, error: unknown): void => {
 		'```',
 	].join('\n'));
 
-	console.group('Open an issue');
-	console.log(newIssueUrl.href);
-	console.groupEnd();
-
+	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
+	console.group(`❌ ${id}`); // Safari supports only one parameter
+	console.log(`📕 ${version} ${pageDetect.isEnterprise() ? 'GHE →' : '→'}`, error); // One parameter improves Safari formatting
+	console.log('🔍 Search issue', searchIssueUrl.href);
+	console.log('🚨 Report issue', newIssueUrl.href);
 	console.groupEnd();
 };
 
