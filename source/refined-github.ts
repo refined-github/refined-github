@@ -92,7 +92,7 @@ import './features/previous-next-commit-buttons';
 import './features/preserve-whitespace-option-in-nav';
 import './features/extend-diff-expander';
 import './features/profile-gists-link';
-import './features/user-top-repositories';
+import './features/user-top-repositories-link';
 import './features/set-default-repositories-type-to-sources';
 import './features/user-profile-follower-badge';
 import './features/highlight-non-default-base-branch';

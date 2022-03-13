@@ -1,4 +1,4 @@
-import './link-to-compare-diff.css';
+import './compare-diff-link.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
