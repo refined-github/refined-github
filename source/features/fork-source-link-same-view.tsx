@@ -8,11 +8,22 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepo, getForkedRepo} from '../github-helpers';
 
 const isFilePath = (): boolean => pageDetect.isSingleFile()
-	|| (pageDetect.isRepoTree() && !pageDetect.isRepoRoot())
+	|| (pageDetect.isRepoTree())
 	|| pageDetect.hasFileEditor();
 
-async function init(): Promise<void> {
+function updateHeaderLink(url: string): void {
+	select<HTMLAnchorElement>(`[data-hovercard-url="/${getForkedRepo()!}/hovercard"]`)!.href = url;
+}
+
+async function init(): Promise<void | false> {
 	const forkedRepository = getRepo(getForkedRepo())!;
+
+	if (pageDetect.isConversation() || pageDetect.isRepoRoot()) {
+		// We must reset the link because the header is outside the ajaxed area
+		updateHeaderLink('/' + forkedRepository.nameWithOwner);
+		return false;
+	}
+
 	const sameViewUrl = new GitHubURL(location.href).assign({
 		user: forkedRepository.owner,
 		repository: forkedRepository.name,
@@ -20,24 +31,19 @@ async function init(): Promise<void> {
 
 	if (isFilePath()) {
 		sameViewUrl.branch = await getDefaultBranch(forkedRepository);
-	} else if (pageDetect.isIssue() || pageDetect.isPR()) {
-		sameViewUrl.assign({
-			route: '',
-			branch: '',
-			filePath: '',
-		});
+		if (!await doesFileExist(sameViewUrl)) {
+			return false;
+		}
 	}
 
-	if (!isFilePath() || await doesFileExist(sameViewUrl)) {
-		select<HTMLAnchorElement>(`[data-hovercard-url="/${getForkedRepo()!}/hovercard"]`)!
-			.pathname = sameViewUrl.pathname;
-	}
+	updateHeaderLink(sameViewUrl.href);
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
+	include: [
 		pageDetect.isForkedRepo,
 	],
+	// We can't use `exclude` because the header is outside the ajaxed area
 	deduplicate: false,
 	init,
 });
