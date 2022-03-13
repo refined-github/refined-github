@@ -236,9 +236,8 @@ async function generateDom(): Promise<void> {
 	moveNewAndDisabledFeaturesToTop();
 	void validateToken();
 
-	// Move debugging tools higher when side-loaded
+	// Allow HTTP logging on dev builds
 	if (process.env.NODE_ENV === 'development') {
-		select('#debugging-position')!.replaceWith(select('#debugging')!);
 		select('#logHTTP-line')!.hidden = false;
 	}
 
@@ -288,6 +287,10 @@ function addEventListeners(): void {
 			event.preventDefault();
 			window.open(event.delegateTarget.href);
 		}
+	});
+
+	select('#show-debugging button')!.addEventListener('click', function () {
+		this.parentElement!.remove();
 	});
 }
 
