@@ -123,7 +123,7 @@ import './features/toggle-everything-with-alt';
 import './features/suggest-commit-title-limit';
 import './features/highest-rated-comment';
 import './features/clean-conversation-filters';
-import './features/commit-associated-tags';
+import './features/show-associated-tags-of-commits';
 import './features/forked-to';
 import './features/edit-readme';
 import './features/list-prs-for-file';
