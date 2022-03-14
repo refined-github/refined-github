@@ -72,32 +72,29 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
 
 async function showMissingPart(): Promise<void> {
 	const pathParts = parseCurrentURL();
-	const breadcrumbs: HTMLElement[] = [];
+	const breadcrumbs = [...pathParts.entries()]
+		.reverse() // Checks the anchors right to left
+		.map(([i, part]) => {
+			if (
+				// Exclude parts that don't exist as standalones
+				(i === 0 && part === 'orgs') // #5483
+				|| (i === 2 && ['tree', 'blob', 'edit'].includes(part))
+				|| i === pathParts.length - 1 // The last part is a known 404
+			) {
+				return getStrikeThrough(part);
+			}
 
-	for (const [i, part] of pathParts.entries()) {
-		// Exclude parts that don't exist as standalones
-		if (
-			(i === 0 && part === 'orgs')
-			|| (i === 2 && ['tree', 'blob', 'edit'].includes(part))
-			|| i === pathParts.length - 1 // The last part is a known 404
-		) {
-			breadcrumbs.push(getStrikeThrough(part));
-		} else {
 			const pathname = '/' + pathParts.slice(0, i + 1).join('/');
-			breadcrumbs.push(<a href={pathname}>{part}</a>);
-		}
-	}
+			const link = <a href={pathname}>{part}</a>;
+			void checkAnchor(link);
+			return link;
+		})
+		.reverse() // Restore order
+		.flatMap((link, i) => [i > 0 && ' / ', link]); // Add separators
 
 	select('main > :first-child, #parallax_illustration')!.after(
-		<h2 className="container mt-4 text-center">
-			{breadcrumbs.flatMap((link, i) => [i > 0 && ' / ', link])}
-		</h2>,
+		<h2 className="container mt-4 text-center">{breadcrumbs}</h2>,
 	);
-
-	// Check parts from right to left; skip the last part
-	for (let i = breadcrumbs.length - 2; i >= 0; i--) {
-		void checkAnchor(breadcrumbs[i]);
-	}
 }
 
 async function showDefaultBranchLink(): Promise<void> {
