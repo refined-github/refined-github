@@ -76,16 +76,11 @@ async function showMissingPart(): Promise<void> {
 
 	for (const [i, part] of pathParts.entries()) {
 		// Exclude parts that don't exist as standalones
-		if (i === 0 && part === 'orgs') {
-			continue;
-		}
-
-		if (i === 2 && ['tree', 'blob', 'edit'].includes(part)) {
-			continue;
-		}
-
-		if (i === pathParts.length - 1) {
-			// The last part of the URL is a known 404
+		if (
+			(i === 0 && part === 'orgs')
+			|| (i === 2 && ['tree', 'blob', 'edit'].includes(part))
+			|| i === pathParts.length - 1 // The last part is a known 404
+		) {
 			breadcrumbs.push(getStrikeThrough(part));
 		} else {
 			const pathname = '/' + pathParts.slice(0, i + 1).join('/');
