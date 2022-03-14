@@ -10,6 +10,7 @@
 	"rules": {
 		"no-alert": "off",
 		"no-warning-comments": "off",
+		"unicorn/prefer-dom-node-dataset": "off",
 		"unicorn/expiring-todo-comments": ["warn", {
 			"allowWarningComments": false
 		}],

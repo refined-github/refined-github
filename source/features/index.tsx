@@ -276,7 +276,7 @@ const addCssFeature = async (url: string, include: BooleanFunction[] | undefined
 		include,
 		deduplicate: false,
 		awaitDomReady: false,
-		init: () => {
+		init() {
 			document.body.classList.add('rgh-' + id);
 		},
 	});
@@ -290,7 +290,7 @@ This marks each as "processed"
 */
 void add('rgh-deduplicator' as FeatureID, {
 	deduplicate: false,
-	init: async () => {
+	async init() {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
 		select('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);

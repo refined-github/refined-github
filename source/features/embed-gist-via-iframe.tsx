@@ -9,8 +9,8 @@ function init(): void {
 	const embedViaIframe = embedViaScript.cloneNode(true);
 
 	// Remove analytics attributes
-	embedViaIframe.removeAttribute('data-hydro-click');
-	embedViaIframe.removeAttribute('data-hydro-click-hmac');
+	delete embedViaIframe.dataset.hydroClick;
+	delete embedViaIframe.dataset.hydroClickHmac;
 
 	// Set required content
 	embedViaIframe.setAttribute('aria-checked', 'false');
