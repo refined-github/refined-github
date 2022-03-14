@@ -7,7 +7,7 @@ import onReplacedElement from '../helpers/on-replaced-element';
 function addIndicator(button: HTMLElement): void {
 	button.classList.add('rgh-draft-pr-indicator');
 	const preposition = button.textContent!.includes('Add') ? ' to ' : ' on ';
-	button.textContent += preposition + 'draft PR';
+	button.textContent! += preposition + 'draft PR';
 }
 
 function init(): void {
