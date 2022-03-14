@@ -131,7 +131,10 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 }
 
 async function findFeatureHandler(event: Event): Promise<void> {
-	await cache.set<FeatureID[]>('bisect', importedFeatures, {minutes: 5});
+	// TODO: Add support for GHE
+	const options = await perDomainOptions.getOptionsForOrigin().getAll();
+	const enabledFeatures = importedFeatures.filter(featureId => options['feature:' + featureId]);
+	await cache.set<FeatureID[]>('bisect', enabledFeatures, {minutes: 5});
 
 	const button = event.target as HTMLButtonElement;
 	button.disabled = true;
@@ -236,9 +239,8 @@ async function generateDom(): Promise<void> {
 	moveNewAndDisabledFeaturesToTop();
 	void validateToken();
 
-	// Move debugging tools higher when side-loaded
+	// Allow HTTP logging on dev builds
 	if (process.env.NODE_ENV === 'development') {
-		select('#debugging-position')!.replaceWith(select('#debugging')!);
 		select('#logHTTP-line')!.hidden = false;
 	}
 
@@ -288,6 +290,10 @@ function addEventListeners(): void {
 			event.preventDefault();
 			window.open(event.delegateTarget.href);
 		}
+	});
+
+	select('#show-debugging button')!.addEventListener('click', function () {
+		this.parentElement!.remove();
 	});
 }
 
