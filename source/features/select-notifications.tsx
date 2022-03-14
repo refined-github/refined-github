@@ -76,7 +76,6 @@ function handleSelection({target}: Event): void {
 
 	// Make all notifications selectable again
 	for (const disabledNotificationCheckbox of select.all('.js-notification-bulk-action-check-item:not([data-check-all-item])')) {
-		// eslint-disable-next-line unicorn/prefer-dom-node-dataset -- For consistency with the `removeAttribute()` above
 		disabledNotificationCheckbox.setAttribute('data-check-all-item', '');
 	}
 }

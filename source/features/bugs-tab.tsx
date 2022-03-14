@@ -99,8 +99,8 @@ async function addBugsTab(): Promise<void | false> {
 	unhighlightTab(bugsTab);
 
 	// Disable unwanted behavior #3001
-	bugsTab.removeAttribute('data-hotkey');
-	bugsTab.removeAttribute('data-selected-links');
+	delete bugsTab.dataset.hotkey;
+	delete bugsTab.dataset.selectedLinks;
 	bugsTab.removeAttribute('id');
 
 	// Update its appearance

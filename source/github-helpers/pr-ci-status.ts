@@ -15,8 +15,8 @@ export const commitSelector = [
 // `summary` is needed because the details dropdown contains the list of check runs, each with its status icon
 export const commitStatusIconSelector = 'details.commit-build-statuses summary .octicon';
 
-export function getLastCommitReference(): string | null {
-	return select.last(`${commitSelector} code`)!.textContent;
+export function getLastCommitReference(): string | undefined {
+	return select.last(`${commitSelector} code`)!.textContent ?? undefined;
 }
 
 export function getLastCommitStatus(): CommitStatus {
