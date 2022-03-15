@@ -54,3 +54,8 @@
 :root .CheckStep-line .CheckStep-line-content {
 	overflow: hidden;
 }
+
+/* Avoid overflow caused by the diff signs #5468 */
+.blob-code-marker::before {
+	top: 0;
+}
