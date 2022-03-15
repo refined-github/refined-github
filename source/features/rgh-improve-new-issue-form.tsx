@@ -3,29 +3,10 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import openOptions from '../helpers/open-options';
 import clearCacheHandler from '../helpers/clear-cache-handler';
+import {expectTokenScope} from '../github-helpers/api';
 import {isRefinedGitHubRepo} from '../github-helpers';
-import {expectToken, expectTokenScope} from '../github-helpers/api';
-
-async function validateToken(): Promise<void> {
-	try {
-		await expectToken();
-	} catch {
-		throw new Error('Refined GitHub needs a Personal Access Token to work properly.');
-	}
-
-	try {
-		await expectTokenScope('repo');
-	} catch {
-		throw new Error('Your Personal Access Token is valid but missing the `repo` scope. Many features will not work.');
-	}
-
-	try {
-		await expectTokenScope('delete_repo');
-	} catch {
-		throw new Error('Your Personal Access Token is valid but missing the `delete_repo` scope. The `quick-repo-deletion` feature will not work.');
-	}
-}
 
 function init(): void {
 	const {version} = browser.runtime.getManifest();
@@ -39,10 +20,11 @@ function init(): void {
 			Clear cache
 		</button>,
 	);
-	void validateToken().catch(error => {
+	void expectTokenScope('repo').catch(() => {
 		select('#issue_body_template_name')!.before(
 			<div className="flash flash-warn m-2">
-				{error.message}
+				Your Personal Access Token is either missing, incorrect or expired. Some features will not work without it.<br/>
+				You can update it <a href="#" onClick={openOptions as unknown as React.MouseEventHandler}>in the options</a>.
 			</div>,
 		);
 	});

@@ -3,6 +3,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 
 import features from '.';
+import openOptions from '../helpers/open-options';
 import {getRghIssueUrl} from '../helpers/rgh-issue-link';
 
 /**
@@ -19,11 +20,6 @@ This is done so that when editing that issue we're aware that something is up wi
 */
 const issueUrl = getRghIssueUrl(3543);
 const placeholdersSelector = 'a[href="#rgh-linkify-welcome-issue"]';
-
-function openOptions(event: Event): void {
-	event.preventDefault();
-	void browser.runtime.sendMessage({openOptionsPage: true});
-}
 
 function init(): void {
 	const [opening, closing] = select.all<HTMLAnchorElement>(placeholdersSelector);
