@@ -23,7 +23,7 @@ function init(): void {
 	void expectTokenScope('repo').catch(() => {
 		select('#issue_body_template_name')!.before(
 			<div className="flash flash-warn m-2">
-				Your Personal Access Token is either missing, incorrect or expired. Some features will not work without it.<br/>
+				Your Personal Access Token is either missing, incorrect or expired. Some features of Refined GitHub will not work without it.<br/>
 				You can update it <a href="#" onClick={openOptions as unknown as React.MouseEventHandler}>in the options</a>.
 			</div>,
 		);
