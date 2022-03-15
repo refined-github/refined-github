@@ -59,3 +59,16 @@
 :root .blob-code-marker::before {
 	top: 0;
 }
+
+/* Fix alignment of "Allow edits by maintainers" checkbox label and icons #5510 */
+#partial-discussion-sidebar .discussion-sidebar-item:last-child > .d-inline-flex {
+	align-items: center !important;
+}
+
+#partial-discussion-sidebar :is(.js-collab-option input, .js-collab-form + details summary) {
+	margin-top: 0 !important;
+}
+
+#partial-discussion-sidebar .js-collab-form .status-indicator .octicon {
+	vertical-align: baseline !important;
+}
