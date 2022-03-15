@@ -54,7 +54,7 @@ const config: Configuration = {
 		new CopyWebpackPlugin({
 			patterns: [
 				resolvePackage('webextension-polyfill'),
-				'*.+(html|json|png)'
+				'*.+(html|json|png)',
 			],
 		}),
 		new SizePlugin({writeFile: false}),
