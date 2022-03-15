@@ -65,8 +65,7 @@
 	align-items: center !important;
 }
 
-#partial-discussion-sidebar .js-collab-option input,
-#partial-discussion-sidebar .js-collab-form + details summary {
+#partial-discussion-sidebar :is(.js-collab-option input, .js-collab-form + details summary) {
 	margin-top: 0 !important;
 }
 
