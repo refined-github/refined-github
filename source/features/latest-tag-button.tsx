@@ -88,7 +88,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 });
 
 async function init(): Promise<false | void> {
-	const {latestTag, aheadBy = 0} = await getRepoPublishState();
+	const {latestTag, aheadBy} = await getRepoPublishState();
 	if (!latestTag) {
 		return false;
 	}
@@ -118,7 +118,7 @@ async function init(): Promise<false | void> {
 	const defaultBranch = await getDefaultBranch();
 	const onLatestTag = currentBranch === latestTag;
 	const onDefaultBranch = !currentBranch || currentBranch === defaultBranch; // `getCurrentCommittish` returns `undefined` when at the repo root on the default branch #5446
-	const isAhead = aheadBy > 0;
+	const isAhead = aheadBy === undefined || aheadBy > 0;
 
 	if (onLatestTag || (onDefaultBranch && !isAhead)) {
 		link.setAttribute('aria-label', 'You’re on the latest version');
@@ -131,7 +131,7 @@ async function init(): Promise<false | void> {
 		link.setAttribute(
 			'aria-label',
 			isAhead
-				? `${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest version`
+				? `${defaultBranch} is ${aheadBy === undefined ? 'more than 20 commits' : pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest version`
 				: `The HEAD of ${defaultBranch} isn’t tagged`,
 		);
 
