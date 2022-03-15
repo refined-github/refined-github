@@ -49,3 +49,8 @@
 #toc .toc-diff-stats .octicon-file-diff {
 	margin-right: 4px !important;
 }
+
+/* Avoid horizontal scrollbars on Action logs in Safari #5152 */
+:root .CheckStep-line .CheckStep-line-content {
+	overflow: hidden;
+}

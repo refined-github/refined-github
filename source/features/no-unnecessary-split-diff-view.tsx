@@ -17,7 +17,6 @@ function init(): void {
 		diffTable.classList.add('rgh-no-unnecessary-split-diff-view-visited');
 		for (const side of ['left', 'right']) {
 			if (!select.exists(`[data-split-side="${side}"]:is(.blob-code-addition, .blob-code-deletion)`, diffTable)) {
-				// eslint-disable-next-line unicorn/prefer-dom-node-dataset -- CSS file has the same selector, this can be grepped
 				diffTable.setAttribute('data-rgh-hide-empty-split-diff-side', side);
 				break;
 			}

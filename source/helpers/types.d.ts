@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types -- The API does return `null`, not `undefined` */
 import type {ParseSelector} from 'typed-query-selector/parser';
 
 declare global {
