@@ -26,5 +26,4 @@ wow:root:root :is(.rgh-conversation-activity-filtered, .rgh-conversation-activit
 .gh-header-sticky .rgh-conversation-activity-filter-dropdown summary {
 	display: flex;
 	align-items: center;
-	white-space: nowrap; /* https://github.com/refined-github/refined-github/pull/5415#issuecomment-1067683081 */
 }
