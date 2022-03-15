@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
+import getDeinitHandler from '../helpers/get-deinit-handler';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 import {getConversationNumber} from '../github-helpers';
 
@@ -83,7 +84,8 @@ function disableSubmission(): void {
 	getUI().remove();
 }
 
-const listeners: Array<VoidFunction | delegate.Subscription> = [];
+const listeners: Deinit[] = [];
+
 function init(): Deinit {
 	listeners.push(
 		...onPrMergePanelOpen(updateCommitTitle),
@@ -97,11 +99,7 @@ function init(): Deinit {
 
 function deinit(): void {
 	for (const listener of listeners) {
-		if ('destroy' in listener) { // Delegated event listener
-			listener.destroy();
-		} else {
-			listener();
-		}
+		getDeinitHandler(listener)();
 	}
 
 	listeners.length = 0;
