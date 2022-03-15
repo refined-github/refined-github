@@ -17,7 +17,6 @@
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		color-scheme: dark;
 		--rgh-red: #f85149;
 	}
 }
