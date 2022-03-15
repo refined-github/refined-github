@@ -60,7 +60,7 @@
 	top: 0;
 }
 
-/* Fix alignment of "Allow edits by maintainers" checkbox label and icons */
+/* Fix alignment of "Allow edits by maintainers" checkbox label and icons #5510*/
 #partial-discussion-sidebar .discussion-sidebar-item:last-child > .d-inline-flex {
 	align-items: center !important;
 }
