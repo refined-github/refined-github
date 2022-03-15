@@ -52,10 +52,10 @@ const config: Configuration = {
 	plugins: [
 		new MiniCssExtractPlugin(),
 		new CopyWebpackPlugin({
-			patterns: [{
-				from: resolvePackage('webextension-polyfill'),
-			},
-			'*.+(html|json|png)'],
+			patterns: [
+				resolvePackage('webextension-polyfill'),
+				'*.+(html|json|png)'
+			],
 		}),
 		new SizePlugin({writeFile: false}),
 	],
