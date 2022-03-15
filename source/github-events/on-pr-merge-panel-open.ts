@@ -16,7 +16,7 @@ const sessionResumeHandler = mem((callback: EventListener) => async (event: Cust
 	}
 });
 
-export default function onPrMergePanelOpen(callback: EventListener): Deinit[] {
+export default function onPrMergePanelOpen(callback: EventListener): [VoidFunction, delegate.Subscription] {
 	document.addEventListener('session:resume', sessionResumeHandler(callback));
 
 	return [
