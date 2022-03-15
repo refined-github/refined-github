@@ -129,7 +129,7 @@ async function init(): Promise<false | void> {
 	}
 
 	if (pageDetect.isRepoHome() || onDefaultBranch) {
-		link.append(<sup> +{aheadBy}</sup>);
+		link.append(<sup> {aheadBy === undeterminableAheadBy ? '*' : `+${aheadBy}`}</sup>);
 		link.setAttribute(
 			'aria-label',
 			isAhead
