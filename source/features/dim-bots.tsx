@@ -11,7 +11,6 @@ const botNames = [
 	'Octomerger',
 	'renovate-bot',
 	'rust-highfive',
-	'rust-lang',
 	'scala-steward',
 	'snyk-bot',
 	'web-flow',
