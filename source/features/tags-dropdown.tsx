@@ -4,9 +4,9 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import selectHas from '../helpers/select-has';
 import {buildRepoURL} from '../github-helpers';
 import {ToastSpinner} from '../github-helpers/toast';
-import selectHas from '../helpers/select-has';
 
 // We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
 function changeTabToTags(): void {
