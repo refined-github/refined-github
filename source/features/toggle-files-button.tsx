@@ -9,11 +9,12 @@ import {FoldIcon, UnfoldIcon} from '@primer/octicons-react';
 
 import features from '.';
 import observeElement from '../helpers/simplified-element-observer';
+import selectHas from '../helpers/selectHas';
 
 const cacheKey = 'files-hidden';
 
 function addButton(): void {
-	const commitsInfo = select('.repository-content .octicon-history')?.closest('ul');
+	const commitsInfo = selectHas('ul:has(.repository-content .octicon-history)');
 	if (!commitsInfo || select.exists('.rgh-toggle-files')) {
 		return;
 	}

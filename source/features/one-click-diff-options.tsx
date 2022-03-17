@@ -5,6 +5,7 @@ import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-
 
 import features from '.';
 import {onDiffFileLoad} from '../github-events/on-fragment-load';
+import selectHas from '../helpers/selectHas';
 
 function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 	const url = new URL(location.href);
@@ -76,8 +77,8 @@ function createWhitespaceButton(): HTMLElement {
 
 function initPR(): false | void {
 	const originalToggle = pageDetect.isEnterprise()
-		? select('.js-diff-settings')!.closest('details')! // TODO [2022-05-01]: Remove GHE code
-		: select('[aria-label="Diff settings"]')!.closest('details')!.parentElement!;
+		? selectHas('details:has(.js-diff-settings)')! // TODO [2022-05-01]: Remove GHE code
+		: selectHas('details:has([aria-label="Diff settings"])')!.parentElement!;
 
 	if (!isHidingWhitespace() || pageDetect.isEnterprise()) {
 		originalToggle.after(

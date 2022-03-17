@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {buildRepoURL} from '../github-helpers';
 import {ToastSpinner} from '../github-helpers/toast';
+import selectHas from '../helpers/selectHas';
 
 // We're reusing the Branch/Tag selector from the repo's Code tab, so we need to update a few things
 function changeTabToTags(): void {
@@ -47,7 +48,7 @@ function init(): void {
 	if (pageDetect.isEnterprise() || pageDetect.isTags()) {
 		select('.subnav')!.append(tagsDropdown);
 	} else {
-		const searchBarWrapper = select('input[aria-label="Find a release"]')!.closest('div')!;
+		const searchBarWrapper = selectHas('div:has(input[aria-label="Find a release"])')!;
 		searchBarWrapper.prepend(
 			<div className="mr-2 mr-md-0 ml-md-2">
 				{tagsDropdown}

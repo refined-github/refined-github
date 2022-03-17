@@ -7,6 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import onElementRemoval from '../helpers/on-element-removal';
 import onDiscussionSidebarUpdate from '../github-events/on-discussion-sidebar-update';
+import selectHas from '../helpers/selectHas';
 
 const canEditSidebar = onetime((): boolean => select.exists('.discussion-sidebar-item [data-hotkey="l"]'));
 
@@ -33,7 +34,7 @@ Expected DOM:
 @param selector Element that contains `details` or `.discussion-sidebar-heading` or distinctive element inside it
 */
 function cleanSection(selector: string): boolean {
-	const container = select(selector)?.closest('form, .discussion-sidebar-item');
+	const container = selectHas(`:is(form, .discussion-sidebar-item):has(${selector})`);
 	if (!container) {
 		return false;
 	}
@@ -95,9 +96,7 @@ async function init(): Promise<void> {
 	// Labels
 	if (!cleanSection('.js-issue-labels') && !canEditSidebar()) {
 		// Hide heading in any case except `canEditSidebar`
-		select('.js-issue-labels')!
-			.closest('.discussion-sidebar-item')!
-			.querySelector(':scope > .discussion-sidebar-heading')!
+		selectHas('.discussion-sidebar-item:has(.js-issue-labels) > .discussion-sidebar-heading')!
 			.remove();
 	}
 

@@ -9,6 +9,7 @@ import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
 import {getUsername, getForkedRepo, getRepo} from '../github-helpers';
+import selectHas from '../helpers/selectHas';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepo()!.nameWithOwner;
 // eslint-disable-next-line import/prefer-default-export
@@ -47,7 +48,7 @@ async function updateUI(forks: string[]): Promise<void> {
 	}
 
 	const forkBoxContents = (await elementReady('#repo-network-counter', {waitForChildren: false}))!.parentElement!;
-	const forkContainer = select('.pagehead-actions .octicon-repo-forked')!.closest('.float-left')!;
+	const forkContainer = selectHas('.float-left:has(.pagehead-actions .octicon-repo-forked)')!;
 	const forkBox = forkBoxContents.parentElement!;
 
 	document.body.classList.add('rgh-forked-to');
