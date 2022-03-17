@@ -10,6 +10,9 @@ changelog:
     - title: Changes
       labels:
         - "*"
+      exclude:
+        - bug
+        - meta
     - title: Bugfixes
       labels:
         - bug
