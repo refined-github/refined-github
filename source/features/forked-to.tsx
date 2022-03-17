@@ -9,7 +9,7 @@ import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
 import {getUsername, getForkedRepo, getRepo} from '../github-helpers';
-import selectHas from '../helpers/selectHas';
+import selectHas from '../helpers/select-has';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepo()!.nameWithOwner;
 // eslint-disable-next-line import/prefer-default-export

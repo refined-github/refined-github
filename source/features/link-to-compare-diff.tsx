@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {wrapAll} from '../helpers/dom-utils';
-import selectHas from '../helpers/selectHas';
+import selectHas from '../helpers/select-has';
 
 function init(): void {
 	const changedFilesSummary = selectHas('li:has(.Box .octicon-file-diff)')!;

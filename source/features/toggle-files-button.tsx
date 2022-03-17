@@ -9,7 +9,7 @@ import {FoldIcon, UnfoldIcon} from '@primer/octicons-react';
 
 import features from '.';
 import observeElement from '../helpers/simplified-element-observer';
-import selectHas from '../helpers/selectHas';
+import selectHas from '../helpers/select-has';
 
 const cacheKey = 'files-hidden';
 

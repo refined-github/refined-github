@@ -4,7 +4,7 @@ import {SearchIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import selectHas from '../helpers/selectHas';
+import selectHas from '../helpers/select-has';
 
 function init(): void {
 	const actionRepo = selectHas<HTMLAnchorElement>('a:has(aside .octicon-repo)')!

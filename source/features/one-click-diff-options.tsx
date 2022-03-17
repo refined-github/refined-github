@@ -5,7 +5,7 @@ import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-
 
 import features from '.';
 import {onDiffFileLoad} from '../github-events/on-fragment-load';
-import selectHas from '../helpers/selectHas';
+import selectHas from '../helpers/select-has';
 
 function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 	const url = new URL(location.href);

@@ -4,7 +4,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import selectHas from '../helpers/selectHas';
+import selectHas from '../helpers/select-has';
 
 function init(): void | false {
 	const initialGroupedButtons = selectHas('.BtnGroup:has(.new-pr-form [name="draft"], #new_gist [name="gist[public]"])');

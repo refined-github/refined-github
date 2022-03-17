@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import onElementRemoval from '../helpers/on-element-removal';
 import onDiscussionSidebarUpdate from '../github-events/on-discussion-sidebar-update';
-import selectHas from '../helpers/selectHas';
+import selectHas from '../helpers/select-has';
 
 const canEditSidebar = onetime((): boolean => select.exists('.discussion-sidebar-item [data-hotkey="l"]'));
 
