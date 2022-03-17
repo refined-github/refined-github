@@ -20,8 +20,8 @@ async function disableWikiAndProjects(): Promise<void> {
 	});
 	await domLoaded;
 	selectHas('li:has([data-content="Wiki"]')?.remove();
-	select('[data-menu-item$="wiki-tab"]')?.remove();
-	selectHas('li:has([data-content="Projects"]')?.remove();
+	select('[data-menu-item$="wiki-tab"])')?.remove();
+	selectHas('li:has([data-content="Projects"])')?.remove();
 	select('[data-menu-item$="projects-tab"]')?.remove();
 }
 
