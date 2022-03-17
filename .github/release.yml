@@ -11,8 +11,9 @@ changelog:
       labels:
         - "*"
       exclude:
-        - bug
-        - meta
+        labels:
+          - bug
+          - meta
     - title: Bugfixes
       labels:
         - bug
