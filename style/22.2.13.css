@@ -11,3 +11,9 @@
 :root .CheckStep-line .CheckStep-line-content {
 	overflow: visible;
 }
+
+/* Hotfix for third party npmhub extension https://github.com/npmhub/npmhub/pull/151 */
+#dependencies, #devdependencies, #peerdependencies {
+	margin: auto;
+	width: min(1280px,  calc(100vw - 50px));
+}
