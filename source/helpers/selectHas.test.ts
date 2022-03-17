@@ -1,7 +1,7 @@
 import jsdom from 'jsdom';
 import test from 'ava';
 
-import select from './select';
+import select from './selectHas';
 
 const {JSDOM} = jsdom;
 

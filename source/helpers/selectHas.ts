@@ -1,7 +1,7 @@
 // Adapted from https://stackoverflow.com/a/35271017/288906
 const hasSelectorRegex = /:has\(((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*)\)/;
 
-export default function select<ExpectedElement extends HTMLElement>(selectors: string | string[], baseElement: HTMLElement | Document = document): ExpectedElement | void {
+export default function selectHas<ExpectedElement extends HTMLElement>(selectors: string | string[], baseElement: HTMLElement | Document = document): ExpectedElement | void {
 	const count = [...String(selectors).matchAll(/has\(/g)].length;
 	if (count !== 1) { // Only one :has allowed. KISS
 		throw new Error(`Only one \`:has()\` required/allowed, found ${count}`);
