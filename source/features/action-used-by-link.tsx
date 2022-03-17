@@ -7,7 +7,7 @@ import features from '.';
 import selectHas from '../helpers/select-has';
 
 function init(): void {
-	const actionRepo = selectHas<HTMLAnchorElement>('a:has(aside .octicon-repo)')!
+	const actionRepo = selectHas('a:has(aside .octicon-repo)')!
 		.pathname
 		.slice(1);
 
