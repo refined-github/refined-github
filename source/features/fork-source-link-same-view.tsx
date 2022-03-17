@@ -8,11 +8,18 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepo, getForkedRepo} from '../github-helpers';
 
 const isFilePath = (): boolean => pageDetect.isSingleFile()
-	|| (pageDetect.isRepoTree() && !pageDetect.isRepoRoot())
+	|| pageDetect.isRepoTree()
 	|| pageDetect.hasFileEditor();
 
-async function init(): Promise<void> {
+async function getEquivalentURL(): Promise<string> {
 	const forkedRepository = getRepo(getForkedRepo())!;
+	const defaultUrl = '/' + forkedRepository.nameWithOwner;
+
+	if (pageDetect.isConversation() || pageDetect.isRepoRoot()) {
+		// We must reset the link because the header is outside the ajaxed area
+		return defaultUrl;
+	}
+
 	const sameViewUrl = new GitHubURL(location.href).assign({
 		user: forkedRepository.owner,
 		repository: forkedRepository.name,
@@ -20,24 +27,24 @@ async function init(): Promise<void> {
 
 	if (isFilePath()) {
 		sameViewUrl.branch = await getDefaultBranch(forkedRepository);
-	} else if (pageDetect.isIssue() || pageDetect.isPR()) {
-		sameViewUrl.assign({
-			route: '',
-			branch: '',
-			filePath: '',
-		});
+		if (!await doesFileExist(sameViewUrl)) {
+			return defaultUrl;
+		}
 	}
 
-	if (!isFilePath() || await doesFileExist(sameViewUrl)) {
-		select<HTMLAnchorElement>(`[data-hovercard-url="/${getForkedRepo()!}/hovercard"]`)!
-			.pathname = sameViewUrl.pathname;
-	}
+	return sameViewUrl.href;
+}
+
+async function init(): Promise<void> {
+	// The link must always be updated/reset. This pattern ensures that the link is always updated and never fails through some conditions.
+	select<HTMLAnchorElement>(`[data-hovercard-url="/${getForkedRepo()!}/hovercard"]`)!.href = await getEquivalentURL();
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
+	include: [
 		pageDetect.isForkedRepo,
 	],
+	// We can't use `exclude` because the header is outside the ajaxed area so it must be manually reset even when the feature doesn't apply there
 	deduplicate: false,
 	init,
 });
