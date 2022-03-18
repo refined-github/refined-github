@@ -50,12 +50,8 @@ function runShortcuts(event: KeyboardEvent): void {
 	}
 }
 
-function init(): Deinit {
-	document.addEventListener('keypress', runShortcuts);
-
-	return () => {
-		document.removeEventListener('keypress', runShortcuts);
-	};
+function init(signal: AbortSignal): void {
+	document.addEventListener('keypress', runShortcuts, {signal});
 }
 
 void features.add(import.meta.url, {

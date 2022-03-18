@@ -16,13 +16,8 @@ const sessionResumeHandler = mem((callback: EventListener) => async (event: Cust
 	}
 });
 
-export default function onPrMergePanelOpen(callback: EventListener): Deinit[] {
-	document.addEventListener('session:resume', sessionResumeHandler(callback));
+export default function onPrMergePanelOpen(callback: EventListener, signal: AbortSignal): delegate.Subscription {
+	document.addEventListener('session:resume', sessionResumeHandler(callback), {signal});
 
-	return [
-		() => {
-			document.removeEventListener('session:resume', sessionResumeHandler(callback));
-		},
-		delegate(document, '.js-merge-pr:not(.is-rebasing)', 'details:toggled', delegateHandler(callback)),
-	];
+	return delegate(document, '.js-merge-pr:not(.is-rebasing)', 'details:toggled', delegateHandler(callback));
 }

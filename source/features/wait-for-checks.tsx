@@ -140,17 +140,12 @@ function onBeforeunload(event: BeforeUnloadEvent): void {
 	}
 }
 
-async function init(): Promise<Deinit[]> {
-	const deinitController = new AbortController();
-
+async function init(signal: AbortSignal): Promise<Deinit[]> {
 	// Warn user if it's not yet submitted
-	window.addEventListener('beforeunload', onBeforeunload);
+	window.addEventListener('beforeunload', onBeforeunload, {signal});
 
 	return [
-		deinitController.abort,
-
 		onPrMergePanelOpen(() => {
-			const {signal} = deinitController;
 			if (signal.aborted) {
 				return;
 			}
@@ -158,7 +153,7 @@ async function init(): Promise<Deinit[]> {
 			showCheckboxIfNecessary();
 			const observer = watchForNewCommits();
 			signal.addEventListener('abort', observer.disconnect, {once: true});
-		}),
+		}, signal),
 
 		// One of the merge buttons has been clicked
 		delegate(document, '.js-merge-commit-button:not(.rgh-merging)', 'click', handleMergeConfirmation),
@@ -167,10 +162,6 @@ async function init(): Promise<Deinit[]> {
 		delegate(document, '.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
 			disableForm(false);
 		}),
-
-		() => {
-			window.removeEventListener('beforeunload', onBeforeunload);
-		},
 	];
 }
 

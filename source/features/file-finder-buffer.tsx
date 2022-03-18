@@ -57,14 +57,9 @@ function pjaxCompleteHandler(): void {
 	}
 }
 
-function init(): Deinit {
-	window.addEventListener('pjax:start', pjaxStartHandler);
-	window.addEventListener('pjax:complete', pjaxCompleteHandler);
-
-	return () => {
-		window.removeEventListener('pjax:start', pjaxStartHandler);
-		window.removeEventListener('pjax:complete', pjaxCompleteHandler);
-	};
+function init(signal: AbortSignal): void {
+	window.addEventListener('pjax:start', pjaxStartHandler, {signal});
+	window.addEventListener('pjax:complete', pjaxCompleteHandler, {signal});
 }
 
 void features.add(import.meta.url, {
