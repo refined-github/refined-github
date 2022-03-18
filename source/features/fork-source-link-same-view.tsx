@@ -38,7 +38,7 @@ async function getEquivalentURL(): Promise<string> {
 
 async function init(): Promise<void> {
 	// The link must always be updated/reset. This pattern ensures that the link is always updated and never fails through some conditions.
-	select<HTMLAnchorElement>(`[data-hovercard-url="/${getForkedRepo()!}/hovercard"]`)!.href = await getEquivalentURL();
+	select(`a[data-hovercard-url="/${getForkedRepo()!}/hovercard"]`)!.href = await getEquivalentURL();
 }
 
 void features.add(import.meta.url, {
