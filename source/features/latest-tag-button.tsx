@@ -15,7 +15,7 @@ import {buildRepoURL, getCurrentCommittish, getLatestVersionTag, getRepo} from '
 
 interface RepoPublishState {
 	latestTag: string | false;
-	aheadBy?: number;
+	aheadBy: number;
 }
 
 interface Tags {
@@ -27,6 +27,8 @@ interface Tags {
 		};
 	};
 }
+
+const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
 
 const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> => {
 	const {repository} = await api.v4(`
@@ -64,6 +66,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	if (repository.refs.nodes.length === 0) {
 		return {
 			latestTag: false,
+			aheadBy: 0,
 		};
 	}
 
@@ -76,11 +79,10 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	const latestTagOid = tags.get(latestTag)!;
 	const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) => node.oid === latestTagOid);
 
-	if (aheadBy < 0) {
-		return {latestTag};
-	}
-
-	return {latestTag, aheadBy};
+	return {
+		latestTag,
+		aheadBy: aheadBy === -1 ? undeterminableAheadBy : aheadBy,
+	};
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 2},
@@ -88,7 +90,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 });
 
 async function init(): Promise<false | void> {
-	const {latestTag, aheadBy = 0} = await getRepoPublishState();
+	const {latestTag, aheadBy} = await getRepoPublishState();
 	if (!latestTag) {
 		return false;
 	}
@@ -127,11 +129,11 @@ async function init(): Promise<false | void> {
 	}
 
 	if (pageDetect.isRepoHome() || onDefaultBranch) {
-		link.append(<sup> +{aheadBy}</sup>);
+		link.append(<sup> {aheadBy === undeterminableAheadBy ? '*' : `+${aheadBy}`}</sup>);
 		link.setAttribute(
 			'aria-label',
 			isAhead
-				? `${defaultBranch} is ${pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest version`
+				? `${defaultBranch} is ${aheadBy === undeterminableAheadBy ? 'more than 20 commits' : pluralize(aheadBy, '1 commit', '$$ commits')} ahead of the latest version`
 				: `The HEAD of ${defaultBranch} isn’t tagged`,
 		);
 

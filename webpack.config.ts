@@ -21,15 +21,16 @@ const config: Configuration = {
 		'background',
 		'options',
 		'resolve-conflicts',
-	].map(name => [name, `./source/${name}`])),
+	].map(name => [name, `./${name}`])),
+	context: path.resolve('source'),
 	output: {
-		path: path.resolve('distribution/build'),
+		path: path.resolve('distribution'),
 	},
 	module: {
 		rules: [
 			{
 				test: /[/\\]readme\.md$/,
-				loader: './build/readme.loader.cts',
+				loader: '../build/readme.loader.cts',
 			},
 			{
 				test: /\.tsx?$/,
@@ -51,9 +52,10 @@ const config: Configuration = {
 	plugins: [
 		new MiniCssExtractPlugin(),
 		new CopyWebpackPlugin({
-			patterns: [{
-				from: resolvePackage('webextension-polyfill'),
-			}],
+			patterns: [
+				resolvePackage('webextension-polyfill'),
+				'*.+(html|json|png)',
+			],
 		}),
 		new SizePlugin({writeFile: false}),
 	],

@@ -16,7 +16,6 @@ import './features/easier-pr-sha-copy.css';
 import './features/repo-stats-spacing.css';
 import './features/emphasize-draft-pr-label.css';
 import './features/clean-notifications.css';
-import './features/fix-first-tab-length.css';
 import './features/align-repository-header.css';
 import './features/night-not-found.css';
 import './features/hide-watch-and-fork-count.css';

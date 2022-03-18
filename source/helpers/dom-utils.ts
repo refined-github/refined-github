@@ -57,12 +57,6 @@ export const isEditable = (node: unknown): boolean => node instanceof HTMLTextAr
 		|| node instanceof HTMLInputElement
 		|| (node instanceof HTMLElement && node.isContentEditable);
 
-export const removeClassFromAll = (className: string): void => {
-	for (const element of select.all('.' + className)) {
-		element.classList.remove(className);
-	}
-};
-
 export const frame = async (): Promise<number> => new Promise(resolve => {
 	requestAnimationFrame(resolve);
 });
