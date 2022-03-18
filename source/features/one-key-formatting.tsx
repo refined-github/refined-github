@@ -1,4 +1,3 @@
-import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
@@ -30,11 +29,13 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement |
 	textFieldEdit.wrapSelection(field, formattingChar, matchingEndChar);
 }
 
-function init(): void {
-	onCommentFieldKeydown(eventHandler);
-	onConversationTitleFieldKeydown(eventHandler);
-	onCommitTitleFieldKeydown(eventHandler);
-	delegate(document, 'input[name="commit_title"], input[name="gist[description]"], #saved-reply-title-field', 'keydown', eventHandler);
+function init(): Deinit {
+	return [
+		onCommentFieldKeydown(eventHandler),
+		onConversationTitleFieldKeydown(eventHandler),
+		onCommitTitleFieldKeydown(eventHandler),
+		delegate(document, 'input[name="commit_title"], input[name="gist[description]"], #saved-reply-title-field', 'keydown', eventHandler),
+	];
 }
 
 void features.add(import.meta.url, {
@@ -47,5 +48,5 @@ void features.add(import.meta.url, {
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
-	init: onetime(init),
+	init,
 });

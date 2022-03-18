@@ -13,8 +13,8 @@ function preventSubmit(event: delegate.Event): void {
 	previousSubmission = Date.now();
 }
 
-function init(): void {
-	delegate(document, '#new_pull_request', 'submit', preventSubmit);
+function init(): Deinit {
+	return delegate(document, '#new_pull_request', 'submit', preventSubmit);
 }
 
 void features.add(import.meta.url, {

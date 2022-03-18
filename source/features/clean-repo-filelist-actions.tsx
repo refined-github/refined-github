@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {PlusIcon, SearchIcon, CodeIcon} from '@primer/octicons-react';
@@ -16,9 +15,9 @@ function addTooltipToSummary(childElement: Element, tooltip: string): void {
 	);
 }
 
-function init(): void {
+function init(): Deinit {
 	// `.btn` selects the desktop version
-	observe('.btn[data-hotkey="t"]:not(.rgh-repo-filelist-actions)', {
+	return observe('.btn[data-hotkey="t"]:not(.rgh-repo-filelist-actions)', {
 		add(searchButton) {
 			searchButton.classList.add('tooltipped', 'tooltipped-ne', 'rgh-repo-filelist-actions');
 			searchButton.setAttribute('aria-label', 'Go to file');
@@ -61,5 +60,5 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleFile,
 	],
 	deduplicate: 'has-rgh-inner',
-	init: onetime(init),
+	init,
 });

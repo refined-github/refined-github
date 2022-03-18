@@ -17,7 +17,7 @@ async function loadDeferred(jumpList: Element): Promise<void> {
 	clearInterval(retrier);
 }
 
-async function init(): Promise<VoidFunction> {
+async function init(): Promise<Deinit> {
 	const fileList = await elementReady([
 		'.toc-select details-menu[src*="/show_toc?"]', // `isPR`
 		'.toc-diff-stats + .content', // `isSingleCommit` and `isCompare`
@@ -27,7 +27,7 @@ async function init(): Promise<VoidFunction> {
 		await loadDeferred(fileList!);
 	}
 
-	const observer = observe('.file-info [href]:not(.rgh-pr-file-state)', {
+	return observe('.file-info [href]:not(.rgh-pr-file-state)', {
 		constructor: HTMLAnchorElement,
 		add(filename) {
 			filename.classList.add('rgh-pr-file-state');
@@ -52,8 +52,6 @@ async function init(): Promise<VoidFunction> {
 			);
 		},
 	});
-
-	return observer.abort;
 }
 
 void features.add(import.meta.url, {

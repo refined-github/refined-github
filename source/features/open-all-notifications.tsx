@@ -75,14 +75,17 @@ function addOpenAllButton(className: string, text: string): void {
 	);
 }
 
-function init(): void {
-	delegate(document, '.rgh-open-selected-button', 'click', openSelectedNotifications);
+function init(): Deinit[] {
+	const deinit = [delegate(document, '.rgh-open-selected-button', 'click', openSelectedNotifications)];
 	addOpenAllButton('rgh-open-selected-button', 'Open all selected');
+
 	if (getUnreadNotifications().length > 0) {
-		delegate(document, '.rgh-open-notifications-button', 'click', openUnreadNotifications);
+		deinit.push(delegate(document, '.rgh-open-notifications-button', 'click', openUnreadNotifications));
 		addOpenAllButton('rgh-open-notifications-button', 'Open all unread');
 		addOpenReposButton();
 	}
+
+	return deinit;
 }
 
 void features.add(import.meta.url, {

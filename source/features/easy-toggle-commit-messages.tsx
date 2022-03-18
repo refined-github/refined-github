@@ -14,8 +14,8 @@ function toggleCommitMessage(event: delegate.Event<MouseEvent>): void {
 	}
 }
 
-async function init(): Promise<void> {
-	delegate(document, '.js-commits-list-item', 'click', toggleCommitMessage);
+function init(): Deinit {
+	return delegate(document, '.js-commits-list-item', 'click', toggleCommitMessage);
 }
 
 void features.add(import.meta.url, {

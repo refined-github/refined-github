@@ -29,7 +29,7 @@ function hideComment(comment: HTMLElement): void {
 	comment.classList.add('rgh-hidden-comment');
 }
 
-function init(): void {
+function init(): void | Deinit {
 	let lowQualityCount = 0;
 
 	for (const similarCommentsBox of select.all('.js-discussion .Details-element:not([data-body-version])')) {
@@ -82,7 +82,7 @@ function init(): void {
 				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>
 			</p>,
 		);
-		delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide);
+		return delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide);
 	}
 }
 

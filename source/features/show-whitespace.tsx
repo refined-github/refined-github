@@ -79,11 +79,15 @@ function observeWhiteSpace(): void {
 	}
 }
 
-function init(): void {
+function init(): Deinit[] {
 	observeWhiteSpace();
-	// Show whitespace on new review suggestions #2852
-	// This event is not very reliable as it also triggers when review comments are edited or deleted
-	delegate(document, '.js-pull-refresh-on-pjax', 'socket:message', observeWhiteSpace, {capture: true});
+
+	return [
+		viewportObserver.disconnect,
+		// Show whitespace on new review suggestions #2852
+		// This event is not very reliable as it also triggers when review comments are edited or deleted
+		delegate(document, '.js-pull-refresh-on-pjax', 'socket:message', observeWhiteSpace, {capture: true}),
+	];
 }
 
 void features.add(import.meta.url, {

@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 
 import features from '.';
 import {wrap, isEditable} from '../helpers/dom-utils';
@@ -33,5 +34,5 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	init,
+	init: onetime(init),
 });

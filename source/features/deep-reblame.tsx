@@ -77,13 +77,12 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	});
 }
 
-function init(): void | false {
+function init(): Deinit | false {
 	const pullRequests = select.all('[data-hovercard-type="pull_request"]');
 	if (pullRequests.length === 0) {
 		return false;
 	}
 
-	delegate(document, '.rgh-deep-reblame', 'click', redirectToBlameCommit);
 	for (const pullRequest of pullRequests) {
 		const hunk = pullRequest.closest('.blame-hunk')!;
 
@@ -103,6 +102,8 @@ function init(): void | false {
 			);
 		}
 	}
+
+	return delegate(document, '.rgh-deep-reblame', 'click', redirectToBlameCommit);
 }
 
 void features.add(import.meta.url, {

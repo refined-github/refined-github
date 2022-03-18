@@ -7,7 +7,7 @@ import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
 import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
 
-function init(): false | void {
+function init(): false | Deinit {
 	const form = select('[action$="/reviews"]')!;
 	const radios = select.all('input[type="radio"][name="pull_request_review[event]"]', form);
 
@@ -75,13 +75,6 @@ function init(): false | void {
 
 	select('[type="submit"]:not([name])', form)!.remove(); // The selector excludes the "Cancel" button
 
-	// This will prevent submission when clicking "Comment" and "Request changes" without entering a comment and no other review comments are pending
-	delegate(form, 'button', 'click', ({delegateTarget: {value}}) => {
-		const pendingComments = looseParseInt(select('.js-reviews-toggle .js-pending-review-comment-count'));
-		const submissionRequiresComment = pendingComments === 0 && (value === 'reject' || value === 'comment');
-		select('#pull_request_review_body', form)!.toggleAttribute('required', submissionRequiresComment);
-	});
-
 	// Freeze form to avoid duplicate submissions
 	form.addEventListener('submit', () => {
 		// Delay disabling the fields to let them be submitted first
@@ -90,6 +83,13 @@ function init(): false | void {
 				control.disabled = true;
 			}
 		});
+	});
+
+	// This will prevent submission when clicking "Comment" and "Request changes" without entering a comment and no other review comments are pending
+	return delegate(form, 'button', 'click', ({delegateTarget: {value}}) => {
+		const pendingComments = looseParseInt(select('.js-reviews-toggle .js-pending-review-comment-count'));
+		const submissionRequiresComment = pendingComments === 0 && (value === 'reject' || value === 'comment');
+		select('#pull_request_review_body', form)!.toggleAttribute('required', submissionRequiresComment);
 	});
 }
 

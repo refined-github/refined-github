@@ -114,9 +114,7 @@ async function handleMergeConfirmation(event: delegate.Event<Event, HTMLButtonEl
 	}
 }
 
-const watchForNewCommits = onetime((): VoidFunction => {
-	console.log('Watching new commits');
-
+function watchForNewCommits(): MutationObserver {
 	let previousCommit = prCiStatus.getLastCommitReference();
 	const filteredListener = (): void => {
 		const newCommit = prCiStatus.getLastCommitReference();
@@ -130,13 +128,11 @@ const watchForNewCommits = onetime((): VoidFunction => {
 		showCheckboxIfNecessary();
 	};
 
-	const observer = observeElement('.js-discussion', filteredListener, {
+	return observeElement('.js-discussion', filteredListener, {
 		childList: true,
 		subtree: true,
 	})!;
-
-	return observer.disconnect;
-});
+}
 
 function onBeforeunload(event: BeforeUnloadEvent): void {
 	if (waiting) {
@@ -144,23 +140,33 @@ function onBeforeunload(event: BeforeUnloadEvent): void {
 	}
 }
 
-async function init(): Promise<VoidFunction[]> {
+async function init(): Promise<Deinit[]> {
+	const deinitController = new AbortController();
+
 	// Warn user if it's not yet submitted
 	window.addEventListener('beforeunload', onBeforeunload);
 
 	return [
+		deinitController.abort,
+
 		onPrMergePanelOpen(() => {
+			const {signal} = deinitController;
+			if (signal.aborted) {
+				return;
+			}
+
 			showCheckboxIfNecessary();
-			watchForNewCommits();
-		}).destroy,
+			const observer = watchForNewCommits();
+			signal.addEventListener('abort', observer.disconnect, {once: true});
+		}),
 
 		// One of the merge buttons has been clicked
-		delegate(document, '.js-merge-commit-button:not(.rgh-merging)', 'click', handleMergeConfirmation).destroy,
+		delegate(document, '.js-merge-commit-button:not(.rgh-merging)', 'click', handleMergeConfirmation),
 
 		// Cancel wait when the user presses the Cancel button
 		delegate(document, '.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
 			disableForm(false);
-		}).destroy,
+		}),
 
 		() => {
 			window.removeEventListener('beforeunload', onBeforeunload);

@@ -14,8 +14,8 @@ function handleEscPress(event: delegate.Event<KeyboardEvent>): void {
 	}
 }
 
-function init(): void {
-	onConversationTitleFieldKeydown(handleEscPress);
+function init(): Deinit {
+	return onConversationTitleFieldKeydown(handleEscPress);
 }
 
 void features.add(import.meta.url, {

@@ -1,14 +1,12 @@
 import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {getUsername} from '../github-helpers';
-import onElementRemoval from '../helpers/on-element-removal';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -56,7 +54,26 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 	return participants;
 }
 
-async function showAvatarsOn(commentReactions: Element): Promise<void> {
+const viewportObserver = new IntersectionObserver(changes => {
+	for (const change of changes) {
+		if (change.isIntersecting) {
+			showAvatarsOn(change.target);
+			viewportObserver.unobserve(change.target);
+		}
+	}
+}, {
+	// Start loading a little before they become visible
+	rootMargin: '500px',
+});
+
+const resizeObserver = new ResizeObserver(([{target}], observer) => {
+	if (!target.isConnected) {
+		observer.unobserve(target);
+		observeReactions();
+	}
+});
+
+function showAvatarsOn(commentReactions: Element): void {
 	const avatarLimit = arbitraryAvatarLimit - (commentReactions.children.length * approximateHeaderLength);
 
 	const participantByReaction = select
@@ -72,39 +89,37 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 		);
 	}
 
-	await onElementRemoval(commentReactions.closest('.comment-reactions')!);
-	init();
+	resizeObserver.observe(commentReactions.closest('.comment-reactions')!);
 }
-
-const viewportObserver = new IntersectionObserver(changes => {
-	for (const change of changes) {
-		if (change.isIntersecting) {
-			void showAvatarsOn(change.target);
-			viewportObserver.unobserve(change.target);
-		}
-	}
-}, {
-	// Start loading a little before they become visible
-	rootMargin: '500px',
-});
 
 const selector = '.has-reactions .comment-reactions-options:not(.rgh-reactions)';
 
-function observeReactions(commentReactions: Element): void {
+function observeReactions(): void {
+	for (const commentReactions of select.all(selector)) {
+		observeCommentReactions(commentReactions);
+	}
+}
+
+function observeCommentReactions(commentReactions: Element): void {
 	commentReactions.classList.add('rgh-reactions');
 	viewportObserver.observe(commentReactions);
 }
 
-function init(): void {
-	for (const commentReactions of select.all(selector)) {
-		observeReactions(commentReactions);
-	}
+function init(): Deinit[] {
+	observeReactions();
+
+	return [
+		viewportObserver,
+		resizeObserver,
+	];
 }
 
-function discussionInit(): void {
-	observe(selector, {
-		add: observeReactions,
-	});
+function discussionInit(): Deinit[] {
+	return [
+		observe(selector, {add: observeCommentReactions}),
+		viewportObserver,
+		resizeObserver,
+	];
 }
 
 void features.add(import.meta.url, {
@@ -118,5 +133,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isDiscussion,
 	],
-	init: onetime(discussionInit),
+	init: discussionInit,
 });

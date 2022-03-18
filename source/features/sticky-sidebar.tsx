@@ -17,7 +17,9 @@ function updateStickiness(): void {
 
 const onResize = debounce(updateStickiness, {wait: 100});
 
-function init(): VoidFunction {
+function init(): Deinit[] {
+	document.body.classList.add('rgh-sticky-sidebar-enabled');
+
 	const resizeObserver = new ResizeObserver(onResize);
 	const selectObserver = observe(sidebarSelector, {
 		add(sidebar) {
@@ -26,13 +28,14 @@ function init(): VoidFunction {
 	});
 	window.addEventListener('resize', onResize);
 
-	document.body.classList.add('rgh-sticky-sidebar-enabled');
-
-	return () => {
-		selectObserver.abort();
-		resizeObserver.disconnect();
-		window.removeEventListener('resize', onResize);
-	};
+	return [
+		onResize.cancel,
+		resizeObserver,
+		selectObserver,
+		() => {
+			window.removeEventListener('resize', onResize);
+		},
+	];
 }
 
 void features.add(import.meta.url, {

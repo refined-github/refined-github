@@ -33,7 +33,7 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event): Pr
 	}
 }
 
-async function init(): Promise<void | false> {
+async function init(): Promise<Deinit | false> {
 	await api.expectToken();
 
 	const editButton = await elementReady(editReleaseButtonSelector);
@@ -58,7 +58,7 @@ async function init(): Promise<void | false> {
 		editButton.classList.replace('ml-1', 'ml-0');
 	}
 
-	delegate(document, '.rgh-convert-draft', 'click', convertToDraft);
+	return delegate(document, '.rgh-convert-draft', 'click', convertToDraft);
 }
 
 void features.add(import.meta.url, {
