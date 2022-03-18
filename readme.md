@@ -1,4 +1,4 @@
-# <img src="distribution/icon.png" width="45" align="left"> Refined GitHub
+# <img src="source/icon.png" width="45" align="left"> Refined GitHub
 
 > Browser extension that simplifies the GitHub interface and adds useful features
 
