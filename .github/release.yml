@@ -13,7 +13,6 @@ changelog:
       exclude:
         labels:
           - bug
-          - meta
     - title: Bugfixes
       labels:
         - bug
