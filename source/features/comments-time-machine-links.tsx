@@ -74,7 +74,7 @@ async function showTimeMachineBar(): Promise<void | false> {
 
 function addInlineLinks(menu: HTMLElement, timestamp: string): void {
 	const comment = menu.closest('.js-comment')!;
-	const links = select.all<HTMLAnchorElement>(`
+	const links = select.all(`a
 		[href^="${location.origin}"][href*="/blob/"]:not(.${linkifiedURLClass}),
 		[href^="${location.origin}"][href*="/tree/"]:not(.${linkifiedURLClass})
 	`, comment);

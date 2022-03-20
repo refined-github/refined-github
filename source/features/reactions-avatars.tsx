@@ -38,7 +38,7 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 		const cleanName = username.replace('[bot]', '');
 
 		// Find image on page. Saves a request and a redirect + add support for bots
-		const existingAvatar = select<HTMLImageElement>(`[alt="@${cleanName}"]`);
+		const existingAvatar = select(`img[alt="@${cleanName}"]`);
 		if (existingAvatar) {
 			participants.push({button, username, imageUrl: existingAvatar.src});
 			continue;
