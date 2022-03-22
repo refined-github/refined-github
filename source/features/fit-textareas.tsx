@@ -6,7 +6,7 @@ import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
+import onPrMergePanelToggle from '../github-events/on-pr-merge-panel-toggle';
 
 function inputListener({target}: Event): void {
 	fitTextarea(target as HTMLTextAreaElement);
@@ -55,7 +55,7 @@ void features.add(import.meta.url, {
 	],
 	deduplicate: 'has-rgh-inner',
 	additionalListeners: [
-		onPrMergePanelOpen,
+		onPrMergePanelToggle,
 	],
 	onlyAdditionalListeners: true,
 	init: fitPrCommitMessageBox,

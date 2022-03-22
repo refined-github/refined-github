@@ -2,7 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
+import onPrMergePanelToggle from '../github-events/on-pr-merge-panel-toggle';
 
 function init(): void {
 	const messageField = select('textarea#merge_message_field')!;
@@ -25,7 +25,7 @@ void features.add(import.meta.url, {
 		() => select.all('.TimelineItem.js-commit').length === 1,
 	],
 	additionalListeners: [
-		onPrMergePanelOpen,
+		onPrMergePanelToggle,
 	],
 	onlyAdditionalListeners: true,
 	awaitDomReady: false,
