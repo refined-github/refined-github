@@ -15,3 +15,8 @@
 .rgh-clean-dashboard .news .body > .border-bottom {
 	border-bottom: none !important;
 }
+
+/* https://github.com/refined-github/refined-github/issues/5532 */
+.rgh-align-issue-labels .js-issue-row .lh-default.d-block.d-md-inline {
+	order: 1;
+}
