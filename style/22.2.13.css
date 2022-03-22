@@ -40,3 +40,8 @@
 .rgh-align-issue-labels .js-issue-row .lh-default.d-block.d-md-inline {
 	order: 1;
 }
+
+/* https://github.com/refined-github/refined-github/issues/5540 */
+:root .comment-body pre {
+	padding-bottom: 16px;
+}
