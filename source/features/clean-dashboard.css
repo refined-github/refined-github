@@ -21,7 +21,9 @@
 
 /* Add "box" style to each event group */
 /* This exact `>` sequence ensures it works on ajaxed-in events */
-.rgh-clean-dashboard tab-container [role="tabpanel"] [data-repository-hovercards-enabled] >[class] > .body {
+.rgh-clean-dashboard [role='tabpanel'] [data-repository-hovercards-enabled] > [class] > .body,
+
+.rgh-clean-dashboard .news > [data-repository-hovercards-enabled] > [class] > .body {
 	background-color: var(--color-canvas-default);
 	border: 1px solid var(--color-border-muted);
 	border-radius: 4px;
@@ -30,7 +32,7 @@
 }
 
 /* Drop extra border */
-.rgh-clean-dashboard tab-container [role="tabpanel"] .body > .border-bottom {
+.rgh-clean-dashboard .news .body > .border-bottom {
 	border-bottom: none !important;
 }
 
