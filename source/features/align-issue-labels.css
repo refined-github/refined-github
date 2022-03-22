@@ -4,7 +4,7 @@
 	flex-wrap: wrap;
 }
 
-.rgh-align-issue-labels .js-issue-row .labels {
+.rgh-align-issue-labels .js-issue-row .lh-default.d-block.d-md-inline { /* Labels */
 	order: 1;
 }
 
