@@ -23,5 +23,5 @@
 
 /* https://github.com/refined-github/refined-github/issues/5540 */
 :root .comment-body pre {
-	padding-bottom: 0;
+	padding-bottom: 16px;
 }
