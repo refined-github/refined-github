@@ -2,8 +2,10 @@
 	position: relative; /* OctoLinker compat: attach the purple balls to the scroll */
 	max-height: 30.5em;
 	overflow-y: auto;
+}
 
-	/* A tiny scroll bar appears when the last paragraph contains a `code` or `g-emoji` tag #3012 #4597 */
+/* A tiny scroll bar appears when the last paragraph contains a `code` or `g-emoji` tag #3012 #4597 */
+:root .comment-body blockquote {
 	padding-bottom: 0.2em;
 }
 
