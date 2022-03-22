@@ -6,7 +6,7 @@
 
 /* A tiny scroll bar appears when the last paragraph contains a `code` or `g-emoji` tag #3012 #4597 */
 :root .comment-body blockquote {
-	padding-bottom: 0.2em;
+	padding-bottom: 0.2em; /* Do not add to `pre` #5540 */
 }
 
 :root .comment-body :is(details, blockquote) :is(blockquote, pre) {
