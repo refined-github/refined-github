@@ -8,8 +8,8 @@
 */
 
 /* Hide duplicate repo name in some non-grouped events */
-.rgh-clean-dashboard .dashboard :is(.watch_started, .repo, .public) :is(.color-border-secondary, .color-border-muted).flex-items-baseline .text-bold:is(.color-text-primary, .color-fg-default) {
-	display: none;
+.rgh-clean-dashboard .dashboard :is(.watch_started, .repo, .public) :is(.color-border-secondary, .color-border-muted).flex-items-baseline [data-hovercard-type="user"] ~ .Link--primary {
+	display: none !important;
 }
 
 /* Add background and border Whole list */
@@ -47,11 +47,6 @@
 /* Reduce spacing after repo description */
 .rgh-clean-dashboard .dashboard .repo-description p:last-child {
 	margin-bottom: 0;
-}
-
-/* Hide footer date on Created Repository events */
-.rgh-clean-dashboard .dashboard .repo .f6:is(.color-text-secondary, .color-fg-muted) {
-	display: none;
 }
 
 /* Grouped events: Make repo name smaller */
