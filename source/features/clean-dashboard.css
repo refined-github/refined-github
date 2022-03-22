@@ -8,7 +8,7 @@
 */
 
 /* Hide duplicate repo name in some non-grouped events */
-.rgh-clean-dashboard .dashboard :is(.watch_started, .repo, .public) :is(.color-border-secondary, .color-border-muted).flex-items-baseline [data-hovercard-type="user"] ~ .Link--primary {
+.rgh-clean-dashboard .dashboard :is(.watch_started, .repo, .public) :is(.color-border-secondary, .color-border-muted).flex-items-baseline [data-hovercard-type='user'] ~ .Link--primary {
 	display: none !important;
 }
 
