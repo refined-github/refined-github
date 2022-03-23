@@ -9,7 +9,7 @@ import onConversationHeaderUpdate from '../github-events/on-conversation-header-
 import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters';
 
 function initTitle(): void {
-	// If we are not in a repo, relative issue references won't make sense but `user`/`repo` need to be set to avoid breaking errors in `linkify-issues`
+	// If we are not in a repo, relative issue references won't make sense but `user`/`repo` needs to be set to avoid breaking errors in `linkify-issues`
 	// https://github.com/refined-github/refined-github/issues/1305
 	const currentRepo = getRepo() ?? {};
 
