@@ -41,7 +41,14 @@ function init(): void {
 
 	// Delay collapsing, but only after they're collapsed on load #5158
 	requestAnimationFrame(() => {
-		select('#repo-content-pjax-container .js-navigation-container')!.classList.add('rgh-dim-bots--after-hover');
+		const container = select('#repo-content-pjax-container .js-navigation-container');
+
+		// Container doesn't exist on `isMilestoneList`
+		if (!container) {
+			return;
+		}
+
+		container.classList.add('rgh-dim-bots--after-hover');
 	});
 }
 
