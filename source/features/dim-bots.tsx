@@ -43,7 +43,7 @@ function init(): void {
 	requestAnimationFrame(() => {
 		const container = select('#repo-content-pjax-container .js-navigation-container');
 
-		// Container doesn't exist on `isMilestoneList`
+		// Container doesn't exist on `isMilestoneList` #5544
 		if (!container) {
 			return;
 		}
