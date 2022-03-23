@@ -32,7 +32,6 @@ import './features/clean-dashboard';
 import './features/hide-noisy-newsfeed-events';
 import './features/minimize-upload-bar';
 import './features/hide-diff-signs';
-import './features/dim-visited-conversations';
 import './features/hide-repo-badges';
 import './features/clean-rich-text-editor';
 
