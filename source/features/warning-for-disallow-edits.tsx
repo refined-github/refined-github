@@ -27,14 +27,14 @@ function toggleHandler(event: delegate.Event<Event, HTMLInputElement>): void {
 	update(event.delegateTarget);
 }
 
-function init(): void | false {
+function init(): Deinit | false {
 	const checkbox = select('input[name="collab_privs"]');
 	if (!checkbox) {
 		return false;
 	}
 
 	update(checkbox); // The sidebar checkbox may already be un-checked
-	delegate(document, 'input[name="collab_privs"]', 'change', toggleHandler);
+	return delegate(document, 'input[name="collab_privs"]', 'change', toggleHandler);
 }
 
 void features.add(import.meta.url, {
@@ -42,6 +42,7 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 		pageDetect.isPRConversation,
 	],
+	// No need to exclude `isClosedPR` as the checkbox won't be present
 	deduplicate: 'has-rgh-inner',
 	init,
 });

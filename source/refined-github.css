@@ -35,15 +35,6 @@
 	display: none !important;
 }
 
-/* Remove user avatar from new comment form on threads */
-.review-thread-reply .avatar {
-	display: none;
-}
-
-.review-thread-reply .review-thread-reply-button {
-	margin-left: 0;
-}
-
 /* Hide `New pull request button` near file list */
 .file-navigation .new-pull-request-btn {
 	display: none;
@@ -72,7 +63,7 @@
 
 /* Lighten deletions in Markdown */
 .markdown-body del {
-	color: var(--color-fg-subtle, var(--color-text-tertiary, #6a737d));
+	color: var(--color-fg-muted);
 }
 
 /* Make <details> visibly clickable */
@@ -82,7 +73,7 @@
 }
 
 /* Remove the "New repository" button in the dashboard sidebar */
-.dashboard-sidebar a[href='/new'] {
+.dashboard-sidebar a.btn[href$='/new'] {
 	display: none;
 }
 
@@ -164,4 +155,25 @@ pr-branches
 	/* 12px for the padding and 1px for the border https://user-images.githubusercontent.com/46634000/136789268-442caa39-33bc-4af3-8fb2-9cf6db722127.png */
 	width: calc(72ch + 26px);
 	max-width: 100%;
+}
+
+/* Ensure all buttons in the repo file navigation header are aligned in the center rather than to the top */
+.file-navigation.flex-items-start {
+	align-items: center !important;
+}
+
+/* Hide "Unpin" button in repo header https://github.com/refined-github/refined-github/issues/5398#issuecomment-1036112206 */
+.pagehead-actions [data-test-selector='pin-repo-button'] {
+	display: none !important;
+}
+
+/* Make our "Example URLs" but report field smaller https://github.com/refined-github/refined-github/issues/5222#issuecomment-1064769358 */
+[action='/refined-github/refined-github/issues'] #issue_form_example_urls {
+	min-height: 4em !important;
+	height: 4em !important;
+}
+
+[action='/refined-github/refined-github/issues'] #issue_form_example_urls + div textarea { /* Also the WYSIWYG editor */
+	min-height: 4em;
+	height: 4em;
 }

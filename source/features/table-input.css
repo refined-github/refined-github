@@ -2,7 +2,7 @@
 	width: auto;
 	padding: 3px;
 	z-index: 99;
-	display: grid;
+	display: grid !important;
 	grid-template: repeat(5, 20px) / repeat(5, 20px);
 }
 

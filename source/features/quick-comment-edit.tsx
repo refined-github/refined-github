@@ -1,16 +1,16 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import isArchivedRepo from '../helpers/is-archived-repo';
 
 function canEditEveryComment(): boolean {
 	return select.exists([
 		// If you can lock conversations, you have write access
-		'.lock-toggle-link',
+		'.lock-toggle-link > .octicon-lock',
 
 		// Some pages like `isPRFiles` does not have a lock button
 		// These elements only exist if you commented on the page
@@ -21,14 +21,13 @@ function canEditEveryComment(): boolean {
 	]) || pageDetect.canUserEditRepo();
 }
 
-function init(): void {
+function init(): Deinit {
 	// If true then the resulting selector will match all comments, otherwise it will only match those made by you
 	const preSelector = canEditEveryComment() ? '' : '.current-user';
 	// Find editable comments first, then traverse to the correct position
-	observe(preSelector + '.js-comment.unminimized-comment .js-comment-update:not(.rgh-edit-comment)', {
+	return observe(preSelector + '.js-comment.unminimized-comment .js-comment-update:not(.rgh-edit-comment)', {
 		add(comment) {
 			comment.classList.add('rgh-edit-comment');
-
 			comment
 				.closest('.js-comment')!
 				.querySelector('.timeline-comment-actions details:last-child')! // The dropdown
@@ -51,6 +50,9 @@ void features.add(import.meta.url, {
 		pageDetect.hasComments,
 		pageDetect.isDiscussion,
 	],
+	exclude: [
+		isArchivedRepo,
+	],
 	deduplicate: 'has-rgh-inner',
-	init: onetime(init),
+	init,
 });

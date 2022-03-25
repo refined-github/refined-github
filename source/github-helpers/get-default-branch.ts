@@ -1,9 +1,10 @@
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import * as api from './api';
-import {getRepo} from '.';
+import {getRepo, getCurrentBranchFromFeed} from '.';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
@@ -23,10 +24,17 @@ const getDefaultBranch = cache.function(async function (repository?: pageDetect.
 
 	if (arguments.length === 0 || JSON.stringify(repository) === JSON.stringify(getRepo())) {
 		if (pageDetect.isRepoHome()) {
-			const currentBranch = select('#branch-select-menu [data-menu-button]');
-			if (currentBranch) { // If missing, it'll default to the API call
-				return currentBranch.textContent!;
+			const branchSelector = await elementReady('[data-hotkey="w"]');
+			if (branchSelector) {
+				return branchSelector.title === 'Switch branches or tags'
+					? branchSelector.textContent!.trim()
+					: branchSelector.title;
 			}
+		}
+
+		const defaultBranch = getCurrentBranchFromFeed();
+		if (defaultBranch) {
+			return defaultBranch;
 		}
 
 		if (!pageDetect.isForkedRepo()) {
@@ -51,7 +59,7 @@ const getDefaultBranch = cache.function(async function (repository?: pageDetect.
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: ([repository = getRepo()]) => `default-branch:${repository!.nameWithOwner}`,
+	cacheKey: ([repository = getRepo()]) => 'default-branch:' + repository!.nameWithOwner,
 });
 
 export default getDefaultBranch;

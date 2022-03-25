@@ -9,7 +9,7 @@ import showToast from '../github-helpers/toast';
 let previousFile: HTMLElement | undefined;
 
 function remember(event: delegate.Event): void {
-	previousFile = event.delegateTarget.closest<HTMLElement>('.js-file')!;
+	previousFile = event.delegateTarget.closest('.js-file')!;
 }
 
 function isChecked(file: HTMLElement): boolean {
@@ -26,7 +26,7 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 	event.stopImmediatePropagation();
 
 	const previousFileState = isChecked(previousFile);
-	const thisFile = event.delegateTarget.closest<HTMLElement>('.js-file')!;
+	const thisFile = event.delegateTarget.closest('.js-file')!;
 	const files = select.all('.js-file');
 	const selectedFiles = files.slice(...[
 		files.indexOf(previousFile) + 1,
@@ -62,15 +62,16 @@ function onAltClick(event: delegate.Event<MouseEvent, HTMLInputElement>): void {
 	});
 }
 
-function init(): void {
-	// `mousedown` required to avoid mouse selection on shift-click
-	delegate(document, '.js-reviewed-toggle', 'mousedown', batchToggle);
-	delegate(document, '.js-toggle-user-reviewed-file-form', 'submit', remember);
-	delegate(document, '.js-reviewed-toggle', 'click', onAltClick);
-}
-
-function deinit(): void {
-	previousFile = undefined;
+function init(): Deinit[] {
+	return [
+		// `mousedown` required to avoid mouse selection on shift-click
+		delegate(document, '.js-reviewed-toggle', 'mousedown', batchToggle),
+		delegate(document, '.js-toggle-user-reviewed-file-form', 'submit', remember),
+		delegate(document, '.js-reviewed-toggle', 'click', onAltClick),
+		() => {
+			previousFile = undefined;
+		},
+	];
 }
 
 void features.add(import.meta.url, {
@@ -80,5 +81,4 @@ void features.add(import.meta.url, {
 	],
 	deduplicate: 'has-rgh-inner',
 	init,
-	deinit,
 });

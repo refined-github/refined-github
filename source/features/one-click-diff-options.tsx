@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-react';
 
 import features from '.';
+import {onDiffFileLoad} from '../github-events/on-fragment-load';
 
 function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 	const url = new URL(location.href);
@@ -74,10 +75,11 @@ function createWhitespaceButton(): HTMLElement {
 }
 
 function initPR(): false | void {
-	// TODO [2022-05-01]: Remove `.js-diff-settings` from the selector (kept for GHE)
-	const originalToggle = select('.js-diff-settings, [aria-label="Diff settings"]')!.closest('details')!.parentElement!;
+	const originalToggle = pageDetect.isEnterprise()
+		? select('.js-diff-settings')!.closest('details')! // TODO [2022-05-01]: Remove GHE code
+		: select('[aria-label="Diff settings"]')!.closest('details')!.parentElement!;
 
-	if (!isHidingWhitespace()) {
+	if (!isHidingWhitespace() || pageDetect.isEnterprise()) {
 		originalToggle.after(
 			<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>,
 		);
@@ -111,7 +113,12 @@ function initCommitAndCompare(): false | void {
 	);
 }
 
+const shortcuts = {
+	'd w': 'Show/hide whitespaces in diffs',
+};
+
 void features.add(import.meta.url, {
+	shortcuts,
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit,
@@ -119,18 +126,22 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isPRFile404,
 	],
-	shortcuts: {
-		'd w': 'Show/hide whitespaces in diffs',
-	},
 	deduplicate: 'has-rgh-inner',
 	init: initPR,
 }, {
+	shortcuts,
 	include: [
 		pageDetect.isSingleCommit,
+	],
+	init: initCommitAndCompare,
+}, {
+	shortcuts,
+	include: [
 		pageDetect.isCompare,
 	],
-	shortcuts: {
-		'd w': 'Show/hide whitespaces in diffs',
-	},
+	additionalListeners: [
+		onDiffFileLoad,
+	],
+	onlyAdditionalListeners: true,
 	init: initCommitAndCompare,
 });

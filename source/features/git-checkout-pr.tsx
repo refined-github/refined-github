@@ -35,8 +35,7 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 	const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
 	const [owner] = nameWithOwner.split('/');
 	return (
-		<div className="markdown-body">
-			{remote && <p className="color-text-secondary color-fg-muted text-small my-1">{remoteType}</p>}
+		<div hidden={remoteType && remoteType !== 'HTTPS'} className="markdown-body" role="tabpanel">
 			<div className="snippet-clipboard-content position-relative">
 				<div className="zeroclipboard-container position-absolute right-0 top-0">
 					<clipboard-copy
@@ -52,13 +51,34 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 						<CheckIcon className="js-clipboard-check-icon color-text-success color-fg-success d-none m-2"/>
 					</clipboard-copy>
 				</div>
-				<pre id={`rgh-checkout-pr-${remoteType!}`}>
+				<pre id={`rgh-checkout-pr-${remoteType!}`} className="mb-2 rgh-linkified-code">{/* `.rgh-linkified-code` is intentionally added to avoid parsing */}
 					<code>
 						{remote && `git remote add ${remote} ${connectionType[remoteType!]}${nameWithOwner}.git\n`}
 						git fetch {remote ?? 'origin'} {headBranch}{'\n'}
 						git switch {remote && `--track ${owner}/`}{headBranch}
 					</code>
 				</pre>
+			</div>
+		</div>
+	);
+}
+
+function getTabList(tabs: string[], selected = tabs[0]): JSX.Element {
+	return (
+		<div className="UnderlineNav my-2 box-shadow-none">
+			<div className="UnderlineNav-body" role="tablist">
+				{tabs.map(tab => (
+					<button
+						type="button"
+						role="tab"
+						className="UnderlineNav-item lh-default f6 py-0 px-0 mr-2 position-relative"
+						// Style won't apply if using the boolean directly
+						aria-selected={tab === selected ? 'true' : 'false'}
+						tabIndex={tab === selected ? 0 : -1}
+					>
+						{tab}
+					</button>
+				))}
 			</div>
 		</div>
 	);
@@ -78,21 +98,24 @@ async function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): Pr
 				Checkout with Git
 			</span>
 			<div className="mt-2 pl-5">
-				<p className="color-text-secondary color-fg-muted text-small">
-					Run in your project repository{remoteName && ', pick either one'}
+				<tab-container>
+					{remoteName ? [
+						getTabList(['HTTPS', 'SSH']),
+						checkoutOption(remoteName, 'HTTPS'),
+						checkoutOption(remoteName, 'SSH'),
+					] : checkoutOption()}
+				</tab-container>
+				<p className="mb-0 f6 color-text-secondary color-fg-muted">
+					Run in your project repository{remoteName && ', pick either one'}.
 				</p>
-				{remoteName ? [
-					checkoutOption(remoteName, 'HTTPS'),
-					checkoutOption(remoteName, 'SSH'),
-				] : checkoutOption()}
 			</div>
 		</li>,
 	);
 }
 
-function init(): void {
+function init(): Deinit {
 	// `useCapture` required to be fired before GitHub's handlers
-	delegate(document, '.gh-header-actions Details:not(.rgh-git-checkout)', 'toggle', handleMenuOpening, true);
+	return delegate(document, '.gh-header-actions Details:not(.rgh-git-checkout)', 'toggle', handleMenuOpening, true);
 }
 
 void features.add(import.meta.url, {

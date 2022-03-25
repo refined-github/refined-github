@@ -1,11 +1,12 @@
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function toggleFile(event: MouseEvent): void {
+function toggleFile(event: delegate.Event<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
-	const headerBar = elementClicked.closest<HTMLElement>('.file-header')!;
+	const headerBar = event.delegateTarget;
 
 	// The clicked element is either the bar itself or one of its 2 children
 	if (elementClicked === headerBar || elementClicked.parentElement === headerBar) {
@@ -14,15 +15,19 @@ function toggleFile(event: MouseEvent): void {
 	}
 }
 
-async function init(): Promise<void> {
-	document.body.addEventListener('click', toggleFile);
+function init(): Deinit {
+	return delegate(document, '.file-header', 'click', toggleFile);
 }
+
+// TODO: https://github.com/refined-github/github-url-detection/pull/115
+const isGistRevision = (url: URL | HTMLAnchorElement | Location = location): boolean => pageDetect.isGist(url) && /^\/(gist\/)?[^/]+\/[\da-f]{32}\/revisions$/.test(url.pathname);
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isCommit,
 		pageDetect.isCompare,
+		isGistRevision,
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',

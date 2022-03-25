@@ -1,7 +1,6 @@
 import './show-names.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -78,8 +77,8 @@ void features.add(import.meta.url, {
 	additionalListeners: [
 		onNewsfeedLoad,
 	],
-	// TODO [2022-02-01]: Use `onlyAdditionalListeners` #4876
-	init: onetime(init),
+	onlyAdditionalListeners: true,
+	init,
 }, {
 	include: [
 		pageDetect.hasComments,

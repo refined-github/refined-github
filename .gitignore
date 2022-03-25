@@ -1,7 +1,10 @@
 node_modules
 yarn.lock
-distribution/build
+distribution
 test/web-ext-profile
 !test/web-ext-profile/.gitkeep
 .cache
 .parcel-cache
+artifacts
+
+LocalOverrides.xcconfig

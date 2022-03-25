@@ -25,8 +25,8 @@ function handleAltClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): v
 	form.action = url.href;
 }
 
-function init(): void {
-	delegate(document, '.ajax-pagination-form button[type="submit"]', 'click', handleAltClick);
+function init(): Deinit {
+	return delegate(document, '.ajax-pagination-form button[type="submit"]', 'click', handleAltClick);
 }
 
 void features.add(import.meta.url, {

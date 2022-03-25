@@ -17,11 +17,11 @@ Suggestions and pull requests are highly encouraged! Have a look at the [open is
 
 The simplest usage of `feature.add` is the following. This will be run instantly on all page-loads:
 
-```js
+```ts
 import * as pageDetect from 'github-url-detection';
 import features from '.';
 
-function init() {
+function init(): void {
 	console.log('✨');
 }
 
@@ -47,9 +47,10 @@ import features from '.';
 function append(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	event.delegateTarget.after('✨', <div className="rgh-jsx-element">Button clicked!</div>);
 }
-function init(): void {
+
+function init(): Deinit {
 	// Events must be set via delegate, unless shortlived
-	delegate(document, '.btn', 'click', append);
+	return delegate(document, '.btn', 'click', append);
 }
 
 void features.add(import.meta.url, {

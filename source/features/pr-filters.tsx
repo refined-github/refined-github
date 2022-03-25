@@ -112,9 +112,11 @@ async function addChecksFilter(): Promise<void> {
 	reviewsFilter.after(checksFilter);
 }
 
-async function init(): Promise<void> {
-	delegate(document, reviewsFilterSelector, 'toggle', addDraftFilter, true);
+async function init(): Promise<Deinit> {
+	const subscription = delegate(document, reviewsFilterSelector, 'toggle', addDraftFilter, true);
 	await addChecksFilter();
+
+	return subscription;
 }
 
 void features.add(import.meta.url, {

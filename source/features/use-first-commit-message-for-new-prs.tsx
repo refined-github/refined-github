@@ -6,22 +6,46 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
 
+// TODO [2022-05-01]: Drop GHE code and merge function back in init
+function getFirstCommitMessage(): string[] {
+	if (pageDetect.isEnterprise()) {
+		return select('#commits_bucket [data-url$="compare/commit"] a[title]')!.title.split('\n\n');
+	}
+
+	const commitSummaryWrapper = select('.js-commits-list-item a.Link--primary')!.parentElement!;
+	const commitDescription = select('.js-commits-list-item pre')?.textContent ?? '';
+
+	// Linkified commit summaries are split into several adjacent links #5382
+	const commitSummary = select.all(':scope > a', commitSummaryWrapper)
+		.map(commitTitleLink => commitTitleLink.innerHTML)
+		.join('')
+		.replace(/<\/?code>/g, '`');
+
+	return [commitSummary, commitDescription];
+}
+
 async function init(): Promise<void | false> {
-	const commitCount = (await elementReady('div.Box.mb-3 .octicon-git-commit'))?.nextElementSibling;
+	const requestedContent = new URL(location.href).searchParams;
+	const commitCountIcon = await elementReady('div.Box.mb-3 .octicon-git-commit');
+	const commitCount = commitCountIcon?.nextElementSibling;
 	if (!commitCount || looseParseInt(commitCount) < 2 || !select.exists('#new_pull_request')) {
 		return false;
 	}
 
-	const [prTitle, ...prMessage] = select('#commits_bucket [data-url$="compare/commit"] a[title]')!.title.split(/\n\n/);
+	const [prTitle, ...prBody] = getFirstCommitMessage();
+	if (!requestedContent.has('pull_request[title]')) {
+		textFieldEdit.set(
+			select('.discussion-topic-header input')!,
+			prTitle,
+		);
+	}
 
-	textFieldEdit.set(
-		select('.discussion-topic-header input')!,
-		prTitle,
-	);
-	textFieldEdit.insert(
-		select('#new_pull_request textarea[aria-label="Comment body"]')!,
-		prMessage.join('\n\n'),
-	);
+	if (!requestedContent.has('pull_request[body]')) {
+		textFieldEdit.insert(
+			select('#new_pull_request textarea[aria-label="Comment body"]')!,
+			prBody.join('\n\n'),
+		);
+	}
 }
 
 void features.add(import.meta.url, {

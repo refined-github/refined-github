@@ -10,7 +10,8 @@ import smartBlockWrap from '../helpers/smart-block-wrap';
 import {onCommentEdit} from '../github-events/on-fragment-load';
 
 function addContentToDetails({delegateTarget}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	const field = delegateTarget.form!.querySelector('textarea')!;
+	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
+	const field = delegateTarget.form!.querySelector('textarea.js-comment-field')!;
 	const selection = field.value.slice(field.selectionStart, field.selectionEnd);
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
@@ -38,17 +39,20 @@ function addButtons(): void {
 	for (const anchor of select.all('md-ref:not(.rgh-collapsible-content-btn-added)')) {
 		anchor.classList.add('rgh-collapsible-content-btn-added');
 		anchor.after(
-			<button type="button" className="toolbar-item tooltipped tooltipped-sw rgh-collapsible-content-btn" aria-label="Add collapsible content">
+			<button type="button" className="toolbar-item btn-octicon p-2 p-md-1 tooltipped tooltipped-sw rgh-collapsible-content-btn" aria-label="Add collapsible content">
 				<FoldDownIcon/>
 			</button>,
 		);
 	}
 }
 
-function init(): void {
-	delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails);
+function init(): Deinit[] {
 	addButtons();
-	onCommentEdit(addButtons);
+
+	return [
+		delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails),
+		onCommentEdit(addButtons),
+	];
 }
 
 void features.add(import.meta.url, {

@@ -4,9 +4,7 @@ labels: enhancement, under discussion
 body:
   - type: markdown
     attributes:
-      value: |
-        ⚠️ To focus on bugfixes, Refined GitHub won't be adding new features while the [feature freeze](https://github.com/refined-github/refined-github/issues/4596) is active.
-        👋 There might be some [easy bugs](https://github.com/refined-github/refined-github/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22+label%3Abug) to tackle for new contributors.
+      value: 👋 Consider contributing by fixing some [easy bugs](https://github.com/refined-github/refined-github/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22+label%3Abug).
   - type: textarea
     attributes:
       label: Description

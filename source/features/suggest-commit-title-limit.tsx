@@ -16,8 +16,8 @@ function validateInput(): void {
 	inputField.classList.toggle('rgh-title-over-limit', inputField.value.length > 72);
 }
 
-function init(): void {
-	delegate(document, fieldSelector, 'input', validateInput);
+function init(): Deinit {
+	return delegate(document, fieldSelector, 'input', validateInput);
 }
 
 void features.add(import.meta.url, {

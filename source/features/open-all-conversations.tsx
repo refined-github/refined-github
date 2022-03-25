@@ -31,12 +31,11 @@ function onButtonClick(): void {
 	});
 }
 
-async function init(): Promise<void | false> {
+async function init(): Promise<Deinit | false> {
 	if (!await elementReady('.js-issue-row + .js-issue-row', {waitForChildren: false})) {
 		return false;
 	}
 
-	delegate(document, '.rgh-open-all-conversations', 'click', onButtonClick);
 	select('.table-list-header-toggle:not(.states)')?.prepend(
 		<button
 			type="button"
@@ -45,13 +44,24 @@ async function init(): Promise<void | false> {
 			Open all
 		</button>,
 	);
+
+	return delegate(document, '.rgh-open-all-conversations', 'click', onButtonClick);
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversationList,
 	],
+	exclude: [
+		pageDetect.isGlobalConversationList,
+	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
+	init,
+}, {
+	include: [
+		pageDetect.isGlobalConversationList,
+	],
+	awaitDomReady: false,
 	init,
 });

@@ -8,8 +8,6 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import loadDetailsMenu from '../github-helpers/load-details-menu';
 
-const deinit: VoidFunction[] = [];
-
 async function onButtonClick({delegateTarget: button}: delegate.Event): Promise<void> {
 	button
 		.closest('.js-comment')!
@@ -31,13 +29,14 @@ function addDeleteButton(cancelButton: Element): void {
 	);
 }
 
-function init(): void {
-	const listener = delegate(document, '.rgh-review-comment-delete-button', 'click', onButtonClick);
-	const editButtonListener = delegate(document, '.rgh-quick-comment-edit-button', 'click', onEditButtonClick);
-	const observer = observe('.review-comment > .unminimized-comment form:not(.js-single-suggested-change-form) .js-comment-cancel-button:not(.rgh-delete-button-added)', {
-		add: addDeleteButton,
-	});
-	deinit.push(listener.destroy, editButtonListener.destroy, observer.abort);
+function init(): Deinit[] {
+	return [
+		delegate(document, '.rgh-review-comment-delete-button', 'click', onButtonClick),
+		delegate(document, '.rgh-quick-comment-edit-button', 'click', onEditButtonClick),
+		observe('.review-comment > .unminimized-comment form:not(.js-single-suggested-change-form) .js-comment-cancel-button:not(.rgh-delete-button-added)', {
+			add: addDeleteButton,
+		}),
+	];
 }
 
 void features.add(import.meta.url, {
@@ -48,5 +47,4 @@ void features.add(import.meta.url, {
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init,
-	deinit,
 });

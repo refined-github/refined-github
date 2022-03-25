@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E3312B3627691C89006DA596 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3312B3527691C89006DA596 /* Utilities.swift */; };
+		E3312B3727691C89006DA596 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3312B3527691C89006DA596 /* Utilities.swift */; };
 		E35EB4BB26F36E0900DDEA60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35EB4BA26F36E0900DDEA60 /* AppDelegate.swift */; };
 		E35EB4BD26F36E0900DDEA60 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35EB4BC26F36E0900DDEA60 /* SceneDelegate.swift */; };
 		E35EB4C026F36E0900DDEA60 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35EB4BE26F36E0900DDEA60 /* LaunchScreen.storyboard */; };
@@ -29,6 +31,34 @@
 		E35EB4F226F36E0900DDEA60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E35EB4B026F36E0900DDEA60 /* Assets.xcassets */; };
 		E35EB4F326F36E0900DDEA60 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35EB4B226F36E0900DDEA60 /* SafariWebExtensionHandler.swift */; };
 		E35EB4F426F36E0900DDEA60 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35EB4B226F36E0900DDEA60 /* SafariWebExtensionHandler.swift */; };
+		E3919AF727E61192009C4956 /* refined-github.js.LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = E3919AE627E61192009C4956 /* refined-github.js.LICENSE.txt */; };
+		E3919AF827E61192009C4956 /* refined-github.js.LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = E3919AE627E61192009C4956 /* refined-github.js.LICENSE.txt */; };
+		E3919AF927E61192009C4956 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = E3919AE727E61192009C4956 /* manifest.json */; };
+		E3919AFA27E61192009C4956 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = E3919AE727E61192009C4956 /* manifest.json */; };
+		E3919AFB27E61192009C4956 /* resolve-conflicts.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AE927E61192009C4956 /* resolve-conflicts.js */; };
+		E3919AFC27E61192009C4956 /* resolve-conflicts.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AE927E61192009C4956 /* resolve-conflicts.js */; };
+		E3919AFD27E61192009C4956 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AEA27E61192009C4956 /* background.js */; };
+		E3919AFE27E61192009C4956 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AEA27E61192009C4956 /* background.js */; };
+		E3919AFF27E61192009C4956 /* browser-polyfill.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AEB27E61192009C4956 /* browser-polyfill.js */; };
+		E3919B0027E61192009C4956 /* browser-polyfill.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AEB27E61192009C4956 /* browser-polyfill.js */; };
+		E3919B0127E61192009C4956 /* refined-github.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AEC27E61192009C4956 /* refined-github.js */; };
+		E3919B0227E61192009C4956 /* refined-github.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AEC27E61192009C4956 /* refined-github.js */; };
+		E3919B0327E61192009C4956 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E3919AED27E61192009C4956 /* icon.png */; };
+		E3919B0427E61192009C4956 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E3919AED27E61192009C4956 /* icon.png */; };
+		E3919B0527E61192009C4956 /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AEF27E61192009C4956 /* options.js */; };
+		E3919B0627E61192009C4956 /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AEF27E61192009C4956 /* options.js */; };
+		E3919B0727E61192009C4956 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF227E61192009C4956 /* options.html */; };
+		E3919B0827E61192009C4956 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF227E61192009C4956 /* options.html */; };
+		E3919B0927E61192009C4956 /* refined-github.css in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF427E61192009C4956 /* refined-github.css */; };
+		E3919B0A27E61192009C4956 /* refined-github.css in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF427E61192009C4956 /* refined-github.css */; };
+		E3919B0B27E61192009C4956 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF627E61192009C4956 /* options.css */; };
+		E3919B0C27E61192009C4956 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF627E61192009C4956 /* options.css */; };
+		E3919B0D27E61199009C4956 /* background.js.map in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF327E61192009C4956 /* background.js.map */; };
+		E3919B0E27E61199009C4956 /* options.css.map in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF527E61192009C4956 /* options.css.map */; };
+		E3919B0F27E61199009C4956 /* options.js.map in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF127E61192009C4956 /* options.js.map */; };
+		E3919B1027E61199009C4956 /* refined-github.css.map in Resources */ = {isa = PBXBuildFile; fileRef = E3919AE827E61192009C4956 /* refined-github.css.map */; };
+		E3919B1127E61199009C4956 /* refined-github.js.map in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF027E61192009C4956 /* refined-github.js.map */; };
+		E3919B1227E61199009C4956 /* resolve-conflicts.js.map in Resources */ = {isa = PBXBuildFile; fileRef = E3919AEE27E61192009C4956 /* resolve-conflicts.js.map */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +104,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E3312B3527691C89006DA596 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		E33F1EF826F380AF00ACEB0F /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		E35EB4AB26F36E0800DDEA60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = ../Base.lproj/Main.html; sourceTree = "<group>"; };
 		E35EB4AC26F36E0800DDEA60 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -98,6 +129,23 @@
 		E35EB4E026F36E0900DDEA60 /* Refined GitHub Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Refined GitHub Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E35EB4E526F36E0900DDEA60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E35EB4E626F36E0900DDEA60 /* Refined GitHub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Refined GitHub.entitlements"; sourceTree = "<group>"; };
+		E3919AE627E61192009C4956 /* refined-github.js.LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "refined-github.js.LICENSE.txt"; sourceTree = "<group>"; };
+		E3919AE727E61192009C4956 /* manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
+		E3919AE827E61192009C4956 /* refined-github.css.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = "refined-github.css.map"; sourceTree = "<group>"; };
+		E3919AE927E61192009C4956 /* resolve-conflicts.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "resolve-conflicts.js"; sourceTree = "<group>"; };
+		E3919AEA27E61192009C4956 /* background.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = background.js; sourceTree = "<group>"; };
+		E3919AEB27E61192009C4956 /* browser-polyfill.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "browser-polyfill.js"; sourceTree = "<group>"; };
+		E3919AEC27E61192009C4956 /* refined-github.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "refined-github.js"; sourceTree = "<group>"; };
+		E3919AED27E61192009C4956 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		E3919AEE27E61192009C4956 /* resolve-conflicts.js.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = "resolve-conflicts.js.map"; sourceTree = "<group>"; };
+		E3919AEF27E61192009C4956 /* options.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = options.js; sourceTree = "<group>"; };
+		E3919AF027E61192009C4956 /* refined-github.js.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = "refined-github.js.map"; sourceTree = "<group>"; };
+		E3919AF127E61192009C4956 /* options.js.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = options.js.map; sourceTree = "<group>"; };
+		E3919AF227E61192009C4956 /* options.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = options.html; sourceTree = "<group>"; };
+		E3919AF327E61192009C4956 /* background.js.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = background.js.map; sourceTree = "<group>"; };
+		E3919AF427E61192009C4956 /* refined-github.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "refined-github.css"; sourceTree = "<group>"; };
+		E3919AF527E61192009C4956 /* options.css.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = options.css.map; sourceTree = "<group>"; };
+		E3919AF627E61192009C4956 /* options.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = options.css; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				E35EB4AF26F36E0800DDEA60 /* ViewController.swift */,
+				E3312B3527691C89006DA596 /* Utilities.swift */,
 				E35EB4B026F36E0900DDEA60 /* Assets.xcassets */,
 				E35EB4A926F36E0800DDEA60 /* Resources */,
 			);
@@ -170,7 +219,7 @@
 		E35EB4B126F36E0900DDEA60 /* Shared (Extension) */ = {
 			isa = PBXGroup;
 			children = (
-				E35EB50526F36E0A00DDEA60 /* Resources */,
+				E3919AC127E6107E009C4956 /* Resources */,
 				E35EB4B226F36E0900DDEA60 /* SafariWebExtensionHandler.swift */,
 			);
 			path = "Shared (Extension)";
@@ -227,13 +276,30 @@
 			path = "macOS (Extension)";
 			sourceTree = "<group>";
 		};
-		E35EB50526F36E0A00DDEA60 /* Resources */ = {
+		E3919AC127E6107E009C4956 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E3919AEA27E61192009C4956 /* background.js */,
+				E3919AF327E61192009C4956 /* background.js.map */,
+				E3919AEB27E61192009C4956 /* browser-polyfill.js */,
+				E3919AED27E61192009C4956 /* icon.png */,
+				E3919AE727E61192009C4956 /* manifest.json */,
+				E3919AF627E61192009C4956 /* options.css */,
+				E3919AF527E61192009C4956 /* options.css.map */,
+				E3919AF227E61192009C4956 /* options.html */,
+				E3919AEF27E61192009C4956 /* options.js */,
+				E3919AF127E61192009C4956 /* options.js.map */,
+				E3919AF427E61192009C4956 /* refined-github.css */,
+				E3919AE827E61192009C4956 /* refined-github.css.map */,
+				E3919AEC27E61192009C4956 /* refined-github.js */,
+				E3919AE627E61192009C4956 /* refined-github.js.LICENSE.txt */,
+				E3919AF027E61192009C4956 /* refined-github.js.map */,
+				E3919AE927E61192009C4956 /* resolve-conflicts.js */,
+				E3919AEE27E61192009C4956 /* resolve-conflicts.js.map */,
 			);
 			name = Resources;
-			path = "Shared (Extension)";
-			sourceTree = SOURCE_ROOT;
+			path = ../../distribution;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -301,7 +367,6 @@
 				E35EB4DC26F36E0900DDEA60 /* Sources */,
 				E35EB4DD26F36E0900DDEA60 /* Frameworks */,
 				E35EB4DE26F36E0900DDEA60 /* Resources */,
-				E33F1EB126F3721C00ACEB0F /* Copy Custom Resources */,
 			);
 			buildRules = (
 			);
@@ -320,7 +385,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1300;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1330;
 				TargetAttributes = {
 					E35EB4B626F36E0900DDEA60 = {
 						CreatedOnToolsVersion = 13.0;
@@ -389,6 +454,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3919AFF27E61192009C4956 /* browser-polyfill.js in Resources */,
+				E3919B0527E61192009C4956 /* options.js in Resources */,
+				E3919B0327E61192009C4956 /* icon.png in Resources */,
+				E3919AFD27E61192009C4956 /* background.js in Resources */,
+				E3919B0927E61192009C4956 /* refined-github.css in Resources */,
+				E3919AFB27E61192009C4956 /* resolve-conflicts.js in Resources */,
+				E3919B0127E61192009C4956 /* refined-github.js in Resources */,
+				E3919AF927E61192009C4956 /* manifest.json in Resources */,
+				E3919AF727E61192009C4956 /* refined-github.js.LICENSE.txt in Resources */,
+				E3919B0B27E61192009C4956 /* options.css in Resources */,
+				E3919B0727E61192009C4956 /* options.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,6 +472,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3919B0D27E61199009C4956 /* background.js.map in Resources */,
+				E3919B0E27E61199009C4956 /* options.css.map in Resources */,
+				E3919B0F27E61199009C4956 /* options.js.map in Resources */,
+				E3919B1027E61199009C4956 /* refined-github.css.map in Resources */,
+				E3919B1127E61199009C4956 /* refined-github.js.map in Resources */,
+				E3919B1227E61199009C4956 /* resolve-conflicts.js.map in Resources */,
+				E3919B0027E61192009C4956 /* browser-polyfill.js in Resources */,
+				E3919B0627E61192009C4956 /* options.js in Resources */,
+				E3919B0427E61192009C4956 /* icon.png in Resources */,
+				E3919AFE27E61192009C4956 /* background.js in Resources */,
+				E3919B0A27E61192009C4956 /* refined-github.css in Resources */,
+				E3919AFC27E61192009C4956 /* resolve-conflicts.js in Resources */,
+				E3919B0227E61192009C4956 /* refined-github.js in Resources */,
+				E3919AFA27E61192009C4956 /* manifest.json in Resources */,
+				E3919AF827E61192009C4956 /* refined-github.js.LICENSE.txt in Resources */,
+				E3919B0C27E61192009C4956 /* options.css in Resources */,
+				E3919B0827E61192009C4956 /* options.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,26 +496,6 @@
 
 /* Begin PBXShellScriptBuildPhase section */
 		E33F1EB026F371EE00ACEB0F /* Copy Custom Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Custom Resources";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cp -a \"$PROJECT_DIR/../distribution/.\" \"$CONFIGURATION_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E33F1EB126F3721C00ACEB0F /* Copy Custom Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -451,6 +524,7 @@
 			files = (
 				E35EB4EF26F36E0900DDEA60 /* ViewController.swift in Sources */,
 				E35EB4BB26F36E0900DDEA60 /* AppDelegate.swift in Sources */,
+				E3312B3627691C89006DA596 /* Utilities.swift in Sources */,
 				E35EB4BD26F36E0900DDEA60 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -459,6 +533,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3312B3727691C89006DA596 /* Utilities.swift in Sources */,
 				E35EB4F026F36E0900DDEA60 /* ViewController.swift in Sources */,
 				E35EB4CC26F36E0900DDEA60 /* AppDelegate.swift in Sources */,
 			);
@@ -652,7 +727,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YG56YK5RN5;
+				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Refined GitHub Extension";
@@ -680,7 +755,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YG56YK5RN5;
+				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Refined GitHub Extension";
@@ -712,7 +787,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YG56YK5RN5;
+				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (App)/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Refined GitHub";
@@ -747,7 +822,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YG56YK5RN5;
+				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (App)/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Refined GitHub";
@@ -780,8 +855,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Refined GitHub.entitlements";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
@@ -809,8 +884,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Refined GitHub.entitlements";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
@@ -843,7 +918,6 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/Refined GitHub.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (App)/Info.plist";
@@ -876,9 +950,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/Refined GitHub.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YG56YK5RN5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (App)/Info.plist";

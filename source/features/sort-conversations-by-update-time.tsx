@@ -4,9 +4,18 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import SearchQuery from '../github-helpers/search-query';
 
+function selectCurrentConversationFilter(): void {
+	const currentSearchURL = location.href.replace('/pulls?', '/issues?'); // Replacement needed to make up for the redirection of "Your pull requests" link
+	const currentFilter = select(`#filters-select-menu a.SelectMenu-item[href="${currentSearchURL}"]`);
+	if (currentFilter) {
+		select('#filters-select-menu [aria-checked="true"]')?.setAttribute('aria-checked', 'false');
+		currentFilter.setAttribute('aria-checked', 'true');
+	}
+}
+
 function init(): void {
 	// Get issues links that don't already have a specific sorting applied
-	const issueLinks = select.all('a:is([href*="/issues"], [href*="/pulls"], [href*="/projects"]):not([href*="sort%3A"], .issues-reset-query)');
+	const issueLinks = select.all('a:is([href*="/issues"], [href*="/pulls"], [href*="/projects"], [href*="/labels/"]):not([href*="sort%3A"], .issues-reset-query)');
 	for (const link of issueLinks) {
 		if (link.host !== location.host || link.closest('.pagination, .table-list-header-toggle')) {
 			return;
@@ -16,7 +25,7 @@ function init(): void {
 		// + skip pagination links
 		// + skip pr/issue filter dropdowns (some are lazyloaded)
 		if (pageDetect.isConversationList(link)) {
-			new SearchQuery(link).add('sort:updated-desc');
+			link.href = SearchQuery.from(link).add('sort:updated-desc').href;
 		}
 
 		// Also sort projects #4957
@@ -31,5 +40,12 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
+	deduplicate: 'has-rgh-inner',
 	init,
+}, {
+	include: [
+		pageDetect.isRepoConversationList,
+	],
+	deduplicate: 'has-rgh-inner',
+	init: selectCurrentConversationFilter,
 });

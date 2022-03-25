@@ -1,13 +1,12 @@
 import React from 'dom-chef';
-import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
 
-function init(): void {
-	observe('details-dialog .Box-header .mr-3 > img:not([alt*="[bot]"])', {
+function init(): Deinit {
+	return observe('details-dialog .Box-header .mr-3 > img:not([alt*="[bot]"])', {
 		constructor: HTMLImageElement,
 		add(avatar) {
 			const userName = avatar.alt.slice(1);
@@ -25,5 +24,5 @@ void features.add(import.meta.url, {
 		pageDetect.isConversation,
 	],
 	deduplicate: 'has-rgh-inner',
-	init: onetime(init),
+	init,
 });

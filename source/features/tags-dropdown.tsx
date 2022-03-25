@@ -47,11 +47,13 @@ function init(): void {
 	if (pageDetect.isEnterprise() || pageDetect.isTags()) {
 		select('.subnav')!.append(tagsDropdown);
 	} else {
-		select('.subnav-search-input')!.closest('.d-flex')!.before(
-			<div className={pageDetect.isTags() ? 'ml-2' : 'mb-2 mr-2'}>
+		const searchBarWrapper = select('input[aria-label="Find a release"]')!.closest('div')!;
+		searchBarWrapper.prepend(
+			<div className="mr-2 mr-md-0 ml-md-2">
 				{tagsDropdown}
 			</div>,
 		);
+		searchBarWrapper.classList.add('d-flex');
 	}
 
 	// https://github.com/github/remote-input-element#events

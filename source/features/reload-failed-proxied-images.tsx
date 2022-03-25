@@ -1,4 +1,5 @@
 import delay from 'delay';
+import onetime from 'onetime';
 import delegate from 'delegate-it';
 import loadImage from 'image-promise';
 
@@ -19,5 +20,5 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	init,
+	init: onetime(init),
 });

@@ -6,6 +6,7 @@ export type RGHOptions = typeof defaults;
 
 // eslint-disable-next-line prefer-object-spread -- TypeScript doesn't merge the definitions so `...` is not equivalent.
 const defaults = Object.assign({
+	actionUrl: '',
 	customCSS: '',
 	personalToken: '',
 	logging: false,
@@ -35,6 +36,12 @@ export const renamedFeatures = new Map<string, string>([
 	['list-pr-for-branch', 'list-prs-for-branch'],
 	['quick-label-hiding', 'quick-label-removal'],
 	['next-scheduled-github-action', 'scheduled-and-manual-workflow-indicators'],
+	['raw-file-link', 'more-file-links'],
+	['conversation-filters', 'more-conversation-filters'],
+	['quick-pr-diff-options', 'one-click-diff-options'],
+	['quick-review-buttons', 'one-click-review-submission'],
+	['wait-for-build', 'wait-for-checks'],
+	['pull-request-hotkey', 'pull-request-hotkeys'],
 ]);
 
 export function getNewFeatureName(possibleFeatureName: string): FeatureID | undefined {

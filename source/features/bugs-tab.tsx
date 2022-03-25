@@ -71,7 +71,7 @@ async function getSearchQueryBugLabel(): Promise<string> {
 }
 
 async function isBugsListing(): Promise<boolean> {
-	return new SearchQuery(location.search).includes(await getSearchQueryBugLabel());
+	return SearchQuery.from(location).includes(await getSearchQueryBugLabel());
 }
 
 async function addBugsTab(): Promise<void | false> {
@@ -89,7 +89,7 @@ async function addBugsTab(): Promise<void | false> {
 
 	const issuesTab = await elementReady('a.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
 	if (!issuesTab) {
-		// Repo is archived
+		// Issues are disabled
 		return false;
 	}
 
@@ -99,8 +99,8 @@ async function addBugsTab(): Promise<void | false> {
 	unhighlightTab(bugsTab);
 
 	// Disable unwanted behavior #3001
-	bugsTab.removeAttribute('data-hotkey');
-	bugsTab.removeAttribute('data-selected-links');
+	delete bugsTab.dataset.hotkey;
+	delete bugsTab.dataset.selectedLinks;
 	bugsTab.removeAttribute('id');
 
 	// Update its appearance
@@ -115,7 +115,7 @@ async function addBugsTab(): Promise<void | false> {
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	new SearchQuery(bugsTab).add(await getSearchQueryBugLabel());
+	bugsTab.href = SearchQuery.from(bugsTab).add(await getSearchQueryBugLabel()).href;
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement instanceof HTMLLIElement) {
@@ -124,6 +124,9 @@ async function addBugsTab(): Promise<void | false> {
 		issuesTab.after(bugsTab);
 	}
 
+	// Trigger a reflow to push the right-most tab into the overflow dropdown
+	window.dispatchEvent(new Event('resize'));
+
 	// Update bugs count
 	try {
 		const bugCount = await countPromise;
@@ -131,7 +134,7 @@ async function addBugsTab(): Promise<void | false> {
 		bugsCounter.title = bugCount > 999 ? String(bugCount) : '';
 	} catch (error: unknown) {
 		bugsCounter.remove();
-		features.log.error(import.meta.url, error);
+		throw error; // Likely an API call error that will be handled by the init
 	}
 }
 
@@ -142,7 +145,8 @@ function highlightBugsTab(): void {
 }
 
 async function removePinnedIssues(): Promise<void> {
-	(await elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false}))?.remove();
+	const pinnedIssues = await elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false});
+	pinnedIssues?.remove();
 }
 
 async function updateBugsTagHighlighting(): Promise<void | false> {

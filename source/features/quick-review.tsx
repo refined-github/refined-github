@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onReplacedElement from '../helpers/on-replaced-element';
+import onDiscussionSidebarUpdate from '../github-events/on-discussion-sidebar-update';
 
 async function addSidebarReviewButton(): Promise<void | false> {
 	const reviewFormUrl = new URL(location.href);
@@ -30,8 +30,8 @@ function focusReviewTextarea({delegateTarget}: delegate.Event<Event, HTMLDetails
 	}
 }
 
-async function initReviewButtonEnhancements(): Promise<void> {
-	delegate(document, '.js-reviews-container > details', 'toggle', focusReviewTextarea, true);
+async function initReviewButtonEnhancements(): Promise<Deinit> {
+	const subscription = delegate(document, '.js-reviews-container > details', 'toggle', focusReviewTextarea, true);
 
 	const reviewDropdownButton = await elementReady('.js-reviews-toggle');
 	if (reviewDropdownButton) {
@@ -42,6 +42,8 @@ async function initReviewButtonEnhancements(): Promise<void> {
 			reviewDropdownButton.click();
 		}
 	}
+
+	return subscription;
 }
 
 void features.add(import.meta.url, {
@@ -49,9 +51,7 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 	],
 	additionalListeners: [
-		() => {
-			void onReplacedElement('#partial-discussion-sidebar', addSidebarReviewButton);
-		},
+		onDiscussionSidebarUpdate,
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',

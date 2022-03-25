@@ -1,6 +1,7 @@
 import './show-whitespace.css';
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -71,11 +72,22 @@ export const codeElementsSelectors = [
 	'.snippet-clipboard-content > pre', // Not highlighted code blocks in comments
 ].join(',');
 
-function init(): void {
+function observeWhiteSpace(): void {
 	for (const line of select.all(`:is(${codeElementsSelectors}):not(.rgh-observing-whitespace, .blob-code-hunk)`)) {
 		line.classList.add('rgh-observing-whitespace');
 		viewportObserver.observe(line);
 	}
+}
+
+function init(): Deinit[] {
+	observeWhiteSpace();
+
+	return [
+		viewportObserver.disconnect,
+		// Show whitespace on new review suggestions #2852
+		// This event is not very reliable as it also triggers when review comments are edited or deleted
+		delegate(document, '.js-pull-refresh-on-pjax', 'socket:message', observeWhiteSpace, {capture: true}),
+	];
 }
 
 void features.add(import.meta.url, {

@@ -1,9 +1,10 @@
 .rgh-highest-rated-comment.timeline-comment {
-	border: 2px solid var(--rgh-green);
+	/* Same as GitHub's `.timeline-chosen-answer` */
+	border: 2px solid var(--color-success-emphasis);
 }
 
 .rgh-highest-rated-comment.timeline-comment--caret::before {
-	background-color: var(--rgh-green);
+	background-color: var(--color-success-emphasis);
 }
 
 .rgh-highest-rated-comment.timeline-comment--caret::after {
@@ -11,17 +12,10 @@
 }
 
 a.rgh-highest-rated-comment {
-	border: 2px solid var(--rgh-green) !important;
-}
-
-a.rgh-highest-rated-comment .timeline-comment-header-text {
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
-	max-width: none;
+	border: 2px solid var(--color-success-emphasis) !important;
 }
 
 a.rgh-highest-rated-comment .avatar {
 	position: absolute;
-	left: -55px;
+	left: -58px;
 }

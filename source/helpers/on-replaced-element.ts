@@ -12,8 +12,12 @@ Tracks the replacement of an element, identified via selector.
 export default async function onReplacedElement(
 	selector: string,
 	callback: (element: HTMLElement) => void,
-	{runCallbackOnStart = false} = {},
+	{runCallbackOnStart = false, signal}: {runCallbackOnStart?: boolean; signal?: AbortSignal} = {},
 ): Promise<void> {
+	if (signal?.aborted) {
+		return;
+	}
+
 	let trackedElement = select(selector);
 	if (!trackedElement) {
 		throw new Error('The element can’t be found');
@@ -25,7 +29,11 @@ export default async function onReplacedElement(
 
 	while (trackedElement) {
 		// eslint-disable-next-line no-await-in-loop
-		await onElementRemoval(trackedElement);
+		await onElementRemoval(trackedElement, signal);
+		if (signal?.aborted) {
+			return;
+		}
+
 		trackedElement = select(selector);
 		if (trackedElement) {
 			callback(trackedElement);

@@ -1,16 +1,16 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import {PencilIcon} from '@primer/octicons-react';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 import {isPermalink} from '../github-helpers';
+import isArchivedRepo from '../helpers/is-archived-repo';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
 async function init(): Promise<void | false> {
-	const readmeHeader = await elementReady('#readme :is(.Box-header, .js-sticky)');
+	const readmeHeader = select('#readme :is(.Box-header, .js-sticky)');
 
 	// The button already exists on repos you can push to
 	if (!readmeHeader || select.exists('[aria-label="Edit this file"]', readmeHeader)) {
@@ -19,7 +19,7 @@ async function init(): Promise<void | false> {
 
 	const isPermalink_ = await isPermalink();
 	const filename = select('[href="#readme"]')!.textContent!.trim();
-	const fileLink = select<HTMLAnchorElement>(`.js-navigation-open[title="${filename}"]`)!;
+	const fileLink = select(`a.js-navigation-open[title="${filename}"]`)!;
 
 	const url = new GitHubURL(fileLink.href).assign({
 		route: 'edit',
@@ -44,7 +44,9 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoTree,
 	],
-	awaitDomReady: false,
+	exclude: [
+		isArchivedRepo,
+	],
 	deduplicate: 'has-rgh-inner',
 	init,
 });

@@ -18,10 +18,10 @@ async function disableWikiAndProjects(): Promise<void> {
 		},
 	});
 	await domLoaded;
-	select('[data-content="Wiki"]')?.closest('.d-flex')!.remove();
-	select('[data-menu-item="wiki-tab"]')?.remove();
-	select('[data-content="Projects"]')?.closest('.d-flex')!.remove();
-	select('[data-menu-item="projects-tab"]')?.remove();
+	select('[data-content="Wiki"]')?.closest('li')!.remove();
+	select('[data-menu-item$="wiki-tab"]')?.remove();
+	select('[data-content="Projects"]')?.closest('li')!.remove();
+	select('[data-menu-item$="projects-tab"]')?.remove();
 }
 
 function setStorage(): void {
@@ -30,7 +30,7 @@ function setStorage(): void {
 	}
 }
 
-async function init(): Promise<void> {
+async function init(): Promise<Deinit> {
 	await api.expectToken();
 
 	select.last([
@@ -51,7 +51,7 @@ async function init(): Promise<void> {
 		</div>,
 	);
 
-	delegate(document, '#new_repository, #new_new_repository', 'submit', setStorage);
+	return delegate(document, '#new_repository, #new_new_repository', 'submit', setStorage);
 }
 
 void features.add(import.meta.url, {

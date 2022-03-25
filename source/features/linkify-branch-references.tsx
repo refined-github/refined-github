@@ -1,6 +1,5 @@
 import React from 'dom-chef';
-import onetime from 'onetime';
-import {observe} from 'selector-observer';
+import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -24,30 +23,39 @@ async function init(): Promise<void | false> {
 	);
 }
 
-function hovercardInit(): void {
-	observe('[data-hydro-view*="pull-request-hovercard-hover"] ~ .d-flex.mt-2', {
-		add(hovercard) {
-			const {href} = hovercard.querySelector('a.Link--primary')!;
+const hovercardObserver = new MutationObserver(([mutation]) => {
+	const hovercard = (mutation.target as HTMLElement).querySelector('[data-hydro-view*="pull-request-hovercard-hover"] ~ .d-flex.mt-2');
+	if (!hovercard) {
+		return;
+	}
 
-			for (const reference of hovercard.querySelectorAll<HTMLElement>('.commit-ref')) {
-				const url = new GitHubURL(href).assign({
-					route: 'tree',
-					branch: reference.title,
-				});
+	const {href} = hovercard.querySelector('a.Link--primary')!;
 
-				const user = reference.querySelector('.user');
-				if (user) {
-					url.user = user.textContent!;
-				}
+	for (const reference of hovercard.querySelectorAll('.commit-ref')) {
+		const url = new GitHubURL(href).assign({
+			route: 'tree',
+			branch: reference.title,
+		});
 
-				reference.replaceChildren(
-					<a className="color-text-secondary color-fg-muted" href={url.href}>
-						{[...reference.childNodes]}
-					</a>,
-				);
-			}
-		},
-	});
+		const user = reference.querySelector('.user');
+		if (user) {
+			url.user = user.textContent!;
+		}
+
+		reference.replaceChildren(
+			<a className="no-underline" href={url.href}>
+				{[...reference.childNodes]}
+			</a>,
+		);
+	}
+});
+
+function hovercardInit(): void | Deinit {
+	const hovercardContainer = select('.js-hovercard-content > .Popover-message');
+	if (hovercardContainer) {
+		hovercardObserver.observe(hovercardContainer, {childList: true});
+		return hovercardObserver.disconnect;
+	}
 }
 
 void features.add(import.meta.url, {
@@ -58,5 +66,5 @@ void features.add(import.meta.url, {
 	],
 	init,
 }, {
-	init: onetime(hovercardInit),
+	init: hovercardInit,
 });

@@ -37,7 +37,7 @@ const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 function getBestComment(): HTMLElement | undefined {
 	let highest;
 	for (const reaction of select.all(positiveReactionsSelector)) {
-		const comment = reaction.closest<HTMLElement>(commentSelector)!;
+		const comment = reaction.closest(commentSelector)!;
 		const positiveReactions = getPositiveReactions(comment);
 		if (positiveReactions && (!highest || positiveReactions > highest.count)) {
 			highest = {comment, count: positiveReactions};
@@ -51,7 +51,7 @@ function highlightBestComment(bestComment: Element): void {
 	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
 	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
 		<span
-			className="d-inline-block color-text-success color-fg-success mr-1 tooltipped tooltipped-n"
+			className="color-text-success color-fg-success tooltipped tooltipped-s"
 			aria-label="This comment has the most positive reactions on this issue."
 		>
 			<CheckCircleFillIcon/>
@@ -60,10 +60,9 @@ function highlightBestComment(bestComment: Element): void {
 }
 
 function linkBestComment(bestComment: HTMLElement): void {
-	// Find position of comment in thread
-	const position = select.all(commentSelector).indexOf(bestComment);
+	const firstTimelineItem = select('#js-timeline-progressive-loader')!.nextElementSibling!;
 	// Only link to it if it doesn't already appear at the top of the conversation
-	if (position < 3) {
+	if (firstTimelineItem === bestComment) {
 		return;
 	}
 
@@ -72,18 +71,17 @@ function linkBestComment(bestComment: HTMLElement): void {
 	const avatar = select('img.avatar', bestComment)!.cloneNode();
 
 	bestComment.parentElement!.firstElementChild!.after(
-		<div className="timeline-comment-wrapper pl-0 my-0">
-			<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-tertiary color-bg-subtle px-2 d-flex flex-items-center">
-				{avatar}
-				<span className="btn btn-sm mr-2">
-					<ArrowDownIcon/>
-				</span>
+		<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-tertiary color-bg-subtle px-2 d-flex flex-items-center">
+			{avatar}
 
-				<span className="color-text-secondary color-fg-muted timeline-comment-header-text">
-					Highest-rated comment: <em>{text}</em>
-				</span>
-			</a>
-		</div>,
+			<h3 className="timeline-comment-header-text f5 color-fg-muted text-normal text-italic css-truncate css-truncate-overflow mr-2">
+				<span className="Label mr-2">Highest-rated</span>{text}
+			</h3>
+
+			<div className="color-fg-muted f6 no-wrap">
+				<ArrowDownIcon className="mr-1"/>Jump to comment
+			</div>
+		</a>,
 	);
 }
 

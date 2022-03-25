@@ -1,10 +1,9 @@
-import './forked-to.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {CheckIcon, LinkExternalIcon, RepoForkedIcon} from '@primer/octicons-react';
+import {CheckIcon, ChevronRightIcon, TriangleDownIcon, XIcon} from '@primer/octicons-react';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
@@ -12,7 +11,8 @@ import GitHubURL from '../github-helpers/github-url';
 import {getUsername, getForkedRepo, getRepo} from '../github-helpers';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepo()!.nameWithOwner;
-const getCacheKey = (): string => `forked-to:${getForkSourceRepo()}@${getUsername()!}`;
+// eslint-disable-next-line import/prefer-default-export
+export const getCacheKey = (): string => `forked-to:${getForkSourceRepo()}@${getUsername()!}`;
 
 const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 	const document = await fetchDom(`/${getForkSourceRepo()}/fork?fragment=1`);
@@ -28,16 +28,16 @@ const updateCache = cache.function(async (): Promise<string[] | undefined> => {
 });
 
 function createLink(baseRepo: string): string {
-	if (pageDetect.isSingleFile() || pageDetect.isRepoTree() || pageDetect.isEditingFile()) {
-		const [user, repository] = baseRepo.split('/', 2);
-		const url = new GitHubURL(location.href).assign({
-			user,
-			repository,
-		});
-		return url.pathname;
+	if (pageDetect.isIssue() || pageDetect.isPR()) {
+		return '/' + baseRepo;
 	}
 
-	return '/' + baseRepo;
+	const [user, repository] = baseRepo.split('/', 2);
+	const url = new GitHubURL(location.href).assign({
+		user,
+		repository,
+	});
+	return url.pathname;
 }
 
 async function updateUI(forks: string[]): Promise<void> {
@@ -46,44 +46,60 @@ async function updateUI(forks: string[]): Promise<void> {
 		return;
 	}
 
+	const forkBoxContents = (await elementReady('#repo-network-counter', {waitForChildren: false}))!.parentElement!;
+	const forkContainer = select('.pagehead-actions .octicon-repo-forked')!.closest('.float-left')!;
+	const forkBox = forkBoxContents.parentElement!;
+
 	document.body.classList.add('rgh-forked-to');
-	const forkCounter = await elementReady('.social-count[href$="/network/members"]', {waitForChildren: false});
+	forkContainer.classList.add('d-flex');
+	forkBoxContents.classList.add('rounded-left-2', 'border-right-0', 'BtnGroup-item');
+
 	if (forks.length === 1) {
-		forkCounter!.before(
+		forkBox.after(
 			<a
 				href={createLink(forks[0])}
-				className="btn btn-sm float-left rgh-forked-button rgh-forked-link"
+				className="btn btn-sm BtnGroup-item px-2 rgh-forked-button rgh-forked-link"
 				title={`Open your fork at ${forks[0]}`}
 			>
-				<LinkExternalIcon/>
+				<ChevronRightIcon className="v-align-text-top"/>
 			</a>,
 		);
 	} else {
-		forkCounter!.before(
-			<details className="details-reset details-overlay select-menu float-left">
+		forkBox.after(
+			<details
+				className="details-reset details-overlay BtnGroup-parent position-relative"
+				id="rgh-forked-to-select-menu"
+			>
 				<summary
-					className="select-menu-button float-left btn btn-sm btn-with-count rgh-forked-button"
-					aria-haspopup="menu"
-					title="Open any of your forks"/>
-				<details-menu
-					style={{zIndex: 99}}
-					className="select-menu-modal position-absolute right-0 mt-5"
+					className="btn btn-sm BtnGroup-item px-2 float-none rgh-forked-button"
 				>
-					<div className="select-menu-header">
-						<span className="select-menu-title">Your forks</span>
+					<TriangleDownIcon className="v-align-text-top"/>
+				</summary>
+				<details-menu className="SelectMenu right-0">
+					<div className="SelectMenu-modal">
+						<div className="SelectMenu-header">
+							<h3 className="SelectMenu-title">Your forks</h3>
+							<button
+								className="SelectMenu-closeButton"
+								type="button"
+								data-toggle-for="rgh-forked-to-select-menu"
+							>
+								<XIcon/>
+							</button>
+						</div>
+						<div className="SelectMenu-list">
+							{forks.map(fork => (
+								<a
+									href={createLink(fork)}
+									className="rgh-forked-link SelectMenu-item"
+									aria-checked={fork === getRepo()!.nameWithOwner ? 'true' : 'false'}
+								>
+									<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
+									{fork}
+								</a>
+							))}
+						</div>
 					</div>
-					{forks.map(fork => (
-						<a
-							href={createLink(fork)}
-							className={`rgh-forked-link select-menu-item ${fork === getRepo()!.nameWithOwner ? 'selected' : ''}`}
-							title={`Open your fork at ${fork}`}
-						>
-							<span className="select-menu-item-icon rgh-forked-to-icon">
-								{fork === getRepo()!.nameWithOwner ? <CheckIcon/> : <RepoForkedIcon/>}
-							</span>
-							{fork}
-						</a>
-					))}
 				</details-menu>
 			</details>,
 		);
@@ -96,7 +112,7 @@ async function init(): Promise<void | false> {
 	// If the feature has already run on this page, only update its links
 	if (forks && select.exists('.rgh-forked-button')) {
 		for (const fork of forks) {
-			select<HTMLAnchorElement>(`.rgh-forked-link[href^="/${fork}"]`)!.href = createLink(fork);
+			select(`a.rgh-forked-link[href^="/${fork}"]`)!.href = createLink(fork);
 		}
 
 		return;
@@ -107,7 +123,7 @@ async function init(): Promise<void | false> {
 	}
 
 	// This feature only applies to users that have multiple organizations, because that makes a fork picker modal appear when clicking on "Fork"
-	const hasOrganizations = await elementReady('details-dialog[src*="/fork"] include-fragment');
+	const hasOrganizations = await elementReady('details-dialog[src*="/fork"]', {waitForChildren: false});
 
 	// Only fetch/update forks when we see a fork (on the current page or in the cache).
 	// This avoids having to `updateCache` for every single repo you visit.

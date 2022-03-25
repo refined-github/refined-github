@@ -1,29 +1,34 @@
 import select from 'select-dom';
-import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {getRepo} from '../github-helpers';
 import {codeElementsSelectors} from './show-whitespace';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters';
 
 function initTitle(): void {
+	// If we are not in a repo, relative issue references won't make sense but `user`/`repo` needs to be set to avoid breaking errors in `linkify-issues`
+	// https://github.com/refined-github/refined-github/issues/1305
+	const currentRepo = getRepo() ?? {};
+
 	for (const title of select.all('.js-issue-title')) {
 		if (!select.exists('a', title)) {
-			linkifyIssues(title);
+			linkifyIssues(currentRepo, title);
 		}
 	}
 }
 
-function init(): void {
-	observe(`:is(${codeElementsSelectors}):not(.${linkifiedURLClass})`, {
+function init(): Deinit {
+	return observe(`:is(${codeElementsSelectors}):not(.${linkifiedURLClass})`, {
 		add(wrappers) {
 			linkifyURLs(wrappers);
 
 			// Linkify issue refs in comments
+			const currentRepo = getRepo() ?? {};
 			for (const element of select.all('.pl-c', wrappers)) {
-				linkifyIssues(element);
+				linkifyIssues(currentRepo, element);
 			}
 
 			// Mark code block as touched to avoid linkifying twice https://github.com/refined-github/refined-github/pull/4710#discussion_r694896008
@@ -39,7 +44,7 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isGist,
 	],
-	init: onetime(init),
+	init,
 }, {
 	include: [
 		pageDetect.isPR,

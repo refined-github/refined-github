@@ -76,6 +76,9 @@ async function addReleasesTab(): Promise<false | void> {
 	// This re-triggers the overflow listener forcing it to also hide this tab if necessary #3347
 	repoNavigationBar.replaceWith(repoNavigationBar);
 
+	// Trigger a reflow to push the right-most tab into the overflow dropdown (second attempt #4254)
+	window.dispatchEvent(new Event('resize'));
+
 	appendBefore(
 		select('.js-responsive-underlinenav .dropdown-menu ul')!,
 		'.dropdown-divider', // Won't exist if `more-dropdown` is disabled
@@ -85,26 +88,25 @@ async function addReleasesTab(): Promise<false | void> {
 	);
 }
 
-const deinit: VoidFunction[] = [];
-
-async function highlightReleasesTab(): Promise<void> {
+function highlightReleasesTab(): VoidFunction {
 	const selectorObserver = observe('.UnderlineNav-item.selected:not(.rgh-releases-tab)', {
 		add(selectedTab) {
 			unhighlightTab(selectedTab);
 			selectorObserver.abort();
 		},
 	});
-	deinit.push(selectorObserver.abort);
 	highlightTab(select('.rgh-releases-tab')!);
+
+	return selectorObserver.abort;
 }
 
-async function init(): Promise<void | false> {
+async function init(): Promise<Deinit | void> {
 	if (!select.exists('.rgh-releases-tab')) {
 		await addReleasesTab();
 	}
 
 	if (pageDetect.isReleasesOrTags()) {
-		await highlightReleasesTab();
+		return highlightReleasesTab();
 	}
 }
 
@@ -118,5 +120,4 @@ void features.add(import.meta.url, {
 	awaitDomReady: false,
 	deduplicate: false,
 	init,
-	deinit,
 });

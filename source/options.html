@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <title>Refined GitHub options</title>
-<link rel="stylesheet" href="build/options.css">
+<link rel="stylesheet" href="options.css">
 <form id="options-form" class="detail-view-container">
 	<p>
 		<strong>Information</strong><br>
@@ -15,7 +15,7 @@
 		<label>
 			<strong>Personal token</strong> (optional, <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,delete_repo" target="_blank">generate one</a>)<br>
 			<!-- placeholder is set to enable use of :placeholder-shown CSS selector -->
-			<input type="text" name="personalToken" spellcheck="false" autocomplete="off" pattern="[\da-f]{40}|ghp_\w{36,251}" placeholder=" ">
+			<input type="text" name="personalToken" pattern="[\da-f]{40}|ghp_\w{36,251}" placeholder=" " spellcheck="false" autocomplete="off" autocapitalize="off">
 			<span id="validation"></span>
 		</label>
 	</p>
@@ -30,26 +30,25 @@
 
 	<p>
 		<label>
+			<strong>Refined GitHub link</strong><br>
+			This page will open when clicking the toolbar icon
+			<input type="url" name="actionUrl" placeholder="https://github.com" spellcheck="false" autocomplete="off" autocapitalize="off">
+		</label>
+	</p>
+
+	<p>
+		<label>
 			<strong>Custom CSS</strong> (useful to undo unwanted styles)
 			<textarea name="customCSS" rows="2" spellcheck="false"></textarea>
 		</label>
 	</p>
 
-	<hr id="debugging-position">
-
 	<div>
 		<p>
-			<label>
-				<strong class="features-header">Features</strong>
-				<input id="filter-features" type="text" placeholder="Find features" />
-			</label>
-		</p>
-		<div class="js-features"></div>
-	</div>
-
-	<div id="debugging">
-		<p>
 			<strong>Debugging</strong>
+		</p>
+		<p id="show-debugging">
+			<button>Show debugging tools</button>
 		</p>
 		<p>
 			<label>
@@ -76,9 +75,17 @@
 			Visit the GitHub page where you want to find the feature and refresh it to see the instructions. You can navigate to any page, but don’t use multiple tabs.
 		</p>
 		<p>
-			<button id="find-feature">Find feature…</button>
+			<button id="find-feature">Start process to identify feature…</button>
 		</p>
 	</div>
 
+	<p>
+		<label>
+			<strong class="features-header">Features</strong>
+			<input id="filter-features" type="text" placeholder="Find features" spellcheck="false" autocomplete="off" autocapitalize="off">
+		</label>
+	</p>
+	<div class="js-features"></div>
+
 </form>
-<script src="build/options.js"></script>
+<script src="options.js"></script>

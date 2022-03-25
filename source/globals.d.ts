@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 
 type AnyObject = Record<string, any>;
+type Deinit = delegate.Subscription | Observer | MutationObserver | ResizeObserver | IntersectionObserver | VoidFunction;
 
 type FeatureID = string & {feature: true};
 interface FeatureMeta {
@@ -27,12 +28,11 @@ interface GlobalEventHandlersEventMap {
 	'details:toggled': CustomEvent;
 	'filterable:change': CustomEvent;
 	'menu:activated': CustomEvent;
-	'rgh:view-markdown-rendered': CustomEvent;
-	'rgh:view-markdown-source': CustomEvent;
 	'pjax:error': CustomEvent;
 	'page:loaded': CustomEvent;
 	'pjax:start': CustomEvent;
 	'session:resume': CustomEvent;
+	'socket:message': CustomEvent;
 	'input': InputEvent; // Remove once no longer necessary (2022?)
 }
 
@@ -46,6 +46,7 @@ declare namespace JSX {
 		'include-fragment': IntrinsicElements.div & {src?: string};
 		'label': IntrinsicElements.label & {for?: string};
 		'relative-time': IntrinsicElements.div & {datetime: string};
+		'tab-container': IntrinsicElements.div;
 		'time-ago': IntrinsicElements.div & {datetime: string; format?: string};
 	}
 

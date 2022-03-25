@@ -1,4 +1,3 @@
-import './user-profile-follower-badge.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
@@ -21,7 +20,7 @@ const doesUserFollow = cache.function(async (userA: string, userB: string): Prom
 
 async function init(): Promise<void> {
 	if (await doesUserFollow(getCleanPathname(), getUsername()!)) {
-		select('.js-profile-editable-area .octicon-star')!.closest('.mb-3')!.append(
+		select('.js-profile-editable-area [href$="?tab=following"]')!.after(
 			<span className="color-text-secondary color-fg-muted"> · Follows you</span>,
 		);
 	}

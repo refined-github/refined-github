@@ -8,13 +8,15 @@ import * as pageDetect from 'github-url-detection';
 import waitFor from '../helpers/wait-for';
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
+import getDeinitHandler from '../helpers/get-deinit-handler';
 import {shouldFeatureRun} from '../github-helpers';
 import optionsStorage, {RGHOptions} from '../options-storage';
 import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyleHotfixes} from '../helpers/hotfix';
 
 type BooleanFunction = () => boolean;
-type CallerFunction = (callback: VoidFunction) => void;
-type FeatureInit = () => Promisable<false | void>;
+export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Deinit;
+type FeatureInitResult = false | void | Deinit | Deinit[];
+type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
 
 interface FeatureLoader extends Partial<InternalRunConfig> {
 	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
@@ -39,7 +41,6 @@ interface InternalRunConfig {
 	include: BooleanFunction[] | undefined;
 	exclude: BooleanFunction[] | undefined;
 	init: FeatureInit;
-	deinit?: VoidFunction | VoidFunction[];
 	additionalListeners: CallerFunction[];
 
 	onlyAdditionalListeners: boolean;
@@ -52,32 +53,29 @@ const logError = (url: string, error: unknown): void => {
 	const message = error instanceof Error ? error.message : String(error);
 
 	if (message.includes('token')) {
-		console.log(`ℹ️ ${id} →`, message);
+		console.log('ℹ️', id, '→', message);
 		return;
 	}
 
-	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
-	console.group('❌', id, version, pageDetect.isEnterprise() ? 'GHE →' : '→', error);
+	const searchIssueUrl = new URL('https://github.com/refined-github/refined-github/issues');
+	searchIssueUrl.searchParams.set('q', `is:issue is:open sort:updated-desc ${message}`);
 
-	console.group('Search issue');
-	console.log(`https://github.com/refined-github/refined-github/issues?q=is%3Aissue+${encodeURIComponent(message)}`);
-	console.groupEnd();
-
-	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new?labels=bug&template=1_bug_report.md');
+	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
+	newIssueUrl.searchParams.set('labels', 'bug');
+	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 	newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
-	newIssueUrl.searchParams.set('body', stripIndent(`
-		<!-- Please also include a screenshot if the issue is visible -->
+	newIssueUrl.searchParams.set('example_urls', location.href);
+	newIssueUrl.searchParams.set('description', [
+		'```',
+		String(error instanceof Error ? error.stack! : error).trim(),
+		'```',
+	].join('\n'));
 
-		URL: ${location.href}
-
-		\`\`\`
-		${error instanceof Error ? error.stack! : error as string}
-		\`\`\`
-	`));
-	console.group('Open an issue');
-	console.log(newIssueUrl.href);
-	console.groupEnd();
-
+	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
+	console.group(`❌ ${id}`); // Safari supports only one parameter
+	console.log(`📕 ${version} ${pageDetect.isEnterprise() ? 'GHE →' : '→'}`, error); // One parameter improves Safari formatting
+	console.log('🔍 Search issue', searchIssueUrl.href);
+	console.log('🚨 Report issue', newIssueUrl.href);
 	console.groupEnd();
 };
 
@@ -91,14 +89,16 @@ const log = {
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	const [options, localHotfixes, hotfixCSS, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
-		getLocalHotfixesAsOptions(version),
-		getStyleHotfixes(version),
+		getLocalHotfixesAsOptions(),
+		getStyleHotfixes(),
 		bisectFeatures(),
 	]);
 
+	await waitFor(() => document.body);
+
 	if (hotfixCSS.length > 0 || options.customCSS.trim().length > 0) {
-		await waitFor(() => document.head);
-		document.head.append(
+		// Prepend to body because that's the only way to guarantee they come after the static file
+		document.body.prepend(
 			<style>{hotfixCSS}</style>,
 			<style>{options.customCSS}</style>,
 		);
@@ -117,8 +117,6 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	// Create logging function
 	log.info = options.logging ? console.log : () => {/* No logging */};
 	log.http = options.logHTTP ? console.log : () => {/* No logging */};
-
-	await waitFor(() => document.body);
 
 	if (pageDetect.is500() || pageDetect.isPasswordConfirmation()) {
 		return;
@@ -146,35 +144,45 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
+function setupDeinit(deinit: Deinit): void {
+	document.addEventListener('pjax:start', getDeinitHandler(deinit), {once: true});
+}
+
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
-	const {asLongAs, include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners} = config;
+	const {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners} = config;
 
 	if (!shouldFeatureRun({asLongAs, include, exclude})) {
 		return;
 	}
 
+	const deinitController = new AbortController();
+	document.addEventListener('pjax:start', () => {
+		deinitController.abort();
+	}, {
+		once: true,
+	});
+
 	const runFeature = async (): Promise<void> => {
+		let result: FeatureInitResult;
+
 		try {
+			result = await init(deinitController.signal);
 			// Features can return `false` when they decide not to run on the current page
 			// Also the condition avoids logging the fake feature added for `has-rgh`
-			if (await init() !== false && !id?.startsWith('rgh')) {
+			if (result !== false && !id?.startsWith('rgh')) {
 				log.info('✅', id);
 			}
 		} catch (error: unknown) {
-			logError(id, error);
+			log.error(id, error);
 		}
 
-		if (Array.isArray(deinit)) {
-			// The `deinit` array can change until `pjax:start`. Do not loop it outside the listener.
-			document.addEventListener('pjax:start', () => {
-				for (const callback of deinit) {
-					callback();
-				}
+		if (!result) {
+			return;
+		}
 
-				deinit.length = 0;
-			}, {once: true});
-		} else if (typeof deinit === 'function') {
-			document.addEventListener('pjax:start', deinit, {once: true});
+		const deinitFunctions = Array.isArray(result) ? result : [result];
+		for (const deinit of deinitFunctions) {
+			setupDeinit(deinit);
 		}
 	};
 
@@ -184,7 +192,10 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 
 	await domLoaded; // Listeners likely need to work on the whole page
 	for (const listener of additionalListeners) {
-		listener(runFeature);
+		const deinit = listener(runFeature, deinitController.signal);
+		if (deinit) {
+			setupDeinit(deinit);
+		}
 	}
 };
 
@@ -233,7 +244,6 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 			include,
 			exclude,
 			init,
-			deinit,
 			awaitDomReady = true,
 			deduplicate = 'has-rgh',
 			onlyAdditionalListeners = false,
@@ -252,7 +262,7 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 
 		enforceDefaults(id, include, additionalListeners);
 
-		const details = {asLongAs, include, exclude, init, deinit, additionalListeners, onlyAdditionalListeners};
+		const details = {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners};
 		if (awaitDomReady) {
 			(async () => {
 				await domLoaded;
@@ -270,13 +280,13 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 	}
 };
 
-const addCssFeature = async (url: string, include: BooleanFunction[] | undefined, deduplicate?: false | string): Promise<void> => {
+const addCssFeature = async (url: string, include: BooleanFunction[] | undefined): Promise<void> => {
 	const id = getFeatureID(url);
 	void add(id, {
 		include,
-		deduplicate,
+		deduplicate: false,
 		awaitDomReady: false,
-		init: () => {
+		init() {
 			document.body.classList.add('rgh-' + id);
 		},
 	});
@@ -290,7 +300,7 @@ This marks each as "processed"
 */
 void add('rgh-deduplicator' as FeatureID, {
 	deduplicate: false,
-	init: async () => {
+	async init() {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
 		select('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);

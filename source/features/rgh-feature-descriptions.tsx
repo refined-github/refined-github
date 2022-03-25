@@ -17,7 +17,8 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const conversationsUrl = '/refined-github/refined-github/issues?q=' + encodeURIComponent(`"${feature.id}" sort:updated-desc`);
+	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
+	conversationsUrl.searchParams.set('q', `sort:updated-desc "${feature.id}"`);
 
 	const commit = await elementReady([
 		'.Box-header.Details', // Already loaded
@@ -47,7 +48,7 @@ async function init(): Promise<void | false> {
 					{ /* eslint-disable-next-line react/no-danger */ }
 					<div dangerouslySetInnerHTML={{__html: feature.description}} className="text-bold"/>
 					<div className="no-wrap">
-						<a href={conversationsUrl} data-pjax="#repo-content-pjax-container">Conversations</a>
+						<a href={conversationsUrl.href} data-pjax="#repo-content-pjax-container">Conversations</a>
 					</div>
 				</div>
 			</div>

@@ -3,6 +3,7 @@
 import path from 'node:path';
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import webpack, {Configuration} from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
@@ -17,15 +18,16 @@ const config: Configuration = {
 		'background',
 		'options',
 		'resolve-conflicts',
-	].map(name => [name, `./source/${name}`])),
+	].map(name => [name, `./${name}`])),
+	context: path.resolve('source'),
 	output: {
-		path: path.resolve('distribution/build'),
+		path: path.resolve('distribution'),
 	},
 	module: {
 		rules: [
 			{
-				test: /\/readme\.md$/,
-				loader: './build/readme.loader.cts',
+				test: /[/\\]readme\.md$/,
+				loader: '../build/readme.loader.cts',
 			},
 			{
 				test: /\.tsx?$/,
@@ -48,6 +50,11 @@ const config: Configuration = {
 		new MiniCssExtractPlugin(),
 		new webpack.ProvidePlugin({
 			browser: 'webextension-polyfill',
+		}),
+		new CopyWebpackPlugin({
+			patterns: [
+				'*.+(html|json|png)',
+			],
 		}),
 		new SizePlugin({writeFile: false}),
 	],
@@ -77,5 +84,14 @@ const config: Configuration = {
 		],
 	},
 };
+
+if (process.env.CI) {
+	config.stats = {
+		assets: true,
+		entrypoints: true,
+		chunks: true,
+		modules: true,
+	};
+}
 
 export default config;

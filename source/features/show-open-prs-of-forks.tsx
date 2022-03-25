@@ -43,7 +43,7 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: nu
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 2},
-	cacheKey: ([forkedRepo]): string => 'prs-on-forked-repo:' + forkedRepo + ':' + getRepo()!.nameWithOwner,
+	cacheKey: ([forkedRepo]): string => `prs-on-forked-repo:${forkedRepo}:${getRepo()!.nameWithOwner}`,
 });
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -93,9 +93,6 @@ async function initDeleteHint(): Promise<void | false> {
 void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isForkedRepo,
-	],
-	include: [
-		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
 	init: initHeadHint,

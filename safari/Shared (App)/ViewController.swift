@@ -11,6 +11,7 @@ typealias XViewController = NSViewController
 
 let extensionBundleIdentifier = "com.sindresorhus.Refined-GitHub.Extension"
 
+@MainActor
 final class ViewController: XViewController, WKNavigationDelegate, WKScriptMessageHandler {
 	@IBOutlet var webView: WKWebView!
 
@@ -23,27 +24,43 @@ final class ViewController: XViewController, WKNavigationDelegate, WKScriptMessa
 		webView.scrollView.isScrollEnabled = false
 		#endif
 
+		#if os(macOS)
+		webView.drawsBackground = false
+		#endif
+
 		webView.configuration.userContentController.add(self, name: "controller")
 
 		webView.loadFileURL(Bundle.main.url(forResource: "Main", withExtension: "html")!, allowingReadAccessTo: Bundle.main.resourceURL!)
+
+		#if os(macOS)
+		DispatchQueue.main.async { [self] in
+			view.window?.titlebarAppearsTransparent = true
+		}
+		#endif
 	}
 
 	func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+		// TODO: Use `callAsyncJavaScript` when targeting macOS 12.
 		#if os(iOS)
 		webView.evaluateJavaScript("show('ios')")
 		#elseif os(macOS)
 		webView.evaluateJavaScript("show('mac')")
 
-		SFSafariExtensionManager.getStateOfSafariExtension(withIdentifier: extensionBundleIdentifier) { (state, error) in
-			guard let state = state, error == nil else {
-				DispatchQueue.main.async {
-					NSApp.presentError(error!)
-				}
-				return
-			}
+		Task {
+			do {
+				let state = try await SFSafariExtensionManager.stateOfSafariExtension(withIdentifier: extensionBundleIdentifier)
 
-			DispatchQueue.main.async {
-				webView.evaluateJavaScript("show('mac', \(state.isEnabled)")
+				if #available(macOS 12, iOS 15, *) {
+					_ = try await webView.callAsyncJavaScript("show('mac', isEnabled)", arguments: ["isEnabled": state.isEnabled], contentWorld: .page)
+				} else {
+					_ = try await webView.evaluateJavaScript("show('mac', \(state.isEnabled)); 0") // The `0` works around a bug in `evaluateJavaScript`.
+				}
+			} catch {
+				_ = await MainActor.run { // Required since `presentError` is not yet annotated with `@MainActor`.
+					DispatchQueue.main.async {
+						NSApp.presentError(error)
+					}
+				}
 			}
 		}
 		#endif
@@ -64,16 +81,16 @@ final class ViewController: XViewController, WKNavigationDelegate, WKScriptMessa
 			return;
 		}
 
-		SFSafariApplication.showPreferencesForExtension(withIdentifier: extensionBundleIdentifier) { error in
-			if let error = error {
-				DispatchQueue.main.async {
-					NSApp.presentError(error)
-				}
-				return
-			}
-
-			DispatchQueue.main.async {
+		Task {
+			do {
+				try await SFSafariApplication.showPreferencesForExtension(withIdentifier: extensionBundleIdentifier)
 				NSApplication.shared.terminate(nil)
+			} catch {
+				_ = await MainActor.run { // Required since `presentError` is not yet annotated with `@MainActor`.
+					DispatchQueue.main.async {
+						NSApp.presentError(error)
+					}
+				}
 			}
 		}
 		#endif

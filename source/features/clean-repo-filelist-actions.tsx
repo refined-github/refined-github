@@ -1,9 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
-import {PlusIcon, SearchIcon} from '@primer/octicons-react';
+import {PlusIcon, SearchIcon, CodeIcon} from '@primer/octicons-react';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
@@ -16,9 +15,9 @@ function addTooltipToSummary(childElement: Element, tooltip: string): void {
 	);
 }
 
-function init(): void {
+function init(): Deinit {
 	// `.btn` selects the desktop version
-	observe('.btn[data-hotkey="t"]:not(.rgh-repo-filelist-actions)', {
+	return observe('.btn[data-hotkey="t"]:not(.rgh-repo-filelist-actions)', {
 		add(searchButton) {
 			searchButton.classList.add('tooltipped', 'tooltipped-ne', 'rgh-repo-filelist-actions');
 			searchButton.setAttribute('aria-label', 'Go to file');
@@ -37,14 +36,19 @@ function init(): void {
 				addTooltipToSummary(addFileDropdown, 'Add file');
 			}
 
-			// This dropdown doesn't appear on `isSingleFile`
-			// Remove `.octicon-download` in November
-			const codeIcon = select('get-repo :is(.octicon-code, .octicon-download)');
-			if (codeIcon) {
-				// Remove "Code" text next to it
-				codeIcon.nextSibling!.remove();
+			const codeDropdownButton = select('get-repo summary');
+			if (codeDropdownButton) { // This dropdown doesn't appear on `isSingleFile`
+				addTooltipToSummary(codeDropdownButton, 'Clone, open or download');
 
-				addTooltipToSummary(codeIcon, 'Clone, open or download');
+				// Users with Codespaces enabled already have an icon in the button https://github.com/refined-github/refined-github/pull/5074#issuecomment-983251719
+				const codeIcon = select('.octicon-code', codeDropdownButton);
+				if (codeIcon) {
+					// Remove "Code" text
+					codeIcon.nextSibling!.remove();
+				} else {
+					// Replace "Code" text with icon
+					codeDropdownButton.firstChild!.replaceWith(<CodeIcon/>);
+				}
 			}
 		},
 	});
@@ -56,5 +60,5 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleFile,
 	],
 	deduplicate: 'has-rgh-inner',
-	init: onetime(init),
+	init,
 });

@@ -1,4 +1,3 @@
-import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -12,13 +11,13 @@ function followLocalLink(event: delegate.Event<MouseEvent, HTMLAnchorElement>): 
 	}
 }
 
-function init(): void {
-	delegate(document, '.TagsearchPopover-item', 'click', followLocalLink);
+function init(): Deinit {
+	return delegate(document, '.TagsearchPopover-item', 'click', followLocalLink);
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
 	],
-	init: onetime(init),
+	init,
 });

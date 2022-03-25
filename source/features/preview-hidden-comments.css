@@ -1,6 +1,0 @@
-/* Truncate hidden comment preview text with ellipsis */
-.rgh-preview-hidden-comments :is(.timeline-comment-header-text, summary h3) {
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-}

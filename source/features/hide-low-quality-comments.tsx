@@ -29,7 +29,7 @@ function hideComment(comment: HTMLElement): void {
 	comment.classList.add('rgh-hidden-comment');
 }
 
-function init(): void {
+function init(): void | Deinit {
 	let lowQualityCount = 0;
 
 	for (const similarCommentsBox of select.all('.js-discussion .Details-element:not([data-body-version])')) {
@@ -37,18 +37,27 @@ function init(): void {
 		lowQualityCount++;
 	}
 
-	for (const commentText of select.all('.comment-body > p:only-child')) {
+	const commentSelector = '.comment-body > p:only-child';
+	const linkedComment = location.hash.startsWith('#issuecomment-') ? select(`${location.hash} ${commentSelector}`) : undefined;
+
+	for (const commentText of select.all(commentSelector)) {
+		// Exclude explicitely linked comments #5363
+		if (commentText === linkedComment) {
+			continue;
+		}
+
 		if (!isLowQualityComment(commentText.textContent!)) {
 			continue;
 		}
 
-		// Comments that contain useful images shouldn't be removed
-		if (select.exists('a img', commentText)) {
+		// Comments that contain useful images or links shouldn't be removed
+		// Images are wrapped in <a> tags on GitHub hence included in the selector
+		if (select.exists('a', commentText)) {
 			continue;
 		}
 
 		// Ensure that they're not by VIPs (owner, collaborators, etc)
-		const comment = commentText.closest<HTMLElement>('.js-timeline-item')!;
+		const comment = commentText.closest('.js-timeline-item')!;
 		if (select.exists('.timeline-comment-label', comment)) {
 			continue;
 		}
@@ -73,7 +82,7 @@ function init(): void {
 				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>
 			</p>,
 		);
-		delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide);
+		return delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide);
 	}
 }
 

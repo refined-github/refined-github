@@ -16,6 +16,21 @@ export const getConversationNumber = (): string | undefined => {
 	return undefined;
 };
 
+export function getCurrentBranchFromFeed(): string | void {
+	// Not `isRepoCommitList` because this works exclusively on the default branch
+	if (getRepo()!.path !== 'commits') {
+		return;
+	}
+
+	const feedLink = select('link[type="application/atom+xml"]')!;
+	return new URL(feedLink.href)
+		.pathname
+		.split('/')
+		.slice(4) // Drops the initial /user/repo/route/ part
+		.join('/')
+		.replace(/\.atom$/, '');
+}
+
 const typesWithCommittish = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare']);
 const titleWithCommittish = / at (?<branch>[.\w-/]+)( · [\w-]+\/[\w-]+)?$/i;
 export const getCurrentCommittish = (pathname = location.pathname, title = document.title): string | undefined => {
@@ -27,6 +42,24 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 	if (!type || !typesWithCommittish.has(type)) {
 		// Root; or piece of information not applicable to the page
 		return;
+	}
+
+	// Handle slashed branches in commits pages
+	if (type === 'commits') {
+		if (!unslashedCommittish) {
+			return getCurrentBranchFromFeed()!;
+		}
+
+		const branchAndFilepath = pathname.split('/').slice(4).join('/');
+
+		// List of all commits of current branch (no filename)
+		if (title.startsWith('Commits · ')) {
+			return branchAndFilepath;
+		}
+
+		// List of commits touching a particular file ("History")
+		const filepath = /^History for ([^ ]+) - /.exec(title)![1];
+		return branchAndFilepath.slice(0, branchAndFilepath.lastIndexOf('/' + filepath));
 	}
 
 	const parsedTitle = titleWithCommittish.exec(title);

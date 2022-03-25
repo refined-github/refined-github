@@ -50,7 +50,12 @@ jobs:
       - run: npm run build:typescript
 
   Build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -58,11 +63,18 @@ jobs:
           node-version: 16
           cache: npm
       - run: npm ci
-      - run: npm run build:webpack
+      - run: npm run build:webpack -- --json webpack-stats.json
       - uses: actions/upload-artifact@v2
+        if: matrix.os == 'ubuntu-latest'
         with:
           name: refined-github
           path: distribution
+      - name: Send webpack stats to RelativeCI
+        if: matrix.os == 'ubuntu-latest'
+        uses: relative-ci/agent-action@v1.1.0
+        with:
+          webpackStatsFile: ./webpack-stats.json
+          key: ${{ secrets.RELATIVE_CI_KEY }}
 
   Safari:
     runs-on: macos-11

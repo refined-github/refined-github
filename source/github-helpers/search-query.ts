@@ -1,6 +1,6 @@
-type Source = HTMLAnchorElement | URL | string | string[][] | Record<string, string> | URLSearchParams;
-
 const queryPartsRegExp = /(?:[^\s"]+|"[^"]*")+/g;
+const labelLinkRegex = /^(?:\/[^/]+){2}\/labels\/([^/]+)\/?$/;
+
 function splitQueryString(query: string): string[] {
 	return query.match(queryPartsRegExp) ?? [];
 }
@@ -9,7 +9,7 @@ function splitQueryString(query: string): string[] {
 function deduplicateKeywords(array: string[], ...keywords: string[]): string[] {
 	const deduplicated = [];
 	let wasKeywordFound = false;
-	for (const current of array.reverse()) {
+	for (const current of [...array].reverse()) {
 		const isKeyword = keywords.includes(current);
 		if (!isKeyword || !wasKeywordFound) {
 			deduplicated.unshift(current);
@@ -24,6 +24,8 @@ function cleanQueryParts(parts: string[]): string[] {
 	return deduplicateKeywords(parts, 'is:issue', 'is:pr');
 }
 
+type Source = Location | HTMLAnchorElement | Record<string, string>;
+
 /**
 Parser/Mutator of GitHub's search query directly on anchors and URL-like objects.
 Notice: if the <a> or `location` changes outside SearchQuery, `get()` will return an outdated value.
@@ -33,91 +35,102 @@ export default class SearchQuery {
 		return value.includes(' ') ? `"${value}"` : value;
 	}
 
-	link?: HTMLAnchorElement;
-	searchParams: URLSearchParams;
-
-	constructor(link: Source) {
-		if (link instanceof HTMLAnchorElement) {
-			this.link = link;
-			this.searchParams = new URLSearchParams(link.search);
-			// Keep `.search` property up to date with this `searchParams`
-			const nativeSet = this.searchParams.set;
-			this.searchParams.set = (name, value) => {
-				nativeSet.call(this.searchParams, name, value);
-				link.search = String(this.searchParams);
-			};
-		} else if (link instanceof URL) {
-			this.searchParams = link.searchParams;
-		} else {
-			this.searchParams = new URLSearchParams(link);
+	static from(source: Source): SearchQuery {
+		if (source instanceof Location || source instanceof HTMLAnchorElement) {
+			return new SearchQuery(source.href);
 		}
 
-		// Ensure the query string is set and cleaned up
-		this.set(this.get());
+		const url = new URL('https://github.com');
+		for (const [name, value] of Object.entries(source)) {
+			url.searchParams.set(name, value);
+		}
+
+		return new SearchQuery(url);
 	}
 
-	get(): string {
-		const currentQuery = this.searchParams.get('q');
+	private url: URL;
+	private queryParts: string[];
+
+	constructor(url: string | URL, base?: string) {
+		this.url = new URL(url, base);
+		this.queryParts = [];
+
+		const currentQuery = this.url.searchParams.get('q');
 		if (typeof currentQuery === 'string') {
-			return currentQuery;
+			this.queryParts = splitQueryString(currentQuery);
+			return;
 		}
 
-		if (!this.link) {
-			return '';
+		// Parse label links #5176
+		const labelName = labelLinkRegex.exec(this.url.pathname)?.[1];
+		if (labelName) {
+			this.queryParts = ['is:open', 'label:' + SearchQuery.escapeValue(decodeURIComponent(labelName))];
+			return;
 		}
 
 		// Query-less URLs imply some queries.
 		// When we explicitly set ?q=* they're overridden, so they need to be manually added again.
-		const queries = [];
 
 		// Repo example: is:issue is:open
-		queries.push(/\/pulls\/?$/.test(this.link.pathname) ? 'is:pr' : 'is:issue', 'is:open');
+		this.queryParts.push(/\/pulls\/?$/.test(this.url.pathname) ? 'is:pr' : 'is:issue', 'is:open');
 
 		// Header nav example: is:open is:issue author:you archived:false
-		if (this.link.pathname === '/issues' || this.link.pathname === '/pulls') {
-			if (this.searchParams.has('user')) { // #1211
-				queries.push(`user:${this.searchParams.get('user')!}`);
+		if (this.url.pathname === '/issues' || this.url.pathname === '/pulls') {
+			if (this.url.searchParams.has('user')) { // #1211
+				this.queryParts.push('user:' + this.url.searchParams.get('user')!);
 			} else {
-				queries.push('author:@me');
+				this.queryParts.push('author:@me');
 			}
 
-			queries.push('archived:false');
+			this.queryParts.push('archived:false');
 		}
-
-		return queries.join(' ');
 	}
 
 	getQueryParts(): string[] {
-		return splitQueryString(this.get());
+		return cleanQueryParts(this.queryParts);
 	}
 
-	set(query: string): void {
-		const parts = splitQueryString(query);
-		const cleaned = cleanQueryParts(parts);
-		this.searchParams.set('q', cleaned.join(' '));
+	get(): string {
+		return this.getQueryParts().join(' ');
 	}
 
-	edit(callback: (query: string) => string): void {
-		this.set(callback(this.get()));
+	set(query: string): this {
+		this.queryParts = splitQueryString(query);
+		return this;
 	}
 
-	replace(searchValue: string | RegExp, replaceValue: string): void {
+	get searchParams(): URLSearchParams {
+		return this.url.searchParams;
+	}
+
+	get href(): string {
+		this.url.searchParams.set('q', this.get());
+		if (labelLinkRegex.test(this.url.pathname)) {
+			// Avoid a redirection to the conversation list that would drop the search query #5176
+			this.url.pathname = this.url.pathname.replace(/\/labels\/.+$/, '/issues');
+		}
+
+		return this.url.href;
+	}
+
+	edit(callback: (queryParts: string[]) => string[]): this {
+		this.queryParts = callback(this.getQueryParts());
+		return this;
+	}
+
+	replace(searchValue: string | RegExp, replaceValue: string): this {
 		this.set(this.get().replace(searchValue, replaceValue));
+		return this;
 	}
 
-	remove(...queryPartToRemove: string[]): void {
-		const newQuery = this
-			.getQueryParts()
-			.filter(queryPart => !queryPartToRemove.includes(queryPart))
-			.join(' ');
-
-		this.set(newQuery);
+	remove(...queryPartsToRemove: string[]): this {
+		this.queryParts = this.getQueryParts().filter(queryPart => !queryPartsToRemove.includes(queryPart));
+		return this;
 	}
 
-	add(...queryParts: string[]): void {
-		const newQuery = this.getQueryParts();
-		newQuery.push(...queryParts);
-		this.set(newQuery.join(' '));
+	add(...queryPartsToAdd: string[]): this {
+		this.queryParts.push(...queryPartsToAdd);
+		return this;
 	}
 
 	includes(...searchStrings: string[]): boolean {

@@ -1,11 +1,11 @@
 import './fit-textareas.css';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import {isSafari} from 'webext-detect-page';
 import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import isSafari from '../helpers/browser-detection';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 function inputListener({target}: Event): void {
@@ -29,12 +29,13 @@ function fitPrCommitMessageBox(): void {
 	watchTextarea(select('textarea[name="commit_message"]')!);
 }
 
-function init(): void {
-	// Exclude PR review box because it's in a `position:fixed` container; The scroll HAS to appear within the fixed element.
-	delegate(document, 'textarea:not(#pull_request_review_body)', 'focusin', focusListener);
+function init(): Deinit {
 	for (const textArea of select.all('textarea')) {
 		watchTextarea(textArea);
 	}
+
+	// Exclude PR review box because it's in a `position:fixed` container; The scroll HAS to appear within the fixed element.
+	return delegate(document, 'textarea:not(#pull_request_review_body)', 'focusin', focusListener);
 }
 
 void features.add(import.meta.url, {
@@ -53,7 +54,9 @@ void features.add(import.meta.url, {
 		isSafari,
 	],
 	deduplicate: 'has-rgh-inner',
-	init() {
-		onPrMergePanelOpen(fitPrCommitMessageBox);
-	},
+	additionalListeners: [
+		onPrMergePanelOpen,
+	],
+	onlyAdditionalListeners: true,
+	init: fitPrCommitMessageBox,
 });

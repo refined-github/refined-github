@@ -10,6 +10,7 @@ import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import {getUsername} from '../github-helpers';
 import onNewComments from '../github-events/on-new-comments';
+import isArchivedRepo from '../helpers/is-archived-repo';
 
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
@@ -32,13 +33,18 @@ function mentionUser({delegateTarget: button}: delegate.Event): void {
 	textFieldEdit.insert(newComment, `${spacer}${prefixUserMention(userMention)} `);
 }
 
-function init(): void {
+function init(): Deinit {
 	// `:first-child` avoids app badges #2630
 	// The hovercard attribute avoids `highest-rated-comment`
 	// Avatars next to review events aren't wrapped in a <div> #4844
 	const avatars = select.all(`:is(div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child, a.TimelineItem-avatar):not([href="/${getUsername()!}"], .rgh-quick-mention)`);
 	for (const avatar of avatars) {
-		if (avatar.closest('.TimelineItem')!.querySelector('.minimized-comment')) {
+		const timelineItem = avatar.closest('.TimelineItem')!;
+
+		if (
+			select.exists('.minimized-comment', timelineItem) // Hidden comments
+			|| !select.exists('.timeline-comment', timelineItem) // Reviews without a comment
+		) {
 			continue;
 		}
 
@@ -61,7 +67,7 @@ function init(): void {
 		);
 	}
 
-	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser);
+	return delegate(document, 'button.rgh-quick-mention', 'click', mentionUser);
 }
 
 void features.add(import.meta.url, {
@@ -70,6 +76,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		() => select.exists('.conversation-limited'), // Conversation is locked
+		isArchivedRepo,
 	],
 	additionalListeners: [
 		onNewComments,

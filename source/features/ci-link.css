@@ -6,7 +6,9 @@
 	vertical-align: 0;
 }
 
-/* Adds space between `ci-link` and "Private" label, if present */
-.rgh-ci-link .Label + .commit-build-statuses {
-	margin-left: 8px;
+/* Fix orientation of details dropdown when cloned from the repo homepage or the commit list */
+.rgh-ci-link .commit-build-statuses .dropdown-menu {
+	top: 50% !important;
+	left: 100% !important;
+	margin-left: 8px !important;
 }

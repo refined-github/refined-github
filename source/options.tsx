@@ -5,10 +5,12 @@ import cache from 'webext-storage-cache';
 import domify from 'doma';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import {isSafari} from 'webext-detect-page';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
 
 import featureLink from './helpers/feature-link';
+import clearCacheHandler from './helpers/clear-cache-handler';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
 import {importedFeatures, featuresMeta} from '../readme.md';
@@ -19,8 +21,6 @@ interface Status {
 	text?: string;
 	scopes?: string[];
 }
-
-const {version} = browser.runtime.getManifest();
 
 function reportStatus({error, text, scopes}: Status): void {
 	const tokenStatus = select('#validation')!;
@@ -130,20 +130,11 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 	);
 }
 
-async function clearCacheHandler(event: Event): Promise<void> {
-	await cache.clear();
-	const button = event.target as HTMLButtonElement;
-	const initialText = button.textContent;
-	button.textContent = 'Cache cleared!';
-	button.disabled = true;
-	setTimeout(() => {
-		button.textContent = initialText;
-		button.disabled = false;
-	}, 2000);
-}
-
 async function findFeatureHandler(event: Event): Promise<void> {
-	await cache.set<FeatureID[]>('bisect', importedFeatures, {minutes: 5});
+	// TODO: Add support for GHE
+	const options = await perDomainOptions.getOptionsForOrigin().getAll();
+	const enabledFeatures = importedFeatures.filter(featureId => options['feature:' + featureId]);
+	await cache.set<FeatureID[]>('bisect', enabledFeatures, {minutes: 5});
 
 	const button = event.target as HTMLButtonElement;
 	button.disabled = true;
@@ -155,14 +146,22 @@ async function findFeatureHandler(event: Event): Promise<void> {
 }
 
 function summaryHandler(event: delegate.Event<MouseEvent>): void {
-	if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+	if (event.ctrlKey || event.metaKey || event.shiftKey) {
 		return;
 	}
 
 	event.preventDefault();
-	const feature = event.delegateTarget.parentElement!;
+	if (event.altKey) {
+		for (const screenshotLink of select.all('.screenshot-link')) {
+			toggleScreenshot(screenshotLink.parentElement!);
+		}
+	} else {
+		const feature = event.delegateTarget.parentElement!;
+		toggleScreenshot(feature);
+	}
+}
 
-	// Toggle checkbox
+function toggleScreenshot(feature: Element): void {
 	const toggle = feature.querySelector('input.screenshot-toggle')!;
 	toggle.checked = !toggle.checked;
 
@@ -205,7 +204,7 @@ async function highlightNewFeatures(): Promise<void> {
 async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 	const disabledFeatures = <div className="js-hotfixes"/>;
 
-	for (const [feature, relatedIssue] of await getLocalHotfixes(version)) {
+	for (const [feature, relatedIssue] of await getLocalHotfixes()) {
 		if (importedFeatures.includes(feature)) {
 			disabledFeatures.append(
 				<p><code>{feature}</code> has been temporarily disabled due to {createRghIssueLink(relatedIssue)}.</p>,
@@ -240,9 +239,8 @@ async function generateDom(): Promise<void> {
 	moveNewAndDisabledFeaturesToTop();
 	void validateToken();
 
-	// Move debugging tools higher when side-loaded
+	// Allow HTTP logging on dev builds
 	if (process.env.NODE_ENV === 'development') {
-		select('#debugging-position')!.replaceWith(select('#debugging')!);
 		select('#logHTTP-line')!.hidden = false;
 	}
 
@@ -293,11 +291,20 @@ function addEventListeners(): void {
 			window.open(event.delegateTarget.href);
 		}
 	});
+
+	select('#show-debugging button')!.addEventListener('click', function () {
+		this.parentElement!.remove();
+	});
 }
 
 async function init(): Promise<void> {
 	await generateDom();
 	addEventListeners();
+
+	// Safari’s storage is inexplicably limited #4823
+	if (isSafari()) {
+		void cache.clear();
+	}
 }
 
 void init();

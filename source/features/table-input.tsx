@@ -11,7 +11,8 @@ import smartBlockWrap from '../helpers/smart-block-wrap';
 import {onCommentEdit} from '../github-events/on-fragment-load';
 
 function addTable({delegateTarget: square}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	const field = square.form!.querySelector('textarea')!;
+	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
+	const field = square.form!.querySelector('textarea.js-comment-field')!;
 	const cursorPosition = field.selectionStart;
 
 	field.focus();
@@ -37,9 +38,9 @@ function addButtons(): void {
 	for (const anchor of select.all('md-task-list:not(.rgh-table-input-added)')) {
 		anchor.classList.add('rgh-table-input-added');
 		anchor.after(
-			<details className="details-reset details-overlay flex-auto toolbar-item select-menu select-menu-modal-right hx_rsm">
+			<details className="details-reset details-overlay flex-auto toolbar-item btn-octicon mx-1 select-menu select-menu-modal-right hx_rsm">
 				<summary
-					className="text-center menu-target py-2 p-md-1 hx_rsm-trigger mx-1"
+					className="text-center menu-target p-2 p-md-1 hx_rsm-trigger"
 					role="button"
 					aria-label="Add a table"
 					aria-haspopup="menu"
@@ -69,11 +70,14 @@ function addButtons(): void {
 	}
 }
 
-function init(): void {
-	delegate(document, '.rgh-table-input-cell', 'click', addTable);
-	delegate(document, '.rgh-table-input-cell', 'mouseenter', highlightSquares, {capture: true});
+function init(): Deinit[] {
 	addButtons();
-	onCommentEdit(addButtons);
+
+	return [
+		onCommentEdit(addButtons),
+		delegate(document, '.rgh-table-input-cell', 'click', addTable),
+		delegate(document, '.rgh-table-input-cell', 'mouseenter', highlightSquares, {capture: true}),
+	];
 }
 
 void features.add(import.meta.url, {

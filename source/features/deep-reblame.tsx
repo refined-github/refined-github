@@ -9,7 +9,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
-import LoadingIcon from '../github-helpers/icon-loading';
+import showToast from '../github-helpers/toast';
 import looseParseInt from '../helpers/loose-parse-int';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
@@ -67,26 +67,22 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	const prCommit = select('a.message', blameHunk)!.pathname.split('/').pop()!;
 	const blameUrl = new GitHubURL(location.href);
 
-	const spinner = <LoadingIcon className="mr-2"/>;
-	blameElement.firstElementChild!.replaceWith(spinner);
-
-	try {
+	await showToast(async () => {
 		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumbers, blameUrl.filePath);
 		blameUrl.hash = 'L' + select('.js-line-number', blameHunk)!.textContent!;
 		location.href = blameUrl.href;
-	} catch (error: unknown) {
-		spinner.replaceWith(<VersionsIcon/>);
-		alert((error as Error).message);
-	}
+	}, {
+		message: 'Fetching pull request',
+		doneMessage: 'Redirecting',
+	});
 }
 
-function init(): void | false {
+function init(): Deinit | false {
 	const pullRequests = select.all('[data-hovercard-type="pull_request"]');
 	if (pullRequests.length === 0) {
 		return false;
 	}
 
-	delegate(document, '.rgh-deep-reblame', 'click', redirectToBlameCommit);
 	for (const pullRequest of pullRequests) {
 		const hunk = pullRequest.closest('.blame-hunk')!;
 
@@ -106,6 +102,8 @@ function init(): void | false {
 			);
 		}
 	}
+
+	return delegate(document, '.rgh-deep-reblame', 'click', redirectToBlameCommit);
 }
 
 void features.add(import.meta.url, {
