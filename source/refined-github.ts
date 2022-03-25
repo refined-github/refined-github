@@ -18,7 +18,6 @@ import './features/emphasize-draft-pr-label.css';
 import './features/clean-notifications.css';
 import './features/align-repository-header.css';
 import './features/night-not-found.css';
-import './features/hide-watch-and-fork-count.css';
 import './features/clean-commit-form.css';
 import './features/sticky-file-header.css';
 
@@ -30,6 +29,7 @@ import './features/align-issue-labels';
 import './features/clean-pinned-issues';
 import './features/clean-dashboard';
 import './features/hide-noisy-newsfeed-events';
+import './features/hide-watch-and-fork-count';
 import './features/minimize-upload-bar';
 import './features/hide-diff-signs';
 import './features/hide-repo-badges';
