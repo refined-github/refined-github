@@ -7,7 +7,7 @@ import * as textFieldEdit from 'text-field-edit';
 
 import features from '.';
 import getDeinitHandler from '../helpers/get-deinit-handler';
-import onPrMergePanelToggle from '../github-events/on-pr-merge-panel-toggle';
+import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 import {getConversationNumber} from '../github-helpers';
 import onPrCommitMessageRestore from '../github-events/on-pr-commit-message-restore';
 
@@ -88,7 +88,7 @@ const listeners: Deinit[] = [];
 function init(): Deinit {
 	listeners.push(
 		onPrCommitMessageRestore(updateUI),
-		onPrMergePanelToggle(updateCommitTitle),
+		onPrMergePanelOpen(updateCommitTitle),
 		delegate(document, '#merge_title_field', 'input', updateUI),
 		delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle),
 		delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission),

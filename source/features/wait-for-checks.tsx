@@ -10,8 +10,8 @@ import pRetry, {AbortError} from 'p-retry';
 import features from '.';
 import observeElement from '../helpers/simplified-element-observer';
 import * as prCiStatus from '../github-helpers/pr-ci-status';
+import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 import {onPrMergePanelLoad} from '../github-events/on-fragment-load';
-import onPrMergePanelToggle from '../github-events/on-pr-merge-panel-toggle';
 
 // Reuse the same checkbox to preserve its status
 const generateCheckbox = onetime(() => (
@@ -159,7 +159,7 @@ async function init(signal: AbortSignal): Promise<Deinit[]> {
 	return [
 		onPrMergePanelLoad(onPrMergePanelHandler),
 
-		onPrMergePanelToggle(onPrMergePanelHandler),
+		onPrMergePanelOpen(onPrMergePanelHandler),
 
 		// One of the merge buttons has been clicked
 		delegate(document, '.js-merge-commit-button:not(.rgh-merging)', 'click', handleMergeConfirmation),
