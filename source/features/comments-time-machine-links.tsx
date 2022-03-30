@@ -74,9 +74,9 @@ async function showTimeMachineBar(): Promise<void | false> {
 
 function addInlineLinks(menu: HTMLElement, timestamp: string): void {
 	const comment = menu.closest('.js-comment')!;
-	const links = select.all<HTMLAnchorElement>(`
-		[href^="${location.origin}"][href*="/blob/"]:not(.${linkifiedURLClass}),
-		[href^="${location.origin}"][href*="/tree/"]:not(.${linkifiedURLClass})
+	const links = select.all(`
+		a[href^="${location.origin}"][href*="/blob/"]:not(.${linkifiedURLClass}),
+		a[href^="${location.origin}"][href*="/tree/"]:not(.${linkifiedURLClass})
 	`, comment);
 
 	for (const link of links) {
@@ -107,10 +107,14 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 }
 
 function init(): void {
-	const commentPopupMenus = select.all('.js-reaction-popover-container ~ details:last-child:not(.rgh-time-machine-links)');
+	const commentPopupMenus = select.all('.timeline-comment-actions > details:last-child:not(.rgh-time-machine-links)');
 	for (const menu of commentPopupMenus) {
 		menu.classList.add('rgh-time-machine-links');
-		const timestamp = menu.closest('.js-comment:not(.timeline-comment-group), .js-timeline-item')!.querySelector('relative-time')!.attributes.datetime.value;
+		// The timestamp of main review comments isn't in their header but in the timeline event above #5423
+		const timestamp = menu
+			.closest('.js-comment:not([id^="pullrequestreview-"]), .js-timeline-item')!
+			.querySelector('relative-time')!
+			.attributes.datetime.value;
 		addInlineLinks(menu, timestamp);
 		addDropdownLink(menu, timestamp);
 	}

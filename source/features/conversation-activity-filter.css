@@ -1,6 +1,7 @@
-:root:root .rgh-conversation-activity-filtered,
-.repository-content.rgh-conversation-activity-is-filtered .rgh-conversation-activity-filter-dropdown .octicon-eye,
-.repository-content:not(.rgh-conversation-activity-is-filtered) .rgh-conversation-activity-filter-dropdown .octicon-eye-closed {
+.rgh-conversation-activity-is-filtered .rgh-conversation-activity-filtered,
+.rgh-conversation-activity-is-collapsed-filtered .rgh-conversation-activity-collapsed,
+.rgh-conversation-activity-is-filtered .rgh-conversation-activity-filter-dropdown .octicon-eye,
+.js-issues-results:not(.rgh-conversation-activity-is-filtered) .rgh-conversation-activity-filter-dropdown .octicon-eye-closed {
 	display: none !important;
 }
 
@@ -9,7 +10,20 @@
 }
 
 /* Debugging-only class. Drop wow to enable it */
-wow:root:root .rgh-conversation-activity-filtered {
+wow:root:root :is(.rgh-conversation-activity-filtered, .rgh-conversation-activity-collapsed) {
 	display: block !important;
 	outline: solid 5px #f00;
+}
+
+.gh-header-meta .rgh-conversation-activity-filter {
+	display: inline;
+}
+
+.gh-header-sticky .rgh-conversation-activity-filter-wrapper {
+	display: flex;
+}
+
+.gh-header-sticky .rgh-conversation-activity-filter-dropdown summary {
+	display: flex;
+	align-items: center;
 }

@@ -113,9 +113,9 @@ async function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): Pr
 	);
 }
 
-function init(): void {
+function init(): Deinit {
 	// `useCapture` required to be fired before GitHub's handlers
-	delegate(document, '.gh-header-actions Details:not(.rgh-git-checkout)', 'toggle', handleMenuOpening, true);
+	return delegate(document, '.gh-header-actions Details:not(.rgh-git-checkout)', 'toggle', handleMenuOpening, true);
 }
 
 void features.add(import.meta.url, {

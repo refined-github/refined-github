@@ -1,4 +1,3 @@
-import onetime from 'onetime';
 import delegate from 'delegate-it';
 
 import features from '.';
@@ -15,9 +14,10 @@ function handleClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void
 	event.delegateTarget.form!.toggleAttribute('data-redirect-to-inbox-on-submit', !redirectDisabled);
 }
 
-function init(): void {
+function init(): Deinit {
 	sessionStorage.rghIsNewTab = history.length === 1;
-	delegate(document, '.notification-shelf .js-notification-action button', 'click', handleClick);
+
+	return delegate(document, '.notification-shelf .js-notification-action button', 'click', handleClick);
 }
 
 void features.add(import.meta.url, {
@@ -25,5 +25,5 @@ void features.add(import.meta.url, {
 		hasNotificationBar,
 	],
 	awaitDomReady: false,
-	init: onetime(init),
+	init,
 });

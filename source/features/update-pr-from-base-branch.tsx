@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import delegate from 'delegate-it';
 import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -63,17 +62,7 @@ async function addButton(position: Element): Promise<void> {
 	}
 }
 
-const waitForText = onetime(() => {
-	delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler);
-	observer = observe(selectorForPushablePRNotice, {
-		add(position) {
-			position.classList.add('rgh-update-pr');
-			void addButton(position);
-		},
-	});
-});
-
-async function init(): Promise<void | false> {
+async function init(): Promise<Deinit | false> {
 	await api.expectToken();
 
 	// "Resolve conflicts" is the native button to update the PR
@@ -86,7 +75,17 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	waitForText();
+	observer = observe(selectorForPushablePRNotice, {
+		add(position) {
+			position.classList.add('rgh-update-pr');
+			void addButton(position);
+		},
+	});
+
+	return [
+		observer.abort,
+		delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler),
+	];
 }
 
 void features.add(import.meta.url, {

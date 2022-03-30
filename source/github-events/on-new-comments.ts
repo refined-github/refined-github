@@ -3,8 +3,17 @@ import delegate from 'delegate-it';
 
 const discussionsWithListeners = new WeakSet();
 const handlers = new Set<VoidFunction>();
-const delegates = new Set<delegate.Subscription>();
-const observer = new MutationObserver(run);
+
+let commentsCount = 0;
+const observer = new MutationObserver(() => {
+	const commentsNewCount = select.all('.js-comment').length;
+	if (commentsNewCount > commentsCount) {
+		commentsCount = commentsNewCount; // Update the count ASAP to avoid duplicate calls
+		run();
+	}
+
+	commentsCount = commentsNewCount;
+});
 
 function run(): void {
 	// Run all callbacks without letting an error stop the loop and without silencing it
@@ -20,47 +29,42 @@ function paginationSubmitHandler({delegateTarget: form}: delegate.Event): void {
 	form.addEventListener('page:loaded', run, {once: true});
 }
 
-function removeListeners(): void {
-	for (const subscription of delegates) {
-		subscription.destroy();
-	}
-
-	delegates.clear();
-	handlers.clear();
-	observer.disconnect();
-}
-
 function getFragmentLoadHandler(callback: EventListener): delegate.EventHandler {
 	return ({delegateTarget}) => {
 		delegateTarget.addEventListener('load', callback);
 	};
 }
 
-function addListeners(): void {
+function addListeners(): Deinit[] {
 	const discussion = select('.js-discussion');
 	if (!discussion || discussionsWithListeners.has(discussion)) {
-		return;
+		return [];
 	}
 
 	// Ensure listeners are only ever added once
 	discussionsWithListeners.add(discussion);
 
-	// Remember to remove all listeners when a new page is loaded
-	document.addEventListener('pjax:beforeReplace', removeListeners);
-
 	// When new comments come in via AJAX
+	commentsCount = select.all('.js-comment').length;
 	observer.observe(discussion, {
 		childList: true,
 	});
 
-	// When hidden comments are loaded by clicking "Load more…"
-	delegates.add(delegate(document, '.js-ajax-pagination', 'submit', paginationSubmitHandler));
+	return [
+		// When hidden comments are loaded by clicking "Load more…"
+		delegate(document, '.js-ajax-pagination', 'submit', paginationSubmitHandler),
 
-	// Collapsed comments are loaded later using an include-fragment element
-	delegates.add(delegate(document, 'details.js-comment-container include-fragment', 'loadstart', getFragmentLoadHandler(run), true));
+		// Collapsed comments are loaded later using an include-fragment element
+		delegate(document, 'details.js-comment-container include-fragment:not([class])', 'loadstart', getFragmentLoadHandler(run), true),
+	];
 }
 
-export default function onNewComments(callback: VoidFunction): void {
-	addListeners();
+export default function onNewComments(callback: VoidFunction): Deinit[] {
 	handlers.add(callback);
+
+	return [
+		...addListeners(),
+		handlers.clear,
+		observer.disconnect,
+	];
 }

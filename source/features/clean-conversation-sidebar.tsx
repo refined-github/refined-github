@@ -57,7 +57,7 @@ function cleanSection(selector: string): boolean {
 	return true;
 }
 
-async function init(): Promise<void> {
+async function init(signal: AbortSignal): Promise<void> {
 	if (select.exists('.rgh-clean-sidebar')) {
 		return;
 	}
@@ -83,7 +83,7 @@ async function init(): Promise<void> {
 	if (pageDetect.isPR()) {
 		const possibleReviewers = select('[src$="/suggested-reviewers"]');
 		if (possibleReviewers) {
-			await onElementRemoval(possibleReviewers);
+			await onElementRemoval(possibleReviewers, signal);
 		}
 
 		const content = select('[aria-label="Select reviewers"] > .css-truncate')!;
@@ -101,8 +101,16 @@ async function init(): Promise<void> {
 			.remove();
 	}
 
-	// Linked issues/PRs
+	// Development (linked issues/PRs)
 	select('[aria-label="Link issues"] p')?.remove(); // "Successfully merging a pull request may close this issue." This may not exist if issues are disabled
+	const createBranchLink = select('button[data-action="click:create-issue-branch#openDialog"]');
+	if (createBranchLink) {
+		createBranchLink.classList.add('Link--muted');
+		select('[aria-label="Link issues"] summary')!.append(
+			<span style={{fontWeight: 'normal'}}> – {createBranchLink}</span>,
+		);
+	}
+
 	cleanSection('[aria-label="Link issues"]');
 
 	// Projects

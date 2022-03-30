@@ -8,7 +8,7 @@ let documentTitle: string | undefined;
 let submitting: number | undefined;
 
 function hasDraftComments(): boolean {
-	// `[disabled]` excludes the PR description field that `wait-for-build` disables while it waits
+	// `[disabled]` excludes the PR description field that `wait-for-checks` disables while it waits
 	// `[id^="convert-to-issue-body"]` excludes the hidden pre-filled textareas created when opening the dropdown menu of review comments
 	return select.all('textarea:not([disabled], [id^="convert-to-issue-body"])').some(textarea =>
 		textarea.value !== textarea.textContent, // Exclude comments being edited but not yet changed (and empty comment fields)
@@ -36,9 +36,15 @@ function updateDocumentTitle(): void {
 	}
 }
 
-function init(): void {
+function init(): Deinit[] {
 	document.addEventListener('visibilitychange', updateDocumentTitle);
-	delegate(document, 'form', 'submit', disableOnSubmit, {capture: true});
+
+	return [
+		() => {
+			document.removeEventListener('visibilitychange', updateDocumentTitle);
+		},
+		delegate(document, 'form', 'submit', disableOnSubmit, {capture: true}),
+	];
 }
 
 void features.add(import.meta.url, {

@@ -30,8 +30,8 @@ function focusReviewTextarea({delegateTarget}: delegate.Event<Event, HTMLDetails
 	}
 }
 
-async function initReviewButtonEnhancements(): Promise<void> {
-	delegate(document, '.js-reviews-container > details', 'toggle', focusReviewTextarea, true);
+async function initReviewButtonEnhancements(): Promise<Deinit> {
+	const subscription = delegate(document, '.js-reviews-container > details', 'toggle', focusReviewTextarea, true);
 
 	const reviewDropdownButton = await elementReady('.js-reviews-toggle');
 	if (reviewDropdownButton) {
@@ -42,6 +42,8 @@ async function initReviewButtonEnhancements(): Promise<void> {
 			reviewDropdownButton.click();
 		}
 	}
+
+	return subscription;
 }
 
 void features.add(import.meta.url, {

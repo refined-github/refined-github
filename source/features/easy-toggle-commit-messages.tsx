@@ -14,14 +14,19 @@ function toggleCommitMessage(event: delegate.Event<MouseEvent>): void {
 	}
 }
 
-async function init(): Promise<void> {
-	delegate(document, '.js-commits-list-item', 'click', toggleCommitMessage);
+function init(): Deinit {
+	return delegate(document, [
+		'.js-commits-list-item',
+		':is(.file-navigation, .js-permalink-shortcut) ~ .Box .Box-header', // Commit message in file tree header
+	].join(','), 'click', toggleCommitMessage);
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isCommitList,
 		pageDetect.isCompare,
+		pageDetect.isRepoTree,
+		pageDetect.isSingleFile,
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',

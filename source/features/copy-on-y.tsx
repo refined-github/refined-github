@@ -11,7 +11,7 @@ const handler = ({key, target}: KeyboardEvent): void => {
 	}
 };
 
-function init(): VoidFunction {
+function init(): Deinit {
 	window.addEventListener('keyup', handler);
 
 	return () => {

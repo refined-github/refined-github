@@ -31,11 +31,18 @@ function toggleSubmitButtons({target, type}: Event): void {
 	}
 }
 
-function init(): void {
-	document.addEventListener('upload:setup', toggleSubmitButtons, true);
+function init(): Deinit {
+	document.addEventListener('upload:setup', toggleSubmitButtons, {capture: true});
 	document.addEventListener('upload:complete', toggleSubmitButtons);
 	document.addEventListener('upload:error', toggleSubmitButtons);
 	document.addEventListener('upload:invalid', toggleSubmitButtons);
+
+	return () => {
+		document.removeEventListener('upload:setup', toggleSubmitButtons, {capture: true});
+		document.removeEventListener('upload:complete', toggleSubmitButtons);
+		document.removeEventListener('upload:error', toggleSubmitButtons);
+		document.removeEventListener('upload:invalid', toggleSubmitButtons);
+	};
 }
 
 void features.add(import.meta.url, {

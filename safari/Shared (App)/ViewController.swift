@@ -19,19 +19,24 @@ final class ViewController: XViewController, WKNavigationDelegate, WKScriptMessa
 		super.viewDidLoad()
 
 		webView.navigationDelegate = self
-		webView.drawsBackground = false
 
 		#if os(iOS)
 		webView.scrollView.isScrollEnabled = false
+		#endif
+
+		#if os(macOS)
+		webView.drawsBackground = false
 		#endif
 
 		webView.configuration.userContentController.add(self, name: "controller")
 
 		webView.loadFileURL(Bundle.main.url(forResource: "Main", withExtension: "html")!, allowingReadAccessTo: Bundle.main.resourceURL!)
 
+		#if os(macOS)
 		DispatchQueue.main.async { [self] in
 			view.window?.titlebarAppearsTransparent = true
 		}
+		#endif
 	}
 
 	func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -52,7 +57,9 @@ final class ViewController: XViewController, WKNavigationDelegate, WKScriptMessa
 				}
 			} catch {
 				_ = await MainActor.run { // Required since `presentError` is not yet annotated with `@MainActor`.
-					NSApp.presentError(error)
+					DispatchQueue.main.async {
+						NSApp.presentError(error)
+					}
 				}
 			}
 		}
@@ -80,7 +87,9 @@ final class ViewController: XViewController, WKNavigationDelegate, WKScriptMessa
 				NSApplication.shared.terminate(nil)
 			} catch {
 				_ = await MainActor.run { // Required since `presentError` is not yet annotated with `@MainActor`.
-					NSApp.presentError(error)
+					DispatchQueue.main.async {
+						NSApp.presentError(error)
+					}
 				}
 			}
 		}

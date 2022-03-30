@@ -1,22 +1,3 @@
-/* Place Releases/Tags selector on the same line as `Draft new release` on releases page #2325 */
-.subnav .d-flex.flex-md-row.flex-justify-between.flex-md-items-center {
-	float: left;
-}
-
-/* Align fork popup's header #3352 */
-[aria-label^='Fork'] .Box-title {
-	position: static; /* The title wrongly overlaps the Close button, making it impossible to click */
-	min-height: 0;
-	margin: -5px 0;
-}
-
-/* Add missing border radius to collapsed PR files #3444 */
-.js-blob-wrapper,
-.file:not(.open) .file-header.file-header--expandable {
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
-}
-
 /* Style backticked code in links #4817, matches GitHub’s `.markdown-title code` rule */
 .js-commits-list-item code, /* `isCommitList` commit message */
 .Box-header .commit-author + span code /* `isRepoTree` commit message */ {
@@ -45,6 +26,7 @@
 #merge_title_field,
 #commit-summary-input, /* Restore monospace font in commit/merge title fields #5188 */
 :is(.new_public_key, .new_gpg_key) textarea { /* Monospace textareas for new SSH/GPG keys #4917 */
+	/* Same as GitHub style for `code` */
 	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace !important;
 }
 
@@ -63,7 +45,30 @@
 	flex-wrap: wrap;
 }
 
-/* Restore margin between reactions on releases #5287 */
-[data-test-selector='release-card'] .social-reaction-summary-item:not(:first-child) {
-	margin-left: 8px !important;
+/* Fix spacing of diff icon in commit diff stats #5429 */
+#toc .toc-diff-stats .octicon-file-diff {
+	margin-right: 4px !important;
+}
+
+/* Avoid horizontal scrollbars on Action logs in Safari #5152 */
+:root .CheckStep-line .CheckStep-line-content {
+	overflow: hidden;
+}
+
+/* Avoid overflow caused by the diff signs #5468 */
+:root .blob-code-marker::before {
+	top: 0;
+}
+
+/* Fix alignment of "Allow edits by maintainers" checkbox label and icons #5510 */
+#partial-discussion-sidebar .discussion-sidebar-item:last-child > .d-inline-flex {
+	align-items: center !important;
+}
+
+#partial-discussion-sidebar :is(.js-collab-option input, .js-collab-form + details summary) {
+	margin-top: 0 !important;
+}
+
+#partial-discussion-sidebar .js-collab-form .status-indicator .octicon {
+	vertical-align: baseline !important;
 }

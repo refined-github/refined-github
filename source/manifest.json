@@ -35,8 +35,7 @@
 	"background": {
 		"persistent": false,
 		"scripts": [
-			"build/browser-polyfill.js",
-			"build/background.js"
+			"background.js"
 		]
 	},
 	"content_scripts": [
@@ -47,15 +46,14 @@
 				"https://gist.github.com/*"
 			],
 			"css": [
-				"build/refined-github.css"
+				"refined-github.css"
 			],
 			"js": [
-				"build/browser-polyfill.js",
-				"build/refined-github.js"
+				"refined-github.js"
 			]
 		}
 	],
 	"web_accessible_resources": [
-		"build/resolve-conflicts.js"
+		"resolve-conflicts.js"
 	]
 }

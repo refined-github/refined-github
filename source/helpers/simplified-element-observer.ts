@@ -4,7 +4,7 @@ export default function observeElement(
 	element: Node | string,
 	listener: MutationCallback,
 	options: MutationObserverInit = {childList: true},
-): MutationObserver | undefined {
+): MutationObserver {
 	if (typeof element === 'string') {
 		element = document.querySelector(element)!;
 	}

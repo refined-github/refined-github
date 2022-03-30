@@ -74,10 +74,12 @@ function showSubmenu(event: delegate.Event): void {
 	event.preventDefault();
 }
 
-function init(): void {
-	// `useCapture` required to be fired before GitHub's handlers
-	delegate(document, '.js-comment-hide-button', 'click', showSubmenu, true);
-	delegate(document, '.rgh-quick-comment-hiding-details', 'toggle', resetDropdowns, true);
+function init(): Deinit[] {
+	return [
+		// `useCapture` required to be fired before GitHub's handlers
+		delegate(document, '.js-comment-hide-button', 'click', showSubmenu, true),
+		delegate(document, '.rgh-quick-comment-hiding-details', 'toggle', resetDropdowns, true),
+	];
 }
 
 void features.add(import.meta.url, {

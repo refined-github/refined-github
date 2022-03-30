@@ -15,7 +15,7 @@
 }
 
 .rgh-quick-label-removal:is(:focus, :hover) svg {
-	background-color: currentColor;
+	background-color: currentcolor;
 	fill: rgb(var(--label-r) var(--label-g) var(--label-b));
 }
 

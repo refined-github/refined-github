@@ -57,9 +57,14 @@ function pjaxCompleteHandler(): void {
 	}
 }
 
-function init(): void {
+function init(): Deinit {
 	window.addEventListener('pjax:start', pjaxStartHandler);
 	window.addEventListener('pjax:complete', pjaxCompleteHandler);
+
+	return () => {
+		window.removeEventListener('pjax:start', pjaxStartHandler);
+		window.removeEventListener('pjax:complete', pjaxCompleteHandler);
+	};
 }
 
 void features.add(import.meta.url, {
@@ -70,5 +75,5 @@ void features.add(import.meta.url, {
 		isSafari,
 	],
 	awaitDomReady: false,
-	init: onetime(init),
+	init,
 });

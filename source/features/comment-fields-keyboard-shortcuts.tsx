@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -59,8 +58,8 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 	}
 }
 
-function init(): void {
-	onCommentFieldKeydown(eventHandler);
+function init(): Deinit {
+	return onCommentFieldKeydown(eventHandler);
 }
 
 void features.add(import.meta.url, {
@@ -73,5 +72,5 @@ void features.add(import.meta.url, {
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
-	init: onetime(init),
+	init,
 });

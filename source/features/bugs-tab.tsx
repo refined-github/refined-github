@@ -89,7 +89,7 @@ async function addBugsTab(): Promise<void | false> {
 
 	const issuesTab = await elementReady('a.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
 	if (!issuesTab) {
-		// Repo is archived
+		// Issues are disabled
 		return false;
 	}
 
@@ -99,8 +99,8 @@ async function addBugsTab(): Promise<void | false> {
 	unhighlightTab(bugsTab);
 
 	// Disable unwanted behavior #3001
-	bugsTab.removeAttribute('data-hotkey');
-	bugsTab.removeAttribute('data-selected-links');
+	delete bugsTab.dataset.hotkey;
+	delete bugsTab.dataset.selectedLinks;
 	bugsTab.removeAttribute('id');
 
 	// Update its appearance
@@ -123,6 +123,9 @@ async function addBugsTab(): Promise<void | false> {
 	} else {
 		issuesTab.after(bugsTab);
 	}
+
+	// Trigger a reflow to push the right-most tab into the overflow dropdown
+	window.dispatchEvent(new Event('resize'));
 
 	// Update bugs count
 	try {

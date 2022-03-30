@@ -6,14 +6,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-async function hideReadmeLink(): Promise<void> {
-	// Hide "Readme" link made unnecessary by toggle-files-button #3580
-	const link = await elementReady('.Link--muted[href="#readme"]');
-	link?.parentElement!.setAttribute('hidden', 'true');
-}
-
 async function cleanReleases(): Promise<void> {
-	const sidebarReleases = await elementReady('.BorderGrid-cell h2 a[href$="/releases"]', {waitForChildren: false});
+	const sidebarReleases = await elementReady('.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]', {waitForChildren: false});
 	if (!sidebarReleases) {
 		return;
 	}
@@ -26,16 +20,11 @@ async function cleanReleases(): Promise<void> {
 	}
 
 	// Collapse "Releases" section into previous section
-	releasesSection.classList.add('border-0', 'pt-3');
+	releasesSection.classList.add('border-0', 'pt-md-0');
 	sidebarReleases.closest('.BorderGrid-row')!
 		.previousElementSibling! // About’s .BorderGrid-row
 		.firstElementChild! // About’s .BorderGrid-cell
 		.classList.add('border-0', 'pb-0');
-
-	// Hide header and footer
-	for (const unnecessaryInformation of select.all(':scope > :not(a)', releasesSection)) {
-		unnecessaryInformation.hidden = true;
-	}
 
 	// Align latest tag icon with the icons of other meta links
 	const tagIcon = select('.octicon-tag:not(.color-text-success, .color-fg-success)', releasesSection)!;
@@ -47,7 +36,7 @@ async function cleanReleases(): Promise<void> {
 }
 
 async function hideEmptyPackages(): Promise<void> {
-	const packagesCounter = await elementReady('.BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false})!;
+	const packagesCounter = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false})!;
 	if (packagesCounter && packagesCounter.textContent === '0') {
 		packagesCounter.closest('.BorderGrid-row')!.hidden = true;
 	}
@@ -56,7 +45,7 @@ async function hideEmptyPackages(): Promise<void> {
 async function hideLanguageHeader(): Promise<void> {
 	await domLoaded;
 
-	const lastSidebarHeader = select('.repository-content .BorderGrid-row:last-of-type h2');
+	const lastSidebarHeader = select('.Layout-sidebar .BorderGrid-row:last-of-type h2');
 	if (lastSidebarHeader?.textContent === 'Languages') {
 		lastSidebarHeader.hidden = true;
 	}
@@ -67,7 +56,7 @@ async function hideEmptyMeta(): Promise<void> {
 	await domLoaded;
 
 	if (!pageDetect.canUserEditRepo()) {
-		select('.repository-content .BorderGrid-cell > .text-italic')?.remove();
+		select('.Layout-sidebar .BorderGrid-cell > .text-italic')?.remove();
 	}
 }
 
@@ -75,7 +64,6 @@ async function init(): Promise<void> {
 	document.body.classList.add('rgh-clean-repo-sidebar');
 
 	await Promise.all([
-		hideReadmeLink(),
 		cleanReleases(),
 		hideEmptyPackages(),
 		hideLanguageHeader(),

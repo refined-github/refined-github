@@ -15,15 +15,19 @@ function toggleFile(event: delegate.Event<MouseEvent>): void {
 	}
 }
 
-async function init(): Promise<void> {
-	delegate(document, '.file-header', 'click', toggleFile);
+function init(): Deinit {
+	return delegate(document, '.file-header', 'click', toggleFile);
 }
+
+// TODO: https://github.com/refined-github/github-url-detection/pull/115
+const isGistRevision = (url: URL | HTMLAnchorElement | Location = location): boolean => pageDetect.isGist(url) && /^\/(gist\/)?[^/]+\/[\da-f]{32}\/revisions$/.test(url.pathname);
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 		pageDetect.isCommit,
 		pageDetect.isCompare,
+		isGistRevision,
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',

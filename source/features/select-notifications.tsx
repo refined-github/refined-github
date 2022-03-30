@@ -76,7 +76,6 @@ function handleSelection({target}: Event): void {
 
 	// Make all notifications selectable again
 	for (const disabledNotificationCheckbox of select.all('.js-notification-bulk-action-check-item:not([data-check-all-item])')) {
-		// eslint-disable-next-line unicorn/prefer-dom-node-dataset -- For consistency with the `removeAttribute()` above
 		disabledNotificationCheckbox.setAttribute('data-check-all-item', '');
 	}
 }
@@ -156,20 +155,20 @@ function closeDropdown(): void {
 	select('.rgh-select-notifications')?.removeAttribute('open');
 }
 
-function init(): VoidFunction {
-	const selectObserver = observe('.js-notifications-mark-all-prompt:not(.rgh-select-notifications-added)', {
-		add(selectAllCheckbox) {
-			selectAllCheckbox.classList.add('rgh-select-notifications-added');
-			selectAllCheckbox
-				.closest('label')!
-				.after(createDropdown());
-		},
-	});
+function init(): Deinit[] {
+	return [
+		observe('.js-notifications-mark-all-prompt:not(.rgh-select-notifications-added)', {
+			add(selectAllCheckbox) {
+				selectAllCheckbox.classList.add('rgh-select-notifications-added');
+				selectAllCheckbox
+					.closest('label')!
+					.after(createDropdown());
+			},
+		}),
 
-	// Close the dropdown when one of the toolbar buttons is clicked
-	delegate(document, '.js-notifications-mark-selected-actions > *, .rgh-open-selected-button', 'click', closeDropdown);
-
-	return selectObserver.abort;
+		// Close the dropdown when one of the toolbar buttons is clicked
+		delegate(document, '.js-notifications-mark-selected-actions > *, .rgh-open-selected-button', 'click', closeDropdown),
+	];
 }
 
 void features.add(import.meta.url, {

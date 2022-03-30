@@ -4,8 +4,8 @@
 }
 
 /* Align sidebar to the top */
-.discussion-sidebar-item.rgh-clean-sidebar:first-child {
-	padding-top: 0;
+.rgh-clean-sidebar .discussion-sidebar-item:first-child {
+	padding-top: 0 !important;
 }
 
 /* Move message under the `Unsubscribe` button above the button */

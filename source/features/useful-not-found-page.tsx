@@ -24,8 +24,8 @@ function getStrikeThrough(text: string): HTMLElement {
 	return <del className="color-text-tertiary color-fg-subtle">{text}</del>;
 }
 
-async function checkAnchor(anchor: HTMLAnchorElement): Promise<void> {
-	if (await is404(anchor.href)) {
+async function checkAnchor(anchor: HTMLElement): Promise<void> {
+	if (anchor instanceof HTMLAnchorElement && await is404(anchor.href)) {
 		anchor.replaceWith(getStrikeThrough(anchor.textContent!));
 	}
 }
@@ -71,30 +71,30 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
 }
 
 async function showMissingPart(): Promise<void> {
-	const parts = parseCurrentURL();
-	const bar = <h2 className="container mt-4 text-center"/>;
+	const pathParts = parseCurrentURL();
+	const breadcrumbs = [...pathParts.entries()]
+		.reverse() // Checks the anchors right to left
+		.map(([i, part]) => {
+			if (
+				// Exclude parts that don't exist as standalones
+				(i === 0 && part === 'orgs') // #5483
+				|| (i === 2 && ['tree', 'blob', 'edit'].includes(part))
+				|| i === pathParts.length - 1 // The last part is a known 404
+			) {
+				return getStrikeThrough(part);
+			}
 
-	for (const [i, part] of parts.entries()) {
-		if (i === 2 && ['tree', 'blob', 'edit'].includes(part)) {
-			// Exclude parts that don't exist as standalones
-			continue;
-		}
+			const pathname = '/' + pathParts.slice(0, i + 1).join('/');
+			const link = <a href={pathname}>{part}</a>;
+			void checkAnchor(link);
+			return link;
+		})
+		.reverse() // Restore order
+		.flatMap((link, i) => [i > 0 && ' / ', link]); // Add separators
 
-		if (i === parts.length - 1) {
-			// The last part of the URL is a known 404
-			bar.append(' / ', getStrikeThrough(part));
-		} else {
-			const pathname = '/' + parts.slice(0, i + 1).join('/');
-			bar.append(i ? ' / ' : '', <a href={pathname}>{part}</a>);
-		}
-	}
-
-	select('main > :first-child, #parallax_illustration')!.after(bar);
-
-	// Check parts from right to left; skip the last part
-	for (let i = bar.children.length - 2; i >= 0; i--) {
-		void checkAnchor(bar.children[i] as HTMLAnchorElement);
-	}
+	select('main > :first-child, #parallax_illustration')!.after(
+		<h2 className="container mt-4 text-center">{breadcrumbs}</h2>,
+	);
 }
 
 async function showDefaultBranchLink(): Promise<void> {

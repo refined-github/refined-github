@@ -21,22 +21,32 @@ const collapseSelector = '.js-file .js-collapse-diff';
 
 const commitMessageSelector = '.TimelineItem .ellipsis-expander';
 
-function init(): void {
-	// Collapsed comments in PR conversations and files
-	delegate(document, '.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector));
+function markdownCommentSelector(clickedItem: HTMLElement): string {
+	const {id} = clickedItem.closest('.TimelineItem-body[id]')!;
+	return `#${id} .markdown-body details > summary`;
+}
 
-	// "Load diff" buttons in PR files
-	delegate(document, diffsSelector, 'click', clickAll(diffsSelector));
+function init(): Deinit[] {
+	return [
+		// Collapsed comments in PR conversations and files
+		delegate(document, '.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector)),
 
-	// Review comments in PR
-	delegate(document, '.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector));
+		// "Load diff" buttons in PR files
+		delegate(document, diffsSelector, 'click', clickAll(diffsSelector)),
 
-	// "Expand all" and "Collapse expanded lines" buttons in commit files
-	delegate(document, expandSelector, 'click', clickAll(expandSelector));
-	delegate(document, collapseSelector, 'click', clickAll(collapseSelector));
+		// Review comments in PR
+		delegate(document, '.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector)),
 
-	// Commit message buttons in commit lists and PR conversations
-	delegate(document, commitMessageSelector, 'click', clickAll(commitMessageSelector));
+		// "Expand all" and "Collapse expanded lines" buttons in commit files
+		delegate(document, expandSelector, 'click', clickAll(expandSelector)),
+		delegate(document, collapseSelector, 'click', clickAll(collapseSelector)),
+
+		// Commit message buttons in commit lists and PR conversations
+		delegate(document, commitMessageSelector, 'click', clickAll(commitMessageSelector)),
+
+		// <details> elements in issue/PR comment Markdown content
+		delegate(document, '.TimelineItem-body[id] .markdown-body details > summary', 'click', clickAll(markdownCommentSelector)),
+	];
 }
 
 void features.add(import.meta.url, {

@@ -1,10 +1,10 @@
-# <img src="distribution/icon.png" width="45" align="left"> Refined GitHub
+# <img src="source/icon.png" width="45" align="left"> Refined GitHub
 
 > Browser extension that simplifies the GitHub interface and adds useful features
 
 We use GitHub a lot and notice many annoyances we'd like to fix. So here be dragons.
 
-Our hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these improvements, please email [GitHub support](https://support.github.com/contact) about doing it.
+Our hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these improvements, please open a discussion on [GitHub feedback](https://github.com/github/feedback/discussions) or email [GitHub support](https://support.github.com/contact) about doing it.
 
 GitHub Enterprise is also supported: [How to enable it](https://fregante.github.io/webext-domain-permission-toggle/?name=Refined%20GitHub&icon=https%3A%2F%2Fraw.githubusercontent.com%2Frefined-github%2Frefined-github%2Fmain%2Fdistribution%2Ficon.png). <!-- icon.png renders best -->
 
@@ -16,11 +16,11 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 [link-firefox]: https://addons.mozilla.org/firefox/addon/refined-github-/ 'Version published on Mozilla Add-ons'
 [link-safari]: https://apps.apple.com/app/id1519867270 'Version published on the Mac App Store'
 
-[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/chrome/chrome.svg" width="48" alt="Chrome" valign="middle">][link-chrome] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-chrome] also compatible with [<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/edge/edge.svg" width="24" alt="Edge" valign="middle">][link-chrome] [<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/opera/opera.svg" width="24" alt="Opera" valign="middle">][link-chrome]
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/chrome/chrome.svg" width="48" alt="Chrome" valign="middle">][link-chrome] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-chrome] also compatible with other Chromium browsers
 
-[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/firefox/firefox.svg" width="48" alt="Firefox" valign="middle">][link-firefox] [<img valign="middle" src="https://img.shields.io/amo/v/refined-github-.svg?label=%20">][link-firefox]
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/firefox/firefox.svg" width="48" alt="Firefox" valign="middle">][link-firefox] [<img valign="middle" src="https://img.shields.io/amo/v/refined-github-.svg?label=%20">][link-firefox] also available on Firefox Android!
 
-[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/safari/safari_128x128.png" width="48" alt="Safari" valign="middle">][link-safari] [<img valign="middle" src="https://img.shields.io/itunes/v/1519867270.svg?label=%20">][link-safari]
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/safari/safari_128x128.png" width="48" alt="Safari" valign="middle">][link-safari] [<img valign="middle" src="https://img.shields.io/itunes/v/1519867270.svg?label=%20">][link-safari] also available on iOS!
 
 [<img src="https://raw.githubusercontent.com/iamcal/emoji-data/08ec822c38e0b7a6fea0b92a9c42e02b6ba24a84/img-apple-160/1f99a.png" width="48" valign="middle">](https://github.com/sponsors/fregante) _If you love Refined GitHub, consider [sponsoring or hiring](https://github.com/sponsors/fregante) the maintainer [@fregante](https://twitter.com/fregante)_
 
@@ -113,7 +113,7 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 			<p><a title="reactions-avatars"></a> Adds reaction avatars showing <i>who</i> reacted to a comment
 			<p><img src="https://user-images.githubusercontent.com/1402241/130341871-6a0d69f4-8d0c-4882-a5ed-aac9b7613b0a.png">
 		<th width="50%">
-			<p><a title="wait-for-build"></a> Adds the option to wait for checks when merging a PR
+			<p><a title="wait-for-checks"></a> Adds the option to wait for checks when merging a PR
 			<p><img src="https://user-images.githubusercontent.com/1402241/35192861-3f4a1bf6-fecc-11e7-8b9f-35ee019c6cdf.gif">
 	<tr>
 		<th width="50%">
@@ -163,10 +163,9 @@ Thanks for contributing! 🦋🙌
 - [](# "ci-link") 🔥 [Adds a build/CI status icon next to the repo’s name.](https://user-images.githubusercontent.com/1402241/32562120-d65166e4-c4e8-11e7-90fb-cbaf36e2709f.png)
 - [](# "hide-watch-and-fork-count") [Hides watcher counter and on smaller screens the fork counter too.](https://user-images.githubusercontent.com/1402241/53681077-f3328b80-3d1e-11e9-9e29-2cb017141769.png)
 - [](# "more-dropdown-links") [Adds useful links to the repository navigation dropdown](https://user-images.githubusercontent.com/16872793/124681432-856e6f80-de96-11eb-89c9-6d78e8ae4329.png)
-- [](# "star-repo-hotkey") Adds a keyboard shortcut to star/unstar the current repo: <kbd>g</kbd> <kbd>s</kbd>.
 - [](# "default-branch-button") 🔥 [Adds a link to the default branch on directory listings and files.](https://user-images.githubusercontent.com/1402241/71886648-2891dc00-316f-11ea-98d8-c5bf6c24d85c.png)
 - [](# "swap-branches-on-compare") [Adds a link to swap branches in the branch compare view.](https://user-images.githubusercontent.com/857700/42854438-821096f2-8a01-11e8-8752-76f7563b5e18.png)
-- [](# "forked-to") [Adds a shortcut to your forks next to the `Fork` button on the current repo.](https://user-images.githubusercontent.com/55841/64077281-17bbf000-cccf-11e9-9123-092063f65357.png)
+- [](# "forked-to") [Adds a shortcut to your forks next to the `Fork` button on the current repo.](https://user-images.githubusercontent.com/44045911/155493982-01387bd2-90a4-448f-ad89-c4b560c81f08.png)
 - [](# "repo-age") [Displays the age of the repository in the sidebar.](https://user-images.githubusercontent.com/3848317/69494069-7d2b1180-0eb7-11ea-9aa1-d4194e566340.png)
 - [](# "show-open-prs-of-forks") [In your forked repos, shows number of your open PRs to the original repo.](https://user-images.githubusercontent.com/1922624/76398271-e0648500-637c-11ea-8210-53dda1be9d51.png)
 - [](# "fork-source-link-same-view") [Points the “Forked from user/repository” link to current folder or file in the upstream repository.](https://user-images.githubusercontent.com/1402241/84795784-3722d000-aff8-11ea-9b34-97c01acf4fd4.png)
@@ -184,11 +183,11 @@ Thanks for contributing! 🦋🙌
 
 ### File management
 
-- [](# "download-folder-button") [Adds a button to download entire folders](https://user-images.githubusercontent.com/1402241/35044451-fd3e2326-fbc2-11e7-82e1-61ec7bee612b.png), via https://download-directory.github.io.
+- [](# "download-folder-button") [Adds a button to download entire folders](https://user-images.githubusercontent.com/46634000/158347358-49234bb8-b9e6-41be-92ed-c0c0233cbad2.png), via https://download-directory.github.io.
 - [](# "toggle-files-button") [Adds a button to toggle the repo file list.](https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif)
 - [](# "quick-file-edit") [Adds a button to edit files from the repo file list.](https://user-images.githubusercontent.com/1402241/56370462-d51cde00-622d-11e9-8cd3-8a173bd3dc08.png)
 - [](# "edit-readme") [Ensures that the “Edit readme” button always appears (even when you have to make a fork) and works (GitHub’s link doesn’t work on git tags).](https://user-images.githubusercontent.com/1402241/62073307-a8378880-b26a-11e9-9e31-be6525d989d2.png)
-- [](# "repo-wide-file-finder") Enables the File Finder keyboard shortcut (<kbd>t</kbd>) on Issues and Pull Request pages as well.
+- [](# "repo-wide-file-finder") Enables the File Finder keyboard shortcut (<kbd>t</kbd>) on entire repository.
 - [](# "file-finder-buffer") [Lets you start typing your search immediately after invoking the File Finder (<kbd>t</kbd>), instead of having you wait for it to load first.](https://user-images.githubusercontent.com/1402241/75542106-1c811700-5a5a-11ea-8aa5-bea0472c59e2.gif)
 - [](# "show-associated-branch-prs-on-fork") [Shows the associated pull requests on branches for forked repositories.](https://user-images.githubusercontent.com/16872793/81504659-7e5ec800-92b8-11ea-9ee6-924110e8cca1.png)
 - [](# "html-preview-link") [Adds a link to preview HTML files.](https://user-images.githubusercontent.com/44045911/67634792-48995980-f8fb-11e9-8b6a-7b57d5b12a2f.png)
@@ -217,7 +216,7 @@ Thanks for contributing! 🦋🙌
 - [](# "comment-fields-keyboard-shortcuts") [Adds a shortcut to edit your last comment: <kbd>↑</kbd>.](https://github.com/refined-github/refined-github/pull/961) (Only works in the following comment field, if it’s empty.)
 - [](# "one-key-formatting") [Wraps selected text when pressing one of Markdown symbols instead of replacing it:](https://user-images.githubusercontent.com/1402241/65020298-1f2dfb00-d957-11e9-9a2a-1c0ceab8d9e0.gif) `[` `` ` `` `'` `"` `*` `~` `_`
 - [](# "minimize-upload-bar") [Reduces the upload bar to a small button.](https://user-images.githubusercontent.com/17612510/99140148-205dd380-2693-11eb-9a61-9c228f8f9e36.png)
-- [](# "clean-rich-text-editor") [Hides unnecessary comment field tooltips and toolbar items](https://user-images.githubusercontent.com/1402241/53629083-a4fe8900-3c47-11e9-8211-bfe2d254ffcb.png) (each one has a keyboard shortcut.)
+- [](# "clean-rich-text-editor") [Hides unnecessary comment field tooltips and toolbar items](https://user-images.githubusercontent.com/46634000/158201651-7364aba7-f9d0-4a51-89c4-2ced0cc34e48.png) (each one has a keyboard shortcut.)
 - [](# "quick-mention") [Adds a button to `@mention` a user in conversations.](https://user-images.githubusercontent.com/1402241/70406615-f445d580-1a73-11ea-9ab1-bf6bd9aa70a3.gif)
 - [](# "table-input") [Adds a button in the text editor to quickly insert a simplified HTML table.](https://user-images.githubusercontent.com/46634000/94559114-09892c00-0261-11eb-8fb0-c5a85ea76b6f.gif)
 - [](# "unfinished-comments") [Notifies the user of unfinished comments in hidden tabs.](https://user-images.githubusercontent.com/1402241/97792086-423d5d80-1b9f-11eb-9a3a-daf716d10b0e.gif)
@@ -259,7 +258,7 @@ Thanks for contributing! 🦋🙌
 - [](# "clean-conversation-filters") [Hides `Projects` and `Milestones` filters in conversation lists if they are empty.](https://user-images.githubusercontent.com/37769974/59083449-0ef88f80-8915-11e9-8296-68af1ddcf191.png)
 - [](# "toggle-everything-with-alt") [Adds a shortcut to toggle all similar items (minimized comments, deferred diffs, etc) at once: <kbd>alt</kbd> <kbd>click</kbd> on each button or checkbox.](https://user-images.githubusercontent.com/37769974/62208543-dcb75b80-b3b4-11e9-984f-ddb479ea149d.gif)
 - [](# "extend-conversation-status-filters") [Lets you toggle between is:open/is:closed/is:merged filters in searches.](https://user-images.githubusercontent.com/1402241/73605061-2125ed00-45cc-11ea-8cbd-41a53ae00cd3.gif)
-- [](# "bugs-tab") [Adds a "Bugs" tab to repos, if there are any open issues with the "bug" label.](https://user-images.githubusercontent.com/1402241/73720910-a688d900-4755-11ea-9c8d-70e5ddb3bfe5.png)
+- [](# "bugs-tab") [Adds a "Bugs" tab to repos, if there are any open issues with the "bug" label.](https://user-images.githubusercontent.com/46634000/156766081-f2ea100b-a9f3-472b-bddc-a984a88ddcd3.png)
 - [](# "pinned-issues-update-time") [Adds the updated time to pinned issues.](https://user-images.githubusercontent.com/1402241/75525936-bb524700-5a4b-11ea-9225-466bda58b7de.png)
 - [](# "clean-pinned-issues") [Changes the layout of pinned issues from side-by-side to a standard list.](https://user-images.githubusercontent.com/1402241/84509958-c82a3c00-acc4-11ea-8399-eaf06a59e9e4.png)
 - [](# "quick-label-removal") [Adds one-click buttons to remove labels in conversations.](https://user-images.githubusercontent.com/36174850/89980178-0bc80480-dc7a-11ea-8ded-9e25f5f13d1a.gif)
@@ -267,7 +266,6 @@ Thanks for contributing! 🦋🙌
 - [](# "dim-bots") [Dims commits and PRs by bots to reduce noise.](https://user-images.githubusercontent.com/1402241/65263190-44c52b00-db36-11e9-9b33-d275d3c8479d.gif)
 - [](# "esc-to-cancel") [Adds a shortcut to cancel editing a conversation title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
 - [](# "no-duplicate-list-update-time") [Hides the update time of conversations in lists when it matches the open/closed/merged time.](https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png)
-- [](# "dim-visited-conversations") [Dims the title of visited conversations.](https://user-images.githubusercontent.com/1402241/152119410-0d90e11e-66e6-4938-b839-861e9e186f33.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -287,7 +285,7 @@ Thanks for contributing! 🦋🙌
 - [](# "pr-commit-lines-changed") [Adds diff stats on PR commits.](https://user-images.githubusercontent.com/16872793/76107253-48deeb00-5fa6-11ea-9931-721cde553bdf.png)
 - [](# "cross-deleted-pr-branches") [Adds a line-through to the deleted branches in PRs.](https://user-images.githubusercontent.com/16872793/75619638-9bef1300-5b4c-11ea-850e-3a8f95c86d83.png)
 - [](# "batch-mark-files-as-viewed") [Mark/unmark multiple files as “Viewed” in the PR Files tab. Click on the first checkbox you want to mark/unmark and then `shift`-click another one; all the files between the two checkboxes will be marked/unmarked as “Viewed”.](https://user-images.githubusercontent.com/1402241/79343285-854f2080-7f2e-11ea-8d4c-a9dc163be9be.gif)
-- [](# "first-published-tag-for-merged-pr") 🔥 [Shows the first Git tag a merged PR was included in.](https://user-images.githubusercontent.com/16872793/81943321-38ac4300-95c9-11ea-8543-0f4858174e1e.png)
+- [](# "first-published-tag-for-merged-pr") 🔥 [Shows the first Git tag a merged PR was included in.](https://user-images.githubusercontent.com/44045911/158422030-f7a6dbce-cde0-4961-a075-9f3ee1cd6bfd.png)
 - [](# "pr-jump-to-first-non-viewed-file") [Jumps to first non-viewed file in a pull request when clicking on the progress bar.](https://user-images.githubusercontent.com/16872793/85226580-3bf3d500-b3a6-11ea-8494-3d9b6280d033.gif)
 - [](# "git-checkout-pr") [Adds copy-pastable git commands to checkout a PR.](https://user-images.githubusercontent.com/16872793/96938908-8e024f80-1499-11eb-8976-0caf95175dd6.png)
 - [](# "jump-to-change-requested-comment") [Adds a link to jump to the latest changed requested comment.](https://user-images.githubusercontent.com/19198931/98718312-418b9f00-23c9-11eb-8da2-dfb616e95eb6.gif)
@@ -303,7 +301,7 @@ Thanks for contributing! 🦋🙌
 - [](# "one-click-review-submission") [Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
 - [](# "warn-pr-from-master") [Warns you when creating a pull request from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
 - [](# "warning-for-disallow-edits") [Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
-- [](# "pull-request-hotkey") [Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>](https://user-images.githubusercontent.com/16872793/94634958-7e7b5680-029f-11eb-82ea-1f96cd11e4cd.png).
+- [](# "pull-request-hotkeys") [Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>](https://user-images.githubusercontent.com/16872793/94634958-7e7b5680-029f-11eb-82ea-1f96cd11e4cd.png).
 - [](# "pr-branch-auto-delete") Automatically deletes the branch right after merging a PR, if possible.
 - [](# "one-click-pr-or-gist") [Lets you create draft pull requests and public gists in one click.](https://user-images.githubusercontent.com/34235681/152473201-868ad7c1-e06f-4826-b808-d90bca7f08b3.png)
 - [](# "clear-pr-merge-commit-message") [Clears the PR merge commit message of clutter, leaving only deduplicated co-authors.](https://user-images.githubusercontent.com/1402241/79257078-62b6fc00-7e89-11ea-8798-c06f33baa94b.png)
@@ -316,7 +314,7 @@ Thanks for contributing! 🦋🙌
 
 - [](# "patch-diff-links") [Adds links to `.patch` and `.diff` files in commits.](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
 - [](# "more-file-links") [Adds links to view the raw version, the blame and the history of files in PRs and commits.](https://user-images.githubusercontent.com/46634000/145016304-aec5a8b8-4cdb-48e6-936f-b214a3fb4b49.png)
-- [](# "one-click-diff-options") [Adds one-click buttons to change diff style and to ignore the whitespace and a keyboard shortcut to ignore the whitespace: <kbd>d</kbd> <kbd>w</kbd>.](https://user-images.githubusercontent.com/1402241/54178764-d1c96080-44d1-11e9-889c-734ffd2a602d.png)
+- [](# "one-click-diff-options") [Adds one-click buttons to change diff style and to ignore the whitespace and a keyboard shortcut to ignore the whitespace: <kbd>d</kbd> <kbd>w</kbd>.](https://user-images.githubusercontent.com/46634000/156766044-18c9ff50-aead-4c40-ba16-7428b3742b6c.png)
 - [](# "extend-diff-expander") [Widens the `Expand diff` button to be clickable across the screen.](https://user-images.githubusercontent.com/1402241/152118201-f25034c7-6fae-4be0-bb3f-c217647e32b7.gif)
 - [](# "hide-diff-signs") [Hides diff signs since diffs are color coded already.](https://user-images.githubusercontent.com/1402241/54807718-149cec80-4cb9-11e9-869c-e265863211e3.png)
 - [](# "suggest-commit-title-limit") [Suggests limiting commit titles to 72 characters.](https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif)
@@ -327,6 +325,7 @@ Thanks for contributing! 🦋🙌
 - [](# "easy-toggle-files") [Enables toggling file diffs by clicking on their header bar.](https://user-images.githubusercontent.com/47531779/99855419-be173e00-2b7e-11eb-9a55-0f6251aeb0ef.gif)
 - [](# "same-branch-author-commits") [Preserves current branch and path when viewing all commits by an author.](https://user-images.githubusercontent.com/44045911/148764372-ee443213-e61a-4227-9219-0ee54ed832e8.png)
 - [](# "easy-toggle-commit-messages") [Enables toggling commit messages by clicking on the commit box.](https://user-images.githubusercontent.com/1402241/152121837-ca13bf8a-9b7f-4517-8e8d-b58bb135523b.gif)
+- [](# "link-to-compare-diff") [Linkifies the "X files changed" text on compare pages to allow jumping to the diff.](https://user-images.githubusercontent.com/46634000/157072587-0335357a-18c7-44c4-ae6e-237080fb36b4.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -337,7 +336,7 @@ Thanks for contributing! 🦋🙌
 - [](# "create-release-shortcut") Adds a keyboard shortcut to create a new release while on the Releases page: <kbd>c</kbd>.
 - [](# "tags-dropdown") [Adds a tags dropdown/search on tag/release pages.](https://user-images.githubusercontent.com/22439276/56373231-27ee9980-621e-11e9-9b21-601919d3dddf.png)
 - [](# "tag-changes-link") 🔥 [Adds a link to changes since last tag/release for each tag/release.](https://user-images.githubusercontent.com/1402241/57081611-ad4a7180-6d27-11e9-9cb6-c54ec1ac18bb.png)
-- [](# "latest-tag-button") [Adds a link to the latest version tag on directory listings and files.](https://user-images.githubusercontent.com/1402241/74594998-71df2080-5077-11ea-927c-b484ca656e88.png)
+- [](# "latest-tag-button") [Adds a link to the latest version tag on directory listings and files.](https://user-images.githubusercontent.com/44045911/155496122-6267c45d-21d4-45c9-adf7-94c9e41cc652.png)
 - [](# "convert-release-to-draft") [Adds a button to convert a release to draft.](https://user-images.githubusercontent.com/46634000/139236979-44533bfd-5c17-457d-bdc1-f9ec395f6a3a.png)
 - [](# "link-to-changelog-file") [Adds a button to view the changelog file from the releases page.](https://user-images.githubusercontent.com/46634000/139236982-a1bce2a2-f3aa-40a9-bca4-8756bc941210.png)
 
@@ -393,7 +392,6 @@ Thanks for contributing! 🦋🙌
 
 - [](# "hide-navigation-hover-highlight") Removes the file hover effect in the repo file browser.
 - [](# "clean-repo-sidebar") [Removes unnecessary or redundant information from the repository sidebar.](https://user-images.githubusercontent.com/46634000/107955448-18694480-6f9e-11eb-8bc6-80cc90d910bc.png)
-- [](# "fix-first-tab-length") [Corrects the width of the first `tab` in file diffs since it appears 2 columns shorter than it should be.](https://user-images.githubusercontent.com/37769974/87217980-741a8200-c36c-11ea-81e1-fc0782c4624d.png)
 - [](# "hide-disabled-milestone-sorter") [Hides the milestone sorter UI if you don’t have permission to use it.](https://user-images.githubusercontent.com/7753001/56913933-738a2880-6ae5-11e9-9d13-1973cbbf5df0.png)
 - [](# "linkify-branch-references") [Linkifies branch references in "Quick PR" pages.](https://user-images.githubusercontent.com/1402241/30208043-fa1ceaec-94bb-11e7-9c32-feabcf7db296.png)
 - [](# "hide-issue-list-autocomplete") [Removes the autocomplete on search fields.](https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png)
@@ -412,6 +410,7 @@ Thanks for contributing! 🦋🙌
 - [](# "convert-pr-to-draft-improvements") [Moves the "Convert PR to Draft" button to the mergeability box and adds visual feedback to its confirm button.](https://user-images.githubusercontent.com/1402241/95644892-885f3f80-0a7f-11eb-8428-8e0fb0c8dfa5.gif)
 - [](# "clean-header-search-field") [Clears duplicate queries in the header search field.](https://user-images.githubusercontent.com/1402241/114177338-7c890300-9966-11eb-83a3-a711a76fae99.png)
 - [](# "prevent-pr-merge-panel-opening") Prevents the merge panel from automatically opening on every page load after it’s been opened once.
+- [](# "command-palette-navigation-shortcuts") Adds keyboard shortcuts to select items in command palette using <kbd>ctrl</kbd> <kbd>n</kbd> and <kbd>ctrl</kbd> <kbd>p</kbd> (macOS only).
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

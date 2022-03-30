@@ -62,15 +62,16 @@ function onAltClick(event: delegate.Event<MouseEvent, HTMLInputElement>): void {
 	});
 }
 
-function init(): VoidFunction {
-	// `mousedown` required to avoid mouse selection on shift-click
-	delegate(document, '.js-reviewed-toggle', 'mousedown', batchToggle);
-	delegate(document, '.js-toggle-user-reviewed-file-form', 'submit', remember);
-	delegate(document, '.js-reviewed-toggle', 'click', onAltClick);
-
-	return () => {
-		previousFile = undefined;
-	};
+function init(): Deinit[] {
+	return [
+		// `mousedown` required to avoid mouse selection on shift-click
+		delegate(document, '.js-reviewed-toggle', 'mousedown', batchToggle),
+		delegate(document, '.js-toggle-user-reviewed-file-form', 'submit', remember),
+		delegate(document, '.js-reviewed-toggle', 'click', onAltClick),
+		() => {
+			previousFile = undefined;
+		},
+	];
 }
 
 void features.add(import.meta.url, {
