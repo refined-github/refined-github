@@ -72,3 +72,16 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init: initPR,
 });
+
+/* Test URLs
+
+- Open PR (default branch): https://github.com/refined-github/sandbox/pull/4
+- Open PR (non-default branch): https://github.com/Kenshin/simpread/pull/698
+
+- Merged PR (same author): https://github.com/sindresorhus/refined-github/pull/3402
+- Merged PR (different author): https://github.com/parcel-bundler/parcel/pull/78
+- Merged PR (different author + first published tag): https://github.com/sindresorhus/refined-github/pull/3227
+
+- Closed PR: https://github.com/sindresorhus/refined-github/pull/4141
+
+*/
