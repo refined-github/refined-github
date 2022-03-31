@@ -1,7 +1,6 @@
 import './clean-conversation-headers.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import elementReady from 'element-ready';
 import {ArrowLeftIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
@@ -9,12 +8,8 @@ import features from '.';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
-async function initIssue(): Promise<void> {
-	const byline = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-headers)');
-	if (!byline) {
-		return;
-	}
-
+function initIssue(): void {
+	const byline = select('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-headers)')!;
 	byline.classList.add('rgh-clean-conversation-headers', 'rgh-clean-conversation-headers-hide-author');
 
 	// Shows on issues: octocat opened this issue on 1 Jan · [1 comments]
@@ -24,16 +19,12 @@ async function initIssue(): Promise<void> {
 }
 
 async function initPR(): Promise<void> {
-	const byline = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-headers)');
-	if (!byline) {
-		return;
-	}
-
+	const byline = select('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-headers)')!;
 	byline.classList.add('rgh-clean-conversation-headers');
 
 	// Extra author name is only shown on `isPRConversation`
 	// Hide if it's the same as the opener (always) or merger
-	const shouldHideAuthor = pageDetect.isPRConversation() && select('.author', byline)!.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
+	const shouldHideAuthor = pageDetect.isPRConversation() && select('.author', byline)!.textContent === select('.TimelineItem .author')!.textContent;
 	if (shouldHideAuthor) {
 		byline.classList.add('rgh-clean-conversation-headers-hide-author');
 	}
@@ -58,7 +49,6 @@ void features.add(import.meta.url, {
 	additionalListeners: [
 		onConversationHeaderUpdate,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init: initIssue,
 }, {
@@ -68,7 +58,6 @@ void features.add(import.meta.url, {
 	additionalListeners: [
 		onConversationHeaderUpdate,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init: initPR,
 });
