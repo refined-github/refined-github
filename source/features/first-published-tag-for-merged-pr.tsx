@@ -34,7 +34,7 @@ async function init(): Promise<void> {
 
 		discussionHeader.parentElement!.append(
 			<span>
-				<TagIcon className="mx-1 color-text-secondary color-fg-muted"/>
+				<TagIcon className="ml-2 mr-1 color-text-secondary color-fg-muted"/>
 				<a
 					href={buildRepoURL('releases/tag', tagName)}
 					className="commit-ref"
