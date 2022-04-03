@@ -8,9 +8,13 @@ CONFIG_FILE=./safari/LocalOverrides.xcconfig
 TAG=$(git describe --tags --abbrev=0)
 
 if [[ $(git describe --tags) != "$TAG" ]]; then
-	echo You’re ahead of the latest tag. Run:
-	echo git checkout "$TAG"
-	exit 1
+	if [[ $(git status --porcelain) ]]; then
+		echo You’re ahead of the latest tag. Run:
+		echo git checkout "$TAG"
+		exit 1
+	fi
+
+	git checkout "$TAG"
 fi
 
 PROJECT_VERSION=$(sed -n 's/^CURRENT_PROJECT_VERSION = \(.*\)/\1/p' < $CONFIG_FILE)
