@@ -59,6 +59,11 @@ function processPage(): void {
 		if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
 			processReview(item);
 		} else if (select.exists('.comment-body', item)) {
+			// Exclude explicitly linked comment
+			if (location.hash.startsWith('#issuecomment-') && select.exists(location.hash, item)) {
+				continue;
+			}
+
 			processSimpleComment(item);
 		} else {
 			// Non-comment event, always hide
