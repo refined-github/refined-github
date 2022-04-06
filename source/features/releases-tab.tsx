@@ -88,7 +88,7 @@ async function addReleasesTab(): Promise<false | void> {
 	);
 }
 
-function highlightReleasesTab(): VoidFunction {
+function highlightReleasesTab(): Deinit {
 	const selectorObserver = observe('.UnderlineNav-item.selected:not(.rgh-releases-tab)', {
 		add(selectedTab) {
 			unhighlightTab(selectedTab);
@@ -97,7 +97,7 @@ function highlightReleasesTab(): VoidFunction {
 	});
 	highlightTab(select('.rgh-releases-tab')!);
 
-	return selectorObserver.abort;
+	return selectorObserver;
 }
 
 async function init(): Promise<Deinit | void> {

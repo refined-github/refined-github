@@ -67,7 +67,7 @@ function init(): Deinit {
 	observeFiles();
 
 	return [
-		observer.disconnect,
+		observer,
 		onDiffFileLoad(observeFiles),
 		delegate(document, '.rgh-comments-indicator', 'click', handleIndicatorClick),
 	];

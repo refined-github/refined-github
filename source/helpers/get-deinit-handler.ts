@@ -1,10 +1,14 @@
 export default function getDeinitHandler(deinit: Deinit): VoidFunction {
 	if (deinit instanceof MutationObserver || deinit instanceof ResizeObserver || deinit instanceof IntersectionObserver) {
-		return deinit.disconnect;
+		return () => {
+			deinit.disconnect();
+		};
 	}
 
 	if ('abort' in deinit) { // Selector observer
-		return deinit.abort;
+		return () => {
+			deinit.abort();
+		};
 	}
 
 	if ('destroy' in deinit) { // Delegate subscription

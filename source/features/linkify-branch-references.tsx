@@ -54,7 +54,7 @@ function hovercardInit(): void | Deinit {
 	const hovercardContainer = select('.js-hovercard-content > .Popover-message');
 	if (hovercardContainer) {
 		hovercardObserver.observe(hovercardContainer, {childList: true});
-		return hovercardObserver.disconnect;
+		return hovercardObserver;
 	}
 }
 
