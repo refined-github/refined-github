@@ -32,7 +32,7 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 	],
 	exclude: [
-		() => select.exists('.blankslate'),
+		pageDetect.isBlank,
 	],
 	init,
 });
