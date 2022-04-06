@@ -40,13 +40,9 @@ function pjaxErrorHandler(event: CustomEvent): void {
 	}
 }
 
-function init(): Deinit {
+function init(): void {
 	progressLoader = select('.progress-pjax-loader')!;
 	window.addEventListener('keydown', keydownHandler);
-
-	return () => {
-		window.removeEventListener('keydown', keydownHandler);
-	};
 }
 
 void features.add(import.meta.url, {
