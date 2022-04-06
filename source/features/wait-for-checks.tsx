@@ -11,6 +11,7 @@ import features from '.';
 import observeElement from '../helpers/simplified-element-observer';
 import * as prCiStatus from '../github-helpers/pr-ci-status';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
+import {onPrMergePanelLoad} from '../github-events/on-fragment-load';
 
 // Reuse the same checkbox to preserve its status
 const generateCheckbox = onetime(() => (
@@ -114,7 +115,13 @@ async function handleMergeConfirmation(event: delegate.Event<Event, HTMLButtonEl
 	}
 }
 
-function watchForNewCommits(): MutationObserver {
+let commitObserver: undefined | MutationObserver;
+
+function watchForNewCommits(): void {
+	if (commitObserver) {
+		return;
+	}
+
 	let previousCommit = prCiStatus.getLastCommitReference();
 	const filteredListener = (): void => {
 		const newCommit = prCiStatus.getLastCommitReference();
@@ -128,10 +135,15 @@ function watchForNewCommits(): MutationObserver {
 		showCheckboxIfNecessary();
 	};
 
-	return observeElement('.js-discussion', filteredListener, {
+	commitObserver = observeElement('.js-discussion', filteredListener, {
 		childList: true,
 		subtree: true,
 	})!;
+}
+
+function onPrMergePanelHandler(): void {
+	showCheckboxIfNecessary();
+	watchForNewCommits();
 }
 
 function onBeforeunload(event: BeforeUnloadEvent): void {
@@ -140,25 +152,14 @@ function onBeforeunload(event: BeforeUnloadEvent): void {
 	}
 }
 
-async function init(): Promise<Deinit[]> {
-	const deinitController = new AbortController();
-
+async function init(signal: AbortSignal): Promise<Deinit[]> {
 	// Warn user if it's not yet submitted
-	window.addEventListener('beforeunload', onBeforeunload);
+	window.addEventListener('beforeunload', onBeforeunload, {signal});
 
 	return [
-		deinitController.abort,
+		onPrMergePanelLoad(onPrMergePanelHandler),
 
-		onPrMergePanelOpen(() => {
-			const {signal} = deinitController;
-			if (signal.aborted) {
-				return;
-			}
-
-			showCheckboxIfNecessary();
-			const observer = watchForNewCommits();
-			signal.addEventListener('abort', observer.disconnect, {once: true});
-		}),
+		onPrMergePanelOpen(onPrMergePanelHandler),
 
 		// One of the merge buttons has been clicked
 		delegate(document, '.js-merge-commit-button:not(.rgh-merging)', 'click', handleMergeConfirmation),
@@ -169,7 +170,9 @@ async function init(): Promise<Deinit[]> {
 		}),
 
 		() => {
-			window.removeEventListener('beforeunload', onBeforeunload);
+			if (commitObserver) {
+				commitObserver.disconnect();
+			}
 		},
 	];
 }

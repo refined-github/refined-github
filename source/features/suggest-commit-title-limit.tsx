@@ -4,7 +4,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
+import onPrCommitMessageRestore from '../github-events/on-pr-commit-message-restore';
 
 const fieldSelector = [
 	'#commit-summary-input', // Commit title on edit file page
@@ -32,9 +32,8 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 	],
 	additionalListeners: [
-		// For PR merges, GitHub restores any saved commit messages on page load
-		// Triggering input event for these fields immediately validates the form
-		onPrMergePanelOpen,
+		// For PR merges, GitHub restores any modified commit messages on page load
+		onPrCommitMessageRestore,
 	],
 	onlyAdditionalListeners: true,
 	deduplicate: 'has-rgh-inner',

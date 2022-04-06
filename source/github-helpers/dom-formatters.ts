@@ -2,18 +2,14 @@ import zipTextNodes from 'zip-text-nodes';
 import linkifyURLsCore from 'linkify-urls';
 import linkifyIssuesCore from 'linkify-issues';
 
-import {getRepo} from '.';
 import getTextNodes from '../helpers/get-text-nodes';
 import parseBackticksCore from './parse-backticks';
 
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';
 
-// If we are not in a repo, relative issue references won't make sense but `user`/`repo` need to be set to avoid breaking errors in `linkify-issues`
-// https://github.com/refined-github/refined-github/issues/1305
-const currentRepo = getRepo()!;
-
 export function linkifyIssues(
+	currentRepo: {owner?: string; name?: string},
 	element: Element,
 	options: Partial<linkifyIssuesCore.TypeDomOptions> = {},
 ): void {
