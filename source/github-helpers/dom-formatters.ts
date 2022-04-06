@@ -1,4 +1,5 @@
 import zipTextNodes from 'zip-text-nodes';
+import {applyToLink} from 'shorten-repo-url';
 import linkifyURLsCore from 'linkify-urls';
 import linkifyIssuesCore from 'linkify-issues';
 
@@ -7,6 +8,21 @@ import parseBackticksCore from './parse-backticks';
 
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';
+
+export const codeElementsSelector = [
+	'.blob-code-inner', // Code lines
+	'.highlight > pre', // Highlighted code blocks in comments
+	'.snippet-clipboard-content > pre', // Non-highlighted code blocks in comments
+].join(',');
+
+export function shortenLink(link: HTMLAnchorElement): void {
+	// Exclude the link if the closest element found is not `.comment-body`
+	// This avoids shortening links in code and code suggestions, but still shortens them in review comments
+	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
+	if (link.closest(`${codeElementsSelector}, .comment-body`)?.classList.contains('comment-body')) {
+		applyToLink(link, location.href);
+	}
+}
 
 export function linkifyIssues(
 	currentRepo: {owner?: string; name?: string},

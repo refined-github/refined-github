@@ -4,9 +4,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {getRepo} from '../github-helpers';
-import {codeElementsSelectors} from './show-whitespace';
+import {codeElementsSelector, linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
-import {linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters';
 
 function initTitle(): void {
 	// If we are not in a repo, relative issue references won't make sense but `user`/`repo` needs to be set to avoid breaking errors in `linkify-issues`
@@ -21,7 +20,7 @@ function initTitle(): void {
 }
 
 function init(): Deinit {
-	return observe(`:is(${codeElementsSelectors}):not(.${linkifiedURLClass})`, {
+	return observe(`:is(${codeElementsSelector}):not(.${linkifiedURLClass})`, {
 		add(wrappers) {
 			linkifyURLs(wrappers);
 
