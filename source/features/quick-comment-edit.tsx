@@ -7,6 +7,34 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import isArchivedRepo from '../helpers/is-archived-repo';
 
+function addQuickEditButton(commentForm: Element): void {
+	commentForm.classList.add('rgh-edit-comment');
+
+	const comment = commentForm.closest('.js-comment')!;
+	if (select.exists('.rgh-quick-comment-edit-button', comment)) { // #5572
+		return;
+	}
+
+	const button = (
+		<button
+			type="button"
+			role="menuitem"
+			className={`timeline-comment-action btn-link js-comment-edit-button ${pageDetect.isDiscussion() ? 'js-discussions-comment-edit-button' : ''} rgh-quick-comment-edit-button`}
+			aria-label="Edit comment"
+		>
+			<PencilIcon/>
+		</button>
+	);
+
+	// Need a child combinator because the reaction picker on PR comments is also a <details> #5558
+	const dropdown = comment.querySelector('.timeline-comment-actions > details:last-child')!;
+	if (pageDetect.isIssue()) {
+		dropdown.previousSibling!.replaceWith(button); // Replace whitespace node in issue comments header
+	} else {
+		dropdown.before(button);
+	}
+}
+
 function canEditEveryComment(): boolean {
 	return select.exists([
 		// If you can lock conversations, you have write access
@@ -26,22 +54,7 @@ function init(): Deinit {
 	const preSelector = canEditEveryComment() ? '' : '.current-user';
 	// Find editable comments first, then traverse to the correct position
 	return observe(preSelector + '.js-comment.unminimized-comment .js-comment-update:not(.rgh-edit-comment)', {
-		add(comment) {
-			comment.classList.add('rgh-edit-comment');
-			comment
-				.closest('.js-comment')!
-				.querySelector('.timeline-comment-actions details:last-child')! // The dropdown
-				.before(
-					<button
-						type="button"
-						role="menuitem"
-						className={`timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button ${pageDetect.isDiscussion() ? 'js-discussions-comment-edit-button' : ''}`}
-						aria-label="Edit comment"
-					>
-						<PencilIcon/>
-					</button>,
-				);
-		},
+		add: addQuickEditButton,
 	});
 }
 
