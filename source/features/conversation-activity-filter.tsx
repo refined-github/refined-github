@@ -56,10 +56,10 @@ function processReview(review: HTMLElement): void {
 
 function processPage(): void {
 	for (const item of select.all(`.js-timeline-item:not(.${hiddenClassName}, .${collapsedClassName})`)) {
-    // Exclude explicitly linked comment
-    if (location.hash.startsWith('#issuecomment-') && select.exists(location.hash, item)) {
-      continue;
-    }
+		// Exclude deep-linked comment
+		if (location.hash.startsWith('#issuecomment-') && select.exists(location.hash, item)) {
+			continue;
+		}
 
 		if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
 			processReview(item);
