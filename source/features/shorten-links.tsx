@@ -1,23 +1,14 @@
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
-import {applyToLink} from 'shorten-repo-url';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {linkifiedURLClass} from '../github-helpers/dom-formatters';
-import {codeElementsSelectors} from './show-whitespace';
+import {linkifiedURLClass, shortenLink} from '../github-helpers/dom-formatters';
 
 function init(): void {
 	observe(`a[href]:not(.${linkifiedURLClass})`, {
 		constructor: HTMLAnchorElement,
-		add(link) {
-			// Exclude the link if the closest element found is not `.comment-body`
-			// This avoids shortening links in code and code suggestions, but still shortens them in review comments
-			// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-			if (link.closest(`${codeElementsSelectors}, .comment-body`)?.classList.contains('comment-body')) {
-				applyToLink(link, location.href);
-			}
-		},
+		add: shortenLink,
 	});
 }
 

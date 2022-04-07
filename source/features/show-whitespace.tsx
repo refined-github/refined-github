@@ -8,6 +8,7 @@ import features from '.';
 import getTextNodes from '../helpers/get-text-nodes';
 import onNewComments from '../github-events/on-new-comments';
 import {onDiffFileLoad} from '../github-events/on-fragment-load';
+import {codeElementsSelector} from '../github-helpers/dom-formatters';
 
 // `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
 function showWhiteSpacesOn(line: Element): void {
@@ -65,15 +66,8 @@ const viewportObserver = new IntersectionObserver(changes => {
 	}
 });
 
-// eslint-disable-next-line import/prefer-default-export
-export const codeElementsSelectors = [
-	'.blob-code-inner', // Code lines
-	'.highlight > pre', // Highlighted code blocks in comments
-	'.snippet-clipboard-content > pre', // Not highlighted code blocks in comments
-].join(',');
-
 function observeWhiteSpace(): void {
-	for (const line of select.all(`:is(${codeElementsSelectors}):not(.rgh-observing-whitespace, .blob-code-hunk)`)) {
+	for (const line of select.all(`:is(${codeElementsSelector}):not(.rgh-observing-whitespace, .blob-code-hunk)`)) {
 		line.classList.add('rgh-observing-whitespace');
 		viewportObserver.observe(line);
 	}
