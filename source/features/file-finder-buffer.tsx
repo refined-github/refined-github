@@ -60,11 +60,6 @@ function pjaxCompleteHandler(): void {
 function init(): Deinit {
 	window.addEventListener('pjax:start', pjaxStartHandler);
 	window.addEventListener('pjax:complete', pjaxCompleteHandler);
-
-	return () => {
-		window.removeEventListener('pjax:start', pjaxStartHandler);
-		window.removeEventListener('pjax:complete', pjaxCompleteHandler);
-	};
 }
 
 void features.add(import.meta.url, {
