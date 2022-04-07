@@ -27,3 +27,7 @@ wow:root:root :is(.rgh-conversation-activity-filtered, .rgh-conversation-activit
 	display: flex;
 	align-items: center;
 }
+
+.gh-header-meta .rgh-conversation-activity-filter-wrapper {
+	margin-bottom: 8px; /* Preserves the horizontal alignment with the status badge */
+}
