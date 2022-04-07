@@ -26,7 +26,6 @@ function addQuickEditButton(commentForm: Element): void {
 		</button>
 	);
 
-	// Need a child combinator because the reaction picker on PR comments is also a <details> #5558
 	const dropdown = comment.querySelector('.timeline-comment-actions > details:last-child')!;
 	if (pageDetect.isIssue()) {
 		dropdown.previousSibling!.replaceWith(button); // Replace whitespace node in issue comments header
