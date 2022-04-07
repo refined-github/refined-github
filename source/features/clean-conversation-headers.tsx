@@ -9,10 +9,10 @@ import features from '.';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
-async function initIssue(): Promise<void> {
+async function cleanIssueHeader(): Promise<void | false> {
 	const byline = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-headers)');
 	if (!byline) {
-		return;
+		return false;
 	}
 
 	byline.classList.add('rgh-clean-conversation-headers', 'rgh-clean-conversation-headers-hide-author');
@@ -23,10 +23,10 @@ async function initIssue(): Promise<void> {
 	commentCount.replaceWith(<span>{commentCount.textContent!.replace('·', '')}</span>);
 }
 
-async function initPR(): Promise<void> {
+async function cleanPrHeader(): Promise<void | false> {
 	const byline = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-headers)');
 	if (!byline) {
-		return;
+		return false;
 	}
 
 	byline.classList.add('rgh-clean-conversation-headers');
@@ -51,26 +51,29 @@ async function initPR(): Promise<void> {
 	}
 }
 
+async function init(): Promise<void | Deinit> {
+	const cleanConversationHeader = pageDetect.isIssue() ? cleanIssueHeader : cleanPrHeader;
+
+	// Wait for the initial clean-up to finish before setting up the observer #5573
+	if ((await cleanConversationHeader()) !== false) {
+		return onConversationHeaderUpdate(cleanConversationHeader);
+	}
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssue,
 	],
-	additionalListeners: [
-		onConversationHeaderUpdate,
-	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
-	init: initIssue,
+	init,
 }, {
 	include: [
 		pageDetect.isPR,
 	],
-	additionalListeners: [
-		onConversationHeaderUpdate,
-	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
-	init: initPR,
+	init,
 });
 
 /* Test URLs
