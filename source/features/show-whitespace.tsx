@@ -77,7 +77,7 @@ function init(): Deinit[] {
 	observeWhiteSpace();
 
 	return [
-		viewportObserver.disconnect,
+		viewportObserver,
 		// Show whitespace on new review suggestions #2852
 		// This event is not very reliable as it also triggers when review comments are edited or deleted
 		delegate(document, '.js-pull-refresh-on-pjax', 'socket:message', observeWhiteSpace, {capture: true}),

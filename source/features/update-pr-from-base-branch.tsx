@@ -83,7 +83,7 @@ async function init(): Promise<Deinit | false> {
 	});
 
 	return [
-		observer.abort,
+		observer,
 		delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler),
 	];
 }
