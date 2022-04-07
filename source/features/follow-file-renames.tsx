@@ -41,6 +41,7 @@ export async function getChangesToFileInCommit(sha: string, filePath: string): P
 
 async function linkify(button: HTMLButtonElement, filePath: string): Promise<void | false> {
 	const isNewer = button.textContent === 'Newer';
+	const isOlder = !isNewer;
 	const fromKey = isNewer ? 'previous_filename' : 'filename';
 	const toKey = isNewer ? 'filename' : 'previous_filename';
 	const sha = (isNewer ? select : select.last)('clipboard-copy[aria-label="Copy the full SHA"]')!;
@@ -57,6 +58,10 @@ async function linkify(button: HTMLButtonElement, filePath: string): Promise<voi
 		// Clear the search from the url, so it does not get passed to the rename link
 		search: '',
 	});
+	if (isOlder) {
+		linkifiedURL.branch = fileChanges.commit.parentSha; // #5576
+	}
+
 	// Check that the file was actually renamed
 	if (fileChanges.file[fromKey] === filePath) {
 		button.replaceWith(
@@ -67,7 +72,7 @@ async function linkify(button: HTMLButtonElement, filePath: string): Promise<voi
 			>
 				{isNewer && <DiffRenamedIcon className="mr-1" style={{transform: 'rotate(180deg)'}}/>}
 				{button.textContent}
-				{!isNewer && <DiffRenamedIcon className="ml-1"/>}
+				{isOlder && <DiffRenamedIcon className="ml-1"/>}
 			</a>,
 		);
 	}
@@ -91,3 +96,10 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/* Test URLs
+
+- Renamed file on main branch: https://github.com/MicrosoftDocs/azure-docs/commits/main/articles/app-service/tutorial-connect-msi-sql-database.md
+- Renamed file on branch with slashes: https://togithub.com/refined-github/sandbox/commits/branch/with/slashes/renamed.md
+
+*/
