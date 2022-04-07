@@ -29,5 +29,5 @@ wow:root:root :is(.rgh-conversation-activity-filtered, .rgh-conversation-activit
 }
 
 .gh-header-meta .rgh-conversation-activity-filter-wrapper {
-	margin-bottom: 8px; /* Preserves the horizontal alignment with the status badge */
+	margin-bottom: 8px; /* Preserve centered vertical alignment with status badge */
 }
