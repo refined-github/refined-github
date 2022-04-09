@@ -24,16 +24,13 @@ const dropdownClass = 'rgh-conversation-activity-filter-dropdown';
 const hiddenClassName = 'rgh-conversation-activity-filtered';
 const collapsedClassName = 'rgh-conversation-activity-collapsed';
 
-function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
-	const hasMainComment = select.exists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
-	if (hasMainComment) {
-		return false;
+function processTimelineEvent(item: HTMLElement): void {
+	// Don't hide commits in PR conversation timelines #5581
+	if (pageDetect.isPR() && select.exists('.TimelineItem-badge .octicon-git-commit', item)) {
+		return;
 	}
 
-	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
-	const hasUnresolvedThread = select.exists('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
-	const hasUnresolvedThreadComment = select.exists('.timeline-comment-group:not(.minimized-comment)', review);
-	return !hasUnresolvedThread || !hasUnresolvedThreadComment;
+	item.classList.add(hiddenClassName);
 }
 
 function processSimpleComment(item: HTMLElement): void {
@@ -43,14 +40,34 @@ function processSimpleComment(item: HTMLElement): void {
 	}
 }
 
+function processDissmissedReviewEvent(item: HTMLElement): void {
+	item.classList.add(hiddenClassName);
+
+	// Find and hide stale reviews referenced by dismissed review events
+	for (const {hash: staleReviewId} of select.all<HTMLAnchorElement>('.TimelineItem-body > [href^="#pullrequestreview-"]', item)) {
+		select(staleReviewId)!
+			.closest('.js-timeline-item')!
+			.classList.add(collapsedClassName);
+	}
+}
+
 function processReview(review: HTMLElement): void {
-	if (isWholeReviewEssentiallyResolved(review)) {
-		review.classList.add(collapsedClassName);
+	const hasMainComment = select.exists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
+
+	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
+	const unresolvedThreads = select.all('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
+	const unresolvedThreadComments = select.all('.timeline-comment-group:not(.minimized-comment)', review);
+
+	if (!hasMainComment && (unresolvedThreads.length === 0 || unresolvedThreadComments.length === 0)) {
+		review.classList.add(collapsedClassName); // The whole review is essentially resolved
 		return;
 	}
 
-	for (const threadContainer of select.all('.js-resolvable-timeline-thread-container[data-resolved="true"]', review)) {
-		threadContainer.classList.add(collapsedClassName);
+	for (const thread of unresolvedThreads) {
+		// Hide threads containing only resolved comments
+		if (!unresolvedThreadComments.some(comment => thread.contains(comment))) {
+			thread.classList.add(collapsedClassName);
+		}
 	}
 }
 
@@ -63,11 +80,12 @@ function processPage(): void {
 
 		if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
 			processReview(item);
+		} else if (select.exists('.TimelineItem-badge .octicon-x', item)) {
+			processDissmissedReviewEvent(item);
 		} else if (select.exists('.comment-body', item)) {
 			processSimpleComment(item);
 		} else {
-			// Non-comment event, always hide
-			item.classList.add(hiddenClassName);
+			processTimelineEvent(item);
 		}
 	}
 }
@@ -169,7 +187,7 @@ const minorFixesIssuePages = [
 	getRghIssueUrl(4008),
 ];
 
-function runShortcuts({key, target}: KeyboardEvent): void {
+function runShortcut({key, target}: KeyboardEvent): void {
 	if (key !== 'h' || isEditable(target)) {
 		return;
 	}
@@ -203,7 +221,7 @@ async function init(): Promise<void> {
 		applyState(state);
 	}
 
-	document.body.addEventListener('keypress', runShortcuts);
+	document.body.addEventListener('keypress', runShortcut);
 }
 
 void features.add(import.meta.url, {
@@ -214,7 +232,7 @@ void features.add(import.meta.url, {
 		onConversationHeaderUpdate,
 	],
 	shortcuts: {
-		h: 'Cycle between conversation activity filters',
+		h: 'Cycle through conversation activity filters',
 	},
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
