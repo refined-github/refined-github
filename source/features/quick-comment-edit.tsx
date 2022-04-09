@@ -15,23 +15,24 @@ function addQuickEditButton(commentForm: Element): void {
 		return;
 	}
 
-	const button = (
-		<button
-			type="button"
-			role="menuitem"
-			className={`timeline-comment-action btn-link js-comment-edit-button ${pageDetect.isDiscussion() ? 'js-discussions-comment-edit-button' : ''} rgh-quick-comment-edit-button`}
-			aria-label="Edit comment"
-		>
-			<PencilIcon/>
-		</button>
-	);
+	const buttonClasses = [
+		'timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button',
+		pageDetect.isIssue() ? 'pl-0' : '', // Compensate whitespace node in issue comments header https://github.com/refined-github/refined-github/pull/5580#discussion_r845354681
+		pageDetect.isDiscussion() ? 'js-discussions-comment-edit-button' : '',
+	].join(' ');
 
-	const dropdown = comment.querySelector('.timeline-comment-actions > details:last-child')!;
-	if (pageDetect.isIssue()) {
-		dropdown.previousSibling!.replaceWith(button); // Replace whitespace node in issue comments header
-	} else {
-		dropdown.before(button);
-	}
+	comment
+		.querySelector('.timeline-comment-actions > details:last-child')! // The dropdown
+		.before(
+			<button
+				type="button"
+				role="menuitem"
+				className={buttonClasses}
+				aria-label="Edit comment"
+			>
+				<PencilIcon/>
+			</button>,
+		);
 }
 
 function canEditEveryComment(): boolean {
