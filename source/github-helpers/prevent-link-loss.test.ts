@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import './fixtures/globals';
+import '../../test/fixtures/globals';
 import {
 	preventPrCommitLinkLoss,
 	preventPrCompareLinkLoss,
@@ -8,7 +8,7 @@ import {
 	prCommitUrlRegex,
 	prCompareUrlRegex,
 	discussionUrlRegex,
-} from '../source/github-helpers/prevent-link-loss';
+} from './prevent-link-loss';
 
 function replacePrCommitLink(string: string): string {
 	return string.replace(prCommitUrlRegex, preventPrCommitLinkLoss);
