@@ -8,8 +8,9 @@ import features from '.';
 import isArchivedRepo from '../helpers/is-archived-repo';
 
 function addQuickEditButton(commentForm: Element): void {
+	const commentBody = commentForm.closest('.js-comment')!;
 	// We can't rely on a class for deduplication because the whole comment might be replaced by GitHub #5572
-	if (select.exists('.rgh-quick-comment-edit-button', commentForm)) {
+	if (select.exists('.rgh-quick-comment-edit-button', commentBody)) {
 		return;
 	}
 
@@ -19,8 +20,7 @@ function addQuickEditButton(commentForm: Element): void {
 		pageDetect.isDiscussion() ? 'js-discussions-comment-edit-button' : '',
 	].join(' ');
 
-	commentForm
-		.closest('.js-comment')!
+	commentBody
 		.querySelector('.timeline-comment-actions > details:last-child')! // The dropdown
 		.before(
 			<button
