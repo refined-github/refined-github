@@ -8,10 +8,8 @@ import features from '.';
 import isArchivedRepo from '../helpers/is-archived-repo';
 
 function addQuickEditButton(commentForm: Element): void {
-	commentForm.classList.add('rgh-edit-comment');
-
-	const comment = commentForm.closest('.js-comment')!;
-	if (select.exists('.rgh-quick-comment-edit-button', comment)) { // #5572
+	// We can't rely on a class for deduplication because the whole comment might be replaced by GitHub #5572
+	if (select.exists('.rgh-quick-comment-edit-button', commentForm)) {
 		return;
 	}
 
@@ -21,7 +19,8 @@ function addQuickEditButton(commentForm: Element): void {
 		pageDetect.isDiscussion() ? 'js-discussions-comment-edit-button' : '',
 	].join(' ');
 
-	comment
+	commentForm
+		.closest('.js-comment')!
 		.querySelector('.timeline-comment-actions > details:last-child')! // The dropdown
 		.before(
 			<button
@@ -53,7 +52,7 @@ function init(): Deinit {
 	// If true then the resulting selector will match all comments, otherwise it will only match those made by you
 	const preSelector = canEditEveryComment() ? '' : '.current-user';
 	// Find editable comments first, then traverse to the correct position
-	return observe(preSelector + '.js-comment.unminimized-comment .js-comment-update:not(.rgh-edit-comment)', {
+	return observe(preSelector + '.js-comment.unminimized-comment .js-comment-update', {
 		add: addQuickEditButton,
 	});
 }
