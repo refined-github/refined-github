@@ -7,6 +7,33 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import isArchivedRepo from '../helpers/is-archived-repo';
 
+function addQuickEditButton(commentForm: Element): void {
+	const commentBody = commentForm.closest('.js-comment')!;
+	// We can't rely on a class for deduplication because the whole comment might be replaced by GitHub #5572
+	if (select.exists('.rgh-quick-comment-edit-button', commentBody)) {
+		return;
+	}
+
+	const buttonClasses = [
+		'timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button',
+		pageDetect.isIssue() ? 'pl-0' : '', // Compensate whitespace node in issue comments header https://github.com/refined-github/refined-github/pull/5580#discussion_r845354681
+		pageDetect.isDiscussion() ? 'js-discussions-comment-edit-button' : '',
+	].join(' ');
+
+	commentBody
+		.querySelector('.timeline-comment-actions > details:last-child')! // The dropdown
+		.before(
+			<button
+				type="button"
+				role="menuitem"
+				className={buttonClasses}
+				aria-label="Edit comment"
+			>
+				<PencilIcon/>
+			</button>,
+		);
+}
+
 function canEditEveryComment(): boolean {
 	return select.exists([
 		// If you can lock conversations, you have write access
@@ -25,23 +52,8 @@ function init(): Deinit {
 	// If true then the resulting selector will match all comments, otherwise it will only match those made by you
 	const preSelector = canEditEveryComment() ? '' : '.current-user';
 	// Find editable comments first, then traverse to the correct position
-	return observe(preSelector + '.js-comment.unminimized-comment .js-comment-update:not(.rgh-edit-comment)', {
-		add(comment) {
-			comment.classList.add('rgh-edit-comment');
-			comment
-				.closest('.js-comment')!
-				.querySelector('.timeline-comment-actions details:last-child')! // The dropdown
-				.before(
-					<button
-						type="button"
-						role="menuitem"
-						className={`timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button ${pageDetect.isDiscussion() ? 'js-discussions-comment-edit-button' : ''}`}
-						aria-label="Edit comment"
-					>
-						<PencilIcon/>
-					</button>,
-				);
-		},
+	return observe(preSelector + '.js-comment.unminimized-comment .js-comment-update', {
+		add: addQuickEditButton,
 	});
 }
 
