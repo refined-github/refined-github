@@ -28,3 +28,7 @@
 	display: flex;
 	align-items: center;
 }
+
+.gh-header-meta .rgh-conversation-activity-filter-wrapper {
+	margin-bottom: 8px; /* Preserve centered vertical alignment with status badge */
+}

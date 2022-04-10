@@ -148,10 +148,10 @@ async function addWidget(header: string, state: State): Promise<void> {
 	position.classList.add('rgh-conversation-activity-filter');
 	position.after(
 		<details
-			className={`details-reset details-overlay d-inline-block position-relative ${dropdownClass}`}
+			className={`details-reset details-overlay d-inline-block ml-2 position-relative ${dropdownClass}`}
 			id="rgh-conversation-activity-filter-select-menu"
 		>
-			<summary className="ml-2">
+			<summary>
 				<EyeIcon className="color-text-secondary color-fg-muted"/>
 				<EyeClosedIcon className="color-icon-danger color-fg-danger"/>
 				<div className="dropdown-caret ml-1"/>
