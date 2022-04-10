@@ -97,9 +97,8 @@ void features.add(import.meta.url, {
 	init,
 });
 
-/* Test URLs
-
+/*
+Test URLs:
 - Renamed file on main branch: https://github.com/MicrosoftDocs/azure-docs/commits/main/articles/app-service/tutorial-connect-msi-sql-database.md
 - Renamed file on branch with slashes: https://togithub.com/refined-github/sandbox/commits/branch/with/slashes/renamed.md
-
 */
