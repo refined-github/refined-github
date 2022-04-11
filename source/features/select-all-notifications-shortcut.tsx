@@ -23,6 +23,9 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNotifications,
 	],
+	exclude: [
+		() => select.exists('img[src$="notifications/inbox-zero.svg"]'), // Don't run on empty inbox page
+	],
 	awaitDomReady: false,
 	init,
 });
