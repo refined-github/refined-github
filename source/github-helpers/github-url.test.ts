@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import '../../fixtures/globals';
+import '../../test/fixtures/globals';
 import GitHubURL from './github-url';
 
 test('branch', t => {
