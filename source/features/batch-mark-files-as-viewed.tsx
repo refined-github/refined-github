@@ -1,6 +1,7 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import elementReady from 'element-ready';
 
 import features from '.';
 import clickAll from '../helpers/click-all';
@@ -18,23 +19,23 @@ function isChecked(file: HTMLElement): boolean {
 }
 
 function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
-	if (!event.shiftKey || !previousFile) {
+	if (!event.shiftKey || !previousFile?.isConnected) {
 		return;
 	}
 
 	event.preventDefault();
 	event.stopImmediatePropagation();
 
-	const previousFileState = isChecked(previousFile);
 	const thisFile = event.delegateTarget.closest('.js-file')!;
 	const files = select.all('.js-file');
+
 	const selectedFiles = files.slice(...[
-		files.indexOf(previousFile) + 1,
+		files.indexOf(previousFile),
 		files.indexOf(thisFile) + 1,
 	].sort((a, b) => a - b));
 
 	for (const file of selectedFiles) {
-		if (isChecked(file) !== previousFileState) {
+		if (!isChecked(file)) {
 			select('.js-reviewed-checkbox', file)!.click();
 		}
 	}
@@ -63,6 +64,11 @@ function onAltClick(event: delegate.Event<MouseEvent, HTMLInputElement>): void {
 }
 
 function init(): Deinit[] {
+	// eslint-disable-next-line @typescript-eslint/no-floating-promises
+	elementReady('.js-file').then(file => {
+		previousFile = file;
+	});
+
 	return [
 		// `mousedown` required to avoid mouse selection on shift-click
 		delegate(document, '.js-reviewed-toggle', 'mousedown', batchToggle),
