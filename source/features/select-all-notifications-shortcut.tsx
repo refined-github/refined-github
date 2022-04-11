@@ -1,21 +1,33 @@
-import elementReady from 'element-ready';
+import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onElementRemoval from '../helpers/on-element-removal';
 
-async function init(signal: AbortSignal): Promise<void> {
-	const selectAllNotifications = await elementReady('.js-notifications-mark-all-prompt');
-	if (selectAllNotifications) { // Notifications page may be empty
-		selectAllNotifications.dataset.hotkey = 'a';
-		await onElementRemoval(selectAllNotifications, signal); // "Select all" checkbox will be replaced if there's more notifications to load #4199
-		void init(signal);
+function runShortcut(event: KeyboardEvent): void {
+	if (
+		event.key === 'a'
+		&& !event.ctrlKey
+		&& !event.metaKey
+		&& !event.isComposing
+	) {
+		select('.js-notifications-mark-all-prompt')!.click();
 	}
 }
 
+function init(signal: AbortSignal): void {
+	// Listen to the shortcut ourselves instead of attaching it to the checkbox #5569
+	document.body.addEventListener('keypress', runShortcut, {signal});
+}
+
 void features.add(import.meta.url, {
+	shortcuts: {
+		a: 'Select all notifications',
+	},
 	include: [
 		pageDetect.isNotifications,
+	],
+	exclude: [
+		() => select.exists('img[src$="notifications/inbox-zero.svg"]'), // Don't run on empty inbox page
 	],
 	awaitDomReady: false,
 	init,
