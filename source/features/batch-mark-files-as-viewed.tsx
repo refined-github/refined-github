@@ -22,6 +22,8 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 		return;
 	}
 
+	const isFirstToggle = previousFile === undefined;
+
 	previousFile ??= select('.js-file'); // #5484
 	if (!previousFile?.isConnected) {
 		return;
@@ -32,6 +34,7 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 
 	const thisFile = event.delegateTarget.closest('.js-file')!;
 	const files = select.all('.js-file');
+	const previousFileState = isFirstToggle ? !isChecked(thisFile) : isChecked(previousFile);
 
 	const selectedFiles = files.slice(...[
 		files.indexOf(previousFile),
@@ -39,7 +42,7 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 	].sort((a, b) => a - b));
 
 	for (const file of selectedFiles) {
-		if (!isChecked(file)) {
+		if (isChecked(file) !== previousFileState) {
 			select('.js-reviewed-checkbox', file)!.click();
 		}
 	}
