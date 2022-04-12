@@ -1,7 +1,6 @@
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import elementReady from 'element-ready';
 
 import features from '.';
 import clickAll from '../helpers/click-all';
@@ -19,6 +18,10 @@ function isChecked(file: HTMLElement): boolean {
 }
 
 function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
+	if (!previousFile) {
+		previousFile = select('.js-file');
+	}
+
 	if (!event.shiftKey || !previousFile?.isConnected) {
 		return;
 	}
@@ -64,11 +67,6 @@ function onAltClick(event: delegate.Event<MouseEvent, HTMLInputElement>): void {
 }
 
 function init(): Deinit[] {
-	// eslint-disable-next-line @typescript-eslint/no-floating-promises
-	elementReady('.js-file').then(file => {
-		previousFile = file;
-	});
-
 	return [
 		// `mousedown` required to avoid mouse selection on shift-click
 		delegate(document, '.js-reviewed-toggle', 'mousedown', batchToggle),
