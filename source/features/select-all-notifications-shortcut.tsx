@@ -2,13 +2,14 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {isEditable} from '../helpers/dom-utils';
 
 function runShortcut(event: KeyboardEvent): void {
 	if (
 		event.key === 'a'
 		&& !event.ctrlKey
 		&& !event.metaKey
-		&& !event.isComposing
+		&& !isEditable(event.target)
 	) {
 		select('.js-notifications-mark-all-prompt')!.click();
 	}
@@ -27,7 +28,7 @@ void features.add(import.meta.url, {
 		pageDetect.isNotifications,
 	],
 	exclude: [
-		() => select.exists('img[src$="notifications/inbox-zero.svg"]'), // Don't run on empty inbox page
+		pageDetect.isBlank, // Empty notification list
 	],
 	awaitDomReady: false,
 	init,
