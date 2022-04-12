@@ -1,15 +1,12 @@
 import test from 'ava';
 
-import './fixtures/globals';
-import pluralize from '../source/helpers/pluralize';
-import looseParseInt from '../source/helpers/loose-parse-int';
 import {
 	getConversationNumber,
 	parseTag,
 	compareNames,
 	getLatestVersionTag,
 	shouldFeatureRun,
-} from '../source/github-helpers';
+} from '.';
 
 test('getConversationNumber', t => {
 	const pairs = new Map<string, string | undefined>([
@@ -89,14 +86,6 @@ test('parseTag', t => {
 	t.deepEqual(parseTag('@hi/you@1.2.3'), {namespace: '@hi/you', version: '1.2.3'});
 });
 
-test('pluralize', t => {
-	t.is(pluralize(0, 'A number', '$$ numbers'), '0 numbers');
-	t.is(pluralize(0, 'A number', '$$ numbers', 'No numbers'), 'No numbers');
-	t.is(pluralize(1, 'A number', '$$ numbers', 'No numbers'), 'A number');
-	t.is(pluralize(2, 'A number', '$$ numbers', 'No numbers'), '2 numbers');
-	t.is(pluralize(2, 'A number', 'Many numbers', 'No numbers'), 'Many numbers');
-});
-
 test('compareNames', t => {
 	t.true(compareNames('johndoe', 'John Doe'));
 	t.true(compareNames('john-doe', 'John Doe'));
@@ -105,12 +94,6 @@ test('compareNames', t => {
 	t.true(compareNames('nicolo', 'Nicolò'));
 	t.false(compareNames('dotconnor', 'Connor Love'));
 	t.false(compareNames('fregante ', 'Federico Brigante'));
-});
-
-test('looseParseInt', t => {
-	t.is(looseParseInt('1,234'), 1234);
-	t.is(looseParseInt('Bugs 1,234'), 1234);
-	t.is(looseParseInt('5000+ issues'), 5000);
 });
 
 test('getLatestVersionTag', t => {
