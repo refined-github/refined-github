@@ -1,6 +1,5 @@
 import test from 'ava';
 
-import '../../test/fixtures/globals';
 import {
 	preventPrCommitLinkLoss,
 	preventPrCompareLinkLoss,
