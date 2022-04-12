@@ -18,11 +18,12 @@ function isChecked(file: HTMLElement): boolean {
 }
 
 function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
-	if (!previousFile) {
-		previousFile = select('.js-file');
+	if (!event.shiftKey) {
+		return;
 	}
 
-	if (!event.shiftKey || !previousFile?.isConnected) {
+	previousFile ??= select('.js-file'); // #5484
+	if (!previousFile?.isConnected) {
 		return;
 	}
 
