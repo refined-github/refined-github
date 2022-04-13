@@ -2,21 +2,14 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import registerHotkey from '../github-helpers/register-hotkey';
 
-function runShortcut(event: KeyboardEvent): void {
-	if (
-		event.key === 'a'
-		&& !event.ctrlKey
-		&& !event.metaKey
-		&& !event.isComposing
-	) {
-		select('.js-notifications-mark-all-prompt')!.click();
-	}
+function selectAllNotifications(): void {
+	select('.js-notifications-mark-all-prompt')!.click();
 }
 
-function init(signal: AbortSignal): void {
-	// Listen to the shortcut ourselves instead of attaching it to the checkbox #5569
-	document.body.addEventListener('keypress', runShortcut, {signal});
+function init(): Deinit {
+	return registerHotkey('a', selectAllNotifications);
 }
 
 void features.add(import.meta.url, {
@@ -27,7 +20,7 @@ void features.add(import.meta.url, {
 		pageDetect.isNotifications,
 	],
 	exclude: [
-		() => select.exists('img[src$="notifications/inbox-zero.svg"]'), // Don't run on empty inbox page
+		pageDetect.isBlank, // Empty notification list
 	],
 	awaitDomReady: false,
 	init,
