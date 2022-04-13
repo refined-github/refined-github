@@ -14,19 +14,13 @@ function addQuickEditButton(commentForm: Element): void {
 		return;
 	}
 
-	const buttonClasses = [
-		'timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button',
-		pageDetect.isIssue() ? 'pl-0' : '', // Compensate whitespace node in issue comments header https://github.com/refined-github/refined-github/pull/5580#discussion_r845354681
-		pageDetect.isDiscussion() ? 'js-discussions-comment-edit-button' : '',
-	].join(' ');
-
 	commentBody
 		.querySelector('.timeline-comment-actions > details:last-child')! // The dropdown
 		.before(
 			<button
 				type="button"
 				role="menuitem"
-				className={buttonClasses}
+				className={'timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button' + (pageDetect.isDiscussion() ? ' js-discussions-comment-edit-button' : '')}
 				aria-label="Edit comment"
 			>
 				<PencilIcon/>
