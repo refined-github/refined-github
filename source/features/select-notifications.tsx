@@ -179,7 +179,7 @@ void features.add(import.meta.url, {
 		pageDetect.isNotifications,
 	],
 	exclude: [
-		() => select.exists('img[src$="notifications/inbox-zero.svg"]'), // Notifications page may be empty
+		pageDetect.isBlank, // Empty notification list
 	],
 	init,
 });
