@@ -5,8 +5,6 @@ export default function registerHotkey(hotkey: string, handler: VoidFunction): D
 	document.body.append(hotkeyButton);
 
 	return () => {
-		if (hotkeyButton.isConnected) {
-			hotkeyButton.remove();
-		}
+		hotkeyButton.remove();
 	};
 }
