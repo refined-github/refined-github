@@ -45,7 +45,7 @@ async function updateUI(forks: string[]): Promise<void> {
 		return;
 	}
 
-	const forkButton = select('[aria-label^="Fork your own copy of"]')!;
+	const forkButton = select('.pagehead-actions [aria-label^="Fork your own copy of"]')!;
 	forkButton.classList.add('rounded-left-2', 'BtnGroup-item');
 
 	if (forks.length === 1) {
@@ -117,7 +117,7 @@ async function init(): Promise<void | false> {
 	}
 
 	// This feature only applies to users that have multiple organizations, because that makes a fork picker modal appear when clicking on "Fork"
-	const hasOrganizations = select.exists('[data-ga-click*="show fork modal"]');
+	const hasOrganizations = select.exists('.pagehead-actions [data-ga-click*="show fork modal"]');
 
 	// Only fetch/update forks when we see a fork (on the current page or in the cache).
 	// This avoids having to `updateCache` for every single repo you visit.
