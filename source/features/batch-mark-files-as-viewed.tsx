@@ -36,10 +36,14 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 	const files = select.all('.js-file');
 	const previousFileState = isFirstToggle ? !isChecked(thisFile) : isChecked(previousFile);
 
-	const selectedFiles = files.slice(...[
+	const selections = [
 		files.indexOf(previousFile),
-		files.indexOf(thisFile) + 1,
-	].sort((a, b) => a - b));
+		files.indexOf(thisFile),
+	].sort((a, b) => a - b);
+
+	selections[1] += 1;
+
+	const selectedFiles = files.slice(...selections);
 
 	for (const file of selectedFiles) {
 		if (isChecked(file) !== previousFileState) {
