@@ -3,7 +3,6 @@ import test from 'ava';
 import './fixtures/globals';
 import pluralize from '../source/helpers/pluralize';
 import looseParseInt from '../source/helpers/loose-parse-int';
-import getItemsBetween from '../source/helpers/get-items-between';
 import {
 	getConversationNumber,
 	parseTag,
@@ -183,16 +182,4 @@ test('shouldFeatureRun', t => {
 		include: yesYes,
 		exclude: yesNo,
 	}), 'If any `exclude` is true, then it should not run, regardless of `asLongAs` and `include`');
-});
-
-test('getItemsBetween', t => {
-	const list = ['❤️', '💛', '💚', '💙'];
-
-	t.deepEqual(getItemsBetween<string>(list, '💛', '💚'), ['💛', '💚']);
-	t.deepEqual(getItemsBetween<string>(list, '💚', '💛'), ['💛', '💚']);
-	t.deepEqual(getItemsBetween<string>(list, '❤️', '💙'), ['❤️', '💛', '💚', '💙']);
-	t.deepEqual(getItemsBetween<string>(list, '💙', '❤️'), ['❤️', '💛', '💚', '💙']);
-	t.deepEqual(getItemsBetween<string>(list, undefined, '❤️'), ['❤️']);
-	t.deepEqual(getItemsBetween<string>(list, undefined, '💚'), ['❤️', '💛', '💚']);
-	t.deepEqual(getItemsBetween<string>(list, undefined, '💙'), ['❤️', '💛', '💚', '💙']);
 });
