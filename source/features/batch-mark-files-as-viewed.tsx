@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import clickAll from '../helpers/click-all';
 import showToast from '../github-helpers/toast';
+import getItemsBetween from '../helpers/get-items-between';
 
 let previousFile: HTMLElement | undefined;
 
@@ -36,14 +37,7 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 	const files = select.all('.js-file');
 	const previousFileState = isFirstToggle ? !isChecked(thisFile) : isChecked(previousFile);
 
-	const selections = [
-		files.indexOf(previousFile),
-		files.indexOf(thisFile),
-	].sort((a, b) => a - b);
-
-	selections[1] += 1;
-
-	const selectedFiles = files.slice(...selections);
+	const selectedFiles = getItemsBetween<HTMLElement>(files, previousFile, thisFile);
 
 	for (const file of selectedFiles) {
 		if (isChecked(file) !== previousFileState) {

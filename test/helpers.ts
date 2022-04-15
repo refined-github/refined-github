@@ -3,6 +3,7 @@ import test from 'ava';
 import './fixtures/globals';
 import pluralize from '../source/helpers/pluralize';
 import looseParseInt from '../source/helpers/loose-parse-int';
+import getItemsBetween from '../source/helpers/get-items-between';
 import {
 	getConversationNumber,
 	parseTag,
@@ -182,4 +183,13 @@ test('shouldFeatureRun', t => {
 		include: yesYes,
 		exclude: yesNo,
 	}), 'If any `exclude` is true, then it should not run, regardless of `asLongAs` and `include`');
+});
+
+test('getItemsBetween', t => {
+	t.deepEqual(getItemsBetween<number>([1, 10, 100], 10, 100), [10, 100]);
+	t.deepEqual(getItemsBetween<number>([1, 10, 100, 1000], 1, 1000), [1, 10, 100, 1000]);
+	t.deepEqual(getItemsBetween<number>([1, 10, 100], 100, 1), [1, 10, 100]);
+	t.deepEqual(getItemsBetween<number>([1, 10, 100, 1000], 1000, 1), [1, 10, 100, 1000]);
+	t.deepEqual(getItemsBetween<number>([1, 10, 100], undefined, 1), [1]);
+	t.deepEqual(getItemsBetween<number>([1, 10, 100], undefined, 100), [1, 10, 100]);
 });
