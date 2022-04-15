@@ -26,16 +26,13 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 	const isFirstToggle = previousFile === undefined;
 
 	previousFile ??= select('.js-file'); // #5484
-	if (!previousFile?.isConnected) {
-		return;
-	}
 
 	event.preventDefault();
 	event.stopImmediatePropagation();
 
 	const thisFile = event.delegateTarget.closest('.js-file')!;
 	const files = select.all('.js-file');
-	const previousFileState = isFirstToggle ? !isChecked(thisFile) : isChecked(previousFile);
+	const previousFileState = isFirstToggle ? !isChecked(thisFile) : isChecked(previousFile!);
 
 	const selectedFiles = getItemsBetween<HTMLElement>(files, previousFile, thisFile);
 
