@@ -186,10 +186,13 @@ test('shouldFeatureRun', t => {
 });
 
 test('getItemsBetween', t => {
-	t.deepEqual(getItemsBetween<number>([1, 10, 100], 10, 100), [10, 100]);
-	t.deepEqual(getItemsBetween<number>([1, 10, 100, 1000], 1, 1000), [1, 10, 100, 1000]);
-	t.deepEqual(getItemsBetween<number>([1, 10, 100], 100, 1), [1, 10, 100]);
-	t.deepEqual(getItemsBetween<number>([1, 10, 100, 1000], 1000, 1), [1, 10, 100, 1000]);
-	t.deepEqual(getItemsBetween<number>([1, 10, 100], undefined, 1), [1]);
-	t.deepEqual(getItemsBetween<number>([1, 10, 100], undefined, 100), [1, 10, 100]);
+	const list = ['❤️', '💛', '💚', '💙'];
+
+	t.deepEqual(getItemsBetween<string>(list, '💛', '💚'), ['💛', '💚']);
+	t.deepEqual(getItemsBetween<string>(list, '💚', '💛'), ['💛', '💚']);
+	t.deepEqual(getItemsBetween<string>(list, '❤️', '💙'), ['❤️', '💛', '💚', '💙']);
+	t.deepEqual(getItemsBetween<string>(list, '💙', '❤️'), ['❤️', '💛', '💚', '💙']);
+	t.deepEqual(getItemsBetween<string>(list, undefined, '❤️'), ['❤️']);
+	t.deepEqual(getItemsBetween<string>(list, undefined, '💚'), ['❤️', '💛', '💚']);
+	t.deepEqual(getItemsBetween<string>(list, undefined, '💙'), ['❤️', '💛', '💚', '💙']);
 });
