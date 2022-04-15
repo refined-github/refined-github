@@ -33,6 +33,9 @@
 		"extensions": {
 			"ts": "module"
 		},
+		"require": [
+			"./test/fixtures/globals.ts"
+		],
 		"nodeArguments": [
 			"--loader=ts-node/esm",
 			"--experimental-specifier-resolution=node"
