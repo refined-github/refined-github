@@ -1,5 +1,6 @@
 import test from 'ava';
-import getItemsBetween from '../source/helpers/get-items-between';
+
+import getItemsBetween from './get-items-between';
 
 test('getItemsBetween', t => {
 	const list = ['❤️', '💛', '💚', '💙'];
