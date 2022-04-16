@@ -15,7 +15,7 @@ function addQuickEditButton(commentForm: Element): void {
 	}
 
 	commentBody
-		.querySelector('.timeline-comment-actions > details:last-child')! // The dropdown
+		.querySelector('.timeline-comment-actions details.position-relative')! // The dropdown
 		.before(
 			<button
 				type="button"
