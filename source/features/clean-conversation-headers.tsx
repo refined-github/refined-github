@@ -39,11 +39,17 @@ async function cleanPrHeader(): Promise<void | false> {
 	}
 
 	const base = select('.commit-ref', byline)!;
-	const baseBranch = base.title.split(':')[1];
+	const baseBranchDropdown = select('.commit-ref-dropdown', byline);
 
 	// Shows on PRs: main [←] feature
-	base.nextElementSibling!.replaceChildren(<ArrowLeftIcon className="v-align-middle mx-1"/>);
+	const arrowIcon = <ArrowLeftIcon className="v-align-middle mx-1"/>;
+	if (baseBranchDropdown) {
+		baseBranchDropdown.after(<span>{arrowIcon}</span>); // #5598
+	} else {
+		base.nextElementSibling!.replaceChildren();
+	}
 
+	const baseBranch = base.title.split(':')[1];
 	const wasDefaultBranch = pageDetect.isClosedPR() && baseBranch === 'master';
 	const isDefaultBranch = baseBranch === await getDefaultBranch();
 	if (!isDefaultBranch && !wasDefaultBranch) {
