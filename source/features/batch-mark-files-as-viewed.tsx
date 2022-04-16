@@ -23,22 +23,16 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 		return;
 	}
 
-	previousFile ??= select('.js-file'); // #5484
-
 	event.preventDefault();
 	event.stopImmediatePropagation();
 
-	const thisFile = event.delegateTarget.closest('.js-file')!;
 	const files = select.all('.js-file');
+	const thisFile = event.delegateTarget.closest('.js-file')!;
+	const isThisFileChecked = isChecked(thisFile);
 
-	const selectedFiles = getItemsBetween<HTMLElement>(files, previousFile, thisFile);
-
-	if (files.indexOf(previousFile!) > files.indexOf(thisFile)) {
-		selectedFiles.reverse();
-	}
-
+	const selectedFiles = getItemsBetween(files, previousFile ?? files[0], thisFile);
 	for (const file of selectedFiles) {
-		if (isChecked(file) === isChecked(thisFile)) {
+		if (isChecked(file) === isThisFileChecked) {
 			select('.js-reviewed-checkbox', file)!.click();
 		}
 	}
