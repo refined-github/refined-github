@@ -34,7 +34,7 @@ function batchToggle(event: delegate.Event<MouseEvent, HTMLFormElement>): void {
 	const isThisBeingFileChecked = !isChecked(thisFile); // Flip it because the value hasn't changed yet
 
 	runningBatch = true;
-	const selectedFiles = getItemsBetween(files, previousFile ?? files[0], thisFile);
+	const selectedFiles = getItemsBetween(files, previousFile, thisFile);
 	for (const file of selectedFiles) {
 		if (file !== thisFile && isChecked(file) !== isThisBeingFileChecked) {
 			select('.js-reviewed-checkbox', file)!.click();
