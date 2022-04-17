@@ -230,7 +230,7 @@ async function init(): Promise<void> {
 	}
 
 	// To do: when `:has` is available, replace below logic with css (#5390)
-	window.onhashchange = revealCollapsedComment;
+	window.addEventListener('hashchange', revealCollapsedComment);
 
 	document.body.addEventListener('keypress', runShortcut);
 }
