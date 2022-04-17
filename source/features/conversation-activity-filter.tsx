@@ -90,12 +90,6 @@ function processPage(): void {
 	}
 }
 
-function revealCollapsedComment(): void {
-	if (location.hash.startsWith('#issuecomment-')) {
-		select(`.${collapsedClassName} ${location.hash}`)?.closest('.js-timeline-item')?.classList.remove(collapsedClassName);
-	}
-}
-
 async function handleSelection({target}: Event): Promise<void> {
 	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
 	await delay(1);
@@ -193,6 +187,12 @@ const minorFixesIssuePages = [
 	getRghIssueUrl(4008),
 ];
 
+function uncollapseTargetedComment(): void {
+	if (location.hash.startsWith('#issuecomment-')) {
+		select(`.${collapsedClassName} ${location.hash}`)?.closest('.js-timeline-item')?.classList.remove(collapsedClassName);
+	}
+}
+
 function runShortcut({key, target}: KeyboardEvent): void {
 	if (key !== 'h' || isEditable(target)) {
 		return;
@@ -227,9 +227,7 @@ async function init(): Promise<void> {
 		applyState(state);
 	}
 
-	// To do: when `:has` is available, replace below logic with css (#5390)
-	window.addEventListener('hashchange', revealCollapsedComment);
-
+	window.addEventListener('hashchange', uncollapseTargetedComment);
 	document.body.addEventListener('keypress', runShortcut);
 }
 
