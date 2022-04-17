@@ -6,10 +6,11 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, EyeClosedIcon, EyeIcon, XIcon} from '@primer/octicons-react';
 
+import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import onNewComments from '../github-events/on-new-comments';
+import registerHotkey from '../github-helpers/register-hotkey';
 import {getRghIssueUrl} from '../helpers/rgh-issue-link';
-import {wrap, isEditable} from '../helpers/dom-utils';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 const states = {
@@ -187,11 +188,7 @@ const minorFixesIssuePages = [
 	getRghIssueUrl(4008),
 ];
 
-function runShortcut({key, target}: KeyboardEvent): void {
-	if (key !== 'h' || isEditable(target)) {
-		return;
-	}
-
+function switchToNextFilter(): void {
 	const state = select(`.${dropdownClass} [aria-checked="true"]`)!.dataset.value as State;
 	// eslint-disable-next-line default-case
 	switch (state) {
@@ -209,7 +206,7 @@ function runShortcut({key, target}: KeyboardEvent): void {
 	}
 }
 
-async function init(): Promise<void> {
+async function init(): Promise<Deinit> {
 	const state = minorFixesIssuePages.some(url => location.href.startsWith(url))
 		? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 		: 'default';
@@ -221,7 +218,7 @@ async function init(): Promise<void> {
 		applyState(state);
 	}
 
-	document.body.addEventListener('keypress', runShortcut);
+	return registerHotkey('h', switchToNextFilter);
 }
 
 void features.add(import.meta.url, {
