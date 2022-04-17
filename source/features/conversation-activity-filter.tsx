@@ -92,7 +92,7 @@ function processPage(): void {
 
 function revealCollapsedComment(): void {
 	if (location.hash.startsWith('#issuecomment-')) {
-		select(location.hash)?.closest('.js-timeline-item')?.classList.remove(collapsedClassName);
+		select(`.${collapsedClassName} ${location.hash}`)?.closest('.js-timeline-item')?.classList.remove(collapsedClassName);
 	}
 }
 
