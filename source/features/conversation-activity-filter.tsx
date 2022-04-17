@@ -90,6 +90,14 @@ function processPage(): void {
 	}
 }
 
+function revealCollapsedComment(): void {
+	for (const item of select.all(`.js-timeline-item:is(.${collapsedClassName})`)) {
+		if (location.hash.startsWith('#issuecomment-') && select.exists(location.hash, item)) {
+			item.classList.remove(collapsedClassName);
+		}
+	}
+}
+
 async function handleSelection({target}: Event): Promise<void> {
 	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
 	await delay(1);
@@ -220,6 +228,9 @@ async function init(): Promise<void> {
 	if (state !== 'default') {
 		applyState(state);
 	}
+
+	// To do: when `:has` is available, replace below logic with css (#5390)
+	window.onhashchange = revealCollapsedComment;
 
 	document.body.addEventListener('keypress', runShortcut);
 }
