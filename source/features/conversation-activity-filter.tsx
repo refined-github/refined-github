@@ -188,6 +188,12 @@ const minorFixesIssuePages = [
 	getRghIssueUrl(4008),
 ];
 
+function uncollapseTargetedComment(): void {
+	if (location.hash.startsWith('#issuecomment-')) {
+		select(`.${collapsedClassName} ${location.hash}`)?.closest('.js-timeline-item')?.classList.remove(collapsedClassName);
+	}
+}
+
 function switchToNextFilter(): void {
 	const state = select(`.${dropdownClass} [aria-checked="true"]`)!.dataset.value as State;
 	// eslint-disable-next-line default-case
@@ -206,7 +212,7 @@ function switchToNextFilter(): void {
 	}
 }
 
-async function init(): Promise<Deinit> {
+async function init(signal: AbortSignal): Promise<Deinit> {
 	const state = minorFixesIssuePages.some(url => location.href.startsWith(url))
 		? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 		: 'default';
@@ -218,6 +224,7 @@ async function init(): Promise<Deinit> {
 		applyState(state);
 	}
 
+	window.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 	return registerHotkey('h', switchToNextFilter);
 }
 

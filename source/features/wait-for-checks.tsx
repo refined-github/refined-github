@@ -142,6 +142,11 @@ function watchForNewCommits(): void {
 }
 
 function onPrMergePanelHandler(): void {
+	// Disable the feature if the PR requires administrator privileges https://github.com/refined-github/refined-github/issues/1771#issuecomment-1092415019
+	if (select.exists('input.js-admin-merge-override[type="checkbox"]')) {
+		return;
+	}
+
 	showCheckboxIfNecessary();
 	watchForNewCommits();
 }
