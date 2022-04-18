@@ -215,7 +215,7 @@ function runShortcut({key, target}: KeyboardEvent): void {
 	}
 }
 
-async function init(): Promise<void> {
+async function init(signal: AbortSignal): Promise<void> {
 	const state = minorFixesIssuePages.some(url => location.href.startsWith(url))
 		? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 		: 'default';
@@ -227,8 +227,8 @@ async function init(): Promise<void> {
 		applyState(state);
 	}
 
-	window.addEventListener('hashchange', uncollapseTargetedComment);
-	document.body.addEventListener('keypress', runShortcut);
+	window.addEventListener('hashchange', uncollapseTargetedComment, {signal});
+	document.body.addEventListener('keypress', runShortcut, {signal});
 }
 
 void features.add(import.meta.url, {
