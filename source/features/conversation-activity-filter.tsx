@@ -187,6 +187,12 @@ const minorFixesIssuePages = [
 	getRghIssueUrl(4008),
 ];
 
+function uncollapseTargetedComment(): void {
+	if (location.hash.startsWith('#issuecomment-')) {
+		select(`.${collapsedClassName} ${location.hash}`)?.closest('.js-timeline-item')?.classList.remove(collapsedClassName);
+	}
+}
+
 function runShortcut({key, target}: KeyboardEvent): void {
 	if (key !== 'h' || isEditable(target)) {
 		return;
@@ -209,7 +215,7 @@ function runShortcut({key, target}: KeyboardEvent): void {
 	}
 }
 
-async function init(): Promise<void> {
+async function init(signal: AbortSignal): Promise<void> {
 	const state = minorFixesIssuePages.some(url => location.href.startsWith(url))
 		? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 		: 'default';
@@ -221,7 +227,8 @@ async function init(): Promise<void> {
 		applyState(state);
 	}
 
-	document.body.addEventListener('keypress', runShortcut);
+	window.addEventListener('hashchange', uncollapseTargetedComment, {signal});
+	document.body.addEventListener('keypress', runShortcut, {signal});
 }
 
 void features.add(import.meta.url, {
