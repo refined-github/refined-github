@@ -1,32 +1,48 @@
+import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import looseParseInt from '../helpers/loose-parse-int';
 
-/*
-The ajaxed form that loads the new comments points to a URL like:
-/_render_node/MDExOlB1bGxSZXF1ZXN0MjE2MDA0MzU5/timeline/more_items?variables%5Bafter%5D=Y3Vyc29yOnYyOpPPAAABZemjg2AAqTQyMjE5MTk1MQ%3D%3D&variables%5Bbefore%5D=Y3Vyc29yOnYyOpPPAAABaENrVHAAqTQ1Mzc3MjMzNg%3D%3D&variables%5Bfirst%5D=60&variables%5BhasFocusedReviewComment%5D=false&variables%5BhasFocusedReviewThread%5D=false
-The parameter `variables[first]` controls how many additional comments are fetched. We change this number from 60 to the total number of hidden items to have it load all of them at once.
-*/
-function handleAltClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
-	if (!event.altKey) {
+const paginationButtonSelector = '.ajax-pagination-form button[type="submit"]';
+
+function onPaginationFormLoad(form: HTMLFormElement, callback: VoidFunction): void {
+	form.addEventListener('page:loaded', callback);
+}
+
+function submitNewPaginationForm(wrapper: Element): void {
+	const wrapperSelector = wrapper.classList.contains('TimelineItem-body') ? ':scope' : ':scope > #js-progressive-timeline-item-container:last-child';
+	const paginationButton = select(`${wrapperSelector} > ${paginationButtonSelector}`, wrapper);
+	if (!paginationButton) {
 		return;
 	}
 
-	const form = event.delegateTarget.form!;
-	const hiddenItemsCount = Math.min(
-		200, // It fails with more than this https://github.com/refined-github/refined-github/issues/2931#issuecomment-603818778
-		looseParseInt(form),
-	);
+	const subWrapper = paginationButton.form!.parentElement!;
+	onPaginationFormLoad(paginationButton.form!, () => {
+		submitNewPaginationForm(subWrapper);
+	});
 
-	const url = new URL(form.action);
-	url.searchParams.set('variables[first]', String(hiddenItemsCount));
-	form.action = url.href;
+	paginationButton.click();
+}
+
+function handleAltClick({altKey, delegateTarget}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+	if (!altKey) {
+		return;
+	}
+
+	const wrapperSelector = [
+		'#js-progressive-timeline-item-container', // Main conversation thread
+		'.TimelineItem-body', // Review thread
+	].join(',');
+
+	const wrapper = delegateTarget.closest(wrapperSelector)!;
+	onPaginationFormLoad(delegateTarget.form!, () => {
+		submitNewPaginationForm(wrapper);
+	});
 }
 
 function init(): Deinit {
-	return delegate(document, '.ajax-pagination-form button[type="submit"]', 'click', handleAltClick);
+	return delegate(document, paginationButtonSelector, 'click', handleAltClick);
 }
 
 void features.add(import.meta.url, {
