@@ -47,7 +47,7 @@
 	display: none;
 }
 
-/* Fixes vertical alignment of base branch dropdown */
+/* Fixes vertical alignment of base branch dropdown #5598 */
 .rgh-clean-conversation-headers .commit-ref-dropdown {
 	margin-top: -2px !important;
 }
