@@ -18,14 +18,11 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 		|| event.ctrlKey
 		|| event.metaKey
 		|| event.isComposing // #4323
-		|| select.exists('.suggester', form)
+		|| select.exists([
+			'.suggester', // GitHub’s autocomplete dropdown
+			'.rgh-avoid-accidental-submissions',
+		], form)
 	) {
-		return;
-	}
-
-	const previousSubmission = select('.rgh-avoid-accidental-submissions', form);
-	if (previousSubmission) {
-		previousSubmission.remove();
 		return;
 	}
 
