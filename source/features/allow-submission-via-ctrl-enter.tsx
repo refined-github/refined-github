@@ -9,7 +9,7 @@ function addQuickSubmit(): void {
 
 void features.add(import.meta.url, {
 	shortcuts: {
-		'ctrl enter': 'Publish a new/edited file',
+		'ctrl/cmd enter': 'Publish a new/edited file',
 	},
 	include: [
 		pageDetect.isNewFile,
