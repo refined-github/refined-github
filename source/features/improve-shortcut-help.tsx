@@ -49,7 +49,7 @@ function observeShortcutModal({key, target}: KeyboardEvent): void {
 }
 
 function init(): void {
-	document.addEventListener('keypress', observeShortcutModal);
+	document.body.addEventListener('keypress', observeShortcutModal);
 }
 
 void features.add(import.meta.url, {
