@@ -46,6 +46,11 @@ function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void
 	event.preventDefault();
 }
 
+function onSubmission(): void {
+	// Hide message when the submission goes through
+	select('.rgh-avoid-accidental-submissions', form)?.remove();
+}
+
 const inputElements = [
 	'form.new_issue input#issue_title',
 	'input#pull_request_title',
@@ -54,7 +59,10 @@ const inputElements = [
 ];
 
 function init(): Deinit {
-	return delegate(document, inputElements.join(','), 'keydown', onKeyDown);
+	return [
+		delegate(document, inputElements.join(','), 'keydown', onKeyDown),
+		delegate(document, ['TODO'].join(','), 'submit', onSubmission),
+	];
 }
 
 void features.add(import.meta.url, {
