@@ -327,7 +327,6 @@ Thanks for contributing! 🦋🙌
 - [](# "latest-tag-button") [Adds a link to the latest version tag on directory listings and files.](https://user-images.githubusercontent.com/44045911/155496122-6267c45d-21d4-45c9-adf7-94c9e41cc652.png)
 - [](# "convert-release-to-draft") [Adds a button to convert a release to draft.](https://user-images.githubusercontent.com/46634000/139236979-44533bfd-5c17-457d-bdc1-f9ec395f6a3a.png)
 - [](# "link-to-changelog-file") [Adds a button to view the changelog file from the releases page.](https://user-images.githubusercontent.com/46634000/139236982-a1bce2a2-f3aa-40a9-bca4-8756bc941210.png)
-- [](# "submission-via-ctrl-enter-everywere") Adds ability to submit new/edited files via Ctrl+Enter .
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -400,6 +399,7 @@ Thanks for contributing! 🦋🙌
 - [](# "clean-header-search-field") [Clears duplicate queries in the header search field.](https://user-images.githubusercontent.com/1402241/114177338-7c890300-9966-11eb-83a3-a711a76fae99.png)
 - [](# "prevent-pr-merge-panel-opening") Prevents the merge panel from automatically opening on every page load after it’s been opened once.
 - [](# "command-palette-navigation-shortcuts") Adds keyboard shortcuts to select items in command palette using <kbd>ctrl</kbd> <kbd>n</kbd> and <kbd>ctrl</kbd> <kbd>p</kbd> (macOS only).
+- [](# "submission-via-ctrl-enter-everywere") Enables submission via <kbd>ctrl</kbd><kbd>enter</kbd> on every page possible.
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
