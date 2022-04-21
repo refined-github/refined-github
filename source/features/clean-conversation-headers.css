@@ -46,3 +46,8 @@
 .gh-header.issue .rgh-clean-conversation-headers relative-time {
 	display: none;
 }
+
+/* Fixes vertical alignment of base branch dropdown #5598 */
+.rgh-clean-conversation-headers .commit-ref-dropdown {
+	margin-top: -2px !important;
+}
