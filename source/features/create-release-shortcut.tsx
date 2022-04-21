@@ -1,11 +1,8 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
+import addQuickSubmit from './submission-via-ctrl-enter-everywhere';
 import features from '.';
-
-function addQuickSubmit(): void {
-	select('textarea[aria-label="Describe this release"]')?.classList.add('js-quick-submit');
-}
 
 function init(): void {
 	const createReleaseButton = select('a[href$="/releases/new"]:not([data-hotkey])');
