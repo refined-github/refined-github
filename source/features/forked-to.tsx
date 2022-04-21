@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, ChevronRightIcon, TriangleDownIcon, XIcon} from '@primer/octicons-react';
 
@@ -46,16 +45,11 @@ async function updateUI(forks: string[]): Promise<void> {
 		return;
 	}
 
-	const forkBoxContents = (await elementReady('#repo-network-counter', {waitForChildren: false}))!.parentElement!;
-	const forkContainer = select('.pagehead-actions .octicon-repo-forked')!.closest('.float-left')!;
-	const forkBox = forkBoxContents.parentElement!;
-
-	document.body.classList.add('rgh-forked-to');
-	forkContainer.classList.add('d-flex');
-	forkBoxContents.classList.add('rounded-left-2', 'border-right-0', 'BtnGroup-item');
+	const forkButton = select('.pagehead-actions [aria-label^="Fork your own copy of"]')!;
+	forkButton.classList.add('rounded-left-2', 'BtnGroup-item');
 
 	if (forks.length === 1) {
-		forkBox.after(
+		forkButton.after(
 			<a
 				href={createLink(forks[0])}
 				className="btn btn-sm BtnGroup-item px-2 rgh-forked-button rgh-forked-link"
@@ -65,7 +59,7 @@ async function updateUI(forks: string[]): Promise<void> {
 			</a>,
 		);
 	} else {
-		forkBox.after(
+		forkButton.after(
 			<details
 				className="details-reset details-overlay BtnGroup-parent position-relative"
 				id="rgh-forked-to-select-menu"
@@ -122,12 +116,9 @@ async function init(): Promise<void | false> {
 		await updateUI(forks);
 	}
 
-	// This feature only applies to users that have multiple organizations, because that makes a fork picker modal appear when clicking on "Fork"
-	const hasOrganizations = await elementReady('details-dialog[src*="/fork"]', {waitForChildren: false});
-
 	// Only fetch/update forks when we see a fork (on the current page or in the cache).
 	// This avoids having to `updateCache` for every single repo you visit.
-	if (forks || (hasOrganizations && pageDetect.isForkedRepo())) {
+	if (forks || pageDetect.isForkedRepo()) {
 		await updateCache();
 	} else {
 		return false;
