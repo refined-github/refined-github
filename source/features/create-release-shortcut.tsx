@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import addQuickSubmit from './submission-via-ctrl-enter-everywhere';
 import features from '.';
+import addQuickSubmit from './submission-via-ctrl-enter-everywhere';
 
 function init(): void {
 	const createReleaseButton = select('a[href$="/releases/new"]:not([data-hotkey])');
