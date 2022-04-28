@@ -10,7 +10,7 @@ import getTabCount from '../github-helpers/get-tab-count';
 import looseParseInt from '../helpers/loose-parse-int';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import {buildRepoURL, getRepo} from '../github-helpers';
-import {onlyShowInDropdown, unhideOverflowDropdown} from './more-dropdown-links';
+import {unhideOverflowDropdown} from './more-dropdown-links';
 
 async function canUserEditOrganization(): Promise<boolean> {
 	return Boolean(await elementReady('.btn-primary[href$="repositories/new"]'));
@@ -29,6 +29,21 @@ function setTabCounter(tab: HTMLElement, count: number): void {
 	const tabCounter = select('.Counter', tab)!;
 	tabCounter.textContent = abbreviateNumber(count);
 	tabCounter.title = count > 999 ? String(count) : '';
+}
+
+function onlyShowInDropdown(id: string): void {
+	const tabItem = select(`[data-tab-item$="${id}"]`);
+	if (!tabItem && pageDetect.isEnterprise()) { // GHE #3962
+		return;
+	}
+
+	(tabItem!.closest('li') ?? tabItem!.closest('.UnderlineNav-item'))!.classList.add('d-none');
+
+	const menuItem = select(`[data-menu-item$="${id}"]`)!;
+	menuItem.removeAttribute('data-menu-item');
+	menuItem.hidden = false;
+	// The item has to be moved somewhere else because the overflow nav is order-dependent
+	select('.UnderlineNav-actions ul')!.append(menuItem);
 }
 
 const getWikiPageCount = cache.function(async (): Promise<number> => {
@@ -106,6 +121,9 @@ async function initProjects(): Promise<void | false> {
 async function init(): Promise<void> {
 	// The user may have disabled `more-dropdown-links` so un-hide it
 	await unhideOverflowDropdown();
+
+	// Wait for the nav dropdown to be loaded #5244
+	await elementReady('.UnderlineNav-actions ul');
 	onlyShowInDropdown('security-tab');
 	onlyShowInDropdown('insights-tab');
 }

@@ -1,6 +1,5 @@
 import './more-dropdown-links.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -18,25 +17,10 @@ export function createDropdownItem(label: string, url: string, attributes?: Reco
 	);
 }
 
-export function onlyShowInDropdown(id: string): void {
-	const tabItem = select(`[data-tab-item$="${id}"]`);
-	if (!tabItem && pageDetect.isEnterprise()) { // GHE #3962
-		return;
-	}
-
-	(tabItem!.closest('li') ?? tabItem!.closest('.UnderlineNav-item'))!.classList.add('d-none');
-
-	const menuItem = select(`[data-menu-item$="${id}"]`)!;
-	menuItem.removeAttribute('data-menu-item');
-	menuItem.hidden = false;
-	// The item has to be moved somewhere else because the overflow nav is order-dependent
-	select('.js-responsive-underlinenav-overflow ul')!.append(menuItem);
-}
-
 export async function unhideOverflowDropdown(): Promise<void> {
 	// Wait for the tab bar to be loaded
-	const repoNavigationBar = (await elementReady('.UnderlineNav-body'))!;
-	repoNavigationBar.parentElement!.classList.add('rgh-has-more-dropdown');
+	const repoNavigationBar = await elementReady('.UnderlineNav-body');
+	repoNavigationBar!.parentElement!.classList.add('rgh-has-more-dropdown');
 }
 
 async function init(): Promise<void> {
@@ -47,7 +31,9 @@ async function init(): Promise<void> {
 	const dependenciesUrl = buildRepoURL('network/dependencies');
 	await unhideOverflowDropdown();
 
-	select('.js-responsive-underlinenav-overflow ul')!.append(
+	// Wait for the nav dropdown to be loaded #5244
+	const repoNavigationDropdown = await elementReady('.UnderlineNav-actions ul');
+	repoNavigationDropdown!.append(
 		<li className="dropdown-divider" role="separator"/>,
 		createDropdownItem('Compare', compareUrl),
 		pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl),
