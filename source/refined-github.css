@@ -162,7 +162,7 @@ pr-branches
 	align-items: center !important;
 }
 
-/* Hide "Edit Pins" dropdown in repo header https://github.com/refined-github/refined-github/issues/5398#issuecomment-1036112206 */
+/* Hide "Edit Pins" dropdown in repo header https://github.com/refined-github/refined-github/pull/5612 */
 .pagehead-actions pin-organization-repo {
 	display: none !important;
 }
