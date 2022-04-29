@@ -46,7 +46,7 @@ async function cleanPrHeader(): Promise<void | false> {
 	if (baseBranchDropdown) {
 		baseBranchDropdown.after(<span>{arrowIcon}</span>); // #5598
 	} else {
-		base.nextElementSibling!.replaceChildren();
+		base.nextElementSibling!.replaceChildren(arrowIcon);
 	}
 
 	const baseBranch = base.title.split(':')[1];
