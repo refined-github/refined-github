@@ -114,10 +114,10 @@ async function init(): Promise<void> {
 			const compareLink = (
 				<a
 					className="Link--muted tooltipped tooltipped-n"
-					aria-label={`See changes between ${decodeURIComponent(previousTag)} and ${currentTag}`}
+					aria-label={`See commits between ${decodeURIComponent(previousTag)} and ${currentTag}`}
 					href={buildRepoURL(`compare/${previousTag}...${currentTag}`)}
 				>
-					<DiffIcon/> {pageDetect.isEnterprise() ? 'Changes' : <span className="ml-1 wb-break-all">Changes</span>}
+					<DiffIcon/> {pageDetect.isEnterprise() ? 'Commits' : <span className="ml-1 wb-break-all">Commits</span>}
 				</a>
 			);
 
