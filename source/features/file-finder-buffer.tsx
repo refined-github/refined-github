@@ -57,9 +57,9 @@ function pjaxCompleteHandler(): void {
 	}
 }
 
-function init(signal: AbortSignal): void {
-	window.addEventListener('pjax:start', pjaxStartHandler, {signal});
-	window.addEventListener('pjax:complete', pjaxCompleteHandler, {signal});
+function init(): Deinit {
+	window.addEventListener('pjax:start', pjaxStartHandler);
+	window.addEventListener('pjax:complete', pjaxCompleteHandler);
 }
 
 void features.add(import.meta.url, {

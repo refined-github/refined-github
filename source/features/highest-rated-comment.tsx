@@ -7,6 +7,8 @@ import {ArrowDownIcon, CheckCircleFillIcon} from '@primer/octicons-react';
 
 import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
+import isLowQualityComment from '../helpers/is-low-quality-comment';
+import {singleParagraphCommentSelector} from './hide-low-quality-comments';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
 const commentSelector = '.js-timeline-item';
@@ -92,6 +94,11 @@ function selectSum(selector: string, container: HTMLElement): number {
 function init(): false | void {
 	const bestComment = getBestComment();
 	if (!bestComment) {
+		return false;
+	}
+
+	const commentText = select(singleParagraphCommentSelector, bestComment)?.textContent;
+	if (commentText && isLowQualityComment(commentText)) { // #5567
 		return false;
 	}
 

@@ -11,6 +11,7 @@ import features from '.';
 import observeElement from '../helpers/simplified-element-observer';
 import * as prCiStatus from '../github-helpers/pr-ci-status';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
+import {onPrMergePanelLoad} from '../github-events/on-fragment-load';
 
 // Reuse the same checkbox to preserve its status
 const generateCheckbox = onetime(() => (
@@ -114,7 +115,13 @@ async function handleMergeConfirmation(event: delegate.Event<Event, HTMLButtonEl
 	}
 }
 
-function watchForNewCommits(): MutationObserver {
+let commitObserver: undefined | MutationObserver;
+
+function watchForNewCommits(): void {
+	if (commitObserver) {
+		return;
+	}
+
 	let previousCommit = prCiStatus.getLastCommitReference();
 	const filteredListener = (): void => {
 		const newCommit = prCiStatus.getLastCommitReference();
@@ -128,10 +135,20 @@ function watchForNewCommits(): MutationObserver {
 		showCheckboxIfNecessary();
 	};
 
-	return observeElement('.js-discussion', filteredListener, {
+	commitObserver = observeElement('.js-discussion', filteredListener, {
 		childList: true,
 		subtree: true,
 	})!;
+}
+
+function onPrMergePanelHandler(): void {
+	// Disable the feature if the PR requires administrator privileges https://github.com/refined-github/refined-github/issues/1771#issuecomment-1092415019
+	if (select.exists('input.js-admin-merge-override[type="checkbox"]')) {
+		return;
+	}
+
+	showCheckboxIfNecessary();
+	watchForNewCommits();
 }
 
 function onBeforeunload(event: BeforeUnloadEvent): void {
@@ -145,15 +162,9 @@ async function init(signal: AbortSignal): Promise<Deinit[]> {
 	window.addEventListener('beforeunload', onBeforeunload, {signal});
 
 	return [
-		onPrMergePanelOpen(() => {
-			if (signal.aborted) {
-				return;
-			}
+		onPrMergePanelLoad(onPrMergePanelHandler),
 
-			showCheckboxIfNecessary();
-			const observer = watchForNewCommits();
-			signal.addEventListener('abort', observer.disconnect, {once: true});
-		}, signal),
+		onPrMergePanelOpen(onPrMergePanelHandler),
 
 		// One of the merge buttons has been clicked
 		delegate(document, '.js-merge-commit-button:not(.rgh-merging)', 'click', handleMergeConfirmation),
@@ -162,6 +173,12 @@ async function init(signal: AbortSignal): Promise<Deinit[]> {
 		delegate(document, '.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
 			disableForm(false);
 		}),
+
+		() => {
+			if (commitObserver) {
+				commitObserver.disconnect();
+			}
+		},
 	];
 }
 

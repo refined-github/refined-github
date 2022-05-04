@@ -12,19 +12,28 @@
 	display: none;
 }
 
-/* Add background and border Whole list */
-.rgh-clean-dashboard .news > .f4 + div {
-	background-color: var(--rgh-background);
-	border: 1px solid var(--rgh-border-color);
-	border-radius: 6px;
-	margin-top: 8px !important;
-}
-
-/* Drop "box" style for all events */
-.rgh-clean-dashboard .news > .f4 + div .Box {
+/* Drop "box" style from the repos */
+.rgh-clean-dashboard .news .body .Box {
 	padding: 0 !important;
 	border: none;
 	background: none;
+}
+
+/* Add "box" style to each event group */
+/* This exact `>` sequence ensures it works on ajaxed-in events */
+.rgh-clean-dashboard [role='tabpanel'] [data-repository-hovercards-enabled] > [class] > .body,
+/* The organization newsfeed doesn't yet support the new style */
+.rgh-clean-dashboard .news > [data-repository-hovercards-enabled] > [class] > .body {
+	background-color: var(--color-canvas-default);
+	border: 1px solid var(--color-border-muted);
+	border-radius: 4px;
+	margin-top: 16px !important;
+	box-shadow: var(--color-shadow-medium);
+}
+
+/* Drop extra border */
+.rgh-clean-dashboard .news .body > .border-bottom {
+	border-bottom: none !important;
 }
 
 /* Restore "row"-like spacing for all events */

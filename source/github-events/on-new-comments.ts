@@ -65,6 +65,6 @@ export default function onNewComments(callback: VoidFunction): Deinit[] {
 	return [
 		...addListeners(),
 		handlers.clear,
-		observer.disconnect,
+		observer,
 	];
 }

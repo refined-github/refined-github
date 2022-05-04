@@ -1,3 +1,7 @@
-.rgh-hide-repo-badges :is(#repository-container-header h1, .pinned-item-list-item-content) .Label {
+.rgh-hide-repo-badges :is(
+#repository-container-header h1, /* GHE */
+#repository-container-header h2,
+.pinned-item-list-item-content,
+) .Label {
 	display: none !important;
 }

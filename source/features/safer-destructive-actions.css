@@ -1,18 +1,18 @@
 /* Move "close issue" and "cancel" buttons on authoring comments to the left */
 
 /* ...in issue comment form */
-#partial-new-comment-form-actions > .d-flex {
+#issuecomment-new #partial-new-comment-form-actions > .d-flex {
 	justify-content: space-between !important;
 }
 
 /* ...in comment edit form */
 div.previewable-edit .previewable-comment-form .form-actions {
 	margin-left: 10px;
-	float: none;
+	float: none !important;
 }
 
 .previewable-edit .previewable-comment-form .form-actions .btn.js-comment-cancel-button {
-	float: left;
+	float: left !important;
 }
 
 /* ...in inline comment form */

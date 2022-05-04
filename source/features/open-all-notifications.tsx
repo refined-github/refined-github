@@ -89,11 +89,11 @@ function init(): Deinit[] {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		() => select.exists('.notifications-list-item'),
-	],
 	include: [
 		pageDetect.isNotifications,
+	],
+	exclude: [
+		pageDetect.isBlank, // Empty notification list
 	],
 	init,
 });

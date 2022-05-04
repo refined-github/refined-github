@@ -18,7 +18,7 @@ function init(): void {
 	const issueLinks = select.all('a:is([href*="/issues"], [href*="/pulls"], [href*="/projects"], [href*="/labels/"]):not([href*="sort%3A"], .issues-reset-query)');
 	for (const link of issueLinks) {
 		if (link.host !== location.host || link.closest('.pagination, .table-list-header-toggle')) {
-			return;
+			continue;
 		}
 
 		// Pick only links to lists, not single issues

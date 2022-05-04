@@ -1,6 +1,6 @@
 import select from 'select-dom';
 
-export default function onConversationHeaderUpdate(callback: VoidFunction): void | MutationObserver {
+export default function onConversationHeaderUpdate(callback: VoidFunction): void | Deinit {
 	const conversationHeader = select('#partial-discussion-header');
 	if (!conversationHeader) {
 		return;

@@ -3,12 +3,9 @@
 import path from 'node:path';
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
-import {Configuration} from 'webpack';
-import {createRequire} from 'node:module';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import webpack, {Configuration} from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-
-const {resolve: resolvePackage} = createRequire(import.meta.url);
 
 const config: Configuration = {
 	devtool: 'source-map',
@@ -51,9 +48,11 @@ const config: Configuration = {
 	},
 	plugins: [
 		new MiniCssExtractPlugin(),
+		new webpack.ProvidePlugin({
+			browser: 'webextension-polyfill',
+		}),
 		new CopyWebpackPlugin({
 			patterns: [
-				resolvePackage('webextension-polyfill'),
 				'*.+(html|json|png)',
 			],
 		}),
@@ -74,7 +73,6 @@ const config: Configuration = {
 		minimizer: [
 			new TerserPlugin({
 				parallel: true,
-				exclude: 'browser-polyfill.min.js', // #3451
 				terserOptions: {
 					mangle: false,
 					output: {

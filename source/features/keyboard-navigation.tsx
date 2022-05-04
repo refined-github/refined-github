@@ -12,46 +12,42 @@ const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	].join(',')));
 
 function runShortcuts(event: KeyboardEvent): void {
-	if (isEditable(event.target)) {
+	if ((event.key !== 'j' && event.key !== 'k') || isEditable(event.target)) {
 		return;
 	}
 
+	event.preventDefault();
+
 	const focusedComment = select(':target')!;
-
-	if (['j', 'k'].includes(event.key)) {
-		event.preventDefault();
-
-		const items = select
-			.all([
-				'.js-targetable-element[id^="diff-"]', // Files in diffs
-				'.js-minimizable-comment-group', // Comments (to be `.filter()`ed)
-			])
-			.filter(element =>
-				element.classList.contains('js-minimizable-comment-group')
-					? !isCommentGroupMinimized(element)
-					: true,
-			);
-
-		// `j` goes to the next comment, `k` goes back a comment
-		const direction = event.key === 'j' ? 1 : -1;
-
-		const currentIndex = items.indexOf(focusedComment);
-
-		// Start at 0 if nothing is; clamp index
-		const chosenCommentIndex = Math.min(
-			Math.max(0, currentIndex + direction),
-			items.length - 1,
+	const items = select
+		.all([
+			'.js-targetable-element[id^="diff-"]', // Files in diffs
+			'.js-minimizable-comment-group', // Comments (to be `.filter()`ed)
+		])
+		.filter(element =>
+			element.classList.contains('js-minimizable-comment-group')
+				? !isCommentGroupMinimized(element)
+				: true,
 		);
 
-		if (currentIndex !== chosenCommentIndex) {
-			// Focus comment without pushing to history
-			location.replace('#' + items[chosenCommentIndex].id);
-		}
+	// `j` goes to the next comment, `k` goes back a comment
+	const direction = event.key === 'j' ? 1 : -1;
+	const currentIndex = items.indexOf(focusedComment);
+
+	// Start at 0 if nothing is; clamp index
+	const chosenCommentIndex = Math.min(
+		Math.max(0, currentIndex + direction),
+		items.length - 1,
+	);
+
+	if (currentIndex !== chosenCommentIndex) {
+		// Focus comment without pushing to history
+		location.replace('#' + items[chosenCommentIndex].id);
 	}
 }
 
-function init(signal: AbortSignal): void {
-	document.addEventListener('keypress', runShortcuts, {signal});
+function init(signal: AbortSignal): Deinit {
+	document.body.addEventListener('keypress', runShortcuts, {signal});
 }
 
 void features.add(import.meta.url, {

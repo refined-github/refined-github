@@ -33,16 +33,16 @@ async function init(): Promise<void> {
 		discussionHeader.classList.add('rgh-first-tag');
 
 		discussionHeader.parentElement!.append(
-			' • ',
-			<TagIcon/>,
-			' ',
-			<a
-				href={buildRepoURL('releases/tag', tagName)}
-				className="Link--muted markdown-title"
-				title={`${tagName} was the first Git tag to include this PR`}
-			>
-				<code>{tagName}</code>
-			</a>,
+			<span>
+				<TagIcon className="ml-2 mr-1 color-text-secondary color-fg-muted"/>
+				<a
+					href={buildRepoURL('releases/tag', tagName)}
+					className="commit-ref"
+					title={`${tagName} was the first Git tag to include this PR`}
+				>
+					{tagName}
+				</a>
+			</span>,
 		);
 	}
 }
