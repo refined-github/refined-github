@@ -163,11 +163,11 @@ pr-branches
 }
 
 /* Hide text of "Edit Pins" dropdown button in repo header https://github.com/refined-github/refined-github/pull/5612 */
-.pagehead-actions pin-organization-repo summary { /* stylelint-disable-line no-descending-specificity */
+.pagehead-actions pin-organization-repo summary {
 	font-size: 0 !important;
 }
 
-.pagehead-actions pin-organization-repo .octicon-pin { /* stylelint-disable-line no-descending-specificity */
+.pagehead-actions pin-organization-repo .octicon-pin {
 	vertical-align: middle !important;
 }
 
