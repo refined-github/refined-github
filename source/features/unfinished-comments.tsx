@@ -36,15 +36,10 @@ function updateDocumentTitle(): void {
 	}
 }
 
-function init(): Deinit[] {
-	document.addEventListener('visibilitychange', updateDocumentTitle);
+function init(signal: AbortSignal): Deinit {
+	document.addEventListener('visibilitychange', updateDocumentTitle, {signal});
 
-	return [
-		() => {
-			document.removeEventListener('visibilitychange', updateDocumentTitle);
-		},
-		delegate(document, 'form', 'submit', disableOnSubmit, {capture: true}),
-	];
+	return delegate(document, 'form', 'submit', disableOnSubmit, {capture: true});
 }
 
 void features.add(import.meta.url, {
