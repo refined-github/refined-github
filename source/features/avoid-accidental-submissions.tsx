@@ -6,10 +6,6 @@ import * as pageDetect from 'github-url-detection';
 import {isMac} from '../github-helpers';
 import features from '.';
 
-function addQuickSubmit(): void {
-	select('input#commit-summary-input')!.classList.add('js-quick-submit');
-}
-
 function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void {
 	const field = event.delegateTarget;
 	const form = field.form!;
@@ -67,13 +63,4 @@ void features.add(import.meta.url, {
 	],
 	deduplicate: 'has-rgh-inner',
 	init,
-}, {
-	shortcuts: {
-		'ctrl enter': 'Publish a new/edited file',
-	},
-	include: [
-		pageDetect.isNewFile,
-		pageDetect.isEditingFile,
-	],
-	init: addQuickSubmit,
 });

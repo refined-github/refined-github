@@ -8,7 +8,6 @@ import * as pageDetect from 'github-url-detection';
 import waitFor from '../helpers/wait-for';
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
-import getDeinitHandler from '../helpers/get-deinit-handler';
 import {shouldFeatureRun} from '../github-helpers';
 import optionsStorage, {RGHOptions} from '../options-storage';
 import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyleHotfixes} from '../helpers/hotfix';
@@ -143,6 +142,26 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	resolve(options);
 });
+
+function getDeinitHandler(deinit: Deinit): VoidFunction {
+	if (deinit instanceof MutationObserver || deinit instanceof ResizeObserver || deinit instanceof IntersectionObserver) {
+		return () => {
+			deinit.disconnect();
+		};
+	}
+
+	if ('abort' in deinit) { // Selector observer
+		return () => {
+			deinit.abort();
+		};
+	}
+
+	if ('destroy' in deinit) { // Delegate subscription
+		return deinit.destroy;
+	}
+
+	return deinit;
+}
 
 function setupDeinit(deinit: Deinit): void {
 	document.addEventListener('pjax:start', getDeinitHandler(deinit), {once: true});

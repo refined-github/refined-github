@@ -1,5 +1,5 @@
 /* Always show the overflow menu button */
-.rgh-has-more-dropdown .js-responsive-underlinenav-overflow {
+.rgh-has-more-dropdown .UnderlineNav-actions {
 	visibility: visible !important;
 }
 
@@ -9,6 +9,6 @@ main > :first-child {
 }
 
 /* Only show the divider if there are other items above it */
-.js-responsive-underlinenav-overflow [hidden] + .dropdown-divider {
+.UnderlineNav-actions [hidden] + .dropdown-divider {
 	display: none;
 }

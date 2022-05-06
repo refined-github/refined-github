@@ -215,3 +215,4 @@ import './features/easy-toggle-commit-messages';
 import './features/command-palette-navigation-shortcuts';
 import './features/link-to-compare-diff';
 import './features/hide-low-quality-comments';
+import './features/submission-via-ctrl-enter-everywhere';
