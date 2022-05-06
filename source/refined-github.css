@@ -177,3 +177,34 @@ pr-branches
 	min-height: 4em;
 	height: 4em;
 }
+
+/* Improve wrapping of repo header buttons on smaller screens #5398 */
+.pagehead-actions {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	gap: 8px;
+}
+
+.pagehead-actions li {
+	margin-right: 0 !important;
+}
+
+@media (max-width: 768px) {
+	/* Put the buttons under the repo title */
+	#repository-container-header > :first-child {
+		flex-direction: column;
+		gap: 8px;
+	}
+}
+
+@media (min-width: 768px) {
+	/* Force the buttons container to wrap instead of the title */
+	#repository-container-header > :first-child > :first-child {
+		flex-shrink: 0 !important;
+	}
+
+	.pagehead-actions {
+		flex-shrink: 1 !important;
+		justify-content: flex-end;
+	}
+}
