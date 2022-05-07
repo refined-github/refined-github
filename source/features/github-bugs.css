@@ -80,13 +80,9 @@
 
 /* Improve wrapping of repo header buttons on smaller screens #5398 */
 @media (min-width: 768px) {
-	#repository-container-header > :first-child > :first-child {
-		flex-shrink: 0 !important;
-	}
-
 	.pagehead-actions {
 		display: flex !important;
-		flex-shrink: 1 !important;
+		flex-shrink: 3 !important;
 		flex-wrap: wrap !important;
 		justify-content: flex-end;
 		gap: 8px;
