@@ -80,11 +80,12 @@
 
 /* Improve wrapping of repo header buttons on smaller screens #5398 */
 @media (min-width: 768px) {
-	:root .pagehead-actions { /* https://github.com/refined-github/refined-github/pull/5622#discussion_r867296418 */
+	:root:root .pagehead-actions {
 		display: flex !important;
-		flex-shrink: 3 !important;
+		flex: 1 1 40% !important;
 		flex-wrap: wrap !important;
 		justify-content: flex-end;
+		margin-left: 0 !important;
 		gap: 8px;
 	}
 
