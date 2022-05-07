@@ -81,6 +81,10 @@
 /* Avoid excessive repo title wrap by deprioritizing the repo header actions #5398 */
 :root .pagehead-actions {
 	flex-shrink: 3 !important;
+
+	display: inline-flex !important;
+	flex-wrap: wrap;
+	justify-content: flex-end;
 }
 
 :root .pagehead-actions > li {
