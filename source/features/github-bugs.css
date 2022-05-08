@@ -79,17 +79,19 @@
 }
 
 /* Avoid excessive repo title wrap by deprioritizing the repo header actions #5398 */
-:root .pagehead-actions {
-	flex-shrink: 3 !important;
-	display: inline-flex !important;
-	flex-wrap: wrap;
-	justify-content: flex-end;
-}
+@media (min-width: 768px) { /* Match .d-md-inline-flex */
+	:root .pagehead-actions {
+		flex-shrink: 3 !important;
+		display: inline-flex !important;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+	}
 
-:root .pagehead-actions > li {
-	margin: 0;
-}
+	:root .pagehead-actions > li {
+		margin: 0;
+	}
 
-.pagehead-actions > li > * {
-	margin: 0 8px 8px 0;
+	.pagehead-actions > li > * {
+		margin: 0 8px 8px 0;
+	}
 }
