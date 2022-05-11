@@ -162,7 +162,12 @@ pr-branches
 	align-items: center !important;
 }
 
-/* Hide text of "Edit Pins" dropdown button in repo header https://github.com/refined-github/refined-github/pull/5612 */
+/* Hide "Pin"/"Unpin" button in header of personal repos https://github.com/refined-github/refined-github/issues/5398#issuecomment-1036112206 */
+.pagehead-actions [data-test-selector='pin-repo-button'] {
+	display: none !important;
+}
+
+/* Hide text of "Edit Pins" dropdown button in header of organization repos https://github.com/refined-github/refined-github/pull/5612 */
 .pagehead-actions pin-organization-repo summary {
 	font-size: 0 !important;
 }
