@@ -14,7 +14,7 @@ async function handleAltClick({altKey, delegateTarget}: delegate.Event<MouseEven
 
 	let paginationButton: HTMLButtonElement | undefined = delegateTarget;
 	let wrapper: Element = paginationButton.form!.parentElement!;
-	const isExpandingMainThread = !wrapper.classList.contains('TimelineItem-body');
+	const isExpandingMainThread = wrapper.id === 'js-progressive-timeline-item-container';
 
 	while (paginationButton) {
 		// eslint-disable-next-line no-await-in-loop
