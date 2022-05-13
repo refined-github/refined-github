@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import oneEvent from 'one-event';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -6,39 +7,26 @@ import features from '.';
 
 const paginationButtonSelector = '.ajax-pagination-form button[type="submit"]';
 
-function onPaginationFormLoad(form: HTMLFormElement, callback: VoidFunction): void {
-	form.addEventListener('page:loaded', callback);
-}
-
-function submitNewPaginationForm(wrapper: Element): void {
-	const wrapperSelector = wrapper.classList.contains('TimelineItem-body') ? ':scope' : ':scope > #js-progressive-timeline-item-container:last-child';
-	const paginationButton = select(`${wrapperSelector} > ${paginationButtonSelector}`, wrapper);
-	if (!paginationButton) {
-		return;
-	}
-
-	const subWrapper = paginationButton.form!.parentElement!;
-	onPaginationFormLoad(paginationButton.form!, () => {
-		submitNewPaginationForm(subWrapper);
-	});
-
-	paginationButton.click();
-}
-
-function handleAltClick({altKey, delegateTarget}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+async function handleAltClick({altKey, delegateTarget}: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	if (!altKey) {
 		return;
 	}
 
-	const wrapperSelector = [
-		'#js-progressive-timeline-item-container', // Main conversation thread
-		'.TimelineItem-body', // Review thread
-	].join(',');
+	let paginationButton: HTMLButtonElement | undefined = delegateTarget;
+	let wrapper: Element = paginationButton.form!.parentElement!;
+	const isExpandingMainThread = !wrapper.classList.contains('TimelineItem-body');
 
-	const wrapper = delegateTarget.closest(wrapperSelector)!;
-	onPaginationFormLoad(delegateTarget.form!, () => {
-		submitNewPaginationForm(wrapper);
-	});
+	while (paginationButton) {
+		// eslint-disable-next-line no-await-in-loop
+		await oneEvent(paginationButton.form!, 'page:loaded');
+		if (isExpandingMainThread) {
+			// Pagination forms in the main thread load their content in a nested wrapper
+			wrapper = wrapper.lastElementChild!;
+		}
+
+		paginationButton = select(`:scope > ${paginationButtonSelector}`, wrapper);
+		paginationButton?.click();
+	}
 }
 
 function init(): Deinit {
