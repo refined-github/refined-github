@@ -420,8 +420,6 @@ Read the [contribution guide](contributing.md) and join the [contributors](https
 ## Links
 
 - [Product Hunt submission](https://www.producthunt.com/posts/refined-github) *(2017-07-08)*
-- [What's new lately](https://blog.sindresorhus.com/whats-new-in-refined-github-836d05582df7) *(2017-06-23)*
-- [Original announcement](https://blog.sindresorhus.com/refined-github-21185789685d) *(2016-03-31)*
 
 ## Related
 
