@@ -54,3 +54,5 @@ void features.add(import.meta.url, {
 - https://github.com/refined-github/sandbox/pull/8
 - Any editable file
 - https://github.com/refined-github/refined-github/edit/main/readme.md
+
+*/
