@@ -6,7 +6,6 @@
 }
 
 /* Make tab indented code more readable on GitHub and Gist */
-:root, /* GHE, drop in February 2022 */
 .comment-body [data-tab-size='8'] { /* User setting is ignored in comments #4833 */
 	--tab-size: 4;
 }
@@ -147,14 +146,6 @@ pr-branches
 /* Remove the underline on PR filename copy button hover #4871 */
 .file-header .file-info clipboard-copy {
 	display: inline-block;
-}
-
-/* Limit width of commit title to 72 characters */
-#merge_title_field,
-#commit-summary-input {
-	/* 12px for the padding and 1px for the border https://user-images.githubusercontent.com/46634000/136789268-442caa39-33bc-4af3-8fb2-9cf6db722127.png */
-	width: calc(72ch + 26px);
-	max-width: 100%;
 }
 
 /* Ensure all buttons in the repo file navigation header are aligned in the center rather than to the top */
