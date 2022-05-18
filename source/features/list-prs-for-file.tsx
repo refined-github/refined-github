@@ -134,7 +134,7 @@ async function init(): Promise<void> {
 	await addAfterBranchSelector(button);
 }
 
-async function initEditing(): Promise<void> {
+async function initEditing(): Promise<false | void> {
 	const [path, prsByFile] = await Promise.all([
 		getCurrentPath(),
 		getPrsByFile(),
