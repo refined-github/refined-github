@@ -8,7 +8,6 @@ import './features/safer-destructive-actions.css';
 import './features/clean-mergeability-box.css';
 import './features/clean-footer.css';
 import './features/pr-approvals-count.css';
-import './features/hide-tips.css';
 import './features/clean-conversations.css';
 import './features/sticky-conversation-list-toolbar.css';
 import './features/always-show-branch-delete-buttons.css';
