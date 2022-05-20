@@ -6,7 +6,7 @@ import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import featureLink from '../helpers/feature-link';
 import {getNewFeatureName} from '../options-storage';
-import {isRefinedGitHubRepo} from '../github-helpers';
+import {isAnyRefinedGitHubRepo} from '../github-helpers';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 function linkifyFeature(possibleFeature: HTMLElement): void {
@@ -57,7 +57,7 @@ function init(): void {
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		isRefinedGitHubRepo,
+		isAnyRefinedGitHubRepo,
 	],
 	include: [
 		pageDetect.hasComments,
@@ -70,7 +70,7 @@ void features.add(import.meta.url, {
 	init,
 }, {
 	asLongAs: [
-		isRefinedGitHubRepo,
+		isAnyRefinedGitHubRepo,
 	],
 	include: [
 		pageDetect.isPR,
