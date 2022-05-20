@@ -62,9 +62,11 @@ function highlightBestComment(bestComment: Element): void {
 }
 
 function linkBestComment(bestComment: HTMLElement): void {
-	const firstTimelineItem = select('#js-timeline-progressive-loader')!.nextElementSibling!;
+	// Find position of comment in thread
+	const position = select.all(commentSelector).indexOf(bestComment);
+
 	// Only link to it if it doesn't already appear at the top of the conversation
-	if (firstTimelineItem === bestComment) {
+	if (position < 3) {
 		return;
 	}
 
