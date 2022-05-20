@@ -14,13 +14,13 @@ import {singleParagraphCommentSelector} from './hide-low-quality-comments';
 const commentSelector = '.js-timeline-item';
 
 const positiveReactionsSelector = `
-	${commentSelector} [aria-label*="reacted with thumbs up"],
-	${commentSelector} [aria-label*="reacted with hooray"],
-	${commentSelector} [aria-label*="reacted with heart"]
+	${commentSelector} [aria-label="react with thumbs up"],
+	${commentSelector} [aria-label="react with hooray"],
+	${commentSelector} [aria-label="react with heart"]
 `;
 
 const negativeReactionsSelector = `
-	${commentSelector} [aria-label*="reacted with thumbs down"]
+	${commentSelector} [aria-label="react with thumbs down"]
 `;
 
 const getPositiveReactions = mem((comment: HTMLElement): number | void => {
