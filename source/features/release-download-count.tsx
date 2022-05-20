@@ -78,12 +78,23 @@ async function init(): Promise<void | false> {
 				}
 
 				// Place next to asset size
-				assetName
+				const assetSize = assetName
 					.closest('.Box-row')!
-					.querySelector('.float-right')!
+					.querySelector(':scope > .flex-justify-end > :first-child')!;
+
+				const classes = [
+					'rgh-release-download-count',
+					...assetSize.classList,
+				];
+
+				if (index === 0) {
+					classes.push('text-bold');
+				}
+
+				assetSize
 					.after(
 						<small
-							className={'rgh-release-download-count float-right mr-2 color-text-secondary color-fg-muted' + (index === 0 ? ' text-bold' : '')}
+							className={classes.join(' ')}
 							title="Downloads"
 						>
 							{abbreviateNumber(downloadCount)} <DownloadIcon/>
