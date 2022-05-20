@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, ChevronRightIcon, TriangleDownIcon, XIcon} from '@primer/octicons-react';
 
@@ -8,7 +9,6 @@ import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
 import {getUsername, getForkedRepo, getRepo} from '../github-helpers';
-import elementReady from 'element-ready';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepo()!.nameWithOwner;
 // eslint-disable-next-line import/prefer-default-export
