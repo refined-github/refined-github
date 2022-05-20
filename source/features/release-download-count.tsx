@@ -91,15 +91,14 @@ async function init(): Promise<void | false> {
 					classes.push('text-bold');
 				}
 
-				assetSize
-					.after(
-						<small
-							className={classes.join(' ').replace('text-sm-left', 'text-sm-right')}
-							title="Downloads"
-						>
-							{abbreviateNumber(downloadCount)} <DownloadIcon/>
-						</small>,
-					);
+				assetSize.after(
+					<small
+						className={classes.join(' ').replace('text-sm-left', 'text-sm-right')}
+						title="Downloads"
+					>
+						{abbreviateNumber(downloadCount)} <DownloadIcon/>
+					</small>,
+				);
 			}
 		}
 	}
