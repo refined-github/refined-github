@@ -85,7 +85,7 @@ async function init(): Promise<void | false> {
 				const classes = [
 					'rgh-release-download-count',
 					...assetSize.classList,
-				].map(name => name.replace('text-sm-left', 'text-sm-right'));
+				];
 
 				if (index === 0) {
 					classes.push('text-bold');
@@ -94,7 +94,7 @@ async function init(): Promise<void | false> {
 				assetSize
 					.after(
 						<small
-							className={classes.join(' ')}
+							className={classes.join(' ').replace('text-sm-left', 'text-sm-right')}
 							title="Downloads"
 						>
 							{abbreviateNumber(downloadCount)} <DownloadIcon/>
