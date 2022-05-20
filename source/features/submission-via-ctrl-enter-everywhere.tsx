@@ -18,5 +18,8 @@ void features.add(import.meta.url, {
 		pageDetect.isNewRelease,
 		pageDetect.isEditingRelease,
 	],
+	exclude: [
+		pageDetect.isBlank,
+	],
 	init: addQuickSubmit,
 });

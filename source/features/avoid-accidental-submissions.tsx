@@ -61,6 +61,9 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 		pageDetect.isPRConversation,
 	],
+	exclude: [
+		pageDetect.isBlank,
+	],
 	deduplicate: 'has-rgh-inner',
 	init,
 });
