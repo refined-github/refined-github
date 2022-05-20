@@ -13,6 +13,7 @@ export const codeElementsSelector = [
 	'.blob-code-inner', // Code lines
 	'.highlight > pre', // Highlighted code blocks in comments
 	'.snippet-clipboard-content > pre', // Non-highlighted code blocks in comments
+	'.notranslate', // Non-highlighted code blocks in tables in comments
 ].join(',');
 
 export function shortenLink(link: HTMLAnchorElement): void {

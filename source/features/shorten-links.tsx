@@ -19,3 +19,11 @@ void features.add(import.meta.url, {
 	],
 	init: onetime(init),
 });
+
+/*
+
+## Test URLs
+
+https://github.com/refined-github/sandbox/pull/14
+
+*/
