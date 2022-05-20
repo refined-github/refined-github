@@ -14,13 +14,13 @@ import {singleParagraphCommentSelector} from './hide-low-quality-comments';
 const commentSelector = '.js-timeline-item';
 
 const positiveReactionsSelector = `
-	${commentSelector} [aria-label*="reacted with thumbs up"],
-	${commentSelector} [aria-label*="reacted with hooray"],
-	${commentSelector} [aria-label*="reacted with heart"]
+	${commentSelector} [aria-label="react with thumbs up"],
+	${commentSelector} [aria-label="react with hooray"],
+	${commentSelector} [aria-label="react with heart"]
 `;
 
 const negativeReactionsSelector = `
-	${commentSelector} [aria-label*="reacted with thumbs down"]
+	${commentSelector} [aria-label="react with thumbs down"]
 `;
 
 const getPositiveReactions = mem((comment: HTMLElement): number | void => {
@@ -62,9 +62,11 @@ function highlightBestComment(bestComment: Element): void {
 }
 
 function linkBestComment(bestComment: HTMLElement): void {
-	const firstTimelineItem = select('#js-timeline-progressive-loader')!.nextElementSibling!;
+	// Find position of comment in thread
+	const position = select.all(commentSelector).indexOf(bestComment);
+
 	// Only link to it if it doesn't already appear at the top of the conversation
-	if (firstTimelineItem === bestComment) {
+	if (position < 3) {
 		return;
 	}
 
