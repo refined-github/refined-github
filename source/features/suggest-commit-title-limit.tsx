@@ -39,3 +39,20 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init: validateInput,
 });
+
+/*
+
+# Test data
+
+## Commit title
+
+123456789 123456789 123456789 123456789 123456789 123456789 123456789 123
+
+## URLs
+
+- Any mergeable PR
+- https://github.com/refined-github/sandbox/pull/8
+- Any editable file
+- https://github.com/refined-github/refined-github/edit/main/readme.md
+
+*/
