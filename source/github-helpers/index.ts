@@ -148,6 +148,10 @@ export function isRefinedGitHubRepo(): boolean {
 	return location.pathname.startsWith('/refined-github/refined-github');
 }
 
+export function isAnyRefinedGitHubRepo(): boolean {
+	return /^\/refined-github\/.+/.test(location.pathname);
+}
+
 export function shouldFeatureRun({
 	/** Every condition must be true */
 	asLongAs = [() => true],
