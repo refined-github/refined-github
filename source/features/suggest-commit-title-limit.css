@@ -3,7 +3,11 @@
 #commit-summary-input {
 	box-sizing: content-box; /* Exclude padding/border from `width`; No need to mess with `calc` */
 	width: 72ch;
-	max-width: intrinsic; /* Like 100%, except it works with content-box */
+
+	/* Like 100%, except it works with content-box and it feels like -webkit-1999 */
+	max-width: -webkit-available;
+	max-width: -moz-available;
+	max-width: intrinsic;
 }
 
 :is(#commit-summary-input, #merge_title_field).rgh-title-over-limit {
