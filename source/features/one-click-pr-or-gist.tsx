@@ -32,7 +32,7 @@ function init(): void | false {
 				data-disable-invalid
 				className={classList.join(' ')}
 				aria-label={description}
-				type='submit'
+				type="submit"
 				name={radioButton.name}
 				value={radioButton.value}
 			>

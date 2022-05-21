@@ -94,7 +94,7 @@ async function init(): Promise<void | false> {
 				assetSize.after(
 					<small
 						className={classes.join(' ').replace('text-sm-left', 'text-sm-right')}
-						title='Downloads'
+						title="Downloads"
 					>
 						{abbreviateNumber(downloadCount)} <DownloadIcon/>
 					</small>,

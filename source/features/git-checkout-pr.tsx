@@ -35,23 +35,23 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 	const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
 	const [owner] = nameWithOwner.split('/');
 	return (
-		<div hidden={remoteType && remoteType !== 'HTTPS'} className='markdown-body' role='tabpanel'>
-			<div className='snippet-clipboard-content position-relative'>
-				<div className='zeroclipboard-container position-absolute right-0 top-0'>
+		<div hidden={remoteType && remoteType !== 'HTTPS'} className="markdown-body" role="tabpanel">
+			<div className="snippet-clipboard-content position-relative">
+				<div className="zeroclipboard-container position-absolute right-0 top-0">
 					<clipboard-copy
-						className='ClipboardButton btn js-clipboard-copy m-2 p-0 tooltipped-no-delay'
-						role='button'
+						className="ClipboardButton btn js-clipboard-copy m-2 p-0 tooltipped-no-delay"
+						role="button"
 						for={`rgh-checkout-pr-${remoteType!}`}
-						aria-label='Copy'
-						data-copy-feedback='Copied!'
-						data-tooltip-direction='w'
-						tabindex='0'
+						aria-label="Copy"
+						data-copy-feedback="Copied!"
+						data-tooltip-direction="w"
+						tabindex="0"
 					>
-						<CopyIcon className='js-clipboard-copy-icon m-2'/>
-						<CheckIcon className='js-clipboard-check-icon color-text-success color-fg-success d-none m-2'/>
+						<CopyIcon className="js-clipboard-copy-icon m-2"/>
+						<CheckIcon className="js-clipboard-check-icon color-text-success color-fg-success d-none m-2"/>
 					</clipboard-copy>
 				</div>
-				<pre id={`rgh-checkout-pr-${remoteType!}`} className='mb-2 rgh-linkified-code'>{/* `.rgh-linkified-code` is intentionally added to avoid parsing */}
+				<pre id={`rgh-checkout-pr-${remoteType!}`} className="mb-2 rgh-linkified-code">{/* `.rgh-linkified-code` is intentionally added to avoid parsing */}
 					<code>
 						{remote && `git remote add ${remote} ${connectionType[remoteType!]}${nameWithOwner}.git\n`}
 						git fetch {remote ?? 'origin'} {headBranch}{'\n'}
@@ -65,13 +65,13 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 
 function getTabList(tabs: string[], selected = tabs[0]): JSX.Element {
 	return (
-		<div className='UnderlineNav my-2 box-shadow-none'>
-			<div className='UnderlineNav-body' role='tablist'>
+		<div className="UnderlineNav my-2 box-shadow-none">
+			<div className="UnderlineNav-body" role="tablist">
 				{tabs.map(tab => (
 					<button
-						type='button'
-						role='tab'
-						className='UnderlineNav-item lh-default f6 py-0 px-0 mr-2 position-relative'
+						type="button"
+						role="tab"
+						className="UnderlineNav-item lh-default f6 py-0 px-0 mr-2 position-relative"
 						// Style won't apply if using the boolean directly
 						aria-selected={tab === selected ? 'true' : 'false'}
 						tabIndex={tab === selected ? 0 : -1}
@@ -92,12 +92,12 @@ async function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): Pr
 
 	const remoteName = getRemoteName();
 	select('.octicon-terminal', dropdown)!.closest('li.Box-row')!.after(
-		<li className='Box-row p-3 mt-0'>
-			<span className='d-flex flex-items-center color-text-primary color-fg-default text-bold no-underline'>
-				<TerminalIcon className='mr-2'/>
+		<li className="Box-row p-3 mt-0">
+			<span className="d-flex flex-items-center color-text-primary color-fg-default text-bold no-underline">
+				<TerminalIcon className="mr-2"/>
 				Checkout with Git
 			</span>
-			<div className='mt-2 pl-5'>
+			<div className="mt-2 pl-5">
 				<tab-container>
 					{remoteName ? [
 						getTabList(['HTTPS', 'SSH']),
@@ -105,7 +105,7 @@ async function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): Pr
 						checkoutOption(remoteName, 'SSH'),
 					] : checkoutOption()}
 				</tab-container>
-				<p className='mb-0 f6 color-text-secondary color-fg-muted'>
+				<p className="mb-0 f6 color-text-secondary color-fg-muted">
 					Run in your project repository{remoteName && ', pick either one'}.
 				</p>
 			</div>

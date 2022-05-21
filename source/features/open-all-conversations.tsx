@@ -38,8 +38,8 @@ async function init(): Promise<Deinit | false> {
 
 	select('.table-list-header-toggle:not(.states)')?.prepend(
 		<button
-			type='button'
-			className='btn-link rgh-open-all-conversations px-2'
+			type="button"
+			className="btn-link rgh-open-all-conversations px-2"
 		>
 			Open all
 		</button>,

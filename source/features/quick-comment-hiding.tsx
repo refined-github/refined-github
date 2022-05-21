@@ -23,11 +23,11 @@ function generateSubmenu(hideButton: Element): void {
 	for (const reason of select.all('[name="classifier"] option:not([value=""])', comment)) {
 		hideCommentForm.append(
 			<button
-				type='submit'
-				name='classifier'
+				type="submit"
+				name="classifier"
 				value={reason.value}
-				className='dropdown-item btn-link'
-				role='menuitem'
+				className="dropdown-item btn-link"
+				role="menuitem"
 			>
 				{reason.textContent}
 			</button>,

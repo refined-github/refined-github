@@ -8,7 +8,7 @@ import {getRepo} from '../github-helpers';
 
 function getDropdownItem(downloadUrl: URL): JSX.Element {
 	return (
-		<a className='dropdown-item rgh-download-folder' href={downloadUrl.href}>
+		<a className="dropdown-item rgh-download-folder" href={downloadUrl.href}>
 			Download directory
 		</a>
 	);
@@ -30,8 +30,8 @@ function init(): void {
 	select('a.dropdown-item[data-hotkey="t"]')!.after(getDropdownItem(downloadUrl));
 	select('a.btn[data-hotkey="t"]')!.after(
 		<a
-			className='btn d-none d-md-block tooltipped tooltipped-ne rgh-download-folder'
-			aria-label='Download directory'
+			className="btn d-none d-md-block tooltipped tooltipped-ne rgh-download-folder"
+			aria-label="Download directory"
 			href={downloadUrl.href}
 		>
 			<DownloadIcon/>

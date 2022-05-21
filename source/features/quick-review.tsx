@@ -18,8 +18,8 @@ async function addSidebarReviewButton(): Promise<void | false> {
 	}
 
 	sidebarReviewsSection!.append(
-		<span className='text-normal'>
-			– <a href={reviewFormUrl.href} className='btn-link Link--muted' data-hotkey='v' data-pjax='#repo-content-pjax-container'>review now</a>
+		<span className="text-normal">
+			– <a href={reviewFormUrl.href} className="btn-link Link--muted" data-hotkey="v" data-pjax="#repo-content-pjax-container">review now</a>
 		</span>,
 	);
 }

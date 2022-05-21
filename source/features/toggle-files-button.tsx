@@ -20,9 +20,9 @@ function addButton(): void {
 
 	commitsInfo.append(
 		<button
-			type='button'
-			className='btn-octicon rgh-toggle-files'
-			aria-label='Toggle files section'
+			type="button"
+			className="btn-octicon rgh-toggle-files"
+			aria-label="Toggle files section"
 		>
 			<FoldIcon/>
 			<UnfoldIcon/>

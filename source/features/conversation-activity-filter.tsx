@@ -128,12 +128,12 @@ function applyState(state: State): void {
 function createRadios(current: State): JSX.Element[] {
 	return Object.entries(states).map(([state, label]) => (
 		<div
-			className='SelectMenu-item'
-			role='menuitemradio'
+			className="SelectMenu-item"
+			role="menuitemradio"
 			aria-checked={state === current ? 'true' : 'false'}
 			data-value={state}
 		>
-			<CheckIcon className='SelectMenu-icon SelectMenu-icon--check'/>
+			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
 			{label || 'Show all'}
 		</div>
 	));
@@ -145,36 +145,36 @@ async function addWidget(header: string, state: State): Promise<void> {
 		return;
 	}
 
-	wrap(position, <div className='rgh-conversation-activity-filter-wrapper'/>);
+	wrap(position, <div className="rgh-conversation-activity-filter-wrapper"/>);
 	position.classList.add('rgh-conversation-activity-filter');
 	position.after(
 		<details
 			className={`details-reset details-overlay d-inline-block ml-2 position-relative ${dropdownClass}`}
-			id='rgh-conversation-activity-filter-select-menu'
+			id="rgh-conversation-activity-filter-select-menu"
 		>
 			<summary>
-				<EyeIcon className='color-text-secondary color-fg-muted'/>
-				<EyeClosedIcon className='color-icon-danger color-fg-danger'/>
-				<div className='dropdown-caret ml-1'/>
+				<EyeIcon className="color-text-secondary color-fg-muted"/>
+				<EyeClosedIcon className="color-icon-danger color-fg-danger"/>
+				<div className="dropdown-caret ml-1"/>
 			</summary>
 			<details-menu
-				className='SelectMenu right-0'
+				className="SelectMenu right-0"
 				on-details-menu-select={handleSelection}
 			>
-				<div className='SelectMenu-modal'>
-					<div className='SelectMenu-header'>
-						<h3 className='SelectMenu-title color-fg-default'>
+				<div className="SelectMenu-modal">
+					<div className="SelectMenu-header">
+						<h3 className="SelectMenu-title color-fg-default">
 							Filter conversation activities
 						</h3>
 						<button
-							className='SelectMenu-closeButton'
-							type='button'
-							data-toggle-for='rgh-conversation-activity-filter-select-menu'
+							className="SelectMenu-closeButton"
+							type="button"
+							data-toggle-for="rgh-conversation-activity-filter-select-menu"
 						>
 							<XIcon/>
 						</button>
 					</div>
-					<div className='SelectMenu-list'>
+					<div className="SelectMenu-list">
 						{createRadios(state)}
 					</div>
 				</div>

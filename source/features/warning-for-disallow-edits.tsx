@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 const getWarning = onetime(() => (
-	<div className='flash flash-error mt-3 rgh-warning-for-disallow-edits'>
+	<div className="flash flash-error mt-3 rgh-warning-for-disallow-edits">
 		<strong>Note:</strong> Maintainers may require changes. It’s easier and faster to allow them to make direct changes before merging.
 	</div>
 ));

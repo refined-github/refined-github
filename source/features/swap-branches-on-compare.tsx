@@ -20,7 +20,7 @@ function init(): void {
 
 	const icon = select('.range-editor .octicon-arrow-left')!;
 	icon.parentElement!.attributes['aria-label'].value += '.\nClick to swap.';
-	wrap(icon, <a href={buildRepoURL('compare/' + references.join('...'))} data-pjax='#repo-content-pjax-container'/>);
+	wrap(icon, <a href={buildRepoURL('compare/' + references.join('...'))} data-pjax="#repo-content-pjax-container"/>);
 }
 
 void features.add(import.meta.url, {

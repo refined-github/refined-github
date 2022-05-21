@@ -79,9 +79,9 @@ function init(): void | Deinit {
 
 	if (lowQualityCount > 0) {
 		select('.discussion-timeline-actions')!.prepend(
-			<p className='rgh-low-quality-comments-note'>
+			<p className="rgh-low-quality-comments-note">
 				{`${lowQualityCount} unhelpful comment${lowQualityCount > 1 ? 's were' : ' was'} automatically hidden. `}
-				<button className='btn-link text-emphasized rgh-unhide-low-quality-comments' type='button'>Show</button>
+				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>
 			</p>,
 		);
 		return delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide);

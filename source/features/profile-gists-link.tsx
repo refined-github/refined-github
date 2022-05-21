@@ -31,12 +31,12 @@ async function init(): Promise<void> {
 	const link = (
 		<a
 			href={href}
-			className='UnderlineNav-item js-responsive-underlinenav-item'
-			role='tab'
-			aria-selected='false'
-			data-tab-item='rgh-gists-item'
+			className="UnderlineNav-item js-responsive-underlinenav-item"
+			role="tab"
+			aria-selected="false"
+			data-tab-item="rgh-gists-item"
 		>
-			<CodeSquareIcon className='UnderlineNav-octicon hide-sm'/>
+			<CodeSquareIcon className="UnderlineNav-octicon hide-sm"/>
 			{' Gists '}
 		</a>
 	);
@@ -51,7 +51,7 @@ async function init(): Promise<void> {
 
 	const count = await getGistCount(username);
 	if (count > 0) {
-		link.append(<span className='Counter'>{count}</span>);
+		link.append(<span className="Counter">{count}</span>);
 	}
 }
 

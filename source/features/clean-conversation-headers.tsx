@@ -42,7 +42,7 @@ async function cleanPrHeader(): Promise<void | false> {
 	const baseBranchDropdown = select('.commit-ref-dropdown', byline);
 
 	// Shows on PRs: main [←] feature
-	const arrowIcon = <ArrowLeftIcon className='v-align-middle mx-1'/>;
+	const arrowIcon = <ArrowLeftIcon className="v-align-middle mx-1"/>;
 	if (baseBranchDropdown) {
 		baseBranchDropdown.after(<span>{arrowIcon}</span>); // #5598
 	} else {

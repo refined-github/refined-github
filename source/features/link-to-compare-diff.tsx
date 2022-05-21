@@ -10,7 +10,7 @@ function init(): void {
 	const changedFilesSummary = select('.Box .octicon-file-diff')!.closest('li')!;
 	wrapAll(
 		[...changedFilesSummary.children],
-		<a className='no-underline rgh-link-to-compare-diff' href='#files_bucket'/>,
+		<a className="no-underline rgh-link-to-compare-diff" href="#files_bucket"/>,
 	);
 }
 

@@ -11,12 +11,12 @@ async function initRepo(): Promise<void> {
 	const repoTitle = await elementReady('[itemprop="name"]');
 	repoTitle!.after(
 		<a
-			className='mr-2'
+			className="mr-2"
 			href={`https://${repoTitle!.textContent!.trim()}`}
-			target='_blank'
-			rel='noopener noreferrer'
+			target="_blank"
+			rel="noopener noreferrer"
 		>
-			<LinkExternalIcon className='v-align-middle'/>
+			<LinkExternalIcon className="v-align-middle"/>
 		</a>,
 	);
 }
@@ -30,10 +30,10 @@ function initRepoList(): Deinit {
 				' ',
 				<a
 					href={`https://${repository.textContent!.trim()}`}
-					target='_blank'
-					rel='noopener noreferrer'
+					target="_blank"
+					rel="noopener noreferrer"
 				>
-					<LinkExternalIcon className='v-align-middle'/>
+					<LinkExternalIcon className="v-align-middle"/>
 				</a>,
 			);
 		},

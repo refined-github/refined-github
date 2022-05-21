@@ -75,7 +75,7 @@ async function init(): Promise<false | void> {
 
 		const tooltip: string[] = [];
 		if (workflow.manuallyDispatchable) {
-			workflowListItem.append(<PlayIcon className='ml-1'/>);
+			workflowListItem.append(<PlayIcon className="ml-1"/>);
 			tooltip.push('This workflow can be triggered manually');
 			workflowListItem.parentElement!.classList.add('tooltipped', 'tooltipped-e');
 			workflowListItem.parentElement!.setAttribute('aria-label', tooltip.join('\n'));

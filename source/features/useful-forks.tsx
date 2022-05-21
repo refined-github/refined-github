@@ -20,8 +20,8 @@ async function init(): Promise<void | false> {
 	const selector = pageDetect.isRepoForksList() ? '#network' : '#repo-content-pjax-container h2';
 	const container = await elementReady(selector, {waitForChildren: false});
 	container!.prepend(
-		<a className='btn mb-2 float-right' href={downloadUrl.href}>
-			<RepoForkedIcon className='mr-2'/>
+		<a className="btn mb-2 float-right" href={downloadUrl.href}>
+			<RepoForkedIcon className="mr-2"/>
 			Find useful forks
 		</a>,
 	);

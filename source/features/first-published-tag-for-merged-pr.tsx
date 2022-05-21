@@ -34,10 +34,10 @@ async function init(): Promise<void> {
 
 		discussionHeader.parentElement!.append(
 			<span>
-				<TagIcon className='ml-2 mr-1 color-text-secondary color-fg-muted'/>
+				<TagIcon className="ml-2 mr-1 color-text-secondary color-fg-muted"/>
 				<a
 					href={buildRepoURL('releases/tag', tagName)}
-					className='commit-ref'
+					className="commit-ref"
 					title={`${tagName} was the first Git tag to include this PR`}
 				>
 					{tagName}

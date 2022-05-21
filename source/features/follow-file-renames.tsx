@@ -68,11 +68,11 @@ async function linkify(button: HTMLButtonElement, filePath: string): Promise<voi
 			<a
 				href={linkifiedURL.href}
 				aria-label={`Renamed ${isNewer ? 'to' : 'from'} ${fileChanges.file[toKey]!}`}
-				className='btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay'
+				className="btn btn-outline BtnGroup-item tooltipped tooltipped-n tooltipped-no-delay"
 			>
-				{isNewer && <DiffRenamedIcon className='mr-1' style={{transform: 'rotate(180deg)'}}/>}
+				{isNewer && <DiffRenamedIcon className="mr-1" style={{transform: 'rotate(180deg)'}}/>}
 				{button.textContent}
-				{isOlder && <DiffRenamedIcon className='ml-1'/>}
+				{isOlder && <DiffRenamedIcon className="ml-1"/>}
 			</a>,
 		);
 	}

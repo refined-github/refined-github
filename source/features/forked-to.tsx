@@ -52,43 +52,43 @@ async function updateUI(forks: string[]): Promise<void> {
 		forkButton.after(
 			<a
 				href={createLink(forks[0])}
-				className='btn btn-sm BtnGroup-item px-2 rgh-forked-button rgh-forked-link'
+				className="btn btn-sm BtnGroup-item px-2 rgh-forked-button rgh-forked-link"
 				title={`Open your fork at ${forks[0]}`}
 			>
-				<ChevronRightIcon className='v-align-text-top'/>
+				<ChevronRightIcon className="v-align-text-top"/>
 			</a>,
 		);
 	} else {
 		forkButton.after(
 			<details
-				className='details-reset details-overlay BtnGroup-parent position-relative'
-				id='rgh-forked-to-select-menu'
+				className="details-reset details-overlay BtnGroup-parent position-relative"
+				id="rgh-forked-to-select-menu"
 			>
 				<summary
-					className='btn btn-sm BtnGroup-item px-2 float-none rgh-forked-button'
+					className="btn btn-sm BtnGroup-item px-2 float-none rgh-forked-button"
 				>
-					<TriangleDownIcon className='v-align-text-top'/>
+					<TriangleDownIcon className="v-align-text-top"/>
 				</summary>
-				<details-menu className='SelectMenu right-0'>
-					<div className='SelectMenu-modal'>
-						<div className='SelectMenu-header'>
-							<h3 className='SelectMenu-title'>Your forks</h3>
+				<details-menu className="SelectMenu right-0">
+					<div className="SelectMenu-modal">
+						<div className="SelectMenu-header">
+							<h3 className="SelectMenu-title">Your forks</h3>
 							<button
-								className='SelectMenu-closeButton'
-								type='button'
-								data-toggle-for='rgh-forked-to-select-menu'
+								className="SelectMenu-closeButton"
+								type="button"
+								data-toggle-for="rgh-forked-to-select-menu"
 							>
 								<XIcon/>
 							</button>
 						</div>
-						<div className='SelectMenu-list'>
+						<div className="SelectMenu-list">
 							{forks.map(fork => (
 								<a
 									href={createLink(fork)}
-									className='rgh-forked-link SelectMenu-item'
+									className="rgh-forked-link SelectMenu-item"
 									aria-checked={fork === getRepo()!.nameWithOwner ? 'true' : 'false'}
 								>
-									<CheckIcon className='SelectMenu-icon SelectMenu-icon--check'/>
+									<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
 									{fork}
 								</a>
 							))}

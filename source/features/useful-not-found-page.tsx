@@ -21,7 +21,7 @@ async function is404(url: string): Promise<boolean> {
 }
 
 function getStrikeThrough(text: string): HTMLElement {
-	return <del className='color-text-tertiary color-fg-subtle'>{text}</del>;
+	return <del className="color-text-tertiary color-fg-subtle">{text}</del>;
 }
 
 async function checkAnchor(anchor: HTMLElement): Promise<void> {
@@ -93,7 +93,7 @@ async function showMissingPart(): Promise<void> {
 		.flatMap((link, i) => [i > 0 && ' / ', link]); // Add separators
 
 	select('main > :first-child, #parallax_illustration')!.after(
-		<h2 className='container mt-4 text-center'>{breadcrumbs}</h2>,
+		<h2 className="container mt-4 text-center">{breadcrumbs}</h2>,
 	);
 }
 
@@ -104,7 +104,7 @@ async function showDefaultBranchLink(): Promise<void> {
 	}
 
 	select('main > .container-lg')!.before(
-		<p className='container mt-4 text-center'>
+		<p className="container mt-4 text-center">
 			<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
 		</p>,
 	);
@@ -137,7 +137,7 @@ async function showAlternateLink(): Promise<void> {
 		: <a href={fileChanges.file.blob_url}>moved</a>;
 
 	select('main > .container-lg')!.before(
-		<p className='container mt-4 text-center'>
+		<p className="container mt-4 text-center">
 			{lastVersion} was {verb} ({permalink}) - {commitHistory}.
 		</p>,
 	);

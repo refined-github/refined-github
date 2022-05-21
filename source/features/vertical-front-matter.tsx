@@ -26,7 +26,7 @@ function init(): void | false {
 
 	const values = [...rows[0].children];
 	table.replaceWith(
-		<table className='rgh-vertical-front-matter-table'>
+		<table className="rgh-vertical-front-matter-table">
 			<tbody>
 				{headers.map((cell, index) => (
 					<tr>

@@ -13,7 +13,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	const getDropdownLink = (name: string, route: string): JSX.Element => {
 		const {href} = new GitHubURL(viewFile.href).assign({route});
 		return (
-			<a href={href} data-skip-pjax={route === 'raw'} className='pl-5 dropdown-item btn-link' role='menuitem'>
+			<a href={href} data-skip-pjax={route === 'raw'} className="pl-5 dropdown-item btn-link" role="menuitem">
 				View {name}
 			</a>
 		);
@@ -23,7 +23,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 		getDropdownLink('raw', 'raw'),
 		getDropdownLink('blame', 'blame'),
 		getDropdownLink('history', 'commits'),
-		<div className='dropdown-divider' role='none'/>,
+		<div className="dropdown-divider" role="none"/>,
 	);
 }
 

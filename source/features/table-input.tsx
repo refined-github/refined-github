@@ -38,26 +38,26 @@ function addButtons(): void {
 	for (const anchor of select.all('md-task-list:not(.rgh-table-input-added)')) {
 		anchor.classList.add('rgh-table-input-added');
 		anchor.after(
-			<details className='details-reset details-overlay flex-auto toolbar-item btn-octicon mx-1 select-menu select-menu-modal-right hx_rsm'>
+			<details className="details-reset details-overlay flex-auto toolbar-item btn-octicon mx-1 select-menu select-menu-modal-right hx_rsm">
 				<summary
-					className='text-center menu-target p-2 p-md-1 hx_rsm-trigger'
-					role='button'
-					aria-label='Add a table'
-					aria-haspopup='menu'
+					className="text-center menu-target p-2 p-md-1 hx_rsm-trigger"
+					role="button"
+					aria-label="Add a table"
+					aria-haspopup="menu"
 				>
 					<div
-						className='tooltipped tooltipped-sw'
-						aria-label='Add a table'
+						className="tooltipped tooltipped-sw"
+						aria-label="Add a table"
 					>
 						<TableIcon/>
 					</div>
 				</summary>
-				<details-menu className='select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input' role='menu'>
+				<details-menu className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input" role="menu">
 					{Array.from({length: 25}).map((_, index) => (
 						<button
-							type='button'
-							role='menuitem'
-							className='rgh-table-input-cell btn-link'
+							type="button"
+							role="menuitem"
+							className="rgh-table-input-cell btn-link"
 							data-x={(index % 5) + 1}
 							data-y={Math.floor(index / 5) + 1}
 						>

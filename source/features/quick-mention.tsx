@@ -51,15 +51,15 @@ function init(): Deinit {
 		// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
 		if (avatar.classList.contains('TimelineItem-avatar')) {
 			avatar.classList.remove('TimelineItem-avatar');
-			wrap(avatar, <div className='avatar-parent-child TimelineItem-avatar d-none d-md-block'/>);
+			wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block"/>);
 		}
 
 		const userMention = select('img', avatar)!.alt;
 		avatar.classList.add('rgh-quick-mention');
 		avatar.after(
 			<button
-				type='button'
-				className='rgh-quick-mention tooltipped tooltipped-e btn-link'
+				type="button"
+				className="rgh-quick-mention tooltipped tooltipped-e btn-link"
 				aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
 			>
 				<ReplyIcon/>

@@ -49,7 +49,7 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 					}
 				`}
 				</style>,
-				<link rel='stylesheet' href={gistData.stylesheet}/>,
+				<link rel="stylesheet" href={gistData.stylesheet}/>,
 				domify.one(gistData.div)!,
 			);
 			link.parentElement!.after(container);

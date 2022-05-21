@@ -73,7 +73,7 @@ async function initHeadHint(): Promise<void | false> {
 
 	select(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`)!.after(
 		// The class is used by `quick-fork-deletion`
-		<> with <a href={url} className='rgh-open-prs-of-forks'>{getLinkCopy(count)}</a></>,
+		<> with <a href={url} className="rgh-open-prs-of-forks">{getLinkCopy(count)}</a></>,
 	);
 }
 
@@ -84,7 +84,7 @@ async function initDeleteHint(): Promise<void | false> {
 	}
 
 	select('details-dialog[aria-label*="Delete"] .Box-body p:first-child')!.after(
-		<p className='flash flash-warn'>
+		<p className="flash flash-warn">
 			It will also abandon <a href={url}>your {getLinkCopy(count)}</a> in <strong>{getForkedRepo()!}</strong> and you’ll no longer be able to edit {count === 1 ? 'it' : 'them'}.
 		</p>,
 	);

@@ -79,11 +79,11 @@ async function init(): Promise<Deinit> {
 				const state = upperCaseFirst(prInfo.state);
 
 				branchCompareLink.replaceWith(
-					<div className='d-inline-block text-right ml-3'>
+					<div className="d-inline-block text-right ml-3">
 						<a
 							data-issue-and-pr-hovercards-enabled
 							href={prInfo.url}
-							data-hovercard-type='pull_request'
+							data-hovercard-type="pull_request"
 							data-hovercard-url={prInfo.url + '/hovercard'}
 						>
 							#{prInfo.number}

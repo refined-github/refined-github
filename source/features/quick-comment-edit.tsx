@@ -18,10 +18,10 @@ function addQuickEditButton(commentForm: Element): void {
 		.querySelector('.timeline-comment-actions details.position-relative')! // The dropdown
 		.before(
 			<button
-				type='button'
-				role='menuitem'
+				type="button"
+				role="menuitem"
 				className={'timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button' + (pageDetect.isDiscussion() ? ' js-discussions-comment-edit-button' : '')}
-				aria-label='Edit comment'
+				aria-label="Edit comment"
 			>
 				<PencilIcon/>
 			</button>,

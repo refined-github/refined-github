@@ -31,13 +31,13 @@ async function init(): Promise<void | false> {
 	commitInfoBox.classList.remove('flex-shrink-0');
 
 	const featureInfoBox = (
-		<div className='Box rgh-feature-description' style={{flex: '0 1 544px'}}>
-			<div className='Box-row d-flex height-full'>
+		<div className="Box rgh-feature-description" style={{flex: '0 1 544px'}}>
+			<div className="Box-row d-flex height-full">
 				{feature.screenshot && (
-					<a href={feature.screenshot} className='flex-self-center'>
+					<a href={feature.screenshot} className="flex-self-center">
 						<img
 							src={feature.screenshot}
-							className='d-block border'
+							className="d-block border"
 							style={{
 								maxHeight: 100,
 								maxWidth: 150,
@@ -46,16 +46,16 @@ async function init(): Promise<void | false> {
 				)}
 				<div className={'flex-auto' + (feature.screenshot ? ' ml-3' : '')}>
 					{ /* eslint-disable-next-line react/no-danger */ }
-					<div dangerouslySetInnerHTML={{__html: feature.description}} className='text-bold'/>
-					<div className='no-wrap'>
-						<a href={conversationsUrl.href} data-pjax='#repo-content-pjax-container'>Conversations</a>
+					<div dangerouslySetInnerHTML={{__html: feature.description}} className="text-bold"/>
+					<div className="no-wrap">
+						<a href={conversationsUrl.href} data-pjax="#repo-content-pjax-container">Conversations</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	);
 
-	wrapAll([commitInfoBox, featureInfoBox], <div className='d-lg-flex'/>);
+	wrapAll([commitInfoBox, featureInfoBox], <div className="d-lg-flex"/>);
 }
 
 void features.add(import.meta.url, {

@@ -15,15 +15,15 @@ import {onPrMergePanelLoad} from '../github-events/on-fragment-load';
 
 // Reuse the same checkbox to preserve its status
 const generateCheckbox = onetime(() => (
-	<label className='v-align-text-top'>
-		<input checked type='checkbox' name='rgh-pr-check-waiter'/>
+	<label className="v-align-text-top">
+		<input checked type="checkbox" name="rgh-pr-check-waiter"/>
 		{' Wait for successful checks '}
 		<a
-			className='tooltipped tooltipped-n ml-1'
-			target='_blank'
-			rel='noopener noreferrer'
-			href='https://github.com/refined-github/refined-github/pull/975'
-			aria-label='This only works if you keep this tab open in the background while waiting.'
+			className="tooltipped tooltipped-n ml-1"
+			target="_blank"
+			rel="noopener noreferrer"
+			href="https://github.com/refined-github/refined-github/pull/975"
+			aria-label="This only works if you keep this tab open in the background while waiting."
 		>
 			<InfoIcon/>
 		</a>

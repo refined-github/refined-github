@@ -46,9 +46,9 @@ async function init(): Promise<Deinit[]> {
 				label.classList.add('rgh-quick-label-removal-already-added', 'd-inline-flex');
 				label.append(
 					<button
-						type='button'
-						aria-label='Remove this label'
-						className='btn-link tooltipped tooltipped-nw rgh-quick-label-removal'
+						type="button"
+						aria-label="Remove this label"
+						className="btn-link tooltipped tooltipped-nw rgh-quick-label-removal"
 						data-name={label.dataset.name}
 					>
 						<XIcon/>

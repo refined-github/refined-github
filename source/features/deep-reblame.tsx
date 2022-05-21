@@ -93,9 +93,9 @@ function init(): Deinit | false {
 		} else {
 			select('.blob-reblame', hunk)!.append(
 				<button
-					type='button'
-					aria-label='View blame prior to this change (extracts commits from this PR first)'
-					className='reblame-link btn-link no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-reblame'
+					type="button"
+					aria-label="View blame prior to this change (extracts commits from this PR first)"
+					className="reblame-link btn-link no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-reblame"
 				>
 					<VersionsIcon/>
 				</button>,

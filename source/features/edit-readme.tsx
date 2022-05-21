@@ -33,7 +33,7 @@ async function init(): Promise<void | false> {
 		<a
 			href={url.href}
 			className={`${readmeHeader.matches('.js-sticky') ? 'p-2' : 'Box-btn-octicon'} btn-octicon`}
-			aria-label='Edit this file'
+			aria-label="Edit this file"
 		>
 			<PencilIcon/>
 		</a>,

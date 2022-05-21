@@ -56,7 +56,7 @@ function addOpenReposButton(): void {
 		}
 
 		select('.js-grouped-notifications-mark-all-read-button', repository)!.before(
-			<button type='button' className='btn btn-sm mr-2 tooltipped tooltipped-w rgh-open-notifications-button' aria-label='Open all unread notifications from this repo'>
+			<button type="button" className="btn btn-sm mr-2 tooltipped tooltipped-w rgh-open-notifications-button" aria-label="Open all unread notifications from this repo">
 				<LinkExternalIcon width={16}/> Open unread
 			</button>,
 		);
@@ -69,8 +69,8 @@ function addOpenAllButton(className: string, text: string): void {
 	// https://github.com/notifications (Grouped by repo)
 	// https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
 	select('.js-check-all-container .js-bulk-action-toasts ~ div .Box-header')!.append(
-		<button className={'btn btn-sm d-none ' + className} type='button'>
-			<LinkExternalIcon className='mr-1'/>{text}
+		<button className={'btn btn-sm d-none ' + className} type="button">
+			<LinkExternalIcon className="mr-1"/>{text}
 		</button>,
 	);
 }

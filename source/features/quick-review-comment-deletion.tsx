@@ -23,7 +23,7 @@ async function onEditButtonClick({delegateTarget: button}: delegate.Event): Prom
 function addDeleteButton(cancelButton: Element): void {
 	cancelButton.classList.add('rgh-delete-button-added');
 	cancelButton.after(
-		<button className='btn btn-danger float-left rgh-review-comment-delete-button' type='button'>
+		<button className="btn btn-danger float-left rgh-review-comment-delete-button" type="button">
 			<TrashIcon/>
 		</button>,
 	);

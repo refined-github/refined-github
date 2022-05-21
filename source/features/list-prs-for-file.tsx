@@ -22,22 +22,22 @@ function getHovercardUrl(prNumber: number): string {
 function getDropdown(prs: number[]): HTMLElement {
 	// Markup copied from https://primer.style/css/components/dropdown
 	return (
-		<details className='dropdown details-reset details-overlay flex-self-center'>
-			<summary className='btn btn-sm'>
-				<GitPullRequestIcon className='v-align-middle'/>
-				<span className='v-align-middle'> {prs.length} </span>
-				<div className='dropdown-caret'/>
+		<details className="dropdown details-reset details-overlay flex-self-center">
+			<summary className="btn btn-sm">
+				<GitPullRequestIcon className="v-align-middle"/>
+				<span className="v-align-middle"> {prs.length} </span>
+				<div className="dropdown-caret"/>
 			</summary>
 
-			<details-menu className='dropdown-menu dropdown-menu-sw'>
-				<div className='dropdown-header'>
+			<details-menu className="dropdown-menu dropdown-menu-sw">
+				<div className="dropdown-header">
 					File touched by PRs
 				</div>
 				{prs.map(prNumber => (
 					<a
-						className='dropdown-item'
+						className="dropdown-item"
 						href={getPRUrl(prNumber)}
-						data-pjax='#js-repo-pjax-container'
+						data-pjax="#js-repo-pjax-container"
 						data-hovercard-url={getHovercardUrl(prNumber)}
 					>
 						#{prNumber}
@@ -52,11 +52,11 @@ function getSingleButton(prNumber: number): HTMLElement {
 	return (
 		<a
 			href={getPRUrl(prNumber)}
-			className='btn btn-sm flex-self-center'
+			className="btn btn-sm flex-self-center"
 			data-hovercard-url={getHovercardUrl(prNumber)}
 		>
-			<GitPullRequestIcon className='v-align-middle'/>
-			<span className='v-align-middle'> #{prNumber}</span>
+			<GitPullRequestIcon className="v-align-middle"/>
+			<span className="v-align-middle"> #{prNumber}</span>
 		</a>
 	);
 }
@@ -161,14 +161,14 @@ async function initEditing(): Promise<false | void> {
 	}
 
 	file!.after(
-		<div className='form-warning p-3 mb-3 mx-lg-3'>
+		<div className="form-warning p-3 mb-3 mx-lg-3">
 			{
 				prs.length === 1
 					? <>Careful, PR <a href={getPRUrl(prNumber)}>#{prNumber}</a> is already touching this file</>
 					: (
 						<>
 							Careful, {prs.length} open PRs are already touching this file
-							<span className='ml-2 BtnGroup'>
+							<span className="ml-2 BtnGroup">
 								{prs.map(pr => {
 									const button = getSingleButton(pr) as unknown as HTMLAnchorElement;
 									button.classList.add('BtnGroup-item');

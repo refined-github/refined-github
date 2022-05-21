@@ -66,9 +66,9 @@ async function init(): Promise<void | false> {
 			aria-label={`View the ${changelog} file`}
 			href={buildRepoURL('blob', 'HEAD', changelog)}
 			style={pageDetect.isEnterprise() ? {padding: '6px 16px'} : {}}
-			role='button'
+			role="button"
 		>
-			<BookIcon className='color-text-link color-fg-accent mr-2'/>
+			<BookIcon className="color-text-link color-fg-accent mr-2"/>
 			<span>Changelog</span>
 		</a>
 	);
@@ -83,7 +83,7 @@ async function init(): Promise<void | false> {
 
 		const navbar = (await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!;
 		navbar.classList.remove('flex-1');
-		wrapAll([navbar, changelogButton], <div className='d-flex flex-justify-start flex-1'/>);
+		wrapAll([navbar, changelogButton], <div className="d-flex flex-justify-start flex-1"/>);
 	}
 }
 

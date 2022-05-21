@@ -32,8 +32,8 @@ function createDiffStyleToggle(): DocumentFragment {
 
 	if (pageDetect.isPR()) {
 		return isUnified
-			? makeLink('split', <BookIcon className='v-align-middle'/>, false)
-			: makeLink('unified', <DiffIcon className='v-align-middle'/>, false);
+			? makeLink('split', <BookIcon className="v-align-middle"/>, false)
+			: makeLink('unified', <DiffIcon className="v-align-middle"/>, false);
 	}
 
 	return (
@@ -65,11 +65,11 @@ function createWhitespaceButton(): HTMLElement {
 	return (
 		<a
 			href={url.href}
-			data-hotkey='d w'
+			data-hotkey="d w"
 			className={classes}
 			aria-label={`${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`}
 		>
-			{pageDetect.isPR() ? <DiffModifiedIcon className='v-align-middle'/> : <>{isHidingWhitespace() && <CheckIcon/>} No Whitespace</>}
+			{pageDetect.isPR() ? <DiffModifiedIcon className="v-align-middle"/> : <>{isHidingWhitespace() && <CheckIcon/>} No Whitespace</>}
 		</a>
 	);
 }
@@ -79,12 +79,12 @@ function initPR(): false | void {
 
 	if (!isHidingWhitespace()) {
 		originalToggle.after(
-			<div className='diffbar-item d-flex'>{createWhitespaceButton()}</div>,
+			<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>,
 		);
 	}
 
 	originalToggle.after(
-		<div className='diffbar-item d-flex'>{createDiffStyleToggle()}</div>,
+		<div className="diffbar-item d-flex">{createDiffStyleToggle()}</div>,
 	);
 
 	// Trim title
@@ -105,8 +105,8 @@ function initPR(): false | void {
 
 function initCommitAndCompare(): false | void {
 	select('#toc')!.prepend(
-		<div className='float-right d-flex'>
-			<div className='d-flex ml-3 BtnGroup'>{createWhitespaceButton()}</div>
+		<div className="float-right d-flex">
+			<div className="d-flex ml-3 BtnGroup">{createWhitespaceButton()}</div>
 		</div>,
 	);
 }

@@ -107,23 +107,23 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 	descriptionElement.className = 'description';
 
 	return (
-		<div className='feature' data-text={`${id} ${description}`.toLowerCase()}>
-			<input type='checkbox' name={`feature:${id}`} id={id} className='feature-checkbox'/>
-			<div className='info'>
-				<label className='feature-name' htmlFor={id}>{id}</label>
+		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
+			<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox"/>
+			<div className="info">
+				<label className="feature-name" htmlFor={id}>{id}</label>
 				{' '}
-				<a href={featureLink(id)} className='feature-link'>
+				<a href={featureLink(id)} className="feature-link">
 					source
 				</a>
-				<input hidden type='checkbox' className='screenshot-toggle'/>
+				<input hidden type="checkbox" className="screenshot-toggle"/>
 				{screenshot && (
-					<a href={screenshot} className='screenshot-link'>
+					<a href={screenshot} className="screenshot-link">
 						screenshot
 					</a>
 				)}
 				{descriptionElement}
 				{screenshot && (
-					<img hidden data-src={screenshot} className='screenshot'/>
+					<img hidden data-src={screenshot} className="screenshot"/>
 				)}
 			</div>
 		</div>
@@ -202,7 +202,7 @@ async function highlightNewFeatures(): Promise<void> {
 }
 
 async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
-	const disabledFeatures = <div className='js-hotfixes'/>;
+	const disabledFeatures = <div className="js-hotfixes"/>;
 
 	for (const [feature, relatedIssue] of await getLocalHotfixes()) {
 		if (importedFeatures.includes(feature)) {
@@ -213,7 +213,7 @@ async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 			input.disabled = true;
 			input.removeAttribute('name');
 			select(`.feature-name[for="${feature}"]`)!.after(
-				<span className='hotfix-notice'> (Disabled due to {createRghIssueLink(relatedIssue)})</span>,
+				<span className="hotfix-notice"> (Disabled due to {createRghIssueLink(relatedIssue)})</span>,
 			);
 		}
 	}

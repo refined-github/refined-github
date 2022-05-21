@@ -16,12 +16,12 @@ function init(): void {
 	const {href} = select.last<HTMLAnchorElement>(deploymentSelector)!;
 	select('.gh-header-actions')!.prepend(
 		<a
-			className='rgh-last-deployment btn btn-sm d-none d-md-block mr-1'
+			className="rgh-last-deployment btn btn-sm d-none d-md-block mr-1"
 			href={href}
-			target='_blank'
-			rel='noreferrer'
+			target="_blank"
+			rel="noreferrer"
 		>
-			<LinkExternalIcon className='mr-1'/> View deployment
+			<LinkExternalIcon className="mr-1"/> View deployment
 		</a>,
 	);
 }

@@ -103,18 +103,18 @@ async function init(): Promise<false | void> {
 
 	const link = (
 		<a
-			className='btn btn-sm ml-0 flex-self-center css-truncate rgh-latest-tag-button'
+			className="btn btn-sm ml-0 flex-self-center css-truncate rgh-latest-tag-button"
 			href={url.href}
-			data-pjax='#repo-content-pjax-container'
+			data-pjax="#repo-content-pjax-container"
 		>
-			<TagIcon className='v-align-middle'/>
+			<TagIcon className="v-align-middle"/>
 		</a>
 	);
 	await addAfterBranchSelector(link);
 
 	const currentBranch = getCurrentCommittish();
 	if (currentBranch !== latestTag) {
-		link.append(' ', <span className='css-truncate-target v-align-middle'>{latestTag}</span>);
+		link.append(' ', <span className="css-truncate-target v-align-middle">{latestTag}</span>);
 	}
 
 	const defaultBranch = await getDefaultBranch();
@@ -140,12 +140,12 @@ async function init(): Promise<false | void> {
 		if (pageDetect.isRepoRoot()) {
 			const compareLink = (
 				<a
-					className='btn btn-sm tooltipped tooltipped-ne'
+					className="btn btn-sm tooltipped tooltipped-ne"
 					href={buildRepoURL(`compare/${latestTag}...${defaultBranch}`)}
-					data-pjax='#repo-content-pjax-container'
+					data-pjax="#repo-content-pjax-container"
 					aria-label={`Compare ${latestTag}...${defaultBranch}`}
 				>
-					<DiffIcon className='v-align-middle'/>
+					<DiffIcon className="v-align-middle"/>
 				</a>
 			);
 			groupButtons([link, compareLink]).classList.add('d-flex');

@@ -9,14 +9,14 @@ import features from '.';
 
 const getBufferField = onetime((): HTMLInputElement => (
 	<input
-		type='text'
-		className='p-0 border-0'
+		type="text"
+		className="p-0 border-0"
 		style={{
 			backgroundColor: 'transparent',
 			outline: 0,
 			color: 'var(--color-fg-default, var(--color-text-primary))',
 		}}
-		placeholder='Search file…'
+		placeholder="Search file…"
 	/> as unknown as HTMLInputElement
 ));
 
@@ -30,8 +30,8 @@ function pjaxStartHandler(event: CustomEvent): void {
 	bufferField.value = '';
 
 	select('.pagehead h1 strong, [itemprop="name"]')!.after(
-		<span className='mr-1 ml-n1 flex-self-stretch color-text-secondary color-fg-muted'>/</span>,
-		<span className='flex-self-stretch mr-2'>{bufferField}</span>,
+		<span className="mr-1 ml-n1 flex-self-stretch color-text-secondary color-fg-muted">/</span>,
+		<span className="flex-self-stretch mr-2">{bufferField}</span>,
 	);
 	bufferField.focus();
 
