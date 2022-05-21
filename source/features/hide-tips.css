@@ -1,7 +1,0 @@
-/* Remove random protip at the bottom of some pages */
-.protip, /* Conversations */
-.js-notifications-list-protip, /* "Save" and "Done" notification lists */
-.paginate-container + .text-center:last-child, /* Conversation lists */
-.js-notifications-container :is(.octicon-light-bulb, .octicon-light-bulb + div) { /* Notifications inbox */
-	display: none !important;
-}
