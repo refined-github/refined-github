@@ -32,11 +32,11 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 	dropdown.append(
 		<a
 			href={`?${String(search)}`}
-			className="SelectMenu-item"
+			className='SelectMenu-item'
 			aria-checked={isSelected ? 'true' : 'false'}
-			role="menuitemradio"
+			role='menuitemradio'
 		>
-			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
+			<CheckIcon className='SelectMenu-icon SelectMenu-icon--check'/>
 			<span>{title}</span>
 		</a>,
 	);
@@ -53,7 +53,7 @@ function addDraftFilter({delegateTarget: reviewsFilter}: delegate.Event): void {
 	const dropdown = select('.SelectMenu-list', reviewsFilter)!;
 
 	dropdown.append(
-		<div className="SelectMenu-divider">
+		<div className='SelectMenu-divider'>
 			Filter by draft pull requests
 		</div>,
 	);

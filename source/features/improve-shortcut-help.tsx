@@ -11,16 +11,16 @@ function splitKeys(keys: string): DocumentFragment[] {
 
 function improveShortcutHelp(dialog: Element): void {
 	select('.Box-body .col-5 .Box:first-child', dialog)!.after(
-		<div className="Box Box--condensed m-4">
-			<div className="Box-header">
-				<h2 className="Box-title">Refined GitHub</h2>
+		<div className='Box Box--condensed m-4'>
+			<div className='Box-header'>
+				<h2 className='Box-title'>Refined GitHub</h2>
 			</div>
 
 			<ul>
 				{[...features.shortcutMap].map(([hotkey, description]) => (
-					<li className="Box-row d-flex flex-row">
-						<div className="flex-auto">{description}</div>
-						<div className="ml-2 no-wrap">
+					<li className='Box-row d-flex flex-row'>
+						<div className='flex-auto'>{description}</div>
+						<div className='ml-2 no-wrap'>
 							{splitKeys(hotkey)}
 						</div>
 					</li>

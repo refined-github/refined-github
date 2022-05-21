@@ -24,8 +24,8 @@ function handleCompareMenuOpening({delegateTarget: dropdown}: delegate.Event): v
 	const viewFile = select('a[data-ga-click^="View file"]', dropdown)!;
 	const branch = select('[title^="compare"]')!.textContent!;
 	viewFile.before(
-		<div className="dropdown-header pl-5">
-			<GitBranchIcon className="ml-n3 pr-1" height={13}/>
+		<div className='dropdown-header pl-5'>
+			<GitBranchIcon className='ml-n3 pr-1' height={13}/>
 			{branch}
 		</div>,
 	);

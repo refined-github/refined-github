@@ -22,11 +22,11 @@ function renderButton(): void {
 	])) {
 		const copyButton = (
 			<clipboard-copy
-				className="btn btn-sm js-clipboard-copy tooltipped tooltipped-n BtnGroup-item rgh-copy-file"
-				aria-label="Copy file to clipboard"
-				data-tooltip-direction="n"
-				role="button"
-				data-copy-feedback="Copied!"
+				className='btn btn-sm js-clipboard-copy tooltipped tooltipped-n BtnGroup-item rgh-copy-file'
+				aria-label='Copy file to clipboard'
+				data-tooltip-direction='n'
+				role='button'
+				data-copy-feedback='Copied!'
 			>
 				Copy
 			</clipboard-copy>

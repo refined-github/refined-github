@@ -10,7 +10,7 @@ import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
 export function createDropdownItem(label: string, url: string, attributes?: Record<string, string>): Element {
 	return (
 		<li {...attributes}>
-			<a role="menuitem" className="dropdown-item" href={url}>
+			<a role='menuitem' className='dropdown-item' href={url}>
 				{label}
 			</a>
 		</li>
@@ -34,7 +34,7 @@ async function init(): Promise<void> {
 	// Wait for the nav dropdown to be loaded #5244
 	const repoNavigationDropdown = await elementReady('.UnderlineNav-actions ul');
 	repoNavigationDropdown!.append(
-		<li className="dropdown-divider" role="separator"/>,
+		<li className='dropdown-divider' role='separator'/>,
 		createDropdownItem('Compare', compareUrl),
 		pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl),
 		createDropdownItem('Commits', commitsUrl),

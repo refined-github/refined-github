@@ -11,7 +11,7 @@ function init(): Deinit {
 		add(avatar) {
 			const userName = avatar.alt.slice(1);
 			// Linkify name first
-			wrap(avatar.nextElementSibling!, <a className="Link--primary" href={`/${userName}`}/>);
+			wrap(avatar.nextElementSibling!, <a className='Link--primary' href={`/${userName}`}/>);
 
 			// Then linkify avatar
 			wrap(avatar, <a href={`/${userName}`}/>);

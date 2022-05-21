@@ -16,13 +16,13 @@ async function init(): Promise<void> {
 	];
 	const items = [];
 	for (const [name, filter] of filters) {
-		const item = <a className="filter-item" href={location.href}>{name}</a> as unknown as HTMLAnchorElement;
+		const item = <a className='filter-item' href={location.href}>{name}</a> as unknown as HTMLAnchorElement;
 		const query = SearchQuery.from(item);
 
 		if (query.includes(filter)) {
 			query.remove(filter);
 			item.classList.add('selected');
-			item.prepend(<XIcon className="float-right"/>);
+			item.prepend(<XIcon className='float-right'/>);
 		} else {
 			query.add(filter);
 		}
@@ -33,11 +33,11 @@ async function init(): Promise<void> {
 
 	const links = await elementReady('#js-pjax-container .menu ~ .mt-3');
 	links!.before(
-		<div className="border rounded-1 p-3 mb-3 d-none d-md-block">
-			<h2 className="d-inline-block f5 mb-2">
+		<div className='border rounded-1 p-3 mb-3 d-none d-md-block'>
+			<h2 className='d-inline-block f5 mb-2'>
 				Filters
 			</h2>
-			<ul data-pjax className="filter-list small">
+			<ul data-pjax className='filter-list small'>
 				{items}
 			</ul>
 		</div>,

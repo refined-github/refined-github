@@ -82,38 +82,38 @@ function handleSelection({target}: Event): void {
 
 function createDropdownList(category: Category, filters: Filter[]): JSX.Element {
 	const icons: {[Key in Filter]: JSX.Element} = {
-		'Pull requests': <GitPullRequestIcon className="color-text-secondary color-fg-muted"/>,
-		Issues: <IssueOpenedIcon className="color-text-secondary color-fg-muted"/>,
-		Open: <CheckCircleIcon className="color-text-success color-fg-success"/>,
-		Closed: <XCircleIcon className="color-text-danger color-fg-danger"/>,
-		Draft: <GitPullRequestDraftIcon className="color-text-tertiary color-fg-subtle"/>,
-		Merged: <GitMergeIcon className="color-fg-done"/>,
-		Read: <DotIcon className="color-text-link color-fg-accent"/>,
-		Unread: <DotFillIcon className="color-text-link color-fg-accent"/>,
+		'Pull requests': <GitPullRequestIcon className='color-text-secondary color-fg-muted'/>,
+		Issues: <IssueOpenedIcon className='color-text-secondary color-fg-muted'/>,
+		Open: <CheckCircleIcon className='color-text-success color-fg-success'/>,
+		Closed: <XCircleIcon className='color-text-danger color-fg-danger'/>,
+		Draft: <GitPullRequestDraftIcon className='color-text-tertiary color-fg-subtle'/>,
+		Merged: <GitMergeIcon className='color-fg-done'/>,
+		Read: <DotIcon className='color-text-link color-fg-accent'/>,
+		Unread: <DotFillIcon className='color-text-link color-fg-accent'/>,
 	};
 
 	return (
-		<div className="SelectMenu-list">
-			<header className="SelectMenu-header">
-				<span className="SelectMenu-title">{category}</span>
+		<div className='SelectMenu-list'>
+			<header className='SelectMenu-header'>
+				<span className='SelectMenu-title'>{category}</span>
 			</header>
 			{filters.map(filter => (
 				<label
-					className="SelectMenu-item text-normal"
-					role="menuitemcheckbox"
-					aria-checked="false"
+					className='SelectMenu-item text-normal'
+					role='menuitemcheckbox'
+					aria-checked='false'
 					tabIndex={0}
 				>
-					<CheckIcon className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2" aria-hidden="true"/>
-					<div className="SelectMenu-item-text">
+					<CheckIcon className='octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2' aria-hidden='true'/>
+					<div className='SelectMenu-item-text'>
 						<input
 							hidden
-							type="checkbox"
+							type='checkbox'
 							name={category}
 							value={filter}
 						/>
 						{icons[filter]}
-						<span className="ml-2">{filter}</span>
+						<span className='ml-2'>{filter}</span>
 					</div>
 				</label>
 			))}
@@ -123,25 +123,25 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 
 const createDropdown = onetime(() => (
 	<details
-		className="details-reset details-overlay position-relative rgh-select-notifications"
+		className='details-reset details-overlay position-relative rgh-select-notifications'
 		on-toggle={resetFilters}
 	>
 		<summary
-			className="btn btn-sm ml-3 mr-1"
-			data-hotkey="S"
-			aria-haspopup="menu"
-			role="button"
+			className='btn btn-sm ml-3 mr-1'
+			data-hotkey='S'
+			aria-haspopup='menu'
+			role='button'
 		>
-			Select by <span className="dropdown-caret ml-1"/>
+			Select by <span className='dropdown-caret ml-1'/>
 		</summary>
 		<details-menu
-			className="SelectMenu left-0"
-			aria-label="Select by"
-			role="menu"
+			className='SelectMenu left-0'
+			aria-label='Select by'
+			role='menu'
 			on-details-menu-selected={handleSelection}
 		>
-			<div className="SelectMenu-modal">
-				<form id="rgh-select-notifications-form">
+			<div className='SelectMenu-modal'>
+				<form id='rgh-select-notifications-form'>
 					{createDropdownList('Type', ['Pull requests', 'Issues'])}
 					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
 					{createDropdownList('Read', ['Read', 'Unread'])}

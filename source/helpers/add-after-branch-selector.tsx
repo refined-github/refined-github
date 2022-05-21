@@ -23,5 +23,5 @@ export default async function addAfterBranchSelector(button: Element): Promise<v
 	breadcrumb.classList.remove('mt-3');
 	branchSelector.classList.add('rgh-wrapper-added');
 	branchSelectorWrapper.classList.add('d-flex', 'flex-shrink-0');
-	wrapAll([branchSelectorWrapper, breadcrumb], <div className="d-flex flex-wrap flex-1 mr-2" style={{rowGap: '16px'}}/>);
+	wrapAll([branchSelectorWrapper, breadcrumb], <div className='d-flex flex-wrap flex-1 mr-2' style={{rowGap: '16px'}}/>);
 }

@@ -49,7 +49,7 @@ async function verifyScopesWhileWaiting(abortController: AbortController): Promi
 		], {
 			type: 'error',
 			action: (
-				<a className="btn btn-sm primary flash-action" href="https://github.com/settings/tokens">
+				<a className='btn btn-sm primary flash-action' href='https://github.com/settings/tokens'>
 					Update token…
 				</a>
 			),
@@ -140,10 +140,10 @@ async function init(): Promise<Deinit | false> {
 	// (Ab)use the details element as state and an accessible "click-anywhere-to-cancel" utility
 	select('.pagehead-actions')!.prepend(
 		<li>
-			<details className="details-reset details-overlay select-menu rgh-quick-repo-deletion">
-				<summary aria-haspopup="menu" role="button">
+			<details className='details-reset details-overlay select-menu rgh-quick-repo-deletion'>
+				<summary aria-haspopup='menu' role='button'>
 					{/* This extra element is needed to keep the button above the <summary>’s lightbox */}
-					<span className="btn btn-sm btn-danger">Delete fork</span>
+					<span className='btn btn-sm btn-danger'>Delete fork</span>
 				</summary>
 			</details>
 		</li>,

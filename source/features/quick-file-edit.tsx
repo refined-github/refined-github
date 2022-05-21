@@ -25,7 +25,7 @@ async function init(): Promise<void> {
 			url.branch = await getDefaultBranch(); // Permalinks can't be edited
 		}
 
-		wrap(fileIcon, <a data-skip-pjax href={url.href} className="rgh-quick-file-edit"/>);
+		wrap(fileIcon, <a data-skip-pjax href={url.href} className='rgh-quick-file-edit'/>);
 		fileIcon.after(<PencilIcon/>);
 	}
 }

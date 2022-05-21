@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 
 type AnyObject = Record<string, any>;
+// TODO: Fix this type, there's no such `delegate` global type
 type Deinit = delegate.Subscription | Observer | MutationObserver | ResizeObserver | IntersectionObserver | VoidFunction;
 
 type FeatureID = string & {feature: true};

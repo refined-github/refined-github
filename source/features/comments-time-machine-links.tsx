@@ -63,7 +63,7 @@ async function showTimeMachineBar(): Promise<void | false> {
 	}
 
 	const link = (
-		<a className="rgh-link-date" href={url.href} data-pjax="#repo-content-pjax-container">
+		<a className='rgh-link-date' href={url.href} data-pjax='#repo-content-pjax-container'>
 			view this object as it appeared at the time of the comment
 		</a>
 	);
@@ -94,12 +94,12 @@ function addInlineLinks(menu: HTMLElement, timestamp: string): void {
 
 function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 	select('.show-more-popover', menu.parentElement!)!.append(
-		<div className="dropdown-divider"/>,
+		<div className='dropdown-divider'/>,
 		<a
 			href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
 			className={'dropdown-item btn-link ' + linkifiedURLClass}
-			role="menuitem"
-			title="Browse repository like it appeared on this day"
+			role='menuitem'
+			title='Browse repository like it appeared on this day'
 		>
 			View repo at this time
 		</a>,

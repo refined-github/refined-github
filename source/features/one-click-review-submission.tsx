@@ -21,9 +21,9 @@ function init(): false | Deinit {
 	if (radios.length > 1) {
 		container.append(
 			<input
-				type="hidden"
-				name="pull_request_review[event]"
-				value="comment"
+				type='hidden'
+				name='pull_request_review[event]'
+				value='comment'
 			/>,
 		);
 	}
@@ -48,8 +48,8 @@ function init(): false | Deinit {
 
 		const button = (
 			<button
-				type="submit"
-				name="pull_request_review[event]"
+				type='submit'
+				name='pull_request_review[event]'
 				value={radio.value}
 				className={classes.join(' ')}
 				aria-label={tooltip!}
@@ -60,9 +60,9 @@ function init(): false | Deinit {
 		);
 
 		if (!radio.disabled && radio.value === 'approve') {
-			button.prepend(<CheckIcon className="color-fg-success"/>);
+			button.prepend(<CheckIcon className='color-fg-success'/>);
 		} else if (!radio.disabled && radio.value === 'reject') {
-			button.prepend(<FileDiffIcon className="color-fg-danger"/>);
+			button.prepend(<FileDiffIcon className='color-fg-danger'/>);
 		}
 
 		container.append(button);

@@ -30,9 +30,9 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 		wrap(
 			possibleFeature,
 			<a
-				className="color-fg-accent"
+				className='color-fg-accent'
 				href={href}
-				data-pjax="#repo-content-pjax-container"
+				data-pjax='#repo-content-pjax-container'
 			/>,
 		);
 	}

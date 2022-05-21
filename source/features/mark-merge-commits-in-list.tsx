@@ -46,7 +46,7 @@ async function init(): Promise<void> {
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
 			commit.classList.add('rgh-merge-commit');
-			select('a.markdown-title', commit)!.before(<GitMergeIcon className="mr-1"/>);
+			select('a.markdown-title', commit)!.before(<GitMergeIcon className='mr-1'/>);
 		}
 	}
 }

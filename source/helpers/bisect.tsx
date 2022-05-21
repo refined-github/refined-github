@@ -24,7 +24,7 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 			: bisectedFeatures.slice(getMiddleStep(bisectedFeatures)),
 		);
 
-		button.parentElement!.replaceWith(<div className="btn" aria-disabled="true">Reloading…</div>);
+		button.parentElement!.replaceWith(<div className='btn' aria-disabled='true'>Reloading…</div>);
 		location.reload();
 		return;
 	}
@@ -54,10 +54,10 @@ async function onEndButtonClick(): Promise<void> {
 function createMessageBox(message: Element | string, extraButtons?: Element): void {
 	select('#rgh-bisect-dialog')?.remove();
 	document.body.append(
-		<div id="rgh-bisect-dialog" className="Box p-3">
+		<div id='rgh-bisect-dialog' className='Box p-3'>
 			<p>{message}</p>
-			<div className="d-flex flex-justify-between">
-				<button type="button" className="btn" onClick={onEndButtonClick}>Exit</button>
+			<div className='d-flex flex-justify-between'>
+				<button type='button' className='btn' onClick={onEndButtonClick}>Exit</button>
 				{extraButtons}
 			</div>
 		</div>,
@@ -84,8 +84,8 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 	createMessageBox(
 		`Do you see the change or issue? (${pluralize(steps, 'last step', '$$ steps remaining')})`,
 		<div>
-			<button type="button" className="btn btn-danger mr-2" value="no" aria-disabled="true" onClick={onChoiceButtonClick}>No</button>
-			<button type="button" className="btn btn-primary" value="yes" aria-disabled="true" onClick={onChoiceButtonClick}>Yes</button>
+			<button type='button' className='btn btn-danger mr-2' value='no' aria-disabled='true' onClick={onChoiceButtonClick}>No</button>
+			<button type='button' className='btn btn-primary' value='yes' aria-disabled='true' onClick={onChoiceButtonClick}>Yes</button>
 		</div>,
 	);
 

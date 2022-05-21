@@ -44,7 +44,7 @@ function init(): Deinit[] {
 	}
 
 	select('[aria-label="Explore"]')!.append(
-		<div className="footer">
+		<div className='footer'>
 			<div>
 				{feedLink}
 			</div>

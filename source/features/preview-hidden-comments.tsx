@@ -29,9 +29,9 @@ function init(): void {
 
 		header.classList.add('css-truncate', 'css-truncate-overflow', 'mr-2');
 		header.append(
-			<span className="Details-content--open">{select(':scope > .d-inline-block', header) ?? header.firstChild}</span>,
-			<span className="Details-content--closed">
-				<span className="Label mr-2">{upperCaseFirst(reason)}</span>{commentText.slice(0, 100)}
+			<span className='Details-content--open'>{select(':scope > .d-inline-block', header) ?? header.firstChild}</span>,
+			<span className='Details-content--closed'>
+				<span className='Label mr-2'>{upperCaseFirst(reason)}</span>{commentText.slice(0, 100)}
 			</span>,
 		);
 	}

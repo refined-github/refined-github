@@ -28,8 +28,8 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 
 	commentThread.before(
 		<tr>
-			<td className="rgh-comments-indicator blob-num" colSpan={2}>
-				<button type="button" className="btn-link">
+			<td className='rgh-comments-indicator blob-num' colSpan={2}>
+				<button type='button' className='btn-link'>
 					<CommentIcon/>
 					<span>{commentCount}</span>
 				</button>

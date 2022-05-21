@@ -107,7 +107,7 @@ async function addBugsTab(): Promise<void | false> {
 	const bugsTabTitle = select('[data-content]', bugsTab)!;
 	bugsTabTitle.dataset.content = 'Bugs';
 	bugsTabTitle.textContent = 'Bugs';
-	select('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline"/>);
+	select('.octicon', bugsTab)!.replaceWith(<BugIcon className='UnderlineNav-octicon d-none d-sm-inline'/>);
 
 	// Set temporary counter
 	const bugsCounter = select('.Counter', bugsTab)!;
@@ -119,7 +119,7 @@ async function addBugsTab(): Promise<void | false> {
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement instanceof HTMLLIElement) {
-		issuesTab.parentElement.after(<li className="d-flex">{bugsTab}</li>);
+		issuesTab.parentElement.after(<li className='d-flex'>{bugsTab}</li>);
 	} else {
 		issuesTab.after(bugsTab);
 	}

@@ -23,7 +23,7 @@ function init(): void {
 		// Create link
 		const url = new URL(isIssues ? '/issues' : '/pulls', location.origin);
 		url.searchParams.set('q', `${typeQuery} ${defaultQuery} ${query}`);
-		const link = <a href={url.href} title={title} className="subnav-item">{label}</a>;
+		const link = <a href={url.href} title={title} className='subnav-item'>{label}</a>;
 
 		const isCurrentPage = SearchQuery.from(location).includes(query);
 

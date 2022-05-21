@@ -11,7 +11,7 @@ import features from '.';
 function addTooltipToSummary(childElement: Element, tooltip: string): void {
 	wrap(
 		childElement.closest('details')!,
-		<div className="tooltipped tooltipped-ne" aria-label={tooltip}/>,
+		<div className='tooltipped tooltipped-ne' aria-label={tooltip}/>,
 	);
 }
 

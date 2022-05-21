@@ -116,10 +116,10 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 
 	editFile.after(
 		<button
-			className="pl-5 dropdown-item btn-link rgh-restore-file"
+			className='pl-5 dropdown-item btn-link rgh-restore-file'
 			style={{whiteSpace: 'pre-wrap'}}
-			role="menuitem"
-			type="button"
+			role='menuitem'
+			type='button'
 		>
 			Restore file
 		</button>,

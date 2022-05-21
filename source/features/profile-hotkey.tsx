@@ -7,7 +7,7 @@ import {getUsername} from '../github-helpers';
 
 function init(): void {
 	const profileLink = (isEnterprise() ? location.origin : 'https://github.com') + '/' + getUsername()!;
-	document.body.append(<a hidden data-hotkey="g m" href={profileLink}/>);
+	document.body.append(<a hidden data-hotkey='g m' href={profileLink}/>);
 }
 
 void features.add(import.meta.url, {

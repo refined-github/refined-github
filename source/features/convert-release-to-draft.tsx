@@ -15,7 +15,7 @@ const editReleaseButtonSelector = [
 
 async function convertToDraft({delegateTarget: draftButton}: delegate.Event): Promise<void> {
 	try {
-		draftButton.append(<LoadingIcon className="ml-2 v-align-text-bottom" width={16}/>);
+		draftButton.append(<LoadingIcon className='ml-2 v-align-text-bottom' width={16}/>);
 
 		const tagName = location.pathname.split('/').pop()!;
 		const release = await api.v3(`releases/tags/${tagName}`);
@@ -43,7 +43,7 @@ async function init(): Promise<Deinit | false> {
 
 	const convertToDraftButton = (
 		<button
-			type="button"
+			type='button'
 			className={'btn rgh-convert-draft ' + (pageDetect.isEnterprise() ? 'BtnGroup-item' : 'btn-sm ml-3')}
 		>
 			Convert to draft

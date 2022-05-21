@@ -13,8 +13,8 @@ function init(): void {
 	select('input#issue_form_extension_version')!.value = version;
 	select('input[id*="extension_cache"]')!.parentElement!.after(
 		<button
-			className="btn"
-			type="button"
+			className='btn'
+			type='button'
 			onClick={clearCacheHandler as unknown as React.MouseEventHandler}
 		>
 			Clear cache
@@ -22,9 +22,9 @@ function init(): void {
 	);
 	void expectTokenScope('repo').catch(() => {
 		select('#issue_body_template_name')!.before(
-			<div className="flash flash-warn m-2">
+			<div className='flash flash-warn m-2'>
 				Your Personal Access Token is either missing, incorrect or expired. Some Refined GitHub features will not work without it.<br/>
-				You can update it <a href="#" onClick={openOptions as unknown as React.MouseEventHandler}>in the options</a>.
+				You can update it <a href='#' onClick={openOptions as unknown as React.MouseEventHandler}>in the options</a>.
 			</div>,
 		);
 	});

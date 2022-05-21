@@ -24,19 +24,19 @@ function updateLinksToTag(): void {
 
 function init(): void {
 	const tagsDropdown = (
-		<div className="rgh-tags-dropdown float-right d-flex flex-shrink-0 flex-items-center">
-			<details className="details-reset details-overlay select-menu branch-select-menu position-relative">
-				<summary className="btn select-menu-button css-truncate" data-hotkey="w" title="Find tags" aria-haspopup="menu">
+		<div className='rgh-tags-dropdown float-right d-flex flex-shrink-0 flex-items-center'>
+			<details className='details-reset details-overlay select-menu branch-select-menu position-relative'>
+				<summary className='btn select-menu-button css-truncate' data-hotkey='w' title='Find tags' aria-haspopup='menu'>
 					Select tag&nbsp;
 				</summary>
 				<details-menu
 					preload
-					className="select-menu-modal position-absolute dropdown-menu-sw"
+					className='select-menu-modal position-absolute dropdown-menu-sw'
 					src={buildRepoURL('ref-list/master?source_action=disambiguate&source_controller=files')}
-					role="menu"
+					role='menu'
 					style={{zIndex: 99}}
 				>
-					<include-fragment className="select-menu-loading-overlay anim-pulse" onLoad={changeTabToTags}>
+					<include-fragment className='select-menu-loading-overlay anim-pulse' onLoad={changeTabToTags}>
 						<ToastSpinner/>
 					</include-fragment>
 				</details-menu>
@@ -49,7 +49,7 @@ function init(): void {
 	} else {
 		const searchBarWrapper = select('input[aria-label="Find a release"]')!.closest('div')!;
 		searchBarWrapper.prepend(
-			<div className="mr-2 mr-md-0 ml-md-2">
+			<div className='mr-2 mr-md-0 ml-md-2'>
 				{tagsDropdown}
 			</div>,
 		);

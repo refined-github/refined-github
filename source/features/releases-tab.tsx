@@ -57,17 +57,17 @@ async function addReleasesTab(): Promise<false | void> {
 	// Wait for the tab bar to be loaded
 	const repoNavigationBar = (await elementReady('.UnderlineNav-body'))!;
 	const releasesTab = (
-		<li className="d-flex">
+		<li className='d-flex'>
 			<a
 				href={buildRepoURL('releases')}
-				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item rgh-releases-tab"
-				data-hotkey="g r"
-				data-selected-links="repo_releases"
-				data-tab-item="rgh-releases-item"
+				className='js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item rgh-releases-tab'
+				data-hotkey='g r'
+				data-selected-links='repo_releases'
+				data-tab-item='rgh-releases-item'
 			>
-				<TagIcon className="UnderlineNav-octicon"/>
-				<span data-content="Releases">Releases</span>
-				{count && <span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>}
+				<TagIcon className='UnderlineNav-octicon'/>
+				<span data-content='Releases'>Releases</span>
+				{count && <span className='Counter' title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>}
 			</a>
 		</li>
 	);

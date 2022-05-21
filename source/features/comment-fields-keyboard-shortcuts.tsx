@@ -41,7 +41,7 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>)
 
 		if (lastOwnComment) {
 			// Make the comment editable (the native edit button might not be available yet)
-			const editButton = <button hidden type="button" className="js-comment-edit-button"/>;
+			const editButton = <button hidden type='button' className='js-comment-edit-button'/>;
 			lastOwnComment.append(editButton);
 			editButton.click();
 			editButton.remove();

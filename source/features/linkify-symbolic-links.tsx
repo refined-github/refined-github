@@ -8,7 +8,7 @@ import features from '.';
 function init(): void {
 	if (select('.file-mode')?.textContent === 'symbolic link') {
 		const line = select('.js-file-line')!;
-		wrap(line.firstChild!, <a href={line.textContent!} data-pjax="#repo-content-pjax-container"/>);
+		wrap(line.firstChild!, <a href={line.textContent!} data-pjax='#repo-content-pjax-container'/>);
 	}
 }
 
