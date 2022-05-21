@@ -8,7 +8,10 @@
 		"__filebasename"
 	],
 	"rules": {
-		"jsx-quotes": "error",
+		"jsx-quotes": [
+			"error",
+			"prefer-double"
+		],
 		"no-alert": "off",
 		"no-warning-comments": "off",
 		"unicorn/prefer-dom-node-dataset": "off",
