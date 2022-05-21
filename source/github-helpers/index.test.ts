@@ -178,6 +178,6 @@ const testAddHotkey = test.macro((t, existing: string | undefined, added: string
 	t.is(link.dataset.hotkey, final);
 });
 
-test('addHotkey if one is specified', testAddHotkey, 'b', 'shift+a', 'b,shift+a');
-test('addHotkey if the same is already specified', testAddHotkey, 'shift+a', 'shift+a', 'shift+a');
-test('addHotkey when none are specified', testAddHotkey, undefined, 'shift+a', 'shift+a');
+test('addHotkey if one is specified', testAddHotkey, 'T-REX', 'CHICKEN', 'T-REX,CHICKEN');
+test('addHotkey if the same is already specified', testAddHotkey, 'CHICKEN', 'CHICKEN', 'CHICKEN');
+test('addHotkey when none are specified', testAddHotkey, undefined, 'CHICKEN', 'CHICKEN');
