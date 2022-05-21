@@ -6,6 +6,7 @@ import {
 	compareNames,
 	getLatestVersionTag,
 	shouldFeatureRun,
+	addHotkey,
 } from '.';
 
 test('getConversationNumber', t => {
@@ -166,3 +167,17 @@ test('shouldFeatureRun', t => {
 		exclude: yesNo,
 	}), 'If any `exclude` is true, then it should not run, regardless of `asLongAs` and `include`');
 });
+
+const testAddHotkey = test.macro((t, existing: string | undefined, added: string, final: string) => {
+	const link = document.createElement('a');
+	if (existing) {
+		link.setAttribute('data-hotkey', existing);
+	}
+
+	addHotkey(link, added);
+	t.is(link.dataset.hotkey, final);
+});
+
+test('addHotkey if one is specified', testAddHotkey, 'b', 'shift+a', 'b,shift+a');
+test('addHotkey if the same is already specified', testAddHotkey, 'shift+a', 'shift+a', 'shift+a');
+test('addHotkey when none are specified', testAddHotkey, undefined, 'shift+a', 'shift+a');
