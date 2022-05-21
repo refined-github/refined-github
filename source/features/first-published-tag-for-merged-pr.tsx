@@ -28,6 +28,8 @@ async function init(): Promise<void> {
 		return;
 	}
 
+	const tagUrl = buildRepoURL('releases/tag', tagName);
+
 	// Select the PR header and sticky header
 	for (const discussionHeader of select.all('#partial-discussion-header relative-time:not(.rgh-first-tag)')) {
 		discussionHeader.classList.add('rgh-first-tag');
@@ -36,7 +38,7 @@ async function init(): Promise<void> {
 			<span>
 				<TagIcon className="ml-2 mr-1 color-text-secondary color-fg-muted"/>
 				<a
-					href={buildRepoURL('releases/tag', tagName)}
+					href={tagUrl}
 					className="commit-ref"
 					title={`${tagName} was the first Git tag to include this PR`}
 				>
@@ -45,6 +47,15 @@ async function init(): Promise<void> {
 			</span>,
 		);
 	}
+
+	select(':not(.rgh-first-tag) + #issue-comment-box')?.before(
+		<div className="flash mt-3 flash-success rgh-first-tag">
+			The PR first appeared in <span className="text-mono text-small">{tagName}</span>
+			<a href={tagUrl} className="btn btn-sm flash-action">
+				<TagIcon/> See release
+			</a>
+		</div>,
+	);
 }
 
 void features.add(import.meta.url, {
@@ -57,3 +68,13 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+
+# Test URLs
+
+- PR: https://github.com/refined-github/refined-github/pull/5600
+- Locked PR: https://github.com/eslint/eslint/pull/17
+- Archived repo: https://github.com/fregante/iphone-inline-video/pull/130
+
+*/
