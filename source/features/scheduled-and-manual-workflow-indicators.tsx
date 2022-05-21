@@ -61,8 +61,7 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	// TODO [2022-05-01]: Remove `.hx_actions-sidebar` (kept for GHE)
-	const workflowsSidebar = await elementReady('.hx_actions-sidebar, .Layout-sidebar');
+	const workflowsSidebar = await elementReady('.Layout-sidebar');
 	for (const workflowListItem of select.all('a.filter-item[href*="/workflows/"]', workflowsSidebar)) {
 		if (select.exists('.octicon-stop', workflowListItem)) {
 			continue;

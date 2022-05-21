@@ -7,10 +7,7 @@ export const FAILURE = Symbol('Failure');
 export const PENDING = Symbol('Pending');
 export type CommitStatus = false | typeof SUCCESS | typeof FAILURE | typeof PENDING;
 
-export const commitSelector = [
-	'.js-commit-group .TimelineItem--condensed', // TODO [2022-05-01]: GHE
-	'[data-test-selector="pr-timeline-commits-list"] .TimelineItem',
-].join(',');
+export const commitSelector = '[data-test-selector="pr-timeline-commits-list"] .TimelineItem';
 
 // `summary` is needed because the details dropdown contains the list of check runs, each with its status icon
 export const commitStatusIconSelector = 'details.commit-build-statuses summary .octicon';

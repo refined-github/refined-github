@@ -75,11 +75,9 @@ function createWhitespaceButton(): HTMLElement {
 }
 
 function initPR(): false | void {
-	const originalToggle = pageDetect.isEnterprise()
-		? select('.js-diff-settings')!.closest('details')! // TODO [2022-05-01]: Remove GHE code
-		: select('[aria-label="Diff settings"]')!.closest('details')!.parentElement!;
+	const originalToggle = select('[aria-label="Diff settings"]')!.closest('details')!.parentElement!;
 
-	if (!isHidingWhitespace() || pageDetect.isEnterprise()) {
+	if (!isHidingWhitespace()) {
 		originalToggle.after(
 			<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>,
 		);
