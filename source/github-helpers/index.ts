@@ -165,7 +165,7 @@ export function shouldFeatureRun({
 	return asLongAs.every(c => c()) && include.some(c => c()) && exclude.every(c => !c());
 }
 
-/** Safely a hotkey to an element, preserving any existing ones and avoiding duplicates */
+/** Safely add a hotkey to an element, preserving any existing ones and avoiding duplicates */
 export const addHotkey = (button: HTMLAnchorElement | HTMLButtonElement | undefined, hotkey: string): void => {
 	if (button) {
 		const hotkeys = new Set(button.dataset.hotkey?.split(','));
