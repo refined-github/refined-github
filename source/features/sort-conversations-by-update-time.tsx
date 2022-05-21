@@ -25,7 +25,13 @@ function init(): void {
 		// + skip pagination links
 		// + skip pr/issue filter dropdowns (some are lazyloaded)
 		if (pageDetect.isConversationList(link)) {
+			const isRelativeAttribute = link.getAttribute('href')!.startsWith('/');
 			link.href = SearchQuery.from(link).add('sort:updated-desc').href;
+
+			// Preserve relative attributes as such #5435
+			if (isRelativeAttribute) {
+				link.href = link.href.replace(location.origin, '');
+			}
 		}
 
 		// Also sort projects #4957
