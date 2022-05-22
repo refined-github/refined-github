@@ -27,7 +27,8 @@ async function init(): Promise<Deinit> {
 		await loadDeferred(fileList!);
 	}
 
-	return observe('.file-info [href]:not(.rgh-pr-file-state)', {
+	// Link--primary excludes CODEOWNERS icon #5565
+	return observe('.file-info .Link--primary:not(.rgh-pr-file-state)', {
 		constructor: HTMLAnchorElement,
 		add(filename) {
 			filename.classList.add('rgh-pr-file-state');
@@ -79,3 +80,12 @@ void features.add(import.meta.url, {
 	onlyAdditionalListeners: true,
 	init,
 });
+
+/*
+
+## Test URLs
+
+PR: https://github.com/refined-github/refined-github/pull/5648/files
+PR with CODEOWNERS: https://github.com/dotnet/winforms/pull/6878/files
+
+*/
