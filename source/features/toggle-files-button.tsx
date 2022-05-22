@@ -43,6 +43,8 @@ async function init(): Promise<Deinit[]> {
 
 	if (await cache.get<boolean>(cacheKey)) {
 		repoContent.classList.add('rgh-files-hidden');
+
+		// Add notice so the user knows that the list was collapsed #5524
 		select('.Box', repoContent)!.after(
 			// 19px align this icon with the <UnfoldIcon/> above it
 			<div
