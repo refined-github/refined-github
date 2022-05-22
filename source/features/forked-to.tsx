@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, ChevronRightIcon, TriangleDownIcon, XIcon} from '@primer/octicons-react';
 
@@ -45,8 +46,10 @@ async function updateUI(forks: string[]): Promise<void> {
 		return;
 	}
 
+	await elementReady('.page-actions');
+
 	const forkButton = select('.pagehead-actions [aria-label^="Fork your own copy of"]')!;
-	forkButton.classList.add('rounded-left-2', 'BtnGroup-item');
+	forkButton.classList.add('rounded-left-2', 'BtnGroup-item', 'mr-0');
 
 	if (forks.length === 1) {
 		forkButton.after(
