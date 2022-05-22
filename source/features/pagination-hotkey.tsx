@@ -2,6 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {addHotkey} from '../github-helpers';
 
 const nextPageButtonSelectors = [
 	'a.next_page', // Issue/PR list, Search
@@ -20,15 +21,8 @@ const previousPageButtonSelectors = [
 ];
 
 function init(): void {
-	const createNextPageButton = select(nextPageButtonSelectors);
-	if (createNextPageButton) {
-		createNextPageButton.dataset.hotkey = 'ArrowRight';
-	}
-
-	const createPreviousPageButton = select(previousPageButtonSelectors);
-	if (createPreviousPageButton) {
-		createPreviousPageButton.dataset.hotkey = 'ArrowLeft';
-	}
+	addHotkey(select(nextPageButtonSelectors), 'ArrowRight');
+	addHotkey(select(previousPageButtonSelectors), 'ArrowLeft');
 }
 
 void features.add(import.meta.url, {

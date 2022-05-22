@@ -2,13 +2,11 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {addHotkey} from '../github-helpers';
 import addQuickSubmit from './submission-via-ctrl-enter-everywhere';
 
 function init(): void {
-	const createReleaseButton = select('a[href$="/releases/new"]:not([data-hotkey])');
-	if (createReleaseButton) {
-		createReleaseButton.dataset.hotkey = 'c';
-	}
+	addHotkey(select('a[href$="/releases/new"]'), 'c');
 }
 
 void features.add(import.meta.url, {
