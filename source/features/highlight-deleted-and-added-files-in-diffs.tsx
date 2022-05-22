@@ -85,7 +85,7 @@ void features.add(import.meta.url, {
 
 ## Test URLs
 
-PR: https://github.com/refined-github/refined-github/pull/5648/files
-PR with CODEOWNERS: https://github.com/dotnet/winforms/pull/6878/files
+PR: https://github.com/refined-github/refined-github/pull/5631/files
+PR with CODEOWNERS: https://github.com/dotnet/winforms/pull/6028/files
 
 */
