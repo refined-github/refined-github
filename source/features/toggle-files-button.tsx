@@ -33,10 +33,14 @@ function addButton(): void {
 async function toggleHandler(): Promise<void> {
 	const isHidden = select('.repository-content')!.classList.toggle('rgh-files-hidden');
 	await (isHidden ? cache.set(cacheKey, true) : cache.delete(cacheKey));
+
+	// Remove notice after the first click
+	select('.rgh-files-hidden-notice')?.remove();
 }
 
 async function init(): Promise<Deinit[]> {
 	const repoContent = (await elementReady('.repository-content'))!;
+
 	if (await cache.get<boolean>(cacheKey)) {
 		repoContent.classList.add('rgh-files-hidden');
 		select('#files')!.after(
@@ -48,7 +52,7 @@ async function init(): Promise<Deinit[]> {
 
 	return [
 		observeElement(repoContent, addButton),
-		delegate(document, '.rgh-toggle-files', 'click', toggleHandler),
+		delegate(document, '.rgh-toggle-files, .rgh-files-hidden-notice', 'click', toggleHandler),
 	];
 }
 
