@@ -9,8 +9,7 @@
 	display: none !important;
 }
 
-.rgh-files-hidden #files ~ .Details,
-.repository-content:not(.rgh-files-hidden) .rgh-files-hidden-notice {
+.rgh-files-hidden #files ~ .Details {
 	display: none;
 }
 
