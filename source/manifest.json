@@ -45,6 +45,9 @@
 				"https://github.com/*",
 				"https://gist.github.com/*"
 			],
+			"exclude_matches": [
+				"https://*/login/*"
+			],
 			"css": [
 				"refined-github.css"
 			],
