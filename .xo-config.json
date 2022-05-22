@@ -8,6 +8,10 @@
 		"__filebasename"
 	],
 	"rules": {
+		"jsx-quotes": [
+			"error",
+			"prefer-double"
+		],
 		"no-alert": "off",
 		"no-warning-comments": "off",
 		"unicorn/prefer-dom-node-dataset": "off",
@@ -15,6 +19,7 @@
 			"allowWarningComments": false
 		}],
 		"@typescript-eslint/naming-convention": "off",
+		"@typescript-eslint/no-redundant-type-constituents": "off",
 		"@typescript-eslint/no-unsafe-assignment": "off",
 		"@typescript-eslint/no-unsafe-member-access": "off",
 		"@typescript-eslint/no-unsafe-return": "off",

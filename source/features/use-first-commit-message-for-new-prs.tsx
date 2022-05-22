@@ -6,12 +6,7 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
 
-// TODO [2022-05-01]: Drop GHE code and merge function back in init
 function getFirstCommitMessage(): string[] {
-	if (pageDetect.isEnterprise()) {
-		return select('#commits_bucket [data-url$="compare/commit"] a[title]')!.title.split('\n\n');
-	}
-
 	const commitSummaryWrapper = select('.js-commits-list-item a.Link--primary')!.parentElement!;
 	const commitDescription = select('.js-commits-list-item pre')?.textContent ?? '';
 
