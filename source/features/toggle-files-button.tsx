@@ -43,10 +43,10 @@ async function init(): Promise<Deinit[]> {
 
 	if (await cache.get<boolean>(cacheKey)) {
 		repoContent.classList.add('rgh-files-hidden');
-		select('#files')!.after(
+		select('.Box', repoContent)!.after(
 			// 19px align this icon with the <UnfoldIcon/> above it
 			<div
-				className="py-1 text-right text-small color-fg-muted rgh-files-hidden-notice"
+				className="mb-3 mt-n3 py-1 text-right text-small color-fg-subtle rgh-files-hidden-notice"
 				style={{paddingRight: '19px'}}
 			>
 				The file list was collapsed via Refined GitHub <ArrowUpIcon className="v-align-middle"/>
