@@ -6,7 +6,7 @@ import {addHotkey} from '../github-helpers';
 import addQuickSubmit from './submission-via-ctrl-enter-everywhere';
 
 function init(): void {
-	addHotkey(select('a[href$="/releases/new"]:not([data-hotkey])'), 'c');
+	addHotkey(select('a[href$="/releases/new"]'), 'c');
 }
 
 void features.add(import.meta.url, {
