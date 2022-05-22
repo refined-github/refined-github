@@ -5,7 +5,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {FoldIcon, UnfoldIcon} from '@primer/octicons-react';
+import {FoldIcon, UnfoldIcon, ArrowUpIcon} from '@primer/octicons-react';
 
 import features from '.';
 import observeElement from '../helpers/simplified-element-observer';
@@ -39,6 +39,11 @@ async function init(): Promise<Deinit[]> {
 	const repoContent = (await elementReady('.repository-content'))!;
 	if (await cache.get<boolean>(cacheKey)) {
 		repoContent.classList.add('rgh-files-hidden');
+		select('#files')!.after(
+			<div className="py-1 text-right text-small rgh-files-hidden-notice" style={{paddingRight: '19px'}}>
+				Files hidden <ArrowUpIcon className="v-align-middle"/>
+			</div>,
+		);
 	}
 
 	return [
