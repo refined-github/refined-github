@@ -13,6 +13,8 @@ import registerHotkey from '../github-helpers/register-hotkey';
 import {getRghIssueUrl} from '../helpers/rgh-issue-link';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
+const expectedDropdownWidth = 270;
+
 const states = {
 	default: '',
 	hideEvents: 'Hide events',
@@ -145,6 +147,17 @@ async function addWidget(header: string, state: State): Promise<void> {
 		return;
 	}
 
+	// Try to place the dropdown to the left https://github.com/refined-github/refined-github/issues/5450#issuecomment-1068284635
+	const availableSpaceToTheLeftOfTheDropdown
+		= position.lastElementChild!.getBoundingClientRect().right
+		- position.parentElement!.getBoundingClientRect().left;
+
+	// It may be zero on the sticky header, but `clean-conversation-headers` doesn't apply there
+	const alignment
+		= availableSpaceToTheLeftOfTheDropdown === 0
+		|| (availableSpaceToTheLeftOfTheDropdown > expectedDropdownWidth)
+			? 'right-0' : 'left-0';
+
 	wrap(position, <div className="rgh-conversation-activity-filter-wrapper"/>);
 	position.classList.add('rgh-conversation-activity-filter');
 	position.after(
@@ -158,7 +171,7 @@ async function addWidget(header: string, state: State): Promise<void> {
 				<div className="dropdown-caret ml-1"/>
 			</summary>
 			<details-menu
-				className="SelectMenu right-0"
+				className={`SelectMenu ${alignment}`}
 				on-details-menu-select={handleSelection}
 			>
 				<div className="SelectMenu-modal">
