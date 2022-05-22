@@ -36,7 +36,7 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 	label.remove();
 }
 
-async function init(): Promise<Deinit[]> {
+async function init(): Promise<Deinit> {
 	await api.expectToken();
 
 	return [

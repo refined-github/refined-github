@@ -12,7 +12,7 @@ function closeModal({delegateTarget: button}: delegate.Event<MouseEvent, HTMLBut
 	button.disabled = true;
 }
 
-function init(): Deinit[] {
+function init(): Deinit {
 	return [
 		// Immediately close lightbox after click instead of waiting for the ajaxed widget to refresh
 		delegate(document, '.js-convert-to-draft', 'click', closeModal),
