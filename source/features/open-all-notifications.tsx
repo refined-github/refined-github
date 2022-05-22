@@ -12,7 +12,7 @@ function getUnreadNotifications(container: ParentNode = document): HTMLElement[]
 	return select.all('.notification-unread', container);
 }
 
-function openNotifications(notifications: Element[]): void {
+function openNotifications(notifications: Element[], markAsDone = false): void {
 	// Ask for confirmation
 	if (!confirmOpen(notifications.length)) {
 		return;
@@ -20,9 +20,13 @@ function openNotifications(notifications: Element[]): void {
 
 	const urls: string[] = [];
 	for (const notification of notifications) {
-		// Mark all as read
-		notification.classList.replace('notification-unread', 'notification-read');
 		urls.push(notification.querySelector('a')!.href);
+		if (markAsDone) {
+			notification.querySelector('[title="Done"]')!.click();
+		} else {
+			// Mark all as read instead
+			notification.classList.replace('notification-unread', 'notification-read');
+		}
 	}
 
 	void browser.runtime.sendMessage({openUrls: urls});
@@ -34,9 +38,9 @@ function removeOpenAllButtons(container: ParentNode = document): void {
 	}
 }
 
-function openUnreadNotifications({delegateTarget}: delegate.Event): void {
+function openUnreadNotifications({delegateTarget, altKey}: delegate.Event<MouseEvent>): void {
 	const container = delegateTarget.closest('.js-notifications-group') ?? document;
-	openNotifications(getUnreadNotifications(container));
+	openNotifications(getUnreadNotifications(container), altKey);
 	// Remove all now-unnecessary buttons
 	removeOpenAllButtons(container);
 }
