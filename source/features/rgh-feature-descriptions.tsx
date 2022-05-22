@@ -49,6 +49,11 @@ async function init(): Promise<void | false> {
 					<div dangerouslySetInnerHTML={{__html: feature.description}} className="text-bold"/>
 					<div className="no-wrap">
 						<a href={conversationsUrl.href} data-pjax="#repo-content-pjax-container">Conversations</a>
+						{
+							location.pathname.endsWith('css')
+								? <> • <a href={location.pathname.replace('.css', '.tsx')} data-pjax="#repo-content-pjax-container">See JavaScript</a></>
+								: undefined
+						}
 					</div>
 				</div>
 			</div>
