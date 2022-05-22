@@ -15,7 +15,7 @@ import {
 	discussionUrlRegex,
 	preventDiscussionLinkLoss,
 } from '../github-helpers/prevent-link-loss';
-import {createRghIssueLink} from '../helpers/rgh-issue-link';
+import {getRghIssueUrl} from '../helpers/rgh-issue-link';
 
 function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #4678 */
@@ -29,7 +29,7 @@ function handleButtonClick({delegateTarget: fixButton}: delegate.Event<MouseEven
 function getUI(field: HTMLTextAreaElement): HTMLElement {
 	return select('.rgh-prevent-link-loss-container', field.form!) ?? (
 		<div className="flash flash-warn rgh-prevent-link-loss-container">
-			<AlertIcon/> Your link may be misinterpreted by GitHub (see {createRghIssueLink(2327)}).
+			<AlertIcon/> Your link may be <a href={getRghIssueUrl(2327)} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue" >misinterpreted</a> by GitHub.
 			<button type="button" className="btn btn-sm primary flash-action rgh-prevent-link-loss">Fix link</button>
 		</div>
 	);
