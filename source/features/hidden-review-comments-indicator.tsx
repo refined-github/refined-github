@@ -63,7 +63,7 @@ function observeFiles(): void {
 	}
 }
 
-function init(): Deinit {
+function init(): Deinit[] {
 	observeFiles();
 
 	return [
