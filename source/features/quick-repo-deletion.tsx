@@ -4,12 +4,13 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import delegate from 'delegate-it';
+import {TrashIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepo} from '../github-helpers';
+import {getForkedRepo, getRepo} from '../github-helpers';
 import pluralize from '../helpers/pluralize';
 import addNotice from '../github-widgets/notice-bar';
 import {getCacheKey} from './forked-to';
@@ -96,12 +97,13 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 			method: 'DELETE',
 			json: false,
 		});
+		const forkSource = '/' + getForkedRepo()!;
 		const restoreURL = pageDetect.isOrganizationRepo()
 			? `/organizations/${owner}/settings/deleted_repositories`
 			: '/settings/deleted_repositories';
 		const otherForksURL = `/${owner}?tab=repositories&type=fork`;
 		addNotice(
-			<span>Repository {nameWithOwner} deleted. You might be able to <a href={restoreURL}>restore it</a> or see <a href={otherForksURL}>your other forks.</a></span>,
+			<><TrashIcon/> <span>Repository <strong>{nameWithOwner}</strong> deleted. <a href={restoreURL}>Restore it</a>, <a href={forkSource}>visit the source repo</a>, or see <a href={otherForksURL}>your other forks.</a></span></>,
 			{action: false},
 		);
 		select('.application-main')!.remove();
