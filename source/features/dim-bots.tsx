@@ -51,7 +51,7 @@ void features.add(import.meta.url, {
 		pageDetect.isConversationList,
 	],
 	exclude: [
-		pageDetect.isBlank, // Prevent error on empty milestone list #5544
+		pageDetect.isBlank, // Prevent error on empty lists #5544
 	],
 	deduplicate: 'has-rgh-inner',
 	init,
