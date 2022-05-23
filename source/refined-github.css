@@ -179,6 +179,6 @@ pr-branches
 }
 
 /* Align vertically the old and new titles in title edition events https://github.com/refined-github/refined-github/issues/5657#issuecomment-1134077169 */
-.TimelineItem[id^="event-"] .TimelineItem-body :is(ins, del) {
+.TimelineItem[id^='event-'] .TimelineItem-body :is(ins, del) {
 	display: block !important;
 }
