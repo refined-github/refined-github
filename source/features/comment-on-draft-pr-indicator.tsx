@@ -2,7 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onReplacedElement from '../helpers/on-replaced-element';
+import onElementReplacement from '../helpers/on-element-replacement';
 
 function addIndicator(button: HTMLElement): void {
 	button.classList.add('rgh-draft-pr-indicator');
@@ -22,7 +22,7 @@ function init(signal: AbortSignal): void {
 
 	if (pageDetect.isPRConversation()) {
 		// The button is part of a .js-updatable-content partial
-		void onReplacedElement('#partial-new-comment-form-actions .btn-primary:not(.rgh-draft-pr-indicator)', addIndicator, {runCallbackOnStart: true, signal});
+		void onElementReplacement('#partial-new-comment-form-actions .btn-primary:not(.rgh-draft-pr-indicator)', addIndicator, {runCallbackOnStart: true, signal});
 	}
 }
 
