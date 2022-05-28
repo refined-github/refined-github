@@ -5,18 +5,10 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import getDefaultBranch from '../github-helpers/get-default-branch';
+import createDropdownItem from '../github-helpers/create-dropdown-item';
 import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
 
-export function createDropdownItem(label: string, url: string, attributes?: Record<string, string>): Element {
-	return (
-		<li {...attributes}>
-			<a role="menuitem" className="dropdown-item" href={url}>
-				{label}
-			</a>
-		</li>
-	);
-}
-
+// eslint-disable-next-line import/prefer-default-export
 export async function unhideOverflowDropdown(): Promise<void> {
 	// Wait for the tab bar to be loaded
 	const repoNavigationBar = await elementReady('.UnderlineNav-body');
