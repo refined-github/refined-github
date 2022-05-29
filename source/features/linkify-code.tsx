@@ -42,7 +42,14 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isGist,
+		pageDetect.isPRFiles,
 	],
+	init,
+}, {
+	include: [
+		pageDetect.isPRFiles,
+	],
+	deduplicate: 'has-rgh-inner',
 	init,
 }, {
 	include: [
