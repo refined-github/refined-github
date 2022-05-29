@@ -179,6 +179,14 @@ pr-branches
 }
 
 /* Align vertically the old and new titles in title edition events https://github.com/refined-github/refined-github/issues/5657#issuecomment-1134077169 */
-.TimelineItem[id^='event-'] .TimelineItem-body :is(ins, del) {
-	display: block !important;
+.TimelineItem[id^='event-'] .TimelineItem-body {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px 4px;
+}
+
+.TimelineItem[id^='event-'] .TimelineItem-body :is(del, ins) {
+	/* Move the diff after the relative time https://github.com/refined-github/refined-github/pull/5658#issuecomment-1135101420 */
+	flex: 1 0 100%;
+	order: 99;
 }
