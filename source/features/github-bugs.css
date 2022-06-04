@@ -91,7 +91,9 @@
 		margin: 0;
 	}
 
-	.pagehead-actions > li > * {
+	/* The complex selector avoids the jumps during page load caused by the inconsistent DOM structure of each widget */
+	.pagehead-actions .BtnGroup,
+	.pagehead-actions :not(.BtnGroup, .BtnGroup-parent) > .btn {
 		margin: 8px 8px 0 0 !important;
 	}
 }
