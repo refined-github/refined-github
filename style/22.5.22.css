@@ -1,0 +1,5 @@
+/* Fix misalignment https://github.com/refined-github/refined-github/pull/5665 */
+.pagehead-actions > li > * {
+	margin: 8px 8px 0 0 !important;
+	display: block;
+}
