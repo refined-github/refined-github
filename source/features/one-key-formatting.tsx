@@ -29,7 +29,7 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement |
 	textFieldEdit.wrapSelection(field, formattingChar, matchingEndChar);
 }
 
-function init(): Deinit[] {
+function init(): Deinit {
 	return [
 		onCommentFieldKeydown(eventHandler),
 		onConversationTitleFieldKeydown(eventHandler),

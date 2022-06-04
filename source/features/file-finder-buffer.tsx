@@ -57,7 +57,7 @@ function pjaxCompleteHandler(): void {
 	}
 }
 
-function init(): void {
+function init(): Deinit {
 	window.addEventListener('pjax:start', pjaxStartHandler);
 	window.addEventListener('pjax:complete', pjaxCompleteHandler);
 }
