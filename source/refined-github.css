@@ -34,11 +34,6 @@
 	display: none !important;
 }
 
-/* Hide `New pull request button` near file list */
-.file-navigation .new-pull-request-btn {
-	display: none;
-}
-
 /* Smoothen mouse animation on 404 pages */
 .js-plaxify {
 	transition: transform 0.1s;
