@@ -92,6 +92,7 @@
 	}
 
 	.pagehead-actions > li > * {
-		margin: 8px 8px 0 0;
+		margin: 8px 8px 0 0 !important;
+		display: block; /* Inline elements don't treat margins the same way, which causes a jump during the page load */
 	}
 }
