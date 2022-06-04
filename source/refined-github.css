@@ -178,7 +178,7 @@ pr-branches
 	height: 4em;
 }
 
-/* Align vertically the old and new titles in title edition events https://github.com/refined-github/refined-github/issues/5657#issuecomment-1134077169 */
+/* Make title change events more readable by stacking them #5658 */
 .TimelineItem[id^='event-'] .TimelineItem-body {
 	display: flex;
 	flex-wrap: wrap;
@@ -186,7 +186,7 @@ pr-branches
 }
 
 .TimelineItem[id^='event-'] .TimelineItem-body :is(del, ins) {
-	/* Move the diff after the relative time https://github.com/refined-github/refined-github/pull/5658#issuecomment-1135101420 */
+	/* Move the diff after the relative time */
 	flex: 1 0 100%;
 	order: 99;
 }
