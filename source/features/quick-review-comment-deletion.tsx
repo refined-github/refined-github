@@ -29,7 +29,7 @@ function addDeleteButton(cancelButton: Element): void {
 	);
 }
 
-function init(): Deinit {
+function init(): Deinit[] {
 	return [
 		delegate(document, '.rgh-review-comment-delete-button', 'click', onButtonClick),
 		delegate(document, '.rgh-quick-comment-edit-button', 'click', onEditButtonClick),

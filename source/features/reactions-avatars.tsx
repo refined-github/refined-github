@@ -105,7 +105,7 @@ function observeCommentReactions(commentReactions: Element): void {
 	viewportObserver.observe(commentReactions);
 }
 
-function init(): Deinit {
+function init(): Deinit[] {
 	observeReactions();
 
 	return [
@@ -114,7 +114,7 @@ function init(): Deinit {
 	];
 }
 
-function discussionInit(): Deinit {
+function discussionInit(): Deinit[] {
 	return [
 		observe(selector, {add: observeCommentReactions}),
 		viewportObserver,

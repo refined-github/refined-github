@@ -28,7 +28,7 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	rootMargin: '500px', // https://github.com/refined-github/refined-github/pull/505#issuecomment-309273098
 });
 
-function init(): Deinit {
+function init(): Deinit[] {
 	const selectorObserver = observe('.ajax-pagination-btn', {
 		add(button) {
 			inView.observe(button);

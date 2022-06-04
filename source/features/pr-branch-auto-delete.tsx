@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function init(): Deinit {
+function init(): Deinit[] {
 	const observer = new MutationObserver(() => {
 		const deleteButton = select('[action$="/cleanup"] [type="submit"]');
 		if (deleteButton) {

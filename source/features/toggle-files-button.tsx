@@ -35,7 +35,7 @@ async function toggleHandler(): Promise<void> {
 	await (isHidden ? cache.set(cacheKey, true) : cache.delete(cacheKey));
 }
 
-async function init(): Promise<Deinit> {
+async function init(): Promise<Deinit[]> {
 	const repoContent = (await elementReady('.repository-content'))!;
 	if (await cache.get<boolean>(cacheKey)) {
 		repoContent.classList.add('rgh-files-hidden');

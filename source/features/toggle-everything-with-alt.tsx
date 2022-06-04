@@ -26,7 +26,7 @@ function markdownCommentSelector(clickedItem: HTMLElement): string {
 	return `#${id} .markdown-body details > summary`;
 }
 
-function init(): Deinit {
+function init(): Deinit[] {
 	return [
 		// Collapsed comments in PR conversations and files
 		delegate(document, '.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector)),

@@ -13,8 +13,8 @@ import optionsStorage, {RGHOptions} from '../options-storage';
 import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyleHotfixes} from '../helpers/hotfix';
 
 type BooleanFunction = () => boolean;
-export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
-type FeatureInitResult = void | false | Deinit;
+export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit | Deinit[];
+type FeatureInitResult = void | false | Deinit | Deinit[];
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
 
 interface FeatureLoader extends Partial<InternalRunConfig> {
@@ -143,7 +143,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-function getDeinitHandler(deinit: DeinitHandle): VoidFunction {
+function getDeinitHandler(deinit: Deinit): VoidFunction {
 	if (deinit instanceof MutationObserver || deinit instanceof ResizeObserver || deinit instanceof IntersectionObserver) {
 		return () => {
 			deinit.disconnect();
@@ -163,7 +163,7 @@ function getDeinitHandler(deinit: DeinitHandle): VoidFunction {
 	return deinit;
 }
 
-function setupDeinit(deinit: Deinit): void {
+function setupDeinit(deinit: Deinit | Deinit[]): void {
 	const deinitFunctions = Array.isArray(deinit) ? deinit : [deinit];
 	for (const deinit of deinitFunctions) {
 		document.addEventListener('pjax:start', getDeinitHandler(deinit), {once: true});

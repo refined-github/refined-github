@@ -126,7 +126,7 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	);
 }
 
-function init(): Deinit {
+function init(): Deinit[] {
 	return [
 		// `useCapture` required to be fired before GitHub's handlers
 		delegate(document, '.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, true),
