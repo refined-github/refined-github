@@ -44,7 +44,7 @@
 	transition: transform 0.1s;
 }
 
-[alt="404 “This is not the web page you are looking for”"] {
+[alt='404 “This is not the web page you are looking for”'] {
 	animation: fade-in 2s ease-out;
 }
 
