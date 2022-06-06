@@ -50,7 +50,7 @@ function addRemoveLabelButton(label: HTMLElement): void {
 	);
 }
 
-async function init(): Promise<Deinit[]> {
+async function init(): Promise<Deinit> {
 	await api.expectToken();
 
 	return [

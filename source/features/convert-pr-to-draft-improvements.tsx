@@ -25,7 +25,7 @@ function addConvertToDraftButton(alternativeActions: Element): void {
 	alternativeActions.prepend(convertToDraft);
 }
 
-function init(): Deinit[] {
+function init(): Deinit {
 	return [
 		// Immediately close lightbox after click instead of waiting for the ajaxed widget to refresh
 		delegate(document, '.js-convert-to-draft', 'click', closeModal),

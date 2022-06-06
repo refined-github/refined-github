@@ -73,7 +73,7 @@ function observeWhiteSpace(): void {
 	}
 }
 
-function init(): Deinit[] {
+function init(): Deinit {
 	observeWhiteSpace();
 
 	return [

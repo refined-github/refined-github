@@ -74,7 +74,7 @@ function showSubmenu(event: delegate.Event): void {
 	event.preventDefault();
 }
 
-function init(): Deinit[] {
+function init(): Deinit {
 	return [
 		// `useCapture` required to be fired before GitHub's handlers
 		delegate(document, '.js-comment-hide-button', 'click', showSubmenu, true),

@@ -63,7 +63,7 @@ const updateUI = debounceFn(({delegateTarget: field}: delegate.Event<Event, HTML
 	wait: 300,
 });
 
-function init(): Deinit[] {
+function init(): Deinit {
 	return [
 		updateUI.cancel,
 		delegate(document, 'form:is(#new_issue, #new_release) textarea, form.js-new-comment-form textarea, textarea.comment-form-textarea', 'input', updateUI),

@@ -157,7 +157,7 @@ function onBeforeunload(event: BeforeUnloadEvent): void {
 	}
 }
 
-async function init(signal: AbortSignal): Promise<Deinit[]> {
+async function init(signal: AbortSignal): Promise<Deinit> {
 	// Warn user if it's not yet submitted
 	window.addEventListener('beforeunload', onBeforeunload, {signal});
 
