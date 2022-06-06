@@ -171,15 +171,22 @@ pr-branches
 	height: 4em;
 }
 
-/* Make title change events more readable by stacking them #5658 */
-.TimelineItem[id^='event-'] .TimelineItem-body {
+/*
+ * Make title change events more readable by stacking them #5658
+ * Test URL: https://github.com/refined-github/refined-github/pull/4030
+ */
+.TimelineItem[id^='event-'][data-team-hovercards-enabled] .TimelineItem-body { /* [data-team-hovercards-enabled] excludes branch-related events */
 	display: flex;
 	flex-wrap: wrap;
 	gap: 2px 4px;
 }
 
-.TimelineItem[id^='event-'] .TimelineItem-body :is(del, ins) {
-	/* Move the diff after the relative time */
+.TimelineItem[id^='event-'][data-team-hovercards-enabled] .TimelineItem-body :is(del, ins) {
+	/* Move the title diff after the relative time */
 	flex: 1 0 100%;
 	order: 99;
+}
+
+.TimelineItem[id^='event-'][data-team-hovercards-enabled] .TimelineItem-body .IssueLabel {
+	align-self: baseline !important; /* Restore size of issue labels https://github.com/refined-github/refined-github/pull/5658#pullrequestreview-995783998 */
 }
