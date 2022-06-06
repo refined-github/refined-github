@@ -10,7 +10,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import looseParseInt from '../helpers/loose-parse-int';
 import abbreviateNumber from '../helpers/abbreviate-number';
-import {createDropdownItem} from './more-dropdown-links';
+import createDropdownItem from '../github-helpers/create-dropdown-item';
 import {buildRepoURL, getRepo} from '../github-helpers';
 import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils';
 

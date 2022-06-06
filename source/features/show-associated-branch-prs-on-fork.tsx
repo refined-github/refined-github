@@ -67,6 +67,30 @@ export const stateIcon = {
 	DRAFT: GitPullRequestDraftIcon,
 };
 
+function addAssociatedPRLabel(branchCompareLink: Element, prInfo: PullRequest): void {
+	const StateIcon = stateIcon[prInfo.state];
+	const state = upperCaseFirst(prInfo.state);
+
+	branchCompareLink.replaceWith(
+		<div className="d-inline-block text-right ml-3">
+			<a
+				data-issue-and-pr-hovercards-enabled
+				href={prInfo.url}
+				data-hovercard-type="pull_request"
+				data-hovercard-url={prInfo.url + '/hovercard'}
+			>
+				#{prInfo.number}
+			</a>
+			{' '}
+			<span
+				className={`State State--${prInfo.state.toLowerCase()} State--small ml-1`}
+			>
+				<StateIcon width={14} height={14}/> {state}
+			</span>
+		</div>,
+	);
+}
+
 async function init(): Promise<Deinit> {
 	const associatedPullRequests = await getPullRequestsAssociatedWithBranch();
 
@@ -75,27 +99,7 @@ async function init(): Promise<Deinit> {
 			const branchName = branchCompareLink.closest('[branch]')!.getAttribute('branch')!;
 			const prInfo = associatedPullRequests[branchName];
 			if (prInfo) {
-				const StateIcon = stateIcon[prInfo.state];
-				const state = upperCaseFirst(prInfo.state);
-
-				branchCompareLink.replaceWith(
-					<div className="d-inline-block text-right ml-3">
-						<a
-							data-issue-and-pr-hovercards-enabled
-							href={prInfo.url}
-							data-hovercard-type="pull_request"
-							data-hovercard-url={prInfo.url + '/hovercard'}
-						>
-							#{prInfo.number}
-						</a>
-						{' '}
-						<span
-							className={`State State--${prInfo.state.toLowerCase()} State--small ml-1`}
-						>
-							<StateIcon width={14} height={14}/> {state}
-						</span>
-					</div>,
-				);
+				addAssociatedPRLabel(branchCompareLink, prInfo);
 			}
 		},
 	});

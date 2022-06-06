@@ -47,26 +47,26 @@ async function init(): Promise<false | void> {
 
 		// For the currently logged in user, `names[userKey]` would not be present.
 		const {name} = names[userKey] ?? {};
-
-		if (name) {
-			// If it's a regular comment author, add it outside <strong>
-			// otherwise it's something like "User added some commits"
-			if (compareNames(username, name)) {
-				usernameElement.textContent = name;
-			} else {
-				const {parentElement} = usernameElement;
-				const insertionPoint = parentElement!.tagName === 'STRONG'
-					? parentElement!
-					: usernameElement;
-				insertionPoint.after(
-					' ',
-					<span className="color-text-secondary color-fg-muted css-truncate d-inline-block">
-						(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{name}</bdo>)
-					</span>,
-					' ',
-				);
-			}
+		if (!name) {
+			continue;
 		}
+
+		// If it's a regular comment author, add it outside <strong>
+		// otherwise it's something like "User added some commits"
+		if (compareNames(username, name)) {
+			usernameElement.textContent = name;
+			continue;
+		}
+
+		const {parentElement} = usernameElement;
+		const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : usernameElement;
+		insertionPoint.after(
+			' ',
+			<span className="color-text-secondary color-fg-muted css-truncate d-inline-block">
+				(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{name}</bdo>)
+			</span>,
+			' ',
+		);
 	}
 }
 

@@ -49,6 +49,11 @@ test('preventPrCommitLinkLoss', t => {
 	t.is(
 		replacePrCommitLink('lorem ipsum dolor https://github.com/refined-github/refined-github/pull/3205/commits/1da152b3f8c51dd72d8ae6ad9cc96e0c2d8716f5#diff-932095cc3c0dff00495b4c392d78f0afR60 some random string'),
 		'lorem ipsum dolor [`1da152b` (#3205)](https://github.com/refined-github/refined-github/pull/3205/commits/1da152b3f8c51dd72d8ae6ad9cc96e0c2d8716f5#diff-932095cc3c0dff00495b4c392d78f0afR60) some random string',
+		'It should include line-permalink hashes',
+	);
+	t.is(
+		replacePrCommitLink('lorem ipsum dolor https://github.com/refined-github/refined-github/pull/3205/commits/b0ac07948f9d30a760bda25a7106011441abfd5d#r438059292 some random string'),
+		'lorem ipsum dolor [`b0ac079` (#3205)](https://github.com/refined-github/refined-github/pull/3205/commits/b0ac07948f9d30a760bda25a7106011441abfd5d#r438059292) some random string',
 		'It should include any hashes',
 	);
 	t.is(
@@ -90,35 +95,45 @@ test('preventPrCompareLinkLoss', t => {
 
 test('preventDiscussionLinkLoss', t => {
 	t.is(
-		replaceDiscussionLink('https://github.com/refined-github/refined-github/discussions/2789'),
-		'https://github.com/refined-github/refined-github/discussions/2789',
-		'It should not affect discussion URLs without a query parameter',
+		replaceDiscussionLink('https://github.com/eslint/eslint/discussions/15898'),
+		'https://github.com/eslint/eslint/discussions/15898',
+		'It should not affect discussion URLs without a query parameter', // It's what causes the bug
 	);
 	t.is(
-		replaceDiscussionLink('https://github.com/refined-github/refined-github/discussions/2789?sort=top#discussioncomment-646707'),
-		'[#2789 (comment)](https://github.com/refined-github/refined-github/discussions/2789?sort=top#discussioncomment-646707)',
+		replaceDiscussionLink('https://github.com/eslint/eslint/discussions/15898#discussion-4086661'),
+		'https://github.com/eslint/eslint/discussions/15898#discussion-4086661',
+		'It should not affect discussion comment URLs without a query parameter', // It's what causes the bug
 	);
 	t.is(
-		replaceDiscussionLink('https://github.com/refined-github/refined-github/discussions/2789?sort=top\nhttps://github.com/refined-github/refined-github/discussions/2789#discussioncomment-646707'),
-		'[#2789](https://github.com/refined-github/refined-github/discussions/2789?sort=top)\nhttps://github.com/refined-github/refined-github/discussions/2789#discussioncomment-646707',
+		replaceDiscussionLink('https://github.com/eslint/eslint/discussions/15898?sort=top#discussion-4086661'),
+		'[eslint/eslint#15898 (comment)](https://github.com/eslint/eslint/discussions/15898?sort=top#discussion-4086661)',
+	);
+	t.is(
+		replaceDiscussionLink('https://github.com/eslint/eslint/discussions/15898?sort=top#issue-comment-box'),
+		'[eslint/eslint#15898 (comment)](https://github.com/eslint/eslint/discussions/15898?sort=top#issue-comment-box)',
+		'It should work on any hash',
+	);
+	t.is(
+		replaceDiscussionLink('https://github.com/eslint/eslint/discussions/15898?sort=top\nhttps://github.com/eslint/eslint/discussions/15898#discussioncomment-646707'),
+		'[eslint/eslint#15898](https://github.com/eslint/eslint/discussions/15898?sort=top)\nhttps://github.com/eslint/eslint/discussions/15898#discussioncomment-646707',
 		'It should work separately on links.',
 	);
 	t.is(
-		replaceDiscussionLink('lorem ipsum dolor https://github.com/refined-github/refined-github/discussions/2789?sort=top some random string'),
-		'lorem ipsum dolor [#2789](https://github.com/refined-github/refined-github/discussions/2789?sort=top) some random string',
+		replaceDiscussionLink('lorem ipsum dolor https://github.com/eslint/eslint/discussions/15898?sort=top some random string'),
+		'lorem ipsum dolor [eslint/eslint#15898](https://github.com/eslint/eslint/discussions/15898?sort=top) some random string',
 	);
 	t.is(
-		replaceDiscussionLink(replaceDiscussionLink('lorem ipsum dolor https://github.com/refined-github/refined-github/discussions/2789?sort=top#discussioncomment-646707 some random string')),
-		'lorem ipsum dolor [#2789 (comment)](https://github.com/refined-github/refined-github/discussions/2789?sort=top#discussioncomment-646707) some random string',
+		replaceDiscussionLink(replaceDiscussionLink('lorem ipsum dolor https://github.com/eslint/eslint/discussions/15898?sort=top#discussion-4086661 some random string')),
+		'lorem ipsum dolor [eslint/eslint#15898 (comment)](https://github.com/eslint/eslint/discussions/15898?sort=top#discussion-4086661) some random string',
 		'It should not apply it twice',
 	);
 	t.is(
-		replaceDiscussionLink('I like [turtles](https://github.com/refined-github/refined-github/discussions/2789?sort=top#discussioncomment-646707)'),
-		'I like [turtles](https://github.com/refined-github/refined-github/discussions/2789?sort=top#discussioncomment-646707)',
+		replaceDiscussionLink('I like [turtles](https://github.com/eslint/eslint/discussions/15898#discussion-4086661)'),
+		'I like [turtles](https://github.com/eslint/eslint/discussions/15898#discussion-4086661)',
 		'It should ignore Markdown links',
 	);
 	t.is(
-		replaceDiscussionLink('https://github.com/streetcomplete/StreetComplete/discussions/2789?sort=top#discussioncomment-646707'),
-		'[streetcomplete/StreetComplete#2789 (comment)](https://github.com/streetcomplete/StreetComplete/discussions/2789?sort=top#discussioncomment-646707)',
+		replaceDiscussionLink('https://github.com/streetcomplete/StreetComplete/discussions/15898?sort=top#discussioncomment-646707'),
+		'[streetcomplete/StreetComplete#15898 (comment)](https://github.com/streetcomplete/StreetComplete/discussions/15898?sort=top#discussioncomment-646707)',
 	);
 });
