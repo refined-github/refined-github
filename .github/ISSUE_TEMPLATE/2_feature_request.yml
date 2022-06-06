@@ -15,9 +15,9 @@ body:
     attributes:
       label: Screenshot
       description: You can provide screenshots/mockups to better visualize your idea. Files can be dropped in this field
-  - type: input
+  - type: textarea
     attributes:
-      label: Example URL
+      label: Example URLs
       description: Include a REAL URL where the feature should appear. e.g. Do you want a feature to appear on the main page of a repo? Paste a link to a repo
       placeholder: https://github.com/refined-github/refined-github
     validations:

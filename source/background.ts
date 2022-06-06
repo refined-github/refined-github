@@ -44,10 +44,10 @@ browser.runtime.onMessage.addListener((message: typeof messageHandlers, sender) 
 	}
 });
 
-// Give the browserAction a reason to exist other than "Enable RGH on this domain"
-browser.browserAction.onClicked.addListener(async () => {
+browser.browserAction.onClicked.addListener(async tab => {
 	const {actionUrl} = await optionsStorage.getAll();
 	void browser.tabs.create({
+		openerTabId: tab.id,
 		url: actionUrl || 'https://github.com',
 	});
 });

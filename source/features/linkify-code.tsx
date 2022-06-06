@@ -19,20 +19,22 @@ function initTitle(): void {
 	}
 }
 
+function linkifyContent(wrapper: Element): void {
+	linkifyURLs(wrapper);
+
+	// Linkify issue refs in comments
+	const currentRepo = getRepo() ?? {};
+	for (const element of select.all('.pl-c', wrapper)) {
+		linkifyIssues(currentRepo, element);
+	}
+
+	// Mark code block as touched to avoid linkifying twice https://github.com/refined-github/refined-github/pull/4710#discussion_r694896008
+	wrapper.classList.add(linkifiedURLClass);
+}
+
 function init(): Deinit {
 	return observe(`:is(${codeElementsSelector}):not(.${linkifiedURLClass})`, {
-		add(wrappers) {
-			linkifyURLs(wrappers);
-
-			// Linkify issue refs in comments
-			const currentRepo = getRepo() ?? {};
-			for (const element of select.all('.pl-c', wrappers)) {
-				linkifyIssues(currentRepo, element);
-			}
-
-			// Mark code block as touched to avoid linkifying twice https://github.com/refined-github/refined-github/pull/4710#discussion_r694896008
-			wrappers.classList.add(linkifiedURLClass);
-		},
+		add: linkifyContent,
 	});
 }
 
