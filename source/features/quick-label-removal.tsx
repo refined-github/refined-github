@@ -36,25 +36,27 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 	label.remove();
 }
 
+function addRemoveLabelButton(label: HTMLElement): void {
+	label.classList.add('rgh-quick-label-removal-already-added', 'd-inline-flex');
+	label.append(
+		<button
+			type="button"
+			aria-label="Remove this label"
+			className="btn-link tooltipped tooltipped-nw rgh-quick-label-removal"
+			data-name={label.dataset.name}
+		>
+			<XIcon/>
+		</button>,
+	);
+}
+
 async function init(): Promise<Deinit[]> {
 	await api.expectToken();
 
 	return [
 		observe('.js-issue-labels .IssueLabel:not(.rgh-quick-label-removal-already-added)', {
 			constructor: HTMLElement,
-			add(label) {
-				label.classList.add('rgh-quick-label-removal-already-added', 'd-inline-flex');
-				label.append(
-					<button
-						type="button"
-						aria-label="Remove this label"
-						className="btn-link tooltipped tooltipped-nw rgh-quick-label-removal"
-						data-name={label.dataset.name}
-					>
-						<XIcon/>
-					</button>,
-				);
-			},
+			add: addRemoveLabelButton,
 		}),
 
 		delegate(document, '.rgh-quick-label-removal:not([disabled])', 'click', removeLabelButtonClickHandler),

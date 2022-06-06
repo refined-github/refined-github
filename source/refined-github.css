@@ -34,20 +34,13 @@
 	display: none !important;
 }
 
-/* Hide `New pull request button` near file list */
-.file-navigation .new-pull-request-btn {
-	display: none;
-}
-
-@keyframes fade-in {
-	from {
-		opacity: 0%;
-	}
-}
-
 /* Smoothen mouse animation on 404 pages */
 .js-plaxify {
 	transition: transform 0.1s;
+}
+
+[alt='404 “This is not the web page you are looking for”'] {
+	animation: fade-in 2s ease-out;
 }
 
 /* Remove "Seeing something unexpected?" from user profiles */

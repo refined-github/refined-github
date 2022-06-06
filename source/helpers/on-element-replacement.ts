@@ -9,7 +9,7 @@ Tracks the replacement of an element, identified via selector.
 @param callback The function to call after it's replaced
 */
 
-export default async function onReplacedElement(
+export default async function onElementReplacement(
 	selector: string,
 	callback: (element: HTMLElement) => void,
 	{runCallbackOnStart = false, signal}: {runCallbackOnStart?: boolean; signal?: AbortSignal} = {},
