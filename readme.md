@@ -114,9 +114,6 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 		<th width="50%">
 			<p><a title="conversation-activity-filter"></a> Lets you hide every event except comments or unresolved comments in issues and PRs
 			<p><img src="https://user-images.githubusercontent.com/1402241/109592127-5f922200-7ad4-11eb-8dfa-1d80fb28e70e.png">
-		<th width="50%">
-			<p><a title="follow-file-renames"></a> Enhances files’ commit lists navigation to follow file renames
-			<p><img src="https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png">
 </table>
 
 <!--
