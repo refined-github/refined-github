@@ -114,6 +114,9 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 		<th width="50%">
 			<p><a title="conversation-activity-filter"></a> Lets you hide every event except comments or unresolved comments in issues and PRs
 			<p><img src="https://user-images.githubusercontent.com/1402241/109592127-5f922200-7ad4-11eb-8dfa-1d80fb28e70e.png">
+		<th width="50%">
+			<p><a title="select-notifications"></a> Select notifications by type and status
+			<p><img src="https://user-images.githubusercontent.com/1402241/152119039-4ea8333f-a744-4106-b56f-cf09f50678be.gif">
 </table>
 
 <!--
@@ -356,7 +359,6 @@ Thanks for contributing! 🦋🙌
 - [](# "select-all-notifications-shortcut") Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
 - [](# "linkify-notification-repository-header") [Linkifies the header of each notification group (when grouped by repository).](https://user-images.githubusercontent.com/1402241/80849887-81531c00-8c19-11ea-8777-7294ce318630.png)
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
-- [](# "select-notifications") 🔥 [Select notifications by type and status.](https://user-images.githubusercontent.com/1402241/152119039-4ea8333f-a744-4106-b56f-cf09f50678be.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
