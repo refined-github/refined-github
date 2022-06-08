@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import {LinkExternalIcon} from '@primer/octicons-react';
 
 import features from '.';
-import {confirmOpen} from './open-all-conversations';
+import confirmOpen from '../helpers/confirm-open';
 
 function getUnreadNotifications(container: ParentNode = document): HTMLElement[] {
 	return select.all('.notification-unread', container);
