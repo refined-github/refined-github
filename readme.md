@@ -101,22 +101,22 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 			<p><a title="reactions-avatars"></a> Adds reaction avatars showing <i>who</i> reacted to a comment
 			<p><img src="https://user-images.githubusercontent.com/1402241/130341871-6a0d69f4-8d0c-4882-a5ed-aac9b7613b0a.png">
 		<th width="50%">
-			<p><a title="wait-for-checks"></a> Adds the option to wait for checks when merging a PR
-			<p><img src="https://user-images.githubusercontent.com/1402241/35192861-3f4a1bf6-fecc-11e7-8b9f-35ee019c6cdf.gif">
+			<p><a title="conversation-activity-filter"></a> Lets you hide every event except comments or unresolved comments in issues and PRs
+			<p><img src="https://user-images.githubusercontent.com/1402241/109592127-5f922200-7ad4-11eb-8dfa-1d80fb28e70e.png">
 	<tr>
 		<th width="50%">
 			<p><a title="linkify-code"></a> Linkifies issue/PR references and URLs in code and conversation titles
 			<p><img src="https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png">
 		<th width="50%">
-			<p><a title="restore-file"></a> Adds a button to revert all the changes to a file in a PR
-			<p><img src="https://user-images.githubusercontent.com/1402241/130660479-083e91e6-0778-446a-9aaf-b9b3e7214281.gif">
+			<p><a title="wait-for-checks"></a> Adds the option to wait for checks when merging a PR
+			<p><img src="https://user-images.githubusercontent.com/1402241/35192861-3f4a1bf6-fecc-11e7-8b9f-35ee019c6cdf.gif">
 	<tr>
 		<th width="50%">
-			<p><a title="conversation-activity-filter"></a> Lets you hide every event except comments or unresolved comments in issues and PRs
-			<p><img src="https://user-images.githubusercontent.com/1402241/109592127-5f922200-7ad4-11eb-8dfa-1d80fb28e70e.png">
+			<p><a title="restore-file"></a> Adds a button to revert all the changes to a file in a PR
+			<p><img src="https://user-images.githubusercontent.com/1402241/130660479-083e91e6-0778-446a-9aaf-b9b3e7214281.gif">
 		<th width="50%">
-			<p><a title="follow-file-renames"></a> Enhances files’ commit lists navigation to follow file renames
-			<p><img src="https://user-images.githubusercontent.com/1402241/54799957-7306a280-4c9a-11e9-86de-b9764ed93397.png">
+			<p><a title="select-notifications"></a> Select notifications by type and status
+			<p><img src="https://user-images.githubusercontent.com/1402241/152119039-4ea8333f-a744-4106-b56f-cf09f50678be.gif">
 </table>
 
 <!--
@@ -359,7 +359,6 @@ Thanks for contributing! 🦋🙌
 - [](# "select-all-notifications-shortcut") Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
 - [](# "linkify-notification-repository-header") [Linkifies the header of each notification group (when grouped by repository).](https://user-images.githubusercontent.com/1402241/80849887-81531c00-8c19-11ea-8777-7294ce318630.png)
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
-- [](# "select-notifications") 🔥 [Select notifications by type and status.](https://user-images.githubusercontent.com/1402241/152119039-4ea8333f-a744-4106-b56f-cf09f50678be.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
