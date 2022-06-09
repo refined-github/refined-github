@@ -103,7 +103,6 @@ import './features/preview-hidden-comments';
 import './features/fit-textareas';
 import './features/collapsible-content-button';
 import './features/resolve-conflicts';
-import './features/follow-file-renames';
 import './features/enable-file-links-in-compare-view'; // Must be before more-file-links
 import './features/more-file-links';
 import './features/tags-dropdown';
