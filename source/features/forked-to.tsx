@@ -8,8 +8,8 @@ import {CheckIcon, ChevronRightIcon, TriangleDownIcon, XIcon} from '@primer/octi
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
-import {getUsername, getForkedRepo, getRepo} from '../github-helpers';
 import {groupButtons} from '../github-helpers/group-buttons';
+import {getUsername, getForkedRepo, getRepo} from '../github-helpers';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepo()!.nameWithOwner;
 // eslint-disable-next-line import/prefer-default-export
