@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import confirmOpen from '../helpers/confirm-open';
+import openTabs from '../helpers/open-tabs';
 
 function getUrlFromItem(issue: Element): string {
 	return issue
@@ -20,13 +20,7 @@ const issueListSelector = pageDetect.isGlobalConversationList()
 
 function onButtonClick(): void {
 	const issues = select.all(`${issueListSelector} .js-issue-row`);
-	if (!confirmOpen(issues.length)) {
-		return;
-	}
-
-	void browser.runtime.sendMessage({
-		openUrls: issues.map(issue => getUrlFromItem(issue)),
-	});
+	openTabs(issues.map(issue => getUrlFromItem(issue)));
 }
 
 async function init(): Promise<Deinit | false> {
