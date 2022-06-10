@@ -6,21 +6,23 @@ import * as pageDetect from 'github-url-detection';
 import {LinkExternalIcon} from '@primer/octicons-react';
 
 import features from '.';
-import {confirmOpen} from './open-all-conversations';
+import openTabs from '../helpers/open-tabs';
 
 function getUnreadNotifications(container: ParentNode = document): HTMLElement[] {
 	return select.all('.notification-unread', container);
 }
 
 function openNotifications(notifications: Element[], markAsDone = false): void {
-	// Ask for confirmation
-	if (!confirmOpen(notifications.length)) {
-		return;
-	}
-
 	const urls: string[] = [];
 	for (const notification of notifications) {
 		urls.push(notification.querySelector('a')!.href);
+	}
+
+	if (!openTabs(urls)) {
+		return;
+	}
+
+	for (const notification of notifications) {
 		if (markAsDone) {
 			notification.querySelector('[title="Done"]')!.click();
 		} else {
@@ -28,8 +30,6 @@ function openNotifications(notifications: Element[], markAsDone = false): void {
 			notification.classList.replace('notification-unread', 'notification-read');
 		}
 	}
-
-	void browser.runtime.sendMessage({openUrls: urls});
 }
 
 function removeOpenAllButtons(container: ParentNode = document): void {
