@@ -38,7 +38,7 @@ async function toggleHandler(): Promise<void> {
 	select('.rgh-files-hidden-notice')?.remove();
 }
 
-async function init(): Promise<Deinit[]> {
+async function init(): Promise<Deinit> {
 	const repoContent = (await elementReady('.repository-content'))!;
 
 	if (await cache.get<boolean>(cacheKey)) {

@@ -155,7 +155,7 @@ function closeDropdown(): void {
 	select('.rgh-select-notifications')?.removeAttribute('open');
 }
 
-function init(): Deinit[] {
+function init(): Deinit {
 	return [
 		observe('.js-notifications-mark-all-prompt:not(.rgh-select-notifications-added)', {
 			add(selectAllCheckbox) {

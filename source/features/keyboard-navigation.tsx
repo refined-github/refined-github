@@ -46,7 +46,7 @@ function runShortcuts(event: KeyboardEvent): void {
 	}
 }
 
-function init(signal: AbortSignal): Deinit {
+function init(signal: AbortSignal): void {
 	document.body.addEventListener('keypress', runShortcuts, {signal});
 }
 

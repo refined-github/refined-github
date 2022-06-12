@@ -46,7 +46,7 @@ function addButtons(): void {
 	}
 }
 
-function init(): Deinit[] {
+function init(): Deinit {
 	addButtons();
 
 	return [

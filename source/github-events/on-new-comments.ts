@@ -35,7 +35,7 @@ function getFragmentLoadHandler(callback: EventListener): delegate.EventHandler 
 	};
 }
 
-function addListeners(): Deinit[] {
+function addListeners(): delegate.Subscription[] {
 	const discussion = select('.js-discussion');
 	if (!discussion || discussionsWithListeners.has(discussion)) {
 		return [];
@@ -59,7 +59,7 @@ function addListeners(): Deinit[] {
 	];
 }
 
-export default function onNewComments(callback: VoidFunction): Deinit[] {
+export default function onNewComments(callback: VoidFunction): Deinit {
 	handlers.add(callback);
 
 	return [

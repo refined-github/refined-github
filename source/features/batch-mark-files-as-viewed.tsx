@@ -66,7 +66,7 @@ function onAltClick(event: delegate.Event<MouseEvent, HTMLInputElement>): void {
 	});
 }
 
-function init(): Deinit[] {
+function init(): Deinit {
 	return [
 		// `mousedown` required to avoid mouse selection on shift-click
 		delegate(document, '.js-reviewed-toggle', 'mousedown', batchToggle),

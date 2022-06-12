@@ -62,7 +62,7 @@ async function addButton(position: Element): Promise<void> {
 	}
 }
 
-async function init(): Promise<Deinit | false> {
+async function init(): Promise<false | Deinit> {
 	await api.expectToken();
 
 	// "Resolve conflicts" is the native button to update the PR

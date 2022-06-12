@@ -13,8 +13,8 @@ import optionsStorage, {RGHOptions} from '../options-storage';
 import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyleHotfixes} from '../helpers/hotfix';
 
 type BooleanFunction = () => boolean;
-export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Deinit;
-type FeatureInitResult = false | void | Deinit | Deinit[];
+export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
+type FeatureInitResult = void | false | Deinit;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
 
 interface FeatureLoader extends Partial<InternalRunConfig> {
@@ -143,7 +143,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-function getDeinitHandler(deinit: Deinit): VoidFunction {
+function getDeinitHandler(deinit: DeinitHandle): VoidFunction {
 	if (deinit instanceof MutationObserver || deinit instanceof ResizeObserver || deinit instanceof IntersectionObserver) {
 		return () => {
 			deinit.disconnect();
@@ -164,7 +164,10 @@ function getDeinitHandler(deinit: Deinit): VoidFunction {
 }
 
 function setupDeinit(deinit: Deinit): void {
-	document.addEventListener('pjax:start', getDeinitHandler(deinit), {once: true});
+	const deinitFunctions = Array.isArray(deinit) ? deinit : [deinit];
+	for (const deinit of deinitFunctions) {
+		document.addEventListener('pjax:start', getDeinitHandler(deinit), {once: true});
+	}
 }
 
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
@@ -195,13 +198,8 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 			log.error(id, error);
 		}
 
-		if (!result) {
-			return;
-		}
-
-		const deinitFunctions = Array.isArray(result) ? result : [result];
-		for (const deinit of deinitFunctions) {
-			setupDeinit(deinit);
+		if (result) {
+			setupDeinit(result);
 		}
 	};
 
@@ -212,7 +210,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 	await domLoaded; // Listeners likely need to work on the whole page
 	for (const listener of additionalListeners) {
 		const deinit = listener(runFeature, deinitController.signal);
-		if (deinit) {
+		if (deinit && !(deinit instanceof Promise)) {
 			setupDeinit(deinit);
 		}
 	}

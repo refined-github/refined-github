@@ -79,7 +79,7 @@ function addOpenAllButton(className: string, text: string): void {
 	);
 }
 
-function init(): Deinit[] {
+function init(): Deinit {
 	const deinit = [delegate(document, '.rgh-open-selected-button', 'click', openSelectedNotifications)];
 	addOpenAllButton('rgh-open-selected-button', 'Open all selected');
 
