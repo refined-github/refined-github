@@ -54,7 +54,7 @@ async function updateUI(forks: string[]): Promise<void> {
 		? (
 			<a
 				href={createLink(forks[0])}
-				className="btn btn-sm px-2  rgh-forked-link"
+				className="btn btn-sm px-2 rgh-forked-link"
 				title={`Open your fork at ${forks[0]}`}
 			>
 				<ChevronRightIcon className="v-align-text-top"/>
