@@ -8,6 +8,7 @@ import {CheckIcon, ChevronRightIcon, TriangleDownIcon, XIcon} from '@primer/octi
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import GitHubURL from '../github-helpers/github-url';
+import {groupButtons} from '../github-helpers/group-buttons';
 import {getUsername, getForkedRepo, getRepo} from '../github-helpers';
 
 const getForkSourceRepo = (): string => getForkedRepo() ?? getRepo()!.nameWithOwner;
@@ -49,13 +50,13 @@ async function updateUI(forks: string[]): Promise<void> {
 	await elementReady('.page-actions');
 
 	const forkButton = select('.pagehead-actions [aria-label^="Fork your own copy of"]')!;
-	forkButton.classList.add('rounded-left-2', 'BtnGroup-item', 'mr-0');
+	forkButton.classList.add('rounded-left-2', 'mr-0');
 
 	if (forks.length === 1) {
 		forkButton.after(
 			<a
 				href={createLink(forks[0])}
-				className="btn btn-sm BtnGroup-item px-2 rgh-forked-button rgh-forked-link"
+				className="btn btn-sm px-2 rgh-forked-button rgh-forked-link"
 				title={`Open your fork at ${forks[0]}`}
 			>
 				<ChevronRightIcon className="v-align-text-top"/>
@@ -64,11 +65,11 @@ async function updateUI(forks: string[]): Promise<void> {
 	} else {
 		forkButton.after(
 			<details
-				className="details-reset details-overlay BtnGroup-parent position-relative"
+				className="details-reset details-overlay position-relative rgh-forked-button"
 				id="rgh-forked-to-select-menu"
 			>
 				<summary
-					className="btn btn-sm BtnGroup-item px-2 float-none rgh-forked-button"
+					className="btn btn-sm px-2 float-none"
 				>
 					<TriangleDownIcon className="v-align-text-top"/>
 				</summary>
@@ -101,6 +102,8 @@ async function updateUI(forks: string[]): Promise<void> {
 			</details>,
 		);
 	}
+
+	groupButtons([forkButton, select('.rgh-forked-button')!]);
 }
 
 async function init(): Promise<void | false> {
