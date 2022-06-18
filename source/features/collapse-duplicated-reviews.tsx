@@ -19,7 +19,7 @@ function init(): void {
 		const commentUrl = new URL(location.href);
 		commentUrl.hash = comment.id;
 		const threadHeaderLink = select('summary a', details)!;
-		threadHeaderLink.href = commentUrl.toString();
+		threadHeaderLink.href = commentUrl.href;
 	}
 }
 
