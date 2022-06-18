@@ -15,7 +15,7 @@ function init(): void {
 		const details = comment.closest('details')!;
 		const commentUrl = new URL(location.href);
 		commentUrl.hash = comment.id;
-		details.after(
+		details.replaceWith(
 			<a
 				className="d-block py-2 px-3 mb-3 border rounded-2 color-bg-subtle text-mono text-small"
 				href={commentUrl.href}
