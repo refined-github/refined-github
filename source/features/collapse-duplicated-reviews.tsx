@@ -1,4 +1,4 @@
-import './collapse-duplicated-reviews.css';
+import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
@@ -11,15 +11,18 @@ function init(): void {
 			continue;
 		}
 
+		// Change the <details> element to a link to the original comment
 		const details = comment.closest('details')!;
-		details.open = false;
-		details.classList.add('rgh-duplicated-review');
-
-		// Change the link in the thread header to point to the original comment instead of the file diff
 		const commentUrl = new URL(location.href);
 		commentUrl.hash = comment.id;
-		const threadHeaderLink = select('summary a', details)!;
-		threadHeaderLink.href = commentUrl.toString();
+		details.after(
+			<a
+				className="d-block py-2 px-3 mb-3 border rounded-2 color-bg-subtle text-mono text-small"
+				href={commentUrl.href}
+			>
+				#{comment.id}
+			</a>,
+		);
 	}
 }
 
