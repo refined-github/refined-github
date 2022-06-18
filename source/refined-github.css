@@ -170,3 +170,8 @@ pr-branches
 	min-height: 4em;
 	height: 4em;
 }
+
+/* Stack the old and new titles in title edition events https://github.com/refined-github/refined-github/issues/5657#issuecomment-1134077169 */
+.TimelineItem[id^='event-'] .TimelineItem-body :is(ins, del) {
+	display: block !important;
+}
