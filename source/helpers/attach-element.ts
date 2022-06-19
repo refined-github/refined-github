@@ -2,19 +2,19 @@ import select from 'select-dom';
 
 type Position = 'append' | 'prepend' | 'before' | 'after';
 
-interface Attachment {
+interface Attachment<NewElement extends Element> {
 	anchor: Element | string | undefined; // `undefined` allows `select(nonExistent)` without requiring `!`
-	getNewElement: () => Element;
+	getNewElement: () => NewElement;
 	className: string;
 	position: Position;
 }
 
-export default function attach({
+export default function attach<NewElement extends Element>({
 	anchor,
 	getNewElement,
 	className,
 	position,
-}: Attachment): void {
+}: Attachment<NewElement>): NewElement | void {
 	anchor = typeof anchor === 'string' ? select(anchor) : anchor;
 	if (!anchor) {
 		throw new Error('Element not found');
@@ -27,4 +27,5 @@ export default function attach({
 	const ship = getNewElement();
 	ship.classList.add(className);
 	anchor[position](ship);
+	return ship;
 }
