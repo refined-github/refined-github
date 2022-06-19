@@ -7,8 +7,8 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {FoldIcon, UnfoldIcon, ArrowUpIcon} from '@primer/octicons-react';
 
-import attach from '../helpers/attach-element';
 import features from '.';
+import attachElement from '../helpers/attach-element';
 import observeElement from '../helpers/simplified-element-observer';
 
 const cacheKey = 'files-hidden';
@@ -20,7 +20,7 @@ const noticeClass = 'rgh-files-hidden-notice';
 const noticeStyle = {paddingRight: '19px'};
 
 function addButton(): void {
-	attach({
+	attachElement({
 		anchor: select('.repository-content .octicon-history')?.closest('ul'),
 		allowMissingAnchor: true,
 		className: toggleButtonClass,
@@ -40,7 +40,7 @@ function addButton(): void {
 
 function addFilesHiddenNotice(repoContent: Element): void {
 	// Add notice so the user knows that the list was collapsed #5524
-	attach({
+	attachElement({
 		anchor: select('.Box', repoContent),
 		position: 'after',
 		className: noticeClass,

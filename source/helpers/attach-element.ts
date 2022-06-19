@@ -18,7 +18,7 @@ function getSnapshotUUID(index = 3): string {
 	return hashString(new Error('Get stack').stack!.split('\n')[index]);
 }
 
-export default function attach<NewElement extends Element>({
+export default function attachElement<NewElement extends Element>({
 	anchor,
 	getNewElement,
 	className = 'rgh-' + getSnapshotUUID(),
