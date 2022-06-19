@@ -29,6 +29,21 @@
 	padding-right: 0 !important;
 }
 
+/* For `open-all-notifications` and `select-notifications`: allow header wrapping #5705 */
+.notifications-list > .Box-header {
+	height: auto !important;
+	flex-wrap: wrap;
+	gap: 4px 8px;
+}
+
+.notifications-list > .Box-header .mr-2 {
+	margin-right: 0 !important; /* spacing via gap instead */
+}
+
+.notifications-list :is(.js-notifications-mark-selected-actions, .js-notifications-mark-all-actions):not([hidden]) {
+	display: contents !important;
+}
+
 /* Hide empty description of repo */
 .repository-meta.mb-3 > .repository-meta-content > em {
 	display: none !important;
