@@ -7,10 +7,14 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {FoldIcon, UnfoldIcon, ArrowUpIcon} from '@primer/octicons-react';
 
+import attach from '../helpers/attach-element';
 import features from '.';
 import observeElement from '../helpers/simplified-element-observer';
 
 const cacheKey = 'files-hidden';
+
+// 19px align this icon with the <UnfoldIcon/> above it
+const noticeStyle = {paddingRight: '19px'};
 
 function addButton(): void {
 	const commitsInfo = select('.repository-content .octicon-history')?.closest('ul');
@@ -45,15 +49,19 @@ async function init(): Promise<Deinit> {
 		repoContent.classList.add('rgh-files-hidden');
 
 		// Add notice so the user knows that the list was collapsed #5524
-		select('.Box', repoContent)!.after(
-			// 19px align this icon with the <UnfoldIcon/> above it
-			<div
-				className="mb-3 mt-n3 py-1 text-right text-small color-fg-subtle rgh-files-hidden-notice"
-				style={{paddingRight: '19px'}}
-			>
-				The file list was collapsed via Refined GitHub <ArrowUpIcon className="v-align-middle"/>
-			</div>,
-		);
+		attach({
+			anchor: select('.Box', repoContent),
+			position: 'after',
+			className: 'rgh-files-hidden-notice',
+			getNewElement: () => (
+				<div
+					className="mb-3 mt-n3 py-1 text-right text-small color-fg-subtle"
+					style={noticeStyle}
+				>
+					The file list was collapsed via Refined GitHub <ArrowUpIcon className="v-align-middle"/>
+				</div>
+			),
+		});
 	}
 
 	return [
@@ -61,6 +69,9 @@ async function init(): Promise<Deinit> {
 		delegate(document, '.rgh-toggle-files, .rgh-files-hidden-notice', 'click', toggleHandler),
 	];
 }
+
+console.log(2);
+
 
 void features.add(import.meta.url, {
 	include: [
