@@ -12,6 +12,9 @@ import features from '.';
 import observeElement from '../helpers/simplified-element-observer';
 
 const cacheKey = 'files-hidden';
+const hiddenFilesClass = 'rgh-files-hidden';
+const toggleButtonClass = 'rgh-toggle-files';
+const noticeClass = 'rgh-files-hidden-notice';
 
 // 19px align this icon with the <UnfoldIcon/> above it
 const noticeStyle = {paddingRight: '19px'};
@@ -20,7 +23,7 @@ function addButton(): void {
 	attach({
 		anchor: select('.repository-content .octicon-history')?.closest('ul'),
 		allowMissingAnchor: true,
-		className: 'rgh-toggle-files',
+		className: toggleButtonClass,
 		position: 'append',
 		getNewElement: () => (
 			<button
@@ -35,39 +38,42 @@ function addButton(): void {
 	});
 }
 
+function addFilesHiddenNotice(repoContent: Element): void {
+	// Add notice so the user knows that the list was collapsed #5524
+	attach({
+		anchor: select('.Box', repoContent),
+		position: 'after',
+		className: noticeClass,
+		getNewElement: () => (
+			<div
+				className="mb-3 mt-n3 py-1 text-right text-small color-fg-subtle"
+				style={noticeStyle}
+			>
+				The file list was collapsed via Refined GitHub <ArrowUpIcon className="v-align-middle"/>
+			</div>
+		),
+	});
+}
+
 async function toggleHandler(): Promise<void> {
-	const isHidden = select('.repository-content')!.classList.toggle('rgh-files-hidden');
+	const isHidden = select('.repository-content')!.classList.toggle(hiddenFilesClass);
 	await (isHidden ? cache.set(cacheKey, true) : cache.delete(cacheKey));
 
 	// Remove notice after the first click
-	select('.rgh-files-hidden-notice')?.remove();
+	select(`.${noticeClass}`)?.remove();
 }
 
 async function init(): Promise<Deinit> {
 	const repoContent = (await elementReady('.repository-content'))!;
 
 	if (await cache.get<boolean>(cacheKey)) {
-		repoContent.classList.add('rgh-files-hidden');
-
-		// Add notice so the user knows that the list was collapsed #5524
-		attach({
-			anchor: select('.Box', repoContent),
-			position: 'after',
-			className: 'rgh-files-hidden-notice',
-			getNewElement: () => (
-				<div
-					className="mb-3 mt-n3 py-1 text-right text-small color-fg-subtle"
-					style={noticeStyle}
-				>
-					The file list was collapsed via Refined GitHub <ArrowUpIcon className="v-align-middle"/>
-				</div>
-			),
-		});
+		repoContent.classList.add(hiddenFilesClass);
+		addFilesHiddenNotice(repoContent);
 	}
 
 	return [
 		observeElement(repoContent, addButton),
-		delegate(document, '.rgh-toggle-files, .rgh-files-hidden-notice', 'click', toggleHandler),
+		delegate(document, `.${toggleButtonClass}, .${noticeClass}`, 'click', toggleHandler),
 	];
 }
 
