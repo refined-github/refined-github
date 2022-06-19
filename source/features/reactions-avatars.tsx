@@ -18,11 +18,9 @@ interface Participant {
 }
 
 function getParticipants(button: HTMLButtonElement): Participant[] {
-	// Reaction buttons on releases and review comments have the list of people in subsequent `<primer-tooltip>` element instead of `aria-label` #5287
-	const tooltip = button.classList.contains('tooltipped')
-		? button.getAttribute('aria-label')!
-		: button.nextElementSibling!.textContent!;
-	const users = tooltip
+	// The list of people who commented is in an adjacent `<tool-tip>` element #5698
+	const users = button.nextElementSibling!
+		.textContent!
 		.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')
@@ -92,10 +90,11 @@ function showAvatarsOn(commentReactions: Element): void {
 	resizeObserver.observe(commentReactions.closest('.comment-reactions')!);
 }
 
-const selector = '.has-reactions .comment-reactions-options:not(.rgh-reactions)';
+// TODO [2022-12-18]: Drop `.comment-reactions-options` (GHE)
+const reactionsSelector = '.has-reactions :is(.js-comment-reactions-options, .comment-reactions-options):not(.rgh-reactions)';
 
 function observeReactions(): void {
-	for (const commentReactions of select.all(selector)) {
+	for (const commentReactions of select.all(reactionsSelector)) {
 		observeCommentReactions(commentReactions);
 	}
 }
@@ -116,7 +115,7 @@ function init(): Deinit {
 
 function discussionInit(): Deinit {
 	return [
-		observe(selector, {add: observeCommentReactions}),
+		observe(reactionsSelector, {add: observeCommentReactions}),
 		viewportObserver,
 		resizeObserver,
 	];
