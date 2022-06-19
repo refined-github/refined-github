@@ -70,9 +70,6 @@ async function init(): Promise<Deinit> {
 	];
 }
 
-console.log(2);
-
-
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoTree,
