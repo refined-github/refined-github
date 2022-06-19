@@ -56,11 +56,11 @@ function addFilesHiddenNotice(repoContent: Element): void {
 }
 
 async function toggleHandler(): Promise<void> {
-	const isHidden = select('.repository-content')!.classList.toggle(hiddenFilesClass);
-	await (isHidden ? cache.set(cacheKey, true) : cache.delete(cacheKey));
-
 	// Remove notice after the first click
 	select(`.${noticeClass}`)?.remove();
+
+	const isHidden = select('.repository-content')!.classList.toggle(hiddenFilesClass);
+	await cache.set(cacheKey, isHidden);
 }
 
 async function init(): Promise<Deinit> {
