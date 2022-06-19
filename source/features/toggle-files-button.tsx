@@ -17,21 +17,22 @@ const cacheKey = 'files-hidden';
 const noticeStyle = {paddingRight: '19px'};
 
 function addButton(): void {
-	const commitsInfo = select('.repository-content .octicon-history')?.closest('ul');
-	if (!commitsInfo || select.exists('.rgh-toggle-files')) {
-		return;
-	}
-
-	commitsInfo.append(
-		<button
-			type="button"
-			className="btn-octicon rgh-toggle-files"
-			aria-label="Toggle files section"
-		>
-			<FoldIcon/>
-			<UnfoldIcon/>
-		</button>,
-	);
+	attach({
+		anchor: select('.repository-content .octicon-history')?.closest('ul'),
+		allowMissingAnchor: true,
+		className: 'rgh-toggle-files',
+		position: 'append',
+		getNewElement: () => (
+			<button
+				type="button"
+				className="btn-octicon"
+				aria-label="Toggle files section"
+			>
+				<FoldIcon/>
+				<UnfoldIcon/>
+			</button>
+		),
+	});
 }
 
 async function toggleHandler(): Promise<void> {
