@@ -15,7 +15,7 @@ function serializeDOM(element: Element): string {
 				replacement.replaceWith(replacement.innerHTML.replaceAll(' ', '•'));
 				break;
 			case 'tab':
-				replacement.replaceWith(replacement.innerHTML.replaceAll('\t', '→'));
+				replacement.replaceWith(replacement.innerHTML.replaceAll('\t', '⟶'));
 				break;
 			default:
 		}
@@ -36,7 +36,6 @@ function show(
 ): string {
 	const element = document.createElement('div');
 	element.innerHTML = plainText ? html : highlight(html);
-
 	return serializeDOM(showWhiteSpacesOnLine(element));
 }
 
@@ -73,32 +72,32 @@ test('showWhiteSpacesOnLine raw', t => {
 	assert(
 		t,
 		'	',
-		'→',
+		'⟶',
 	);
 	assert(
 		t,
 		'		',
-		'→→',
+		'⟶⟶',
 	);
 	assert(
 		t,
 		'	 ',
-		'→•',
+		'⟶•',
 	);
 	assert(
 		t,
 		' 	',
-		'•→',
+		'•⟶',
 	);
 	assert(
 		t,
 		' 	 ',
-		'•→•',
+		'•⟶•',
 	);
 	assert(
 		t,
 		'	 	',
-		'→•→',
+		'⟶•⟶',
 	);
 	assert(
 		t,
@@ -108,12 +107,12 @@ test('showWhiteSpacesOnLine raw', t => {
 	assert(
 		t,
 		'	hello	',
-		'→hello→',
+		'⟶hello⟶',
 	);
 	assert(
 		t,
 		'	hello world	',
-		'→hello•world→',
+		'⟶hello•world⟶',
 	);
 });
 
@@ -151,22 +150,22 @@ test('showWhiteSpacesOnLine real code', t => {
 	assert(
 		t,
 		'[1,"		"]',
-		'[1,"→→"]',
+		'[1,"⟶⟶"]',
 	);
 	assert(
 		t,
 		'[1,	"		"]',
-		'[1,→"→→"]',
+		'[1,⟶"⟶⟶"]',
 	);
 	assert(
 		t,
 		'	[1,	"		"]	',
-		'→[1,→"→→"]→',
+		'⟶[1,⟶"⟶⟶"]⟶',
 	);
 	assert(
 		t,
 		'		[1,	"		"]		',
-		'→→[1,→"→→"]→→',
+		'⟶⟶[1,⟶"⟶⟶"]⟶⟶',
 	);
 });
 
@@ -204,21 +203,21 @@ test('showWhiteSpacesOnLine highlighted code', t => {
 	assertHighlighted(
 		t,
 		'[1,"		"]',
-		'[1,"→→"]',
+		'[1,"⟶⟶"]',
 	);
 	assertHighlighted(
 		t,
 		'[1,	"		"]',
-		'[1,→"→→"]',
+		'[1,⟶"⟶⟶"]',
 	);
 	assertHighlighted(
 		t,
 		'	[1,	"		"]	',
-		'→[1,→"→→"]→',
+		'⟶[1,⟶"⟶⟶"]⟶',
 	);
 	assertHighlighted(
 		t,
 		'		[1,	"		"]		',
-		'→→[1,→"→→"]→→',
+		'⟶⟶[1,⟶"⟶⟶"]⟶⟶',
 	);
 });
