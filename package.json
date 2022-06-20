@@ -25,7 +25,8 @@
 			"declaration-no-important": null,
 			"selector-class-pattern": null,
 			"selector-id-pattern": null,
-			"selector-max-universal": null
+			"selector-max-universal": null,
+			"no-descending-specificity": null
 		},
 		"overrides": [
 			{
