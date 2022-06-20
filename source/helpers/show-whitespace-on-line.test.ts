@@ -1,5 +1,5 @@
-import test, {ExecutionContext} from 'ava';
 import hl from 'highlight.js/lib/common';
+import test, {ExecutionContext} from 'ava';
 
 import showWhiteSpacesOnLine from './show-whitespace-on-line';
 
