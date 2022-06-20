@@ -25,6 +25,7 @@ function serializeDOM(element: Element): string {
 		highlighting.replaceWith(highlighting.innerHTML);
 	}
 
+	// Compare against the HTML to ensure we're making all the necessary replaces
 	return element.innerHTML;
 }
 
