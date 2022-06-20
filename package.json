@@ -110,6 +110,7 @@
 		"eslint-config-xo-react": "^0.27.0",
 		"eslint-plugin-react": "^7.30.0",
 		"eslint-plugin-react-hooks": "^4.5.0",
+		"highlight.js": "^11.5.1",
 		"jsdom": "^19.0.0",
 		"markdown-wasm": "^1.2.0",
 		"mini-css-extract-plugin": "^2.6.0",
