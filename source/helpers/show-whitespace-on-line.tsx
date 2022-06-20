@@ -16,12 +16,12 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 		const isLeading = nodeIndex === 0;
 		const isTrailing = nodeIndex === textNodesOnThisLine.length - 1;
 
-		const startingCharacter = shouldAvoidSurroundingSpaces && isLeading ? 1 : 0;
+		const startingCharacterIndex = shouldAvoidSurroundingSpaces && isLeading ? 1 : 0;
 		const skipLastCharacter = shouldAvoidSurroundingSpaces && isTrailing;
-		const endingCharacter = text.length - 1 - Number(skipLastCharacter);
+		const endingCharacterIndex = text.length - 1 - Number(skipLastCharacter);
 
 		// Loop goes in reverse otherwise `splitText`'s `index` parameter needs to keep track of the previous split
-		for (let i = endingCharacter; i >= startingCharacter; i--) {
+		for (let i = endingCharacterIndex; i >= startingCharacterIndex; i--) {
 			const thisCharacter = text[i];
 			const endingIndex = i;
 
@@ -30,15 +30,13 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 				continue;
 			}
 
-			// Find the same character so they can be wrapped together, but stop at `startingCharacter`
-			let isConsecutive = false;
-			while (text[i - 1] === thisCharacter && !(i === startingCharacter)) {
+			// Find the same character so they can be wrapped together, but stop at `startingCharacterIndex`
+			while (text[i - 1] === thisCharacter && !(i === startingCharacterIndex)) {
 				i--;
-				isConsecutive = true;
 			}
 
 			// Skip non-boundary single spaces
-			if (!isLeading && !isTrailing && !isConsecutive && thisCharacter === ' ') {
+			if (!isLeading && !isTrailing && i === endingIndex && thisCharacter === ' ') {
 				continue;
 			}
 
