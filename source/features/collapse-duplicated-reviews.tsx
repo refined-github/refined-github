@@ -18,7 +18,7 @@ function init(): void {
 		details.replaceWith(
 			<a
 				className="d-block py-2 px-3 mb-3 border rounded-2 color-bg-subtle text-mono text-small"
-				href={commentUrl.href}
+				href={'#' + comment.id}
 			>
 				#{comment.id}
 			</a>,
