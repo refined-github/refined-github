@@ -184,17 +184,17 @@ test('showWhiteSpacesOnLine highlighted code', t => {
 	assertHighlighted(
 		t,
 		'[1, "  "]',
-		'[1,•"••"]',
+		'[1, "••"]',
 	);
 	assertHighlighted(
 		t,
 		' [1, "  "] ',
-		'•[1,•"••"]•',
+		'•[1, "••"]•',
 	);
 	assertHighlighted(
 		t,
 		'  [1, "  "]  ',
-		'••[1,•"••"]••',
+		'••[1, "••"]••',
 	);
 	assertHighlighted(
 		t,
