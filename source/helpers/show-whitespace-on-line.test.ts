@@ -25,31 +25,26 @@ function serializeDOM(element: Element): string {
 		highlighting.replaceWith(highlighting.innerHTML);
 	}
 
-	// Compare against the HTML to ensure we're making all the necessary replaces
+	// Compare against the HTML to ensure we're making all the necessary replacements
 	return element.innerHTML;
 }
 
-// Enables highlighting/'prettifying when used as html'<div>' or css'.a {})'
-// https://prettier.io/blog/2020/08/24/2.1.0.html
-function show(
-	html: string,
-	plainText = true,
-): string {
+function process(html: string): string {
 	const element = document.createElement('div');
-	element.innerHTML = plainText ? html : highlight(html);
+	element.innerHTML = html;
 	return serializeDOM(showWhiteSpacesOnLine(element));
 }
 
 function assert(t: ExecutionContext, actual: string, expected: string): void {
 	t.is(
-		show(actual),
+		process(actual),
 		expected,
 	);
 }
 
 function assertHighlighted(t: ExecutionContext, actual: string, expected: string): void {
 	t.is(
-		show(actual, false),
+		process(highlight(actual)),
 		expected,
 	);
 }
