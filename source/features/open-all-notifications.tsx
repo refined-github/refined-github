@@ -53,7 +53,7 @@ function openSelectedNotifications(): void {
 	}
 }
 
-function addOpenReposButton(): void {
+function addOpenRepoButtons(): void {
 	for (const repository of select.all('.js-notifications-group')) {
 		if (getUnreadNotifications(repository).length === 0) {
 			continue;
@@ -67,26 +67,31 @@ function addOpenReposButton(): void {
 	}
 }
 
-function addOpenAllButton(className: string, text: string): void {
-	// Selector works on:
-	// https://github.com/notifications (Grouped by date)
-	// https://github.com/notifications (Grouped by repo)
-	// https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
-	select('.js-check-all-container .js-bulk-action-toasts ~ div .Box-header')!.append(
-		<button className={'btn btn-sm d-none ' + className} type="button">
-			<LinkExternalIcon className="mr-1"/>{text}
-		</button>,
-	);
-}
+// Selector works on:
+// https://github.com/notifications (Grouped by date)
+// https://github.com/notifications (Grouped by repo)
+// https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
+const notificationHeaderSelector = '.js-check-all-container .js-bulk-action-toasts ~ div .Box-header'
+
+const openUnreadButtonClass = 'rgh-open-notifications-button'
+const openSelectedButtonClass = 'rgh-open-selected-button'
 
 function init(): Deinit {
-	const deinit = [delegate(document, '.rgh-open-selected-button', 'click', openSelectedNotifications)];
-	addOpenAllButton('rgh-open-selected-button', 'Open all selected');
+	const deinit = [delegate(document, '.' + openSelectedButtonClass, 'click', openSelectedNotifications)];
+	select(notificationHeaderSelector + ' .js-notifications-mark-selected-actions')!.append(
+		<button className={'btn btn-sm ' + openSelectedButtonClass} type="button">
+			<LinkExternalIcon className="mr-1"/>Open
+		</button>,
+	);
 
 	if (getUnreadNotifications().length > 0) {
-		deinit.push(delegate(document, '.rgh-open-notifications-button', 'click', openUnreadNotifications));
-		addOpenAllButton('rgh-open-notifications-button', 'Open all unread');
-		addOpenReposButton();
+		deinit.push(delegate(document, '.' + openUnreadButtonClass, 'click', openUnreadNotifications));
+		select(notificationHeaderSelector)!.append(
+			<button className={'btn btn-sm ml-auto d-none ' + openUnreadButtonClass} type="button">
+				<LinkExternalIcon className="mr-1"/>Open all unread
+			</button>,
+		);
+		addOpenRepoButtons();
 	}
 
 	return deinit;
