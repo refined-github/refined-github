@@ -71,10 +71,10 @@ function addOpenRepoButtons(): void {
 // https://github.com/notifications (Grouped by date)
 // https://github.com/notifications (Grouped by repo)
 // https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
-const notificationHeaderSelector = '.js-check-all-container .js-bulk-action-toasts ~ div .Box-header'
+const notificationHeaderSelector = '.js-check-all-container .js-bulk-action-toasts ~ div .Box-header';
 
-const openUnreadButtonClass = 'rgh-open-notifications-button'
-const openSelectedButtonClass = 'rgh-open-selected-button'
+const openUnreadButtonClass = 'rgh-open-notifications-button';
+const openSelectedButtonClass = 'rgh-open-selected-button';
 
 function init(): Deinit {
 	const deinit = [delegate(document, '.' + openSelectedButtonClass, 'click', openSelectedNotifications)];
