@@ -62,7 +62,13 @@ function openSelectedNotifications(): void {
 	}
 }
 
-function addOpenRepoButtons(): void {
+function addOpenUnreadButtons(): void {
+	select(notificationHeaderSelector)!.append(
+		<button className={'btn btn-sm ml-auto d-none ' + openUnreadButtonClass} type="button">
+			<LinkExternalIcon className="mr-1"/>Open all unread
+		</button>,
+	);
+
 	for (const repository of select.all('.js-notifications-group')) {
 		if (getUnreadNotifications(repository).length === 0) {
 			continue;
@@ -86,12 +92,7 @@ function init(): Deinit {
 
 	if (getUnreadNotifications().length > 0) {
 		deinit.push(delegate(document, '.' + openUnreadButtonClass, 'click', openUnreadNotifications));
-		select(notificationHeaderSelector)!.append(
-			<button className={'btn btn-sm ml-auto d-none ' + openUnreadButtonClass} type="button">
-				<LinkExternalIcon className="mr-1"/>Open all unread
-			</button>,
-		);
-		addOpenRepoButtons();
+		addOpenUnreadButtons();
 	}
 
 	return deinit;
