@@ -5,16 +5,6 @@
 	--rgh-background: var(--color-canvas-default, var(--color-bg-canvas, #fff));
 }
 
-/* Make tab indented code more readable on GitHub and Gist */
-.comment-body [data-tab-size='8'] { /* User setting is ignored in comments #4833 */
-	--tab-size: 4;
-}
-
-* {
-	-moz-tab-size: var(--tab-size) !important;
-	tab-size: var(--tab-size) !important;
-}
-
 /* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons for #1830 and #1904 */
 #js-issues-toolbar .table-list-header-toggle details {
 	padding: 0 !important;

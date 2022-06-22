@@ -1,0 +1,42 @@
+/* Make tab-indented code more readable on GitHub and Gist */
+
+* {
+	-moz-tab-size: var(--tab-size) !important;
+	tab-size: var(--tab-size) !important;
+}
+
+[data-tab-size='2'] {
+	--tab-size: 2;
+}
+
+:root, /* Changes the browser default */
+.comment-body [data-tab-size='8'], /* User setting is ignored in comments #4833 */
+[data-tab-size='4'] {
+	--tab-size: 4;
+}
+
+[data-tab-size='8'] {
+	--tab-size: 8;
+}
+
+[data-tab-size='10'] {
+	--tab-size: 10;
+}
+
+[data-tab-size='12'] {
+	--tab-size: 12;
+}
+
+/*
+Can't use this because attr() returns strings and casting isn't supported anywhere yet
+https://developer.mozilla.org/en-US/docs/Web/CSS/attr
+
+[data-tab-size] {
+	--tab-size: attr(data-tab-size);
+}
+*/
+
+/*
+Test URLs
+https://github.com/refined-github/sandbox/pull/19
+*/
