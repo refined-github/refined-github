@@ -2,6 +2,7 @@ import './helpers/types.d.ts';
 
 import './refined-github.css';
 import './features/github-bugs.css';
+import './features/tab-size.css';
 import './features/scrollable-code-and-blockquote.css';
 import './features/center-reactions-popup.css';
 import './features/safer-destructive-actions.css';
