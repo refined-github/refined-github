@@ -29,6 +29,27 @@
 	padding-right: 0 !important;
 }
 
+/* For `open-all-notifications` and `select-notifications`: allow header wrapping #5705
+
+Selector works on:
+https://github.com/notifications (Grouped by date)
+https://github.com/notifications (Grouped by repo)
+https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
+*/
+.js-check-all-container .js-bulk-action-toasts ~ div .Box-header {
+	height: auto !important;
+	flex-wrap: wrap;
+	gap: 4px 8px;
+}
+
+.js-check-all-container .js-bulk-action-toasts ~ div .Box-header .mr-2 {
+	margin-right: 0 !important; /* Spacing via `gap` instead */
+}
+
+:is(.js-notifications-mark-selected-actions, .js-notifications-mark-all-actions):not([hidden]) {
+	display: contents !important;
+}
+
 /* Hide empty description of repo */
 .repository-meta.mb-3 > .repository-meta-content > em {
 	display: none !important;
@@ -169,4 +190,9 @@ pr-branches
 [action='/refined-github/refined-github/issues'] #issue_form_example_urls + div textarea { /* Also the WYSIWYG editor */
 	min-height: 4em;
 	height: 4em;
+}
+
+/* Stack the old and new titles in title edition events https://github.com/refined-github/refined-github/issues/5657#issuecomment-1134077169 */
+.TimelineItem[id^='event-'] .TimelineItem-body :is(ins, del) {
+	display: block !important;
 }
