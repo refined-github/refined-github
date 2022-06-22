@@ -41,18 +41,18 @@
 		]
 	},
 	"ava": {
-		"timeout": "30s",
 		"extensions": {
 			"ts": "module",
 			"tsx": "module"
 		},
-		"require": [
-			"./test/fixtures/globals.ts"
-		],
 		"nodeArguments": [
 			"--loader=ts-node/esm",
 			"--experimental-specifier-resolution=node"
-		]
+		],
+		"require": [
+			"./test/fixtures/globals.ts"
+		],
+		"timeout": "30s"
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
@@ -112,6 +112,7 @@
 		"eslint-config-xo-react": "^0.27.0",
 		"eslint-plugin-react": "^7.30.0",
 		"eslint-plugin-react-hooks": "^4.6.0",
+		"highlight.js": "^11.5.1",
 		"jsdom": "^20.0.0",
 		"markdown-wasm": "^1.2.0",
 		"mini-css-extract-plugin": "^2.6.1",
