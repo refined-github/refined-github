@@ -49,7 +49,7 @@ interface RestResponse extends AnyObject {
 	ok: boolean;
 }
 
-export const escapeKey = (value: string | number): string => '_' + String(value).replace(/[ ./-]/g, '_');
+export const escapeKey = (value: string | number): string => '_' + String(value).replace(/[ ./-@]/g, '_');
 
 export class RefinedGitHubAPIError extends Error {
 	response: AnyObject = {};
