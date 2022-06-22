@@ -1,4 +1,4 @@
-/* Make tab indented code more readable on GitHub and Gist (where not specified or ignored) */
+/* Make tab-indented code more readable on GitHub and Gist */
 
 * {
 	-moz-tab-size: var(--tab-size) !important;
@@ -9,7 +9,7 @@
 	--tab-size: 2;
 }
 
-:root,
+:root, /* Changes the browser default */
 .comment-body [data-tab-size='8'], /* User setting is ignored in comments #4833 */
 [data-tab-size='4'] {
 	--tab-size: 4;
