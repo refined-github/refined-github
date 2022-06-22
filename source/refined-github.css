@@ -3,10 +3,10 @@
 	--rgh-red: var(--color-fg-danger, #cf222e);
 	--rgh-border-color: var(--color-border-muted, #d8dee4);
 	--rgh-background: var(--color-canvas-default, var(--color-bg-canvas, #fff));
-	--tab-size: 4; /* Default to 4 where not specified */
 }
 
-/* Make tab indented code more readable on GitHub and Gist */
+/* Make tab indented code more readable on GitHub and Gist (where not specified or ignored) */
+:root,
 .comment-body [data-tab-size='8'] { /* User setting is ignored in comments #4833 */
 	--tab-size: 4;
 }
