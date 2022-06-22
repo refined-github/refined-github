@@ -123,11 +123,11 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 
 const createDropdown = onetime(() => (
 	<details
-		className="details-reset details-overlay position-relative rgh-select-notifications"
+		className="details-reset details-overlay position-relative rgh-select-notifications ml-2"
 		on-toggle={resetFilters}
 	>
 		<summary
-			className="btn btn-sm ml-3 mr-1"
+			className="btn btn-sm"
 			data-hotkey="S"
 			aria-haspopup="menu"
 			role="button"

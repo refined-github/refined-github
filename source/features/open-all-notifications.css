@@ -1,10 +1,4 @@
-/* Align right */
-.js-notifications-mark-selected-actions ~ :is(.rgh-open-notifications-button, .rgh-open-selected-button) {
-	margin-left: auto;
-}
-
-/* Only show "Open all selected" if some notifications are selected, otherwise show main "Open all unread" button */
-.js-notifications-mark-selected-actions[hidden] ~ .rgh-open-notifications-button,
-.js-notifications-mark-selected-actions:not([hidden]) ~ .rgh-open-selected-button {
+/* Only show "Open all unread" if no notifications are selected */
+.js-notifications-mark-selected-actions[hidden] ~ .rgh-open-notifications-button {
 	display: inline-block !important;
 }
