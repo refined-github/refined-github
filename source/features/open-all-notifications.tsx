@@ -7,6 +7,7 @@ import {LinkExternalIcon} from '@primer/octicons-react';
 
 import features from '.';
 import openTabs from '../helpers/open-tabs';
+import {appendBefore} from '../helpers/dom-utils';
 
 // Selector works on:
 // https://github.com/notifications (Grouped by date)
@@ -84,7 +85,9 @@ function addOpenUnreadButtons(): void {
 
 function init(): Deinit {
 	const deinit = [delegate(document, '.' + openSelectedButtonClass, 'click', openSelectedNotifications)];
-	select(notificationHeaderSelector + ' .js-notifications-mark-selected-actions')!.append(
+	appendBefore(
+		notificationHeaderSelector + ' .js-notifications-mark-selected-actions',
+		'details',
 		<button className={'btn btn-sm ' + openSelectedButtonClass} type="button">
 			<LinkExternalIcon className="mr-1"/>Open
 		</button>,
