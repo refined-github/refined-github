@@ -11,6 +11,7 @@ import bisectFeatures from '../helpers/bisect';
 import {shouldFeatureRun} from '../github-helpers';
 import optionsStorage, {RGHOptions} from '../options-storage';
 import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyleHotfixes} from '../helpers/hotfix';
+import polyfillTurboEvents from '../github-helpers/turbo-events-polyfill';
 
 type BooleanFunction = () => boolean;
 export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
@@ -146,25 +147,6 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	resolve(options);
 });
-
-function dispatchTurboEvent(event: Event): void {
-	document.removeEventListener('turbo:visit', disconnectPolyfill);
-
-	const turboEvent = event.type === 'pjax:start' ? 'turbo:visit' : 'turbo:load';
-	document.dispatchEvent(new CustomEvent(turboEvent));
-}
-
-function disconnectPolyfill(): void {
-	document.removeEventListener('pjax:start', dispatchTurboEvent);
-	document.removeEventListener('pjax:end', dispatchTurboEvent);
-}
-
-function polyfillTurboEvents(): void {
-	document.addEventListener('pjax:start', dispatchTurboEvent);
-	document.addEventListener('pjax:end', dispatchTurboEvent);
-
-	document.addEventListener('turbo:visit', disconnectPolyfill, {once: true});
-}
 
 function getDeinitHandler(deinit: DeinitHandle): VoidFunction {
 	if (deinit instanceof MutationObserver || deinit instanceof ResizeObserver || deinit instanceof IntersectionObserver) {
