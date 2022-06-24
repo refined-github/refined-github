@@ -85,7 +85,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 		return;
 	}
 
-	const login = select('a[data-octo-dimensions="link_type:profile"]', hovercard)?.pathname.slice(1);
+	const login = select('a.Link--primary', hovercard)?.pathname.slice(1);
 	if (!login || login === getUsername()) {
 		return;
 	}
@@ -99,9 +99,9 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 		return;
 	}
 
-	const placeholder = <span>Guessing local time…</span>;
+	const placeholder = <span className="ml-1">Guessing local time…</span>;
 	const container = (
-		<div className="mt-2 color-text-secondary color-fg-muted text-small">
+		<div className="mt-2 color-text-secondary color-fg-muted text-small d-flex">
 			<ClockIcon/> {placeholder}
 		</div>
 	);
@@ -142,8 +142,12 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 	container.title = `Timezone guessed from their last commit: ${date}`;
 }
 
+const selector = [
+	'.js-hovercard-content .Popover-message div.d-flex.mt-3.overflow-hidden > div.d-flex:not(.rgh-user-local-time)',
+	'.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time)', // GHE 2022/06/24
+].join(',');
 function init(): void {
-	observe('.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time)', {
+	observe(selector, {
 		add: insertUserLocalTime,
 	});
 }
