@@ -16,6 +16,9 @@ interface Window {
 }
 
 declare module 'markdown-wasm/dist/markdown.node.js';
+declare module 'filter-altered-clicks' {
+	export default function filterAlteredClicks<Listener>(handler: Listener): Listener;
+}
 
 declare module 'size-plugin';
 
