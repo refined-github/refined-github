@@ -9,9 +9,9 @@ import waitFor from '../helpers/wait-for';
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import {shouldFeatureRun} from '../github-helpers';
+import polyfillTurboEvents from '../github-helpers/turbo-events-polyfill';
 import optionsStorage, {RGHOptions} from '../options-storage';
 import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyleHotfixes} from '../helpers/hotfix';
-import polyfillTurboEvents from '../github-helpers/turbo-events-polyfill';
 
 type BooleanFunction = () => boolean;
 export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
