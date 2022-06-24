@@ -31,7 +31,7 @@ interface GlobalEventHandlersEventMap {
 	'menu:activated': CustomEvent;
 	'pjax:error': CustomEvent;
 	'page:loaded': CustomEvent;
-	'pjax:start': CustomEvent;
+	'turbo:visit': CustomEvent;
 	'session:resume': CustomEvent;
 	'socket:message': CustomEvent;
 	'input': InputEvent; // Remove once no longer necessary (2022?)

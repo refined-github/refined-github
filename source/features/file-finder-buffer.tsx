@@ -58,8 +58,8 @@ function pjaxCompleteHandler(): void {
 }
 
 function init(): void {
-	window.addEventListener('pjax:start', pjaxStartHandler);
-	window.addEventListener('pjax:complete', pjaxCompleteHandler);
+	window.addEventListener('turbo:visit', pjaxStartHandler);
+	window.addEventListener('turbo:load', pjaxCompleteHandler);
 }
 
 void features.add(import.meta.url, {

@@ -9,6 +9,7 @@ import waitFor from '../helpers/wait-for';
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import {shouldFeatureRun} from '../github-helpers';
+import polyfillTurboEvents from '../github-helpers/turbo-events-polyfill';
 import optionsStorage, {RGHOptions} from '../options-storage';
 import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyleHotfixes} from '../helpers/hotfix';
 
@@ -140,6 +141,10 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	document.documentElement.classList.add('refined-github');
 
+	if (pageDetect.isEnterprise()) {
+		polyfillTurboEvents();
+	}
+
 	resolve(options);
 });
 
@@ -166,7 +171,7 @@ function getDeinitHandler(deinit: DeinitHandle): VoidFunction {
 function setupDeinit(deinit: Deinit): void {
 	const deinitFunctions = Array.isArray(deinit) ? deinit : [deinit];
 	for (const deinit of deinitFunctions) {
-		document.addEventListener('pjax:start', getDeinitHandler(deinit), {once: true});
+		document.addEventListener('turbo:visit', getDeinitHandler(deinit), {once: true});
 	}
 }
 
@@ -178,7 +183,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 	}
 
 	const deinitController = new AbortController();
-	document.addEventListener('pjax:start', () => {
+	document.addEventListener('turbo:visit', () => {
 		deinitController.abort();
 	}, {
 		once: true,
@@ -289,7 +294,7 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 			void setupPageLoad(id, details);
 		}
 
-		document.addEventListener('pjax:end', () => {
+		document.addEventListener('turbo:load', () => {
 			if (!deduplicate || !select.exists(deduplicate)) {
 				void setupPageLoad(id, details);
 			}
