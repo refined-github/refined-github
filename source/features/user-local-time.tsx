@@ -142,8 +142,12 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 	container.title = `Timezone guessed from their last commit: ${date}`;
 }
 
+const selector = [
+	'.js-hovercard-content .Popover-message div.d-flex.mt-3.overflow-hidden > div.d-flex:not(.rgh-user-local-time)',
+	'.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time)', // GHE 2022/06/24
+].join(',');
 function init(): void {
-	observe('.js-hovercard-content .Popover-message div.d-flex.overflow-hidden.mt-3 > div.d-flex:not(.rgh-user-local-time)', {
+	observe(selector, {
 		add: insertUserLocalTime,
 	});
 }
