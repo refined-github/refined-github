@@ -166,7 +166,7 @@ function getDeinitHandler(deinit: DeinitHandle): VoidFunction {
 function setupDeinit(deinit: Deinit): void {
 	const deinitFunctions = Array.isArray(deinit) ? deinit : [deinit];
 	for (const deinit of deinitFunctions) {
-		document.addEventListener('pjax:start', getDeinitHandler(deinit), {once: true});
+		document.addEventListener('turbo:visit', getDeinitHandler(deinit), {once: true});
 	}
 }
 
@@ -178,7 +178,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 	}
 
 	const deinitController = new AbortController();
-	document.addEventListener('pjax:start', () => {
+	document.addEventListener('turbo:visit', () => {
 		deinitController.abort();
 	}, {
 		once: true,
@@ -289,7 +289,7 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 			void setupPageLoad(id, details);
 		}
 
-		document.addEventListener('pjax:end', () => {
+		document.addEventListener('turbo:load', () => {
 			if (!deduplicate || !select.exists(deduplicate)) {
 				void setupPageLoad(id, details);
 			}
