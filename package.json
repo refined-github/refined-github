@@ -65,6 +65,7 @@
 		"dom-loaded": "^3.0.0",
 		"doma": "^3.0.1",
 		"element-ready": "^6.2.1",
+		"filter-altered-clicks": "^1.0.1",
 		"fit-textarea": "^2.0.0",
 		"flat-zip": "^1.0.1",
 		"github-url-detection": "^5.10.0",
