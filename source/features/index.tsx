@@ -147,23 +147,23 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-const turboPolyfillController = new AbortController();
-const nativeTurboDetectorController = new AbortController();
-
 function dispatchTurboEvent(event: Event): void {
-	nativeTurboDetectorController.abort();
+	document.removeEventListener('turbo:visit', disconnectPolyfill);
+
 	const turboEvent = event.type === 'pjax:start' ? 'turbo:visit' : 'turbo:load';
 	document.dispatchEvent(new CustomEvent(turboEvent));
 }
 
-function polyfillTurboEvents(): void {
-	const options = {signal: turboPolyfillController.signal};
-	document.addEventListener('pjax:start', dispatchTurboEvent, options);
-	document.addEventListener('pjax:end', dispatchTurboEvent, options);
+function disconnectPolyfill(): void {
+	document.removeEventListener('pjax:start', dispatchTurboEvent);
+	document.removeEventListener('pjax:end', dispatchTurboEvent);
+}
 
-	document.addEventListener('turbo:visit', () => {
-		turboPolyfillController.abort();
-	}, {signal: turboPolyfillController.signal, once: true});
+function polyfillTurboEvents(): void {
+	document.addEventListener('pjax:start', dispatchTurboEvent);
+	document.addEventListener('pjax:end', dispatchTurboEvent);
+
+	document.addEventListener('turbo:visit', disconnectPolyfill, {once: true});
 }
 
 function getDeinitHandler(deinit: DeinitHandle): VoidFunction {
