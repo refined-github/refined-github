@@ -131,8 +131,7 @@ async function init(): Promise<Deinit | false> {
 		!await elementReady('nav [data-content="Settings"]')
 
 		// Only if the repository hasn't been starred
-		// TODO [2022-06-01]: Remove `.social-count` (GHE)
-		|| looseParseInt(select('.starring-container :is(.Counter, .social-count)')) > 0
+		|| looseParseInt(select('.starring-container .Counter')) > 0
 	) {
 		return false;
 	}
