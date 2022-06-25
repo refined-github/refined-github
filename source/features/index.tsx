@@ -153,12 +153,6 @@ function getDeinitHandler(deinit: DeinitHandle): VoidFunction {
 		};
 	}
 
-	if (deinit instanceof AbortController) { // Delegate controller
-		return () => {
-			deinit.abort();
-		};
-	}
-
 	if ('abort' in deinit) { // Selector observer
 		return () => {
 			deinit.abort();
