@@ -141,9 +141,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	document.documentElement.classList.add('refined-github');
 
-	if (pageDetect.isEnterprise()) {
-		polyfillTurboEvents();
-	}
+	polyfillTurboEvents();
 
 	resolve(options);
 });
