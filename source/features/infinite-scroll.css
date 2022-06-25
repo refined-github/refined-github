@@ -2,3 +2,8 @@ aside[aria-label='Explore'] > .footer {
 	position: sticky !important;
 	top: 24px;
 }
+
+/* Add some spacing after the list of team member statuses */
+aside.team-left-column > [data-team-hovercards-enabled] {
+	margin-bottom: 16px;
+}
