@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {observe, Observer} from 'selector-observer';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -29,7 +29,7 @@ async function mergeBranches(): Promise<AnyObject> {
 	});
 }
 
-async function handler({delegateTarget}: delegate.Event): Promise<void> {
+async function handler({delegateTarget}: DelegateEvent): Promise<void> {
 	const {base, head} = getBranches();
 	if (!confirm(`Merge the ${base} branch into ${head}?`)) {
 		return;
@@ -62,7 +62,7 @@ async function addButton(position: Element): Promise<void> {
 	}
 }
 
-async function init(): Promise<false | Deinit> {
+async function init(signal: AbortSignal): Promise<false | Deinit> {
 	await api.expectToken();
 
 	// "Resolve conflicts" is the native button to update the PR
@@ -82,10 +82,9 @@ async function init(): Promise<false | Deinit> {
 		},
 	});
 
-	return [
-		observer,
-		delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler),
-	];
+	delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler, {signal});
+
+	return observer;
 }
 
 void features.add(import.meta.url, {

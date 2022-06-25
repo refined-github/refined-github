@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import oneMutation from 'one-mutation';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 import {CopyIcon, CheckIcon, TerminalIcon} from '@primer/octicons-react';
 
 import features from '.';
@@ -84,7 +84,7 @@ function getTabList(tabs: string[], selected = tabs[0]): JSX.Element {
 	);
 }
 
-async function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): Promise<void> {
+async function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): Promise<void> {
 	dropdown.classList.add('rgh-git-checkout'); // Mark this as processed
 	if (select.exists('.SelectMenu-loading', dropdown)) { // The dropdown may still be loading
 		await oneMutation(dropdown, {childList: true, subtree: true});
@@ -113,9 +113,9 @@ async function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): Pr
 	);
 }
 
-function init(): Deinit {
-	// `useCapture` required to be fired before GitHub's handlers
-	return delegate(document, '.gh-header-actions Details:not(.rgh-git-checkout)', 'toggle', handleMenuOpening, true);
+function init(signal: AbortSignal): void {
+	// `capture: true` required to be fired before GitHub's handlers
+	delegate(document, '.gh-header-actions Details:not(.rgh-git-checkout)', 'toggle', handleMenuOpening, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {

@@ -2,8 +2,8 @@ import './warning-for-disallow-edits.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
-import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 
@@ -23,18 +23,18 @@ function update(checkbox: HTMLInputElement): void {
 	}
 }
 
-function toggleHandler(event: delegate.Event<Event, HTMLInputElement>): void {
+function toggleHandler(event: DelegateEvent<Event, HTMLInputElement>): void {
 	update(event.delegateTarget);
 }
 
-function init(): Deinit | false {
+function init(signal: AbortSignal): void | false {
 	const checkbox = select('input[name="collab_privs"]');
 	if (!checkbox) {
 		return false;
 	}
 
 	update(checkbox); // The sidebar checkbox may already be un-checked
-	return delegate(document, 'input[name="collab_privs"]', 'change', toggleHandler);
+	delegate(document, 'input[name="collab_privs"]', 'change', toggleHandler, {signal});
 }
 
 void features.add(import.meta.url, {

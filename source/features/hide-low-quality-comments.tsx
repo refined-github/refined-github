@@ -2,8 +2,8 @@ import './hide-low-quality-comments.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import isLowQualityComment from '../helpers/is-low-quality-comment';
@@ -11,7 +11,7 @@ import isLowQualityComment from '../helpers/is-low-quality-comment';
 // eslint-disable-next-line import/prefer-default-export
 export const singleParagraphCommentSelector = '.comment-body > p:only-child';
 
-async function unhide(event: delegate.Event): Promise<void> {
+async function unhide(event: DelegateEvent): Promise<void> {
 	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
@@ -32,7 +32,7 @@ function hideComment(comment: HTMLElement): void {
 	comment.classList.add('rgh-hidden-comment');
 }
 
-function init(): void | Deinit {
+function init(signal: AbortSignal): void {
 	let lowQualityCount = 0;
 
 	for (const similarCommentsBox of select.all('.js-discussion .Details-element:not([data-body-version])')) {
@@ -84,7 +84,8 @@ function init(): void | Deinit {
 				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>
 			</p>,
 		);
-		return delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide);
+
+		delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide, {signal});
 	}
 }
 

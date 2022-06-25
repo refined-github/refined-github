@@ -77,31 +77,24 @@ async function updateCommitTitle(): Promise<void> {
 	updateUI();
 }
 
-function disableSubmission(): void {
-	deinit();
-	getUI().remove();
-}
+function init(deinitSignal: AbortSignal): void {
+	const internalController = new AbortController();
+	const {signal} = internalController;
+	deinitSignal.addEventListener('abort', () => {
+		if (!signal.aborted) {
+			internalController.abort();
+		}
+	});
 
-const subscriptions: delegate.Subscription[] = [];
+	onPrCommitMessageRestore(updateUI, signal);
+	onPrMergePanelOpen(updateCommitTitle, signal);
 
-function init(): Deinit {
-	subscriptions.push(
-		onPrCommitMessageRestore(updateUI),
-		onPrMergePanelOpen(updateCommitTitle),
-		delegate(document, '#merge_title_field', 'input', updateUI),
-		delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle),
-		delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission),
-	);
-
-	return deinit;
-}
-
-function deinit(): void {
-	for (const subscription of subscriptions) {
-		subscription.destroy();
-	}
-
-	subscriptions.length = 0;
+	delegate(document, '#merge_title_field', 'input', updateUI, {signal});
+	delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle, {signal});
+	delegate(document, '.rgh-sync-pr-commit-title', 'click', () => {
+		internalController.abort();
+		getUI().remove();
+	}, {signal});
 }
 
 void features.add(import.meta.url, {

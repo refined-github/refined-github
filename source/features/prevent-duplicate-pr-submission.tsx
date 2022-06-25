@@ -1,11 +1,11 @@
-import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 
 let previousSubmission = 0;
 
-function preventSubmit(event: delegate.Event): void {
+function preventSubmit(event: DelegateEvent): void {
 	if (Date.now() - previousSubmission < 1000) {
 		event.preventDefault();
 	}
@@ -13,8 +13,8 @@ function preventSubmit(event: delegate.Event): void {
 	previousSubmission = Date.now();
 }
 
-function init(): Deinit {
-	return delegate(document, '#new_pull_request', 'submit', preventSubmit);
+function init(signal: AbortSignal): void {
+	delegate(document, '#new_pull_request', 'submit', preventSubmit, {signal});
 }
 
 void features.add(import.meta.url, {

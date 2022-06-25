@@ -102,8 +102,9 @@ async function handleSelection({target}: Event): Promise<void> {
 }
 
 function applyState(state: State): void {
-	// `onNewComments` registers the selectors only once
-	onNewComments(processPage);
+	// `onNewComments` registers the listener only once
+	onNewComments(processPage, deinitSignal!);
+
 	// Actually process it right now
 	processPage();
 
@@ -225,7 +226,10 @@ function switchToNextFilter(): void {
 	}
 }
 
+let deinitSignal: AbortSignal | undefined;
+
 async function init(signal: AbortSignal): Promise<Deinit> {
+	deinitSignal = signal;
 	const state = minorFixesIssuePages.some(url => location.href.startsWith(url))
 		? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 		: 'default';
@@ -238,6 +242,7 @@ async function init(signal: AbortSignal): Promise<Deinit> {
 	}
 
 	window.addEventListener('hashchange', uncollapseTargetedComment, {signal});
+
 	return registerHotkey('h', switchToNextFilter);
 }
 

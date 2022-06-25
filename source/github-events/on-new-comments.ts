@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent, DelegateEventHandler} from 'delegate-it';
 
 const discussionsWithListeners = new WeakSet();
 const handlers = new Set<VoidFunction>();
@@ -25,20 +25,20 @@ function run(): void {
 
 // The form is detached just before the `page:loaded` event is triggered so the event won’t bubble up and `delegate` won’t catch it.
 // This intermediate handler is required to catch the `page:loaded` event on the detached element.
-function paginationSubmitHandler({delegateTarget: form}: delegate.Event): void {
+function paginationSubmitHandler({delegateTarget: form}: DelegateEvent): void {
 	form.addEventListener('page:loaded', run, {once: true});
 }
 
-function getFragmentLoadHandler(callback: EventListener): delegate.EventHandler {
+function getFragmentLoadHandler(callback: EventListener): DelegateEventHandler {
 	return ({delegateTarget}) => {
 		delegateTarget.addEventListener('load', callback);
 	};
 }
 
-function addListeners(): delegate.Subscription[] {
+function addListeners(signal: AbortSignal): void {
 	const discussion = select('.js-discussion');
 	if (!discussion || discussionsWithListeners.has(discussion)) {
-		return [];
+		return;
 	}
 
 	// Ensure listeners are only ever added once
@@ -50,20 +50,18 @@ function addListeners(): delegate.Subscription[] {
 		childList: true,
 	});
 
-	return [
-		// When hidden comments are loaded by clicking "Load more…"
-		delegate(document, '.js-ajax-pagination', 'submit', paginationSubmitHandler),
+	// When hidden comments are loaded by clicking "Load more…"
+	delegate(document, '.js-ajax-pagination', 'submit', paginationSubmitHandler, {signal});
 
-		// Collapsed comments are loaded later using an include-fragment element
-		delegate(document, 'details.js-comment-container include-fragment:not([class])', 'loadstart', getFragmentLoadHandler(run), true),
-	];
+	// Collapsed comments are loaded later using an include-fragment element
+	delegate(document, 'details.js-comment-container include-fragment:not([class])', 'loadstart', getFragmentLoadHandler(run), {capture: true, signal});
 }
 
-export default function onNewComments(callback: VoidFunction): Deinit {
+export default function onNewComments(callback: VoidFunction, signal: AbortSignal): Deinit {
+	addListeners(signal);
 	handlers.add(callback);
 
 	return [
-		...addListeners(),
 		handlers.clear,
 		observer,
 	];

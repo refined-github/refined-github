@@ -1,13 +1,13 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
+import {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import filterAlteredClicks from 'filter-altered-clicks';
 
 import features from '.';
 import {onCommentFieldKeydown} from '../github-events/on-field-keydown';
 
-const eventHandler = filterAlteredClicks((event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void => {
+const eventHandler = filterAlteredClicks((event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement>): void => {
 	const field = event.delegateTarget;
 
 	if (event.key === 'Escape') {
@@ -59,8 +59,8 @@ const eventHandler = filterAlteredClicks((event: delegate.Event<KeyboardEvent, H
 	}
 });
 
-function init(): Deinit {
-	return onCommentFieldKeydown(eventHandler);
+function init(signal: AbortSignal): void {
+	onCommentFieldKeydown(eventHandler, signal);
 }
 
 void features.add(import.meta.url, {

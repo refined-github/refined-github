@@ -30,7 +30,7 @@ function setStorage(): void {
 	}
 }
 
-async function init(): Promise<Deinit> {
+async function init(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
 
 	select.last([
@@ -51,7 +51,7 @@ async function init(): Promise<Deinit> {
 		</div>,
 	);
 
-	return delegate(document, '#new_repository, #new_new_repository', 'submit', setStorage);
+	delegate(document, '#new_repository, #new_new_repository', 'submit', setStorage, {signal});
 }
 
 void features.add(import.meta.url, {

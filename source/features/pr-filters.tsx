@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import {CheckIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -43,7 +43,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 }
 
 const hasDraftFilter = new WeakSet();
-function addDraftFilter({delegateTarget: reviewsFilter}: delegate.Event): void {
+function addDraftFilter({delegateTarget: reviewsFilter}: DelegateEvent): void {
 	if (hasDraftFilter.has(reviewsFilter)) {
 		return;
 	}
@@ -112,11 +112,9 @@ async function addChecksFilter(): Promise<void> {
 	reviewsFilter.after(checksFilter);
 }
 
-async function init(): Promise<Deinit> {
-	const subscription = delegate(document, reviewsFilterSelector, 'toggle', addDraftFilter, true);
+async function init(signal: AbortSignal): Promise<void> {
+	delegate(document, reviewsFilterSelector, 'toggle', addDraftFilter, {capture: true, signal});
 	await addChecksFilter();
-
-	return subscription;
 }
 
 void features.add(import.meta.url, {

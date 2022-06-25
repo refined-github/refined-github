@@ -1,9 +1,9 @@
 import './open-all-notifications.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {LinkExternalIcon} from '@primer/octicons-react';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import openTabs from '../helpers/open-tabs';
@@ -48,7 +48,7 @@ function removeOpenAllButtons(container: ParentNode = document): void {
 	}
 }
 
-function openUnreadNotifications({delegateTarget, altKey}: delegate.Event<MouseEvent>): void {
+function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<MouseEvent>): void {
 	const container = delegateTarget.closest('.js-notifications-group') ?? document;
 	openNotifications(getUnreadNotifications(container), altKey);
 	// Remove all now-unnecessary buttons
@@ -83,8 +83,7 @@ function addOpenUnreadButtons(): void {
 	}
 }
 
-function init(): Deinit {
-	const deinit = [delegate(document, '.' + openSelectedButtonClass, 'click', openSelectedNotifications)];
+function init(signal: AbortSignal): void {
 	appendBefore(
 		notificationHeaderSelector + ' .js-notifications-mark-selected-actions',
 		'details',
@@ -93,12 +92,12 @@ function init(): Deinit {
 		</button>,
 	);
 
-	if (getUnreadNotifications().length > 0) {
-		deinit.push(delegate(document, '.' + openUnreadButtonClass, 'click', openUnreadNotifications));
-		addOpenUnreadButtons();
-	}
+	delegate(document, '.' + openSelectedButtonClass, 'click', openSelectedNotifications, {signal});
 
-	return deinit;
+	if (getUnreadNotifications().length > 0) {
+		addOpenUnreadButtons();
+		delegate(document, '.' + openUnreadButtonClass, 'click', openUnreadNotifications, {signal});
+	}
 }
 
 void features.add(import.meta.url, {

@@ -21,14 +21,15 @@ This is done so that when editing that issue we're aware that something is up wi
 const issueUrl = getRghIssueUrl(3543);
 const placeholdersSelector = 'a[href="#rgh-linkify-welcome-issue"]';
 
-function init(): Deinit {
+function init(signal: AbortSignal): void {
 	const [opening, closing] = select.all<HTMLAnchorElement>(placeholdersSelector);
 	closing.remove();
 
 	// Move the wrapped text into the existing link
 	opening.append(opening.nextSibling!);
 	opening.classList.add('rgh-linkify-welcome-issue');
-	return delegate(document, placeholdersSelector, 'click', openOptions);
+
+	delegate(document, placeholdersSelector, 'click', openOptions, {signal});
 }
 
 void features.add(import.meta.url, {

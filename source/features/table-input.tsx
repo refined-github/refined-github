@@ -1,16 +1,16 @@
 import './table-input.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import {TableIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import smartBlockWrap from '../helpers/smart-block-wrap';
 import {onCommentEdit} from '../github-events/on-fragment-load';
 
-function addTable({delegateTarget: square}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
 	const field = square.form!.querySelector('textarea.js-comment-field')!;
 	const cursorPosition = field.selectionStart;
@@ -28,7 +28,7 @@ function addTable({delegateTarget: square}: delegate.Event<MouseEvent, HTMLButto
 	field.selectionEnd = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
 }
 
-function highlightSquares({delegateTarget: hover}: delegate.Event<MouseEvent, HTMLElement>): void {
+function highlightSquares({delegateTarget: hover}: DelegateEvent<MouseEvent, HTMLElement>): void {
 	for (const cell of hover.parentElement!.children as HTMLCollectionOf<HTMLButtonElement>) {
 		cell.classList.toggle('selected', cell.dataset.x! <= hover.dataset.x! && cell.dataset.y! <= hover.dataset.y!);
 	}
@@ -70,14 +70,12 @@ function addButtons(): void {
 	}
 }
 
-function init(): Deinit {
+function init(signal: AbortSignal): void {
 	addButtons();
+	onCommentEdit(addButtons, signal);
 
-	return [
-		onCommentEdit(addButtons),
-		delegate(document, '.rgh-table-input-cell', 'click', addTable),
-		delegate(document, '.rgh-table-input-cell', 'mouseenter', highlightSquares, {capture: true}),
-	];
+	delegate(document, '.rgh-table-input-cell', 'click', addTable, {signal});
+	delegate(document, '.rgh-table-input-cell', 'mouseenter', highlightSquares, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {
