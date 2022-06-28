@@ -9,6 +9,10 @@
 	top: 129px;
 }
 
+.js-gist-file-update-container .file-header {
+	top: 0 !important;
+}
+
 /*
 Test URLs
 https://github.com/refined-github/refined-github/commit/1d9dd9f0208c327351512beb6d6a22279bc47807
