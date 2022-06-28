@@ -226,7 +226,7 @@ function updateRateLink(): void {
 		return;
 	}
 
-	select('a#rate-link')!.href = isFirefox() ? 'https://addons.mozilla.org/en-US/firefox/addon/refined-github-' :'https://apps.apple.com/app/id1519867270?action=write-review';
+	select('a#rate-link')!.href = isFirefox() ? 'https://addons.mozilla.org/en-US/firefox/addon/refined-github-' : 'https://apps.apple.com/app/id1519867270?action=write-review';
 }
 
 async function generateDom(): Promise<void> {
@@ -285,7 +285,6 @@ function addEventListeners(): void {
 
 	// Filter feature list
 	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
-
 
 	// Add cache clearer
 	select('#clear-cache')!.addEventListener('click', clearCacheHandler);
