@@ -6,19 +6,6 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
 
-function getFirstCommitMessage(): string[] {
-	const commitSummaryWrapper = select('.js-commits-list-item a.Link--primary')!.parentElement!;
-	const commitDescription = select('.js-commits-list-item pre')?.textContent ?? '';
-
-	// Linkified commit summaries are split into several adjacent links #5382
-	const commitSummary = select.all(':scope > a', commitSummaryWrapper)
-		.map(commitTitleLink => commitTitleLink.innerHTML)
-		.join('')
-		.replace(/<\/?code>/g, '`');
-
-	return [commitSummary, commitDescription];
-}
-
 async function init(): Promise<void | false> {
 	const requestedContent = new URL(location.href).searchParams;
 	const commitCountIcon = await elementReady('div.Box.mb-3 .octicon-git-commit');
@@ -27,18 +14,19 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const [prTitle, ...prBody] = getFirstCommitMessage();
+	const prTitle = select('.js-commits-list-item p')!;
+	const prBody = prTitle.parentElement!.querySelector('.Details-content--hidden pre');
 	if (!requestedContent.has('pull_request[title]')) {
 		textFieldEdit.set(
 			select('.discussion-topic-header input')!,
-			prTitle,
+			prTitle.textContent!.trim(),
 		);
 	}
 
-	if (!requestedContent.has('pull_request[body]')) {
+	if (prBody && !requestedContent.has('pull_request[body]')) {
 		textFieldEdit.insert(
 			select('#new_pull_request textarea[aria-label="Comment body"]')!,
-			prBody.join('\n\n'),
+			prBody.textContent!,
 		);
 	}
 }
