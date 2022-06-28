@@ -6,6 +6,25 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
 
+function formattedContent(node: ChildNode): string {
+	return node instanceof Element && node.tagName === 'CODE'
+		? '`' + node.textContent! + '`'
+		: node.textContent!;
+}
+
+function getFirstCommit(): {title: string; body: string | undefined} {
+	const title = select('.js-commits-list-item:first-child p')!;
+	const body = select('.js-commits-list-item:first-child .Details-content--hidden pre')
+		?.textContent!.trim() ?? undefined;
+
+	// GitHub loses the backticks when it renders them, so we must recover them
+	const reformattedTitle = [...title.childNodes]
+		.map(node => formattedContent(node))
+		.join('')
+		.trim();
+	return {title: reformattedTitle, body};
+}
+
 async function init(): Promise<void | false> {
 	const requestedContent = new URL(location.href).searchParams;
 	const commitCountIcon = await elementReady('div.Box.mb-3 .octicon-git-commit');
@@ -14,19 +33,18 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const prTitle = select('.js-commits-list-item p')!;
-	const prBody = prTitle.parentElement!.querySelector('.Details-content--hidden pre');
+	const firstCommit = getFirstCommit();
 	if (!requestedContent.has('pull_request[title]')) {
 		textFieldEdit.set(
 			select('.discussion-topic-header input')!,
-			prTitle.textContent!.trim(),
+			firstCommit.title,
 		);
 	}
 
-	if (prBody && !requestedContent.has('pull_request[body]')) {
+	if (firstCommit.body && !requestedContent.has('pull_request[body]')) {
 		textFieldEdit.insert(
 			select('#new_pull_request textarea[aria-label="Comment body"]')!,
-			prBody.textContent!,
+			firstCommit.body,
 		);
 	}
 }
