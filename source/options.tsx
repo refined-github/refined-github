@@ -5,9 +5,9 @@ import cache from 'webext-storage-cache';
 import domify from 'doma';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import {isSafari} from 'webext-detect-page';
 import fitTextarea from 'fit-textarea';
 import * as indentTextarea from 'indent-textarea';
+import {isChrome, isFirefox, isSafari} from 'webext-detect-page';
 
 import featureLink from './helpers/feature-link';
 import clearCacheHandler from './helpers/clear-cache-handler';
@@ -221,6 +221,14 @@ async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 	return disabledFeatures;
 }
 
+function updateRateLink(): void {
+	if (isChrome()) {
+		return;
+	}
+
+	select('a#rate-link')!.href = isFirefox() ? 'https://addons.mozilla.org/en-US/firefox/addon/refined-github-' : 'https://apps.apple.com/app/id1519867270?action=write-review';
+}
+
 async function generateDom(): Promise<void> {
 	// Generate list
 	select('.js-features')!.append(...featuresMeta
@@ -246,6 +254,9 @@ async function generateDom(): Promise<void> {
 
 	// Add feature count. CSS-only features are added approximately
 	select('.features-header')!.append(` (${featuresMeta.length + 25})`);
+
+	// Update rate link if necessary
+	updateRateLink();
 }
 
 function addEventListeners(): void {
