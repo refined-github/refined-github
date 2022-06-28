@@ -1,5 +1,6 @@
 /* `.sticky-file-header` excludes native sticky header */
-.file-header:not(.sticky-file-header) {
+/* `blob-editor` excludes isEditFile */
+:not(blob-editor) > .file-header:not(.sticky-file-header) {
 	position: sticky;
 	top: 60px;
 }
@@ -7,3 +8,12 @@
 .notification-shelf ~ .application-main .file-header:not(.sticky-file-header) {
 	top: 129px;
 }
+
+/*
+Test URLs
+https://github.com/refined-github/refined-github/commit/1d9dd9f0208c327351512beb6d6a22279bc47807
+https://github.com//refined-github/refined-github/compare/22.2.13...22.2.22#files_bucket
+
+Exclude:
+https://github.com/refined-github/refined-github/edit/main/readme.md
+*/
