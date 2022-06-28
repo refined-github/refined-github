@@ -38,3 +38,9 @@ void features.add(import.meta.url, {
 	awaitDomReady: false,
 	init,
 });
+
+/*
+Test URLs
+https://github.com/refined-github/sandbox/compare/linked-commit-title?expand=1
+https://github.com/refined-github/sandbox/compare/rendered-commit-title?expand=1
+*/
