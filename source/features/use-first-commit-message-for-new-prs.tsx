@@ -14,16 +14,15 @@ function restoreMarkdown(node: ChildNode): string {
 }
 
 function getFirstCommit(): {title: string; body: string | undefined} {
-	const title = select('.js-commits-list-item:first-child p')!;
+	const titleParts = select('.js-commits-list-item:first-child p')!.childNodes;
 	const body = select('.js-commits-list-item:first-child .Details-content--hidden pre')
 		?.textContent!.trim() ?? undefined;
 
-	// GitHub loses the backticks when it renders them, so we must restore them
-	const reformattedTitle = [...title.childNodes]
+	const title = [...titleParts]
 		.map(node => restoreMarkdown(node))
 		.join('')
 		.trim();
-	return {title: reformattedTitle, body};
+	return {title, body};
 }
 
 async function init(): Promise<void | false> {
