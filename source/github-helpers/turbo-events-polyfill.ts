@@ -10,7 +10,7 @@ export default function polyfillTurboEvents(): void {
 function dispatchTurboEvent(event: Event): void {
 	document.removeEventListener('turbo:visit', disconnectPolyfill);
 
-	const turboEvent = event.type === 'pjax:start' ? 'turbo:visit' : 'turbo:load';
+	const turboEvent = event.type === 'pjax:start' ? 'turbo:visit' : 'turbo:render';
 	document.dispatchEvent(new CustomEvent(turboEvent));
 }
 

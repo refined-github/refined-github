@@ -292,7 +292,7 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 			void setupPageLoad(id, details);
 		}
 
-		document.addEventListener('turbo:load', () => {
+		document.addEventListener('turbo:render', () => {
 			if (!deduplicate || !select.exists(deduplicate)) {
 				void setupPageLoad(id, details);
 			}
