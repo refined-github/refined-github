@@ -1,16 +1,15 @@
-/* `.sticky-file-header` excludes native sticky header */
-/* `blob-editor` excludes isEditFile */
-:not(blob-editor) > .file-header:not(.sticky-file-header) {
+:not(blob-editor) > .file-header {
 	position: sticky;
-	top: 60px;
+	top: 0;
 }
 
-.notification-shelf ~ .application-main .file-header:not(.sticky-file-header) {
+.notification-shelf ~ .application-main .file-header {
 	top: 129px;
 }
 
-.js-gist-file-update-container .file-header {
-	top: 0 !important;
+/* Consider the File List fixed header/sidebar in commits */
+diff-layout .file-header {
+	top: 60px;
 }
 
 /*
@@ -21,4 +20,5 @@ https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
 
 Exclude:
 https://github.com/refined-github/refined-github/edit/main/readme.md
+https://github.com/refined-github/refined-github/pull/5460/files (actually included, but natively supported anyway)
 */
