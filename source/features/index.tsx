@@ -307,7 +307,7 @@ const addCssFeature = async (url: string, include: BooleanFunction[] | undefined
 		deduplicate: false,
 		awaitDomReady: false,
 		init() {
-			document.body.classList.add('rgh-' + id);
+			document.documentElement.classList.add('rgh-' + id);
 		},
 	});
 };

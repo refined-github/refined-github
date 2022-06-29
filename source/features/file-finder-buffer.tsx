@@ -36,7 +36,7 @@ function pjaxStartHandler(event: CustomEvent): void {
 	bufferField.focus();
 
 	// Hide the header elements instead of removing them so they can be restored #4999
-	document.body.classList.add('rgh-file-finder-buffer');
+	document.documentElement.classList.add('rgh-file-finder-buffer');
 }
 
 function pjaxCompleteHandler(): void {
@@ -50,10 +50,10 @@ function pjaxCompleteHandler(): void {
 	}
 
 	// Make sure to clean up the repo header #4999
-	if (document.body.classList.contains('rgh-file-finder-buffer')) {
+	if (document.documentElement.classList.contains('rgh-file-finder-buffer')) {
 		bufferField.parentElement!.previousElementSibling!.remove();
 		bufferField.parentElement!.remove();
-		document.body.classList.remove('rgh-file-finder-buffer');
+		document.documentElement.classList.remove('rgh-file-finder-buffer');
 	}
 }
 
