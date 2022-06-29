@@ -190,5 +190,4 @@ pr-branches
 /* Fit large images in the window when viewing single files */
 div[data-target='readme-toc.content'] div.blob-wrapper img {
 	max-width: 100%;
-	max-height: 100%;
 }
