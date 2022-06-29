@@ -59,7 +59,7 @@ function pjaxCompleteHandler(): void {
 
 function init(): void {
 	window.addEventListener('turbo:visit', pjaxStartHandler);
-	window.addEventListener('turbo:load', pjaxCompleteHandler);
+	window.addEventListener('turbo:render', pjaxCompleteHandler);
 }
 
 void features.add(import.meta.url, {
