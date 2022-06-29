@@ -187,7 +187,7 @@ pr-branches
 	display: block !important;
 }
 
-/* Resize large images for blob preview */
+/* Fit large images in the window when viewing single files */
 div[data-target='readme-toc.content'] div.blob-wrapper img {
 	max-width: 100%;
 	max-height: 100%;
