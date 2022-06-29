@@ -1,4 +1,4 @@
-:not(blob-editor) > .file-header {
+.file-header {
 	position: sticky;
 	top: 0;
 }
@@ -12,13 +12,18 @@ diff-layout .file-header {
 	top: 60px;
 }
 
+/* CodeMirror header in isEditingFile */
+blob-editor .file-header {
+	z-index: 6;
+}
+
 /*
 Test URLs
 https://github.com/refined-github/refined-github/commit/1d9dd9f0208c327351512beb6d6a22279bc47807
 https://github.com//refined-github/refined-github/compare/22.2.13...22.2.22#files_bucket
 https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+https://github.com/refined-github/refined-github/edit/main/readme.md
 
 Exclude:
-https://github.com/refined-github/refined-github/edit/main/readme.md
 https://github.com/refined-github/refined-github/pull/5460/files (actually included, but natively supported anyway)
 */
