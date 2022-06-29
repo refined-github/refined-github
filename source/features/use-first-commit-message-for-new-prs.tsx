@@ -6,7 +6,8 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
 
-function formattedContent(node: ChildNode): string {
+/** Restore backticks that GitHub loses when rendering them */
+function restoreMarkdown(node: ChildNode): string {
 	return node instanceof Element && node.tagName === 'CODE'
 		? '`' + node.textContent! + '`'
 		: node.textContent!;
@@ -17,9 +18,9 @@ function getFirstCommit(): {title: string; body: string | undefined} {
 	const body = select('.js-commits-list-item:first-child .Details-content--hidden pre')
 		?.textContent!.trim() ?? undefined;
 
-	// GitHub loses the backticks when it renders them, so we must recover them
+	// GitHub loses the backticks when it renders them, so we must restore them
 	const reformattedTitle = [...title.childNodes]
-		.map(node => formattedContent(node))
+		.map(node => restoreMarkdown(node))
 		.join('')
 		.trim();
 	return {title: reformattedTitle, body};
