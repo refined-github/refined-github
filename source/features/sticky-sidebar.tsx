@@ -18,7 +18,7 @@ function updateStickiness(): void {
 const onResize = debounce(updateStickiness, {wait: 100});
 
 function init(signal: AbortSignal): Deinit {
-	document.body.classList.add('rgh-sticky-sidebar-enabled');
+	document.documentElement.classList.add('rgh-sticky-sidebar-enabled');
 
 	const resizeObserver = new ResizeObserver(onResize);
 	const selectObserver = observe(sidebarSelector, {
