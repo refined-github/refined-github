@@ -3,7 +3,7 @@ env:
 
 # FILE GENERATED WITH: npx ghat fregante/ghatemplates/webext
 # SOURCE: https://github.com/fregante/ghatemplates
-# OPTIONS: {"set":["on.schedule=[{\"cron\": \"42 17 1 * *\"}]"]}
+# OPTIONS: {"exclude":["on.schedule"]}
 
 name: Release
 on:
@@ -17,12 +17,12 @@ jobs:
       version: ${{ steps.daily-version.outputs.version }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 20
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version-file: '.nvmrc'
           cache: npm
       - name: install
         run: npm ci || npm install
@@ -32,7 +32,7 @@ jobs:
         id: daily-version
       - if: steps.daily-version.outputs.created
         name: Create release
-        uses: actions/github-script@v5.0.0
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -52,14 +52,14 @@ jobs:
           - chrome
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version-file: '.nvmrc'
           cache: npm
       - name: install
         run: npm ci || npm install
-      - run: npm run build
+      - run: npm run build --if-present
       - name: Update extension’s meta
         run: >-
           npx dot-json@1 $DIRECTORY/manifest.json version ${{
@@ -68,10 +68,10 @@ jobs:
         run: |
           case ${{ matrix.command }} in
             chrome)
-              cd $DIRECTORY && npx chrome-webstore-upload-cli@next upload --auto-publish
+              cd $DIRECTORY && npx chrome-webstore-upload-cli@2 upload --auto-publish
               ;;
             firefox)
-              cd $DIRECTORY && npx web-ext-submit@5
+              cd $DIRECTORY && npx web-ext-submit@6
               ;;
           esac
         env:
