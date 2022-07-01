@@ -6,11 +6,19 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
 
-/** Restore backticks that GitHub loses when rendering them */
-function restoreMarkdown(node: ChildNode): string {
-	return node instanceof Element && node.tagName === 'CODE'
-		? '`' + node.textContent! + '`'
-		: node.textContent!;
+function interpretNode(node: ChildNode): string | void {
+	const text = node.textContent!;
+	const tagName = node instanceof Element && node.tagName;
+	switch (node instanceof Element && node.tagName) {
+		case false:
+		case 'A':
+			return text;
+		case 'CODE':
+			// Restore backticks that GitHub loses when rendering them
+			return '`' + text + '`';
+		default:
+			// Ignore other nodes, like `<span>...</span>` that appears when commits have a body
+	}
 }
 
 function getFirstCommit(): {title: string; body: string | undefined} {
@@ -19,9 +27,10 @@ function getFirstCommit(): {title: string; body: string | undefined} {
 		?.textContent!.trim() ?? undefined;
 
 	const title = [...titleParts]
-		.map(node => restoreMarkdown(node))
+		.map(node => interpretNode(node))
 		.join('')
 		.trim();
+
 	return {title, body};
 }
 
