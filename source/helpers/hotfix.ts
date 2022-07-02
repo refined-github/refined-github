@@ -4,11 +4,12 @@ import compareVersions from 'tiny-version-compare';
 
 import {RGHOptions} from '../options-storage';
 import isDevelopmentVersion from './is-development-version';
-import { concatenateTemplateLiteralTag } from './template-literal';
+import {concatenateTemplateLiteralTag} from './template-literal';
 
 function parseCsv(content: string): string[][] {
 	const lines = [];
-	for (const line of content.split('\n')) {
+	const [_header, ...rawLines] = content.trim().split('\n');
+	for (const line of rawLines) {
 		if (line.trim()) {
 			lines.push(line.split(',').map(cell => cell.trim()));
 		}
