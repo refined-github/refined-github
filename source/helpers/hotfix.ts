@@ -55,7 +55,7 @@ export const updateHotfixes = cache.function(async (version: string): Promise<Ho
 });
 
 export const updateStyleHotfixes = cache.function(
-	async (version: string): Promise<string> => fetchHotfix(version + '.css'),
+	async (version: string): Promise<string> => fetchHotfix(`style/${version}.css`),
 	{
 		maxAge: {hours: 6},
 		staleWhileRevalidate: {days: 30},
