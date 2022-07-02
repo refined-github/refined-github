@@ -11,7 +11,15 @@ import bisectFeatures from '../helpers/bisect';
 import {shouldFeatureRun} from '../github-helpers';
 import polyfillTurboEvents from '../github-helpers/turbo-events-polyfill';
 import optionsStorage, {RGHOptions} from '../options-storage';
-import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyleHotfixes, _} from '../helpers/hotfix';
+import {
+	getLocalHotfixesAsOptions,
+	getLocalStrings,
+	getStyleHotfixes,
+	updateHotfixes,
+	updateLocalStrings,
+	updateStyleHotfixes,
+	_,
+} from '../helpers/hotfix';
 
 type BooleanFunction = () => boolean;
 export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
@@ -92,6 +100,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		getLocalHotfixesAsOptions(),
 		getStyleHotfixes(),
 		bisectFeatures(),
+		getLocalStrings(),
 	]);
 
 	await waitFor(() => document.body);
@@ -105,6 +114,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	}
 
 	void updateStyleHotfixes(version);
+	void updateLocalStrings();
 
 	if (bisectedFeatures) {
 		Object.assign(options, bisectedFeatures);

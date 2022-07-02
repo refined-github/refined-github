@@ -40,7 +40,7 @@ export const updateHotfixes = cache.function(async (version: string): Promise<Ho
 	}
 
 	const storage: HotfixStorage = [];
-	for (const [featureID, unaffectedVersion, relatedIssue] of parseCsv(atob(content))) {
+	for (const [featureID, unaffectedVersion, relatedIssue] of parseCsv(content)) {
 		if (featureID && relatedIssue && (!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0)) {
 			storage.push([featureID as FeatureID, relatedIssue]);
 		}
