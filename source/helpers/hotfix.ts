@@ -21,7 +21,7 @@ export type HotfixStorage = Array<[FeatureID, string]>;
 export const updateHotfixes = cache.function(async (version: string): Promise<HotfixStorage> => {
 	// The explicit endpoint is necessary because it shouldn't change on GHE
 	// We can't use `https://raw.githubusercontent.com` because of permission issues https://github.com/refined-github/refined-github/pull/3530#issuecomment-691595925
-	const request = await fetch('https://api.github.com/repos/refined-github/refined-github/contents/hotfix.csv?ref=hotfix');
+	const request = await fetch('https://api.github.com/repos/refined-github/yolo/contents/broken-features.csv');
 	const {content} = await request.json();
 
 	// Rate-limit check
@@ -45,7 +45,7 @@ export const updateHotfixes = cache.function(async (version: string): Promise<Ho
 
 export const updateStyleHotfixes = cache.function(async (version: string): Promise<string> => {
 	// See comments for `updateHotfixes`
-	const request = await fetch(`https://api.github.com/repos/refined-github/refined-github/contents/style/${version}.css?ref=hotfix`);
+	const request = await fetch(`https://api.github.com/repos/refined-github/yolo/contents/style/${version}.css`);
 	const {content} = await request.json();
 
 	if (!content) {
@@ -55,7 +55,7 @@ export const updateStyleHotfixes = cache.function(async (version: string): Promi
 	return atob(content).trim();
 }, {
 	maxAge: {hours: 6},
-	staleWhileRevalidate: {days: 3},
+	staleWhileRevalidate: {days: 30},
 	cacheKey: () => 'style-hotfixes',
 });
 
