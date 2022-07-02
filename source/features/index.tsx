@@ -95,8 +95,6 @@ const log = {
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
-	console.log({value: _`Original`});
-
 	const [options, localHotfixes, hotfixCSS, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
 		getLocalHotfixesAsOptions(),
@@ -104,8 +102,6 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		bisectFeatures(),
 		getLocalStrings(),
 	]);
-
-	console.log({value: _`Original`});
 
 	await waitFor(() => document.body);
 
