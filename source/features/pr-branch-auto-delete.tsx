@@ -7,20 +7,20 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import attachElement from '../helpers/attach-element';
 import featureLink from '../helpers/feature-link';
-import TimelineBanner from '../github-helpers/timeline-item';
+import TimelineItem from '../github-helpers/timeline-item';
 
 function getBanner(): JSX.Element {
 	const url = featureLink(features.getFeatureID(import.meta.url));
 
 	return (
-		<TimelineBanner>
+		<TimelineItem>
 			<div className="flash">
 				<span>The head branch was automatically deleted by Refined GitHub</span>
 				<a href={url} className="btn btn-sm flash-action">
 					<ZapIcon/> See feature
 				</a>
 			</div>
-		</TimelineBanner>
+		</TimelineItem>
 	);
 }
 

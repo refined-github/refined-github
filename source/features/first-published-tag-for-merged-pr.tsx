@@ -9,7 +9,7 @@ import fetchDom from '../helpers/fetch-dom';
 import {buildRepoURL, getRepo} from '../github-helpers';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 import attachElement from '../helpers/attach-element';
-import TimelineBanner from '../github-helpers/timeline-item';
+import TimelineItem from '../github-helpers/timeline-item';
 
 const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom(
@@ -54,14 +54,14 @@ async function init(): Promise<void> {
 		anchor: '#issue-comment-box',
 		position: 'before',
 		getNewElement: () => (
-			<TimelineBanner>
+			<TimelineItem>
 				<div className="flash flash-success">
 					The PR first appeared in <span className="text-mono text-small">{tagName}</span>
 					<a href={tagUrl} className="btn btn-sm flash-action">
 						<TagIcon/> See release
 					</a>
 				</div>
-			</TimelineBanner>
+			</TimelineItem>
 		),
 	});
 }
