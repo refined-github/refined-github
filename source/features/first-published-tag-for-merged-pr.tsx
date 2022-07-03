@@ -8,8 +8,6 @@ import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import {buildRepoURL, getRepo} from '../github-helpers';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
-import attachElement from '../helpers/attach-element';
-import TimelineItem from '../github-helpers/timeline-item';
 
 const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom(
@@ -50,20 +48,14 @@ async function init(): Promise<void> {
 		);
 	}
 
-	attachElement({
-		anchor: '#issue-comment-box',
-		position: 'before',
-		getNewElement: () => (
-			<TimelineItem>
-				<div className="flash flash-success">
-					The PR first appeared in <span className="text-mono text-small">{tagName}</span>
-					<a href={tagUrl} className="btn btn-sm flash-action">
-						<TagIcon/> See release
-					</a>
-				</div>
-			</TimelineItem>
-		),
-	});
+	select(':not(.rgh-first-tag) + #issue-comment-box')?.before(
+		<div className="flash mt-3 flash-success rgh-first-tag">
+			The PR first appeared in <span className="text-mono text-small">{tagName}</span>
+			<a href={tagUrl} className="btn btn-sm flash-action">
+				<TagIcon/> See release
+			</a>
+		</div>,
+	);
 }
 
 void features.add(import.meta.url, {
