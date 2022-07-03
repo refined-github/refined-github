@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import featureLink from '../helpers/feature-link';
 
 async function disableWikiAndProjects(): Promise<void> {
 	delete sessionStorage.rghNewRepo;
@@ -33,21 +34,25 @@ function setStorage(): void {
 async function init(): Promise<Deinit> {
 	await api.expectToken();
 
+	const featureUrl = featureLink(features.getFeatureID(import.meta.url));
+
 	select.last([
 		'.js-repo-init-setting-container', // IsNewRepo
 		'.form-checkbox', // IsNewRepoTemplate
 	])!.after(
-		<div className="form-checkbox checked mt-0 mb-3">
-			<label>
-				<input
-					checked
-					type="checkbox"
-					id="rgh-disable-project"
-				/> Disable Projects and Wikis
-			</label>
-			<span className="note mb-2">
-				After creating the repository disable the projects and wiki.
-			</span>
+		<div className="flash flash-warn py-0">
+			<div className="form-checkbox checked">
+				<label>
+					<input
+						checked
+						type="checkbox"
+						id="rgh-disable-project"
+					/> Disable Projects and Wikis
+				</label>
+				<span className="note mb-2">
+					After creating the repository disable the projects and wiki. <a href={featureUrl} target="_blank" rel="noreferrer">(Suggested by Refined GitHub)</a>
+				</span>
+			</div>
 		</div>,
 	);
 
