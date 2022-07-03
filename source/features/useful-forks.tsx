@@ -3,8 +3,6 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {RepoForkedIcon} from '@primer/octicons-react';
 
-import select from 'select-dom';
-
 import features from '.';
 import {getRepo} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
@@ -27,7 +25,7 @@ async function init(): Promise<void | false> {
 	const selector = pageDetect.isRepoForksList() ? '#network' : '#repo-content-pjax-container h2';
 	const container = await elementReady(selector, {waitForChildren: false});
 	container!.prepend(
-		<a className="btn mb-2 float-right" target="_blank" href={getUrl()} rel="noreferrer">
+		<a className="btn mb-2 float-right" href={getUrl()} target="_blank" rel="noreferrer">
 			<RepoForkedIcon className="mr-2"/>
 			Find useful forks
 		</a>,
@@ -37,7 +35,7 @@ async function init(): Promise<void | false> {
 function createBannerLink(): JSX.Element {
 	// It must return an element for `attachElement`. It includes a space
 	return (
-		<span> You can find <a href={getUrl()}>useful-forks.github.io</a></span>
+		<span> You can find <a href={getUrl()} target="_blank" rel="noreferrer">useful-forks.github.io</a></span>
 	);
 }
 
