@@ -51,9 +51,27 @@ async function handler({delegateTarget}: delegate.Event): Promise<void> {
 
 async function addButton(position: Element): Promise<void> {
 	const {base, head} = getBranches();
-	const {status} = await api.v3(`compare/${base}...${head}`);
+	const [comparison, deepData] = await Promise.all([
+		// TODO: Find how to determine whether the branch needs to be updated via v4
+		api.v3(`compare/${base}...${head}`),
 
-	if (status === 'diverged') {
+		// Some fields are just for testing
+		api.v4(`
+			repository() {
+				pullRequest(number: ${getConversationNumber()!}) {
+					baseRefOid
+					mergeable
+					viewerCanEditFiles
+					canBeRebased
+					mergeStateStatus
+				}
+			}
+		`),
+	]);
+
+	const pr = deepData.repository.pullRequest;
+
+	if (comparison.status === 'diverged' && pr.viewerCanEditFiles && pr.mergeable !== 'CONFLICTING') {
 		position.append(' ', (
 			<span className="status-meta d-inline-block rgh-update-pr-from-base-branch">
 				You can <button type="button" className="btn-link">update the base branch</button>.
