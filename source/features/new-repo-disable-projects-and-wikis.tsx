@@ -50,7 +50,7 @@ async function init(): Promise<Deinit> {
 					/> Disable Projects and Wikis
 				</label>
 				<span className="note mb-2">
-					After creating the repository disable the projects and wiki. <a href={featureUrl} target="_blank" rel="noreferrer">(Suggested by Refined GitHub)</a>
+					After creating the repository disable the projects and wiki. <a href={featureUrl} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
 				</span>
 			</div>
 		</div>,
