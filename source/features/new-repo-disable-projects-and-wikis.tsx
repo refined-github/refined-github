@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import featureLink from '../helpers/feature-link';
+import {getRghIssueUrl} from '../helpers/rgh-issue-link';
 
 async function disableWikiAndProjects(): Promise<void> {
 	delete sessionStorage.rghNewRepo;
@@ -34,7 +34,7 @@ function setStorage(): void {
 async function init(): Promise<Deinit> {
 	await api.expectToken();
 
-	const featureUrl = featureLink(features.getFeatureID(import.meta.url));
+	const infoUrl = getRghIssueUrl(3533);
 
 	select.last([
 		'.js-repo-init-setting-container', // IsNewRepo
@@ -50,7 +50,7 @@ async function init(): Promise<Deinit> {
 					/> Disable Projects and Wikis
 				</label>
 				<span className="note mb-2">
-					After creating the repository disable the projects and wiki. <a href={featureUrl} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
+					After creating the repository disable the projects and wiki. <a href={infoUrl} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
 				</span>
 			</div>
 		</div>,
