@@ -83,11 +83,6 @@ async function addButton(position: Element): Promise<void> {
 async function init(): Promise<false | Deinit> {
 	await api.expectToken();
 
-	// "Resolve conflicts" is the native button to update the PR
-	if (select.exists('.js-merge-pr a[href$="/conflicts"]')) {
-		return false;
-	}
-
 	// Quick check before using selector-observer on it
 	if (!select.exists(selectorForPushablePRNotice)) {
 		return false;
