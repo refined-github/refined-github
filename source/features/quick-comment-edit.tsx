@@ -28,7 +28,8 @@ function addQuickEditButton(commentForm: Element): void {
 		);
 }
 
-function canEditEveryComment(): boolean {
+// eslint-disable-next-line import/prefer-default-export
+export function canEditEveryComment(): boolean {
 	return select.exists([
 		// If you can lock conversations, you have write access
 		'.lock-toggle-link > .octicon-lock',
