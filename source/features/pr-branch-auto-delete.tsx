@@ -1,13 +1,17 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import {ZapIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import attachElement from '../helpers/attach-element';
+import onPrMerge from '../github-events/on-pr-merge';
 import featureLink from '../helpers/feature-link';
 import TimelineItem from '../github-helpers/timeline-item';
+import attachElement from '../helpers/attach-element';
+import {canEditEveryComment} from './quick-comment-edit';
+
+// TODO: Not an exact match; Moderators can edit comments but not create releases
+const canCreateRelease = canEditEveryComment;
 
 function getBanner(): JSX.Element {
 	const url = featureLink(features.getFeatureID(import.meta.url));
@@ -24,7 +28,7 @@ function getBanner(): JSX.Element {
 	);
 }
 
-function deleteBranch(_: unknown, observer: MutationObserver): void {
+function init(): void {
 	const deleteButton = select('[action$="/cleanup"] [type="submit"]');
 	if (!deleteButton) {
 		return;
@@ -32,7 +36,6 @@ function deleteBranch(_: unknown, observer: MutationObserver): void {
 
 	deleteButton.dataset.disableWith = 'Auto-deleting…';
 	deleteButton.click();
-	observer.disconnect();
 
 	attachElement({
 		anchor: '#issue-comment-box',
@@ -41,24 +44,15 @@ function deleteBranch(_: unknown, observer: MutationObserver): void {
 	});
 }
 
-function init(): Deinit {
-	const observer = new MutationObserver(deleteBranch);
-
-	const subscription = delegate(document, '.js-merge-commit-button', 'click', () => {
-		subscription.destroy();
-		observer.observe(select('.discussion-timeline-actions')!, {childList: true});
-	});
-
-	return [
-		observer,
-		subscription,
-	];
-}
-
 void features.add(import.meta.url, {
-	include: [
+	asLongAs: [
 		pageDetect.isPRConversation,
+		pageDetect.isOpenPR,
+		canCreateRelease,
 	],
-	deduplicate: 'has-rgh-inner',
+	additionalListeners: [
+		onPrMerge,
+	],
+	onlyAdditionalListeners: true,
 	init,
 });
