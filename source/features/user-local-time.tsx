@@ -79,7 +79,7 @@ function parseOffset(date: string): number {
 	return (hours * 60) + (hours < 0 ? -minutes : minutes);
 }
 
-async function handleDatePromise({
+async function display({
 	datePromise,
 	placeholder,
 	container,
@@ -152,7 +152,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 		}
 	}
 
-	void handleDatePromise({datePromise, placeholder, container});
+	void display({datePromise, placeholder, container});
 }
 
 const selector = [
@@ -187,7 +187,7 @@ async function profileInit(): Promise<void> {
 
 	select('.vcard-details')!.append(container);
 
-	void handleDatePromise({datePromise, placeholder, container});
+	void display({datePromise, placeholder, container});
 }
 
 void features.add(import.meta.url, {
