@@ -12,6 +12,10 @@ export default function selectHas<Selector extends string, ExpectedElement exten
 	const parts = String(selectors).split(hasSelectorRegex);
 
 	const [baseSelector, hasSelector, finalSelector] = parts;
+	if (['', '*'].includes(baseSelector.trim())) {
+		throw new Error('* is super inefficient in :has()');
+	}
+
 	if (/\s$/.test(baseSelector)) {
 		throw new Error('No spaces before :has() supported');
 	}
@@ -20,10 +24,13 @@ export default function selectHas<Selector extends string, ExpectedElement exten
 		throw new Error('This polyfill only supports looking into the children of the base element');
 	}
 
-	for (const expectedChild of baseElement.querySelectorAll(hasSelector)) {
-		const base = expectedChild.closest<ExpectedElement>(baseSelector);
-		if (base) {
-			const finalElement = finalSelector.trim() ? base.querySelector<ExpectedElement>(finalSelector) : base;
+	for (const base of baseElement.querySelectorAll<ExpectedElement>(baseSelector)) {
+		if (base.querySelector(':scope ' + hasSelector)) {
+			if (!finalSelector.trim()) {
+				return base;
+			}
+
+			const finalElement = base.querySelector<ExpectedElement>(finalSelector);
 			if (finalElement) {
 				return finalElement;
 			}

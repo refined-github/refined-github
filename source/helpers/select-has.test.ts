@@ -23,13 +23,22 @@ test('returns undefined if not found', t => {
 	t.is(select('a:has(em)', document), undefined);
 });
 
-test('supports looking for children in base element', t => {
+test('supports looking for descendants in base element', t => {
 	const {window: {document}} = new JSDOM(`
 		<a>Home</a>
 		<a><em>Contacts</em> <i>icon</i></a>
 	`);
 
 	t.like(select('a:has(em) i', document), {textContent: 'icon'});
+});
+
+test('supports looking for direct children in base element', t => {
+	const {window: {document}} = new JSDOM(`
+		<a><em><span>Home <i></i></span></em></a>
+		<a><span><em>Contacts <i></i></em></span></a>
+	`);
+
+	t.like(select('a:has(> span i)', document), {textContent: 'Contacts '});
 });
 
 test('throws error when there’s a space before :has()', t => {
