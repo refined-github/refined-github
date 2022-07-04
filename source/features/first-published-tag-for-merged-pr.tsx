@@ -7,6 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import onPrMerge from '../github-events/on-pr-merge';
+import createBanner from '../github-helpers/banner';
 import TimelineItem from '../github-helpers/timeline-item';
 import attachElement from '../helpers/attach-element';
 import {canEditEveryComment} from './quick-comment-edit';
@@ -15,6 +16,18 @@ import onConversationHeaderUpdate from '../github-events/on-conversation-header-
 
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;
+
+function getTimelineEvent(tagUrl: string, tagName: string): JSX.Element {
+	return (
+		<TimelineItem>
+			{createBanner({
+				text: <>The PR first appeared in <span className="text-mono text-small">{tagName}</span></>,
+				url: tagUrl,
+				buttonLabel: <><TagIcon/> See release</>,
+			})}
+		</TimelineItem>
+	);
+}
 
 const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom(
@@ -62,16 +75,7 @@ function addExistingTagLink(tagName: string): void {
 	attachElement({
 		anchor: '#issue-comment-box',
 		position: 'before',
-		getNewElement: () => (
-			<TimelineItem>
-				<div className="flash flash-success">
-					The PR first appeared in <span className="text-mono text-small">{tagName}</span>
-					<a href={tagUrl} className="btn btn-sm flash-action">
-						<TagIcon/> See release
-					</a>
-				</div>
-			</TimelineItem>
-		),
+		getNewElement: () => getTimelineEvent(tagUrl, tagName),
 	});
 }
 
