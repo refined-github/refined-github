@@ -40,9 +40,14 @@ function cleanSection(selector: string): boolean {
 
 	const heading = select(':scope > details, :scope > .discussion-sidebar-heading', container)!;
 
-	// Magic. Do not touch.
-	// Section is empty if: no sibling element OR empty sibling element
-	if (heading.nextElementSibling?.firstElementChild) {
+	const labelsUniqueSelector = '.IssueLabel';
+	const mileStonesUniqueSelector = '.Progress-item';
+	const developmentsUniqueSelector = '[data-hovercard-type]';
+	const projectsUniqueSelector = '.octicon';
+
+	// Labels `labelsUniqueSelector` closest defaults to `.discussion-sidebar-item`
+	if (heading.closest('form, .discussion-sidebar-item')!.querySelector(`${labelsUniqueSelector},${mileStonesUniqueSelector},
+		${developmentsUniqueSelector}, ${projectsUniqueSelector}`)) {
 		return false;
 	}
 
