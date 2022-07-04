@@ -8,13 +8,14 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 import {getConversationNumber} from '../github-helpers';
+import onPrCommitMessageRestore from '../github-events/on-pr-commit-message-restore';
 
 const mergeFormSelector = '.is-squashing form:not([hidden])';
 const prTitleFieldSelector = '.js-issue-update input[name="issue[title]"]';
 const prTitleSubmitSelector = '.js-issue-update button[type="submit"]';
 
 function getCommitTitleField(): HTMLInputElement | undefined {
-	return select<HTMLInputElement>(`${mergeFormSelector} #merge_title_field`);
+	return select(`${mergeFormSelector} input#merge_title_field`);
 }
 
 function createCommitTitle(): string {
@@ -67,11 +68,9 @@ function updatePRTitle(): void {
 	select(prTitleSubmitSelector)!.click(); // `form.submit()` isn't sent via ajax
 }
 
-async function updateCommitTitle(event: Event): Promise<void> {
-	const field = getCommitTitleField();
-
-	// Only if the user hasn't already interacted with it in this session
-	if (field && event.type !== 'session:resume') {
+async function updateCommitTitle(): Promise<void> {
+	const field = getCommitTitleField()!;
+	if (field) {
 		textFieldEdit.set(field, createCommitTitle());
 	}
 
@@ -83,22 +82,26 @@ function disableSubmission(): void {
 	getUI().remove();
 }
 
-let listeners: delegate.Subscription[];
-function init(): void {
-	listeners = [
+const subscriptions: delegate.Subscription[] = [];
+
+function init(): Deinit {
+	subscriptions.push(
+		onPrCommitMessageRestore(updateUI),
 		onPrMergePanelOpen(updateCommitTitle),
 		delegate(document, '#merge_title_field', 'input', updateUI),
 		delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle),
 		delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission),
-	];
+	);
+
+	return deinit;
 }
 
 function deinit(): void {
-	for (const delegation of listeners) {
-		delegation.destroy();
+	for (const subscription of subscriptions) {
+		subscription.destroy();
 	}
 
-	listeners.length = 0;
+	subscriptions.length = 0;
 }
 
 void features.add(import.meta.url, {

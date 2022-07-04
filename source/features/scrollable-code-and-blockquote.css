@@ -2,9 +2,11 @@
 	position: relative; /* OctoLinker compat: attach the purple balls to the scroll */
 	max-height: 30.5em;
 	overflow-y: auto;
+}
 
-	/* A tiny scroll bar appears when the last paragraph contains a `code` or `g-emoji` tag #3012 #4597 */
-	padding-bottom: 0.2em;
+/* A tiny scroll bar appears when the last paragraph contains a `code` or `g-emoji` tag #3012 #4597 */
+:root .comment-body blockquote {
+	padding-bottom: 0.2em; /* Do not add to `pre` #5540 */
 }
 
 :root .comment-body :is(details, blockquote) :is(blockquote, pre) {

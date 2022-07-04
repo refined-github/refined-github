@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -8,37 +7,37 @@ import {LinkExternalIcon} from '@primer/octicons-react';
 import features from '.';
 import {getRepo} from '../github-helpers';
 
-function initRepoList(): void {
-	observe('a[href$=".github.io"][itemprop="name codeRepository"]:not(.rgh-github-io)', {
-		constructor: HTMLAnchorElement,
-		add(repository) {
-			repository.classList.add('rgh-github-io');
-			repository.after(
-				' ',
-				<a
-					href={`https://${repository.textContent!.trim()}`}
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<LinkExternalIcon className="v-align-middle"/>
-				</a>,
-			);
-		},
-	});
-}
-
-async function initRepo(): Promise<void> {
-	const repoTitle = await elementReady('[itemprop="name"]');
-	repoTitle!.after(
+function getLinkToGitHubIo(repoTitle: HTMLElement): JSX.Element {
+	return (
 		<a
-			className="mr-2"
-			href={`https://${repoTitle!.textContent!.trim()}`}
+			href={`https://${repoTitle.textContent!.trim()}`}
 			target="_blank"
 			rel="noopener noreferrer"
 		>
 			<LinkExternalIcon className="v-align-middle"/>
-		</a>,
+		</a>
 	);
+}
+
+async function initRepo(): Promise<void> {
+	const repoTitle = (await elementReady('[itemprop="name"]'))!;
+	const link = getLinkToGitHubIo(repoTitle);
+
+	link.classList.add('mr-2');
+	repoTitle.after(link);
+}
+
+function initRepoList(): Deinit {
+	return observe('a[href$=".github.io"][itemprop="name codeRepository"]:not(.rgh-github-io)', {
+		constructor: HTMLAnchorElement,
+		add(repoTitle) {
+			repoTitle.classList.add('rgh-github-io');
+			repoTitle.after(
+				' ',
+				getLinkToGitHubIo(repoTitle),
+			);
+		},
+	});
 }
 
 void features.add(import.meta.url, {
@@ -51,5 +50,5 @@ void features.add(import.meta.url, {
 		pageDetect.isUserProfileRepoTab,
 		pageDetect.isOrganizationProfile,
 	],
-	init: onetime(initRepoList),
+	init: initRepoList,
 });

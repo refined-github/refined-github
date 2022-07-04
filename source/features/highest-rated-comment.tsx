@@ -7,18 +7,20 @@ import {ArrowDownIcon, CheckCircleFillIcon} from '@primer/octicons-react';
 
 import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
+import isLowQualityComment from '../helpers/is-low-quality-comment';
+import {singleParagraphCommentSelector} from './hide-low-quality-comments';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
 const commentSelector = '.js-timeline-item';
 
 const positiveReactionsSelector = `
-	${commentSelector} [aria-label*="reacted with thumbs up"],
-	${commentSelector} [aria-label*="reacted with hooray"],
-	${commentSelector} [aria-label*="reacted with heart"]
+	${commentSelector} [aria-label="react with thumbs up"],
+	${commentSelector} [aria-label="react with hooray"],
+	${commentSelector} [aria-label="react with heart"]
 `;
 
 const negativeReactionsSelector = `
-	${commentSelector} [aria-label*="reacted with thumbs down"]
+	${commentSelector} [aria-label="react with thumbs down"]
 `;
 
 const getPositiveReactions = mem((comment: HTMLElement): number | void => {
@@ -60,9 +62,11 @@ function highlightBestComment(bestComment: Element): void {
 }
 
 function linkBestComment(bestComment: HTMLElement): void {
-	const firstTimelineItem = select('#js-timeline-progressive-loader')!.nextElementSibling!;
+	// Find position of comment in thread
+	const position = select.all(commentSelector).indexOf(bestComment);
+
 	// Only link to it if it doesn't already appear at the top of the conversation
-	if (firstTimelineItem === bestComment) {
+	if (position < 3) {
 		return;
 	}
 
@@ -92,6 +96,11 @@ function selectSum(selector: string, container: HTMLElement): number {
 function init(): false | void {
 	const bestComment = getBestComment();
 	if (!bestComment) {
+		return false;
+	}
+
+	const commentText = select(singleParagraphCommentSelector, bestComment)?.textContent;
+	if (commentText && isLowQualityComment(commentText)) { // #5567
 		return false;
 	}
 

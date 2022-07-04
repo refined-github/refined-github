@@ -29,14 +29,14 @@ function addDeleteButton(cancelButton: Element): void {
 	);
 }
 
-function init(): VoidFunction[] {
-	const listener = delegate(document, '.rgh-review-comment-delete-button', 'click', onButtonClick);
-	const editButtonListener = delegate(document, '.rgh-quick-comment-edit-button', 'click', onEditButtonClick);
-	const observer = observe('.review-comment > .unminimized-comment form:not(.js-single-suggested-change-form) .js-comment-cancel-button:not(.rgh-delete-button-added)', {
-		add: addDeleteButton,
-	});
-
-	return [listener.destroy, editButtonListener.destroy, observer.abort];
+function init(): Deinit {
+	return [
+		delegate(document, '.rgh-review-comment-delete-button', 'click', onButtonClick),
+		delegate(document, '.rgh-quick-comment-edit-button', 'click', onEditButtonClick),
+		observe('.review-comment > .unminimized-comment form:not(.js-single-suggested-change-form) .js-comment-cancel-button:not(.rgh-delete-button-added)', {
+			add: addDeleteButton,
+		}),
+	];
 }
 
 void features.add(import.meta.url, {

@@ -5,17 +5,6 @@
 	--rgh-background: var(--color-canvas-default, var(--color-bg-canvas, #fff));
 }
 
-/* Make tab indented code more readable on GitHub and Gist */
-:root, /* GHE, drop in February 2022 */
-.comment-body [data-tab-size='8'] { /* User setting is ignored in comments #4833 */
-	--tab-size: 4;
-}
-
-* {
-	-moz-tab-size: var(--tab-size) !important;
-	tab-size: var(--tab-size) !important;
-}
-
 /* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons for #1830 and #1904 */
 #js-issues-toolbar .table-list-header-toggle details {
 	padding: 0 !important;
@@ -30,25 +19,39 @@
 	padding-right: 0 !important;
 }
 
+/* For `open-all-notifications` and `select-notifications`: allow header wrapping #5705
+
+Selector works on:
+https://github.com/notifications (Grouped by date)
+https://github.com/notifications (Grouped by repo)
+https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
+*/
+.js-check-all-container .js-bulk-action-toasts ~ div .Box-header {
+	height: auto !important;
+	flex-wrap: wrap;
+	gap: 4px 8px;
+}
+
+.js-check-all-container .js-bulk-action-toasts ~ div .Box-header .mr-2 {
+	margin-right: 0 !important; /* Spacing via `gap` instead */
+}
+
+:is(.js-notifications-mark-selected-actions, .js-notifications-mark-all-actions):not([hidden]) {
+	display: contents !important;
+}
+
 /* Hide empty description of repo */
 .repository-meta.mb-3 > .repository-meta-content > em {
 	display: none !important;
 }
 
-/* Hide `New pull request button` near file list */
-.file-navigation .new-pull-request-btn {
-	display: none;
-}
-
-@keyframes fade-in {
-	from {
-		opacity: 0%;
-	}
-}
-
 /* Smoothen mouse animation on 404 pages */
 .js-plaxify {
 	transition: transform 0.1s;
+}
+
+[alt='404 “This is not the web page you are looking for”'] {
+	animation: fade-in 2s ease-out;
 }
 
 /* Remove "Seeing something unexpected?" from user profiles */
@@ -149,22 +152,23 @@ pr-branches
 	display: inline-block;
 }
 
-/* Limit width of commit title to 72 characters */
-#merge_title_field,
-#commit-summary-input {
-	/* 12px for the padding and 1px for the border https://user-images.githubusercontent.com/46634000/136789268-442caa39-33bc-4af3-8fb2-9cf6db722127.png */
-	width: calc(72ch + 26px);
-	max-width: 100%;
-}
-
 /* Ensure all buttons in the repo file navigation header are aligned in the center rather than to the top */
 .file-navigation.flex-items-start {
 	align-items: center !important;
 }
 
-/* Hide "Unpin" button in repo header https://github.com/refined-github/refined-github/issues/5398#issuecomment-1036112206 */
+/* Hide "Pin"/"Unpin" button in header of personal repos https://github.com/refined-github/refined-github/issues/5398#issuecomment-1036112206 */
 .pagehead-actions [data-test-selector='pin-repo-button'] {
 	display: none !important;
+}
+
+/* Hide text of "Edit Pins" dropdown button in header of organization repos https://github.com/refined-github/refined-github/pull/5612 */
+.pagehead-actions pin-organization-repo summary {
+	font-size: 0 !important;
+}
+
+.pagehead-actions pin-organization-repo .octicon-pin {
+	vertical-align: middle !important;
 }
 
 /* Make our "Example URLs" but report field smaller https://github.com/refined-github/refined-github/issues/5222#issuecomment-1064769358 */
@@ -176,4 +180,14 @@ pr-branches
 [action='/refined-github/refined-github/issues'] #issue_form_example_urls + div textarea { /* Also the WYSIWYG editor */
 	min-height: 4em;
 	height: 4em;
+}
+
+/* Stack the old and new titles in title edition events https://github.com/refined-github/refined-github/issues/5657#issuecomment-1134077169 */
+.TimelineItem[id^='event-'] .TimelineItem-body :is(ins, del) {
+	display: block !important;
+}
+
+/* Fit large images in the window when viewing single files */
+div[data-target='readme-toc.content'] div.blob-wrapper img {
+	max-width: 100%;
 }

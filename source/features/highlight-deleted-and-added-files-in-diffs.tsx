@@ -17,7 +17,28 @@ async function loadDeferred(jumpList: Element): Promise<void> {
 	clearInterval(retrier);
 }
 
-async function init(): Promise<VoidFunction> {
+function highlightFilename(filename: HTMLAnchorElement, sourceIcon: SVGSVGElement): void {
+	filename.classList.add('rgh-pr-file-state');
+
+	const icon = sourceIcon.cloneNode(true);
+	const action = icon.getAttribute('title')!;
+	if (action === 'added') {
+		icon.classList.add('color-text-success', 'color-fg-success');
+	} else if (action === 'removed') {
+		icon.classList.add('color-text-danger', 'color-fg-danger');
+	} else {
+		return;
+	}
+
+	icon.classList.remove('select-menu-item-icon');
+	filename.parentElement!.append(
+		<span className="tooltipped tooltipped-s ml-1" aria-label={'File ' + action}>
+			{icon}
+		</span>,
+	);
+}
+
+async function init(): Promise<Deinit> {
 	const fileList = await elementReady([
 		'.toc-select details-menu[src*="/show_toc?"]', // `isPR`
 		'.toc-diff-stats + .content', // `isSingleCommit` and `isCompare`
@@ -27,33 +48,17 @@ async function init(): Promise<VoidFunction> {
 		await loadDeferred(fileList!);
 	}
 
-	const observer = observe('.file-info [href]:not(.rgh-pr-file-state)', {
+	// Link--primary excludes CODEOWNERS icon #5565
+	return observe('.file-info .Link--primary:not(.rgh-pr-file-state)', {
 		constructor: HTMLAnchorElement,
 		add(filename) {
-			filename.classList.add('rgh-pr-file-state');
 			const sourceIcon = pageDetect.isPR()
 				? select(`[href="${filename.hash}"] svg`, fileList)!
 				: select(`svg + [href="${filename.hash}"]`, fileList)?.previousElementSibling as SVGSVGElement;
-			const icon = sourceIcon.cloneNode(true);
-			const action = icon.getAttribute('title')!;
-			if (action === 'added') {
-				icon.classList.add('color-text-success', 'color-fg-success');
-			} else if (action === 'removed') {
-				icon.classList.add('color-text-danger', 'color-fg-danger');
-			} else {
-				return;
-			}
 
-			icon.classList.remove('select-menu-item-icon');
-			filename.parentElement!.append(
-				<span className="tooltipped tooltipped-s ml-1" aria-label={'File ' + action}>
-					{icon}
-				</span>,
-			);
+			highlightFilename(filename, sourceIcon);
 		},
 	});
-
-	return observer.abort;
 }
 
 void features.add(import.meta.url, {
@@ -81,3 +86,12 @@ void features.add(import.meta.url, {
 	onlyAdditionalListeners: true,
 	init,
 });
+
+/*
+
+## Test URLs
+
+PR: https://github.com/refined-github/refined-github/pull/5631/files
+PR with CODEOWNERS: https://github.com/dotnet/winforms/pull/6028/files
+
+*/

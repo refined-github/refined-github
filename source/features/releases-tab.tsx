@@ -10,7 +10,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import looseParseInt from '../helpers/loose-parse-int';
 import abbreviateNumber from '../helpers/abbreviate-number';
-import {createDropdownItem} from './more-dropdown-links';
+import createDropdownItem from '../github-helpers/create-dropdown-item';
 import {buildRepoURL, getRepo} from '../github-helpers';
 import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils';
 
@@ -88,7 +88,7 @@ async function addReleasesTab(): Promise<false | void> {
 	);
 }
 
-function highlightReleasesTab(): VoidFunction {
+function highlightReleasesTab(): Deinit {
 	const selectorObserver = observe('.UnderlineNav-item.selected:not(.rgh-releases-tab)', {
 		add(selectedTab) {
 			unhighlightTab(selectedTab);
@@ -97,10 +97,10 @@ function highlightReleasesTab(): VoidFunction {
 	});
 	highlightTab(select('.rgh-releases-tab')!);
 
-	return selectorObserver.abort;
+	return selectorObserver;
 }
 
-async function init(): Promise<VoidFunction | void> {
+async function init(): Promise<Deinit | void> {
 	if (!select.exists('.rgh-releases-tab')) {
 		await addReleasesTab();
 	}

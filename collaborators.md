@@ -14,4 +14,4 @@ When features are breaking GitHub altogether, they can be disabled immediately f
 
 Refined GitHub fetches a list of buggy features at most every 6 hours if the user visits GitHub.
 
-This list of disabled features lives on the [`hotfixes` branch](https://github.com/refined-github/refined-github/tree/hotfix), together with more detailed instructions on how to properly use it.
+This list of disabled features lives on the [`yolo` repo](https://github.com/refined-github/yolo), together with more detailed instructions on how to properly use it.

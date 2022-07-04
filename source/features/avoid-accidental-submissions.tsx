@@ -6,10 +6,6 @@ import * as pageDetect from 'github-url-detection';
 import {isMac} from '../github-helpers';
 import features from '.';
 
-function addQuickSubmit(): void {
-	select('input#commit-summary-input')!.classList.add('js-quick-submit');
-}
-
 function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void {
 	const field = event.delegateTarget;
 	const form = field.form!;
@@ -53,8 +49,8 @@ const inputElements = [
 	'#merge_title_field',
 ];
 
-function init(): void {
-	delegate(document, inputElements.join(','), 'keydown', onKeyDown);
+function init(): Deinit {
+	return delegate(document, inputElements.join(','), 'keydown', onKeyDown);
 }
 
 void features.add(import.meta.url, {
@@ -65,15 +61,9 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 		pageDetect.isPRConversation,
 	],
+	exclude: [
+		pageDetect.isBlank,
+	],
 	deduplicate: 'has-rgh-inner',
 	init,
-}, {
-	shortcuts: {
-		'ctrl enter': 'Publish a new/edited file',
-	},
-	include: [
-		pageDetect.isNewFile,
-		pageDetect.isEditingFile,
-	],
-	init: addQuickSubmit,
 });

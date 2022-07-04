@@ -54,8 +54,10 @@ async function hasProjects(): Promise<boolean> {
 }
 
 async function hideProjects(): Promise<void> {
+	// TODO: False negatives require a `?.` #4884
 	if (!await hasProjects()) {
-		(await elementReady('[data-hotkey="p"]'))!.parentElement!.remove();
+		const projectsDropdown = await elementReady('[data-hotkey="p"]');
+		projectsDropdown?.parentElement!.remove();
 	}
 }
 

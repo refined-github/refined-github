@@ -134,7 +134,7 @@ async function init(): Promise<void> {
 	await addAfterBranchSelector(button);
 }
 
-async function initEditing(): Promise<void> {
+async function initEditing(): Promise<false | void> {
 	const [path, prsByFile] = await Promise.all([
 		getCurrentPath(),
 		getPrsByFile(),
@@ -155,7 +155,12 @@ async function initEditing(): Promise<void> {
 
 	const [prNumber] = prs; // First one or only one
 
-	(await elementReady('.file'))!.after(
+	const file = await elementReady('.file');
+	if (!file && pageDetect.isBlank()) {
+		return false;
+	}
+
+	file!.after(
 		<div className="form-warning p-3 mb-3 mx-lg-3">
 			{
 				prs.length === 1

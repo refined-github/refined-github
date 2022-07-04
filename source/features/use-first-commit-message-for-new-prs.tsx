@@ -6,22 +6,30 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import looseParseInt from '../helpers/loose-parse-int';
 
-// TODO [2022-05-01]: Drop GHE code and merge function back in init
-function getFirstCommitMessage(): string[] {
-	if (pageDetect.isEnterprise()) {
-		return select('#commits_bucket [data-url$="compare/commit"] a[title]')!.title.split('\n\n');
+function interpretNode(node: ChildNode): string | void {
+	switch (node instanceof Element && node.tagName) {
+		case false:
+		case 'A':
+			return node.textContent!;
+		case 'CODE':
+			// Restore backticks that GitHub loses when rendering them
+			return '`' + node.textContent! + '`';
+		default:
+			// Ignore other nodes, like `<span>...</span>` that appears when commits have a body
 	}
+}
 
-	const commitSummaryWrapper = select('.js-commits-list-item a.Link--primary')!.parentElement!;
-	const commitDescription = select('.js-commits-list-item pre')?.textContent ?? '';
+function getFirstCommit(): {title: string; body: string | undefined} {
+	const titleParts = select('.js-commits-list-item:first-child p')!.childNodes;
+	const body = select('.js-commits-list-item:first-child .Details-content--hidden pre')
+		?.textContent!.trim() ?? undefined;
 
-	// Linkified commit summaries are split into several adjacent links #5382
-	const commitSummary = select.all(':scope > a', commitSummaryWrapper)
-		.map(commitTitleLink => commitTitleLink.innerHTML)
+	const title = [...titleParts]
+		.map(node => interpretNode(node))
 		.join('')
-		.replace(/<\/?code>/g, '`');
+		.trim();
 
-	return [commitSummary, commitDescription];
+	return {title, body};
 }
 
 async function init(): Promise<void | false> {
@@ -32,18 +40,18 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const [prTitle, ...prBody] = getFirstCommitMessage();
+	const firstCommit = getFirstCommit();
 	if (!requestedContent.has('pull_request[title]')) {
 		textFieldEdit.set(
 			select('.discussion-topic-header input')!,
-			prTitle,
+			firstCommit.title,
 		);
 	}
 
-	if (!requestedContent.has('pull_request[body]')) {
+	if (firstCommit.body && !requestedContent.has('pull_request[body]')) {
 		textFieldEdit.insert(
 			select('#new_pull_request textarea[aria-label="Comment body"]')!,
-			prBody.join('\n\n'),
+			firstCommit.body,
 		);
 	}
 }
@@ -55,3 +63,10 @@ void features.add(import.meta.url, {
 	awaitDomReady: false,
 	init,
 });
+
+/*
+Test URLs
+https://github.com/refined-github/sandbox/compare/linked-commit-title?expand=1
+https://github.com/refined-github/sandbox/compare/rendered-commit-title?expand=1
+https://github.com/refined-github/sandbox/compare/github-moji?expand=1
+*/

@@ -7,9 +7,24 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
-import {getChangesToFileInCommit} from './follow-file-renames';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getCleanPathname} from '../github-helpers';
+
+interface File {
+	previous_filename?: string;
+	filename: string;
+	status: string;
+	blob_url: string;
+}
+
+interface FileChanges {
+	file: File;
+	commit: {
+		parentSha: string;
+		date: Date;
+		url: string;
+	};
+}
 
 function getType(): string {
 	return location.pathname.split('/').pop()!.includes('.') ? 'file' : 'object';
@@ -55,6 +70,23 @@ async function getLatestCommitToFile(branch: string, filePath: string): Promise<
 	`);
 	const commit = repository.object?.history.nodes[0];
 	return commit?.oid;
+}
+
+async function getChangesToFileInCommit(sha: string, filePath: string): Promise<FileChanges | void> {
+	// API v4 doesn't support it: https://github.community/t/what-is-the-corresponding-object-in-graphql-api-v4-for-patch-which-is-available-in-rest-api-v3/13590
+	const commit = await api.v3(`commits/${sha}`);
+	for (const fileInfo of commit.files as File[]) {
+		if ([fileInfo.filename, fileInfo.previous_filename].includes(filePath)) {
+			return {
+				commit: {
+					parentSha: commit.parents[0].sha,
+					date: commit.commit.committer.date,
+					url: commit.html_url,
+				},
+				file: fileInfo,
+			};
+		}
+	}
 }
 
 async function getUrlToFileOnDefaultBranch(): Promise<string | void> {

@@ -1,3 +1,17 @@
+/* Limit width of commit title to 72 characters */
+#merge_title_field,
+#commit-summary-input {
+	box-sizing: content-box; /* Exclude padding/border from `width`; No need to mess with `calc` */
+	width: 72ch;
+
+	/* Like 100%, except it works with content-box and it feels like -webkit-1999 */
+	/* stylelint-disable */
+	max-width: -webkit-fill-available;
+	max-width: -moz-available;
+	max-width: intrinsic;
+	/* stylelint-enable */
+}
+
 :is(#commit-summary-input, #merge_title_field).rgh-title-over-limit {
 	border-color: var(--rgh-red);
 	background-color: rgb(203 36 49 / 3%);
@@ -6,3 +20,13 @@
 :is(#commit-summary-input, #merge_title_field).rgh-title-over-limit:focus {
 	box-shadow: inset 0 1px 2px rgb(35 27 27 / 7.5%), 0 0 0 0.2em rgb(203 36 49 / 30%);
 }
+
+/*
+
+## Test URLs
+
+- File edit: https://github.com/refined-github/refined-github/edit/fix-commit-title-limit/source/refined-github.css
+- Workflow edit: https://github.com/refined-github/refined-github/edit/fix-commit-title-limit/.github/workflows/features.yml
+- Any mergeable PR
+
+*/

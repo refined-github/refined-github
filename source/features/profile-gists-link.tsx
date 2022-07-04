@@ -8,7 +8,7 @@ import {CodeSquareIcon} from '@primer/octicons-react';
 import features from '.';
 import * as api from '../github-helpers/api';
 import {getCleanPathname} from '../github-helpers';
-import {createDropdownItem} from './more-dropdown-links';
+import createDropdownItem from '../github-helpers/create-dropdown-item';
 
 const getGistCount = cache.function(async (username: string): Promise<number> => {
 	const {user} = await api.v4(`

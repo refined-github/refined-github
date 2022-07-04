@@ -1,16 +1,26 @@
-/* `.sticky-file-header` excludes native sticky header */
-.file-header:not(.sticky-file-header) {
+:root .file-header {
 	position: sticky;
+	z-index: 6; /* isBlame, isEditingFile */
 	top: 0;
-	/* Same as `.sticky-file-header.is-stuck */
-	z-index: 6;
 }
 
-/* Same as `.sticky-file-header.has-open-dropdown` */
-.file-header.has-open-dropdown:not(.sticky-file-header) {
-	z-index: 10;
+.notification-shelf ~ .application-main .file-header {
+	top: 129px;
 }
 
-.notification-shelf ~ .application-main .file-header:not(.sticky-file-header) {
-	top: 69px;
+/* Consider the File List fixed header/sidebar in commits */
+:root diff-layout .file-header {
+	top: 60px;
 }
+
+/*
+Test URLs
+https://github.com/refined-github/refined-github/commit/1d9dd9f0208c327351512beb6d6a22279bc47807
+https://github.com//refined-github/refined-github/compare/22.2.13...22.2.22#files_bucket
+https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+https://github.com/refined-github/refined-github/edit/main/readme.md
+https://github.com/refined-github/refined-github/blame/243e51d786e4771d313091b94cec826ff86becc9/source/features/index.tsx#L326-L327
+
+Exclude:
+https://github.com/refined-github/refined-github/pull/5460/files (actually included, but natively supported anyway)
+*/

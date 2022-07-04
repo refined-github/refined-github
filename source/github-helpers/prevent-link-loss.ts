@@ -13,7 +13,7 @@ export const prCommitUrlRegex = new RegExp('\\b' + escapeRegex(location.origin) 
 const prComparePathnameRegex = /[/]([^/]+[/][^/]+)[/]compare[/](.+)(#diff-[\da-fR-]+)/; // eslint-disable-line unicorn/better-regex
 export const prCompareUrlRegex = new RegExp('\\b' + escapeRegex(location.origin) + prComparePathnameRegex.source, 'gi');
 
-const discussionPathnameRegex = /[/]([^/]+[/][^/]+)[/]discussions[/](\d+)[?][^#\s]+(#discussioncomment-\w+)?\b/; // eslint-disable-line unicorn/better-regex
+const discussionPathnameRegex = /[/]([^/]+[/][^/]+)[/]discussions[/](\d+)[?][^#\s]+(#[\w-]+)?\b/; // eslint-disable-line unicorn/better-regex
 export const discussionUrlRegex = new RegExp('\\b' + escapeRegex(location.origin) + discussionPathnameRegex.source, 'gi');
 
 // To be used as replacer callback in string.replace() for PR commit links

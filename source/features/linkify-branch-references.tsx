@@ -50,10 +50,11 @@ const hovercardObserver = new MutationObserver(([mutation]) => {
 	}
 });
 
-function hovercardInit(): void {
+function hovercardInit(): void | Deinit {
 	const hovercardContainer = select('.js-hovercard-content > .Popover-message');
 	if (hovercardContainer) {
 		hovercardObserver.observe(hovercardContainer, {childList: true});
+		return hovercardObserver;
 	}
 }
 

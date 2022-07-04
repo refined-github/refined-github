@@ -46,10 +46,13 @@ function addButtons(): void {
 	}
 }
 
-function init(): void {
-	delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails);
+function init(): Deinit {
 	addButtons();
-	onCommentEdit(addButtons);
+
+	return [
+		delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails),
+		onCommentEdit(addButtons),
+	];
 }
 
 void features.add(import.meta.url, {

@@ -6,11 +6,14 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, EyeClosedIcon, EyeIcon, XIcon} from '@primer/octicons-react';
 
+import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import onNewComments from '../github-events/on-new-comments';
+import registerHotkey from '../github-helpers/register-hotkey';
 import {getRghIssueUrl} from '../helpers/rgh-issue-link';
-import {wrap, isEditable} from '../helpers/dom-utils';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
+
+const expectedDropdownWidth = 270;
 
 const states = {
 	default: '',
@@ -24,16 +27,13 @@ const dropdownClass = 'rgh-conversation-activity-filter-dropdown';
 const hiddenClassName = 'rgh-conversation-activity-filtered';
 const collapsedClassName = 'rgh-conversation-activity-collapsed';
 
-function isWholeReviewEssentiallyResolved(review: HTMLElement): boolean {
-	const hasMainComment = select.exists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
-	if (hasMainComment) {
-		return false;
+function processTimelineEvent(item: HTMLElement): void {
+	// Don't hide commits in PR conversation timelines #5581
+	if (pageDetect.isPR() && select.exists('.TimelineItem-badge .octicon-git-commit', item)) {
+		return;
 	}
 
-	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
-	const hasUnresolvedThread = select.exists('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
-	const hasUnresolvedThreadComment = select.exists('.timeline-comment-group:not(.minimized-comment)', review);
-	return !hasUnresolvedThread || !hasUnresolvedThreadComment;
+	item.classList.add(hiddenClassName);
 }
 
 function processSimpleComment(item: HTMLElement): void {
@@ -43,26 +43,52 @@ function processSimpleComment(item: HTMLElement): void {
 	}
 }
 
+function processDissmissedReviewEvent(item: HTMLElement): void {
+	item.classList.add(hiddenClassName);
+
+	// Find and hide stale reviews referenced by dismissed review events
+	for (const {hash: staleReviewId} of select.all<HTMLAnchorElement>('.TimelineItem-body > [href^="#pullrequestreview-"]', item)) {
+		select(staleReviewId)!
+			.closest('.js-timeline-item')!
+			.classList.add(collapsedClassName);
+	}
+}
+
 function processReview(review: HTMLElement): void {
-	if (isWholeReviewEssentiallyResolved(review)) {
-		review.classList.add(collapsedClassName);
+	const hasMainComment = select.exists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
+
+	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
+	const unresolvedThreads = select.all('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
+	const unresolvedThreadComments = select.all('.timeline-comment-group:not(.minimized-comment)', review);
+
+	if (!hasMainComment && (unresolvedThreads.length === 0 || unresolvedThreadComments.length === 0)) {
+		review.classList.add(collapsedClassName); // The whole review is essentially resolved
 		return;
 	}
 
-	for (const threadContainer of select.all('.js-resolvable-timeline-thread-container[data-resolved="true"]', review)) {
-		threadContainer.classList.add(collapsedClassName);
+	for (const thread of unresolvedThreads) {
+		// Hide threads containing only resolved comments
+		if (!unresolvedThreadComments.some(comment => thread.contains(comment))) {
+			thread.classList.add(collapsedClassName);
+		}
 	}
 }
 
 function processPage(): void {
 	for (const item of select.all(`.js-timeline-item:not(.${hiddenClassName}, .${collapsedClassName})`)) {
+		// Exclude deep-linked comment
+		if (location.hash.startsWith('#issuecomment-') && select.exists(location.hash, item)) {
+			continue;
+		}
+
 		if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
 			processReview(item);
+		} else if (select.exists('.TimelineItem-badge .octicon-x', item)) {
+			processDissmissedReviewEvent(item);
 		} else if (select.exists('.comment-body', item)) {
 			processSimpleComment(item);
 		} else {
-			// Non-comment event, always hide
-			item.classList.add(hiddenClassName);
+			processTimelineEvent(item);
 		}
 	}
 }
@@ -121,20 +147,31 @@ async function addWidget(header: string, state: State): Promise<void> {
 		return;
 	}
 
+	// Try to place the dropdown to the left https://github.com/refined-github/refined-github/issues/5450#issuecomment-1068284635
+	const availableSpaceToTheLeftOfTheDropdown
+		= position.lastElementChild!.getBoundingClientRect().right
+		- position.parentElement!.getBoundingClientRect().left;
+
+	// It may be zero on the sticky header, but `clean-conversation-headers` doesn't apply there
+	const alignment
+		= availableSpaceToTheLeftOfTheDropdown === 0
+		|| (availableSpaceToTheLeftOfTheDropdown > expectedDropdownWidth)
+			? 'right-0' : 'left-0';
+
 	wrap(position, <div className="rgh-conversation-activity-filter-wrapper"/>);
 	position.classList.add('rgh-conversation-activity-filter');
 	position.after(
 		<details
-			className={`details-reset details-overlay d-inline-block position-relative ${dropdownClass}`}
+			className={`details-reset details-overlay d-inline-block ml-2 position-relative ${dropdownClass}`}
 			id="rgh-conversation-activity-filter-select-menu"
 		>
-			<summary className="ml-2">
+			<summary>
 				<EyeIcon className="color-text-secondary color-fg-muted"/>
 				<EyeClosedIcon className="color-icon-danger color-fg-danger"/>
 				<div className="dropdown-caret ml-1"/>
 			</summary>
 			<details-menu
-				className="SelectMenu right-0"
+				className={`SelectMenu ${alignment}`}
 				on-details-menu-select={handleSelection}
 			>
 				<div className="SelectMenu-modal">
@@ -164,11 +201,13 @@ const minorFixesIssuePages = [
 	getRghIssueUrl(4008),
 ];
 
-function runShortcuts({key, target}: KeyboardEvent): void {
-	if (key !== 'h' || isEditable(target)) {
-		return;
+function uncollapseTargetedComment(): void {
+	if (location.hash.startsWith('#issuecomment-')) {
+		select(`.${collapsedClassName} ${location.hash}`)?.closest('.js-timeline-item')?.classList.remove(collapsedClassName);
 	}
+}
 
+function switchToNextFilter(): void {
 	const state = select(`.${dropdownClass} [aria-checked="true"]`)!.dataset.value as State;
 	// eslint-disable-next-line default-case
 	switch (state) {
@@ -186,7 +225,7 @@ function runShortcuts({key, target}: KeyboardEvent): void {
 	}
 }
 
-async function init(): Promise<void> {
+async function init(signal: AbortSignal): Promise<Deinit> {
 	const state = minorFixesIssuePages.some(url => location.href.startsWith(url))
 		? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 		: 'default';
@@ -198,7 +237,8 @@ async function init(): Promise<void> {
 		applyState(state);
 	}
 
-	document.body.addEventListener('keypress', runShortcuts);
+	window.addEventListener('hashchange', uncollapseTargetedComment, {signal});
+	return registerHotkey('h', switchToNextFilter);
 }
 
 void features.add(import.meta.url, {
@@ -209,7 +249,7 @@ void features.add(import.meta.url, {
 		onConversationHeaderUpdate,
 	],
 	shortcuts: {
-		h: 'Cycle between conversation activity filters',
+		h: 'Cycle through conversation activity filters',
 	},
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',

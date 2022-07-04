@@ -8,6 +8,9 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import isLowQualityComment from '../helpers/is-low-quality-comment';
 
+// eslint-disable-next-line import/prefer-default-export
+export const singleParagraphCommentSelector = '.comment-body > p:only-child';
+
 async function unhide(event: delegate.Event): Promise<void> {
 	for (const comment of select.all('.rgh-hidden-comment')) {
 		comment.hidden = false;
@@ -29,7 +32,7 @@ function hideComment(comment: HTMLElement): void {
 	comment.classList.add('rgh-hidden-comment');
 }
 
-function init(): void {
+function init(): void | Deinit {
 	let lowQualityCount = 0;
 
 	for (const similarCommentsBox of select.all('.js-discussion .Details-element:not([data-body-version])')) {
@@ -37,10 +40,9 @@ function init(): void {
 		lowQualityCount++;
 	}
 
-	const commentSelector = '.comment-body > p:only-child';
-	const linkedComment = location.hash.startsWith('#issuecomment-') ? select(`${location.hash} ${commentSelector}`) : undefined;
+	const linkedComment = location.hash.startsWith('#issuecomment-') ? select(`${location.hash} ${singleParagraphCommentSelector}`) : undefined;
 
-	for (const commentText of select.all(commentSelector)) {
+	for (const commentText of select.all(singleParagraphCommentSelector)) {
 		// Exclude explicitely linked comments #5363
 		if (commentText === linkedComment) {
 			continue;
@@ -82,7 +84,7 @@ function init(): void {
 				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>
 			</p>,
 		);
-		delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide);
+		return delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide);
 	}
 }
 

@@ -9,13 +9,22 @@ import waitFor from '../helpers/wait-for';
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import {shouldFeatureRun} from '../github-helpers';
+import polyfillTurboEvents from '../github-helpers/turbo-events-polyfill';
 import optionsStorage, {RGHOptions} from '../options-storage';
-import {getLocalHotfixesAsOptions, getStyleHotfixes, updateHotfixes, updateStyleHotfixes} from '../helpers/hotfix';
+import {
+	getLocalHotfixesAsOptions,
+	getLocalStrings,
+	getStyleHotfixes,
+	updateHotfixes,
+	updateLocalStrings,
+	updateStyleHotfixes,
+	_,
+} from '../helpers/hotfix';
 
 type BooleanFunction = () => boolean;
-export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void;
-type FeatureInitResult = false | void | VoidFunction | VoidFunction[];
-type FeatureInit = () => Promisable<FeatureInitResult>;
+export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
+type FeatureInitResult = void | false | Deinit;
+type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
 
 interface FeatureLoader extends Partial<InternalRunConfig> {
 	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
@@ -91,6 +100,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		getLocalHotfixesAsOptions(),
 		getStyleHotfixes(),
 		bisectFeatures(),
+		getLocalStrings(),
 	]);
 
 	await waitFor(() => document.body);
@@ -104,6 +114,7 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	}
 
 	void updateStyleHotfixes(version);
+	void updateLocalStrings();
 
 	if (bisectedFeatures) {
 		Object.assign(options, bisectedFeatures);
@@ -140,8 +151,37 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	document.documentElement.classList.add('refined-github');
 
+	polyfillTurboEvents();
+
 	resolve(options);
 });
+
+function getDeinitHandler(deinit: DeinitHandle): VoidFunction {
+	if (deinit instanceof MutationObserver || deinit instanceof ResizeObserver || deinit instanceof IntersectionObserver) {
+		return () => {
+			deinit.disconnect();
+		};
+	}
+
+	if ('abort' in deinit) { // Selector observer
+		return () => {
+			deinit.abort();
+		};
+	}
+
+	if ('destroy' in deinit) { // Delegate subscription
+		return deinit.destroy;
+	}
+
+	return deinit;
+}
+
+function setupDeinit(deinit: Deinit): void {
+	const deinitFunctions = Array.isArray(deinit) ? deinit : [deinit];
+	for (const deinit of deinitFunctions) {
+		document.addEventListener('turbo:visit', getDeinitHandler(deinit), {once: true});
+	}
+}
 
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
 	const {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners} = config;
@@ -150,16 +190,18 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 		return;
 	}
 
-	const controller = new AbortController();
-	document.addEventListener('pjax:start', () => {
-		controller.abort();
-	}, {once: true});
+	const deinitController = new AbortController();
+	document.addEventListener('turbo:visit', () => {
+		deinitController.abort();
+	}, {
+		once: true,
+	});
 
 	const runFeature = async (): Promise<void> => {
 		let result: FeatureInitResult;
 
 		try {
-			result = await init();
+			result = await init(deinitController.signal);
 			// Features can return `false` when they decide not to run on the current page
 			// Also the condition avoids logging the fake feature added for `has-rgh`
 			if (result !== false && !id?.startsWith('rgh')) {
@@ -169,13 +211,8 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 			log.error(id, error);
 		}
 
-		if (!result) {
-			return;
-		}
-
-		const deinitFunctions = Array.isArray(result) ? result : [result];
-		for (const deinit of deinitFunctions) {
-			document.addEventListener('pjax:start', deinit, {once: true});
+		if (result) {
+			setupDeinit(result);
 		}
 	};
 
@@ -185,7 +222,10 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 
 	await domLoaded; // Listeners likely need to work on the whole page
 	for (const listener of additionalListeners) {
-		listener(runFeature, controller.signal);
+		const deinit = listener(runFeature, deinitController.signal);
+		if (deinit && !(deinit instanceof Promise)) {
+			setupDeinit(deinit);
+		}
 	}
 };
 
@@ -262,7 +302,7 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 			void setupPageLoad(id, details);
 		}
 
-		document.addEventListener('pjax:end', () => {
+		document.addEventListener('turbo:render', () => {
 			if (!deduplicate || !select.exists(deduplicate)) {
 				void setupPageLoad(id, details);
 			}
@@ -277,7 +317,7 @@ const addCssFeature = async (url: string, include: BooleanFunction[] | undefined
 		deduplicate: false,
 		awaitDomReady: false,
 		init() {
-			document.body.classList.add('rgh-' + id);
+			document.documentElement.classList.add('rgh-' + id);
 		},
 	});
 };
@@ -293,8 +333,8 @@ void add('rgh-deduplicator' as FeatureID, {
 	async init() {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
-		select('#js-repo-pjax-container, #js-pjax-container')?.append(<has-rgh/>);
-		select('#repo-content-pjax-container')?.append(<has-rgh-inner/>); // #4567
+		select(_`#js-repo-pjax-container, #js-pjax-container`)?.append(<has-rgh/>);
+		select(_`#repo-content-pjax-container, turbo-frame`)?.append(<has-rgh-inner/>); // #4567
 	},
 });
 

@@ -126,10 +126,12 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	);
 }
 
-function init(): void {
-	// `useCapture` required to be fired before GitHub's handlers
-	delegate(document, '.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, true);
-	delegate(document, '.rgh-restore-file', 'click', handleRestoreFileClick, true);
+function init(): Deinit {
+	return [
+		// `useCapture` required to be fired before GitHub's handlers
+		delegate(document, '.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, true),
+		delegate(document, '.rgh-restore-file', 'click', handleRestoreFileClick, true),
+	];
 }
 
 void features.add(import.meta.url, {
@@ -137,5 +139,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit,
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });

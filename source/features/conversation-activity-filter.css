@@ -1,18 +1,19 @@
 .rgh-conversation-activity-is-filtered .rgh-conversation-activity-filtered,
-.rgh-conversation-activity-is-collapsed-filtered .rgh-conversation-activity-collapsed,
+.rgh-conversation-activity-is-collapsed-filtered :is(
+	.rgh-conversation-activity-collapsed,
+	.js-resolvable-timeline-thread-container[data-resolved='true'], /* Resolved review thread */
+	.js-resolvable-timeline-thread-container[data-resolved='false'] .minimized-comment, /* Minimized review thread comment */
+),
 .rgh-conversation-activity-is-filtered .rgh-conversation-activity-filter-dropdown .octicon-eye,
 .js-issues-results:not(.rgh-conversation-activity-is-filtered) .rgh-conversation-activity-filter-dropdown .octicon-eye-closed {
 	display: none !important;
+	/* For debugging purposes only */
+	/* display: block !important; */
+	/* outline: solid 5px #f00; */
 }
 
 .rgh-conversation-activity-filter-dropdown .SelectMenu-modal {
 	width: max-content;
-}
-
-/* Debugging-only class. Drop wow to enable it */
-wow:root:root :is(.rgh-conversation-activity-filtered, .rgh-conversation-activity-collapsed) {
-	display: block !important;
-	outline: solid 5px #f00;
 }
 
 .gh-header-meta .rgh-conversation-activity-filter {
@@ -26,4 +27,8 @@ wow:root:root :is(.rgh-conversation-activity-filtered, .rgh-conversation-activit
 .gh-header-sticky .rgh-conversation-activity-filter-dropdown summary {
 	display: flex;
 	align-items: center;
+}
+
+.gh-header-meta .rgh-conversation-activity-filter-wrapper {
+	margin-bottom: 8px; /* Preserve centered vertical alignment with status badge */
 }

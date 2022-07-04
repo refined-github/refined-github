@@ -6,9 +6,9 @@ import features from '.';
 const className = 'rgh-no-navigation-highlight';
 
 function init(): void {
-	document.body.classList.add(className);
-	document.body.addEventListener('navigation:keydown', () => {
-		document.body.classList.remove(className);
+	document.documentElement.classList.add(className);
+	document.documentElement.addEventListener('navigation:keydown', () => {
+		document.documentElement.classList.remove(className);
 	}, {once: true});
 }
 

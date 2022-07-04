@@ -1,21 +1,26 @@
-import elementReady from 'element-ready';
+import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import onElementRemoval from '../helpers/on-element-removal';
+import registerHotkey from '../github-helpers/register-hotkey';
 
-async function init(): Promise<void> {
-	const selectAllNotifications = await elementReady('.js-notifications-mark-all-prompt');
-	if (selectAllNotifications) { // Notifications page may be empty
-		selectAllNotifications.dataset.hotkey = 'a';
-		await onElementRemoval(selectAllNotifications); // "Select all" checkbox will be replaced if there's more notifications to load #4199
-		void init();
-	}
+function selectAllNotifications(): void {
+	select('.js-notifications-mark-all-prompt')!.click();
+}
+
+function init(): Deinit {
+	return registerHotkey('a', selectAllNotifications);
 }
 
 void features.add(import.meta.url, {
+	shortcuts: {
+		a: 'Select all notifications',
+	},
 	include: [
 		pageDetect.isNotifications,
+	],
+	exclude: [
+		pageDetect.isBlank, // Empty notification list
 	],
 	awaitDomReady: false,
 	init,

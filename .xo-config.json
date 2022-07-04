@@ -8,6 +8,10 @@
 		"__filebasename"
 	],
 	"rules": {
+		"jsx-quotes": [
+			"error",
+			"prefer-double"
+		],
 		"no-alert": "off",
 		"no-warning-comments": "off",
 		"unicorn/prefer-dom-node-dataset": "off",
@@ -26,7 +30,8 @@
 				"allowExpressions": true
 			}
 		],
-		"node/prefer-global/process": "off",
+		"n/prefer-global/process": "off",
+		"n/file-extension-in-import": "off",
 		"import/no-cycle": "off",
 		"import/no-unassigned-import": "off",
 		"import/extensions": "off",

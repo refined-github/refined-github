@@ -48,10 +48,10 @@ function handleCompareMenuOpening({delegateTarget: dropdown}: delegate.Event): v
 	select('[aria-label$="delete this file."]', dropdown)!.replaceWith(deleteFile);
 }
 
-function init(): void {
+function init(): Deinit {
 	const handleMenuOpening = pageDetect.isCompare() ? handleCompareMenuOpening : handlePRMenuOpening;
 	// `useCapture` required to be fired before GitHub's handlers
-	delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown:not(.rgh-actionable-link)', 'toggle', handleMenuOpening, true);
+	return delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown:not(.rgh-actionable-link)', 'toggle', handleMenuOpening, true);
 }
 
 void features.add(import.meta.url, {
@@ -66,6 +66,7 @@ void features.add(import.meta.url, {
 		// If you're viewing changes from partial commits, ensure you're on the latest one.
 		() => select.exists('.js-commits-filtered') && !select.exists('[aria-label="You are viewing the latest commit"]'),
 	],
+	deduplicate: 'has-rgh-inner',
 	init,
 }, {
 	asLongAs: [

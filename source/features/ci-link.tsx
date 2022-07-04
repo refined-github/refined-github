@@ -8,10 +8,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
 
 // Look for the CI details dropdown in the latest 2 days of commits #2990
-const ciDetailsSelector = [
-	'.TimelineItem--condensed:nth-of-type(-n+2) .commit-build-statuses', // TODO[2022-04-29]: GHE #4294
-	'.TimelineItem--condensed:nth-of-type(-n+2) batch-deferred-content[data-url$="checks-statuses-rollups"]',
-].join(',');
+const ciDetailsSelector = '.TimelineItem--condensed:nth-of-type(-n+2) batch-deferred-content[data-url$="checks-statuses-rollups"]';
 
 async function getCiDetails(): Promise<HTMLElement | undefined> {
 	if (pageDetect.isRepoHome()) {

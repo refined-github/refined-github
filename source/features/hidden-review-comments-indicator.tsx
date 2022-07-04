@@ -63,10 +63,14 @@ function observeFiles(): void {
 	}
 }
 
-function init(): void {
+function init(): Deinit {
 	observeFiles();
-	onDiffFileLoad(observeFiles);
-	delegate(document, '.rgh-comments-indicator', 'click', handleIndicatorClick);
+
+	return [
+		observer,
+		onDiffFileLoad(observeFiles),
+		delegate(document, '.rgh-comments-indicator', 'click', handleIndicatorClick),
+	];
 }
 
 void features.add(import.meta.url, {

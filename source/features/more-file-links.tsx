@@ -27,9 +27,9 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	);
 }
 
-function init(): void {
+function init(): Deinit {
 	// `useCapture` required to be fired before GitHub's handlers
-	delegate(document, '.file-header .js-file-header-dropdown:not(.rgh-more-file-links)', 'toggle', handleMenuOpening, true);
+	return delegate(document, '.file-header .js-file-header-dropdown:not(.rgh-more-file-links)', 'toggle', handleMenuOpening, true);
 }
 
 void features.add(import.meta.url, {

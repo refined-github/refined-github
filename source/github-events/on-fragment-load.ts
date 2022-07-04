@@ -26,3 +26,7 @@ export function onDiffFileLoad(callback: EventListener): delegate.Subscription {
 export function onCommentEdit(callback: EventListener): delegate.Subscription {
 	return createFragmentLoadListener('.js-comment-edit-form-deferred-include-fragment', callback);
 }
+
+export function onPrMergePanelLoad(callback: EventListener): delegate.Subscription {
+	return createFragmentLoadListener('.discussion-timeline-actions include-fragment[src$="/merging"]', callback);
+}

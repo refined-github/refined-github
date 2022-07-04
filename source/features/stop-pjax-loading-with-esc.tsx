@@ -42,7 +42,6 @@ function pjaxErrorHandler(event: CustomEvent): void {
 
 function init(): void {
 	progressLoader = select('.progress-pjax-loader')!;
-
 	window.addEventListener('keydown', keydownHandler);
 }
 

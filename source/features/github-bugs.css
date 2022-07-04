@@ -72,3 +72,27 @@
 #partial-discussion-sidebar .js-collab-form .status-indicator .octicon {
 	vertical-align: baseline !important;
 }
+
+/* Fix spacing of repo header button icons #5620 */
+.pagehead-actions :is(.btn, summary) .octicon {
+	margin-right: 4px !important;
+}
+
+/* Avoid excessive repo title wrap by deprioritizing the repo header actions #5398 */
+@media (min-width: 768px) { /* Match .d-md-inline-flex */
+	:root .pagehead-actions {
+		flex-shrink: 3 !important;
+		display: inline-flex !important;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+	}
+
+	:root .pagehead-actions > li {
+		margin: 0;
+	}
+
+	.pagehead-actions > li > * {
+		margin: 8px 8px 0 0 !important;
+		display: block; /* Inline elements don't treat margins the same way, which causes a jump during the page load */
+	}
+}

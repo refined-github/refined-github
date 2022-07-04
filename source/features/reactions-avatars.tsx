@@ -1,14 +1,12 @@
 import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {getUsername} from '../github-helpers';
-import onElementRemoval from '../helpers/on-element-removal';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -20,11 +18,9 @@ interface Participant {
 }
 
 function getParticipants(button: HTMLButtonElement): Participant[] {
-	// Reaction buttons on releases and review comments have the list of people in subsequent `<primer-tooltip>` element instead of `aria-label` #5287
-	const tooltip = button.classList.contains('tooltipped')
-		? button.getAttribute('aria-label')!
-		: button.nextElementSibling!.textContent!;
-	const users = tooltip
+	// The list of people who commented is in an adjacent `<tool-tip>` element #5698
+	const users = button.nextElementSibling!
+		.textContent!
 		.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')
@@ -40,7 +36,7 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 		const cleanName = username.replace('[bot]', '');
 
 		// Find image on page. Saves a request and a redirect + add support for bots
-		const existingAvatar = select<HTMLImageElement>(`[alt="@${cleanName}"]`);
+		const existingAvatar = select(`img[alt="@${cleanName}"]`);
 		if (existingAvatar) {
 			participants.push({button, username, imageUrl: existingAvatar.src});
 			continue;
@@ -56,7 +52,26 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 	return participants;
 }
 
-async function showAvatarsOn(commentReactions: Element): Promise<void> {
+const viewportObserver = new IntersectionObserver(changes => {
+	for (const change of changes) {
+		if (change.isIntersecting) {
+			showAvatarsOn(change.target);
+			viewportObserver.unobserve(change.target);
+		}
+	}
+}, {
+	// Start loading a little before they become visible
+	rootMargin: '500px',
+});
+
+const resizeObserver = new ResizeObserver(([{target}], observer) => {
+	if (!target.isConnected) {
+		observer.unobserve(target);
+		observeReactions();
+	}
+});
+
+function showAvatarsOn(commentReactions: Element): void {
 	const avatarLimit = arbitraryAvatarLimit - (commentReactions.children.length * approximateHeaderLength);
 
 	const participantByReaction = select
@@ -72,39 +87,38 @@ async function showAvatarsOn(commentReactions: Element): Promise<void> {
 		);
 	}
 
-	await onElementRemoval(commentReactions.closest('.comment-reactions')!);
-	init();
+	resizeObserver.observe(commentReactions.closest('.comment-reactions')!);
 }
 
-const viewportObserver = new IntersectionObserver(changes => {
-	for (const change of changes) {
-		if (change.isIntersecting) {
-			void showAvatarsOn(change.target);
-			viewportObserver.unobserve(change.target);
-		}
+// TODO [2022-12-18]: Drop `.comment-reactions-options` (GHE)
+const reactionsSelector = '.has-reactions :is(.js-comment-reactions-options, .comment-reactions-options):not(.rgh-reactions)';
+
+function observeReactions(): void {
+	for (const commentReactions of select.all(reactionsSelector)) {
+		observeCommentReactions(commentReactions);
 	}
-}, {
-	// Start loading a little before they become visible
-	rootMargin: '500px',
-});
+}
 
-const selector = '.has-reactions .comment-reactions-options:not(.rgh-reactions)';
-
-function observeReactions(commentReactions: Element): void {
+function observeCommentReactions(commentReactions: Element): void {
 	commentReactions.classList.add('rgh-reactions');
 	viewportObserver.observe(commentReactions);
 }
 
-function init(): void {
-	for (const commentReactions of select.all(selector)) {
-		observeReactions(commentReactions);
-	}
+function init(): Deinit {
+	observeReactions();
+
+	return [
+		viewportObserver,
+		resizeObserver,
+	];
 }
 
-function discussionInit(): void {
-	observe(selector, {
-		add: observeReactions,
-	});
+function discussionInit(): Deinit {
+	return [
+		observe(reactionsSelector, {add: observeCommentReactions}),
+		viewportObserver,
+		resizeObserver,
+	];
 }
 
 void features.add(import.meta.url, {
@@ -118,5 +132,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isDiscussion,
 	],
-	init: onetime(discussionInit),
+	init: discussionInit,
 });

@@ -5,6 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import openTabs from '../helpers/open-tabs';
 
 function getUrlFromItem(issue: Element): string {
 	return issue
@@ -13,30 +14,20 @@ function getUrlFromItem(issue: Element): string {
 		.href;
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export function confirmOpen(count: number): boolean {
-	return count < 10 || confirm(`This will open ${count} new tabs. Continue?`);
-}
+const issueListSelector = pageDetect.isGlobalConversationList()
+	? '#js-issues-toolbar div'
+	: 'div[aria-label="Issues"][role="group"]';
 
 function onButtonClick(): void {
-	const modifier = pageDetect.isGlobalConversationList() ? '' : ' + div ';
-	const issues = select.all(`#js-issues-toolbar:not(.triage-mode) ${modifier} .js-issue-row`);
-
-	if (!confirmOpen(issues.length)) {
-		return;
-	}
-
-	void browser.runtime.sendMessage({
-		openUrls: issues.map(issue => getUrlFromItem(issue)),
-	});
+	const issues = select.all(`${issueListSelector} .js-issue-row`);
+	openTabs(issues.map(issue => getUrlFromItem(issue)));
 }
 
-async function init(): Promise<void | false> {
+async function init(): Promise<Deinit | false> {
 	if (!await elementReady('.js-issue-row + .js-issue-row', {waitForChildren: false})) {
 		return false;
 	}
 
-	delegate(document, '.rgh-open-all-conversations', 'click', onButtonClick);
 	select('.table-list-header-toggle:not(.states)')?.prepend(
 		<button
 			type="button"
@@ -45,6 +36,8 @@ async function init(): Promise<void | false> {
 			Open all
 		</button>,
 	);
+
+	return delegate(document, '.rgh-open-all-conversations', 'click', onButtonClick);
 }
 
 void features.add(import.meta.url, {

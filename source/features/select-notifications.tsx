@@ -123,11 +123,11 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 
 const createDropdown = onetime(() => (
 	<details
-		className="details-reset details-overlay position-relative rgh-select-notifications"
+		className="details-reset details-overlay position-relative rgh-select-notifications ml-2"
 		on-toggle={resetFilters}
 	>
 		<summary
-			className="btn btn-sm ml-3 mr-1"
+			className="btn btn-sm"
 			data-hotkey="S"
 			aria-haspopup="menu"
 			role="button"
@@ -155,20 +155,20 @@ function closeDropdown(): void {
 	select('.rgh-select-notifications')?.removeAttribute('open');
 }
 
-function init(): VoidFunction {
-	const selectObserver = observe('.js-notifications-mark-all-prompt:not(.rgh-select-notifications-added)', {
-		add(selectAllCheckbox) {
-			selectAllCheckbox.classList.add('rgh-select-notifications-added');
-			selectAllCheckbox
-				.closest('label')!
-				.after(createDropdown());
-		},
-	});
+function init(): Deinit {
+	return [
+		observe('.js-notifications-mark-all-prompt:not(.rgh-select-notifications-added)', {
+			add(selectAllCheckbox) {
+				selectAllCheckbox.classList.add('rgh-select-notifications-added');
+				selectAllCheckbox
+					.closest('label')!
+					.after(createDropdown());
+			},
+		}),
 
-	// Close the dropdown when one of the toolbar buttons is clicked
-	delegate(document, '.js-notifications-mark-selected-actions > *, .rgh-open-selected-button', 'click', closeDropdown);
-
-	return selectObserver.abort;
+		// Close the dropdown when one of the toolbar buttons is clicked
+		delegate(document, '.js-notifications-mark-selected-actions > *, .rgh-open-selected-button', 'click', closeDropdown),
+	];
 }
 
 void features.add(import.meta.url, {
@@ -179,7 +179,7 @@ void features.add(import.meta.url, {
 		pageDetect.isNotifications,
 	],
 	exclude: [
-		() => select.exists('img[src$="notifications/inbox-zero.svg"]'), // Notifications page may be empty
+		pageDetect.isBlank, // Empty notification list
 	],
 	init,
 });
