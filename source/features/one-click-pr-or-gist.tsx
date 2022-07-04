@@ -7,7 +7,7 @@ import features from '.';
 import selectHas from '../helpers/select-has';
 
 function init(): void | false {
-	const initialGroupedButtons = selectHas('.BtnGroup:has(.new-pr-form [name="draft"], #new_gist [name="gist[public]"])');
+	const initialGroupedButtons = selectHas('.BtnGroup:has([name="draft"], [name="gist[public]"])');
 	if (!initialGroupedButtons) {
 		// 1. Free accounts can't open Draft PRs in private repos, so this element is missing
 		// 2. PRs can't be created from some comparison pages: Either base is a tag, not a branch; or there already exists a PR.

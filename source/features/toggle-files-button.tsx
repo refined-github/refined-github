@@ -22,7 +22,7 @@ const noticeStyle = {paddingRight: '19px'};
 
 function addButton(): void {
 	attachElement({
-		anchor: selectHas('ul:has(.repository-content .octicon-history)')!,
+		anchor: selectHas('.repository-content ul:has(.octicon-history)')!,
 		allowMissingAnchor: true,
 		className: toggleButtonClass,
 		position: 'append',
