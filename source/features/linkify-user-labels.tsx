@@ -29,6 +29,9 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 	],
+	asLongAs: [
+		pageDetect.isRepo
+	],
 	init,
 });
 
