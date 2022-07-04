@@ -17,18 +17,6 @@ import onConversationHeaderUpdate from '../github-events/on-conversation-header-
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;
 
-function getTimelineEvent(tagUrl: string, tagName: string): JSX.Element {
-	return (
-		<TimelineItem>
-			{createBanner({
-				text: <>The PR first appeared in <span className="text-mono text-small">{tagName}</span></>,
-				url: tagUrl,
-				buttonLabel: <><TagIcon/> See release</>,
-			})}
-		</TimelineItem>
-	);
-}
-
 const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom(
 		buildRepoURL('branch_commits', commit),
@@ -75,7 +63,15 @@ function addExistingTagLink(tagName: string): void {
 	attachElement({
 		anchor: '#issue-comment-box',
 		position: 'before',
-		getNewElement: () => getTimelineEvent(tagUrl, tagName),
+		getNewElement: () => (
+			<TimelineItem>
+				{createBanner({
+					text: <>The PR first appeared in <span className="text-mono text-small">{tagName}</span></>,
+					url: tagUrl,
+					buttonLabel: <><TagIcon/> See release</>,
+				})}
+			</TimelineItem>
+		),
 	});
 }
 
@@ -85,12 +81,11 @@ function addLinkToCreateRelease(text = 'Now you can release this change'): void 
 		position: 'before',
 		getNewElement: () => (
 			<TimelineItem>
-				<div className="flash">
-					{text}
-					<a href={buildRepoURL('releases/new')} className="btn btn-sm flash-action">
-						<TagIcon/> Draft a new release
-					</a>
-				</div>
+				{createBanner({
+					text,
+					url: buildRepoURL('releases/new'),
+					buttonLabel: <><TagIcon/> Draft a new release</>,
+				})}
 			</TimelineItem>
 		),
 	});
