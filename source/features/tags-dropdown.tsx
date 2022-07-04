@@ -4,7 +4,6 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import selectHas from '../helpers/select-has';
 import {buildRepoURL} from '../github-helpers';
 import {ToastSpinner} from '../github-helpers/toast';
 
@@ -48,13 +47,13 @@ function init(): void {
 	if (pageDetect.isEnterprise() || pageDetect.isTags()) {
 		select('.subnav')!.append(tagsDropdown);
 	} else {
-		const searchBarWrapper = selectHas('[action$="/releases"]:has(input[aria-label="Find a release"])')!;
-		searchBarWrapper.before(
+		const searchBarWrapper = select('input[aria-label="Find a release"]')!.closest('div')!;
+		searchBarWrapper.prepend(
 			<div className="mr-2 mr-md-0 ml-md-2">
 				{tagsDropdown}
 			</div>,
 		);
-		searchBarWrapper.parentElement!.classList.add('d-flex');
+		searchBarWrapper.classList.add('d-flex');
 	}
 
 	// https://github.com/github/remote-input-element#events
