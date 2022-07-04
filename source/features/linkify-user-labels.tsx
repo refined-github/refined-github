@@ -30,7 +30,7 @@ void features.add(import.meta.url, {
 		pageDetect.hasComments,
 	],
 	asLongAs: [
-		pageDetect.isRepo
+		pageDetect.isRepo,
 	],
 	init,
 });
