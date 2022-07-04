@@ -2,9 +2,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
 import {wrap} from '../helpers/dom-utils';
-import {getRepo} from '../github-helpers';
+import features from '.';
+import {buildRepoURL} from '../github-helpers';
 import getCommentAuthor from '../github-helpers/get-comment-author';
 
 const selectors = [
@@ -19,9 +19,8 @@ function init(): void {
 			continue;
 		}
 
-		const author = getCommentAuthor(label);
-		const url = new URL(`/${getRepo()!.nameWithOwner}/commits`, location.origin);
-		url.searchParams.set('author', author);
+		const url = new URL(buildRepoURL('commits'));
+		url.searchParams.set('author', getCommentAuthor(label));
 		wrap(label, <a className="Link--secondary" href={url.href}/>);
 	}
 }
