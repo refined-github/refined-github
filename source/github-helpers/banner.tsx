@@ -5,6 +5,7 @@ type BannerProps = RequireAllOrNone<{
 	text: Array<string | JSX.Element> | string | JSX.Element;
 	url: string;
 	buttonLabel: JSX.Element | string;
+	classes?: string[];
 }, 'buttonLabel' | 'url'>;
 
 // This could be a `<Banner/>` element but dom-chef doesn't pass props
@@ -12,7 +13,7 @@ type BannerProps = RequireAllOrNone<{
 export default function createBanner(props: BannerProps): JSX.Element {
 	// Classes copied from "had recent pushes" banner from repo home
 	return (
-		<div className="flash">
+		<div className={["flash", ...props.classes ?? ''].join(' ')}>
 			<div className="d-sm-flex">
 				<div className="flex-auto">{props.text}</div>
 				{props.url && (

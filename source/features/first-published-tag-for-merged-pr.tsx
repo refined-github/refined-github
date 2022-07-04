@@ -35,7 +35,7 @@ async function init(): Promise<void> {
 	if (tagName) {
 		addExistingTagLink(tagName);
 	} else if (canCreateRelease()) {
-		addLinkToCreateRelease('This PR doesn’t appear to have been released yet');
+		addLinkToCreateRelease('This PR seems to be unreleased');
 	}
 }
 
@@ -67,6 +67,7 @@ function addExistingTagLink(tagName: string): void {
 			<TimelineItem>
 				{createBanner({
 					text: <>The PR first appeared in <span className="text-mono text-small">{tagName}</span></>,
+					classes: ['flash-success'],
 					url: tagUrl,
 					buttonLabel: <><TagIcon/> See release</>,
 				})}
