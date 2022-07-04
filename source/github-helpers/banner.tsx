@@ -13,7 +13,7 @@ type BannerProps = RequireAllOrNone<{
 export default function createBanner(props: BannerProps): JSX.Element {
 	// Classes copied from "had recent pushes" banner from repo home
 	return (
-		<div className={["flash", ...props.classes ?? ''].join(' ')}>
+		<div className={['flash', ...props.classes ?? ''].join(' ')}>
 			<div className="d-sm-flex">
 				<div className="flex-auto">{props.text}</div>
 				{props.url && (
