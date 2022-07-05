@@ -12,7 +12,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getUsername} from '../github-helpers';
+import {getUsername, getCleanPathname} from '../github-helpers';
 
 interface Commit {
 	url: string;
@@ -166,7 +166,7 @@ function init(): void {
 }
 
 async function profileInit(): Promise<void> {
-	const login = pageDetect.utils.getCleanPathname();
+	const login = getCleanPathname();
 	if (login === getUsername()) {
 		return;
 	}
