@@ -6,6 +6,8 @@ import {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 
 import waitFor from '../helpers/wait-for';
+import ArrayMap from '../helpers/map-of-arrays';
+import {callHandle} from '../helpers/abort-controller';
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import {shouldFeatureRun} from '../github-helpers';
@@ -55,6 +57,8 @@ interface InternalRunConfig {
 }
 
 const {version} = browser.runtime.getManifest();
+
+const deinitHandles = new ArrayMap<FeatureID, DeinitHandle>();
 
 const logError = (url: string, error: unknown): void => {
 	const id = getFeatureID(url);
@@ -156,31 +160,8 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-function getDeinitHandler(deinit: DeinitHandle): VoidFunction {
-	if (deinit instanceof MutationObserver || deinit instanceof ResizeObserver || deinit instanceof IntersectionObserver) {
-		return () => {
-			deinit.disconnect();
-		};
-	}
-
-	if ('abort' in deinit) { // Selector observer
-		return () => {
-			deinit.abort();
-		};
-	}
-
-	if ('destroy' in deinit) { // Delegate subscription
-		return deinit.destroy;
-	}
-
-	return deinit;
-}
-
-function setupDeinit(deinit: Deinit): void {
-	const deinitFunctions = Array.isArray(deinit) ? deinit : [deinit];
-	for (const deinit of deinitFunctions) {
-		document.addEventListener('turbo:visit', getDeinitHandler(deinit), {once: true});
-	}
+function castArray<Item>(value: Item | Item[]): Item[] {
+	return Array.isArray(value) ? value : [value];
 }
 
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
@@ -190,20 +171,15 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 		return;
 	}
 
-	const deinitController = new AbortController();
-	document.addEventListener('turbo:visit', () => {
-		deinitController.abort();
-	}, {
-		once: true,
-	});
+	const featureDeinit = new AbortController();
+	deinitHandles.append(id, featureDeinit);
 
 	const runFeature = async (): Promise<void> => {
 		let result: FeatureInitResult;
 
 		try {
-			result = await init(deinitController.signal);
+			result = await init(featureDeinit.signal);
 			// Features can return `false` when they decide not to run on the current page
-			// Also the condition avoids logging the fake feature added for `has-rgh`
 			if (result !== false && !id?.startsWith('rgh')) {
 				log.info('✅', id);
 			}
@@ -212,7 +188,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 		}
 
 		if (result) {
-			setupDeinit(result);
+			deinitHandles.append(id, ...castArray(result));
 		}
 	};
 
@@ -222,9 +198,9 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 
 	await domLoaded; // Listeners likely need to work on the whole page
 	for (const listener of additionalListeners) {
-		const deinit = listener(runFeature, deinitController.signal);
+		const deinit = listener(runFeature, featureDeinit.signal);
 		if (deinit && !(deinit instanceof Promise)) {
-			setupDeinit(deinit);
+			deinitHandles.append(id, ...castArray(deinit));
 		}
 	}
 };
@@ -322,6 +298,23 @@ const addCssFeature = async (url: string, include: BooleanFunction[] | undefined
 	});
 };
 
+const unload = (featureUrl: string): void => {
+	const id = getFeatureID(featureUrl);
+	for (const handle of deinitHandles.get(id) ?? []) {
+		callHandle(handle);
+	}
+};
+
+document.addEventListener('turbo:visit', () => {
+	for (const feature of deinitHandles.values()) {
+		for (const handle of feature) {
+			callHandle(handle);
+		}
+	}
+
+	deinitHandles.clear();
+});
+
 /*
 When navigating back and forth in history, GitHub will preserve the DOM changes;
 This means that the old features will still be on the page and don't need to re-run.
@@ -340,6 +333,7 @@ void add('rgh-deduplicator' as FeatureID, {
 
 const features = {
 	add,
+	unload,
 	addCssFeature,
 	log,
 	shortcutMap,
