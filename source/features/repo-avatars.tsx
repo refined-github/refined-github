@@ -4,6 +4,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {getRepo} from '../github-helpers';
 
 async function init(): Promise<void> {
 	// Icon for public but not template/fork/etc. repos
@@ -12,8 +13,7 @@ async function init(): Promise<void> {
 		return;
 	}
 
-	const author = select('#repository-container-header [rel=author]')!;
-	const username = author.textContent!;
+	const username = getRepo()!.owner;
 	const alt = `@${username}`;
 	const fallbackSrc = (pageDetect.isEnterprise()
 		? `/${username}.png`
@@ -30,7 +30,7 @@ async function init(): Promise<void> {
 		/>
 	);
 
-	if (author.dataset.hovercardType === 'user') {
+	if (select.exists('#repository-container-header [data-hovercard-type="user"]')) {
 		avatar.classList.add('avatar-user');
 	}
 
