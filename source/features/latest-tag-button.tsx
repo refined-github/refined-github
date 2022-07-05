@@ -2,7 +2,7 @@ import './latest-tag-button.css';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
-import {DiffIcon, TagIcon} from '@primer/octicons-react';
+import {GitCompareIcon, TagIcon} from '@primer/octicons-react';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -129,7 +129,10 @@ async function init(): Promise<false | void> {
 	}
 
 	if (pageDetect.isRepoHome() || onDefaultBranch) {
-		link.append(<sup> {aheadBy === undeterminableAheadBy ? '*' : `+${aheadBy}`}</sup>);
+		if (aheadBy !== undeterminableAheadBy) {
+			link.append(<sup> +{aheadBy}</sup>);
+		}
+
 		link.setAttribute(
 			'aria-label',
 			isAhead
@@ -145,7 +148,7 @@ async function init(): Promise<false | void> {
 					data-pjax="#repo-content-pjax-container"
 					aria-label={`Compare ${latestTag}...${defaultBranch}`}
 				>
-					<DiffIcon className="v-align-middle"/>
+					<GitCompareIcon className="v-align-middle"/>
 				</a>
 			);
 			groupButtons([link, compareLink]).classList.add('d-flex');
