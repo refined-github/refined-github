@@ -1,10 +1,10 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getRepo, getUserAvatar} from '../github-helpers';
+import {getRepo} from '../github-helpers';
+import getUserAvatar from '../github-helpers/get-user-avatar';
 
 async function init(): Promise<void> {
 	// Icon for public but not template/fork/etc. repos
@@ -14,8 +14,7 @@ async function init(): Promise<void> {
 	}
 
 	const username = getRepo()!.owner;
-	const alt = `@${username}`;
-	const src = select(`img[alt="${alt}"]`)?.src ?? getUserAvatar(username, 24);
+	const src = getUserAvatar(username, 24)!;
 
 	const avatar = (
 		<img
@@ -23,7 +22,7 @@ async function init(): Promise<void> {
 			src={src}
 			width="24"
 			height="24"
-			alt={alt}
+			alt={`@${username}`}
 		/>
 	);
 
