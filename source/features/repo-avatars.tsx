@@ -30,7 +30,7 @@ async function init(): Promise<void> {
 		/>
 	);
 
-	if (select.exists('#repository-container-header [data-hovercard-type="user"]')) {
+	if (!pageDetect.isOrganizationRepo()) {
 		avatar.classList.add('avatar-user');
 	}
 
