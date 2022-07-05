@@ -7,6 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import onPrMerge from '../github-events/on-pr-merge';
+import createBanner from '../github-helpers/banner';
 import TimelineItem from '../github-helpers/timeline-item';
 import attachElement from '../helpers/attach-element';
 import {canEditEveryComment} from './quick-comment-edit';
@@ -34,7 +35,7 @@ async function init(): Promise<void> {
 	if (tagName) {
 		addExistingTagLink(tagName);
 	} else if (canCreateRelease()) {
-		addLinkToCreateRelease('This PR doesn’t appear to have been released yet');
+		addLinkToCreateRelease('This PR seems to be unreleased');
 	}
 }
 
@@ -64,12 +65,12 @@ function addExistingTagLink(tagName: string): void {
 		position: 'before',
 		getNewElement: () => (
 			<TimelineItem>
-				<div className="flash flash-success">
-					The PR first appeared in <span className="text-mono text-small">{tagName}</span>
-					<a href={tagUrl} className="btn btn-sm flash-action">
-						<TagIcon/> See release
-					</a>
-				</div>
+				{createBanner({
+					text: <>The PR first appeared in <span className="text-mono text-small">{tagName}</span></>,
+					classes: ['flash-success'],
+					url: tagUrl,
+					buttonLabel: <><TagIcon/> See release</>,
+				})}
 			</TimelineItem>
 		),
 	});
@@ -81,12 +82,11 @@ function addLinkToCreateRelease(text = 'Now you can release this change'): void 
 		position: 'before',
 		getNewElement: () => (
 			<TimelineItem>
-				<div className="flash">
-					{text}
-					<a href={buildRepoURL('releases/new')} className="btn btn-sm flash-action">
-						<TagIcon/> Draft a new release
-					</a>
-				</div>
+				{createBanner({
+					text,
+					url: buildRepoURL('releases/new'),
+					buttonLabel: <><TagIcon/> Draft a new release</>,
+				})}
 			</TimelineItem>
 		),
 	});
