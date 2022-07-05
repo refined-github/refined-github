@@ -7,6 +7,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {getUsername} from '../github-helpers';
+import getUserAvatar from '../github-helpers/get-user-avatar';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -33,18 +34,8 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 			continue;
 		}
 
-		const cleanName = username.replace('[bot]', '');
-
-		// Find image on page. Saves a request and a redirect + add support for bots
-		const existingAvatar = select(`img[alt="@${cleanName}"]`);
-		if (existingAvatar) {
-			participants.push({button, username, imageUrl: existingAvatar.src});
-			continue;
-		}
-
-		// If it's not a bot, use a shortcut URL #2125
-		if (cleanName === username) {
-			const imageUrl = (pageDetect.isEnterprise() ? `/${username}.png` : `https://avatars.githubusercontent.com/${username}`) + '?size=32';
+		const imageUrl = getUserAvatar(username, 16);
+		if (imageUrl) {
 			participants.push({button, username, imageUrl});
 		}
 	}
