@@ -1,5 +1,6 @@
 import './more-dropdown-links.css';
 import React from 'dom-chef';
+import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -40,6 +41,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isEmptyRepo,
+		() => !select.exists('.js-responsive-underlinenav'),
 	],
 	awaitDomReady: false,
 	init,
