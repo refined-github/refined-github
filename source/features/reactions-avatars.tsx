@@ -6,7 +6,7 @@ import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getUsername} from '../github-helpers';
+import {getUsername, getUserAvatar} from '../github-helpers';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -44,7 +44,7 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 
 		// If it's not a bot, use a shortcut URL #2125
 		if (cleanName === username) {
-			const imageUrl = (pageDetect.isEnterprise() ? `/${username}.png` : `https://avatars.githubusercontent.com/${username}`) + '?size=32';
+			const imageUrl = getUserAvatar(username, 16);
 			participants.push({button, username, imageUrl});
 		}
 	}

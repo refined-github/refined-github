@@ -173,3 +173,10 @@ export const addHotkey = (button: HTMLAnchorElement | HTMLButtonElement | undefi
 		button.dataset.hotkey = [...hotkeys].join(',');
 	}
 };
+
+export function getUserAvatar(username: string, size: number): string {
+	const url = pageDetect.isEnterprise()
+		? `/${username}.png`
+		: `https://avatars.githubusercontent.com/${username}`;
+	return url + `?size=${size * 2}`;
+}

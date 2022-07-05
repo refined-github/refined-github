@@ -4,7 +4,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getRepo} from '../github-helpers';
+import {getRepo, getUserAvatar} from '../github-helpers';
 
 async function init(): Promise<void> {
 	// Icon for public but not template/fork/etc. repos
@@ -15,10 +15,7 @@ async function init(): Promise<void> {
 
 	const username = getRepo()!.owner;
 	const alt = `@${username}`;
-	const fallbackSrc = (pageDetect.isEnterprise()
-		? `/${username}.png`
-		: `https://avatars.githubusercontent.com/${username}`) + '?size=48';
-	const src = select(`img[alt="${alt}"]`)?.src ?? fallbackSrc;
+	const src = select(`img[alt="${alt}"]`)?.src ?? getUserAvatar(username, 24);
 
 	const avatar = (
 		<img
