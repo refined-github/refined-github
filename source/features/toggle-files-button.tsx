@@ -8,6 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import {FoldIcon, UnfoldIcon, ArrowUpIcon} from '@primer/octicons-react';
 
 import features from '.';
+import selectHas from '../helpers/select-has';
 import attachElement from '../helpers/attach-element';
 import observeElement from '../helpers/simplified-element-observer';
 
@@ -21,7 +22,7 @@ const noticeStyle = {paddingRight: '19px'};
 
 function addButton(): void {
 	attachElement({
-		anchor: select('.repository-content .octicon-history')?.closest('ul'),
+		anchor: selectHas('.repository-content ul:has(.octicon-history)')!,
 		allowMissingAnchor: true,
 		className: toggleButtonClass,
 		position: 'append',
