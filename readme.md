@@ -165,7 +165,7 @@ Thanks for contributing! 🦋🙌
 - [](# "useful-forks") [Helps you find the most active forks](https://user-images.githubusercontent.com/38117856/107463541-542e8500-6b2c-11eb-8b25-082f344c1587.png), via https://useful-forks.github.io.
 - [](# "clean-repo-tabs") [Moves the "Security" and "Insights"  to the repository navigation dropdown. Also moves the "Projects", "Actions" and "Wiki" tabs if they're empty/unused.](https://user-images.githubusercontent.com/16872793/124681343-4a6c3c00-de96-11eb-9055-a8fc551e6eb8.png)
 - [](# "hide-repo-badges") [Hide repo badges ("Public", "Template", etc.) in the repo header and pinned repo cards.](https://user-images.githubusercontent.com/46634000/148645393-d3fa4ca9-6df4-4bb2-b810-7d73cc057772.png)
-- [](# "repo-avatars") [Adds an avatar to public repository header.](https://user-images.githubusercontent.com/44045911/177211845-c9b0fa37-c157-4449-890e-af2602c312e3.png)
+- [](# "repo-avatars") [Adds the profile picture to the header of public repositories.](https://user-images.githubusercontent.com/44045911/177211845-c9b0fa37-c157-4449-890e-af2602c312e3.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
