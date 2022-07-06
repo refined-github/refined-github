@@ -4,7 +4,7 @@ Commits that have a long commit message will not be dimmed after the user uncoll
 */
 
 .rgh-dim-bots--after-hover {
-	--rgh-dim-bots-delay: 10s; /* #5158 */
+	--rgh-dim-bots-delay: 1000s; /* #5158 */
 }
 
 .rgh-dim-bot:not(.rgh-tagged) .mb-1,
@@ -35,12 +35,12 @@ ALL the following rules define the non-focused state
 	margin-bottom: -1.6em;
 	visibility: hidden;
 	/* Delay visibility transition for a slightly shorter time than --rgh-dim-bots-delay, to make the animation smoother */
-	transition-delay: 0s, var(--rgh-dim-bots-delay), 9.9s;
+	transition-delay: 0s, var(--rgh-dim-bots-delay), 999.9s;
 }
 
 .rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover) .labels, /* PR labels */
 .rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover) .text-small:is(.color-text-secondary, .color-fg-muted) /* PR meta */ {
 	margin-bottom: -2em;
 	visibility: hidden;
-	transition-delay: 0s, var(--rgh-dim-bots-delay), 9.9s;
+	transition-delay: 0s, var(--rgh-dim-bots-delay), 999.9s;
 }
