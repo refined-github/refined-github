@@ -7,7 +7,7 @@ import {wrap} from '../helpers/dom-utils';
 import features from '.';
 
 function init(): Deinit {
-	return observe('#partial-discussion-header :is([title="Status: Closed"], [title="Status: Merged"], [title="Status: Closed as not planned]):not(.rgh-jump-to-conversation-close-event)', {
+	return observe('#partial-discussion-header :is([title="Status: Closed"], [title="Status: Merged"], [title="Status: Closed as not planned"]):not(.rgh-jump-to-conversation-close-event)', {
 		constructor: HTMLSpanElement,
 		add(messageContainer) {
 			messageContainer.classList.add('rgh-jump-to-conversation-close-event');
