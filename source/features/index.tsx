@@ -52,8 +52,8 @@ interface InternalRunConfig {
 	exclude: BooleanFunction[] | undefined;
 	init: FeatureInit;
 	additionalListeners: CallerFunction[];
+
 	onlyAdditionalListeners: boolean;
-	featureController: AbortController;
 }
 
 const {version} = browser.runtime.getManifest();
@@ -165,12 +165,13 @@ function castArray<Item>(value: Item | Item[]): Item[] {
 }
 
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
-	const {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, featureController} = config;
+	const {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners} = config;
 
 	if (!shouldFeatureRun({asLongAs, include, exclude})) {
 		return;
 	}
 
+	const featureController = new AbortController();
 	currentFeatureControllers.append(id, featureController);
 
 	const runFeature = async (): Promise<void> => {
@@ -241,7 +242,6 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 		return;
 	}
 
-	const featureController = new AbortController();
 	for (const loader of loaders) {
 		// Input defaults and validation
 		const {
@@ -268,7 +268,7 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 
 		enforceDefaults(id, include, additionalListeners);
 
-		const details = {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, featureController};
+		const details = {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners};
 		if (awaitDomReady) {
 			(async () => {
 				await domLoaded;
