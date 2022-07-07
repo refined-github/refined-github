@@ -1,0 +1,22 @@
+/* Stack titles in title edition events to improve readability */
+
+.TimelineItem-body:has(del.markdown-title) {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 0.3em;
+}
+
+.TimelineItem-body :is(del, ins).markdown-title {
+	flex-basis: 100%;
+ 	order: 99;
+}
+
+/* TODO: Drop this whole rule when :has() is crossbrowser */
+.TimelineItem[id^='event-'] .TimelineItem-body :is(ins, del) {
+	display: block !important;
+}
+
+/*
+Test URLs
+https://github.com/refined-github/refined-github/pull/5793#event-6952233065
+*/
