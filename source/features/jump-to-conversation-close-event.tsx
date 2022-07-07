@@ -15,7 +15,7 @@ function init(): Deinit {
 			messageContainer.style.pointerEvents = 'none';
 			messageContainer.style.cursor = 'default';
 
-			const lastCloseEvent = select.last('.TimelineItem-badge :is(.octicon-issue-closed, .octicon-git-merge, .octicon-git-pull-request-closed)')!.closest('.TimelineItem')!;
+			const lastCloseEvent = select.last('.TimelineItem-badge :is(.octicon-issue-closed, .octicon-git-merge, .octicon-git-pull-request-closed, .octicon-skip)')!.closest('.TimelineItem')!;
 			wrap(messageContainer,
 				<a
 					aria-label="Jump to the last close event."
