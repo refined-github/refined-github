@@ -8,7 +8,7 @@
 
 .TimelineItem-body :is(del, ins).markdown-title {
 	flex-basis: 100%;
- 	order: 99;
+	order: 99;
 }
 
 /* TODO: Drop this whole rule when :has() is crossbrowser */
