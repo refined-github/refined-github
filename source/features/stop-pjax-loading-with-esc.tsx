@@ -1,5 +1,4 @@
 import select from 'select-dom';
-import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
@@ -46,13 +45,5 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepo,
-		pageDetect.isRepoSearch,
-		pageDetect.isGlobalSearchResults,
-		pageDetect.isUserProfile,
-		pageDetect.isSingleGist,
-		pageDetect.isGlobalConversationList,
-	],
 	init,
 });
