@@ -215,3 +215,4 @@ import './features/hide-low-quality-comments';
 import './features/submission-via-ctrl-enter-everywhere';
 import './features/linkify-user-labels';
 import './features/repo-avatars';
+import './features/jump-to-conversation-close-event';
