@@ -4,7 +4,7 @@ Commits that have a long commit message will not be dimmed after the user uncoll
 */
 
 .rgh-dim-bots--after-hover {
-	--rgh-dim-bots-delay: 10s; /* #5158 */
+	--rgh-dim-bots-delay: 1000s; /* #5158 */
 }
 
 .rgh-dim-bot:not(.rgh-tagged) .mb-1,
@@ -23,24 +23,24 @@ Commits that have a long commit message will not be dimmed after the user uncoll
 ALL the following rules define the non-focused state
 */
 
-.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, .Details--on) .mb-1, /* Commit titles, dim */
-.rgh-dim-bot:not(.rgh-tagged, .navigation-focus) .Box-row--drag-hide { /* PR row, dim */
+.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover, .Details--on) .mb-1, /* Commit titles, dim */
+.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover) .Box-row--drag-hide { /* PR row, dim */
 	opacity: 20%;
 	transition-delay: 0s;
 }
 
-.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, .Details--on) .mb-1 ~ .d-flex,
-.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, .Details--on) > .d-md-block {
+.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover, .Details--on) .mb-1 ~ .d-flex,
+.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover, .Details--on) > .d-md-block {
 	opacity: 20%;
 	margin-bottom: -1.6em;
 	visibility: hidden;
 	/* Delay visibility transition for a slightly shorter time than --rgh-dim-bots-delay, to make the animation smoother */
-	transition-delay: 0s, var(--rgh-dim-bots-delay), 9.9s;
+	transition-delay: 0s, var(--rgh-dim-bots-delay), 999.9s;
 }
 
-.rgh-dim-bot:not(.rgh-tagged, .navigation-focus) .labels, /* PR labels */
-.rgh-dim-bot:not(.rgh-tagged, .navigation-focus) .text-small:is(.color-text-secondary, .color-fg-muted) /* PR meta */ {
+.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover) .labels, /* PR labels */
+.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover) .text-small:is(.color-text-secondary, .color-fg-muted) /* PR meta */ {
 	margin-bottom: -2em;
 	visibility: hidden;
-	transition-delay: 0s, var(--rgh-dim-bots-delay), 9.9s;
+	transition-delay: 0s, var(--rgh-dim-bots-delay), 999.9s;
 }
