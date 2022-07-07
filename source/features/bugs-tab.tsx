@@ -178,6 +178,9 @@ async function init(): Promise<void | false> {
 	}
 
 	await updateBugsTagHighlighting();
+	return () => {
+		console.trace('bugs-tab unloaded')
+	}
 }
 
 void features.add(import.meta.url, {
