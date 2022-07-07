@@ -18,7 +18,7 @@ function init(): Deinit {
 			const lastCloseEvent = select.last('.TimelineItem-badge :is(.octicon-issue-closed, .octicon-git-merge, .octicon-git-pull-request-closed, .octicon-skip)')!.closest('.TimelineItem')!;
 			wrap(messageContainer,
 				<a
-					aria-label="Jump to the last close event."
+					aria-label="Scroll to most recent close event."
 					className="tooltipped tooltipped-s"
 					href={location.origin + location.pathname + '#' + lastCloseEvent.id}
 				/>,
