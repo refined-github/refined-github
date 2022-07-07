@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-react';
 
 import features from '.';
+import selectHas from '../helpers/select-has';
 import {onDiffFileLoad} from '../github-events/on-fragment-load';
 
 function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
@@ -75,7 +76,7 @@ function createWhitespaceButton(): HTMLElement {
 }
 
 function initPR(): false | void {
-	const originalToggle = select('[aria-label="Diff settings"]')!.closest('details')!.parentElement!;
+	const originalToggle = selectHas('details:has([aria-label="Diff settings"])')!.parentElement!;
 
 	if (!isHidingWhitespace()) {
 		originalToggle.after(

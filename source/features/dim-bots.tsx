@@ -41,7 +41,7 @@ function init(): void {
 
 	// Delay collapsing, but only after they're collapsed on load #5158
 	requestAnimationFrame(() => {
-		select('#repo-content-pjax-container .js-navigation-container')!.classList.add('rgh-dim-bots--after-hover');
+		select(':is(#repo-content-pjax-container, turbo-frame) .js-navigation-container')!.classList.add('rgh-dim-bots--after-hover');
 	});
 }
 

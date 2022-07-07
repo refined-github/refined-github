@@ -118,9 +118,11 @@ async function initProjects(): Promise<void | false> {
 	projectsTab!.remove();
 }
 
-async function init(): Promise<void> {
+async function init(): Promise<void | false> {
 	// The user may have disabled `more-dropdown-links` so un-hide it
-	await unhideOverflowDropdown();
+	if (!await unhideOverflowDropdown()) {
+		return false;
+	}
 
 	// Wait for the nav dropdown to be loaded #5244
 	await elementReady('.UnderlineNav-actions ul');

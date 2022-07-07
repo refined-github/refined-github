@@ -186,3 +186,8 @@ pr-branches
 .TimelineItem[id^='event-'] .TimelineItem-body :is(ins, del) {
 	display: block !important;
 }
+
+/* Fit large images in the window when viewing single files */
+div[data-target='readme-toc.content'] div.blob-wrapper img {
+	max-width: 100%;
+}

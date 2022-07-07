@@ -5,9 +5,10 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {wrapAll} from '../helpers/dom-utils';
+import selectHas from '../helpers/select-has';
 
 function init(): void {
-	const changedFilesSummary = select('.Box .octicon-file-diff')!.closest('li')!;
+	const changedFilesSummary = selectHas('.Box li:has(.octicon-file-diff)')!;
 	wrapAll(
 		[...changedFilesSummary.children],
 		<a className="no-underline rgh-link-to-compare-diff" href="#files_bucket"/>,
