@@ -20,7 +20,7 @@ function init(): Deinit {
 				<a
 					aria-label="Scroll to most recent close event"
 					className="tooltipped tooltipped-s"
-					href={location.origin + location.pathname + '#' + lastCloseEvent.id}
+					href={'#' + lastCloseEvent.id}
 				/>,
 			);
 		},
