@@ -13,16 +13,16 @@ jobs:
   Security:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: npx lockfile-lint --path package-lock.json --validate-https
 
   AVA:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version-file: '.nvmrc'
           cache: npm
       - run: npm ci
       - run: npm run ava -- --serial
@@ -30,10 +30,10 @@ jobs:
   Lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version-file: '.nvmrc'
           cache: npm
       - run: npm ci
       - run: npm run lint
@@ -41,10 +41,10 @@ jobs:
   Types:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version-file: '.nvmrc'
           cache: npm
       - run: npm ci
       - run: npm run build:typescript
@@ -57,16 +57,16 @@ jobs:
           - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version-file: '.nvmrc'
           cache: npm
       - run: npm ci
       - run: npm run build:webpack -- --json webpack-stats.json
       - name: Send webpack stats to RelativeCI
         if: matrix.os == 'ubuntu-latest'
-        uses: relative-ci/agent-action@v1.1.0
+        uses: relative-ci/agent-action@v2
         with:
           webpackStatsFile: ./webpack-stats.json
           key: ${{ secrets.RELATIVE_CI_KEY }}
@@ -74,7 +74,7 @@ jobs:
   Safari:
     runs-on: macos-12
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: npm ci
       - run: npm run build:webpack
       - uses: maxim-lobanov/setup-xcode@v1

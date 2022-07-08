@@ -1,7 +1,6 @@
 /* Make tab-indented code more readable on GitHub and Gist */
 
 * {
-	-moz-tab-size: var(--tab-size) !important;
 	tab-size: var(--tab-size) !important;
 }
 
