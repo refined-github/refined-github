@@ -7,55 +7,66 @@ import filterAlteredClicks from 'filter-altered-clicks';
 import features from '.';
 import {onCommentFieldKeydown} from '../github-events/on-field-keydown';
 
+function handleEscapeKey(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>, targetField: HTMLTextAreaElement): void {
+	// Cancel buttons have different classes for inline comments and editable comments
+	const cancelButton = select(`
+		button.js-hide-inline-comment-form,
+		button.js-comment-cancel-button
+	`, targetField.form!);
+
+	// Cancel if there is a button, else blur the field
+	if (cancelButton) {
+		cancelButton.click();
+	} else {
+		targetField.blur();
+	}
+
+	event.stopImmediatePropagation();
+	event.preventDefault();
+}
+
+function handleArrowUpKey(targetField: HTMLTextAreaElement): void {
+	const currentConversationContainer = targetField.closest([
+		'.js-inline-comments-container', // Current review thread container
+		'#discussion_bucket', // Or just ALL the comments in issues
+		'#all_commit_comments', // Single commit comments at the bottom
+	].join(','))!;
+
+	const lastOwnComment = select
+		.all('.js-comment.current-user', currentConversationContainer)
+		.reverse()
+		.find(comment => {
+			const collapsible = comment.closest('details');
+			return !collapsible || collapsible.open;
+		});
+
+	if (!lastOwnComment) {
+		return;
+	}
+
+	// Make the comment editable (the native edit button might not be available yet)
+	const editButton = <button hidden type="button" className="js-comment-edit-button"/>;
+	lastOwnComment.append(editButton);
+	editButton.click();
+	editButton.remove();
+	targetField
+		.closest('form')!
+		.querySelector('button.js-hide-inline-comment-form')
+		?.click();
+
+	// Move caret to end of the field
+	requestAnimationFrame(() => {
+		select('textarea.js-comment-field', lastOwnComment)!.selectionStart = Number.MAX_SAFE_INTEGER;
+	});
+}
+
 const eventHandler = filterAlteredClicks((event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void => {
 	const field = event.delegateTarget;
 
 	if (event.key === 'Escape') {
-		// Cancel buttons have different classes for inline comments and editable comments
-		const cancelButton = select(`
-			button.js-hide-inline-comment-form,
-			button.js-comment-cancel-button
-		`, field.form!);
-
-		// Cancel if there is a button, else blur the field
-		if (cancelButton) {
-			cancelButton.click();
-		} else {
-			field.blur();
-		}
-
-		event.stopImmediatePropagation();
-		event.preventDefault();
+		handleEscapeKey(event, field);
 	} else if (event.key === 'ArrowUp' && field.value === '') {
-		const currentConversationContainer = field.closest([
-			'.js-inline-comments-container', // Current review thread container
-			'#discussion_bucket', // Or just ALL the comments in issues
-			'#all_commit_comments', // Single commit comments at the bottom
-		].join(','))!;
-		const lastOwnComment = select
-			.all('.js-comment.current-user', currentConversationContainer)
-			.reverse()
-			.find(comment => {
-				const collapsible = comment.closest('details');
-				return !collapsible || collapsible.open;
-			});
-
-		if (lastOwnComment) {
-			// Make the comment editable (the native edit button might not be available yet)
-			const editButton = <button hidden type="button" className="js-comment-edit-button"/>;
-			lastOwnComment.append(editButton);
-			editButton.click();
-			editButton.remove();
-			field
-				.closest('form')!
-				.querySelector('button.js-hide-inline-comment-form')
-				?.click();
-
-			// Move caret to end of field
-			requestAnimationFrame(() => {
-				select('textarea.js-comment-field', lastOwnComment)!.selectionStart = Number.MAX_SAFE_INTEGER;
-			});
-		}
+		handleArrowUpKey(field);
 	}
 });
 
