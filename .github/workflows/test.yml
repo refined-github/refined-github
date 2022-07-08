@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v3
       - run: npx lockfile-lint --path package-lock.json --validate-https
 
-  AVA:
+  Vitest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -25,7 +25,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: npm
       - run: npm ci
-      - run: npm run ava -- --serial
+      - run: npm run vitest -- --serial
 
   Lint:
     runs-on: ubuntu-latest

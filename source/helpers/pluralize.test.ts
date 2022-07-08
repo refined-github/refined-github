@@ -1,11 +1,11 @@
-import test from 'ava';
+import {expect, test} from 'vitest';
 
 import pluralize from './pluralize';
 
-test('pluralize', t => {
-	t.is(pluralize(0, 'A number', '$$ numbers'), '0 numbers');
-	t.is(pluralize(0, 'A number', '$$ numbers', 'No numbers'), 'No numbers');
-	t.is(pluralize(1, 'A number', '$$ numbers', 'No numbers'), 'A number');
-	t.is(pluralize(2, 'A number', '$$ numbers', 'No numbers'), '2 numbers');
-	t.is(pluralize(2, 'A number', 'Many numbers', 'No numbers'), 'Many numbers');
+test('pluralize', () => {
+	expect(pluralize(0, 'A number', '$$ numbers')).toBe('0 numbers');
+	expect(pluralize(0, 'A number', '$$ numbers', 'No numbers')).toBe('No numbers');
+	expect(pluralize(1, 'A number', '$$ numbers', 'No numbers')).toBe('A number');
+	expect(pluralize(2, 'A number', '$$ numbers', 'No numbers')).toBe('2 numbers');
+	expect(pluralize(2, 'A number', 'Many numbers', 'No numbers')).toBe('Many numbers');
 });

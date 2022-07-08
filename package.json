@@ -2,7 +2,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"ava": "ava",
+		"vitest": "vitest",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
 		"build:webpack": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" webpack --mode=production",
@@ -12,7 +12,7 @@
 		"lint:js": "xo",
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj' -scheme 'Refined GitHub (macOS)'",
 		"prepare:safari": "bash build/prepare-safari-release.sh",
-		"test": "run-p ava lint:* build:* test:features",
+		"test": "run-p vitest lint:* build:* test:features",
 		"test:features": "node --loader ts-node/esm \"build/verify-features.ts\"",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
@@ -39,20 +39,6 @@
 				}
 			}
 		]
-	},
-	"ava": {
-		"extensions": {
-			"ts": "module",
-			"tsx": "module"
-		},
-		"nodeArguments": [
-			"--loader=ts-node/esm",
-			"--experimental-specifier-resolution=node"
-		],
-		"require": [
-			"./test/fixtures/globals.ts"
-		],
-		"timeout": "30s"
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
@@ -103,7 +89,6 @@
 		"@types/firefox-webext-browser": "^94.0.1",
 		"@types/jsdom": "^16.2.14",
 		"@types/react": "^17.0.40",
-		"ava": "^4.3.0",
 		"copy-webpack-plugin": "^11.0.0",
 		"cross-env": "^7.0.3",
 		"css-loader": "^6.7.1",
@@ -126,6 +111,7 @@
 		"type-fest": "^2.13.1",
 		"typed-query-selector": "^2.6.1",
 		"typescript": "^4.7.4",
+		"vitest": "^0.17.1",
 		"webpack": "^5.73.0",
 		"webpack-cli": "^4.10.0",
 		"xo": "^0.50.0"

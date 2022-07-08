@@ -1,5 +1,6 @@
+import {expect, test} from 'vitest';
+
 import hl from 'highlight.js/lib/common';
-import test, {ExecutionContext} from 'ava';
 
 import showWhiteSpacesOnLine from './show-whitespace-on-line';
 
@@ -35,184 +36,146 @@ function process(html: string): string {
 	return serializeDOM(showWhiteSpacesOnLine(element));
 }
 
-function assert(t: ExecutionContext, actual: string, expected: string): void {
-	t.is(
-		process(actual),
-		expected,
-	);
+function assert(actual: string, expected: string): void {
+	expect(process(actual)).toBe(expected);
 }
 
-function assertHighlighted(t: ExecutionContext, actual: string, expected: string): void {
-	t.is(
-		process(highlight(actual)),
-		expected,
-	);
+function assertHighlighted(actual: string, expected: string): void {
+	expect(process(highlight(actual))).toBe(expected);
 }
 
-test('showWhiteSpacesOnLine raw', t => {
+test('showWhiteSpacesOnLine raw', () => {
 	assert(
-		t,
 		'',
 		'',
 	);
 	assert(
-		t,
 		' ',
 		'•',
 	);
 	assert(
-		t,
 		'  ',
 		'••',
 	);
 	assert(
-		t,
 		'	',
 		'⟶',
 	);
 	assert(
-		t,
 		'		',
 		'⟶⟶',
 	);
 	assert(
-		t,
 		'	 ',
 		'⟶•',
 	);
 	assert(
-		t,
 		' 	',
 		'•⟶',
 	);
 	assert(
-		t,
 		' 	 ',
 		'•⟶•',
 	);
 	assert(
-		t,
 		'	 	',
 		'⟶•⟶',
 	);
 	assert(
-		t,
 		' hello ',
 		'•hello•',
 	);
 	assert(
-		t,
 		'	hello	',
 		'⟶hello⟶',
 	);
 	assert(
-		t,
 		'	hello world	',
 		'⟶hello•world⟶',
 	);
 });
 
-test('showWhiteSpacesOnLine real code', t => {
+test('showWhiteSpacesOnLine real code', () => {
 	assert(
-		t,
 		'[1,""]',
 		'[1,""]',
 	);
 	assert(
-		t,
 		'[1,"  "]',
 		'[1,"••"]',
 	);
 	assert(
-		t,
 		'[1, "  "]',
 		'[1,•"••"]',
 	);
 	assert(
-		t,
 		' [1, "  "] ',
 		'•[1,•"••"]•',
 	);
 	assert(
-		t,
 		'  [1, "  "]  ',
 		'••[1,•"••"]••',
 	);
 	assert(
-		t,
 		'[1,""]',
 		'[1,""]',
 	);
 	assert(
-		t,
 		'[1,"		"]',
 		'[1,"⟶⟶"]',
 	);
 	assert(
-		t,
 		'[1,	"		"]',
 		'[1,⟶"⟶⟶"]',
 	);
 	assert(
-		t,
 		'	[1,	"		"]	',
 		'⟶[1,⟶"⟶⟶"]⟶',
 	);
 	assert(
-		t,
 		'		[1,	"		"]		',
 		'⟶⟶[1,⟶"⟶⟶"]⟶⟶',
 	);
 });
 
-test('showWhiteSpacesOnLine highlighted code', t => {
+test('showWhiteSpacesOnLine highlighted code', () => {
 	assertHighlighted(
-		t,
 		'[1,""]',
 		'[1,""]',
 	);
 	assertHighlighted(
-		t,
 		'[1,"  "]',
 		'[1,"••"]',
 	);
 	assertHighlighted(
-		t,
 		'[1, "  "]',
 		'[1, "••"]',
 	);
 	assertHighlighted(
-		t,
 		' [1, "  "] ',
 		'•[1, "••"]•',
 	);
 	assertHighlighted(
-		t,
 		'  [1, "  "]  ',
 		'••[1, "••"]••',
 	);
 	assertHighlighted(
-		t,
 		'[1,""]',
 		'[1,""]',
 	);
 	assertHighlighted(
-		t,
 		'[1,"		"]',
 		'[1,"⟶⟶"]',
 	);
 	assertHighlighted(
-		t,
 		'[1,	"		"]',
 		'[1,⟶"⟶⟶"]',
 	);
 	assertHighlighted(
-		t,
 		'	[1,	"		"]	',
 		'⟶[1,⟶"⟶⟶"]⟶',
 	);
 	assertHighlighted(
-		t,
 		'		[1,	"		"]		',
 		'⟶⟶[1,⟶"⟶⟶"]⟶⟶',
 	);
