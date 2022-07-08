@@ -18,7 +18,7 @@ async function init(): Promise<void> {
 
 	const avatar = (
 		<img
-			className="avatar mr-2"
+			className="avatar flex-self-stretch mr-2"
 			src={src}
 			width="24"
 			height="24"
