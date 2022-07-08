@@ -25,7 +25,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: npm
       - run: npm ci
-      - run: npm run vitest -- --serial
+      - run: npm run vitest
 
   Lint:
     runs-on: ubuntu-latest
