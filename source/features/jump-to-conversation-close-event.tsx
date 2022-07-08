@@ -29,7 +29,7 @@ function init(): Deinit {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isClosedPR,
+		pageDetect.isClosedConversation,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,
