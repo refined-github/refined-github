@@ -63,18 +63,12 @@ jobs:
           node-version-file: '.nvmrc'
           cache: npm
       - run: npm ci
-      - run: npm run build:webpack -- --json webpack-stats.json
+      - run: npm run build:parcel
       - uses: actions/upload-artifact@v2
         if: matrix.os == 'ubuntu-latest'
         with:
           name: refined-github
           path: distribution
-      - name: Send webpack stats to RelativeCI
-        if: matrix.os == 'ubuntu-latest'
-        uses: relative-ci/agent-action@v2
-        with:
-          webpackStatsFile: ./webpack-stats.json
-          key: ${{ secrets.RELATIVE_CI_KEY }}
 
   Safari:
     runs-on: macos-11

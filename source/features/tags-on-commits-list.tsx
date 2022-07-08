@@ -139,7 +139,7 @@ async function init(): Promise<void | false> {
 			select('.flex-auto .d-flex.mt-1', commit)!.append(
 				<span>
 					<TagIcon className="ml-1"/>
-					{...targetTags.map(tag => (
+					{targetTags.map(tag => (
 						<>
 							{' '}
 							<a

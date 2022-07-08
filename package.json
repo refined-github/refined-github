@@ -4,6 +4,7 @@
 	"scripts": {
 		"ava": "ava",
 		"build": "run-p build:* --continue-on-error",
+		"build:parcel": "parcel build --dist-dir distribution --no-source-maps",
 		"build:typescript": "tsc --noEmit",
 		"build:webpack": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" webpack --mode=production",
 		"fix": "run-p \"lint:* -- --fix\"",
@@ -15,6 +16,7 @@
 		"test": "run-p ava lint:* build:* test:features",
 		"test:features": "node --loader ts-node/esm \"build/verify-features.ts\"",
 		"watch": "run-p watch:* --continue-on-error",
+		"watch:parcel": "parcel watch --dist-dir distribution",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:webpack": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" webpack --mode=development --watch"
 	},
@@ -74,6 +76,7 @@
 		"js-abbreviation-number": "^1.4.0",
 		"linkify-issues": "2.0.0-nolookbehind",
 		"linkify-urls": "3.1.0-nolookbehind",
+		"markdown-wasm": "^1.2.0",
 		"mem": "^9.0.2",
 		"one-event": "^3.0.0",
 		"one-mutation": "^2.0.0",
@@ -92,18 +95,21 @@
 		"webext-detect-page": "^4.0.1",
 		"webext-domain-permission-toggle": "^3.0.0",
 		"webext-dynamic-content-scripts": "^8.1.1",
-		"webext-options-sync-per-domain": "^2.0.2",
 		"webext-storage-cache": "^5.0.0",
 		"webextension-polyfill": "^0.9.0",
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
+		"@parcel/config-webextension": "^2.6.2",
 		"@sindresorhus/tsconfig": "^2.0.0",
 		"@types/codemirror": "^5.60.5",
 		"@types/firefox-webext-browser": "^94.0.1",
 		"@types/jsdom": "^16.2.14",
 		"@types/react": "^17.0.40",
+		"assert": "^2.0.0",
 		"ava": "^4.3.0",
+		"browserify-zlib": "^0.2.0",
+		"buffer": "^6.0.3",
 		"copy-webpack-plugin": "^11.0.0",
 		"cross-env": "^7.0.3",
 		"css-loader": "^6.7.1",
@@ -115,10 +121,14 @@
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"highlight.js": "^11.5.1",
 		"jsdom": "^20.0.0",
-		"markdown-wasm": "^1.2.0",
 		"mini-css-extract-plugin": "^2.6.1",
 		"npm-run-all": "^4.1.5",
+		"parcel": "^2.6.2",
+		"parcel-transformer-rgh": "file:build/parcel-transformer-rgh",
+		"path-browserify": "^1.0.1",
+		"process": "^0.11.10",
 		"size-plugin": "^2.0.2",
+		"stream-browserify": "^3.0.0",
 		"stylelint": "^14.9.1",
 		"stylelint-config-xo": "^0.21.0",
 		"terser-webpack-plugin": "^5.3.3",
@@ -126,6 +136,8 @@
 		"type-fest": "^2.13.1",
 		"typed-query-selector": "^2.6.1",
 		"typescript": "^4.7.4",
+		"util": "^0.12.4",
+		"webext-options-sync-per-domain": "^3.0.0",
 		"webpack": "^5.73.0",
 		"webpack-cli": "^4.10.0",
 		"xo": "^0.50.0"
@@ -133,6 +145,20 @@
 	"engines": {
 		"node": ">= 16",
 		"npm": ">= 7"
+	},
+	"alias": {
+		"react": "dom-chef",
+		"mem": "./node_modules/mem/dist/index.js"
+	},
+	"targets": {
+		"main": false,
+		"default": {
+			"source": "source/manifest.json",
+			"context": "browser",
+			"sourceMap": {
+				"inline": true
+			}
+		}
 	},
 	"webExt": {
 		"sourceDir": "distribution",

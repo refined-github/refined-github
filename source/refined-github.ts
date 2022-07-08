@@ -1,31 +1,5 @@
 import './helpers/types.d.ts';
 
-import './refined-github.css';
-import './features/github-bugs.css';
-import './features/tab-size.css';
-import './features/scrollable-code-and-blockquote.css';
-import './features/center-reactions-popup.css';
-import './features/safer-destructive-actions.css';
-import './features/clean-mergeability-box.css';
-import './features/clean-footer.css';
-import './features/pr-approvals-count.css';
-import './features/clean-conversations.css';
-import './features/sticky-conversation-list-toolbar.css';
-import './features/always-show-branch-delete-buttons.css';
-import './features/easier-pr-sha-copy.css';
-import './features/repo-stats-spacing.css';
-import './features/emphasize-draft-pr-label.css';
-import './features/clean-notifications.css';
-import './features/align-repository-header.css';
-import './features/night-not-found.css';
-import './features/hide-watch-and-fork-count.css';
-import './features/clean-commit-form.css';
-import './features/sticky-file-header.css';
-import './features/readable-title-change-events.css';
-
-// DO NOT add CSS files here if they are part of a JavaScript feature.
-// Import the `.css` file from the `.tsx` instead.
-
 // CSS-only disableable features
 import './features/align-issue-labels';
 import './features/clean-pinned-issues';

@@ -29,13 +29,14 @@
 		"128": "icon.png"
 	},
 	"options_ui": {
-		"chrome_style": true,
+		"browser_style": true,
 		"page": "options.html"
 	},
 	"background": {
 		"persistent": false,
 		"scripts": [
-			"background.js"
+			"npm:webextension-polyfill",
+			"background.ts"
 		]
 	},
 	"content_scripts": [
@@ -52,11 +53,12 @@
 				"refined-github.css"
 			],
 			"js": [
-				"refined-github.js"
+				"npm:webextension-polyfill",
+				"refined-github.ts"
 			]
 		}
 	],
 	"web_accessible_resources": [
-		"resolve-conflicts.js"
+		"resolve-conflicts.ts"
 	]
 }
