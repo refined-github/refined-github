@@ -18,7 +18,7 @@ async function init(): Promise<void> {
 
 	const avatar = (
 		<img
-			className="avatar flex-self-stretch mr-2"
+			className="avatar mr-2"
 			src={src}
 			width="24"
 			height="24"
@@ -28,6 +28,10 @@ async function init(): Promise<void> {
 
 	if (!pageDetect.isOrganizationRepo()) {
 		avatar.classList.add('avatar-user');
+	}
+
+	if(Array.from(username).some(character => character.toUpperCase() === character)){
+		avatar.classList.add("flex-self-stretch");
 	}
 
 	icon.replaceWith(avatar);
