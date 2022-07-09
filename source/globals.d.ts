@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 
 type AnyObject = Record<string, any>;
-type DeinitHandle = MutationObserver | ResizeObserver | IntersectionObserver | {destroy: VoidFunction} | {abort: VoidFunction} | VoidFunction;
+type DeinitHandle = {disconnect: VoidFunction} | {clear: VoidFunction} | {destroy: VoidFunction} | {abort: VoidFunction} | VoidFunction;
 type Deinit = DeinitHandle | DeinitHandle[];
 
 type FeatureID = string & {feature: true};

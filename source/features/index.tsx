@@ -157,9 +157,15 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 });
 
 function getDeinitHandler(deinit: DeinitHandle): VoidFunction {
-	if (deinit instanceof MutationObserver || deinit instanceof ResizeObserver || deinit instanceof IntersectionObserver) {
+	if ('disconnect' in deinit) {
 		return () => {
 			deinit.disconnect();
+		};
+	}
+
+	if ('clear' in deinit) { // Selector observer
+		return () => {
+			deinit.clear();
 		};
 	}
 
