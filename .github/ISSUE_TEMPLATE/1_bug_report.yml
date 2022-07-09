@@ -8,14 +8,14 @@ body:
         # Thanks for reporting a bug! ⛰
 
         Help us replicate the issue by filling in this form. You can use the "Find feature" button in the options page to find which feature is causing the issue.
-        
+
         Please ensure:
-        
+
         - The bug is caused by Refined GitHub. It doesn't happen if I disable the extension.
         - The bug happens after clearing extension cache. The "Clear cache" button can be found in the options page.
-        
+
         Include in this issue: 
-        
+
         - Screenshots/video/gif demonstrating the bug, if it’s visual
         - Console errors, if any
 
