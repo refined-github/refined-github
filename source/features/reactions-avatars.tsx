@@ -11,6 +11,7 @@ import getUserAvatar from '../github-helpers/get-user-avatar';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
+const avatarSize = 16;
 
 interface Participant {
 	button: HTMLButtonElement;
@@ -34,7 +35,7 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 			continue;
 		}
 
-		const imageUrl = getUserAvatar(username, 16);
+		const imageUrl = getUserAvatar(username, avatarSize);
 		if (imageUrl) {
 			participants.push({button, username, imageUrl});
 		}
@@ -73,7 +74,7 @@ function showAvatarsOn(commentReactions: Element): void {
 	for (const {button, username, imageUrl} of flatParticipants) {
 		button.append(
 			<span className="avatar-user avatar rgh-reactions-avatar p-0 flex-self-center">
-				<img src={imageUrl} className="d-block" width="16" height="16" alt={`@${username}`}/>
+				<img src={imageUrl} className="d-block" width={avatarSize} height={avatarSize} alt={`@${username}`}/>
 			</span>,
 		);
 	}
