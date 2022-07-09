@@ -11,7 +11,7 @@ import createBanner from '../github-helpers/banner';
 import TimelineItem from '../github-helpers/timeline-item';
 import attachElement from '../helpers/attach-element';
 import {canEditEveryComment} from './quick-comment-edit';
-import {buildRepoURL, getRepo} from '../github-helpers';
+import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 // TODO: Not an exact match; Moderators can edit comments but not create releases
@@ -77,6 +77,9 @@ function addExistingTagLink(tagName: string): void {
 }
 
 function addLinkToCreateRelease(text = 'Now you can release this change'): void {
+	const url = isRefinedGitHubRepo()
+		? 'https://github.com/refined-github/refined-github/actions/workflows/release.yml'
+		: buildRepoURL('releases/new');
 	attachElement({
 		anchor: '#issue-comment-box',
 		position: 'before',
@@ -84,7 +87,7 @@ function addLinkToCreateRelease(text = 'Now you can release this change'): void 
 			<TimelineItem>
 				{createBanner({
 					text,
-					url: buildRepoURL('releases/new'),
+					url,
 					buttonLabel: <><TagIcon/> Draft a new release</>,
 				})}
 			</TimelineItem>
