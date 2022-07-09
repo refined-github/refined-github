@@ -75,6 +75,14 @@
 				"@typescript-eslint/consistent-type-definitions": "off",
 				"@typescript-eslint/explicit-function-return-type": "off"
 			}
+		},
+		{
+			"files": [
+				"source/features/*"
+			],
+			"rules": {
+				"import/prefer-default-export": "off"
+			}
 		}
 	],
 	"settings": {
