@@ -1,6 +1,5 @@
-import {expect, test} from 'vitest';
-
 import {JSDOM} from 'jsdom';
+import {expect, test} from 'vitest';
 
 import './fixtures/globals';
 import {shortenLink} from '../source/github-helpers/dom-formatters';

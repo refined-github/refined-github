@@ -1,6 +1,5 @@
-import {expect, test} from 'vitest';
-
 import jsdom from 'jsdom';
+import {test, assert} from 'vitest';
 
 import select from './select-has';
 
@@ -12,7 +11,7 @@ test('basic :has() support', () => {
 		<a><strong>Contacts</a>
 	`);
 
-	expect(select('a:has(strong)', document)).toMatchObject({textContent: 'Contacts'});
+	assert.propertyVal(select('a:has(strong)', document), 'textContent', 'Contacts');
 });
 
 test('returns undefined if not found', () => {
@@ -21,7 +20,7 @@ test('returns undefined if not found', () => {
 		<a><strong>Contacts</strong></a>
 	`);
 
-	expect(select('a:has(em)', document)).toBe(undefined);
+	assert.equal(select('a:has(em)', document), undefined);
 });
 
 test('supports looking for descendants in base element', () => {
@@ -30,7 +29,7 @@ test('supports looking for descendants in base element', () => {
 		<a><em>Contacts</em> <i>icon</i></a>
 	`);
 
-	expect(select('a:has(em) i', document)).toMatchObject({textContent: 'icon'});
+	assert.propertyVal(select('a:has(em) i', document), 'textContent', 'icon');
 });
 
 test('supports looking for direct children in base element', () => {
@@ -39,7 +38,7 @@ test('supports looking for direct children in base element', () => {
 		<a><span><em>Contacts <i></i></em></span></a>
 	`);
 
-	expect(select('a:has(> span i)', document)).toMatchObject({textContent: 'Contacts '});
+	assert.propertyVal(select('a:has(> span i)', document), 'textContent', 'Contacts ');
 });
 
 test('throws error when there’s a space before :has()', () => {
@@ -47,11 +46,9 @@ test('throws error when there’s a space before :has()', () => {
 		<a>Home</a>
 	`);
 
-	expect(() => {
+	assert.throws(() => {
 		select('a :has(em)', document);
-	}).toThrowError(
-		'No spaces before :has() supported',
-	);
+	}, 'No spaces before :has() supported');
 });
 
 test('throws error when there is more than one :has()', () => {
@@ -59,10 +56,9 @@ test('throws error when there is more than one :has()', () => {
 		<a>Home</a>
 	`);
 
-	expect(() => {
+	assert.throws(() => {
 		select('a:has(em) b:has(strong)', document);
-	}).toThrowError('Only one `:has()` required/allowed, found 2',
-	);
+	}, 'Only one `:has()` required/allowed, found 2');
 });
 
 test('throws on sibling selectors', () => {
@@ -70,8 +66,7 @@ test('throws on sibling selectors', () => {
 		<a>Home</a>
 	`);
 
-	expect(() => {
+	assert.throws(() => {
 		select('a:has(+a)', document);
-	}).toThrowError('This polyfill only supports looking into the children of the base element',
-	);
+	}, 'This polyfill only supports looking into the children of the base element');
 });

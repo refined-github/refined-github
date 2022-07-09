@@ -1,4 +1,4 @@
-import {expect, test} from 'vitest';
+import {test, assert} from 'vitest';
 
 import {
 	getConversationNumber,
@@ -74,51 +74,51 @@ test('getConversationNumber', () => {
 	]);
 	for (const [url, result] of pairs) {
 		location.href = url;
-		expect(result).toBe(getConversationNumber());
+		assert.equal(result, getConversationNumber());
 	}
 });
 
 test('parseTag', () => {
-	expect(parseTag('')).toEqual({namespace: '', version: ''});
-	expect(parseTag('1.2.3')).toEqual({namespace: '', version: '1.2.3'});
-	expect(parseTag('@1.2.3')).toEqual({namespace: '', version: '1.2.3'});
-	expect(parseTag('hi@1.2.3')).toEqual({namespace: 'hi', version: '1.2.3'});
-	expect(parseTag('hi/you@1.2.3')).toEqual({namespace: 'hi/you', version: '1.2.3'});
-	expect(parseTag('@hi/you@1.2.3')).toEqual({namespace: '@hi/you', version: '1.2.3'});
+	assert.deepEqual(parseTag(''), {namespace: '', version: ''});
+	assert.deepEqual(parseTag('1.2.3'), {namespace: '', version: '1.2.3'});
+	assert.deepEqual(parseTag('@1.2.3'), {namespace: '', version: '1.2.3'});
+	assert.deepEqual(parseTag('hi@1.2.3'), {namespace: 'hi', version: '1.2.3'});
+	assert.deepEqual(parseTag('hi/you@1.2.3'), {namespace: 'hi/you', version: '1.2.3'});
+	assert.deepEqual(parseTag('@hi/you@1.2.3'), {namespace: '@hi/you', version: '1.2.3'});
 });
 
 test('compareNames', () => {
-	expect(compareNames('johndoe', 'John Doe')).toBe(true);
-	expect(compareNames('john-doe', 'John Doe')).toBe(true);
-	expect(compareNames('john-wdoe', 'John W. Doe')).toBe(true);
-	expect(compareNames('john-doe-jr', 'John Doe Jr.')).toBe(true);
-	expect(compareNames('nicolo', 'Nicolò')).toBe(true);
-	expect(compareNames('dotconnor', 'Connor Love')).toBe(false);
-	expect(compareNames('fregante ', 'Federico Brigante')).toBe(false);
+	assert.isTrue(compareNames('johndoe', 'John Doe'));
+	assert.isTrue(compareNames('john-doe', 'John Doe'));
+	assert.isTrue(compareNames('john-wdoe', 'John W. Doe'));
+	assert.isTrue(compareNames('john-doe-jr', 'John Doe Jr.'));
+	assert.isTrue(compareNames('nicolo', 'Nicolò'));
+	assert.isFalse(compareNames('dotconnor', 'Connor Love'));
+	assert.isFalse(compareNames('fregante ', 'Federico Brigante'));
 });
 
 test('getLatestVersionTag', () => {
-	expect(getLatestVersionTag([
+	assert.equal(getLatestVersionTag([
 		'0.0.0',
 		'v1.1',
 		'r2.0',
 		'3.0',
-	])).toBe('3.0');
+	]), '3.0', 'Tags should be sorted by version');
 
-	expect(getLatestVersionTag([
+	assert.equal(getLatestVersionTag([
 		'v2.1-0',
 		'v2.0',
 		'r1.5.5',
 		'r1.0',
 		'v1.0-1',
-	])).toBe('v2.0');
+	]), 'v2.0', 'Prereleases should be ignored');
 
-	expect(getLatestVersionTag([
+	assert.equal(getLatestVersionTag([
 		'lol v0.0.0',
 		'2.0',
 		'2020-10-10',
 		'v1.0-1',
-	])).toBe('lol v0.0.0');
+	]), 'lol v0.0.0', 'Non-version tags should short-circuit the sorting and return the first tag');
 });
 
 test('shouldFeatureRun', () => {
@@ -128,44 +128,44 @@ test('shouldFeatureRun', () => {
 	const yesNo = [yes, no];
 	const noNo = [no, no];
 
-	expect(shouldFeatureRun({})).toBe(true);
+	assert.isTrue(shouldFeatureRun({}), 'A lack of conditions should mean "run everywhere"');
 
-	expect(shouldFeatureRun({
+	assert.isFalse(shouldFeatureRun({
 		asLongAs: yesNo,
-	})).toBe(false);
+	}), 'Every `asLongAs` should be true to run');
 
-	expect(shouldFeatureRun({
+	assert.isFalse(shouldFeatureRun({
 		asLongAs: yesNo,
 		include: [yes],
-	})).toBe(false);
+	}), 'Every `asLongAs` should be true to run, regardless of `include`');
 
-	expect(shouldFeatureRun({
+	assert.isFalse(shouldFeatureRun({
 		include: noNo,
-	})).toBe(false);
+	}), 'At least one `include` should be true to run');
 
-	expect(shouldFeatureRun({
+	assert.isTrue(shouldFeatureRun({
 		include: yesNo,
-	})).toBe(true);
+	}), 'If one `include` is true, then it should run');
 
-	expect(shouldFeatureRun({
+	assert.isFalse(shouldFeatureRun({
 		exclude: yesNo,
-	})).toBe(false);
+	}), 'If any `exclude` is true, then it should not run');
 
-	expect(shouldFeatureRun({
+	assert.isFalse(shouldFeatureRun({
 		include: [yes],
 		exclude: yesNo,
-	})).toBe(false);
+	}), 'If any `exclude` is true, then it should not run, regardless of `include`');
 
-	expect(shouldFeatureRun({
+	assert.isFalse(shouldFeatureRun({
 		asLongAs: [yes],
 		exclude: yesNo,
-	})).toBe(false);
+	}), 'If any `exclude` is true, then it should not run, regardless of `asLongAs`');
 
-	expect(shouldFeatureRun({
+	assert.isFalse(shouldFeatureRun({
 		asLongAs: [yes],
 		include: yesYes,
 		exclude: yesNo,
-	})).toBe(false);
+	}), 'If any `exclude` is true, then it should not run, regardless of `asLongAs` and `include`');
 });
 
 const testAddHotkey = (existing: string | undefined, added: string, final: string): void => {
@@ -175,7 +175,7 @@ const testAddHotkey = (existing: string | undefined, added: string, final: strin
 	}
 
 	addHotkey(link, added);
-	expect(link.dataset.hotkey).toBe(final);
+	assert.equal(link.dataset.hotkey, final);
 };
 
 test('addHotkey if one is specified', testAddHotkey.bind(null,

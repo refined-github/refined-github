@@ -1,4 +1,4 @@
-import {expect, test} from 'vitest';
+import {assert, test} from 'vitest';
 
 import hl from 'highlight.js/lib/common';
 
@@ -36,103 +36,103 @@ function process(html: string): string {
 	return serializeDOM(showWhiteSpacesOnLine(element));
 }
 
-function assert(actual: string, expected: string): void {
-	expect(process(actual)).toBe(expected);
+function assertProcess(actual: string, expected: string): void {
+	assert.equal(process(actual), expected);
 }
 
 function assertHighlighted(actual: string, expected: string): void {
-	expect(process(highlight(actual))).toBe(expected);
+	assert.equal(process(highlight(actual)), expected);
 }
 
 test('showWhiteSpacesOnLine raw', () => {
-	assert(
+	assertProcess(
 		'',
 		'',
 	);
-	assert(
+	assertProcess(
 		' ',
 		'•',
 	);
-	assert(
+	assertProcess(
 		'  ',
 		'••',
 	);
-	assert(
+	assertProcess(
 		'	',
 		'⟶',
 	);
-	assert(
+	assertProcess(
 		'		',
 		'⟶⟶',
 	);
-	assert(
+	assertProcess(
 		'	 ',
 		'⟶•',
 	);
-	assert(
+	assertProcess(
 		' 	',
 		'•⟶',
 	);
-	assert(
+	assertProcess(
 		' 	 ',
 		'•⟶•',
 	);
-	assert(
+	assertProcess(
 		'	 	',
 		'⟶•⟶',
 	);
-	assert(
+	assertProcess(
 		' hello ',
 		'•hello•',
 	);
-	assert(
+	assertProcess(
 		'	hello	',
 		'⟶hello⟶',
 	);
-	assert(
+	assertProcess(
 		'	hello world	',
 		'⟶hello•world⟶',
 	);
 });
 
 test('showWhiteSpacesOnLine real code', () => {
-	assert(
+	assertProcess(
 		'[1,""]',
 		'[1,""]',
 	);
-	assert(
+	assertProcess(
 		'[1,"  "]',
 		'[1,"••"]',
 	);
-	assert(
+	assertProcess(
 		'[1, "  "]',
 		'[1,•"••"]',
 	);
-	assert(
+	assertProcess(
 		' [1, "  "] ',
 		'•[1,•"••"]•',
 	);
-	assert(
+	assertProcess(
 		'  [1, "  "]  ',
 		'••[1,•"••"]••',
 	);
-	assert(
+	assertProcess(
 		'[1,""]',
 		'[1,""]',
 	);
-	assert(
+	assertProcess(
 		'[1,"		"]',
 		'[1,"⟶⟶"]',
 	);
-	assert(
+	assertProcess(
 		'[1,	"		"]',
 		'[1,⟶"⟶⟶"]',
 	);
-	assert(
+	assertProcess(
 		'	[1,	"		"]	',
 		'⟶[1,⟶"⟶⟶"]⟶',
 	);
-	assert(
+	assertProcess(
 		'		[1,	"		"]		',
 		'⟶⟶[1,⟶"⟶⟶"]⟶⟶',
 	);

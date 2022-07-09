@@ -1,28 +1,28 @@
-import {expect, test} from 'vitest';
+import {test, assert} from 'vitest';
 
 import isLowQualityComment from './is-low-quality-comment';
 
 test('isLowQualityComment', () => {
-	expect(isLowQualityComment('+1')).toBe(true);
-	expect(isLowQualityComment('+1!')).toBe(true);
-	expect(isLowQualityComment('+10')).toBe(true);
-	expect(isLowQualityComment('+9000')).toBe(true);
-	expect(isLowQualityComment('-1')).toBe(true);
-	expect(isLowQualityComment('👍')).toBe(true);
-	expect(isLowQualityComment('👍🏾')).toBe(true);
-	expect(isLowQualityComment('me too')).toBe(true);
-	expect(isLowQualityComment('ditto')).toBe(true);
-	expect(isLowQualityComment('Dito')).toBe(true);
-	expect(isLowQualityComment('following')).toBe(true);
-	expect(isLowQualityComment('please update!')).toBe(true);
-	expect(isLowQualityComment('please update 🙏🏻')).toBe(true);
-	expect(isLowQualityComment('same issue')).toBe(true);
-	expect(isLowQualityComment('this same issues')).toBe(true);
-	expect(isLowQualityComment('same question')).toBe(true);
-	expect(isLowQualityComment('any updates there?')).toBe(true);
+	assert.isTrue(isLowQualityComment('+1'));
+	assert.isTrue(isLowQualityComment('+1!'));
+	assert.isTrue(isLowQualityComment('+10'));
+	assert.isTrue(isLowQualityComment('+9000'));
+	assert.isTrue(isLowQualityComment('-1'));
+	assert.isTrue(isLowQualityComment('👍'));
+	assert.isTrue(isLowQualityComment('👍🏾'));
+	assert.isTrue(isLowQualityComment('me too'));
+	assert.isTrue(isLowQualityComment('ditto'));
+	assert.isTrue(isLowQualityComment('Dito'));
+	assert.isTrue(isLowQualityComment('following'));
+	assert.isTrue(isLowQualityComment('please update!'));
+	assert.isTrue(isLowQualityComment('please update 🙏🏻'));
+	assert.isTrue(isLowQualityComment('same issue'));
+	assert.isTrue(isLowQualityComment('this same issues'));
+	assert.isTrue(isLowQualityComment('same question'));
+	assert.isTrue(isLowQualityComment('any updates there?'));
 
-	expect(isLowQualityComment('+1\n<some useful information>')).toBe(false);
-	expect(isLowQualityComment('Same here. <some useful information>')).toBe(false);
-	expect(isLowQualityComment('Same here, please update, thanks')).toBe(false);
-	expect(isLowQualityComment('Same here! Please update, thank you.')).toBe(false);
+	assert.isFalse(isLowQualityComment('+1\n<some useful information>'));
+	assert.isFalse(isLowQualityComment('Same here. <some useful information>'));
+	assert.isFalse(isLowQualityComment('Same here, please update, thanks'));
+	assert.isFalse(isLowQualityComment('Same here! Please update, thank you.'));
 });
