@@ -33,3 +33,11 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+ /*
+## Test URLs
+Closed Issue: https://github.com/refined-github/sandbox/issues/24
+Closed Issue (Not Planned): https://github.com/refined-github/sandbox/issues/2
+Merged PR: https://github.com/refined-github/sandbox/pull/23
+Closed PR: https://github.com/refined-github/sandbox/pull/22
+*/
