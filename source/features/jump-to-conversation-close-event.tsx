@@ -34,7 +34,7 @@ void features.add(import.meta.url, {
 	init,
 });
 
- /*
+/*
 ## Test URLs
 Closed Issue: https://github.com/refined-github/sandbox/issues/24
 Closed Issue (Not Planned): https://github.com/refined-github/sandbox/issues/2
