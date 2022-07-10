@@ -38,8 +38,8 @@ void features.add(import.meta.url, {
 
 /*
 ## Test URLs
-Closed Issue: https://github.com/refined-github/sandbox/issues/24
-Closed Issue (Not Planned): https://github.com/refined-github/sandbox/issues/2
+Closed Issue: https://github.com/refined-github/sandbox/issues/2
+Closed Issue (Not Planned): https://github.com/refined-github/sandbox/issues/24
 Merged PR: https://github.com/refined-github/sandbox/pull/23
 Closed PR: https://github.com/refined-github/sandbox/pull/22
 */
