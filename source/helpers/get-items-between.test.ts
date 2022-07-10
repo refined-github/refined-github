@@ -1,15 +1,15 @@
-import test from 'ava';
+import {test, assert} from 'vitest';
 
 import getItemsBetween from './get-items-between';
 
-test('getItemsBetween', t => {
+test('getItemsBetween', () => {
 	const list = ['❤️', '💛', '💚', '💙'];
 
-	t.deepEqual(getItemsBetween(list, '💛', '💚'), ['💛', '💚']);
-	t.deepEqual(getItemsBetween(list, '💚', '💛'), ['💛', '💚']);
-	t.deepEqual(getItemsBetween(list, '❤️', '💙'), ['❤️', '💛', '💚', '💙']);
-	t.deepEqual(getItemsBetween(list, '💙', '❤️'), ['❤️', '💛', '💚', '💙']);
-	t.deepEqual(getItemsBetween(list, undefined, '❤️'), ['❤️']);
-	t.deepEqual(getItemsBetween(list, undefined, '💚'), ['❤️', '💛', '💚']);
-	t.deepEqual(getItemsBetween(list, undefined, '💙'), ['❤️', '💛', '💚', '💙']);
+	assert.deepEqual(getItemsBetween(list, '💛', '💚'), ['💛', '💚']);
+	assert.deepEqual(getItemsBetween(list, '💚', '💛'), ['💛', '💚']);
+	assert.deepEqual(getItemsBetween(list, '❤️', '💙'), ['❤️', '💛', '💚', '💙']);
+	assert.deepEqual(getItemsBetween(list, '💙', '❤️'), ['❤️', '💛', '💚', '💙']);
+	assert.deepEqual(getItemsBetween(list, undefined, '❤️'), ['❤️']);
+	assert.deepEqual(getItemsBetween(list, undefined, '💚'), ['❤️', '💛', '💚']);
+	assert.deepEqual(getItemsBetween(list, undefined, '💙'), ['❤️', '💛', '💚', '💙']);
 });

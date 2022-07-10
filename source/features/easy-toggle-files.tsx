@@ -21,9 +21,7 @@ function init(): Deinit {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isPRFiles,
-		pageDetect.isCommit,
-		pageDetect.isCompare,
+		pageDetect.hasFiles,
 		pageDetect.isGistRevision,
 	],
 	awaitDomReady: false,

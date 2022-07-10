@@ -1,89 +1,89 @@
-import test from 'ava';
+import {test, assert} from 'vitest';
 
 import SearchQuery from './search-query';
 
-test('.get', t => {
+test('.get', () => {
 	const query = SearchQuery.from({q: 'wow'});
-	t.is(query.get(), 'wow');
+	assert.equal(query.get(), 'wow');
 });
 
-test('.getQueryParts', t => {
+test('.getQueryParts', () => {
 	const query = SearchQuery.from({q: 'cool is:issue'});
-	t.deepEqual(query.getQueryParts(), ['cool', 'is:issue']);
+	assert.deepEqual(query.getQueryParts(), ['cool', 'is:issue']);
 });
 
-test('getQueryParts with spaces support', t => {
+test('getQueryParts with spaces support', () => {
 	const query = SearchQuery.from({q: 'please label:"under discussion"'});
-	t.deepEqual(query.getQueryParts(), ['please', 'label:"under discussion"']);
+	assert.deepEqual(query.getQueryParts(), ['please', 'label:"under discussion"']);
 });
 
-test('.set', t => {
+test('.set', () => {
 	const query = SearchQuery.from({q: 'wow'});
 	query.set('lol');
-	t.is(query.get(), 'lol');
+	assert.equal(query.get(), 'lol');
 });
 
-test('.edit', t => {
+test('.edit', () => {
 	const query = SearchQuery.from({q: 'gone fishing'});
 	query.edit(queryParts => queryParts.slice(0, 1));
-	t.is(query.get(), 'gone');
+	assert.equal(query.get(), 'gone');
 });
 
-test('.replace', t => {
+test('.replace', () => {
 	const query = SearchQuery.from({q: '404 error'});
 	query.replace('error', 'failure');
-	t.is(query.get(), '404 failure');
+	assert.equal(query.get(), '404 failure');
 
 	query.replace(/^\d(\d)/, '1$1');
-	t.is(query.get(), '104 failure');
+	assert.equal(query.get(), '104 failure');
 });
 
-test('.remove', t => {
+test('.remove', () => {
 	const query = SearchQuery.from({q: 'is:issue dog is:open'});
 	query.remove('is:issue', 'is:open');
-	t.is(query.get(), 'dog');
+	assert.equal(query.get(), 'dog');
 });
 
-test('.add', t => {
+test('.add', () => {
 	const query = SearchQuery.from({q: 'is:pr birds everywhere'});
 	query.add('and', 'aliens');
-	t.is(query.get(), 'is:pr birds everywhere and aliens');
+	assert.equal(query.get(), 'is:pr birds everywhere and aliens');
 });
 
-test('.includes', t => {
+test('.includes', () => {
 	const query = SearchQuery.from({q: 'label:nonsense'});
-	t.false(query.includes('nonsense'));
-	t.true(query.includes('label:nonsense'));
+	assert.isFalse(query.includes('nonsense'));
+	assert.isTrue(query.includes('label:nonsense'));
 });
 
-test('defaults', t => {
+test('defaults', () => {
 	const query = SearchQuery.from({q: ''});
-	t.is(query.get(), '');
+	assert.equal(query.get(), '');
 
 	const link = document.createElement('a');
 	link.href = 'https://github.com/owner/repo/issues';
 	const queryFromLink = SearchQuery.from(link);
-	t.is(queryFromLink.get(), 'is:issue is:open');
+	assert.equal(queryFromLink.get(), 'is:issue is:open');
 });
 
-test('deduplicate is:pr/issue', t => {
+test('deduplicate is:pr/issue', () => {
 	const query = SearchQuery.from({q: 'refined github is:pr'});
 	query.add('is:issue');
 
-	t.false(query.includes('is:pr'));
-	t.true(query.includes('is:issue'));
+	assert.isFalse(query.includes('is:pr'));
+	assert.isTrue(query.includes('is:issue'));
 });
 
-test('remove additional spaces', t => {
+test('remove additional spaces', () => {
 	const query = SearchQuery.from({q: ' refined   github '});
-	t.is(query.get(), 'refined github');
+	assert.equal(query.get(), 'refined github');
 });
 
-test('parse label link', t => {
+test('parse label link', () => {
 	const link = document.createElement('a');
 	link.href = 'https://github.com/owner/repo/labels/bug';
 	const query = SearchQuery.from(link);
 
-	t.is(query.get(), 'is:open label:bug');
-	t.true(query.href.startsWith('https://github.com/owner/repo/issues?'));
+	assert.equal(query.get(), 'is:open label:bug');
+	assert.isTrue(query.href.startsWith('https://github.com/owner/repo/issues?'));
 });

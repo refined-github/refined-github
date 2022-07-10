@@ -16,8 +16,7 @@ function getUrl(): string {
 }
 
 async function init(): Promise<void | false> {
-	// TODO [2022-06-01]: Remove `.social-count` (GHE)
-	const forkCount = await elementReady('#repo-network-counter, .social-count[href$="/network/members"]');
+	const forkCount = await elementReady('#repo-network-counter');
 	if (looseParseInt(forkCount) === 0) {
 		return false;
 	}

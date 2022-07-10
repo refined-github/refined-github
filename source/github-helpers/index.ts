@@ -2,6 +2,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
+import {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 
 // This never changes, so it can be cached here
@@ -72,10 +73,14 @@ export const getCurrentCommittish = (pathname = location.pathname, title = docum
 
 export const isMac = navigator.userAgent.includes('Macintosh');
 
-// The type requires at least one parameter https://stackoverflow.com/a/49910890
-export const buildRepoURL = (...pathParts: Array<string | number> & {0: string}): string => {
+type Not<Yes, Not> = Yes extends Not ? never : Yes;
+type UnslashedString<S extends string> = Not<S, `/${string}` | `${string}/`>;
+
+export const buildRepoURL = <S extends string>(
+	...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>
+): string => {
+	// TODO: Drop after https://github.com/sindresorhus/type-fest/issues/417
 	for (const part of pathParts) {
-		// TODO: Can TypeScript take care of this? With https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-beta/#template-literal-types
 		if (typeof part === 'string' && /^\/|\/$/.test(part)) {
 			throw new TypeError('The path parts shouldn’t start or end with a slash: ' + part);
 		}

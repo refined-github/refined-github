@@ -1,28 +1,28 @@
-import test from 'ava';
+import {test, assert} from 'vitest';
 
 import isLowQualityComment from './is-low-quality-comment';
 
-test('isLowQualityComment', t => {
-	t.true(isLowQualityComment('+1'));
-	t.true(isLowQualityComment('+1!'));
-	t.true(isLowQualityComment('+10'));
-	t.true(isLowQualityComment('+9000'));
-	t.true(isLowQualityComment('-1'));
-	t.true(isLowQualityComment('👍'));
-	t.true(isLowQualityComment('👍🏾'));
-	t.true(isLowQualityComment('me too'));
-	t.true(isLowQualityComment('ditto'));
-	t.true(isLowQualityComment('Dito'));
-	t.true(isLowQualityComment('following'));
-	t.true(isLowQualityComment('please update!'));
-	t.true(isLowQualityComment('please update 🙏🏻'));
-	t.true(isLowQualityComment('same issue'));
-	t.true(isLowQualityComment('this same issues'));
-	t.true(isLowQualityComment('same question'));
-	t.true(isLowQualityComment('any updates there?'));
+test('isLowQualityComment', () => {
+	assert.isTrue(isLowQualityComment('+1'));
+	assert.isTrue(isLowQualityComment('+1!'));
+	assert.isTrue(isLowQualityComment('+10'));
+	assert.isTrue(isLowQualityComment('+9000'));
+	assert.isTrue(isLowQualityComment('-1'));
+	assert.isTrue(isLowQualityComment('👍'));
+	assert.isTrue(isLowQualityComment('👍🏾'));
+	assert.isTrue(isLowQualityComment('me too'));
+	assert.isTrue(isLowQualityComment('ditto'));
+	assert.isTrue(isLowQualityComment('Dito'));
+	assert.isTrue(isLowQualityComment('following'));
+	assert.isTrue(isLowQualityComment('please update!'));
+	assert.isTrue(isLowQualityComment('please update 🙏🏻'));
+	assert.isTrue(isLowQualityComment('same issue'));
+	assert.isTrue(isLowQualityComment('this same issues'));
+	assert.isTrue(isLowQualityComment('same question'));
+	assert.isTrue(isLowQualityComment('any updates there?'));
 
-	t.false(isLowQualityComment('+1\n<some useful information>'));
-	t.false(isLowQualityComment('Same here. <some useful information>'));
-	t.false(isLowQualityComment('Same here, please update, thanks'));
-	t.false(isLowQualityComment('Same here! Please update, thank you.'));
+	assert.isFalse(isLowQualityComment('+1\n<some useful information>'));
+	assert.isFalse(isLowQualityComment('Same here. <some useful information>'));
+	assert.isFalse(isLowQualityComment('Same here, please update, thanks'));
+	assert.isFalse(isLowQualityComment('Same here! Please update, thank you.'));
 });
