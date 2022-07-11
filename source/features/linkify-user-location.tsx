@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
+import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {wrap, isEditable} from '../helpers/dom-utils';
@@ -44,6 +45,9 @@ function hovercardInit(): void {
 
 void features.add(import.meta.url, {
 	init,
+	include: [
+		pageDetect.isProfile,
+	],
 }, {
 	init: onetime(hovercardInit),
 });
