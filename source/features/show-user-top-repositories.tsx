@@ -3,7 +3,6 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {isPrivateUserProfile} from '../github-helpers';
 
 function init(): void {
 	const url = new URL(location.pathname, location.href);
@@ -25,7 +24,7 @@ void features.add(import.meta.url, {
 		pageDetect.isUserProfileMainTab,
 	],
 	exclude: [
-		isPrivateUserProfile,
+		pageDetect.isPrivateUserProfile,
 	],
 	init,
 });
