@@ -43,7 +43,7 @@ function hovercardInit(): void {
 }
 
 void features.add(import.meta.url, {
-	init
+	init,
 }, {
 	init: onetime(hovercardInit),
 });
