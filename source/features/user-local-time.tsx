@@ -196,5 +196,8 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isUserProfile,
 	],
+	exclude: [
+		pageDetect.isPrivateUserProfile,
+	],
 	init: profileInit,
 });
