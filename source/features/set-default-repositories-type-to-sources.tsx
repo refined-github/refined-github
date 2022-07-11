@@ -3,6 +3,7 @@ import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {isPrivateUserProfile} from '../github-helpers';
 import onProfileDropdownLoad from '../github-events/on-profile-dropdown-load';
 
 function addSourceTypeToLink(link: HTMLAnchorElement): void {
@@ -30,6 +31,9 @@ async function init(): Promise<void> {
 
 void features.add(import.meta.url, {
 	init,
+	exclude: [
+		isPrivateUserProfile,
+	],
 }, {
 	exclude: [
 		pageDetect.isGist, // "Your repositories" does not exist

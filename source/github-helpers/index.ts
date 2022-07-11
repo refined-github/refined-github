@@ -178,3 +178,6 @@ export const addHotkey = (button: HTMLAnchorElement | HTMLButtonElement | undefi
 		button.dataset.hotkey = [...hotkeys].join(',');
 	}
 };
+
+// TODO: Drop after https://github.com/refined-github/github-url-detection/pull/125
+export const isPrivateUserProfile = (): boolean => pageDetect.isUserProfile() && !select.exists('.user-following-container');
