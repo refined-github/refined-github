@@ -8,6 +8,7 @@ import {getCleanPathname} from '../github-helpers';
 function init(): void {
 	let commitUrl = '/' + getCleanPathname();
 
+	// Avoids a redirection
 	if (pageDetect.isPRCommit()) {
 		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
 	}
