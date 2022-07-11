@@ -35,7 +35,7 @@ async function init(): Promise<void> {
 	if (tagName) {
 		addExistingTagLink(tagName);
 	} else if (canCreateRelease()) {
-		addLinkToCreateRelease('This PR seems to be unreleased');
+		addLinkToCreateRelease('This pull request seems to be unreleased');
 	}
 }
 
@@ -52,7 +52,7 @@ function addExistingTagLink(tagName: string): void {
 				<a
 					href={tagUrl}
 					className="commit-ref"
-					title={`${tagName} was the first Git tag to include this PR`}
+					title={`${tagName} was the first Git tag to include this pull request`}
 				>
 					{tagName}
 				</a>
@@ -66,7 +66,7 @@ function addExistingTagLink(tagName: string): void {
 		getNewElement: () => (
 			<TimelineItem>
 				{createBanner({
-					text: <>The PR first appeared in <span className="text-mono text-small">{tagName}</span></>,
+					text: <>The pull request first appeared in <span className="text-mono text-small">{tagName}</span></>,
 					classes: ['flash-success'],
 					url: tagUrl,
 					buttonLabel: <><TagIcon/> See release</>,
