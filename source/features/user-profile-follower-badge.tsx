@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import {isPrivateUserProfile} from '../github-helpers';
 import {getUsername, getCleanPathname} from '../github-helpers';
 
 const doesUserFollow = cache.function(async (userA: string, userB: string): Promise<boolean> => {
@@ -32,6 +33,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isOwnUserProfile,
+		isPrivateUserProfile,
 	],
 	init,
 });
