@@ -50,7 +50,7 @@ async function cleanPrHeader(): Promise<void | false> {
 	}
 
 	const baseBranch = base.title.split(':')[1];
-	const wasDefaultBranch = pageDetect.isClosedPR() && baseBranch === 'master';
+	const wasDefaultBranch = pageDetect.isClosedConversation() && baseBranch === 'master';
 	const isDefaultBranch = baseBranch === await getDefaultBranch();
 	if (!isDefaultBranch && !wasDefaultBranch) {
 		base.classList.add('rgh-clean-conversation-headers-non-default-branch');

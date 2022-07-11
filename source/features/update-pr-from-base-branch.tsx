@@ -93,7 +93,7 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 	],
 	exclude: [
-		pageDetect.isClosedPR,
+		pageDetect.isClosedConversation,
 		() => select('.head-ref')!.title === 'This repository has been deleted',
 	],
 	deduplicate: 'has-rgh-inner',
