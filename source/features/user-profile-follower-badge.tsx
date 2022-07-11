@@ -5,8 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {isPrivateUserProfile} from '../github-helpers';
-import {getUsername, getCleanPathname} from '../github-helpers';
+import {getUsername, getCleanPathname, isPrivateUserProfile} from '../github-helpers';
 
 const doesUserFollow = cache.function(async (userA: string, userB: string): Promise<boolean> => {
 	const {httpStatus} = await api.v3(`/users/${userA}/following/${userB}`, {
