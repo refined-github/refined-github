@@ -12,7 +12,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getUsername, getCleanPathname} from '../github-helpers';
+import {getUsername, getCleanPathname, isPrivateUserProfile} from '../github-helpers';
 
 interface Commit {
 	url: string;
@@ -195,6 +195,9 @@ void features.add(import.meta.url, {
 }, {
 	include: [
 		pageDetect.isUserProfile,
+	],
+	exclude: [
+		isPrivateUserProfile,
 	],
 	init: profileInit,
 });
