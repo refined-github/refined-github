@@ -93,10 +93,10 @@ async function initActions(): Promise<void | false> {
 
 	const actionsCount = await getWorkflowsCount();
 	if (actionsCount > 0 || mustKeepTab(actionsTab)) {
-		setTabCounter(actionsTab, actionsCount);
-	} else {
-		onlyShowInDropdown('actions-tab');
+		return false;
 	}
+
+	onlyShowInDropdown('actions-tab');
 }
 
 async function initProjects(): Promise<void | false> {
