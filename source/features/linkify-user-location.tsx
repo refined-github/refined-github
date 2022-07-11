@@ -16,7 +16,14 @@ function addLocation(baseElement: HTMLElement): void {
 		const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
 
 		location.before(' '); // Keeps the link’s underline from extending out to the icon
-		wrap(location, <a href={googleMapsLink}/>);
+		const link = <a className="Link--primary" href={googleMapsLink}/>;
+
+		// The location is in a hovercard
+		if (baseElement !== document.body) {
+			link.classList.add('text-underline');
+		}
+
+		wrap(location, link);
 	}
 }
 
@@ -26,7 +33,9 @@ const hovercardObserver = new MutationObserver(([mutation]) => {
 
 function init(): void {
 	addLocation(document.body);
+}
 
+function hovercardInit(): void {
 	const hovercardContainer = select('.js-hovercard-content > .Popover-message');
 	if (hovercardContainer) {
 		hovercardObserver.observe(hovercardContainer, {childList: true});
@@ -34,5 +43,7 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	init
+}, {
+	init: onetime(hovercardInit),
 });
