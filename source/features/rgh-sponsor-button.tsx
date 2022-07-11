@@ -28,7 +28,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {getRepo, getUsername} from '../github-helpers';
+import {getRepo, getUsername, isPrivateUserProfile} from '../github-helpers';
 
 async function wiggleWiggleWiggle(): Promise<void> {
 	await cache.set('did-it-wiggle', 'yup', {days: 7});
@@ -107,6 +107,10 @@ void features.add(import.meta.url, {
 		pageDetect.isRepo,
 		pageDetect.isUserProfile,
 		pageDetect.isOrganizationProfile,
+	],
+	exclude: [
+		pageDetect.isOwnUserProfile,
+		isPrivateUserProfile,
 	],
 	init: handleSponsorButton,
 });
