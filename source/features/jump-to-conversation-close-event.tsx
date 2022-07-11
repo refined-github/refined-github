@@ -8,7 +8,7 @@ import features from '.';
 
 function addToConversation(discussionHeader: HTMLElement): void {
 	discussionHeader.classList.add('rgh-jump-to-conversation-close-event');
-	// By hiding the native title we allow our own title (tooltip) to be shown and notify the user of the feature on hover.
+	// Avoid native `title` by disabling pointer events, we have our own `aria-label`. We can't drop the `title` attribute because some features depend on it.
 	discussionHeader.style.pointerEvents = 'none';
 
 	const lastCloseEvent = select.last('.TimelineItem-badge :is(.octicon-issue-closed, .octicon-git-merge, .octicon-git-pull-request-closed, .octicon-skip)')!.closest('.TimelineItem')!;
