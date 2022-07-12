@@ -53,7 +53,8 @@ async function addButton(position: Element): Promise<void> {
 		getPrInfo(),
 
 		// TODO: Find how to determine whether the branch needs to be updated via v4
-		api.v3(`compare/${base}...${head}`),
+		// `page=10000` avoids fetching any commit information, which is heavy
+		api.v3(`compare/${base}...${head}?page=10000`),
 	]);
 
 	if (comparison.status === 'diverged' && pr.viewerCanEditFiles && pr.mergeable !== 'CONFLICTING') {
