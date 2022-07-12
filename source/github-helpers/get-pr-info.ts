@@ -10,7 +10,6 @@ interface PullRequestInfo {
 	viewerCanEditFiles: boolean;
 }
 
-/*  */
 export default async function getPrInfo(number = getConversationNumber()!): Promise<PullRequestInfo> {
 	const {repository} = await api.v4(`
 		repository() {
