@@ -14,14 +14,15 @@ async function init(): Promise<void> {
 	}
 
 	const username = getRepo()!.owner;
-	const src = getUserAvatar(username, 24)!;
+	const size = 24;
+	const src = getUserAvatar(username, size)!;
 
 	const avatar = (
 		<img
 			className="avatar mr-2"
 			src={src}
-			width="24"
-			height="24"
+			width={size}
+			height={size}
 			alt={`@${username}`}
 		/>
 	);

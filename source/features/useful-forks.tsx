@@ -6,7 +6,6 @@ import {RepoForkedIcon} from '@primer/octicons-react';
 import features from '.';
 import {getRepo} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
-import isArchivedRepo from '../helpers/is-archived-repo';
 import attachElement from '../helpers/attach-element';
 
 function getUrl(): string {
@@ -58,7 +57,7 @@ void features.add(import.meta.url, {
 	init,
 }, {
 	include: [
-		isArchivedRepo,
+		pageDetect.isArchivedRepo,
 	],
 	init: initArchivedRepoBanner,
 });

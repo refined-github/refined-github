@@ -29,6 +29,9 @@ function init(): Deinit {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		pageDetect.isConversation,
+	],
 	include: [
 		pageDetect.isClosedConversation,
 	],

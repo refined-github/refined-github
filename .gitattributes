@@ -1,4 +1,4 @@
 * text=auto eol=lf
-*.ai binary
+*.snap linguist-generated
 readme.md merge=union
 source/refined-github.css merge=union

@@ -8,8 +8,6 @@ env:
 name: Release
 on:
   workflow_dispatch: null
-  schedule:
-    - cron: 42 17 1 * *
 jobs:
   Version:
     outputs:
