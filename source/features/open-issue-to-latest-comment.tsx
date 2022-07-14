@@ -3,9 +3,14 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
+const selector = `
+	:is(.js-issue-row, .js-pinned-issue-list-item)
+	.Link--muted:is([aria-label$="comment"], [aria-label$="comments"])
+`;
+
 function init(): void {
-	for (const link of select.all('.js-issue-row a[aria-label*="comment"], .js-pinned-issue-list-item a[aria-label*="comment"]')) {
-		link.hash = '#partial-timeline';
+	for (const link of select.all<HTMLAnchorElement>(selector)) {
+		link.hash = '#issue-comment-box';
 	}
 }
 
