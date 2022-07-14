@@ -8,7 +8,7 @@ body:
   - type: textarea
     attributes:
       label: Description
-      description: 'Please ensure your requested feature makes sense for Refined GitHub: https://github.com/refined-github/refined-github/issues/2960'
+      description: 'Please ensure your requested feature makes sense for Refined GitHub: [info](https://github.com/refined-github/refined-github/wiki/%22Can-you-add-this-feature%3F%22)'
     validations:
       required: true
   - type: textarea
