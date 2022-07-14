@@ -10,7 +10,7 @@ const selector = `
 
 function init(): void {
 	for (const link of select.all<HTMLAnchorElement>(selector)) {
-		link.hash = '#issue-comment-box';
+		link.hash = '#partial-timeline';
 	}
 }
 
