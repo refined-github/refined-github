@@ -4,11 +4,13 @@ labels: enhancement, under discussion
 body:
   - type: markdown
     attributes:
-      value: 👋 Consider contributing by fixing some [easy bugs](https://github.com/refined-github/refined-github/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22+label%3Abug).
+      value: |
+        👉 Review our [guidelines](https://github.com/refined-github/refined-github/wiki/%22Can-you-add-this-feature%3F%22) to ensure this feature would make sense in Refined GitHub.
+      
+        👋 Consider contributing by fixing some [easy bugs](https://github.com/refined-github/refined-github/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22+label%3Abug).
   - type: textarea
     attributes:
       label: Description
-      description: 'Please ensure your requested feature makes sense for Refined GitHub: [info](https://github.com/refined-github/refined-github/wiki/%22Can-you-add-this-feature%3F%22)'
     validations:
       required: true
   - type: textarea
