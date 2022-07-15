@@ -62,8 +62,7 @@ function addExistingTagLink(tagName: string): void {
 
 	attachElement({
 		anchor: '#issue-comment-box',
-		position: 'before',
-		getNewElement: () => (
+		before: () => (
 			<TimelineItem>
 				{createBanner({
 					text: <>The pull request first appeared in <span className="text-mono text-small">{tagName}</span></>,
@@ -82,8 +81,7 @@ function addLinkToCreateRelease(text = 'Now you can release this change'): void 
 		: buildRepoURL('releases/new');
 	attachElement({
 		anchor: '#issue-comment-box',
-		position: 'before',
-		getNewElement: () => (
+		before: () => (
 			<TimelineItem>
 				{createBanner({
 					text,
