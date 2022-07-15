@@ -2,6 +2,7 @@ import 'webext-dynamic-content-scripts';
 import cache from 'webext-storage-cache'; // Also needed to regularly clear the cache
 import {isSafari} from 'webext-detect-page';
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
+import {objectKeys} from 'ts-extras';
 
 import optionsStorage from './options-storage';
 import {getRghIssueUrl} from './helpers/rgh-issue-link';
@@ -37,7 +38,7 @@ const messageHandlers = {
 };
 
 browser.runtime.onMessage.addListener((message: typeof messageHandlers, sender) => {
-	for (const id of Object.keys(message) as Array<keyof typeof messageHandlers>) {
+	for (const id of objectKeys(message)) {
 		if (id in messageHandlers) {
 			return messageHandlers[id](message[id], sender);
 		}

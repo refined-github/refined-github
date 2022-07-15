@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import {GitMergeIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import {objectEntries} from 'ts-extras';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -23,7 +24,7 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	`);
 
 	const mergeCommits = [];
-	for (const [key, commit] of Object.entries<AnyObject>(repository)) {
+	for (const [key, commit] of objectEntries(repository)) {
 		if (commit.parents.totalCount >= 2) {
 			mergeCommits.push(key.slice(1));
 		}

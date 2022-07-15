@@ -5,6 +5,7 @@ import onetime from 'onetime';
 import {XIcon} from '@primer/octicons-react';
 import delegate from 'delegate-it';
 import {observe} from 'selector-observer';
+import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -25,8 +26,9 @@ async function removeLabelButtonClickHandler(event: delegate.Event<MouseEvent, H
 		await api.v3(`issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
 			method: 'DELETE',
 		});
-	} catch (error: unknown) {
-		void showToast(error as Error);
+	} catch (error) {
+		assertError(error);
+		void showToast(error);
 		removeLabelButton.blur();
 		label.hidden = false;
 		return;
