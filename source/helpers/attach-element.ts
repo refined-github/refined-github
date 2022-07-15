@@ -1,6 +1,6 @@
 import select from 'select-dom';
 import {RequireAtLeastOne} from 'type-fest';
-import {isDefined, objectEntries} from 'ts-extras';
+import {isDefined} from 'ts-extras';
 
 import hashString from './hash-string';
 
@@ -44,17 +44,18 @@ export default function attachElement<NewElement extends Element>({
 		return;
 	}
 
-	return objectEntries({append, prepend, before, after})
-		.map(([position, getNewElement]) => {
-			if (!getNewElement) {
-				return;
-			}
+	const call = (position: Position, create: () => NewElement): NewElement => {
+		const element = create();
+		element.classList.add(className);
+		anchorElement[position](element);
+		return element;
+	};
 
-			const element = getNewElement();
-			element.classList.add(className);
-			anchorElement[position](element);
-			return element;
-		})
+	return [
+		append && call('append', append),
+		prepend && call('prepend', prepend),
+		before && call('before', before),
+		after && call('after', after),
 		// eslint-disable-next-line unicorn/no-array-callback-reference -- It only works this way. TS AMIRITE
-		.filter(isDefined);
+	].filter(isDefined);
 }
