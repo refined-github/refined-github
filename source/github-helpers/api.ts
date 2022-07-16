@@ -184,6 +184,7 @@ export const v4 = mem(async (
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			Authorization: `bearer ${personalToken}`,
+			Accept: 'application/vnd.github.merge-info-preview+json',
 		},
 		method: 'POST',
 		body: JSON.stringify({query: `{${query}}`}),
