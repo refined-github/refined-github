@@ -47,16 +47,8 @@ function onlyShowInDropdown(id: string): void {
 }
 
 const getWikiPageCount = cache.function(async (): Promise<number> => {
-	const dom = await fetchDom(buildRepoURL('wiki'));
-	const counter = dom.querySelector('#wiki-pages-box .Counter');
-
-	// "Home" page may not exist #5831
-	if (counter) {
-		return looseParseInt(counter);
-	}
-
-	const wikiPages = dom.querySelector('#wiki-content > .Box > ul');
-	return wikiPages?.childElementCount ?? 0;
+	const wikiPages = await fetchDom(buildRepoURL('wiki'), '#wiki-content .Box-row');
+	return wikiPages.length;
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 5},
