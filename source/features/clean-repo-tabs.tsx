@@ -7,7 +7,6 @@ import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import * as api from '../github-helpers/api';
 import getTabCount from '../github-helpers/get-tab-count';
-import looseParseInt from '../helpers/loose-parse-int';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import {buildRepoURL, getRepo} from '../github-helpers';
 import {unhideOverflowDropdown} from './more-dropdown-links';
@@ -48,7 +47,7 @@ function onlyShowInDropdown(id: string): void {
 
 const getWikiPageCount = cache.function(async (): Promise<number> => {
 	const wikiPages = await fetchDom(buildRepoURL('wiki'), '#wiki-content .Box');
-	return wikiPages.querySelectorAll('.Box-row').length;
+	return wikiPages?.querySelectorAll('.Box-row')?.length ?? 0;
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 5},
