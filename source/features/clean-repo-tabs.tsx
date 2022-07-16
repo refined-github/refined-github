@@ -50,6 +50,7 @@ const getWikiPageCount = cache.function(async (): Promise<number> => {
 	const dom = await fetchDom(buildRepoURL('wiki'));
 	const counter = dom.querySelector('#wiki-pages-box .Counter');
 
+	// "Home" page may not exist #5831
 	if (counter) {
 		return looseParseInt(counter);
 	}
