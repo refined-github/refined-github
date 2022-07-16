@@ -27,16 +27,16 @@ function init(): void {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isPR // Find which one you need on https://fregante.github.io/github-url-detection/
+		pageDetect.isPR, // Find which one you need on https://fregante.github.io/github-url-detection/
 	],
 	awaitDomReady: false,
-	init
+	init,
 });
 ```
 
 Here's an example using all of the possible `feature.add` options:
 
-```ts
+```tsx
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
@@ -76,12 +76,12 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isRepoRoot,
 	],
-	init
+	init,
 }, {
 	include: [
 		pageDetect.isGist
 	],
-	init: () => console.log('Additional listener for gist pages!')
+	init: () => console.log('Additional listener for gist pages!'),
 });
 ```
 
