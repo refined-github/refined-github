@@ -101,3 +101,13 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+Test URLs
+
+PR without conflicts
+https://github.com/refined-github/sandbox/pull/11
+
+Native "Resolve conflicts" button
+https://github.com/refined-github/sandbox/pull/9
+*/
