@@ -1,8 +1,9 @@
 import 'webext-dynamic-content-scripts';
 import cache from 'webext-storage-cache'; // Also needed to regularly clear the cache
 import {isSafari} from 'webext-detect-page';
-import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 import {objectKeys} from 'ts-extras';
+import addDomainPermissionToggle from 'webext-domain-permission-toggle';
+
 
 import optionsStorage from './options-storage';
 import {getRghIssueUrl} from './helpers/rgh-issue-link';
