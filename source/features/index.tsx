@@ -12,12 +12,12 @@ import {shouldFeatureRun} from '../github-helpers';
 import polyfillTurboEvents from '../github-helpers/turbo-events-polyfill';
 import optionsStorage, {RGHOptions} from '../options-storage';
 import {
+	applyStyleHotfixes,
+	getStyleHotfix,
 	getLocalHotfixesAsOptions,
 	getLocalStrings,
-	getStyleHotfixes,
 	updateHotfixes,
 	updateLocalStrings,
-	updateStyleHotfixes,
 	_,
 } from '../helpers/hotfix';
 
@@ -95,38 +95,15 @@ const log = {
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
-	const [options, localHotfixes, hotfixCSS, bisectedFeatures] = await Promise.all([
+	const [options, localHotfixes, styleHotfix, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
 		getLocalHotfixesAsOptions(),
-		getStyleHotfixes(),
+		getStyleHotfix(version),
 		bisectFeatures(),
 		getLocalStrings(),
 	]);
 
 	await waitFor(() => document.body);
-
-	if (hotfixCSS.length > 0 || options.customCSS.trim().length > 0) {
-		// Prepend to body because that's the only way to guarantee they come after the static file
-		document.body.prepend(
-			<style>{hotfixCSS}</style>,
-			<style>{options.customCSS}</style>,
-		);
-	}
-
-	void updateStyleHotfixes(version);
-	void updateLocalStrings();
-
-	if (bisectedFeatures) {
-		Object.assign(options, bisectedFeatures);
-	} else {
-		// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
-		void updateHotfixes(version);
-		Object.assign(options, localHotfixes);
-	}
-
-	// Create logging function
-	log.info = options.logging ? console.log : () => {/* No logging */};
-	log.http = options.logHTTP ? console.log : () => {/* No logging */};
 
 	if (pageDetect.is500() || pageDetect.isPasswordConfirmation()) {
 		return;
@@ -144,12 +121,32 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 		return;
 	}
 
+	document.documentElement.classList.add('refined-github');
+
+	void applyStyleHotfixes(styleHotfix);
+	if (options.customCSS.trim().length > 0) {
+		// Prepend to body because that's the only way to guarantee they come after the static file
+		document.body.prepend(<style>{options.customCSS}</style>);
+	}
+
+	void updateLocalStrings();
+
+	if (bisectedFeatures) {
+		Object.assign(options, bisectedFeatures);
+	} else {
+		// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
+		void updateHotfixes(version);
+		Object.assign(options, localHotfixes);
+	}
+
+	// Create logging function
+	log.info = options.logging ? console.log : () => {/* No logging */};
+	log.http = options.logHTTP ? console.log : () => {/* No logging */};
+
 	if (select.exists('body.logged-out')) {
 		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
 		features.log.error = () => {/* No logging */};
 	}
-
-	document.documentElement.classList.add('refined-github');
 
 	polyfillTurboEvents();
 
