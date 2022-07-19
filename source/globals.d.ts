@@ -52,6 +52,7 @@ declare namespace JSX {
 		'label': IntrinsicElements.label & {for?: string};
 		'relative-time': IntrinsicElements.div & {datetime: string};
 		'tab-container': IntrinsicElements.div;
+		'batch-deferred-content': IntrinsicElements.div;
 		'time-ago': IntrinsicElements.div & {datetime: string; format?: string};
 	}
 	/* eslint-enable @typescript-eslint/no-redundant-type-constituents */

@@ -1,53 +1,51 @@
 import './ci-link.css';
+import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import fetchDom from '../helpers/fetch-dom';
-import getDefaultBranch from '../github-helpers/get-default-branch';
-import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
+import * as api from '../github-helpers/api';
+import {getRepo} from '../github-helpers';
+import attachElement from '../helpers/attach-element';
 
-// Look for the CI details dropdown in the latest 2 days of commits #2990
-const ciDetailsSelector = '.TimelineItem--condensed:nth-of-type(-n+2) batch-deferred-content[data-url$="checks-statuses-rollups"]';
-
-async function getCiDetails(): Promise<HTMLElement | undefined> {
-	if (pageDetect.isRepoHome()) {
-		const ciDetails = select([
-			'.file-navigation + .Box .commit-build-statuses', // Select the CI details if they're already loaded
-			'.file-navigation + .Box .js-details-container include-fragment[src*="/rollup?"]', // Otherwise select the include-fragment
-		].join(','));
-		if (ciDetails) {
-			return ciDetails.cloneNode(true);
+async function getHead(): Promise<string> {
+	const {repository} = await api.v4(`
+		repository() {
+			defaultBranchRef {
+				target {
+					oid
+				}
+			}
 		}
-	}
+	`);
 
-	if (pageDetect.isRepoCommitList() && getCurrentCommittish() === await getDefaultBranch()) {
-		const ciDetails = select(ciDetailsSelector);
-		if (ciDetails) {
-			return ciDetails.cloneNode(true);
-		}
-	}
+	return repository.defaultBranchRef.target.oid;
+}
 
-	const dom = await fetchDom(buildRepoURL('commits'));
-	const ciDetails = select(ciDetailsSelector, dom);
-	if (ciDetails && (pageDetect.isDiscussion() || pageDetect.isDiscussionList())) {
-		const style = select('link[href*="/assets/github-"]', dom)!;
-		document.head.append(style); // #5283
-	}
-
-	return ciDetails;
+function getCiDetails(commit: string): HTMLElement {
+	const endpoint = `/${getRepo()!.nameWithOwner}/commits/checks-statuses-rollups`;
+	return (
+		// `span` also required by `attachElement`’s deduplicator
+		<span className="rgh-ci-link">
+			<batch-deferred-content hidden data-url={endpoint}>
+				<input
+					name="oid"
+					value={commit}
+					data-targets="batch-deferred-content.inputs"
+				/>
+			</batch-deferred-content>
+		</span>
+	);
 }
 
 async function init(): Promise<false | void> {
-	const ciDetails = await getCiDetails();
-	if (!ciDetails) {
-		return false;
-	}
+	const head = await getHead();
 
-	// Append to repo title (aware of forks and private repos)
-	const repoNameHeader = select('[itemprop="name"]')!.parentElement!;
-	repoNameHeader.append(ciDetails);
-	repoNameHeader.classList.add('rgh-ci-link');
+	attachElement({
+		// Append to repo title (aware of forks and private repos)
+		anchor: select('[itemprop="name"]')!.parentElement,
+		append: () => getCiDetails(head),
+	});
 }
 
 void features.add(import.meta.url, {
