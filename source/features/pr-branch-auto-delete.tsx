@@ -1,34 +1,49 @@
+import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
+import {InfoIcon} from '@primer/octicons-react';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import onPrMerge from '../github-events/on-pr-merge';
+import featureLink from '../helpers/feature-link';
+import attachElement from '../helpers/attach-element';
+import {canEditEveryComment} from './quick-comment-edit';
 
-function init(): Deinit {
-	const observer = new MutationObserver(() => {
-		const deleteButton = select('[action$="/cleanup"] [type="submit"]');
-		if (deleteButton) {
-			deleteButton.dataset.disableWith = 'Auto-deleting…';
-			deleteButton.click();
-			observer.disconnect();
-		}
+// TODO: Not an exact match; Moderators can edit comments but not create releases
+const canCreateRelease = canEditEveryComment;
+
+async function init(): Promise<void> {
+	const deleteButton = select('[action$="/cleanup"] [type="submit"]');
+	if (!deleteButton) {
+		return;
+	}
+
+	deleteButton.dataset.disableWith = 'Auto-deleting…';
+	deleteButton.click();
+
+	const deletionEvent = await elementReady('[data-test-selector="head-ref-deleted-event-ref-name"]', {
+		stopOnDomReady: false,
 	});
 
-	const subscription = delegate(document, '.js-merge-commit-button', 'click', () => {
-		subscription.destroy();
-		observer.observe(select('.discussion-timeline-actions')!, {childList: true});
+	attachElement({
+		anchor: deletionEvent!.closest('.TimelineItem-body')!,
+		append() {
+			const url = featureLink(features.getFeatureID(import.meta.url));
+			return <a className="d-inline-block" href={url}>via Refined GitHub <InfoIcon/></a>;
+		},
 	});
-
-	return [
-		observer,
-		subscription,
-	];
 }
 
 void features.add(import.meta.url, {
-	include: [
+	asLongAs: [
 		pageDetect.isPRConversation,
+		pageDetect.isOpenPR,
+		canCreateRelease,
 	],
-	deduplicate: 'has-rgh-inner',
+	additionalListeners: [
+		onPrMerge,
+	],
+	onlyAdditionalListeners: true,
 	init,
 });

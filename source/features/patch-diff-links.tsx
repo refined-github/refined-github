@@ -3,10 +3,12 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import {getCleanPathname} from '../github-helpers';
 
 function init(): void {
-	let commitUrl = location.pathname.replace(/\/$/, '');
+	let commitUrl = '/' + getCleanPathname();
 
+	// Avoids a redirection
 	if (pageDetect.isPRCommit()) {
 		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
 	}

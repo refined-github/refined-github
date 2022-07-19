@@ -1,4 +1,4 @@
-import test from 'ava';
+import {test, assert} from 'vitest';
 
 import {
 	getConversationNumber,
@@ -9,7 +9,7 @@ import {
 	addHotkey,
 } from '.';
 
-test('getConversationNumber', t => {
+test('getConversationNumber', () => {
 	const pairs = new Map<string, string | undefined>([
 		[
 			'https://github.com',
@@ -74,38 +74,38 @@ test('getConversationNumber', t => {
 	]);
 	for (const [url, result] of pairs) {
 		location.href = url;
-		t.is(result, getConversationNumber());
+		assert.equal(result, getConversationNumber());
 	}
 });
 
-test('parseTag', t => {
-	t.deepEqual(parseTag(''), {namespace: '', version: ''});
-	t.deepEqual(parseTag('1.2.3'), {namespace: '', version: '1.2.3'});
-	t.deepEqual(parseTag('@1.2.3'), {namespace: '', version: '1.2.3'});
-	t.deepEqual(parseTag('hi@1.2.3'), {namespace: 'hi', version: '1.2.3'});
-	t.deepEqual(parseTag('hi/you@1.2.3'), {namespace: 'hi/you', version: '1.2.3'});
-	t.deepEqual(parseTag('@hi/you@1.2.3'), {namespace: '@hi/you', version: '1.2.3'});
+test('parseTag', () => {
+	assert.deepEqual(parseTag(''), {namespace: '', version: ''});
+	assert.deepEqual(parseTag('1.2.3'), {namespace: '', version: '1.2.3'});
+	assert.deepEqual(parseTag('@1.2.3'), {namespace: '', version: '1.2.3'});
+	assert.deepEqual(parseTag('hi@1.2.3'), {namespace: 'hi', version: '1.2.3'});
+	assert.deepEqual(parseTag('hi/you@1.2.3'), {namespace: 'hi/you', version: '1.2.3'});
+	assert.deepEqual(parseTag('@hi/you@1.2.3'), {namespace: '@hi/you', version: '1.2.3'});
 });
 
-test('compareNames', t => {
-	t.true(compareNames('johndoe', 'John Doe'));
-	t.true(compareNames('john-doe', 'John Doe'));
-	t.true(compareNames('john-wdoe', 'John W. Doe'));
-	t.true(compareNames('john-doe-jr', 'John Doe Jr.'));
-	t.true(compareNames('nicolo', 'Nicolò'));
-	t.false(compareNames('dotconnor', 'Connor Love'));
-	t.false(compareNames('fregante ', 'Federico Brigante'));
+test('compareNames', () => {
+	assert.isTrue(compareNames('johndoe', 'John Doe'));
+	assert.isTrue(compareNames('john-doe', 'John Doe'));
+	assert.isTrue(compareNames('john-wdoe', 'John W. Doe'));
+	assert.isTrue(compareNames('john-doe-jr', 'John Doe Jr.'));
+	assert.isTrue(compareNames('nicolo', 'Nicolò'));
+	assert.isFalse(compareNames('dotconnor', 'Connor Love'));
+	assert.isFalse(compareNames('fregante ', 'Federico Brigante'));
 });
 
-test('getLatestVersionTag', t => {
-	t.is(getLatestVersionTag([
+test('getLatestVersionTag', () => {
+	assert.equal(getLatestVersionTag([
 		'0.0.0',
 		'v1.1',
 		'r2.0',
 		'3.0',
 	]), '3.0', 'Tags should be sorted by version');
 
-	t.is(getLatestVersionTag([
+	assert.equal(getLatestVersionTag([
 		'v2.1-0',
 		'v2.0',
 		'r1.5.5',
@@ -113,7 +113,7 @@ test('getLatestVersionTag', t => {
 		'v1.0-1',
 	]), 'v2.0', 'Prereleases should be ignored');
 
-	t.is(getLatestVersionTag([
+	assert.equal(getLatestVersionTag([
 		'lol v0.0.0',
 		'2.0',
 		'2020-10-10',
@@ -121,63 +121,75 @@ test('getLatestVersionTag', t => {
 	]), 'lol v0.0.0', 'Non-version tags should short-circuit the sorting and return the first tag');
 });
 
-test('shouldFeatureRun', t => {
+test('shouldFeatureRun', () => {
 	const yes = (): boolean => true;
 	const no = (): boolean => false;
 	const yesYes = [yes, yes];
 	const yesNo = [yes, no];
 	const noNo = [no, no];
 
-	t.true(shouldFeatureRun({}), 'A lack of conditions should mean "run everywhere"');
+	assert.isTrue(shouldFeatureRun({}), 'A lack of conditions should mean "run everywhere"');
 
-	t.false(shouldFeatureRun({
+	assert.isFalse(shouldFeatureRun({
 		asLongAs: yesNo,
 	}), 'Every `asLongAs` should be true to run');
 
-	t.false(shouldFeatureRun({
+	assert.isFalse(shouldFeatureRun({
 		asLongAs: yesNo,
 		include: [yes],
 	}), 'Every `asLongAs` should be true to run, regardless of `include`');
 
-	t.false(shouldFeatureRun({
+	assert.isFalse(shouldFeatureRun({
 		include: noNo,
 	}), 'At least one `include` should be true to run');
 
-	t.true(shouldFeatureRun({
+	assert.isTrue(shouldFeatureRun({
 		include: yesNo,
 	}), 'If one `include` is true, then it should run');
 
-	t.false(shouldFeatureRun({
+	assert.isFalse(shouldFeatureRun({
 		exclude: yesNo,
 	}), 'If any `exclude` is true, then it should not run');
 
-	t.false(shouldFeatureRun({
+	assert.isFalse(shouldFeatureRun({
 		include: [yes],
 		exclude: yesNo,
 	}), 'If any `exclude` is true, then it should not run, regardless of `include`');
 
-	t.false(shouldFeatureRun({
+	assert.isFalse(shouldFeatureRun({
 		asLongAs: [yes],
 		exclude: yesNo,
 	}), 'If any `exclude` is true, then it should not run, regardless of `asLongAs`');
 
-	t.false(shouldFeatureRun({
+	assert.isFalse(shouldFeatureRun({
 		asLongAs: [yes],
 		include: yesYes,
 		exclude: yesNo,
 	}), 'If any `exclude` is true, then it should not run, regardless of `asLongAs` and `include`');
 });
 
-const testAddHotkey = test.macro((t, existing: string | undefined, added: string, final: string) => {
+const testAddHotkey = (existing: string | undefined, added: string, final: string): void => {
 	const link = document.createElement('a');
 	if (existing) {
 		link.setAttribute('data-hotkey', existing);
 	}
 
 	addHotkey(link, added);
-	t.is(link.dataset.hotkey, final);
-});
+	assert.equal(link.dataset.hotkey, final);
+};
 
-test('addHotkey if one is specified', testAddHotkey, 'T-REX', 'CHICKEN', 'T-REX,CHICKEN');
-test('addHotkey if the same is already specified', testAddHotkey, 'CHICKEN', 'CHICKEN', 'CHICKEN');
-test('addHotkey when none are specified', testAddHotkey, undefined, 'CHICKEN', 'CHICKEN');
+test('addHotkey if one is specified', testAddHotkey.bind(null,
+	'T-REX',
+	'CHICKEN',
+	'T-REX,CHICKEN',
+));
+test('addHotkey if the same is already specified', testAddHotkey.bind(null,
+	'CHICKEN',
+	'CHICKEN',
+	'CHICKEN',
+));
+test('addHotkey when none are specified', testAddHotkey.bind(null,
+	undefined,
+	'CHICKEN',
+	'CHICKEN',
+));

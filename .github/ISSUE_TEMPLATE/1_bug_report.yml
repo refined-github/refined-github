@@ -8,19 +8,26 @@ body:
         # Thanks for reporting a bug! ⛰
 
         Help us replicate the issue by filling in this form. You can use the "Find feature" button in the options page to find which feature is causing the issue.
-  - type: checkboxes
-    attributes:
-      label: 'Please ensure:'
-      options:
-        - label: The bug is caused by Refined GitHub. It doesn't happen if I disable the extension.
-          required: true
-        - label: The bug happens after clearing extension cache. The "Clear cache" button below can also be found at the bottom of the options page.
-          required: true
+
+        Please ensure:
+
+        - The bug is caused by Refined GitHub. It doesn't happen if I disable the extension.
+        - The bug happens after clearing extension cache. The "Clear cache" button can be found in the options page. [](#clear-cache)
+
+        Include in this issue:
+
+        - Screenshots/video/gif demonstrating the bug, if it’s visual
+        - Console errors, if any
+
   - type: textarea
     attributes:
-      label: Example URLs
-      description: A REAL URL where the bug appears. If it happens on a private repo, find an equivalent public URL, even if it doesn't happen there.
-      placeholder: https://github.com/refined-github/refined-github/issues
+      label: Description
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: How to replicate the issue
+      description: Include the steps to reproduce and A REAL URL where the bug appears. If it happens on a private repo, find an equivalent public URL, even if it doesn't happen there.
     validations:
       required: true
   - type: input
@@ -33,15 +40,3 @@ body:
       label: Browser(s) used
     validations:
       required: true
-  - type: textarea
-    attributes:
-      label: Description
-      description: Describe the issue and how to replicate it
-    validations:
-      required: true
-  - type: checkboxes
-    attributes:
-      label: 'Include in this issue:'
-      options:
-        - label: Screenshots/video/gif demonstrating the bug, if it’s visual
-        - label: Console errors, if any

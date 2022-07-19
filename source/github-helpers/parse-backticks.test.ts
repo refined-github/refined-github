@@ -1,4 +1,4 @@
-import test from 'ava';
+import {test, assert} from 'vitest';
 
 import {getParsedBackticksParts} from './parse-backticks';
 
@@ -8,32 +8,32 @@ function parseBackticks(string: string): string {
 	).join('');
 }
 
-test('parseBackticks', t => {
-	t.is(
+test('parseBackticks', () => {
+	assert.equal(
 		parseBackticks('multiple `code spans` between ` other ` text'),
 		'multiple <code>code spans</code> between <code>other</code> text',
 	);
-	t.is(
+	assert.equal(
 		parseBackticks('`code` at the start'),
 		'<code>code</code> at the start',
 	);
-	t.is(
+	assert.equal(
 		parseBackticks('code at the `end`'),
 		'code at the <code>end</code>',
 	);
-	t.is(
+	assert.equal(
 		parseBackticks('single backtick in a code span: `` ` ``'),
 		'single backtick in a code span: <code>`</code>',
 	);
-	t.is(
+	assert.equal(
 		parseBackticks('backtick-delimited string in a code span: `` `foo` ``'),
 		'backtick-delimited string in a code span: <code>`foo`</code>',
 	);
-	t.is(
+	assert.equal(
 		parseBackticks('single-character code span: `a`'),
 		'single-character code span: <code>a</code>',
 	);
-	t.is(
+	assert.equal(
 		parseBackticks(`
 			triple-backtick multiline block
 			\`\`\`
@@ -51,7 +51,7 @@ test('parseBackticks', t => {
 			in some text #3990
 		`,
 	);
-	t.is(
+	assert.equal(
 		parseBackticks(`
 			empty triple-backtick block
 			\`\`\`
@@ -63,7 +63,7 @@ test('parseBackticks', t => {
 			\`\`\`
 		`,
 	);
-	t.is(
+	assert.equal(
 		parseBackticks(`
 			triple-backtick code block
 			\`\`\`
@@ -81,7 +81,7 @@ test('parseBackticks', t => {
 			in some text #3990
 		`,
 	);
-	t.is(
+	assert.equal(
 		parseBackticks(`
 			hello\`
 			\`world
@@ -91,7 +91,7 @@ test('parseBackticks', t => {
 			\`world
 		`,
 	);
-	t.is(
+	assert.equal(
 		parseBackticks(`
 			hello\`\` red
 			\`\`world

@@ -1,3 +1,4 @@
+import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import {isEnterprise} from 'github-url-detection';
 import compareVersions from 'tiny-version-compare';
@@ -54,11 +55,11 @@ export const updateHotfixes = cache.function(async (version: string): Promise<Ho
 	cacheKey: () => 'hotfixes',
 });
 
-export const updateStyleHotfixes = cache.function(
+export const getStyleHotfix = cache.function(
 	async (version: string): Promise<string> => fetchHotfix(`style/${version}.css`),
 	{
 		maxAge: {hours: 6},
-		staleWhileRevalidate: {days: 30},
+		staleWhileRevalidate: {days: 300},
 		cacheKey: () => 'style-hotfixes',
 	},
 );
@@ -82,12 +83,13 @@ export async function getLocalHotfixesAsOptions(): Promise<Partial<RGHOptions>> 
 	return options;
 }
 
-export async function getStyleHotfixes(): Promise<string> {
-	if (isDevelopmentVersion() || isEnterprise()) {
-		return '';
+export async function applyStyleHotfixes(style: string): Promise<void> {
+	if (isDevelopmentVersion() || isEnterprise() || !style) {
+		return;
 	}
 
-	return await cache.get<string>('style-hotfixes') ?? '';
+	// Prepend to body because that's the only way to guarantee they come after the static file
+	document.body.prepend(<style>{style}</style>);
 }
 
 const stringHotfixesKey = 'strings-hotfixes';

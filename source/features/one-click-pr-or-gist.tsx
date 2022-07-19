@@ -4,16 +4,15 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import selectHas from '../helpers/select-has';
 
 function init(): void | false {
-	const draftPROption = select('.new-pr-form [name="draft"], #new_gist [name="gist[public]"]');
-	if (!draftPROption) {
+	const initialGroupedButtons = selectHas('.BtnGroup:has([name="draft"], [name="gist[public]"])');
+	if (!initialGroupedButtons) {
 		// 1. Free accounts can't open Draft PRs in private repos, so this element is missing
 		// 2. PRs can't be created from some comparison pages: Either base is a tag, not a branch; or there already exists a PR.
 		return false;
 	}
-
-	const initialGroupedButtons = draftPROption.closest('.BtnGroup')!;
 
 	for (const dropdownItem of select.all('.select-menu-item', initialGroupedButtons)) {
 		let title = select('.select-menu-item-heading', dropdownItem)!.textContent!.trim();

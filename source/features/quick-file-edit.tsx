@@ -8,7 +8,6 @@ import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 import {isPermalink} from '../github-helpers';
-import isArchivedRepo from '../helpers/is-archived-repo';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onFileListUpdate from '../github-events/on-file-list-update';
 
@@ -35,7 +34,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoTree,
 	],
 	exclude: [
-		isArchivedRepo,
+		pageDetect.isArchivedRepo,
 	],
 	additionalListeners: [
 		onFileListUpdate,

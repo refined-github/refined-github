@@ -52,9 +52,7 @@ function init(): Deinit {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
-		pageDetect.isPRFiles,
-		pageDetect.isCommit,
-		pageDetect.isCompare,
+		pageDetect.hasFiles,
 		pageDetect.isCommitList,
 	],
 	deduplicate: 'has-rgh-inner',

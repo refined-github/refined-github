@@ -14,7 +14,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNewFile,
 		pageDetect.isEditingFile,
-		pageDetect.isReleasesOrTags, // If the release couldn't be published, GitHub changes the url to /releases while still being on the "New release" page
 		pageDetect.isNewRelease,
 		pageDetect.isEditingRelease,
 	],

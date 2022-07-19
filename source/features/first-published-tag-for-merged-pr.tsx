@@ -7,11 +7,12 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import onPrMerge from '../github-events/on-pr-merge';
+import createBanner from '../github-helpers/banner';
 import TimelineItem from '../github-helpers/timeline-item';
 import attachElement from '../helpers/attach-element';
 import {canEditEveryComment} from './quick-comment-edit';
-import {buildRepoURL, getRepo} from '../github-helpers';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
+import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers';
 
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;
@@ -34,7 +35,7 @@ async function init(): Promise<void> {
 	if (tagName) {
 		addExistingTagLink(tagName);
 	} else if (canCreateRelease()) {
-		addLinkToCreateRelease('This PR doesn’t appear to have been released yet');
+		addLinkToCreateRelease('This pull request seems to be unreleased');
 	}
 }
 
@@ -51,7 +52,7 @@ function addExistingTagLink(tagName: string): void {
 				<a
 					href={tagUrl}
 					className="commit-ref"
-					title={`${tagName} was the first Git tag to include this PR`}
+					title={`${tagName} was the first Git tag to include this pull request`}
 				>
 					{tagName}
 				</a>
@@ -61,32 +62,32 @@ function addExistingTagLink(tagName: string): void {
 
 	attachElement({
 		anchor: '#issue-comment-box',
-		position: 'before',
-		getNewElement: () => (
+		before: () => (
 			<TimelineItem>
-				<div className="flash flash-success">
-					The PR first appeared in <span className="text-mono text-small">{tagName}</span>
-					<a href={tagUrl} className="btn btn-sm flash-action">
-						<TagIcon/> See release
-					</a>
-				</div>
+				{createBanner({
+					text: <>The pull request first appeared in <span className="text-mono text-small">{tagName}</span></>,
+					classes: ['flash-success'],
+					url: tagUrl,
+					buttonLabel: <><TagIcon/> See release</>,
+				})}
 			</TimelineItem>
 		),
 	});
 }
 
 function addLinkToCreateRelease(text = 'Now you can release this change'): void {
+	const url = isRefinedGitHubRepo()
+		? 'https://github.com/refined-github/refined-github/actions/workflows/release.yml'
+		: buildRepoURL('releases/new');
 	attachElement({
 		anchor: '#issue-comment-box',
-		position: 'before',
-		getNewElement: () => (
+		before: () => (
 			<TimelineItem>
-				<div className="flash">
-					{text}
-					<a href={buildRepoURL('releases/new')} className="btn btn-sm flash-action">
-						<TagIcon/> Draft a new release
-					</a>
-				</div>
+				{createBanner({
+					text,
+					url,
+					buttonLabel: <><TagIcon/> Draft a new release</>,
+				})}
 			</TimelineItem>
 		),
 	});

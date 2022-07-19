@@ -108,5 +108,9 @@ void features.add(import.meta.url, {
 		pageDetect.isUserProfile,
 		pageDetect.isOrganizationProfile,
 	],
+	exclude: [
+		pageDetect.isOwnUserProfile,
+		pageDetect.isPrivateUserProfile,
+	],
 	init: handleSponsorButton,
 });

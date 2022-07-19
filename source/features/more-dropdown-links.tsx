@@ -1,5 +1,6 @@
 import './more-dropdown-links.css';
 import React from 'dom-chef';
+import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -8,11 +9,17 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import createDropdownItem from '../github-helpers/create-dropdown-item';
 import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
 
-// eslint-disable-next-line import/prefer-default-export
-export async function unhideOverflowDropdown(): Promise<void> {
+export async function unhideOverflowDropdown(): Promise<boolean> {
 	// Wait for the tab bar to be loaded
 	const repoNavigationBar = await elementReady('.UnderlineNav-body');
+
+	// No dropdown on mobile #5781
+	if (!select.exists('.js-responsive-underlinenav')) {
+		return false;
+	}
+
 	repoNavigationBar!.parentElement!.classList.add('rgh-has-more-dropdown');
+	return true;
 }
 
 async function init(): Promise<void> {
@@ -40,6 +47,9 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isEmptyRepo,
+
+		// No dropdown on mobile #5781
+		() => !select.exists('.js-responsive-underlinenav'),
 	],
 	awaitDomReady: false,
 	init,

@@ -4,9 +4,9 @@
 
 We use GitHub a lot and notice many annoyances we'd like to fix. So here be dragons.
 
-Our hope is that GitHub will notice and implement some of these much needed improvements. So if you like any of these improvements, please open a discussion on [GitHub feedback](https://github.com/github/feedback/discussions) or email [GitHub support](https://support.github.com/contact) about doing it.
+Our hope is that GitHub will notice and implement some of these much-needed improvements. So if you like any of these improvements, please open a discussion on [GitHub feedback](https://github.com/github-community/community/discussions) or contact [GitHub support](https://support.github.com/request) about doing it.
 
-GitHub Enterprise is also supported: [How to enable it](https://fregante.github.io/webext-domain-permission-toggle/?name=Refined%20GitHub&icon=https%3A%2F%2Fraw.githubusercontent.com%2Frefined-github%2Frefined-github%2Fmain%2Fdistribution%2Ficon.png). <!-- icon.png renders best -->
+GitHub Enterprise is also supported: [How to enable it](https://fregante.github.io/webext-domain-permission-toggle/?name=Refined%20GitHub&icon=https%3A%2F%2Fraw.githubusercontent.com%2Frefined-github%2Frefined-github%2Fmain%2Fsource%2Ficon.png). <!-- icon.png renders best -->
 
 *The GITHUB and REFINED GITHUB trademarks are owned by GitHub, Inc. and used under license.*
 
@@ -157,14 +157,14 @@ Thanks for contributing! 🦋🙌
 - [](# "show-open-prs-of-forks") [In your forked repos, shows number of your open PRs to the original repo.](https://user-images.githubusercontent.com/1922624/76398271-e0648500-637c-11ea-8210-53dda1be9d51.png)
 - [](# "fork-source-link-same-view") [Points the “Forked from user/repository” link to current folder or file in the upstream repository.](https://user-images.githubusercontent.com/1402241/84795784-3722d000-aff8-11ea-9b34-97c01acf4fd4.png)
 - [](# "clean-repo-filelist-actions") [Makes some buttons on repository lists more compact to make room for other features.](https://user-images.githubusercontent.com/1402241/108955170-52d48080-7633-11eb-8979-67e0d3a53f16.png)
-- [](# "new-repo-disable-projects-and-wikis") [Automatically disables projects and wikis when creating a repository.](https://user-images.githubusercontent.com/16872793/92803886-dc460e00-f385-11ea-8af6-d6b7a0d3bf91.png)
+- [](# "new-repo-disable-projects-and-wikis") [Automatically disables projects and wikis when creating a repository.](https://user-images.githubusercontent.com/1402241/177040449-73fde2a5-98e2-4583-8f32-905d1c4bfd20.png)
 - [](# "sticky-sidebar") [Makes conversation sidebars and repository sidebars sticky, if they fit the viewport.](https://user-images.githubusercontent.com/10238474/62276723-5a2eaa80-b44d-11e9-810b-ff598d1c5c6a.gif)
 - [](# "link-to-github-io") [Adds a link to visit the user’s github.io website from its repo.](https://user-images.githubusercontent.com/34235681/152473104-c4723999-9239-48fd-baee-273b01c4eb87.png)
 - [](# "scheduled-and-manual-workflow-indicators") [In the workflows sidebar, shows an indicator that a workflow can be triggered manually, and its next scheduled time if relevant.](https://user-images.githubusercontent.com/46634000/139128320-78eb66c7-d485-46c0-bde2-50e00ba989f3.png)
 - [](# "quick-repo-deletion") [Lets you delete your repos in a click, if they have no stars, issues, or PRs.](https://user-images.githubusercontent.com/1402241/99716945-54a80a00-2a6e-11eb-9107-f3517a6ab1bc.gif)
 - [](# "useful-forks") [Helps you find the most active forks](https://user-images.githubusercontent.com/38117856/107463541-542e8500-6b2c-11eb-8b25-082f344c1587.png), via https://useful-forks.github.io.
 - [](# "clean-repo-tabs") [Moves the "Security" and "Insights"  to the repository navigation dropdown. Also moves the "Projects", "Actions" and "Wiki" tabs if they're empty/unused.](https://user-images.githubusercontent.com/16872793/124681343-4a6c3c00-de96-11eb-9055-a8fc551e6eb8.png)
-- [](# "hide-repo-badges") [Hide repo badges ("Public", "Template", etc.) in the repo header and pinned repo cards.](https://user-images.githubusercontent.com/46634000/148645393-d3fa4ca9-6df4-4bb2-b810-7d73cc057772.png)
+- [](# "repo-avatars") [Adds the profile picture to the header of public repositories.](https://user-images.githubusercontent.com/44045911/177211845-c9b0fa37-c157-4449-890e-af2602c312e3.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -254,6 +254,7 @@ Thanks for contributing! 🦋🙌
 - [](# "esc-to-cancel") [Adds a shortcut to cancel editing a conversation title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
 - [](# "no-duplicate-list-update-time") [Hides the update time of conversations in lists when it matches the open/closed/merged time.](https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png)
 - [](# "linkify-user-labels") [Links the "Contributor" and "Member" labels on comments to the author’s commits on the repo.](https://user-images.githubusercontent.com/1402241/177033344-4d4eea63-e075-4096-b2d4-f4b879f1df31.png)
+- [](# "jump-to-conversation-close-event") [Adds a link to jump to the latest close event of a conversation.](https://user-images.githubusercontent.com/16872793/177792713-64219754-f8df-4629-a9ec-33259307cfe7.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -289,7 +290,7 @@ Thanks for contributing! 🦋🙌
 - [](# "warn-pr-from-master") [Warns you when creating a pull request from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
 - [](# "warning-for-disallow-edits") [Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
 - [](# "pull-request-hotkeys") [Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>](https://user-images.githubusercontent.com/16872793/94634958-7e7b5680-029f-11eb-82ea-1f96cd11e4cd.png).
-- [](# "pr-branch-auto-delete") Automatically deletes the branch right after merging a PR, if possible.
+- [](# "pr-branch-auto-delete") [Automatically deletes the branch right after merging a PR, if possible.](https://user-images.githubusercontent.com/1402241/177067141-eabc7494-38a2-45b5-aef9-ac33cc0da370.png)
 - [](# "one-click-pr-or-gist") [Lets you create draft pull requests and public gists in one click.](https://user-images.githubusercontent.com/34235681/152473201-868ad7c1-e06f-4826-b808-d90bca7f08b3.png)
 - [](# "clear-pr-merge-commit-message") [Clears the PR merge commit message of clutter, leaving only deduplicated co-authors.](https://user-images.githubusercontent.com/1402241/79257078-62b6fc00-7e89-11ea-8798-c06f33baa94b.png)
 - [](# "quick-review") [Adds a review button to the PR sidebar, automatically focuses the review textarea and adds a keyboard shortcut to open the review popup: <kbd>v</kbd>.](https://user-images.githubusercontent.com/202916/83269671-bb3b2200-a1c7-11ea-90b3-b9457a454162.png)
