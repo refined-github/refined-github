@@ -132,7 +132,7 @@ async function addBugsTab(): Promise<void | false> {
 		const bugCount = await countPromise;
 		bugsCounter.textContent = abbreviateNumber(bugCount);
 		bugsCounter.title = bugCount > 999 ? String(bugCount) : '';
-	} catch (error: unknown) {
+	} catch (error) {
 		bugsCounter.remove();
 		throw error; // Likely an API call error that will be handled by the init
 	}

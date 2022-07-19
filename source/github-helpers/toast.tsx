@@ -1,5 +1,6 @@
 import delay from 'delay';
 import React from 'dom-chef';
+import {assertError} from 'ts-extras';
 import {CheckIcon, StopIcon} from '@primer/octicons-react';
 
 export function ToastSpinner(): JSX.Element {
@@ -48,9 +49,10 @@ export default async function showToast(
 		toast.classList.replace('Toast--loading', 'Toast--success');
 		updateToast(doneMessage);
 		iconWrapper.firstChild!.replaceWith(<CheckIcon/>);
-	} catch (error: unknown) {
+	} catch (error) {
+		assertError(error);
 		toast.classList.replace('Toast--loading', 'Toast--error');
-		updateToast(error instanceof Error ? error.message : 'Unknown Error');
+		updateToast(error.message);
 		iconWrapper.firstChild!.replaceWith(<StopIcon/>);
 		throw error;
 	} finally {

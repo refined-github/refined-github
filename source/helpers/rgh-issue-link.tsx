@@ -9,6 +9,7 @@ export function createRghIssueLink(issueNumber: number | string): Element {
 	);
 }
 
+/** @deprecated Only use this function for dynamic URLs. For static URLs, paste the full URL string instead */
 export function getRghIssueUrl(issueNumber: number | string): string {
 	return `https://github.com/refined-github/refined-github/issues/${issueNumber}`;
 }

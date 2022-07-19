@@ -6,6 +6,7 @@ import domify from 'doma';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
+import {assertError} from 'ts-extras';
 import * as indentTextarea from 'indent-textarea';
 import {isChrome, isFirefox, isSafari} from 'webext-detect-page';
 
@@ -82,8 +83,9 @@ async function validateToken(): Promise<void> {
 		reportStatus({
 			scopes: await getTokenScopes(tokenField.value),
 		});
-	} catch (error: unknown) {
-		reportStatus({error: true, text: (error as Error).message});
+	} catch (error) {
+		assertError(error);
+		reportStatus({error: true, text: error.message});
 		throw error;
 	}
 }

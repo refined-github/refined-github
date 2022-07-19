@@ -213,7 +213,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 			if (result !== false && !id?.startsWith('rgh')) {
 				log.info('✅', id);
 			}
-		} catch (error: unknown) {
+		} catch (error) {
 			log.error(id, error);
 		}
 
