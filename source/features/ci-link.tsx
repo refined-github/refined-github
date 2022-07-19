@@ -58,3 +58,13 @@ void features.add(import.meta.url, {
 	awaitDomReady: false,
 	init,
 });
+
+/*
+Test URLs
+
+CI:
+https://github.com/refined-github/refined-github
+
+No CI:
+https://github.com/fregante/.github
+*/
