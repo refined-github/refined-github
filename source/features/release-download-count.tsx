@@ -21,20 +21,18 @@ interface Asset {
 
 type Tag = Record<string, Asset[]>;
 async function getAssetsForTag(tags: string[]): Promise<Tag> {
-	const {repository} = await api.v4(`
-		repository() {
-			${tags.map(tag => `
-				${api.escapeKey(tag)}: release(tagName:"${tag}") {
-					releaseAssets(first: 100) {
-						nodes {
-							name
-							downloadCount
-						}
+	const repository = await api.v4repository(
+		tags.map(tag => `
+			${api.escapeKey(tag)}: release(tagName:"${tag}") {
+				releaseAssets(first: 100) {
+					nodes {
+						name
+						downloadCount
 					}
 				}
-			`).join(',')}
-		}
-	`);
+			}
+		`).join(','),
+	);
 
 	const assets: Tag = {};
 	for (const [tag, release] of Object.entries(repository)) {

@@ -9,19 +9,17 @@ import features from '.';
 import * as api from '../github-helpers/api';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
-	const {repository} = await api.v4(`
-		repository() {
-			${commits.map((commit: string) => `
-				${api.escapeKey(commit)}: object(expression: "${commit}") {
-				... on Commit {
-						parents {
-							totalCount
-						}
+	const repository = await api.v4repository(
+		commits.map((commit: string) => `
+			${api.escapeKey(commit)}: object(expression: "${commit}") {
+			... on Commit {
+					parents {
+						totalCount
 					}
 				}
-			`).join('\n')}
-		}
-	`);
+			}
+		`).join('\n'),
+	);
 
 	const mergeCommits = [];
 	for (const [key, commit] of objectEntries(repository)) {

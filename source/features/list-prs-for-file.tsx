@@ -65,23 +65,21 @@ function getSingleButton(prNumber: number): HTMLElement {
 @returns prsByFile {"filename1": [10, 3], "filename2": [2]}
 */
 const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> => {
-	const {repository} = await api.v4(`
-		repository() {
-			pullRequests(
-				first: 25,
-				states: OPEN,
-				baseRefName: "${await getDefaultBranch()}",
-				orderBy: {
-					field: UPDATED_AT,
-					direction: DESC
-				}
-			) {
-				nodes {
-					number
-					files(first: 100) {
-						nodes {
-							path
-						}
+	const {pullRequests} = await api.v4(`
+		pullRequests(
+			first: 25,
+			states: OPEN,
+			baseRefName: "${await getDefaultBranch()}",
+			orderBy: {
+				field: UPDATED_AT,
+				direction: DESC
+			}
+		) {
+			nodes {
+				number
+				files(first: 100) {
+					nodes {
+						path
 					}
 				}
 			}
@@ -90,7 +88,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 
 	const files: Record<string, number[]> = {};
 
-	for (const pr of repository.pullRequests.nodes) {
+	for (const pr of pullRequests.nodes) {
 		for (const {path} of pr.files.nodes) {
 			files[path] = files[path] ?? [];
 			if (files[path].length < 10) {

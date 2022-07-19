@@ -41,16 +41,14 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 });
 
 const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[committedDate: string, resourcePath: string]> => {
-	const {repository} = await api.v4(`
-		repository() {
-			defaultBranchRef {
-				target {
-					... on Commit {
-						history(first: 5, after: "${commitSha} ${commitsCount - Math.min(6, commitsCount)}") {
-							nodes {
-								committedDate
-								resourcePath
-							}
+	const {head} = await api.v4repository(`
+		head: defaultBranchRef {
+			target {
+				... on Commit {
+					history(first: 5, after: "${commitSha} ${commitsCount - Math.min(6, commitsCount)}") {
+						nodes {
+							committedDate
+							resourcePath
 						}
 					}
 				}
@@ -58,7 +56,7 @@ const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[com
 		}
 	`);
 
-	const {committedDate, resourcePath} = repository.defaultBranchRef.target.history.nodes
+	const {committedDate, resourcePath} = head.target.history.nodes
 		.reverse()
 		// Filter out any invalid commit dates #3185
 		.find((commit: CommitTarget) => new Date(commit.committedDate).getFullYear() > 1970);
@@ -67,24 +65,22 @@ const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[com
 };
 
 const getFirstCommit = cache.function(async (): Promise<[committedDate: string, resourcePath: string]> => {
-	const {repository} = await api.v4(`
-		repository() {
-			defaultBranchRef {
-				target {
-					... on Commit {
-						oid
-						committedDate
-						resourcePath
-						history {
-							totalCount
-						}
+	const {head} = await api.v4repository(`
+		head: defaultBranchRef {
+			target {
+				... on Commit {
+					oid
+					committedDate
+					resourcePath
+					history {
+						totalCount
 					}
 				}
 			}
 		}
 	`);
 
-	const {oid: commitSha, history, committedDate, resourcePath} = repository.defaultBranchRef.target as CommitTarget;
+	const {oid: commitSha, history, committedDate, resourcePath} = head.target as CommitTarget;
 	const commitsCount = history.totalCount;
 	if (commitsCount === 1) {
 		return [committedDate, resourcePath];

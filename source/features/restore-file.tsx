@@ -16,28 +16,24 @@ Get the current base commit of this PR. It should change after rebases and merge
 This value is not consistently available on the page (appears in `/files` but not when only 1 commit is selected)
 */
 const getBaseReference = onetime(async (): Promise<string> => {
-	const {repository} = await api.v4(`
-		repository() {
-			pullRequest(number: ${getConversationNumber()!}) {
-				baseRefOid
-			}
+	const {pullRequest} = await api.v4repository(`
+		pullRequest(number: ${getConversationNumber()!}) {
+			baseRefOid
 		}
 	`);
-	return repository.pullRequest.baseRefOid;
+	return pullRequest.baseRefOid;
 });
 
 async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | undefined> {
-	const {repository} = await api.v4(`
-		repository() {
-			file: object(expression: "${await getBaseReference()}:${filePath}") {
-				... on Blob {
-					isTruncated
-					text
-				}
+	const {file} = await api.v4repository(`
+		file: object(expression: "${await getBaseReference()}:${filePath}") {
+			... on Blob {
+				isTruncated
+				text
 			}
 		}
 	`);
-	return repository.file;
+	return file;
 }
 
 async function restoreFile(progress: (message: string) => void, menuItem: Element, filePath: string): Promise<void> {

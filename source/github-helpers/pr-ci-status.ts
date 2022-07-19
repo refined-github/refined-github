@@ -39,16 +39,14 @@ export function getLastCommitStatus(): CommitStatus {
 }
 
 export async function getCommitStatus(commitSha: string): Promise<CommitStatus> {
-	const {repository} = await api.v4(`
-		repository() {
-			object(expression: "${commitSha}") {
-				... on Commit {
-					checkSuites(first: 100) {
-						nodes {
-							checkRuns { totalCount }
-							status
-							conclusion
-						}
+	const {commit} = await api.v4repository(`
+		commit: object(expression: "${commitSha}") {
+			... on Commit {
+				checkSuites(first: 100) {
+					nodes {
+						checkRuns { totalCount }
+						status
+						conclusion
 					}
 				}
 			}
@@ -56,11 +54,11 @@ export async function getCommitStatus(commitSha: string): Promise<CommitStatus> 
 		# Cache buster: ${Date.now()}
 	`);
 
-	if (repository.object.checkSuites.nodes === 0) {
+	if (commit.checkSuites.nodes === 0) {
 		return false; // The commit doesn't have any CI checks associated to it
 	}
 
-	for (const {checkRuns, status, conclusion} of repository.object.checkSuites.nodes) {
+	for (const {checkRuns, status, conclusion} of commit.checkSuites.nodes) {
 		// Check suites with no runs will always have a status of "QUEUED" (e.g. Dependabot when it's disabled on the repo)
 		if (checkRuns.totalCount === 0) {
 			continue;

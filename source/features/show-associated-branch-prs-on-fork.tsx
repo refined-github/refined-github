@@ -19,21 +19,19 @@ interface PullRequest {
 }
 
 export const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Record<string, PullRequest>> => {
-	const {repository} = await api.v4(`
-		repository() {
-			refs(refPrefix: "refs/heads/", last: 100) {
-				nodes {
-					name
-					associatedPullRequests(last: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
-						nodes {
-							number
-							state
-							isDraft
-							url
-							timelineItems(last: 1, itemTypes: [HEAD_REF_DELETED_EVENT, HEAD_REF_RESTORED_EVENT]) {
-								nodes {
-									__typename
-								}
+	const {branches} = await api.v4repository(`
+		branches: refs(refPrefix: "refs/heads/", last: 100) {
+			nodes {
+				name
+				associatedPullRequests(last: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
+					nodes {
+						number
+						state
+						isDraft
+						url
+						timelineItems(last: 1, itemTypes: [HEAD_REF_DELETED_EVENT, HEAD_REF_RESTORED_EVENT]) {
+							nodes {
+								__typename
 							}
 						}
 					}
@@ -43,7 +41,7 @@ export const getPullRequestsAssociatedWithBranch = cache.function(async (): Prom
 	`);
 
 	const pullRequests: Record<string, PullRequest> = {};
-	for (const {name, associatedPullRequests} of repository.refs.nodes) {
+	for (const {name, associatedPullRequests} of branches.nodes) {
 		const [prInfo] = associatedPullRequests.nodes as PullRequest[];
 		// Check if the ref was deleted, since the result includes pr's that are not in fact related to this branch but rather to the branch name.
 		const headRefWasDeleted = prInfo?.timelineItems.nodes[0]?.__typename === 'HeadRefDeletedEvent';

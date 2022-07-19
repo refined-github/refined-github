@@ -18,16 +18,12 @@ function isClosed(prLink: HTMLElement): boolean {
 }
 
 function buildQuery(issueIds: string[]): string {
-	return `
-		repository() {
-			${issueIds.map(id => `
+	return issueIds.map(id => `
 				${id}: pullRequest(number: ${id.replace(/\D/g, '')}) {
 					baseRef {id}
 					baseRefName
 				}
-			`).join('\n')}
-		}
-	`;
+			`).join('\n');
 }
 
 async function init(): Promise<false | void> {
@@ -38,7 +34,7 @@ async function init(): Promise<false | void> {
 
 	const query = buildQuery(prLinks.map(pr => pr.id));
 	const [data, defaultBranch] = await Promise.all([
-		api.v4(query),
+		api.v4repository(query),
 		getDefaultBranch(),
 	]);
 

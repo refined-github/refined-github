@@ -16,16 +16,14 @@ interface WorkflowDetails {
 }
 
 const getWorkflowsDetails = cache.function(async (): Promise<Record<string, WorkflowDetails> | false> => {
-	const {repository: {workflowFiles}} = await api.v4(`
-		repository() {
-			workflowFiles: object(expression: "HEAD:.github/workflows") {
-				... on Tree {
-					entries {
-						name
-						object {
-							... on Blob {
-								text
-							}
+	const {workflowFiles} = await api.v4repository(`
+		workflowFiles: object(expression: "HEAD:.github/workflows") {
+			... on Tree {
+				entries {
+					name
+					object {
+						... on Blob {
+							text
 						}
 					}
 				}

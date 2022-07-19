@@ -29,21 +29,19 @@ function parseFromDom(): false {
 }
 
 const getChangelogName = cache.function(async (): Promise<string | false> => {
-	const {repository} = await api.v4(`
-		repository() {
-			object(expression: "HEAD:") {
-				...on Tree {
-					entries {
-						name
-						type
-					}
+	const {entries} = await api.v4repository(`
+		object(expression: "HEAD:") {
+			...on Tree {
+				entries {
+					name
+					type
 				}
 			}
 		}
 	`);
 
 	const files: string[] = [];
-	for (const entry of repository.object.entries as FileType[]) {
+	for (const entry of entries as FileType[]) {
 		if (entry.type === 'blob') {
 			files.push(entry.name);
 		}

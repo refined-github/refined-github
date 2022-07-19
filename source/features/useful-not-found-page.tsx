@@ -55,20 +55,18 @@ function parseCurrentURL(): string[] {
 }
 
 async function getLatestCommitToFile(branch: string, filePath: string): Promise<string | void> {
-	const {repository} = await api.v4(`
-		repository() {
-			object(expression: "${branch}") {
-				... on Commit {
-					history(first: 1, path: "${filePath}") {
-						nodes {
-							oid
-						}
+	const {details} = await api.v4repository(`
+		details: object(expression: "${branch}") {
+			... on Commit {
+				history(first: 1, path: "${filePath}") {
+					nodes {
+						oid
 					}
 				}
 			}
 		}
 	`);
-	const commit = repository.object?.history.nodes[0];
+	const commit = details?.history.nodes[0];
 	return commit?.oid;
 }
 

@@ -26,15 +26,13 @@ async function parseCountFromDom(): Promise<number> {
 }
 
 async function fetchFromApi(): Promise<number> {
-	const {repository} = await api.v4(`
-		repository() {
-			refs(refPrefix: "refs/tags/") {
-				totalCount
-			}
+	const {tags} = await api.v4(`
+		tags: refs(refPrefix: "refs/tags/") {
+			totalCount
 		}
 	`);
 
-	return repository.refs.totalCount;
+	return tags.totalCount;
 }
 
 const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? parseCountFromDom() : fetchFromApi(), {

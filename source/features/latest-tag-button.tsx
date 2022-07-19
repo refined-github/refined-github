@@ -31,31 +31,29 @@ interface Tags {
 const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
 
 const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> => {
-	const {repository} = await api.v4(`
-		repository() {
-			refs(first: 20, refPrefix: "refs/tags/", orderBy: {
-				field: TAG_COMMIT_DATE,
-				direction: DESC
-			}) {
-				nodes {
-					name
-					tag: target {
-						oid
-						... on Tag {
-							commit: target {
-								oid
-							}
+	const {latestCommits, head} = await api.v4repository(`
+		latestCommits: refs(first: 20, refPrefix: "refs/tags/", orderBy: {
+			field: TAG_COMMIT_DATE,
+			direction: DESC
+		}) {
+			nodes {
+				name
+				tag: target {
+					oid
+					... on Tag {
+						commit: target {
+							oid
 						}
 					}
 				}
 			}
-			defaultBranchRef {
-				target {
-					... on Commit {
-						history(first: 20) {
-							nodes {
-								oid
-							}
+		}
+		head: defaultBranchRef {
+			target {
+				... on Commit {
+					history(first: 20) {
+						nodes {
+							oid
 						}
 					}
 				}
@@ -63,7 +61,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 		}
 	`);
 
-	if (repository.refs.nodes.length === 0) {
+	if (latestCommits.nodes.length === 0) {
 		return {
 			latestTag: false,
 			aheadBy: 0,
@@ -71,13 +69,13 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 	}
 
 	const tags = new Map<string, string>();
-	for (const node of repository.refs.nodes as Tags[]) {
+	for (const node of latestCommits.nodes as Tags[]) {
 		tags.set(node.name, node.tag.commit?.oid ?? node.tag.oid);
 	}
 
 	const latestTag = getLatestVersionTag([...tags.keys()]);
 	const latestTagOid = tags.get(latestTag)!;
-	const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) => node.oid === latestTagOid);
+	const aheadBy = head.target.history.nodes.findIndex((node: AnyObject) => node.oid === latestTagOid);
 
 	return {
 		latestTag,

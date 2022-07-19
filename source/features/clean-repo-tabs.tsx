@@ -62,11 +62,9 @@ const getWikiPageCount = cache.function(async (): Promise<number> => {
 });
 
 const getWorkflowsCount = cache.function(async (): Promise<number> => {
-	const {repository: {workflowFiles}} = await api.v4(`
-		repository() {
-			workflowFiles: object(expression: "HEAD:.github/workflows") {
-				... on Tree { entries { oid } }
-			}
+	const workflowFiles = await api.v4repository(`
+		workflowFiles: object(expression: "HEAD:.github/workflows") {
+			... on Tree { entries { oid } }
 		}
 	`);
 

@@ -174,8 +174,6 @@ export const v4 = mem(async (
 		throw new TypeError('`query` should only be what’s inside \'query {...}\', like \'user(login: "foo") { name }\', but is \n' + query);
 	}
 
-	query = query.replace('repository() {', () => `repository(owner: "${getRepo()!.owner}", name: "${getRepo()!.name}") {`);
-
 	features.log.http(`{
 		${query}
 	}`);
@@ -209,6 +207,20 @@ export const v4 = mem(async (
 }, {
 	cacheKey: JSON.stringify,
 });
+
+export async function v4repository(
+	query: string,
+	options: GHGraphQLApiOptions = v4defaults,
+): ReturnType<typeof v4> {
+	const {owner, name} = getRepo()!;
+	const {repository} = await v4(`
+		repository(owner: "${owner}", name: "${name}") {
+			${query}
+		}
+	`, options);
+
+	return repository;
+}
 
 export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {
 	const {personalToken} = await settings;

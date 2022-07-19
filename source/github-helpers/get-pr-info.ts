@@ -11,14 +11,12 @@ interface PullRequestInfo {
 }
 
 export default async function getPrInfo(number = getConversationNumber()!): Promise<PullRequestInfo> {
-	const {repository} = await api.v4(`
-		repository() {
-			pullRequest(number: ${number}) {
-				baseRefOid
-				mergeable
-				viewerCanEditFiles
-			}
+	const {pullRequest} = await api.v4repository(`
+		pullRequest(number: ${number}) {
+			baseRefOid
+			mergeable
+			viewerCanEditFiles
 		}
 	`);
-	return repository.pullRequest;
+	return pullRequest;
 }

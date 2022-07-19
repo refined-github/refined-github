@@ -8,18 +8,16 @@ import * as api from '../github-helpers/api';
 import pluralize from '../helpers/pluralize';
 
 const getCommitChanges = cache.function(async (commit: string): Promise<[additions: number, deletions: number]> => {
-	const {repository} = await api.v4(`
-		repository() {
-			object(expression: "${commit}") {
-				... on Commit {
-					additions
-					deletions
-				}
+	const {additions, deletions} = await api.v4repository(`
+		object(expression: "${commit}") {
+			... on Commit {
+				additions
+				deletions
 			}
 		}
 	`);
 
-	return [repository.object.additions, repository.object.deletions];
+	return [additions, deletions];
 }, {
 	cacheKey: ([commit]) => 'commit-changes:' + commit,
 });

@@ -8,8 +8,9 @@ import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 
 const hasAnyProjects = cache.function(async (): Promise<boolean> => {
+	const {owner, name} = getRepo()!;
 	const {repository, organization} = await api.v4(`
-		repository() {
+		repository(owner: "${owner}", name: "${name}") {
 			projects { totalCount }
 		}
 		organization(login: "${getRepo()!.owner}") {

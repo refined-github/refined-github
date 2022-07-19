@@ -13,24 +13,22 @@ import showToast from '../github-helpers/toast';
 import looseParseInt from '../helpers/loose-parse-int';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
-	const {repository} = await api.v4(`
-		repository() {
-			file: object(expression: "${commit}:${currentFilename}") {
-				id
-			}
-			object(expression: "${commit}") {
-				... on Commit {
-					associatedPullRequests(last: 1) {
-						nodes {
-							number
-							mergeCommit {
-								oid
-							}
-							commits(last: 1) {
-								nodes {
-									commit {
-										oid
-									}
+	const {file, object} = await api.v4repository(`
+		file: object(expression: "${commit}:${currentFilename}") {
+			id
+		}
+		object(expression: "${commit}") {
+			... on Commit {
+				associatedPullRequests(last: 1) {
+					nodes {
+						number
+						mergeCommit {
+							oid
+						}
+						commits(last: 1) {
+							nodes {
+								commit {
+									oid
 								}
 							}
 						}
@@ -40,13 +38,13 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[]
 		}
 	`);
 
-	const associatedPR = repository.object.associatedPullRequests.nodes[0];
+	const associatedPR = object.associatedPullRequests.nodes[0];
 
 	if (!associatedPR || !prNumbers.includes(associatedPR.number) || associatedPR.mergeCommit.oid !== commit) {
 		throw new Error('The PR linked in the title didn’t create this commit');
 	}
 
-	if (!repository.file) {
+	if (!file) {
 		throw new Error('The file was renamed and Refined GitHub can’t find it');
 	}
 

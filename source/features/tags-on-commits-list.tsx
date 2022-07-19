@@ -50,44 +50,42 @@ function isTagTarget(target: CommonTarget): target is TagTarget {
 }
 
 async function getTags(lastCommit: string, after?: string): Promise<CommitTags> {
-	const {repository} = await api.v4(`
-		repository() {
-			refs(
-				first: 100,
-				refPrefix: "refs/tags/",
-				orderBy: {
-					field: TAG_COMMIT_DATE,
-					direction: DESC
-				}
-				${after ? `, after: "${after}"` : ''}
-			) {
-				pageInfo {
-					hasNextPage
-					endCursor
-				}
-				nodes {
-					name
-					target {
-						commitResourcePath
-						... on Tag {
-							tagger {
-								date
-							}
+	const {latestTags, last} = await api.v4repository(`
+		latestTags: refs(
+			first: 100,
+			refPrefix: "refs/tags/",
+			orderBy: {
+				field: TAG_COMMIT_DATE,
+				direction: DESC
+			}
+			${after ? `, after: "${after}"` : ''}
+		) {
+			pageInfo {
+				hasNextPage
+				endCursor
+			}
+			nodes {
+				name
+				target {
+					commitResourcePath
+					... on Tag {
+						tagger {
+							date
 						}
-						... on Commit {
-							committedDate
-						}
+					}
+					... on Commit {
+						committedDate
 					}
 				}
 			}
-			object(expression: "${lastCommit}") {
-				... on Commit {
-					committedDate
-				}
+		}
+		last: object(expression: "${lastCommit}") {
+			... on Commit {
+				committedDate
 			}
 		}
-		`);
-	const nodes = repository.refs.nodes as TagNode[];
+	`);
+	const nodes = latestTags.nodes as TagNode[];
 
 	// If there are no tags in the repository
 	if (nodes.length === 0) {
@@ -105,11 +103,11 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 	}
 
 	const lastTag = nodes[nodes.length - 1].target;
-	const lastTagIsYounger = new Date(repository.object.committedDate) < new Date(isTagTarget(lastTag) ? lastTag.tagger.date : lastTag.committedDate);
+	const lastTagIsYounger = new Date(last.committedDate) < new Date(isTagTarget(lastTag) ? lastTag.tagger.date : lastTag.committedDate);
 
 	// If the last tag is younger than last commit on the page, then not all commits are accounted for, keep looking
-	if (lastTagIsYounger && repository.refs.pageInfo.hasNextPage) {
-		tags = mergeTags(tags, await getTags(lastCommit, repository.refs.pageInfo.endCursor));
+	if (lastTagIsYounger && latestTags.pageInfo.hasNextPage) {
+		tags = mergeTags(tags, await getTags(lastCommit, latestTags.pageInfo.endCursor));
 	}
 
 	// There are no tags for this commit

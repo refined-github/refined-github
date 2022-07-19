@@ -63,15 +63,13 @@ function addDraftFilter({delegateTarget: reviewsFilter}: delegate.Event): void {
 }
 
 const hasChecks = cache.function(async (): Promise<boolean> => {
-	const {repository} = await api.v4(`
-		repository() {
-			head: object(expression: "HEAD") {
-				... on Commit {
-					history(first: 10) {
-						nodes {
-							statusCheckRollup {
-								state
-							}
+	const head = await api.v4repository(`
+		head: object(expression: "HEAD") {
+			... on Commit {
+				history(first: 10) {
+					nodes {
+						statusCheckRollup {
+							state
 						}
 					}
 				}
@@ -79,7 +77,7 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 		}
 	`);
 
-	return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
+	return head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
 }, {
 	maxAge: {days: 3},
 	cacheKey: () => 'has-checks:' + getRepo()!.nameWithOwner,

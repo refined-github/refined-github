@@ -18,20 +18,18 @@ const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(g
 const isBugLabel = (label: string): boolean => supportedLabels.test(label.replace(/\s/g, ''));
 
 async function countBugsWithUnknownLabel(): Promise<number> {
-	const {repository} = await api.v4(`
-		repository() {
-			labels(query: "bug", first: 10) {
-				nodes {
-					name
-					issues(states: OPEN) {
-						totalCount
-					}
+	const labels = await api.v4repository(`
+		labels(query: "bug", first: 10) {
+			nodes {
+				name
+				issues(states: OPEN) {
+					totalCount
 				}
 			}
 		}
 	`);
 
-	const label: AnyObject | undefined = repository.labels.nodes
+	const label: AnyObject | undefined = labels.nodes
 		.find((label: AnyObject) => isBugLabel(label.name));
 	if (!label) {
 		return 0;
@@ -41,18 +39,16 @@ async function countBugsWithUnknownLabel(): Promise<number> {
 	return label.issues.totalCount ?? 0;
 }
 
-async function countIssuesWithLabel(label: string): Promise<number> {
-	const {repository} = await api.v4(`
-		repository() {
-			label(name: "${label}") {
-				issues(states: OPEN) {
-					totalCount
-				}
+async function countIssuesWithLabel(name: string): Promise<number> {
+	const label = await api.v4repository(`
+		label(name: "${name}") {
+			issues(states: OPEN) {
+				totalCount
 			}
 		}
 	`);
 
-	return repository.label?.issues.totalCount ?? 0;
+	return label?.issues.totalCount ?? 0;
 }
 
 const countBugs = cache.function(async (): Promise<number> => {

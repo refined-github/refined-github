@@ -11,15 +11,13 @@ import {linkifiedURLClass} from '../github-helpers/dom-formatters';
 import {buildRepoURL, isPermalink} from '../github-helpers';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
-	const {repository} = await api.v4(`
-		repository() {
-			ref(qualifiedName: "${url.branch}") {
-				target {
-					... on Commit {
-						history(first: 1, until: "${date}") {
-							nodes {
-								oid
-							}
+	const {ref} = await api.v4repository(`
+		ref(qualifiedName: "${url.branch}") {
+			target {
+				... on Commit {
+					history(first: 1, until: "${date}") {
+						nodes {
+							oid
 						}
 					}
 				}
@@ -27,7 +25,7 @@ async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> 
 		}
 	`);
 
-	const [{oid}] = repository.ref.target.history.nodes;
+	const [{oid}] = ref.target.history.nodes;
 	select('a.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;
 }
 

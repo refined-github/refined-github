@@ -13,15 +13,13 @@ interface IssueInfo {
 }
 
 const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Record<string, IssueInfo>> => {
-	const {repository} = await api.v4(`
-		repository() {
-			${issueNumbers.map(number => `
-				${api.escapeKey(number)}: issue(number: ${number}) {
-					updatedAt
-				}
-			`).join('\n')}
-		}
-	`);
+	const repository = await api.v4repository(
+		issueNumbers.map(number => `
+			${api.escapeKey(number)}: issue(number: ${number}) {
+				updatedAt
+			}
+		`).join('\n'),
+	);
 
 	return repository;
 }, {
