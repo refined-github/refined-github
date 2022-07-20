@@ -39,7 +39,6 @@ function cleanSection(selector: string): boolean {
 		return false;
 	}
 
-	// Identifiers
 	const identifiers = [
 		'.IssueLabel', 
 		'[aria-label="Select milestones"] .Progress-item', 
