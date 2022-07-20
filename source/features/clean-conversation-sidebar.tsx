@@ -39,11 +39,15 @@ function cleanSection(selector: string): boolean {
 		return false;
 	}
 
-	const heading = select(':scope > details, :scope > .discussion-sidebar-heading', container)!;
+	const identifiers = [
+		'.IssueLabel',
+		'[aria-label="Select milestones"] .Progress-item',
+		'[aria-label="Link issues"] [data-hovercard-type]',
+		'[aria-label="Select projects"] .Link--primary',
+	];
 
-	// Magic. Do not touch.
-	// Section is empty if: no sibling element OR empty sibling element
-	if (heading.nextElementSibling?.firstElementChild) {
+	const heading = select('.discussion-sidebar-heading', container)!;
+	if (heading.closest('form, .discussion-sidebar-item')!.querySelector(identifiers.join(','))) {
 		return false;
 	}
 
@@ -96,7 +100,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	// Labels
 	if (!cleanSection('.js-issue-labels') && !canEditSidebar()) {
 		// Hide heading in any case except `canEditSidebar`
-		selectHas('.discussion-sidebar-item:has(.js-issue-labels) > .discussion-sidebar-heading')!
+		selectHas('.discussion-sidebar-item:has(.js-issue-labels) .discussion-sidebar-heading')!
 			.remove();
 	}
 
