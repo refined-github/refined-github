@@ -40,11 +40,12 @@ function cleanSection(selector: string): boolean {
 	}
 
 	// Identifiers
-	const labelsIdentifier = '.IssueLabel';
-	const mileStonesIdentifier = '[aria-label="Select milestones"] .Progress-item';
-	const developmentsIdentifier = '[aria-label="Link issues"] [data-hovercard-type]';
-	const projectsIdentifier = '[aria-label="Select projects"] .Link--primary';
-	const identifiers = [labelsIdentifier, projectsIdentifier, mileStonesIdentifier, developmentsIdentifier];
+	const identifiers = [
+		'.IssueLabel', 
+		'[aria-label="Select milestones"] .Progress-item', 
+		'[aria-label="Link issues"] [data-hovercard-type]', 
+		'[aria-label="Select projects"] .Link--primary',
+	];
 
 	const heading = select('.discussion-sidebar-heading', container)!;
 	if (heading.closest('form, .discussion-sidebar-item')!.querySelector(identifiers.join(','))) {
