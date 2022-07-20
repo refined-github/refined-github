@@ -40,20 +40,14 @@ function cleanSection(selector: string): boolean {
 	}
 
 	const identifiers = [
-		'.IssueLabel', 
-		'[aria-label="Select milestones"] .Progress-item', 
-		'[aria-label="Link issues"] [data-hovercard-type]', 
+		'.IssueLabel',
+		'[aria-label="Select milestones"] .Progress-item',
+		'[aria-label="Link issues"] [data-hovercard-type]',
 		'[aria-label="Select projects"] .Link--primary',
 	];
 
 	const heading = select('.discussion-sidebar-heading', container)!;
 	if (heading.closest('form, .discussion-sidebar-item')!.querySelector(identifiers.join(','))) {
-		return false;
-	}
-
-	// Magic. Do not touch.
-	// Section is empty if: no sibling element OR empty sibling element
-	if (heading.nextElementSibling?.firstElementChild) {
 		return false;
 	}
 
