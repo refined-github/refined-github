@@ -2,7 +2,8 @@
 	line-height: 1em;
 	background-clip: border-box;
 	background-repeat: repeat-x;
-	background-position: left center;
+	/* 2px because of #4991 */
+	background-position: 2px center;
 }
 
 [data-rgh-whitespace='tab'] {
