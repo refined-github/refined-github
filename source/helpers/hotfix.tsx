@@ -2,10 +2,10 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import {isEnterprise} from 'github-url-detection';
 import compareVersions from 'tiny-version-compare';
+import {any as concatenateTemplateLiteralTag} from 'code-tag';
 
 import {RGHOptions} from '../options-storage';
 import isDevelopmentVersion from './is-development-version';
-import {concatenateTemplateLiteralTag} from './template-literal';
 
 function parseCsv(content: string): string[][] {
 	const lines = [];
