@@ -2,7 +2,8 @@ import * as api from './api';
 import {getConversationNumber} from '.';
 
 interface PullRequestInfo {
-	// TODO: Probably can be used for #3863 and #4679
+	// TODO: Probably can be used for #3863
+	// Note: May fall out of date after a force-push
 	baseRefOid: string;
 
 	// https://docs.github.com/en/graphql/reference/enums#mergeablestate

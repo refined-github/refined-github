@@ -9,21 +9,20 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
 import showToast from '../github-helpers/toast';
-import {getConversationNumber} from '../github-helpers';
+import {getBranches} from './update-pr-from-base-branch';
 
 /**
 Get the current base commit of this PR. It should change after rebases and merges in this PR.
 This value is not consistently available on the page (appears in `/files` but not when only 1 commit is selected)
+
+Note: API v4 `repository.pullRequest.baseRefOid` falls out out of date after an "update branch" + force push
+So we use v3 instead
 */
 const getBaseReference = onetime(async (): Promise<string> => {
-	const {repository} = await api.v4(`
-		repository() {
-			pullRequest(number: ${getConversationNumber()!}) {
-				baseRefOid
-			}
-		}
-	`);
-	return repository.pullRequest.baseRefOid;
+	const {base, head} = getBranches();
+	const {base_commit, behind_by} = await api.v3(`compare/${base}...${head}?page=10000`);
+	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+	return `${base_commit.sha}^${behind_by}`;
 });
 
 async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | undefined> {
