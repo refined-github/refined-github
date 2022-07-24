@@ -76,30 +76,19 @@ async function restoreFile(progress: (message: string) => void, menuItem: Elemen
 	}
 }
 
-const filesRestored = new WeakSet<HTMLButtonElement>();
 async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const menuItem = event.delegateTarget;
 
-	// Only allow one click
-	if (filesRestored.has(menuItem)) {
-		return;
-	}
-
-	filesRestored.add(menuItem);
-
-	try {
+	await showToast(async progress => {
 		const filePath = menuItem.closest<HTMLDivElement>('[data-path]')!.dataset.path!;
-		// Show toast while restoring
-		await showToast(async progress => restoreFile(progress!, menuItem, filePath), {
-			message: 'Restoring…',
-			doneMessage: 'Restored!',
-		});
+		return restoreFile(progress!, menuItem, filePath);
+	}, {
+		message: 'Restoring…',
+		doneMessage: 'Restored!',
+	});
 
-		// Hide file from view
-		menuItem.closest('.file')!.remove();
-	} catch (error) {
-		features.log.error(import.meta.url, error);
-	}
+	// Hide file from view
+	menuItem.closest('.file')!.remove();
 }
 
 function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
