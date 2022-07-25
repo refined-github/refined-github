@@ -10,10 +10,10 @@ import onPrMerge from '../github-events/on-pr-merge';
 import createBanner from '../github-helpers/banner';
 import TimelineItem from '../github-helpers/timeline-item';
 import attachElement from '../helpers/attach-element';
+import {getReleaseCount} from './releases-tab';
 import {canEditEveryComment} from './quick-comment-edit';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers';
-import {getReleaseCount} from './releases-tab';
 
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;
