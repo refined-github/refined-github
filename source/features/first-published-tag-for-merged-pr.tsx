@@ -13,6 +13,7 @@ import attachElement from '../helpers/attach-element';
 import {canEditEveryComment} from './quick-comment-edit';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers';
+import {getReleaseCount} from './releases-tab';
 
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;
@@ -75,7 +76,11 @@ function addExistingTagLink(tagName: string): void {
 	});
 }
 
-function addLinkToCreateRelease(text = 'Now you can release this change'): void {
+async function addLinkToCreateRelease(text = 'Now you can release this change'): Promise<void> {
+	if (await getReleaseCount() > 0) {
+		return;
+	}
+
 	const url = isRefinedGitHubRepo()
 		? 'https://github.com/refined-github/refined-github/actions/workflows/release.yml'
 		: buildRepoURL('releases/new');
