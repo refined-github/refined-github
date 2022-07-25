@@ -36,7 +36,7 @@ async function init(): Promise<void> {
 	if (tagName) {
 		addExistingTagLink(tagName);
 	} else if (canCreateRelease()) {
-		addLinkToCreateRelease('This pull request seems to be unreleased');
+		void addLinkToCreateRelease('This pull request seems to be unreleased');
 	}
 }
 
@@ -119,7 +119,7 @@ void features.add(import.meta.url, {
 	],
 	onlyAdditionalListeners: true,
 	init() {
-		addLinkToCreateRelease();
+		void addLinkToCreateRelease();
 	},
 });
 
