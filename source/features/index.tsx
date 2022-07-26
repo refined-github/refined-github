@@ -6,6 +6,8 @@ import {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 
 import waitFor from '../helpers/wait-for';
+import onAbort from '../helpers/abort-controller';
+import ArrayMap from '../helpers/map-of-arrays';
 import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import {shouldFeatureRun} from '../github-helpers';
@@ -55,6 +57,8 @@ interface InternalRunConfig {
 }
 
 const {version} = browser.runtime.getManifest();
+
+const currentFeatureControllers = new ArrayMap<FeatureID, AbortController>();
 
 const logError = (url: string, error: unknown): void => {
 	const id = getFeatureID(url);
@@ -153,37 +157,8 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 	resolve(options);
 });
 
-function getDeinitHandler(deinit: DeinitHandle): VoidFunction {
-	if ('disconnect' in deinit) {
-		return () => {
-			deinit.disconnect();
-		};
-	}
-
-	if ('clear' in deinit) { // Selector observer
-		return () => {
-			deinit.clear();
-		};
-	}
-
-	if ('abort' in deinit) { // Selector observer
-		return () => {
-			deinit.abort();
-		};
-	}
-
-	if ('destroy' in deinit) { // Delegate subscription
-		return deinit.destroy;
-	}
-
-	return deinit;
-}
-
-function setupDeinit(deinit: Deinit): void {
-	const deinitFunctions = Array.isArray(deinit) ? deinit : [deinit];
-	for (const deinit of deinitFunctions) {
-		document.addEventListener('turbo:visit', getDeinitHandler(deinit), {once: true});
-	}
+function castArray<Item>(value: Item | Item[]): Item[] {
+	return Array.isArray(value) ? value : [value];
 }
 
 const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
@@ -193,20 +168,15 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 		return;
 	}
 
-	const deinitController = new AbortController();
-	document.addEventListener('turbo:visit', () => {
-		deinitController.abort();
-	}, {
-		once: true,
-	});
+	const featureController = new AbortController();
+	currentFeatureControllers.append(id, featureController);
 
 	const runFeature = async (): Promise<void> => {
 		let result: FeatureInitResult;
 
 		try {
-			result = await init(deinitController.signal);
+			result = await init(featureController.signal);
 			// Features can return `false` when they decide not to run on the current page
-			// Also the condition avoids logging the fake feature added for `has-rgh`
 			if (result !== false && !id?.startsWith('rgh')) {
 				log.info('✅', id);
 			}
@@ -215,7 +185,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 		}
 
 		if (result) {
-			setupDeinit(result);
+			onAbort(featureController, ...castArray(result));
 		}
 	};
 
@@ -225,9 +195,9 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 
 	await domLoaded; // Listeners likely need to work on the whole page
 	for (const listener of additionalListeners) {
-		const deinit = listener(runFeature, deinitController.signal);
+		const deinit = listener(runFeature, featureController.signal);
 		if (deinit && !(deinit instanceof Promise)) {
-			setupDeinit(deinit);
+			onAbort(featureController, ...castArray(deinit));
 		}
 	}
 };
@@ -325,6 +295,23 @@ const addCssFeature = async (url: string, include: BooleanFunction[] | undefined
 	});
 };
 
+const unload = (featureUrl: string): void => {
+	const id = getFeatureID(featureUrl);
+	for (const controller of currentFeatureControllers.get(id) ?? []) {
+		controller.abort();
+	}
+};
+
+document.addEventListener('turbo:visit', () => {
+	for (const feature of currentFeatureControllers.values()) {
+		for (const controller of feature) {
+			controller.abort();
+		}
+	}
+
+	currentFeatureControllers.clear();
+});
+
 /*
 When navigating back and forth in history, GitHub will preserve the DOM changes;
 This means that the old features will still be on the page and don't need to re-run.
@@ -343,6 +330,7 @@ void add('rgh-deduplicator' as FeatureID, {
 
 const features = {
 	add,
+	unload,
 	addCssFeature,
 	log,
 	shortcutMap,
