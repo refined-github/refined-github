@@ -2,7 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import {addHotkey} from '../github-helpers';
+import {addHotkey} from '../github-helpers/hotkey';
 
 function init(): void {
 	const tabs = select.all('#partial-discussion-header + .tabnav a.tabnav-tab');
