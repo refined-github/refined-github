@@ -88,7 +88,7 @@ async function addLinkToCreateRelease(text = 'Now you can release this change.')
 		anchor: '#issue-comment-box',
 		before: () => (
 			<TimelineItem>
-				<p class="TimelineItem-body">
+				<p className="TimelineItem-body">
 					<>{text}</>
 					<a href={url}>
 						<TagIcon/> Draft a new release
