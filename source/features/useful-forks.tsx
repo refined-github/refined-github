@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {RepoForkedIcon} from '@primer/octicons-react';
@@ -44,6 +45,8 @@ function initArchivedRepoBanner(): void {
 	});
 }
 
+const isPublicRepo = (): boolean => Boolean(pageDetect.isRepo() && select('#repository-container-header .Label')!.textContent!.startsWith('Public'));
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoForksList,
@@ -55,6 +58,9 @@ void features.add(import.meta.url, {
 	awaitDomReady: false,
 	init,
 }, {
+	asLongAs: [
+		isPublicRepo,
+	],
 	include: [
 		pageDetect.isArchivedRepo,
 	],
