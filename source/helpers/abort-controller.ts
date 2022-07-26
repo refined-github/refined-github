@@ -5,7 +5,7 @@ export function callHandle(handle: DeinitHandle): void {
 		handle.abort();
 	} else	if ('destroy' in handle) { // Delegate subscription
 		handle.destroy();
-	} else {
+	} else if (typeof handle === 'function') {
 		handle();
 	}
 }
