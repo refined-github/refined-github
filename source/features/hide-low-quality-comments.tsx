@@ -8,7 +8,6 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import isLowQualityComment from '../helpers/is-low-quality-comment';
 
-// eslint-disable-next-line import/prefer-default-export
 export const singleParagraphCommentSelector = '.comment-body > p:only-child';
 
 async function unhide(event: delegate.Event): Promise<void> {

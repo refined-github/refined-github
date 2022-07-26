@@ -32,6 +32,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isOwnUserProfile,
+		pageDetect.isPrivateUserProfile,
 	],
 	init,
 });

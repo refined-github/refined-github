@@ -21,6 +21,7 @@ import './features/night-not-found.css';
 import './features/hide-watch-and-fork-count.css';
 import './features/clean-commit-form.css';
 import './features/sticky-file-header.css';
+import './features/readable-title-change-events.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -32,7 +33,6 @@ import './features/clean-dashboard';
 import './features/hide-noisy-newsfeed-events';
 import './features/minimize-upload-bar';
 import './features/hide-diff-signs';
-import './features/hide-repo-badges';
 import './features/clean-rich-text-editor';
 
 import './features/useful-not-found-page';
@@ -214,3 +214,5 @@ import './features/link-to-compare-diff';
 import './features/hide-low-quality-comments';
 import './features/submission-via-ctrl-enter-everywhere';
 import './features/linkify-user-labels';
+import './features/repo-avatars';
+import './features/jump-to-conversation-close-event';

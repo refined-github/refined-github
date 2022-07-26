@@ -9,7 +9,6 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import createDropdownItem from '../github-helpers/create-dropdown-item';
 import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
 
-// eslint-disable-next-line import/prefer-default-export
 export async function unhideOverflowDropdown(): Promise<boolean> {
 	// Wait for the tab bar to be loaded
 	const repoNavigationBar = await elementReady('.UnderlineNav-body');

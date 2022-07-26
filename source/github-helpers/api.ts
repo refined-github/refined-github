@@ -184,6 +184,7 @@ export const v4 = mem(async (
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			Authorization: `bearer ${personalToken}`,
+			Accept: 'application/vnd.github.merge-info-preview+json',
 		},
 		method: 'POST',
 		body: JSON.stringify({query: `{${query}}`}),
@@ -206,7 +207,17 @@ export const v4 = mem(async (
 
 	throw await getError(apiResponse as JsonObject);
 }, {
-	cacheKey: JSON.stringify,
+	cacheKey([query, options]) {
+		// `repository()` uses global state and must be handled explicitly
+		// https://github.com/refined-github/refined-github/issues/5821
+		// https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
+		const key = [query, options];
+		if (query.includes('repository() {')) {
+			key.push(getRepo()?.nameWithOwner);
+		}
+
+		return JSON.stringify(key);
+	},
 });
 
 export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {

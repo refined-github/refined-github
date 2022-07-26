@@ -6,7 +6,6 @@ import {RepoForkedIcon} from '@primer/octicons-react';
 import features from '.';
 import {getRepo} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
-import isArchivedRepo from '../helpers/is-archived-repo';
 import attachElement from '../helpers/attach-element';
 
 function getUrl(): string {
@@ -16,8 +15,7 @@ function getUrl(): string {
 }
 
 async function init(): Promise<void | false> {
-	// TODO [2022-06-01]: Remove `.social-count` (GHE)
-	const forkCount = await elementReady('#repo-network-counter, .social-count[href$="/network/members"]');
+	const forkCount = await elementReady('#repo-network-counter');
 	if (looseParseInt(forkCount) === 0) {
 		return false;
 	}
@@ -42,8 +40,7 @@ function createBannerLink(): JSX.Element {
 function initArchivedRepoBanner(): void {
 	attachElement({
 		anchor: '.flash-full',
-		position: 'append',
-		getNewElement: createBannerLink,
+		append: createBannerLink,
 	});
 }
 
@@ -59,7 +56,7 @@ void features.add(import.meta.url, {
 	init,
 }, {
 	include: [
-		isArchivedRepo,
+		pageDetect.isArchivedRepo,
 	],
 	init: initArchivedRepoBanner,
 });

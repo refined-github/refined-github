@@ -1,0 +1,4 @@
+/* Avoid overflow on mobile due to change of flex-direction #5750 */
+.rgh-preview-hidden-comments h3 {
+	max-width: 100%;
+}

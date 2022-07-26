@@ -9,7 +9,7 @@ changelog:
         - enhancement
     - title: Changes
       labels:
-        - "*"
+        - '*'
       exclude:
         labels:
           - bug

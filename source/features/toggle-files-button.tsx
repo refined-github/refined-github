@@ -8,6 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import {FoldIcon, UnfoldIcon, ArrowUpIcon} from '@primer/octicons-react';
 
 import features from '.';
+import selectHas from '../helpers/select-has';
 import attachElement from '../helpers/attach-element';
 import observeElement from '../helpers/simplified-element-observer';
 
@@ -21,11 +22,10 @@ const noticeStyle = {paddingRight: '19px'};
 
 function addButton(): void {
 	attachElement({
-		anchor: select('.repository-content .octicon-history')?.closest('ul'),
+		anchor: selectHas('.repository-content ul:has(.octicon-history)')!,
 		allowMissingAnchor: true,
 		className: toggleButtonClass,
-		position: 'append',
-		getNewElement: () => (
+		append: () => (
 			<button
 				type="button"
 				className="btn-octicon"
@@ -42,9 +42,8 @@ function addFilesHiddenNotice(repoContent: Element): void {
 	// Add notice so the user knows that the list was collapsed #5524
 	attachElement({
 		anchor: select('.Box', repoContent),
-		position: 'after',
 		className: noticeClass,
-		getNewElement: () => (
+		after: () => (
 			<div
 				className="mb-3 mt-n3 py-1 text-right text-small color-fg-subtle"
 				style={noticeStyle}

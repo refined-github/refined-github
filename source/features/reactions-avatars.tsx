@@ -7,9 +7,11 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {getUsername} from '../github-helpers';
+import getUserAvatar from '../github-helpers/get-user-avatar';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
+const avatarSize = 16;
 
 interface Participant {
 	button: HTMLButtonElement;
@@ -33,18 +35,8 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 			continue;
 		}
 
-		const cleanName = username.replace('[bot]', '');
-
-		// Find image on page. Saves a request and a redirect + add support for bots
-		const existingAvatar = select(`img[alt="@${cleanName}"]`);
-		if (existingAvatar) {
-			participants.push({button, username, imageUrl: existingAvatar.src});
-			continue;
-		}
-
-		// If it's not a bot, use a shortcut URL #2125
-		if (cleanName === username) {
-			const imageUrl = (pageDetect.isEnterprise() ? `/${username}.png` : `https://avatars.githubusercontent.com/${username}`) + '?size=32';
+		const imageUrl = getUserAvatar(username, avatarSize);
+		if (imageUrl) {
 			participants.push({button, username, imageUrl});
 		}
 	}
@@ -82,7 +74,7 @@ function showAvatarsOn(commentReactions: Element): void {
 	for (const {button, username, imageUrl} of flatParticipants) {
 		button.append(
 			<span className="avatar-user avatar rgh-reactions-avatar p-0 flex-self-center">
-				<img src={imageUrl} className="d-block" width="16" height="16" alt={`@${username}`}/>
+				<img src={imageUrl} className="d-block" width={avatarSize} height={avatarSize} alt={`@${username}`}/>
 			</span>,
 		);
 	}

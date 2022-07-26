@@ -5,6 +5,7 @@ import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import selectHas from '../helpers/select-has';
 import onElementRemoval from '../helpers/on-element-removal';
 import onDiscussionSidebarUpdate from '../github-events/on-discussion-sidebar-update';
 
@@ -33,16 +34,20 @@ Expected DOM:
 @param selector Element that contains `details` or `.discussion-sidebar-heading` or distinctive element inside it
 */
 function cleanSection(selector: string): boolean {
-	const container = select(selector)?.closest('form, .discussion-sidebar-item');
+	const container = selectHas(`:is(form, .discussion-sidebar-item):has(${selector})`);
 	if (!container) {
 		return false;
 	}
 
-	const heading = select(':scope > details, :scope > .discussion-sidebar-heading', container)!;
+	const identifiers = [
+		'.IssueLabel',
+		'[aria-label="Select milestones"] .Progress-item',
+		'[aria-label="Link issues"] [data-hovercard-type]',
+		'[aria-label="Select projects"] .Link--primary',
+	];
 
-	// Magic. Do not touch.
-	// Section is empty if: no sibling element OR empty sibling element
-	if (heading.nextElementSibling?.firstElementChild) {
+	const heading = select('.discussion-sidebar-heading', container)!;
+	if (heading.closest('form, .discussion-sidebar-item')!.querySelector(identifiers.join(','))) {
 		return false;
 	}
 
@@ -95,9 +100,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	// Labels
 	if (!cleanSection('.js-issue-labels') && !canEditSidebar()) {
 		// Hide heading in any case except `canEditSidebar`
-		select('.js-issue-labels')!
-			.closest('.discussion-sidebar-item')!
-			.querySelector(':scope > .discussion-sidebar-heading')!
+		selectHas('.discussion-sidebar-item:has(.js-issue-labels) .discussion-sidebar-heading')!
 			.remove();
 	}
 

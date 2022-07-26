@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 
 type AnyObject = Record<string, any>;
-type DeinitHandle = MutationObserver | ResizeObserver | IntersectionObserver | {destroy: VoidFunction} | {abort: VoidFunction} | VoidFunction;
+type DeinitHandle = {disconnect: VoidFunction} | {clear: VoidFunction} | {destroy: VoidFunction} | {abort: VoidFunction} | VoidFunction;
 type Deinit = DeinitHandle | DeinitHandle[];
 
 type FeatureID = string & {feature: true};
@@ -52,6 +52,7 @@ declare namespace JSX {
 		'label': IntrinsicElements.label & {for?: string};
 		'relative-time': IntrinsicElements.div & {datetime: string};
 		'tab-container': IntrinsicElements.div;
+		'batch-deferred-content': IntrinsicElements.div;
 		'time-ago': IntrinsicElements.div & {datetime: string; format?: string};
 	}
 	/* eslint-enable @typescript-eslint/no-redundant-type-constituents */

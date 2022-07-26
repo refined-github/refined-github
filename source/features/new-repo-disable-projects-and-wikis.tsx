@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import selectHas from '../helpers/select-has';
 import {getRghIssueUrl} from '../helpers/rgh-issue-link';
 
 async function disableWikiAndProjects(): Promise<void> {
@@ -19,10 +20,10 @@ async function disableWikiAndProjects(): Promise<void> {
 		},
 	});
 	await domLoaded;
-	select('[data-content="Wiki"]')?.closest('li')!.remove();
 	select('[data-menu-item$="wiki-tab"]')?.remove();
-	select('[data-content="Projects"]')?.closest('li')!.remove();
 	select('[data-menu-item$="projects-tab"]')?.remove();
+	selectHas('li:has([data-content="Wiki"]')?.remove();
+	selectHas('li:has([data-content="Projects"])')?.remove();
 }
 
 function setStorage(): void {

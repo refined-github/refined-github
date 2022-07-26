@@ -30,6 +30,9 @@ async function init(): Promise<void> {
 
 void features.add(import.meta.url, {
 	init,
+	exclude: [
+		pageDetect.isPrivateUserProfile,
+	],
 }, {
 	exclude: [
 		pageDetect.isGist, // "Your repositories" does not exist

@@ -4,10 +4,10 @@ import {SearchIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import selectHas from '../helpers/select-has';
 
 function init(): void {
-	const actionRepo = select('aside .octicon-repo')!
-		.closest('a')!
+	const actionRepo = selectHas('a:has(aside .octicon-repo)')!
 		.pathname
 		.slice(1);
 

@@ -47,8 +47,14 @@ function onlyShowInDropdown(id: string): void {
 }
 
 const getWikiPageCount = cache.function(async (): Promise<number> => {
-	const wikiPages = await fetchDom(buildRepoURL('wiki'), '#wiki-pages-box .Counter');
-	return looseParseInt(wikiPages);
+	const dom = await fetchDom(buildRepoURL('wiki'));
+	const counter = dom.querySelector('#wiki-pages-box .Counter');
+
+	if (counter) {
+		return looseParseInt(counter);
+	}
+
+	return dom.querySelectorAll('#wiki-content > .Box .Box-row').length;
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 5},
@@ -93,10 +99,10 @@ async function initActions(): Promise<void | false> {
 
 	const actionsCount = await getWorkflowsCount();
 	if (actionsCount > 0 || mustKeepTab(actionsTab)) {
-		setTabCounter(actionsTab, actionsCount);
-	} else {
-		onlyShowInDropdown('actions-tab');
+		return false;
 	}
+
+	onlyShowInDropdown('actions-tab');
 }
 
 async function initProjects(): Promise<void | false> {

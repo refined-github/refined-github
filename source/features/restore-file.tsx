@@ -97,7 +97,7 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 
 		// Hide file from view
 		menuItem.closest('.file')!.remove();
-	} catch (error: unknown) {
+	} catch (error) {
 		features.log.error(import.meta.url, error);
 	}
 }

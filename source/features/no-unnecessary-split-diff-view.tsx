@@ -30,9 +30,7 @@ void features.add(import.meta.url, {
 		() => select.exists('.js-diff-table :is([data-split-side="left"], [data-split-side="right"]):is(.blob-code-addition, .blob-code-deletion)'),
 	],
 	include: [
-		pageDetect.isCommit,
-		pageDetect.isCompare,
-		pageDetect.isPRFiles,
+		pageDetect.hasFiles,
 	],
 	exclude: [
 		isUnifiedDiff,
