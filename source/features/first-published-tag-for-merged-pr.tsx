@@ -36,7 +36,7 @@ async function init(): Promise<void> {
 	if (tagName) {
 		addExistingTagLink(tagName);
 	} else if (canCreateRelease()) {
-		void addLinkToCreateRelease('This pull request seems to be unreleased.');
+		void addLinkToCreateRelease('This pull request seems not to be part of a release.');
 	}
 }
 
