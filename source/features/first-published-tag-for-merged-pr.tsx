@@ -36,7 +36,7 @@ async function init(): Promise<void> {
 	if (tagName) {
 		addExistingTagLink(tagName);
 	} else if (canCreateRelease()) {
-		void addLinkToCreateRelease('This pull request seems to be unreleased');
+		void addLinkToCreateRelease('This pull request seems to be unreleased.');
 	}
 }
 
@@ -76,7 +76,7 @@ function addExistingTagLink(tagName: string): void {
 	});
 }
 
-async function addLinkToCreateRelease(text = 'Now you can release this change'): Promise<void> {
+async function addLinkToCreateRelease(text = 'Now you can release this change.'): Promise<void> {
 	if (await getReleaseCount() > 0) {
 		return;
 	}
@@ -88,11 +88,12 @@ async function addLinkToCreateRelease(text = 'Now you can release this change'):
 		anchor: '#issue-comment-box',
 		before: () => (
 			<TimelineItem>
-				{createBanner({
-					text,
-					url,
-					buttonLabel: <><TagIcon/> Draft a new release</>,
-				})}
+				<p class="TimelineItem-body">
+					<>{text}</>
+					<a href={url}>
+						<TagIcon/> Draft a new release
+					</a>
+				</p>
 			</TimelineItem>
 		),
 	});
