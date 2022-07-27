@@ -1,0 +1,34 @@
+/* Bringing running checks and failed checks to the top of the list */
+/* .octicon-check targets "successful" checks */
+/* .octicon-x targets "failed" checks */
+/* .octicon-skip targets "skipped" checks */
+/* .octicon-square-fill targets "neutral" checks */
+/* .text-italic targets "running" or "waiting" checks */
+
+/* Required to allow sorting */
+.merge-status-list {
+	display: flex;
+	flex-direction: column;
+}
+
+/* Push running checks below failed checks */
+.merge-status-item:has(.text-italic) {
+	order: 1;
+}
+
+/* Push successful/skipped/neutral checks below running checks */
+.merge-status-item:has(.octicon-check, .octicon-skip, .octicon-square-fill) {
+	order: 2;
+}
+
+/* Dim successful/skipped/neutral checks */
+.merge-status-list:has(.octicon-x, .text-italic) /* Only if any checks are failing or in progress */
+.merge-status-item:has(.octicon-check, .octicon-skip, .octicon-square-fill) {
+	opacity: 0.5;
+}
+
+/*
+Test URLs
+https://github.com/refined-github/refined-github/commit/5c9d630423d66732cb1e2bd7935fc67c133f6072
+https://github.com/refined-github/refined-github/pull/5776
+*/

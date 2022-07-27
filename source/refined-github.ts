@@ -22,6 +22,7 @@ import './features/hide-watch-and-fork-count.css';
 import './features/clean-commit-form.css';
 import './features/sticky-file-header.css';
 import './features/readable-title-change-events.css';
+import './features/highlight-failing-checks.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
