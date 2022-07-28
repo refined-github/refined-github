@@ -23,7 +23,7 @@
 
 /* Dim successful/skipped/neutral checks */
 .merge-status-list:has(.octicon-x, .text-italic) /* Only if any checks are failing or in progress */
-.merge-status-item:has(.octicon-check, .octicon-skip, .octicon-square-fill) {
+.merge-status-item:has(.octicon-check, .octicon-skip, .octicon-square-fill):not(:hover) {
 	opacity: 50%;
 }
 
