@@ -22,6 +22,8 @@ import {
 	updateLocalStrings,
 	_,
 } from '../helpers/hotfix';
+import '../github-events/on-load';
+import gitHub from '../github-events/on-load';
 
 type BooleanFunction = () => boolean;
 export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
@@ -275,7 +277,19 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 			void setupPageLoad(id, details);
 		}
 
-		document.addEventListener('turbo:render', () => {
+		// Init on new page loads only if specific selectors don't exist
+		gitHub.addEventListener('load', () => {
+			const shouldRun
+			= !deduplicate // Feature handles this internally
+			|| ['has-rgh', 'has-rgh-inner'].includes(deduplicate) // Discard old defaults
+			|| !select.exists(deduplicate); // Custom selector detection
+			if (shouldRun) {
+				void setupPageLoad(id, details);
+			}
+		});
+
+		// Init again only conditionally
+		gitHub.addEventListener('popstate', () => {
 			if (!deduplicate || !select.exists(deduplicate)) {
 				void setupPageLoad(id, details);
 			}
