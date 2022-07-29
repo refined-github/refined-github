@@ -15,7 +15,7 @@ function init(signal: AbortSignal): Deinit {
 	});
 
 	const delegateController = delegate(document, '.js-merge-commit-button', 'click', () => {
-		delegateController.abort();
+		delegateController.abort(); // TODO: Drop after https://github.com/fregante/delegate-it/issues/30
 		observer.observe(select('.discussion-timeline-actions')!, {childList: true});
 	}, {signal});
 
