@@ -12,6 +12,7 @@ import observeElement from '../helpers/simplified-element-observer';
 import * as prCiStatus from '../github-helpers/pr-ci-status';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 import {onPrMergePanelLoad} from '../github-events/on-fragment-load';
+import onAbort from '../helpers/abort-controller';
 
 // Reuse the same checkbox to preserve its status
 const generateCheckbox = onetime(() => (
@@ -157,7 +158,7 @@ function onBeforeunload(event: BeforeUnloadEvent): void {
 	}
 }
 
-async function init(signal: AbortSignal): Promise<Deinit> {
+function init(signal: AbortSignal): void {
 	// Warn user if it's not yet submitted
 	window.addEventListener('beforeunload', onBeforeunload, {signal});
 
@@ -172,9 +173,9 @@ async function init(signal: AbortSignal): Promise<Deinit> {
 		disableForm(false);
 	}, {signal});
 
-	return () => {
-		commitObserver?.disconnect();
-	};
+	if (commitObserver) {
+		onAbort(signal, commitObserver);
+	}
 }
 
 void features.add(import.meta.url, {
