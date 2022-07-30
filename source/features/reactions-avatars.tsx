@@ -8,6 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {getUsername} from '../github-helpers';
 import getUserAvatar from '../github-helpers/get-user-avatar';
+import onAbort from '../helpers/abort-controller';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -96,13 +97,9 @@ function observeCommentReactions(commentReactions: Element): void {
 	viewportObserver.observe(commentReactions);
 }
 
-function init(): Deinit {
+function init(signal: AbortSignal): void {
 	observeReactions();
-
-	return [
-		viewportObserver,
-		resizeObserver,
-	];
+	onAbort(signal, viewportObserver, resizeObserver);
 }
 
 function discussionInit(): Deinit {

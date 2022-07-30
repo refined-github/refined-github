@@ -6,6 +6,7 @@ import features from '.';
 import clickAll from '../helpers/click-all';
 import showToast from '../github-helpers/toast';
 import getItemsBetween from '../helpers/get-items-between';
+import onAbort from '../helpers/abort-controller';
 
 let previousFile: HTMLElement | undefined;
 let runningBatch = false;
@@ -66,15 +67,14 @@ function onAltClick(event: DelegateEvent<MouseEvent, HTMLInputElement>): void {
 	});
 }
 
-function init(signal: AbortSignal): Deinit {
+function init(signal: AbortSignal): void {
 	delegate(document, '.js-reviewed-toggle', 'click', onAltClick, {signal});
 	// `mousedown` required to avoid mouse selection on shift-click
 	delegate(document, '.js-reviewed-toggle', 'mousedown', batchToggle, {signal});
 	delegate(document, '.js-toggle-user-reviewed-file-form', 'submit', remember, {signal});
-
-	return () => {
+	onAbort(signal, () => {
 		previousFile = undefined;
-	};
+	});
 }
 
 void features.add(import.meta.url, {

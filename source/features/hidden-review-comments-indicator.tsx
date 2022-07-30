@@ -9,6 +9,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '.';
 import preserveScroll from '../helpers/preserve-scroll';
 import {onDiffFileLoad} from '../github-events/on-fragment-load';
+import onAbort from '../helpers/abort-controller';
 
 // When an indicator is clicked, this will show comments on the current file
 const handleIndicatorClick = ({delegateTarget}: DelegateEvent): void => {
@@ -63,13 +64,13 @@ function observeFiles(): void {
 	}
 }
 
-function init(signal: AbortSignal): Deinit {
+function init(signal: AbortSignal): void {
 	observeFiles();
 
 	onDiffFileLoad(observeFiles, signal);
 	delegate(document, '.rgh-comments-indicator', 'click', handleIndicatorClick, {signal});
 
-	return observer;
+	onAbort(signal, observer);
 }
 
 void features.add(import.meta.url, {

@@ -49,7 +49,6 @@ function addButtons(): void {
 function init(signal: AbortSignal): void {
 	addButtons();
 	onCommentEdit(addButtons, signal);
-
 	delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails, {signal});
 }
 

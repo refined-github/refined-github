@@ -19,8 +19,8 @@ const commitMessagesSelector = [
 	':is(.file-navigation, .js-permalink-shortcut) ~ .Box .Box-header', // Commit message in file tree header
 ].join(',');
 
-function init(signal: AbortSignal): Deinit {
-	return delegate(document, commitMessagesSelector, 'click', toggleCommitMessage, {signal});
+function init(signal: AbortSignal): void {
+	delegate(document, commitMessagesSelector, 'click', toggleCommitMessage, {signal});
 }
 
 void features.add(import.meta.url, {

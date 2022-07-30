@@ -24,14 +24,14 @@ const observer = new IntersectionObserver(entries => {
 });
 
 let lastOpen: number;
-let delegateController: AbortController | undefined;
+const safetySwitch = new AbortController();
 
 function menuActivatedHandler(event: DelegateEvent): void {
 	const details = event.target as HTMLDetailsElement;
 
 	// Safety check #3742
 	if (!details.open && lastOpen > Date.now() - 500) {
-		delegateController!.abort();
+		safetySwitch.abort();
 		console.warn(`The modal was closed too quickly. Disabling ${features.getFeatureID(import.meta.url)} for this session.`);
 		return;
 	}
@@ -50,7 +50,7 @@ function menuActivatedHandler(event: DelegateEvent): void {
 }
 
 function init(): void {
-	delegateController = delegate(document, '.details-overlay', 'toggle', menuActivatedHandler, {capture: true});
+	delegate(document, '.details-overlay', 'toggle', menuActivatedHandler, {capture: true, signal: safetySwitch.signal});
 }
 
 void features.add(import.meta.url, {

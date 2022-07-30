@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import delegate, {DelegateEvent, DelegateEventHandler} from 'delegate-it';
+
 import onAbort from '../helpers/abort-controller';
 
 const handlers = new Set<VoidFunction>();
