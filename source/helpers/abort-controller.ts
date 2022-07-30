@@ -1,10 +1,8 @@
 export function callHandle(handle: DeinitHandle): void {
-	if ('disconnect' in handle) {
+	if ('disconnect' in handle) { // Browser observers
 		handle.disconnect();
 	} else if ('abort' in handle) { // Selector observer
 		handle.abort();
-	} else	if ('destroy' in handle) { // Delegate subscription
-		handle.destroy();
 	} else if (typeof handle === 'function') {
 		handle();
 	}

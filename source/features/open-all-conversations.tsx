@@ -23,7 +23,7 @@ function onButtonClick(): void {
 	openTabs(issues.map(issue => getUrlFromItem(issue)));
 }
 
-async function init(): Promise<Deinit | false> {
+async function init(signal: AbortSignal): Promise<void | false> {
 	if (!await elementReady('.js-issue-row + .js-issue-row', {waitForChildren: false})) {
 		return false;
 	}
@@ -37,7 +37,7 @@ async function init(): Promise<Deinit | false> {
 		</button>,
 	);
 
-	return delegate(document, '.rgh-open-all-conversations', 'click', onButtonClick);
+	delegate(document, '.rgh-open-all-conversations', 'click', onButtonClick, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -2,11 +2,11 @@ import './quick-repo-deletion.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import {TrashIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -16,7 +16,7 @@ import addNotice from '../github-widgets/notice-bar';
 import looseParseInt from '../helpers/loose-parse-int';
 import parseBackticks from '../github-helpers/parse-backticks';
 
-function handleToggle(event: delegate.Event<Event, HTMLDetailsElement>): void {
+function handleToggle(event: DelegateEvent<Event, HTMLDetailsElement>): void {
 	const hasContent = select.exists([
 		'[data-hotkey="g i"] .Counter:not([hidden])', // Open issues
 		'[data-hotkey="g p"] .Counter:not([hidden])', // Open PRs
@@ -126,7 +126,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	}
 }
 
-async function init(): Promise<Deinit | false> {
+async function init(signal: AbortSignal): Promise<void | false> {
 	if (
 		// Only if the user can delete the repository
 		!await elementReady('nav [data-content="Settings"]')
@@ -151,7 +151,7 @@ async function init(): Promise<Deinit | false> {
 		</li>,
 	);
 
-	return delegate(document, '.rgh-quick-repo-deletion[open]', 'toggle', handleToggle, true);
+	delegate(document, '.rgh-quick-repo-deletion[open]', 'toggle', handleToggle, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {

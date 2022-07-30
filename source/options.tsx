@@ -4,10 +4,10 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import domify from 'doma';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import {assertError} from 'ts-extras';
 import * as indentTextarea from 'indent-textarea';
+import delegate, {DelegateEvent} from 'delegate-it';
 import {isChrome, isFirefox, isSafari} from 'webext-detect-page';
 
 import featureLink from './helpers/feature-link';
@@ -147,7 +147,7 @@ async function findFeatureHandler(event: Event): Promise<void> {
 	select('#find-feature-message')!.hidden = false;
 }
 
-function summaryHandler(event: delegate.Event<MouseEvent>): void {
+function summaryHandler(event: DelegateEvent<MouseEvent>): void {
 	if (event.ctrlKey || event.metaKey || event.shiftKey) {
 		return;
 	}

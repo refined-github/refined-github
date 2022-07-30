@@ -1,12 +1,12 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 
-function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
+function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 	dropdown.classList.add('rgh-more-file-links'); // Mark this as processed
 
 	const viewFile = select('a[data-ga-click^="View file"]', dropdown)!;
@@ -27,9 +27,9 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	);
 }
 
-function init(): Deinit {
-	// `useCapture` required to be fired before GitHub's handlers
-	return delegate(document, '.file-header .js-file-header-dropdown:not(.rgh-more-file-links)', 'toggle', handleMenuOpening, true);
+function init(signal: AbortSignal): void {
+	// `capture: true` required to be fired before GitHub's handlers
+	delegate(document, '.file-header .js-file-header-dropdown:not(.rgh-more-file-links)', 'toggle', handleMenuOpening, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {
