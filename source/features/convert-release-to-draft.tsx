@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -13,7 +13,7 @@ const editReleaseButtonSelector = [
 	'.Box-btn-octicon[aria-label="Edit"]',
 ].join(',');
 
-async function convertToDraft({delegateTarget: draftButton}: delegate.Event): Promise<void> {
+async function convertToDraft({delegateTarget: draftButton}: DelegateEvent): Promise<void> {
 	try {
 		draftButton.append(<LoadingIcon className="ml-2 v-align-text-bottom" width={16}/>);
 
@@ -33,7 +33,7 @@ async function convertToDraft({delegateTarget: draftButton}: delegate.Event): Pr
 	}
 }
 
-async function init(): Promise<Deinit | false> {
+async function init(signal: AbortSignal): Promise<void | false> {
 	await api.expectToken();
 
 	const editButton = await elementReady(editReleaseButtonSelector);
@@ -58,7 +58,7 @@ async function init(): Promise<Deinit | false> {
 		editButton.classList.replace('ml-1', 'ml-0');
 	}
 
-	return delegate(document, '.rgh-convert-draft', 'click', convertToDraft);
+	delegate(document, '.rgh-convert-draft', 'click', convertToDraft, {signal});
 }
 
 void features.add(import.meta.url, {

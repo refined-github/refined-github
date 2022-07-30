@@ -2,9 +2,9 @@ import './deep-reblame.css';
 import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import {VersionsIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -53,7 +53,7 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[]
 	return associatedPR.commits.nodes[0].commit.oid;
 });
 
-async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAnchorElement | HTMLButtonElement>): Promise<void> {
+async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement | HTMLButtonElement>): Promise<void> {
 	const blameElement = event.delegateTarget;
 	if (blameElement instanceof HTMLAnchorElement && !event.altKey) {
 		return; // Unmodified click on regular link: let it proceed
@@ -77,11 +77,13 @@ async function redirectToBlameCommit(event: delegate.Event<MouseEvent, HTMLAncho
 	});
 }
 
-function init(): Deinit | false {
+function init(signal: AbortSignal): void | false {
 	const pullRequests = select.all('[data-hovercard-type="pull_request"]');
 	if (pullRequests.length === 0) {
 		return false;
 	}
+
+	delegate(document, '.rgh-deep-reblame', 'click', redirectToBlameCommit, {signal});
 
 	for (const pullRequest of pullRequests) {
 		const hunk = pullRequest.closest('.blame-hunk')!;
@@ -102,8 +104,6 @@ function init(): Deinit | false {
 			);
 		}
 	}
-
-	return delegate(document, '.rgh-deep-reblame', 'click', redirectToBlameCommit);
 }
 
 void features.add(import.meta.url, {

@@ -4,8 +4,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import {onCommentFieldKeydown} from '../github-events/on-field-keydown';
 
-function init(): Deinit {
-	return onCommentFieldKeydown(eventHandler);
+function init(signal: AbortSignal): void {
+	onCommentFieldKeydown(eventHandler, signal);
 }
 
 void features.add(import.meta.url, {

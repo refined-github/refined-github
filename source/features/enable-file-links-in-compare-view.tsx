@@ -1,14 +1,14 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import {GitBranchIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';
 
 /** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
-function handlePRMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
+function handlePRMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 	dropdown.classList.add('rgh-actionable-link'); // Mark this as processed
 
 	const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
@@ -18,7 +18,7 @@ function handlePRMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 		.pathname = [nameWithOwner, 'blob', headBranch, filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
 }
 
-function handleCompareMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
+function handleCompareMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 	dropdown.classList.add('rgh-actionable-link'); // Mark this as processed
 
 	const viewFile = select('a[data-ga-click^="View file"]', dropdown)!;
@@ -48,10 +48,10 @@ function handleCompareMenuOpening({delegateTarget: dropdown}: delegate.Event): v
 	select('[aria-label$="delete this file."]', dropdown)!.replaceWith(deleteFile);
 }
 
-function init(): Deinit {
+function init(signal: AbortSignal): void {
 	const handleMenuOpening = pageDetect.isCompare() ? handleCompareMenuOpening : handlePRMenuOpening;
-	// `useCapture` required to be fired before GitHub's handlers
-	return delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown:not(.rgh-actionable-link)', 'toggle', handleMenuOpening, true);
+	// `capture: true` required to be fired before GitHub's handlers
+	delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown:not(.rgh-actionable-link)', 'toggle', handleMenuOpening, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {

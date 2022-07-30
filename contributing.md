@@ -39,18 +39,18 @@ Here's an example using all of the possible `feature.add` options:
 ```tsx
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 
-function append(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+function append(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	event.delegateTarget.after('✨', <div className="rgh-jsx-element">Button clicked!</div>);
 }
 
-function init(): Deinit {
+function init(signal: AbortSignal): void {
 	// Events must be set via delegate, unless shortlived
-	return delegate(document, '.btn', 'click', append);
+	delegate(document, '.btn', 'click', append, {signal});
 }
 
 void features.add(import.meta.url, {

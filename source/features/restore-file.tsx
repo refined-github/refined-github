@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import pushForm from 'push-form';
-import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import * as api from '../github-helpers/api';
@@ -77,7 +77,7 @@ async function restoreFile(progress: (message: string) => void, menuItem: Elemen
 }
 
 const filesRestored = new WeakSet<HTMLButtonElement>();
-async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
+async function handleRestoreFileClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const menuItem = event.delegateTarget;
 
 	// Only allow one click
@@ -102,7 +102,7 @@ async function handleRestoreFileClick(event: delegate.Event<MouseEvent, HTMLButt
 	}
 }
 
-function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
+function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 	const editFile = select('a[aria-label^="Change this"]', dropdown);
 	if (!editFile || select.exists('.rgh-restore-file', dropdown)) {
 		return;
@@ -126,12 +126,10 @@ function handleMenuOpening({delegateTarget: dropdown}: delegate.Event): void {
 	);
 }
 
-function init(): Deinit {
-	return [
-		// `useCapture` required to be fired before GitHub's handlers
-		delegate(document, '.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, true),
-		delegate(document, '.rgh-restore-file', 'click', handleRestoreFileClick, true),
-	];
+function init(signal: AbortSignal): void {
+	// `capture: true` required to be fired before GitHub's handlers
+	delegate(document, '.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, {capture: true, signal});
+	delegate(document, '.rgh-restore-file', 'click', handleRestoreFileClick, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {

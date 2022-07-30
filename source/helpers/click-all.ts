@@ -1,10 +1,10 @@
 import mem from 'mem';
 import select from 'select-dom';
-import delegate from 'delegate-it';
+import {DelegateEvent} from 'delegate-it';
 
 import preserveScroll from './preserve-scroll';
 
-type EventHandler = (event: delegate.Event<MouseEvent, HTMLElement>) => void;
+type EventHandler = (event: DelegateEvent<MouseEvent, HTMLElement>) => void;
 export default mem((selector: string | ((clickedItem: HTMLElement) => string)): EventHandler => event => {
 	if (event.altKey && event.isTrusted) {
 		const clickedItem = event.delegateTarget;
