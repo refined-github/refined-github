@@ -60,7 +60,7 @@ function handleArrowUpKey(targetField: HTMLTextAreaElement): void {
 	});
 }
 
-const eventHandler = filterAlteredClicks((event: delegate.Event<KeyboardEvent, HTMLTextAreaElement>): void => {
+const eventHandler = filterAlteredClicks((event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement>): void => {
 	const field = event.delegateTarget;
 
 	if (event.key === 'Escape') {

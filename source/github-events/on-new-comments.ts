@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import delegate, {DelegateEvent, DelegateEventHandler} from 'delegate-it';
+import onAbort from '../helpers/abort-controller';
 
-const discussionsWithListeners = new WeakSet();
 const handlers = new Set<VoidFunction>();
 
 let commentsCount = 0;
@@ -37,18 +37,18 @@ function getFragmentLoadHandler(callback: EventListener): DelegateEventHandler {
 
 function addListeners(signal: AbortSignal): void {
 	const discussion = select('.js-discussion');
-	if (!discussion || discussionsWithListeners.has(discussion)) {
+	// Ensure listeners are only ever added once
+	if (!discussion || handlers.size === 0) {
 		return;
 	}
-
-	// Ensure listeners are only ever added once
-	discussionsWithListeners.add(discussion);
 
 	// When new comments come in via AJAX
 	commentsCount = select.all('.js-comment').length;
 	observer.observe(discussion, {
 		childList: true,
 	});
+
+	onAbort(signal, observer);
 
 	// When hidden comments are loaded by clicking "Load more…"
 	delegate(document, '.js-ajax-pagination', 'submit', paginationSubmitHandler, {signal});
@@ -57,12 +57,8 @@ function addListeners(signal: AbortSignal): void {
 	delegate(document, 'details.js-comment-container include-fragment:not([class])', 'loadstart', getFragmentLoadHandler(run), {capture: true, signal});
 }
 
-export default function onNewComments(callback: VoidFunction, signal: AbortSignal): Deinit {
+export default function onNewComments(callback: VoidFunction, signal: AbortSignal): void {
 	addListeners(signal);
 	handlers.add(callback);
-
-	return [
-		handlers,
-		observer,
-	];
+	onAbort(signal, handlers);
 }

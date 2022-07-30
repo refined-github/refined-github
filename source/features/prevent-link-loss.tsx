@@ -63,11 +63,9 @@ const updateUI = debounceFn(({delegateTarget: field}: DelegateEvent<Event, HTMLT
 	wait: 300,
 });
 
-function init(signal: AbortSignal): Deinit {
+function init(signal: AbortSignal): void {
 	delegate(document, 'form:is(#new_issue, #new_release) textarea, form.js-new-comment-form textarea, textarea.comment-form-textarea', 'input', updateUI, {signal});
 	delegate(document, '.rgh-prevent-link-loss', 'click', handleButtonClick, {signal});
-
-	return updateUI.cancel;
 }
 
 void features.add(import.meta.url, {

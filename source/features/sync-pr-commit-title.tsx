@@ -83,11 +83,11 @@ function disableSubmission(): void {
 }
 
 function init(signal: AbortSignal): void {
-  onPrCommitMessageRestore(updateUI, signal),
-  onPrMergePanelOpen(updateCommitTitle, signal),
-  delegate(document, '#merge_title_field', 'input', updateUI, {signal}),
-  delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle, {signal}),
-  delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission, {signal}),
+	onPrCommitMessageRestore(updateUI, signal);
+	onPrMergePanelOpen(updateCommitTitle, signal);
+	delegate(document, '#merge_title_field', 'input', updateUI, {signal});
+	delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle, {signal});
+	delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission, {signal});
 }
 
 void features.add(import.meta.url, {
