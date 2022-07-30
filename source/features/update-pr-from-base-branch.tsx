@@ -97,7 +97,7 @@ void features.add(import.meta.url, {
 		// Native button https://github.blog/changelog/2022-02-03-more-ways-to-keep-your-pull-request-branch-up-to-date/
 		() => select.exists('.js-update-branch-form'),
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });
 

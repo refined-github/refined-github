@@ -36,6 +36,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasFiles,
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });

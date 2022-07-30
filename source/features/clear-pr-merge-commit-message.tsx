@@ -29,6 +29,6 @@ void features.add(import.meta.url, {
 	],
 	onlyAdditionalListeners: true,
 	awaitDomReady: false,
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });

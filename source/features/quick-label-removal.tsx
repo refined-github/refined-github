@@ -70,6 +70,6 @@ void features.add(import.meta.url, {
 		canNotEditLabels,
 		pageDetect.isArchivedRepo,
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });

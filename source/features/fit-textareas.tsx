@@ -45,6 +45,7 @@ void features.add(import.meta.url, {
 	exclude: [
 		isSafari,
 	],
+	deduplicate: false,
 	init,
 }, {
 	include: [
@@ -53,10 +54,10 @@ void features.add(import.meta.url, {
 	exclude: [
 		isSafari,
 	],
-	deduplicate: 'has-rgh-inner',
 	additionalListeners: [
 		onPrMergePanelOpen,
 	],
 	onlyAdditionalListeners: true,
+	deduplicate: false,
 	init: fitPrCommitMessageBox,
 });
