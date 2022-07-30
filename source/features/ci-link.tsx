@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepo} from '../github-helpers';
+import {buildRepoURL} from '../github-helpers';
 import attachElement from '../helpers/attach-element';
 
 async function getHead(): Promise<string> {
@@ -23,7 +23,7 @@ async function getHead(): Promise<string> {
 }
 
 function getCiDetails(commit: string): HTMLElement {
-	const endpoint = `/${getRepo()!.nameWithOwner}/commits/checks-statuses-rollups`;
+	const endpoint = buildRepoURL('commits/checks-statuses-rollups');
 	return (
 		// `span` also required by `attachElement`’s deduplicator
 		<span className="rgh-ci-link">
