@@ -13,15 +13,9 @@ import {getRepo, getCurrentBranchFromFeed} from '.';
 // "This branch is 1 commit ahead, 27 commits behind master."
 const branchInfoRegex = /([^ ]+)\.$/;
 
-const getDefaultBranch = cache.function(async function (repository?: pageDetect.RepositoryInfo): Promise<string> {
-	if (arguments.length === 0) {
-		repository = getRepo();
-	}
-
-	if (!repository) {
-		throw new Error('getDefaultBranch was called on a non-repository page');
-	}
-
+// DO NOT use optional arguments/defaults in "cached functions" because they can't be memoized effectively
+// https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
+const _getDefaultBranch = cache.function(async function (repository: pageDetect.RepositoryInfo): Promise<string> {
 	if (arguments.length === 0 || JSON.stringify(repository) === JSON.stringify(getRepo())) {
 		if (pageDetect.isRepoHome()) {
 			const branchSelector = await elementReady('[data-hotkey="w"]');
@@ -59,7 +53,13 @@ const getDefaultBranch = cache.function(async function (repository?: pageDetect.
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: ([repository = getRepo()]) => 'default-branch:' + repository!.nameWithOwner,
+	cacheKey: ([repository]) => 'default-branch:' + repository.nameWithOwner,
 });
 
-export default getDefaultBranch;
+export default async function getDefaultBranch(repository: pageDetect.RepositoryInfo | undefined = getRepo()): Promise<string> {
+	if (!repository) {
+		throw new Error('getDefaultBranch was called on a non-repository page');
+	}
+
+	return _getDefaultBranch(repository);
+}

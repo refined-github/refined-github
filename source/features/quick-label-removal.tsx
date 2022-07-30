@@ -4,13 +4,13 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import {XIcon} from '@primer/octicons-react';
 import {observe} from 'selector-observer';
+import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import * as api from '../github-helpers/api';
 import showToast from '../github-helpers/toast';
-import isArchivedRepo from '../helpers/is-archived-repo';
 import {getConversationNumber} from '../github-helpers';
 
 const canNotEditLabels = onetime((): boolean => !select.exists('.label-select-menu .octicon-gear'));
@@ -26,8 +26,9 @@ async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HT
 		await api.v3(`issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
 			method: 'DELETE',
 		});
-	} catch (error: unknown) {
-		void showToast(error as Error);
+	} catch (error) {
+		assertError(error);
+		void showToast(error);
 		removeLabelButton.blur();
 		label.hidden = false;
 		return;
@@ -67,7 +68,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		canNotEditLabels,
-		isArchivedRepo,
+		pageDetect.isArchivedRepo,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,

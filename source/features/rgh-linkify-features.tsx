@@ -64,6 +64,7 @@ void features.add(import.meta.url, {
 		pageDetect.isReleasesOrTags,
 		pageDetect.isCommitList,
 		pageDetect.isSingleCommit,
+		pageDetect.isRepoWiki,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,

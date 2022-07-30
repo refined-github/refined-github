@@ -1,14 +1,3 @@
-.rgh-ci-link batch-deferred-content {
-	display: none !important;
-}
-
 .rgh-ci-link summary .octicon {
 	vertical-align: 0;
-}
-
-/* Fix orientation of details dropdown when cloned from the repo homepage or the commit list */
-.rgh-ci-link .commit-build-statuses .dropdown-menu {
-	top: 50% !important;
-	left: 100% !important;
-	margin-left: 8px !important;
 }

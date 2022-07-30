@@ -8,10 +8,11 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 import {ClockIcon} from '@primer/octicons-react';
+import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getUsername} from '../github-helpers';
+import {getUsername, getCleanPathname} from '../github-helpers';
 
 interface Commit {
 	url: string;
@@ -78,6 +79,35 @@ function parseOffset(date: string): number {
 	return (hours * 60) + (hours < 0 ? -minutes : minutes);
 }
 
+async function display({
+	datePromise,
+	placeholder,
+	container,
+}: {
+	datePromise: Promise<string | false>;
+	placeholder: JSX.Element;
+	container: JSX.Element;
+}): Promise<void> {
+	const date = await datePromise;
+	if (!date) {
+		placeholder.textContent = 'Timezone unknown';
+		container.title = 'Timezone couldn’t be determined from their last commits';
+		return;
+	}
+
+	const userTime = new Date();
+	userTime.setMinutes(parseOffset(date) + userTime.getTimezoneOffset() + userTime.getMinutes());
+
+	const timeFormatter = new Intl.DateTimeFormat(undefined, {
+		hour: 'numeric',
+		minute: 'numeric',
+		weekday: userTime.getDay() === new Date().getDay() ? undefined : 'long',
+	});
+
+	placeholder.textContent = timeFormatter.format(userTime);
+	container.title = `Timezone guessed from their last commit: ${date}`;
+}
+
 async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 	const hovercard = hovercardContainer.closest('div.Popover-message')!;
 	if (!select.exists('[data-hydro-view*="user-hovercard-hover"]', hovercard)) {
@@ -122,24 +152,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 		}
 	}
 
-	const date = await datePromise;
-	if (!date) {
-		placeholder.textContent = 'Timezone unknown';
-		container.title = 'Timezone couldn’t be determined from their last commits';
-		return;
-	}
-
-	const userTime = new Date();
-	userTime.setMinutes(parseOffset(date) + userTime.getTimezoneOffset() + userTime.getMinutes());
-
-	const timeFormatter = new Intl.DateTimeFormat(undefined, {
-		hour: 'numeric',
-		minute: 'numeric',
-		weekday: userTime.getDay() === new Date().getDay() ? undefined : 'long',
-	});
-
-	placeholder.textContent = timeFormatter.format(userTime);
-	container.title = `Timezone guessed from their last commit: ${date}`;
+	void display({datePromise, placeholder, container});
 }
 
 const selector = [
@@ -152,6 +165,39 @@ function init(): void {
 	});
 }
 
+async function profileInit(): Promise<void> {
+	const login = getCleanPathname();
+	if (login === getUsername()) {
+		return;
+	}
+
+	const datePromise = getLastCommitDate(login);
+	const race = await Promise.race([delay(300), datePromise]);
+	if (race === false) {
+		// The timezone was undeterminable and this resolved "immediately" (or was cached), so don't add the icon at all
+		return;
+	}
+
+	const placeholder = <span className="v-align-middle">Guessing local time…</span>;
+	const container = (
+		<li className="vcard-detail pt-1 css-truncate css-truncate-target">
+			<ClockIcon/> {placeholder}
+		</li>
+	);
+
+	select('.vcard-details')!.append(container);
+
+	void display({datePromise, placeholder, container});
+}
+
 void features.add(import.meta.url, {
 	init: onetime(init),
+}, {
+	include: [
+		pageDetect.isUserProfile,
+	],
+	exclude: [
+		pageDetect.isPrivateUserProfile,
+	],
+	init: profileInit,
 });

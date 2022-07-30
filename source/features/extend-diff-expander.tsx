@@ -18,9 +18,7 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isPRFiles,
-		pageDetect.isCommit,
-		pageDetect.isCompare,
+		pageDetect.hasFiles,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,

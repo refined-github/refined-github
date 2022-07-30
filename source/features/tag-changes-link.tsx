@@ -76,7 +76,7 @@ const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefi
 };
 
 async function init(): Promise<void> {
-	document.body.classList.add('rgh-tag-changes-link');
+	document.documentElement.classList.add('rgh-tag-changes-link');
 
 	const tagsSelector = [
 		// https://github.com/facebook/react/releases (release in releases list)

@@ -61,7 +61,7 @@ async function hideEmptyMeta(): Promise<void> {
 }
 
 async function init(): Promise<void> {
-	document.body.classList.add('rgh-clean-repo-sidebar');
+	document.documentElement.classList.add('rgh-clean-repo-sidebar');
 
 	await Promise.all([
 		cleanReleases(),

@@ -27,7 +27,7 @@ async function convertToDraft({delegateTarget: draftButton}: DelegateEvent): Pro
 		});
 
 		select(editReleaseButtonSelector)!.click(); // Visit "Edit release" page
-	} catch (error: unknown) {
+	} catch (error) {
 		draftButton.textContent = 'Error. Check console or retry';
 		features.log.error(import.meta.url, error);
 	}

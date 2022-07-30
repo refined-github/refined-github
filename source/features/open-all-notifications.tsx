@@ -76,7 +76,11 @@ function addOpenUnreadButtons(): void {
 		}
 
 		select('.js-grouped-notifications-mark-all-read-button', repository)!.before(
-			<button type="button" className={'btn btn-sm mr-2 tooltipped tooltipped-w ' + openUnreadButtonClass} aria-label="Open all unread notifications from this repo">
+			<button
+				type="button"
+				className={'btn btn-sm mr-2 tooltipped tooltipped-w ' + openUnreadButtonClass}
+				aria-label="Open all unread notifications from this repo"
+			>
 				<LinkExternalIcon width={16}/> Open unread
 			</button>,
 		);

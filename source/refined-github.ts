@@ -21,6 +21,8 @@ import './features/night-not-found.css';
 import './features/hide-watch-and-fork-count.css';
 import './features/clean-commit-form.css';
 import './features/sticky-file-header.css';
+import './features/readable-title-change-events.css';
+import './features/clean-checks-list.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -32,7 +34,6 @@ import './features/clean-dashboard';
 import './features/hide-noisy-newsfeed-events';
 import './features/minimize-upload-bar';
 import './features/hide-diff-signs';
-import './features/hide-repo-badges';
 import './features/clean-rich-text-editor';
 
 import './features/useful-not-found-page';
@@ -87,7 +88,6 @@ import './features/swap-branches-on-compare';
 import './features/reactions-avatars';
 import './features/show-names';
 import './features/previous-next-commit-buttons';
-import './features/preserve-whitespace-option-in-nav';
 import './features/extend-diff-expander';
 import './features/profile-gists-link';
 import './features/show-user-top-repositories';
@@ -121,7 +121,6 @@ import './features/suggest-commit-title-limit';
 import './features/highest-rated-comment';
 import './features/clean-conversation-filters';
 import './features/tags-on-commits-list';
-import './features/forked-to';
 import './features/edit-readme';
 import './features/list-prs-for-file';
 import './features/pr-branch-auto-delete';
@@ -215,3 +214,6 @@ import './features/command-palette-navigation-shortcuts';
 import './features/link-to-compare-diff';
 import './features/hide-low-quality-comments';
 import './features/submission-via-ctrl-enter-everywhere';
+import './features/linkify-user-labels';
+import './features/repo-avatars';
+import './features/jump-to-conversation-close-event';

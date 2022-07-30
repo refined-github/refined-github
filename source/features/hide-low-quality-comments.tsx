@@ -8,7 +8,6 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '.';
 import isLowQualityComment from '../helpers/is-low-quality-comment';
 
-// eslint-disable-next-line import/prefer-default-export
 export const singleParagraphCommentSelector = '.comment-body > p:only-child';
 
 async function unhide(event: DelegateEvent): Promise<void> {

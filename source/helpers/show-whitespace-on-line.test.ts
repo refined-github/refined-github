@@ -1,5 +1,6 @@
+import {assert, test} from 'vitest';
+
 import hl from 'highlight.js/lib/common';
-import test, {ExecutionContext} from 'ava';
 
 import showWhiteSpacesOnLine from './show-whitespace-on-line';
 
@@ -35,184 +36,146 @@ function process(html: string): string {
 	return serializeDOM(showWhiteSpacesOnLine(element));
 }
 
-function assert(t: ExecutionContext, actual: string, expected: string): void {
-	t.is(
-		process(actual),
-		expected,
-	);
+function assertProcess(actual: string, expected: string): void {
+	assert.equal(process(actual), expected);
 }
 
-function assertHighlighted(t: ExecutionContext, actual: string, expected: string): void {
-	t.is(
-		process(highlight(actual)),
-		expected,
-	);
+function assertHighlighted(actual: string, expected: string): void {
+	assert.equal(process(highlight(actual)), expected);
 }
 
-test('showWhiteSpacesOnLine raw', t => {
-	assert(
-		t,
+test('showWhiteSpacesOnLine raw', () => {
+	assertProcess(
 		'',
 		'',
 	);
-	assert(
-		t,
+	assertProcess(
 		' ',
 		'•',
 	);
-	assert(
-		t,
+	assertProcess(
 		'  ',
 		'••',
 	);
-	assert(
-		t,
+	assertProcess(
 		'	',
 		'⟶',
 	);
-	assert(
-		t,
+	assertProcess(
 		'		',
 		'⟶⟶',
 	);
-	assert(
-		t,
+	assertProcess(
 		'	 ',
 		'⟶•',
 	);
-	assert(
-		t,
+	assertProcess(
 		' 	',
 		'•⟶',
 	);
-	assert(
-		t,
+	assertProcess(
 		' 	 ',
 		'•⟶•',
 	);
-	assert(
-		t,
+	assertProcess(
 		'	 	',
 		'⟶•⟶',
 	);
-	assert(
-		t,
+	assertProcess(
 		' hello ',
 		'•hello•',
 	);
-	assert(
-		t,
+	assertProcess(
 		'	hello	',
 		'⟶hello⟶',
 	);
-	assert(
-		t,
+	assertProcess(
 		'	hello world	',
 		'⟶hello•world⟶',
 	);
 });
 
-test('showWhiteSpacesOnLine real code', t => {
-	assert(
-		t,
+test('showWhiteSpacesOnLine real code', () => {
+	assertProcess(
 		'[1,""]',
 		'[1,""]',
 	);
-	assert(
-		t,
+	assertProcess(
 		'[1,"  "]',
 		'[1,"••"]',
 	);
-	assert(
-		t,
+	assertProcess(
 		'[1, "  "]',
 		'[1,•"••"]',
 	);
-	assert(
-		t,
+	assertProcess(
 		' [1, "  "] ',
 		'•[1,•"••"]•',
 	);
-	assert(
-		t,
+	assertProcess(
 		'  [1, "  "]  ',
 		'••[1,•"••"]••',
 	);
-	assert(
-		t,
+	assertProcess(
 		'[1,""]',
 		'[1,""]',
 	);
-	assert(
-		t,
+	assertProcess(
 		'[1,"		"]',
 		'[1,"⟶⟶"]',
 	);
-	assert(
-		t,
+	assertProcess(
 		'[1,	"		"]',
 		'[1,⟶"⟶⟶"]',
 	);
-	assert(
-		t,
+	assertProcess(
 		'	[1,	"		"]	',
 		'⟶[1,⟶"⟶⟶"]⟶',
 	);
-	assert(
-		t,
+	assertProcess(
 		'		[1,	"		"]		',
 		'⟶⟶[1,⟶"⟶⟶"]⟶⟶',
 	);
 });
 
-test('showWhiteSpacesOnLine highlighted code', t => {
+test('showWhiteSpacesOnLine highlighted code', () => {
 	assertHighlighted(
-		t,
 		'[1,""]',
 		'[1,""]',
 	);
 	assertHighlighted(
-		t,
 		'[1,"  "]',
 		'[1,"••"]',
 	);
 	assertHighlighted(
-		t,
 		'[1, "  "]',
 		'[1, "••"]',
 	);
 	assertHighlighted(
-		t,
 		' [1, "  "] ',
 		'•[1, "••"]•',
 	);
 	assertHighlighted(
-		t,
 		'  [1, "  "]  ',
 		'••[1, "••"]••',
 	);
 	assertHighlighted(
-		t,
 		'[1,""]',
 		'[1,""]',
 	);
 	assertHighlighted(
-		t,
 		'[1,"		"]',
 		'[1,"⟶⟶"]',
 	);
 	assertHighlighted(
-		t,
 		'[1,	"		"]',
 		'[1,⟶"⟶⟶"]',
 	);
 	assertHighlighted(
-		t,
 		'	[1,	"		"]	',
 		'⟶[1,⟶"⟶⟶"]⟶',
 	);
 	assertHighlighted(
-		t,
 		'		[1,	"		"]		',
 		'⟶⟶[1,⟶"⟶⟶"]⟶⟶',
 	);

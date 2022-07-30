@@ -6,8 +6,17 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import {buildRepoURL, getRepo} from '../github-helpers';
+import onPrMerge from '../github-events/on-pr-merge';
+import createBanner from '../github-helpers/banner';
+import TimelineItem from '../github-helpers/timeline-item';
+import attachElement from '../helpers/attach-element';
+import {canEditEveryComment} from './quick-comment-edit';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
+import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers';
+import {getReleaseCount} from './releases-tab';
+
+// TODO: Not an exact match; Moderators can edit comments but not create releases
+const canCreateRelease = canEditEveryComment;
 
 const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom(
@@ -24,10 +33,14 @@ async function init(): Promise<void> {
 	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`)!.textContent!;
 	const tagName = await getFirstTag(mergeCommit);
 
-	if (!tagName) {
-		return;
+	if (tagName) {
+		addExistingTagLink(tagName);
+	} else if (canCreateRelease()) {
+		void addLinkToCreateRelease('This pull request seems to be unreleased');
 	}
+}
 
+function addExistingTagLink(tagName: string): void {
 	const tagUrl = buildRepoURL('releases/tag', tagName);
 
 	// Select the PR header and sticky header
@@ -40,7 +53,7 @@ async function init(): Promise<void> {
 				<a
 					href={tagUrl}
 					className="commit-ref"
-					title={`${tagName} was the first Git tag to include this PR`}
+					title={`${tagName} was the first Git tag to include this pull request`}
 				>
 					{tagName}
 				</a>
@@ -48,25 +61,66 @@ async function init(): Promise<void> {
 		);
 	}
 
-	select(':not(.rgh-first-tag) + #issue-comment-box')?.before(
-		<div className="flash mt-3 flash-success rgh-first-tag">
-			The PR first appeared in <span className="text-mono text-small">{tagName}</span>
-			<a href={tagUrl} className="btn btn-sm flash-action">
-				<TagIcon/> See release
-			</a>
-		</div>,
-	);
+	attachElement({
+		anchor: '#issue-comment-box',
+		before: () => (
+			<TimelineItem>
+				{createBanner({
+					text: <>The pull request first appeared in <span className="text-mono text-small">{tagName}</span></>,
+					classes: ['flash-success'],
+					url: tagUrl,
+					buttonLabel: <><TagIcon/> See release</>,
+				})}
+			</TimelineItem>
+		),
+	});
+}
+
+async function addLinkToCreateRelease(text = 'Now you can release this change'): Promise<void> {
+	if (await getReleaseCount() > 0) {
+		return;
+	}
+
+	const url = isRefinedGitHubRepo()
+		? 'https://github.com/refined-github/refined-github/actions/workflows/release.yml'
+		: buildRepoURL('releases/new');
+	attachElement({
+		anchor: '#issue-comment-box',
+		before: () => (
+			<TimelineItem>
+				{createBanner({
+					text,
+					url,
+					buttonLabel: <><TagIcon/> Draft a new release</>,
+				})}
+			</TimelineItem>
+		),
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		() => pageDetect.isPRConversation() && pageDetect.isMergedPR(),
+	asLongAs: [
+		pageDetect.isPRConversation,
+		pageDetect.isMergedPR,
 	],
 	additionalListeners: [
 		onConversationHeaderUpdate,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,
+}, {
+	asLongAs: [
+		pageDetect.isPRConversation,
+		pageDetect.isOpenPR,
+		canCreateRelease,
+	],
+	additionalListeners: [
+		onPrMerge,
+	],
+	onlyAdditionalListeners: true,
+	init() {
+		void addLinkToCreateRelease();
+	},
 });
 
 /*

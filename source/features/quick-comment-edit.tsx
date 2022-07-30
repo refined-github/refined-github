@@ -5,7 +5,6 @@ import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import isArchivedRepo from '../helpers/is-archived-repo';
 
 function addQuickEditButton(commentForm: Element): void {
 	const commentBody = commentForm.closest('.js-comment')!;
@@ -28,7 +27,7 @@ function addQuickEditButton(commentForm: Element): void {
 		);
 }
 
-function canEditEveryComment(): boolean {
+export function canEditEveryComment(): boolean {
 	return select.exists([
 		// If you can lock conversations, you have write access
 		'.lock-toggle-link > .octicon-lock',
@@ -57,7 +56,7 @@ void features.add(import.meta.url, {
 		pageDetect.isDiscussion,
 	],
 	exclude: [
-		isArchivedRepo,
+		pageDetect.isArchivedRepo,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,

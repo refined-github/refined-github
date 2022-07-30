@@ -62,7 +62,7 @@ export default function onNewComments(callback: VoidFunction, signal: AbortSigna
 	handlers.add(callback);
 
 	return [
-		handlers.clear,
+		handlers,
 		observer,
 	];
 }

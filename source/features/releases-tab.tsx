@@ -37,7 +37,7 @@ async function fetchFromApi(): Promise<number> {
 	return repository.refs.totalCount;
 }
 
-const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? parseCountFromDom() : fetchFromApi(), {
+export const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? parseCountFromDom() : fetchFromApi(), {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 3},
 	cacheKey: getCacheKey,
@@ -65,7 +65,7 @@ async function addReleasesTab(): Promise<false | void> {
 				data-selected-links="repo_releases"
 				data-tab-item="rgh-releases-item"
 			>
-				<TagIcon className="UnderlineNav-octicon"/>
+				<TagIcon className="UnderlineNav-octicon d-none d-sm-inline"/>
 				<span data-content="Releases">Releases</span>
 				{count && <span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>}
 			</a>

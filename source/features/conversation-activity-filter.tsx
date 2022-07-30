@@ -10,7 +10,6 @@ import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import onNewComments from '../github-events/on-new-comments';
 import registerHotkey from '../github-helpers/register-hotkey';
-import {getRghIssueUrl} from '../helpers/rgh-issue-link';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 const expectedDropdownWidth = 270;
@@ -198,8 +197,8 @@ async function addWidget(header: string, state: State): Promise<void> {
 }
 
 const minorFixesIssuePages = [
-	getRghIssueUrl(5222),
-	getRghIssueUrl(4008),
+	'https://github.com/refined-github/refined-github/issues/5222',
+	'https://github.com/refined-github/refined-github/issues/4008',
 ];
 
 function uncollapseTargetedComment(): void {

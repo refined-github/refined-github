@@ -14,11 +14,13 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 	}
 }
 
-function init(signal: AbortSignal): void {
-	delegate(document, [
-		'.js-commits-list-item',
-		':is(.file-navigation, .js-permalink-shortcut) ~ .Box .Box-header', // Commit message in file tree header
-	].join(','), 'click', toggleCommitMessage, {signal});
+const commitMessagesSelector = [
+	'.js-commits-list-item',
+	':is(.file-navigation, .js-permalink-shortcut) ~ .Box .Box-header', // Commit message in file tree header
+].join(',');
+
+function init(signal: AbortSignal): Deinit {
+	return delegate(document, commitMessagesSelector, 'click', toggleCommitMessage, {signal});
 }
 
 void features.add(import.meta.url, {

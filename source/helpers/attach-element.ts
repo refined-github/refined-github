@@ -1,17 +1,21 @@
 import select from 'select-dom';
+import {RequireAtLeastOne} from 'type-fest';
+import {isDefined} from 'ts-extras';
 
 import hashString from './hash-string';
 
 type Position = 'append' | 'prepend' | 'before' | 'after';
 
-interface Attachment<NewElement extends Element> {
+type Attachment<NewElement extends Element> = RequireAtLeastOne<{
 	// eslint-disable-next-line @typescript-eslint/ban-types --  Allows dom traversing without requiring `!`
 	anchor: Element | string | undefined | null;
-	getNewElement: () => NewElement;
 	className?: string;
-	position: Position;
+	append: () => NewElement;
+	prepend: () => NewElement;
+	before: () => NewElement;
+	after: () => NewElement;
 	allowMissingAnchor?: boolean;
-}
+}, Position>;
 
 // Get a unique position in the code
 function getSnapshotUUID(index = 3): string {
@@ -20,13 +24,15 @@ function getSnapshotUUID(index = 3): string {
 
 export default function attachElement<NewElement extends Element>({
 	anchor,
-	getNewElement,
 	className = 'rgh-' + getSnapshotUUID(),
-	position,
+	append,
+	prepend,
+	before,
+	after,
 	allowMissingAnchor = false,
-}: Attachment<NewElement>): NewElement | void {
-	anchor = typeof anchor === 'string' ? select(anchor) : anchor;
-	if (!anchor) {
+}: Attachment<NewElement>): NewElement[] | void {
+	const anchorElement = typeof anchor === 'string' ? select(anchor) : anchor;
+	if (!anchorElement) {
 		if (allowMissingAnchor) {
 			return;
 		}
@@ -34,12 +40,22 @@ export default function attachElement<NewElement extends Element>({
 		throw new Error('Element not found');
 	}
 
-	if (select.exists('.' + className, anchor.parentElement ?? anchor)) {
+	if (select.exists('.' + className, anchorElement.parentElement ?? anchorElement)) {
 		return;
 	}
 
-	const ship = getNewElement();
-	ship.classList.add(className);
-	anchor[position](ship);
-	return ship;
+	const call = (position: Position, create: () => NewElement): NewElement => {
+		const element = create();
+		element.classList.add(className);
+		anchorElement[position](element);
+		return element;
+	};
+
+	return [
+		append && call('append', append),
+		prepend && call('prepend', prepend),
+		before && call('before', before),
+		after && call('after', after),
+		// eslint-disable-next-line unicorn/no-array-callback-reference -- It only works this way. TS AMIRITE
+	].filter(isDefined);
 }
