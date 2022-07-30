@@ -7,7 +7,7 @@ import features from '.';
 import {groupButtons} from '../github-helpers/group-buttons';
 
 function handleClick({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-	const file = button.closest('.js-gist-file-update-container')!;
+	const file = button.closest('.Box, .js-gist-file-update-container')!;
 	const content = select.all('.blob-code-inner', file)
 		// eslint-disable-next-line unicorn/prefer-dom-node-text-content -- Must be `.innerText`
 		.map(({innerText: line}) => line === '\n' ? '' : line)
@@ -16,7 +16,10 @@ function handleClick({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLBut
 }
 
 function renderButton(): void {
-	for (const button of select.all('.file-actions .btn[href*="/raw/"]')) {
+	for (const button of select.all([
+		'.file-actions .btn[href*="/raw/"]', // `isGist`
+		'[data-hotkey="b"]',
+	])) {
 		const copyButton = (
 			<clipboard-copy
 				className="btn btn-sm js-clipboard-copy tooltipped tooltipped-n BtnGroup-item rgh-copy-file"
@@ -45,8 +48,10 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	asLongAs: [
 		() => select.exists('table.highlight'), // Rendered page
+		() => !select.exists('remote-clipboard-copy'), // Native copy button #4802
 	],
 	include: [
+		pageDetect.isSingleFile,
 		pageDetect.isGist,
 	],
 	deduplicate: '.rgh-copy-file', // #3945
