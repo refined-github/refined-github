@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate from 'delegate-it';
 import {FoldDownIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -8,6 +7,7 @@ import * as textFieldEdit from 'text-field-edit';
 import features from '.';
 import smartBlockWrap from '../helpers/smart-block-wrap';
 import {onCommentEdit} from '../github-events/on-fragment-load';
+import {attachElements} from '../helpers/attach-element';
 
 function addContentToDetails({delegateTarget}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
@@ -36,14 +36,15 @@ function addContentToDetails({delegateTarget}: delegate.Event<MouseEvent, HTMLBu
 }
 
 function addButtons(): void {
-	for (const anchor of select.all('md-ref:not(.rgh-collapsible-content-btn-added)')) {
-		anchor.classList.add('rgh-collapsible-content-btn-added');
-		anchor.after(
-			<button type="button" className="toolbar-item btn-octicon p-2 p-md-1 tooltipped tooltipped-sw rgh-collapsible-content-btn" aria-label="Add collapsible content">
+	attachElements({
+		anchor: 'md-ref',
+		className: 'rgh-collapsible-content-btn',
+		after: () => (
+			<button type="button" className="toolbar-item btn-octicon p-2 p-md-1 tooltipped tooltipped-sw" aria-label="Add collapsible content">
 				<FoldDownIcon/>
-			</button>,
-		);
-	}
+			</button>
+		),
+	});
 }
 
 function init(): Deinit {
@@ -59,6 +60,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });
