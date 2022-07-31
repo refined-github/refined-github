@@ -90,6 +90,7 @@ async function addLinkToCreateRelease(text = 'Now you can release this change.')
 			<TimelineItem>
 				<p className="TimelineItem-body">
 					{text}
+					{' '}
 					<a href={url}>
 						Draft a new release
 					</a>
