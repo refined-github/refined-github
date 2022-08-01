@@ -15,7 +15,8 @@ import {
 	discussionUrlRegex,
 	preventDiscussionLinkLoss,
 } from '../github-helpers/prevent-link-loss';
-import {getRghIssueUrl} from '../helpers/rgh-issue-link';
+
+const documentation = 'https://github.com/refined-github/refined-github/wiki/GitHub-markdown-linkifier-bug';
 
 function handleButtonClick({delegateTarget: fixButton}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #4678 */
@@ -31,7 +32,7 @@ function getUI(field: HTMLTextAreaElement): HTMLElement {
 		<div className="flash flash-warn rgh-prevent-link-loss-container">
 			<AlertIcon/>
 			{' Your link may be '}
-			<a href={getRghIssueUrl(2327)} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue">
+			<a href={documentation} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue">
 				misinterpreted
 			</a>
 			{' by GitHub.'}
