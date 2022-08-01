@@ -1,13 +1,13 @@
 import select from 'select-dom';
 import oneEvent from 'one-event';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
 const paginationButtonSelector = '.ajax-pagination-form button[type="submit"]';
 
-async function handleAltClick({altKey, delegateTarget}: delegate.Event<MouseEvent, HTMLButtonElement>): Promise<void> {
+async function handleAltClick({altKey, delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	if (!altKey) {
 		return;
 	}
@@ -29,8 +29,8 @@ async function handleAltClick({altKey, delegateTarget}: delegate.Event<MouseEven
 	}
 }
 
-function init(): Deinit {
-	return delegate(document, paginationButtonSelector, 'click', handleAltClick);
+function init(signal: AbortSignal): void {
+	delegate(document, paginationButtonSelector, 'click', handleAltClick, {signal});
 }
 
 void features.add(import.meta.url, {

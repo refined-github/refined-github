@@ -15,10 +15,9 @@ function jumpToFirstNonViewed(): void {
 	}
 }
 
-function init(): Deinit {
+function init(signal: AbortSignal): void {
 	select('.diffbar-item progress-bar')!.style.cursor = 'pointer';
-
-	return delegate(document, '.diffbar-item progress-bar', 'click', jumpToFirstNonViewed);
+	delegate(document, '.diffbar-item progress-bar', 'click', jumpToFirstNonViewed, {signal});
 }
 
 void features.add(import.meta.url, {

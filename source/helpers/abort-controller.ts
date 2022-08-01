@@ -1,5 +1,5 @@
 export function callHandle(handle: DeinitHandle): void {
-	if ('disconnect' in handle) {
+	if ('disconnect' in handle) { // Browser observers
 		handle.disconnect();
 	} else if ('abort' in handle) {
 		handle.abort();

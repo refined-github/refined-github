@@ -47,7 +47,7 @@
 		"code-tag": "^1.1.0",
 		"debounce-fn": "^5.1.2",
 		"delay": "^5.0.0",
-		"delegate-it": "^3.0.1",
+		"delegate-it": "^4.0.0",
 		"dom-chef": "^5.1.0",
 		"dom-loaded": "^3.0.0",
 		"doma": "^3.0.1",

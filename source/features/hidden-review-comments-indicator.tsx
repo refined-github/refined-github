@@ -2,16 +2,17 @@ import './hidden-review-comments-indicator.css';
 import mem from 'mem';
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import {CommentIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import preserveScroll from '../helpers/preserve-scroll';
 import {onDiffFileLoad} from '../github-events/on-fragment-load';
+import onAbort from '../helpers/abort-controller';
 
 // When an indicator is clicked, this will show comments on the current file
-const handleIndicatorClick = ({delegateTarget}: delegate.Event): void => {
+const handleIndicatorClick = ({delegateTarget}: DelegateEvent): void => {
 	const commentedLine = delegateTarget.closest('tr')!.previousElementSibling!;
 	const resetScroll = preserveScroll(commentedLine);
 	delegateTarget
@@ -63,14 +64,13 @@ function observeFiles(): void {
 	}
 }
 
-function init(): Deinit {
+function init(signal: AbortSignal): void {
 	observeFiles();
 
-	return [
-		observer,
-		onDiffFileLoad(observeFiles),
-		delegate(document, '.rgh-comments-indicator', 'click', handleIndicatorClick),
-	];
+	onDiffFileLoad(observeFiles, signal);
+	delegate(document, '.rgh-comments-indicator', 'click', handleIndicatorClick, {signal});
+
+	onAbort(signal, observer);
 }
 
 void features.add(import.meta.url, {

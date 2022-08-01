@@ -1,10 +1,10 @@
 import onetime from 'onetime';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import {isMac} from '../github-helpers';
 import features from '.';
 
-function commandPaletteKeydown(event: delegate.Event<KeyboardEvent>): void {
+function commandPaletteKeydown(event: DelegateEvent<KeyboardEvent>): void {
 	const {key, ctrlKey, delegateTarget} = event;
 
 	if (!ctrlKey || (key !== 'n' && key !== 'p')) {

@@ -7,7 +7,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import selectHas from '../helpers/select-has';
-import {getRghIssueUrl} from '../helpers/rgh-issue-link';
+
+const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
 
 async function disableWikiAndProjects(): Promise<void> {
 	delete sessionStorage.rghNewRepo;
@@ -32,10 +33,8 @@ function setStorage(): void {
 	}
 }
 
-async function init(): Promise<Deinit> {
+async function init(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
-
-	const infoUrl = getRghIssueUrl(3533);
 
 	select.last([
 		'.js-repo-init-setting-container', // IsNewRepo
@@ -51,13 +50,13 @@ async function init(): Promise<Deinit> {
 					/> Disable Projects and Wikis
 				</label>
 				<span className="note mb-2">
-					After creating the repository disable the projects and wiki. <a href={infoUrl} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
+					After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
 				</span>
 			</div>
 		</div>,
 	);
 
-	return delegate(document, '#new_repository, #new_new_repository', 'submit', setStorage);
+	delegate(document, '#new_repository, #new_new_repository', 'submit', setStorage, {signal});
 }
 
 void features.add(import.meta.url, {

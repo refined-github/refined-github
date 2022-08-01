@@ -1,10 +1,10 @@
 import select from 'select-dom';
-import delegate from 'delegate-it';
+import delegate, {DelegateEventHandler} from 'delegate-it';
 
-type DelegateFieldEvent = delegate.EventHandler<KeyboardEvent, HTMLTextAreaElement>;
+type DelegateFieldEvent = DelegateEventHandler<KeyboardEvent, HTMLTextAreaElement>;
 
-function onFieldKeydown(selector: string, callback: DelegateFieldEvent): delegate.Subscription {
-	return delegate<HTMLTextAreaElement, 'keydown'>(document, selector, 'keydown', event => {
+function onFieldKeydown(selector: string, callback: DelegateFieldEvent, signal: AbortSignal): void {
+	delegate<HTMLTextAreaElement, 'keydown'>(document, selector, 'keydown', event => {
 		const field = event.delegateTarget;
 
 		// The suggester is GitHub’s autocomplete dropdown
@@ -16,17 +16,18 @@ function onFieldKeydown(selector: string, callback: DelegateFieldEvent): delegat
 	}, {
 		// Adds support for `esc` key; GitHub seems to use `stopPropagation` on it
 		capture: true,
+		signal,
 	});
 }
 
-export function onCommentFieldKeydown(callback: DelegateFieldEvent): delegate.Subscription {
-	return onFieldKeydown('.js-comment-field, #commit-description-textarea, #merge_message_field', callback);
+export function onCommentFieldKeydown(callback: DelegateFieldEvent, signal: AbortSignal): void {
+	onFieldKeydown('.js-comment-field, #commit-description-textarea, #merge_message_field', callback, signal);
 }
 
-export function onConversationTitleFieldKeydown(callback: DelegateFieldEvent): delegate.Subscription {
-	return onFieldKeydown('#issue_title, #pull_request_title', callback);
+export function onConversationTitleFieldKeydown(callback: DelegateFieldEvent, signal: AbortSignal): void {
+	onFieldKeydown('#issue_title, #pull_request_title', callback, signal);
 }
 
-export function onCommitTitleFieldKeydown(callback: DelegateFieldEvent): delegate.Subscription {
-	return onFieldKeydown('#commit-summary-input', callback);
+export function onCommitTitleFieldKeydown(callback: DelegateFieldEvent, signal: AbortSignal): void {
+	onFieldKeydown('#commit-summary-input', callback, signal);
 }

@@ -1,4 +1,5 @@
-:root .file-header {
+/* `.sticky-file-header` excludes native sticky header */
+:root .file-header:not(.sticky-file-header) {
 	position: sticky;
 	z-index: 6; /* isBlame, isEditingFile */
 	top: 0;
@@ -8,8 +9,13 @@
 	top: 129px;
 }
 
+/* Same as `.sticky-file-header.has-open-dropdown` */
+.file-header.has-open-dropdown:not(.sticky-file-header) {
+	z-index: 10;
+}
+
 /* Consider the File List fixed header/sidebar in commits */
-:root diff-layout .file-header {
+:root diff-layout .file-header:not(.sticky-file-header) {
 	top: 60px;
 }
 
@@ -22,5 +28,5 @@ https://github.com/refined-github/refined-github/edit/main/readme.md
 https://github.com/refined-github/refined-github/blame/243e51d786e4771d313091b94cec826ff86becc9/source/features/index.tsx#L326-L327
 
 Exclude:
-https://github.com/refined-github/refined-github/pull/5460/files (actually included, but natively supported anyway)
+https://github.com/refined-github/refined-github/pull/5460/files
 */

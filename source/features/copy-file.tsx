@@ -1,12 +1,12 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import {groupButtons} from '../github-helpers/group-buttons';
 
-function handleClick({delegateTarget: button}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+function handleClick({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const file = button.closest('.Box, .js-gist-file-update-container')!;
 	const content = select.all('.blob-code-inner', file)
 		// eslint-disable-next-line unicorn/prefer-dom-node-text-content -- Must be `.innerText`
@@ -40,9 +40,9 @@ function renderButton(): void {
 	}
 }
 
-function init(): Deinit {
+function init(signal: AbortSignal): void {
 	renderButton();
-	return delegate(document, '.rgh-copy-file:not([value])', 'click', handleClick, true);
+	delegate(document, '.rgh-copy-file:not([value])', 'click', handleClick, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {

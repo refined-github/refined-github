@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -62,11 +62,11 @@ function toggleSubMenu(hideButton: Element, show: boolean): void {
 	select('form.js-comment-minimize', dropdown)!.classList.toggle('v-hidden', !show);
 }
 
-function resetDropdowns(event: delegate.Event): void {
+function resetDropdowns(event: DelegateEvent): void {
 	toggleSubMenu(event.delegateTarget, false);
 }
 
-function showSubmenu(event: delegate.Event): void {
+function showSubmenu(event: DelegateEvent): void {
 	generateSubmenu(event.delegateTarget);
 	toggleSubMenu(event.delegateTarget, true);
 
@@ -74,12 +74,10 @@ function showSubmenu(event: delegate.Event): void {
 	event.preventDefault();
 }
 
-function init(): Deinit {
-	return [
-		// `useCapture` required to be fired before GitHub's handlers
-		delegate(document, '.js-comment-hide-button', 'click', showSubmenu, true),
-		delegate(document, '.rgh-quick-comment-hiding-details', 'toggle', resetDropdowns, true),
-	];
+function init(signal: AbortSignal): void {
+	// `capture: true` required to be fired before GitHub's handlers
+	delegate(document, '.js-comment-hide-button', 'click', showSubmenu, {capture: true, signal});
+	delegate(document, '.rgh-quick-comment-hiding-details', 'toggle', resetDropdowns, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {
