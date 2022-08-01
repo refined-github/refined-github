@@ -64,6 +64,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isBlank,
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });

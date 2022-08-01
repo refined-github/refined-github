@@ -192,6 +192,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isDraftPR,
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });

@@ -27,6 +27,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isPRFile404,
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });

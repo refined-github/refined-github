@@ -118,6 +118,7 @@ void features.add(import.meta.url, {
 		onPrMerge,
 	],
 	onlyAdditionalListeners: true,
+	deduplicate: false,
 	init() {
 		void addLinkToCreateRelease();
 	},

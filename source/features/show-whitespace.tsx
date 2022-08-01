@@ -44,7 +44,7 @@ void features.add(import.meta.url, {
 		onNewComments,
 		onDiffFileLoad,
 	],
-	deduplicate: '.rgh-observing-whitespace',
+	deduplicate: false,
 	init,
 });
 
