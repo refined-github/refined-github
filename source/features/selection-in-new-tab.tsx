@@ -2,7 +2,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 
 import features from '.';
-import registerHotkey from '../github-helpers/register-hotkey';
+import {registerHotkey} from '../github-helpers/hotkey';
 
 function openInNewTab(): void {
 	const selected = select('.navigation-focus a.js-navigation-open[href]');

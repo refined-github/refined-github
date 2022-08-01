@@ -2,7 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
-import registerHotkey from '../github-helpers/register-hotkey';
+import {registerHotkey} from '../github-helpers/hotkey';
 
 function selectAllNotifications(): void {
 	select('.js-notifications-mark-all-prompt')!.click();

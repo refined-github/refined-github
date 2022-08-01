@@ -9,7 +9,7 @@ import {CheckIcon, EyeClosedIcon, EyeIcon, XIcon} from '@primer/octicons-react';
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import onNewComments from '../github-events/on-new-comments';
-import registerHotkey from '../github-helpers/register-hotkey';
+import {registerHotkey} from '../github-helpers/hotkey';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
 const expectedDropdownWidth = 270;

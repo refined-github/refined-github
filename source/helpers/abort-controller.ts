@@ -1,7 +1,7 @@
 export function callHandle(handle: DeinitHandle): void {
 	if ('disconnect' in handle) { // Browser observers
 		handle.disconnect();
-	} else if ('abort' in handle) { // Selector observer
+	} else if ('abort' in handle) {
 		handle.abort();
 	} else if (typeof handle === 'function') {
 		handle();
