@@ -78,6 +78,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit,
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });

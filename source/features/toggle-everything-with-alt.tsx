@@ -53,6 +53,6 @@ void features.add(import.meta.url, {
 		pageDetect.hasFiles,
 		pageDetect.isCommitList,
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });

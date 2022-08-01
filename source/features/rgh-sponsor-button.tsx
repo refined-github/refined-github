@@ -112,5 +112,6 @@ void features.add(import.meta.url, {
 		pageDetect.isOwnUserProfile,
 		pageDetect.isPrivateUserProfile,
 	],
+	deduplicate: false,
 	init: handleSponsorButton,
 });

@@ -82,6 +82,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });

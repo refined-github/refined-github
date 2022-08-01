@@ -84,6 +84,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });

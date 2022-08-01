@@ -83,7 +83,7 @@ function init(signal: AbortSignal): false | void {
 				control.disabled = true;
 			}
 		});
-	});
+	}, {signal});
 
 	// This will prevent submission when clicking "Comment" and "Request changes" without entering a comment and no other review comments are pending
 	delegate(form, 'button', 'click', ({delegateTarget: {value}}) => {
