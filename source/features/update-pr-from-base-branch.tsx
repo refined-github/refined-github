@@ -10,7 +10,7 @@ import * as api from '../github-helpers/api';
 import getPrInfo from '../github-helpers/get-pr-info';
 import {getConversationNumber} from '../github-helpers';
 
-const selectorForPushablePRNotice = '.merge-pr > :is(.color-text-secondary, .color-fg-muted):first-child:not(.rgh-update-pr)';
+const selectorForPushablePRNotice = '.merge-pr > :is(.color-text-secondary, .color-fg-muted):first-child';
 let observer: Observer;
 
 function getBranches(): {base: string; head: string} {
@@ -72,17 +72,18 @@ async function init(signal: AbortSignal): Promise<false | Deinit> {
 	delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler, {signal});
 
 	// Quick check before using selector-observer on it
-	// NOTE: This selector may match the feature across page loads, so `delegate` must run before it just in case
 	if (!select.exists(selectorForPushablePRNotice)) {
 		return false;
 	}
 
-	return observe(selectorForPushablePRNotice, {
+	observer = observe(`:is(${selectorForPushablePRNotice}):not(.rgh-update-pr)`, {
 		add(position) {
 			position.classList.add('rgh-update-pr');
 			void addButton(position);
 		},
 	});
+
+	return observer;
 }
 
 void features.add(import.meta.url, {
