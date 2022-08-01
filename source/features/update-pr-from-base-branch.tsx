@@ -69,21 +69,20 @@ async function addButton(position: Element): Promise<void> {
 async function init(signal: AbortSignal): Promise<false | Deinit> {
 	await api.expectToken();
 
+	delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler, {signal});
+
 	// Quick check before using selector-observer on it
+	// NOTE: This selector may match the feature across page loads, so `delegate` must run before it just in case
 	if (!select.exists(selectorForPushablePRNotice)) {
 		return false;
 	}
 
-	observer = observe(selectorForPushablePRNotice, {
+	return observe(selectorForPushablePRNotice, {
 		add(position) {
 			position.classList.add('rgh-update-pr');
 			void addButton(position);
 		},
 	});
-
-	delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler, {signal});
-
-	return observer;
 }
 
 void features.add(import.meta.url, {
