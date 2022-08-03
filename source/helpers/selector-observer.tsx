@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import onetime from 'onetime';
 import {ParseSelector} from 'typed-query-selector/parser';
 
-import {getSnapshotUUID} from './attach-element';
+import hashString from './hash-string';
 
 const tracked = new WeakSet<EventTarget>();
 const getListener = mem(<ExpectedElement extends HTMLElement>(id: string, callback: (element: ExpectedElement) => void) => function (event: AnimationEvent) {
@@ -34,7 +34,7 @@ export default function observe<
 		return;
 	}
 
-	const id = getSnapshotUUID();
+	const id = 'rgh-' + hashString(String(Math.random()));
 	const style = new Text(`
 		@keyframes ${id} {}
 		${String(selector)} {animation: 1ms ${id}}
