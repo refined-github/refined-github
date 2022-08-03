@@ -7,7 +7,6 @@ import features from '.';
 import observe from '../helpers/selector-observer';
 
 function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
-	repositoryLink.classList.add('rgh-discussion-links');
 	const repository = repositoryLink.closest('li')!;
 
 	// Remove the "X issues need help" link

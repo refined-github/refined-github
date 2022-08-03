@@ -38,7 +38,7 @@ async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HT
 }
 
 function addRemoveLabelButton(label: HTMLElement): void {
-	label.classList.add('rgh-quick-label-removal-already-added', 'd-inline-flex');
+	label.classList.add('d-inline-flex');
 	label.append(
 		<button
 			type="button"
@@ -56,7 +56,7 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	delegate(document, '.rgh-quick-label-removal:not([disabled])', 'click', removeLabelButtonClickHandler, {signal});
 
-	observe('.js-issue-labels .IssueLabel:not(.rgh-quick-label-removal-already-added)', addRemoveLabelButton, {signal});
+	observe('.js-issue-labels .IssueLabel', addRemoveLabelButton, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -26,14 +26,15 @@ async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 	detailsLink.href = detailsUrl;
 }
 
-// This selector excludes URLs that are already external
-const thirdPartyApps = [
-	`a:not([href="/apps/github-actions"]) ~ div a.status-actions[href^="${location.origin}"]:not(.rgh-bypass-link)`, // Hovercard status checks
-	'a:not([href="/apps/github-actions"]) ~ div a.status-actions[href^="/"]:not(.rgh-bypass-link)',
-] as const;
-
 function init(signal: AbortSignal): void {
-	observe(thirdPartyApps, bypass, {signal});
+	// This selector excludes URLs that are already external
+	// `location.origin` is for the hovercard status checks
+	observe(`
+		a:not([href="/apps/github-actions"]) ~ div a.status-actions:is(
+			[href^="${location.origin}"],
+			[href^="/"]
+		)
+	`, bypass, {signal});
 }
 
 void features.add(import.meta.url, {

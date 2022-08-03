@@ -15,7 +15,7 @@ function linkify(avatar: HTMLImageElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('details-dialog .Box-header .mr-3 > img:not([alt*="[bot]"])', linkify,{signal});
+	observe('details-dialog .Box-header .mr-3 > img:not([alt*="[bot]"])', linkify, {signal});
 }
 
 void features.add(import.meta.url, {
