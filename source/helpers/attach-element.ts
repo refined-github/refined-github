@@ -26,7 +26,7 @@ Get unique ID by using the line:column of the call (or its parents) as seed. Eve
 
 @param index The line of the Error#stack generated inside this function
 */
-function getSnapshotUUID(index = 3): string {
+export function getSnapshotUUID(index = 3): string {
 	return hashString(new Error('Get stack').stack!.split('\n')[index]);
 }
 

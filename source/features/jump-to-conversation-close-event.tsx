@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
+import observe from '../helpers/selector-observer';
 
 function addToConversation(discussionHeader: HTMLElement): void {
 	discussionHeader.classList.add('rgh-jump-to-conversation-close-event');
@@ -21,11 +21,12 @@ function addToConversation(discussionHeader: HTMLElement): void {
 	);
 }
 
-function init(): Deinit {
-	return observe('#partial-discussion-header :is([title="Status: Closed"], [title="Status: Merged"], [title="Status: Closed as not planned"]):not(.rgh-jump-to-conversation-close-event)', {
-		constructor: HTMLElement,
-		add: addToConversation,
-	});
+function init(signal: AbortSignal): void {
+	observe(
+		'#partial-discussion-header :is([title="Status: Closed"], [title="Status: Merged"], [title="Status: Closed as not planned"]):not(.rgh-jump-to-conversation-close-event)',
+		addToConversation,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

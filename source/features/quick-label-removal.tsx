@@ -3,7 +3,6 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import {XIcon} from '@primer/octicons-react';
-import {observe} from 'selector-observer';
 import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -12,6 +11,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import showToast from '../github-helpers/toast';
 import {getConversationNumber} from '../github-helpers';
+import observe from '../helpers/selector-observer';
 
 const canNotEditLabels = onetime((): boolean => !select.exists('.label-select-menu .octicon-gear'));
 
@@ -51,15 +51,12 @@ function addRemoveLabelButton(label: HTMLElement): void {
 	);
 }
 
-async function init(signal: AbortSignal): Promise<Deinit> {
+async function init(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
 
 	delegate(document, '.rgh-quick-label-removal:not([disabled])', 'click', removeLabelButtonClickHandler, {signal});
 
-	return observe('.js-issue-labels .IssueLabel:not(.rgh-quick-label-removal-already-added)', {
-		constructor: HTMLElement,
-		add: addRemoveLabelButton,
-	});
+	observe('.js-issue-labels .IssueLabel:not(.rgh-quick-label-removal-already-added)', addRemoveLabelButton, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -1,8 +1,8 @@
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
+import observe from '../helpers/selector-observer';
 
 async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 	const runId = pageDetect.isActionJobRun(detailsLink)
@@ -26,20 +26,14 @@ async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 	detailsLink.href = detailsUrl;
 }
 
-function init(): Deinit {
-	// This selector excludes URLs that are already external
-	const thirdPartyApps = [
-		`a:not([href="/apps/github-actions"]) ~ div .status-actions[href^="${location.origin}"]:not(.rgh-bypass-link)`, // Hovercard status checks
-		'a:not([href="/apps/github-actions"]) ~ div .status-actions[href^="/"]:not(.rgh-bypass-link)',
-	].join(',');
+// This selector excludes URLs that are already external
+const thirdPartyApps = [
+	`a:not([href="/apps/github-actions"]) ~ div a.status-actions[href^="${location.origin}"]:not(.rgh-bypass-link)`, // Hovercard status checks
+	'a:not([href="/apps/github-actions"]) ~ div a.status-actions[href^="/"]:not(.rgh-bypass-link)',
+] as const;
 
-	return observe(thirdPartyApps, {
-		constructor: HTMLAnchorElement,
-		add(thirdPartyApp) {
-			thirdPartyApp.classList.add('rgh-bypass-link');
-			void bypass(thirdPartyApp);
-		},
-	});
+function init(signal: AbortSignal): void {
+	observe(thirdPartyApps, bypass, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon, IssueOpenedIcon} from '@primer/octicons-react';
 
 import features from '.';
+import observe from '../helpers/selector-observer';
 
 function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	repositoryLink.classList.add('rgh-discussion-links');
@@ -30,14 +30,12 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	);
 }
 
-function init(): Deinit {
-	return observe([
-		'[itemprop="name codeRepository"]:not(.rgh-discussion-links)', // `isUserProfileRepoTab`
-		'[data-hydro-click*=\'"model_name":"Repository"\']:not(.rgh-discussion-links)', // `isGlobalSearchResults`
-	].join(','), {
-		constructor: HTMLAnchorElement,
-		add: addConversationLinks,
-	});
+const selectors = [
+	'[itemprop="name codeRepository"]', // `isUserProfileRepoTab`
+	'[data-hydro-click*=\'"model_name":"Repository"\']', // `isGlobalSearchResults`
+] as const;
+function init(signal: AbortSignal): void {
+	observe(selectors, addConversationLinks, {signal});
 }
 
 void features.add(import.meta.url, {

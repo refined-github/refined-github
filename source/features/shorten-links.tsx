@@ -1,15 +1,12 @@
 import onetime from 'onetime';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {linkifiedURLClass, shortenLink} from '../github-helpers/dom-formatters';
+import observe from '../helpers/selector-observer';
 
-function init(): void {
-	observe(`a[href]:not(.${linkifiedURLClass})`, {
-		constructor: HTMLAnchorElement,
-		add: shortenLink,
-	});
+function init(signal: AbortSignal): void {
+	observe(`a[href]:not(.${linkifiedURLClass})`, shortenLink, {signal});
 }
 
 void features.add(import.meta.url, {
