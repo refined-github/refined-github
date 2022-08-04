@@ -4,13 +4,11 @@ import {css} from 'code-tag';
 import onetime from 'onetime';
 import {ParseSelector} from 'typed-query-selector/parser';
 
-import hashString from './hash-string';
-
 const animation = 'rgh-selector-observer';
 const tracked = new Map<string, WeakSet<EventTarget>>();
-const getListener = mem(<ExpectedElement extends HTMLElement>(id: string, callback: (element: ExpectedElement) => void) => function (event: AnimationEvent) {
+const getListener = mem(<ExpectedElement extends HTMLElement>(selector: string, callback: (element: ExpectedElement) => void) => function (event: AnimationEvent) {
 	const target = event.target as ExpectedElement;
-	if (tracked.get(id)?.has(target) || !getComputedStyle(target).getPropertyValue('--' + id)) {
+	if (tracked.get(selector)?.has(target) || !target.matches(selector)) {
 		return;
 	}
 
@@ -18,7 +16,7 @@ const getListener = mem(<ExpectedElement extends HTMLElement>(id: string, callba
 		console.log('selector-observer', target, callback);
 	}
 
-	tracked.get(id)!.add(target);
+	tracked.get(selector)!.add(target);
 
 	callback(target);
 });
@@ -33,7 +31,7 @@ export default function observe<
 	Selector extends string,
 	ExpectedElement extends HTMLElement = ParseSelector<Selector, HTMLElement>,
 >(
-	selector: Selector | readonly Selector[],
+	selectors: Selector | readonly Selector[],
 	listener: (element: ExpectedElement) => void,
 	{signal}: {signal?: AbortSignal} = {},
 ): void {
@@ -41,17 +39,16 @@ export default function observe<
 		return;
 	}
 
-	const id = 'rgh-' + hashString(String(Math.random()));
+	const selector = String(selectors); // Array#toString() creates a comma-separated string
 	const rule = new Text(css`
 		:where(${String(selector)}) {
 			animation: 1ms ${animation};
-			--${id}: sup;
 		}
 	`);
-	tracked.set(id, new WeakSet());
+	tracked.set(String(selector), new WeakSet());
 	getTag().append(rule);
 	signal?.addEventListener('abort', () => {
 		rule.remove();
 	});
-	window.addEventListener('animationstart', getListener(id, listener), {signal});
+	window.addEventListener('animationstart', getListener(selector, listener), {signal});
 }
