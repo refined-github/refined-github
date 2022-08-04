@@ -44,3 +44,13 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+Test URLs
+
+isUserProfileRepoTab:
+https://github.com/fregante?tab=repositories
+
+isGlobalSearchResults:
+https://github.com/search?q=fregante
+*/

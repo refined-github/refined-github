@@ -1,27 +1,34 @@
 import mem from 'mem';
 import React from 'dom-chef';
+import {css} from 'code-tag';
 import onetime from 'onetime';
 import {ParseSelector} from 'typed-query-selector/parser';
 
 import hashString from './hash-string';
 
-const tracked = new WeakSet<EventTarget>();
+const animation = 'rgh-selector-observer';
+const tracked = new Map<string, WeakSet<EventTarget>>();
 const getListener = mem(<ExpectedElement extends HTMLElement>(id: string, callback: (element: ExpectedElement) => void) => function (event: AnimationEvent) {
 	const target = event.target as ExpectedElement;
-	if (event.animationName !== id || tracked.has(target)) {
+	if (tracked.get(id)?.has(target) || !getComputedStyle(target).getPropertyValue('--' + id)) {
 		return;
 	}
 
-	tracked.add(target);
+	if (!/shortenLink|bypass/.test(callback.toString())) {
+		console.log('selector-observer', target, callback);
+	}
+
+	tracked.get(id)!.add(target);
 
 	callback(target);
 });
 
 const getTag = onetime((): JSX.Element => {
-	const style = <style/>;
+	const style = <style>{`@keyframes ${animation} {}`}</style>;
 	document.head.append(style);
 	return style;
 });
+
 export default function observe<
 	Selector extends string,
 	ExpectedElement extends HTMLElement = ParseSelector<Selector, HTMLElement>,
@@ -35,13 +42,16 @@ export default function observe<
 	}
 
 	const id = 'rgh-' + hashString(String(Math.random()));
-	const style = new Text(`
-		@keyframes ${id} {}
-		${String(selector)} {animation: 1ms ${id}}
+	const rule = new Text(css`
+		:where(${String(selector)}) {
+			animation: 1ms ${animation};
+			--${id}: sup;
+		}
 	`);
-	getTag().append(style);
+	tracked.set(id, new WeakSet());
+	getTag().append(rule);
 	signal?.addEventListener('abort', () => {
-		style.remove();
+		rule.remove();
 	});
 	window.addEventListener('animationstart', getListener(id, listener), {signal});
 }
