@@ -6,18 +6,14 @@ import {wrap} from '../helpers/dom-utils';
 import features from '.';
 import observe from '../helpers/selector-observer';
 
-function init(signal: AbortSignal): void {
-	observe(
-		'.review-item a.dropdown-item[href^="#pullrequestreview-"])',
-		messageContainer => {
-			const element = select('.review-status-item div[title*="requested changes"]')?.lastChild;
+function linkify(textLine: HTMLElement): void {
+	const url = select('a.dropdown-item[href^="#pullrequestreview-"]', textLine.parentElement!);
+	// `lastChild` is a textNode
+	wrap(textLine.lastChild!, <a href={url!.hash}/>);
+}
 
-			if (element) {
-				wrap(element, <a href={messageContainer.href}/>);
-			}
-		},
-		{signal},
-	);
+function init(signal: AbortSignal): void {
+	observe('.merge-status-item.review-item [title*="requested changes"]', linkify, {signal});
 }
 
 void features.add(import.meta.url, {
