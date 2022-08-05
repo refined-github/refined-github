@@ -16,10 +16,6 @@ const getListener = mem(<ExpectedElement extends HTMLElement>(seenMark: string, 
 	// Removes this specific selector’s animation once it was seen
 	target.classList.add(seenMark);
 
-	if (!/shortenLink|bypass/.test(callback.toString())) {
-		console.log('selector-observer', target, callback);
-	}
-
 	callback(target);
 });
 
@@ -42,7 +38,7 @@ export default function observe<
 	}
 
 	const selector = String(selectors); // Array#toString() creates a comma-separated string
-	const seenMark = 'rgh-' + getSnapshotUUID();
+	const seenMark = 'rgh-seen-' + getSnapshotUUID();
 	const rule = new Text(css`
 		:where(${String(selector)}):not(.${seenMark}) {
 			animation: 1ms ${animation};

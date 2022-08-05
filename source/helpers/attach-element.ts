@@ -24,10 +24,10 @@ type Attachments<NewElement extends Element> = Attachment<NewElement> & {
 /**
 Get unique ID by using the line:column of the call (or its parents) as seed. Every call from the same place will return the same ID, as long as the index is set to the parents that matters to you.
 
-@param index The line of the Error#stack generated inside this function
+@param ancestor Which call in the stack should be used as key. 0 means the exact line where getSnapshotUUID is called. Defaults to 1 because it's usually used inside a helper.
 */
-export function getSnapshotUUID(index = 3): string {
-	return hashString(new Error('Get stack').stack!.split('\n')[index]);
+export function getSnapshotUUID(ancestor = 1): string {
+	return hashString(new Error('Get stack').stack!.split('\n')[ancestor + 2]);
 }
 
 export default function attachElement<NewElement extends Element>({
