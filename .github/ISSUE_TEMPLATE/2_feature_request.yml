@@ -9,7 +9,7 @@ body:
       
         👋 Consider contributing by fixing some [easy bugs](https://github.com/refined-github/refined-github/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22+label%3Abug).
         
-        🙉 Keep in mind that there’s an active [feature freeze](https://github.com/refined-github/refined-github/issues/4596) due to the large amount of bugs.
+        🙉 Keep in mind that there’s an active [feature freeze](https://github.com/refined-github/refined-github/issues/5892) due to the large amount of bugs.
   - type: textarea
     attributes:
       label: Description
