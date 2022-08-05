@@ -177,11 +177,11 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 }
 
 /* Hide label on Milestones link if there are zero milestones #5120 */
-[data-selected-links^="repo_milestones "]:has([title="0"]) {
+[data-selected-links^='repo_milestones ']:has([title='0']) {
 	width: 36px; /* Size it so only the icon is visible */
 	overflow: hidden; /* Crop the text out */
 }
 
-[data-selected-links^="repo_milestones "]:has([title="0"]) svg {
+[data-selected-links^='repo_milestones ']:has([title='0']) svg {
 	margin-right: 20px; /* Push the text farther away from the text so it's cropped out */
 }
