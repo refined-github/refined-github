@@ -30,8 +30,8 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 }
 
 const selectors = [
-	'[itemprop="name codeRepository"]', // `isUserProfileRepoTab`
-	'[data-hydro-click*=\'"model_name":"Repository"\']', // `isGlobalSearchResults`
+	'a[itemprop="name codeRepository"]', // `isUserProfileRepoTab`
+	'a[data-hydro-click*=\'"model_name":"Repository"\']', // `isGlobalSearchResults`
 ] as const;
 function init(signal: AbortSignal): void {
 	observe(selectors, addConversationLinks, {signal});
