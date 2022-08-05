@@ -7,10 +7,9 @@ import {ParseSelector} from 'typed-query-selector/parser';
 import {getSnapshotUUID} from './attach-element';
 
 const animation = 'rgh-selector-observer';
-const seen = new Map<string, WeakSet<EventTarget>>();
 const getListener = mem(<ExpectedElement extends HTMLElement>(seenMark: string, selector: string, callback: (element: ExpectedElement) => void) => function (event: AnimationEvent) {
 	const target = event.target as ExpectedElement;
-	if (seen.get(selector)?.has(target) || !target.matches(selector)) {
+	if (!target.matches(selector)) {
 		return;
 	}
 
@@ -20,8 +19,6 @@ const getListener = mem(<ExpectedElement extends HTMLElement>(seenMark: string, 
 	if (!/shortenLink|bypass/.test(callback.toString())) {
 		console.log('selector-observer', target, callback);
 	}
-
-	seen.get(selector)!.add(target);
 
 	callback(target);
 });
@@ -51,7 +48,6 @@ export default function observe<
 			animation: 1ms ${animation};
 		}
 	`);
-	seen.set(String(selector), new WeakSet());
 	getTag().append(rule);
 	signal?.addEventListener('abort', () => {
 		rule.remove();
