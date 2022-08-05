@@ -5,8 +5,9 @@ import features from '.';
 import {linkifiedURLClass, shortenLink} from '../github-helpers/dom-formatters';
 import observe from '../helpers/selector-observer';
 
-function init(signal: AbortSignal): void {
-	observe(`a[href]:not(.${linkifiedURLClass})`, shortenLink, {signal});
+/* This feature is currently so broad that it's not de-inited via signal, it's just run once for all pageloads #5889 */
+function init(): void {
+	observe(`a[href]:not(.${linkifiedURLClass})`, shortenLink);
 }
 
 void features.add(import.meta.url, {
