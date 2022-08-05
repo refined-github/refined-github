@@ -27,10 +27,9 @@ const getTag = onetime((): JSX.Element => {
 
 export default function observe<
 	Selector extends string,
-	ExpectedElement extends HTMLElement = ParseSelector<Selector, HTMLElement>,
 >(
 	selectors: Selector | readonly Selector[],
-	listener: (element: ExpectedElement) => void,
+	listener: (element: ParseSelector<Selector, HTMLElement>) => void,
 	{signal}: {signal?: AbortSignal} = {},
 ): void {
 	if (signal?.aborted) {
