@@ -12,7 +12,7 @@ function hide(item: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	/* TODO: Use :has()  and skip select.exists */
+	/* TODO: Use :has() and skip select.exists */
 	observe('#dashboard .news .watch_started, #dashboard .news .fork', hide, {signal});
 }
 

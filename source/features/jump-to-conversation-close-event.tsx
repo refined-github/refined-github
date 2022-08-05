@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import {css} from 'code-tag';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
@@ -22,11 +23,13 @@ function addToConversation(discussionHeader: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe(
-		`#partial-discussion-header :is(
-			[title="Status: Closed"],
-			[title="Status: Merged"],
-			[title="Status: Closed as not planned"]
-		)`,
+		css`
+			#partial-discussion-header :is(
+				[title="Status: Closed"],
+				[title="Status: Merged"],
+				[title="Status: Closed as not planned"]
+			)
+		`,
 		addToConversation,
 		{signal},
 	);

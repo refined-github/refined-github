@@ -28,7 +28,8 @@ async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 
 function init(signal: AbortSignal): void {
 	// This selector excludes URLs that are already external
-	// `location.origin` is for the hovercard status checks
+	// `location.origin` is for the status checks’ in the hovercard
+	// TODO: Clarify/retest comment
 	observe(`
 		a:not([href="/apps/github-actions"]) ~ div a.status-actions:is(
 			[href^="${location.origin}"],
