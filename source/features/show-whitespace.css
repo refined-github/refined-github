@@ -2,13 +2,14 @@
 	line-height: 1em;
 	background-clip: border-box;
 	background-repeat: repeat-x;
-	/* 2px because of #4991 */
-	background-position: 2px center;
+	background-position: left center;
 }
 
 [data-rgh-whitespace='tab'] {
 	background-image: url('data:image/svg+xml,%3Csvg preserveAspectRatio="xMinYMid meet" viewBox="0 0 12 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M9.5 10.44L6.62 8.12L7.32 7.26L12.04 11V11.44L7.28 14.9L6.62 13.9L9.48 11.78H0V10.44H9.5Z" fill="rgba(128, 128, 128, 50%25)"/%3E%3C/svg%3E');
 	background-size: calc(var(--tab-size) * 1ch) 1.25em;
+	/* 2px because of #4991 */
+	background-position: 2px center;
 }
 
 [data-rgh-whitespace='space'] {
