@@ -18,11 +18,6 @@
 	margin-bottom: 0 !important;
 }
 
-/* Bold username in conversation lists #4899 */
-:is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type='user'] {
-	font-weight: 600;
-}
-
 #merge_title_field,
 #commit-summary-input, /* Restore monospace font in commit/merge title fields #5188 */
 :is(.new_public_key, .new_gpg_key) textarea { /* Monospace textareas for new SSH/GPG keys #4917 */
