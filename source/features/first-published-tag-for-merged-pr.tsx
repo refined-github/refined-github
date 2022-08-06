@@ -77,7 +77,7 @@ function addExistingTagLink(tagName: string): void {
 }
 
 async function addLinkToCreateRelease(text = 'Now you can release this change'): Promise<void> {
-	if (await getReleaseCount() > 0) {
+	if (await getReleaseCount() === 0) {
 		return;
 	}
 
@@ -117,7 +117,6 @@ void features.add(import.meta.url, {
 	additionalListeners: [
 		onPrMerge,
 	],
-	onlyAdditionalListeners: true,
 	deduplicate: false,
 	init() {
 		void addLinkToCreateRelease();
@@ -125,11 +124,9 @@ void features.add(import.meta.url, {
 });
 
 /*
-
-# Test URLs
+Test URLs
 
 - PR: https://github.com/refined-github/refined-github/pull/5600
 - Locked PR: https://github.com/eslint/eslint/pull/17
 - Archived repo: https://github.com/fregante/iphone-inline-video/pull/130
-
 */
