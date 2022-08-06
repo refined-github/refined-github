@@ -35,11 +35,6 @@
 	display: none !important;
 }
 
-/* Avoid multi-column wrapping in PR lists on small displays #4405 */
-.js-issue-row .js-navigation-open ~ .text-small:last-child {
-	flex-wrap: wrap;
-}
-
 /* Fix spacing of diff icon in commit diff stats #5429 */
 #toc .toc-diff-stats .octicon-file-diff {
 	margin-right: 4px !important;
