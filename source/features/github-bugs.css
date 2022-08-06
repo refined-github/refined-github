@@ -30,7 +30,7 @@
 	max-width: 780px; /* This is the limit applied on the comment thread by `.comment-holder` */
 }
 
-/* Hide trailing separator in PR/commit file diff dropdown */
+/* Hide trailing separator in PR/commit file diff dropdown #5159 */
 .js-file-header-dropdown .dropdown-menu > .dropdown-divider:last-child {
 	display: none !important;
 }
