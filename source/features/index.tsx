@@ -228,6 +228,26 @@ function enforceDefaults(
 
 const getFeatureID = (url: string): FeatureID => url.split('/').pop()!.split('.')[0] as FeatureID;
 
+interface FeatureHelper {
+	/** If `import.meta.url` is passed as URL, this will be the feature ID */
+	id: string;
+
+	/** A class name that can be added as attribute */
+	class: string;
+
+	/** A class selector that can be used with querySelector */
+	selector: string;
+}
+
+const getIdentifiers = (url: string): FeatureHelper => {
+	const id = getFeatureID(url);
+	return {
+		id,
+		class: 'rgh-' + id,
+		selector: '.rgh-' + id,
+	};
+};
+
 /** Register a new feature */
 const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 	const id = getFeatureID(url);
@@ -335,6 +355,7 @@ const features = {
 	log,
 	shortcutMap,
 	getFeatureID,
+	getIdentifiers,
 };
 
 export default features;

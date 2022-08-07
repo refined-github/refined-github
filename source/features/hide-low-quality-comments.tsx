@@ -31,12 +31,9 @@ function hideComment(comment: HTMLElement): void {
 	comment.classList.add('rgh-hidden-comment');
 }
 
-function init(signal: AbortSignal): void {
-	let lowQualityCount = 0;
-
+function init(): void {
 	for (const similarCommentsBox of select.all('.js-discussion .Details-element:not([data-body-version])')) {
 		hideComment(similarCommentsBox);
-		lowQualityCount++;
 	}
 
 	const linkedComment = location.hash.startsWith('#issuecomment-') ? select(`${location.hash} ${singleParagraphCommentSelector}`) : undefined;
@@ -53,11 +50,13 @@ function init(signal: AbortSignal): void {
 
 		// Comments that contain useful images or links shouldn't be removed
 		// Images are wrapped in <a> tags on GitHub hence included in the selector
+		// TODO: use :has()
 		if (select.exists('a', commentText)) {
 			continue;
 		}
 
 		// Ensure that they're not by VIPs (owner, collaborators, etc)
+		// TODO: use :has()
 		const comment = commentText.closest('.js-timeline-item')!;
 		if (select.exists('.timeline-comment-label', comment)) {
 			continue;
@@ -73,9 +72,9 @@ function init(signal: AbortSignal): void {
 		}
 
 		hideComment(comment);
-		lowQualityCount++;
 	}
 
+	const lowQualityCount = select.all('.rgh-hidden-comment').length;
 	if (lowQualityCount > 0) {
 		select('.discussion-timeline-actions')!.prepend(
 			<p className="rgh-low-quality-comments-note">
@@ -84,7 +83,8 @@ function init(signal: AbortSignal): void {
 			</p>,
 		);
 
-		delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide, {signal});
+		// No need fo add the signal here
+		delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide);
 	}
 }
 
@@ -92,6 +92,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssue,
 	],
-	deduplicate: 'has-rgh-inner',
 	init,
 });

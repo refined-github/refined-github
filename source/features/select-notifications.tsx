@@ -181,5 +181,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isBlank, // Empty notification list
 	],
+	deduplicate: '.rgh-select-notifications-added',
 	init,
 });

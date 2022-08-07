@@ -7,6 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 import selectHas from '../helpers/select-has';
+import attachElement from '../helpers/attach-element';
 
 const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
 
@@ -36,25 +37,27 @@ function setStorage(): void {
 async function init(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
 
-	select.last([
-		'.js-repo-init-setting-container', // IsNewRepo
-		'.form-checkbox', // IsNewRepoTemplate
-	])!.after(
-		<div className="flash flash-warn py-0">
-			<div className="form-checkbox checked">
-				<label>
-					<input
-						checked
-						type="checkbox"
-						id="rgh-disable-project"
-					/> Disable Projects and Wikis
-				</label>
-				<span className="note mb-2">
-					After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
-				</span>
+	attachElement({
+		anchor: select.last([
+			'.js-repo-init-setting-container', // IsNewRepo
+			'.form-checkbox', // IsNewRepoTemplate
+		])!,
+		after: () => (
+			<div className="flash flash-warn py-0">
+				<div className="form-checkbox checked">
+					<label>
+						<input
+							checked
+							type="checkbox"
+							id="rgh-disable-project"
+						/> Disable Projects and Wikis
+					</label>
+					<span className="note mb-2">
+						After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
+					</span>
+				</div>
 			</div>
-		</div>,
-	);
+		)});
 
 	delegate(document, '#new_repository, #new_new_repository', 'submit', setStorage, {signal});
 }
@@ -64,6 +67,7 @@ void features.add(import.meta.url, {
 		pageDetect.isNewRepo,
 		pageDetect.isNewRepoTemplate,
 	],
+	deduplicate: false,
 	init,
 }, {
 	include: [

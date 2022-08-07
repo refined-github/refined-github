@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
+import attachElement from '../helpers/attach-element';
 
 const getWarning = onetime(() => (
 	<div className="flash flash-error mt-3 rgh-warning-for-disallow-edits">
@@ -17,9 +18,13 @@ function update(checkbox: HTMLInputElement): void {
 	if (checkbox.checked) {
 		getWarning().remove();
 	} else {
-		checkbox
-			.closest('.timeline-comment, .discussion-sidebar-item > .d-inline-flex')!
-			.after(getWarning());
+		attachElement({
+			anchor: checkbox.closest(`
+				.timeline-comment,
+				.discussion-sidebar-item > .d-inline-flex
+			`),
+			after: getWarning,
+		});
 	}
 }
 
@@ -43,6 +48,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 	],
 	// No need to exclude `isClosedConversation` as the checkbox won't be present
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });
