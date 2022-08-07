@@ -1,11 +1,11 @@
 import React from 'dom-chef';
-import {observe} from 'selector-observer';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {LinkExternalIcon} from '@primer/octicons-react';
 
 import features from '.';
 import {getRepo} from '../github-helpers';
+import observe from '../helpers/selector-observer';
 
 function getLinkToGitHubIo(repoTitle: HTMLElement): JSX.Element {
 	return (
@@ -27,17 +27,12 @@ async function initRepo(): Promise<void> {
 	repoTitle.after(link);
 }
 
-function initRepoList(): Deinit {
-	return observe('a[href$=".github.io"][itemprop="name codeRepository"]:not(.rgh-github-io)', {
-		constructor: HTMLAnchorElement,
-		add(repoTitle) {
-			repoTitle.classList.add('rgh-github-io');
-			repoTitle.after(
-				' ',
-				getLinkToGitHubIo(repoTitle),
-			);
-		},
-	});
+function addLink(repoTitle: HTMLAnchorElement): void {
+	repoTitle.after(' ', getLinkToGitHubIo(repoTitle));
+}
+
+function initRepoList(signal: AbortSignal): void {
+	observe('a[href$=".github.io"][itemprop="name codeRepository"]', addLink, {signal});
 }
 
 void features.add(import.meta.url, {

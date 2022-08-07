@@ -1,15 +1,13 @@
 import onetime from 'onetime';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {linkifiedURLClass, shortenLink} from '../github-helpers/dom-formatters';
+import observe from '../helpers/selector-observer';
 
+/* This feature is currently so broad that it's not de-inited via signal, it's just run once for all pageloads #5889 */
 function init(): void {
-	observe(`a[href]:not(.${linkifiedURLClass})`, {
-		constructor: HTMLAnchorElement,
-		add: shortenLink,
-	});
+	observe(`a[href]:not(.${linkifiedURLClass})`, shortenLink);
 }
 
 void features.add(import.meta.url, {

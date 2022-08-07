@@ -1,22 +1,21 @@
 import React from 'dom-chef';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
+import observe from '../helpers/selector-observer';
 
-function init(): Deinit {
-	return observe('details-dialog .Box-header .mr-3 > img:not([alt*="[bot]"])', {
-		constructor: HTMLImageElement,
-		add(avatar) {
-			const userName = avatar.alt.slice(1);
-			// Linkify name first
-			wrap(avatar.nextElementSibling!, <a className="Link--primary" href={`/${userName}`}/>);
+function linkify(avatar: HTMLImageElement): void {
+	const userName = avatar.alt.slice(1);
+	// Linkify name first
+	wrap(avatar.nextElementSibling!, <a className="Link--primary" href={`/${userName}`}/>);
 
-			// Then linkify avatar
-			wrap(avatar, <a href={`/${userName}`}/>);
-		},
-	});
+	// Then linkify avatar
+	wrap(avatar, <a href={`/${userName}`}/>);
+}
+
+function init(signal: AbortSignal): void {
+	observe('details-dialog .Box-header .mr-3 > img:not([alt*="[bot]"])', linkify, {signal});
 }
 
 void features.add(import.meta.url, {
