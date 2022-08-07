@@ -129,8 +129,8 @@ const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
 
 	void applyStyleHotfixes(styleHotfix);
 	if (options.customCSS.trim().length > 0) {
-		// Prepend to body because that's the only way to guarantee they come after the static file
-		document.body.prepend(<style>{options.customCSS}</style>);
+		// Review #5857 and #5493 before making changes
+		document.head.append(<style>{options.customCSS}</style>);
 	}
 
 	void updateLocalStrings();
