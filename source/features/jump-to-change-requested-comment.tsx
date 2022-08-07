@@ -1,23 +1,19 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';
+import observe from '../helpers/selector-observer';
 
-function init(): Deinit {
-	return observe('.review-item .dropdown-item[href^="#pullrequestreview-"]:not(.rgh-jump-to-change-requested-comment)', {
-		constructor: HTMLAnchorElement,
-		add(messageContainer) {
-			messageContainer.classList.add('rgh-jump-to-change-requested-comment');
-			const element = select('.review-status-item div[title*="requested changes"]')?.lastChild;
+function linkify(textLine: HTMLElement): void {
+	const url = select('a.dropdown-item[href^="#pullrequestreview-"]', textLine.parentElement!);
+	// `lastChild` is a textNode
+	wrap(textLine.lastChild!, <a href={url!.hash}/>);
+}
 
-			if (element) {
-				wrap(element, <a href={messageContainer.href}/>);
-			}
-		},
-	});
+function init(signal: AbortSignal): void {
+	observe('.merge-status-item.review-item [title*="requested changes"]', linkify, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -27,3 +23,9 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+Test URLs
+
+https://github.com/ipaddress-gem/ipaddress/pull/22#partial-pull-merging
+*/
