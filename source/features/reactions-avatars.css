@@ -1,10 +1,9 @@
 :root .rgh-reactions-avatar {
 	--size: 16px;
-	margin-left: calc(var(--size) * 0.3); /* Move away from count */
-	margin-right: calc(var(--size) * -0.5);
-	height: var(--size);
+	margin-inline: calc(var(--size) * 0.3) calc(var(--size) * -0.5); /* Move away from count */
+	block-size: var(--size);
 }
 
 :root .rgh-reactions-avatar:last-of-type {
-	margin-right: -0.15em !important;
+	margin-inline-end: -0.15em !important;
 }

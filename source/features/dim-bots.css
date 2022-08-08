@@ -16,7 +16,7 @@ Commits that have a long commit message will not be dimmed after the user uncoll
 	/* Delay the "focused" status so it's not too annoying when moving the mouse over a list of dimmed items. */
 	transition: 0.1s;
 	transition-delay: 0.3s;
-	transition-property: opacity, margin-bottom, visibility;
+	transition-property: opacity, margin-block-end, visibility;
 }
 
 /*
@@ -32,7 +32,7 @@ ALL the following rules define the non-focused state
 .rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover, .Details--on) .mb-1 ~ .d-flex,
 .rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover, .Details--on) > .d-md-block {
 	opacity: 20%;
-	margin-bottom: -1.6em;
+	margin-block-end: -1.6em;
 	visibility: hidden;
 	/* Delay visibility transition for a slightly shorter time than --rgh-dim-bots-delay, to make the animation smoother */
 	transition-delay: 0s, var(--rgh-dim-bots-delay), calc(var(--rgh-dim-bots-delay) - 0.1s);
@@ -40,7 +40,7 @@ ALL the following rules define the non-focused state
 
 .rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover) .labels, /* PR labels */
 .rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover) .text-small:is(.color-text-secondary, .color-fg-muted) /* PR meta */ {
-	margin-bottom: -2em;
+	margin-block-end: -2em;
 	visibility: hidden;
 	transition-delay: 0s, var(--rgh-dim-bots-delay), calc(var(--rgh-dim-bots-delay) - 0.1s);
 }

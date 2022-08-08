@@ -1,10 +1,10 @@
 /* Aligns it right */
 .rgh-release-download-count {
-	margin-left: auto;
+	margin-inline-start: auto;
 }
 
 /* Simulates fixed columns */
 .rgh-release-download-count + small {
-	min-width: 4.5em;
-	text-align: right;
+	min-inline-size: 4.5em;
+	text-align: end;
 }

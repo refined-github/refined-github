@@ -1,5 +1,5 @@
 :root .rgh-table-input {
-	width: auto;
+	inline-size: auto;
 	padding: 3px;
 	z-index: 99;
 	display: grid !important;
@@ -11,8 +11,8 @@
 }
 
 .rgh-table-input-cell div {
-	width: 18px;
-	height: 18px;
+	inline-size: 18px;
+	block-size: 18px;
 	border: 2px solid var(--rgh-border-color);
 	border-radius: 2px;
 }

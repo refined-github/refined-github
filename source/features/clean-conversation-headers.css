@@ -25,7 +25,7 @@
 }
 
 .rgh-clean-conversation-headers .author {
-	margin-right: 4px;
+	margin-inline-end: 4px;
 }
 
 /* Removes on issues: [octocat] opened this issue on 1 Jan · 1 comments */
@@ -39,7 +39,7 @@
 }
 
 .rgh-clean-conversation-headers relative-time {
-	margin-left: 4px;
+	margin-inline-start: 4px;
 }
 
 /* Removes on issues: octocat opened this issue on [1 Jan] · 1 comments */
@@ -49,5 +49,5 @@
 
 /* Fixes vertical alignment of base branch dropdown #5598 */
 .rgh-clean-conversation-headers .commit-ref-dropdown {
-	margin-top: -2px !important;
+	margin-block-start: -2px !important;
 }

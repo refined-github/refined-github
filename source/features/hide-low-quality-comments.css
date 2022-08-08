@@ -1,5 +1,6 @@
 .rgh-low-quality-comments-note {
-	margin: 15px 0 10px 60px;
+	margin-block: 15px 10px;
+	margin-inline: 60px 0;
 	font-size: 12px;
 	color: var(--color-fg-muted, var(--color-text-secondary, #586069));
 }
@@ -13,5 +14,5 @@
 }
 
 .rgh-hidden-comment .timeline-comment--caret::after {
-	left: -7px; /* make caret border 1px */
+	inset-inline-start: -7px; /* make caret border 1px */
 }

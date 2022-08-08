@@ -2,11 +2,11 @@
 :root .file-header:not(.sticky-file-header) {
 	position: sticky;
 	z-index: 6; /* isBlame, isEditingFile */
-	top: 0;
+	inset-block-start: 0;
 }
 
 .notification-shelf ~ .application-main .file-header {
-	top: 129px;
+	inset-block-start: 129px;
 }
 
 /* Same as `.sticky-file-header.has-open-dropdown` */
@@ -16,7 +16,7 @@
 
 /* Consider the File List fixed header/sidebar in commits */
 :root diff-layout .file-header:not(.sticky-file-header) {
-	top: 60px;
+	inset-block-start: 60px;
 }
 
 /*

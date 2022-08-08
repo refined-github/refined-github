@@ -1,7 +1,8 @@
 /* Style backticked code in links #4817, matches GitHub’s `.markdown-title code` rule */
 .js-commits-list-item code, /* `isCommitList` commit message */
 .Box-header .commit-author + span code /* `isRepoTree` commit message */ {
-	padding: 2px 4px;
+	padding-block: 2px;
+	padding-inline: 4px;
 	background-color: var(--color-neutral-muted);
 	font-size: 0.9em;
 	line-height: 1;
@@ -10,7 +11,7 @@
 
 /* Add missing spacing for file template buttons #4899 */
 .js-template-suggestion:not(.d-none) {
-	margin-left: 8px;
+	margin-inline-start: 8px;
 }
 
 /* Bold username in conversation lists #4899 */
@@ -27,7 +28,7 @@
 
 /* Limit width of comment form on commit pages #5032 */
 #all_commit_comments .timeline-comment-wrapper {
-	max-width: 780px; /* This is the limit applied on the comment thread by `.comment-holder` */
+	max-inline-size: 780px; /* This is the limit applied on the comment thread by `.comment-holder` */
 }
 
 /* Hide trailing separator in PR/commit file diff dropdown */
@@ -42,7 +43,7 @@
 
 /* Avoid overflow caused by the diff signs #5468 */
 :root .blob-code-marker::before {
-	top: 0;
+	inset-block-start: 0;
 }
 
 /* Fix alignment of "Allow edits by maintainers" checkbox label and icons #5510 */
@@ -51,7 +52,7 @@
 }
 
 #partial-discussion-sidebar :is(.js-collab-option input, .js-collab-form + details summary) {
-	margin-top: 0 !important;
+	margin-block-start: 0 !important;
 }
 
 #partial-discussion-sidebar .js-collab-form .status-indicator .octicon {
@@ -60,5 +61,5 @@
 
 /* Fix spacing of repo header button icons #5620 */
 .pagehead-actions :is(.btn, summary) .octicon {
-	margin-right: 4px !important;
+	margin-inline-end: 4px !important;
 }

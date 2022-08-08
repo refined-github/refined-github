@@ -1,13 +1,13 @@
 @media not screen and (width: 400px) { /* Excludes Edge */
 	:root {
-		min-width: 550px;
+		min-inline-size: 550px;
 	}
 }
 
 /* For iOS Safari */
 @media only screen and (max-device-width: 1000px) {
 	:root {
-		min-width: 0;
+		min-inline-size: 0;
 	}
 }
 
@@ -22,24 +22,24 @@
 }
 
 p {
-	margin-top: 0;
+	margin-block-start: 0;
 }
 
 ul {
-	padding-left: 0;
+	padding-inline-start: 0;
 	list-style: none;
 }
 
 li[data-validation] {
-	margin-bottom: 0.3em;
+	margin-block-end: 0.3em;
 }
 
 [data-validation]::before {
 	content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" fill="gray" d="M8 5.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM4 8a4 4 0 118 0 4 4 0 01-8 0z"></path></svg>');
-	width: 16px;
-	height: 16px;
+	inline-size: 16px;
+	block-size: 16px;
 	vertical-align: -4px;
-	margin-right: 0.3em;
+	margin-inline-end: 0.3em;
 	display: inline-block;
 }
 
@@ -60,7 +60,7 @@ li[data-validation] {
 }
 
 [name='personalToken'] {
-	width: 20em !important; /* https://github.com/refined-github/refined-github/issues/1374#issuecomment-397906701 */
+	inline-size: 20em !important; /* https://github.com/refined-github/refined-github/issues/1374#issuecomment-397906701 */
 	display: inline-block !important;
 }
 
@@ -73,14 +73,15 @@ li[data-validation] {
 }
 
 .js-hotfixes:not(:empty) {
-	margin-bottom: 15px;
-	padding: 10px 15px;
+	margin-block-end: 15px;
+	padding-block: 10px;
+	padding-inline: 15px;
 	border: 1px solid var(--rgh-red);
 	border-radius: 0.2em;
 }
 
 .js-hotfixes p {
-	margin-bottom: 0;
+	margin-block-end: 0;
 }
 
 .js-features input[type='checkbox'] {
@@ -90,7 +91,7 @@ li[data-validation] {
 .js-features input[type='checkbox']:not(*:root) {
 	/* Selector for Chrome only http://browserhacks.com/#ch */
 	margin-inline-end: 0.6em;
-	margin-top: 2px;
+	margin-block-start: 2px;
 }
 
 .js-features :not(:checked) + .info .feature-name {
@@ -102,7 +103,8 @@ li[data-validation] {
 }
 
 .feature-link {
-	margin: 0 0.6em;
+	margin-block: 0;
+	margin-inline: 0.6em;
 }
 
 .js-features .info {
@@ -111,7 +113,8 @@ li[data-validation] {
 
 .js-features kbd {
 	display: inline-block;
-	padding: 3px 5px;
+	padding-block: 3px;
+	padding-inline: 5px;
 	font-size: 0.8em;
 	line-height: 10px;
 	color: #444d56;
@@ -128,8 +131,9 @@ li[data-validation] {
 	font-size: 1em;
 	border: 1px solid;
 	border-radius: 0.2em;
-	padding: 0 0.3em;
-	margin-left: 0.8em;
+	padding-block: 0;
+	padding-inline: 0.3em;
+	margin-inline-start: 0.8em;
 	text-transform: uppercase;
 	color: var(--rgh-red);
 }
@@ -143,16 +147,16 @@ li[data-validation] {
 }
 
 details {
-	margin-bottom: 1em;
+	margin-block-end: 1em;
 }
 
 .screenshot {
-	max-width: 100%;
-	margin-bottom: 2em;
+	max-inline-size: 100%;
+	margin-block-end: 2em;
 	border: 1px solid #d1d5da;
 	border-radius: 0.5em;
-	min-width: 2em;
-	min-height: 2em;
+	min-inline-size: 2em;
+	min-block-size: 2em;
 }
 
 .screenshot-toggle:checked ~ .screenshot-link {

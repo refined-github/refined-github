@@ -5,7 +5,7 @@
 [data-rgh-hide-empty-split-diff-side='left'] :is([data-hunk], .blob-expanded) td:nth-child(2),
 [data-rgh-hide-empty-split-diff-side='right'] :is([data-hunk], .blob-expanded) td:nth-child(4) {
 	display: none !important;
-	width: 0 !important;
+	inline-size: 0 !important;
 }
 
 [data-rgh-hide-empty-split-diff-side] :is(.inline-comments, .js-inline-annotations) .empty-cell:not(.blob-num) {

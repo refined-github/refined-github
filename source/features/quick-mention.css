@@ -7,9 +7,9 @@ button.rgh-quick-mention {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 100%;
-	height: 30px;
-	margin-bottom: -30px; /* Avoids pushing app badges down #2630 */
+	inline-size: 100%;
+	block-size: 30px;
+	margin-block-end: -30px; /* Avoids pushing app badges down #2630 */
 }
 
 /* Show icon in black if it's not hovered/focused, instead of the blue color caused by .btn-link */

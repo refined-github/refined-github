@@ -5,8 +5,8 @@
 .rgh-private-org svg {
 	pointer-events: none;
 	position: absolute;
-	bottom: 2px;
-	right: 2px;
+	inset-block-end: 2px;
+	inset-inline-end: 2px;
 	fill: #333;
 	stroke: #fff;
 	stroke-width: 4px;

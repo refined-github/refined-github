@@ -1,5 +1,6 @@
 .rgh-collaborator {
 	border: 1px solid var(--color-border-default, var(--color-border-tertiary, #c0d3eb));
 	border-radius: 2em;
-	padding: 2px 5px;
+	padding-block: 2px;
+	padding-inline: 5px;
 }

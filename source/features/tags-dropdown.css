@@ -5,14 +5,14 @@
 
 /* Make dropdown smaller, if possible */
 :root .rgh-tags-dropdown .select-menu-modal {
-	width: max-content; /* Default: 300px */
-	min-width: 150px;
-	max-width: 300px;
+	inline-size: max-content; /* Default: 300px */
+	min-inline-size: 150px;
+	max-inline-size: 300px;
 }
 
 /* Limit dropdown height */
 :root .rgh-tags-dropdown .SelectMenu-list {
-	max-height: 330px !important;
+	max-block-size: 330px !important;
 }
 
 /* Fix layout breakage on smaller screens */

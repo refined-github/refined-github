@@ -1,11 +1,11 @@
 /* Adjust spacing of empty sections */
 .discussion-sidebar-item.rgh-clean-sidebar {
-	margin-bottom: -5px;
+	margin-block-end: -5px;
 }
 
 /* Align sidebar to the top */
 .rgh-clean-sidebar .discussion-sidebar-item:first-child {
-	padding-top: 0 !important;
+	padding-block-start: 0 !important;
 }
 
 /* Move message under the `Unsubscribe` button above the button */
@@ -19,5 +19,6 @@
 }
 
 .rgh-clean-sidebar .thread-subscription-status .reason {
-	margin: 0 0 10px !important;
+	margin-block: 0 10px !important;
+	margin-inline: 0 !important;
 }

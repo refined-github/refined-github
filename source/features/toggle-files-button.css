@@ -1,7 +1,9 @@
 :root .rgh-toggle-files {
-	margin: -8px 0;
-	margin-right: -10px;
-	padding: 10px 13px;
+	margin-block: -8px;
+	margin-inline: 0;
+	margin-inline-end: -10px;
+	padding-block: 10px;
+	padding-inline: 13px;
 }
 
 .repository-content:not(.rgh-files-hidden) .rgh-toggle-files .octicon-unfold,
@@ -15,5 +17,5 @@
 
 .rgh-files-hidden .Box-header {
 	border-radius: 6px;
-	border-bottom: none;
+	border-block-end: none;
 }

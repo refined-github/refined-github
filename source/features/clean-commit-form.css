@@ -1,7 +1,7 @@
 :root .js-file-commit-form {
-	width: 100%;
-	margin-left: 0 !important;
-	padding-left: 16px;
+	inline-size: 100%;
+	margin-inline-start: 0 !important;
+	padding-inline-start: 16px;
 }
 
 .commit-form-avatar {

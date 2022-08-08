@@ -9,5 +9,5 @@
 
 .file-navigation .breadcrumb {
 	flex: 1;
-	margin-left: 8px !important;
+	margin-inline-start: 8px !important;
 }

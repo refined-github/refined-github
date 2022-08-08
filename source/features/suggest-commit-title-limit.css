@@ -2,7 +2,7 @@
 #merge_title_field,
 #commit-summary-input {
 	box-sizing: content-box; /* Exclude padding/border from `width`; No need to mess with `calc` */
-	width: 72ch;
+	inline-size: 72ch;
 
 	/* Like 100%, except it works with content-box and it feels like -webkit-1999 */
 	/* stylelint-disable */

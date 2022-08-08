@@ -20,13 +20,17 @@
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo",
+		"plugins": [
+			"stylelint-use-logical-spec"
+		],
 		"rules": {
 			"selector-type-no-unknown": null,
 			"declaration-no-important": null,
 			"selector-class-pattern": null,
 			"selector-id-pattern": null,
 			"selector-max-universal": null,
-			"no-descending-specificity": null
+			"no-descending-specificity": null,
+			"liberty/use-logical-spec": true
 		},
 		"overrides": [
 			{
@@ -108,6 +112,7 @@
 		"size-plugin": "^2.0.2",
 		"stylelint": "^14.9.1",
 		"stylelint-config-xo": "^0.21.0",
+		"stylelint-use-logical-spec": "^4.1.0",
 		"terser-webpack-plugin": "^5.3.3",
 		"ts-node": "^10.8.1",
 		"type-fest": "^2.13.1",

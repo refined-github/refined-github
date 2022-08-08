@@ -11,12 +11,11 @@
 }
 
 #js-issues-toolbar .table-list-header-toggle summary {
-	padding-left: 8px !important;
-	padding-right: 8px !important;
+	padding-inline: 8px !important;
 }
 
 #js-issues-toolbar .table-list-header-toggle > :last-child > summary {
-	padding-right: 0 !important;
+	padding-inline-end: 0 !important;
 }
 
 /* For `open-all-notifications` and `select-notifications`: allow header wrapping #5705
@@ -27,13 +26,13 @@ https://github.com/notifications (Grouped by repo)
 https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
 */
 .js-check-all-container .js-bulk-action-toasts ~ div .Box-header {
-	height: auto !important;
+	block-size: auto !important;
 	flex-wrap: wrap;
 	gap: 4px 8px;
 }
 
 .js-check-all-container .js-bulk-action-toasts ~ div .Box-header .mr-2 {
-	margin-right: 0 !important; /* Spacing via `gap` instead */
+	margin-inline-end: 0 !important; /* Spacing via `gap` instead */
 }
 
 :is(.js-notifications-mark-selected-actions, .js-notifications-mark-all-actions):not([hidden]) {
@@ -81,8 +80,7 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 }
 
 .dashboard-sidebar .Box-title {
-	padding-top: 4px !important;
-	padding-bottom: 4px !important;
+	padding-block: 4px !important;
 }
 
 /* Expand empty diffs in PRs */
@@ -92,7 +90,7 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 }
 
 :root .file .data table {
-	text-align: left;
+	text-align: start;
 }
 
 /* Improve dropdown expansion animation (e.g. top-right dropdown in comments) */
@@ -122,7 +120,7 @@ pr-branches
 
 /* Increase scrollable area in GitHub Actions #3591 */
 .WorkflowRunLogsScroll {
-	height: auto !important;
+	block-size: auto !important;
 }
 
 /* Keep diff stats in "Jump to" dropdown when the header is fixed #3925 */
@@ -133,18 +131,17 @@ pr-branches
 /* Style the "Find feature" dialog that appears on top of the page */
 #rgh-bisect-dialog {
 	position: fixed;
-	bottom: 50%;
-	right: 50%;
+	inset-block-end: 50%;
+	inset-inline-end: 50%;
 	transform: translate(50%, 50%);
-	min-width: 380px; /* Avoids a width change on the last step which causes the YES button to be where NO was */
+	min-inline-size: 380px; /* Avoids a width change on the last step which causes the YES button to be where NO was */
 	box-shadow: var(--color-shadow-large, var(--color-toast-shadow));
 	z-index: 2147483647;
 }
 
 /* Space out "Edit" and "Open with" buttons on PR page, also for `view-last-pr-deployment` #4281 */
 .gh-header-actions [aria-label='Edit Pull Request title'] {
-	margin-left: 4px !important;
-	margin-right: 4px !important;
+	margin-inline: 4px !important;
 }
 
 /* Remove the underline on PR filename copy button hover #4871 */
@@ -173,15 +170,15 @@ pr-branches
 
 /* Fit large images in the window when viewing single files */
 div[data-target='readme-toc.content'] div.blob-wrapper img {
-	max-width: 100%;
+	max-inline-size: 100%;
 }
 
 /* Hide label on Milestones link if there are zero milestones #5120 */
 [data-selected-links^='repo_milestones ']:has([title='0']) {
-	width: 36px; /* Size it so only the icon is visible */
+	inline-size: 36px; /* Size it so only the icon is visible */
 	overflow: hidden; /* Crop the text out */
 }
 
 [data-selected-links^='repo_milestones ']:has([title='0']) svg {
-	margin-right: 20px; /* Push the text farther away from the text so it's cropped out */
+	margin-inline-end: 20px; /* Push the text farther away from the text so it's cropped out */
 }

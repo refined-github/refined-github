@@ -4,5 +4,6 @@
 	border-radius: 6px;
 	font-size: 85%;
 	margin: 0;
-	padding: 0.2em 0.4em;
+	padding-block: 0.2em;
+	padding-inline: 0.4em;
 }

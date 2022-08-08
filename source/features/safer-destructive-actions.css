@@ -7,12 +7,12 @@
 
 /* ...in comment edit form */
 div.previewable-edit .previewable-comment-form .form-actions {
-	margin-left: 10px;
+	margin-inline-start: 10px;
 	float: none !important;
 }
 
 .previewable-edit .previewable-comment-form .form-actions .btn.js-comment-cancel-button {
-	float: left !important;
+	float: inline-start !important;
 }
 
 /* ...in inline comment form */
@@ -27,5 +27,5 @@ div.inline-comment-form .form-actions,
 }
 
 .commit-form-actions button:not(.js-merge-commit-button) {
-	float: right;
+	float: inline-end;
 }

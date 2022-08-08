@@ -5,7 +5,7 @@
 
 /* Align the top of the repo root sidebar with the main page content */
 .rgh-clean-repo-sidebar .Layout-sidebar .BorderGrid-row:first-child h2 + p.f4 {
-	margin-top: 0 !important;
+	margin-block-start: 0 !important;
 }
 
 /* Hide "Readme" link made unnecessary by `toggle-files-button` #3580 */
@@ -21,7 +21,7 @@
 
 	/* Align data section with latest tag/release link #5428 */
 	.rgh-clean-repo-sidebar .Layout-sidebar .Link--muted .octicon {
-		margin-right: 4px !important;
+		margin-inline-end: 4px !important;
 	}
 }
 

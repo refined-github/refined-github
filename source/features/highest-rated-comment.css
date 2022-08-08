@@ -8,7 +8,7 @@
 }
 
 .rgh-highest-rated-comment.timeline-comment--caret::after {
-	left: -6px; /* make caret border 2px */
+	inset-inline-start: -6px; /* make caret border 2px */
 }
 
 a.rgh-highest-rated-comment {
@@ -17,5 +17,5 @@ a.rgh-highest-rated-comment {
 
 a.rgh-highest-rated-comment .avatar {
 	position: absolute;
-	left: -58px;
+	inset-inline-start: -58px;
 }

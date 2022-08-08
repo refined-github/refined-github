@@ -4,7 +4,7 @@
 }
 
 .review-thread-reply .review-thread-reply-button {
-	margin-left: 0;
+	margin-inline-start: 0;
 }
 
 /* Hide arrow on new comment form */

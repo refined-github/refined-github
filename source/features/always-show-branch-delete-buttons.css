@@ -12,7 +12,7 @@
 
 @media (max-width: 767px) {
 	.js-branch-row .col-12 {
-		width: auto;
+		inline-size: auto;
 		flex-grow: 1;
 	}
 

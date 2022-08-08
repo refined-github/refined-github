@@ -13,7 +13,7 @@
 }
 
 .rgh-align-issue-labels .js-issue-row .d-inline-block.mr-1 { /* Build status */
-	margin-left: 4px;
+	margin-inline-start: 4px;
 }
 
 .rgh-align-issue-labels .js-issue-row .mt-1.text-small:is(.color-text-secondary, .color-fg-muted) { /* Issue details line */
@@ -21,10 +21,10 @@
 }
 
 .rgh-align-issue-labels .js-issue-row .h4 { /* Title */
-	max-width: 100%; /* #1518 */
+	max-inline-size: 100%; /* #1518 */
 }
 
 .rgh-align-issue-labels .js-issue-row .IssueLabel {
-	margin-top: 4px;
+	margin-block-start: 4px;
 	font-size: 11px !important;
 }

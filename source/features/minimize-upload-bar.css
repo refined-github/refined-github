@@ -5,7 +5,7 @@
 }
 
 .rgh-minimize-upload-bar form:not(.js-comment-update) .js-upload-markdown-image.is-default textarea {
-	border-bottom-style: solid;
+	border-block-end-style: solid;
 	border-radius: 6px;
 }
 

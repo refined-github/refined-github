@@ -6,6 +6,6 @@
 
 /* Widen column to avoid bumps in directory-less listings */
 .rgh-quick-file-edit {
-	width: 16px;
+	inline-size: 16px;
 	display: inline-block;
 }

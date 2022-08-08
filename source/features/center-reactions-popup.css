@@ -8,8 +8,7 @@
 .add-reaction-popover,
 .add-reaction-popover::before,
 .add-reaction-popover::after {
-	right: auto !important;
-	left: 50% !important;
+	inset-inline: 50% auto !important;
 	transform: translate(-50%) !important;
 }
 
@@ -38,12 +37,12 @@ The selector considers
 - Split view with comments on the left and right
 */
 td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover {
-	left: -15px !important;
+	inset-inline-start: -15px !important;
 }
 
 td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::before,
 td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::after {
-	left: 140px !important;
+	inset-inline-start: 140px !important;
 }
 
 /* Never show loading spinner for reactions */

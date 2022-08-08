@@ -27,20 +27,19 @@
 	background-color: var(--color-canvas-default);
 	border: 1px solid var(--color-border-muted);
 	border-radius: 4px;
-	margin-top: 16px !important;
+	margin-block-start: 16px !important;
 	box-shadow: var(--color-shadow-medium);
 }
 
 /* Drop extra border */
 .rgh-clean-dashboard .news .body > .border-bottom {
-	border-bottom: none !important;
+	border-block-end: none !important;
 }
 
 /* Restore "row"-like spacing for all events */
 .rgh-clean-dashboard .dashboard .body > .border-bottom {
 	margin: 0;
-	padding-left: 16px;
-	padding-right: 16px;
+	padding-inline: 16px;
 }
 
 /* Align avatar with first 2 lines */
@@ -49,13 +48,12 @@
 }
 
 .rgh-clean-dashboard .dashboard .body .mr-3 + div {
-	margin-top: -5px;
-	margin-bottom: -5px;
+	margin-block: -5px;
 }
 
 /* Reduce spacing after repo description */
 .rgh-clean-dashboard .dashboard .repo-description p:last-child {
-	margin-bottom: 0;
+	margin-block-end: 0;
 }
 
 /* Hide footer date on Created Repository events */
@@ -70,13 +68,13 @@
 
 /* Grouped events: Show separator */
 .rgh-clean-dashboard .dashboard-rollup-items .body {
-	border-top: 1px solid var(--rgh-border-color);
-	margin-top: 8px;
+	border-block-start: 1px solid var(--rgh-border-color);
+	margin-block-start: 8px;
 }
 
 /* Grouped events: Bring horizontal lines to right border */
 .rgh-clean-dashboard .js-news-feed-event-group {
-	padding-right: 0 !important;
+	padding-inline-end: 0 !important;
 }
 
 /* Grouped events: Keep open */
@@ -98,7 +96,7 @@
 
 /* Restore right margin for repo descriptions #5024 */
 .rgh-clean-dashboard .dashboard .repo-description {
-	margin-right: 16px;
+	margin-inline-end: 16px;
 }
 
 /* Fade out last line */
@@ -112,8 +110,7 @@
 }
 
 .rgh-clean-dashboard .dashboard-sidebar .Box-title {
-	padding-top: 4px !important;
-	padding-bottom: 4px !important;
+	padding-block: 4px !important;
 }
 
 /* Hide "Security" ad */

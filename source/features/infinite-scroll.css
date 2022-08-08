@@ -1,4 +1,4 @@
 aside[aria-label='Explore'] > .footer {
 	position: sticky !important;
-	top: 24px;
+	inset-block-start: 24px;
 }

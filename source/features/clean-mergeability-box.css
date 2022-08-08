@@ -21,9 +21,9 @@
 }
 
 .mergeability-details .branch-action-item-icon {
-	margin-top: -4px;
+	margin-block-start: -4px;
 }
 
 .mergeability-details .branch-action-item .btn {
-	margin-top: -6px;
+	margin-block-start: -6px;
 }

@@ -6,9 +6,9 @@
 @media (min-width: 700px) {
 	.rgh-clean-pinned-issues .js-pinned-issues-reorder-list {
 		display: table !important;
-		width: 100%;
+		inline-size: 100%;
 		margin: 0;
-		margin-bottom: 20px;
+		margin-block-end: 20px;
 
 		/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
 		box-shadow: 0 0 0 2px var(--rgh-border-color);
@@ -24,7 +24,8 @@
 
 	.rgh-clean-pinned-issues .pinned-issue-item > * {
 		display: table-cell !important;
-		padding: 6px 12px;
+		padding-block: 6px;
+		padding-inline: 12px;
 		vertical-align: middle;
 	}
 
@@ -35,12 +36,11 @@
 
 	.rgh-clean-pinned-issues .pinned-issue-handle {
 		order: -1;
-		margin-top: -2px;
+		margin-block-start: -2px;
 	}
 
 	.rgh-clean-pinned-issues .pinned-issue-item form button {
 		float: unset !important;
-		margin-left: -10px;
-		margin-right: 2px !important;
+		margin-inline: -10px 2px;
 	}
 }

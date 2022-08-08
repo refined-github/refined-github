@@ -1,17 +1,17 @@
 .rgh-quick-label-removal {
 	display: flex !important;
-	margin-left: 2px;
-	margin-right: -7px;
+	margin-inline: 2px -7px;
 	color: inherit !important;
 }
 
 .rgh-quick-label-removal svg {
 	margin: 2px;
-	margin-left: 0;
+	margin-inline-start: 0;
 	border-radius: 50%;
-	padding: 2px 0;
-	width: 14px;
-	height: 14px;
+	padding-block: 2px;
+	padding-inline: 0;
+	inline-size: 14px;
+	block-size: 14px;
 }
 
 .rgh-quick-label-removal:is(:focus, :hover) svg {
