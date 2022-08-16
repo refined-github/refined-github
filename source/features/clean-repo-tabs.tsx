@@ -12,6 +12,10 @@ import abbreviateNumber from '../helpers/abbreviate-number';
 import {buildRepoURL, getRepo} from '../github-helpers';
 import {unhideOverflowDropdown} from './more-dropdown-links';
 
+async function canUserEditOrganization(): Promise<boolean> {
+	return Boolean(await elementReady('.btn-primary[href$="repositories/new"]'));
+}
+
 function mustKeepTab(tab: HTMLElement | undefined): boolean {
 	return (
 		!tab // Tab disabled 🎉
@@ -112,7 +116,7 @@ async function initProjects(): Promise<void | false> {
 		return;
 	}
 
-	if (pageDetect.isUserTheOrganizationOwner()) {
+	if (await canUserEditOrganization()) {
 		// Leave Project tab visible to those who can create a new project
 		return;
 	}
