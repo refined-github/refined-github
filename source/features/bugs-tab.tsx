@@ -156,7 +156,7 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 
 	const bugLabel = await getBugLabel() ?? 'bug';
 	if (
-		(pageDetect.isRepoTaxonomyConversationList() && location.href.endsWith('/labels/' + encodeURIComponent(bugLabel)))
+		(pageDetect.isRepoTaxonomyIssueOrPRList() && location.href.endsWith('/labels/' + encodeURIComponent(bugLabel)))
 		|| (pageDetect.isRepoIssueList() && await isBugsListing())
 	) {
 		void removePinnedIssues();
