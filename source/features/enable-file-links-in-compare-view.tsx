@@ -61,7 +61,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		// Editing files doesn't make sense after a PR is closed/merged
-		pageDetect.isClosedConversation,
+		pageDetect.isClosedPR,
 		() => select('.head-ref')!.title === 'This repository has been deleted',
 		// If you're viewing changes from partial commits, ensure you're on the latest one.
 		() => select.exists('.js-commits-filtered') && !select.exists('[aria-label="You are viewing the latest commit"]'),

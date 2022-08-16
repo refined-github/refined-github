@@ -91,7 +91,7 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 	],
 	exclude: [
-		pageDetect.isClosedConversation,
+		pageDetect.isClosedPR,
 		() => select('.head-ref')!.title === 'This repository has been deleted',
 
 		// Native button https://github.blog/changelog/2022-02-03-more-ways-to-keep-your-pull-request-branch-up-to-date/
