@@ -13,16 +13,6 @@
 	margin-left: 8px;
 }
 
-/* Avoid scroll bar on single-line `pre` in Markdown #4899 */
-.zeroclipboard-container clipboard-copy {
-	margin-bottom: 0 !important;
-}
-
-/* Bold username in conversation lists #4899 */
-:is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type='user'] {
-	font-weight: 600;
-}
-
 #merge_title_field,
 #commit-summary-input, /* Restore monospace font in commit/merge title fields #5188 */
 :is(.new_public_key, .new_gpg_key) textarea { /* Monospace textareas for new SSH/GPG keys #4917 */
@@ -35,19 +25,9 @@
 	max-width: 780px; /* This is the limit applied on the comment thread by `.comment-holder` */
 }
 
-/* Hide trailing separator in PR/commit file diff dropdown */
+/* Hide trailing separator in PR/commit file diff dropdown #5159 */
 .js-file-header-dropdown .dropdown-menu > .dropdown-divider:last-child {
 	display: none !important;
-}
-
-/* Avoid multi-column wrapping in PR lists on small displays #4405 */
-.js-issue-row .js-navigation-open ~ .text-small:last-child {
-	flex-wrap: wrap;
-}
-
-/* Fix spacing of diff icon in commit diff stats #5429 */
-#toc .toc-diff-stats .octicon-file-diff {
-	margin-right: 4px !important;
 }
 
 /* Avoid horizontal scrollbars on Action logs in Safari #5152 */
@@ -76,23 +56,4 @@
 /* Fix spacing of repo header button icons #5620 */
 .pagehead-actions :is(.btn, summary) .octicon {
 	margin-right: 4px !important;
-}
-
-/* Avoid excessive repo title wrap by deprioritizing the repo header actions #5398 */
-@media (min-width: 768px) { /* Match .d-md-inline-flex */
-	:root .pagehead-actions {
-		flex-shrink: 3 !important;
-		display: inline-flex !important;
-		flex-wrap: wrap;
-		justify-content: flex-end;
-	}
-
-	:root .pagehead-actions > li {
-		margin: 0;
-	}
-
-	.pagehead-actions > li > * {
-		margin: 8px 8px 0 0 !important;
-		display: block; /* Inline elements don't treat margins the same way, which causes a jump during the page load */
-	}
 }

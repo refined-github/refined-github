@@ -1,10 +1,10 @@
 import select from 'select-dom';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 
-function toggleFile(event: delegate.Event<MouseEvent>): void {
+function toggleFile(event: DelegateEvent<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
 	const headerBar = event.delegateTarget;
 
@@ -15,8 +15,8 @@ function toggleFile(event: delegate.Event<MouseEvent>): void {
 	}
 }
 
-function init(): Deinit {
-	return delegate(document, '.file-header', 'click', toggleFile);
+function init(signal: AbortSignal): void {
+	delegate(document, '.file-header', 'click', toggleFile, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -25,6 +25,6 @@ void features.add(import.meta.url, {
 		pageDetect.isGistRevision,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });

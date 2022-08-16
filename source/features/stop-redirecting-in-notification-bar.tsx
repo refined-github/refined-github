@@ -1,4 +1,4 @@
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 
@@ -6,7 +6,7 @@ const hasNotificationBar = (): boolean =>
 	location.search.startsWith('?notification_referrer_id=')
 	|| JSON.parse(sessionStorage.getItem('notification_shelf') ?? '{}').pathname === location.pathname;
 
-function handleClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	// Disable the redirect to the Notifications inbox if either:
 	// 1. The alt key was held down during click (user choice)
 	// 2. The notification has been opened in a new tab (the inbox is still open in the previous tab)
@@ -14,10 +14,9 @@ function handleClick(event: delegate.Event<MouseEvent, HTMLButtonElement>): void
 	event.delegateTarget.form!.toggleAttribute('data-redirect-to-inbox-on-submit', !redirectDisabled);
 }
 
-function init(): Deinit {
+function init(signal: AbortSignal): void {
 	sessionStorage.rghIsNewTab = history.length === 1;
-
-	return delegate(document, '.notification-shelf .js-notification-action button', 'click', handleClick);
+	delegate(document, '.notification-shelf .js-notification-action button', 'click', handleClick, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -25,5 +24,6 @@ void features.add(import.meta.url, {
 		hasNotificationBar,
 	],
 	awaitDomReady: false,
+	deduplicate: false,
 	init,
 });

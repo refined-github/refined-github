@@ -13,6 +13,7 @@ import attachElement from '../helpers/attach-element';
 import {canEditEveryComment} from './quick-comment-edit';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers';
+import {getReleaseCount} from './releases-tab';
 
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;
@@ -34,8 +35,8 @@ async function init(): Promise<void> {
 
 	if (tagName) {
 		addExistingTagLink(tagName);
-	} else if (canCreateRelease()) {
-		addLinkToCreateRelease('This pull request seems to be unreleased');
+	} else {
+		void addReleaseBanner('This pull request has not yet appeared in a release');
 	}
 }
 
@@ -75,10 +76,16 @@ function addExistingTagLink(tagName: string): void {
 	});
 }
 
-function addLinkToCreateRelease(text = 'Now you can release this change'): void {
-	const url = isRefinedGitHubRepo()
-		? 'https://github.com/refined-github/refined-github/actions/workflows/release.yml'
-		: buildRepoURL('releases/new');
+async function addReleaseBanner(text = 'Now you can release this change'): Promise<void> {
+	if (await getReleaseCount() === 0) {
+		return;
+	}
+
+	const url = canCreateRelease() ? (
+		isRefinedGitHubRepo()
+			? 'https://github.com/refined-github/refined-github/actions/workflows/release.yml'
+			: buildRepoURL('releases/new')
+	) : undefined;
 	attachElement({
 		anchor: '#issue-comment-box',
 		before: () => (
@@ -94,6 +101,7 @@ function addLinkToCreateRelease(text = 'Now you can release this change'): void 
 }
 
 void features.add(import.meta.url, {
+	// When arriving on an already-merged PR
 	asLongAs: [
 		pageDetect.isPRConversation,
 		pageDetect.isMergedPR,
@@ -104,6 +112,7 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 }, {
+	// This catches a PR while it's being merged
 	asLongAs: [
 		pageDetect.isPRConversation,
 		pageDetect.isOpenPR,
@@ -113,17 +122,16 @@ void features.add(import.meta.url, {
 		onPrMerge,
 	],
 	onlyAdditionalListeners: true,
+	deduplicate: false,
 	init() {
-		addLinkToCreateRelease();
+		void addReleaseBanner();
 	},
 });
 
 /*
-
-# Test URLs
+Test URLs
 
 - PR: https://github.com/refined-github/refined-github/pull/5600
 - Locked PR: https://github.com/eslint/eslint/pull/17
 - Archived repo: https://github.com/fregante/iphone-inline-video/pull/130
-
 */

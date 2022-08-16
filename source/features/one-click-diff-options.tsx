@@ -142,5 +142,6 @@ void features.add(import.meta.url, {
 		onDiffFileLoad,
 	],
 	onlyAdditionalListeners: true,
+	deduplicate: false,
 	init: initCommitAndCompare,
 });

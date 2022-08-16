@@ -22,6 +22,7 @@ import './features/hide-watch-and-fork-count.css';
 import './features/clean-commit-form.css';
 import './features/sticky-file-header.css';
 import './features/readable-title-change-events.css';
+import './features/clean-checks-list.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -30,7 +31,7 @@ import './features/readable-title-change-events.css';
 import './features/align-issue-labels';
 import './features/clean-pinned-issues';
 import './features/clean-dashboard';
-import './features/hide-noisy-newsfeed-events';
+import './features/hide-newsfeed-noise';
 import './features/minimize-upload-bar';
 import './features/hide-diff-signs';
 import './features/clean-rich-text-editor';

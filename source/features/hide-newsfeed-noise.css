@@ -7,6 +7,6 @@ forked a repo
 followed someone
 published a release
 */
-.rgh-hide-noisy-newsfeed-events .news :is(.push, .fork, .delete, .follow, .release) {
+.rgh-hide-newsfeed-noise .news :is(.push, .fork, .delete, .follow, .release) {
 	display: none !important;
 }

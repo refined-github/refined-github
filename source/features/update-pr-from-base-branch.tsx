@@ -1,16 +1,16 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {observe, Observer} from 'selector-observer';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import * as api from '../github-helpers/api';
 import getPrInfo from '../github-helpers/get-pr-info';
 import {getConversationNumber} from '../github-helpers';
 
-const selectorForPushablePRNotice = '.merge-pr > :is(.color-text-secondary, .color-fg-muted):first-child:not(.rgh-update-pr)';
+const selectorForPushablePRNotice = '.merge-pr > :is(.color-text-secondary, .color-fg-muted):first-child';
 let observer: Observer;
 
 function getBranches(): {base: string; head: string} {
@@ -27,7 +27,7 @@ async function mergeBranches(): Promise<AnyObject> {
 	});
 }
 
-async function handler({delegateTarget}: delegate.Event): Promise<void> {
+async function handler({delegateTarget}: DelegateEvent): Promise<void> {
 	const {base, head} = getBranches();
 	if (!confirm(`Merge the ${base} branch into ${head}?`)) {
 		return;
@@ -66,25 +66,24 @@ async function addButton(position: Element): Promise<void> {
 	}
 }
 
-async function init(): Promise<false | Deinit> {
+async function init(signal: AbortSignal): Promise<false | Deinit> {
 	await api.expectToken();
+
+	delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler, {signal});
 
 	// Quick check before using selector-observer on it
 	if (!select.exists(selectorForPushablePRNotice)) {
 		return false;
 	}
 
-	observer = observe(selectorForPushablePRNotice, {
+	observer = observe(`:is(${selectorForPushablePRNotice}):not(.rgh-update-pr)`, {
 		add(position) {
 			position.classList.add('rgh-update-pr');
 			void addButton(position);
 		},
 	});
 
-	return [
-		observer,
-		delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler),
-	];
+	return observer;
 }
 
 void features.add(import.meta.url, {
@@ -98,7 +97,7 @@ void features.add(import.meta.url, {
 		// Native button https://github.blog/changelog/2022-02-03-more-ways-to-keep-your-pull-request-branch-up-to-date/
 		() => select.exists('.js-update-branch-form'),
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });
 

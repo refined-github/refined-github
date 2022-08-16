@@ -1,19 +1,19 @@
 import select from 'select-dom';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {getUsername} from '../github-helpers';
+import observe from '../helpers/selector-observer';
 
-function init(): Deinit {
-	return observe('#dashboard .news .watch_started, #dashboard .news .fork', {
-		constructor: HTMLElement,
-		add(item) {
-			if (select.exists(`a[href^="/${getUsername()!}"]`, item)) {
-				item.style.display = 'none';
-			}
-		},
-	});
+function hide(item: HTMLElement): void {
+	if (select.exists(`a[href^="/${getUsername()!}"]`, item)) {
+		item.style.display = 'none';
+	}
+}
+
+function init(signal: AbortSignal): void {
+	/* TODO: Use :has() and skip select.exists */
+	observe('#dashboard .news .watch_started, #dashboard .news .fork', hide, {signal});
 }
 
 void features.add(import.meta.url, {

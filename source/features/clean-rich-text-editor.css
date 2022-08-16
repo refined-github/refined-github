@@ -1,4 +1,7 @@
-/* Hide unnecessary comment toolbar items */
-.rgh-clean-rich-text-editor :is(md-mention, md-ref, md-header, md-bold, md-italic) {
-	display: none !important; /* Has to override `.d-inline-block` */
+/* Hide unnecessary comment toolbar items, but only on desktop #5743 */
+/* Kinda excludes "soft keyboards" devices https://github.com/w3c/csswg-drafts/issues/3871 */
+@media (hover: hover) and (pointer: fine) {
+	.rgh-clean-rich-text-editor :is(md-mention, md-ref, md-header, md-bold, md-italic) {
+		display: none !important; /* Has to override `.d-inline-block` */
+	}
 }

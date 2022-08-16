@@ -1,12 +1,12 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import {isMac} from '../github-helpers';
 import features from '.';
 
-function onKeyDown(event: delegate.Event<KeyboardEvent, HTMLInputElement>): void {
+function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void {
 	const field = event.delegateTarget;
 	const form = field.form!;
 	if (
@@ -49,8 +49,8 @@ const inputElements = [
 	'#merge_title_field',
 ];
 
-function init(): Deinit {
-	return delegate(document, inputElements.join(','), 'keydown', onKeyDown);
+function init(signal: AbortSignal): void {
+	delegate(document, inputElements.join(','), 'keydown', onKeyDown, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -64,6 +64,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isBlank,
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });

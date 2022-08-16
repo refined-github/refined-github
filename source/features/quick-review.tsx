@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import onDiscussionSidebarUpdate from '../github-events/on-discussion-sidebar-update';
@@ -24,14 +24,14 @@ async function addSidebarReviewButton(): Promise<void | false> {
 	);
 }
 
-function focusReviewTextarea({delegateTarget}: delegate.Event<Event, HTMLDetailsElement>): void {
+function focusReviewTextarea({delegateTarget}: DelegateEvent<Event, HTMLDetailsElement>): void {
 	if (delegateTarget.open) {
 		select('textarea', delegateTarget)!.focus();
 	}
 }
 
-async function initReviewButtonEnhancements(): Promise<Deinit> {
-	const subscription = delegate(document, '.js-reviews-container > details', 'toggle', focusReviewTextarea, true);
+async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> {
+	delegate(document, '.js-reviews-container > details', 'toggle', focusReviewTextarea, {capture: true, signal});
 
 	const reviewDropdownButton = await elementReady('.js-reviews-toggle');
 	if (reviewDropdownButton) {
@@ -42,8 +42,6 @@ async function initReviewButtonEnhancements(): Promise<Deinit> {
 			reviewDropdownButton.click();
 		}
 	}
-
-	return subscription;
 }
 
 void features.add(import.meta.url, {

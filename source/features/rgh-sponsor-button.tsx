@@ -24,8 +24,8 @@
 */
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import {getRepo, getUsername} from '../github-helpers';
@@ -46,7 +46,7 @@ async function wiggleWiggleWiggle(): Promise<void> {
 	}, 600);
 }
 
-async function suchLove({delegateTarget}: delegate.Event): Promise<void> {
+async function suchLove({delegateTarget}: DelegateEvent): Promise<void> {
 	const heart = select('.octicon-heart', delegateTarget);
 
 	// .closest ensures that clicking the lightbox’ background doesn't also trigger the animation
@@ -91,8 +91,8 @@ async function handleNewIssue(): Promise<false> {
 	return false;
 }
 
-function handleSponsorButton(): Deinit {
-	return delegate(document, '#sponsor-button-repo, #sponsor-profile-button, [aria-label^="Sponsor @"]', 'click', suchLove);
+function handleSponsorButton(signal: AbortSignal): void {
+	delegate(document, '#sponsor-button-repo, #sponsor-profile-button, [aria-label^="Sponsor @"]', 'click', suchLove, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -112,5 +112,6 @@ void features.add(import.meta.url, {
 		pageDetect.isOwnUserProfile,
 		pageDetect.isPrivateUserProfile,
 	],
+	deduplicate: false,
 	init: handleSponsorButton,
 });

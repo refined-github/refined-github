@@ -78,36 +78,22 @@ async function updateCommitTitle(): Promise<void> {
 }
 
 function disableSubmission(): void {
-	deinit();
+	features.unload(import.meta.url);
 	getUI().remove();
 }
 
-const subscriptions: delegate.Subscription[] = [];
-
-function init(): Deinit {
-	subscriptions.push(
-		onPrCommitMessageRestore(updateUI),
-		onPrMergePanelOpen(updateCommitTitle),
-		delegate(document, '#merge_title_field', 'input', updateUI),
-		delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle),
-		delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission),
-	);
-
-	return deinit;
-}
-
-function deinit(): void {
-	for (const subscription of subscriptions) {
-		subscription.destroy();
-	}
-
-	subscriptions.length = 0;
+function init(signal: AbortSignal): void {
+	onPrCommitMessageRestore(updateUI, signal);
+	onPrMergePanelOpen(updateCommitTitle, signal);
+	delegate(document, '#merge_title_field', 'input', updateUI, {signal});
+	delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle, {signal});
+	delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });

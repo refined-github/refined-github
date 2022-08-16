@@ -1,11 +1,11 @@
 import './ci-link.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import {getRepo} from '../github-helpers';
+import {buildRepoURL} from '../github-helpers';
 import attachElement from '../helpers/attach-element';
 
 async function getHead(): Promise<string> {
@@ -23,7 +23,7 @@ async function getHead(): Promise<string> {
 }
 
 function getCiDetails(commit: string): HTMLElement {
-	const endpoint = `/${getRepo()!.nameWithOwner}/commits/checks-statuses-rollups`;
+	const endpoint = buildRepoURL('commits/checks-statuses-rollups');
 	return (
 		// `span` also required by `attachElement`’s deduplicator
 		<span className="rgh-ci-link">
@@ -40,10 +40,11 @@ function getCiDetails(commit: string): HTMLElement {
 
 async function init(): Promise<false | void> {
 	const head = await getHead();
+	const repoTitle = await elementReady('[itemprop="name"]');
 
 	attachElement({
 		// Append to repo title (aware of forks and private repos)
-		anchor: select('[itemprop="name"]')!.parentElement,
+		anchor: repoTitle!.parentElement,
 		append: () => getCiDetails(head),
 	});
 }

@@ -5,6 +5,7 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import onAbort from '../helpers/abort-controller';
 
 // The first selector in the parentheses is for the repo root, the second one for conversation pages
 const sidebarSelector = '.Layout-sidebar :is(.BorderGrid, #partial-discussion-sidebar)';
@@ -17,7 +18,7 @@ function updateStickiness(): void {
 
 const onResize = debounce(updateStickiness, {wait: 100});
 
-function init(signal: AbortSignal): Deinit {
+function init(signal: AbortSignal): void {
 	document.documentElement.classList.add('rgh-sticky-sidebar-enabled');
 
 	const resizeObserver = new ResizeObserver(onResize);
@@ -28,11 +29,7 @@ function init(signal: AbortSignal): Deinit {
 	});
 	window.addEventListener('resize', onResize, {signal});
 
-	return [
-		onResize.cancel,
-		resizeObserver,
-		selectObserver,
-	];
+	onAbort(signal, resizeObserver, selectObserver);
 }
 
 void features.add(import.meta.url, {

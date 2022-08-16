@@ -8,6 +8,7 @@ import onNewComments from '../github-events/on-new-comments';
 import {onDiffFileLoad} from '../github-events/on-fragment-load';
 import {codeElementsSelector} from '../github-helpers/dom-formatters';
 import showWhiteSpacesOnLine from '../helpers/show-whitespace-on-line';
+import onAbort from '../helpers/abort-controller';
 
 const viewportObserver = new IntersectionObserver(changes => {
 	for (const {target: line, isIntersecting} of changes) {
@@ -26,15 +27,13 @@ function observeWhiteSpace(): void {
 	}
 }
 
-function init(): Deinit {
+function init(signal: AbortSignal): void {
 	observeWhiteSpace();
 
-	return [
-		viewportObserver,
-		// Show whitespace on new review suggestions #2852
-		// This event is not very reliable as it also triggers when review comments are edited or deleted
-		delegate(document, '.js-pull-refresh-on-pjax', 'socket:message', observeWhiteSpace, {capture: true}),
-	];
+	// Show whitespace on new review suggestions #2852
+	// This event is not very reliable as it also triggers when review comments are edited or deleted
+	delegate(document, '.js-pull-refresh-on-pjax', 'socket:message', observeWhiteSpace, {capture: true, signal});
+	onAbort(signal, viewportObserver);
 }
 
 void features.add(import.meta.url, {
@@ -45,7 +44,7 @@ void features.add(import.meta.url, {
 		onNewComments,
 		onDiffFileLoad,
 	],
-	deduplicate: '.rgh-observing-whitespace',
+	deduplicate: false,
 	init,
 });
 

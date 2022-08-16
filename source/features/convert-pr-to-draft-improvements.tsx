@@ -1,13 +1,13 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import IconLoading from '../github-helpers/icon-loading';
 
-function closeModal({delegateTarget: button}: delegate.Event<MouseEvent, HTMLButtonElement>): void {
+function closeModal({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	button.append(' ', <IconLoading className="v-align-middle"/>);
 	button.disabled = true;
 }
@@ -25,22 +25,20 @@ function addConvertToDraftButton(alternativeActions: Element): void {
 	alternativeActions.prepend(convertToDraft);
 }
 
-function init(): Deinit {
-	return [
-		// Immediately close lightbox after click instead of waiting for the ajaxed widget to refresh
-		delegate(document, '.js-convert-to-draft', 'click', closeModal),
+function init(signal: AbortSignal): Deinit {
+	// Immediately close lightbox after click instead of waiting for the ajaxed widget to refresh
+	delegate(document, '.js-convert-to-draft', 'click', closeModal, {signal});
 
-		// Copy button to mergeability box
-		observe('.alt-merge-options:not(.rgh-convert-pr-draft-position)', {
-			add: addConvertToDraftButton,
-		}),
-	];
+	// Copy button to mergeability box
+	return observe('.alt-merge-options:not(.rgh-convert-pr-draft-position)', {
+		add: addConvertToDraftButton,
+	});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });

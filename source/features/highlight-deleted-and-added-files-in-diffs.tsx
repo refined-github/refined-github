@@ -1,12 +1,12 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {observe} from 'selector-observer';
 import oneMutation from 'one-mutation';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import {onDiffFileLoad} from '../github-events/on-fragment-load';
+import observe from '../helpers/selector-observer';
 
 async function loadDeferred(jumpList: Element): Promise<void> {
 	// This event will trigger the loading, but if run too early, GitHub might not have attached the listener yet, so we try multiple times.
@@ -18,8 +18,6 @@ async function loadDeferred(jumpList: Element): Promise<void> {
 }
 
 function highlightFilename(filename: HTMLAnchorElement, sourceIcon: SVGSVGElement): void {
-	filename.classList.add('rgh-pr-file-state');
-
 	const icon = sourceIcon.cloneNode(true);
 	const action = icon.getAttribute('title')!;
 	if (action === 'added') {
@@ -38,7 +36,7 @@ function highlightFilename(filename: HTMLAnchorElement, sourceIcon: SVGSVGElemen
 	);
 }
 
-async function init(): Promise<Deinit> {
+async function init(signal: AbortSignal): Promise<void> {
 	const fileList = await elementReady([
 		'.toc-select details-menu[src*="/show_toc?"]', // `isPR`
 		'.toc-diff-stats + .content', // `isSingleCommit` and `isCompare`
@@ -49,16 +47,13 @@ async function init(): Promise<Deinit> {
 	}
 
 	// Link--primary excludes CODEOWNERS icon #5565
-	return observe('.file-info .Link--primary:not(.rgh-pr-file-state)', {
-		constructor: HTMLAnchorElement,
-		add(filename) {
-			const sourceIcon = pageDetect.isPR()
-				? select(`[href="${filename.hash}"] svg`, fileList)!
-				: select(`svg + [href="${filename.hash}"]`, fileList)?.previousElementSibling as SVGSVGElement;
+	observe('.file-info a.Link--primary', filename => {
+		const sourceIcon = pageDetect.isPR()
+			? select(`[href="${filename.hash}"] svg`, fileList)!
+			: select(`svg + [href="${filename.hash}"]`, fileList)?.previousElementSibling as SVGSVGElement;
 
-			highlightFilename(filename, sourceIcon);
-		},
-	});
+		highlightFilename(filename, sourceIcon);
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -84,6 +79,7 @@ void features.add(import.meta.url, {
 		onDiffFileLoad,
 	],
 	onlyAdditionalListeners: true,
+	deduplicate: false,
 	init,
 });
 

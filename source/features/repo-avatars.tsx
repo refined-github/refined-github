@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -13,6 +14,7 @@ async function init(): Promise<void> {
 		return;
 	}
 
+	const link = select('#repository-container-header a[rel="author"]')!.cloneNode();
 	const username = getRepo()!.owner;
 	const size = 24;
 	const src = getUserAvatar(username, size)!;
@@ -31,7 +33,8 @@ async function init(): Promise<void> {
 		avatar.classList.add('avatar-user');
 	}
 
-	icon.replaceWith(avatar);
+	link.append(avatar);
+	icon.replaceWith(link);
 }
 
 void features.add(import.meta.url, {

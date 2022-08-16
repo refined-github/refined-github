@@ -17,9 +17,17 @@ type Attachment<NewElement extends Element> = RequireAtLeastOne<{
 	allowMissingAnchor?: boolean;
 }, Position>;
 
-// Get a unique position in the code
-function getSnapshotUUID(index = 3): string {
-	return hashString(new Error('Get stack').stack!.split('\n')[index]);
+type Attachments<NewElement extends Element> = Attachment<NewElement> & {
+	anchor: string;
+};
+
+/**
+Get unique ID by using the line:column of the call (or its parents) as seed. Every call from the same place will return the same ID, as long as the index is set to the parents that matters to you.
+
+@param ancestor Which call in the stack should be used as key. 0 means the exact line where getSnapshotUUID is called. Defaults to 1 because it's usually used inside a helper.
+*/
+export function getSnapshotUUID(ancestor = 1): string {
+	return hashString(new Error('Get stack').stack!.split('\n')[ancestor + 2]);
 }
 
 export default function attachElement<NewElement extends Element>({
@@ -30,18 +38,18 @@ export default function attachElement<NewElement extends Element>({
 	before,
 	after,
 	allowMissingAnchor = false,
-}: Attachment<NewElement>): NewElement[] | void {
+}: Attachment<NewElement>): NewElement[] {
 	const anchorElement = typeof anchor === 'string' ? select(anchor) : anchor;
 	if (!anchorElement) {
 		if (allowMissingAnchor) {
-			return;
+			return [];
 		}
 
 		throw new Error('Element not found');
 	}
 
 	if (select.exists('.' + className, anchorElement.parentElement ?? anchorElement)) {
-		return;
+		return [];
 	}
 
 	const call = (position: Position, create: () => NewElement): NewElement => {
@@ -58,4 +66,13 @@ export default function attachElement<NewElement extends Element>({
 		after && call('after', after),
 		// eslint-disable-next-line unicorn/no-array-callback-reference -- It only works this way. TS AMIRITE
 	].filter(isDefined);
+}
+
+export function attachElements<NewElement extends Element>({
+	anchor: anchors,
+	className = 'rgh-' + getSnapshotUUID(),
+	...options
+}: Attachments<NewElement>): NewElement[] {
+	return select.all(`:is(${anchors}):not(.${className})`)
+		.flatMap(anchor => attachElement({...options, anchor, className}));
 }

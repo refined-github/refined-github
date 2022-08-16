@@ -1,21 +1,21 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 import {observe} from 'selector-observer';
 import {TrashIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import loadDetailsMenu from '../github-helpers/load-details-menu';
 
-async function onButtonClick({delegateTarget: button}: delegate.Event): Promise<void> {
+async function onButtonClick({delegateTarget: button}: DelegateEvent): Promise<void> {
 	button
 		.closest('.js-comment')!
 		.querySelector('.show-more-popover .js-comment-delete > button')!
 		.click();
 }
 
-async function onEditButtonClick({delegateTarget: button}: delegate.Event): Promise<void> {
+async function onEditButtonClick({delegateTarget: button}: DelegateEvent): Promise<void> {
 	const comment = button.closest('.js-comment')!;
 	await loadDetailsMenu(select('details-menu.show-more-popover', comment)!);
 }
@@ -29,14 +29,13 @@ function addDeleteButton(cancelButton: Element): void {
 	);
 }
 
-function init(): Deinit {
-	return [
-		delegate(document, '.rgh-review-comment-delete-button', 'click', onButtonClick),
-		delegate(document, '.rgh-quick-comment-edit-button', 'click', onEditButtonClick),
-		observe('.review-comment > .unminimized-comment form:not(.js-single-suggested-change-form) .js-comment-cancel-button:not(.rgh-delete-button-added)', {
-			add: addDeleteButton,
-		}),
-	];
+function init(signal: AbortSignal): Deinit {
+	delegate(document, '.rgh-review-comment-delete-button', 'click', onButtonClick, {signal});
+	delegate(document, '.rgh-quick-comment-edit-button', 'click', onEditButtonClick, {signal});
+
+	return observe('.review-comment > .unminimized-comment form:not(.js-single-suggested-change-form) .js-comment-cancel-button:not(.rgh-delete-button-added)', {
+		add: addDeleteButton,
+	});
 }
 
 void features.add(import.meta.url, {
@@ -44,7 +43,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 		pageDetect.isPRFiles,
 	],
-	awaitDomReady: false,
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });

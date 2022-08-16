@@ -16,8 +16,8 @@ function validateInput(): void {
 	inputField.classList.toggle('rgh-title-over-limit', inputField.value.length > 72);
 }
 
-function init(): Deinit {
-	return delegate(document, fieldSelector, 'input', validateInput);
+function init(signal: AbortSignal): void {
+	delegate(document, fieldSelector, 'input', validateInput, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -25,7 +25,7 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 		pageDetect.isPRConversation,
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 }, {
 	include: [
@@ -36,7 +36,7 @@ void features.add(import.meta.url, {
 		onPrCommitMessageRestore,
 	],
 	onlyAdditionalListeners: true,
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init: validateInput,
 });
 

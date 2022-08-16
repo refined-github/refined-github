@@ -1,6 +1,6 @@
-import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import {onCommentFieldKeydown, onConversationTitleFieldKeydown, onCommitTitleFieldKeydown} from '../github-events/on-field-keydown';
@@ -8,7 +8,7 @@ import {onCommentFieldKeydown, onConversationTitleFieldKeydown, onCommitTitleFie
 const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~', '“', '‘'];
 const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~', '”', '’'];
 
-function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement | HTMLInputElement>): void {
+function eventHandler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement | HTMLInputElement>): void {
 	const field = event.delegateTarget;
 
 	if (!formattingCharacters.includes(event.key)) {
@@ -29,13 +29,11 @@ function eventHandler(event: delegate.Event<KeyboardEvent, HTMLTextAreaElement |
 	textFieldEdit.wrapSelection(field, formattingChar, matchingEndChar);
 }
 
-function init(): Deinit {
-	return [
-		onCommentFieldKeydown(eventHandler),
-		onConversationTitleFieldKeydown(eventHandler),
-		onCommitTitleFieldKeydown(eventHandler),
-		delegate(document, 'input[name="commit_title"], input[name="gist[description]"], #saved-reply-title-field', 'keydown', eventHandler),
-	];
+function init(signal: AbortSignal): void {
+	onCommentFieldKeydown(eventHandler, signal);
+	onConversationTitleFieldKeydown(eventHandler, signal);
+	onCommitTitleFieldKeydown(eventHandler, signal);
+	delegate(document, 'input[name="commit_title"], input[name="gist[description]"], #saved-reply-title-field', 'keydown', eventHandler, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -47,6 +45,6 @@ void features.add(import.meta.url, {
 		pageDetect.isDeletingFile,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh-inner',
+	deduplicate: false,
 	init,
 });

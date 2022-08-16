@@ -1,6 +1,5 @@
 import mem from 'mem';
 import select from 'select-dom';
-import delegate from 'delegate-it';
 
 import {onPrMergePanelLoad} from './on-fragment-load';
 
@@ -9,6 +8,6 @@ const getDeduplicatedHandler = mem((callback: EventListener): EventListener => (
 	select('input#merge_title_field')!.addEventListener('change', callback, {once: true});
 });
 
-export default function onPrCommitMessageRestore(callback: EventListener): delegate.Subscription {
-	return onPrMergePanelLoad(getDeduplicatedHandler(callback));
+export default function onPrCommitMessageRestore(callback: EventListener, signal: AbortSignal): void {
+	onPrMergePanelLoad(getDeduplicatedHandler(callback), signal);
 }
