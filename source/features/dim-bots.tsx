@@ -48,7 +48,7 @@ function init(): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isCommitList,
-		pageDetect.isConversationList,
+		pageDetect.isIssueOrPRList,
 	],
 	exclude: [
 		pageDetect.isBlank, // Prevent error on empty lists #5544

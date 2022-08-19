@@ -39,7 +39,7 @@ function highlightSelf(): void {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepoConversationList,
+		pageDetect.isRepoIssueOrPRList,
 	],
 	exclude: [
 		() => select.exists('.blankslate'),
@@ -49,7 +49,7 @@ void features.add(import.meta.url, {
 	init: highlightCollaborators,
 }, {
 	include: [
-		pageDetect.isConversationList,
+		pageDetect.isIssueOrPRList,
 	],
 	deduplicate: 'has-rgh-inner',
 	init: highlightSelf,

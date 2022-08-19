@@ -16,11 +16,11 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 [link-firefox]: https://addons.mozilla.org/firefox/addon/refined-github-/ 'Version published on Mozilla Add-ons'
 [link-safari]: https://apps.apple.com/app/id1519867270 'Version published on the Mac App Store'
 
-[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/chrome/chrome.svg" width="48" alt="Chrome" valign="middle">][link-chrome] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-chrome] also compatible with other Chromium browsers
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/chrome/chrome.svg" width="48" alt="Chrome" valign="middle">][link-chrome] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/hlepfoohegkhhmjieoechaddaejaokhf.svg?label=%20">][link-chrome] and other Chromium browsers
 
-[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/firefox/firefox.svg" width="48" alt="Firefox" valign="middle">][link-firefox] [<img valign="middle" src="https://img.shields.io/amo/v/refined-github-.svg?label=%20">][link-firefox] also available on Firefox Android!
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/firefox/firefox.svg" width="48" alt="Firefox" valign="middle">][link-firefox] [<img valign="middle" src="https://img.shields.io/amo/v/refined-github-.svg?label=%20">][link-firefox] including Firefox Android
 
-[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/safari/safari_128x128.png" width="48" alt="Safari" valign="middle">][link-safari] [<img valign="middle" src="https://img.shields.io/itunes/v/1519867270.svg?label=%20">][link-safari] also available on iOS!
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/safari/safari_128x128.png" width="48" alt="Safari" valign="middle">][link-safari] [<img valign="middle" src="https://img.shields.io/itunes/v/1519867270.svg?label=%20">][link-safari] on Mac, iOS and iPadOS
 
 [<img src="https://raw.githubusercontent.com/iamcal/emoji-data/08ec822c38e0b7a6fea0b92a9c42e02b6ba24a84/img-apple-160/1f99a.png" width="48" valign="middle">](https://github.com/sponsors/fregante) _If you love Refined GitHub, consider [sponsoring or hiring](https://github.com/sponsors/fregante) the maintainer [@fregante](https://twitter.com/fregante)_
 
@@ -348,7 +348,7 @@ Thanks for contributing! 🦋🙌
 
 - [](# "clean-dashboard") 🔥 [Condenses the events to take up less space and uncollapses "User starred X repos" groups.](https://user-images.githubusercontent.com/1402241/54401114-39192780-4701-11e9-9934-7c71f01e957f.png)
 - [](# "hide-own-stars") Hides "starred" events for your own repos on the newsfeed.
-- [](# "hide-noisy-newsfeed-events") Hides other inutile newsfeed events (commits, forks, new followers).
+- [](# "hide-newsfeed-noise") Hides other inutile newsfeed events (commits, forks, new followers).
 - [](# "infinite-scroll") Automagically expands the newsfeed when you scroll down.
 
 <!-- Refer to style guide above. Keep this message between sections. -->
@@ -408,28 +408,11 @@ Thanks for contributing! 🦋🙌
 
 ## Customization
 
-Most features [can be disabled](https://github.com/refined-github/refined-github/pull/877) if they are JavaScript-based and you can override our CSS with your own in [the extension options.](https://github.com/refined-github/refined-github/pull/1193)
+Most features can be disabled if they are JavaScript-based and you can override our CSS with your own in the extension options.
 
-We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a high bar for adding features.](https://github.com/refined-github/refined-github/issues/2960) Users will always disagree with something. That being said, we're open to discussing things.
-
-## Contribute
-
-Read the [contribution guide](contributing.md) and join the [contributors](https://github.com/refined-github/refined-github/graphs/contributors)!
+We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a high bar for adding features.](https://github.com/refined-github/refined-github/wiki/%22Can-you-add-this-feature%3F%22) Users will always disagree with something. That being said, we're open to discussing things.
 
 ## Links
 
-- [Product Hunt submission](https://www.producthunt.com/posts/refined-github) *(2017-07-08)*
-
-## Related
-
-- [Awesome browser extensions for GitHub](https://github.com/stefanbuck/awesome-browser-extensions-for-github) - Awesome list
-- [OctoLinker](https://github.com/OctoLinker/OctoLinker) - Navigate across files and packages
-- [Notifier for GitHub](https://github.com/sindresorhus/notifier-for-github-chrome) - Shows your notification unread count
-- [Mottie's Userscripts](https://github.com/Mottie/GitHub-userscripts) - Countless features to improve GitHub granularly
-- [Contributors on GitHub](https://github.com/hzoo/contributors-on-github) - Shows stats about contributors
-- [Hide Files on GitHub](https://github.com/sindresorhus/hide-files-on-github) - Hides dotfiles from the file browser
-- [GitHub Issue Link Status](https://github.com/fregante/github-issue-link-status) - Colorize issue and PR links to see their status (open, closed, merged)
-- [Notifications Preview for GitHub](https://github.com/tanmayrajani/notifications-preview-github) - See your notifications on hover on all pages
-- [Show All GitHub Issues](https://github.com/sindresorhus/show-all-github-issues) - Shows both Issues and Pull Requests in the Issues tab
-- [Sourcegraph](https://github.com/sourcegraph/sourcegraph/tree/main/client/browser) - Code search and navigation tool
-- [PR Monitor](https://github.com/fwouts/prmonitor) - Notifies you about incoming and outgoing PRs
+- [More extensions](https://github.com/refined-github/refined-github/wiki/Additional-extensions)
+- [Contribution guide](contributing.md)

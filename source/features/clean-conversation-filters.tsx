@@ -75,7 +75,7 @@ async function init(): Promise<void | false> {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepoConversationList,
+		pageDetect.isRepoIssueOrPRList,
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',

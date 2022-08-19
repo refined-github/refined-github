@@ -14,7 +14,7 @@ function getUrlFromItem(issue: Element): string {
 		.href;
 }
 
-const issueListSelector = pageDetect.isGlobalConversationList()
+const issueListSelector = pageDetect.isGlobalIssueOrPRList()
 	? '#js-issues-toolbar div'
 	: 'div[aria-label="Issues"][role="group"]';
 
@@ -42,17 +42,17 @@ async function init(signal: AbortSignal): Promise<void | false> {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isConversationList,
+		pageDetect.isIssueOrPRList,
 	],
 	exclude: [
-		pageDetect.isGlobalConversationList,
+		pageDetect.isGlobalIssueOrPRList,
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init,
 }, {
 	include: [
-		pageDetect.isGlobalConversationList,
+		pageDetect.isGlobalIssueOrPRList,
 	],
 	awaitDomReady: false,
 	init,

@@ -21,7 +21,7 @@ void features.add(import.meta.url, {
 		() => location.search.includes('sort%3Aupdated-'),
 	],
 	include: [
-		pageDetect.isConversationList,
+		pageDetect.isIssueOrPRList,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,

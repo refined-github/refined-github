@@ -123,7 +123,7 @@ void features.add(import.meta.url, {
 		pageDetect.isPR,
 	],
 	exclude: [
-		pageDetect.isClosedConversation,
+		pageDetect.isClosedPR,
 	],
 	deduplicate: false,
 	init,

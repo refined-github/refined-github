@@ -31,7 +31,7 @@ function init(): void {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepoConversationList,
+		pageDetect.isRepoIssueOrPRList,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,

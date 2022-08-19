@@ -40,7 +40,8 @@ void features.add(import.meta.url, {
 		pageDetect.isConversation,
 	],
 	include: [
-		pageDetect.isClosedConversation,
+		pageDetect.isClosedIssue,
+		pageDetect.isClosedPR,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,

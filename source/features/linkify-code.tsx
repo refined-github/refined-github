@@ -65,3 +65,11 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init: initTitle,
 });
+
+/*
+
+## Test URLs
+
+- Discussions: https://github.com/File-New-Project/EarTrumpet/discussions/877
+
+*/

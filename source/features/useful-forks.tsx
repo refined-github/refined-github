@@ -55,6 +55,9 @@ void features.add(import.meta.url, {
 	awaitDomReady: false,
 	init,
 }, {
+	asLongAs: [
+		pageDetect.isPublicRepo,
+	],
 	include: [
 		pageDetect.isArchivedRepo,
 	],
