@@ -28,10 +28,10 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	rootMargin: '500px', // https://github.com/refined-github/refined-github/pull/505#issuecomment-309273098
 });
 
-function init(): Deinit {
+function init(signal: AbortSignal): Deinit {
 	observe('.ajax-pagination-btn', button => {
 		inView.observe(button);
-	});
+	}, {signal});
 
 	// Use cloneNode to keep the original ones for responsive layout
 	const feedLink = select('.news a.f6')!.cloneNode(true);
