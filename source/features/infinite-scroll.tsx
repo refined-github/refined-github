@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 
 const loadMore = debounce(() => {
-	const button = select('button.ajax-pagination-btn')!;
+	const button = select('[role="tabpanel"]:not([hidden]) button.ajax-pagination-btn')!;
 	button.click();
 	button.textContent = 'Loading…';
 
