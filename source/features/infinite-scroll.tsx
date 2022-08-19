@@ -2,10 +2,10 @@ import './infinite-scroll.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import observe from '../helpers/selector-observer';
 
 const loadMore = debounce(() => {
 	const button = select('[role="tabpanel"]:not([hidden]) button.ajax-pagination-btn')!;
@@ -29,10 +29,8 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 });
 
 function init(): Deinit {
-	const selectorObserver = observe('.ajax-pagination-btn', {
-		add(button) {
-			inView.observe(button);
-		},
+	observe('.ajax-pagination-btn', button => {
+		inView.observe(button);
 	});
 
 	// Use cloneNode to keep the original ones for responsive layout
@@ -54,7 +52,6 @@ function init(): Deinit {
 
 	return [
 		inView,
-		selectorObserver,
 	];
 }
 
