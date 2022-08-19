@@ -57,6 +57,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPR,
 		pageDetect.isIssue,
+		pageDetect.isDiscussion,
 	],
 	additionalListeners: [
 		onConversationHeaderUpdate,
