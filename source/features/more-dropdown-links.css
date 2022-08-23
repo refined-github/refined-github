@@ -3,7 +3,6 @@
 	visibility: visible !important;
 }
 
-
 /* Only show the divider if there are other items above it */
 .UnderlineNav-actions [hidden] + .dropdown-divider {
 	display: none;
