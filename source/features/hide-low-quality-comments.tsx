@@ -83,7 +83,7 @@ function init(): void {
 			</p>,
 		);
 
-		// No need fo add the signal here
+		// No need to add the signal here
 		delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide);
 	}
 }
@@ -94,3 +94,8 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+## Test URLs
+https://github.com/facebook/jest/issues/5311
+*/
