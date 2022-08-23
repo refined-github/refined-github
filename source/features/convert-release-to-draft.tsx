@@ -7,7 +7,6 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '.';
 import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
-import attachElement from '../helpers/attach-element';
 
 const editReleaseButtonSelector = [
 	'.BtnGroup a[href*="releases/edit"]', // Before "Releases UI refresh" #4902
@@ -42,20 +41,22 @@ async function init(signal: AbortSignal): Promise<void | false> {
 		return false;
 	}
 
-	// Fix spacing but avoid the two buttons sticking together
-	editButton.classList.replace('ml-1', 'ml-0');
+	const convertToDraftButton = (
+		<button
+			type="button"
+			className={'btn rgh-convert-draft ' + (pageDetect.isEnterprise() ? 'BtnGroup-item' : 'btn-sm ml-3')}
+		>
+			Convert to draft
+		</button>
+	);
 
-	attachElement({
-		anchor: editButton,
-		before: () => (
-			<button
-				type="button"
-				className={'btn rgh-convert-draft ' + (pageDetect.isEnterprise() ? 'BtnGroup-item' : 'btn-sm ml-3')}
-			>
-				Convert to draft
-			</button>
-		),
-	});
+	if (pageDetect.isEnterprise()) { // Before "Releases UI refresh" #4902
+		editButton.after(convertToDraftButton);
+	} else {
+		editButton.before(convertToDraftButton);
+		// Fix spacing but avoid the two buttons sticking together
+		editButton.classList.replace('ml-1', 'ml-0');
+	}
 
 	delegate(document, '.rgh-convert-draft', 'click', convertToDraft, {signal});
 }
@@ -65,6 +66,6 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleTag,
 	],
 	awaitDomReady: false,
-	deduplicate: '.rgh-convert-draft',
+	deduplicate: 'has-rgh-inner',
 	init,
 });
