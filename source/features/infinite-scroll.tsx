@@ -2,13 +2,13 @@ import './infinite-scroll.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import observe from '../helpers/selector-observer';
 
 const loadMore = debounce(() => {
-	const button = select('button.ajax-pagination-btn')!;
+	const button = select('[role="tabpanel"]:not([hidden]) button.ajax-pagination-btn')!;
 	button.click();
 	button.textContent = 'Loading…';
 
@@ -28,12 +28,10 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	rootMargin: '500px', // https://github.com/refined-github/refined-github/pull/505#issuecomment-309273098
 });
 
-function init(): Deinit {
-	const selectorObserver = observe('.ajax-pagination-btn', {
-		add(button) {
-			inView.observe(button);
-		},
-	});
+function init(signal: AbortSignal): Deinit {
+	observe('.ajax-pagination-btn', button => {
+		inView.observe(button);
+	}, {signal});
 
 	// Use cloneNode to keep the original ones for responsive layout
 	const feedLink = select('.news a.f6')!.cloneNode(true);
@@ -54,7 +52,6 @@ function init(): Deinit {
 
 	return [
 		inView,
-		selectorObserver,
 	];
 }
 
@@ -64,3 +61,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+## Test URLs
+
+https://github.com/
+
+*/
