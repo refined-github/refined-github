@@ -55,5 +55,6 @@ function init(): void {
 
 void features.add(import.meta.url, {
 	awaitDomReady: false,
+	deduplicate: false,
 	init: onetime(init),
 });

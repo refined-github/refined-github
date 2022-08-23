@@ -32,17 +32,27 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	textFieldEdit.insert(newComment, `${spacer}${prefixUserMention(userMention)} `);
 }
 
-function init(signal: AbortSignal): void {
-	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser, {signal});
+function init(): void {
+	// TODO: Restore signal
+	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser);
 
 	// `:first-child` avoids app badges #2630
 	// The hovercard attribute avoids `highest-rated-comment`
 	// Avatars next to review events aren't wrapped in a <div> #4844
-	const avatars = select.all(`:is(div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child, a.TimelineItem-avatar):not([href="/${getUsername()!}"], .rgh-quick-mention)`);
+	const avatars = select.all(`
+		:is(
+			div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
+			a.TimelineItem-avatar
+		):not(
+			[href="/${getUsername()!}"],
+			.rgh-quick-mention
+		)
+	`);
 	for (const avatar of avatars) {
 		const timelineItem = avatar.closest('.TimelineItem')!;
 
 		if (
+			// TODO: Rewrite with :has()
 			select.exists('.minimized-comment', timelineItem) // Hidden comments
 			|| !select.exists('.timeline-comment', timelineItem) // Reviews without a comment
 		) {

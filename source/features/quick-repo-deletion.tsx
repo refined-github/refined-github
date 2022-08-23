@@ -15,6 +15,7 @@ import pluralize from '../helpers/pluralize';
 import addNotice from '../github-widgets/notice-bar';
 import looseParseInt from '../helpers/loose-parse-int';
 import parseBackticks from '../github-helpers/parse-backticks';
+import attachElement from '../helpers/attach-element';
 
 function handleToggle(event: DelegateEvent<Event, HTMLDetailsElement>): void {
 	const hasContent = select.exists([
@@ -129,6 +130,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 async function init(signal: AbortSignal): Promise<void | false> {
 	if (
 		// Only if the user can delete the repository
+		// TODO: Replace with https://github.com/refined-github/github-url-detection/issues/85
 		!await elementReady('nav [data-content="Settings"]')
 
 		// Only if the repository hasn't been starred
@@ -140,16 +142,19 @@ async function init(signal: AbortSignal): Promise<void | false> {
 	await api.expectToken();
 
 	// (Ab)use the details element as state and an accessible "click-anywhere-to-cancel" utility
-	select('.pagehead-actions')!.prepend(
-		<li>
-			<details className="details-reset details-overlay select-menu rgh-quick-repo-deletion">
-				<summary aria-haspopup="menu" role="button">
-					{/* This extra element is needed to keep the button above the <summary>’s lightbox */}
-					<span className="btn btn-sm btn-danger">Delete fork</span>
-				</summary>
-			</details>
-		</li>,
-	);
+	attachElement({
+		anchor: '.pagehead-actions',
+		prepend: () => (
+			<li>
+				<details className="details-reset details-overlay select-menu rgh-quick-repo-deletion">
+					<summary aria-haspopup="menu" role="button">
+						{/* This extra element is needed to keep the button above the <summary>’s lightbox */}
+						<span className="btn btn-sm btn-danger">Delete fork</span>
+					</summary>
+				</details>
+			</li>
+		),
+	});
 
 	delegate(document, '.rgh-quick-repo-deletion[open]', 'toggle', handleToggle, {capture: true, signal});
 }
@@ -159,5 +164,6 @@ void features.add(import.meta.url, {
 		pageDetect.isForkedRepo,
 	],
 	awaitDomReady: false,
+	deduplicate: false,
 	init,
 });
