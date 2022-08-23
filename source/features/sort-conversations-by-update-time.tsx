@@ -24,7 +24,7 @@ function init(): void {
 		// Pick only links to lists, not single issues
 		// + skip pagination links
 		// + skip pr/issue filter dropdowns (some are lazyloaded)
-		if (pageDetect.isConversationList(link)) {
+		if (pageDetect.isIssueOrPRList(link)) {
 			const isRelativeAttribute = link.getAttribute('href')!.startsWith('/');
 			link.href = SearchQuery.from(link).add('sort:updated-desc').href;
 
@@ -50,7 +50,7 @@ void features.add(import.meta.url, {
 	init,
 }, {
 	include: [
-		pageDetect.isRepoConversationList,
+		pageDetect.isRepoIssueOrPRList,
 	],
 	deduplicate: 'has-rgh-inner',
 	init: selectCurrentConversationFilter,

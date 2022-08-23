@@ -31,7 +31,7 @@ import './features/clean-checks-list.css';
 import './features/align-issue-labels';
 import './features/clean-pinned-issues';
 import './features/clean-dashboard';
-import './features/hide-noisy-newsfeed-events';
+import './features/hide-newsfeed-noise';
 import './features/minimize-upload-bar';
 import './features/hide-diff-signs';
 import './features/clean-rich-text-editor';

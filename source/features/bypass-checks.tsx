@@ -40,7 +40,10 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isPRConversation,
+		pageDetect.isRepo,
+	],
+	exclude: [
+		pageDetect.isEmptyRepo,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,

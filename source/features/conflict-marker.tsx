@@ -73,17 +73,17 @@ async function init(): Promise<false | void> {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isConversationList,
+		pageDetect.isIssueOrPRList,
 	],
 	exclude: [
-		pageDetect.isGlobalConversationList,
+		pageDetect.isGlobalIssueOrPRList,
 		pageDetect.isBlank,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,
 }, {
 	include: [
-		pageDetect.isGlobalConversationList,
+		pageDetect.isGlobalIssueOrPRList,
 	],
 	exclude: [
 		pageDetect.isBlank,

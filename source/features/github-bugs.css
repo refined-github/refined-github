@@ -13,11 +13,6 @@
 	margin-left: 8px;
 }
 
-/* Bold username in conversation lists #4899 */
-:is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type='user'] {
-	font-weight: 600;
-}
-
 #merge_title_field,
 #commit-summary-input, /* Restore monospace font in commit/merge title fields #5188 */
 :is(.new_public_key, .new_gpg_key) textarea { /* Monospace textareas for new SSH/GPG keys #4917 */
@@ -30,7 +25,7 @@
 	max-width: 780px; /* This is the limit applied on the comment thread by `.comment-holder` */
 }
 
-/* Hide trailing separator in PR/commit file diff dropdown */
+/* Hide trailing separator in PR/commit file diff dropdown #5159 */
 .js-file-header-dropdown .dropdown-menu > .dropdown-divider:last-child {
 	display: none !important;
 }

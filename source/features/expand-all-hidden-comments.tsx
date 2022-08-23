@@ -40,3 +40,8 @@ void features.add(import.meta.url, {
 	deduplicate: false,
 	init,
 });
+
+/*
+Test URLs
+https://github.com/rust-lang/rfcs/pull/2544
+*/

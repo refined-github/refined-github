@@ -171,6 +171,11 @@ pr-branches
 	vertical-align: middle !important;
 }
 
+/* Bold username in conversation lists #4899 */
+:is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type='user'] {
+	font-weight: 600;
+}
+
 /* Fit large images in the window when viewing single files */
 div[data-target='readme-toc.content'] div.blob-wrapper img {
 	max-width: 100%;

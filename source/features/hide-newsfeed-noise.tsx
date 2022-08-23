@@ -1,4 +1,4 @@
-import './hide-noisy-newsfeed-events.css';
+import './hide-newsfeed-noise.css';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';

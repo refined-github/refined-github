@@ -10,8 +10,8 @@ async function init(): Promise<void> {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isConversationList,
-		pageDetect.isGlobalConversationList,
+		pageDetect.isIssueOrPRList,
+		pageDetect.isGlobalIssueOrPRList,
 	],
 	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',

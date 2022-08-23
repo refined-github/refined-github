@@ -32,7 +32,7 @@ void features.add(import.meta.url, {
 	},
 	// TODO: enable for isDiscussionList after #4695 is fixed
 	include: [
-		pageDetect.isConversationList,
+		pageDetect.isIssueOrPRList,
 		pageDetect.isGlobalSearchResults,
 		pageDetect.isLabelList,
 		pageDetect.isNotifications,

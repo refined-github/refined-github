@@ -1,4 +1,4 @@
 /* Decrease the padding of filter buttons to accommodate the new buttons */
-.subnav-links .subnav-item {
-	padding: 6px 9px;
+#issues_dashboard .subnav-links .subnav-item {
+	padding-inline: 9px;
 }

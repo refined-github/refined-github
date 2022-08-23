@@ -1,6 +1,6 @@
 import './ci-link.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
@@ -40,10 +40,11 @@ function getCiDetails(commit: string): HTMLElement {
 
 async function init(): Promise<false | void> {
 	const head = await getHead();
+	const repoTitle = await elementReady('[itemprop="name"]');
 
 	attachElement({
 		// Append to repo title (aware of forks and private repos)
-		anchor: select('[itemprop="name"]')!.parentElement,
+		anchor: repoTitle!.parentElement,
 		append: () => getCiDetails(head),
 	});
 }

@@ -35,8 +35,8 @@ async function init(): Promise<void> {
 
 	if (tagName) {
 		addExistingTagLink(tagName);
-	} else if (canCreateRelease()) {
-		void addLinkToCreateRelease('This pull request seems to be unreleased');
+	} else {
+		void addReleaseBanner('This pull request has not yet appeared in a release');
 	}
 }
 
@@ -76,14 +76,16 @@ function addExistingTagLink(tagName: string): void {
 	});
 }
 
-async function addLinkToCreateRelease(text = 'Now you can release this change'): Promise<void> {
-	if (await getReleaseCount() > 0) {
+async function addReleaseBanner(text = 'Now you can release this change'): Promise<void> {
+	if (await getReleaseCount() === 0) {
 		return;
 	}
 
-	const url = isRefinedGitHubRepo()
-		? 'https://github.com/refined-github/refined-github/actions/workflows/release.yml'
-		: buildRepoURL('releases/new');
+	const url = canCreateRelease() ? (
+		isRefinedGitHubRepo()
+			? 'https://github.com/refined-github/refined-github/actions/workflows/release.yml'
+			: buildRepoURL('releases/new')
+	) : undefined;
 	attachElement({
 		anchor: '#issue-comment-box',
 		before: () => (
@@ -99,6 +101,7 @@ async function addLinkToCreateRelease(text = 'Now you can release this change'):
 }
 
 void features.add(import.meta.url, {
+	// When arriving on an already-merged PR
 	asLongAs: [
 		pageDetect.isPRConversation,
 		pageDetect.isMergedPR,
@@ -109,6 +112,7 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 }, {
+	// This catches a PR while it's being merged
 	asLongAs: [
 		pageDetect.isPRConversation,
 		pageDetect.isOpenPR,
@@ -120,16 +124,14 @@ void features.add(import.meta.url, {
 	onlyAdditionalListeners: true,
 	deduplicate: false,
 	init() {
-		void addLinkToCreateRelease();
+		void addReleaseBanner();
 	},
 });
 
 /*
-
-# Test URLs
+Test URLs
 
 - PR: https://github.com/refined-github/refined-github/pull/5600
 - Locked PR: https://github.com/eslint/eslint/pull/17
 - Archived repo: https://github.com/fregante/iphone-inline-video/pull/130
-
 */
