@@ -48,13 +48,12 @@ void features.add(import.meta.url, {
 		pageDetect.isGlobalIssueOrPRList,
 	],
 	awaitDomReady: false,
-	deduplicate: '.rgh-open-all-conversations',
+	deduplicate: 'has-rgh-inner',
 	init,
 }, {
 	include: [
 		pageDetect.isGlobalIssueOrPRList,
 	],
 	awaitDomReady: false,
-	deduplicate: '.rgh-open-all-conversations',
 	init,
 });
