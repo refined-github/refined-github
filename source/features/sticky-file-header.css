@@ -5,7 +5,7 @@
 	top: 0;
 }
 
-.notification-shelf ~ .application-main .file-header {
+.notification-shelf ~ .application-main .file-header:not(.sticky-file-header) {
 	top: 129px;
 }
 
