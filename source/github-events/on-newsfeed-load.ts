@@ -1,17 +1,17 @@
 import select from 'select-dom';
 
-export default async function onNewsfeedLoad(callback: VoidFunction): Promise<void> {
-	const observer = new MutationObserver((([{addedNodes}]) => {
-		callback();
+import {createFragmentLoadListener} from './on-fragment-load';
 
-		// If the newly-loaded fragments allows further loading, observe them
-		for (const node of addedNodes) {
-			if (node instanceof Element && select.exists('.ajax-pagination-form', node)) {
-				observer.observe(node, {childList: true});
-			}
-		}
-	}));
+function onNewsfeedPageLoad(event: Event, callback: EventListener, signal: AbortSignal): void {
+	select('.news .ajax-pagination-form[action^="/dashboard-feed"]')?.addEventListener('page:loaded', event => { // Older newsfeed events are paginated through a <form> element
+		onNewsfeedPageLoad(event, callback, signal);
+	}, {signal});
 
-	// Start from the main container
-	observer.observe(select('.news')!, {childList: true});
+	callback(event);
+}
+
+export default function onNewsfeedLoad(callback: EventListener, signal: AbortSignal): void {
+	createFragmentLoadListener('.news include-fragment[src="/dashboard-feed"]', event => {
+		onNewsfeedPageLoad(event, callback, signal);
+	}, signal);
 }
