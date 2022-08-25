@@ -1,58 +1,11 @@
-/* Hide reaction popover text */
-.js-add-reaction-popover :is(.color-text-secondary, .color-fg-muted),
-.js-add-reaction-popover .dropdown-divider {
-	display: none;
-}
-
-/* Center reactions popup and its triangle */
-.add-reaction-popover,
-.add-reaction-popover::before,
-.add-reaction-popover::after {
-	right: auto !important;
+.dropdown-menu-reactions {
+	top: 100% !important;
 	left: 50% !important;
+	right: auto !important;
 	transform: translate(-50%) !important;
 }
 
-.add-reaction-popover {
-	animation-name: rgh-scale-in-centered !important;
-}
-
-@keyframes rgh-scale-in-centered {
-	0% {
-		transform: translate(-50%) scale(0.5);
-		opacity: 0%;
-	}
-
-	100% {
-		transform: translate(-50%);
-	}
-}
-
-/*
-Undo reactions popup centering in split file view on the right.
-The popup is clipped on the right otherwise.
-The selector considers
-- Unified view (skipped)
-- Split view with comment on the left only (skipped)
-- Split view with comment on the right only
-- Split view with comments on the left and right
-*/
-td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover {
-	left: -15px !important;
-}
-
-td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::before,
-td.js-line-comments:last-child .timeline-comment-actions .add-reaction-popover::after {
-	left: 140px !important;
-}
-
-/* Never show loading spinner for reactions */
-.js-reaction-popover-container .reaction-popover-form .loading-spinner {
-	display: none !important;
-}
-
-/* Keep colored button when reaction popup is open */
-.dropdown-details[open] .timeline-comment-action {
-	opacity: 100%;
-	color: var(--color-mktg-btn-bg, #4078c0);
+/* Avoid clipping popup of comments on the right side of split file views - https://github.com/refined-github/sandbox/pull/38/files?diff=split */
+.line-comments[data-split-side='right'] .dropdown-menu-reactions {
+	transform: translate(-75%) !important;
 }
