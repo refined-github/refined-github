@@ -84,7 +84,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 	],
-	onlyAdditionalListeners: true,
 	deduplicate: false,
 	init,
 });
