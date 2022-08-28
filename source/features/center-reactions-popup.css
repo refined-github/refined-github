@@ -3,9 +3,6 @@
 	left: 50% !important;
 	right: auto !important;
 	transform: translate(-50%) !important;
-}
-
-/* Avoid clipping popup of comments on the right side of split file views - https://github.com/refined-github/sandbox/pull/38/files?diff=split */
-.line-comments[data-split-side='right'] .dropdown-menu-reactions {
-	transform: translate(-75%) !important;
+	display: grid !important;
+	grid-template: auto / repeat(4, auto); /* Restore two-line layout */
 }
