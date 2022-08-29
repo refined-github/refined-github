@@ -1,4 +1,4 @@
-.dropdown-menu-reactions {
+.dropdown-menu-reactions.dropdown-menu-reactions { /* Double selector to override .d-flex on Chrome */
 	top: 100% !important;
 	left: 50% !important;
 	right: auto !important;
