@@ -3,7 +3,7 @@ import oneMutation from 'one-mutation';
 import elementReady from 'element-ready';
 
 export default async function onProfileDropdownLoad(): Promise<Element> {
-	const dropdown = await elementReady('.Header-item:last-child .dropdown-menu');
+	const dropdown = await elementReady('.Header-item:nth-last-child(2) .dropdown-menu');
 	if (!dropdownContentExists()) {
 		await oneMutation(dropdown!, {childList: true, filter: dropdownContentExists});
 	}
@@ -12,5 +12,5 @@ export default async function onProfileDropdownLoad(): Promise<Element> {
 }
 
 function dropdownContentExists(): boolean {
-	return select.exists('.Header-item:last-child .dropdown-menu .dropdown-item');
+	return select.exists('.Header-item:nth-last-child(2) .dropdown-menu .dropdown-item');
 }
