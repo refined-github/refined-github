@@ -3,7 +3,6 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {
 	CheckCircleIcon,
@@ -18,6 +17,8 @@ import {
 } from '@primer/octicons-react';
 
 import features from '.';
+import observe from '../helpers/selector-observer';
+import attachElement from '../helpers/attach-element';
 
 const filters = {
 	'Pull requests': ':is(.octicon-git-pull-request, .octicon-git-pull-request-closed, .octicon-git-pull-request-draft, .octicon-git-merge)',
@@ -33,7 +34,7 @@ const filters = {
 type Filter = keyof typeof filters;
 type Category = 'Type' | 'Status' | 'Read';
 
-function resetFilters({target}: Event): void {
+function resetFilters({target}: React.SyntheticEvent): void {
 	select('form#rgh-select-notifications-form')!.reset();
 	for (const label of select.all('label', target as Element)) {
 		label.setAttribute('aria-checked', 'false');
@@ -124,7 +125,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 const createDropdown = onetime(() => (
 	<details
 		className="details-reset details-overlay position-relative rgh-select-notifications ml-2"
-		on-toggle={resetFilters}
+		onToggle={resetFilters}
 	>
 		<summary
 			className="btn btn-sm"
@@ -155,20 +156,18 @@ function closeDropdown(): void {
 	select('.rgh-select-notifications')?.removeAttribute('open');
 }
 
-function init(): Deinit {
-	return [
-		observe('.js-notifications-mark-all-prompt:not(.rgh-select-notifications-added)', {
-			add(selectAllCheckbox) {
-				selectAllCheckbox.classList.add('rgh-select-notifications-added');
-				selectAllCheckbox
-					.closest('label')!
-					.after(createDropdown());
-			},
-		}),
+function addDropdown(markAllPrompt: Element): void {
+	attachElement({
+		anchor: markAllPrompt.closest('label'),
+		after: createDropdown,
+	});
+}
 
-		// Close the dropdown when one of the toolbar buttons is clicked
-		delegate(document, '.js-notifications-mark-selected-actions > *, .rgh-open-selected-button', 'click', closeDropdown),
-	];
+function init(signal: AbortSignal): void {
+	observe('.js-notifications-mark-all-prompt', addDropdown, {signal});
+
+	// Close the dropdown when one of the toolbar buttons is clicked
+	delegate(document, '.js-notifications-mark-selected-actions > *, .rgh-open-selected-button', 'click', closeDropdown, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -181,5 +180,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isBlank, // Empty notification list
 	],
+	deduplicate: false,
 	init,
 });
