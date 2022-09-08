@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+
 import features from '.';
 import observe from '../helpers/selector-observer';
-
 
 function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	const search = new URLSearchParams(link.search);
@@ -10,9 +10,8 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	link.search = String(search);
 }
 
-
 async function profileDropdown(signal: AbortSignal): Promise<void> {
-	observe(`.header-nav-current-user ~ a[href$="tab=repositories"]`, addSourceTypeToLink, {signal});
+	observe('.header-nav-current-user ~ a[href$="tab=repositories"]', addSourceTypeToLink, {signal});
 }
 
 async function init(): Promise<void> {
