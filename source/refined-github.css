@@ -185,6 +185,7 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 [data-selected-links^='repo_milestones ']:has([title='0']) {
 	width: 36px; /* Size it so only the icon is visible */
 	overflow: hidden; /* Crop the text out */
+	padding-left: 10px;
 }
 
 [data-selected-links^='repo_milestones ']:has([title='0']) svg {
