@@ -2,14 +2,14 @@
 	display: none;
 }
 
-.rgh-comments-indicator{
+.rgh-comments-indicator {
 	border-top: 1px solid; /* Needs to override .blob-num’s */
 }
 
-.rgh-comments-indicator.button-container{
+.rgh-comments-indicator.button-container {
 	border: none !important;
 	position: absolute !important;
-    left: 0;
+	left: 0;
 }
 
 /* This is only used to improve the clickability */
