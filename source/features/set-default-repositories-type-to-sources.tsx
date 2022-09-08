@@ -12,9 +12,7 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 
 
 async function profileDropdown(signal: AbortSignal): Promise<void> {
-	observe(`
-		.header-nav-current-user ~ a[href$="tab=repositories"]
-	`, addSourceTypeToLink, {signal});
+	observe(`.header-nav-current-user ~ a[href$="tab=repositories"]`, addSourceTypeToLink, {signal});
 }
 
 async function init(): Promise<void> {
