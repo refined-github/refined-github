@@ -26,34 +26,17 @@ const handleIndicatorClick = ({delegateTarget}: DelegateEvent): void => {
 // `mem` avoids adding the indicator twice to the same thread
 const addIndicator = mem((commentThread: HTMLElement): void => {
 	const commentCount = commentThread.querySelectorAll('.review-comment.js-comment').length;
-	const splitView = select('.rgh-no-unnecessary-split-diff-view-visited')
 	
-	if(!splitView){
-		commentThread.before(
-			<tr>
-				<td className="rgh-comments-indicator blob-num" colSpan={2}/>
-				<td className="rgh-comments-indicator button-container blob-num">
-					<button type="button" className="btn-link">
-						<CommentIcon/>
-						<span>{commentCount}</span>
-					</button>
-				</td>
-			</tr>,
-		);
-	} else {
-		commentThread.before(
-			<tr>
-				<td className="rgh-comments-indicator blob-num"/>
-				<td className="rgh-comments-indicator button-container blob-num">
-					<button type="button" className="btn-link">
-						<CommentIcon/>
-						<span>{commentCount}</span>
-					</button>
-				</td>
-				<td className="rgh-comments-indicator blob-num"/>
-			</tr>,
-		);
-	}
+	commentThread.before(
+		<tr>
+			<td className="rgh-comments-indicator blob-num" colSpan={2}>
+				<button type="button" className="btn-link">
+					<CommentIcon/>
+					<span>{commentCount}</span>
+				</button>
+			</td>
+		</tr>,
+	);	
 });
 //rgh-no-unnecessary-split-diff-view-visited
 
