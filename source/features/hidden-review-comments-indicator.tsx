@@ -35,7 +35,7 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 				</button>
 			</td>
 		</tr>,
-	);	
+	);
 });
 
 // Add indicator when the `show-inline-notes` class is removed (i.e. the comments are hidden)
