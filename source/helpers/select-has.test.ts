@@ -1,9 +1,7 @@
-import jsdom from 'jsdom';
+import {JSDOM} from 'jsdom';
 import {test, assert} from 'vitest';
 
 import select from './select-has';
-
-const {JSDOM} = jsdom;
 
 test('basic :has() support', () => {
 	const {window: {document}} = new JSDOM(`
