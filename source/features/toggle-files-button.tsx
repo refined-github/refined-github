@@ -62,7 +62,7 @@ async function toggleHandler(): Promise<void> {
 	await cache.set(cacheKey, isHidden);
 }
 
-async function init(): Promise<Deinit> {
+async function init(signal: AbortSignal): Promise<Deinit> {
 	const repoContent = (await elementReady('.repository-content'))!;
 
 	if (await cache.get<boolean>(cacheKey)) {
@@ -70,10 +70,10 @@ async function init(): Promise<Deinit> {
 		addFilesHiddenNotice(repoContent);
 	}
 
-	return [
-		observeElement(repoContent, addButton),
-		delegate(document, `.${toggleButtonClass}, .${noticeClass}`, 'click', toggleHandler),
-	];
+	delegate(document, `.${toggleButtonClass}, .${noticeClass}`, 'click', toggleHandler, {signal});
+
+	// TODO: Use new `selector-observer` when `:has` becomes available, so its element can be used as `anchor` inside `addButton`
+	return observeElement(repoContent, addButton);
 }
 
 void features.add(import.meta.url, {

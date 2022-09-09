@@ -29,7 +29,8 @@ function findCssFileError(filename: string): string | void {
 }
 
 function findError(filename: string): string | void {
-	if (filename === 'index.tsx') {
+	// TODO: Replace second condition with "is gitignored"
+	if (filename === 'index.tsx' || filename === '.DS_Store') {
 		return;
 	}
 
@@ -38,7 +39,7 @@ function findError(filename: string): string | void {
 	}
 
 	if (!filename.endsWith('.tsx')) {
-		return `ERR: The \`/source/features\` folder should only contain .css and .tsx files. File \`${filename}\` violates that rule`;
+		return `ERR: The \`/source/features\` folder should only contain .css and .tsx files. Found \`source/features/${filename}\``;
 	}
 
 	const featureId = filename.replace('.tsx', '') as FeatureID;

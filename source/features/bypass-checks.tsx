@@ -34,8 +34,12 @@ function init(signal: AbortSignal): void {
 		a:not([href="/apps/github-actions"]) ~ div a.status-actions:is(
 			[href^="${location.origin}"],
 			[href^="/"]
-		)
-	`, bypass, {signal});
+		)`,
+
+	/* @ts-expect-error https://github.com/g-plane/typed-query-selector/issues/26 */
+	bypass,
+	{signal},
+	);
 }
 
 void features.add(import.meta.url, {
