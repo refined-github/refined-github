@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
-import type {Promisable} from 'type-fest';
+import {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 
 import waitFor from '../helpers/wait-for';
@@ -12,8 +12,7 @@ import onNewComments from '../github-events/on-new-comments';
 import bisectFeatures from '../helpers/bisect';
 import {shouldFeatureRun} from '../github-helpers';
 import polyfillTurboEvents from '../github-helpers/turbo-events-polyfill';
-import type {RGHOptions} from '../options-storage';
-import optionsStorage from '../options-storage';
+import optionsStorage, {RGHOptions} from '../options-storage';
 import {
 	applyStyleHotfixes,
 	getStyleHotfix,

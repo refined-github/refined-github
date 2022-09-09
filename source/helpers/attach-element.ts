@@ -1,5 +1,5 @@
 import select from 'select-dom';
-import type {RequireAtLeastOne} from 'type-fest';
+import {RequireAtLeastOne} from 'type-fest';
 import {isDefined} from 'ts-extras';
 
 import hashString from './hash-string';

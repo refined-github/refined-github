@@ -1,6 +1,5 @@
 import onetime from 'onetime';
-import type {DelegateEvent} from 'delegate-it';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import {isMac} from '../github-helpers';
 import features from '.';

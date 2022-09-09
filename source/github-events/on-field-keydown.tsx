@@ -1,6 +1,5 @@
 import select from 'select-dom';
-import type {DelegateEventHandler} from 'delegate-it';
-import delegate from 'delegate-it';
+import delegate, {DelegateEventHandler} from 'delegate-it';
 
 type DelegateFieldEvent = DelegateEventHandler<KeyboardEvent, HTMLTextAreaElement>;
 

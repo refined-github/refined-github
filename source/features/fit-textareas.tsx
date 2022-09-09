@@ -1,7 +1,6 @@
 import './fit-textareas.css';
 import select from 'select-dom';
-import type {DelegateEvent} from 'delegate-it';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 import {isSafari} from 'webext-detect-page';
 import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';

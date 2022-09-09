@@ -4,8 +4,7 @@ import path from 'node:path';
 import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import type {Configuration} from 'webpack';
-import webpack from 'webpack';
+import webpack, {Configuration} from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const config: Configuration = {

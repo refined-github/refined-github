@@ -1,6 +1,5 @@
 import mem from 'mem';
-import type {DelegateEvent, DelegateEventHandler} from 'delegate-it';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent, DelegateEventHandler} from 'delegate-it';
 
 // This lets you call `onDiffFileLoad` multiple times with the same callback but only ever a `load` listener is registered
 const getDeduplicatedHandler = mem((callback: EventListener): DelegateEventHandler => (event: DelegateEvent) => {

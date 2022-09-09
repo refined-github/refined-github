@@ -1,7 +1,6 @@
 import select from 'select-dom';
 import oneEvent from 'one-event';
-import type {DelegateEvent} from 'delegate-it';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';

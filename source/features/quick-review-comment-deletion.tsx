@@ -3,8 +3,7 @@ import select from 'select-dom';
 import {observe} from 'selector-observer';
 import {TrashIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
-import type {DelegateEvent} from 'delegate-it';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import loadDetailsMenu from '../github-helpers/load-details-menu';

@@ -1,6 +1,6 @@
 import mem from 'mem';
 import select from 'select-dom';
-import type {DelegateEvent} from 'delegate-it';
+import {DelegateEvent} from 'delegate-it';
 
 import preserveScroll from './preserve-scroll';
 

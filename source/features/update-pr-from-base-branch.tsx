@@ -2,10 +2,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
-import type {Observer} from 'selector-observer';
-import {observe} from 'selector-observer';
-import type {DelegateEvent} from 'delegate-it';
-import delegate from 'delegate-it';
+import {observe, Observer} from 'selector-observer';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import * as api from '../github-helpers/api';

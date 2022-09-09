@@ -1,6 +1,5 @@
 import select from 'select-dom';
-import type {DelegateEvent, DelegateEventHandler} from 'delegate-it';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent, DelegateEventHandler} from 'delegate-it';
 
 import onAbort from '../helpers/abort-controller';
 

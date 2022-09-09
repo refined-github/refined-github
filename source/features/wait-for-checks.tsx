@@ -5,8 +5,7 @@ import onetime from 'onetime';
 import {InfoIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import pRetry, {AbortError} from 'p-retry';
-import type {DelegateEvent} from 'delegate-it';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import observeElement from '../helpers/simplified-element-observer';

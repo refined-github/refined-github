@@ -1,7 +1,6 @@
 import select from 'select-dom';
 import onetime from 'onetime';
-import type {DelegateEvent} from 'delegate-it';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 

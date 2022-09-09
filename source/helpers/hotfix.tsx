@@ -4,7 +4,7 @@ import {isEnterprise} from 'github-url-detection';
 import compareVersions from 'tiny-version-compare';
 import {any as concatenateTemplateLiteralTag} from 'code-tag';
 
-import type {RGHOptions} from '../options-storage';
+import {RGHOptions} from '../options-storage';
 import isDevelopmentVersion from './is-development-version';
 
 function parseCsv(content: string): string[][] {

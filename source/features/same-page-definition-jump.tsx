@@ -1,6 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import type {DelegateEvent} from 'delegate-it';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import GitHubURL from '../github-helpers/github-url';

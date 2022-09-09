@@ -3,8 +3,7 @@ import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import type {DelegateEvent} from 'delegate-it';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import isLowQualityComment from '../helpers/is-low-quality-comment';

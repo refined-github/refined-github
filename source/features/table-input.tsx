@@ -4,8 +4,7 @@ import select from 'select-dom';
 import {TableIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
-import type {DelegateEvent} from 'delegate-it';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '.';
 import smartBlockWrap from '../helpers/smart-block-wrap';
