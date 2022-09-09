@@ -8,16 +8,16 @@ import {abbreviateNumber} from 'js-abbreviation-number';
 import features from '.';
 import * as api from '../github-helpers/api';
 
-interface Release {
+type Release = {
 	releaseAssets: {
 		nodes: Asset[];
 	};
-}
+};
 
-interface Asset {
+type Asset = {
 	name: string;
 	downloadCount: number;
-}
+};
 
 type Tag = Record<string, Asset[]>;
 async function getAssetsForTag(tags: string[]): Promise<Tag> {

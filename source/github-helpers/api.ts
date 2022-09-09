@@ -33,21 +33,21 @@ import features from '../features';
 import {getRepo} from '.';
 import optionsStorage from '../options-storage';
 
-interface JsonError {
+type JsonError = {
 	message: string;
-}
+};
 
-interface GraphQLResponse {
+type GraphQLResponse = {
 	message?: string;
 	data?: JsonObject;
 	errors?: JsonError[];
-}
+};
 
-interface RestResponse extends AnyObject {
+type RestResponse = {
 	httpStatus: number;
 	headers: Headers;
 	ok: boolean;
-}
+} & AnyObject;
 
 export const escapeKey = (...keys: Array<string | number>): string => '_' + String(keys).replace(/[^a-z\d]/gi, '_');
 
@@ -84,17 +84,17 @@ const api4 = pageDetect.isEnterprise()
 	? `${location.origin}/api/graphql`
 	: 'https://api.github.com/graphql';
 
-interface GHRestApiOptions {
+type GHRestApiOptions = {
 	ignoreHTTPStatus?: boolean;
 	method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 	body?: JsonObject;
 	headers?: HeadersInit;
 	json?: boolean;
-}
+};
 
-interface GHGraphQLApiOptions {
+type GHGraphQLApiOptions = {
 	allowErrors?: boolean;
-}
+};
 
 const v3defaults: GHRestApiOptions = {
 	ignoreHTTPStatus: false,

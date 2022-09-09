@@ -10,10 +10,10 @@ import * as api from '../github-helpers/api';
 import {wrapAll} from '../helpers/dom-utils';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
-interface FileType {
+type FileType = {
 	name: string;
 	type: string;
-}
+};
 
 const getCacheKey = (): string => `changelog:${getRepo()!.nameWithOwner}`;
 

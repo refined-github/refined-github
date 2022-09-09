@@ -8,9 +8,9 @@ import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
 
-interface IssueInfo {
+type IssueInfo = {
 	updatedAt: string;
-}
+};
 
 const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Record<string, IssueInfo>> => {
 	const {repository} = await api.v4(`

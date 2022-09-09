@@ -13,12 +13,12 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import addAfterBranchSelector from '../helpers/add-after-branch-selector';
 import {buildRepoURL, getCurrentCommittish, getLatestVersionTag, getRepo} from '../github-helpers';
 
-interface RepoPublishState {
+type RepoPublishState = {
 	latestTag: string | false;
 	aheadBy: number;
-}
+};
 
-interface Tags {
+type Tags = {
 	name: string;
 	tag: {
 		oid: string;
@@ -26,7 +26,7 @@ interface Tags {
 			oid: string;
 		};
 	};
-}
+};
 
 const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
 

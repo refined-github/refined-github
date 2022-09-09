@@ -9,14 +9,14 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 
-interface CommitTarget {
+type CommitTarget = {
 	oid: string;
 	committedDate: string;
 	resourcePath: string;
 	history: {
 		totalCount: number;
 	};
-}
+};
 
 const fresh = [
 	'Freshly baked',

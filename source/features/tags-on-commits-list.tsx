@@ -12,9 +12,9 @@ import {buildRepoURL, getRepo} from '../github-helpers';
 
 type CommitTags = Record<string, string[]>;
 
-interface BaseTarget {
+type BaseTarget = {
 	commitResourcePath: string;
-}
+};
 
 type TagTarget = {
 	tagger: {
@@ -27,10 +27,10 @@ type CommitTarget = {
 } & BaseTarget;
 
 type CommonTarget = TagTarget | CommitTarget;
-interface TagNode {
+type TagNode = {
 	name: string;
 	target: CommonTarget;
-}
+};
 
 function mergeTags(oldTags: CommitTags, newTags: CommitTags): CommitTags {
 	const result: CommitTags = {...oldTags};

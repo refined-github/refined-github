@@ -2,10 +2,10 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import {XIcon} from '@primer/octicons-react';
 
-interface Options {
+type Options = {
 	action?: Element | false;
 	type?: 'success' | 'notice' | 'warn' | 'error';
-}
+};
 
 /** https://primer.style/css/components/alerts */
 export default function addNotice(

@@ -8,10 +8,10 @@ import * as api from '../github-helpers/api';
 import {buildRepoURL} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 
-interface BranchInfo {
+type BranchInfo = {
 	baseRef: string;
 	baseRefName: string;
-}
+};
 
 function isClosed(prLink: HTMLElement): boolean {
 	return Boolean(prLink.closest('.js-issue-row')!.querySelector('.octicon.merged, .octicon.closed'));

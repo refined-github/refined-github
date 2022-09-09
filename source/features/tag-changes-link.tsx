@@ -10,13 +10,13 @@ import features from '.';
 import fetchDom from '../helpers/fetch-dom';
 import {buildRepoURL, getRepo, parseTag} from '../github-helpers';
 
-interface TagDetails {
+type TagDetails = {
 	element: HTMLElement;
 	commit: string;
 	tag: string;
 	version: string;
 	namespace: string;
-}
+};
 
 async function getNextPage(): Promise<DocumentFragment> {
 	const nextPageLink = select('.pagination a:last-child');

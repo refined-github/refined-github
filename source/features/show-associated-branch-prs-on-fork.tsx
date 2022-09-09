@@ -8,7 +8,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepo, upperCaseFirst} from '../github-helpers';
 
-interface PullRequest {
+type PullRequest = {
 	timelineItems: {
 		nodes: AnyObject;
 	};
@@ -16,7 +16,7 @@ interface PullRequest {
 	state: keyof typeof stateIcon;
 	isDraft: boolean;
 	url: string;
-}
+};
 
 export const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Record<string, PullRequest>> => {
 	const {repository} = await api.v4(`

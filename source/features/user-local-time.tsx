@@ -14,10 +14,10 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getUsername, getCleanPathname} from '../github-helpers';
 
-interface Commit {
+type Commit = {
 	url: string;
 	sha: string;
-}
+};
 
 async function loadCommitPatch(commitUrl: string): Promise<string> {
 	const {textContent} = await api.v3(commitUrl, {
