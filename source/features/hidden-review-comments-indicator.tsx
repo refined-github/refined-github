@@ -26,19 +26,36 @@ const handleIndicatorClick = ({delegateTarget}: DelegateEvent): void => {
 // `mem` avoids adding the indicator twice to the same thread
 const addIndicator = mem((commentThread: HTMLElement): void => {
 	const commentCount = commentThread.querySelectorAll('.review-comment.js-comment').length;
-
-	commentThread.before(
-		<tr>
-			<td className="rgh-comments-indicator blob-num" colSpan={2}/>
-			<td className="rgh-comments-indicator button-container blob-num">
-				<button type="button" className="btn-link">
-					<CommentIcon/>
-					<span>{commentCount}</span>
-				</button>
-			</td>
-		</tr>,
-	);
+	const splitView = select('.rgh-no-unnecessary-split-diff-view-visited')
+	
+	if(!splitView){
+		commentThread.before(
+			<tr>
+				<td className="rgh-comments-indicator blob-num" colSpan={2}/>
+				<td className="rgh-comments-indicator button-container blob-num">
+					<button type="button" className="btn-link">
+						<CommentIcon/>
+						<span>{commentCount}</span>
+					</button>
+				</td>
+			</tr>,
+		);
+	} else {
+		commentThread.before(
+			<tr>
+				<td className="rgh-comments-indicator blob-num"/>
+				<td className="rgh-comments-indicator button-container blob-num">
+					<button type="button" className="btn-link">
+						<CommentIcon/>
+						<span>{commentCount}</span>
+					</button>
+				</td>
+				<td className="rgh-comments-indicator blob-num"/>
+			</tr>,
+		);
+	}
 });
+//rgh-no-unnecessary-split-diff-view-visited
 
 // Add indicator when the `show-inline-notes` class is removed (i.e. the comments are hidden)
 const observer = new MutationObserver(mutations => {

@@ -6,6 +6,10 @@
 	border-top: 1px solid; /* Needs to override .blob-num’s */
 }
 
+.rgh-no-unnecessary-split-diff-view-visited .rgh-comments-indicator.button-container {
+	left: -10px;
+}
+
 .rgh-comments-indicator.button-container {
 	border: none !important;
 	position: absolute !important;
