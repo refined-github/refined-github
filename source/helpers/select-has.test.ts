@@ -1,12 +1,10 @@
-import jsdom from 'jsdom';
+import {parseHTML} from 'linkedom';
 import {test, assert} from 'vitest';
 
 import select from './select-has';
 
-const {JSDOM} = jsdom;
-
 test('basic :has() support', () => {
-	const {window: {document}} = new JSDOM(`
+	const {document} = parseHTML(`
 		<a>Home</a>
 		<a><strong>Contacts</a>
 	`);
@@ -15,7 +13,7 @@ test('basic :has() support', () => {
 });
 
 test('returns undefined if not found', () => {
-	const {window: {document}} = new JSDOM(`
+	const {document} = parseHTML(`
 		<a>Home</a>
 		<a><strong>Contacts</strong></a>
 	`);
@@ -24,7 +22,7 @@ test('returns undefined if not found', () => {
 });
 
 test('supports looking for descendants in base element', () => {
-	const {window: {document}} = new JSDOM(`
+	const {document} = parseHTML(`
 		<a>Home</a>
 		<a><em>Contacts</em> <i>icon</i></a>
 	`);
@@ -33,7 +31,7 @@ test('supports looking for descendants in base element', () => {
 });
 
 test('supports looking for direct children in base element', () => {
-	const {window: {document}} = new JSDOM(`
+	const {document} = parseHTML(`
 		<a><em><span>Home <i></i></span></em></a>
 		<a><span><em>Contacts <i></i></em></span></a>
 	`);
@@ -42,7 +40,7 @@ test('supports looking for direct children in base element', () => {
 });
 
 test('throws error when there’s a space before :has()', () => {
-	const {window: {document}} = new JSDOM(`
+	const {document} = parseHTML(`
 		<a>Home</a>
 	`);
 
@@ -52,7 +50,7 @@ test('throws error when there’s a space before :has()', () => {
 });
 
 test('throws error when there is more than one :has()', () => {
-	const {window: {document}} = new JSDOM(`
+	const {document} = parseHTML(`
 		<a>Home</a>
 	`);
 
@@ -62,7 +60,7 @@ test('throws error when there is more than one :has()', () => {
 });
 
 test('throws on sibling selectors', () => {
-	const {window: {document}} = new JSDOM(`
+	const {document} = parseHTML(`
 		<a>Home</a>
 	`);
 
