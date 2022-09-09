@@ -1,4 +1,4 @@
-import {ParseSelector} from 'typed-query-selector/parser';
+import type {ParseSelector} from 'typed-query-selector/parser';
 
 // Adapted from https://stackoverflow.com/a/35271017/288906
 const hasSelectorRegex = /:has\(((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*)\)/;

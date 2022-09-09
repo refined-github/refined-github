@@ -4,7 +4,8 @@ import {AlertIcon} from '@primer/octicons-react';
 import debounceFn from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
-import delegate, {DelegateEvent} from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 
 import features from '.';
 import {

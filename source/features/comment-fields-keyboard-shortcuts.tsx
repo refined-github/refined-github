@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {DelegateEvent} from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import filterAlteredClicks from 'filter-altered-clicks';
 

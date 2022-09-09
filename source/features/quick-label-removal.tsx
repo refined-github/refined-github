@@ -5,7 +5,8 @@ import onetime from 'onetime';
 import {XIcon} from '@primer/octicons-react';
 import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
-import delegate, {DelegateEvent} from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 
 import features from '.';
 import * as api from '../github-helpers/api';

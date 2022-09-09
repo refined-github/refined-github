@@ -2,7 +2,7 @@ import mem from 'mem';
 import React from 'dom-chef';
 import {css} from 'code-tag';
 import onetime from 'onetime';
-import {ParseSelector} from 'typed-query-selector/parser';
+import type {ParseSelector} from 'typed-query-selector/parser';
 
 import {getSnapshotUUID} from './attach-element';
 

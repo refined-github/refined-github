@@ -1,6 +1,7 @@
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
-import delegate, {DelegateEvent} from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 
 import features from '.';
 import {onCommentFieldKeydown, onConversationTitleFieldKeydown, onCommitTitleFieldKeydown} from '../github-events/on-field-keydown';

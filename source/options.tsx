@@ -7,7 +7,8 @@ import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import {assertError} from 'ts-extras';
 import * as indentTextarea from 'indent-textarea';
-import delegate, {DelegateEvent} from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import {isChrome, isFirefox, isSafari} from 'webext-detect-page';
 
 import featureLink from './helpers/feature-link';

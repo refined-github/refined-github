@@ -4,7 +4,8 @@ import select from 'select-dom';
 import {ReplyIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
-import delegate, {DelegateEvent} from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '.';

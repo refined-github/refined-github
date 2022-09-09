@@ -2,7 +2,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import oneMutation from 'one-mutation';
 import * as pageDetect from 'github-url-detection';
-import delegate, {DelegateEvent} from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import {CopyIcon, CheckIcon, TerminalIcon} from '@primer/octicons-react';
 
 import features from '.';
