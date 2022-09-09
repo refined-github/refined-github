@@ -1,17 +1,17 @@
-import {parseHTML} from 'linkedom';
+import {JSDOM} from 'jsdom';
 import {expect, test} from 'vitest';
 
 import './fixtures/globals';
 import {shortenLink} from '../source/github-helpers/dom-formatters';
 
 function shortenLinksInFragment(html: string): string {
-	const {document} = parseHTML(html);
-	const links = document.querySelectorAll('a');
+	const fragment = JSDOM.fragment(html);
+	const links = fragment.querySelectorAll('a');
 	for (const link of links) {
 		shortenLink(link);
 	}
 
-	return (document.firstElementChild as HTMLElement).outerHTML;
+	return (fragment.firstElementChild as HTMLElement).outerHTML;
 }
 
 test('shorten link in comment text', () => {
