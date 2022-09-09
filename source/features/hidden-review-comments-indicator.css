@@ -1,12 +1,20 @@
+.rgh-comments-indicator {
+	position: absolute;
+}
+
 .show-inline-notes .rgh-comments-indicator {
 	display: none;
 }
 
-.rgh-comments-indicator {
-	border: none !important; /* Needs to override .blob-num’s */
-	position: unset !important; /* Needs to override .blob-num’s */
-	border-top: 1px solid !important; /* Needs to override .blob-num’s */
+.rgh-comments-indicator:is(::before, ::after) {
+	content: '' !important; /* Needs to override .blob-num’s */
+	position: absolute;
+	top: -1px;
 	left: 0;
+	width: 200%;
+	border-top: solid 1px;
+	opacity: 40%;
+	transform: translateY(-50%);
 }
 
 /* This is only used to improve the clickability */
@@ -22,7 +30,7 @@
 
 .rgh-comments-indicator button {
 	position: absolute;
-	left: -40px;
+	right: 100%;
 	transform: translateY(-50%);
 	padding: 5px 8px;
 	color: inherit;
@@ -41,5 +49,4 @@
 
 .file-diff-split .rgh-comments-indicator button {
 	padding-right: 1px;
-	left: -30px;
 }
