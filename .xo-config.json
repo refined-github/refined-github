@@ -71,7 +71,7 @@
 		},
 		{
 			"files": [
-				"safari/**/*.js"
+				"**/*.js"
 			],
 			"rules": {
 				"@typescript-eslint/consistent-type-definitions": "off",

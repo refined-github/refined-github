@@ -90,7 +90,7 @@
 		"@sindresorhus/tsconfig": "^3.0.1",
 		"@types/codemirror": "^5.60.5",
 		"@types/firefox-webext-browser": "^94.0.1",
-		"@types/jsdom": "^16.2.14",
+		"@types/jsdom": "^20.0.0",
 		"@types/react": "^17.0.40",
 		"copy-webpack-plugin": "^11.0.0",
 		"cross-env": "^7.0.3",
