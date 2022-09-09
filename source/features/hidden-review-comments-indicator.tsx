@@ -25,8 +25,7 @@ const handleIndicatorClick = ({delegateTarget}: DelegateEvent): void => {
 
 // `mem` avoids adding the indicator twice to the same thread
 const addIndicator = mem((commentThread: HTMLElement): void => {
-	const commentCount = commentThread.querySelectorAll('.review-comment .js-comment').length;
-
+	const commentCount = commentThread.querySelectorAll('.review-comment.js-comment').length;
 	commentThread.before(
 		<tr>
 			<td className="rgh-comments-indicator blob-num" colSpan={2}>
