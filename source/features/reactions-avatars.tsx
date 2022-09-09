@@ -14,11 +14,11 @@ const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
 const avatarSize = 16;
 
-interface Participant {
+type Participant = {
 	button: HTMLButtonElement;
 	username: string;
 	imageUrl: string;
-}
+};
 
 function getParticipants(button: HTMLButtonElement): Participant[] {
 	// The list of people who commented is in an adjacent `<tool-tip>` element #5698

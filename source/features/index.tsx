@@ -28,7 +28,7 @@ export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => vo
 type FeatureInitResult = void | false | Deinit;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
 
-interface FeatureLoader extends Partial<InternalRunConfig> {
+type FeatureLoader = {
 	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
 	shortcuts?: Record<string, string>;
 
@@ -44,9 +44,9 @@ interface FeatureLoader extends Partial<InternalRunConfig> {
 	onlyAdditionalListeners?: true;
 
 	init: FeatureInit; // Repeated here because this interface is Partial<>
-}
+} & Partial<InternalRunConfig>;
 
-interface InternalRunConfig {
+type InternalRunConfig = {
 	asLongAs: BooleanFunction[] | undefined;
 	include: BooleanFunction[] | undefined;
 	exclude: BooleanFunction[] | undefined;
@@ -54,7 +54,7 @@ interface InternalRunConfig {
 	additionalListeners: CallerFunction[];
 
 	onlyAdditionalListeners: boolean;
-}
+};
 
 const {version} = browser.runtime.getManifest();
 
@@ -98,7 +98,7 @@ const log = {
 };
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
-const globalReady: Promise<RGHOptions> = new Promise(async resolve => {
+const globalReady = new Promise<RGHOptions>(async resolve => {
 	const [options, localHotfixes, styleHotfix, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
 		getLocalHotfixesAsOptions(),
@@ -228,7 +228,7 @@ function enforceDefaults(
 
 const getFeatureID = (url: string): FeatureID => url.split('/').pop()!.split('.')[0] as FeatureID;
 
-interface FeatureHelper {
+type FeatureHelper = {
 	/** If `import.meta.url` is passed as URL, this will be the feature ID */
 	id: string;
 
@@ -237,7 +237,7 @@ interface FeatureHelper {
 
 	/** A class selector that can be used with querySelector */
 	selector: string;
-}
+};
 
 const getIdentifiers = (url: string): FeatureHelper => {
 	const id = getFeatureID(url);

@@ -10,10 +10,10 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 
-interface WorkflowDetails {
+type WorkflowDetails = {
 	schedule?: string;
 	manuallyDispatchable: boolean;
-}
+};
 
 const getWorkflowsDetails = cache.function(async (): Promise<Record<string, WorkflowDetails> | false> => {
 	const {repository: {workflowFiles}} = await api.v4(`

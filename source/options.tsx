@@ -17,11 +17,11 @@ import {createRghIssueLink} from './helpers/rgh-issue-link';
 import {importedFeatures, featuresMeta} from '../readme.md';
 import {perDomainOptions, renamedFeatures} from './options-storage';
 
-interface Status {
+type Status = {
 	error?: true;
 	text?: string;
 	scopes?: string[];
-}
+};
 
 function reportStatus({error, text, scopes}: Status): void {
 	const tokenStatus = select('#validation')!;

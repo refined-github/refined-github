@@ -8,13 +8,13 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import * as api from '../github-helpers/api';
 
-interface PRConfig {
+type PRConfig = {
 	number: string;
 	user: string;
 	repo: string;
 	link: HTMLAnchorElement;
 	key: string;
-}
+};
 
 function createQueryFragment(pr: PRConfig): string {
 	return `

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-definitions -- Declaration merging necessary */
 /* eslint-disable unicorn/better-regex -- Go home you're drunk */
 
 import regexJoin from 'regex-join';

@@ -87,7 +87,7 @@
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
-		"@sindresorhus/tsconfig": "^2.0.0",
+		"@sindresorhus/tsconfig": "^3.0.1",
 		"@types/codemirror": "^5.60.5",
 		"@types/firefox-webext-browser": "^94.0.1",
 		"@types/jsdom": "^20.0.0",
@@ -99,7 +99,7 @@
 		"dot-json": "^1.2.2",
 		"esbuild-loader": "^2.20.0",
 		"eslint-config-xo-react": "^0.27.0",
-		"eslint-plugin-react": "^7.30.0",
+		"eslint-plugin-react": "^7.31.8",
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"highlight.js": "^11.6.0",
 		"jsdom": "^20.0.0",
@@ -113,11 +113,11 @@
 		"ts-node": "^10.9.1",
 		"type-fest": "^2.19.0",
 		"typed-query-selector": "^2.7.0",
-		"typescript": "^4.7.4",
+		"typescript": "^4.8.3",
 		"vitest": "^0.23.1",
 		"webpack": "^5.74.0",
 		"webpack-cli": "^4.10.0",
-		"xo": "^0.50.0"
+		"xo": "^0.52.3"
 	},
 	"engines": {
 		"node": ">= 16",

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-definitions -- Declaration merging necessary */
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 
 type AnyObject = Record<string, any>;

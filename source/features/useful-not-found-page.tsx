@@ -10,21 +10,21 @@ import GitHubURL from '../github-helpers/github-url';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getCleanPathname} from '../github-helpers';
 
-interface File {
+type File = {
 	previous_filename?: string;
 	filename: string;
 	status: string;
 	blob_url: string;
-}
+};
 
-interface FileChanges {
+type FileChanges = {
 	file: File;
 	commit: {
 		parentSha: string;
 		date: Date;
 		url: string;
 	};
-}
+};
 
 function getType(): string {
 	return location.pathname.split('/').pop()!.includes('.') ? 'file' : 'object';
