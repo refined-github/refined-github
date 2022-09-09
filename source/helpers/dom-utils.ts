@@ -1,11 +1,13 @@
 import select from 'select-dom';
-import pushForm from 'push-form';
+import {setFetch} from 'push-form';
 
 // `content.fetch` is Firefox’s way to make fetches from the page instead of from a different context
 // This will set the correct `origin` header without having to use XMLHttpRequest
 // https://stackoverflow.com/questions/47356375/firefox-fetch-api-how-to-omit-the-origin-header-in-the-request
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#XHR_and_Fetch
-pushForm.fetch = window.content?.fetch ?? window.fetch;
+if (window.content?.fetch) {
+	setFetch(window.content.fetch);
+}
 
 /**
  * Append to an element, but before a element that might not exist.
