@@ -2,7 +2,12 @@
 	top: 100% !important;
 	left: 50% !important;
 	right: auto !important;
-	transform: translate(-50%) !important;
+	transform: translateX(-50%) !important;
 	display: grid !important;
 	grid-template: auto / repeat(4, auto); /* Restore two-line layout */
+}
+
+.comment-reactions .dropdown-menu-reactions.dropdown-menu-reactions {
+	top: unset !important;
+	bottom: 100% !important;
 }
