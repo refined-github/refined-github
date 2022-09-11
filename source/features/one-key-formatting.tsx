@@ -17,17 +17,15 @@ function eventHandler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement | 
 		return;
 	}
 
-	const [start, end] = [field.selectionStart, field.selectionEnd];
+	const [start, end] = [field.selectionStart!, field.selectionEnd!];
 
 	// If `start` and `end` of selection are the same, then no text is selected
-	if (start === end || start === null || end === null) {
+	if (start === end) {
 		return;
 	}
 
-	const selectedText = field.value.slice(start, end);
-
 	// Allow replacing quotes
-	if (quoteCharacters.has(formattingChar) && quoteCharacters.has(selectedText)) {
+	if (quoteCharacters.has(formattingChar) && end - start === 1 && quoteCharacters.has(field.value.at(start)!)) {
 		return;
 	}
 
