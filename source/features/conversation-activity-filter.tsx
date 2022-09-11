@@ -166,8 +166,8 @@ async function addWidget(header: string, state: State): Promise<void> {
 			id="rgh-conversation-activity-filter-select-menu"
 		>
 			<summary>
-				<EyeIcon className="color-text-secondary color-fg-muted"/>
-				<EyeClosedIcon className="color-icon-danger color-fg-danger"/>
+				<EyeIcon className="color-fg-muted"/>
+				<EyeClosedIcon className="color-fg-danger"/>
 				<div className="dropdown-caret ml-1"/>
 			</summary>
 			<details-menu

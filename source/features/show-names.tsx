@@ -63,7 +63,7 @@ async function init(): Promise<false | void> {
 		const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : usernameElement;
 		insertionPoint.after(
 			' ',
-			<span className="color-text-secondary color-fg-muted css-truncate d-inline-block">
+			<span className="color-fg-muted css-truncate d-inline-block">
 				(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{name}</bdo>)
 			</span>,
 			' ',

@@ -11,7 +11,7 @@ function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 	const url = new URL(location.href);
 	url.searchParams.set('diff', type);
 	const classes = pageDetect.isPR()
-		? 'tooltipped tooltipped-s d-none d-lg-block ml-2 color-icon-secondary color-fg-muted'
+		? 'tooltipped tooltipped-s d-none d-lg-block ml-2 color-fg-muted'
 		: 'tooltipped tooltipped-s btn btn-sm BtnGroup-item ' + (selected ? 'selected' : '');
 
 	return (
@@ -60,8 +60,8 @@ function createWhitespaceButton(): HTMLElement {
 	}
 
 	const classes = pageDetect.isPR()
-		? 'tooltipped tooltipped-s d-none d-lg-block color-icon-secondary color-fg-muted'
-		: 'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-text-tertiary color-fg-subtle' : '');
+		? 'tooltipped tooltipped-s d-none d-lg-block color-fg-muted'
+		: 'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-fg-subtle' : '');
 
 	return (
 		<a

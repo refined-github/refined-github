@@ -68,7 +68,7 @@ async function init(): Promise<void | false> {
 			style={pageDetect.isEnterprise() ? {padding: '6px 16px'} : {}}
 			role="button"
 		>
-			<BookIcon className="color-text-link color-fg-accent mr-2"/>
+			<BookIcon className="color-fg-accent mr-2"/>
 			<span>Changelog</span>
 		</a>
 	);

@@ -27,7 +27,7 @@ async function cleanReleases(): Promise<void> {
 		.classList.add('border-0', 'pb-0');
 
 	// Align latest tag icon with the icons of other meta links
-	const tagIcon = select('.octicon-tag:not(.color-text-success, .color-fg-success)', releasesSection)!;
+	const tagIcon = select('.octicon-tag:not(.color-fg-success)', releasesSection)!;
 	if (tagIcon) {
 		tagIcon.classList.add('mr-2');
 		// Remove whitespace node
