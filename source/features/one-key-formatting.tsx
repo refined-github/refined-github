@@ -7,24 +7,32 @@ import {onCommentFieldKeydown, onConversationTitleFieldKeydown, onCommitTitleFie
 
 const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~', '“', '‘'];
 const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~', '”', '’'];
+const quoteCharacters = new Set(['`', '\'', '"']);
 
 function eventHandler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement | HTMLInputElement>): void {
 	const field = event.delegateTarget;
+	const formattingChar = event.key;
 
-	if (!formattingCharacters.includes(event.key)) {
+	if (!formattingCharacters.includes(formattingChar)) {
 		return;
 	}
 
 	const [start, end] = [field.selectionStart, field.selectionEnd];
 
 	// If `start` and `end` of selection are the same, then no text is selected
-	if (start === end) {
+	if (start === end || start === null || end === null) {
+		return;
+	}
+
+	const selectedText = field.value.slice(start, end);
+
+	// Allow replacing quotes
+	if (quoteCharacters.has(formattingChar) && quoteCharacters.has(selectedText)) {
 		return;
 	}
 
 	event.preventDefault();
 
-	const formattingChar = event.key;
 	const matchingEndChar = matchingCharacters[formattingCharacters.indexOf(formattingChar)];
 	textFieldEdit.wrapSelection(field, formattingChar, matchingEndChar);
 }
