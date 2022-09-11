@@ -4,7 +4,8 @@
 
 .rgh-sticky-sidebar {
 	position: sticky;
-	top: 0;
+	--rgh-header-offset: 0;
+	top: var(--rgh-header-offset) !important;
 
 	/* `sticky` will trap the `fixed` dialog’s z-index in some sidebars #3732 */
 	/* Higher than sticky readme header #4192 */
@@ -12,14 +13,16 @@
 }
 
 #partial-discussion-sidebar.rgh-sticky-sidebar {
-	top: 76px !important; /* Sticky header's height + sidebar item's margin */
+	/* Sticky header's height */
+	--rgh-header-offset: 60px;
 
 	/* Needed so the backdrop of notification modal is over the other elements in the conversation */
 	z-index: 1;
 }
 
 .notification-shelf ~ .application-main #partial-discussion-sidebar.rgh-sticky-sidebar {
-	top: 145px !important; /* Notification header's height + sticky header's height + sidebar item's margin */
+	/* Notification header's height + sticky header's height */
+	--rgh-header-offset: 150px;
 }
 
 /* Hides the last divider (on pull requests) to avoid https://user-images.githubusercontent.com/10238474/62282128-af6fb980-b457-11e9-8b18-c29687b88da1.gif */
