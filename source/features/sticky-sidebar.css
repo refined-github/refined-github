@@ -3,8 +3,9 @@
 }
 
 .rgh-sticky-sidebar {
-	position: sticky;
 	--rgh-header-offset: 0;
+
+	position: sticky;
 	top: var(--rgh-header-offset) !important;
 
 	/* `sticky` will trap the `fixed` dialog’s z-index in some sidebars #3732 */
