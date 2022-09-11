@@ -108,21 +108,20 @@ function initPR(): false | void {
 function attachButtons(nativeDiffButtons: HTMLElement): void {
 	// TODO: Replace with :has()
 	const anchor = nativeDiffButtons.parentElement;
-	if (anchor?.classList.contains('float-right')) {
-		attachElement({
-			anchor,
-			after: () => (
-				<div className="float-right mr-3">
-					{createWhitespaceButton()}
-				</div>
-			),
-		});
-	} else {
-		attachElement({
-			anchor,
-			before: createWhitespaceButton,
-		});
-	}
+
+	// `usesFloats` is necessary to ensure the order and spacing as seen in #5958
+	const usesFloats = anchor?.classList.contains('float-right');
+	attachElement(usesFloats ? {
+		anchor,
+		after: () => (
+			<div className="float-right mr-3">
+				{createWhitespaceButton()}
+			</div>
+		),
+	} : {
+		anchor,
+		before: createWhitespaceButton,
+	});
 }
 
 function init(): false | void {
