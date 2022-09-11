@@ -24,7 +24,7 @@ function eventHandler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement | 
 		return;
 	}
 
-	// Allow replacing quotes
+	// Allow replacing quotes #5960
 	if (quoteCharacters.has(formattingChar) && end - start === 1 && quoteCharacters.has(field.value.at(start)!)) {
 		return;
 	}
