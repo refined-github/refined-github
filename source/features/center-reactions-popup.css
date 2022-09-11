@@ -7,7 +7,7 @@
 	grid-template: auto / repeat(4, auto); /* Restore two-line layout */
 }
 
-.comment-reactions .dropdown-menu-reactions.dropdown-menu-reactions {
+.comment-reactions .dropdown-menu-reactions.dropdown-menu-reactions { /* Fix position of popup at bottom of comments #5957 */
 	top: unset !important;
 	bottom: 100% !important;
 }
