@@ -3,7 +3,7 @@
 	left: 50%;
 	right: auto;
 	bottom: auto; /* #5957 */
-	transform: translateX(-50%) !important;
+	translate: -50%;
 	display: grid !important;
 	grid-template: auto / repeat(4, auto); /* Restore two-line layout */
 }
