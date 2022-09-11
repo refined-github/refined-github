@@ -4,7 +4,6 @@
 
 .rgh-sticky-sidebar {
 	--rgh-header-offset: 0;
-
 	position: sticky;
 	top: var(--rgh-header-offset) !important;
 
