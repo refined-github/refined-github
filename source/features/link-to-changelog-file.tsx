@@ -73,18 +73,14 @@ async function init(): Promise<void | false> {
 		</a>
 	);
 
-	if (pageDetect.isEnterprise()) { // Before "Releases UI refresh" #4902
-		(await elementReady('.subnav div', {waitForChildren: false}))!.after(changelogButton);
-	} else {
-		const releasesOrTagsNavbarSelector = [
-			'nav[aria-label^="Releases and Tags"]', // Release list
-			'.subnav-links', // Tag list
-		].join(',');
+	const releasesOrTagsNavbarSelector = [
+		'nav[aria-label^="Releases and Tags"]', // Release list
+		'.subnav-links', // Tag list
+	].join(',');
 
-		const navbar = (await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!;
-		navbar.classList.remove('flex-1');
-		wrapAll([navbar, changelogButton], <div className="d-flex flex-justify-start flex-1"/>);
-	}
+	const navbar = (await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!;
+	navbar.classList.remove('flex-1');
+	wrapAll([navbar, changelogButton], <div className="d-flex flex-justify-start flex-1"/>);
 }
 
 void features.add(import.meta.url, {
