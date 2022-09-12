@@ -9,9 +9,9 @@ import {getPullRequestsAssociatedWithBranch, stateIcon} from './show-associated-
 
 // Taken from https://github.com/fregante/github-issue-link-status/blob/98792f2837352bacbf80664f3edbcec8e579ed17/source/github-issue-link-status.js#L10
 const stateColorMap = {
-	OPEN: 'color-text-success color-fg-success',
-	CLOSED: 'color-text-danger color-fg-danger',
-	MERGED: 'color-purple-5 color-fg-done',
+	OPEN: 'color-fg-success',
+	CLOSED: 'color-fg-danger',
+	MERGED: 'color-fg-done',
 	DRAFT: '',
 };
 

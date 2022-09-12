@@ -83,14 +83,14 @@ function handleSelection({target}: Event): void {
 
 function createDropdownList(category: Category, filters: Filter[]): JSX.Element {
 	const icons: {[Key in Filter]: JSX.Element} = {
-		'Pull requests': <GitPullRequestIcon className="color-text-secondary color-fg-muted"/>,
-		Issues: <IssueOpenedIcon className="color-text-secondary color-fg-muted"/>,
-		Open: <CheckCircleIcon className="color-text-success color-fg-success"/>,
-		Closed: <XCircleIcon className="color-text-danger color-fg-danger"/>,
-		Draft: <GitPullRequestDraftIcon className="color-text-tertiary color-fg-subtle"/>,
+		'Pull requests': <GitPullRequestIcon className="color-fg-muted"/>,
+		Issues: <IssueOpenedIcon className="color-fg-muted"/>,
+		Open: <CheckCircleIcon className="color-fg-success"/>,
+		Closed: <XCircleIcon className="color-fg-danger"/>,
+		Draft: <GitPullRequestDraftIcon className="color-fg-subtle"/>,
 		Merged: <GitMergeIcon className="color-fg-done"/>,
-		Read: <DotIcon className="color-text-link color-fg-accent"/>,
-		Unread: <DotFillIcon className="color-text-link color-fg-accent"/>,
+		Read: <DotIcon className="color-fg-accent"/>,
+		Unread: <DotFillIcon className="color-fg-accent"/>,
 	};
 
 	return (

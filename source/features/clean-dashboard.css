@@ -8,7 +8,7 @@
 */
 
 /* Hide duplicate repo name in some non-grouped events */
-.rgh-clean-dashboard .dashboard :is(.watch_started, .repo, .public) :is(.color-border-secondary, .color-border-muted).flex-items-baseline .text-bold:is(.color-text-primary, .color-fg-default) {
+.rgh-clean-dashboard .dashboard :is(.watch_started, .repo, .public) .color-border-muted.flex-items-baseline .text-bold.color-fg-default {
 	display: none;
 }
 
@@ -59,12 +59,12 @@
 }
 
 /* Hide footer date on Created Repository events */
-.rgh-clean-dashboard .dashboard .repo .f6:is(.color-text-secondary, .color-fg-muted) {
+.rgh-clean-dashboard .dashboard .repo .f6.color-fg-muted {
 	display: none;
 }
 
 /* Grouped events: Make repo name smaller */
-.rgh-clean-dashboard .dashboard .Details .flex-items-baseline .text-bold:is(.color-text-primary, .color-fg-default) {
+.rgh-clean-dashboard .dashboard .Details .flex-items-baseline .text-bold.color-fg-default {
 	font-size: 1em !important;
 }
 
