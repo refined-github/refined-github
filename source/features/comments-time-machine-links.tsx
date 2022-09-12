@@ -80,6 +80,7 @@ function addInlineLinks(menu: HTMLElement, timestamp: string): void {
 	`, comment);
 
 	for (const link of links) {
+		link.dataset.baseUrl = link.href;
 		const linkParts = link.pathname.split('/');
 		// Skip permalinks
 		if (/^[\da-f]{40}$/.test(linkParts[4])) {
