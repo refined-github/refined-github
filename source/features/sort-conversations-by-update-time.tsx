@@ -4,6 +4,12 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import SearchQuery from '../github-helpers/search-query';
 
+export function saveOriginalHref(link: HTMLAnchorElement): void {
+	if (!link.dataset.originalHref) {
+		link.dataset.originalHref = link.href;
+	}
+}
+
 function selectCurrentConversationFilter(): void {
 	const currentSearchURL = location.href.replace('/pulls?', '/issues?'); // Replacement needed to make up for the redirection of "Your pull requests" link
 	const currentFilter = select(`#filters-select-menu a.SelectMenu-item[href="${currentSearchURL}"]`);
@@ -25,17 +31,19 @@ function init(): void {
 		// + skip pagination links
 		// + skip pr/issue filter dropdowns (some are lazyloaded)
 		if (pageDetect.isIssueOrPRList(link)) {
-			const isRelativeAttribute = link.getAttribute('href')!.startsWith('/');
-			link.href = SearchQuery.from(link).add('sort:updated-desc').href;
+			saveOriginalHref(link);
+
+			const newUrl = SearchQuery.from(link).add('sort:updated-desc').href;
 
 			// Preserve relative attributes as such #5435
-			if (isRelativeAttribute) {
-				link.href = link.href.replace(location.origin, '');
-			}
+			const isRelativeAttribute = link.getAttribute('href')!.startsWith('/');
+			link.href = isRelativeAttribute ? newUrl.replace(location.origin, '') : newUrl;
 		}
 
 		// Also sort projects #4957
 		if (pageDetect.isProjects()) {
+			saveOriginalHref(link);
+
 			// Projects use a different parameter name so don't use SearchQuery
 			const search = new URLSearchParams(link.search);
 			const query = search.get('query') ?? 'is:open'; // Default value query is missing
