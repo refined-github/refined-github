@@ -1,9 +1,18 @@
-.dropdown-menu-reactions.dropdown-menu-reactions { /* Double selector to override .d-flex on Chrome */
-	top: 100%;
-	left: 50%;
-	right: auto;
-	bottom: auto; /* #5957 */
-	translate: -50%;
+/* Restore two-line layout */
+:root .dropdown-menu-reactions {
 	display: grid !important;
-	grid-template: auto / repeat(4, auto); /* Restore two-line layout */
+	grid-template: auto / repeat(4, auto);
+}
+
+/* Move the popups */
+/* Align the popups to the border + add 10px to make them overflow a bit */
+/* Button on the top right of comments */
+.dropdown-menu-reactions.dropdown-menu-w {
+	/* Depends on the presence of `quick-comment-edit` */
+	translate: 107px -22px;
+}
+
+/* Button on the bottom left of comments */
+.dropdown-menu-reactions.dropdown-menu-ne {
+	translate: -27px 61px;
 }
