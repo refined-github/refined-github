@@ -13,7 +13,7 @@ export function ToastSpinner(): JSX.Element {
 }
 
 type ProgressCallback = (message: string) => void;
-type Task = Promise<unknown>| ((progress?: ProgressCallback) => Promise<unknown>);
+type Task = Promise<unknown> | ((progress?: ProgressCallback) => Promise<unknown>);
 export default async function showToast(
 	task: Task | Error,
 	{
