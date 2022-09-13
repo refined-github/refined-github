@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-react';
 
@@ -8,16 +9,32 @@ import selectHas from '../helpers/select-has';
 import attachElement from '../helpers/attach-element';
 import observe from '../helpers/selector-observer';
 
+const diffSwitchButtons = features.getIdentifiers(import.meta.url);
+
+function alternateDiffNatively(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
+	const type = new URLSearchParams(event.delegateTarget.search).get('diff')!;
+	const formField = select(`input#diff_${type}`);
+	if (!formField) {
+		// Let the link through
+		return;
+	}
+
+	// Submit form so that the preference is persisted #5288
+	formField.checked = true;
+	formField.form!.submit();
+	event.preventDefault();
+}
+
 function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 	const url = new URL(location.href);
 	url.searchParams.set('diff', type);
 	const classes = pageDetect.isPR()
-		? 'tooltipped tooltipped-s d-none d-lg-block ml-2 color-fg-muted'
-		: 'tooltipped tooltipped-s btn btn-sm BtnGroup-item ' + (selected ? 'selected' : '');
+		? 'd-none d-lg-block ml-2 color-fg-muted'
+		: 'btn btn-sm BtnGroup-item ' + (selected ? 'selected' : '');
 
 	return (
 		<a
-			className={classes}
+			className={`tooltipped tooltipped-s ${classes} ${diffSwitchButtons.class}`}
 			aria-label={`Switch to the ${type} diff view`}
 			href={url.href}
 		>
@@ -76,7 +93,9 @@ function createWhitespaceButton(): HTMLElement {
 	);
 }
 
-function initPR(): false | void {
+function initPR(signal: AbortSignal): void {
+	delegate(document, diffSwitchButtons.selector, 'click', alternateDiffNatively, {signal});
+
 	const originalToggle = selectHas('details:has([aria-label="Diff settings"])')!.parentElement!;
 
 	if (!isHidingWhitespace()) {
@@ -124,8 +143,8 @@ function attachButtons(nativeDiffButtons: HTMLElement): void {
 	});
 }
 
-function init(): false | void {
-	observe('[action="/users/diffview"]', attachButtons);
+function init(signal: AbortSignal): void {
+	observe('[action="/users/diffview"]', attachButtons, {signal});
 }
 
 const shortcuts = {
