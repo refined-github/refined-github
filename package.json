@@ -15,7 +15,6 @@
 		"test": "run-p vitest lint:* build:* test:features",
 		"test:features": "node --loader ts-node/esm \"build/verify-features.ts\"",
 		"watch": "run-p watch:* --continue-on-error",
-		"watch:vitest": "vitest",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:webpack": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" webpack --mode=development --watch"
 	},

@@ -5,7 +5,8 @@ import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-
 
 import features from '.';
 import selectHas from '../helpers/select-has';
-import {onDiffFileLoad} from '../github-events/on-fragment-load';
+import attachElement from '../helpers/attach-element';
+import observe from '../helpers/selector-observer';
 
 function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 	const url = new URL(location.href);
@@ -104,12 +105,27 @@ function initPR(): false | void {
 	select('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-sm-2');
 }
 
-function initCommitAndCompare(): false | void {
-	select('#toc')!.prepend(
-		<div className="float-right d-flex">
-			<div className="d-flex ml-3 BtnGroup">{createWhitespaceButton()}</div>
-		</div>,
-	);
+function attachButtons(nativeDiffButtons: HTMLElement): void {
+	// TODO: Replace with :has()
+	const anchor = nativeDiffButtons.parentElement;
+
+	// `usesFloats` is necessary to ensure the order and spacing as seen in #5958
+	const usesFloats = anchor?.classList.contains('float-right');
+	attachElement(usesFloats ? {
+		anchor,
+		after: () => (
+			<div className="float-right mr-3">
+				{createWhitespaceButton()}
+			</div>
+		),
+	} : {
+		anchor,
+		before: createWhitespaceButton,
+	});
+}
+
+function init(): false | void {
+	observe('[action="/users/diffview"]', attachButtons);
 }
 
 const shortcuts = {
@@ -131,17 +147,17 @@ void features.add(import.meta.url, {
 	shortcuts,
 	include: [
 		pageDetect.isSingleCommit,
-	],
-	init: initCommitAndCompare,
-}, {
-	shortcuts,
-	include: [
 		pageDetect.isCompare,
 	],
-	additionalListeners: [
-		onDiffFileLoad,
-	],
-	onlyAdditionalListeners: true,
 	deduplicate: false,
-	init: initCommitAndCompare,
+	init,
 });
+
+/*
+# Test URLs
+
+- Compare, in "Files changed" tab: https://github.com/rancher/rancher/compare/v2.6.3...v2.6.6
+- Compare, without tab: https://github.com/rancher/rancher/compare/v2.6.5...v2.6.6
+- Single commit: https://github.com/rancher/rancher/commit/e82921075436c21120145927d5a66037661fcf4e
+
+*/
