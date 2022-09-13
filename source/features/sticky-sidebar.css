@@ -2,10 +2,23 @@
 	z-index: initial; /* This affects the social buttons. It seems to have no effect but it constantly causes trouble with other features. */
 }
 
+/*
+Have the calculations available even when the sidebar isn't sticky so that `--rgh-sticky-sidebar-offset` can be used via JS.
+
+Exclusively use simple sums and use `0px` instead of `0`
+ */
+#partial-discussion-sidebar {
+	--rgh-sticky-header-height: 60px;
+	--rgh-sticky-sidebar-offset: calc(var(--rgh-sticky-header-height, 0px) + var(--rgh-sticky-notifitication-header-height, 0px));
+}
+
+.notification-shelf ~ .application-main #partial-discussion-sidebar {
+	--rgh-sticky-notifitication-header-height: 69px;
+}
+
 .rgh-sticky-sidebar {
-	--rgh-header-offset: 0;
 	position: sticky;
-	top: var(--rgh-header-offset) !important;
+	top: var(--rgh-sticky-sidebar-offset) !important;
 
 	/* `sticky` will trap the `fixed` dialog’s z-index in some sidebars #3732 */
 	/* Higher than sticky readme header #4192 */
@@ -13,16 +26,7 @@
 }
 
 #partial-discussion-sidebar.rgh-sticky-sidebar {
-	/* Sticky header's height */
-	--rgh-header-offset: 60px;
-
-	/* Needed so the backdrop of notification modal is over the other elements in the conversation */
 	z-index: 1;
-}
-
-.notification-shelf ~ .application-main #partial-discussion-sidebar.rgh-sticky-sidebar {
-	/* Notification header's height + sticky header's height */
-	--rgh-header-offset: 150px;
 }
 
 /* Hides the last divider (on pull requests) to avoid https://user-images.githubusercontent.com/10238474/62282128-af6fb980-b457-11e9-8b18-c29687b88da1.gif */

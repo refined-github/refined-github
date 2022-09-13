@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import observe from '../helpers/selector-observer';
 import onAbort from '../helpers/abort-controller';
+import calculateCssCalcString from '../helpers/calculate-css-calc-string';
 
 // The first selector in the parentheses is for the repo root, the second one for conversation pages
 const sidebarSelector = '.Layout-sidebar :is(.BorderGrid, #partial-discussion-sidebar)';
@@ -37,10 +38,14 @@ function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
 }
 
 function updateStickiness(): void {
-	const margin = pageDetect.isConversation() ? 60 : 0; // 60 matches sticky header's height
-	sidebar?.classList.toggle(
+	if (!sidebar) {
+		return;
+	}
+
+	const offset = calculateCssCalcString(getComputedStyle(sidebar).getPropertyValue('--rgh-sticky-sidebar-offset'));
+	sidebar.classList.toggle(
 		'rgh-sticky-sidebar',
-		sidebar.offsetHeight + margin < window.innerHeight,
+		sidebar.offsetHeight + offset < window.innerHeight,
 	);
 }
 
