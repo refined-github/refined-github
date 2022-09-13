@@ -4,7 +4,7 @@ import {isDefined} from 'ts-extras';
 
 import hashString from './hash-string';
 
-type Position = 'append' | 'prepend' | 'before' | 'after';
+type Position = 'append' | 'prepend' | 'before' | 'after' | 'forEach';
 
 type Attachment<NewElement extends Element> = RequireAtLeastOne<{
 	// eslint-disable-next-line @typescript-eslint/ban-types --  Allows dom traversing without requiring `!`
@@ -14,6 +14,7 @@ type Attachment<NewElement extends Element> = RequireAtLeastOne<{
 	prepend: () => NewElement;
 	before: () => NewElement;
 	after: () => NewElement;
+	forEach: (anchorElement: Element) => NewElement;
 	allowMissingAnchor?: boolean;
 }, Position>;
 
@@ -37,6 +38,7 @@ export default function attachElement<NewElement extends Element>({
 	prepend,
 	before,
 	after,
+	forEach,
 	allowMissingAnchor = false,
 }: Attachment<NewElement>): NewElement[] {
 	const anchorElement = typeof anchor === 'string' ? select(anchor) : anchor;
@@ -52,10 +54,15 @@ export default function attachElement<NewElement extends Element>({
 		return [];
 	}
 
-	const call = (position: Position, create: () => NewElement): NewElement => {
-		const element = create();
+	const call = (position: Position, create: (anchorElement: Element) => NewElement): NewElement => {
+		const element = create(anchorElement);
 		element.classList.add(className);
-		anchorElement[position](element);
+
+		// Attach the created element, unless the callback already took care of that
+		if (position !== 'forEach') {
+			anchorElement[position](element);
+		}
+
 		return element;
 	};
 
@@ -64,7 +71,8 @@ export default function attachElement<NewElement extends Element>({
 		prepend && call('prepend', prepend),
 		before && call('before', before),
 		after && call('after', after),
-		// eslint-disable-next-line unicorn/no-array-callback-reference -- It only works this way. TS AMIRITE
+		forEach && call('forEach', forEach),
+		// eslint-disable-next-line unicorn/no-array-callback-reference -- It only works this way. TS, AMIRITE?
 	].filter(isDefined);
 }
 
