@@ -22,13 +22,13 @@ function getUnreadNotifications(container: ParentNode = document): HTMLElement[]
 	return select.all('.notification-unread', container);
 }
 
-function openNotifications(notifications: Element[], markAsDone = false): void {
+async function openNotifications(notifications: Element[], markAsDone = false): Promise<void> {
 	const urls: string[] = [];
 	for (const notification of notifications) {
 		urls.push(notification.querySelector('a')!.href);
 	}
 
-	if (!openTabs(urls)) {
+	if (!await openTabs(urls)) {
 		return;
 	}
 

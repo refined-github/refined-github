@@ -20,7 +20,7 @@ const issueListSelector = pageDetect.isGlobalIssueOrPRList()
 
 function onButtonClick(): void {
 	const issues = select.all(`${issueListSelector} .js-issue-row`);
-	openTabs(issues.map(issue => getUrlFromItem(issue)));
+	void openTabs(issues.map(issue => getUrlFromItem(issue)));
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
