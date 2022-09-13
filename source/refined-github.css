@@ -2,7 +2,7 @@
 	--rgh-green: var(--color-fg-success, #1a7f37);
 	--rgh-red: var(--color-fg-danger, #cf222e);
 	--rgh-border-color: var(--color-border-muted, #d8dee4);
-	--rgh-background: var(--color-canvas-default, var(--color-bg-canvas, #fff));
+	--rgh-background: var(--color-canvas-default, #fff);
 }
 
 /* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons for #1830 and #1904 */
@@ -106,12 +106,12 @@ highlight-collaborators-and-own-conversations
 parse-backticks
 pr-branches
 */
-.js-issue-row .text-small:is(.color-text-secondary, .color-fg-muted) {
+.js-issue-row .text-small.color-fg-muted {
 	line-height: 1.8;
 }
 
 /* Reset `vertical-align` for .octicons to work with above increased line-height */
-.js-issue-row .text-small:is(.color-text-secondary, .color-fg-muted) .octicon {
+.js-issue-row .text-small.color-fg-muted .octicon {
 	vertical-align: middle;
 }
 

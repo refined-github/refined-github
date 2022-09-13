@@ -49,7 +49,7 @@ function addExistingTagLink(tagName: string): void {
 
 		discussionHeader.parentElement!.append(
 			<span>
-				<TagIcon className="ml-2 mr-1 color-text-secondary color-fg-muted"/>
+				<TagIcon className="ml-2 mr-1 color-fg-muted"/>
 				<a
 					href={tagUrl}
 					className="commit-ref"

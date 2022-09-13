@@ -16,7 +16,7 @@
 	font-weight: 600;
 }
 
-.mergeability-details .js-details-container :is(.color-text-danger, .color-fg-danger) + .status-meta {
+.mergeability-details .js-details-container .color-fg-danger + .status-meta {
 	color: var(--rgh-red);
 }
 

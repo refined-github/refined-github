@@ -56,7 +56,7 @@ async function init(): Promise<false | void> {
 
 		const branch = pr.baseRef && buildRepoURL(`tree/${pr.baseRefName}`);
 
-		prLink.parentElement!.querySelector('.text-small:is(.color-text-secondary, .color-fg-muted) .d-none.d-md-inline-flex')!.append(
+		prLink.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!.append(
 			<span className="issue-meta-section ml-2">
 				<GitPullRequestIcon/>
 				{' To '}

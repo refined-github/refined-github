@@ -36,7 +36,7 @@ async function is404(url: string): Promise<boolean> {
 }
 
 function getStrikeThrough(text: string): HTMLElement {
-	return <del className="color-text-tertiary color-fg-subtle">{text}</del>;
+	return <del className="color-fg-subtle">{text}</del>;
 }
 
 async function checkAnchor(anchor: HTMLElement): Promise<void> {
