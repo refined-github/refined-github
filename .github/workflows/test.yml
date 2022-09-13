@@ -64,6 +64,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build:webpack -- --json webpack-stats.json
+      - uses: actions/upload-artifact@v2
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          name: refined-github
+          path: distribution
       - name: Send webpack stats to RelativeCI
         if: matrix.os == 'ubuntu-latest'
         uses: relative-ci/agent-action@v2
@@ -72,11 +77,14 @@ jobs:
           key: ${{ secrets.RELATIVE_CI_KEY }}
 
   Safari:
-    runs-on: macos-12
+    runs-on: macos-11
+    needs: Build
     steps:
       - uses: actions/checkout@v3
-      - run: npm ci
-      - run: npm run build:webpack
+      - uses: actions/download-artifact@v3 # npm install+build seems slow and problematic on macOS
+        with:
+          name: refined-github
+          path: distribution
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest
