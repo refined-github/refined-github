@@ -51,12 +51,6 @@
 		E3919B0A27E61192009C4956 /* refined-github.css in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF427E61192009C4956 /* refined-github.css */; };
 		E3919B0B27E61192009C4956 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF627E61192009C4956 /* options.css */; };
 		E3919B0C27E61192009C4956 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF627E61192009C4956 /* options.css */; };
-		E3919B0D27E61199009C4956 /* background.js.map in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF327E61192009C4956 /* background.js.map */; };
-		E3919B0E27E61199009C4956 /* options.css.map in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF527E61192009C4956 /* options.css.map */; };
-		E3919B0F27E61199009C4956 /* options.js.map in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF127E61192009C4956 /* options.js.map */; };
-		E3919B1027E61199009C4956 /* refined-github.css.map in Resources */ = {isa = PBXBuildFile; fileRef = E3919AE827E61192009C4956 /* refined-github.css.map */; };
-		E3919B1127E61199009C4956 /* refined-github.js.map in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF027E61192009C4956 /* refined-github.js.map */; };
-		E3919B1227E61199009C4956 /* resolve-conflicts.js.map in Resources */ = {isa = PBXBuildFile; fileRef = E3919AEE27E61192009C4956 /* resolve-conflicts.js.map */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,19 +123,13 @@
 		E35EB4E626F36E0900DDEA60 /* Refined GitHub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Refined GitHub.entitlements"; sourceTree = "<group>"; };
 		E3919AE627E61192009C4956 /* refined-github.js.LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "refined-github.js.LICENSE.txt"; sourceTree = "<group>"; };
 		E3919AE727E61192009C4956 /* manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
-		E3919AE827E61192009C4956 /* refined-github.css.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = "refined-github.css.map"; sourceTree = "<group>"; };
 		E3919AE927E61192009C4956 /* resolve-conflicts.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "resolve-conflicts.js"; sourceTree = "<group>"; };
 		E3919AEA27E61192009C4956 /* background.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = background.js; sourceTree = "<group>"; };
 		E3919AEC27E61192009C4956 /* refined-github.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "refined-github.js"; sourceTree = "<group>"; };
 		E3919AED27E61192009C4956 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		E3919AEE27E61192009C4956 /* resolve-conflicts.js.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = "resolve-conflicts.js.map"; sourceTree = "<group>"; };
 		E3919AEF27E61192009C4956 /* options.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = options.js; sourceTree = "<group>"; };
-		E3919AF027E61192009C4956 /* refined-github.js.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = "refined-github.js.map"; sourceTree = "<group>"; };
-		E3919AF127E61192009C4956 /* options.js.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = options.js.map; sourceTree = "<group>"; };
 		E3919AF227E61192009C4956 /* options.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = options.html; sourceTree = "<group>"; };
-		E3919AF327E61192009C4956 /* background.js.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = background.js.map; sourceTree = "<group>"; };
 		E3919AF427E61192009C4956 /* refined-github.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "refined-github.css"; sourceTree = "<group>"; };
-		E3919AF527E61192009C4956 /* options.css.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = options.css.map; sourceTree = "<group>"; };
 		E3919AF627E61192009C4956 /* options.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = options.css; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -277,21 +265,15 @@
 			isa = PBXGroup;
 			children = (
 				E3919AEA27E61192009C4956 /* background.js */,
-				E3919AF327E61192009C4956 /* background.js.map */,
 				E3919AED27E61192009C4956 /* icon.png */,
 				E3919AE727E61192009C4956 /* manifest.json */,
 				E3919AF627E61192009C4956 /* options.css */,
-				E3919AF527E61192009C4956 /* options.css.map */,
 				E3919AF227E61192009C4956 /* options.html */,
 				E3919AEF27E61192009C4956 /* options.js */,
-				E3919AF127E61192009C4956 /* options.js.map */,
 				E3919AF427E61192009C4956 /* refined-github.css */,
-				E3919AE827E61192009C4956 /* refined-github.css.map */,
 				E3919AEC27E61192009C4956 /* refined-github.js */,
 				E3919AE627E61192009C4956 /* refined-github.js.LICENSE.txt */,
-				E3919AF027E61192009C4956 /* refined-github.js.map */,
 				E3919AE927E61192009C4956 /* resolve-conflicts.js */,
-				E3919AEE27E61192009C4956 /* resolve-conflicts.js.map */,
 			);
 			name = Resources;
 			path = ../../distribution;
@@ -467,12 +449,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3919B0D27E61199009C4956 /* background.js.map in Resources */,
-				E3919B0E27E61199009C4956 /* options.css.map in Resources */,
-				E3919B0F27E61199009C4956 /* options.js.map in Resources */,
-				E3919B1027E61199009C4956 /* refined-github.css.map in Resources */,
-				E3919B1127E61199009C4956 /* refined-github.js.map in Resources */,
-				E3919B1227E61199009C4956 /* resolve-conflicts.js.map in Resources */,
 				E3919B0627E61192009C4956 /* options.js in Resources */,
 				E3919B0427E61192009C4956 /* icon.png in Resources */,
 				E3919AFE27E61192009C4956 /* background.js in Resources */,
