@@ -8,7 +8,7 @@ import webpack, {Configuration} from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const config: Configuration = {
-	devtool: false, // Only inline source maps in extensions, which would slow their loading down for everyone
+	devtool: 'source-map',
 	stats: {
 		all: false,
 		errors: true,
