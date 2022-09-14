@@ -10,8 +10,8 @@ body.rgh-files-hidden .rgh-toggle-files .octicon-fold {
 }
 
 .rgh-files-hidden #files ~ :is(
-	.Details, /* Loaded */
-	include-fragment[src*="/file-list/"] /* Loading skeleton */
+.Details, /* Loaded */
+include-fragment[src*='/file-list/'] /* Loading skeleton */
 ) {
 	display: none;
 }
