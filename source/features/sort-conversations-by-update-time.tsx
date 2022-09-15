@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import SearchQuery from '../github-helpers/search-query';
 
+/** Keep the original URL on the element so that `shorten-links` can use it reliably #5890 */
 export function saveOriginalHref(link: HTMLAnchorElement): void {
 	if (!link.dataset.originalHref) {
 		link.dataset.originalHref = link.href;
