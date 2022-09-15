@@ -9,6 +9,7 @@ import GitHubURL from '../github-helpers/github-url';
 import addNotice from '../github-widgets/notice-bar';
 import {linkifiedURLClass} from '../github-helpers/dom-formatters';
 import {buildRepoURL, isPermalink} from '../github-helpers';
+import {saveOriginalHref} from './sort-conversations-by-update-time';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
 	const {repository} = await api.v4(`
@@ -85,6 +86,8 @@ function addInlineLinks(menu: HTMLElement, timestamp: string): void {
 		if (/^[\da-f]{40}$/.test(linkParts[4])) {
 			continue;
 		}
+
+		saveOriginalHref(link);
 
 		const searchParameters = new URLSearchParams(link.search);
 		searchParameters.set('rgh-link-date', timestamp);
