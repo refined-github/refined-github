@@ -50,12 +50,6 @@ async function openNotifications(notifications: Element[], markAsDone = false): 
 	}
 }
 
-function removeOpenAllButtons(container: ParentNode = document): void {
-	for (const button of select.all(openUnread.selector, container)) {
-		button.remove();
-	}
-}
-
 async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<MouseEvent>): Promise<void> {
 	const container = delegateTarget.closest('.js-notifications-group') ?? document;
 	await openNotifications(getUnreadNotifications(container), altKey);
