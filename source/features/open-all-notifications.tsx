@@ -8,6 +8,8 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '.';
 import openTabs from '../helpers/open-tabs';
 import {appendBefore} from '../helpers/dom-utils';
+import showToast from '../github-helpers/toast';
+import pluralize from '../helpers/pluralize';
 import attachElement from '../helpers/attach-element';
 
 // Selector works on:
@@ -23,13 +25,18 @@ function getUnreadNotifications(container: ParentNode = document): HTMLElement[]
 	return select.all('.notification-unread', container);
 }
 
-function openNotifications(notifications: Element[], markAsDone = false): void {
+async function openNotifications(notifications: Element[], markAsDone = false): Promise<void> {
 	const urls: string[] = [];
 	for (const notification of notifications) {
 		urls.push(notification.querySelector('a')!.href);
 	}
 
-	if (!openTabs(urls)) {
+	const openingTabs = openTabs(urls);
+	await showToast(openingTabs, {
+		message: 'Opening tabs…',
+		doneMessage: pluralize(urls.length, '$$ tab') + ' opened',
+	});
+	if (!await openingTabs) {
 		return;
 	}
 
@@ -43,16 +50,19 @@ function openNotifications(notifications: Element[], markAsDone = false): void {
 	}
 }
 
-function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<MouseEvent>): void {
+async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<MouseEvent>): Promise<void> {
 	const container = delegateTarget.closest('.js-notifications-group') ?? document;
-	openNotifications(getUnreadNotifications(container), altKey);
+	await openNotifications(getUnreadNotifications(container), altKey);
+
 	// Remove all now-unnecessary buttons
 	removeOpenUnreadButtons(container);
 }
 
-function openSelectedNotifications(): void {
-	const selectedNotifications = select.all('.notifications-list-item :checked').map(checkbox => checkbox.closest('.notifications-list-item')!);
-	openNotifications(selectedNotifications);
+async function openSelectedNotifications(): Promise<void> {
+	const selectedNotifications = select.all('.notifications-list-item :checked')
+		.map(checkbox => checkbox.closest('.notifications-list-item')!);
+	await openNotifications(selectedNotifications);
+
 	if (!select.exists('.notification-unread')) {
 		removeOpenUnreadButtons();
 	}

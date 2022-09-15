@@ -13,7 +13,7 @@ export function ToastSpinner(): JSX.Element {
 }
 
 type ProgressCallback = (message: string) => void;
-type Task = (progress?: ProgressCallback) => Promise<unknown>;
+type Task = Promise<unknown> | ((progress?: ProgressCallback) => Promise<unknown>);
 export default async function showToast(
 	task: Task | Error,
 	{
@@ -45,7 +45,13 @@ export default async function showToast(
 			throw task;
 		}
 
-		await task(updateToast);
+		// eslint-disable-next-line unicorn/prefer-ternary -- Naw man, that's less readable
+		if (typeof task === 'function') {
+			await task(updateToast);
+		} else {
+			await task;
+		}
+
 		toast.classList.replace('Toast--loading', 'Toast--success');
 		updateToast(doneMessage);
 		iconWrapper.firstChild!.replaceWith(<CheckIcon/>);
