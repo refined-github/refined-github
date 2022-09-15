@@ -6,6 +6,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '.';
 import onPrCommitMessageRestore from '../github-events/on-pr-commit-message-restore';
 
+const className = 'rgh-suggest-commit-title-limit';
+
 const fieldSelector = [
 	'#commit-summary-input', // Commit title on edit file page
 	'#merge_title_field', // PR merge message field
@@ -17,6 +19,7 @@ function validateInput(): void {
 }
 
 function init(signal: AbortSignal): void {
+	document.body.classList.add(className);
 	delegate(document, fieldSelector, 'input', validateInput, {signal});
 }
 
