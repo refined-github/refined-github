@@ -157,7 +157,7 @@ import './features/unwrap-unnecessary-dropdowns';
 import './features/linkify-notification-repository-header';
 import './features/stop-redirecting-in-notification-bar';
 import './features/prevent-link-loss';
-import './features/first-published-tag-for-merged-pr';
+import './features/closing-remarks';
 import './features/show-associated-branch-prs-on-fork';
 import './features/quick-review';
 import './features/fork-source-link-same-view';
