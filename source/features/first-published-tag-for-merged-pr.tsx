@@ -6,7 +6,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import fetchDom from '../helpers/fetch-dom';
-import onPrMerge from '../github-events/on-pr-merge';
 import createBanner from '../github-helpers/banner';
 import TimelineItem from '../github-helpers/timeline-item';
 import attachElement from '../helpers/attach-element';
@@ -14,6 +13,7 @@ import {canEditEveryComment} from './quick-comment-edit';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers';
 import {getReleaseCount} from './releases-tab';
+import observe from '../helpers/selector-observer';
 
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;
@@ -100,6 +100,10 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 	});
 }
 
+function initOpenPr(signal: AbortSignal): void {
+	observe('.discussion-timeline-actions .TimelineItem-badge .octicon-git-merge', addReleaseBanner, {signal});
+}
+
 void features.add(import.meta.url, {
 	// When arriving on an already-merged PR
 	asLongAs: [
@@ -118,14 +122,8 @@ void features.add(import.meta.url, {
 		pageDetect.isOpenPR,
 		canCreateRelease,
 	],
-	additionalListeners: [
-		onPrMerge,
-	],
-	onlyAdditionalListeners: true,
 	deduplicate: false,
-	init() {
-		void addReleaseBanner();
-	},
+	init: initOpenPr,
 });
 
 /*

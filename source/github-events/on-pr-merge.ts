@@ -1,12 +1,14 @@
-import select from 'select-dom';
+import delegate from 'delegate-it';
 
-import observeElement from '../helpers/simplified-element-observer';
+import onAbort from '../helpers/abort-controller';
+import observe from '../helpers/selector-observer';
 
-export default function onPrMerge(callback: VoidFunction): Deinit {
-	return observeElement('.discussion-timeline-actions', (_, observer) => {
-		if (select.exists('.TimelineItem-badge .octicon-git-merge')) {
-			observer.disconnect();
-			callback();
-		}
-	}, {childList: true});
+export default function onPrMerge(callback: VoidFunction, signal: AbortSignal): void {
+	// TODO: Drop after https://github.com/fregante/delegate-it/issues/30
+	const controller = new AbortController();
+	onAbort(signal, controller);
+	delegate(document, '.js-merge-commit-button', 'click', () => {
+		controller.abort();
+		observe('.discussion-timeline-actions .TimelineItem-badge .octicon-git-merge', callback, {signal});
+	}, {signal});
 }
