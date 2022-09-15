@@ -9,6 +9,6 @@ export default function onPrMerge(callback: VoidFunction, signal: AbortSignal): 
 	onAbort(signal, controller);
 	delegate(document, '.js-merge-commit-button', 'click', () => {
 		controller.abort();
-		observe('.discussion-timeline-actions .TimelineItem-badge .octicon-git-merge', callback, {signal});
+		observe('.TimelineItem-badge .octicon-git-merge', callback, {signal});
 	}, {signal});
 }
