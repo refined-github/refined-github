@@ -33,7 +33,7 @@ function init(signal: AbortSignal): Deinit {
 	delegate(document, '.rgh-review-comment-delete-button', 'click', onButtonClick, {signal});
 	delegate(document, '.rgh-quick-comment-edit-button', 'click', onEditButtonClick, {signal});
 
-	return observe('.review-comment > .unminimized-comment form:not(.js-single-suggested-change-form) .js-comment-cancel-button:not(.rgh-delete-button-added)', {
+	return observe('.review-comment .js-comment-cancel-button:not(.rgh-delete-button-added)', {
 		add: addDeleteButton,
 	});
 }
