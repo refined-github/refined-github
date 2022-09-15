@@ -7,6 +7,8 @@ import observe from '../helpers/selector-observer';
 import onAbort from '../helpers/abort-controller';
 import calculateCssCalcString from '../helpers/calculate-css-calc-string';
 
+const minimumViewportWidthForSidebar = 768; // Less than this, the layout is single-column
+
 // The first selector in the parentheses is for the repo root, the second one for conversation pages
 const sidebarSelector = '.Layout-sidebar :is(.BorderGrid, #partial-discussion-sidebar)';
 
@@ -45,7 +47,8 @@ function updateStickiness(): void {
 	const offset = calculateCssCalcString(getComputedStyle(sidebar).getPropertyValue('--rgh-sticky-sidebar-offset'));
 	sidebar.classList.toggle(
 		'rgh-sticky-sidebar',
-		sidebar.offsetHeight + offset < window.innerHeight,
+		window.innerWidth >= minimumViewportWidthForSidebar
+		&& sidebar.offsetHeight + offset < window.innerHeight,
 	);
 }
 
@@ -64,6 +67,9 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoRoot,
 		pageDetect.isConversation,
+	],
+	exclude: [
+		() => screen.availWidth < minimumViewportWidthForSidebar,
 	],
 	deduplicate: false,
 	init,
