@@ -1,4 +1,4 @@
-#js-repo-pjax-container .pagehead ul.pagehead-actions {
+.rgh-sticky-sidebar-enabled #js-repo-pjax-container .pagehead ul.pagehead-actions {
 	z-index: initial; /* This affects the social buttons. It seems to have no effect but it constantly causes trouble with other features. */
 }
 
