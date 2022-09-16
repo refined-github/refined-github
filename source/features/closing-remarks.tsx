@@ -36,7 +36,7 @@ async function init(): Promise<void> {
 	if (tagName) {
 		addExistingTagLink(tagName);
 	} else {
-		void addReleaseBanner('This pull request has not yet appeared in a release');
+		void addReleaseBanner('The merge commit doesn’t appear in any tags');
 	}
 }
 
