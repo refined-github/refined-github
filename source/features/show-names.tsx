@@ -1,25 +1,20 @@
 import './show-names.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import debounceFn from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
-import onNewsfeedLoad from '../github-events/on-newsfeed-load';
 import {getUsername, compareNames} from '../github-helpers';
+import observe from '../helpers/selector-observer';
 
-async function init(): Promise<false | void> {
-	const usernameElements = select.all([
-		// `a` selector needed to skip commits by non-GitHub users
-		':is(.js-discussion, .inline-comments) a.author:not(.rgh-fullname, [href*="/apps/"], [href*="/marketplace/"], [data-hovercard-type="organization"])',
+const batchedUsernameElements = new Set<HTMLAnchorElement>();
 
-		// On dashboard `.text-bold` is required to not fetch avatars
-		'#dashboard a.text-bold[data-hovercard-type="user"]:not(.rgh-fullname)',
-	]);
-
+// TODO: Split up this function, it does too much
+const batchUpdateLinks = debounceFn(async (): Promise<void> => {
 	const usernames = new Set<string>();
 	const myUsername = getUsername();
-	for (const element of usernameElements) {
+	for (const element of batchedUsernameElements) {
 		element.classList.add('rgh-fullname');
 		const username = element.textContent;
 		if (username && username !== myUsername && username !== 'ghost') {
@@ -34,7 +29,7 @@ async function init(): Promise<false | void> {
 	}
 
 	if (usernames.size === 0) {
-		return false;
+		return;
 	}
 
 	const names = await api.v4(
@@ -43,7 +38,7 @@ async function init(): Promise<false | void> {
 		).join(','),
 	);
 
-	for (const usernameElement of usernameElements) {
+	for (const usernameElement of batchedUsernameElements) {
 		const username = usernameElement.textContent!;
 		const userKey = api.escapeKey(username);
 
@@ -69,21 +64,40 @@ async function init(): Promise<false | void> {
 			' ',
 		);
 	}
+
+	batchedUsernameElements.clear();
+}, {
+	maxWait: 10,
+});
+
+// The selector observer calls this function several times, but we want to batch them into a single GraphQL API call
+function extendName(link: HTMLAnchorElement): void {
+	batchedUsernameElements.add(link);
+	void batchUpdateLinks();
+}
+
+function init(signal: AbortSignal): false | void {
+	if (!pageDetect.isDashboard() && !pageDetect.hasComments()) {
+		return false;
+	}
+
+	observe([
+		// `a` selector needed to skip commits by non-GitHub users
+		':is(.js-discussion, .inline-comments) a.author:not(.rgh-fullname, [href*="/apps/"], [href*="/marketplace/"], [data-hovercard-type="organization"])',
+
+		// On dashboard `.text-bold` is required to not fetch avatars
+		'#dashboard a.text-bold[data-hovercard-type="user"]:not(.rgh-fullname)',
+
+		// @ts-expect-error https://github.com/g-plane/typed-query-selector/issues/26
+	], extendName, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isDashboard,
-	],
-	additionalListeners: [
-		onNewsfeedLoad,
-	],
-	onlyAdditionalListeners: true,
-	init,
-}, {
-	include: [
-		pageDetect.hasComments,
-	],
+	// TODO: Restore when the `hasCommments -> onNewComments` automatic link is dropped
+	// include: [
+	// 	pageDetect.isDashboard,
+	// 	pageDetect.hasComments,
+	// ],
 	deduplicate: false,
 	init,
 });
