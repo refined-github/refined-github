@@ -17,7 +17,7 @@ function init(): void {
 	if(pinnedText.innerHTML.includes("Top repositories")) return;
 
 	// Add top repositories link
-	select('.js-pinned-items-reorder-container .text-normal')!.firstChild!.after(
+	pinnedText.firstChild!.after(
 		' / ',
 		<a href={url.href}>Top repositories</a>,
 	);
