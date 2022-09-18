@@ -42,6 +42,12 @@ async function init(): Promise<void> {
 	);
 
 	const navigationBar = (await elementReady('.UnderlineNav-body'))!;
+
+	// If the button already exists, skip adding it
+	const isGistButtonAlreadyAdded = !!select(".UnderlineNav-body [data-tab-item='rgh-gists-item']");
+	if(isGistButtonAlreadyAdded) return;
+
+	// Add gist counter to profile
 	navigationBar.append(link);
 	navigationBar.replaceWith(navigationBar);
 

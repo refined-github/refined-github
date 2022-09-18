@@ -12,7 +12,11 @@ function init(): void {
 		sort: 'stargazers',
 	}).toString();
 
-	// Showcase title
+	// If already added, skip
+	const pinnedText = select('.js-pinned-items-reorder-container .text-normal')!;
+	if(pinnedText.innerHTML.includes("Top repositories")) return;
+
+	// Add top repositories link
 	select('.js-pinned-items-reorder-container .text-normal')!.firstChild!.after(
 		' / ',
 		<a href={url.href}>Top repositories</a>,
