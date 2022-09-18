@@ -14,9 +14,10 @@ function init(): void {
 
 	// If already added, skip
 	const pinnedText = select('.js-pinned-items-reorder-container .text-normal')!;
-	if(pinnedText.innerHTML.includes('Top repositories')) {
+	if (pinnedText.innerHTML.includes('Top repositories')) {
 		return;
-	};
+
+	}
 
 	// Add top repositories link
 	pinnedText.firstChild!.after(
