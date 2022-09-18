@@ -47,7 +47,6 @@ async function init(): Promise<void> {
 	const isGistButtonAlreadyAdded = Boolean(select('.UnderlineNav-body [data-tab-item=\'rgh-gists-item\']'));
 	if (isGistButtonAlreadyAdded) {
 		return;
-
 	}
 
 	// Add gist counter to profile

@@ -16,7 +16,6 @@ function init(): void {
 	const pinnedText = select('.js-pinned-items-reorder-container .text-normal')!;
 	if (pinnedText.innerHTML.includes('Top repositories')) {
 		return;
-
 	}
 
 	// Add top repositories link
