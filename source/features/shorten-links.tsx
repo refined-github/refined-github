@@ -1,6 +1,6 @@
 import onetime from 'onetime';
 
-import features from '.';
+import features from '../feature-manager';
 import {linkifiedURLClass, shortenLink} from '../github-helpers/dom-formatters';
 import observe from '../helpers/selector-observer';
 
@@ -10,7 +10,6 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	deduplicate: false,
 	init: onetime(init),
 });
 

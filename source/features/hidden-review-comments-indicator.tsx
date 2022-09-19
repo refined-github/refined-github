@@ -6,7 +6,7 @@ import {CommentIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import preserveScroll from '../helpers/preserve-scroll';
 import {onDiffFileLoad} from '../github-events/on-fragment-load';
 import onAbort from '../helpers/abort-controller';
@@ -77,6 +77,5 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit,
 	],
-	deduplicate: false,
 	init,
 });

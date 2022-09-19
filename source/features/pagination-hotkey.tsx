@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {addHotkey} from '../github-helpers/hotkey';
 
 const nextPageButtonSelectors = [
@@ -40,6 +40,5 @@ void features.add(import.meta.url, {
 		pageDetect.isPRCommit,
 		pageDetect.isUserProfileRepoTab,
 	],
-	deduplicate: false,
 	init,
 });

@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {registerHotkey} from '../github-helpers/hotkey';
 
 function selectAllNotifications(): void {

@@ -4,7 +4,7 @@ import {observe} from 'selector-observer';
 import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 function addQuickEditButton(commentForm: Element): void {
 	const commentBody = commentForm.closest('.js-comment')!;

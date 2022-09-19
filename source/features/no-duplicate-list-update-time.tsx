@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 function parseTime(element: HTMLElement): number {
 	return new Date(element.getAttribute('datetime')!).getTime();

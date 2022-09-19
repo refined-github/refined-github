@@ -2,7 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import clickAll from '../helpers/click-all';
 import showToast from '../github-helpers/toast';
 import getItemsBetween from '../helpers/get-items-between';
@@ -82,6 +82,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 	],
-	deduplicate: false,
 	init,
 });

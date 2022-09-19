@@ -4,7 +4,7 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import IconLoading from '../github-helpers/icon-loading';
 
 function closeModal({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
@@ -39,6 +39,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],
-	deduplicate: false,
 	init,
 });

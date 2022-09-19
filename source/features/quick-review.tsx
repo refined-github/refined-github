@@ -4,7 +4,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 import attachElement from '../helpers/attach-element';
 
@@ -51,7 +51,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 	],
 	awaitDomReady: false,
-	deduplicate: false,
 	init: initSidebarReviewButton,
 }, {
 	shortcuts: {
@@ -61,6 +60,5 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFiles,
 	],
 	awaitDomReady: false,
-	deduplicate: false,
 	init: initReviewButtonEnhancements,
 });

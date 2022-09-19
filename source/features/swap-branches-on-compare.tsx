@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
-import features from '.';
+import features from '../feature-manager';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
 function init(): void {

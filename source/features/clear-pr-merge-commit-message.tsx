@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 function init(): void {
@@ -29,6 +29,5 @@ void features.add(import.meta.url, {
 	],
 	onlyAdditionalListeners: true,
 	awaitDomReady: false,
-	deduplicate: false,
 	init,
 });

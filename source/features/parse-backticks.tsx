@@ -2,7 +2,7 @@ import './parse-backticks.css';
 import onetime from 'onetime';
 import {observe} from 'selector-observer';
 
-import features from '.';
+import features from '../feature-manager';
 import {parseBackticks} from '../github-helpers/dom-formatters';
 
 function init(): void {
@@ -34,6 +34,5 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	deduplicate: false,
 	init: onetime(init),
 });

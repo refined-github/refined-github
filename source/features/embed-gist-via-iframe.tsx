@@ -2,7 +2,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 function init(): void {
 	const embedViaScript = select('.file-navigation-option button[value^="<script"]')!;
@@ -29,6 +29,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleGist,
 	],
-	deduplicate: false,
 	init: onetime(init),
 });

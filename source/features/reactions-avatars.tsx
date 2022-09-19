@@ -5,7 +5,7 @@ import {observe} from 'selector-observer';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {getUsername} from '../github-helpers';
 import getUserAvatar from '../github-helpers/get-user-avatar';
 import onAbort from '../helpers/abort-controller';

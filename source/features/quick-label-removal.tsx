@@ -7,7 +7,7 @@ import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import showToast from '../github-helpers/toast';
 import {getConversationNumber} from '../github-helpers';
@@ -67,6 +67,5 @@ void features.add(import.meta.url, {
 		canNotEditLabels,
 		pageDetect.isArchivedRepo,
 	],
-	deduplicate: false,
 	init,
 });

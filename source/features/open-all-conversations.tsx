@@ -4,7 +4,7 @@ import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import openTabs from '../helpers/open-tabs';
 
 function getUrlFromItem(issue: Element): string {

@@ -8,7 +8,7 @@ import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getForkedRepo, getRepo} from '../github-helpers';
 import pluralize from '../helpers/pluralize';
@@ -164,6 +164,5 @@ void features.add(import.meta.url, {
 		pageDetect.isForkedRepo,
 	],
 	awaitDomReady: false,
-	deduplicate: false,
 	init,
 });

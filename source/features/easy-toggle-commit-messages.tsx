@@ -2,7 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 
 function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
@@ -31,6 +31,5 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleFile,
 	],
 	awaitDomReady: false,
-	deduplicate: false,
 	init,
 });

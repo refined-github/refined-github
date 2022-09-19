@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon, IssueOpenedIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 
 function addConversationLinks(repositoryLink: HTMLAnchorElement): void {

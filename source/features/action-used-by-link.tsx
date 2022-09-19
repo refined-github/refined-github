@@ -3,7 +3,7 @@ import select from 'select-dom';
 import {SearchIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import selectHas from '../helpers/select-has';
 
 function init(): void {

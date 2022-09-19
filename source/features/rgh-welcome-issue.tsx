@@ -2,7 +2,7 @@ import './rgh-welcome-issue.css';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import openOptions from '../helpers/open-options';
 
 /**

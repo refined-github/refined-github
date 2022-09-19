@@ -5,7 +5,7 @@ import pushForm from 'push-form';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
 import showToast from '../github-helpers/toast';
@@ -126,6 +126,5 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit,
 	],
-	deduplicate: false,
 	init,
 });

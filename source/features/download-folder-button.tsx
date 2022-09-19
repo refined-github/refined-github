@@ -3,7 +3,7 @@ import select from 'select-dom';
 import {DownloadIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {getRepo} from '../github-helpers';
 
 function getDropdownItem(downloadUrl: URL): JSX.Element {

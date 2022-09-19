@@ -4,7 +4,7 @@ import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import getDefaultBranch from '../github-helpers/get-default-branch';
@@ -209,7 +209,6 @@ void features.add(import.meta.url, 	{
 		pageDetect.isRepoTree,
 		pageDetect.isEditingFile,
 	],
-	deduplicate: false,
 	init: onetime(init),
 }, {
 	include: [

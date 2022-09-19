@@ -4,7 +4,7 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import looseParseInt from '../helpers/loose-parse-int';
 
 function init(signal: AbortSignal): false | void {

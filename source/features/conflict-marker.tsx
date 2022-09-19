@@ -5,7 +5,7 @@ import {AlertIcon} from '@primer/octicons-react';
 import oneMutation from 'one-mutation';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 
 type PRConfig = {

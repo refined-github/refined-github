@@ -1,7 +1,7 @@
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 
 let previousSubmission = 0;
 
@@ -21,6 +21,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isCompare,
 	],
-	deduplicate: false,
 	init,
 });

@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import GitHubURL from '../github-helpers/github-url';
 import doesFileExist from '../github-helpers/does-file-exist';
 import getDefaultBranch from '../github-helpers/get-default-branch';
@@ -46,6 +46,5 @@ void features.add(import.meta.url, {
 		pageDetect.isForkedRepo,
 	],
 	// We can't use `exclude` because the header is outside the ajaxed area so it must be manually reset even when the feature doesn't apply there
-	deduplicate: false,
 	init,
 });

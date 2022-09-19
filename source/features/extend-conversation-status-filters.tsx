@@ -4,7 +4,7 @@ import {CheckIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import SearchQuery from '../github-helpers/search-query';
 
 function addMergeLink(): void {

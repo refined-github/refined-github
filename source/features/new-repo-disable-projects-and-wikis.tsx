@@ -4,7 +4,7 @@ import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import selectHas from '../helpers/select-has';
 import attachElement from '../helpers/attach-element';
@@ -67,7 +67,6 @@ void features.add(import.meta.url, {
 		pageDetect.isNewRepo,
 		pageDetect.isNewRepoTemplate,
 	],
-	deduplicate: false,
 	init,
 }, {
 	include: [

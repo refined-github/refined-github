@@ -5,7 +5,7 @@ import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
-import features from '.';
+import features from '../feature-manager';
 import GitHubURL from '../github-helpers/github-url';
 import {isPermalink} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
@@ -47,6 +47,5 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isArchivedRepo,
 	],
-	deduplicate: false,
 	init,
 });

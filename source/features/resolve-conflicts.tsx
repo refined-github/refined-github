@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 async function init(): Promise<void> {
 	await elementReady('.CodeMirror', {

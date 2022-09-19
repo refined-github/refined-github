@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import {isMac} from '../github-helpers';
-import features from '.';
+import features from '../feature-manager';
 
 function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void {
 	const field = event.delegateTarget;
@@ -64,6 +64,5 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isBlank,
 	],
-	deduplicate: false,
 	init,
 });

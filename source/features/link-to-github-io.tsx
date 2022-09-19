@@ -3,7 +3,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {LinkExternalIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import {getRepo} from '../github-helpers';
 import observe from '../helpers/selector-observer';
 

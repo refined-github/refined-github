@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {addHotkey} from '../github-helpers/hotkey';
 
 function init(): void {
@@ -32,6 +32,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPR,
 	],
-	deduplicate: false,
 	init,
 });

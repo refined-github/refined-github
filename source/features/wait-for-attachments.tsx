@@ -5,7 +5,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 const attribute = 'data-required-trimmed';
 const attributeBackup = 'data-rgh-required-trimmed';

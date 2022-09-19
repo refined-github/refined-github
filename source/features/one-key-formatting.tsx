@@ -2,7 +2,7 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import {onCommentFieldKeydown, onConversationTitleFieldKeydown, onCommitTitleFieldKeydown} from '../github-events/on-field-keydown';
 
 const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~', '“', '‘'];
@@ -51,6 +51,5 @@ void features.add(import.meta.url, {
 		pageDetect.isDeletingFile,
 	],
 	awaitDomReady: false,
-	deduplicate: false,
 	init,
 });

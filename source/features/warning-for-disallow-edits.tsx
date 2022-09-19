@@ -5,7 +5,7 @@ import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import attachElement from '../helpers/attach-element';
 
 const getWarning = onetime(() => (
@@ -48,6 +48,5 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 		// No need to exclude `isClosedPR` as the checkbox won't be present
 	],
-	deduplicate: false,
 	init,
 });

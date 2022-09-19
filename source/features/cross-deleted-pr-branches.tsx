@@ -4,7 +4,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
-import features from '.';
+import features from '../feature-manager';
 
 function init(): void | false {
 	const lastBranchAction = select.last('.TimelineItem-body .user-select-contain.commit-ref');

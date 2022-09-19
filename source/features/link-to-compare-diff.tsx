@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {wrapAll} from '../helpers/dom-utils';
 import selectHas from '../helpers/select-has';
 

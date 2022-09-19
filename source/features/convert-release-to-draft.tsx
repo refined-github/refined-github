@@ -4,7 +4,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import LoadingIcon from '../github-helpers/icon-loading';
 import attachElement from '../helpers/attach-element';

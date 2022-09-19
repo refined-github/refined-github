@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import {
 	prCommitUrlRegex,
 	preventPrCommitLinkLoss,
@@ -73,6 +73,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
 	],
-	deduplicate: false,
 	init,
 });

@@ -5,7 +5,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import isLowQualityComment from '../helpers/is-low-quality-comment';
 
 export const singleParagraphCommentSelector = '.comment-body > p:only-child';

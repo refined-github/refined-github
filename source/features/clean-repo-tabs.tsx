@@ -3,7 +3,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import fetchDom from '../helpers/fetch-dom';
 import * as api from '../github-helpers/api';
 import getTabCount from '../github-helpers/get-tab-count';

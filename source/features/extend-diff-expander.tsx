@@ -3,7 +3,7 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 function expandDiff(event: DelegateEvent): void {
 	// Skip if the user clicked directly on the icon
@@ -20,6 +20,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasFiles,
 	],
-	deduplicate: false,
 	init,
 });

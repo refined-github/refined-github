@@ -2,7 +2,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 
 const visible = new Set();
 const observer = new IntersectionObserver(entries => {
@@ -55,6 +55,5 @@ function init(): void {
 
 void features.add(import.meta.url, {
 	awaitDomReady: false,
-	deduplicate: false,
 	init: onetime(init),
 });

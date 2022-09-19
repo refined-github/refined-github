@@ -3,7 +3,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {ChevronLeftIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';

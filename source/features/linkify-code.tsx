@@ -2,7 +2,7 @@ import select from 'select-dom';
 import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {getRepo} from '../github-helpers';
 import {codeElementsSelector, linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';

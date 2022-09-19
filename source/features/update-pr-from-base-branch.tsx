@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import {observe, Observer} from 'selector-observer';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import getPrInfo from '../github-helpers/get-pr-info';
 import {getConversationNumber} from '../github-helpers';
@@ -97,7 +97,6 @@ void features.add(import.meta.url, {
 		// Native button https://github.blog/changelog/2022-02-03-more-ways-to-keep-your-pull-request-branch-up-to-date/
 		() => select.exists('.js-update-branch-form'),
 	],
-	deduplicate: false,
 	init,
 });
 

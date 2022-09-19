@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import onetime from 'onetime';
 import {isEnterprise} from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {getUsername} from '../github-helpers';
 
 function init(): void {
@@ -15,6 +15,5 @@ void features.add(import.meta.url, {
 		'g m': 'Go to Profile',
 	},
 	awaitDomReady: false,
-	deduplicate: false,
 	init: onetime(init),
 });

@@ -4,7 +4,7 @@ import cache from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import {GitCompareIcon, TagIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import pluralize from '../helpers/pluralize';
 import GitHubURL from '../github-helpers/github-url';

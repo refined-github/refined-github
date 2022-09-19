@@ -7,7 +7,7 @@ import * as textFieldEdit from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import {wrap} from '../helpers/dom-utils';
-import features from '.';
+import features from '../feature-manager';
 import {getUsername} from '../github-helpers';
 import onNewComments from '../github-events/on-new-comments';
 

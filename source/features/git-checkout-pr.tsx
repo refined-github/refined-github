@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 import {CopyIcon, CheckIcon, TerminalIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import {getRepo, getUsername} from '../github-helpers';
 
 // Logic explained in https://github.com/refined-github/refined-github/pull/3596#issuecomment-720910840
@@ -125,6 +125,5 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isClosedPR,
 	],
-	deduplicate: false,
 	init,
 });

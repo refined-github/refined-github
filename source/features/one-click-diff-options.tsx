@@ -4,7 +4,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import selectHas from '../helpers/select-has';
 import attachElement from '../helpers/attach-element';
 import observe from '../helpers/selector-observer';
@@ -168,7 +168,6 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleCommit,
 		pageDetect.isCompare,
 	],
-	deduplicate: false,
 	init,
 });
 
