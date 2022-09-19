@@ -1,20 +1,19 @@
 import './show-names.css';
 import React from 'dom-chef';
-import debounceFn from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
 import * as api from '../github-helpers/api';
 import {getUsername, compareNames} from '../github-helpers';
 import observe from '../helpers/selector-observer';
+import batchedFunction from '../helpers/batched-function';
 
-const batchedUsernameElements = new Set<HTMLAnchorElement>();
-
-// TODO: Split up this function, it does too much
-const batchUpdateLinks = debounceFn(async (): Promise<void> => {
+// The selector observer calls this function several times, but we want to batch them into a single GraphQL API call
+const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnchorElement[]): Promise<void> => {
+	// TODO: Split up this function, it does too much
 	const usernames = new Set<string>();
 	const myUsername = getUsername();
-	for (const element of batchedUsernameElements) {
+	for (const element of new Set(batchedUsernameElements)) {
 		element.classList.add('rgh-fullname');
 		const username = element.textContent;
 		if (username && username !== myUsername && username !== 'ghost') {
@@ -64,32 +63,25 @@ const batchUpdateLinks = debounceFn(async (): Promise<void> => {
 			' ',
 		);
 	}
-
-	batchedUsernameElements.clear();
-}, {
-	maxWait: 10,
 });
 
-// The selector observer calls this function several times, but we want to batch them into a single GraphQL API call
-function extendName(link: HTMLAnchorElement): void {
-	batchedUsernameElements.add(link);
-	void batchUpdateLinks();
-}
+const usernameLinksSelector = [
+	// `a` selector needed to skip commits by non-GitHub users
+	':is(.js-discussion, .inline-comments) a.author:not(.rgh-fullname, [href*="/apps/"], [href*="/marketplace/"], [data-hovercard-type="organization"])',
+
+	// On dashboard `.text-bold` is required to not fetch avatars
+	'#dashboard a.text-bold[data-hovercard-type="user"]:not(.rgh-fullname)',
+
+	// Due to: https://github.com/g-plane/typed-query-selector/issues/26
+] as unknown as Array<'a'>;
 
 function init(signal: AbortSignal): false | void {
+	// TODO: Use `include` when the `hasCommments -> onNewComments` automatic link is dropped
 	if (!pageDetect.isDashboard() && !pageDetect.hasComments()) {
 		return false;
 	}
 
-	observe([
-		// `a` selector needed to skip commits by non-GitHub users
-		':is(.js-discussion, .inline-comments) a.author:not(.rgh-fullname, [href*="/apps/"], [href*="/marketplace/"], [data-hovercard-type="organization"])',
-
-		// On dashboard `.text-bold` is required to not fetch avatars
-		'#dashboard a.text-bold[data-hovercard-type="user"]:not(.rgh-fullname)',
-
-		// @ts-expect-error https://github.com/g-plane/typed-query-selector/issues/26
-	], extendName, {signal});
+	observe(usernameLinksSelector, batchUpdateLinks, {signal});
 }
 
 void features.add(import.meta.url, {
