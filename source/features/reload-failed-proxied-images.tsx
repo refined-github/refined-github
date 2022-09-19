@@ -20,6 +20,6 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	deduplicate: 'has-rgh',
+	deduplicate: false,
 	init: onetime(init),
 });

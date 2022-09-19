@@ -209,7 +209,7 @@ void features.add(import.meta.url, 	{
 		pageDetect.isRepoTree,
 		pageDetect.isEditingFile,
 	],
-	deduplicate: 'has-rgh',
+	deduplicate: false,
 	init: onetime(init),
 }, {
 	include: [

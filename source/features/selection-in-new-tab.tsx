@@ -29,6 +29,6 @@ void features.add(import.meta.url, {
 	shortcuts: {
 		'shift o': 'Open selection in new tab',
 	},
-	deduplicate: 'has-rgh',
+	deduplicate: false,
 	init: onetime(init),
 });

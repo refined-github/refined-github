@@ -14,6 +14,6 @@ function init(): void {
 
 void features.add(import.meta.url, {
 	awaitDomReady: false,
-	deduplicate: 'has-rgh',
+	deduplicate: false,
 	init: onetime(init),
 });

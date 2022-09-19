@@ -29,6 +29,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleGist,
 	],
-	deduplicate: 'has-rgh',
+	deduplicate: false,
 	init: onetime(init),
 });

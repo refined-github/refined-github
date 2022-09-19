@@ -15,6 +15,6 @@ void features.add(import.meta.url, {
 		'g m': 'Go to Profile',
 	},
 	awaitDomReady: false,
-	deduplicate: 'has-rgh',
+	deduplicate: false,
 	init: onetime(init),
 });
