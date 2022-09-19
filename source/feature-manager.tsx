@@ -35,8 +35,9 @@ type FeatureLoader = {
 	/** Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true */
 	awaitDomReady?: false;
 
-	/** When pressing the back button, DOM changes and listeners are still there, so normally `init` isn’t called again thanks to an automatic duplicate detection.
-	This detection however might cause problems or not work correctly in some cases #3945, so it can be disabled with `false` or by passing a custom selector to use as duplication check
+	/** When pressing the back button, DOM changes and listeners are still there. Using a selector here would use the integrated deduplication logic, but it cannot be used with `delegate` and it shouldn't use `has-rgh` and `has-inner-rgh` anymore. #5871 #
+	@deprecated
+	@default false
 	*/
 	deduplicate?: string;
 
