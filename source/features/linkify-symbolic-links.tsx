@@ -16,5 +16,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

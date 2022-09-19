@@ -92,6 +92,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssue,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });
 

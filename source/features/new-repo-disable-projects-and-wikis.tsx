@@ -74,5 +74,6 @@ void features.add(import.meta.url, {
 		() => Boolean(sessionStorage.rghNewRepo),
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init: disableWikiAndProjects,
 });

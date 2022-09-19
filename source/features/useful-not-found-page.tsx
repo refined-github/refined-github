@@ -197,6 +197,7 @@ void features.add(import.meta.url, 	{
 		pageDetect.is404,
 		() => parseCurrentURL().length > 1,
 	],
+	deduplicate: 'has-rgh',
 	init: showMissingPart,
 },
 {
@@ -208,11 +209,13 @@ void features.add(import.meta.url, 	{
 		pageDetect.isRepoTree,
 		pageDetect.isEditingFile,
 	],
+	deduplicate: 'has-rgh',
 	init: onetime(init),
 }, {
 	include: [
 		pageDetect.isPRCommit404,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init: onetime(initPRCommit),
 });

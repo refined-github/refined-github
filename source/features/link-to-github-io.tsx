@@ -39,11 +39,13 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		() => Boolean(getRepo()?.name.endsWith('.github.io')),
 	],
+	deduplicate: 'has-rgh',
 	init: initRepo,
 }, {
 	include: [
 		pageDetect.isUserProfileRepoTab,
 		pageDetect.isOrganizationProfile,
 	],
+	deduplicate: 'has-rgh',
 	init: initRepoList,
 });

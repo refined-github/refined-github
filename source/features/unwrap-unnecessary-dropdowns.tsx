@@ -40,5 +40,6 @@ void features.add(import.meta.url, {
 		pageDetect.isNotifications,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init: unwrapNotifications,
 });

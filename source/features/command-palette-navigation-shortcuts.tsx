@@ -30,5 +30,6 @@ void features.add(import.meta.url, {
 		'ctrl p': 'Select previous item in command palette',
 	},
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init: onetime(init),
 });

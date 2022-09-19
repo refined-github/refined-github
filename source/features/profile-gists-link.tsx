@@ -59,5 +59,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isUserProfile,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

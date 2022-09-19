@@ -49,5 +49,6 @@ void features.add(import.meta.url, {
 		pageDetect.isGlobalSearchResults,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init,
 });

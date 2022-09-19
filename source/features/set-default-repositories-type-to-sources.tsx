@@ -27,11 +27,13 @@ async function init(): Promise<void> {
 }
 
 void features.add(import.meta.url, {
+	deduplicate: 'has-rgh',
 	init,
 	exclude: [
 		pageDetect.isPrivateUserProfile,
 	],
 }, {
+	deduplicate: 'has-rgh',
 	init: profileDropdown,
 	exclude: [
 		pageDetect.isGist, // "Your repositories" does not exist

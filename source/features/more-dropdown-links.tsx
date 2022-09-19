@@ -52,5 +52,6 @@ void features.add(import.meta.url, {
 		() => !select.exists('.js-responsive-underlinenav'),
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init,
 });

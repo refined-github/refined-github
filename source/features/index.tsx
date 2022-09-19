@@ -37,8 +37,8 @@ type FeatureLoader = {
 
 	/** When pressing the back button, DOM changes and listeners are still there, so normally `init` isn’t called again thanks to an automatic duplicate detection.
 	This detection however might cause problems or not work correctly in some cases #3945, so it can be disabled with `false` or by passing a custom selector to use as duplication check
-	@default true */
-	deduplicate?: false | string;
+	*/
+	deduplicate: false | string;
 
 	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
 	onlyAdditionalListeners?: true;

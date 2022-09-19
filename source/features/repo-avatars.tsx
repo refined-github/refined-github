@@ -41,6 +41,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepo,
 	],
+	deduplicate: 'has-rgh',
 	init,
 	awaitDomReady: false,
 });

@@ -17,6 +17,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isReleasesOrTags,
 	],
+	deduplicate: 'has-rgh',
 	init,
 }, {
 	include: [
@@ -24,5 +25,6 @@ void features.add(import.meta.url, {
 		pageDetect.isNewRelease,
 		pageDetect.isEditingRelease,
 	],
+	deduplicate: 'has-rgh',
 	init: addQuickSubmit,
 });

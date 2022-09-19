@@ -46,6 +46,7 @@ void features.add(import.meta.url, {
 		pageDetect.isGist,
 		pageDetect.isPRFiles,
 	],
+	deduplicate: 'has-rgh',
 	init,
 }, {
 	include: [

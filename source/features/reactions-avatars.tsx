@@ -121,5 +121,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isDiscussion,
 	],
+	deduplicate: 'has-rgh',
 	init: discussionInit,
 });

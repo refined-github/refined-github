@@ -48,5 +48,6 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 		pageDetect.isGist,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

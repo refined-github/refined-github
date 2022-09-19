@@ -70,5 +70,6 @@ void features.add(import.meta.url, {
 		isSafari,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init,
 });

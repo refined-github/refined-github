@@ -21,5 +21,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isBlank, // Empty notification list
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

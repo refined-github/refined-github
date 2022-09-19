@@ -26,5 +26,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isPrivateUserProfile,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

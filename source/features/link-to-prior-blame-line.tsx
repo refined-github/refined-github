@@ -14,5 +14,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isBlame,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

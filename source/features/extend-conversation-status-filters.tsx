@@ -76,5 +76,6 @@ void features.add(import.meta.url, {
 		pageDetect.isGlobalIssueOrPRList,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init,
 });

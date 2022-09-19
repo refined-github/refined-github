@@ -97,5 +97,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoHome,
 	],
+	deduplicate: 'has-rgh',
 	init: parseFromDom,
 });

@@ -53,6 +53,7 @@ void features.add(import.meta.url, {
 		pageDetect.isEnterprise,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init,
 }, {
 	asLongAs: [
@@ -61,5 +62,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isArchivedRepo,
 	],
+	deduplicate: 'has-rgh',
 	init: initArchivedRepoBanner,
 });

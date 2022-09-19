@@ -59,5 +59,6 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoSearch,
 		pageDetect.isGlobalSearchResults,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

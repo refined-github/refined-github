@@ -142,5 +142,6 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoTree,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init: showTimeMachineBar,
 });

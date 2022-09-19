@@ -44,10 +44,12 @@ function hovercardInit(): void {
 }
 
 void features.add(import.meta.url, {
+	deduplicate: 'has-rgh',
 	init,
 	include: [
 		pageDetect.isProfile,
 	],
 }, {
+	deduplicate: 'has-rgh',
 	init: onetime(hovercardInit),
 });

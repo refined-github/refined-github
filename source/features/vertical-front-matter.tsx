@@ -43,5 +43,6 @@ void features.add(import.meta.url, {
 	include: [
 		hasFrontMatter,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

@@ -191,6 +191,7 @@ async function profileInit(): Promise<void> {
 }
 
 void features.add(import.meta.url, {
+	deduplicate: 'has-rgh',
 	init: onetime(init),
 }, {
 	include: [
@@ -199,5 +200,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isPrivateUserProfile,
 	],
+	deduplicate: 'has-rgh',
 	init: profileInit,
 });

@@ -64,7 +64,9 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 		pageDetect.isDeletingFile,
 	],
+	deduplicate: 'has-rgh',
 	init,
 }, {
+	deduplicate: 'has-rgh',
 	init: hovercardInit,
 });

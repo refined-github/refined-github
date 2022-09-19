@@ -32,6 +32,7 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isRepo,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });
 

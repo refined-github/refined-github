@@ -201,5 +201,6 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init: initEditing,
 });

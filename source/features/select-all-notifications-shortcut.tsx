@@ -23,5 +23,6 @@ void features.add(import.meta.url, {
 		pageDetect.isBlank, // Empty notification list
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init,
 });

@@ -45,5 +45,6 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
+	deduplicate: 'has-rgh',
 	init,
 });

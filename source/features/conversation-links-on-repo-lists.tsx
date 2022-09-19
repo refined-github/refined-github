@@ -42,6 +42,7 @@ void features.add(import.meta.url, {
 		pageDetect.isUserProfileRepoTab,
 		pageDetect.isGlobalSearchResults,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });
 
