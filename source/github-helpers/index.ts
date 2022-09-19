@@ -132,6 +132,7 @@ export function upperCaseFirst(input: string): string {
 	return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
 }
 
+// TODO: Drop after https://github.com/refined-github/github-url-detection/issues/85
 /** Is tag or commit, with elementReady */
 export async function isPermalink(): Promise<boolean> {
 	if (/^[\da-f]{40}$/.test(getCurrentCommittish()!)) {
