@@ -3,6 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '.';
+import attachElement from '../helpers/attach-element';
 
 function init(): void {
 	const url = new URL(location.pathname, location.href);
@@ -12,17 +13,18 @@ function init(): void {
 		sort: 'stargazers',
 	}).toString();
 
-	// If already added, skip
-	const pinnedText = select('.js-pinned-items-reorder-container .text-normal')!;
-	if (pinnedText.innerHTML.includes('Top repositories')) {
-		return;
-	}
-
 	// Add top repositories link
-	pinnedText.firstChild!.after(
-		' / ',
-		<a href={url.href}>Top repositories</a>,
+	const pinnedText = select('.js-pinned-items-reorder-container .text-normal')!;
+	const topReposLink = (
+		<span>
+			/&nbsp;<a href={url.href}>Top repositories</a>
+		</span>
 	);
+
+	attachElement({
+		anchor: pinnedText,
+		append: () => topReposLink,
+	});
 }
 
 void features.add(import.meta.url, {

@@ -9,6 +9,7 @@ import features from '.';
 import * as api from '../github-helpers/api';
 import {getCleanPathname} from '../github-helpers';
 import createDropdownItem from '../github-helpers/create-dropdown-item';
+import attachElement from '../helpers/attach-element';
 
 const getGistCount = cache.function(async (username: string): Promise<number> => {
 	const {user} = await api.v4(`
@@ -50,7 +51,12 @@ async function init(): Promise<void> {
 	}
 
 	// Add gist counter to profile
-	navigationBar.append(link);
+	attachElement({
+		anchor: navigationBar,
+		append: () => link,
+	});
+
+	// This triggers a refresh logic for GitHub’s overlow menu
 	navigationBar.replaceWith(navigationBar);
 
 	select('.js-responsive-underlinenav .dropdown-menu ul')!.append(
@@ -58,8 +64,12 @@ async function init(): Promise<void> {
 	);
 
 	const count = await getGistCount(username);
+
 	if (count > 0) {
-		link.append(<span className="Counter">{count}</span>);
+		attachElement({
+			anchor: link,
+			append: () => <span className="Counter">{count}</span>,
+		});
 	}
 }
 
