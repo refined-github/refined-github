@@ -34,12 +34,12 @@ async function init(signal: AbortSignal): Promise<void | false> {
 
 	attachElements({
 		anchor: '.table-list-header-toggle:not(.states)',
-		prepend: parent => (
+		prepend: anchor => (
 			<button
 				type="button"
 				className="btn-link rgh-open-all-conversations px-2"
 			>
-				{parent.closest('.table-list-triage') ? 'Open selected' : 'Open all'}
+				{anchor.closest('.table-list-triage') ? 'Open selected' : 'Open all'}
 			</button>
 		)},
 	);
