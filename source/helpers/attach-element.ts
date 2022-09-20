@@ -6,15 +6,15 @@ import hashString from './hash-string';
 
 type Position = 'append' | 'prepend' | 'before' | 'after' | 'forEach';
 
-type Attachment<NewElement extends Element> = RequireAtLeastOne<{
+type Attachment<NewElement extends Element, Callback = (E: Element) => NewElement> = RequireAtLeastOne<{
 	// eslint-disable-next-line @typescript-eslint/ban-types --  Allows dom traversing without requiring `!`
 	anchor: Element | string | undefined | null;
 	className?: string;
-	append: () => NewElement;
-	prepend: () => NewElement;
-	before: () => NewElement;
-	after: () => NewElement;
-	forEach: (anchorElement: Element) => NewElement;
+	append: Callback;
+	prepend: Callback;
+	before: Callback;
+	after: Callback;
+	forEach: Callback;
 	allowMissingAnchor?: boolean;
 }, Position>;
 
