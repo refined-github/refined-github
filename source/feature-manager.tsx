@@ -269,7 +269,7 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 			exclude,
 			init,
 			awaitDomReady = true,
-			deduplicate = 'has-rgh',
+			deduplicate = false,
 			onlyAdditionalListeners = false,
 			additionalListeners = [],
 		} = loader;
