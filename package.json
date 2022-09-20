@@ -57,7 +57,7 @@
 		"flat-zip": "^1.0.1",
 		"github-url-detection": "^6.1.0",
 		"image-promise": "^7.0.1",
-		"indent-textarea": "^2.1.0",
+		"indent-textarea": "^2.1.1",
 		"js-abbreviation-number": "^1.4.0",
 		"linkify-issues": "2.0.0-nolookbehind",
 		"linkify-urls": "3.1.0-nolookbehind",
