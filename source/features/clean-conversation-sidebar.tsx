@@ -5,7 +5,6 @@ import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
-import selectHas from '../helpers/select-has';
 import onElementRemoval from '../helpers/on-element-removal';
 import onDiscussionSidebarUpdate from '../github-events/on-discussion-sidebar-update';
 
@@ -34,7 +33,7 @@ Expected DOM:
 @param selector Element that contains `details` or `.discussion-sidebar-heading` or distinctive element inside it
 */
 function cleanSection(selector: string): boolean {
-	const container = selectHas(`:is(form, .discussion-sidebar-item):has(${selector})`);
+	const container = select(`:is(form, .discussion-sidebar-item):has(${selector})`);
 	if (!container) {
 		return false;
 	}
@@ -46,7 +45,10 @@ function cleanSection(selector: string): boolean {
 		'[aria-label="Select projects"] .Link--primary',
 	];
 
-	const heading = select('.discussion-sidebar-heading', container)!;
+	const heading = select([
+		'details:has(> .discussion-sidebar-heading)', // Can edit sidebar, has a dropdown
+		'.discussion-sidebar-heading', // Cannot editor sidebar, has a plain heading
+	], container)!;
 	if (heading.closest('form, .discussion-sidebar-item')!.querySelector(identifiers.join(','))) {
 		return false;
 	}
@@ -100,7 +102,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	// Labels
 	if (!cleanSection('.js-issue-labels') && !canEditSidebar()) {
 		// Hide heading in any case except `canEditSidebar`
-		selectHas('.discussion-sidebar-item:has(.js-issue-labels) .discussion-sidebar-heading')!
+		select('.discussion-sidebar-item:has(.js-issue-labels) .discussion-sidebar-heading')!
 			.remove();
 	}
 
