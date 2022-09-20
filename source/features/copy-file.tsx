@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import {groupButtons} from '../github-helpers/group-buttons';
 
 function handleClick({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {

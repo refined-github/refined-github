@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import SearchQuery from '../github-helpers/search-query';
 
 function cleanLinks(): void {
@@ -59,5 +59,6 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoSearch,
 		pageDetect.isGlobalSearchResults,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

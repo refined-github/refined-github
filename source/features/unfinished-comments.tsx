@@ -2,7 +2,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 let documentTitle: string | undefined;
 let submitting: number | undefined;
@@ -45,6 +45,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
 	],
-	deduplicate: false,
 	init,
 });

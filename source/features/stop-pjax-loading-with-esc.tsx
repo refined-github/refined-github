@@ -1,6 +1,6 @@
 import select from 'select-dom';
 
-import features from '.';
+import features from '../feature-manager';
 
 let progressLoader: HTMLElement;
 const progressLoaderLoadingClass = 'is-loading';
@@ -45,5 +45,6 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
+	deduplicate: 'has-rgh',
 	init,
 });

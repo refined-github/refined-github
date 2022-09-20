@@ -6,7 +6,7 @@ import {VersionsIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import showToast from '../github-helpers/toast';
@@ -110,5 +110,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isBlame,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

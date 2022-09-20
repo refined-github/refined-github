@@ -5,7 +5,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {ArrowDownIcon, CheckCircleFillIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import looseParseInt from '../helpers/loose-parse-int';
 import isLowQualityComment from '../helpers/is-low-quality-comment';
 import {singleParagraphCommentSelector} from './hide-low-quality-comments';

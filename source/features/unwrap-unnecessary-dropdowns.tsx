@@ -2,7 +2,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 // Replace dropdown while keeping its sizing/positioning classes
 function replaceDropdownInPlace(dropdown: Element, form: Element): void {
@@ -40,5 +40,6 @@ void features.add(import.meta.url, {
 		pageDetect.isNotifications,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init: unwrapNotifications,
 });

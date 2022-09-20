@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CodeSquareIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getCleanPathname} from '../github-helpers';
 import createDropdownItem from '../github-helpers/create-dropdown-item';
@@ -59,5 +59,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isUserProfile,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

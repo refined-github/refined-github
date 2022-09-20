@@ -6,7 +6,7 @@ import {DiffIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import tinyVersionCompare from 'tiny-version-compare';
 
-import features from '.';
+import features from '../feature-manager';
 import fetchDom from '../helpers/fetch-dom';
 import {buildRepoURL, getRepo, parseTag} from '../github-helpers';
 

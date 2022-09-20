@@ -1,6 +1,6 @@
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 
 function addIndicator(button: HTMLElement): void {
@@ -25,6 +25,5 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFiles,
 	],
 	awaitDomReady: false,
-	deduplicate: false,
 	init,
 });

@@ -16,7 +16,7 @@ import {
 	XCircleIcon,
 } from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 import attachElement from '../helpers/attach-element';
 
@@ -180,6 +180,5 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isBlank, // Empty notification list
 	],
-	deduplicate: false,
 	init,
 });

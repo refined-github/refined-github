@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import smartBlockWrap from '../helpers/smart-block-wrap';
 import {onCommentEdit} from '../github-events/on-fragment-load';
 import {attachElements} from '../helpers/attach-element';
@@ -57,6 +57,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
 	],
-	deduplicate: false,
 	init,
 });

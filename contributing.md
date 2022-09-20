@@ -62,17 +62,19 @@ void features.add(import.meta.url, {
 	// Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true
 	awaitDomReady: false,
 
-	// When pressing the back button, DOM changes and listeners are still there, so normally `init` isn’t called again thanks to an automatic duplicate detection.
-	// This detection however might cause problems or not work correctly in some cases #3945, so it can be disabled with `false`
-	deduplicate: false,
+	// Every one of these must match
 	asLongAs: [
 		pageDetect.isForkedRepo,
 	],
+
+	// At least one of these must match
 	include: [
 		pageDetect.isSingleFile,
 		pageDetect.isRepoTree,
 		pageDetect.isEditingFile,
 	],
+
+	// None of these must match
 	exclude: [
 		pageDetect.isRepoRoot,
 	],

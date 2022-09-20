@@ -4,7 +4,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import openTabs from '../helpers/open-tabs';
 import {attachElements} from '../helpers/attach-element';
 
@@ -55,13 +55,11 @@ void features.add(import.meta.url, {
 		pageDetect.isGlobalIssueOrPRList,
 	],
 	awaitDomReady: false,
-	deduplicate: false,
 	init,
 }, {
 	include: [
 		pageDetect.isGlobalIssueOrPRList,
 	],
 	awaitDomReady: false,
-	deduplicate: false,
 	init,
 });

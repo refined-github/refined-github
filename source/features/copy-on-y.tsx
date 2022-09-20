@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {isEditable} from '../helpers/dom-utils';
 
 const handler = ({key, target}: KeyboardEvent): void => {
@@ -25,6 +25,5 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleFile,
 	],
 	awaitDomReady: false,
-	deduplicate: false,
 	init,
 });

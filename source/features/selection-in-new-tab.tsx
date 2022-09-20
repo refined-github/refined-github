@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import onetime from 'onetime';
 
-import features from '.';
+import features from '../feature-manager';
 import {registerHotkey} from '../github-helpers/hotkey';
 
 function openInNewTab(): void {

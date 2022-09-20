@@ -1,6 +1,6 @@
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 
 const hasNotificationBar = (): boolean =>
 	location.search.startsWith('?notification_referrer_id=')
@@ -24,6 +24,5 @@ void features.add(import.meta.url, {
 		hasNotificationBar,
 	],
 	awaitDomReady: false,
-	deduplicate: false,
 	init,
 });

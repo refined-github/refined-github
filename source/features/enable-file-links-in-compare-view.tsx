@@ -4,7 +4,7 @@ import {GitBranchIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import GitHubURL from '../github-helpers/github-url';
 
 /** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
@@ -66,7 +66,6 @@ void features.add(import.meta.url, {
 		// If you're viewing changes from partial commits, ensure you're on the latest one.
 		() => select.exists('.js-commits-filtered') && !select.exists('[aria-label="You are viewing the latest commit"]'),
 	],
-	deduplicate: false,
 	init,
 }, {
 	asLongAs: [
@@ -76,6 +75,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isCompare,
 	],
-	deduplicate: false,
 	init,
 });

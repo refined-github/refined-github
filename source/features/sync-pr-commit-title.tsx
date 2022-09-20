@@ -5,7 +5,7 @@ import regexJoin from 'regex-join';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
-import features from '.';
+import features from '../feature-manager';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 import {getConversationNumber} from '../github-helpers';
 import onPrCommitMessageRestore from '../github-events/on-pr-commit-message-restore';
@@ -94,6 +94,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],
-	deduplicate: false,
 	init,
 });

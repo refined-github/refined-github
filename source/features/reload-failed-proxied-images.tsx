@@ -3,7 +3,7 @@ import onetime from 'onetime';
 import loadImage from 'image-promise';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 
 async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HTMLImageElement>): Promise<void> {
 	await delay(5000);

@@ -4,7 +4,7 @@ import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import getDefaultBranch from '../github-helpers/get-default-branch';
@@ -197,6 +197,7 @@ void features.add(import.meta.url, 	{
 		pageDetect.is404,
 		() => parseCurrentURL().length > 1,
 	],
+	deduplicate: 'has-rgh',
 	init: showMissingPart,
 },
 {
@@ -214,5 +215,6 @@ void features.add(import.meta.url, 	{
 		pageDetect.isPRCommit404,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init: onetime(initPRCommit),
 });

@@ -27,7 +27,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import {getRepo, getUsername} from '../github-helpers';
 
 async function wiggleWiggleWiggle(): Promise<void> {
@@ -112,6 +112,5 @@ void features.add(import.meta.url, {
 		pageDetect.isOwnUserProfile,
 		pageDetect.isPrivateUserProfile,
 	],
-	deduplicate: false,
 	init: handleSponsorButton,
 });

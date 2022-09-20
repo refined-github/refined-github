@@ -2,7 +2,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 function jumpToFirstNonViewed(): void {
 	const firstNonViewedFile = select('.file:not([data-file-user-viewed])')!;
@@ -27,6 +27,5 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isPRFile404,
 	],
-	deduplicate: false,
 	init,
 });

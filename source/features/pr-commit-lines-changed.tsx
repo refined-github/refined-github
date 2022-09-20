@@ -3,7 +3,7 @@ import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import pluralize from '../helpers/pluralize';
 

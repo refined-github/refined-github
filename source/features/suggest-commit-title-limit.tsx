@@ -3,7 +3,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import onPrCommitMessageRestore from '../github-events/on-pr-commit-message-restore';
 
 const className = 'rgh-suggest-commit-title-limit';
@@ -28,7 +28,6 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 		pageDetect.isPRConversation,
 	],
-	deduplicate: false,
 	init,
 }, {
 	include: [
@@ -39,7 +38,6 @@ void features.add(import.meta.url, {
 		onPrCommitMessageRestore,
 	],
 	onlyAdditionalListeners: true,
-	deduplicate: false,
 	init: validateInput,
 });
 

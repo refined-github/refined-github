@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 async function init(): Promise<void> {
 	await elementReady('.CodeMirror', {
@@ -17,5 +17,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConflicts,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

@@ -1,7 +1,7 @@
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import clickAll from '../helpers/click-all';
 
 function minimizedCommentsSelector(clickedItem: HTMLElement): string {
@@ -53,6 +53,5 @@ void features.add(import.meta.url, {
 		pageDetect.hasFiles,
 		pageDetect.isCommitList,
 	],
-	deduplicate: false,
 	init,
 });

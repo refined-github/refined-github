@@ -4,7 +4,7 @@ import {InfoIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import onPrMerge from '../github-events/on-pr-merge';
 import featureLink from '../helpers/feature-link';
 import attachElement from '../helpers/attach-element';
@@ -45,6 +45,5 @@ void features.add(import.meta.url, {
 		onPrMerge,
 	],
 	onlyAdditionalListeners: true,
-	deduplicate: false,
 	init,
 });

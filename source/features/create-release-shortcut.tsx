@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {addHotkey} from '../github-helpers/hotkey';
 import addQuickSubmit from './submission-via-ctrl-enter-everywhere';
 
@@ -17,6 +17,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isReleasesOrTags,
 	],
+	deduplicate: 'has-rgh',
 	init,
 }, {
 	include: [
@@ -24,5 +25,6 @@ void features.add(import.meta.url, {
 		pageDetect.isNewRelease,
 		pageDetect.isEditingRelease,
 	],
+	deduplicate: 'has-rgh',
 	init: addQuickSubmit,
 });

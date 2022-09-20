@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {wrapAll} from '../helpers/dom-utils';
 import {featuresMeta} from '../../readme.md';
 import {getNewFeatureName} from '../options-storage';

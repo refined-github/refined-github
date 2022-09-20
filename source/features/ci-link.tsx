@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {buildRepoURL} from '../github-helpers';
 import attachElement from '../helpers/attach-element';
@@ -57,6 +57,7 @@ void features.add(import.meta.url, {
 		pageDetect.isEmptyRepo,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init,
 });
 

@@ -4,7 +4,7 @@ import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {GitMergeIcon, GitPullRequestIcon, GitPullRequestClosedIcon, GitPullRequestDraftIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getRepo, upperCaseFirst} from '../github-helpers';
 
@@ -113,5 +113,6 @@ void features.add(import.meta.url, {
 		pageDetect.isBranches,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init,
 });

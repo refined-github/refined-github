@@ -10,7 +10,7 @@ import {observe} from 'selector-observer';
 import {ClockIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getUsername, getCleanPathname} from '../github-helpers';
 
@@ -191,6 +191,7 @@ async function profileInit(): Promise<void> {
 }
 
 void features.add(import.meta.url, {
+	deduplicate: 'has-rgh',
 	init: onetime(init),
 }, {
 	include: [
@@ -199,5 +200,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isPrivateUserProfile,
 	],
+	deduplicate: 'has-rgh',
 	init: profileInit,
 });

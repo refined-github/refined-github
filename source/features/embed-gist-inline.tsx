@@ -3,7 +3,7 @@ import domify from 'doma';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {getCleanPathname} from '../github-helpers';
 
 function parseGistLink(link: HTMLAnchorElement): string | undefined {
@@ -72,5 +72,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

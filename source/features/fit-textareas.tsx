@@ -5,7 +5,7 @@ import {isSafari} from 'webext-detect-page';
 import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 function inputListener({target}: Event): void {
@@ -45,7 +45,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		isSafari,
 	],
-	deduplicate: false,
 	init,
 }, {
 	include: [
@@ -58,6 +57,5 @@ void features.add(import.meta.url, {
 		onPrMergePanelOpen,
 	],
 	onlyAdditionalListeners: true,
-	deduplicate: false,
 	init: fitPrCommitMessageBox,
 });

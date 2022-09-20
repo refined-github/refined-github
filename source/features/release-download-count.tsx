@@ -5,7 +5,7 @@ import {DownloadIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 
 type Release = {

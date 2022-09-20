@@ -2,7 +2,7 @@ import select from 'select-dom';
 import {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown';
 
 function handleEscPress(event: DelegateEvent<KeyboardEvent>): void {

@@ -2,7 +2,7 @@ import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 async function init(): Promise<void> {
 	(await elementReady('input.header-search-input'))!.value = '';

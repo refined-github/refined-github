@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import {LinkExternalIcon} from '@primer/octicons-react';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import openTabs from '../helpers/open-tabs';
 import {appendBefore} from '../helpers/dom-utils';
 import showToast from '../github-helpers/toast';
@@ -141,6 +141,5 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isBlank, // Empty notification list
 	],
-	deduplicate: false,
 	init,
 });

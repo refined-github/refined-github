@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import pRetry, {AbortError} from 'p-retry';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import observeElement from '../helpers/simplified-element-observer';
 import * as prCiStatus from '../github-helpers/pr-ci-status';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
@@ -192,6 +192,5 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isDraftPR,
 	],
-	deduplicate: false,
 	init,
 });

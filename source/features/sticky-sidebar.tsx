@@ -2,7 +2,7 @@ import './sticky-sidebar.css';
 import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 import onAbort from '../helpers/abort-controller';
 import calculateCssCalcString from '../helpers/calculate-css-calc-string';
@@ -71,6 +71,5 @@ void features.add(import.meta.url, {
 	exclude: [
 		() => screen.availWidth < minimumViewportWidthForSidebar,
 	],
-	deduplicate: false,
 	init,
 });

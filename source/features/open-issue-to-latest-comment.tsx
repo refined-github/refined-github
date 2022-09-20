@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 const selector = `
 	:is(.js-issue-row, .js-pinned-issue-list-item)

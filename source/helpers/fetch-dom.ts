@@ -2,7 +2,7 @@ import mem from 'mem';
 import domify from 'doma';
 import type {ParseSelector} from 'typed-query-selector/parser';
 
-import features from '../features';
+import features from '../feature-manager';
 
 async function fetchDom(url: string): Promise<DocumentFragment>;
 async function fetchDom<Selector extends string, TElement extends HTMLElement = ParseSelector<Selector, HTMLElement>>(url: string, selector: Selector): Promise<TElement | undefined>;

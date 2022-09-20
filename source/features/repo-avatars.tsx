@@ -3,7 +3,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {getRepo} from '../github-helpers';
 import getUserAvatar from '../github-helpers/get-user-avatar';
 
@@ -41,6 +41,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepo,
 	],
-	init,
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
+	init,
 });

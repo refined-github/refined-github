@@ -1,7 +1,7 @@
 import './show-whitespace.css';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {codeElementsSelector} from '../github-helpers/dom-formatters';
 import showWhiteSpacesOnLine from '../helpers/show-whitespace-on-line';
 import onAbort from '../helpers/abort-controller';
@@ -31,7 +31,6 @@ void features.add(import.meta.url, {
 		pageDetect.hasCode,
 	],
 	awaitDomReady: false,
-	deduplicate: false,
 	init,
 });
 

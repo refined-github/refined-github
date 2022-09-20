@@ -5,14 +5,14 @@ import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 
-import waitFor from '../helpers/wait-for';
-import onAbort from '../helpers/abort-controller';
-import ArrayMap from '../helpers/map-of-arrays';
-import onNewComments from '../github-events/on-new-comments';
-import bisectFeatures from '../helpers/bisect';
-import {shouldFeatureRun} from '../github-helpers';
-import polyfillTurboEvents from '../github-helpers/turbo-events-polyfill';
-import optionsStorage, {RGHOptions} from '../options-storage';
+import waitFor from './helpers/wait-for';
+import onAbort from './helpers/abort-controller';
+import ArrayMap from './helpers/map-of-arrays';
+import onNewComments from './github-events/on-new-comments';
+import bisectFeatures from './helpers/bisect';
+import {shouldFeatureRun} from './github-helpers';
+import polyfillTurboEvents from './github-helpers/turbo-events-polyfill';
+import optionsStorage, {RGHOptions} from './options-storage';
 import {
 	applyStyleHotfixes,
 	getStyleHotfix,
@@ -21,7 +21,7 @@ import {
 	updateHotfixes,
 	updateLocalStrings,
 	_,
-} from '../helpers/hotfix';
+} from './helpers/hotfix';
 
 type BooleanFunction = () => boolean;
 export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
@@ -35,10 +35,11 @@ type FeatureLoader = {
 	/** Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true */
 	awaitDomReady?: false;
 
-	/** When pressing the back button, DOM changes and listeners are still there, so normally `init` isn’t called again thanks to an automatic duplicate detection.
-	This detection however might cause problems or not work correctly in some cases #3945, so it can be disabled with `false` or by passing a custom selector to use as duplication check
-	@default true */
-	deduplicate?: false | string;
+	/** When pressing the back button, DOM changes and listeners are still there. Using a selector here would use the integrated deduplication logic, but it cannot be used with `delegate` and it shouldn't use `has-rgh` and `has-inner-rgh` anymore. #5871 #
+	@deprecated
+	@default false
+	*/
+	deduplicate?: string;
 
 	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
 	onlyAdditionalListeners?: true;
@@ -268,7 +269,7 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 			exclude,
 			init,
 			awaitDomReady = true,
-			deduplicate = 'has-rgh',
+			deduplicate = false,
 			onlyAdditionalListeners = false,
 			additionalListeners = [],
 		} = loader;
@@ -307,7 +308,6 @@ const addCssFeature = async (url: string, include: BooleanFunction[] | undefined
 	const id = getFeatureID(url);
 	void add(id, {
 		include,
-		deduplicate: false,
 		awaitDomReady: false,
 		init() {
 			document.documentElement.classList.add('rgh-' + id);
@@ -339,7 +339,6 @@ This means that the old features will still be on the page and don't need to re-
 This marks each as "processed"
 */
 void add('rgh-deduplicator' as FeatureID, {
-	deduplicate: false,
 	async init() {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();

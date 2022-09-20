@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 // https://github.com/github/markup/blob/cd01f9ec87c86ce5a7c70188a74ef40fc4669c5b/lib/github/markup/markdown.rb#L34
 const hasFrontMatter = (): boolean => pageDetect.isSingleFile() && /\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee)$/.test(location.pathname);
@@ -43,5 +43,6 @@ void features.add(import.meta.url, {
 	include: [
 		hasFrontMatter,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

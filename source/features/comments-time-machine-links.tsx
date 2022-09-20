@@ -3,7 +3,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import addNotice from '../github-widgets/notice-bar';
@@ -142,5 +142,6 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoTree,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init: showTimeMachineBar,
 });

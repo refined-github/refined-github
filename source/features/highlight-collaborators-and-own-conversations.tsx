@@ -4,7 +4,7 @@ import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import fetchDom from '../helpers/fetch-dom';
 import {buildRepoURL, getRepo, getUsername} from '../github-helpers';
 

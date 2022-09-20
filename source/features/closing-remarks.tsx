@@ -4,7 +4,7 @@ import select from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import fetchDom from '../helpers/fetch-dom';
 import onPrMerge from '../github-events/on-pr-merge';
 import createBanner from '../github-helpers/banner';
@@ -122,7 +122,6 @@ void features.add(import.meta.url, {
 		onPrMerge,
 	],
 	onlyAdditionalListeners: true,
-	deduplicate: false,
 	init() {
 		void addReleaseBanner();
 	},

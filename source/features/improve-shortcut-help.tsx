@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import onetime from 'onetime';
 
-import features from '.';
+import features from '../feature-manager';
 import {isEditable} from '../helpers/dom-utils';
 
 function splitKeys(keys: string): DocumentFragment[] {

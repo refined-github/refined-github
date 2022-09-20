@@ -5,7 +5,7 @@ import {BugIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 import SearchQuery from '../github-helpers/search-query';
@@ -185,6 +185,5 @@ void features.add(import.meta.url, {
 		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
-	deduplicate: false,
 	init,
 });

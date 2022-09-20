@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 
 function addSourceTypeToLink(link: HTMLAnchorElement): void {
@@ -27,11 +27,13 @@ async function init(): Promise<void> {
 }
 
 void features.add(import.meta.url, {
+	deduplicate: 'has-rgh',
 	init,
 	exclude: [
 		pageDetect.isPrivateUserProfile,
 	],
 }, {
+	deduplicate: 'has-rgh',
 	init: profileDropdown,
 	exclude: [
 		pageDetect.isGist, // "Your repositories" does not exist

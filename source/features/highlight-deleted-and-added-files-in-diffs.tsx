@@ -4,7 +4,7 @@ import oneMutation from 'one-mutation';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {onDiffFileLoad} from '../github-events/on-fragment-load';
 import observe from '../helpers/selector-observer';
 
@@ -79,7 +79,6 @@ void features.add(import.meta.url, {
 		onDiffFileLoad,
 	],
 	onlyAdditionalListeners: true,
-	deduplicate: false,
 	init,
 });
 

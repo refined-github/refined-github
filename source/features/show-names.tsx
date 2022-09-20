@@ -2,7 +2,7 @@ import './show-names.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getUsername, compareNames} from '../github-helpers';
 import observe from '../helpers/selector-observer';
@@ -90,6 +90,5 @@ void features.add(import.meta.url, {
 	// 	pageDetect.isDashboard,
 	// 	pageDetect.hasComments,
 	// ],
-	deduplicate: false,
 	init,
 });

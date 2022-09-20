@@ -3,7 +3,7 @@ import {XIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import SearchQuery from '../github-helpers/search-query';
 import {getUsername} from '../github-helpers';
 
@@ -49,5 +49,6 @@ void features.add(import.meta.url, {
 		pageDetect.isGlobalSearchResults,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init,
 });

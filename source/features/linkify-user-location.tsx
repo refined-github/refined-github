@@ -3,7 +3,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {wrap, isEditable} from '../helpers/dom-utils';
 
 function addLocation(baseElement: HTMLElement): void {
@@ -44,10 +44,12 @@ function hovercardInit(): void {
 }
 
 void features.add(import.meta.url, {
+	deduplicate: 'has-rgh',
 	init,
 	include: [
 		pageDetect.isProfile,
 	],
 }, {
+	deduplicate: 'has-rgh',
 	init: onetime(hovercardInit),
 });

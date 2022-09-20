@@ -1,6 +1,6 @@
 import onetime from 'onetime';
 
-import features from '.';
+import features from '../feature-manager';
 import {linkifiedURLClass, shortenLink} from '../github-helpers/dom-formatters';
 import observe from '../helpers/selector-observer';
 

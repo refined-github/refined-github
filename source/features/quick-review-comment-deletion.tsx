@@ -5,7 +5,7 @@ import {TrashIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import loadDetailsMenu from '../github-helpers/load-details-menu';
 
 async function onButtonClick({delegateTarget: button}: DelegateEvent): Promise<void> {
@@ -43,6 +43,5 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 		pageDetect.isPRFiles,
 	],
-	deduplicate: false,
 	init,
 });

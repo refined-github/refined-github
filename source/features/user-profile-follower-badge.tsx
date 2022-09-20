@@ -3,7 +3,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getUsername, getCleanPathname} from '../github-helpers';
 
@@ -34,5 +34,6 @@ void features.add(import.meta.url, {
 		pageDetect.isOwnUserProfile,
 		pageDetect.isPrivateUserProfile,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

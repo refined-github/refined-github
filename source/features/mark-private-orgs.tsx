@@ -5,7 +5,7 @@ import select from 'select-dom';
 import {EyeClosedIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getUsername} from '../github-helpers';
 
@@ -39,5 +39,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isOwnUserProfile,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });
