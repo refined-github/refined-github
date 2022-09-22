@@ -75,20 +75,14 @@ const usernameLinksSelector = [
 	// Due to: https://github.com/g-plane/typed-query-selector/issues/26
 ] as unknown as Array<'a'>;
 
-function init(signal: AbortSignal): false | void {
-	// TODO: Use `include` when the `hasCommments -> onNewComments` automatic link is dropped
-	if (!pageDetect.isDashboard() && !pageDetect.hasComments()) {
-		return false;
-	}
-
+function init(signal: AbortSignal): void {
 	observe(usernameLinksSelector, batchUpdateLinks, {signal});
 }
 
 void features.add(import.meta.url, {
-	// TODO: Restore when the `hasCommments -> onNewComments` automatic link is dropped
-	// include: [
-	// 	pageDetect.isDashboard,
-	// 	pageDetect.hasComments,
-	// ],
+	include: [
+		pageDetect.isDashboard,
+		pageDetect.hasComments,
+	],
 	init,
 });

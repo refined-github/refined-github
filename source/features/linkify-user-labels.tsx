@@ -6,23 +6,26 @@ import {wrap} from '../helpers/dom-utils';
 import features from '../feature-manager';
 import {buildRepoURL} from '../github-helpers';
 import getCommentAuthor from '../github-helpers/get-comment-author';
+import observe from '../helpers/selector-observer';
 
 const selectors = [
-	'[aria-label*="a member of the"]',
-	'[aria-label^="This user has previously committed"]',
-].map(selector => `.Label${selector}:not(.rgh-linkified-user-label)`);
+	'.Label[aria-label*="a member of the"]',
+	'.Label[aria-label^="This user has previously committed"]',
+];
 
-function init(): void {
-	for (const label of select.all(selectors)) {
-		if (label.closest('a')) {
-			features.log.error(import.meta.url, 'Already linkified, feature needs to be updated');
-			continue;
-		}
+function init(signal): void {
+	observe(selectors, linkify, {signal});
+}
 
-		const url = new URL(buildRepoURL('commits'));
-		url.searchParams.set('author', getCommentAuthor(label));
-		wrap(label, <a className="Link--secondary" href={url.href}/>);
+function linkify(label: Element): void {
+	if (label.closest('a')) {
+		features.log.error(import.meta.url, 'Already linkified, feature needs to be updated');
+		return;
 	}
+
+	const url = new URL(buildRepoURL('commits'));
+	url.searchParams.set('author', getCommentAuthor(label));
+	wrap(label, <a className="Link--secondary" href={url.href}/>);
 }
 
 void features.add(import.meta.url, {
@@ -32,7 +35,6 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isRepo,
 	],
-	deduplicate: 'has-rgh',
 	init,
 });
 

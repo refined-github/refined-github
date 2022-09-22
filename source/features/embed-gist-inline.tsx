@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import domify from 'doma';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import {getCleanPathname} from '../github-helpers';
+import observe from '../helpers/selector-observer';
 
 function parseGistLink(link: HTMLAnchorElement): string | undefined {
 	if (link.host === 'gist.github.com') {
@@ -60,18 +60,17 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 	}
 }
 
-function init(): void {
-	for (const link of select.all('.js-comment-body p a:only-child')) {
+function init(signal): void {
+	observe('.js-comment-body p a:only-child', link => {
 		if (isGist(link) && isOnlyChild(link)) {
 			void embedGist(link);
 		}
-	}
+	}, {signal})
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 	],
-	deduplicate: 'has-rgh',
 	init,
 });

@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import {upperCaseFirst} from '../github-helpers';
+import onNewComments from '../github-events/on-new-comments';
 
 function init(): void {
 	// We target `.comment-body` directly because hidden review comments are only loaded when first expanded, except when opening a link
@@ -41,6 +42,9 @@ function init(): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
+	],
+	additionalListeners: [
+		onNewComments,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,

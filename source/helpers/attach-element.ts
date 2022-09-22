@@ -6,6 +6,7 @@ import hashString from './hash-string';
 
 type Position = 'append' | 'prepend' | 'before' | 'after' | 'forEach';
 
+// NOTE: Do not turn the Callback into an async function or else the deduplication won't work. A placeholder element MUST be returned synchronously. The deduplication logic is DOM-based.
 type Attachment<NewElement extends Element, Callback = (E: Element) => NewElement> = RequireAtLeastOne<{
 	// eslint-disable-next-line @typescript-eslint/ban-types --  Allows dom traversing without requiring `!`
 	anchor: Element | string | undefined | null;

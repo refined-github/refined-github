@@ -1,14 +1,17 @@
 import './reactions-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
-import {observe} from 'selector-observer';
+
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
+
+import observe from '../helpers/selector-observer';
 
 import features from '../feature-manager';
 import {getUsername} from '../github-helpers';
 import getUserAvatar from '../github-helpers/get-user-avatar';
 import onAbort from '../helpers/abort-controller';
+import onNewComments from '../github-events/on-new-comments';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -102,18 +105,18 @@ function init(signal: AbortSignal): void {
 	onAbort(signal, viewportObserver, resizeObserver);
 }
 
-function discussionInit(): Deinit {
-	return [
-		observe(reactionsSelector, {add: observeCommentReactions}),
-		viewportObserver,
-		resizeObserver,
-	];
+function discussionInit(signal: AbortSignal): void {
+	observe(reactionsSelector, observeCommentReactions, {signal});
+	onAbort(signal, viewportObserver, resizeObserver);
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 		pageDetect.isReleasesOrTags,
+	],
+	additionalListeners: [
+		onNewComments,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,

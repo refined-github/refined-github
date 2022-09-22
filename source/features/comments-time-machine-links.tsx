@@ -10,6 +10,7 @@ import addNotice from '../github-widgets/notice-bar';
 import {linkifiedURLClass} from '../github-helpers/dom-formatters';
 import {buildRepoURL, isPermalink} from '../github-helpers';
 import {saveOriginalHref} from './sort-conversations-by-update-time';
+import onNewComments from '../github-events/on-new-comments';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
 	const {repository} = await api.v4(`
@@ -129,6 +130,9 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isGist,
+	],
+	additionalListeners: [
+		onNewComments,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,

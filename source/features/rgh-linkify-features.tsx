@@ -8,6 +8,7 @@ import featureLink from '../helpers/feature-link';
 import {getNewFeatureName} from '../options-storage';
 import {isAnyRefinedGitHubRepo} from '../github-helpers';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
+import onNewComments from '../github-events/on-new-comments';
 
 function linkifyFeature(possibleFeature: HTMLElement): void {
 	const id = getNewFeatureName(possibleFeature.textContent!);
@@ -65,6 +66,9 @@ void features.add(import.meta.url, {
 		pageDetect.isCommitList,
 		pageDetect.isSingleCommit,
 		pageDetect.isRepoWiki,
+	],
+	additionalListeners: [
+		onNewComments,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,

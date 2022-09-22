@@ -1,10 +1,12 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
-import {observe} from 'selector-observer';
+
 import {TagIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+
+import observe from '../helpers/selector-observer';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
@@ -88,25 +90,18 @@ async function addReleasesTab(): Promise<false | void> {
 	);
 }
 
-function highlightReleasesTab(): Deinit {
-	const selectorObserver = observe('.UnderlineNav-item.selected:not(.rgh-releases-tab)', {
-		add(selectedTab) {
-			unhighlightTab(selectedTab);
-			selectorObserver.abort();
-		},
-	});
+function highlightReleasesTab(signal: AbortSignal): void {
+	observe('.UnderlineNav-item.selected:not(.rgh-releases-tab)', unhighlightTab, {signal});
 	highlightTab(select('.rgh-releases-tab')!);
-
-	return selectorObserver;
 }
 
-async function init(): Promise<Deinit | void> {
+async function init(signal: AbortSignal): Promise<void> {
 	if (!select.exists('.rgh-releases-tab')) {
 		await addReleasesTab();
 	}
 
 	if (pageDetect.isReleasesOrTags()) {
-		return highlightReleasesTab();
+		highlightReleasesTab(signal);
 	}
 }
 

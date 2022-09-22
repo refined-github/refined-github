@@ -5,14 +5,14 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import delay from 'delay';
 import select from 'select-dom';
-import onetime from 'onetime';
-import {observe} from 'selector-observer';
 import {ClockIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
+import observe from '../helpers/selector-observer';
 import * as api from '../github-helpers/api';
 import {getUsername, getCleanPathname} from '../github-helpers';
+import attachElement from '../helpers/attach-element';
 
 type Commit = {
 	url: string;
@@ -159,10 +159,9 @@ const selector = [
 	'.js-hovercard-content .Popover-message div.d-flex.mt-3.overflow-hidden > div.d-flex:not(.rgh-user-local-time)',
 	'.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time)', // GHE 2022/06/24
 ].join(',');
-function init(): void {
-	observe(selector, {
-		add: insertUserLocalTime,
-	});
+
+function init(signal: AbortSignal): void {
+	observe(selector, insertUserLocalTime, {signal});
 }
 
 async function profileInit(): Promise<void> {
@@ -178,21 +177,24 @@ async function profileInit(): Promise<void> {
 		return;
 	}
 
-	const placeholder = <span className="v-align-middle">Guessing local time…</span>;
-	const container = (
-		<li className="vcard-detail pt-1 css-truncate css-truncate-target">
-			<ClockIcon/> {placeholder}
-		</li>
-	);
+	attachElement({
+		anchor: '.vcard-details',
+		append() {
+			const placeholder = <span className="v-align-middle">Guessing local time…</span>;
+			const container = (
+				<li className="vcard-detail pt-1 css-truncate css-truncate-target">
+					<ClockIcon/> {placeholder}
+				</li>
+			);
 
-	select('.vcard-details')!.append(container);
-
-	void display({datePromise, placeholder, container});
+			void display({datePromise, placeholder, container});
+			return container;
+		},
+	});
 }
 
 void features.add(import.meta.url, {
-	deduplicate: 'has-rgh',
-	init: onetime(init),
+	init,
 }, {
 	include: [
 		pageDetect.isUserProfile,
@@ -200,6 +202,5 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isPrivateUserProfile,
 	],
-	deduplicate: 'has-rgh',
 	init: profileInit,
 });

@@ -1,55 +1,43 @@
 import React from 'dom-chef';
-import select from 'select-dom';
-import onetime from 'onetime';
-import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
-import {wrap, isEditable} from '../helpers/dom-utils';
+import attachElement from '../helpers/attach-element';
+import {wrap} from '../helpers/dom-utils';
+import observe from '../helpers/selector-observer';
 
-function addLocation(baseElement: HTMLElement): void {
-	for (const {nextElementSibling, nextSibling} of select.all('.octicon-location', baseElement)) {
-		const location = nextElementSibling ?? nextSibling!; // `nextSibling` alone might point to an empty TextNode before an element, if there’s an element
-		if (isEditable(location)) {
-			continue;
-		}
+function addLocation({nextElementSibling, nextSibling}: SVGElement): void {
+	attachElement({
+		// `nextSibling` alone might point to an empty TextNode before an element, if there’s an element
+		anchor: nextElementSibling ?? nextSibling as Element,
+		forEach(location) {
+			const locationName = location.textContent!.trim();
+			const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
 
-		const locationName = location.textContent!.trim();
-		const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
+			location.before(' '); // Keeps the link’s underline from extending out to the icon
+			const link = <a className="Link--primary" href={googleMapsLink}/>;
 
-		location.before(' '); // Keeps the link’s underline from extending out to the icon
-		const link = <a className="Link--primary" href={googleMapsLink}/>;
+			if (location.parentElement!.closest('.Popover')) {
+			// Match the style of other links in the hovercard
+				link.classList.add('text-underline');
+			}
 
-		// The location is in a hovercard
-		if (baseElement !== document.body) {
-			link.classList.add('text-underline');
-		}
+			wrap(location, link);
 
-		wrap(location, link);
-	}
+			return link;
+		}});
 }
 
-const hovercardObserver = new MutationObserver(([mutation]) => {
-	addLocation(mutation.target as HTMLElement);
-});
-
-function init(): void {
-	addLocation(document.body);
-}
-
-function hovercardInit(): void {
-	const hovercardContainer = select('.js-hovercard-content > .Popover-message');
-	if (hovercardContainer) {
-		hovercardObserver.observe(hovercardContainer, {childList: true});
-	}
+function init(signal: AbortSignal): void {
+	// `itemprop` is used on profiles
+	// `aria-label` in the hovercard
+	observe(`
+		:is(
+			[itemprop="homeLocation"],
+			[aria-label="user location"]
+		) svg.octicon-location
+	`, addLocation, {signal});
 }
 
 void features.add(import.meta.url, {
-	deduplicate: 'has-rgh',
 	init,
-	include: [
-		pageDetect.isProfile,
-	],
-}, {
-	deduplicate: 'has-rgh',
-	init: onetime(hovercardInit),
 });

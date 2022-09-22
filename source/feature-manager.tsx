@@ -8,7 +8,6 @@ import * as pageDetect from 'github-url-detection';
 import waitFor from './helpers/wait-for';
 import onAbort from './helpers/abort-controller';
 import ArrayMap from './helpers/map-of-arrays';
-import onNewComments from './github-events/on-new-comments';
 import bisectFeatures from './helpers/bisect';
 import {shouldFeatureRun} from './github-helpers';
 import polyfillTurboEvents from './github-helpers/turbo-events-polyfill';
@@ -205,28 +204,6 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 
 const shortcutMap = new Map<string, string>();
 
-const defaultPairs = new Map([
-	[pageDetect.hasComments, onNewComments],
-]);
-
-function enforceDefaults(
-	id: FeatureID,
-	include: InternalRunConfig['include'],
-	additionalListeners: InternalRunConfig['additionalListeners'],
-): void {
-	for (const [detection, listener] of defaultPairs) {
-		if (!include?.includes(detection)) {
-			continue;
-		}
-
-		if (additionalListeners.includes(listener)) {
-			console.error(`❌ ${id} → If you use \`${detection.name}\` you don’t need to specify \`${listener.name}\``);
-		} else {
-			additionalListeners.push(listener);
-		}
-	}
-}
-
 const getFeatureID = (url: string): FeatureID => url.split('/').pop()!.split('.')[0] as FeatureID;
 
 type FeatureHelper = {
@@ -283,8 +260,6 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 		if (pageDetect.is404() && !include?.includes(pageDetect.is404) && !asLongAs?.includes(pageDetect.is404)) {
 			continue;
 		}
-
-		enforceDefaults(id, include, additionalListeners);
 
 		const details = {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners};
 		if (awaitDomReady) {
