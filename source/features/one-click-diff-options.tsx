@@ -168,6 +168,7 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleCommit,
 		pageDetect.isCompare,
 	],
+	awaitDomReady: false,
 	init,
 });
 

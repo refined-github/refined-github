@@ -59,5 +59,6 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
 	],
+	awaitDomReady: false,
 	init,
 });

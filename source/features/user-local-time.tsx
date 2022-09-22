@@ -120,8 +120,6 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 		return;
 	}
 
-	hovercardContainer.classList.add('rgh-user-local-time');
-
 	const datePromise = getLastCommitDate(login);
 	const race = await Promise.race([delay(300), datePromise]);
 	if (race === false) {
@@ -156,8 +154,8 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 }
 
 const selector = [
-	'.js-hovercard-content .Popover-message div.d-flex.mt-3.overflow-hidden > div.d-flex:not(.rgh-user-local-time)',
-	'.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time)', // GHE 2022/06/24
+	'.js-hovercard-content .Popover-message div.d-flex.mt-3.overflow-hidden > div.d-flex',
+	'.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3', // GHE 2022/06/24
 ].join(',');
 
 function init(signal: AbortSignal): void {
@@ -198,13 +196,16 @@ function createTimeElement(datePromise: Promise<string | false>): JSX.Element {
 }
 
 void features.add(import.meta.url, {
+	awaitDomReady: false,
 	init,
 }, {
 	include: [
 		pageDetect.isUserProfile,
 	],
 	exclude: [
+		// TODO: Drop once the date promise is triggered only after attachElement finds the item
 		pageDetect.isPrivateUserProfile,
 	],
+	awaitDomReady: false,
 	init: profileInit,
 });

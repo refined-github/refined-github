@@ -83,5 +83,6 @@ void features.add(import.meta.url, {
 		pageDetect.isDashboard,
 		pageDetect.hasComments,
 	],
+	awaitDomReady: false,
 	init,
 });

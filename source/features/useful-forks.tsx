@@ -62,6 +62,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isArchivedRepo,
 	],
-	deduplicate: 'has-rgh',
 	init: initArchivedRepoBanner,
 });

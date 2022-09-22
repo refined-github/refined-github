@@ -47,5 +47,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isArchivedRepo,
 	],
+	awaitDomReady: false,
 	init,
 });

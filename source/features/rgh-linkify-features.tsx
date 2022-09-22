@@ -61,6 +61,7 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleCommit,
 		pageDetect.isRepoWiki,
 	],
+	awaitDomReady: false,
 	init,
 }, {
 	asLongAs: [
@@ -70,5 +71,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPR,
 		pageDetect.isIssue,
 	],
+	awaitDomReady: false,
 	init: initTitle,
 });

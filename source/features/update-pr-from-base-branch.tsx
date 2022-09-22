@@ -81,6 +81,7 @@ void features.add(import.meta.url, {
 		() => select('.head-ref')!.title === 'This repository has been deleted',
 
 		// Native button https://github.blog/changelog/2022-02-03-more-ways-to-keep-your-pull-request-branch-up-to-date/
+		// TODO: COPY to :has, so it can be hidden dynamically
 		() => select.exists('.js-update-branch-form'),
 	],
 	init,

@@ -43,5 +43,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 		pageDetect.isPRFiles,
 	],
+	awaitDomReady: false,
 	init,
 });

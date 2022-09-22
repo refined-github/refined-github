@@ -8,7 +8,7 @@ export default function batchedFunction<ValueType>(function_: (value: ValueType[
 			setTimeout(() => {
 				function_(queue);
 				queue.length = 0;
-			});
+			}, 100);
 		}
 	};
 }

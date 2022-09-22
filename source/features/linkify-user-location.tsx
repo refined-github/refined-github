@@ -26,10 +26,12 @@ function addLocation({nextElementSibling, nextSibling}: SVGElement): void {
 	attachElement({
 		// `nextSibling` alone might point to an empty TextNode before an element, if there’s an element
 		anchor: nextElementSibling ?? nextSibling as Element,
-		forEach: linkify});
+		forEach: linkify,
+	});
 }
 
-function init(signal: AbortSignal): void {
+// No `include`, no `signal` necessary
+function init(): void {
 	// `itemprop` is used on profiles
 	// `aria-label` in the hovercard
 	observe(`
@@ -37,7 +39,7 @@ function init(signal: AbortSignal): void {
 			[itemprop="homeLocation"],
 			[aria-label="user location"]
 		) svg.octicon-location
-	`, addLocation, {signal});
+	`, addLocation);
 }
 
 void features.add(import.meta.url, {

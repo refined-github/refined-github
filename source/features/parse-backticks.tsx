@@ -4,6 +4,7 @@ import observe from '../helpers/selector-observer';
 import features from '../feature-manager';
 import {parseBackticks} from '../github-helpers/dom-formatters';
 
+// TODO: Review again, this feature presumaly should not apply to so many places
 const selectors = [
 	'.BorderGrid--spacious .f4.my-3', // `isRepoHome` repository description
 	'.js-commits-list-item pre', // `isCommitList` commit description
@@ -23,10 +24,12 @@ const selectors = [
 	'a[data-hovercard-type="discussion"]', // `isDiscussionList`
 ];
 
+// No `include`, no `signal` necessary
 function init(signal: AbortSignal): void {
-	observe(selectors, parseBackticks, {signal});
+	observe(selectors, parseBackticks);
 }
 
 void features.add(import.meta.url, {
+	awaitDomReady: false,
 	init,
 });

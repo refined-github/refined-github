@@ -97,10 +97,12 @@ void features.add(import.meta.url, {
 		pageDetect.hasComments,
 		pageDetect.isReleasesOrTags,
 	],
+	awaitDomReady: false,
 	init,
 }, {
 	include: [
 		pageDetect.isDiscussion,
 	],
+	awaitDomReady: false,
 	init: discussionInit,
 });

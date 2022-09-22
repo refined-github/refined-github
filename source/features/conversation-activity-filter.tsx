@@ -231,7 +231,7 @@ async function init(signal: AbortSignal): Promise<Deinit> {
 
 	window.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 
-	observe(`.js-timeline-item`, processItem, {signal});
+	observe('.js-timeline-item', processItem, {signal});
 
 	return registerHotkey('h', switchToNextFilter);
 }
