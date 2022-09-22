@@ -25,7 +25,7 @@ const selectors = [
 ];
 
 // No `include`, no `signal` necessary
-function init(signal: AbortSignal): void {
+function init(): void {
 	observe(selectors, parseBackticks);
 }
 
