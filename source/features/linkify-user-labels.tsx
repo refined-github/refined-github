@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
@@ -13,7 +12,7 @@ const selectors = [
 	'.Label[aria-label^="This user has previously committed"]',
 ];
 
-function init(signal): void {
+function init(signal: AbortSignal): void {
 	observe(selectors, linkify, {signal});
 }
 

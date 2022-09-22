@@ -1,11 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import observe from '../helpers/selector-observer';
-
 import features from '../feature-manager';
 import IconLoading from '../github-helpers/icon-loading';
 

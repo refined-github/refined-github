@@ -18,6 +18,7 @@ function parseGistLink(link: HTMLAnchorElement): string | undefined {
 	return undefined;
 }
 
+// TODO: Replace with updated github-url-detection: isGistFile(link)
 function isGist(link: HTMLAnchorElement): boolean {
 	return parseGistLink(link)?.replace(/[^/]/g, '').length === 1; // Exclude user links and file links
 }
@@ -60,12 +61,12 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 	}
 }
 
-function init(signal): void {
+function init(signal: AbortSignal): void {
 	observe('.js-comment-body p a:only-child', link => {
 		if (isGist(link) && isOnlyChild(link)) {
 			void embedGist(link);
 		}
-	}, {signal})
+	}, {signal});
 }
 
 void features.add(import.meta.url, {

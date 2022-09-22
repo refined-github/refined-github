@@ -4,7 +4,6 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
-import onNewComments from '../github-events/on-new-comments';
 
 function generateSubmenu(hideButton: Element): void {
 	if (hideButton.closest('.rgh-quick-comment-hiding-details')) {
@@ -84,9 +83,6 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
-	],
-	additionalListeners: [
-		onNewComments,
 	],
 	init,
 });

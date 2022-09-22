@@ -6,12 +6,10 @@ import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
 import observe from '../helpers/selector-observer';
-
 import features from '../feature-manager';
 import {getUsername} from '../github-helpers';
 import getUserAvatar from '../github-helpers/get-user-avatar';
 import onAbort from '../helpers/abort-controller';
-import onNewComments from '../github-events/on-new-comments';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -60,13 +58,6 @@ const viewportObserver = new IntersectionObserver(changes => {
 	rootMargin: '500px',
 });
 
-const resizeObserver = new ResizeObserver(([{target}], observer) => {
-	if (!target.isConnected) {
-		observer.unobserve(target);
-		observeReactions();
-	}
-});
-
 function showAvatarsOn(commentReactions: Element): void {
 	const avatarLimit = arbitraryAvatarLimit - (commentReactions.children.length * approximateHeaderLength);
 
@@ -82,18 +73,10 @@ function showAvatarsOn(commentReactions: Element): void {
 			</span>,
 		);
 	}
-
-	resizeObserver.observe(commentReactions.closest('.comment-reactions')!);
 }
 
 // TODO [2022-12-18]: Drop `.comment-reactions-options` (GHE)
 const reactionsSelector = '.has-reactions :is(.js-comment-reactions-options, .comment-reactions-options):not(.rgh-reactions)';
-
-function observeReactions(): void {
-	for (const commentReactions of select.all(reactionsSelector)) {
-		observeCommentReactions(commentReactions);
-	}
-}
 
 function observeCommentReactions(commentReactions: Element): void {
 	commentReactions.classList.add('rgh-reactions');
@@ -101,13 +84,13 @@ function observeCommentReactions(commentReactions: Element): void {
 }
 
 function init(signal: AbortSignal): void {
-	observeReactions();
-	onAbort(signal, viewportObserver, resizeObserver);
+	observe(reactionsSelector, observeCommentReactions, {signal});
+	onAbort(signal, viewportObserver);
 }
 
 function discussionInit(signal: AbortSignal): void {
 	observe(reactionsSelector, observeCommentReactions, {signal});
-	onAbort(signal, viewportObserver, resizeObserver);
+	onAbort(signal, viewportObserver);
 }
 
 void features.add(import.meta.url, {
@@ -115,15 +98,10 @@ void features.add(import.meta.url, {
 		pageDetect.hasComments,
 		pageDetect.isReleasesOrTags,
 	],
-	additionalListeners: [
-		onNewComments,
-	],
-	deduplicate: 'has-rgh-inner',
 	init,
 }, {
 	include: [
 		pageDetect.isDiscussion,
 	],
-	deduplicate: 'has-rgh',
 	init: discussionInit,
 });

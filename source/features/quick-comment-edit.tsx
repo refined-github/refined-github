@@ -7,7 +7,6 @@ import * as pageDetect from 'github-url-detection';
 import observe from '../helpers/selector-observer';
 
 import features from '../feature-manager';
-import onNewComments from '../github-events/on-new-comments';
 
 function addQuickEditButton(commentForm: Element): void {
 	const commentBody = commentForm.closest('.js-comment')!;
@@ -58,9 +57,6 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isArchivedRepo,
-	],
-	additionalListeners: [
-		onNewComments,
 	],
 	init,
 });

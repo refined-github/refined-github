@@ -14,7 +14,6 @@ const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnc
 	const usernames = new Set<string>();
 	const myUsername = getUsername();
 	for (const element of new Set(batchedUsernameElements)) {
-		element.classList.add('rgh-fullname');
 		const username = element.textContent;
 		if (username && username !== myUsername && username !== 'ghost') {
 			usernames.add(element.textContent!);
@@ -67,10 +66,10 @@ const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnc
 
 const usernameLinksSelector = [
 	// `a` selector needed to skip commits by non-GitHub users
-	':is(.js-discussion, .inline-comments) a.author:not(.rgh-fullname, [href*="/apps/"], [href*="/marketplace/"], [data-hovercard-type="organization"])',
+	':is(.js-discussion, .inline-comments) a.author:not([href*="/apps/"], [href*="/marketplace/"], [data-hovercard-type="organization"])',
 
 	// On dashboard `.text-bold` is required to not fetch avatars
-	'#dashboard a.text-bold[data-hovercard-type="user"]:not(.rgh-fullname)',
+	'#dashboard a.text-bold[data-hovercard-type="user"]',
 
 	// Due to: https://github.com/g-plane/typed-query-selector/issues/26
 ] as unknown as Array<'a'>;

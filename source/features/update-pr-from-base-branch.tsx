@@ -2,16 +2,15 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
-import {observe, Observer} from 'selector-observer';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import getPrInfo from '../github-helpers/get-pr-info';
 import {getConversationNumber} from '../github-helpers';
+import observe from '../helpers/selector-observer';
 
 const selectorForPushablePRNotice = '.merge-pr > .color-fg-muted:first-child';
-let observer: Observer;
 
 function getBranches(): {base: string; head: string} {
 	return {
@@ -35,7 +34,7 @@ async function handler({delegateTarget}: DelegateEvent): Promise<void> {
 
 	const statusMeta = delegateTarget.parentElement!;
 	statusMeta.textContent = 'Updating branch…';
-	observer.abort();
+	features.unload(import.meta.url);
 
 	const response = await mergeBranches();
 	if (response.ok) {
@@ -66,24 +65,11 @@ async function addButton(position: Element): Promise<void> {
 	}
 }
 
-async function init(signal: AbortSignal): Promise<false | Deinit> {
+async function init(signal: AbortSignal): Promise<false | void> {
 	await api.expectToken();
 
 	delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler, {signal});
-
-	// Quick check before using selector-observer on it
-	if (!select.exists(selectorForPushablePRNotice)) {
-		return false;
-	}
-
-	observer = observe(`:is(${selectorForPushablePRNotice}):not(.rgh-update-pr)`, {
-		add(position) {
-			position.classList.add('rgh-update-pr');
-			void addButton(position);
-		},
-	});
-
-	return observer;
+	observe(selectorForPushablePRNotice, addButton, {signal});
 }
 
 void features.add(import.meta.url, {

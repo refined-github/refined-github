@@ -7,7 +7,6 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import observe from '../helpers/selector-observer';
-
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import looseParseInt from '../helpers/loose-parse-int';

@@ -1,11 +1,9 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-
 import * as pageDetect from 'github-url-detection';
 import {GitMergeIcon, GitPullRequestIcon, GitPullRequestClosedIcon, GitPullRequestDraftIcon} from '@primer/octicons-react';
 
 import observe from '../helpers/selector-observer';
-
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getRepo, upperCaseFirst} from '../github-helpers';

@@ -179,18 +179,22 @@ async function profileInit(): Promise<void> {
 
 	attachElement({
 		anchor: '.vcard-details',
-		append() {
-			const placeholder = <span className="v-align-middle">Guessing local time…</span>;
-			const container = (
-				<li className="vcard-detail pt-1 css-truncate css-truncate-target">
-					<ClockIcon/> {placeholder}
-				</li>
-			);
-
-			void display({datePromise, placeholder, container});
-			return container;
-		},
+		append: () => createTimeElement(datePromise),
 	});
+}
+
+// TODO: Plz replace with JSX-less Preact or sumthin 🥺
+// Passing `datePromise` around is we-ird
+function createTimeElement(datePromise: Promise<string | false>): JSX.Element {
+	const placeholder = <span className="v-align-middle">Guessing local time…</span>;
+	const container = (
+		<li className="vcard-detail pt-1 css-truncate css-truncate-target">
+			<ClockIcon/> {placeholder}
+		</li>
+	);
+
+	void display({datePromise, placeholder, container});
+	return container;
 }
 
 void features.add(import.meta.url, {

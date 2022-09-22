@@ -1,8 +1,6 @@
 import './parse-backticks.css';
-import onetime from 'onetime';
 
 import observe from '../helpers/selector-observer';
-
 import features from '../feature-manager';
 import {parseBackticks} from '../github-helpers/dom-formatters';
 
@@ -26,9 +24,9 @@ const selectors = [
 ];
 
 function init(signal: AbortSignal): void {
-	observe(selectors, 			parseBackticks, {signal});
+	observe(selectors, parseBackticks, {signal});
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	init,
 });

@@ -1,9 +1,7 @@
 import select from 'select-dom';
-
 import * as pageDetect from 'github-url-detection';
 
 import observe from '../helpers/selector-observer';
-
 import features from '../feature-manager';
 import {getRepo} from '../github-helpers';
 import {codeElementsSelector, linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters';
@@ -53,7 +51,7 @@ void features.add(import.meta.url, {
 		pageDetect.isIssue,
 		pageDetect.isDiscussion,
 	],
-	init: initTitle
+	init: initTitle,
 });
 
 /*
