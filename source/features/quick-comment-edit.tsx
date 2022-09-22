@@ -1,11 +1,9 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-
 import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import observe from '../helpers/selector-observer';
-
 import features from '../feature-manager';
 
 function addQuickEditButton(commentForm: Element): void {
@@ -46,7 +44,9 @@ export function canEditEveryComment(): boolean {
 function init(signal: AbortSignal): void {
 	// If true then the resulting selector will match all comments, otherwise it will only match those made by you
 	const preSelector = canEditEveryComment() ? '' : '.current-user';
+
 	// Find editable comments first, then traverse to the correct position
+	// TODO: Replace with :has selector
 	observe(preSelector + '.js-comment.unminimized-comment .js-comment-update', addQuickEditButton, {signal});
 }
 
