@@ -69,7 +69,7 @@ async function showTimeMachineBar(): Promise<void | false> {
 			view this object as it appeared at the time of the comment
 		</a>
 	);
-	addNotice(
+	await addNotice(
 		<>You can also {link} (<relative-time datetime={date}/>)</>,
 	);
 }
@@ -144,3 +144,9 @@ void features.add(import.meta.url, {
 	awaitDomReady: false,
 	init: showTimeMachineBar,
 });
+
+/*
+Test URLs
+
+Find them in https://github.com/refined-github/refined-github/pull/1863
+*/

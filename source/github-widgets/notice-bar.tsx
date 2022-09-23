@@ -1,6 +1,6 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import {XIcon} from '@primer/octicons-react';
+import elementReady from 'element-ready';
 
 type Options = {
 	action?: Element | false;
@@ -8,7 +8,7 @@ type Options = {
 };
 
 /** https://primer.style/css/components/alerts */
-export default function addNotice(
+export default async function addNotice(
 	message: string | Node | Array<string | Node>,
 	{
 		type = 'notice',
@@ -18,8 +18,9 @@ export default function addNotice(
 			</button>
 		),
 	}: Options = {},
-): void {
-	select('#js-flash-container')!.append(
+): Promise<void> {
+	const container = await elementReady('#js-flash-container');
+	container!.append(
 		<div className={`flash flash-full flash-${type} px-4`}>
 			{action}
 			<div>

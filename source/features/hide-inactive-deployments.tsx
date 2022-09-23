@@ -3,6 +3,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 
+// This feature doesn't need an active observer
 function init(): void {
 	// Selects all the deployments first so that we can leave the last one on the page
 	const deployments = select.all('.js-socket-channel[data-url*="/partials/deployed_event/"]');

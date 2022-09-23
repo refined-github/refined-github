@@ -5,15 +5,16 @@ import linkifyIssuesCore from 'linkify-issues';
 
 import getTextNodes from '../helpers/get-text-nodes';
 import parseBackticksCore from './parse-backticks';
+import select from 'select-dom';
+import features from '../feature-manager';
 
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';
+export const linkifiedURLSelector = '.rgh-linkified-code';
 
 export const codeElementsSelector = [
 	'.blob-code-inner', // Code lines
-	'.highlight > pre', // Highlighted code blocks in comments
-	'.snippet-clipboard-content > pre', // Non-highlighted code blocks in comments
-	'.notranslate', // Non-highlighted code blocks in tables in comments
+	':not(.notranslate) > .notranslate', // Code blocks in comments. May be wrapped twice
 ].join(',');
 
 export function shortenLink(link: HTMLAnchorElement): void {
@@ -62,6 +63,12 @@ export function linkifyIssues(
 
 export function linkifyURLs(element: Element): void {
 	if (element.textContent!.length < 15) { // Must be long enough for a URL
+		return;
+	}
+
+	if (select.exists(linkifiedURLSelector, element)) {
+		features.log.error(import.meta.url, 'Links already exist');
+		console.log(select.all(linkifiedURLSelector, element));
 		return;
 	}
 

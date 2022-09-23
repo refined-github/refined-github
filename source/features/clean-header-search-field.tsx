@@ -11,6 +11,8 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssueOrPRList,
 		pageDetect.isGlobalIssueOrPRList,
+		pageDetect.isGlobalSearchResults,
+		pageDetect.isRepoSearch,
 	],
 	awaitDomReady: false,
 	init,

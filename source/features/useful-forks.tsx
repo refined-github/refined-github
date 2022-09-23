@@ -62,5 +62,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isArchivedRepo,
 	],
+	// Can't because `isArchivedRepo` is DOM-based
+	// awaitDomReady: false,
 	init: initArchivedRepoBanner,
 });

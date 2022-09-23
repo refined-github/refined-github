@@ -31,7 +31,7 @@ async function init(): Promise<void | false> {
 	readmeHeader.append(
 		<a
 			href={url.href}
-			className={`${readmeHeader.matches('.js-sticky') ? 'p-2' : 'Box-btn-octicon'} btn-octicon`}
+			className={`${readmeHeader.matches('.js-sticky') ? 'p-2' : 'Box-btn-octicon'} btn-octicon rgh-edit-readme`}
 			aria-label="Edit this file"
 		>
 			<PencilIcon/>
@@ -46,6 +46,9 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isArchivedRepo,
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: '.rgh-edit-readme',
+	// Can't because `isArchivedRepo` is DOM-based
+	// Also not needed since it appears on hover
+	// awaitDomReady: false,
 	init,
 });
