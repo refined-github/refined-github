@@ -38,7 +38,7 @@ function getCiDetails(commit: string): HTMLElement {
 	);
 }
 
-async function init(): Promise<false | void> {
+async function init(): Promise<void> {
 	const head = await getHead();
 	const repoTitle = await elementReady('[itemprop="name"]');
 
@@ -57,7 +57,6 @@ void features.add(import.meta.url, {
 		pageDetect.isEmptyRepo,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh',
 	init,
 });
 

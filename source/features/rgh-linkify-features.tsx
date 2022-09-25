@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
@@ -7,7 +6,7 @@ import features from '../feature-manager';
 import featureLink from '../helpers/feature-link';
 import {getNewFeatureName} from '../options-storage';
 import {isAnyRefinedGitHubRepo} from '../github-helpers';
-import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
+import observe from '../helpers/selector-observer';
 
 function linkifyFeature(possibleFeature: HTMLElement): void {
 	const id = getNewFeatureName(possibleFeature.textContent!);
@@ -38,21 +37,14 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 	}
 }
 
-function initTitle(): void {
-	for (const possibleFeature of select.all('.js-issue-title code')) {
-		linkifyFeature(possibleFeature);
-	}
-}
-
-function init(): void {
-	for (const possibleMention of select.all([
+function init(signal: AbortSignal): void {
+	observe([
+		'.js-issue-title code', // `isPR`, `isIssue`
 		'.js-comment-body code', // `hasComments`
 		'.markdown-body code', // `isReleasesOrTags`
 		'.markdown-title code', // `isSingleCommit`, `isRepoTree`
 		'code .markdown-title', // `isCommitList`, `isRepoTree`
-	].join(','))) {
-		linkifyFeature(possibleMention);
-	}
+	], linkifyFeature, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -65,20 +57,9 @@ void features.add(import.meta.url, {
 		pageDetect.isCommitList,
 		pageDetect.isSingleCommit,
 		pageDetect.isRepoWiki,
-	],
-	deduplicate: 'has-rgh-inner',
-	init,
-}, {
-	asLongAs: [
-		isAnyRefinedGitHubRepo,
-	],
-	include: [
 		pageDetect.isPR,
 		pageDetect.isIssue,
 	],
-	additionalListeners: [
-		onConversationHeaderUpdate,
-	],
-	deduplicate: 'has-rgh-inner',
-	init: initTitle,
+	awaitDomReady: false,
+	init,
 });

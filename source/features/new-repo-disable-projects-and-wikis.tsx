@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
@@ -73,6 +74,5 @@ void features.add(import.meta.url, {
 		() => Boolean(sessionStorage.rghNewRepo),
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh',
-	init: disableWikiAndProjects,
+	init: onetime(disableWikiAndProjects),
 });

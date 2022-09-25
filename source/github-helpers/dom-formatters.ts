@@ -1,3 +1,4 @@
+import select from 'select-dom';
 import zipTextNodes from 'zip-text-nodes';
 import {applyToLink} from 'shorten-repo-url';
 import linkifyURLsCore from 'linkify-urls';
@@ -8,12 +9,11 @@ import parseBackticksCore from './parse-backticks';
 
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';
+export const linkifiedURLSelector = '.rgh-linkified-code';
 
 export const codeElementsSelector = [
 	'.blob-code-inner', // Code lines
-	'.highlight > pre', // Highlighted code blocks in comments
-	'.snippet-clipboard-content > pre', // Non-highlighted code blocks in comments
-	'.notranslate', // Non-highlighted code blocks in tables in comments
+	':not(.notranslate) > .notranslate', // Code blocks in comments. May be wrapped twice
 ].join(',');
 
 export function shortenLink(link: HTMLAnchorElement): void {
@@ -60,9 +60,13 @@ export function linkifyIssues(
 	zipTextNodes(element, linkified);
 }
 
-export function linkifyURLs(element: Element): void {
+export function linkifyURLs(element: Element): Element[] | void {
 	if (element.textContent!.length < 15) { // Must be long enough for a URL
 		return;
+	}
+
+	if (select.exists(linkifiedURLSelector, element)) {
+		return select.all(linkifiedURLSelector, element);
 	}
 
 	const linkified = linkifyURLsCore(element.textContent!, {

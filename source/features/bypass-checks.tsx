@@ -50,5 +50,6 @@ void features.add(import.meta.url, {
 		pageDetect.isEmptyRepo,
 	],
 	deduplicate: 'has-rgh-inner',
+	awaitDomReady: false,
 	init,
 });

@@ -10,6 +10,7 @@ import addNotice from '../github-widgets/notice-bar';
 import {linkifiedURLClass} from '../github-helpers/dom-formatters';
 import {buildRepoURL, isPermalink} from '../github-helpers';
 import {saveOriginalHref} from './sort-conversations-by-update-time';
+import observe from '../helpers/selector-observer';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
 	const {repository} = await api.v4(`
@@ -68,13 +69,14 @@ async function showTimeMachineBar(): Promise<void | false> {
 			view this object as it appeared at the time of the comment
 		</a>
 	);
-	addNotice(
+	await addNotice(
 		<>You can also {link} (<relative-time datetime={date}/>)</>,
 	);
 }
 
 function addInlineLinks(menu: HTMLElement, timestamp: string): void {
 	const comment = menu.closest('.js-comment')!;
+	// TODO: Move selector directly to observer
 	const links = select.all(`
 		a[href^="${location.origin}"][href*="/blob/"]:not(.${linkifiedURLClass}),
 		a[href^="${location.origin}"][href*="/tree/"]:not(.${linkifiedURLClass})
@@ -109,10 +111,8 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 	);
 }
 
-function init(): void {
-	const commentPopupMenus = select.all('.timeline-comment-actions > details:last-child:not(.rgh-time-machine-links)');
-	for (const menu of commentPopupMenus) {
-		menu.classList.add('rgh-time-machine-links');
+function init(signal: AbortSignal): void {
+	observe('.timeline-comment-actions > details:last-child', menu => {
 		// The timestamp of main review comments isn't in their header but in the timeline event above #5423
 		const timestamp = menu
 			.closest('.js-comment:not([id^="pullrequestreview-"]), .js-timeline-item')!
@@ -120,7 +120,7 @@ function init(): void {
 			.attributes.datetime.value;
 		addInlineLinks(menu, timestamp);
 		addDropdownLink(menu, timestamp);
-	}
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -130,7 +130,7 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isGist,
 	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: false,
 	init,
 }, {
 	asLongAs: [
@@ -142,6 +142,11 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoTree,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh',
 	init: showTimeMachineBar,
 });
+
+/*
+Test URLs
+
+Find them in https://github.com/refined-github/refined-github/pull/1863
+*/

@@ -1,6 +1,3 @@
-import select from 'select-dom';
-import * as pageDetect from 'github-url-detection';
-
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 
@@ -10,32 +7,17 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	link.search = String(search);
 }
 
-async function profileDropdown(signal: AbortSignal): Promise<void> {
-	observe('.header-nav-current-user ~ a[href$="tab=repositories"]', addSourceTypeToLink, {signal});
-}
-
-async function init(): Promise<void> {
-	const links = select.all([
+// No `include`, no `signal` necessary
+function init(): void {
+	observe([
+		'.header-nav-current-user ~ a[href$="tab=repositories"]', // "Your repositories" in the header profile dropdown
 		'[aria-label="User profile"] a[href$="tab=repositories"]', // "Repositories" tab on user profile
 		'[aria-label="Organization"] [data-tab-item="org-header-repositories-tab"] a', // "Repositories" tab on organization profile
 		'a[data-hovercard-type="organization"]', // Organization name on repo header + organization list on user profile
-	]);
-
-	for (const link of links) {
-		addSourceTypeToLink(link);
-	}
+	], addSourceTypeToLink);
 }
 
 void features.add(import.meta.url, {
-	deduplicate: 'has-rgh',
+	awaitDomReady: false,
 	init,
-	exclude: [
-		pageDetect.isPrivateUserProfile,
-	],
-}, {
-	deduplicate: 'has-rgh',
-	init: profileDropdown,
-	exclude: [
-		pageDetect.isGist, // "Your repositories" does not exist
-	],
 });

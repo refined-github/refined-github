@@ -47,5 +47,8 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isArchivedRepo,
 	],
+	// Can't because `isArchivedRepo` is DOM-based
+	// Also not needed since it appears on hover
+	// awaitDomReady: false,
 	init,
 });

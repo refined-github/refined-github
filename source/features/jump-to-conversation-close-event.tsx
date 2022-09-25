@@ -43,7 +43,6 @@ void features.add(import.meta.url, {
 		pageDetect.isClosedIssue,
 		pageDetect.isClosedPR,
 	],
-	deduplicate: 'has-rgh-inner',
 	init,
 });
 
