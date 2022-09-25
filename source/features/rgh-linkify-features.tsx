@@ -37,12 +37,9 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 	}
 }
 
-function initTitle(signal: AbortSignal): void {
-	observe('.js-issue-title code', linkifyFeature, {signal});
-}
-
 function init(signal: AbortSignal): void {
 	observe([
+		'.js-issue-title code', // `isPR`, `isIssue`
 		'.js-comment-body code', // `hasComments`
 		'.markdown-body code', // `isReleasesOrTags`
 		'.markdown-title code', // `isSingleCommit`, `isRepoTree`
@@ -60,17 +57,9 @@ void features.add(import.meta.url, {
 		pageDetect.isCommitList,
 		pageDetect.isSingleCommit,
 		pageDetect.isRepoWiki,
-	],
-	awaitDomReady: false,
-	init,
-}, {
-	asLongAs: [
-		isAnyRefinedGitHubRepo,
-	],
-	include: [
 		pageDetect.isPR,
 		pageDetect.isIssue,
 	],
 	awaitDomReady: false,
-	init: initTitle,
+	init,
 });

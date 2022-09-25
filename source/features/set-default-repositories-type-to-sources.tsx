@@ -7,13 +7,10 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	link.search = String(search);
 }
 
-async function profileDropdown(signal: AbortSignal): Promise<void> {
-	observe('.header-nav-current-user ~ a[href$="tab=repositories"]', addSourceTypeToLink, {signal});
-}
-
 // No `include`, no `signal` necessary
 function init(): void {
 	observe([
+		'.header-nav-current-user ~ a[href$="tab=repositories"]', // "Your repositories" in the header profile dropdown
 		'[aria-label="User profile"] a[href$="tab=repositories"]', // "Repositories" tab on user profile
 		'[aria-label="Organization"] [data-tab-item="org-header-repositories-tab"] a', // "Repositories" tab on organization profile
 		'a[data-hovercard-type="organization"]', // Organization name on repo header + organization list on user profile
@@ -23,7 +20,4 @@ function init(): void {
 void features.add(import.meta.url, {
 	awaitDomReady: false,
 	init,
-}, {
-	awaitDomReady: false,
-	init: profileDropdown,
 });

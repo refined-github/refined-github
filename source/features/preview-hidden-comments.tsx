@@ -11,7 +11,7 @@ function preview(hiddenCommentHeader: HTMLElement): void {
 	const details = hiddenCommentHeader.closest('details')!;
 	details.classList.add('rgh-preview-hidden-comments'); // Used in CSS
 
-	const comment = select('.comment-body', details)!
+	const comment = select('.comment-body', details)!;
 	const commentText = comment.textContent!.trim();
 	if (commentText.length === 0) {
 		return;

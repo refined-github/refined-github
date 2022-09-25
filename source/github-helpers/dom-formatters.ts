@@ -1,3 +1,4 @@
+import select from 'select-dom';
 import zipTextNodes from 'zip-text-nodes';
 import {applyToLink} from 'shorten-repo-url';
 import linkifyURLsCore from 'linkify-urls';
@@ -5,7 +6,6 @@ import linkifyIssuesCore from 'linkify-issues';
 
 import getTextNodes from '../helpers/get-text-nodes';
 import parseBackticksCore from './parse-backticks';
-import select from 'select-dom';
 import features from '../feature-manager';
 
 // Shared class necessary to avoid also shortening the links
