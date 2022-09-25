@@ -2,7 +2,7 @@ import select from 'select-dom';
 import oneEvent from 'one-event';
 
 export default async function loadDetailsMenu(detailsMenu: HTMLElement): Promise<void> {
-	const fragment = select('.js-comment-header-actions-deferred-include-fragment', detailsMenu);
+	const fragment = select('include-fragment.SelectMenu-loading', detailsMenu);
 	if (!fragment) {
 		return;
 	}
