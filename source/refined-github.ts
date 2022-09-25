@@ -1,7 +1,8 @@
 import './helpers/types.d.ts';
 
-// CSS-only features
 import './refined-github.css';
+
+// CSS-only features
 import './features/github-bugs.css';
 import './features/tab-size.css';
 import './features/scrollable-code-and-blockquote.css';
@@ -25,6 +26,7 @@ import './features/sticky-file-header.css';
 import './features/readable-title-change-events.css';
 import './features/clean-checks-list.css';
 import './features/sticky-csv-header.css';
+
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
 
@@ -37,7 +39,7 @@ import './features/minimize-upload-bar';
 import './features/hide-diff-signs';
 import './features/clean-rich-text-editor';
 
-// TS features
+// Disableable features
 import './features/useful-not-found-page';
 import './features/more-dropdown-links';
 import './features/releases-tab';
