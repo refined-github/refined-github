@@ -38,11 +38,11 @@ function setStorage(): void {
 async function init(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
 
-	attachElement({
-		anchor: select.last([
-			'.js-repo-init-setting-container', // IsNewRepo
-			'.form-checkbox', // IsNewRepoTemplate
-		])!,
+	const anchor = select.last([
+		'.js-repo-init-setting-container', // IsNewRepo
+		'.form-checkbox', // IsNewRepoTemplate
+	]);
+	attachElement(anchor, {
 		after: () => (
 			<div className="flash flash-warn py-0">
 				<div className="form-checkbox checked">
@@ -58,7 +58,8 @@ async function init(signal: AbortSignal): Promise<void> {
 					</span>
 				</div>
 			</div>
-		)});
+		),
+	});
 
 	delegate(document, '#new_repository, #new_new_repository', 'submit', setStorage, {signal});
 }

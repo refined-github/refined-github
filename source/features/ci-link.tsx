@@ -42,11 +42,11 @@ async function init(): Promise<void> {
 	const head = await getHead();
 	const repoTitle = await elementReady('[itemprop="name"]');
 
-	attachElement({
+	attachElement(
 		// Append to repo title (aware of forks and private repos)
-		anchor: repoTitle!.parentElement,
-		append: () => getCiDetails(head),
-	});
+		repoTitle!.parentElement,
+		{append: () => getCiDetails(head)},
+	);
 }
 
 void features.add(import.meta.url, {

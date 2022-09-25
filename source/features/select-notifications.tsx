@@ -157,8 +157,7 @@ function closeDropdown(): void {
 }
 
 function addDropdown(markAllPrompt: Element): void {
-	attachElement({
-		anchor: markAllPrompt.closest('label'),
+	attachElement(markAllPrompt.closest('label'), {
 		after: createDropdown,
 	});
 }

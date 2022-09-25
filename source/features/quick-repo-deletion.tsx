@@ -142,8 +142,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 	await api.expectToken();
 
 	// (Ab)use the details element as state and an accessible "click-anywhere-to-cancel" utility
-	attachElement({
-		anchor: '.pagehead-actions',
+	attachElement('.pagehead-actions', {
 		prepend: () => (
 			<li>
 				<details className="details-reset details-overlay select-menu rgh-quick-repo-deletion">

@@ -175,8 +175,7 @@ async function profileInit(): Promise<void> {
 		return;
 	}
 
-	attachElement({
-		anchor: '.vcard-details',
+	attachElement('.vcard-details', {
 		append: () => createTimeElement(datePromise),
 	});
 }

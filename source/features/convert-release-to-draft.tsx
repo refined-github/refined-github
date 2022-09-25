@@ -43,8 +43,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 	// Fix spacing but avoid the two buttons sticking together
 	editButton.classList.replace('ml-1', 'ml-0');
 
-	attachElement({
-		anchor: editButton,
+	attachElement(editButton, {
 		before: () => (
 			<button
 				type="button"

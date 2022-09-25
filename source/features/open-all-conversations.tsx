@@ -32,8 +32,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 		return false;
 	}
 
-	attachElements({
-		anchor: '.table-list-header-toggle:not(.states)',
+	attachElements('.table-list-header-toggle:not(.states)', {
 		prepend: anchor => (
 			<button
 				type="button"

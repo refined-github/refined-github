@@ -8,8 +8,6 @@ type Position = 'append' | 'prepend' | 'before' | 'after' | 'forEach';
 
 // NOTE: Do not turn the Callback into an async function or else the deduplication won't work. A placeholder element MUST be returned synchronously. The deduplication logic is DOM-based.
 type Attachment<NewElement extends Element, Callback = (E: Element) => NewElement> = RequireAtLeastOne<{
-	// eslint-disable-next-line @typescript-eslint/ban-types --  Allows dom traversing without requiring `!`
-	anchor: Element | string | undefined | null;
 	className?: string;
 	append: Callback;
 	prepend: Callback;
@@ -18,10 +16,6 @@ type Attachment<NewElement extends Element, Callback = (E: Element) => NewElemen
 	forEach: Callback;
 	allowMissingAnchor?: boolean;
 }, Position>;
-
-type Attachments<NewElement extends Element> = Attachment<NewElement> & {
-	anchor: string;
-};
 
 /**
 Get unique ID by using the line:column of the call (or its parents) as seed. Every call from the same place will return the same ID, as long as the index is set to the parents that matters to you.
@@ -32,16 +26,18 @@ export function getSnapshotUUID(ancestor = 1): string {
 	return hashString(new Error('Get stack').stack!.split('\n')[ancestor + 2]);
 }
 
-export default function attachElement<NewElement extends Element>({
-	anchor,
-	className = 'rgh-' + getSnapshotUUID(),
-	append,
-	prepend,
-	before,
-	after,
-	forEach,
-	allowMissingAnchor = false,
-}: Attachment<NewElement>): NewElement[] {
+export default function attachElement<NewElement extends Element>(
+	// eslint-disable-next-line @typescript-eslint/ban-types --  Allows dom traversing without requiring `!`
+	anchor: Element | string | undefined | null,
+	{
+		className = 'rgh-' + getSnapshotUUID(),
+		append,
+		prepend,
+		before,
+		after,
+		forEach,
+		allowMissingAnchor = false,
+	}: Attachment<NewElement>): NewElement[] {
 	const anchorElement = typeof anchor === 'string' ? select(anchor) : anchor;
 	if (!anchorElement) {
 		if (allowMissingAnchor) {
@@ -77,11 +73,10 @@ export default function attachElement<NewElement extends Element>({
 	].filter(isDefined);
 }
 
-export function attachElements<NewElement extends Element>({
-	anchor: anchors,
+export function attachElements<NewElement extends Element>(anchors: string, {
 	className = 'rgh-' + getSnapshotUUID(),
 	...options
-}: Attachments<NewElement>): NewElement[] {
+}: Attachment<NewElement>): NewElement[] {
 	return select.all(`:is(${anchors}):not(.${className})`)
-		.flatMap(anchor => attachElement({...options, anchor, className}));
+		.flatMap(anchor => attachElement(anchor, {...options, className}));
 }

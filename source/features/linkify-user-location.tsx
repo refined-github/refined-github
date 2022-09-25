@@ -23,11 +23,11 @@ function linkify(location: Element): Element {
 }
 
 function addLocation({nextElementSibling, nextSibling}: SVGElement): void {
-	attachElement({
+	attachElement(
 		// `nextSibling` alone might point to an empty TextNode before an element, if there’s an element
-		anchor: nextElementSibling ?? nextSibling as Element,
-		forEach: linkify,
-	});
+		nextElementSibling ?? nextSibling as Element,
+		{forEach: linkify},
+	);
 }
 
 // No `include`, no `signal` necessary

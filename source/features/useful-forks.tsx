@@ -38,8 +38,7 @@ function createBannerLink(): JSX.Element {
 }
 
 function initArchivedRepoBanner(): void {
-	attachElement({
-		anchor: '.flash-full',
+	attachElement('.flash-full', {
 		append: createBannerLink,
 	});
 }

@@ -20,8 +20,7 @@ const noticeClass = 'rgh-files-hidden-notice';
 const noticeStyle = {paddingRight: '19px'};
 
 function addButton(filesBox: HTMLElement): void {
-	attachElement({
-		anchor: selectHas('ul:has(.octicon-history)', filesBox)!,
+	attachElement(selectHas('ul:has(.octicon-history)', filesBox)!, {
 		allowMissingAnchor: true,
 		className: toggleButtonClass,
 		append: () => (
@@ -39,8 +38,7 @@ function addButton(filesBox: HTMLElement): void {
 
 function addFilesHiddenNotice(fileBox: Element): void {
 	// Add notice so the user knows that the list was collapsed #5524
-	attachElement({
-		anchor: fileBox,
+	attachElement(fileBox, {
 		className: noticeClass,
 		after: () => (
 			<div

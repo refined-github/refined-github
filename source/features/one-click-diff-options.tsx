@@ -130,15 +130,13 @@ function attachButtons(nativeDiffButtons: HTMLElement): void {
 
 	// `usesFloats` is necessary to ensure the order and spacing as seen in #5958
 	const usesFloats = anchor?.classList.contains('float-right');
-	attachElement(usesFloats ? {
-		anchor,
+	attachElement(anchor, usesFloats ? {
 		after: () => (
 			<div className="float-right mr-3">
 				{createWhitespaceButton()}
 			</div>
 		),
 	} : {
-		anchor,
 		before: createWhitespaceButton,
 	});
 }

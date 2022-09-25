@@ -36,8 +36,7 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 }
 
 function addButtons(): void {
-	attachElements({
-		anchor: 'md-ref',
+	attachElements('md-ref', {
 		className: 'rgh-collapsible-content-btn',
 		after: () => (
 			<button type="button" className="toolbar-item btn-octicon p-2 p-md-1 tooltipped tooltipped-sw" aria-label="Add collapsible content">
