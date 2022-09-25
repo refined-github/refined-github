@@ -61,15 +61,13 @@ export function linkifyIssues(
 	zipTextNodes(element, linkified);
 }
 
-export function linkifyURLs(element: Element): void {
+export function linkifyURLs(element: Element): Element[] | void {
 	if (element.textContent!.length < 15) { // Must be long enough for a URL
 		return;
 	}
 
 	if (select.exists(linkifiedURLSelector, element)) {
-		features.log.error(import.meta.url, 'Links already exist');
-		console.log(select.all(linkifiedURLSelector, element));
-		return;
+		return select.all(linkifiedURLSelector, element);
 	}
 
 	const linkified = linkifyURLsCore(element.textContent!, {

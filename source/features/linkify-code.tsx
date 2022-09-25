@@ -20,7 +20,11 @@ function initTitle(signal: AbortSignal): void {
 }
 
 function linkifyContent(wrapper: Element): void {
-	linkifyURLs(wrapper);
+	const errors = linkifyURLs(wrapper);
+	if (errors) {
+		features.log.error(import.meta.url, 'Links already exist');
+		console.log(errors);
+	}
 
 	// Linkify issue refs in comments
 	const currentRepo = getRepo() ?? {};
