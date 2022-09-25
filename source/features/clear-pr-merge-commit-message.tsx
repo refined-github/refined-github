@@ -25,7 +25,7 @@ function init(): void | false {
 		<p className="note rgh-sync-pr-commit-title-note">
 			The description field was cleared by <a target="_blank" href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message" rel="noreferrer">Refined GitHub</a>.
 		</p>,
-		<hr />
+		<hr/>,
 	);
 }
 
