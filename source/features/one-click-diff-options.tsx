@@ -93,11 +93,8 @@ function createWhitespaceButton(): HTMLElement {
 	);
 }
 
-function initPR(signal: AbortSignal): void {
-	delegate(document, diffSwitchButtons.selector, 'click', alternateDiffNatively, {signal});
-
-	const originalToggle = selectHas('details:has([aria-label="Diff settings"])')!.parentElement!;
-
+function attachPRButtons(diffSettings: HTMLElement): void {
+	const originalToggle = diffSettings.closest('details')!.parentElement!;
 	if (!isHidingWhitespace()) {
 		originalToggle.after(
 			<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>,
@@ -122,6 +119,11 @@ function initPR(signal: AbortSignal): void {
 
 	// Remove extraneous padding around "Clear filters" button
 	select('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-sm-2');
+}
+
+function initPR(signal: AbortSignal): void {
+	delegate(document, diffSwitchButtons.selector, 'click', alternateDiffNatively, {signal});
+	observe('[aria-label="Diff settings"]', attachPRButtons);
 }
 
 function attachButtons(nativeDiffButtons: HTMLElement): void {
@@ -158,7 +160,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isPRFile404,
 	],
-	deduplicate: 'has-rgh-inner',
 	init: initPR,
 }, {
 	shortcuts,

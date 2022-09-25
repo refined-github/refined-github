@@ -62,6 +62,5 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleTag,
 	],
 	awaitDomReady: false,
-	deduplicate: '.rgh-convert-draft',
 	init,
 });

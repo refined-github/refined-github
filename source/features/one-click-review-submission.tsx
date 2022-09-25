@@ -7,14 +7,8 @@ import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
 import features from '../feature-manager';
 import looseParseInt from '../helpers/loose-parse-int';
 
-function init(signal: AbortSignal): false | void {
-	const form = select('[action$="/reviews"]')!;
-	const radios = select.all('input[type="radio"][name="pull_request_review[event]"]', form);
-
-	if (radios.length === 0) {
-		return false;
-	}
-
+function addButtons(radios: HTMLInputElement[]): false | void {
+	const form = radios[0].form!;
 	const container = select('.form-actions', form)!;
 
 	// Set the default action for cmd+enter to Comment
@@ -74,6 +68,19 @@ function init(signal: AbortSignal): false | void {
 	}
 
 	select('[type="submit"]:not([name])', form)!.remove(); // The selector excludes the "Cancel" button
+}
+
+function init(signal: AbortSignal): false | void {
+	const form = select('[action$="/reviews"]')!;
+	const radios = select.all('input[type="radio"][name="pull_request_review[event]"]', form);
+
+	if (radios.length === 0) {
+		return false;
+	}
+
+	if (!addButtons(radios)) {
+		return false;
+	}
 
 	// Freeze form to avoid duplicate submissions
 	form.addEventListener('submit', () => {
@@ -97,6 +104,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPR,
 	],
-	deduplicate: 'has-rgh-inner',
 	init,
 });
