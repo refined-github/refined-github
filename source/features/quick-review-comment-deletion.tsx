@@ -7,12 +7,18 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 import loadDetailsMenu from '../github-helpers/load-details-menu';
+import showToast from '../github-helpers/toast';
 
-async function onButtonClick({delegateTarget: button}: DelegateEvent): Promise<void> {
-	button
-		.closest('.js-comment')!
-		.querySelector('.show-more-popover .js-comment-delete > button')!
-		.click();
+function onButtonClick({delegateTarget: button}: DelegateEvent): void {
+	try {
+		button
+			.closest('.js-comment')!
+			.querySelector('.show-more-psopover .js-comment-delete > button')!
+			.click();
+	} catch (error) {
+		void showToast(new Error('Feature broken. Please open an issue with the link found in the console'));
+		features.log.error(import.meta.url, (error as Error).message)
+	}
 }
 
 async function preloadDropdown({delegateTarget: button}: DelegateEvent): Promise<void> {
