@@ -6,7 +6,6 @@ import linkifyIssuesCore from 'linkify-issues';
 
 import getTextNodes from '../helpers/get-text-nodes';
 import parseBackticksCore from './parse-backticks';
-import features from '../feature-manager';
 
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';
