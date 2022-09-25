@@ -7,7 +7,6 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 import loadDetailsMenu from '../github-helpers/load-details-menu';
-import attachElement from '../helpers/attach-element';
 
 async function onButtonClick({delegateTarget: button}: DelegateEvent): Promise<void> {
 	button
@@ -16,25 +15,22 @@ async function onButtonClick({delegateTarget: button}: DelegateEvent): Promise<v
 		.click();
 }
 
-async function onEditButtonClick({delegateTarget: button}: DelegateEvent): Promise<void> {
+async function preloadDropdown({delegateTarget: button}: DelegateEvent): Promise<void> {
 	const comment = button.closest('.js-comment')!;
 	await loadDetailsMenu(select('details-menu.show-more-popover', comment)!);
 }
 
 function addDeleteButton(cancelButton: Element): void {
-	attachElement({
-		anchor: cancelButton,
-		append: () => (
-			<button className="btn btn-danger float-left rgh-review-comment-delete-button" type="button">
-				<TrashIcon/>
-			</button>
-		),
-	});
+	cancelButton.after(
+		<button className="btn btn-danger float-left rgh-review-comment-delete-button" type="button">
+			<TrashIcon/>
+		</button>,
+	);
 }
 
 function init(signal: AbortSignal): void {
 	delegate(document, '.rgh-review-comment-delete-button', 'click', onButtonClick, {signal});
-	delegate(document, '.rgh-quick-comment-edit-button', 'click', onEditButtonClick, {signal});
+	delegate(document, '.rgh-quick-comment-edit-button', 'click', preloadDropdown, {signal});
 	observe('.review-comment .js-comment-cancel-button', addDeleteButton, {signal});
 }
 

@@ -7,28 +7,24 @@ import features from '../feature-manager';
 import {upperCaseFirst} from '../github-helpers';
 import observe from '../helpers/selector-observer';
 
-function preview(comment: HTMLElement): void {
-	const details = comment.closest('details')!;
+function preview(hiddenCommentHeader: HTMLElement): void {
+	const details = hiddenCommentHeader.closest('details')!;
 	details.classList.add('rgh-preview-hidden-comments'); // Used in CSS
 
+	const comment = select('.comment-body', details)!
 	const commentText = comment.textContent!.trim();
 	if (commentText.length === 0) {
 		return;
 	}
 
-	const header = select([
-		'.timeline-comment-header-text', // Issue and commit comments
-		'summary h3', // Review Comments
-	], details)!;
-
-	const reason = /off-topic|hidden/.exec(header.textContent!)?.[0];
+	const reason = /duplicate|outdated|off-topic|hidden/.exec(hiddenCommentHeader.textContent!)?.[0];
 	if (!reason) {
 		return;
 	}
 
-	header.classList.add('css-truncate', 'css-truncate-overflow', 'mr-2');
-	header.append(
-		<span className="Details-content--open">{select(':scope > .d-inline-block', header) ?? header.firstChild}</span>,
+	hiddenCommentHeader.classList.add('css-truncate', 'css-truncate-overflow', 'mr-2');
+	hiddenCommentHeader.append(
+		<span className="Details-content--open">{hiddenCommentHeader.firstChild}</span>,
 		<span className="Details-content--closed">
 			<span className="Label mr-2">{upperCaseFirst(reason)}</span>{commentText.slice(0, 100)}
 		</span>,
@@ -36,9 +32,8 @@ function preview(comment: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	// We target `.comment-body` directly because hidden review comments are only loaded when first expanded, except when opening a link
-	// pointing to another review comment in the same thread (e.g. https://github.com/refined-github/refined-github/pull/4520#discussion_r659341139) #4915
-	observe('.minimized-comment:not(.d-none) > details:not(.rgh-preview-hidden-comments) .comment-body:not(.js-preview-body)', preview, {signal});
+	// `.timeline-comment-group` excludes review comments, which are always loaded on click, so it's not possible to preview them
+	observe('.timeline-comment-group .minimized-comment .timeline-comment-header-text', preview, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -48,3 +43,8 @@ void features.add(import.meta.url, {
 	awaitDomReady: false,
 	init,
 });
+
+/*
+Test URLs
+https://github.com/refined-github/sandbox/pull/47
+*/

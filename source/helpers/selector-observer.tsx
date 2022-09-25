@@ -9,7 +9,8 @@ import {getSnapshotUUID} from './attach-element';
 const animation = 'rgh-selector-observer';
 const getListener = mem(<ExpectedElement extends HTMLElement>(seenMark: string, selector: string, callback: (element: ExpectedElement) => void) => function (event: AnimationEvent) {
 	const target = event.target as ExpectedElement;
-	if (!target.matches(selector)) {
+	// The target can match a selector even if the animation actually happened on a ::before pseudo-element, so it needs an explicit exclusion here
+	if (target.classList.contains(seenMark) || !target.matches(selector)) {
 		return;
 	}
 

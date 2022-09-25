@@ -5,7 +5,7 @@ import attachElement from '../helpers/attach-element';
 import {wrap} from '../helpers/dom-utils';
 import observe from '../helpers/selector-observer';
 
-function linkify(location: Element): HTMLAnchorElement {
+function linkify(location: Element): Element {
 	const locationName = location.textContent!.trim();
 	const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
 
@@ -19,7 +19,7 @@ function linkify(location: Element): HTMLAnchorElement {
 
 	wrap(location, link);
 
-	return link as unknown as HTMLAnchorElement;
+	return link;
 }
 
 function addLocation({nextElementSibling, nextSibling}: SVGElement): void {
@@ -32,14 +32,10 @@ function addLocation({nextElementSibling, nextSibling}: SVGElement): void {
 
 // No `include`, no `signal` necessary
 function init(): void {
-	// `itemprop` is used on profiles
-	// `aria-label` in the hovercard
-	observe(`
-		:is(
-			[itemprop="homeLocation"],
-			[aria-label="user location"]
-		) svg.octicon-location
-	`, addLocation);
+	observe([
+		'[itemprop="homeLocation"] svg.octicon-location', // `isUserProfile`
+		'[aria-label="user location"] svg.octicon-location', // Hover cards
+	], addLocation);
 }
 
 void features.add(import.meta.url, {
