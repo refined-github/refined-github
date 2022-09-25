@@ -17,7 +17,7 @@ function onButtonClick({delegateTarget: button}: DelegateEvent): void {
 			.click();
 	} catch (error) {
 		void showToast(new Error('Feature broken. Please open an issue with the link found in the console'));
-		features.log.error(import.meta.url, (error as Error).message)
+		features.log.error(import.meta.url, (error as Error).message);
 	}
 }
 
