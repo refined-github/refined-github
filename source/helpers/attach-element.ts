@@ -73,10 +73,10 @@ export default function attachElement<NewElement extends Element>(
 	].filter(isDefined);
 }
 
-export function attachElements<NewElement extends Element>(anchors: string, {
+export function attachElements<NewElement extends Element>(anchors: string | string[], {
 	className = 'rgh-' + getSnapshotUUID(),
 	...options
 }: Attachment<NewElement>): NewElement[] {
-	return select.all(`:is(${anchors}):not(.${className})`)
+	return select.all(`:is(${String(anchors)}):not(.${className})`)
 		.flatMap(anchor => attachElement(anchor, {...options, className}));
 }
