@@ -23,10 +23,6 @@ export function onDiffFileLoad(callback: EventListener, signal: AbortSignal): vo
 	createFragmentLoadListener(diffFileFragmentsSelector, callback, signal);
 }
 
-export function onCommentEdit(callback: EventListener, signal: AbortSignal): void {
-	createFragmentLoadListener('.js-comment-edit-form-deferred-include-fragment', callback, signal);
-}
-
 export function onPrMergePanelLoad(callback: EventListener, signal: AbortSignal): void {
 	createFragmentLoadListener('.discussion-timeline-actions include-fragment[src$="/merging"]', callback, signal);
 }
