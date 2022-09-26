@@ -7,7 +7,7 @@ import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
 import features from '../feature-manager';
 import looseParseInt from '../helpers/loose-parse-int';
 
-function addButtons(radios: HTMLInputElement[]): false | void {
+function addButtons(radios: HTMLInputElement[]): void {
 	const form = radios[0].form!;
 	const container = select('.form-actions', form)!;
 
@@ -71,33 +71,30 @@ function addButtons(radios: HTMLInputElement[]): false | void {
 }
 
 function init(signal: AbortSignal): false | void {
-	const form = select('[action$="/reviews"]')!;
-	const radios = select.all('input[type="radio"][name="pull_request_review[event]"]', form);
-
-	if (radios.length === 0) {
-		return false;
-	}
-
-	if (!addButtons(radios)) {
-		return false;
-	}
-
 	// Freeze form to avoid duplicate submissions
-	form.addEventListener('submit', () => {
+	delegate(document, '[action$="/reviews"]', 'submit', event => {
 		// Delay disabling the fields to let them be submitted first
 		setTimeout(() => {
-			for (const control of select.all('button, textarea', form)) {
+			for (const control of select.all('button, textarea', event.delegateTarget)) {
 				control.disabled = true;
 			}
 		});
 	}, {signal});
 
 	// This will prevent submission when clicking "Comment" and "Request changes" without entering a comment and no other review comments are pending
-	delegate(form, 'button', 'click', ({delegateTarget: {value}}) => {
+	delegate(document, '[action$="/reviews"] button', 'click', ({delegateTarget: {value, form}}) => {
 		const pendingComments = looseParseInt(select('.js-reviews-toggle .js-pending-review-comment-count'));
 		const submissionRequiresComment = pendingComments === 0 && (value === 'reject' || value === 'comment');
-		select('#pull_request_review_body', form)!.toggleAttribute('required', submissionRequiresComment);
+		select('#pull_request_review_body', form!)!.toggleAttribute('required', submissionRequiresComment);
 	}, {signal});
+
+	// `return false` must always be after delegated events are added
+	const radios = select.all('input[type="radio"][name="pull_request_review[event]"]');
+	if (radios.length === 0) {
+		return false;
+	}
+
+	addButtons(radios);
 }
 
 void features.add(import.meta.url, {

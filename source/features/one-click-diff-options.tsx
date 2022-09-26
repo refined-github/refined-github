@@ -148,7 +148,7 @@ function attachButtons(nativeDiffButtons: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	// Observe('[action="/users/diffview"]', attachButtons, {signal});
+	observe('[action="/users/diffview"]', attachButtons, {signal});
 }
 
 const shortcuts = {
