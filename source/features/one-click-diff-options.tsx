@@ -28,7 +28,7 @@ function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 	const url = new URL(location.href);
 	url.searchParams.set('diff', type);
 	const classes = pageDetect.isPR()
-		? 'd-none d-lg-block ml-2 color-fg-muted'
+		? 'ml-2 color-fg-muted'
 		: 'btn btn-sm BtnGroup-item ' + (selected ? 'selected' : '');
 
 	return (
@@ -77,7 +77,7 @@ function createWhitespaceButton(): HTMLElement {
 	}
 
 	const classes = pageDetect.isPR()
-		? 'tooltipped tooltipped-s d-none d-lg-block color-fg-muted'
+		? 'tooltipped tooltipped-s color-fg-muted'
 		: 'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-fg-subtle' : '');
 
 	return (
@@ -95,15 +95,20 @@ function createWhitespaceButton(): HTMLElement {
 function attachPRButtons(diffSettings: HTMLElement): void {
 	// TODO: Replace with :has()
 	const originalToggle = diffSettings.closest('details')!.parentElement!;
+
+	const classes = 'diffbar-item d-flex hide-sm hide-md';
+
 	if (!isHidingWhitespace()) {
 		originalToggle.after(
-			<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>,
+			<div className={classes}>{createWhitespaceButton()}</div>,
 		);
 	}
 
 	originalToggle.after(
-		<div className="diffbar-item d-flex">{createDiffStyleToggle()}</div>,
+		<div className={classes}>{createDiffStyleToggle()}</div>,
 	);
+
+	originalToggle.remove();
 
 	// Trim title
 	const prTitle = select('.pr-toolbar .js-issue-title');
@@ -111,8 +116,6 @@ function attachPRButtons(diffSettings: HTMLElement): void {
 		prTitle.style.maxWidth = '24em';
 		prTitle.title = prTitle.textContent!;
 	}
-
-	originalToggle.classList.add('d-lg-none');
 
 	// Make space for the new button by removing "Changes from" #655
 	select('[data-hotkey="c"] strong')!.previousSibling!.remove();
@@ -122,8 +125,9 @@ function attachPRButtons(diffSettings: HTMLElement): void {
 }
 
 function initPR(signal: AbortSignal): void {
+	// There are two "diff settings" element, one for mobile and one for the desktop. We only replace the one for the desktop
+	observe('.hide-sm.hide-md [aria-label="Diff settings"]', attachPRButtons);
 	delegate(document, diffSwitchButtons.selector, 'click', alternateDiffNatively, {signal});
-	observe('[aria-label="Diff settings"]', attachPRButtons);
 }
 
 function attachButtons(nativeDiffButtons: HTMLElement): void {
@@ -144,7 +148,7 @@ function attachButtons(nativeDiffButtons: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[action="/users/diffview"]', attachButtons, {signal});
+	// Observe('[action="/users/diffview"]', attachButtons, {signal});
 }
 
 const shortcuts = {
