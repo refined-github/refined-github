@@ -1,51 +1,11 @@
 import './no-unnecessary-split-diff-view.css';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
 
-function isUnifiedDiff(): boolean {
-	// TODO: Maybe use this when available on isCompare
-	// select.exists('meta[name="diff-view"][content="split"]'),
-	return select.exists([
-		'[value="unified"][checked]', // Form in PR
-		'.table-of-contents .selected[href*="diff=unified"]', // Link in single commit
-	]);
-}
-
-// TODO: Replace with CSS-only :has?
-function init(): void {
-	observe('.js-diff-table', diffTable => {
-		for (const side of ['left', 'right']) {
-			if (!select.exists(`[data-split-side="${side}"]:is(.blob-code-addition, .blob-code-deletion)`, diffTable)) {
-				diffTable.setAttribute('data-rgh-hide-empty-split-diff-side', side);
-				break;
-			}
-		}
-	});
-}
-
-// Make sure the class names we need exist on the page #4483
-const hasRequiredClasses = (): boolean => select.exists(`
-	.js-diff-table
-	:is(
-		[data-split-side="left"],
-		[data-split-side="right"]
-	):is(
-		.blob-code-addition,
-		.blob-code-deletion
-	)
-`);
-
-void features.add(import.meta.url, {
-	asLongAs: [
-		hasRequiredClasses,
-		isUnifiedDiff,
-		pageDetect.hasFiles,
-	],
-	init,
-});
+void features.addCssFeature(import.meta.url, [
+	pageDetect.hasFiles,
+]);
 
 /*
 
