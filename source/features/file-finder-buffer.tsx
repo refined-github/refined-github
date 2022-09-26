@@ -57,9 +57,9 @@ function pjaxCompleteHandler(): void {
 	}
 }
 
-function init(): void {
-	window.addEventListener('turbo:visit', pjaxStartHandler);
-	window.addEventListener('turbo:render', pjaxCompleteHandler);
+function init(signal: AbortSignal): void {
+	window.addEventListener('turbo:visit', pjaxStartHandler, {signal});
+	window.addEventListener('turbo:render', pjaxCompleteHandler, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -70,6 +70,5 @@ void features.add(import.meta.url, {
 		isSafari,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh',
 	init,
 });

@@ -11,7 +11,14 @@ function addToConversation(discussionHeader: HTMLElement): void {
 	// Avoid native `title` by disabling pointer events, we have our own `aria-label`. We can't drop the `title` attribute because some features depend on it.
 	discussionHeader.style.pointerEvents = 'none';
 
-	const lastCloseEvent = select.last('.TimelineItem-badge :is(.octicon-issue-closed, .octicon-git-merge, .octicon-git-pull-request-closed, .octicon-skip)')!.closest('.TimelineItem')!;
+	const lastCloseEvent = select.last(`
+		.TimelineItem-badge :is(
+			.octicon-issue-closed,
+			.octicon-git-merge,
+			.octicon-git-pull-request-closed,
+			.octicon-skip
+		)
+	`)!.closest('.TimelineItem')!;
 	wrap(discussionHeader,
 		<a
 			aria-label="Scroll to most recent close event"
@@ -25,9 +32,8 @@ function init(signal: AbortSignal): void {
 	observe(
 		css`
 			#partial-discussion-header :is(
-				[title="Status: Closed"],
-				[title="Status: Merged"],
-				[title="Status: Closed as not planned"]
+				[title^="Status: Closed"],
+				[title^="Status: Merged"]
 			)
 		`,
 		addToConversation,
@@ -43,6 +49,8 @@ void features.add(import.meta.url, {
 		pageDetect.isClosedIssue,
 		pageDetect.isClosedPR,
 	],
+	// Can't be used because we're specifically looking for the last event
+	// awaitDomReady: false,
 	init,
 });
 

@@ -28,6 +28,5 @@ void features.add(import.meta.url, {
 		() => select.exists('#partial-discussion-header [title="Status: Draft"]'),
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh-inner',
 	init,
 });
