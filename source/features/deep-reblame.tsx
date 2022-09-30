@@ -98,7 +98,7 @@ function init(signal: AbortSignal): void {
 				</button>,
 			);
 		}
-	});
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
