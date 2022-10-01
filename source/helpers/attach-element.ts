@@ -25,7 +25,7 @@ Get unique ID by using the line:column of the call (or its parents) as seed. Eve
 export function getSnapshotUUID(ancestor = 1): string {
 	const stack = new Error('Get stack').stack!.split('\n');
 	if (stack[0] === 'Error: Get stack') {
-		stack.splice(0, 1);
+		stack.shift(); // Remove non-stacktrace line from array (only present in Chrome) #6032
 	}
 
 	return hashString(stack[ancestor + 1]);
