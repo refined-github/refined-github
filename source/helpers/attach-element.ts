@@ -23,7 +23,11 @@ Get unique ID by using the line:column of the call (or its parents) as seed. Eve
 @param ancestor Which call in the stack should be used as key. 0 means the exact line where getSnapshotUUID is called. Defaults to 1 because it's usually used inside a helper.
 */
 export function getSnapshotUUID(ancestor = 1): string {
-	return hashString(new Error('Get stack').stack!.split('\n')[ancestor + 2]);
+	const stack = new Error('Get stack').stack!.split('\n');
+	if (stack[0] === 'Error: Get stack') {
+		stack.splice(0, 1);
+	}
+	return hashString(stack[ancestor + 1]);
 }
 
 export default function attachElement<NewElement extends Element>(
