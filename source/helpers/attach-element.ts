@@ -27,6 +27,7 @@ export function getSnapshotUUID(ancestor = 1): string {
 	if (stack[0] === 'Error: Get stack') {
 		stack.splice(0, 1);
 	}
+
 	return hashString(stack[ancestor + 1]);
 }
 
