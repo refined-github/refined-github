@@ -3,6 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
+import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 
 function linkifyLabel(label: Element): void {
