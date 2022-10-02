@@ -1,8 +1,14 @@
+/* Let whole viewport scroll instead of only the table */
 .markdown-body .csv-data {
-	max-height: 100vh;
-	overflow-y: scroll; /* Force vertical scrollbars to make `width: max-content;` work correctly in Firefox. */
+	max-width: none;
+	overflow: visible;
 }
 
+.blob-wrapper.type-csv {
+	overflow: visible;
+}
+
+/* Make headers sticky */
 .markdown-body .csv-data thead :is(td, th) {
 	position: sticky;
 	top: 0;
@@ -13,10 +19,25 @@
 	position: sticky;
 	left: 0;
 	z-index: 1;
+	background-clip: padding-box;
 }
 
 .markdown-body .csv-data thead :is(td, th):first-child {
 	z-index: 2;
+}
+
+/* Fix bottom border appearance */
+.blob-wrapper.type-csv,
+.Box:has(.csv-data) {
+	/* stylelint-disable-next-line declaration-property-value-disallowed-list -- https://github.com/xojs/stylelint-config-xo/pull/17 */
+	border-bottom-right-radius: 0;
+	/* stylelint-disable-next-line declaration-property-value-disallowed-list -- https://github.com/xojs/stylelint-config-xo/pull/17 */
+	border-bottom-left-radius: 0;
+	border-bottom: none;
+}
+
+.markdown-body .csv-data tbody tr:last-child td:first-child {
+	border-bottom: 1px solid var(--color-border-default);
 }
 
 /*
