@@ -36,7 +36,7 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 
 function addButtons(referenceButton: HTMLElement): void {
 	referenceButton.after(
-		<button type="button" className="toolbar-item btn-octicon p-2 p-md-1 tooltipped tooltipped-sw" aria-label="Add collapsible content rgh-collapsible-content-btn">
+		<button type="button" className="toolbar-item btn-octicon p-2 p-md-1 tooltipped tooltipped-sw rgh-collapsible-content-btn" aria-label="Add collapsible content">
 			<FoldDownIcon/>
 		</button>,
 	);
