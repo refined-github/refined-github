@@ -3,7 +3,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
@@ -45,7 +45,7 @@ async function init(): Promise<void | false> {
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
 		select('.pinned-item-desc', pinnedIssue)!.append(
 			' • ',
-			<span className="color-text-secondary color-fg-muted d-inline-block">
+			<span className="color-fg-muted d-inline-block">
 				updated <relative-time datetime={updatedAt}/>
 			</span>,
 		);

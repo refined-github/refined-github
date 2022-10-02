@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
-import features from '.';
+import features from '../feature-manager';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
 function init(): void {
@@ -30,5 +30,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		() => /\.\.+/.exec(location.pathname)?.[0]!.length === 2,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

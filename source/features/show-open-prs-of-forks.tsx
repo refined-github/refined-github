@@ -4,7 +4,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import pluralize from '../helpers/pluralize';
 import {getForkedRepo, getUsername, getRepo} from '../github-helpers';
@@ -95,6 +95,7 @@ void features.add(import.meta.url, {
 		pageDetect.isForkedRepo,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init: initHeadHint,
 }, {
 	asLongAs: [
@@ -104,5 +105,6 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoMainSettings,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init: initDeleteHint,
 });

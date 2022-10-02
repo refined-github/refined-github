@@ -4,10 +4,9 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
-import selectHas from '../helpers/select-has';
+import features from '../feature-manager';
 import onElementRemoval from '../helpers/on-element-removal';
-import onDiscussionSidebarUpdate from '../github-events/on-discussion-sidebar-update';
+import observe from '../helpers/selector-observer';
 
 const canEditSidebar = onetime((): boolean => select.exists('.discussion-sidebar-item [data-hotkey="l"]'));
 
@@ -34,7 +33,7 @@ Expected DOM:
 @param selector Element that contains `details` or `.discussion-sidebar-heading` or distinctive element inside it
 */
 function cleanSection(selector: string): boolean {
-	const container = selectHas(`:is(form, .discussion-sidebar-item):has(${selector})`);
+	const container = select(`:is(form, .discussion-sidebar-item):has(${selector})`);
 	if (!container) {
 		return false;
 	}
@@ -46,7 +45,10 @@ function cleanSection(selector: string): boolean {
 		'[aria-label="Select projects"] .Link--primary',
 	];
 
-	const heading = select('.discussion-sidebar-heading', container)!;
+	const heading = select([
+		'details:has(> .discussion-sidebar-heading)', // Can edit sidebar, has a dropdown
+		'.discussion-sidebar-heading', // Cannot editor sidebar, has a plain heading
+	], container)!;
 	if (heading.closest('form, .discussion-sidebar-item')!.querySelector(identifiers.join(','))) {
 		return false;
 	}
@@ -62,11 +64,7 @@ function cleanSection(selector: string): boolean {
 	return true;
 }
 
-async function init(signal: AbortSignal): Promise<void> {
-	if (select.exists('.rgh-clean-sidebar')) {
-		return;
-	}
-
+async function cleanSidebar(): Promise<void> {
 	select('#partial-discussion-sidebar')!.classList.add('rgh-clean-sidebar');
 
 	// Assignees
@@ -88,7 +86,8 @@ async function init(signal: AbortSignal): Promise<void> {
 	if (pageDetect.isPR()) {
 		const possibleReviewers = select('[src$="/suggested-reviewers"]');
 		if (possibleReviewers) {
-			await onElementRemoval(possibleReviewers, signal);
+			// TODO: This blocks the whole function, it should be extracted
+			await onElementRemoval(possibleReviewers);
 		}
 
 		const content = select('[aria-label="Select reviewers"] > .css-truncate')!;
@@ -100,7 +99,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	// Labels
 	if (!cleanSection('.js-issue-labels') && !canEditSidebar()) {
 		// Hide heading in any case except `canEditSidebar`
-		selectHas('.discussion-sidebar-item:has(.js-issue-labels) .discussion-sidebar-heading')!
+		select('.discussion-sidebar-item:has(.js-issue-labels) .discussion-sidebar-heading')!
 			.remove();
 	}
 
@@ -123,13 +122,13 @@ async function init(signal: AbortSignal): Promise<void> {
 	cleanSection('[aria-label="Select milestones"]');
 }
 
+function init(signal: AbortSignal): void {
+	observe('#partial-discussion-sidebar', cleanSidebar, {signal});
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],
-	additionalListeners: [
-		onDiscussionSidebarUpdate,
-	],
-	deduplicate: 'has-rgh-inner',
 	init,
 });

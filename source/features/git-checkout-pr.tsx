@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 import {CopyIcon, CheckIcon, TerminalIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import {getRepo, getUsername} from '../github-helpers';
 
 // Logic explained in https://github.com/refined-github/refined-github/pull/3596#issuecomment-720910840
@@ -48,7 +48,7 @@ function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Elem
 						tabindex="0"
 					>
 						<CopyIcon className="js-clipboard-copy-icon m-2"/>
-						<CheckIcon className="js-clipboard-check-icon color-text-success color-fg-success d-none m-2"/>
+						<CheckIcon className="js-clipboard-check-icon color-fg-success d-none m-2"/>
 					</clipboard-copy>
 				</div>
 				<pre id={`rgh-checkout-pr-${remoteType!}`} className="mb-2 rgh-linkified-code">{/* `.rgh-linkified-code` is intentionally added to avoid parsing */}
@@ -93,7 +93,7 @@ async function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): Pro
 	const remoteName = getRemoteName();
 	select('.octicon-terminal', dropdown)!.closest('li.Box-row')!.after(
 		<li className="Box-row p-3 mt-0">
-			<span className="d-flex flex-items-center color-text-primary color-fg-default text-bold no-underline">
+			<span className="d-flex flex-items-center color-fg-default text-bold no-underline">
 				<TerminalIcon className="mr-2"/>
 				Checkout with Git
 			</span>
@@ -105,7 +105,7 @@ async function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): Pro
 						checkoutOption(remoteName, 'SSH'),
 					] : checkoutOption()}
 				</tab-container>
-				<p className="mb-0 f6 color-text-secondary color-fg-muted">
+				<p className="mb-0 f6 color-fg-muted">
 					Run in your project repository{remoteName && ', pick either one'}.
 				</p>
 			</div>
@@ -125,6 +125,5 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isClosedPR,
 	],
-	deduplicate: false,
 	init,
 });

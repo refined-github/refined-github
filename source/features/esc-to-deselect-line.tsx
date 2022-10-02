@@ -1,6 +1,6 @@
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {isEditable} from '../helpers/dom-utils';
 
 function isLineSelected(): boolean {
@@ -27,6 +27,5 @@ void features.add(import.meta.url, {
 		pageDetect.hasCode,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh-inner',
 	init,
 });

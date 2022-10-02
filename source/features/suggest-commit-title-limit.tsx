@@ -1,23 +1,17 @@
 import './suggest-commit-title-limit.css';
-import select from 'select-dom';
-import delegate from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
-import onPrCommitMessageRestore from '../github-events/on-pr-commit-message-restore';
+import features from '../feature-manager';
+import onCommitTitleUpdate from '../github-events/on-commit-title-update';
 
-const fieldSelector = [
-	'#commit-summary-input', // Commit title on edit file page
-	'#merge_title_field', // PR merge message field
-].join(',');
-
-function validateInput(): void {
-	const inputField = select<HTMLInputElement>(fieldSelector)!;
-	inputField.classList.toggle('rgh-title-over-limit', inputField.value.length > 72);
+function validateInput({delegateTarget: field}: DelegateEvent<Event, HTMLInputElement>): void {
+	field.classList.toggle('rgh-title-over-limit', field.value.length > 72);
 }
 
 function init(signal: AbortSignal): void {
-	delegate(document, fieldSelector, 'input', validateInput, {signal});
+	document.body.classList.add('rgh-suggest-commit-title-limit');
+	onCommitTitleUpdate(validateInput, signal);
 }
 
 void features.add(import.meta.url, {
@@ -25,19 +19,8 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 		pageDetect.isPRConversation,
 	],
-	deduplicate: false,
+	awaitDomReady: false,
 	init,
-}, {
-	include: [
-		pageDetect.isPRConversation,
-	],
-	additionalListeners: [
-		// For PR merges, GitHub restores any modified commit messages on page load
-		onPrCommitMessageRestore,
-	],
-	onlyAdditionalListeners: true,
-	deduplicate: false,
-	init: validateInput,
 });
 
 /*

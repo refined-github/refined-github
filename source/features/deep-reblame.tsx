@@ -6,11 +6,12 @@ import {VersionsIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import showToast from '../github-helpers/toast';
 import looseParseInt from '../helpers/loose-parse-int';
+import observe from '../helpers/selector-observer';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(`
@@ -77,15 +78,9 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	});
 }
 
-function init(signal: AbortSignal): void | false {
-	const pullRequests = select.all('[data-hovercard-type="pull_request"]');
-	if (pullRequests.length === 0) {
-		return false;
-	}
-
+function init(signal: AbortSignal): void {
 	delegate(document, '.rgh-deep-reblame', 'click', redirectToBlameCommit, {signal});
-
-	for (const pullRequest of pullRequests) {
+	observe('[data-hovercard-type="pull_request"]', pullRequest => {
 		const hunk = pullRequest.closest('.blame-hunk')!;
 
 		const reblameLink = select('.reblame-link', hunk);
@@ -103,7 +98,7 @@ function init(signal: AbortSignal): void | false {
 				</button>,
 			);
 		}
-	}
+	}, {signal});
 }
 
 void features.add(import.meta.url, {

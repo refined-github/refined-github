@@ -3,7 +3,7 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getUsername, getCleanPathname} from '../github-helpers';
 
@@ -21,7 +21,7 @@ const doesUserFollow = cache.function(async (userA: string, userB: string): Prom
 async function init(): Promise<void> {
 	if (await doesUserFollow(getCleanPathname(), getUsername()!)) {
 		select('.js-profile-editable-area [href$="?tab=following"]')!.after(
-			<span className="color-text-secondary color-fg-muted"> · Follows you</span>,
+			<span className="color-fg-muted"> · Follows you</span>,
 		);
 	}
 }
@@ -34,5 +34,6 @@ void features.add(import.meta.url, {
 		pageDetect.isOwnUserProfile,
 		pageDetect.isPrivateUserProfile,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

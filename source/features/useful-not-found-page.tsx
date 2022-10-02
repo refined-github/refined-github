@@ -4,7 +4,7 @@ import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 import getDefaultBranch from '../github-helpers/get-default-branch';
@@ -36,7 +36,7 @@ async function is404(url: string): Promise<boolean> {
 }
 
 function getStrikeThrough(text: string): HTMLElement {
-	return <del className="color-text-tertiary color-fg-subtle">{text}</del>;
+	return <del className="color-fg-subtle">{text}</del>;
 }
 
 async function checkAnchor(anchor: HTMLElement): Promise<void> {
@@ -197,7 +197,7 @@ void features.add(import.meta.url, 	{
 		pageDetect.is404,
 		() => parseCurrentURL().length > 1,
 	],
-	init: showMissingPart,
+	init: onetime(showMissingPart),
 },
 {
 	asLongAs: [

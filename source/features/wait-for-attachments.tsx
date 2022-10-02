@@ -5,7 +5,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 const attribute = 'data-required-trimmed';
 const attributeBackup = 'data-rgh-required-trimmed';
@@ -45,6 +45,5 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isNewIssue,
 	],
-	deduplicate: 'has-rgh-inner',
 	init,
 });

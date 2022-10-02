@@ -5,7 +5,7 @@ import {BookIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {wrapAll} from '../helpers/dom-utils';
 import {buildRepoURL, getRepo} from '../github-helpers';
@@ -68,23 +68,19 @@ async function init(): Promise<void | false> {
 			style={pageDetect.isEnterprise() ? {padding: '6px 16px'} : {}}
 			role="button"
 		>
-			<BookIcon className="color-text-link color-fg-accent mr-2"/>
+			<BookIcon className="color-fg-accent mr-2"/>
 			<span>Changelog</span>
 		</a>
 	);
 
-	if (pageDetect.isEnterprise()) { // Before "Releases UI refresh" #4902
-		(await elementReady('.subnav div', {waitForChildren: false}))!.after(changelogButton);
-	} else {
-		const releasesOrTagsNavbarSelector = [
-			'nav[aria-label^="Releases and Tags"]', // Release list
-			'.subnav-links', // Tag list
-		].join(',');
+	const releasesOrTagsNavbarSelector = [
+		'nav[aria-label^="Releases and Tags"]', // Release list
+		'.subnav-links', // Tag list
+	].join(',');
 
-		const navbar = (await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!;
-		navbar.classList.remove('flex-1');
-		wrapAll([navbar, changelogButton], <div className="d-flex flex-justify-start flex-1"/>);
-	}
+	const navbar = (await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!;
+	navbar.classList.remove('flex-1');
+	wrapAll([navbar, changelogButton], <div className="d-flex flex-justify-start flex-1"/>);
 }
 
 void features.add(import.meta.url, {
@@ -101,5 +97,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoHome,
 	],
+	deduplicate: 'has-rgh',
 	init: parseFromDom,
 });

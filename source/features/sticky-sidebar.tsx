@@ -1,35 +1,66 @@
 import './sticky-sidebar.css';
-import select from 'select-dom';
 import debounce from 'debounce-fn';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
+import observe from '../helpers/selector-observer';
 import onAbort from '../helpers/abort-controller';
+import calculateCssCalcString from '../helpers/calculate-css-calc-string';
+
+const minimumViewportWidthForSidebar = 768; // Less than this, the layout is single-column
 
 // The first selector in the parentheses is for the repo root, the second one for conversation pages
 const sidebarSelector = '.Layout-sidebar :is(.BorderGrid, #partial-discussion-sidebar)';
 
-function updateStickiness(): void {
-	const sidebar = select(sidebarSelector)!;
-	const margin = pageDetect.isConversation() ? 60 : 0; // 60 matches sticky header's height
-	sidebar.classList.toggle('rgh-sticky-sidebar', sidebar.offsetHeight + margin < window.innerHeight);
+let sidebar: HTMLElement | undefined;
+const onResize = debounce(updateStickiness, {wait: 100});
+const sidebarObserver = new ResizeObserver(onResize);
+
+// Avoid disabling the stickiness while the user is interacting with it
+function toggleHoverState(event: MouseEvent): void {
+	const isHovered = event.type === 'mouseenter';
+	if (isHovered) {
+		sidebarObserver.disconnect();
+	} else {
+		// Also immediately calls `onResize`, so it has the welcome side effect of unsticking the sidebar if its height changes
+		sidebarObserver.observe(sidebar!);
+	}
 }
 
-const onResize = debounce(updateStickiness, {wait: 100});
+// Can't use delegate because it's not efficient to track mouse events across the document
+function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
+	sidebar = foundSidebar;
+	sidebarObserver.observe(sidebar);
+	onAbort(signal, sidebarObserver, () => {
+		sidebar = undefined;
+	});
+
+	sidebar.addEventListener('mouseenter', toggleHoverState, {signal});
+	sidebar.addEventListener('mouseleave', toggleHoverState, {signal});
+}
+
+function updateStickiness(): void {
+	if (!sidebar) {
+		return;
+	}
+
+	const offset = calculateCssCalcString(getComputedStyle(sidebar).getPropertyValue('--rgh-sticky-sidebar-offset'));
+	sidebar.classList.toggle(
+		'rgh-sticky-sidebar',
+		window.innerWidth >= minimumViewportWidthForSidebar
+		&& sidebar.offsetHeight + offset < window.innerHeight,
+	);
+}
 
 function init(signal: AbortSignal): void {
 	document.documentElement.classList.add('rgh-sticky-sidebar-enabled');
 
-	const resizeObserver = new ResizeObserver(onResize);
-	const selectObserver = observe(sidebarSelector, {
-		add(sidebar) {
-			resizeObserver.observe(sidebar, {box: 'border-box'});
-		},
-	});
-	window.addEventListener('resize', onResize, {signal});
+	// The element is recreated when the page is updated
+	// `trackSidebar` also triggers the first update via `sidebarObserver.observe()`
+	observe(sidebarSelector, trackSidebar.bind(undefined, signal), {signal});
 
-	onAbort(signal, resizeObserver, selectObserver);
+	// Update it when the window is resized
+	window.addEventListener('resize', onResize, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -38,8 +69,8 @@ void features.add(import.meta.url, {
 		pageDetect.isConversation,
 	],
 	exclude: [
-		pageDetect.isEmptyRepoRoot,
+		() => screen.availWidth < minimumViewportWidthForSidebar,
 	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: false,
 	init,
 });

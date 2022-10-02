@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils';
-import features from '.';
+import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 
 function linkify(avatar: HTMLImageElement): void {
@@ -22,6 +22,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: false,
 	init,
 });

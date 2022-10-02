@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import onetime from 'onetime';
 import {isEnterprise} from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {getUsername} from '../github-helpers';
 
 function init(): void {

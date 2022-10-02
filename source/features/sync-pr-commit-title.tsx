@@ -5,10 +5,10 @@ import regexJoin from 'regex-join';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
-import features from '.';
+import features from '../feature-manager';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 import {getConversationNumber} from '../github-helpers';
-import onPrCommitMessageRestore from '../github-events/on-pr-commit-message-restore';
+import onCommitTitleUpdate from '../github-events/on-commit-title-update';
 
 const mergeFormSelector = '.is-squashing form:not([hidden])';
 const prTitleFieldSelector = '.js-issue-update input[name="issue[title]"]';
@@ -73,8 +73,6 @@ async function updateCommitTitle(): Promise<void> {
 	if (field) {
 		textFieldEdit.set(field, createCommitTitle());
 	}
-
-	updateUI();
 }
 
 function disableSubmission(): void {
@@ -83,9 +81,9 @@ function disableSubmission(): void {
 }
 
 function init(signal: AbortSignal): void {
-	onPrCommitMessageRestore(updateUI, signal);
 	onPrMergePanelOpen(updateCommitTitle, signal);
-	delegate(document, '#merge_title_field', 'input', updateUI, {signal});
+	onCommitTitleUpdate(updateUI, signal);
+
 	delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle, {signal});
 	delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission, {signal});
 }
@@ -94,6 +92,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],
-	deduplicate: false,
+	awaitDomReady: false,
 	init,
 });

@@ -3,7 +3,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import fetchDom from '../helpers/fetch-dom';
 import * as api from '../github-helpers/api';
 import getTabCount from '../github-helpers/get-tab-count';
@@ -141,6 +141,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init,
 }, {
 	include: [
@@ -148,17 +149,20 @@ void features.add(import.meta.url, {
 		pageDetect.isOrganizationProfile,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init: initProjects,
 }, {
 	include: [
 		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init: initActions,
 }, {
 	include: [
 		pageDetect.isRepo,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init: initWiki,
 });

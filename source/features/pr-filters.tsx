@@ -2,13 +2,12 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import {CheckIcon} from '@primer/octicons-react';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
+import observe from '../helpers/selector-observer';
 
 const reviewsFilterSelector = '#reviews-select-menu';
 
@@ -42,16 +41,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 	);
 }
 
-const hasDraftFilter = new WeakSet();
-function addDraftFilter({delegateTarget: reviewsFilter}: DelegateEvent): void {
-	if (hasDraftFilter.has(reviewsFilter)) {
-		return;
-	}
-
-	hasDraftFilter.add(reviewsFilter);
-
-	const dropdown = select('.SelectMenu-list', reviewsFilter)!;
-
+function addDraftFilter(dropdown: HTMLElement): void {
 	dropdown.append(
 		<div className="SelectMenu-divider">
 			Filter by draft pull requests
@@ -85,12 +75,7 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 	cacheKey: () => 'has-checks:' + getRepo()!.nameWithOwner,
 });
 
-async function addChecksFilter(): Promise<void> {
-	const reviewsFilter = await elementReady(reviewsFilterSelector);
-	if (!reviewsFilter) {
-		return;
-	}
-
+async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
 	if (!await hasChecks()) {
 		return;
 	}
@@ -113,8 +98,8 @@ async function addChecksFilter(): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	delegate(document, reviewsFilterSelector, 'toggle', addDraftFilter, {capture: true, signal});
-	await addChecksFilter();
+	observe(reviewsFilterSelector, addChecksFilter, {signal});
+	observe(`${reviewsFilterSelector} .SelectMenu-list`, addDraftFilter, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -122,6 +107,5 @@ void features.add(import.meta.url, {
 		pageDetect.isPRList,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh-inner',
 	init,
 });

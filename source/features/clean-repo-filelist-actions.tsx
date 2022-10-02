@@ -1,11 +1,11 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {PlusIcon, SearchIcon, CodeIcon} from '@primer/octicons-react';
 
+import observe from '../helpers/selector-observer';
 import {wrap} from '../helpers/dom-utils';
-import features from '.';
+import features from '../feature-manager';
 
 /** Add tooltip on a wrapper to avoid breaking dropdown functionality */
 function addTooltipToSummary(childElement: Element, tooltip: string): void {
@@ -16,7 +16,7 @@ function addTooltipToSummary(childElement: Element, tooltip: string): void {
 }
 
 function cleanFilelistActions(searchButton: Element): void {
-	searchButton.classList.add('tooltipped', 'tooltipped-ne', 'rgh-repo-filelist-actions');
+	searchButton.classList.add('tooltipped', 'tooltipped-ne');
 	searchButton.setAttribute('aria-label', 'Go to file');
 
 	// Replace "Go to file" with  icon
@@ -49,11 +49,9 @@ function cleanFilelistActions(searchButton: Element): void {
 	}
 }
 
-function init(): Deinit {
+function init(signal: AbortSignal): void {
 	// `.btn` selects the desktop version
-	return observe('.btn[data-hotkey="t"]:not(.rgh-repo-filelist-actions)', {
-		add: cleanFilelistActions,
-	});
+	observe('.btn[data-hotkey="t"]', cleanFilelistActions, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -61,6 +59,6 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
 	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: false,
 	init,
 });

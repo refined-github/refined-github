@@ -7,10 +7,10 @@ import * as pageDetect from 'github-url-detection';
 import {CheckIcon, EyeClosedIcon, EyeIcon, XIcon} from '@primer/octicons-react';
 
 import {wrap} from '../helpers/dom-utils';
-import features from '.';
-import onNewComments from '../github-events/on-new-comments';
+import features from '../feature-manager';
 import {registerHotkey} from '../github-helpers/hotkey';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
+import observe from '../helpers/selector-observer';
 
 const expectedDropdownWidth = 270;
 
@@ -73,22 +73,20 @@ function processReview(review: HTMLElement): void {
 	}
 }
 
-function processPage(): void {
-	for (const item of select.all(`.js-timeline-item:not(.${hiddenClassName}, .${collapsedClassName})`)) {
-		// Exclude deep-linked comment
-		if (location.hash.startsWith('#issuecomment-') && select.exists(location.hash, item)) {
-			continue;
-		}
+function processItem(item: HTMLElement): void {
+	// Exclude deep-linked comment
+	if (location.hash.startsWith('#issuecomment-') && select.exists(location.hash, item)) {
+		return;
+	}
 
-		if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
-			processReview(item);
-		} else if (select.exists('.TimelineItem-badge .octicon-x', item)) {
-			processDissmissedReviewEvent(item);
-		} else if (select.exists('.comment-body', item)) {
-			processSimpleComment(item);
-		} else {
-			processTimelineEvent(item);
-		}
+	if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
+		processReview(item);
+	} else if (select.exists('.TimelineItem-badge .octicon-x', item)) {
+		processDissmissedReviewEvent(item);
+	} else if (select.exists('.comment-body', item)) {
+		processSimpleComment(item);
+	} else {
+		processTimelineEvent(item);
 	}
 }
 
@@ -101,12 +99,6 @@ async function handleSelection({target}: Event): Promise<void> {
 }
 
 function applyState(state: State): void {
-	// `onNewComments` registers the listener only once
-	onNewComments(processPage, deinitSignal!);
-
-	// Actually process it right now
-	processPage();
-
 	const container = select('.js-issues-results')!;
 	container.classList.toggle(
 		'rgh-conversation-activity-is-filtered',
@@ -166,8 +158,8 @@ async function addWidget(header: string, state: State): Promise<void> {
 			id="rgh-conversation-activity-filter-select-menu"
 		>
 			<summary>
-				<EyeIcon className="color-text-secondary color-fg-muted"/>
-				<EyeClosedIcon className="color-icon-danger color-fg-danger"/>
+				<EyeIcon className="color-fg-muted"/>
+				<EyeClosedIcon className="color-fg-danger"/>
 				<div className="dropdown-caret ml-1"/>
 			</summary>
 			<details-menu
@@ -199,6 +191,8 @@ async function addWidget(header: string, state: State): Promise<void> {
 const minorFixesIssuePages = [
 	'https://github.com/refined-github/refined-github/issues/5222',
 	'https://github.com/refined-github/refined-github/issues/4008',
+	'https://github.com/refined-github/refined-github/issues/3686',
+	'https://github.com/refined-github/refined-github/issues/6000',
 ];
 
 function uncollapseTargetedComment(): void {
@@ -225,10 +219,7 @@ function switchToNextFilter(): void {
 	}
 }
 
-let deinitSignal: AbortSignal | undefined;
-
 async function init(signal: AbortSignal): Promise<Deinit> {
-	deinitSignal = signal;
 	const state = minorFixesIssuePages.some(url => location.href.startsWith(url))
 		? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 		: 'default';
@@ -241,6 +232,8 @@ async function init(signal: AbortSignal): Promise<Deinit> {
 	}
 
 	window.addEventListener('hashchange', uncollapseTargetedComment, {signal});
+
+	observe('.js-timeline-item', processItem, {signal});
 
 	return registerHotkey('h', switchToNextFilter);
 }

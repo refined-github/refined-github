@@ -5,7 +5,7 @@ import {GitMergeIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {objectEntries} from 'ts-extras';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {

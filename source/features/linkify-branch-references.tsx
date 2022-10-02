@@ -3,7 +3,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import GitHubURL from '../github-helpers/github-url';
 import {buildRepoURL} from '../github-helpers';
 
@@ -64,7 +64,9 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 		pageDetect.isDeletingFile,
 	],
+	deduplicate: 'has-rgh',
 	init,
 }, {
+	deduplicate: 'has-rgh',
 	init: hovercardInit,
 });

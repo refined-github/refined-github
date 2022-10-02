@@ -5,7 +5,7 @@ import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import attachElement from '../helpers/attach-element';
 
 const getWarning = onetime(() => (
@@ -18,13 +18,13 @@ function update(checkbox: HTMLInputElement): void {
 	if (checkbox.checked) {
 		getWarning().remove();
 	} else {
-		attachElement({
-			anchor: checkbox.closest(`
+		attachElement(
+			checkbox.closest(`
 				.timeline-comment,
 				.discussion-sidebar-item > .d-inline-flex
 			`),
-			after: getWarning,
-		});
+			{after: getWarning},
+		);
 	}
 }
 
@@ -48,6 +48,5 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 		// No need to exclude `isClosedPR` as the checkbox won't be present
 	],
-	deduplicate: false,
 	init,
 });

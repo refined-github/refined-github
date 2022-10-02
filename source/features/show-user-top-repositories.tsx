@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 function init(): void {
 	const url = new URL(location.pathname, location.href);
@@ -26,5 +26,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isPrivateUserProfile,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

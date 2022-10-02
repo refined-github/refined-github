@@ -3,7 +3,7 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 function generateSubmenu(hideButton: Element): void {
 	if (hideButton.closest('.rgh-quick-comment-hiding-details')) {
@@ -44,7 +44,7 @@ function generateSubmenu(hideButton: Element): void {
 	});
 
 	// Imitate existing menu
-	hideCommentForm.classList.add('dropdown-menu', 'dropdown-menu-sw', 'color-text-primary', 'color-fg-default', 'show-more-popover', 'anim-scale-in');
+	hideCommentForm.classList.add('dropdown-menu', 'dropdown-menu-sw', 'color-fg-default', 'show-more-popover', 'anim-scale-in');
 
 	detailsElement.append(hideCommentForm);
 }
@@ -84,6 +84,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 	],
-	deduplicate: false,
 	init,
 });

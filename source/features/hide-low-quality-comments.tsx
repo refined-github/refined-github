@@ -5,7 +5,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import isLowQualityComment from '../helpers/is-low-quality-comment';
 
 export const singleParagraphCommentSelector = '.comment-body > p:only-child';
@@ -31,7 +31,11 @@ function hideComment(comment: HTMLElement): void {
 	comment.classList.add('rgh-hidden-comment');
 }
 
-function init(): void {
+function init(): void | false {
+	if (select.exists('.rgh-low-quality-comments-note')) {
+		return false;
+	}
+
 	for (const similarCommentsBox of select.all('.js-discussion .Details-element:not([data-body-version])')) {
 		hideComment(similarCommentsBox);
 	}
@@ -88,6 +92,7 @@ function init(): void {
 	}
 }
 
+// This should not be made dynamic via observer, it's not worth updating the lowQuality count for fresh comments
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssue,

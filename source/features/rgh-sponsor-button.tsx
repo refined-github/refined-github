@@ -27,7 +27,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import {getRepo, getUsername} from '../github-helpers';
 
 async function wiggleWiggleWiggle(): Promise<void> {
@@ -82,10 +82,13 @@ async function suchLove({delegateTarget}: DelegateEvent): Promise<void> {
 	love.remove(); // 💔
 }
 
-async function handleNewIssue(): Promise<false> {
+async function handleNewIssue(signal: AbortSignal): Promise<false> {
 	if (getRepo()!.owner !== getUsername() && !await cache.get('did-it-wiggle')) {
-		select('.btn-primary[href$="/issues/new/choose"], .btn-primary[href$="/issues/new"]')
-			?.addEventListener('mouseenter', wiggleWiggleWiggle, {once: true});
+		select([
+			'.btn-primary[href$="/issues/new/choose"]',
+			'.btn-primary[href$="/issues/new"]',
+		])
+			?.addEventListener('mouseenter', wiggleWiggleWiggle, {once: true, signal});
 	}
 
 	return false;
@@ -100,7 +103,6 @@ void features.add(import.meta.url, {
 		pageDetect.isIssue,
 		pageDetect.isRepoIssueList,
 	],
-	deduplicate: 'has-rgh-inner',
 	init: handleNewIssue,
 }, {
 	include: [
@@ -112,6 +114,5 @@ void features.add(import.meta.url, {
 		pageDetect.isOwnUserProfile,
 		pageDetect.isPrivateUserProfile,
 	],
-	deduplicate: false,
 	init: handleSponsorButton,
 });

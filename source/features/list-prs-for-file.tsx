@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import addAfterBranchSelector from '../helpers/add-after-branch-selector';
@@ -201,5 +201,6 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init: initEditing,
 });

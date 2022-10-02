@@ -3,7 +3,7 @@ import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import pluralize from '../helpers/pluralize';
 
@@ -31,8 +31,8 @@ async function init(): Promise<void> {
 	const diffstat = await elementReady('.diffstat', {waitForChildren: false});
 	diffstat!.replaceWith(
 		<span className="ml-2 diffstat tooltipped tooltipped-s" aria-label={tooltip}>
-			<span className="color-text-success color-fg-success">+{additions}</span>{' '}
-			<span className="color-text-danger color-fg-danger">−{deletions}</span>{' '}
+			<span className="color-fg-success">+{additions}</span>{' '}
+			<span className="color-fg-danger">−{deletions}</span>{' '}
 			<span className="diffstat-block-neutral"/>
 			<span className="diffstat-block-neutral"/>
 			<span className="diffstat-block-neutral"/>

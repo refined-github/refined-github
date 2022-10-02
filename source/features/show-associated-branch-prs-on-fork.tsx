@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 import {GitMergeIcon, GitPullRequestIcon, GitPullRequestClosedIcon, GitPullRequestDraftIcon} from '@primer/octicons-react';
 
-import features from '.';
+import observe from '../helpers/selector-observer';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getRepo, upperCaseFirst} from '../github-helpers';
 
@@ -91,18 +91,17 @@ function addAssociatedPRLabel(branchCompareLink: Element, prInfo: PullRequest): 
 	);
 }
 
-async function init(): Promise<Deinit> {
+async function addLink(branchCompareLink: Element): Promise<void> {
 	const associatedPullRequests = await getPullRequestsAssociatedWithBranch();
+	const branchName = branchCompareLink.closest('[branch]')!.getAttribute('branch')!;
+	const prInfo = associatedPullRequests[branchName];
+	if (prInfo) {
+		addAssociatedPRLabel(branchCompareLink, prInfo);
+	}
+}
 
-	return observe('.test-compare-link', {
-		add(branchCompareLink) {
-			const branchName = branchCompareLink.closest('[branch]')!.getAttribute('branch')!;
-			const prInfo = associatedPullRequests[branchName];
-			if (prInfo) {
-				addAssociatedPRLabel(branchCompareLink, prInfo);
-			}
-		},
-	});
+function init(signal: AbortSignal): void {
+	observe('.test-compare-link', addLink, {signal});
 }
 
 void features.add(import.meta.url, {

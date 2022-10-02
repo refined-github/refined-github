@@ -4,17 +4,11 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import looseParseInt from '../helpers/loose-parse-int';
 
-function init(signal: AbortSignal): false | void {
-	const form = select('[action$="/reviews"]')!;
-	const radios = select.all('input[type="radio"][name="pull_request_review[event]"]', form);
-
-	if (radios.length === 0) {
-		return false;
-	}
-
+function addButtons(radios: HTMLInputElement[]): void {
+	const form = radios[0].form!;
 	const container = select('.form-actions', form)!;
 
 	// Set the default action for cmd+enter to Comment
@@ -74,29 +68,38 @@ function init(signal: AbortSignal): false | void {
 	}
 
 	select('[type="submit"]:not([name])', form)!.remove(); // The selector excludes the "Cancel" button
+}
 
+function init(signal: AbortSignal): false | void {
 	// Freeze form to avoid duplicate submissions
-	form.addEventListener('submit', () => {
+	delegate(document, '[action$="/reviews"]', 'submit', event => {
 		// Delay disabling the fields to let them be submitted first
 		setTimeout(() => {
-			for (const control of select.all('button, textarea', form)) {
+			for (const control of select.all('button, textarea', event.delegateTarget)) {
 				control.disabled = true;
 			}
 		});
 	}, {signal});
 
 	// This will prevent submission when clicking "Comment" and "Request changes" without entering a comment and no other review comments are pending
-	delegate(form, 'button', 'click', ({delegateTarget: {value}}) => {
+	delegate(document, '[action$="/reviews"] button', 'click', ({delegateTarget: {value, form}}) => {
 		const pendingComments = looseParseInt(select('.js-reviews-toggle .js-pending-review-comment-count'));
 		const submissionRequiresComment = pendingComments === 0 && (value === 'reject' || value === 'comment');
-		select('#pull_request_review_body', form)!.toggleAttribute('required', submissionRequiresComment);
+		select('#pull_request_review_body', form!)!.toggleAttribute('required', submissionRequiresComment);
 	}, {signal});
+
+	// `return false` must always be after delegated events are added
+	const radios = select.all('input[type="radio"][name="pull_request_review[event]"]');
+	if (radios.length === 0) {
+		return false;
+	}
+
+	addButtons(radios);
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPR,
 	],
-	deduplicate: 'has-rgh-inner',
 	init,
 });

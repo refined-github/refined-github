@@ -5,9 +5,12 @@ import * as pageDetect from 'github-url-detection';
 import {LinkExternalIcon} from '@primer/octicons-react';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import openTabs from '../helpers/open-tabs';
 import {appendBefore} from '../helpers/dom-utils';
+import showToast from '../github-helpers/toast';
+import pluralize from '../helpers/pluralize';
+import attachElement from '../helpers/attach-element';
 
 // Selector works on:
 // https://github.com/notifications (Grouped by date)
@@ -22,13 +25,18 @@ function getUnreadNotifications(container: ParentNode = document): HTMLElement[]
 	return select.all('.notification-unread', container);
 }
 
-function openNotifications(notifications: Element[], markAsDone = false): void {
+async function openNotifications(notifications: Element[], markAsDone = false): Promise<void> {
 	const urls: string[] = [];
 	for (const notification of notifications) {
 		urls.push(notification.querySelector('a')!.href);
 	}
 
-	if (!openTabs(urls)) {
+	const openingTabs = openTabs(urls);
+	await showToast(openingTabs, {
+		message: 'Opening tabs…',
+		doneMessage: pluralize(urls.length, '$$ tab') + ' opened',
+	});
+	if (!await openingTabs) {
 		return;
 	}
 
@@ -42,33 +50,65 @@ function openNotifications(notifications: Element[], markAsDone = false): void {
 	}
 }
 
-function removeOpenAllButtons(container: ParentNode = document): void {
+async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<MouseEvent>): Promise<void> {
+	const container = delegateTarget.closest('.js-notifications-group') ?? document;
+	await openNotifications(getUnreadNotifications(container), altKey);
+
+	// Remove all now-unnecessary buttons
+	removeOpenUnreadButtons(container);
+}
+
+async function openSelectedNotifications(): Promise<void> {
+	const selectedNotifications = select.all('.notifications-list-item :checked')
+		.map(checkbox => checkbox.closest('.notifications-list-item')!);
+	await openNotifications(selectedNotifications);
+
+	if (!select.exists('.notification-unread')) {
+		removeOpenUnreadButtons();
+	}
+}
+
+function addOpenSelectedButton(signal: AbortSignal): void {
+	delegate(document, openSelected.selector, 'click', openSelectedNotifications, {signal});
+
+	attachElement(notificationHeaderSelector + ' .js-notifications-mark-selected-actions', {
+		forEach(anchor) {
+			const button = (
+				<button className={'btn btn-sm ' + openSelected.class} type="button">
+					<LinkExternalIcon className="mr-1"/>Open
+				</button>
+			);
+			appendBefore(
+				anchor,
+				'details',
+				button,
+			);
+
+			return button;
+		},
+	});
+}
+
+function removeOpenUnreadButtons(container: ParentNode = document): void {
 	for (const button of select.all(openUnread.selector, container)) {
 		button.remove();
 	}
 }
 
-function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<MouseEvent>): void {
-	const container = delegateTarget.closest('.js-notifications-group') ?? document;
-	openNotifications(getUnreadNotifications(container), altKey);
-	// Remove all now-unnecessary buttons
-	removeOpenAllButtons(container);
-}
-
-function openSelectedNotifications(): void {
-	const selectedNotifications = select.all('.notifications-list-item :checked').map(checkbox => checkbox.closest('.notifications-list-item')!);
-	openNotifications(selectedNotifications);
-	if (!select.exists('.notification-unread')) {
-		removeOpenAllButtons();
+function addOpenUnreadButtons(signal: AbortSignal): void {
+	if (getUnreadNotifications().length === 0) {
+		return;
 	}
-}
 
-function addOpenUnreadButtons(): void {
-	select(notificationHeaderSelector)!.append(
-		<button className={'btn btn-sm ml-auto d-none ' + openUnread.class} type="button">
-			<LinkExternalIcon className="mr-1"/>Open all unread
-		</button>,
-	);
+	delegate(document, openUnread.selector, 'click', openUnreadNotifications, {signal});
+
+	attachElement(notificationHeaderSelector, {
+		append: () => (
+			<button className={'btn btn-sm ml-auto d-none ' + openUnread.class} type="button">
+				<LinkExternalIcon className="mr-1"/>Open all unread
+			</button>
+		),
+	});
 
 	for (const repository of select.all('.js-notifications-group')) {
 		if (getUnreadNotifications(repository).length === 0) {
@@ -88,20 +128,8 @@ function addOpenUnreadButtons(): void {
 }
 
 function init(signal: AbortSignal): void {
-	appendBefore(
-		notificationHeaderSelector + ' .js-notifications-mark-selected-actions',
-		'details',
-		<button className={'btn btn-sm ' + openSelected.class} type="button">
-			<LinkExternalIcon className="mr-1"/>Open
-		</button>,
-	);
-
-	delegate(document, openSelected.selector, 'click', openSelectedNotifications, {signal});
-
-	if (getUnreadNotifications().length > 0) {
-		addOpenUnreadButtons();
-		delegate(document, openUnread.selector, 'click', openUnreadNotifications, {signal});
-	}
+	addOpenSelectedButton(signal);
+	addOpenUnreadButtons(signal);
 }
 
 void features.add(import.meta.url, {
@@ -111,6 +139,5 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isBlank, // Empty notification list
 	],
-	deduplicate: openSelected.selector,
 	init,
 });

@@ -5,7 +5,7 @@ import {TagIcon} from '@primer/octicons-react';
 import arrayUnion from 'array-union';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getCommitHash} from './mark-merge-commits-in-list';
 import {buildRepoURL, getRepo} from '../github-helpers';

@@ -1,26 +1,30 @@
 import select from 'select-dom';
-import {observe} from 'selector-observer';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import observe from '../helpers/selector-observer';
+import features from '../feature-manager';
 import {getRepo} from '../github-helpers';
 import {codeElementsSelector, linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters';
-import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
-function initTitle(): void {
+function initTitle(signal: AbortSignal): void {
 	// If we are not in a repo, relative issue references won't make sense but `user`/`repo` needs to be set to avoid breaking errors in `linkify-issues`
 	// https://github.com/refined-github/refined-github/issues/1305
 	const currentRepo = getRepo() ?? {};
 
-	for (const title of select.all('.js-issue-title')) {
+	observe('.js-issue-title', title => {
+		// TODO: Replace with :has
 		if (!select.exists('a', title)) {
 			linkifyIssues(currentRepo, title);
 		}
-	}
+	}, {signal});
 }
 
 function linkifyContent(wrapper: Element): void {
-	linkifyURLs(wrapper);
+	const errors = linkifyURLs(wrapper);
+	if (errors) {
+		features.log.error(import.meta.url, 'Links already exist');
+		console.log(errors);
+	}
 
 	// Linkify issue refs in comments
 	const currentRepo = getRepo() ?? {};
@@ -28,14 +32,12 @@ function linkifyContent(wrapper: Element): void {
 		linkifyIssues(currentRepo, element);
 	}
 
-	// Mark code block as touched to avoid linkifying twice https://github.com/refined-github/refined-github/pull/4710#discussion_r694896008
+	// Mark code block as touched to avoid `shorten-links` from acting on these new links in code
 	wrapper.classList.add(linkifiedURLClass);
 }
 
-function init(): Deinit {
-	return observe(`:is(${codeElementsSelector}):not(.${linkifiedURLClass})`, {
-		add: linkifyContent,
-	});
+function init(signal: AbortSignal): void {
+	observe(codeElementsSelector, linkifyContent, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -43,15 +45,10 @@ void features.add(import.meta.url, {
 		pageDetect.hasCode,
 	],
 	exclude: [
+		// TODO: Needed?
 		pageDetect.isGist,
-		pageDetect.isPRFiles,
 	],
-	init,
-}, {
-	include: [
-		pageDetect.isPRFiles,
-	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: false,
 	init,
 }, {
 	include: [
@@ -59,10 +56,7 @@ void features.add(import.meta.url, {
 		pageDetect.isIssue,
 		pageDetect.isDiscussion,
 	],
-	additionalListeners: [
-		onConversationHeaderUpdate,
-	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: false,
 	init: initTitle,
 });
 

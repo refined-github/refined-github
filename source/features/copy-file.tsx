@@ -3,8 +3,9 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import {groupButtons} from '../github-helpers/group-buttons';
+import {attachElements} from '../helpers/attach-element';
 
 function handleClick({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const file = button.closest('.Box, .js-gist-file-update-container')!;
@@ -16,10 +17,10 @@ function handleClick({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLBut
 }
 
 function renderButton(): void {
-	for (const button of select.all([
+	attachElements([
 		'.file-actions .btn[href*="/raw/"]', // `isGist`
 		'[data-hotkey="b"]',
-	])) {
+	], {forEach(button) {
 		const copyButton = (
 			<clipboard-copy
 				className="btn btn-sm js-clipboard-copy tooltipped tooltipped-n BtnGroup-item rgh-copy-file"
@@ -37,7 +38,9 @@ function renderButton(): void {
 		} else {
 			groupButtons([button, copyButton]);
 		}
-	}
+
+		return copyButton;
+	}});
 }
 
 function init(signal: AbortSignal): void {
@@ -54,6 +57,5 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleFile,
 		pageDetect.isGist,
 	],
-	deduplicate: '.rgh-copy-file', // #3945
 	init,
 });

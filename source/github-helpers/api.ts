@@ -29,7 +29,7 @@ import mem from 'mem';
 import * as pageDetect from 'github-url-detection';
 import {JsonObject, AsyncReturnType} from 'type-fest';
 
-import features from '../features';
+import features from '../feature-manager';
 import {getRepo} from '.';
 import optionsStorage from '../options-storage';
 

@@ -3,7 +3,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {RepoForkedIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import {getRepo} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
 import attachElement from '../helpers/attach-element';
@@ -38,8 +38,7 @@ function createBannerLink(): JSX.Element {
 }
 
 function initArchivedRepoBanner(): void {
-	attachElement({
-		anchor: '.flash-full',
+	attachElement('.flash-full', {
 		append: createBannerLink,
 	});
 }
@@ -53,6 +52,7 @@ void features.add(import.meta.url, {
 		pageDetect.isEnterprise,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init,
 }, {
 	asLongAs: [
@@ -61,5 +61,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isArchivedRepo,
 	],
+	// Can't because `isArchivedRepo` is DOM-based
+	// awaitDomReady: false,
 	init: initArchivedRepoBanner,
 });

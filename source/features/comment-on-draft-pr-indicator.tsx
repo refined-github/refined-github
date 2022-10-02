@@ -1,29 +1,19 @@
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
-import onElementReplacement from '../helpers/on-element-replacement';
+import features from '../feature-manager';
+import observe from '../helpers/selector-observer';
 
 function addIndicator(button: HTMLElement): void {
-	button.classList.add('rgh-draft-pr-indicator');
 	const preposition = button.textContent!.includes('Add') ? ' to ' : ' on ';
 	button.textContent! += preposition + 'draft PR';
 }
 
 function init(signal: AbortSignal): void {
-	const buttons = select.all([
+	observe([
 		'.review-simple-reply-button', // "Add single comment" button
 		'.add-comment-label', // "Add review comment" button
 		'.start-review-label', // "Start a review" button
-	]);
-	for (const button of buttons) {
-		addIndicator(button);
-	}
-
-	if (pageDetect.isPRConversation()) {
-		// The button is part of a .js-updatable-content partial
-		void onElementReplacement('#partial-new-comment-form-actions .btn-primary:not(.rgh-draft-pr-indicator)', addIndicator, {runCallbackOnStart: true, signal});
-	}
+	], addIndicator, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -34,6 +24,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 		pageDetect.isPRFiles,
 	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: false,
 	init,
 });

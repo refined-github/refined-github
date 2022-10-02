@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon, IssueOpenedIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 
 function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
@@ -12,17 +12,17 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	// Remove the "X issues need help" link
 	select('[href*="issues?q=label%3A%22help+wanted"]', repository)?.remove();
 
-	// Place before the "Updated on" element
+	// Place before the "Updated on" element. `previousSibling` is the "Updated on" text node
 	select('relative-time', repository)!.previousSibling!.before(
 		<a
 			className="Link--muted mr-3"
-			href={repositoryLink.href + '/issues?q=is%3Aissue+is%3Aopen'}
+			href={repositoryLink.href + '/issues'}
 		>
 			<IssueOpenedIcon/>
 		</a>,
 		<a
 			className="Link--muted mr-3"
-			href={repositoryLink.href + '/pulls?q=is%3Apr+is%3Aopen'}
+			href={repositoryLink.href + '/pulls'}
 		>
 			<GitPullRequestIcon/>
 		</a>,
@@ -31,7 +31,7 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 
 const selectors = [
 	'a[itemprop="name codeRepository"]', // `isUserProfileRepoTab`
-	'a[data-hydro-click*=\'"model_name":"Repository"\']', // `isGlobalSearchResults`
+	'.repo-list-item .f4 a', // `isGlobalSearchResults`
 ] as const;
 function init(signal: AbortSignal): void {
 	observe(selectors, addConversationLinks, {signal});
@@ -40,8 +40,9 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isUserProfileRepoTab,
-		pageDetect.isGlobalSearchResults,
+		() => pageDetect.isGlobalSearchResults() && new URLSearchParams(location.search).get('type') === 'repositories',
 	],
+	awaitDomReady: false,
 	init,
 });
 

@@ -4,7 +4,7 @@ import select from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import fetchDom from '../helpers/fetch-dom';
 import onPrMerge from '../github-events/on-pr-merge';
 import createBanner from '../github-helpers/banner';
@@ -36,7 +36,7 @@ async function init(): Promise<void> {
 	if (tagName) {
 		addExistingTagLink(tagName);
 	} else {
-		void addReleaseBanner('This pull request has not yet appeared in a release');
+		void addReleaseBanner('The merge commit doesn’t appear in any tags');
 	}
 }
 
@@ -49,7 +49,7 @@ function addExistingTagLink(tagName: string): void {
 
 		discussionHeader.parentElement!.append(
 			<span>
-				<TagIcon className="ml-2 mr-1 color-text-secondary color-fg-muted"/>
+				<TagIcon className="ml-2 mr-1 color-fg-muted"/>
 				<a
 					href={tagUrl}
 					className="commit-ref"
@@ -61,8 +61,7 @@ function addExistingTagLink(tagName: string): void {
 		);
 	}
 
-	attachElement({
-		anchor: '#issue-comment-box',
+	attachElement('#issue-comment-box', {
 		before: () => (
 			<TimelineItem>
 				{createBanner({
@@ -86,8 +85,7 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 			? 'https://github.com/refined-github/refined-github/actions/workflows/release.yml'
 			: buildRepoURL('releases/new')
 	) : undefined;
-	attachElement({
-		anchor: '#issue-comment-box',
+	attachElement('#issue-comment-box', {
 		before: () => (
 			<TimelineItem>
 				{createBanner({
@@ -122,7 +120,6 @@ void features.add(import.meta.url, {
 		onPrMerge,
 	],
 	onlyAdditionalListeners: true,
-	deduplicate: false,
 	init() {
 		void addReleaseBanner();
 	},

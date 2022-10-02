@@ -1,26 +1,19 @@
 import './show-names.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
-import onNewsfeedLoad from '../github-events/on-newsfeed-load';
 import {getUsername, compareNames} from '../github-helpers';
+import observe from '../helpers/selector-observer';
+import batchedFunction from '../helpers/batched-function';
 
-async function init(): Promise<false | void> {
-	const usernameElements = select.all([
-		// `a` selector needed to skip commits by non-GitHub users
-		':is(.js-discussion, .inline-comments) a.author:not(.rgh-fullname, [href*="/apps/"], [href*="/marketplace/"], [data-hovercard-type="organization"])',
-
-		// On dashboard `.text-bold` is required to not fetch avatars
-		'#dashboard a.text-bold[data-hovercard-type="user"]:not(.rgh-fullname)',
-	]);
-
+// The selector observer calls this function several times, but we want to batch them into a single GraphQL API call
+const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnchorElement[]): Promise<void> => {
+	// TODO: Split up this function, it does too much
 	const usernames = new Set<string>();
 	const myUsername = getUsername();
-	for (const element of usernameElements) {
-		element.classList.add('rgh-fullname');
+	for (const element of new Set(batchedUsernameElements)) {
 		const username = element.textContent;
 		if (username && username !== myUsername && username !== 'ghost') {
 			usernames.add(element.textContent!);
@@ -34,7 +27,7 @@ async function init(): Promise<false | void> {
 	}
 
 	if (usernames.size === 0) {
-		return false;
+		return;
 	}
 
 	const names = await api.v4(
@@ -43,7 +36,7 @@ async function init(): Promise<false | void> {
 		).join(','),
 	);
 
-	for (const usernameElement of usernameElements) {
+	for (const usernameElement of batchedUsernameElements) {
 		const username = usernameElement.textContent!;
 		const userKey = api.escapeKey(username);
 
@@ -63,27 +56,33 @@ async function init(): Promise<false | void> {
 		const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : usernameElement;
 		insertionPoint.after(
 			' ',
-			<span className="color-text-secondary color-fg-muted css-truncate d-inline-block">
+			<span className="color-fg-muted css-truncate d-inline-block">
 				(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{name}</bdo>)
 			</span>,
 			' ',
 		);
 	}
+});
+
+const usernameLinksSelector = [
+	// `a` selector needed to skip commits by non-GitHub users
+	':is(.js-discussion, .inline-comments) a.author:not([href*="/apps/"], [href*="/marketplace/"], [data-hovercard-type="organization"])',
+
+	// On dashboard `.text-bold` is required to not fetch avatars
+	'#dashboard a.text-bold[data-hovercard-type="user"]',
+
+	// Due to: https://github.com/g-plane/typed-query-selector/issues/26
+] as unknown as Array<'a'>;
+
+function init(signal: AbortSignal): void {
+	observe(usernameLinksSelector, batchUpdateLinks, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isDashboard,
-	],
-	additionalListeners: [
-		onNewsfeedLoad,
-	],
-	onlyAdditionalListeners: true,
-	init,
-}, {
-	include: [
 		pageDetect.hasComments,
 	],
-	deduplicate: false,
+	awaitDomReady: false,
 	init,
 });

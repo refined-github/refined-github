@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {addHotkey} from '../github-helpers/hotkey';
 import addQuickSubmit from './submission-via-ctrl-enter-everywhere';
 
@@ -20,7 +20,6 @@ void features.add(import.meta.url, {
 	init,
 }, {
 	include: [
-		pageDetect.isReleasesOrTags, // If the release couldn't be published, GitHub changes the url to /releases while still being on the "New release" page
 		pageDetect.isNewRelease,
 		pageDetect.isEditingRelease,
 	],

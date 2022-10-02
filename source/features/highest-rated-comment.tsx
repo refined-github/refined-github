@@ -5,7 +5,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {ArrowDownIcon, CheckCircleFillIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import looseParseInt from '../helpers/loose-parse-int';
 import isLowQualityComment from '../helpers/is-low-quality-comment';
 import {singleParagraphCommentSelector} from './hide-low-quality-comments';
@@ -53,7 +53,7 @@ function highlightBestComment(bestComment: Element): void {
 	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
 	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
 		<span
-			className="color-text-success color-fg-success tooltipped tooltipped-s"
+			className="color-fg-success tooltipped tooltipped-s"
 			aria-label="This comment has the most positive reactions on this issue."
 		>
 			<CheckCircleFillIcon/>
@@ -75,7 +75,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 	const avatar = select('img.avatar', bestComment)!.cloneNode();
 
 	bestComment.parentElement!.firstElementChild!.after(
-		<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-tertiary color-bg-subtle px-2 d-flex flex-items-center">
+		<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-subtle px-2 d-flex flex-items-center">
 			{avatar}
 
 			<h3 className="timeline-comment-header-text f5 color-fg-muted text-normal text-italic css-truncate css-truncate-overflow mr-2">

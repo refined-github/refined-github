@@ -1,6 +1,6 @@
 import select from 'select-dom';
 
-import features from '.';
+import features from '../feature-manager';
 
 let progressLoader: HTMLElement;
 const progressLoaderLoadingClass = 'is-loading';
@@ -39,6 +39,7 @@ function pjaxErrorHandler(event: CustomEvent): void {
 	}
 }
 
+// Do not use signal, these event must persist on unload
 function init(): void {
 	progressLoader = select('.progress-pjax-loader')!;
 	window.addEventListener('keydown', keydownHandler);

@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import openOptions from '../helpers/open-options';
 import clearCacheHandler from '../helpers/clear-cache-handler';
 import {expectTokenScope} from '../github-helpers/api';

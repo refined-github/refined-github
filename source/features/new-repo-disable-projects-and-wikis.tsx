@@ -1,10 +1,11 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import onetime from 'onetime';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import selectHas from '../helpers/select-has';
 import attachElement from '../helpers/attach-element';
@@ -37,11 +38,11 @@ function setStorage(): void {
 async function init(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
 
-	attachElement({
-		anchor: select.last([
-			'.js-repo-init-setting-container', // IsNewRepo
-			'.form-checkbox', // IsNewRepoTemplate
-		])!,
+	const anchor = select.last([
+		'.js-repo-init-setting-container', // IsNewRepo
+		'.form-checkbox', // IsNewRepoTemplate
+	]);
+	attachElement(anchor, {
 		after: () => (
 			<div className="flash flash-warn py-0">
 				<div className="form-checkbox checked">
@@ -57,7 +58,8 @@ async function init(signal: AbortSignal): Promise<void> {
 					</span>
 				</div>
 			</div>
-		)});
+		),
+	});
 
 	delegate(document, '#new_repository, #new_new_repository', 'submit', setStorage, {signal});
 }
@@ -67,12 +69,11 @@ void features.add(import.meta.url, {
 		pageDetect.isNewRepo,
 		pageDetect.isNewRepoTemplate,
 	],
-	deduplicate: false,
 	init,
 }, {
 	include: [
 		() => Boolean(sessionStorage.rghNewRepo),
 	],
 	awaitDomReady: false,
-	init: disableWikiAndProjects,
+	init: onetime(disableWikiAndProjects),
 });

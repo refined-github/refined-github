@@ -4,8 +4,7 @@ import oneMutation from 'one-mutation';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
-import {onDiffFileLoad} from '../github-events/on-fragment-load';
+import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 
 async function loadDeferred(jumpList: Element): Promise<void> {
@@ -21,9 +20,9 @@ function highlightFilename(filename: HTMLAnchorElement, sourceIcon: SVGSVGElemen
 	const icon = sourceIcon.cloneNode(true);
 	const action = icon.getAttribute('title')!;
 	if (action === 'added') {
-		icon.classList.add('color-text-success', 'color-fg-success');
+		icon.classList.add('color-fg-success');
 	} else if (action === 'removed') {
-		icon.classList.add('color-text-danger', 'color-fg-danger');
+		icon.classList.add('color-fg-danger');
 	} else {
 		return;
 	}
@@ -66,20 +65,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPRCommit404,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh-inner',
-	init,
-}, {
-	include: [
-		pageDetect.isCompare,
-	],
-	exclude: [
-		() => select.exists('.blankslate:not(.blankslate-large)'),
-	],
-	additionalListeners: [
-		onDiffFileLoad,
-	],
-	onlyAdditionalListeners: true,
-	deduplicate: false,
 	init,
 });
 

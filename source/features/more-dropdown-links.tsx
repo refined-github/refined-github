@@ -4,7 +4,7 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import createDropdownItem from '../github-helpers/create-dropdown-item';
 import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
@@ -52,5 +52,6 @@ void features.add(import.meta.url, {
 		() => !select.exists('.js-responsive-underlinenav'),
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init,
 });

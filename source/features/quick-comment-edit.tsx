@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {observe} from 'selector-observer';
 import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import observe from '../helpers/selector-observer';
+import features from '../feature-manager';
 
 function addQuickEditButton(commentForm: Element): void {
 	const commentBody = commentForm.closest('.js-comment')!;
@@ -41,13 +41,13 @@ export function canEditEveryComment(): boolean {
 	]) || pageDetect.canUserEditRepo();
 }
 
-function init(): Deinit {
+function init(signal: AbortSignal): void {
 	// If true then the resulting selector will match all comments, otherwise it will only match those made by you
 	const preSelector = canEditEveryComment() ? '' : '.current-user';
+
 	// Find editable comments first, then traverse to the correct position
-	return observe(preSelector + '.js-comment.unminimized-comment .js-comment-update', {
-		add: addQuickEditButton,
-	});
+	// TODO: Replace with :has selector
+	observe(preSelector + '.js-comment.unminimized-comment .js-comment-update', addQuickEditButton, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -58,6 +58,8 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isArchivedRepo,
 	],
-	deduplicate: 'has-rgh-inner',
+	// Can't because `isArchivedRepo` is DOM-based
+	// Also not needed since it appears on hover
+	// awaitDomReady: false,
 	init,
 });

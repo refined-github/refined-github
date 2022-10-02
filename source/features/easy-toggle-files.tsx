@@ -2,7 +2,7 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 function toggleFile(event: DelegateEvent<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
@@ -25,6 +25,5 @@ void features.add(import.meta.url, {
 		pageDetect.isGistRevision,
 	],
 	awaitDomReady: false,
-	deduplicate: false,
 	init,
 });

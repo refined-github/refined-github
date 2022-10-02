@@ -3,7 +3,7 @@ import select from 'select-dom';
 import {SearchIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import selectHas from '../helpers/select-has';
 
 function init(): void {
@@ -21,7 +21,7 @@ function init(): void {
 
 	select('.d-block.mb-2[href^="/contact"]')!.after(
 		<a href={actionURL.href} className="d-block mb-2">
-			<SearchIcon width={14} className="color-text-primary color-fg-default mr-2"/>Usage examples
+			<SearchIcon width={14} className="color-fg-default mr-2"/>Usage examples
 		</a>,
 	);
 }
@@ -30,5 +30,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isMarketplaceAction,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

@@ -2,7 +2,7 @@ import './no-unnecessary-split-diff-view.css';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import {onDiffFileLoad} from '../github-events/on-fragment-load';
 
 function isUnifiedDiff(): boolean {

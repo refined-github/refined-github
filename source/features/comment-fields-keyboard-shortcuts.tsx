@@ -4,7 +4,7 @@ import {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import filterAlteredClicks from 'filter-altered-clicks';
 
-import features from '.';
+import features from '../feature-manager';
 import {onCommentFieldKeydown} from '../github-events/on-field-keydown';
 
 function handleEscapeKey(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement>, targetField: HTMLTextAreaElement): void {
@@ -83,6 +83,5 @@ void features.add(import.meta.url, {
 		pageDetect.hasRichTextEditor,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh-inner',
 	init,
 });

@@ -5,7 +5,7 @@ import onetime from 'onetime';
 import {isSafari} from 'webext-detect-page';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 const getBufferField = onetime((): HTMLInputElement => (
 	<input
@@ -14,7 +14,7 @@ const getBufferField = onetime((): HTMLInputElement => (
 		style={{
 			backgroundColor: 'transparent',
 			outline: 0,
-			color: 'var(--color-fg-default, var(--color-text-primary))',
+			color: 'var(--color-fg-default)',
 		}}
 		placeholder="Search file…"
 	/> as unknown as HTMLInputElement
@@ -30,7 +30,7 @@ function pjaxStartHandler(event: CustomEvent): void {
 	bufferField.value = '';
 
 	select('.pagehead h1 strong, [itemprop="name"]')!.after(
-		<span className="mr-1 ml-n1 flex-self-stretch color-text-secondary color-fg-muted">/</span>,
+		<span className="mr-1 ml-n1 flex-self-stretch color-fg-muted">/</span>,
 		<span className="flex-self-stretch mr-2">{bufferField}</span>,
 	);
 	bufferField.focus();
@@ -57,9 +57,9 @@ function pjaxCompleteHandler(): void {
 	}
 }
 
-function init(): void {
-	window.addEventListener('turbo:visit', pjaxStartHandler);
-	window.addEventListener('turbo:render', pjaxCompleteHandler);
+function init(signal: AbortSignal): void {
+	window.addEventListener('turbo:visit', pjaxStartHandler, {signal});
+	window.addEventListener('turbo:render', pjaxCompleteHandler, {signal});
 }
 
 void features.add(import.meta.url, {

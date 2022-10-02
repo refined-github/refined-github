@@ -5,14 +5,14 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import delay from 'delay';
 import select from 'select-dom';
-import onetime from 'onetime';
-import {observe} from 'selector-observer';
 import {ClockIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
+import observe from '../helpers/selector-observer';
 import * as api from '../github-helpers/api';
 import {getUsername, getCleanPathname} from '../github-helpers';
+import attachElement from '../helpers/attach-element';
 
 type Commit = {
 	url: string;
@@ -120,8 +120,6 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 		return;
 	}
 
-	hovercardContainer.classList.add('rgh-user-local-time');
-
 	const datePromise = getLastCommitDate(login);
 	const race = await Promise.race([delay(300), datePromise]);
 	if (race === false) {
@@ -131,7 +129,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 
 	const placeholder = <span className="ml-1">Guessing local time…</span>;
 	const container = (
-		<div className="mt-2 color-text-secondary color-fg-muted text-small d-flex">
+		<div className="mt-2 color-fg-muted text-small d-flex">
 			<ClockIcon/> {placeholder}
 		</div>
 	);
@@ -156,13 +154,12 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 }
 
 const selector = [
-	'.js-hovercard-content .Popover-message div.d-flex.mt-3.overflow-hidden > div.d-flex:not(.rgh-user-local-time)',
-	'.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time)', // GHE 2022/06/24
+	'.js-hovercard-content .Popover-message div.d-flex.mt-3.overflow-hidden > div.d-flex',
+	'.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3', // GHE 2022/06/24
 ].join(',');
-function init(): void {
-	observe(selector, {
-		add: insertUserLocalTime,
-	});
+
+function init(signal: AbortSignal): void {
+	observe(selector, insertUserLocalTime, {signal});
 }
 
 async function profileInit(): Promise<void> {
@@ -178,6 +175,14 @@ async function profileInit(): Promise<void> {
 		return;
 	}
 
+	attachElement('.vcard-details', {
+		append: () => createTimeElement(datePromise),
+	});
+}
+
+// TODO: Plz replace with JSX-less Preact or sumthin 🥺
+// Passing `datePromise` around is we-ird
+function createTimeElement(datePromise: Promise<string | false>): JSX.Element {
 	const placeholder = <span className="v-align-middle">Guessing local time…</span>;
 	const container = (
 		<li className="vcard-detail pt-1 css-truncate css-truncate-target">
@@ -185,19 +190,21 @@ async function profileInit(): Promise<void> {
 		</li>
 	);
 
-	select('.vcard-details')!.append(container);
-
 	void display({datePromise, placeholder, container});
+	return container;
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	awaitDomReady: false,
+	init,
 }, {
 	include: [
 		pageDetect.isUserProfile,
 	],
 	exclude: [
+		// TODO: Drop once the date promise is triggered only after attachElement finds the item
 		pageDetect.isPrivateUserProfile,
 	],
+	awaitDomReady: false,
 	init: profileInit,
 });

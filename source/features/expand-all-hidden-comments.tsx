@@ -3,7 +3,7 @@ import oneEvent from 'one-event';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 
 const paginationButtonSelector = '.ajax-pagination-form button[type="submit"]';
 
@@ -37,7 +37,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],
-	deduplicate: false,
 	init,
 });
 

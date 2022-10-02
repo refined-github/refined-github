@@ -1,6 +1,8 @@
 /* Limit width of commit title to 72 characters */
+.rgh-suggest-commit-title-limit :is(
 #merge_title_field,
-#commit-summary-input {
+#commit-summary-input
+) {
 	box-sizing: content-box; /* Exclude padding/border from `width`; No need to mess with `calc` */
 	width: 72ch;
 

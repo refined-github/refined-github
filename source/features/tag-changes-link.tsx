@@ -6,7 +6,7 @@ import {DiffIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import tinyVersionCompare from 'tiny-version-compare';
 
-import features from '.';
+import features from '../feature-manager';
 import fetchDom from '../helpers/fetch-dom';
 import {buildRepoURL, getRepo, parseTag} from '../github-helpers';
 
@@ -34,10 +34,7 @@ async function getNextPage(): Promise<DocumentFragment> {
 
 function parseTags(element: HTMLElement): TagDetails {
 	// Safari doesn't correctly parse links if they're loaded via AJAX #3899
-	const {pathname: tagUrl} = new URL(select([
-		'a:is([href*="/releases/tag/"]', // Before "Releases UI refresh" #4902
-		'a[href*="/tree/"])',
-	], element)!.href);
+	const {pathname: tagUrl} = new URL(select('a[href*="/tree/"]', element)!.href);
 	const tag = /\/(?:releases\/tag|tree)\/(.*)/.exec(tagUrl)![1];
 
 	return {
@@ -80,11 +77,7 @@ async function init(): Promise<void> {
 
 	const tagsSelector = [
 		// https://github.com/facebook/react/releases (release in releases list)
-		'.release:not(.label-draft)', // Before "Releases UI refresh" #4902
 		'.repository-content .col-md-2',
-
-		// https://github.com/facebook/react/releases?after=v16.7.0 (tags in releases list)
-		'.release-main-section .commit', // Before "Releases UI refresh" #4902
 
 		// https://github.com/facebook/react/tags (tags list)
 		'.Box-row .commit',
@@ -105,7 +98,6 @@ async function init(): Promise<void> {
 		}
 
 		const lastLinks = select.all([
-			'.list-style-none > .d-block:nth-child(2)', // Link to commit in release sidebar -- Before "Releases UI refresh" #4902
 			'.Link--muted[data-hovercard-type="commit"]', // Link to commit in release sidebar
 			'.list-style-none > .d-inline-block:last-child', // Link to source tarball under release tag
 		], container.element);

@@ -4,12 +4,13 @@ import {css} from 'code-tag';
 import onetime from 'onetime';
 import {ParseSelector} from 'typed-query-selector/parser';
 
-import {getSnapshotUUID} from './attach-element';
+import getCallerID from './caller-id';
 
 const animation = 'rgh-selector-observer';
 const getListener = mem(<ExpectedElement extends HTMLElement>(seenMark: string, selector: string, callback: (element: ExpectedElement) => void) => function (event: AnimationEvent) {
 	const target = event.target as ExpectedElement;
-	if (!target.matches(selector)) {
+	// The target can match a selector even if the animation actually happened on a ::before pseudo-element, so it needs an explicit exclusion here
+	if (target.classList.contains(seenMark) || !target.matches(selector)) {
 		return;
 	}
 
@@ -37,7 +38,7 @@ export default function observe<
 	}
 
 	const selector = String(selectors); // Array#toString() creates a comma-separated string
-	const seenMark = 'rgh-seen-' + getSnapshotUUID();
+	const seenMark = 'rgh-seen-' + getCallerID();
 	const rule = new Text(css`
 		:where(${String(selector)}):not(.${seenMark}) {
 			animation: 1ms ${animation};

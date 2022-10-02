@@ -31,14 +31,10 @@ declare module '*.md' { // It should be just for readme.md, but 🤷‍♂️
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
 	'details:toggled': CustomEvent;
-	'filterable:change': CustomEvent;
-	'menu:activated': CustomEvent;
 	'pjax:error': CustomEvent;
 	'page:loaded': CustomEvent;
 	'turbo:visit': CustomEvent;
 	'session:resume': CustomEvent;
-	'socket:message': CustomEvent;
-	'input': InputEvent; // Remove once no longer necessary (2022?)
 }
 
 declare namespace JSX {

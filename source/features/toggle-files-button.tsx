@@ -3,14 +3,13 @@ import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {FoldIcon, UnfoldIcon, ArrowUpIcon} from '@primer/octicons-react';
 
-import features from '.';
+import features from '../feature-manager';
 import selectHas from '../helpers/select-has';
 import attachElement from '../helpers/attach-element';
-import observeElement from '../helpers/simplified-element-observer';
+import observe from '../helpers/selector-observer';
 
 const cacheKey = 'files-hidden';
 const hiddenFilesClass = 'rgh-files-hidden';
@@ -20,9 +19,8 @@ const noticeClass = 'rgh-files-hidden-notice';
 // 19px align this icon with the <UnfoldIcon/> above it
 const noticeStyle = {paddingRight: '19px'};
 
-function addButton(): void {
-	attachElement({
-		anchor: selectHas('.repository-content ul:has(.octicon-history)')!,
+function addButton(filesBox: HTMLElement): void {
+	attachElement(selectHas('ul:has(.octicon-history)', filesBox)!, {
 		allowMissingAnchor: true,
 		className: toggleButtonClass,
 		append: () => (
@@ -38,10 +36,9 @@ function addButton(): void {
 	});
 }
 
-function addFilesHiddenNotice(repoContent: Element): void {
+function addFilesHiddenNotice(fileBox: Element): void {
 	// Add notice so the user knows that the list was collapsed #5524
-	attachElement({
-		anchor: select('.Box', repoContent),
+	attachElement(fileBox, {
 		className: noticeClass,
 		after: () => (
 			<div
@@ -54,26 +51,38 @@ function addFilesHiddenNotice(repoContent: Element): void {
 	});
 }
 
+function toggle(toggle?: boolean): boolean {
+	return document.body.classList.toggle(hiddenFilesClass, toggle);
+}
+
 async function toggleHandler(): Promise<void> {
 	// Remove notice after the first click
 	select(`.${noticeClass}`)?.remove();
 
-	const isHidden = select('.repository-content')!.classList.toggle(hiddenFilesClass);
+	const isHidden = toggle();
 	await cache.set(cacheKey, isHidden);
 }
 
-async function init(signal: AbortSignal): Promise<Deinit> {
-	const repoContent = (await elementReady('.repository-content'))!;
-
+async function updateView(anchor: HTMLHeadingElement): Promise<void> {
+	const filesBox = anchor.parentElement!;
+	addButton(filesBox);
 	if (await cache.get<boolean>(cacheKey)) {
-		repoContent.classList.add(hiddenFilesClass);
-		addFilesHiddenNotice(repoContent);
+		addFilesHiddenNotice(filesBox);
 	}
+}
 
+async function loadPreviousState(): Promise<void> {
+	const wasHidden = await cache.get<boolean>(cacheKey);
+	if (wasHidden) {
+		toggle(true);
+	}
+}
+
+async function init(signal: AbortSignal): Promise<void> {
+	// TODO: Use `.Box:has(> #files)` instead
+	observe('.repository-content h2#files', updateView, {signal});
 	delegate(document, `.${toggleButtonClass}, .${noticeClass}`, 'click', toggleHandler, {signal});
-
-	// TODO: Use new `selector-observer` when `:has` becomes available, so its element can be used as `anchor` inside `addButton`
-	return observeElement(repoContent, addButton);
+	await loadPreviousState();
 }
 
 void features.add(import.meta.url, {
@@ -81,6 +90,5 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoTree,
 	],
 	awaitDomReady: false,
-	deduplicate: false,
 	init,
 });

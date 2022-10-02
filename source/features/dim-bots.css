@@ -12,7 +12,7 @@ Commits that have a long commit message will not be dimmed after the user uncoll
 .rgh-dim-bot:not(.rgh-tagged) .mb-1 ~ .d-flex,
 .rgh-dim-bot:not(.rgh-tagged) > .d-md-block,
 .rgh-dim-bot:not(.rgh-tagged) .labels, /* PR labels */
-.rgh-dim-bot:not(.rgh-tagged) .text-small:is(.color-text-secondary, .color-fg-muted) /* PR meta */ {
+.rgh-dim-bot:not(.rgh-tagged) .text-small.color-fg-muted /* PR meta */ {
 	/* Delay the "focused" status so it's not too annoying when moving the mouse over a list of dimmed items. */
 	transition: 0.1s;
 	transition-delay: 0.3s;
@@ -39,7 +39,7 @@ ALL the following rules define the non-focused state
 }
 
 .rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover) .labels, /* PR labels */
-.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover) .text-small:is(.color-text-secondary, .color-fg-muted) /* PR meta */ {
+.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover) .text-small.color-fg-muted /* PR meta */ {
 	margin-bottom: -2em;
 	visibility: hidden;
 	transition-delay: 0s, var(--rgh-dim-bots-delay), calc(var(--rgh-dim-bots-delay) - 0.1s);

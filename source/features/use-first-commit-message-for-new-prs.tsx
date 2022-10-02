@@ -3,7 +3,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
-import features from '.';
+import features from '../feature-manager';
 import looseParseInt from '../helpers/loose-parse-int';
 
 function interpretNode(node: ChildNode): string | void {
@@ -61,6 +61,7 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 	],
 	awaitDomReady: false,
+	deduplicate: 'has-rgh',
 	init,
 });
 

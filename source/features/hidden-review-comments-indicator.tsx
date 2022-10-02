@@ -6,10 +6,10 @@ import {CommentIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import preserveScroll from '../helpers/preserve-scroll';
-import {onDiffFileLoad} from '../github-events/on-fragment-load';
 import onAbort from '../helpers/abort-controller';
+import observe from '../helpers/selector-observer';
 
 // When an indicator is clicked, this will show comments on the current file
 const handleIndicatorClick = ({delegateTarget}: DelegateEvent): void => {
@@ -39,7 +39,7 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 });
 
 // Add indicator when the `show-inline-notes` class is removed (i.e. the comments are hidden)
-const observer = new MutationObserver(mutations => {
+const indicatorToggleObserver = new MutationObserver(mutations => {
 	for (const mutation of mutations) {
 		const file = mutation.target as HTMLElement;
 		const wasVisible = mutation.oldValue!.includes('show-inline-notes');
@@ -52,24 +52,19 @@ const observer = new MutationObserver(mutations => {
 	}
 });
 
-function observeFiles(): void {
-	for (const element of select.all('.file.js-file')) {
+function init(signal: AbortSignal): void {
+	observe('.file.js-file', element => {
 		// #observe won't observe the same element twice
-		observer.observe(element, {
+		indicatorToggleObserver.observe(element, {
 			attributes: true,
 			attributeOldValue: true,
 			attributeFilter: ['class'],
 		});
-	}
-}
+	});
 
-function init(signal: AbortSignal): void {
-	observeFiles();
-
-	onDiffFileLoad(observeFiles, signal);
 	delegate(document, '.rgh-comments-indicator', 'click', handleIndicatorClick, {signal});
 
-	onAbort(signal, observer);
+	onAbort(signal, indicatorToggleObserver);
 }
 
 void features.add(import.meta.url, {
@@ -77,6 +72,5 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit,
 	],
-	deduplicate: false,
 	init,
 });

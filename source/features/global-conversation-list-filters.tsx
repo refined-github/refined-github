@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import SearchQuery from '../github-helpers/search-query';
 
 function init(): void {
@@ -45,5 +45,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isGlobalIssueOrPRList,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

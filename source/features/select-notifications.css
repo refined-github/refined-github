@@ -1,5 +1,9 @@
-.js-notifications-mark-selected-actions > *,
-.rgh-open-selected-button {
-	/* Allow clicking on "Done" and other toolbar buttons even when the dropdown (z-index of 99) is open #4753 */
-	z-index: 100;
+/* Only when the menu is shown as a dropdown, not as a modal (mobile) #5796 */
+/* The media query matches the native one exactly, inverted via `not` */
+@media screen and not (max-width: 543px) {
+	.js-notifications-mark-selected-actions > *,
+	.rgh-open-selected-button {
+		/* Allow clicking on "Done" and other toolbar buttons even when the dropdown (z-index of 99) is open #4753 */
+		z-index: 100;
+	}
 }

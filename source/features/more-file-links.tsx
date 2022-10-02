@@ -3,7 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 import GitHubURL from '../github-helpers/github-url';
 
 function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
@@ -36,6 +36,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasFiles,
 	],
-	deduplicate: false,
 	init,
 });

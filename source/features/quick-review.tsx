@@ -4,24 +4,30 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
-import onDiscussionSidebarUpdate from '../github-events/on-discussion-sidebar-update';
+import features from '../feature-manager';
+import observe from '../helpers/selector-observer';
+import attachElement from '../helpers/attach-element';
 
-async function addSidebarReviewButton(): Promise<void | false> {
-	const sidebarReviewsSection = await elementReady('[aria-label="Select reviewers"] .discussion-sidebar-heading');
-	if (select.exists('[data-hotkey="v"]', sidebarReviewsSection)) {
-		return false;
-	}
-
+function createReviewLink(): Element {
 	const reviewFormUrl = new URL(location.href);
 	reviewFormUrl.pathname += '/files';
 	reviewFormUrl.hash = 'review-changes-modal';
 
-	sidebarReviewsSection!.append(
+	return (
 		<span className="text-normal">
 			– <a href={reviewFormUrl.href} className="btn-link Link--muted" data-hotkey="v" data-pjax="#repo-content-pjax-container">review now</a>
-		</span>,
+		</span>
 	);
+}
+
+function addSidebarReviewButton(reviewersSection: Element): void {
+	attachElement(reviewersSection, {
+		append: createReviewLink,
+	});
+}
+
+function initSidebarReviewButton(signal: AbortSignal): void {
+	observe('[aria-label="Select reviewers"] .discussion-sidebar-heading', addSidebarReviewButton, {signal});
 }
 
 function focusReviewTextarea({delegateTarget}: DelegateEvent<Event, HTMLDetailsElement>): void {
@@ -43,12 +49,8 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],
-	additionalListeners: [
-		onDiscussionSidebarUpdate,
-	],
 	awaitDomReady: false,
-	deduplicate: false,
-	init: addSidebarReviewButton,
+	init: initSidebarReviewButton,
 }, {
 	shortcuts: {
 		v: 'Open PR review popup',
@@ -57,6 +59,5 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFiles,
 	],
 	awaitDomReady: false,
-	deduplicate: false,
 	init: initReviewButtonEnhancements,
 });

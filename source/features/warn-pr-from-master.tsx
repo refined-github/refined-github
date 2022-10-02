@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepo} from '../github-helpers';
 
@@ -34,5 +34,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isBlank,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });

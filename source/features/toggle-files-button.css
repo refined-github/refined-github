@@ -4,12 +4,15 @@
 	padding: 10px 13px;
 }
 
-.repository-content:not(.rgh-files-hidden) .rgh-toggle-files .octicon-unfold,
-.repository-content.rgh-files-hidden .rgh-toggle-files .octicon-fold {
+body:not(.rgh-files-hidden) .rgh-toggle-files .octicon-unfold,
+body.rgh-files-hidden .rgh-toggle-files .octicon-fold {
 	display: none !important;
 }
 
-.rgh-files-hidden #files ~ .Details {
+.rgh-files-hidden #files ~ :is(
+.Details, /* Loaded */
+include-fragment[src*='/file-list/'] /* Loading skeleton */
+) {
 	display: none;
 }
 

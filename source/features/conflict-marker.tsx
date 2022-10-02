@@ -5,7 +5,7 @@ import {AlertIcon} from '@primer/octicons-react';
 import oneMutation from 'one-mutation';
 import * as pageDetect from 'github-url-detection';
 
-import features from '.';
+import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 
 type PRConfig = {
@@ -60,7 +60,7 @@ async function init(): Promise<false | void> {
 		if (data[pr.key].pullRequest.mergeable === 'CONFLICTING') {
 			pr.link.after(
 				<a
-					className="rgh-conflict-marker tooltipped tooltipped-e color-text-secondary color-fg-muted ml-2"
+					className="rgh-conflict-marker tooltipped tooltipped-e color-fg-muted ml-2"
 					aria-label="This PR has conflicts that must be resolved"
 					href={`${pr.link.pathname}#partial-pull-merging`}
 				>
@@ -88,5 +88,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isBlank,
 	],
+	deduplicate: 'has-rgh',
 	init,
 });
