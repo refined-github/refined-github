@@ -2,7 +2,7 @@ import select from 'select-dom';
 import {RequireAtLeastOne} from 'type-fest';
 import {isDefined} from 'ts-extras';
 
-import hashString from './hash-string';
+import getCallerID from './caller-id';
 
 type Position = 'append' | 'prepend' | 'before' | 'after' | 'forEach';
 
@@ -17,25 +17,11 @@ type Attachment<NewElement extends Element, Callback = (E: Element) => NewElemen
 	allowMissingAnchor?: boolean;
 }, Position>;
 
-/**
-Get unique ID by using the line:column of the call (or its parents) as seed. Every call from the same place will return the same ID, as long as the index is set to the parents that matters to you.
-
-@param ancestor Which call in the stack should be used as key. 0 means the exact line where getSnapshotUUID is called. Defaults to 1 because it's usually used inside a helper.
-*/
-export function getSnapshotUUID(ancestor = 1): string {
-	const stack = new Error('Get stack').stack!.split('\n');
-	if (stack[0] === 'Error: Get stack') {
-		stack.shift(); // Remove non-stacktrace line from array (only present in Chrome) #6032
-	}
-
-	return hashString(stack[ancestor + 1]);
-}
-
 export default function attachElement<NewElement extends Element>(
 	// eslint-disable-next-line @typescript-eslint/ban-types --  Allows dom traversing without requiring `!`
 	anchor: Element | string | undefined | null,
 	{
-		className = 'rgh-' + getSnapshotUUID(),
+		className = 'rgh-' + getCallerID(),
 		append,
 		prepend,
 		before,
@@ -79,7 +65,7 @@ export default function attachElement<NewElement extends Element>(
 }
 
 export function attachElements<NewElement extends Element>(anchors: string | string[], {
-	className = 'rgh-' + getSnapshotUUID(),
+	className = 'rgh-' + getCallerID(),
 	...options
 }: Attachment<NewElement>): NewElement[] {
 	return select.all(`:is(${String(anchors)}):not(.${className})`)
