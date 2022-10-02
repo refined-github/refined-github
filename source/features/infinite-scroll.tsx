@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
+import onAbort from '../helpers/abort-controller';
 
 const loadMore = debounce(() => {
 	const button = select('[role="tabpanel"]:not([hidden]) button.ajax-pagination-btn')!;
@@ -28,7 +29,8 @@ const inView = new IntersectionObserver(([{isIntersecting}]) => {
 	rootMargin: '500px', // https://github.com/refined-github/refined-github/pull/505#issuecomment-309273098
 });
 
-function init(signal: AbortSignal): Deinit {
+function init(signal: AbortSignal): void {
+	onAbort(signal, inView);
 	observe('.ajax-pagination-btn', button => {
 		inView.observe(button);
 	}, {signal});
@@ -49,10 +51,6 @@ function init(signal: AbortSignal): Deinit {
 			{footer}
 		</div>,
 	);
-
-	return [
-		inView,
-	];
 }
 
 void features.add(import.meta.url, {

@@ -112,6 +112,5 @@ void features.add(import.meta.url, {
 		pageDetect.isBranches,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh',
 	init,
 });

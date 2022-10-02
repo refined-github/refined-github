@@ -5,7 +5,6 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
-import {onDiffFileLoad} from '../github-events/on-fragment-load';
 import observe from '../helpers/selector-observer';
 
 async function loadDeferred(jumpList: Element): Promise<void> {
@@ -66,19 +65,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPRCommit404,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh-inner',
-	init,
-}, {
-	include: [
-		pageDetect.isCompare,
-	],
-	exclude: [
-		() => select.exists('.blankslate:not(.blankslate-large)'),
-	],
-	additionalListeners: [
-		onDiffFileLoad,
-	],
-	onlyAdditionalListeners: true,
 	init,
 });
 

@@ -1,6 +1,5 @@
 import './table-input.css';
 import React from 'dom-chef';
-import select from 'select-dom';
 import {TableIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
@@ -8,7 +7,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager';
 import smartBlockWrap from '../helpers/smart-block-wrap';
-import {onCommentEdit} from '../github-events/on-fragment-load';
+import observe from '../helpers/selector-observer';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
@@ -34,9 +33,8 @@ function highlightSquares({delegateTarget: hover}: DelegateEvent<MouseEvent, HTM
 	}
 }
 
-function addButtons(): void {
-	for (const anchor of select.all('md-task-list:not(.rgh-table-input-added)')) {
-		anchor.classList.add('rgh-table-input-added');
+function addButtons(signal: AbortSignal): void {
+	observe('md-task-list', anchor => {
 		anchor.after(
 			<details className="details-reset details-overlay flex-auto toolbar-item btn-octicon mx-1 select-menu select-menu-modal-right hx_rsm">
 				<summary
@@ -67,13 +65,11 @@ function addButtons(): void {
 				</details-menu>
 			</details>,
 		);
-	}
+	}, {signal});
 }
 
 function init(signal: AbortSignal): void {
-	addButtons();
-	onCommentEdit(addButtons, signal);
-
+	addButtons(signal);
 	delegate(document, '.rgh-table-input-cell', 'click', addTable, {signal});
 	delegate(document, '.rgh-table-input-cell', 'mouseenter', highlightSquares, {capture: true, signal});
 }

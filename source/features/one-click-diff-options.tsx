@@ -126,7 +126,7 @@ function attachPRButtons(diffSettings: HTMLElement): void {
 
 function initPR(signal: AbortSignal): void {
 	// There are two "diff settings" element, one for mobile and one for the desktop. We only replace the one for the desktop
-	observe('.hide-sm.hide-md [aria-label="Diff settings"]', attachPRButtons);
+	observe('.hide-sm.hide-md [aria-label="Diff settings"]', attachPRButtons, {signal});
 	delegate(document, diffSwitchButtons.selector, 'click', alternateDiffNatively, {signal});
 }
 

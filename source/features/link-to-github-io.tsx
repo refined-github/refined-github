@@ -47,7 +47,6 @@ void features.add(import.meta.url, {
 		pageDetect.isUserProfileRepoTab,
 		pageDetect.isOrganizationProfile,
 	],
-	deduplicate: 'has-rgh',
 	awaitDomReady: false,
 	init: initRepoList,
 });

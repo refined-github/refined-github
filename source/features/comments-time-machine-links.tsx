@@ -113,11 +113,16 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 
 function init(signal: AbortSignal): void {
 	observe('.timeline-comment-actions > details:last-child', menu => {
+		if (menu.closest('.js-pending-review-comment')) {
+			return;
+		}
+
 		// The timestamp of main review comments isn't in their header but in the timeline event above #5423
 		const timestamp = menu
 			.closest('.js-comment:not([id^="pullrequestreview-"]), .js-timeline-item')!
 			.querySelector('relative-time')!
 			.attributes.datetime.value;
+
 		addInlineLinks(menu, timestamp);
 		addDropdownLink(menu, timestamp);
 	}, {signal});
