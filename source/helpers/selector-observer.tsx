@@ -17,7 +17,7 @@ const getListener = <ExpectedElement extends HTMLElement>(seenMark: string, sele
 	target.classList.add(seenMark);
 
 	callback(target);
-}
+};
 
 const registerAnimation = onetime((): void => {
 	document.head.append(<style>{`@keyframes ${animation} {}`}</style>);
