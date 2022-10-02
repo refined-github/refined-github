@@ -5,7 +5,6 @@ const fieldSelector = [
 	'#merge_title_field', // PR merge message field
 ].join(', ');
 
-
 export default function onCommitTitleUpdate(callback: DelegateEventHandler<Event, HTMLInputElement>, signal: AbortSignal): void {
 	// GitHub restores the value from the previous session and only triggers this event
 	delegate(document, fieldSelector, 'change', callback, {signal});
