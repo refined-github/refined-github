@@ -5,8 +5,9 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import SearchQuery from '../github-helpers/search-query';
+import observe from '../helpers/selector-observer';
 
-function init(): void {
+function addLinks(container: HTMLElement): void {
 	const defaultQuery = 'is:open archived:false';
 
 	// Without this, the Issues page also displays PRs, and viceversa
@@ -37,8 +38,12 @@ function init(): void {
 			}
 		}
 
-		select('.subnav-links')!.append(link);
+		container.append(link);
 	}
+}
+
+function init(signal: AbortSignal): void {
+	observe('.subnav-links', addLinks, {signal});
 }
 
 void features.add(import.meta.url, {
