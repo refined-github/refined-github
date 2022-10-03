@@ -24,7 +24,18 @@ async function convertToDraft(): Promise<void> {
 	select(getReleaseEditLinkSelector())!.click(); // Visit "Edit release" page
 }
 
+const confirmMessage = 'The release will be effectively deleted and a new draft will be created.';
+const confirmMessageWithReactions = 'Existing user reactions will be lost.';
+const confirmMessageQuestion = 'Continue?';
+
 async function onConvertClick(): Promise<void> {
+	const message = select.exists('.js-reaction-group-button')
+		? [confirmMessage, confirmMessageWithReactions, confirmMessageQuestion]
+		: [confirmMessage, confirmMessageQuestion];
+	if (!confirm(message.join(' '))) {
+		return;
+	}
+
 	try {
 		await showToast(convertToDraft(), {message: 'Converting…', doneMessage: 'Redirecting…'});
 	} catch (error) {
