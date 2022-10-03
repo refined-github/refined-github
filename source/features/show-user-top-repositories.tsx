@@ -1,10 +1,10 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
+import observe from '../helpers/selector-observer';
 
-function init(): void {
+function addLink(showCaseTitle: Element): void {
 	const url = new URL(location.pathname, location.href);
 	// DO NOT add type: 'source' since forks could also have many stars
 	url.search = new URLSearchParams({
@@ -12,20 +12,17 @@ function init(): void {
 		sort: 'stargazers',
 	}).toString();
 
-	// Showcase title
-	select('.js-pinned-items-reorder-container .text-normal')!.firstChild!.after(
-		' / ',
-		<a href={url.href}>Top repositories</a>,
-	);
+	showCaseTitle.firstChild!.after(' / ', <a href={url.href}>Top repositories</a>);
+}
+
+function init(signal: AbortSignal): void {
+	observe('.js-pinned-items-reorder-container h2', addLink, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isUserProfileMainTab,
 	],
-	exclude: [
-		pageDetect.isPrivateUserProfile,
-	],
-	deduplicate: 'has-rgh',
+	awaitDomReady: false,
 	init,
 });
