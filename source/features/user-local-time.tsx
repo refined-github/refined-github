@@ -13,6 +13,7 @@ import observe from '../helpers/selector-observer';
 import * as api from '../github-helpers/api';
 import {getUsername, getCleanPathname} from '../github-helpers';
 import attachElement from '../helpers/attach-element';
+import elementReady from 'element-ready';
 
 type Commit = {
 	url: string;
@@ -115,6 +116,11 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 		return;
 	}
 
+	if (select.exists('profile-timezone', hovercard)) {
+		// Native time already present
+		return;
+	}
+
 	const login = select('a.Link--primary', hovercard)?.pathname.slice(1);
 	if (!login || login === getUsername()) {
 		return;
@@ -129,9 +135,9 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 
 	const placeholder = <span className="ml-1">Guessing local time…</span>;
 	const container = (
-		<div className="mt-2 color-fg-muted text-small d-flex">
+		<section aria-label="user local time" className="mt-1 color-fg-muted text-small d-flex flex-items-center">
 			<ClockIcon/> {placeholder}
-		</div>
+		</section>
 	);
 
 	// Adding the time element might change the height of the hovercard and thus break its positioning
@@ -168,6 +174,12 @@ async function profileInit(): Promise<void> {
 		return;
 	}
 
+	const vcard = await elementReady('.vcard-details');
+	if (!vcard || select.exists('profile-timezone')) {
+		// Native time already present
+		return;
+	}
+
 	const datePromise = getLastCommitDate(login);
 	const race = await Promise.race([delay(300), datePromise]);
 	if (race === false) {
@@ -175,7 +187,7 @@ async function profileInit(): Promise<void> {
 		return;
 	}
 
-	attachElement('.vcard-details', {
+	attachElement(vcard, {
 		append: () => createTimeElement(datePromise),
 	});
 }
@@ -185,7 +197,7 @@ async function profileInit(): Promise<void> {
 function createTimeElement(datePromise: Promise<string | false>): JSX.Element {
 	const placeholder = <span className="v-align-middle">Guessing local time…</span>;
 	const container = (
-		<li className="vcard-detail pt-1 css-truncate css-truncate-target">
+		<li className="vcard-detail pt-1 css-truncate css-truncate-target hide-sm hide-md">
 			<ClockIcon/> {placeholder}
 		</li>
 	);
@@ -200,10 +212,6 @@ void features.add(import.meta.url, {
 }, {
 	include: [
 		pageDetect.isUserProfile,
-	],
-	exclude: [
-		// TODO: Drop once the date promise is triggered only after attachElement finds the item
-		pageDetect.isPrivateUserProfile,
 	],
 	awaitDomReady: false,
 	init: profileInit,
