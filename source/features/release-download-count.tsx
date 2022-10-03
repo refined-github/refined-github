@@ -7,6 +7,7 @@ import {abbreviateNumber} from 'js-abbreviation-number';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
+import observe from '../helpers/selector-observer';
 
 type Release = {
 	releaseAssets: {
@@ -44,30 +45,18 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 	return assets;
 }
 
-async function init(): Promise<void | false> {
-	const releases = new Map<string, HTMLElement>();
+async function addCounts(assetsList: HTMLElement): Promise<void> {
+	const releaseName = assetsList
+		.closest('[data-test-selector="release-card"]')!
+		.previousElementSibling!
+		.querySelector('.octicon-tag ~ span')!
+		.textContent!
+		.trim();
 
-	if (pageDetect.isSingleTag() && select.exists('.Box-footer .octicon-package')) {
-		const name = select('.Box svg.octicon-tag ~ span')!.textContent!.trim();
-		releases.set(name, select('.Box-footer')!);
-	} else {
-		for (const release of select.all('[data-test-selector="release-card"] > .Box')) {
-			if (!select.exists('.octicon-package', release)) {
-				continue;
-			}
+	const assets = await getAssetsForTag([releaseName]);
 
-			// Get the tag name from the heading link
-			const name = select('.Box-body a.Link--primary', release)!.href.split('/').pop()!;
-			releases.set(name, release);
-		}
-	}
-
-	if (releases.size === 0) {
-		return false;
-	}
-
-	const assets = await getAssetsForTag([...releases.keys()]);
-
+	// TODO: Use batchedFunction instead
+	const releases = [[releaseName, assetsList]] as const;
 	for (const [name, release] of releases) {
 		const sortedDownloads = assets[api.escapeKey(name)].sort((a, b) => b.downloadCount - a.downloadCount);
 		for (const assetName of select.all('.octicon-package ~ a .text-bold', release)) {
@@ -102,6 +91,11 @@ async function init(): Promise<void | false> {
 			}
 		}
 	}
+}
+
+function init(signal: AbortSignal): void {
+	// TODO: Replace with :has selector to be safer
+	observe('[data-test-selector="release-card"] details .Box ul', addCounts, {signal});
 }
 
 void features.add(import.meta.url, {
