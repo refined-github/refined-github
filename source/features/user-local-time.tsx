@@ -6,14 +6,11 @@ import cache from 'webext-storage-cache';
 import delay from 'delay';
 import select from 'select-dom';
 import {ClockIcon} from '@primer/octicons-react';
-import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 import * as api from '../github-helpers/api';
-import {getUsername, getCleanPathname} from '../github-helpers';
-import attachElement from '../helpers/attach-element';
-import elementReady from 'element-ready';
+import {getUsername} from '../github-helpers';
 
 type Commit = {
 	url: string;
@@ -168,51 +165,7 @@ function init(signal: AbortSignal): void {
 	observe(selector, insertUserLocalTime, {signal});
 }
 
-async function profileInit(): Promise<void> {
-	const login = getCleanPathname();
-	if (login === getUsername()) {
-		return;
-	}
-
-	const vcard = await elementReady('.vcard-details');
-	if (!vcard || select.exists('profile-timezone')) {
-		// Native time already present
-		return;
-	}
-
-	const datePromise = getLastCommitDate(login);
-	const race = await Promise.race([delay(300), datePromise]);
-	if (race === false) {
-		// The timezone was undeterminable and this resolved "immediately" (or was cached), so don't add the icon at all
-		return;
-	}
-
-	attachElement(vcard, {
-		append: () => createTimeElement(datePromise),
-	});
-}
-
-// TODO: Plz replace with JSX-less Preact or sumthin 🥺
-// Passing `datePromise` around is we-ird
-function createTimeElement(datePromise: Promise<string | false>): JSX.Element {
-	const placeholder = <span className="v-align-middle">Guessing local time…</span>;
-	const container = (
-		<li className="vcard-detail pt-1 css-truncate css-truncate-target hide-sm hide-md">
-			<ClockIcon/> {placeholder}
-		</li>
-	);
-
-	void display({datePromise, placeholder, container});
-	return container;
-}
-
 void features.add(import.meta.url, {
 	awaitDomReady: false,
 	init,
-}, {
-	include: [
-		pageDetect.isUserProfile,
-	],
-	awaitDomReady: false,
-	init: profileInit,
 });
