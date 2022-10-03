@@ -5,14 +5,12 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import delay from 'delay';
 import select from 'select-dom';
-import onetime from 'onetime';
-import {observe} from 'selector-observer';
 import {ClockIcon} from '@primer/octicons-react';
-import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
+import observe from '../helpers/selector-observer';
 import * as api from '../github-helpers/api';
-import {getUsername, getCleanPathname} from '../github-helpers';
+import {getUsername} from '../github-helpers';
 
 type Commit = {
 	url: string;
@@ -115,12 +113,15 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 		return;
 	}
 
+	if (select.exists('profile-timezone', hovercard)) {
+		// Native time already present
+		return;
+	}
+
 	const login = select('a.Link--primary', hovercard)?.pathname.slice(1);
 	if (!login || login === getUsername()) {
 		return;
 	}
-
-	hovercardContainer.classList.add('rgh-user-local-time');
 
 	const datePromise = getLastCommitDate(login);
 	const race = await Promise.race([delay(300), datePromise]);
@@ -131,9 +132,9 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 
 	const placeholder = <span className="ml-1">Guessing local time…</span>;
 	const container = (
-		<div className="mt-2 color-fg-muted text-small d-flex">
+		<section aria-label="user local time" className="mt-1 color-fg-muted text-small d-flex flex-items-center">
 			<ClockIcon/> {placeholder}
-		</div>
+		</section>
 	);
 
 	// Adding the time element might change the height of the hovercard and thus break its positioning
@@ -156,50 +157,15 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 }
 
 const selector = [
-	'.js-hovercard-content .Popover-message div.d-flex.mt-3.overflow-hidden > div.d-flex:not(.rgh-user-local-time)',
-	'.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3:not(.rgh-user-local-time)', // GHE 2022/06/24
+	'.js-hovercard-content .Popover-message div.d-flex.mt-3.overflow-hidden > div.d-flex',
+	'.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3', // GHE 2022/06/24
 ].join(',');
-function init(): void {
-	observe(selector, {
-		add: insertUserLocalTime,
-	});
-}
 
-async function profileInit(): Promise<void> {
-	const login = getCleanPathname();
-	if (login === getUsername()) {
-		return;
-	}
-
-	const datePromise = getLastCommitDate(login);
-	const race = await Promise.race([delay(300), datePromise]);
-	if (race === false) {
-		// The timezone was undeterminable and this resolved "immediately" (or was cached), so don't add the icon at all
-		return;
-	}
-
-	const placeholder = <span className="v-align-middle">Guessing local time…</span>;
-	const container = (
-		<li className="vcard-detail pt-1 css-truncate css-truncate-target">
-			<ClockIcon/> {placeholder}
-		</li>
-	);
-
-	select('.vcard-details')!.append(container);
-
-	void display({datePromise, placeholder, container});
+function init(signal: AbortSignal): void {
+	observe(selector, insertUserLocalTime, {signal});
 }
 
 void features.add(import.meta.url, {
-	deduplicate: 'has-rgh',
-	init: onetime(init),
-}, {
-	include: [
-		pageDetect.isUserProfile,
-	],
-	exclude: [
-		pageDetect.isPrivateUserProfile,
-	],
-	deduplicate: 'has-rgh',
-	init: profileInit,
+	awaitDomReady: false,
+	init,
 });

@@ -13,6 +13,7 @@ async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 		return;
 	}
 
+	// TODO: Use v4: https://docs.github.com/en/graphql/reference/objects#checkrun
 	const {details_url: detailsUrl} = await api.v3(`check-runs/${runId}`);
 	if (!detailsUrl) {
 		return;
@@ -46,9 +47,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepo,
 	],
-	exclude: [
-		pageDetect.isEmptyRepo,
-	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: false,
 	init,
 });

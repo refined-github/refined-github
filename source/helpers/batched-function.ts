@@ -1,5 +1,5 @@
 export default function batchedFunction<ValueType>(function_: (value: ValueType[]) => unknown): (value: ValueType) => void {
-	const queue: ValueType[] = [];
+	let queue: ValueType[] = [];
 
 	return value => {
 		queue.push(value);
@@ -7,8 +7,8 @@ export default function batchedFunction<ValueType>(function_: (value: ValueType[
 		if (queue.length === 1) {
 			setTimeout(() => {
 				function_(queue);
-				queue.length = 0;
-			});
+				queue = []; // Must create a new array so that `function_` owns the old array
+			}, 100);
 		}
 	};
 }

@@ -71,8 +71,7 @@ async function openSelectedNotifications(): Promise<void> {
 function addOpenSelectedButton(signal: AbortSignal): void {
 	delegate(document, openSelected.selector, 'click', openSelectedNotifications, {signal});
 
-	attachElement({
-		anchor: notificationHeaderSelector + ' .js-notifications-mark-selected-actions',
+	attachElement(notificationHeaderSelector + ' .js-notifications-mark-selected-actions', {
 		forEach(anchor) {
 			const button = (
 				<button className={'btn btn-sm ' + openSelected.class} type="button">
@@ -103,8 +102,7 @@ function addOpenUnreadButtons(signal: AbortSignal): void {
 
 	delegate(document, openUnread.selector, 'click', openUnreadNotifications, {signal});
 
-	attachElement({
-		anchor: notificationHeaderSelector,
+	attachElement(notificationHeaderSelector, {
 		append: () => (
 			<button className={'btn btn-sm ml-auto d-none ' + openUnread.class} type="button">
 				<LinkExternalIcon className="mr-1"/>Open all unread

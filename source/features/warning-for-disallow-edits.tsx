@@ -18,13 +18,13 @@ function update(checkbox: HTMLInputElement): void {
 	if (checkbox.checked) {
 		getWarning().remove();
 	} else {
-		attachElement({
-			anchor: checkbox.closest(`
+		attachElement(
+			checkbox.closest(`
 				.timeline-comment,
 				.discussion-sidebar-item > .d-inline-flex
 			`),
-			after: getWarning,
-		});
+			{after: getWarning},
+		);
 	}
 }
 

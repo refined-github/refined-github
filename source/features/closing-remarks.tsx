@@ -61,8 +61,7 @@ function addExistingTagLink(tagName: string): void {
 		);
 	}
 
-	attachElement({
-		anchor: '#issue-comment-box',
+	attachElement('#issue-comment-box', {
 		before: () => (
 			<TimelineItem>
 				{createBanner({
@@ -86,8 +85,7 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 			? 'https://github.com/refined-github/refined-github/actions/workflows/release.yml'
 			: buildRepoURL('releases/new')
 	) : undefined;
-	attachElement({
-		anchor: '#issue-comment-box',
+	attachElement('#issue-comment-box', {
 		before: () => (
 			<TimelineItem>
 				{createBanner({

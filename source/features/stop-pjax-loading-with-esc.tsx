@@ -39,12 +39,12 @@ function pjaxErrorHandler(event: CustomEvent): void {
 	}
 }
 
+// Do not use signal, these event must persist on unload
 function init(): void {
 	progressLoader = select('.progress-pjax-loader')!;
 	window.addEventListener('keydown', keydownHandler);
 }
 
 void features.add(import.meta.url, {
-	deduplicate: 'has-rgh',
 	init,
 });

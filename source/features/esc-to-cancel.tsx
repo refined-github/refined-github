@@ -27,6 +27,5 @@ void features.add(import.meta.url, {
 		pageDetect.isPR,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh-inner',
 	init,
 });

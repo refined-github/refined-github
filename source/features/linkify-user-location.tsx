@@ -1,55 +1,44 @@
 import React from 'dom-chef';
-import select from 'select-dom';
-import onetime from 'onetime';
-import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
-import {wrap, isEditable} from '../helpers/dom-utils';
+import attachElement from '../helpers/attach-element';
+import {wrap} from '../helpers/dom-utils';
+import observe from '../helpers/selector-observer';
 
-function addLocation(baseElement: HTMLElement): void {
-	for (const {nextElementSibling, nextSibling} of select.all('.octicon-location', baseElement)) {
-		const location = nextElementSibling ?? nextSibling!; // `nextSibling` alone might point to an empty TextNode before an element, if there’s an element
-		if (isEditable(location)) {
-			continue;
-		}
+function linkify(location: Element): Element {
+	const locationName = location.textContent!.trim();
+	const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
 
-		const locationName = location.textContent!.trim();
-		const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
+	location.before(' '); // Keeps the link’s underline from extending out to the icon
+	const link = <a className="Link--primary" href={googleMapsLink}/>;
 
-		location.before(' '); // Keeps the link’s underline from extending out to the icon
-		const link = <a className="Link--primary" href={googleMapsLink}/>;
-
-		// The location is in a hovercard
-		if (baseElement !== document.body) {
-			link.classList.add('text-underline');
-		}
-
-		wrap(location, link);
+	if (location.parentElement!.closest('.Popover')) {
+	// Match the style of other links in the hovercard
+		link.classList.add('text-underline');
 	}
+
+	wrap(location, link);
+
+	return link;
 }
 
-const hovercardObserver = new MutationObserver(([mutation]) => {
-	addLocation(mutation.target as HTMLElement);
-});
+function addLocation({nextElementSibling, nextSibling}: SVGElement): void {
+	attachElement(
+		// `nextSibling` alone might point to an empty TextNode before an element, if there’s an element
+		nextElementSibling ?? nextSibling as Element,
+		{forEach: linkify},
+	);
+}
 
+// No `include`, no `signal` necessary
 function init(): void {
-	addLocation(document.body);
-}
-
-function hovercardInit(): void {
-	const hovercardContainer = select('.js-hovercard-content > .Popover-message');
-	if (hovercardContainer) {
-		hovercardObserver.observe(hovercardContainer, {childList: true});
-	}
+	observe([
+		'[itemprop="homeLocation"] svg.octicon-location', // `isUserProfile`
+		'[aria-label="user location"] svg.octicon-location', // Hover cards
+	], addLocation);
 }
 
 void features.add(import.meta.url, {
-	deduplicate: 'has-rgh',
+	awaitDomReady: false,
 	init,
-	include: [
-		pageDetect.isProfile,
-	],
-}, {
-	deduplicate: 'has-rgh',
-	init: onetime(hovercardInit),
 });

@@ -38,8 +38,7 @@ function createBannerLink(): JSX.Element {
 }
 
 function initArchivedRepoBanner(): void {
-	attachElement({
-		anchor: '.flash-full',
+	attachElement('.flash-full', {
 		append: createBannerLink,
 	});
 }
@@ -62,6 +61,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isArchivedRepo,
 	],
-	deduplicate: 'has-rgh',
+	// Can't because `isArchivedRepo` is DOM-based
+	// awaitDomReady: false,
 	init: initArchivedRepoBanner,
 });

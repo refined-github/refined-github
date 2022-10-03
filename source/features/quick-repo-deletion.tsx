@@ -45,7 +45,7 @@ async function verifyScopesWhileWaiting(abortController: AbortController): Promi
 	} catch (error) {
 		assertError(error);
 		abortController.abort();
-		addNotice([
+		await addNotice([
 			'Could not delete the repository. ',
 			parseBackticks(error.message),
 		], {
@@ -101,7 +101,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	} catch (error) {
 		assertError(error);
 		buttonContainer.closest('li')!.remove(); // Remove button
-		addNotice([
+		await addNotice([
 			'Could not delete the repository. ',
 			(error as api.RefinedGitHubAPIError).response?.message ?? error.message,
 		], {
@@ -116,7 +116,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		? `/organizations/${owner}/settings/deleted_repositories`
 		: '/settings/deleted_repositories';
 	const otherForksURL = `/${owner}?tab=repositories&type=fork`;
-	addNotice(
+	await addNotice(
 		<><TrashIcon/> <span>Repository <strong>{nameWithOwner}</strong> deleted. <a href={restoreURL}>Restore it</a>, <a href={forkSource}>visit the source repo</a>, or see <a href={otherForksURL}>your other forks.</a></span></>,
 		{action: false},
 	);
@@ -142,8 +142,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 	await api.expectToken();
 
 	// (Ab)use the details element as state and an accessible "click-anywhere-to-cancel" utility
-	attachElement({
-		anchor: '.pagehead-actions',
+	attachElement('.pagehead-actions', {
 		prepend: () => (
 			<li>
 				<details className="details-reset details-overlay select-menu rgh-quick-repo-deletion">

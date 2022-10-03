@@ -5,7 +5,6 @@ import * as pageDetect from 'github-url-detection';
 import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager';
-import selectHas from '../helpers/select-has';
 import attachElement from '../helpers/attach-element';
 import observe from '../helpers/selector-observer';
 
@@ -29,7 +28,7 @@ function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
 	const url = new URL(location.href);
 	url.searchParams.set('diff', type);
 	const classes = pageDetect.isPR()
-		? 'd-none d-lg-block ml-2 color-fg-muted'
+		? 'ml-2 color-fg-muted'
 		: 'btn btn-sm BtnGroup-item ' + (selected ? 'selected' : '');
 
 	return (
@@ -78,7 +77,7 @@ function createWhitespaceButton(): HTMLElement {
 	}
 
 	const classes = pageDetect.isPR()
-		? 'tooltipped tooltipped-s d-none d-lg-block color-fg-muted'
+		? 'tooltipped tooltipped-s color-fg-muted'
 		: 'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-fg-subtle' : '');
 
 	return (
@@ -93,20 +92,23 @@ function createWhitespaceButton(): HTMLElement {
 	);
 }
 
-function initPR(signal: AbortSignal): void {
-	delegate(document, diffSwitchButtons.selector, 'click', alternateDiffNatively, {signal});
+function attachPRButtons(diffSettings: HTMLElement): void {
+	// TODO: Replace with :has()
+	const originalToggle = diffSettings.closest('details')!.parentElement!;
 
-	const originalToggle = selectHas('details:has([aria-label="Diff settings"])')!.parentElement!;
+	const classes = 'diffbar-item d-flex hide-sm hide-md';
 
 	if (!isHidingWhitespace()) {
 		originalToggle.after(
-			<div className="diffbar-item d-flex">{createWhitespaceButton()}</div>,
+			<div className={classes}>{createWhitespaceButton()}</div>,
 		);
 	}
 
 	originalToggle.after(
-		<div className="diffbar-item d-flex">{createDiffStyleToggle()}</div>,
+		<div className={classes}>{createDiffStyleToggle()}</div>,
 	);
+
+	originalToggle.remove();
 
 	// Trim title
 	const prTitle = select('.pr-toolbar .js-issue-title');
@@ -115,13 +117,17 @@ function initPR(signal: AbortSignal): void {
 		prTitle.title = prTitle.textContent!;
 	}
 
-	originalToggle.classList.add('d-lg-none');
-
 	// Make space for the new button by removing "Changes from" #655
 	select('[data-hotkey="c"] strong')!.previousSibling!.remove();
 
 	// Remove extraneous padding around "Clear filters" button
 	select('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-sm-2');
+}
+
+function initPR(signal: AbortSignal): void {
+	// There are two "diff settings" element, one for mobile and one for the desktop. We only replace the one for the desktop
+	observe('.hide-sm.hide-md [aria-label="Diff settings"]', attachPRButtons, {signal});
+	delegate(document, diffSwitchButtons.selector, 'click', alternateDiffNatively, {signal});
 }
 
 function attachButtons(nativeDiffButtons: HTMLElement): void {
@@ -130,15 +136,13 @@ function attachButtons(nativeDiffButtons: HTMLElement): void {
 
 	// `usesFloats` is necessary to ensure the order and spacing as seen in #5958
 	const usesFloats = anchor?.classList.contains('float-right');
-	attachElement(usesFloats ? {
-		anchor,
+	attachElement(anchor, usesFloats ? {
 		after: () => (
 			<div className="float-right mr-3">
 				{createWhitespaceButton()}
 			</div>
 		),
 	} : {
-		anchor,
 		before: createWhitespaceButton,
 	});
 }
@@ -160,7 +164,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isPRFile404,
 	],
-	deduplicate: 'has-rgh-inner',
 	init: initPR,
 }, {
 	shortcuts,
@@ -168,6 +171,7 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleCommit,
 		pageDetect.isCompare,
 	],
+	awaitDomReady: false,
 	init,
 });
 

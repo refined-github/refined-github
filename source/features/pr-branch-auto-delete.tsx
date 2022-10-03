@@ -26,8 +26,7 @@ async function init(): Promise<void> {
 		stopOnDomReady: false,
 	});
 
-	attachElement({
-		anchor: deletionEvent!.closest('.TimelineItem-body')!,
+	attachElement(deletionEvent!.closest('.TimelineItem-body'), {
 		append() {
 			const url = featureLink(features.getFeatureID(import.meta.url));
 			return <a className="d-inline-block" href={url}>via Refined GitHub <InfoIcon/></a>;

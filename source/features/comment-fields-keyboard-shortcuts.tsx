@@ -83,6 +83,5 @@ void features.add(import.meta.url, {
 		pageDetect.hasRichTextEditor,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh-inner',
 	init,
 });

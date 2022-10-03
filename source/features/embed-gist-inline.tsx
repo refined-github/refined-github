@@ -1,10 +1,23 @@
 import React from 'dom-chef';
 import domify from 'doma';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import mem from 'mem';
 
 import features from '../feature-manager';
 import {getCleanPathname} from '../github-helpers';
+import observe from '../helpers/selector-observer';
+
+type GistData = {
+	div: string;
+	files: unknown[];
+	stylesheet: string;
+};
+
+// Fetch via background.js due to CORB policies. Also memoize to avoid multiple requests.
+const fetchGist = mem(
+	async (url: string): Promise<GistData> =>
+		browser.runtime.sendMessage({fetchJSON: `${url}.json`}),
+);
 
 function parseGistLink(link: HTMLAnchorElement): string | undefined {
 	if (link.host === 'gist.github.com') {
@@ -18,6 +31,7 @@ function parseGistLink(link: HTMLAnchorElement): string | undefined {
 	return undefined;
 }
 
+// TODO: Replace with updated github-url-detection: isGistFile(link)
 function isGist(link: HTMLAnchorElement): boolean {
 	return parseGistLink(link)?.replace(/[^/]/g, '').length === 1; // Exclude user links and file links
 }
@@ -29,8 +43,7 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 	link.after(info);
 
 	try {
-		// Fetch via background.js due to CORB policies
-		const gistData = await browser.runtime.sendMessage({fetchJSON: `${link.href}.json`});
+		const gistData = await fetchGist(link.href);
 		if (gistData.div.length > 10_000) {
 			info.textContent = ' (too large to embed)';
 			return;
@@ -60,18 +73,18 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 	}
 }
 
-function init(): void {
-	for (const link of select.all('.js-comment-body p a:only-child')) {
+function init(signal: AbortSignal): void {
+	observe('.js-comment-body p a:only-child', link => {
 		if (isGist(link) && isOnlyChild(link)) {
 			void embedGist(link);
 		}
-	}
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 	],
-	deduplicate: 'has-rgh',
+	awaitDomReady: false,
 	init,
 });

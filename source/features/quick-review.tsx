@@ -21,8 +21,7 @@ function createReviewLink(): Element {
 }
 
 function addSidebarReviewButton(reviewersSection: Element): void {
-	attachElement({
-		anchor: reviewersSection,
+	attachElement(reviewersSection, {
 		append: createReviewLink,
 	});
 }

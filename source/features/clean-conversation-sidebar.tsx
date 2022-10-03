@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import onElementRemoval from '../helpers/on-element-removal';
-import onDiscussionSidebarUpdate from '../github-events/on-discussion-sidebar-update';
+import observe from '../helpers/selector-observer';
 
 const canEditSidebar = onetime((): boolean => select.exists('.discussion-sidebar-item [data-hotkey="l"]'));
 
@@ -64,11 +64,7 @@ function cleanSection(selector: string): boolean {
 	return true;
 }
 
-async function init(signal: AbortSignal): Promise<void> {
-	if (select.exists('.rgh-clean-sidebar')) {
-		return;
-	}
-
+async function cleanSidebar(): Promise<void> {
 	select('#partial-discussion-sidebar')!.classList.add('rgh-clean-sidebar');
 
 	// Assignees
@@ -90,7 +86,8 @@ async function init(signal: AbortSignal): Promise<void> {
 	if (pageDetect.isPR()) {
 		const possibleReviewers = select('[src$="/suggested-reviewers"]');
 		if (possibleReviewers) {
-			await onElementRemoval(possibleReviewers, signal);
+			// TODO: This blocks the whole function, it should be extracted
+			await onElementRemoval(possibleReviewers);
 		}
 
 		const content = select('[aria-label="Select reviewers"] > .css-truncate')!;
@@ -125,13 +122,13 @@ async function init(signal: AbortSignal): Promise<void> {
 	cleanSection('[aria-label="Select milestones"]');
 }
 
+function init(signal: AbortSignal): void {
+	observe('#partial-discussion-sidebar', cleanSidebar, {signal});
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],
-	additionalListeners: [
-		onDiscussionSidebarUpdate,
-	],
-	deduplicate: 'has-rgh-inner',
 	init,
 });

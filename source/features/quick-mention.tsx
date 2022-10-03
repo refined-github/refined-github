@@ -9,7 +9,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import {wrap} from '../helpers/dom-utils';
 import features from '../feature-manager';
 import {getUsername} from '../github-helpers';
-import onNewComments from '../github-events/on-new-comments';
+import observe from '../helpers/selector-observer';
 
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
@@ -32,23 +32,18 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	textFieldEdit.insert(newComment, `${spacer}${prefixUserMention(userMention)} `);
 }
 
-function init(): void {
-	// TODO: Restore signal
-	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser);
+function init(signal: AbortSignal): void {
+	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser, {signal});
 
 	// `:first-child` avoids app badges #2630
 	// The hovercard attribute avoids `highest-rated-comment`
 	// Avatars next to review events aren't wrapped in a <div> #4844
-	const avatars = select.all(`
+	observe(`
 		:is(
 			div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
 			a.TimelineItem-avatar
-		):not(
-			[href="/${getUsername()!}"],
-			.rgh-quick-mention
-		)
-	`);
-	for (const avatar of avatars) {
+		):not([href="/${getUsername()!}"])
+	`, avatar => {
 		const timelineItem = avatar.closest('.TimelineItem')!;
 
 		if (
@@ -56,7 +51,7 @@ function init(): void {
 			select.exists('.minimized-comment', timelineItem) // Hidden comments
 			|| !select.exists('.timeline-comment', timelineItem) // Reviews without a comment
 		) {
-			continue;
+			return;
 		}
 
 		// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
@@ -76,7 +71,7 @@ function init(): void {
 				<ReplyIcon/>
 			</button>,
 		);
-	}
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -84,12 +79,10 @@ void features.add(import.meta.url, {
 		pageDetect.isConversation,
 	],
 	exclude: [
-		() => select.exists('.conversation-limited'), // Conversation is locked
 		pageDetect.isArchivedRepo,
 	],
-	additionalListeners: [
-		onNewComments,
-	],
-	deduplicate: 'has-rgh-inner',
+	// Can't because `isArchivedRepo` is DOM-based
+	// Also not needed since it appears on hover
+	// awaitDomReady: false,
 	init,
 });

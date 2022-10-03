@@ -38,15 +38,15 @@ function getCiDetails(commit: string): HTMLElement {
 	);
 }
 
-async function init(): Promise<false | void> {
+async function init(): Promise<void> {
 	const head = await getHead();
 	const repoTitle = await elementReady('[itemprop="name"]');
 
-	attachElement({
+	attachElement(
 		// Append to repo title (aware of forks and private repos)
-		anchor: repoTitle!.parentElement,
-		append: () => getCiDetails(head),
-	});
+		repoTitle!.parentElement,
+		{append: () => getCiDetails(head)},
+	);
 }
 
 void features.add(import.meta.url, {
@@ -57,7 +57,6 @@ void features.add(import.meta.url, {
 		pageDetect.isEmptyRepo,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh',
 	init,
 });
 
