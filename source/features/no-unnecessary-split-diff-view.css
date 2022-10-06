@@ -1,27 +1,30 @@
+/* The selector looks for diff tables WITHOUT changes on the left XOR on the right */
+/* Instead of duplicating this selector for each rule, we set a variable and pick it up where needed */
 .rgh-no-unnecessary-split-diff-view .js-diff-table:not(
 :has([data-split-side='left']:is(.blob-code-addition, .blob-code-deletion))
-) :is([data-hunk], .blob-expanded) td:nth-child(2),
-.rgh-no-unnecessary-split-diff-view .js-diff-table:not(
-:has([data-split-side='right']:is(.blob-code-addition, .blob-code-deletion))
-) :is([data-hunk], .blob-expanded) td:nth-child(4) {
-	display: none !important;
-	width: 0 !important;
-}
-
-.rgh-no-unnecessary-split-diff-view .js-diff-table:not(
-:has([data-split-side='left']:is(.blob-code-addition, .blob-code-deletion))
-),
-.rgh-no-unnecessary-split-diff-view .js-diff-table:not(
-:has([data-split-side='right']:is(.blob-code-addition, .blob-code-deletion))
 ) {
+	--rgh-only-additions: none;
 	table-layout: auto !important;
 }
 
 .rgh-no-unnecessary-split-diff-view .js-diff-table:not(
-:has([data-split-side='left']:is(.blob-code-addition, .blob-code-deletion))
-) :is(.inline-comments, .js-inline-annotations) .empty-cell:not(.blob-num),
-.rgh-no-unnecessary-split-diff-view .js-diff-table:not(
 :has([data-split-side='right']:is(.blob-code-addition, .blob-code-deletion))
-) :is(.inline-comments, .js-inline-annotations) .empty-cell:not(.blob-num) {
-	display: none !important;
+) {
+	--rgh-only-deletions: none;
+	table-layout: auto !important;
+}
+
+/* Only additions: Hide the left side */
+.rgh-no-unnecessary-split-diff-view :is([data-hunk], .blob-expanded) td:nth-child(2) {
+	display: var(--rgh-only-additions, table-cell) !important;
+}
+
+/* Only deletions: Hide the right side */
+.rgh-no-unnecessary-split-diff-view :is([data-hunk], .blob-expanded) td:nth-child(4) {
+	display: var(--rgh-only-deletions, table-cell) !important;
+}
+
+/* Any applicable situation: Re-align annotations, which are always on the left */
+.rgh-no-unnecessary-split-diff-view :is(.inline-comments, .js-inline-annotations) td:nth-child(2) {
+	display: var(--rgh-only-additions, var(--rgh-only-deletions, table-cell)) !important;
 }
