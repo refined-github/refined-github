@@ -24,8 +24,20 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 
 [<img src="https://raw.githubusercontent.com/iamcal/emoji-data/08ec822c38e0b7a6fea0b92a9c42e02b6ba24a84/img-apple-160/1f99a.png" width="48" valign="middle">](https://github.com/sponsors/fregante) _If you love Refined GitHub, consider [sponsoring or hiring](https://github.com/sponsors/fregante) the maintainer [@fregante](https://twitter.com/fregante)_
 
----
 
+<div align="center">
+
+<table><tr><td width="700"><div align="center">
+ 	<p><sup><a href="https://github.com/sponsors/fregante">@fregante</a>’s open source work is supported by the community.<br>Special thanks to:</sup></p>
+ 	<a href="https://www.runforesight.com/?utm_source=refined-github&utm_medium=sponsorship">
+ 		<div>
+			<img src="https://assets.website-files.com/6294d502b5093e77fbb91f34/62961f5af42e71349bb43e22_Foresight%20Logo%20Main.svg" width="220" alt="Foresight">
+		</div>
+ 		<sup>Full visibility and deep insights into the health and performance of your tests and GitHub Actions Workflows. Assess the risk of changes, resolve bottlenecks, reduce build times, and deliver high-quality software at speed with Foresight.</sup>
+ 	</a>
+</table>
+
+<table><tr><td width="700">
 <div align="center">
 	<p>
 		<sup>
@@ -49,9 +61,7 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 		</div>
 		<b>Your app, enterprise-ready.</b>
 		<div>
-			<sub>Start selling to enterprise customers with just a few lines of code.</sub>
-			<br>
-			<sup>Add Single Sign-On (and more) in minutes instead of months.</sup>
+			<sub>Start selling to enterprise customers with just a few lines of code. Add Single Sign-On (and more) in minutes instead of months.</sup>
 		</div>
 	</a>
 	<br>
@@ -60,9 +70,7 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 		<div>
 			<img src="https://sindresorhus.com/assets/thanks/oss-capital-logo-white-bg2.svg" width="300" alt="OSS Capital">
 		</div>
-		<sub>Founded in 2018, OSS Capital is the first and only venture capital platform focused</sub>
-		<br>
-		<sup>exclusively on supporting early-stage COSS (commercial open source) startup founders.</sup>
+		<sub>Founded in 2018, OSS Capital is the first and only venture capital platform focused exclusively on supporting early-stage COSS (commercial open source) startup founders.</sup>
 	</a>
 	<br>
 	<br>
@@ -74,14 +82,13 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 		<b>Dev environments built for the cloud</b>
 		<div>
 			<sub>
-			Natively integrated with GitLab, GitHub, and Bitbucket, Gitpod automatically and continuously prebuilds dev
-			<br>
-			environments for all your branches. As a result team members can instantly start coding with fresh dev environments
-			<br>
-			for each new task - no matter if you are building a new feature, want to fix a bug, or work on a code review.
+			Natively integrated with GitLab, GitHub, and Bitbucket, Gitpod automatically and continuously prebuilds dev environments for all your branches. As a result team members can instantly start coding with fresh dev environments for each new task - no matter if you are building a new feature, want to fix a bug, or work on a code review.
 			</sub>
 		</div>
 	</a>
+</div>
+</table>
+
 </div>
 
 ---
