@@ -73,8 +73,8 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: matrix.os == 'ubuntu-latest'
         with:
-         name: refined-github
-         path: distribution
+          name: refined-github
+          path: distribution
 
   Safari:
     runs-on: macos-12
