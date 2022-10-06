@@ -1,29 +1,15 @@
-.rgh-no-unnecessary-split-diff-view
-	.js-diff-table:not(:has([data-split-side="left"]:is(.blob-code-addition, .blob-code-deletion)))
-	:is([data-hunk], .blob-expanded)
-	td:nth-child(2),
-.rgh-no-unnecessary-split-diff-view
-	.js-diff-table:not(:has([data-split-side="right"]:is(.blob-code-addition, .blob-code-deletion)))
-	:is([data-hunk], .blob-expanded)
-	td:nth-child(4) {
+.rgh-no-unnecessary-split-diff-view .js-diff-table:not(:has([data-split-side='left']:is(.blob-code-addition, .blob-code-deletion))) :is([data-hunk], .blob-expanded) td:nth-child(2),
+.rgh-no-unnecessary-split-diff-view .js-diff-table:not(:has([data-split-side='right']:is(.blob-code-addition, .blob-code-deletion))) :is([data-hunk], .blob-expanded) td:nth-child(4) {
 	display: none !important;
 	width: 0 !important;
 }
 
-.rgh-no-unnecessary-split-diff-view
-	.js-diff-table:not(:has([data-split-side="left"]:is(.blob-code-addition, .blob-code-deletion))),
-.rgh-no-unnecessary-split-diff-view
-	.js-diff-table:not(:has([data-split-side="right"]:is(.blob-code-addition, .blob-code-deletion))) {
+.rgh-no-unnecessary-split-diff-view .js-diff-table:not(:has([data-split-side='left']:is(.blob-code-addition, .blob-code-deletion))),
+.rgh-no-unnecessary-split-diff-view .js-diff-table:not(:has([data-split-side='right']:is(.blob-code-addition, .blob-code-deletion))) {
 	table-layout: auto !important;
 }
 
-.rgh-no-unnecessary-split-diff-view
-	.js-diff-table:not(:has([data-split-side="left"]:is(.blob-code-addition, .blob-code-deletion)))
-	:is(.inline-comments, .js-inline-annotations)
-	.empty-cell:not(.blob-num),
-.rgh-no-unnecessary-split-diff-view
-	.js-diff-table:not(:has([data-split-side="right"]:is(.blob-code-addition, .blob-code-deletion)))
-	:is(.inline-comments, .js-inline-annotations)
-	.empty-cell:not(.blob-num) {
+.rgh-no-unnecessary-split-diff-view .js-diff-table:not(:has([data-split-side='left']:is(.blob-code-addition, .blob-code-deletion))) :is(.inline-comments, .js-inline-annotations) .empty-cell:not(.blob-num),
+.rgh-no-unnecessary-split-diff-view .js-diff-table:not(:has([data-split-side='right']:is(.blob-code-addition, .blob-code-deletion))) :is(.inline-comments, .js-inline-annotations) .empty-cell:not(.blob-num) {
 	display: none !important;
 }
