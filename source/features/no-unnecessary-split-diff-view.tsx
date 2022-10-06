@@ -10,24 +10,17 @@ void features.addCssFeature(import.meta.url, [
 /*
 
 ## Test URLs
-### Right side only
 
-https://github.com/sindresorhus/refined-github/pull/4296/files?diff=split
+### PR files
 
-### Left side only
-
-https://github.com/sindresorhus/refined-github/pull/3637/files?diff=split
-
-### Single-side split diffs & regular split diffs
-
-https://github.com/sindresorhus/refined-github/pull/4382/files?diff=split
+https://github.com/refined-github/sandbox/pull/50/files?diff=split
 
 ### Compare page
 
-https://github.com/sindresorhus/refined-github/compare/main...cheap-glitch:add-hide-empty-split-diff-side?diff=split
+https://github.com/refined-github/sandbox/compare/no-unnecessary-split-diff-view?expand=1&diff=split
 
 ### Single commit
 
-https://github.com/sindresorhus/refined-github/commit/3b1359ea465ff5c4d3f0f79e2d6781c7ce9a8283?diff=split
+https://github.com/refined-github/sandbox/commit/c28cc8e5271452b5b4c347d46a63f717c29417d6?diff=split
 
 */
