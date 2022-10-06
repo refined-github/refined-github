@@ -5,7 +5,7 @@
 		"vitest": "vitest --run",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
-		"build:webpack": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" webpack --mode=production",
+		"build:esbuild": "node --loader ts-node/esm build/esbuild.ts",
 		"fix": "run-p \"lint:* -- --fix\"",
 		"lint": "run-p lint:* --continue-on-error",
 		"lint:css": "stylelint \"source/**/*.css\"",
@@ -16,7 +16,7 @@
 		"test:features": "node --loader ts-node/esm \"build/verify-features.ts\"",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
-		"watch:webpack": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" webpack --mode=development --watch"
+		"watch:esbuild": "npm run build:esbuild -- - --watch"
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo",
@@ -95,6 +95,7 @@
 		"css-loader": "^6.7.1",
 		"daily-version": "^2.0.0",
 		"dot-json": "^1.2.2",
+		"esbuild": "^0.15.10",
 		"esbuild-loader": "^2.20.0",
 		"eslint-config-xo-react": "^0.27.0",
 		"eslint-plugin-react": "^7.31.8",

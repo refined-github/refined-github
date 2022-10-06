@@ -60,7 +60,6 @@
 	"overrides": [
 		{
 			"files": [
-				"webpack.config.ts",
 				"build/*"
 			],
 			"rules": {

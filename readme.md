@@ -38,6 +38,8 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 </table>
 
 <table><tr><td width="700">
+---
+
 <div align="center">
 	<p>
 		<sup>
