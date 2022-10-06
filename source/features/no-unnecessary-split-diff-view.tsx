@@ -15,6 +15,10 @@ void features.addCssFeature(import.meta.url, [
 
 https://github.com/refined-github/sandbox/pull/50/files?diff=split
 
+### PR files with annotations
+
+https://github.com/fregante/sandbox/pull/30/files
+
 ### Compare page
 
 https://github.com/refined-github/sandbox/compare/no-unnecessary-split-diff-view?expand=1&diff=split
