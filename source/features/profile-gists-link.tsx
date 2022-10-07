@@ -56,7 +56,7 @@ async function appendTab(navigationBar: Element): Promise<void> {
 	navigationBar.replaceWith(navigationBar);
 
 	select('.js-responsive-underlinenav .dropdown-menu ul')!.append(
-		createDropdownItem('Gists', getUser().url),
+		createDropdownItem('Gists', user.url),
 	);
 
 	const count = await getGistCount(user.name);
