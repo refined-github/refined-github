@@ -31,7 +31,7 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
  	<p><sup><a href="https://github.com/sponsors/fregante">@fregante</a>’s open source work is supported by the community.<br>Special thanks to:</sup></p>
  	<a href="https://www.runforesight.com/?utm_source=refined-github&utm_medium=sponsorship">
  		<div>
-			<img src="https://assets.website-files.com/6294d502b5093e77fbb91f34/62961f5af42e71349bb43e22_Foresight%20Logo%20Main.svg" width="220" alt="Foresight">
+			<img src="https://user-images.githubusercontent.com/1402241/194528204-2b67860c-ca74-4b11-b664-723c50ae8e23.svg" width="220" alt="Foresight">
 		</div>
  		<sup>Full visibility and deep insights into the health and performance of your tests and GitHub Actions Workflows. Assess the risk of changes, resolve bottlenecks, reduce build times, and deliver high-quality software at speed with Foresight.</sup>
  	</a>
