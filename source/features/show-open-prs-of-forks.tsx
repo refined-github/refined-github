@@ -18,7 +18,7 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: nu
 		search(
 			first: 100,
 			type: ISSUE,
-			query: "repo:${forkedRepo} is:pr is:open author:${getUsername()!}"
+			query: "is:pr is:open archived:false repo:${forkedRepo} author:${getUsername()!}"
 		) {
 			nodes {
 				... on PullRequest {
