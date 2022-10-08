@@ -22,8 +22,10 @@
 /* Add "box" style to each event group */
 /* This exact `>` sequence ensures it works on ajaxed-in events */
 .rgh-clean-dashboard [role='tabpanel'] [data-repository-hovercards-enabled] > [class] > .body,
+.rgh-clean-dashboard [role='tabpanel'] [data-repository-hovercards-enabled] > [classes] > .body,
 /* The organization newsfeed doesn't yet support the new style */
-.rgh-clean-dashboard .news > [data-repository-hovercards-enabled] > [class] > .body {
+.rgh-clean-dashboard .news > [data-repository-hovercards-enabled] > [class] > .body,
+.rgh-clean-dashboard .news > [data-repository-hovercards-enabled] > [classes] > .body {
 	background-color: var(--color-canvas-default);
 	border: 1px solid var(--color-border-muted);
 	border-radius: 4px;
