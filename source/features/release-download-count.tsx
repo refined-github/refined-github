@@ -48,7 +48,7 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 async function addCounts(assetsList: HTMLElement): Promise<void> {
 	const releaseName = assetsList
 		.closest('[data-test-selector="release-card"]')!
-		.previousElementSibling!
+		.parentElement!
 		.querySelector('.octicon-tag ~ span')!
 		.textContent!
 		.trim();
