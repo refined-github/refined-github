@@ -1,6 +1,7 @@
 {
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
+		"baseUrl": ".",
 		"target": "es2021",
 		"module": "es2022",
 		"moduleResolution": "Node",
@@ -8,7 +9,10 @@
 		"declaration": false,
 		"esModuleInterop": true,
 		"noUncheckedIndexedAccess": false,
-		"noPropertyAccessFromIndexSignature": false
+		"noPropertyAccessFromIndexSignature": false,
+		"paths": {
+			"react": ["node_modules/dom-chef/index.js"]
+		}
 	},
 	"include": [
 		"source",

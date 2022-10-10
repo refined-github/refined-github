@@ -1,8 +1,9 @@
 import {createRequire} from 'node:module';
 
 import esbuild from 'esbuild';
+import {copy} from 'esbuild-plugin-copy';
 
-import {getFeatures, getFeaturesMeta} from './readme-parser.js';
+import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js';
 
 const {resolve: resolvePackage} = createRequire(import.meta.url);
 
@@ -11,7 +12,7 @@ const readmeLoader: esbuild.Plugin = {
 	setup(build) {
 		build.onLoad({filter: /readme\.md$/}, () => ({
 			contents: `
-				export const featureList = ${JSON.stringify(getFeatures())};
+				export const importedFeatures = ${JSON.stringify(getImportedFeatures())};
 				export const featuresMeta = ${JSON.stringify(getFeaturesMeta())};
 			`,
 			loader: 'js',
@@ -27,15 +28,21 @@ void esbuild.build({
 		'source/refined-github.ts',
 	],
 	bundle: true,
+	logLevel: 'info',
 	watch: process.argv[2] === '--watch',
-	outdir: 'distribution/build',
+	outdir: 'distribution',
 	external: ['chrome:*'],
-	plugins: [readmeLoader],
+	plugins: [readmeLoader, copy({
+		assets: [{
+			from: ['source/*.+(html|json|png)'],
+			to: 'ignored-but-needed🤷‍♂️',
+		}],
+	})],
 });
 
 void esbuild.build({
 	entryPoints: [
 		resolvePackage('webextension-polyfill'),
 	],
-	outdir: 'distribution/build',
+	outdir: 'distribution',
 });
