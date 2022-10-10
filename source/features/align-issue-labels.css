@@ -4,7 +4,7 @@
 	flex-wrap: wrap;
 }
 
-.rgh-align-issue-labels .js-issue-row .lh-default.d-block.d-md-inline { /* Labels */
+.rgh-align-issue-labels .js-issue-row .min-width-0 > .lh-default { /* Labels */
 	order: 1;
 }
 
@@ -28,3 +28,14 @@
 	margin-top: 4px;
 	font-size: 11px !important;
 }
+
+/*
+
+# Test URLs
+
+https://github.com/pulls
+https://github.com/bmish/eslint-doc-generator/pulls
+https://github.com/bmish/eslint-doc-generator/issues
+https://github.com/bmish/eslint-doc-generator/milestone/1
+
+*/
