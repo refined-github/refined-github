@@ -24,7 +24,7 @@
 	display: var(--rgh-only-deletions, table-cell) !important;
 }
 
-/* Any applicable situation: Re-align annotations, which are always on the left */
-.rgh-no-unnecessary-split-diff-view :is(.inline-comments, .js-inline-annotations) td:nth-child(2) {
+/* Any applicable situation: Re-align annotations */
+.rgh-no-unnecessary-split-diff-view :is(.inline-comments, .js-inline-annotations) .empty-cell:not(.blob-num) {
 	display: var(--rgh-only-additions, var(--rgh-only-deletions, table-cell)) !important;
 }
