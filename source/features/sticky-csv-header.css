@@ -1,20 +1,4 @@
-/* Let whole viewport scroll instead of only the table */
-.markdown-body .csv-data {
-	max-width: none;
-	overflow: visible;
-}
-
-.blob-wrapper.type-csv {
-	overflow: visible;
-}
-
-/* Make headers sticky */
-.markdown-body .csv-data thead :is(td, th) {
-	position: sticky;
-	top: 0;
-	z-index: 1;
-}
-
+/* Make first column sticky */
 .markdown-body .csv-data :is(td, th):first-child {
 	position: sticky;
 	left: 0;
@@ -22,11 +6,11 @@
 	background-clip: padding-box;
 }
 
-.markdown-body .csv-data thead :is(td, th):first-child {
-	z-index: 2;
+/* Prevent double borders */
+.markdown-body .csv-data :is(td, th):last-child {
+	border-right: none;
 }
 
-/* Fix bottom border appearance */
 .blob-wrapper.type-csv,
 .Box:has(.csv-data) {
 	/* stylelint-disable-next-line declaration-property-value-disallowed-list -- https://github.com/xojs/stylelint-config-xo/pull/17 */
