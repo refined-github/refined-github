@@ -13,9 +13,7 @@
 
 .blob-wrapper.type-csv,
 .Box:has(.csv-data) {
-	/* stylelint-disable-next-line declaration-property-value-disallowed-list -- https://github.com/xojs/stylelint-config-xo/pull/17 */
 	border-bottom-right-radius: 0;
-	/* stylelint-disable-next-line declaration-property-value-disallowed-list -- https://github.com/xojs/stylelint-config-xo/pull/17 */
 	border-bottom-left-radius: 0;
 	border-bottom: none;
 }
