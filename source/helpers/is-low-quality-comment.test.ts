@@ -27,7 +27,9 @@ describe('isLowQualityComment', () => {
 		'+1 and thank you for your work',
 		'Same here, please update, thanks',
 		'Same here! Please update, thank you.',
-	])('%s', text => assert.isTrue(isLowQualityComment(text)));
+	])('%s', text => {
+		assert.isTrue(isLowQualityComment(text));
+	});
 
 	test.each([
 		'+1\n<some useful information>',
@@ -35,5 +37,7 @@ describe('isLowQualityComment', () => {
 		'Same here on v1.2',
 		'Thanks!',
 		'Thank you 👍',
-	])('%s', text => assert.isFalse(isLowQualityComment(text)));
+	])('%s', text => {
+		assert.isFalse(isLowQualityComment(text));
+	});
 });
