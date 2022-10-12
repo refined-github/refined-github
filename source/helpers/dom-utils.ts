@@ -89,10 +89,6 @@ export const assertNodeContent = <N extends Text | ChildNode>(node: N, expectati
 };
 
 export const removeTextNode = (node: Text | ChildNode, expectation: RegExp | string): void => {
-	const content = node.textContent!.trim();
-	if (!matchString(expectation, content)) {
-		throw new TypeError(`Expected node matching "${escapeMatcher(expectation)}", found "${content}"`);
-	}
-
+	assertNodeContent(node, expectation);
 	node.remove();
 };
