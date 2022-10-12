@@ -7,6 +7,8 @@ import features from '../feature-manager';
 import {getRepo} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
 import attachElement from '../helpers/attach-element';
+import select from 'select-dom';
+import { assertNodeContent } from '../helpers/dom-utils';
 
 function getUrl(): string {
 	const url = new URL('https://useful-forks.github.io');
@@ -33,12 +35,14 @@ async function init(): Promise<void | false> {
 function createBannerLink(): JSX.Element {
 	// It must return an element for `attachElement`. It includes a space
 	return (
-		<span> You can find <a href={getUrl()} target="_blank" rel="noreferrer">useful-forks.github.io</a></span>
+		<span> You can use <a href={getUrl()} target="_blank" rel="noreferrer">useful-forks.github.io</a></span>
 	);
 }
 
 function initArchivedRepoBanner(): void {
-	attachElement('.flash-full', {
+	const banner = select('#js-repo-pjax-container > .flash-warn:first-child')!;
+	assertNodeContent(banner, 'repository has been archived');
+	attachElement(banner, {
 		append: createBannerLink,
 	});
 }
@@ -61,7 +65,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isArchivedRepo,
 	],
-	// Can't because `isArchivedRepo` is DOM-based
+	// Can't because `isArchivedRepo` and `isPublicRepo` are DOM-based
 	// awaitDomReady: false,
 	init: initArchivedRepoBanner,
 });
