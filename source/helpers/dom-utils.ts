@@ -72,3 +72,9 @@ export const unhighlightTab = (tabElement: Element): void => {
 	tabElement.classList.remove('selected');
 	tabElement.removeAttribute('aria-current');
 };
+
+export const assertNodeContent = ({textContent}: Node, includes: string): void => {
+	if (!textContent!.includes(includes)) {
+		throw new TypeError(`Expected node including "${includes}", found ${textContent!.trim()}`);
+	}
+};
