@@ -22,8 +22,10 @@ commitSelectors.push('.commit-author[href$="%5Bbot%5D"]'); // Generic `[bot]` la
 const commitSelector = commitSelectors.join(',');
 
 const prSelectors = [
-	...botNames.map(bot => `.opened-by [title*="pull requests created by ${bot}"]`),
-	...botNames.map(bot => `.opened-by [title*="pull requests opened by ${bot}"]`),
+	...botNames.flatMap(bot => [
+		`.opened-by [title*="pull requests created by ${bot}"]`,
+		`.opened-by [title*="pull requests opened by ${bot}"]`,
+	]),
 	'.opened-by [href*="author%3Aapp%2F"]', // Search query `is:pr+author:app/*`
 	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
 ];
