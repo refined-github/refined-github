@@ -74,7 +74,7 @@ async function updateView(anchor: HTMLHeadingElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	// TODO: Use `.Box:has(> #files)` instead
-	observe('.Box > h2#files', updateView, {signal});
+	observe('.Box h2#files', updateView, {signal});
 	delegate(document, `.${toggleButtonClass}, .${noticeClass}`, 'click', toggleHandler, {signal});
 }
 
