@@ -19,17 +19,16 @@ function getLinkToGitHubIo(repoTitle: HTMLElement, className?: string): JSX.Elem
 	);
 }
 
-
 function addRepoListLink(repoTitle: HTMLAnchorElement): void {
 	repoTitle.after(' ', getLinkToGitHubIo(repoTitle));
 }
 
-function addRepoHeaderLink(repoTitle: HTMLAnchorElement): void {
+function addRepoHeaderLink(repoTitle: HTMLElement): void {
 	repoTitle.after(getLinkToGitHubIo(repoTitle, 'mr-2'));
 }
 
- function initRepo(signal: AbortSignal): void {
-	observe('a[itemprop="name"]', addRepoHeaderLink, {signal});
+function initRepo(signal: AbortSignal): void {
+	observe('[itemprop="name"]', addRepoHeaderLink, {signal});
 }
 
 function initRepoList(signal: AbortSignal): void {
@@ -37,10 +36,12 @@ function initRepoList(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
+	include: [
+		pageDetect.hasRepoHeader,
+	],
 	asLongAs: [
 		() => Boolean(getRepo()?.name.endsWith('.github.io')),
 	],
-	deduplicate: 'has-rgh',
 	awaitDomReady: false,
 	init: initRepo,
 }, {
