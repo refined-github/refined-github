@@ -7,22 +7,39 @@
 * `.js-news-feed-event-group` is only for grouped events
 */
 
+/* TODO: Revert `classes` #6072 */
+
 /* Hide duplicate repo name in some non-grouped events */
-.rgh-clean-dashboard .dashboard :is(.watch_started, .repo, .public) .f4 .Link--primary {
+.rgh-clean-dashboard .dashboard :is(
+[classes~='watch_started'],
+[classes~='repo'],
+[classes~='public'],
+.watch_started,
+.repo,
+.public
+) .color-border-muted.flex-items-baseline .f4 .Link--primary {
 	display: none !important;
+}
+
+/* Hide duplicate avatar in sponsor events */
+.rgh-clean-dashboard .sponsor a:has(.avatar) {
+	display: none;
 }
 
 /* Drop "box" style from the repos */
 .rgh-clean-dashboard .news .body .Box {
 	padding: 0 !important;
+	margin-top: 0 !important;
 	border: none;
 	background: none;
 }
 
 /* Add "box" style to each event group */
 /* This exact `>` sequence ensures it works on ajaxed-in events */
+.rgh-clean-dashboard [role='tabpanel'] [data-repository-hovercards-enabled] > [classes] > .body,
 .rgh-clean-dashboard [role='tabpanel'] [data-repository-hovercards-enabled] > [class] > .body,
 /* The organization newsfeed doesn't yet support the new style */
+.rgh-clean-dashboard .news > [data-repository-hovercards-enabled] > [classes] > .body,
 .rgh-clean-dashboard .news > [data-repository-hovercards-enabled] > [class] > .body {
 	background-color: var(--color-canvas-default);
 	border: 1px solid var(--color-border-muted);
