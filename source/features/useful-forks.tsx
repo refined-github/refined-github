@@ -8,7 +8,7 @@ import features from '../feature-manager';
 import {getRepo} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
 import attachElement from '../helpers/attach-element';
-import { assertNodeContent } from '../helpers/dom-utils';
+import {assertNodeContent} from '../helpers/dom-utils';
 
 function getUrl(): string {
 	const url = new URL('https://useful-forks.github.io');
