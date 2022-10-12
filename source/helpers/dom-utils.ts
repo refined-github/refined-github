@@ -79,11 +79,13 @@ const matchString = (matcher: RegExp | string, string: string): boolean =>
 const escapeMatcher = (matcher: RegExp | string): string =>
 	typeof matcher === 'string' ? `"${matcher}"` : String(matcher);
 
-export const assertNodeContent = (node: Text | ChildNode, expectation: RegExp | string): void => {
+export const assertNodeContent = <N extends Text | ChildNode>(node: N, expectation: RegExp | string): N => {
 	const content = node.textContent!.trim();
 	if (!matchString(expectation, content)) {
 		throw new TypeError(`Expected node matching "${escapeMatcher(expectation)}", found "${content}"`);
 	}
+
+	return node;
 };
 
 export const removeTextNode = (node: Text | ChildNode, expectation: RegExp | string): void => {

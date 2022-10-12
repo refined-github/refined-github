@@ -27,10 +27,9 @@ function cleanFilelistActions(searchButton: Element): void {
 	if (addFileDropdown) {
 		addFileDropdown.parentElement!.classList.replace('d-md-flex', 'd-md-block');
 
-		// Replace "Add file" with icon
-		const addFileNode = addFileDropdown.previousSibling!;
-		assertNodeContent(addFileNode, 'Add file');
-		addFileNode.replaceWith(<PlusIcon/>);
+		// Replace label with icon
+		assertNodeContent(addFileDropdown.previousSibling!, 'Add file')
+			.replaceWith(<PlusIcon/>);
 
 		addTooltipToSummary(addFileDropdown, 'Add file');
 	}
