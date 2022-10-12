@@ -10,7 +10,7 @@
 /* TODO: Revert `classes` #6072 */
 
 /* Hide duplicate repo name in some non-grouped events */
-.rgh-clean-dashboard .dashboard  :is(
+.rgh-clean-dashboard .dashboard :is(
 [classes~='watch_started'],
 [classes~='repo'],
 [classes~='public'],
