@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {RepoForkedIcon} from '@primer/octicons-react';
@@ -7,7 +8,6 @@ import features from '../feature-manager';
 import {getRepo} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
 import attachElement from '../helpers/attach-element';
-import select from 'select-dom';
 import { assertNodeContent } from '../helpers/dom-utils';
 
 function getUrl(): string {
