@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getUsername, getCleanPathname} from '../github-helpers';
+import attachElement from '../helpers/attach-element';
 
 const doesUserFollow = cache.function(async (userA: string, userB: string): Promise<boolean> => {
 	const {httpStatus} = await api.v3(`/users/${userA}/following/${userB}`, {
@@ -19,11 +20,15 @@ const doesUserFollow = cache.function(async (userA: string, userB: string): Prom
 });
 
 async function init(): Promise<void> {
-	if (await doesUserFollow(getCleanPathname(), getUsername()!)) {
-		select('.js-profile-editable-area [href$="?tab=following"]')!.after(
-			<span className="color-fg-muted"> · Follows you</span>,
-		);
+	if (!await doesUserFollow(getCleanPathname(), getUsername()!)) {
+		return;
 	}
+
+	attachElement('.js-profile-editable-area [href$="?tab=following"]', {
+		after: () => (
+			<span className="color-fg-muted"> · Follows you</span>
+		),
+	});
 }
 
 void features.add(import.meta.url, {
@@ -34,6 +39,5 @@ void features.add(import.meta.url, {
 		pageDetect.isOwnUserProfile,
 		pageDetect.isPrivateUserProfile,
 	],
-	deduplicate: 'has-rgh',
 	init,
 });
