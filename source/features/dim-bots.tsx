@@ -14,6 +14,7 @@ const botNames = [
 	'scala-steward',
 	'snyk-bot',
 	'web-flow',
+	'weblate',
 ];
 
 const commitSelectors = botNames.map(bot => `.commit-author[href$="?author=${bot}"]`);
