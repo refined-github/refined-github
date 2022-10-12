@@ -13,6 +13,7 @@ function hide(item: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	/* TODO: Use :has() and skip select.exists */
+	/* TODO: Revert `classes` #6072 */
 	observe(`
 		#dashboard .news :is(
 			[classes~='watch_started'],

@@ -7,6 +7,8 @@ forked a repo
 followed someone
 published a release
 */
+
+/* TODO: Revert `classes` #6072 */
 .rgh-hide-newsfeed-noise .news :is(
 	[classes|="push"],
 	[classes|="fork"],
