@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
