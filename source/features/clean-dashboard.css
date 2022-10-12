@@ -10,20 +10,26 @@
 /* TODO: Revert `classes` #6072 */
 
 /* Hide duplicate repo name in some non-grouped events */
-.rgh-clean-dashboard .dashboard :is(
+.rgh-clean-dashboard .dashboard  :is(
 [classes~='watch_started'],
 [classes~='repo'],
 [classes~='public'],
 .watch_started,
 .repo,
 .public
-) .f4 .Link--primary {
+) .color-border-muted.flex-items-baseline .f4 .Link--primary {
 	display: none !important;
+}
+
+/* Hide duplicate avatar in sponsor events */
+.rgh-clean-dashboard .sponsor a:has(.avatar) {
+	display: none;
 }
 
 /* Drop "box" style from the repos */
 .rgh-clean-dashboard .news .body .Box {
 	padding: 0 !important;
+	margin-top: 0 !important;
 	border: none;
 	background: none;
 }
