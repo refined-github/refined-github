@@ -5,6 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
+import {removeTextNode} from '../helpers/dom-utils';
 
 async function cleanReleases(): Promise<void> {
 	const sidebarReleases = await elementReady('.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]', {waitForChildren: false});
@@ -31,7 +32,7 @@ async function cleanReleases(): Promise<void> {
 	if (tagIcon) {
 		tagIcon.classList.add('mr-2');
 		// Remove whitespace node
-		tagIcon.nextSibling!.remove();
+		removeTextNode(tagIcon.nextSibling!, '');
 	}
 }
 

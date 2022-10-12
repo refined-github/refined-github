@@ -41,7 +41,7 @@ function createBannerLink(): JSX.Element {
 
 function initArchivedRepoBanner(): void {
 	const banner = select('#js-repo-pjax-container > .flash-warn:first-child')!;
-	assertNodeContent(banner, 'repository has been archived');
+	assertNodeContent(banner, /repository has been archived/);
 	attachElement(banner, {
 		append: createBannerLink,
 	});

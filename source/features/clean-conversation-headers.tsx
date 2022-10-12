@@ -8,6 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
+import {assertNodeContent} from '../helpers/dom-utils';
 
 async function cleanIssueHeader(): Promise<void | false> {
 	const byline = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-headers)');
@@ -20,6 +21,7 @@ async function cleanIssueHeader(): Promise<void | false> {
 	// Shows on issues: octocat opened this issue on 1 Jan · [1 comments]
 	// Removes on issues: octocat opened this issue on 1 Jan [·] 1 comments
 	const commentCount = select('relative-time', byline)!.nextSibling!;
+	assertNodeContent(commentCount, /comment/);
 	commentCount.replaceWith(<span>{commentCount.textContent!.replace('·', '')}</span>);
 }
 

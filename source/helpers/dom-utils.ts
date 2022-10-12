@@ -73,8 +73,24 @@ export const unhighlightTab = (tabElement: Element): void => {
 	tabElement.removeAttribute('aria-current');
 };
 
-export const assertNodeContent = ({textContent}: Node, includes: string): void => {
-	if (!textContent!.includes(includes)) {
-		throw new TypeError(`Expected node including "${includes}", found ${textContent!.trim()}`);
+const matchString = (matcher: RegExp | string, string: string): boolean =>
+	typeof matcher === 'string' ? matcher === string : matcher.test(string);
+
+const escapeMatcher = (matcher: RegExp | string): string =>
+	typeof matcher === 'string' ? `"${matcher}"` : String(matcher);
+
+export const assertNodeContent = (node: Text | ChildNode, expectation: RegExp | string): void => {
+	const content = node.textContent!.trim();
+	if (!matchString(expectation, content)) {
+		throw new TypeError(`Expected node matching "${escapeMatcher(expectation)}", found "${content}"`);
 	}
+};
+
+export const removeTextNode = (node: Text | ChildNode, expectation: RegExp | string): void => {
+	const content = node.textContent!.trim();
+	if (!matchString(expectation, content)) {
+		throw new TypeError(`Expected node matching "${escapeMatcher(expectation)}", found "${content}"`);
+	}
+
+	node.remove();
 };

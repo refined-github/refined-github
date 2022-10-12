@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import {PlusIcon, SearchIcon, CodeIcon} from '@primer/octicons-react';
 
 import observe from '../helpers/selector-observer';
-import {wrap} from '../helpers/dom-utils';
+import {assertNodeContent, removeTextNode, wrap} from '../helpers/dom-utils';
 import features from '../feature-manager';
 
 /** Add tooltip on a wrapper to avoid breaking dropdown functionality */
@@ -28,7 +28,9 @@ function cleanFilelistActions(searchButton: Element): void {
 		addFileDropdown.parentElement!.classList.replace('d-md-flex', 'd-md-block');
 
 		// Replace "Add file" with icon
-		addFileDropdown.previousSibling!.replaceWith(<PlusIcon/>);
+		const addFileNode = addFileDropdown.previousSibling!;
+		assertNodeContent(addFileNode, 'Add file');
+		addFileNode.replaceWith(<PlusIcon/>);
 
 		addTooltipToSummary(addFileDropdown, 'Add file');
 	}
@@ -40,11 +42,10 @@ function cleanFilelistActions(searchButton: Element): void {
 		// Users with Codespaces enabled already have an icon in the button https://github.com/refined-github/refined-github/pull/5074#issuecomment-983251719
 		const codeIcon = select('.octicon-code', codeDropdownButton);
 		if (codeIcon) {
-			// Remove "Code" text
-			codeIcon.nextSibling!.remove();
+			removeTextNode(codeIcon.nextSibling!, /Code/);
 		} else {
-			// Replace "Code" text with icon
-			codeDropdownButton.firstChild!.replaceWith(<CodeIcon/>);
+			removeTextNode(codeDropdownButton.firstChild!, /Code/);
+			codeDropdownButton.prepend(<CodeIcon/>);
 		}
 	}
 }

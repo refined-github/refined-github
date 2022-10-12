@@ -5,6 +5,7 @@ import {GitPullRequestIcon, IssueOpenedIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
+import {assertNodeContent} from '../helpers/dom-utils';
 
 function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	const repository = repositoryLink.closest('li')!;
@@ -13,7 +14,9 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	select('[href*="issues?q=label%3A%22help+wanted"]', repository)?.remove();
 
 	// Place before the "Updated on" element. `previousSibling` is the "Updated on" text node
-	select('relative-time', repository)!.previousSibling!.before(
+	const anchor = select('relative-time', repository)!.previousSibling!;
+	assertNodeContent(anchor, /Updated on/);
+	anchor.before(
 		<a
 			className="Link--muted mr-3"
 			href={repositoryLink.href + '/issues'}
