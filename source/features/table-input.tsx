@@ -71,6 +71,7 @@ function addButtons(signal: AbortSignal): void {
 function init(signal: AbortSignal): void {
 	addButtons(signal);
 	delegate(document, '.rgh-table-input-cell', 'click', addTable, {signal});
+	// TODO: We can't use `mouseenter` in `delegate`! It's fired hundreds of times by just moving the mouse
 	delegate(document, '.rgh-table-input-cell', 'mouseenter', highlightSquares, {capture: true, signal});
 }
 
