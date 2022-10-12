@@ -10,11 +10,11 @@ published a release
 
 /* TODO: Revert `classes` #6072 */
 .rgh-hide-newsfeed-noise .news :is(
-	[classes|="push"],
-	[classes|="fork"],
-	[classes|="delete"],
-	[classes|="follow"],
-	[classes|="release"]
+[classes|='push'],
+[classes|='fork'],
+[classes|='delete'],
+[classes|='follow'],
+[classes|='release']
 ),
 .rgh-hide-newsfeed-noise .news :is(.push, .fork, .delete, .follow, .release) {
 	display: none !important;

@@ -11,12 +11,12 @@
 
 /* Hide duplicate repo name in some non-grouped events */
 .rgh-clean-dashboard .dashboard :is(
-	[classes~=watch_started],
-	[classes~=repo],
-	[classes~=public],
-	.watch_started,
-	.repo,
-	.public
+[classes~='watch_started'],
+[classes~='repo'],
+[classes~='public'],
+.watch_started,
+.repo,
+.public
 ) .f4 .Link--primary {
 	display: none !important;
 }
