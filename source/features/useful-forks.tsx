@@ -35,7 +35,7 @@ async function init(): Promise<void | false> {
 function createBannerLink(): JSX.Element {
 	// It must return an element for `attachElement`. It includes a space
 	return (
-		<span> You can use <a href={getUrl()} target="_blank" rel="noreferrer">useful-forks.github.io</a></span>
+		<span> You can use <a href={getUrl()}>useful-forks.github.io</a></span>
 	);
 }
 

@@ -10,8 +10,6 @@ function getLinkToGitHubIo(repoTitle: HTMLElement, className?: string): JSX.Elem
 	return (
 		<a
 			href={`https://${repoTitle.textContent!.trim()}`}
-			target="_blank"
-			rel="noopener noreferrer"
 			className={className}
 		>
 			<LinkExternalIcon className="v-align-middle"/>

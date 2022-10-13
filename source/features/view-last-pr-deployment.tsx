@@ -18,8 +18,6 @@ function init(): void {
 		<a
 			className="rgh-last-deployment btn btn-sm d-none d-md-block mr-1"
 			href={href}
-			target="_blank"
-			rel="noreferrer"
 		>
 			<LinkExternalIcon className="mr-1"/> View deployment
 		</a>,
