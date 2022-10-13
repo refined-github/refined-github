@@ -11,7 +11,6 @@ async function init(): Promise<void> {
 		<a
 			hidden
 			data-hotkey="t"
-			data-pjax="#js-repo-pjax-container"
 			href={buildRepoURL('find', getCurrentCommittish() ?? await getDefaultBranch())}
 		/>,
 	);
