@@ -31,7 +31,6 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 			<a
 				className="color-fg-accent"
 				href={href}
-				data-pjax="#repo-content-pjax-container"
 			/>,
 		);
 	}

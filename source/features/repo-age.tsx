@@ -110,8 +110,8 @@ async function init(): Promise<void> {
 		? fresh[Math.floor(Math.random() * fresh.length)]
 		: <><strong>{value}</strong> {unit} old</>;
 
-	const sidebarAboutSection = await elementReady('.repository-content .BorderGrid-cell');
-	sidebarAboutSection!.append(
+	const sidebarForksLinkIcon = await elementReady('.BorderGrid .octicon-repo-forked');
+	sidebarForksLinkIcon!.closest('.mt-2')!.append(
 		<h3 className="sr-only">Repository age</h3>,
 		<div className="mt-2">
 			<a href={firstCommitHref} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>

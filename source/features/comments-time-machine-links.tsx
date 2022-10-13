@@ -51,7 +51,7 @@ async function showTimeMachineBar(): Promise<void | false> {
 			return false;
 		}
 
-		const lastCommitDate = await elementReady('.repository-content .Box.Box--condensed relative-time', {waitForChildren: false});
+		const lastCommitDate = await elementReady('.Box.Box--condensed relative-time', {waitForChildren: false});
 		if (lastCommitDate && date > lastCommitDate.getAttribute('datetime')!) {
 			return false;
 		}
@@ -65,7 +65,7 @@ async function showTimeMachineBar(): Promise<void | false> {
 	}
 
 	const link = (
-		<a className="rgh-link-date" href={url.href} data-pjax="#repo-content-pjax-container">
+		<a className="rgh-link-date" href={url.href}>
 			view this object as it appeared at the time of the comment
 		</a>
 	);

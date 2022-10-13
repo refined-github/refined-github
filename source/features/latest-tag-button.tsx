@@ -105,7 +105,6 @@ async function init(): Promise<false | void> {
 		<a
 			className="btn btn-sm ml-0 flex-self-center css-truncate rgh-latest-tag-button"
 			href={url.href}
-			data-pjax="#repo-content-pjax-container"
 		>
 			<TagIcon className="v-align-middle"/>
 		</a>
@@ -145,7 +144,6 @@ async function init(): Promise<false | void> {
 				<a
 					className="btn btn-sm tooltipped tooltipped-ne"
 					href={buildRepoURL(`compare/${latestTag}...${defaultBranch}`)}
-					data-pjax="#repo-content-pjax-container"
 					aria-label={`Compare ${latestTag}...${defaultBranch}`}
 				>
 					<GitCompareIcon className="v-align-middle"/>
