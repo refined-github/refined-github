@@ -34,7 +34,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd distribution
-          zip -r "refined-github.zip" *
+          zip -r refined-github.zip *
           gh release create "${{ steps.daily-version.outputs.version }}" --generate-notes "refined-github.zip"
 
 
