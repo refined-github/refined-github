@@ -6,6 +6,7 @@ added someone as a collaborator
 forked a repo
 followed someone
 published a release
+edited a gollum (wiki)
 */
 
 /* TODO: Revert `classes` #6072 */
@@ -14,8 +15,9 @@ published a release
 [classes~='fork'],
 [classes~='delete'],
 [classes~='follow'],
-[classes~='release']
+[classes~='release'],
+[classes~='gollum']
 ),
-.rgh-hide-newsfeed-noise .news :is(.push, .fork, .delete, .follow, .release) {
+.rgh-hide-newsfeed-noise .news :is(.push, .fork, .delete, .follow, .release, .gollum) {
 	display: none !important;
 }
