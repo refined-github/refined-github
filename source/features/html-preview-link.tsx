@@ -22,6 +22,9 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		pageDetect.isPublicRepo,
+	],
 	include: [
 		isSingleHTMLFile,
 	],
