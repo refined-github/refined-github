@@ -6,18 +6,29 @@
 	grid-template: repeat(5, 20px) / repeat(5, 20px);
 }
 
-:root .rgh-table-input-cell {
+:root .rgh-tic {
 	padding: 1px;
 }
 
-.rgh-table-input-cell div {
+.rgh-tic div {
 	width: 18px;
 	height: 18px;
 	border: 2px solid var(--rgh-border-color);
 	border-radius: 2px;
 }
 
+/** TODO: Drop JS-based version after :has() has full support */
 .rgh-table-input:hover .selected div {
+	border-color: #79b8ff;
+	background-color: var(--color-diff-blob-hunk-num-bg, #dbedff);
+}
+
+.rgh-tic:hover div,
+.rgh-tic:is(:nth-child(5n+1)):has(~ :hover:nth-child(5n+1)) div,
+.rgh-tic:is(:nth-child(5n+1), :nth-child(5n+2)):has(~ :hover:nth-child(5n+2)) div,
+.rgh-tic:is(:nth-child(5n+1), :nth-child(5n+2), :nth-child(5n+3)):has(~ :hover:nth-child(5n+3)) div,
+.rgh-tic:is(:nth-child(5n+1), :nth-child(5n+2), :nth-child(5n+3), :nth-child(5n+4)):has(~ :hover:nth-child(5n+4)) div,
+.rgh-tic:is(:nth-child(5n+1), :nth-child(5n+2), :nth-child(5n+3), :nth-child(5n+4), :nth-child(5n+5)):has(~ :hover:nth-child(5n+5)) div {
 	border-color: #79b8ff;
 	background-color: var(--color-diff-blob-hunk-num-bg, #dbedff);
 }
