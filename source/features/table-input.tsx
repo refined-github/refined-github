@@ -8,7 +8,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../feature-manager';
 import smartBlockWrap from '../helpers/smart-block-wrap';
 import observe from '../helpers/selector-observer';
-import { isHasSelectorSupported } from '../helpers/select-has';
+import {isHasSelectorSupported} from '../helpers/select-has';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
