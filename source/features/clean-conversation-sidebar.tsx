@@ -75,7 +75,7 @@ async function cleanSidebar(): Promise<void> {
 	} else {
 		const assignYourself = select('.js-issue-assign-self');
 		if (assignYourself) {
-			removeTextNode(assignYourself.previousSibling!, 'No one -');
+			removeTextNode(assignYourself.previousSibling!, 'No one—');
 			select('[aria-label="Select assignees"] summary')!.append(
 				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>,
 			);

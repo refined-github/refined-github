@@ -82,7 +82,7 @@ const escapeMatcher = (matcher: RegExp | string): string =>
 export const assertNodeContent = <N extends Text | ChildNode>(node: N, expectation: RegExp | string): N => {
 	const content = node.textContent!.trim();
 	if (!matchString(expectation, content)) {
-		throw new TypeError(`Expected node matching "${escapeMatcher(expectation)}", found "${content}"`);
+		throw new TypeError(`Expected node matching ${escapeMatcher(expectation)}, found ${escapeMatcher(content)}`);
 	}
 
 	return node;
