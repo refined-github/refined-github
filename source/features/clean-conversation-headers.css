@@ -51,3 +51,7 @@
 .rgh-clean-conversation-headers .commit-ref-dropdown {
 	margin-top: -2px !important;
 }
+
+.rgh-clean-conversation-headers .hidden-label {
+	display: none;
+}

@@ -9,6 +9,10 @@ import features from '../feature-manager';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 
+const LABELS_TO_HIDE_IN_HEADER = new Set([
+	'bot',
+]);
+
 async function cleanIssueHeader(): Promise<void | false> {
 	const byline = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-headers)');
 	if (!byline) {
@@ -21,6 +25,17 @@ async function cleanIssueHeader(): Promise<void | false> {
 	// Removes on issues: octocat opened this issue on 1 Jan [·] 1 comments
 	const commentCount = select('relative-time', byline)!.nextSibling!;
 	commentCount.replaceWith(<span>{commentCount.textContent!.replace('·', '')}</span>);
+
+	// Remove labels with certain text contents
+	for (const label of select.all('.Label', byline)) {
+		if (!label.textContent) {
+			continue;
+		}
+
+		if (LABELS_TO_HIDE_IN_HEADER.has(label.textContent.trim())) {
+			label.classList.add('hidden-label');
+		}
+	}
 }
 
 async function cleanPrHeader(): Promise<void | false> {
