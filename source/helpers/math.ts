@@ -13,17 +13,19 @@ export function calculateMinMax(values: number[]): {min: number; max: number} {
 	};
 }
 
-export function createHeatFunc(values: number[], steps: number): (value: number) => number {
-	steps = Math.max(1, steps);
+export function createHeatIndexFunc(values: number[]): (value: number) => number {
+	const steps = 10; // GH has 10 heat colors
 	const {min, max} = calculateMinMax(values);
 
 	return (value: number) => {
 		// Inverse lerp figures out how far the value is between min & max
 		const interp = invlerp(min, max, value);
 
-		// Round to nearest step, so 5 steps can give a range from 0-5 inclusive
-		const rounded = Math.round(interp * steps);
+		// Higher heat values have a lower index, 1 is highest and 10 lowest.
+		// This maps the [0.0, 1.0] value to [10, 1].
+		const floored = Math.floor(interp * steps);
+		const heatIndex = Math.max(1, steps - floored);
 
-		return rounded;
+		return heatIndex;
 	};
 }
