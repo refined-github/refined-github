@@ -8,6 +8,7 @@ import {abbreviateNumber} from 'js-abbreviation-number';
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import observe from '../helpers/selector-observer';
+import {createHeatFunc, lerp} from '../helpers/math';
 
 type Release = {
 	releaseAssets: {
@@ -59,6 +60,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 	const releases = [[releaseName, assetsList]] as const;
 	for (const [name, release] of releases) {
 		const sortedDownloads = assets[api.escapeKey(name)].sort((a, b) => b.downloadCount - a.downloadCount);
+		const calculateHeat = createHeatFunc(sortedDownloads.map(asset => asset.downloadCount), 10);
 		for (const assetName of select.all('.octicon-package ~ a .text-bold', release)) {
 			// Match the asset in the DOM to the asset in the API response
 			for (const [index, {name, downloadCount}] of sortedDownloads.entries()) {
@@ -80,12 +82,18 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 					classes.push('text-bold');
 				}
 
+				const opacity = lerp(0.7, 1, calculateHeat(downloadCount) / 10);
+				const color = `rgba(207, 106, 38, ${opacity})`;
+
 				assetSize.after(
 					<small
 						className={classes.join(' ').replace('text-sm-left', 'text-sm-right')}
 						title="Downloads"
 					>
-						{abbreviateNumber(downloadCount)} <DownloadIcon/>
+						<span style={{color}}>
+							{abbreviateNumber(downloadCount)}
+						</span>
+						<DownloadIcon/>
 					</small>,
 				);
 			}
