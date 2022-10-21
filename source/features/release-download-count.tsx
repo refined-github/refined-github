@@ -59,37 +59,36 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 	// TODO: Use batchedFunction instead
 	const releases = [[releaseName, assetsList]] as const;
 	for (const [name, release] of releases) {
-		const sortedDownloads = assets[api.escapeKey(name)].sort((a, b) => b.downloadCount - a.downloadCount);
-		const calculateHeatIndex = createHeatIndexFunc(sortedDownloads.map(asset => asset.downloadCount));
+		const downloadCounts = new Map(assets[api.escapeKey(name)].map(asset => [asset.name, asset.downloadCount]))
+		const calculateHeatIndex = createHeatIndexFunc(Array.from(downloadCounts.values()));
 		for (const assetName of select.all('.octicon-package ~ a .text-bold', release)) {
 			// Match the asset in the DOM to the asset in the API response
-			for (const {name, downloadCount} of sortedDownloads) {
-				if (name !== assetName.textContent || downloadCount === 0) {
-					continue;
-				}
-
-				// Place next to asset size
-				const assetSize = assetName
-					.closest('.Box-row')!
-					.querySelector(':scope > .flex-justify-end > :first-child')!;
-
-				const classes = [
-					'rgh-release-download-count',
-					...assetSize.classList,
-				];
-
-				assetSize.after(
-					<small
-						className={classes.join(' ').replace('text-sm-left', 'text-sm-right')}
-						title="Downloads"
-					>
-						<span className="rgh-heat-color-dark" data-heat={calculateHeatIndex(downloadCount)}>
-							{abbreviateNumber(downloadCount)}
-						</span>
-						<DownloadIcon/>
-					</small>,
-				);
+			const downloadCount = downloadCounts.get(assetName.textContent!)
+			if (!downloadCount) {
+				continue;
 			}
+
+			// Place next to asset size
+			const assetSize = assetName
+				.closest('.Box-row')!
+				.querySelector(':scope > .flex-justify-end > :first-child')!;
+
+			const classes = [
+				'rgh-release-download-count',
+				...assetSize.classList,
+			];
+
+			assetSize.after(
+				<small
+					className={classes.join(' ').replace('text-sm-left', 'text-sm-right')}
+					title="Downloads"
+				>
+					<span className="rgh-heat-color-dark" data-heat={calculateHeatIndex(downloadCount)}>
+						{abbreviateNumber(downloadCount)}
+					</span>
+					<DownloadIcon/>
+				</small>,
+			);
 		}
 	}
 }
