@@ -27,12 +27,8 @@ async function cleanIssueHeader(): Promise<void | false> {
 	commentCount.replaceWith(<span>{commentCount.textContent!.replace('·', '')}</span>);
 
 	// Remove labels with certain text contents
-	for (const label of select.all('.Label', byline)) {
-		if (!label.textContent) {
-			continue;
-		}
-
-		if (LABELS_TO_HIDE_IN_HEADER.has(label.textContent.trim())) {
+	for (const label of select.all<HTMLSpanElement>('.Label', byline)) {
+		if (LABELS_TO_HIDE_IN_HEADER.has(label.textContent!.trim())) {
 			label.classList.add('hidden-label');
 		}
 	}
