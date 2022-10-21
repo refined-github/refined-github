@@ -7,17 +7,10 @@ export function invlerp(min: number, max: number, x: number): number {
 }
 
 export function calculateMinMax(values: number[]): {min: number; max: number} {
-	let min = values[0];
-	let max = values[0];
-	for (let i = 1; i < values.length; i++) {
-		if (values[i] < min) {
-			min = values[i];
-		} else if (values[i] > max) {
-			max = values[i];
-		}
-	}
-
-	return {min, max};
+	return {
+		min: Math.min(...values),
+		max: Math.max(...values),
+	};
 }
 
 export function createHeatFunc(values: number[], steps: number): (value: number) => number {
