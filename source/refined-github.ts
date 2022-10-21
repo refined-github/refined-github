@@ -1,6 +1,7 @@
 import './helpers/types.d.ts';
 
 import './refined-github.css';
+import './heat-map.css';
 import './features/github-bugs.css';
 import './features/tab-size.css';
 import './features/scrollable-code-and-blockquote.css';
