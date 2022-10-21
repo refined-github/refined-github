@@ -193,64 +193,83 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 }
 
 /* Heatmap colors copied from GH, because GH does not load them on every page #5637 */
-.rgh-heat-color-light[data-heat="1"] {
-    color: #f66a0a
-}
-.rgh-heat-color-light[data-heat="2"] {
-    color: rgba(246,106,10,.9)
-}
-.rgh-heat-color-light[data-heat="3"] {
-    color: rgba(246,106,10,.8)
-}
-.rgh-heat-color-light[data-heat="4"] {
-    color: rgba(246,106,10,.7)
-}
-.rgh-heat-color-light[data-heat="5"] {
-    color: rgba(246,106,10,.6)
-}
-.rgh-heat-color-light[data-heat="6"] {
-    color: rgba(246,106,10,.5)
-}
-.rgh-heat-color-light[data-heat="7"] {
-    color: rgba(246,106,10,.4)
-}
-.rgh-heat-color-light[data-heat="8"] {
-    color: rgba(246,106,10,.3)
-}
-.rgh-heat-color-light[data-heat="9"] {
-    color: rgba(246,106,10,.2)
-}
-.rgh-heat-color-light[data-heat="10"] {
-    color: rgba(246,106,10,.1)
+
+.rgh-heat-color-light[data-heat='1'] {
+	color: #f66a0a;
 }
 
-.rgh-heat-color-dark[data-heat="1"] {
-    color: #c24e00
+.rgh-heat-color-light[data-heat='2'] {
+	color: #f66a0ae6;
 }
-.rgh-heat-color-dark[data-heat="2"] {
-    color: #ac571f
+
+.rgh-heat-color-light[data-heat='3'] {
+	color: #f66a0acc;
 }
-.rgh-heat-color-dark[data-heat="3"] {
-    color: #a35b2c
+
+.rgh-heat-color-light[data-heat='4'] {
+	color: #f66a0ab3;
 }
-.rgh-heat-color-dark[data-heat="4"] {
-    color: #9a5f38
+
+.rgh-heat-color-light[data-heat='5'] {
+	color: #f66a0a99;
 }
-.rgh-heat-color-dark[data-heat="5"] {
-    color: #926245
+
+.rgh-heat-color-light[data-heat='6'] {
+	color: #f66a0a80;
 }
-.rgh-heat-color-dark[data-heat="6"] {
-    color: #896651
+
+.rgh-heat-color-light[data-heat='7'] {
+	color: #f66a0a66;
 }
-.rgh-heat-color-dark[data-heat="7"] {
-    color: #806a5e
+
+.rgh-heat-color-light[data-heat='8'] {
+	color: #f66a0a4d;
 }
-.rgh-heat-color-dark[data-heat="8"] {
-    color: #776d6a
+
+.rgh-heat-color-light[data-heat='9'] {
+	color: #f66a0a33;
 }
-.rgh-heat-color-dark[data-heat="9"] {
-    color: #6e7177
+
+.rgh-heat-color-light[data-heat='10'] {
+	color: #f66a0a1a;
 }
-.rgh-heat-color-dark[data-heat="10"] {
-    color: #6a737d
+
+.rgh-heat-color-dark[data-heat='1'] {
+	color: #c24e00;
+}
+
+.rgh-heat-color-dark[data-heat='2'] {
+	color: #ac571f;
+}
+
+.rgh-heat-color-dark[data-heat='3'] {
+	color: #a35b2c;
+}
+
+.rgh-heat-color-dark[data-heat='4'] {
+	color: #9a5f38;
+}
+
+.rgh-heat-color-dark[data-heat='5'] {
+	color: #926245;
+}
+
+.rgh-heat-color-dark[data-heat='6'] {
+	color: #896651;
+}
+
+.rgh-heat-color-dark[data-heat='7'] {
+	color: #806a5e;
+}
+
+.rgh-heat-color-dark[data-heat='8'] {
+	color: #776d6a;
+}
+
+.rgh-heat-color-dark[data-heat='9'] {
+	color: #6e7177;
+}
+
+.rgh-heat-color-dark[data-heat='10'] {
+	color: #6a737d;
 }
