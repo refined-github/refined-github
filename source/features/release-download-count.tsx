@@ -59,11 +59,11 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 	// TODO: Use batchedFunction instead
 	const releases = [[releaseName, assetsList]] as const;
 	for (const [name, release] of releases) {
-		const downloadCounts = new Map(assets[api.escapeKey(name)].map(asset => [asset.name, asset.downloadCount]))
-		const calculateHeatIndex = createHeatIndexFunc(Array.from(downloadCounts.values()));
+		const downloadCounts = new Map(assets[api.escapeKey(name)].map(asset => [asset.name, asset.downloadCount]));
+		const calculateHeatIndex = createHeatIndexFunc([...downloadCounts.values()]);
 		for (const assetName of select.all('.octicon-package ~ a .text-bold', release)) {
 			// Match the asset in the DOM to the asset in the API response
-			const downloadCount = downloadCounts.get(assetName.textContent!)
+			const downloadCount = downloadCounts.get(assetName.textContent!);
 			if (!downloadCount) {
 				continue;
 			}
