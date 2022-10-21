@@ -30,6 +30,7 @@
 
 /* Removes on issues: [octocat] opened this issue on 1 Jan · 1 comments */
 /* Removes on PRs: [octocat] merged 1 commit into master from feature */
+.rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author .author + .Label,
 .rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author .author {
 	display: none;
 }
@@ -50,8 +51,4 @@
 /* Fixes vertical alignment of base branch dropdown #5598 */
 .rgh-clean-conversation-headers .commit-ref-dropdown {
 	margin-top: -2px !important;
-}
-
-.rgh-clean-conversation-headers .hidden-label {
-	display: none;
 }
