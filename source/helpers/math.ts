@@ -4,11 +4,11 @@
  *
  * @param min Lowest value in the range
  * @param max Highest value in the range
- * @param t Interpolation amount from 0.0 to 1.0 (or beyond to get a value outside the range [min, max])
+ * @param interpolation Interpolation amount from 0.0 to 1.0 (or beyond to get a value outside the range [min, max])
  * @returns Interpolated value
  */
-export function lerp(min: number, max: number, t: number): number {
-	return min + ((max - min) * t);
+export function lerp(min: number, max: number, interpolation: number): number {
+	return min + ((max - min) * interpolation);
 }
 
 /**
@@ -17,11 +17,11 @@ export function lerp(min: number, max: number, t: number): number {
  *
  * @param min Lowest value in the range
  * @param max Highest value in the range
- * @param x Value in the range
+ * @param value Value in the range
  * @returns Interpolation amount from 0.0 to 1.0 (or beyond if `x` is outside the range [min, max])
  */
-export function invlerp(min: number, max: number, x: number): number {
-	return (x - min) / (max - min);
+export function invlerp(min: number, max: number, value: number): number {
+	return (value - min) / (max - min);
 }
 
 /**
