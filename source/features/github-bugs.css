@@ -58,7 +58,7 @@
 	margin-right: 4px !important;
 }
 
-/* Add scrollbar to show cut-off content in left side section of homepage */
+/* Add scrollbar to show cut-off content in left side section of homepage #6099 */
 .dashboard-sidebar {
 	overflow: auto;
 }
