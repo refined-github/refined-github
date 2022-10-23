@@ -50,10 +50,10 @@ async function addButton(position: Element): Promise<void> {
 	const {base, head} = getBranches();
 	const [pr, comparison] = await Promise.all([
 		getPrInfo(),
-
-		// TODO: Drop v3 when GHE supports this in v4
-		// `page=10000` avoids fetching any commit information, which is heavy
-		pageDetect.isEnterprise() ? api.v3(`compare/${base}...${head}?page=10000`) : getPrBranchAheadStatus(base),
+		// TODO: Drop v3 when GHE supports this via v4
+		pageDetect.isEnterprise()
+			? api.v3(`compare/${base}...${head}?page=10000`) // `page=10000` avoids fetching any commit information, which is heavy
+			: getPrBranchAheadStatus(base),
 	]);
 
 	if (comparison.status.toLowerCase() === 'diverged' && pr.viewerCanEditFiles && pr.mergeable !== 'CONFLICTING') {
