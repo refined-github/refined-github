@@ -47,8 +47,7 @@ async function handler({delegateTarget}: DelegateEvent): Promise<void> {
 }
 
 async function addButton(position: Element): Promise<void> {
-	const {base} = getBranches();
-	const {mergeable, viewerCanEditFiles, headRef} = await getPrInfo(base);
+	const {mergeable, viewerCanEditFiles, headRef} = await getPrInfo(getBranches().base);
 
 	if (headRef.compare.status === 'DIVERGED' && viewerCanEditFiles && mergeable !== 'CONFLICTING') {
 		position.append(' ', (
