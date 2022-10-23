@@ -27,7 +27,7 @@ export async function getPrInfo(number = getConversationNumber()!): Promise<Pull
 	return repository.pullRequest;
 }
 
-// Merge the 2 functions after it's supported by GHE
+// TODO: Merge the 2 functions after it's supported by GHE
 export async function getPrBranchAheadStatus(base: string, number = getConversationNumber()!): Promise<PullRequestAheadStatus> {
 	const {repository} = await api.v4(`
 		repository() {
