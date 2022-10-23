@@ -14,7 +14,7 @@ type PullRequestAheadStatus = {
 	status: 'BEHIND' | 'DIVERGED' | 'AHEAD' | 'IDENTICAL';
 };
 
-export default async function getPrInfo(number = getConversationNumber()!): Promise<PullRequestInfo> {
+export async function getPrInfo(number = getConversationNumber()!): Promise<PullRequestInfo> {
 	const {repository} = await api.v4(`
 		repository() {
 			pullRequest(number: ${number}) {

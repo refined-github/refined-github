@@ -9,16 +9,15 @@ import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import fetchDom from '../helpers/fetch-dom';
 import showToast from '../github-helpers/toast';
-import getPrInfo from '../github-helpers/get-pr-info';
-import {getConversationNumber} from '../github-helpers';
+import {getPrInfo} from '../github-helpers/get-pr-info';
 
 /**
 Get the current base commit of this PR. It should change after rebases and merges in this PR.
 This value is not consistently available on the page (appears in `/files` but not when only 1 commit is selected)
 */
 const getBaseReference = onetime(async (): Promise<string> => {
-	const prInfo = await getPrInfo();
-	return prInfo.baseRefOid
+	const {baseRefOid} = await getPrInfo();
+	return baseRefOid;
 });
 
 async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | undefined> {
