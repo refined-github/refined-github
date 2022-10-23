@@ -15,7 +15,7 @@ type PullRequestInfo = {
 	};
 };
 
-export default async function getPrInfo(head: string, number = getConversationNumber()!): Promise<PullRequestInfo> {
+export default async function getPrInfo(base: string, number = getConversationNumber()!): Promise<PullRequestInfo> {
 	const {repository} = await api.v4(`
 		repository() {
 			pullRequest(number: ${number}) {
@@ -23,7 +23,7 @@ export default async function getPrInfo(head: string, number = getConversationNu
 				mergeable
 				viewerCanEditFiles
 				headRef {
-					compare(headRef: "${head}") {
+					compare(headRef: "${base}") {
 						status
 						behindBy
 						aheadBy
