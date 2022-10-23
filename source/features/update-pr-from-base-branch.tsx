@@ -47,16 +47,10 @@ async function handler({delegateTarget}: DelegateEvent): Promise<void> {
 }
 
 async function addButton(position: Element): Promise<void> {
-	const {base, head} = getBranches();
-	const [pr, comparison] = await Promise.all([
-		getPrInfo(),
+	const {head} = getBranches();
+	const {mergeable, viewerCanEditFiles, headRef} = await getPrInfo(head);
 
-		// TODO: Find how to determine whether the branch needs to be updated via v4
-		// `page=10000` avoids fetching any commit information, which is heavy
-		api.v3(`compare/${base}...${head}?page=10000`),
-	]);
-
-	if (comparison.status === 'diverged' && pr.viewerCanEditFiles && pr.mergeable !== 'CONFLICTING') {
+	if (headRef.compare.status === 'DIVERGED' && viewerCanEditFiles && mergeable !== 'CONFLICTING') {
 		position.append(' ', (
 			<span className="status-meta d-inline-block rgh-update-pr-from-base-branch">
 				You can <button type="button" className="btn-link">update the base branch</button>.
