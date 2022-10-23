@@ -15,9 +15,11 @@
 
 #merge_title_field,
 #commit-summary-input, /* Restore monospace font in commit/merge title fields #5188 */
-:is(.new_public_key, .new_gpg_key) textarea { /* Monospace textareas for new SSH/GPG keys #4917 */
+:is(.new_public_key, .new_gpg_key) textarea {
+	/* Monospace textareas for new SSH/GPG keys #4917 */
 	/* Same as GitHub style for `code` */
-	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace !important;
+	font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+		"Liberation Mono", monospace !important;
 }
 
 /* Limit width of comment form on commit pages #5032 */
@@ -41,11 +43,14 @@
 }
 
 /* Fix alignment of "Allow edits by maintainers" checkbox label and icons #5510 */
-#partial-discussion-sidebar .discussion-sidebar-item:last-child > .d-inline-flex {
+#partial-discussion-sidebar
+	.discussion-sidebar-item:last-child
+	> .d-inline-flex {
 	align-items: center !important;
 }
 
-#partial-discussion-sidebar :is(.js-collab-option input, .js-collab-form + details summary) {
+#partial-discussion-sidebar
+	:is(.js-collab-option input, .js-collab-form + details summary) {
 	margin-top: 0 !important;
 }
 
@@ -56,4 +61,12 @@
 /* Fix spacing of repo header button icons #5620 */
 .pagehead-actions :is(.btn, summary) .octicon {
 	margin-right: 4px !important;
+}
+
+/* Add scrollbar to show cut-off content in left side section of homepage */
+.dashboard-sidebar {
+	overflow: auto;
+}
+#dashboard-user-teams {
+	padding-bottom: 32px;
 }
