@@ -21,6 +21,10 @@ export function lerp(min: number, max: number, interpolation: number): number {
  * @returns Interpolation amount from 0.0 to 1.0 (or beyond if `x` is outside the range [min, max])
  */
 export function invlerp(min: number, max: number, value: number): number {
+	if (min === max) {
+		return 0;
+	}
+
 	return (value - min) / (max - min);
 }
 
