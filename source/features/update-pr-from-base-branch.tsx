@@ -5,10 +5,10 @@ import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import getPrInfo from '../github-helpers/get-pr-info';
-import {getConversationNumber} from '../github-helpers';
 import observe from '../helpers/selector-observer';
+import * as api from '../github-helpers/api';
+import {getPrInfo, getPrBranchAheadStatus} from '../github-helpers/get-pr-info';
+import {getConversationNumber} from '../github-helpers';
 
 const selectorForPushablePRNotice = '.merge-pr > .color-fg-muted:first-child';
 
@@ -47,9 +47,16 @@ async function handler({delegateTarget}: DelegateEvent): Promise<void> {
 }
 
 async function addButton(position: Element): Promise<void> {
-	const {mergeable, viewerCanEditFiles, headRef} = await getPrInfo(getBranches().base);
+	const {base, head} = getBranches();
+	const [pr, comparison] = await Promise.all([
+		getPrInfo(),
 
-	if (headRef.compare.status === 'DIVERGED' && viewerCanEditFiles && mergeable !== 'CONFLICTING') {
+		// TODO: Drop this when GHE supports this in v4
+		// `page=10000` avoids fetching any commit information, which is heavy
+		pageDetect.isGHE() ? api.v3(`compare/${base}...${head}?page=10000`) : getPrBranchAheadStatus(base),
+	]);
+
+	if (comparison.status.toLowerCase() === 'diverged' && pr.viewerCanEditFiles && pr.mergeable !== 'CONFLICTING') {
 		position.append(' ', (
 			<span className="status-meta d-inline-block rgh-update-pr-from-base-branch">
 				You can <button type="button" className="btn-link">update the base branch</button>.
