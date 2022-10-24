@@ -7,20 +7,20 @@
  * @param interpolation Interpolation amount from 0.0 to 1.0 (or beyond to get a value outside the range [min, max])
  * @returns Interpolated value
  */
-export function lerp(min: number, max: number, interpolation: number): number {
+export function linearInterpolation(min: number, max: number, interpolation: number): number {
 	return min + ((max - min) * interpolation);
 }
 
 /**
- * Inverse operation of lerp. Given a range and a value, returns the
- * interpolation amount to get that value.
+ * Inverse operation of linear interpolation. Given a range and a
+ * value, returns the interpolation amount to get that value.
  *
  * @param min Lowest value in the range
  * @param max Highest value in the range
  * @param value Value in the range
  * @returns Interpolation amount from 0.0 to 1.0 (or beyond if `x` is outside the range [min, max])
  */
-export function invlerp(min: number, max: number, value: number): number {
+export function inverseLinearInterpolation(min: number, max: number, value: number): number {
 	if (min === max) {
 		return 0;
 	}
@@ -39,14 +39,14 @@ export function invlerp(min: number, max: number, value: number): number {
  * @param numbers values to use to calculate the min and max of the heat range
  * @returns function to calculate heat index of a given number
  */
-export function createHeatIndexFunc(numbers: number[]): (value: number) => number {
+export function createHeatIndexFunction(numbers: number[]): (value: number) => number {
 	const steps = 10; // GH has 10 heat colors
 	const min = Math.min(...numbers);
 	const max = Math.max(...numbers);
 
 	return (value: number) => {
-		// Inverse lerp figures out how far the value is between min & max
-		const interp = Math.max(0, Math.min(1, invlerp(min, max, value)));
+		// Inverse linear interpolation figures out how far the value is between min & max
+		const interp = Math.max(0, Math.min(1, inverseLinearInterpolation(min, max, value)));
 
 		// Maps the [0.0, 1.0] value to [steps, 1]
 		const floored = Math.floor(interp * steps);
