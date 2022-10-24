@@ -1,7 +1,6 @@
 import './helpers/types.d.ts';
 
 import './refined-github.css';
-import './heat-map.css';
 import './features/github-bugs.css';
 import './features/tab-size.css';
 import './features/scrollable-code-and-blockquote.css';
@@ -218,3 +217,4 @@ import './features/submission-via-ctrl-enter-everywhere';
 import './features/linkify-user-labels';
 import './features/repo-avatars';
 import './features/jump-to-conversation-close-event';
+import './heat-map.css';
