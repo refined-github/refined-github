@@ -251,6 +251,10 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 			additionalListeners = [],
 		} = loader;
 
+		if (include?.length === 0) {
+			throw new Error(`${id}: \`include\` cannot be an empty array, it means "run nowhere"`);
+		}
+
 		// Register feature shortcuts
 		for (const [hotkey, description] of Object.entries(shortcuts)) {
 			shortcutMap.set(hotkey, description);
@@ -279,7 +283,7 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 	}
 };
 
-const addCssFeature = async (url: string, include: BooleanFunction[] | undefined): Promise<void> => {
+const addCssFeature = async (url: string, include?: BooleanFunction[]): Promise<void> => {
 	const id = getFeatureID(url);
 	void add(id, {
 		include,

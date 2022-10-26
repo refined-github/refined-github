@@ -6,13 +6,11 @@ import cache from 'webext-storage-cache';
 import delay from 'delay';
 import select from 'select-dom';
 import {ClockIcon} from '@primer/octicons-react';
-import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 import * as api from '../github-helpers/api';
-import {getUsername, getCleanPathname} from '../github-helpers';
-import attachElement from '../helpers/attach-element';
+import {getUsername} from '../github-helpers';
 
 type Commit = {
 	url: string;
@@ -115,6 +113,11 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 		return;
 	}
 
+	if (select.exists('profile-timezone', hovercard)) {
+		// Native time already present
+		return;
+	}
+
 	const login = select('a.Link--primary', hovercard)?.pathname.slice(1);
 	if (!login || login === getUsername()) {
 		return;
@@ -129,9 +132,9 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 
 	const placeholder = <span className="ml-1">Guessing local time…</span>;
 	const container = (
-		<div className="mt-2 color-fg-muted text-small d-flex">
+		<section aria-label="user local time" className="mt-1 color-fg-muted text-small d-flex flex-items-center">
 			<ClockIcon/> {placeholder}
-		</div>
+		</section>
 	);
 
 	// Adding the time element might change the height of the hovercard and thus break its positioning
@@ -162,49 +165,7 @@ function init(signal: AbortSignal): void {
 	observe(selector, insertUserLocalTime, {signal});
 }
 
-async function profileInit(): Promise<void> {
-	const login = getCleanPathname();
-	if (login === getUsername()) {
-		return;
-	}
-
-	const datePromise = getLastCommitDate(login);
-	const race = await Promise.race([delay(300), datePromise]);
-	if (race === false) {
-		// The timezone was undeterminable and this resolved "immediately" (or was cached), so don't add the icon at all
-		return;
-	}
-
-	attachElement('.vcard-details', {
-		append: () => createTimeElement(datePromise),
-	});
-}
-
-// TODO: Plz replace with JSX-less Preact or sumthin 🥺
-// Passing `datePromise` around is we-ird
-function createTimeElement(datePromise: Promise<string | false>): JSX.Element {
-	const placeholder = <span className="v-align-middle">Guessing local time…</span>;
-	const container = (
-		<li className="vcard-detail pt-1 css-truncate css-truncate-target">
-			<ClockIcon/> {placeholder}
-		</li>
-	);
-
-	void display({datePromise, placeholder, container});
-	return container;
-}
-
 void features.add(import.meta.url, {
 	awaitDomReady: false,
 	init,
-}, {
-	include: [
-		pageDetect.isUserProfile,
-	],
-	exclude: [
-		// TODO: Drop once the date promise is triggered only after attachElement finds the item
-		pageDetect.isPrivateUserProfile,
-	],
-	awaitDomReady: false,
-	init: profileInit,
 });

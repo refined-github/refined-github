@@ -62,3 +62,14 @@
 .blob-wrapper.type-csv table tr:nth-child(2n) {
 	background-color: var(--color-canvas-subtle);
 }
+
+/* Make sticky left-side sidebar scrollable on the dashboard #6099 */
+.dashboard-sidebar {
+	overflow: auto;
+	padding-bottom: 32px;
+}
+
+/* Make sticky left-side sidebar scrollable on the dashboard: Also enables padding-bottom */
+.dashboard-sidebar .loading-context {
+	min-height: initial !important;
+}

@@ -8,6 +8,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../feature-manager';
 import smartBlockWrap from '../helpers/smart-block-wrap';
 import observe from '../helpers/selector-observer';
+import {isHasSelectorSupported} from '../helpers/select-has';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
@@ -55,7 +56,7 @@ function addButtons(signal: AbortSignal): void {
 						<button
 							type="button"
 							role="menuitem"
-							className="rgh-table-input-cell btn-link"
+							className="rgh-tic btn-link"
 							data-x={(index % 5) + 1}
 							data-y={Math.floor(index / 5) + 1}
 						>
@@ -70,8 +71,10 @@ function addButtons(signal: AbortSignal): void {
 
 function init(signal: AbortSignal): void {
 	addButtons(signal);
-	delegate(document, '.rgh-table-input-cell', 'click', addTable, {signal});
-	delegate(document, '.rgh-table-input-cell', 'mouseenter', highlightSquares, {capture: true, signal});
+	delegate(document, '.rgh-tic', 'click', addTable, {signal});
+	if (!isHasSelectorSupported) {
+		delegate(document, '.rgh-tic', 'mouseenter', highlightSquares, {capture: true, signal});
+	}
 }
 
 void features.add(import.meta.url, {

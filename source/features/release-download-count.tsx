@@ -1,3 +1,4 @@
+import '../github-helpers/heat-map.css';
 import './release-download-count.css';
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -7,6 +8,8 @@ import {abbreviateNumber} from 'js-abbreviation-number';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
+import observe from '../helpers/selector-observer';
+import {createHeatIndexFunction} from '../helpers/math';
 
 type Release = {
 	releaseAssets: {
@@ -44,64 +47,58 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 	return assets;
 }
 
-async function init(): Promise<void | false> {
-	const releases = new Map<string, HTMLElement>();
+async function addCounts(assetsList: HTMLElement): Promise<void> {
+	const releaseName = assetsList
+		.closest('[data-test-selector="release-card"]')!
+		.parentElement!
+		.querySelector('.octicon-tag ~ span')!
+		.textContent!
+		.trim();
 
-	if (pageDetect.isSingleTag() && select.exists('.Box-footer .octicon-package')) {
-		const name = select('.Box svg.octicon-tag ~ span')!.textContent!.trim();
-		releases.set(name, select('.Box-footer')!);
-	} else {
-		for (const release of select.all('[data-test-selector="release-card"] > .Box')) {
-			if (!select.exists('.octicon-package', release)) {
+	const assets = await getAssetsForTag([releaseName]);
+
+	// TODO: Use batchedFunction instead
+	const releases = [[releaseName, assetsList]] as const;
+	for (const [name, release] of releases) {
+		const downloadCounts = new Map(assets[api.escapeKey(name)].map(asset => [asset.name, asset.downloadCount]));
+		const calculateHeatIndex = createHeatIndexFunction([...downloadCounts.values()]);
+		for (const assetName of select.all('.octicon-package ~ a .text-bold', release)) {
+			// Match the asset in the DOM to the asset in the API response
+			const downloadCount = downloadCounts.get(assetName.textContent!);
+			if (!downloadCount) {
 				continue;
 			}
 
-			// Get the tag name from the heading link
-			const name = select('.Box-body a.Link--primary', release)!.href.split('/').pop()!;
-			releases.set(name, release);
+			// Place next to asset size
+			const assetSize = assetName
+				.closest('.Box-row')!
+				.querySelector(':scope > .flex-justify-end > :first-child')!;
+
+			assetSize.parentElement!.classList.add('rgh-release-download-count');
+
+			const classes = new Set(assetSize.classList);
+			classes.delete('text-sm-left');
+			classes.add('text-right');
+			classes.add('no-wrap');
+			classes.add('ml-auto');
+			classes.add('mr-sm-2');
+
+			assetSize.before(
+				<small
+					className={[...classes].join(' ')}
+					title={`${downloadCount} downloads`}
+					data-rgh-heat={calculateHeatIndex(downloadCount)}
+				>
+					{abbreviateNumber(downloadCount)} <DownloadIcon/>
+				</small>,
+			);
 		}
 	}
+}
 
-	if (releases.size === 0) {
-		return false;
-	}
-
-	const assets = await getAssetsForTag([...releases.keys()]);
-
-	for (const [name, release] of releases) {
-		const sortedDownloads = assets[api.escapeKey(name)].sort((a, b) => b.downloadCount - a.downloadCount);
-		for (const assetName of select.all('.octicon-package ~ a .text-bold', release)) {
-			// Match the asset in the DOM to the asset in the API response
-			for (const [index, {name, downloadCount}] of sortedDownloads.entries()) {
-				if (name !== assetName.textContent || downloadCount === 0) {
-					continue;
-				}
-
-				// Place next to asset size
-				const assetSize = assetName
-					.closest('.Box-row')!
-					.querySelector(':scope > .flex-justify-end > :first-child')!;
-
-				const classes = [
-					'rgh-release-download-count',
-					...assetSize.classList,
-				];
-
-				if (index === 0) {
-					classes.push('text-bold');
-				}
-
-				assetSize.after(
-					<small
-						className={classes.join(' ').replace('text-sm-left', 'text-sm-right')}
-						title="Downloads"
-					>
-						{abbreviateNumber(downloadCount)} <DownloadIcon/>
-					</small>,
-				);
-			}
-		}
-	}
+function init(signal: AbortSignal): void {
+	// TODO: Replace with :has selector to be safer
+	observe('[data-test-selector="release-card"] details .Box ul', addCounts, {signal});
 }
 
 void features.add(import.meta.url, {

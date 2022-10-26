@@ -7,22 +7,39 @@
 * `.js-news-feed-event-group` is only for grouped events
 */
 
+/* TODO: Revert `classes` #6072 */
+
 /* Hide duplicate repo name in some non-grouped events */
-.rgh-clean-dashboard .dashboard :is(.watch_started, .repo, .public) .color-border-muted.flex-items-baseline .text-bold.color-fg-default {
+.rgh-clean-dashboard .dashboard :is(
+[classes~='watch_started'],
+[classes~='repo'],
+[classes~='public'],
+.watch_started,
+.repo,
+.public
+) .color-border-muted.flex-items-baseline .f4 .Link--primary {
+	display: none !important;
+}
+
+/* Hide duplicate avatar in sponsor events */
+.rgh-clean-dashboard .sponsor a:has(.avatar) {
 	display: none;
 }
 
 /* Drop "box" style from the repos */
 .rgh-clean-dashboard .news .body .Box {
 	padding: 0 !important;
+	margin-top: 0 !important;
 	border: none;
 	background: none;
 }
 
 /* Add "box" style to each event group */
 /* This exact `>` sequence ensures it works on ajaxed-in events */
+.rgh-clean-dashboard [role='tabpanel'] [data-repository-hovercards-enabled] > [classes] > .body,
 .rgh-clean-dashboard [role='tabpanel'] [data-repository-hovercards-enabled] > [class] > .body,
 /* The organization newsfeed doesn't yet support the new style */
+.rgh-clean-dashboard .news > [data-repository-hovercards-enabled] > [classes] > .body,
 .rgh-clean-dashboard .news > [data-repository-hovercards-enabled] > [class] > .body {
 	background-color: var(--color-canvas-default);
 	border: 1px solid var(--color-border-muted);
@@ -58,6 +75,18 @@
 	margin-bottom: 0;
 }
 
+/* Star button: Hide label */
+.rgh-clean-dashboard .starring-container button {
+	letter-spacing: -1em;
+	color: transparent;
+	padding-inline: 0.8em 0.5em;
+}
+
+/* Star button: Make it less prominent */
+.rgh-clean-dashboard .starring-container .BtnGroup-item {
+	background: none;
+}
+
 /* Hide footer date on Created Repository events */
 .rgh-clean-dashboard .dashboard .repo .f6.color-fg-muted {
 	display: none;
@@ -79,6 +108,11 @@
 	padding-right: 0 !important;
 }
 
+/* Grouped events: ... but restore some padding inside */
+.rgh-clean-dashboard .news .js-news-feed-event-group .Box {
+	padding-right: 16px !important;
+}
+
 /* Grouped events: Keep open */
 .rgh-clean-dashboard .Details.js-news-feed-event-group .js-details-target {
 	/* Hide toggle */
@@ -89,11 +123,6 @@
 	/* Always show content. */
 	/* Selector must be stronger to override the native one. Yes, even with !important, for some reason. Firefox */
 	display: block !important;
-}
-
-/* Hide star button */
-.rgh-clean-dashboard .dashboard .starring-container {
-	display: none !important;
 }
 
 /* Restore right margin for repo descriptions #5024 */

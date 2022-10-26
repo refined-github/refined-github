@@ -1,13 +1,13 @@
-import mem from 'mem';
 import React from 'dom-chef';
 import {css} from 'code-tag';
 import onetime from 'onetime';
 import {ParseSelector} from 'typed-query-selector/parser';
 
 import getCallerID from './caller-id';
+import isDevelopmentVersion from './is-development-version';
 
 const animation = 'rgh-selector-observer';
-const getListener = mem(<ExpectedElement extends HTMLElement>(seenMark: string, selector: string, callback: (element: ExpectedElement) => void) => function (event: AnimationEvent) {
+const getListener = <ExpectedElement extends HTMLElement>(seenMark: string, selector: string, callback: (element: ExpectedElement) => void) => function (event: AnimationEvent) {
 	const target = event.target as ExpectedElement;
 	// The target can match a selector even if the animation actually happened on a ::before pseudo-element, so it needs an explicit exclusion here
 	if (target.classList.contains(seenMark) || !target.matches(selector)) {
@@ -18,12 +18,10 @@ const getListener = mem(<ExpectedElement extends HTMLElement>(seenMark: string, 
 	target.classList.add(seenMark);
 
 	callback(target);
-});
+};
 
-const getTag = onetime((): JSX.Element => {
-	const style = <style>{`@keyframes ${animation} {}`}</style>;
-	document.head.append(style);
-	return style;
+const registerAnimation = onetime((): void => {
+	document.head.append(<style>{`@keyframes ${animation} {}`}</style>);
 });
 
 export default function observe<
@@ -39,12 +37,21 @@ export default function observe<
 
 	const selector = String(selectors); // Array#toString() creates a comma-separated string
 	const seenMark = 'rgh-seen-' + getCallerID();
-	const rule = new Text(css`
+
+	registerAnimation();
+
+	const rule = document.createElement('style');
+	if (isDevelopmentVersion()) {
+		// For debuggability
+		rule.setAttribute('s', selector);
+	}
+
+	rule.textContent = css`
 		:where(${String(selector)}):not(.${seenMark}) {
 			animation: 1ms ${animation};
 		}
-	`);
-	getTag().append(rule);
+	`;
+	document.body.prepend(rule);
 	signal?.addEventListener('abort', () => {
 		rule.remove();
 	});

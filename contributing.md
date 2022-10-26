@@ -133,7 +133,7 @@ Node.prototype.dispatchEvent = function (...a) {
 	console.log(...a);
 	// debugger; // Uncomment when necessary
 	d.apply(this, a);
-}
+};
 ```
 
 <img width="379" alt="screen" src="https://user-images.githubusercontent.com/1402241/79168882-406ea100-7deb-11ea-9e9c-ad657202422f.png">

@@ -13,7 +13,15 @@ function hide(item: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	/* TODO: Use :has() and skip select.exists */
-	observe('#dashboard .news .watch_started, #dashboard .news .fork', hide, {signal});
+	/* TODO: Revert `classes` #6072 */
+	observe(`
+		#dashboard .news :is(
+			[classes~='watch_started'],
+			[classes~='fork'],
+			.watch_started,
+			.fork
+		)
+	`, hide, {signal});
 }
 
 void features.add(import.meta.url, {

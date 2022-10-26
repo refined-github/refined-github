@@ -24,8 +24,20 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 
 [<img src="https://raw.githubusercontent.com/iamcal/emoji-data/08ec822c38e0b7a6fea0b92a9c42e02b6ba24a84/img-apple-160/1f99a.png" width="48" valign="middle">](https://github.com/sponsors/fregante) _If you love Refined GitHub, consider [sponsoring or hiring](https://github.com/sponsors/fregante) the maintainer [@fregante](https://twitter.com/fregante)_
 
----
 
+<div align="center">
+
+<table><tr><td width="700"><div align="center">
+ 	<p><sup><a href="https://github.com/sponsors/fregante">@fregante</a>’s open source work is supported by the community.<br>Special thanks to:</sup></p>
+ 	<a href="https://www.runforesight.com/?utm_source=refined-github&utm_medium=sponsorship">
+ 		<div>
+			<img src="https://user-images.githubusercontent.com/1402241/194528204-2b67860c-ca74-4b11-b664-723c50ae8e23.svg" width="220" alt="Foresight">
+		</div>
+ 		<sup>Full visibility and deep insights into the health and performance of your tests and GitHub Actions Workflows. Assess the risk of changes, resolve bottlenecks, reduce build times, and deliver high-quality software at speed with Foresight.</sup>
+ 	</a>
+</table>
+
+<table><tr><td width="700">
 <div align="center">
 	<p>
 		<sup>
@@ -49,9 +61,7 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 		</div>
 		<b>Your app, enterprise-ready.</b>
 		<div>
-			<sub>Start selling to enterprise customers with just a few lines of code.</sub>
-			<br>
-			<sup>Add Single Sign-On (and more) in minutes instead of months.</sup>
+			<sub>Start selling to enterprise customers with just a few lines of code. Add Single Sign-On (and more) in minutes instead of months.</sup>
 		</div>
 	</a>
 	<br>
@@ -60,9 +70,7 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 		<div>
 			<img src="https://sindresorhus.com/assets/thanks/oss-capital-logo-white-bg2.svg" width="300" alt="OSS Capital">
 		</div>
-		<sub>Founded in 2018, OSS Capital is the first and only venture capital platform focused</sub>
-		<br>
-		<sup>exclusively on supporting early-stage COSS (commercial open source) startup founders.</sup>
+		<sub>Founded in 2018, OSS Capital is the first and only venture capital platform focused exclusively on supporting early-stage COSS (commercial open source) startup founders.</sup>
 	</a>
 	<br>
 	<br>
@@ -74,14 +82,13 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 		<b>Dev environments built for the cloud</b>
 		<div>
 			<sub>
-			Natively integrated with GitLab, GitHub, and Bitbucket, Gitpod automatically and continuously prebuilds dev
-			<br>
-			environments for all your branches. As a result team members can instantly start coding with fresh dev environments
-			<br>
-			for each new task - no matter if you are building a new feature, want to fix a bug, or work on a code review.
+			Natively integrated with GitLab, GitHub, and Bitbucket, Gitpod automatically and continuously prebuilds dev environments for all your branches. As a result team members can instantly start coding with fresh dev environments for each new task - no matter if you are building a new feature, want to fix a bug, or work on a code review.
 			</sub>
 		</div>
 	</a>
+</div>
+</table>
+
 </div>
 
 ---
@@ -319,7 +326,7 @@ Thanks for contributing! 🦋🙌
 
 ### Tags and releases
 
-- [](# "release-download-count") [Adds a download count next to release assets.](https://user-images.githubusercontent.com/46634000/139236984-fffecc74-0d8c-4ec1-9f4a-a2c54db91e9a.png)
+- [](# "release-download-count") [Adds a download count next to release assets.](https://user-images.githubusercontent.com/1402241/197958719-1577bc1b-1f4d-44a8-98c2-2645b7b14d31.png)
 - [](# "releases-tab") [Adds a `Releases` tab and a keyboard shortcut: <kbd>g</kbd> <kbd>r</kbd>.](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png)
 - [](# "create-release-shortcut") Adds a keyboard shortcut to create a new release while on the Releases page: <kbd>c</kbd>.
 - [](# "tags-dropdown") [Adds a tags dropdown/search on tag/release pages.](https://user-images.githubusercontent.com/22439276/56373231-27ee9980-621e-11e9-9b21-601919d3dddf.png)
@@ -385,6 +392,7 @@ Thanks for contributing! 🦋🙌
 - [](# "embed-gist-via-iframe") [Adds a menu item to embed a gist via `<iframe>`.](https://user-images.githubusercontent.com/44045911/63633382-6a1b6200-c67a-11e9-9038-aedd62e4f6a8.png)
 - [](# "link-to-prior-blame-line") [Preserves the current line on “View blame prior to this change” links.](https://user-images.githubusercontent.com/1402241/60064482-26b47e00-9733-11e9-803c-c113ea612fbe.png)
 - [](# "enable-file-links-in-compare-view") [Points the "View file" on compare view pages to the branch instead of the commit, so the Edit/Delete buttons will be enabled on the "View file" page, if needed.](https://user-images.githubusercontent.com/1402241/69044026-c5b17d80-0a26-11ea-86ae-c95f89d3669a.png)
+- [](# "linkify-labels-on-dashboard") [Makes labels clickable on the dashboard.](https://user-images.githubusercontent.com/46634000/136909258-88031d07-6efa-4339-b436-5636e8075964.png)
 - [](# "reload-failed-proxied-images") [Retries downloading images that failed downloading due to GitHub limited proxying.](https://user-images.githubusercontent.com/14858959/64068746-21991100-cc45-11e9-844e-827f5ac9b51e.png)
 - [](# "unwrap-unnecessary-dropdowns") [Makes some dropdowns 1-click instead of unnecessarily 2-click.](https://user-images.githubusercontent.com/1402241/80859624-9bfdb300-8c62-11ea-837f-7b7a28e6fdfc.png)
 - [](# "prevent-link-loss") [Suggests fixing links that are wrongly shortened by GitHub.](https://user-images.githubusercontent.com/1402241/82131169-93fd5180-97d2-11ea-9695-97051c55091f.gif)
