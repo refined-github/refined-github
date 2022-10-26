@@ -5,7 +5,9 @@ import {getConversationNumber} from '.';
 
 type PullRequestInfo = {
 	prInfo: {
-	// https://docs.github.com/en/graphql/reference/enums#mergeablestate
+		// TODO: Use this for `restore-file` when GHE supports `compare`
+		baseRefOid: string;
+		// https://docs.github.com/en/graphql/reference/enums#mergeablestate
 		mergeable: 'CONFLICTING' | 'MERGEABLE' | 'UNKNOWN';
 		viewerCanEditFiles: boolean;
 	};
