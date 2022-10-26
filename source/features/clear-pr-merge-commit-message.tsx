@@ -22,7 +22,7 @@ function init(): void | false {
 
 	messageField.value = cleanedMessage;
 	messageField.after(
-		<p className="note rgh-sync-pr-commit-title-note">
+		<p className="note">
 			The description field was cleared by <a target="_blank" href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message" rel="noreferrer">Refined GitHub</a>.
 		</p>,
 		<hr/>,
