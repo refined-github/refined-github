@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import pushForm from 'push-form';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -15,7 +14,8 @@ import {getConversationNumber} from '../github-helpers';
 Get the current base commit of this PR. It should change after rebases and merges in this PR.
 This value is not consistently available on the page (appears in `/files` but not when only 1 commit is selected)
 */
-const getBaseReference = onetime(async (): Promise<string> => {
+// TODO: Replace this with `get-pr-info` when GHE supports it
+const getBaseReference = async (): Promise<string> => {
 	const {repository} = await api.v4(`
 		repository() {
 			pullRequest(number: ${getConversationNumber()!}) {
@@ -24,7 +24,7 @@ const getBaseReference = onetime(async (): Promise<string> => {
 		}
 	`);
 	return repository.pullRequest.baseRefOid;
-});
+};
 
 async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | undefined> {
 	const {repository} = await api.v4(`
