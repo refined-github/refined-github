@@ -1,0 +1,37 @@
+/* Make first column sticky */
+.markdown-body .csv-data :is(td, th):first-child {
+	position: sticky;
+	left: 0;
+	z-index: 1;
+	background-clip: padding-box;
+}
+
+/* Prevent double borders */
+.markdown-body .csv-data :is(td, th):last-child {
+	border-right: none;
+}
+
+.blob-wrapper.type-csv,
+.Box:has(.csv-data) {
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+	border-bottom: none;
+}
+
+.markdown-body .csv-data tbody tr:last-child td:first-child {
+	border-bottom: 1px solid var(--color-border-default);
+}
+
+/*
+Test URLs:
+horizontal + vertical scrolling: https://github.com/fxedel/vaterstetten-in-zahlen/blob/2c3ab1c/data/energie/mastrPhotovoltaik.csv
+vertical scrolling only: https://github.com/fxedel/vaterstetten-in-zahlen/blob/2c3ab1c/data/einwohner/lfstatFortschreibungJahre.csv
+horizontal scrolling only: https://github.com/microCOVID/microCOVID/blob/181201b/public/prevalence_data/US_50.csv
+no scrolling: https://github.com/fxedel/vaterstetten-in-zahlen/blob/2c3ab1c/data/einwohner/lfstatVolkszaehlungen.csv
+`.tsv` file: https://github.com/4dcu-be/GitHub-Actions-KeyForge/blob/8d53ec2/data/keyforge_decks.tsv
+
+Exclude:
+too large to even show the file contents: https://github.com/mattkinsey/covid19-vaccine-timeseries/blob/cf7362e/vacc-timeseries.csv
+too large to make it beautiful and searchable: https://github.com/fxedel/vaterstetten-in-zahlen/blob/2c3ab1c/data/corona-fallzahlen/arcgisInzidenzGemeinden.csv
+no commas found: https://github.com/fxedel/vaterstetten-in-zahlen/blob/2c3ab1c/data/kommunalwahl2020/raw/Open-Data-Buergermeisterwahl-Bayern1173.csv
+*/
