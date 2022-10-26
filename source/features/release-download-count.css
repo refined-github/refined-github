@@ -1,10 +1,13 @@
-/* Aligns it right */
-.rgh-release-download-count {
-	margin-left: auto;
+/* Improve spacing on mobile. "*" doesn't work */
+.rgh-release-download-count > :is(span, small) {
+	flex: 0 0 auto !important;
 }
 
-/* Simulates fixed columns */
-.rgh-release-download-count + small {
-	min-width: 4.5em;
-	text-align: right;
+/* Simulates fixed columns: Size  */
+.rgh-release-download-count .text-sm-left {
+	min-width: 5em;
+}
+/* Simulates fixed columns: Date */
+.rgh-release-download-count .text-right {
+	min-width: 6em;
 }
