@@ -1,5 +1,5 @@
-.rgh-release-download-count > span,
-.rgh-release-download-count > small {
+/* Improve spacing on mobile. "*" doesn't work */
+.rgh-release-download-count > :is(span, small) {
 	flex: 0 0 auto !important;
 }
 
