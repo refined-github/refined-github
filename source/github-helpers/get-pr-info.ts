@@ -31,7 +31,7 @@ export default async function getPrInfo(base: string, head: string, number = get
 
 		return {
 			prInfo: repository.pullRequest,
-			comparison: compare.status.toUpperCase(),
+			comparison: compare,
 		};
 	}
 
