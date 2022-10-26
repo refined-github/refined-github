@@ -1,5 +1,7 @@
 import {ParseSelector} from 'typed-query-selector/parser';
 
+export const isHasSelectorSupported = globalThis.CSS?.supports('selector(:has(a))');
+
 // Adapted from https://stackoverflow.com/a/35271017/288906
 const hasSelectorRegex = /:has\(((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*)\)/;
 
