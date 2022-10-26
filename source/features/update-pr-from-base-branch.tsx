@@ -7,8 +7,8 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 import * as api from '../github-helpers/api';
+import getPrInfo from '../github-helpers/get-pr-info';
 import {getConversationNumber} from '../github-helpers';
-import {getPrInfo, getPrBranchAheadStatus} from '../github-helpers/get-pr-info';
 
 const selectorForPushablePRNotice = '.merge-pr > .color-fg-muted:first-child';
 
@@ -48,15 +48,9 @@ async function handler({delegateTarget}: DelegateEvent): Promise<void> {
 
 async function addButton(position: Element): Promise<void> {
 	const {base, head} = getBranches();
-	const [pr, comparison] = await Promise.all([
-		getPrInfo(),
-		// TODO: Drop v3 when GHE supports this via v4
-		pageDetect.isEnterprise()
-			? api.v3(`compare/${base}...${head}?page=10000`) // `page=10000` avoids fetching any commit information, which is heavy
-			: getPrBranchAheadStatus(base),
-	]);
+	const {prInfo, comparison} = await getPrInfo(base, head);
 
-	if (comparison.status.toLowerCase() === 'diverged' && pr.viewerCanEditFiles && pr.mergeable !== 'CONFLICTING') {
+	if (comparison.status === 'DIVERGED' && prInfo.viewerCanEditFiles && prInfo.mergeable !== 'CONFLICTING') {
 		position.append(' ', (
 			<span className="status-meta d-inline-block rgh-update-pr-from-base-branch">
 				You can <button type="button" className="btn-link">update the base branch</button>.

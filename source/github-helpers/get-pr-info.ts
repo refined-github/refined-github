@@ -1,37 +1,44 @@
+import * as pageDetect from 'github-url-detection';
+
 import * as api from './api';
 import {getConversationNumber} from '.';
 
 type PullRequestInfo = {
-	// TODO: Probably can be used for #3863 and #4679
-	baseRefOid: string;
-
+	prInfo: {
 	// https://docs.github.com/en/graphql/reference/enums#mergeablestate
-	mergeable: 'CONFLICTING' | 'MERGEABLE' | 'UNKNOWN';
-	viewerCanEditFiles: boolean;
+		mergeable: 'CONFLICTING' | 'MERGEABLE' | 'UNKNOWN';
+		viewerCanEditFiles: boolean;
+	};
+	comparison: {
+		status: 'BEHIND' | 'DIVERGED' | 'AHEAD' | 'IDENTICAL';
+	};
 };
 
-type PullRequestAheadStatus = {
-	status: 'BEHIND' | 'DIVERGED' | 'AHEAD' | 'IDENTICAL';
-};
+export default async function getPrInfo(base: string, head: string, number = getConversationNumber()!): Promise<PullRequestInfo> {
+	if (pageDetect.isEnterprise()) {
+		const {repository} = await api.v4(`
+				repository() {
+					pullRequest(number: ${number}) {
+						mergeable
+						viewerCanEditFiles
+					}
+				}
+			`);
 
-export async function getPrInfo(number = getConversationNumber()!): Promise<PullRequestInfo> {
+		const compare = await api.v3(`compare/${base}...${head}?page=10000`); // `page=10000` avoids fetching any commit information, which is heavy
+
+		return {
+			prInfo: repository,
+			comparison: compare.status.toUpperCase(),
+		};
+	}
+
 	const {repository} = await api.v4(`
 		repository() {
 			pullRequest(number: ${number}) {
 				baseRefOid
 				mergeable
 				viewerCanEditFiles
-			}
-		}
-	`);
-	return repository.pullRequest;
-}
-
-// TODO: Merge the 2 functions after it's supported by GHE
-export async function getPrBranchAheadStatus(base: string, number = getConversationNumber()!): Promise<PullRequestAheadStatus> {
-	const {repository} = await api.v4(`
-		repository() {
-			pullRequest(number: ${number}) {
 				headRef {
 					compare(headRef: "${base}") {
 						status
@@ -42,5 +49,9 @@ export async function getPrBranchAheadStatus(base: string, number = getConversat
 			}
 		}
 	`);
-	return repository.pullRequest.headRef.compare;
+
+	return {
+		prInfo: repository,
+		comparison: repository.headRef.compare,
+	};
 }
