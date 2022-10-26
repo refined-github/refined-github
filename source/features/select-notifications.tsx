@@ -13,6 +13,7 @@ import {
 	GitPullRequestDraftIcon,
 	GitPullRequestIcon,
 	IssueOpenedIcon,
+	TagIcon,
 	XCircleIcon,
 } from '@primer/octicons-react';
 
@@ -23,6 +24,7 @@ import attachElement from '../helpers/attach-element';
 const filters = {
 	'Pull requests': ':is(.octicon-git-pull-request, .octicon-git-pull-request-closed, .octicon-git-pull-request-draft, .octicon-git-merge)',
 	Issues: ':is(.octicon-issue-opened, .octicon-issue-closed)',
+	Tags: ':is(.octicon-tag)',
 	Open: ':is(.octicon-issue-opened, .octicon-git-pull-request)',
 	Closed: ':is(.octicon-issue-closed, .octicon-git-pull-request-closed)',
 	Draft: '.octicon-git-pull-request-draft',
@@ -85,6 +87,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 	const icons: {[Key in Filter]: JSX.Element} = {
 		'Pull requests': <GitPullRequestIcon className="color-fg-muted"/>,
 		Issues: <IssueOpenedIcon className="color-fg-muted"/>,
+		Tags: <TagIcon className="color-fg-muted"/>,
 		Open: <CheckCircleIcon className="color-fg-success"/>,
 		Closed: <XCircleIcon className="color-fg-danger"/>,
 		Draft: <GitPullRequestDraftIcon className="color-fg-subtle"/>,
@@ -143,7 +146,7 @@ const createDropdown = onetime(() => (
 		>
 			<div className="SelectMenu-modal">
 				<form id="rgh-select-notifications-form">
-					{createDropdownList('Type', ['Pull requests', 'Issues'])}
+					{createDropdownList('Type', ['Pull requests', 'Issues', 'Tags'])}
 					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
 					{createDropdownList('Read', ['Read', 'Unread'])}
 				</form>
