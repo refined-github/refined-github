@@ -58,11 +58,6 @@
 	margin-right: 4px !important;
 }
 
-/* Restore zebra-colored rows in CSV files */
-.blob-wrapper.type-csv table tr:nth-child(2n) {
-	background-color: var(--color-canvas-subtle);
-}
-
 /* Make sticky left-side sidebar scrollable on the dashboard #6099 */
 .dashboard-sidebar {
 	overflow: auto;
