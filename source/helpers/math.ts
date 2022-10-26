@@ -26,7 +26,7 @@ function inverseLinearInterpolation(min: number, max: number, value: number): nu
  * @param numbers values to use to calculate the min and max of the heat range
  * @returns function to calculate heat index of a given number
  */
-export function createHeatIndexFunction(numbers: number[]): (value: number) => number {
+export function createHeatIndexFunction(numbers: Iterable<number>): (value: number) => number {
 	const steps = 10; // GH has 10 heat colors
 	const min = Math.min(...numbers);
 	const max = Math.max(...numbers);

@@ -1,3 +1,4 @@
+import '../github-helpers/heat-map.css';
 import './release-download-count.css';
 import React from 'dom-chef';
 import select from 'select-dom';
@@ -60,7 +61,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 	const releases = [[releaseName, assetsList]] as const;
 	for (const [name, release] of releases) {
 		const downloadCounts = new Map(assets[api.escapeKey(name)].map(asset => [asset.name, asset.downloadCount]));
-		const calculateHeatIndex = createHeatIndexFunction([...downloadCounts.values()]);
+		const calculateHeatIndex = createHeatIndexFunction(downloadCounts.values());
 		for (const assetName of select.all('.octicon-package ~ a .text-bold', release)) {
 			// Match the asset in the DOM to the asset in the API response
 			const downloadCount = downloadCounts.get(assetName.textContent!);
@@ -73,20 +74,18 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 				.closest('.Box-row')!
 				.querySelector(':scope > .flex-justify-end > :first-child')!;
 
-			const classes = [
-				'rgh-release-download-count',
-				...assetSize.classList,
-			];
+			const classes = new Set(assetSize.classList);
+			classes.delete('text-sm-left');
+			classes.add('text-sm-right');
+			classes.add('rgh-release-download-count');
 
 			assetSize.after(
 				<small
-					className={classes.join(' ').replace('text-sm-left', 'text-sm-right')}
-					title="Downloads"
+					className={[...classes].join(' ')}
+					title={`${downloadCount} downloads`}
+					data-rgh-heat={calculateHeatIndex(downloadCount)}
 				>
-					<span className="rgh-heat-color-dark" data-heat={calculateHeatIndex(downloadCount)}>
-						{abbreviateNumber(downloadCount)}
-					</span>
-					<DownloadIcon/>
+					{abbreviateNumber(downloadCount)} <DownloadIcon/>
 				</small>,
 			);
 		}
