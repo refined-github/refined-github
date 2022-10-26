@@ -58,11 +58,13 @@
 	margin-right: 4px !important;
 }
 
-/* Add scrollbar to show cut-off content in left side section of homepage #6099 */
+/* Make sticky left-side sidebar scrollable on the dashboard #6099 */
 .dashboard-sidebar {
 	overflow: auto;
+	padding-bottom: 32px;
 }
 
-#dashboard-user-teams {
-	padding-bottom: 32px;
+/* Make sticky left-side sidebar scrollable on the dashboard: Also enables padding-bottom */
+.dashboard-sidebar .loading-context {
+	min-height: initial !important;
 }
