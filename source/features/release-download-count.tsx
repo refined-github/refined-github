@@ -74,12 +74,16 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 				.closest('.Box-row')!
 				.querySelector(':scope > .flex-justify-end > :first-child')!;
 
+			assetSize.parentElement!.classList.add('rgh-release-download-count');
+
 			const classes = new Set(assetSize.classList);
 			classes.delete('text-sm-left');
-			classes.add('text-sm-right');
-			classes.add('rgh-release-download-count');
+			classes.add('text-right');
+			classes.add('no-wrap');
+			classes.add('ml-auto');
+			classes.add('mr-sm-2');
 
-			assetSize.after(
+			assetSize.before(
 				<small
 					className={[...classes].join(' ')}
 					title={`${downloadCount} downloads`}
