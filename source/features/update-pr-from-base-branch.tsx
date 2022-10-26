@@ -50,7 +50,7 @@ async function addButton(position: Element): Promise<void> {
 	const {base, head} = getBranches();
 	const {prInfo, comparison} = await getPrInfo(base, head);
 
-	if (comparison.status.toUpperCase() === 'DIVERGED' && prInfo.viewerCanEditFiles && prInfo.mergeable !== 'CONFLICTING') {
+	if (comparison.status === 'DIVERGED' && prInfo.viewerCanEditFiles && prInfo.mergeable !== 'CONFLICTING') {
 		position.append(' ', (
 			<span className="status-meta d-inline-block rgh-update-pr-from-base-branch">
 				You can <button type="button" className="btn-link">update the base branch</button>.

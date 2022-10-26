@@ -28,7 +28,7 @@ export default async function getPrInfo(base: string, head: string, number = get
 			`);
 
 		const compare = await api.v3(`compare/${base}...${head}?page=10000`); // `page=10000` avoids fetching any commit information, which is heavy
-
+		compare.status = compare.status.toUpperCase();
 		return {
 			prInfo: repository.pullRequest,
 			comparison: compare,
