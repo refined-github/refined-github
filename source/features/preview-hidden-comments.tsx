@@ -18,6 +18,10 @@ function preview(hiddenCommentHeader: HTMLElement): void {
 	}
 
 	const reason = /duplicate|outdated|off-topic|hidden/.exec(hiddenCommentHeader.textContent!)?.[0];
+	const hide = /disruptive|spam/.exec(hiddenCommentHeader.textContent!)?.[0];
+	if (hide) {
+        return;
+	}
 
 	hiddenCommentHeader.classList.add('css-truncate', 'css-truncate-overflow', 'mr-2');
 	hiddenCommentHeader.append(
