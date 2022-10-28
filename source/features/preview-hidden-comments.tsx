@@ -16,13 +16,14 @@ function preview(hiddenCommentHeader: HTMLElement): void {
 	if (commentText.length === 0) {
 		return;
 	}
-
-	const reason = /duplicate|outdated|off-topic|hidden/.exec(hiddenCommentHeader.textContent!)?.[0];
-	const hide = /disruptive|spam/.exec(hiddenCommentHeader.textContent!)?.[0];
-	if (hide) {
+	
+	const commentHeader = hiddenCommentHeader.textContent!;
+	if (/disruptive|spam/.test(commentHeader)) {
 		return;
 	}
 
+	// The reason is missing/lost in some cases
+	const reason = /duplicate|outdated|off-topic|hidden/.exec(commentHeader)?.[0];
 	hiddenCommentHeader.classList.add('css-truncate', 'css-truncate-overflow', 'mr-2');
 	hiddenCommentHeader.append(
 		<span className="Details-content--open">{hiddenCommentHeader.firstChild}</span>,
