@@ -16,7 +16,7 @@ function preview(hiddenCommentHeader: HTMLElement): void {
 	if (commentText.length === 0) {
 		return;
 	}
-	
+
 	const commentHeader = hiddenCommentHeader.textContent!;
 	if (/disruptive|spam/.test(commentHeader)) {
 		return;
