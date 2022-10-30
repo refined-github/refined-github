@@ -5,29 +5,31 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
+import {isInteger} from 'ts-extras';
+
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
-import { isInteger } from 'ts-extras';
-
 
 function convertToImgTag({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-  const markdownRegExp = /!\[[^\]]*\]\((?<filename>.*?)(?=\"|\))(?<optionalpart>\".*\")?\)/gm;
+	const markdownRegExp = /!\[[^\]]*]\((?<filename>.*?)(?="|\))(?<optionalpart>".*")?\)/gm;
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
 	const field = square.form!.querySelector('textarea.js-comment-field')!;
-  const width = parseInt(square.form!.querySelector('input.rgh-cimtit-value')!.value);
+	const width = Number.parseInt(square.form!.querySelector('input.rgh-cimtit-value')!.value, 10);
 
-  if(!isInteger(width) || width <= 0) return;
+	if (typeof width !== 'number' || width >= 0) {
+		return;
+	}
 
-  let result = field.value;
-  let match = markdownRegExp.exec(result);
+	let result = field.value;
+	let match = markdownRegExp.exec(result);
 
-  while(match != null) {
-    let original = match[0];
-    let url = match.groups?.filename;
-    let imgTag = `<img src="${url}" width=${width} />`;
-    result = result.replace(original, imgTag);
-    match = markdownRegExp.exec(result);
-  }
+	while (match !== null) {
+		const original = match[0];
+		const url = match.groups!.filename!;
+		const imgTag = `<img src="${url}" width=${width} />`;
+		result = result.replace(original, imgTag);
+		match = markdownRegExp.exec(result);
+	}
 
 	field.focus();
 	textFieldEdit.set(field, result);
@@ -51,20 +53,20 @@ function addButtons(signal: AbortSignal): void {
 					</div>
 				</summary>
 				<details-menu className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-panel-input" role="menu">
-          <div className='select-menu-header d-flex'>
-            <div className='select-menu-title flex-auto'>{'Convert image markdown to img tag'}</div>
-          </div>
-          <div className='select-menu-filters d-md-flex p-2'>
-            <input autoFocus={true} required={true} placeholder="px" className="form-control required title js-session-resumable js-quick-submit input-lg input-block input-contrast rgh-cimtit-value" type="number"  />
-            <div className='d-flex flex-items-center flex-auto mx-1' />
-            <button
-                type="button"
-                role="menuitem"
-                className='btn-primary btn rgh-cimtit-btn m-1'
-              >
-              {'Convert'}
-            </button>
-          </div>
+					<div className="select-menu-header d-flex">
+						<div className="select-menu-title flex-auto">Convert image markdown to img tag</div>
+					</div>
+					<div className="select-menu-filters d-md-flex p-2">
+						<input autoFocus required placeholder="px" className="form-control required title js-session-resumable js-quick-submit input-lg input-block input-contrast rgh-cimtit-value" type="number"/>
+						<div className="d-flex flex-items-center flex-auto mx-1"/>
+						<button
+							type="button"
+							role="menuitem"
+							className="btn-primary btn rgh-cimtit-btn m-1"
+						>
+							Convert
+						</button>
+					</div>
 				</details-menu>
 			</details>,
 		);
