@@ -5,8 +5,6 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import {isInteger} from 'ts-extras';
-
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 
@@ -57,7 +55,7 @@ function addButtons(signal: AbortSignal): void {
 						<div className="select-menu-title flex-auto">Convert image markdown to img tag</div>
 					</div>
 					<div className="select-menu-filters d-md-flex p-2">
-						<input autoFocus required placeholder="px" className="form-control required title js-session-resumable js-quick-submit input-lg input-block input-contrast rgh-cimtit-value" type="number"/>
+						<input autoFocus placeholder="px" className="form-control required title js-session-resumable js-quick-submit input-lg input-block input-contrast rgh-cimtit-value" type="number"/>
 						<div className="d-flex flex-items-center flex-auto mx-1"/>
 						<button
 							type="button"
