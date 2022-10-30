@@ -54,13 +54,13 @@ function addButtons(signal: AbortSignal): void {
           <div className='select-menu-header d-flex'>
             <div className='select-menu-title flex-auto'>{'Convert image markdown to img tag'}</div>
           </div>
-          <div className='select-menu-filters d-none d-md-flex p-2'>
+          <div className='select-menu-filters d-md-flex p-2'>
             <input autoFocus={true} required={true} placeholder="px" className="form-control required title js-session-resumable js-quick-submit input-lg input-block input-contrast rgh-cimtit-value" type="number"  />
             <div className='d-flex flex-items-center flex-auto mx-1' />
             <button
                 type="button"
                 role="menuitem"
-                className='btn-primary btn rgh-cimtit-btn'
+                className='btn-primary btn rgh-cimtit-btn m-1'
               >
               {'Convert'}
             </button>
