@@ -185,6 +185,7 @@ Thanks for contributing! 🦋🙌
 - [](# "file-finder-buffer") [Lets you start typing your search immediately after invoking the File Finder (<kbd>t</kbd>), instead of having you wait for it to load first.](https://user-images.githubusercontent.com/1402241/75542106-1c811700-5a5a-11ea-8aa5-bea0472c59e2.gif)
 - [](# "show-associated-branch-prs-on-fork") [Shows the associated pull requests on branches for forked repositories.](https://user-images.githubusercontent.com/16872793/81504659-7e5ec800-92b8-11ea-9ee6-924110e8cca1.png)
 - [](# "html-preview-link") [Adds a link to preview HTML files.](https://user-images.githubusercontent.com/44045911/67634792-48995980-f8fb-11e9-8b6a-7b57d5b12a2f.png)
+- [](# "file-age-colors") [Add wording that needs to be fixed](https://user-images.githubusercontent.com/16872793/178278788-277724fd-530b-420f-a3d0-d3597d7acfe8.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
