@@ -38,6 +38,8 @@ import './features/hide-newsfeed-noise';
 import './features/minimize-upload-bar';
 import './features/hide-diff-signs';
 import './features/clean-rich-text-editor';
+import './features/scrollable-code-and-blockquote';
+import './features/hide-watch-and-fork-count';
 
 // Disableable features
 import './features/useful-not-found-page';
