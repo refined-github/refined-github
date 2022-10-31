@@ -3,9 +3,10 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
+import getDefaultBranch from '../github-helpers/get-default-branch';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
-function init(): void | false {
+async function init(): Promise<void | false> {
 	const messageField = select('textarea#merge_message_field')!;
 	const originalMessage = messageField.value;
 	const deduplicatedAuthors = new Set();
@@ -13,6 +14,15 @@ function init(): void | false {
 	// This method ensures that "Co-authored-by" capitalization doesn't affect deduplication
 	for (const [, author] of originalMessage.matchAll(/co-authored-by: ([^\n]+)/gi)) {
 		deduplicatedAuthors.add('Co-authored-by: ' + author);
+	}
+
+	const baseBranch = select('.base-ref a')!.title.split(':')[1];
+	if (baseBranch !== await getDefaultBranch()) {
+		for (const keyword of select.all('.comment-body .issue-keyword[aria-label^="This pull request closes"]')) {
+			const closingKeyword = keyword.textContent!.trim(); // Keep the keyword as-is (closes, fixes, etc.)
+			const [issue] = (/#\d*/.exec((keyword.getAttribute('aria-label')!)))!;
+			deduplicatedAuthors.add(closingKeyword + ' ' + issue);
+		}
 	}
 
 	const cleanedMessage = [...deduplicatedAuthors].join('\n');
