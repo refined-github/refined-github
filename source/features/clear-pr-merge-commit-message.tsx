@@ -16,6 +16,7 @@ async function init(): Promise<void | false> {
 		deduplicatedAuthors.add('Co-authored-by: ' + author);
 	}
 
+	// GitHub doesn't close issues when a pr is merged into a non-default branch #4531
 	const baseBranch = select('.base-ref a')!.title.split(':')[1];
 	if (baseBranch !== await getDefaultBranch()) {
 		for (const keyword of select.all('.comment-body .issue-keyword[aria-label^="This pull request closes"]')) {
