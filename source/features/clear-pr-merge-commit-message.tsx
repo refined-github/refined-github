@@ -19,6 +19,8 @@ async function init(): Promise<void | false> {
 	const baseBranch = select('.base-ref a')!.title.split(':')[1];
 	if (baseBranch !== await getDefaultBranch()) {
 		for (const keyword of select.all('.comment-body .issue-keyword[aria-label^="This pull request closes"]')) {
+			// This pull request closes issue #51.
+			// This pull request closes pull request #52.
 			const closingKeyword = keyword.textContent!.trim(); // Keep the keyword as-is (closes, fixes, etc.)
 			const [issue] = (/#\d*/.exec((keyword.getAttribute('aria-label')!)))!;
 			deduplicatedAuthors.add(closingKeyword + ' ' + issue);
