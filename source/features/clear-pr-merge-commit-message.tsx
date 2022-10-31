@@ -23,7 +23,7 @@ async function init(): Promise<void | false> {
 			// This pull request closes issue #51.
 			// This pull request closes pull request #52.
 			const closingKeyword = keyword.textContent!.trim(); // Keep the keyword as-is (closes, fixes, etc.)
-			const [issue] = (/#\d*/.exec((keyword.getAttribute('aria-label')!)))!;
+			const [issue] = /#\d*/.exec(keyword.getAttribute('aria-label')!)!;
 			deduplicatedAuthors.add(closingKeyword + ' ' + issue);
 		}
 	}
