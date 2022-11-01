@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import {getRepo} from '../github-helpers';
+import {getBranches} from './update-pr-from-base-branch';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
@@ -18,8 +19,7 @@ async function init(): Promise<void | false> {
 	}
 
 	// Preserve closing issues numbers when a PR is merged into a non-default branch since GitHub doesn't close them #4531
-	const baseBranch = select('.base-ref a')!.title.split(':')[1];
-	if (baseBranch !== await getDefaultBranch()) {
+	if (getBranches().head !== await getDefaultBranch()) {
 		for (const keyword of select.all('.comment-body .issue-keyword[aria-label^="This pull request closes"]')) {
 			const closingKeyword = keyword.textContent!.trim(); // Keep the keyword as-is (closes, fixes, etc.)
 

@@ -12,7 +12,7 @@ import {getConversationNumber} from '../github-helpers';
 
 const selectorForPushablePRNotice = '.merge-pr > .color-fg-muted:first-child';
 
-function getBranches(): {base: string; head: string} {
+export function getBranches(): {base: string; head: string} {
 	return {
 		base: select('.base-ref')!.textContent!.trim(),
 		head: select('.head-ref')!.textContent!.trim(),
