@@ -3,6 +3,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
+import {getRepo} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
@@ -20,11 +21,12 @@ async function init(): Promise<void | false> {
 	const baseBranch = select('.base-ref a')!.title.split(':')[1];
 	if (baseBranch !== await getDefaultBranch()) {
 		for (const keyword of select.all('.comment-body .issue-keyword[aria-label^="This pull request closes"]')) {
-			// This pull request closes issue #51.
-			// This pull request closes pull request #52.
 			const closingKeyword = keyword.textContent!.trim(); // Keep the keyword as-is (closes, fixes, etc.)
-			const [issue] = /#\d*/.exec(keyword.getAttribute('aria-label')!)!;
-			preservedContent.add(closingKeyword + ' ' + issue);
+
+			const issueNumberElement = keyword.nextElementSibling as HTMLAnchorElement;
+			const isCrossRepo = getRepo(issueNumberElement)!.nameWithOwner !== getRepo()!.nameWithOwner;
+			const issueNumber = isCrossRepo ? issueNumberElement.href : issueNumberElement.textContent!;
+			preservedContent.add(closingKeyword + ' ' + issueNumber);
 		}
 	}
 
