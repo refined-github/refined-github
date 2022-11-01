@@ -51,23 +51,17 @@ async function addButton(position: Element): Promise<void> {
 	const {base, head} = getBranches();
 	const prInfo = await getPrInfo(base, head);
 
-	if (prInfo.needsUpdate) {
-		if (pageDetect.isEnterprise()) {
-			position.append(' ', (
-				<span className="status-meta d-inline-block rgh-update-pr-from-base-branch">
-					You can <button type="button" className="btn-link">update the base branch</button>.
-				</span>
-			));
-		} else {
-			position.append(' ', (
-				<span className="status-meta d-inline-block">
-					{select('.head-ref')!.cloneNode(true)} is {pluralize(prInfo.headRef.compare.behindBy, '$$ commit', '$$ commits')} behind {select('.base-ref')!.cloneNode(true)}
-					{' ('}<a className="btn-link" href={buildRepoURL('commits/' + prInfo.baseRefOid)}>{prInfo.baseRefOid.slice(0, 8)}</a>)
-					[<button type="button" className="btn-link rgh-update-pr-from-base-branch">update branch</button>].
-				</span>
-			));
-		}
+	if (!prInfo.needsUpdate) {
+		return;
 	}
+
+	position.append(' ', (
+		<span className="status-meta d-inline-block">
+			{select('.head-ref')!.cloneNode(true)} is {pluralize(prInfo.headRef.compare.behindBy, '$$ commit', '$$ commits')} behind {select('.base-ref')!.cloneNode(true)}
+			{' ('}<a className="btn-link" href={buildRepoURL('commits/' + prInfo.baseRefOid)}>{prInfo.baseRefOid.slice(0, 8)}</a>)
+			<button type="button" className="btn-link rgh-update-pr-from-base-branch">update branch</button>.
+		</span>
+	));
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
