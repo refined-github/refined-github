@@ -15,7 +15,7 @@ Get the current base commit of this PR. It should change after rebases and merge
 This value is not consistently available on the page (appears in `/files` but not when only 1 commit is selected)
 */
 // TODO: Replace this with `get-pr-info` when GHE supports it
-const getBaseReference = async (): Promise<string> => {
+async function getBaseReference(): Promise<string> {
 	const {repository} = await api.v4(`
 		repository() {
 			pullRequest(number: ${getConversationNumber()!}) {
@@ -24,7 +24,7 @@ const getBaseReference = async (): Promise<string> => {
 		}
 	`);
 	return repository.pullRequest.baseRefOid;
-};
+}
 
 async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | undefined> {
 	const {repository} = await api.v4(`
