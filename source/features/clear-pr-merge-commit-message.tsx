@@ -3,7 +3,6 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
-import {getRepo} from '../github-helpers';
 import {getBranches} from './update-pr-from-base-branch';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
@@ -22,11 +21,8 @@ async function init(): Promise<void | false> {
 	if (getBranches().base !== await getDefaultBranch()) {
 		for (const keyword of select.all('.comment-body .issue-keyword[aria-label^="This pull request closes"]')) {
 			const closingKeyword = keyword.textContent!.trim(); // Keep the keyword as-is (closes, fixes, etc.)
-
-			const issueNumberElement = keyword.nextElementSibling as HTMLAnchorElement;
-			const isCrossRepo = getRepo(issueNumberElement)!.nameWithOwner !== getRepo()!.nameWithOwner;
-			const issueNumber = isCrossRepo ? issueNumberElement.href : issueNumberElement.textContent!;
-			preservedContent.add(closingKeyword + ' ' + issueNumber);
+			const issueLink = keyword.nextElementSibling as HTMLAnchorElement; // Account for issues not in the same repo
+			preservedContent.add(closingKeyword + ' ' + issueLink.href);
 		}
 	}
 
