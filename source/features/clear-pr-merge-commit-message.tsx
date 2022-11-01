@@ -19,7 +19,7 @@ async function init(): Promise<void | false> {
 	}
 
 	// Preserve closing issues numbers when a PR is merged into a non-default branch since GitHub doesn't close them #4531
-	if (getBranches().head !== await getDefaultBranch()) {
+	if (getBranches().base !== await getDefaultBranch()) {
 		for (const keyword of select.all('.comment-body .issue-keyword[aria-label^="This pull request closes"]')) {
 			const closingKeyword = keyword.textContent!.trim(); // Keep the keyword as-is (closes, fixes, etc.)
 
