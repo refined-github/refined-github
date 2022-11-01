@@ -9,11 +9,11 @@ import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 async function init(): Promise<void | false> {
 	const messageField = select('textarea#merge_message_field')!;
 	const originalMessage = messageField.value;
-	const deduplicatedAuthors = new Set();
+	const preservedContent = new Set();
 
 	// This method ensures that "Co-authored-by" capitalization doesn't affect deduplication
 	for (const [, author] of originalMessage.matchAll(/co-authored-by: ([^\n]+)/gi)) {
-		deduplicatedAuthors.add('Co-authored-by: ' + author);
+		preservedContent.add('Co-authored-by: ' + author);
 	}
 
 	// Preserve closing issues numbers when a PR is merged into a non-default branch since GitHub doesn't close them #4531
@@ -24,11 +24,11 @@ async function init(): Promise<void | false> {
 			// This pull request closes pull request #52.
 			const closingKeyword = keyword.textContent!.trim(); // Keep the keyword as-is (closes, fixes, etc.)
 			const [issue] = /#\d*/.exec(keyword.getAttribute('aria-label')!)!;
-			deduplicatedAuthors.add(closingKeyword + ' ' + issue);
+			preservedContent.add(closingKeyword + ' ' + issue);
 		}
 	}
 
-	const cleanedMessage = [...deduplicatedAuthors].join('\n');
+	const cleanedMessage = [...preservedContent].join('\n');
 	if (cleanedMessage === originalMessage.trim()) {
 		return false;
 	}
