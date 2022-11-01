@@ -23,11 +23,12 @@ export default async function getPrInfo(base: string, head: string, number = get
 		`);
 
 		const compare = await api.v3(`compare/${base}...${head}?page=10000`); // `page=10000` avoids fetching any commit information, which is heavy
-		if (compare.status !== 'diverged') {
-			return;
-		}
 
-		return repository.pullRequest;
+		const {pullRequest} = repository;
+		return {
+			...repository.pullRequest,
+			needsUpdate: compare.status === 'diverged' && pullRequest.viewerCanEditFiles && pullRequest.mergeable !== 'CONFLICTING',
+		};
 	}
 
 	const {repository} = await api.v4(`
@@ -47,9 +48,9 @@ export default async function getPrInfo(base: string, head: string, number = get
 		}
 	`);
 
-	if (repository.pullRequest.headRef.compare.status !== 'DIVERGED') {
-		return;
-	}
-
-	return repository.pullRequest;
+	const {pullRequest} = repository;
+	return {
+		...repository.pullRequest,
+		needsUpdate: pullRequest.headRef.compare.status === 'DIVERGED' && pullRequest.viewerCanEditFiles && pullRequest.mergeable !== 'CONFLICTING',
+	};
 }

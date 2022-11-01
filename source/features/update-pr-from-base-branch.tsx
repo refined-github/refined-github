@@ -49,11 +49,8 @@ async function handler({delegateTarget}: DelegateEvent): Promise<void> {
 async function addButton(position: Element): Promise<void> {
 	const {base, head} = getBranches();
 	const prInfo = await getPrInfo(base, head);
-	if (!prInfo) {
-		return;
-	}
 
-	if (prInfo.viewerCanEditFiles && prInfo.mergeable !== 'CONFLICTING') {
+	if (prInfo.needsUpdate) {
 		position.append(' ', (
 			<span className="status-meta d-inline-block rgh-update-pr-from-base-branch">
 				You can <button type="button" className="btn-link">update the base branch</button>.
