@@ -47,7 +47,6 @@ export default async function getPrInfo(base: string, head: string, number = get
 					compare(headRef: "${base}") {
 						status
 						behindBy
-						aheadBy
 					}
 				}
 			}
