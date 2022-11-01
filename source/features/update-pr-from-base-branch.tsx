@@ -58,8 +58,7 @@ async function addButton(position: Element): Promise<void> {
 	position.append(' ', (
 		<span className="status-meta d-inline-block">
 			{select('.head-ref')!.cloneNode(true)} is {pluralize(prInfo.headRef.compare.behindBy, '$$ commit', '$$ commits')} behind {select('.base-ref')!.cloneNode(true)}
-			{' ('}<a className="btn-link" href={buildRepoURL('commits/' + prInfo.baseRefOid)}>{prInfo.baseRefOid.slice(0, 8)}</a>)
-			<button type="button" className="btn-link rgh-update-pr-from-base-branch">update branch</button>.
+			{' ('}<a className="btn-link" href={buildRepoURL('commits/' + prInfo.baseRefOid)}>{prInfo.baseRefOid.slice(0, 8)}</a>)<button type="button" className="btn-link rgh-update-pr-from-base-branch">update branch</button>.
 		</span>
 	));
 }
