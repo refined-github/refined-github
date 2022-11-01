@@ -10,11 +10,7 @@ type PullRequestInfo = {
 	mergeable: 'CONFLICTING' | 'MERGEABLE' | 'UNKNOWN';
 	viewerCanEditFiles: boolean;
 	needsUpdate: boolean;
-	headRef: {
-		compare: {
-			behindBy: number;
-		};
-	};
+	behindBy: number;
 };
 
 export default async function getPrInfo(base: string, head: string, number = getConversationNumber()!): Promise<PullRequestInfo> {
@@ -34,6 +30,7 @@ export default async function getPrInfo(base: string, head: string, number = get
 		const {pullRequest} = repository;
 		return {
 			...repository.pullRequest,
+			behindBy: compare.behind_by,
 			needsUpdate: compare.status === 'diverged' && pullRequest.viewerCanEditFiles && pullRequest.mergeable !== 'CONFLICTING',
 		};
 	}
@@ -57,6 +54,7 @@ export default async function getPrInfo(base: string, head: string, number = get
 	const {pullRequest} = repository;
 	return {
 		...repository.pullRequest,
+		behindBy: pullRequest.headRef.compare.behindBy,
 		needsUpdate: pullRequest.headRef.compare.status === 'DIVERGED' && pullRequest.viewerCanEditFiles && pullRequest.mergeable !== 'CONFLICTING',
 	};
 }
