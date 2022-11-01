@@ -9,9 +9,15 @@ type PullRequestInfo = {
 	// https://docs.github.com/en/graphql/reference/enums#mergeablestate
 	mergeable: 'CONFLICTING' | 'MERGEABLE' | 'UNKNOWN';
 	viewerCanEditFiles: boolean;
+	needsUpdate: boolean;
+	headRef: {
+		compare: {
+			behindBy: number;
+		};
+	};
 };
 
-export default async function getPrInfo(base: string, head: string, number = getConversationNumber()!): Promise<PullRequestInfo | undefined> {
+export default async function getPrInfo(base: string, head: string, number = getConversationNumber()!): Promise<PullRequestInfo> {
 	if (pageDetect.isEnterprise()) {
 		const {repository} = await api.v4(`
 			repository() {
