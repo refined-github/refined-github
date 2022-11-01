@@ -16,7 +16,7 @@ async function init(): Promise<void | false> {
 		deduplicatedAuthors.add('Co-authored-by: ' + author);
 	}
 
-	// Preserve closing issues numbers when a pr is merged into a non-default branch since GitHub doesn't close them #4531
+	// Preserve closing issues numbers when a PR is merged into a non-default branch since GitHub doesn't close them #4531
 	const baseBranch = select('.base-ref a')!.title.split(':')[1];
 	if (baseBranch !== await getDefaultBranch()) {
 		for (const keyword of select.all('.comment-body .issue-keyword[aria-label^="This pull request closes"]')) {
