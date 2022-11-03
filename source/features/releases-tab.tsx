@@ -28,7 +28,7 @@ async function parseCountFromDom(): Promise<number> {
 async function fetchFromApi(): Promise<number> {
 	const {repository} = await api.v4(`
 		repository() {
-			refs(refPrefix: "refs/tags/") {
+			releases {
 				totalCount
 			}
 		}
