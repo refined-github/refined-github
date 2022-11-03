@@ -23,7 +23,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isBlank, // Empty notification list
-		() => !select.exists('[disabled="disabled"][data-hotkey="ArrowRight"]'), // No next page
+		() => select.exists('[disabled="disabled"][data-hotkey="ArrowRight"]'), // No next page
 	],
 	deduplicate: 'has-rgh',
 	init,
