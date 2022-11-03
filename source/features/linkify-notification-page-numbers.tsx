@@ -18,12 +18,14 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		() => select.exists('[data-hotkey="ArrowRight"]:not([disabled])'),
+	],
 	include: [
 		pageDetect.isNotifications,
 	],
 	exclude: [
 		pageDetect.isBlank, // Empty notification list
-		() => select.exists('[disabled="disabled"][data-hotkey="ArrowRight"]'), // No next page
 	],
 	deduplicate: 'has-rgh',
 	init,
