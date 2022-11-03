@@ -30,6 +30,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 			possibleFeature,
 			<a
 				className="color-fg-accent"
+				data-turbo-frame="repo-content-turbo-frame"
 				href={href}
 			/>,
 		);

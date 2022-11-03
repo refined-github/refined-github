@@ -104,6 +104,7 @@ async function init(): Promise<false | void> {
 	const link = (
 		<a
 			className="btn btn-sm ml-0 flex-self-center css-truncate rgh-latest-tag-button"
+			data-turbo-frame="repo-content-turbo-frame"
 			href={url.href}
 		>
 			<TagIcon className="v-align-middle"/>
@@ -144,6 +145,7 @@ async function init(): Promise<false | void> {
 				<a
 					className="btn btn-sm tooltipped tooltipped-ne"
 					href={buildRepoURL(`compare/${latestTag}...${defaultBranch}`)}
+					data-turbo-frame="repo-content-turbo-frame"
 					aria-label={`Compare ${latestTag}...${defaultBranch}`}
 				>
 					<GitCompareIcon className="v-align-middle"/>

@@ -43,7 +43,7 @@ const hovercardObserver = new MutationObserver(([mutation]) => {
 		}
 
 		reference.replaceChildren(
-			<a className="no-underline" href={url.href}>
+			<a className="no-underline" href={url.href} data-turbo-frame="repo-content-turbo-frame">
 				{[...reference.childNodes]}
 			</a>,
 		);

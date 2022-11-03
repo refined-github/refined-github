@@ -1,4 +1,0 @@
-/* Add margin to commit SHA to reduce likelihood of selection overflow #2508 */
-.js-commit .text-right code .Link--secondary {
-	margin-right: 16px;
-}

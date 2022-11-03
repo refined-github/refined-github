@@ -47,8 +47,8 @@ async function init(): Promise<void | false> {
 				<div className={'flex-auto' + (feature.screenshot ? ' ml-3' : '')}>
 					{ /* eslint-disable-next-line react/no-danger */ }
 					<div dangerouslySetInnerHTML={{__html: feature.description}} className="text-bold"/>
-					<div className="no-wrap">
-						<a href={conversationsUrl.href}>Conversations</a>
+					<div className="no-wrap" data-turbo-frame="repo-content-turbo-frame">
+						<a href={conversationsUrl.href}>Related issues</a>
 						{
 							location.pathname.endsWith('css')
 								? <> • <a href={location.pathname.replace('.css', '.tsx')}>See JavaScript</a></>

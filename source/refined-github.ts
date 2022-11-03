@@ -12,7 +12,6 @@ import './features/pr-approvals-count.css';
 import './features/clean-conversations.css';
 import './features/sticky-conversation-list-toolbar.css';
 import './features/always-show-branch-delete-buttons.css';
-import './features/easier-pr-sha-copy.css';
 import './features/repo-stats-spacing.css';
 import './features/emphasize-draft-pr-label.css';
 import './features/clean-notifications.css';
