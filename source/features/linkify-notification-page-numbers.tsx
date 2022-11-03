@@ -2,9 +2,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
+import {wrap} from '../helpers/dom-utils';
 import features from '../feature-manager';
 import looseParseInt from '../helpers/loose-parse-int';
-import {wrap} from '../helpers/dom-utils';
 
 function init(): void {
 	const nextButtonURL = new URL(select('a[data-hotkey="ArrowRight"]')!.href);
@@ -23,9 +23,6 @@ void features.add(import.meta.url, {
 	],
 	include: [
 		pageDetect.isNotifications,
-	],
-	exclude: [
-		pageDetect.isBlank, // Empty notification list
 	],
 	deduplicate: 'has-rgh',
 	init,
