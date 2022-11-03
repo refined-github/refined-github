@@ -66,7 +66,7 @@ async function showTimeMachineBar(): Promise<void | false> {
 	}
 
 	const link = (
-		<a className="rgh-link-date" href={url.href}>
+		<a className="rgh-link-date" href={url.href} data-turbo-frame="repo-content-turbo-frame">
 			view this object as it appeared at the time of the comment
 		</a>
 	);

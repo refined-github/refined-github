@@ -16,7 +16,7 @@ async function init(): Promise<void | false> {
 	const branchUrl = buildRepoURL('tree', element.textContent!);
 	element.replaceWith(
 		<span className="commit-ref">
-			<a className="no-underline" href={branchUrl}>
+			<a className="no-underline" href={branchUrl} data-turbo-frame="repo-content-turbo-frame">
 				{element.textContent}
 			</a>
 		</span>,
