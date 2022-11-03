@@ -5,14 +5,14 @@ import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager';
+import observe from '../helpers/selector-observer';
 import * as api from '../github-helpers/api';
 import getPrInfo from '../github-helpers/get-pr-info';
 import {getConversationNumber} from '../github-helpers';
-import observe from '../helpers/selector-observer';
 
 const selectorForPushablePRNotice = '.merge-pr > .color-fg-muted:first-child';
 
-function getBranches(): {base: string; head: string} {
+export function getBranches(): {base: string; head: string} {
 	return {
 		base: select('.base-ref')!.textContent!.trim(),
 		head: select('.head-ref')!.textContent!.trim(),
@@ -48,15 +48,12 @@ async function handler({delegateTarget}: DelegateEvent): Promise<void> {
 
 async function addButton(position: Element): Promise<void> {
 	const {base, head} = getBranches();
-	const [pr, comparison] = await Promise.all([
-		getPrInfo(),
+	const prInfo = await getPrInfo(base, head);
+	if (!prInfo) {
+		return;
+	}
 
-		// TODO: Find how to determine whether the branch needs to be updated via v4
-		// `page=10000` avoids fetching any commit information, which is heavy
-		api.v3(`compare/${base}...${head}?page=10000`),
-	]);
-
-	if (comparison.status === 'diverged' && pr.viewerCanEditFiles && pr.mergeable !== 'CONFLICTING') {
+	if (prInfo.viewerCanEditFiles && prInfo.mergeable !== 'CONFLICTING') {
 		position.append(' ', (
 			<span className="status-meta d-inline-block rgh-update-pr-from-base-branch">
 				You can <button type="button" className="btn-link">update the base branch</button>.

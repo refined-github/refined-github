@@ -3,26 +3,37 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
+import {getBranches} from './update-pr-from-base-branch';
+import getDefaultBranch from '../github-helpers/get-default-branch';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
-function init(): void | false {
+async function init(): Promise<void | false> {
 	const messageField = select('textarea#merge_message_field')!;
 	const originalMessage = messageField.value;
-	const deduplicatedAuthors = new Set();
+	const preservedContent = new Set();
 
 	// This method ensures that "Co-authored-by" capitalization doesn't affect deduplication
 	for (const [, author] of originalMessage.matchAll(/co-authored-by: ([^\n]+)/gi)) {
-		deduplicatedAuthors.add('Co-authored-by: ' + author);
+		preservedContent.add('Co-authored-by: ' + author);
 	}
 
-	const cleanedMessage = [...deduplicatedAuthors].join('\n');
+	// Preserve closing issues numbers when a PR is merged into a non-default branch since GitHub doesn't close them #4531
+	if (getBranches().base !== await getDefaultBranch()) {
+		for (const keyword of select.all('.comment-body .issue-keyword[aria-label^="This pull request closes"]')) {
+			const closingKeyword = keyword.textContent!.trim(); // Keep the keyword as-is (closes, fixes, etc.)
+			const issueLink = keyword.nextElementSibling as HTMLAnchorElement; // Account for issues not in the same repo
+			preservedContent.add(closingKeyword + ' ' + issueLink.href);
+		}
+	}
+
+	const cleanedMessage = [...preservedContent].join('\n');
 	if (cleanedMessage === originalMessage.trim()) {
 		return false;
 	}
 
 	messageField.value = cleanedMessage;
 	messageField.after(
-		<p className="note rgh-sync-pr-commit-title-note">
+		<p className="note">
 			The description field was cleared by <a target="_blank" href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message" rel="noreferrer">Refined GitHub</a>.
 		</p>,
 		<hr/>,
