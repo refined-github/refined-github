@@ -13,7 +13,7 @@ function init(): void {
 	const lastCursor = Math.floor(lastNotificationPageNumber / 50) * 50;
 	nextButtonSearch.set('after', btoa('cursor:' + String(lastCursor)));
 	nextButtonURL.search = nextButtonSearch.toString();
-	lastNotificationPageNode.replaceWith(<> of <a className="rgh-link" href={nextButtonURL.href}>{lastNotificationPageNumber}</a></>);
+	lastNotificationPageNode.replaceWith(<> of <a className="rgh-last-notification-page-button" href={nextButtonURL.href}>{lastNotificationPageNumber}</a></>);
 }
 
 void features.add(import.meta.url, {
@@ -24,7 +24,7 @@ void features.add(import.meta.url, {
 		pageDetect.isNotifications,
 	],
 	exclude: [
-		() => select.exists('.rgh-link'),
+		() => select.exists('.rgh-last-notification-page-button'),
 	],
 	init,
 });
