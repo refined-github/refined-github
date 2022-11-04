@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import {PlusIcon, SearchIcon, CodeIcon} from '@primer/octicons-react';
 
 import observe from '../helpers/selector-observer';
-import {assertNodeContent, removeTextNode, wrap} from '../helpers/dom-utils';
+import {assertNodeContent, removeTextNodeContaining, wrap} from '../helpers/dom-utils';
 import features from '../feature-manager';
 
 /** Add tooltip on a wrapper to avoid breaking dropdown functionality */
@@ -41,9 +41,9 @@ function cleanFilelistActions(searchButton: Element): void {
 		// Users with Codespaces enabled already have an icon in the button https://github.com/refined-github/refined-github/pull/5074#issuecomment-983251719
 		const codeIcon = select('.octicon-code', codeDropdownButton);
 		if (codeIcon) {
-			removeTextNode(codeIcon.nextSibling!, /Code/);
+			removeTextNodeContaining(codeIcon.nextSibling!, 'Code');
 		} else {
-			removeTextNode(codeDropdownButton.firstChild!, /Code/);
+			removeTextNodeContaining(codeDropdownButton.firstChild!, 'Code');
 			codeDropdownButton.prepend(<CodeIcon/>);
 		}
 	}

@@ -13,10 +13,11 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	// Remove the "X issues need help" link
 	select('[href*="issues?q=label%3A%22help+wanted"]', repository)?.remove();
 
-	// Place before the "Updated on" element. `previousSibling` is the "Updated on" text node
-	const anchor = select('relative-time', repository)!.previousSibling!;
-	assertNodeContent(anchor, /Updated on/);
-	anchor.before(
+	// Place before the update date
+	assertNodeContent(
+		select('relative-time', repository)!.previousSibling,
+		'Updated',
+	).before(
 		<a
 			className="Link--muted mr-3"
 			href={repositoryLink.href + '/issues'}

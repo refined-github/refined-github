@@ -5,7 +5,6 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
-import {removeTextNode} from '../helpers/dom-utils';
 
 async function cleanReleases(): Promise<void> {
 	const sidebarReleases = await elementReady('.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]', {waitForChildren: false});
@@ -26,14 +25,6 @@ async function cleanReleases(): Promise<void> {
 		.previousElementSibling! // About’s .BorderGrid-row
 		.firstElementChild! // About’s .BorderGrid-cell
 		.classList.add('border-0', 'pb-0');
-
-	// Align latest tag icon with the icons of other meta links
-	const tagIcon = select('.octicon-tag:not(.color-fg-success)', releasesSection)!;
-	if (tagIcon) {
-		tagIcon.classList.add('mr-2');
-		// Remove whitespace node
-		removeTextNode(tagIcon.nextSibling!, '');
-	}
 }
 
 async function hideEmptyPackages(): Promise<void> {
