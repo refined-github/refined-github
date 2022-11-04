@@ -5,9 +5,10 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
-
+// The h2 is to avoid hiding website links that include '/releases' #4424
+export const releasesSidebarSelector = '.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]';
 async function cleanReleases(): Promise<void> {
-	const sidebarReleases = await elementReady('.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]', {waitForChildren: false});
+	const sidebarReleases = await elementReady(releasesSidebarSelector, {waitForChildren: false});
 	if (!sidebarReleases) {
 		return;
 	}
