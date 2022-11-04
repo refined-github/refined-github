@@ -17,7 +17,7 @@ import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils';
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
 async function parseCountFromDom(): Promise<number> {
-	const moreReleasesCountElement = await elementReady('.file-navigation .octicon-tag + strong');
+	const moreReleasesCountElement = await elementReady('.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"] .Counter');
 	if (moreReleasesCountElement) {
 		return looseParseInt(moreReleasesCountElement);
 	}
