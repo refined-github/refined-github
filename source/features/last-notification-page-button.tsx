@@ -18,7 +18,6 @@ function init(): void | false {
 	const lastCursor = Math.floor(lastNotificationPageNumber / 50) * 50;
 	const nextButtonSearch = new URLSearchParams(nextButton.search);
 	nextButtonSearch.set('after', btoa('cursor:' + String(lastCursor)));
-	nextButton.search = nextButtonSearch.toString();
 	lastNotificationPageNode.replaceWith(
 		' of ',
 		<a
