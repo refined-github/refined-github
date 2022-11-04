@@ -4,15 +4,16 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import looseParseInt from '../helpers/loose-parse-int';
+import {assertNodeContent} from '../helpers/dom-utils';
 
 function init(): void | false {
-	const nextButton = select('a[data-hotkey="ArrowRight"]');
+	const nextButton = select('a[data-hotkey="ArrowRight"]')?.cloneNode();
 	if (!nextButton) {
 		return false;
 	}
 
 	const lastNotificationPageNode = select('.js-notifications-list-paginator-counts')!.lastChild!;
-	assertNodeContent(lastNotificationPageNode, /^of \d+$/)
+	assertNodeContent(lastNotificationPageNode, ' of ');
 	const lastNotificationPageNumber = looseParseInt(lastNotificationPageNode);
 	const lastCursor = Math.floor(lastNotificationPageNumber / 50) * 50;
 	const nextButtonSearch = new URLSearchParams(nextButton.search);
