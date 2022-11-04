@@ -7,8 +7,8 @@ import {RepoForkedIcon} from '@primer/octicons-react';
 import features from '../feature-manager';
 import {getRepo} from '../github-helpers';
 import looseParseInt from '../helpers/loose-parse-int';
-import attachElement from '../helpers/attach-element';
 import {assertNodeContent} from '../helpers/dom-utils';
+import observe from '../helpers/selector-observer';
 
 function getUrl(): string {
 	const url = new URL('https://useful-forks.github.io');
@@ -35,19 +35,20 @@ async function init(): Promise<void | false> {
 	);
 }
 
-function createBannerLink(): JSX.Element {
-	// It must return an element for `attachElement`. It includes a space
-	return (
-		<span> You can use <a href={getUrl()}>useful-forks.github.io</a></span>
+function addLinkToBanner(label: HTMLElement): void {
+	if (label.textContent!.trim() !== 'Public archive') {
+		return;
+	}
+
+	const banner = select('#js-repo-pjax-container > .flash-warn:first-child')!;
+	assertNodeContent(banner.lastChild, /repository has been archived/).after(
+		' You can use ',
+		<a href={getUrl()}>useful-forks.github.io</a>,
 	);
 }
 
-function initArchivedRepoBanner(): void {
-	const banner = select('#js-repo-pjax-container > .flash-warn:first-child')!;
-	assertNodeContent(banner, 'repository has been archived');
-	attachElement(banner, {
-		append: createBannerLink,
-	});
+function initArchivedRepoBanner(signal: AbortSignal): void {
+	observe('[itemprop="name"] ~ .Label--attention', addLinkToBanner, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -62,13 +63,18 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh',
 	init,
 }, {
-	asLongAs: [
-		pageDetect.isPublicRepo,
-	],
 	include: [
-		pageDetect.isArchivedRepo,
+		pageDetect.hasRepoHeader,
 	],
-	// Can't because `isArchivedRepo` and `isPublicRepo` are DOM-based
-	// awaitDomReady: false,
+	awaitDomReady: false,
 	init: initArchivedRepoBanner,
 });
+
+/*
+Test URLs:
+
+https://github.com/refined-github/refined-github/network/members
+
+https://github.com/refined-github/refined-github/network
+https://github.com/probot/template/blob/master/CODE_OF_CONDUCT.md?rgh-link-date=2022-10-12T08%3A11%3A41Z
+*/

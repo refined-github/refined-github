@@ -7,6 +7,7 @@ import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-
 import features from '../feature-manager';
 import attachElement from '../helpers/attach-element';
 import observe from '../helpers/selector-observer';
+import {removeTextNodeContaining} from '../helpers/dom-utils';
 
 const diffSwitchButtons = features.getIdentifiers(import.meta.url);
 
@@ -117,8 +118,11 @@ function attachPRButtons(diffSettings: HTMLElement): void {
 		prTitle.title = prTitle.textContent!;
 	}
 
-	// Make space for the new button by removing "Changes from" #655
-	select('[data-hotkey="c"] strong')!.previousSibling!.remove();
+	// Make space for the new button #655
+	removeTextNodeContaining(
+		select('[data-hotkey="c"] strong')!.previousSibling!,
+		'Changes from',
+	);
 
 	// Remove extraneous padding around "Clear filters" button
 	select('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-sm-2');
@@ -165,6 +169,7 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFile404,
 		pageDetect.isEnterprise, // #5820
 	],
+	awaitDomReady: false,
 	init: initPR,
 }, {
 	shortcuts,
