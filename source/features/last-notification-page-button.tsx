@@ -13,7 +13,7 @@ function init(): void | false {
 	}
 
 	const lastNotificationPageNode = select('.js-notifications-list-paginator-counts')!.lastChild!;
-	assertNodeContent(lastNotificationPageNode, ' of ');
+	assertNodeContent(lastNotificationPageNode, 'of');
 	const lastNotificationPageNumber = looseParseInt(lastNotificationPageNode);
 	const lastCursor = Math.floor(lastNotificationPageNumber / 50) * 50;
 	const nextButtonSearch = new URLSearchParams(nextButton.search);
