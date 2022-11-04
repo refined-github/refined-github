@@ -1,6 +1,8 @@
 import './helpers/types.d.ts';
 
 import './refined-github.css';
+
+// CSS-only features
 import './features/github-bugs.css';
 import './features/tab-size.css';
 import './features/scrollable-code-and-blockquote.css';
@@ -12,7 +14,6 @@ import './features/pr-approvals-count.css';
 import './features/clean-conversations.css';
 import './features/sticky-conversation-list-toolbar.css';
 import './features/always-show-branch-delete-buttons.css';
-import './features/easier-pr-sha-copy.css';
 import './features/repo-stats-spacing.css';
 import './features/emphasize-draft-pr-label.css';
 import './features/clean-notifications.css';
@@ -23,6 +24,7 @@ import './features/clean-commit-form.css';
 import './features/sticky-file-header.css';
 import './features/readable-title-change-events.css';
 import './features/clean-checks-list.css';
+import './features/sticky-csv-header.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -36,6 +38,7 @@ import './features/minimize-upload-bar';
 import './features/hide-diff-signs';
 import './features/clean-rich-text-editor';
 
+// Disableable features
 import './features/useful-not-found-page';
 import './features/more-dropdown-links';
 import './features/releases-tab';

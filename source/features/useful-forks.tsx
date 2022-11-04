@@ -22,10 +22,13 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const selector = pageDetect.isRepoForksList() ? '#network' : '#repo-content-pjax-container h2';
+	const selector = [
+		'#network', // `isRepoForksList`
+		'.Subhead-heading', // `isRepoNetworkGraph`
+	].join(', ');
 	const container = await elementReady(selector, {waitForChildren: false});
 	container!.prepend(
-		<a className="btn mb-2 float-right" href={getUrl()} target="_blank" rel="noreferrer">
+		<a className="btn mb-2 float-right" href={getUrl()}>
 			<RepoForkedIcon className="mr-2"/>
 			Find useful forks
 		</a>,
@@ -40,7 +43,7 @@ function addLinkToBanner(label: HTMLElement): void {
 	const banner = select('#js-repo-pjax-container > .flash-warn:first-child')!;
 	assertNodeContent(banner.lastChild, /repository has been archived/).after(
 		' You can use ',
-		<a href={getUrl()} target="_blank" rel="noreferrer">useful-forks.github.io</a>,
+		<a href={getUrl()}>useful-forks.github.io</a>,
 	);
 }
 

@@ -67,22 +67,15 @@ async function updateView(anchor: HTMLHeadingElement): Promise<void> {
 	const filesBox = anchor.parentElement!;
 	addButton(filesBox);
 	if (await cache.get<boolean>(cacheKey)) {
-		addFilesHiddenNotice(filesBox);
-	}
-}
-
-async function loadPreviousState(): Promise<void> {
-	const wasHidden = await cache.get<boolean>(cacheKey);
-	if (wasHidden) {
 		toggle(true);
+		addFilesHiddenNotice(filesBox);
 	}
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	// TODO: Use `.Box:has(> #files)` instead
-	observe('.repository-content h2#files', updateView, {signal});
+	observe('.Box h2#files', updateView, {signal});
 	delegate(document, `.${toggleButtonClass}, .${noticeClass}`, 'click', toggleHandler, {signal});
-	await loadPreviousState();
 }
 
 void features.add(import.meta.url, {

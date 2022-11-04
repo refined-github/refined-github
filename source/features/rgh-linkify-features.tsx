@@ -30,8 +30,8 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 			possibleFeature,
 			<a
 				className="color-fg-accent"
+				data-turbo-frame="repo-content-turbo-frame"
 				href={href}
-				data-pjax="#repo-content-pjax-container"
 			/>,
 		);
 	}
@@ -42,7 +42,7 @@ function init(signal: AbortSignal): void {
 		'.js-issue-title code', // `isPR`, `isIssue`
 		'.js-comment-body code', // `hasComments`
 		'.markdown-body code', // `isReleasesOrTags`
-		'.markdown-title code', // `isSingleCommit`, `isRepoTree`
+		'.markdown-title:not(li) code', // `isSingleCommit`, `isRepoTree`, not on the issue autocomplete
 		'code .markdown-title', // `isCommitList`, `isRepoTree`
 	], linkifyFeature, {signal});
 }

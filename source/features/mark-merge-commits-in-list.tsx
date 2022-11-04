@@ -55,6 +55,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isCommitList,
 		pageDetect.isPRConversation,
+		pageDetect.isCompare,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,

@@ -16,7 +16,7 @@ async function init(): Promise<void | false> {
 	const branchUrl = buildRepoURL('tree', element.textContent!);
 	element.replaceWith(
 		<span className="commit-ref">
-			<a className="no-underline" href={branchUrl} data-pjax="#repo-content-pjax-container">
+			<a className="no-underline" href={branchUrl} data-turbo-frame="repo-content-turbo-frame">
 				{element.textContent}
 			</a>
 		</span>,
@@ -43,7 +43,7 @@ const hovercardObserver = new MutationObserver(([mutation]) => {
 		}
 
 		reference.replaceChildren(
-			<a className="no-underline" href={url.href}>
+			<a className="no-underline" href={url.href} data-turbo-frame="repo-content-turbo-frame">
 				{[...reference.childNodes]}
 			</a>,
 		);

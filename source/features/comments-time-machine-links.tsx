@@ -51,7 +51,8 @@ async function showTimeMachineBar(): Promise<void | false> {
 			return false;
 		}
 
-		const lastCommitDate = await elementReady('.repository-content .Box.Box--condensed relative-time', {waitForChildren: false});
+		// Selector note: isRepoFile and isRepoTree have different DOM for this element
+		const lastCommitDate = await elementReady('.Box-header relative-time', {waitForChildren: false});
 		if (lastCommitDate && date > lastCommitDate.getAttribute('datetime')!) {
 			return false;
 		}
@@ -65,7 +66,7 @@ async function showTimeMachineBar(): Promise<void | false> {
 	}
 
 	const link = (
-		<a className="rgh-link-date" href={url.href} data-pjax="#repo-content-pjax-container">
+		<a className="rgh-link-date" href={url.href} data-turbo-frame="repo-content-turbo-frame">
 			view this object as it appeared at the time of the comment
 		</a>
 	);

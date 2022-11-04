@@ -4,6 +4,7 @@ import onetime from 'onetime';
 import {ParseSelector} from 'typed-query-selector/parser';
 
 import getCallerID from './caller-id';
+import isDevelopmentVersion from './is-development-version';
 
 const animation = 'rgh-selector-observer';
 const getListener = <ExpectedElement extends HTMLElement>(seenMark: string, selector: string, callback: (element: ExpectedElement) => void) => function (event: AnimationEvent) {
@@ -40,12 +41,17 @@ export default function observe<
 	registerAnimation();
 
 	const rule = document.createElement('style');
+	if (isDevelopmentVersion()) {
+		// For debuggability
+		rule.setAttribute('s', selector);
+	}
+
 	rule.textContent = css`
 		:where(${String(selector)}):not(.${seenMark}) {
 			animation: 1ms ${animation};
 		}
 	`;
-	document.head.append(rule);
+	document.body.prepend(rule);
 	signal?.addEventListener('abort', () => {
 		rule.remove();
 	});

@@ -37,7 +37,7 @@ async function init(): Promise<void> {
 			<h2 className="d-inline-block f5 mb-2">
 				Filters
 			</h2>
-			<ul data-pjax className="filter-list small">
+			<ul className="filter-list small">
 				{items}
 			</ul>
 		</div>,
