@@ -12,15 +12,16 @@ function init(): void | false {
 	}
 
 	const lastNotificationPageNode = select('.js-notifications-list-paginator-counts')!.lastChild!;
+	assertNodeContent(lastNotificationPageNode, /^of \d+$/)
 	const lastNotificationPageNumber = looseParseInt(lastNotificationPageNode);
 	const lastCursor = Math.floor(lastNotificationPageNumber / 50) * 50;
 	const nextButtonSearch = new URLSearchParams(nextButton.search);
 	nextButtonSearch.set('after', btoa('cursor:' + String(lastCursor)));
 	nextButton.search = nextButtonSearch.toString();
-	lastNotificationPageNode.replaceWith(' of ',
+	lastNotificationPageNode.replaceWith(
+		' of ',
 		<a
-			style={{textDecoration: 'underline'}}
-			className="rgh-last-notification-page-button"
+			className="text-underline rgh-last-notification-page-button"
 			href={nextButton.href}
 		>
 			{lastNotificationPageNumber}
