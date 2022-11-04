@@ -40,7 +40,7 @@ function addLinkToBanner(label: HTMLElement): void {
 	const banner = select('#js-repo-pjax-container > .flash-warn:first-child')!;
 	assertNodeContent(banner.lastChild, /repository has been archived/).after(
 		' You can use ',
-		<a href={getUrl()} target="_blank" rel="noreferrer">useful-forks.github.io</a>
+		<a href={getUrl()} target="_blank" rel="noreferrer">useful-forks.github.io</a>,
 	);
 }
 
