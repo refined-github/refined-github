@@ -37,3 +37,9 @@ void features.add(import.meta.url, {
 	deduplicate: '.rgh-last-deployment',
 	init,
 });
+
+// TODO: Needs a URL with multiple deployments and deactivated deployments
+/*
+Test URLs:
+https://github.com/fregante/bundle/pull/2
+*/
