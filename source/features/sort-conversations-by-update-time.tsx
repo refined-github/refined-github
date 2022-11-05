@@ -49,7 +49,7 @@ function init(): void {
 			const search = new URLSearchParams(link.search);
 			const query = search.get('query') ?? 'is:open'; // Default value query is missing
 			search.set('query', `${query} sort:updated-desc`);
-			link.search = search.toString();
+			link.search = String(search);
 		}
 	}
 }
