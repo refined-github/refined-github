@@ -1,39 +1,39 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {LinkIcon} from '@primer/octicons-react';
+import {LinkExternalIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
+import attachElement from '../helpers/attach-element';
 
-const deploymentSelector = '.js-timeline-item [data-url$="deployed"] .TimelineItem-body .btn[target="_blank"]';
-
-function init(): void {
-	if (select.exists('.rgh-last-deployment')) {
-		return;
+function init(): void | false {
+	const lastDeployment = select.last<HTMLAnchorElement>('.js-timeline-item a[title="Deployment has completed"]');
+	if (!lastDeployment) {
+		return false;
 	}
 
-	const {href} = select.last<HTMLAnchorElement>(deploymentSelector)!;
-	select('.gh-header-actions')!.prepend(
-		<a
-			className="rgh-last-deployment btn btn-sm d-none d-md-block mr-1"
-			href={href}
-		>
-			<LinkIcon className="mr-1"/> View deployment
-		</a>,
-	);
+	attachElement('.gh-header-actions', {
+		prepend: () => (
+			<a
+				className="rgh-last-deployment btn btn-sm d-none d-md-block mr-1"
+				target="_blank" // Matches GitHub’s own behavior
+				rel="noopener noreferrer"
+				href={lastDeployment.href}
+			>
+				<LinkExternalIcon className="mr-1"/> Last deployment
+			</a>
+		)
+	});
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		() => select.exists(deploymentSelector),
-	],
 	include: [
 		pageDetect.isPRConversation,
 	],
 	additionalListeners: [
 		onConversationHeaderUpdate,
 	],
-	deduplicate: 'has-rgh-inner',
+	deduplicate: '.rgh-last-deployment',
 	init,
 });
