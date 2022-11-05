@@ -23,7 +23,7 @@ function init(): void | false {
 			>
 				<LinkExternalIcon className="mr-1"/> Last deployment
 			</a>
-		)
+		),
 	});
 }
 
