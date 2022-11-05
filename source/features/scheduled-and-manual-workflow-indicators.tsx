@@ -61,8 +61,8 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const workflowsSidebar = await elementReady('.Layout-sidebar');
-	for (const workflowListItem of select.all('a.filter-item[href*="/workflows/"]', workflowsSidebar)) {
+	const workflowsSidebar = await elementReady('.ActionList');
+	for (const workflowListItem of select.all('a.ActionList-content[href*="/workflows/"]', workflowsSidebar)) {
 		if (select.exists('.octicon-stop', workflowListItem)) {
 			continue;
 		}
@@ -75,10 +75,10 @@ async function init(): Promise<false | void> {
 
 		const tooltip: string[] = [];
 		if (workflow.manuallyDispatchable) {
-			workflowListItem.append(<PlayIcon className="ml-1"/>);
+			workflowListItem.append(<PlayIcon className="ActionListItem-visual--trailing m-auto"/>);
+			workflowListItem.classList.add('tooltipped', 'tooltipped-s');
+			workflowListItem.setAttribute('aria-label', tooltip.join('\n'));
 			tooltip.push('This workflow can be triggered manually');
-			workflowListItem.parentElement!.classList.add('tooltipped', 'tooltipped-e');
-			workflowListItem.parentElement!.setAttribute('aria-label', tooltip.join('\n'));
 		}
 
 		if (workflow.schedule) {
