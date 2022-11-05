@@ -1,7 +1,9 @@
+import { css } from 'code-tag';
 import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import delegate, { DelegateEvent } from 'delegate-it';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
@@ -9,8 +11,11 @@ import GitHubURL from '../github-helpers/github-url';
 import addNotice from '../github-widgets/notice-bar';
 import {linkifiedURLClass} from '../github-helpers/dom-formatters';
 import {buildRepoURL, isPermalink} from '../github-helpers';
-import {saveOriginalHref} from './sort-conversations-by-update-time';
 import observe from '../helpers/selector-observer';
+
+function getKeyForURL(url: Location | HTMLAnchorElement): string {
+	return 'rgh-time-machine-' + url.pathname;
+}
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
 	const {repository} = await api.v4(`
@@ -34,12 +39,15 @@ async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> 
 }
 
 async function showTimeMachineBar(): Promise<void | false> {
-	const url = new URL(location.href); // This can't be replaced with `GitHubURL` because `getCurrentCommittish` throws on 404s
-	const date = url.searchParams.get('rgh-link-date')!;
+	const date = sessionStorage.getItem(getKeyForURL(location));
+	if (!date) {
+		return false;
+	}
 
-	// Drop parameter from current page after using it
-	url.searchParams.delete('rgh-link-date');
-	history.replaceState(history.state, document.title, url.href);
+	// Drop parameter from storage after using it
+	// sessionStorage.removeItem(getKeyForURL(location))
+
+	const url = new URL(location.href); // This can't be replaced with `GitHubURL` because `getCurrentCommittish` throws on 404s
 
 	if (pageDetect.is404()) {
 		const pathnameParts = url.pathname.split('/');
@@ -75,31 +83,30 @@ async function showTimeMachineBar(): Promise<void | false> {
 	);
 }
 
-function addInlineLinks(menu: HTMLElement, timestamp: string): void {
-	const comment = menu.closest('.js-comment')!;
-	// TODO: Move selector directly to observer
-	const links = select.all(`
-		a[href^="${location.origin}"][href*="/blob/"]:not(.${linkifiedURLClass}),
-		a[href^="${location.origin}"][href*="/tree/"]:not(.${linkifiedURLClass})
-	`, comment);
+function getCommentTimeStamp(elementInsideComment: HTMLElement): string {
+	// The timestamp of main review comments isn't in their header but in the timeline event above #5423
+	return elementInsideComment
+		.closest('.js-comment:not([id^="pullrequestreview-"]), .js-timeline-item')!
+		.querySelector('relative-time')!
+		.attributes.datetime.value;
+}
 
-	for (const link of links) {
-		const linkParts = link.pathname.split('/');
-		// Skip permalinks
-		if (/^[\da-f]{40}$/.test(linkParts[4])) {
-			continue;
-		}
-
-		saveOriginalHref(link);
-
-		const searchParameters = new URLSearchParams(link.search);
-		searchParameters.set('rgh-link-date', timestamp);
-		link.search = String(searchParameters);
+function onLinkInsideCommentVisit({delegateTarget: link}: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
+	const [, _user, _repo, linkType, ref] = link.pathname.split('/');
+	// Skip non-object links (double-check because the the delegate selector can't do this safely)
+	// Skip known permalinks
+	if (['blob', 'tree'].includes(linkType) && !/^[\da-f]{40}$/.test(ref)) {
+		sessionStorage.setItem(getKeyForURL(link), getCommentTimeStamp(link));
 	}
 }
 
-function addDropdownLink(menu: HTMLElement, timestamp: string): void {
-	select('.show-more-popover', menu.parentElement!)!.append(
+function addDropdownLink(menu: HTMLElement): void {
+	if (menu.closest('.js-pending-review-comment')) {
+		return;
+	}
+
+	const timestamp = getCommentTimeStamp(menu);
+	menu.append(
 		<div className="dropdown-divider"/>,
 		<a
 			href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
@@ -113,20 +120,19 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.timeline-comment-actions > details:last-child', menu => {
-		if (menu.closest('.js-pending-review-comment')) {
-			return;
-		}
 
-		// The timestamp of main review comments isn't in their header but in the timeline event above #5423
-		const timestamp = menu
-			.closest('.js-comment:not([id^="pullrequestreview-"]), .js-timeline-item')!
-			.querySelector('relative-time')!
-			.attributes.datetime.value;
+	const possibleObjectLinks = css`
+		a[href^="${location.origin}"]:not(
+			.${linkifiedURLClass}
+		):is(
+			[href*="/blob/"],
+			[href*="/tree/"]
+		)
+	`;
 
-		addInlineLinks(menu, timestamp);
-		addDropdownLink(menu, timestamp);
-	}, {signal});
+	observe(possibleObjectLinks, console.warn, {signal});
+	observe('.timeline-comment-actions .show-more-popover', addDropdownLink, {signal});
+	delegate(document, possibleObjectLinks, 'click', onLinkInsideCommentVisit, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -139,9 +145,6 @@ void features.add(import.meta.url, {
 	awaitDomReady: false,
 	init,
 }, {
-	asLongAs: [
-		() => new URLSearchParams(location.search).has('rgh-link-date'),
-	],
 	include: [
 		pageDetect.is404,
 		pageDetect.isSingleFile,
