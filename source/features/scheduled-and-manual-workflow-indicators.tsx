@@ -116,3 +116,15 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+
+## Test URLs
+
+Manual:
+https://github.com/fregante/browser-extension-template/actions
+
+Manual + scheduled:
+https://github.com/fregante/eslint-formatters/actions
+
+*/
