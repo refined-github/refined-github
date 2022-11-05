@@ -13,7 +13,9 @@ function init(): void {
 		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
 	}
 
-	select('.commit-meta > :last-child')!.append(
+	const commitMeta = select('.commit-meta')!;
+	commitMeta.classList.remove('no-wrap'); // #5987
+	commitMeta.lastElementChild!.append(
 		<span className="sha-block" data-turbo="false">
 			<a href={`${commitUrl}.patch`} className="sha">patch</a>
 			{' '}
