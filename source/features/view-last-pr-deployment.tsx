@@ -19,9 +19,9 @@ function addLink(header: HTMLElement): void {
 			rel="noopener noreferrer"
 			href={lastDeployment.href}
 		>
-			<LinkExternalIcon className="mr-1"/>
+			<LinkExternalIcon className="mr-1 v-align-text-top"/>
 			Last deployment
-		</a>
+		</a>,
 	);
 }
 
