@@ -1,39 +1,43 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {LinkIcon} from '@primer/octicons-react';
+import {LinkExternalIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager';
-import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
+import observe from '../helpers/selector-observer';
 
-const deploymentSelector = '.js-timeline-item [data-url$="deployed"] .TimelineItem-body .btn[target="_blank"]';
-
-function init(): void {
-	if (select.exists('.rgh-last-deployment')) {
+function addLink(header: HTMLElement): void {
+	const lastDeployment = select.last('.js-timeline-item a[title="Deployment has completed"]');
+	if (!lastDeployment) {
 		return;
 	}
 
-	const {href} = select.last<HTMLAnchorElement>(deploymentSelector)!;
-	select('.gh-header-actions')!.prepend(
+	header.prepend(
 		<a
 			className="rgh-last-deployment btn btn-sm d-none d-md-block mr-1"
-			href={href}
+			target="_blank" // Matches GitHub’s own behavior
+			rel="noopener noreferrer"
+			href={lastDeployment.href}
 		>
-			<LinkIcon className="mr-1"/> View deployment
+			<LinkExternalIcon className="mr-1 v-align-text-top"/>
+			Last deployment
 		</a>,
 	);
 }
 
+function init(signal: AbortSignal): void {
+	observe('.gh-header-actions', addLink, {signal});
+}
+
 void features.add(import.meta.url, {
-	asLongAs: [
-		() => select.exists(deploymentSelector),
-	],
 	include: [
 		pageDetect.isPRConversation,
 	],
-	additionalListeners: [
-		onConversationHeaderUpdate,
-	],
-	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+// TODO: Needs a URL with multiple deployments and deactivated deployments
+/*
+Test URLs:
+https://github.com/fregante/bundle/pull/2
+*/
