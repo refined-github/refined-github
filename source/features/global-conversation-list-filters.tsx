@@ -50,6 +50,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isGlobalIssueOrPRList,
 	],
-	deduplicate: 'has-rgh',
 	init,
 });

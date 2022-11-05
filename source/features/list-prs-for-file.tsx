@@ -37,7 +37,6 @@ function getDropdown(prs: number[]): HTMLElement {
 					<a
 						className="dropdown-item"
 						href={getPRUrl(prNumber)}
-						data-pjax="#js-repo-pjax-container"
 						data-hovercard-url={getHovercardUrl(prNumber)}
 					>
 						#{prNumber}
@@ -126,10 +125,6 @@ async function init(): Promise<void> {
 	const [prNumber] = prs; // First one or only one
 
 	const button = prs.length === 1 ? getSingleButton(prNumber) : getDropdown(prs);
-
-	if (prs.length === 1) {
-		button.dataset.pjax = '#js-repo-pjax-container';
-	}
 
 	await addAfterBranchSelector(button);
 }

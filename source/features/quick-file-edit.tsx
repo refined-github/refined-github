@@ -32,7 +32,7 @@ async function linkifyIcon(fileIcon: Element): Promise<void> {
 		url.branch = await cachedGetDefaultBranch();
 	}
 
-	wrap(fileIcon, <a data-skip-pjax href={url.href} className="rgh-quick-file-edit"/>);
+	wrap(fileIcon, <a href={url.href} className="rgh-quick-file-edit"/>);
 	fileIcon.after(<PencilIcon/>);
 }
 
