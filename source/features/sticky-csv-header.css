@@ -13,8 +13,8 @@
 
 .blob-wrapper.type-csv,
 .Box:has(.csv-data) {
-	border-bottom-right-radius: none;
-	border-bottom-left-radius: none;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 	border-bottom: none;
 }
 
