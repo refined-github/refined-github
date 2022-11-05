@@ -15,6 +15,16 @@ type WorkflowDetails = {
 	manuallyDispatchable: boolean;
 };
 
+function addTooltip(element: HTMLElement, tooltip: string): void {
+	const existingTooltip = element.getAttribute('aria-label');
+	if (existingTooltip) {
+		element.setAttribute('aria-label', existingTooltip + '.\n' + tooltip);
+	} else {
+		element.classList.add('tooltipped', 'tooltipped-s');
+		element.setAttribute('aria-label', tooltip);
+	}
+}
+
 const getWorkflowsDetails = cache.function(async (): Promise<Record<string, WorkflowDetails> | false> => {
 	const {repository: {workflowFiles}} = await api.v4(`
 		repository() {
@@ -73,12 +83,9 @@ async function init(): Promise<false | void> {
 			continue;
 		}
 
-		const tooltip: string[] = [];
 		if (workflow.manuallyDispatchable) {
 			workflowListItem.append(<PlayIcon className="ActionListItem-visual--trailing m-auto"/>);
-			workflowListItem.classList.add('tooltipped', 'tooltipped-s');
-			workflowListItem.setAttribute('aria-label', tooltip.join('\n'));
-			tooltip.push('This workflow can be triggered manually');
+			addTooltip(workflowListItem, 'This workflow can be triggered manually');
 		}
 
 		if (workflow.schedule) {
@@ -87,16 +94,15 @@ async function init(): Promise<false | void> {
 				continue;
 			}
 
-			const relativeTime = <relative-time datetime={nextTime.toString()}/>;
-			workflowListItem.append(
-				<em className={workflow.manuallyDispatchable ? 'ml-2' : ''}>
+			const relativeTime = <relative-time datetime={String(nextTime)}/>;
+			select('.ActionList-item-label', workflowListItem)!.append(
+				<em>
 					(next {relativeTime})
 				</em>,
 			);
-			setTimeout(() => { // The content of `relative-time` might not be immediately available
-				tooltip.push('Next ' + relativeTime.textContent!);
-				workflowListItem.parentElement!.classList.add('tooltipped', 'tooltipped-e');
-				workflowListItem.parentElement!.setAttribute('aria-label', tooltip.join('\n'));
+			setTimeout(() => {
+				// The content of `relative-time` might not be immediately available
+				addTooltip(workflowListItem, 'Next run in ' + relativeTime.textContent!);
 			}, 500);
 		}
 	}
