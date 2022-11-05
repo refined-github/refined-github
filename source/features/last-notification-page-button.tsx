@@ -7,7 +7,7 @@ import looseParseInt from '../helpers/loose-parse-int';
 import {assertNodeContent} from '../helpers/dom-utils';
 
 function init(): void | false {
-	const nextButton = select('a[data-hotkey="ArrowRight"]')?.cloneNode();
+	const nextButton = select('a[data-hotkey="ArrowRight"]');
 	if (!nextButton) {
 		return false;
 	}
