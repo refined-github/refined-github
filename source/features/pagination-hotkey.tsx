@@ -1,6 +1,6 @@
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
+import observe from '../helpers/selector-observer';
 import features from '../feature-manager';
 import {addHotkey} from '../github-helpers/hotkey';
 
@@ -20,9 +20,13 @@ const previousPageButtonSelectors = [
 	'.prh-commit > .BtnGroup > :first-child', // PR Commits
 ];
 
-function init(): void {
-	addHotkey(select(nextPageButtonSelectors), 'ArrowRight');
-	addHotkey(select(previousPageButtonSelectors), 'ArrowLeft');
+function init(signal: AbortSignal): void {
+	observe(nextPageButtonSelectors, button => {
+		addHotkey(button as HTMLButtonElement | HTMLAnchorElement, 'ArrowRight');
+	}, {signal});
+	observe(previousPageButtonSelectors, button => {
+		addHotkey(button as HTMLButtonElement | HTMLAnchorElement, 'ArrowLeft');
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
