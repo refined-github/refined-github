@@ -9,7 +9,7 @@ import observe from '../helpers/selector-observer';
 
 function linkify(nextButton: HTMLAnchorElement): void {
 	const lastNotificationPageNode = select('.js-notifications-list-paginator-counts')!.lastChild!;
-	assertNodeContent(lastNotificationPageNode, new RegExp(/^of \d+$/));
+	assertNodeContent(lastNotificationPageNode, /^of \d+$/);
 	const lastNotificationPageNumber = looseParseInt(lastNotificationPageNode);
 	const lastCursor = Math.floor(lastNotificationPageNumber / 50) * 50;
 	const nextButtonSearch = new URLSearchParams(nextButton.search);
