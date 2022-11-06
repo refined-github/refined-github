@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {GlobeIcon} from '@primer/octicons-react';
+import {LinkIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager';
 import {getRepo} from '../github-helpers';
@@ -12,7 +12,7 @@ function getLinkToGitHubIo(repoTitle: HTMLElement, className?: string): JSX.Elem
 			href={`https://${repoTitle.textContent!.trim()}`}
 			className={className}
 		>
-			<GlobeIcon className="v-align-middle"/>
+			<LinkIcon className="v-align-middle"/>
 		</a>
 	);
 }

@@ -7,6 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager';
 import onElementRemoval from '../helpers/on-element-removal';
 import observe from '../helpers/selector-observer';
+import {removeTextNodeContaining} from '../helpers/dom-utils';
 
 const canEditSidebar = onetime((): boolean => select.exists('.discussion-sidebar-item [data-hotkey="l"]'));
 
@@ -74,7 +75,7 @@ async function cleanSidebar(): Promise<void> {
 	} else {
 		const assignYourself = select('.js-issue-assign-self');
 		if (assignYourself) {
-			assignYourself.previousSibling!.remove(); // Drop "No one — "
+			removeTextNodeContaining(assignYourself.previousSibling!, 'No one—');
 			select('[aria-label="Select assignees"] summary')!.append(
 				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>,
 			);

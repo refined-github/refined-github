@@ -12,12 +12,13 @@ import looseParseInt from '../helpers/loose-parse-int';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import createDropdownItem from '../github-helpers/create-dropdown-item';
 import {buildRepoURL, getRepo} from '../github-helpers';
+import {releasesSidebarSelector} from './clean-repo-sidebar';
 import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils';
 
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
 async function parseCountFromDom(): Promise<number> {
-	const moreReleasesCountElement = await elementReady('.repository-content .file-navigation [href$="/tags"] strong');
+	const moreReleasesCountElement = await elementReady(releasesSidebarSelector + ' .Counter');
 	if (moreReleasesCountElement) {
 		return looseParseInt(moreReleasesCountElement);
 	}
@@ -28,13 +29,13 @@ async function parseCountFromDom(): Promise<number> {
 async function fetchFromApi(): Promise<number> {
 	const {repository} = await api.v4(`
 		repository() {
-			refs(refPrefix: "refs/tags/") {
+			releases {
 				totalCount
 			}
 		}
 	`);
 
-	return repository.refs.totalCount;
+	return repository.releases.totalCount;
 }
 
 export const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? parseCountFromDom() : fetchFromApi(), {

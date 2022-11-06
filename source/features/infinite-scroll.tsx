@@ -35,8 +35,7 @@ function init(signal: AbortSignal): void {
 		inView.observe(button);
 	}, {signal});
 
-	// Use cloneNode to keep the original ones for responsive layout
-	const feedLink = select('.news a.f6')!.cloneNode(true);
+	// Copy the footer links to the sidebar to make them more accessible. Also keep a copy in the footer.
 	const footer = select('.footer > .d-flex')!.cloneNode(true);
 
 	for (const child of footer.children) {
@@ -45,9 +44,6 @@ function init(signal: AbortSignal): void {
 
 	select('[aria-label="Explore"]')!.append(
 		<div className="footer">
-			<div>
-				{feedLink}
-			</div>
 			{footer}
 		</div>,
 	);

@@ -28,10 +28,16 @@
 
 /* Drop "box" style from the repos */
 .rgh-clean-dashboard .news .body .Box {
-	padding: 0 !important;
-	margin-top: 0 !important;
+	padding-inline: 0 !important;
+	padding-block: 5px !important;
 	border: none;
 	background: none;
+}
+
+/* Drop "box" style from the repos, only when not grouped */
+.rgh-clean-dashboard .color-border-muted > .flex-column > .Box {
+	padding-block: 0 !important;
+	margin-top: 0 !important;
 }
 
 /* Add "box" style to each event group */

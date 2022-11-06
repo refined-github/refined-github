@@ -15,7 +15,7 @@ function createReviewLink(): Element {
 
 	return (
 		<span className="text-normal">
-			– <a href={reviewFormUrl.href} className="btn-link Link--muted" data-hotkey="v" data-pjax="#repo-content-pjax-container">review now</a>
+			– <a href={reviewFormUrl.href} className="btn-link Link--muted" data-hotkey="v" data-turbo-frame="repo-content-turbo-frame">review now</a>
 		</span>
 	);
 }
