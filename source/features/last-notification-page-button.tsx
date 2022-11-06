@@ -5,13 +5,9 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager';
 import looseParseInt from '../helpers/loose-parse-int';
 import {assertNodeContent} from '../helpers/dom-utils';
+import observe from '../helpers/selector-observer';
 
-function init(): void | false {
-	const nextButton = select('a[data-hotkey="ArrowRight"]');
-	if (!nextButton) {
-		return false;
-	}
-
+function linkify(nextButton: HTMLAnchorElement): void {
 	const lastNotificationPageNode = select('.js-notifications-list-paginator-counts')!.lastChild!;
 	assertNodeContent(lastNotificationPageNode, new RegExp(/^of \d+$/));
 	const lastNotificationPageNumber = looseParseInt(lastNotificationPageNode);
@@ -20,21 +16,19 @@ function init(): void | false {
 	nextButtonSearch.set('after', btoa('cursor:' + String(lastCursor)));
 	lastNotificationPageNode.replaceWith(
 		' of ',
-		<a
-			className="text-underline rgh-last-notification-page-button"
-			href={'?' + String(nextButtonSearch)}
-		>
+		<a href={'?' + String(nextButtonSearch)}>
 			{lastNotificationPageNumber}
 		</a>,
 	);
 }
 
+function init(signal: AbortSignal): void {
+	observe('a[aria-label="Next"]', linkify, {signal});
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNotifications,
-	],
-	exclude: [
-		() => select.exists('.rgh-last-notification-page-button'),
 	],
 	init,
 });
