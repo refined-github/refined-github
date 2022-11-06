@@ -13,7 +13,7 @@ function linkify(nextButton: HTMLAnchorElement): void {
 	const lastNotificationPageNumber = looseParseInt(lastNotificationPageNode);
 	const lastCursor = Math.floor(lastNotificationPageNumber / 50) * 50;
 	const nextButtonSearch = new URLSearchParams(nextButton.search);
-	nextButtonSearch.set('after', btoa('cursor:' + String(lastCursor)));
+	nextButtonSearch.set('after', btoa(`cursor:${lastCursor}`));
 	lastNotificationPageNode.replaceWith(
 		' of ',
 		<a href={'?' + String(nextButtonSearch)}>
@@ -23,6 +23,7 @@ function linkify(nextButton: HTMLAnchorElement): void {
 }
 
 function init(signal: AbortSignal): void {
+	// When there's no "next page", this element becomes `<button disabled>`
 	observe('a[aria-label="Next"]', linkify, {signal});
 }
 
