@@ -73,8 +73,29 @@ export const unhighlightTab = (tabElement: Element): void => {
 	tabElement.removeAttribute('aria-current');
 };
 
-export const assertNodeContent = ({textContent}: Node, includes: string): void => {
-	if (!textContent!.includes(includes)) {
-		throw new TypeError(`Expected node including "${includes}", found ${textContent!.trim()}`);
+const matchString = (matcher: RegExp | string, string: string): boolean =>
+	typeof matcher === 'string' ? matcher === string : matcher.test(string);
+
+const escapeMatcher = (matcher: RegExp | string): string =>
+	typeof matcher === 'string' ? `"${matcher}"` : String(matcher);
+
+// eslint-disable-next-line @typescript-eslint/ban-types -- Nodes may be exactly `null`
+export const assertNodeContent = <N extends Text | ChildNode>(node: N | null, expectation: RegExp | string): N => {
+	if (!node || !(node instanceof Text)) {
+		console.warn('TypeError', node);
+		throw new TypeError(`Expected Text node, received ${String(node?.nodeName)}`);
 	}
+
+	const content = node.textContent!.trim();
+	if (!matchString(expectation, content)) {
+		console.warn('Error', node.parentElement);
+		throw new Error(`Expected node matching ${escapeMatcher(expectation)}, found ${escapeMatcher(content)}`);
+	}
+
+	return node;
+};
+
+export const removeTextNodeContaining = (node: Text | ChildNode, expectation: RegExp | string): void => {
+	assertNodeContent(node, expectation);
+	node.remove();
 };

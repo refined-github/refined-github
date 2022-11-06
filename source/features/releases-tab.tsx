@@ -34,7 +34,7 @@ async function fetchFromApi(): Promise<number> {
 		}
 	`);
 
-	return repository.refs.totalCount;
+	return repository.releases.totalCount;
 }
 
 export const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? parseCountFromDom() : fetchFromApi(), {

@@ -7,6 +7,7 @@ import * as api from '../github-helpers/api';
 import {getUsername, compareNames} from '../github-helpers';
 import observe from '../helpers/selector-observer';
 import batchedFunction from '../helpers/batched-function';
+import {removeTextNodeContaining} from '../helpers/dom-utils';
 
 // The selector observer calls this function several times, but we want to batch them into a single GraphQL API call
 const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnchorElement[]): Promise<void> => {
@@ -21,8 +22,8 @@ const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnc
 
 		// Drop 'commented' label to shorten the copy
 		const commentedNode = element.parentNode!.nextSibling;
-		if (commentedNode?.textContent!.includes('commented')) {
-			commentedNode.remove();
+		if (element.closest('.timeline-comment-header') && commentedNode) {
+			removeTextNodeContaining(commentedNode, /commented/);
 		}
 	}
 
