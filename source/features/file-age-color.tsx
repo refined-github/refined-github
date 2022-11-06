@@ -11,7 +11,7 @@ function daysDiff(date1: Date, date2 = new Date()): number {
 
 function addHeatIndex(timeAgo: HTMLElement): void {
 	const dateDiff = daysDiff(new Date(timeAgo.attributes.datetime.value));
-	timeAgo.dataset.rghHeat = String(Math.sqrt(dateDiff / 1).toFixed(0));
+	timeAgo.dataset.rghHeat = String(Math.sqrt(dateDiff / 2.5).toFixed(0));
 }
 
 function init(signal: AbortSignal): void {
