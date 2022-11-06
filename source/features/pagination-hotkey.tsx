@@ -1,28 +1,30 @@
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
+import observe from '../helpers/selector-observer';
 import features from '../feature-manager';
 import {addHotkey} from '../github-helpers/hotkey';
 
 const nextPageButtonSelectors = [
-	'a.next_page', // Issue/PR list, Search
-	'.paginate-container.BtnGroup > :last-child', // Notifications
-	'.paginate-container > .BtnGroup > :last-child', // Commits
-	'.paginate-container > .pagination > :last-child', // Releases
-	'.prh-commit > .BtnGroup > :last-child', // PR Commits
-];
+	'a.next_page', // Issue/PR list, Search, Releases
+	'a.paginate-container [aria-label="Next"]', // Notifications
+	'a.paginate-container > .BtnGroup > :last-child', // Commits
+	'a.prh-commit > .BtnGroup > :last-child', // PR Commits
+] as const;
 
 const previousPageButtonSelectors = [
-	'a.previous_page', // Issue/PR list, Search
-	'.paginate-container.BtnGroup > :first-child', // Notifications
-	'.paginate-container > .BtnGroup > :first-child', // Commits
-	'.paginate-container > .pagination > :first-child', // Releases
-	'.prh-commit > .BtnGroup > :first-child', // PR Commits
-];
+	'a.previous_page', // Issue/PR list, Search, Releases
+	'a.paginate-container [aria-label="Previous"]', // Notifications
+	'a.paginate-container > .BtnGroup > :first-child', // Commits
+	'a.prh-commit > .BtnGroup > :first-child', // PR Commits
+] as const;
 
-function init(): void {
-	addHotkey(select(nextPageButtonSelectors), 'ArrowRight');
-	addHotkey(select(previousPageButtonSelectors), 'ArrowLeft');
+function init(signal: AbortSignal): void {
+	observe(nextPageButtonSelectors, button => {
+		addHotkey(button, 'ArrowRight');
+	}, {signal});
+	observe(previousPageButtonSelectors, button => {
+		addHotkey(button, 'ArrowLeft');
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -42,3 +44,13 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+# Test URLs
+
+PR Commit: https://github.com/refined-github/refined-github/pull/4677/commits/1e1e0707ac58d1a40543a92651c3bbfd113481bf
+Releases: https://github.com/refined-github/refined-github/releases
+Search: https://github.com/refined-github/refined-github/search?q=pull
+Issues: https://github.com/refined-github/refined-github/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc
+*/
