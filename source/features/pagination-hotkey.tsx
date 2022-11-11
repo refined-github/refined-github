@@ -4,26 +4,22 @@ import observe from '../helpers/selector-observer';
 import features from '../feature-manager';
 import {addHotkey} from '../github-helpers/hotkey';
 
-const nextPageButtonSelectors = [
-	'a.next_page', // Issue/PR list, Search, Releases
-	'a.paginate-container [aria-label="Next"]', // Notifications
-	'a.paginate-container > .BtnGroup > :last-child', // Commits
-	'a.prh-commit > .BtnGroup > :last-child', // PR Commits
+const previous = [
+	'a[rel="prev"]', // `isIssueOrPRList`, `isGlobalSearchResults`, `isReleases`, `isUserProfileRepoTab`, `isDiscussionList`
+	'.paginate-container a.BtnGroup-item:first-child', // `isRepoCommitList`, `isNotifications`
+	'.prh-commit a.BtnGroup-item:first-child', // `isPRCommit`
 ] as const;
 
-const previousPageButtonSelectors = [
-	'a.previous_page', // Issue/PR list, Search, Releases
-	'a.paginate-container [aria-label="Previous"]', // Notifications
-	'a.paginate-container > .BtnGroup > :first-child', // Commits
-	'a.prh-commit > .BtnGroup > :first-child', // PR Commits
-] as const;
+const next = previous.join(',')
+	.replaceAll('"prev"', '"next"')
+	.replaceAll(':first', ':last') as 'a';
 
 function init(signal: AbortSignal): void {
-	observe(nextPageButtonSelectors, button => {
-		addHotkey(button, 'ArrowRight');
-	}, {signal});
-	observe(previousPageButtonSelectors, button => {
+	observe(previous, button => {
 		addHotkey(button, 'ArrowLeft');
+	}, {signal});
+	observe(next, button => {
+		addHotkey(button, 'ArrowRight');
 	}, {signal});
 }
 
@@ -32,7 +28,6 @@ void features.add(import.meta.url, {
 		'→': 'Go to the next page',
 		'←': 'Go to the previous page',
 	},
-	// TODO: enable for isDiscussionList after #4695 is fixed
 	include: [
 		pageDetect.isIssueOrPRList,
 		pageDetect.isGlobalSearchResults,
@@ -40,6 +35,8 @@ void features.add(import.meta.url, {
 		pageDetect.isNotifications,
 		pageDetect.isRepoCommitList,
 		pageDetect.isPRCommit,
+		pageDetect.isDiscussionList,
+		pageDetect.isReleases,
 		pageDetect.isUserProfileRepoTab,
 	],
 	init,
@@ -51,6 +48,7 @@ void features.add(import.meta.url, {
 
 PR Commit: https://github.com/refined-github/refined-github/pull/4677/commits/1e1e0707ac58d1a40543a92651c3bbfd113481bf
 Releases: https://github.com/refined-github/refined-github/releases
-Search: https://github.com/refined-github/refined-github/search?q=pull
 Issues: https://github.com/refined-github/refined-github/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc
+Repo Search: https://github.com/refined-github/refined-github/search?q=pull
+Global search: https://github.com/search?q=wonder&type=repositories
 */
