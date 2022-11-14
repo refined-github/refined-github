@@ -10,7 +10,6 @@ import openTabs from '../helpers/open-tabs';
 import {appendBefore} from '../helpers/dom-utils';
 import showToast from '../github-helpers/toast';
 import pluralize from '../helpers/pluralize';
-import attachElement, {attachElements} from '../helpers/attach-element';
 import observe from '../helpers/selector-observer';
 
 // Selector works on:
@@ -69,31 +68,23 @@ async function openSelectedNotifications(): Promise<void> {
 	}
 }
 
-function addOpenSelectedButton(signal: AbortSignal): void {
-	delegate(document, openSelected.selector, 'click', openSelectedNotifications, {signal});
-
-	attachElement(notificationHeaderSelector + ' .js-notifications-mark-selected-actions', {
-		forEach(anchor) {
-			const button = (
-				<button className={'btn btn-sm ' + openSelected.class} type="button">
-					<LinkExternalIcon className="mr-1"/>Open
-				</button>
-			);
-			appendBefore(
-				anchor,
-				'details',
-				button,
-			);
-
-			return button;
-		},
-	});
-}
-
 function removeOpenUnreadButtons(container: ParentNode = document): void {
 	for (const button of select.all(openUnread.selector, container)) {
 		button.remove();
 	}
+}
+
+function addSelectedButton(selectedActionsGroup: HTMLElement): void {
+	const button = (
+		<button className={'btn btn-sm ' + openSelected.class} type="button">
+			<LinkExternalIcon className="mr-1"/>Open
+		</button>
+	);
+	appendBefore(
+		selectedActionsGroup,
+		'details',
+		button,
+	);
 }
 
 function addToRepoGroup(markReadButton: HTMLElement): void {
@@ -126,8 +117,10 @@ function addToMainHeader(notificationHeader: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	addOpenSelectedButton(signal);
+	delegate(document, openSelected.selector, 'click', openSelectedNotifications, {signal});
 	delegate(document, openUnread.selector, 'click', openUnreadNotifications, {signal});
+
+	observe(notificationHeaderSelector + ' .js-notifications-mark-selected-actions', addSelectedButton, {signal});
 	observe(notificationHeaderSelector, addToMainHeader, {signal});
 	observe('.js-grouped-notifications-mark-all-read-button', addToRepoGroup, {signal});
 }
