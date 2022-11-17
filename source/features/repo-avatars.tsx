@@ -31,10 +31,8 @@ async function init(): Promise<void> {
 
 	link.append(avatar);
 	icon.replaceWith(link);
-	
-	await pageLoaded; // For `isOrganizationRepo`
 
-	if (!pageDetect.isOrganizationRepo()) {
+	if (link.dataset.hovercardType !== 'organization') {
 		avatar.classList.add('avatar-user');
 	}
 }
@@ -47,3 +45,12 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh',
 	init,
 });
+
+/*
+
+## Test URLs
+
+- org repo: https://github.com/refined-github/refined-github
+- user repo: https://github.com/fregante/GhostText
+
+*/
