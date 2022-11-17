@@ -109,6 +109,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
+	// Do it as soon as possible, before the page loads
 	const workflows = await getWorkflowsDetails();
 	if (!workflows) {
 		return false;
@@ -122,7 +123,6 @@ void features.add(import.meta.url, {
 		pageDetect.isRepositoryActions,
 	],
 	awaitDomReady: false,
-	deduplicate: 'has-rgh-inner',
 	init,
 });
 
