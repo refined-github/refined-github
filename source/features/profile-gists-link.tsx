@@ -34,7 +34,8 @@ function getUser(): {url: string; name: string} {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('.UnderlineNav-body', appendTab, {signal});
+	// `.Layout-main` needed for specificity #6162
+	observe('.Layout-main .UnderlineNav-body', appendTab, {signal});
 }
 
 async function appendTab(navigationBar: Element): Promise<void> {
