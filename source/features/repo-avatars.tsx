@@ -29,12 +29,14 @@ async function init(): Promise<void> {
 		/>
 	);
 
+	link.append(avatar);
+	icon.replaceWith(link);
+	
+	await pageLoaded; // For `isOrganizationRepo`
+
 	if (!pageDetect.isOrganizationRepo()) {
 		avatar.classList.add('avatar-user');
 	}
-
-	link.append(avatar);
-	icon.replaceWith(link);
 }
 
 void features.add(import.meta.url, {
