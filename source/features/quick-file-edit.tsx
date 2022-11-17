@@ -24,7 +24,6 @@ const cachedGetDefaultBranch = mem(getDefaultBranch, cachePerPage);
 
 async function linkifyIcon(fileIcon: Element): Promise<void> {
 	const isPermalink_ = await cachedIsPermalink();
-	debugger;
 	const fileLink = fileIcon.closest('.js-navigation-item, .react-directory-filename-column')!.querySelector('a.js-navigation-open, a.Link--primary')!;
 	const url = new GitHubURL(fileLink.href).assign({
 		route: 'edit',
