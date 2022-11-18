@@ -187,7 +187,7 @@ export const v4 = mem(async (
 			Accept: 'application/vnd.github.merge-info-preview+json',
 		},
 		method: 'POST',
-		body: JSON.stringify({query: `{${query}}`}),
+		body: JSON.stringify({query: query.trimStart().startsWith('mutation') ? query : `{${query}}`}),
 	});
 
 	const apiResponse: GraphQLResponse = await response.json();
