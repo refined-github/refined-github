@@ -1,3 +1,5 @@
+// TODO: Drop js-navigation-item. Pre-React makeover
+
 import './quick-file-edit.css';
 import mem from 'mem';
 import React from 'dom-chef';
@@ -22,7 +24,7 @@ const cachedGetDefaultBranch = mem(getDefaultBranch, cachePerPage);
 
 async function linkifyIcon(fileIcon: Element): Promise<void> {
 	const isPermalink_ = await cachedIsPermalink();
-	const fileLink = fileIcon.closest('.js-navigation-item')!.querySelector('a.js-navigation-open')!;
+	const fileLink = fileIcon.closest('.js-navigation-item, .react-directory-filename-column')!.querySelector('a.js-navigation-open, a.Link--primary')!;
 	const url = new GitHubURL(fileLink.href).assign({
 		route: 'edit',
 	});
@@ -37,7 +39,10 @@ async function linkifyIcon(fileIcon: Element): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-navigation-container :not(a) > .octicon-file', linkifyIcon, {signal});
+	observe([
+		'.react-directory-filename-column svg.color-fg-muted',
+		'.js-navigation-container .octicon-file',
+	], linkifyIcon, {signal});
 }
 
 void features.add(import.meta.url, {
