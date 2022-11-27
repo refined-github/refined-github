@@ -7,11 +7,11 @@ import SearchQuery from '../github-helpers/search-query';
 function init(): void {
 	const sourceItem = select('#filters-select-menu a:nth-last-child(2)')!;
 
-	// "Involved" filter
+	// "involves" filter
 	const commentsLink = sourceItem.cloneNode(true);
 	commentsLink.lastChild!.textContent = 'Everything you’re involved in';
 	commentsLink.removeAttribute('target');
-	commentsLink.href = SearchQuery.from(commentsLink).set('is:open involved:@me').href;
+	commentsLink.href = SearchQuery.from(commentsLink).set('is:open involves:@me').href;
 	commentsLink.setAttribute('aria-checked', String(commentsLink.href === location.href)); // #4589
 
 	sourceItem.after(commentsLink);
