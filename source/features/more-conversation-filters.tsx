@@ -7,7 +7,7 @@ import SearchQuery from '../github-helpers/search-query';
 function init(): void {
 	const sourceItem = select('#filters-select-menu a:nth-last-child(2)')!;
 
-	// "involves" filter
+	// "Involved" filter
 	const commentsLink = sourceItem.cloneNode(true);
 	commentsLink.lastChild!.textContent = 'Everything you’re involved in';
 	commentsLink.removeAttribute('target');
