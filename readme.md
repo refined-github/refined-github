@@ -45,11 +45,6 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 		</sup>
 	</p>
 	<br>
-	<a href="https://alm.sh">
-		<img src="https://sindresorhus.com/assets/thanks/alm-logo.svg" width="160">
-	</a>
-	<br>
-	<br>
 	<a href="https://retool.com/?utm_campaign=sindresorhus">
 		<img src="https://sindresorhus.com/assets/thanks/retool-logo.svg" width="210">
 	</a>
