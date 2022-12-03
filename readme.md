@@ -30,8 +30,8 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 <table><tr><td width="550"><div align="center">
  	<p><sup><a href="https://github.com/sponsors/fregante">@fregante</a>’s open source work is supported by the community.<br>Special thanks to:</sup></p>
  	<p><a href="http://prisma.io/">
-		<img src="https://user-images.githubusercontent.com/1402241/205428817-d65a594c-6409-44b3-9fc4-aade4742fe6b.svg" width="180" alt="Prisma.io">
- 		<br><sub>Next-generation Node.js and TypeScript ORM with an intuitive data model, automated migrations, type-safety & auto-completion.</sub>
+		<img src="https://user-images.githubusercontent.com/1402241/205429539-4549ea71-f26c-432a-aaef-db430c435718.svg" width="250" alt="Prisma.io">
+ 		<br><sup>Next-generation Node.js and TypeScript ORM with an intuitive data model, automated migrations, type-safety & auto-completion.</sup>
  	</a></p>
 	<p><a href="https://www.runforesight.com/?utm_source=refined-github&utm_medium=sponsorship">
 		<img src="https://user-images.githubusercontent.com/1402241/194528204-2b67860c-ca74-4b11-b664-723c50ae8e23.svg" width="220" alt="Foresight">
