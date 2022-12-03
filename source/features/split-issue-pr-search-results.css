@@ -1,8 +1,0 @@
-.menu-item.selected.rgh-split-issue-pr-combined {
-	background-color: initial;
-}
-
-.menu-item.selected.rgh-split-issue-pr-combined:hover {
-	background-color: var(--color-menu-bg-active, #f6f8fa);
-	cursor: pointer;
-}

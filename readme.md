@@ -27,28 +27,25 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 
 <div align="center">
 
-<table><tr><td width="700"><div align="center">
+<table><tr><td width="550"><div align="center">
  	<p><sup><a href="https://github.com/sponsors/fregante">@fregante</a>’s open source work is supported by the community.<br>Special thanks to:</sup></p>
- 	<a href="https://www.runforesight.com/?utm_source=refined-github&utm_medium=sponsorship">
- 		<div>
-			<img src="https://user-images.githubusercontent.com/1402241/194528204-2b67860c-ca74-4b11-b664-723c50ae8e23.svg" width="220" alt="Foresight">
-		</div>
- 		<sup>Full visibility and deep insights into the health and performance of your tests and GitHub Actions Workflows. Assess the risk of changes, resolve bottlenecks, reduce build times, and deliver high-quality software at speed with Foresight.</sup>
- 	</a>
+ 	<p><a href="http://prisma.io/">
+		<img src="https://user-images.githubusercontent.com/1402241/205429539-4549ea71-f26c-432a-aaef-db430c435718.svg" width="250" alt="Prisma.io">
+ 		<br><sup>Next-generation Node.js and TypeScript ORM with an intuitive data model, automated migrations, type-safety & auto-completion.</sup>
+ 	</a></p>
+	<p><a href="https://www.runforesight.com/?utm_source=refined-github&utm_medium=sponsorship">
+		<img src="https://user-images.githubusercontent.com/1402241/194528204-2b67860c-ca74-4b11-b664-723c50ae8e23.svg" width="220" alt="Foresight">
+ 		<br><sup>Full visibility and deep insights into the health and performance of your tests and GitHub Actions Workflows. Assess the risk of changes, resolve bottlenecks, reduce build times, and deliver high-quality software at speed with Foresight.</sup>
+ 	</a></p>
 </table>
 
-<table><tr><td width="700">
+<table><tr><td width="550">
 <div align="center">
 	<p>
 		<sup>
 			Sindre’s open source work is supported by the community.<br>Special thanks to:
 		</sup>
 	</p>
-	<br>
-	<a href="https://alm.sh">
-		<img src="https://sindresorhus.com/assets/thanks/alm-logo.svg" width="160">
-	</a>
-	<br>
 	<br>
 	<a href="https://retool.com/?utm_campaign=sindresorhus">
 		<img src="https://sindresorhus.com/assets/thanks/retool-logo.svg" width="210">
@@ -241,7 +238,6 @@ Thanks for contributing! 🦋🙌
 ### Conversations
 
 - [](# "open-all-conversations") [Lets you open all visible conversations at once.](https://user-images.githubusercontent.com/46634000/110980658-5face000-8366-11eb-88f9-0cc94f75ce57.gif)
-- [](# "split-issue-pr-search-results") [Separates issues from PRs in the global search.](https://user-images.githubusercontent.com/1402241/52181103-35a09f80-2829-11e9-9c6f-57f2e08fc5b2.png)
 - [](# "sticky-conversation-list-toolbar") [Makes the conversation list’s filters toolbar sticky.](https://user-images.githubusercontent.com/380914/39878141-7632e61a-542c-11e8-9c66-74fcd3a134aa.gif)
 - [](# "highlight-collaborators-and-own-conversations") [Highlights conversations opened by you or the current repo’s collaborators.](https://user-images.githubusercontent.com/1402241/65013882-03225d80-d947-11e9-8eb8-5507bc1fc14b.png)
 - [](# "align-issue-labels") [In conversation lists, aligns the labels to the left, below each title.](https://user-images.githubusercontent.com/37769974/85866472-11aa7900-b7e5-11ea-80aa-d84e3aee2551.png)
@@ -366,6 +362,7 @@ Thanks for contributing! 🦋🙌
 - [](# "select-all-notifications-shortcut") Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
 - [](# "linkify-notification-repository-header") [Linkifies the header of each notification group (when grouped by repository).](https://user-images.githubusercontent.com/1402241/80849887-81531c00-8c19-11ea-8777-7294ce318630.png)
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
+- [](# "last-notification-page-button") [Adds a link to the last page of notifications.](https://user-images.githubusercontent.com/16872793/199828181-3ff2cef3-8740-4efa-8122-8f2f222bd657.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

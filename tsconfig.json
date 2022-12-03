@@ -8,7 +8,12 @@
 		"declaration": false,
 		"esModuleInterop": true,
 		"noUncheckedIndexedAccess": false,
-		"noPropertyAccessFromIndexSignature": false
+		"noPropertyAccessFromIndexSignature": false,
+		"lib": [
+			"DOM",
+			"DOM.Iterable",
+			"ES2021"
+		],
 	},
 	"include": [
 		"source",

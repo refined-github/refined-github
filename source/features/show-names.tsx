@@ -23,7 +23,8 @@ const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnc
 		// Drop 'commented' label to shorten the copy
 		const commentedNode = element.parentNode!.nextSibling;
 		if (element.closest('.timeline-comment-header') && commentedNode) {
-			removeTextNodeContaining(commentedNode, /commented/);
+			// "left a comment" appears in the main comment of reviews
+			removeTextNodeContaining(commentedNode, /commented|left a comment/);
 		}
 	}
 
