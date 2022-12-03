@@ -27,17 +27,19 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 
 <div align="center">
 
-<table><tr><td width="700"><div align="center">
+<table><tr><td width="550"><div align="center">
  	<p><sup><a href="https://github.com/sponsors/fregante">@fregante</a>’s open source work is supported by the community.<br>Special thanks to:</sup></p>
- 	<a href="https://www.runforesight.com/?utm_source=refined-github&utm_medium=sponsorship">
- 		<div>
-			<img src="https://user-images.githubusercontent.com/1402241/194528204-2b67860c-ca74-4b11-b664-723c50ae8e23.svg" width="220" alt="Foresight">
-		</div>
- 		<sup>Full visibility and deep insights into the health and performance of your tests and GitHub Actions Workflows. Assess the risk of changes, resolve bottlenecks, reduce build times, and deliver high-quality software at speed with Foresight.</sup>
- 	</a>
+ 	<p><a href="http://prisma.io/">
+		<img src="https://user-images.githubusercontent.com/1402241/205428817-d65a594c-6409-44b3-9fc4-aade4742fe6b.svg" width="180" alt="Prisma.io">
+ 		<br><sub>Next-generation Node.js and TypeScript ORM with an intuitive data model, automated migrations, type-safety & auto-completion.</sub>
+ 	</a></p>
+	<p><a href="https://www.runforesight.com/?utm_source=refined-github&utm_medium=sponsorship">
+		<img src="https://user-images.githubusercontent.com/1402241/194528204-2b67860c-ca74-4b11-b664-723c50ae8e23.svg" width="220" alt="Foresight">
+ 		<br><sup>Full visibility and deep insights into the health and performance of your tests and GitHub Actions Workflows. Assess the risk of changes, resolve bottlenecks, reduce build times, and deliver high-quality software at speed with Foresight.</sup>
+ 	</a></p>
 </table>
 
-<table><tr><td width="700">
+<table><tr><td width="550">
 <div align="center">
 	<p>
 		<sup>
