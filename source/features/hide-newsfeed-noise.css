@@ -9,15 +9,14 @@ published a release
 edited a gollum (wiki)
 */
 
-/* TODO: Revert `classes` #6072 */
-.rgh-hide-newsfeed-noise .news :is(
-[classes~='push'],
-[classes~='fork'],
-[classes~='delete'],
-[classes~='follow'],
-[classes~='release'],
-[classes~='gollum']
-),
+/* TODO: Drop old classes, no longer used */
 .rgh-hide-newsfeed-noise .news :is(.push, .fork, .delete, .follow, .release, .gollum) {
+	display: none !important;
+}
+
+.rgh-hide-newsfeed-noise .body:has(
+	[data-hydro-click*='"type":"PushEvent"'],
+	[data-hydro-click*='"type":"ReleaseEvent"']
+) {
 	display: none !important;
 }
