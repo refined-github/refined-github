@@ -33,7 +33,6 @@ import './features/unhide-reactions-on-mobile.css';
 // CSS-only disableable features
 import './features/align-issue-labels';
 import './features/clean-pinned-issues';
-import './features/clean-dashboard';
 import './features/hide-newsfeed-noise';
 import './features/minimize-upload-bar';
 import './features/hide-diff-signs';
