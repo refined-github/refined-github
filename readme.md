@@ -350,7 +350,6 @@ Thanks for contributing! 🦋🙌
 
 ### Newsfeed
 
-- [](# "clean-dashboard") 🔥 [Condenses the events to take up less space and uncollapses "User starred X repos" groups.](https://user-images.githubusercontent.com/1402241/54401114-39192780-4701-11e9-9934-7c71f01e957f.png)
 - [](# "hide-own-stars") Hides "starred" events for your own repos on the newsfeed.
 - [](# "hide-newsfeed-noise") Hides other inutile newsfeed events (commits, forks, new followers).
 - [](# "infinite-scroll") Automagically expands the newsfeed when you scroll down.

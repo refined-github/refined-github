@@ -51,7 +51,7 @@ function getBestComment(): HTMLElement | undefined {
 
 function highlightBestComment(bestComment: Element): void {
 	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
-	select('.unminimized-comment .timeline-comment-header-text', bestComment)!.before(
+	select('.unminimized-comment .timeline-comment-header > h3', bestComment)!.before(
 		<span
 			className="color-fg-success tooltipped tooltipped-s"
 			aria-label="This comment has the most positive reactions on this issue."
@@ -115,3 +115,11 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+
+/*
+Test URLs:
+
+- 8th comment, has link: https://github.com/refined-github/refined-github/issues/4166
+- 2nd comment, no link: https://github.com/refined-github/refined-github/issues/825
+*/
