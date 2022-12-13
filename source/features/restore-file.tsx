@@ -90,20 +90,11 @@ async function restoreFile(progress: (message: string) => void, menuItem: Elemen
 	}`);
 }
 
-const filesRestored = new WeakSet<HTMLButtonElement>();
 async function handleRestoreFileClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const menuItem = event.delegateTarget;
 
-	// Only allow one click
-	if (filesRestored.has(menuItem)) {
-		return;
-	}
-
-	filesRestored.add(menuItem);
-
 	try {
 		const filePath = menuItem.closest<HTMLDivElement>('[data-path]')!.dataset.path!;
-		// Show toast while restoring
 		await showToast(async progress => restoreFile(progress!, menuItem, filePath), {
 			message: 'Restoring…',
 			doneMessage: 'Restored!',
@@ -111,7 +102,7 @@ async function handleRestoreFileClick(event: DelegateEvent<MouseEvent, HTMLButto
 
 		// Hide file from view
 		menuItem.closest('.file')!.remove();
-	} catch (error: unknown) {
+	} catch (error) {
 		features.log.error(import.meta.url, error);
 	}
 }
@@ -140,10 +131,10 @@ function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 	);
 }
 
-function init(): void {
-	// `useCapture` required to be fired before GitHub's handlers
-	delegate(document, '.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, true);
-	delegate(document, '.rgh-restore-file', 'click', handleRestoreFileClick, true);
+function init(signal: AbortSignal): void {
+	// `capture: true` required to be fired before GitHub's handlers
+	delegate(document, '.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, {capture: true, signal});
+	delegate(document, '.rgh-restore-file', 'click', handleRestoreFileClick, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {
