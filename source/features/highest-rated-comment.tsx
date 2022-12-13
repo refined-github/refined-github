@@ -51,7 +51,7 @@ function getBestComment(): HTMLElement | undefined {
 
 function highlightBestComment(bestComment: Element): void {
 	select('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
-	select('.unminimized-comment .text-normal', bestComment)!.before(
+	select('.unminimized-comment .timeline-comment-header h3', bestComment)!.before(
 		<span
 			className="color-fg-success tooltipped tooltipped-s"
 			aria-label="This comment has the most positive reactions on this issue."
