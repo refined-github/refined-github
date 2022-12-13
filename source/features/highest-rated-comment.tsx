@@ -115,3 +115,11 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+
+/*
+Test URLs:
+
+- 8th comment, has link: https://github.com/refined-github/refined-github/issues/4166
+- 2nd comment, no link: https://github.com/refined-github/refined-github/issues/825
+*/
