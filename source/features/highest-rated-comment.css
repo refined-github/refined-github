@@ -7,10 +7,6 @@
 	background-color: var(--color-success-emphasis);
 }
 
-.rgh-highest-rated-comment.timeline-comment--caret::after {
-	left: -6px; /* make caret border 2px */
-}
-
 a.rgh-highest-rated-comment {
 	border: 2px solid var(--color-success-emphasis) !important;
 }
