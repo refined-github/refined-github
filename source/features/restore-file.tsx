@@ -75,7 +75,7 @@ async function restoreFile(progress: (message: string) => void, menuItem: Elemen
 				additions: [
 					{
 						path: "${filePath}",
-						contents: "${btoa(content)}"
+						contents: "${btoa(unescape(encodeURIComponent(content)))}"
 					}
 				]
 			},
