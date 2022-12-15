@@ -1,21 +1,17 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import pushForm from 'push-form';
-import * as pageDetect from 'github-url-detection';
+import onetime from 'onetime';
 import delegate, {DelegateEvent} from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
-import fetchDom from '../helpers/fetch-dom';
 import showToast from '../github-helpers/toast';
 import {getConversationNumber} from '../github-helpers';
 
-/**
-Get the current base commit of this PR. It should change after rebases and merges in this PR.
-This value is not consistently available on the page (appears in `/files` but not when only 1 commit is selected)
-*/
-// TODO: Replace this with `get-pr-info` when GHE supports it
-async function getBaseReference(): Promise<string> {
+// Get the current base commit of this PR. It should change after rebases and merges in this PR.
+// This value is not consistently available on the page (appears in `/files` but not when only 1 commit is selected)
+const getBaseReference = onetime(async (): Promise<string> => {
 	const {repository} = await api.v4(`
 		repository() {
 			pullRequest(number: ${getConversationNumber()!}) {
@@ -24,7 +20,18 @@ async function getBaseReference(): Promise<string> {
 		}
 	`);
 	return repository.pullRequest.baseRefOid;
-}
+});
+const getHeadReference = async (): Promise<string> => {
+	// Get the sha of the latest commit to the PR, required to create a new commit
+	const {repository} = await api.v4(`
+		repository() { # Cache buster ${Math.random()}
+			pullRequest(number: ${getConversationNumber()!}) {
+				headRefOid
+			}
+		}
+	`);
+	return repository.pullRequest.headRefOid;
+};
 
 async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | undefined> {
 	const {repository} = await api.v4(`
@@ -53,42 +60,51 @@ async function restoreFile(progress: (message: string) => void, menuItem: Elemen
 		throw new Error('Restore failed: File too big');
 	}
 
-	let {pathname} = menuItem.previousElementSibling as HTMLAnchorElement;
-	// Check if file was deleted by PR
-	if (menuItem.closest('[data-file-deleted="true"]')) {
-		progress('Undeleting…');
-		const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
-		pathname = `/${nameWithOwner}/new/${headBranch}?filename=${filePath}`;
-	} else {
-		progress('Committing…');
-	}
+	const [nameWithOwner, prBranch] = select('.head-ref')!.title.split(':');
+	progress(menuItem.closest('[data-file-deleted="true"]') ? 'Undeleting…' : 'Committing…');
 
 	const content = file.text;
-	// This is either an `edit` or `create` form
-	const form = (await fetchDom(pathname, 'form.js-blob-form'))!;
-	form.elements.value.value = content; // Restore content (`value` is the name of the file content field)
-	form.elements.message.value = (form.elements.message as HTMLInputElement).placeholder
-		.replace(/^Create|^Update/, 'Restore');
-
-	const response = await pushForm(form);
-	if (!response.ok) {
-		throw new Error(response.statusText);
-	}
+	await api.v4(`mutation {
+		createCommitOnBranch(input: {
+			branch: {
+				repositoryNameWithOwner: "${nameWithOwner}",
+				branchName: "${prBranch}"
+			},
+			expectedHeadOid: "${await getHeadReference()}",
+			fileChanges: {
+				additions: [
+					{
+						path: "${filePath}",
+						contents: "${btoa(unescape(encodeURIComponent(content)))}"
+					}
+				]
+			},
+			message: {
+				headline: "Restore ${filePath}"
+			}
+		}) {
+			commit {
+				oid
+			}
+		}
+	}`);
 }
 
 async function handleRestoreFileClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const menuItem = event.delegateTarget;
 
-	await showToast(async progress => {
+	try {
 		const filePath = menuItem.closest<HTMLDivElement>('[data-path]')!.dataset.path!;
-		return restoreFile(progress!, menuItem, filePath);
-	}, {
-		message: 'Restoring…',
-		doneMessage: 'Restored!',
-	});
+		await showToast(async progress => restoreFile(progress!, menuItem, filePath), {
+			message: 'Restoring…',
+			doneMessage: 'Restored!',
+		});
 
-	// Hide file from view
-	menuItem.closest('.file')!.remove();
+		// Hide file from view
+		menuItem.closest('.file')!.remove();
+	} catch (error) {
+		features.log.error(import.meta.url, error);
+	}
 }
 
 function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
