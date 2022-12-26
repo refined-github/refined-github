@@ -203,14 +203,9 @@ async function highlightNewFeatures(): Promise<void> {
 	void browser.storage.local.set({featuresAlreadySeen});
 }
 
-async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
-	const disabledFeatures = <div className="js-hotfixes"/>;
-
+async function markLocalHotfixes(): Promise<void> {
 	for (const [feature, relatedIssue] of await getLocalHotfixes()) {
 		if (importedFeatures.includes(feature)) {
-			disabledFeatures.append(
-				<p><code>{feature}</code> has been temporarily disabled due to {createRghIssueLink(relatedIssue)}.</p>,
-			);
 			const input = select<HTMLInputElement>('#' + feature)!;
 			input.disabled = true;
 			input.removeAttribute('name');
@@ -219,8 +214,6 @@ async function getLocalHotfixesAsNotice(): Promise<HTMLElement> {
 			);
 		}
 	}
-
-	return disabledFeatures;
 }
 
 function updateRateLink(): void {
@@ -239,7 +232,7 @@ async function generateDom(): Promise<void> {
 	);
 
 	// Add notice for features disabled via hotfix
-	select('.js-features')!.before(await getLocalHotfixesAsNotice());
+	await markLocalHotfixes();
 
 	// Update list from saved options
 	await perDomainOptions.syncForm('form');
