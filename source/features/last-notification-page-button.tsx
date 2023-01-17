@@ -7,11 +7,13 @@ import looseParseInt from '../helpers/loose-parse-int';
 import {assertNodeContent} from '../helpers/dom-utils';
 import observe from '../helpers/selector-observer';
 
+let itemsPerNotificationsPage = 25;
+
 function linkify(nextButton: HTMLAnchorElement): void {
 	const lastNotificationPageNode = select('.js-notifications-list-paginator-counts')!.lastChild!;
 	assertNodeContent(lastNotificationPageNode, /^of \d+$/);
 	const lastNotificationPageNumber = looseParseInt(lastNotificationPageNode);
-	const lastCursor = Math.floor(lastNotificationPageNumber / 50) * 50;
+	const lastCursor = Math.floor(lastNotificationPageNumber / itemsPerNotificationsPage) * itemsPerNotificationsPage;
 	const nextButtonSearch = new URLSearchParams(nextButton.search);
 	nextButtonSearch.set('after', btoa(`cursor:${lastCursor}`));
 	lastNotificationPageNode.replaceWith(
