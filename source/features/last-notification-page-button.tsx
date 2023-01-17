@@ -7,7 +7,7 @@ import looseParseInt from '../helpers/loose-parse-int';
 import {assertNodeContent} from '../helpers/dom-utils';
 import observe from '../helpers/selector-observer';
 
-let itemsPerNotificationsPage = 25;
+const itemsPerNotificationsPage = 25;
 
 function linkify(nextButton: HTMLAnchorElement): void {
 	const lastNotificationPageNode = select('.js-notifications-list-paginator-counts')!.lastChild!;
