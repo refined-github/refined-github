@@ -148,6 +148,7 @@ void features.add(import.meta.url, {
 /*
 # Test URLs
 
+- PR files: https://github.com/refined-github/refined-github/pull/6261/files
 - Compare, in "Files changed" tab: https://github.com/rancher/rancher/compare/v2.6.3...v2.6.6
 - Compare, without tab: https://github.com/rancher/rancher/compare/v2.6.5...v2.6.6
 - Single commit: https://github.com/rancher/rancher/commit/e82921075436c21120145927d5a66037661fcf4e
