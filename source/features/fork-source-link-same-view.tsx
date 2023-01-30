@@ -15,8 +15,8 @@ async function getEquivalentURL(): Promise<string> {
 	const forkedRepository = getRepo(getForkedRepo())!;
 	const defaultUrl = '/' + forkedRepository.nameWithOwner;
 
-	// Do not use `isConversation` https://github.com/refined-github/refined-github/pull/5494#discussion_r829019629
-	if (pageDetect.isIssue() || pageDetect.isPR() || pageDetect.isRepoRoot() || pageDetect.isSingleTag()) {
+	// Only enable the feature on known-shared pages
+	if (!(isFilePath() || pageDetect.isTags())) {
 		// We must reset the link because the header is outside the ajaxed area
 		return defaultUrl;
 	}
