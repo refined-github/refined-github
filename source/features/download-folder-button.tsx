@@ -12,7 +12,7 @@ function add(folderDropdown: HTMLElement): void {
 	folderDropdown.before(
 		// The buttons are spaced via `gap` on `md+` resolutions, and via `margin` at `sm`
 		<a
-			className="btn tooltipped tooltipped-nw rgh-download-folder mr-2 mr-md-0"
+			className="btn tooltipped tooltipped-nw mr-2 mr-md-0"
 			aria-label="Download directory"
 			href={downloadUrl.href}
 		>
