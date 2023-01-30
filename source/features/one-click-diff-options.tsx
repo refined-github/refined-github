@@ -108,7 +108,7 @@ function attachButtons(nativeDiffButtons: HTMLElement): void {
 		anchor.after(
 			<div className="float-right mr-3">
 				{createWhitespaceButton()}
-			</div>
+			</div>,
 		);
 	} else {
 		anchor.before(createWhitespaceButton());
