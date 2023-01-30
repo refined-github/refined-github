@@ -38,13 +38,15 @@ function attachPRButtons(dropdownIcon: SVGElement): void {
 	const dropdown = dropdownIcon.closest('details.diffbar-item')!;
 	const diffSettingsForm = select('form[action$="/diffview"]', dropdown)!;
 
-	// Empty form except the token field
-	diffSettingsForm.replaceChildren(select('[name="authenticity_token"]', diffSettingsForm)!);
-
+	// Preserve data before emption the form
 	const isUnified = new FormData(diffSettingsForm).get('diff') === 'unified';
+	const token = select('[name="authenticity_token"]', diffSettingsForm)!;
+
+	// Empty form except the token field
+	diffSettingsForm.replaceChildren(token);
+
 	const type = isUnified ? 'split' : 'unified';
 	const Icon = isUnified ? BookIcon : DiffIcon;
-
 	diffSettingsForm.append(
 		<button
 			className="tooltipped tooltipped-s ml-2 btn-link Link--muted p-2"
@@ -57,15 +59,14 @@ function attachPRButtons(dropdownIcon: SVGElement): void {
 		</button>,
 	);
 
-	const isHidingWhitespace = new FormData(diffSettingsForm).get('w') === '0';
-	if (!isHidingWhitespace) {
+	if (!isHidingWhitespace()) {
 		diffSettingsForm.append(
 			<button
 				data-hotkey="d w"
 				className="tooltipped tooltipped-s btn-link Link--muted p-2"
 				aria-label="Hide whitespace changes"
 				name="w"
-				value="0"
+				value="1"
 				type="submit"
 			>
 				<DiffModifiedIcon className="v-align-middle"/>
