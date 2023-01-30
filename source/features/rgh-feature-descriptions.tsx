@@ -1,14 +1,16 @@
+import './rgh-feature-descriptions.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
-import {wrapAll} from '../helpers/dom-utils';
 import {featuresMeta} from '../../readme.md';
 import {getNewFeatureName} from '../options-storage';
 import {isRefinedGitHubRepo} from '../github-helpers';
 import observe from '../helpers/selector-observer';
 
-async function add(commit: HTMLElement): Promise<void> {
+async function add(infoBanner: HTMLElement): Promise<void> {
+	console.log(infoBanner);
+
 	const [, currentFeature] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
 	// Enable link even on past commits
 	const currentFeatureName = getNewFeatureName(currentFeature);
@@ -17,17 +19,24 @@ async function add(commit: HTMLElement): Promise<void> {
 		return;
 	}
 
-	const commitInfoBox = commit.parentElement!;
-
 	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
 	conversationsUrl.searchParams.set('q', `sort:updated-desc "${feature.id}"`);
 
-	commitInfoBox.classList.add('width-fit', 'min-width-0', 'flex-auto', 'mb-lg-0', 'mr-lg-3');
-	commitInfoBox.classList.remove('flex-shrink-0');
-
-	const featureInfoBox = (
-		<div className="Box" style={{flex: '0 1 544px'}}>
-			<div className="Box-row d-flex height-full">
+	infoBanner.before(
+		<div className="Box mb-3">
+			<div className="Box-row d-flex gap-3 flex-wrap">
+				<div className="rgh-feature-description">
+					{ /* eslint-disable-next-line react/no-danger */ }
+					<h3 dangerouslySetInnerHTML={{__html: feature.description}}/>
+					<div className="no-wrap" data-turbo-frame="repo-content-turbo-frame">
+						<a href={conversationsUrl.href}>Related issues</a>
+						{
+							location.pathname.endsWith('css')
+								? <> • <a href={location.pathname.replace('.css', '.tsx')}>See JavaScript</a></>
+								: undefined
+						}
+					</div>
+				</div>
 				{feature.screenshot && (
 					<a href={feature.screenshot} className="flex-self-center">
 						<img
@@ -39,27 +48,13 @@ async function add(commit: HTMLElement): Promise<void> {
 							}}/>
 					</a>
 				)}
-				<div className={'flex-auto' + (feature.screenshot ? ' ml-3' : '')}>
-					{ /* eslint-disable-next-line react/no-danger */ }
-					<div dangerouslySetInnerHTML={{__html: feature.description}} className="text-bold"/>
-					<div className="no-wrap" data-turbo-frame="repo-content-turbo-frame">
-						<a href={conversationsUrl.href}>Related issues</a>
-						{
-							location.pathname.endsWith('css')
-								? <> • <a href={location.pathname.replace('.css', '.tsx')}>See JavaScript</a></>
-								: undefined
-						}
-					</div>
-				</div>
 			</div>
-		</div>
+		</div>,
 	);
-
-	wrapAll([commitInfoBox, featureInfoBox], <div className="d-lg-flex mb-4"/>);
 }
 
 function init(signal: AbortSignal): void {
-	observe('[data-testid="latest-commit"]', add, {signal});
+	observe('#repos-sticky-header', add, {signal});
 }
 
 void features.add(import.meta.url, {
