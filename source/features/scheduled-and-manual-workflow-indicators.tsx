@@ -99,7 +99,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	const relativeTime = <relative-time datetime={String(nextTime)}/>;
 	select('.ActionList-item-label', workflowListItem)!.append(
 		<em>
-			(next {relativeTime})
+			({relativeTime})
 		</em>,
 	);
 	setTimeout(() => {
