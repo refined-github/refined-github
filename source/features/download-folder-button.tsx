@@ -34,3 +34,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs
+
+- Own repo: https://github.com/refined-github/refined-github/tree/main/.github
+- Archived repo: https://github.com/fregante/object-fit-images/tree/master/demo
+
+*/
