@@ -3,8 +3,10 @@ import {isEditable} from '../helpers/dom-utils';
 
 async function handler({key, target}: KeyboardEvent): Promise<void> {
 	if (key === 'y' && !isEditable(target)) {
-		await navigator.clipboard.writeText(location.href);
-		console.log('Copied URL to the clipboard', location.href);
+		const url = location.href;
+		await navigator.clipboard.writeText(url);
+		// Log to ensure we're coping the new URL
+		console.log('Copied URL to the clipboard', url);
 	}
 }
 
