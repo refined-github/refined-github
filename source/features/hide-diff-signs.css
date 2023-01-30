@@ -2,13 +2,3 @@
 .rgh-hide-diff-signs .blob-code-marker-cell::before { /* Commit page */
 	visibility: hidden;
 }
-
-/*
-
-File URLs
-
-Any commits on https://github.com/sindresorhus/refined-github/commits/main
-Any reviewed block on https://github.com/sindresorhus/refined-github/pull/1783
-Full diff on https://github.com/sindresorhus/refined-github/pull/1783/files
-
-*/
