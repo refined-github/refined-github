@@ -11,7 +11,7 @@ import {wrap} from '../helpers/dom-utils';
 import {getRghIssueUrl} from '../helpers/rgh-issue-link';
 
 function init(): void {
-	for (const issueCell of select.all('td:nth-child(3)')) {
+	for (const issueCell of select.all('.js-csv-data td:nth-child(3)')) {
 		wrap(issueCell.firstChild!, <a href={getRghIssueUrl(issueCell.textContent!)}/>);
 	}
 }
@@ -19,8 +19,7 @@ function init(): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepo,
-		pageDetect.hasCode,
-		pageDetect.isSingleFile,
+		() => new URLSearchParams(location.pathname).has('broken-features.csv'),
 	],
 	awaitDomReady: false,
 	init,
