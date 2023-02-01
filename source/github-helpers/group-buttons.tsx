@@ -6,7 +6,7 @@ import {wrapAll} from '../helpers/dom-utils';
 export const groupButtons = (buttons: Element[]): Element => {
 	// Ensure every button has this class
 	for (let button of buttons) {
-		if (!button.matches('.btn')) {
+		if (!button.matches('button, .btn')) {
 			button.classList.add('BtnGroup-parent');
 			button = button.querySelector('.btn')!;
 		}

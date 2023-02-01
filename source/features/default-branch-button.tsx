@@ -1,5 +1,5 @@
+import './default-branch-button.css';
 import React from 'dom-chef';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {ChevronLeftIcon} from '@primer/octicons-react';
 
@@ -8,20 +8,15 @@ import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getCurrentCommittish} from '../github-helpers';
+import observe from '../helpers/selector-observer';
 
-async function init(): Promise<false | void> {
+async function add(branchSelector: HTMLElement): Promise<void> {
 	const defaultBranch = await getDefaultBranch();
-	const branchSelector = await elementReady('[data-hotkey="w"]');
-	// The branch selector is missing from History pages of files and folders (it only appears on the root)
-	if (!branchSelector) {
-		return false;
-	}
-
 	const currentBranch = getCurrentCommittish();
 
 	// Don't show the button if we’re already on the default branch
 	if (defaultBranch === currentBranch) {
-		return false;
+		return;
 	}
 
 	const url = new GitHubURL(location.href);
@@ -35,7 +30,7 @@ async function init(): Promise<false | void> {
 
 	const defaultLink = (
 		<a
-			className="btn tooltipped tooltipped-ne rgh-default-branch-button"
+			className="btn tooltipped tooltipped-s px-2"
 			href={url.href}
 			data-turbo-frame="repo-content-turbo-frame"
 			aria-label="See this view on the default branch"
@@ -44,9 +39,17 @@ async function init(): Promise<false | void> {
 		</a>
 	);
 
-	branchSelector.parentElement!.before(defaultLink);
-	branchSelector.parentElement!.style.zIndex = 'auto'; // For #4240
-	groupButtons([defaultLink, branchSelector.parentElement!]).classList.add('d-flex');
+	// The DOM varies between details-based DOM and React-based one
+	const selectorWrapper = branchSelector.tagName === 'SUMMARY'
+		? branchSelector.parentElement!
+		: branchSelector;
+
+	selectorWrapper.before(defaultLink);
+	groupButtons([defaultLink, selectorWrapper]).classList.add('d-flex', 'rgh-default-branch-button-group');
+}
+
+function init(signal: AbortSignal): void {
+	observe('[data-hotkey="w"]', add, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -59,6 +62,5 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoHome,
 	],
 	awaitDomReady: false,
-	deduplicate: '.rgh-default-branch-button', // #3945
 	init,
 });
