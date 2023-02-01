@@ -389,7 +389,6 @@ Thanks for contributing! 🦋🙌
 - [](# "reload-failed-proxied-images") [Retries downloading images that failed downloading due to GitHub limited proxying.](https://user-images.githubusercontent.com/14858959/64068746-21991100-cc45-11e9-844e-827f5ac9b51e.png)
 - [](# "unwrap-unnecessary-dropdowns") [Makes some dropdowns 1-click instead of unnecessarily 2-click.](https://user-images.githubusercontent.com/1402241/80859624-9bfdb300-8c62-11ea-837f-7b7a28e6fdfc.png)
 - [](# "prevent-link-loss") [Suggests fixing links that are wrongly shortened by GitHub.](https://user-images.githubusercontent.com/1402241/82131169-93fd5180-97d2-11ea-9695-97051c55091f.gif)
-- [](# "align-repository-header") [Aligns the repository header to the repository content on wide screens.](https://user-images.githubusercontent.com/1402241/86574587-587f3800-bf76-11ea-9961-5c25cdb6e357.gif)
 - [](# "linkify-user-edit-history-popup") [Linkifies the username in the edit history popup.](https://user-images.githubusercontent.com/1402241/88917988-9ebb7480-d260-11ea-8690-0a3440f1ebbc.png)
 - [](# "prevent-duplicate-pr-submission") [Avoids creating duplicate PRs when mistakenly clicking "Create pull request" more than once.](https://user-images.githubusercontent.com/16872793/89589967-e029c200-d814-11ea-962b-3ff1f6236781.gif)
 - [](# "same-page-definition-jump") [Avoids re-loading the page when jumping to function definition in the current file.](https://user-images.githubusercontent.com/16872793/90833649-7a5e2f80-e316-11ea-827d-a4e3ac8ced69.png)

@@ -17,7 +17,6 @@ import './features/always-show-branch-delete-buttons.css';
 import './features/repo-stats-spacing.css';
 import './features/emphasize-draft-pr-label.css';
 import './features/clean-notifications.css';
-import './features/align-repository-header.css';
 import './features/night-not-found.css';
 import './features/hide-watch-and-fork-count.css';
 import './features/clean-commit-form.css';
