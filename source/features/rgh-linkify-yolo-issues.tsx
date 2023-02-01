@@ -9,6 +9,7 @@ import features from '../feature-manager';
 import {wrap} from '../helpers/dom-utils';
 
 import {getRghIssueUrl} from '../helpers/rgh-issue-link';
+import {isAnyRefinedGitHubRepo} from '../github-helpers';
 
 function init(): void {
 	for (const issueCell of select.all('.js-csv-data td:nth-child(3)')) {
@@ -17,8 +18,12 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isAnyRefinedGitHubRepo,
+	],
 	include: [
 		pageDetect.isRepo,
+		pageDetect.isSingleFile,
 		() => new URLSearchParams(location.pathname).has('broken-features.csv'),
 	],
 	awaitDomReady: false,
