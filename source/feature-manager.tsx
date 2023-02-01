@@ -301,7 +301,7 @@ const unload = (featureUrl: string): void => {
 	}
 };
 
-document.addEventListener('turbo:visit', () => {
+document.addEventListener('turbo:render', () => {
 	for (const feature of currentFeatureControllers.values()) {
 		for (const controller of feature) {
 			controller.abort();
