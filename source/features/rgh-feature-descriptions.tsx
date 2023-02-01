@@ -9,7 +9,6 @@ import {isRefinedGitHubRepo} from '../github-helpers';
 import observe from '../helpers/selector-observer';
 
 async function add(infoBanner: HTMLElement): Promise<void> {
-	console.log(infoBanner);
 
 	const [, currentFeature] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
 	// Enable link even on past commits
