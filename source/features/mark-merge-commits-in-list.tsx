@@ -40,8 +40,13 @@ export function getCommitHash(commit: HTMLElement): string {
 async function init(): Promise<void> {
 	const pageCommits = select.all([
 		'.js-commits-list-item', // `isCommitList`
-		'[data-test-selector="pr-timeline-commits-list"] .TimelineItem', // `isPRConversation`
+		'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`, "js-timeline-item" to exclude "isCommitList"
 	].join(','));
+
+	if (pageCommits.length === 0) {
+		throw new Error('No commits found, selector likely out of date');
+	}
+
 	const mergeCommits = await filterMergeCommits(pageCommits.map(commit => getCommitHash(commit)));
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
@@ -60,3 +65,14 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+
+Test URLs
+
+- isPRConversation: https://github.com/refined-github/refined-github/pull/6194
+- isPRCommitList: https://github.com/refined-github/refined-github/pull/6194/commits
+- isCommitList: https://github.com/babel/babel/commits/master?after=ddd40bf5c7ad8565fc990f26142f85613958a329+104
+- isCompare: https://github.com/refined-github/sandbox/compare/e8b25d3e...b3d0d992
+
+*/
