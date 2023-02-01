@@ -48,9 +48,16 @@ async function getAssetsForTag(tags: string[]): Promise<Tag> {
 }
 
 async function addCounts(assetsList: HTMLElement): Promise<void> {
-	const releaseName = assetsList
-		.closest('[data-test-selector="release-card"]')!
-		.parentElement!
+	// TODO: Use :has selector instead
+	if (!select.exists('.octicon-package', assetsList)) {
+		return;
+	}
+
+	// Both pages have .Box but in the list .Box doesn't include the tag
+	const container = assetsList.closest('section') // Single-release page
+		?? assetsList.closest('.Box:not(.Box--condensed)')!; // Releases list, excludes the assets list’s own .Box
+
+	const releaseName = container
 		.querySelector('.octicon-tag ~ span')!
 		.textContent!
 		.trim();
@@ -97,14 +104,22 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	// TODO: Replace with :has selector to be safer
-	observe('[data-test-selector="release-card"] details .Box ul', addCounts, {signal});
+	observe('.Box-footer .Box--condensed', addCounts, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isReleasesOrTags,
 	],
-	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+
+Test URLs
+
+- One release: https://github.com/TigerBeanst/TigerInTheWall/releases/tag/v1.0.6
+- List of releases: https://github.com/TigerBeanst/TigerInTheWall/releases
+- Lots of assets: https://github.com/notepad-plus-plus/notepad-plus-plus/releases
+
+*/
