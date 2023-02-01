@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import {set} from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
@@ -31,7 +32,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	messageField.value = cleanedMessage;
+	set(messageField, cleanedMessage);
 	messageField.after(
 		<p className="note">
 			The description field was cleared by <a target="_blank" href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message" rel="noreferrer">Refined GitHub</a>.
