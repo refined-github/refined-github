@@ -1,13 +1,9 @@
+import React from 'dom-chef';
+import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import React from 'dom-chef';
-
-import select from 'select-dom';
-
-import features from '../feature-manager';
-
 import {wrap} from '../helpers/dom-utils';
-
+import features from '../feature-manager';
 import {getRghIssueUrl} from '../helpers/rgh-issue-link';
 import {isRefinedGitHubYoloRepo} from '../github-helpers';
 
