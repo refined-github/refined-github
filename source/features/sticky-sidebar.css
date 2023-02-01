@@ -38,3 +38,12 @@ Exclusively use simple sums and use `0px` instead of `0`
 .rgh-sticky-sidebar-enabled .pagehead-actions .js-user-list-menu {
 	z-index: unset;
 }
+
+/* z-index fights 🥲 This is the search dropdown on the repo root #6151 */
+html.rgh-sticky-sidebar-enabled:has(.rgh-sticky-sidebar) .search-input.expanded .search-with-dialog {
+	z-index: 95; /* Native: 35 */
+}
+
+html.rgh-sticky-sidebar-enabled:has(.rgh-sticky-sidebar) .search-input.expanded .dark-backdrop {
+	z-index: 92; /* Native: 32 */
+}
