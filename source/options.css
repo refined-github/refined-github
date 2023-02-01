@@ -72,17 +72,6 @@ li[data-validation] {
 	display: flex;
 }
 
-.js-hotfixes:not(:empty) {
-	margin-bottom: 15px;
-	padding: 10px 15px;
-	border: 1px solid var(--rgh-red);
-	border-radius: 0.2em;
-}
-
-.js-hotfixes p {
-	margin-bottom: 0;
-}
-
 .js-features input[type='checkbox'] {
 	flex-shrink: 0;
 }
