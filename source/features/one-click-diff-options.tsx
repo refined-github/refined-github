@@ -1,67 +1,11 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager';
-import attachElement from '../helpers/attach-element';
 import observe from '../helpers/selector-observer';
 import {removeTextNodeContaining} from '../helpers/dom-utils';
-
-const diffSwitchButtons = features.getIdentifiers(import.meta.url);
-
-function alternateDiffNatively(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
-	const type = new URLSearchParams(event.delegateTarget.search).get('diff')!;
-	const formField = select(`input#diff_${type}`);
-	if (!formField) {
-		// Let the link through
-		return;
-	}
-
-	// Submit form so that the preference is persisted #5288
-	formField.checked = true;
-	formField.form!.submit();
-	event.preventDefault();
-}
-
-function makeLink(type: string, icon: Element, selected: boolean): JSX.Element {
-	const url = new URL(location.href);
-	url.searchParams.set('diff', type);
-	const classes = pageDetect.isPR()
-		? 'ml-2 color-fg-muted'
-		: 'btn btn-sm BtnGroup-item ' + (selected ? 'selected' : '');
-
-	return (
-		<a
-			className={`tooltipped tooltipped-s ${classes} ${diffSwitchButtons.class}`}
-			aria-label={`Switch to the ${type} diff view`}
-			href={url.href}
-		>
-			{icon}
-		</a>
-	);
-}
-
-function createDiffStyleToggle(): DocumentFragment {
-	const isUnified = select.exists([
-		'[value="unified"][checked]', // Form in PR
-		'.table-of-contents .selected[href*="diff=unified"]', // Link in single commit
-	]);
-
-	if (pageDetect.isPR()) {
-		return isUnified
-			? makeLink('split', <BookIcon className="v-align-middle"/>, false)
-			: makeLink('unified', <DiffIcon className="v-align-middle"/>, false);
-	}
-
-	return (
-		<>
-			{makeLink('unified', <DiffIcon/>, isUnified)}
-			{makeLink('split', <BookIcon/>, !isUnified)}
-		</>
-	);
-}
 
 function isHidingWhitespace(): boolean {
 	// The selector is the native button
@@ -77,39 +21,60 @@ function createWhitespaceButton(): HTMLElement {
 		url.searchParams.set('w', '1');
 	}
 
-	const classes = pageDetect.isPR()
-		? 'tooltipped tooltipped-s color-fg-muted'
-		: 'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-fg-subtle' : '');
-
 	return (
 		<a
 			href={url.href}
 			data-hotkey="d w"
-			className={classes}
+			className={'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-fg-subtle' : '')}
 			aria-label={`${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`}
 		>
-			{pageDetect.isPR() ? <DiffModifiedIcon className="v-align-middle"/> : <>{isHidingWhitespace() && <CheckIcon/>} No Whitespace</>}
+			{isHidingWhitespace() && <CheckIcon/>} No Whitespace
 		</a>
 	);
 }
 
-function attachPRButtons(diffSettings: HTMLElement): void {
-	// TODO: Replace with :has()
-	const originalToggle = diffSettings.closest('details')!.parentElement!;
+function attachPRButtons(dropdownIcon: SVGElement): void {
+	// TODO: Replace with :has selector
+	const dropdown = dropdownIcon.closest('details.diffbar-item')!;
+	const diffSettingsForm = select('form[action$="/diffview"]', dropdown)!;
 
-	const classes = 'diffbar-item d-flex hide-sm hide-md';
+	// Preserve data before emption the form
+	const isUnified = new FormData(diffSettingsForm).get('diff') === 'unified';
+	const token = select('[name="authenticity_token"]', diffSettingsForm)!;
+
+	// Empty form except the token field
+	diffSettingsForm.replaceChildren(token);
+
+	const type = isUnified ? 'split' : 'unified';
+	const Icon = isUnified ? BookIcon : DiffIcon;
+	diffSettingsForm.append(
+		<button
+			className="tooltipped tooltipped-s ml-2 btn-link Link--muted p-2"
+			aria-label={`Switch to the ${type} diff view`}
+			name="diff"
+			value={type}
+			type="submit"
+		>
+			<Icon className="v-align-middle"/>
+		</button>,
+	);
 
 	if (!isHidingWhitespace()) {
-		originalToggle.after(
-			<div className={classes}>{createWhitespaceButton()}</div>,
+		diffSettingsForm.append(
+			<button
+				data-hotkey="d w"
+				className="tooltipped tooltipped-s btn-link Link--muted p-2"
+				aria-label="Hide whitespace changes"
+				name="w"
+				value="1"
+				type="submit"
+			>
+				<DiffModifiedIcon className="v-align-middle"/>
+			</button>,
 		);
 	}
 
-	originalToggle.after(
-		<div className={classes}>{createDiffStyleToggle()}</div>,
-	);
-
-	originalToggle.remove();
+	dropdown.replaceWith(diffSettingsForm);
 
 	// Trim title
 	const prTitle = select('.pr-toolbar .js-issue-title');
@@ -130,25 +95,24 @@ function attachPRButtons(diffSettings: HTMLElement): void {
 
 function initPR(signal: AbortSignal): void {
 	// There are two "diff settings" element, one for mobile and one for the desktop. We only replace the one for the desktop
-	observe('.hide-sm.hide-md [aria-label="Diff settings"]', attachPRButtons, {signal});
-	delegate(document, diffSwitchButtons.selector, 'click', alternateDiffNatively, {signal});
+	observe('.hide-sm.hide-md details.diffbar-item svg.octicon-gear', attachPRButtons, {signal});
 }
 
 function attachButtons(nativeDiffButtons: HTMLElement): void {
 	// TODO: Replace with :has()
-	const anchor = nativeDiffButtons.parentElement;
+	const anchor = nativeDiffButtons.parentElement!;
 
 	// `usesFloats` is necessary to ensure the order and spacing as seen in #5958
 	const usesFloats = anchor?.classList.contains('float-right');
-	attachElement(anchor, usesFloats ? {
-		after: () => (
+	if (usesFloats) {
+		anchor.after(
 			<div className="float-right mr-3">
 				{createWhitespaceButton()}
-			</div>
-		),
-	} : {
-		before: createWhitespaceButton,
-	});
+			</div>,
+		);
+	} else {
+		anchor.before(createWhitespaceButton());
+	}
 }
 
 function init(signal: AbortSignal): void {
@@ -184,6 +148,7 @@ void features.add(import.meta.url, {
 /*
 # Test URLs
 
+- PR files: https://github.com/refined-github/refined-github/pull/6261/files
 - Compare, in "Files changed" tab: https://github.com/rancher/rancher/compare/v2.6.3...v2.6.6
 - Compare, without tab: https://github.com/rancher/rancher/compare/v2.6.5...v2.6.6
 - Single commit: https://github.com/rancher/rancher/commit/e82921075436c21120145927d5a66037661fcf4e

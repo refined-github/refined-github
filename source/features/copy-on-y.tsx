@@ -1,29 +1,20 @@
-import select from 'select-dom';
-import * as pageDetect from 'github-url-detection';
-
 import features from '../feature-manager';
 import {isEditable} from '../helpers/dom-utils';
 
-const handler = ({key, target}: KeyboardEvent): void => {
+async function handler({key, target}: KeyboardEvent): Promise<void> {
 	if (key === 'y' && !isEditable(target)) {
-		const permalink = select('a.js-permalink-shortcut')!.href;
-		void navigator.clipboard.writeText(permalink + location.hash);
+		const url = location.href;
+		await navigator.clipboard.writeText(url);
+		// Log to ensure we're coping the new URL
+		console.log('Copied URL to the clipboard', url);
 	}
-};
+}
 
 function init(signal: AbortSignal): void {
 	window.addEventListener('keyup', handler, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isBlame,
-		pageDetect.isCompare,
-		pageDetect.isRepoTree,
-		pageDetect.isRepoCommitList,
-		pageDetect.isSingleCommit,
-		pageDetect.isSingleFile,
-	],
 	awaitDomReady: false,
 	init,
 });
