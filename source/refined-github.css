@@ -192,7 +192,7 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 	margin-right: 20px; /* Push the text farther away from the text so it's cropped out */
 }
 
-/* Add override for CSS-in-JSS components that don't use regular .btn styles */
+/* Add override for CSS-in-JS components that don't use regular .btn styles */
 .BtnGroup-item:last-child {
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
