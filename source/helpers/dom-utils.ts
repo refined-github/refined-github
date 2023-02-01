@@ -50,9 +50,11 @@ export const wrap = (target: Element | ChildNode, wrapper: Element): void => {
 	wrapper.append(target);
 };
 
-export const wrapAll = (targets: Array<Element | ChildNode>, wrapper: Element): void => {
-	targets[0].before(wrapper);
-	wrapper.append(...targets);
+export const wrapAll = <Wrapper extends Element>(targets: Iterable<Element | ChildNode>, wrapper: Wrapper): Wrapper => {
+	const [first, ...rest] = targets;
+	first.before(wrapper);
+	wrapper.append(first, ...rest);
+	return wrapper;
 };
 
 export const isEditable = (node: unknown): boolean => node instanceof HTMLTextAreaElement
