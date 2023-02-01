@@ -36,7 +36,7 @@ export const renamedFeatures = new Map<string, string>([
 	['navigate-pages-with-arrow-keys', 'pagination-hotkey'],
 	['list-pr-for-branch', 'list-prs-for-branch'],
 	['quick-label-hiding', 'quick-label-removal'],
-	['next-scheduled-github-action', 'scheduled-and-manual-workflow-indicators'],
+	['next-scheduled-github-action', 'github-actions-indicators'],
 	['raw-file-link', 'more-file-links'],
 	['conversation-filters', 'more-conversation-filters'],
 	['quick-pr-diff-options', 'one-click-diff-options'],
@@ -44,6 +44,7 @@ export const renamedFeatures = new Map<string, string>([
 	['wait-for-build', 'wait-for-checks'],
 	['pull-request-hotkey', 'pull-request-hotkeys'],
 	['first-published-tag-for-merged-pr', 'closing-remarks'],
+	['scheduled-and-manual-workflow-indicators', 'github-actions-indicators'],
 ]);
 
 export function getNewFeatureName(possibleFeatureName: string): FeatureID | undefined {
