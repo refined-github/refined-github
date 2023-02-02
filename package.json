@@ -77,7 +77,7 @@
 		"twas": "^2.1.2",
 		"webext-base-css": "^1.4.2",
 		"webext-detect-page": "^4.0.1",
-		"webext-domain-permission-toggle": "^3.0.0",
+		"webext-domain-permission-toggle": "^4.0.0-0",
 		"webext-dynamic-content-scripts": "^9.0.0-1",
 		"webext-options-sync-per-domain": "^3.0.0",
 		"webext-storage-cache": "^5.1.0",
