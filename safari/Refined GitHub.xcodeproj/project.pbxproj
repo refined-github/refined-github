@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,8 +15,8 @@
 		E35EB4C326F36E0900DDEA60 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35EB4C126F36E0900DDEA60 /* Main.storyboard */; };
 		E35EB4CC26F36E0900DDEA60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35EB4CB26F36E0900DDEA60 /* AppDelegate.swift */; };
 		E35EB4CF26F36E0900DDEA60 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35EB4CD26F36E0900DDEA60 /* Main.storyboard */; };
-		E35EB4D726F36E0900DDEA60 /* Refined GitHub Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E35EB4D626F36E0900DDEA60 /* Refined GitHub Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		E35EB4E126F36E0900DDEA60 /* Refined GitHub Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E35EB4E026F36E0900DDEA60 /* Refined GitHub Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E35EB4D726F36E0900DDEA60 /* Refined GitHub Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E35EB4D626F36E0900DDEA60 /* Refined GitHub Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E35EB4E126F36E0900DDEA60 /* Refined GitHub Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E35EB4E026F36E0900DDEA60 /* Refined GitHub Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E35EB4E726F36E0900DDEA60 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = E35EB4AA26F36E0800DDEA60 /* Main.html */; };
 		E35EB4E826F36E0900DDEA60 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = E35EB4AA26F36E0800DDEA60 /* Main.html */; };
 		E35EB4E926F36E0900DDEA60 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E35EB4AC26F36E0800DDEA60 /* Icon.png */; };
@@ -71,26 +71,26 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E35EB4FA26F36E0900DDEA60 /* Embed App Extensions */ = {
+		E35EB4FA26F36E0900DDEA60 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				E35EB4D726F36E0900DDEA60 /* Refined GitHub Extension.appex in Embed App Extensions */,
+				E35EB4D726F36E0900DDEA60 /* Refined GitHub Extension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E35EB50126F36E0900DDEA60 /* Embed App Extensions */ = {
+		E35EB50126F36E0900DDEA60 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				E35EB4E126F36E0900DDEA60 /* Refined GitHub Extension.appex in Embed App Extensions */,
+				E35EB4E126F36E0900DDEA60 /* Refined GitHub Extension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -289,7 +289,7 @@
 				E35EB4B326F36E0900DDEA60 /* Sources */,
 				E35EB4B426F36E0900DDEA60 /* Frameworks */,
 				E35EB4B526F36E0900DDEA60 /* Resources */,
-				E35EB4FA26F36E0900DDEA60 /* Embed App Extensions */,
+				E35EB4FA26F36E0900DDEA60 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -308,7 +308,7 @@
 				E35EB4C526F36E0900DDEA60 /* Sources */,
 				E35EB4C626F36E0900DDEA60 /* Frameworks */,
 				E35EB4C726F36E0900DDEA60 /* Resources */,
-				E35EB50126F36E0900DDEA60 /* Embed App Extensions */,
+				E35EB50126F36E0900DDEA60 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -363,7 +363,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1300;
-				LastUpgradeCheck = 1330;
+				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					E35EB4B626F36E0900DDEA60 = {
 						CreatedOnToolsVersion = 13.0;
@@ -380,7 +380,7 @@
 				};
 			};
 			buildConfigurationList = E35EB4A726F36E0700DDEA60 /* Build configuration list for PBXProject "Refined GitHub" */;
-			compatibilityVersion = "Xcode 13.0";
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -611,6 +611,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -673,6 +674,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -761,6 +763,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (App)/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Refined GitHub";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -779,6 +782,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub";
 				PRODUCT_NAME = "Refined GitHub";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -796,6 +802,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (App)/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Refined GitHub";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -814,6 +821,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub";
 				PRODUCT_NAME = "Refined GitHub";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -827,6 +837,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Refined GitHub.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
@@ -856,6 +867,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Refined GitHub.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
@@ -888,6 +900,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/Refined GitHub.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (App)/Info.plist";
@@ -922,6 +935,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/Refined GitHub.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (App)/Info.plist";
