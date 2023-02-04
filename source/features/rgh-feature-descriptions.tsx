@@ -1,6 +1,7 @@
 import './rgh-feature-descriptions.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {CopyIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager';
 import {featuresMeta} from '../../readme.md';
@@ -24,8 +25,20 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 		<div className="Box mb-3">
 			<div className="Box-row d-flex gap-3 flex-wrap">
 				<div className="rgh-feature-description">
+					<h3 className="mb-2"><code>{feature.id}</code>
+						<clipboard-copy
+							aria-label="Copy"
+							data-copy-feedback="Copied!"
+							value={feature.id}
+							class="Link--onHover color-fg-muted d-inline-block ml-2"
+							tabindex="0"
+							role="button"
+						>
+							<CopyIcon className="v-align-baseline"/>
+						</clipboard-copy>
+					</h3>
 					{ /* eslint-disable-next-line react/no-danger */ }
-					<h3 dangerouslySetInnerHTML={{__html: feature.description}}/>
+					<div dangerouslySetInnerHTML={{__html: feature.description}} className="h3"/>
 					<div className="no-wrap" data-turbo-frame="repo-content-turbo-frame">
 						<a href={conversationsUrl.href}>Related issues</a>
 						{
