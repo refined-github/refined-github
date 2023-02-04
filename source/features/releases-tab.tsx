@@ -42,7 +42,7 @@ async function fetchFromApi(): Promise<number> {
 // - It is disabled by repository owner on the home page (release DOM element won't be there)
 // - It only contains pre-releases (count badge won't be shown)
 // For this reason, if we can't find a count from the DOM, we ask the API instead (see #6298)
-export const getReleaseCount = cache.function(async () => await parseCountFromDom() || await fetchFromApi(), {
+export const getReleaseCount = cache.function(async () => await parseCountFromDom() || fetchFromApi(), {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 3},
 	cacheKey: getCacheKey,
@@ -84,7 +84,7 @@ async function addReleasesTab(): Promise<false | void> {
 	// Trigger a reflow to push the right-most tab into the overflow dropdown (second attempt #4254)
 	window.dispatchEvent(new Event('resize'));
 
-	const dropdownMenu = await elementReady('.js-responsive-underlinenav .dropdown-menu ul')
+	const dropdownMenu = await elementReady('.js-responsive-underlinenav .dropdown-menu ul');
 
 	appendBefore(
 		dropdownMenu!,
