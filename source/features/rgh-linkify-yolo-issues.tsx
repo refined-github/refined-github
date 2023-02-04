@@ -8,7 +8,8 @@ import {getRghIssueUrl} from '../helpers/rgh-issue-link';
 import {isRefinedGitHubYoloRepo} from '../github-helpers';
 
 function init(): void {
-	for (const issueCell of select.all('.js-csv-data td:nth-child(3)')) {
+	// .js-csv-data is the old selector
+	for (const issueCell of select.all(':is(.js-csv-data, .react-csv-row) td:nth-child(3)')) {
 		wrap(issueCell.firstChild!, <a href={getRghIssueUrl(issueCell.textContent!)}/>);
 	}
 }
