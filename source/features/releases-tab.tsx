@@ -38,7 +38,7 @@ async function fetchFromApi(): Promise<number> {
 	return repository.releases.totalCount;
 }
 
-export const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? parseCountFromDom() : fetchFromApi(), {
+export const getReleaseCount = cache.function(async () => await parseCountFromDom() || await fetchFromApi(), {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 3},
 	cacheKey: getCacheKey,
