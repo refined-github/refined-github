@@ -80,8 +80,13 @@ async function addReleasesTab(): Promise<false | void> {
 	// Trigger a reflow to push the right-most tab into the overflow dropdown (second attempt #4254)
 	window.dispatchEvent(new Event('resize'));
 
+	const dropdownMenu = await elementReady('.js-responsive-underlinenav .dropdown-menu ul', {waitForChildren: false})
+	if (!dropdownMenu) {
+		return
+	}
+
 	appendBefore(
-		select('.js-responsive-underlinenav .dropdown-menu ul')!,
+		dropdownMenu,
 		'.dropdown-divider', // Won't exist if `more-dropdown` is disabled
 		createDropdownItem('Releases', buildRepoURL('releases'), {
 			'data-menu-item': 'rgh-releases-item',
