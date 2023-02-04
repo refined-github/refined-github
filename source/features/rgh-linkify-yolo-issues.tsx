@@ -1,14 +1,14 @@
-import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils';
 import features from '../feature-manager';
-import {getRghIssueUrl} from '../helpers/rgh-issue-link';
 import {isRefinedGitHubYoloRepo} from '../github-helpers';
 import observe from '../helpers/selector-observer';
+import {linkifyIssues} from '../github-helpers/dom-formatters';
 
+// Linkify with hovercards
 function linkify(issueCell: HTMLElement): void {
-	wrap(issueCell.firstChild!, <a href={getRghIssueUrl(issueCell.textContent!)}/>);
+	issueCell.textContent = '#' + issueCell.textContent!;
+	linkifyIssues({owner: 'refined-github', name: 'refined-github'}, issueCell);
 }
 
 function init(signal: AbortSignal): void {
