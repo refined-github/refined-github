@@ -38,6 +38,10 @@ async function fetchFromApi(): Promise<number> {
 	return repository.releases.totalCount;
 }
 
+// Release count can be not found in DOM if:
+// - It is disabled by repository owner on the home page (release DOM element won't be there)
+// - It only contains pre-releases (count badge won't be shown)
+// For this reason, if we can't find a count from the DOM, we ask the API instead (see #6298)
 export const getReleaseCount = cache.function(async () => await parseCountFromDom() || await fetchFromApi(), {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 3},
