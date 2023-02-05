@@ -176,7 +176,7 @@ import './features/same-page-definition-jump';
 import './features/new-repo-disable-projects-and-wikis';
 import './features/table-input';
 import './features/link-to-github-io';
-import './features/scheduled-and-manual-workflow-indicators';
+import './features/github-actions-indicators';
 import './features/convert-pr-to-draft-improvements';
 import './features/git-checkout-pr';
 import './features/unfinished-comments';
