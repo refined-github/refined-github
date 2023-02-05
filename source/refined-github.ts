@@ -147,7 +147,6 @@ import './features/expand-all-hidden-comments';
 import './features/bugs-tab';
 import './features/cross-deleted-pr-branches';
 import './features/repo-wide-file-finder';
-import './features/file-finder-buffer';
 import './features/pr-commit-lines-changed';
 import './features/show-open-prs-of-forks';
 import './features/deep-reblame';
