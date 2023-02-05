@@ -14,7 +14,7 @@ import createDropdownItem from '../github-helpers/create-dropdown-item';
 import {buildRepoURL, getRepo} from '../github-helpers';
 import {releasesSidebarSelector} from './clean-repo-sidebar';
 import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils';
-import { underlineNavDropdownUl } from '../github-helpers/selectors';
+import {underlineNavDropdownUl} from '../github-helpers/selectors';
 
 const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
 
