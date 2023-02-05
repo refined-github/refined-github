@@ -158,6 +158,10 @@ export function isAnyRefinedGitHubRepo(): boolean {
 	return /^\/refined-github\/.+/.test(location.pathname);
 }
 
+export function isRefinedGitHubYoloRepo(): boolean {
+	return location.pathname.startsWith('/refined-github/yolo');
+}
+
 export function shouldFeatureRun({
 	/** Every condition must be true */
 	asLongAs = [() => true],
