@@ -1,19 +1,23 @@
 import mem from 'mem';
-import {test, assert} from 'vitest';
+import {test, assert, describe} from 'vitest';
 import {JSDOM} from 'jsdom';
 
-import * as selectors from './selectors';
+import * as exports from './selectors';
 
 const fetchDocument = mem(async (url: string): Promise<JSDOM> => JSDOM.fromURL(url));
 
-for (const [name, selector] of Object.entries(selectors)) {
-	if (Array.isArray(selector)) {
-		continue;
+describe.concurrent('selectors', () => {
+	// Exclude URL arrays
+	const selectors: Array<[name: string, selector: string]> = [];
+	for (const [name, selector] of Object.entries(exports)) {
+		if (!Array.isArray(selector)) {
+			selectors.push([name, selector]);
+		}
 	}
 
-	test(`Selector: ${selector}`, async () => {
+	test.each(selectors)('%s', async (name, selector) => {
 		// @ts-expect-error Index signature bs
-		const urls = selectors[name + '_'] as string[];
+		const urls = exports[name + '_'] as string[];
 
 		assert.isArray(urls, `No URLs defined for "${name}"`);
 		await Promise.all(urls.map(async url => {
@@ -21,4 +25,4 @@ for (const [name, selector] of Object.entries(selectors)) {
 			assert.isDefined(window.document.querySelector(selector));
 		}));
 	});
-}
+});
