@@ -30,13 +30,11 @@ function initRepo(signal: AbortSignal): void {
 }
 
 function initRepoList(signal: AbortSignal): void {
-	// Earlier GitHub Pages were hosted on github.com #6228
-	observe(`
-		a[itemprop="name codeRepository"]:is(
-			[href$=".github.io"],
-			[href$=".github.com"]
-		)
-	`, addRepoListLink, {signal});
+	observe([
+		// Earlier GitHub Pages were hosted on github.com #6228
+		'a[itemprop="name codeRepository"][href$=".github.com"]',
+		'a[itemprop="name codeRepository"][href$=".github.io"]',
+	], addRepoListLink, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -44,7 +42,7 @@ void features.add(import.meta.url, {
 		pageDetect.hasRepoHeader,
 	],
 	asLongAs: [
-		() => /\.github\.(io|com)$/.test(getRepo()?.name),
+		() => /\.github\.(io|com)$/.test(getRepo()?.name!),
 	],
 	awaitDomReady: false,
 	init: initRepo,
