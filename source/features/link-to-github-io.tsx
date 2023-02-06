@@ -9,7 +9,7 @@ import observe from '../helpers/selector-observer';
 function getLinkToGitHubIo(repoTitle: HTMLElement, className?: string): JSX.Element {
 	return (
 		<a
-			href={`https://${repoTitle.textContent!.trim().replace('.github.com', '.github.io')}`}
+			href={`https://${repoTitle.textContent!.trim().replace(/com$/, 'io')}`}
 			className={className}
 		>
 			<LinkIcon className="v-align-middle"/>
@@ -30,8 +30,13 @@ function initRepo(signal: AbortSignal): void {
 }
 
 function initRepoList(signal: AbortSignal): void {
-	// Also consider any old GitHub Pages repo like: resume/resume.github.com , issue: https://github.com/refined-github/refined-github/issues/6228
-	observe('a:is([href$=".github.io"], [href$=".github.com"])[itemprop="name codeRepository"]', addRepoListLink, {signal});
+	// Earlier GitHub Pages were hosted on github.com #6228
+	observe(`
+		a[itemprop="name codeRepository"]:is(
+			[href$=".github.io"],
+			[href$=".github.com"]
+		)
+	`, addRepoListLink, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -39,7 +44,7 @@ void features.add(import.meta.url, {
 		pageDetect.hasRepoHeader,
 	],
 	asLongAs: [
-		() => Boolean(getRepo()?.name.endsWith('.github.io') || getRepo()?.name.endsWith('.github.com')),
+		() => /\.github\.(io|com)$/.test(getRepo()?.name),
 	],
 	awaitDomReady: false,
 	init: initRepo,
