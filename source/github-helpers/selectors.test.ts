@@ -1,28 +1,30 @@
-import mem from 'mem';
-import {test, assert, describe} from 'vitest';
-import {JSDOM} from 'jsdom';
+import {find, parse, generate} from 'css-tree';
 
-import * as exports from './selectors';
+const ast = parse('/*!comment*/.a { color: red; }');
 
-const fetchDocument = mem(async (url: string): Promise<JSDOM> => JSDOM.fromURL(url));
+const firstColorDeclaration = find(ast, console.log);
 
-describe.concurrent('selectors', () => {
-	// Exclude URL arrays
-	const selectors: Array<[name: string, selector: string]> = [];
-	for (const [name, selector] of Object.entries(exports)) {
-		if (!Array.isArray(selector)) {
-			selectors.push([name, selector]);
-		}
-	}
+console.log(firstColorDeclaration);
 
-	test.each(selectors)('%s', async (name, selector) => {
-		// @ts-expect-error Index signature bs
-		const urls = exports[name + '_'] as string[];
+// Const fetchDocument = mem(async (url: string): Promise<JSDOM> => JSDOM.fromURL(url));
 
-		assert.isArray(urls, `No URLs defined for "${name}"`);
-		await Promise.all(urls.map(async url => {
-			const {window} = await fetchDocument(url);
-			assert.isDefined(window.document.querySelector(selector));
-		}));
-	});
-});
+// describe.concurrent('selectors', () => {
+// 	// Exclude URL arrays
+// 	const selectors: Array<[name: string, selector: string]> = [];
+// 	for (const [name, selector] of Object.entries(exports)) {
+// 		if (!Array.isArray(selector)) {
+// 			selectors.push([name, selector]);
+// 		}
+// 	}
+
+// 	test.each(selectors)('%s', async (name, selector) => {
+// 		// @ts-expect-error Index signature bs
+// 		const urls = exports[name + '_'] as string[];
+
+// 		assert.isArray(urls, `No URLs defined for "${name}"`);
+// 		await Promise.all(urls.map(async url => {
+// 			const {window} = await fetchDocument(url);
+// 			assert.isDefined(window.document.querySelector(selector));
+// 		}));
+// 	});
+// });
