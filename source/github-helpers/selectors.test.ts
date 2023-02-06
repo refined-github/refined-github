@@ -1,30 +1,28 @@
-import {find, parse, generate} from 'css-tree';
+import mem from 'mem';
+import {test, assert, describe} from 'vitest';
+import {JSDOM} from 'jsdom';
 
-const ast = parse('/*!comment*/.a { color: red; }');
+import * as exports from './selectors';
 
-const firstColorDeclaration = find(ast, console.log);
+const fetchDocument = mem(async (url: string): Promise<JSDOM> => JSDOM.fromURL(url));
 
-console.log(firstColorDeclaration);
+describe.concurrent('selectors', () => {
+	// Exclude URL arrays
+	const selectors: Array<[name: string, selector: string]> = [];
+	for (const [name, selector] of Object.entries(exports)) {
+		if (!Array.isArray(selector)) {
+			selectors.push([name, selector]);
+		}
+	}
 
-// Const fetchDocument = mem(async (url: string): Promise<JSDOM> => JSDOM.fromURL(url));
+	test.each(selectors)('%s', async (name, selector) => {
+		// @ts-expect-error Index signature bs
+		const urls = exports[name + '_'] as string[];
 
-// describe.concurrent('selectors', () => {
-// 	// Exclude URL arrays
-// 	const selectors: Array<[name: string, selector: string]> = [];
-// 	for (const [name, selector] of Object.entries(exports)) {
-// 		if (!Array.isArray(selector)) {
-// 			selectors.push([name, selector]);
-// 		}
-// 	}
-
-// 	test.each(selectors)('%s', async (name, selector) => {
-// 		// @ts-expect-error Index signature bs
-// 		const urls = exports[name + '_'] as string[];
-
-// 		assert.isArray(urls, `No URLs defined for "${name}"`);
-// 		await Promise.all(urls.map(async url => {
-// 			const {window} = await fetchDocument(url);
-// 			assert.isDefined(window.document.querySelector(selector));
-// 		}));
-// 	});
-// });
+		assert.isArray(urls, `No URLs defined for "${name}"`);
+		await Promise.all(urls.map(async url => {
+			const {window} = await fetchDocument(url);
+			assert.isDefined(window.document.querySelector(selector));
+		}));
+	});
+});
