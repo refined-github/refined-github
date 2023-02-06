@@ -9,7 +9,7 @@ import observe from '../helpers/selector-observer';
 function getLinkToGitHubIo(repoTitle: HTMLElement, className?: string): JSX.Element {
 	return (
 		<a
-			href={`https://${repoTitle.textContent!.trim().replace('.com','.io')}`}
+			href={`https://${repoTitle.textContent!.trim().replace('.com', '.io')}`}
 			className={className}
 		>
 			<LinkIcon className="v-align-middle"/>
