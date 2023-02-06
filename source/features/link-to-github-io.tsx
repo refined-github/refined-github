@@ -9,7 +9,7 @@ import observe from '../helpers/selector-observer';
 function getLinkToGitHubIo(repoTitle: HTMLElement, className?: string): JSX.Element {
 	return (
 		<a
-			href={`https://${repoTitle.textContent!.trim().replace('.com', '.io')}`}
+			href={`https://${repoTitle.textContent!.trim().replace('.github.com', '.github.io')}`}
 			className={className}
 		>
 			<LinkIcon className="v-align-middle"/>
@@ -31,7 +31,7 @@ function initRepo(signal: AbortSignal): void {
 
 function initRepoList(signal: AbortSignal): void {
 	// Also consider any old GitHub Pages repo like: resume/resume.github.com , issue: https://github.com/refined-github/refined-github/issues/6228
-	observe(':is(a[href$=".github.io"], a[href$=".github.com"])[itemprop="name codeRepository"]', addRepoListLink, {signal});
+	observe('a:is([href$=".github.io"], [href$=".github.com"])[itemprop="name codeRepository"]', addRepoListLink, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -39,7 +39,7 @@ void features.add(import.meta.url, {
 		pageDetect.hasRepoHeader,
 	],
 	asLongAs: [
-		() => Boolean(getRepo()?.name.endsWith('.github.io')) || Boolean(getRepo()?.name.endsWith('.github.com')),
+		() => Boolean(getRepo()?.name.endsWith('.github.io') || getRepo()?.name.endsWith('.github.com')),
 	],
 	awaitDomReady: false,
 	init: initRepo,
