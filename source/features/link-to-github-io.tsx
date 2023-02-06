@@ -42,7 +42,7 @@ void features.add(import.meta.url, {
 		pageDetect.hasRepoHeader,
 	],
 	asLongAs: [
-		() => /\.github\.(io|com)$/.test(getRepo()?.name!),
+		() => getRepo()?.name ? /\.github\.(io|com)$/.test(getRepo()!.name) : false,
 	],
 	awaitDomReady: false,
 	init: initRepo,
