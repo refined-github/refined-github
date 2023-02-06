@@ -30,7 +30,8 @@ function initRepo(signal: AbortSignal): void {
 }
 
 function initRepoList(signal: AbortSignal): void {
-	observe('a[href$=".github.io"][itemprop="name codeRepository"]', addRepoListLink, {signal});
+	// Also consider any old GitHub Pages repo like: resume/resume.github.com , issue: https://github.com/refined-github/refined-github/issues/6228
+	observe(':is(a[href$=".github.io"], a[href$=".github.com"])[itemprop="name codeRepository"]', addRepoListLink, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -38,7 +39,7 @@ void features.add(import.meta.url, {
 		pageDetect.hasRepoHeader,
 	],
 	asLongAs: [
-		() => Boolean(getRepo()?.name.endsWith('.github.io')),
+		() => Boolean(getRepo()?.name.endsWith('.github.io')) || Boolean(getRepo()?.name.endsWith('.github.com')),
 	],
 	awaitDomReady: false,
 	init: initRepo,
