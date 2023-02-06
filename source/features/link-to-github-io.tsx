@@ -42,7 +42,7 @@ void features.add(import.meta.url, {
 		pageDetect.hasRepoHeader,
 	],
 	asLongAs: [
-		() => getRepo()?.name ? /\.github\.(io|com)$/.test(getRepo()!.name) : false,
+		() => /\.github\.(io|com)$/.test(getRepo()?.name ?? 'shush eslint'),
 	],
 	awaitDomReady: false,
 	init: initRepo,
