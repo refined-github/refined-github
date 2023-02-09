@@ -58,7 +58,8 @@ const viewportObserver = new IntersectionObserver(changes => {
 });
 
 function showAvatarsOn(commentReactions: Element): void {
-	const avatarLimit = arbitraryAvatarLimit - (commentReactions.children.length * approximateHeaderLength);
+	const reactionTypes = select.all('.social-reaction-summary-item', commentReactions).length;
+	const avatarLimit = arbitraryAvatarLimit - (reactionTypes * approximateHeaderLength);
 
 	const participantByReaction = select
 		.all(':scope > button.social-reaction-summary-item', commentReactions)
@@ -96,8 +97,8 @@ void features.add(import.meta.url, {
 /*
 Test URLs
 
+https://github.com/refined-github/refined-github/pull/6316
 https://github.com/parcel-bundler/parcel/discussions/6490
 https://github.com/orgs/community/discussions/11202
-https://github.com/refined-github/refined-github/pull/6316
 
 */
