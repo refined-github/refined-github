@@ -1,3 +1,5 @@
+import './download-folder-button.css';
+
 import React from 'dom-chef';
 import {DownloadIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -10,9 +12,8 @@ function add(folderDropdown: HTMLElement): void {
 	downloadUrl.searchParams.set('url', location.href);
 
 	folderDropdown.before(
-		// The buttons are spaced via `gap` on `md+` resolutions, and via `margin` at `sm`
 		<a
-			className="btn tooltipped tooltipped-nw mr-2 mr-md-0"
+			className="rgh-download-folder-button btn tooltipped tooltipped-nw"
 			aria-label="Download directory"
 			href={downloadUrl.href}
 		>
@@ -22,7 +23,10 @@ function add(folderDropdown: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[title="More options"]', add, {signal});
+	observe([
+		'[title="More options"]',
+		'[aria-label="Add file"] + details', // TODO: Drop in mid 2023. Old file view #6154
+	], add, {signal});
 }
 
 void features.add(import.meta.url, {
