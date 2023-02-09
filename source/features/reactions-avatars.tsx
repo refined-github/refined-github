@@ -74,21 +74,12 @@ function showAvatarsOn(commentReactions: Element): void {
 	}
 }
 
-// TODO [2022-12-18]: Drop `.comment-reactions-options` (GHE)
-const reactionsSelector = '.has-reactions :is(.js-comment-reactions-options, .comment-reactions-options):not(.rgh-reactions)';
-
 function observeCommentReactions(commentReactions: Element): void {
-	commentReactions.classList.add('rgh-reactions');
 	viewportObserver.observe(commentReactions);
 }
 
 function init(signal: AbortSignal): void {
-	observe(reactionsSelector, observeCommentReactions, {signal});
-	onAbort(signal, viewportObserver);
-}
-
-function discussionInit(signal: AbortSignal): void {
-	observe(reactionsSelector, observeCommentReactions, {signal});
+	observe('.has-reactions .js-comment-reactions-options', observeCommentReactions, {signal});
 	onAbort(signal, viewportObserver);
 }
 
@@ -96,13 +87,8 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 		pageDetect.isReleasesOrTags,
-	],
-	awaitDomReady: false,
-	init,
-}, {
-	include: [
 		pageDetect.isDiscussion,
 	],
 	awaitDomReady: false,
-	init: discussionInit,
+	init,
 });
