@@ -3,6 +3,7 @@ import select from 'select-dom';
 import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
+import elementReady from 'element-ready';
 import observe from '../helpers/selector-observer';
 import features from '../feature-manager';
 
@@ -41,7 +42,15 @@ export function canEditEveryComment(): boolean {
 	]) || pageDetect.canUserEditRepo();
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	// Load the bare minimum for `isArchivedRepo` to work
+	await elementReady('#repository-container-header');
+
+	// DOM-based detection, we want awaitDomReady: false, so it needs to be here
+	if (pageDetect.isArchivedRepo()) {
+		return;
+	}
+
 	// If true then the resulting selector will match all comments, otherwise it will only match those made by you
 	const preSelector = canEditEveryComment() ? '' : '.current-user';
 
@@ -55,11 +64,6 @@ void features.add(import.meta.url, {
 		pageDetect.hasComments,
 		pageDetect.isDiscussion,
 	],
-	exclude: [
-		pageDetect.isArchivedRepo,
-	],
-	// Can't because `isArchivedRepo` is DOM-based
-	// Also not needed since it appears on hover
-	// awaitDomReady: false,
+	awaitDomReady: false,
 	init,
 });
