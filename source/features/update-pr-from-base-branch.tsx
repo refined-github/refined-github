@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+import splitOnFirst from 'split-on-first';
 import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -12,10 +13,34 @@ import {getConversationNumber} from '../github-helpers';
 
 const selectorForPushablePRNotice = '.merge-pr > .color-fg-muted:first-child';
 
-export function getBranches(): {base: string; head: string} {
+type PrReference = {
+	/** @example fregante/mem:main */
+	full: string;
+
+	/** @example fregante:main */
+	local: string;
+
+	/** @example fregante */
+	owner: string;
+
+	/** @example mem */
+	name: string;
+
+	/** @example main */
+	branch: string;
+};
+
+function parseReference(referenceElement: HTMLElement): PrReference {
+	const {title: full, textContent: local} = referenceElement;
+	const [nameWithOwner, branch] = splitOnFirst(full, ':') as [string, string];
+	const [owner, name] = nameWithOwner.split(':');
+	return {full, owner, name, branch, local: local!.trim()};
+}
+
+export function getBranches(): {base: PrReference; head: PrReference} {
 	return {
-		base: select('.base-ref')!.textContent!.trim(),
-		head: select('.head-ref')!.textContent!.trim(),
+		base: parseReference(select('.base-ref')!),
+		head: parseReference(select('.head-ref')!),
 	};
 }
 
@@ -28,7 +53,7 @@ async function mergeBranches(): Promise<AnyObject> {
 
 async function handler({delegateTarget}: DelegateEvent): Promise<void> {
 	const {base, head} = getBranches();
-	if (!confirm(`Merge the ${base} branch into ${head}?`)) {
+	if (!confirm(`Merge the ${base.full} branch into ${head.full}?`)) {
 		return;
 	}
 
@@ -48,7 +73,7 @@ async function handler({delegateTarget}: DelegateEvent): Promise<void> {
 
 async function addButton(position: Element): Promise<void> {
 	const {base, head} = getBranches();
-	const prInfo = await getPrInfo(base, head);
+	const prInfo = await getPrInfo(base.local, head.local);
 	if (!prInfo) {
 		return;
 	}
@@ -92,4 +117,8 @@ https://github.com/refined-github/sandbox/pull/11
 
 Native "Resolve conflicts" button
 https://github.com/refined-github/sandbox/pull/9
+
+Cross-repo PR with long branch names
+https://github.com/refined-github/sandbox/pull/13
+
 */
