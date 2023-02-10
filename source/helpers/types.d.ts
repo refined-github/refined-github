@@ -13,6 +13,6 @@ declare global {
 
 	interface Element {
 		closest<S extends string>(selector: S | readonly S[]): ParseSelector<S, HTMLElement> | null;
-		matches(selectors: string | string[]): boolean;
+		matches(selectors: string | readonly string[]): boolean;
 	}
 }
