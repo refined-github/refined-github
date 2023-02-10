@@ -1,12 +1,12 @@
-import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
-import {addHotkey} from '../github-helpers/hotkey';
+import {registerHotkey} from '../github-helpers/hotkey';
 import addQuickSubmit from './submission-via-ctrl-enter-everywhere';
+import {buildRepoURL} from '../github-helpers';
 
 function init(): void {
-	addHotkey(select('a[href$="/releases/new"]'), 'c');
+	registerHotkey('c', buildRepoURL('releases/new'));
 }
 
 void features.add(import.meta.url, {
@@ -25,3 +25,13 @@ void features.add(import.meta.url, {
 	],
 	init: addQuickSubmit,
 });
+
+/*
+
+Test URLs
+
+https://github.com/refined-github/refined-github/releases
+https://github.com/refined-github/sandbox/releases/new
+https://github.com/refined-github/sandbox/releases/tag/cool
+
+*/
