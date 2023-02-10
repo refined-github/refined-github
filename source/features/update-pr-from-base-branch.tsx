@@ -14,7 +14,6 @@ import {getConversationNumber} from '../github-helpers';
 
 const selectorForPushablePRNotice = '.merge-pr > .color-fg-muted:first-child';
 
-
 async function mergeBranches(): Promise<AnyObject> {
 	return api.v3(`pulls/${getConversationNumber()!}/update-branch`, {
 		method: 'PUT',
