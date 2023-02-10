@@ -32,8 +32,13 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	textFieldEdit.insert(newComment, `${spacer}${prefixUserMention(userMention)} `);
 }
 
+const debug = false;
+
 function add(avatar: HTMLElement): void {
-	avatar.style.border = 'solid 5px black';
+	if (debug) {
+		avatar.style.border = 'solid 5px black';
+	}
+
 	const timelineItem = avatar.closest([
 		// Regular comments
 		'.js-comment-container',
@@ -41,7 +46,9 @@ function add(avatar: HTMLElement): void {
 		// Reviews
 		'.js-comment',
 	].join(', '))!;
-	timelineItem.style.border = 'solid 5px red';
+	if (debug) {
+		timelineItem.style.border = 'solid 5px red';
+	}
 
 	if (
 		// TODO: Rewrite with :has()
@@ -51,7 +58,9 @@ function add(avatar: HTMLElement): void {
 		return;
 	}
 
-	timelineItem.style.border = 'solid 5px green';
+	if (debug) {
+		timelineItem.style.border = 'solid 5px green';
+	}
 
 	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
 	if (avatar.classList.contains('TimelineItem-avatar')) {
