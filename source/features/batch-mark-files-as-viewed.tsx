@@ -97,3 +97,17 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/sandbox/pull/55/files
+
+Use this style to avoid layout shift while testing:
+
+```css
+table {display: none !important;}
+```
+
+*/
