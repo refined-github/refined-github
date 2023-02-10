@@ -32,6 +32,36 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	textFieldEdit.insert(newComment, `${spacer}${prefixUserMention(userMention)} `);
 }
 
+function add(avatar: HTMLElement): void {
+	const timelineItem = avatar.closest('.TimelineItem')!;
+
+	if (
+		// TODO: Rewrite with :has()
+		select.exists('.minimized-comment', timelineItem) // Hidden comments
+		|| !select.exists('.timeline-comment', timelineItem) // Reviews without a comment
+	) {
+		return;
+	}
+
+	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
+	if (avatar.classList.contains('TimelineItem-avatar')) {
+		avatar.classList.remove('TimelineItem-avatar');
+		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block"/>);
+	}
+
+	const userMention = select('img', avatar)!.alt;
+	avatar.classList.add('rgh-quick-mention');
+	avatar.after(
+		<button
+			type="button"
+			className="rgh-quick-mention tooltipped tooltipped-e btn-link"
+			aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
+		>
+			<ReplyIcon/>
+		</button>,
+	);
+}
+
 function init(signal: AbortSignal): void {
 	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser, {signal});
 
@@ -43,35 +73,7 @@ function init(signal: AbortSignal): void {
 			div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
 			a.TimelineItem-avatar
 		):not([href="/${getUsername()!}"])
-	`, avatar => {
-		const timelineItem = avatar.closest('.TimelineItem')!;
-
-		if (
-			// TODO: Rewrite with :has()
-			select.exists('.minimized-comment', timelineItem) // Hidden comments
-			|| !select.exists('.timeline-comment', timelineItem) // Reviews without a comment
-		) {
-			return;
-		}
-
-		// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
-		if (avatar.classList.contains('TimelineItem-avatar')) {
-			avatar.classList.remove('TimelineItem-avatar');
-			wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block"/>);
-		}
-
-		const userMention = select('img', avatar)!.alt;
-		avatar.classList.add('rgh-quick-mention');
-		avatar.after(
-			<button
-				type="button"
-				className="rgh-quick-mention tooltipped tooltipped-e btn-link"
-				aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
-			>
-				<ReplyIcon/>
-			</button>,
-		);
-	}, {signal});
+	`, add, {signal});
 }
 
 void features.add(import.meta.url, {
