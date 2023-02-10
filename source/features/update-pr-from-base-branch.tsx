@@ -17,7 +17,7 @@ type PrReference = {
 	/** @example fregante/mem:main */
 	full: string;
 
-	/** @example fregante:main */
+	/** @example "main" on same-repo PRs, "fregante:main" on cross-repo PRs  */
 	local: string;
 
 	/** @example fregante */
@@ -37,6 +37,7 @@ function parseReference(referenceElement: HTMLElement): PrReference {
 	return {full, owner, name, branch, local: local!.trim()};
 }
 
+// TODO: Use in more places, like anywhere '.base-ref' appears
 export function getBranches(): {base: PrReference; head: PrReference} {
 	return {
 		base: parseReference(select('.base-ref')!),
@@ -53,7 +54,7 @@ async function mergeBranches(): Promise<AnyObject> {
 
 async function handler({delegateTarget}: DelegateEvent): Promise<void> {
 	const {base, head} = getBranches();
-	if (!confirm(`Merge the ${base.full} branch into ${head.full}?`)) {
+	if (!confirm(`Merge the ${base.local} branch into ${head.local}?`)) {
 		return;
 	}
 
