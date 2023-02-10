@@ -33,15 +33,15 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 }
 
 function add(avatar: HTMLElement): void {
-	avatar.style.border = 'solid 5px red';
+	avatar.style.border = 'solid 5px black';
 	const timelineItem = avatar.closest([
-		// .TimelineItem--condensed because the first avatar has an empty .TimelineItem wrapper
-		'.TimelineItem--condensed',
+		// Regular comments
+		'.js-comment-container',
 
 		// Reviews
 		'.js-comment',
 	].join(', '))!;
-	timelineItem.style.border = 'solid 5px blue';
+	timelineItem.style.border = 'solid 5px red';
 
 	if (
 		// TODO: Rewrite with :has()
@@ -98,3 +98,14 @@ void features.add(import.meta.url, {
 	// awaitDomReady: false,
 	init,
 });
+
+/*
+
+Test URLs
+
+https://github.com/refined-github/sandbox/pull/10
+
+No-comment reviews shouldn't have it:
+https://github.com/NixOS/nixpkgs/pull/147010#pullrequestreview-817111882
+
+*/
