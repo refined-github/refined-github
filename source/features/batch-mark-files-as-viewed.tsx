@@ -1,5 +1,6 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import debounceFn from 'debounce-fn';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager';
@@ -22,17 +23,17 @@ function isChecked(file: HTMLElement): boolean {
 	return file.querySelector('input.js-reviewed-checkbox')!.checked;
 }
 
-function batchToggle(event: DelegateEvent<MouseEvent, HTMLFormElement>): void {
+// A single click is somehow causing two separate trusted `click` events, so it needs to be debounced
+const batchToggle = debounceFn((event: DelegateEvent<MouseEvent, HTMLFormElement>): void => {
 	if (!event.shiftKey) {
 		return;
 	}
 
-	event.preventDefault();
 	event.stopImmediatePropagation();
 
 	const files = select.all('.js-file');
 	const thisFile = event.delegateTarget.closest('.js-file')!;
-	const isThisBeingFileChecked = !isChecked(thisFile); // Flip it because the value hasn't changed yet
+	const isThisBeingFileChecked = !isChecked(thisFile);
 
 	runningBatch = true;
 	const selectedFiles = getItemsBetween(files, previousFile, thisFile);
@@ -43,34 +44,46 @@ function batchToggle(event: DelegateEvent<MouseEvent, HTMLFormElement>): void {
 	}
 
 	runningBatch = false;
-}
+}, {
+	before: true,
+	after: false,
+});
 
 function markAsViewedSelector(target: HTMLElement): string {
-	const checked = isChecked(target) ? '[checked]' : ':not([checked])';
+	const checked = isChecked(target) ? ':not([checked])' : '[checked]';
 	return '.js-reviewed-checkbox' + checked;
 }
 
 const markAsViewed = clickAll(markAsViewedSelector);
 
-function onAltClick(event: DelegateEvent<MouseEvent, HTMLInputElement>): void {
+// A single click is somehow causing two separate trusted `click` events, so it needs to be debounced
+const onAltClick = debounceFn((event: DelegateEvent<MouseEvent, HTMLInputElement>): void => {
 	if (!event.altKey || !event.isTrusted) {
 		return;
 	}
 
+	const newState = isChecked(event.delegateTarget) ? 'unviewed' : 'viewed';
 	void showToast(async () => {
 		markAsViewed(event);
 	}, {
-		message: isChecked(event.delegateTarget)
-			? 'Marking visible files as unviewed'
-			: 'Marking visible files as viewed',
-		doneMessage: 'Marking files completed',
+		message: `Marking visible files as ${newState}`,
+		doneMessage: `Files marked as ${newState}`,
 	});
+}, {
+	before: true,
+	after: false,
+});
+
+function avoidSelectionOnShiftClick(event: MouseEvent): void {
+	if (event.shiftKey) {
+		event.preventDefault();
+	}
 }
 
 function init(signal: AbortSignal): void {
 	delegate(document, '.js-reviewed-toggle', 'click', onAltClick, {signal});
-	// `mousedown` required to avoid mouse selection on shift-click
-	delegate(document, '.js-reviewed-toggle', 'mousedown', batchToggle, {signal});
+	delegate(document, '.js-reviewed-toggle', 'click', batchToggle, {signal});
+	delegate(document, '.js-reviewed-toggle', 'mousedown', avoidSelectionOnShiftClick, {signal});
 	delegate(document, '.js-toggle-user-reviewed-file-form', 'submit', remember, {signal});
 	onAbort(signal, () => {
 		previousFile = undefined;
