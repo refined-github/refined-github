@@ -4,7 +4,7 @@ import {set} from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
-import {getBranches} from './update-pr-from-base-branch';
+import {getBranches} from '../github-helpers/pr-branches';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
