@@ -33,15 +33,25 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 }
 
 function add(avatar: HTMLElement): void {
-	const timelineItem = avatar.closest('.TimelineItem')!;
+	avatar.style.border = 'solid 5px red';
+	const timelineItem = avatar.closest([
+		// .TimelineItem--condensed because the first avatar has an empty .TimelineItem wrapper
+		'.TimelineItem--condensed',
+
+		// Reviews
+		'.js-comment',
+	].join(', '))!;
+	timelineItem.style.border = 'solid 5px blue';
 
 	if (
 		// TODO: Rewrite with :has()
-		select.exists('.minimized-comment', timelineItem) // Hidden comments
-		|| !select.exists('.timeline-comment', timelineItem) // Reviews without a comment
+		// Exclude events that aren't tall enough, like hidden comments or reviews without comments
+		!select.exists('.unminimized-comment, .js-comment-container', timelineItem)
 	) {
 		return;
 	}
+
+	timelineItem.style.border = 'solid 5px green';
 
 	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
 	if (avatar.classList.contains('TimelineItem-avatar')) {
