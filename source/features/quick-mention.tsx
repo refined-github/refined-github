@@ -8,7 +8,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '../feature-manager';
-import {getUsername} from '../github-helpers';
+import {getUsername, isArchivedRepoAsync} from '../github-helpers';
 import observe from '../helpers/selector-observer';
 
 function prefixUserMention(userMention: string): string {
@@ -32,7 +32,11 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	textFieldEdit.insert(newComment, `${spacer}${prefixUserMention(userMention)} `);
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	if (await isArchivedRepoAsync()) {
+		return;
+	}
+
 	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser, {signal});
 
 	// `:first-child` avoids app badges #2630
@@ -78,11 +82,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],
-	exclude: [
-		pageDetect.isArchivedRepo,
-	],
-	// Can't because `isArchivedRepo` is DOM-based
-	// Also not needed since it appears on hover
-	// awaitDomReady: false,
+	awaitDomReady: false,
 	init,
 });

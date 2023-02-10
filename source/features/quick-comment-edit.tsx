@@ -3,9 +3,9 @@ import select from 'select-dom';
 import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import elementReady from 'element-ready';
 import observe from '../helpers/selector-observer';
 import features from '../feature-manager';
+import {isArchivedRepoAsync} from '../github-helpers';
 
 function addQuickEditButton(commentForm: Element): void {
 	const commentBody = commentForm.closest('.js-comment')!;
@@ -43,11 +43,7 @@ export function canEditEveryComment(): boolean {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	// Load the bare minimum for `isArchivedRepo` to work
-	await elementReady('#repository-container-header');
-
-	// DOM-based detection, we want awaitDomReady: false, so it needs to be here
-	if (pageDetect.isArchivedRepo()) {
+	if (await isArchivedRepoAsync()) {
 		return;
 	}
 
