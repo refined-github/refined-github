@@ -181,4 +181,4 @@ export async function isArchivedRepoAsync(): Promise<boolean> {
 
 	// DOM-based detection, we want awaitDomReady: false, so it needs to be here
 	return pageDetect.isArchivedRepo();
-};
+}
