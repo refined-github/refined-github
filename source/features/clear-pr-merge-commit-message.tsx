@@ -8,6 +8,7 @@ import {getBranches} from '../github-helpers/pr-branches';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 import attachElement from '../helpers/attach-element';
+import cleanCommitMessage from '../helpers/clean-commit-message';
 
 const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
 
@@ -17,30 +18,13 @@ async function init(): Promise<void | false> {
 
 	const messageField = select('textarea#merge_message_field')!;
 	const originalMessage = messageField.value;
-	const preservedContent = new Set();
+	const cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch());
 
-	// This method ensures that "Co-authored-by" capitalization doesn't affect deduplication
-	for (const [, author] of originalMessage.matchAll(/co-authored-by: ([^\n]+)/gi)) {
-		preservedContent.add('Co-authored-by: ' + author);
-	}
-
-	// Preserve closing issues numbers when a PR is merged into a non-default branch since GitHub doesn't close them #4531
-	if (!await isPrAgainstDefaultBranch()) {
-		// https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/using-keywords-in-issues-and-pull-requests#linking-a-pull-request-to-an-issue
-		for (const [line] of originalMessage.matchAll(/(fix(es|ed)?|close[sd]?|resolve[sd]?)([^\n]+)/gi)) {
-			// Ensure it includes a reference or URL
-			if (/#\d+/.test(line) || line.includes('http')) {
-				preservedContent.add(line);
-			}
-		}
-	}
-
-	const cleanedMessage = [...preservedContent].join('\n');
 	if (cleanedMessage === originalMessage.trim()) {
 		return false;
 	}
 
-	set(messageField, cleanedMessage);
+	set(messageField, cleanedMessage + '\n');
 	attachElement(messageField, {
 		after: () => (
 			<div>
