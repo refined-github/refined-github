@@ -217,3 +217,4 @@ import './features/repo-avatars';
 import './features/jump-to-conversation-close-event';
 import './features/last-notification-page-button';
 import './features/rgh-linkify-yolo-issues';
+import './features/quick-new-issue';
