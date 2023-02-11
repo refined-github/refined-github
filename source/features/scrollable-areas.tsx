@@ -1,4 +1,4 @@
-import './scrollable-code-and-blockquote.css';
+import './scrollable-areas.css';
 
 import features from '../feature-manager';
 
