@@ -6,9 +6,10 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager';
 import {getBranches} from '../github-helpers/pr-branches';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import {upperCaseFirst} from '../github-helpers';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 import attachElement from '../helpers/attach-element';
+
+const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
 
 async function init(): Promise<void | false> {
 	// Only run once so that it doesn't clear the field every time it's opened
@@ -24,17 +25,15 @@ async function init(): Promise<void | false> {
 	}
 
 	// Preserve closing issues numbers when a PR is merged into a non-default branch since GitHub doesn't close them #4531
-	if (getBranches().base.branch !== await getDefaultBranch()) {
-		for (const keyword of select.all('.comment-body .issue-keyword[aria-label^="This pull request closes"]')) {
-			const closingKeyword = keyword.textContent!.trim(); // Keep the keyword as-is (closes, fixes, etc.)
-			const sibling = keyword.nextElementSibling!;
+	if (!await isPrAgainstDefaultBranch()) {
+		console.log(originalMessage, ...originalMessage.matchAll(/(fix(es|ed)?|close[sd]?|resolve[sd]?)([^\n]+)/gi));
 
-			// Get the full URL so it works on issues not in the same repo
-			const issueLink = sibling instanceof HTMLAnchorElement ? sibling : select('a', sibling)!;
-			preservedContent.add([
-				upperCaseFirst(closingKeyword),
-				issueLink.href,
-			].join(' '));
+		// https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/using-keywords-in-issues-and-pull-requests#linking-a-pull-request-to-an-issue
+		for (const [line] of originalMessage.matchAll(/(fix(es|ed)?|close[sd]?|resolve[sd]?)([^\n]+)/gi)) {
+			// Ensure it includes a reference or URL
+			if (/#\d+/.test(line) || line.includes('http')) {
+				preservedContent.add(line);
+			}
 		}
 	}
 
@@ -71,3 +70,12 @@ void features.add(import.meta.url, {
 	awaitDomReady: false,
 	init,
 });
+
+/*
+
+Test URLs
+
+PR against non-default branch:
+https://github.com/refined-github/sandbox/pull/53
+
+*/
