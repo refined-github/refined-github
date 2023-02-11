@@ -32,3 +32,18 @@ void features.add(import.meta.url, {
 	awaitDomReady: false,
 	init,
 });
+
+/*
+
+Test URLs:
+
+Repo home:
+https://github.com/fregante/webext-storage-cache
+
+Wiki, template picker:
+https://github.com/refined-github/refined-github/wiki
+
+Archived repo (feature disabled):
+https://github.com/fregante/iphone-inline-video
+
+*/
