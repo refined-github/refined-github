@@ -174,3 +174,11 @@ export function shouldFeatureRun({
 }): boolean {
 	return asLongAs.every(c => c()) && include.some(c => c()) && exclude.every(c => !c());
 }
+
+export async function isArchivedRepoAsync(): Promise<boolean> {
+	// Load the bare minimum for `isArchivedRepo` to work
+	await elementReady('#repository-container-header');
+
+	// DOM-based detection, we want awaitDomReady: false, so it needs to be here
+	return pageDetect.isArchivedRepo();
+}
