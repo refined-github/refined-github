@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager';
 import {getBranches} from '../github-helpers/pr-branches';
 import getDefaultBranch from '../github-helpers/get-default-branch';
+import {upperCaseFirst} from '../github-helpers';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 
 async function init(): Promise<void | false> {
@@ -23,9 +24,13 @@ async function init(): Promise<void | false> {
 		for (const keyword of select.all('.comment-body .issue-keyword[aria-label^="This pull request closes"]')) {
 			const closingKeyword = keyword.textContent!.trim(); // Keep the keyword as-is (closes, fixes, etc.)
 			const sibling = keyword.nextElementSibling!;
+
 			// Get the full URL so it works on issues not in the same repo
 			const issueLink = sibling instanceof HTMLAnchorElement ? sibling : select('a', sibling)!;
-			preservedContent.add(closingKeyword + ' ' + issueLink.href);
+			preservedContent.add([
+				upperCaseFirst(closingKeyword),
+				issueLink.href,
+			].join(' '));
 		}
 	}
 
