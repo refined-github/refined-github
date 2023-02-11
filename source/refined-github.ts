@@ -82,7 +82,6 @@ import './features/embed-gist-inline';
 import './features/comments-time-machine-links';
 import './features/hide-issue-list-autocomplete';
 import './features/esc-to-deselect-line';
-import './features/create-release-shortcut';
 import './features/patch-diff-links';
 import './features/parse-backticks';
 import './features/mark-merge-commits-in-list';
