@@ -41,7 +41,7 @@ async function init(): Promise<void> {
 	const pageCommits = select.all([
 		'.js-commits-list-item', // `isCommitList`
 		'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`, "js-timeline-item" to exclude "isCommitList"
-	].join(','));
+	]);
 
 	if (pageCommits.length === 0) {
 		throw new Error('No commits found, selector likely out of date');

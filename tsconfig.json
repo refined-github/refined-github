@@ -1,7 +1,7 @@
 {
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
-		"target": "es2021",
+		"target": "es2022",
 		"module": "es2022",
 		"moduleResolution": "Node",
 		"moduleDetection": "legacy", // TODO: Drop After dropping Webpack
@@ -12,7 +12,7 @@
 		"lib": [
 			"DOM",
 			"DOM.Iterable",
-			"ES2021"
+			"ES2022"
 		],
 	},
 	"include": [

@@ -68,7 +68,7 @@ void features.add(import.meta.url, {
 		pageDetect.isArchivedRepo,
 	],
 	// Can't because `isArchivedRepo` is DOM-based
-	// Also not needed since it appears on hover
+	// Also not needed since the sidebar is near the end of the page
 	// awaitDomReady: false,
 	init,
 });
