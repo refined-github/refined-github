@@ -20,7 +20,7 @@ function addQuickEditButton(commentForm: Element): void {
 			<button
 				type="button"
 				role="menuitem"
-				className={'timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button' + (pageDetect.isDiscussion() ? ' js-discussions-comment-edit-button' : '')}
+				className="timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button"
 				aria-label="Edit comment"
 			>
 				<PencilIcon/>
@@ -58,7 +58,6 @@ async function init(signal: AbortSignal): Promise<void> {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
-		pageDetect.isDiscussion,
 	],
 	awaitDomReady: false,
 	init,

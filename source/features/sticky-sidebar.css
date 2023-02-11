@@ -18,7 +18,7 @@ Exclusively use simple sums and use `0px` instead of `0`
 
 .rgh-sticky-sidebar {
 	position: sticky;
-	top: var(--rgh-sticky-sidebar-offset) !important;
+	top: var(--rgh-sticky-sidebar-offset, 0) !important;
 
 	/* `sticky` will trap the `fixed` dialog’s z-index in some sidebars #3732 */
 	/* Higher than sticky readme header #4192 */

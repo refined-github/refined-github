@@ -70,15 +70,14 @@
 }
 
 /* Hide elements that are stretching the whole viewport #6159 */
-/* .full-width sort of limits it to the homepage. Other pages aren't affected */
 @media (max-width: 920px) {
-	.full-width .Header-link[href='/marketplace'] {
+	.Header-link[href='/marketplace'] {
 		display: none;
 	}
 }
 
 @media (max-width: 820px) {
-	.full-width .Header-link[href='/explore'] {
+	.Header-link[href='/explore'] {
 		display: none;
 	}
 }

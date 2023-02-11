@@ -9,7 +9,7 @@ import observe from '../helpers/selector-observer';
 function getLinkToGitHubIo(repoTitle: HTMLElement, className?: string): JSX.Element {
 	return (
 		<a
-			href={`https://${repoTitle.textContent!.trim()}`}
+			href={`https://${repoTitle.textContent!.trim().replace(/com$/, 'io')}`}
 			className={className}
 		>
 			<LinkIcon className="v-align-middle"/>
@@ -30,7 +30,11 @@ function initRepo(signal: AbortSignal): void {
 }
 
 function initRepoList(signal: AbortSignal): void {
-	observe('a[href$=".github.io"][itemprop="name codeRepository"]', addRepoListLink, {signal});
+	observe([
+		// Earlier GitHub Pages were hosted on github.com #6228
+		'a[itemprop="name codeRepository"][href$=".github.com"]',
+		'a[itemprop="name codeRepository"][href$=".github.io"]',
+	], addRepoListLink, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -38,7 +42,7 @@ void features.add(import.meta.url, {
 		pageDetect.hasRepoHeader,
 	],
 	asLongAs: [
-		() => Boolean(getRepo()?.name.endsWith('.github.io')),
+		() => /\.github\.(io|com)$/.test(getRepo()?.name ?? 'shush eslint'),
 	],
 	awaitDomReady: false,
 	init: initRepo,
