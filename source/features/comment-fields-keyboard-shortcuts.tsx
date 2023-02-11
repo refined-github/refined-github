@@ -30,7 +30,7 @@ function handleArrowUpKey(targetField: HTMLTextAreaElement): void {
 		'.js-inline-comments-container', // Current review thread container
 		'#discussion_bucket', // Or just ALL the comments in issues
 		'#all_commit_comments', // Single commit comments at the bottom
-	].join(','))!;
+	])!;
 
 	const lastOwnComment = select
 		.all('.js-comment.current-user', currentConversationContainer)

@@ -9,7 +9,7 @@ const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	|| Boolean(comment.closest([
 		'.js-resolvable-thread-contents.d-none', // Regular comments
 		'details.js-resolvable-timeline-thread-container:not([open])', // Review comments
-	].join(',')));
+	]));
 
 function runShortcuts(event: KeyboardEvent): void {
 	if ((event.key !== 'j' && event.key !== 'k') || isEditable(event.target)) {

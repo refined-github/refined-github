@@ -17,7 +17,6 @@ import openOptions from '../helpers/open-options';
 This is done so that when editing that issue we're aware that something is up with that piece of text. Without these hidden links we might forget about this feature and break it.
 
 */
-// TODO: Replace with https://github.com/refined-github/refined-github/wiki/Welcome-to-Refined-GitHub!-✨
 const issueUrl = 'https://github.com/refined-github/refined-github/issues/3543';
 const placeholdersSelector = 'a[href="#rgh-linkify-welcome-issue"]';
 
