@@ -2,7 +2,12 @@
 
 /* stylelint-disable-next-line media-feature-name-no-vendor-prefix -- It's the only cross-browser media query */
 @media (-webkit-min-device-pixel-ratio: 2) {
-	.js-issue-row [aria-label='Open draft pull request'] svg {
+	.rgh-emphasize-draft-pr-label .js-issue-row :is(
+	/* Repo PR lists */
+	[aria-label='Open draft pull request'],
+	/* Global PR lists */
+	[aria-label='Draft Pull Request']
+) svg {
 		stroke: var(--color-fg-muted);
 		stroke-width: 1.2px;
 		color: var(--rgh-background) !important;
