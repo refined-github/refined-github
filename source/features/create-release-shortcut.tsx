@@ -16,6 +16,10 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isReleasesOrTags,
 	],
+	exclude: [
+		pageDetect.isNewRelease,
+		pageDetect.isEditingRelease,
+	],
 	init,
 });
 
