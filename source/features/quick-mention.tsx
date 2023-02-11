@@ -45,7 +45,7 @@ function add(avatar: HTMLElement): void {
 
 		// Reviews
 		'.js-comment',
-	].join(', '))!;
+	])!;
 	if (debug) {
 		timelineItem.style.border = 'solid 5px red';
 	}
