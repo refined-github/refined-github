@@ -10,6 +10,9 @@ import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 import attachElement from '../helpers/attach-element';
 
 async function init(): Promise<void | false> {
+	// Only run once so that it doesn't clear the field every time it's opened
+	features.unload(import.meta.url);
+
 	const messageField = select('textarea#merge_message_field')!;
 	const originalMessage = messageField.value;
 	const preservedContent = new Set();
