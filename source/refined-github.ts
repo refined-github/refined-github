@@ -216,5 +216,5 @@ import './features/last-notification-page-button';
 import './features/rgh-linkify-yolo-issues';
 import './features/quick-new-issue';
 import './features/scrollable-code-and-blockquote';
-import './features/hide-watch-and-fork-count';
+import './features/clean-repo-header';
 import './features/emphasize-draft-pr-label';

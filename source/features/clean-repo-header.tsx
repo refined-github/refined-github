@@ -1,4 +1,4 @@
-import './hide-watch-and-fork-count.css';
+import './clean-repo-header.css';
 
 import features from '../feature-manager';
 
