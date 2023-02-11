@@ -65,7 +65,7 @@ interface NamedNodeMap {
 
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
 interface HTMLFormControlsCollection {
-	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement;
+	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | HTMLSelectElement;
 }
 
 declare module 'react' {
