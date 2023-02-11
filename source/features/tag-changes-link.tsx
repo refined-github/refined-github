@@ -149,3 +149,13 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+
+Test URLs:
+
+- https://github.com/refined-github/refined-github/releases
+- https://github.com/refined-github/refined-github/tags
+- https://github.com/refined-github/refined-github/releases/tag/23.2.5
+
+*/
