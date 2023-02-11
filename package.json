@@ -55,7 +55,7 @@
 		"filter-altered-clicks": "^2.0.0",
 		"fit-textarea": "^2.0.0",
 		"flat-zip": "^1.0.1",
-		"github-url-detection": "^6.1.0",
+		"github-url-detection": "^7.0.1-0",
 		"image-promise": "^7.0.1",
 		"indent-textarea": "^2.1.1",
 		"js-abbreviation-number": "^1.4.0",
