@@ -1,3 +1,3 @@
-.pagehead-actions :is(#repo-network-counter, #repo-notifications-counter) {
+.rgh-hide-watch-and-fork-count .pagehead-actions :is(#repo-network-counter, #repo-notifications-counter) {
 	display: none;
 }
