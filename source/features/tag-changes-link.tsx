@@ -34,7 +34,7 @@ async function getNextPage(): Promise<DocumentFragment> {
 
 function parseTags(element: HTMLElement): TagDetails {
 	// Safari doesn't correctly parse links if they're loaded via AJAX #3899
-	const {pathname: tagUrl} = new URL(select('a[href*="/tree/"]', element)!.href);
+	const {pathname: tagUrl} = new URL(select(['a[href*="/tree/"]', 'a[href*="/tag/"]'], element)!.href);
 	const tag = /\/(?:releases\/tag|tree)\/(.*)/.exec(tagUrl)![1];
 
 	return {
@@ -149,3 +149,13 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+
+Test URLs:
+
+- https://github.com/refined-github/refined-github/releases
+- https://github.com/refined-github/refined-github/tags
+- https://github.com/refined-github/refined-github/releases/tag/23.2.5
+
+*/

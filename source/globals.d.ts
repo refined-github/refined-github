@@ -17,9 +17,6 @@ interface Window {
 }
 
 declare module 'markdown-wasm/dist/markdown.node.js';
-declare module 'filter-altered-clicks' {
-	export default function filterAlteredClicks<Listener>(handler: Listener): Listener;
-}
 
 declare module 'size-plugin';
 
@@ -68,7 +65,7 @@ interface NamedNodeMap {
 
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
 interface HTMLFormControlsCollection {
-	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement;
+	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | HTMLSelectElement;
 }
 
 declare module 'react' {
