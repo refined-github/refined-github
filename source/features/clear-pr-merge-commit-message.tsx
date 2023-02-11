@@ -7,6 +7,7 @@ import features from '../feature-manager';
 import {getBranches} from './update-pr-from-base-branch';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
+import attachElement from '../helpers/attach-element';
 
 async function init(): Promise<void | false> {
 	const messageField = select('textarea#merge_message_field')!;
@@ -33,12 +34,16 @@ async function init(): Promise<void | false> {
 	}
 
 	set(messageField, cleanedMessage);
-	messageField.after(
-		<p className="note">
-			The description field was cleared by <a target="_blank" href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message" rel="noreferrer">Refined GitHub</a>.
-		</p>,
-		<hr/>,
-	);
+	attachElement(messageField, {
+		after: () => (
+			<div>
+				<p className="note">
+					The description field was cleared by <a target="_blank" href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message" rel="noreferrer">Refined GitHub</a>.
+				</p>
+				<hr/>
+			</div>
+		),
+	});
 }
 
 void features.add(import.meta.url, {
