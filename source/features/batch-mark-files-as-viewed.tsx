@@ -33,7 +33,7 @@ const batchToggle = debounceFn((event: DelegateEvent<MouseEvent, HTMLFormElement
 
 	const files = select.all('.js-file');
 	const thisFile = event.delegateTarget.closest('.js-file')!;
-	const isThisBeingFileChecked = !isChecked(thisFile);
+	const isThisBeingFileChecked = !isChecked(thisFile); // Flip it because the value hasn't changed yet
 
 	runningBatch = true;
 	const selectedFiles = getItemsBetween(files, previousFile, thisFile);
