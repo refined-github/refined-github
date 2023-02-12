@@ -5,6 +5,11 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 
+const formSelector = [
+	'form[action$="/minimize-comment"]',
+	'form[action$="/minimize"]', // Review thread comments
+];
+
 function generateSubmenu(hideButton: Element): void {
 	if (hideButton.closest('.rgh-quick-comment-hiding-details')) {
 		// Already generated
@@ -15,13 +20,18 @@ function generateSubmenu(hideButton: Element): void {
 	detailsElement.classList.add('rgh-quick-comment-hiding-details');
 
 	const comment = hideButton.closest('.unminimized-comment')!;
-	const hideCommentForm = select('.js-comment-minimize', comment)!;
+	const hideCommentForm: HTMLFormElement = select(formSelector, comment)!;
 
-	hideCommentForm.classList.remove('d-flex');
+	// Generate dropdown
+	const newForm = hideCommentForm.cloneNode();
+	const fields = [...hideCommentForm.elements].map(field => field.cloneNode());
+	newForm.append(<i hidden>{fields}</i>); // Add existing fields (comment ID, token)
 
-	// Generate dropdown items
-	for (const reason of select.all('[name="classifier"] option:not([value=""])', comment)) {
-		hideCommentForm.append(
+	// Imitate existing menu, reset classes
+	newForm.className = ['dropdown-menu', 'dropdown-menu-sw', 'color-fg-default', 'show-more-popover', 'anim-scale-in'].join(' ');
+
+	for (const reason of select.all('option:not([value=""])', hideCommentForm.elements.classifier)) {
+		newForm.append(
 			<button
 				type="submit"
 				name="classifier"
@@ -34,19 +44,12 @@ function generateSubmenu(hideButton: Element): void {
 		);
 	}
 
-	// Drop previous form controls
-	select('.btn', hideCommentForm)!.remove();
-	select('[name="classifier"]', hideCommentForm)!.remove();
-
 	// Close immediately after the clicking option
-	hideCommentForm.addEventListener('click', () => {
-		detailsElement.removeAttribute('open');
+	newForm.addEventListener('click', () => {
+		detailsElement.open = false;
 	});
 
-	// Imitate existing menu
-	hideCommentForm.classList.add('dropdown-menu', 'dropdown-menu-sw', 'color-fg-default', 'show-more-popover', 'anim-scale-in');
-
-	detailsElement.append(hideCommentForm);
+	detailsElement.append(newForm);
 }
 
 // Shows menu on top of mainDropdownContent when "Hide" is clicked;
@@ -59,7 +62,7 @@ function toggleSubMenu(hideButton: Element, show: boolean): void {
 	select('details-menu', dropdown)!.classList.toggle('v-hidden', show);
 
 	// "Hide comment" dropdown
-	select('form.js-comment-minimize', dropdown)!.classList.toggle('v-hidden', !show);
+	select(formSelector, dropdown)!.classList.toggle('v-hidden', !show);
 }
 
 function resetDropdowns(event: DelegateEvent): void {
@@ -86,3 +89,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs
+
+https://github.com/refined-github/sandbox/pull/47
+
+*/

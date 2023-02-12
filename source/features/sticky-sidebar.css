@@ -18,7 +18,7 @@ Exclusively use simple sums and use `0px` instead of `0`
 
 .rgh-sticky-sidebar {
 	position: sticky;
-	top: var(--rgh-sticky-sidebar-offset) !important;
+	top: var(--rgh-sticky-sidebar-offset, 0) !important;
 
 	/* `sticky` will trap the `fixed` dialog’s z-index in some sidebars #3732 */
 	/* Higher than sticky readme header #4192 */
@@ -37,4 +37,13 @@ Exclusively use simple sums and use `0px` instead of `0`
 /* Avoid z-index issue with Stars dropdown in repo header #5214 */
 .rgh-sticky-sidebar-enabled .pagehead-actions .js-user-list-menu {
 	z-index: unset;
+}
+
+/* z-index fights 🥲 This is the search dropdown on the repo root #6151 */
+html.rgh-sticky-sidebar-enabled:has(.rgh-sticky-sidebar) .search-input.expanded .search-with-dialog {
+	z-index: 95; /* Native: 35 */
+}
+
+html.rgh-sticky-sidebar-enabled:has(.rgh-sticky-sidebar) .search-input.expanded .dark-backdrop {
+	z-index: 92; /* Native: 32 */
 }

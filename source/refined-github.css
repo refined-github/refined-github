@@ -1,6 +1,6 @@
 :root {
-	--rgh-green: var(--color-fg-success, #1a7f37);
-	--rgh-red: var(--color-fg-danger, #cf222e);
+	--rgh-green: var(--color-success-fg, #1a7f37);
+	--rgh-red: var(--color-danger-fg, #cf222e);
 	--rgh-border-color: var(--color-border-muted, #d8dee4);
 	--rgh-background: var(--color-canvas-default, #fff);
 }
@@ -162,15 +162,6 @@ pr-branches
 	display: none !important;
 }
 
-/* Hide text of "Edit Pins" dropdown button in header of organization repos https://github.com/refined-github/refined-github/pull/5612 */
-.pagehead-actions pin-organization-repo summary {
-	font-size: 0 !important;
-}
-
-.pagehead-actions pin-organization-repo .octicon-pin {
-	vertical-align: middle !important;
-}
-
 /* Bold username in conversation lists #4899 */
 :is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type='user'] {
 	font-weight: 600;
@@ -190,4 +181,10 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 
 [data-selected-links^='repo_milestones ']:has([title='0']) svg {
 	margin-right: 20px; /* Push the text farther away from the text so it's cropped out */
+}
+
+/* Add override for CSS-in-JS components that don't use regular .btn styles */
+.BtnGroup-item:last-child {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
 }

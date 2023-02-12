@@ -19,7 +19,7 @@ The simplest usage of `feature.add` is the following. This will be run instantly
 
 ```ts
 import * as pageDetect from 'github-url-detection';
-import features from '.';
+import features from '../feature-manager';
 
 function init(): void {
 	console.log('✨');
@@ -42,7 +42,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '.';
+import features from '../feature-manager';
 
 function append(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	event.delegateTarget.after('✨', <div className="rgh-jsx-element">Button clicked!</div>);

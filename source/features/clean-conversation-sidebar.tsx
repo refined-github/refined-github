@@ -50,7 +50,7 @@ function cleanSection(selector: string): boolean {
 		'details:has(> .discussion-sidebar-heading)', // Can edit sidebar, has a dropdown
 		'.discussion-sidebar-heading', // Cannot editor sidebar, has a plain heading
 	], container)!;
-	if (heading.closest('form, .discussion-sidebar-item')!.querySelector(identifiers.join(','))) {
+	if (heading.closest('form, .discussion-sidebar-item')!.querySelector(identifiers)) {
 		return false;
 	}
 

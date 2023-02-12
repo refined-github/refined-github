@@ -16,7 +16,7 @@ function addLinks(container: HTMLElement): void {
 	const typeName = isIssues ? 'Issues' : 'Pull Requests';
 
 	const links = [
-		['Commented', `${typeName} you’ve commented on`, 'commenter:@me'],
+		['Involved', `${typeName} you’re involved in`, 'involves:@me'],
 		['Yours', `${typeName} on your repos`, 'user:@me'],
 	] as const;
 

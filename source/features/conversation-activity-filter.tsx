@@ -205,17 +205,20 @@ function switchToNextFilter(): void {
 	const state = select(`.${dropdownClass} [aria-checked="true"]`)!.dataset.value as State;
 	// eslint-disable-next-line default-case
 	switch (state) {
-		case 'default':
+		case 'default': {
 			applyState('hideEvents');
 			break;
+		}
 
-		case 'hideEvents':
+		case 'hideEvents': {
 			applyState('hideEventsAndCollapsedComments');
 			break;
+		}
 
-		case 'hideEventsAndCollapsedComments':
+		case 'hideEventsAndCollapsedComments': {
 			applyState('default');
 			break;
+		}
 	}
 }
 

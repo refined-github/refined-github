@@ -12,12 +12,16 @@ function highlight(html: string): string {
 function serializeDOM(element: Element): string {
 	for (const replacement of element.querySelectorAll('[data-rgh-whitespace]')) {
 		switch (replacement.getAttribute('data-rgh-whitespace')) {
-			case 'space':
+			case 'space': {
 				replacement.replaceWith(replacement.innerHTML.replace(/ /g, '•'));
 				break;
-			case 'tab':
+			}
+
+			case 'tab': {
 				replacement.replaceWith(replacement.innerHTML.replace(/\t/g, '⟶'));
 				break;
+			}
+
 			default:
 		}
 	}

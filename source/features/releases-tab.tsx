@@ -38,7 +38,11 @@ async function fetchFromApi(): Promise<number> {
 	return repository.releases.totalCount;
 }
 
-export const getReleaseCount = cache.function(async () => pageDetect.isRepoRoot() ? parseCountFromDom() : fetchFromApi(), {
+// Release count can be not found in DOM if:
+// - It is disabled by repository owner on the home page (release DOM element won't be there)
+// - It only contains pre-releases (count badge won't be shown)
+// For this reason, if we can't find a count from the DOM, we ask the API instead (see #6298)
+export const getReleaseCount = cache.function(async () => await parseCountFromDom() || fetchFromApi(), {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 3},
 	cacheKey: getCacheKey,
@@ -80,8 +84,10 @@ async function addReleasesTab(): Promise<false | void> {
 	// Trigger a reflow to push the right-most tab into the overflow dropdown (second attempt #4254)
 	window.dispatchEvent(new Event('resize'));
 
+	const dropdownMenu = await elementReady('.js-responsive-underlinenav .dropdown-menu ul');
+
 	appendBefore(
-		select('.js-responsive-underlinenav .dropdown-menu ul')!,
+		dropdownMenu!,
 		'.dropdown-divider', // Won't exist if `more-dropdown` is disabled
 		createDropdownItem('Releases', buildRepoURL('releases'), {
 			'data-menu-item': 'rgh-releases-item',

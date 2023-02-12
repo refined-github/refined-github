@@ -9,11 +9,15 @@ import looseParseInt from '../helpers/loose-parse-int';
 function interpretNode(node: ChildNode): string | void {
 	switch (node instanceof Element && node.tagName) {
 		case false:
-		case 'A':
+		case 'A': {
 			return node.textContent!;
-		case 'CODE':
+		}
+
+		case 'CODE': {
 			// Restore backticks that GitHub loses when rendering them
 			return '`' + node.textContent! + '`';
+		}
+
 		default:
 			// Ignore other nodes, like `<span>...</span>` that appears when commits have a body
 	}

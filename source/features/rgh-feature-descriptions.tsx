@@ -1,38 +1,53 @@
+import './rgh-feature-descriptions.css';
 import React from 'dom-chef';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {CopyIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager';
-import {wrapAll} from '../helpers/dom-utils';
 import {featuresMeta} from '../../readme.md';
 import {getNewFeatureName} from '../options-storage';
 import {isRefinedGitHubRepo} from '../github-helpers';
+import observe from '../helpers/selector-observer';
 
-async function init(): Promise<void | false> {
+async function add(infoBanner: HTMLElement): Promise<void> {
 	const [, currentFeature] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
 	// Enable link even on past commits
 	const currentFeatureName = getNewFeatureName(currentFeature);
 	const feature = featuresMeta.find(feature => feature.id === currentFeatureName);
 	if (!feature) {
-		return false;
+		return;
 	}
 
 	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
 	conversationsUrl.searchParams.set('q', `sort:updated-desc "${feature.id}"`);
 
-	const commit = await elementReady([
-		'.Box-header.Details', // Already loaded
-		'include-fragment.commit-loader', // Deferred loading
-	].join(','));
-
-	const commitInfoBox = commit!.parentElement!;
-
-	commitInfoBox.classList.add('width-fit', 'min-width-0', 'flex-auto', 'mb-lg-0', 'mr-lg-3');
-	commitInfoBox.classList.remove('flex-shrink-0');
-
-	const featureInfoBox = (
-		<div className="Box rgh-feature-description" style={{flex: '0 1 544px'}}>
-			<div className="Box-row d-flex height-full">
+	infoBanner.before(
+		<div className="Box mb-3">
+			<div className="Box-row d-flex gap-3 flex-wrap">
+				<div className="rgh-feature-description">
+					<h3 className="mb-2"><code>{feature.id}</code>
+						<clipboard-copy
+							aria-label="Copy"
+							data-copy-feedback="Copied!"
+							value={feature.id}
+							class="Link--onHover color-fg-muted d-inline-block ml-2"
+							tabindex="0"
+							role="button"
+						>
+							<CopyIcon className="v-align-baseline"/>
+						</clipboard-copy>
+					</h3>
+					{ /* eslint-disable-next-line react/no-danger */ }
+					<div dangerouslySetInnerHTML={{__html: feature.description}} className="h3"/>
+					<div className="no-wrap" data-turbo-frame="repo-content-turbo-frame">
+						<a href={conversationsUrl.href}>Related issues</a>
+						{
+							location.pathname.endsWith('css')
+								? <> • <a href={location.pathname.replace('.css', '.tsx')}>See JavaScript</a></>
+								: undefined
+						}
+					</div>
+				</div>
 				{feature.screenshot && (
 					<a href={feature.screenshot} className="flex-self-center">
 						<img
@@ -44,23 +59,13 @@ async function init(): Promise<void | false> {
 							}}/>
 					</a>
 				)}
-				<div className={'flex-auto' + (feature.screenshot ? ' ml-3' : '')}>
-					{ /* eslint-disable-next-line react/no-danger */ }
-					<div dangerouslySetInnerHTML={{__html: feature.description}} className="text-bold"/>
-					<div className="no-wrap" data-turbo-frame="repo-content-turbo-frame">
-						<a href={conversationsUrl.href}>Related issues</a>
-						{
-							location.pathname.endsWith('css')
-								? <> • <a href={location.pathname.replace('.css', '.tsx')}>See JavaScript</a></>
-								: undefined
-						}
-					</div>
-				</div>
 			</div>
-		</div>
+		</div>,
 	);
+}
 
-	wrapAll([commitInfoBox, featureInfoBox], <div className="d-lg-flex"/>);
+function init(signal: AbortSignal): void {
+	observe('#repos-sticky-header', add, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -71,6 +76,5 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleFile,
 	],
 	awaitDomReady: false,
-	deduplicate: '.rgh-feature-description', // #3945
 	init,
 });

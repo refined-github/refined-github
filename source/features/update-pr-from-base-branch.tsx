@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
+
 import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -7,17 +8,11 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 import * as api from '../github-helpers/api';
+import {getBranches} from '../github-helpers/pr-branches';
 import getPrInfo from '../github-helpers/get-pr-info';
 import {getConversationNumber} from '../github-helpers';
 
 const selectorForPushablePRNotice = '.merge-pr > .color-fg-muted:first-child';
-
-export function getBranches(): {base: string; head: string} {
-	return {
-		base: select('.base-ref')!.textContent!.trim(),
-		head: select('.head-ref')!.textContent!.trim(),
-	};
-}
 
 async function mergeBranches(): Promise<AnyObject> {
 	return api.v3(`pulls/${getConversationNumber()!}/update-branch`, {
@@ -28,7 +23,7 @@ async function mergeBranches(): Promise<AnyObject> {
 
 async function handler({delegateTarget}: DelegateEvent): Promise<void> {
 	const {base, head} = getBranches();
-	if (!confirm(`Merge the ${base} branch into ${head}?`)) {
+	if (!confirm(`Merge the ${base.local} branch into ${head.local}?`)) {
 		return;
 	}
 
@@ -48,7 +43,7 @@ async function handler({delegateTarget}: DelegateEvent): Promise<void> {
 
 async function addButton(position: Element): Promise<void> {
 	const {base, head} = getBranches();
-	const prInfo = await getPrInfo(base, head);
+	const prInfo = await getPrInfo(base.local, head.local);
 	if (!prInfo) {
 		return;
 	}
@@ -92,4 +87,8 @@ https://github.com/refined-github/sandbox/pull/11
 
 Native "Resolve conflicts" button
 https://github.com/refined-github/sandbox/pull/9
+
+Cross-repo PR with long branch names
+https://github.com/refined-github/sandbox/pull/13
+
 */

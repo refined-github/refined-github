@@ -68,3 +68,16 @@
 .dashboard-sidebar .loading-context {
 	min-height: initial !important;
 }
+
+/* Hide elements that are stretching the whole viewport #6159 */
+@media (max-width: 920px) {
+	.Header-link[href='/marketplace'] {
+		display: none;
+	}
+}
+
+@media (max-width: 820px) {
+	.Header-link[href='/explore'] {
+		display: none;
+	}
+}

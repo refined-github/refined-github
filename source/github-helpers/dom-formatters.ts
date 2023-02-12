@@ -14,13 +14,13 @@ export const linkifiedURLSelector = '.rgh-linkified-code';
 export const codeElementsSelector = [
 	'.blob-code-inner', // Code lines
 	':not(.notranslate) > .notranslate', // Code blocks in comments. May be wrapped twice
-].join(',');
+];
 
 export function shortenLink(link: HTMLAnchorElement): void {
 	// Exclude the link if the closest element found is not `.comment-body`
 	// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-	if (link.closest(`${codeElementsSelector}, .comment-body`)?.classList.contains('comment-body')) {
+	if (link.closest([...codeElementsSelector, '.comment-body'])?.classList.contains('comment-body')) {
 		applyToLink(link, location.href);
 	}
 }
