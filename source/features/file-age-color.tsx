@@ -4,7 +4,7 @@ import observe from '../helpers/selector-observer';
 import features from '../feature-manager';
 import {createHeatIndexFunction} from '../helpers/math';
 
-const calculateHeatIndex = createHeatIndexFunction([0, -2000000000]);
+const calculateHeatIndex = createHeatIndexFunction([0, -2_000_000_000]);
 
 function addHeatIndex(lastUpdateElement: HTMLElement): void {
 	// `datetime` attribute used by pre-React version
