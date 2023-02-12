@@ -7,7 +7,8 @@ env:
 
 name: Release
 on:
-  workflow_dispatch: null
+  workflow_dispatch:
+  push:
 jobs:
   Version:
     outputs:
@@ -19,13 +20,31 @@ jobs:
           fetch-depth: 20
       - uses: actions/setup-node@v3
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: .nvmrc
           cache: npm
       - run: npm ci
       - name: Test and build
         run: npm test
       - uses: fregante/daily-version-action@v2
         name: Create tag if necessary
+        id: Version
+
+      - name: Test the action
+        run: |
+          # Test outputs
+          test ${{ steps.Version.outputs.version }}
+          test ${{ steps.Version.outputs.created }}
+
+          # Show and test ENVs
+          echo DAILY_VERSION=$DAILY_VERSION
+          echo DAILY_VERSION_CREATED=$DAILY_VERSION_CREATED
+          test $DAILY_VERSION
+          test $DAILY_VERSION_CREATED
+
+          # Test tag
+          git show-ref --tags "refs/tags/$DAILY_VERSION"
+          git push --delete origin "$DAILY_VERSION"
+          exit 1
       - name: Update extension’s meta
         run: npx dot-json@1 $DIRECTORY/manifest.json version $DAILY_VERSION
       - uses: actions/upload-artifact@v3
@@ -39,7 +58,7 @@ jobs:
         working-directory: ${{ env.DIRECTORY }}
         run: |
           zip -r refined-github-local-install.zip *
-          gh release create "$DAILY_VERSION" --generate-notes refined-github-local-install.zip
+          echo gh release create "$DAILY_VERSION" --generate-notes refined-github-local-install.zip
 
   Submit:
     needs: Version
@@ -55,13 +74,13 @@ jobs:
       - uses: actions/download-artifact@v3
       - name: Submit to Mozilla
         if: matrix.command == 'firefox'
-        run: cd artifacts/built && npx web-ext-submit@7
+        run: cd artifacts/built && echo npx web-ext-submit@7
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
           WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
       - name: Submit to Google
         if: matrix.command == 'chrome'
-        run: cd artifacts/built && npx chrome-webstore-upload-cli@2 upload --auto-publish
+        run: cd artifacts/built && echo npx chrome-webstore-upload-cli@2 upload --auto-publish
         env:
           EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
