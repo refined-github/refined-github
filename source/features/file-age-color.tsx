@@ -4,14 +4,21 @@ import observe from '../helpers/selector-observer';
 import features from '../feature-manager';
 
 function addHeatIndex(timeAgo: HTMLElement): void {
-	const diff = Date.now() - new Date(timeAgo.attributes.datetime.value).getTime();
+	// `datetime` attribute used by pre-React version
+	const diff = Date.now() - new Date(timeAgo.getAttribute('datetime') ?? timeAgo.title).getTime();
 
 	// Create heat square root curve
-	timeAgo.dataset.rghHeat = String(Math.max(0, Math.min(10, Math.sqrt(diff / 400_000_000))));
+	timeAgo.setAttribute(
+		'data-rgh-heat',
+		String(Math.round(Math.max(0, Math.min(10, Math.sqrt(diff / 400_000_000))))),
+	);
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-navigation-item time-ago', addHeatIndex, {signal});
+	observe([
+		'.js-navigation-item relative-time', // TODO: Drop old view in mid 2023
+		'.react-directory-commit-age > [title]',
+	], addHeatIndex, {signal});
 }
 
 void features.add(import.meta.url, {
