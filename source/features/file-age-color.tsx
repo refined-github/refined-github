@@ -2,16 +2,17 @@ import * as pageDetect from 'github-url-detection';
 
 import observe from '../helpers/selector-observer';
 import features from '../feature-manager';
+import {createHeatIndexFunction} from '../helpers/math';
 
-function addHeatIndex(timeAgo: HTMLElement): void {
+const calculateHeatIndex = createHeatIndexFunction([0, -2000000000]);
+
+function addHeatIndex(lastUpdateElement: HTMLElement): void {
 	// `datetime` attribute used by pre-React version
-	const diff = Date.now() - new Date(timeAgo.getAttribute('datetime') ?? timeAgo.title).getTime();
+	const lastUpdate = new Date(lastUpdateElement.getAttribute('datetime') ?? lastUpdateElement.title);
+	const diff = Date.now() - lastUpdate.getTime();
+	console.log(calculateHeatIndex(-diff), lastUpdate, diff);
 
-	// Create heat square root curve
-	timeAgo.setAttribute(
-		'data-rgh-heat',
-		String(Math.round(Math.max(0, Math.min(10, Math.sqrt(diff / 400_000_000))))),
-	);
+	lastUpdateElement.setAttribute('data-rgh-heat', String(calculateHeatIndex(-diff)));
 }
 
 function init(signal: AbortSignal): void {
