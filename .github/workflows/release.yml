@@ -48,7 +48,6 @@ jobs:
         run: npx dot-json@1 $DIRECTORY/manifest.json version $DAILY_VERSION
       - uses: actions/upload-artifact@v3
         with:
-          name: built
           path: ${{ env.DIRECTORY }}
       - if: env.DAILY_VERSION_CREATED
         name: Create release
@@ -74,14 +73,14 @@ jobs:
       - name: Submit to Mozilla
         if: matrix.command == 'firefox'
         run: ls -R
-        # run: cd artifacts && echo npx web-ext-submit@7
+        # run: cd distribution && echo npx web-ext-submit@7
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
           WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
       - name: Submit to Google
         if: matrix.command == 'chrome'
         run: ls -R
-        # run: cd artifacts && echo npx chrome-webstore-upload-cli@2 upload --auto-publish
+        run: cd artifact && echo npx chrome-webstore-upload-cli@2 upload --auto-publish
         env:
           EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
