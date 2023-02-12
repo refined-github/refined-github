@@ -7,16 +7,23 @@ import doesFileExist from '../github-helpers/does-file-exist';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import {getRepo, getForkedRepo} from '../github-helpers';
 
-const isFilePath = (): boolean => pageDetect.isSingleFile()
+const isFilePath = (): boolean =>
+	pageDetect.isSingleFile()
 	|| pageDetect.isRepoTree()
 	|| pageDetect.hasFileEditor();
+
+// Only enable the feature on known-shared pages
+
+const isLikelyToBeOnBothRepos = (): boolean =>
+	isFilePath()
+	|| pageDetect.isIssueOrPRList()
+	|| pageDetect.isTags();
 
 async function getEquivalentURL(): Promise<string> {
 	const forkedRepository = getRepo(getForkedRepo())!;
 	const defaultUrl = '/' + forkedRepository.nameWithOwner;
 
-	// Do not use `isConversation` https://github.com/refined-github/refined-github/pull/5494#discussion_r829019629
-	if (pageDetect.isIssue() || pageDetect.isPR() || pageDetect.isRepoRoot() || pageDetect.isSingleTag()) {
+	if (!isLikelyToBeOnBothRepos()) {
 		// We must reset the link because the header is outside the ajaxed area
 		return defaultUrl;
 	}
@@ -48,3 +55,13 @@ void features.add(import.meta.url, {
 	// We can't use `exclude` because the header is outside the ajaxed area so it must be manually reset even when the feature doesn't apply there
 	init,
 });
+
+/*
+
+Test URLs
+
+- Folder: https://github.com/fregante/refined-github/tree/main/.github
+- PR list: https://github.com/fregante/refined-github/pulls
+- Tags list: https://github.com/fregante/refined-github/tags
+
+*/

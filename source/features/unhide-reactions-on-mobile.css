@@ -1,0 +1,3 @@
+.timeline-comment-actions > .d-none:has(.js-comment-header-reaction-button) {
+	display: inline-block !important;
+}

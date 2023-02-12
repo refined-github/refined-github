@@ -18,7 +18,6 @@ import {
 
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
-import attachElement from '../helpers/attach-element';
 
 const filters = {
 	'Pull requests': ':is(.octicon-git-pull-request, .octicon-git-pull-request-closed, .octicon-git-pull-request-draft, .octicon-git-merge)',
@@ -124,11 +123,11 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 
 const createDropdown = onetime(() => (
 	<details
-		className="details-reset details-overlay position-relative rgh-select-notifications ml-2"
+		className="details-reset details-overlay position-relative rgh-select-notifications mx-2"
 		onToggle={resetFilters}
 	>
 		<summary
-			className="btn btn-sm"
+			className="h6" // Match "Select all" style
 			data-hotkey="S"
 			aria-haspopup="menu"
 			role="button"
@@ -157,9 +156,7 @@ function closeDropdown(): void {
 }
 
 function addDropdown(markAllPrompt: Element): void {
-	attachElement(markAllPrompt.closest('label'), {
-		after: createDropdown,
-	});
+	markAllPrompt.closest('label')!.after(createDropdown());
 }
 
 function init(signal: AbortSignal): void {

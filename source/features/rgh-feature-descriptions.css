@@ -1,0 +1,9 @@
+.rgh-feature-description {
+	flex-basis: 300px !important;
+	flex-grow: 1;
+}
+
+.rgh-feature-description :is(code, kbd) {
+	font-size: 0.8em;
+	line-height: 0.8;
+}

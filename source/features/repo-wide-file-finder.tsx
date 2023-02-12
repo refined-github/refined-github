@@ -12,7 +12,7 @@ async function init(): Promise<void> {
 			hidden
 			data-hotkey="t"
 			data-turbo-frame="repo-content-turbo-frame"
-			href={buildRepoURL('find', getCurrentCommittish() ?? await getDefaultBranch())}
+			href={buildRepoURL('tree', getCurrentCommittish() ?? await getDefaultBranch()) + '?search=1'}
 		/>,
 	);
 }
@@ -27,6 +27,5 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFiles,
 		pageDetect.isFileFinder,
 	],
-	deduplicate: 'has-rgh',
 	init,
 });

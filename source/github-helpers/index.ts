@@ -158,6 +158,10 @@ export function isAnyRefinedGitHubRepo(): boolean {
 	return /^\/refined-github\/.+/.test(location.pathname);
 }
 
+export function isRefinedGitHubYoloRepo(): boolean {
+	return location.pathname.startsWith('/refined-github/yolo');
+}
+
 export function shouldFeatureRun({
 	/** Every condition must be true */
 	asLongAs = [() => true],
@@ -169,4 +173,12 @@ export function shouldFeatureRun({
 	exclude = [() => false],
 }): boolean {
 	return asLongAs.every(c => c()) && include.some(c => c()) && exclude.every(c => !c());
+}
+
+export async function isArchivedRepoAsync(): Promise<boolean> {
+	// Load the bare minimum for `isArchivedRepo` to work
+	await elementReady('#repository-container-header');
+
+	// DOM-based detection, we want awaitDomReady: false, so it needs to be here
+	return pageDetect.isArchivedRepo();
 }

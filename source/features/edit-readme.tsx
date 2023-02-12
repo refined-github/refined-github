@@ -47,8 +47,7 @@ void features.add(import.meta.url, {
 		pageDetect.isArchivedRepo,
 	],
 	deduplicate: '.rgh-edit-readme',
-	// Can't because `isArchivedRepo` is DOM-based
-	// Also not needed since it appears on hover
+	// TODO: Use isArchivedRepoAsync and elementReady across the feature
 	// awaitDomReady: false,
 	init,
 });

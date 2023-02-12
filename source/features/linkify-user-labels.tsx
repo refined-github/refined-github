@@ -8,8 +8,8 @@ import getCommentAuthor from '../github-helpers/get-comment-author';
 import observe from '../helpers/selector-observer';
 
 const selectors = [
-	'.Label[aria-label*="a member of the"]',
-	'.Label[aria-label^="This user has previously committed"]',
+	'.tooltipped[aria-label*="a member of the"]',
+	'.tooltipped[aria-label^="This user has previously committed"]',
 ];
 
 function init(signal: AbortSignal): void {

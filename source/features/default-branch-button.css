@@ -1,0 +1,4 @@
+/* Reduce excessive width on long branch names, this is also a GitHub bug */
+.rgh-default-branch-button-group [data-component='text'] {
+	max-width: 80px;
+}

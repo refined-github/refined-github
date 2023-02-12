@@ -15,11 +15,12 @@ const botNames = [
 	'snyk-bot',
 	'web-flow',
 	'weblate',
-];
+] as const;
 
-const commitSelectors = botNames.map(bot => `.commit-author[href$="?author=${bot}"]`);
-commitSelectors.push('.commit-author[href$="%5Bbot%5D"]'); // Generic `[bot]` label in author name
-const commitSelector = commitSelectors.join(',');
+const commitSelectors = [
+	...botNames.map(bot => `.commit-author[href$="?author=${bot}"]`),
+	'.commit-author[href$="%5Bbot%5D"]', // Generic `[bot]` label in author name
+];
 
 const prSelectors = [
 	...botNames.flatMap(bot => [
@@ -29,17 +30,16 @@ const prSelectors = [
 	'.opened-by [href*="author%3Aapp%2F"]', // Search query `is:pr+author:app/*`
 	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
 ];
-const prSelector = prSelectors.join(',');
 
 function init(): void {
-	for (const bot of select.all(commitSelector)) {
+	for (const bot of select.all(commitSelectors)) {
 		// Exclude co-authored commits
-		if (select.all('a', bot.parentElement!).every(link => link.matches(commitSelector))) {
+		if (select.all('a', bot.parentElement!).every(link => link.matches(commitSelectors))) {
 			bot.closest('.commit, .Box-row')!.classList.add('rgh-dim-bot');
 		}
 	}
 
-	for (const bot of select.all(prSelector)) {
+	for (const bot of select.all(prSelectors)) {
 		bot.closest('.commit, .Box-row')!.classList.add('rgh-dim-bot');
 	}
 

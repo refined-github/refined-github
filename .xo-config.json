@@ -4,8 +4,7 @@
 	],
 	"extends": "xo-react",
 	"globals": [
-		"browser",
-		"__filebasename"
+		"browser"
 	],
 	"rules": {
 		"jsx-quotes": [
@@ -14,6 +13,7 @@
 		],
 		"no-alert": "off",
 		"no-warning-comments": "off",
+		"unicorn/prefer-top-level-await": "off",
 		"unicorn/prefer-dom-node-dataset": "off",
 		"unicorn/expiring-todo-comments": ["warn", {
 			"allowWarningComments": false

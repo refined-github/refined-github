@@ -33,10 +33,6 @@ function getUser(): {url: string; name: string} {
 	return {url, name};
 }
 
-async function init(signal: AbortSignal): Promise<void> {
-	observe('.UnderlineNav-body', appendTab, {signal});
-}
-
 async function appendTab(navigationBar: Element): Promise<void> {
 	const user = getUser();
 	const link = (
@@ -55,14 +51,22 @@ async function appendTab(navigationBar: Element): Promise<void> {
 	navigationBar.append(link);
 	navigationBar.replaceWith(navigationBar);
 
-	select('.js-responsive-underlinenav .dropdown-menu ul')!.append(
-		createDropdownItem('Gists', user.url),
-	);
+	// There are two UnderlineNav items (responsive…) that point to the same dropdown
+	const overflowNav = select('.js-responsive-underlinenav .dropdown-menu ul')!;
+	if (!select.exists('[data-rgh-label="Gists"]', overflowNav)) {
+		overflowNav.append(
+			createDropdownItem('Gists', user.url),
+		);
+	}
 
 	const count = await getGistCount(user.name);
 	if (count > 0) {
 		link.append(<span className="Counter">{count}</span>);
 	}
+}
+
+async function init(signal: AbortSignal): Promise<void> {
+	observe('nav[aria-label="User profile"]', appendTab, {signal});
 }
 
 void features.add(import.meta.url, {
