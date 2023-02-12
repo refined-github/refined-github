@@ -73,13 +73,15 @@ jobs:
       - uses: actions/download-artifact@v3
       - name: Submit to Mozilla
         if: matrix.command == 'firefox'
-        run: cd artifacts/built && echo npx web-ext-submit@7
+        run: ls -R
+        # run: cd artifacts && echo npx web-ext-submit@7
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
           WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
       - name: Submit to Google
         if: matrix.command == 'chrome'
-        run: cd artifacts/built && echo npx chrome-webstore-upload-cli@2 upload --auto-publish
+        run: ls -R
+        # run: cd artifacts && echo npx chrome-webstore-upload-cli@2 upload --auto-publish
         env:
           EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
