@@ -8,7 +8,6 @@ env:
 name: Release
 on:
   workflow_dispatch:
-  push:
 jobs:
   Version:
     outputs:
@@ -16,33 +15,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 20
       - uses: actions/setup-node@v3
         with:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
       - name: Test and build
-        run: npm run build # TODO: should be npm test
-      - uses: fregante/daily-version-action@v2
-        name: Create tag if necessary
-      - name: "Created: ${{ env.DAILY_VERSION}}"
-        run: echo DAILY_VERSION=$DAILY_VERSION
-      - name: Update extension’s meta
+        run: npm test
+      - name: Create tag if necessary
+        uses: fregante/daily-version-action@v2
+      - name: Update manifest.json with version ${{ env.DAILY_VERSION}}
+        if: env.DAILY_VERSION_CREATED
         run: npx dot-json@1 $DIRECTORY/manifest.json version $DAILY_VERSION
       - name: Ready for "submit" jobs
+        if: env.DAILY_VERSION_CREATED
         uses: actions/upload-artifact@v3
         with:
           path: ${{ env.DIRECTORY }}
-      - if: env.DAILY_VERSION_CREATED
-        name: Create release
+      - name: Create release
+        if: env.DAILY_VERSION_CREATED
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: ${{ env.DIRECTORY }}
         run: |
           zip -r refined-github-local-install.zip *
-          echo gh release create "$DAILY_VERSION" --generate-notes refined-github-local-install.zip
+          gh release create "$DAILY_VERSION" --generate-notes refined-github-local-install.zip
 
   Submit:
     needs: Version
@@ -58,13 +55,13 @@ jobs:
       - uses: actions/download-artifact@v3
       - name: Submit to Mozilla
         if: matrix.command == 'firefox'
-        run: cd artifact && echo npx web-ext-submit@7
+        run: cd artifact && npx web-ext-submit@7
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
           WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
       - name: Submit to Google
         if: matrix.command == 'chrome'
-        run: cd artifact && echo npx chrome-webstore-upload-cli@2 upload --auto-publish
+        run: cd artifact && npx chrome-webstore-upload-cli@2 upload --auto-publish
         env:
           EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
