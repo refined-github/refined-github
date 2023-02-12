@@ -1,6 +1,7 @@
 import './helpers/types.d.ts';
 
 import './refined-github.css';
+import './github-helpers/heat-map.css';
 
 // CSS-only features
 import './features/github-bugs.css';

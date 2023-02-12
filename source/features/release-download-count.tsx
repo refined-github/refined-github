@@ -1,4 +1,3 @@
-import '../github-helpers/heat-map.css';
 import './release-download-count.css';
 import React from 'dom-chef';
 import select from 'select-dom';
