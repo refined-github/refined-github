@@ -27,26 +27,12 @@ jobs:
         run: npm run build # TODO: should be npm test
       - uses: fregante/daily-version-action@v2
         name: Create tag if necessary
-        id: Version
-
-      - name: Test the action
-        run: |
-          # Test outputs
-          test ${{ steps.Version.outputs.version }}
-          test ${{ steps.Version.outputs.created }}
-
-          # Show and test ENVs
-          echo DAILY_VERSION=$DAILY_VERSION
-          echo DAILY_VERSION_CREATED=$DAILY_VERSION_CREATED
-          test $DAILY_VERSION
-          test $DAILY_VERSION_CREATED
-
-          # Test tag
-          git show-ref --tags "refs/tags/$DAILY_VERSION"
-          # git push --delete origin "$DAILY_VERSION"
+      - name: "Created: ${{ env.DAILY_VERSION}}"
+        run: echo DAILY_VERSION=$DAILY_VERSION
       - name: Update extension’s meta
         run: npx dot-json@1 $DIRECTORY/manifest.json version $DAILY_VERSION
-      - uses: actions/upload-artifact@v3
+      - name: Ready for "submit" jobs
+        uses: actions/upload-artifact@v3
         with:
           path: ${{ env.DIRECTORY }}
       - if: env.DAILY_VERSION_CREATED
