@@ -43,7 +43,7 @@ jobs:
 
   Submit:
     needs: Version
-    if: github.event_name == 'workflow_dispatch' || needs.Version.outputs.created
+    if: needs.Version.outputs.created
     strategy:
       fail-fast: false
       matrix:
