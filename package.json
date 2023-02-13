@@ -44,6 +44,7 @@
 		"@cheap-glitch/mi-cron": "^1.0.1",
 		"@primer/octicons-react": "^17.5.0",
 		"array-union": "^3.0.1",
+		"batched-function": "^2.0.0",
 		"code-tag": "^1.1.0",
 		"debounce-fn": "^5.1.2",
 		"delay": "^5.0.0",
