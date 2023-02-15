@@ -24,7 +24,7 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	set(messageField, cleanedMessage + '\n');
+	set(messageField, cleanedMessage ? cleanedMessage + '\n' : '');
 	attachElement(messageField, {
 		after: () => (
 			<div>
