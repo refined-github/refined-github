@@ -197,6 +197,7 @@ void features.add(import.meta.url, 	{
 		pageDetect.is404,
 		() => parseCurrentURL().length > 1,
 	],
+	awaitDomReady: true, // Small page
 	init: onetime(showMissingPart),
 },
 {
@@ -208,6 +209,7 @@ void features.add(import.meta.url, 	{
 		pageDetect.isRepoTree,
 		pageDetect.isEditingFile,
 	],
+	awaitDomReady: true, // Small page
 	init: onetime(init),
 }, {
 	include: [

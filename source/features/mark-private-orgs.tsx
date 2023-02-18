@@ -40,5 +40,6 @@ void features.add(import.meta.url, {
 		pageDetect.isOwnUserProfile,
 	],
 	deduplicate: 'has-rgh',
+	awaitDomReady: true, // TODO: Use the observer
 	init,
 });

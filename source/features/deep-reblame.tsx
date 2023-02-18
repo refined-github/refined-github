@@ -105,5 +105,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isBlame,
 	],
+	awaitDomReady: false,
 	init,
 });

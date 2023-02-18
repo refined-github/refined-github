@@ -66,6 +66,7 @@ void features.add(import.meta.url, {
 		// If you're viewing changes from partial commits, ensure you're on the latest one.
 		() => select.exists('.js-commits-filtered') && !select.exists('[aria-label="You are viewing the latest commit"]'),
 	],
+	awaitDomReady: true, // DOM-based filters
 	init,
 }, {
 	asLongAs: [
@@ -75,5 +76,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isCompare,
 	],
+	awaitDomReady: true, // DOM-based filters
 	init,
 });

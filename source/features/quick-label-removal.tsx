@@ -67,8 +67,6 @@ void features.add(import.meta.url, {
 		canNotEditLabels,
 		pageDetect.isArchivedRepo,
 	],
-	// Can't because `isArchivedRepo` is DOM-based
-	// Also not needed since the sidebar is near the end of the page
-	// awaitDomReady: false,
+	awaitDomReady: true, // The sidebar is near the end of the page
 	init,
 });

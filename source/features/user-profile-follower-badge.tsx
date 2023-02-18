@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
@@ -23,7 +24,8 @@ async function init(): Promise<void> {
 		return;
 	}
 
-	attachElement('.js-profile-editable-area [href$="?tab=following"]', {
+	const target = await elementReady('.js-profile-editable-area [href$="?tab=following"]');
+	attachElement(target, {
 		after: () => (
 			<span className="color-fg-muted"> · Follows you</span>
 		),
@@ -38,5 +40,6 @@ void features.add(import.meta.url, {
 		pageDetect.isOwnUserProfile,
 		pageDetect.isPrivateUserProfile,
 	],
+	awaitDomReady: false,
 	init,
 });

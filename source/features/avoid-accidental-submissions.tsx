@@ -64,5 +64,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isBlank,
 	],
+	awaitDomReady: false,
 	init,
 });

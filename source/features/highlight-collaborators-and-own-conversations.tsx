@@ -51,6 +51,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssueOrPRList,
 	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: true, // Small pages, could be improved though
 	init: highlightSelf,
 });

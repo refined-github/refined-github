@@ -1,16 +1,11 @@
 import {getCurrentCommittish} from '.';
 
 export default class GitHubURL {
-	// @ts-expect-error https://github.com/microsoft/TypeScript/issues/26792
-	user: string;
-	// @ts-expect-error https://github.com/microsoft/TypeScript/issues/26792
-	repository: string;
-	// @ts-expect-error https://github.com/microsoft/TypeScript/issues/26792
-	route: string;
-	// @ts-expect-error https://github.com/microsoft/TypeScript/issues/26792
-	branch: string;
-	// @ts-expect-error https://github.com/microsoft/TypeScript/issues/26792
-	filePath: string;
+	user = '';
+	repository = '';
+	route = '';
+	branch = '';
+	filePath = '';
 
 	private internalUrl: URL;
 

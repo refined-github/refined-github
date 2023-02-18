@@ -71,5 +71,6 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleTag,
 	],
 	deduplicate: 'has-rgh-inner',
+	awaitDomReady: true,
 	init,
 });

@@ -73,5 +73,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isUserProfile,
 	],
+	awaitDomReady: false,
 	init,
 });

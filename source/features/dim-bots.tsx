@@ -57,6 +57,7 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isBlank, // Prevent error on empty lists #5544
 	],
+	awaitDomReady: true, // TODO: Feature needs a rewrite
 	deduplicate: 'has-rgh-inner',
 	init,
 });

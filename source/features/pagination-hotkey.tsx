@@ -39,6 +39,7 @@ void features.add(import.meta.url, {
 		pageDetect.isReleases,
 		pageDetect.isUserProfileRepoTab,
 	],
+	awaitDomReady: false,
 	init,
 });
 

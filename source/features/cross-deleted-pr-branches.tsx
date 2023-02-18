@@ -43,5 +43,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 	],
 	deduplicate: 'has-rgh-inner',
+	awaitDomReady: true, // Must wait for the last one
 	init,
 });

@@ -69,6 +69,7 @@ void features.add(import.meta.url, {
 		pageDetect.isNewRepo,
 		pageDetect.isNewRepoTemplate,
 	],
+	awaitDomReady: true,
 	init,
 }, {
 	include: [

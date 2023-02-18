@@ -97,6 +97,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssue,
 	],
+	awaitDomReady: true,
 	init,
 });
 

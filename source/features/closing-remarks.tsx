@@ -108,6 +108,7 @@ void features.add(import.meta.url, {
 		onConversationHeaderUpdate,
 	],
 	deduplicate: 'has-rgh-inner',
+	awaitDomReady: true, // DOM-based additionalListeners
 	init,
 }, {
 	// This catches a PR while it's being merged
@@ -120,6 +121,7 @@ void features.add(import.meta.url, {
 		onPrMerge,
 	],
 	onlyAdditionalListeners: true,
+	awaitDomReady: true, // DOM-based filters
 	init() {
 		void addReleaseBanner();
 	},

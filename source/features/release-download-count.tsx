@@ -111,6 +111,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isReleasesOrTags,
 	],
+	awaitDomReady: false,
 	init,
 });
 

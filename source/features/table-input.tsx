@@ -34,43 +34,41 @@ function highlightSquares({delegateTarget: hover}: DelegateEvent<MouseEvent, HTM
 	}
 }
 
-function addButtons(signal: AbortSignal): void {
-	observe('md-task-list', anchor => {
-		anchor.after(
-			<details className="details-reset details-overlay flex-auto toolbar-item btn-octicon mx-1 select-menu select-menu-modal-right hx_rsm">
-				<summary
-					className="text-center menu-target p-2 p-md-1 hx_rsm-trigger"
-					role="button"
+function add(anchor: HTMLElement): void {
+	anchor.after(
+		<details className="details-reset details-overlay flex-auto toolbar-item btn-octicon mx-1 select-menu select-menu-modal-right hx_rsm">
+			<summary
+				className="text-center menu-target p-2 p-md-1 hx_rsm-trigger"
+				role="button"
+				aria-label="Add a table"
+				aria-haspopup="menu"
+			>
+				<div
+					className="tooltipped tooltipped-sw"
 					aria-label="Add a table"
-					aria-haspopup="menu"
 				>
-					<div
-						className="tooltipped tooltipped-sw"
-						aria-label="Add a table"
+					<TableIcon/>
+				</div>
+			</summary>
+			<details-menu className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input" role="menu">
+				{Array.from({length: 25}).map((_, index) => (
+					<button
+						type="button"
+						role="menuitem"
+						className="rgh-tic btn-link"
+						data-x={(index % 5) + 1}
+						data-y={Math.floor(index / 5) + 1}
 					>
-						<TableIcon/>
-					</div>
-				</summary>
-				<details-menu className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input" role="menu">
-					{Array.from({length: 25}).map((_, index) => (
-						<button
-							type="button"
-							role="menuitem"
-							className="rgh-tic btn-link"
-							data-x={(index % 5) + 1}
-							data-y={Math.floor(index / 5) + 1}
-						>
-							<div/>
-						</button>
-					))}
-				</details-menu>
-			</details>,
-		);
-	}, {signal});
+						<div/>
+					</button>
+				))}
+			</details-menu>
+		</details>,
+	);
 }
 
 function init(signal: AbortSignal): void {
-	addButtons(signal);
+	observe('md-task-list', add, {signal});
 	delegate(document, '.rgh-tic', 'click', addTable, {signal});
 	if (!isHasSelectorSupported) {
 		delegate(document, '.rgh-tic', 'mouseenter', highlightSquares, {capture: true, signal});
@@ -81,5 +79,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
 	],
+	awaitDomReady: false,
 	init,
 });

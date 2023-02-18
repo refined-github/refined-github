@@ -103,6 +103,7 @@ void features.add(import.meta.url, {
 		pageDetect.isIssue,
 		pageDetect.isRepoIssueList,
 	],
+	awaitDomReady: true, // 🤷‍♂️
 	init: handleNewIssue,
 }, {
 	include: [
@@ -114,5 +115,6 @@ void features.add(import.meta.url, {
 		pageDetect.isOwnUserProfile,
 		pageDetect.isPrivateUserProfile,
 	],
+	awaitDomReady: false,
 	init: handleSponsorButton,
 });

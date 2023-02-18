@@ -33,5 +33,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNotifications,
 	],
+	awaitDomReady: false,
 	init,
 });

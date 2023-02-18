@@ -33,6 +33,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoIssueOrPRList,
 	],
+	awaitDomReady: true,
 	deduplicate: 'has-rgh-inner',
 	init,
 });

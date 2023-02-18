@@ -64,9 +64,11 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 		pageDetect.isDeletingFile,
 	],
+	awaitDomReady: false,
 	deduplicate: 'has-rgh',
 	init,
 }, {
 	deduplicate: 'has-rgh',
+	awaitDomReady: true, // TODO: Use new observer
 	init: hovercardInit,
 });

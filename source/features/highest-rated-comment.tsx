@@ -113,6 +113,7 @@ void features.add(import.meta.url, {
 		pageDetect.isIssue,
 	],
 	deduplicate: 'has-rgh-inner',
+	awaitDomReady: true, // Must wait for all to pick the best one
 	init,
 });
 

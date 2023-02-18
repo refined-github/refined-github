@@ -318,6 +318,7 @@ This means that the old features will still be on the page and don't need to re-
 This marks each as "processed"
 */
 void add('rgh-deduplicator' as FeatureID, {
+	awaitDomReady: true,
 	async init() {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();

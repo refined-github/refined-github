@@ -169,6 +169,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoCommitList,
 	],
+	awaitDomReady: true,
 	deduplicate: 'has-rgh-inner',
 	init,
 });

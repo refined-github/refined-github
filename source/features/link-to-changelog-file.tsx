@@ -98,5 +98,6 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoHome,
 	],
 	deduplicate: 'has-rgh',
+	awaitDomReady: true, // Does not affect current visit
 	init: parseFromDom,
 });

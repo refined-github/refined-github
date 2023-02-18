@@ -36,6 +36,7 @@ void features.add(import.meta.url, {
 		pageDetect.isNewIssue,
 		() => new URL(location.href).searchParams.get('template') === '1_bug_report.yml',
 	],
+	awaitDomReady: true, // Small page
 	deduplicate: 'has-rgh-inner',
 	init,
 });

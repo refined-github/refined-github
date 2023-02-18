@@ -39,5 +39,6 @@ void features.add(import.meta.url, {
 	include: [
 		() => location.href.startsWith(issueUrl),
 	],
+	awaitDomReady: true, // Small page
 	init,
 });

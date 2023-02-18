@@ -48,6 +48,6 @@ void features.add(import.meta.url, {
 	],
 	deduplicate: '.rgh-edit-readme',
 	// TODO: Use isArchivedRepoAsync and elementReady across the feature
-	// awaitDomReady: false,
+	awaitDomReady: true,
 	init,
 });

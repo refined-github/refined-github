@@ -13,5 +13,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoCommitList,
 	],
+	awaitDomReady: true, // Small page
 	init,
 });

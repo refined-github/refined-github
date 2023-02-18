@@ -2,18 +2,21 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
+import observe from '../helpers/selector-observer';
 
 function parseTime(element: HTMLElement): number {
 	return new Date(element.getAttribute('datetime')!).getTime();
 }
 
-function init(): void {
-	for (const issue of select.all('.js-navigation-item[id^="issue_"]')) {
-		const [stateChangeTime, updateTime] = select.all('relative-time', issue);
-		if (parseTime(updateTime) - parseTime(stateChangeTime) < 10_000) { // Hide if within 10 seconds
-			updateTime.parentElement!.remove();
-		}
+function remove(issue: HTMLElement): void {
+	const [stateChangeTime, updateTime] = select.all('relative-time', issue);
+	if (parseTime(updateTime) - parseTime(stateChangeTime) < 10_000) { // Hide if within 10 seconds
+		updateTime.parentElement!.remove();
 	}
+}
+
+function init(signal: AbortSignal): void {
+	observe('.js-navigation-item[id^="issue_"]', remove, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -23,6 +26,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssueOrPRList,
 	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: false,
 	init,
 });
