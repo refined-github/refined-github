@@ -31,8 +31,8 @@ type FeatureLoader = {
 	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
 	shortcuts?: Record<string, string>;
 
-	/** Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true */
-	awaitDomReady?: false;
+	/** Whether to wait for DOM ready before running `init`. By default, it runs `init` as soon as `body` is found. @default false */
+	awaitDomReady?: true;
 
 	/** When pressing the back button, DOM changes and listeners are still there. Using a selector here would use the integrated deduplication logic, but it cannot be used with `delegate` and it shouldn't use `has-rgh` and `has-inner-rgh` anymore. #5871 #
 	@deprecated
@@ -245,7 +245,7 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 			include,
 			exclude,
 			init,
-			awaitDomReady = true,
+			awaitDomReady = false,
 			deduplicate = false,
 			onlyAdditionalListeners = false,
 			additionalListeners = [],
