@@ -54,7 +54,7 @@ void features.add(import.meta.url, {
 		pageDetect.isDashboard,
 	],
 	deduplicate: 'has-rgh',
-	awaitDomReady: false, // Must wait for the whole page to load anyway
+	awaitDomReady: true, // Must wait for the whole page to load anyway
 	init,
 });
 

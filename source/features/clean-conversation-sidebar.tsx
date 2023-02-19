@@ -131,6 +131,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],
-	awaitDomReady: false,
+	awaitDomReady: true, // The sidebar is at the end of the page + it needs to be fully loaded
 	init,
 });

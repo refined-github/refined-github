@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import delegate, { DelegateEvent } from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
 
@@ -70,7 +70,7 @@ function addButtons(radios: HTMLInputElement[]): void {
 	select('[type="submit"]:not([name])', form)!.remove(); // The selector excludes the "Cancel" button
 }
 
-function handleSubmission (event: DelegateEvent): void {
+function handleSubmission(event: DelegateEvent): void {
 	// Delay disabling the fields to let them be submitted first
 	setTimeout(() => {
 		for (const control of select.all('button, textarea', event.delegateTarget)) {

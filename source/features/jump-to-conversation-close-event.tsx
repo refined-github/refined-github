@@ -49,7 +49,7 @@ void features.add(import.meta.url, {
 		pageDetect.isClosedIssue,
 		pageDetect.isClosedPR,
 	],
-	awaitDomReady: true, // we're specifically looking for the last event
+	awaitDomReady: true, // We're specifically looking for the last event
 	init,
 });
 

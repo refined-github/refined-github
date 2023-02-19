@@ -45,7 +45,7 @@ async function getEquivalentURL(): Promise<string> {
 
 async function init(): Promise<void> {
 	// The link must always be updated/reset. This pattern ensures that the link is always updated and never fails through some conditions.
-	const equivalentUrl = await getEquivalentURL()
+	const equivalentUrl = await getEquivalentURL();
 	const forkLink = await elementReady(`a[data-hovercard-url="/${getForkedRepo()!}/hovercard"]`);
 	forkLink!.href = equivalentUrl;
 }
