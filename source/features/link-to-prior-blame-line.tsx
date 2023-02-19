@@ -14,6 +14,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isBlame,
 	],
-	awaitDomReady: true, // TODO: Feature broken, need observer and new selector
+	deduplicate: 'has-rgh',
 	init,
 });
