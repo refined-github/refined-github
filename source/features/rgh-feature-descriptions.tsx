@@ -22,7 +22,8 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 	conversationsUrl.searchParams.set('q', `sort:updated-desc "${feature.id}"`);
 
 	infoBanner.before(
-		<div className="Box mb-3">
+		// Block and width classes required to avoid margin collapse
+		<div className="Box mb-3 d-inline-block width-full">
 			<div className="Box-row d-flex gap-3 flex-wrap">
 				<div className="rgh-feature-description">
 					<h3 className="mb-2"><code>{feature.id}</code>
