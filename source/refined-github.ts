@@ -1,6 +1,7 @@
 import './helpers/types.d.ts';
 
 import './refined-github.css';
+import './github-helpers/heat-map.css';
 
 // CSS-only features
 import './features/github-bugs.css';
@@ -50,7 +51,6 @@ import './features/copy-on-y';
 import './features/profile-hotkey';
 import './features/close-out-of-view-modals';
 import './features/improve-shortcut-help';
-import './features/copy-file';
 import './features/hide-own-stars';
 import './features/infinite-scroll';
 import './features/shorten-links';
@@ -169,7 +169,6 @@ import './features/quick-label-removal';
 import './features/clean-conversation-headers';
 import './features/highlight-deleted-and-added-files-in-diffs';
 import './features/convert-release-to-draft';
-import './features/same-page-definition-jump';
 import './features/new-repo-disable-projects-and-wikis';
 import './features/table-input';
 import './features/link-to-github-io';
@@ -218,3 +217,4 @@ import './features/quick-new-issue';
 import './features/scrollable-areas';
 import './features/clean-repo-header';
 import './features/emphasize-draft-pr-label';
+import './features/file-age-color';
