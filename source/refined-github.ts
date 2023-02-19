@@ -168,7 +168,6 @@ import './features/quick-label-removal';
 import './features/clean-conversation-headers';
 import './features/highlight-deleted-and-added-files-in-diffs';
 import './features/convert-release-to-draft';
-import './features/same-page-definition-jump';
 import './features/new-repo-disable-projects-and-wikis';
 import './features/table-input';
 import './features/link-to-github-io';

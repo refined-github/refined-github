@@ -390,7 +390,6 @@ Thanks for contributing! 🦋🙌
 - [](# "prevent-link-loss") [Suggests fixing links that are wrongly shortened by GitHub.](https://user-images.githubusercontent.com/1402241/82131169-93fd5180-97d2-11ea-9695-97051c55091f.gif)
 - [](# "linkify-user-edit-history-popup") [Linkifies the username in the edit history popup.](https://user-images.githubusercontent.com/1402241/88917988-9ebb7480-d260-11ea-8690-0a3440f1ebbc.png)
 - [](# "prevent-duplicate-pr-submission") [Avoids creating duplicate PRs when mistakenly clicking "Create pull request" more than once.](https://user-images.githubusercontent.com/16872793/89589967-e029c200-d814-11ea-962b-3ff1f6236781.gif)
-- [](# "same-page-definition-jump") [Avoids re-loading the page when jumping to function definition in the current file.](https://user-images.githubusercontent.com/16872793/90833649-7a5e2f80-e316-11ea-827d-a4e3ac8ced69.png)
 - [](# "convert-pr-to-draft-improvements") [Moves the "Convert PR to Draft" button to the mergeability box and adds visual feedback to its confirm button.](https://user-images.githubusercontent.com/1402241/95644892-885f3f80-0a7f-11eb-8428-8e0fb0c8dfa5.gif)
 - [](# "clean-header-search-field") [Clears duplicate queries in the header search field.](https://user-images.githubusercontent.com/1402241/114177338-7c890300-9966-11eb-83a3-a711a76fae99.png)
 - [](# "prevent-pr-merge-panel-opening") Prevents the merge panel from automatically opening on every page load after it’s been opened once.
