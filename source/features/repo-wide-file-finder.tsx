@@ -20,6 +20,5 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFiles,
 		pageDetect.isFileFinder,
 	],
-	awaitDomReady: false,
 	init,
 });

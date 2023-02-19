@@ -68,7 +68,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoRoot,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init,
 });

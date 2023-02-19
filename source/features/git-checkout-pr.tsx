@@ -125,6 +125,5 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isClosedPR,
 	],
-	awaitDomReady: false,
 	init,
 });

@@ -44,7 +44,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		() => select.exists('.blankslate'),
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init: highlightCollaborators,
 }, {

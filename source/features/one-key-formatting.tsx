@@ -50,6 +50,5 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 		pageDetect.isDeletingFile,
 	],
-	awaitDomReady: false,
 	init,
 });

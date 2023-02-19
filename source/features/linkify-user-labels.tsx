@@ -34,7 +34,6 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isRepo,
 	],
-	awaitDomReady: false,
 	init,
 });
 

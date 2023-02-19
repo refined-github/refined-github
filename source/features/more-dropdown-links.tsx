@@ -51,7 +51,6 @@ void features.add(import.meta.url, {
 		// No dropdown on mobile #5781
 		() => !select.exists('.js-responsive-underlinenav'),
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh',
 	init,
 });

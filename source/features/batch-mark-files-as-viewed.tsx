@@ -91,7 +91,6 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	awaitDomReady: false,
 	include: [
 		pageDetect.isPRFiles,
 	],

@@ -20,6 +20,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasFiles,
 	],
-	awaitDomReady: false,
 	init,
 });

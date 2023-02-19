@@ -31,7 +31,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isPRCommit404,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init,
 });

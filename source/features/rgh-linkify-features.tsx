@@ -60,6 +60,5 @@ void features.add(import.meta.url, {
 		pageDetect.isPR,
 		pageDetect.isIssue,
 	],
-	awaitDomReady: false,
 	init,
 });

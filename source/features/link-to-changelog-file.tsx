@@ -90,7 +90,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isSingleTag,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init,
 }, {

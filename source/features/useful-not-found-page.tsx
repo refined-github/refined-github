@@ -215,6 +215,5 @@ void features.add(import.meta.url, 	{
 	include: [
 		pageDetect.isPRCommit404,
 	],
-	awaitDomReady: false,
 	init: onetime(initPRCommit),
 });

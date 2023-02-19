@@ -53,6 +53,5 @@ void features.add(import.meta.url, {
 		pageDetect.hasFiles,
 		pageDetect.isCommitList,
 	],
-	awaitDomReady: false,
 	init,
 });

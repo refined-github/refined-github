@@ -72,6 +72,5 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFiles,
 		pageDetect.isPRCommit,
 	],
-	awaitDomReady: false,
 	init,
 });

@@ -287,7 +287,6 @@ const addCssFeature = async (url: string, include?: BooleanFunction[]): Promise<
 	const id = getFeatureID(url);
 	void add(id, {
 		include,
-		awaitDomReady: false,
 		init() {
 			document.documentElement.classList.add('rgh-' + id);
 		},

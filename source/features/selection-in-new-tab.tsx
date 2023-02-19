@@ -29,6 +29,5 @@ void features.add(import.meta.url, {
 	shortcuts: {
 		'shift o': 'Open selection in new tab',
 	},
-	awaitDomReady: false,
 	init: onetime(init),
 });

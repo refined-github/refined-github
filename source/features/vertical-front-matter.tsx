@@ -45,6 +45,5 @@ void features.add(import.meta.url, {
 		hasFrontMatter,
 	],
 	deduplicate: '.rgh-vertical-front-matter-table',
-	awaitDomReady: false,
 	init,
 });

@@ -123,7 +123,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepositoryActions,
 	],
-	awaitDomReady: false,
 	init,
 });
 

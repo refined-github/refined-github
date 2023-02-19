@@ -10,7 +10,6 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	awaitDomReady: false,
 	init: onetime(init),
 });
 

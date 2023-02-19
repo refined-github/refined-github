@@ -21,6 +21,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isCompare,
 	],
-	awaitDomReady: false,
 	init,
 });

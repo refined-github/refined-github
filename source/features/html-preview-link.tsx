@@ -34,6 +34,5 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isEnterprise,
 	],
-	awaitDomReady: false,
 	init,
 });

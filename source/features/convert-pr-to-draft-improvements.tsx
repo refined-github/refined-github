@@ -36,6 +36,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],
-	awaitDomReady: false,
 	init,
 });

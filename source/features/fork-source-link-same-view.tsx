@@ -55,7 +55,6 @@ void features.add(import.meta.url, {
 		pageDetect.isForkedRepo,
 	],
 	// We can't use `exclude` because the header is outside the ajaxed area so it must be manually reset even when the feature doesn't apply there
-	awaitDomReady: false,
 	init,
 });
 

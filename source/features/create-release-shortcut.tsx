@@ -20,7 +20,6 @@ void features.add(import.meta.url, {
 		pageDetect.isNewRelease,
 		pageDetect.isEditingRelease,
 	],
-	awaitDomReady: false,
 	init,
 });
 

@@ -75,13 +75,11 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	awaitDomReady: false,
 	init,
 }, {
 	include: [
 		pageDetect.isRepoIssueOrPRList,
 	],
 	deduplicate: 'has-rgh-inner',
-	awaitDomReady: false,
 	init: selectCurrentConversationFilter,
 });

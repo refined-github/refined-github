@@ -19,7 +19,6 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 		pageDetect.isPRConversation,
 	],
-	awaitDomReady: false,
 	init,
 });
 

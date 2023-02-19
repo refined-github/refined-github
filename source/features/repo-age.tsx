@@ -128,7 +128,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isEmptyRepoRoot,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init,
 });

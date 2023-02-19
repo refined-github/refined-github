@@ -82,6 +82,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoTree,
 	],
-	awaitDomReady: false,
 	init,
 });

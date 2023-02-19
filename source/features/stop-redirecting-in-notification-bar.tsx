@@ -23,6 +23,5 @@ void features.add(import.meta.url, {
 	include: [
 		hasNotificationBar,
 	],
-	awaitDomReady: false,
 	init,
 });

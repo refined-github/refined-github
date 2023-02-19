@@ -46,7 +46,6 @@ void features.add(import.meta.url, {
 		pageDetect.isUserProfileRepoTab,
 		() => pageDetect.isGlobalSearchResults() && new URLSearchParams(location.search).get('type') === 'repositories',
 	],
-	awaitDomReady: false,
 	init,
 });
 
