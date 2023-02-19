@@ -1,4 +1,5 @@
 import './parse-backticks.css';
+import onetime from 'onetime';
 
 import observe from '../helpers/selector-observer';
 import features from '../feature-manager';
@@ -31,5 +32,5 @@ function init(): void {
 
 void features.add(import.meta.url, {
 	awaitDomReady: false,
-	init,
+	init: onetime(init),
 });
