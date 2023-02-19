@@ -129,7 +129,6 @@ import './features/reload-failed-proxied-images';
 import './features/highlight-collaborators-and-own-conversations';
 import './features/embed-gist-via-iframe';
 import './features/one-click-pr-or-gist';
-import './features/link-to-prior-blame-line';
 import './features/dim-bots';
 import './features/conflict-marker';
 import './features/html-preview-link';
