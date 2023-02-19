@@ -1,6 +1,7 @@
 import './helpers/types.d.ts';
 
 import './refined-github.css';
+import './github-helpers/heat-map.css';
 
 // CSS-only features
 import './features/github-bugs.css';
@@ -216,3 +217,4 @@ import './features/quick-new-issue';
 import './features/scrollable-areas';
 import './features/clean-repo-header';
 import './features/emphasize-draft-pr-label';
+import './features/file-age-color';
