@@ -63,6 +63,7 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 	],
 	deduplicate: 'has-rgh-inner',
+	awaitDomReady: true, // TODO: Use `observe` + `batched-function`
 	init,
 });
 

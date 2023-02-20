@@ -76,6 +76,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
 	],
-	awaitDomReady: false,
 	init,
 });

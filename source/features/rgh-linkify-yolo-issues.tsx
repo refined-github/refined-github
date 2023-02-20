@@ -22,6 +22,5 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleFile,
 		() => location.pathname.endsWith('broken-features.csv'),
 	],
-	awaitDomReady: false,
 	init,
 });

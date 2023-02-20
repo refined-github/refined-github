@@ -14,6 +14,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isMilestone,
 	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: true, // Not urgent
 	init,
 });

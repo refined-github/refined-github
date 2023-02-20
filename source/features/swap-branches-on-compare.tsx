@@ -30,6 +30,7 @@ void features.add(import.meta.url, {
 	exclude: [
 		() => /\.\.+/.exec(location.pathname)?.[0]!.length === 2,
 	],
+	awaitDomReady: true,
 	deduplicate: 'has-rgh',
 	init,
 });

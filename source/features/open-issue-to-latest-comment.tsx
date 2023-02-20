@@ -18,6 +18,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssueOrPRList,
 	],
+	awaitDomReady: true,
 	deduplicate: 'has-rgh-inner',
 	init,
 });

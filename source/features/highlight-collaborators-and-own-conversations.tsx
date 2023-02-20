@@ -44,13 +44,12 @@ void features.add(import.meta.url, {
 	exclude: [
 		() => select.exists('.blankslate'),
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init: highlightCollaborators,
 }, {
 	include: [
 		pageDetect.isIssueOrPRList,
 	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: true, // Small pages, could be improved though
 	init: highlightSelf,
 });

@@ -57,5 +57,6 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoIssueList,
 	],
 	deduplicate: 'has-rgh-inner',
+	awaitDomReady: true, // TODO: Use `observe` + `batched-function`
 	init,
 });

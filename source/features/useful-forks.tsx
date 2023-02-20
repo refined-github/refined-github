@@ -59,14 +59,12 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isEnterprise,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh',
 	init,
 }, {
 	include: [
 		pageDetect.hasRepoHeader,
 	],
-	awaitDomReady: false,
 	init: initArchivedRepoBanner,
 });
 

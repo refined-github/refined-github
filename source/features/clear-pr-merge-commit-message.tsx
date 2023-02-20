@@ -49,7 +49,7 @@ void features.add(import.meta.url, {
 		onPrMergePanelOpen,
 	],
 	onlyAdditionalListeners: true,
-	awaitDomReady: false,
+	awaitDomReady: true, // Appears near the page anyway
 	init,
 });
 

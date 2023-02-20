@@ -44,13 +44,11 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		() => /\.github\.(io|com)$/.test(getRepo()?.name ?? 'shush eslint'),
 	],
-	awaitDomReady: false,
 	init: initRepo,
 }, {
 	include: [
 		pageDetect.isUserProfileRepoTab,
 		pageDetect.isOrganizationProfile,
 	],
-	awaitDomReady: false,
 	init: initRepoList,
 });

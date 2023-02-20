@@ -61,6 +61,5 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isRepoHome,
 	],
-	awaitDomReady: false,
 	init,
 });

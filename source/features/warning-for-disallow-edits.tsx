@@ -48,5 +48,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 		// No need to exclude `isClosedPR` as the checkbox won't be present
 	],
+	awaitDomReady: true,
 	init,
 });

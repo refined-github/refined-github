@@ -33,6 +33,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],
+	awaitDomReady: true, // Must select last item on the page
 	init,
 });
 

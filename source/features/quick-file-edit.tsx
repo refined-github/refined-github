@@ -9,7 +9,7 @@ import * as pageDetect from 'github-url-detection';
 import {wrap} from '../helpers/dom-utils';
 import features from '../feature-manager';
 import GitHubURL from '../github-helpers/github-url';
-import {isPermalink} from '../github-helpers';
+import {isArchivedRepoAsync, isPermalink} from '../github-helpers';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import observe from '../helpers/selector-observer';
 
@@ -38,7 +38,9 @@ async function linkifyIcon(fileIcon: Element): Promise<void> {
 	fileIcon.after(<PencilIcon/>);
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	await isArchivedRepoAsync();
+
 	observe([
 		'.react-directory-filename-column svg.color-fg-muted',
 		'.js-navigation-container .octicon-file',
@@ -49,11 +51,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoTree,
 	],
-	exclude: [
-		pageDetect.isArchivedRepo,
-	],
-	// Can't because `isArchivedRepo` is DOM-based
-	// Also not needed since it appears on hover
-	// awaitDomReady: false,
 	init,
 });

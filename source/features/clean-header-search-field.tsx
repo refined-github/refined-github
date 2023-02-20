@@ -23,6 +23,5 @@ void features.add(import.meta.url, {
 		pageDetect.isGlobalIssueOrPRList,
 		pageDetect.isRepoSearch,
 	],
-	awaitDomReady: false,
 	init,
 });

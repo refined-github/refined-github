@@ -188,14 +188,12 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init,
 }, {
 	include: [
 		pageDetect.isEditingFile,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh',
 	init: initEditing,
 });

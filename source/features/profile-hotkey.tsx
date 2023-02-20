@@ -14,6 +14,5 @@ void features.add(import.meta.url, {
 	shortcuts: {
 		'g m': 'Go to Profile',
 	},
-	awaitDomReady: false,
 	init: onetime(init),
 });

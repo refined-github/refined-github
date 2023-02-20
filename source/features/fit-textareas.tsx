@@ -45,6 +45,7 @@ void features.add(import.meta.url, {
 	exclude: [
 		isSafari,
 	],
+	awaitDomReady: true, // TODO: Probably doesn't have to
 	init,
 }, {
 	include: [

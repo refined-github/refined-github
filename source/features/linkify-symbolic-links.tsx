@@ -17,5 +17,6 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleFile,
 	],
 	deduplicate: 'has-rgh',
+	awaitDomReady: true, // Small page
 	init,
 });

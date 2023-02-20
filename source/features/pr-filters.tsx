@@ -106,6 +106,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRList,
 	],
-	awaitDomReady: false,
 	init,
 });

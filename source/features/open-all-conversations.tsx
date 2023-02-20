@@ -53,12 +53,10 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isGlobalIssueOrPRList,
 	],
-	awaitDomReady: false,
 	init,
 }, {
 	include: [
 		pageDetect.isGlobalIssueOrPRList,
 	],
-	awaitDomReady: false,
 	init,
 });

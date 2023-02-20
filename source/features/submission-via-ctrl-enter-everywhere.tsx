@@ -20,5 +20,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isBlank,
 	],
+	awaitDomReady: true,
 	init: addQuickSubmit,
 });

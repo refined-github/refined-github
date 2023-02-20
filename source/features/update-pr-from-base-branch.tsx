@@ -76,6 +76,7 @@ void features.add(import.meta.url, {
 		// TODO: COPY to :has, so it can be hidden dynamically
 		() => select.exists('.js-update-branch-form'),
 	],
+	awaitDomReady: true, // DOM-based exclusions
 	init,
 });
 

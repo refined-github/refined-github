@@ -251,7 +251,6 @@ void features.add(import.meta.url, {
 	shortcuts: {
 		h: 'Cycle through conversation activity filters',
 	},
-	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init,
 });

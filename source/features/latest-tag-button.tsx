@@ -165,7 +165,6 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
 	],
-	awaitDomReady: false,
 	deduplicate: '.rgh-latest-tag-button', // #3945
 	init,
 });

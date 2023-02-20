@@ -56,7 +56,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isEmptyRepo,
 	],
-	awaitDomReady: false,
 	init,
 });
 

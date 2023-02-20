@@ -162,6 +162,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isForkedRepo,
 	],
-	awaitDomReady: false,
 	init,
 });

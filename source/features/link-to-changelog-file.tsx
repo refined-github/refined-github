@@ -90,7 +90,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isSingleTag,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init,
 }, {
@@ -98,5 +97,6 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoHome,
 	],
 	deduplicate: 'has-rgh',
+	awaitDomReady: true, // Does not affect current visit
 	init: parseFromDom,
 });

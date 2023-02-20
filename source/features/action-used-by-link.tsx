@@ -30,6 +30,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isMarketplaceAction,
 	],
+	awaitDomReady: true,
 	deduplicate: 'has-rgh',
 	init,
 });

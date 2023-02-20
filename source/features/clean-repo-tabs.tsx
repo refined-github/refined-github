@@ -140,7 +140,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepo,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh',
 	init,
 }, {
@@ -148,21 +147,18 @@ void features.add(import.meta.url, {
 		pageDetect.isRepo,
 		pageDetect.isOrganizationProfile,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh',
 	init: initProjects,
 }, {
 	include: [
 		pageDetect.isRepo,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh',
 	init: initActions,
 }, {
 	include: [
 		pageDetect.isRepo,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh',
 	init: initWiki,
 });

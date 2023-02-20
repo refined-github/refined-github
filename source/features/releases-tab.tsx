@@ -117,6 +117,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepo,
 	],
-	awaitDomReady: false,
 	init,
 });

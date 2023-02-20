@@ -192,5 +192,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isDraftPR,
 	],
+	awaitDomReady: true, // DOM-based inclusions
 	init,
 });

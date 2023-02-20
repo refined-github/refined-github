@@ -29,7 +29,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPR, // Find which one you need on https://fregante.github.io/github-url-detection/
 	],
-	awaitDomReady: false,
+	awaitDomReady: true,
 	init,
 });
 ```
@@ -59,8 +59,8 @@ void features.add(import.meta.url, {
 		'↑': 'Edit your last comment'
 	},
 
-	// Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true
-	awaitDomReady: false,
+	// Whether to wait for DOM ready before running `init`. By default, it runs `init` as soon as `body` is found. @default false
+	awaitDomReady: true,
 
 	// Every one of these must match
 	asLongAs: [

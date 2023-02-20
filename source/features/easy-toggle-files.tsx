@@ -24,6 +24,5 @@ void features.add(import.meta.url, {
 		pageDetect.hasFiles,
 		pageDetect.isGistRevision,
 	],
-	awaitDomReady: false,
 	init,
 });

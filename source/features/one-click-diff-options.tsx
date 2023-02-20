@@ -133,7 +133,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFile404,
 		pageDetect.isEnterprise, // #5820
 	],
-	awaitDomReady: false,
 	init: initPR,
 }, {
 	shortcuts,
@@ -141,7 +140,6 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleCommit,
 		pageDetect.isCompare,
 	],
-	awaitDomReady: false,
 	init,
 });
 

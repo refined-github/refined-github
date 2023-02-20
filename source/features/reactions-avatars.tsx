@@ -90,7 +90,6 @@ void features.add(import.meta.url, {
 		pageDetect.isReleasesOrTags,
 		pageDetect.isDiscussion,
 	],
-	awaitDomReady: false,
 	init,
 });
 
