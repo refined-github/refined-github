@@ -17,7 +17,7 @@ const viewportObserver = new IntersectionObserver(changes => {
 	}
 });
 
-function showWhitespaceWhenInViewport(line: HTMLElement): void {
+function showWhitespaceWhenInViewport(line: Element): void {
 	viewportObserver.observe(line);
 }
 

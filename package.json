@@ -112,7 +112,7 @@
 		"terser-webpack-plugin": "^5.3.6",
 		"ts-node": "^10.9.1",
 		"type-fest": "^3.5.7",
-		"typed-query-selector": "^2.8.0",
+		"typed-query-selector": "^2.9.0",
 		"typescript": "^4.9.5",
 		"vitest": "^0.28.4",
 		"webpack": "^5.75.0",
