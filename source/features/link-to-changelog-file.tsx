@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {wrapAll} from '../helpers/dom-utils';
-import {buildRepoURL, getRepo} from '../github-helpers';
+import {buildRepoURL, cacheByRepo} from '../github-helpers';
 
 type FileType = {
 	name: string;
@@ -16,7 +16,6 @@ type FileType = {
 };
 
 const cacheName = 'changelog';
-const getCacheKey = (): string => getRepo()!.nameWithOwner;
 
 const changelogFiles = /^(changelog|news|changes|history|release|whatsnew)(\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
 function findChangelogName(files: string[]): string | false {
@@ -25,7 +24,7 @@ function findChangelogName(files: string[]): string | false {
 
 function parseFromDom(): false {
 	const files = select.all('[aria-labelledby="files"] .js-navigation-open[href*="/blob/"').map(file => file.title);
-	void cache.set(cacheName + ':' + getCacheKey(), findChangelogName(files));
+	void cache.set(cacheName + ':' + cacheByRepo(), findChangelogName(files));
 	return false;
 }
 
@@ -52,7 +51,7 @@ const getChangelogName = cache.function(cacheName, async (): Promise<string | fa
 
 	return findChangelogName(files);
 }, {
-	cacheKey: getCacheKey,
+	cacheKey: cacheByRepo,
 });
 
 async function init(): Promise<void | false> {

@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import fetchDom from '../helpers/fetch-dom';
-import {buildRepoURL, getRepo, getUsername} from '../github-helpers';
+import {buildRepoURL, cacheByRepo, getUsername} from '../github-helpers';
 
 const getCollaborators = cache.function('repo-collaborators', async (): Promise<string[]> => {
 	const dom = await fetchDom(buildRepoURL('issues/show_menu_content?partial=issues/filters/authors_content'));
@@ -16,7 +16,7 @@ const getCollaborators = cache.function('repo-collaborators', async (): Promise<
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: () => getRepo()!.nameWithOwner,
+	cacheKey: cacheByRepo,
 });
 
 async function highlightCollaborators(): Promise<void> {

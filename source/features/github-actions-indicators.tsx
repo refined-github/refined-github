@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
-import {getRepo} from '../github-helpers';
+import {cacheByRepo} from '../github-helpers';
 import observe from '../helpers/selector-observer';
 
 type WorkflowDetails = {
@@ -62,7 +62,7 @@ const getWorkflowsDetails = cache.function('workflows', async (): Promise<Record
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 10},
-	cacheKey: () => getRepo()!.nameWithOwner,
+	cacheKey: cacheByRepo,
 });
 
 async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void> {

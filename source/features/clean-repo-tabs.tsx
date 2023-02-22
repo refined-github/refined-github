@@ -9,7 +9,7 @@ import * as api from '../github-helpers/api';
 import getTabCount from '../github-helpers/get-tab-count';
 import looseParseInt from '../helpers/loose-parse-int';
 import abbreviateNumber from '../helpers/abbreviate-number';
-import {buildRepoURL, getRepo} from '../github-helpers';
+import {buildRepoURL, cacheByRepo} from '../github-helpers';
 import {unhideOverflowDropdown} from './more-dropdown-links';
 
 async function canUserEditOrganization(): Promise<boolean> {
@@ -58,7 +58,7 @@ const getWikiPageCount = cache.function('wiki-page-count', async (): Promise<num
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 5},
-	cacheKey: () => getRepo()!.nameWithOwner,
+	cacheKey: cacheByRepo,
 });
 
 const getWorkflowsCount = cache.function('workflows-count', async (): Promise<number> => {
@@ -74,7 +74,7 @@ const getWorkflowsCount = cache.function('workflows-count', async (): Promise<nu
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 10},
-	cacheKey: () => getRepo()!.nameWithOwner,
+	cacheKey: cacheByRepo,
 });
 
 async function initWiki(): Promise<void | false> {

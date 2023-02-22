@@ -6,7 +6,7 @@ import {GitMergeIcon, GitPullRequestIcon, GitPullRequestClosedIcon, GitPullReque
 import observe from '../helpers/selector-observer';
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
-import {getRepo, upperCaseFirst} from '../github-helpers';
+import {cacheByRepo, upperCaseFirst} from '../github-helpers';
 
 type PullRequest = {
 	timelineItems: {
@@ -57,7 +57,7 @@ export const getPullRequestsAssociatedWithBranch = cache.function('associatedBra
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 4},
-	cacheKey: () => getRepo()!.nameWithOwner,
+	cacheKey: cacheByRepo,
 });
 
 export const stateIcon = {

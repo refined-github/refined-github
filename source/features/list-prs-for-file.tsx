@@ -9,7 +9,7 @@ import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import addAfterBranchSelector from '../helpers/add-after-branch-selector';
-import {buildRepoURL, getRepo} from '../github-helpers';
+import {buildRepoURL, cacheByRepo} from '../github-helpers';
 
 function getPRUrl(prNumber: number): string {
 	return buildRepoURL('pull', prNumber, 'files');
@@ -102,7 +102,7 @@ const getPrsByFile = cache.function('files-with-prs', async (): Promise<Record<s
 }, {
 	maxAge: {hours: 2},
 	staleWhileRevalidate: {days: 9},
-	cacheKey: () => getRepo()!.nameWithOwner,
+	cacheKey: cacheByRepo,
 });
 
 async function getCurrentPath(): Promise<string> {

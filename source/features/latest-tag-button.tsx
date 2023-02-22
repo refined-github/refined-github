@@ -11,7 +11,7 @@ import GitHubURL from '../github-helpers/github-url';
 import {groupButtons} from '../github-helpers/group-buttons';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import addAfterBranchSelector from '../helpers/add-after-branch-selector';
-import {buildRepoURL, getCurrentCommittish, getLatestVersionTag, getRepo} from '../github-helpers';
+import {buildRepoURL, cacheByRepo, getCurrentCommittish, getLatestVersionTag} from '../github-helpers';
 
 type RepoPublishState = {
 	latestTag: string | false;
@@ -86,7 +86,7 @@ const getRepoPublishState = cache.function('tag-ahead-by', async (): Promise<Rep
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 2},
-	cacheKey: () => getRepo()!.nameWithOwner,
+	cacheKey: cacheByRepo,
 });
 
 async function init(): Promise<false | void> {

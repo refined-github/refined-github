@@ -11,12 +11,11 @@ import * as api from '../github-helpers/api';
 import looseParseInt from '../helpers/loose-parse-int';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import createDropdownItem from '../github-helpers/create-dropdown-item';
-import {buildRepoURL, getRepo} from '../github-helpers';
+import {buildRepoURL, cacheByRepo} from '../github-helpers';
 import {releasesSidebarSelector} from './clean-repo-sidebar';
 import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils';
 
 const cacheName = 'releases-count';
-const getCacheKey = (): string => getRepo()!.nameWithOwner;
 
 async function parseCountFromDom(): Promise<number> {
 	const moreReleasesCountElement = await elementReady(releasesSidebarSelector + ' .Counter');
@@ -46,13 +45,13 @@ async function fetchFromApi(): Promise<number> {
 export const getReleaseCount = cache.function(cacheName, async () => await parseCountFromDom() || fetchFromApi(), {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 3},
-	cacheKey: getCacheKey,
+	cacheKey: cacheByRepo,
 });
 
 async function addReleasesTab(): Promise<false | void> {
 	// Always prefer the information in the DOM
 	if (pageDetect.isRepoRoot()) {
-		await cache.delete(cacheName + getCacheKey());
+		await cache.delete(cacheName + cacheByRepo());
 	}
 
 	const count = await getReleaseCount();

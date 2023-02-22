@@ -6,8 +6,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
-import {getRepo} from '../github-helpers';
 import observe from '../helpers/selector-observer';
+import {cacheByRepo} from '../github-helpers';
 
 const reviewsFilterSelector = '#reviews-select-menu';
 
@@ -72,7 +72,7 @@ const hasChecks = cache.function('has-checks', async (): Promise<boolean> => {
 	return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
 }, {
 	maxAge: {days: 3},
-	cacheKey: () => getRepo()!.nameWithOwner,
+	cacheKey: cacheByRepo,
 });
 
 async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
