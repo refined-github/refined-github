@@ -1,46 +1,19 @@
-/*
-READ BEFORE EDITING. Some selectors match the same items ("focused" selector vs non-focused); make sure to update them in tandem.
-Commits that have a long commit message will not be dimmed after the user uncollapses the `<details>` element.
-*/
-
-.rgh-dim-bots--after-hover {
-	--rgh-dim-bots-delay: 1000s; /* #5158 */
+.rgh-dim-bots > *,
+.rgh-dim-bots .Box-row--drag-hide {
+	transition: 200ms opacity;
 }
 
-.rgh-dim-bot:not(.rgh-tagged) .mb-1,
-.rgh-dim-bot:not(.rgh-tagged) .Box-row--drag-hide, /* PR row */
-.rgh-dim-bot:not(.rgh-tagged) .mb-1 ~ .d-flex,
-.rgh-dim-bot:not(.rgh-tagged) > .d-md-block,
-.rgh-dim-bot:not(.rgh-tagged) .labels, /* PR labels */
-.rgh-dim-bot:not(.rgh-tagged) .text-small.color-fg-muted /* PR meta */ {
-	/* Delay the "focused" status so it's not too annoying when moving the mouse over a list of dimmed items. */
-	transition: 0.1s;
-	transition-delay: 0.3s;
-	transition-property: opacity, margin-bottom, visibility;
+.rgh-dim-bots:not(.rgh-tagged, :hover) > *, /* Commit titles, dim */
+.rgh-dim-bots:not(.rgh-tagged, :hover) .Box-row--drag-hide { /* PR row, dim */
+	opacity: 40%; /* Match `mark-merge-commits-in-list` */
 }
 
-/*
-ALL the following rules define the non-focused state
-*/
+/* Reset commit title spacing */
+.rgh-dim-bots:not(.rgh-tagged) .min-width-0 .mb-1 {
+	margin-bottom: 0 !important;
 
-.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover, .Details--on) .mb-1, /* Commit titles, dim */
-.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover) .Box-row--drag-hide { /* PR row, dim */
-	opacity: 20%;
-	transition-delay: 0s;
 }
-
-.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover, .Details--on) .mb-1 ~ .d-flex,
-.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover, .Details--on) > .d-md-block {
-	opacity: 20%;
-	margin-bottom: -1.6em;
-	visibility: hidden;
-	/* Delay visibility transition for a slightly shorter time than --rgh-dim-bots-delay, to make the animation smoother */
-	transition-delay: 0s, var(--rgh-dim-bots-delay), calc(var(--rgh-dim-bots-delay) - 0.1s);
-}
-
-.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover) .labels, /* PR labels */
-.rgh-dim-bot:not(.rgh-tagged, .navigation-focus, :hover) .text-small.color-fg-muted /* PR meta */ {
-	margin-bottom: -2em;
-	visibility: hidden;
-	transition-delay: 0s, var(--rgh-dim-bots-delay), calc(var(--rgh-dim-bots-delay) - 0.1s);
+.rgh-dim-bots:not(.rgh-tagged) .flex-shrink-0,  /* Commit */
+.rgh-dim-bots:not(.rgh-tagged) .min-width-0 > :is(.d-block, .d-flex) /* PR */ {
+	display: none !important;
 }
