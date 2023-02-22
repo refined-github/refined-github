@@ -76,9 +76,7 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-
-https://github.com/typed-ember/ember-cli-typescript/commits/master
-https://github.com/OctoLinker/OctoLinker/commits/master
-https://github.com/OctoLinker/OctoLinker/pulls?q=is%3Apr+is%3Aclosed
+- Commits: https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174
+- PRs: https://github.com/OctoLinker/OctoLinker/pulls?q=is%3Apr+is%3Aclosed
 
 */
