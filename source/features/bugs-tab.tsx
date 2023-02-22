@@ -55,7 +55,7 @@ async function countIssuesWithLabel(label: string): Promise<number> {
 	return repository.label?.issues.totalCount ?? 0;
 }
 
-const countBugs = cache.function(async (): Promise<number> => {
+const countBugs = cache.function('bugs', async (): Promise<number> => {
 	const bugLabel = await getBugLabel();
 	return bugLabel
 		? countIssuesWithLabel(bugLabel)
@@ -63,7 +63,7 @@ const countBugs = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: {minutes: 30},
 	staleWhileRevalidate: {days: 4},
-	cacheKey: (): string => 'bugs:' + getRepo()!.nameWithOwner,
+	cacheKey: (): string => getRepo()!.nameWithOwner,
 });
 
 async function getSearchQueryBugLabel(): Promise<string> {

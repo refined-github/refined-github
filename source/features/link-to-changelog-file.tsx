@@ -15,7 +15,8 @@ type FileType = {
 	type: string;
 };
 
-const getCacheKey = (): string => `changelog:${getRepo()!.nameWithOwner}`;
+const cacheName = 'changelog';
+const getCacheKey = (): string => getRepo()!.nameWithOwner;
 
 const changelogFiles = /^(changelog|news|changes|history|release|whatsnew)(\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
 function findChangelogName(files: string[]): string | false {
@@ -24,11 +25,11 @@ function findChangelogName(files: string[]): string | false {
 
 function parseFromDom(): false {
 	const files = select.all('[aria-labelledby="files"] .js-navigation-open[href*="/blob/"').map(file => file.title);
-	void cache.set(getCacheKey(), findChangelogName(files));
+	void cache.set(cacheName + ':' + getCacheKey(), findChangelogName(files));
 	return false;
 }
 
-const getChangelogName = cache.function(async (): Promise<string | false> => {
+const getChangelogName = cache.function(cacheName, async (): Promise<string | false> => {
 	const {repository} = await api.v4(`
 		repository() {
 			object(expression: "HEAD:") {

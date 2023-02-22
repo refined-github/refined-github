@@ -52,7 +52,7 @@ function addDraftFilter(dropdown: HTMLElement): void {
 	addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');
 }
 
-const hasChecks = cache.function(async (): Promise<boolean> => {
+const hasChecks = cache.function('has-checks', async (): Promise<boolean> => {
 	const {repository} = await api.v4(`
 		repository() {
 			head: object(expression: "HEAD") {
@@ -72,7 +72,7 @@ const hasChecks = cache.function(async (): Promise<boolean> => {
 	return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
 }, {
 	maxAge: {days: 3},
-	cacheKey: () => 'has-checks:' + getRepo()!.nameWithOwner,
+	cacheKey: () => getRepo()!.nameWithOwner,
 });
 
 async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {

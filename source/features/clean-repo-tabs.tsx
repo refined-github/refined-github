@@ -46,7 +46,7 @@ function onlyShowInDropdown(id: string): void {
 	select('.UnderlineNav-actions ul')!.append(menuItem);
 }
 
-const getWikiPageCount = cache.function(async (): Promise<number> => {
+const getWikiPageCount = cache.function('wiki-page-count', async (): Promise<number> => {
 	const dom = await fetchDom(buildRepoURL('wiki'));
 	const counter = dom.querySelector('#wiki-pages-box .Counter');
 
@@ -58,10 +58,10 @@ const getWikiPageCount = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 5},
-	cacheKey: () => 'wiki-page-count:' + getRepo()!.nameWithOwner,
+	cacheKey: () => getRepo()!.nameWithOwner,
 });
 
-const getWorkflowsCount = cache.function(async (): Promise<number> => {
+const getWorkflowsCount = cache.function('workflows-count', async (): Promise<number> => {
 	const {repository: {workflowFiles}} = await api.v4(`
 		repository() {
 			workflowFiles: object(expression: "HEAD:.github/workflows") {
@@ -74,7 +74,7 @@ const getWorkflowsCount = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 10},
-	cacheKey: () => 'workflows-count:' + getRepo()!.nameWithOwner,
+	cacheKey: () => getRepo()!.nameWithOwner,
 });
 
 async function initWiki(): Promise<void | false> {

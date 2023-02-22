@@ -7,7 +7,7 @@ import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getRepo} from '../github-helpers';
 
-const hasAnyProjects = cache.function(async (): Promise<boolean> => {
+const hasAnyProjects = cache.function('has-projects', async (): Promise<boolean> => {
 	const {repository, organization} = await api.v4(`
 		repository() {
 			projects { totalCount }
@@ -23,7 +23,7 @@ const hasAnyProjects = cache.function(async (): Promise<boolean> => {
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: () => 'has-projects:' + getRepo()!.nameWithOwner,
+	cacheKey: () => getRepo()!.nameWithOwner,
 });
 
 function getCount(element: HTMLElement): number {

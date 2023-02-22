@@ -13,7 +13,7 @@ function getLinkCopy(count: number): string {
 	return pluralize(count, 'one open pull request', 'at least $$ open pull requests');
 }
 
-const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: number, singlePrNumber?: number]> => {
+const countPRs = cache.function('prs-on-forked-repo', async (forkedRepo: string): Promise<[prCount: number, singlePrNumber?: number]> => {
 	const {search} = await api.v4(`
 		search(
 			first: 100,
@@ -43,7 +43,7 @@ const countPRs = cache.function(async (forkedRepo: string): Promise<[prCount: nu
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 2},
-	cacheKey: ([forkedRepo]): string => `prs-on-forked-repo:${forkedRepo}:${getRepo()!.nameWithOwner}`,
+	cacheKey: ([forkedRepo]): string => `${forkedRepo}:${getRepo()!.nameWithOwner}`,
 });
 
 // eslint-disable-next-line @typescript-eslint/ban-types

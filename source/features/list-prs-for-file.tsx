@@ -63,7 +63,7 @@ function getSingleButton(prNumber: number): HTMLElement {
 /**
 @returns prsByFile {"filename1": [10, 3], "filename2": [2]}
 */
-const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> => {
+const getPrsByFile = cache.function('files-with-prs', async (): Promise<Record<string, number[]>> => {
 	const {repository} = await api.v4(`
 		repository() {
 			pullRequests(
@@ -102,7 +102,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 }, {
 	maxAge: {hours: 2},
 	staleWhileRevalidate: {days: 9},
-	cacheKey: () => 'files-with-prs:' + getRepo()!.nameWithOwner,
+	cacheKey: () => getRepo()!.nameWithOwner,
 });
 
 async function getCurrentPath(): Promise<string> {

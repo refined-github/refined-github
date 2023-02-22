@@ -18,7 +18,7 @@ type PullRequest = {
 	url: string;
 };
 
-export const getPullRequestsAssociatedWithBranch = cache.function(async (): Promise<Record<string, PullRequest>> => {
+export const getPullRequestsAssociatedWithBranch = cache.function('associatedBranchPullRequests', async (): Promise<Record<string, PullRequest>> => {
 	const {repository} = await api.v4(`
 		repository() {
 			refs(refPrefix: "refs/heads/", last: 100) {
@@ -57,7 +57,7 @@ export const getPullRequestsAssociatedWithBranch = cache.function(async (): Prom
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 4},
-	cacheKey: () => 'associatedBranchPullRequests:' + getRepo()!.nameWithOwner,
+	cacheKey: () => getRepo()!.nameWithOwner,
 });
 
 export const stateIcon = {

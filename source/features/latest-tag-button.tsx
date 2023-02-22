@@ -30,7 +30,7 @@ type Tags = {
 
 const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
 
-const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> => {
+const getRepoPublishState = cache.function('tag-ahead-by', async (): Promise<RepoPublishState> => {
 	const {repository} = await api.v4(`
 		repository() {
 			refs(first: 20, refPrefix: "refs/tags/", orderBy: {
@@ -86,7 +86,7 @@ const getRepoPublishState = cache.function(async (): Promise<RepoPublishState> =
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 2},
-	cacheKey: () => 'tag-ahead-by:' + getRepo()!.nameWithOwner,
+	cacheKey: () => getRepo()!.nameWithOwner,
 });
 
 async function init(): Promise<false | void> {

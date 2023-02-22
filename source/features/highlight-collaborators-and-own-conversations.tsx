@@ -8,7 +8,7 @@ import features from '../feature-manager';
 import fetchDom from '../helpers/fetch-dom';
 import {buildRepoURL, getRepo, getUsername} from '../github-helpers';
 
-const getCollaborators = cache.function(async (): Promise<string[]> => {
+const getCollaborators = cache.function('repo-collaborators', async (): Promise<string[]> => {
 	const dom = await fetchDom(buildRepoURL('issues/show_menu_content?partial=issues/filters/authors_content'));
 	return select
 		.all('.SelectMenu-item img[alt]', dom)
@@ -16,7 +16,7 @@ const getCollaborators = cache.function(async (): Promise<string[]> => {
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: () => 'repo-collaborators:' + getRepo()!.nameWithOwner,
+	cacheKey: () => getRepo()!.nameWithOwner,
 });
 
 async function highlightCollaborators(): Promise<void> {

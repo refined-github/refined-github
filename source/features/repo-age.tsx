@@ -66,7 +66,7 @@ const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[com
 	return [committedDate, resourcePath];
 };
 
-const getFirstCommit = cache.function(async (): Promise<[committedDate: string, resourcePath: string]> => {
+const getFirstCommit = cache.function('first-commit', async (): Promise<[committedDate: string, resourcePath: string]> => {
 	const {repository} = await api.v4(`
 		repository() {
 			defaultBranchRef {
@@ -92,7 +92,7 @@ const getFirstCommit = cache.function(async (): Promise<[committedDate: string, 
 
 	return getRepoAge(commitSha, commitsCount);
 }, {
-	cacheKey: () => 'first-commit:' + getRepo()!.nameWithOwner,
+	cacheKey: () => getRepo()!.nameWithOwner,
 });
 
 async function init(): Promise<void> {

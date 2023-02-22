@@ -18,7 +18,7 @@ import {getReleaseCount} from './releases-tab';
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;
 
-const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
+const getFirstTag = cache.function('first-tag', async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom(
 		buildRepoURL('branch_commits', commit),
 		'ul.branches-tag-list li:last-child a',
@@ -26,7 +26,7 @@ const getFirstTag = cache.function(async (commit: string): Promise<string | unde
 
 	return firstTag?.textContent ?? undefined;
 }, {
-	cacheKey: ([commit]) => `first-tag:${getRepo()!.nameWithOwner}:${commit}`,
+	cacheKey: ([commit]) => [getRepo()!.nameWithOwner, commit].join(':'),
 });
 
 async function init(): Promise<void> {

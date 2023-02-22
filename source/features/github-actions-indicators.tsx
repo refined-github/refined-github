@@ -25,7 +25,7 @@ function addTooltip(element: HTMLElement, tooltip: string): void {
 	}
 }
 
-const getWorkflowsDetails = cache.function(async (): Promise<Record<string, WorkflowDetails> | false> => {
+const getWorkflowsDetails = cache.function('workflows', async (): Promise<Record<string, WorkflowDetails> | false> => {
 	const {repository: {workflowFiles}} = await api.v4(`
 		repository() {
 			workflowFiles: object(expression: "HEAD:.github/workflows") {
@@ -62,7 +62,7 @@ const getWorkflowsDetails = cache.function(async (): Promise<Record<string, Work
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 10},
-	cacheKey: () => 'workflows:' + getRepo()!.nameWithOwner,
+	cacheKey: () => getRepo()!.nameWithOwner,
 });
 
 async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void> {
