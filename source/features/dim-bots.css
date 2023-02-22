@@ -1,6 +1,6 @@
 .rgh-dim-bots > *,
 .rgh-dim-bots .Box-row--drag-hide {
-	transition: 200ms opacity;
+	transition: 100ms opacity;  /* Match `mark-merge-commits-in-list` */
 }
 
 .rgh-dim-bots:not(.rgh-tagged, :hover) > *, /* Commit titles, dim */
@@ -9,11 +9,13 @@
 }
 
 /* Reset commit title spacing */
-.rgh-dim-bots:not(.rgh-tagged) .min-width-0 .mb-1 {
+.rgh-dim-bots:not(.rgh-tagged, .rgh-interacted) .min-width-0 .mb-1 {
 	margin-bottom: 0 !important;
-
 }
-.rgh-dim-bots:not(.rgh-tagged) .flex-shrink-0,  /* Commit */
-.rgh-dim-bots:not(.rgh-tagged) .min-width-0 > :is(.d-block, .d-flex) /* PR */ {
+
+.rgh-dim-bots:not(.rgh-tagged, .rgh-interacted) .mb-1 ~ *, /* Commit metadata */
+.rgh-dim-bots:not(.rgh-tagged, .rgh-interacted) .dropdown-signed-commit, /* Commit verified label */
+.rgh-dim-bots:not(.rgh-tagged, .rgh-interacted) .flex-shrink-0 .BtnGroup, /* Commit buttons on side */
+.rgh-dim-bots:not(.rgh-tagged, .rgh-interacted) .min-width-0 > :is(.d-block, .d-flex) /* PR */ {
 	display: none !important;
 }

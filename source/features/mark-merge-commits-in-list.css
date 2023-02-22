@@ -1,5 +1,5 @@
 .rgh-merge-commit > div > * {
-	transition: 200ms opacity;
+	transition: 100ms opacity; /* Match `dim-bots` */
 }
 
 .rgh-merge-commit:not(.navigation-focus, :hover) > div > * {

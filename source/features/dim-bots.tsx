@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import delegate from 'delegate-it';
 
 import features from '../feature-manager';
+import preserveScroll from '../helpers/preserve-scroll';
 
 const botNames = [
 	'actions-user',
@@ -34,10 +35,13 @@ const prSelectors = [
 
 const dimBots = features.getIdentifiers(import.meta.url);
 
-function undimBots(): void {
+function undimBots(event: Event): void {
+	const resetScroll = preserveScroll(event.target as HTMLElement);
 	for (const bot of select.all(dimBots.selector)) {
-		bot.classList.remove(dimBots.class);
+		bot.classList.add('rgh-interacted');
 	}
+
+	resetScroll();
 }
 
 function init(signal: AbortSignal): void {
