@@ -7,6 +7,10 @@ import observe from '../helpers/selector-observer';
 const isSingleHTMLFile = (): boolean => pageDetect.isSingleFile() && /\.html?$/.test(location.pathname);
 
 function add(rawButton: HTMLAnchorElement): void {
+	if (!pageDetect.isPublicRepo()) {
+		return;
+	}
+
 	rawButton
 		.parentElement! // `BtnGroup`
 		.prepend(
@@ -25,9 +29,6 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isPublicRepo,
-	],
 	include: [
 		isSingleHTMLFile,
 	],
