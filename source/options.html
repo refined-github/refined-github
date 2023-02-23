@@ -13,12 +13,10 @@
 		</p>
 	</details>
 
-	<hr>
-
 	<details id="token" open>
 		<summary><strong>🔑 Personal token</strong></summary>
 		<p>
-			Optional, <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,delete_repo">generate one</a>
+			Optional, <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,delete_repo">generate one</a><br>
 			<!-- placeholder is set to enable use of :placeholder-shown CSS selector -->
 			<input type="text" name="personalToken" pattern="[\da-f]{40}|ghp_\w{36,251}" placeholder=" " spellcheck="false" autocomplete="off" autocapitalize="off">
 			<span id="validation"></span>
@@ -31,25 +29,17 @@
 		</ul>
 	</details>
 
-	<hr>
-
 	<details id="action">
 		<summary><strong>🔗 Refined GitHub link</strong></summary>
-		<label>
-			<strong>🔗 Refined GitHub link</strong><br>
-			This page will open when clicking the toolbar icon
-			<input type="url" name="actionUrl" placeholder="https://github.com" spellcheck="false" autocomplete="off" autocapitalize="off">
-		</label>
+		<p>This page will open when clicking the toolbar icon</p>
+		<p><input type="url" name="actionUrl" placeholder="https://github.com" spellcheck="false" autocomplete="off" autocapitalize="off"></p>
 	</details>
-
-	<hr>
 
 	<details id="css">
-		<summary><strong>💅 Custom CSS</strong> (useful to undo unwanted styles)</summary>
-		<textarea name="customCSS" rows="2" spellcheck="false"></textarea>
+		<summary><strong>💅 Custom CSS</strong></summary>
+		<p>Like a userstyle, useful to undo unwanted style changes</p>
+		<p><textarea name="customCSS" rows="2" spellcheck="false"></textarea></p>
 	</details>
-
-	<hr>
 
 	<details id="debugging">
 		<summary><strong>🐛 Debugging</strong></summary>
@@ -84,8 +74,6 @@
 			<button id="find-feature">Start process to identify feature…</button>
 		</p>
 	</details>
-
-	<hr>
 
 	<details id="features">
 		<summary><strong class="features-header">🔋 Features</strong></summary>

@@ -34,6 +34,29 @@ li[data-validation] {
 	margin-bottom: 0.3em;
 }
 
+details[open] {
+	--border-left: 4px;
+	border-left: solid var(--border-left) #aaa4;
+	padding-bottom: 1px;
+}
+
+summary {
+	--summary-padding: 10px;
+	background: #aaa4;
+	list-style: none;
+	padding: var(--summary-padding);
+	cursor: pointer;
+}
+
+details[open] summary {
+	margin-bottom: 10px;
+	padding-left: calc(var(--summary-padding) - var(--border-left));
+}
+
+details[open] > :not(summary) {
+	margin-left: 10px;
+}
+
 [data-validation]::before {
 	content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" fill="gray" d="M8 5.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM4 8a4 4 0 118 0 4 4 0 01-8 0z"></path></svg>');
 	width: 16px;
