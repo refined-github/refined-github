@@ -42,10 +42,13 @@ details[open] {
 
 summary {
 	--summary-padding: 10px;
-	background: #aaa4;
+	background: #aaa1;
 	list-style: none;
 	padding: var(--summary-padding);
 	cursor: pointer;
+}
+summary:hover {
+	background: #aaa4;
 }
 
 details[open] summary {
