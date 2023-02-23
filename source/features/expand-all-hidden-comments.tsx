@@ -31,7 +31,7 @@ async function handleAltClick({altKey, delegateTarget}: DelegateEvent<MouseEvent
 		return;
 	}
 
-	await showToast(expandHidden(delegateTarget), {message: 'Expanding…', doneMessage: 'Expanded'})
+	await showToast(expandHidden(delegateTarget), {message: 'Expanding…', doneMessage: 'Expanded'});
 }
 
 function init(signal: AbortSignal): void {
