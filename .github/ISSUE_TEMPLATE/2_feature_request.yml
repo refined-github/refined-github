@@ -6,18 +6,18 @@ body:
     attributes:
       value: |
         👉 Review our [guidelines](https://github.com/refined-github/refined-github/wiki/%22Can-you-add-this-feature%3F%22) to ensure this feature would make sense in Refined GitHub.
-      
+
         👋 Consider contributing by fixing some [easy bugs](https://github.com/refined-github/refined-github/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22+label%3Abug).
-  - type: textarea
+
+        🏞️ You can provide screenshots/mockups to better visualize your idea. Files can be dropped in this field
+  - id: description
+    type: textarea
     attributes:
       label: Description
     validations:
       required: true
-  - type: textarea
-    attributes:
-      label: Screenshot
-      description: You can provide screenshots/mockups to better visualize your idea. Files can be dropped in this field
-  - type: textarea
+  - id: urls
+    type: textarea
     attributes:
       label: Example URLs
       description: Include a REAL URL where the feature should appear. e.g. Do you want a feature to appear on the main page of a repo? Paste a link to a repo
