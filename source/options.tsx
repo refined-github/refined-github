@@ -242,11 +242,6 @@ async function generateDom(): Promise<void> {
 	moveNewAndDisabledFeaturesToTop();
 	void validateToken();
 
-	// Allow HTTP logging on dev builds
-	if (process.env.NODE_ENV === 'development') {
-		select('#logHTTP-line')!.hidden = false;
-	}
-
 	// Add feature count. CSS-only features are added approximately
 	select('.features-header')!.append(` (${featuresMeta.length + 25})`);
 
