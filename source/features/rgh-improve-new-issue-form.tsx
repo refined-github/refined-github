@@ -53,7 +53,7 @@ async function linkifyCacheRefresh(): Promise<void> {
 }
 
 async function init(): Promise<void> {
-// Asyn functions so they're independent
+// Async functions so they're independent
 	await Promise.all([
 		linkifyCacheRefresh(),
 		checkToken(),
