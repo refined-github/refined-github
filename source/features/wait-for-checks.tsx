@@ -13,6 +13,7 @@ import * as prCiStatus from '../github-helpers/pr-ci-status';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 import {onPrMergePanelLoad} from '../github-events/on-fragment-load';
 import onAbort from '../helpers/abort-controller';
+import {userCanLikelyMergePR} from '../github-helpers';
 
 // Reuse the same checkbox to preserve its status
 const generateCheckbox = onetime(() => (
@@ -180,11 +181,10 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	asLongAs: [
+		userCanLikelyMergePR,
 		pageDetect.isOpenPR,
 		// The repo has enabled Actions
 		() => select.exists('#actions-tab'),
-		// The user is a maintainer, so they can probably merge the PR
-		() => select.exists('.discussion-sidebar-item .octicon-lock'),
 	],
 	include: [
 		pageDetect.isPRConversation,
