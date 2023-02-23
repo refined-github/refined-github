@@ -7,7 +7,6 @@ import openOptions from '../helpers/open-options';
 import clearCacheHandler from '../helpers/clear-cache-handler';
 import {expectToken, expectTokenScope} from '../github-helpers/api';
 import {isRefinedGitHubRepo} from '../github-helpers';
-import {assertNodeContent} from '../helpers/dom-utils';
 
 function addNotice(adjective: JSX.Element | string): void {
 	select('#issue_body_template_name')!.before(
