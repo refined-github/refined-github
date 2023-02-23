@@ -141,7 +141,7 @@ async function init(): Promise<void> {
 		moveRareTabs(),
 		updateActionsTab(),
 		updateWikiTab(),
-		updateProjectsTab()
+		updateProjectsTab(),
 	]);
 }
 
