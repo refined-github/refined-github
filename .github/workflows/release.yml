@@ -1,5 +1,6 @@
 env:
   DIRECTORY: distribution
+  PROJECT_NAME: refined-github
 
 # FILE GENERATED WITH: npx ghat fregante/ghatemplates/webext
 # SOURCE: https://github.com/fregante/ghatemplates
@@ -38,9 +39,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: ${{ env.DIRECTORY }}
         run: |
-          zip -r refined-github-local-install.zip ./*
-          gh release create "$DAILY_VERSION" --generate-notes refined-github-local-install.zip
-
+          FILENAME="$PROJECT_NAME-$DAILY_VERSION-for-local-testing-only.zip"
+          zip -r "$FILENAME" ./*
+          gh release create "$DAILY_VERSION" --generate-notes "$FILENAME"
   Submit:
     needs: Version
     if: needs.Version.outputs.created
@@ -55,13 +56,15 @@ jobs:
       - uses: actions/download-artifact@v3
       - name: Submit to Mozilla
         if: matrix.command == 'firefox'
-        run: cd artifact && npx web-ext-submit@7
+        working-directory: artifact
+        run: npx web-ext-submit@7
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
           WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
       - name: Submit to Google
         if: matrix.command == 'chrome'
-        run: cd artifact && npx chrome-webstore-upload-cli@2 upload --auto-publish
+        working-directory: artifact
+        run: npx chrome-webstore-upload-cli@2 upload --auto-publish
         env:
           EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
