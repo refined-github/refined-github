@@ -107,7 +107,7 @@ void features.add(import.meta.url, {
 	init: handleNewIssue,
 }, {
 	include: [
-		pageDetect.isRepo,
+		pageDetect.hasRepoHeader,
 		pageDetect.isUserProfile,
 		pageDetect.isOrganizationProfile,
 	],

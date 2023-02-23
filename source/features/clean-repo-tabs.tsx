@@ -77,7 +77,7 @@ const getWorkflowsCount = cache.function(async (): Promise<number> => {
 	cacheKey: () => 'workflows-count:' + getRepo()!.nameWithOwner,
 });
 
-async function initWiki(): Promise<void | false> {
+async function updateWikiTab(): Promise<void | false> {
 	const wikiTab = await elementReady('[data-hotkey="g w"]');
 	if (!wikiTab) {
 		return false;
@@ -91,7 +91,7 @@ async function initWiki(): Promise<void | false> {
 	}
 }
 
-async function initActions(): Promise<void | false> {
+async function updateActionsTab(): Promise<void | false> {
 	const actionsTab = await elementReady('[data-hotkey="g a"]');
 	if (!actionsTab) {
 		return false;
@@ -105,7 +105,7 @@ async function initActions(): Promise<void | false> {
 	onlyShowInDropdown('actions-tab');
 }
 
-async function initProjects(): Promise<void | false> {
+async function updateProjectsTab(): Promise<void | false> {
 	const projectsTab = await elementReady('[data-hotkey="g b"]');
 	if (await getTabCount(projectsTab!) > 0 || mustKeepTab(projectsTab)) {
 		return false;
@@ -124,7 +124,7 @@ async function initProjects(): Promise<void | false> {
 	projectsTab!.remove();
 }
 
-async function init(): Promise<void | false> {
+async function moveRareTabs(): Promise<void | false> {
 	// The user may have disabled `more-dropdown-links` so un-hide it
 	if (!await unhideOverflowDropdown()) {
 		return false;
@@ -136,29 +136,25 @@ async function init(): Promise<void | false> {
 	onlyShowInDropdown('insights-tab');
 }
 
+async function init(): Promise<void> {
+	await Promise.all([
+		moveRareTabs(),
+		updateActionsTab(),
+		updateWikiTab(),
+		updateProjectsTab()
+	]);
+}
+
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepo,
+		pageDetect.hasRepoHeader,
 	],
 	deduplicate: 'has-rgh',
 	init,
 }, {
 	include: [
-		pageDetect.isRepo,
 		pageDetect.isOrganizationProfile,
 	],
 	deduplicate: 'has-rgh',
-	init: initProjects,
-}, {
-	include: [
-		pageDetect.isRepo,
-	],
-	deduplicate: 'has-rgh',
-	init: initActions,
-}, {
-	include: [
-		pageDetect.isRepo,
-	],
-	deduplicate: 'has-rgh',
-	init: initWiki,
+	init: updateProjectsTab,
 });
