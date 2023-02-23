@@ -35,9 +35,7 @@ async function checkToken(): Promise<void> {
 
 async function setVersion(): Promise<void> {
 	const {version} = browser.runtime.getManifest();
-	const versionFieldId = 'issue_form_4ceb28848d92a2c2094093043f57e5e4cb152518a3c2b3b950d1273f795dc13c';
-	assertNodeContent(select(`label[for="${versionFieldId}"`)!.firstChild, 'Extension version');
-	select(`input#${versionFieldId}`)!.value = version;
+	select('input#issue_form_version')!.value = version;
 }
 
 async function linkifyCacheRefresh(): Promise<void> {
