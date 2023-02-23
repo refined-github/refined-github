@@ -26,7 +26,7 @@ jobs:
         uses: fregante/daily-version-action@v2
       - name: Update manifest.json with version ${{ env.DAILY_VERSION}}
         if: env.DAILY_VERSION_CREATED
-        run: npx dot-json@1 $DIRECTORY/manifest.json version $DAILY_VERSION
+        run: npx dot-json@1 "$DIRECTORY/manifest.json" version "$DAILY_VERSION"
       - name: Ready for "submit" jobs
         if: env.DAILY_VERSION_CREATED
         uses: actions/upload-artifact@v3
@@ -38,7 +38,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: ${{ env.DIRECTORY }}
         run: |
-          zip -r refined-github-local-install.zip *
+          zip -r refined-github-local-install.zip ./*
           gh release create "$DAILY_VERSION" --generate-notes refined-github-local-install.zip
 
   Submit:

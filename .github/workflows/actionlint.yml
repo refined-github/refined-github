@@ -1,3 +1,4 @@
+# Copied from https://github.com/rhysd/actionlint/blob/048c97d90b98b832450d3adf00fc7757b0ed9953/docs/usage.md#use-actionlint-on-github-actions
 name: Lint GitHub Actions workflows
 on: [push, pull_request]
 
