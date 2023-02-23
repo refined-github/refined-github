@@ -11,6 +11,7 @@ import * as api from '../github-helpers/api';
 import {getBranches} from '../github-helpers/pr-branches';
 import getPrInfo from '../github-helpers/get-pr-info';
 import {getConversationNumber} from '../github-helpers';
+import showToast from '../github-helpers/toast';
 
 const selectorForPushablePRNotice = '.merge-pr > .color-fg-muted:first-child';
 
@@ -27,17 +28,24 @@ async function handler({delegateTarget}: DelegateEvent): Promise<void> {
 		return;
 	}
 
-	const statusMeta = delegateTarget.parentElement!;
-	statusMeta.textContent = 'Updating branch…';
 	features.unload(import.meta.url);
 
-	const response = await mergeBranches();
-	if (response.ok) {
+	const statusMeta = delegateTarget.parentElement!;
+
+	try {
+		await showToast(async () => {
+			const response = await mergeBranches();
+			if (!response.ok) {
+				features.log.error(import.meta.url, response);
+				throw new Error(`Error updating the branch: ${response.message as string}`);
+			}
+		}, {
+			message: 'Updating branch…',
+			doneMessage: 'Branch updated',
+		});
 		statusMeta.remove();
-	} else {
-		statusMeta.textContent = response.message ?? 'Error';
-		statusMeta.prepend(<AlertIcon/>, ' ');
-		throw new api.RefinedGitHubAPIError('update-pr-from-base-branch: ' + JSON.stringify(response));
+	} catch {
+		statusMeta.remove();
 	}
 }
 

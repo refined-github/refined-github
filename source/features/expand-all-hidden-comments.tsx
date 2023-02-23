@@ -4,14 +4,11 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
+import showToast from '../github-helpers/toast';
 
 const paginationButtonSelector = '.ajax-pagination-form button[type="submit"]';
 
-async function handleAltClick({altKey, delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
-	if (!altKey) {
-		return;
-	}
-
+async function expandHidden() {
 	let paginationButton: HTMLButtonElement | undefined = delegateTarget;
 	let wrapper: Element = paginationButton.form!.parentElement!;
 	const isExpandingMainThread = wrapper.id === 'js-progressive-timeline-item-container';
@@ -27,6 +24,14 @@ async function handleAltClick({altKey, delegateTarget}: DelegateEvent<MouseEvent
 		paginationButton = select(`:scope > ${paginationButtonSelector}`, wrapper);
 		paginationButton?.click();
 	}
+}
+
+async function handleAltClick({altKey, delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+	if (!altKey) {
+		return;
+	}
+
+	await showToast(expandHidden, {message: 'Expanding…', 'Expanded'})
 }
 
 function init(signal: AbortSignal): void {
