@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 
-import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
