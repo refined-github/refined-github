@@ -47,6 +47,7 @@ summary {
 	padding: var(--summary-padding);
 	cursor: pointer;
 }
+
 summary:hover {
 	background: #aaa4;
 }
