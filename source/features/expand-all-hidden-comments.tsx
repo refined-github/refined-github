@@ -8,9 +8,9 @@ import showToast from '../github-helpers/toast';
 
 const paginationButtonSelector = '.ajax-pagination-form button[type="submit"]';
 
-async function expandHidden() {
-	let paginationButton: HTMLButtonElement | undefined = delegateTarget;
-	let wrapper: Element = paginationButton.form!.parentElement!;
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+async function expandHidden(paginationButton: HTMLButtonElement | undefined) {
+	let wrapper: Element = paginationButton!.form!.parentElement!;
 	const isExpandingMainThread = wrapper.id === 'js-progressive-timeline-item-container';
 
 	while (paginationButton) {
@@ -31,7 +31,7 @@ async function handleAltClick({altKey, delegateTarget}: DelegateEvent<MouseEvent
 		return;
 	}
 
-	await showToast(expandHidden, {message: 'Expanding…', 'Expanded'})
+	await showToast(expandHidden(delegateTarget), {message: 'Expanding…', doneMessage: 'Expanded'})
 }
 
 function init(signal: AbortSignal): void {
