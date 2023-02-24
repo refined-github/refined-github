@@ -15,12 +15,12 @@
 	--rgh-red: #cf222e;
 }
 
-html:after {
+html::after {
 	/* Add some extra scroll to the page to reduce section toggle jumps/scroll */
 	content: '';
 	display: block;
 	height: 50vh;
-	background: url(icon.png) center no-repeat;
+	background: url('icon.png') center no-repeat;
 	filter: opacity(0.1) saturate(0) brightness(1.2);
 }
 
