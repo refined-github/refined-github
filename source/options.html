@@ -29,16 +29,24 @@
 		</ul>
 	</details>
 
-	<details id="action">
-		<summary><strong>🔗 Refined GitHub link</strong></summary>
-		<p>This page will open when clicking the toolbar icon</p>
-		<p><input type="url" name="actionUrl" placeholder="https://github.com" spellcheck="false" autocomplete="off" autocapitalize="off"></p>
+	<details id="features">
+		<summary><strong class="features-header">🔋 Features</strong></summary>
+		<p>
+				<input id="filter-features" type="text" placeholder="Find features" spellcheck="false" autocomplete="off" autocapitalize="off">
+		</p>
+		<div class="js-features"></div>
 	</details>
 
 	<details id="css">
 		<summary><strong>💅 Custom CSS</strong></summary>
 		<p>Like a userstyle, useful to undo unwanted style changes</p>
 		<p><textarea name="customCSS" rows="2" spellcheck="false"></textarea></p>
+	</details>
+
+	<details id="action">
+		<summary><strong>🔗 Refined GitHub link</strong></summary>
+		<p>This page will open when clicking the toolbar icon</p>
+		<p><input type="url" name="actionUrl" placeholder="https://github.com" spellcheck="false" autocomplete="off" autocapitalize="off"></p>
 	</details>
 
 	<details id="debugging">
@@ -51,7 +59,7 @@
 		</p>
 		<p>
 			<label>
-				<input type="checkbox" name="logHTTP"/>
+				<input type="checkbox" name="logHTTP">
 					Log API calls in the console
 			</label>
 		</p>
@@ -75,13 +83,6 @@
 		</p>
 	</details>
 
-	<details id="features">
-		<summary><strong class="features-header">🔋 Features</strong></summary>
-		<p>
-				<input id="filter-features" type="text" placeholder="Find features" spellcheck="false" autocomplete="off" autocapitalize="off">
-		</p>
-		<div class="js-features"></div>
-	</details>
 
 </form>
 <script src="options.js"></script>
