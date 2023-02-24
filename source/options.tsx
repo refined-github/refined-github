@@ -70,10 +70,15 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 	return scopes;
 }
 
+function expandTokenSection(): void {
+	select('details#token')!.open = true;
+}
+
 async function validateToken(): Promise<void> {
 	reportStatus({});
 	const tokenField = select('input[name="personalToken"]')!;
 	if (!tokenField.validity.valid || tokenField.value.length === 0) {
+		expandTokenSection();
 		return;
 	}
 
@@ -86,6 +91,7 @@ async function validateToken(): Promise<void> {
 	} catch (error) {
 		assertError(error);
 		reportStatus({error: true, text: error.message});
+		expandTokenSection();
 		throw error;
 	}
 }
