@@ -1,7 +1,6 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import elementReady from 'element-ready';
-import {css} from 'code-tag';
 
 import features from '../feature-manager';
 import SearchQuery from '../github-helpers/search-query';
@@ -57,7 +56,7 @@ function updateLink(link: HTMLAnchorElement): void {
 function init(signal: AbortSignal): void {
 	// Get issues links that don't already have a specific sorting applied
 	observe(
-		css`
+		`
 			a:is(
 				[href*="/issues"],
 				[href*="/pulls"],
@@ -68,7 +67,6 @@ function init(signal: AbortSignal): void {
 				.issues-reset-query
 			)
 		`,
-		// @ts-expect-error https://github.com/g-plane/typed-query-selector/issues/26
 		updateLink,
 		{signal},
 	);

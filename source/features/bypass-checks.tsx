@@ -37,7 +37,6 @@ function init(signal: AbortSignal): void {
 			[href^="/"]
 		)`,
 
-	/* @ts-expect-error https://github.com/g-plane/typed-query-selector/issues/26 */
 	bypass,
 	{signal},
 	);
