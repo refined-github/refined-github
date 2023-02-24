@@ -154,10 +154,6 @@ details[open] > :not(summary) {
 	opacity: 50%;
 }
 
-#show-debugging ~ * {
-	display: none;
-}
-
 details {
 	margin-bottom: 1em;
 }

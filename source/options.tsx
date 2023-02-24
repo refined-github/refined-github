@@ -292,10 +292,6 @@ function addEventListeners(): void {
 			window.open(event.delegateTarget.href);
 		}
 	});
-
-	select('#show-debugging button')!.addEventListener('click', function () {
-		this.parentElement!.remove();
-	});
 }
 
 async function init(): Promise<void> {
