@@ -17,7 +17,9 @@ function init(): void | false {
 	for (const dropdownItem of select.all('.select-menu-item', initialGroupedButtons)) {
 		let title = select('.select-menu-item-heading', dropdownItem)!.textContent!.trim();
 		const description = select('.description', dropdownItem)!.textContent!.trim();
-		const radioButton = select('input[type=radio]', dropdownItem)!;
+		const radioButton = select('input[type=radio]', dropdownItem);
+		if(!radioButton) continue;
+
 		const classList = ['btn', 'ml-2', 'tooltipped', 'tooltipped-s'];
 
 		if (/\bdraft\b/i.test(title)) {
