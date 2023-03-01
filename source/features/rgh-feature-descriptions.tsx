@@ -2,12 +2,15 @@ import './rgh-feature-descriptions.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {CopyIcon} from '@primer/octicons-react';
+import cache from 'webext-storage-cache';
 
 import features from '../feature-manager';
 import {featuresMeta} from '../../readme.md';
 import {getNewFeatureName} from '../options-storage';
 import {isRefinedGitHubRepo} from '../github-helpers';
 import observe from '../helpers/selector-observer';
+import {HotfixStorage} from '../helpers/hotfix';
+import {createRghIssueLink} from '../helpers/rgh-issue-link';
 
 async function add(infoBanner: HTMLElement): Promise<void> {
 	const [, currentFeature] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
@@ -61,6 +64,23 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 					</a>
 				)}
 			</div>
+		</div>,
+	);
+
+	// Skip dev check present in `getLocalHotfixes`, we want to see this even when developing
+	const hotfixes = await cache.get<HotfixStorage>('hotfixes:') ?? [];
+
+	const hotfixed = hotfixes.find(([feature]) => feature === currentFeatureName);
+	if (!hotfixed) {
+		return;
+	}
+
+	const [_name, issue, unaffectedVersion] = hotfixed;
+
+	infoBanner.before(
+		<div className="mb-3 d-inline-block width-full flash flash-warn mb-2">
+			<strong>Note:</strong> This feature is disabled due to {createRghIssueLink(issue)}
+			{unaffectedVersion && ` until version ${unaffectedVersion}`}
 		</div>,
 	);
 }

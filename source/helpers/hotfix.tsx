@@ -33,7 +33,7 @@ async function fetchHotfix(path: string): Promise<string> {
 	return '';
 }
 
-export type HotfixStorage = Array<[FeatureID, string]>;
+export type HotfixStorage = Array<[FeatureID, string, string]>;
 
 export const updateHotfixes = cache.function('hotfixes', async (version: string): Promise<HotfixStorage> => {
 	const content = await fetchHotfix('broken-features.csv');
@@ -44,7 +44,7 @@ export const updateHotfixes = cache.function('hotfixes', async (version: string)
 	const storage: HotfixStorage = [];
 	for (const [featureID, relatedIssue, unaffectedVersion] of parseCsv(content)) {
 		if (featureID && relatedIssue && (!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0)) {
-			storage.push([featureID as FeatureID, relatedIssue]);
+			storage.push([featureID as FeatureID, relatedIssue, unaffectedVersion]);
 		}
 	}
 
