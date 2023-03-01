@@ -98,3 +98,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+- https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.tsx
+- https://github.com/refined-github/refined-github/blob/main/source/features/clean-conversation-sidebar.css
+
+*/
