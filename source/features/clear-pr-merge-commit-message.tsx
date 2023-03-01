@@ -9,6 +9,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 import attachElement from '../helpers/attach-element';
 import cleanCommitMessage from '../helpers/clean-commit-message';
+import {userCanLikelyMergePR} from '../github-helpers';
 
 const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
 
@@ -44,6 +45,9 @@ void features.add(import.meta.url, {
 	exclude: [
 		// Don't clear 1-commit PRs #3140
 		() => select.all('.TimelineItem.js-commit').length === 1,
+	],
+	asLongAs: [
+		userCanLikelyMergePR,
 	],
 	additionalListeners: [
 		onPrMergePanelOpen,

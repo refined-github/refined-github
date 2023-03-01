@@ -7,7 +7,7 @@ import * as textFieldEdit from 'text-field-edit';
 
 import features from '../feature-manager';
 import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
-import {getConversationNumber} from '../github-helpers';
+import {getConversationNumber, userCanLikelyMergePR} from '../github-helpers';
 import onCommitTitleUpdate from '../github-events/on-commit-title-update';
 
 const mergeFormSelector = '.is-squashing form:not([hidden])';
@@ -92,5 +92,9 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],
+	asLongAs: [
+		userCanLikelyMergePR,
+	],
+	awaitDomReady: true, // DOM-based filters, feature appears at the end of the page
 	init,
 });
