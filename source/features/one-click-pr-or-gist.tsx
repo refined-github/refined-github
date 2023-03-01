@@ -48,6 +48,9 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 		pageDetect.isGist,
 	],
+	exclude: [
+		() => select.exists('[data-show-dialog-id="drafts-upgrade-dialog"]'),
+	],
 	deduplicate: 'has-rgh',
 	awaitDomReady: true,
 	init,
