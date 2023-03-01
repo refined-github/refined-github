@@ -4,79 +4,53 @@
 <title>Refined GitHub options</title>
 <link rel="stylesheet" href="options.css">
 <form id="options-form" class="detail-view-container">
-	<p>
-		<strong>👋 Information</strong><br>
-		Visit the <a href="https://github.com/refined-github/refined-github/issues/3543">welcome page</a> to learn about updates, debugging, and GitHub Enterprise.
-		You can <a href="https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf/reviews" id="rate-link">rate Refined GitHub</a> to help others find it.
-		Follow or sponsor <a href="https://github.com/sponsors/fregante">@fregante</a> or <a href="https://github.com/sponsors/cheap-glitch">@cheap-glitch</a> if Refined GitHub helps you work more efficiently. 🍻
-	</p>
+	<details id="info" open>
+		<summary><strong>👋 Information</strong></summary>
+		<p>
+			Visit the <a href="https://github.com/refined-github/refined-github/issues/3543">welcome page</a> to learn about updates, debugging, and GitHub Enterprise.
+			You can <a href="https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf/reviews" id="rate-link">rate Refined GitHub</a> to help others find it.
+			Follow or sponsor <a href="https://github.com/sponsors/fregante">@fregante</a> if Refined GitHub helps you work more efficiently. 🍻
+		</p>
+	</details>
 
-	<hr>
-
-	<p>
-		<label>
-			<strong>🔑 Personal token</strong> (optional, <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,delete_repo">generate one</a>)<br>
+	<details id="token">
+		<summary><strong>🔑 Personal token</strong></summary>
+		<p>
+			Optional, <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,delete_repo">generate one</a><br>
 			<!-- placeholder is set to enable use of :placeholder-shown CSS selector -->
 			<input type="text" name="personalToken" pattern="[\da-f]{40}|ghp_\w{36,251}" placeholder=" " spellcheck="false" autocomplete="off" autocapitalize="off">
 			<span id="validation"></span>
-		</label>
-	</p>
-	<ul>
-		<li data-validation data-scope="valid_token">The token enables <a href="https://github.com/refined-github/refined-github/search?q=github-helpers+api">some features</a> to <strong>read</strong> data from public repositories
-		<li data-validation data-scope="public_repo">The <code>public_repo</code> scope lets them <strong>edit</strong> your public repositories
-		<li data-validation data-scope="repo">The <code>repo</code> scope lets them <strong>edit private</strong> repositories as well
-		<li data-validation data-scope="delete_repo">The <code>delete_repo</code> scope is only used by the <code>quick-repo-deletion</code> feature
-	</ul>
-
-	<hr>
-
-	<p>
-		<label>
-			<strong>🔗 Refined GitHub link</strong><br>
-			This page will open when clicking the toolbar icon
-			<input type="url" name="actionUrl" placeholder="https://github.com" spellcheck="false" autocomplete="off" autocapitalize="off">
-		</label>
-	</p>
-
-	<hr>
-
-	<p>
-		<label>
-			<strong>💅 Custom CSS</strong> (useful to undo unwanted styles)
-			<textarea name="customCSS" rows="2" spellcheck="false"></textarea>
-		</label>
-	</p>
-
-	<hr>
-
-	<div>
-		<p id="show-debugging">
-			<button>Show debugging tools</button>
 		</p>
+		<ul>
+			<li data-validation data-scope="valid_token">The token enables <a href="https://github.com/refined-github/refined-github/search?q=github-helpers+api">some features</a> to <strong>read</strong> data from public repositories
+			<li data-validation data-scope="public_repo">The <code>public_repo</code> scope lets them <strong>edit</strong> your public repositories
+			<li data-validation data-scope="repo">The <code>repo</code> scope lets them <strong>edit private</strong> repositories as well
+			<li data-validation data-scope="delete_repo">The <code>delete_repo</code> scope is only used by the <code>quick-repo-deletion</code> feature
+		</ul>
+	</details>
+
+	<details id="features">
+		<summary><strong class="features-header">🔋 Features</strong></summary>
 		<p>
-			<strong>🐛 Debugging</strong>
+				<input id="filter-features" type="text" placeholder="Find features" spellcheck="false" autocomplete="off" autocapitalize="off">
 		</p>
-		<p>
-			<label>
-				<input type="checkbox" name="logging">
-				Show the features enabled on each page in the console
-			</label>
-		</p>
-		<p id="logHTTP-line" hidden>
-			<label>
-				<input type="checkbox" name="logHTTP"/>
-					Log API calls in the console
-			</label>
-		</p>
-		<p>
-			<button id="clear-cache">Clear cache</button>
-		</p>
+		<div class="js-features"></div>
+	</details>
 
-		<hr>
+	<details id="css">
+		<summary><strong>💅 Custom CSS</strong></summary>
+		<p>Like a userstyle, useful to undo unwanted style changes</p>
+		<p><textarea name="customCSS" rows="2" spellcheck="false"></textarea></p>
+	</details>
 
-		<p>
-			<strong>🔎 Find a feature</strong>
-		</p>
+	<details id="action">
+		<summary><strong>🔗 Refined GitHub link</strong></summary>
+		<p>This page will open when clicking the toolbar icon</p>
+		<p><input type="url" name="actionUrl" placeholder="https://github.com" spellcheck="false" autocomplete="off" autocapitalize="off"></p>
+	</details>
+
+	<details id="bisect">
+		<summary><strong>🔎 Identify feature</strong></summary>
 		<p>
 			This process will help you identify what Refined GitHub feature is making changes or causing issues on GitHub.
 		</p>
@@ -86,17 +60,28 @@
 		<p>
 			<button id="find-feature">Start process to identify feature…</button>
 		</p>
-	</div>
+	</details>
 
-	<hr>
+	<details id="debugging">
+		<summary><strong>🐛 Debugging</strong></summary>
+		<p>
+			<label>
+				<input type="checkbox" name="logging">
+				Show the features enabled on each page in the console
+			</label>
+		</p>
+		<p>
+			<label>
+				<input type="checkbox" name="logHTTP">
+					Log API calls in the console
+			</label>
+		</p>
+		<p>
+			<button id="clear-cache">Clear cache</button>
+		</p>
 
-	<p>
-		<label>
-			<strong class="features-header">🔋 Features</strong>
-			<input id="filter-features" type="text" placeholder="Find features" spellcheck="false" autocomplete="off" autocapitalize="off">
-		</label>
-	</p>
-	<div class="js-features"></div>
+	</details>
+
 
 </form>
 <script src="options.js"></script>

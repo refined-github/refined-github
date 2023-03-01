@@ -24,10 +24,7 @@ async function init(): Promise<void> {
 
 void features.add(import.meta.url, {
 	shortcuts: {
-		'g 1': 'Go to Conversation',
-		'g 2': 'Go to Commits',
-		'g 3': 'Go to Checks',
-		'g 4': 'Go to Files changed',
+		'g <number>': 'Go to PR tab <number>',
 		'g →': 'Go to next PR tab',
 		'g ←': 'Go to previous PR tab',
 	},

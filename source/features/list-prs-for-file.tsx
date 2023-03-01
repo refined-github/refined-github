@@ -9,7 +9,7 @@ import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
 import addAfterBranchSelector from '../helpers/add-after-branch-selector';
-import {buildRepoURL, getRepo} from '../github-helpers';
+import {buildRepoURL, cacheByRepo} from '../github-helpers';
 
 function getPRUrl(prNumber: number): string {
 	return buildRepoURL('pull', prNumber, 'files');
@@ -63,7 +63,7 @@ function getSingleButton(prNumber: number): HTMLElement {
 /**
 @returns prsByFile {"filename1": [10, 3], "filename2": [2]}
 */
-const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> => {
+const getPrsByFile = cache.function('files-with-prs', async (): Promise<Record<string, number[]>> => {
 	const {repository} = await api.v4(`
 		repository() {
 			pullRequests(
@@ -102,7 +102,7 @@ const getPrsByFile = cache.function(async (): Promise<Record<string, number[]>> 
 }, {
 	maxAge: {hours: 2},
 	staleWhileRevalidate: {days: 9},
-	cacheKey: () => 'files-with-prs:' + getRepo()!.nameWithOwner,
+	cacheKey: cacheByRepo,
 });
 
 async function getCurrentPath(): Promise<string> {

@@ -11,11 +11,11 @@ import * as api from '../github-helpers/api';
 import looseParseInt from '../helpers/loose-parse-int';
 import abbreviateNumber from '../helpers/abbreviate-number';
 import createDropdownItem from '../github-helpers/create-dropdown-item';
-import {buildRepoURL, getRepo} from '../github-helpers';
+import {buildRepoURL, cacheByRepo} from '../github-helpers';
 import {releasesSidebarSelector} from './clean-repo-sidebar';
 import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils';
 
-const getCacheKey = (): string => `releases-count:${getRepo()!.nameWithOwner}`;
+const cacheName = 'releases-count';
 
 async function parseCountFromDom(): Promise<number> {
 	const moreReleasesCountElement = await elementReady(releasesSidebarSelector + ' .Counter');
@@ -42,16 +42,16 @@ async function fetchFromApi(): Promise<number> {
 // - It is disabled by repository owner on the home page (release DOM element won't be there)
 // - It only contains pre-releases (count badge won't be shown)
 // For this reason, if we can't find a count from the DOM, we ask the API instead (see #6298)
-export const getReleaseCount = cache.function(async () => await parseCountFromDom() || fetchFromApi(), {
+export const getReleaseCount = cache.function(cacheName, async () => await parseCountFromDom() || fetchFromApi(), {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 3},
-	cacheKey: getCacheKey,
+	cacheKey: cacheByRepo,
 });
 
 async function addReleasesTab(): Promise<false | void> {
 	// Always prefer the information in the DOM
 	if (pageDetect.isRepoRoot()) {
-		await cache.delete(getCacheKey());
+		await cache.delete(cacheName + ':' + cacheByRepo());
 	}
 
 	const count = await getReleaseCount();
@@ -115,7 +115,7 @@ void features.add(import.meta.url, {
 		'g r': 'Go to Releases',
 	},
 	include: [
-		pageDetect.isRepo,
+		pageDetect.hasRepoHeader,
 	],
 	init,
 });

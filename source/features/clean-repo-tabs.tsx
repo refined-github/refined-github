@@ -9,17 +9,17 @@ import * as api from '../github-helpers/api';
 import getTabCount from '../github-helpers/get-tab-count';
 import looseParseInt from '../helpers/loose-parse-int';
 import abbreviateNumber from '../helpers/abbreviate-number';
-import {buildRepoURL, getRepo} from '../github-helpers';
+import {buildRepoURL, cacheByRepo} from '../github-helpers';
 import {unhideOverflowDropdown} from './more-dropdown-links';
 
 async function canUserEditOrganization(): Promise<boolean> {
 	return Boolean(await elementReady('.btn-primary[href$="repositories/new"]'));
 }
 
-function mustKeepTab(tab: HTMLElement | undefined): boolean {
+function mustKeepTab(tab: HTMLElement): boolean {
 	return (
-		!tab // Tab disabled 🎉
-		|| tab.matches('.selected')// User is on tab 👀
+		// User is on tab 👀
+		tab.matches('.selected')
 		// Repo owners should see the tab. If they don't need it, they should disable the feature altogether
 		|| pageDetect.canUserEditRepo()
 	);
@@ -46,7 +46,7 @@ function onlyShowInDropdown(id: string): void {
 	select('.UnderlineNav-actions ul')!.append(menuItem);
 }
 
-const getWikiPageCount = cache.function(async (): Promise<number> => {
+const getWikiPageCount = cache.function('wiki-page-count', async (): Promise<number> => {
 	const dom = await fetchDom(buildRepoURL('wiki'));
 	const counter = dom.querySelector('#wiki-pages-box .Counter');
 
@@ -58,10 +58,10 @@ const getWikiPageCount = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 5},
-	cacheKey: () => 'wiki-page-count:' + getRepo()!.nameWithOwner,
+	cacheKey: cacheByRepo,
 });
 
-const getWorkflowsCount = cache.function(async (): Promise<number> => {
+const getWorkflowsCount = cache.function('workflows-count', async (): Promise<number> => {
 	const {repository: {workflowFiles}} = await api.v4(`
 		repository() {
 			workflowFiles: object(expression: "HEAD:.github/workflows") {
@@ -74,40 +74,35 @@ const getWorkflowsCount = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 10},
-	cacheKey: () => 'workflows-count:' + getRepo()!.nameWithOwner,
+	cacheKey: cacheByRepo,
 });
 
-async function initWiki(): Promise<void | false> {
+async function updateWikiTab(): Promise<void | false> {
 	const wikiTab = await elementReady('[data-hotkey="g w"]');
-	if (!wikiTab) {
+	if (!wikiTab || mustKeepTab(wikiTab)) {
 		return false;
 	}
 
 	const wikiPageCount = await getWikiPageCount();
-	if (wikiPageCount > 0 || mustKeepTab(wikiTab)) {
+	if (wikiPageCount > 0) {
 		setTabCounter(wikiTab, wikiPageCount);
 	} else {
 		onlyShowInDropdown('wiki-tab');
 	}
 }
 
-async function initActions(): Promise<void | false> {
+async function updateActionsTab(): Promise<void | false> {
 	const actionsTab = await elementReady('[data-hotkey="g a"]');
-	if (!actionsTab) {
-		return false;
-	}
-
-	const actionsCount = await getWorkflowsCount();
-	if (actionsCount > 0 || mustKeepTab(actionsTab)) {
+	if (!actionsTab || mustKeepTab(actionsTab) || await getWorkflowsCount() > 0) {
 		return false;
 	}
 
 	onlyShowInDropdown('actions-tab');
 }
 
-async function initProjects(): Promise<void | false> {
+async function updateProjectsTab(): Promise<void | false> {
 	const projectsTab = await elementReady('[data-hotkey="g b"]');
-	if (await getTabCount(projectsTab!) > 0 || mustKeepTab(projectsTab)) {
+	if (!projectsTab || mustKeepTab(projectsTab) || await getTabCount(projectsTab) > 0) {
 		return false;
 	}
 
@@ -121,10 +116,10 @@ async function initProjects(): Promise<void | false> {
 		return;
 	}
 
-	projectsTab!.remove();
+	projectsTab.remove();
 }
 
-async function init(): Promise<void | false> {
+async function moveRareTabs(): Promise<void | false> {
 	// The user may have disabled `more-dropdown-links` so un-hide it
 	if (!await unhideOverflowDropdown()) {
 		return false;
@@ -136,29 +131,35 @@ async function init(): Promise<void | false> {
 	onlyShowInDropdown('insights-tab');
 }
 
+async function init(): Promise<void> {
+	await Promise.all([
+		moveRareTabs(),
+		updateActionsTab(),
+		updateWikiTab(),
+		updateProjectsTab(),
+	]);
+}
+
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepo,
+		pageDetect.hasRepoHeader,
 	],
 	deduplicate: 'has-rgh',
 	init,
 }, {
 	include: [
-		pageDetect.isRepo,
 		pageDetect.isOrganizationProfile,
 	],
 	deduplicate: 'has-rgh',
-	init: initProjects,
-}, {
-	include: [
-		pageDetect.isRepo,
-	],
-	deduplicate: 'has-rgh',
-	init: initActions,
-}, {
-	include: [
-		pageDetect.isRepo,
-	],
-	deduplicate: 'has-rgh',
-	init: initWiki,
+	init: updateProjectsTab,
 });
+
+/*
+
+Test URLs:
+
+- Org with 0 projects: https://github.com/babel
+- Repo with 0 projects: https://github.com/babel/flavortown
+- Repo with 0 wiki: https://github.com/babel/babel-sublime-snippets
+
+*/

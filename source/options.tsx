@@ -70,10 +70,15 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 	return scopes;
 }
 
+function expandTokenSection(): void {
+	select('details#token')!.open = true;
+}
+
 async function validateToken(): Promise<void> {
 	reportStatus({});
 	const tokenField = select('input[name="personalToken"]')!;
 	if (!tokenField.validity.valid || tokenField.value.length === 0) {
+		expandTokenSection();
 		return;
 	}
 
@@ -86,6 +91,7 @@ async function validateToken(): Promise<void> {
 	} catch (error) {
 		assertError(error);
 		reportStatus({error: true, text: error.message});
+		expandTokenSection();
 		throw error;
 	}
 }
@@ -242,11 +248,6 @@ async function generateDom(): Promise<void> {
 	moveNewAndDisabledFeaturesToTop();
 	void validateToken();
 
-	// Allow HTTP logging on dev builds
-	if (process.env.NODE_ENV === 'development') {
-		select('#logHTTP-line')!.hidden = false;
-	}
-
 	// Add feature count. CSS-only features are added approximately
 	select('.features-header')!.append(` (${featuresMeta.length + 25})`);
 
@@ -296,10 +297,6 @@ function addEventListeners(): void {
 			event.preventDefault();
 			window.open(event.delegateTarget.href);
 		}
-	});
-
-	select('#show-debugging button')!.addEventListener('click', function () {
-		this.parentElement!.remove();
 	});
 }
 

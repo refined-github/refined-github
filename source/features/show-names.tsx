@@ -72,9 +72,7 @@ const usernameLinksSelector = [
 
 	// On dashboard `.text-bold` is required to not fetch avatars
 	'#dashboard a.text-bold[data-hovercard-type="user"]',
-
-	// Due to: https://github.com/g-plane/typed-query-selector/issues/26
-] as unknown as Array<'a'>;
+] as const;
 
 function init(signal: AbortSignal): void {
 	observe(usernameLinksSelector, batchUpdateLinks, {signal});

@@ -19,23 +19,27 @@ body:
         - Screenshots/video/gif demonstrating the bug, if it’s visual
         - Console errors, if any
 
-  - type: textarea
+  - id: description
+    type: textarea
     attributes:
       label: Description
     validations:
       required: true
-  - type: textarea
+  - id: repro
+    type: textarea
     attributes:
       label: How to replicate the issue + URL
       description: ‼️‼️‼️ Every bug report MUST include A REAL URL where the bug appears. If it happens on a private repo, find an equivalent public URL, even if it doesn't happen there.
     validations:
       required: true
-  - type: input
+  - id: version
+    type: input
     attributes:
       label: Extension version
     validations:
       required: true
-  - type: input
+  - id: browser
+    type: input
     attributes:
       label: Browser(s) used
     validations:

@@ -43,7 +43,7 @@ async function init(): Promise<void> {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepo,
+		pageDetect.hasRepoHeader,
 	],
 	exclude: [
 		pageDetect.isEmptyRepo,
@@ -52,5 +52,6 @@ void features.add(import.meta.url, {
 		() => !select.exists('.js-responsive-underlinenav'),
 	],
 	deduplicate: 'has-rgh',
+	awaitDomReady: true, // DOM-based filter
 	init,
 });

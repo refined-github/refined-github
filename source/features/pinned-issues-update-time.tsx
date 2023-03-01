@@ -12,7 +12,7 @@ type IssueInfo = {
 	updatedAt: string;
 };
 
-const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Record<string, IssueInfo>> => {
+const getLastUpdated = cache.function('last-updated', async (issueNumbers: number[]): Promise<Record<string, IssueInfo>> => {
 	const {repository} = await api.v4(`
 		repository() {
 			${issueNumbers.map(number => `
@@ -26,7 +26,7 @@ const getLastUpdated = cache.function(async (issueNumbers: number[]): Promise<Re
 	return repository;
 }, {
 	maxAge: {minutes: 30},
-	cacheKey: ([issues]) => `pinned-issues:${getRepo()!.nameWithOwner}:${String(issues)}`,
+	cacheKey: ([issues]) => `${getRepo()!.nameWithOwner}:${String(issues)}`,
 });
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {

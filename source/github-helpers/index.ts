@@ -184,3 +184,5 @@ export async function isArchivedRepoAsync(): Promise<boolean> {
 }
 
 export const userCanLikelyMergePR = (): boolean => select.exists('.discussion-sidebar-item .octicon-lock');
+
+export const cacheByRepo = (): string => getRepo()!.nameWithOwner;

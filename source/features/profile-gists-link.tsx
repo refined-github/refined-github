@@ -10,7 +10,7 @@ import {getCleanPathname} from '../github-helpers';
 import createDropdownItem from '../github-helpers/create-dropdown-item';
 import observe from '../helpers/selector-observer';
 
-const getGistCount = cache.function(async (username: string): Promise<number> => {
+const getGistCount = cache.function('gist-count', async (username: string): Promise<number> => {
 	const {user} = await api.v4(`
 		user(login: "${username}") {
 			gists(first: 0) {
@@ -22,7 +22,6 @@ const getGistCount = cache.function(async (username: string): Promise<number> =>
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 3},
-	cacheKey: ([username]) => 'gist-count:' + username,
 });
 
 function getUser(): {url: string; name: string} {
