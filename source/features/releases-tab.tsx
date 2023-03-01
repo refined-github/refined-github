@@ -51,7 +51,7 @@ export const getReleaseCount = cache.function(cacheName, async () => await parse
 async function addReleasesTab(): Promise<false | void> {
 	// Always prefer the information in the DOM
 	if (pageDetect.isRepoRoot()) {
-		await cache.delete(cacheName + cacheByRepo());
+		await cache.delete(cacheName + ':' + cacheByRepo());
 	}
 
 	const count = await getReleaseCount();
