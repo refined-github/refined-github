@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
-import {getRepo} from '../github-helpers';
+import {cacheByRepo} from '../github-helpers';
 import observe from '../helpers/selector-observer';
 
 type WorkflowDetails = {
@@ -25,7 +25,7 @@ function addTooltip(element: HTMLElement, tooltip: string): void {
 	}
 }
 
-const getWorkflowsDetails = cache.function(async (): Promise<Record<string, WorkflowDetails> | false> => {
+const getWorkflowsDetails = cache.function('workflows', async (): Promise<Record<string, WorkflowDetails> | false> => {
 	const {repository: {workflowFiles}} = await api.v4(`
 		repository() {
 			workflowFiles: object(expression: "HEAD:.github/workflows") {
@@ -62,7 +62,7 @@ const getWorkflowsDetails = cache.function(async (): Promise<Record<string, Work
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 10},
-	cacheKey: () => 'workflows:' + getRepo()!.nameWithOwner,
+	cacheKey: cacheByRepo,
 });
 
 async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void> {

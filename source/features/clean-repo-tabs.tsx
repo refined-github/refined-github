@@ -9,7 +9,7 @@ import * as api from '../github-helpers/api';
 import getTabCount from '../github-helpers/get-tab-count';
 import looseParseInt from '../helpers/loose-parse-int';
 import abbreviateNumber from '../helpers/abbreviate-number';
-import {buildRepoURL, getRepo} from '../github-helpers';
+import {buildRepoURL, cacheByRepo} from '../github-helpers';
 import {unhideOverflowDropdown} from './more-dropdown-links';
 
 async function canUserEditOrganization(): Promise<boolean> {
@@ -46,7 +46,7 @@ function onlyShowInDropdown(id: string): void {
 	select('.UnderlineNav-actions ul')!.append(menuItem);
 }
 
-const getWikiPageCount = cache.function(async (): Promise<number> => {
+const getWikiPageCount = cache.function('wiki-page-count', async (): Promise<number> => {
 	const dom = await fetchDom(buildRepoURL('wiki'));
 	const counter = dom.querySelector('#wiki-pages-box .Counter');
 
@@ -58,10 +58,10 @@ const getWikiPageCount = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 5},
-	cacheKey: () => 'wiki-page-count:' + getRepo()!.nameWithOwner,
+	cacheKey: cacheByRepo,
 });
 
-const getWorkflowsCount = cache.function(async (): Promise<number> => {
+const getWorkflowsCount = cache.function('workflows-count', async (): Promise<number> => {
 	const {repository: {workflowFiles}} = await api.v4(`
 		repository() {
 			workflowFiles: object(expression: "HEAD:.github/workflows") {
@@ -74,7 +74,7 @@ const getWorkflowsCount = cache.function(async (): Promise<number> => {
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 10},
-	cacheKey: () => 'workflows-count:' + getRepo()!.nameWithOwner,
+	cacheKey: cacheByRepo,
 });
 
 async function updateWikiTab(): Promise<void | false> {

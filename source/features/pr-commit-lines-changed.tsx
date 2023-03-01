@@ -7,7 +7,7 @@ import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import pluralize from '../helpers/pluralize';
 
-const getCommitChanges = cache.function(async (commit: string): Promise<[additions: number, deletions: number]> => {
+const getCommitChanges = cache.function('commit-changes', async (commit: string): Promise<[additions: number, deletions: number]> => {
 	const {repository} = await api.v4(`
 		repository() {
 			object(expression: "${commit}") {
@@ -20,8 +20,6 @@ const getCommitChanges = cache.function(async (commit: string): Promise<[additio
 	`);
 
 	return [repository.object.additions, repository.object.deletions];
-}, {
-	cacheKey: ([commit]) => 'commit-changes:' + commit,
 });
 
 async function init(): Promise<void> {

@@ -28,7 +28,7 @@ async function loadCommitPatch(commitUrl: string): Promise<string> {
 	return textContent;
 }
 
-const getLastCommitDate = cache.function(async (login: string): Promise<string | false> => {
+const getLastCommitDate = cache.function('last-commit', async (login: string): Promise<string | false> => {
 	for await (const page of api.v3paginated(`/users/${login}/events`)) {
 		for (const event of page as any) {
 			if (event.type !== 'PushEvent') {
@@ -66,7 +66,6 @@ const getLastCommitDate = cache.function(async (login: string): Promise<string |
 }, {
 	maxAge: {days: 10},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: ([login]) => 'last-commit:' + login,
 });
 
 function parseOffset(date: string): number {

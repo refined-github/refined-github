@@ -35,7 +35,7 @@ async function fetchHotfix(path: string): Promise<string> {
 
 export type HotfixStorage = Array<[FeatureID, string]>;
 
-export const updateHotfixes = cache.function(async (version: string): Promise<HotfixStorage> => {
+export const updateHotfixes = cache.function('hotfixes', async (version: string): Promise<HotfixStorage> => {
 	const content = await fetchHotfix('broken-features.csv');
 	if (!content) {
 		return [];
@@ -52,15 +52,13 @@ export const updateHotfixes = cache.function(async (version: string): Promise<Ho
 }, {
 	maxAge: {hours: 6},
 	staleWhileRevalidate: {days: 30},
-	cacheKey: () => 'hotfixes',
 });
 
-export const getStyleHotfix = cache.function(
+export const getStyleHotfix = cache.function('style-hotfixes',
 	async (version: string): Promise<string> => fetchHotfix(`style/${version}.css`),
 	{
 		maxAge: {hours: 6},
 		staleWhileRevalidate: {days: 300},
-		cacheKey: () => 'style-hotfixes',
 	},
 );
 
@@ -108,11 +106,10 @@ export async function getLocalStrings(): Promise<void> {
 	localStrings = await cache.get<Record<string, string>>(stringHotfixesKey) ?? {};
 }
 
-export const updateLocalStrings = cache.function(async (): Promise<Record<string, string>> => {
+export const updateLocalStrings = cache.function(stringHotfixesKey, async (): Promise<Record<string, string>> => {
 	const json = await fetchHotfix('strings.json');
 	return json ? JSON.parse(json) : {};
 }, {
 	maxAge: {hours: 6},
 	staleWhileRevalidate: {days: 30},
-	cacheKey: () => stringHotfixesKey,
 });

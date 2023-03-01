@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
-import {getRepo} from '../github-helpers';
+import {cacheByRepo} from '../github-helpers';
 
 type CommitTarget = {
 	oid: string;
@@ -66,7 +66,7 @@ const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[com
 	return [committedDate, resourcePath];
 };
 
-const getFirstCommit = cache.function(async (): Promise<[committedDate: string, resourcePath: string]> => {
+const getFirstCommit = cache.function('first-commit', async (): Promise<[committedDate: string, resourcePath: string]> => {
 	const {repository} = await api.v4(`
 		repository() {
 			defaultBranchRef {
@@ -92,7 +92,7 @@ const getFirstCommit = cache.function(async (): Promise<[committedDate: string, 
 
 	return getRepoAge(commitSha, commitsCount);
 }, {
-	cacheKey: () => 'first-commit:' + getRepo()!.nameWithOwner,
+	cacheKey: cacheByRepo,
 });
 
 async function init(): Promise<void> {

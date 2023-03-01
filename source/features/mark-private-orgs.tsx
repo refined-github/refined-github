@@ -9,7 +9,7 @@ import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getUsername} from '../github-helpers';
 
-const getPublicOrganizationsNames = cache.function(async (username: string): Promise<string[]> => {
+const getPublicOrganizationsNames = cache.function('public-organizations', async (username: string): Promise<string[]> => {
 	// API v4 seems to *require* `org:read` permission AND it includes private organizations as well, which defeats the purpose. There's no way to filter them.
 	// GitHub's API explorer inexplicably only includes public organizations.
 	const response = await api.v3(`/users/${username}/orgs`);
@@ -17,7 +17,6 @@ const getPublicOrganizationsNames = cache.function(async (username: string): Pro
 }, {
 	maxAge: {hours: 6},
 	staleWhileRevalidate: {days: 10},
-	cacheKey: ([username]) => 'public-organizations:' + username,
 });
 
 async function init(): Promise<false | void> {
