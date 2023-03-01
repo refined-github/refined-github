@@ -115,7 +115,7 @@ void features.add(import.meta.url, {
 		'g r': 'Go to Releases',
 	},
 	include: [
-		pageDetect.isRepo,
+		pageDetect.hasRepoHeader,
 	],
 	init,
 });

@@ -39,7 +39,7 @@ async function init(): Promise<void> {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepo,
+		pageDetect.hasRepoHeader,
 	],
 	deduplicate: 'has-rgh',
 	init,
