@@ -1,3 +1,4 @@
+import './quick-comment-edit.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import {PencilIcon} from '@primer/octicons-react';
@@ -59,5 +60,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 	],
+	// The feature is "disabled" via CSS selector when the conversation is locked.
+	// We want the edit buttons to appear while the conversation is loading, but we only know it's locked when the page has finished.
 	init,
 });
