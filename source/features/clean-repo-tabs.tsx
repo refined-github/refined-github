@@ -16,10 +16,10 @@ async function canUserEditOrganization(): Promise<boolean> {
 	return Boolean(await elementReady('.btn-primary[href$="repositories/new"]'));
 }
 
-function mustKeepTab(tab: HTMLElement | undefined): boolean {
+function mustKeepTab(tab: HTMLElement): boolean {
 	return (
-		!tab // Tab disabled 🎉
-		|| tab.matches('.selected')// User is on tab 👀
+		// User is on tab 👀
+		tab.matches('.selected')
 		// Repo owners should see the tab. If they don't need it, they should disable the feature altogether
 		|| pageDetect.canUserEditRepo()
 	);
@@ -79,12 +79,12 @@ const getWorkflowsCount = cache.function(async (): Promise<number> => {
 
 async function updateWikiTab(): Promise<void | false> {
 	const wikiTab = await elementReady('[data-hotkey="g w"]');
-	if (!wikiTab) {
+	if (!wikiTab || mustKeepTab(wikiTab)) {
 		return false;
 	}
 
 	const wikiPageCount = await getWikiPageCount();
-	if (wikiPageCount > 0 || mustKeepTab(wikiTab)) {
+	if (wikiPageCount > 0) {
 		setTabCounter(wikiTab, wikiPageCount);
 	} else {
 		onlyShowInDropdown('wiki-tab');
@@ -93,12 +93,7 @@ async function updateWikiTab(): Promise<void | false> {
 
 async function updateActionsTab(): Promise<void | false> {
 	const actionsTab = await elementReady('[data-hotkey="g a"]');
-	if (!actionsTab) {
-		return false;
-	}
-
-	const actionsCount = await getWorkflowsCount();
-	if (actionsCount > 0 || mustKeepTab(actionsTab)) {
+	if (!actionsTab || mustKeepTab(actionsTab) || await getWorkflowsCount() > 0) {
 		return false;
 	}
 
@@ -107,7 +102,7 @@ async function updateActionsTab(): Promise<void | false> {
 
 async function updateProjectsTab(): Promise<void | false> {
 	const projectsTab = await elementReady('[data-hotkey="g b"]');
-	if (await getTabCount(projectsTab!) > 0 || mustKeepTab(projectsTab)) {
+	if (!projectsTab || mustKeepTab(projectsTab) || await getTabCount(projectsTab) > 0) {
 		return false;
 	}
 
@@ -121,7 +116,7 @@ async function updateProjectsTab(): Promise<void | false> {
 		return;
 	}
 
-	projectsTab!.remove();
+	projectsTab.remove();
 }
 
 async function moveRareTabs(): Promise<void | false> {
@@ -158,3 +153,13 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh',
 	init: updateProjectsTab,
 });
+
+/*
+
+Test URLs:
+
+- Org with 0 projects: https://github.com/babel
+- Repo with 0 projects: https://github.com/babel/flavortown
+- Repo with 0 wiki: https://github.com/babel/babel-sublime-snippets
+
+*/
