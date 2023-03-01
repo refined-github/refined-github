@@ -1,0 +1,6 @@
+/* Re-hide buttons when you can't leave a new comment (locked conversation or user blocked you) */
+html:has(
+.previewable-comment-form .octicon-lock.blankslate-icon
+) .rgh-quick-comment-edit-button {
+	display: none;
+}
