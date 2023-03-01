@@ -190,7 +190,6 @@ async function addWidget(header: string, state: State): Promise<void> {
 
 const minorFixesIssuePages = [
 	'https://github.com/refined-github/refined-github/issues/5222',
-	'https://github.com/refined-github/refined-github/issues/4008',
 	'https://github.com/refined-github/refined-github/issues/3686',
 	'https://github.com/refined-github/refined-github/issues/6000',
 ];

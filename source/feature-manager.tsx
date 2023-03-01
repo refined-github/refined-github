@@ -73,10 +73,9 @@ const logError = (url: string, error: unknown): void => {
 	searchIssueUrl.searchParams.set('q', `is:issue is:open sort:updated-desc ${message}`);
 
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
-	newIssueUrl.searchParams.set('labels', 'bug');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 	newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
-	newIssueUrl.searchParams.set('example_urls', location.href);
+	newIssueUrl.searchParams.set('repro', location.href);
 	newIssueUrl.searchParams.set('description', [
 		'```',
 		String(error instanceof Error ? error.stack! : error).trim(),
