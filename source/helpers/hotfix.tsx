@@ -52,6 +52,7 @@ export const updateHotfixes = cache.function('hotfixes', async (version: string)
 }, {
 	maxAge: {hours: 6},
 	staleWhileRevalidate: {days: 30},
+	cacheKey: () => '',
 });
 
 export const getStyleHotfix = cache.function('style-hotfixes',
@@ -59,6 +60,7 @@ export const getStyleHotfix = cache.function('style-hotfixes',
 	{
 		maxAge: {hours: 6},
 		staleWhileRevalidate: {days: 300},
+		cacheKey: () => '',
 	},
 );
 
@@ -69,7 +71,7 @@ export async function getLocalHotfixes(): Promise<HotfixStorage> {
 		return [];
 	}
 
-	return await cache.get<HotfixStorage>('hotfixes') ?? [];
+	return await cache.get<HotfixStorage>('hotfixes:') ?? [];
 }
 
 export async function getLocalHotfixesAsOptions(): Promise<Partial<RGHOptions>> {
@@ -103,7 +105,7 @@ export async function getLocalStrings(): Promise<void> {
 		return;
 	}
 
-	localStrings = await cache.get<Record<string, string>>(stringHotfixesKey) ?? {};
+	localStrings = await cache.get<Record<string, string>>(stringHotfixesKey + ':') ?? {};
 }
 
 export const updateLocalStrings = cache.function(stringHotfixesKey, async (): Promise<Record<string, string>> => {
