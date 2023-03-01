@@ -1,9 +1,8 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 
-import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
@@ -11,6 +10,7 @@ import * as api from '../github-helpers/api';
 import {getBranches} from '../github-helpers/pr-branches';
 import getPrInfo from '../github-helpers/get-pr-info';
 import {getConversationNumber} from '../github-helpers';
+import showToast from '../github-helpers/toast';
 
 const selectorForPushablePRNotice = '.merge-pr > .color-fg-muted:first-child';
 
@@ -21,24 +21,25 @@ async function mergeBranches(): Promise<AnyObject> {
 	});
 }
 
-async function handler({delegateTarget}: DelegateEvent): Promise<void> {
+async function handler(): Promise<void> {
 	const {base, head} = getBranches();
 	if (!confirm(`Merge the ${base.local} branch into ${head.local}?`)) {
 		return;
 	}
 
-	const statusMeta = delegateTarget.parentElement!;
-	statusMeta.textContent = 'Updating branch…';
 	features.unload(import.meta.url);
 
-	const response = await mergeBranches();
-	if (response.ok) {
-		statusMeta.remove();
-	} else {
-		statusMeta.textContent = response.message ?? 'Error';
-		statusMeta.prepend(<AlertIcon/>, ' ');
-		throw new api.RefinedGitHubAPIError('update-pr-from-base-branch: ' + JSON.stringify(response));
-	}
+	await showToast(async () => {
+		const response = await mergeBranches().catch(error => error);
+		if (response instanceof Error || !response.ok) {
+			features.log.error(import.meta.url, response);
+			// Reads Error#message or GitHub’s "message" response
+			throw new Error(`Error updating the branch: ${response.message as string}`);
+		}
+	}, {
+		message: 'Updating branch…',
+		doneMessage: 'Branch updated',
+	});
 }
 
 async function addButton(position: Element): Promise<void> {
