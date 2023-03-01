@@ -10,7 +10,7 @@ import {isRefinedGitHubRepo} from '../github-helpers';
 
 function addNotice(adjective: JSX.Element | string): void {
 	select('#issue_body_template_name')!.before(
-		<div className="flash flash-warn m-2">{}
+		<div className="flash flash-warn m-2">
 			Your Personal Access Token is {adjective}. Some Refined GitHub features will not work without it.
 			You can update it <button className="btn-link" type="button" onClick={openOptions as unknown as React.MouseEventHandler}>in the options</button>.
 		</div>,
