@@ -21,7 +21,7 @@ async function mergeBranches(): Promise<AnyObject> {
 	});
 }
 
-async function handler({delegateTarget}: DelegateEvent): Promise<void> {
+async function handler(): Promise<void> {
 	const {base, head} = getBranches();
 	if (!confirm(`Merge the ${base.local} branch into ${head.local}?`)) {
 		return;
@@ -29,23 +29,17 @@ async function handler({delegateTarget}: DelegateEvent): Promise<void> {
 
 	features.unload(import.meta.url);
 
-	const statusMeta = delegateTarget.parentElement!;
-
-	try {
-		await showToast(async () => {
-			const response = await mergeBranches();
-			if (!response.ok) {
-				features.log.error(import.meta.url, response);
-				throw new Error(`Error updating the branch: ${response.message as string}`);
-			}
-		}, {
-			message: 'Updating branch…',
-			doneMessage: 'Branch updated',
-		});
-		statusMeta.remove();
-	} catch {
-		statusMeta.remove();
-	}
+	await showToast(async () => {
+		const response = await mergeBranches().catch(error => error);
+		if (response instanceof Error || !response.ok) {
+			features.log.error(import.meta.url, response);
+			// Reads Error#message or GitHub’s "message" response
+			throw new Error(`Error updating the branch: ${response.message as string}`);
+		}
+	}, {
+		message: 'Updating branch…',
+		doneMessage: 'Branch updated',
+	});
 }
 
 async function addButton(position: Element): Promise<void> {
