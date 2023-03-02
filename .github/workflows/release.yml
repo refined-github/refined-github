@@ -49,20 +49,21 @@ jobs:
       fail-fast: false
       matrix:
         command:
-          - firefox
-          - chrome
+          - Firefox
+          - Chrome
+    environment: ${{ matrix.command }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
       - name: Submit to Mozilla
-        if: matrix.command == 'firefox'
+        if: matrix.command == 'Firefox'
         working-directory: artifact
         run: npx web-ext-submit@7
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
           WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
       - name: Submit to Google
-        if: matrix.command == 'chrome'
+        if: matrix.command == 'Chrome'
         working-directory: artifact
         run: npx chrome-webstore-upload-cli@2 upload --auto-publish
         env:
