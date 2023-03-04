@@ -17,7 +17,7 @@ function getUrl(): string {
 }
 
 async function init(): Promise<void | false> {
-	const forkCount = await elementReady('#repo-network-counter');
+	const forkCount = await elementReady('#Layout-main');
 	if (looseParseInt(forkCount) === 0) {
 		return false;
 	}
