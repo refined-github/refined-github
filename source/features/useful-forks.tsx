@@ -23,7 +23,7 @@ async function init(): Promise<void | false> {
 	}
 
 	const selector = [
-		'#network', // `isRepoForksList`
+		'#Layout-main', // `isRepoForksList`
 		'.Subhead-heading', // `isRepoNetworkGraph`
 	].join(', ');
 	const container = await elementReady(selector, {waitForChildren: false});
