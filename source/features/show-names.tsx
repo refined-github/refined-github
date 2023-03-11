@@ -78,6 +78,7 @@ function init(signal: AbortSignal): void {
 	observe(usernameLinksSelector, batchUpdateLinks, {signal});
 }
 
+void features.addCssFeature(import.meta.url);
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isDashboard,
