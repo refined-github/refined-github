@@ -16,6 +16,7 @@ function init(signal: AbortSignal): void {
 	delegate(document, '.diff-view .js-expandable-line', 'click', expandDiff, {signal});
 }
 
+void features.addCssFeature(import.meta.url);
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasFiles,
