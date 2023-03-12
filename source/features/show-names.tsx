@@ -75,10 +75,10 @@ const usernameLinksSelector = [
 ] as const;
 
 function init(signal: AbortSignal): void {
+  document.body.classList.add('rgh-show-names');
 	observe(usernameLinksSelector, batchUpdateLinks, {signal});
 }
 
-void features.addCssFeature(import.meta.url);
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isDashboard,
