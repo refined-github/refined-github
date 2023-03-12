@@ -53,6 +53,11 @@
 	vertical-align: baseline !important;
 }
 
+/* Fix spacing of repo header button icons #5620 */
+.pagehead-actions :is(.btn, summary) .octicon:not(.octicon-triangle-down) {
+	margin-right: 4px !important;
+}
+
 /* Make sticky left-side sidebar scrollable on the dashboard #6099 */
 .dashboard-sidebar {
 	overflow: auto;
