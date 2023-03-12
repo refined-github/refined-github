@@ -395,7 +395,7 @@ Thanks for contributing! 🦋🙌
 - [](# "command-palette-navigation-shortcuts") Adds keyboard shortcuts to select items in command palette using <kbd>ctrl</kbd> <kbd>n</kbd> and <kbd>ctrl</kbd> <kbd>p</kbd> (macOS only).
 - [](# "submission-via-ctrl-enter-everywhere") Enables submission via <kbd>ctrl</kbd> <kbd>enter</kbd> on every page possible.
 - [](# "clean-repo-header") [Reduces repository name wrapping by hiding the fork and watch count (they're still on the repository’s home page)](https://user-images.githubusercontent.com/1402241/218252904-6a31a933-41a7-452e-b841-9484e67429a8.png)
-- [](# "clean-mergeability-box") [Removes extra information in the PR mergeability box.](https://user-images.githubusercontent.com/25914066/224514342-ba144942-95c4-46ec-a4cd-0836ea6668f5.png)
+- [](# "clean-mergeability-box") [Removes extra information in the PR mergeability box.](https://user-images.githubusercontent.com/25914066/224525440-d1ae40d2-29a0-47f0-a256-31d5b4bbdb1e.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
