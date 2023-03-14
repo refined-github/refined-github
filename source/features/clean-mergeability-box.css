@@ -4,26 +4,26 @@
 :not(.js-details-container) is the final mergeability status ("No conflicts", "Merge blocked", etc)
 
 /* Hide extra copy on PR mergeability summary */
-.mergeability-details .js-details-container .h4,
-.mergeability-details .js-details-container .status-meta:not(.rgh-update-pr-from-base-branch) .btn-link,
-.mergeability-details > :not(.js-details-container) .completeness-indicator-success ~ .status-meta:not(.rgh-update-pr-from-base-branch) { /* Hides merge information unless it's negative */
+.rgh-clean-mergeability-box .mergeability-details .js-details-container .h4,
+.rgh-clean-mergeability-box .mergeability-details .js-details-container .status-meta:not(.rgh-update-pr-from-base-branch) .btn-link,
+.rgh-clean-mergeability-box .mergeability-details > :not(.js-details-container) .completeness-indicator-success ~ .status-meta:not(.rgh-update-pr-from-base-branch) { /* Hides merge information unless it's negative */
 	display: none;
 }
 
-.mergeability-details .js-details-container .status-meta {
+.rgh-clean-mergeability-box .mergeability-details .js-details-container .status-meta {
 	color: inherit;
 	font-size: 16px;
 	font-weight: 600;
 }
 
-.mergeability-details .js-details-container .color-fg-danger + .status-meta {
+.rgh-clean-mergeability-box .mergeability-details .js-details-container .color-fg-danger + .status-meta {
 	color: var(--rgh-red);
 }
 
-.mergeability-details .branch-action-item-icon {
+.rgh-clean-mergeability-box .mergeability-details .branch-action-item-icon {
 	margin-top: -4px;
 }
 
-.mergeability-details .branch-action-item .btn {
+.rgh-clean-mergeability-box .mergeability-details .branch-action-item .btn {
 	margin-top: -6px;
 }

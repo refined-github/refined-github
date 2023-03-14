@@ -8,7 +8,6 @@ import './features/github-bugs.css';
 import './features/tab-size.css';
 import './features/center-reactions-popup.css';
 import './features/safer-destructive-actions.css';
-import './features/clean-mergeability-box.css';
 import './features/clean-footer.css';
 import './features/pr-approvals-count.css';
 import './features/clean-conversations.css';
@@ -34,6 +33,7 @@ import './features/hide-newsfeed-noise';
 import './features/minimize-upload-bar';
 import './features/hide-diff-signs';
 import './features/clean-rich-text-editor';
+import './features/clean-mergeability-box';
 
 // Disableable features
 import './features/useful-not-found-page';

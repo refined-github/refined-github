@@ -13,6 +13,7 @@ function expandDiff(event: DelegateEvent): void {
 }
 
 function init(signal: AbortSignal): void {
+	document.body.classList.add('rgh-extend-diff-expander');
 	delegate(document, '.diff-view .js-expandable-line', 'click', expandDiff, {signal});
 }
 

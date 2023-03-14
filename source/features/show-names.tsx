@@ -75,6 +75,7 @@ const usernameLinksSelector = [
 ] as const;
 
 function init(signal: AbortSignal): void {
+	document.body.classList.add('rgh-show-names');
 	observe(usernameLinksSelector, batchUpdateLinks, {signal});
 }
 

@@ -8,7 +8,7 @@
 }
 
 /* The `© 2022 GitHub, Inc.` text */
-.footer > div:nth-last-child(2) ul:first-child {
+.footer > div:nth-last-child(2) > div span {
 	display: none !important;
 }
 
