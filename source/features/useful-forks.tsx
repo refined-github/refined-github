@@ -25,7 +25,7 @@ async function init(): Promise<void | false> {
 
 	const selector = [
 		'#Layout-main', // `isRepoForksList`
-		'#isRepoForksList' // keep both
+		'#isRepoForksList', // keep both
 		'.Subhead-heading', // `isRepoNetworkGraph`
 	].join(', ');
 	const container = await elementReady(selector, {waitForChildren: false});
