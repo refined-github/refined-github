@@ -17,7 +17,6 @@ function getUrl(): string {
 }
 
 async function init(): Promise<void | false> {
-	const forkCount = await elementReady('#Layout-main');
 	const forkCount = await elementReady('#repo-network-counter'); // isRepoForkLists before March 2023
 	if (looseParseInt(forkCount) === 0) {
 		return false;
