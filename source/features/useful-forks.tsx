@@ -17,14 +17,14 @@ function getUrl(): string {
 }
 
 async function init(): Promise<void | false> {
-	const forkCount = await elementReady('#repo-network-counter'); // Add isRepoForkLists before March 2023
+	const forkCount = await elementReady('#repo-network-counter');
 	if (looseParseInt(forkCount) === 0) {
 		return false;
 	}
 
 	const selector = [
 		'#Layout-main',
-		'#repo-network-counter', // Add isRepoForksList before March 2023
+		'#repo-network-counter',
 		'.Subhead-heading', // `isRepoNetworkGraph`
 	].join(', ');
 	const container = await elementReady(selector, {waitForChildren: false});
