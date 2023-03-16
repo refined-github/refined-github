@@ -18,12 +18,14 @@ function getUrl(): string {
 
 async function init(): Promise<void | false> {
 	const forkCount = await elementReady('#Layout-main');
+        const forkCount = await elementReady('#isRepoForksList'); // keep both
 	if (looseParseInt(forkCount) === 0) {
 		return false;
 	}
 
 	const selector = [
 		'#Layout-main', // `isRepoForksList`
+		'#isRepoForksList' // keep both
 		'.Subhead-heading', // `isRepoNetworkGraph`
 	].join(', ');
 	const container = await elementReady(selector, {waitForChildren: false});
