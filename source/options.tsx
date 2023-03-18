@@ -244,8 +244,13 @@ async function generateDom(): Promise<void> {
 	await perDomainOptions.syncForm('form');
 
 	// Decorate list
-	await highlightNewFeatures();
-	moveNewAndDisabledFeaturesToTop();
+	// TODO: Disabled, broken: https://github.com/refined-github/refined-github/issues/5539
+	if (Math.random() > 1) {
+		await highlightNewFeatures();
+		moveNewAndDisabledFeaturesToTop();
+	}
+
+	// Enable token validation
 	void validateToken();
 
 	// Add feature count. CSS-only features are added approximately
