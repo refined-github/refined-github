@@ -15,7 +15,7 @@ import clearCacheHandler from './helpers/clear-cache-handler';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
 import {importedFeatures, featuresMeta} from '../readme.md';
-import {perDomainOptions, renamedFeatures} from './options-storage';
+import {perDomainOptions} from './options-storage';
 
 type Status = {
 	error?: true;
@@ -96,17 +96,12 @@ async function validateToken(): Promise<void> {
 	}
 }
 
-function moveNewAndDisabledFeaturesToTop(): void {
+function moveDisabledFeaturesToTop(): void {
 	const container = select('.js-features')!;
 
 	for (const unchecked of select.all('.feature-checkbox:not(:checked)', container).reverse()) {
 		// .reverse() needed to preserve alphabetical order while prepending
 		container.prepend(unchecked.closest('.feature')!);
-	}
-
-	for (const newFeature of select.all('.feature-new', container).reverse()) {
-		// .reverse() needed to preserve alphabetical order while prepending
-		container.prepend(newFeature);
 	}
 }
 
@@ -188,27 +183,6 @@ function featuresFilterHandler(event: Event): void {
 	}
 }
 
-async function highlightNewFeatures(): Promise<void> {
-	const {featuresAlreadySeen} = await browser.storage.local.get({featuresAlreadySeen: {}});
-	for (const [from, to] of renamedFeatures) {
-		featuresAlreadySeen[to] = featuresAlreadySeen[from];
-	}
-
-	const isFirstVisit = Object.keys(featuresAlreadySeen).length === 0;
-	const tenDaysAgo = Date.now() - (10 * 24 * 60 * 60 * 1000);
-	for (const feature of select.all('.feature-checkbox')) {
-		if (!(feature.id in featuresAlreadySeen)) {
-			featuresAlreadySeen[feature.id] = isFirstVisit ? tenDaysAgo : Date.now();
-		}
-
-		if (featuresAlreadySeen[feature.id] > tenDaysAgo) {
-			feature.parentElement!.classList.add('feature-new');
-		}
-	}
-
-	void browser.storage.local.set({featuresAlreadySeen});
-}
-
 async function markLocalHotfixes(): Promise<void> {
 	for (const [feature, relatedIssue] of await getLocalHotfixes()) {
 		if (importedFeatures.includes(feature)) {
@@ -244,8 +218,9 @@ async function generateDom(): Promise<void> {
 	await perDomainOptions.syncForm('form');
 
 	// Decorate list
-	await highlightNewFeatures();
-	moveNewAndDisabledFeaturesToTop();
+	moveDisabledFeaturesToTop();
+
+	// Enable token validation
 	void validateToken();
 
 	// Add feature count. CSS-only features are added approximately
@@ -303,6 +278,9 @@ function addEventListeners(): void {
 async function init(): Promise<void> {
 	await generateDom();
 	addEventListeners();
+
+	// TODO: Storage cleanup #6421, Drop in June 2023
+	void browser.storage.local.remove('featuresAlreadySeen');
 
 	// Safari’s storage is inexplicably limited #4823
 	if (isSafari()) {
