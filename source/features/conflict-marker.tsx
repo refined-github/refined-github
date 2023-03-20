@@ -49,7 +49,7 @@ async function init(): Promise<false | void> {
 		await oneMutation(select('.js-milestone-issues-container')!, {childList: true});
 	}
 
-	const openPrIcons = select.all('.js-issue-row .octicon-git-pull-request.open');
+	const openPrIcons = select.all('.js-issue-row .octicon-git-pull-request.color-fg-open');
 	if (openPrIcons.length === 0) {
 		return false;
 	}
