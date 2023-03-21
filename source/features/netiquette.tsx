@@ -75,3 +75,12 @@ void features.add(import.meta.url, {
 });
 
 console.log(1);
+
+/*
+
+Test URLs
+
+- Old issue: https://github.com/refined-github/refined-github/issues/3076
+- Old PR: https://github.com/refined-github/refined-github/pull/159
+
+*/
