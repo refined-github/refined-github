@@ -11,6 +11,7 @@ import observe from '../helpers/selector-observer';
 import {buildRepoURL} from '../github-helpers';
 import {getLastCloseEvent} from './jump-to-conversation-close-event';
 import selectHas from '../helpers/select-has';
+import {appendBefore} from '../helpers/dom-utils';
 
 const isClosedOrMerged = (): boolean => select.exists(`
 	#partial-discussion-header :is(
@@ -45,18 +46,22 @@ function addConversationBanner(issueBox: HTMLElement): void {
 	const ago = <strong>{twas(closingDate.getTime())}</strong>;
 	const newIssue = <a href={buildRepoURL('issues/new/choose')}>new issue</a>;
 
-	issueBox.append(createBanner({
-		classes: ['p-2', 'mt-3', 'text-small', 'color-fg-muted'],
-		text: (
-			<div className="d-flex flex-items-center gap-1">
-				<InfoIcon className="m-0"/>
-				{/* TODO: Drop any after https://github.com/frenic/csstype/issues/177 */}
-				<span style={{textWrap: 'balance'} as any}>
-					This issue was closed {ago}. Please consider opening a {newIssue} instead of leaving a comment here.
-				</span>
-			</div>
-		),
-	}));
+	appendBefore(
+		issueBox,
+		'.protip',
+		createBanner({
+			classes: ['p-2', 'mt-3', 'text-small', 'color-fg-muted'],
+			text: (
+				<div className="d-flex flex-items-center gap-1">
+					<InfoIcon className="m-0"/>
+					{/* TODO: Drop any after https://github.com/frenic/csstype/issues/177 */}
+					<span style={{textWrap: 'balance'} as any}>
+						This issue was closed {ago}. Please consider opening a {newIssue} instead of leaving a comment here.
+					</span>
+				</div>
+			),
+		}),
+	);
 
 	// Drop native contributors guideline info
 	selectHas(':scope > .text-small.color-fg-muted:has(.octicon-info)', issueBox)!.remove();
