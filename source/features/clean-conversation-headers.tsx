@@ -24,7 +24,6 @@ async function cleanIssueHeader(): Promise<void | false> {
 }
 
 async function cleanPrHeader(): Promise<void | false> {
-	debugger;
 	const byline = await elementReady('.gh-header-meta > .flex-auto:not(.rgh-clean-conversation-headers)');
 	if (!byline) {
 		return false;

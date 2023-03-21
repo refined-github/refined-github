@@ -3,15 +3,14 @@ import * as pageDetect from 'github-url-detection';
 import toMilliseconds from '@sindresorhus/to-milliseconds';
 import select from 'select-dom';
 import twas from 'twas';
-
-import {CSSProperties} from 'react';
+import {InfoIcon} from '@primer/octicons-react';
 
 import createBanner from '../github-helpers/banner';
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
-import {wrap, assertNodeContent} from '../helpers/dom-utils';
 import {buildRepoURL} from '../github-helpers';
 import {getLastCloseEvent} from './jump-to-conversation-close-event';
+import selectHas from '../helpers/select-has';
 
 const isClosedOrMerged = (): boolean => select.exists(`
 	#partial-discussion-header :is(
@@ -33,8 +32,7 @@ function getCloseDate(): Date {
 
 const threeMonths = toMilliseconds({days: 90});
 
-function addConversationBanner(guidelinesInfoIcon: SVGElement): void {
-	assertNodeContent(guidelinesInfoIcon.nextSibling, /contributions/);
+function addConversationBanner(issueBox: HTMLElement): void {
 	if (!isClosedOrMerged()) {
 		return;
 	}
@@ -44,23 +42,28 @@ function addConversationBanner(guidelinesInfoIcon: SVGElement): void {
 		return;
 	}
 
-	const age = twas(closingDate.getTime());
+	const ago = <strong>{twas(closingDate.getTime())}</strong>;
+	const newIssue = <a href={buildRepoURL('issues/new/choose')}>new issue</a>;
 
-	guidelinesInfoIcon.parentElement!.replaceChildren(
-		<div className="d-flex flex-items-center gap-1">
-			{guidelinesInfoIcon}
-			<span style={{textWrap: 'balance'} as CSSProperties}>This issue was closed {age}. Please consider opening a <a href={buildRepoURL('issues/new/choose')}>new issue</a> instead of leaving a comment here.</span>
-		</div>,
-	);
+	issueBox.append(createBanner({
+		classes: ['p-2', 'mt-3', 'text-small', 'color-fg-muted'],
+		text: (
+			<div className="d-flex flex-items-center gap-1">
+				<InfoIcon className="m-0"/>
+				{/* TODO: Drop any after https://github.com/frenic/csstype/issues/177 */}
+				<span style={{textWrap: 'balance'} as any}>
+					This issue was closed {ago}. Please consider opening a {newIssue} instead of leaving a comment here.
+				</span>
+			</div>
+		),
+	}));
 
-	wrap(
-		guidelinesInfoIcon.closest('div[data-view-component="true"]')!,
-		<div className="flash p-0 mt-3"/>,
-	);
+	// Drop native contributors guideline info
+	selectHas(':scope > .text-small.color-fg-muted:has(.octicon-info)', issueBox)!.remove();
 }
 
 function init(signal: AbortSignal): void {
-	observe('#issuecomment-new svg.octicon-info', addConversationBanner, {signal});
+	observe('#issuecomment-new', addConversationBanner, {signal});
 }
 
 void features.add(import.meta.url, {
