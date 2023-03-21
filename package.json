@@ -96,7 +96,6 @@
 		"copy-webpack-plugin": "^11.0.0",
 		"cross-env": "^7.0.3",
 		"css-loader": "^6.7.3",
-		"csstype": "^3.1.1",
 		"daily-version": "^2.0.0",
 		"dot-json": "^1.2.2",
 		"esbuild-loader": "^3.0.0",

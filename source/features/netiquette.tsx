@@ -9,16 +9,10 @@ import createBanner from '../github-helpers/banner';
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 import {buildRepoURL} from '../github-helpers';
-import {getLastCloseEvent} from './jump-to-conversation-close-event';
+import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event';
 import selectHas from '../helpers/select-has';
-import {appendBefore} from '../helpers/dom-utils';
 
-const isClosedOrMerged = (): boolean => select.exists(`
-	#partial-discussion-header :is(
-		[title="Status: Closed"],
-		[title="Status: Merged"]
-	)
-`);
+const isClosedOrMerged = (): boolean => select.exists(closedOrMergedMarkerSelector);
 
 /** Returns milliseconds passed since `date` */
 function timeAgo(date: Date): number {
@@ -33,7 +27,7 @@ function getCloseDate(): Date {
 
 const threeMonths = toMilliseconds({days: 90});
 
-function addConversationBanner(issueBox: HTMLElement): void {
+function addConversationBanner(newCommentActions: HTMLElement): void {
 	if (!isClosedOrMerged()) {
 		return;
 	}
@@ -46,11 +40,9 @@ function addConversationBanner(issueBox: HTMLElement): void {
 	const ago = <strong>{twas(closingDate.getTime())}</strong>;
 	const newIssue = <a href={buildRepoURL('issues/new/choose')}>new issue</a>;
 
-	appendBefore(
-		issueBox,
-		'.protip',
+	newCommentActions.after(
 		createBanner({
-			classes: ['p-2', 'mt-3', 'text-small', 'color-fg-muted'],
+			classes: 'p-2 mb-n2 ml-n2 mr-n2 mt-3 text-small color-fg-muted border-0'.split(' '),
 			text: (
 				<div className="d-flex flex-items-center gap-1">
 					<InfoIcon className="m-0"/>
@@ -64,11 +56,11 @@ function addConversationBanner(issueBox: HTMLElement): void {
 	);
 
 	// Drop native contributors guideline info
-	selectHas(':scope > .text-small.color-fg-muted:has(.octicon-info)', issueBox)!.remove();
+	selectHas('#issuecomment-new > .text-small.color-fg-muted:has(.octicon-info)')!.remove();
 }
 
 function init(signal: AbortSignal): void {
-	observe('#issuecomment-new', addConversationBanner, {signal});
+	observe('#partial-new-comment-form-actions', addConversationBanner, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -7,6 +7,13 @@ import {wrap} from '../helpers/dom-utils';
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 
+export const closedOrMergedMarkerSelector = css`
+	#partial-discussion-header :is(
+		[title^="Status: Closed"],
+		[title^="Status: Merged"]
+	)
+`;
+
 export function getLastCloseEvent(): HTMLElement | undefined {
 	return select.last(`
 		.TimelineItem-badge :is(
@@ -33,12 +40,7 @@ function addToConversation(discussionHeader: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe(
-		css`
-			#partial-discussion-header :is(
-				[title^="Status: Closed"],
-				[title^="Status: Merged"]
-			)
-		`,
+		closedOrMergedMarkerSelector,
 		addToConversation,
 		{signal},
 	);
