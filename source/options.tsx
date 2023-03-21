@@ -183,6 +183,19 @@ function featuresFilterHandler(event: Event): void {
 	}
 }
 
+function focusFirstField(event: DelegateEvent<Event, HTMLDetailsElement>): void {
+	if (event.delegateTarget.open) {
+		const field = select('input, textarea', event.delegateTarget);
+		if (field) {
+			field.focus();
+			if (field instanceof HTMLTextAreaElement) {
+				// #6404
+				fitTextarea(field);
+			}
+		}
+	}
+}
+
 async function markLocalHotfixes(): Promise<void> {
 	for (const [feature, relatedIssue] of await getLocalHotfixes()) {
 		if (importedFeatures.includes(feature)) {
@@ -253,6 +266,9 @@ function addEventListeners(): void {
 
 	// Load screenshots
 	delegate(document, '.screenshot-link', 'click', summaryHandler);
+
+	// Automatically focus field when a section is toggled open
+	delegate(document, 'details', 'toggle', focusFirstField, {capture: true});
 
 	// Filter feature list
 	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
