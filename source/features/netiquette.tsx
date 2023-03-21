@@ -10,7 +10,6 @@ import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 import {buildRepoURL} from '../github-helpers';
 import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event';
-import selectHas from '../helpers/select-has';
 
 const isClosedOrMerged = (): boolean => select.exists(closedOrMergedMarkerSelector);
 
@@ -27,7 +26,7 @@ function getCloseDate(): Date {
 
 const threeMonths = toMilliseconds({days: 90});
 
-function addConversationBanner(newCommentActions: HTMLElement): void {
+function addConversationBanner(newCommentField: HTMLElement): void {
 	if (!isClosedOrMerged()) {
 		return;
 	}
@@ -40,27 +39,24 @@ function addConversationBanner(newCommentActions: HTMLElement): void {
 	const ago = <strong>{twas(closingDate.getTime())}</strong>;
 	const newIssue = <a href={buildRepoURL('issues/new/choose')}>new issue</a>;
 
-	newCommentActions.after(
+	newCommentField.before(
 		createBanner({
-			classes: 'p-2 mb-n2 ml-n2 mr-n2 mt-3 text-small color-fg-muted border-0'.split(' '),
+			classes: 'p-2 m-2 text-small color-fg-muted border-0'.split(' '),
 			text: (
-				<div className="d-flex flex-items-center gap-1">
+				<div className="d-flex flex-items-center gap-2">
 					<InfoIcon className="m-0"/>
 					{/* TODO: Drop any after https://github.com/frenic/csstype/issues/177 */}
 					<span style={{textWrap: 'balance'} as any}>
-						This ${pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}. Please consider opening a {newIssue} instead of leaving a comment here.
+						This {pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}. Please consider opening a {newIssue} instead of leaving a comment here.
 					</span>
 				</div>
 			),
 		}),
 	);
-
-	// Drop native contributors guideline info
-	selectHas('#issuecomment-new > .text-small.color-fg-muted:has(.octicon-info)')!.remove();
 }
 
 function init(signal: AbortSignal): void {
-	observe('#partial-new-comment-form-actions', addConversationBanner, {signal});
+	observe('#issue-comment-box file-attachment', addConversationBanner, {signal});
 }
 
 void features.add(import.meta.url, {
