@@ -48,7 +48,7 @@ function addConversationBanner(newCommentActions: HTMLElement): void {
 					<InfoIcon className="m-0"/>
 					{/* TODO: Drop any after https://github.com/frenic/csstype/issues/177 */}
 					<span style={{textWrap: 'balance'} as any}>
-						This issue was closed {ago}. Please consider opening a {newIssue} instead of leaving a comment here.
+						This ${pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}. Please consider opening a {newIssue} instead of leaving a comment here.
 					</span>
 				</div>
 			),
@@ -70,8 +70,6 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // We're specifically looking for the last event
 	init,
 });
-
-console.log(1);
 
 /*
 
