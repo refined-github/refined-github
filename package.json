@@ -43,6 +43,7 @@
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
 		"@primer/octicons-react": "^17.5.0",
+		"@sindresorhus/to-milliseconds": "^2.0.0",
 		"array-union": "^3.0.1",
 		"batched-function": "^2.0.1",
 		"code-tag": "^1.1.0",
@@ -95,6 +96,7 @@
 		"copy-webpack-plugin": "^11.0.0",
 		"cross-env": "^7.0.3",
 		"css-loader": "^6.7.3",
+		"csstype": "^3.1.1",
 		"daily-version": "^2.0.0",
 		"dot-json": "^1.2.2",
 		"esbuild-loader": "^3.0.0",
