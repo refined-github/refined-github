@@ -118,6 +118,9 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 		<th width="50%">
 			<p><a title="select-notifications"></a> Select notifications by type and status
 			<p><img src="https://user-images.githubusercontent.com/1402241/152119039-4ea8333f-a744-4106-b56f-cf09f50678be.gif">
+	<tr>
+		<th width="50%">
+			<p><a title="next-prev-notifications"></a> Adds Next Previous Buttons to UI 
 </table>
 
 <!--

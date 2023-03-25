@@ -38,6 +38,7 @@ import './features/clean-mergeability-box';
 // Disableable features
 import './features/useful-not-found-page';
 import './features/more-dropdown-links';
+import './features/next-prev-notifications';
 import './features/releases-tab';
 import './features/comment-fields-keyboard-shortcuts';
 import './features/one-key-formatting';
