@@ -62,7 +62,7 @@ function init(signal: AbortSignal): void | false {
 		return false;
 	}
 
-	observe('#issue-comment-box file-attachment', addConversationBanner, {signal});
+	observe('#issuecomment-new file-attachment', addConversationBanner, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -80,7 +80,7 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-- Old issue: https://github.com/refined-github/refined-github/issues/3076
-- Old PR: https://github.com/refined-github/refined-github/pull/159
+- Old issue: https://github.com/facebook/react/issues/227
+- Old PR: https://github.com/facebook/react/pull/209
 
 */
