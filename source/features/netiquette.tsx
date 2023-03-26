@@ -8,7 +8,7 @@ import {InfoIcon} from '@primer/octicons-react';
 import createBanner from '../github-helpers/banner';
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
-import {buildRepoURL} from '../github-helpers';
+import {buildRepoURL, isAnyRefinedGitHubRepo} from '../github-helpers';
 import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event';
 
 const isClosedOrMerged = (): boolean => select.exists(closedOrMergedMarkerSelector);
@@ -26,40 +26,49 @@ function getCloseDate(): Date {
 
 const threeMonths = toMilliseconds({days: 90});
 
-function addConversationBanner(newCommentField: HTMLElement): void {
+export function shouldDisplayNotice(): boolean {
 	if (!isClosedOrMerged()) {
-		return;
+		return false;
 	}
 
 	const closingDate = getCloseDate();
-	if (timeAgo(closingDate) < threeMonths) {
-		return;
-	}
+	return timeAgo(closingDate) > threeMonths;
+}
 
+export function getNoticeText(): JSX.Element {
+	const closingDate = getCloseDate();
 	const ago = <strong>{twas(closingDate.getTime())}</strong>;
 	const newIssue = <a href={buildRepoURL('issues/new/choose')}>new issue</a>;
+	return (
+		<>
+			This {pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}. Please consider opening a {newIssue} instead of leaving a comment here.
+		</>
+	);
+}
 
+function addConversationBanner(newCommentField: HTMLElement): void {
 	newCommentField.before(
 		createBanner({
+			icon: <InfoIcon/>,
 			classes: 'p-2 m-2 text-small color-fg-muted border-0'.split(' '),
-			text: (
-				<div className="d-flex flex-items-center gap-2">
-					<InfoIcon className="m-0"/>
-					{/* TODO: Drop any after https://github.com/frenic/csstype/issues/177 */}
-					<span style={{textWrap: 'balance'} as any}>
-						This {pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}. Please consider opening a {newIssue} instead of leaving a comment here.
-					</span>
-				</div>
-			),
+			text: getNoticeText(),
 		}),
 	);
 }
 
-function init(signal: AbortSignal): void {
+function init(signal: AbortSignal): void | false {
+	// Do not move to `asLongAs` because those conditions are run before `isConversation`
+	if (!shouldDisplayNotice()) {
+		return false;
+	}
+
 	observe('#issue-comment-box file-attachment', addConversationBanner, {signal});
 }
 
 void features.add(import.meta.url, {
+	exclude: [
+		isAnyRefinedGitHubRepo,
+	],
 	include: [
 		pageDetect.isConversation,
 	],
