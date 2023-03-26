@@ -1,11 +1,12 @@
 import React from 'dom-chef';
+import {RequireAllOrNone} from 'type-fest';
 
-type BannerProps = {
+type BannerProps = RequireAllOrNone<{
 	text: Array<string | JSX.Element> | string | JSX.Element;
-	url?: string;
-	buttonLabel: JSX.Element | string;
 	classes?: string[];
-};
+	url: string;
+	buttonLabel: JSX.Element | string;
+}, 'url' | 'buttonLabel'>;
 
 // This could be a `<Banner/>` element but dom-chef doesn't pass props
 // https://github.com/vadimdemedes/dom-chef/issues/77

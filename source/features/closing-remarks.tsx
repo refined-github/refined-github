@@ -88,11 +88,11 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 	attachElement('#issue-comment-box', {
 		before: () => (
 			<TimelineItem>
-				{createBanner({
+				{createBanner(url ? {
 					text,
 					url,
 					buttonLabel: <><TagIcon/> Draft a new release</>,
-				})}
+				} : {text})}
 			</TimelineItem>
 		),
 	});

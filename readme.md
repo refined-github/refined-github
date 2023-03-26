@@ -254,7 +254,8 @@ Thanks for contributing! 🦋🙌
 - [](# "no-duplicate-list-update-time") [Hides the update time of conversations in lists when it matches the open/closed/merged time.](https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png)
 - [](# "linkify-user-labels") [Links the "Contributor" and "Member" labels on comments to the author’s commits on the repo.](https://user-images.githubusercontent.com/1402241/177033344-4d4eea63-e075-4096-b2d4-f4b879f1df31.png)
 - [](# "jump-to-conversation-close-event") [Adds a link to jump to the latest close event of a conversation.](https://user-images.githubusercontent.com/16872793/177792713-64219754-f8df-4629-a9ec-33259307cfe7.gif)
-- [](# "unhide-reactions-on-mobile") [Unhides reactions button on mobile.](https://user-images.githubusercontent.com/38327267/205493629-14563105-eaa1-4885-9f07-8b3ee9214c86.png)
+- [](# "unhide-reactions-on-mobile") [Restores reactions button on mobile.](https://user-images.githubusercontent.com/38327267/205493629-14563105-eaa1-4885-9f07-8b3ee9214c86.png)
+- [](# "netiquette") [Adds unobtrusive netiquette reminders.](https://user-images.githubusercontent.com/1402241/226551766-0e1b6b15-65a3-427e-8bb5-9ea7873993be.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
