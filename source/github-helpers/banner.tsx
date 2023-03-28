@@ -34,9 +34,11 @@ export default function createBanner(props: BannerProps): JSX.Element {
 	return (
 		<div className={['flash', ...props.classes ?? ''].join(' ')}>
 			<div className="d-sm-flex flex-items-center gap-2">
-				{props.icon}
-				{/* TODO: Drop `any` after https://github.com/frenic/csstype/issues/177 */}
-				<div className="flex-auto flex-self-center" style={{textWrap: 'balance'} as any}>{props.text}</div>
+				<div className="d-flex flex-auto flex-self-center flex-items-center gap-2">
+					{props.icon}
+					{/* TODO: Drop `any` after https://github.com/frenic/csstype/issues/177 */}
+					<span style={{textWrap: 'balance'} as any}>{props.text}</span>
+				</div>
 				{button}
 			</div>
 		</div>
