@@ -102,7 +102,6 @@ import './features/collapsible-content-button';
 import './features/resolve-conflicts';
 import './features/enable-file-links-in-compare-view'; // Must be before more-file-links
 import './features/more-file-links';
-import './features/tags-dropdown';
 import './features/pr-filters';
 import './features/quick-file-edit';
 import './features/update-pr-from-base-branch';
