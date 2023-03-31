@@ -188,7 +188,6 @@ import './features/conversation-activity-filter';
 import './features/select-all-notifications-shortcut';
 import './features/no-duplicate-list-update-time';
 import './features/view-last-pr-deployment';
-import './features/clean-header-search-field';
 import './features/avoid-accidental-submissions';
 import './features/quick-review-comment-deletion';
 import './features/no-unnecessary-split-diff-view';
