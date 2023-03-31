@@ -399,6 +399,7 @@ Thanks for contributing! 🦋🙌
 - [](# "submission-via-ctrl-enter-everywhere") Enables submission via <kbd>ctrl</kbd> <kbd>enter</kbd> on every page possible.
 - [](# "clean-repo-header") [Reduces repository name wrapping by hiding the fork and watch count (they're still on the repository’s home page)](https://user-images.githubusercontent.com/1402241/218252904-6a31a933-41a7-452e-b841-9484e67429a8.png)
 - [](# "clean-mergeability-box") [Removes extra information in the PR mergeability box.](https://user-images.githubusercontent.com/25914066/224525440-d1ae40d2-29a0-47f0-a256-31d5b4bbdb1e.png)
+- [](# "workflow-log-copy-paste") Hides line numbers when copying logs from GitHub Action workflow runs.
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
