@@ -11,7 +11,7 @@ import {assertNodeContent} from '../helpers/dom-utils';
 import observe from '../helpers/selector-observer';
 
 function getUrl(): string {
-	const url = new URL('https://useful-forks.github.io');
+	const url = new URL('https://useful-forks.vercel.app');
 	url.searchParams.set('repo', getRepo()!.nameWithOwner);
 	return url.href;
 }
