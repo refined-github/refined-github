@@ -27,7 +27,7 @@ function init(): void {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isPR, // Find which one you need on https://fregante.github.io/github-url-detection/
+		pageDetect.isPR, // Find which one you need on https://refined-github.github.io/github-url-detection/
 	],
 	awaitDomReady: true,
 	init,

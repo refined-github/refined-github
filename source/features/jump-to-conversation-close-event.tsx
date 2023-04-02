@@ -7,35 +7,40 @@ import {wrap} from '../helpers/dom-utils';
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 
-function addToConversation(discussionHeader: HTMLElement): void {
-	// Avoid native `title` by disabling pointer events, we have our own `aria-label`. We can't drop the `title` attribute because some features depend on it.
-	discussionHeader.style.pointerEvents = 'none';
+export const closedOrMergedMarkerSelector = css`
+	#partial-discussion-header :is(
+		[title^="Status: Closed"],
+		[title^="Status: Merged"]
+	)
+`;
 
-	const lastCloseEvent = select.last(`
+export function getLastCloseEvent(): HTMLElement | undefined {
+	return select.last(`
 		.TimelineItem-badge :is(
 			.octicon-issue-closed,
 			.octicon-git-merge,
 			.octicon-git-pull-request-closed,
 			.octicon-skip
 		)
-	`)!.closest('.TimelineItem')!;
+	`)!.closest('.TimelineItem') ?? undefined;
+}
+
+function addToConversation(discussionHeader: HTMLElement): void {
+	// Avoid native `title` by disabling pointer events, we have our own `aria-label`. We can't drop the `title` attribute because some features depend on it.
+	discussionHeader.style.pointerEvents = 'none';
+
 	wrap(discussionHeader,
 		<a
 			aria-label="Scroll to most recent close event"
 			className="tooltipped tooltipped-s"
-			href={'#' + lastCloseEvent.id}
+			href={'#' + getLastCloseEvent()!.id}
 		/>,
 	);
 }
 
 function init(signal: AbortSignal): void {
 	observe(
-		css`
-			#partial-discussion-header :is(
-				[title^="Status: Closed"],
-				[title^="Status: Merged"]
-			)
-		`,
+		closedOrMergedMarkerSelector,
 		addToConversation,
 		{signal},
 	);

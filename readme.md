@@ -213,7 +213,6 @@ Thanks for contributing! 🦋🙌
 - [](# "wait-for-attachments") [Wait for the attachments to finish uploading before allowing to post a comment.](https://user-images.githubusercontent.com/46634000/104294547-9b8b0c80-54bf-11eb-93e5-65ae158353b3.gif)
 - [](# "quick-review-comment-deletion") [Adds a button to delete review comments in one click when editing them.](https://user-images.githubusercontent.com/46634000/115445792-9fdd6900-a216-11eb-9ba3-6dab4d2f9d32.png)
 - [](# "avoid-accidental-submissions") [Disables the <kbd>enter</kbd>-to-submit shortcut in some commit/PR/issue title fields to avoid accidental submissions. Use <kbd>ctrl</kbd> <kbd>enter</kbd> instead.](https://user-images.githubusercontent.com/723651/125863341-6cf0bce0-f120-4cec-ac1f-1ce35920e7a7.gif)
-- [](# "comment-on-draft-pr-indicator") [Reminds you you’re commenting on a draft PR by changing the submit button’s label.](https://user-images.githubusercontent.com/34235681/152473140-22b6eb86-3ef4-4104-af10-4a659d878f91.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -257,7 +256,6 @@ Thanks for contributing! 🦋🙌
 - [](# "no-duplicate-list-update-time") [Hides the update time of conversations in lists when it matches the open/closed/merged time.](https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png)
 - [](# "linkify-user-labels") [Links the "Contributor" and "Member" labels on comments to the author’s commits on the repo.](https://user-images.githubusercontent.com/1402241/177033344-4d4eea63-e075-4096-b2d4-f4b879f1df31.png)
 - [](# "jump-to-conversation-close-event") [Adds a link to jump to the latest close event of a conversation.](https://user-images.githubusercontent.com/16872793/177792713-64219754-f8df-4629-a9ec-33259307cfe7.gif)
-- [](# "unhide-reactions-on-mobile") [Unhides reactions button on mobile.](https://user-images.githubusercontent.com/38327267/205493629-14563105-eaa1-4885-9f07-8b3ee9214c86.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -290,8 +288,6 @@ Thanks for contributing! 🦋🙌
 - [](# "sync-pr-commit-title") 🔥 [Uses the PR’s title as the default squash commit title](https://github.com/refined-github/refined-github/issues/276) and [updates the PR’s title to match the commit title, if changed.](https://user-images.githubusercontent.com/1402241/51669708-9a712400-1ff7-11e9-913a-ac1ea1050975.png)
 - [](# "update-pr-from-base-branch") [Adds a button to update a PR from the base branch to ensure it builds correctly before merging the PR itself.](https://user-images.githubusercontent.com/1402241/106494023-816d9a00-647f-11eb-8cb1-7c97aa8a5546.png) GitHub only adds it when the base branch is "protected".
 - [](# "one-click-review-submission") [Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.](https://user-images.githubusercontent.com/1402241/34326942-529cb7c0-e8f3-11e7-9bee-98b667e18a90.png)
-- [](# "warn-pr-from-master") [Warns you when creating a pull request from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
-- [](# "warning-for-disallow-edits") [Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
 - [](# "pull-request-hotkeys") [Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd> and <kbd>g</kbd> <kbd>4</kbd>](https://user-images.githubusercontent.com/16872793/94634958-7e7b5680-029f-11eb-82ea-1f96cd11e4cd.png).
 - [](# "pr-branch-auto-delete") [Automatically deletes the branch right after merging a PR, if possible.](https://user-images.githubusercontent.com/1402241/177067141-eabc7494-38a2-45b5-aef9-ac33cc0da370.png)
 - [](# "one-click-pr-or-gist") [Lets you create draft pull requests and public gists in one click.](https://user-images.githubusercontent.com/34235681/152473201-868ad7c1-e06f-4826-b808-d90bca7f08b3.png)
@@ -325,7 +321,6 @@ Thanks for contributing! 🦋🙌
 - [](# "release-download-count") [Adds a download count next to release assets.](https://user-images.githubusercontent.com/1402241/197958719-1577bc1b-1f4d-44a8-98c2-2645b7b14d31.png)
 - [](# "releases-tab") [Adds a `Releases` tab and a keyboard shortcut: <kbd>g</kbd> <kbd>r</kbd>.](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png)
 - [](# "create-release-shortcut") Adds a keyboard shortcut to create a new release while on the Releases page: <kbd>c</kbd>.
-- [](# "tags-dropdown") [Adds a tags dropdown/search on tag/release pages.](https://user-images.githubusercontent.com/22439276/56373231-27ee9980-621e-11e9-9b21-601919d3dddf.png)
 - [](# "tag-changes-link") 🔥 [Adds a link to changes since last tag/release for each tag/release.](https://user-images.githubusercontent.com/1402241/57081611-ad4a7180-6d27-11e9-9cb6-c54ec1ac18bb.png)
 - [](# "latest-tag-button") [Adds a link to the latest version tag on directory listings and files.](https://user-images.githubusercontent.com/44045911/155496122-6267c45d-21d4-45c9-adf7-94c9e41cc652.png)
 - [](# "convert-release-to-draft") [Adds a button to convert a release to draft.](https://user-images.githubusercontent.com/46634000/139236979-44533bfd-5c17-457d-bdc1-f9ec395f6a3a.png)
@@ -377,6 +372,15 @@ Thanks for contributing! 🦋🙌
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
+### Netiquette
+
+- [](# "netiquette") [Adds unobtrusive netiquette reminders.](https://user-images.githubusercontent.com/1402241/226551766-0e1b6b15-65a3-427e-8bb5-9ea7873993be.png)
+- [](# "warn-pr-from-master") [Warns you when creating a pull request from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
+- [](# "warning-for-disallow-edits") [Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
+- [](# "comment-on-draft-pr-indicator") [Reminds you you’re commenting on a draft PR by changing the submit button’s label.](https://user-images.githubusercontent.com/34235681/152473140-22b6eb86-3ef4-4104-af10-4a659d878f91.png)
+
+<!-- Refer to style guide above. Keep this message between sections. -->
+
 ### Fixes for GitHub shortcomings
 
 - [](# "hide-navigation-hover-highlight") Removes the file hover effect in the repo file browser.
@@ -393,7 +397,6 @@ Thanks for contributing! 🦋🙌
 - [](# "linkify-user-edit-history-popup") [Linkifies the username in the edit history popup.](https://user-images.githubusercontent.com/1402241/88917988-9ebb7480-d260-11ea-8690-0a3440f1ebbc.png)
 - [](# "prevent-duplicate-pr-submission") [Avoids creating duplicate PRs when mistakenly clicking "Create pull request" more than once.](https://user-images.githubusercontent.com/16872793/89589967-e029c200-d814-11ea-962b-3ff1f6236781.gif)
 - [](# "convert-pr-to-draft-improvements") [Moves the "Convert PR to Draft" button to the mergeability box and adds visual feedback to its confirm button.](https://user-images.githubusercontent.com/1402241/95644892-885f3f80-0a7f-11eb-8428-8e0fb0c8dfa5.gif)
-- [](# "clean-header-search-field") [Clears duplicate queries in the header search field.](https://user-images.githubusercontent.com/1402241/114177338-7c890300-9966-11eb-83a3-a711a76fae99.png)
 - [](# "prevent-pr-merge-panel-opening") Prevents the merge panel from automatically opening on every page load after it’s been opened once.
 - [](# "command-palette-navigation-shortcuts") Adds keyboard shortcuts to select items in command palette using <kbd>ctrl</kbd> <kbd>n</kbd> and <kbd>ctrl</kbd> <kbd>p</kbd> (macOS only).
 - [](# "submission-via-ctrl-enter-everywhere") Enables submission via <kbd>ctrl</kbd> <kbd>enter</kbd> on every page possible.

@@ -65,9 +65,9 @@ function addExistingTagLink(tagName: string): void {
 		before: () => (
 			<TimelineItem>
 				{createBanner({
-					text: <>The pull request first appeared in <span className="text-mono text-small">{tagName}</span></>,
+					text: <>This pull request first appeared in <span className="text-mono text-small">{tagName}</span></>,
 					classes: ['flash-success'],
-					url: tagUrl,
+					action: tagUrl,
 					buttonLabel: <><TagIcon/> See release</>,
 				})}
 			</TimelineItem>
@@ -88,11 +88,11 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 	attachElement('#issue-comment-box', {
 		before: () => (
 			<TimelineItem>
-				{createBanner({
+				{createBanner(url ? {
 					text,
-					url,
+					action: url,
 					buttonLabel: <><TagIcon/> Draft a new release</>,
-				})}
+				} : {text})}
 			</TimelineItem>
 		),
 	});

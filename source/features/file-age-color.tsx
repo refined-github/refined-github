@@ -10,14 +10,13 @@ function addHeatIndex(lastUpdateElement: HTMLElement): void {
 	// `datetime` attribute used by pre-React version
 	const lastUpdate = new Date(lastUpdateElement.getAttribute('datetime') ?? lastUpdateElement.title);
 	const diff = Date.now() - lastUpdate.getTime();
-	console.log(calculateHeatIndex(-diff), lastUpdate, diff);
 
 	lastUpdateElement.setAttribute('data-rgh-heat', String(calculateHeatIndex(-diff)));
 }
 
 function init(signal: AbortSignal): void {
 	observe([
-		'.js-navigation-item relative-time', // TODO: Drop old view in mid 2023
+		'#files ~ div .js-navigation-item relative-time', // TODO: Drop old view in mid 2023
 		'.react-directory-commit-age > [title]',
 	], addHeatIndex, {signal});
 }

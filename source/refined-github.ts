@@ -21,7 +21,6 @@ import './features/sticky-file-header.css';
 import './features/readable-title-change-events.css';
 import './features/clean-checks-list.css';
 import './features/sticky-csv-header.css';
-import './features/unhide-reactions-on-mobile.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -104,7 +103,6 @@ import './features/collapsible-content-button';
 import './features/resolve-conflicts';
 import './features/enable-file-links-in-compare-view'; // Must be before more-file-links
 import './features/more-file-links';
-import './features/tags-dropdown';
 import './features/pr-filters';
 import './features/quick-file-edit';
 import './features/update-pr-from-base-branch';
@@ -190,7 +188,6 @@ import './features/conversation-activity-filter';
 import './features/select-all-notifications-shortcut';
 import './features/no-duplicate-list-update-time';
 import './features/view-last-pr-deployment';
-import './features/clean-header-search-field';
 import './features/avoid-accidental-submissions';
 import './features/quick-review-comment-deletion';
 import './features/no-unnecessary-split-diff-view';
@@ -217,3 +214,5 @@ import './features/scrollable-areas';
 import './features/clean-repo-header';
 import './features/emphasize-draft-pr-label';
 import './features/file-age-color';
+import './features/netiquette';
+import './features/rgh-netiquette';
