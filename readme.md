@@ -121,6 +121,8 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 	<tr>
 		<th width="50%">
 			<p><a title="next-prev-notifications"></a> Adds Next Previous Buttons to UI 
+			<p><img src="https://user-images.githubusercontent.com/34628529/229335604-d36e4545-ad88-449d-94c4-a04535796577.png">
+	<tr>
 </table>
 
 <!--

@@ -161,8 +161,6 @@ function addDropdown(markAllPrompt: Element): void {
 
 function init(signal: AbortSignal): void {
 	observe('.js-notifications-mark-all-prompt', addDropdown, {signal});
-	console.log("works");
-	
 
 	// Close the dropdown when one of the toolbar buttons is clicked
 	delegate(document, '.js-notifications-mark-selected-actions > *, .rgh-open-selected-button', 'click', closeDropdown, {signal});
