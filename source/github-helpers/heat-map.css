@@ -6,54 +6,44 @@ These colors are for normally-gray text.
 
 :root {
 	--rgh-heat-color-deg: 29deg;
-	--rgh-heat-color-1: hsl(var(--rgh-heat-color-deg) 100% 38%);
-	--rgh-heat-color-2: hsl(var(--rgh-heat-color-deg) 69% 40%);
-	--rgh-heat-color-3: hsl(var(--rgh-heat-color-deg) 57% 41%);
-	--rgh-heat-color-4: hsl(var(--rgh-heat-color-deg) 47% 41%);
-	--rgh-heat-color-5: hsl(var(--rgh-heat-color-deg) 36% 42%);
-	--rgh-heat-color-6: hsl(var(--rgh-heat-color-deg) 26% 43%);
-	--rgh-heat-color-7: hsl(var(--rgh-heat-color-deg) 15% 44%);
-	--rgh-heat-color-8: hsl(var(--rgh-heat-color-deg) 6% 44%);
-	--rgh-heat-color-9: hsl(var(--rgh-heat-color-deg) 4% 45%);
-	--rgh-heat-color-10: hsl(var(--rgh-heat-color-deg) 2% 45%);
 }
 
 :root [data-rgh-heat='1'] {
-	color: var(--rgh-heat-color-1) !important;
+	color: hsl(var(--rgh-heat-color-deg) 100% 38%) !important;
 }
 
 :root [data-rgh-heat='2'] {
-	color: var(--rgh-heat-color-2) !important;
+	color: hsl(var(--rgh-heat-color-deg) 69% 40%) !important;
 }
 
 :root [data-rgh-heat='3'] {
-	color: var(--rgh-heat-color-3) !important;
+	color: hsl(var(--rgh-heat-color-deg) 57% 41%) !important;
 }
 
 :root [data-rgh-heat='4'] {
-	color: var(--rgh-heat-color-4) !important;
+	color: hsl(var(--rgh-heat-color-deg) 47% 41%) !important;
 }
 
 :root [data-rgh-heat='5'] {
-	color: var(--rgh-heat-color-5) !important;
+	color: hsl(var(--rgh-heat-color-deg) 36% 42%) !important;
 }
 
 :root [data-rgh-heat='6'] {
-	color: var(--rgh-heat-color-6) !important;
+	color: hsl(var(--rgh-heat-color-deg) 26% 43%) !important;
 }
 
 :root [data-rgh-heat='7'] {
-	color: var(--rgh-heat-color-7) !important;
+	color: hsl(var(--rgh-heat-color-deg) 15% 44%) !important;
 }
 
 :root [data-rgh-heat='8'] {
-	color: var(--rgh-heat-color-8) !important;
+	color: hsl(var(--rgh-heat-color-deg) 6% 44%) !important;
 }
 
 :root [data-rgh-heat='9'] {
-	color: var(--rgh-heat-color-9) !important;
+	color: hsl(var(--rgh-heat-color-deg) 4% 45%) !important;
 }
 
 :root [data-rgh-heat='10'] {
-	color: var(--rgh-heat-color-10) !important;
+	color: hsl(var(--rgh-heat-color-deg) 2% 45%) !important;
 }
