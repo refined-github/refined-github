@@ -4,42 +4,56 @@ Original file: https://github.githubassets.com/assets/code-d21b20a03009.css
 These colors are for normally-gray text.
 */
 
+:root {
+	--rgh-heat-color-deg: 29deg;
+	--rgh-heat-color-1: hsl(var(--rgh-heat-color-deg) 100% 38%);
+	--rgh-heat-color-2: hsl(var(--rgh-heat-color-deg) 69% 40%);
+	--rgh-heat-color-3: hsl(var(--rgh-heat-color-deg) 57% 41%);
+	--rgh-heat-color-4: hsl(var(--rgh-heat-color-deg) 47% 41%);
+	--rgh-heat-color-5: hsl(var(--rgh-heat-color-deg) 36% 42%);
+	--rgh-heat-color-6: hsl(var(--rgh-heat-color-deg) 26% 43%);
+	--rgh-heat-color-7: hsl(var(--rgh-heat-color-deg) 15% 44%);
+	--rgh-heat-color-8: hsl(var(--rgh-heat-color-deg) 6% 44%);
+	--rgh-heat-color-9: hsl(var(--rgh-heat-color-deg) 4% 45%);
+	--rgh-heat-color-10: hsl(var(--rgh-heat-color-deg) 2% 45%);
+}
+
 :root [data-rgh-heat='1'] {
-	color: #c24e00 !important;
+	color: var(--rgh-heat-color-1) !important;
 }
 
 :root [data-rgh-heat='2'] {
-	color: #ac571f !important;
+	color: var(--rgh-heat-color-2) !important;
 }
 
 :root [data-rgh-heat='3'] {
-	color: #a35b2c !important;
+	color: var(--rgh-heat-color-3) !important;
 }
 
 :root [data-rgh-heat='4'] {
-	color: #9a5f38 !important;
+	color: var(--rgh-heat-color-4) !important;
 }
 
 :root [data-rgh-heat='5'] {
-	color: #926245 !important;
+	color: var(--rgh-heat-color-5) !important;
 }
 
 :root [data-rgh-heat='6'] {
-	color: #896651 !important;
+	color: var(--rgh-heat-color-6) !important;
 }
 
 :root [data-rgh-heat='7'] {
-	color: #806a5e !important;
+	color: var(--rgh-heat-color-7) !important;
 }
 
 :root [data-rgh-heat='8'] {
-	color: #776d6a !important;
+	color: var(--rgh-heat-color-8) !important;
 }
 
 :root [data-rgh-heat='9'] {
-	color: #6e7177 !important;
+	color: var(--rgh-heat-color-9) !important;
 }
 
 :root [data-rgh-heat='10'] {
-	color: #6a737d !important;
+	color: var(--rgh-heat-color-10) !important;
 }
