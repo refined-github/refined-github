@@ -4,46 +4,59 @@ Original file: https://github.githubassets.com/assets/code-d21b20a03009.css
 These colors are for normally-gray text.
 */
 
+/* stylelint-disable declaration-block-no-duplicate-properties */
+
 :root {
-	--rgh-heat-color-deg: 29deg;
+	--rgh-heat-color: #c24e00;
+	--rgh-gray: #6a737d;
 }
 
 :root [data-rgh-heat='1'] {
-	color: hsl(var(--rgh-heat-color-deg) 100% 38%) !important;
+	color: #c24e00 !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 100%, var(--rgh-gray)) !important;
 }
 
 :root [data-rgh-heat='2'] {
-	color: hsl(var(--rgh-heat-color-deg) 69% 40%) !important;
+	color: #ac571f !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 90%, var(--rgh-gray)) !important;
 }
 
 :root [data-rgh-heat='3'] {
-	color: hsl(var(--rgh-heat-color-deg) 57% 41%) !important;
+	color: #a35b2c !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 80%, var(--rgh-gray)) !important;
 }
 
 :root [data-rgh-heat='4'] {
-	color: hsl(var(--rgh-heat-color-deg) 47% 41%) !important;
+	color: #9a5f38 !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 70%, var(--rgh-gray)) !important;
 }
 
 :root [data-rgh-heat='5'] {
-	color: hsl(var(--rgh-heat-color-deg) 36% 42%) !important;
+	color: #926245 !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 60%, var(--rgh-gray)) !important;
 }
 
 :root [data-rgh-heat='6'] {
-	color: hsl(var(--rgh-heat-color-deg) 26% 43%) !important;
+	color: #896651 !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 50%, var(--rgh-gray)) !important;
 }
 
 :root [data-rgh-heat='7'] {
-	color: hsl(var(--rgh-heat-color-deg) 15% 44%) !important;
+	color: #806a5e !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 40%, var(--rgh-gray)) !important;
 }
 
 :root [data-rgh-heat='8'] {
-	color: hsl(var(--rgh-heat-color-deg) 6% 44%) !important;
+	color: #776d6a !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 30%, var(--rgh-gray)) !important;
 }
 
 :root [data-rgh-heat='9'] {
-	color: hsl(var(--rgh-heat-color-deg) 4% 45%) !important;
+	color: #6e7177 !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 20%, var(--rgh-gray)) !important;
 }
 
 :root [data-rgh-heat='10'] {
-	color: hsl(var(--rgh-heat-color-deg) 2% 45%) !important;
+	color: #6a737d !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 0%, var(--rgh-gray)) !important;
 }
