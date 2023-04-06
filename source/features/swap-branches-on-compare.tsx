@@ -2,7 +2,6 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils';
 import features from '../feature-manager';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
@@ -18,9 +17,13 @@ function init(): void {
 		references.unshift(select('.branch span')!.textContent!);
 	}
 
-	const icon = select('.range-editor .octicon-arrow-left')!;
-	icon.parentElement!.attributes['aria-label'].value += '.\nClick to swap.';
-	wrap(icon, <a href={buildRepoURL('compare/' + references.join('...'))} data-turbo-frame="repo-content-turbo-frame"/>);
+	const link = select('.js-toggle-range-editor-cross-repo')!;
+	link.after(
+		' or ',
+		<a href={buildRepoURL('compare/' + references.join('...'))}>
+			switch the base
+		</a>,
+	);
 }
 
 void features.add(import.meta.url, {
@@ -29,8 +32,16 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		() => /\.\.+/.exec(location.pathname)?.[0]!.length === 2,
+		() => select.exists('.range-editor + .blankslate'),
 	],
 	awaitDomReady: true,
-	deduplicate: 'has-rgh',
+	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+Test URLs:
+
+https://github.com/refined-github/refined-github/compare/23.2.1...main
+https://github.com/refined-github/refined-github/compare/main...23.2.1 (blank)
+*/
