@@ -39,10 +39,6 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 		<img src="https://user-images.githubusercontent.com/1402241/205429539-4549ea71-f26c-432a-aaef-db430c435718.svg" width="250" alt="Prisma.io">
  		<br><sup>Next-generation Node.js and TypeScript ORM with an intuitive data model, automated migrations, type-safety & auto-completion.</sup>
  	</a></p>
-	<p><a href="https://www.runforesight.com/?utm_source=refined-github&utm_medium=sponsorship">
-		<img src="https://user-images.githubusercontent.com/1402241/194528204-2b67860c-ca74-4b11-b664-723c50ae8e23.svg" width="220" alt="Foresight">
- 		<br><sup>Full visibility and deep insights into the health and performance of your tests and GitHub Actions Workflows. Assess the risk of changes, resolve bottlenecks, reduce build times, and deliver high-quality software at speed with Foresight.</sup>
- 	</a></p>
 </table>
 
 <table><tr><td width="550">
