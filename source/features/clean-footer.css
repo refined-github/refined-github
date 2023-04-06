@@ -7,7 +7,7 @@
 	opacity: 30%;
 }
 
-/* The `© 2022 GitHub, Inc.` text */
+/* The `© 2023 GitHub, Inc.` text */
 .footer > div:nth-last-child(2) > div span {
 	display: none !important;
 }
