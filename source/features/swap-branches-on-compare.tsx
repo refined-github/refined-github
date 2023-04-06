@@ -17,11 +17,10 @@ function init(): void {
 		references.unshift(select('.branch span')!.textContent!);
 	}
 
-	const link = select('.js-toggle-range-editor-cross-repo')!;
-	link.after(
-		' or ',
-		<a href={buildRepoURL('compare/' + references.join('...'))}>
-			switch the base
+	const editor = select('.range-editor')!;
+	editor.append(
+		<a className="btn btn-sm" href={buildRepoURL('compare/' + references.join('...'))}>
+			Swap
 		</a>,
 	);
 }
@@ -33,12 +32,9 @@ void features.add(import.meta.url, {
 	exclude: [
 		// Disable on Two-dot Git diff comparison #4453
 		() => /\.\.+/.exec(location.pathname)?.[0]!.length === 2,
-		// Prefer the native "switch base" button if it is available
-		// Do not use `pageDetect.isBlank` which gives false positives
-		() => select.exists('.range-editor + .blankslate'),
 	],
 	awaitDomReady: true,
-	deduplicate: 'has-rgh-inner',
+	deduplicate: 'has-rgh',
 	init,
 });
 
@@ -46,5 +42,4 @@ void features.add(import.meta.url, {
 Test URLs:
 
 https://github.com/refined-github/refined-github/compare/23.2.1...main
-https://github.com/refined-github/refined-github/compare/main...23.2.1 (blank)
 */
