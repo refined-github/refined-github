@@ -32,6 +32,8 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		() => /\.\.+/.exec(location.pathname)?.[0]!.length === 2,
+		// Prefer the native "switch base" button if it is available
+		// Do not use `pageDetect.isBlank` which gives false positives
 		() => select.exists('.range-editor + .blankslate'),
 	],
 	awaitDomReady: true,
