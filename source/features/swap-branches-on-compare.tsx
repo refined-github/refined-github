@@ -31,6 +31,7 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 	],
 	exclude: [
+		// Disable on Two-dot Git diff comparison #4453
 		() => /\.\.+/.exec(location.pathname)?.[0]!.length === 2,
 		// Prefer the native "switch base" button if it is available
 		// Do not use `pageDetect.isBlank` which gives false positives
