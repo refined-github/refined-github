@@ -103,6 +103,7 @@ import './features/update-pr-from-base-branch.js';
 import './features/tag-changes-link.js';
 import './features/clean-conversation-sidebar.js';
 import './features/sticky-sidebar.js';
+import './features/sticky-notifications-actions.js';
 import './features/release-download-count.js';
 import './features/open-issue-to-latest-comment.js';
 import './features/toggle-everything-with-alt.js';
