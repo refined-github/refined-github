@@ -4,7 +4,7 @@
 :not(.js-details-container) is the final mergeability status ("No conflicts", "Merge blocked", etc)
 
 /* Hide extra copy on PR mergeability summary */
-.rgh-clean-mergeability-box .mergeability-details .js-details-container .h4,
+.rgh-clean-mergeability-box .mergeability-details .js-details-container:has(.status-meta) .h4,
 .rgh-clean-mergeability-box .mergeability-details .js-details-container .status-meta:not(.rgh-update-pr-from-base-branch) .btn-link,
 .rgh-clean-mergeability-box .mergeability-details > :not(.js-details-container) .completeness-indicator-success ~ .status-meta:not(.rgh-update-pr-from-base-branch) { /* Hides merge information unless it's negative */
 	display: none;
