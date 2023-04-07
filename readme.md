@@ -118,11 +118,6 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 		<th width="50%">
 			<p><a title="select-notifications"></a> Select notifications by type and status
 			<p><img src="https://user-images.githubusercontent.com/1402241/152119039-4ea8333f-a744-4106-b56f-cf09f50678be.gif">
-	<tr>
-		<th width="50%">
-			<p><a title="next-prev-notifications"></a> Adds Next Previous Buttons to UI 
-			<p><img src="https://user-images.githubusercontent.com/34628529/229335604-d36e4545-ad88-449d-94c4-a04535796577.png">
-	<tr>
 </table>
 
 <!--
@@ -359,6 +354,7 @@ Thanks for contributing! 🦋🙌
 - [](# "linkify-notification-repository-header") [Linkifies the header of each notification group (when grouped by repository).](https://user-images.githubusercontent.com/1402241/80849887-81531c00-8c19-11ea-8777-7294ce318630.png)
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
 - [](# "last-notification-page-button") [Adds a link to the last page of notifications.](https://user-images.githubusercontent.com/16872793/199828181-3ff2cef3-8740-4efa-8122-8f2f222bd657.png)
+- [](# "notifications-navigation") [Adds pagination on top in notification header for consistency in the location of pagination navigation.](https://user-images.githubusercontent.com/34628529/230467974-5b4e6d86-48b3-41ec-a3c6-c1ab9ad1239a.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

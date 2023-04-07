@@ -37,7 +37,6 @@ import './features/clean-mergeability-box';
 // Disableable features
 import './features/useful-not-found-page';
 import './features/more-dropdown-links';
-import './features/next-prev-notifications';
 import './features/releases-tab';
 import './features/comment-fields-keyboard-shortcuts';
 import './features/one-key-formatting';
@@ -216,3 +215,4 @@ import './features/emphasize-draft-pr-label';
 import './features/file-age-color';
 import './features/netiquette';
 import './features/rgh-netiquette';
+import './features/notifications-navigation';
