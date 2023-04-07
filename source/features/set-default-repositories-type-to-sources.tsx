@@ -22,3 +22,12 @@ function init(): void {
 void features.add(import.meta.url, {
 	init,
 });
+
+/*
+
+Test URLs:
+
+- User profile: https://github.com/fregante
+- Organization profile: https://github.com/refined-github
+
+*/
