@@ -10,9 +10,11 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 // No `include`, no `signal` necessary
 function init(): void {
 	observe([
-		'.header-nav-current-user ~ a[href$="tab=repositories"]', // "Your repositories" in the header profile dropdown
-		'[aria-label="User profile"] a[href$="tab=repositories"]', // "Repositories" tab on user profile
+		`a:is([href^="/"], [href^="${location.origin}"])[href$="?tab=repositories"]`, // "Repositories" tab on user profile
+		'[aria-label="Organization"] [data-tab-item="org-header-overview-tab"] a', // "Overview" tab on organization profile
 		'[aria-label="Organization"] [data-tab-item="org-header-repositories-tab"] a', // "Repositories" tab on organization profile
+		'[aria-label="Organization"] a[data-tab-item="i0overview-tab"]', // "Overview" tab on organization profile (Global navigation update)
+		'[aria-label="Organization"] a[data-tab-item="i1repositories-tab"]', // "Repositories" tab on organization profile (Global navigation update)
 		'a[data-hovercard-type="organization"]', // Organization name on repo header + organization list on user profile
 	], addSourceTypeToLink);
 }
