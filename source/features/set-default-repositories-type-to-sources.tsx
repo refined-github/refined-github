@@ -10,7 +10,7 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 // No `include`, no `signal` necessary
 function init(): void {
 	observe([
-		`a:is([href^="/"], [href^="${location.origin}"])[href$="?tab=repositories"]`, // "Repositories" tab on user profile
+		`a:is([href^="/"], [href^="${location.origin}"])[href$="?tab=repositories"]`, // "Repositories" tab on user profile, only matches relative or same-origin links
 		'[aria-label="Organization"] [data-tab-item="org-header-overview-tab"] a', // "Overview" tab on organization profile
 		'[aria-label="Organization"] [data-tab-item="org-header-repositories-tab"] a', // "Repositories" tab on organization profile
 		'[aria-label="Organization"] a[data-tab-item="i0overview-tab"]', // "Overview" tab on organization profile (Global navigation update)
