@@ -184,7 +184,7 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 }
 
 /* Add override for CSS-in-JS components that don't use regular .btn styles */
-.BtnGroup-item:last-child {
+.BtnGroup-item:last-child:not(:first-child) {
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 }
