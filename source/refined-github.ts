@@ -32,7 +32,6 @@ import './features/hide-newsfeed-noise';
 import './features/minimize-upload-bar';
 import './features/hide-diff-signs';
 import './features/clean-rich-text-editor';
-import './features/clean-mergeability-box';
 
 // Disableable features
 import './features/useful-not-found-page';
