@@ -188,3 +188,7 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 }
+
+.flex-grow-1 {
+	flex-grow: 1 !important;
+}
