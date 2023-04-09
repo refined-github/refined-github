@@ -6,6 +6,7 @@
 /* .text-italic targets "running" or "waiting" checks */
 
 /* Required to allow sorting */
+/* Second selector needed to target checks list only */
 .merge-status-list.js-updatable-content-preserve-scroll-position {
 	display: flex;
 	flex-direction: column;
