@@ -1,8 +1,11 @@
 /* Make tab-indented code more readable on GitHub and Gist */
 
+:root {
+	--tab-size: 4;
+}
+
 :root, /* Changes the browser default, it applies to textareas too */
 .comment-body .tab-size[data-tab-size='8'] /* User setting is ignored in file blocks in comments #4833 */ {
-	--tab-size: 4;
 	tab-size: var(--tab-size);
 }
 

@@ -41,7 +41,8 @@
 	--tab-size: 6;
 }
 
-[data-tab-size='8'] {
+/* File blocks in comments always have [data-tab-size=8] #4833 */
+[data-tab-size='8']:not(.highlight) {
 	--tab-size: 8;
 }
 
