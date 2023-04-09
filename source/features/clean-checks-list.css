@@ -6,7 +6,8 @@
 /* .text-italic targets "running" or "waiting" checks */
 
 /* Required to allow sorting */
-.merge-status-list {
+/* "updatable" class needed to target checks list only #6468 */
+.merge-status-list.js-updatable-content-preserve-scroll-position {
 	display: flex;
 	flex-direction: column;
 }
@@ -30,5 +31,5 @@
 /*
 Test URLs
 https://github.com/refined-github/refined-github/commit/5c9d630423d66732cb1e2bd7935fc67c133f6072
-https://github.com/refined-github/refined-github/pull/5776
+https://github.com/refined-github/sandbox/pull/12
 */
