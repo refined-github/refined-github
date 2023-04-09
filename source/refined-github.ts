@@ -177,6 +177,7 @@ import './features/quick-repo-deletion';
 import './features/clean-repo-sidebar';
 import './features/rgh-feature-descriptions';
 import './features/wait-for-attachments';
+import './features/archive-forks-link';
 import './features/link-to-changelog-file';
 import './features/rgh-sponsor-button';
 import './features/rgh-linkify-features';
