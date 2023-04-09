@@ -82,7 +82,7 @@
 		"webext-detect-page": "^4.0.1",
 		"webext-domain-permission-toggle": "^4.0.0-0",
 		"webext-dynamic-content-scripts": "^9.2.0",
-		"webext-options-sync-per-domain": "^3.0.0",
+		"webext-options-sync-per-domain": "^4.0.0-0",
 		"webext-storage-cache": "^6.0.0-2",
 		"webextension-polyfill": "^0.10.0",
 		"zip-text-nodes": "^1.0.0"
@@ -123,6 +123,9 @@
 	"engines": {
 		"node": ">= 16",
 		"npm": ">= 7"
+	},
+	"overrides": {
+		"webext-options-sync": "4.1.0-3"
 	},
 	"webExt": {
 		"sourceDir": "distribution",
