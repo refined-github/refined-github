@@ -16,7 +16,6 @@ import './features/always-show-branch-delete-buttons.css';
 import './features/repo-stats-spacing.css';
 import './features/clean-notifications.css';
 import './features/night-not-found.css';
-import './features/clean-commit-form.css';
 import './features/sticky-file-header.css';
 import './features/readable-title-change-events.css';
 import './features/clean-checks-list.css';
@@ -32,7 +31,6 @@ import './features/hide-newsfeed-noise';
 import './features/minimize-upload-bar';
 import './features/hide-diff-signs';
 import './features/clean-rich-text-editor';
-import './features/clean-mergeability-box';
 
 // Disableable features
 import './features/useful-not-found-page';
