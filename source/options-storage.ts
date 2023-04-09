@@ -45,6 +45,7 @@ export const renamedFeatures = new Map<string, string>([
 	['pull-request-hotkey', 'pull-request-hotkeys'],
 	['first-published-tag-for-merged-pr', 'closing-remarks'],
 	['scheduled-and-manual-workflow-indicators', 'github-actions-indicators'],
+	['useful-forks', 'fork-notice'],
 ]);
 
 export function getNewFeatureName(possibleFeatureName: string): FeatureID | undefined {
