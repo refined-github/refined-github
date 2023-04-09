@@ -2,7 +2,8 @@
 
 :root, /* Changes the browser default */
 .comment-body .tab-size[data-tab-size='8'] /* User setting is ignored in comments #4833 */ {
-	tab-size: 4;
+	--tab-size: 4;
+	tab-size: var(--tab-size);
 }
 
 /*

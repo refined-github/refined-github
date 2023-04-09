@@ -17,11 +17,6 @@
 	background-size: 1ch 1.25em;
 }
 
-/* Set a sensible default for user content */
-.markdown-body {
-	--tab-size: 4;
-}
-
 [data-tab-size='1'] {
 	--tab-size: 1;
 }
