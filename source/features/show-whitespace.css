@@ -41,13 +41,24 @@
 	--tab-size: 6;
 }
 
-/* File blocks in comments always have [data-tab-size=8] #4833 */
-[data-tab-size='8']:not(.highlight) {
+[data-tab-size='7'] {
+	--tab-size: 7;
+}
+
+[data-tab-size='8'] {
 	--tab-size: 8;
+}
+
+[data-tab-size='9'] {
+	--tab-size: 9;
 }
 
 [data-tab-size='10'] {
 	--tab-size: 10;
+}
+
+[data-tab-size='11'] {
+	--tab-size: 11;
 }
 
 [data-tab-size='12'] {
