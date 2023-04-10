@@ -10,11 +10,11 @@ function init(): void {
 		':is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type="user"]', // Excludes bots
 	)) {
 		const username = link.textContent!;
-		const size = 16;
+		const size = 14;
 
 		link.prepend(
 			<img
-				className="avatar avatar-user mr-1"
+				className="avatar avatar-user v-align-text-bottom mr-1"
 				src={getUserAvatarURL(username, size)!}
 				width={size}
 				height={size}
