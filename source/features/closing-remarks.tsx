@@ -7,8 +7,6 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager';
 import fetchDom from '../helpers/fetch-dom';
 import onPrMerge from '../github-events/on-pr-merge';
-import createBanner from '../github-helpers/banner';
-import TimelineItem from '../github-helpers/timeline-item';
 import attachElement from '../helpers/attach-element';
 import {canEditEveryComment} from './quick-comment-edit';
 import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
@@ -61,16 +59,17 @@ function addExistingTagLink(tagName: string): void {
 		);
 	}
 
-	attachElement('#issue-comment-box', {
-		before: () => (
-			<TimelineItem>
-				{createBanner({
-					text: <>This pull request first appeared in <span className="text-mono text-small">{tagName}</span></>,
-					classes: ['flash-success'],
-					action: tagUrl,
-					buttonLabel: <><TagIcon/> See release</>,
-				})}
-			</TimelineItem>
+	attachElement('.js-discussion', {
+		append: () => (
+			<div className="TimelineItem">
+				<div className="TimelineItem-badge color-bg-accent-emphasis color-fg-on-emphasis">
+					<TagIcon/>
+				</div>
+				<div className="TimelineItem-body">
+					This pull request first appeared in <strong>{tagName}</strong>
+					<a href={tagUrl} className="btn btn-sm btn-outline float-right">See release</a>
+				</div>
+			</div>
 		),
 	});
 }
@@ -85,15 +84,17 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 			? 'https://github.com/refined-github/refined-github/actions/workflows/release.yml'
 			: buildRepoURL('releases/new')
 	) : undefined;
-	attachElement('#issue-comment-box', {
-		before: () => (
-			<TimelineItem>
-				{createBanner(url ? {
-					text,
-					action: url,
-					buttonLabel: <><TagIcon/> Draft a new release</>,
-				} : {text})}
-			</TimelineItem>
+	attachElement('.js-discussion', {
+		append: () => (
+			<div className="TimelineItem">
+				<div className="TimelineItem-badge color-bg-accent-emphasis color-fg-on-emphasis">
+					<TagIcon/>
+				</div>
+				<div className="TimelineItem-body">
+					{text}
+					<a href={url} className="btn btn-sm btn-outline float-right">Draft a new release</a>
+				</div>
+			</div>
 		),
 	});
 }
