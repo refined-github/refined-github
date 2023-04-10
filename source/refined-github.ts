@@ -86,7 +86,7 @@ import './features/previous-next-commit-buttons';
 import './features/extend-diff-expander';
 import './features/profile-gists-link';
 import './features/show-user-top-repositories';
-import './features/set-default-repositories-type-to-sources';
+import './features/hide-user-forks';
 import './features/user-profile-follower-badge';
 import './features/highlight-non-default-base-branch';
 import './features/mark-private-orgs';
