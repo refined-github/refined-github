@@ -18,7 +18,6 @@ function init(): void {
 				src={getUserAvatarURL(username, size)!}
 				width={size}
 				height={size}
-				alt={`@${username}`}
 				loading="lazy"
 			/>,
 		);
