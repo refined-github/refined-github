@@ -22,7 +22,8 @@ async function init(signal: AbortSignal): Promise<void | false> {
 		return false;
 	}
 
-	observe('.Header-item .dropdown-menu:has(> [data-ga-click="Header, create new repository"])', add, {signal});
+	// TODO: Drop `.Header-item` after the Global Navigation update (Nov 2023)
+	observe(':is(.Header-item, .AppHeader-actions) .dropdown-menu:has(> [data-ga-click="Header, create new repository"])', add, {signal});
 }
 
 void features.add(import.meta.url, {
