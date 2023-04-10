@@ -84,16 +84,13 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 			? 'https://github.com/refined-github/refined-github/actions/workflows/release.yml'
 			: buildRepoURL('releases/new')
 	) : undefined;
-	attachElement('.js-discussion', {
-		append: () => (
-			<div className="TimelineItem">
-				<div className="TimelineItem-badge color-bg-accent-emphasis color-fg-on-emphasis">
-					<TagIcon/>
-				</div>
-				<div className="TimelineItem-body">
-					{text}
-					<a href={url} className="btn btn-sm btn-outline float-right">Draft a new release</a>
-				</div>
+	attachElement('#issue-comment-box', {
+		before: () => (
+			<div className="mt-3 ml-md-6 pl-md-3 color-fg-muted">
+				{text}
+				<a href={url} className="btn btn-sm ml-2">
+					<TagIcon className="mr-1"/> Draft a new release
+				</a>
 			</div>
 		),
 	});
