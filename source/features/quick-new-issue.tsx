@@ -22,7 +22,12 @@ async function init(signal: AbortSignal): Promise<void | false> {
 		return false;
 	}
 
-	observe('.Header-item .dropdown-menu:has(> [data-ga-click="Header, create new repository"])', add, {signal});
+	observe([
+		'.dropdown-menu:has(>[data-analytics-event*=\'"label":"new repository"\'])',
+
+		// TODO: Drop after Global Navigation update (Nov 2023)
+		'.Header-item .dropdown-menu:has(> [data-ga-click="Header, create new repository"])',
+	], add, {signal});
 }
 
 void features.add(import.meta.url, {
