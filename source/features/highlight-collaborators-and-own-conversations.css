@@ -3,3 +3,8 @@
 	border-radius: 2em;
 	padding: 2px 5px;
 }
+
+/* Extra padding for `small-user-avatars` feature */
+.rgh-collaborator:has(.avatar) {
+	padding-bottom: 4px;
+}

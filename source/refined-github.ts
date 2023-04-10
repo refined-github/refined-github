@@ -213,3 +213,4 @@ import './features/emphasize-draft-pr-label';
 import './features/file-age-color';
 import './features/netiquette';
 import './features/rgh-netiquette';
+import './features/small-user-avatars';
