@@ -162,7 +162,7 @@ Thanks for contributing! 🦋🙌
 - [](# "clean-repo-tabs") [Moves the "Security" and "Insights"  to the repository navigation dropdown. Also moves the "Projects", "Actions" and "Wiki" tabs if they're empty/unused.](https://user-images.githubusercontent.com/16872793/124681343-4a6c3c00-de96-11eb-9055-a8fc551e6eb8.png)
 - [](# "repo-avatars") [Adds the profile picture to the header of public repositories.](https://user-images.githubusercontent.com/44045911/177211845-c9b0fa37-c157-4449-890e-af2602c312e3.png)
 - [](# "quick-new-issue") [Adds a link to create issues from anywhere in a repository.](https://user-images.githubusercontent.com/1402241/218251057-b94b62dd-a944-4763-b78a-fc233f7c9fd3.png)
-- [](# "small-user-avatars") [Shows a small avatar next to the username in conversation lists.](https://user-images.githubusercontent.com/44045911/230923502-de8fdbf8-96eb-4dfc-b947-6c411ecd80dc.png)
+- [](# "small-user-avatars") [Shows a small avatar next to the username in conversation lists.](https://user-images.githubusercontent.com/44045911/230930235-62272e3c-edae-408a-a260-5b63b6edb77c.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
