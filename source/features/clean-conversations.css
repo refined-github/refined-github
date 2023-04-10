@@ -1,5 +1,5 @@
 /* Remove user avatar from new comment form */
-:is(.review-thread-reply, .timeline-new-comment) .avatar {
+:is(.review-thread-reply, .timeline-new-comment) .timeline-comment-avatar {
 	display: none;
 }
 
