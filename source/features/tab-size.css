@@ -2,26 +2,26 @@
 GitHub doesn’t apply the user’s "tab size" setting in a few places, leaving the 8-character default.
 This feature reduces it to 4 characters, while allowing GitHub’s own tab size setting to override it in its children.
 
-There’s also one place where GitHub incorrectly uses the "user configuration" attribute to set it to 8, so we’re explicitly overriding that.
+There’s also one place where GitHub incorrectly uses the "user configuration" attribute to set it to 8, so we’re explicitly overriding that. #4833
 
 --tab-size is used to allow the user to override it and to be picked up by `show-whitespace`
 */
 
 :root,
-/* User setting is ignored in file blocks in comments #4833 */
 .tab-size[data-tab-size='8'] {
 	--tab-size: 4;
 	tab-size: var(--tab-size);
 }
 
 /*
-Test URLs
+
+## Test URLs
 
 - Rendered documents: https://github.com/refined-github/refined-github/blob/154c0f8c86b23e52d1e1ee947b90bc36bc6188ba/contributing.md#featuresadd
 - Code blocks and embeds in conversations: https://github.com/refined-github/sandbox/pull/19
 - The comment field everywhere
 
-Unaffected URLs
+### Unaffected URLs
 
 - isFile: https://github.com/refined-github/refined-github/blob/6979e88e6a7b3273338a2651ac4b533609ef97df/source/options.html
 - isEditingFile: https://github.com/refined-github/refined-github/edit/main/source/options.html
