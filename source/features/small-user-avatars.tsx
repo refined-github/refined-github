@@ -1,3 +1,4 @@
+import './small-user-avatars.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
@@ -14,7 +15,7 @@ function init(): void {
 
 		link.prepend(
 			<img
-				className="avatar avatar-user v-align-text-bottom mr-1"
+				className="avatar avatar-user v-align-text-bottom mr-1 rgh-small-user-avatars"
 				src={getUserAvatarURL(username, size)!}
 				width={size}
 				height={size}
