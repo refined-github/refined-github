@@ -16,7 +16,6 @@ import './features/always-show-branch-delete-buttons.css';
 import './features/repo-stats-spacing.css';
 import './features/clean-notifications.css';
 import './features/night-not-found.css';
-import './features/clean-commit-form.css';
 import './features/sticky-file-header.css';
 import './features/readable-title-change-events.css';
 import './features/clean-checks-list.css';
@@ -32,7 +31,6 @@ import './features/hide-newsfeed-noise';
 import './features/minimize-upload-bar';
 import './features/hide-diff-signs';
 import './features/clean-rich-text-editor';
-import './features/clean-mergeability-box';
 
 // Disableable features
 import './features/useful-not-found-page';
@@ -179,7 +177,7 @@ import './features/quick-repo-deletion';
 import './features/clean-repo-sidebar';
 import './features/rgh-feature-descriptions';
 import './features/wait-for-attachments';
-import './features/useful-forks';
+import './features/archive-forks-link';
 import './features/link-to-changelog-file';
 import './features/rgh-sponsor-button';
 import './features/rgh-linkify-features';

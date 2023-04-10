@@ -44,8 +44,8 @@
 	</details>
 
 	<details id="action">
-		<summary><strong>🔗 Refined GitHub link</strong></summary>
-		<p>This page will open when clicking the toolbar icon</p>
+		<summary><strong>🔗 Button link</strong></summary>
+		<p>You can pick what page opens when you click the Refined GitHub icon in the browser toolbar</p>
 		<p><input type="url" name="actionUrl" placeholder="https://github.com" spellcheck="false" autocomplete="off" autocapitalize="off"></p>
 	</details>
 
@@ -82,6 +82,20 @@
 
 	</details>
 
+	<details id="export">
+		<summary><strong>🗄️ Export options</strong></summary>
+		<p>
+			You can export and import options across browsers and devices via a JSON file. If you're a GitHub Enterprise user, you will need to export each domain separately.
+		</p>
+		<p>
+			<strong>Note</strong> that your options include your access token if provided.
+		</p>
+		<p>
+			<button type="button" class="js-export">Export</button>
+			<button type="button" class="js-import">Import</button>
+		</p>
+
+	</details>
 
 </form>
 <script src="options.js"></script>
