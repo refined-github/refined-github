@@ -136,7 +136,9 @@ async function init(): Promise<void | false> {
 			// There was no tags for this commit, save that info to the cache
 			commitsWithNoTags.push(targetCommit);
 		} else if (targetTags.length > 0) {
-			select('.flex-auto .d-flex.mt-1', commit)!.append(
+			const meta = select('.flex-auto .d-flex.mt-1', commit)!;
+			meta.classList.add('flex-wrap');
+			meta.append(
 				<span>
 					<TagIcon className="ml-1"/>
 					{...targetTags.map(tag => (
