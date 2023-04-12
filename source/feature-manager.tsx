@@ -47,8 +47,11 @@ type FeatureLoader = {
 } & Partial<InternalRunConfig>;
 
 type InternalRunConfig = {
+	/** Every condition must be true */
 	asLongAs: BooleanFunction[] | undefined;
+	/** At least one condition must be true */
 	include: BooleanFunction[] | undefined;
+	/** No conditions must be true */
 	exclude: BooleanFunction[] | undefined;
 	init: FeatureInit;
 	additionalListeners: CallerFunction[];
