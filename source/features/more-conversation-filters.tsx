@@ -21,7 +21,9 @@ function init(): void {
 	subscriptionsLink.lastElementChild!.textContent = 'Everything you subscribed to';
 
 	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
-	const repositoryId = select('meta[name="octolytics-dimension-repository_id"]')!.content;
+	const repositoryId
+		= select('meta[name="octolytics-dimension-repository_id"]')!.content
+		?? select('input[name="repository_id"]')!.value;
 	subscriptionsUrl.searchParams.set('repository', btoa(`010:Repository${repositoryId}`));
 	subscriptionsLink.href = subscriptionsUrl.href;
 
