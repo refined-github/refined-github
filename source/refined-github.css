@@ -189,6 +189,6 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 	border-bottom-left-radius: 0;
 }
 
-.rgh-bg-transparent {
-	background: transparent !important;
+.rgh-bg-none {
+	background: none !important;
 }

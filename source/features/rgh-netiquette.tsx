@@ -24,7 +24,7 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 	const banner = (
 		<TimelineItem>
 			{createBanner({
-				classes: ['rgh-bg-transparent'],
+				classes: ['rgh-bg-none'],
 				icon: <InfoIcon className="mr-1"/>,
 				text: <>{getNoticeText()} If it must really be here, you can {button}.</>,
 			})}

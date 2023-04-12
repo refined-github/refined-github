@@ -66,7 +66,7 @@ function addExistingTagLink(tagName: string): void {
 			<TimelineItem>
 				{createBanner({
 					text: <>This pull request first appeared in <span className="text-mono text-small">{tagName}</span></>,
-					classes: ['flash-success'],
+					classes: ['flash-success', 'rgh-bg-none'],
 					action: tagUrl,
 					buttonLabel: <><TagIcon/> See release</>,
 				})}
@@ -89,9 +89,10 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 		before: () => (
 			<TimelineItem>
 				{createBanner(url ? {
+					classes: ['rgh-bg-none'],
 					text,
 					action: url,
-					buttonLabel: <><TagIcon/> Draft a new release</>,
+					buttonLabel: 'Draft a new release',
 				} : {text})}
 			</TimelineItem>
 		),
