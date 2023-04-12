@@ -17,12 +17,11 @@ function init(): void {
 	sourceItem.after(commentsLink);
 
 	// "Subscribed" link
-	const subscriptionsLink = commentsLink.cloneNode(true);
-	subscriptionsLink.lastChild!.textContent = 'Everything you subscribed to';
-	subscriptionsLink.setAttribute('aria-checked', 'false'); // #4589
+	const subscriptionsLink = select('#filters-select-menu a:last-child')!.cloneNode(true);
+	subscriptionsLink.lastElementChild!.textContent = 'Everything you subscribed to';
 
 	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
-	const repositoryId = select('input[name="repository_id"]')!.value;
+	const repositoryId = select('meta[name="octolytics-dimension-repository_id"]')!.content;
 	subscriptionsUrl.searchParams.set('repository', btoa(`010:Repository${repositoryId}`));
 	subscriptionsLink.href = subscriptionsUrl.href;
 
