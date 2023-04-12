@@ -16,8 +16,9 @@ function init(): void {
 
 	sourceItem.after(commentsLink);
 
-	// "Subscribed" link
-	const subscriptionsLink = select('#filters-select-menu a:last-child')!.cloneNode(true);
+	// "Subscribed" external link
+	const searchSyntaxLink = select('#filters-select-menu a:last-child')!;
+	const subscriptionsLink = searchSyntaxLink.cloneNode(true);
 	subscriptionsLink.lastElementChild!.textContent = 'Everything you subscribed to';
 
 	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
