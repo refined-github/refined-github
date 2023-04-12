@@ -29,6 +29,18 @@ const getFirstTag = cache.function('first-tag', async (commit: string): Promise<
 	cacheKey: ([commit]) => [getRepo()!.nameWithOwner, commit].join(':'),
 });
 
+function createReleaseUrl(): string | undefined {
+	if (!canCreateRelease()) {
+		return;
+	}
+
+	if (isRefinedGitHubRepo()) {
+		return 'https://github.com/refined-github/refined-github/actions/workflows/release.yml';
+	}
+
+	return buildRepoURL('releases/new');
+}
+
 async function init(): Promise<void> {
 	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`)!.textContent!;
 	const tagName = await getFirstTag(mergeCommit);
@@ -36,7 +48,7 @@ async function init(): Promise<void> {
 	if (tagName) {
 		addExistingTagLink(tagName);
 	} else {
-		void addReleaseBanner('The merge commit doesn’t appear in any tags');
+		void addReleaseBanner('This PR’s merge commit doesn’t appear in any tags');
 	}
 }
 
@@ -61,14 +73,14 @@ function addExistingTagLink(tagName: string): void {
 		);
 	}
 
+	const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
 	attachElement('#issue-comment-box', {
 		before: () => (
 			<TimelineItem>
 				{createBanner({
-					text: <>This pull request first appeared in <span className="text-mono text-small">{tagName}</span></>,
-					classes: ['flash-success'],
-					action: tagUrl,
-					buttonLabel: <><TagIcon/> See release</>,
+					icon: <TagIcon className="m-0"/>,
+					text: <>This pull request first appeared in {linkedTag}</>,
+					classes: ['flash-success', 'rgh-bg-none'],
 				})}
 			</TimelineItem>
 		),
@@ -80,19 +92,21 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 		return;
 	}
 
-	const url = canCreateRelease() ? (
-		isRefinedGitHubRepo()
-			? 'https://github.com/refined-github/refined-github/actions/workflows/release.yml'
-			: buildRepoURL('releases/new')
-	) : undefined;
+	const url = createReleaseUrl();
+	const bannerContent = {
+		icon: <TagIcon className="m-0"/>,
+		classes: ['rgh-bg-none'],
+		text,
+	};
+
 	attachElement('#issue-comment-box', {
 		before: () => (
 			<TimelineItem>
 				{createBanner(url ? {
-					text,
+					...bannerContent,
 					action: url,
-					buttonLabel: <><TagIcon/> Draft a new release</>,
-				} : {text})}
+					buttonLabel: 'Draft a new release',
+				} : bannerContent)}
 			</TimelineItem>
 		),
 	});
@@ -133,4 +147,6 @@ Test URLs
 - PR: https://github.com/refined-github/refined-github/pull/5600
 - Locked PR: https://github.com/eslint/eslint/pull/17
 - Archived repo: https://github.com/fregante/iphone-inline-video/pull/130
+- RGH tagged PR: https://github.com/refined-github/sandbox/pull/1
+
 */
