@@ -36,7 +36,7 @@ async function init(): Promise<void> {
 	if (tagName) {
 		addExistingTagLink(tagName);
 	} else {
-		void addReleaseBanner('The merge commit doesn’t appear in any tags');
+		void addReleaseBanner('This PR’s merge commit doesn’t appear in any tags');
 	}
 }
 
@@ -61,14 +61,14 @@ function addExistingTagLink(tagName: string): void {
 		);
 	}
 
+	const linkedTag = <a href={tagUrl} className="text-mono text-small">{tagName}</a>;
 	attachElement('#issue-comment-box', {
 		before: () => (
 			<TimelineItem>
 				{createBanner({
-					text: <>This pull request first appeared in <span className="text-mono text-small">{tagName}</span></>,
+					icon: <TagIcon className="m-0"/>,
+					text: <>This pull request first appeared in {linkedTag}</>,
 					classes: ['flash-success', 'rgh-bg-none'],
-					action: tagUrl,
-					buttonLabel: <><TagIcon/> See release</>,
 				})}
 			</TimelineItem>
 		),
