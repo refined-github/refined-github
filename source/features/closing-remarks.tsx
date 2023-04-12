@@ -73,7 +73,7 @@ function addExistingTagLink(tagName: string): void {
 		);
 	}
 
-	const linkedTag = <a href={tagUrl} className="text-mono text-small">{tagName}</a>;
+	const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
 	attachElement('#issue-comment-box', {
 		before: () => (
 			<TimelineItem>
