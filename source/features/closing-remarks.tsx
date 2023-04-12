@@ -147,4 +147,6 @@ Test URLs
 - PR: https://github.com/refined-github/refined-github/pull/5600
 - Locked PR: https://github.com/eslint/eslint/pull/17
 - Archived repo: https://github.com/fregante/iphone-inline-video/pull/130
+- RGH tagged PR: https://github.com/refined-github/sandbox/pull/1
+
 */
