@@ -177,7 +177,7 @@ export function shouldFeatureRun({
 
 export async function isArchivedRepoAsync(): Promise<boolean> {
 	// Load the bare minimum for `isArchivedRepo` to work
-	await elementReady('#repository-container-header');
+	await elementReady('main > div');
 
 	// DOM-based detection, we want awaitDomReady: false, so it needs to be here
 	return pageDetect.isArchivedRepo();

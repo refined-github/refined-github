@@ -53,6 +53,13 @@ async function hideEmptyMeta(): Promise<void> {
 	}
 }
 
+async function moveReportLink(): Promise<void> {
+	await domLoaded;
+
+	const reportLink = select('.Layout-sidebar a[href^="/contact/report-content"]')!.parentElement!;
+	select('.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell')!.append(reportLink);
+}
+
 async function init(): Promise<void> {
 	document.documentElement.classList.add('rgh-clean-repo-sidebar');
 
@@ -61,6 +68,7 @@ async function init(): Promise<void> {
 		hideEmptyPackages(),
 		hideLanguageHeader(),
 		hideEmptyMeta(),
+		moveReportLink(),
 	]);
 }
 
