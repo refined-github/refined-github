@@ -29,6 +29,18 @@ const getFirstTag = cache.function('first-tag', async (commit: string): Promise<
 	cacheKey: ([commit]) => [getRepo()!.nameWithOwner, commit].join(':'),
 });
 
+function createReleaseUrl(): string | undefined {
+	if (!canCreateRelease()) {
+		return;
+	}
+
+	if (isRefinedGitHubRepo()) {
+		return 'https://github.com/refined-github/refined-github/actions/workflows/release.yml';
+	}
+
+	return buildRepoURL('releases/new');
+}
+
 async function init(): Promise<void> {
 	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`)!.textContent!;
 	const tagName = await getFirstTag(mergeCommit);
@@ -80,20 +92,21 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 		return;
 	}
 
-	const url = canCreateRelease() ? (
-		isRefinedGitHubRepo()
-			? 'https://github.com/refined-github/refined-github/actions/workflows/release.yml'
-			: buildRepoURL('releases/new')
-	) : undefined;
+	const url = createReleaseUrl();
+	const bannerContent = {
+		icon: <TagIcon className="m-0"/>,
+		classes: ['rgh-bg-none'],
+		text,
+	};
+
 	attachElement('#issue-comment-box', {
 		before: () => (
 			<TimelineItem>
 				{createBanner(url ? {
-					classes: ['rgh-bg-none'],
-					text,
+					...bannerContent,
 					action: url,
 					buttonLabel: 'Draft a new release',
-				} : {text})}
+				} : bannerContent)}
 			</TimelineItem>
 		),
 	});
