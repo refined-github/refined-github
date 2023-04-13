@@ -37,11 +37,11 @@ async function addList(searchField: HTMLInputElement): Promise<void> {
 	}
 
 	// Save globally
-	latestTags = nodes.map(({name}) => name);
+	latestTags = nodes.map(({name}) => name).reverse();
 
 	searchField.after(
 		<datalist id="rgh-tags-dropdown">
-			{latestTags.reverse().map(tag => <option value={tag}/>)}
+			{latestTags.map(tag => <option value={tag}/>)}
 		</datalist>,
 	);
 	searchField.setAttribute('list', 'rgh-tags-dropdown');
