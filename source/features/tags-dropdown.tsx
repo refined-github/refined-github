@@ -24,7 +24,7 @@ function selectionHandler(event: DelegateEvent<Event, HTMLInputElement>): void {
 	const field = event.delegateTarget;
 	const selectedTag = field.value;
 	if (!('inputType' in event) && latestTags!.includes(selectedTag)) {
-		location.href = buildRepoURL('releases/tag', selectedTag);
+		location.href = buildRepoURL('releases/tag', encodeURIComponent(selectedTag));
 		field.value = '';
 	}
 }
