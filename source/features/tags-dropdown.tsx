@@ -59,3 +59,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+## Test URLs
+
+https://github.com/refined-github/refined-github/tags
+https://github.com/refined-github/sandbox/releases
+
+*/
