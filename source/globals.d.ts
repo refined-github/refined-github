@@ -32,6 +32,8 @@ interface GlobalEventHandlersEventMap {
 	'page:loaded': CustomEvent;
 	'turbo:visit': CustomEvent;
 	'session:resume': CustomEvent;
+	// No input:InputEvent match
+	// https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/1174#issuecomment-933042088
 }
 
 declare namespace JSX {

@@ -1,11 +1,13 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-
-import select from 'select-dom';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import * as api from '../github-helpers/api';
-
 import features from '../feature-manager';
+import {buildRepoURL} from '../github-helpers';
+import observe from '../helpers/selector-observer';
+
+let latestTags: string[] | undefined;
 
 const gql = `
 	repository() {
@@ -17,20 +19,38 @@ const gql = `
 	}
 `;
 
-async function init(): Promise<false | void> {
+// `datalist` selections don't have an `inputType`
+function selectionHandler(event: DelegateEvent<Event, HTMLInputElement>): void {
+	const field = event.delegateTarget;
+	const selectedTag = field.value;
+	if (!('inputType' in event) && latestTags!.includes(selectedTag)) {
+		location.href = buildRepoURL('releases/tag', selectedTag);
+		field.value = '';
+	}
+}
+
+async function addList(searchField: HTMLInputElement): Promise<void> {
 	const {repository} = await api.v4(gql);
-	const tags = repository.refs.nodes as Array<{name: string}>;
-	if (tags.length === 0) {
-		return false;
+	const nodes = repository.refs.nodes as Array<{name: string}>;
+	if (nodes.length === 0) {
+		return;
 	}
 
-	const searchField = select('input#release-filter')!;
+	// Save globally
+	latestTags = nodes.map(({name}) => name);
+
 	searchField.after(
 		<datalist id="rgh-tags-dropdown">
-			{tags.reverse().map(tag => <option value={tag.name}/>)}
+			{latestTags.reverse().map(tag => <option value={tag}/>)}
 		</datalist>,
 	);
 	searchField.setAttribute('list', 'rgh-tags-dropdown');
+}
+
+const searchFieldSelector = 'input#release-filter';
+async function init(signal: AbortSignal): Promise<void> {
+	observe(searchFieldSelector, addList, {signal});
+	delegate(document, searchFieldSelector, 'input', selectionHandler, {signal});
 }
 
 void features.add(import.meta.url, {
