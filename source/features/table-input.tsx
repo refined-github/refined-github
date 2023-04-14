@@ -68,7 +68,7 @@ function add(anchor: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('md-task-list', add, {signal});
+	observe('md-ref', add, {signal});
 	delegate(document, '.rgh-tic', 'click', addTable, {signal});
 	if (!isHasSelectorSupported) {
 		delegate(document, '.rgh-tic', 'mouseenter', highlightSquares, {capture: true, signal});
