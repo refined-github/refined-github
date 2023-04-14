@@ -1,17 +1,10 @@
-/* Simulates fixed columns. "*" doesn't work */
-.rgh-release-download-count > :is(span, small) {
-	flex-grow: 0 !important;
+/* Simulates fixed columns */
+.rgh-release-download-count > span {
+	flex-basis: 0 !important;
 	min-width: 6em;
 }
 
-@media (max-width: 767px) {
-	/* Uses smaller width for download count */
-	.rgh-release-download-count [data-rgh-heat] {
-		min-width: 5em;
-	}
-
-	/* Restores flex-grow to center align asset size */
-	.rgh-release-download-count [data-rgh-heat] + span {
-		flex-grow: 1 !important;
-	}
+/* Makes space for right aligning download count */
+.rgh-release-download-count [data-rgh-heat] {
+	min-width: 5em;
 }

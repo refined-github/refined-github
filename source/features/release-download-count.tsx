@@ -78,26 +78,24 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 				.querySelector(':scope > .flex-justify-end > :first-child')!;
 
 			assetSize.parentElement!.classList.add('rgh-release-download-count');
-			assetSize.classList.remove('text-sm-left');
-			assetSize.classList.add('text-center');
 
 			const classes = new Set(assetSize.classList);
-			classes.delete('text-center');
-			classes.add('text-right');
-			classes.add('no-wrap');
+			classes.delete('text-sm-left');
 
 			if (downloadCount === 0) {
 				classes.add('v-hidden');
 			}
 
 			assetSize.before(
-				<small
-					className={[...classes].join(' ')}
-					title={`${downloadCount} downloads`}
-					data-rgh-heat={calculateHeatIndex(downloadCount)}
-				>
-					{abbreviateNumber(downloadCount)} <DownloadIcon/>
-				</small>,
+				<span className={[...classes].join(' ')}>
+					<small
+						className="d-inline-block text-right"
+						title={`${downloadCount} downloads`}
+						data-rgh-heat={calculateHeatIndex(downloadCount)}
+					>
+						{abbreviateNumber(downloadCount)} <DownloadIcon/>
+					</small>
+				</span>,
 			);
 		}
 	}
