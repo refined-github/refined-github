@@ -87,7 +87,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 			classes.add('text-right');
 			classes.add('no-wrap');
 			classes.add('ml-auto');
-			classes.add('mr-sm-2');
+			classes.add('mr-2');
 
 			assetSize.before(
 				<small
