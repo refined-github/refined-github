@@ -1,13 +1,10 @@
-/* Improve spacing on mobile. "*" doesn't work */
-.rgh-release-download-count > :is(span, small) {
-	flex: 0 0 auto !important;
+/* Simulates fixed columns */
+.rgh-release-download-count > span {
+	flex-basis: 0 !important;
+	min-width: 6em;
 }
 
-/* Simulates fixed columns: Size  */
-.rgh-release-download-count .text-sm-left {
+/* Makes space for right aligning download count */
+.rgh-release-download-count [data-rgh-heat] {
 	min-width: 5em;
-}
-/* Simulates fixed columns: Date */
-.rgh-release-download-count .text-right {
-	min-width: 6em;
 }

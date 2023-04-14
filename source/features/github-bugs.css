@@ -81,3 +81,8 @@
 		display: none;
 	}
 }
+
+/* Add margin to release download icon #6510 */
+.Box-row :is(.octicon-package, .octicon-file-zip):has(+ a[rel='nofollow']) {
+	margin-right: 4px;
+}
