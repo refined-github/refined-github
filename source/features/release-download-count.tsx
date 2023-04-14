@@ -70,10 +70,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		const calculateHeatIndex = createHeatIndexFunction([...downloadCounts.values()]);
 		for (const assetName of select.all('.octicon-package ~ a .text-bold', release)) {
 			// Match the asset in the DOM to the asset in the API response
-			const downloadCount = downloadCounts.get(assetName.textContent!);
-			if (!downloadCount) {
-				continue;
-			}
+			const downloadCount = downloadCounts.get(assetName.textContent!) ?? 0;
 
 			// Place next to asset size
 			const assetSize = assetName
@@ -82,11 +79,16 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 
 			assetSize.parentElement!.classList.add('rgh-release-download-count');
 			assetSize.classList.remove('text-sm-left');
+			assetSize.classList.add('text-center');
 
 			const classes = new Set(assetSize.classList);
-			assetSize.classList.add('text-center');
+			classes.delete('text-center');
 			classes.add('text-right');
 			classes.add('no-wrap');
+
+			if (downloadCount === 0) {
+				classes.add('v-hidden');
+			}
 
 			assetSize.before(
 				<small
