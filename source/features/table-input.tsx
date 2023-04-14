@@ -15,13 +15,13 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 	const field = square.form!.querySelector('textarea.js-comment-field')!;
 	const cursorPosition = field.selectionStart;
 
+	const columns = Number(square.dataset.x);
+	const rows = Number(square.dataset.y);
+	const row = columns === 1
+		? '<tr><td>\n'
+		: '<tr>\n' + '<td>\n\n'.repeat(columns);
 	field.focus();
-	const table
-		= '<table>\n'
-			+ ('<tr>\n'
-				+ '\t<td>\n'.repeat(Number(square.dataset.x))
-			).repeat(Number(square.dataset.y))
-		+ '</table>';
+	const table = '<table>\n' + row.repeat(rows) + '</table>';
 	textFieldEdit.insert(field, smartBlockWrap(table, field));
 
 	// Move caret to first cell
