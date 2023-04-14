@@ -68,7 +68,17 @@ const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnc
 
 const usernameLinksSelector = [
 	// `a` selector needed to skip commits by non-GitHub users
-	':is(.js-discussion, .inline-comments) a.author:not([href*="/apps/"], [href*="/marketplace/"], [data-hovercard-type="organization"])',
+	// # and `show_full_name` target mannequins #6504
+	`:is(
+		.js-discussion,
+		.inline-comments
+	) a.author:not(
+		[show_full_name="false"],
+		[href="#"],
+		[href*="/apps/"],
+		[href*="/marketplace/"],
+		[data-hovercard-type="organization"]
+	)`,
 
 	// On dashboard `.text-bold` is required to not fetch avatars
 	'#dashboard a.text-bold[data-hovercard-type="user"]',

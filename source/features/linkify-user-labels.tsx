@@ -7,15 +7,6 @@ import {buildRepoURL} from '../github-helpers';
 import getCommentAuthor from '../github-helpers/get-comment-author';
 import observe from '../helpers/selector-observer';
 
-const selectors = [
-	'.tooltipped[aria-label*="a member of the"]',
-	'.tooltipped[aria-label^="This user has previously committed"]',
-];
-
-function init(signal: AbortSignal): void {
-	observe(selectors, linkify, {signal});
-}
-
 function linkify(label: Element): void {
 	if (label.closest('a')) {
 		features.log.error(import.meta.url, 'Already linkified, feature needs to be updated');
@@ -25,6 +16,13 @@ function linkify(label: Element): void {
 	const url = new URL(buildRepoURL('commits'));
 	url.searchParams.set('author', getCommentAuthor(label));
 	wrap(label, <a className="Link--secondary" href={url.href}/>);
+}
+
+function init(signal: AbortSignal): void {
+	observe([
+		'.tooltipped[aria-label*="a member of the"]',
+		'.tooltipped[aria-label^="This user has previously committed"]',
+	], linkify, {signal});
 }
 
 void features.add(import.meta.url, {
