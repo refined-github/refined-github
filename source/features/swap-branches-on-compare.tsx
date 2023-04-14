@@ -32,6 +32,7 @@ void features.add(import.meta.url, {
 	exclude: [
 		// Disable on Two-dot Git diff comparison #4453
 		() => /\.\.+/.exec(location.pathname)?.[0]!.length === 2,
+		pageDetect.isBlank,
 	],
 	awaitDomReady: true,
 	deduplicate: 'has-rgh',
