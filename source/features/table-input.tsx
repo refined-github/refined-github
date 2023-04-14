@@ -19,7 +19,7 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 	const rows = Number(square.dataset.y);
 	const row = columns === 1
 		? '<tr><td>\n'
-		: '<tr>\n' + '<td>\n\n'.repeat(columns);
+		: '<tr>\n' + ' <td>\n'.repeat(columns);
 	field.focus();
 	const table = '<table>\n' + row.repeat(rows) + '</table>';
 	textFieldEdit.insert(field, smartBlockWrap(table, field));
