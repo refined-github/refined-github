@@ -88,13 +88,13 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 
 			assetSize.before(
 				<span className={[...classes].join(' ')}>
-					<small
+					<span
 						className="d-inline-block text-right"
 						title={`${downloadCount} downloads`}
 						data-rgh-heat={calculateHeatIndex(downloadCount)}
 					>
 						{abbreviateNumber(downloadCount)} <DownloadIcon/>
-					</small>
+					</span>
 				</span>,
 			);
 		}
