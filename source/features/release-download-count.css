@@ -5,10 +5,12 @@
 }
 
 @media (max-width: 767px) {
+	/* Uses smaller width for download count */
 	.rgh-release-download-count [data-rgh-heat] {
 		min-width: 5em;
 	}
 
+	/* Restores flex-grow to center align asset size */
 	.rgh-release-download-count [data-rgh-heat] + span {
 		flex-grow: 1 !important;
 	}
