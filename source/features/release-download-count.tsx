@@ -81,13 +81,12 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 				.querySelector(':scope > .flex-justify-end > :first-child')!;
 
 			assetSize.parentElement!.classList.add('rgh-release-download-count');
+			assetSize.classList.remove('text-sm-left');
 
 			const classes = new Set(assetSize.classList);
-			classes.delete('text-sm-left');
+			assetSize.classList.add('text-center');
 			classes.add('text-right');
 			classes.add('no-wrap');
-			classes.add('ml-auto');
-			classes.add('mr-2');
 
 			assetSize.before(
 				<small

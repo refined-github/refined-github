@@ -1,13 +1,15 @@
-/* Improve spacing on mobile. "*" doesn't work */
+/* Simulates fixed columns. "*" doesn't work */
 .rgh-release-download-count > :is(span, small) {
-	flex: 0 0 auto !important;
+	flex-grow: 0 !important;
+	min-width: 6em;
 }
 
-/* Simulates fixed columns: Size  */
-.rgh-release-download-count .text-sm-left {
-	min-width: 5em;
-}
-/* Simulates fixed columns: Date */
-.rgh-release-download-count .text-right {
-	min-width: 6em;
+@media (max-width: 767px) {
+	.rgh-release-download-count [data-rgh-heat] {
+		min-width: 5em;
+	}
+
+	.rgh-release-download-count [data-rgh-heat] + span {
+		flex-grow: 1 !important;
+	}
 }
