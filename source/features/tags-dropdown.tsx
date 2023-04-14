@@ -31,20 +31,20 @@ function selectionHandler(event: DelegateEvent<Event, HTMLInputElement>): void {
 
 async function addList(searchField: HTMLInputElement): Promise<void> {
 	const {repository} = await api.v4(gql);
-	const nodes = repository.refs.nodes as Array<{name: string}>;
-	if (nodes.length === 0) {
+	// Save globally
+	latestTags = repository.refs.nodes
+		.map(({name}: {name: string}) => name)
+		.reverse();
+	if (latestTags!.length === 0) {
 		return;
 	}
 
-	// Save globally
-	latestTags = nodes.map(({name}) => name).reverse();
-
+	searchField.setAttribute('list', 'rgh-tags-dropdown');
 	searchField.after(
 		<datalist id="rgh-tags-dropdown">
-			{latestTags.map(tag => <option value={tag}/>)}
+			{latestTags!.map(tag => <option value={tag}/>)}
 		</datalist>,
 	);
-	searchField.setAttribute('list', 'rgh-tags-dropdown');
 }
 
 const searchFieldSelector = 'input#release-filter';
@@ -55,7 +55,7 @@ async function init(signal: AbortSignal): Promise<void> {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isReleasesOrTags,
+		pageDetect.isReleases,
 	],
 	init,
 });
