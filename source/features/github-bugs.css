@@ -81,3 +81,13 @@
 		display: none;
 	}
 }
+
+/* Align icons in the release search field #6506 */
+/* Test: https://github.com/refined-github/refined-github/releases */
+[action$="/releases"] .subnav-search-icon {
+	margin-top: -1px;
+}
+
+#release-filter::-webkit-calendar-picker-indicator {
+	margin-top: -4px;
+}
