@@ -11,7 +11,7 @@ let latestTags: string[] | undefined;
 
 const gql = `
 	repository() {
-		refs(refPrefix: "refs/tags/", last: 100) {
+		releases(last: 100) {
 			nodes {
 				name
 			}
@@ -39,9 +39,9 @@ async function addList(searchField: HTMLInputElement): Promise<void> {
 		return;
 	}
 
-	searchField.setAttribute('list', 'rgh-tags-dropdown');
+	searchField.setAttribute('list', 'rgh-releases-dropdown');
 	searchField.after(
-		<datalist id="rgh-tags-dropdown">
+		<datalist id="rgh-releases-dropdown">
 			{latestTags!.map(tag => <option value={tag}/>)}
 		</datalist>,
 	);
