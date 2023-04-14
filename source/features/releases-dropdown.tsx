@@ -1,48 +1,53 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
+import cache from 'webext-storage-cache';
 
 import * as api from '../github-helpers/api';
 import features from '../feature-manager';
-import {buildRepoURL} from '../github-helpers';
+import {buildRepoURL, cacheByRepo} from '../github-helpers';
 import observe from '../helpers/selector-observer';
-
-let latestTags: string[] | undefined;
 
 const gql = `
 	repository() {
-		releases(last: 100) {
+		releases(first: 100) {
 			nodes {
-				name
+				tagName
 			}
 		}
 	}
 `;
 
+const getReleases = cache.function('releases', async (): Promise<string[]> => {
+	const {repository} = await api.v4(gql);
+	return repository.releases.nodes.map(({tagName}: {tagName: string}) => tagName);
+}, {
+	maxAge: {hours: 1},
+	staleWhileRevalidate: {days: 4},
+	cacheKey: cacheByRepo,
+});
+
 // `datalist` selections don't have an `inputType`
-function selectionHandler(event: DelegateEvent<Event, HTMLInputElement>): void {
+async function selectionHandler(event: DelegateEvent<Event, HTMLInputElement>): Promise<void> {
 	const field = event.delegateTarget;
 	const selectedTag = field.value;
-	if (!('inputType' in event) && latestTags!.includes(selectedTag)) {
+	const releases = await getReleases(); // Expected to be in cache
+	if (!('inputType' in event) && releases.includes(selectedTag)) {
 		location.href = buildRepoURL('releases/tag', encodeURIComponent(selectedTag));
-		field.value = '';
+		field.value = ''; // Can't call `preventDefault`, the `input` event is not cancelable
 	}
 }
 
 async function addList(searchField: HTMLInputElement): Promise<void> {
-	const {repository} = await api.v4(gql);
-	// Save globally
-	latestTags = repository.refs.nodes
-		.map(({name}: {name: string}) => name)
-		.reverse();
-	if (latestTags!.length === 0) {
+	const releases = await getReleases();
+	if (releases.length === 0) {
 		return;
 	}
 
 	searchField.setAttribute('list', 'rgh-releases-dropdown');
 	searchField.after(
 		<datalist id="rgh-releases-dropdown">
-			{latestTags!.map(tag => <option value={tag}/>)}
+			{releases.map(tag => <option value={tag}/>)}
 		</datalist>,
 	);
 }
