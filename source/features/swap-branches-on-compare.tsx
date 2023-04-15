@@ -5,6 +5,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
+const isTwoDotDiff = (): boolean => /\.\.+/.exec(location.pathname)?.[0]!.length === 2
+
 function init(): void {
 	const references = getRepo()!
 		.path
@@ -31,7 +33,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		// Disable on Two-dot Git diff comparison #4453
-		() => /\.\.+/.exec(location.pathname)?.[0]!.length === 2,
+		isTwoDotDiff,
 		pageDetect.isBlank,
 	],
 	awaitDomReady: true,
