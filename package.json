@@ -124,9 +124,6 @@
 		"node": ">= 16",
 		"npm": ">= 7"
 	},
-	"overrides": {
-		"webext-options-sync": "4.1.0-3"
-	},
 	"webExt": {
 		"sourceDir": "distribution",
 		"run": {
