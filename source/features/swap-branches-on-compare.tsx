@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager';
 import {buildRepoURL, getRepo} from '../github-helpers';
 
-const isTwoDotDiff = (): boolean => /\.\.+/.exec(location.pathname)?.[0]!.length === 2
+const isTwoDotDiff = (): boolean => /\.\.+/.exec(location.pathname)?.[0]!.length === 2;
 
 function init(): void {
 	const references = getRepo()!
@@ -19,9 +19,9 @@ function init(): void {
 		references.unshift(select('.branch span')!.textContent!);
 	}
 
-	const editor = select('.range-editor')!;
-	editor.append(
-		<a className="btn btn-sm" href={buildRepoURL('compare/' + references.join('...'))}>
+	const referencePicker = select('.range-editor .d-inline-block + .range-cross-repo-pair')!;
+	referencePicker.after(
+		<a className="btn btn-sm mx-2" href={buildRepoURL('compare/' + references.join('...'))}>
 			Swap
 		</a>,
 	);
@@ -44,5 +44,6 @@ void features.add(import.meta.url, {
 /*
 Test URLs:
 
-https://github.com/refined-github/refined-github/compare/23.2.1...main
+- Compare: https://github.com/refined-github/refined-github/compare/23.2.1...main
+- Blank: https://github.com/refined-github/refined-github/compare
 */
