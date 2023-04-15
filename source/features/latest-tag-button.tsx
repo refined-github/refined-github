@@ -144,7 +144,7 @@ async function init(): Promise<false | void> {
 			const compareLink = (
 				<a
 					className="btn btn-sm tooltipped tooltipped-ne"
-					href={buildRepoURL(`compare/${latestTag}...${defaultBranch}`)}
+					href={buildRepoURL('compare', `${latestTag}...${defaultBranch}`)}
 					data-turbo-frame="repo-content-turbo-frame"
 					aria-label={`Compare ${latestTag}...${defaultBranch}`}
 				>
