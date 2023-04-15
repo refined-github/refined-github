@@ -1,9 +1,9 @@
 import React from 'dom-chef';
-import elementReady from 'element-ready';
 import {CalendarIcon, XIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
+import observe from '../helpers/selector-observer';
 
 function isoDateFormatter(date: Date): string {
 	return new Date(date.getTime() - (date.getTimezoneOffset() * 60_000))
@@ -28,7 +28,7 @@ function DateInput(props: React.InputHTMLAttributes<HTMLInputElement>): JSX.Elem
 	);
 }
 
-async function init(): Promise<void> {
+function addDropdown(anchor: HTMLElement): void {
 	const url = new URL(location.href);
 	const link = <a hidden href={url.href}/> as unknown as HTMLAnchorElement;
 
@@ -51,7 +51,7 @@ async function init(): Promise<void> {
 	const now = isoDateFormatter(new Date());
 
 	const id = 'rgh-commit-date-picker';
-	(await elementReady('.file-navigation'))!.append(
+	anchor.append(
 		<details id={id} className="details-reset details-overlay">
 			<summary className="btn ml-2" aria-haspopup="true">
 				<CalendarIcon className="mr-2"/>
@@ -94,6 +94,10 @@ async function init(): Promise<void> {
 		</details>,
 		link,
 	);
+}
+
+function init(signal: AbortSignal): void {
+	observe('.file-navigation', addDropdown, {signal});
 }
 
 void features.add(import.meta.url, {
