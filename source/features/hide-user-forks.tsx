@@ -14,7 +14,7 @@ const selectors = [
 	`a[href*="?tab=repositories"]:is([href^="/"], [href^="${location.origin}/"])${skipUrlsWithType}`,
 
 	// Organization repos
-	`a[href$="/repositories"]:is([href^="/orgs/"], [href^="${location.origin}/orgs/"])${skipUrlsWithType}`,
+	`a[href*="/repositories"]:is([href^="/orgs/"], [href^="${location.origin}/orgs/"])${skipUrlsWithType}`,
 ] as const;
 
 // No `include`, no `signal` necessary
