@@ -7,6 +7,7 @@ import {objectEntries} from 'ts-extras';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
+import {noHasSelectorSupport} from '../helpers/select-has';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`
@@ -61,6 +62,9 @@ void features.add(import.meta.url, {
 		pageDetect.isCommitList,
 		pageDetect.isPRConversation,
 		pageDetect.isCompare,
+	],
+	exclude: [
+		noHasSelectorSupport,
 	],
 	deduplicate: 'has-rgh-inner',
 	awaitDomReady: true, // TODO: Use `observe` + `batched-function`

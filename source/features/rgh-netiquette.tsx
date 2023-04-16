@@ -8,6 +8,7 @@ import observe from '../helpers/selector-observer';
 import {isAnyRefinedGitHubRepo} from '../github-helpers';
 import {getNoticeText, shouldDisplayNotice} from './netiquette';
 import TimelineItem from '../github-helpers/timeline-item';
+import {noHasSelectorSupport} from '../helpers/select-has';
 
 function addConversationBanner(newCommentBox: HTMLElement): void {
 	const button = (
@@ -49,6 +50,9 @@ void features.add(import.meta.url, {
 	],
 	include: [
 		pageDetect.isConversation,
+	],
+	exclude: [
+		noHasSelectorSupport,
 	],
 	awaitDomReady: true, // We're specifically looking for the last event
 	init,

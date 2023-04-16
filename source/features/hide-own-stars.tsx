@@ -2,6 +2,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import {getUsername} from '../github-helpers';
+import {noHasSelectorSupport} from '../helpers/select-has';
 import observe from '../helpers/selector-observer';
 
 function hide(item: HTMLElement): void {
@@ -22,6 +23,9 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isDashboard,
+	],
+	exclude: [
+		noHasSelectorSupport,
 	],
 	init,
 });
