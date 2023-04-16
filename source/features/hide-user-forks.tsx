@@ -1,16 +1,7 @@
-import * as pageDetect from 'github-url-detection';
-
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 
-const isProfileRepoList = (url: URL | HTMLAnchorElement | Location = location): boolean =>
-	pageDetect.isUserProfileRepoTab(url) || pageDetect.utils.getOrg(url)?.path === 'repositories';
-
 function addSourceTypeToLink(link: HTMLAnchorElement): void {
-	if (!isProfileRepoList(link)) {
-		return;
-	}
-
 	const search = new URLSearchParams(link.search);
 	search.set('type', 'source');
 	link.search = String(search);
