@@ -16,12 +16,14 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	link.search = String(search);
 }
 
+const skipUrlsWithType = ':not([href*="&type="])';
+
 const selectors = [
 	// User repos
-	`a[href$="?tab=repositories"]:is([href^="/"], [href^="${location.origin}/"])`,
+	`a[href$="?tab=repositories"]:is([href^="/"], [href^="${location.origin}/"])${skipUrlsWithType}`,
 
 	// Organization repos
-	`a[href$="/repositories"]:is([href^="/orgs/"], [href^="${location.origin}/orgs/"])`,
+	`a[href$="/repositories"]:is([href^="/orgs/"], [href^="${location.origin}/orgs/"])${skipUrlsWithType}`,
 ] as const;
 
 // No `include`, no `signal` necessary
