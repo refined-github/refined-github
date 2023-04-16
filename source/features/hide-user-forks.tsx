@@ -3,12 +3,12 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 
-const isProfileRepos = (url: URL | HTMLAnchorElement | Location = location): boolean =>
+const isProfileRepoList = (url: URL | HTMLAnchorElement | Location = location): boolean =>
 	pageDetect.isUserProfileRepoTab(url) || pageDetect.utils.getOrg(url)?.path === 'repositories';
 
 function addSourceTypeToLink(link: HTMLAnchorElement): void {
-	if (!isProfileRepos(link)) {
-		return
+	if (!isProfileRepoList(link)) {
+		return;
 	}
 
 	const search = new URLSearchParams(link.search);
@@ -36,6 +36,7 @@ void features.add(import.meta.url, {
 /*
 
 ## Test
+
 - https://github.com/fregante?tab=repositories
 - https://github.com/orgs/refined-github/repositories
 - The "Your repositories" link in the user dropdown in the header
