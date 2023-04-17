@@ -215,3 +215,4 @@ import './features/netiquette';
 import './features/rgh-netiquette';
 import './features/small-user-avatars';
 import './features/releases-dropdown';
+import './features/pr-base-commit';

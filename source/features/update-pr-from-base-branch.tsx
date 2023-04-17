@@ -10,28 +10,11 @@ import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 import * as api from '../github-helpers/api';
 import {getBranches} from '../github-helpers/pr-branches';
-import getPrInfo, {PullRequestInfo} from '../github-helpers/get-pr-info';
+import getPrInfo from '../github-helpers/get-pr-info';
 import showToast from '../github-helpers/toast';
-import pluralize from '../helpers/pluralize';
-import {buildRepoURL, getConversationNumber} from '../github-helpers';
+import { getConversationNumber} from '../github-helpers';
 import createMergeabilityRow from '../github-widgets/mergeability-row';
 import selectHas from '../helpers/select-has';
-import {linkifyCommit} from '../github-helpers/dom-formatters';
-import {removeTextNodeContaining} from '../helpers/dom-utils';
-
-function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
-	const {base} = getBranches();
-	const commit = linkifyCommit(prInfo.baseRefOid);
-	const count = pluralize(prInfo.behindBy, '$$ commit');
-	const countLink = (
-		<a href={buildRepoURL('compare', `${prInfo.baseRefOid.slice(0, 8)}...${base.branch}`)}>
-			{count}
-		</a>
-	);
-	return (
-		<>This branch is {countLink} behind the base branch (base commit: {commit})</>
-	);
-}
 
 const canMerge = '.merge-pr > .color-fg-muted:first-child';
 const canNativelyUpdate = '.js-update-branch-form';
@@ -86,6 +69,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 
 	// The PR is still a draft
 	mergeBar.before(createMergeabilityRow({
+		className: 'rgh-update-pr-from-base-branch-row',
 		action: <button type="button" className="btn rgh-update-pr-from-base-branch">Update branch</button>,
 		icon: <CheckIcon/>,
 		iconClass: 'completeness-indicator-success',

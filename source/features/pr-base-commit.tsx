@@ -23,15 +23,15 @@ function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 		</a>
 	);
 	return (
-		<>This branch is {countLink} behind the base branch (base commit: {commit})</>
+		<>but it’s {countLink} behind (base commit: {commit})</>
 	);
 }
-
 
 async function addInfo(statusMeta: Element): Promise<void> {
 	// Selector copied fromGitHub. Don't @ me
 	// This excludes hidden ".status-meta" items without adding this longass selector to the observer
-	if (statusMeta.closest('.merge-pr.is-merging .merging-body, .merge-pr.is-merging .merge-commit-author-email-info, .merge-pr.is-merging-solo .merging-body, .merge-pr.is-merging-jump .merging-body, .merge-pr.is-merging-group .merging-body, .merge-pr.is-rebasing .rebasing-body, .merge-pr.is-squashing .squashing-body, .merge-pr.is-squashing .squash-commit-author-email-info, .merge-pr.is-merging .branch-action-state-error-if-merging .merging-body-merge-warning')) {
+	// Added: .rgh-update-pr-from-base-branch-row
+	if (!statusMeta.closest('.merge-pr.is-merging .merging-body, .merge-pr.is-merging .merge-commit-author-email-info, .merge-pr.is-merging-solo .merging-body, .merge-pr.is-merging-jump .merging-body, .merge-pr.is-merging-group .merging-body, .merge-pr.is-rebasing .rebasing-body, .merge-pr.is-squashing .squashing-body, .merge-pr.is-squashing .squash-commit-author-email-info, .merge-pr.is-merging .branch-action-state-error-if-merging .merging-body-merge-warning, .rgh-update-pr-from-base-branch-row')) {
 		return;
 	}
 
@@ -49,7 +49,7 @@ async function addInfo(statusMeta: Element): Promise<void> {
 async function init(signal: AbortSignal): Promise<false | void> {
 	await api.expectToken();
 
-	observe('.branch-action-item .merge-message', addInfo, {signal});
+	observe('.branch-action-item .status-meta', addInfo, {signal});
 }
 
 void features.add(import.meta.url, {
