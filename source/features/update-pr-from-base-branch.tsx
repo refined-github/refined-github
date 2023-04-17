@@ -72,6 +72,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 		icon: <CheckIcon/>,
 		iconClass: 'completeness-indicator-success',
 		heading: 'This branch has no conflicts with the base branch',
+		meta: 'Merging can be performed automatically.',
 	}));
 }
 
