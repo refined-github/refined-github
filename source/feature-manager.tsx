@@ -70,7 +70,7 @@ const logError = (url: string, error: unknown): void => {
 	}
 
 	const searchIssueUrl = new URL('https://github.com/refined-github/refined-github/issues');
-	searchIssueUrl.searchParams.set('q', `is:issue is:open sort:updated-desc ${message}`);
+	searchIssueUrl.searchParams.set('q', `is:issue is:open label:bug ${id}`);
 
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
