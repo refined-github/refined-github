@@ -99,8 +99,11 @@ Test URLs
 PR without conflicts
 https://github.com/refined-github/sandbox/pull/60
 
+Draft PR without conflicts
+https://github.com/refined-github/sandbox/pull/61
+
 Native "Update branch" button
-(pick a conflict-free PR from https://github.com/refined-github/refined-github/pulls?q=is%3Apr+is%3Aopen+draft%3Afalse+sort%3Acreated-asc)
+(pick a conflict-free PR from https://github.com/refined-github/refined-github/pulls?q=is%3Apr+is%3Aopen+sort%3Acreated-asc)
 
 Native "Resolve conflicts" button
 https://github.com/refined-github/sandbox/pull/9
