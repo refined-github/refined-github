@@ -12,7 +12,7 @@ import * as api from '../github-helpers/api';
 import {getBranches} from '../github-helpers/pr-branches';
 import getPrInfo from '../github-helpers/get-pr-info';
 import showToast from '../github-helpers/toast';
-import { getConversationNumber} from '../github-helpers';
+import {getConversationNumber} from '../github-helpers';
 import createMergeabilityRow from '../github-widgets/mergeability-row';
 import selectHas from '../helpers/select-has';
 
