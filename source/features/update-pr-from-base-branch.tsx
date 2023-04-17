@@ -81,11 +81,6 @@ async function addButton(mergeBar: Element): Promise<void> {
 			</div>,
 		);
 
-		// Selector copied from GitHub. Don't @ me
-		const visibleMessage = select('.merge-pr.is-merging .merging-body, .merge-pr.is-merging .merge-commit-author-email-info, .merge-pr.is-merging-solo .merging-body, .merge-pr.is-merging-jump .merging-body, .merge-pr.is-merging-group .merging-body, .merge-pr.is-rebasing .rebasing-body, .merge-pr.is-squashing .squashing-body, .merge-pr.is-squashing .squash-commit-author-email-info, .merge-pr.is-merging .branch-action-state-error-if-merging .merging-body-merge-warning', mergeabilityRow)!;
-		const meta = select('.status-meta', visibleMessage)!;
-		meta.append(getBaseCommitNotice(prInfo));
-		removeTextNodeContaining(meta.firstChild!, 'Merging can be performed automatically.');
 		return;
 	}
 
@@ -95,9 +90,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 		icon: <CheckIcon/>,
 		iconClass: 'completeness-indicator-success',
 		heading: 'This branch has no conflicts with the base branch',
-		meta: (
-			getBaseCommitNotice(prInfo)
-		),
+		meta: 'Merging can be performed automatically.',
 	}));
 }
 

@@ -4,8 +4,8 @@ type MergeabilityRowProps = {
 	action?: JSX.Element;
 	icon: JSX.Element;
 	iconClass?: string;
-	heading: string;
-	meta?: JSX.Element;
+	heading: JSX.Element | string;
+	meta?: JSX.Element | string;
 };
 
 export default function createMergeabilityRow({
