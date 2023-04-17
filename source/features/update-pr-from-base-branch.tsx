@@ -2,7 +2,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 
 import * as pageDetect from 'github-url-detection';
-import delegate from 'delegate-it';
+import delegate, { DelegateEvent } from 'delegate-it';
+
+import {CheckIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
@@ -22,14 +24,8 @@ async function mergeBranches(): Promise<AnyObject> {
 	});
 }
 
-async function handler(): Promise<void> {
-	const {base, head} = getBranches();
-	if (!confirm(`Merge the ${base.local} branch into ${head.local}?`)) {
-		return;
-	}
-
-	features.unload(import.meta.url);
-
+async function handler(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+	event.delegateTarget.disabled = true;
 	await showToast(async () => {
 		const response = await mergeBranches().catch(error => error);
 		if (response instanceof Error || !response.ok) {
@@ -45,7 +41,7 @@ async function handler(): Promise<void> {
 
 async function addButton(mergeBar: Element): Promise<void> {
 	if (!select.exists(selectorForPushablePRNotice)) {
-		return
+		return;
 	}
 
 	const {base, head} = getBranches();
@@ -55,7 +51,12 @@ async function addButton(mergeBar: Element): Promise<void> {
 	}
 
 	if (prInfo.viewerCanEditFiles && prInfo.mergeable !== 'CONFLICTING') {
-		mergeBar.before(createMergeabilityRow())
+		mergeBar.before(createMergeabilityRow({
+			action: <button type="button" className="btn rgh-update-pr-from-base-branch">Update branch</button>,
+			icon: <CheckIcon/>,
+			iconClass: 'completeness-indicator-success',
+			heading: 'This branch has no conflicts with the base branch',
+		}));
 	}
 }
 
