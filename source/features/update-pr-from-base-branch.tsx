@@ -15,7 +15,8 @@ import {getConversationNumber} from '../github-helpers';
 import showToast from '../github-helpers/toast';
 import createMergeabilityRow from '../github-widgets/mergeability-row';
 
-const selectorForPushablePRNotice = '.merge-pr > .color-fg-muted:first-child';
+const canMerge = '.merge-pr > .color-fg-muted:first-child';
+const canNativelyUpdate = '.js-update-branch-form'
 
 async function mergeBranches(): Promise<AnyObject> {
 	return api.v3(`pulls/${getConversationNumber()!}/update-branch`, {
@@ -40,7 +41,7 @@ async function handler(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Pro
 }
 
 async function addButton(mergeBar: Element): Promise<void> {
-	if (!select.exists(selectorForPushablePRNotice)) {
+	if (!select.exists(canMerge) || select.exists(canNativelyUpdate)) {
 		return;
 	}
 
@@ -74,10 +75,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isClosedPR,
 		() => select('.head-ref')!.title === 'This repository has been deleted',
-
-		// Native button https://github.blog/changelog/2022-02-03-more-ways-to-keep-your-pull-request-branch-up-to-date/
-		// TODO: COPY to :has, so it can be hidden dynamically
-		() => select.exists('.js-update-branch-form'),
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,
