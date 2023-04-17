@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 
 import * as pageDetect from 'github-url-detection';
-import delegate, { DelegateEvent } from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import {CheckIcon} from '@primer/octicons-react';
 
@@ -16,7 +16,7 @@ import showToast from '../github-helpers/toast';
 import createMergeabilityRow from '../github-widgets/mergeability-row';
 
 const canMerge = '.merge-pr > .color-fg-muted:first-child';
-const canNativelyUpdate = '.js-update-branch-form'
+const canNativelyUpdate = '.js-update-branch-form';
 
 async function mergeBranches(): Promise<AnyObject> {
 	return api.v3(`pulls/${getConversationNumber()!}/update-branch`, {
@@ -52,6 +52,19 @@ async function addButton(mergeBar: Element): Promise<void> {
 	}
 
 	if (prInfo.viewerCanEditFiles && prInfo.mergeable !== 'CONFLICTING') {
+		const mergeabilityRow = select('.branch-action-item:has(.merging-body):not(:has(.js-update-branch-form))');
+		if (mergeabilityRow) {
+			mergeabilityRow.prepend(
+
+				<div
+					className="branch-action-btn float-right js-immediate-updates js-needs-timeline-marker-header"
+				>
+					<button type="button" className="btn rgh-update-pr-from-base-branch">Update branch</button>
+				</div>,
+			);
+			return;
+		}
+
 		mergeBar.before(createMergeabilityRow({
 			action: <button type="button" className="btn rgh-update-pr-from-base-branch">Update branch</button>,
 			icon: <CheckIcon/>,
