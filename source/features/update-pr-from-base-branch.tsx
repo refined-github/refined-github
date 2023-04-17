@@ -47,31 +47,31 @@ async function addButton(mergeBar: Element): Promise<void> {
 
 	const {base, head} = getBranches();
 	const prInfo = await getPrInfo(base.local, head.local);
-	if (!prInfo) {
+	if (!prInfo?.viewerCanEditFiles || prInfo.mergeable === 'CONFLICTING') {
 		return;
 	}
 
-	if (prInfo.viewerCanEditFiles && prInfo.mergeable !== 'CONFLICTING') {
-		const mergeabilityRow = select('.branch-action-item:has(.merging-body):not(:has(.js-update-branch-form))');
-		if (mergeabilityRow) {
-			mergeabilityRow.prepend(
+	const mergeabilityRow = select('.branch-action-item:has(.merging-body):not(:has(.js-update-branch-form))');
+	if (mergeabilityRow) {
+		// The PR is not a draft
+		mergeabilityRow.prepend(
 
-				<div
-					className="branch-action-btn float-right js-immediate-updates js-needs-timeline-marker-header"
-				>
-					<button type="button" className="btn rgh-update-pr-from-base-branch">Update branch</button>
-				</div>,
-			);
-			return;
-		}
-
-		mergeBar.before(createMergeabilityRow({
-			action: <button type="button" className="btn rgh-update-pr-from-base-branch">Update branch</button>,
-			icon: <CheckIcon/>,
-			iconClass: 'completeness-indicator-success',
-			heading: 'This branch has no conflicts with the base branch',
-		}));
+			<div
+				className="branch-action-btn float-right js-immediate-updates js-needs-timeline-marker-header"
+			>
+				<button type="button" className="btn rgh-update-pr-from-base-branch">Update branch</button>
+			</div>,
+		);
+		return;
 	}
+
+	// The PR is still a draft
+	mergeBar.before(createMergeabilityRow({
+		action: <button type="button" className="btn rgh-update-pr-from-base-branch">Update branch</button>,
+		icon: <CheckIcon/>,
+		iconClass: 'completeness-indicator-success',
+		heading: 'This branch has no conflicts with the base branch',
+	}));
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
