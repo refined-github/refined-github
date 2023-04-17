@@ -9,8 +9,9 @@ import observe from '../helpers/selector-observer';
 import * as api from '../github-helpers/api';
 import {getBranches} from '../github-helpers/pr-branches';
 import getPrInfo from '../github-helpers/get-pr-info';
-import {getConversationNumber} from '../github-helpers';
 import showToast from '../github-helpers/toast';
+import pluralize from '../helpers/pluralize';
+import {buildRepoURL, getConversationNumber} from '../github-helpers';
 
 const selectorForPushablePRNotice = '.merge-pr > .color-fg-muted:first-child';
 
@@ -45,17 +46,17 @@ async function handler(): Promise<void> {
 async function addButton(position: Element): Promise<void> {
 	const {base, head} = getBranches();
 	const prInfo = await getPrInfo(base.local, head.local);
-	if (!prInfo) {
+
+	if (!prInfo.needsUpdate) {
 		return;
 	}
 
-	if (prInfo.viewerCanEditFiles && prInfo.mergeable !== 'CONFLICTING') {
-		position.append(' ', (
-			<span className="status-meta d-inline-block rgh-update-pr-from-base-branch">
-				You can <button type="button" className="btn-link">update the base branch</button>.
-			</span>
-		));
-	}
+	position.append(' ', (
+		<span className="status-meta d-inline-block">
+			{select('.head-ref')!.cloneNode(true)} is {pluralize(prInfo.behindBy, '$$ commit', '$$ commits')} behind {select('.base-ref')!.cloneNode(true)}
+			{' ('}<a className="btn-link" href={buildRepoURL('commits/' + prInfo.baseRefOid)}>{prInfo.baseRefOid.slice(0, 8)}</a>)<button type="button" className="btn-link rgh-update-pr-from-base-branch">update branch</button>.
+		</span>
+	));
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
