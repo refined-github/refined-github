@@ -11,6 +11,7 @@ import {getBranches} from '../github-helpers/pr-branches';
 import getPrInfo from '../github-helpers/get-pr-info';
 import {getConversationNumber} from '../github-helpers';
 import showToast from '../github-helpers/toast';
+import createMergeabilityRow from '../github-widgets/mergeability-row';
 
 const selectorForPushablePRNotice = '.merge-pr > .color-fg-muted:first-child';
 
@@ -42,7 +43,11 @@ async function handler(): Promise<void> {
 	});
 }
 
-async function addButton(position: Element): Promise<void> {
+async function addButton(mergeBar: Element): Promise<void> {
+	if (!select.exists(selectorForPushablePRNotice)) {
+		return
+	}
+
 	const {base, head} = getBranches();
 	const prInfo = await getPrInfo(base.local, head.local);
 	if (!prInfo) {
@@ -50,11 +55,7 @@ async function addButton(position: Element): Promise<void> {
 	}
 
 	if (prInfo.viewerCanEditFiles && prInfo.mergeable !== 'CONFLICTING') {
-		position.append(' ', (
-			<span className="status-meta d-inline-block rgh-update-pr-from-base-branch">
-				You can <button type="button" className="btn-link">update the base branch</button>.
-			</span>
-		));
+		mergeBar.before(createMergeabilityRow())
 	}
 }
 
@@ -62,7 +63,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	await api.expectToken();
 
 	delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler, {signal});
-	observe(selectorForPushablePRNotice, addButton, {signal});
+	observe('.merge-message', addButton, {signal});
 }
 
 void features.add(import.meta.url, {
