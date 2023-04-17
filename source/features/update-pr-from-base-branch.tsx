@@ -20,13 +20,11 @@ import {linkifyCommit} from '../github-helpers/dom-formatters';
 import { removeTextNodeContaining } from '../helpers/dom-utils';
 
 function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
-	const {head} = getBranches();
+	const {base} = getBranches();
 	const commit = linkifyCommit(prInfo.baseRefOid);
 	const count = pluralize(prInfo.behindBy, '$$ commit', '$$ commits');
 	const countLink = (
-		// Adjust for cross-repo URLs like
-		// https://github.com/refined-github/sandbox/compare/default-a...bfred-it-org:github-sandbox:branch/for-pr
-		<a href={buildRepoURL('compare', `${prInfo.baseRefOid}...${head.full.replace(':', '')}`)}>
+		<a href={buildRepoURL('compare', `${prInfo.baseRefOid.slice(0, 8)}...${base.branch}`)}>
 			{count}
 		</a>
 	);
