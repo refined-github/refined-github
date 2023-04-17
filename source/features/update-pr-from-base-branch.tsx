@@ -13,20 +13,25 @@ import {getBranches} from '../github-helpers/pr-branches';
 import getPrInfo, {PullRequestInfo} from '../github-helpers/get-pr-info';
 import showToast from '../github-helpers/toast';
 import pluralize from '../helpers/pluralize';
-import {getConversationNumber} from '../github-helpers';
+import {buildRepoURL, getConversationNumber} from '../github-helpers';
 import createMergeabilityRow from '../github-widgets/mergeability-row';
 import selectHas from '../helpers/select-has';
 import {linkifyCommit} from '../github-helpers/dom-formatters';
+import { removeTextNodeContaining } from '../helpers/dom-utils';
 
 function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
-	const head = select('.head-ref')!.cloneNode(true);
-	const base = select('.base-ref')!.cloneNode(true);
+	const {head} = getBranches();
 	const commit = linkifyCommit(prInfo.baseRefOid);
-	const count = pluralize(prInfo.behindBy, '$$ commit', '$$ commits')
+	const count = pluralize(prInfo.behindBy, '$$ commit', '$$ commits');
+	const countLink = (
+		// Adjust for cross-repo URLs like
+		// https://github.com/refined-github/sandbox/compare/default-a...bfred-it-org:github-sandbox:branch/for-pr
+		<a href={buildRepoURL('compare', `${prInfo.baseRefOid}...${head.full.replace(':', '')}`)}>
+			{count}
+		</a>
+	);
 	return (
-		<>
-			<br/> {head} is {count} behind {base} ({commit})
-		</>
+		<>This branch is {countLink} behind the base branch (base commit: {commit})</>
 	);
 }
 
@@ -77,7 +82,12 @@ async function addButton(mergeBar: Element): Promise<void> {
 				<button type="button" className="btn rgh-update-pr-from-base-branch">Update branch</button>
 			</div>,
 		);
-		select('.status-meta')!.append(getBaseCommitNotice(prInfo));
+
+		// Selector copied from GitHub. Don't @ me
+		const visibleMessage = select('.merge-pr.is-merging .merging-body, .merge-pr.is-merging .merge-commit-author-email-info, .merge-pr.is-merging-solo .merging-body, .merge-pr.is-merging-jump .merging-body, .merge-pr.is-merging-group .merging-body, .merge-pr.is-rebasing .rebasing-body, .merge-pr.is-squashing .squashing-body, .merge-pr.is-squashing .squash-commit-author-email-info, .merge-pr.is-merging .branch-action-state-error-if-merging .merging-body-merge-warning', mergeabilityRow)!;
+		const meta = select('.status-meta', visibleMessage)!;
+		meta.append(getBaseCommitNotice(prInfo));
+		removeTextNodeContaining(meta.firstChild!, 'Merging can be performed automatically.');
 		return;
 	}
 
@@ -88,7 +98,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 		iconClass: 'completeness-indicator-success',
 		heading: 'This branch has no conflicts with the base branch',
 		meta: (
-			<>Merging can be performed automatically. {getBaseCommitNotice(prInfo)}</>
+			getBaseCommitNotice(prInfo)
 		),
 	}));
 }
