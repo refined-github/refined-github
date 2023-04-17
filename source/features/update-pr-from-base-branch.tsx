@@ -97,7 +97,10 @@ void features.add(import.meta.url, {
 Test URLs
 
 PR without conflicts
-https://github.com/refined-github/sandbox/pull/11
+https://github.com/refined-github/sandbox/pull/60
+
+Native "Update branch" button
+(pick a conflict-free PR from https://github.com/refined-github/refined-github/pulls?q=is%3Apr+is%3Aopen+draft%3Afalse+sort%3Acreated-asc)
 
 Native "Resolve conflicts" button
 https://github.com/refined-github/sandbox/pull/9
