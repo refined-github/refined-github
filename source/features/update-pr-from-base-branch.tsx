@@ -2,7 +2,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 
 import * as pageDetect from 'github-url-detection';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
+
+import {CheckIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
@@ -12,8 +14,11 @@ import getPrInfo from '../github-helpers/get-pr-info';
 import showToast from '../github-helpers/toast';
 import pluralize from '../helpers/pluralize';
 import {buildRepoURL, getConversationNumber} from '../github-helpers';
+import createMergeabilityRow from '../github-widgets/mergeability-row';
+import selectHas from '../helpers/select-has';
 
-const selectorForPushablePRNotice = '.merge-pr > .color-fg-muted:first-child';
+const canMerge = '.merge-pr > .color-fg-muted:first-child';
+const canNativelyUpdate = '.js-update-branch-form';
 
 async function mergeBranches(): Promise<AnyObject> {
 	return api.v3(`pulls/${getConversationNumber()!}/update-branch`, {
@@ -22,14 +27,8 @@ async function mergeBranches(): Promise<AnyObject> {
 	});
 }
 
-async function handler(): Promise<void> {
-	const {base, head} = getBranches();
-	if (!confirm(`Merge the ${base.local} branch into ${head.local}?`)) {
-		return;
-	}
-
-	features.unload(import.meta.url);
-
+async function handler(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+	event.delegateTarget.disabled = true;
 	await showToast(async () => {
 		const response = await mergeBranches().catch(error => error);
 		if (response instanceof Error || !response.ok) {
@@ -43,27 +42,49 @@ async function handler(): Promise<void> {
 	});
 }
 
-async function addButton(position: Element): Promise<void> {
-	const {base, head} = getBranches();
-	const prInfo = await getPrInfo(base.local, head.local);
-
-	if (!prInfo.needsUpdate) {
+async function addButton(mergeBar: Element): Promise<void> {
+	if (!select.exists(canMerge) || select.exists(canNativelyUpdate)) {
 		return;
 	}
 
-	position.append(' ', (
-		<span className="status-meta d-inline-block">
-			{select('.head-ref')!.cloneNode(true)} is {pluralize(prInfo.behindBy, '$$ commit', '$$ commits')} behind {select('.base-ref')!.cloneNode(true)}
-			{' ('}<a className="btn-link" href={buildRepoURL('commits/' + prInfo.baseRefOid)}>{prInfo.baseRefOid.slice(0, 8)}</a>)<button type="button" className="btn-link rgh-update-pr-from-base-branch">update branch</button>.
-		</span>
-	));
+	const {base, head} = getBranches();
+	const prInfo = await getPrInfo(base.local, head.local);
+	if (!prInfo.needsUpdate || !prInfo.viewerCanEditFiles || prInfo.mergeable === 'CONFLICTING') {
+		return;
+	}
+
+	const mergeabilityRow = selectHas('.branch-action-item:has(.merging-body)')!;
+	if (mergeabilityRow) {
+		// The PR is not a draft
+		mergeabilityRow.prepend(
+
+			<div
+				className="branch-action-btn float-right js-immediate-updates js-needs-timeline-marker-header"
+			>
+				<button type="button" className="btn rgh-update-pr-from-base-branch">Update branch</button>
+			</div>,
+		);
+		return;
+	}
+
+	// The PR is still a draft
+	mergeBar.before(createMergeabilityRow({
+		action: <button type="button" className="btn rgh-update-pr-from-base-branch">Update branch</button>,
+		icon: <CheckIcon/>,
+		iconClass: 'completeness-indicator-success',
+		heading: 'This branch has no conflicts with the base branch',
+		meta: (
+			<>Merging can be performed automatically. {select('.head-ref')!.cloneNode(true)} is {pluralize(prInfo.behindBy, '$$ commit', '$$ commits')} behind {select('.base-ref')!.cloneNode(true)}
+				{' ('}<a className="btn-link" href={buildRepoURL('commits/' + prInfo.baseRefOid)}>{prInfo.baseRefOid.slice(0, 8)}</a>
+			</>),
+	}));
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
 	await api.expectToken();
 
 	delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler, {signal});
-	observe(selectorForPushablePRNotice, addButton, {signal});
+	observe('.merge-message', addButton, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -73,10 +94,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isClosedPR,
 		() => select('.head-ref')!.title === 'This repository has been deleted',
-
-		// Native button https://github.blog/changelog/2022-02-03-more-ways-to-keep-your-pull-request-branch-up-to-date/
-		// TODO: COPY to :has, so it can be hidden dynamically
-		() => select.exists('.js-update-branch-form'),
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,
@@ -86,7 +103,13 @@ void features.add(import.meta.url, {
 Test URLs
 
 PR without conflicts
-https://github.com/refined-github/sandbox/pull/11
+https://github.com/refined-github/sandbox/pull/60
+
+Draft PR without conflicts
+https://github.com/refined-github/sandbox/pull/61
+
+Native "Update branch" button
+(pick a conflict-free PR from https://github.com/refined-github/refined-github/pulls?q=is%3Apr+is%3Aopen+sort%3Acreated-asc)
 
 Native "Resolve conflicts" button
 https://github.com/refined-github/sandbox/pull/9
