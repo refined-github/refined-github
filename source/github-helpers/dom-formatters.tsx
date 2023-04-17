@@ -1,3 +1,4 @@
+import React from 'dom-chef';
 import select from 'select-dom';
 import zipTextNodes from 'zip-text-nodes';
 import {applyToLink} from 'shorten-repo-url';
@@ -6,6 +7,7 @@ import linkifyIssuesCore from 'linkify-issues';
 
 import getTextNodes from '../helpers/get-text-nodes';
 import parseBackticksCore from './parse-backticks';
+import {buildRepoURL} from '.';
 
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';
@@ -92,4 +94,21 @@ export function parseBackticks(element: Element): void {
 			node.replaceWith(fragment);
 		}
 	}
+}
+
+export function linkifyCommit(sha: string): JSX.Element {
+	const url = buildRepoURL('commits/' + sha);
+	// Data attributes copied from the commit in https://github.com/refined-github/github-url-detection/releases/tag/v7.1.2
+	return (
+		<code>
+			<a
+				className="Link--secondary"
+				href={url}
+				data-hovercard-type="commit"
+				data-hovercard-url={url + '/hovercard'}
+			>
+				{sha.slice(0, 7)}
+			</a>
+		</code>
+	);
 }

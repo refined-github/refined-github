@@ -10,12 +10,25 @@ import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 import * as api from '../github-helpers/api';
 import {getBranches} from '../github-helpers/pr-branches';
-import getPrInfo from '../github-helpers/get-pr-info';
+import getPrInfo, {PullRequestInfo} from '../github-helpers/get-pr-info';
 import showToast from '../github-helpers/toast';
 import pluralize from '../helpers/pluralize';
-import {buildRepoURL, getConversationNumber} from '../github-helpers';
+import {getConversationNumber} from '../github-helpers';
 import createMergeabilityRow from '../github-widgets/mergeability-row';
 import selectHas from '../helpers/select-has';
+import {linkifyCommit} from '../github-helpers/dom-formatters';
+
+function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
+	const head = select('.head-ref')!.cloneNode(true);
+	const base = select('.base-ref')!.cloneNode(true);
+	const commit = linkifyCommit(prInfo.baseRefOid);
+	const count = pluralize(prInfo.behindBy, '$$ commit', '$$ commits')
+	return (
+		<>
+			<br/> {head} is {count} behind {base} ({commit})
+		</>
+	);
+}
 
 const canMerge = '.merge-pr > .color-fg-muted:first-child';
 const canNativelyUpdate = '.js-update-branch-form';
@@ -64,6 +77,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 				<button type="button" className="btn rgh-update-pr-from-base-branch">Update branch</button>
 			</div>,
 		);
+		select('.status-meta')!.append(getBaseCommitNotice(prInfo));
 		return;
 	}
 
@@ -74,9 +88,8 @@ async function addButton(mergeBar: Element): Promise<void> {
 		iconClass: 'completeness-indicator-success',
 		heading: 'This branch has no conflicts with the base branch',
 		meta: (
-			<>Merging can be performed automatically. {select('.head-ref')!.cloneNode(true)} is {pluralize(prInfo.behindBy, '$$ commit', '$$ commits')} behind {select('.base-ref')!.cloneNode(true)}
-				{' ('}<a className="btn-link" href={buildRepoURL('commits/' + prInfo.baseRefOid)}>{prInfo.baseRefOid.slice(0, 8)}</a>
-			</>),
+			<>Merging can be performed automatically. {getBaseCommitNotice(prInfo)}</>
+		),
 	}));
 }
 

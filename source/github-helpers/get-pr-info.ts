@@ -3,7 +3,7 @@ import * as pageDetect from 'github-url-detection';
 import * as api from './api';
 import {getConversationNumber} from '.';
 
-type PullRequestInfo = {
+export type PullRequestInfo = {
 	// TODO: Use this for `restore-file` when GHE supports `compare`
 	baseRefOid: string;
 	// https://docs.github.com/en/graphql/reference/enums#mergeablestate
