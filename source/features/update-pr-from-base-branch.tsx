@@ -17,12 +17,12 @@ import {buildRepoURL, getConversationNumber} from '../github-helpers';
 import createMergeabilityRow from '../github-widgets/mergeability-row';
 import selectHas from '../helpers/select-has';
 import {linkifyCommit} from '../github-helpers/dom-formatters';
-import { removeTextNodeContaining } from '../helpers/dom-utils';
+import {removeTextNodeContaining} from '../helpers/dom-utils';
 
 function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 	const {base} = getBranches();
 	const commit = linkifyCommit(prInfo.baseRefOid);
-	const count = pluralize(prInfo.behindBy, '$$ commit', '$$ commits');
+	const count = pluralize(prInfo.behindBy, '$$ commit');
 	const countLink = (
 		<a href={buildRepoURL('compare', `${prInfo.baseRefOid.slice(0, 8)}...${base.branch}`)}>
 			{count}
