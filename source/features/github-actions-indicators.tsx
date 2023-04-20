@@ -15,7 +15,7 @@ enum WorkflowState {
 	Deleted = 'deleted',
 	DisabledFork = 'disabled_fork',
 	DisabledInactivity = 'disabled_inactivity',
-	DisabledManually = 'disabled_manually'
+	DisabledManually = 'disabled_manually',
 }
 type Workflow = {
 	badge_url: string;
@@ -28,7 +28,7 @@ type Workflow = {
 	state: WorkflowState;
 	updated_at: string;
 	url: string;
-}
+};
 
 type WorkflowDetails = {
 	schedule?: string;
@@ -70,22 +70,27 @@ const getWorkflowYamls = async (): Promise<Record<string, string>> => {
 	`);
 
 	const workflows: [any] = workflowFiles?.entries ?? [];
-	return workflows.reduce<Record<string, string>>((prev, curr) => {
-		prev[curr.name] = curr.object.text;
-		return prev;
-	}, {});
+
+	const result: Record<string, string> = {};
+	for (const workflow of workflows) {
+		result[workflow.name] = workflow.object.text;
+	}
+
+	return result;
 };
 
 const getWorkflowsDetails = cache.function('workflows', async (): Promise<Record<string, WorkflowDetails> | false> => {
 	const workflows = await getWorkflows();
 
-	if (workflows.length === 0)
+	if (workflows.length === 0) {
 		return false;
+	}
 
 	const workflowYamls = await getWorkflowYamls();
 
-	if (Object.keys(workflowYamls).length === 0)
+	if (Object.keys(workflowYamls).length === 0) {
 		return false;
+	}
 
 	const details: Record<string, WorkflowDetails> = {};
 
