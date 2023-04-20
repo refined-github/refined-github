@@ -1,18 +1,39 @@
 import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
-import {PlayIcon} from '@primer/octicons-react';
+import {AlertIcon, PlayIcon} from '@primer/octicons-react';
 import {parseCron} from '@cheap-glitch/mi-cron';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
-import {cacheByRepo} from '../github-helpers';
+import {cacheByRepo, getRepo} from '../github-helpers';
 import observe from '../helpers/selector-observer';
+
+enum WorkflowState {
+	Active = 'active',
+	Deleted = 'deleted',
+	DisabledFork = 'disabled_fork',
+	DisabledInactivity = 'disabled_inactivity',
+	DisabledManually = 'disabled_manually'
+}
+type Workflow = {
+	badge_url: string;
+	created_at: string;
+	html_url: string;
+	id: number;
+	name: string;
+	node_id: string;
+	path: string;
+	state: WorkflowState;
+	updated_at: string;
+	url: string;
+}
 
 type WorkflowDetails = {
 	schedule?: string;
 	manuallyDispatchable: boolean;
+	state: WorkflowState;
 };
 
 function addTooltip(element: HTMLElement, tooltip: string): void {
@@ -25,7 +46,12 @@ function addTooltip(element: HTMLElement, tooltip: string): void {
 	}
 }
 
-const getWorkflowsDetails = cache.function('workflows', async (): Promise<Record<string, WorkflowDetails> | false> => {
+const getWorkflows = async (): Promise<Workflow[]> => {
+	const response = await api.v3(`/repos/${getRepo()!.owner}/${getRepo()!.name}/actions/workflows`);
+	return response.workflows as Workflow[];
+};
+
+const getWorkflowYamls = async (): Promise<Record<string, string>> => {
 	const {repository: {workflowFiles}} = await api.v4(`
 		repository() {
 			workflowFiles: object(expression: "HEAD:.github/workflows") {
@@ -43,18 +69,35 @@ const getWorkflowsDetails = cache.function('workflows', async (): Promise<Record
 		}
 	`);
 
-	const workflows = workflowFiles?.entries ?? [];
-	if (workflows.length === 0) {
+	const workflows: [any] = workflowFiles?.entries ?? [];
+	return workflows.reduce<Record<string, string>>((prev, curr) => {
+		prev[curr.name] = curr.object.text;
+		return prev;
+	}, {});
+};
+
+const getWorkflowsDetails = cache.function('workflows', async (): Promise<Record<string, WorkflowDetails> | false> => {
+	const workflows = await getWorkflows();
+
+	if (workflows.length === 0)
 		return false;
-	}
+
+	const workflowYamls = await getWorkflowYamls();
+
+	if (Object.keys(workflowYamls).length === 0)
+		return false;
 
 	const details: Record<string, WorkflowDetails> = {};
+
 	for (const workflow of workflows) {
-		const workflowYaml: string = workflow.object.text;
+		const workflowName = workflow.path.split('/').pop()!;
+		const workflowYaml = workflowYamls[workflowName];
 		const cron = /schedule[:\s-]+cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
-		details[workflow.name] = {
+
+		details[workflowName] = {
 			schedule: cron?.[1],
 			manuallyDispatchable: workflowYaml.includes('workflow_dispatch:'),
+			state: workflow.state,
 		};
 	}
 
@@ -79,6 +122,12 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	const workflowName = workflowListItem.href.split('/').pop()!;
 	const workflow = workflows[workflowName];
 	if (!workflow) {
+		return;
+	}
+
+	if (workflow.state === WorkflowState.DisabledManually) {
+		workflowListItem.append(<AlertIcon className="ActionListItem-visual--trailing m-auto"/>);
+		addTooltip(workflowListItem, 'This workflow was disabled manually');
 		return;
 	}
 
