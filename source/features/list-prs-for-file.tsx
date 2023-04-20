@@ -106,9 +106,9 @@ const getPrsByFile = cache.function('files-with-prs', async (): Promise<Record<s
 });
 
 async function getCurrentPath(): Promise<string> {
-	const data = (await elementReady('[data-target="react-app.embeddedData"]')).innerText.trim();
-	data = JSON.parse(data);
-	return data.payload.path;
+	const codeViewJson = (await elementReady('[data-target="react-app.embeddedData"]'))!.innerText.trim();
+	payload = JSON.parse(data).payload;
+	return payload.path;
 }
 
 async function init(): Promise<void> {
