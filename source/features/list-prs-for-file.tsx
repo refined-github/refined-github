@@ -106,9 +106,9 @@ const getPrsByFile = cache.function('files-with-prs', async (): Promise<Record<s
 });
 
 async function getCurrentPath(): Promise<string> {
-	// `[aria-label="Copy path"]` on blob page, `#blob-edit-path` on edit page
-	const element = await elementReady('[aria-label="Copy path"], #blob-edit-path');
-	return element!.getAttribute('value')!;
+	const data = (await elementReady('[data-target="react-app.embeddedData"]')).innerText.trim();
+	data = JSON.parse(data);
+	return data.payload.path;
 }
 
 async function init(): Promise<void> {
