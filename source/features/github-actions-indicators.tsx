@@ -130,14 +130,18 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 		return;
 	}
 
+	const svgTrailer = <div className="ActionListItem-visual--trailing m-auto"/>;
+	svgTrailer.style.display = 'flex';
+	svgTrailer.style.gap = '4px';
+	workflowListItem.append(svgTrailer);
+
 	if (workflow.state === WorkflowState.DisabledManually) {
-		workflowListItem.append(<AlertIcon className="ActionListItem-visual--trailing m-auto"/>);
+		svgTrailer.append(<AlertIcon className="m-auto"/>);
 		addTooltip(workflowListItem, 'This workflow was disabled manually');
-		return;
 	}
 
 	if (workflow.manuallyDispatchable) {
-		workflowListItem.append(<PlayIcon className="ActionListItem-visual--trailing m-auto"/>);
+		svgTrailer.append(<PlayIcon className="m-auto"/>);
 		addTooltip(workflowListItem, 'This workflow can be triggered manually');
 	}
 
