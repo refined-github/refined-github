@@ -65,7 +65,7 @@ const getFilesInWorkflowPath = async (): Promise<Record<string, string>> => {
 		}
 	`);
 
-	const workflows: [any] = workflowFiles?.entries ?? [];
+	const workflows: any[] = workflowFiles?.entries ?? [];
 
 	const result: Record<string, string> = {};
 	for (const workflow of workflows) {
