@@ -10,25 +10,7 @@ import * as api from '../github-helpers/api';
 import {cacheByRepo, getRepo} from '../github-helpers';
 import observe from '../helpers/selector-observer';
 
-enum WorkflowState {
-	Active = 'active',
-	Deleted = 'deleted',
-	DisabledFork = 'disabled_fork',
-	DisabledInactivity = 'disabled_inactivity',
-	DisabledManually = 'disabled_manually',
-}
-type Workflow = {
-	badge_url: string;
-	created_at: string;
-	html_url: string;
-	id: number;
-	name: string;
-	node_id: string;
-	path: string;
-	state: WorkflowState;
-	updated_at: string;
-	url: string;
-};
+type WorkflowState = 'active' | 'disabled_manually';
 
 type WorkflowDetails = {
 	schedule?: string;
