@@ -86,11 +86,12 @@ const getWorkflowsDetails = cache.function('workflows', async (): Promise<Record
 	}
 
 	const details: Record<string, WorkflowDetails> = {};
-	
+
 	for (const workflow of workflows) {
 		const workflowYaml = workflowFiles[workflow.name];
 
 		if (workflowYaml === undefined) {
+			// Cannot find workflow yaml; workflow removed.
 			continue;
 		}
 
