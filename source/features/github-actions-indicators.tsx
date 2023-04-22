@@ -174,4 +174,7 @@ https://github.com/fregante/browser-extension-template/actions
 Manual + scheduled:
 https://github.com/fregante/eslint-formatters/actions
 
+Manually disabled:
+https://github.com/134130/134130/actions
+
 */
