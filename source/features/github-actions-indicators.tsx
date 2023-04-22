@@ -7,20 +7,18 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
-import {cacheByRepo, getRepo} from '../github-helpers';
+import {cacheByRepo} from '../github-helpers';
 import observe from '../helpers/selector-observer';
 
-type WorkflowState = 'active' | 'disabled_manually';
 
 type Workflow = {
 	name: string;
-	state: WorkflowState;
+	isEnabled: boolean;
 };
 
 type WorkflowDetails = {
 	schedule?: string;
 	manuallyDispatchable: boolean;
-	state: WorkflowState;
 };
 
 function addTooltip(element: HTMLElement, tooltip: string): void {
@@ -46,7 +44,7 @@ const getWorkflows = async (): Promise<Workflow[]> => {
 	return workflows
 		.map<Workflow>(workflow => ({
 		name: workflow.path.split('/').pop()!,
-		state: workflow.state,
+		isEnabled: workflow.state === 'active',
 	}));
 };
 
@@ -78,14 +76,14 @@ const getFilesInWorkflowPath = async (): Promise<Record<string, string>> => {
 	return result;
 };
 
-const getWorkflowsDetails = cache.function('workflows', async (): Promise<Record<string, WorkflowDetails> | false> => {
+const getWorkflowsDetails = cache.function('workflows', async (): Promise<Record<string, Workflow & WorkflowDetails> | false> => {
 	const [workflows, workflowFiles] = await Promise.all([getWorkflows(), getFilesInWorkflowPath()]);
 
 	if (workflows.length === 0 || Object.keys(workflowFiles).length === 0) {
 		return false;
 	}
 
-	const details: Record<string, WorkflowDetails> = {};
+	const details: Record<string, Workflow & WorkflowDetails> = {};
 
 	for (const workflow of workflows) {
 		const workflowYaml = workflowFiles[workflow.name];
@@ -97,11 +95,10 @@ const getWorkflowsDetails = cache.function('workflows', async (): Promise<Record
 
 		const cron = /schedule[:\s-]+cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
 
-		details[workflow.name] = {
+		details[workflow.name] = Object.assign({}, workflow, {
 			schedule: cron?.[1],
 			manuallyDispatchable: workflowYaml.includes('workflow_dispatch:'),
-			state: workflow.state,
-		};
+		});
 	}
 
 	return details;
@@ -131,9 +128,9 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	const svgTrailer = <div className="ActionListItem-visual--trailing m-auto d-flex gap-2"/>;
 	workflowListItem.append(svgTrailer);
 
-	if (workflow.state === 'disabled_manually') {
+	if (!workflow.isEnabled) {
 		svgTrailer.append(<AlertIcon className="m-auto"/>);
-		addTooltip(workflowListItem, 'This workflow was disabled manually');
+		addTooltip(workflowListItem, 'This workflow is not enabled');
 	}
 
 	if (workflow.manuallyDispatchable) {
