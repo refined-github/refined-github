@@ -43,7 +43,6 @@ const getWorkflows = async (): Promise<Workflow[]> => {
 
 	// Note: The response is not reliable.
 	//       Some workflow's path is '' and deleted workflow's state is 'active'.
-	//       @134130 created the GitHub Issue ticket.
 	return workflows
 		.map<Workflow>(workflow => ({
 		name: workflow.path.split('/').pop()!,
@@ -87,8 +86,7 @@ const getWorkflowsDetails = cache.function('workflows', async (): Promise<Record
 	}
 
 	const details: Record<string, WorkflowDetails> = {};
-
-	console.log(workflows);
+	
 	for (const workflow of workflows) {
 		const workflowYaml = workflowFiles[workflow.name];
 
