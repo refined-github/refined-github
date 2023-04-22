@@ -10,7 +10,6 @@ import * as api from '../github-helpers/api';
 import {cacheByRepo} from '../github-helpers';
 import observe from '../helpers/selector-observer';
 
-
 type Workflow = {
 	name: string;
 	isEnabled: boolean;
@@ -34,7 +33,7 @@ function addTooltip(element: HTMLElement, tooltip: string): void {
 // Note: There is no way to get a workflow list in the v4 API.
 //       https://github.com/refined-github/refined-github/pull/6543
 const getWorkflows = async (): Promise<Workflow[]> => {
-	const response = await api.v3(`actions/workflows`);
+	const response = await api.v3('actions/workflows');
 
 	const workflows = response.workflows as any[];
 
@@ -94,10 +93,11 @@ const getWorkflowsDetails = cache.function('workflows', async (): Promise<Record
 
 		const cron = /schedule[:\s-]+cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
 
-		details[workflow.name] = Object.assign({}, workflow, {
+		details[workflow.name] = {
+			...workflow,
 			schedule: cron?.[1],
 			manuallyDispatchable: workflowYaml.includes('workflow_dispatch:'),
-		});
+		};
 	}
 
 	return details;
