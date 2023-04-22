@@ -32,7 +32,6 @@ function addTooltip(element: HTMLElement, tooltip: string): void {
 }
 
 // Note: There is no way to get a workflow list in the v4 API.
-//       So we get the list through the v3 API and use it as a trusted source.
 //       https://github.com/refined-github/refined-github/pull/6543
 const getWorkflows = async (): Promise<Workflow[]> => {
 	const response = await api.v3(`actions/workflows`);
