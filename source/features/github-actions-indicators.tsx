@@ -112,9 +112,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 		return;
 	}
 
-	const svgTrailer = <div className="ActionListItem-visual--trailing m-auto"/>;
-	svgTrailer.style.display = 'flex';
-	svgTrailer.style.gap = '4px';
+	const svgTrailer = <div className="ActionListItem-visual--trailing m-auto d-flex gap-2"/>;
 	workflowListItem.append(svgTrailer);
 
 	if (workflow.state === WorkflowState.DisabledManually) {
