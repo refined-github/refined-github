@@ -12,6 +12,11 @@ import observe from '../helpers/selector-observer';
 
 type WorkflowState = 'active' | 'disabled_manually';
 
+type Workflow = {
+	name: string;
+	state: WorkflowState;
+};
+
 type WorkflowDetails = {
 	schedule?: string;
 	manuallyDispatchable: boolean;
@@ -28,12 +33,25 @@ function addTooltip(element: HTMLElement, tooltip: string): void {
 	}
 }
 
+// Note: There is no way to get a workflow list in the v4 API.
+//       So we get the list through the v3 API and use it as a trusted source.
+//       https://github.com/refined-github/refined-github/pull/6543
 const getWorkflows = async (): Promise<Workflow[]> => {
 	const response = await api.v3(`/repos/${getRepo()!.owner}/${getRepo()!.name}/actions/workflows`);
-	return response.workflows as Workflow[];
+
+	const workflows = response.workflows as any[];
+
+	// Note: The response is not reliable.
+	//       Some workflow's path is '' and deleted workflow's state is 'active'.
+	//       @134130 created the GitHub Issue ticket.
+	return workflows
+		.map<Workflow>(workflow => ({
+		name: workflow.path.split('/').pop()!,
+		state: workflow.state,
+	}));
 };
 
-const getWorkflowYamls = async (): Promise<Record<string, string>> => {
+const getFilesInWorkflowPath = async (): Promise<Record<string, string>> => {
 	const {repository: {workflowFiles}} = await api.v4(`
 		repository() {
 			workflowFiles: object(expression: "HEAD:.github/workflows") {
@@ -62,26 +80,25 @@ const getWorkflowYamls = async (): Promise<Record<string, string>> => {
 };
 
 const getWorkflowsDetails = cache.function('workflows', async (): Promise<Record<string, WorkflowDetails> | false> => {
-	const workflows = await getWorkflows();
+	const [workflows, workflowFiles] = await Promise.all([getWorkflows(), getFilesInWorkflowPath()]);
 
-	if (workflows.length === 0) {
-		return false;
-	}
-
-	const workflowYamls = await getWorkflowYamls();
-
-	if (Object.keys(workflowYamls).length === 0) {
+	if (workflows.length === 0 || Object.keys(workflowFiles).length === 0) {
 		return false;
 	}
 
 	const details: Record<string, WorkflowDetails> = {};
 
+	console.log(workflows);
 	for (const workflow of workflows) {
-		const workflowName = workflow.path.split('/').pop()!;
-		const workflowYaml = workflowYamls[workflowName];
+		const workflowYaml = workflowFiles[workflow.name];
+
+		if (workflowYaml === undefined) {
+			continue;
+		}
+
 		const cron = /schedule[:\s-]+cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
 
-		details[workflowName] = {
+		details[workflow.name] = {
 			schedule: cron?.[1],
 			manuallyDispatchable: workflowYaml.includes('workflow_dispatch:'),
 			state: workflow.state,
@@ -115,7 +132,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	const svgTrailer = <div className="ActionListItem-visual--trailing m-auto d-flex gap-2"/>;
 	workflowListItem.append(svgTrailer);
 
-	if (workflow.state === WorkflowState.DisabledManually) {
+	if (workflow.state === 'disabled_manually') {
 		svgTrailer.append(<AlertIcon className="m-auto"/>);
 		addTooltip(workflowListItem, 'This workflow was disabled manually');
 	}
