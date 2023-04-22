@@ -37,7 +37,7 @@ function addTooltip(element: HTMLElement, tooltip: string): void {
 //       So we get the list through the v3 API and use it as a trusted source.
 //       https://github.com/refined-github/refined-github/pull/6543
 const getWorkflows = async (): Promise<Workflow[]> => {
-	const response = await api.v3(`/repos/${getRepo()!.owner}/${getRepo()!.name}/actions/workflows`);
+	const response = await api.v3(`actions/workflows`);
 
 	const workflows = response.workflows as any[];
 
