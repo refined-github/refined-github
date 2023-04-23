@@ -1,7 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-
 import React from 'dom-chef';
-
 import cache from 'webext-storage-cache';
 
 import features from '../feature-manager';
@@ -10,11 +8,11 @@ import observe from '../helpers/selector-observer';
 
 import GitHubURL from '../github-helpers/github-url';
 
-const getHistoryOids = cache.function('file-history', async (branch: string, filePath: string): Promise<string[] | false> => {
+const getHistoryOids = cache.function('previous-version', async (githubUrl: GitHubURL): Promise<string[] | false> => {
 	const {resource: {history}} = await api.v4(`
-		resource(url: "/refined-github/refined-github/commit/${branch}") {
+		resource(url: "/${githubUrl.user}/${githubUrl.repository}/commit/${githubUrl.branch}") {
 			... on Commit {
-				history(path: "${filePath}") {
+				history(path: "${githubUrl.filePath}") {
 					nodes {
 						oid
 					}
@@ -33,12 +31,11 @@ const getHistoryOids = cache.function('file-history', async (branch: string, fil
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 1},
-	cacheKey: () => location.pathname,
+	cacheKey: ([githubUrl]: [GitHubURL]) => [githubUrl.user, githubUrl.repository, githubUrl.branch, githubUrl.filePath].join(':'),
 });
 
 const add = async (actionButtons: HTMLElement): Promise<void> => {
-	const githubUrl = new GitHubURL(location.href);
-	const historyOids = await getHistoryOids(githubUrl.branch, githubUrl.filePath);
+	const historyOids = await getHistoryOids(new GitHubURL(location.href));
 
 	if (!historyOids) {
 		return;
@@ -103,8 +100,7 @@ const add = async (actionButtons: HTMLElement): Promise<void> => {
 };
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	const githubUrl = new GitHubURL(location.href);
-	const historyOids = await getHistoryOids(githubUrl.branch, githubUrl.filePath);
+	const historyOids = await getHistoryOids(new GitHubURL(location.href));
 
 	if (!historyOids) {
 		return false;
