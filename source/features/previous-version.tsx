@@ -29,7 +29,7 @@ const getPastCommits = cache.function('previous-version', async (currHref: strin
 		return false;
 	}
 
-	return nodes.map<string>(n => n.oid);
+	return nodes.map(node => node.oid as string);
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 1},
