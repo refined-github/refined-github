@@ -14,7 +14,7 @@ const getPastCommits = cache.function('previous-version', async (currHref: strin
 	const {resource: {history}} = await api.v4(`
 		resource(url: "/${githubUrl.user}/${githubUrl.repository}/commit/${githubUrl.branch}") {
 			... on Commit {
-				history(path: "${githubUrl.filePath}") {
+				history(path: "${githubUrl.filePath}", first: 5) {
 					nodes {
 						oid
 					}
