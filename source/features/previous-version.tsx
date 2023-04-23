@@ -44,7 +44,7 @@ const add = async (actionButtons: HTMLElement): Promise<void> => {
 
 	const button = (
 		<div className="BtnGroup ml-1">
-			<div className="BtnGroup-parent">
+			<div className="BtnGroup-parent tooltipped tooltipped-n" aria-label="Goto previous file">
 				{(() => {
 					const button = (
 						<div className="btn-sm BtnGroup-item btn">
@@ -63,13 +63,9 @@ const add = async (actionButtons: HTMLElement): Promise<void> => {
 			</div>
 
 			{historyOids.length > 2 &&
-				<details className="details-reset details-overlay select-menu BtnGroup-parent d-inline-block position-relative" open={false}>
-					<summary
-						data-disable-invalid="" data-disable-with=""
-						data-dropdown-tracking={'{"type":"blob_edit_dropdown.more_options_click","context":{"repository_id":51769689,"actor_id":null,"github_dev_enabled":false,"edit_enabled":false,"small_screen":false}'}
-						aria-label="Select additional options" data-view-component="true"
-						className="js-blob-dropdown-click select-menu-button btn-sm btn BtnGroup-item float-none px-2"
-					/>
+				<details className="details-reset details-overlay select-menu BtnGroup-parent d-inline-block position-relative tooltipped tooltipped-n"
+                 aria-label="Select additional histories">
+					<summary className="js-blob-dropdown-click select-menu-button btn-sm btn BtnGroup-item float-none px-2"/>
 					<div className="SelectMenu right-0">
 						<div className="SelectMenu-modal width-full">
 							<div className="SelectMenu-list SelectMenu-list--borderless py-2">
