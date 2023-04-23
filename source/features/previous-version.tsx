@@ -2,12 +2,13 @@ import * as pageDetect from 'github-url-detection';
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 
+import delegate from 'delegate-it';
+
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import observe from '../helpers/selector-observer';
 
 import GitHubURL from '../github-helpers/github-url';
-import delegate from "delegate-it";
 
 const getPastCommits = cache.function('previous-version', async (currHref: string): Promise<string[] | false> => {
 	const githubUrl = new GitHubURL(currHref);
@@ -33,13 +34,52 @@ const getPastCommits = cache.function('previous-version', async (currHref: strin
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 1},
-	cacheKey: ([currHref]) => currHref
+	cacheKey: ([currHref]) => currHref,
 });
 
-const add = async (actionButtons: HTMLElement): Promise<void> => {
-	const historyOids = await getPastCommits(location.href);
+const createDetailsButton = (pastCommits: string[]): Element | void => {
+	if (pastCommits.length <= 2) {
+		return;
+	}
 
-	if (!historyOids || historyOids.length === 1) {
+	return (
+		<details
+			className="details-reset details-overlay select-menu BtnGroup-parent d-inline-block position-relative tooltipped tooltipped-n"
+			aria-label="Select additional histories"
+		>
+			<summary className="js-blob-dropdown-click select-menu-button btn-sm btn BtnGroup-item float-none px-2"/>
+			<div className="SelectMenu right-0">
+				<div className="SelectMenu-modal width-full">
+					<div className="SelectMenu-list SelectMenu-list--borderless py-2">
+						{pastCommits.slice(2).map((element, i) => {
+							const item = (
+								<div className="SelectMenu-item no-wrap text-normal f5">
+									<div className="d-flex width-full gap-4">
+										<div className="color-fg-default flex-auto">{i + 2} commits ago</div>
+										<div className="color-fg-muted flex-shrink-0">{element.slice(0, 7)}</div>
+									</div>
+								</div>
+							);
+
+							delegate(item, '*', 'click', () => {
+								const url = new GitHubURL(location.href);
+								url.branch = element;
+								location.href = url.toString();
+							});
+
+							return item;
+						})}
+					</div>
+				</div>
+			</div>
+		</details>
+	);
+};
+
+const add = async (actionButtons: HTMLElement): Promise<void> => {
+	const pastCommits = await getPastCommits(location.href);
+
+	if (!pastCommits || pastCommits.length === 1) {
 		return;
 	}
 
@@ -55,7 +95,7 @@ const add = async (actionButtons: HTMLElement): Promise<void> => {
 
 					delegate(button, '*', 'click', () => {
 						const url = new GitHubURL(location.href);
-						url.branch = historyOids[1];
+						url.branch = pastCommits[1];
 						location.href = url.toString();
 					});
 
@@ -63,36 +103,7 @@ const add = async (actionButtons: HTMLElement): Promise<void> => {
 				})()}
 			</div>
 
-			{historyOids.length > 2 &&
-				<details className="details-reset details-overlay select-menu BtnGroup-parent d-inline-block position-relative tooltipped tooltipped-n"
-                 aria-label="Select additional histories">
-					<summary className="js-blob-dropdown-click select-menu-button btn-sm btn BtnGroup-item float-none px-2"/>
-					<div className="SelectMenu right-0">
-						<div className="SelectMenu-modal width-full">
-							<div className="SelectMenu-list SelectMenu-list--borderless py-2">
-								{historyOids.slice(2).map((element, i) => {
-									const item = (
-										<div className="SelectMenu-item no-wrap text-normal f5">
-											<div className="d-flex width-full gap-4">
-												<div className="color-fg-default flex-auto">{i + 2} commits ago</div>
-												<div className="color-fg-muted flex-shrink-0">{element.slice(0, 7)}</div>
-											</div>
-										</div>
-									);
-
-									delegate(item, '*', 'click', () => {
-										const url = new GitHubURL(location.href);
-										url.branch = element;
-										location.href = url.toString();
-									});
-
-									return item;
-								})}
-							</div>
-						</div>
-					</div>
-				</details>
-			}
+			{pastCommits.length > 2 && createDetailsButton(pastCommits)}
 		</div>
 	);
 
