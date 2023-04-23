@@ -9,7 +9,8 @@ import observe from '../helpers/selector-observer';
 import GitHubURL from '../github-helpers/github-url';
 import delegate from "delegate-it";
 
-const getHistoryOids = cache.function('previous-version', async (githubUrl: GitHubURL): Promise<string[] | false> => {
+const getPastCommits = cache.function('previous-version', async (currHref: string): Promise<string[] | false> => {
+	const githubUrl = new GitHubURL(currHref);
 	const {resource: {history}} = await api.v4(`
 		resource(url: "/${githubUrl.user}/${githubUrl.repository}/commit/${githubUrl.branch}") {
 			... on Commit {
@@ -32,11 +33,11 @@ const getHistoryOids = cache.function('previous-version', async (githubUrl: GitH
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 1},
-	cacheKey: ([githubUrl]: [GitHubURL]) => [githubUrl.user, githubUrl.repository, githubUrl.branch, githubUrl.filePath].join(':'),
+	cacheKey: ([currHref]) => currHref
 });
 
 const add = async (actionButtons: HTMLElement): Promise<void> => {
-	const historyOids = await getHistoryOids(new GitHubURL(location.href));
+	const historyOids = await getPastCommits(location.href);
 
 	if (!historyOids || historyOids.length === 1) {
 		return;
@@ -99,7 +100,7 @@ const add = async (actionButtons: HTMLElement): Promise<void> => {
 };
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	const historyOids = await getHistoryOids(new GitHubURL(location.href));
+	const historyOids = await getPastCommits(location.href);
 
 	if (!historyOids) {
 		return false;
