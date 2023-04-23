@@ -1,10 +1,28 @@
 import features from "../feature-manager";
 import * as pageDetect from "github-url-detection";
+import * as api from '../github-helpers/api';
 import observe from "../helpers/selector-observer";
 import React from "dom-chef";
+import GitHubURL from "../github-helpers/github-url";
+
+const getHistoryOids = async (curr: string, filePath: string): Promise<string[]> => {
+	const {resource: {history}} = await api.v4(`
+		resource(url: "/refined-github/refined-github/commit/${curr}") {
+			... on Commit {
+				history(path: "${filePath}") {
+					nodes {
+						oid
+					}
+				}
+			}
+		}
+	`);
+
+	const nodes = history.nodes as any[];
+	return nodes.map<string>(n => n.oid);
+};
 const add = (header: HTMLElement) => {
 	const child = header.children[1];
-	console.log(child);
 
 	const button = <div className="ml-1">
 		<div className="BtnGroup-parent">
@@ -26,7 +44,7 @@ const add = (header: HTMLElement) => {
 							<div className="d-flex">
 								<div className="color-fg-default">1 commits ago</div>
 								<div style={{width: '20px'}}/>
-								<div className="color-fg-muted">123abcd</div>
+								<div className="color-fg-muted">123abcd~1</div>
 							</div>
 						</div>
 					</div>
@@ -35,12 +53,16 @@ const add = (header: HTMLElement) => {
 		</details>
 	</div>;
 	child.append(button);
-	// header.append(button);
 };
 async function init(signal: AbortSignal): Promise<false | void> {
 
+	console.log('previous-version')
 
-	console.log('file-history')
+	const githubUrl = new GitHubURL(location.href);
+	console.log(githubUrl);
+
+	console.log(getHistoryOids)
+
 	observe(['#repos-sticky-header>div>div>div:nth-child(2)', '.js-blob-header'], add, {signal});
 }
 
