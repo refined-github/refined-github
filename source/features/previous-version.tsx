@@ -30,6 +30,10 @@ const getHistoryOids = cache.function('file-history', async (branch: string, fil
 	}
 
 	return nodes.map<string>(n => n.oid);
+}, {
+	maxAge: {hours: 1},
+	staleWhileRevalidate: {days: 1},
+	cacheKey: () => location.pathname,
 });
 
 const add = async (actionButtons: HTMLElement): Promise<void> => {
