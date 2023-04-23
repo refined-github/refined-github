@@ -63,7 +63,7 @@ const add = async (actionButtons: HTMLElement): Promise<void> => {
 			<details className="details-reset details-overlay select-menu BtnGroup-parent d-inline-block position-relative" open={false}>
 				<summary
 					data-disable-invalid="" data-disable-with=""
-					data-dropdown-tracking="{&quot;type&quot;:&quot;blob_edit_dropdown.more_options_click&quot;,&quot;context&quot;:{&quot;repository_id&quot;:51769689,&quot;actor_id&quot;:null,&quot;github_dev_enabled&quot;:false,&quot;edit_enabled&quot;:false,&quot;small_screen&quot;:false}}"
+					data-dropdown-tracking={'{"type":"blob_edit_dropdown.more_options_click","context":{"repository_id":51769689,"actor_id":null,"github_dev_enabled":false,"edit_enabled":false,"small_screen":false}'}
 					aria-label="Select additional options" data-view-component="true"
 					className="js-blob-dropdown-click select-menu-button btn-sm btn BtnGroup-item float-none px-2"
 				/>
