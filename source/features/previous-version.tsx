@@ -4,10 +4,11 @@ import * as api from '../github-helpers/api';
 import observe from "../helpers/selector-observer";
 import React from "dom-chef";
 import GitHubURL from "../github-helpers/github-url";
+import cache from "webext-storage-cache";
 
-const getHistoryOids = async (curr: string, filePath: string): Promise<string[]> => {
+const getHistoryOids = cache.function('file-history',async (branch: string, filePath: string): Promise<string[] | false> => {
 	const {resource: {history}} = await api.v4(`
-		resource(url: "/refined-github/refined-github/commit/${curr}") {
+		resource(url: "/refined-github/refined-github/commit/${branch}") {
 			... on Commit {
 				history(path: "${filePath}") {
 					nodes {
@@ -19,16 +20,37 @@ const getHistoryOids = async (curr: string, filePath: string): Promise<string[]>
 	`);
 
 	const nodes = history.nodes as any[];
-	return nodes.map<string>(n => n.oid);
-};
-const add = (header: HTMLElement) => {
-	const child = header.children[1];
 
-	const button = <div className="ml-1">
+	if (nodes.length === 0) {
+		return false;
+	}
+
+	return nodes.map<string>(n => n.oid);
+});
+
+const add = async (actionButtons: HTMLElement) => {
+	const githubUrl = new GitHubURL(location.href);
+	const historyOids = await getHistoryOids(githubUrl.branch, githubUrl.filePath);
+
+	if (!historyOids) {
+		return;
+	}
+
+	const button = <div className="BtnGroup ml-1">
 		<div className="BtnGroup-parent">
-			<div className="btn-sm BtnGroup-item btn">
-				Previous
-			</div>
+			{(() => {
+				const button = <div className="btn-sm BtnGroup-item btn">
+					Previous
+				</div>
+
+				button.addEventListener('click', () => {
+					const url = new GitHubURL(location.href);
+					url.branch = historyOids[1];
+					location.href = url.toString();
+				})
+
+				return button;
+			})()}
 		</div>
 
 		<details className="details-reset details-overlay select-menu BtnGroup-parent d-inline-block position-relative" open={false}>
@@ -40,30 +62,42 @@ const add = (header: HTMLElement) => {
 			<div className="SelectMenu right-0">
 				<div className="SelectMenu-modal width-full">
 					<div className="SelectMenu-list SelectMenu-list--borderless py-2">
-						<div className="SelectMenu-item no-wrap width-full text-normal f5">
-							<div className="d-flex">
-								<div className="color-fg-default">1 commits ago</div>
-								<div style={{width: '20px'}}/>
-								<div className="color-fg-muted">123abcd~1</div>
+						{historyOids.slice(2).map((e, i) => {
+							const item = <div className="SelectMenu-item no-wrap text-normal f5">
+								<div className="d-flex width-full gap-4">
+									<div className="color-fg-default flex-auto">{i + 2} commits ago</div>
+									<div className="color-fg-muted flex-shrink-0">{e.slice(0, 7)}</div>
+								</div>
 							</div>
-						</div>
+
+							item.addEventListener('click', () => {
+								const url = new GitHubURL(location.href);
+								url.branch = e;
+								location.href = url.toString();
+							});
+
+							return item;
+						})}
 					</div>
 				</div>
 			</div>
 		</details>
 	</div>;
-	child.append(button);
+
+	actionButtons.prepend(button);
 };
 async function init(signal: AbortSignal): Promise<false | void> {
-
-	console.log('previous-version')
-
 	const githubUrl = new GitHubURL(location.href);
-	console.log(githubUrl);
+	const historyOids = await getHistoryOids(githubUrl.branch, githubUrl.filePath);
 
-	console.log(getHistoryOids)
+	if(!historyOids) {
+		return false;
+	}
 
-	observe(['#repos-sticky-header>div>div>div:nth-child(2)', '.js-blob-header'], add, {signal});
+	observe([
+		'#repos-sticky-header .react-blob-header-edit-and-raw-actions',	// For signed in
+		'readme-toc .Box-header.js-blob-header div:has(.BtnGroup)'			// For not signed in
+	], add, {signal});
 }
 
 void features.add(import.meta.url, {
