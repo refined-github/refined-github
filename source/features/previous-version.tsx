@@ -7,6 +7,7 @@ import * as api from '../github-helpers/api';
 import observe from '../helpers/selector-observer';
 
 import GitHubURL from '../github-helpers/github-url';
+import delegate from "delegate-it";
 
 const getHistoryOids = cache.function('previous-version', async (githubUrl: GitHubURL): Promise<string[] | false> => {
 	const {resource: {history}} = await api.v4(`
@@ -37,7 +38,7 @@ const getHistoryOids = cache.function('previous-version', async (githubUrl: GitH
 const add = async (actionButtons: HTMLElement): Promise<void> => {
 	const historyOids = await getHistoryOids(new GitHubURL(location.href));
 
-	if (!historyOids) {
+	if (!historyOids || historyOids.length === 1) {
 		return;
 	}
 
@@ -51,7 +52,7 @@ const add = async (actionButtons: HTMLElement): Promise<void> => {
 						</div>
 					);
 
-					button.addEventListener('click', () => {
+					delegate(button, '*', 'click', () => {
 						const url = new GitHubURL(location.href);
 						url.branch = historyOids[1];
 						location.href = url.toString();
@@ -61,38 +62,40 @@ const add = async (actionButtons: HTMLElement): Promise<void> => {
 				})()}
 			</div>
 
-			<details className="details-reset details-overlay select-menu BtnGroup-parent d-inline-block position-relative" open={false}>
-				<summary
-					data-disable-invalid="" data-disable-with=""
-					data-dropdown-tracking={'{"type":"blob_edit_dropdown.more_options_click","context":{"repository_id":51769689,"actor_id":null,"github_dev_enabled":false,"edit_enabled":false,"small_screen":false}'}
-					aria-label="Select additional options" data-view-component="true"
-					className="js-blob-dropdown-click select-menu-button btn-sm btn BtnGroup-item float-none px-2"
-				/>
-				<div className="SelectMenu right-0">
-					<div className="SelectMenu-modal width-full">
-						<div className="SelectMenu-list SelectMenu-list--borderless py-2">
-							{historyOids.slice(2).map((element, i) => {
-								const item = (
-									<div className="SelectMenu-item no-wrap text-normal f5">
-										<div className="d-flex width-full gap-4">
-											<div className="color-fg-default flex-auto">{i + 2} commits ago</div>
-											<div className="color-fg-muted flex-shrink-0">{element.slice(0, 7)}</div>
+			{historyOids.length > 2 &&
+				<details className="details-reset details-overlay select-menu BtnGroup-parent d-inline-block position-relative" open={false}>
+					<summary
+						data-disable-invalid="" data-disable-with=""
+						data-dropdown-tracking={'{"type":"blob_edit_dropdown.more_options_click","context":{"repository_id":51769689,"actor_id":null,"github_dev_enabled":false,"edit_enabled":false,"small_screen":false}'}
+						aria-label="Select additional options" data-view-component="true"
+						className="js-blob-dropdown-click select-menu-button btn-sm btn BtnGroup-item float-none px-2"
+					/>
+					<div className="SelectMenu right-0">
+						<div className="SelectMenu-modal width-full">
+							<div className="SelectMenu-list SelectMenu-list--borderless py-2">
+								{historyOids.slice(2).map((element, i) => {
+									const item = (
+										<div className="SelectMenu-item no-wrap text-normal f5">
+											<div className="d-flex width-full gap-4">
+												<div className="color-fg-default flex-auto">{i + 2} commits ago</div>
+												<div className="color-fg-muted flex-shrink-0">{element.slice(0, 7)}</div>
+											</div>
 										</div>
-									</div>
-								);
+									);
 
-								item.addEventListener('click', () => {
-									const url = new GitHubURL(location.href);
-									url.branch = element;
-									location.href = url.toString();
-								});
+									delegate(item, '*', 'click', () => {
+										const url = new GitHubURL(location.href);
+										url.branch = element;
+										location.href = url.toString();
+									});
 
-								return item;
-							})}
+									return item;
+								})}
+							</div>
 						</div>
 					</div>
-				</div>
-			</details>
+				</details>
+			}
 		</div>
 	);
 
