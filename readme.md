@@ -176,7 +176,7 @@ Thanks for contributing! 🦋🙌
 - [](# "show-associated-branch-prs-on-fork") [Shows the associated pull requests on branches for forked repositories.](https://user-images.githubusercontent.com/16872793/81504659-7e5ec800-92b8-11ea-9ee6-924110e8cca1.png)
 - [](# "html-preview-link") [Adds a link to preview HTML files.](https://user-images.githubusercontent.com/44045911/67634792-48995980-f8fb-11e9-8b6a-7b57d5b12a2f.png)
 - [](# "file-age-color") [Highlights the most-recently-modified items in file lists.](https://user-images.githubusercontent.com/1402241/218314631-1442cc89-3616-40fc-abe2-9ba3d3697b6a.png)
-- [](# "previous-version") [Adds a button to switch the file to a previous version.](https://user-images.githubusercontent.com/50487467/233829902-95ad21b6-7638-45b9-9890-790cccc8d9ce.png)
+- [](# "previous-version") [Adds a button to switch the file to a previous version.](https://user-images.githubusercontent.com/50487467/233849156-07e41e5b-90cc-44f2-8bf3-371914290100.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
