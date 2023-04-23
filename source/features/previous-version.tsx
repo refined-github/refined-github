@@ -106,10 +106,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 		return false;
 	}
 
-	observe([
-		'#repos-sticky-header .react-blob-header-edit-and-raw-actions',	// For signed in
-		'readme-toc .Box-header.js-blob-header div:has(.BtnGroup)',			// For not signed in
-	], add, {signal});
+	observe(['#repos-sticky-header .react-blob-header-edit-and-raw-actions'], add, {signal});
 }
 
 void features.add(import.meta.url, {
