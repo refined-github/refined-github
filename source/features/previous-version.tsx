@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 import * as api from '../github-helpers/api';
-import GitHubURL from '../github-helpers/github-url'; 
+import GitHubURL from '../github-helpers/github-url';
 
 const getPastCommits = cache.function('previous-version', async (currHref: string): Promise<string[] | false> => {
 	const githubUrl = new GitHubURL(currHref);
