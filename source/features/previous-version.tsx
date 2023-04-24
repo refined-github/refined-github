@@ -60,6 +60,10 @@ const createDetailsButton = (pastCommits: string[]): Element | void => (
 );
 
 const add = async (actionButtons: HTMLElement): Promise<void> => {
+	if (!pageDetect.isSingleFile()) {
+		return;
+	}
+
 	const pastCommits = await getPastCommits(location.href);
 
 	if (!pastCommits || pastCommits.length === 0) {
@@ -94,6 +98,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 
 void features.add(import.meta.url, {
 	include: [
+		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
 	],
 	init,
