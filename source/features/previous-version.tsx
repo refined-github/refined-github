@@ -31,35 +31,33 @@ const getPastCommits = cache.function('previous-version', async (currHref: strin
 	cacheKey: ([currHref]) => currHref,
 });
 
-const createDetailsButton = (pastCommits: string[]): Element | void => {
-	return (
-		<details
-			className="details-reset details-overlay select-menu BtnGroup-parent d-inline-block position-relative tooltipped tooltipped-n"
-			aria-label="Select additional histories"
-		>
-			<summary className="js-blob-dropdown-click select-menu-button btn-sm btn BtnGroup-item float-none px-2"/>
-			<div className="SelectMenu right-0">
-				<div className="SelectMenu-modal width-full">
-					<div className="SelectMenu-list SelectMenu-list--borderless py-2">
-						{pastCommits.map((element, i) => {
-							const url = new GitHubURL(location.href);
-							url.branch = element;
+const createDetailsButton = (pastCommits: string[]): Element | void => (
+	<details
+		className="details-reset details-overlay select-menu BtnGroup-parent d-inline-block position-relative tooltipped tooltipped-n"
+		aria-label="Select additional histories"
+	>
+		<summary className="js-blob-dropdown-click select-menu-button btn-sm btn BtnGroup-item float-none px-2"/>
+		<div className="SelectMenu right-0">
+			<div className="SelectMenu-modal width-full">
+				<div className="SelectMenu-list SelectMenu-list--borderless py-2">
+					{pastCommits.map((element, i) => {
+						const url = new GitHubURL(location.href);
+						url.branch = element;
 
-							return (
-								<a href={url.toString()} className="SelectMenu-item no-wrap text-normal f5">
-									<div className="d-flex width-full gap-4">
-										<div className="color-fg-default flex-auto">{i + 2} commits ago</div>
-										<div className="color-fg-muted flex-shrink-0">{element.slice(0, 7)}</div>
-									</div>
-								</a>
-							);
-						})}
-					</div>
+						return (
+							<a href={url.toString()} className="SelectMenu-item no-wrap text-normal f5">
+								<div className="d-flex width-full gap-4">
+									<div className="color-fg-default flex-auto">{i + 2} commits ago</div>
+									<div className="color-fg-muted flex-shrink-0">{element.slice(0, 7)}</div>
+								</div>
+							</a>
+						);
+					})}
 				</div>
 			</div>
-		</details>
-	);
-};
+		</div>
+	</details>
+);
 
 const add = async (actionButtons: HTMLElement): Promise<void> => {
 	const pastCommits = await getPastCommits(location.href);
