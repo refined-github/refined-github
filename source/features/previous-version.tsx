@@ -23,11 +23,8 @@ const getPastCommits = cache.function('previous-version', async (currHref: strin
 
 	const nodes = history.nodes as any[];
 
-	if (nodes.length === 0) {
-		return false;
-	}
-
-	return nodes.map(node => node.oid as string);
+	// Slice current commit and return just past commits.
+	return nodes.slice(1).map(node => node.oid as string);
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 1},
@@ -35,10 +32,6 @@ const getPastCommits = cache.function('previous-version', async (currHref: strin
 });
 
 const createDetailsButton = (pastCommits: string[]): Element | void => {
-	if (pastCommits.length <= 2) {
-		return;
-	}
-
 	return (
 		<details
 			className="details-reset details-overlay select-menu BtnGroup-parent d-inline-block position-relative tooltipped tooltipped-n"
@@ -48,7 +41,7 @@ const createDetailsButton = (pastCommits: string[]): Element | void => {
 			<div className="SelectMenu right-0">
 				<div className="SelectMenu-modal width-full">
 					<div className="SelectMenu-list SelectMenu-list--borderless py-2">
-						{pastCommits.slice(2).map((element, i) => {
+						{pastCommits.map((element, i) => {
 							const url = new GitHubURL(location.href);
 							url.branch = element;
 
@@ -71,7 +64,7 @@ const createDetailsButton = (pastCommits: string[]): Element | void => {
 const add = async (actionButtons: HTMLElement): Promise<void> => {
 	const pastCommits = await getPastCommits(location.href);
 
-	if (!pastCommits || pastCommits.length === 1) {
+	if (!pastCommits || pastCommits.length === 0) {
 		return;
 	}
 
@@ -80,7 +73,7 @@ const add = async (actionButtons: HTMLElement): Promise<void> => {
 			<div className="BtnGroup-parent tooltipped tooltipped-n" aria-label="Goto previous file">
 				{(() => {
 					const url = new GitHubURL(location.href);
-					url.branch = pastCommits[1];
+					url.branch = pastCommits[0];
 
 					return (
 						<a href={url.toString()} className="btn-sm BtnGroup-item btn">
@@ -90,7 +83,7 @@ const add = async (actionButtons: HTMLElement): Promise<void> => {
 				})()}
 			</div>
 
-			{pastCommits.length > 2 && createDetailsButton(pastCommits)}
+			{pastCommits.length > 1 && createDetailsButton(pastCommits.slice(1))}
 		</div>
 	);
 
