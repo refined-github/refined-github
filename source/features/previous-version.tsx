@@ -60,10 +60,6 @@ const createDetailsButton = (pastCommits: string[]): Element | void => (
 );
 
 const add = async (actionButtons: HTMLElement): Promise<void> => {
-	if (!pageDetect.isSingleFile()) {
-		return;
-	}
-
 	const pastCommits = await getPastCommits(location.href);
 
 	if (pastCommits.length === 0) {
