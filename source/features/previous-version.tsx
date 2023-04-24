@@ -7,7 +7,7 @@ import observe from '../helpers/selector-observer';
 import * as api from '../github-helpers/api';
 import GitHubURL from '../github-helpers/github-url';
 
-const getPastCommits = cache.function('previous-version', async (currHref: string): Promise<string[] | false> => {
+const getPastCommits = cache.function('previous-version', async (currHref: string): Promise<string[]> => {
 	const githubUrl = new GitHubURL(currHref);
 	const {resource: {history}} = await api.v4(`
 		resource(url: "/${githubUrl.user}/${githubUrl.repository}/commit/${githubUrl.branch}") {
@@ -66,7 +66,7 @@ const add = async (actionButtons: HTMLElement): Promise<void> => {
 
 	const pastCommits = await getPastCommits(location.href);
 
-	if (!pastCommits || pastCommits.length === 0) {
+	if (pastCommits.length === 0) {
 		return;
 	}
 
