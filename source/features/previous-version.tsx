@@ -91,12 +91,6 @@ const add = async (actionButtons: HTMLElement): Promise<void> => {
 };
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	const historyOids = await getPastCommits(location.href);
-
-	if (!historyOids) {
-		return false;
-	}
-
 	observe('#repos-sticky-header .react-blob-header-edit-and-raw-actions', add, {signal});
 }
 
