@@ -274,11 +274,13 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 			void setupPageLoad(id, details);
 		}
 
-		document.addEventListener('turbo:render', () => {
-			if (!deduplicate || !select.exists(deduplicate)) {
-				void setupPageLoad(id, details);
-			}
-		});
+		for (const eventType of ['turbo:render', 'soft-nav:render']) {
+			document.addEventListener(eventType, () => {
+				if (!deduplicate || !select.exists(deduplicate)) {
+					void setupPageLoad(id, details);
+				}
+			});
+		}
 	}
 };
 

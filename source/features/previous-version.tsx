@@ -98,7 +98,6 @@ async function init(signal: AbortSignal): Promise<false | void> {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
 	],
 	init,
