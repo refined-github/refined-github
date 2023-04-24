@@ -1,6 +1,5 @@
 import cache from 'webext-storage-cache';
 import React from 'dom-chef';
-import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
@@ -50,22 +49,17 @@ const createDetailsButton = (pastCommits: string[]): Element | void => {
 				<div className="SelectMenu-modal width-full">
 					<div className="SelectMenu-list SelectMenu-list--borderless py-2">
 						{pastCommits.slice(2).map((element, i) => {
-							const item = (
-								<div className="SelectMenu-item no-wrap text-normal f5">
+							const url = new GitHubURL(location.href);
+							url.branch = element;
+
+							return (
+								<a href={url.toString()} className="SelectMenu-item no-wrap text-normal f5">
 									<div className="d-flex width-full gap-4">
 										<div className="color-fg-default flex-auto">{i + 2} commits ago</div>
 										<div className="color-fg-muted flex-shrink-0">{element.slice(0, 7)}</div>
 									</div>
-								</div>
+								</a>
 							);
-
-							delegate(item, '*', 'click', () => {
-								const url = new GitHubURL(location.href);
-								url.branch = element;
-								location.href = url.toString();
-							});
-
-							return item;
 						})}
 					</div>
 				</div>
@@ -85,19 +79,14 @@ const add = async (actionButtons: HTMLElement): Promise<void> => {
 		<div className="BtnGroup ml-1">
 			<div className="BtnGroup-parent tooltipped tooltipped-n" aria-label="Goto previous file">
 				{(() => {
-					const button = (
-						<div className="btn-sm BtnGroup-item btn">
+					const url = new GitHubURL(location.href);
+					url.branch = pastCommits[1];
+
+					return (
+						<a href={url.toString()} className="btn-sm BtnGroup-item btn">
 							Previous
-						</div>
+						</a>
 					);
-
-					delegate(button, '*', 'click', () => {
-						const url = new GitHubURL(location.href);
-						url.branch = pastCommits[1];
-						location.href = url.toString();
-					});
-
-					return button;
 				})()}
 			</div>
 
