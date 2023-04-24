@@ -104,7 +104,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 		return false;
 	}
 
-	observe(['#repos-sticky-header .react-blob-header-edit-and-raw-actions'], add, {signal});
+	observe('#repos-sticky-header .react-blob-header-edit-and-raw-actions', add, {signal});
 }
 
 void features.add(import.meta.url, {
