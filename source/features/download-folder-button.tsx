@@ -8,7 +8,7 @@ import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
 
 function add(folderDropdown: HTMLElement): void {
-	folderDropdown.parentElement!.querySelector('a.rgh-download-folder-button')?.remove()
+	folderDropdown.parentElement!.querySelector('a.rgh-download-folder-button')?.remove();
 
 	const downloadUrl = new URL('https://download-directory.github.io/');
 	downloadUrl.searchParams.set('url', location.href);
@@ -26,8 +26,8 @@ function add(folderDropdown: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe([
-		'[title="More options"]',	// pageDetect.isRepoTree
-		'[title="More file actions"]', // pageDetect.isSingleFile
+		'[title="More options"]',	// PageDetect.isRepoTree
+		'[title="More file actions"]', // PageDetect.isSingleFile
 		'[aria-label="Add file"] + details', // TODO: Drop in mid 2023. Old file view #6154
 	], add, {signal});
 }
