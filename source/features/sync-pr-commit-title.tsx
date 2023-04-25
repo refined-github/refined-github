@@ -1,21 +1,25 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
-import regexJoin from 'regex-join';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
+import * as api from '../github-helpers/api';
 import features from '../feature-manager';
-import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
 import {getConversationNumber, userCanLikelyMergePR} from '../github-helpers';
 import onCommitTitleUpdate from '../github-events/on-commit-title-update';
+import observe from '../helpers/selector-observer';
+import cleanPrCommitTitle from '../helpers/pr-commit-cleaner';
 
-const mergeFormSelector = '.is-squashing form:not([hidden])';
-const prTitleFieldSelector = '.js-issue-update input[name="issue[title]"]';
-const prTitleSubmitSelector = '.js-issue-update button[type="submit"]';
+const prTitleFieldSelector = 'input#issue_title';
+const commitTitleFieldSelector = '.is-squashing form:not([hidden]) input#merge_title_field';
 
-function getCommitTitleField(): HTMLInputElement | undefined {
-	return select(`${mergeFormSelector} input#merge_title_field`);
+function getCurrentCommitTitleField(): HTMLInputElement | undefined {
+	return select(commitTitleFieldSelector);
+}
+
+function getCurrentCommitTitle(): string | undefined {
+	return getCurrentCommitTitleField()?.value.trim();
 }
 
 function createCommitTitle(): string {
@@ -24,52 +28,43 @@ function createCommitTitle(): string {
 }
 
 function needsSubmission(): boolean {
-	const inputField = getCommitTitleField();
-	if (!inputField || inputField.value === '') {
-		return false;
-	}
-
-	// Ensure that the required fields are on the page
-	if (!select.exists(prTitleFieldSelector + ',' + prTitleSubmitSelector)) {
-		features.log.error(import.meta.url, 'Can’t update the PR title');
-		return false;
-	}
-
-	return createCommitTitle() !== inputField.value;
+	const currentCommitTitle = getCurrentCommitTitle();
+	return Boolean(currentCommitTitle) && (createCommitTitle() !== currentCommitTitle);
 }
 
 function getUI(): HTMLElement {
-	return select(`${mergeFormSelector} .rgh-sync-pr-commit-title-note`) ?? (
+	const cancelButton = <button type="button" className="btn-link Link--muted text-underline rgh-sync-pr-commit-title">Cancel</button>;
+	return select('.rgh-sync-pr-commit-title-note') ?? (
 		<p className="note rgh-sync-pr-commit-title-note">
-			The title of this PR will be updated to match this title. <button type="button" className="btn-link Link--muted text-underline rgh-sync-pr-commit-title">Cancel</button>
+			The title of this PR will be updated to match this title. {cancelButton}
 		</p>
 	);
 }
 
 function updateUI(): void {
 	if (needsSubmission()) {
-		getCommitTitleField()!.after(getUI());
+		getCurrentCommitTitleField()!.after(getUI());
 	} else {
 		getUI().remove();
 	}
 }
 
-function updatePRTitle(): void {
+async function updatePRTitle(): Promise<void> {
 	if (!needsSubmission()) {
 		return;
 	}
 
 	// Remove PR number from commit title
-	const prTitle = getCommitTitleField()!.value
-		.replace(regexJoin(/\s*\(/, '#' + getConversationNumber()!, /\)$/), '');
+	const title = cleanPrCommitTitle(getCurrentCommitTitle()!, getConversationNumber()!);
 
-	// Fill and submit title-change form
-	select(prTitleFieldSelector)!.value = prTitle;
-	select(prTitleSubmitSelector)!.click(); // `form.submit()` isn't sent via ajax
+	await api.v3(`pulls/${getConversationNumber()!}`, {
+		method: 'PATCH',
+		body: {title},
+	});
 }
 
 async function updateCommitTitle(): Promise<void> {
-	const field = getCommitTitleField()!;
+	const field = getCurrentCommitTitleField()!;
 	if (field) {
 		textFieldEdit.set(field, createCommitTitle());
 	}
@@ -81,19 +76,26 @@ function disableSubmission(): void {
 }
 
 function init(signal: AbortSignal): void {
-	onPrMergePanelOpen(updateCommitTitle, signal);
+	// PR title -> Commit title field
+	observe(commitTitleFieldSelector, updateCommitTitle, {signal});
+	observe(prTitleFieldSelector, updateCommitTitle, {signal});
+
+	// Commit title field -> toggle checkbox visibility
 	onCommitTitleUpdate(updateUI, signal);
 
+	// On submission, update PR
 	delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle, {signal});
+
+	// On "Cancel", disable the feature
 	delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRConversation,
-	],
 	asLongAs: [
 		userCanLikelyMergePR,
+	],
+	include: [
+		pageDetect.isPRConversation,
 	],
 	awaitDomReady: true, // DOM-based filters, feature appears at the end of the page
 	init,
