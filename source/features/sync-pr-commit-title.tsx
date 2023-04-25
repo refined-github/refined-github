@@ -77,8 +77,8 @@ function disableSubmission(): void {
 
 function init(signal: AbortSignal): void {
 	// PR title -> Commit title field
-	observe(commitTitleFieldSelector, updateCommitTitle, {signal});
-	observe(prTitleFieldSelector, updateCommitTitle, {signal});
+	observe(commitTitleFieldSelector, updateCommitTitle, {signal}); // On panel open
+	observe('.gh-header-title', updateCommitTitle, {signal}); // On PR title change
 
 	// Commit title field -> toggle checkbox visibility
 	onCommitTitleUpdate(updateUI, signal);
