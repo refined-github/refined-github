@@ -102,6 +102,7 @@ const getWorkflowsDetails = cache.function('workflows-details', async (): Promis
 });
 
 async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void> {
+	// There might be a disabled indicator already
 	if (select.exists('.octicon-stop', workflowListItem)) {
 		return;
 	}
