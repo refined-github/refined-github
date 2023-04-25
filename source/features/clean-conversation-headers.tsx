@@ -7,14 +7,9 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
+import observe from '../helpers/selector-observer';
 
-async function cleanIssueHeader(): Promise<void | false> {
-	const byline = await elementReady('.gh-header-meta .flex-auto:not(.rgh-clean-conversation-headers)');
-	if (!byline) {
-		return false;
-	}
-
+async function cleanIssueHeader(byline: HTMLElement): Promise<void> {
 	byline.classList.add('rgh-clean-conversation-headers', 'rgh-clean-conversation-headers-hide-author');
 
 	// Shows on issues: octocat opened this issue on 1 Jan · [1 comments]
@@ -23,12 +18,7 @@ async function cleanIssueHeader(): Promise<void | false> {
 	commentCount.replaceWith(<span>{commentCount.textContent!.replace('·', '')}</span>);
 }
 
-async function cleanPrHeader(): Promise<void | false> {
-	const byline = await elementReady('.gh-header-meta > .flex-auto:not(.rgh-clean-conversation-headers)');
-	if (!byline) {
-		return false;
-	}
-
+async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	byline.classList.add('rgh-clean-conversation-headers');
 
 	// Extra author name is only shown on `isPRConversation`
@@ -57,13 +47,9 @@ async function cleanPrHeader(): Promise<void | false> {
 	}
 }
 
-async function init(): Promise<void | Deinit> {
+async function init(signal: AbortSignal): Promise<void> {
 	const cleanConversationHeader = pageDetect.isIssue() ? cleanIssueHeader : cleanPrHeader;
-
-	// Wait for the initial clean-up to finish before setting up the observer #5573
-	if ((await cleanConversationHeader()) !== false) {
-		return onConversationHeaderUpdate(cleanConversationHeader);
-	}
+	observe('.gh-header-meta .flex-auto', cleanConversationHeader, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -71,7 +57,6 @@ void features.add(import.meta.url, {
 		pageDetect.isIssue,
 		pageDetect.isPR,
 	],
-	deduplicate: 'has-rgh-inner',
 	init,
 });
 

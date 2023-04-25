@@ -2,14 +2,12 @@ import './conversation-activity-filter.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import select from 'select-dom';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, EyeClosedIcon, EyeIcon, XIcon} from '@primer/octicons-react';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '../feature-manager';
 import {registerHotkey} from '../github-helpers/hotkey';
-import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 import observe from '../helpers/selector-observer';
 
 const expectedDropdownWidth = 270;
@@ -133,8 +131,9 @@ function createRadios(current: State): JSX.Element[] {
 	));
 }
 
-async function addWidget(header: string, state: State): Promise<void> {
-	const position = (await elementReady(header))!.closest('div')!;
+async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
+	// TODO: use :has instead
+	const position = anchor.closest('div')!;
 	if (position.classList.contains('rgh-conversation-activity-filter')) {
 		return;
 	}
@@ -221,21 +220,24 @@ function switchToNextFilter(): void {
 }
 
 async function init(signal: AbortSignal): Promise<Deinit> {
-	const state = minorFixesIssuePages.some(url => location.href.startsWith(url))
+	const initialState = minorFixesIssuePages.some(url => location.href.startsWith(url))
 		? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 		: 'default';
 
-	await addWidget('#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)', state);
-	await addWidget('#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)', state);
+	observe([
+		'#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)',
+		'#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)',
+	], addWidget.bind(null, initialState), {signal});
 
-	if (state !== 'default') {
-		applyState(state);
+	if (initialState !== 'default') {
+		applyState(initialState);
 	}
 
 	window.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 
 	observe('.js-timeline-item', processItem, {signal});
 
+	// TODO: use signal instead
 	return registerHotkey('h', switchToNextFilter);
 }
 
@@ -243,12 +245,8 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],
-	additionalListeners: [
-		onConversationHeaderUpdate,
-	],
 	shortcuts: {
 		h: 'Cycle through conversation activity filters',
 	},
-	deduplicate: 'has-rgh-inner',
 	init,
 });
