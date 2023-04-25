@@ -1,7 +1,7 @@
 import cache from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
-import {AlertIcon, PlayIcon} from '@primer/octicons-react';
+import {StopIcon, PlayIcon} from '@primer/octicons-react';
 import {parseCron} from '@cheap-glitch/mi-cron';
 import * as pageDetect from 'github-url-detection';
 
@@ -30,15 +30,13 @@ function addTooltip(element: HTMLElement, tooltip: string): void {
 	}
 }
 
-// Note: There is no way to get a workflow list in the v4 API.
-//       https://github.com/refined-github/refined-github/pull/6543
+// There is no way to get a workflow list in the v4 API #6543
 const getWorkflows = async (): Promise<Workflow[]> => {
 	const response = await api.v3('actions/workflows');
 
 	const workflows = response.workflows as any[];
 
-	// Note: The response is not reliable.
-	//       Some workflow's path is '' and deleted workflow's state is 'active'.
+	// The response is not reliable: Some workflow's path is '' and deleted workflow's state is 'active'
 	return workflows
 		.map<Workflow>(workflow => ({
 		name: workflow.path.split('/').pop()!,
@@ -74,12 +72,8 @@ const getFilesInWorkflowPath = async (): Promise<Record<string, string>> => {
 	return result;
 };
 
-const getWorkflowsDetails = cache.function('workflows', async (): Promise<Record<string, Workflow & WorkflowDetails> | false> => {
+const getWorkflowsDetails = cache.function('workflows-details', async (): Promise<Record<string, Workflow & WorkflowDetails>> => {
 	const [workflows, workflowFiles] = await Promise.all([getWorkflows(), getFilesInWorkflowPath()]);
-
-	if (workflows.length === 0 || Object.keys(workflowFiles).length === 0) {
-		return false;
-	}
 
 	const details: Record<string, Workflow & WorkflowDetails> = {};
 
@@ -108,16 +102,12 @@ const getWorkflowsDetails = cache.function('workflows', async (): Promise<Record
 });
 
 async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void> {
-	// Memoized above
-	const workflows = await getWorkflowsDetails();
-	if (!workflows) {
-		return; // Impossibru, for types only
-	}
-
 	if (select.exists('.octicon-stop', workflowListItem)) {
 		return;
 	}
 
+	// Called in `init`, memoized
+	const workflows = await getWorkflowsDetails();
 	const workflowName = workflowListItem.href.split('/').pop()!;
 	const workflow = workflows[workflowName];
 	if (!workflow) {
@@ -128,7 +118,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	workflowListItem.append(svgTrailer);
 
 	if (!workflow.isEnabled) {
-		svgTrailer.append(<AlertIcon className="m-auto"/>);
+		svgTrailer.append(<StopIcon className="m-auto"/>);
 		addTooltip(workflowListItem, 'This workflow is not enabled');
 	}
 
