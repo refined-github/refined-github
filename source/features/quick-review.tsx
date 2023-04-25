@@ -30,7 +30,7 @@ function focusReviewTextarea({delegateTarget}: DelegateEvent<Event, HTMLDetailsE
 }
 
 async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> {
-	delegate(document, '.js-reviews-container > details', 'toggle', focusReviewTextarea, {capture: true, signal});
+	delegate('.js-reviews-container > details', 'toggle', focusReviewTextarea, {capture: true, signal});
 
 	const reviewDropdownButton = await elementReady('.js-reviews-toggle');
 	if (reviewDropdownButton) {

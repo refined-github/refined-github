@@ -37,7 +37,7 @@ function updateDocumentTitle(): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate(document, 'form', 'submit', disableOnSubmit, {capture: true, signal});
+	delegate('form', 'submit', disableOnSubmit, {capture: true, signal});
 	document.addEventListener('visibilitychange', updateDocumentTitle, {signal});
 }
 

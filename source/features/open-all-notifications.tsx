@@ -117,8 +117,8 @@ function addToMainHeader(notificationHeader: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate(document, openSelected.selector, 'click', openSelectedNotifications, {signal});
-	delegate(document, openUnread.selector, 'click', openUnreadNotifications, {signal});
+	delegate(openSelected.selector, 'click', openSelectedNotifications, {signal});
+	delegate(openUnread.selector, 'click', openUnreadNotifications, {signal});
 
 	observe(notificationHeaderSelector + ' .js-notifications-mark-selected-actions', addSelectedButton, {signal});
 	observe(notificationHeaderSelector, addToMainHeader, {signal});

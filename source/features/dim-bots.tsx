@@ -57,7 +57,7 @@ function init(signal: AbortSignal): void {
 	}
 
 	// Undim on mouse focus
-	delegate(document, dimBots.selector, 'click', undimBots, {signal});
+	delegate(dimBots.selector, 'click', undimBots, {signal});
 
 	// Undim on keyboard focus
 	document.documentElement.addEventListener('navigation:keydown', undimBots, {once: true, signal});
