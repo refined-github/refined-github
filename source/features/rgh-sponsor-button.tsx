@@ -95,7 +95,7 @@ async function handleNewIssue(signal: AbortSignal): Promise<false> {
 }
 
 function handleSponsorButton(signal: AbortSignal): void {
-	delegate(document, '#sponsor-button-repo, #sponsor-profile-button, [aria-label^="Sponsor @"]', 'click', suchLove, {signal});
+	delegate('#sponsor-button-repo, #sponsor-profile-button, [aria-label^="Sponsor @"]', 'click', suchLove, {signal});
 }
 
 void features.add(import.meta.url, {

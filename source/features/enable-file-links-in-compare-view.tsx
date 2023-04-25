@@ -51,7 +51,7 @@ function handleCompareMenuOpening({delegateTarget: dropdown}: DelegateEvent): vo
 function init(signal: AbortSignal): void {
 	const handleMenuOpening = pageDetect.isCompare() ? handleCompareMenuOpening : handlePRMenuOpening;
 	// `capture: true` required to be fired before GitHub's handlers
-	delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown:not(.rgh-actionable-link)', 'toggle', handleMenuOpening, {capture: true, signal});
+	delegate('.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown:not(.rgh-actionable-link)', 'toggle', handleMenuOpening, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {

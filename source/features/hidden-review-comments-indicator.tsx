@@ -62,7 +62,7 @@ function init(signal: AbortSignal): void {
 		});
 	});
 
-	delegate(document, '.rgh-comments-indicator', 'click', handleIndicatorClick, {signal});
+	delegate('.rgh-comments-indicator', 'click', handleIndicatorClick, {signal});
 
 	onAbort(signal, indicatorToggleObserver);
 }

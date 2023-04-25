@@ -35,7 +35,7 @@ async function handleAltClick({altKey, delegateTarget}: DelegateEvent<MouseEvent
 }
 
 function init(signal: AbortSignal): void {
-	delegate(document, paginationButtonSelector, 'click', handleAltClick, {signal});
+	delegate(paginationButtonSelector, 'click', handleAltClick, {signal});
 }
 
 void features.add(import.meta.url, {
