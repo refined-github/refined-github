@@ -72,7 +72,6 @@
 		"regex-join": "^2.0.0",
 		"select-dom": "^7.1.1",
 		"shorten-repo-url": "^3.0.0",
-		"split-on-first": "^3.0.0",
 		"strip-indent": "^4.0.0",
 		"text-field-edit": "^3.1.9001",
 		"tiny-version-compare": "^4.0.0",

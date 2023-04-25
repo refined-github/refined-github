@@ -1,5 +1,4 @@
 import select from 'select-dom';
-import splitOnFirst from 'split-on-first';
 
 export type PrReference = {
 	/** @example fregante/mem:main */
