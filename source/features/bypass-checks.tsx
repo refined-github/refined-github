@@ -13,7 +13,7 @@ async function bypass(detailsLink: HTMLAnchorElement): Promise<void> {
 		return;
 	}
 
-	// TODO: Use v4: https://docs.github.com/en/graphql/reference/objects#checkrun
+	// Impossible with v4 https://github.com/refined-github/refined-github/pull/6550#discussion_r1176346110
 	const {details_url: detailsUrl} = await api.v3(`check-runs/${runId}`);
 	if (!detailsUrl) {
 		return;

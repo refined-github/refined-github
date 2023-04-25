@@ -39,6 +39,9 @@ async function init(): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		userCanLikelyMergePR,
+	],
 	include: [
 		pageDetect.isPRConversation,
 	],
@@ -46,14 +49,11 @@ void features.add(import.meta.url, {
 		// Don't clear 1-commit PRs #3140
 		() => select.all('.TimelineItem.js-commit').length === 1,
 	],
-	asLongAs: [
-		userCanLikelyMergePR,
-	],
 	additionalListeners: [
 		onPrMergePanelOpen,
 	],
 	onlyAdditionalListeners: true,
-	awaitDomReady: true, // Appears near the page anyway
+	awaitDomReady: true, // Appears near the end of the page anyway
 	init,
 });
 

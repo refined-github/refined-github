@@ -26,11 +26,11 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasComments,
-	],
 	asLongAs: [
 		pageDetect.isRepo,
+	],
+	include: [
+		pageDetect.hasComments,
 	],
 	init,
 });

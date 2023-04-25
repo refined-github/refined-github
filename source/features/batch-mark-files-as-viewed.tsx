@@ -81,10 +81,10 @@ function avoidSelectionOnShiftClick(event: MouseEvent): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate(document, '.js-reviewed-toggle', 'click', onAltClick, {signal});
-	delegate(document, '.js-reviewed-toggle', 'click', batchToggle, {signal});
-	delegate(document, '.js-reviewed-toggle', 'mousedown', avoidSelectionOnShiftClick, {signal});
-	delegate(document, '.js-toggle-user-reviewed-file-form', 'submit', remember, {signal});
+	delegate('.js-reviewed-toggle', 'click', onAltClick, {signal});
+	delegate('.js-reviewed-toggle', 'click', batchToggle, {signal});
+	delegate('.js-reviewed-toggle', 'mousedown', avoidSelectionOnShiftClick, {signal});
+	delegate('.js-toggle-user-reviewed-file-form', 'submit', remember, {signal});
 	onAbort(signal, () => {
 		previousFile = undefined;
 	});

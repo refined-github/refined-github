@@ -38,11 +38,11 @@ function initRepoList(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
 	asLongAs: [
 		() => /\.github\.(io|com)$/.test(getRepo()?.name ?? 'shush eslint'),
+	],
+	include: [
+		pageDetect.hasRepoHeader,
 	],
 	init: initRepo,
 }, {

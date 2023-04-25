@@ -55,7 +55,7 @@ async function addList(searchField: HTMLInputElement): Promise<void> {
 const searchFieldSelector = 'input#release-filter';
 async function init(signal: AbortSignal): Promise<void> {
 	observe(searchFieldSelector, addList, {signal});
-	delegate(document, searchFieldSelector, 'input', selectionHandler, {signal});
+	delegate(searchFieldSelector, 'input', selectionHandler, {signal});
 }
 
 void features.add(import.meta.url, {

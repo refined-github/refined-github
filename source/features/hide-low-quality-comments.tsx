@@ -88,7 +88,7 @@ function init(): void | false {
 		);
 
 		// No need to add the signal here
-		delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide);
+		delegate('.rgh-unhide-low-quality-comments', 'click', unhide);
 	}
 }
 

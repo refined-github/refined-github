@@ -50,7 +50,7 @@ function append(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 
 function init(signal: AbortSignal): void {
 	// Events must be set via delegate, unless shortlived
-	delegate(document, '.btn', 'click', append, {signal});
+	delegate('.btn', 'click', append, {signal});
 }
 
 void features.add(import.meta.url, {

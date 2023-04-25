@@ -43,7 +43,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 		)},
 	);
 
-	delegate(document, 'button.rgh-open-all-conversations', 'click', onButtonClick, {signal});
+	delegate('button.rgh-open-all-conversations', 'click', onButtonClick, {signal});
 }
 
 void features.add(import.meta.url, {

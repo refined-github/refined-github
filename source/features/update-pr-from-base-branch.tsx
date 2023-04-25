@@ -23,7 +23,7 @@ async function mergeBranches(): Promise<AnyObject> {
 
 async function handler(): Promise<void> {
 	const {base, head} = getBranches();
-	if (!confirm(`Merge the ${base.local} branch into ${head.local}?`)) {
+	if (!confirm(`Merge the ${base.relative} branch into ${head.relative}?`)) {
 		return;
 	}
 
@@ -44,7 +44,7 @@ async function handler(): Promise<void> {
 
 async function addButton(position: Element): Promise<void> {
 	const {base, head} = getBranches();
-	const prInfo = await getPrInfo(base.local, head.local);
+	const prInfo = await getPrInfo(base.relative, head.relative);
 	if (!prInfo) {
 		return;
 	}
@@ -61,7 +61,7 @@ async function addButton(position: Element): Promise<void> {
 async function init(signal: AbortSignal): Promise<false | void> {
 	await api.expectToken();
 
-	delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler, {signal});
+	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
 	observe(selectorForPushablePRNotice, addButton, {signal});
 }
 

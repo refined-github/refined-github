@@ -62,7 +62,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 	await api.expectToken();
 
 	observe(getReleaseEditLinkSelector(), attachButton, {signal});
-	delegate(document, '.rgh-convert-draft', 'click', onConvertClick, {signal});
+	delegate('.rgh-convert-draft', 'click', onConvertClick, {signal});
 }
 
 void features.add(import.meta.url, {
