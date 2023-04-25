@@ -6,10 +6,18 @@ import {ParseSelector} from 'typed-query-selector/parser';
 import getCallerID from './caller-id';
 import isDevelopmentVersion from './is-development-version';
 
-type ObserverListener<Selector extends string> = (element: ParseSelector<Selector, HTMLElement>, options: SignalAsOptions) => void;
+type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
 
 const animation = 'rgh-selector-observer';
-const getListener = <ExpectedElement extends HTMLElement>(seenMark: string, selector: string, callback: ObserverListener<string>, signal?: AbortSignal) => function (event: AnimationEvent) {
+const getListener = <
+	Selector extends string,
+	ExpectedElement extends ParseSelector<Selector, HTMLElement>,
+>(
+	seenMark: string,
+	selector: Selector,
+	callback: ObserverListener<ExpectedElement>,
+	signal?: AbortSignal,
+) => function (event: AnimationEvent) {
 	const target = event.target as ExpectedElement;
 	// The target can match a selector even if the animation actually happened on a ::before pseudo-element, so it needs an explicit exclusion here
 	if (target.classList.contains(seenMark) || !target.matches(selector)) {
@@ -28,9 +36,10 @@ const registerAnimation = onetime((): void => {
 
 export default function observe<
 	Selector extends string,
+	ExpectedElement extends ParseSelector<Selector, HTMLElement>,
 >(
 	selectors: Selector | readonly Selector[],
-	listener: ObserverListener<Selector>,
+	listener: ObserverListener<ExpectedElement>,
 	{signal}: SignalAsOptions = {},
 ): void {
 	if (signal?.aborted) {
