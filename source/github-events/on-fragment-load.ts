@@ -13,6 +13,7 @@ function createFragmentLoadListener(fragmentSelector: string, callback: EventLis
 	delegate(fragmentSelector, 'loadstart', getDeduplicatedHandler(callback), {capture: true, signal});
 }
 
+/** @deprecated Only here for `wait-for-checks` */
 // eslint-disable-next-line import/prefer-default-export -- Deprecated file
 export function onPrMergePanelLoad(callback: EventListener, signal: AbortSignal): void {
 	createFragmentLoadListener('.discussion-timeline-actions include-fragment[src$="/merging"]', callback, signal);
