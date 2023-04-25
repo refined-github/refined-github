@@ -89,11 +89,11 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRConversation,
-	],
 	asLongAs: [
 		userCanLikelyMergePR,
+	],
+	include: [
+		pageDetect.isPRConversation,
 	],
 	awaitDomReady: true, // DOM-based filters, feature appears at the end of the page
 	init,
