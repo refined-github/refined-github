@@ -9,9 +9,9 @@ import * as pageDetect from 'github-url-detection';
 export const getUsername = onetime(pageDetect.utils.getUsername);
 export const {getRepositoryInfo: getRepo, getCleanPathname} = pageDetect.utils;
 
-export const getConversationNumber = (): number | undefined => {
+export const getConversationNumber = (): string | undefined => {
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
-		return Number(location.pathname.split('/')[4]);
+		return location.pathname.split('/')[4];
 	}
 
 	return undefined;
