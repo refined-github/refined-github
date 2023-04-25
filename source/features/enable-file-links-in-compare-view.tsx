@@ -79,3 +79,12 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // DOM-based filters
 	init,
 });
+
+/*
+
+Test URLs
+
+- Open PR: https://github.com/refined-github/sandbox/pull/4/files
+- Compare view: https://github.com/refined-github/sandbox/compare/default-a...very-very-long-long-long-long-branch-name
+
+*/
