@@ -8,7 +8,7 @@ test('parseReferenceRaw', () => {
 		relative: 'main',
 		owner: 'fregante',
 		name: 'mem',
-		nameWithOwner: 'fregante:mem',
+		nameWithOwner: 'fregante/mem',
 		branch: 'main',
 	});
 	assert.deepEqual(parseReferenceRaw('134130/refined-github:feature/#5942', '134130:feature/#5942'), {
@@ -16,7 +16,7 @@ test('parseReferenceRaw', () => {
 		relative: '134130:feature/#5942',
 		owner: '134130',
 		name: 'refined-github',
-		nameWithOwner: '134130:refined-github',
+		nameWithOwner: '134130/refined-github',
 		branch: 'feature/#5942',
 	});
 

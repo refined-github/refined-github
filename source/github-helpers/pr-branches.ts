@@ -20,7 +20,7 @@ export type PrReference = {
 	nameWithOwner: string;
 };
 
-const absoluteReferenceRegex = /^(?<owner>[^:]+)\/(?<name>[^:]+):(?<branch>.+)$/;
+const absoluteReferenceRegex = /^(?<nameWithOwner>(?<owner>[^:]+)\/(?<name>[^:]+)):(?<branch>.+)$/;
 
 /**
  * @param absolute - The full reference, e.g. `fregante/mem:main`
@@ -33,7 +33,7 @@ export function parseReferenceRaw(absolute: string, relative: string): PrReferen
 		throw new TypeError(`Expected \`absolute\` to be "user/repo:branch", got "${absolute}"`);
 	}
 
-	const {owner, name, branch} = absoluteMatch.groups!;
+	const {owner, name, nameWithOwner, branch} = absoluteMatch.groups!;
 
 	// We must receive the relative reference because it also tells whether it's a cross-repo PR
 	const expectedRelative = [branch, `${owner}:${branch}`];
@@ -45,7 +45,7 @@ export function parseReferenceRaw(absolute: string, relative: string): PrReferen
 		owner,
 		name,
 		branch,
-		nameWithOwner: `${owner}:${name}`,
+		nameWithOwner,
 		absolute,
 		relative,
 	};
