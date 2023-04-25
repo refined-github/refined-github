@@ -6,17 +6,18 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import {CopyIcon, CheckIcon, TerminalIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager';
-import {getRepo, getUsername} from '../github-helpers';
+import {getUsername} from '../github-helpers';
+import {getBranches} from '../github-helpers/pr-branches';
 
 // Logic explained in https://github.com/refined-github/refined-github/pull/3596#issuecomment-720910840
 function getRemoteName(): string | undefined {
-	const [author] = select('.head-ref')!.title.split('/');
-	if (author === getUsername()) {
+	const {head, base} = getBranches();
+	if (head.owner === getUsername()) {
 		return; // `origin`, don't add remote
 	}
 
-	if (author !== getRepo()!.owner) {
-		return author;
+	if (head.owner !== base.owner) {
+		return head.owner;
 	}
 
 	if (select('[aria-label="Edit Pull Request title"]')) {
@@ -32,8 +33,7 @@ const connectionType = {
 };
 
 function checkoutOption(remote?: string, remoteType?: 'HTTPS' | 'SSH'): JSX.Element {
-	const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
-	const [owner] = nameWithOwner.split('/');
+	const {nameWithOwner, owner, branch: headBranch} = getBranches().head;
 	return (
 		<div hidden={remoteType && remoteType !== 'HTTPS'} className="markdown-body" role="tabpanel">
 			<div className="snippet-clipboard-content position-relative">
