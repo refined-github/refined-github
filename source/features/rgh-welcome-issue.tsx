@@ -21,7 +21,7 @@ const issueUrl = 'https://github.com/refined-github/refined-github/issues/3543';
 const placeholdersSelector = 'a[href="#rgh-linkify-welcome-issue"]';
 
 function init(signal: AbortSignal): void {
-	delegate(document, placeholdersSelector, 'click', openOptions, {signal});
+	delegate(placeholdersSelector, 'click', openOptions, {signal});
 
 	if (select.exists('.rgh-linkify-welcome-issue')) {
 		return;

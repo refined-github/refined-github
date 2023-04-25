@@ -54,7 +54,7 @@ function addRemoveLabelButton(label: HTMLElement): void {
 async function init(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
 
-	delegate(document, '.rgh-quick-label-removal:not([disabled])', 'click', removeLabelButtonClickHandler, {signal});
+	delegate('.rgh-quick-label-removal:not([disabled])', 'click', removeLabelButtonClickHandler, {signal});
 
 	observe('.js-issue-labels .IssueLabel', addRemoveLabelButton, {signal});
 }

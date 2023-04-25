@@ -73,9 +73,9 @@ function add(anchor: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe('md-ref', add, {signal});
-	delegate(document, '.rgh-tic', 'click', addTable, {signal});
+	delegate('.rgh-tic', 'click', addTable, {signal});
 	if (!isHasSelectorSupported()) {
-		delegate(document, '.rgh-tic', 'mouseenter', highlightSquares, {capture: true, signal});
+		delegate('.rgh-tic', 'mouseenter', highlightSquares, {capture: true, signal});
 	}
 }
 

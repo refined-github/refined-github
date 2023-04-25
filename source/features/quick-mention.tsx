@@ -86,7 +86,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		return;
 	}
 
-	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser, {signal});
+	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
 
 	// `:first-child` avoids app badges #2630
 	// The hovercard attribute avoids `highest-rated-comment`

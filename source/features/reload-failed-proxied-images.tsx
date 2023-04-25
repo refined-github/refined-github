@@ -18,7 +18,7 @@ async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HT
 }
 
 function init(signal: AbortSignal): void {
-	delegate(document, 'img[src^="https://camo.githubusercontent.com/"]', 'error', handleErroredImage, {capture: true, signal});
+	delegate('img[src^="https://camo.githubusercontent.com/"]', 'error', handleErroredImage, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {
