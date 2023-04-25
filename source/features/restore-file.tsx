@@ -8,7 +8,7 @@ import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import showToast from '../github-helpers/toast';
 import {getConversationNumber} from '../github-helpers';
-import { getBranches } from '../github-helpers/pr-branches';
+import {getBranches} from '../github-helpers/pr-branches';
 
 // Get the current base commit of this PR. It should change after rebases and merges in this PR.
 // This value is not consistently available on the page (appears in `/files` but not when only 1 commit is selected)

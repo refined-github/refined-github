@@ -7,7 +7,7 @@ import {CopyIcon, CheckIcon, TerminalIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager';
 import {getUsername} from '../github-helpers';
-import { getBranches } from '../github-helpers/pr-branches';
+import {getBranches} from '../github-helpers/pr-branches';
 
 // Logic explained in https://github.com/refined-github/refined-github/pull/3596#issuecomment-720910840
 function getRemoteName(): string | undefined {
