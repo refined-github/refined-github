@@ -134,8 +134,8 @@ function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 
 function init(signal: AbortSignal): void {
 	// `capture: true` required to be fired before GitHub's handlers
-	delegate(document, '.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, {capture: true, signal});
-	delegate(document, '.rgh-restore-file', 'click', handleRestoreFileClick, {capture: true, signal});
+	delegate('.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, {capture: true, signal});
+	delegate('.rgh-restore-file', 'click', handleRestoreFileClick, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {

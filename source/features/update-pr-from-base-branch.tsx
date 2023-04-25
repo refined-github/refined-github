@@ -61,7 +61,7 @@ async function addButton(position: Element): Promise<void> {
 async function init(signal: AbortSignal): Promise<false | void> {
 	await api.expectToken();
 
-	delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler, {signal});
+	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
 	observe(selectorForPushablePRNotice, addButton, {signal});
 }
 

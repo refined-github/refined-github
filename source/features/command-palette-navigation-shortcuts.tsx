@@ -18,7 +18,7 @@ function commandPaletteKeydown(event: DelegateEvent<KeyboardEvent>): void {
 }
 
 function init(): void {
-	delegate(document, 'command-palette', 'keydown', commandPaletteKeydown);
+	delegate('command-palette', 'keydown', commandPaletteKeydown);
 }
 
 void features.add(import.meta.url, {

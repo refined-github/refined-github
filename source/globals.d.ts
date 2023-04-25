@@ -80,3 +80,7 @@ declare module 'react' {
 interface Node extends EventTarget {
 	cloneNode(deep?: boolean): this;
 }
+
+interface SignalAsOptions {
+	signal?: AbortSignal;
+}

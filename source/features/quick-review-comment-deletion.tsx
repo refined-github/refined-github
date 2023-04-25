@@ -35,8 +35,8 @@ function addDeleteButton(cancelButton: Element): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate(document, '.rgh-review-comment-delete-button', 'click', onButtonClick, {signal});
-	delegate(document, '.rgh-quick-comment-edit-button', 'click', preloadDropdown, {signal});
+	delegate('.rgh-review-comment-delete-button', 'click', onButtonClick, {signal});
+	delegate('.rgh-quick-comment-edit-button', 'click', preloadDropdown, {signal});
 	observe('.review-comment .js-comment-cancel-button', addDeleteButton, {signal});
 }
 

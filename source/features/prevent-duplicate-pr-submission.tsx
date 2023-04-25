@@ -14,7 +14,7 @@ function preventSubmit(event: DelegateEvent): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate(document, '#new_pull_request', 'submit', preventSubmit, {signal});
+	delegate('#new_pull_request', 'submit', preventSubmit, {signal});
 }
 
 void features.add(import.meta.url, {

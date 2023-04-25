@@ -81,10 +81,10 @@ function handleSubmission(event: DelegateEvent): void {
 
 function init(signal: AbortSignal): false | void {
 	// Freeze form to avoid duplicate submissions
-	delegate(document, '[action$="/reviews"]', 'submit', handleSubmission, {signal});
+	delegate('[action$="/reviews"]', 'submit', handleSubmission, {signal});
 
 	// This will prevent submission when clicking "Comment" and "Request changes" without entering a comment and no other review comments are pending
-	delegate(document, '[action$="/reviews"] button', 'click', ({delegateTarget: {value, form}}) => {
+	delegate('[action$="/reviews"] button', 'click', ({delegateTarget: {value, form}}) => {
 		const pendingComments = looseParseInt(select('.js-reviews-toggle .js-pending-review-comment-count'));
 		const submissionRequiresComment = pendingComments === 0 && (value === 'reject' || value === 'comment');
 		select('#pull_request_review_body', form!)!.toggleAttribute('required', submissionRequiresComment);

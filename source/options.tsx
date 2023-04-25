@@ -265,10 +265,10 @@ function addEventListeners(): void {
 	indentTextarea.watch('textarea');
 
 	// Load screenshots
-	delegate(document, '.screenshot-link', 'click', summaryHandler);
+	delegate('.screenshot-link', 'click', summaryHandler);
 
 	// Automatically focus field when a section is toggled open
-	delegate(document, 'details', 'toggle', focusFirstField, {capture: true});
+	delegate('details', 'toggle', focusFirstField, {capture: true});
 
 	// Filter feature list
 	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
@@ -283,7 +283,7 @@ function addEventListeners(): void {
 	select('[name="personalToken"]')!.addEventListener('input', validateToken);
 
 	// Ensure all links open in a new tab #3181
-	delegate(document, 'a[href^="http"]', 'click', event => {
+	delegate('a[href^="http"]', 'click', event => {
 		if (!event.defaultPrevented) {
 			event.preventDefault();
 			window.open(event.delegateTarget.href);

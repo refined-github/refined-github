@@ -115,7 +115,7 @@ async function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): Pro
 
 function init(signal: AbortSignal): void {
 	// `capture: true` required to be fired before GitHub's handlers
-	delegate(document, '.gh-header-actions Details:not(.rgh-git-checkout)', 'toggle', handleMenuOpening, {capture: true, signal});
+	delegate('.gh-header-actions Details:not(.rgh-git-checkout)', 'toggle', handleMenuOpening, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {
