@@ -10,7 +10,6 @@ import onAbort from './helpers/abort-controller';
 import ArrayMap from './helpers/map-of-arrays';
 import bisectFeatures from './helpers/bisect';
 import {shouldFeatureRun} from './github-helpers';
-import polyfillTurboEvents from './github-helpers/turbo-events-polyfill';
 import optionsStorage, {RGHOptions} from './options-storage';
 import {
 	applyStyleHotfixes,
@@ -150,8 +149,6 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
 		features.log.error = () => {/* No logging */};
 	}
-
-	polyfillTurboEvents();
 
 	resolve(options);
 });
