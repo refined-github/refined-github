@@ -3,6 +3,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import {buildRepoURL, getRepo, isArchivedRepoAsync} from '../github-helpers';
+import {isHasSelectorSupported} from '../helpers/select-has';
 import observe from '../helpers/selector-observer';
 
 function add(dropdownMenu: HTMLElement): void {
@@ -31,6 +32,9 @@ async function init(signal: AbortSignal): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isHasSelectorSupported,
+	],
 	include: [
 		pageDetect.isRepo,
 	],
