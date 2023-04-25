@@ -44,7 +44,7 @@ function addButtons(referenceButton: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe('md-ref', addButtons, {signal});
-	delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails, {signal});
+	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails, {signal});
 }
 
 void features.add(import.meta.url, {

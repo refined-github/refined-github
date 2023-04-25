@@ -84,10 +84,10 @@ function init(signal: AbortSignal): void {
 	onCommitTitleUpdate(updateUI, signal);
 
 	// On submission, update PR
-	delegate(document, 'form.js-merge-pull-request', 'submit', updatePRTitle, {signal});
+	delegate('form.js-merge-pull-request', 'submit', updatePRTitle, {signal});
 
 	// On "Cancel", disable the feature
-	delegate(document, '.rgh-sync-pr-commit-title', 'click', disableSubmission, {signal});
+	delegate('.rgh-sync-pr-commit-title', 'click', disableSubmission, {signal});
 }
 
 void features.add(import.meta.url, {

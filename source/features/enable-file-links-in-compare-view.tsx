@@ -51,7 +51,7 @@ function handleCompareMenuOpening({delegateTarget: dropdown}: DelegateEvent): vo
 function init(signal: AbortSignal): void {
 	const handleMenuOpening = pageDetect.isCompare() ? handleCompareMenuOpening : handlePRMenuOpening;
 	// `capture: true` required to be fired before GitHub's handlers
-	delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown:not(.rgh-actionable-link)', 'toggle', handleMenuOpening, {capture: true, signal});
+	delegate('.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown:not(.rgh-actionable-link)', 'toggle', handleMenuOpening, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {
@@ -79,3 +79,12 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // DOM-based filters
 	init,
 });
+
+/*
+
+Test URLs
+
+- Open PR: https://github.com/refined-github/sandbox/pull/4/files
+- Compare view: https://github.com/refined-github/sandbox/compare/default-a...very-very-long-long-long-long-branch-name
+
+*/
