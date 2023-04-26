@@ -102,17 +102,16 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		return;
 	}
 
-	const commitCount = aheadBy === undeterminableAheadBy ? 'more than 20 commits' : pluralize(aheadBy, '$$ commit');
-	const label
-		= isAhead
-			? `${defaultBranch} is ${commitCount} ahead of the latest version`
-			: `The HEAD of ${defaultBranch} isn’t tagged`;
+	const commitCount
+		= aheadBy === undeterminableAheadBy
+			? 'more than 20 unreleased commits'
+			: pluralize(aheadBy, '$$ unreleased commit');
+	const label = `See the ${commitCount} since ${latestTag}`;
 
 	// TODO: use .position-relative:has(> #branch-select-menu)
 	branchSelector.parentElement!.after(
 		<a
 			className="btn ml-2 px-2 tooltipped tooltipped-ne"
-			data-turbo-frame="repo-content-turbo-frame"
 			href={buildRepoURL('compare', `${latestTag}...${defaultBranch}`)}
 			aria-label={label}
 		>
