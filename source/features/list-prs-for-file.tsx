@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import {isChrome} from 'webext-detect-page';
+import {isFirefox} from 'webext-detect-page';
 import * as pageDetect from 'github-url-detection';
-import {GitPullRequestIcon} from '@primer/octicons-react';
+import {AlertIcon, GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
@@ -12,7 +12,9 @@ import GitHubURL from '../github-helpers/github-url';
 import observe from '../helpers/selector-observer';
 
 function getPRUrl(prNumber: number): string {
-	return buildRepoURL('pull', prNumber, 'files');
+	// https://caniuse.com/url-scroll-to-text-fragment
+	const hash = isFirefox() ? '' : `:~:text=${new GitHubURL(location.href).filePath}`;
+	return buildRepoURL('pull', prNumber, 'files', hash);
 }
 
 function getHovercardUrl(prNumber: number): string {
@@ -20,18 +22,22 @@ function getHovercardUrl(prNumber: number): string {
 }
 
 function getDropdown(prs: number[]): HTMLElement {
+	const isEditing = pageDetect.isEditingFile();
+	const icon = isEditing
+		? <AlertIcon className="v-align-middle color-fg-attention"/>
+		: <GitPullRequestIcon className="v-align-middle"/>;
 	// Markup copied from https://primer.style/css/components/dropdown
 	return (
-		<details className="dropdown details-reset details-overlay flex-self-center">
+		<details className={`dropdown details-reset details-overlay flex-self-center ${isEditing ? 'mr-2' : ''}`}>
 			<summary className="btn btn-sm">
-				<GitPullRequestIcon className="v-align-middle"/>
+				{icon}
 				<span className="v-align-middle"> {prs.length} </span>
 				<div className="dropdown-caret"/>
 			</summary>
 
-			<details-menu className="dropdown-menu dropdown-menu-sw">
+			<details-menu className="dropdown-menu dropdown-menu-sw" style={{width: '13em'}}>
 				<div className="dropdown-header">
-					File touched by PRs
+					File also being edited in
 				</div>
 				{prs.map(prNumber => (
 					<a
@@ -44,19 +50,6 @@ function getDropdown(prs: number[]): HTMLElement {
 				))}
 			</details-menu>
 		</details>
-	);
-}
-
-function getSingleButton(prNumber: number): HTMLElement {
-	return (
-		<a
-			href={getPRUrl(prNumber)}
-			className="btn btn-sm flex-self-center"
-			data-hovercard-url={getHovercardUrl(prNumber)}
-		>
-			<GitPullRequestIcon className="v-align-middle"/>
-			<span className="v-align-middle"> #{prNumber}</span>
-		</a>
 	);
 }
 
@@ -110,18 +103,12 @@ async function addToSingleFile(moreFileActionsDropdown: HTMLElement): Promise<vo
 	const prsByFile = await getPrsByFile();
 	const prs = prsByFile[path];
 
-	if (!prs) {
-		return;
+	if (prs) {
+		moreFileActionsDropdown.before(getDropdown(prs));
 	}
-
-	const [prNumber] = prs; // First one or only one
-
-	const button = prs.length === 1 ? getSingleButton(prNumber) : getDropdown(prs);
-
-	moreFileActionsDropdown.before(button);
 }
 
-async function addToEditingFile(file: HTMLElement): Promise<false | void> {
+async function addToEditingFile(saveButton: HTMLElement): Promise<false | void> {
 	const path = new GitHubURL(location.href).filePath;
 	const prsByFile = await getPrsByFile();
 	let prs = prsByFile[path];
@@ -138,35 +125,7 @@ async function addToEditingFile(file: HTMLElement): Promise<false | void> {
 		}
 	}
 
-	const [prNumber] = prs; // First one or only one
-
-	file.after(
-		<div className="form-warning p-3 mb-3 mx-lg-3">
-			{
-				prs.length === 1
-					? <>Careful, PR <a href={getPRUrl(prNumber)}>#{prNumber}</a> is already touching this file</>
-					: (
-						<>
-							Careful, {prs.length} open PRs are already touching this file
-							<span className="ml-2 BtnGroup">
-								{prs.map(pr => {
-									const button = getSingleButton(pr) as unknown as HTMLAnchorElement;
-									button.classList.add('BtnGroup-item');
-
-									// Only Chrome supports Scroll To Text Fragment
-									// https://caniuse.com/url-scroll-to-text-fragment
-									if (isChrome()) {
-										button.hash = `:~:text=${path}`;
-									}
-
-									return button;
-								})}
-							</span>
-						</>
-					)
-			}
-		</div>,
-	);
+	saveButton.parentElement!.prepend(getDropdown(prs));
 }
 
 function initSingleFile(signal: AbortSignal): void {
@@ -174,7 +133,7 @@ function initSingleFile(signal: AbortSignal): void {
 }
 
 function initEditingFile(signal: AbortSignal): void {
-	observe('.file', addToEditingFile, {signal});
+	observe('[data-hotkey="Meta+s,Control+s"]', addToEditingFile, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -192,3 +151,14 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // End of the page; DOM-based detections
 	init: initEditingFile,
 });
+
+/*
+
+## Test URLs
+
+- isSingleFile: One PR https://github.com/refined-github/sandbox/blob/default-a/4679
+- isSingleFile: Multiple PRs https://github.com/refined-github/sandbox/blob/default-a/README.md
+- isEditingFile: One PR https://github.com/refined-github/sandbox/edit/default-a/4679
+- isEditingFile: Multiple PRs https://github.com/refined-github/sandbox/edit/default-a/README.md
+
+*/
