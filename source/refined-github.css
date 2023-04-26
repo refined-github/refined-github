@@ -192,3 +192,13 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 .rgh-bg-none {
 	background: none !important;
 }
+
+[class*="rgh-"]:not([class*="rgh-seen"]) {
+	outline: solid 3px violet;
+	outline-offset: 3px;
+}
+
+[class*="rgh-seen"] {
+	outline: solid 3px rgb(238, 204, 130);
+	outline-offset: 3px;
+}
