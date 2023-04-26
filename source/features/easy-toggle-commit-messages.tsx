@@ -20,7 +20,7 @@ const commitMessagesSelector = [
 ].join(',');
 
 function init(signal: AbortSignal): void {
-	delegate(document, commitMessagesSelector, 'click', toggleCommitMessage, {signal});
+	delegate(commitMessagesSelector, 'click', toggleCommitMessage, {signal});
 }
 
 void features.add(import.meta.url, {

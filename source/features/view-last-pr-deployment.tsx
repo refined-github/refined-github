@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {LinkExternalIcon} from '@primer/octicons-react';
+import {RocketIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
@@ -19,8 +19,8 @@ function addLink(header: HTMLElement): void {
 			rel="noopener noreferrer"
 			href={lastDeployment.href}
 		>
-			<LinkExternalIcon className="mr-1 v-align-text-top"/>
-			Last deployment
+			<RocketIcon className="mr-1 v-align-text-top"/>
+			Latest deployment
 		</a>,
 	);
 }

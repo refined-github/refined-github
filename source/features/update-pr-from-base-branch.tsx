@@ -26,8 +26,8 @@ async function mergeBranches(): Promise<AnyObject> {
 	});
 }
 
-async function handler(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
-	event.delegateTarget.disabled = true;
+async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+	button.disabled = true;
 	await showToast(async () => {
 		const response = await mergeBranches().catch(error => error);
 		if (response instanceof Error || !response.ok) {
@@ -39,6 +39,20 @@ async function handler(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Pro
 		message: 'Updating branch…',
 		doneMessage: 'Branch updated',
 	});
+
+	button.remove();
+}
+
+function createButton(): JSX.Element {
+	return (
+		<button
+			type="button"
+			className="btn btn-sm rgh-update-pr-from-base-branch tooltipped tooltipped-sw"
+			aria-label="Use Refined GitHub to update the PR from the base branch"
+		>
+			Update branch
+		</button>
+	);
 }
 
 async function addButton(mergeBar: Element): Promise<void> {
@@ -47,7 +61,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 	}
 
 	const {base, head} = getBranches();
-	const prInfo = await getPrInfo(base.local, head.local);
+	const prInfo = await getPrInfo(base.relative, head.relative);
 	if (!prInfo.needsUpdate || !prInfo.viewerCanEditFiles || prInfo.mergeable === 'CONFLICTING') {
 		return;
 	}
@@ -60,17 +74,16 @@ async function addButton(mergeBar: Element): Promise<void> {
 			<div
 				className="branch-action-btn float-right js-immediate-updates js-needs-timeline-marker-header"
 			>
-				<button type="button" className="btn rgh-update-pr-from-base-branch">Update branch</button>
+				{createButton()}
 			</div>,
 		);
-
 		return;
 	}
 
 	// The PR is still a draft
 	mergeBar.before(createMergeabilityRow({
 		className: 'rgh-update-pr-from-base-branch-row',
-		action: <button type="button" className="btn rgh-update-pr-from-base-branch">Update branch</button>,
+		action: createButton(),
 		icon: <CheckIcon/>,
 		iconClass: 'completeness-indicator-success',
 		heading: 'This branch has no conflicts with the base branch',
@@ -81,7 +94,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 async function init(signal: AbortSignal): Promise<false | void> {
 	await api.expectToken();
 
-	delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler, {signal});
+	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
 	observe('.merge-message', addButton, {signal});
 }
 

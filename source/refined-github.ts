@@ -168,7 +168,6 @@ import './features/table-input';
 import './features/link-to-github-io';
 import './features/github-actions-indicators';
 import './features/convert-pr-to-draft-improvements';
-import './features/git-checkout-pr';
 import './features/unfinished-comments';
 import './features/jump-to-change-requested-comment';
 import './features/esc-to-cancel';

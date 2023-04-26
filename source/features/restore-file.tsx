@@ -8,6 +8,7 @@ import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import showToast from '../github-helpers/toast';
 import {getConversationNumber} from '../github-helpers';
+import {getBranches} from '../github-helpers/pr-branches';
 
 // Get the current base commit of this PR. It should change after rebases and merges in this PR.
 // This value is not consistently available on the page (appears in `/files` but not when only 1 commit is selected)
@@ -60,7 +61,7 @@ async function restoreFile(progress: (message: string) => void, menuItem: Elemen
 		throw new Error('Restore failed: File too big');
 	}
 
-	const [nameWithOwner, prBranch] = select('.head-ref')!.title.split(':');
+	const {nameWithOwner, branch: prBranch} = getBranches().head;
 	progress(menuItem.closest('[data-file-deleted="true"]') ? 'Undeleting…' : 'Committing…');
 
 	const content = file.text;
@@ -133,8 +134,8 @@ function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 
 function init(signal: AbortSignal): void {
 	// `capture: true` required to be fired before GitHub's handlers
-	delegate(document, '.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, {capture: true, signal});
-	delegate(document, '.rgh-restore-file', 'click', handleRestoreFileClick, {capture: true, signal});
+	delegate('.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, {capture: true, signal});
+	delegate('.rgh-restore-file', 'click', handleRestoreFileClick, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {

@@ -79,7 +79,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 }
 
 function init(signal: AbortSignal): void {
-	delegate(document, '.rgh-deep-reblame', 'click', redirectToBlameCommit, {signal});
+	delegate('.rgh-deep-reblame', 'click', redirectToBlameCommit, {signal});
 	observe('[data-hovercard-type="pull_request"]', pullRequest => {
 		const hunk = pullRequest.closest('.blame-hunk')!;
 

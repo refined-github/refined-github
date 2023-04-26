@@ -28,7 +28,7 @@ function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 }
 
 async function addInfo(statusMeta: Element): Promise<void> {
-	// Selector copied fromGitHub. Don't @ me
+	// Selector copied from GitHub. Don't @ me
 	// This excludes hidden ".status-meta" items without adding this longass selector to the observer
 	// Added: .rgh-update-pr-from-base-branch-row
 	if (!statusMeta.closest('.merge-pr.is-merging .merging-body, .merge-pr.is-merging .merge-commit-author-email-info, .merge-pr.is-merging-solo .merging-body, .merge-pr.is-merging-jump .merging-body, .merge-pr.is-merging-group .merging-body, .merge-pr.is-rebasing .rebasing-body, .merge-pr.is-squashing .squashing-body, .merge-pr.is-squashing .squash-commit-author-email-info, .merge-pr.is-merging .branch-action-state-error-if-merging .merging-body-merge-warning, .rgh-update-pr-from-base-branch-row')) {
@@ -36,7 +36,7 @@ async function addInfo(statusMeta: Element): Promise<void> {
 	}
 
 	const {base, head} = getBranches();
-	const prInfo = await getPrInfo(base.local, head.local);
+	const prInfo = await getPrInfo(base.relative, head.relative);
 	if (!prInfo.needsUpdate) {
 		return;
 	}
