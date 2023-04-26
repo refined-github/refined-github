@@ -1,9 +1,16 @@
-:root .rgh-table-input {
+:root{
+	--rgh-table-input-size: 40px;
+}
+:root:root:root:root .rgh-table-input {
+	font-size: var(--rgh-table-input-size);
 	width: auto;
 	padding: 3px;
 	z-index: 99;
 	display: grid !important;
-	grid-template: repeat(5, 20px) / repeat(5, 20px);
+	grid-template: repeat(5, 1em) / repeat(5, 1em);
+	width: fit-content;
+	height: fit-content;
+	margin: auto;
 }
 
 :root .rgh-tic {
@@ -11,10 +18,16 @@
 }
 
 .rgh-tic div {
-	width: 18px;
-	height: 18px;
+	height: 100%;
 	border: 2px solid var(--rgh-border-color);
 	border-radius: 2px;
+}
+
+@media screen and (min-width: 768px) {
+	:root {
+		/* #6511 */
+		--rgh-table-input-size: 20px;
+	}
 }
 
 /** TODO: Drop JS-based version after :has() has full support */
