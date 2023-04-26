@@ -11,9 +11,9 @@ import createBanner from '../github-helpers/banner';
 import TimelineItem from '../github-helpers/timeline-item';
 import attachElement from '../helpers/attach-element';
 import {canEditEveryComment} from './quick-comment-edit';
-import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers';
 import {getReleaseCount} from './releases-tab';
+import observe from '../helpers/selector-observer';
 
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;
@@ -41,38 +41,40 @@ function createReleaseUrl(): string | undefined {
 	return buildRepoURL('releases/new');
 }
 
-async function init(): Promise<void> {
+async function init(signal: AbortSignal): Promise<void> {
 	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`)!.textContent!;
 	const tagName = await getFirstTag(mergeCommit);
 
 	if (tagName) {
-		addExistingTagLink(tagName);
+		const tagUrl = buildRepoURL('releases/tag', tagName);
+
+		// Add static box at the bottom
+		addExistingTagLinkFooter(tagName, tagUrl);
+
+		// PRs have a regular and a sticky header
+		observe('#partial-discussion-header relative-time', addExistingTagLinkToHeader.bind(null, tagName, tagUrl), {signal});
 	} else {
 		void addReleaseBanner('This PR’s merge commit doesn’t appear in any tags');
 	}
 }
 
-function addExistingTagLink(tagName: string): void {
-	const tagUrl = buildRepoURL('releases/tag', tagName);
+function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionHeader: HTMLElement): void {
+	// TODO: Use :has selector instead
+	discussionHeader.parentElement!.append(
+		<span>
+			<TagIcon className="ml-2 mr-1 color-fg-muted"/>
+			<a
+				href={tagUrl}
+				className="commit-ref"
+				title={`${tagName} was the first Git tag to include this pull request`}
+			>
+				{tagName}
+			</a>
+		</span>,
+	);
+}
 
-	// Select the PR header and sticky header
-	for (const discussionHeader of select.all('#partial-discussion-header relative-time:not(.rgh-first-tag)')) {
-		discussionHeader.classList.add('rgh-first-tag');
-
-		discussionHeader.parentElement!.append(
-			<span>
-				<TagIcon className="ml-2 mr-1 color-fg-muted"/>
-				<a
-					href={tagUrl}
-					className="commit-ref"
-					title={`${tagName} was the first Git tag to include this pull request`}
-				>
-					{tagName}
-				</a>
-			</span>,
-		);
-	}
-
+function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 	const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
 	attachElement('#issue-comment-box', {
 		before: () => (
@@ -118,11 +120,7 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 		pageDetect.isMergedPR,
 	],
-	additionalListeners: [
-		onConversationHeaderUpdate,
-	],
-	deduplicate: 'has-rgh-inner',
-	awaitDomReady: true, // DOM-based additionalListeners
+	awaitDomReady: true, // It must look for the merge commit
 	init,
 }, {
 	// This catches a PR while it's being merged

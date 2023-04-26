@@ -47,7 +47,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 	}
 
 	const {base, head} = getBranches();
-	const prInfo = await getPrInfo(base.local, head.local);
+	const prInfo = await getPrInfo(base.relative, head.relative);
 	if (!prInfo?.viewerCanEditFiles || prInfo.mergeable === 'CONFLICTING') {
 		return;
 	}
@@ -79,7 +79,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 async function init(signal: AbortSignal): Promise<false | void> {
 	await api.expectToken();
 
-	delegate(document, '.rgh-update-pr-from-base-branch', 'click', handler, {signal});
+	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
 	observe('.merge-message', addButton, {signal});
 }
 

@@ -6,8 +6,18 @@ import {ParseSelector} from 'typed-query-selector/parser';
 import getCallerID from './caller-id';
 import isDevelopmentVersion from './is-development-version';
 
+type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
+
 const animation = 'rgh-selector-observer';
-const getListener = <ExpectedElement extends HTMLElement>(seenMark: string, selector: string, callback: (element: ExpectedElement) => void) => function (event: AnimationEvent) {
+const getListener = <
+	Selector extends string,
+	ExpectedElement extends ParseSelector<Selector, HTMLElement>,
+>(
+	seenMark: string,
+	selector: Selector,
+	callback: ObserverListener<ExpectedElement>,
+	signal?: AbortSignal,
+) => function (event: AnimationEvent) {
 	const target = event.target as ExpectedElement;
 	// The target can match a selector even if the animation actually happened on a ::before pseudo-element, so it needs an explicit exclusion here
 	if (target.classList.contains(seenMark) || !target.matches(selector)) {
@@ -17,7 +27,7 @@ const getListener = <ExpectedElement extends HTMLElement>(seenMark: string, sele
 	// Removes this specific selector’s animation once it was seen
 	target.classList.add(seenMark);
 
-	callback(target);
+	callback(target, {signal});
 };
 
 const registerAnimation = onetime((): void => {
@@ -26,10 +36,11 @@ const registerAnimation = onetime((): void => {
 
 export default function observe<
 	Selector extends string,
+	ExpectedElement extends ParseSelector<Selector, HTMLElement>,
 >(
 	selectors: Selector | readonly Selector[],
-	listener: (element: ParseSelector<Selector, HTMLElement>) => void,
-	{signal}: {signal?: AbortSignal} = {},
+	listener: ObserverListener<ExpectedElement>,
+	{signal}: SignalAsOptions = {},
 ): void {
 	if (signal?.aborted) {
 		return;
@@ -55,5 +66,5 @@ export default function observe<
 	signal?.addEventListener('abort', () => {
 		rule.remove();
 	});
-	window.addEventListener('animationstart', getListener(seenMark, selector, listener), {signal});
+	window.addEventListener('animationstart', getListener(seenMark, selector, listener, signal), {signal});
 }

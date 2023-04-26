@@ -167,10 +167,10 @@ function init(signal: AbortSignal): void {
 	onPrMergePanelOpen(onPrMergePanelHandler, signal);
 
 	// One of the merge buttons has been clicked
-	delegate(document, '.js-merge-commit-button:not(.rgh-merging)', 'click', handleMergeConfirmation, {signal});
+	delegate('.js-merge-commit-button:not(.rgh-merging)', 'click', handleMergeConfirmation, {signal});
 
 	// Cancel wait when the user presses the Cancel button
-	delegate(document, '.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
+	delegate('.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
 		disableForm(false);
 	}, {signal});
 

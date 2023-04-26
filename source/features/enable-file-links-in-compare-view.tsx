@@ -6,16 +6,17 @@ import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager';
 import GitHubURL from '../github-helpers/github-url';
+import {getBranches} from '../github-helpers/pr-branches';
 
 /** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
 function handlePRMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 	dropdown.classList.add('rgh-actionable-link'); // Mark this as processed
 
-	const [nameWithOwner, headBranch] = select('.head-ref')!.title.split(':');
+	const {nameWithOwner, branch} = getBranches().head;
 	const filePath = dropdown.closest('[data-path]')!.getAttribute('data-path')!;
 
 	select('a[data-ga-click^="View file"]', dropdown)!
-		.pathname = [nameWithOwner, 'blob', headBranch, filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
+		.pathname = [nameWithOwner, 'blob', branch, filePath].join('/'); // Do not replace with `GitHubURL`  #3152 #3111 #2595
 }
 
 function handleCompareMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
@@ -51,7 +52,7 @@ function handleCompareMenuOpening({delegateTarget: dropdown}: DelegateEvent): vo
 function init(signal: AbortSignal): void {
 	const handleMenuOpening = pageDetect.isCompare() ? handleCompareMenuOpening : handlePRMenuOpening;
 	// `capture: true` required to be fired before GitHub's handlers
-	delegate(document, '.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown:not(.rgh-actionable-link)', 'toggle', handleMenuOpening, {capture: true, signal});
+	delegate('.file-header:not([data-file-deleted="true"]) .js-file-header-dropdown:not(.rgh-actionable-link)', 'toggle', handleMenuOpening, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {
@@ -79,3 +80,12 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // DOM-based filters
 	init,
 });
+
+/*
+
+Test URLs
+
+- Open PR: https://github.com/refined-github/sandbox/pull/4/files
+- Compare view: https://github.com/refined-github/sandbox/compare/default-a...very-very-long-long-long-long-branch-name
+
+*/

@@ -8,6 +8,7 @@ import features from '../feature-manager';
 import onElementRemoval from '../helpers/on-element-removal';
 import observe from '../helpers/selector-observer';
 import {removeTextNodeContaining} from '../helpers/dom-utils';
+import {isHasSelectorSupported} from '../helpers/select-has';
 
 const canEditSidebar = onetime((): boolean => select.exists('.discussion-sidebar-item [data-hotkey="l"]'));
 
@@ -128,6 +129,9 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isHasSelectorSupported,
+	],
 	include: [
 		pageDetect.isConversation,
 	],
