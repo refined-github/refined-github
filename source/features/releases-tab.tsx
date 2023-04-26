@@ -14,6 +14,7 @@ import createDropdownItem from '../github-helpers/create-dropdown-item';
 import {buildRepoURL, cacheByRepo} from '../github-helpers';
 import {releasesSidebarSelector} from './clean-repo-sidebar';
 import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils';
+import {underlineNavDropdownUl} from '../github-helpers/selectors';
 
 const cacheName = 'releases-count';
 
@@ -84,7 +85,7 @@ async function addReleasesTab(): Promise<false | void> {
 	// Trigger a reflow to push the right-most tab into the overflow dropdown (second attempt #4254)
 	window.dispatchEvent(new Event('resize'));
 
-	const dropdownMenu = await elementReady('.js-responsive-underlinenav .dropdown-menu ul');
+	const dropdownMenu = await elementReady(underlineNavDropdownUl);
 
 	appendBefore(
 		dropdownMenu!,
