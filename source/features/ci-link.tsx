@@ -40,7 +40,8 @@ function getCiDetails(commit: string): HTMLElement {
 
 async function init(): Promise<void | false> {
 	const head = await getHead();
-	const repoTitle = await elementReady('[itemprop="name"]');
+	// `.avatar` disables it on "Global navigation update" until #6454
+	const repoTitle = await elementReady('[itemprop="name"]:not(.avatar ~ [itemprop])');
 	if (!repoTitle) {
 		return false;
 	}
