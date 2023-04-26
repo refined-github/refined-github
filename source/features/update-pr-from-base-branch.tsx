@@ -41,6 +41,18 @@ async function handler(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Pro
 	});
 }
 
+function createButton(): JSX.Element {
+	return (
+		<button
+			type="button"
+			className="btn btn-sm rgh-update-pr-from-base-branch tooltipped tooltipped-sw"
+			aria-label="Use Refined GitHub to update the PR from the base branch"
+		>
+			Update branch
+		</button>
+	);
+}
+
 async function addButton(mergeBar: Element): Promise<void> {
 	if (!select.exists(canMerge) || select.exists(canNativelyUpdate)) {
 		return;
@@ -60,7 +72,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 			<div
 				className="branch-action-btn float-right js-immediate-updates js-needs-timeline-marker-header"
 			>
-				<button type="button" className="btn rgh-update-pr-from-base-branch">Update branch</button>
+				{createButton()}
 			</div>,
 		);
 		return;
@@ -68,7 +80,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 
 	// The PR is still a draft
 	mergeBar.before(createMergeabilityRow({
-		action: <button type="button" className="btn rgh-update-pr-from-base-branch">Update branch</button>,
+		action: createButton(),
 		icon: <CheckIcon/>,
 		iconClass: 'completeness-indicator-success',
 		heading: 'This branch has no conflicts with the base branch',
