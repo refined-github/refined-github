@@ -54,7 +54,7 @@ async function init(): Promise<false | void> {
 			continue;
 		}
 
-		const branch = pr.baseRef && buildRepoURL(`tree/${pr.baseRefName}`);
+		const branch = pr.baseRef && buildRepoURL('tree', pr.baseRefName);
 
 		prLink.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!.append(
 			<span className="issue-meta-section ml-2">
@@ -77,6 +77,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoIssueOrPRList,
 	],
+	awaitDomReady: true, // TODO: Use observe + batched-function
 	deduplicate: 'has-rgh-inner',
 	init,
 });

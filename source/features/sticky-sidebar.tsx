@@ -71,6 +71,5 @@ void features.add(import.meta.url, {
 	exclude: [
 		() => screen.availWidth < minimumViewportWidthForSidebar,
 	],
-	awaitDomReady: false,
 	init,
 });

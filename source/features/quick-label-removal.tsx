@@ -54,7 +54,7 @@ function addRemoveLabelButton(label: HTMLElement): void {
 async function init(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
 
-	delegate(document, '.rgh-quick-label-removal:not([disabled])', 'click', removeLabelButtonClickHandler, {signal});
+	delegate('.rgh-quick-label-removal:not([disabled])', 'click', removeLabelButtonClickHandler, {signal});
 
 	observe('.js-issue-labels .IssueLabel', addRemoveLabelButton, {signal});
 }
@@ -67,8 +67,6 @@ void features.add(import.meta.url, {
 		canNotEditLabels,
 		pageDetect.isArchivedRepo,
 	],
-	// Can't because `isArchivedRepo` is DOM-based
-	// Also not needed since it appears on hover
-	// awaitDomReady: false,
+	awaitDomReady: true, // The sidebar is near the end of the page
 	init,
 });

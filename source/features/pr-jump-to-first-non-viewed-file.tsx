@@ -1,4 +1,5 @@
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -15,9 +16,11 @@ function jumpToFirstNonViewed(): void {
 	}
 }
 
-function init(signal: AbortSignal): void {
-	select('.diffbar-item progress-bar')!.style.cursor = 'pointer';
-	delegate(document, '.diffbar-item progress-bar', 'click', jumpToFirstNonViewed, {signal});
+const selector = '.diffbar-item progress-bar';
+async function init(signal: AbortSignal): Promise<void> {
+	const bar = await elementReady(selector);
+	bar!.style.cursor = 'pointer';
+	delegate(selector, 'click', jumpToFirstNonViewed, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -1,12 +1,12 @@
 import './show-names.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import batchedFunction from 'batched-function';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {getUsername, compareNames} from '../github-helpers';
 import observe from '../helpers/selector-observer';
-import batchedFunction from '../helpers/batched-function';
 import {removeTextNodeContaining} from '../helpers/dom-utils';
 
 // The selector observer calls this function several times, but we want to batch them into a single GraphQL API call
@@ -68,15 +68,24 @@ const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnc
 
 const usernameLinksSelector = [
 	// `a` selector needed to skip commits by non-GitHub users
-	':is(.js-discussion, .inline-comments) a.author:not([href*="/apps/"], [href*="/marketplace/"], [data-hovercard-type="organization"])',
+	// # and `show_full_name` target mannequins #6504
+	`:is(
+		.js-discussion,
+		.inline-comments
+	) a.author:not(
+		[show_full_name="false"],
+		[href="#"],
+		[href*="/apps/"],
+		[href*="/marketplace/"],
+		[data-hovercard-type="organization"]
+	)`,
 
 	// On dashboard `.text-bold` is required to not fetch avatars
 	'#dashboard a.text-bold[data-hovercard-type="user"]',
-
-	// Due to: https://github.com/g-plane/typed-query-selector/issues/26
-] as unknown as Array<'a'>;
+] as const;
 
 function init(signal: AbortSignal): void {
+	document.body.classList.add('rgh-show-names');
 	observe(usernameLinksSelector, batchUpdateLinks, {signal});
 }
 
@@ -85,6 +94,5 @@ void features.add(import.meta.url, {
 		pageDetect.isDashboard,
 		pageDetect.hasComments,
 	],
-	awaitDomReady: false,
 	init,
 });

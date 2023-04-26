@@ -71,7 +71,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 	}
 
 	const text = select('.comment-body', bestComment)!.textContent!.slice(0, 100);
-	const {hash} = select<HTMLAnchorElement>('a.js-timestamp', bestComment)!; // TODO: Drop generic once TypeScript sorts it out, it shouldn't be needed
+	const {hash} = select('a.js-timestamp', bestComment)!;
 	const avatar = select('img.avatar', bestComment)!.cloneNode();
 
 	bestComment.parentElement!.firstElementChild!.after(
@@ -113,6 +113,7 @@ void features.add(import.meta.url, {
 		pageDetect.isIssue,
 	],
 	deduplicate: 'has-rgh-inner',
+	awaitDomReady: true, // Must wait for all to pick the best one
 	init,
 });
 

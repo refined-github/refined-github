@@ -17,6 +17,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConflicts,
 	],
-	deduplicate: 'has-rgh',
 	init,
 });

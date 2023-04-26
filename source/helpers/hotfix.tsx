@@ -33,9 +33,9 @@ async function fetchHotfix(path: string): Promise<string> {
 	return '';
 }
 
-export type HotfixStorage = Array<[FeatureID, string]>;
+export type HotfixStorage = Array<[FeatureID, string, string]>;
 
-export const updateHotfixes = cache.function(async (version: string): Promise<HotfixStorage> => {
+export const updateHotfixes = cache.function('hotfixes', async (version: string): Promise<HotfixStorage> => {
 	const content = await fetchHotfix('broken-features.csv');
 	if (!content) {
 		return [];
@@ -44,7 +44,7 @@ export const updateHotfixes = cache.function(async (version: string): Promise<Ho
 	const storage: HotfixStorage = [];
 	for (const [featureID, relatedIssue, unaffectedVersion] of parseCsv(content)) {
 		if (featureID && relatedIssue && (!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0)) {
-			storage.push([featureID as FeatureID, relatedIssue]);
+			storage.push([featureID as FeatureID, relatedIssue, unaffectedVersion]);
 		}
 	}
 
@@ -52,15 +52,15 @@ export const updateHotfixes = cache.function(async (version: string): Promise<Ho
 }, {
 	maxAge: {hours: 6},
 	staleWhileRevalidate: {days: 30},
-	cacheKey: () => 'hotfixes',
+	cacheKey: () => '',
 });
 
-export const getStyleHotfix = cache.function(
+export const getStyleHotfix = cache.function('style-hotfixes',
 	async (version: string): Promise<string> => fetchHotfix(`style/${version}.css`),
 	{
 		maxAge: {hours: 6},
 		staleWhileRevalidate: {days: 300},
-		cacheKey: () => 'style-hotfixes',
+		cacheKey: () => '',
 	},
 );
 
@@ -71,7 +71,7 @@ export async function getLocalHotfixes(): Promise<HotfixStorage> {
 		return [];
 	}
 
-	return await cache.get<HotfixStorage>('hotfixes') ?? [];
+	return await cache.get<HotfixStorage>('hotfixes:') ?? [];
 }
 
 export async function getLocalHotfixesAsOptions(): Promise<Partial<RGHOptions>> {
@@ -105,14 +105,13 @@ export async function getLocalStrings(): Promise<void> {
 		return;
 	}
 
-	localStrings = await cache.get<Record<string, string>>(stringHotfixesKey) ?? {};
+	localStrings = await cache.get<Record<string, string>>(stringHotfixesKey + ':') ?? {};
 }
 
-export const updateLocalStrings = cache.function(async (): Promise<Record<string, string>> => {
+export const updateLocalStrings = cache.function(stringHotfixesKey, async (): Promise<Record<string, string>> => {
 	const json = await fetchHotfix('strings.json');
 	return json ? JSON.parse(json) : {};
 }, {
 	maxAge: {hours: 6},
 	staleWhileRevalidate: {days: 30},
-	cacheKey: () => stringHotfixesKey,
 });

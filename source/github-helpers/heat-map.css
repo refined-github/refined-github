@@ -1,45 +1,55 @@
-/*
-Heatmap colors copied from GH, because GH does not load them on every page #5637
-Original file: https://github.githubassets.com/assets/code-d21b20a03009.css
-These colors are for normally-gray text.
-*/
+/* stylelint-disable declaration-block-no-duplicate-properties -- Used as fallback */
+
+:root {
+	--rgh-heat-color: #c24e00;
+}
 
 :root [data-rgh-heat='1'] {
 	color: #c24e00 !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 100%, var(--color-fg-muted)) !important;
 }
 
 :root [data-rgh-heat='2'] {
 	color: #ac571f !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 90%, var(--color-fg-muted)) !important;
 }
 
 :root [data-rgh-heat='3'] {
 	color: #a35b2c !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 80%, var(--color-fg-muted)) !important;
 }
 
 :root [data-rgh-heat='4'] {
 	color: #9a5f38 !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 70%, var(--color-fg-muted)) !important;
 }
 
 :root [data-rgh-heat='5'] {
 	color: #926245 !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 60%, var(--color-fg-muted)) !important;
 }
 
 :root [data-rgh-heat='6'] {
 	color: #896651 !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 50%, var(--color-fg-muted)) !important;
 }
 
 :root [data-rgh-heat='7'] {
 	color: #806a5e !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 40%, var(--color-fg-muted)) !important;
 }
 
 :root [data-rgh-heat='8'] {
 	color: #776d6a !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 30%, var(--color-fg-muted)) !important;
 }
 
 :root [data-rgh-heat='9'] {
 	color: #6e7177 !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 20%, var(--color-fg-muted)) !important;
 }
 
 :root [data-rgh-heat='10'] {
 	color: #6a737d !important;
+	color: color-mix(in srgb, var(--rgh-heat-color) 0%, var(--color-fg-muted)) !important;
 }

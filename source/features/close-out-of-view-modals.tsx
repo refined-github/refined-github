@@ -50,10 +50,9 @@ function menuActivatedHandler(event: DelegateEvent): void {
 }
 
 function init(): void {
-	delegate(document, '.details-overlay', 'toggle', menuActivatedHandler, {capture: true, signal: safetySwitch.signal});
+	delegate('.details-overlay', 'toggle', menuActivatedHandler, {capture: true, signal: safetySwitch.signal});
 }
 
 void features.add(import.meta.url, {
-	awaitDomReady: false,
 	init: onetime(init),
 });

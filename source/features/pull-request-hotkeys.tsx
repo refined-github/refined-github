@@ -1,11 +1,13 @@
 import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import {addHotkey} from '../github-helpers/hotkey';
 
-function init(): void {
-	const tabs = select.all('#partial-discussion-header + .tabnav a.tabnav-tab');
+async function init(): Promise<void> {
+	const tabnav = await elementReady('#partial-discussion-header + .tabnav');
+	const tabs = select.all('a.tabnav-tab', tabnav);
 	const lastTab = tabs.length - 1;
 	const selectedIndex = tabs.findIndex(tab => tab.classList.contains('selected'));
 
@@ -22,10 +24,7 @@ function init(): void {
 
 void features.add(import.meta.url, {
 	shortcuts: {
-		'g 1': 'Go to Conversation',
-		'g 2': 'Go to Commits',
-		'g 3': 'Go to Checks',
-		'g 4': 'Go to Files changed',
+		'g <number>': 'Go to PR tab <number>',
 		'g →': 'Go to next PR tab',
 		'g ←': 'Go to previous PR tab',
 	},

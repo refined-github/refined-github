@@ -7,6 +7,7 @@ import {objectEntries} from 'ts-extras';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
+import {isHasSelectorSupported} from '../helpers/select-has';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`
@@ -41,7 +42,7 @@ async function init(): Promise<void> {
 	const pageCommits = select.all([
 		'.js-commits-list-item', // `isCommitList`
 		'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`, "js-timeline-item" to exclude "isCommitList"
-	].join(','));
+	]);
 
 	if (pageCommits.length === 0) {
 		throw new Error('No commits found, selector likely out of date');
@@ -57,12 +58,16 @@ async function init(): Promise<void> {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isHasSelectorSupported,
+	],
 	include: [
 		pageDetect.isCommitList,
 		pageDetect.isPRConversation,
 		pageDetect.isCompare,
 	],
 	deduplicate: 'has-rgh-inner',
+	awaitDomReady: true, // TODO: Use `observe` + `batched-function`
 	init,
 });
 
@@ -72,7 +77,7 @@ Test URLs
 
 - isPRConversation: https://github.com/refined-github/refined-github/pull/6194
 - isPRCommitList: https://github.com/refined-github/refined-github/pull/6194/commits
-- isCommitList: https://github.com/babel/babel/commits/master?after=ddd40bf5c7ad8565fc990f26142f85613958a329+104
+- isCommitList: https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174
 - isCompare: https://github.com/refined-github/sandbox/compare/e8b25d3e...b3d0d992
 
 */

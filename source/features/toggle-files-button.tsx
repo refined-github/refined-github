@@ -75,13 +75,12 @@ async function updateView(anchor: HTMLHeadingElement): Promise<void> {
 async function init(signal: AbortSignal): Promise<void> {
 	// TODO: Use `.Box:has(> #files)` instead
 	observe('.Box h2#files', updateView, {signal});
-	delegate(document, `.${toggleButtonClass}, .${noticeClass}`, 'click', toggleHandler, {signal});
+	delegate(`.${toggleButtonClass}, .${noticeClass}`, 'click', toggleHandler, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoTree,
 	],
-	awaitDomReady: false,
 	init,
 });

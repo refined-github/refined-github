@@ -6,7 +6,7 @@ import {wrap} from '../helpers/dom-utils';
 import features from '../feature-manager';
 
 function init(): void {
-	const element = select('.sha.user-select-contain');
+	const element = select('.sha.user-select-contain:not(a *)');
 	if (element) {
 		wrap(element, <a href={location.pathname.replace(/pull\/\d+\/commits/, 'commit')}/>);
 	}
@@ -16,6 +16,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRCommit,
 	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: true,
 	init,
 });

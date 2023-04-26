@@ -26,7 +26,7 @@ function addConvertToDraftButton(alternativeActions: Element): void {
 
 function init(signal: AbortSignal): void {
 	// Immediately close lightbox after click instead of waiting for the ajaxed widget to refresh
-	delegate(document, '.js-convert-to-draft', 'click', closeModal, {signal});
+	delegate('.js-convert-to-draft', 'click', closeModal, {signal});
 
 	// Copy button to mergeability box
 	observe('.alt-merge-options', addConvertToDraftButton, {signal});
@@ -36,6 +36,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],
-	awaitDomReady: false,
 	init,
 });

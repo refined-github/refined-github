@@ -6,24 +6,17 @@ import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager';
 import observe from '../helpers/selector-observer';
-import attachElement from '../helpers/attach-element';
 
-function createReviewLink(): Element {
+function addSidebarReviewButton(reviewersSection: Element): void {
 	const reviewFormUrl = new URL(location.href);
 	reviewFormUrl.pathname += '/files';
 	reviewFormUrl.hash = 'review-changes-modal';
 
-	return (
+	reviewersSection.append(
 		<span className="text-normal">
 			– <a href={reviewFormUrl.href} className="btn-link Link--muted" data-hotkey="v" data-turbo-frame="repo-content-turbo-frame">review now</a>
-		</span>
+		</span>,
 	);
-}
-
-function addSidebarReviewButton(reviewersSection: Element): void {
-	attachElement(reviewersSection, {
-		append: createReviewLink,
-	});
 }
 
 function initSidebarReviewButton(signal: AbortSignal): void {
@@ -37,7 +30,7 @@ function focusReviewTextarea({delegateTarget}: DelegateEvent<Event, HTMLDetailsE
 }
 
 async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> {
-	delegate(document, '.js-reviews-container > details', 'toggle', focusReviewTextarea, {capture: true, signal});
+	delegate('.js-reviews-container > details', 'toggle', focusReviewTextarea, {capture: true, signal});
 
 	const reviewDropdownButton = await elementReady('.js-reviews-toggle');
 	if (reviewDropdownButton) {
@@ -49,7 +42,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],
-	awaitDomReady: false,
 	init: initSidebarReviewButton,
 }, {
 	shortcuts: {
@@ -58,6 +50,5 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 	],
-	awaitDomReady: false,
 	init: initReviewButtonEnhancements,
 });

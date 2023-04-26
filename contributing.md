@@ -27,9 +27,9 @@ function init(): void {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isPR, // Find which one you need on https://fregante.github.io/github-url-detection/
+		pageDetect.isPR, // Find which one you need on https://refined-github.github.io/github-url-detection/
 	],
-	awaitDomReady: false,
+	awaitDomReady: true,
 	init,
 });
 ```
@@ -50,7 +50,7 @@ function append(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 
 function init(signal: AbortSignal): void {
 	// Events must be set via delegate, unless shortlived
-	delegate(document, '.btn', 'click', append, {signal});
+	delegate('.btn', 'click', append, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -59,8 +59,8 @@ void features.add(import.meta.url, {
 		'↑': 'Edit your last comment'
 	},
 
-	// Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true
-	awaitDomReady: false,
+	// Whether to wait for DOM ready before running `init`. By default, it runs `init` as soon as `body` is found. @default false
+	awaitDomReady: true,
 
 	// Every one of these must match
 	asLongAs: [

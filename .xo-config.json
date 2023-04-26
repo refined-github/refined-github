@@ -4,8 +4,7 @@
 	],
 	"extends": "xo-react",
 	"globals": [
-		"browser",
-		"__filebasename"
+		"browser"
 	],
 	"rules": {
 		"jsx-quotes": [

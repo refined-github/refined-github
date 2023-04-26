@@ -1,0 +1,4 @@
+/* Sometimes it's spaced via gap, sometimes via margin 🤦‍♂️  */
+:not(.gap-2) > .rgh-download-folder-button {
+	margin-inline: 8px;
+}

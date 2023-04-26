@@ -1,8 +1,10 @@
 import './dim-bots.css';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import delegate from 'delegate-it';
 
 import features from '../feature-manager';
+import preserveScroll from '../helpers/preserve-scroll';
 
 const botNames = [
 	'actions-user',
@@ -15,11 +17,12 @@ const botNames = [
 	'snyk-bot',
 	'web-flow',
 	'weblate',
-];
+] as const;
 
-const commitSelectors = botNames.map(bot => `.commit-author[href$="?author=${bot}"]`);
-commitSelectors.push('.commit-author[href$="%5Bbot%5D"]'); // Generic `[bot]` label in author name
-const commitSelector = commitSelectors.join(',');
+const commitSelectors = [
+	...botNames.map(bot => `.commit-author[href$="?author=${bot}"]`),
+	'.commit-author[href$="%5Bbot%5D"]', // Generic `[bot]` label in author name
+];
 
 const prSelectors = [
 	...botNames.flatMap(bot => [
@@ -29,24 +32,35 @@ const prSelectors = [
 	'.opened-by [href*="author%3Aapp%2F"]', // Search query `is:pr+author:app/*`
 	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
 ];
-const prSelector = prSelectors.join(',');
 
-function init(): void {
-	for (const bot of select.all(commitSelector)) {
+const dimBots = features.getIdentifiers(import.meta.url);
+
+function undimBots(event: Event): void {
+	const resetScroll = preserveScroll(event.target as HTMLElement);
+	for (const bot of select.all(dimBots.selector)) {
+		bot.classList.add('rgh-interacted');
+	}
+
+	resetScroll();
+}
+
+function init(signal: AbortSignal): void {
+	for (const bot of select.all(commitSelectors)) {
 		// Exclude co-authored commits
-		if (select.all('a', bot.parentElement!).every(link => link.matches(commitSelector))) {
-			bot.closest('.commit, .Box-row')!.classList.add('rgh-dim-bot');
+		if (select.all('a', bot.parentElement!).every(link => link.matches(commitSelectors))) {
+			bot.closest('.commit, .Box-row')!.classList.add(dimBots.class);
 		}
 	}
 
-	for (const bot of select.all(prSelector)) {
-		bot.closest('.commit, .Box-row')!.classList.add('rgh-dim-bot');
+	for (const bot of select.all(prSelectors)) {
+		bot.closest('.commit, .Box-row')!.classList.add(dimBots.class);
 	}
 
-	// Delay collapsing, but only after they're collapsed on load #5158
-	requestAnimationFrame(() => {
-		select('#repo-content-turbo-frame .js-navigation-container')!.classList.add('rgh-dim-bots--after-hover');
-	});
+	// Undim on mouse focus
+	delegate(dimBots.selector, 'click', undimBots, {signal});
+
+	// Undim on keyboard focus
+	document.documentElement.addEventListener('navigation:keydown', undimBots, {once: true, signal});
 }
 
 void features.add(import.meta.url, {
@@ -57,6 +71,15 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isBlank, // Prevent error on empty lists #5544
 	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: true, // TODO: Rewrite with :has()
 	init,
 });
+
+/*
+
+Test URLs
+
+- Commits: https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174
+- PRs: https://github.com/OctoLinker/OctoLinker/pulls?q=is%3Apr+is%3Aclosed
+
+*/

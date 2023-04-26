@@ -16,7 +16,7 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate(document, '.file-header', 'click', toggleFile, {signal});
+	delegate('.file-header', 'click', toggleFile, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -24,6 +24,5 @@ void features.add(import.meta.url, {
 		pageDetect.hasFiles,
 		pageDetect.isGistRevision,
 	],
-	awaitDomReady: false,
 	init,
 });

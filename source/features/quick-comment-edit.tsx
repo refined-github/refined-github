@@ -1,3 +1,4 @@
+import './quick-comment-edit.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import {PencilIcon} from '@primer/octicons-react';
@@ -5,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import observe from '../helpers/selector-observer';
 import features from '../feature-manager';
+import {isArchivedRepoAsync} from '../github-helpers';
 
 function addQuickEditButton(commentForm: Element): void {
 	const commentBody = commentForm.closest('.js-comment')!;
@@ -19,7 +21,7 @@ function addQuickEditButton(commentForm: Element): void {
 			<button
 				type="button"
 				role="menuitem"
-				className={'timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button' + (pageDetect.isDiscussion() ? ' js-discussions-comment-edit-button' : '')}
+				className="timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button"
 				aria-label="Edit comment"
 			>
 				<PencilIcon/>
@@ -41,7 +43,11 @@ export function canEditEveryComment(): boolean {
 	]) || pageDetect.canUserEditRepo();
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	if (await isArchivedRepoAsync()) {
+		return;
+	}
+
 	// If true then the resulting selector will match all comments, otherwise it will only match those made by you
 	const preSelector = canEditEveryComment() ? '' : '.current-user';
 
@@ -53,13 +59,8 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
-		pageDetect.isDiscussion,
 	],
-	exclude: [
-		pageDetect.isArchivedRepo,
-	],
-	// Can't because `isArchivedRepo` is DOM-based
-	// Also not needed since it appears on hover
-	// awaitDomReady: false,
+	// The feature is "disabled" via CSS selector when the conversation is locked.
+	// We want the edit buttons to appear while the conversation is loading, but we only know it's locked when the page has finished.
 	init,
 });

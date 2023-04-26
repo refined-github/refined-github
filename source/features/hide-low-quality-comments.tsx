@@ -88,7 +88,7 @@ function init(): void | false {
 		);
 
 		// No need to add the signal here
-		delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide);
+		delegate('.rgh-unhide-low-quality-comments', 'click', unhide);
 	}
 }
 
@@ -97,6 +97,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssue,
 	],
+	awaitDomReady: true,
 	init,
 });
 

@@ -15,7 +15,7 @@ const branchInfoRegex = /([^ ]+)\.$/;
 
 // DO NOT use optional arguments/defaults in "cached functions" because they can't be memoized effectively
 // https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
-const _getDefaultBranch = cache.function(async function (repository: pageDetect.RepositoryInfo): Promise<string> {
+const _getDefaultBranch = cache.function('default-branch', async function (repository: pageDetect.RepositoryInfo): Promise<string> {
 	if (arguments.length === 0 || JSON.stringify(repository) === JSON.stringify(getRepo())) {
 		if (pageDetect.isRepoHome()) {
 			const branchSelector = await elementReady('[data-hotkey="w"]');
@@ -53,7 +53,7 @@ const _getDefaultBranch = cache.function(async function (repository: pageDetect.
 }, {
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: ([repository]) => 'default-branch:' + repository.nameWithOwner,
+	cacheKey: ([repository]) => repository.nameWithOwner,
 });
 
 export default async function getDefaultBranch(repository: pageDetect.RepositoryInfo | undefined = getRepo()): Promise<string> {

@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
@@ -45,7 +45,9 @@ async function getEquivalentURL(): Promise<string> {
 
 async function init(): Promise<void> {
 	// The link must always be updated/reset. This pattern ensures that the link is always updated and never fails through some conditions.
-	select(`a[data-hovercard-url="/${getForkedRepo()!}/hovercard"]`)!.href = await getEquivalentURL();
+	const equivalentUrl = await getEquivalentURL();
+	const forkLink = await elementReady(`a[data-hovercard-url="/${getForkedRepo()!}/hovercard"]`);
+	forkLink!.href = equivalentUrl;
 }
 
 void features.add(import.meta.url, {

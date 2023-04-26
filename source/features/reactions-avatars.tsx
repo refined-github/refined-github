@@ -58,7 +58,8 @@ const viewportObserver = new IntersectionObserver(changes => {
 });
 
 function showAvatarsOn(commentReactions: Element): void {
-	const avatarLimit = arbitraryAvatarLimit - (commentReactions.children.length * approximateHeaderLength);
+	const reactionTypes = select.all('.social-reaction-summary-item', commentReactions).length;
+	const avatarLimit = arbitraryAvatarLimit - (reactionTypes * approximateHeaderLength);
 
 	const participantByReaction = select
 		.all(':scope > button.social-reaction-summary-item', commentReactions)
@@ -74,21 +75,12 @@ function showAvatarsOn(commentReactions: Element): void {
 	}
 }
 
-// TODO [2022-12-18]: Drop `.comment-reactions-options` (GHE)
-const reactionsSelector = '.has-reactions :is(.js-comment-reactions-options, .comment-reactions-options):not(.rgh-reactions)';
-
 function observeCommentReactions(commentReactions: Element): void {
-	commentReactions.classList.add('rgh-reactions');
 	viewportObserver.observe(commentReactions);
 }
 
 function init(signal: AbortSignal): void {
-	observe(reactionsSelector, observeCommentReactions, {signal});
-	onAbort(signal, viewportObserver);
-}
-
-function discussionInit(signal: AbortSignal): void {
-	observe(reactionsSelector, observeCommentReactions, {signal});
+	observe('.has-reactions .js-comment-reactions-options', observeCommentReactions, {signal});
 	onAbort(signal, viewportObserver);
 }
 
@@ -96,13 +88,16 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 		pageDetect.isReleasesOrTags,
-	],
-	awaitDomReady: false,
-	init,
-}, {
-	include: [
 		pageDetect.isDiscussion,
 	],
-	awaitDomReady: false,
-	init: discussionInit,
+	init,
 });
+
+/*
+Test URLs
+
+https://github.com/refined-github/refined-github/pull/4119
+https://github.com/parcel-bundler/parcel/discussions/6490
+https://github.com/orgs/community/discussions/11202
+
+*/

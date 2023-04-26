@@ -18,7 +18,7 @@ function commandPaletteKeydown(event: DelegateEvent<KeyboardEvent>): void {
 }
 
 function init(): void {
-	delegate(document, 'command-palette', 'keydown', commandPaletteKeydown);
+	delegate('command-palette', 'keydown', commandPaletteKeydown);
 }
 
 void features.add(import.meta.url, {
@@ -29,6 +29,5 @@ void features.add(import.meta.url, {
 		'ctrl n': 'Select next item in command palette',
 		'ctrl p': 'Select previous item in command palette',
 	},
-	awaitDomReady: false,
 	init: onetime(init),
 });

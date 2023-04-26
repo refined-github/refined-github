@@ -16,13 +16,12 @@ function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void 
 
 function init(signal: AbortSignal): void {
 	sessionStorage.rghIsNewTab = history.length === 1;
-	delegate(document, '.notification-shelf .js-notification-action button', 'click', handleClick, {signal});
+	delegate('.notification-shelf .js-notification-action button', 'click', handleClick, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		hasNotificationBar,
 	],
-	awaitDomReady: false,
 	init,
 });

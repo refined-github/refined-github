@@ -17,9 +17,6 @@ interface Window {
 }
 
 declare module 'markdown-wasm/dist/markdown.node.js';
-declare module 'filter-altered-clicks' {
-	export default function filterAlteredClicks<Listener>(handler: Listener): Listener;
-}
 
 declare module 'size-plugin';
 
@@ -35,6 +32,8 @@ interface GlobalEventHandlersEventMap {
 	'page:loaded': CustomEvent;
 	'turbo:visit': CustomEvent;
 	'session:resume': CustomEvent;
+	// No input:InputEvent match
+	// https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/1174#issuecomment-933042088
 }
 
 declare namespace JSX {
@@ -68,7 +67,7 @@ interface NamedNodeMap {
 
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
 interface HTMLFormControlsCollection {
-	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement;
+	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | HTMLSelectElement;
 }
 
 declare module 'react' {
@@ -80,4 +79,8 @@ declare module 'react' {
 // Make `element.cloneNode()` preserve its type instead of returning Node
 interface Node extends EventTarget {
 	cloneNode(deep?: boolean): this;
+}
+
+interface SignalAsOptions {
+	signal?: AbortSignal;
 }

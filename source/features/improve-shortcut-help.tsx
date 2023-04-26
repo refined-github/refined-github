@@ -17,14 +17,16 @@ function improveShortcutHelp(dialog: Element): void {
 			</div>
 
 			<ul>
-				{[...features.shortcutMap].map(([hotkey, description]) => (
-					<li className="Box-row d-flex flex-row">
-						<div className="flex-auto">{description}</div>
-						<div className="ml-2 no-wrap">
-							{splitKeys(hotkey)}
-						</div>
-					</li>
-				))}
+				{[...features.shortcutMap]
+					.sort(([, a], [, b]) => a.localeCompare(b))
+					.map(([hotkey, description]) => (
+						<li className="Box-row d-flex flex-row">
+							<div className="flex-auto">{description}</div>
+							<div className="ml-2 no-wrap">
+								{splitKeys(hotkey)}
+							</div>
+						</li>
+					))}
 			</ul>
 		</div>,
 	);
@@ -53,6 +55,5 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	awaitDomReady: false,
 	init: onetime(init),
 });

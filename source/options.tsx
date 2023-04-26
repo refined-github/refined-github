@@ -15,7 +15,7 @@ import clearCacheHandler from './helpers/clear-cache-handler';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
 import {importedFeatures, featuresMeta} from '../readme.md';
-import {perDomainOptions, renamedFeatures} from './options-storage';
+import {perDomainOptions} from './options-storage';
 
 type Status = {
 	error?: true;
@@ -70,10 +70,15 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 	return scopes;
 }
 
+function expandTokenSection(): void {
+	select('details#token')!.open = true;
+}
+
 async function validateToken(): Promise<void> {
 	reportStatus({});
 	const tokenField = select('input[name="personalToken"]')!;
 	if (!tokenField.validity.valid || tokenField.value.length === 0) {
+		expandTokenSection();
 		return;
 	}
 
@@ -86,21 +91,17 @@ async function validateToken(): Promise<void> {
 	} catch (error) {
 		assertError(error);
 		reportStatus({error: true, text: error.message});
+		expandTokenSection();
 		throw error;
 	}
 }
 
-function moveNewAndDisabledFeaturesToTop(): void {
+function moveDisabledFeaturesToTop(): void {
 	const container = select('.js-features')!;
 
 	for (const unchecked of select.all('.feature-checkbox:not(:checked)', container).reverse()) {
 		// .reverse() needed to preserve alphabetical order while prepending
 		container.prepend(unchecked.closest('.feature')!);
-	}
-
-	for (const newFeature of select.all('.feature-new', container).reverse()) {
-		// .reverse() needed to preserve alphabetical order while prepending
-		container.prepend(newFeature);
 	}
 }
 
@@ -182,25 +183,17 @@ function featuresFilterHandler(event: Event): void {
 	}
 }
 
-async function highlightNewFeatures(): Promise<void> {
-	const {featuresAlreadySeen} = await browser.storage.local.get({featuresAlreadySeen: {}});
-	for (const [from, to] of renamedFeatures) {
-		featuresAlreadySeen[to] = featuresAlreadySeen[from];
-	}
-
-	const isFirstVisit = Object.keys(featuresAlreadySeen).length === 0;
-	const tenDaysAgo = Date.now() - (10 * 24 * 60 * 60 * 1000);
-	for (const feature of select.all('.feature-checkbox')) {
-		if (!(feature.id in featuresAlreadySeen)) {
-			featuresAlreadySeen[feature.id] = isFirstVisit ? tenDaysAgo : Date.now();
-		}
-
-		if (featuresAlreadySeen[feature.id] > tenDaysAgo) {
-			feature.parentElement!.classList.add('feature-new');
+function focusFirstField(event: DelegateEvent<Event, HTMLDetailsElement>): void {
+	if (event.delegateTarget.open) {
+		const field = select('input, textarea', event.delegateTarget);
+		if (field) {
+			field.focus();
+			if (field instanceof HTMLTextAreaElement) {
+				// #6404
+				fitTextarea(field);
+			}
 		}
 	}
-
-	void browser.storage.local.set({featuresAlreadySeen});
 }
 
 async function markLocalHotfixes(): Promise<void> {
@@ -238,14 +231,10 @@ async function generateDom(): Promise<void> {
 	await perDomainOptions.syncForm('form');
 
 	// Decorate list
-	await highlightNewFeatures();
-	moveNewAndDisabledFeaturesToTop();
-	void validateToken();
+	moveDisabledFeaturesToTop();
 
-	// Allow HTTP logging on dev builds
-	if (process.env.NODE_ENV === 'development') {
-		select('#logHTTP-line')!.hidden = false;
-	}
+	// Enable token validation
+	void validateToken();
 
 	// Add feature count. CSS-only features are added approximately
 	select('.features-header')!.append(` (${featuresMeta.length + 25})`);
@@ -276,7 +265,10 @@ function addEventListeners(): void {
 	indentTextarea.watch('textarea');
 
 	// Load screenshots
-	delegate(document, '.screenshot-link', 'click', summaryHandler);
+	delegate('.screenshot-link', 'click', summaryHandler);
+
+	// Automatically focus field when a section is toggled open
+	delegate('details', 'toggle', focusFirstField, {capture: true});
 
 	// Filter feature list
 	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
@@ -291,21 +283,20 @@ function addEventListeners(): void {
 	select('[name="personalToken"]')!.addEventListener('input', validateToken);
 
 	// Ensure all links open in a new tab #3181
-	delegate(document, 'a[href^="http"]', 'click', event => {
+	delegate('a[href^="http"]', 'click', event => {
 		if (!event.defaultPrevented) {
 			event.preventDefault();
 			window.open(event.delegateTarget.href);
 		}
-	});
-
-	select('#show-debugging button')!.addEventListener('click', function () {
-		this.parentElement!.remove();
 	});
 }
 
 async function init(): Promise<void> {
 	await generateDom();
 	addEventListeners();
+
+	// TODO: Storage cleanup #6421, Drop in June 2023
+	void browser.storage.local.remove('featuresAlreadySeen');
 
 	// Safari’s storage is inexplicably limited #4823
 	if (isSafari()) {

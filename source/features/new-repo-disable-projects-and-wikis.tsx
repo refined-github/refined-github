@@ -61,7 +61,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		),
 	});
 
-	delegate(document, '#new_repository, #new_new_repository', 'submit', setStorage, {signal});
+	delegate('#new_repository, #new_new_repository', 'submit', setStorage, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -69,11 +69,11 @@ void features.add(import.meta.url, {
 		pageDetect.isNewRepo,
 		pageDetect.isNewRepoTemplate,
 	],
+	awaitDomReady: true,
 	init,
 }, {
 	include: [
 		() => Boolean(sessionStorage.rghNewRepo),
 	],
-	awaitDomReady: false,
 	init: onetime(disableWikiAndProjects),
 });

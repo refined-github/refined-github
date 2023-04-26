@@ -43,7 +43,7 @@ async function init(): Promise<void> {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepo,
+		pageDetect.hasRepoHeader,
 	],
 	exclude: [
 		pageDetect.isEmptyRepo,
@@ -51,7 +51,7 @@ void features.add(import.meta.url, {
 		// No dropdown on mobile #5781
 		() => !select.exists('.js-responsive-underlinenav'),
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh',
+	awaitDomReady: true, // DOM-based filter
 	init,
 });

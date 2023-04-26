@@ -1,3 +1,4 @@
+import React from 'dom-chef';
 import select from 'select-dom';
 import zipTextNodes from 'zip-text-nodes';
 import {applyToLink} from 'shorten-repo-url';
@@ -6,6 +7,7 @@ import linkifyIssuesCore from 'linkify-issues';
 
 import getTextNodes from '../helpers/get-text-nodes';
 import parseBackticksCore from './parse-backticks';
+import {buildRepoURL} from '.';
 
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';
@@ -14,13 +16,13 @@ export const linkifiedURLSelector = '.rgh-linkified-code';
 export const codeElementsSelector = [
 	'.blob-code-inner', // Code lines
 	':not(.notranslate) > .notranslate', // Code blocks in comments. May be wrapped twice
-].join(',');
+];
 
 export function shortenLink(link: HTMLAnchorElement): void {
 	// Exclude the link if the closest element found is not `.comment-body`
 	// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-	if (link.closest(`${codeElementsSelector}, .comment-body`)?.classList.contains('comment-body')) {
+	if (link.closest([...codeElementsSelector, '.comment-body'])?.classList.contains('comment-body')) {
 		applyToLink(link, location.href);
 	}
 }
@@ -92,4 +94,20 @@ export function parseBackticks(element: Element): void {
 			node.replaceWith(fragment);
 		}
 	}
+}
+
+export function linkifyCommit(sha: string): JSX.Element {
+	// Data attributes copied from the commit in https://github.com/refined-github/github-url-detection/releases/tag/v7.1.2
+	return (
+		<code>
+			<a
+				className="Link--secondary"
+				href={buildRepoURL('commit', sha)}
+				data-hovercard-type="commit"
+				data-hovercard-url={buildRepoURL('commit', sha, 'hovercard')}
+			>
+				{sha.slice(0, 7)}
+			</a>
+		</code>
+	);
 }

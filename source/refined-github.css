@@ -162,15 +162,6 @@ pr-branches
 	display: none !important;
 }
 
-/* Hide text of "Edit Pins" dropdown button in header of organization repos https://github.com/refined-github/refined-github/pull/5612 */
-.pagehead-actions pin-organization-repo summary {
-	font-size: 0 !important;
-}
-
-.pagehead-actions pin-organization-repo .octicon-pin {
-	vertical-align: middle !important;
-}
-
 /* Bold username in conversation lists #4899 */
 :is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type='user'] {
 	font-weight: 600;
@@ -193,7 +184,11 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 }
 
 /* Add override for CSS-in-JS components that don't use regular .btn styles */
-.BtnGroup-item:last-child {
+.BtnGroup-item:last-child:not(:first-child) {
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
+}
+
+.rgh-bg-none {
+	background: none !important;
 }

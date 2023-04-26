@@ -1,5 +1,6 @@
 env:
   DIRECTORY: distribution
+  PROJECT_NAME: refined-github
 
 # FILE GENERATED WITH: npx ghat fregante/ghatemplates/webext
 # SOURCE: https://github.com/fregante/ghatemplates
@@ -7,74 +8,66 @@ env:
 
 name: Release
 on:
-  workflow_dispatch: null
+  workflow_dispatch:
 jobs:
   Version:
     outputs:
-      created: ${{ steps.daily-version.outputs.created }}
-      version: ${{ steps.daily-version.outputs.version }}
+      created: ${{ env.DAILY_VERSION_CREATED }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 20
       - uses: actions/setup-node@v3
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: .nvmrc
           cache: npm
-      - name: install
-        run: npm ci || npm install
-      - run: npm test
-      - uses: fregante/daily-version-action@v1
-        name: Create tag if necessary
-        id: daily-version
-      - if: steps.daily-version.outputs.created
-        name: Create release
+      - run: npm ci
+      - name: Test and build
+        run: npm test
+      - name: Create tag if necessary
+        uses: fregante/daily-version-action@v2
+      - name: Update manifest.json with version ${{ env.DAILY_VERSION}}
+        if: env.DAILY_VERSION_CREATED
+        run: npx dot-json@1 "$DIRECTORY/manifest.json" version "$DAILY_VERSION"
+      - name: Ready for "submit" jobs
+        if: env.DAILY_VERSION_CREATED
+        uses: actions/upload-artifact@v3
+        with:
+          path: ${{ env.DIRECTORY }}
+      - name: Create release
+        if: env.DAILY_VERSION_CREATED
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: ${{ env.DIRECTORY }}
         run: |
-          cd distribution
-          zip -r refined-github-local-install.zip *
-          gh release create "${{ steps.daily-version.outputs.version }}" --generate-notes refined-github-local-install.zip
-
-
+          FILENAME="$PROJECT_NAME-$DAILY_VERSION-for-local-testing-only.zip"
+          zip -r "$FILENAME" ./*
+          gh release create "$DAILY_VERSION" --generate-notes "$FILENAME"
   Submit:
     needs: Version
-    if: github.event_name == 'workflow_dispatch' || needs.Version.outputs.created
+    if: needs.Version.outputs.created
     strategy:
       fail-fast: false
       matrix:
         command:
-          - firefox
-          - chrome
+          - Firefox
+          - Chrome
+    environment: ${{ matrix.command }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-          cache: npm
-      - name: install
-        run: npm ci || npm install
-      - run: npm run build --if-present
-      - name: Update extension’s meta
-        run: >-
-          npx dot-json@1 $DIRECTORY/manifest.json version ${{
-          needs.Version.outputs.version }}
-      - name: Submit
-        run: |
-          case ${{ matrix.command }} in
-            chrome)
-              cd $DIRECTORY && npx chrome-webstore-upload-cli@2 upload --auto-publish
-              ;;
-            firefox)
-              cd $DIRECTORY && npx web-ext-submit@7
-              ;;
-          esac
+      - uses: actions/download-artifact@v3
+      - name: Submit to Mozilla
+        if: matrix.command == 'Firefox'
+        working-directory: artifact
+        run: npx web-ext-submit@7
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
+          WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
+      - name: Submit to Google
+        if: matrix.command == 'Chrome'
+        working-directory: artifact
+        run: npx chrome-webstore-upload-cli@2 upload --auto-publish
         env:
           EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
-          WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
-          WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}

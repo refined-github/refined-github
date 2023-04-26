@@ -1,4 +1,5 @@
 import './parse-backticks.css';
+import onetime from 'onetime';
 
 import observe from '../helpers/selector-observer';
 import features from '../feature-manager';
@@ -22,7 +23,7 @@ const selectors = [
 	'.js-hovercard-content > .Popover-message .Link--primary', // Hovercard
 	'.js-discussions-title-container h1 > .js-issue-title', // `isDiscussion`
 	'a[data-hovercard-type="discussion"]', // `isDiscussionList`
-];
+] as const;
 
 // No `include`, no `signal` necessary
 function init(): void {
@@ -30,6 +31,5 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	awaitDomReady: false,
-	init,
+	init: onetime(init),
 });

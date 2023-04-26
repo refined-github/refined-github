@@ -22,7 +22,7 @@ function showWhitespaceWhenInViewport(line: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(`:is(${codeElementsSelector}):not(.blob-code-hunk)`, showWhitespaceWhenInViewport, {signal});
+	observe(`:is(${codeElementsSelector.join(',')}):not(.blob-code-hunk)`, showWhitespaceWhenInViewport, {signal});
 	onAbort(signal, viewportObserver);
 }
 
@@ -30,7 +30,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasCode,
 	],
-	awaitDomReady: false,
 	init,
 });
 

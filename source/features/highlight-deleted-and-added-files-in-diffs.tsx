@@ -64,7 +64,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFile404,
 		pageDetect.isPRCommit404,
 	],
-	awaitDomReady: false,
 	init,
 });
 

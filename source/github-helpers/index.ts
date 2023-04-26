@@ -9,9 +9,9 @@ import * as pageDetect from 'github-url-detection';
 export const getUsername = onetime(pageDetect.utils.getUsername);
 export const {getRepositoryInfo: getRepo, getCleanPathname} = pageDetect.utils;
 
-export const getConversationNumber = (): string | undefined => {
+export const getConversationNumber = (): number | undefined => {
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
-		return location.pathname.split('/')[4];
+		return Number(location.pathname.split('/')[4]);
 	}
 
 	return undefined;
@@ -174,3 +174,15 @@ export function shouldFeatureRun({
 }): boolean {
 	return asLongAs.every(c => c()) && include.some(c => c()) && exclude.every(c => !c());
 }
+
+export async function isArchivedRepoAsync(): Promise<boolean> {
+	// Load the bare minimum for `isArchivedRepo` to work
+	await elementReady('main > div');
+
+	// DOM-based detection, we want awaitDomReady: false, so it needs to be here
+	return pageDetect.isArchivedRepo();
+}
+
+export const userCanLikelyMergePR = (): boolean => select.exists('.discussion-sidebar-item .octicon-lock');
+
+export const cacheByRepo = (): string => getRepo()!.nameWithOwner;

@@ -10,7 +10,6 @@ import onAbort from './helpers/abort-controller';
 import ArrayMap from './helpers/map-of-arrays';
 import bisectFeatures from './helpers/bisect';
 import {shouldFeatureRun} from './github-helpers';
-import polyfillTurboEvents from './github-helpers/turbo-events-polyfill';
 import optionsStorage, {RGHOptions} from './options-storage';
 import {
 	applyStyleHotfixes,
@@ -31,8 +30,8 @@ type FeatureLoader = {
 	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
 	shortcuts?: Record<string, string>;
 
-	/** Whether to wait for DOM ready before running `init`. `false` makes `init` run right as soon as `body` is found. @default true */
-	awaitDomReady?: false;
+	/** Whether to wait for DOM ready before running `init`. By default, it runs `init` as soon as `body` is found. @default false */
+	awaitDomReady?: true;
 
 	/** When pressing the back button, DOM changes and listeners are still there. Using a selector here would use the integrated deduplication logic, but it cannot be used with `delegate` and it shouldn't use `has-rgh` and `has-inner-rgh` anymore. #5871 #
 	@deprecated
@@ -70,13 +69,12 @@ const logError = (url: string, error: unknown): void => {
 	}
 
 	const searchIssueUrl = new URL('https://github.com/refined-github/refined-github/issues');
-	searchIssueUrl.searchParams.set('q', `is:issue is:open sort:updated-desc ${message}`);
+	searchIssueUrl.searchParams.set('q', `is:issue is:open label:bug ${id}`);
 
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
-	newIssueUrl.searchParams.set('labels', 'bug');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 	newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
-	newIssueUrl.searchParams.set('example_urls', location.href);
+	newIssueUrl.searchParams.set('repro', location.href);
 	newIssueUrl.searchParams.set('description', [
 		'```',
 		String(error instanceof Error ? error.stack! : error).trim(),
@@ -151,8 +149,6 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
 		features.log.error = () => {/* No logging */};
 	}
-
-	polyfillTurboEvents();
 
 	resolve(options);
 });
@@ -245,7 +241,7 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 			include,
 			exclude,
 			init,
-			awaitDomReady = true,
+			awaitDomReady = false,
 			deduplicate = false,
 			onlyAdditionalListeners = false,
 			additionalListeners = [],
@@ -287,7 +283,6 @@ const addCssFeature = async (url: string, include?: BooleanFunction[]): Promise<
 	const id = getFeatureID(url);
 	void add(id, {
 		include,
-		awaitDomReady: false,
 		init() {
 			document.documentElement.classList.add('rgh-' + id);
 		},
@@ -318,6 +313,7 @@ This means that the old features will still be on the page and don't need to re-
 This marks each as "processed"
 */
 void add('rgh-deduplicator' as FeatureID, {
+	awaitDomReady: true,
 	async init() {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();

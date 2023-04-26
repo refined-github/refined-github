@@ -1,0 +1,25 @@
+# Copied from https://github.com/rhysd/actionlint/blob/048c97d90b98b832450d3adf00fc7757b0ed9953/docs/usage.md#use-actionlint-on-github-actions
+name: actionlint
+
+on:
+  push:
+    paths:
+      - .github/workflows/*.yml
+  pull_request:
+    paths:
+      - .github/workflows/*.yml
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false # Disable git write access
+      - name: Download actionlint
+        id: get_actionlint
+        run: bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+        shell: bash
+      - name: Check workflow files
+        run: ${{ steps.get_actionlint.outputs.executable }} -color
+        shell: bash

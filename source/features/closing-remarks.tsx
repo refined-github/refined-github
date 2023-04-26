@@ -11,14 +11,14 @@ import createBanner from '../github-helpers/banner';
 import TimelineItem from '../github-helpers/timeline-item';
 import attachElement from '../helpers/attach-element';
 import {canEditEveryComment} from './quick-comment-edit';
-import onConversationHeaderUpdate from '../github-events/on-conversation-header-update';
 import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers';
 import {getReleaseCount} from './releases-tab';
+import observe from '../helpers/selector-observer';
 
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;
 
-const getFirstTag = cache.function(async (commit: string): Promise<string | undefined> => {
+const getFirstTag = cache.function('first-tag', async (commit: string): Promise<string | undefined> => {
 	const firstTag = await fetchDom(
 		buildRepoURL('branch_commits', commit),
 		'ul.branches-tag-list li:last-child a',
@@ -26,49 +26,63 @@ const getFirstTag = cache.function(async (commit: string): Promise<string | unde
 
 	return firstTag?.textContent ?? undefined;
 }, {
-	cacheKey: ([commit]) => `first-tag:${getRepo()!.nameWithOwner}:${commit}`,
+	cacheKey: ([commit]) => [getRepo()!.nameWithOwner, commit].join(':'),
 });
 
-async function init(): Promise<void> {
+function createReleaseUrl(): string | undefined {
+	if (!canCreateRelease()) {
+		return;
+	}
+
+	if (isRefinedGitHubRepo()) {
+		return 'https://github.com/refined-github/refined-github/actions/workflows/release.yml';
+	}
+
+	return buildRepoURL('releases/new');
+}
+
+async function init(signal: AbortSignal): Promise<void> {
 	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`)!.textContent!;
 	const tagName = await getFirstTag(mergeCommit);
 
 	if (tagName) {
-		addExistingTagLink(tagName);
+		const tagUrl = buildRepoURL('releases/tag', tagName);
+
+		// Add static box at the bottom
+		addExistingTagLinkFooter(tagName, tagUrl);
+
+		// PRs have a regular and a sticky header
+		observe('#partial-discussion-header relative-time', addExistingTagLinkToHeader.bind(null, tagName, tagUrl), {signal});
 	} else {
-		void addReleaseBanner('The merge commit doesn’t appear in any tags');
+		void addReleaseBanner('This PR’s merge commit doesn’t appear in any tags');
 	}
 }
 
-function addExistingTagLink(tagName: string): void {
-	const tagUrl = buildRepoURL('releases/tag', tagName);
+function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionHeader: HTMLElement): void {
+	// TODO: Use :has selector instead
+	discussionHeader.parentElement!.append(
+		<span>
+			<TagIcon className="ml-2 mr-1 color-fg-muted"/>
+			<a
+				href={tagUrl}
+				className="commit-ref"
+				title={`${tagName} was the first Git tag to include this pull request`}
+			>
+				{tagName}
+			</a>
+		</span>,
+	);
+}
 
-	// Select the PR header and sticky header
-	for (const discussionHeader of select.all('#partial-discussion-header relative-time:not(.rgh-first-tag)')) {
-		discussionHeader.classList.add('rgh-first-tag');
-
-		discussionHeader.parentElement!.append(
-			<span>
-				<TagIcon className="ml-2 mr-1 color-fg-muted"/>
-				<a
-					href={tagUrl}
-					className="commit-ref"
-					title={`${tagName} was the first Git tag to include this pull request`}
-				>
-					{tagName}
-				</a>
-			</span>,
-		);
-	}
-
+function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
+	const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
 	attachElement('#issue-comment-box', {
 		before: () => (
 			<TimelineItem>
 				{createBanner({
-					text: <>The pull request first appeared in <span className="text-mono text-small">{tagName}</span></>,
-					classes: ['flash-success'],
-					url: tagUrl,
-					buttonLabel: <><TagIcon/> See release</>,
+					icon: <TagIcon className="m-0"/>,
+					text: <>This pull request first appeared in {linkedTag}</>,
+					classes: ['flash-success', 'rgh-bg-none'],
 				})}
 			</TimelineItem>
 		),
@@ -80,19 +94,21 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 		return;
 	}
 
-	const url = canCreateRelease() ? (
-		isRefinedGitHubRepo()
-			? 'https://github.com/refined-github/refined-github/actions/workflows/release.yml'
-			: buildRepoURL('releases/new')
-	) : undefined;
+	const url = createReleaseUrl();
+	const bannerContent = {
+		icon: <TagIcon className="m-0"/>,
+		classes: ['rgh-bg-none'],
+		text,
+	};
+
 	attachElement('#issue-comment-box', {
 		before: () => (
 			<TimelineItem>
-				{createBanner({
-					text,
-					url,
-					buttonLabel: <><TagIcon/> Draft a new release</>,
-				})}
+				{createBanner(url ? {
+					...bannerContent,
+					action: url,
+					buttonLabel: 'Draft a new release',
+				} : bannerContent)}
 			</TimelineItem>
 		),
 	});
@@ -104,10 +120,7 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 		pageDetect.isMergedPR,
 	],
-	additionalListeners: [
-		onConversationHeaderUpdate,
-	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: true, // It must look for the merge commit
 	init,
 }, {
 	// This catches a PR while it's being merged
@@ -120,6 +133,7 @@ void features.add(import.meta.url, {
 		onPrMerge,
 	],
 	onlyAdditionalListeners: true,
+	awaitDomReady: true, // DOM-based filters
 	init() {
 		void addReleaseBanner();
 	},
@@ -131,4 +145,6 @@ Test URLs
 - PR: https://github.com/refined-github/refined-github/pull/5600
 - Locked PR: https://github.com/eslint/eslint/pull/17
 - Archived repo: https://github.com/fregante/iphone-inline-video/pull/130
+- RGH tagged PR: https://github.com/refined-github/sandbox/pull/1
+
 */

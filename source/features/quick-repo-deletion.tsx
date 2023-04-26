@@ -155,13 +155,12 @@ async function init(signal: AbortSignal): Promise<void | false> {
 		),
 	});
 
-	delegate(document, '.rgh-quick-repo-deletion[open]', 'toggle', handleToggle, {capture: true, signal});
+	delegate('.rgh-quick-repo-deletion[open]', 'toggle', handleToggle, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isForkedRepo,
 	],
-	awaitDomReady: false,
 	init,
 });

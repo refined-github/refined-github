@@ -8,14 +8,14 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import {wrapAll} from '../helpers/dom-utils';
-import {buildRepoURL, getRepo} from '../github-helpers';
+import {buildRepoURL, cacheByRepo} from '../github-helpers';
 
 type FileType = {
 	name: string;
 	type: string;
 };
 
-const getCacheKey = (): string => `changelog:${getRepo()!.nameWithOwner}`;
+const cacheName = 'changelog';
 
 const changelogFiles = /^(changelog|news|changes|history|release|whatsnew)(\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
 function findChangelogName(files: string[]): string | false {
@@ -24,11 +24,11 @@ function findChangelogName(files: string[]): string | false {
 
 function parseFromDom(): false {
 	const files = select.all('[aria-labelledby="files"] .js-navigation-open[href*="/blob/"').map(file => file.title);
-	void cache.set(getCacheKey(), findChangelogName(files));
+	void cache.set(cacheName + ':' + cacheByRepo(), findChangelogName(files));
 	return false;
 }
 
-const getChangelogName = cache.function(async (): Promise<string | false> => {
+const getChangelogName = cache.function(cacheName, async (): Promise<string | false> => {
 	const {repository} = await api.v4(`
 		repository() {
 			object(expression: "HEAD:") {
@@ -51,7 +51,7 @@ const getChangelogName = cache.function(async (): Promise<string | false> => {
 
 	return findChangelogName(files);
 }, {
-	cacheKey: getCacheKey,
+	cacheKey: cacheByRepo,
 });
 
 async function init(): Promise<void | false> {
@@ -90,7 +90,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isSingleTag,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init,
 }, {
@@ -98,5 +97,6 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoHome,
 	],
 	deduplicate: 'has-rgh',
+	awaitDomReady: true, // Does not affect current visit
 	init: parseFromDom,
 });

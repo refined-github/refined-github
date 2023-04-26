@@ -16,6 +16,7 @@ edited a gollum (wiki)
 
 .rgh-hide-newsfeed-noise .body:has(
 [data-hydro-click*='"type":"PushEvent"'],
+[data-hydro-click*='"type":"FollowEvent"'],
 [data-hydro-click*='"type":"ReleaseEvent"']
 ) {
 	display: none !important;

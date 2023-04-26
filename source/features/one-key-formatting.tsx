@@ -39,7 +39,7 @@ function init(signal: AbortSignal): void {
 	onCommentFieldKeydown(eventHandler, signal);
 	onConversationTitleFieldKeydown(eventHandler, signal);
 	onCommitTitleFieldKeydown(eventHandler, signal);
-	delegate(document, 'input[name="commit_title"], input[name="gist[description]"], #saved-reply-title-field', 'keydown', eventHandler, {signal});
+	delegate('input[name="commit_title"], input[name="gist[description]"], #saved-reply-title-field', 'keydown', eventHandler, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -50,6 +50,5 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 		pageDetect.isDeletingFile,
 	],
-	awaitDomReady: false,
 	init,
 });

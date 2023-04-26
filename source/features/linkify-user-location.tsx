@@ -1,33 +1,27 @@
 import React from 'dom-chef';
 
 import features from '../feature-manager';
-import attachElement from '../helpers/attach-element';
 import {wrap} from '../helpers/dom-utils';
 import observe from '../helpers/selector-observer';
 
-function linkify(location: Element): Element {
-	const locationName = location.textContent!.trim();
+function addLocation({nextElementSibling, nextSibling}: SVGElement): Element {
+	// `nextSibling` alone might point to an empty TextNode before an element, if there’s an element
+	const userLocation = nextElementSibling ?? nextSibling as Element;
+
+	const locationName = userLocation.textContent!.trim();
 	const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
 
-	location.before(' '); // Keeps the link’s underline from extending out to the icon
+	userLocation.before(' '); // Keeps the link’s underline from extending out to the icon
 	const link = <a className="Link--primary" href={googleMapsLink}/>;
 
-	if (location.parentElement!.closest('.Popover')) {
+	if (userLocation.parentElement!.closest('.Popover')) {
 	// Match the style of other links in the hovercard
 		link.classList.add('text-underline');
 	}
 
-	wrap(location, link);
+	wrap(userLocation, link);
 
 	return link;
-}
-
-function addLocation({nextElementSibling, nextSibling}: SVGElement): void {
-	attachElement(
-		// `nextSibling` alone might point to an empty TextNode before an element, if there’s an element
-		nextElementSibling ?? nextSibling as Element,
-		{forEach: linkify},
-	);
 }
 
 // No `include`, no `signal` necessary
@@ -39,6 +33,5 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	awaitDomReady: false,
 	init,
 });

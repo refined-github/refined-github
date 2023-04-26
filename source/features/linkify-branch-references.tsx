@@ -68,5 +68,6 @@ void features.add(import.meta.url, {
 	init,
 }, {
 	deduplicate: 'has-rgh',
+	awaitDomReady: true, // TODO: Use new observer
 	init: hovercardInit,
 });

@@ -39,7 +39,7 @@ function init(signal: AbortSignal): void | false {
 	}
 
 	update(checkbox); // The sidebar checkbox may already be un-checked
-	delegate(document, 'input[name="collab_privs"]', 'change', toggleHandler, {signal});
+	delegate('input[name="collab_privs"]', 'change', toggleHandler, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -48,5 +48,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 		// No need to exclude `isClosedPR` as the checkbox won't be present
 	],
+	awaitDomReady: true,
 	init,
 });

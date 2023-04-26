@@ -29,5 +29,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleGist,
 	],
+	awaitDomReady: true, // TODO: Don't awaitDomReady
 	init: onetime(init),
 });

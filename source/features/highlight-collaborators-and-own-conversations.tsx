@@ -6,9 +6,9 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 import fetchDom from '../helpers/fetch-dom';
-import {buildRepoURL, getRepo, getUsername} from '../github-helpers';
+import {buildRepoURL, cacheByRepo, getUsername} from '../github-helpers';
 
-const getCollaborators = cache.function(async (): Promise<string[]> => {
+const getCollaborators = cache.function('repo-collaborators', async (): Promise<string[]> => {
 	const dom = await fetchDom(buildRepoURL('issues/show_menu_content?partial=issues/filters/authors_content'));
 	return select
 		.all('.SelectMenu-item img[alt]', dom)
@@ -16,7 +16,7 @@ const getCollaborators = cache.function(async (): Promise<string[]> => {
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
-	cacheKey: () => 'repo-collaborators:' + getRepo()!.nameWithOwner,
+	cacheKey: cacheByRepo,
 });
 
 async function highlightCollaborators(): Promise<void> {
@@ -44,13 +44,12 @@ void features.add(import.meta.url, {
 	exclude: [
 		() => select.exists('.blankslate'),
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init: highlightCollaborators,
 }, {
 	include: [
 		pageDetect.isIssueOrPRList,
 	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: true, // Small pages, could be improved though
 	init: highlightSelf,
 });

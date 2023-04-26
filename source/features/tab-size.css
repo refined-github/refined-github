@@ -1,41 +1,30 @@
-/* Make tab-indented code more readable on GitHub and Gist */
-
-* {
-	tab-size: var(--tab-size) !important;
-}
-
-[data-tab-size='2'] {
-	--tab-size: 2;
-}
-
-:root, /* Changes the browser default */
-.comment-body [data-tab-size='8'], /* User setting is ignored in comments #4833 */
-[data-tab-size='4'] {
-	--tab-size: 4;
-}
-
-[data-tab-size='8'] {
-	--tab-size: 8;
-}
-
-[data-tab-size='10'] {
-	--tab-size: 10;
-}
-
-[data-tab-size='12'] {
-	--tab-size: 12;
-}
-
 /*
-Can't use this because attr() returns strings and casting isn't supported anywhere yet
-https://developer.mozilla.org/en-US/docs/Web/CSS/attr
+GitHub doesn’t apply the user’s "tab size" setting in a few places, leaving the 8-character default.
+This feature reduces it to 4 characters, while allowing GitHub’s own tab size setting to override it in its children.
 
-[data-tab-size] {
-	--tab-size: attr(data-tab-size);
-}
+There’s also one place where GitHub incorrectly uses the "user configuration" attribute to set it to 8, so we’re explicitly overriding that. #4833
+
+--tab-size is used to allow the user to override it and to be picked up by `show-whitespace`
 */
 
+:root,
+.comment-body .tab-size[data-tab-size='8'] {
+	--tab-size: 4;
+	tab-size: var(--tab-size);
+}
+
 /*
-Test URLs
-https://github.com/refined-github/sandbox/pull/19
+
+## Test URLs
+
+- Rendered documents: https://github.com/refined-github/refined-github/blob/154c0f8c86b23e52d1e1ee947b90bc36bc6188ba/contributing.md#featuresadd
+- Code blocks and embeds in conversations: https://github.com/refined-github/sandbox/pull/19
+- The comment field everywhere
+
+### Unaffected URLs
+
+- isFile: https://github.com/refined-github/refined-github/blob/6979e88e6a7b3273338a2651ac4b533609ef97df/source/options.html
+- isEditingFile: https://github.com/refined-github/refined-github/edit/main/source/options.html
+- isGist: https://gist.github.com/kidonng/3ab6b5779e1a5a46984c14eecc0fc3a0
+
 */

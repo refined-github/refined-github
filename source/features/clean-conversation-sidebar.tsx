@@ -8,6 +8,7 @@ import features from '../feature-manager';
 import onElementRemoval from '../helpers/on-element-removal';
 import observe from '../helpers/selector-observer';
 import {removeTextNodeContaining} from '../helpers/dom-utils';
+import {isHasSelectorSupported} from '../helpers/select-has';
 
 const canEditSidebar = onetime((): boolean => select.exists('.discussion-sidebar-item [data-hotkey="l"]'));
 
@@ -50,7 +51,7 @@ function cleanSection(selector: string): boolean {
 		'details:has(> .discussion-sidebar-heading)', // Can edit sidebar, has a dropdown
 		'.discussion-sidebar-heading', // Cannot editor sidebar, has a plain heading
 	], container)!;
-	if (heading.closest('form, .discussion-sidebar-item')!.querySelector(identifiers.join(','))) {
+	if (heading.closest('form, .discussion-sidebar-item')!.querySelector(identifiers)) {
 		return false;
 	}
 
@@ -128,8 +129,12 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isHasSelectorSupported,
+	],
 	include: [
 		pageDetect.isConversation,
 	],
+	awaitDomReady: true, // The sidebar is at the end of the page + it needs to be fully loaded
 	init,
 });

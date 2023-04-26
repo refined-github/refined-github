@@ -15,6 +15,15 @@
 	--rgh-red: #cf222e;
 }
 
+html::after {
+	/* Add some extra scroll to the page to reduce section toggle jumps/scroll */
+	content: '';
+	display: block;
+	height: 50vh;
+	background: url('icon.png') center no-repeat;
+	filter: opacity(0.1) saturate(0) brightness(1.2);
+}
+
 @media (prefers-color-scheme: dark) {
 	:root {
 		--rgh-red: #f85149;
@@ -32,6 +41,41 @@ ul {
 
 li[data-validation] {
 	margin-bottom: 0.3em;
+}
+
+details {
+	margin-bottom: 1em;
+}
+
+details[open] {
+	--border-left: 4px;
+	border-left: solid var(--border-left) #aaa4;
+	padding-bottom: 1px;
+}
+
+summary {
+	--summary-padding: 10px;
+	background: #aaa1;
+	list-style: none;
+	padding: var(--summary-padding);
+	cursor: pointer;
+}
+
+summary::-webkit-details-marker {
+	display: none; /* Just for Safari. Chrome uses `list-style` */
+}
+
+summary:hover {
+	background: #aaa4;
+}
+
+details[open] summary {
+	margin-bottom: 10px;
+	padding-left: calc(var(--summary-padding) - var(--border-left));
+}
+
+details[open] > :not(summary) {
+	margin-left: 10px;
 }
 
 [data-validation]::before {
@@ -111,28 +155,8 @@ li[data-validation] {
 	box-shadow: inset 0 -1px 0 #d1d5da;
 }
 
-.feature-new .feature-name::after {
-	display: inline-block; /* Avoids the strikethrough on disabled features */
-	content: 'New';
-	font-size: 1em;
-	border: 1px solid;
-	border-radius: 0.2em;
-	padding: 0 0.3em;
-	margin-left: 0.8em;
-	text-transform: uppercase;
-	color: var(--rgh-red);
-}
-
 .feature-checkbox:disabled + .info > *:not(.hotfix-notice) {
 	opacity: 50%;
-}
-
-#show-debugging ~ * {
-	display: none;
-}
-
-details {
-	margin-bottom: 1em;
 }
 
 .screenshot {

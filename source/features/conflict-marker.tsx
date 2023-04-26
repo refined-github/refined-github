@@ -45,10 +45,11 @@ function getPRConfig(prIcon: Element): PRConfig {
 async function init(): Promise<false | void> {
 	// Milestone issues are lazy-loaded
 	if (pageDetect.isMilestone()) {
+		// TODO: Use observe instead
 		await oneMutation(select('.js-milestone-issues-container')!, {childList: true});
 	}
 
-	const openPrIcons = select.all('.js-issue-row .octicon-git-pull-request.open');
+	const openPrIcons = select.all('.js-issue-row .octicon-git-pull-request.color-fg-open');
 	if (openPrIcons.length === 0) {
 		return false;
 	}
@@ -79,7 +80,8 @@ void features.add(import.meta.url, {
 		pageDetect.isGlobalIssueOrPRList,
 		pageDetect.isBlank,
 	],
-	deduplicate: 'has-rgh-inner',
+	awaitDomReady: true, // TODO: Use observe + batched-function
+	deduplicate: 'has-rgh-inner', // TODO: Use observe instead
 	init,
 }, {
 	include: [
@@ -89,5 +91,6 @@ void features.add(import.meta.url, {
 		pageDetect.isBlank,
 	],
 	deduplicate: 'has-rgh',
+	awaitDomReady: true, // TODO: Use observe + batched-function
 	init,
 });

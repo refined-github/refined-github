@@ -8,7 +8,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 
 import {wrap} from '../helpers/dom-utils';
 import features from '../feature-manager';
-import {getUsername} from '../github-helpers';
+import {getUsername, isArchivedRepoAsync} from '../github-helpers';
 import observe from '../helpers/selector-observer';
 
 function prefixUserMention(userMention: string): string {
@@ -32,8 +32,61 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	textFieldEdit.insert(newComment, `${spacer}${prefixUserMention(userMention)} `);
 }
 
-function init(signal: AbortSignal): void {
-	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser, {signal});
+const debug = false;
+
+function add(avatar: HTMLElement): void {
+	if (debug) {
+		avatar.style.border = 'solid 5px black';
+	}
+
+	const timelineItem = avatar.closest([
+		// Regular comments
+		'.js-comment-container',
+
+		// Reviews
+		'.js-comment',
+	])!;
+	if (debug) {
+		timelineItem.style.border = 'solid 5px red';
+	}
+
+	if (
+		// TODO: Rewrite with :has()
+		// Exclude events that aren't tall enough, like hidden comments or reviews without comments
+		!select.exists('.unminimized-comment, .js-comment-container', timelineItem)
+	) {
+		return;
+	}
+
+	if (debug) {
+		timelineItem.style.border = 'solid 5px green';
+	}
+
+	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
+	if (avatar.classList.contains('TimelineItem-avatar')) {
+		avatar.classList.remove('TimelineItem-avatar');
+		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block"/>);
+	}
+
+	const userMention = select('img', avatar)!.alt;
+	avatar.classList.add('rgh-quick-mention');
+	avatar.after(
+		<button
+			type="button"
+			className="rgh-quick-mention tooltipped tooltipped-e btn-link"
+			aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
+		>
+			<ReplyIcon/>
+		</button>,
+	);
+}
+
+async function init(signal: AbortSignal): Promise<void> {
+	if (await isArchivedRepoAsync()) {
+		return;
+	}
+
+	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
 
 	// `:first-child` avoids app badges #2630
 	// The hovercard attribute avoids `highest-rated-comment`
@@ -43,46 +96,23 @@ function init(signal: AbortSignal): void {
 			div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
 			a.TimelineItem-avatar
 		):not([href="/${getUsername()!}"])
-	`, avatar => {
-		const timelineItem = avatar.closest('.TimelineItem')!;
-
-		if (
-			// TODO: Rewrite with :has()
-			select.exists('.minimized-comment', timelineItem) // Hidden comments
-			|| !select.exists('.timeline-comment', timelineItem) // Reviews without a comment
-		) {
-			return;
-		}
-
-		// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
-		if (avatar.classList.contains('TimelineItem-avatar')) {
-			avatar.classList.remove('TimelineItem-avatar');
-			wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block"/>);
-		}
-
-		const userMention = select('img', avatar)!.alt;
-		avatar.classList.add('rgh-quick-mention');
-		avatar.after(
-			<button
-				type="button"
-				className="rgh-quick-mention tooltipped tooltipped-e btn-link"
-				aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
-			>
-				<ReplyIcon/>
-			</button>,
-		);
-	}, {signal});
+	`, add, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],
-	exclude: [
-		pageDetect.isArchivedRepo,
-	],
-	// Can't because `isArchivedRepo` is DOM-based
-	// Also not needed since it appears on hover
-	// awaitDomReady: false,
 	init,
 });
+
+/*
+
+Test URLs
+
+https://github.com/refined-github/sandbox/pull/10
+
+No-comment reviews shouldn't have it:
+https://github.com/NixOS/nixpkgs/pull/147010#pullrequestreview-817111882
+
+*/

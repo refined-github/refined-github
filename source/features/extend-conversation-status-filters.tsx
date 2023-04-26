@@ -68,14 +68,12 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoIssueOrPRList,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh-inner',
 	init,
 }, {
 	include: [
 		pageDetect.isGlobalIssueOrPRList,
 	],
-	awaitDomReady: false,
 	deduplicate: 'has-rgh',
 	init,
 });

@@ -19,3 +19,11 @@
 .js-issue-row .color-fg-muted [href$='#partial-pull-merging'][aria-label*='approval']::after {
 	content: none;
 }
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/sandbox/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc+review
+
+*/

@@ -48,7 +48,6 @@ void features.add(import.meta.url, {
 		// TODO: Needed?
 		pageDetect.isGist,
 	],
-	awaitDomReady: false,
 	init,
 }, {
 	include: [
@@ -56,7 +55,6 @@ void features.add(import.meta.url, {
 		pageDetect.isIssue,
 		pageDetect.isDiscussion,
 	],
-	awaitDomReady: false,
 	init: initTitle,
 });
 
