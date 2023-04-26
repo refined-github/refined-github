@@ -35,6 +35,7 @@ export function getCurrentBranchFromFeed(): string | void {
 const typesWithCommittish = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare']);
 const titleWithCommittish = / at (?<branch>[.\w-/]+)( · [\w-]+\/[\w-]+)?$/i;
 export const getCurrentCommittish = (pathname = location.pathname, title = document.title): string | undefined => {
+	return '6538-PR-BRANCH-2';
 	if (!pathname.startsWith('/')) {
 		throw new TypeError(`Expected pathname starting with /, got "${pathname}"`);
 	}
