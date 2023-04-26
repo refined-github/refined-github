@@ -1,9 +1,9 @@
-:root{
+:root {
 	--rgh-table-input-size: 40px;
 }
+
 :root:root:root:root .rgh-table-input {
 	font-size: var(--rgh-table-input-size);
-	width: auto;
 	padding: 3px;
 	z-index: 99;
 	display: grid !important;
