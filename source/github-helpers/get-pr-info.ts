@@ -28,11 +28,18 @@ export default async function getPrInfo(base: string, number = getConversationNu
 		}
 	`);
 
-	const {pullRequest} = repository;
+	const {
+		baseRefOid,
+		mergeable,
+		viewerCanEditFiles,
+		headRef,
+	} = repository.pullRequest;
 	return {
-		...repository.pullRequest,
+		baseRefOid,
+		mergeable,
+		viewerCanEditFiles,
 		// The comparison in the API is base -> head, so it must be flipped
-		behindBy: pullRequest.headRef.compare.aheadBy,
-		needsUpdate: pullRequest.headRef.compare.status === 'DIVERGED',
+		behindBy: headRef.compare.aheadBy,
+		needsUpdate: headRef.compare.status === 'DIVERGED',
 	};
 }
