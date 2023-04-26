@@ -1,10 +1,8 @@
-import * as pageDetect from 'github-url-detection';
-
 import * as api from './api';
 import {getConversationNumber} from '.';
 
 export type PullRequestInfo = {
-	// TODO: Use this for `restore-file` when GHE supports `compare`
+	// TODO: Use this for `restore-file`
 	baseRefOid: string;
 	// https://docs.github.com/en/graphql/reference/enums#mergeablestate
 	mergeable: 'CONFLICTING' | 'MERGEABLE' | 'UNKNOWN';
@@ -13,27 +11,7 @@ export type PullRequestInfo = {
 	behindBy: number;
 };
 
-export default async function getPrInfo(base: string, head: string, number = getConversationNumber()!): Promise<PullRequestInfo> {
-	if (pageDetect.isEnterprise()) {
-		const {repository} = await api.v4(`
-			repository() {
-				pullRequest(number: ${number}) {
-					mergeable
-					viewerCanEditFiles
-				}
-			}
-		`);
-
-		const compare = await api.v3(`compare/${base}...${head}?page=10000`); // `page=10000` avoids fetching any commit information, which is heavy
-
-		repository.pullRequest.headRef.compare.behindBy = compare.behind_by;
-		return {
-			...repository.pullRequest,
-			behindBy: compare.behind_by,
-			needsUpdate: compare.status === 'diverged',
-		};
-	}
-
+export default async function getPrInfo(base: string, number = getConversationNumber()!): Promise<PullRequestInfo> {
 	const {repository} = await api.v4(`
 		repository() {
 			pullRequest(number: ${number}) {
@@ -43,7 +21,7 @@ export default async function getPrInfo(base: string, head: string, number = get
 				headRef {
 					compare(headRef: "${base}") {
 						status
-						behindBy
+						aheadBy
 					}
 				}
 			}
@@ -53,7 +31,8 @@ export default async function getPrInfo(base: string, head: string, number = get
 	const {pullRequest} = repository;
 	return {
 		...repository.pullRequest,
-		behindBy: pullRequest.headRef.compare.behindBy,
+		// The comparison in the API is base -> head, so it must be flipped
+		behindBy: pullRequest.headRef.compare.aheadBy,
 		needsUpdate: pullRequest.headRef.compare.status === 'DIVERGED',
 	};
 }

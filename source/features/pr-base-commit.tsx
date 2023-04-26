@@ -23,7 +23,7 @@ function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 		</a>
 	);
 	return (
-		<>but it’s {countLink} behind (base commit: {commit})</>
+		<>The head branch is {countLink} behind (base commit: {commit})</>
 	);
 }
 
@@ -35,8 +35,8 @@ async function addInfo(statusMeta: Element): Promise<void> {
 		return;
 	}
 
-	const {base, head} = getBranches();
-	const prInfo = await getPrInfo(base.relative, head.relative);
+	const {base} = getBranches();
+	const prInfo = await getPrInfo(base.relative);
 	if (!prInfo.needsUpdate) {
 		return;
 	}

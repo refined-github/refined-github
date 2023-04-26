@@ -60,8 +60,8 @@ async function addButton(mergeBar: Element): Promise<void> {
 		return;
 	}
 
-	const {base, head} = getBranches();
-	const prInfo = await getPrInfo(base.relative, head.relative);
+	const {base} = getBranches();
+	const prInfo = await getPrInfo(base.relative);
 	if (!prInfo.needsUpdate || !prInfo.viewerCanEditFiles || prInfo.mergeable === 'CONFLICTING') {
 		return;
 	}
