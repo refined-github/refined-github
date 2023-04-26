@@ -2,7 +2,6 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import * as textFieldEdit from 'text-field-edit';
 
 import * as api from '../github-helpers/api';
 import features from '../feature-manager';
@@ -66,7 +65,8 @@ async function updatePRTitle(): Promise<void> {
 async function updateCommitTitle(): Promise<void> {
 	const field = getCurrentCommitTitleField()!;
 	if (field) {
-		textFieldEdit.set(field, createCommitTitle());
+		// Do not use `text-field-edit` #6348
+		field.value = createCommitTitle();
 	}
 }
 
