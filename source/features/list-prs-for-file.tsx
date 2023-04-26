@@ -1,18 +1,20 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
-import {isChrome} from 'webext-detect-page';
-import elementReady from 'element-ready';
+import {isFirefox} from 'webext-detect-page';
 import * as pageDetect from 'github-url-detection';
-import {GitPullRequestIcon} from '@primer/octicons-react';
+import {AlertIcon, GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import addAfterBranchSelector from '../helpers/add-after-branch-selector';
 import {buildRepoURL, cacheByRepo} from '../github-helpers';
+import GitHubURL from '../github-helpers/github-url';
+import observe from '../helpers/selector-observer';
 
 function getPRUrl(prNumber: number): string {
-	return buildRepoURL('pull', prNumber, 'files');
+	// https://caniuse.com/url-scroll-to-text-fragment
+	const hash = isFirefox() ? '' : `:~:text=${new GitHubURL(location.href).filePath}`;
+	return buildRepoURL('pull', prNumber, 'files', hash);
 }
 
 function getHovercardUrl(prNumber: number): string {
@@ -20,18 +22,22 @@ function getHovercardUrl(prNumber: number): string {
 }
 
 function getDropdown(prs: number[]): HTMLElement {
+	const isEditing = pageDetect.isEditingFile();
+	const icon = isEditing
+		? <AlertIcon className="v-align-middle color-fg-attention"/>
+		: <GitPullRequestIcon className="v-align-middle"/>;
 	// Markup copied from https://primer.style/css/components/dropdown
 	return (
 		<details className="dropdown details-reset details-overlay flex-self-center">
 			<summary className="btn btn-sm">
-				<GitPullRequestIcon className="v-align-middle"/>
+				{icon}
 				<span className="v-align-middle"> {prs.length} </span>
 				<div className="dropdown-caret"/>
 			</summary>
 
-			<details-menu className="dropdown-menu dropdown-menu-sw">
+			<details-menu className="dropdown-menu dropdown-menu-sw" style={{width: '13em'}}>
 				<div className="dropdown-header">
-					File touched by PRs
+					File also being edited in
 				</div>
 				{prs.map(prNumber => (
 					<a
@@ -44,19 +50,6 @@ function getDropdown(prs: number[]): HTMLElement {
 				))}
 			</details-menu>
 		</details>
-	);
-}
-
-function getSingleButton(prNumber: number): HTMLElement {
-	return (
-		<a
-			href={getPRUrl(prNumber)}
-			className="btn btn-sm flex-self-center"
-			data-hovercard-url={getHovercardUrl(prNumber)}
-		>
-			<GitPullRequestIcon className="v-align-middle"/>
-			<span className="v-align-middle"> #{prNumber}</span>
-		</a>
 	);
 }
 
@@ -105,35 +98,24 @@ const getPrsByFile = cache.function('files-with-prs', async (): Promise<Record<s
 	cacheKey: cacheByRepo,
 });
 
-async function getCurrentPath(): Promise<string> {
-	// `[aria-label="Copy path"]` on blob page, `#blob-edit-path` on edit page
-	const element = await elementReady('[aria-label="Copy path"], #blob-edit-path');
-	return element!.getAttribute('value')!;
-}
-
-async function init(): Promise<void> {
-	const [path, prsByFile] = await Promise.all([
-		getCurrentPath(),
-		getPrsByFile(),
-	]);
+async function addToSingleFile(moreFileActionsDropdown: HTMLElement): Promise<void> {
+	const path = new GitHubURL(location.href).filePath;
+	const prsByFile = await getPrsByFile();
 	const prs = prsByFile[path];
 
-	if (!prs) {
-		return;
+	if (prs) {
+		const dropdown = getDropdown(prs);
+		if (!moreFileActionsDropdown.parentElement!.matches('.gap-2')) {
+			dropdown.classList.add('mr-2');
+		}
+
+		moreFileActionsDropdown.before(dropdown);
 	}
-
-	const [prNumber] = prs; // First one or only one
-
-	const button = prs.length === 1 ? getSingleButton(prNumber) : getDropdown(prs);
-
-	await addAfterBranchSelector(button);
 }
 
-async function initEditing(): Promise<false | void> {
-	const [path, prsByFile] = await Promise.all([
-		getCurrentPath(),
-		getPrsByFile(),
-	]);
+async function addToEditingFile(saveButton: HTMLElement): Promise<false | void> {
+	const path = new GitHubURL(location.href).filePath;
+	const prsByFile = await getPrsByFile();
 	let prs = prsByFile[path];
 
 	if (!prs) {
@@ -148,52 +130,42 @@ async function initEditing(): Promise<false | void> {
 		}
 	}
 
-	const [prNumber] = prs; // First one or only one
+	const dropdown = getDropdown(prs);
+	dropdown.classList.add('mr-2');
+	saveButton.parentElement!.prepend(dropdown);
+}
 
-	const file = await elementReady('.file');
-	if (!file && pageDetect.isBlank()) {
-		return false;
-	}
+function initSingleFile(signal: AbortSignal): void {
+	observe('[aria-label="More file actions"]', addToSingleFile, {signal});
+}
 
-	file!.after(
-		<div className="form-warning p-3 mb-3 mx-lg-3">
-			{
-				prs.length === 1
-					? <>Careful, PR <a href={getPRUrl(prNumber)}>#{prNumber}</a> is already touching this file</>
-					: (
-						<>
-							Careful, {prs.length} open PRs are already touching this file
-							<span className="ml-2 BtnGroup">
-								{prs.map(pr => {
-									const button = getSingleButton(pr) as unknown as HTMLAnchorElement;
-									button.classList.add('BtnGroup-item');
-
-									// Only Chrome supports Scroll To Text Fragment
-									// https://caniuse.com/url-scroll-to-text-fragment
-									if (isChrome()) {
-										button.hash = `:~:text=${path}`;
-									}
-
-									return button;
-								})}
-							</span>
-						</>
-					)
-			}
-		</div>,
-	);
+function initEditingFile(signal: AbortSignal): void {
+	observe('[data-hotkey="Meta+s,Control+s"]', addToEditingFile, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
 	],
-	deduplicate: 'has-rgh-inner',
-	init,
+	init: initSingleFile,
 }, {
 	include: [
 		pageDetect.isEditingFile,
 	],
-	deduplicate: 'has-rgh',
-	init: initEditing,
+	exclude: [
+		pageDetect.isBlank,
+	],
+	awaitDomReady: true, // End of the page; DOM-based detections
+	init: initEditingFile,
 });
+
+/*
+
+## Test URLs
+
+- isSingleFile: One PR https://github.com/refined-github/sandbox/blob/default-a/4679
+- isSingleFile: Multiple PRs https://github.com/refined-github/sandbox/blob/default-a/README.md
+- isEditingFile: One PR https://github.com/refined-github/sandbox/edit/default-a/4679
+- isEditingFile: Multiple PRs https://github.com/refined-github/sandbox/edit/default-a/README.md
+
+*/
