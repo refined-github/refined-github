@@ -136,21 +136,16 @@ void features.add(import.meta.url, {
 });
 
 /*
+
 Test URLs
 
-PR without conflicts
-https://github.com/refined-github/sandbox/pull/60
+Repo with no tags (no button)
+https://github.com/refined-github/yolo
 
-Draft PR without conflicts
-https://github.com/refined-github/sandbox/pull/61
+Repo with too many unreleased commits
+https://github.com/refined-github/sandbox
 
-Native "Update branch" button
-(pick a conflict-free PR from https://github.com/refined-github/refined-github/pulls?q=is%3Apr+is%3Aopen+sort%3Acreated-asc)
-
-Native "Resolve conflicts" button
-https://github.com/refined-github/sandbox/pull/9
-
-Cross-repo PR with long branch names
-https://github.com/refined-github/sandbox/pull/13
+Repo with some unreleased commits
+https://github.com/refined-github/refined-github
 
 */
