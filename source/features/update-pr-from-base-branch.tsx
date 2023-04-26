@@ -26,8 +26,8 @@ async function mergeBranches(): Promise<AnyObject> {
 	});
 }
 
-async function handler(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
-	event.delegateTarget.disabled = true;
+async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+	button.disabled = true;
 	await showToast(async () => {
 		const response = await mergeBranches().catch(error => error);
 		if (response instanceof Error || !response.ok) {
@@ -39,6 +39,8 @@ async function handler(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Pro
 		message: 'Updating branch…',
 		doneMessage: 'Branch updated',
 	});
+
+	button.remove();
 }
 
 function createButton(): JSX.Element {
