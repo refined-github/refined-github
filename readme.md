@@ -95,8 +95,8 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 			<p><img src="https://user-images.githubusercontent.com/1402241/54978791-45906080-4fdc-11e9-8fe1-45374f8ff636.png">
 	<tr>
 		<th width="50%">
-			<p><a title="reactions-avatars"></a> Adds reaction avatars showing <i>who</i> reacted to a comment
-			<p><img src="https://user-images.githubusercontent.com/1402241/130341871-6a0d69f4-8d0c-4882-a5ed-aac9b7613b0a.png">
+			<p><a title="pr-base-commit"></a> Shows how far behind a PR head branch is + tells you its base commit
+			<p><img src="https://user-images.githubusercontent.com/1402241/234492651-b54bf9ba-c218-4a30-bed4-f85a7f037297.png">
 		<th width="50%">
 			<p><a title="conversation-activity-filter"></a> Lets you hide every event except comments or unresolved comments in issues and PRs
 			<p><img src="https://user-images.githubusercontent.com/1402241/109592127-5f922200-7ad4-11eb-8dfa-1d80fb28e70e.png">
@@ -212,6 +212,7 @@ Thanks for contributing! 🦋🙌
 
 ### Reading comments
 
+- [](# "reactions-avatars") 🔥 [Adds reaction avatars showing _who_ reacted to a comment](https://user-images.githubusercontent.com/1402241/234492651-b54bf9ba-c218-4a30-bed4-f85a7f037297.png)
 - [](# "embed-gist-inline") [Embeds short gists when linked in comments on their own lines.](https://user-images.githubusercontent.com/1402241/152117903-80d784d5-4f43-4786-bc4c-d4993aec5c79.png)
 - [](# "comments-time-machine-links") Adds links to [browse the repository](https://user-images.githubusercontent.com/1402241/56450896-68076680-635b-11e9-8b24-ebd11cc4e655.png) and [linked files](https://user-images.githubusercontent.com/1402241/56450895-68076680-635b-11e9-86b4-b6c2f3745d51.png) at the time of each comment.
 - [](# "show-names") [Adds the real name of users by their usernames.](https://user-images.githubusercontent.com/1402241/62075835-5f82ce00-b270-11e9-91eb-4680b70cb3cb.png)

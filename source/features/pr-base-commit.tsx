@@ -23,7 +23,7 @@ function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 		</a>
 	);
 	return (
-		<>The head branch is {countLink} behind (base commit: {commit})</>
+		<>It’s {countLink} behind (base commit: {commit})</>
 	);
 }
 
