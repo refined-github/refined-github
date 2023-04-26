@@ -11,8 +11,8 @@ import observe from '../helpers/selector-observer';
 import * as api from '../github-helpers/api';
 import {getBranches} from '../github-helpers/pr-branches';
 import getPrInfo from '../github-helpers/get-pr-info';
-import {getConversationNumber} from '../github-helpers';
 import showToast from '../github-helpers/toast';
+import {getConversationNumber} from '../github-helpers';
 import createMergeabilityRow from '../github-widgets/mergeability-row';
 import selectHas from '../helpers/select-has';
 
@@ -60,9 +60,9 @@ async function addButton(mergeBar: Element): Promise<void> {
 		return;
 	}
 
-	const {base, head} = getBranches();
-	const prInfo = await getPrInfo(base.relative, head.relative);
-	if (!prInfo?.viewerCanEditFiles || prInfo.mergeable === 'CONFLICTING') {
+	const {base} = getBranches();
+	const prInfo = await getPrInfo(base.relative);
+	if (!prInfo.needsUpdate || !prInfo.viewerCanEditFiles || prInfo.mergeable === 'CONFLICTING') {
 		return;
 	}
 
@@ -82,6 +82,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 
 	// The PR is still a draft
 	mergeBar.before(createMergeabilityRow({
+		className: 'rgh-update-pr-from-base-branch-row',
 		action: createButton(),
 		icon: <CheckIcon/>,
 		iconClass: 'completeness-indicator-success',

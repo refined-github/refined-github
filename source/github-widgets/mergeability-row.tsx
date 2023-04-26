@@ -4,11 +4,13 @@ type MergeabilityRowProps = {
 	action?: JSX.Element;
 	icon: JSX.Element;
 	iconClass?: string;
-	heading: string;
-	meta?: string;
+	heading: JSX.Element | string;
+	meta?: JSX.Element | string;
+	className?: string;
 };
 
 export default function createMergeabilityRow({
+	className = '',
 	action,
 	icon,
 	iconClass = '',
@@ -16,7 +18,7 @@ export default function createMergeabilityRow({
 	meta,
 }: MergeabilityRowProps): JSX.Element {
 	return (
-		<div className="branch-action-item">
+		<div className={`branch-action-item ${className}`}>
 			<div
 				className="branch-action-btn float-right js-immediate-updates js-needs-timeline-marker-header"
 			>
