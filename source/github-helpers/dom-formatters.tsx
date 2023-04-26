@@ -97,15 +97,14 @@ export function parseBackticks(element: Element): void {
 }
 
 export function linkifyCommit(sha: string): JSX.Element {
-	const url = buildRepoURL('commits/' + sha);
 	// Data attributes copied from the commit in https://github.com/refined-github/github-url-detection/releases/tag/v7.1.2
 	return (
 		<code>
 			<a
 				className="Link--secondary"
-				href={url}
+				href={buildRepoURL('commit', sha)}
 				data-hovercard-type="commit"
-				data-hovercard-url={url + '/hovercard'}
+				data-hovercard-url={buildRepoURL('commit', sha, 'hovercard')}
 			>
 				{sha.slice(0, 7)}
 			</a>
