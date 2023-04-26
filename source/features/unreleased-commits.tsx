@@ -109,7 +109,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 	const label = `See the ${commitCount} since ${latestTag}`;
 
 	// TODO: use .position-relative:has(> #branch-select-menu)
-	branchSelector.parentElement!.after(
+	branchSelector.closest('.position-relative')!.after(
 		<a
 			className="btn ml-2 px-2 tooltipped tooltipped-ne"
 			href={buildRepoURL('compare', `${latestTag}...${defaultBranch}`)}
@@ -124,13 +124,12 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 async function init(signal: AbortSignal): Promise<false | void> {
 	await api.expectToken();
 
-	observe('#branch-select-menu, [data-testid="anchor-button"]', add, {signal});
+	observe('#branch-select-menu', add, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepoTree,
-		pageDetect.isSingleFile,
+		pageDetect.isRepoHome,
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,
