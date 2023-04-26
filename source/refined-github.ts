@@ -61,7 +61,6 @@ import './features/global-conversation-list-filters';
 import './features/more-conversation-filters';
 import './features/sort-conversations-by-update-time'; // Must be after global-conversation-list-filters and more-conversation-filters and conversation-links-on-repo-lists
 import './features/pinned-issues-update-time';
-import './features/latest-tag-button';
 import './features/default-branch-button';
 import './features/one-click-diff-options';
 import './features/ci-link';
