@@ -72,7 +72,6 @@ void features.add(import.meta.url, {
 		pageDetect.isBlank, // Prevent error on empty lists #5544
 	],
 	awaitDomReady: true, // TODO: Rewrite with :has()
-	deduplicate: 'has-rgh-inner',
 	init,
 });
 
