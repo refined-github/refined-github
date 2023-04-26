@@ -38,13 +38,16 @@ function getCiDetails(commit: string): HTMLElement {
 	);
 }
 
-async function init(): Promise<void> {
+async function init(): Promise<void | false> {
 	const head = await getHead();
 	const repoTitle = await elementReady('[itemprop="name"]');
+	if (!repoTitle) {
+		return false;
+	}
 
 	attachElement(
 		// Append to repo title (aware of forks and private repos)
-		repoTitle!.parentElement,
+		repoTitle.parentElement,
 		{append: () => getCiDetails(head)},
 	);
 }
