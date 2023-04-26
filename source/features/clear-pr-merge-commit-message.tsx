@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import {set} from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
@@ -23,7 +22,8 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void | false> {
 		return false;
 	}
 
-	set(messageField, cleanedMessage ? cleanedMessage + '\n' : '');
+	// Do not use `text-field-edit` #6348
+	messageField.value = cleanedMessage ? cleanedMessage + '\n' : '';
 	messageField.after(
 		<div>
 			<p className="note">
