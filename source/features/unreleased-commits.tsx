@@ -106,7 +106,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		= aheadBy === undeterminableAheadBy
 			? 'more than 20 unreleased commits'
 			: pluralize(aheadBy, '$$ unreleased commit');
-	const label = `See the ${commitCount} since ${latestTag}`;
+	const label = `There are ${commitCount} since ${latestTag}`;
 
 	// TODO: use .position-relative:has(> #branch-select-menu)
 	branchSelector.closest('.position-relative')!.after(
