@@ -28,7 +28,7 @@ function getDropdown(prs: number[]): HTMLElement {
 		: <GitPullRequestIcon className="v-align-middle"/>;
 	// Markup copied from https://primer.style/css/components/dropdown
 	return (
-		<details className={`dropdown details-reset details-overlay flex-self-center ${isEditing ? 'mr-2' : ''}`}>
+		<details className="dropdown details-reset details-overlay flex-self-center">
 			<summary className="btn btn-sm">
 				{icon}
 				<span className="v-align-middle"> {prs.length} </span>
@@ -104,7 +104,12 @@ async function addToSingleFile(moreFileActionsDropdown: HTMLElement): Promise<vo
 	const prs = prsByFile[path];
 
 	if (prs) {
-		moreFileActionsDropdown.before(getDropdown(prs));
+		const dropdown = getDropdown(prs);
+		if (!moreFileActionsDropdown.parentElement!.matches('.gap-2')) {
+			dropdown.classList.add('mr-2');
+		}
+
+		moreFileActionsDropdown.before(dropdown);
 	}
 }
 
@@ -125,7 +130,9 @@ async function addToEditingFile(saveButton: HTMLElement): Promise<false | void> 
 		}
 	}
 
-	saveButton.parentElement!.prepend(getDropdown(prs));
+	const dropdown = getDropdown(prs);
+	dropdown.classList.add('mr-2');
+	saveButton.parentElement!.prepend(dropdown);
 }
 
 function initSingleFile(signal: AbortSignal): void {
