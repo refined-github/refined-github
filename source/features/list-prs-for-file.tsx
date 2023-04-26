@@ -1,15 +1,15 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import {isChrome} from 'webext-detect-page';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager';
 import * as api from '../github-helpers/api';
 import getDefaultBranch from '../github-helpers/get-default-branch';
-import addAfterBranchSelector from '../helpers/add-after-branch-selector';
 import {buildRepoURL, cacheByRepo} from '../github-helpers';
+import GitHubURL from '../github-helpers/github-url';
+import observe from '../helpers/selector-observer';
 
 function getPRUrl(prNumber: number): string {
 	return buildRepoURL('pull', prNumber, 'files');
@@ -105,17 +105,9 @@ const getPrsByFile = cache.function('files-with-prs', async (): Promise<Record<s
 	cacheKey: cacheByRepo,
 });
 
-async function getCurrentPath(): Promise<string> {
-	// `[aria-label="Copy path"]` on blob page, `#blob-edit-path` on edit page
-	const element = await elementReady('[aria-label="Copy path"], #blob-edit-path');
-	return element!.getAttribute('value')!;
-}
-
-async function init(): Promise<void> {
-	const [path, prsByFile] = await Promise.all([
-		getCurrentPath(),
-		getPrsByFile(),
-	]);
+async function addToSingleFile(moreFileActionsDropdown: HTMLElement): Promise<void> {
+	const path = new GitHubURL(location.href).filePath;
+	const prsByFile = await getPrsByFile();
 	const prs = prsByFile[path];
 
 	if (!prs) {
@@ -126,14 +118,12 @@ async function init(): Promise<void> {
 
 	const button = prs.length === 1 ? getSingleButton(prNumber) : getDropdown(prs);
 
-	await addAfterBranchSelector(button);
+	moreFileActionsDropdown.before(button);
 }
 
-async function initEditing(): Promise<false | void> {
-	const [path, prsByFile] = await Promise.all([
-		getCurrentPath(),
-		getPrsByFile(),
-	]);
+async function addToEditingFile(file: HTMLElement): Promise<false | void> {
+	const path = new GitHubURL(location.href).filePath;
+	const prsByFile = await getPrsByFile();
 	let prs = prsByFile[path];
 
 	if (!prs) {
@@ -150,12 +140,7 @@ async function initEditing(): Promise<false | void> {
 
 	const [prNumber] = prs; // First one or only one
 
-	const file = await elementReady('.file');
-	if (!file && pageDetect.isBlank()) {
-		return false;
-	}
-
-	file!.after(
+	file.after(
 		<div className="form-warning p-3 mb-3 mx-lg-3">
 			{
 				prs.length === 1
@@ -184,16 +169,26 @@ async function initEditing(): Promise<false | void> {
 	);
 }
 
+function initSingleFile(signal: AbortSignal): void {
+	observe('[aria-label="More file actions"]', addToSingleFile, {signal});
+}
+
+function initEditingFile(signal: AbortSignal): void {
+	observe('.file', addToEditingFile, {signal});
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
 	],
-	deduplicate: 'has-rgh-inner',
-	init,
+	init: initSingleFile,
 }, {
 	include: [
 		pageDetect.isEditingFile,
 	],
-	deduplicate: 'has-rgh',
-	init: initEditing,
+	exclude: [
+		pageDetect.isBlank,
+	],
+	awaitDomReady: true, // End of the page; DOM-based detections
+	init: initEditingFile,
 });
