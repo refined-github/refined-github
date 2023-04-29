@@ -1,10 +1,10 @@
 import 'webext-dynamic-content-scripts';
 import cache from 'webext-storage-cache'; // Also needed to regularly clear the cache
-import {isMobileSafari, isSafari} from 'webext-detect-page';
+import {isSafari} from 'webext-detect-page';
 import {objectKeys} from 'ts-extras';
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 
-import optionsStorage from './options-storage';
+import optionsStorage, {isBrowserActionAPopup} from './options-storage';
 import {getRghIssueUrl} from './helpers/rgh-issue-link';
 import isDevelopmentVersion from './helpers/is-development-version';
 
@@ -12,7 +12,7 @@ import isDevelopmentVersion from './helpers/is-development-version';
 addDomainPermissionToggle();
 
 // No "Button link" support in iOS Safari
-if (isMobileSafari()) {
+if (isBrowserActionAPopup) {
 	void browser.browserAction.setPopup({popup: 'options.html'});
 }
 

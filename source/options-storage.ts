@@ -1,8 +1,11 @@
+import {isMobileSafari} from 'webext-detect-page';
 import OptionsSyncPerDomain from 'webext-options-sync-per-domain';
 
 import {importedFeatures} from '../readme.md';
 
 export type RGHOptions = typeof defaults;
+
+export const isBrowserActionAPopup = isMobileSafari();
 
 // eslint-disable-next-line prefer-object-spread -- TypeScript doesn't merge the definitions so `...` is not equivalent.
 const defaults = Object.assign({
