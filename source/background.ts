@@ -1,6 +1,6 @@
 import 'webext-dynamic-content-scripts';
 import cache from 'webext-storage-cache'; // Also needed to regularly clear the cache
-import {isSafari} from 'webext-detect-page';
+import {isMobileSafari, isSafari} from 'webext-detect-page';
 import {objectKeys} from 'ts-extras';
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 
@@ -10,6 +10,11 @@ import isDevelopmentVersion from './helpers/is-development-version';
 
 // GHE support
 addDomainPermissionToggle();
+
+// No "Button link" support in iOS Safari
+if (isMobileSafari()) {
+	void browser.browserAction.setPopup({popup: 'options.html'});
+}
 
 const messageHandlers = {
 	openUrls(urls: string[], {tab}: browser.runtime.MessageSender) {
