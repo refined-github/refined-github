@@ -15,4 +15,9 @@ declare global {
 		closest<S extends string>(selector: S | readonly S[]): StrictlyParseSelector<S, HTMLElement> | null;
 		matches(selectors: string | readonly string[]): boolean;
 	}
+
+	// This cannot be a regular import because it turns `globals.d.ts` in a "module definition", which it isn't
+	type Browser = import('webextension-polyfill').Browser;
+	const browser: Browser;
+
 }

@@ -9,7 +9,7 @@ import prettyBytes from 'pretty-bytes';
 import {assertError} from 'ts-extras';
 import * as indentTextarea from 'indent-textarea';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {isChrome, isFirefox, isSafari} from 'webext-detect-page';
+import {isChrome, isFirefox} from 'webext-detect-page';
 
 import featureLink from './helpers/feature-link';
 import clearCacheHandler from './helpers/clear-cache-handler';
@@ -17,6 +17,7 @@ import {getLocalHotfixes} from './helpers/hotfix';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
 import {importedFeatures, featuresMeta} from '../readme.md';
 import {perDomainOptions} from './options-storage';
+import getStorageBytesInUse from './helpers/used-storage';
 
 type Status = {
 	error?: true;
@@ -77,8 +78,7 @@ function expandTokenSection(): void {
 
 async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
 	const storage = browser.storage[area];
-	const used = await storage.getBytesInUse();
-	// @ts-expect-error Type issue, we should use @types/webextension-polyfill
+	const used = await getStorageBytesInUse(area);
 	const available = storage.QUOTA_BYTES - used;
 	for (const output of select.all(`.storage-${area}`)) {
 		output.textContent = available < 1000
