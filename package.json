@@ -68,6 +68,7 @@
 		"one-mutation": "^2.0.0",
 		"onetime": "^6.0.0",
 		"p-retry": "^5.1.2",
+		"pretty-bytes": "^6.1.0",
 		"push-form": "^1.0.1",
 		"regex-join": "^2.0.0",
 		"select-dom": "^7.1.1",

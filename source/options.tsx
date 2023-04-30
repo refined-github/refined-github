@@ -5,6 +5,7 @@ import cache from 'webext-storage-cache';
 import domify from 'doma';
 import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
+import prettyBytes from 'pretty-bytes';
 import {assertError} from 'ts-extras';
 import * as indentTextarea from 'indent-textarea';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -72,6 +73,19 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 
 function expandTokenSection(): void {
 	select('details#token')!.open = true;
+}
+
+async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
+	const storage = browser.storage[area];
+	const used = await storage.getBytesInUse();
+	const available = storage.QUOTA_BYTES - used;
+	for (const output of select.all(`.storage-${area}`)) {
+		output.textContent = available < 1000
+			? 'FULL!'
+			: (available < 100_000
+				? `Only ${prettyBytes(available)} available`
+				: `${prettyBytes(used)} used`);
+	}
 }
 
 async function validateToken(): Promise<void> {
@@ -241,6 +255,10 @@ async function generateDom(): Promise<void> {
 
 	// Update rate link if necessary
 	updateRateLink();
+
+	// Update storage usage info
+	void updateStorageUsage('local');
+	void updateStorageUsage('sync');
 }
 
 function addEventListeners(): void {
@@ -258,6 +276,11 @@ function addEventListeners(): void {
 	});
 	browser.permissions.onAdded.addListener(() => {
 		location.reload();
+	});
+
+	// Update storage usage info
+	browser.storage.onChanged.addListener((_, areaName) => {
+		void updateStorageUsage(areaName as 'sync' | 'local');
 	});
 
 	// Improve textareas editing

@@ -41,6 +41,8 @@
 		<summary><strong>💅 Custom CSS</strong></summary>
 		<p>Like a userstyle, useful to undo unwanted style changes</p>
 		<p><textarea name="customCSS" rows="2" spellcheck="false"></textarea></p>
+		<p>CSS is limited to 100KB, after which the options <a href="https://github.com/fregante/webext-options-sync/issues/27">will stop being saved</a>.</p>
+		<p>Options storage: <output class="storage-sync">unknown</output></p>
 	</details>
 
 	<details id="action">
@@ -75,6 +77,10 @@
 				<input type="checkbox" name="logHTTP">
 					Log API calls in the console
 			</label>
+		</p>
+		<p>
+			Options storage: <output class="storage-sync">unknown</output><br>
+			Cache storage: <output class="storage-local">unknown</output>
 		</p>
 		<p>
 			<button id="clear-cache">Clear cache</button>
