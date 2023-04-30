@@ -313,11 +313,6 @@ async function init(): Promise<void> {
 
 	// TODO: Storage cleanup #6421, Drop in June 2023
 	void browser.storage.local.remove('featuresAlreadySeen');
-
-	// Safari’s storage is inexplicably limited #4823
-	if (isSafari()) {
-		void cache.clear();
-	}
 }
 
 void init();
