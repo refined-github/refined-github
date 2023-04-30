@@ -304,14 +304,6 @@ function addEventListeners(): void {
 
 	// Add token validation
 	select('[name="personalToken"]')!.addEventListener('input', validateToken);
-
-	// Ensure all links open in a new tab #3181
-	delegate('a[href^="http"]', 'click', event => {
-		if (!event.defaultPrevented) {
-			event.preventDefault();
-			window.open(event.delegateTarget.href);
-		}
-	});
 }
 
 async function init(): Promise<void> {
