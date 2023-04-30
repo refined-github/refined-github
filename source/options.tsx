@@ -78,6 +78,7 @@ function expandTokenSection(): void {
 async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
 	const storage = browser.storage[area];
 	const used = await storage.getBytesInUse();
+	// @ts-expect-error Type issue, we should use @types/webextension-polyfill
 	const available = storage.QUOTA_BYTES - used;
 	for (const output of select.all(`.storage-${area}`)) {
 		output.textContent = available < 1000
