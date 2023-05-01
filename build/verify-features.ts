@@ -5,26 +5,35 @@ import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js'; // Must
 const featuresDirContents = readdirSync('source/features/');
 const entryPoint = 'source/refined-github.ts';
 const entryPointSource = readFileSync(entryPoint);
+const cssEntryPoint = 'source/refined-github.css';
+const cssEntryPointSource = readFileSync(cssEntryPoint);
+
 const importedFeatures = getImportedFeatures();
 const featuresInReadme = getFeaturesMeta();
 
 function findCssFileError(filename: string): string | void {
 	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${filename}';`);
+	const isImportedByCssEntrypoint = cssEntryPointSource.includes(`@import './features/${filename}';`);
 	const correspondingTsxFile = `source/features/${filename.replace(/.css$/, '.tsx')}`;
+
+	if (isImportedByEntrypoint) {
+		return `ERR: CSS files should only be imported in \`${cssEntryPoint}\`, but \`${filename}\` was found in \`${entryPoint}\``;
+	}
+
 	if (existsSync(correspondingTsxFile)) {
 		if (!readFileSync(correspondingTsxFile).includes(`import './${filename}';`)) {
 			return `ERR: \`${filename}\` should be imported by \`${correspondingTsxFile}\``;
 		}
 
-		if (isImportedByEntrypoint) {
-			return `ERR: \`${filename}\` should only be imported by \`${correspondingTsxFile}\`, not by \`${entryPoint}\``;
+		if (isImportedByCssEntrypoint) {
+			return `ERR: \`${filename}\` should only be imported by \`${correspondingTsxFile}\`, not by \`${cssEntryPoint}\``;
 		}
 
 		return;
 	}
 
-	if (!isImportedByEntrypoint) {
-		return `ERR: \`${filename}\` should be imported by \`${entryPoint}\` or removed if it is not needed`;
+	if (!isImportedByCssEntrypoint) {
+		return `ERR: \`${filename}\` should be imported by \`${cssEntryPoint}\` or deleted if it is not needed`;
 	}
 }
 
