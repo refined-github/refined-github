@@ -90,7 +90,6 @@ import './features/user-profile-follower-badge';
 import './features/highlight-non-default-base-branch';
 import './features/mark-private-orgs';
 import './features/linkify-commit-sha';
-import './features/bypass-checks';
 import './features/warning-for-disallow-edits';
 import './features/warn-pr-from-master';
 import './features/preview-hidden-comments';
