@@ -6,7 +6,6 @@
 		"build": "run-p build:* --continue-on-error",
 		"build:parcel": "parcel build --dist-dir distribution --no-source-maps",
 		"build:typescript": "tsc --noEmit",
-		"build:webpack": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" webpack --mode=production",
 		"fix": "run-p \"lint:* -- --fix\"",
 		"lint": "run-p lint:* --continue-on-error",
 		"lint:css": "stylelint \"source/**/*.css\"",
@@ -14,11 +13,10 @@
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj' -scheme 'Refined GitHub (macOS)'",
 		"prepare:safari": "bash build/prepare-safari-release.sh",
 		"test": "run-p vitest lint:* build:* test:features",
-		"test:features": "node --loader ts-node/esm \"build/verify-features.ts\"",
+		"test:features": "esno build/verify-features.ts",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:parcel": "parcel watch --dist-dir distribution",
-		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
-		"watch:webpack": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" webpack --mode=development --watch"
+		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput"
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo",
@@ -98,32 +96,23 @@
 		"@types/firefox-webext-browser": "^109.0.0",
 		"@types/jsdom": "^21.1.0",
 		"@types/react": "^17.0.52",
-		"copy-webpack-plugin": "^11.0.0",
-		"cross-env": "^7.0.3",
-		"css-loader": "^6.7.3",
 		"daily-version": "^2.0.0",
 		"dot-json": "^1.2.2",
-		"esbuild-loader": "^3.0.0",
 		"eslint-config-xo-react": "^0.27.0",
 		"eslint-plugin-react": "^7.32.2",
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"highlight.js": "^11.7.0",
 		"jsdom": "^21.1.0",
-		"mini-css-extract-plugin": "^2.7.2",
 		"npm-run-all": "^4.1.5",
 		"parcel": "^2.8.3",
 		"parcel-transformer-rgh": "file:build/parcel-transformer-rgh",
-		"size-plugin": "^2.0.2",
 		"stylelint": "^15.0.0",
 		"stylelint-config-xo": "^0.21.1",
-		"terser-webpack-plugin": "^5.3.6",
-		"ts-node": "^10.9.1",
+		"tsx": "^3.12.7",
 		"type-fest": "^3.5.7",
 		"typed-query-selector": "^2.9.1",
 		"typescript": "^4.9.5",
 		"vitest": "^0.28.4",
-		"webpack": "^5.75.0",
-		"webpack-cli": "^5.0.1",
 		"xo": "^0.53.1"
 	},
 	"engines": {
@@ -131,6 +120,7 @@
 		"npm": ">= 7"
 	},
 	"alias": {
+		"_TODO": "Drop after https://github.com/parcel-bundler/parcel/pull/8807",
 		"react": "dom-chef",
 		"mem": "./node_modules/mem/dist/index.js",
 		"ts-extras": "./node_modules/ts-extras/distribution/index.js",
@@ -141,10 +131,7 @@
 		"main": false,
 		"default": {
 			"source": "manifest.json",
-			"context": "browser",
-			"sourceMap": {
-				"inline": true
-			}
+			"context": "browser"
 		}
 	},
 	"webExt": {
