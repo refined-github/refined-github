@@ -75,7 +75,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: npm ci
-      - run: npm run build:webpack
+      - run: npm run build:parcel
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest
