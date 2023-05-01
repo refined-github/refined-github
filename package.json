@@ -13,7 +13,7 @@
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj' -scheme 'Refined GitHub (macOS)'",
 		"prepare:safari": "bash build/prepare-safari-release.sh",
 		"test": "run-p vitest lint:* build:* test:features",
-		"test:features": "esno build/verify-features.ts",
+		"test:features": "tsx build/verify-features.ts",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:parcel": "parcel watch --dist-dir distribution",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput"
