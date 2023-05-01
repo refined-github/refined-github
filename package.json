@@ -131,7 +131,9 @@
 	"alias": {
 		"react": "dom-chef",
 		"mem": "./node_modules/mem/dist/index.js",
-		"ts-extras": "./node_modules/ts-extras/distribution/index.js"
+		"ts-extras": "./node_modules/ts-extras/distribution/index.js",
+		"webext-additional-permissions": "./node_modules/webext-additional-permissions/index.js",
+		"batched-function": "./node_modules/batched-function/dist/index.js"
 	},
 	"targets": {
 		"main": false,

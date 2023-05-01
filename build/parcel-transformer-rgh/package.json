@@ -4,7 +4,7 @@
 	"main": "dist/index.js",
 	"source": "index.ts",
 	"scripts": {
-		"prepare": "parcel build"
+		"prepare": "npx esbuild ./index.ts --bundle --outdir=dist --platform=node"
 	},
 	"dependencies": {
 		"@parcel/plugin": "^2.6.2",
