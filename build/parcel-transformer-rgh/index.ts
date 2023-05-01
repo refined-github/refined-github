@@ -6,7 +6,7 @@ import {getImportedFeatures, getFeaturesMeta} from '../readme-parser';
 export default new Transformer({
 	async transform({asset}) {
 		const code = `
-			module.exports.featureList = ${JSON.stringify(getImportedFeatures())};
+			module.exports.importedFeatures = ${JSON.stringify(getImportedFeatures())};
 			module.exports.featuresMeta = ${JSON.stringify(getFeaturesMeta())};
 		`;
 		asset.setCode(code);

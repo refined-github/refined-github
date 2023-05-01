@@ -35,7 +35,7 @@
 	"background": {
 		"persistent": false,
 		"scripts": [
-			"npm:webextension-polyfill",
+			"npm:webextension-polyfill-global",
 			"background.ts"
 		]
 	},
@@ -53,7 +53,7 @@
 				"refined-github.css"
 			],
 			"js": [
-				"npm:webextension-polyfill",
+				"npm:webextension-polyfill-global",
 				"refined-github.ts"
 			]
 		}

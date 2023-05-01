@@ -87,6 +87,7 @@
 		"webext-options-sync-per-domain": "^4.0.0-0",
 		"webext-storage-cache": "^6.0.0-2",
 		"webextension-polyfill": "^0.10.0",
+		"webextension-polyfill-global": "^0.0.0",
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
