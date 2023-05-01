@@ -2,5 +2,6 @@
 	"extends": "@parcel/config-webextension",
 	"transformers": {
 		"readme.md": ["parcel-transformer-rgh"]
-	}
+	},
+	"namers": ["@mischnic/parcel-namer-preserve-structure", "..."]
 }

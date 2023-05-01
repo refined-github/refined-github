@@ -91,6 +91,7 @@
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
+		"@mischnic/parcel-namer-preserve-structure": "^0.2.0",
 		"@parcel/config-webextension": "^2.8.3",
 		"@sindresorhus/tsconfig": "^3.0.1",
 		"@types/codemirror": "^5.60.7",
@@ -139,7 +140,7 @@
 	"targets": {
 		"main": false,
 		"default": {
-			"source": "source/manifest.json",
+			"source": "manifest.json",
 			"context": "browser",
 			"sourceMap": {
 				"inline": true

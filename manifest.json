@@ -20,23 +20,23 @@
 		"https://api.github.com/*"
 	],
 	"browser_action": {
-		"default_icon": "icon.png"
+		"default_icon": "source/icon.png"
 	},
 	"optional_permissions": [
 		"*://*/*"
 	],
 	"icons": {
-		"128": "icon.png"
+		"128": "source/icon.png"
 	},
 	"options_ui": {
 		"browser_style": true,
-		"page": "options.html"
+		"page": "source/options.html"
 	},
 	"background": {
 		"persistent": false,
 		"scripts": [
 			"npm:webextension-polyfill-global",
-			"background.ts"
+			"source/background.ts"
 		]
 	},
 	"content_scripts": [
@@ -50,15 +50,15 @@
 				"https://*/login/*"
 			],
 			"css": [
-				"refined-github.css"
+				"source/refined-github.css"
 			],
 			"js": [
 				"npm:webextension-polyfill-global",
-				"refined-github.ts"
+				"source/refined-github.ts"
 			]
 		}
 	],
 	"web_accessible_resources": [
-		"resolve-conflicts.ts"
+		"source/resolve-conflicts.ts"
 	]
 }
