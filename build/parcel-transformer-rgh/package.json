@@ -4,11 +4,11 @@
 	"main": "dist/index.js",
 	"source": "index.ts",
 	"scripts": {
-		"prepare": "npx esbuild ./index.ts --bundle --outdir=dist --platform=node"
+		"prepare": "esbuild ./index.ts --bundle --outdir=dist --platform=node"
 	},
 	"dependencies": {
 		"@parcel/plugin": "^2.6.2",
-		"parcel": "^2.8.3"
+		"esbuild": "^0.17.18"
 	},
 	"engines": {
 		"node": ">= 16",
