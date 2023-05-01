@@ -4,6 +4,7 @@
 	"scripts": {
 		"vitest": "vitest --run",
 		"build": "run-p build:* --continue-on-error",
+		"build:parcel": "parcel build --dist-dir distribution --no-source-maps",
 		"build:typescript": "tsc --noEmit",
 		"build:webpack": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" webpack --mode=production",
 		"fix": "run-p \"lint:* -- --fix\"",
@@ -15,6 +16,7 @@
 		"test": "run-p vitest lint:* build:* test:features",
 		"test:features": "node --loader ts-node/esm \"build/verify-features.ts\"",
 		"watch": "run-p watch:* --continue-on-error",
+		"watch:parcel": "parcel watch --dist-dir distribution",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:webpack": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" webpack --mode=development --watch"
 	},
@@ -63,6 +65,7 @@
 		"js-abbreviation-number": "^1.4.0",
 		"linkify-issues": "2.0.0-nolookbehind",
 		"linkify-urls": "3.1.0-nolookbehind",
+		"markdown-wasm": "^1.2.0",
 		"mem": "^9.0.2",
 		"one-event": "^3.0.0",
 		"one-mutation": "^2.0.0",
@@ -87,6 +90,7 @@
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
+		"@parcel/config-webextension": "^2.8.3",
 		"@sindresorhus/tsconfig": "^3.0.1",
 		"@types/codemirror": "^5.60.7",
 		"@types/firefox-webext-browser": "^109.0.0",
@@ -103,9 +107,10 @@
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"highlight.js": "^11.7.0",
 		"jsdom": "^21.1.0",
-		"markdown-wasm": "^1.2.0",
 		"mini-css-extract-plugin": "^2.7.2",
 		"npm-run-all": "^4.1.5",
+		"parcel": "^2.8.3",
+		"parcel-transformer-rgh": "file:build/parcel-transformer-rgh",
 		"size-plugin": "^2.0.2",
 		"stylelint": "^15.0.0",
 		"stylelint-config-xo": "^0.21.1",
@@ -122,6 +127,21 @@
 	"engines": {
 		"node": ">= 16",
 		"npm": ">= 7"
+	},
+	"alias": {
+		"react": "dom-chef",
+		"mem": "./node_modules/mem/dist/index.js",
+		"ts-extras": "./node_modules/ts-extras/distribution/index.js"
+	},
+	"targets": {
+		"main": false,
+		"default": {
+			"source": "source/manifest.json",
+			"context": "browser",
+			"sourceMap": {
+				"inline": true
+			}
+		}
 	},
 	"webExt": {
 		"sourceDir": "distribution",

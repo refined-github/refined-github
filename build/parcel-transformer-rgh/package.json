@@ -1,0 +1,17 @@
+{
+	"name": "parcel-transformer-rgh",
+	"version": "0.0.0",
+	"main": "dist/index.js",
+	"source": "index.ts",
+	"scripts": {
+		"prepare": "parcel build"
+	},
+	"dependencies": {
+		"@parcel/plugin": "^2.6.2",
+		"parcel": "^2.8.3"
+	},
+	"engines": {
+		"node": ">= 16",
+		"parcel": ">=2.5"
+	}
+}

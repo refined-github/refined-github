@@ -5,7 +5,7 @@
 	"homepage_url": "https://github.com/refined-github/refined-github",
 	"manifest_version": 2,
 	"minimum_chrome_version": "105",
-	"browser_specific_settings": {
+	"applications": {
 		"gecko": {
 			"id": "{a4c4eda4-fb84-4a84-b4a1-f7c1cbf2a1ad}",
 			"strict_min_version": "102.0"
@@ -29,13 +29,14 @@
 		"128": "icon.png"
 	},
 	"options_ui": {
-		"chrome_style": true,
+		"browser_style": true,
 		"page": "options.html"
 	},
 	"background": {
 		"persistent": false,
 		"scripts": [
-			"background.js"
+			"npm:webextension-polyfill",
+			"background.ts"
 		]
 	},
 	"content_scripts": [
@@ -52,11 +53,12 @@
 				"refined-github.css"
 			],
 			"js": [
-				"refined-github.js"
+				"npm:webextension-polyfill",
+				"refined-github.ts"
 			]
 		}
 	],
 	"web_accessible_resources": [
-		"resolve-conflicts.js"
+		"resolve-conflicts.ts"
 	]
 }

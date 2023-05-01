@@ -1,3 +1,26 @@
+@import './refined-github.css';
+@import './github-helpers/heat-map.css';
+
+/* CSS-only features */
+/* DO NOT add CSS files here if they are part of a JavaScript feature. */
+/* Import the `.css` file from the `.tsx` instead. */
+@import './features/github-bugs.css';
+@import './features/tab-size.css';
+@import './features/center-reactions-popup.css';
+@import './features/safer-destructive-actions.css';
+@import './features/clean-footer.css';
+@import './features/pr-approvals-count.css';
+@import './features/clean-conversations.css';
+@import './features/sticky-conversation-list-toolbar.css';
+@import './features/always-show-branch-delete-buttons.css';
+@import './features/repo-stats-spacing.css';
+@import './features/clean-notifications.css';
+@import './features/night-not-found.css';
+@import './features/sticky-file-header.css';
+@import './features/readable-title-change-events.css';
+@import './features/clean-checks-list.css';
+@import './features/sticky-csv-header.css';
+
 :root {
 	--rgh-green: var(--color-success-fg, #1a7f37);
 	--rgh-red: var(--color-danger-fg, #cf222e);

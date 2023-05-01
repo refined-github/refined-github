@@ -2,6 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <title>Refined GitHub options</title>
+<link rel="stylesheet" href="npm:webext-base-css/webext-base.css">
 <link rel="stylesheet" href="options.css">
 <form id="options-form" class="detail-view-container">
 	<details id="info" open>
@@ -98,4 +99,5 @@
 	</details>
 
 </form>
-<script src="options.js"></script>
+<script type="module" src="npm:webextension-polyfill"></script>
+<script type="module" src="options.tsx"></script>

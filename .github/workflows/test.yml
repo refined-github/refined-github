@@ -63,13 +63,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: npm
       - run: npm ci
-      - run: npm run build:webpack -- --json webpack-stats.json
-      - name: Send webpack stats to RelativeCI
-        if: matrix.os == 'ubuntu-latest'
-        uses: relative-ci/agent-action@v2
-        with:
-          webpackStatsFile: ./webpack-stats.json
-          key: ${{ secrets.RELATIVE_CI_KEY }}
+      - run: npm run build:parcel
       - uses: actions/upload-artifact@v2
         if: matrix.os == 'ubuntu-latest'
         with:

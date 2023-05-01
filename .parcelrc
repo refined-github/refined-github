@@ -1,0 +1,6 @@
+{
+	"extends": "@parcel/config-webextension",
+	"transformers": {
+		"readme.md": ["parcel-transformer-rgh"]
+	}
+}
