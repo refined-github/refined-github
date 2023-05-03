@@ -1,6 +1,9 @@
 {
-	"mangle": false,
-	"format": {
+	"compress": {
+		"sequences": false,
+		"conditionals": false
+	},
+	"output": {
 		"beautify": true,
 		"indent_level": 2
 	}

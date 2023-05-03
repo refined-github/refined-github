@@ -4,5 +4,5 @@
 		"readme.md": ["parcel-transformer-rgh"]
 	},
 	"namers": ["@mischnic/parcel-namer-preserve-structure", "..."],
-	"reporters":  ["...", "parcel-reporter-clean-dist"],
+	"reporters":  ["...", "parcel-reporter-clean-dist"]
 }
