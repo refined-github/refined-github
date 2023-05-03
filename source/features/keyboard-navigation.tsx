@@ -5,21 +5,58 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
 
+const isDisplayNone = (element: Element | undefined): boolean =>
+	Boolean(element && getComputedStyle(element).display === 'none');
+
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	elementExists('.minimized-comment:not(.d-none)', comment)
-	|| Boolean(comment.closest([
-		'.js-resolvable-thread-contents.d-none', // Regular comments
-		'details.js-resolvable-timeline-thread-container:not([open])', // Review comments
-	]));
+	// Review comments on Files tab
+	|| isDisplayNone(
+		comment.closest(['.js-file-content', '.js-file-level-comments-table'])
+		?? undefined,
+	)
+	|| Boolean(
+		comment.closest([
+			'.js-resolvable-thread-contents.d-none', // Regular comments
+			'details.js-resolvable-timeline-thread-container:not([open])', // Review comments on Conversation tab
+		]),
+	);
+
+const isFileMinimized = (element: HTMLElement | undefined): boolean =>
+	Boolean(
+		element?.classList.contains('js-file')
+		&& isDisplayNone($optional('.js-file-content', element)),
+	);
 
 function runShortcuts(event: KeyboardEvent): void {
-	if ((event.key !== 'j' && event.key !== 'k') || isEditable(event.target)) {
+	if (
+		(event.key !== 'j' && event.key !== 'k' && event.key !== 'x')
+		|| isEditable(event.target)
+	) {
+		return;
+	}
+
+	const focusedComment = $optional(':target');
+	if (event.key === 'x') {
+		if (!focusedComment) {
+			return;
+		}
+
+		const toggle = $optional('.js-reviewed-toggle', focusedComment);
+		if (toggle) {
+			const wasFileMinimized = isFileMinimized(focusedComment);
+			event.preventDefault();
+			toggle.click();
+			if (wasFileMinimized) {
+				location.replace('#' + focusedComment.id);
+			}
+		}
+
 		return;
 	}
 
 	event.preventDefault();
 
-	const focusedComment = $optional(':target');
 	const items
 		= $$([
 			'div[class*="targetable" i][id^="diff-"]', // Files in diffs
