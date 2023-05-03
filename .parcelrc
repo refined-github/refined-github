@@ -3,5 +3,6 @@
 	"transformers": {
 		"readme.md": ["parcel-transformer-rgh"]
 	},
-	"namers": ["@mischnic/parcel-namer-preserve-structure", "..."]
+	"namers": ["@mischnic/parcel-namer-preserve-structure", "..."],
+	"reporters":  ["...", "parcel-reporter-clean-dist"],
 }
