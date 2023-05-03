@@ -13,13 +13,23 @@ const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	]));
 
 function runShortcuts(event: KeyboardEvent): void {
-	if ((event.key !== 'j' && event.key !== 'k') || isEditable(event.target)) {
+	if (
+		(event.key !== 'j' && event.key !== 'k' && event.key !== 'x')
+		|| isEditable(event.target)
+	) {
 		return;
 	}
 
 	event.preventDefault();
 
 	const focusedComment = $optional(':target');
+	if (event.key === 'x') {
+		const toggle
+			= focusedComment && $optional('.js-reviewed-toggle', focusedComment);
+		toggle?.click();
+		return;
+	}
+
 	const items
 		= $$([
 			'div[class*="targetable" i][id^="diff-"]', // Files in diffs
