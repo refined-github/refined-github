@@ -1,0 +1,7 @@
+.file.details-collapsed-target {
+	box-shadow: 0 0 0 2px var(--color-accent-fg, fuchsia) !important;
+}
+
+.file.not-target:target {
+	box-shadow: none !important;
+}

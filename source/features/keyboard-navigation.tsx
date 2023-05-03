@@ -1,3 +1,4 @@
+import './keyboard-navigation.css';
 import {$optional} from 'select-dom/strict.js';
 import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
@@ -5,21 +6,49 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
 
+const isDisplayNone = (element: Element | undefined): boolean => !!element && getComputedStyle(element).display === 'none';
+
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	elementExists('.minimized-comment:not(.d-none)', comment)
 	|| Boolean(comment.closest([
 		'.js-resolvable-thread-contents.d-none', // Regular comments
-		'details.js-resolvable-timeline-thread-container:not([open])', // Review comments
-	]));
+		'details.js-resolvable-timeline-thread-container:not([open])', // Review comments on Conversation tab
+	])
+	|| isDisplayNone(comment.closest('.js-file-content')!), // Review comments on Files tab
+	);
+
+const isFileMinimized = (element: HTMLElement | undefined): boolean =>
+	Boolean(element?.classList.contains('js-file') && isDisplayNone($optional('.js-file-content', element)));
+
+let lastViewChange: HTMLElement | undefined;
+function trackLastViewChange(event: Event): void {
+	lastViewChange = (event.target as EventTarget & Partial<Pick<Element, 'closest'>>).closest?.('.js-targetable-element[id^="diff-"]') ?? undefined;
+}
 
 function runShortcuts(event: KeyboardEvent): void {
-	if ((event.key !== 'j' && event.key !== 'k') || isEditable(event.target)) {
+	if ((event.key !== 'j' && event.key !== 'k' && event.key !== 'x') || isEditable(event.target)) {
 		return;
 	}
 
 	event.preventDefault();
 
-	const focusedComment = $optional(':target');
+	const focusedComment = $optional(globalThis.location.hash || ':target') || lastViewChange;
+
+	if (event.key === 'x') {
+		if (!focusedComment) {
+			return;
+		}
+		const toggle = $optional('.js-reviewed-toggle', focusedComment);
+		if (toggle) {
+			const wasFileMinimized = isFileMinimized(focusedComment);
+			toggle.click();
+			if (wasFileMinimized) {
+				location.replace('#' + focusedComment.id);
+			}
+		}
+		return;
+	}
+
 	const items
 		= $$([
 			'div[class*="targetable" i][id^="diff-"]', // Files in diffs
@@ -43,13 +72,31 @@ function runShortcuts(event: KeyboardEvent): void {
 	);
 
 	if (currentIndex !== chosenCommentIndex) {
-		// Focus comment without pushing to history
-		location.replace('#' + items[chosenCommentIndex].id);
+		const chosenComment = items[chosenCommentIndex];
+		for (const item of items) {
+			if (item.classList.contains('details-collapsed-target')) {
+				item.classList.remove('details-collapsed-target');
+			}
+			if (item.classList.contains('not-target')) {
+				item.classList.remove('not-target');
+			}
+		}
+		if (chosenComment.classList.contains('js-details-container') && isFileMinimized(chosenComment)) {
+			// Change hash without focusing and expanding
+			globalThis.history.replaceState(globalThis.history.state, '', '#' + chosenComment.id);
+			chosenComment.scrollIntoView();
+			chosenComment.classList.add('details-collapsed-target');
+			$optional(':target')?.classList.add('not-target');
+		} else {
+			// Focus comment without pushing to history
+			location.replace('#' + chosenComment.id);
+		}
 	}
 }
 
 function init(signal: AbortSignal): void {
 	document.body.addEventListener('keypress', runShortcuts, {signal});
+	document.body.addEventListener('change', trackLastViewChange);
 }
 
 void features.add(import.meta.url, {
