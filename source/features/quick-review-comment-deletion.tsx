@@ -13,7 +13,7 @@ function onButtonClick({delegateTarget: button}: DelegateEvent): void {
 	try {
 		button
 			.closest('.js-comment')!
-			.querySelector('.show-more-psopover .js-comment-delete > button')!
+			.querySelector('.show-more-popover .js-comment-delete > button')!
 			.click();
 	} catch (error) {
 		void showToast(new Error('Feature broken. Please open an issue with the link found in the console'));
