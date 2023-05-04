@@ -105,7 +105,7 @@ async function handleDropFileClick(event: DelegateEvent<MouseEvent, HTMLButtonEl
 
 function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 	const editFile = select('a[aria-label^="Change this"]', dropdown);
-	if (!editFile || select.exists('.rgh-drop-file-from-pr', dropdown)) {
+	if (!editFile || select.exists('.rgh-restore-file', dropdown)) {
 		return;
 	}
 
@@ -117,7 +117,7 @@ function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 
 	editFile.after(
 		<button
-			className="pl-5 dropdown-item btn-link rgh-drop-file-from-pr"
+			className="pl-5 dropdown-item btn-link rgh-restore-file"
 			style={{whiteSpace: 'pre-wrap'}}
 			role="menuitem"
 			type="button"
@@ -130,7 +130,10 @@ function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 function init(signal: AbortSignal): void {
 	// `capture: true` required to be fired before GitHub's handlers
 	delegate('.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, {capture: true, signal});
-	delegate('.rgh-drop-file-from-pr', 'click', handleDropFileClick, {capture: true, signal});
+
+	// Rename since "Restore" isn't really clear what we're restoring to
+	// https://github.com/refined-github/refined-github/pull/6596#discussion_r1185114447
+	delegate('.rgh-restore-file', 'click', handleDropFileClick, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {
