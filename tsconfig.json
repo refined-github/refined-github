@@ -4,7 +4,6 @@
 		"target": "es2022",
 		"module": "es2022",
 		"moduleResolution": "Node",
-		"moduleDetection": "legacy", // TODO: Drop After dropping Webpack
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
 		"lib": [
