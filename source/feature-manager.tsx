@@ -227,8 +227,10 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 	const id = getFeatureID(url);
 	/* Feature filtering and running */
 	const options = await globalReady;
-	// Skip disabled features, unless the "feature" is the fake feature in this file
-	if (!options[`feature:${id}`] && !id.startsWith('rgh')) {
+	// Skip disabled features, unless the feature is private
+	// Must check if it's specifically `false`: It could be undefined if not yet in the readme or if misread from the entry point #6606
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-boolean-literal-compare
+	if (options[`feature:${id}`] === false && !id.startsWith('rgh')) {
 		log.info('↩️', 'Skipping', id);
 		return;
 	}
