@@ -15,7 +15,7 @@ import clearCacheHandler from './helpers/clear-cache-handler';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
 import {importedFeatures, featuresMeta} from '../readme.md';
-import {perDomainOptions} from './options-storage';
+import {isBrowserActionAPopup, perDomainOptions} from './options-storage';
 
 type Status = {
 	error?: true;
@@ -289,6 +289,11 @@ function addEventListeners(): void {
 			window.open(event.delegateTarget.href);
 		}
 	});
+
+	// Hide non-applicable "Button link" section
+	if (isBrowserActionAPopup) {
+		select('#action')!.hidden = true;
+	}
 }
 
 async function init(): Promise<void> {
