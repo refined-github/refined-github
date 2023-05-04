@@ -2,7 +2,6 @@ import * as api from './api';
 import {getConversationNumber} from '.';
 
 export type PullRequestInfo = {
-	// TODO: Use this for `restore-file`
 	baseRefOid: string;
 	// https://docs.github.com/en/graphql/reference/enums#mergeablestate
 	mergeable: 'CONFLICTING' | 'MERGEABLE' | 'UNKNOWN';
