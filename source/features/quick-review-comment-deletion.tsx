@@ -4,10 +4,10 @@ import {TrashIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
-import loadDetailsMenu from '../github-helpers/load-details-menu';
-import showToast from '../github-helpers/toast';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+import loadDetailsMenu from '../github-helpers/load-details-menu.js';
+import showToast from '../github-helpers/toast.js';
 
 function onButtonClick({delegateTarget: button}: DelegateEvent): void {
 	try {

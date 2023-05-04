@@ -3,8 +3,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import getUserAvatarURL from '../github-helpers/get-user-avatar';
+import features from '../feature-manager.js';
+import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
 
 function init(): void {
 	for (const link of select.all(

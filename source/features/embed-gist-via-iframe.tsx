@@ -2,7 +2,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 
 function init(): void {
 	const embedViaScript = select('.file-navigation-option button[value^="<script"]')!;

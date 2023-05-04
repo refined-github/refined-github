@@ -3,11 +3,11 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate from 'delegate-it';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import {getRepo} from '../github-helpers';
-import observe from '../helpers/selector-observer';
-import showToast from '../github-helpers/toast';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import {getRepo} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
+import showToast from '../github-helpers/toast.js';
 
 const getReleaseEditLinkSelector = (): 'a' => `a[href^="/${getRepo()!.nameWithOwner}/releases/edit"]` as 'a';
 

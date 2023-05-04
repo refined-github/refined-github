@@ -2,9 +2,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils';
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
+import {wrap} from '../helpers/dom-utils.js';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 function linkify(textLine: HTMLElement): void {
 	const url = select('a.dropdown-item[href^="#pullrequestreview-"]', textLine.parentElement!);

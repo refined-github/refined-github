@@ -67,6 +67,10 @@ const config: Configuration = {
 			'.ts',
 			'.js',
 		],
+		extensionAlias: {
+			// Explanation: https://www.npmjs.com/package/resolve-typescript-plugin
+			'.js': ['.ts', '.tsx', '.js'],
+		},
 	},
 	optimization: {
 		// Keeps it somewhat readable for AMO reviewers

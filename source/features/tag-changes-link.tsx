@@ -6,9 +6,9 @@ import {DiffIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import tinyVersionCompare from 'tiny-version-compare';
 
-import features from '../feature-manager';
-import fetchDom from '../helpers/fetch-dom';
-import {buildRepoURL, getRepo, parseTag} from '../github-helpers';
+import features from '../feature-manager.js';
+import fetchDom from '../helpers/fetch-dom.js';
+import {buildRepoURL, getRepo, parseTag} from '../github-helpers/index.js';
 
 type TagDetails = {
 	element: HTMLElement;
@@ -45,7 +45,7 @@ function parseTags(element: HTMLElement): TagDetails {
 	};
 }
 
-const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefined => {
+function getPreviousTag(current: number, allTags: TagDetails[]): string | undefined {
 	let unmatchedNamespaceTag: string | undefined;
 
 	for (let next = current + 1; next < allTags.length; next++) {
@@ -70,7 +70,7 @@ const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefi
 	}
 
 	return unmatchedNamespaceTag;
-};
+}
 
 async function init(): Promise<void> {
 	document.documentElement.classList.add('rgh-tag-changes-link');

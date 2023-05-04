@@ -4,11 +4,11 @@ import onetime from 'onetime';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import showToast from '../github-helpers/toast';
-import {getConversationNumber} from '../github-helpers';
-import {getBranches} from '../github-helpers/pr-branches';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import showToast from '../github-helpers/toast.js';
+import {getConversationNumber} from '../github-helpers/index.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
 
 // Get the current base commit of this PR. It should change after rebases and merges in this PR.
 // This value is not consistently available on the page (appears in `/files` but not when only 1 commit is selected)

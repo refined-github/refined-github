@@ -3,8 +3,8 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from './api';
-import {getRepo, getCurrentBranchFromFeed} from '.';
+import * as api from './api.js';
+import {getRepo, getCurrentBranchFromFeed} from './index.js';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."

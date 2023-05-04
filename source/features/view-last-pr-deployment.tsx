@@ -3,8 +3,8 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {RocketIcon} from '@primer/octicons-react';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 function addLink(header: HTMLElement): void {
 	const lastDeployment = select.last('.js-timeline-item a[title="Deployment has completed"]');

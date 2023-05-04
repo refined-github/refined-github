@@ -5,12 +5,12 @@ import {BugIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import {cacheByRepo, getRepo} from '../github-helpers';
-import SearchQuery from '../github-helpers/search-query';
-import abbreviateNumber from '../helpers/abbreviate-number';
-import {highlightTab, unhighlightTab} from '../helpers/dom-utils';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import {cacheByRepo, getRepo} from '../github-helpers/index.js';
+import SearchQuery from '../github-helpers/search-query.js';
+import abbreviateNumber from '../helpers/abbreviate-number.js';
+import {highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
 
 const supportedLabels = /^(bug|bug-?fix|confirmed-bug|type[:/]bug|kind[:/]bug|(:[\w-]+:|\p{Emoji})bug)$/iu;
 const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;

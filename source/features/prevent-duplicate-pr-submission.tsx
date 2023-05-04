@@ -1,7 +1,7 @@
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 
 let previousSubmission = 0;
 

@@ -4,8 +4,8 @@ import {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import filterAlteredClicks from 'filter-altered-clicks';
 
-import features from '../feature-manager';
-import {onCommentFieldKeydown} from '../github-events/on-field-keydown';
+import features from '../feature-manager.js';
+import {onCommentFieldKeydown} from '../github-events/on-field-keydown.js';
 
 function handleEscapeKey(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement>, targetField: HTMLTextAreaElement): void {
 	// Cancel buttons have different classes for inline comments and editable comments

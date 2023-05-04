@@ -3,9 +3,9 @@ import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import pluralize from '../helpers/pluralize';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import pluralize from '../helpers/pluralize.js';
 
 const getCommitChanges = cache.function('commit-changes', async (commit: string): Promise<[additions: number, deletions: number]> => {
 	const {repository} = await api.v4(`

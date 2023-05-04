@@ -4,12 +4,12 @@ import {isFirefox} from 'webext-detect-page';
 import * as pageDetect from 'github-url-detection';
 import {AlertIcon, GitPullRequestIcon} from '@primer/octicons-react';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import getDefaultBranch from '../github-helpers/get-default-branch';
-import {buildRepoURL, cacheByRepo} from '../github-helpers';
-import GitHubURL from '../github-helpers/github-url';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
+import GitHubURL from '../github-helpers/github-url.js';
+import observe from '../helpers/selector-observer.js';
 
 function getPRUrl(prNumber: number): string {
 	// https://caniuse.com/url-scroll-to-text-fragment

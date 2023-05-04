@@ -3,9 +3,9 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import {getRepo} from '../github-helpers';
-import getUserAvatar from '../github-helpers/get-user-avatar';
+import features from '../feature-manager.js';
+import {getRepo} from '../github-helpers/index.js';
+import getUserAvatar from '../github-helpers/get-user-avatar.js';
 
 async function init(): Promise<void> {
 	// Icon for public but not template/fork/etc. repos

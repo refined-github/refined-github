@@ -4,11 +4,11 @@ import {InfoIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import onPrMerge from '../github-events/on-pr-merge';
-import featureLink from '../helpers/feature-link';
-import attachElement from '../helpers/attach-element';
-import {canEditEveryComment} from './quick-comment-edit';
+import features from '../feature-manager.js';
+import onPrMerge from '../github-events/on-pr-merge.js';
+import featureLink from '../helpers/feature-link.js';
+import attachElement from '../helpers/attach-element.js';
+import {canEditEveryComment} from './quick-comment-edit.js';
 
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;

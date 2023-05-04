@@ -6,12 +6,12 @@ import {VersionsIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import GitHubURL from '../github-helpers/github-url';
-import showToast from '../github-helpers/toast';
-import looseParseInt from '../helpers/loose-parse-int';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import GitHubURL from '../github-helpers/github-url.js';
+import showToast from '../github-helpers/toast.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
+import observe from '../helpers/selector-observer.js';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(`

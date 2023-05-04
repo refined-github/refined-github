@@ -9,13 +9,13 @@ import * as pageDetect from 'github-url-detection';
 export const getUsername = onetime(pageDetect.utils.getUsername);
 export const {getRepositoryInfo: getRepo, getCleanPathname} = pageDetect.utils;
 
-export const getConversationNumber = (): number | undefined => {
+export function getConversationNumber(): number | undefined {
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
 		return Number(location.pathname.split('/')[4]);
 	}
 
 	return undefined;
-};
+}
 
 export function getCurrentBranchFromFeed(): string | void {
 	// Not `isRepoCommitList` because this works exclusively on the default branch
@@ -76,9 +76,7 @@ export const isMac = navigator.userAgent.includes('Macintosh');
 type Not<Yes, Not> = Yes extends Not ? never : Yes;
 type UnslashedString<S extends string> = Not<S, `/${string}` | `${string}/`>;
 
-export const buildRepoURL = <S extends string>(
-	...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>
-): string => {
+export function buildRepoURL<S extends string>(...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>): string {
 	// TODO: Drop after https://github.com/sindresorhus/type-fest/issues/417
 	for (const part of pathParts) {
 		if (typeof part === 'string' && /^\/|\/$/.test(part)) {
@@ -87,16 +85,16 @@ export const buildRepoURL = <S extends string>(
 	}
 
 	return [location.origin, getRepo()?.nameWithOwner, ...pathParts].join('/');
-};
+}
 
 export function getForkedRepo(): string | undefined {
 	return select('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
 }
 
-export const parseTag = (tag: string): {version: string; namespace: string} => {
+export function parseTag(tag: string): {version: string; namespace: string} {
 	const [, namespace = '', version = ''] = /(?:(.*)@)?([^@]+)/.exec(tag) ?? [];
 	return {namespace, version};
-};
+}
 
 export function compareNames(username: string, realname: string): boolean {
 	return username.replace(/-/g, '').toLowerCase() === realname.normalize('NFD').replace(/[\u0300-\u036F\W.]/g, '').toLowerCase();

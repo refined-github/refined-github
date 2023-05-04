@@ -1,9 +1,9 @@
 import './parse-backticks.css';
 import onetime from 'onetime';
 
-import observe from '../helpers/selector-observer';
-import features from '../feature-manager';
-import {parseBackticks} from '../github-helpers/dom-formatters';
+import observe from '../helpers/selector-observer.js';
+import features from '../feature-manager.js';
+import {parseBackticks} from '../github-helpers/dom-formatters.js';
 
 // TODO: Review again, this feature presumaly should not apply to so many places
 const selectors = [
