@@ -5,13 +5,18 @@ import {isSafari} from 'webext-detect-page';
 import {objectKeys} from 'ts-extras';
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 
-import optionsStorage from './options-storage';
+import optionsStorage, {isBrowserActionAPopup} from './options-storage';
 import {getRghIssueUrl} from './helpers/rgh-issue-link';
 import isDevelopmentVersion from './helpers/is-development-version';
 import getStorageBytesInUse from './helpers/used-storage';
 
 // GHE support
 addDomainPermissionToggle();
+
+// No "Button link" support in iOS Safari
+if (isBrowserActionAPopup) {
+	void browser.browserAction.setPopup({popup: 'options.html'});
+}
 
 const messageHandlers = {
 	openUrls(urls: string[], {tab}: Runtime.MessageSender) {

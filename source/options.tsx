@@ -16,8 +16,8 @@ import clearCacheHandler from './helpers/clear-cache-handler';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
 import {importedFeatures, featuresMeta} from '../readme.md';
-import {perDomainOptions} from './options-storage';
 import getStorageBytesInUse from './helpers/used-storage';
+import {isBrowserActionAPopup, perDomainOptions} from './options-storage';
 
 type Status = {
 	error?: true;
@@ -260,6 +260,11 @@ async function generateDom(): Promise<void> {
 	// Update storage usage info
 	void updateStorageUsage('local');
 	void updateStorageUsage('sync');
+
+	// Hide non-applicable "Button link" section
+	if (isBrowserActionAPopup) {
+		select('#action')!.hidden = true;
+	}
 }
 
 function addEventListeners(): void {
