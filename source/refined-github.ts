@@ -33,7 +33,6 @@ import './features/hide-diff-signs';
 import './features/clean-rich-text-editor';
 
 // Disableable features
-import './features/highlight-todo-comments'
 import './features/useful-not-found-page';
 import './features/more-dropdown-links';
 import './features/releases-tab';
@@ -215,3 +214,4 @@ import './features/small-user-avatars';
 import './features/releases-dropdown';
 import './features/pr-base-commit';
 import './features/unreleased-commits';
+import './features/highlight-todo-comments'
