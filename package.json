@@ -5,7 +5,7 @@
 		"vitest": "vitest --run",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
-		"build:webpack": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" webpack --mode=production",
+		"build:webpack": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" TS_NODE_TRANSPILE_ONLY=true webpack --mode=production",
 		"fix": "run-p \"lint:* -- --fix\"",
 		"lint": "run-p lint:* --continue-on-error",
 		"lint:css": "stylelint \"source/**/*.css\"",
@@ -16,7 +16,7 @@
 		"test:features": "node --loader ts-node/esm \"build/verify-features.ts\"",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
-		"watch:webpack": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" webpack --mode=development --watch"
+		"watch:webpack": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" TS_NODE_TRANSPILE_ONLY=true webpack --mode=development --watch"
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo",
@@ -44,7 +44,6 @@
 		"@cheap-glitch/mi-cron": "^1.0.1",
 		"@primer/octicons-react": "^17.5.0",
 		"@sindresorhus/to-milliseconds": "^2.0.0",
-		"array-union": "^3.0.1",
 		"batched-function": "^2.0.1",
 		"code-tag": "^1.1.0",
 		"debounce-fn": "^5.1.2",
@@ -84,7 +83,7 @@
 		"webext-dynamic-content-scripts": "^9.2.0",
 		"webext-options-sync-per-domain": "^4.0.0",
 		"webext-storage-cache": "^6.0.0-2",
-		"webextension-polyfill": "^0.10.0",
+		"webextension-polyfill-global": "^0.10.1-0",
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {

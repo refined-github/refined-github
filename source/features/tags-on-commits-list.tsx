@@ -2,7 +2,6 @@ import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
-import arrayUnion from 'array-union';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -11,6 +10,8 @@ import {getCommitHash} from './mark-merge-commits-in-list.js';
 import {buildRepoURL, getRepo} from '../github-helpers/index.js';
 
 type CommitTags = Record<string, string[]>;
+
+const arrayUnion = (x: string[], y: string[]): string[] => [...new Set([...x, ...y])];
 
 type BaseTarget = {
 	commitResourcePath: string;

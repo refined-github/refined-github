@@ -78,27 +78,29 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	});
 }
 
+function addButton(pullRequest: HTMLElement): void {
+	const hunk = pullRequest.closest('.blame-hunk')!;
+
+	const reblameLink = select('.reblame-link', hunk);
+	if (reblameLink) {
+		reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
+		reblameLink.classList.add('rgh-deep-reblame');
+	} else {
+		select('.blob-reblame', hunk)!.append(
+			<button
+				type="button"
+				aria-label="View blame prior to this change (extracts commits from this PR first)"
+				className="reblame-link btn-link no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-reblame"
+			>
+				<VersionsIcon/>
+			</button>,
+		);
+	}
+}
+
 function init(signal: AbortSignal): void {
 	delegate('.rgh-deep-reblame', 'click', redirectToBlameCommit, {signal});
-	observe('[data-hovercard-type="pull_request"]', pullRequest => {
-		const hunk = pullRequest.closest('.blame-hunk')!;
-
-		const reblameLink = select('.reblame-link', hunk);
-		if (reblameLink) {
-			reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
-			reblameLink.classList.add('rgh-deep-reblame');
-		} else {
-			select('.blob-reblame', hunk)!.append(
-				<button
-					type="button"
-					aria-label="View blame prior to this change (extracts commits from this PR first)"
-					className="reblame-link btn-link no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-reblame"
-				>
-					<VersionsIcon/>
-				</button>,
-			);
-		}
-	}, {signal});
+	observe('[data-hovercard-type="pull_request"]', addButton, {signal});
 }
 
 void features.add(import.meta.url, {

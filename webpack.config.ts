@@ -73,12 +73,16 @@ const config: Configuration = {
 		},
 	},
 	optimization: {
-		// Keeps it somewhat readable for AMO reviewers
+		// Keeps it somewhat readable
 		minimizer: [
 			new TerserPlugin({
 				parallel: true,
 				terserOptions: {
 					mangle: false,
+					compress: {
+						sequences: false,
+						conditionals: false,
+					},
 					output: {
 						beautify: true,
 						indent_level: 2,
