@@ -3,12 +3,12 @@ import cache from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import {TagIcon} from '@primer/octicons-react';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
-import * as api from '../github-helpers/api';
-import {buildRepoURL, cacheByRepo, getCurrentCommittish, getLatestVersionTag} from '../github-helpers';
-import getDefaultBranch from '../github-helpers/get-default-branch';
-import pluralize from '../helpers/pluralize';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+import * as api from '../github-helpers/api.js';
+import {buildRepoURL, cacheByRepo, getCurrentCommittish, getLatestVersionTag} from '../github-helpers/index.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import pluralize from '../helpers/pluralize.js';
 
 type RepoPublishState = {
 	latestTag: string | false;

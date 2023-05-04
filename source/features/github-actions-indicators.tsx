@@ -5,10 +5,10 @@ import {StopIcon, PlayIcon} from '@primer/octicons-react';
 import {parseCron} from '@cheap-glitch/mi-cron';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import {cacheByRepo} from '../github-helpers';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import {cacheByRepo} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 type Workflow = {
 	name: string;
@@ -31,7 +31,7 @@ function addTooltip(element: HTMLElement, tooltip: string): void {
 }
 
 // There is no way to get a workflow list in the v4 API #6543
-const getWorkflows = async (): Promise<Workflow[]> => {
+async function getWorkflows(): Promise<Workflow[]> {
 	const response = await api.v3('actions/workflows');
 
 	const workflows = response.workflows as any[];
@@ -42,9 +42,9 @@ const getWorkflows = async (): Promise<Workflow[]> => {
 		name: workflow.path.split('/').pop()!,
 		isEnabled: workflow.state === 'active',
 	}));
-};
+}
 
-const getFilesInWorkflowPath = async (): Promise<Record<string, string>> => {
+async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
 	const {repository: {workflowFiles}} = await api.v4(`
 		repository() {
 			workflowFiles: object(expression: "HEAD:.github/workflows") {
@@ -70,7 +70,7 @@ const getFilesInWorkflowPath = async (): Promise<Record<string, string>> => {
 	}
 
 	return result;
-};
+}
 
 const getWorkflowsDetails = cache.function('workflows-details', async (): Promise<Record<string, Workflow & WorkflowDetails>> => {
 	const [workflows, workflowFiles] = await Promise.all([getWorkflows(), getFilesInWorkflowPath()]);

@@ -1,7 +1,7 @@
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 // TODO: CSS-only feature via :has selector
 function init(signal: AbortSignal): void {

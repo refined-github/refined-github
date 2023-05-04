@@ -1,5 +1,5 @@
-import * as api from './api';
-import {getConversationNumber} from '.';
+import * as api from './api.js';
+import {getConversationNumber} from './index.js';
 
 export type PullRequestInfo = {
 	baseRefOid: string;

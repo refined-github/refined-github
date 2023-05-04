@@ -5,10 +5,10 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, EyeClosedIcon, EyeIcon, XIcon} from '@primer/octicons-react';
 
-import {wrap} from '../helpers/dom-utils';
-import features from '../feature-manager';
-import {registerHotkey} from '../github-helpers/hotkey';
-import observe from '../helpers/selector-observer';
+import {wrap} from '../helpers/dom-utils.js';
+import features from '../feature-manager.js';
+import {registerHotkey} from '../github-helpers/hotkey.js';
+import observe from '../helpers/selector-observer.js';
 
 const expectedDropdownWidth = 270;
 

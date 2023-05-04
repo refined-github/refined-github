@@ -3,8 +3,8 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import {isMac} from '../github-helpers';
-import features from '../feature-manager';
+import {isMac} from '../github-helpers/index.js';
+import features from '../feature-manager.js';
 
 function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void {
 	const field = event.delegateTarget;

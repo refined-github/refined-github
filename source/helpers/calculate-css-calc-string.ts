@@ -1,4 +1,4 @@
-import looseParseInt from './loose-parse-int';
+import looseParseInt from './loose-parse-int.js';
 
 /**
 Compute the sum in a `calc()`. Only works with very simple sums of px values.

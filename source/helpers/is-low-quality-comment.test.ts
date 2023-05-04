@@ -1,6 +1,6 @@
 import {test, assert} from 'vitest';
 
-import isLowQualityComment from './is-low-quality-comment';
+import isLowQualityComment from './is-low-quality-comment.js';
 
 test('isLowQualityComment', () => {
 	assert.isTrue(isLowQualityComment('+1'));

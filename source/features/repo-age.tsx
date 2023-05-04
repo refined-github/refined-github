@@ -5,9 +5,9 @@ import {RepoIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import {cacheByRepo} from '../github-helpers';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import {cacheByRepo} from '../github-helpers/index.js';
 
 type CommitTarget = {
 	oid: string;
@@ -40,7 +40,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	day: 'numeric',
 });
 
-const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[committedDate: string, resourcePath: string]> => {
+async function getRepoAge(commitSha: string, commitsCount: number): Promise<[committedDate: string, resourcePath: string]> {
 	const {repository} = await api.v4(`
 		repository() {
 			defaultBranchRef {
@@ -64,7 +64,7 @@ const getRepoAge = async (commitSha: string, commitsCount: number): Promise<[com
 		.find((commit: CommitTarget) => new Date(commit.committedDate).getFullYear() > 1970);
 
 	return [committedDate, resourcePath];
-};
+}
 
 const getFirstCommit = cache.function('first-commit', async (): Promise<[committedDate: string, resourcePath: string]> => {
 	const {repository} = await api.v4(`

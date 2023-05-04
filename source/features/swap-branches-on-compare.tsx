@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import {buildRepoURL, getRepo} from '../github-helpers';
+import features from '../feature-manager.js';
+import {buildRepoURL, getRepo} from '../github-helpers/index.js';
 
 const isTwoDotDiff = (): boolean => /\.\.+/.exec(location.pathname)?.[0]!.length === 2;
 

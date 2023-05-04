@@ -4,8 +4,8 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 function addSidebarReviewButton(reviewersSection: Element): void {
 	const reviewFormUrl = new URL(location.href);

@@ -5,12 +5,12 @@ import * as pageDetect from 'github-url-detection';
 import {LinkExternalIcon} from '@primer/octicons-react';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import openTabs from '../helpers/open-tabs';
-import {appendBefore} from '../helpers/dom-utils';
-import showToast from '../github-helpers/toast';
-import pluralize from '../helpers/pluralize';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import openTabs from '../helpers/open-tabs.js';
+import {appendBefore} from '../helpers/dom-utils.js';
+import showToast from '../github-helpers/toast.js';
+import pluralize from '../helpers/pluralize.js';
+import observe from '../helpers/selector-observer.js';
 
 // Selector works on:
 // https://github.com/notifications (Grouped by date)

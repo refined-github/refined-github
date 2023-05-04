@@ -28,10 +28,10 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 	}
 
 	const urls: string[] = [];
-	const urlExtracter = (_match: string, title: string, url: string): string => {
+	function urlExtracter(_match: string, title: string, url: string): string {
 		urls.push(url);
 		return title;
-	};
+	}
 
 	const linkLessMarkdownDescription = simpleDescription.replace(/\[(.+?)]\((.+?)\)/g, urlExtracter);
 	return {

@@ -1,11 +1,11 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getCurrentCommittish} from '../github-helpers';
-import addAfterBranchSelector from '../helpers/add-after-branch-selector';
-import {getPullRequestsAssociatedWithBranch, stateIcon} from './show-associated-branch-prs-on-fork';
+import features from '../feature-manager.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import {getCurrentCommittish} from '../github-helpers/index.js';
+import addAfterBranchSelector from '../helpers/add-after-branch-selector.js';
+import {getPullRequestsAssociatedWithBranch, stateIcon} from './show-associated-branch-prs-on-fork.js';
 
 // Taken from https://github.com/fregante/github-issue-link-status/blob/98792f2837352bacbf80664f3edbcec8e579ed17/source/github-issue-link-status.js#L10
 const stateColorMap = {

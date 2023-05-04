@@ -3,12 +3,12 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from '../github-helpers/api';
-import features from '../feature-manager';
-import {getConversationNumber, userCanLikelyMergePR} from '../github-helpers';
-import onCommitTitleUpdate from '../github-events/on-commit-title-update';
-import observe from '../helpers/selector-observer';
-import cleanPrCommitTitle from '../helpers/pr-commit-cleaner';
+import * as api from '../github-helpers/api.js';
+import features from '../feature-manager.js';
+import {getConversationNumber, userCanLikelyMergePR} from '../github-helpers/index.js';
+import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
+import observe from '../helpers/selector-observer.js';
+import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
 
 const prTitleFieldSelector = 'input#issue_title';
 const commitTitleFieldSelector = '.is-squashing form:not([hidden]) input#merge_title_field';

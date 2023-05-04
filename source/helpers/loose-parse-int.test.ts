@@ -1,6 +1,6 @@
 import {test, assert} from 'vitest';
 
-import looseParseInt from './loose-parse-int';
+import looseParseInt from './loose-parse-int.js';
 
 test('looseParseInt', () => {
 	assert.equal(looseParseInt('1,234'), 1234);

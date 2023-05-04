@@ -3,12 +3,12 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import showToast from '../github-helpers/toast';
-import {getConversationNumber} from '../github-helpers';
-import {getBranches} from '../github-helpers/pr-branches';
-import getPrInfo from '../github-helpers/get-pr-info';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import showToast from '../github-helpers/toast.js';
+import {getConversationNumber} from '../github-helpers/index.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
+import getPrInfo from '../github-helpers/get-pr-info.js';
 
 async function getBaseReference(): Promise<string> {
 	const {base} = getBranches();

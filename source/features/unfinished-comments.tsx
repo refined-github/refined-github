@@ -2,7 +2,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 
 let documentTitle: string | undefined;
 let submitting: number | undefined;

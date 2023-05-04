@@ -1,8 +1,8 @@
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import clickAll from '../helpers/click-all';
+import features from '../feature-manager.js';
+import clickAll from '../helpers/click-all.js';
 
 function minimizedCommentsSelector(clickedItem: HTMLElement): string {
 	const open = (clickedItem.parentElement as HTMLDetailsElement).open ? '[open]' : ':not([open])';

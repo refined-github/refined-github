@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 import {
 	prCommitUrlRegex,
 	preventPrCommitLinkLoss,
@@ -14,7 +14,7 @@ import {
 	preventPrCompareLinkLoss,
 	discussionUrlRegex,
 	preventDiscussionLinkLoss,
-} from '../github-helpers/prevent-link-loss';
+} from '../github-helpers/prevent-link-loss.js';
 
 const documentation = 'https://github.com/refined-github/refined-github/wiki/GitHub-markdown-linkifier-bug';
 

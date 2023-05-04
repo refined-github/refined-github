@@ -5,10 +5,10 @@ import {BookIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import {wrapAll} from '../helpers/dom-utils';
-import {buildRepoURL, cacheByRepo} from '../github-helpers';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import {wrapAll} from '../helpers/dom-utils.js';
+import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
 
 type FileType = {
 	name: string;

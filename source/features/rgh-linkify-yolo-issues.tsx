@@ -1,9 +1,9 @@
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import {isRefinedGitHubYoloRepo} from '../github-helpers';
-import observe from '../helpers/selector-observer';
-import {linkifyIssues} from '../github-helpers/dom-formatters';
+import features from '../feature-manager.js';
+import {isRefinedGitHubYoloRepo} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
+import {linkifyIssues} from '../github-helpers/dom-formatters.js';
 
 // Linkify with hovercards
 function linkify(issueCell: HTMLElement): void {

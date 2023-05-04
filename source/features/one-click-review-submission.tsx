@@ -4,8 +4,8 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
 
-import features from '../feature-manager';
-import looseParseInt from '../helpers/loose-parse-int';
+import features from '../feature-manager.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
 
 function addButtons(radios: HTMLInputElement[]): void {
 	const form = radios[0].form!;

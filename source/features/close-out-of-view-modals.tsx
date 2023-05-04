@@ -2,7 +2,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 
 const visible = new Set();
 const observer = new IntersectionObserver(entries => {

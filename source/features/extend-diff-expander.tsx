@@ -3,7 +3,7 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 
 function expandDiff(event: DelegateEvent): void {
 	// Skip if the user clicked directly on the icon

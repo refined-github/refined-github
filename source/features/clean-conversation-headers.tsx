@@ -5,9 +5,9 @@ import elementReady from 'element-ready';
 import {ArrowLeftIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import getDefaultBranch from '../github-helpers/get-default-branch';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import observe from '../helpers/selector-observer.js';
 
 async function cleanIssueHeader(byline: HTMLElement): Promise<void> {
 	byline.classList.add('rgh-clean-conversation-headers', 'rgh-clean-conversation-headers-hide-author');

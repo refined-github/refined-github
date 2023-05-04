@@ -3,8 +3,8 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import GitHubURL from '../github-helpers/github-url';
+import features from '../feature-manager.js';
+import GitHubURL from '../github-helpers/github-url.js';
 
 function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 	dropdown.classList.add('rgh-more-file-links'); // Mark this as processed

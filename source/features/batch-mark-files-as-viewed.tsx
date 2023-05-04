@@ -3,11 +3,11 @@ import * as pageDetect from 'github-url-detection';
 import debounceFn from 'debounce-fn';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import clickAll from '../helpers/click-all';
-import showToast from '../github-helpers/toast';
-import getItemsBetween from '../helpers/get-items-between';
-import onAbort from '../helpers/abort-controller';
+import features from '../feature-manager.js';
+import clickAll from '../helpers/click-all.js';
+import showToast from '../github-helpers/toast.js';
+import getItemsBetween from '../helpers/get-items-between.js';
+import onAbort from '../helpers/abort-controller.js';
 
 let previousFile: HTMLElement | undefined;
 let runningBatch = false;

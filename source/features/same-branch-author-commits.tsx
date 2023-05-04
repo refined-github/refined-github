@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 
 function init(): void {
 	for (const author of select.all('.js-navigation-container a.commit-author')) {

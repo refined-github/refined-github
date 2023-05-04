@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 
-import getTextNodes from './get-text-nodes';
+import getTextNodes from './get-text-nodes.js';
 
 // `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
 export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurroundingSpaces = false): Element {

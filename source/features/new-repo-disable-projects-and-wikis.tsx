@@ -5,10 +5,10 @@ import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import selectHas from '../helpers/select-has';
-import attachElement from '../helpers/attach-element';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import selectHas from '../helpers/select-has.js';
+import attachElement from '../helpers/attach-element.js';
 
 const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
 

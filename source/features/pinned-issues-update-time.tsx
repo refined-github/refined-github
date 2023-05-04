@@ -3,10 +3,10 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import {getRepo} from '../github-helpers';
-import looseParseInt from '../helpers/loose-parse-int';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import {getRepo} from '../github-helpers/index.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
 
 type IssueInfo = {
 	updatedAt: string;

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions -- Declaration merging necessary */
 /* eslint-disable @typescript-eslint/ban-types -- The API does return `null`, not `undefined` */
-import type {StrictlyParseSelector} from 'typed-query-selector/parser';
+import type {StrictlyParseSelector} from 'typed-query-selector/parser.js';
 
 declare global {
 	interface ParentNode {

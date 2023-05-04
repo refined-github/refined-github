@@ -3,8 +3,8 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 
-import pluralize from './pluralize';
-import featureLink from './feature-link';
+import pluralize from './pluralize.js';
+import featureLink from './feature-link.js';
 import {importedFeatures} from '../../readme.md';
 
 // Split current list of features in half and create an options-like object to be applied on load
