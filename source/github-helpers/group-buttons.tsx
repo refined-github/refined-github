@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import {wrapAll} from '../helpers/dom-utils';
 
 // Wrap a list of elements with BtnGroup + ensure each has BtnGroup-item
-export const groupButtons = (buttons: Element[]): Element => {
+export function groupButtons(buttons: Element[]): Element {
 	// Ensure every button has this class
 	for (let button of buttons) {
 		if (!button.matches('button, .btn')) {
@@ -24,10 +24,10 @@ export const groupButtons = (buttons: Element[]): Element => {
 	}
 
 	return group;
-};
+}
 
 // Find immediate `.btn` siblings of `button` and wrap them with groupButtons
-export const groupSiblings = (button: Element): Element => {
+export function groupSiblings(button: Element): Element {
 	const siblings = [button];
 	let previous = button.previousElementSibling;
 	while (previous?.classList.contains('btn')) {
@@ -42,4 +42,4 @@ export const groupSiblings = (button: Element): Element => {
 	}
 
 	return groupButtons(siblings);
-};
+}

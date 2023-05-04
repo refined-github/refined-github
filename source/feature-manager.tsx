@@ -59,7 +59,7 @@ const {version} = browser.runtime.getManifest();
 
 const currentFeatureControllers = new ArrayMap<FeatureID, AbortController>();
 
-const logError = (url: string, error: unknown): void => {
+function logError(url: string, error: unknown): void {
 	const id = getFeatureID(url);
 	const message = error instanceof Error ? error.message : String(error);
 
@@ -87,7 +87,7 @@ const logError = (url: string, error: unknown): void => {
 	console.log('🔍 Search issue', searchIssueUrl.href);
 	console.log('🚨 Report issue', newIssueUrl.href);
 	console.groupEnd();
-};
+}
 
 const log = {
 	info: console.log,
@@ -157,7 +157,7 @@ function castArray<Item>(value: Item | Item[]): Item[] {
 	return Array.isArray(value) ? value : [value];
 }
 
-const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
+async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<void> {
 	const {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners} = config;
 
 	if (!shouldFeatureRun({asLongAs, include, exclude})) {
@@ -196,7 +196,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 			onAbort(featureController, ...castArray(deinit));
 		}
 	}
-};
+}
 
 const shortcutMap = new Map<string, string>();
 
@@ -213,17 +213,17 @@ type FeatureHelper = {
 	selector: string;
 };
 
-const getIdentifiers = (url: string): FeatureHelper => {
+function getIdentifiers(url: string): FeatureHelper {
 	const id = getFeatureID(url);
 	return {
 		id,
 		class: 'rgh-' + id,
 		selector: '.rgh-' + id,
 	};
-};
+}
 
 /** Register a new feature */
-const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
+async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 	const id = getFeatureID(url);
 	/* Feature filtering and running */
 	const options = await globalReady;
@@ -238,15 +238,7 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 	for (const loader of loaders) {
 		// Input defaults and validation
 		const {
-			shortcuts = {},
-			asLongAs,
-			include,
-			exclude,
-			init,
-			awaitDomReady = false,
-			deduplicate = false,
-			onlyAdditionalListeners = false,
-			additionalListeners = [],
+			shortcuts = {}, asLongAs, include, exclude, init, awaitDomReady = false, deduplicate = false, onlyAdditionalListeners = false, additionalListeners = [],
 		} = loader;
 
 		if (include?.length === 0) {
@@ -279,9 +271,9 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 			}
 		});
 	}
-};
+}
 
-const addCssFeature = async (url: string, include?: BooleanFunction[]): Promise<void> => {
+async function addCssFeature(url: string, include?: BooleanFunction[]): Promise<void> {
 	const id = getFeatureID(url);
 	void add(id, {
 		include,
@@ -289,14 +281,14 @@ const addCssFeature = async (url: string, include?: BooleanFunction[]): Promise<
 			document.documentElement.classList.add('rgh-' + id);
 		},
 	});
-};
+}
 
-const unload = (featureUrl: string): void => {
+function unload(featureUrl: string): void {
 	const id = getFeatureID(featureUrl);
 	for (const controller of currentFeatureControllers.get(id) ?? []) {
 		controller.abort();
 	}
-};
+}
 
 document.addEventListener('turbo:render', () => {
 	for (const feature of currentFeatureControllers.values()) {

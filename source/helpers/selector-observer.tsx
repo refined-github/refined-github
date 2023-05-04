@@ -17,7 +17,7 @@ const getListener = <
 	selector: Selector,
 	callback: ObserverListener<ExpectedElement>,
 	signal?: AbortSignal,
-) => function (event: AnimationEvent) {
+) => (event: AnimationEvent) => {
 	const target = event.target as ExpectedElement;
 	// The target can match a selector even if the animation actually happened on a ::before pseudo-element, so it needs an explicit exclusion here
 	if (target.classList.contains(seenMark) || !target.matches(selector)) {

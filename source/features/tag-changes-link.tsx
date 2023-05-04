@@ -45,7 +45,7 @@ function parseTags(element: HTMLElement): TagDetails {
 	};
 }
 
-const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefined => {
+function getPreviousTag(current: number, allTags: TagDetails[]): string | undefined {
 	let unmatchedNamespaceTag: string | undefined;
 
 	for (let next = current + 1; next < allTags.length; next++) {
@@ -70,7 +70,7 @@ const getPreviousTag = (current: number, allTags: TagDetails[]): string | undefi
 	}
 
 	return unmatchedNamespaceTag;
-};
+}
 
 async function init(): Promise<void> {
 	document.documentElement.classList.add('rgh-tag-changes-link');

@@ -12,7 +12,7 @@ import onAbort from '../helpers/abort-controller';
 import observe from '../helpers/selector-observer';
 
 // When an indicator is clicked, this will show comments on the current file
-const handleIndicatorClick = ({delegateTarget}: DelegateEvent): void => {
+function handleIndicatorClick({delegateTarget}: DelegateEvent): void {
 	const commentedLine = delegateTarget.closest('tr')!.previousElementSibling!;
 	const resetScroll = preserveScroll(commentedLine);
 	delegateTarget
@@ -21,7 +21,7 @@ const handleIndicatorClick = ({delegateTarget}: DelegateEvent): void => {
 		.click();
 
 	resetScroll();
-};
+}
 
 // `mem` avoids adding the indicator twice to the same thread
 const addIndicator = mem((commentThread: HTMLElement): void => {
