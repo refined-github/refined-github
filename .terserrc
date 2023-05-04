@@ -1,5 +1,4 @@
 {
-	"mangle": false,
 	"compress": {
 		"sequences": false,
 		"conditionals": false

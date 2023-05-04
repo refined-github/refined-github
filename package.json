@@ -132,8 +132,7 @@
 		"main": false,
 		"default": {
 			"source": "manifest.json",
-			"context": "browser",
-			"scopeHoist": false
+			"context": "browser"
 		}
 	},
 	"webExt": {
