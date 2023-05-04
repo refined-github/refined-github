@@ -9,14 +9,14 @@ import * as api from '../github-helpers/api';
 import showToast from '../github-helpers/toast';
 import {getConversationNumber} from '../github-helpers';
 import {getBranches} from '../github-helpers/pr-branches';
-import getPrInfo from "../github-helpers/get-pr-info";
+import getPrInfo from '../github-helpers/get-pr-info';
 
 // Get the current base commit of this PR. It should change after rebases and merges in this PR.
 // This value is not consistently available on the page (appears in `/files` but not when only 1 commit is selected)
 const getBaseReference = onetime(async (): Promise<string> => {
-  const {base} = getBranches();
-  const {baseRefOid} = await getPrInfo(base.relative);
-  return baseRefOid;
+	const {base} = getBranches();
+	const {baseRefOid} = await getPrInfo(base.relative);
+	return baseRefOid;
 });
 const getHeadReference = async (): Promise<string> => {
 	// Get the sha of the latest commit to the PR, required to create a new commit
