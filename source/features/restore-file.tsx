@@ -10,14 +10,13 @@ import {getConversationNumber} from '../github-helpers';
 import {getBranches} from '../github-helpers/pr-branches';
 import getPrInfo from '../github-helpers/get-pr-info';
 
-// Get the current base commit of this PR. It should change after rebases and merges in this PR.
-const getBaseReference = async (): Promise<string> => {
+async function getBaseReference(): Promise<string> {
 	const {base} = getBranches();
 	const {baseRefOid} = await getPrInfo(base.relative);
 	return baseRefOid;
 };
 
-const getHeadReference = async (): Promise<string> => {
+async function getHeadReference(): Promise<string> {
 	// Get the sha of the latest commit to the PR, required to create a new commit
 	const {repository} = await api.v4(`
 		repository() { # Cache buster ${Math.random()}
@@ -27,7 +26,7 @@ const getHeadReference = async (): Promise<string> => {
 		}
 	`);
 	return repository.pullRequest.headRefOid;
-};
+}
 
 async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | undefined> {
 	const {repository} = await api.v4(`
@@ -130,9 +129,6 @@ function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 function init(signal: AbortSignal): void {
 	// `capture: true` required to be fired before GitHub's handlers
 	delegate('.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, {capture: true, signal});
-
-	// Rename since "Restore" isn't really clear what we're restoring to
-	// https://github.com/refined-github/refined-github/pull/6596#discussion_r1185114447
 	delegate('.rgh-restore-file', 'click', handleDropFileClick, {capture: true, signal});
 }
 
