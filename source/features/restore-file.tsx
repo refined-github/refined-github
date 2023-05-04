@@ -14,7 +14,7 @@ async function getBaseReference(): Promise<string> {
 	const {base} = getBranches();
 	const {baseRefOid} = await getPrInfo(base.relative);
 	return baseRefOid;
-};
+}
 
 async function getHeadReference(): Promise<string> {
 	// Get the sha of the latest commit to the PR, required to create a new commit
