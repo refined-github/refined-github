@@ -1,3 +1,4 @@
+import {type Runtime} from 'webextension-polyfill';
 import 'webext-dynamic-content-scripts';
 import cache from 'webext-storage-cache'; // Also needed to regularly clear the cache
 import {isSafari} from 'webext-detect-page';
@@ -7,6 +8,7 @@ import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 import optionsStorage, {isBrowserActionAPopup} from './options-storage';
 import {getRghIssueUrl} from './helpers/rgh-issue-link';
 import isDevelopmentVersion from './helpers/is-development-version';
+import getStorageBytesInUse from './helpers/used-storage';
 
 // GHE support
 addDomainPermissionToggle();
@@ -17,7 +19,7 @@ if (isBrowserActionAPopup) {
 }
 
 const messageHandlers = {
-	openUrls(urls: string[], {tab}: browser.runtime.MessageSender) {
+	openUrls(urls: string[], {tab}: Runtime.MessageSender) {
 		for (const [i, url] of urls.entries()) {
 			void browser.tabs.create({
 				url,
@@ -26,7 +28,7 @@ const messageHandlers = {
 			});
 		}
 	},
-	closeTab(_: any, {tab}: browser.runtime.MessageSender) {
+	closeTab(_: any, {tab}: Runtime.MessageSender) {
 		void browser.tabs.remove(tab!.id!);
 	},
 	async fetch(url: string) {
@@ -60,9 +62,8 @@ browser.browserAction.onClicked.addListener(async tab => {
 
 async function hasUsedStorage(): Promise<boolean> {
 	return (
-		await browser.storage.sync.getBytesInUse() > 0
-		// Note: Not available in Firefox https://bugzilla.mozilla.org/show_bug.cgi?id=1385832
-		|| Number(await browser.storage.local.getBytesInUse?.()) > 0
+		await getStorageBytesInUse('sync') > 0
+		|| Number(await getStorageBytesInUse('local')) > 0
 	);
 }
 

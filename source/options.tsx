@@ -5,16 +5,18 @@ import cache from 'webext-storage-cache';
 import domify from 'doma';
 import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
+import prettyBytes from 'pretty-bytes';
 import {assertError} from 'ts-extras';
 import * as indentTextarea from 'indent-textarea';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {isChrome, isFirefox, isSafari} from 'webext-detect-page';
+import {isChrome, isFirefox} from 'webext-detect-page';
 
 import featureLink from './helpers/feature-link';
 import clearCacheHandler from './helpers/clear-cache-handler';
 import {getLocalHotfixes} from './helpers/hotfix';
 import {createRghIssueLink} from './helpers/rgh-issue-link';
 import {importedFeatures, featuresMeta} from '../readme.md';
+import getStorageBytesInUse from './helpers/used-storage';
 import {isBrowserActionAPopup, perDomainOptions} from './options-storage';
 
 type Status = {
@@ -72,6 +74,19 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 
 function expandTokenSection(): void {
 	select('details#token')!.open = true;
+}
+
+async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
+	const storage = browser.storage[area];
+	const used = await getStorageBytesInUse(area);
+	const available = storage.QUOTA_BYTES - used;
+	for (const output of select.all(`.storage-${area}`)) {
+		output.textContent = available < 1000
+			? 'FULL!'
+			: (available < 100_000
+				? `Only ${prettyBytes(available)} available`
+				: `${prettyBytes(used)} used`);
+	}
 }
 
 async function validateToken(): Promise<void> {
@@ -241,6 +256,15 @@ async function generateDom(): Promise<void> {
 
 	// Update rate link if necessary
 	updateRateLink();
+
+	// Update storage usage info
+	void updateStorageUsage('local');
+	void updateStorageUsage('sync');
+
+	// Hide non-applicable "Button link" section
+	if (isBrowserActionAPopup) {
+		select('#action')!.hidden = true;
+	}
 }
 
 function addEventListeners(): void {
@@ -258,6 +282,11 @@ function addEventListeners(): void {
 	});
 	browser.permissions.onAdded.addListener(() => {
 		location.reload();
+	});
+
+	// Update storage usage info
+	browser.storage.onChanged.addListener((_, areaName) => {
+		void updateStorageUsage(areaName as 'sync' | 'local');
 	});
 
 	// Improve textareas editing
@@ -281,19 +310,6 @@ function addEventListeners(): void {
 
 	// Add token validation
 	select('[name="personalToken"]')!.addEventListener('input', validateToken);
-
-	// Ensure all links open in a new tab #3181
-	delegate('a[href^="http"]', 'click', event => {
-		if (!event.defaultPrevented) {
-			event.preventDefault();
-			window.open(event.delegateTarget.href);
-		}
-	});
-
-	// Hide non-applicable "Button link" section
-	if (isBrowserActionAPopup) {
-		select('#action')!.hidden = true;
-	}
 }
 
 async function init(): Promise<void> {
@@ -302,11 +318,6 @@ async function init(): Promise<void> {
 
 	// TODO: Storage cleanup #6421, Drop in June 2023
 	void browser.storage.local.remove('featuresAlreadySeen');
-
-	// Safari’s storage is inexplicably limited #4823
-	if (isSafari()) {
-		void cache.clear();
-	}
 }
 
 void init();

@@ -68,6 +68,7 @@
 		"one-mutation": "^2.0.0",
 		"onetime": "^6.0.0",
 		"p-retry": "^5.1.2",
+		"pretty-bytes": "^6.1.0",
 		"push-form": "^1.0.1",
 		"regex-join": "^2.0.0",
 		"select-dom": "^7.1.1",
@@ -89,9 +90,9 @@
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^3.0.1",
 		"@types/codemirror": "^5.60.7",
-		"@types/firefox-webext-browser": "^109.0.0",
 		"@types/jsdom": "^21.1.0",
 		"@types/react": "^17.0.52",
+		"@types/webextension-polyfill": "^0.10.0",
 		"copy-webpack-plugin": "^11.0.0",
 		"cross-env": "^7.0.3",
 		"css-loader": "^6.7.3",

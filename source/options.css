@@ -47,6 +47,10 @@ details {
 	margin-bottom: 1em;
 }
 
+output {
+	font-style: italic;
+}
+
 details[open] {
 	--border-left: 4px;
 	border-left: solid var(--border-left) #aaa4;
