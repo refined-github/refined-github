@@ -3,8 +3,8 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 
-import features from '../feature-manager';
-import looseParseInt from '../helpers/loose-parse-int';
+import features from '../feature-manager.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
 
 function interpretNode(node: ChildNode): string | void {
 	switch (node instanceof Element && node.tagName) {

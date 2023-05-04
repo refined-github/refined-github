@@ -3,9 +3,9 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {PlusIcon, SearchIcon, CodeIcon} from '@primer/octicons-react';
 
-import observe from '../helpers/selector-observer';
-import {assertNodeContent, removeTextNodeContaining, wrap} from '../helpers/dom-utils';
-import features from '../feature-manager';
+import observe from '../helpers/selector-observer.js';
+import {assertNodeContent, removeTextNodeContaining, wrap} from '../helpers/dom-utils.js';
+import features from '../feature-manager.js';
 
 /** Add tooltip on a wrapper to avoid breaking dropdown functionality */
 function addTooltipToSummary(childElement: Element, tooltip: string): void {

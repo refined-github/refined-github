@@ -2,7 +2,7 @@ import {test, assert} from 'vitest';
 
 import {
 	addHotkey,
-} from './hotkey';
+} from './hotkey.js';
 
 function testAddHotkey(existing: string | undefined, added: string, final: string): void {
 	const link = document.createElement('a');

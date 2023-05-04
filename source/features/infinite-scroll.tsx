@@ -4,9 +4,9 @@ import select from 'select-dom';
 import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
-import onAbort from '../helpers/abort-controller';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+import onAbort from '../helpers/abort-controller.js';
 
 const loadMore = debounce(() => {
 	const button = select('[role="tabpanel"]:not([hidden]) button.ajax-pagination-btn')!;

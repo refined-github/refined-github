@@ -1,6 +1,6 @@
 import {test, assert} from 'vitest';
 
-import cleanCommitMessage from './clean-commit-message';
+import cleanCommitMessage from './clean-commit-message.js';
 
 test('cleanCommitMessage', () => {
 	const coauthors = [

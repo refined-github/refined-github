@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import {css} from 'code-tag';
 import onetime from 'onetime';
-import {ParseSelector} from 'typed-query-selector/parser';
+import {ParseSelector} from 'typed-query-selector/parser.js';
 
-import getCallerID from './caller-id';
-import isDevelopmentVersion from './is-development-version';
+import getCallerID from './caller-id.js';
+import isDevelopmentVersion from './is-development-version.js';
 
 type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
 

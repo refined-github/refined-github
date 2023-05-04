@@ -3,10 +3,10 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import {buildRepoURL} from '../github-helpers';
-import attachElement from '../helpers/attach-element';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import {buildRepoURL} from '../github-helpers/index.js';
+import attachElement from '../helpers/attach-element.js';
 
 async function getHead(): Promise<string> {
 	const {repository} = await api.v4(`

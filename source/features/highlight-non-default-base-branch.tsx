@@ -3,10 +3,10 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon} from '@primer/octicons-react';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import {buildRepoURL} from '../github-helpers';
-import getDefaultBranch from '../github-helpers/get-default-branch';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import {buildRepoURL} from '../github-helpers/index.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
 
 type BranchInfo = {
 	baseRef: string;

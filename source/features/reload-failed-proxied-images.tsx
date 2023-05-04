@@ -3,7 +3,7 @@ import onetime from 'onetime';
 import loadImage from 'image-promise';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 
 async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HTMLImageElement>): Promise<void> {
 	console.log('Refined GitHub: image failed loading, will retry', delegateTarget.src);

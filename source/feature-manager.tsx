@@ -5,12 +5,12 @@ import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 
-import waitFor from './helpers/wait-for';
-import onAbort from './helpers/abort-controller';
-import ArrayMap from './helpers/map-of-arrays';
-import bisectFeatures from './helpers/bisect';
-import {shouldFeatureRun} from './github-helpers';
-import optionsStorage, {RGHOptions} from './options-storage';
+import waitFor from './helpers/wait-for.js';
+import onAbort from './helpers/abort-controller.js';
+import ArrayMap from './helpers/map-of-arrays.js';
+import bisectFeatures from './helpers/bisect.js';
+import {shouldFeatureRun} from './github-helpers/index.js';
+import optionsStorage, {RGHOptions} from './options-storage.js';
 import {
 	applyStyleHotfixes,
 	getStyleHotfix,
@@ -19,7 +19,7 @@ import {
 	updateHotfixes,
 	updateLocalStrings,
 	_,
-} from './helpers/hotfix';
+} from './helpers/hotfix.js';
 
 type BooleanFunction = () => boolean;
 export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;

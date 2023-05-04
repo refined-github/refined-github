@@ -2,8 +2,8 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import {addHotkey} from '../github-helpers/hotkey';
+import features from '../feature-manager.js';
+import {addHotkey} from '../github-helpers/hotkey.js';
 
 async function init(): Promise<void> {
 	const tabnav = await elementReady('#partial-discussion-header + .tabnav');

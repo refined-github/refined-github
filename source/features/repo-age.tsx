@@ -5,9 +5,9 @@ import {RepoIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import {cacheByRepo} from '../github-helpers';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import {cacheByRepo} from '../github-helpers/index.js';
 
 type CommitTarget = {
 	oid: string;

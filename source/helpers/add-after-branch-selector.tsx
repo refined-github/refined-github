@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 
-import {wrapAll} from './dom-utils';
+import {wrapAll} from './dom-utils.js';
 
 export default async function addAfterBranchSelector(button: Element): Promise<void> {
 	button.classList.add('ml-2');

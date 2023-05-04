@@ -1,6 +1,6 @@
 import select from 'select-dom';
 
-import * as api from './api';
+import * as api from './api.js';
 
 export const SUCCESS = Symbol('Success');
 export const FAILURE = Symbol('Failure');

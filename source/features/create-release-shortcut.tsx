@@ -1,8 +1,8 @@
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import {registerHotkey} from '../github-helpers/hotkey';
-import {buildRepoURL} from '../github-helpers';
+import features from '../feature-manager.js';
+import {registerHotkey} from '../github-helpers/hotkey.js';
+import {buildRepoURL} from '../github-helpers/index.js';
 
 function init(): void {
 	// Reasoning for this feature: #1254

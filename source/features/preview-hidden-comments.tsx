@@ -3,9 +3,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import {upperCaseFirst} from '../github-helpers';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import {upperCaseFirst} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 function preview(hiddenCommentHeader: HTMLElement): void {
 	const details = hiddenCommentHeader.closest('details')!;

@@ -6,7 +6,7 @@ import {
 	compareNames,
 	getLatestVersionTag,
 	shouldFeatureRun,
-} from '.';
+} from './index.js';
 
 test('getConversationNumber', () => {
 	const pairs = new Map<string, number | undefined>([

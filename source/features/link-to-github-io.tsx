@@ -2,9 +2,9 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {LinkIcon} from '@primer/octicons-react';
 
-import features from '../feature-manager';
-import {getRepo} from '../github-helpers';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import {getRepo} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 function getLinkToGitHubIo(repoTitle: HTMLElement, className?: string): JSX.Element {
 	return (

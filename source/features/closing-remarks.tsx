@@ -4,16 +4,16 @@ import select from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import fetchDom from '../helpers/fetch-dom';
-import onPrMerge from '../github-events/on-pr-merge';
-import createBanner from '../github-helpers/banner';
-import TimelineItem from '../github-helpers/timeline-item';
-import attachElement from '../helpers/attach-element';
-import {canEditEveryComment} from './quick-comment-edit';
-import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers';
-import {getReleaseCount} from './releases-tab';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import fetchDom from '../helpers/fetch-dom.js';
+import onPrMerge from '../github-events/on-pr-merge.js';
+import createBanner from '../github-helpers/banner.js';
+import TimelineItem from '../github-helpers/timeline-item.js';
+import attachElement from '../helpers/attach-element.js';
+import {canEditEveryComment} from './quick-comment-edit.js';
+import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
+import {getReleaseCount} from './releases-tab.js';
+import observe from '../helpers/selector-observer.js';
 
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;

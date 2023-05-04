@@ -1,6 +1,6 @@
 import {test, assert} from 'vitest';
 
-import {getParsedBackticksParts} from './parse-backticks';
+import {getParsedBackticksParts} from './parse-backticks.js';
 
 function parseBackticks(string: string): string {
 	return getParsedBackticksParts(string).map(

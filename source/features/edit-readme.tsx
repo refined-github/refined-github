@@ -3,10 +3,10 @@ import select from 'select-dom';
 import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import GitHubURL from '../github-helpers/github-url';
-import {isPermalink} from '../github-helpers';
-import getDefaultBranch from '../github-helpers/get-default-branch';
+import features from '../feature-manager.js';
+import GitHubURL from '../github-helpers/github-url.js';
+import {isPermalink} from '../github-helpers/index.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
 
 async function init(): Promise<void | false> {
 	const readmeHeader = select('#readme :is(.Box-header, .js-sticky)');

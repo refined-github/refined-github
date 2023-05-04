@@ -5,10 +5,10 @@ import {StopIcon, PlayIcon} from '@primer/octicons-react';
 import {parseCron} from '@cheap-glitch/mi-cron';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import {cacheByRepo} from '../github-helpers';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import {cacheByRepo} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 type Workflow = {
 	name: string;

@@ -7,7 +7,7 @@ import {
 	prCommitUrlRegex,
 	prCompareUrlRegex,
 	discussionUrlRegex,
-} from './prevent-link-loss';
+} from './prevent-link-loss.js';
 
 function replacePrCommitLink(string: string): string {
 	return string.replace(prCommitUrlRegex, preventPrCommitLinkLoss);

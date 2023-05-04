@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import {getCleanPathname} from '../github-helpers';
+import features from '../feature-manager.js';
+import {getCleanPathname} from '../github-helpers/index.js';
 
 async function init(): Promise<void> {
 	let commitUrl = '/' + getCleanPathname();
