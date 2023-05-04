@@ -3,9 +3,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import SearchQuery from '../github-helpers/search-query';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import SearchQuery from '../github-helpers/search-query.js';
+import observe from '../helpers/selector-observer.js';
 
 function addLinks(container: HTMLElement): void {
 	const defaultQuery = 'is:open archived:false';

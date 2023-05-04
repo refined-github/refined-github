@@ -110,7 +110,7 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 	<tr>
 		<th width="50%">
 			<p><a title="restore-file"></a> Adds a button to revert all the changes to a file in a PR
-			<p><img src="https://user-images.githubusercontent.com/1402241/130660479-083e91e6-0778-446a-9aaf-b9b3e7214281.gif">
+			<p><img src="https://user-images.githubusercontent.com/50487467/236245182-afc97200-2634-4f82-9e9c-1f605fb04565.gif">
 		<th width="50%">
 			<p><a title="select-notifications"></a> Select notifications by type and status
 			<p><img src="https://user-images.githubusercontent.com/1402241/152119039-4ea8333f-a744-4106-b56f-cf09f50678be.gif">

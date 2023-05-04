@@ -7,13 +7,13 @@ import * as pageDetect from 'github-url-detection';
 import pRetry, {AbortError} from 'p-retry';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import observeElement from '../helpers/simplified-element-observer';
-import * as prCiStatus from '../github-helpers/pr-ci-status';
-import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open';
-import {onPrMergePanelLoad} from '../github-events/on-fragment-load';
-import onAbort from '../helpers/abort-controller';
-import {userCanLikelyMergePR} from '../github-helpers';
+import features from '../feature-manager.js';
+import observeElement from '../helpers/simplified-element-observer.js';
+import * as prCiStatus from '../github-helpers/pr-ci-status.js';
+import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open.js';
+import {onPrMergePanelLoad} from '../github-events/on-fragment-load.js';
+import onAbort from '../helpers/abort-controller.js';
+import {userCanLikelyMergePR} from '../github-helpers/index.js';
 
 // Reuse the same checkbox to preserve its status
 const generateCheckbox = onetime(() => (

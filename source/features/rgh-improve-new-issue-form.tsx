@@ -2,11 +2,11 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import openOptions from '../helpers/open-options';
-import clearCacheHandler from '../helpers/clear-cache-handler';
-import {expectToken, expectTokenScope} from '../github-helpers/api';
-import {isRefinedGitHubRepo} from '../github-helpers';
+import features from '../feature-manager.js';
+import openOptions from '../helpers/open-options.js';
+import clearCacheHandler from '../helpers/clear-cache-handler.js';
+import {expectToken, expectTokenScope} from '../github-helpers/api.js';
+import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 
 function addNotice(adjective: JSX.Element | string): void {
 	select('#issue_body_template_name')!.before(

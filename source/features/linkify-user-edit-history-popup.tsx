@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils';
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
+import {wrap} from '../helpers/dom-utils.js';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 function linkify(avatar: HTMLImageElement): void {
 	const userName = avatar.alt.slice(1);

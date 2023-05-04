@@ -1,8 +1,8 @@
 import * as pageDetect from 'github-url-detection';
 
-import observe from '../helpers/selector-observer';
-import features from '../feature-manager';
-import {createHeatIndexFunction} from '../helpers/math';
+import observe from '../helpers/selector-observer.js';
+import features from '../feature-manager.js';
+import {createHeatIndexFunction} from '../helpers/math.js';
 
 const calculateHeatIndex = createHeatIndexFunction([0, -2_000_000_000]);
 

@@ -6,15 +6,15 @@ import delegate, {DelegateEvent} from 'delegate-it';
 
 import {CheckIcon} from '@primer/octicons-react';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
-import * as api from '../github-helpers/api';
-import {getBranches} from '../github-helpers/pr-branches';
-import getPrInfo from '../github-helpers/get-pr-info';
-import showToast from '../github-helpers/toast';
-import {getConversationNumber} from '../github-helpers';
-import createMergeabilityRow from '../github-widgets/mergeability-row';
-import selectHas from '../helpers/select-has';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+import * as api from '../github-helpers/api.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
+import getPrInfo from '../github-helpers/get-pr-info.js';
+import showToast from '../github-helpers/toast.js';
+import {getConversationNumber} from '../github-helpers/index.js';
+import createMergeabilityRow from '../github-widgets/mergeability-row.js';
+import selectHas from '../helpers/select-has.js';
 
 const canMerge = '.merge-pr > .color-fg-muted:first-child';
 const canNativelyUpdate = '.js-update-branch-form';

@@ -2,8 +2,8 @@ import './suggest-commit-title-limit.css';
 import type {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import onCommitTitleUpdate from '../github-events/on-commit-title-update';
+import features from '../feature-manager.js';
+import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
 
 function validateInput({delegateTarget: field}: DelegateEvent<Event, HTMLInputElement>): void {
 	field.classList.toggle('rgh-title-over-limit', field.value.length > 72);

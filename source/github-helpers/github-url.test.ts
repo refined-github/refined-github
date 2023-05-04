@@ -1,6 +1,6 @@
 import {test, assert} from 'vitest';
 
-import GitHubURL from './github-url';
+import GitHubURL from './github-url.js';
 
 test('branch', () => {
 	const url = new GitHubURL('https://github.com/microsoft/TypeScript/tree/master');

@@ -6,10 +6,10 @@ import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {FoldIcon, UnfoldIcon, ArrowUpIcon} from '@primer/octicons-react';
 
-import features from '../feature-manager';
-import selectHas from '../helpers/select-has';
-import attachElement from '../helpers/attach-element';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import selectHas from '../helpers/select-has.js';
+import attachElement from '../helpers/attach-element.js';
+import observe from '../helpers/selector-observer.js';
 
 const cacheKey = 'files-hidden';
 const hiddenFilesClass = 'rgh-files-hidden';

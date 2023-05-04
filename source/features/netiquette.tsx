@@ -5,11 +5,11 @@ import select from 'select-dom';
 import twas from 'twas';
 import {InfoIcon} from '@primer/octicons-react';
 
-import createBanner from '../github-helpers/banner';
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
-import {buildRepoURL, isAnyRefinedGitHubRepo} from '../github-helpers';
-import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event';
+import createBanner from '../github-helpers/banner.js';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+import {buildRepoURL, isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
+import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event.js';
 
 const isClosedOrMerged = (): boolean => select.exists(closedOrMergedMarkerSelector);
 

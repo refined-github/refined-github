@@ -3,8 +3,8 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate from 'delegate-it';
 
-import features from '../feature-manager';
-import preserveScroll from '../helpers/preserve-scroll';
+import features from '../feature-manager.js';
+import preserveScroll from '../helpers/preserve-scroll.js';
 
 const botNames = [
 	'actions-user',

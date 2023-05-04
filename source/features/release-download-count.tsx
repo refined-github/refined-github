@@ -5,10 +5,10 @@ import {DownloadIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import observe from '../helpers/selector-observer';
-import {createHeatIndexFunction} from '../helpers/math';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import observe from '../helpers/selector-observer.js';
+import {createHeatIndexFunction} from '../helpers/math.js';
 
 type Release = {
 	releaseAssets: {

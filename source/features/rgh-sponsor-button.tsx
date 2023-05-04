@@ -27,8 +27,8 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import {getRepo, getUsername} from '../github-helpers';
+import features from '../feature-manager.js';
+import {getRepo, getUsername} from '../github-helpers/index.js';
 
 async function wiggleWiggleWiggle(): Promise<void> {
 	await cache.set('did-it-wiggle', 'yup', {days: 7});

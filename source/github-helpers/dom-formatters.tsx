@@ -5,9 +5,9 @@ import {applyToLink} from 'shorten-repo-url';
 import linkifyURLsCore from 'linkify-urls';
 import linkifyIssuesCore from 'linkify-issues';
 
-import getTextNodes from '../helpers/get-text-nodes';
-import parseBackticksCore from './parse-backticks';
-import {buildRepoURL} from '.';
+import getTextNodes from '../helpers/get-text-nodes.js';
+import parseBackticksCore from './parse-backticks.js';
+import {buildRepoURL} from './index.js';
 
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';

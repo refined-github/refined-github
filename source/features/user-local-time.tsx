@@ -7,10 +7,10 @@ import delay from 'delay';
 import select from 'select-dom';
 import {ClockIcon} from '@primer/octicons-react';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
-import * as api from '../github-helpers/api';
-import {getUsername} from '../github-helpers';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+import * as api from '../github-helpers/api.js';
+import {getUsername} from '../github-helpers/index.js';
 
 type Commit = {
 	url: string;

@@ -1,6 +1,6 @@
 import {test, assert} from 'vitest';
 
-import cleanPrCommitTitle from './pr-commit-cleaner';
+import cleanPrCommitTitle from './pr-commit-cleaner.js';
 
 test('cleanPrCommitTitle', () => {
 	const clean = 'Something done';
