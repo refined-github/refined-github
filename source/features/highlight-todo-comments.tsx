@@ -4,12 +4,12 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
 
-const todoRegex = new RegExp("^\/\/\s*TODO", "i");
+const todoRegex = new RegExp("^\/\/\\s*TODO", "gi");
 
 function init(): void {
     console.log("Init highlight-todo-code")
     for (const comment of select.all("span.pl-c")) {
-        if (todoRegex.test(comment.getAttribute("data-code-text") ?? "")) {
+        if (todoRegex.test(comment.getAttribute("data-code-text")?.trim() ?? "")) {
             comment.classList.add("todo-comment");
         }
     }
