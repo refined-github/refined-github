@@ -1,21 +1,28 @@
 import './highlight-todo-comments.css';
-import select from 'select-dom';
+
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager';
+import observe from '../helpers/selector-observer';
 
 const todoRegex = new RegExp("^\/\/\\s*TODO", "gi");
+const todoCommentClass = "rgh-todo-comment";
 
-function init(): void {
-    console.log("Init highlight-todo-code")
-    for (const comment of select.all("span.pl-c")) {
-        if (todoRegex.test(comment.getAttribute("data-code-text")?.trim() ?? "")) {
-            comment.classList.add("todo-comment");
-        }
-    }
+function init(signal: AbortSignal): void {
+    observe("span.pl-c", highlight, { signal });
 }
 
-console.log("highlight-todo-code")
+function highlight(comment: HTMLSpanElement): void {
+    if (comment.classList.contains(todoCommentClass)) {
+        return;
+    }
+
+    const content = comment.getAttribute("data-code-text") ?? comment.textContent ?? "";
+
+    if (todoRegex.test(content.trim())) {
+        comment.classList.add(todoCommentClass);
+    }
+}
 
 void features.add(import.meta.url, {
     include: [

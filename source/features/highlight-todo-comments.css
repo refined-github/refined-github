@@ -1,3 +1,14 @@
-span.todo-comment {
-    color: gold;
+span.rgh-todo-comment,
+span.rgh-todo-comment > span.pl-c /* The preview of code (from search, permanent links to code) has the '//' separated from the rest of the comment */
+{
+    color: yellow !important;
 }
+
+/*
+
+Test URLs
+
+https://github.com/iGabyTM/arcane-vouchers/blob/72f194e8866ce363ed93a827ccd058c60909a874/plugin/src/main/kotlin/me/gabytm/minecraft/arcanevouchers/items/ItemCreator.kt#L113
+https://github.com/iGabyTM/arcane-vouchers/blob/72f194e8866ce363ed93a827ccd058c60909a874/plugin/src/main/kotlin/me/gabytm/minecraft/arcanevouchers/api/events/VoucherRedeemEvent.kt#L8
+
+*/
