@@ -38,6 +38,19 @@
 		<div class="js-features"></div>
 	</details>
 
+	<details id="bisect">
+		<summary><strong>🔎 Identify feature</strong></summary>
+		<p>
+			This process will help you identify what Refined GitHub feature is making changes or causing issues on GitHub.
+		</p>
+		<p id="find-feature-message" hidden>
+			Visit the GitHub page where you want to find the feature and refresh it to see the instructions. You can navigate to any page, but don’t use multiple tabs.
+		</p>
+		<p>
+			<button id="find-feature">Start process to identify feature…</button>
+		</p>
+	</details>
+
 	<details id="css">
 		<summary><strong>💅 Custom CSS</strong></summary>
 		<p>Like a userstyle, useful to undo unwanted style changes</p>
@@ -50,19 +63,6 @@
 		<summary><strong>🔗 Button link</strong></summary>
 		<p>You can pick what page opens when you click the Refined GitHub icon in the browser toolbar</p>
 		<p><input type="url" name="actionUrl" placeholder="https://github.com" spellcheck="false" autocomplete="off" autocapitalize="off"></p>
-	</details>
-
-	<details id="bisect">
-		<summary><strong>🔎 Identify feature</strong></summary>
-		<p>
-			This process will help you identify what Refined GitHub feature is making changes or causing issues on GitHub.
-		</p>
-		<p id="find-feature-message" hidden>
-			Visit the GitHub page where you want to find the feature and refresh it to see the instructions. You can navigate to any page, but don’t use multiple tabs.
-		</p>
-		<p>
-			<button id="find-feature">Start process to identify feature…</button>
-		</p>
 	</details>
 
 	<details id="debugging">
@@ -89,6 +89,15 @@
 
 	</details>
 
+	<details id="hotfixes">
+		<summary><strong>☄️ Hotfixes</strong></summary>
+		<p>
+			In order to address severe issues as quickly as possible, Refined GitHub loads a list disabled features and temporary CSS fixes.
+		</p>
+		<p>This is the latest CSS fetched from the server (if any):</p>
+		<p><textarea id="hotfixes-field" rows="2" disabled></textarea></p>
+	</details>
+
 	<details id="export">
 		<summary><strong>🗄️ Export options</strong></summary>
 		<p>
@@ -101,7 +110,6 @@
 			<button type="button" class="js-export">Export</button>
 			<button type="button" class="js-import">Import</button>
 		</p>
-
 	</details>
 
 </form>
