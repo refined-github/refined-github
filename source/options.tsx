@@ -121,9 +121,6 @@ function moveDisabledFeaturesToTop(): void {
 }
 
 function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
-	const descriptionElement = domify.one(description)!;
-	descriptionElement.className = 'description';
-
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
 			<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox"/>
@@ -139,7 +136,7 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 						screenshot
 					</a>
 				)}
-				{descriptionElement}
+				<p className="description">{domify(description)}</p>
 				{screenshot && (
 					<img hidden data-src={screenshot} className="screenshot"/>
 				)}
