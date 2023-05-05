@@ -5,7 +5,7 @@
 		"vitest": "vitest --run",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
-		"build:webpack": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" webpack --mode=production",
+		"build:webpack": "cross-env NODE_OPTIONS=\"--loader tsx\" webpack --mode=production",
 		"fix": "run-p \"lint:* -- --fix\"",
 		"lint": "run-p lint:* --continue-on-error",
 		"lint:css": "stylelint \"source/**/*.css\"",
@@ -13,10 +13,10 @@
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj' -scheme 'Refined GitHub (macOS)'",
 		"prepare:safari": "bash build/prepare-safari-release.sh",
 		"test": "run-p vitest lint:* build:* test:features",
-		"test:features": "node --loader ts-node/esm \"build/verify-features.ts\"",
+		"test:features": "tsx build/verify-features.ts",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
-		"watch:webpack": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" webpack --mode=development --watch"
+		"watch:webpack": "cross-env NODE_OPTIONS=\"--loader tsx\" webpack --mode=development --watch"
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo",
@@ -110,7 +110,7 @@
 		"stylelint": "^15.0.0",
 		"stylelint-config-xo": "^0.21.1",
 		"terser-webpack-plugin": "^5.3.6",
-		"ts-node": "^10.9.1",
+		"tsx": "^3.12.7",
 		"type-fest": "^3.5.7",
 		"typed-query-selector": "^2.9.1",
 		"typescript": "^4.9.5",

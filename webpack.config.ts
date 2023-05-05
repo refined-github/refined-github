@@ -76,7 +76,7 @@ const config: Configuration = {
 		// Keeps it somewhat readable
 		minimizer: [
 			new TerserPlugin({
-				parallel: true,
+				parallel: false,
 				terserOptions: {
 					mangle: false,
 					compress: {
