@@ -17,5 +17,8 @@
 		"test",
 		"build",
 		"webpack.config.ts"
-	]
+	],
+	"ts-node": {
+		"transpileOnly": true,
+	}
 }

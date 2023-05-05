@@ -27,7 +27,7 @@ const config: Configuration = {
 		rules: [
 			{
 				test: /[/\\]readme\.md$/,
-				loader: '../build/readme.loader.mts',
+				loader: '../build/readme.loader.ts',
 			},
 			{
 				test: /\.tsx?$/,

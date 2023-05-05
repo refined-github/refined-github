@@ -1,4 +1,4 @@
-export default async function ReadmeLoader() {
+export default async function ReadmeLoader(): Promise<string> {
 	const {getImportedFeatures, getFeaturesMeta} = await import('./readme-parser.js');
 	return `
 		export const importedFeatures = ${JSON.stringify(getImportedFeatures())};
