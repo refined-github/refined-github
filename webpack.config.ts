@@ -76,7 +76,7 @@ const config: Configuration = {
 		// Keeps it somewhat readable
 		minimizer: [
 			new TerserPlugin({
-				parallel: false,
+				parallel: false, // https://github.com/esbuild-kit/tsx/issues/87#issuecomment-1226117760
 				terserOptions: {
 					mangle: false,
 					compress: {
