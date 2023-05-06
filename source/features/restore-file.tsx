@@ -115,7 +115,7 @@ function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 	}
 
 	if (editFile.closest('.file-header')!.querySelector('[aria-label="File added"]')) {
-		// The file is new. "Removing from PR" it means deleting it, which is already possible.
+		// The file is new. "Discarding changes" means deleting it, which is already possible.
 		// Depends on `highlight-deleted-and-added-files-in-diffs`.
 		return;
 	}
