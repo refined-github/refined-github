@@ -24,11 +24,6 @@ function addButtons(radios: HTMLInputElement[]): void {
 		);
 	}
 
-	// "Comment" button must be first
-	if (radios.length > 1) {
-		radios.push(radios.shift()!);
-	}
-
 	// Generate the new buttons
 	for (const radio of radios) {
 		const tooltip = radio.parentElement!.getAttribute('aria-label');
@@ -108,3 +103,12 @@ void features.add(import.meta.url, {
 	awaitDomReady: true,
 	init,
 });
+
+/*
+
+Test URLs
+
+https://github.com/refined-github/sandbox/pull/4/files
+https://github.com/refined-github/sandbox/pull/12/files
+
+*/
