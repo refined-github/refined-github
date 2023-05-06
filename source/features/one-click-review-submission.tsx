@@ -9,7 +9,9 @@ import looseParseInt from '../helpers/loose-parse-int.js';
 
 function addButtons(radios: HTMLInputElement[]): void {
 	const form = radios[0].form!;
-	const container = select('.form-actions', form)!;
+	const container
+		= form.closest('.SelectMenu')?.querySelector('.form-actions')
+		?? select('.form-actions', form)!; // TODO: Drop after September 2023
 
 	// Set the default action for cmd+enter to Comment
 	if (radios.length > 1) {
@@ -67,7 +69,7 @@ function addButtons(radios: HTMLInputElement[]): void {
 		radio.closest('.form-checkbox')!.remove();
 	}
 
-	select('[type="submit"]:not([name])', form)!.remove(); // The selector excludes the "Cancel" button
+	select('[type="submit"]:not([name])', container)!.remove(); // The selector excludes the "Cancel" button
 }
 
 function handleSubmission(event: DelegateEvent): void {
