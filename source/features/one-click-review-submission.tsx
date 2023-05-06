@@ -15,7 +15,7 @@ function addButtons(radios: HTMLInputElement[]): void {
 
 	// Set the default action for cmd+enter to Comment
 	if (radios.length > 1) {
-		container.append(
+		form.append(
 			<input
 				type="hidden"
 				name="pull_request_review[event]"
@@ -41,10 +41,12 @@ function addButtons(radios: HTMLInputElement[]): void {
 			<button
 				type="submit"
 				name="pull_request_review[event]"
+				form={form.id} // The buttons are no longer inside the form itself; this links the form
 				value={radio.value}
 				className={classes.join(' ')}
 				aria-label={tooltip!}
 				disabled={radio.disabled}
+				data-disable-with=""
 			>
 				{radio.nextSibling}
 			</button>
@@ -64,7 +66,8 @@ function addButtons(radios: HTMLInputElement[]): void {
 		radio.closest('.form-checkbox')!.remove();
 	}
 
-	select('[type="submit"]:not([name])', container)!.remove(); // The selector excludes the "Cancel" button
+	// The selector excludes the "Cancel" button
+	select('[type="submit"]:not([name])', container)!.remove();
 }
 
 function handleSubmission(event: DelegateEvent): void {
