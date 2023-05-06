@@ -42,7 +42,7 @@ async function getFile(filePath: string): Promise<{isTruncated: boolean; text: s
 	return repository.file;
 }
 
-async function removeFile(progress: (message: string) => void, filePath: string): Promise<void> {
+async function discardChanges(progress: (message: string) => void, filePath: string): Promise<void> {
 	const file = await getFile(filePath);
 
 	if (file?.isTruncated) {
@@ -81,7 +81,7 @@ async function removeFile(progress: (message: string) => void, filePath: string)
 				${change}
 			},
 			message: {
-				headline: "Remove ${filePath} from PR"
+				headline: "Discard changes to ${filePath}"
 			}
 		}) {
 			commit {
@@ -96,9 +96,9 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 
 	try {
 		const filePath = menuItem.closest<HTMLDivElement>('[data-path]')!.dataset.path!;
-		await showToast(async progress => removeFile(progress!, filePath), {
-			message: 'Fetching info…',
-			doneMessage: 'File removed from PR',
+		await showToast(async progress => discardChanges(progress!, filePath), {
+			message: 'Loading info…',
+			doneMessage: 'Changes discarded',
 		});
 
 		// Hide file from view
@@ -127,7 +127,7 @@ function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 			role="menuitem"
 			type="button"
 		>
-			Remove from PR
+			Discard changes
 		</button>,
 	);
 }
@@ -145,3 +145,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/sandbox/pull/16/files
+
+*/
