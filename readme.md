@@ -213,7 +213,7 @@ Thanks for contributing! 🦋🙌
 
 ### Reading comments
 
-- [](# "reactions-avatars") 🔥 [Adds reaction avatars showing _who_ reacted to a comment](https://user-images.githubusercontent.com/1402241/234492651-b54bf9ba-c218-4a30-bed4-f85a7f037297.png)
+- [](# "reactions-avatars") 🔥 [Adds reaction avatars showing _who_ reacted to a comment.](https://user-images.githubusercontent.com/1402241/236628453-8b646178-b838-44a3-9541-0a9b5f54a84a.png)
 - [](# "embed-gist-inline") [Embeds short gists when linked in comments on their own lines.](https://user-images.githubusercontent.com/1402241/152117903-80d784d5-4f43-4786-bc4c-d4993aec5c79.png)
 - [](# "comments-time-machine-links") Adds links to [browse the repository](https://user-images.githubusercontent.com/1402241/56450896-68076680-635b-11e9-8b24-ebd11cc4e655.png) and [linked files](https://user-images.githubusercontent.com/1402241/56450895-68076680-635b-11e9-86b4-b6c2f3745d51.png) at the time of each comment.
 - [](# "show-names") [Adds the real name of users by their usernames.](https://user-images.githubusercontent.com/1402241/62075835-5f82ce00-b270-11e9-91eb-4680b70cb3cb.png)
