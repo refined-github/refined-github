@@ -42,23 +42,34 @@ async function getFile(filePath: string): Promise<{isTruncated: boolean; text: s
 	return repository.file;
 }
 
-async function dropFile(progress: (message: string) => void, menuItem: Element, filePath: string): Promise<void> {
+async function discardChanges(progress: (message: string) => void, filePath: string): Promise<void> {
 	const file = await getFile(filePath);
 
-	if (!file) {
-		// The file was created by this PR.
-		// This code won’t be reached if `highlight-deleted-and-added-files-in-diffs` works.
-		throw new Error('Nothing to drop. Delete file instead');
+	if (file?.isTruncated) {
+		throw new Error('File too big, you’ll have to use git');
 	}
 
-	if (file.isTruncated) {
-		throw new Error('Drop failed: File too big');
-	}
+	// Only possible if `highlight-deleted-and-added-files-in-diffs` is broken or disabled
+	const isNewFile = !file;
+
+	const change = isNewFile ? `
+		deletions: [
+			{
+				path: "${filePath}"
+			}
+		]
+	` : `
+		additions: [
+			{
+				path: "${filePath}",
+				contents: "${btoa(unescape(encodeURIComponent(file.text)))}"
+			}
+		]
+	`;
 
 	const {nameWithOwner, branch: prBranch} = getBranches().head;
-	progress(menuItem.closest('[data-file-deleted="true"]') ? 'Undeleting…' : 'Committing…');
+	progress('Committing…');
 
-	const content = file.text;
 	await api.v4(`mutation {
 		createCommitOnBranch(input: {
 			branch: {
@@ -67,15 +78,10 @@ async function dropFile(progress: (message: string) => void, menuItem: Element, 
 			},
 			expectedHeadOid: "${await getHeadReference()}",
 			fileChanges: {
-				additions: [
-					{
-						path: "${filePath}",
-						contents: "${btoa(unescape(encodeURIComponent(content)))}"
-					}
-				]
+				${change}
 			},
 			message: {
-				headline: "Drop ${filePath}"
+				headline: "Discard changes to ${filePath}"
 			}
 		}) {
 			commit {
@@ -85,14 +91,14 @@ async function dropFile(progress: (message: string) => void, menuItem: Element, 
 	}`);
 }
 
-async function handleDropFileClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const menuItem = event.delegateTarget;
 
 	try {
 		const filePath = menuItem.closest<HTMLDivElement>('[data-path]')!.dataset.path!;
-		await showToast(async progress => dropFile(progress!, menuItem, filePath), {
-			message: 'Dropping…',
-			doneMessage: 'Dropped!',
+		await showToast(async progress => discardChanges(progress!, filePath), {
+			message: 'Loading info…',
+			doneMessage: 'Changes discarded',
 		});
 
 		// Hide file from view
@@ -109,7 +115,7 @@ function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 	}
 
 	if (editFile.closest('.file-header')!.querySelector('[aria-label="File added"]')) {
-		// The file is new. "Dropping from PR" it means deleting it, which is already possible.
+		// The file is new. "Discarding changes" means deleting it, which is already possible.
 		// Depends on `highlight-deleted-and-added-files-in-diffs`.
 		return;
 	}
@@ -121,7 +127,7 @@ function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 			role="menuitem"
 			type="button"
 		>
-			Drop from PR
+			Discard changes
 		</button>,
 	);
 }
@@ -129,7 +135,7 @@ function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 function init(signal: AbortSignal): void {
 	// `capture: true` required to be fired before GitHub's handlers
 	delegate('.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, {capture: true, signal});
-	delegate('.rgh-restore-file', 'click', handleDropFileClick, {capture: true, signal});
+	delegate('.rgh-restore-file', 'click', handleClick, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {
@@ -139,3 +145,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/sandbox/pull/16/files
+
+*/
