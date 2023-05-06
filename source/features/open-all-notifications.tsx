@@ -32,11 +32,12 @@ async function openNotifications(notifications: Element[], markAsDone = false): 
 	}
 
 	const openingTabs = openTabs(urls);
-	await showToast(openingTabs, {
-		message: 'Opening tabs…',
-		doneMessage: pluralize(urls.length, '$$ tab') + ' opened',
-	});
-	if (!await openingTabs) {
+	try {
+		if (!await openingTabs) {
+			return;
+		}
+	} catch (error) {
+		await showToast(error as Error);
 		return;
 	}
 
