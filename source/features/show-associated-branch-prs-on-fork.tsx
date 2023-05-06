@@ -3,10 +3,10 @@ import cache from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import {GitMergeIcon, GitPullRequestIcon, GitPullRequestClosedIcon, GitPullRequestDraftIcon} from '@primer/octicons-react';
 
-import observe from '../helpers/selector-observer';
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import {cacheByRepo, upperCaseFirst} from '../github-helpers';
+import observe from '../helpers/selector-observer.js';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import {cacheByRepo, upperCaseFirst} from '../github-helpers/index.js';
 
 type PullRequest = {
 	timelineItems: {

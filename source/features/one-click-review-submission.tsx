@@ -4,27 +4,24 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
 
-import features from '../feature-manager';
-import looseParseInt from '../helpers/loose-parse-int';
+import features from '../feature-manager.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
 
 function addButtons(radios: HTMLInputElement[]): void {
 	const form = radios[0].form!;
-	const container = select('.form-actions', form)!;
+	const container
+		= form.closest('.SelectMenu')?.querySelector('.form-actions')
+		?? select('.form-actions', form)!; // TODO: Drop after September 2023
 
 	// Set the default action for cmd+enter to Comment
 	if (radios.length > 1) {
-		container.append(
+		form.append(
 			<input
 				type="hidden"
 				name="pull_request_review[event]"
 				value="comment"
 			/>,
 		);
-	}
-
-	// "Comment" button must be first
-	if (radios.length > 1) {
-		radios.push(radios.shift()!);
 	}
 
 	// Generate the new buttons
@@ -44,10 +41,12 @@ function addButtons(radios: HTMLInputElement[]): void {
 			<button
 				type="submit"
 				name="pull_request_review[event]"
+				form={form.id} // The buttons are no longer inside the form itself; this links the form
 				value={radio.value}
 				className={classes.join(' ')}
 				aria-label={tooltip!}
 				disabled={radio.disabled}
+				data-disable-with=""
 			>
 				{radio.nextSibling}
 			</button>
@@ -67,7 +66,8 @@ function addButtons(radios: HTMLInputElement[]): void {
 		radio.closest('.form-checkbox')!.remove();
 	}
 
-	select('[type="submit"]:not([name])', form)!.remove(); // The selector excludes the "Cancel" button
+	// The selector excludes the "Cancel" button
+	select('[type="submit"]:not([name])', container)!.remove();
 }
 
 function handleSubmission(event: DelegateEvent): void {
@@ -106,3 +106,12 @@ void features.add(import.meta.url, {
 	awaitDomReady: true,
 	init,
 });
+
+/*
+
+Test URLs
+
+https://github.com/refined-github/sandbox/pull/4/files
+https://github.com/refined-github/sandbox/pull/12/files
+
+*/

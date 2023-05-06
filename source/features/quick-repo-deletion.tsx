@@ -8,14 +8,14 @@ import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import {getForkedRepo, getRepo} from '../github-helpers';
-import pluralize from '../helpers/pluralize';
-import addNotice from '../github-widgets/notice-bar';
-import looseParseInt from '../helpers/loose-parse-int';
-import parseBackticks from '../github-helpers/parse-backticks';
-import attachElement from '../helpers/attach-element';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import {getForkedRepo, getRepo} from '../github-helpers/index.js';
+import pluralize from '../helpers/pluralize.js';
+import addNotice from '../github-widgets/notice-bar.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
+import parseBackticks from '../github-helpers/parse-backticks.js';
+import attachElement from '../helpers/attach-element.js';
 
 function handleToggle(event: DelegateEvent<Event, HTMLDetailsElement>): void {
 	const hasContent = select.exists([

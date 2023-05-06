@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import {css} from 'code-tag';
 import onetime from 'onetime';
-import {ParseSelector} from 'typed-query-selector/parser';
+import {ParseSelector} from 'typed-query-selector/parser.js';
 
-import getCallerID from './caller-id';
-import isDevelopmentVersion from './is-development-version';
+import getCallerID from './caller-id.js';
+import isDevelopmentVersion from './is-development-version.js';
 
 type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
 
@@ -17,7 +17,7 @@ const getListener = <
 	selector: Selector,
 	callback: ObserverListener<ExpectedElement>,
 	signal?: AbortSignal,
-) => function (event: AnimationEvent) {
+) => (event: AnimationEvent) => {
 	const target = event.target as ExpectedElement;
 	// The target can match a selector even if the animation actually happened on a ::before pseudo-element, so it needs an explicit exclusion here
 	if (target.classList.contains(seenMark) || !target.matches(selector)) {

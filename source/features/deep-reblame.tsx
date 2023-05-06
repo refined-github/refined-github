@@ -6,12 +6,12 @@ import {VersionsIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import GitHubURL from '../github-helpers/github-url';
-import showToast from '../github-helpers/toast';
-import looseParseInt from '../helpers/loose-parse-int';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import GitHubURL from '../github-helpers/github-url.js';
+import showToast from '../github-helpers/toast.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
+import observe from '../helpers/selector-observer.js';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(`
@@ -78,27 +78,29 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	});
 }
 
+function addButton(pullRequest: HTMLElement): void {
+	const hunk = pullRequest.closest('.blame-hunk')!;
+
+	const reblameLink = select('.reblame-link', hunk);
+	if (reblameLink) {
+		reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
+		reblameLink.classList.add('rgh-deep-reblame');
+	} else {
+		select('.blob-reblame', hunk)!.append(
+			<button
+				type="button"
+				aria-label="View blame prior to this change (extracts commits from this PR first)"
+				className="reblame-link btn-link no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-reblame"
+			>
+				<VersionsIcon/>
+			</button>,
+		);
+	}
+}
+
 function init(signal: AbortSignal): void {
 	delegate('.rgh-deep-reblame', 'click', redirectToBlameCommit, {signal});
-	observe('[data-hovercard-type="pull_request"]', pullRequest => {
-		const hunk = pullRequest.closest('.blame-hunk')!;
-
-		const reblameLink = select('.reblame-link', hunk);
-		if (reblameLink) {
-			reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
-			reblameLink.classList.add('rgh-deep-reblame');
-		} else {
-			select('.blob-reblame', hunk)!.append(
-				<button
-					type="button"
-					aria-label="View blame prior to this change (extracts commits from this PR first)"
-					className="reblame-link btn-link no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-reblame"
-				>
-					<VersionsIcon/>
-				</button>,
-			);
-		}
-	}, {signal});
+	observe('[data-hovercard-type="pull_request"]', addButton, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -1,11 +1,11 @@
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import GitHubURL from '../github-helpers/github-url';
-import doesFileExist from '../github-helpers/does-file-exist';
-import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepo, getForkedRepo} from '../github-helpers';
+import features from '../feature-manager.js';
+import GitHubURL from '../github-helpers/github-url.js';
+import doesFileExist from '../github-helpers/does-file-exist.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import {getRepo, getForkedRepo} from '../github-helpers/index.js';
 
 const isFilePath = (): boolean =>
 	pageDetect.isSingleFile()

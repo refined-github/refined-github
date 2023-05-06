@@ -3,9 +3,9 @@ import domify from 'doma';
 import * as pageDetect from 'github-url-detection';
 import mem from 'mem';
 
-import features from '../feature-manager';
-import {getCleanPathname} from '../github-helpers';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import {getCleanPathname} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 type GistData = {
 	div: string;

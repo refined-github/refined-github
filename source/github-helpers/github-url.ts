@@ -1,4 +1,4 @@
-import {getCurrentCommittish} from '.';
+import {getCurrentCommittish} from './index.js';
 
 export default class GitHubURL {
 	user = '';

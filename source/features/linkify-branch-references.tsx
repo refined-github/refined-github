@@ -3,9 +3,9 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import GitHubURL from '../github-helpers/github-url';
-import {buildRepoURL} from '../github-helpers';
+import features from '../feature-manager.js';
+import GitHubURL from '../github-helpers/github-url.js';
+import {buildRepoURL} from '../github-helpers/index.js';
 
 async function init(): Promise<void | false> {
 	const element = await elementReady(pageDetect.isQuickPR() ? '.branch-name' : '.commit-form .branch-name');

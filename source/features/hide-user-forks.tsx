@@ -1,5 +1,5 @@
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	const search = new URLSearchParams(link.search);

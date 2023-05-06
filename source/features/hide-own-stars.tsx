@@ -1,9 +1,9 @@
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import {getUsername} from '../github-helpers';
-import {isHasSelectorSupported} from '../helpers/select-has';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import {getUsername} from '../github-helpers/index.js';
+import {isHasSelectorSupported} from '../helpers/select-has.js';
+import observe from '../helpers/selector-observer.js';
 
 function hide(item: HTMLElement): void {
 	item.hidden = true;

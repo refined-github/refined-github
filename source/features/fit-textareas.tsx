@@ -3,8 +3,8 @@ import {isSafari} from 'webext-detect-page';
 import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 function inputListener({target}: Event): void {
 	fitTextarea(target as HTMLTextAreaElement);

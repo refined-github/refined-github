@@ -4,9 +4,9 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import openTabs from '../helpers/open-tabs';
-import {attachElements} from '../helpers/attach-element';
+import features from '../feature-manager.js';
+import openTabs from '../helpers/open-tabs.js';
+import {attachElements} from '../helpers/attach-element.js';
 
 function getUrlFromItem(issue: Element): string {
 	return issue

@@ -11,13 +11,13 @@ import * as indentTextarea from 'indent-textarea';
 import delegate, {DelegateEvent} from 'delegate-it';
 import {isChrome, isFirefox} from 'webext-detect-page';
 
-import featureLink from './helpers/feature-link';
-import clearCacheHandler from './helpers/clear-cache-handler';
-import {getLocalHotfixes} from './helpers/hotfix';
-import {createRghIssueLink} from './helpers/rgh-issue-link';
+import featureLink from './helpers/feature-link.js';
+import clearCacheHandler from './helpers/clear-cache-handler.js';
+import {getLocalHotfixes} from './helpers/hotfix.js';
+import {createRghIssueLink} from './helpers/rgh-issue-link.js';
 import {importedFeatures, featuresMeta} from '../readme.md';
-import getStorageBytesInUse from './helpers/used-storage';
-import {isBrowserActionAPopup, perDomainOptions} from './options-storage';
+import getStorageBytesInUse from './helpers/used-storage.js';
+import {isBrowserActionAPopup, perDomainOptions} from './options-storage.js';
 
 type Status = {
 	error?: true;
@@ -121,9 +121,6 @@ function moveDisabledFeaturesToTop(): void {
 }
 
 function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
-	const descriptionElement = domify.one(description)!;
-	descriptionElement.className = 'description';
-
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
 			<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox"/>
@@ -139,7 +136,7 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 						screenshot
 					</a>
 				)}
-				{descriptionElement}
+				<p className="description">{domify(description)}</p>
 				{screenshot && (
 					<img hidden data-src={screenshot} className="screenshot"/>
 				)}

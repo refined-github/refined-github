@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {type Runtime} from 'webextension-polyfill';
 import 'webext-dynamic-content-scripts';
 import cache from 'webext-storage-cache'; // Also needed to regularly clear the cache
@@ -5,10 +6,10 @@ import {isSafari} from 'webext-detect-page';
 import {objectKeys} from 'ts-extras';
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 
-import optionsStorage, {isBrowserActionAPopup} from './options-storage';
-import {getRghIssueUrl} from './helpers/rgh-issue-link';
-import isDevelopmentVersion from './helpers/is-development-version';
-import getStorageBytesInUse from './helpers/used-storage';
+import optionsStorage, {isBrowserActionAPopup} from './options-storage.js';
+import {getRghIssueUrl} from './helpers/rgh-issue-link.js';
+import isDevelopmentVersion from './helpers/is-development-version.js';
+import getStorageBytesInUse from './helpers/used-storage.js';
 
 // GHE support
 addDomainPermissionToggle();

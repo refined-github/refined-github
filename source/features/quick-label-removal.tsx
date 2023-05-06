@@ -7,11 +7,11 @@ import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import showToast from '../github-helpers/toast';
-import {getConversationNumber} from '../github-helpers';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import showToast from '../github-helpers/toast.js';
+import {getConversationNumber} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 const canNotEditLabels = onetime((): boolean => !select.exists('.label-select-menu .octicon-gear'));
 

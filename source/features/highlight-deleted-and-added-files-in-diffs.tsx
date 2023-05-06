@@ -4,8 +4,8 @@ import oneMutation from 'one-mutation';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 async function loadDeferred(jumpList: Element): Promise<void> {
 	// This event will trigger the loading, but if run too early, GitHub might not have attached the listener yet, so we try multiple times.

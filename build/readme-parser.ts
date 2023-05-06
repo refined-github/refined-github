@@ -2,7 +2,7 @@
 
 import regexJoin from 'regex-join';
 import {readFileSync} from 'node:fs';
-import {parse as parseMarkdown} from 'markdown-wasm/dist/markdown.node.js';
+import parseMarkdown from 'snarkdown';
 
 // Group names must be unique because they will be merged
 const simpleFeatureRegex = /^- \[]\(# "(?<simpleId>[^"]+)"\)(?: 🔥)? (?<simpleDescription>.+)$/gm;
@@ -28,10 +28,10 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 	}
 
 	const urls: string[] = [];
-	const urlExtracter = (_match: string, title: string, url: string): string => {
+	function urlExtracter(_match: string, title: string, url: string): string {
 		urls.push(url);
 		return title;
-	};
+	}
 
 	const linkLessMarkdownDescription = simpleDescription.replace(/\[(.+?)]\((.+?)\)/g, urlExtracter);
 	return {

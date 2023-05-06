@@ -3,7 +3,7 @@ import elementReady from 'element-ready';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 
 function jumpToFirstNonViewed(): void {
 	const firstNonViewedFile = select('.file:not([data-file-user-viewed])')!;

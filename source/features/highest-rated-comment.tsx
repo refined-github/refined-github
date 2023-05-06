@@ -5,10 +5,10 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {ArrowDownIcon, CheckCircleFillIcon} from '@primer/octicons-react';
 
-import features from '../feature-manager';
-import looseParseInt from '../helpers/loose-parse-int';
-import isLowQualityComment from '../helpers/is-low-quality-comment';
-import {singleParagraphCommentSelector} from './hide-low-quality-comments';
+import features from '../feature-manager.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
+import isLowQualityComment from '../helpers/is-low-quality-comment.js';
+import {singleParagraphCommentSelector} from './hide-low-quality-comments.js';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
 const commentSelector = '.js-timeline-item';

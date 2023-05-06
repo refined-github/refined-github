@@ -2,7 +2,7 @@ import mem from 'mem';
 import {test, assert, describe} from 'vitest';
 import {JSDOM} from 'jsdom';
 
-import * as exports from './selectors';
+import * as exports from './selectors.js';
 
 const fetchDocument = mem(async (url: string): Promise<JSDOM> => JSDOM.fromURL(url));
 

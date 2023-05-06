@@ -3,14 +3,14 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import GitHubURL from '../github-helpers/github-url';
-import addNotice from '../github-widgets/notice-bar';
-import {linkifiedURLClass} from '../github-helpers/dom-formatters';
-import {buildRepoURL, isPermalink} from '../github-helpers';
-import {saveOriginalHref} from './sort-conversations-by-update-time';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import GitHubURL from '../github-helpers/github-url.js';
+import addNotice from '../github-widgets/notice-bar.js';
+import {linkifiedURLClass} from '../github-helpers/dom-formatters.js';
+import {buildRepoURL, isPermalink} from '../github-helpers/index.js';
+import {saveOriginalHref} from './sort-conversations-by-update-time.js';
+import observe from '../helpers/selector-observer.js';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
 	const {repository} = await api.v4(`
