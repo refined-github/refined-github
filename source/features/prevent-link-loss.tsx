@@ -15,10 +15,11 @@ import {
 	discussionUrlRegex,
 	preventDiscussionLinkLoss,
 } from '../github-helpers/prevent-link-loss.js';
+import createBanner from '../github-helpers/banner.js';
 
 const documentation = 'https://github.com/refined-github/refined-github/wiki/GitHub-markdown-linkifier-bug';
 
-function handleButtonClick({delegateTarget: fixButton}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #4678 */
 	const field = fixButton.form!.querySelector('textarea.js-comment-field')!;
 	textFieldEdit.replace(field, prCommitUrlRegex, preventPrCommitLinkLoss);
@@ -27,18 +28,22 @@ function handleButtonClick({delegateTarget: fixButton}: DelegateEvent<MouseEvent
 	fixButton.parentElement!.remove();
 }
 
-function getUI(field: HTMLTextAreaElement): HTMLElement {
-	return select('.rgh-prevent-link-loss-container', field.form!) ?? (
-		<div className="flash flash-warn rgh-prevent-link-loss-container">
-			<AlertIcon/>
-			{' Your link may be '}
-			<a href={documentation} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue">
-				misinterpreted
-			</a>
-			{' by GitHub.'}
-			<button type="button" className="btn btn-sm primary flash-action rgh-prevent-link-loss">Fix link</button>
-		</div>
-	);
+function getUI(field: HTMLTextAreaElement, ...classes: string[]): HTMLElement {
+	return select('.rgh-prevent-link-loss-container', field.form!) ?? (createBanner({
+		icon: <AlertIcon className="m-0"/>,
+		text: (
+			<>
+				{' Your link may be '}
+				<a href={documentation} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue">
+					misinterpreted
+				</a>
+				{' by GitHub.'}
+			</>
+		),
+		classes: ['flash-warn', 'rgh-prevent-link-loss-container', ...classes],
+		action: handleButtonClick,
+		buttonLabel: 'Fix link',
+	}));
 }
 
 function isVulnerableToLinkLoss(value: string): boolean {
@@ -53,11 +58,11 @@ const updateUI = debounceFn(({delegateTarget: field}: DelegateEvent<Event, HTMLT
 		getUI(field).remove();
 	} else if (pageDetect.isNewIssue() || pageDetect.isNewRelease() || pageDetect.isCompare()) {
 		select('file-attachment', field.form!)!.append(
-			<div className="mt-2">{getUI(field)}</div>,
+			getUI(field, 'mt-2', 'mx-0', 'mx-md-2'),
 		);
 	} else {
 		select('.form-actions', field.form!)!.before(
-			<div className="mx-2 mb-2">{getUI(field)}</div>,
+			getUI(field, 'mx-md-2', 'mb-2'),
 		);
 	}
 }, {
@@ -65,8 +70,11 @@ const updateUI = debounceFn(({delegateTarget: field}: DelegateEvent<Event, HTMLT
 });
 
 function init(signal: AbortSignal): void {
-	delegate('form:is(#new_issue, #new_release) textarea, form.js-new-comment-form textarea, textarea.comment-form-textarea', 'input', updateUI, {signal});
-	delegate('.rgh-prevent-link-loss', 'click', handleButtonClick, {signal});
+	delegate([
+		'form:is(#new_issue, #new_release) textarea',
+		'form.js-new-comment-form textarea',
+		'textarea.comment-form-textarea',
+	].join(','), 'input', updateUI, {signal});
 }
 
 void features.add(import.meta.url, {
