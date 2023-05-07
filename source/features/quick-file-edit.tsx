@@ -36,7 +36,8 @@ async function init(signal: AbortSignal): Promise<void | false> {
 	}
 
 	observe([
-		'.react-directory-filename-column [role="img"]',
+		// .color-fg-muted selects only files; some icon extensions use `img` tags
+		'.react-directory-filename-column > :is(svg, img).color-fg-muted',
 		'.js-navigation-container .octicon-file',
 	], linkifyIcon, {signal});
 }
