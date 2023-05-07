@@ -9,6 +9,7 @@ import {groupButtons} from '../github-helpers/group-buttons.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {getCurrentCommittish} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
+import {branchSelector} from '../github-helpers/selectors.js';
 
 async function add(branchSelector: HTMLElement): Promise<void> {
 	const defaultBranch = await getDefaultBranch();
@@ -49,7 +50,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[data-hotkey="w"]', add, {signal});
+	observe(branchSelector, add, {signal});
 }
 
 void features.add(import.meta.url, {

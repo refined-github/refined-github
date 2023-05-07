@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-nested-ternary */
 import 'webext-base-css/webext-base.css';
 import './options.css';
 import React from 'dom-chef';
@@ -10,6 +11,7 @@ import {assertError} from 'ts-extras';
 import * as indentTextarea from 'indent-textarea';
 import delegate, {DelegateEvent} from 'delegate-it';
 import {isChrome, isFirefox} from 'webext-detect-page';
+import {isEnterprise} from 'github-url-detection';
 
 import featureLink from './helpers/feature-link.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
@@ -18,6 +20,7 @@ import {createRghIssueLink} from './helpers/rgh-issue-link.js';
 import {importedFeatures, featuresMeta} from '../readme.md';
 import getStorageBytesInUse from './helpers/used-storage.js';
 import {isBrowserActionAPopup, perDomainOptions} from './options-storage.js';
+import isDevelopmentVersion from './helpers/is-development-version.js';
 
 type Status = {
 	error?: true;
@@ -229,6 +232,16 @@ function updateRateLink(): void {
 	select('a#rate-link')!.href = isFirefox() ? 'https://addons.mozilla.org/en-US/firefox/addon/refined-github-' : 'https://apps.apple.com/app/id1519867270?action=write-review';
 }
 
+async function showStoredCssHotfixes(): Promise<void> {
+	const cachedCSS = await cache.get<string>('style-hotfixes:');
+	select('#hotfixes-field')!.textContent
+		= isDevelopmentVersion()
+			? 'Hotfixes are not applied in the development version.'
+			: isEnterprise()
+				? 'Hotfixes are not applied on GitHub Enterprise.'
+				: cachedCSS ?? 'No CSS found in cache.';
+}
+
 async function generateDom(): Promise<void> {
 	// Generate list
 	select('.js-features')!.append(...featuresMeta
@@ -262,6 +275,9 @@ async function generateDom(): Promise<void> {
 	if (isBrowserActionAPopup) {
 		select('#action')!.hidden = true;
 	}
+
+	// Show stored CSS hotfixes
+	void showStoredCssHotfixes();
 }
 
 function addEventListeners(): void {

@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import * as api from './api.js';
 import {getRepo, getCurrentBranchFromFeed} from './index.js';
+import {branchSelector} from './selectors.js';
 
 // This regex should match all of these combinations:
 // "This branch is even with master."
@@ -18,11 +19,11 @@ const branchInfoRegex = /([^ ]+)\.$/;
 const _getDefaultBranch = cache.function('default-branch', async function (repository: pageDetect.RepositoryInfo): Promise<string> {
 	if (arguments.length === 0 || JSON.stringify(repository) === JSON.stringify(getRepo())) {
 		if (pageDetect.isRepoHome()) {
-			const branchSelector = await elementReady('[data-hotkey="w"]');
-			if (branchSelector) {
-				return branchSelector.title === 'Switch branches or tags'
-					? branchSelector.textContent!.trim()
-					: branchSelector.title;
+			const branchPicker = await elementReady(branchSelector);
+			if (branchPicker) {
+				return branchPicker.title === 'Switch branches or tags'
+					? branchPicker.textContent!.trim()
+					: branchPicker.title;
 			}
 		}
 

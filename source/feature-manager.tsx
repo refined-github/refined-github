@@ -97,10 +97,9 @@ const log = {
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady = new Promise<RGHOptions>(async resolve => {
-	const [options, localHotfixes, styleHotfix, bisectedFeatures] = await Promise.all([
+	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
 		getLocalHotfixesAsOptions(),
-		getStyleHotfix(version),
 		bisectFeatures(),
 		getLocalStrings(),
 	]);
@@ -125,7 +124,8 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 
 	document.documentElement.classList.add('refined-github');
 
-	void applyStyleHotfixes(styleHotfix);
+	void getStyleHotfix(version).then(applyStyleHotfixes);
+
 	if (options.customCSS.trim().length > 0) {
 		// Review #5857 and #5493 before making changes
 		document.head.append(<style>{options.customCSS}</style>);
