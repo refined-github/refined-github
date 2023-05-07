@@ -11,6 +11,7 @@ const isCurrentRepo = ({nameWithOwner}: pageDetect.RepositoryInfo): boolean => B
 // DO NOT use optional arguments/defaults in "cached functions" because they can't be memoized effectively
 // https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
 const _getDefaultBranch = cache.function('default-branch', async (repository: pageDetect.RepositoryInfo): Promise<string> => {
+	// TODO: extract from `ref-selector` if available https://github.com/refined-github/refined-github/issues/6557
 	if (isCurrentRepo(repository) && ['', 'commits'].includes(repository.path)) {
 		// We're on the default branch, so we can extract it from the current page. This usually happens on the pages:
 		// @example /user/repo

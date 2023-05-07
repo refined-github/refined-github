@@ -1,7 +1,7 @@
 import {assert, test} from 'vitest';
 
 // @ts-expect-error JS only
-import {updateFeedMetatag} from '../../test/fixtures/globals.js';
+import {navigateToBranch} from '../../test/fixtures/globals.js';
 import getCurrentGitRef from './get-current-git-ref.js';
 
 // The titles supplied here listed here are real, not guessed, except the error tester
@@ -77,17 +77,19 @@ test('getCurrentGitRef', () => {
 	), 'chore/lerna-4');
 
 	// Commits
-	updateFeedMetatag('master');
+	navigateToBranch('master');
 	assert.equal(getCurrentGitRef(
 		'/typescript-eslint/typescript-eslint/commits/master/docs/getting-started/README.md',
 		'History for docs/getting-started/README.md - typescript-eslint/typescript-eslint',
 	), 'master');
-	updateFeedMetatag('chore/lerna-4');
+
+	navigateToBranch('chore/lerna-4');
 	assert.equal(getCurrentGitRef(
 		'/typescript-eslint/typescript-eslint/commits/chore/lerna-4/docs/getting-started/README.md',
 		'History for docs/getting-started/README.md - typescript-eslint/typescript-eslint',
 	), 'chore/lerna-4');
-	updateFeedMetatag('this/branch/has/many/slashes');
+
+	navigateToBranch('this/branch/has/many/slashes');
 	assert.equal(getCurrentGitRef(
 		'/yakov116/TestR/commits/this/branch/has/many/slashes',
 		'Commits · yakov116/TestR',

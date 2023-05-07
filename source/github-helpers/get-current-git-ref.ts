@@ -27,5 +27,6 @@ export default function getCurrentGitRef(pathname = location.pathname, title = d
 	}
 
 	// Couldn't ensure it's not slashed, so we'll return the first piece whether correct or not
+	// TODO: extract from `ref-selector` if available https://github.com/refined-github/refined-github/issues/6557
 	return gitRefIfNonSlashed;
 }

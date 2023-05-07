@@ -23,11 +23,11 @@ for (const property of globals) {
 const link = document.createElement('link');
 link.rel = 'alternate';
 link.type = 'application/atom+xml';
-updateFeedMetatag('master');
+navigateToBranch('master');
 document.head.append(link);
 
 // eslint-disable-next-line import/prefer-default-export
-export function updateFeedMetatag(branch) {
+export function navigateToBranch(branch) {
 	link.href = `https://github.com/avajs/ava/commits/${branch}.atom`;
 	link.title = `Recent Commits to ava:${branch}`;
 }
