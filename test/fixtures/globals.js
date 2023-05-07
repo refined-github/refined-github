@@ -1,5 +1,4 @@
 import {JSDOM} from 'jsdom';
-import doma from 'doma';
 
 const globals = [
 	'navigator',

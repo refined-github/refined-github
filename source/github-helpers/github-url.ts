@@ -1,4 +1,4 @@
-import getCurrentGitRef from './get-current-git-ref';
+import getCurrentGitRef from './get-current-git-ref.js';
 
 export default class GitHubURL {
 	user = '';

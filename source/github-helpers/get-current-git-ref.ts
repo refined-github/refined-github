@@ -1,10 +1,10 @@
-import getDefaultBranch from './get-default-branch';
-import {getCurrentBranchFromFeed} from './index';
+import getDefaultBranch from './get-default-branch.js';
+import {getCurrentBranchFromFeed} from './index.js';
 
 const typesWithGitRef = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare']);
 const titleWithGitRef = / at (?<branch>[.\w-/]+)( · [\w-]+\/[\w-]+)?$/i;
 
-/** This only works with URL and page title */
+/** This only works with URL and page title. Must not be async because it's used by GitHubURL */
 export default function getCurrentGitRef(pathname = location.pathname, title = document.title): string | undefined {
 	if (!pathname.startsWith('/')) {
 		throw new TypeError(`Expected pathname starting with /, got "${pathname}"`);

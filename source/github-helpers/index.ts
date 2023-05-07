@@ -21,9 +21,11 @@ export function getConversationNumber(): number | undefined {
 }
 
 export function getCurrentBranchFromFeed(): string {
-	console.assert(pageDetect.isRepoCommitList(), 'getCurrentBranchFromFeed() is only available on commit lists');
+	const feedLink = select('link[type="application/atom+xml"]');
+	if (!feedLink) {
+		throw new Error('getCurrentBranchFromFeed() is only available on commit lists');
+	}
 
-	const feedLink = select('link[type="application/atom+xml"]')!;
 	return new URL(feedLink.href)
 		.pathname
 		.split('/')

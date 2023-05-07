@@ -8,7 +8,7 @@ import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import {buildRepoURL} from '../github-helpers/index.js';
-import getCurrentGitRef from '../github-helpers/get-current-git-ref';
+import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
 
 export async function unhideOverflowDropdown(): Promise<boolean> {
 	// Wait for the tab bar to be loaded
