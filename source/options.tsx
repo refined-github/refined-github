@@ -20,7 +20,7 @@ import {createRghIssueLink} from './helpers/rgh-issue-link.js';
 import {importedFeatures, featuresMeta} from '../readme.md';
 import getStorageBytesInUse from './helpers/used-storage.js';
 import {isBrowserActionAPopup, perDomainOptions} from './options-storage.js';
-import isDevelopmentVersion from './helpers/is-development-version';
+import isDevelopmentVersion from './helpers/is-development-version.js';
 
 type Status = {
 	error?: true;
