@@ -62,3 +62,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs
+https://github.com/refined-github/sandbox
+https://github.com/refined-github/sandbox/tree/branch/with/slashes
+
+*/
