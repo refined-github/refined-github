@@ -50,7 +50,7 @@ export function getFeaturesMeta(): FeatureMeta[] {
 
 export function getImportedFeatures(): FeatureID[] {
 	const contents = readFileSync('source/refined-github.ts', 'utf8');
-	return [...contents.matchAll(/^import '\.\/features\/([^.]+)';/gm)]
+	return [...contents.matchAll(/^import '\.\/features\/([^.]+)\.js';/gm)]
 		.map(match => match[1] as FeatureID)
 		.sort();
 }

@@ -1,6 +1,6 @@
 import {assert, test} from 'vitest';
 
-import './fixtures/globals';
+import './fixtures/globals.js';
 import {getCurrentCommittish} from '../source/github-helpers/index.js';
 
 // The titles supplied here listed here are real, not guessed, except the error tester
