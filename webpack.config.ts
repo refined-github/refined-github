@@ -21,7 +21,7 @@ const config: Configuration = {
 	].map(name => [name, `./${name}`])),
 	context: path.resolve('source'),
 	output: {
-		path: path.resolve('distribution'),
+		path: path.resolve('distribution/resources'),
 	},
 	module: {
 		rules: [
@@ -52,9 +52,13 @@ const config: Configuration = {
 			browser: 'webextension-polyfill',
 		}),
 		new CopyWebpackPlugin({
-			patterns: [
-				'*.+(html|json|png)',
-			],
+			patterns: [{
+				// Keep only the manifest in the root
+				from: 'manifest.json',
+				to: '..',
+			}, {
+				from: '*.+(html|png)',
+			}],
 		}),
 		new SizePlugin({writeFile: false}),
 	],

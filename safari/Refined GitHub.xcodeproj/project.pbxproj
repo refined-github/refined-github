@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F9945322A07DB5E005BC236 /* resources in Resources */ = {isa = PBXBuildFile; fileRef = 1F9945312A07DB5E005BC236 /* resources */; };
+		1F9945332A07DB5E005BC236 /* resources in Resources */ = {isa = PBXBuildFile; fileRef = 1F9945312A07DB5E005BC236 /* resources */; };
 		E3312B3627691C89006DA596 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3312B3527691C89006DA596 /* Utilities.swift */; };
 		E3312B3727691C89006DA596 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3312B3527691C89006DA596 /* Utilities.swift */; };
 		E35EB4BB26F36E0900DDEA60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35EB4BA26F36E0900DDEA60 /* AppDelegate.swift */; };
@@ -31,26 +33,8 @@
 		E35EB4F226F36E0900DDEA60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E35EB4B026F36E0900DDEA60 /* Assets.xcassets */; };
 		E35EB4F326F36E0900DDEA60 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35EB4B226F36E0900DDEA60 /* SafariWebExtensionHandler.swift */; };
 		E35EB4F426F36E0900DDEA60 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35EB4B226F36E0900DDEA60 /* SafariWebExtensionHandler.swift */; };
-		E3919AF727E61192009C4956 /* refined-github.js.LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = E3919AE627E61192009C4956 /* refined-github.js.LICENSE.txt */; };
-		E3919AF827E61192009C4956 /* refined-github.js.LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = E3919AE627E61192009C4956 /* refined-github.js.LICENSE.txt */; };
 		E3919AF927E61192009C4956 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = E3919AE727E61192009C4956 /* manifest.json */; };
 		E3919AFA27E61192009C4956 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = E3919AE727E61192009C4956 /* manifest.json */; };
-		E3919AFB27E61192009C4956 /* resolve-conflicts.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AE927E61192009C4956 /* resolve-conflicts.js */; };
-		E3919AFC27E61192009C4956 /* resolve-conflicts.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AE927E61192009C4956 /* resolve-conflicts.js */; };
-		E3919AFD27E61192009C4956 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AEA27E61192009C4956 /* background.js */; };
-		E3919AFE27E61192009C4956 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AEA27E61192009C4956 /* background.js */; };
-		E3919B0127E61192009C4956 /* refined-github.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AEC27E61192009C4956 /* refined-github.js */; };
-		E3919B0227E61192009C4956 /* refined-github.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AEC27E61192009C4956 /* refined-github.js */; };
-		E3919B0327E61192009C4956 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E3919AED27E61192009C4956 /* icon.png */; };
-		E3919B0427E61192009C4956 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E3919AED27E61192009C4956 /* icon.png */; };
-		E3919B0527E61192009C4956 /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AEF27E61192009C4956 /* options.js */; };
-		E3919B0627E61192009C4956 /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = E3919AEF27E61192009C4956 /* options.js */; };
-		E3919B0727E61192009C4956 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF227E61192009C4956 /* options.html */; };
-		E3919B0827E61192009C4956 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF227E61192009C4956 /* options.html */; };
-		E3919B0927E61192009C4956 /* refined-github.css in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF427E61192009C4956 /* refined-github.css */; };
-		E3919B0A27E61192009C4956 /* refined-github.css in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF427E61192009C4956 /* refined-github.css */; };
-		E3919B0B27E61192009C4956 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF627E61192009C4956 /* options.css */; };
-		E3919B0C27E61192009C4956 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = E3919AF627E61192009C4956 /* options.css */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +80,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1F9945312A07DB5E005BC236 /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = resources; sourceTree = "<group>"; };
 		E3312B3527691C89006DA596 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		E33F1EF826F380AF00ACEB0F /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		E35EB4AB26F36E0800DDEA60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = ../Base.lproj/Main.html; sourceTree = "<group>"; };
@@ -121,16 +106,7 @@
 		E35EB4E026F36E0900DDEA60 /* Refined GitHub Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Refined GitHub Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E35EB4E526F36E0900DDEA60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E35EB4E626F36E0900DDEA60 /* Refined GitHub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Refined GitHub.entitlements"; sourceTree = "<group>"; };
-		E3919AE627E61192009C4956 /* refined-github.js.LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "refined-github.js.LICENSE.txt"; sourceTree = "<group>"; };
 		E3919AE727E61192009C4956 /* manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
-		E3919AE927E61192009C4956 /* resolve-conflicts.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "resolve-conflicts.js"; sourceTree = "<group>"; };
-		E3919AEA27E61192009C4956 /* background.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = background.js; sourceTree = "<group>"; };
-		E3919AEC27E61192009C4956 /* refined-github.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "refined-github.js"; sourceTree = "<group>"; };
-		E3919AED27E61192009C4956 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		E3919AEF27E61192009C4956 /* options.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = options.js; sourceTree = "<group>"; };
-		E3919AF227E61192009C4956 /* options.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = options.html; sourceTree = "<group>"; };
-		E3919AF427E61192009C4956 /* refined-github.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "refined-github.css"; sourceTree = "<group>"; };
-		E3919AF627E61192009C4956 /* options.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = options.css; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,16 +240,8 @@
 		E3919AC127E6107E009C4956 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E3919AEA27E61192009C4956 /* background.js */,
-				E3919AED27E61192009C4956 /* icon.png */,
+				1F9945312A07DB5E005BC236 /* resources */,
 				E3919AE727E61192009C4956 /* manifest.json */,
-				E3919AF627E61192009C4956 /* options.css */,
-				E3919AF227E61192009C4956 /* options.html */,
-				E3919AEF27E61192009C4956 /* options.js */,
-				E3919AF427E61192009C4956 /* refined-github.css */,
-				E3919AEC27E61192009C4956 /* refined-github.js */,
-				E3919AE627E61192009C4956 /* refined-github.js.LICENSE.txt */,
-				E3919AE927E61192009C4956 /* resolve-conflicts.js */,
 			);
 			name = Resources;
 			path = ../../distribution;
@@ -432,16 +400,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3919B0527E61192009C4956 /* options.js in Resources */,
-				E3919B0327E61192009C4956 /* icon.png in Resources */,
-				E3919AFD27E61192009C4956 /* background.js in Resources */,
-				E3919B0927E61192009C4956 /* refined-github.css in Resources */,
-				E3919AFB27E61192009C4956 /* resolve-conflicts.js in Resources */,
-				E3919B0127E61192009C4956 /* refined-github.js in Resources */,
 				E3919AF927E61192009C4956 /* manifest.json in Resources */,
-				E3919AF727E61192009C4956 /* refined-github.js.LICENSE.txt in Resources */,
-				E3919B0B27E61192009C4956 /* options.css in Resources */,
-				E3919B0727E61192009C4956 /* options.html in Resources */,
+				1F9945322A07DB5E005BC236 /* resources in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,16 +409,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3919B0627E61192009C4956 /* options.js in Resources */,
-				E3919B0427E61192009C4956 /* icon.png in Resources */,
-				E3919AFE27E61192009C4956 /* background.js in Resources */,
-				E3919B0A27E61192009C4956 /* refined-github.css in Resources */,
-				E3919AFC27E61192009C4956 /* resolve-conflicts.js in Resources */,
-				E3919B0227E61192009C4956 /* refined-github.js in Resources */,
 				E3919AFA27E61192009C4956 /* manifest.json in Resources */,
-				E3919AF827E61192009C4956 /* refined-github.js.LICENSE.txt in Resources */,
-				E3919B0C27E61192009C4956 /* options.css in Resources */,
-				E3919B0827E61192009C4956 /* options.html in Resources */,
+				1F9945332A07DB5E005BC236 /* resources in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

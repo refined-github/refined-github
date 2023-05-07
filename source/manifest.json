@@ -20,22 +20,22 @@
 		"https://api.github.com/*"
 	],
 	"browser_action": {
-		"default_icon": "icon.png"
+		"default_icon": "resources/icon.png"
 	},
 	"optional_permissions": [
 		"*://*/*"
 	],
 	"icons": {
-		"128": "icon.png"
+		"128": "resources/icon.png"
 	},
 	"options_ui": {
 		"chrome_style": true,
-		"page": "options.html"
+		"page": "resources/options.html"
 	},
 	"background": {
 		"persistent": false,
 		"scripts": [
-			"background.js"
+			"resources/background.js"
 		]
 	},
 	"content_scripts": [
@@ -49,14 +49,14 @@
 				"https://*/login/*"
 			],
 			"css": [
-				"refined-github.css"
+				"resources/refined-github.css"
 			],
 			"js": [
-				"refined-github.js"
+				"resources/refined-github.js"
 			]
 		}
 	],
 	"web_accessible_resources": [
-		"resolve-conflicts.js"
+		"resources/resolve-conflicts.js"
 	]
 }

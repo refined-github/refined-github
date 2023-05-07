@@ -20,6 +20,7 @@ html::after {
 	content: '';
 	display: block;
 	height: 50vh;
+	/* webpackIgnore: true */
 	background: url('icon.png') center no-repeat;
 	filter: opacity(0.1) saturate(0) brightness(1.2);
 }

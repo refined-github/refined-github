@@ -10,7 +10,7 @@ async function init(): Promise<void> {
 		stopOnDomReady: false,
 	});
 
-	document.head.append(<script src={browser.runtime.getURL('resolve-conflicts.js')}/>);
+	document.head.append(<script src={browser.runtime.getURL('resources/resolve-conflicts.js')}/>);
 }
 
 void features.add(import.meta.url, {
