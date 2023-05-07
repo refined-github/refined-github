@@ -36,17 +36,15 @@ async function add(historyButton: HTMLElement): Promise<void> {
 	const url = new GitHubURL(location.href)
 		.assign({branch: previousCommit});
 
-	const historyButtonContainer = historyButton.parentElement!;
-	historyButtonContainer.insertBefore(
-		<a href={url.href} className="UnderlineNav-item no-wrap tooltipped tooltipped-n ml-2" aria-label="View prior to this change">
-			<VersionsIcon className="UnderlineNav-octicon" style={{marginRight: 0}}/>
+	historyButton.before(
+		<a href={url.href} className="UnderlineNav-item tooltipped tooltipped-n ml-2" aria-label="View previous version">
+			<VersionsIcon className="UnderlineNav-octicon mr-0"/>
 		</a>,
-		historyButton,
 	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('a[aria-label=History].react-last-commit-history-group', add, {signal});
+	observe('a[aria-label="History"].react-last-commit-history-group', add, {signal});
 }
 
 void features.add(import.meta.url, {
