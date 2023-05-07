@@ -20,11 +20,8 @@ export function getConversationNumber(): number | undefined {
 	return undefined;
 }
 
-export function getCurrentBranchFromFeed(): string | void {
-	// Not `isRepoCommitList` because this works exclusively on the default branch
-	if (getRepo()!.path !== 'commits') {
-		return;
-	}
+export function getCurrentBranchFromFeed(): string {
+	console.assert(pageDetect.isRepoCommitList(), 'getCurrentBranchFromFeed() is only available on commit lists');
 
 	const feedLink = select('link[type="application/atom+xml"]')!;
 	return new URL(feedLink.href)
@@ -34,45 +31,6 @@ export function getCurrentBranchFromFeed(): string | void {
 		.join('/')
 		.replace(/\.atom$/, '');
 }
-
-const typesWithCommittish = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare']);
-const titleWithCommittish = / at (?<branch>[.\w-/]+)( · [\w-]+\/[\w-]+)?$/i;
-export const getCurrentCommittish = (pathname = location.pathname, title = document.title): string | undefined => {
-	if (!pathname.startsWith('/')) {
-		throw new TypeError(`Expected pathname starting with /, got "${pathname}"`);
-	}
-
-	const [type, unslashedCommittish] = pathname.split('/').slice(3);
-	if (!type || !typesWithCommittish.has(type)) {
-		// Root; or piece of information not applicable to the page
-		return;
-	}
-
-	// Handle slashed branches in commits pages
-	if (type === 'commits') {
-		if (!unslashedCommittish) {
-			return getCurrentBranchFromFeed()!;
-		}
-
-		const branchAndFilepath = pathname.split('/').slice(4).join('/');
-
-		// List of all commits of current branch (no filename)
-		if (title.startsWith('Commits · ')) {
-			return branchAndFilepath;
-		}
-
-		// List of commits touching a particular file ("History")
-		const filepath = /^History for ([^ ]+) - /.exec(title)![1];
-		return branchAndFilepath.slice(0, branchAndFilepath.lastIndexOf('/' + filepath));
-	}
-
-	const parsedTitle = titleWithCommittish.exec(title);
-	if (parsedTitle) {
-		return parsedTitle.groups!.branch;
-	}
-
-	return unslashedCommittish;
-};
 
 export const isMac = navigator.userAgent.includes('Macintosh');
 
@@ -139,7 +97,7 @@ const cachePerPage = {
 
 /** Is tag or commit, with elementReady */
 export const isPermalink = mem(async () => {
-	// No need for getCurrentCommittish(), it's a simple and exact check
+	// No need for getCurrentGitRef(), it's a simple and exact check
 	if (/^[\da-f]{40}$/.test(location.pathname.split('/')[4])) {
 		// It's a commit
 		return true;

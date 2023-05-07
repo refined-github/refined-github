@@ -1,4 +1,5 @@
 import {JSDOM} from 'jsdom';
+import doma from 'doma';
 
 const globals = [
 	'navigator',
@@ -20,4 +21,14 @@ for (const property of globals) {
 	globalThis[property] = window[property];
 }
 
-document.head.insertAdjacentHTML('beforeend', '<link href="https://github.com/avajs/ava/commits/master.atom" rel="alternate" title="Recent Commits to ava:master" type="application/atom+xml">');
+const link = document.createElement('link');
+link.rel = 'alternate';
+link.type = 'application/atom+xml';
+updateFeedMetatag('master');
+document.head.append(link);
+
+// eslint-disable-next-line import/prefer-default-export
+export function updateFeedMetatag(branch) {
+	link.href = `https://github.com/avajs/ava/commits/${branch}.atom`;
+	link.title = `Recent Commits to ava:${branch}`;
+}

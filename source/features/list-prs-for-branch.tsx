@@ -2,10 +2,10 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import {getCurrentCommittish} from '../github-helpers/index.js';
+import getCurrentGitRef, {isDefaultBranch} from '../github-helpers/get-current-git-ref';
 import addAfterBranchSelector from '../helpers/add-after-branch-selector.js';
 import {getPullRequestsAssociatedWithBranch, stateIcon} from './show-associated-branch-prs-on-fork.js';
+import {isPermalink} from '../github-helpers/index.js';
 
 // Taken from https://github.com/fregante/github-issue-link-status/blob/98792f2837352bacbf80664f3edbcec8e579ed17/source/github-issue-link-status.js#L10
 const stateColorMap = {
@@ -16,12 +16,12 @@ const stateColorMap = {
 };
 
 async function init(): Promise<void | false> {
-	const currentBranch = getCurrentCommittish();
-	if (!currentBranch || /^[\da-f]{40}$/.test(currentBranch) || await getDefaultBranch() === currentBranch) {
+	if (await isPermalink() || await isDefaultBranch()) {
 		return false;
 	}
 
 	const getPr = await getPullRequestsAssociatedWithBranch();
+	const currentBranch = getCurrentGitRef()!;
 	const prInfo = getPr[currentBranch];
 	if (!prInfo) {
 		return;

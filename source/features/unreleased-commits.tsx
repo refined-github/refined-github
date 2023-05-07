@@ -6,7 +6,8 @@ import {TagIcon} from '@primer/octicons-react';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import * as api from '../github-helpers/api.js';
-import {buildRepoURL, cacheByRepo, getCurrentCommittish, getLatestVersionTag} from '../github-helpers/index.js';
+import {buildRepoURL, cacheByRepo, getLatestVersionTag} from '../github-helpers/index.js';
+import {isDefaultBranch} from '../github-helpers/get-current-git-ref';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import pluralize from '../helpers/pluralize.js';
 
@@ -87,11 +88,7 @@ export const getRepoPublishState = cache.function('tag-ahead-by', async (): Prom
 });
 
 async function add(branchSelector: HTMLElement): Promise<void> {
-	const defaultBranch = await getDefaultBranch();
-	const currentBranch = getCurrentCommittish();
-
-	const onDefaultBranch = !currentBranch || currentBranch === defaultBranch; // `getCurrentCommittish` returns `undefined` when at the repo root on the default branch #5446
-	if (!onDefaultBranch) {
+	if (!await isDefaultBranch()) {
 		return;
 	}
 
@@ -112,7 +109,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 	branchSelector.closest('.position-relative')!.after(
 		<a
 			className="btn ml-2 px-2 tooltipped tooltipped-ne"
-			href={buildRepoURL('compare', `${latestTag}...${defaultBranch}`)}
+			href={buildRepoURL('compare', `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
 			<TagIcon className="v-align-middle"/>

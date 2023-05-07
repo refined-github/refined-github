@@ -34,7 +34,7 @@ async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> 
 }
 
 async function showTimeMachineBar(): Promise<void | false> {
-	const url = new URL(location.href); // This can't be replaced with `GitHubURL` because `getCurrentCommittish` throws on 404s
+	const url = new URL(location.href); // This can't be replaced with `GitHubURL` because `getCurrentGitRef` throws on 404s
 	const date = url.searchParams.get('rgh-link-date')!;
 
 	// Drop parameter from current page after using it
