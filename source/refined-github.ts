@@ -1,4 +1,4 @@
-import './helpers/types.d';
+import './helpers/types.d.js';
 
 import './refined-github.css';
 import './github-helpers/heat-map.css';
@@ -214,3 +214,4 @@ import './features/small-user-avatars.js';
 import './features/releases-dropdown.js';
 import './features/pr-base-commit.js';
 import './features/unreleased-commits.js';
+import './features/previous-version.js';
