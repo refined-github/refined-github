@@ -4,6 +4,9 @@ import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
+import mem from 'mem';
+
+import {branchSelector} from './selectors';
 
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);
@@ -130,23 +133,24 @@ export function upperCaseFirst(input: string): string {
 	return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
 }
 
-// TODO: Drop after https://github.com/refined-github/github-url-detection/issues/85
+const cachePerPage = {
+	cacheKey: () => location.pathname,
+};
+
 /** Is tag or commit, with elementReady */
-export async function isPermalink(): Promise<boolean> {
-	if (/^[\da-f]{40}$/.test(getCurrentCommittish()!)) {
+export const isPermalink = mem(async () => {
+	// No need for getCurrentCommittish(), it's a simple and exact check
+	if (/^[\da-f]{40}$/.test(location.pathname.split('/')[4])) {
 		// It's a commit
 		return true;
 	}
 
-	await elementReady('[data-hotkey="w"]');
-	return (
-		// Pre "Latest commit design updates"
-		/Tag|Tree/.test(select('[data-hotkey="w"] i')?.textContent ?? '') // Text appears in the branch selector
-
-		// "Latest commit design updates"
-		|| select.exists('[data-hotkey="w"] .octicon-tag') // Tags have an icon
+	// Awaiting only the branch selector means it resolves early even if the icon tag doesn't exist, whereas awaiting the icon tag would wait for the DOM ready event before resolving.
+	return select.exists(
+		'.octicon-tag', // Tags have an icon
+		await elementReady(branchSelector),
 	);
-}
+}, cachePerPage);
 
 export function isRefinedGitHubRepo(): boolean {
 	return location.pathname.startsWith('/refined-github/refined-github');
