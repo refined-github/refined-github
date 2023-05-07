@@ -32,10 +32,8 @@
 			}
 		],
 		"n/prefer-global/process": "off",
-		"n/file-extension-in-import": "off",
 		"import/no-cycle": "off",
 		"import/no-unassigned-import": "off",
-		"import/extensions": "off",
 		"import/prefer-default-export": "error",
 		"import/order": [
 			"error",

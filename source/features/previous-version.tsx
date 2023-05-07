@@ -3,10 +3,10 @@ import * as pageDetect from 'github-url-detection';
 
 import {VersionsIcon} from '@primer/octicons-react';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
-import * as api from '../github-helpers/api';
-import GitHubURL from '../github-helpers/github-url';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+import * as api from '../github-helpers/api.js';
+import GitHubURL from '../github-helpers/github-url.js';
 
 async function getPreviousCommitForFile(pathname: string): Promise<string> {
 	const {user, repository, branch, filePath} = new GitHubURL(pathname);
