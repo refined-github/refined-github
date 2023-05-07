@@ -2,7 +2,8 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import getCurrentGitRef, {isDefaultBranch} from '../github-helpers/get-current-git-ref.js';
+import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
+import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import addAfterBranchSelector from '../helpers/add-after-branch-selector.js';
 import {getPullRequestsAssociatedWithBranch, stateIcon} from './show-associated-branch-prs-on-fork.js';
 import {isPermalink} from '../github-helpers/index.js';

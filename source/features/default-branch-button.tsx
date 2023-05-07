@@ -8,8 +8,8 @@ import GitHubURL from '../github-helpers/github-url.js';
 import {groupButtons} from '../github-helpers/group-buttons.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
-import {branchSelector} from '../github-helpers/selectors';
-import {isDefaultBranch} from '../github-helpers/get-current-git-ref.js';
+import {branchSelector} from '../github-helpers/selectors.js';
+import isDefaultBranch from '../github-helpers/is-default-branch.js';
 
 async function add(branchSelector: HTMLElement): Promise<void> {
 	// Don't show the button if we’re already on the default branch

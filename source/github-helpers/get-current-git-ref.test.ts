@@ -1,8 +1,8 @@
 import {assert, test} from 'vitest';
 
 // @ts-expect-error JS only
-import {updateFeedMetatag} from './fixtures/globals.js';
-import getCurrentGitRef from '../source/github-helpers/get-current-git-ref.js';
+import {updateFeedMetatag} from '../../test/fixtures/globals.js';
+import getCurrentGitRef from './get-current-git-ref.js';
 
 // The titles supplied here listed here are real, not guessed, except the error tester
 test('getCurrentGitRef', () => {

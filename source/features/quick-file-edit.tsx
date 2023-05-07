@@ -11,7 +11,7 @@ import GitHubURL from '../github-helpers/github-url.js';
 import {isArchivedRepoAsync, isPermalink} from '../github-helpers/index.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
-import {directoryListingFileIcon} from '../github-helpers/selectors';
+import {directoryListingFileIcon} from '../github-helpers/selectors.js';
 
 async function linkifyIcon(fileIcon: Element): Promise<void> {
 	const fileLink = fileIcon

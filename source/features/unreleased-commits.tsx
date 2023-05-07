@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import * as api from '../github-helpers/api.js';
 import {buildRepoURL, cacheByRepo, getLatestVersionTag} from '../github-helpers/index.js';
-import {isDefaultBranch} from '../github-helpers/get-current-git-ref.js';
+import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import pluralize from '../helpers/pluralize.js';
 

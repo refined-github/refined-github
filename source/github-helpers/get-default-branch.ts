@@ -3,7 +3,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import * as api from './api.js';
-import {getRepo, getCurrentBranchFromFeed} from './index.js';
+import {getRepo} from './index.js';
 import {branchSelector} from './selectors.js';
 
 const isCurrentRepo = ({nameWithOwner}: pageDetect.RepositoryInfo): boolean => Boolean(getRepo()?.nameWithOwner === nameWithOwner);
@@ -11,18 +11,13 @@ const isCurrentRepo = ({nameWithOwner}: pageDetect.RepositoryInfo): boolean => B
 // DO NOT use optional arguments/defaults in "cached functions" because they can't be memoized effectively
 // https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
 const _getDefaultBranch = cache.function('default-branch', async (repository: pageDetect.RepositoryInfo): Promise<string> => {
-	if (isCurrentRepo(repository)) {
-		if (pageDetect.isRepoHome()) {
-			const branchPicker = await elementReady(branchSelector);
-			if (branchPicker) {
-				return branchPicker.title === 'Switch branches or tags'
-					? branchPicker.textContent!.trim()
-					: branchPicker.title;
-			}
-		}
-
-		if (pageDetect.isRepoCommitList()) {
-			return getCurrentBranchFromFeed()!;
+	if (isCurrentRepo(repository) && ['', 'commits'].includes(repository.path)) {
+		// We're on the default branch, so we can extract it from the current page. This usually happens on the pages:
+		// @example /user/repo
+		// @example /user/repo/commits (without further path)
+		const branchPicker = await elementReady(branchSelector);
+		if (branchPicker) {
+			return branchPicker.textContent!.trim();
 		}
 	}
 
