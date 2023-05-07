@@ -48,3 +48,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs
+
+Legacy views: https://github.com/refined-github/refined-github
+React views: https://github.com/refined-github/refined-github/tree/main/.github
+
+*/
