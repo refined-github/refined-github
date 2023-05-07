@@ -11,6 +11,7 @@ import GitHubURL from '../github-helpers/github-url.js';
 import {isArchivedRepoAsync, isPermalink} from '../github-helpers/index.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
+import { directoryListingFileIcon } from '../github-helpers/selectors';
 
 async function linkifyIcon(fileIcon: Element): Promise<void> {
 	const fileLink = fileIcon
@@ -35,11 +36,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 		return false;
 	}
 
-	observe([
-		// .color-fg-muted selects only files; some icon extensions use `img` tags
-		'.react-directory-filename-column > :is(svg, img).color-fg-muted',
-		'.js-navigation-container .octicon-file',
-	], linkifyIcon, {signal});
+	observe(directoryListingFileIcon, linkifyIcon, {signal});
 }
 
 void features.add(import.meta.url, {
