@@ -4,9 +4,9 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import smartBlockWrap from '../helpers/smart-block-wrap';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import smartBlockWrap from '../helpers/smart-block-wrap.js';
+import observe from '../helpers/selector-observer.js';
 
 function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
@@ -44,7 +44,7 @@ function addButtons(referenceButton: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe('md-ref', addButtons, {signal});
-	delegate(document, '.rgh-collapsible-content-btn', 'click', addContentToDetails, {signal});
+	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails, {signal});
 }
 
 void features.add(import.meta.url, {

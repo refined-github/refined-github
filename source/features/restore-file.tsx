@@ -1,27 +1,22 @@
 import React from 'dom-chef';
 import select from 'select-dom';
-import onetime from 'onetime';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import showToast from '../github-helpers/toast';
-import {getConversationNumber} from '../github-helpers';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import showToast from '../github-helpers/toast.js';
+import {getConversationNumber} from '../github-helpers/index.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
+import getPrInfo from '../github-helpers/get-pr-info.js';
 
-// Get the current base commit of this PR. It should change after rebases and merges in this PR.
-// This value is not consistently available on the page (appears in `/files` but not when only 1 commit is selected)
-const getBaseReference = onetime(async (): Promise<string> => {
-	const {repository} = await api.v4(`
-		repository() {
-			pullRequest(number: ${getConversationNumber()!}) {
-				baseRefOid
-			}
-		}
-	`);
-	return repository.pullRequest.baseRefOid;
-});
-const getHeadReference = async (): Promise<string> => {
+async function getBaseReference(): Promise<string> {
+	const {base} = getBranches();
+	const {baseRefOid} = await getPrInfo(base.relative);
+	return baseRefOid;
+}
+
+async function getHeadReference(): Promise<string> {
 	// Get the sha of the latest commit to the PR, required to create a new commit
 	const {repository} = await api.v4(`
 		repository() { # Cache buster ${Math.random()}
@@ -31,7 +26,7 @@ const getHeadReference = async (): Promise<string> => {
 		}
 	`);
 	return repository.pullRequest.headRefOid;
-};
+}
 
 async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | undefined> {
 	const {repository} = await api.v4(`
@@ -47,23 +42,34 @@ async function getFile(filePath: string): Promise<{isTruncated: boolean; text: s
 	return repository.file;
 }
 
-async function restoreFile(progress: (message: string) => void, menuItem: Element, filePath: string): Promise<void> {
+async function discardChanges(progress: (message: string) => void, filePath: string): Promise<void> {
 	const file = await getFile(filePath);
 
-	if (!file) {
-		// The file was created by this PR.
-		// This code won’t be reached if `highlight-deleted-and-added-files-in-diffs` works.
-		throw new Error('Nothing to restore. Delete file instead');
+	if (file?.isTruncated) {
+		throw new Error('File too big, you’ll have to use git');
 	}
 
-	if (file.isTruncated) {
-		throw new Error('Restore failed: File too big');
-	}
+	// Only possible if `highlight-deleted-and-added-files-in-diffs` is broken or disabled
+	const isNewFile = !file;
 
-	const [nameWithOwner, prBranch] = select('.head-ref')!.title.split(':');
-	progress(menuItem.closest('[data-file-deleted="true"]') ? 'Undeleting…' : 'Committing…');
+	const change = isNewFile ? `
+		deletions: [
+			{
+				path: "${filePath}"
+			}
+		]
+	` : `
+		additions: [
+			{
+				path: "${filePath}",
+				contents: "${btoa(unescape(encodeURIComponent(file.text)))}"
+			}
+		]
+	`;
 
-	const content = file.text;
+	const {nameWithOwner, branch: prBranch} = getBranches().head;
+	progress('Committing…');
+
 	await api.v4(`mutation {
 		createCommitOnBranch(input: {
 			branch: {
@@ -72,15 +78,10 @@ async function restoreFile(progress: (message: string) => void, menuItem: Elemen
 			},
 			expectedHeadOid: "${await getHeadReference()}",
 			fileChanges: {
-				additions: [
-					{
-						path: "${filePath}",
-						contents: "${btoa(unescape(encodeURIComponent(content)))}"
-					}
-				]
+				${change}
 			},
 			message: {
-				headline: "Restore ${filePath}"
+				headline: "Discard changes to ${filePath}"
 			}
 		}) {
 			commit {
@@ -90,14 +91,14 @@ async function restoreFile(progress: (message: string) => void, menuItem: Elemen
 	}`);
 }
 
-async function handleRestoreFileClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const menuItem = event.delegateTarget;
 
 	try {
 		const filePath = menuItem.closest<HTMLDivElement>('[data-path]')!.dataset.path!;
-		await showToast(async progress => restoreFile(progress!, menuItem, filePath), {
-			message: 'Restoring…',
-			doneMessage: 'Restored!',
+		await showToast(async progress => discardChanges(progress!, filePath), {
+			message: 'Loading info…',
+			doneMessage: 'Changes discarded',
 		});
 
 		// Hide file from view
@@ -114,7 +115,7 @@ function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 	}
 
 	if (editFile.closest('.file-header')!.querySelector('[aria-label="File added"]')) {
-		// The file is new. "Restoring" it means deleting it, which is already possible.
+		// The file is new. "Discarding changes" means deleting it, which is already possible.
 		// Depends on `highlight-deleted-and-added-files-in-diffs`.
 		return;
 	}
@@ -126,15 +127,15 @@ function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 			role="menuitem"
 			type="button"
 		>
-			Restore file
+			Discard changes
 		</button>,
 	);
 }
 
 function init(signal: AbortSignal): void {
 	// `capture: true` required to be fired before GitHub's handlers
-	delegate(document, '.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, {capture: true, signal});
-	delegate(document, '.rgh-restore-file', 'click', handleRestoreFileClick, {capture: true, signal});
+	delegate('.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, {capture: true, signal});
+	delegate('.rgh-restore-file', 'click', handleClick, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {
@@ -144,3 +145,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/sandbox/pull/16/files
+
+*/

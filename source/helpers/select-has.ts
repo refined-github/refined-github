@@ -1,4 +1,4 @@
-import {ParseSelector} from 'typed-query-selector/parser';
+import {ParseSelector} from 'typed-query-selector/parser.js';
 
 const _isHasSelectorSupported = globalThis.CSS?.supports('selector(:has(a))');
 export const isHasSelectorSupported = (): boolean => _isHasSelectorSupported;

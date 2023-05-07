@@ -2,7 +2,7 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 
 const visible = new Set();
 const observer = new IntersectionObserver(entries => {
@@ -50,7 +50,7 @@ function menuActivatedHandler(event: DelegateEvent): void {
 }
 
 function init(): void {
-	delegate(document, '.details-overlay', 'toggle', menuActivatedHandler, {capture: true, signal: safetySwitch.signal});
+	delegate('.details-overlay', 'toggle', menuActivatedHandler, {capture: true, signal: safetySwitch.signal});
 }
 
 void features.add(import.meta.url, {

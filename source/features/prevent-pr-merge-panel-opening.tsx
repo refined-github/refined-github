@@ -1,7 +1,7 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 
 async function sessionResumeHandler(): Promise<void> {
 	await Promise.resolve(); // The `session:resume` event fires a bit too early

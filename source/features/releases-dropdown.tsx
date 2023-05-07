@@ -3,10 +3,10 @@ import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 import cache from 'webext-storage-cache';
 
-import * as api from '../github-helpers/api';
-import features from '../feature-manager';
-import {buildRepoURL, cacheByRepo} from '../github-helpers';
-import observe from '../helpers/selector-observer';
+import * as api from '../github-helpers/api.js';
+import features from '../feature-manager.js';
+import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 const gql = `
 	repository() {
@@ -55,7 +55,7 @@ async function addList(searchField: HTMLInputElement): Promise<void> {
 const searchFieldSelector = 'input#release-filter';
 async function init(signal: AbortSignal): Promise<void> {
 	observe(searchFieldSelector, addList, {signal});
-	delegate(document, searchFieldSelector, 'input', selectionHandler, {signal});
+	delegate(searchFieldSelector, 'input', selectionHandler, {signal});
 }
 
 void features.add(import.meta.url, {

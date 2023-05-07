@@ -4,10 +4,10 @@ import select from 'select-dom';
 import {CheckIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import observe from '../helpers/selector-observer';
-import {cacheByRepo} from '../github-helpers';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import observe from '../helpers/selector-observer.js';
+import {cacheByRepo} from '../github-helpers/index.js';
 
 const reviewsFilterSelector = '#reviews-select-menu';
 

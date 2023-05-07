@@ -1,14 +1,9 @@
-import delegate from 'delegate-it';
+import {oneEvent} from 'delegate-it';
 
-import onAbort from '../helpers/abort-controller';
-import observe from '../helpers/selector-observer';
+import observe from '../helpers/selector-observer.js';
 
-export default function onPrMerge(callback: VoidFunction, signal: AbortSignal): void {
-	// TODO: Drop after https://github.com/fregante/delegate-it/issues/30
-	const controller = new AbortController();
-	onAbort(signal, controller);
-	delegate(document, '.js-merge-commit-button', 'click', () => {
-		controller.abort();
-		observe('.TimelineItem-badge .octicon-git-merge', callback, {signal});
-	}, {signal});
+// This event ensures that the callback appears exclusively to the person that merged the PR and not anyone who was on the page at the time of the merge
+export default async function onPrMerge(callback: VoidFunction, signal: AbortSignal): Promise<void> {
+	await oneEvent('.js-merge-commit-button', 'click', {signal});
+	observe('.TimelineItem-badge .octicon-git-merge', callback, {signal});
 }

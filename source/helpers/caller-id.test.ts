@@ -1,6 +1,6 @@
 import {test, assert} from 'vitest';
 
-import {getStackLine} from './caller-id';
+import {getStackLine} from './caller-id.js';
 
 test('getCallerID: getStackLine', () => {
 	assert.equal(getStackLine('A\nB', 0), 'A');

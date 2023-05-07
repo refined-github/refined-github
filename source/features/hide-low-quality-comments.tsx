@@ -5,8 +5,8 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import isLowQualityComment from '../helpers/is-low-quality-comment';
+import features from '../feature-manager.js';
+import isLowQualityComment from '../helpers/is-low-quality-comment.js';
 
 export const singleParagraphCommentSelector = '.comment-body > p:only-child';
 
@@ -88,7 +88,7 @@ function init(): void | false {
 		);
 
 		// No need to add the signal here
-		delegate(document, '.rgh-unhide-low-quality-comments', 'click', unhide);
+		delegate('.rgh-unhide-low-quality-comments', 'click', unhide);
 	}
 }
 

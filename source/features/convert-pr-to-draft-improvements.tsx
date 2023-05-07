@@ -3,9 +3,9 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import observe from '../helpers/selector-observer';
-import features from '../feature-manager';
-import IconLoading from '../github-helpers/icon-loading';
+import observe from '../helpers/selector-observer.js';
+import features from '../feature-manager.js';
+import IconLoading from '../github-helpers/icon-loading.js';
 
 function closeModal({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	button.append(' ', <IconLoading className="v-align-middle"/>);
@@ -26,7 +26,7 @@ function addConvertToDraftButton(alternativeActions: Element): void {
 
 function init(signal: AbortSignal): void {
 	// Immediately close lightbox after click instead of waiting for the ajaxed widget to refresh
-	delegate(document, '.js-convert-to-draft', 'click', closeModal, {signal});
+	delegate('.js-convert-to-draft', 'click', closeModal, {signal});
 
 	// Copy button to mergeability box
 	observe('.alt-merge-options', addConvertToDraftButton, {signal});

@@ -4,13 +4,13 @@ import * as pageDetect from 'github-url-detection';
 import {CopyIcon} from '@primer/octicons-react';
 import cache from 'webext-storage-cache';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 import {featuresMeta} from '../../readme.md';
-import {getNewFeatureName} from '../options-storage';
-import {isRefinedGitHubRepo} from '../github-helpers';
-import observe from '../helpers/selector-observer';
-import {HotfixStorage} from '../helpers/hotfix';
-import {createRghIssueLink} from '../helpers/rgh-issue-link';
+import {getNewFeatureName} from '../options-storage.js';
+import {isRefinedGitHubRepo} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
+import {HotfixStorage} from '../helpers/hotfix.js';
+import {createRghIssueLink} from '../helpers/rgh-issue-link.js';
 
 async function add(infoBanner: HTMLElement): Promise<void> {
 	const [, currentFeature] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];

@@ -1,5 +1,5 @@
 /* eslint-disable max-params */
-import {getRepo} from '.';
+import {getRepo} from './index.js';
 
 const currentRepo = getRepo() ?? {nameWithOwner: 'refined-github/refined-github'};
 function getRepoReference(repoNameWithOwner: string, delemiter = ''): string {

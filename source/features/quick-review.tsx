@@ -4,8 +4,8 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 function addSidebarReviewButton(reviewersSection: Element): void {
 	const reviewFormUrl = new URL(location.href);
@@ -30,7 +30,7 @@ function focusReviewTextarea({delegateTarget}: DelegateEvent<Event, HTMLDetailsE
 }
 
 async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> {
-	delegate(document, '.js-reviews-container > details', 'toggle', focusReviewTextarea, {capture: true, signal});
+	delegate('.js-reviews-container > details', 'toggle', focusReviewTextarea, {capture: true, signal});
 
 	const reviewDropdownButton = await elementReady('.js-reviews-toggle');
 	if (reviewDropdownButton) {

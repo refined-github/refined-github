@@ -2,9 +2,9 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepo} from '../github-helpers';
+import features from '../feature-manager.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import {getRepo} from '../github-helpers/index.js';
 
 async function init(): Promise<false | void> {
 	let defaultBranch;

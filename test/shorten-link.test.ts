@@ -2,7 +2,7 @@ import {JSDOM} from 'jsdom';
 import {expect, test} from 'vitest';
 
 import './fixtures/globals';
-import {shortenLink} from '../source/github-helpers/dom-formatters';
+import {shortenLink} from '../source/github-helpers/dom-formatters.js';
 
 function shortenLinksInFragment(html: string): string {
 	const fragment = JSDOM.fragment(html);

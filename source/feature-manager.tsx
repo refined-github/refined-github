@@ -5,13 +5,12 @@ import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 
-import waitFor from './helpers/wait-for';
-import onAbort from './helpers/abort-controller';
-import ArrayMap from './helpers/map-of-arrays';
-import bisectFeatures from './helpers/bisect';
-import {shouldFeatureRun} from './github-helpers';
-import polyfillTurboEvents from './github-helpers/turbo-events-polyfill';
-import optionsStorage, {RGHOptions} from './options-storage';
+import waitFor from './helpers/wait-for.js';
+import onAbort from './helpers/abort-controller.js';
+import ArrayMap from './helpers/map-of-arrays.js';
+import bisectFeatures from './helpers/bisect.js';
+import {shouldFeatureRun} from './github-helpers/index.js';
+import optionsStorage, {RGHOptions} from './options-storage.js';
 import {
 	applyStyleHotfixes,
 	getStyleHotfix,
@@ -20,7 +19,7 @@ import {
 	updateHotfixes,
 	updateLocalStrings,
 	_,
-} from './helpers/hotfix';
+} from './helpers/hotfix.js';
 
 type BooleanFunction = () => boolean;
 export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
@@ -60,7 +59,7 @@ const {version} = browser.runtime.getManifest();
 
 const currentFeatureControllers = new ArrayMap<FeatureID, AbortController>();
 
-const logError = (url: string, error: unknown): void => {
+function logError(url: string, error: unknown): void {
 	const id = getFeatureID(url);
 	const message = error instanceof Error ? error.message : String(error);
 
@@ -88,7 +87,7 @@ const logError = (url: string, error: unknown): void => {
 	console.log('🔍 Search issue', searchIssueUrl.href);
 	console.log('🚨 Report issue', newIssueUrl.href);
 	console.groupEnd();
-};
+}
 
 const log = {
 	info: console.log,
@@ -98,10 +97,9 @@ const log = {
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady = new Promise<RGHOptions>(async resolve => {
-	const [options, localHotfixes, styleHotfix, bisectedFeatures] = await Promise.all([
+	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
 		getLocalHotfixesAsOptions(),
-		getStyleHotfix(version),
 		bisectFeatures(),
 		getLocalStrings(),
 	]);
@@ -126,7 +124,8 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 
 	document.documentElement.classList.add('refined-github');
 
-	void applyStyleHotfixes(styleHotfix);
+	void getStyleHotfix(version).then(applyStyleHotfixes);
+
 	if (options.customCSS.trim().length > 0) {
 		// Review #5857 and #5493 before making changes
 		document.head.append(<style>{options.customCSS}</style>);
@@ -151,8 +150,6 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 		features.log.error = () => {/* No logging */};
 	}
 
-	polyfillTurboEvents();
-
 	resolve(options);
 });
 
@@ -160,7 +157,7 @@ function castArray<Item>(value: Item | Item[]): Item[] {
 	return Array.isArray(value) ? value : [value];
 }
 
-const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<void> => {
+async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<void> {
 	const {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners} = config;
 
 	if (!shouldFeatureRun({asLongAs, include, exclude})) {
@@ -199,7 +196,7 @@ const setupPageLoad = async (id: FeatureID, config: InternalRunConfig): Promise<
 			onAbort(featureController, ...castArray(deinit));
 		}
 	}
-};
+}
 
 const shortcutMap = new Map<string, string>();
 
@@ -216,22 +213,24 @@ type FeatureHelper = {
 	selector: string;
 };
 
-const getIdentifiers = (url: string): FeatureHelper => {
+function getIdentifiers(url: string): FeatureHelper {
 	const id = getFeatureID(url);
 	return {
 		id,
 		class: 'rgh-' + id,
 		selector: '.rgh-' + id,
 	};
-};
+}
 
 /** Register a new feature */
-const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
+async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 	const id = getFeatureID(url);
 	/* Feature filtering and running */
 	const options = await globalReady;
-	// Skip disabled features, unless the "feature" is the fake feature in this file
-	if (!options[`feature:${id}`] && !id.startsWith('rgh')) {
+	// Skip disabled features, unless the feature is private
+	// Must check if it's specifically `false`: It could be undefined if not yet in the readme or if misread from the entry point #6606
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-boolean-literal-compare
+	if (options[`feature:${id}`] === false && !id.startsWith('rgh')) {
 		log.info('↩️', 'Skipping', id);
 		return;
 	}
@@ -239,15 +238,7 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 	for (const loader of loaders) {
 		// Input defaults and validation
 		const {
-			shortcuts = {},
-			asLongAs,
-			include,
-			exclude,
-			init,
-			awaitDomReady = false,
-			deduplicate = false,
-			onlyAdditionalListeners = false,
-			additionalListeners = [],
+			shortcuts = {}, asLongAs, include, exclude, init, awaitDomReady = false, deduplicate = false, onlyAdditionalListeners = false, additionalListeners = [],
 		} = loader;
 
 		if (include?.length === 0) {
@@ -280,9 +271,9 @@ const add = async (url: string, ...loaders: FeatureLoader[]): Promise<void> => {
 			}
 		});
 	}
-};
+}
 
-const addCssFeature = async (url: string, include?: BooleanFunction[]): Promise<void> => {
+async function addCssFeature(url: string, include?: BooleanFunction[]): Promise<void> {
 	const id = getFeatureID(url);
 	void add(id, {
 		include,
@@ -290,14 +281,14 @@ const addCssFeature = async (url: string, include?: BooleanFunction[]): Promise<
 			document.documentElement.classList.add('rgh-' + id);
 		},
 	});
-};
+}
 
-const unload = (featureUrl: string): void => {
+function unload(featureUrl: string): void {
 	const id = getFeatureID(featureUrl);
 	for (const controller of currentFeatureControllers.get(id) ?? []) {
 		controller.abort();
 	}
-};
+}
 
 document.addEventListener('turbo:render', () => {
 	for (const feature of currentFeatureControllers.values()) {

@@ -3,10 +3,10 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import {buildRepoURL} from '../github-helpers';
-import attachElement from '../helpers/attach-element';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import {buildRepoURL} from '../github-helpers/index.js';
+import attachElement from '../helpers/attach-element.js';
 
 async function getHead(): Promise<string> {
 	const {repository} = await api.v4(`
@@ -38,13 +38,17 @@ function getCiDetails(commit: string): HTMLElement {
 	);
 }
 
-async function init(): Promise<void> {
+async function init(): Promise<void | false> {
 	const head = await getHead();
-	const repoTitle = await elementReady('[itemprop="name"]');
+	// `.avatar` disables it on "Global navigation update" until #6454
+	const repoTitle = await elementReady('[itemprop="name"]:not(.avatar ~ [itemprop])');
+	if (!repoTitle) {
+		return false;
+	}
 
 	attachElement(
 		// Append to repo title (aware of forks and private repos)
-		repoTitle!.parentElement,
+		repoTitle.parentElement,
 		{append: () => getCiDetails(head)},
 	);
 }

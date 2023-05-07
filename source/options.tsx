@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-nested-ternary */
 import 'webext-base-css/webext-base.css';
 import './options.css';
 import React from 'dom-chef';
@@ -5,17 +6,21 @@ import cache from 'webext-storage-cache';
 import domify from 'doma';
 import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
+import prettyBytes from 'pretty-bytes';
 import {assertError} from 'ts-extras';
 import * as indentTextarea from 'indent-textarea';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {isChrome, isFirefox, isSafari} from 'webext-detect-page';
+import {isChrome, isFirefox} from 'webext-detect-page';
+import {isEnterprise} from 'github-url-detection';
 
-import featureLink from './helpers/feature-link';
-import clearCacheHandler from './helpers/clear-cache-handler';
-import {getLocalHotfixes} from './helpers/hotfix';
-import {createRghIssueLink} from './helpers/rgh-issue-link';
+import featureLink from './helpers/feature-link.js';
+import clearCacheHandler from './helpers/clear-cache-handler.js';
+import {getLocalHotfixes} from './helpers/hotfix.js';
+import {createRghIssueLink} from './helpers/rgh-issue-link.js';
 import {importedFeatures, featuresMeta} from '../readme.md';
-import {perDomainOptions} from './options-storage';
+import getStorageBytesInUse from './helpers/used-storage.js';
+import {isBrowserActionAPopup, perDomainOptions} from './options-storage.js';
+import isDevelopmentVersion from './helpers/is-development-version';
 
 type Status = {
 	error?: true;
@@ -74,6 +79,19 @@ function expandTokenSection(): void {
 	select('details#token')!.open = true;
 }
 
+async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
+	const storage = browser.storage[area];
+	const used = await getStorageBytesInUse(area);
+	const available = storage.QUOTA_BYTES - used;
+	for (const output of select.all(`.storage-${area}`)) {
+		output.textContent = available < 1000
+			? 'FULL!'
+			: (available < 100_000
+				? `Only ${prettyBytes(available)} available`
+				: `${prettyBytes(used)} used`);
+	}
+}
+
 async function validateToken(): Promise<void> {
 	reportStatus({});
 	const tokenField = select('input[name="personalToken"]')!;
@@ -106,9 +124,6 @@ function moveDisabledFeaturesToTop(): void {
 }
 
 function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
-	const descriptionElement = domify.one(description)!;
-	descriptionElement.className = 'description';
-
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
 			<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox"/>
@@ -124,7 +139,7 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 						screenshot
 					</a>
 				)}
-				{descriptionElement}
+				<p className="description">{domify(description)}</p>
 				{screenshot && (
 					<img hidden data-src={screenshot} className="screenshot"/>
 				)}
@@ -217,6 +232,16 @@ function updateRateLink(): void {
 	select('a#rate-link')!.href = isFirefox() ? 'https://addons.mozilla.org/en-US/firefox/addon/refined-github-' : 'https://apps.apple.com/app/id1519867270?action=write-review';
 }
 
+async function showStoredCssHotfixes(): Promise<void> {
+	const cachedCSS = await cache.get<string>('style-hotfixes:');
+	select('#hotfixes-field')!.textContent
+		= isDevelopmentVersion()
+			? 'Hotfixes are not applied in the development version.'
+			: isEnterprise()
+				? 'Hotfixes are not applied on GitHub Enterprise.'
+				: cachedCSS ?? 'No CSS found in cache.';
+}
+
 async function generateDom(): Promise<void> {
 	// Generate list
 	select('.js-features')!.append(...featuresMeta
@@ -241,6 +266,18 @@ async function generateDom(): Promise<void> {
 
 	// Update rate link if necessary
 	updateRateLink();
+
+	// Update storage usage info
+	void updateStorageUsage('local');
+	void updateStorageUsage('sync');
+
+	// Hide non-applicable "Button link" section
+	if (isBrowserActionAPopup) {
+		select('#action')!.hidden = true;
+	}
+
+	// Show stored CSS hotfixes
+	void showStoredCssHotfixes();
 }
 
 function addEventListeners(): void {
@@ -260,15 +297,20 @@ function addEventListeners(): void {
 		location.reload();
 	});
 
+	// Update storage usage info
+	browser.storage.onChanged.addListener((_, areaName) => {
+		void updateStorageUsage(areaName as 'sync' | 'local');
+	});
+
 	// Improve textareas editing
 	fitTextarea.watch('textarea');
 	indentTextarea.watch('textarea');
 
 	// Load screenshots
-	delegate(document, '.screenshot-link', 'click', summaryHandler);
+	delegate('.screenshot-link', 'click', summaryHandler);
 
 	// Automatically focus field when a section is toggled open
-	delegate(document, 'details', 'toggle', focusFirstField, {capture: true});
+	delegate('details', 'toggle', focusFirstField, {capture: true});
 
 	// Filter feature list
 	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
@@ -281,14 +323,6 @@ function addEventListeners(): void {
 
 	// Add token validation
 	select('[name="personalToken"]')!.addEventListener('input', validateToken);
-
-	// Ensure all links open in a new tab #3181
-	delegate(document, 'a[href^="http"]', 'click', event => {
-		if (!event.defaultPrevented) {
-			event.preventDefault();
-			window.open(event.delegateTarget.href);
-		}
-	});
 }
 
 async function init(): Promise<void> {
@@ -297,11 +331,6 @@ async function init(): Promise<void> {
 
 	// TODO: Storage cleanup #6421, Drop in June 2023
 	void browser.storage.local.remove('featuresAlreadySeen');
-
-	// Safari’s storage is inexplicably limited #4823
-	if (isSafari()) {
-		void cache.clear();
-	}
 }
 
 void init();

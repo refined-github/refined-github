@@ -3,7 +3,7 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 
 const formSelector = [
 	'form[action$="/minimize-comment"]',
@@ -79,8 +79,8 @@ function showSubmenu(event: DelegateEvent): void {
 
 function init(signal: AbortSignal): void {
 	// `capture: true` required to be fired before GitHub's handlers
-	delegate(document, '.js-comment-hide-button', 'click', showSubmenu, {capture: true, signal});
-	delegate(document, '.rgh-quick-comment-hiding-details', 'toggle', resetDropdowns, {capture: true, signal});
+	delegate('.js-comment-hide-button', 'click', showSubmenu, {capture: true, signal});
+	delegate('.rgh-quick-comment-hiding-details', 'toggle', resetDropdowns, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {

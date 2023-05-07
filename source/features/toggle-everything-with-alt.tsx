@@ -1,8 +1,8 @@
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import clickAll from '../helpers/click-all';
+import features from '../feature-manager.js';
+import clickAll from '../helpers/click-all.js';
 
 function minimizedCommentsSelector(clickedItem: HTMLElement): string {
 	const open = (clickedItem.parentElement as HTMLDetailsElement).open ? '[open]' : ':not([open])';
@@ -28,23 +28,23 @@ function markdownCommentSelector(clickedItem: HTMLElement): string {
 
 function init(signal: AbortSignal): void {
 	// Collapsed comments in PR conversations and files
-	delegate(document, '.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector), {signal});
+	delegate('.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector), {signal});
 
 	// "Load diff" buttons in PR files
-	delegate(document, diffsSelector, 'click', clickAll(diffsSelector), {signal});
+	delegate(diffsSelector, 'click', clickAll(diffsSelector), {signal});
 
 	// Review comments in PR
-	delegate(document, '.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector), {signal});
+	delegate('.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector), {signal});
 
 	// "Expand all" and "Collapse expanded lines" buttons in commit files
-	delegate(document, expandSelector, 'click', clickAll(expandSelector), {signal});
-	delegate(document, collapseSelector, 'click', clickAll(collapseSelector), {signal});
+	delegate(expandSelector, 'click', clickAll(expandSelector), {signal});
+	delegate(collapseSelector, 'click', clickAll(collapseSelector), {signal});
 
 	// Commit message buttons in commit lists and PR conversations
-	delegate(document, commitMessageSelector, 'click', clickAll(commitMessageSelector), {signal});
+	delegate(commitMessageSelector, 'click', clickAll(commitMessageSelector), {signal});
 
 	// <details> elements in issue/PR comment Markdown content
-	delegate(document, '.TimelineItem-body[id] .markdown-body details > summary', 'click', clickAll(markdownCommentSelector), {signal});
+	delegate('.TimelineItem-body[id] .markdown-body details > summary', 'click', clickAll(markdownCommentSelector), {signal});
 }
 
 void features.add(import.meta.url, {

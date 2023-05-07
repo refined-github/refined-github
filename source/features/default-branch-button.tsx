@@ -3,12 +3,12 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {ChevronLeftIcon} from '@primer/octicons-react';
 
-import features from '../feature-manager';
-import GitHubURL from '../github-helpers/github-url';
-import {groupButtons} from '../github-helpers/group-buttons';
-import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getCurrentCommittish} from '../github-helpers';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import GitHubURL from '../github-helpers/github-url.js';
+import {groupButtons} from '../github-helpers/group-buttons.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import {getCurrentCommittish} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 async function add(branchSelector: HTMLElement): Promise<void> {
 	const defaultBranch = await getDefaultBranch();

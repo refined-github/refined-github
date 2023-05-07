@@ -3,10 +3,10 @@ import cache from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import {getUsername, getCleanPathname} from '../github-helpers';
-import attachElement from '../helpers/attach-element';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import {getUsername, getCleanPathname} from '../github-helpers/index.js';
+import attachElement from '../helpers/attach-element.js';
 
 const doesUserFollow = cache.function('user-follows', async (userA: string, userB: string): Promise<boolean> => {
 	const {httpStatus} = await api.v3(`/users/${userA}/following/${userB}`, {

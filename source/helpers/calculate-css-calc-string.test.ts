@@ -1,6 +1,6 @@
 import {test, assert} from 'vitest';
 
-import calculateCssCalcString from './calculate-css-calc-string';
+import calculateCssCalcString from './calculate-css-calc-string.js';
 
 test('calculateCssCalcString', () => {
 	assert.equal(calculateCssCalcString('calc(1px)'), 1);
