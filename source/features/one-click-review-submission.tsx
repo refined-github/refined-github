@@ -5,7 +5,6 @@ import * as pageDetect from 'github-url-detection';
 import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
-import looseParseInt from '../helpers/loose-parse-int.js';
 
 function addButtons(radios: HTMLInputElement[]): void {
 	const form = radios[0].form!;
@@ -84,13 +83,6 @@ function blockDuplicateSubmissions(event: DelegateEvent): void {
 function init(signal: AbortSignal): false | void {
 	// Freeze form to avoid duplicate submissions
 	delegate('[action$="/reviews"]', 'submit', blockDuplicateSubmissions, {signal});
-
-	// This will prevent submission when clicking "Comment" and "Request changes" without entering a comment and no other review comments are pending
-	delegate('button.rgh-one-click-review-submission', 'click', ({delegateTarget: {value, form}}) => {
-		const pendingComments = looseParseInt(select('.js-reviews-toggle .js-pending-review-comment-count'));
-		const submissionRequiresComment = pendingComments === 0 && (value === 'reject' || value === 'comment');
-		select('#pull_request_review_body', form!)!.toggleAttribute('required', submissionRequiresComment);
-	}, {signal});
 
 	// `return false` must always be after delegated events are added
 	const radios = select.all('input[type="radio"][name="pull_request_review[event]"]');
