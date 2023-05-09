@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
@@ -15,6 +14,10 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	// Do not use `select.all` because elements can be outside `form`
 	// `RadioNodeList` is dynamic, so we need to make a copy
 	const radios = [...form.elements.namedItem('pull_request_review[event]') as RadioNodeList] as HTMLInputElement[];
+	if (radios.length === 0) {
+		features.log.error(import.meta.url, 'Could not find radio buttons');
+		return;
+	}
 
 	// Set the default action for cmd+enter to Comment
 	if (radios.length > 1) {
