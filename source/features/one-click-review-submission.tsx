@@ -105,5 +105,3 @@ https://github.com/refined-github/sandbox/pull/4/files
 https://github.com/refined-github/sandbox/pull/12/files
 
 */
-
-console.log(1);
