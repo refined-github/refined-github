@@ -5,12 +5,16 @@ import * as pageDetect from 'github-url-detection';
 import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
-function addButtons(radios: HTMLInputElement[]): void {
-	const form = radios[0].form!;
-	const actionsRow
-		= select('.form-actions', form) // TODO: Drop after September 2023
-		?? form.closest('.SelectMenu')!.querySelector('.form-actions')!;
+function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
+	const form = originalSubmitButton.form!;
+	const actionsRow = originalSubmitButton.closest('.form-actions')!;
+	const formAttribute = originalSubmitButton.getAttribute('form')!;
+
+	// Do not use `select.all` because elements can be outside `form`
+	// `RadioNodeList` is dynamic, so we need to make a copy
+	const radios = [...form.elements.namedItem('pull_request_review[event]') as RadioNodeList] as HTMLInputElement[];
 
 	// Set the default action for cmd+enter to Comment
 	if (radios.length > 1) {
@@ -41,7 +45,7 @@ function addButtons(radios: HTMLInputElement[]): void {
 				type="submit"
 				name="pull_request_review[event]"
 				// The buttons are no longer inside the form itself; this links the form
-				form={form.contains(actionsRow) ? undefined : form.id} // TODO: Drop condition after September 2023
+				form={formAttribute}
 				value={radio.value}
 				className={classes.join(' ')}
 				aria-label={tooltip!}
@@ -65,8 +69,7 @@ function addButtons(radios: HTMLInputElement[]): void {
 		radio.closest('.form-checkbox')!.remove();
 	}
 
-	// The selector excludes the "Cancel" button
-	select('[type="submit"]:not([name])', actionsRow)!.remove();
+	originalSubmitButton.remove();
 }
 
 let lastSubmission: number | undefined;
@@ -80,22 +83,15 @@ function blockDuplicateSubmissions(event: DelegateEvent): void {
 	lastSubmission = Date.now();
 }
 
-function init(signal: AbortSignal): false | void {
-	// Freeze form to avoid duplicate submissions
-	delegate('[action$="/reviews"]', 'submit', blockDuplicateSubmissions, {signal});
-
-	// `return false` must always be after delegated events are added
-	const radios = select.all('input[type="radio"][name="pull_request_review[event]"]');
-	if (radios.length === 0) {
-		return false;
-	}
-
-	addButtons(radios);
+function init(signal: AbortSignal): void {
+	// The selector excludes the "Cancel" button
+	observe('#review-changes-modal [type="submit"]:not([name])', replaceCheckboxes, {signal});
+	delegate('#review-changes-modal form', 'submit', blockDuplicateSubmissions, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isPR,
+		pageDetect.isPRFiles,
 	],
 	awaitDomReady: true,
 	init,
@@ -109,3 +105,5 @@ https://github.com/refined-github/sandbox/pull/4/files
 https://github.com/refined-github/sandbox/pull/12/files
 
 */
+
+console.log(1);
