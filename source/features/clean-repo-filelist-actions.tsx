@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import {PlusIcon, SearchIcon, CodeIcon} from '@primer/octicons-react';
 
 import observe from '../helpers/selector-observer.js';
-import {assertNodeContent, removeTextNodeContaining, wrap} from '../helpers/dom-utils.js';
+import {assertNodeContent, wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 
 /** Add tooltip on a wrapper to avoid breaking dropdown functionality */
@@ -34,19 +34,20 @@ function cleanFilelistActions(searchButton: Element): void {
 		addTooltipToSummary(addFileDropdown, 'Add file');
 	}
 
-	const codeDropdownButton = select('get-repo summary');
-	if (codeDropdownButton) { // This dropdown doesn't appear on `isSingleFile`
-		addTooltipToSummary(codeDropdownButton, 'Clone, open or download');
-
-		// Users with Codespaces enabled already have an icon in the button https://github.com/refined-github/refined-github/pull/5074#issuecomment-983251719
-		const codeIcon = select('.octicon-code', codeDropdownButton);
-		if (codeIcon) {
-			removeTextNodeContaining(codeIcon.nextSibling!, 'Code');
-		} else {
-			removeTextNodeContaining(codeDropdownButton.firstChild!, 'Code');
-			codeDropdownButton.prepend(<CodeIcon/>);
-		}
+	if (!pageDetect.isRepoRoot()) {
+		return;
 	}
+
+	const codeDropdownButton = select('get-repo summary')!;
+	addTooltipToSummary(codeDropdownButton, 'Clone, open or download');
+
+	const label = select('.Button-label', codeDropdownButton)!;
+	if (!select.exists('.octicon-code', codeDropdownButton)) {
+		// The icon is missing for users without Codespaces https://github.com/refined-github/refined-github/pull/5074#issuecomment-983251719
+		label.before(<span className="Button-visual Button-leadingVisual"><CodeIcon/></span>);
+	}
+
+	label.remove();
 }
 
 function init(signal: AbortSignal): void {
@@ -61,3 +62,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs
+https://github.com/refined-github/sandbox
+https://github.com/refined-github/sandbox/tree/branch/with/slashes
+
+*/
