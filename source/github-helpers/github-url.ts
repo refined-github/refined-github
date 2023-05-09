@@ -1,4 +1,4 @@
-import {getCurrentCommittish} from './index.js';
+import getCurrentGitRef from './get-current-git-ref.js';
 
 export default class GitHubURL {
 	user = '';
@@ -37,7 +37,7 @@ export default class GitHubURL {
 
 		const filePath = ambiguousReference.slice(1).join('/');
 
-		const currentBranch = getCurrentCommittish();
+		const currentBranch = getCurrentGitRef();
 		const currentBranchSections = currentBranch?.split('/');
 		if (
 			!currentBranch // Current branch could not be determined (1/2)
