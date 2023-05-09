@@ -10,8 +10,8 @@ import looseParseInt from '../helpers/loose-parse-int.js';
 function addButtons(radios: HTMLInputElement[]): void {
 	const form = radios[0].form!;
 	const container
-		= form.closest('.SelectMenu')?.querySelector('.form-actions')
-		?? select('.form-actions', form)!; // TODO: Drop after September 2023
+		= select('.form-actions', form) // TODO: Drop after September 2023
+		?? form.closest('.SelectMenu')!.querySelector('.form-actions')!;
 
 	// Set the default action for cmd+enter to Comment
 	if (radios.length > 1) {
@@ -41,7 +41,8 @@ function addButtons(radios: HTMLInputElement[]): void {
 			<button
 				type="submit"
 				name="pull_request_review[event]"
-				form={form.id} // The buttons are no longer inside the form itself; this links the form
+				// The buttons are no longer inside the form itself; this links the form
+				form={form.contains(container) ? undefined : form.id} // TODO: Drop condition after September 2023
 				value={radio.value}
 				className={classes.join(' ')}
 				aria-label={tooltip!}
