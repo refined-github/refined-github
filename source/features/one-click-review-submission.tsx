@@ -34,7 +34,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	for (const radio of radios) {
 		const tooltip = radio.parentElement!.getAttribute('aria-label');
 
-		const classes = ['btn btn-sm rgh-one-click-review-submission'];
+		const classes = ['btn btn-sm'];
 		if (radio.value === 'comment') {
 			classes.push('btn-primary');
 		}
