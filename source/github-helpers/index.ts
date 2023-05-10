@@ -134,3 +134,19 @@ export async function isArchivedRepoAsync(): Promise<boolean> {
 export const userCanLikelyMergePR = (): boolean => select.exists('.discussion-sidebar-item .octicon-lock');
 
 export const cacheByRepo = (): string => getRepo()!.nameWithOwner;
+
+// Commit lists for files and folders lack a branch selector
+export const isRepoCommitListRoot = (): boolean => pageDetect.isRepoCommitList() && document.title.startsWith('Commits');
+
+// Don't make the argument optional, sometimes we really expect it to exist and want to throw an error
+export function extractCurrentBranchFromBranchPicker(branchPicker: HTMLElement): string {
+	return branchPicker.title === 'Switch branches or tags'
+		? branchPicker.textContent!.trim() // Branch name is shown in full
+		: branchPicker.title; // Branch name was clipped, so they placed it in the title attribute
+}
+
+export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement, sibling: HTMLElement): void {
+	const row = branchSelectorParent.closest('.position-relative')!;
+	row.classList.add('d-flex', 'flex-shrink-0', 'gap-2');
+	row.append(sibling);
+}

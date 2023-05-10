@@ -1,6 +1,7 @@
 import {isRepoCommitList} from 'github-url-detection';
 import select from 'select-dom';
 
+import {extractCurrentBranchFromBranchPicker} from './index.js';
 import {branchSelector} from './selectors.js';
 
 const typesWithGitRef = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare']);
@@ -10,7 +11,8 @@ const titleWithGitRef = / at (?<branch>[.\w-/]+)( · [\w-]+\/[\w-]+)?$/i;
 export default function getCurrentGitRef(): string | undefined {
 	// Note: This is not in the <head> so it's only available on AJAXed loads.
 	// It appears on every Code page except `commits` on folders/files
-	const refViaPicker = select(branchSelector)?.textContent!.trim();
+	const picker = select(branchSelector);
+	const refViaPicker = picker && extractCurrentBranchFromBranchPicker(picker);
 	if (refViaPicker) {
 		return refViaPicker;
 	}

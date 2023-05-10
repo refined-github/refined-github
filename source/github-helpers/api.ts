@@ -248,3 +248,6 @@ export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAP
 	error.response = apiResponse;
 	return error;
 }
+
+// Export single API object as default
+export * as default from './api.js';
