@@ -58,3 +58,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs
+
+https://github.com/refined-github/sandbox/commits/4679-1
+https://github.com/refined-github/sandbox/commits/branch/with/slashes
+
+*/
