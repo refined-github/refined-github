@@ -19,7 +19,8 @@
 		<p>
 			Optional, <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,delete_repo">generate one</a><br>
 			<!-- placeholder is set to enable use of :placeholder-shown CSS selector -->
-			<input type="text" name="personalToken" pattern="[\da-f]{40}|ghp_\w{36,251}" placeholder=" " spellcheck="false" autocomplete="off" autocapitalize="off">
+			<!-- https://gist.github.com/magnetikonline/073afe7909ffdd6f10ef06a00bc3bc88 -->
+			<input type="text" name="personalToken" pattern="[\da-f]{40}|ghp_\w{36,251}|github_pat_[a-zA-Z0-9]{22}_[a-zA-Z0-9]{59}" placeholder=" " spellcheck="false" autocomplete="off" autocapitalize="off">
 			<span id="validation"></span>
 		</p>
 		<ul>
