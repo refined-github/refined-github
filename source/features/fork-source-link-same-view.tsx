@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import GitHubURL from '../github-helpers/github-url.js';
 import doesFileExist from '../github-helpers/does-file-exist.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import {getDefaultBranchOfRepo} from '../github-helpers/get-default-branch.js';
 import {getRepo, getForkedRepo} from '../github-helpers/index.js';
 
 const isFilePath = (): boolean =>
@@ -34,7 +34,7 @@ async function getEquivalentURL(): Promise<string> {
 	});
 
 	if (isFilePath()) {
-		sameViewUrl.branch = await getDefaultBranch(forkedRepository);
+		sameViewUrl.branch = await getDefaultBranchOfRepo(forkedRepository);
 		if (!await doesFileExist(sameViewUrl)) {
 			return defaultUrl;
 		}
