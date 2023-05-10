@@ -95,6 +95,12 @@ async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
 async function validateToken(): Promise<void> {
 	reportStatus({});
 	const tokenField = select('input[name="personalToken"]')!;
+
+	if (tokenField.value.startsWith('github_pat_')) {
+		// Validation not supported yet https://github.com/refined-github/refined-github/issues/6092
+		return;
+	}
+
 	if (!tokenField.validity.valid || tokenField.value.length === 0) {
 		expandTokenSection();
 		return;
