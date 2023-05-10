@@ -10,17 +10,15 @@ const isCurrentRepo = ({nameWithOwner}: RepositoryInfo): boolean => Boolean(getR
 
 // Do not make this function complicated. We're only optimizing for the repo root.
 async function fromDOM(): Promise<string | undefined> {
-	if (['', 'commits'].includes(getRepo()!.path)) {
-		// We're on the default branch, so we can extract it from the current page. This exclusively happens on the exact pages:
-		// /user/repo
-		// /user/repo/commits (without further path)
-		const branchPicker = await elementReady(branchSelector);
-		if (branchPicker) {
-			return branchPicker.textContent!.trim();
-		}
+	if (!['', 'commits'].includes(getRepo()!.path)) {
+		return undefined;
 	}
 
-	return undefined;
+	// We're on the default branch, so we can extract it from the current page. This exclusively happens on the exact pages:
+	// /user/repo
+	// /user/repo/commits (without further path)
+	const branchPicker = await elementReady(branchSelector);
+	return branchPicker!.textContent!.trim();
 }
 
 async function fromAPI(repository: RepositoryInfo): Promise<string> {
