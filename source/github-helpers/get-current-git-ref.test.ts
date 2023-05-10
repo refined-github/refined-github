@@ -1,8 +1,8 @@
 import {assert, test} from 'vitest';
 
 // @ts-expect-error JS only
-import {navigateToBranch} from '../../test/fixtures/globals.js';
-import {getGitRef} from './get-current-git-ref.js';
+import {navigateToCommits} from '../../test/fixtures/globals.js';
+import getCurrentGitRef, {getGitRef} from './get-current-git-ref.js';
 
 // The titles supplied here listed here are real, not guessed, except the error tester
 test('getGitRef', () => {
@@ -76,25 +76,6 @@ test('getGitRef', () => {
 		'typescript-eslint/docs/getting-started/README.md at chore/lerna-4 · typescript-eslint/typescript-eslint',
 	), 'chore/lerna-4');
 
-	// Commits
-	navigateToBranch('master');
-	assert.equal(getGitRef(
-		'/typescript-eslint/typescript-eslint/commits/master/docs/getting-started/README.md',
-		'History for docs/getting-started/README.md - typescript-eslint/typescript-eslint',
-	), 'master');
-
-	navigateToBranch('chore/lerna-4');
-	assert.equal(getGitRef(
-		'/typescript-eslint/typescript-eslint/commits/chore/lerna-4/docs/getting-started/README.md',
-		'History for docs/getting-started/README.md - typescript-eslint/typescript-eslint',
-	), 'chore/lerna-4');
-
-	navigateToBranch('this/branch/has/many/slashes');
-	assert.equal(getGitRef(
-		'/yakov116/TestR/commits/this/branch/has/many/slashes',
-		'Commits · yakov116/TestR',
-	), 'this/branch/has/many/slashes');
-
 	// Single commit
 	assert.equal(getGitRef(
 		'/typescript-eslint/typescript-eslint/commit/795fd1c529ee58e97283c9ddf8463703517b50ab',
@@ -111,4 +92,26 @@ test('getGitRef', () => {
 		'/ksh-code/repository/tree/h.l.o.o',
 		'ksh-code/repository at h.l.o.o',
 	), 'h.l.o.o');
+});
+
+// The titles supplied here listed here are real, not guessed, except the error tester
+test('getCurrentGitRef', () => {
+	// Commits
+	navigateToCommits(
+		'master',
+		'/typescript-eslint/typescript-eslint/commits/master/docs/getting-started/README.md',
+	);
+	assert.equal(getCurrentGitRef(), 'master');
+
+	navigateToCommits(
+		'chore/lerna-4',
+		'/typescript-eslint/typescript-eslint/commits/chore/lerna-4/docs/getting-started/README.md',
+	);
+	assert.equal(getCurrentGitRef(), 'chore/lerna-4');
+
+	navigateToCommits(
+		'this/branch/has/many/slashes',
+		'/yakov116/TestR/commits/this/branch/has/many/slashes',
+	);
+	assert.equal(getCurrentGitRef(), 'this/branch/has/many/slashes');
 });

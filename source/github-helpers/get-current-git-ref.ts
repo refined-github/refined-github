@@ -1,3 +1,4 @@
+import {isRepoCommitList} from 'github-url-detection';
 import select from 'select-dom';
 
 import {branchSelector} from './selectors.js';
@@ -14,6 +15,12 @@ export default function getCurrentGitRef(): string | undefined {
 		return refViaPicker;
 	}
 
+	// Slashed branches on `commits`, including pages without a branch picker
+	const branchFromFeed = getCurrentBranchFromFeed();
+	if (branchFromFeed) {
+		return branchFromFeed;
+	}
+
 	return getGitRef(location.pathname, document.title);
 }
 
@@ -28,12 +35,6 @@ export function getGitRef(pathname: string, title: string): string | undefined {
 		return;
 	}
 
-	// Slashed branches on `commits`
-	const branchFromFeed = getCurrentBranchFromFeed(type);
-	if (branchFromFeed) {
-		return branchFromFeed;
-	}
-
 	// Slashed branches on `blob` and `tree`
 	const parsedTitle = titleWithGitRef.exec(title);
 	if (parsedTitle) {
@@ -45,10 +46,10 @@ export function getGitRef(pathname: string, title: string): string | undefined {
 }
 
 // In <head>, but not reliable https://github.com/refined-github/refined-github/assets/1402241/50357d94-505f-48dc-bd54-74e86b19d642
-function getCurrentBranchFromFeed(type: string): string | undefined {
-	const feedLink = type === 'commits' && select('link[type="application/atom+xml"]');
+function getCurrentBranchFromFeed(): string | undefined {
+	const feedLink = isRepoCommitList() && select('link[type="application/atom+xml"]');
 	if (!feedLink) {
-		// Do not throw errors, the element may be missing after AJAX navigation
+		// Do not throw errors, the element may be missing after AJAX navigation even if on the right page
 		return;
 	}
 

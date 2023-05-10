@@ -23,11 +23,12 @@ for (const property of globals) {
 const link = document.createElement('link');
 link.rel = 'alternate';
 link.type = 'application/atom+xml';
-navigateToBranch('master');
+navigateToCommits('master', '/refined-github/refined-github/commits');
 document.head.append(link);
 
 // eslint-disable-next-line import/prefer-default-export
-export function navigateToBranch(branch) {
-	link.href = `https://github.com/avajs/ava/commits/${branch}.atom`;
+export function navigateToCommits(branch, pathname) {
+	link.href = `https://github.com/refined-github/refined-github/commits/${branch}.atom`;
 	link.title = `Recent Commits to ava:${branch}`;
+	location.pathname = pathname;
 }
