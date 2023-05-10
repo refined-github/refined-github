@@ -1,9 +1,10 @@
 /* eslint-disable max-params */
+import {RepositoryInfo} from 'github-url-detection';
+
 import {getRepo} from './index.js';
 
-const currentRepo = getRepo() ?? {nameWithOwner: 'refined-github/refined-github'};
-function getRepoReference(repoNameWithOwner: string, delemiter = ''): string {
-	return repoNameWithOwner === currentRepo.nameWithOwner ? '' : repoNameWithOwner + delemiter;
+function getRepoReference(currentRepo: RepositoryInfo | undefined, repoNameWithOwner: string, delimiter = ''): string {
+	return repoNameWithOwner === currentRepo!.nameWithOwner ? '' : repoNameWithOwner + delimiter;
 }
 
 const escapeRegex = (string: string): string => string.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
@@ -22,7 +23,7 @@ export function preventPrCommitLinkLoss(url: string, repoNameWithOwner: string, 
 		return url;
 	}
 
-	return `[${getRepoReference(repoNameWithOwner, '@')}\`${commit}\` (#${pr})](${url})`;
+	return `[${getRepoReference(getRepo(), repoNameWithOwner, '@')}\`${commit}\` (#${pr})](${url})`;
 }
 
 // To be used as replacer callback in string.replace() for compare links
@@ -31,7 +32,7 @@ export function preventPrCompareLinkLoss(url: string, repoNameWithOwner: string,
 		return url;
 	}
 
-	return `[${getRepoReference(repoNameWithOwner, '@')}\`${compare}\`${hash.slice(0, 16)}](${url})`;
+	return `[${getRepoReference(getRepo(), repoNameWithOwner, '@')}\`${compare}\`${hash.slice(0, 16)}](${url})`;
 }
 
 // To be used as replacer callback in string.replace() for discussion links
@@ -40,5 +41,5 @@ export function preventDiscussionLinkLoss(url: string, repoNameWithOwner: string
 		return url;
 	}
 
-	return `[${getRepoReference(repoNameWithOwner)}#${discussion}${comment ? ' (comment)' : ''}](${url})`;
+	return `[${getRepoReference(getRepo(), repoNameWithOwner)}#${discussion}${comment ? ' (comment)' : ''}](${url})`;
 }

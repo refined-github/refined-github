@@ -24,5 +24,5 @@ describe.concurrent('selectors', () => {
 			const {window} = await fetchDocument(url);
 			assert.isDefined(window.document.querySelector(selector));
 		}));
-	});
+	}, {timeout: 9999});
 });

@@ -29,7 +29,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 
 	const defaultLink = (
 		<a
-			className="btn tooltipped tooltipped-s px-2"
+			className="btn tooltipped tooltipped-ne px-2"
 			href={url.href}
 			data-turbo-frame="repo-content-turbo-frame"
 			aria-label="See this view on the default branch"
