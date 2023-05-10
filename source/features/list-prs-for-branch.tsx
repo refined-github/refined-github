@@ -1,12 +1,13 @@
 import React from 'dom-chef';
-import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import addAfterBranchSelector from '../helpers/add-after-branch-selector.js';
 import {getPullRequestsAssociatedWithBranch, stateIcon} from './show-associated-branch-prs-on-fork.js';
-import {isPermalink} from '../github-helpers/index.js';
+import {addAfterBranchSelector, isPermalink, isRepoCommitListRoot} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
+import api from '../github-helpers/api.js';
+import {branchSelectorParent} from '../github-helpers/selectors.js';
 
 // Taken from https://github.com/fregante/github-issue-link-status/blob/98792f2837352bacbf80664f3edbcec8e579ed17/source/github-issue-link-status.js#L10
 const stateColorMap = {
@@ -16,11 +17,7 @@ const stateColorMap = {
 	DRAFT: '',
 };
 
-async function init(): Promise<void | false> {
-	if (await isPermalink() || await isDefaultBranch()) {
-		return false;
-	}
-
+async function add(branchSelectorParent: HTMLDetailsElement): Promise<void | false> {
 	const getPr = await getPullRequestsAssociatedWithBranch();
 	const currentBranch = getCurrentGitRef()!;
 	const prInfo = getPr[currentBranch];
@@ -29,7 +26,9 @@ async function init(): Promise<void | false> {
 	}
 
 	const StateIcon = stateIcon[prInfo.state];
-	const link = (
+
+	addAfterBranchSelector(
+		branchSelectorParent,
 		<a
 			data-issue-and-pr-hovercards-enabled
 			href={prInfo.url}
@@ -39,16 +38,32 @@ async function init(): Promise<void | false> {
 		>
 			<StateIcon className={stateColorMap[prInfo.state]}/>
 			<span> #{prInfo.number}</span>
-		</a>
+		</a>,
 	);
+}
 
-	await addAfterBranchSelector(link);
+async function init(signal: AbortSignal): Promise<false | void> {
+	if (await isPermalink() || await isDefaultBranch()) {
+		return false;
+	}
+
+	await api.expectToken();
+
+	observe(branchSelectorParent, add, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepoCommitList,
+		isRepoCommitListRoot,
 	],
-	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+
+Test URLs
+
+https://github.com/refined-github/sandbox/commits/4679-1
+https://github.com/refined-github/sandbox/commits/branch/with/slashes
+
+*/

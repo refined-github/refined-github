@@ -3,7 +3,7 @@ import elementReady from 'element-ready';
 import {type RepositoryInfo} from 'github-url-detection';
 
 import * as api from './api.js';
-import {getRepo} from './index.js';
+import {extractCurrentBranchFromBranchPicker, getRepo} from './index.js';
 import {branchSelector} from './selectors.js';
 
 const isCurrentRepo = ({nameWithOwner}: RepositoryInfo): boolean => Boolean(getRepo()?.nameWithOwner === nameWithOwner);
@@ -17,8 +17,7 @@ async function fromDOM(): Promise<string | undefined> {
 	// We're on the default branch, so we can extract it from the current page. This exclusively happens on the exact pages:
 	// /user/repo
 	// /user/repo/commits (without further path)
-	const branchPicker = await elementReady(branchSelector);
-	return branchPicker!.textContent!.trim();
+	return extractCurrentBranchFromBranchPicker((await elementReady(branchSelector))!);
 }
 
 async function fromAPI(repository: RepositoryInfo): Promise<string> {

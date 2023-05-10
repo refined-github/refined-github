@@ -6,10 +6,11 @@ import {TagIcon} from '@primer/octicons-react';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import * as api from '../github-helpers/api.js';
-import {buildRepoURL, cacheByRepo, getLatestVersionTag} from '../github-helpers/index.js';
+import {addAfterBranchSelector, buildRepoURL, cacheByRepo, getLatestVersionTag} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import pluralize from '../helpers/pluralize.js';
+import {branchSelectorParent} from '../github-helpers/selectors.js';
 
 type RepoPublishState = {
 	latestTag: string | false;
@@ -87,11 +88,7 @@ export const getRepoPublishState = cache.function('tag-ahead-by', async (): Prom
 	cacheKey: cacheByRepo,
 });
 
-async function add(branchSelector: HTMLElement): Promise<void> {
-	if (!await isDefaultBranch()) {
-		return;
-	}
-
+async function add(branchSelectorParent: HTMLDetailsElement): Promise<void> {
 	const {latestTag, aheadBy} = await getRepoPublishState();
 	const isAhead = aheadBy > 0;
 
@@ -105,10 +102,10 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 			: pluralize(aheadBy, '$$ unreleased commit');
 	const label = `There are ${commitCount} since ${latestTag}`;
 
-	// TODO: use .position-relative:has(> #branch-select-menu)
-	branchSelector.closest('.position-relative')!.after(
+	addAfterBranchSelector(
+		branchSelectorParent,
 		<a
-			className="btn ml-2 px-2 tooltipped tooltipped-ne"
+			className="btn px-2 tooltipped tooltipped-ne"
 			href={buildRepoURL('compare', `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
@@ -119,9 +116,13 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
+	if (!await isDefaultBranch()) {
+		return false;
+	}
+
 	await api.expectToken();
 
-	observe('#branch-select-menu', add, {signal});
+	observe(branchSelectorParent, add, {signal});
 }
 
 void features.add(import.meta.url, {
