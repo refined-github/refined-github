@@ -1,10 +1,21 @@
-import {getCurrentBranchFromFeed} from './index.js';
+import select from 'select-dom';
 
 const typesWithGitRef = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare']);
 const titleWithGitRef = / at (?<branch>[.\w-/]+)( · [\w-]+\/[\w-]+)?$/i;
 
-/** This only works with URL and page title. Must not be async because it's used by GitHubURL */
-export default function getCurrentGitRef(pathname = location.pathname, title = document.title): string | undefined {
+/** Must not be async because it's used by GitHubURL. May return different results depending on whether it's called before or after DOM ready */
+export default function getCurrentGitRef(): string | undefined {
+	// There are usually 2 elements on the page; 4 on the compare page.
+	// Note: This is not in the <head> so it's only available on AJAXed loads.
+	const refViaPicker = select('ref-selector')?.getAttribute('current-committish');
+	if (refViaPicker) {
+		return refViaPicker;
+	}
+
+	return getGitRef(location.pathname, document.title);
+}
+
+export function getGitRef(pathname: string, title: string): string | undefined {
 	if (!pathname.startsWith('/')) {
 		throw new TypeError(`Expected pathname starting with /, got "${pathname}"`);
 	}
@@ -15,11 +26,6 @@ export default function getCurrentGitRef(pathname = location.pathname, title = d
 		return;
 	}
 
-	// Slashed branches on `commits`
-	if (type === 'commits') {
-		return getCurrentBranchFromFeed()!;
-	}
-
 	// Slashed branches on `blob` and `tree`
 	const parsedTitle = titleWithGitRef.exec(title);
 	if (parsedTitle) {
@@ -27,6 +33,5 @@ export default function getCurrentGitRef(pathname = location.pathname, title = d
 	}
 
 	// Couldn't ensure it's not slashed, so we'll return the first piece whether correct or not
-	// TODO: extract from `ref-selector` if available https://github.com/refined-github/refined-github/issues/6557
 	return gitRefIfNonSlashed;
 }

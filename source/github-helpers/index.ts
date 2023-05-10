@@ -20,20 +20,6 @@ export function getConversationNumber(): number | undefined {
 	return undefined;
 }
 
-export function getCurrentBranchFromFeed(): string {
-	const feedLink = select('link[type="application/atom+xml"]');
-	if (!feedLink) {
-		throw new Error('getCurrentBranchFromFeed() is only available on commit lists');
-	}
-
-	return new URL(feedLink.href)
-		.pathname
-		.split('/')
-		.slice(4) // Drops the initial /user/repo/route/ part
-		.join('/')
-		.replace(/\.atom$/, '');
-}
-
 export const isMac = navigator.userAgent.includes('Macintosh');
 
 type Not<Yes, Not> = Yes extends Not ? never : Yes;
