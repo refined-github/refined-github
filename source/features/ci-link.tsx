@@ -1,12 +1,10 @@
 import './ci-link.css';
 import React from 'dom-chef';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import * as api from '../github-helpers/api.js';
 import {buildRepoURL} from '../github-helpers/index.js';
-import attachElement from '../helpers/attach-element.js';
 import observe from '../helpers/selector-observer.js';
 
 async function getHead(): Promise<string> {
@@ -23,7 +21,7 @@ async function getHead(): Promise<string> {
 	return repository.defaultBranchRef.target.oid;
 }
 
-async function add(anchor: HTMLAnchorElement): Promise<void> {
+async function add(anchor: HTMLElement): Promise<void> {
 	const endpoint = buildRepoURL('commits/checks-statuses-rollups');
 	anchor.parentElement!.append(
 		<span className="rgh-ci-link">
