@@ -21,6 +21,20 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 	// This ID exists whether the feature is documented or not
 	const id = feature?.id ?? currentFeature;
 
+	const isCss = location.pathname.endsWith('.css');
+	const isPrivateFeature = id.startsWith('rgh-');
+
+	const description = feature?.description // Regular feature?
+	?? (
+		isPrivateFeature
+			? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled'
+			: (
+				isCss
+					? 'This feature is CSS-only cannot be disabled'
+					: undefined // The heck!?
+			)
+	);
+
 	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
 	conversationsUrl.searchParams.set('q', `sort:updated-desc is:open "${id}"`);
 
@@ -47,13 +61,13 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 						</clipboard-copy>
 					</h3>
 					{ /* eslint-disable-next-line react/no-danger */ }
-					{feature && <div dangerouslySetInnerHTML={{__html: feature.description}} className="h3"/>}
+					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3"/>}
 					<div className="no-wrap">
 						<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame">Related issues</a>
 						{' • '}
 						<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
 						{
-							location.pathname.endsWith('css')
+							feature && isCss
 								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
 								: undefined
 						}
@@ -110,7 +124,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-- https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.tsx
-- https://github.com/refined-github/refined-github/blob/main/source/features/clean-conversation-sidebar.css
-- https://github.com/refined-github/refined-github/blob/main/source/features/rgh-feature-descriptions.css
+- Regular feature: https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.tsx
+- CSS counterpart: https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.css
+- RGH feature: https://github.com/refined-github/refined-github/blob/main/source/features/rgh-feature-descriptions.css
+- CSS-only feature: https://github.com/refined-github/refined-github/blob/main/source/features/center-reactions-popup.css
 */
