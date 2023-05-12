@@ -22,14 +22,18 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 	}
 
 	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
-	conversationsUrl.searchParams.set('q', `sort:updated-desc "${feature.id}"`);
+	conversationsUrl.searchParams.set('q', `sort:updated-desc is:open "${feature.id}"`);
+
+	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
+	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
+	newIssueUrl.searchParams.set('title', `\`${feature.id}\`: `);
 
 	infoBanner.before(
 		// Block and width classes required to avoid margin collapse
 		<div className="Box mb-3 d-inline-block width-full">
 			<div className="Box-row d-flex gap-3 flex-wrap">
-				<div className="rgh-feature-description">
-					<h3 className="mb-2"><code>{feature.id}</code>
+				<div className="rgh-feature-description d-flex flex-column gap-2">
+					<h3><code>{feature.id}</code>
 						<clipboard-copy
 							aria-label="Copy"
 							data-copy-feedback="Copied!"
@@ -43,11 +47,13 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 					</h3>
 					{ /* eslint-disable-next-line react/no-danger */ }
 					<div dangerouslySetInnerHTML={{__html: feature.description}} className="h3"/>
-					<div className="no-wrap" data-turbo-frame="repo-content-turbo-frame">
-						<a href={conversationsUrl.href}>Related issues</a>
+					<div className="no-wrap">
+						<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame">Related issues</a>
+						{' • '}
+						<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
 						{
 							location.pathname.endsWith('css')
-								? <> • <a href={location.pathname.replace('.css', '.tsx')}>See JavaScript</a></>
+								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
 								: undefined
 						}
 					</div>
