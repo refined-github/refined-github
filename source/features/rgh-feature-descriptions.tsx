@@ -17,27 +17,28 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 	// Enable link even on past commits
 	const currentFeatureName = getNewFeatureName(currentFeature);
 	const feature = featuresMeta.find(feature => feature.id === currentFeatureName);
-	if (!feature) {
-		return;
-	}
+
+	// This ID exists whether the feature is documented or not
+	const id = feature?.id ?? currentFeature;
 
 	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
-	conversationsUrl.searchParams.set('q', `sort:updated-desc is:open "${feature.id}"`);
+	conversationsUrl.searchParams.set('q', `sort:updated-desc is:open "${id}"`);
 
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
-	newIssueUrl.searchParams.set('title', `\`${feature.id}\`: `);
+	newIssueUrl.searchParams.set('title', `\`${id}\`: `);
 
 	infoBanner.before(
 		// Block and width classes required to avoid margin collapse
 		<div className="Box mb-3 d-inline-block width-full">
 			<div className="Box-row d-flex gap-3 flex-wrap">
 				<div className="rgh-feature-description d-flex flex-column gap-2">
-					<h3><code>{feature.id}</code>
+					<h3>
+						<code>{id}</code>
 						<clipboard-copy
 							aria-label="Copy"
 							data-copy-feedback="Copied!"
-							value={feature.id}
+							value={id}
 							class="Link--onHover color-fg-muted d-inline-block ml-2"
 							tabindex="0"
 							role="button"
@@ -46,7 +47,7 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 						</clipboard-copy>
 					</h3>
 					{ /* eslint-disable-next-line react/no-danger */ }
-					<div dangerouslySetInnerHTML={{__html: feature.description}} className="h3"/>
+					{feature && <div dangerouslySetInnerHTML={{__html: feature.description}} className="h3"/>}
 					<div className="no-wrap">
 						<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame">Related issues</a>
 						{' • '}
@@ -58,7 +59,7 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 						}
 					</div>
 				</div>
-				{feature.screenshot && (
+				{feature?.screenshot && (
 					<a href={feature.screenshot} className="flex-self-center">
 						<img
 							src={feature.screenshot}
@@ -111,5 +112,5 @@ Test URLs:
 
 - https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.tsx
 - https://github.com/refined-github/refined-github/blob/main/source/features/clean-conversation-sidebar.css
-
+- https://github.com/refined-github/refined-github/blob/main/source/features/rgh-feature-descriptions.css
 */
