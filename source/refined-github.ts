@@ -215,3 +215,4 @@ import './features/releases-dropdown.js';
 import './features/pr-base-commit.js';
 import './features/unreleased-commits.js';
 import './features/previous-version.js';
+import './features/pr-files-commit-range-not-found.js';

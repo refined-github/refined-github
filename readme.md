@@ -275,6 +275,7 @@ Thanks for contributing! 🦋🙌
 - [](# "view-last-pr-deployment") [Adds a link to open the latest deployment from the header of a PR.](https://user-images.githubusercontent.com/44045911/232313171-b54ac9cc-ebb1-43ef-bd41-5d81ec9f9588.png)
 - [](# "no-unnecessary-split-diff-view") [Always uses unified diffs on files where split diffs aren’t useful.](https://user-images.githubusercontent.com/46634000/121495005-89af8600-c9d9-11eb-822d-77e0b987e3b1.png)
 - [](# "emphasize-draft-pr-label") [Makes it easier to distinguish draft PR in lists.](https://user-images.githubusercontent.com/1402241/218252438-062a1ab3-4437-436d-9140-87bee23aaefb.png)
+- [](# "pr-files-commit-range-not-found") [Redirect to all changes if commit range not found.](https://user-images.githubusercontent.com/8899636/237991799-2fec2f38-7311-4e7d-9050-9449f75a5317.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
