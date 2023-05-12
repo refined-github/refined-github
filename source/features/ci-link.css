@@ -1,5 +1,7 @@
-.rgh-ci-link summary .octicon {
-	/* vertical-align: 0; */
+/* Align only on old style */
+/* TODO: Drop in November 2023 */
+.Label + .rgh-ci-link summary .octicon {
+	vertical-align: 0;
 }
 
 /* The icon appears inside a clickable container, so it must be disabled */
