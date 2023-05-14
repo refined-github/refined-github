@@ -17,7 +17,7 @@ addDomainPermissionToggle();
 
 // No "Button link" support in iOS Safari
 if (isBrowserActionAPopup) {
-	void browser.browserAction.setPopup({popup: 'options.html'});
+	void browser.browserAction.setPopup({popup: 'assets/options.html'});
 }
 
 const messageHandlers = {
