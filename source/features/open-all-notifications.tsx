@@ -8,8 +8,6 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../feature-manager.js';
 import openTabs from '../helpers/open-tabs.js';
 import {appendBefore} from '../helpers/dom-utils.js';
-import showToast from '../github-helpers/toast.js';
-import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
 
 // Selector works on:
@@ -32,10 +30,6 @@ async function openNotifications(notifications: Element[], markAsDone = false): 
 	}
 
 	const openingTabs = openTabs(urls);
-	await showToast(openingTabs, {
-		message: 'Opening tabs…',
-		doneMessage: pluralize(urls.length, '$$ tab') + ' opened',
-	});
 	if (!await openingTabs) {
 		return;
 	}
