@@ -42,7 +42,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoIssueOrPRList,
 	],
 	exclude: [
-		() => select.exists('.blankslate'),
+		pageDetect.isBlank,
 	],
 	deduplicate: 'has-rgh-inner',
 	init: highlightCollaborators,

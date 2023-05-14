@@ -41,24 +41,12 @@
 	--tab-size: 6;
 }
 
-[data-tab-size='7'] {
-	--tab-size: 7;
-}
-
 [data-tab-size='8'] {
 	--tab-size: 8;
 }
 
-[data-tab-size='9'] {
-	--tab-size: 9;
-}
-
 [data-tab-size='10'] {
 	--tab-size: 10;
-}
-
-[data-tab-size='11'] {
-	--tab-size: 11;
 }
 
 [data-tab-size='12'] {
