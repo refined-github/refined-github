@@ -5,7 +5,7 @@ export type BannerProps = RequireAllOrNone<{
 	icon?: JSX.Element;
 	text: Array<string | JSX.Element> | string | JSX.Element;
 	classes?: string[];
-	action: string | (() => void);
+	action: string | React.MouseEventHandler<HTMLButtonElement>;
 	buttonLabel: JSX.Element | string;
 }, 'action' | 'buttonLabel'>;
 

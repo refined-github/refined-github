@@ -1,12 +1,12 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils';
-import features from '../feature-manager';
-import featureLink from '../helpers/feature-link';
-import {getNewFeatureName} from '../options-storage';
-import {isAnyRefinedGitHubRepo} from '../github-helpers';
-import observe from '../helpers/selector-observer';
+import {wrap} from '../helpers/dom-utils.js';
+import features from '../feature-manager.js';
+import featureLink from '../helpers/feature-link.js';
+import {getNewFeatureName} from '../options-storage.js';
+import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 function linkifyFeature(possibleFeature: HTMLElement): void {
 	const id = getNewFeatureName(possibleFeature.textContent!);

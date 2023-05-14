@@ -1,5 +1,5 @@
-import features from '../feature-manager';
-import {isEditable} from '../helpers/dom-utils';
+import features from '../feature-manager.js';
+import {isEditable} from '../helpers/dom-utils.js';
 
 async function handler({key, target}: KeyboardEvent): Promise<void> {
 	if (key === 'y' && !isEditable(target)) {

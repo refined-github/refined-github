@@ -2,7 +2,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 
 let documentTitle: string | undefined;
 let submitting: number | undefined;
@@ -37,7 +37,7 @@ function updateDocumentTitle(): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate(document, 'form', 'submit', disableOnSubmit, {capture: true, signal});
+	delegate('form', 'submit', disableOnSubmit, {capture: true, signal});
 	document.addEventListener('visibilitychange', updateDocumentTitle, {signal});
 }
 

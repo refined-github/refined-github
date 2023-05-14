@@ -2,7 +2,7 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 
 function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
@@ -20,7 +20,7 @@ const commitMessagesSelector = [
 ].join(',');
 
 function init(signal: AbortSignal): void {
-	delegate(document, commitMessagesSelector, 'click', toggleCommitMessage, {signal});
+	delegate(commitMessagesSelector, 'click', toggleCommitMessage, {signal});
 }
 
 void features.add(import.meta.url, {

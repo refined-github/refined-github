@@ -1,8 +1,8 @@
 import mem from 'mem';
 import domify from 'doma';
-import type {ParseSelector} from 'typed-query-selector/parser';
+import type {ParseSelector} from 'typed-query-selector/parser.js';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 
 async function fetchDom(url: string): Promise<DocumentFragment>;
 async function fetchDom<Selector extends string, TElement extends HTMLElement = ParseSelector<Selector, HTMLElement>>(url: string, selector: Selector): Promise<TElement | undefined>;

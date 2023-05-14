@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 function linkify(header: HTMLElement): void {
 	header.append(

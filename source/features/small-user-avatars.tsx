@@ -2,9 +2,9 @@ import './small-user-avatars.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
-import getUserAvatarURL from '../github-helpers/get-user-avatar';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
 
 function addAvatar(link: HTMLElement): void {
 	const username = link.textContent!;

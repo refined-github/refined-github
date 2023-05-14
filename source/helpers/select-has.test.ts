@@ -1,7 +1,7 @@
 import {JSDOM} from 'jsdom';
 import {test, assert} from 'vitest';
 
-import select from './select-has';
+import select from './select-has.js';
 
 test('basic :has() support', () => {
 	const fragment = JSDOM.fragment(`

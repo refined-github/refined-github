@@ -2,15 +2,15 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getRepo} from '../github-helpers';
+import features from '../feature-manager.js';
+import getDefaultBranch, {getDefaultBranchOfRepo} from '../github-helpers/get-default-branch.js';
+import {getRepo} from '../github-helpers/index.js';
 
 async function init(): Promise<false | void> {
 	let defaultBranch;
 	if (select.exists('.is-cross-repo')) {
-		const forkedRepository = getRepo(select('[title^="head: "]')!.textContent!);
-		defaultBranch = await getDefaultBranch(forkedRepository);
+		const forkedRepository = getRepo(select('[title^="head: "]')!.textContent!)!;
+		defaultBranch = await getDefaultBranchOfRepo(forkedRepository);
 	} else {
 		defaultBranch = await getDefaultBranch();
 	}

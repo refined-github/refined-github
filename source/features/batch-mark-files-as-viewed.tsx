@@ -3,11 +3,11 @@ import * as pageDetect from 'github-url-detection';
 import debounceFn from 'debounce-fn';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import clickAll from '../helpers/click-all';
-import showToast from '../github-helpers/toast';
-import getItemsBetween from '../helpers/get-items-between';
-import onAbort from '../helpers/abort-controller';
+import features from '../feature-manager.js';
+import clickAll from '../helpers/click-all.js';
+import showToast from '../github-helpers/toast.js';
+import getItemsBetween from '../helpers/get-items-between.js';
+import onAbort from '../helpers/abort-controller.js';
 
 let previousFile: HTMLElement | undefined;
 let runningBatch = false;
@@ -81,10 +81,10 @@ function avoidSelectionOnShiftClick(event: MouseEvent): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate(document, '.js-reviewed-toggle', 'click', onAltClick, {signal});
-	delegate(document, '.js-reviewed-toggle', 'click', batchToggle, {signal});
-	delegate(document, '.js-reviewed-toggle', 'mousedown', avoidSelectionOnShiftClick, {signal});
-	delegate(document, '.js-toggle-user-reviewed-file-form', 'submit', remember, {signal});
+	delegate('.js-reviewed-toggle', 'click', onAltClick, {signal});
+	delegate('.js-reviewed-toggle', 'click', batchToggle, {signal});
+	delegate('.js-reviewed-toggle', 'mousedown', avoidSelectionOnShiftClick, {signal});
+	delegate('.js-toggle-user-reviewed-file-form', 'submit', remember, {signal});
 	onAbort(signal, () => {
 		previousFile = undefined;
 	});

@@ -3,8 +3,8 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate from 'delegate-it';
 
-import features from '../feature-manager';
-import preserveScroll from '../helpers/preserve-scroll';
+import features from '../feature-manager.js';
+import preserveScroll from '../helpers/preserve-scroll.js';
 
 const botNames = [
 	'actions-user',
@@ -57,7 +57,7 @@ function init(signal: AbortSignal): void {
 	}
 
 	// Undim on mouse focus
-	delegate(document, dimBots.selector, 'click', undimBots, {signal});
+	delegate(dimBots.selector, 'click', undimBots, {signal});
 
 	// Undim on keyboard focus
 	document.documentElement.addEventListener('navigation:keydown', undimBots, {once: true, signal});
@@ -72,7 +72,6 @@ void features.add(import.meta.url, {
 		pageDetect.isBlank, // Prevent error on empty lists #5544
 	],
 	awaitDomReady: true, // TODO: Rewrite with :has()
-	deduplicate: 'has-rgh-inner',
 	init,
 });
 

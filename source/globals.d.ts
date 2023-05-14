@@ -16,8 +16,6 @@ interface Window {
 	content: GlobalFetch;
 }
 
-declare module 'markdown-wasm/dist/markdown.node.js';
-
 declare module 'size-plugin';
 
 declare module '*.md' { // It should be just for readme.md, but 🤷‍♂️
@@ -32,6 +30,8 @@ interface GlobalEventHandlersEventMap {
 	'page:loaded': CustomEvent;
 	'turbo:visit': CustomEvent;
 	'session:resume': CustomEvent;
+	// No input:InputEvent match
+	// https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/1174#issuecomment-933042088
 }
 
 declare namespace JSX {
@@ -77,4 +77,8 @@ declare module 'react' {
 // Make `element.cloneNode()` preserve its type instead of returning Node
 interface Node extends EventTarget {
 	cloneNode(deep?: boolean): this;
+}
+
+interface SignalAsOptions {
+	signal?: AbortSignal;
 }

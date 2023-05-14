@@ -16,8 +16,8 @@ import {
 	XCircleIcon,
 } from '@primer/octicons-react';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 const filters = {
 	'Pull requests': ':is(.octicon-git-pull-request, .octicon-git-pull-request-closed, .octicon-git-pull-request-draft, .octicon-git-merge)',
@@ -163,7 +163,7 @@ function init(signal: AbortSignal): void {
 	observe('.js-notifications-mark-all-prompt', addDropdown, {signal});
 
 	// Close the dropdown when one of the toolbar buttons is clicked
-	delegate(document, '.js-notifications-mark-selected-actions > *, .rgh-open-selected-button', 'click', closeDropdown, {signal});
+	delegate('.js-notifications-mark-selected-actions > *, .rgh-open-selected-button', 'click', closeDropdown, {signal});
 }
 
 void features.add(import.meta.url, {

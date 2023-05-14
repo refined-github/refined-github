@@ -6,13 +6,13 @@ import {CommentIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import preserveScroll from '../helpers/preserve-scroll';
-import onAbort from '../helpers/abort-controller';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import preserveScroll from '../helpers/preserve-scroll.js';
+import onAbort from '../helpers/abort-controller.js';
+import observe from '../helpers/selector-observer.js';
 
 // When an indicator is clicked, this will show comments on the current file
-const handleIndicatorClick = ({delegateTarget}: DelegateEvent): void => {
+function handleIndicatorClick({delegateTarget}: DelegateEvent): void {
 	const commentedLine = delegateTarget.closest('tr')!.previousElementSibling!;
 	const resetScroll = preserveScroll(commentedLine);
 	delegateTarget
@@ -21,7 +21,7 @@ const handleIndicatorClick = ({delegateTarget}: DelegateEvent): void => {
 		.click();
 
 	resetScroll();
-};
+}
 
 // `mem` avoids adding the indicator twice to the same thread
 const addIndicator = mem((commentThread: HTMLElement): void => {
@@ -55,6 +55,7 @@ const indicatorToggleObserver = new MutationObserver(mutations => {
 function init(signal: AbortSignal): void {
 	observe('.file.js-file', element => {
 		// #observe won't observe the same element twice
+		// TODO: toggle visibility via :has selector instead
 		indicatorToggleObserver.observe(element, {
 			attributes: true,
 			attributeOldValue: true,
@@ -62,7 +63,7 @@ function init(signal: AbortSignal): void {
 		});
 	});
 
-	delegate(document, '.rgh-comments-indicator', 'click', handleIndicatorClick, {signal});
+	delegate('.rgh-comments-indicator', 'click', handleIndicatorClick, {signal});
 
 	onAbort(signal, indicatorToggleObserver);
 }

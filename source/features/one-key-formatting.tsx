@@ -2,8 +2,8 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import {onCommentFieldKeydown, onConversationTitleFieldKeydown, onCommitTitleFieldKeydown} from '../github-events/on-field-keydown';
+import features from '../feature-manager.js';
+import {onCommentFieldKeydown, onConversationTitleFieldKeydown, onCommitTitleFieldKeydown} from '../github-events/on-field-keydown.js';
 
 const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~', '“', '‘'];
 const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~', '”', '’'];
@@ -39,7 +39,7 @@ function init(signal: AbortSignal): void {
 	onCommentFieldKeydown(eventHandler, signal);
 	onConversationTitleFieldKeydown(eventHandler, signal);
 	onCommitTitleFieldKeydown(eventHandler, signal);
-	delegate(document, 'input[name="commit_title"], input[name="gist[description]"], #saved-reply-title-field', 'keydown', eventHandler, {signal});
+	delegate('input[name="commit_title"], input[name="gist[description]"], #saved-reply-title-field', 'keydown', eventHandler, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -4,81 +4,28 @@ import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
+import mem from 'mem';
+
+import {branchSelector} from './selectors.js';
 
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);
 export const {getRepositoryInfo: getRepo, getCleanPathname} = pageDetect.utils;
 
-export const getConversationNumber = (): string | undefined => {
+export function getConversationNumber(): number | undefined {
 	if (pageDetect.isPR() || pageDetect.isIssue()) {
-		return location.pathname.split('/')[4];
+		return Number(location.pathname.split('/')[4]);
 	}
 
 	return undefined;
-};
-
-export function getCurrentBranchFromFeed(): string | void {
-	// Not `isRepoCommitList` because this works exclusively on the default branch
-	if (getRepo()!.path !== 'commits') {
-		return;
-	}
-
-	const feedLink = select('link[type="application/atom+xml"]')!;
-	return new URL(feedLink.href)
-		.pathname
-		.split('/')
-		.slice(4) // Drops the initial /user/repo/route/ part
-		.join('/')
-		.replace(/\.atom$/, '');
 }
-
-const typesWithCommittish = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare']);
-const titleWithCommittish = / at (?<branch>[.\w-/]+)( · [\w-]+\/[\w-]+)?$/i;
-export const getCurrentCommittish = (pathname = location.pathname, title = document.title): string | undefined => {
-	if (!pathname.startsWith('/')) {
-		throw new TypeError(`Expected pathname starting with /, got "${pathname}"`);
-	}
-
-	const [type, unslashedCommittish] = pathname.split('/').slice(3);
-	if (!type || !typesWithCommittish.has(type)) {
-		// Root; or piece of information not applicable to the page
-		return;
-	}
-
-	// Handle slashed branches in commits pages
-	if (type === 'commits') {
-		if (!unslashedCommittish) {
-			return getCurrentBranchFromFeed()!;
-		}
-
-		const branchAndFilepath = pathname.split('/').slice(4).join('/');
-
-		// List of all commits of current branch (no filename)
-		if (title.startsWith('Commits · ')) {
-			return branchAndFilepath;
-		}
-
-		// List of commits touching a particular file ("History")
-		const filepath = /^History for ([^ ]+) - /.exec(title)![1];
-		return branchAndFilepath.slice(0, branchAndFilepath.lastIndexOf('/' + filepath));
-	}
-
-	const parsedTitle = titleWithCommittish.exec(title);
-	if (parsedTitle) {
-		return parsedTitle.groups!.branch;
-	}
-
-	return unslashedCommittish;
-};
 
 export const isMac = navigator.userAgent.includes('Macintosh');
 
 type Not<Yes, Not> = Yes extends Not ? never : Yes;
 type UnslashedString<S extends string> = Not<S, `/${string}` | `${string}/`>;
 
-export const buildRepoURL = <S extends string>(
-	...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>
-): string => {
+export function buildRepoURL<S extends string>(...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>): string {
 	// TODO: Drop after https://github.com/sindresorhus/type-fest/issues/417
 	for (const part of pathParts) {
 		if (typeof part === 'string' && /^\/|\/$/.test(part)) {
@@ -87,16 +34,16 @@ export const buildRepoURL = <S extends string>(
 	}
 
 	return [location.origin, getRepo()?.nameWithOwner, ...pathParts].join('/');
-};
+}
 
 export function getForkedRepo(): string | undefined {
 	return select('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
 }
 
-export const parseTag = (tag: string): {version: string; namespace: string} => {
+export function parseTag(tag: string): {version: string; namespace: string} {
 	const [, namespace = '', version = ''] = /(?:(.*)@)?([^@]+)/.exec(tag) ?? [];
 	return {namespace, version};
-};
+}
 
 export function compareNames(username: string, realname: string): boolean {
 	return username.replace(/-/g, '').toLowerCase() === realname.normalize('NFD').replace(/[\u0300-\u036F\W.]/g, '').toLowerCase();
@@ -132,23 +79,24 @@ export function upperCaseFirst(input: string): string {
 	return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
 }
 
-// TODO: Drop after https://github.com/refined-github/github-url-detection/issues/85
+const cachePerPage = {
+	cacheKey: () => location.pathname,
+};
+
 /** Is tag or commit, with elementReady */
-export async function isPermalink(): Promise<boolean> {
-	if (/^[\da-f]{40}$/.test(getCurrentCommittish()!)) {
+export const isPermalink = mem(async () => {
+	// No need for getCurrentGitRef(), it's a simple and exact check
+	if (/^[\da-f]{40}$/.test(location.pathname.split('/')[4])) {
 		// It's a commit
 		return true;
 	}
 
-	await elementReady('[data-hotkey="w"]');
-	return (
-		// Pre "Latest commit design updates"
-		/Tag|Tree/.test(select('[data-hotkey="w"] i')?.textContent ?? '') // Text appears in the branch selector
-
-		// "Latest commit design updates"
-		|| select.exists('[data-hotkey="w"] .octicon-tag') // Tags have an icon
+	// Awaiting only the branch selector means it resolves early even if the icon tag doesn't exist, whereas awaiting the icon tag would wait for the DOM ready event before resolving.
+	return select.exists(
+		'.octicon-tag', // Tags have an icon
+		await elementReady(branchSelector),
 	);
-}
+}, cachePerPage);
 
 export function isRefinedGitHubRepo(): boolean {
 	return location.pathname.startsWith('/refined-github/refined-github');
@@ -186,3 +134,19 @@ export async function isArchivedRepoAsync(): Promise<boolean> {
 export const userCanLikelyMergePR = (): boolean => select.exists('.discussion-sidebar-item .octicon-lock');
 
 export const cacheByRepo = (): string => getRepo()!.nameWithOwner;
+
+// Commit lists for files and folders lack a branch selector
+export const isRepoCommitListRoot = (): boolean => pageDetect.isRepoCommitList() && document.title.startsWith('Commits');
+
+// Don't make the argument optional, sometimes we really expect it to exist and want to throw an error
+export function extractCurrentBranchFromBranchPicker(branchPicker: HTMLElement): string {
+	return branchPicker.title === 'Switch branches or tags'
+		? branchPicker.textContent!.trim() // Branch name is shown in full
+		: branchPicker.title; // Branch name was clipped, so they placed it in the title attribute
+}
+
+export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement, sibling: HTMLElement): void {
+	const row = branchSelectorParent.closest('.position-relative')!;
+	row.classList.add('d-flex', 'flex-shrink-0', 'gap-2');
+	row.append(sibling);
+}

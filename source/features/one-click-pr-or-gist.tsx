@@ -3,8 +3,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import selectHas from '../helpers/select-has';
+import features from '../feature-manager.js';
+import selectHas from '../helpers/select-has.js';
 
 function init(): void | false {
 	const initialGroupedButtons = selectHas('.BtnGroup:has([name="draft"], [name="gist[public]"])');

@@ -4,9 +4,9 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import openTabs from '../helpers/open-tabs';
-import {attachElements} from '../helpers/attach-element';
+import features from '../feature-manager.js';
+import openTabs from '../helpers/open-tabs.js';
+import {attachElements} from '../helpers/attach-element.js';
 
 function getUrlFromItem(issue: Element): string {
 	return issue
@@ -43,7 +43,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 		)},
 	);
 
-	delegate(document, 'button.rgh-open-all-conversations', 'click', onButtonClick, {signal});
+	delegate('button.rgh-open-all-conversations', 'click', onButtonClick, {signal});
 }
 
 void features.add(import.meta.url, {

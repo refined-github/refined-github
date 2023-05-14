@@ -1,8 +1,8 @@
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 function parseTime(element: HTMLElement): number {
 	return new Date(element.getAttribute('datetime')!).getTime();

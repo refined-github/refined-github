@@ -5,8 +5,9 @@ import {GitMergeIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {objectEntries} from 'ts-extras';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`
@@ -57,6 +58,9 @@ async function init(): Promise<void> {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isHasSelectorSupported,
+	],
 	include: [
 		pageDetect.isCommitList,
 		pageDetect.isPRConversation,

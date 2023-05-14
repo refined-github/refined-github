@@ -1,5 +1,6 @@
 /* eslint-disable unicorn/no-object-as-default-parameter -- We want to replace the whole default object, not just part of it */
 
+/** @deprecated Only here for `wait-for-checks` */
 export default function observeElement(
 	element: Node | string,
 	listener: MutationCallback,

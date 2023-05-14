@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import onetime from 'onetime';
 import {isEnterprise} from 'github-url-detection';
 
-import features from '../feature-manager';
-import {getUsername} from '../github-helpers';
+import features from '../feature-manager.js';
+import {getUsername} from '../github-helpers/index.js';
 
 function init(): void {
 	const profileLink = (isEnterprise() ? location.origin : 'https://github.com') + '/' + getUsername()!;

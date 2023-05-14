@@ -8,6 +8,7 @@ const delegateHandler = mem((callback: EventListener) => (event: DelegateEvent) 
 	}
 });
 
+/** @deprecated Only here for `wait-for-checks` */
 export default function onPrMergePanelOpen(callback: EventListener, signal: AbortSignal): void {
-	delegate(document, '.js-merge-pr:not(.is-rebasing)', 'details:toggled', delegateHandler(callback), {signal});
+	delegate('.js-merge-pr:not(.is-rebasing)', 'details:toggled', delegateHandler(callback), {signal});
 }

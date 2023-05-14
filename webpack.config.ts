@@ -21,13 +21,13 @@ const config: Configuration = {
 	].map(name => [name, `./${name}`])),
 	context: path.resolve('source'),
 	output: {
-		path: path.resolve('distribution'),
+		path: path.resolve('distribution/assets'),
 	},
 	module: {
 		rules: [
 			{
 				test: /[/\\]readme\.md$/,
-				loader: '../build/readme.loader.cts',
+				loader: '../build/readme.loader.ts',
 			},
 			{
 				test: /\.tsx?$/,
@@ -52,9 +52,13 @@ const config: Configuration = {
 			browser: 'webextension-polyfill',
 		}),
 		new CopyWebpackPlugin({
-			patterns: [
-				'*.+(html|json|png)',
-			],
+			patterns: [{
+				// Keep only the manifest in the root
+				from: 'manifest.json',
+				to: '..',
+			}, {
+				from: '*.+(html|png)',
+			}],
 		}),
 		new SizePlugin({writeFile: false}),
 	],
@@ -67,14 +71,22 @@ const config: Configuration = {
 			'.ts',
 			'.js',
 		],
+		extensionAlias: {
+			// Explanation: https://www.npmjs.com/package/resolve-typescript-plugin
+			'.js': ['.ts', '.tsx', '.js'],
+		},
 	},
 	optimization: {
-		// Keeps it somewhat readable for AMO reviewers
+		// Keeps it somewhat readable
 		minimizer: [
 			new TerserPlugin({
-				parallel: true,
+				parallel: false, // https://github.com/esbuild-kit/tsx/issues/87#issuecomment-1226117760
 				terserOptions: {
 					mangle: false,
+					compress: {
+						sequences: false,
+						conditionals: false,
+					},
 					output: {
 						beautify: true,
 						indent_level: 2,

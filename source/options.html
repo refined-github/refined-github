@@ -1,6 +1,7 @@
 <!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<base target="_blank">
 <title>Refined GitHub options</title>
 <link rel="stylesheet" href="options.css">
 <form id="options-form" class="detail-view-container">
@@ -18,7 +19,8 @@
 		<p>
 			Optional, <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,delete_repo">generate one</a><br>
 			<!-- placeholder is set to enable use of :placeholder-shown CSS selector -->
-			<input type="text" name="personalToken" pattern="[\da-f]{40}|ghp_\w{36,251}" placeholder=" " spellcheck="false" autocomplete="off" autocapitalize="off">
+			<!-- https://gist.github.com/magnetikonline/073afe7909ffdd6f10ef06a00bc3bc88 -->
+			<input type="text" name="personalToken" pattern="[\da-f]{40}|ghp_\w{36,251}|github_pat_[a-zA-Z0-9]{22}_[a-zA-Z0-9]{59}" placeholder=" " spellcheck="false" autocomplete="off" autocapitalize="off">
 			<span id="validation"></span>
 		</p>
 		<ul>
@@ -37,18 +39,6 @@
 		<div class="js-features"></div>
 	</details>
 
-	<details id="css">
-		<summary><strong>💅 Custom CSS</strong></summary>
-		<p>Like a userstyle, useful to undo unwanted style changes</p>
-		<p><textarea name="customCSS" rows="2" spellcheck="false"></textarea></p>
-	</details>
-
-	<details id="action">
-		<summary><strong>🔗 Button link</strong></summary>
-		<p>You can pick what page opens when you click the Refined GitHub icon in the browser toolbar</p>
-		<p><input type="url" name="actionUrl" placeholder="https://github.com" spellcheck="false" autocomplete="off" autocapitalize="off"></p>
-	</details>
-
 	<details id="bisect">
 		<summary><strong>🔎 Identify feature</strong></summary>
 		<p>
@@ -60,6 +50,20 @@
 		<p>
 			<button id="find-feature">Start process to identify feature…</button>
 		</p>
+	</details>
+
+	<details id="css">
+		<summary><strong>💅 Custom CSS</strong></summary>
+		<p>Like a userstyle, useful to undo unwanted style changes</p>
+		<p><textarea name="customCSS" rows="2" spellcheck="false"></textarea></p>
+		<p>CSS is limited to 100KB, after which the options <a href="https://github.com/fregante/webext-options-sync/issues/27">will stop being saved</a>.</p>
+		<p>Options storage: <output class="storage-sync">unknown</output></p>
+	</details>
+
+	<details id="action">
+		<summary><strong>🔗 Button link</strong></summary>
+		<p>You can pick what page opens when you click the Refined GitHub icon in the browser toolbar</p>
+		<p><input type="url" name="actionUrl" placeholder="https://github.com" spellcheck="false" autocomplete="off" autocapitalize="off"></p>
 	</details>
 
 	<details id="debugging">
@@ -77,9 +81,20 @@
 			</label>
 		</p>
 		<p>
+			Options storage: <output class="storage-sync">unknown</output><br>
+			Cache storage: <output class="storage-local">unknown</output>
+		</p>
+		<p>
 			<button id="clear-cache">Clear cache</button>
 		</p>
 
+	</details>
+
+	<details id="hotfixes">
+		<summary><strong>☄️ Hotfixes</strong></summary>
+		<p>In order to address severe issues as quickly as possible, Refined GitHub loads a list of disabled features and temporary CSS fixes. <a href="https://github.com/refined-github/yolo">More info.</a></p>
+		<p>This is the latest CSS fetched from the server (if any):</p>
+		<p><textarea id="hotfixes-field" rows="2" disabled></textarea></p>
 	</details>
 
 	<details id="export">
@@ -94,7 +109,6 @@
 			<button type="button" class="js-export">Export</button>
 			<button type="button" class="js-import">Import</button>
 		</p>
-
 	</details>
 
 </form>

@@ -4,9 +4,9 @@ import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import fetchDom from '../helpers/fetch-dom';
-import {buildRepoURL, cacheByRepo, getUsername} from '../github-helpers';
+import features from '../feature-manager.js';
+import fetchDom from '../helpers/fetch-dom.js';
+import {buildRepoURL, cacheByRepo, getUsername} from '../github-helpers/index.js';
 
 const getCollaborators = cache.function('repo-collaborators', async (): Promise<string[]> => {
 	const dom = await fetchDom(buildRepoURL('issues/show_menu_content?partial=issues/filters/authors_content'));

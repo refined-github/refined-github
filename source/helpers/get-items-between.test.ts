@@ -1,6 +1,6 @@
 import {test, assert} from 'vitest';
 
-import getItemsBetween from './get-items-between';
+import getItemsBetween from './get-items-between.js';
 
 test('getItemsBetween', () => {
 	const list = ['❤️', '💛', '💚', '💙'];

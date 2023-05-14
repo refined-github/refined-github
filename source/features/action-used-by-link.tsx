@@ -3,8 +3,8 @@ import select from 'select-dom';
 import {SearchIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import selectHas from '../helpers/select-has';
+import features from '../feature-manager.js';
+import selectHas from '../helpers/select-has.js';
 
 function init(): void {
 	const actionRepo = selectHas('aside a:has(.octicon-repo)')!

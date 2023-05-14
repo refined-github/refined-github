@@ -49,6 +49,12 @@ export const renamedFeatures = new Map<string, string>([
 	['set-default-repositories-type-to-sources', 'hide-user-forks'],
 ]);
 
+export function isFeatureDisabled(options: RGHOptions, id: string): boolean {
+	// Must check if it's specifically `false`: It could be undefined if not yet in the readme or if misread from the entry point #6606
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-boolean-literal-compare
+	return options[`feature:${id}`] === false;
+}
+
 export function getNewFeatureName(possibleFeatureName: string): FeatureID | undefined {
 	let newFeatureName = possibleFeatureName;
 	while (renamedFeatures.has(newFeatureName)) {

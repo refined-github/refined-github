@@ -5,7 +5,7 @@
 	"homepage_url": "https://github.com/refined-github/refined-github",
 	"manifest_version": 2,
 	"minimum_chrome_version": "105",
-	"browser_specific_settings": {
+	"applications": {
 		"gecko": {
 			"id": "{a4c4eda4-fb84-4a84-b4a1-f7c1cbf2a1ad}",
 			"strict_min_version": "102.0"
@@ -20,22 +20,22 @@
 		"https://api.github.com/*"
 	],
 	"browser_action": {
-		"default_icon": "icon.png"
+		"default_icon": "assets/icon.png"
 	},
 	"optional_permissions": [
 		"*://*/*"
 	],
 	"icons": {
-		"128": "icon.png"
+		"128": "assets/icon.png"
 	},
 	"options_ui": {
 		"chrome_style": true,
-		"page": "options.html"
+		"page": "assets/options.html"
 	},
 	"background": {
 		"persistent": false,
 		"scripts": [
-			"background.js"
+			"assets/background.js"
 		]
 	},
 	"content_scripts": [
@@ -49,14 +49,14 @@
 				"https://*/login/*"
 			],
 			"css": [
-				"refined-github.css"
+				"assets/refined-github.css"
 			],
 			"js": [
-				"refined-github.js"
+				"assets/refined-github.js"
 			]
 		}
 	],
 	"web_accessible_resources": [
-		"resolve-conflicts.js"
+		"assets/resolve-conflicts.js"
 	]
 }

@@ -3,14 +3,14 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import fetchDom from '../helpers/fetch-dom';
-import * as api from '../github-helpers/api';
-import getTabCount from '../github-helpers/get-tab-count';
-import looseParseInt from '../helpers/loose-parse-int';
-import abbreviateNumber from '../helpers/abbreviate-number';
-import {buildRepoURL, cacheByRepo} from '../github-helpers';
-import {unhideOverflowDropdown} from './more-dropdown-links';
+import features from '../feature-manager.js';
+import fetchDom from '../helpers/fetch-dom.js';
+import * as api from '../github-helpers/api.js';
+import getTabCount from '../github-helpers/get-tab-count.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
+import abbreviateNumber from '../helpers/abbreviate-number.js';
+import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
+import {unhideOverflowDropdown} from './more-dropdown-links.js';
 
 async function canUserEditOrganization(): Promise<boolean> {
 	return Boolean(await elementReady('.btn-primary[href$="repositories/new"]'));
