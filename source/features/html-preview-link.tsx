@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 const isSingleHTMLFile = (): boolean => pageDetect.isSingleFile() && /\.html?$/.test(location.pathname);
 
@@ -15,7 +15,7 @@ function add(rawButton: HTMLAnchorElement): void {
 		.parentElement! // `BtnGroup`
 		.prepend(
 			<a
-				className="btn btn-sm BtnGroup-item rgh-html-preview-link"
+				className="btn btn-sm BtnGroup-item"
 				// #3305
 				href={`https://refined-github-html-preview.kidonng.workers.dev${rawButton.pathname}`}
 			>
@@ -25,7 +25,7 @@ function add(rawButton: HTMLAnchorElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('a#raw-url', add, {signal});
+	observe('a:is(#raw-url, [data-testid="raw-button"])', add, {signal});
 }
 
 void features.add(import.meta.url, {

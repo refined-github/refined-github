@@ -1,7 +1,7 @@
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 function addIndicator(button: HTMLElement): void {
 	const preposition = button.textContent!.includes('Add') ? ' to ' : ' on ';

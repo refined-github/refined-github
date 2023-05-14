@@ -4,8 +4,8 @@ import React from 'dom-chef';
 import {DownloadIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 function add(folderDropdown: HTMLElement): void {
 	const downloadUrl = new URL('https://download-directory.github.io/');
@@ -35,6 +35,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isRepoRoot, // Already has an native download ZIP button
+		pageDetect.isEnterprise,
 	],
 	init,
 });

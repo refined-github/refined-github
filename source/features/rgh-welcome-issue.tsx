@@ -2,8 +2,8 @@ import './rgh-welcome-issue.css';
 import select from 'select-dom';
 import delegate from 'delegate-it';
 
-import features from '../feature-manager';
-import openOptions from '../helpers/open-options';
+import features from '../feature-manager.js';
+import openOptions from '../helpers/open-options.js';
 
 /**
 @file This issue has specific hidden links to wrap the text and then this feature creates a visible link only when the extension is installed.
@@ -21,7 +21,7 @@ const issueUrl = 'https://github.com/refined-github/refined-github/issues/3543';
 const placeholdersSelector = 'a[href="#rgh-linkify-welcome-issue"]';
 
 function init(signal: AbortSignal): void {
-	delegate(document, placeholdersSelector, 'click', openOptions, {signal});
+	delegate(placeholdersSelector, 'click', openOptions, {signal});
 
 	if (select.exists('.rgh-linkify-welcome-issue')) {
 		return;

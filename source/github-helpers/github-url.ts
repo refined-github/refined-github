@@ -1,4 +1,6 @@
-import {getCurrentCommittish} from '.';
+import {isRepoRoot} from 'github-url-detection';
+
+import getCurrentGitRef from './get-current-git-ref.js';
 
 export default class GitHubURL {
 	user = '';
@@ -24,6 +26,7 @@ export default class GitHubURL {
 		return this;
 	}
 
+	// Handle branch names containing multiple slashes #4492
 	private disambiguateReference(
 		ambiguousReference: string[],
 	): {branch: string; filePath: string} {
@@ -37,7 +40,8 @@ export default class GitHubURL {
 
 		const filePath = ambiguousReference.slice(1).join('/');
 
-		const currentBranch = getCurrentCommittish();
+		// TODO: `getCurrentGitRef` uses global state https://github.com/refined-github/refined-github/issues/6637
+		const currentBranch = getCurrentGitRef();
 		const currentBranchSections = currentBranch?.split('/');
 		if (
 			!currentBranch // Current branch could not be determined (1/2)
@@ -68,8 +72,8 @@ export default class GitHubURL {
 
 	set pathname(pathname: string) {
 		const [user, repository, route, ...ambiguousReference] = pathname.replace(/^\/|\/$/g, '').split('/');
-		// Handle branch names containing multiple slashes #4492
-		if (ambiguousReference.length === 2 && ambiguousReference[1].includes('%2F')) {
+		// TODO: `isRepoRoot` uses global state https://github.com/refined-github/refined-github/issues/6637
+		if (isRepoRoot() || (ambiguousReference.length === 2 && ambiguousReference[1].includes('%2F'))) {
 			const branch = ambiguousReference.join('/').replace(/%2F/g, '/');
 			this.assign({user, repository, route, branch, filePath: ''});
 			return;

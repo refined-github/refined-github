@@ -2,9 +2,9 @@ import {test, assert} from 'vitest';
 
 import {
 	addHotkey,
-} from './hotkey';
+} from './hotkey.js';
 
-const testAddHotkey = (existing: string | undefined, added: string, final: string): void => {
+function testAddHotkey(existing: string | undefined, added: string, final: string): void {
 	const link = document.createElement('a');
 	if (existing) {
 		link.setAttribute('data-hotkey', existing);
@@ -12,7 +12,7 @@ const testAddHotkey = (existing: string | undefined, added: string, final: strin
 
 	addHotkey(link, added);
 	assert.equal(link.dataset.hotkey, final);
-};
+}
 
 test('addHotkey if one is specified', testAddHotkey.bind(null,
 	'T-REX',

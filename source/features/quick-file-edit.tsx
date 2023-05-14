@@ -1,50 +1,42 @@
-// TODO: Drop js-navigation-item. Pre-React makeover
+// TODO: In 2024, drop js-navigation-item. Pre-React makeover
 
 import './quick-file-edit.css';
-import mem from 'mem';
 import React from 'dom-chef';
 import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils';
-import features from '../feature-manager';
-import GitHubURL from '../github-helpers/github-url';
-import {isArchivedRepoAsync, isPermalink} from '../github-helpers';
-import getDefaultBranch from '../github-helpers/get-default-branch';
-import observe from '../helpers/selector-observer';
-
-// For https://github.com/refined-github/refined-github/issues/5821
-// TODO: Maybe drop it after `isPermalink` accepts a value thanks to https://github.com/refined-github/github-url-detection/issues/85
-const cachePerPage = {
-	cacheKey: () => location.pathname,
-};
-
-const cachedIsPermalink = mem(isPermalink, cachePerPage);
-const cachedGetDefaultBranch = mem(getDefaultBranch, cachePerPage);
+import {wrap} from '../helpers/dom-utils.js';
+import features from '../feature-manager.js';
+import GitHubURL from '../github-helpers/github-url.js';
+import {isArchivedRepoAsync, isPermalink} from '../github-helpers/index.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import observe from '../helpers/selector-observer.js';
+import {directoryListingFileIcon} from '../github-helpers/selectors.js';
 
 async function linkifyIcon(fileIcon: Element): Promise<void> {
-	const isPermalink_ = await cachedIsPermalink();
-	const fileLink = fileIcon.closest('.js-navigation-item, .react-directory-filename-column')!.querySelector('a.js-navigation-open, a.Link--primary')!;
+	const fileLink = fileIcon
+		.closest('.js-navigation-item, .react-directory-filename-column')!
+		.querySelector('a.js-navigation-open, a.Link--primary')!;
+
 	const url = new GitHubURL(fileLink.href).assign({
 		route: 'edit',
 	});
 
-	if (isPermalink_) {
+	if (await isPermalink()) {
 		// Permalinks can't be edited
-		url.branch = await cachedGetDefaultBranch();
+		url.branch = await getDefaultBranch();
 	}
 
 	wrap(fileIcon, <a href={url.href} className="rgh-quick-file-edit"/>);
 	fileIcon.after(<PencilIcon/>);
 }
 
-async function init(signal: AbortSignal): Promise<void> {
-	await isArchivedRepoAsync();
+async function init(signal: AbortSignal): Promise<void | false> {
+	if (await isArchivedRepoAsync()) {
+		return false;
+	}
 
-	observe([
-		'.react-directory-filename-column svg.color-fg-muted',
-		'.js-navigation-container .octicon-file',
-	], linkifyIcon, {signal});
+	observe(directoryListingFileIcon, linkifyIcon, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -53,3 +45,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs
+
+Legacy views: https://github.com/refined-github/refined-github
+React views: https://github.com/refined-github/refined-github/tree/main/.github
+
+*/

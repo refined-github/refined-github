@@ -1,9 +1,10 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import {buildRepoURL, getRepo, isArchivedRepoAsync} from '../github-helpers';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import {buildRepoURL, getRepo, isArchivedRepoAsync} from '../github-helpers/index.js';
+import {isHasSelectorSupported} from '../helpers/select-has.js';
+import observe from '../helpers/selector-observer.js';
 
 function add(dropdownMenu: HTMLElement): void {
 	dropdownMenu.append(
@@ -22,10 +23,18 @@ async function init(signal: AbortSignal): Promise<void | false> {
 		return false;
 	}
 
-	observe('.Header-item .dropdown-menu:has(> [data-ga-click="Header, create new repository"])', add, {signal});
+	observe([
+		'.dropdown-menu:has(>[data-analytics-event*=\'"label":"new repository"\'])',
+
+		// TODO: Drop after Global Navigation update (Nov 2023)
+		'.Header-item .dropdown-menu:has(> [data-ga-click="Header, create new repository"])',
+	], add, {signal});
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isHasSelectorSupported,
+	],
 	include: [
 		pageDetect.isRepo,
 	],

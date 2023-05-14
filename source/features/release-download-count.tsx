@@ -5,10 +5,10 @@ import {DownloadIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import observe from '../helpers/selector-observer';
-import {createHeatIndexFunction} from '../helpers/math';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import observe from '../helpers/selector-observer.js';
+import {createHeatIndexFunction} from '../helpers/math.js';
 
 type Release = {
 	releaseAssets: {
@@ -70,10 +70,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		const calculateHeatIndex = createHeatIndexFunction([...downloadCounts.values()]);
 		for (const assetName of select.all('.octicon-package ~ a .text-bold', release)) {
 			// Match the asset in the DOM to the asset in the API response
-			const downloadCount = downloadCounts.get(assetName.textContent!);
-			if (!downloadCount) {
-				continue;
-			}
+			const downloadCount = downloadCounts.get(assetName.textContent!) ?? 0;
 
 			// Place next to asset size
 			const assetSize = assetName
@@ -84,19 +81,21 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 
 			const classes = new Set(assetSize.classList);
 			classes.delete('text-sm-left');
-			classes.add('text-right');
-			classes.add('no-wrap');
-			classes.add('ml-auto');
-			classes.add('mr-sm-2');
+
+			if (downloadCount === 0) {
+				classes.add('v-hidden');
+			}
 
 			assetSize.before(
-				<small
-					className={[...classes].join(' ')}
-					title={`${downloadCount} downloads`}
-					data-rgh-heat={calculateHeatIndex(downloadCount)}
-				>
-					{abbreviateNumber(downloadCount)} <DownloadIcon/>
-				</small>,
+				<span className={[...classes].join(' ')}>
+					<span
+						className="d-inline-block text-right"
+						title={`${downloadCount} downloads`}
+						data-rgh-heat={calculateHeatIndex(downloadCount)}
+					>
+						{abbreviateNumber(downloadCount)} <DownloadIcon/>
+					</span>
+				</span>,
 			);
 		}
 	}

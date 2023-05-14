@@ -3,19 +3,19 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {ChevronLeftIcon} from '@primer/octicons-react';
 
-import features from '../feature-manager';
-import GitHubURL from '../github-helpers/github-url';
-import {groupButtons} from '../github-helpers/group-buttons';
-import getDefaultBranch from '../github-helpers/get-default-branch';
-import {getCurrentCommittish} from '../github-helpers';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import GitHubURL from '../github-helpers/github-url.js';
+import {groupButtons} from '../github-helpers/group-buttons.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import observe from '../helpers/selector-observer.js';
+import {branchSelector} from '../github-helpers/selectors.js';
+import isDefaultBranch from '../github-helpers/is-default-branch.js';
+import {isRepoCommitListRoot} from '../github-helpers/index.js';
 
 async function add(branchSelector: HTMLElement): Promise<void> {
-	const defaultBranch = await getDefaultBranch();
-	const currentBranch = getCurrentCommittish();
-
 	// Don't show the button if we’re already on the default branch
-	if (defaultBranch === currentBranch) {
+	// TODO: Move to `asLongAs` when it accepts async detections
+	if (await isDefaultBranch()) {
 		return;
 	}
 
@@ -25,12 +25,12 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		url.route = '';
 		url.branch = '';
 	} else {
-		url.branch = defaultBranch;
+		url.branch = await getDefaultBranch();
 	}
 
 	const defaultLink = (
 		<a
-			className="btn tooltipped tooltipped-s px-2"
+			className="btn tooltipped tooltipped-ne px-2"
 			href={url.href}
 			data-turbo-frame="repo-content-turbo-frame"
 			aria-label="See this view on the default branch"
@@ -49,14 +49,14 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[data-hotkey="w"]', add, {signal});
+	observe(branchSelector, add, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
-		pageDetect.isRepoCommitList,
+		isRepoCommitListRoot,
 	],
 	exclude: [
 		pageDetect.isRepoHome,

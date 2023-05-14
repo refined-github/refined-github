@@ -7,12 +7,12 @@ changelog:
     - title: New
       labels:
         - enhancement
+    - title: Bugfixes
+      labels:
+        - bug
     - title: Changes
       labels:
         - '*'
       exclude:
         labels:
           - bug
-    - title: Bugfixes
-      labels:
-        - bug

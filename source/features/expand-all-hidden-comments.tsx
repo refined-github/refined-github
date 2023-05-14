@@ -3,8 +3,8 @@ import oneEvent from 'one-event';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import showToast from '../github-helpers/toast';
+import features from '../feature-manager.js';
+import showToast from '../github-helpers/toast.js';
 
 const paginationButtonSelector = '.ajax-pagination-form button[type="submit"]';
 
@@ -35,7 +35,7 @@ async function handleAltClick({altKey, delegateTarget}: DelegateEvent<MouseEvent
 }
 
 function init(signal: AbortSignal): void {
-	delegate(document, paginationButtonSelector, 'click', handleAltClick, {signal});
+	delegate(paginationButtonSelector, 'click', handleAltClick, {signal});
 }
 
 void features.add(import.meta.url, {

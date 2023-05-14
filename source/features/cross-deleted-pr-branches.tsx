@@ -3,8 +3,8 @@ import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils';
-import features from '../feature-manager';
+import {wrap} from '../helpers/dom-utils.js';
+import features from '../feature-manager.js';
 
 function init(): void | false {
 	const lastBranchAction = select.last('.TimelineItem-body .user-select-contain.commit-ref');

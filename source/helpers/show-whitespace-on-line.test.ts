@@ -1,8 +1,9 @@
 import {assert, test} from 'vitest';
 
+// eslint-disable-next-line n/file-extension-in-import -- No exports map support
 import hl from 'highlight.js/lib/common';
 
-import showWhiteSpacesOnLine from './show-whitespace-on-line';
+import showWhiteSpacesOnLine from './show-whitespace-on-line.js';
 
 function highlight(html: string): string {
 	// Use highlighter to create multiple text nodes

@@ -2,7 +2,7 @@ import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 
 function toggleFile(event: DelegateEvent<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
@@ -16,7 +16,7 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate(document, '.file-header', 'click', toggleFile, {signal});
+	delegate('.file-header', 'click', toggleFile, {signal});
 }
 
 void features.add(import.meta.url, {

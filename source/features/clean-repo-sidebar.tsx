@@ -4,7 +4,7 @@ import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 // The h2 is to avoid hiding website links that include '/releases' #4424
 export const releasesSidebarSelector = '.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]';
 async function cleanReleases(): Promise<void> {
@@ -53,6 +53,13 @@ async function hideEmptyMeta(): Promise<void> {
 	}
 }
 
+async function moveReportLink(): Promise<void> {
+	await domLoaded;
+
+	const reportLink = select('.Layout-sidebar a[href^="/contact/report-content"]')!.parentElement!;
+	select('.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell')!.append(reportLink);
+}
+
 async function init(): Promise<void> {
 	document.documentElement.classList.add('rgh-clean-repo-sidebar');
 
@@ -61,6 +68,7 @@ async function init(): Promise<void> {
 		hideEmptyPackages(),
 		hideLanguageHeader(),
 		hideEmptyMeta(),
+		moveReportLink(),
 	]);
 }
 

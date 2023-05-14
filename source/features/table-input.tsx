@@ -5,23 +5,27 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import smartBlockWrap from '../helpers/smart-block-wrap';
-import observe from '../helpers/selector-observer';
-import {isHasSelectorSupported} from '../helpers/select-has';
+import features from '../feature-manager.js';
+import smartBlockWrap from '../helpers/smart-block-wrap.js';
+import observe from '../helpers/selector-observer.js';
+import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
 	const field = square.form!.querySelector('textarea.js-comment-field')!;
 	const cursorPosition = field.selectionStart;
 
+	const columns = Number(square.dataset.x);
+	const rows = Number(square.dataset.y);
+	const row = columns === 1
+		// One HTML line per row
+		? '<tr><td>\n'
+
+		// <tr> on its own line
+		// "1 space" indents without causing unwanted Markdown code blocks that 4 spaces would cause
+		: '<tr>\n' + ' <td>\n'.repeat(columns);
 	field.focus();
-	const table
-		= '<table>\n'
-			+ ('<tr>\n'
-				+ '\t<td>\n'.repeat(Number(square.dataset.x))
-			).repeat(Number(square.dataset.y))
-		+ '</table>';
+	const table = '<table>\n' + row.repeat(rows) + '</table>';
 	textFieldEdit.insert(field, smartBlockWrap(table, field));
 
 	// Move caret to first cell
@@ -68,10 +72,10 @@ function add(anchor: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('md-task-list', add, {signal});
-	delegate(document, '.rgh-tic', 'click', addTable, {signal});
-	if (!isHasSelectorSupported) {
-		delegate(document, '.rgh-tic', 'mouseenter', highlightSquares, {capture: true, signal});
+	observe('md-ref', add, {signal});
+	delegate('.rgh-tic', 'click', addTable, {signal});
+	if (!isHasSelectorSupported()) {
+		delegate('.rgh-tic', 'mouseenter', highlightSquares, {capture: true, signal});
 	}
 }
 

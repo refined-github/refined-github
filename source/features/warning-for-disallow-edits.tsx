@@ -5,8 +5,8 @@ import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import attachElement from '../helpers/attach-element';
+import features from '../feature-manager.js';
+import attachElement from '../helpers/attach-element.js';
 
 const getWarning = onetime(() => (
 	<div className="flash flash-error mt-3 rgh-warning-for-disallow-edits">
@@ -39,7 +39,7 @@ function init(signal: AbortSignal): void | false {
 	}
 
 	update(checkbox); // The sidebar checkbox may already be un-checked
-	delegate(document, 'input[name="collab_privs"]', 'change', toggleHandler, {signal});
+	delegate('input[name="collab_privs"]', 'change', toggleHandler, {signal});
 }
 
 void features.add(import.meta.url, {

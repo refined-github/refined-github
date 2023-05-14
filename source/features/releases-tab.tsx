@@ -5,15 +5,16 @@ import {TagIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import observe from '../helpers/selector-observer';
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import looseParseInt from '../helpers/loose-parse-int';
-import abbreviateNumber from '../helpers/abbreviate-number';
-import createDropdownItem from '../github-helpers/create-dropdown-item';
-import {buildRepoURL, cacheByRepo} from '../github-helpers';
-import {releasesSidebarSelector} from './clean-repo-sidebar';
-import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils';
+import observe from '../helpers/selector-observer.js';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
+import abbreviateNumber from '../helpers/abbreviate-number.js';
+import createDropdownItem from '../github-helpers/create-dropdown-item.js';
+import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
+import {releasesSidebarSelector} from './clean-repo-sidebar.js';
+import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
+import {underlineNavDropdownUl} from '../github-helpers/selectors.js';
 
 const cacheName = 'releases-count';
 
@@ -84,7 +85,7 @@ async function addReleasesTab(): Promise<false | void> {
 	// Trigger a reflow to push the right-most tab into the overflow dropdown (second attempt #4254)
 	window.dispatchEvent(new Event('resize'));
 
-	const dropdownMenu = await elementReady('.js-responsive-underlinenav .dropdown-menu ul');
+	const dropdownMenu = await elementReady(underlineNavDropdownUl);
 
 	appendBefore(
 		dropdownMenu!,

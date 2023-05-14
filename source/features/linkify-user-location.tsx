@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 
-import features from '../feature-manager';
-import {wrap} from '../helpers/dom-utils';
-import observe from '../helpers/selector-observer';
+import features from '../feature-manager.js';
+import {wrap} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 function addLocation({nextElementSibling, nextSibling}: SVGElement): Element {
 	// `nextSibling` alone might point to an empty TextNode before an element, if there’s an element

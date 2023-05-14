@@ -27,8 +27,8 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import features from '../feature-manager';
-import {getRepo, getUsername} from '../github-helpers';
+import features from '../feature-manager.js';
+import {getRepo, getUsername} from '../github-helpers/index.js';
 
 async function wiggleWiggleWiggle(): Promise<void> {
 	await cache.set('did-it-wiggle', 'yup', {days: 7});
@@ -95,7 +95,7 @@ async function handleNewIssue(signal: AbortSignal): Promise<false> {
 }
 
 function handleSponsorButton(signal: AbortSignal): void {
-	delegate(document, '#sponsor-button-repo, #sponsor-profile-button, [aria-label^="Sponsor @"]', 'click', suchLove, {signal});
+	delegate('#sponsor-button-repo, #sponsor-profile-button, [aria-label^="Sponsor @"]', 'click', suchLove, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -3,9 +3,9 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon, IssueOpenedIcon} from '@primer/octicons-react';
 
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
-import {assertNodeContent} from '../helpers/dom-utils';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 
 function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	const repository = repositoryLink.closest('li')!;

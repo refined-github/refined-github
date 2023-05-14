@@ -6,10 +6,10 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import {wrap} from '../helpers/dom-utils';
-import features from '../feature-manager';
-import {getUsername, isArchivedRepoAsync} from '../github-helpers';
-import observe from '../helpers/selector-observer';
+import {wrap} from '../helpers/dom-utils.js';
+import features from '../feature-manager.js';
+import {getUsername, isArchivedRepoAsync} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
@@ -86,7 +86,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		return;
 	}
 
-	delegate(document, 'button.rgh-quick-mention', 'click', mentionUser, {signal});
+	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
 
 	// `:first-child` avoids app badges #2630
 	// The hovercard attribute avoids `highest-rated-comment`

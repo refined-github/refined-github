@@ -1,6 +1,6 @@
 import {test, assert} from 'vitest';
 
-import SearchQuery from './search-query';
+import SearchQuery from './search-query.js';
 
 test('.get', () => {
 	const query = SearchQuery.from({q: 'wow'});

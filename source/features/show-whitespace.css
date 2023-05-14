@@ -16,3 +16,60 @@
 	background-image: url('data:image/svg+xml,%3Csvg preserveAspectRatio="xMinYMid meet" viewBox="0 0 12 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M4.5 11C4.5 10.1716 5.17157 9.5 6 9.5C6.82843 9.5 7.5 10.1716 7.5 11C7.5 11.8284 6.82843 12.5 6 12.5C5.17157 12.5 4.5 11.8284 4.5 11Z" fill="rgba(128, 128, 128, 50%25)"/%3E%3C/svg%3E');
 	background-size: 1ch 1.25em;
 }
+
+[data-tab-size='1'] {
+	--tab-size: 1;
+}
+
+[data-tab-size='2'] {
+	--tab-size: 2;
+}
+
+[data-tab-size='3'] {
+	--tab-size: 3;
+}
+
+[data-tab-size='4'] {
+	--tab-size: 4;
+}
+
+[data-tab-size='5'] {
+	--tab-size: 5;
+}
+
+[data-tab-size='6'] {
+	--tab-size: 6;
+}
+
+[data-tab-size='7'] {
+	--tab-size: 7;
+}
+
+[data-tab-size='8'] {
+	--tab-size: 8;
+}
+
+[data-tab-size='9'] {
+	--tab-size: 9;
+}
+
+[data-tab-size='10'] {
+	--tab-size: 10;
+}
+
+[data-tab-size='11'] {
+	--tab-size: 11;
+}
+
+[data-tab-size='12'] {
+	--tab-size: 12;
+}
+
+/*
+Can't use this because attr() returns strings and casting isn't supported anywhere yet
+https://developer.mozilla.org/en-US/docs/Web/CSS/attr
+
+[data-tab-size] {
+	--tab-size: attr(data-tab-size);
+}
+*/

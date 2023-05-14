@@ -1,6 +1,6 @@
 import {test, assert} from 'vitest';
 
-import pluralize from './pluralize';
+import pluralize from './pluralize.js';
 
 test('pluralize', () => {
 	assert.equal(pluralize(0, 'A number', '$$ numbers'), '0 numbers');

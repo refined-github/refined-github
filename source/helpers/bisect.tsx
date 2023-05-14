@@ -3,8 +3,8 @@ import cache from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 
-import pluralize from './pluralize';
-import featureLink from './feature-link';
+import pluralize from './pluralize.js';
+import featureLink from './feature-link.js';
 import {importedFeatures} from '../../readme.md';
 
 // Split current list of features in half and create an options-like object to be applied on load
@@ -31,7 +31,7 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 
 	// Last step, no JS feature was enabled
 	if (answer === 'yes') {
-		createMessageBox('No features were enabled on this page. Try disabling Refined GitHub to see if it belongs to it at all.');
+		createMessageBox('No features were enabled on this page. Try disabling Refined GitHub to see if the change or issue is caused by the extension.');
 	} else {
 		const feature = (
 			<a href={featureLink(bisectedFeatures[0])}>

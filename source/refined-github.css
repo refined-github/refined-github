@@ -192,3 +192,7 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 .flex-grow-1 {
 	flex-grow: 1 !important;
 }
+
+.rgh-bg-none {
+	background: none !important;
+}

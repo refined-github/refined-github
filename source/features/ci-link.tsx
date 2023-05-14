@@ -1,12 +1,11 @@
 import './ci-link.css';
 import React from 'dom-chef';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import * as api from '../github-helpers/api';
-import {buildRepoURL} from '../github-helpers';
-import attachElement from '../helpers/attach-element';
+import features from '../feature-manager.js';
+import * as api from '../github-helpers/api.js';
+import {buildRepoURL} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 async function getHead(): Promise<string> {
 	const {repository} = await api.v4(`
@@ -22,39 +21,41 @@ async function getHead(): Promise<string> {
 	return repository.defaultBranchRef.target.oid;
 }
 
-function getCiDetails(commit: string): HTMLElement {
+async function add(anchor: HTMLElement): Promise<void> {
 	const endpoint = buildRepoURL('commits/checks-statuses-rollups');
-	return (
-		// `span` also required by `attachElement`’s deduplicator
+	anchor.parentElement!.append(
 		<span className="rgh-ci-link">
 			<batch-deferred-content hidden data-url={endpoint}>
 				<input
 					name="oid"
-					value={commit}
+					value={await getHead()}
 					data-targets="batch-deferred-content.inputs"
 				/>
 			</batch-deferred-content>
-		</span>
+		</span>,
 	);
+
+	// A parent is clipping the popup
+	anchor.closest('.AppHeader-context-full')?.style.setProperty('overflow', 'visible');
 }
 
-async function init(): Promise<void> {
-	const head = await getHead();
-	const repoTitle = await elementReady('[itemprop="name"]');
+async function init(signal: AbortSignal): Promise<void> {
+	observe([
+		// Desktop
+		'.AppHeader-context-item:not([data-hovercard-type])',
 
-	attachElement(
-		// Append to repo title (aware of forks and private repos)
-		repoTitle!.parentElement,
-		{append: () => getCiDetails(head)},
-	);
+		// Mobile. `> *:first-child` avoids finding our own element
+		'.AppHeader-context-compact-mainItem > span:first-child',
+
+		// Old selector: `.avatar` excludes "Global navigation update"
+		// Repo title (aware of forks and private repos)
+		'[itemprop="name"]:not(.avatar ~ [itemprop])',
+	], add, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
-	],
-	exclude: [
-		pageDetect.isEmptyRepo,
 	],
 	init,
 });

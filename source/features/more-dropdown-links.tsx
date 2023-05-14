@@ -4,10 +4,11 @@ import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
-import getDefaultBranch from '../github-helpers/get-default-branch';
-import createDropdownItem from '../github-helpers/create-dropdown-item';
-import {buildRepoURL, getCurrentCommittish} from '../github-helpers';
+import features from '../feature-manager.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import createDropdownItem from '../github-helpers/create-dropdown-item.js';
+import {buildRepoURL} from '../github-helpers/index.js';
+import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
 
 export async function unhideOverflowDropdown(): Promise<boolean> {
 	// Wait for the tab bar to be loaded
@@ -23,7 +24,7 @@ export async function unhideOverflowDropdown(): Promise<boolean> {
 }
 
 async function init(): Promise<void> {
-	const reference = getCurrentCommittish() ?? await getDefaultBranch();
+	const reference = getCurrentGitRef() ?? await getDefaultBranch();
 	const compareUrl = buildRepoURL('compare', reference);
 	const commitsUrl = buildRepoURL('commits', reference);
 	const branchesUrl = buildRepoURL('branches');

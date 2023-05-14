@@ -45,7 +45,15 @@ export const renamedFeatures = new Map<string, string>([
 	['pull-request-hotkey', 'pull-request-hotkeys'],
 	['first-published-tag-for-merged-pr', 'closing-remarks'],
 	['scheduled-and-manual-workflow-indicators', 'github-actions-indicators'],
+	['useful-forks', 'fork-notice'],
+	['set-default-repositories-type-to-sources', 'hide-user-forks'],
 ]);
+
+export function isFeatureDisabled(options: RGHOptions, id: string): boolean {
+	// Must check if it's specifically `false`: It could be undefined if not yet in the readme or if misread from the entry point #6606
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-boolean-literal-compare
+	return options[`feature:${id}`] === false;
+}
 
 export function getNewFeatureName(possibleFeatureName: string): FeatureID | undefined {
 	let newFeatureName = possibleFeatureName;

@@ -2,12 +2,13 @@ import React from 'dom-chef';
 import {InfoIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import createBanner from '../github-helpers/banner';
-import features from '../feature-manager';
-import observe from '../helpers/selector-observer';
-import {isAnyRefinedGitHubRepo} from '../github-helpers';
-import {getNoticeText, shouldDisplayNotice} from './netiquette';
-import TimelineItem from '../github-helpers/timeline-item';
+import createBanner from '../github-helpers/banner.js';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
+import {getNoticeText, shouldDisplayNotice} from './netiquette.js';
+import TimelineItem from '../github-helpers/timeline-item.js';
+import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 function addConversationBanner(newCommentBox: HTMLElement): void {
 	const button = (
@@ -24,6 +25,7 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 	const banner = (
 		<TimelineItem>
 			{createBanner({
+				classes: ['rgh-bg-none'],
 				icon: <InfoIcon className="mr-1"/>,
 				text: <>{getNoticeText()} If it must really be here, you can {button}.</>,
 			})}
@@ -45,6 +47,7 @@ function init(signal: AbortSignal): void | false {
 void features.add(import.meta.url, {
 	asLongAs: [
 		isAnyRefinedGitHubRepo,
+		isHasSelectorSupported,
 	],
 	include: [
 		pageDetect.isConversation,
