@@ -21,7 +21,7 @@ const config: Configuration = {
 	].map(name => [name, `./${name}`])),
 	context: path.resolve('source'),
 	output: {
-		path: path.resolve('distribution/resources'),
+		path: path.resolve('distribution/assets'),
 	},
 	module: {
 		rules: [

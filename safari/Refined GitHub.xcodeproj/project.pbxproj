@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F9945322A07DB5E005BC236 /* resources in Resources */ = {isa = PBXBuildFile; fileRef = 1F9945312A07DB5E005BC236 /* resources */; };
-		1F9945332A07DB5E005BC236 /* resources in Resources */ = {isa = PBXBuildFile; fileRef = 1F9945312A07DB5E005BC236 /* resources */; };
+		1F9945322A07DB5E005BC236 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 1F9945312A07DB5E005BC236 /* assets */; };
+		1F9945332A07DB5E005BC236 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 1F9945312A07DB5E005BC236 /* assets */; };
 		E3312B3627691C89006DA596 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3312B3527691C89006DA596 /* Utilities.swift */; };
 		E3312B3727691C89006DA596 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3312B3527691C89006DA596 /* Utilities.swift */; };
 		E35EB4BB26F36E0900DDEA60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35EB4BA26F36E0900DDEA60 /* AppDelegate.swift */; };
@@ -80,7 +80,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1F9945312A07DB5E005BC236 /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = resources; sourceTree = "<group>"; };
+		1F9945312A07DB5E005BC236 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		E3312B3527691C89006DA596 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		E33F1EF826F380AF00ACEB0F /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		E35EB4AB26F36E0800DDEA60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = ../Base.lproj/Main.html; sourceTree = "<group>"; };
@@ -240,7 +240,7 @@
 		E3919AC127E6107E009C4956 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1F9945312A07DB5E005BC236 /* resources */,
+				1F9945312A07DB5E005BC236 /* assets */,
 				E3919AE727E61192009C4956 /* manifest.json */,
 			);
 			name = Resources;
@@ -400,7 +400,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3919AF927E61192009C4956 /* manifest.json in Resources */,
-				1F9945322A07DB5E005BC236 /* resources in Resources */,
+				1F9945322A07DB5E005BC236 /* assets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,7 +409,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3919AFA27E61192009C4956 /* manifest.json in Resources */,
-				1F9945332A07DB5E005BC236 /* resources in Resources */,
+				1F9945332A07DB5E005BC236 /* assets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
