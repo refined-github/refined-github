@@ -1,11 +1,8 @@
-import {isMobileSafari} from 'webext-detect-page';
 import OptionsSyncPerDomain from 'webext-options-sync-per-domain';
 
 import {importedFeatures} from '../readme.md';
 
 export type RGHOptions = typeof defaults;
-
-export const isBrowserActionAPopup = isMobileSafari();
 
 // eslint-disable-next-line prefer-object-spread -- TypeScript doesn't merge the definitions so `...` is not equivalent.
 const defaults = Object.assign({
@@ -51,6 +48,12 @@ export const renamedFeatures = new Map<string, string>([
 	['useful-forks', 'fork-notice'],
 	['set-default-repositories-type-to-sources', 'hide-user-forks'],
 ]);
+
+export function isFeatureDisabled(options: RGHOptions, id: string): boolean {
+	// Must check if it's specifically `false`: It could be undefined if not yet in the readme or if misread from the entry point #6606
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-boolean-literal-compare
+	return options[`feature:${id}`] === false;
+}
 
 export function getNewFeatureName(possibleFeatureName: string): FeatureID | undefined {
 	let newFeatureName = possibleFeatureName;

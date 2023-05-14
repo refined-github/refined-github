@@ -1,6 +1,7 @@
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 
-import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
+import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
+import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js';
 
 const featuresDirContents = readdirSync('source/features/');
 const entryPoint = 'source/refined-github.ts';
@@ -48,7 +49,7 @@ function findError(filename: string): string | void {
 	}
 
 	// The previous checks apply to RGH features, but the next ones don't
-	if (filename.startsWith('rgh-')) {
+	if (isFeaturePrivate(filename)) {
 		return;
 	}
 
