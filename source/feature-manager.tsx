@@ -10,7 +10,8 @@ import onAbort from './helpers/abort-controller.js';
 import ArrayMap from './helpers/map-of-arrays.js';
 import bisectFeatures from './helpers/bisect.js';
 import {shouldFeatureRun} from './github-helpers/index.js';
-import optionsStorage, {isFeatureDisabled, isFeaturePrivate, RGHOptions} from './options-storage.js';
+import {isFeaturePrivate} from './helpers/feature-utils.js';
+import optionsStorage, {isFeatureDisabled, RGHOptions} from './options-storage.js';
 import {
 	applyStyleHotfixes,
 	getStyleHotfix,

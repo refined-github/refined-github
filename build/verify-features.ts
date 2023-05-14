@@ -1,7 +1,7 @@
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
-import {isFeaturePrivate} from '../source/options-storage.js';
 
-import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
+import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
+import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js';
 
 const featuresDirContents = readdirSync('source/features/');
 const entryPoint = 'source/refined-github.ts';

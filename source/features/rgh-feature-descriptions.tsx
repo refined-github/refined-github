@@ -6,13 +6,14 @@ import cache from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import {featuresMeta} from '../../readme.md';
-import optionsStorage, {getNewFeatureName, isFeatureDisabled, isFeaturePrivate} from '../options-storage.js';
+import optionsStorage, {getNewFeatureName, isFeatureDisabled} from '../options-storage.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {HotfixStorage} from '../helpers/hotfix.js';
 import {createRghIssueLink} from '../helpers/rgh-issue-link.js';
 import openOptions from '../helpers/open-options.js';
 import createBanner from '../github-helpers/banner.js';
+import {isFeaturePrivate} from '../helpers/feature-utils.js';
 
 function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
 	const isCss = location.pathname.endsWith('.css');
