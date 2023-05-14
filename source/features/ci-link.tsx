@@ -44,8 +44,8 @@ async function init(signal: AbortSignal): Promise<void> {
 		// Desktop
 		'.AppHeader-context-item:not([data-hovercard-type])',
 
-		// Mobile. `:first-child` avoids finding our own element
-		'.AppHeader-context-compact-mainItem span:first-child',
+		// Mobile. `> *:first-child` avoids finding our own element
+		'.AppHeader-context-compact-mainItem > span:first-child',
 
 		// Old selector: `.avatar` excludes "Global navigation update"
 		// Repo title (aware of forks and private repos)
