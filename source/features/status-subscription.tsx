@@ -5,9 +5,11 @@ import {BellIcon, BellSlashIcon, IssueReopenedIcon} from '@primer/octicons-react
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
+// Make the element look selected, not disabled, but effectively disable clicks/focus
 const disableAttrs = {
 	'aria-selected': true,
 	className: 'selected',
+	tabIndex: -1,
 	style: {pointerEvents: 'none'},
 } as const satisfies React.HTMLAttributes<HTMLButtonElement>;
 
