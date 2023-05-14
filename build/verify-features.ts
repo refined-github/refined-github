@@ -1,4 +1,5 @@
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
+import {isFeaturePrivate} from '../source/options-storage.js';
 
 import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js'; // Must import as `.js`
 
@@ -48,7 +49,7 @@ function findError(filename: string): string | void {
 	}
 
 	// The previous checks apply to RGH features, but the next ones don't
-	if (filename.startsWith('rgh-')) {
+	if (isFeaturePrivate(filename)) {
 		return;
 	}
 
