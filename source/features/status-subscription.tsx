@@ -58,6 +58,7 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 			>
 				<BellSlashIcon/> None
 			</SubButton>
+
 			<SubButton
 				// @ts-expect-error I don't remember how to fix this
 				value="subscribe"
@@ -67,10 +68,6 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 				<BellIcon/> All
 			</SubButton>
 
-			{/* Always submitted, but ignored unless the value is `subscribe_to_custom_notifications` */}
-			<input type="hidden" name="events[]" value="merged"/>
-			<input type="hidden" name="events[]" value="closed"/>
-			<input type="hidden" name="events[]" value="reopened"/>
 			<SubButton
 				// @ts-expect-error I don't remember how to fix this
 				value="subscribe_to_custom_notifications"
@@ -80,6 +77,12 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 				<IssueReopenedIcon/> Status
 			</SubButton>
 		</div>,
+
+		// Always submitted, but ignored unless the value is `subscribe_to_custom_notifications`
+		// Keep outside BtnGroup
+		<input type="hidden" name="events[]" value="merged"/>,
+		<input type="hidden" name="events[]" value="closed"/>,
+		<input type="hidden" name="events[]" value="reopened"/>,
 	);
 
 	// Remove it only if the form was successfully added
