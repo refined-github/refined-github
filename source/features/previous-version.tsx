@@ -53,3 +53,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URL
+
+https://github.com/refined-github/refined-github/blob/main/readme.md
+
+*/
