@@ -56,8 +56,11 @@ async function hideEmptyMeta(): Promise<void> {
 async function moveReportLink(): Promise<void> {
 	await domLoaded;
 
-	const reportLink = select('.Layout-sidebar a[href^="/contact/report-content"]')!.parentElement!;
-	select('.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell')!.append(reportLink);
+	const reportLink = select('.Layout-sidebar a[href^="/contact/report-content"]')?.parentElement;
+	if (reportLink) {
+		// Your own repos don't include this link
+		select('.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell')!.append(reportLink);
+	}
 }
 
 async function init(): Promise<void> {
