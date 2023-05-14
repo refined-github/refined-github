@@ -67,6 +67,9 @@ async function updateCommitTitle(): Promise<void> {
 	if (field) {
 		// Do not use `text-field-edit` #6348
 		field.value = createCommitTitle();
+
+		// There might be listeners that need to be notified
+		field.dispatchEvent(new Event('input', {bubbles: true}));
 	}
 }
 

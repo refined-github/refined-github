@@ -1,39 +1,52 @@
 import './rgh-feature-descriptions.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {CopyIcon} from '@primer/octicons-react';
+import {AlertIcon, CopyIcon, InfoIcon} from '@primer/octicons-react';
 import cache from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import {featuresMeta} from '../../readme.md';
-import {getNewFeatureName} from '../options-storage.js';
+import optionsStorage, {getNewFeatureName, isFeatureDisabled} from '../options-storage.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {HotfixStorage} from '../helpers/hotfix.js';
 import {createRghIssueLink} from '../helpers/rgh-issue-link.js';
+import openOptions from '../helpers/open-options.js';
+import createBanner from '../github-helpers/banner.js';
+import {isFeaturePrivate} from '../helpers/feature-utils.js';
 
-async function add(infoBanner: HTMLElement): Promise<void> {
-	const [, currentFeature] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
-	// Enable link even on past commits
-	const currentFeatureName = getNewFeatureName(currentFeature);
-	const feature = featuresMeta.find(feature => feature.id === currentFeatureName);
-	if (!feature) {
-		return;
-	}
+function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
+	const isCss = location.pathname.endsWith('.css');
+
+	const description = meta?.description // Regular feature?
+	?? (
+		isFeaturePrivate(id)
+			? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled'
+			: (
+				isCss
+					? 'This feature is CSS-only cannot be disabled'
+					: undefined // The heck!?
+			)
+	);
 
 	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
-	conversationsUrl.searchParams.set('q', `sort:updated-desc "${feature.id}"`);
+	conversationsUrl.searchParams.set('q', `sort:updated-desc is:open "${id}"`);
+
+	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
+	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
+	newIssueUrl.searchParams.set('title', `\`${id}\`: `);
 
 	infoBanner.before(
 		// Block and width classes required to avoid margin collapse
 		<div className="Box mb-3 d-inline-block width-full">
 			<div className="Box-row d-flex gap-3 flex-wrap">
-				<div className="rgh-feature-description">
-					<h3 className="mb-2"><code>{feature.id}</code>
+				<div className="rgh-feature-description d-flex flex-column gap-2">
+					<h3>
+						<code>{id}</code>
 						<clipboard-copy
 							aria-label="Copy"
 							data-copy-feedback="Copied!"
-							value={feature.id}
+							value={id}
 							class="Link--onHover color-fg-muted d-inline-block ml-2"
 							tabindex="0"
 							role="button"
@@ -42,20 +55,22 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 						</clipboard-copy>
 					</h3>
 					{ /* eslint-disable-next-line react/no-danger */ }
-					<div dangerouslySetInnerHTML={{__html: feature.description}} className="h3"/>
-					<div className="no-wrap" data-turbo-frame="repo-content-turbo-frame">
-						<a href={conversationsUrl.href}>Related issues</a>
+					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3"/>}
+					<div className="no-wrap">
+						<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame">Related issues</a>
+						{' • '}
+						<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
 						{
-							location.pathname.endsWith('css')
-								? <> • <a href={location.pathname.replace('.css', '.tsx')}>See JavaScript</a></>
+							meta && isCss
+								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
 								: undefined
 						}
 					</div>
 				</div>
-				{feature.screenshot && (
-					<a href={feature.screenshot} className="flex-self-center">
+				{meta?.screenshot && (
+					<a href={meta.screenshot} className="flex-self-center">
 						<img
-							src={feature.screenshot}
+							src={meta.screenshot}
 							className="d-block border"
 							style={{
 								maxHeight: 100,
@@ -66,23 +81,60 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 			</div>
 		</div>,
 	);
+}
 
+async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
+	const classes = ['mb-3'];
 	// Skip dev check present in `getLocalHotfixes`, we want to see this even when developing
 	const hotfixes = await cache.get<HotfixStorage>('hotfixes:') ?? [];
+	const hotfixed = hotfixes.find(([feature]) => feature === id);
+	if (hotfixed) {
+		const [_name, issue, unaffectedVersion] = hotfixed;
 
-	const hotfixed = hotfixes.find(([feature]) => feature === currentFeatureName);
-	if (!hotfixed) {
-		return;
+		if (unaffectedVersion) {
+			return createBanner({
+				text: <>This feature was disabled until version {unaffectedVersion} due to {createRghIssueLink(issue)}.</>,
+				classes,
+				icon: <InfoIcon className="mr-0"/>,
+			});
+		}
+
+		return createBanner({
+			text: <>This feature is disabled due to {createRghIssueLink(issue)}.</>,
+			classes: [...classes, 'flash-warn'],
+			icon: <AlertIcon className="mr-0"/>,
+		});
 	}
 
-	const [_name, issue, unaffectedVersion] = hotfixed;
+	if (isFeatureDisabled(await optionsStorage.getAll(), id)) {
+		return createBanner({
+			text: <>This feature is disabled on GitHub.com <button className="btn-link" type="button" onClick={openOptions as unknown as React.MouseEventHandler}>in your options</button>.</>,
+			classes: [...classes, 'flash-warn'],
+			icon: <AlertIcon className="mr-0"/>,
+		});
+	}
 
-	infoBanner.before(
-		<div className="mb-3 d-inline-block width-full flash flash-warn mb-2">
-			<strong>Note:</strong> This feature is disabled due to {createRghIssueLink(issue)}
-			{unaffectedVersion && ` until version ${unaffectedVersion}`}
-		</div>,
-	);
+	return undefined;
+}
+
+async function addDisabledBanner(infoBanner: HTMLElement, id: string): Promise<void> {
+	const reason = await getDisabledReason(id);
+	if (reason) {
+		infoBanner.before(reason);
+	}
+}
+
+async function add(infoBanner: HTMLElement): Promise<void> {
+	const [, filename] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
+	// Enable link even on past commits
+	const currentFeatureName = getNewFeatureName(filename);
+	const meta = featuresMeta.find(feature => feature.id === currentFeatureName);
+
+	// This ID exists whether the feature is documented or not
+	const id = meta?.id ?? filename;
+
+	addDescription(infoBanner, id, meta);
+	await addDisabledBanner(infoBanner, id);
 }
 
 function init(signal: AbortSignal): void {
@@ -103,7 +155,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-- https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.tsx
-- https://github.com/refined-github/refined-github/blob/main/source/features/clean-conversation-sidebar.css
-
+- Regular feature: https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.tsx
+- CSS counterpart: https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.css
+- RGH feature: https://github.com/refined-github/refined-github/blob/main/source/features/rgh-feature-descriptions.css
+- CSS-only feature: https://github.com/refined-github/refined-github/blob/main/source/features/center-reactions-popup.css
 */

@@ -20,4 +20,15 @@ for (const property of globals) {
 	globalThis[property] = window[property];
 }
 
-document.head.insertAdjacentHTML('beforeend', '<link href="https://github.com/avajs/ava/commits/master.atom" rel="alternate" title="Recent Commits to ava:master" type="application/atom+xml">');
+const link = document.createElement('link');
+link.rel = 'alternate';
+link.type = 'application/atom+xml';
+navigateToCommits('master', '/refined-github/refined-github/commits');
+document.head.append(link);
+
+// eslint-disable-next-line import/prefer-default-export
+export function navigateToCommits(branch, pathname) {
+	link.href = `https://github.com/refined-github/refined-github/commits/${branch}.atom`;
+	link.title = `Recent Commits to ava:${branch}`;
+	location.pathname = pathname;
+}

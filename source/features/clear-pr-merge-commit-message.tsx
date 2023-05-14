@@ -24,6 +24,10 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void | false> {
 
 	// Do not use `text-field-edit` #6348
 	messageField.value = cleanedMessage ? cleanedMessage + '\n' : '';
+
+	// Trigger `fit-textareas` if enabled
+	messageField.dispatchEvent(new Event('input', {bubbles: true}));
+
 	messageField.after(
 		<div>
 			<p className="note">

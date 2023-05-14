@@ -295,7 +295,6 @@
 				E35EB4D226F36E0900DDEA60 /* Sources */,
 				E35EB4D326F36E0900DDEA60 /* Frameworks */,
 				E35EB4D426F36E0900DDEA60 /* Resources */,
-				E33F1EB026F371EE00ACEB0F /* Copy Custom Resources */,
 			);
 			buildRules = (
 			);
@@ -415,29 +414,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		E33F1EB026F371EE00ACEB0F /* Copy Custom Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Custom Resources";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cp -a \"$PROJECT_DIR/../distribution/.\" \"$CONFIGURATION_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E35EB4B326F36E0900DDEA60 /* Sources */ = {

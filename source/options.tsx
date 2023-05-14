@@ -19,8 +19,9 @@ import {getLocalHotfixes} from './helpers/hotfix.js';
 import {createRghIssueLink} from './helpers/rgh-issue-link.js';
 import {importedFeatures, featuresMeta} from '../readme.md';
 import getStorageBytesInUse from './helpers/used-storage.js';
-import {isBrowserActionAPopup, perDomainOptions} from './options-storage.js';
+import {perDomainOptions} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
+import {isBrowserActionAPopup} from './helpers/feature-utils.js';
 
 type Status = {
 	error?: true;
@@ -95,6 +96,12 @@ async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
 async function validateToken(): Promise<void> {
 	reportStatus({});
 	const tokenField = select('input[name="personalToken"]')!;
+
+	if (tokenField.value.startsWith('github_pat_')) {
+		// Validation not supported yet https://github.com/refined-github/refined-github/issues/6092
+		return;
+	}
+
 	if (!tokenField.validity.valid || tokenField.value.length === 0) {
 		expandTokenSection();
 		return;

@@ -10,7 +10,8 @@ import onAbort from './helpers/abort-controller.js';
 import ArrayMap from './helpers/map-of-arrays.js';
 import bisectFeatures from './helpers/bisect.js';
 import {shouldFeatureRun} from './github-helpers/index.js';
-import optionsStorage, {RGHOptions} from './options-storage.js';
+import {isFeaturePrivate} from './helpers/feature-utils.js';
+import optionsStorage, {isFeatureDisabled, RGHOptions} from './options-storage.js';
 import {
 	applyStyleHotfixes,
 	getStyleHotfix,
@@ -173,7 +174,7 @@ async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<
 		try {
 			result = await init(featureController.signal);
 			// Features can return `false` when they decide not to run on the current page
-			if (result !== false && !id?.startsWith('rgh')) {
+			if (result !== false && !isFeaturePrivate(id)) {
 				log.info('✅', id);
 			}
 		} catch (error) {
@@ -228,9 +229,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 	/* Feature filtering and running */
 	const options = await globalReady;
 	// Skip disabled features, unless the feature is private
-	// Must check if it's specifically `false`: It could be undefined if not yet in the readme or if misread from the entry point #6606
-	// eslint-disable-next-line @typescript-eslint/no-unnecessary-boolean-literal-compare
-	if (options[`feature:${id}`] === false && !id.startsWith('rgh')) {
+	if (isFeatureDisabled(options, id) && !isFeaturePrivate(id)) {
 		log.info('↩️', 'Skipping', id);
 		return;
 	}
