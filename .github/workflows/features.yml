@@ -20,3 +20,19 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run test:features
+
+  TestURLs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Must
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v35
+        with:
+          files: source/features/*.tsx
+
+      - name: Every new/edited file must have a test URL
+        run: bash build/verify-test-urls.sh ${{steps.changed-files.outputs.all_changed_files}}
