@@ -189,10 +189,6 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 	border-bottom-left-radius: 0;
 }
 
-.flex-grow-1 {
-	flex-grow: 1 !important;
-}
-
 .rgh-bg-none {
 	background: none !important;
 }

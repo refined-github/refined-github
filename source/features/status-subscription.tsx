@@ -19,7 +19,7 @@ function SubButton(): JSX.Element {
 			data-disable-with
 			name="id"
 			type="submit"
-			className="btn btn-sm flex-grow-1 BtnGroup-item tooltipped tooltipped-sw"
+			className="btn btn-sm flex-1 BtnGroup-item tooltipped tooltipped-sw"
 		/>
 	);
 }
