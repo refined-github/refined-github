@@ -15,7 +15,7 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 		|| event.metaKey
 		|| event.isComposing // #4323
 		|| select.exists([
-			'.suggester', // GitHub's autocomplete dropdown
+			'.suggester', // GitHub’s autocomplete dropdown
 			'.rgh-avoid-accidental-submissions',
 		], form)
 	) {
