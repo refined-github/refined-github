@@ -128,3 +128,13 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+	
+https://github.com/notifications (Grouped by date)
+https://github.com/notifications (Grouped by repo)
+https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
+
+*/
