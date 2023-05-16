@@ -23,6 +23,8 @@ jobs:
 
   TestURLs:
     runs-on: ubuntu-latest
+    # Exclude commit pushes, there's no need there
+    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v3
         with:
