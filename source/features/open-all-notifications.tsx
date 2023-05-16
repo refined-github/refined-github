@@ -70,7 +70,7 @@ function removeOpenUnreadButtons(container: ParentNode = document): void {
 
 function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 	const button = (
-		<button className={'btn btn-sm ' + openSelected.class} type="button">
+		<button className={'btn btn-sm mr-2 ' + openSelected.class} type="button">
 			<LinkExternalIcon className="mr-1"/>Open
 		</button>
 	);
