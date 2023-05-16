@@ -30,10 +30,6 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 	flex-wrap: wrap;
 }
 
-.js-check-all-container .js-bulk-action-toasts ~ div .Box-header .mr-2 {
-	margin-right: 0 !important; /* Spacing via `gap` instead */
-}
-
 :is(.js-notifications-mark-selected-actions, .js-notifications-mark-all-actions):not([hidden]) {
 	display: contents !important;
 }
