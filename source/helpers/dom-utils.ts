@@ -81,8 +81,8 @@ const matchString = (matcher: RegExp | string, string: string): boolean =>
 const escapeMatcher = (matcher: RegExp | string): string =>
 	typeof matcher === 'string' ? `"${matcher}"` : String(matcher);
 
-const isTextNode = (node: Text | ChildNode) =>
-	node instanceof Text || ([...node.childNodes].every(childNode => childNode instanceof Text))
+const isTextNode = (node: Text | ChildNode): boolean =>
+	node instanceof Text || ([...node.childNodes].every(childNode => childNode instanceof Text));
 
 // eslint-disable-next-line @typescript-eslint/ban-types -- Nodes may be exactly `null`
 export const assertNodeContent = <N extends Text | ChildNode>(node: N | null, expectation: RegExp | string): N => {
