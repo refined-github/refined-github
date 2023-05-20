@@ -102,7 +102,7 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 			<p><img src="https://user-images.githubusercontent.com/1402241/109592127-5f922200-7ad4-11eb-8dfa-1d80fb28e70e.png">
 	<tr>
 		<th width="50%">
-			<p><a title="status-subscription"></a> Lets you subscribe to opening/opening closing events of issues in one click.
+			<p><a title="status-subscription"></a> Lets you subscribe to opening/closing events of issues in one click.
 			<p><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/238186901-cbc98b51-d173-40c6-b21e-5f0bae3d800c.png">
 		<th width="50%">
 			<p><a title="wait-for-checks"></a> Adds the option to wait for checks when merging a PR

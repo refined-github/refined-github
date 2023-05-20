@@ -5,7 +5,7 @@ import {CheckIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 
