@@ -3,7 +3,7 @@
 # Automatically exit on error
 set -e
 
-EXIT_CODE=0
+ERRORS=0
 
 # Keep short because GitHub doesn't wrap it
 ANNOTATION="Test URLs missing.
@@ -30,14 +30,16 @@ for FILE in "$@"; do
 	if grep -q "test url" -i "$FILE"; then
 		echo ✅ "$FILE"
 	else
-		EXIT_CODE=1
+		ERRORS=$((ERRORS+1))
+
 		echo ❌ "$FILE"
 		echo "::error file=$FILE,line=1::$ANNOTATION"
 	fi
 done
 
-if [ $EXIT_CODE -eq 1 ]; then
+# Don't fail PRs that edit a large number of files
+if [ "$ERRORS" -ge 1 ] && [ "$ERRORS" -le 3 ]; then
 	echo
 	echo VERIFICATION FAILED, "Test URLs" MISSING
-	exit $EXIT_CODE
+	exit $ERRORS
 fi
