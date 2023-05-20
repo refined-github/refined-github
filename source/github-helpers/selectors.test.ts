@@ -22,7 +22,8 @@ describe.concurrent('selectors', () => {
 		assert.isArray(urls, `No URLs defined for "${name}"`);
 		await Promise.all(urls.map(async url => {
 			const {window} = await fetchDocument(url);
-			assert.isDefined(window.document.querySelector(selector));
+			// TODO: Drop replacements after https://github.com/jsdom/jsdom/issues/3506
+			assert.isDefined(window.document.querySelector(selector.replaceAll(':has', ':matches')));
 		}));
 	}, {timeout: 9999});
 });
