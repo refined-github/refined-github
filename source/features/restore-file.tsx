@@ -11,8 +11,9 @@ import observe from '../helpers/selector-observer.js';
 
 async function getMergeBaseReference(): Promise<string> {
 	const {base, head} = getBranches();
+	// This doesn't seem to be available on v4. This response is relatively large
 	const response = await api.v3(`compare/${base.relative}...${head.relative}`);
-	return response.merge_base_commit.sha;
+	return response.merge_base_commit.sha; // #4679
 }
 
 async function getHeadReference(): Promise<string> {
@@ -36,8 +37,10 @@ async function getFile(filePath: string): Promise<{isTruncated: boolean; text: s
 }
 
 async function discardChanges(progress: (message: string) => void, filePath: string): Promise<void> {
-	const headReference = getHeadReference(); // Query now, await later
-	const file = await getFile(filePath);
+	const [headReference, file] = await Promise.all([
+		getHeadReference(),
+		getFile(filePath),
+	]);
 
 	if (file?.isTruncated) {
 		throw new Error('File too big, you’ll have to use git');
@@ -69,7 +72,7 @@ async function discardChanges(progress: (message: string) => void, filePath: str
 				repositoryNameWithOwner: "${nameWithOwner}",
 				branchName: "${prBranch}"
 			},
-			expectedHeadOid: "${await headReference}",
+			expectedHeadOid: "${headReference}",
 			fileChanges: {
 				${change}
 			},
