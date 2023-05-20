@@ -14,20 +14,22 @@ import observe from '../helpers/selector-observer.js';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
 	const {repository} = await api.v4(`
-		repository() {
-			ref(qualifiedName: "${url.branch}") {
-				target {
-					... on Commit {
-						history(first: 1, until: "${date}") {
-							nodes {
-								oid
+		query GetCommitAtDate($owner: String!, $name: String!, $branch: String!, $date: GitTimestamp!) {
+			repository(owner: $owner, name: $name) {
+				ref(qualifiedName: $branch) {
+					target {
+						... on Commit {
+							history(first: 1, until: $date) {
+								nodes {
+									oid
+								}
 							}
 						}
 					}
 				}
 			}
 		}
-	`);
+	`, {variables: {date, branch: url.branch}});
 
 	const [{oid}] = repository.ref.target.history.nodes;
 	select('a.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;

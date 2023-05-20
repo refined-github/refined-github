@@ -40,20 +40,22 @@ export function getLastCommitStatus(): CommitStatus {
 
 export async function getCommitStatus(commitSha: string): Promise<CommitStatus> {
 	const {repository} = await api.v4uncached(`
-		repository() {
-			object(expression: "${commitSha}") {
-				... on Commit {
-					checkSuites(first: 100) {
-						nodes {
-							checkRuns { totalCount }
-							status
-							conclusion
+		query getCommitStatus($owner: String!, $name: String!, $commitSha: GitObjectID!) {
+			repository(owner: $owner, name: $name) {
+				object(expression: $commitSha) {
+					... on Commit {
+						checkSuites(first: 100) {
+							nodes {
+								checkRuns { totalCount }
+								status
+								conclusion
+							}
 						}
 					}
 				}
 			}
 		}
-	`);
+	`, {variables: {commitSha}});
 
 	if (repository.object.checkSuites.nodes === 0) {
 		return false; // The commit doesn't have any CI checks associated to it

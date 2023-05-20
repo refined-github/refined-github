@@ -15,22 +15,24 @@ import observe from '../helpers/selector-observer.js';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(`
-		repository() {
-			file: object(expression: "${commit}:${currentFilename}") {
-				id
-			}
-			object(expression: "${commit}") {
-				... on Commit {
-					associatedPullRequests(last: 1) {
-						nodes {
-							number
-							mergeCommit {
-								oid
-							}
-							commits(last: 1) {
-								nodes {
-									commit {
-										oid
+		query getPullRequestBlameCommit($owner: String!, $name: String!, $file: String!, $commit: String!) {
+			repository(owner: $owner, name: $name) {
+				file: object(expression: $file) {
+					id
+				}
+				object(expression: $commit) {
+					... on Commit {
+						associatedPullRequests(last: 1) {
+							nodes {
+								number
+								mergeCommit {
+									oid
+								}
+								commits(last: 1) {
+									nodes {
+										commit {
+											oid
+										}
 									}
 								}
 							}
@@ -39,7 +41,12 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[]
 				}
 			}
 		}
-	`);
+	`, {
+		variables: {
+			commit,
+			file: commit + ':' + currentFilename,
+		},
+	});
 
 	const associatedPR = repository.object.associatedPullRequests.nodes[0];
 

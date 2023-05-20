@@ -9,15 +9,21 @@ import pluralize from '../helpers/pluralize.js';
 
 const getCommitChanges = cache.function('commit-changes', async (commit: string): Promise<[additions: number, deletions: number]> => {
 	const {repository} = await api.v4(`
-		repository() {
-			object(expression: "${commit}") {
-				... on Commit {
-					additions
-					deletions
+		query getCommitChanges($commit: String!) {
+			repository(owner: $owner, name: $name) {
+				object(expression: $commit) {
+					... on Commit {
+						additions
+						deletions
+					}
 				}
 			}
 		}
-	`);
+	`, {
+		variables: {
+			commit,
+		},
+	});
 
 	return [repository.object.additions, repository.object.deletions];
 });

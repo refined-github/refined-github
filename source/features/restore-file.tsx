@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import select from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -7,7 +8,6 @@ import api from '../github-helpers/api.js';
 import showToast from '../github-helpers/toast.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
-import observe from '../helpers/selector-observer.js';
 
 async function getMergeBaseReference(): Promise<string> {
 	const {base, head} = getBranches();
@@ -24,67 +24,73 @@ async function getHeadReference(): Promise<string> {
 
 async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | undefined> {
 	const {repository} = await api.v4(`
-		repository() {
-			file: object(expression: "${await getMergeBaseReference()}:${filePath}") {
-				... on Blob {
-					isTruncated
-					text
+		query getFile($owner: String!, $name: String!, $file: String!) {
+			repository(owner: $owner, name: $name) {
+				file: object(expression: $file) {
+					... on Blob {
+						isTruncated
+						text
+					}
 				}
 			}
 		}
-	`);
+	`, {
+		variables: {
+			file: `${await getBaseReference()}:${filePath}`,
+		},
+	});
 	return repository.file;
 }
 
 async function discardChanges(progress: (message: string) => void, filePath: string): Promise<void> {
-	const [headReference, file] = await Promise.all([
-		getHeadReference(),
-		getFile(filePath),
-	]);
+	const file = await getFile(filePath);
 
 	if (file?.isTruncated) {
 		throw new Error('File too big, you’ll have to use git');
 	}
 
+	// Only possible if `highlight-deleted-and-added-files-in-diffs` is broken or disabled
 	const isNewFile = !file;
-
-	const change = isNewFile ? `
-		deletions: [
-			{
-				path: "${filePath}"
-			}
-		]
-	` : `
-		additions: [
-			{
-				path: "${filePath}",
-				contents: "${btoa(unescape(encodeURIComponent(file.text)))}"
-			}
-		]
-	`;
 
 	const {nameWithOwner, branch: prBranch} = getBranches().head;
 	progress('Committing…');
 
-	await api.v4(`mutation {
-		createCommitOnBranch(input: {
-			branch: {
-				repositoryNameWithOwner: "${nameWithOwner}",
-				branchName: "${prBranch}"
-			},
-			expectedHeadOid: "${headReference}",
-			fileChanges: {
-				${change}
-			},
-			message: {
-				headline: "Discard changes to ${filePath}"
-			}
-		}) {
-			commit {
-				oid
+	await api.v4(`
+		mutation discardChanges ($input: CreateCommitOnBranchInput!) {
+			createCommitOnBranch(input: $input) {
+				commit {
+					oid
+				}
 			}
 		}
-	}`);
+	`, {
+		variables: {
+			input: {
+				branch: {
+					repositoryNameWithOwner: nameWithOwner,
+					branchName: prBranch,
+				},
+				expectedHeadOid: await getHeadReference(),
+				fileChanges: (
+					isNewFile
+						? {deletions: [
+							{
+								path: filePath,
+							},
+						]}
+						: {additions: [
+							{
+								path: filePath,
+								contents: btoa(unescape(encodeURIComponent(file.text))),
+							},
+						]}
+				),
+				message: {
+					headline: `Discard changes to ${filePath}`,
+				},
+			},
+		},
+	});
 }
 
 async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
@@ -104,10 +110,22 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	}
 }
 
-function add(editFile: HTMLAnchorElement): void {
+function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
+	const editFile = select('a[aria-label^="Change this"]', dropdown);
+	if (!editFile || select.exists('.rgh-restore-file', dropdown)) {
+		return;
+	}
+
+	if (editFile.closest('.file-header')!.querySelector('[aria-label="File added"]')) {
+		// The file is new. "Discarding changes" means deleting it, which is already possible.
+		// Depends on `highlight-deleted-and-added-files-in-diffs`.
+		return;
+	}
+
 	editFile.after(
 		<button
 			className="pl-5 dropdown-item btn-link rgh-restore-file"
+			style={{whiteSpace: 'pre-wrap'}}
 			role="menuitem"
 			type="button"
 		>
@@ -117,9 +135,8 @@ function add(editFile: HTMLAnchorElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-file-header-dropdown a[aria-label^="Change this"]', add, {signal});
-
 	// `capture: true` required to be fired before GitHub's handlers
+	delegate('.file-header .js-file-header-dropdown', 'toggle', handleMenuOpening, {capture: true, signal});
 	delegate('.rgh-restore-file', 'click', handleClick, {capture: true, signal});
 }
 
@@ -136,6 +153,5 @@ void features.add(import.meta.url, {
 Test URLs:
 
 https://github.com/refined-github/sandbox/pull/16/files
-https://github.com/refined-github/sandbox/pull/29/files
 
 */

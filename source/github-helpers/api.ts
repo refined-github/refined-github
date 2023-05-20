@@ -94,6 +94,7 @@ type GHRestApiOptions = {
 
 type GHGraphQLApiOptions = {
 	allowErrors?: boolean;
+	variables?: JsonObject;
 };
 
 const v3defaults: GHRestApiOptions = {
@@ -170,15 +171,29 @@ export const v4uncached = async (
 ): Promise<AnyObject> => {
 	const personalToken = await expectToken();
 
-	if (/^(query )?{/.test(query.trimStart())) {
-		throw new TypeError('`query` should only be what’s inside \'query {...}\', like \'user(login: "foo") { name }\', but is \n' + query);
+	// TODO: Remove automatic usage of globals via `getRepo()`
+	// https://github.com/refined-github/refined-github/issues/5821
+	const {owner, name} = getRepo()!;
+	query = query.replace('repository() {', () => 'repository(owner: $owner, name: $name) {');
+
+	// Automatically provide variables common variables only when used.
+	// GraphQL doesn't like unused variables.
+	const variables: JsonObject = {};
+	if (query.includes('$owner')) {
+		variables.owner = owner;
 	}
 
-	query = query.replace('repository() {', () => `repository(owner: "${getRepo()!.owner}", name: "${getRepo()!.name}") {`);
+	if (query.includes('$name')) {
+		variables.name = name;
+	}
 
-	features.log.http(`{
-		${query}
-	}`);
+	Object.assign(variables, options.variables);
+
+	const fullQuery = /^\s+(query|mutation)/.test(query)
+		? query
+		: `query ($owner: String!, $name: String!) {${query}}`;
+
+	features.log.http(fullQuery);
 
 	const response = await fetch(api4, {
 		headers: {
@@ -187,7 +202,10 @@ export const v4uncached = async (
 			Authorization: `bearer ${personalToken}`,
 		},
 		method: 'POST',
-		body: JSON.stringify({query: query.trimStart().startsWith('mutation') ? query : `{${query}}`}),
+		body: JSON.stringify({
+			variables,
+			query: fullQuery,
+		}),
 	});
 
 	const apiResponse: GraphQLResponse = await response.json();

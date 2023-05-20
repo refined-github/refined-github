@@ -15,21 +15,27 @@ function getLinkCopy(count: number): string {
 
 const countPRs = cache.function('prs-on-forked-repo', async (forkedRepo: string): Promise<[prCount: number, singlePrNumber?: number]> => {
 	const {search} = await api.v4(`
-		search(
-			first: 100,
-			type: ISSUE,
-			query: "is:pr is:open archived:false repo:${forkedRepo} author:${getUsername()!}"
-		) {
-			nodes {
-				... on PullRequest {
-					number
-					headRepository {
-						nameWithOwner
+		query getPRs($query: String!) {
+			search(
+				first: 100,
+				type: ISSUE,
+				query: $query
+			) {
+				nodes {
+					... on PullRequest {
+						number
+						headRepository {
+							nameWithOwner
+						}
 					}
 				}
 			}
 		}
-	`);
+	`, {
+		variables: {
+			query: `is:pr is:open archived:false repo:${forkedRepo} author:${getUsername()!}`,
+		},
+	});
 
 	// Only show PRs originated from the current repo
 	const prs = search.nodes.filter((pr: AnyObject) => pr.headRepository.nameWithOwner === getRepo()!.nameWithOwner);

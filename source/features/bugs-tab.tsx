@@ -43,14 +43,16 @@ async function countBugsWithUnknownLabel(): Promise<number> {
 
 async function countIssuesWithLabel(label: string): Promise<number> {
 	const {repository} = await api.v4(`
-		repository() {
-			label(name: "${label}") {
-				issues(states: OPEN) {
-					totalCount
+		query bugIssueCount($owner: String!, $name: String!, $label: String!) {
+			repository() {
+				label(name: $label) {
+					issues(states: OPEN) {
+						totalCount
+					}
 				}
 			}
 		}
-	`);
+	`, {variables: {label}});
 
 	return repository.label?.issues.totalCount ?? 0;
 }

@@ -12,12 +12,16 @@ import observe from '../helpers/selector-observer.js';
 
 const getGistCount = cache.function('gist-count', async (username: string): Promise<number> => {
 	const {user} = await api.v4(`
-		user(login: "${username}") {
-			gists(first: 0) {
-				totalCount
+		query getGistCount($username: String!) {
+			user(login: $username) {
+				gists(first: 0) {
+					totalCount
+				}
 			}
 		}
-	`);
+	`, {
+		variables: {username},
+	});
 	return user.gists.totalCount;
 }, {
 	maxAge: {days: 1},

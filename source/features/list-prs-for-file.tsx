@@ -58,27 +58,33 @@ function getDropdown(prs: number[]): HTMLElement {
 */
 const getPrsByFile = cache.function('files-with-prs', async (): Promise<Record<string, number[]>> => {
 	const {repository} = await api.v4(`
-		repository() {
-			pullRequests(
-				first: 25,
-				states: OPEN,
-				baseRefName: "${await getDefaultBranch()}",
-				orderBy: {
-					field: UPDATED_AT,
-					direction: DESC
-				}
-			) {
-				nodes {
-					number
-					files(first: 100) {
-						nodes {
-							path
+		query getPrsByFile($owner: String!, $name: String!, $defaultBranch: String!) {
+			repository(owner: $owner, name: $name) {
+				pullRequests(
+					first: 25,
+					states: OPEN,
+					baseRefName: $defaultBranch,
+					orderBy: {
+						field: UPDATED_AT,
+						direction: DESC
+					}
+				) {
+					nodes {
+						number
+						files(first: 100) {
+							nodes {
+								path
+							}
 						}
 					}
 				}
 			}
 		}
-	`);
+	`, {
+		variables: {
+			defaultBranch: await getDefaultBranch(),
+		},
+	});
 
 	const files: Record<string, number[]> = {};
 
