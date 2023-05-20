@@ -183,8 +183,8 @@ export const v4uncached = async (
 	const response = await fetch(api4, {
 		headers: {
 			'User-Agent': 'Refined GitHub',
+			'Content-Type': 'application/json',
 			Authorization: `bearer ${personalToken}`,
-			Accept: 'application/vnd.github.merge-info-preview+json',
 		},
 		method: 'POST',
 		body: JSON.stringify({query: query.trimStart().startsWith('mutation') ? query : `{${query}}`}),
