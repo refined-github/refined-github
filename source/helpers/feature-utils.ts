@@ -4,4 +4,4 @@ export function isFeaturePrivate(id: string): boolean {
 	return id.startsWith('rgh-');
 }
 
-export const isBrowserActionAPopup = isMobileSafari();
+export const doesBrowserActionOpenOptions = isMobileSafari();
