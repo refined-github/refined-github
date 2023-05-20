@@ -6,7 +6,7 @@ import oneMutation from 'one-mutation';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 
 type PRConfig = {
 	number: string;

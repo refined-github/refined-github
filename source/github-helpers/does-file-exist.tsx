@@ -1,4 +1,4 @@
-import * as api from './api.js';
+import api from './api.js';
 import GitHubURL from './github-url.js';
 
 export default async function doesFileExist(url: GitHubURL): Promise<boolean> {

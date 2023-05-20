@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import GitHubURL from '../github-helpers/github-url.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {getCleanPathname} from '../github-helpers/index.js';

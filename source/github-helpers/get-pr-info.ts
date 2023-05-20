@@ -1,4 +1,4 @@
-import * as api from './api.js';
+import api from './api.js';
 import {getConversationNumber} from './index.js';
 
 export type PullRequestInfo = {

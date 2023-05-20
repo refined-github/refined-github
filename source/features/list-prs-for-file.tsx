@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import {AlertIcon, GitPullRequestIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
 import GitHubURL from '../github-helpers/github-url.js';
