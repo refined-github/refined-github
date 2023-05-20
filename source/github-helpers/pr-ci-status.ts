@@ -36,7 +36,7 @@ export function getLastCommitStatus(): CommitStatus {
 }
 
 export async function getCommitStatus(commitSha: string): Promise<CommitStatus> {
-	const {repository} = await api.v4(`
+	const {repository} = await api.v4uncached(`
 		repository() {
 			object(expression: "${commitSha}") {
 				... on Commit {
@@ -50,7 +50,6 @@ export async function getCommitStatus(commitSha: string): Promise<CommitStatus> 
 				}
 			}
 		}
-		# Cache buster: ${Date.now()}
 	`);
 
 	if (repository.object.checkSuites.nodes === 0) {

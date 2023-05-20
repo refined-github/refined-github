@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import {CodeSquareIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import {getCleanPathname} from '../github-helpers/index.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import observe from '../helpers/selector-observer.js';

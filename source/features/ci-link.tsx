@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 

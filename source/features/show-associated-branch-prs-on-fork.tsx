@@ -5,7 +5,7 @@ import {GitMergeIcon, GitPullRequestIcon, GitPullRequestClosedIcon, GitPullReque
 
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import {cacheByRepo, upperCaseFirst} from '../github-helpers/index.js';
 
 type PullRequest = {
