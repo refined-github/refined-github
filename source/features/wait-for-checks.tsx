@@ -198,3 +198,11 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // DOM-based inclusions
 	init,
 });
+
+/*
+
+Test URLs
+
+https://github.com/refined-github/sandbox/pull/12
+
+*/

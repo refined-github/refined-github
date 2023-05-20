@@ -17,6 +17,8 @@ https://github.com/a/REAL/url/here
 https://github.com/another/REAL/url/here
 
 */
+
+You can find or create a test URL on our sandbox repo: https://github.com/refined-github/sandbox
 "
 
 # Replace line breaks with "%0A"
