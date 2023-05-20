@@ -14,6 +14,8 @@ import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open.js';
 import {onPrMergePanelLoad} from '../github-events/on-fragment-load.js';
 import onAbort from '../helpers/abort-controller.js';
 import {userCanLikelyMergePR} from '../github-helpers/index.js';
+import {isHasSelectorSupported} from '../helpers/select-has.js';
+import {actionsTab, prCommitStatusIcon} from '../github-helpers/selectors.js';
 
 // Reuse the same checkbox to preserve its status
 const generateCheckbox = onetime(() => (
@@ -43,7 +45,7 @@ function showCheckboxIfNecessary(): void {
 
 	const isNecessary = lastCommitStatus === prCiStatus.PENDING
 		// If the latest commit is missing an icon, add the checkbox as long as there's at least one CI icon on the page (including `ci-link`)
-		|| (lastCommitStatus === false && select.exists(prCiStatus.commitStatusIconSelector));
+		|| (lastCommitStatus === false && select.exists(prCommitStatusIcon));
 
 	if (!checkbox && isNecessary) {
 		select('.js-merge-form .select-menu')?.append(generateCheckbox());
@@ -181,10 +183,11 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	asLongAs: [
+		isHasSelectorSupported,
 		userCanLikelyMergePR,
 		pageDetect.isOpenPR,
 		// The repo has enabled Actions
-		() => select.exists('#actions-tab'),
+		() => select.exists(actionsTab),
 	],
 	include: [
 		pageDetect.isPRConversation,
