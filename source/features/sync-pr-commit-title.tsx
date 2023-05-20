@@ -3,7 +3,7 @@ import select from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
 import {getConversationNumber, userCanLikelyMergePR} from '../github-helpers/index.js';
 import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';

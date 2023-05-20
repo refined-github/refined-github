@@ -5,7 +5,7 @@ import {TagIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import {addAfterBranchSelector, buildRepoURL, cacheByRepo, getLatestVersionTag} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';

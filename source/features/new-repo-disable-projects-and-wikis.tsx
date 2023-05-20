@@ -6,7 +6,7 @@ import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import selectHas from '../helpers/select-has.js';
 import attachElement from '../helpers/attach-element.js';
 

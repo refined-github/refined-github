@@ -4,7 +4,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import showToast from '../github-helpers/toast.js';
 import {getConversationNumber} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
@@ -18,8 +18,8 @@ async function getBaseReference(): Promise<string> {
 
 async function getHeadReference(): Promise<string> {
 	// Get the sha of the latest commit to the PR, required to create a new commit
-	const {repository} = await api.v4(`
-		repository() { # Cache buster ${Math.random()}
+	const {repository} = await api.v4uncached(`
+		repository() {
 			pullRequest(number: ${getConversationNumber()!}) {
 				headRefOid
 			}

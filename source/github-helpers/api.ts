@@ -5,7 +5,7 @@ next to the name of the feature that caused them.
 
 Usage:
 
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 const user = await api.v3(`/users/${username}`);
 const repositoryCommits = await api.v3('commits'); // Without a leading `/`, this is equivalent to `/repo/$current-repository/commits`
 const data = await api.v4('{user(login: "user") {name}}');
@@ -164,7 +164,7 @@ export const v3paginated = async function * (
 	}
 };
 
-export const v4 = mem(async (
+export const v4uncached = async (
 	query: string,
 	options: GHGraphQLApiOptions = v4defaults,
 ): Promise<AnyObject> => {
@@ -183,8 +183,8 @@ export const v4 = mem(async (
 	const response = await fetch(api4, {
 		headers: {
 			'User-Agent': 'Refined GitHub',
+			'Content-Type': 'application/json',
 			Authorization: `bearer ${personalToken}`,
-			Accept: 'application/vnd.github.merge-info-preview+json',
 		},
 		method: 'POST',
 		body: JSON.stringify({query: query.trimStart().startsWith('mutation') ? query : `{${query}}`}),
@@ -206,7 +206,9 @@ export const v4 = mem(async (
 	}
 
 	throw await getError(apiResponse as JsonObject);
-}, {
+};
+
+export const v4 = mem(v4uncached, {
 	cacheKey([query, options]) {
 		// `repository()` uses global state and must be handled explicitly
 		// https://github.com/refined-github/refined-github/issues/5821
