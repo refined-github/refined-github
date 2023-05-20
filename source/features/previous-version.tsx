@@ -5,7 +5,7 @@ import {VersionsIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import GitHubURL from '../github-helpers/github-url.js';
 
 async function getPreviousCommitForFile(pathname: string): Promise<string> {

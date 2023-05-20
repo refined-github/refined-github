@@ -6,7 +6,7 @@ import {EyeClosedIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import {getUsername} from '../github-helpers/index.js';
 
 const getPublicOrganizationsNames = cache.function('public-organizations', async (username: string): Promise<string[]> => {

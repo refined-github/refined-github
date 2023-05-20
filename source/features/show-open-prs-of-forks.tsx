@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import pluralize from '../helpers/pluralize.js';
 import {getForkedRepo, getUsername, getRepo} from '../github-helpers/index.js';
 

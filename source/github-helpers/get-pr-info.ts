@@ -12,9 +12,8 @@ export type PullRequestInfo = {
 };
 
 export default async function getPrInfo(base: string, number = getConversationNumber()!): Promise<PullRequestInfo> {
-	const {repository} = await api.v4(`
+	const {repository} = await api.v4uncached(`
 		repository() {
-			# Cache buster ${Math.random()}
 			pullRequest(number: ${number}) {
 				baseRefOid
 				headRefOid
