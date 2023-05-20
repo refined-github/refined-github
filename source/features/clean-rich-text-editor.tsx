@@ -4,25 +4,27 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 
-function hideToolTip(): void {
-    for (const textarea of select.all(`
-        input[id="issue_title"], 
-        textarea[id="issue_form_repro"], 
-        textarea[id="issue_form_description"], 
-        input[id="issue_form_browser", 
-        textarea[id="new_comment_field"]
-    `)) {
-        textarea.title = '';
-    }
+const textInputSelectors = [
+	'#issue_title',
+	'#issue_form_repo',
+	'#issue_form_description',
+	'#issue_form_browser', // Id's for text input fields inside issues
+	'#new_comment_field', // Id for text input field in comments
+];
+
+async function init(): Promise<void> {
+	document.documentElement.classList.add('rgh-clean-rich-text-editor');
+	// Hide unnecessary tooltips
+	for (const textarea of select.all(textInputSelectors)) {
+		textarea.title = '';
+	}
 }
 
-void features.addCssFeature(import.meta.url, [pageDetect.hasRichTextEditor]);
-
 void features.add(import.meta.url, {
-    include: [
-        pageDetect.hasRichTextEditor,
-    ],
-    init: hideToolTip,
+	include: [
+		pageDetect.hasRichTextEditor,
+	],
+	init,
 });
 
 /*
