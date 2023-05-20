@@ -203,6 +203,7 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-https://github.com/refined-github/sandbox/pull/12
+Checks: https://github.com/refined-github/sandbox/pull/12
+No Checks: https://github.com/refined-github/sandbox/pull/10
 
 */
