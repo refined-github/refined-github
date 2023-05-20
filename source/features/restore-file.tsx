@@ -11,7 +11,7 @@ import observe from '../helpers/selector-observer.js';
 
 async function getMergeBaseReference(): Promise<string> {
 	const {base, head} = getBranches();
-	// This doesn't seem to be available on v4. This response is relatively large
+	// This v3 response is relatively large, but it doesn't seem to be available on v4
 	const response = await api.v3(`compare/${base.relative}...${head.relative}`);
 	return response.merge_base_commit.sha; // #4679
 }
@@ -136,5 +136,6 @@ void features.add(import.meta.url, {
 Test URLs:
 
 https://github.com/refined-github/sandbox/pull/16/files
+https://github.com/refined-github/sandbox/pull/29/files
 
 */
