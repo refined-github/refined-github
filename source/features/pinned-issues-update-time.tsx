@@ -62,3 +62,11 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // TODO: Use `observe` + `batched-function`
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/issues
+
+*/

@@ -6,6 +6,7 @@
 .rgh-clean-pinned-issues .js-pinned-issues-reorder-list {
 	gap: 16px;
 }
+
 .rgh-clean-pinned-issues .pinned-issue-item {
 	width: auto !important;
 	flex: 1;
