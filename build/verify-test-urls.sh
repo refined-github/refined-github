@@ -39,7 +39,7 @@ for FILE in "$@"; do
 
 	if grep -q "test url" -i "$FILE"; then
 		echo ✅ "$FILE"
-		echo "::notice file=$FILE,line=$LAST_LINE::" >> "$ANNOTATIONS"
+		echo "::notice file=$FILE,line=$LAST_LINE::✅" >> "$ANNOTATIONS"
 	else
 		ERRORS=$((ERRORS+1))
 
