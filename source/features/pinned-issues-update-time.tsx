@@ -7,6 +7,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {getRepo} from '../github-helpers/index.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
+import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 
 type IssueInfo = {
 	updatedAt: string;
@@ -43,12 +44,13 @@ async function init(): Promise<void | false> {
 	for (const pinnedIssue of pinnedIssues) {
 		const issueNumber = getPinnedIssueNumber(pinnedIssue);
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
-		select('.pinned-item-desc', pinnedIssue)!.append(
-			' • ',
-			<span className="color-fg-muted d-inline-block">
+		select('.pinned-item-desc', pinnedIssue)!.after(
+			<span className="text-small color-fg-muted">
 				updated <relative-time datetime={updatedAt}/>
 			</span>,
 		);
+
+		select('.pinned-item-desc', pinnedIssue)!.hidden = true;
 	}
 }
 
