@@ -112,3 +112,13 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh',
 	init: initDeleteHint,
 });
+
+/*
+
+Test URLs:
+
+1. Visit https://github.com/pulls?q=is%3Apr+is%3Aopen+author%3A%40me+archived%3Afalse+-user%3A%40me
+2. Find a PR made from a fork
+3. In it, open your own fork
+
+*/

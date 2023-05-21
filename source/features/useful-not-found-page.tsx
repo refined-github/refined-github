@@ -224,3 +224,12 @@ void features.add(import.meta.url, 	{
 	],
 	init: onetime(initPRCommit),
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/issues/888888
+https://github.com/refined-github/refined-github/blob/main/source/features/a-horse-with-no-name.tsx
+
+*/

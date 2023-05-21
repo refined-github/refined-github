@@ -65,5 +65,6 @@ Test URLs
 - Folder: https://github.com/fregante/refined-github/tree/main/.github
 - PR list: https://github.com/fregante/refined-github/pulls
 - Tags list: https://github.com/fregante/refined-github/tags
+- Non-existent file: https://github.com/fregante/refined-github/blob/main/IT'S%20A%20NEW%20WORLD
 
 */
