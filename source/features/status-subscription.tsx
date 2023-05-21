@@ -24,11 +24,14 @@ function SubButton(): JSX.Element {
 	);
 }
 
-function getCurrentStatus(subscriptionButton: HTMLButtonElement): 'none' | 'all' | 'status' {
-	const reason = subscriptionButton
+function getReasonElement(subscriptionButton: HTMLButtonElement): HTMLParagraphElement {
+	return subscriptionButton
 		.closest('.thread-subscription-status')!
-		.querySelector('.reason')!
-		.textContent!;
+		.querySelector('p.reason')!;
+}
+
+function getCurrentStatus(subscriptionButton: HTMLButtonElement): 'none' | 'all' | 'status' {
+	const reason = getReasonElement(subscriptionButton).textContent!;
 
 	// You’re receiving notifications because you chose custom settings for this thread.
 	if (reason.includes('custom settings')) {
@@ -88,6 +91,10 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 	// Remove it only if the form was successfully added
 	originalId.remove();
 	subscriptionButton.hidden = true;
+
+	if (status !== 'all') {
+		getReasonElement(subscriptionButton).hidden = true;
+	}
 }
 
 function init(signal: AbortSignal): void | false {
