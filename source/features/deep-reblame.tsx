@@ -116,3 +116,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/blame/main/source/refined-github.ts
+
+*/
