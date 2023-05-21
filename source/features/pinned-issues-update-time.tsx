@@ -7,7 +7,6 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {getRepo} from '../github-helpers/index.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
-import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 
 type IssueInfo = {
 	updatedAt: string;
