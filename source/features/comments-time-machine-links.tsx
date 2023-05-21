@@ -155,4 +155,8 @@ void features.add(import.meta.url, {
 Test URLs
 
 Find them in https://github.com/refined-github/refined-github/pull/1863
+
+See the bar on:
+
+- https://github.com/sindresorhus/refined-github/blob/main/source/features/mark-merge-commits-in-list.tsx?rgh-link-date=2019-03-04T13%3A04%3A18Z
 */

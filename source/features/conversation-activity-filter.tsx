@@ -250,3 +250,12 @@ void features.add(import.meta.url, {
 	},
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/pull/4030
+https://github.com/refined-github/refined-github/issues/4008
+
+*/

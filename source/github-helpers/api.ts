@@ -173,7 +173,7 @@ export const v4uncached = async (
 
 	// TODO: Remove automatic usage of globals via `getRepo()`
 	// https://github.com/refined-github/refined-github/issues/5821
-	const {owner, name} = getRepo()!;
+	const currentRepoIfAny = getRepo(); // Don't destructure, it's `undefined` outside repos
 	query = query.replace('repository() {', () => 'repository(owner: $owner, name: $name) {');
 
 	// Automatically provide variables common variables only when used.
@@ -181,12 +181,12 @@ export const v4uncached = async (
 	const variables: JsonObject = {};
 	const parameters: string[] = [];
 	if (query.includes('$owner')) {
-		variables.owner = owner;
+		variables.owner = currentRepoIfAny!.owner;
 		parameters.push('$owner: String!');
 	}
 
 	if (query.includes('$name')) {
-		variables.name = name;
+		variables.name = currentRepoIfAny!.name;
 		parameters.push('$name: String!');
 	}
 

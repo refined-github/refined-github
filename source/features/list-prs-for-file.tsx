@@ -169,9 +169,9 @@ void features.add(import.meta.url, {
 
 ## Test URLs
 
-- isSingleFile: One PR https://github.com/refined-github/sandbox/blob/default-a/4679
+- isSingleFile: One PR https://github.com/refined-github/sandbox/blob/6619/6619
 - isSingleFile: Multiple PRs https://github.com/refined-github/sandbox/blob/default-a/README.md
-- isEditingFile: One PR https://github.com/refined-github/sandbox/edit/default-a/4679
+- isEditingFile: One PR https://github.com/refined-github/sandbox/edit/6619/6619
 - isEditingFile: Multiple PRs https://github.com/refined-github/sandbox/edit/default-a/README.md
 
 */

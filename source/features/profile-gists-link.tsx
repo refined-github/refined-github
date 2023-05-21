@@ -69,7 +69,7 @@ async function appendTab(navigationBar: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('nav[aria-label="User profile"]', appendTab, {signal});
+	observe('nav[aria-label="User"] > ul', appendTab, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -78,3 +78,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URL:
+
+Has gists: https://github.com/fregante
+No gists: https://github.com/someone
+
+*/
