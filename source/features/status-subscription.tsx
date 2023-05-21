@@ -24,11 +24,14 @@ function SubButton(): JSX.Element {
 	);
 }
 
-function getCurrentStatus(subscriptionButton: HTMLButtonElement): 'none' | 'all' | 'status' {
-	const reason = subscriptionButton
+function getReasonElement(subscriptionButton: HTMLButtonElement): HTMLParagraphElement {
+	return subscriptionButton
 		.closest('.thread-subscription-status')!
-		.querySelector('.reason')!
-		.textContent!;
+		.querySelector('p.reason')!;
+}
+
+function getCurrentStatus(subscriptionButton: HTMLButtonElement): 'none' | 'all' | 'status' {
+	const reason = getReasonElement(subscriptionButton).textContent!;
 
 	// You’re receiving notifications because you chose custom settings for this thread.
 	if (reason.includes('custom settings')) {
@@ -88,10 +91,16 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 	// Remove it only if the form was successfully added
 	originalId.remove();
 	subscriptionButton.hidden = true;
+
+	// 'all' can have many reasons, but the other two don't add further information #6684
+	if (status !== 'all') {
+		getReasonElement(subscriptionButton).hidden = true;
+	}
 }
 
-function init(signal: AbortSignal): void | false {
-	observe('button[data-thread-subscribe-button]', addButton, {signal});
+function init(signal: AbortSignal): void {
+	// Repos you're ignoring can't be subscribed to, so the button is disabled
+	observe('button[data-thread-subscribe-button]:not([disabled])', addButton, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -108,5 +117,6 @@ Test URLs
 
 - Issue: https://github.com/refined-github/sandbox/issues/3
 - PR: https://github.com/refined-github/sandbox/pull/4
+- Also test a repo you're completely ignoring
 
 */
