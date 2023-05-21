@@ -4,7 +4,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import {cacheByRepo, getRepo} from '../github-helpers/index.js';
 
 const hasAnyProjects = cache.function('has-projects', async (): Promise<boolean> => {

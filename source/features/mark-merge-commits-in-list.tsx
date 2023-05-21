@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import {objectEntries} from 'ts-extras';
 
 import features from '../feature-manager.js';
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {

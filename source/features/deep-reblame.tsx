@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
-import * as api from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import GitHubURL from '../github-helpers/github-url.js';
 import showToast from '../github-helpers/toast.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
