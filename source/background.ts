@@ -7,7 +7,6 @@ import {objectKeys} from 'ts-extras';
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 
 import optionsStorage from './options-storage.js';
-import {getRghIssueUrl} from './helpers/rgh-issue-link.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
 import getStorageBytesInUse from './helpers/used-storage.js';
 import {isBrowserActionAPopup} from './helpers/feature-utils.js';
@@ -86,7 +85,7 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 	// Only notify on install
 	if (await isFirstInstall(reason)) {
 		await browser.tabs.create({
-			url: getRghIssueUrl(3543),
+			url: 'https://github.com/refined-github/refined-github/issues/3543',
 		});
 	}
 
