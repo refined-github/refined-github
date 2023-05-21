@@ -32,3 +32,8 @@
 .gh-header-meta .rgh-conversation-activity-filter-wrapper {
 	margin-bottom: 8px; /* Preserve centered vertical alignment with status badge */
 }
+
+/* Temporary (?) AJAX issue https://github.com/refined-github/refined-github/issues/6437#issuecomment-1540526012 */
+#rgh-conversation-activity-filter-select-menu:not(.js-issues-results details) {
+	display: none !important;
+}
