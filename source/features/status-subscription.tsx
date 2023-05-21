@@ -92,6 +92,7 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 	originalId.remove();
 	subscriptionButton.hidden = true;
 
+	// 'all' can have many reasons, but the other two don't add further information #6684
 	if (status !== 'all') {
 		getReasonElement(subscriptionButton).hidden = true;
 	}
