@@ -98,7 +98,7 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 }
 
 function init(signal: AbortSignal): void | false {
-	observe('button[data-thread-subscribe-button]', addButton, {signal});
+	observe('button[data-thread-subscribe-button]:not([disabled])', addButton, {signal});
 }
 
 void features.add(import.meta.url, {
