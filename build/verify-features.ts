@@ -31,7 +31,7 @@ function findCssFileError(filename: string): string | void {
 
 function findError(filename: string): string | void {
 	// TODO: Replace second condition with "is gitignored"
-	if (filename === 'index.tsx' || filename === '.DS_Store') {
+	if (filename === 'index.tsx' || filename === '.DS_Store' || filename.endsWith('.gql')) {
 		return;
 	}
 

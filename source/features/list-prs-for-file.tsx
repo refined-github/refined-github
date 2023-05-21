@@ -58,7 +58,6 @@ function getDropdown(prs: number[]): HTMLElement {
 @returns prsByFile {"filename1": [10, 3], "filename2": [2]}
 */
 const getPrsByFile = cache.function('files-with-prs', async (): Promise<Record<string, number[]>> => {
-	debugger;
 	const {repository} = await api.v4(listPrsForFileQuery, {
 		variables: {
 			defaultBranch: await getDefaultBranch(),
