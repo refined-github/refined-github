@@ -44,7 +44,7 @@ async function countBugsWithUnknownLabel(): Promise<number> {
 async function countIssuesWithLabel(label: string): Promise<number> {
 	const {repository} = await api.v4(`
 		query bugIssueCount($owner: String!, $name: String!, $label: String!) {
-			repository() {
+			repository(owner: $owner, name: $name) {
 				label(name: $label) {
 					issues(states: OPEN) {
 						totalCount
@@ -188,3 +188,13 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+"bug" label: https://github.com/refined-github/refined-github/issues
+"bug-fix" label: https://github.com/axios/axios/issues
+Issues disabled: https://github.com/refined-github/yolo
+
+*/

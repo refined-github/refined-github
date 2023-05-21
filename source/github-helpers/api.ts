@@ -179,19 +179,24 @@ export const v4uncached = async (
 	// Automatically provide variables common variables only when used.
 	// GraphQL doesn't like unused variables.
 	const variables: JsonObject = {};
+	const parameters: string[] = [];
 	if (query.includes('$owner')) {
 		variables.owner = owner;
+		parameters.push('$owner: String!');
 	}
 
 	if (query.includes('$name')) {
 		variables.name = name;
+		parameters.push('$name: String!');
 	}
 
 	Object.assign(variables, options.variables);
 
 	const fullQuery = /^\s+(query|mutation)/.test(query)
 		? query
-		: `query ($owner: String!, $name: String!) {${query}}`;
+		: parameters.length === 0
+			? `query {${query}}`
+			: `query (${parameters.join(',')}) {${query}}`;
 
 	features.log.http(fullQuery);
 
