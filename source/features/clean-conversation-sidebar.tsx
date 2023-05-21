@@ -108,7 +108,7 @@ async function cleanSidebar(): Promise<void> {
 	// Development (linked issues/PRs)
 	const developmentHint = select('[aria-label="Link issues"] p');
 	if (developmentHint) { // This may not exist if issues are disabled
-		removeTextNodeContaining(developmentHint, /^(No branches or pull requests|Successfully merging (a|this) pull request may close (this issue|these issues).)$/);
+		removeTextNodeContaining(developmentHint, /No branches or pull requests|Successfully merging/);
 	}
 
 	const createBranchLink = select('button[data-action="click:create-issue-branch#openDialog"]');
