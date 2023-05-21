@@ -192,7 +192,7 @@ export const v4uncached = async (
 
 	Object.assign(variables, options.variables);
 
-	const fullQuery = /^\s+(query|mutation)/.test(query)
+	const fullQuery = /^\s*(query|mutation)/.test(query)
 		? query
 		: parameters.length === 0
 			? `query {${query}}`

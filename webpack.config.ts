@@ -26,6 +26,10 @@ const config: Configuration = {
 	module: {
 		rules: [
 			{
+				test: /\.gql/,
+				type: 'asset/source',
+			},
+			{
 				test: /[/\\]readme\.md$/,
 				loader: '../build/readme.loader.ts',
 			},

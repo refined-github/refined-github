@@ -10,6 +10,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
 import GitHubURL from '../github-helpers/github-url.js';
 import observe from '../helpers/selector-observer.js';
+import listPrsForFileQuery from './list-prs-for-file.gql';
 
 function getPRUrl(prNumber: number): string {
 	// https://caniuse.com/url-scroll-to-text-fragment
@@ -57,30 +58,8 @@ function getDropdown(prs: number[]): HTMLElement {
 @returns prsByFile {"filename1": [10, 3], "filename2": [2]}
 */
 const getPrsByFile = cache.function('files-with-prs', async (): Promise<Record<string, number[]>> => {
-	const {repository} = await api.v4(`
-		query getPrsByFile($owner: String!, $name: String!, $defaultBranch: String!) {
-			repository(owner: $owner, name: $name) {
-				pullRequests(
-					first: 25,
-					states: OPEN,
-					baseRefName: $defaultBranch,
-					orderBy: {
-						field: UPDATED_AT,
-						direction: DESC
-					}
-				) {
-					nodes {
-						number
-						files(first: 100) {
-							nodes {
-								path
-							}
-						}
-					}
-				}
-			}
-		}
-	`, {
+	debugger;
+	const {repository} = await api.v4(listPrsForFileQuery, {
 		variables: {
 			defaultBranch: await getDefaultBranch(),
 		},
