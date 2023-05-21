@@ -97,7 +97,8 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 	}
 }
 
-function init(signal: AbortSignal): void | false {
+function init(signal: AbortSignal): void {
+	// Repos you're ignoring can't be subscribed to, so the button is disabled
 	observe('button[data-thread-subscribe-button]:not([disabled])', addButton, {signal});
 }
 
@@ -115,5 +116,6 @@ Test URLs
 
 - Issue: https://github.com/refined-github/sandbox/issues/3
 - PR: https://github.com/refined-github/sandbox/pull/4
+- Also test a repo you're completely ignoring
 
 */
