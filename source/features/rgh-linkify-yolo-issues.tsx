@@ -3,12 +3,11 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import {isRefinedGitHubYoloRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
-import {linkifyIssues} from '../github-helpers/dom-formatters.js';
+import {createRghIssueLink} from '../helpers/rgh-issue-link.js';
 
 // Linkify with hovercards
 function linkify(issueCell: HTMLElement): void {
-	issueCell.textContent = '#' + issueCell.textContent!;
-	linkifyIssues({owner: 'refined-github', name: 'refined-github'}, issueCell);
+	issueCell.replaceChildren(createRghIssueLink(issueCell.textContent!));
 }
 
 function init(signal: AbortSignal): void {
@@ -24,3 +23,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/yolo/blob/main/broken-features.csv
+
+*/
