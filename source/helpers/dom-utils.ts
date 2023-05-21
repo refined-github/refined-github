@@ -86,6 +86,7 @@ const isTextNode = (node: Text | ChildNode): boolean =>
 
 // eslint-disable-next-line @typescript-eslint/ban-types -- Nodes may be exactly `null`
 export const assertNodeContent = <N extends Text | ChildNode>(node: N | null, expectation: RegExp | string): N => {
+	// Make sure only text is being considered, not links, icons, etc
 	if (!node || !isTextNode(node)) {
 		console.warn('TypeError', node);
 		throw new TypeError(`Expected Text node, received ${String(node?.nodeName)}`);
