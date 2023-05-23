@@ -15,21 +15,27 @@ function getLinkCopy(count: number): string {
 
 const countPRs = cache.function('prs-on-forked-repo', async (forkedRepo: string): Promise<[prCount: number, singlePrNumber?: number]> => {
 	const {search} = await api.v4(`
-		search(
-			first: 100,
-			type: ISSUE,
-			query: "is:pr is:open archived:false repo:${forkedRepo} author:${getUsername()!}"
-		) {
-			nodes {
-				... on PullRequest {
-					number
-					headRepository {
-						nameWithOwner
+		query getPRs($query: String!) {
+			search(
+				first: 100,
+				type: ISSUE,
+				query: $query
+			) {
+				nodes {
+					... on PullRequest {
+						number
+						headRepository {
+							nameWithOwner
+						}
 					}
 				}
 			}
 		}
-	`);
+	`, {
+		variables: {
+			query: `is:pr is:open archived:false repo:${forkedRepo} author:${getUsername()!}`,
+		},
+	});
 
 	// Only show PRs originated from the current repo
 	const prs = search.nodes.filter((pr: AnyObject) => pr.headRepository.nameWithOwner === getRepo()!.nameWithOwner);
@@ -106,3 +112,13 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh',
 	init: initDeleteHint,
 });
+
+/*
+
+Test URLs:
+
+1. Visit https://github.com/pulls?q=is%3Apr+is%3Aopen+author%3A%40me+archived%3Afalse+-user%3A%40me
+2. Find a PR made from a fork
+3. In it, open your own fork
+
+*/

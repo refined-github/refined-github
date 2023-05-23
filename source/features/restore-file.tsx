@@ -24,22 +24,28 @@ async function getHeadReference(): Promise<string> {
 
 async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | undefined> {
 	const {repository} = await api.v4(`
-		repository() {
-			file: object(expression: "${await getMergeBaseReference()}:${filePath}") {
-				... on Blob {
-					isTruncated
-					text
+		query getFile($owner: String!, $name: String!, $file: String!) {
+			repository(owner: $owner, name: $name) {
+				file: object(expression: $file) {
+					... on Blob {
+						isTruncated
+						text
+					}
 				}
 			}
 		}
-	`);
+	`, {
+		variables: {
+			file: `${await getMergeBaseReference()}:${filePath}`,
+		},
+	});
 	return repository.file;
 }
 
-async function discardChanges(progress: (message: string) => void, filePath: string): Promise<void> {
+async function discardChanges(progress: (message: string) => void, path: string): Promise<void> {
 	const [headReference, file] = await Promise.all([
 		getHeadReference(),
-		getFile(filePath),
+		getFile(path),
 	]);
 
 	if (file?.isTruncated) {
@@ -48,43 +54,38 @@ async function discardChanges(progress: (message: string) => void, filePath: str
 
 	const isNewFile = !file;
 
-	const change = isNewFile ? `
-		deletions: [
-			{
-				path: "${filePath}"
-			}
-		]
-	` : `
-		additions: [
-			{
-				path: "${filePath}",
-				contents: "${btoa(unescape(encodeURIComponent(file.text)))}"
-			}
-		]
-	`;
+	const contents = file ? btoa(unescape(encodeURIComponent(file.text))) : '';
 
 	const {nameWithOwner, branch: prBranch} = getBranches().head;
 	progress('Committing…');
 
-	await api.v4(`mutation {
-		createCommitOnBranch(input: {
-			branch: {
-				repositoryNameWithOwner: "${nameWithOwner}",
-				branchName: "${prBranch}"
-			},
-			expectedHeadOid: "${headReference}",
-			fileChanges: {
-				${change}
-			},
-			message: {
-				headline: "Discard changes to ${filePath}"
-			}
-		}) {
-			commit {
-				oid
+	await api.v4(`
+		mutation discardChanges ($input: CreateCommitOnBranchInput!) {
+			createCommitOnBranch(input: $input) {
+				commit {
+					oid
+				}
 			}
 		}
-	}`);
+	`, {
+		variables: {
+			input: {
+				branch: {
+					repositoryNameWithOwner: nameWithOwner,
+					branchName: prBranch,
+				},
+				expectedHeadOid: headReference,
+				fileChanges: (
+					isNewFile
+						? {deletions: [{path}]}
+						: {additions: [{path, contents}]}
+				),
+				message: {
+					headline: `Discard changes to ${path}`,
+				},
+			},
+		},
+	});
 }
 
 async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {

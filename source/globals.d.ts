@@ -23,6 +23,10 @@ declare module '*.md' { // It should be just for readme.md, but 🤷‍♂️
 	export const featuresMeta: FeatureMeta[];
 }
 
+declare module '*.gql' {
+	export = string;
+}
+
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
 	'details:toggled': CustomEvent;

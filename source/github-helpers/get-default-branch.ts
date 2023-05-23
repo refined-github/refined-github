@@ -22,12 +22,19 @@ async function fromDOM(): Promise<string | undefined> {
 
 async function fromAPI(repository: RepositoryInfo): Promise<string> {
 	const response = await api.v4(`
-		repository(owner: "${repository.owner}", name: "${repository.name}") {
-			defaultBranchRef {
-				name
+		query getDefaultBranch($owner: String!, $name: String!) {
+			repository(owner: $owner, name: $name) {
+				defaultBranchRef {
+					name
+				}
 			}
 		}
-	`);
+	`, {
+		variables: {
+			owner: repository.owner,
+			name: repository.name,
+		},
+	});
 
 	return response.repository.defaultBranchRef.name;
 }

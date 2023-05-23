@@ -4,22 +4,30 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import api from '../github-helpers/api.js';
-import {cacheByRepo, getRepo} from '../github-helpers/index.js';
+import api, {expectTokenScope} from '../github-helpers/api.js';
+import {cacheByRepo} from '../github-helpers/index.js';
 
 const hasAnyProjects = cache.function('has-projects', async (): Promise<boolean> => {
+	await expectTokenScope('read:project');
 	const {repository, organization} = await api.v4(`
-		repository() {
-			projects { totalCount }
-		}
-		organization(login: "${getRepo()!.owner}") {
-			projects { totalCount }
+		query hasAnyProjects($owner: String!, $name: String!) {
+			repository(owner: $owner, name: $name) {
+				projects { totalCount }
+				projectsV2 { totalCount }
+			}
+			organization(login: $owner) {
+				projects { totalCount }
+				projectsV2 { totalCount }
+			}
 		}
 	`, {
 		allowErrors: true,
 	});
 
-	return Boolean(repository.projects.totalCount) && Boolean(organization?.projects?.totalCount);
+	return Boolean(repository.projects.totalCount)
+	|| Boolean(repository.projectsV2.totalCount)
+	|| Boolean(organization?.projects?.totalCount)
+	|| Boolean(organization?.projectsV2?.totalCount);
 }, {
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
@@ -80,3 +88,11 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/facebook/react/pulls
+
+*/

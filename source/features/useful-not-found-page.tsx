@@ -56,18 +56,25 @@ function parseCurrentURL(): string[] {
 
 async function getLatestCommitToFile(branch: string, filePath: string): Promise<string | void> {
 	const {repository} = await api.v4(`
-		repository() {
-			object(expression: "${branch}") {
-				... on Commit {
-					history(first: 1, path: "${filePath}") {
-						nodes {
-							oid
+		query getLatestCommitToFile($owner: String!, $name: String!, $branch: String!, $filePath: String!) {
+			repository(owner: $owner, name: $name) {
+				object(expression: $branch) {
+					... on Commit {
+						history(first: 1, path: $filePath) {
+							nodes {
+								oid
+							}
 						}
 					}
 				}
 			}
 		}
-	`);
+	`, {
+		variables: {
+			branch,
+			filePath,
+		},
+	});
 	const commit = repository.object?.history.nodes[0];
 	return commit?.oid;
 }
@@ -217,3 +224,12 @@ void features.add(import.meta.url, 	{
 	],
 	init: onetime(initPRCommit),
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/issues/888888
+https://github.com/refined-github/refined-github/blob/main/source/features/a-horse-with-no-name.tsx
+
+*/

@@ -12,12 +12,16 @@ import observe from '../helpers/selector-observer.js';
 
 const getGistCount = cache.function('gist-count', async (username: string): Promise<number> => {
 	const {user} = await api.v4(`
-		user(login: "${username}") {
-			gists(first: 0) {
-				totalCount
+		query getGistCount($username: String!) {
+			user(login: $username) {
+				gists(first: 0) {
+					totalCount
+				}
 			}
 		}
-	`);
+	`, {
+		variables: {username},
+	});
 	return user.gists.totalCount;
 }, {
 	maxAge: {days: 1},
@@ -65,7 +69,7 @@ async function appendTab(navigationBar: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('nav[aria-label="User profile"]', appendTab, {signal});
+	observe('nav[aria-label="User"] > ul', appendTab, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -74,3 +78,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URL:
+
+Has gists: https://github.com/fregante
+No gists: https://github.com/someone
+
+*/

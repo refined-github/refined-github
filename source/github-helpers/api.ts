@@ -72,7 +72,7 @@ export async function expectTokenScope(scope: string): Promise<void> {
 	const {headers} = await v3('/');
 	const tokenScopes = headers.get('X-OAuth-Scopes')!;
 	if (!tokenScopes.split(', ').includes(scope)) {
-		throw new Error('The token you provided does not have ' + (tokenScopes ? `the \`${scope}\` scope. It only includes \`${tokenScopes}\`.` : 'any scope.'));
+		throw new Error('The token you provided does not have ' + (tokenScopes ? `the \`${scope}\` scope. It only includes \`${tokenScopes}\`.` : 'any scope. You can change the scope of your token at https://github.com/settings/tokens'));
 	}
 }
 
@@ -94,6 +94,7 @@ type GHRestApiOptions = {
 
 type GHGraphQLApiOptions = {
 	allowErrors?: boolean;
+	variables?: JsonObject;
 };
 
 const v3defaults: GHRestApiOptions = {
@@ -170,15 +171,34 @@ export const v4uncached = async (
 ): Promise<AnyObject> => {
 	const personalToken = await expectToken();
 
-	if (/^(query )?{/.test(query.trimStart())) {
-		throw new TypeError('`query` should only be what’s inside \'query {...}\', like \'user(login: "foo") { name }\', but is \n' + query);
+	// TODO: Remove automatic usage of globals via `getRepo()`
+	// https://github.com/refined-github/refined-github/issues/5821
+	const currentRepoIfAny = getRepo(); // Don't destructure, it's `undefined` outside repos
+	query = query.replace('repository() {', () => 'repository(owner: $owner, name: $name) {');
+
+	// Automatically provide variables common variables only when used.
+	// GraphQL doesn't like unused variables.
+	const variables: JsonObject = {};
+	const parameters: string[] = [];
+	if (query.includes('$owner')) {
+		variables.owner = currentRepoIfAny!.owner;
+		parameters.push('$owner: String!');
 	}
 
-	query = query.replace('repository() {', () => `repository(owner: "${getRepo()!.owner}", name: "${getRepo()!.name}") {`);
+	if (query.includes('$name')) {
+		variables.name = currentRepoIfAny!.name;
+		parameters.push('$name: String!');
+	}
 
-	features.log.http(`{
-		${query}
-	}`);
+	Object.assign(variables, options.variables);
+
+	const fullQuery = /^\s*(query|mutation)/.test(query)
+		? query
+		: parameters.length === 0
+			? `query {${query}}`
+			: `query (${parameters.join(',')}) {${query}}`;
+
+	features.log.http(fullQuery);
 
 	const response = await fetch(api4, {
 		headers: {
@@ -187,7 +207,10 @@ export const v4uncached = async (
 			Authorization: `bearer ${personalToken}`,
 		},
 		method: 'POST',
-		body: JSON.stringify({query: query.trimStart().startsWith('mutation') ? query : `{${query}}`}),
+		body: JSON.stringify({
+			variables,
+			query: fullQuery,
+		}),
 	});
 
 	const apiResponse: GraphQLResponse = await response.json();

@@ -11,16 +11,23 @@ import GitHubURL from '../github-helpers/github-url.js';
 async function getPreviousCommitForFile(pathname: string): Promise<string> {
 	const {user, repository, branch, filePath} = new GitHubURL(pathname);
 	const {resource} = await api.v4(`
-		resource(url: "/${user}/${repository}/commit/${branch}") {
-			... on Commit {
-				history(path: "${filePath}", first: 2) {
-					nodes {
-						oid
+		query getPreviousCommitForFile($resource: URI!, $filePath: String!) {
+			resource(url: $resource) {
+				... on Commit {
+					history(path: $filePath, first: 2) {
+						nodes {
+							oid
+						}
 					}
 				}
 			}
 		}
-	`);
+	`, {
+		variables: {
+			filePath,
+			resource: `/${user}/${repository}/commit/${branch}`,
+		},
+	});
 
 	// The first commit refers to the current one, so we skip it
 	return resource.history.nodes[1].oid;

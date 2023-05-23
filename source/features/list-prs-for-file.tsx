@@ -10,6 +10,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
 import GitHubURL from '../github-helpers/github-url.js';
 import observe from '../helpers/selector-observer.js';
+import listPrsForFileQuery from './list-prs-for-file.gql';
 
 function getPRUrl(prNumber: number): string {
 	// https://caniuse.com/url-scroll-to-text-fragment
@@ -57,28 +58,11 @@ function getDropdown(prs: number[]): HTMLElement {
 @returns prsByFile {"filename1": [10, 3], "filename2": [2]}
 */
 const getPrsByFile = cache.function('files-with-prs', async (): Promise<Record<string, number[]>> => {
-	const {repository} = await api.v4(`
-		repository() {
-			pullRequests(
-				first: 25,
-				states: OPEN,
-				baseRefName: "${await getDefaultBranch()}",
-				orderBy: {
-					field: UPDATED_AT,
-					direction: DESC
-				}
-			) {
-				nodes {
-					number
-					files(first: 100) {
-						nodes {
-							path
-						}
-					}
-				}
-			}
-		}
-	`);
+	const {repository} = await api.v4(listPrsForFileQuery, {
+		variables: {
+			defaultBranch: await getDefaultBranch(),
+		},
+	});
 
 	const files: Record<string, number[]> = {};
 
@@ -163,9 +147,9 @@ void features.add(import.meta.url, {
 
 ## Test URLs
 
-- isSingleFile: One PR https://github.com/refined-github/sandbox/blob/default-a/4679
+- isSingleFile: One PR https://github.com/refined-github/sandbox/blob/6619/6619
 - isSingleFile: Multiple PRs https://github.com/refined-github/sandbox/blob/default-a/README.md
-- isEditingFile: One PR https://github.com/refined-github/sandbox/edit/default-a/4679
+- isEditingFile: One PR https://github.com/refined-github/sandbox/edit/6619/6619
 - isEditingFile: Multiple PRs https://github.com/refined-github/sandbox/edit/default-a/README.md
 
 */

@@ -14,20 +14,22 @@ import observe from '../helpers/selector-observer.js';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
 	const {repository} = await api.v4(`
-		repository() {
-			ref(qualifiedName: "${url.branch}") {
-				target {
-					... on Commit {
-						history(first: 1, until: "${date}") {
-							nodes {
-								oid
+		query GetCommitAtDate($owner: String!, $name: String!, $branch: String!, $date: GitTimestamp!) {
+			repository(owner: $owner, name: $name) {
+				ref(qualifiedName: $branch) {
+					target {
+						... on Commit {
+							history(first: 1, until: $date) {
+								nodes {
+									oid
+								}
 							}
 						}
 					}
 				}
 			}
 		}
-	`);
+	`, {variables: {date, branch: url.branch}});
 
 	const [{oid}] = repository.ref.target.history.nodes;
 	select('a.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;
@@ -153,4 +155,8 @@ void features.add(import.meta.url, {
 Test URLs
 
 Find them in https://github.com/refined-github/refined-github/pull/1863
+
+See the bar on:
+
+- https://github.com/sindresorhus/refined-github/blob/main/source/features/mark-merge-commits-in-list.tsx?rgh-link-date=2019-03-04T13%3A04%3A18Z
 */

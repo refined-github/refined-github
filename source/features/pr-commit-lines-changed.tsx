@@ -9,15 +9,21 @@ import pluralize from '../helpers/pluralize.js';
 
 const getCommitChanges = cache.function('commit-changes', async (commit: string): Promise<[additions: number, deletions: number]> => {
 	const {repository} = await api.v4(`
-		repository() {
-			object(expression: "${commit}") {
-				... on Commit {
-					additions
-					deletions
+	query getCommitChanges($owner: String!, $name: String!, $commit: String!) {
+		repository(owner: $owner, name: $name) {
+				object(expression: $commit) {
+					... on Commit {
+						additions
+						deletions
+					}
 				}
 			}
 		}
-	`);
+	`, {
+		variables: {
+			commit,
+		},
+	});
 
 	return [repository.object.additions, repository.object.deletions];
 });
@@ -47,3 +53,11 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/pull/6674/commits/3d93b7823e3c31d3bd1900ab1ec98f5ce41203bf
+
+*/
