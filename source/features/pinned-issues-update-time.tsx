@@ -1,12 +1,14 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache';
 import select from 'select-dom';
+import batchedFunction from 'batched-function';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {getRepo} from '../github-helpers/index.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
+import observe from '../helpers/selector-observer.js';
 
 type IssueInfo = {
 	updatedAt: string;
@@ -33,30 +35,38 @@ function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
 	return looseParseInt(select('.opened-by', pinnedIssue)!.firstChild!);
 }
 
-async function init(): Promise<void | false> {
-	const pinnedIssues = select.all('.pinned-issue-item');
-	if (pinnedIssues.length === 0) {
-		return false;
-	}
-
+const update = batchedFunction(async (pinnedIssues: HTMLElement[]): Promise<void | false> => {
 	const lastUpdated: Record<string, IssueInfo> = await getLastUpdated(pinnedIssues.map(issue => getPinnedIssueNumber(issue)));
 	for (const pinnedIssue of pinnedIssues) {
 		const issueNumber = getPinnedIssueNumber(pinnedIssue);
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
-		select('.pinned-item-desc', pinnedIssue)!.append(
-			' • ',
-			<span className="color-fg-muted d-inline-block">
-				updated <relative-time datetime={updatedAt}/>
+		const originalLine = select('.opened-by', pinnedIssue)!;
+		originalLine.after(
+			// .rgh class enables tweakers to hide the number
+			<span className="text-small color-fg-muted">
+				<span className="rgh-pinned-issue-number">#{issueNumber}</span> updated <relative-time datetime={updatedAt}/>
 			</span>,
 		);
+
+		originalLine.hidden = true;
 	}
+});
+
+async function init(signal: AbortSignal): Promise<void> {
+	observe('.pinned-issue-item', update, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoIssueList,
 	],
-	deduplicate: 'has-rgh-inner',
-	awaitDomReady: true, // TODO: Use `observe` + `batched-function`
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/issues
+
+*/

@@ -3,6 +3,16 @@
 	display: none !important; /* Hide title */
 }
 
+.rgh-clean-pinned-issues .js-pinned-issues-reorder-list {
+	gap: 16px;
+}
+
+.rgh-clean-pinned-issues .pinned-issue-item {
+	width: auto !important;
+	flex: 1;
+	margin-inline: 0 !important;
+}
+
 @media (min-width: 700px) {
 	.rgh-clean-pinned-issues .js-pinned-issues-reorder-list {
 		display: table !important;
@@ -26,11 +36,13 @@
 		display: table-cell !important;
 		padding: 6px 12px;
 		vertical-align: middle;
+		white-space: nowrap;
 	}
 
 	/* Move `x` before the title and align both icons */
 	.rgh-clean-pinned-issues .pinned-issue-item > :first-child {
 		display: flex !important;
+		white-space: normal; /* Restore wrapping on title */
 	}
 
 	.rgh-clean-pinned-issues .pinned-issue-handle {
