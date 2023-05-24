@@ -20,7 +20,7 @@ import {importedFeatures, featuresMeta} from '../readme.md';
 import getStorageBytesInUse from './helpers/used-storage.js';
 import {perDomainOptions} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
-import {isBrowserActionAPopup} from './helpers/feature-utils.js';
+import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 
 type Status = {
 	error?: true;
@@ -278,7 +278,7 @@ async function generateDom(): Promise<void> {
 	void updateStorageUsage('sync');
 
 	// Hide non-applicable "Button link" section
-	if (isBrowserActionAPopup) {
+	if (doesBrowserActionOpenOptions) {
 		select('#action')!.hidden = true;
 	}
 

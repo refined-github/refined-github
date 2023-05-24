@@ -9,15 +9,10 @@ import addDomainPermissionToggle from 'webext-domain-permission-toggle';
 import optionsStorage from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
 import getStorageBytesInUse from './helpers/used-storage.js';
-import {isBrowserActionAPopup} from './helpers/feature-utils.js';
+import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 
 // GHE support
 addDomainPermissionToggle();
-
-// No "Button link" support in iOS Safari
-if (isBrowserActionAPopup) {
-	void browser.browserAction.setPopup({popup: 'assets/options.html'});
-}
 
 const messageHandlers = {
 	openUrls(urls: string[], {tab}: Runtime.MessageSender) {
@@ -54,6 +49,11 @@ browser.runtime.onMessage.addListener((message: typeof messageHandlers, sender) 
 });
 
 browser.browserAction.onClicked.addListener(async tab => {
+	if (doesBrowserActionOpenOptions) {
+		void browser.runtime.openOptionsPage();
+		return;
+	}
+
 	const {actionUrl} = await optionsStorage.getAll();
 	void browser.tabs.create({
 		openerTabId: tab.id,
