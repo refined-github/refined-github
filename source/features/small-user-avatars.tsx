@@ -23,7 +23,7 @@ function addAvatar(link: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	// Excludes bots
-	observe(':is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type="user"]', addAvatar, {signal});
+	observe('.js-issue-row [data-hovercard-type="user"]', addAvatar, {signal});
 }
 
 void features.add(import.meta.url, {
