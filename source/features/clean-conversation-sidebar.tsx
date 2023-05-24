@@ -94,7 +94,7 @@ async function cleanSidebar(): Promise<void> {
 
 		const content = select('[aria-label="Select reviewers"] > .css-truncate')!;
 		if (!content.firstElementChild) {
-			content.remove(); // Drop "No reviews"
+			removeTextNodeContaining(content, 'No reviews');
 		}
 	}
 
@@ -106,7 +106,11 @@ async function cleanSidebar(): Promise<void> {
 	}
 
 	// Development (linked issues/PRs)
-	select('[aria-label="Link issues"] p')?.remove(); // "Successfully merging a pull request may close this issue." This may not exist if issues are disabled
+	const developmentHint = select('[aria-label="Link issues"] p');
+	if (developmentHint) { // This may not exist if issues are disabled
+		removeTextNodeContaining(developmentHint, /No branches or pull requests|Successfully merging/);
+	}
+
 	const createBranchLink = select('button[data-action="click:create-issue-branch#openDialog"]');
 	if (createBranchLink) {
 		createBranchLink.classList.add('Link--muted');
@@ -138,3 +142,19 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // The sidebar is at the end of the page + it needs to be fully loaded
 	init,
 });
+
+/*
+
+Test URLs:
+
+* open issue: https://github.com/refined-github/sandbox/issues/15
+* open issue with linked PR: https://github.com/refined-github/sandbox/issues/3
+* closed issue: https://github.com/refined-github/sandbox/issues/56
+* draft PR: https://github.com/refined-github/sandbox/pull/7
+* merged PR: https://github.com/refined-github/sandbox/pull/58
+* open issue with a milestone and assignee: https://github.com/microsoft/TypeScript/issues/18836
+* User has triage access
+  * issue: https://github.com/download-directory/download-directory.github.io/issues/39
+  * PR: https://github.com/download-directory/download-directory.github.io/pull/37
+
+*/
