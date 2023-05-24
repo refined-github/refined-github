@@ -40,13 +40,15 @@ const update = batchedFunction(async (pinnedIssues: HTMLElement[]): Promise<void
 	for (const pinnedIssue of pinnedIssues) {
 		const issueNumber = getPinnedIssueNumber(pinnedIssue);
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
-		select('.pinned-item-desc', pinnedIssue)!.after(
+		const originalLine = select('.opened-by', pinnedIssue)!;
+		originalLine.after(
+			// .rgh class enables tweakers to hide the number
 			<span className="text-small color-fg-muted">
 				<span className="rgh-pinned-issue-number">#{issueNumber}</span> updated <relative-time datetime={updatedAt}/>
 			</span>,
 		);
 
-		select('.pinned-item-desc', pinnedIssue)!.hidden = true;
+		originalLine.hidden = true;
 	}
 });
 
