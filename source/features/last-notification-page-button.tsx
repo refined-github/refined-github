@@ -19,7 +19,7 @@ function linkify(nextButton: HTMLAnchorElement): void {
 	totalNotificationsNode.replaceWith(
 		' of ',
 		<a href={'?' + String(nextButtonSearch)}>
-			{totalNotifications}
+			{totalNotificationsNumber}
 		</a>,
 	);
 }
