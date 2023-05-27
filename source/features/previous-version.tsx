@@ -8,7 +8,7 @@ import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
 import GitHubURL from '../github-helpers/github-url.js';
 
-async function getPreviousCommitForFile(pathname: string): Promise<string> {
+async function getPreviousCommitForFile(pathname: string): Promise<string | false> {
 	const {user, repository, branch, filePath} = new GitHubURL(pathname);
 	const {resource} = await api.v4(`
 		query getPreviousCommitForFile($resource: URI!, $filePath: String!) {
@@ -28,6 +28,10 @@ async function getPreviousCommitForFile(pathname: string): Promise<string> {
 			resource: `/${user}/${repository}/commit/${branch}`,
 		},
 	});
+
+	if (resource.history.nodes.length < 2) {
+		return false;
+	}
 
 	// The first commit refers to the current one, so we skip it
 	return resource.history.nodes[1].oid;
