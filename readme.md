@@ -164,6 +164,7 @@ Thanks for contributing! 🦋🙌
 - [](# "quick-new-issue") [Adds a link to create issues from anywhere in a repository.](https://user-images.githubusercontent.com/1402241/218251057-b94b62dd-a944-4763-b78a-fc233f7c9fd3.png)
 - [](# "small-user-avatars") [Shows a small avatar next to the username in conversation lists.](https://user-images.githubusercontent.com/44045911/230960291-721f42cc-e1ac-4fdc-83ea-2430b062f9ce.png)
 - [](# "unreleased-commits") 🔥 [Tells you whether you're looking at the latest version of a repository, or if there are any unreleased commits.](https://user-images.githubusercontent.com/1402241/234576563-1a0ca255-4c0d-45ae-883d-2b1aa2d7f4c1.png)
+- [](# "linkify-action") 🔥 [Adds a link back to the PR.](https://github.com/refined-github/refined-github/assets/50487467/ba5bd616-7a48-4495-be99-c9e315f8629f)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
