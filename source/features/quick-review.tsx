@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import delay from 'delay';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -7,11 +8,13 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-function addSidebarReviewButton(reviewersSection: Element): void {
+async function addSidebarReviewButton(reviewersSection: Element): Promise<void> {
 	const reviewFormUrl = new URL(location.href);
 	reviewFormUrl.pathname += '/files';
 	reviewFormUrl.hash = 'review-changes-modal';
 
+	// Occasionally this button appears before "Reviewers", so let's wait a bit longer
+	await delay(300);
 	reviewersSection.append(
 		<span className="text-normal">
 			– <a href={reviewFormUrl.href} className="btn-link Link--muted" data-hotkey="v" data-turbo-frame="repo-content-turbo-frame">review now</a>
