@@ -75,6 +75,7 @@ async function init(signal: AbortSignal): Promise<void> {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isActionRun,
+		pageDetect.isActionJobRun,
 	],
 	init,
 });
