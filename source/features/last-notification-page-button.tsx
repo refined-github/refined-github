@@ -13,7 +13,7 @@ function linkify(nextButton: HTMLAnchorElement): void {
 	const totalNotificationsNode = select('.js-notifications-list-paginator-counts')!.lastChild!;
 	assertNodeContent(totalNotificationsNode, /^of \d+$/);
 	const totalNotificationsNumber = looseParseInt(totalNotificationsNode);
-	const lastCursor = Math.floor((totalNotificationsNumber-1) / itemsPerNotificationsPage) * itemsPerNotificationsPage;
+	const lastCursor = Math.floor((totalNotificationsNumber - 1) / itemsPerNotificationsPage) * itemsPerNotificationsPage;
 	const nextButtonSearch = new URLSearchParams(nextButton.search);
 	nextButtonSearch.set('after', btoa(`cursor:${lastCursor}`));
 	totalNotificationsNode.replaceWith(
@@ -35,3 +35,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/notifications
+
+*/
