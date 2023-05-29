@@ -29,12 +29,8 @@ async function getPreviousCommitForFile(pathname: string): Promise<string | fals
 		},
 	});
 
-	if (resource.history.nodes.length < 2) {
-		return false;
-	}
-
 	// The first commit refers to the current one, so we skip it
-	return resource.history.nodes[1].oid;
+	return resource.history.nodes[1]?.oid ?? false;
 }
 
 async function add(historyButton: HTMLElement): Promise<void> {
