@@ -8,7 +8,7 @@ import api from '../github-helpers/api.js';
 import GitHubURL from '../github-helpers/github-url.js';
 import previousVersionQuery from './previous-version.gql';
 
-async function getPreviousCommitForFile(pathname: string): Promise<string | false> {
+async function getPreviousCommitForFile(pathname: string): Promise<string | undefined> {
 	const {user, repository, branch, filePath} = new GitHubURL(pathname);
 	const {resource} = await api.v4(previousVersionQuery, {
 		variables: {
@@ -18,12 +18,11 @@ async function getPreviousCommitForFile(pathname: string): Promise<string | fals
 	});
 
 	// The first commit refers to the current one, so we skip it
-	return resource.history.nodes[1]?.oid ?? false;
+	return resource.history.nodes[1]?.oid;
 }
 
 async function add(historyButton: HTMLElement): Promise<void> {
 	const previousCommit = await getPreviousCommitForFile(location.href);
-
 	if (!previousCommit) {
 		return;
 	}
