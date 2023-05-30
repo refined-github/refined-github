@@ -16,8 +16,9 @@ import onAbort from '../helpers/abort-controller.js';
 import {userCanLikelyMergePR} from '../github-helpers/index.js';
 import {isHasSelectorSupported} from '../helpers/select-has.js';
 import {actionsTab, prCommitStatusIcon} from '../github-helpers/selectors.js';
+import observe from '../helpers/selector-observer.js';
 
-// Reuse the same checkbox to preserve its status
+// Reuse the same checkbox to preserve its state
 const generateCheckbox = onetime(() => (
 	<label className="v-align-text-top">
 		<input checked type="checkbox" name="rgh-pr-check-waiter"/>
@@ -146,11 +147,6 @@ function watchForNewCommits(): void {
 }
 
 function onPrMergePanelHandler(): void {
-	// Disable the feature if the PR requires administrator privileges https://github.com/refined-github/refined-github/issues/1771#issuecomment-1092415019
-	if (select.exists('input.js-admin-merge-override[type="checkbox"]')) {
-		return;
-	}
-
 	showCheckboxIfNecessary();
 	watchForNewCommits();
 }
@@ -179,6 +175,19 @@ function init(signal: AbortSignal): void {
 	if (commitObserver) {
 		onAbort(signal, commitObserver);
 	}
+
+	// Disable the feature under certain conditions.
+	// These conditions cannot go in the `exclude` array because the mergeability box is loaded asynchronously
+	observe([
+		// If it has a native Merge Queue behavior
+		'.js-auto-merge-box',
+
+		// If the PR requires administrator privileges https://github.com/refined-github/refined-github/issues/1771#issuecomment-1092415019
+		'input.js-admin-merge-override[type="checkbox"]',
+	], () => {
+		getCheckbox()?.remove();
+		features.unload(import.meta.url);
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
