@@ -28,7 +28,7 @@ void features.add(import.meta.url, {
 
 /*
 
-## Test
+## Test URLs
 
 - https://github.com/fregante?tab=repositories
 - https://github.com/orgs/refined-github/repositories
