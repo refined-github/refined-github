@@ -1,5 +1,7 @@
 import select from 'select-dom';
 import {setFetch} from 'push-form';
+// Nodes may be exactly `null`
+import {type Nullable} from 'vitest';
 
 // `content.fetch` is Firefox’s way to make fetches from the page instead of from a different context
 // This will set the correct `origin` header without having to use XMLHttpRequest
@@ -84,8 +86,7 @@ const escapeMatcher = (matcher: RegExp | string): string =>
 const isTextNode = (node: Text | ChildNode): boolean =>
 	node instanceof Text || ([...node.childNodes].every(childNode => childNode instanceof Text));
 
-// eslint-disable-next-line @typescript-eslint/ban-types -- Nodes may be exactly `null`
-export const assertNodeContent = <N extends Text | ChildNode>(node: N | null, expectation: RegExp | string): N => {
+export const isTextNodeContaining = (node: Nullable<Text | ChildNode>, expectation: RegExp | string): boolean => {
 	// Make sure only text is being considered, not links, icons, etc
 	if (!node || !isTextNode(node)) {
 		console.warn('TypeError', node);
@@ -93,12 +94,17 @@ export const assertNodeContent = <N extends Text | ChildNode>(node: N | null, ex
 	}
 
 	const content = node.textContent!.trim();
-	if (!matchString(expectation, content)) {
-		console.warn('Error', node.parentElement);
-		throw new Error(`Expected node matching ${escapeMatcher(expectation)}, found ${escapeMatcher(content)}`);
+	return matchString(expectation, content);
+};
+
+export const assertNodeContent = <N extends Text | ChildNode>(node: Nullable<N>, expectation: RegExp | string): N => {
+	if (isTextNodeContaining(node, expectation)) {
+		return node!;
 	}
 
-	return node;
+	console.warn('Error', node!.parentElement);
+	const content = node!.textContent!.trim();
+	throw new Error(`Expected node matching ${escapeMatcher(expectation)}, found ${escapeMatcher(content)}`);
 };
 
 export const removeTextNodeContaining = (node: Text | ChildNode, expectation: RegExp | string): void => {
