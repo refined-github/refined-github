@@ -36,7 +36,7 @@ function add({parentElement: deleteDirectoryItem}: HTMLAnchorElement): void {
 function init(signal: AbortSignal): void {
 	observe('a[aria-keyshortcuts="d"]', add, {signal});
 
-	// TODO: Drop in mid 2023. Old file view #6154
+	// TODO: Drop in late 2023. Old file view #6154
 	observe('[aria-label="Add file"] + details', addLegacy, {signal});
 }
 
