@@ -17,3 +17,13 @@
 ) .rgh-toggle-files {
 	display: none;
 }
+
+/* "md" media query */
+@media screen and not (min-width: 768px) {
+	.Box:has(
+		/* Native status */
+		#files ~ .Details:not(.open)
+	) .rgh-toggle-files {
+		display: none;
+	}
+}
