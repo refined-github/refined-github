@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-function add(folderDropdown: HTMLElement): void {
+function addLegacy(folderDropdown: HTMLElement): void {
 	const downloadUrl = new URL('https://download-directory.github.io/');
 	downloadUrl.searchParams.set('url', location.href);
 
@@ -22,11 +22,22 @@ function add(folderDropdown: HTMLElement): void {
 	);
 }
 
+function add({parentElement: deleteDirectoryItem}: HTMLAnchorElement): void {
+	const item = deleteDirectoryItem!.cloneNode(true);
+	const link = item.firstElementChild as HTMLAnchorElement;
+	const downloadUrl = new URL('https://download-directory.github.io/');
+	downloadUrl.searchParams.set('url', location.href);
+	link.href = downloadUrl.href;
+	link.textContent = 'Download folder';
+
+	deleteDirectoryItem!.before(item);
+}
+
 function init(signal: AbortSignal): void {
-	observe([
-		'[title="More options"]',
-		'[aria-label="Add file"] + details', // TODO: Drop in mid 2023. Old file view #6154
-	], add, {signal});
+	observe('a[aria-keyshortcuts="d"]', add, {signal});
+
+	// TODO: Drop in mid 2023. Old file view #6154
+	observe('[aria-label="Add file"] + details', addLegacy, {signal});
 }
 
 void features.add(import.meta.url, {
