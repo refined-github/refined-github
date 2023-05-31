@@ -89,3 +89,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs
+
+https://github.com/refined-github/refined-github
+https://github.com/refined-github/sandbox/tree/other-branch
+
+*/

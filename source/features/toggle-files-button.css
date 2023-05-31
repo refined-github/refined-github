@@ -3,17 +3,18 @@
 	margin-right: -10px;
 	padding: 10px 13px;
 }
+
 .rgh-files-hidden .Box-header {
 	border-radius: 6px;
 	border-bottom: none;
 }
 
 .Box:has(
-	/* Native status */
-	#files ~ .Details:not(.open)
+/* Native status */
+#files ~ .Details:not(.open)
 ):has(
-	/* After the first click */
-	[aria-labelledby="files"]:not(.d-md-block)
+/* After the first click */
+[aria-labelledby='files']:not(.d-md-block)
 ) .rgh-toggle-files {
 	display: none;
 }
@@ -21,9 +22,9 @@
 /* "md" media query */
 @media screen and not (min-width: 768px) {
 	.Box:has(
-		/* Native status */
-		#files ~ .Details:not(.open)
-	) .rgh-toggle-files {
+	/* Native status */
+	#files ~ .Details:not(.open)
+) .rgh-toggle-files {
 		display: none;
 	}
 }
