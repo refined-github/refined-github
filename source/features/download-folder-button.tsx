@@ -28,7 +28,7 @@ function add({parentElement: deleteDirectoryItem}: HTMLAnchorElement): void {
 	const downloadUrl = new URL('https://download-directory.github.io/');
 	downloadUrl.searchParams.set('url', location.href);
 	link.href = downloadUrl.href;
-	link.textContent = 'Download folder';
+	link.textContent = 'Download directory';
 
 	deleteDirectoryItem!.before(item);
 }
