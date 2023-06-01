@@ -1,4 +1,3 @@
-import './infinite-scroll.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
@@ -39,11 +38,11 @@ function init(signal: AbortSignal): void {
 	const footer = select('.footer > .d-flex')!.cloneNode(true);
 
 	for (const child of footer.children) {
-		child.classList.remove('pl-lg-4', 'col-xl-3');
+		child.classList.remove('pl-lg-4', 'cgh-sidebar-fool-xl-3');
 	}
 
-	select('[aria-label&="Explore"]')!.append(
-		<div className="footer rgh-sidebar-footer">
+	select('[aria-label^="Explore"]')!.append(
+		<div className="footer mt-4 py-4 border-top">
 			{footer}
 		</div>,
 	);
