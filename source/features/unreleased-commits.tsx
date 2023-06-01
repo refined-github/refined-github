@@ -74,6 +74,8 @@ export const getRepoPublishState = cache.function('tag-ahead-by', async (): Prom
 		tags.set(node.name, node.tag.commit?.oid ?? node.tag.oid);
 	}
 
+	// If this logic ever gets dropped or becomes simpler, consider using the native "compare" API
+	// https://github.com/refined-github/refined-github/issues/6094
 	const latestTag = getLatestVersionTag([...tags.keys()]);
 	const latestTagOid = tags.get(latestTag)!;
 	const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) => node.oid === latestTagOid);
