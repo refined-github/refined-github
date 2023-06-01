@@ -149,7 +149,6 @@ import './features/prevent-link-loss.js';
 import './features/closing-remarks.js';
 import './features/show-associated-branch-prs-on-fork.js';
 import './features/quick-review.js';
-import './features/fork-source-link-same-view.js';
 import './features/pr-jump-to-first-non-viewed-file.js';
 import './features/keyboard-navigation.js';
 import './features/vertical-front-matter.js';
