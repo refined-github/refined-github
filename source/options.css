@@ -58,9 +58,6 @@ output {
 	font-style: italic;
 }
 
-details[open] {
-}
-
 summary {
 	--summary-padding: 10px;
 	background: var(--background);
@@ -71,10 +68,6 @@ summary {
 
 summary::-webkit-details-marker {
 	display: none; /* Just for Safari. Chrome uses `list-style` */
-}
-
-summary:hover {
-	/* background: #aaa4; */
 }
 
 details[open] summary {
