@@ -38,7 +38,7 @@ function init(signal: AbortSignal): void {
 	const footer = select('.footer > .d-flex')!.cloneNode(true);
 
 	for (const child of footer.children) {
-		child.classList.remove('pl-lg-4', 'cgh-sidebar-fool-xl-3');
+		child.classList.remove('pl-lg-4', 'col-xl-3');
 	}
 
 	select('[aria-label^="Explore"]')!.append(
