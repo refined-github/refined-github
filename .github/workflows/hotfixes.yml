@@ -19,7 +19,7 @@ jobs:
       - name: Was it hotfixed?
         run: |
           if grep -q ",${{ github.event.issue.number }}," broken-features.csv; then
-            TODAY=$(npx utc-version --short)
+            TODAY="$(npx utc-version --short)"
             echo "WAS_HOTFIXED=$TODAY" >> $GITHUB_ENV
           fi
 
