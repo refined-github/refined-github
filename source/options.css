@@ -12,7 +12,17 @@
 }
 
 :root {
-	--rgh-red: #cf222e;
+	--red: #cf222e;
+	--border: #d0d7de;
+	--background: #f6f8fa;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--red: #f85149;
+		--border: #3e4348;
+		--background: #3a3d4066;
+	}
 }
 
 html::after {
@@ -23,12 +33,6 @@ html::after {
 	/* webpackIgnore: true */
 	background: url('icon.png') center no-repeat;
 	filter: opacity(0.1) saturate(0) brightness(1.2);
-}
-
-@media (prefers-color-scheme: dark) {
-	:root {
-		--rgh-red: #f85149;
-	}
 }
 
 p {
@@ -46,6 +50,8 @@ li[data-validation] {
 
 details {
 	margin-bottom: 1em;
+	border: solid 1px var(--border);
+	border-radius: 6px;
 }
 
 output {
@@ -53,17 +59,14 @@ output {
 }
 
 details[open] {
-	--border-left: 4px;
-	border-left: solid var(--border-left) #aaa4;
-	padding-bottom: 1px;
 }
 
 summary {
 	--summary-padding: 10px;
-	background: #aaa1;
+	background: var(--background);
 	list-style: none;
 	padding: var(--summary-padding);
-	cursor: pointer;
+	border-radius: 6px;
 }
 
 summary::-webkit-details-marker {
@@ -71,16 +74,18 @@ summary::-webkit-details-marker {
 }
 
 summary:hover {
-	background: #aaa4;
+	/* background: #aaa4; */
 }
 
 details[open] summary {
 	margin-bottom: 10px;
-	padding-left: calc(var(--summary-padding) - var(--border-left));
+	border-bottom: solid 1px var(--border);
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 }
 
 details[open] > :not(summary) {
-	margin-left: 10px;
+	margin-inline: 10px;
 }
 
 [data-validation]::before {
@@ -114,7 +119,7 @@ details[open] > :not(summary) {
 }
 
 [name='personalToken']:invalid {
-	border-color: var(--rgh-red) !important;
+	border-color: var(--red) !important;
 }
 
 .feature:not([hidden]) {
