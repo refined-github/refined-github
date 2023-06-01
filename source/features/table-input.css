@@ -37,11 +37,15 @@
 }
 
 .rgh-tic:hover div,
-.rgh-tic:is(:nth-child(5n+1)):has(~ :hover:nth-child(5n+1)) div,
-.rgh-tic:is(:nth-child(5n+1), :nth-child(5n+2)):has(~ :hover:nth-child(5n+2)) div,
-.rgh-tic:is(:nth-child(5n+1), :nth-child(5n+2), :nth-child(5n+3)):has(~ :hover:nth-child(5n+3)) div,
-.rgh-tic:is(:nth-child(5n+1), :nth-child(5n+2), :nth-child(5n+3), :nth-child(5n+4)):has(~ :hover:nth-child(5n+4)) div,
-.rgh-tic:is(:nth-child(5n+1), :nth-child(5n+2), :nth-child(5n+3), :nth-child(5n+4), :nth-child(5n+5)):has(~ :hover:nth-child(5n+5)) div {
+.rgh-tic:is(:nth-of-type(5n+1)):has(~ :hover:nth-of-type(5n+1)) div,
+.rgh-tic:is(:nth-of-type(5n+1), :nth-of-type(5n+2)):has(~ :hover:nth-of-type(5n+2)) div,
+.rgh-tic:is(:nth-of-type(5n+1), :nth-of-type(5n+2), :nth-of-type(5n+3)):has(~ :hover:nth-of-type(5n+3)) div,
+.rgh-tic:is(:nth-of-type(5n+1), :nth-of-type(5n+2), :nth-of-type(5n+3), :nth-of-type(5n+4)):has(~ :hover:nth-of-type(5n+4)) div,
+.rgh-tic:is(:nth-of-type(5n+1), :nth-of-type(5n+2), :nth-of-type(5n+3), :nth-of-type(5n+4), :nth-of-type(5n+5)):has(~ :hover:nth-of-type(5n+5)) div {
 	border-color: #79b8ff;
 	background-color: var(--color-diff-blob-hunk-num-bg, #dbedff);
+}
+
+.rgh-table-input .sentinel { /* https://github.com/refined-github/refined-github/issues/6515 */
+	display: none;
 }
