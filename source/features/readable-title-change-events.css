@@ -9,6 +9,7 @@
 .TimelineItem-body :is(del, ins).markdown-title {
 	flex-basis: 100%;
 	order: 99;
+	word-break: break-word !important;
 }
 
 /* TODO: Drop this whole rule when :has() is crossbrowser */
