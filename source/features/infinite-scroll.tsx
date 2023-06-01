@@ -42,8 +42,8 @@ function init(signal: AbortSignal): void {
 		child.classList.remove('pl-lg-4', 'col-xl-3');
 	}
 
-	select('[aria-label="Explore"]')!.append(
-		<div className="footer">
+	select('[aria-label&="Explore"]')!.append(
+		<div className="footer rgh-sidebar-footer">
 			{footer}
 		</div>,
 	);
