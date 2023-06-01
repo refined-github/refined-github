@@ -6,7 +6,7 @@ import {buildRepoURL, getRepo, isArchivedRepoAsync} from '../github-helpers/inde
 import {isHasSelectorSupported} from '../helpers/select-has.js';
 import observe from '../helpers/selector-observer.js';
 
-function add(dropdownMenu: HTMLElement): void {
+function addLegacy(dropdownMenu: HTMLElement): void {
 	dropdownMenu.append(
 		<div role="none" className="dropdown-divider"/>,
 		<div className="dropdown-header">
@@ -18,17 +18,28 @@ function add(dropdownMenu: HTMLElement): void {
 	);
 }
 
+function add(dropdownMenu: HTMLElement): void {
+	dropdownMenu.append(
+		<li role="presentation" aria-hidden="true" data-view-component="true" className="ActionList-sectionDivider"/>,
+		<li data-targets="action-list.items" role="none" data-view-component="true" className="ActionListItem">
+			<a href={buildRepoURL('issues/new/choose')} tabIndex={-1} role="menuitem" data-view-component="true" className="ActionListContent">
+				<span data-view-component="true" className="ActionListItem-label">
+					New issue in {getRepo()?.name}
+				</span>
+			</a>
+		</li>,
+	);
+}
+
 async function init(signal: AbortSignal): Promise<void | false> {
 	if (await isArchivedRepoAsync()) {
 		return false;
 	}
 
-	observe([
-		'.dropdown-menu:has(>[data-analytics-event*=\'"label":"new repository"\'])',
+	observe('#global-create-menu-list', add, {signal});
 
-		// TODO: Drop after Global Navigation update (Nov 2023)
-		'.Header-item .dropdown-menu:has(> [data-ga-click="Header, create new repository"])',
-	], add, {signal});
+	// TODO: Drop after Global Navigation update (Nov 2023)
+	observe('.Header-item .dropdown-menu:has(> [data-ga-click="Header, create new repository"])', addLegacy, {signal});
 }
 
 void features.add(import.meta.url, {
