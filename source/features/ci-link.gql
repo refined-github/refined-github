@@ -1,0 +1,18 @@
+query GetChecks($owner: String!, $name: String!) {
+	repository(owner: $owner, name: $name) {
+		defaultBranchRef {
+			target {
+				... on Commit {
+					history(first: 3) {
+						nodes {
+							oid
+							statusCheckRollup {
+								state
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
