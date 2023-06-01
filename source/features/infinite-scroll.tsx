@@ -1,4 +1,3 @@
-import './infinite-scroll.css';
 import React from 'dom-chef';
 import select from 'select-dom';
 import debounce from 'debounce-fn';
@@ -42,8 +41,8 @@ function init(signal: AbortSignal): void {
 		child.classList.remove('pl-lg-4', 'col-xl-3');
 	}
 
-	select('[aria-label="Explore"]')!.append(
-		<div className="footer">
+	select('[aria-label^="Explore"]')!.append(
+		<div className="footer mt-4 py-4 border-top">
 			{footer}
 		</div>,
 	);
