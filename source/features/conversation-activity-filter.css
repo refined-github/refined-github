@@ -37,3 +37,9 @@
 #rgh-conversation-activity-filter-select-menu:not(.js-issues-results details) {
 	display: none !important;
 }
+
+/* Our `position:relative` overlaps this element https://github.com/refined-github/refined-github/issues/6663 */
+.gh-header-meta .tracked-in-parent-pill {
+	z-index: 1;
+	background-color: red;
+}
