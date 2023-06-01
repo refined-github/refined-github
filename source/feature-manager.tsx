@@ -57,6 +57,8 @@ type InternalRunConfig = {
 	additionalListeners: CallerFunction[];
 
 	onlyAdditionalListeners: boolean;
+
+	shortcuts: Record<string, string>;
 };
 
 const {version} = browser.runtime.getManifest();
@@ -162,7 +164,7 @@ function castArray<Item>(value: Item | Item[]): Item[] {
 }
 
 async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<void> {
-	const {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners} = config;
+	const {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, shortcuts} = config;
 
 	if (!shouldFeatureRun({asLongAs, include, exclude})) {
 		return;
@@ -179,6 +181,10 @@ async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<
 			// Features can return `false` when they decide not to run on the current page
 			if (result !== false && !isFeaturePrivate(id)) {
 				log.info('✅', id);
+				// Register feature shortcuts
+				for (const [hotkey, description] of Object.entries(shortcuts)) {
+					shortcutMap.set(hotkey, description);
+				}
 			}
 		} catch (error) {
 			log.error(id, error);
@@ -247,17 +253,12 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			throw new Error(`${id}: \`include\` cannot be an empty array, it means "run nowhere"`);
 		}
 
-		// Register feature shortcuts
-		for (const [hotkey, description] of Object.entries(shortcuts)) {
-			shortcutMap.set(hotkey, description);
-		}
-
 		// 404 pages should only run 404-only features
 		if (pageDetect.is404() && !include?.includes(pageDetect.is404) && !asLongAs?.includes(pageDetect.is404)) {
 			continue;
 		}
 
-		const details = {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners};
+		const details = {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, shortcuts};
 		if (awaitDomReady) {
 			(async () => {
 				await domLoaded;
