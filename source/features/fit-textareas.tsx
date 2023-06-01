@@ -6,6 +6,12 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
+function resetListener({target}: Event): void {
+	const field = (target as HTMLFormElement).querySelector('textarea')!;
+	// Delay because the field is still filled while the `reset` event is firing
+	setTimeout(fitTextarea, 0, field);
+}
+
 function inputListener({target}: Event): void {
 	fitTextarea(target as HTMLTextAreaElement);
 }
@@ -13,7 +19,7 @@ function inputListener({target}: Event): void {
 function watchTextarea(textarea: HTMLTextAreaElement, {signal}: SignalAsOptions): void {
 	textarea.addEventListener('input', inputListener, {signal}); // The user triggers `input` event
 	textarea.addEventListener('change', inputListener, {signal}); // File uploads trigger `change` events
-	textarea.form?.addEventListener('reset', inputListener, {signal});
+	textarea.form?.addEventListener('reset', resetListener, {signal});
 	fitTextarea(textarea);
 
 	// Disable constrained native feature
