@@ -29,4 +29,4 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            This issue has been fixed and will appear in the next version. Ensure that the hotfix is disabled there. Add `${{env.WAS_HOTFIXED}}` to https://github.com/refined-github/yolo/edit/main/broken-features.csv
+            To maintainers: Disable the hotfix by adding `${{env.WAS_HOTFIXED}}` to https://github.com/refined-github/yolo/edit/main/broken-features.csv
