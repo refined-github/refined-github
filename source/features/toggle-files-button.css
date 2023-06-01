@@ -4,19 +4,27 @@
 	padding: 10px 13px;
 }
 
-body:not(.rgh-files-hidden) .rgh-toggle-files .octicon-unfold,
-body.rgh-files-hidden .rgh-toggle-files .octicon-fold {
-	display: none !important;
-}
-
-.rgh-files-hidden #files ~ :is(
-.Details, /* Loaded */
-include-fragment[src*='/file-list/'] /* Loading skeleton */
-) {
-	display: none;
-}
-
 .rgh-files-hidden .Box-header {
 	border-radius: 6px;
 	border-bottom: none;
+}
+
+.Box:has(
+/* Native status */
+#files ~ .Details:not(.open)
+):has(
+/* After the first click */
+[aria-labelledby='files']:not(.d-md-block)
+) .rgh-toggle-files {
+	display: none;
+}
+
+/* "md" media query */
+@media screen and not (min-width: 768px) {
+	.Box:has(
+	/* Native status */
+	#files ~ .Details:not(.open)
+) .rgh-toggle-files {
+		display: none;
+	}
 }
