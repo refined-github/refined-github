@@ -72,6 +72,10 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 		scopes.push('public_repo');
 	}
 
+	if (scopes.includes('project')) {
+		scopes.push('read:project')
+	}
+
 	return scopes;
 }
 
