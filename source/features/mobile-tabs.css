@@ -22,10 +22,10 @@
 	}
 
 	.rgh-mobile-tabs .UnderlineNav-item {
-		display: flex;
-		justify-content: center;
-		flex-flow: row wrap;
+		min-width: max-content;
+		display: grid;
 		padding: 5px 10px;
+		grid-template-columns: auto 1fr;
 	}
 
 	.rgh-mobile-tabs .UnderlineNav-item.selected {
@@ -35,10 +35,10 @@
 
 	.rgh-mobile-tabs .UnderlineNav-item [data-content] {
 		font-size: 10px;
-		order: 2;
+		grid-column: span 2;
+		grid-row: 2;
 		line-height: 1;
 		margin-top: 5px;
-		flex-basis: 100%;
 	}
 
 	.rgh-mobile-tabs .UnderlineNav-item svg {
