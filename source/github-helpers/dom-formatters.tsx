@@ -14,7 +14,8 @@ export const linkifiedURLClass = 'rgh-linkified-code';
 export const linkifiedURLSelector = '.rgh-linkified-code';
 
 export const codeElementsSelector = [
-	'.blob-code-inner', // Code lines
+	// Sometimes formatted diffs are loaded later and discard our formatting #5870
+	'.blob-code-inner:not(deferred-diff-lines.awaiting-highlight *)', // Code lines
 	':not(.notranslate) > .notranslate', // Code blocks in comments. May be wrapped twice
 ];
 
