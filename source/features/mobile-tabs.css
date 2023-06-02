@@ -1,10 +1,19 @@
 @media (max-width: 767px) {
-	.UnderlineNav {
-		box-shadow: none; /* Disable underline */
+	:root.rgh-mobile-tabs .AppHeader-localBar {
+		padding: 0;
 	}
 
-	.UnderlineNav-body {
+	.rgh-mobile-tabs .UnderlineNav {
+		box-shadow: none; /* Disable underline in old header. TODO: Drop in December 2023 */
+		padding-inline: var(--base-size-16, 16px);
+		padding-block: 5px 10px;
+	}
+
+	.rgh-mobile-tabs .UnderlineNav-body {
 		align-items: stretch; /* Ensure they have the same height */
+	}
+	.rgh-mobile-tabs .UnderlineNav-body > li {
+		flex-shrink: 0;
 	}
 
 	.rgh-mobile-tabs .UnderlineNav-item:not(:hover) {
@@ -12,6 +21,8 @@
 	}
 
 	.rgh-mobile-tabs .UnderlineNav-item {
+		min-width: max-content;
+
 		display: grid;
 		padding: 5px 10px;
 		grid-template-columns: auto 1fr;
