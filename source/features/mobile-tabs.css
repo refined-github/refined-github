@@ -1,0 +1,43 @@
+@media (max-width: 767px) {
+	.UnderlineNav {
+		box-shadow: none; /* Disable underline */
+	}
+
+	.UnderlineNav-body {
+		align-items: stretch; /* Ensure they have the same height */
+	}
+
+	.rgh-mobile-tabs .UnderlineNav-item:not(:hover) {
+		background: var(--color-canvas-subtle); /* Hover background color from file list */
+	}
+
+	.rgh-mobile-tabs .UnderlineNav-item {
+		display: grid;
+		padding: 5px 10px;
+		grid-template-columns: auto 1fr;
+	}
+
+	.rgh-mobile-tabs .UnderlineNav-item.selected {
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+	.rgh-mobile-tabs .UnderlineNav-item [data-content] {
+		font-size: 10px;
+		grid-column: span 2;
+		grid-row: 2;
+		line-height: 1em;
+	}
+
+	.rgh-mobile-tabs .UnderlineNav-item svg {
+		margin-right: 0 !important;
+	}
+
+	.rgh-mobile-tabs .UnderlineNav-item .Counter {
+		grid-column: 2;
+		background: none; /* Counters appears as pills */
+		min-width: 0; /* Pills have a min-width we don't need */
+		padding: 0; /* Pills have padding */
+		text-align: left; /* Pills have centered text */
+	}
+}
