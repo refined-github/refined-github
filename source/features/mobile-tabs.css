@@ -37,7 +37,8 @@
 		font-size: 10px;
 		grid-column: span 2;
 		grid-row: 2;
-		line-height: 1em;
+		line-height: 1;
+		margin-top: 5px;
 	}
 
 	.rgh-mobile-tabs .UnderlineNav-item svg {
