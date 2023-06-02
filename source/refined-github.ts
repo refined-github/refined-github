@@ -159,7 +159,7 @@ import './features/clean-repo-filelist-actions.js';
 import './features/prevent-duplicate-pr-submission.js';
 import './features/quick-label-removal.js';
 import './features/clean-conversation-headers.js';
-import './features/highlight-deleted-and-added-files-in-diffs.js';
+import './features/new-or-deleted-file.js';
 import './features/convert-release-to-draft.js';
 import './features/new-repo-disable-projects-and-wikis.js';
 import './features/table-input.js';
