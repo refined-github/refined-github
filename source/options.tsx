@@ -73,7 +73,7 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 	}
 
 	if (scopes.includes('project')) {
-		scopes.push('read:project')
+		scopes.push('read:project');
 	}
 
 	return scopes;
