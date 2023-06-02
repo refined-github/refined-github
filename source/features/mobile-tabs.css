@@ -12,6 +12,7 @@
 	.rgh-mobile-tabs .UnderlineNav-body {
 		align-items: stretch; /* Ensure they have the same height */
 	}
+
 	.rgh-mobile-tabs .UnderlineNav-body > li {
 		flex-shrink: 0;
 	}
@@ -22,7 +23,6 @@
 
 	.rgh-mobile-tabs .UnderlineNav-item {
 		min-width: max-content;
-
 		display: grid;
 		padding: 5px 10px;
 		grid-template-columns: auto 1fr;
