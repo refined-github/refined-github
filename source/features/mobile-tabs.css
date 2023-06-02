@@ -24,8 +24,10 @@
 	.rgh-mobile-tabs .UnderlineNav-item {
 		min-width: max-content;
 		display: grid;
-		padding: 5px 10px;
-		grid-template-columns: auto 1fr;
+		grid-template-areas: ". icon counter ." "label label label label";
+
+		padding: 5px 0;
+		grid-template-columns: 1fr 1fr auto 1fr;
 	}
 
 	.rgh-mobile-tabs .UnderlineNav-item.selected {
@@ -35,21 +37,26 @@
 
 	.rgh-mobile-tabs .UnderlineNav-item [data-content] {
 		font-size: 10px;
-		grid-column: span 2;
-		grid-row: 2;
+		grid-area: label;
 		line-height: 1;
 		margin-top: 5px;
+
+		/* Ensure that there's at least 10px padding, which is usually granted by the empty grid columns */
+		padding-inline: 10px;
 	}
 
 	.rgh-mobile-tabs .UnderlineNav-item svg {
 		margin-right: 0 !important;
+		grid-area: icon;
+		justify-self: center; /* Improve centering if there's no counter */
 	}
 
 	.rgh-mobile-tabs .UnderlineNav-item .Counter {
-		grid-column: 2;
+		grid-area: counter;
 		background: none; /* Counters appears as pills */
 		min-width: 0; /* Pills have a min-width we don't need */
 		padding: 0; /* Pills have padding */
 		text-align: left; /* Pills have centered text */
+		margin-left: 5px;
 	}
 }
