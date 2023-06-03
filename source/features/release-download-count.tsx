@@ -40,12 +40,12 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 	const assets = await getAssetsForTag(releaseName);
 
 	const calculateHeatIndex = createHeatIndexFunction(Object.values(assets));
-	for (const assetName of select.all('.octicon-package ~ a .text-bold', assetsList)) {
+	for (const assetLink of select.all('.octicon-package ~ a', assetsList)) {
 		// Match the asset in the DOM to the asset in the API response
-		const downloadCount = assets[assetName.textContent!] ?? 0;
+		const downloadCount = assets[assetLink.pathname.split('/').pop()!] ?? 0;
 
 		// Place next to asset size
-		const assetSize = assetName
+		const assetSize = assetLink
 			.closest('.Box-row')!
 			.querySelector(':scope > .flex-justify-end > :first-child')!;
 
@@ -87,8 +87,8 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-- One release: https://github.com/TigerBeanst/TigerInTheWall/releases/tag/v1.0.6
-- List of releases: https://github.com/TigerBeanst/TigerInTheWall/releases
+- One release: https://github.com/cli/cli/releases/tag/v2.30.0
+- List of releases: https://github.com/cli/cli/releases
 - Lots of assets: https://github.com/notepad-plus-plus/notepad-plus-plus/releases
 
 */
