@@ -5,13 +5,16 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 async function add(row: HTMLDivElement): Promise<void> {
-	const prNumber = select('a[data-hovercard-type="pull_request"]', row)?.textContent?.slice(1);
+	const prNumber = select('a[data-hovercard-type="pull_request"]', row)?.textContent!.slice(1);
 
 	if (prNumber === undefined) {
 		return;
 	}
 
-	select('a.Link--primary', row)!.href += `?pr=${prNumber}`;
+	const runLink = select('a.Link--primary', row)!;
+	const parameters = new URLSearchParams(runLink.search);
+	parameters.set('pr', prNumber);
+	runLink.search = String(parameters);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
