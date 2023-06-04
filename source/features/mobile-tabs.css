@@ -4,21 +4,16 @@
 	}
 
 	.rgh-mobile-tabs .UnderlineNav {
-		box-shadow: none; /* Disable underline in old header. TODO: Drop in December 2023 */
 		padding-inline: var(--base-size-16, 16px);
-		padding-block: 5px 10px;
 	}
 
 	.rgh-mobile-tabs .UnderlineNav-body {
 		align-items: stretch; /* Ensure they have the same height */
+		gap: initial;
 	}
 
 	.rgh-mobile-tabs .UnderlineNav-body > li {
 		flex-shrink: 0;
-	}
-
-	.rgh-mobile-tabs .UnderlineNav-item:not(:hover) {
-		background: var(--color-canvas-subtle); /* Hover background color from file list */
 	}
 
 	.rgh-mobile-tabs .UnderlineNav-item {
@@ -28,9 +23,6 @@
 
 		padding: 5px 0;
 		grid-template-columns: 1fr 1fr auto 1fr;
-	}
-
-	.rgh-mobile-tabs .UnderlineNav-item.selected {
 		border-bottom-left-radius: 0;
 		border-bottom-right-radius: 0;
 	}
