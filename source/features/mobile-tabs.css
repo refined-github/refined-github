@@ -36,13 +36,29 @@
 	}
 
 	.rgh-mobile-tabs .UnderlineNav-item [data-content] {
-		font-size: 10px;
 		grid-area: label;
 		line-height: 1;
 		margin-top: 5px;
 
 		/* Ensure that there's at least 10px padding, which is usually granted by the empty grid columns */
 		padding-inline: 10px;
+
+		/* font-size: 0; */
+		/* Safari 16.4 color bug #6473 */
+		font-size: 0.6px;
+		color: transparent !important;
+	}
+
+	.rgh-mobile-tabs .UnderlineNav-item [data-content]::before {
+		visibility: inherit;
+		height: auto;
+		font-size: 10px;
+		color: var(--color-fg-default);
+		font-weight: inherit;
+	}
+
+	.rgh-mobile-tabs [data-content='Pull requests']::before {
+		content: 'Pulls';
 	}
 
 	.rgh-mobile-tabs .UnderlineNav-item svg {
