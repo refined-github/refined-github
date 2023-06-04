@@ -19,8 +19,7 @@
 	.rgh-mobile-tabs .UnderlineNav-item {
 		min-width: max-content;
 		display: grid;
-		grid-template-areas: ". icon counter ." "label label label label";
-
+		grid-template-areas: '. icon counter .' 'label label label label';
 		padding: 5px 0;
 		grid-template-columns: 1fr 1fr auto 1fr;
 		border-bottom-left-radius: 0;
