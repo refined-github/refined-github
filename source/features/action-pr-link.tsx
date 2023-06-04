@@ -1,11 +1,12 @@
 import * as pageDetect from 'github-url-detection';
+
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 async function add(prLink: HTMLAnchorElement): Promise<void> {
 	const prNumber = prLink.textContent!.slice(1);
 
-	const runLink = prLink.closest('.Box-row')?.querySelector('a.Link--primary')!;
+	const runLink = prLink.closest('.Box-row')!.querySelector('a.Link--primary')!;
 	const parameters = new URLSearchParams(runLink.search);
 	parameters.set('pr', prNumber);
 	runLink.search = String(parameters);
