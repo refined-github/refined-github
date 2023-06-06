@@ -11,7 +11,7 @@ import getPrInfo, {PullRequestInfo} from '../github-helpers/get-pr-info.js';
 import pluralize from '../helpers/pluralize.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 import {linkifyCommit} from '../github-helpers/dom-formatters.js';
-import {removeTextNodeContaining} from '../helpers/dom-utils.js';
+import {isTextNodeContaining} from '../helpers/dom-utils.js';
 
 function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 	const {base} = getBranches();
@@ -23,7 +23,7 @@ function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 		</a>
 	);
 	return (
-		<>It’s {countLink} behind (base commit: {commit})</>
+		<div>It’s {countLink} behind (base commit: {commit})</div>
 	);
 }
 
@@ -43,7 +43,9 @@ async function addInfo(statusMeta: Element): Promise<void> {
 
 	const previousMessage = statusMeta.firstChild!; // Extract now because it won't be the first child anymore
 	statusMeta.prepend(getBaseCommitNotice(prInfo));
-	removeTextNodeContaining(previousMessage, 'Merging can be performed automatically.');
+	if (isTextNodeContaining(previousMessage, 'Merging can be performed automatically.')) {
+		previousMessage.remove();
+	}
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {

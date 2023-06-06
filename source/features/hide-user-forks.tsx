@@ -7,7 +7,7 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	link.search = String(search);
 }
 
-const skipUrlsWithType = ':not([href*="&type="])';
+const skipUrlsWithType = ':not([href*="&type="], .issues-reset-query)';
 
 const selectors = [
 	// User repos
@@ -28,7 +28,7 @@ void features.add(import.meta.url, {
 
 /*
 
-## Test
+## Test URLs
 
 - https://github.com/fregante?tab=repositories
 - https://github.com/orgs/refined-github/repositories

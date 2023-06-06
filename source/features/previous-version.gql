@@ -1,0 +1,11 @@
+query getPreviousCommitForFile($resource: URI!, $filePath: String!) {
+	resource(url: $resource) {
+		... on Commit {
+			history(path: $filePath, first: 2) {
+				nodes {
+					oid
+				}
+			}
+		}
+	}
+}

@@ -42,10 +42,10 @@ async function getFile(filePath: string): Promise<{isTruncated: boolean; text: s
 	return repository.file;
 }
 
-async function discardChanges(progress: (message: string) => void, path: string): Promise<void> {
+async function discardChanges(progress: (message: string) => void, originalFileName: string, newFileName: string): Promise<void> {
 	const [headReference, file] = await Promise.all([
 		getHeadReference(),
-		getFile(path),
+		getFile(originalFileName),
 	]);
 
 	if (file?.isTruncated) {
@@ -53,8 +53,16 @@ async function discardChanges(progress: (message: string) => void, path: string)
 	}
 
 	const isNewFile = !file;
+	const isRenamed = originalFileName !== newFileName;
 
 	const contents = file ? btoa(unescape(encodeURIComponent(file.text))) : '';
+	const deleteNewFile = {deletions: [{path: newFileName}]};
+	const restoreOldFile = {additions: [{path: originalFileName, contents}]};
+	const fileChanges = isRenamed
+		? {...restoreOldFile, ...deleteNewFile} // Renamed, maybe also changed
+		: isNewFile
+			? deleteNewFile // New
+			: restoreOldFile; // Changes
 
 	const {nameWithOwner, branch: prBranch} = getBranches().head;
 	progress('Committing…');
@@ -75,13 +83,9 @@ async function discardChanges(progress: (message: string) => void, path: string)
 					branchName: prBranch,
 				},
 				expectedHeadOid: headReference,
-				fileChanges: (
-					isNewFile
-						? {deletions: [{path}]}
-						: {additions: [{path, contents}]}
-				),
+				fileChanges,
 				message: {
-					headline: `Discard changes to ${path}`,
+					headline: `Discard changes to ${originalFileName}`,
 				},
 			},
 		},
@@ -92,8 +96,12 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	const menuItem = event.delegateTarget;
 
 	try {
-		const filePath = menuItem.closest<HTMLDivElement>('[data-path]')!.dataset.path!;
-		await showToast(async progress => discardChanges(progress!, filePath), {
+		const [originalFileName, newFileName = originalFileName] = menuItem
+			.closest('[data-path]')!
+			.querySelector('.Link--primary')!
+			.textContent!
+			.split(' → ');
+		await showToast(async progress => discardChanges(progress!, originalFileName, newFileName), {
 			message: 'Loading info…',
 			doneMessage: 'Changes discarded',
 		});

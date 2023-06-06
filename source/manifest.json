@@ -33,7 +33,6 @@
 		"page": "assets/options.html"
 	},
 	"background": {
-		"persistent": false,
 		"scripts": [
 			"assets/background.js"
 		]

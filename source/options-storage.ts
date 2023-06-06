@@ -47,6 +47,7 @@ export const renamedFeatures = new Map<string, string>([
 	['scheduled-and-manual-workflow-indicators', 'github-actions-indicators'],
 	['useful-forks', 'fork-notice'],
 	['set-default-repositories-type-to-sources', 'hide-user-forks'],
+	['highlight-deleted-and-added-files-in-diffs', 'new-or-deleted-file'],
 ]);
 
 export function isFeatureDisabled(options: RGHOptions, id: string): boolean {

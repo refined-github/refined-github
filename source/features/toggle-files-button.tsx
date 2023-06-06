@@ -1,86 +1,100 @@
 import './toggle-files-button.css';
+import select from 'select-dom';
 import cache from 'webext-storage-cache';
 import React from 'dom-chef';
-import select from 'select-dom';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {FoldIcon, UnfoldIcon, ArrowUpIcon} from '@primer/octicons-react';
+import {ChevronDownIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
-import selectHas from '../helpers/select-has.js';
-import attachElement from '../helpers/attach-element.js';
 import observe from '../helpers/selector-observer.js';
+import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 const cacheKey = 'files-hidden';
-const hiddenFilesClass = 'rgh-files-hidden';
 const toggleButtonClass = 'rgh-toggle-files';
-const noticeClass = 'rgh-files-hidden-notice';
-
-// 19px align this icon with the <UnfoldIcon/> above it
-const noticeStyle = {paddingRight: '19px'};
 
 function addButton(filesBox: HTMLElement): void {
-	attachElement(selectHas('ul:has(.octicon-history)', filesBox)!, {
-		allowMissingAnchor: true,
-		className: toggleButtonClass,
-		append: () => (
-			<button
-				type="button"
-				className="btn-octicon"
-				aria-label="Toggle files section"
-			>
-				<FoldIcon/>
-				<UnfoldIcon/>
-			</button>
-		),
-	});
+	select('ul:has(.octicon-history)', filesBox)?.append(
+		<button
+			type="button"
+			className={`btn-octicon ${toggleButtonClass}`}
+			aria-label="Hide files"
+		>
+			<ChevronDownIcon/>
+		</button>,
+	);
 }
 
-function addFilesHiddenNotice(fileBox: Element): void {
-	// Add notice so the user knows that the list was collapsed #5524
-	attachElement(fileBox, {
-		className: noticeClass,
-		after: () => (
-			<div
-				className="mb-3 mt-n3 py-1 text-right text-small color-fg-subtle"
-				style={noticeStyle}
-			>
-				The file list was collapsed via Refined GitHub <ArrowUpIcon className="v-align-middle"/>
-			</div>
-		),
-	});
+type Targets = {
+	fileList: HTMLElement;
+	buttonWrapper: Element;
+};
+
+function getTargets(): Targets {
+	const fileList = select('[aria-labelledby="files"]')!;
+	const buttonWrapper = fileList.nextElementSibling!;
+	return {fileList, buttonWrapper};
 }
 
-function toggle(toggle?: boolean): boolean {
-	return document.body.classList.toggle(hiddenFilesClass, toggle);
+function firstCollapseOnDesktop(targets = getTargets()): void {
+	targets.fileList.classList.remove('d-md-block');
+	targets.buttonWrapper.classList.remove('d-md-none');
 }
 
-async function toggleHandler(): Promise<void> {
-	// Remove notice after the first click
-	select(`.${noticeClass}`)?.remove();
+async function toggleList(): Promise<void> {
+	const targets = getTargets();
+	const button = targets.buttonWrapper.firstElementChild as HTMLButtonElement;
 
-	const isHidden = toggle();
-	await cache.set(cacheKey, isHidden);
+	if (targets.fileList.classList.contains('d-md-block')) {
+		// On the first click, collapse the list and enable native toggling on desktop
+		firstCollapseOnDesktop(targets);
+		if (window.matchMedia('(min-width: 768px)').matches) {
+			// We just hid the file list, no further action is necessary on desktop
+			await cache.set<boolean>(cacheKey, true);
+			return;
+		}
+
+		// On mobile nothing visually happened because by default the list is already hidden, so it continues to actually hide the list via the native button.
+	}
+
+	// Toggle file list via native button, open or close
+	button.click();
 }
 
 async function updateView(anchor: HTMLHeadingElement): Promise<void> {
 	const filesBox = anchor.parentElement!;
 	addButton(filesBox);
 	if (await cache.get<boolean>(cacheKey)) {
-		toggle(true);
-		addFilesHiddenNotice(filesBox);
+		// This only applies on desktop; Mobile already always starts collapsed and we're not changing that
+		firstCollapseOnDesktop();
 	}
 }
 
+async function recordToggle({detail}: DelegateEvent<CustomEvent>): Promise<void> {
+	await cache.set<boolean>(cacheKey, !detail.open);
+}
+
 async function init(signal: AbortSignal): Promise<void> {
-	// TODO: Use `.Box:has(> #files)` instead
 	observe('.Box h2#files', updateView, {signal});
-	delegate(`.${toggleButtonClass}, .${noticeClass}`, 'click', toggleHandler, {signal});
+	delegate(`.${toggleButtonClass}`, 'click', toggleList, {signal});
+	delegate('#files ~ .Details', 'details:toggled', recordToggle, {signal});
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isHasSelectorSupported,
+	],
 	include: [
 		pageDetect.isRepoTree,
 	],
 	init,
 });
+
+/*
+
+Test URLs
+
+https://github.com/refined-github/refined-github
+https://github.com/refined-github/sandbox/tree/other-branch
+
+*/
