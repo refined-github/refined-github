@@ -215,3 +215,4 @@ import './features/pr-base-commit.js';
 import './features/unreleased-commits.js';
 import './features/previous-version.js';
 import './features/status-subscription.js';
+import './features/rgh-dim-commits.js';
