@@ -1,0 +1,12 @@
+query getReleaseDownloadCount($owner: String!, $name: String!, $tag: String!) {
+	repository(owner: $owner, name: $name) {
+		release(tagName: $tag) {
+			releaseAssets(first: 100) {
+				nodes {
+					name
+					downloadCount
+				}
+			}
+		}
+	}
+}
