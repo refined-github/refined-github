@@ -74,7 +74,7 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 			<SubButton
 				// @ts-expect-error I don't remember how to fix this
 				value="subscribe_to_custom_notifications"
-				aria-label="Subscribe just to status changes (closing, reopening)"
+				aria-label="Subscribe just to status changes&#10;(closing, reopening, merging)"
 				{...(status === 'status' && disableAttrs)}
 			>
 				<IssueReopenedIcon/> Status
