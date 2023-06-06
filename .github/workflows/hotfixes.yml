@@ -1,0 +1,32 @@
+name: Hotfix
+
+on:
+  issues:
+    types:
+      - closed
+
+jobs:
+  reminder:
+    name: Reminder
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Fetch CSV file
+        run: |
+          curl -o broken-features.csv https://raw.githubusercontent.com/refined-github/yolo/main/broken-features.csv
+          cat broken-features.csv
+
+      - name: Was it hotfixed?
+        run: |
+          if grep -q ",${{ github.event.issue.number }}," broken-features.csv; then
+            TODAY="$(npx utc-version --short)"
+            echo "WAS_HOTFIXED=$TODAY" >> "$GITHUB_ENV"
+          fi
+
+      - name: Leave comment
+        if: env.WAS_HOTFIXED
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            To maintainers: Disable the hotfix by adding `${{env.WAS_HOTFIXED}}` to https://github.com/refined-github/yolo/edit/main/broken-features.csv

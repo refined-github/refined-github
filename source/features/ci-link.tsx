@@ -6,29 +6,33 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
+import getChecks from './ci-link.gql';
 
-async function getHead(): Promise<string> {
-	const {repository} = await api.v4(`
-		repository() {
-			defaultBranchRef {
-				target {
-					oid
-				}
-			}
+async function getCommitWithChecks(): Promise<string | undefined> {
+	const {repository} = await api.v4(getChecks);
+	// Check earlier commits just in case the last one is CI-generated and doesn't have checks
+	for (const commit of repository.defaultBranchRef.target.history.nodes) {
+		if (commit.statusCheckRollup) {
+			return commit.oid;
 		}
-	`);
+	}
 
-	return repository.defaultBranchRef.target.oid;
+	return undefined;
 }
 
 async function add(anchor: HTMLElement): Promise<void> {
+	const commit = await getCommitWithChecks();
+	if (!commit) {
+		return;
+	}
+
 	const endpoint = buildRepoURL('commits/checks-statuses-rollups');
 	anchor.parentElement!.append(
 		<span className="rgh-ci-link">
 			<batch-deferred-content hidden data-url={endpoint}>
 				<input
 					name="oid"
-					value={await getHead()}
+					value={commit}
 					data-targets="batch-deferred-content.inputs"
 				/>
 			</batch-deferred-content>

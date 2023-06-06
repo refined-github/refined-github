@@ -24,6 +24,9 @@ echo "Will bump the project version" "$PROJECT_VERSION"
 
 trash distribution
 npm run build
+# No GHE support with persistent:false https://github.com/refined-github/refined-github/issues/6025
+# No iOS support with persistent:true :'-(
+npx dot-json distribution/manifest.json background.persistent "false" --json-value
 npx dot-json distribution/manifest.json version "$TAG"
 
 sed -i '' '/MARKETING_VERSION/d' $CONFIG_FILE
