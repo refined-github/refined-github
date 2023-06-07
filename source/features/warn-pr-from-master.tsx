@@ -10,7 +10,7 @@ async function init(): Promise<false | void> {
 	let defaultBranch;
 	if (select.exists('.is-cross-repo')) {
 		const forkedRepository = getRepo(select('[title^="head: "]')!.textContent!)!;
-		defaultBranch = await getDefaultBranchOfRepo(forkedRepository);
+		defaultBranch = await getDefaultBranchOfRepo.get(forkedRepository);
 	} else {
 		defaultBranch = await getDefaultBranch();
 	}

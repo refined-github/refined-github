@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
+import {UpdatableCacheItem} from 'webext-storage-cache';
 import {isFirefox} from 'webext-detect-page';
 import * as pageDetect from 'github-url-detection';
 import {AlertIcon, GitPullRequestIcon} from '@primer/octicons-react';
@@ -57,26 +57,27 @@ function getDropdown(prs: number[]): HTMLElement {
 /**
 @returns prsByFile {"filename1": [10, 3], "filename2": [2]}
 */
-const getPrsByFile = cache.function('files-with-prs', async (): Promise<Record<string, number[]>> => {
-	const {repository} = await api.v4(listPrsForFileQuery, {
-		variables: {
-			defaultBranch: await getDefaultBranch(),
-		},
-	});
+const getPrsByFile = new UpdatableCacheItem('files-with-prs', {
+	async updater(): Promise<Record<string, number[]>> {
+		const {repository} = await api.v4(listPrsForFileQuery, {
+			variables: {
+				defaultBranch: await getDefaultBranch(),
+			},
+		});
 
-	const files: Record<string, number[]> = {};
+		const files: Record<string, number[]> = {};
 
-	for (const pr of repository.pullRequests.nodes) {
-		for (const {path} of pr.files.nodes) {
-			files[path] = files[path] ?? [];
-			if (files[path].length < 10) {
-				files[path].push(pr.number);
+		for (const pr of repository.pullRequests.nodes) {
+			for (const {path} of pr.files.nodes) {
+				files[path] = files[path] ?? [];
+				if (files[path].length < 10) {
+					files[path].push(pr.number);
+				}
 			}
 		}
-	}
 
-	return files;
-}, {
+		return files;
+	},
 	maxAge: {hours: 2},
 	staleWhileRevalidate: {days: 9},
 	cacheKey: cacheByRepo,
@@ -84,7 +85,7 @@ const getPrsByFile = cache.function('files-with-prs', async (): Promise<Record<s
 
 async function addToSingleFile(moreFileActionsDropdown: HTMLElement): Promise<void> {
 	const path = new GitHubURL(location.href).filePath;
-	const prsByFile = await getPrsByFile();
+	const prsByFile = await getPrsByFile.get();
 	const prs = prsByFile[path];
 
 	if (prs) {
@@ -99,7 +100,7 @@ async function addToSingleFile(moreFileActionsDropdown: HTMLElement): Promise<vo
 
 async function addToEditingFile(saveButton: HTMLElement): Promise<false | void> {
 	const path = new GitHubURL(location.href).filePath;
-	const prsByFile = await getPrsByFile();
+	const prsByFile = await getPrsByFile.get();
 	let prs = prsByFile[path];
 
 	if (!prs) {

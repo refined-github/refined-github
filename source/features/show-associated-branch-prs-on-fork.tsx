@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
+import {UpdatableCacheItem} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import {GitMergeIcon, GitPullRequestIcon, GitPullRequestClosedIcon, GitPullRequestDraftIcon} from '@primer/octicons-react';
 
@@ -18,8 +18,9 @@ type PullRequest = {
 	url: string;
 };
 
-export const getPullRequestsAssociatedWithBranch = cache.function('associatedBranchPullRequests', async (): Promise<Record<string, PullRequest>> => {
-	const {repository} = await api.v4(`
+export const getPullRequestsAssociatedWithBranch = new UpdatableCacheItem('associatedBranchPullRequests', {
+	async updater(): Promise<Record<string, PullRequest>> {
+		const {repository} = await api.v4(`
 		repository() {
 			refs(refPrefix: "refs/heads/", last: 100) {
 				nodes {
@@ -42,19 +43,19 @@ export const getPullRequestsAssociatedWithBranch = cache.function('associatedBra
 		}
 	`);
 
-	const pullRequests: Record<string, PullRequest> = {};
-	for (const {name, associatedPullRequests} of repository.refs.nodes) {
-		const [prInfo] = associatedPullRequests.nodes as PullRequest[];
-		// Check if the ref was deleted, since the result includes pr's that are not in fact related to this branch but rather to the branch name.
-		const headRefWasDeleted = prInfo?.timelineItems.nodes[0]?.__typename === 'HeadRefDeletedEvent';
-		if (prInfo && !headRefWasDeleted) {
-			prInfo.state = prInfo.isDraft && prInfo.state === 'OPEN' ? 'DRAFT' : prInfo.state;
-			pullRequests[name] = prInfo;
+		const pullRequests: Record<string, PullRequest> = {};
+		for (const {name, associatedPullRequests} of repository.refs.nodes) {
+			const [prInfo] = associatedPullRequests.nodes as PullRequest[];
+			// Check if the ref was deleted, since the result includes pr's that are not in fact related to this branch but rather to the branch name.
+			const headRefWasDeleted = prInfo?.timelineItems.nodes[0]?.__typename === 'HeadRefDeletedEvent';
+			if (prInfo && !headRefWasDeleted) {
+				prInfo.state = prInfo.isDraft && prInfo.state === 'OPEN' ? 'DRAFT' : prInfo.state;
+				pullRequests[name] = prInfo;
+			}
 		}
-	}
 
-	return pullRequests;
-}, {
+		return pullRequests;
+	},
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 4},
 	cacheKey: cacheByRepo,
@@ -92,7 +93,7 @@ function addAssociatedPRLabel(branchCompareLink: Element, prInfo: PullRequest): 
 }
 
 async function addLink(branchCompareLink: Element): Promise<void> {
-	const associatedPullRequests = await getPullRequestsAssociatedWithBranch();
+	const associatedPullRequests = await getPullRequestsAssociatedWithBranch.get();
 	const branchName = branchCompareLink.closest('[branch]')!.getAttribute('branch')!;
 	const prInfo = associatedPullRequests[branchName];
 	if (prInfo) {

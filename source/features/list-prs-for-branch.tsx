@@ -18,7 +18,7 @@ const stateColorMap = {
 };
 
 async function add(branchSelectorParent: HTMLDetailsElement): Promise<void | false> {
-	const getPr = await getPullRequestsAssociatedWithBranch();
+	const getPr = await getPullRequestsAssociatedWithBranch.get();
 	const currentBranch = getCurrentGitRef()!;
 	const prInfo = getPr[currentBranch];
 	if (!prInfo) {

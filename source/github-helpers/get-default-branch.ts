@@ -1,4 +1,4 @@
-import cache from 'webext-storage-cache';
+import {UpdatableCacheItem} from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import {type RepositoryInfo} from 'github-url-detection';
 
@@ -41,8 +41,8 @@ async function fromAPI(repository: RepositoryInfo): Promise<string> {
 
 // DO NOT use optional arguments/defaults in "cached functions" because they can't be memoized effectively
 // https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
-export const getDefaultBranchOfRepo = cache.function('default-branch',
-	async (repository: RepositoryInfo): Promise<string> => {
+export const getDefaultBranchOfRepo = new UpdatableCacheItem('default-branch', {
+	async updater(repository: RepositoryInfo): Promise<string> {
 		if (!repository) {
 			throw new Error('getDefaultBranch was called on a non-repository page');
 		}
@@ -50,13 +50,13 @@ export const getDefaultBranchOfRepo = cache.function('default-branch',
 		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- Wrong, the type is `false | undefined`
 		return (isCurrentRepo(repository) && await fromDOM()) || fromAPI(repository);
 	},
-	{
-		maxAge: {hours: 1},
-		staleWhileRevalidate: {days: 20},
-		cacheKey: ([repository]) => repository.nameWithOwner,
-	},
+
+	maxAge: {hours: 1},
+	staleWhileRevalidate: {days: 20},
+	cacheKey: ([repository]) => repository.nameWithOwner,
+},
 );
 
 export default async function getDefaultBranch(): Promise<string> {
-	return getDefaultBranchOfRepo(getRepo()!);
+	return getDefaultBranchOfRepo.get(getRepo()!);
 }

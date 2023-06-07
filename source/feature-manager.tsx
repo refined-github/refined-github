@@ -14,11 +14,10 @@ import {isFeaturePrivate} from './helpers/feature-utils.js';
 import optionsStorage, {isFeatureDisabled, RGHOptions} from './options-storage.js';
 import {
 	applyStyleHotfixes,
-	getStyleHotfix,
+	styleHotfixes,
 	getLocalHotfixesAsOptions,
-	getLocalStrings,
-	updateHotfixes,
-	updateLocalStrings,
+	preloadSyncLocalStrings,
+	brokenFeatures,
 	_,
 } from './helpers/hotfix.js';
 
@@ -107,7 +106,7 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 		optionsStorage.getAll(),
 		getLocalHotfixesAsOptions(),
 		bisectFeatures(),
-		getLocalStrings(),
+		preloadSyncLocalStrings(),
 	]);
 
 	await waitFor(() => document.body);
@@ -130,20 +129,18 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 
 	document.documentElement.classList.add('refined-github');
 
-	void getStyleHotfix(version).then(applyStyleHotfixes);
+	void styleHotfixes.get(version).then(applyStyleHotfixes);
 
 	if (options.customCSS.trim().length > 0) {
 		// Review #5857 and #5493 before making changes
 		document.head.append(<style>{options.customCSS}</style>);
 	}
 
-	void updateLocalStrings();
-
 	if (bisectedFeatures) {
 		Object.assign(options, bisectedFeatures);
 	} else {
 		// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
-		void updateHotfixes(version);
+		void brokenFeatures.get();
 		Object.assign(options, localHotfixes);
 	}
 

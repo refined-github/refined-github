@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
+import {UpdatableCacheItem} from 'webext-storage-cache';
 import select from 'select-dom';
 import {BugIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
@@ -7,17 +7,20 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {cacheByRepo, getRepo} from '../github-helpers/index.js';
+import {cacheByRepo} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
 
 const supportedLabels = /^(bug|bug-?fix|confirmed-bug|type[:/]bug|kind[:/]bug|(:[\w-]+:|\p{Emoji})bug)$/iu;
-const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
-const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(getBugLabelCacheKey());
 const isBugLabel = (label: string): boolean => supportedLabels.test(label.replace(/\s/g, ''));
 
-async function countBugsWithUnknownLabel(): Promise<number> {
+type Bugs = {
+	label: string;
+	count: number;
+};
+
+async function countBugs(): Promise<Bugs> {
 	const {repository} = await api.v4(`
 		repository() {
 			labels(query: "bug", first: 10) {
@@ -31,45 +34,32 @@ async function countBugsWithUnknownLabel(): Promise<number> {
 		}
 	`);
 
-	const label: AnyObject | undefined = repository.labels.nodes
-		.find((label: AnyObject) => isBugLabel(label.name));
-	if (!label) {
-		return 0;
+	// Prefer native "bug" label
+	for (const label of repository.labels.nodes) {
+		if (label.name === 'bug') {
+			return {label: 'bug', count: label.issues.totalCount ?? 0};
+		}
 	}
 
-	void cache.set(getBugLabelCacheKey(), label.name ?? false);
-	return label.issues.totalCount ?? 0;
-}
-
-async function countIssuesWithLabel(label: string): Promise<number> {
-	const {repository} = await api.v4(`
-		query bugIssueCount($owner: String!, $name: String!, $label: String!) {
-			repository(owner: $owner, name: $name) {
-				label(name: $label) {
-					issues(states: OPEN) {
-						totalCount
-					}
-				}
-			}
+	for (const label of repository.labels.nodes) {
+		if (isBugLabel(label.name)) {
+			return {label: label.name, count: label.issues.totalCount ?? 0};
 		}
-	`, {variables: {label}});
+	}
 
-	return repository.label?.issues.totalCount ?? 0;
+	return {label: '', count: 0};
 }
 
-const countBugs = cache.function('bugs', async (): Promise<number> => {
-	const bugLabel = await getBugLabel();
-	return bugLabel
-		? countIssuesWithLabel(bugLabel)
-		: countBugsWithUnknownLabel();
-}, {
+const bugs = new UpdatableCacheItem('bugs', {
+	updater: countBugs,
 	maxAge: {minutes: 30},
 	staleWhileRevalidate: {days: 4},
 	cacheKey: cacheByRepo,
 });
 
 async function getSearchQueryBugLabel(): Promise<string> {
-	return 'label:' + SearchQuery.escapeValue(await getBugLabel() ?? 'bug');
+	const {label} = await bugs.getCached();
+	return 'label:' + SearchQuery.escapeValue(label ?? 'bug');
 }
 
 async function isBugsListing(): Promise<boolean> {
@@ -78,15 +68,18 @@ async function isBugsListing(): Promise<boolean> {
 
 async function addBugsTab(): Promise<void | false> {
 	// Query API as early as possible, even if it's not necessary on archived repos
-	const countPromise = countBugs();
+	const bugsPromise = bugs.get();
 
 	// On a label:bug listing:
 	// - always show the tab, as soon as possible
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-	if (!await isBugsListing() && await countPromise === 0) {
-		return false;
+	if (!await isBugsListing()) {
+		const {count} = await bugsPromise;
+		if (count === 0) {
+			return false;
+		}
 	}
 
 	const issuesTab = await elementReady('a.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
@@ -131,7 +124,7 @@ async function addBugsTab(): Promise<void | false> {
 
 	// Update bugs count
 	try {
-		const bugCount = await countPromise;
+		const {count: bugCount} = await bugsPromise;
 		bugsCounter.textContent = abbreviateNumber(bugCount);
 		bugsCounter.title = bugCount > 999 ? String(bugCount) : '';
 	} catch (error) {
@@ -152,13 +145,13 @@ async function removePinnedIssues(): Promise<void> {
 }
 
 async function updateBugsTagHighlighting(): Promise<void | false> {
-	if (await countBugs() === 0) {
+	const {count, label} = await bugs.get();
+	if (count === 0) {
 		return false;
 	}
 
-	const bugLabel = await getBugLabel() ?? 'bug';
 	if (
-		(pageDetect.isRepoTaxonomyIssueOrPRList() && location.href.endsWith('/labels/' + encodeURIComponent(bugLabel)))
+		(pageDetect.isRepoTaxonomyIssueOrPRList() && location.href.endsWith('/labels/' + encodeURIComponent(label)))
 		|| (pageDetect.isRepoIssueList() && await isBugsListing())
 	) {
 		void removePinnedIssues();
@@ -166,7 +159,7 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 		return;
 	}
 
-	if (pageDetect.isIssue() && await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${bugLabel}"]`)) {
+	if (pageDetect.isIssue() && await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${label}"]`)) {
 		highlightBugsTab();
 		return;
 	}

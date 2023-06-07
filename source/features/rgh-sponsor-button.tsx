@@ -22,7 +22,7 @@
  . .    .               .             *.                         .
 
 */
-import cache from 'webext-storage-cache';
+import {CacheItem} from 'webext-storage-cache';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -30,8 +30,10 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../feature-manager.js';
 import {getRepo, getUsername} from '../github-helpers/index.js';
 
+const wigglosity = new CacheItem<'yup'>('did-it-wiggle', {maxAge: {days: 7}});
+
 async function wiggleWiggleWiggle(): Promise<void> {
-	await cache.set('did-it-wiggle', 'yup', {days: 7});
+	await wigglosity.set('yup');
 	select('#sponsor-button-repo')?.animate({
 		transform: [
 			'none',
@@ -83,7 +85,7 @@ async function suchLove({delegateTarget}: DelegateEvent): Promise<void> {
 }
 
 async function handleNewIssue(signal: AbortSignal): Promise<false> {
-	if (getRepo()!.owner !== getUsername() && !await cache.get('did-it-wiggle')) {
+	if (getRepo()!.owner !== getUsername() && !await wigglosity.get()) {
 		select([
 			'.btn-primary[href$="/issues/new/choose"]',
 			'.btn-primary[href$="/issues/new"]',

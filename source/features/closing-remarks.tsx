@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
+import {UpdatableCacheItem} from 'webext-storage-cache';
 import select from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -11,21 +11,22 @@ import createBanner from '../github-helpers/banner.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 import attachElement from '../helpers/attach-element.js';
 import {canEditEveryComment} from './quick-comment-edit.js';
-import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
-import {getReleaseCount} from './releases-tab.js';
+import {buildRepoURL, cacheByRepo, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
+import {releasesCount} from './releases-tab.js';
 import observe from '../helpers/selector-observer.js';
 
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;
 
-const getFirstTag = cache.function('first-tag', async (commit: string): Promise<string | undefined> => {
-	const firstTag = await fetchDom(
-		buildRepoURL('branch_commits', commit),
-		'ul.branches-tag-list li:last-child a',
-	);
+const getFirstTag = new UpdatableCacheItem('first-tag', {
+	async updater(commit: string): Promise<string | false> {
+		const firstTag = await fetchDom(
+			buildRepoURL('branch_commits', commit),
+			'ul.branches-tag-list li:last-child a',
+		);
 
-	return firstTag?.textContent ?? undefined;
-}, {
+		return firstTag?.textContent ?? false;
+	},
 	cacheKey: ([commit]) => [getRepo()!.nameWithOwner, commit].join(':'),
 });
 
@@ -43,7 +44,7 @@ function createReleaseUrl(): string | undefined {
 
 async function init(signal: AbortSignal): Promise<void> {
 	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`)!.textContent!;
-	const tagName = await getFirstTag(mergeCommit);
+	const tagName = await getFirstTag.get(mergeCommit);
 
 	if (tagName) {
 		const tagUrl = buildRepoURL('releases/tag', tagName);
@@ -90,7 +91,7 @@ function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 }
 
 async function addReleaseBanner(text = 'Now you can release this change'): Promise<void> {
-	if (await getReleaseCount() === 0) {
+	if (await releasesCount.get(cacheByRepo()) === 0) {
 		return;
 	}
 

@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
+import {UpdatableCacheItem} from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -8,17 +8,18 @@ import api from '../github-helpers/api.js';
 import {getUsername, getCleanPathname} from '../github-helpers/index.js';
 import attachElement from '../helpers/attach-element.js';
 
-const doesUserFollow = cache.function('user-follows', async (userA: string, userB: string): Promise<boolean> => {
-	const {httpStatus} = await api.v3(`/users/${userA}/following/${userB}`, {
-		json: false,
-		ignoreHTTPStatus: true,
-	});
+const doesUserFollow = new UpdatableCacheItem('user-follows', {
+	async updater(userA: string, userB: string): Promise<boolean> {
+		const {httpStatus} = await api.v3(`/users/${userA}/following/${userB}`, {
+			json: false,
+			ignoreHTTPStatus: true,
+		});
 
-	return httpStatus === 204;
-});
+		return httpStatus === 204;
+	}});
 
 async function init(): Promise<void> {
-	if (!await doesUserFollow(getCleanPathname(), getUsername()!)) {
+	if (!await doesUserFollow.get(getCleanPathname(), getUsername()!)) {
 		return;
 	}
 

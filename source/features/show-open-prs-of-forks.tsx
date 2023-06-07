@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
+import {UpdatableCacheItem} from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -13,8 +13,9 @@ function getLinkCopy(count: number): string {
 	return pluralize(count, 'one open pull request', 'at least $$ open pull requests');
 }
 
-const countPRs = cache.function('prs-on-forked-repo', async (forkedRepo: string): Promise<[prCount: number, singlePrNumber?: number]> => {
-	const {search} = await api.v4(`
+const countPRs = new UpdatableCacheItem('prs-on-forked-repo', {
+	async updater(forkedRepo: string): Promise<{count: number; firstPr?: number}> {
+		const {search} = await api.v4(`
 		query getPRs($query: String!) {
 			search(
 				first: 100,
@@ -32,21 +33,21 @@ const countPRs = cache.function('prs-on-forked-repo', async (forkedRepo: string)
 			}
 		}
 	`, {
-		variables: {
-			query: `is:pr is:open archived:false repo:${forkedRepo} author:${getUsername()!}`,
-		},
-	});
+			variables: {
+				query: `is:pr is:open archived:false repo:${forkedRepo} author:${getUsername()!}`,
+			},
+		});
 
-	// Only show PRs originated from the current repo
-	const prs = search.nodes.filter((pr: AnyObject) => pr.headRepository.nameWithOwner === getRepo()!.nameWithOwner);
+		// Only show PRs originated from the current repo
+		const prs = search.nodes.filter((pr: AnyObject) => pr.headRepository.nameWithOwner === getRepo()!.nameWithOwner);
 
-	// If only one is found, pass the PR number so we can link to the PR directly
-	if (prs.length === 1) {
-		return [1, prs[0].number];
-	}
+		// If only one is found, pass the PR number so we can link to the PR directly
+		if (prs.length === 1) {
+			return {count: 1, firstPr: prs[0].number};
+		}
 
-	return [prs.length];
-}, {
+		return {count: prs.length};
+	},
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 2},
 	cacheKey: ([forkedRepo]): string => `${forkedRepo}:${getRepo()!.nameWithOwner}`,
@@ -61,7 +62,7 @@ async function getPRs(): Promise<[prCount: number, url: string] | []> {
 	}
 
 	const forkedRepo = getForkedRepo()!;
-	const [count, firstPr] = await countPRs(forkedRepo);
+	const {count, firstPr} = await countPRs.get(forkedRepo);
 	if (count === 1) {
 		return [count, `/${forkedRepo}/pull/${firstPr!}`];
 	}

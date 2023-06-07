@@ -1,7 +1,7 @@
-import cache from 'webext-storage-cache';
+import {globalCache} from 'webext-storage-cache';
 
 export default async function clearCacheHandler(event: MouseEvent): Promise<void> {
-	await cache.clear();
+	await globalCache.clear();
 	const button = event.target as HTMLButtonElement;
 	const initialText = button.textContent;
 	button.textContent = 'Cache cleared!';

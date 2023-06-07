@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
+import {UpdatableCacheItem} from 'webext-storage-cache';
 import select from 'select-dom';
 import {BookIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
@@ -15,8 +15,6 @@ type FileType = {
 	type: string;
 };
 
-const cacheName = 'changelog';
-
 const changelogFiles = /^(changelog|news|changes|history|release|whatsnew)(\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
 function findChangelogName(files: string[]): string | false {
 	return files.find(name => changelogFiles.test(name)) ?? false;
@@ -24,12 +22,14 @@ function findChangelogName(files: string[]): string | false {
 
 function parseFromDom(): false {
 	const files = select.all('[aria-labelledby="files"] .js-navigation-open[href*="/blob/"').map(file => file.title);
-	void cache.set(cacheName + ':' + cacheByRepo(), findChangelogName(files));
+	void getChangelogName.set(findChangelogName(files), cacheByRepo());
 	return false;
 }
 
-const getChangelogName = cache.function(cacheName, async (): Promise<string | false> => {
-	const {repository} = await api.v4(`
+const getChangelogName = new UpdatableCacheItem('changelog', {
+	async updater(nameWithOwner: string): Promise<string | false> {
+		const [name, owner] = nameWithOwner.split('/');
+		const {repository} = await api.v4(`
 		repository() {
 			object(expression: "HEAD:") {
 				...on Tree {
@@ -40,22 +40,23 @@ const getChangelogName = cache.function(cacheName, async (): Promise<string | fa
 				}
 			}
 		}
-	`);
+	`, {
+			variables: {name, owner},
+		});
 
-	const files: string[] = [];
-	for (const entry of repository.object.entries as FileType[]) {
-		if (entry.type === 'blob') {
-			files.push(entry.name);
+		const files: string[] = [];
+		for (const entry of repository.object.entries as FileType[]) {
+			if (entry.type === 'blob') {
+				files.push(entry.name);
+			}
 		}
-	}
 
-	return findChangelogName(files);
-}, {
-	cacheKey: cacheByRepo,
+		return findChangelogName(files);
+	},
 });
 
 async function init(): Promise<void | false> {
-	const changelog = await getChangelogName();
+	const changelog = await getChangelogName.get(cacheByRepo());
 	if (!changelog) {
 		return false;
 	}

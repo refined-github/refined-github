@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
+import {UpdatableCacheItem} from 'webext-storage-cache';
 import select from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
@@ -16,8 +16,6 @@ import {releasesSidebarSelector} from './clean-repo-sidebar.js';
 import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
 import {underlineNavDropdownUl} from '../github-helpers/selectors.js';
 
-const cacheName = 'releases-count';
-
 async function parseCountFromDom(): Promise<number> {
 	const moreReleasesCountElement = await elementReady(releasesSidebarSelector + ' .Counter');
 	if (moreReleasesCountElement) {
@@ -27,14 +25,17 @@ async function parseCountFromDom(): Promise<number> {
 	return 0;
 }
 
-async function fetchFromApi(): Promise<number> {
+async function fetchFromApi(nameWithOwner: string): Promise<number> {
+	const [name, owner] = nameWithOwner.split('/');
 	const {repository} = await api.v4(`
-		repository() {
+		repository(owner: $owner, name: $name) {
 			releases {
 				totalCount
 			}
 		}
-	`);
+	`, {
+		variables: {name, owner},
+	});
 
 	return repository.releases.totalCount;
 }
@@ -43,19 +44,19 @@ async function fetchFromApi(): Promise<number> {
 // - It is disabled by repository owner on the home page (release DOM element won't be there)
 // - It only contains pre-releases (count badge won't be shown)
 // For this reason, if we can't find a count from the DOM, we ask the API instead (see #6298)
-export const getReleaseCount = cache.function(cacheName, async () => await parseCountFromDom() || fetchFromApi(), {
+export const releasesCount = new UpdatableCacheItem('releases-count', {
+	updater: async (nameWithOwner: string) => await parseCountFromDom() || fetchFromApi(nameWithOwner),
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 3},
 	cacheKey: cacheByRepo,
 });
 
 async function addReleasesTab(): Promise<false | void> {
-	// Always prefer the information in the DOM
-	if (pageDetect.isRepoRoot()) {
-		await cache.delete(cacheName + ':' + cacheByRepo());
-	}
+	const count = pageDetect.isRepoRoot()
+		// Always prefer the information in the DOM
+		? await releasesCount.getFresh(cacheByRepo())
+		: await releasesCount.get(cacheByRepo());
 
-	const count = await getReleaseCount();
 	if (count === 0) {
 		return false;
 	}

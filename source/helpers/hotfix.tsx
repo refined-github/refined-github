@@ -1,11 +1,13 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
+import {UpdatableCacheItem} from 'webext-storage-cache';
 import {isEnterprise} from 'github-url-detection';
 import compareVersions from 'tiny-version-compare';
 import {any as concatenateTemplateLiteralTag} from 'code-tag';
 
 import {RGHOptions} from '../options-storage.js';
 import isDevelopmentVersion from './is-development-version.js';
+
+const {version} = browser.runtime.getManifest();
 
 function parseCsv(content: string): string[][] {
 	const lines = [];
@@ -33,35 +35,35 @@ async function fetchHotfix(path: string): Promise<string> {
 	return '';
 }
 
-export type HotfixStorage = Array<[FeatureID, string, string]>;
+type HotfixStorage = Array<[FeatureID, string, string]>;
 
-export const updateHotfixes = cache.function('hotfixes', async (version: string): Promise<HotfixStorage> => {
-	const content = await fetchHotfix('broken-features.csv');
-	if (!content) {
-		return [];
-	}
-
-	const storage: HotfixStorage = [];
-	for (const [featureID, relatedIssue, unaffectedVersion] of parseCsv(content)) {
-		if (featureID && relatedIssue && (!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0)) {
-			storage.push([featureID as FeatureID, relatedIssue, unaffectedVersion]);
+export const brokenFeatures = new UpdatableCacheItem('broken-features', {
+	async updater(): Promise<HotfixStorage> {
+		const content = await fetchHotfix('broken-features.csv');
+		if (!content) {
+			return [];
 		}
-	}
 
-	return storage;
-}, {
+		const storage: HotfixStorage = [];
+		for (const [featureID, relatedIssue, unaffectedVersion] of parseCsv(content)) {
+			if (featureID && relatedIssue && (!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0)) {
+				storage.push([featureID as FeatureID, relatedIssue, unaffectedVersion]);
+			}
+		}
+
+		return storage;
+	},
 	maxAge: {hours: 6},
 	staleWhileRevalidate: {days: 30},
-	cacheKey: () => '',
 });
 
-export const getStyleHotfix = cache.function('style-hotfixes',
-	async (version: string): Promise<string> => fetchHotfix(`style/${version}.css`),
-	{
-		maxAge: {hours: 6},
-		staleWhileRevalidate: {days: 300},
-		cacheKey: () => '',
-	},
+export const styleHotfixes = new UpdatableCacheItem('style-hotfixes', {
+	updater: async (version: string): Promise<string> => fetchHotfix(`style/${version}.css`),
+
+	maxAge: {hours: 6},
+	staleWhileRevalidate: {days: 300},
+	cacheKey: () => '',
+},
 );
 
 export async function getLocalHotfixes(): Promise<HotfixStorage> {
@@ -71,7 +73,7 @@ export async function getLocalHotfixes(): Promise<HotfixStorage> {
 		return [];
 	}
 
-	return await cache.get<HotfixStorage>('hotfixes:') ?? [];
+	return await brokenFeatures.get() ?? [];
 }
 
 export async function getLocalHotfixesAsOptions(): Promise<Partial<RGHOptions>> {
@@ -92,7 +94,6 @@ export async function applyStyleHotfixes(style: string): Promise<void> {
 	document.body.prepend(<style>{style}</style>);
 }
 
-const stringHotfixesKey = 'strings-hotfixes';
 let localStrings: Record<string, string> = {};
 export function _(...arguments_: Parameters<typeof concatenateTemplateLiteralTag>): string {
 	const original = concatenateTemplateLiteralTag(...arguments_);
@@ -100,18 +101,19 @@ export function _(...arguments_: Parameters<typeof concatenateTemplateLiteralTag
 }
 
 // Updates the local object from the storage to enable synchronous access
-export async function getLocalStrings(): Promise<void> {
+export async function preloadSyncLocalStrings(): Promise<void> {
 	if (isDevelopmentVersion() || isEnterprise()) {
 		return;
 	}
 
-	localStrings = await cache.get<Record<string, string>>(stringHotfixesKey + ':') ?? {};
+	localStrings = await localStringsHotfix.get() ?? {};
 }
 
-export const updateLocalStrings = cache.function(stringHotfixesKey, async (): Promise<Record<string, string>> => {
-	const json = await fetchHotfix('strings.json');
-	return json ? JSON.parse(json) : {};
-}, {
+export const localStringsHotfix = new UpdatableCacheItem('strings-hotfixes', {
+	async updater(): Promise<Record<string, string>> {
+		const json = await fetchHotfix('strings.json');
+		return json ? JSON.parse(json) : {};
+	},
 	maxAge: {hours: 6},
 	staleWhileRevalidate: {days: 30},
 });

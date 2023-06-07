@@ -1,7 +1,6 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
 import domify from 'doma';
 import select from 'select-dom';
 import fitTextarea from 'fit-textarea';
@@ -14,19 +13,22 @@ import {isEnterprise} from 'github-url-detection';
 
 import featureLink from './helpers/feature-link.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
-import {getLocalHotfixes} from './helpers/hotfix.js';
+import {getLocalHotfixes, styleHotfixes} from './helpers/hotfix.js';
 import {createRghIssueLink} from './helpers/rgh-issue-link.js';
 import {importedFeatures, featuresMeta} from '../readme.md';
 import getStorageBytesInUse from './helpers/used-storage.js';
 import {perDomainOptions} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
+import {state as bisectState} from './helpers/bisect.js';
 
 type Status = {
 	error?: true;
 	text?: string;
 	scopes?: string[];
 };
+
+const {version} = browser.runtime.getManifest();
 
 function reportStatus({error, text, scopes}: Status): void {
 	const tokenStatus = select('#validation')!;
@@ -162,7 +164,7 @@ async function findFeatureHandler(event: Event): Promise<void> {
 	// TODO: Add support for GHE
 	const options = await perDomainOptions.getOptionsForOrigin().getAll();
 	const enabledFeatures = importedFeatures.filter(featureId => options['feature:' + featureId]);
-	await cache.set<FeatureID[]>('bisect', enabledFeatures, {minutes: 5});
+	await bisectState.set(enabledFeatures);
 
 	const button = event.target as HTMLButtonElement;
 	button.disabled = true;
@@ -243,7 +245,7 @@ function updateRateLink(): void {
 }
 
 async function showStoredCssHotfixes(): Promise<void> {
-	const cachedCSS = await cache.get<string>('style-hotfixes:');
+	const cachedCSS = await styleHotfixes.getCached(version);
 	select('#hotfixes-field')!.textContent
 		= isDevelopmentVersion()
 			? 'Hotfixes are not applied in the development version.'

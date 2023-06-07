@@ -1,4 +1,4 @@
-import cache from 'webext-storage-cache';
+import {UpdatableCacheItem} from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -7,9 +7,10 @@ import features from '../feature-manager.js';
 import api, {expectTokenScope} from '../github-helpers/api.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 
-const hasAnyProjects = cache.function('has-projects', async (): Promise<boolean> => {
-	await expectTokenScope('read:project');
-	const {repository, organization} = await api.v4(`
+const hasAnyProjects = new UpdatableCacheItem('has-projects', {
+	async updater(): Promise<boolean> {
+		await expectTokenScope('read:project');
+		const {repository, organization} = await api.v4(`
 		query hasAnyProjects($owner: String!, $name: String!) {
 			repository(owner: $owner, name: $name) {
 				projects { totalCount }
@@ -21,14 +22,14 @@ const hasAnyProjects = cache.function('has-projects', async (): Promise<boolean>
 			}
 		}
 	`, {
-		allowErrors: true,
-	});
+			allowErrors: true,
+		});
 
-	return Boolean(repository.projects.totalCount)
+		return Boolean(repository.projects.totalCount)
 	|| Boolean(repository.projectsV2.totalCount)
 	|| Boolean(organization?.projects?.totalCount)
 	|| Boolean(organization?.projectsV2?.totalCount);
-}, {
+	},
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
 	cacheKey: cacheByRepo,
@@ -58,7 +59,7 @@ async function hasProjects(): Promise<boolean> {
 		return false;
 	}
 
-	return hasAnyProjects();
+	return hasAnyProjects.get();
 }
 
 async function hideProjects(): Promise<void> {

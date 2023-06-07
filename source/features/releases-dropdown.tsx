@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
-import cache from 'webext-storage-cache';
+import {UpdatableCacheItem} from 'webext-storage-cache';
 
 import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
@@ -18,10 +18,11 @@ const gql = `
 	}
 `;
 
-const getReleases = cache.function('releases', async (): Promise<string[]> => {
-	const {repository} = await api.v4(gql);
-	return repository.releases.nodes.map(({tagName}: {tagName: string}) => tagName);
-}, {
+const getReleases = new UpdatableCacheItem('releases', {
+	async updater(): Promise<string[]> {
+		const {repository} = await api.v4(gql);
+		return repository.releases.nodes.map(({tagName}: {tagName: string}) => tagName);
+	},
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 4},
 	cacheKey: cacheByRepo,
@@ -31,7 +32,7 @@ const getReleases = cache.function('releases', async (): Promise<string[]> => {
 async function selectionHandler(event: DelegateEvent<Event, HTMLInputElement>): Promise<void> {
 	const field = event.delegateTarget;
 	const selectedTag = field.value;
-	const releases = await getReleases(); // Expected to be in cache
+	const releases = await getReleases.get(); // Expected to be in cache
 	if (!('inputType' in event) && releases.includes(selectedTag)) {
 		location.href = buildRepoURL('releases/tag', encodeURIComponent(selectedTag));
 		field.value = ''; // Can't call `preventDefault`, the `input` event is not cancelable
@@ -39,7 +40,7 @@ async function selectionHandler(event: DelegateEvent<Event, HTMLInputElement>): 
 }
 
 async function addList(searchField: HTMLInputElement): Promise<void> {
-	const releases = await getReleases();
+	const releases = await getReleases.get();
 	if (releases.length === 0) {
 		return;
 	}

@@ -1,5 +1,5 @@
 import twas from 'twas';
-import cache from 'webext-storage-cache';
+import {UpdatableCacheItem} from 'webext-storage-cache';
 import React from 'dom-chef';
 import {RepoIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
@@ -72,8 +72,9 @@ async function getRepoAge(commitSha: string, commitsCount: number): Promise<[com
 	return [committedDate, resourcePath];
 }
 
-const getFirstCommit = cache.function('first-commit', async (): Promise<[committedDate: string, resourcePath: string]> => {
-	const {repository} = await api.v4(`
+const getFirstCommit = new UpdatableCacheItem('first-commit', {
+	async updater(): Promise<[committedDate: string, resourcePath: string]> {
+		const {repository} = await api.v4(`
 		repository() {
 			defaultBranchRef {
 				target {
@@ -90,19 +91,19 @@ const getFirstCommit = cache.function('first-commit', async (): Promise<[committ
 		}
 	`);
 
-	const {oid: commitSha, history, committedDate, resourcePath} = repository.defaultBranchRef.target as CommitTarget;
-	const commitsCount = history.totalCount;
-	if (commitsCount === 1) {
-		return [committedDate, resourcePath];
-	}
+		const {oid: commitSha, history, committedDate, resourcePath} = repository.defaultBranchRef.target as CommitTarget;
+		const commitsCount = history.totalCount;
+		if (commitsCount === 1) {
+			return [committedDate, resourcePath];
+		}
 
-	return getRepoAge(commitSha, commitsCount);
-}, {
+		return getRepoAge(commitSha, commitsCount);
+	},
 	cacheKey: cacheByRepo,
 });
 
 async function init(): Promise<void> {
-	const [firstCommitDate, firstCommitHref] = await getFirstCommit()!;
+	const [firstCommitDate, firstCommitHref] = await getFirstCommit.get()!;
 	const birthday = new Date(firstCommitDate);
 
 	// `twas` could also return `an hour ago` or `just now`

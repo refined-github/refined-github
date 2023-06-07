@@ -2,14 +2,13 @@ import './rgh-feature-descriptions.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {AlertIcon, CopyIcon, InfoIcon} from '@primer/octicons-react';
-import cache from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import {featuresMeta} from '../../readme.md';
 import optionsStorage, {getNewFeatureName, isFeatureDisabled} from '../options-storage.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
-import {HotfixStorage} from '../helpers/hotfix.js';
+import {brokenFeatures} from '../helpers/hotfix.js';
 import {createRghIssueLink} from '../helpers/rgh-issue-link.js';
 import openOptions from '../helpers/open-options.js';
 import createBanner from '../github-helpers/banner.js';
@@ -86,7 +85,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 	const classes = ['mb-3'];
 	// Skip dev check present in `getLocalHotfixes`, we want to see this even when developing
-	const hotfixes = await cache.get<HotfixStorage>('hotfixes:') ?? [];
+	const hotfixes = await brokenFeatures.get() ?? [];
 	const hotfixed = hotfixes.find(([feature]) => feature === id);
 	if (hotfixed) {
 		const [_name, issue, unaffectedVersion] = hotfixed;
