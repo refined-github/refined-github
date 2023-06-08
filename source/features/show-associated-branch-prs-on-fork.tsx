@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import {GitMergeIcon, GitPullRequestIcon, GitPullRequestClosedIcon, GitPullRequestDraftIcon} from '@primer/octicons-react';
 
@@ -18,7 +18,7 @@ type PullRequest = {
 	url: string;
 };
 
-export const getPullRequestsAssociatedWithBranch = new UpdatableCacheItem('associatedBranchPullRequests', {
+export const getPullRequestsAssociatedWithBranch = new CachedFunction('associatedBranchPullRequests', {
 	async updater(): Promise<Record<string, PullRequest>> {
 		const {repository} = await api.v4(`
 		repository() {

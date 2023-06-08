@@ -22,7 +22,7 @@
  . .    .               .             *.                         .
 
 */
-import {CacheItem} from 'webext-storage-cache';
+import {CachedValue} from 'webext-storage-cache';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -30,7 +30,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../feature-manager.js';
 import {getRepo, getUsername} from '../github-helpers/index.js';
 
-const wigglosity = new CacheItem<'yup'>('did-it-wiggle', {maxAge: {days: 7}});
+const wigglosity = new CachedValue<'yup'>('did-it-wiggle', {maxAge: {days: 7}});
 
 async function wiggleWiggleWiggle(): Promise<void> {
 	await wigglosity.set('yup');

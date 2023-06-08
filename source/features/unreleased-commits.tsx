@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import {TagIcon} from '@primer/octicons-react';
 
@@ -29,7 +29,7 @@ type Tags = {
 
 export const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
 
-export const getRepoPublishState = new UpdatableCacheItem('tag-ahead-by', {
+export const getRepoPublishState = new CachedFunction('tag-ahead-by', {
 	async updater(): Promise<RepoPublishState> {
 		const {repository} = await api.v4(`
 		repository() {

@@ -1,4 +1,4 @@
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -46,7 +46,7 @@ function onlyShowInDropdown(id: string): void {
 	select('.UnderlineNav-actions ul')!.append(menuItem);
 }
 
-const getWikiPageCount = new UpdatableCacheItem('wiki-page-count', {
+const getWikiPageCount = new CachedFunction('wiki-page-count', {
 	async updater(): Promise<number> {
 		const dom = await fetchDom(buildRepoURL('wiki'));
 		const counter = dom.querySelector('#wiki-pages-box .Counter');
@@ -62,7 +62,7 @@ const getWikiPageCount = new UpdatableCacheItem('wiki-page-count', {
 	cacheKey: cacheByRepo,
 });
 
-const getWorkflowsCount = new UpdatableCacheItem('workflows-count', {
+const getWorkflowsCount = new CachedFunction('workflows-count', {
 	async updater(): Promise<number> {
 		const {repository: {workflowFiles}} = await api.v4(`
 		repository() {

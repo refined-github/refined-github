@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import select from 'select-dom';
 import {BugIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
@@ -50,7 +50,7 @@ async function countBugs(): Promise<Bugs> {
 	return {label: '', count: 0};
 }
 
-const bugs = new UpdatableCacheItem('bugs', {
+const bugs = new CachedFunction('bugs', {
 	updater: countBugs,
 	maxAge: {minutes: 30},
 	staleWhileRevalidate: {days: 4},

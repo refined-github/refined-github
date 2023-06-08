@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import select from 'select-dom';
 import {BookIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
@@ -26,7 +26,7 @@ function parseFromDom(): false {
 	return false;
 }
 
-const getChangelogName = new UpdatableCacheItem('changelog', {
+const getChangelogName = new CachedFunction('changelog', {
 	async updater(nameWithOwner: string): Promise<string | false> {
 		const [name, owner] = nameWithOwner.split('/');
 		const {repository} = await api.v4(`

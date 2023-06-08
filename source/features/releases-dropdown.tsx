@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 
 import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
@@ -18,7 +18,7 @@ const gql = `
 	}
 `;
 
-const getReleases = new UpdatableCacheItem('releases', {
+const getReleases = new CachedFunction('releases', {
 	async updater(): Promise<string[]> {
 		const {repository} = await api.v4(gql);
 		return repository.releases.nodes.map(({tagName}: {tagName: string}) => tagName);

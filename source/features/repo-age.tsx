@@ -1,5 +1,5 @@
 import twas from 'twas';
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import React from 'dom-chef';
 import {RepoIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
@@ -72,7 +72,7 @@ async function getRepoAge(commitSha: string, commitsCount: number): Promise<[com
 	return [committedDate, resourcePath];
 }
 
-const getFirstCommit = new UpdatableCacheItem('first-commit', {
+const getFirstCommit = new CachedFunction('first-commit', {
 	async updater(): Promise<[committedDate: string, resourcePath: string]> {
 		const {repository} = await api.v4(`
 		repository() {

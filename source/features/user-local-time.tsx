@@ -2,7 +2,7 @@
 
 import './user-local-time.css';
 import React from 'dom-chef';
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import delay from 'delay';
 import select from 'select-dom';
 import {ClockIcon} from '@primer/octicons-react';
@@ -28,7 +28,7 @@ async function loadCommitPatch(commitUrl: string): Promise<string> {
 	return textContent;
 }
 
-const getLastCommitDate = new UpdatableCacheItem('last-commit', {
+const getLastCommitDate = new CachedFunction('last-commit', {
 	async updater(login: string): Promise<string | false> {
 		for await (const page of api.v3paginated(`/users/${login}/events`)) {
 			for (const event of page as any) {

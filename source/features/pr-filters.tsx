@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import select from 'select-dom';
 import {CheckIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -52,7 +52,7 @@ function addDraftFilter(dropdown: HTMLElement): void {
 	addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');
 }
 
-const hasChecks = new UpdatableCacheItem('has-checks', {
+const hasChecks = new CachedFunction('has-checks', {
 	async updater(): Promise<boolean> {
 		const {repository} = await api.v4(`
 		repository() {

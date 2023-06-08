@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import {isFirefox} from 'webext-detect-page';
 import * as pageDetect from 'github-url-detection';
 import {AlertIcon, GitPullRequestIcon} from '@primer/octicons-react';
@@ -57,7 +57,7 @@ function getDropdown(prs: number[]): HTMLElement {
 /**
 @returns prsByFile {"filename1": [10, 3], "filename2": [2]}
 */
-const getPrsByFile = new UpdatableCacheItem('files-with-prs', {
+const getPrsByFile = new CachedFunction('files-with-prs', {
 	async updater(): Promise<Record<string, number[]>> {
 		const {repository} = await api.v4(listPrsForFileQuery, {
 			variables: {

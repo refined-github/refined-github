@@ -1,5 +1,5 @@
 import './highlight-collaborators-and-own-conversations.css';
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import select from 'select-dom';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
@@ -8,7 +8,7 @@ import features from '../feature-manager.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import {buildRepoURL, cacheByRepo, getUsername} from '../github-helpers/index.js';
 
-const getCollaborators = new UpdatableCacheItem('repo-collaborators', {
+const getCollaborators = new CachedFunction('repo-collaborators', {
 	async updater(): Promise<string[]> {
 		const dom = await fetchDom(buildRepoURL('issues/show_menu_content?partial=issues/filters/authors_content'));
 		return select

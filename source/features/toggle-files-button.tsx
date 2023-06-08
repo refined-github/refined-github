@@ -1,6 +1,6 @@
 import './toggle-files-button.css';
 import select from 'select-dom';
-import {CacheItem} from 'webext-storage-cache';
+import {CachedValue} from 'webext-storage-cache';
 import React from 'dom-chef';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -10,7 +10,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {isHasSelectorSupported} from '../helpers/select-has.js';
 
-const wereFilesHidden = new CacheItem<boolean>('files-hidden');
+const wereFilesHidden = new CachedValue<boolean>('files-hidden');
 const toggleButtonClass = 'rgh-toggle-files';
 
 function addButton(filesBox: HTMLElement): void {

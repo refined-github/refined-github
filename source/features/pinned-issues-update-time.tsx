@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import select from 'select-dom';
 import batchedFunction from 'batched-function';
 import * as pageDetect from 'github-url-detection';
@@ -14,7 +14,7 @@ type IssueInfo = {
 	updatedAt: string;
 };
 
-const getLastUpdated = new UpdatableCacheItem('last-updated', {
+const getLastUpdated = new CachedFunction('last-updated', {
 	async updater(issueNumbers: number[]): Promise<Record<string, IssueInfo>> {
 		const {repository} = await api.v4(`
 		repository() {

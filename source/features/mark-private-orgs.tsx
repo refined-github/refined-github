@@ -1,6 +1,6 @@
 import './mark-private-orgs.css';
 import React from 'dom-chef';
-import { UpdatableCacheItem} from 'webext-storage-cache';
+import { CachedFunction} from 'webext-storage-cache';
 import select from 'select-dom';
 import {EyeClosedIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -9,7 +9,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {getUsername} from '../github-helpers/index.js';
 
-const getPublicOrganizationsNames = new UpdatableCacheItem('public-organizations', {
+const getPublicOrganizationsNames = new CachedFunction('public-organizations', {
 	async updater(username: string): Promise<string[]> {
 	// API v4 seems to *require* `org:read` permission AND it includes private organizations as well, which defeats the purpose. There's no way to filter them.
 	// GitHub's API explorer inexplicably only includes public organizations.

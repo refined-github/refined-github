@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import select from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
@@ -44,7 +44,7 @@ async function fetchFromApi(nameWithOwner: string): Promise<number> {
 // - It is disabled by repository owner on the home page (release DOM element won't be there)
 // - It only contains pre-releases (count badge won't be shown)
 // For this reason, if we can't find a count from the DOM, we ask the API instead (see #6298)
-export const releasesCount = new UpdatableCacheItem('releases-count', {
+export const releasesCount = new CachedFunction('releases-count', {
 	updater: async (nameWithOwner: string) => await parseCountFromDom() || fetchFromApi(nameWithOwner),
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 3},

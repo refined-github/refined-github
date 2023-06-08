@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {CacheItem} from 'webext-storage-cache';
+import {CachedValue} from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 
@@ -7,7 +7,7 @@ import pluralize from './pluralize.js';
 import featureLink from './feature-link.js';
 import {importedFeatures} from '../../readme.md';
 
-export const state = new CacheItem<FeatureID[]>('bisect', {maxAge: {minutes: 15}});
+export const state = new CachedValue<FeatureID[]>('bisect', {maxAge: {minutes: 15}});
 
 // Split current list of features in half and create an options-like object to be applied on load
 // Bisecting 4 features: enable 2

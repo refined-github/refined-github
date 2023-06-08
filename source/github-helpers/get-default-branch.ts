@@ -1,4 +1,4 @@
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import {type RepositoryInfo} from 'github-url-detection';
 
@@ -41,7 +41,7 @@ async function fromAPI(repository: RepositoryInfo): Promise<string> {
 
 // DO NOT use optional arguments/defaults in "cached functions" because they can't be memoized effectively
 // https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
-export const getDefaultBranchOfRepo = new UpdatableCacheItem('default-branch', {
+export const getDefaultBranchOfRepo = new CachedFunction('default-branch', {
 	async updater(repository: RepositoryInfo): Promise<string> {
 		if (!repository) {
 			throw new Error('getDefaultBranch was called on a non-repository page');

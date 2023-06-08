@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import pluralize from '../helpers/pluralize.js';
 
-const getCommitChanges = new UpdatableCacheItem('commit-changes', {
+const getCommitChanges = new CachedFunction('commit-changes', {
 	async updater(commit: string): Promise<[additions: number, deletions: number]> {
 		const {repository} = await api.v4(`
 	query getCommitChanges($owner: String!, $name: String!, $commit: String!) {

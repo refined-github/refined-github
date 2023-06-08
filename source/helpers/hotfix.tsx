@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import {isEnterprise} from 'github-url-detection';
 import compareVersions from 'tiny-version-compare';
 import {any as concatenateTemplateLiteralTag} from 'code-tag';
@@ -37,7 +37,7 @@ async function fetchHotfix(path: string): Promise<string> {
 
 type HotfixStorage = Array<[FeatureID, string, string]>;
 
-export const brokenFeatures = new UpdatableCacheItem('broken-features', {
+export const brokenFeatures = new CachedFunction('broken-features', {
 	async updater(): Promise<HotfixStorage> {
 		const content = await fetchHotfix('broken-features.csv');
 		if (!content) {
@@ -57,7 +57,7 @@ export const brokenFeatures = new UpdatableCacheItem('broken-features', {
 	staleWhileRevalidate: {days: 30},
 });
 
-export const styleHotfixes = new UpdatableCacheItem('style-hotfixes', {
+export const styleHotfixes = new CachedFunction('style-hotfixes', {
 	updater: async (version: string): Promise<string> => fetchHotfix(`style/${version}.css`),
 
 	maxAge: {hours: 6},
@@ -109,7 +109,7 @@ export async function preloadSyncLocalStrings(): Promise<void> {
 	localStrings = await localStringsHotfix.get() ?? {};
 }
 
-export const localStringsHotfix = new UpdatableCacheItem('strings-hotfixes', {
+export const localStringsHotfix = new CachedFunction('strings-hotfixes', {
 	async updater(): Promise<Record<string, string>> {
 		const json = await fetchHotfix('strings.json');
 		return json ? JSON.parse(json) : {};

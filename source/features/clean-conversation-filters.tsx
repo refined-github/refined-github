@@ -1,4 +1,4 @@
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import api, {expectTokenScope} from '../github-helpers/api.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 
-const hasAnyProjects = new UpdatableCacheItem('has-projects', {
+const hasAnyProjects = new CachedFunction('has-projects', {
 	async updater(): Promise<boolean> {
 		await expectTokenScope('read:project');
 		const {repository, organization} = await api.v4(`

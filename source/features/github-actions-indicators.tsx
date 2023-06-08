@@ -1,4 +1,4 @@
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
 import {StopIcon, PlayIcon} from '@primer/octicons-react';
@@ -72,7 +72,7 @@ async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
 	return result;
 }
 
-const workflowDetails = new UpdatableCacheItem('workflows-details', {
+const workflowDetails = new CachedFunction('workflows-details', {
 	async updater(): Promise<Record<string, Workflow & WorkflowDetails>> {
 		const [workflows, workflowFiles] = await Promise.all([getWorkflows(), getFilesInWorkflowPath()]);
 

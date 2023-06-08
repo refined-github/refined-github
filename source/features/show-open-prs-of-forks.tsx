@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {UpdatableCacheItem} from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -13,7 +13,7 @@ function getLinkCopy(count: number): string {
 	return pluralize(count, 'one open pull request', 'at least $$ open pull requests');
 }
 
-const countPRs = new UpdatableCacheItem('prs-on-forked-repo', {
+const countPRs = new CachedFunction('prs-on-forked-repo', {
 	async updater(forkedRepo: string): Promise<{count: number; firstPr?: number}> {
 		const {search} = await api.v4(`
 		query getPRs($query: String!) {
