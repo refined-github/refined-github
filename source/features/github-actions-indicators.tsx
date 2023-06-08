@@ -72,7 +72,7 @@ async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
 	return result;
 }
 
-const getWorkflowsDetails = new UpdatableCacheItem('workflows-details', {
+const workflowDetails = new UpdatableCacheItem('workflows-details', {
 	async updater(): Promise<Record<string, Workflow & WorkflowDetails>> {
 		const [workflows, workflowFiles] = await Promise.all([getWorkflows(), getFilesInWorkflowPath()]);
 
@@ -109,7 +109,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	}
 
 	// Called in `init`, memoized
-	const workflows = await getWorkflowsDetails.get();
+	const workflows = await workflowDetails.get();
 	const workflowName = workflowListItem.href.split('/').pop()!;
 	const workflow = workflows[workflowName];
 	if (!workflow) {
@@ -153,7 +153,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 
 async function init(signal: AbortSignal): Promise<false | void> {
 	// Do it as soon as possible, before the page loads
-	const workflows = await getWorkflowsDetails.get();
+	const workflows = await workflowDetails.get();
 	if (!workflows) {
 		return false;
 	}

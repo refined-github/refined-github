@@ -18,7 +18,7 @@ import observe from '../helpers/selector-observer.js';
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;
 
-const getFirstTag = new UpdatableCacheItem('first-tag', {
+const firstTag = new UpdatableCacheItem('first-tag', {
 	async updater(commit: string): Promise<string | false> {
 		const firstTag = await fetchDom(
 			buildRepoURL('branch_commits', commit),
@@ -44,7 +44,7 @@ function createReleaseUrl(): string | undefined {
 
 async function init(signal: AbortSignal): Promise<void> {
 	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`)!.textContent!;
-	const tagName = await getFirstTag.get(mergeCommit);
+	const tagName = await firstTag.get(mergeCommit);
 
 	if (tagName) {
 		const tagUrl = buildRepoURL('releases/tag', tagName);
