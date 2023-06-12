@@ -1,4 +1,4 @@
-/// <reference types="./source/globals" />
+/// <reference types="./source/globals.js" />
 
 import path from 'node:path';
 import SizePlugin from 'size-plugin';

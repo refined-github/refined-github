@@ -22,7 +22,7 @@ function findChangelogName(files: string[]): string | false {
 
 function parseFromDom(): false {
 	const files = select.all('[aria-labelledby="files"] .js-navigation-open[href*="/blob/"').map(file => file.title);
-	void getChangelogName.set(findChangelogName(files), cacheByRepo());
+	void getChangelogName.applyOverride([findChangelogName(files) as string] /* TODO: Type mistake */, cacheByRepo());
 	return false;
 }
 

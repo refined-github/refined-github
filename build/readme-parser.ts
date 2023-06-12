@@ -1,4 +1,4 @@
-/// <reference types="../source/globals" />
+/// <reference types="../source/globals.js" />
 
 import regexJoin from 'regex-join';
 import {readFileSync} from 'node:fs';

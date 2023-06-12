@@ -3,7 +3,6 @@
 	"compilerOptions": {
 		"target": "es2022",
 		"module": "es2022",
-		"moduleResolution": "Node",
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
 		"lib": [
