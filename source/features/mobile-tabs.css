@@ -4,9 +4,8 @@
 	}
 
 	.rgh-mobile-tabs .UnderlineNav {
-		box-shadow: none; /* Disable underline in old header. TODO: Drop in December 2023 */
 		padding-inline: var(--base-size-16, 16px);
-		padding-block: 5px 10px;
+		padding-block: 5px var(--control-medium-gap, 8px);
 	}
 
 	.rgh-mobile-tabs .UnderlineNav-body {
@@ -18,28 +17,28 @@
 		flex-basis: 0;
 	}
 
-	.rgh-mobile-tabs .UnderlineNav-item:not(:hover) {
-		background: var(--color-canvas-subtle); /* Hover background color from file list */
-	}
-
 	.rgh-mobile-tabs .UnderlineNav-item {
 		display: flex;
 		justify-content: center;
 		flex-flow: row wrap;
-		padding: 5px 10px;
+		padding: 5px;
 		flex-basis: 0;
+		background: var(--color-action-list-item-default-hover-bg);
 	}
 
-	.rgh-mobile-tabs .UnderlineNav-item.selected {
-		border-bottom-left-radius: 0;
-		border-bottom-right-radius: 0;
+	.rgh-mobile-tabs .UnderlineNav-item:hover {
+		background: var(--color-action-list-item-default-active-bg); /* From: Counter background color */
+	}
+
+
+	.rgh-mobile-tabs .UnderlineNav-item.selected::after {
+		/* Reposition the orange line */
+		bottom: -9px !important;
 	}
 
 	.rgh-mobile-tabs .UnderlineNav-item [data-content] {
-
 		order: 2;
 		flex-basis: 100%;
-
 		line-height: 1;
 		margin-top: 5px;
 
