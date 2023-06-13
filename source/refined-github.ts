@@ -96,7 +96,7 @@ import './features/preview-hidden-comments.js';
 import './features/fit-textareas.js';
 import './features/collapsible-content-button.js';
 import './features/resolve-conflicts.js';
-import './features/enable-file-links-in-compare-view.js'; // Must be before more-file-links
+import './features/actionable-pr-view-file.js'; // Must be before more-file-links
 import './features/more-file-links.js';
 import './features/pr-filters.js';
 import './features/quick-file-edit.js';
@@ -215,5 +215,6 @@ import './features/pr-base-commit.js';
 import './features/unreleased-commits.js';
 import './features/previous-version.js';
 import './features/status-subscription.js';
+import './features/action-pr-link.js';
 import './features/rgh-dim-commits.js';
 import './features/mobile-tabs.js';
