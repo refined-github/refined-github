@@ -24,7 +24,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 			? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled'
 			: (
 				isCss
-					? 'This feature is CSS-only cannot be disabled'
+					? 'This feature is CSS-only and cannot be disabled'
 					: undefined // The heck!?
 			)
 	);
