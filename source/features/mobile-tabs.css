@@ -1,0 +1,80 @@
+@media (max-width: 767px) {
+	:root.rgh-mobile-tabs .AppHeader-localBar {
+		padding: 0;
+	}
+
+	.rgh-mobile-tabs .UnderlineNav {
+		padding-inline: var(--base-size-16, 16px);
+		padding-block: 5px var(--control-medium-gap, 8px);
+	}
+
+	.rgh-mobile-tabs .UnderlineNav-body {
+		align-items: stretch; /* Ensure they have the same height */
+	}
+
+	.rgh-mobile-tabs .UnderlineNav-body > li {
+		flex-shrink: 0;
+		flex-basis: 0;
+	}
+
+	.rgh-mobile-tabs .UnderlineNav-item {
+		display: flex;
+		justify-content: center;
+		flex-flow: row wrap;
+		padding: 5px;
+		flex-basis: 0;
+		background: var(--color-action-list-item-default-hover-bg);
+	}
+
+	.rgh-mobile-tabs .UnderlineNav-item:hover {
+		background: var(--color-action-list-item-default-active-bg); /* From: Counter background color */
+	}
+
+
+	.rgh-mobile-tabs .UnderlineNav-item.selected::after {
+		/* Reposition the orange line */
+		bottom: -9px !important;
+	}
+
+	.rgh-mobile-tabs .UnderlineNav-item [data-content] {
+		order: 2;
+		flex-basis: 100%;
+		line-height: 1;
+		margin-top: 5px;
+
+		/* Ensure that there's at least 10px padding, which is usually granted by the empty grid columns */
+		padding-inline: 10px;
+
+		/* font-size: 0; */
+		/* Safari 16.4 color bug #6473 */
+		font-size: 0.6px;
+		color: transparent !important;
+	}
+
+	.rgh-mobile-tabs .UnderlineNav-item [data-content]::before {
+		visibility: inherit;
+		height: auto;
+		font-size: 10px;
+		color: var(--color-fg-default);
+		font-weight: inherit;
+	}
+
+	.rgh-mobile-tabs [data-content='Pull requests']::before {
+		content: 'Pulls' !important;
+	}
+
+	.rgh-mobile-tabs .UnderlineNav-item svg {
+		margin-right: 0 !important;
+		grid-area: icon;
+		justify-self: center; /* Improve centering if there's no counter */
+	}
+
+	.rgh-mobile-tabs .UnderlineNav-item .Counter {
+		grid-area: counter;
+		background: none; /* Counters appears as pills */
+		min-width: 0; /* Pills have a min-width we don't need */
+		padding: 0; /* Pills have padding */
+		text-align: left; /* Pills have centered text */
+		margin-left: 5px;
+	}
+}
