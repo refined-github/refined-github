@@ -5,13 +5,20 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../feature-manager.js';
 
 function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
+	// The clicked element is a button, a link or a popup ("Verified" badge, CI details, etc.)
 	const elementClicked = event.target as HTMLElement;
-	// The clicked element is not a button, a link or a popup ("Verified" badge, CI details, etc.)
-	if (!elementClicked.closest('a, button, clipboard-copy, details')) {
-		select('.ellipsis-expander', event.delegateTarget)?.dispatchEvent(
-			new MouseEvent('click', {bubbles: true, altKey: event.altKey}),
-		);
+	if (elementClicked.closest('a, button, clipboard-copy, details')) {
+		return;
 	}
+
+	// There is text selection
+	if (window.getSelection()?.toString().length !== 0) {
+		return;
+	}
+
+	select('.ellipsis-expander', event.delegateTarget)?.dispatchEvent(
+		new MouseEvent('click', {bubbles: true, altKey: event.altKey}),
+	);
 }
 
 const commitMessagesSelector = [
