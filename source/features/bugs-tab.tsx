@@ -12,6 +12,7 @@ import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
 
+// TODO: Add tests
 const supportedLabels = /^(bug|bug-?fix|confirmed-bug|type[:/]bug|kind[:/]bug|(:[\w-]+:|\p{Emoji}) ?bug)$/iu;
 const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
 const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(getBugLabelCacheKey());
