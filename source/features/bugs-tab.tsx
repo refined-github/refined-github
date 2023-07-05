@@ -11,7 +11,7 @@ import {cacheByRepo, getRepo} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
-import {isBugLabel} from '../github-helpers/bugs-label.js';
+import isBugLabel from '../github-helpers/bugs-label.js';
 
 const getBugLabelCacheKey = (): string => 'bugs-label:' + getRepo()!.nameWithOwner;
 const getBugLabel = async (): Promise<string | undefined> => cache.get<string>(getBugLabelCacheKey());
