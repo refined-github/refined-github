@@ -314,6 +314,7 @@ void add('rgh-deduplicator' as FeatureID, {
 	async init() {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
+		select('has-rgh')?.remove(); // https://github.com/refined-github/refined-github/issues/6568
 		select(_`#js-repo-pjax-container, #js-pjax-container`)?.append(<has-rgh/>);
 		select(_`turbo-frame`)?.append(<has-rgh-inner/>); // #4567
 	},
