@@ -8,7 +8,7 @@ import features from '../feature-manager.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import {buildRepoURL, cacheByRepo, getUsername} from '../github-helpers/index.js';
 
-const getCollaborators = new CachedFunction('repo-collaborators', {
+const collaborators = new CachedFunction('repo-collaborators', {
 	async updater(): Promise<string[]> {
 		const dom = await fetchDom(buildRepoURL('issues/show_menu_content?partial=issues/filters/authors_content'));
 		return select
@@ -21,10 +21,10 @@ const getCollaborators = new CachedFunction('repo-collaborators', {
 });
 
 async function highlightCollaborators(): Promise<void> {
-	const collaborators = await getCollaborators.get();
+	const list = await collaborators.get();
 	await domLoaded;
 	for (const author of select.all('.js-issue-row [data-hovercard-type="user"]')) {
-		if (collaborators.includes(author.textContent!.trim())) {
+		if (list.includes(author.textContent!.trim())) {
 			author.classList.add('rgh-collaborator');
 		}
 	}

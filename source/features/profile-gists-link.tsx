@@ -10,7 +10,7 @@ import {getCleanPathname} from '../github-helpers/index.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import observe from '../helpers/selector-observer.js';
 
-const getGistCount = new CachedFunction('gist-count', {
+const gistCount = new CachedFunction('gist-count', {
 	async updater(username: string): Promise<number> {
 		const {user} = await api.v4(`
 		query getGistCount($username: String!) {
@@ -63,7 +63,7 @@ async function appendTab(navigationBar: Element): Promise<void> {
 		);
 	}
 
-	const count = await getGistCount.get(user.name);
+	const count = await gistCount.get(user.name);
 	if (count > 0) {
 		link.append(<span className="Counter">{count}</span>);
 	}

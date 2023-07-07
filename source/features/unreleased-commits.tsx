@@ -29,7 +29,7 @@ type Tags = {
 
 export const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
 
-export const getRepoPublishState = new CachedFunction('tag-ahead-by', {
+export const repoPublishState = new CachedFunction('tag-ahead-by', {
 	async updater(): Promise<RepoPublishState> {
 		const {repository} = await api.v4(`
 		repository() {
@@ -92,7 +92,7 @@ export const getRepoPublishState = new CachedFunction('tag-ahead-by', {
 });
 
 async function add(branchSelectorParent: HTMLDetailsElement): Promise<void> {
-	const {latestTag, aheadBy} = await getRepoPublishState.get();
+	const {latestTag, aheadBy} = await repoPublishState.get();
 	const isAhead = aheadBy > 0;
 
 	if (!latestTag || !isAhead) {

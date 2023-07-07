@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {wrapAll} from '../helpers/dom-utils.js';
-import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
+import {buildRepoURL, getRepo} from '../github-helpers/index.js';
 
 type FileType = {
 	name: string;
@@ -22,13 +22,16 @@ function findChangelogName(files: string[]): string | false {
 
 function parseFromDom(): false {
 	const files = select.all('[aria-labelledby="files"] .js-navigation-open[href*="/blob/"').map(file => file.title);
-	void getChangelogName.applyOverride([findChangelogName(files) as string] /* TODO: Type mistake */, cacheByRepo());
+	void changelogName.applyOverride(
+		[findChangelogName(files) as string] /* TODO: Type mistake */,
+		getRepo()!.nameWithOwner,
+	);
 	return false;
 }
 
-const getChangelogName = new CachedFunction('changelog', {
+const changelogName = new CachedFunction('changelog', {
 	async updater(nameWithOwner: string): Promise<string | false> {
-		const [name, owner] = nameWithOwner.split('/');
+		const [owner, name] = nameWithOwner.split('/');
 		const {repository} = await api.v4(`
 		repository() {
 			object(expression: "HEAD:") {
@@ -56,7 +59,7 @@ const getChangelogName = new CachedFunction('changelog', {
 });
 
 async function init(): Promise<void | false> {
-	const changelog = await getChangelogName.get(cacheByRepo());
+	const changelog = await changelogName.get(getRepo()!.nameWithOwner);
 	if (!changelog) {
 		return false;
 	}
@@ -101,3 +104,15 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // Does not affect current visit
 	init: parseFromDom,
 });
+
+/*
+
+Test URLs:
+
+- CHANGELOG.md: https://github.com/nodeca/js-yaml/releases/tag/4.0.0)
+- CHANGELOG.rst: https://github.com/pyca/cryptography/releases)
+- CHANGES: https://github.com/sphinx-doc/sphinx/releases)
+- news: https://github.com/pypa/pip/releases)
+- HISTORY.md: https://github.com/psf/requests/releases)
+
+*/

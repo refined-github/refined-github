@@ -48,12 +48,11 @@ for FILE in "$@"; do
 	fi
 done
 
-echo ::group::GITHUB ANNOTATIONS
-cat "$ANNOTATIONS"
-echo ::endgroup:::
-
 # Don't fail PRs that edit a large number of files
 if [ "$ERRORS" -ge 1 ] && [ "$ERRORS" -le 3 ]; then
+	echo ::group::GITHUB ANNOTATIONS
+	cat $ANNOTATIONS
+	echo ::endgroup:::
 	echo
 	echo VERIFICATION FAILED, "Test URLs" MISSING
 	exit $ERRORS

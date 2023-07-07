@@ -72,7 +72,7 @@ async function getRepoAge(commitSha: string, commitsCount: number): Promise<[com
 	return [committedDate, resourcePath];
 }
 
-const getFirstCommit = new CachedFunction('first-commit', {
+const firstCommit = new CachedFunction('first-commit', {
 	async updater(): Promise<[committedDate: string, resourcePath: string]> {
 		const {repository} = await api.v4(`
 		repository() {
@@ -103,7 +103,7 @@ const getFirstCommit = new CachedFunction('first-commit', {
 });
 
 async function init(): Promise<void> {
-	const [firstCommitDate, firstCommitHref] = await getFirstCommit.get()!;
+	const [firstCommitDate, firstCommitHref] = await firstCommit.get()!;
 	const birthday = new Date(firstCommitDate);
 
 	// `twas` could also return `an hour ago` or `just now`

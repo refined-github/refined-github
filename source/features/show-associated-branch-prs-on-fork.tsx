@@ -18,7 +18,7 @@ type PullRequest = {
 	url: string;
 };
 
-export const getPullRequestsAssociatedWithBranch = new CachedFunction('associatedBranchPullRequests', {
+export const pullRequestsAssociatedWithBranch = new CachedFunction('associatedBranchPullRequests', {
 	async updater(): Promise<Record<string, PullRequest>> {
 		const {repository} = await api.v4(`
 		repository() {
@@ -93,9 +93,9 @@ function addAssociatedPRLabel(branchCompareLink: Element, prInfo: PullRequest): 
 }
 
 async function addLink(branchCompareLink: Element): Promise<void> {
-	const associatedPullRequests = await getPullRequestsAssociatedWithBranch.get();
+	const prs = await pullRequestsAssociatedWithBranch.get();
 	const branchName = branchCompareLink.closest('[branch]')!.getAttribute('branch')!;
-	const prInfo = associatedPullRequests[branchName];
+	const prInfo = prs[branchName];
 	if (prInfo) {
 		addAssociatedPRLabel(branchCompareLink, prInfo);
 	}
@@ -114,3 +114,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/pnarielwala/create-react-app-ts/branches
+
+*/

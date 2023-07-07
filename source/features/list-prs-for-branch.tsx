@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import features from '../feature-manager.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import {getPullRequestsAssociatedWithBranch, stateIcon} from './show-associated-branch-prs-on-fork.js';
+import {pullRequestsAssociatedWithBranch, stateIcon} from './show-associated-branch-prs-on-fork.js';
 import {addAfterBranchSelector, isPermalink, isRepoCommitListRoot} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
@@ -18,7 +18,7 @@ const stateColorMap = {
 };
 
 async function add(branchSelectorParent: HTMLDetailsElement): Promise<void | false> {
-	const getPr = await getPullRequestsAssociatedWithBranch.get();
+	const getPr = await pullRequestsAssociatedWithBranch.get();
 	const currentBranch = getCurrentGitRef()!;
 	const prInfo = getPr[currentBranch];
 	if (!prInfo) {

@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import pluralize from '../helpers/pluralize.js';
 
-const getCommitChanges = new CachedFunction('commit-changes', {
+const commitChanges = new CachedFunction('commit-changes', {
 	async updater(commit: string): Promise<[additions: number, deletions: number]> {
 		const {repository} = await api.v4(`
 	query getCommitChanges($owner: String!, $name: String!, $commit: String!) {
@@ -31,7 +31,7 @@ const getCommitChanges = new CachedFunction('commit-changes', {
 
 async function init(): Promise<void> {
 	const commitSha = location.pathname.split('/').pop()!;
-	const [additions, deletions] = await getCommitChanges.get(commitSha);
+	const [additions, deletions] = await commitChanges.get(commitSha);
 	const tooltip = pluralize(additions + deletions, '1 line changed', '$$ lines changed');
 	const diffstat = await elementReady('.diffstat', {waitForChildren: false});
 	diffstat!.replaceWith(

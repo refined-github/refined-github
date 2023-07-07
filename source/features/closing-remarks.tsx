@@ -11,7 +11,7 @@ import createBanner from '../github-helpers/banner.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 import attachElement from '../helpers/attach-element.js';
 import {canEditEveryComment} from './quick-comment-edit.js';
-import {buildRepoURL, cacheByRepo, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
+import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {releasesCount} from './releases-tab.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -91,7 +91,7 @@ function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 }
 
 async function addReleaseBanner(text = 'Now you can release this change'): Promise<void> {
-	if (await releasesCount.get(cacheByRepo()) === 0) {
+	if (await releasesCount.get(getRepo()!.nameWithOwner) === 0) {
 		return;
 	}
 

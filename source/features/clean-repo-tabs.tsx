@@ -46,7 +46,7 @@ function onlyShowInDropdown(id: string): void {
 	select('.UnderlineNav-actions ul')!.append(menuItem);
 }
 
-const getWikiPageCount = new CachedFunction('wiki-page-count', {
+const wikiPageCount = new CachedFunction('wiki-page-count', {
 	async updater(): Promise<number> {
 		const dom = await fetchDom(buildRepoURL('wiki'));
 		const counter = dom.querySelector('#wiki-pages-box .Counter');
@@ -62,7 +62,7 @@ const getWikiPageCount = new CachedFunction('wiki-page-count', {
 	cacheKey: cacheByRepo,
 });
 
-const getWorkflowsCount = new CachedFunction('workflows-count', {
+const workflowCount = new CachedFunction('workflows-count', {
 	async updater(): Promise<number> {
 		const {repository: {workflowFiles}} = await api.v4(`
 		repository() {
@@ -85,9 +85,9 @@ async function updateWikiTab(): Promise<void | false> {
 		return false;
 	}
 
-	const wikiPageCount = await getWikiPageCount.get();
-	if (wikiPageCount > 0) {
-		setTabCounter(wikiTab, wikiPageCount);
+	const count = await wikiPageCount.get();
+	if (count > 0) {
+		setTabCounter(wikiTab, count);
 	} else {
 		onlyShowInDropdown('wiki-tab');
 	}
@@ -95,7 +95,7 @@ async function updateWikiTab(): Promise<void | false> {
 
 async function updateActionsTab(): Promise<void | false> {
 	const actionsTab = await elementReady('[data-hotkey="g a"]');
-	if (!actionsTab || mustKeepTab(actionsTab) || await getWorkflowsCount.get() > 0) {
+	if (!actionsTab || mustKeepTab(actionsTab) || await workflowCount.get() > 0) {
 		return false;
 	}
 

@@ -3,14 +3,14 @@ import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import getDefaultBranch, {getDefaultBranchOfRepo} from '../github-helpers/get-default-branch.js';
+import getDefaultBranch, {defaultBranchOfRepo} from '../github-helpers/get-default-branch.js';
 import {getRepo} from '../github-helpers/index.js';
 
 async function init(): Promise<false | void> {
 	let defaultBranch;
 	if (select.exists('.is-cross-repo')) {
 		const forkedRepository = getRepo(select('[title^="head: "]')!.textContent!)!;
-		defaultBranch = await getDefaultBranchOfRepo.get(forkedRepository);
+		defaultBranch = await defaultBranchOfRepo.get(forkedRepository);
 	} else {
 		defaultBranch = await getDefaultBranch();
 	}

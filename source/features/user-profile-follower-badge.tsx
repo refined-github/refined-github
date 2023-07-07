@@ -41,3 +41,14 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+1. Visit your own profile
+2. Click on "X followers" below your profile picture
+3. Click on a follower
+4. Look for a "Follows you" badge below their profile picture
+
+*/

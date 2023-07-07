@@ -41,7 +41,7 @@ async function fromAPI(repository: RepositoryInfo): Promise<string> {
 
 // DO NOT use optional arguments/defaults in "cached functions" because they can't be memoized effectively
 // https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
-export const getDefaultBranchOfRepo = new CachedFunction('default-branch', {
+export const defaultBranchOfRepo = new CachedFunction('default-branch', {
 	async updater(repository: RepositoryInfo): Promise<string> {
 		if (!repository) {
 			throw new Error('getDefaultBranch was called on a non-repository page');
@@ -58,5 +58,5 @@ export const getDefaultBranchOfRepo = new CachedFunction('default-branch', {
 );
 
 export default async function getDefaultBranch(): Promise<string> {
-	return getDefaultBranchOfRepo.get(getRepo()!);
+	return defaultBranchOfRepo.get(getRepo()!);
 }

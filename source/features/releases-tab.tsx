@@ -11,7 +11,7 @@ import api from '../github-helpers/api.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
-import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
+import {buildRepoURL, cacheByRepo, getRepo} from '../github-helpers/index.js';
 import {releasesSidebarSelector} from './clean-repo-sidebar.js';
 import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
 import {underlineNavDropdownUl} from '../github-helpers/selectors.js';
@@ -26,7 +26,7 @@ async function parseCountFromDom(): Promise<number> {
 }
 
 async function fetchFromApi(nameWithOwner: string): Promise<number> {
-	const [name, owner] = nameWithOwner.split('/');
+	const [owner, name] = nameWithOwner.split('/');
 	const {repository} = await api.v4(`
 		repository(owner: $owner, name: $name) {
 			releases {
@@ -52,10 +52,11 @@ export const releasesCount = new CachedFunction('releases-count', {
 });
 
 async function addReleasesTab(): Promise<false | void> {
+	const repo = getRepo()!.nameWithOwner;
 	const count = pageDetect.isRepoRoot()
 		// Always prefer the information in the DOM
-		? await releasesCount.getFresh(cacheByRepo())
-		: await releasesCount.get(cacheByRepo());
+		? await releasesCount.getFresh(repo)
+		: await releasesCount.get(repo);
 
 	if (count === 0) {
 		return false;

@@ -28,7 +28,7 @@ async function loadCommitPatch(commitUrl: string): Promise<string> {
 	return textContent;
 }
 
-const getLastCommitDate = new CachedFunction('last-commit', {
+const lastCommitDate = new CachedFunction('last-commit', {
 	async updater(login: string): Promise<string | false> {
 		for await (const page of api.v3paginated(`/users/${login}/events`)) {
 			for (const event of page as any) {
@@ -123,7 +123,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 		return;
 	}
 
-	const datePromise = getLastCommitDate.get(login);
+	const datePromise = lastCommitDate.get(login);
 	const race = await Promise.race([delay(300), datePromise]);
 	if (race === false) {
 		// The timezone was undeterminable and this resolved "immediately" (or was cached), so don't add the icon at all
@@ -168,3 +168,13 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	init,
 });
+
+/*
+
+Test URLs:
+
+1. Open https://github.com/sindresorhus/np/releases/tag/v8.0.4
+2. Hover over the username "sindresorhus" in the sidebar
+3. Notice his local time in the hovercard
+
+*/
