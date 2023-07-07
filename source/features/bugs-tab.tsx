@@ -11,9 +11,7 @@ import {cacheByRepo} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
-
-const supportedLabels = /^(bug|bug-?fix|confirmed-bug|type[:/]bug|kind[:/]bug|(:[\w-]+:|\p{Emoji})bug)$/iu;
-const isBugLabel = (label: string): boolean => supportedLabels.test(label.replace(/\s/g, ''));
+import isBugLabel from '../github-helpers/bugs-label.js';
 
 type Bugs = {
 	label: string;
@@ -114,7 +112,7 @@ async function addBugsTab(): Promise<void | false> {
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement instanceof HTMLLIElement) {
-		issuesTab.parentElement.after(<li className="d-flex">{bugsTab}</li>);
+		issuesTab.parentElement.after(<li className="d-inline-flex">{bugsTab}</li>);
 	} else {
 		issuesTab.after(bugsTab);
 	}
