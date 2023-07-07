@@ -70,7 +70,7 @@
 		"pretty-bytes": "^6.1.0",
 		"push-form": "^1.0.1",
 		"regex-join": "^2.0.0",
-		"select-dom": "^7.1.1",
+		"select-dom": "^8.0.0",
 		"shorten-repo-url": "^3.0.0",
 		"strip-indent": "^4.0.0",
 		"text-field-edit": "^3.1.9001",
