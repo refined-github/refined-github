@@ -175,7 +175,6 @@ import './features/rgh-feature-descriptions.js';
 import './features/wait-for-attachments.js';
 import './features/archive-forks-link.js';
 import './features/link-to-changelog-file.js';
-import './features/rgh-sponsor-button.js';
 import './features/rgh-linkify-features.js';
 import './features/conversation-activity-filter.js';
 import './features/select-all-notifications-shortcut.js';

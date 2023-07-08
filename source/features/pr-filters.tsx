@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import select from 'select-dom';
 import {CheckIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -52,8 +52,9 @@ function addDraftFilter(dropdown: HTMLElement): void {
 	addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');
 }
 
-const hasChecks = cache.function('has-checks', async (): Promise<boolean> => {
-	const {repository} = await api.v4(`
+const hasChecks = new CachedFunction('has-checks', {
+	async updater(): Promise<boolean> {
+		const {repository} = await api.v4(`
 		repository() {
 			head: object(expression: "HEAD") {
 				... on Commit {
@@ -69,14 +70,14 @@ const hasChecks = cache.function('has-checks', async (): Promise<boolean> => {
 		}
 	`);
 
-	return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
-}, {
+		return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
+	},
 	maxAge: {days: 3},
 	cacheKey: cacheByRepo,
 });
 
 async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
-	if (!await hasChecks()) {
+	if (!await hasChecks.get()) {
 		return;
 	}
 

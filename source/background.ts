@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {type Runtime} from 'webextension-polyfill';
 import 'webext-dynamic-content-scripts';
-import cache from 'webext-storage-cache'; // Also needed to regularly clear the cache
+import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
 import {isSafari} from 'webext-detect-page';
 import {objectKeys} from 'ts-extras';
 import addDomainPermissionToggle from 'webext-domain-permission-toggle';
@@ -89,11 +89,7 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 		});
 	}
 
-	// Hope that the feature was fixed in this version
-	await cache.delete('hotfixes:');
-	await cache.delete('style-hotfixes:');
-
 	if (isDevelopmentVersion()) {
-		await cache.clear();
+		await globalCache.clear();
 	}
 });

@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {CodeSquareIcon} from '@primer/octicons-react';
@@ -10,8 +10,9 @@ import {getCleanPathname} from '../github-helpers/index.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import observe from '../helpers/selector-observer.js';
 
-const getGistCount = cache.function('gist-count', async (username: string): Promise<number> => {
-	const {user} = await api.v4(`
+const gistCount = new CachedFunction('gist-count', {
+	async updater(username: string): Promise<number> {
+		const {user} = await api.v4(`
 		query getGistCount($username: String!) {
 			user(login: $username) {
 				gists(first: 0) {
@@ -20,10 +21,10 @@ const getGistCount = cache.function('gist-count', async (username: string): Prom
 			}
 		}
 	`, {
-		variables: {username},
-	});
-	return user.gists.totalCount;
-}, {
+			variables: {username},
+		});
+		return user.gists.totalCount;
+	},
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 3},
 });
@@ -62,7 +63,7 @@ async function appendTab(navigationBar: Element): Promise<void> {
 		);
 	}
 
-	const count = await getGistCount(user.name);
+	const count = await gistCount.get(user.name);
 	if (count > 0) {
 		link.append(<span className="Counter">{count}</span>);
 	}

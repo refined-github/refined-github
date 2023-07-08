@@ -2,7 +2,7 @@
 
 import './user-local-time.css';
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import delay from 'delay';
 import select from 'select-dom';
 import {ClockIcon} from '@primer/octicons-react';
@@ -28,42 +28,43 @@ async function loadCommitPatch(commitUrl: string): Promise<string> {
 	return textContent;
 }
 
-const getLastCommitDate = cache.function('last-commit', async (login: string): Promise<string | false> => {
-	for await (const page of api.v3paginated(`/users/${login}/events`)) {
-		for (const event of page as any) {
-			if (event.type !== 'PushEvent') {
-				continue;
-			}
-
-			// Start from the latest commit, which is the last one in the list
-			for (const commit of event.payload.commits.reverse() as Commit[]) {
-				const response = await api.v3(commit.url, {ignoreHTTPStatus: true});
-				// Commits might not exist anymore even if they are listed in the events
-				// This can happen if the repository was deleted so we can also skip all other commits
-				if (response.httpStatus === 404) {
-					break;
-				}
-
-				if (!response.ok) {
-					throw await api.getError(response);
-				}
-
-				// `response.author` only appears if GitHub can match the email to a GitHub user
-				if (response.author?.id !== event.actor.id) {
+const lastCommitDate = new CachedFunction('last-commit', {
+	async updater(login: string): Promise<string | false> {
+		for await (const page of api.v3paginated(`/users/${login}/events`)) {
+			for (const event of page as any) {
+				if (event.type !== 'PushEvent') {
 					continue;
 				}
 
-				const patch = await loadCommitPatch(commit.url);
-				// The patch of merge commits doesn't include the commit sha so the date might be from another user
-				if (patch.startsWith(`From ${commit.sha} `)) {
-					return /^Date: (.*)$/m.exec(patch)?.[1] ?? false;
+				// Start from the latest commit, which is the last one in the list
+				for (const commit of event.payload.commits.reverse() as Commit[]) {
+					const response = await api.v3(commit.url, {ignoreHTTPStatus: true});
+					// Commits might not exist anymore even if they are listed in the events
+					// This can happen if the repository was deleted so we can also skip all other commits
+					if (response.httpStatus === 404) {
+						break;
+					}
+
+					if (!response.ok) {
+						throw await api.getError(response);
+					}
+
+					// `response.author` only appears if GitHub can match the email to a GitHub user
+					if (response.author?.id !== event.actor.id) {
+						continue;
+					}
+
+					const patch = await loadCommitPatch(commit.url);
+					// The patch of merge commits doesn't include the commit sha so the date might be from another user
+					if (patch.startsWith(`From ${commit.sha} `)) {
+						return /^Date: (.*)$/m.exec(patch)?.[1] ?? false;
+					}
 				}
 			}
 		}
-	}
 
-	return false;
-}, {
+		return false;
+	},
 	maxAge: {days: 10},
 	staleWhileRevalidate: {days: 20},
 });
@@ -122,7 +123,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 		return;
 	}
 
-	const datePromise = getLastCommitDate(login);
+	const datePromise = lastCommitDate.get(login);
 	const race = await Promise.race([delay(300), datePromise]);
 	if (race === false) {
 		// The timezone was undeterminable and this resolved "immediately" (or was cached), so don't add the icon at all
@@ -167,3 +168,13 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	init,
 });
+
+/*
+
+Test URLs:
+
+1. Open https://github.com/sindresorhus/np/releases/tag/v8.0.4
+2. Hover over the username "sindresorhus" in the sidebar
+3. Notice his local time in the hovercard
+
+*/

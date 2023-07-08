@@ -1,4 +1,4 @@
-import cache from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -46,23 +46,25 @@ function onlyShowInDropdown(id: string): void {
 	select('.UnderlineNav-actions ul')!.append(menuItem);
 }
 
-const getWikiPageCount = cache.function('wiki-page-count', async (): Promise<number> => {
-	const dom = await fetchDom(buildRepoURL('wiki'));
-	const counter = dom.querySelector('#wiki-pages-box .Counter');
+const wikiPageCount = new CachedFunction('wiki-page-count', {
+	async updater(): Promise<number> {
+		const dom = await fetchDom(buildRepoURL('wiki'));
+		const counter = dom.querySelector('#wiki-pages-box .Counter');
 
-	if (counter) {
-		return looseParseInt(counter);
-	}
+		if (counter) {
+			return looseParseInt(counter);
+		}
 
-	return dom.querySelectorAll('#wiki-content > .Box .Box-row').length;
-}, {
+		return dom.querySelectorAll('#wiki-content > .Box .Box-row').length;
+	},
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 5},
 	cacheKey: cacheByRepo,
 });
 
-const getWorkflowsCount = cache.function('workflows-count', async (): Promise<number> => {
-	const {repository: {workflowFiles}} = await api.v4(`
+const workflowCount = new CachedFunction('workflows-count', {
+	async updater(): Promise<number> {
+		const {repository: {workflowFiles}} = await api.v4(`
 		repository() {
 			workflowFiles: object(expression: "HEAD:.github/workflows") {
 				... on Tree { entries { oid } }
@@ -70,8 +72,8 @@ const getWorkflowsCount = cache.function('workflows-count', async (): Promise<nu
 		}
 	`);
 
-	return workflowFiles?.entries.length ?? 0;
-}, {
+		return workflowFiles?.entries.length ?? 0;
+	},
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 10},
 	cacheKey: cacheByRepo,
@@ -83,9 +85,9 @@ async function updateWikiTab(): Promise<void | false> {
 		return false;
 	}
 
-	const wikiPageCount = await getWikiPageCount();
-	if (wikiPageCount > 0) {
-		setTabCounter(wikiTab, wikiPageCount);
+	const count = await wikiPageCount.get();
+	if (count > 0) {
+		setTabCounter(wikiTab, count);
 	} else {
 		onlyShowInDropdown('wiki-tab');
 	}
@@ -93,7 +95,7 @@ async function updateWikiTab(): Promise<void | false> {
 
 async function updateActionsTab(): Promise<void | false> {
 	const actionsTab = await elementReady('[data-hotkey="g a"]');
-	if (!actionsTab || mustKeepTab(actionsTab) || await getWorkflowsCount() > 0) {
+	if (!actionsTab || mustKeepTab(actionsTab) || await workflowCount.get() > 0) {
 		return false;
 	}
 

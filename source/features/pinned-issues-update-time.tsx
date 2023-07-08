@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import select from 'select-dom';
 import batchedFunction from 'batched-function';
 import * as pageDetect from 'github-url-detection';
@@ -14,8 +14,9 @@ type IssueInfo = {
 	updatedAt: string;
 };
 
-const getLastUpdated = cache.function('last-updated', async (issueNumbers: number[]): Promise<Record<string, IssueInfo>> => {
-	const {repository} = await api.v4(`
+const getLastUpdated = new CachedFunction('last-updated', {
+	async updater(issueNumbers: number[]): Promise<Record<string, IssueInfo>> {
+		const {repository} = await api.v4(`
 		repository() {
 			${issueNumbers.map(number => `
 				${api.escapeKey(number)}: issue(number: ${number}) {
@@ -25,8 +26,8 @@ const getLastUpdated = cache.function('last-updated', async (issueNumbers: numbe
 		}
 	`);
 
-	return repository;
-}, {
+		return repository;
+	},
 	maxAge: {minutes: 30},
 	cacheKey: ([issues]) => `${getRepo()!.nameWithOwner}:${String(issues)}`,
 });
@@ -36,7 +37,7 @@ function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
 }
 
 const update = batchedFunction(async (pinnedIssues: HTMLElement[]): Promise<void | false> => {
-	const lastUpdated: Record<string, IssueInfo> = await getLastUpdated(pinnedIssues.map(issue => getPinnedIssueNumber(issue)));
+	const lastUpdated: Record<string, IssueInfo> = await getLastUpdated.get(pinnedIssues.map(issue => getPinnedIssueNumber(issue)));
 	for (const pinnedIssue of pinnedIssues) {
 		const issueNumber = getPinnedIssueNumber(pinnedIssue);
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];

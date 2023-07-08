@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import select from 'select-dom';
 import {BookIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
@@ -8,14 +8,12 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {wrapAll} from '../helpers/dom-utils.js';
-import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
+import {buildRepoURL, getRepo} from '../github-helpers/index.js';
 
 type FileType = {
 	name: string;
 	type: string;
 };
-
-const cacheName = 'changelog';
 
 const changelogFiles = /^(changelog|news|changes|history|release|whatsnew)(\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
 function findChangelogName(files: string[]): string | false {
@@ -24,12 +22,17 @@ function findChangelogName(files: string[]): string | false {
 
 function parseFromDom(): false {
 	const files = select.all('[aria-labelledby="files"] .js-navigation-open[href*="/blob/"').map(file => file.title);
-	void cache.set(cacheName + ':' + cacheByRepo(), findChangelogName(files));
+	void changelogName.applyOverride(
+		[findChangelogName(files) as string] /* TODO: Type mistake */,
+		getRepo()!.nameWithOwner,
+	);
 	return false;
 }
 
-const getChangelogName = cache.function(cacheName, async (): Promise<string | false> => {
-	const {repository} = await api.v4(`
+const changelogName = new CachedFunction('changelog', {
+	async updater(nameWithOwner: string): Promise<string | false> {
+		const [owner, name] = nameWithOwner.split('/');
+		const {repository} = await api.v4(`
 		repository() {
 			object(expression: "HEAD:") {
 				...on Tree {
@@ -40,22 +43,23 @@ const getChangelogName = cache.function(cacheName, async (): Promise<string | fa
 				}
 			}
 		}
-	`);
+	`, {
+			variables: {name, owner},
+		});
 
-	const files: string[] = [];
-	for (const entry of repository.object.entries as FileType[]) {
-		if (entry.type === 'blob') {
-			files.push(entry.name);
+		const files: string[] = [];
+		for (const entry of repository.object.entries as FileType[]) {
+			if (entry.type === 'blob') {
+				files.push(entry.name);
+			}
 		}
-	}
 
-	return findChangelogName(files);
-}, {
-	cacheKey: cacheByRepo,
+		return findChangelogName(files);
+	},
 });
 
 async function init(): Promise<void | false> {
-	const changelog = await getChangelogName();
+	const changelog = await changelogName.get(getRepo()!.nameWithOwner);
 	if (!changelog) {
 		return false;
 	}
@@ -100,3 +104,15 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // Does not affect current visit
 	init: parseFromDom,
 });
+
+/*
+
+Test URLs:
+
+- CHANGELOG.md: https://github.com/nodeca/js-yaml/releases/tag/4.0.0)
+- CHANGELOG.rst: https://github.com/pyca/cryptography/releases)
+- CHANGES: https://github.com/sphinx-doc/sphinx/releases)
+- news: https://github.com/pypa/pip/releases)
+- HISTORY.md: https://github.com/psf/requests/releases)
+
+*/

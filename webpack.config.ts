@@ -1,4 +1,4 @@
-/// <reference types="./source/globals" />
+/// <reference types="./source/globals.js" />
 
 import path from 'node:path';
 import SizePlugin from 'size-plugin';
@@ -18,7 +18,7 @@ const config: Configuration = {
 		'background',
 		'options',
 		'resolve-conflicts',
-	].map(name => [name, `./${name}`])),
+	].map(name => [name, `./${name}.js`])),
 	context: path.resolve('source'),
 	output: {
 		path: path.resolve('distribution/assets'),
@@ -71,8 +71,6 @@ const config: Configuration = {
 			react: 'dom-chef',
 		},
 		extensions: [
-			'.tsx',
-			'.ts',
 			'.js',
 		],
 		extensionAlias: {

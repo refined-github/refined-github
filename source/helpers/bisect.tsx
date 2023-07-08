@@ -1,11 +1,13 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache';
+import {CachedValue} from 'webext-storage-cache';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 
 import pluralize from './pluralize.js';
 import featureLink from './feature-link.js';
 import {importedFeatures} from '../../readme.md';
+
+export const state = new CachedValue<FeatureID[]>('bisect', {maxAge: {minutes: 15}});
 
 // Split current list of features in half and create an options-like object to be applied on load
 // Bisecting 4 features: enable 2
@@ -16,10 +18,10 @@ const getMiddleStep = (list: any[]): number => Math.floor(list.length / 2);
 
 async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const answer = button.value;
-	const bisectedFeatures = (await cache.get<FeatureID[]>('bisect'))!;
+	const bisectedFeatures = (await state.get())!;
 
 	if (bisectedFeatures.length > 1) {
-		await cache.set('bisect', answer === 'yes'
+		await state.set(answer === 'yes'
 			? bisectedFeatures.slice(0, getMiddleStep(bisectedFeatures))
 			: bisectedFeatures.slice(getMiddleStep(bisectedFeatures)),
 		);
@@ -42,12 +44,12 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 		createMessageBox(<>The change or issue is caused by {feature}.</>);
 	}
 
-	await cache.delete('bisect');
+	await state.delete();
 	window.removeEventListener('visibilitychange', hideMessage);
 }
 
 async function onEndButtonClick(): Promise<void> {
-	await cache.delete('bisect');
+	await state.delete();
 	location.reload();
 }
 
@@ -65,14 +67,14 @@ function createMessageBox(message: Element | string, extraButtons?: Element): vo
 }
 
 async function hideMessage(): Promise<void> {
-	if (!await cache.get<FeatureID[]>('bisect')) {
+	if (!await state.get()) {
 		createMessageBox('Process completed in another tab');
 	}
 }
 
 export default async function bisectFeatures(): Promise<Record<string, boolean> | void> {
 	// `bisect` stores the list of features to be split in half
-	const bisectedFeatures = await cache.get<FeatureID[]>('bisect');
+	const bisectedFeatures = await state.get();
 	if (!bisectedFeatures) {
 		return;
 	}

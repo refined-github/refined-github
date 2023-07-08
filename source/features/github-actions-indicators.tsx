@@ -1,4 +1,4 @@
-import cache from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import React from 'dom-chef';
 import select from 'select-dom';
 import {StopIcon, PlayIcon} from '@primer/octicons-react';
@@ -72,30 +72,31 @@ async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
 	return result;
 }
 
-const getWorkflowsDetails = cache.function('workflows-details', async (): Promise<Record<string, Workflow & WorkflowDetails>> => {
-	const [workflows, workflowFiles] = await Promise.all([getWorkflows(), getFilesInWorkflowPath()]);
+const workflowDetails = new CachedFunction('workflows-details', {
+	async updater(): Promise<Record<string, Workflow & WorkflowDetails>> {
+		const [workflows, workflowFiles] = await Promise.all([getWorkflows(), getFilesInWorkflowPath()]);
 
-	const details: Record<string, Workflow & WorkflowDetails> = {};
+		const details: Record<string, Workflow & WorkflowDetails> = {};
 
-	for (const workflow of workflows) {
-		const workflowYaml = workflowFiles[workflow.name];
+		for (const workflow of workflows) {
+			const workflowYaml = workflowFiles[workflow.name];
 
-		if (workflowYaml === undefined) {
+			if (workflowYaml === undefined) {
 			// Cannot find workflow yaml; workflow removed.
-			continue;
+				continue;
+			}
+
+			const cron = /schedule[:\s-]+cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
+
+			details[workflow.name] = {
+				...workflow,
+				schedule: cron?.[1],
+				manuallyDispatchable: workflowYaml.includes('workflow_dispatch:'),
+			};
 		}
 
-		const cron = /schedule[:\s-]+cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
-
-		details[workflow.name] = {
-			...workflow,
-			schedule: cron?.[1],
-			manuallyDispatchable: workflowYaml.includes('workflow_dispatch:'),
-		};
-	}
-
-	return details;
-}, {
+		return details;
+	},
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 10},
 	cacheKey: cacheByRepo,
@@ -108,7 +109,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	}
 
 	// Called in `init`, memoized
-	const workflows = await getWorkflowsDetails();
+	const workflows = await workflowDetails.get();
 	const workflowName = workflowListItem.href.split('/').pop()!;
 	const workflow = workflows[workflowName];
 	if (!workflow) {
@@ -152,7 +153,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 
 async function init(signal: AbortSignal): Promise<false | void> {
 	// Do it as soon as possible, before the page loads
-	const workflows = await getWorkflowsDetails();
+	const workflows = await workflowDetails.get();
 	if (!workflows) {
 		return false;
 	}

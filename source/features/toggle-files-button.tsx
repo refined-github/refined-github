@@ -1,6 +1,6 @@
 import './toggle-files-button.css';
 import select from 'select-dom';
-import cache from 'webext-storage-cache';
+import {CachedValue} from 'webext-storage-cache';
 import React from 'dom-chef';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -10,7 +10,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {isHasSelectorSupported} from '../helpers/select-has.js';
 
-const cacheKey = 'files-hidden';
+const wereFilesHidden = new CachedValue<boolean>('files-hidden');
 const toggleButtonClass = 'rgh-toggle-files';
 
 function addButton(filesBox: HTMLElement): void {
@@ -50,7 +50,7 @@ async function toggleList(): Promise<void> {
 		firstCollapseOnDesktop(targets);
 		if (window.matchMedia('(min-width: 768px)').matches) {
 			// We just hid the file list, no further action is necessary on desktop
-			await cache.set<boolean>(cacheKey, true);
+			void wereFilesHidden.set(true);
 			return;
 		}
 
@@ -64,14 +64,14 @@ async function toggleList(): Promise<void> {
 async function updateView(anchor: HTMLHeadingElement): Promise<void> {
 	const filesBox = anchor.parentElement!;
 	addButton(filesBox);
-	if (await cache.get<boolean>(cacheKey)) {
+	if (await wereFilesHidden.get()) {
 		// This only applies on desktop; Mobile already always starts collapsed and we're not changing that
 		firstCollapseOnDesktop();
 	}
 }
 
 async function recordToggle({detail}: DelegateEvent<CustomEvent>): Promise<void> {
-	await cache.set<boolean>(cacheKey, !detail.open);
+	await wereFilesHidden.set(!detail.open);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
