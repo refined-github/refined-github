@@ -207,6 +207,8 @@ function featuresFilterHandler(event: Event): void {
 		feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
 	}
 }
+
+
 function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
 	// @ts-expect-error No Firefox support https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
 	(section.scrollIntoViewIfNeeded ?? section.scrollIntoView).call(section);
