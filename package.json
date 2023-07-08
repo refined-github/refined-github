@@ -91,7 +91,7 @@
 		"@types/codemirror": "^5.60.8",
 		"@types/jsdom": "^21.1.1",
 		"@types/react": "^17.0.52",
-		"@types/webextension-polyfill": "^0.10.0",
+		"@types/webextension-polyfill": "^0.10.1",
 		"copy-webpack-plugin": "^11.0.0",
 		"cross-env": "^7.0.3",
 		"css-loader": "^6.8.1",
@@ -108,16 +108,16 @@
 		"size-plugin": "^2.0.2",
 		"snarkdown": "^2.0.0",
 		"stylelint": "^15.10.1",
-		"stylelint-config-xo": "^0.21.1",
+		"stylelint-config-xo": "^0.22.0",
 		"terser-webpack-plugin": "^5.3.9",
 		"tsx": "^3.12.7",
 		"type-fest": "^3.12.0",
 		"typed-query-selector": "^2.11.0",
 		"typescript": "^5.1.6",
-		"vitest": "^0.28.4",
+		"vitest": "^0.33.0",
 		"webpack": "^5.88.1",
 		"webpack-cli": "^5.1.4",
-		"xo": "^0.53.1"
+		"xo": "^0.54.2"
 	},
 	"engines": {
 		"node": ">= 16",
