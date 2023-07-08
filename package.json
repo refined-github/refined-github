@@ -82,7 +82,7 @@
 		"webext-domain-permission-toggle": "^4.0.1",
 		"webext-dynamic-content-scripts": "^9.2.0",
 		"webext-options-sync-per-domain": "^4.0.0",
-		"webext-storage-cache": "^6.0.0-4",
+		"webext-storage-cache": "^6.0.0-5",
 		"webextension-polyfill-global": "^0.10.1-1",
 		"zip-text-nodes": "^1.0.0"
 	},

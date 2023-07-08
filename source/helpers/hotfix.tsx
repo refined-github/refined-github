@@ -7,7 +7,7 @@ import {any as concatenateTemplateLiteralTag} from 'code-tag';
 import {RGHOptions} from '../options-storage.js';
 import isDevelopmentVersion from './is-development-version.js';
 
-const {version} = browser.runtime.getManifest();
+const {version: currentVersion} = browser.runtime.getManifest();
 
 function parseCsv(content: string): string[][] {
 	const lines = [];
@@ -46,7 +46,7 @@ export const brokenFeatures = new CachedFunction('broken-features', {
 
 		const storage: HotfixStorage = [];
 		for (const [featureID, relatedIssue, unaffectedVersion] of parseCsv(content)) {
-			if (featureID && relatedIssue && (!unaffectedVersion || compareVersions(unaffectedVersion, version) > 0)) {
+			if (featureID && relatedIssue && (!unaffectedVersion || compareVersions(unaffectedVersion, currentVersion) > 0)) {
 				storage.push([featureID as FeatureID, relatedIssue, unaffectedVersion]);
 			}
 		}

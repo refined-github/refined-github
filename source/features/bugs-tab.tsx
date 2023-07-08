@@ -56,7 +56,7 @@ const bugs = new CachedFunction('bugs', {
 });
 
 async function getSearchQueryBugLabel(): Promise<string> {
-	const {label} = await bugs.getCached();
+	const {label} = await bugs.getCached() ?? {};
 	return 'label:' + SearchQuery.escapeValue(label ?? 'bug');
 }
 
