@@ -15,7 +15,7 @@ import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 addDomainPermissionToggle();
 
 const messageHandlers = {
-	openUrls(urls: string[], {tab}: Runtime.MessageSender) {
+	async openUrls(urls: string[], {tab}: Runtime.MessageSender) {
 		for (const [i, url] of urls.entries()) {
 			void browser.tabs.create({
 				url,
@@ -24,7 +24,7 @@ const messageHandlers = {
 			});
 		}
 	},
-	closeTab(_: any, {tab}: Runtime.MessageSender) {
+	async closeTab(_: any, {tab}: Runtime.MessageSender) {
 		void browser.tabs.remove(tab!.id!);
 	},
 	async fetch(url: string) {
@@ -35,12 +35,13 @@ const messageHandlers = {
 		const response = await fetch(url);
 		return response.json();
 	},
-	openOptionsPage() {
-		void browser.runtime.openOptionsPage();
+	async openOptionsPage() {
+		return browser.runtime.openOptionsPage();
 	},
-};
+	// They must return a promise to mark the message as handled
+} satisfies Record<string, (...arguments_: any[]) => Promise<any>>;
 
-browser.runtime.onMessage.addListener((message: typeof messageHandlers, sender) => {
+browser.runtime.onMessage.addListener((message: typeof messageHandlers, sender): Promise<unknown> | void => {
 	for (const id of objectKeys(message)) {
 		if (id in messageHandlers) {
 			return messageHandlers[id](message[id], sender);

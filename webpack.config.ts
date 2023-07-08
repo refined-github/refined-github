@@ -1,7 +1,6 @@
 /// <reference types="./source/globals.js" />
 
 import path from 'node:path';
-import SizePlugin from 'size-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import webpack, {Configuration} from 'webpack';
@@ -10,8 +9,12 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 const config: Configuration = {
 	devtool: false, // Only inline source maps work in extensions, but they would slow down the extension for everyone
 	stats: {
-		all: false,
-		errors: true,
+		preset: 'errors-warnings',
+		entrypoints: true,
+		timings: true,
+	},
+	performance: {
+		hints: false,
 	},
 	entry: Object.fromEntries([
 		'refined-github',
@@ -64,7 +67,6 @@ const config: Configuration = {
 				from: '*.+(html|png)',
 			}],
 		}),
-		new SizePlugin({writeFile: false}),
 	],
 	resolve: {
 		alias: {

@@ -48,7 +48,7 @@ export default class SearchQuery {
 		return new SearchQuery(url);
 	}
 
-	private url: URL;
+	private readonly url: URL;
 	private queryParts: string[];
 
 	constructor(url: string | URL, base?: string) {

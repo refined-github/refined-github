@@ -22,6 +22,7 @@
 		"@typescript-eslint/naming-convention": "off",
 		"@typescript-eslint/no-implicit-any-catch": "off",
 		"@typescript-eslint/no-unsafe-assignment": "off",
+		"@typescript-eslint/no-unsafe-argument": "off",
 		"@typescript-eslint/no-unsafe-member-access": "off",
 		"@typescript-eslint/no-unsafe-return": "off",
 		"@typescript-eslint/no-unsafe-call": "off",

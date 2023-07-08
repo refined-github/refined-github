@@ -9,7 +9,7 @@ export default class GitHubURL {
 	branch = '';
 	filePath = '';
 
-	private internalUrl: URL;
+	private readonly internalUrl: URL;
 
 	constructor(url: string) {
 		// Use Facade pattern instead of inheritance #3193
