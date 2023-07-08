@@ -210,9 +210,11 @@ function featuresFilterHandler(event: Event): void {
 	}
 }
 
-function focusFirstField(event: DelegateEvent<Event, HTMLDetailsElement>): void {
-	if (event.delegateTarget.open) {
-		const field = select('input, textarea', event.delegateTarget);
+function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
+	// @ts-expect-error No Firefox support https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
+	(section.scrollIntoViewIfNeeded ?? section.scrollIntoView).call(section);
+	if (section.open) {
+		const field = select('input, textarea', section);
 		if (field) {
 			field.focus();
 			if (field instanceof HTMLTextAreaElement) {
