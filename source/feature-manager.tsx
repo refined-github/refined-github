@@ -171,7 +171,7 @@ async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<
 	currentFeatureControllers.append(id, featureController);
 
 	const runFeature = async (): Promise<void> => {
-		let result: FeatureInitResult;
+		let result: FeatureInitResult | undefined;
 
 		try {
 			result = await init(featureController.signal);
