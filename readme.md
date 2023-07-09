@@ -113,7 +113,7 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 			<p><img src="https://user-images.githubusercontent.com/1402241/236630610-e11a64f6-5e70-4353-89b8-39aae830dd16.gif">
 		<th width="50%">
 			<p><a title="select-notifications"></a> Select notifications by type and status
-			<p><img src="https://user-images.githubusercontent.com/1402241/152119039-4ea8333f-a744-4106-b56f-cf09f50678be.gif">
+			<p><img src="https://github.com/refined-github/refined-github/assets/83146190/e0826d3b-1990-4bff-ba09-71892463818e">
 </table>
 
 <!--
