@@ -99,7 +99,7 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 			<p><img src="https://user-images.githubusercontent.com/1402241/234492651-b54bf9ba-c218-4a30-bed4-f85a7f037297.png">
 		<th width="50%">
 			<p><a title="conversation-activity-filter"></a> Lets you hide every event except comments or unresolved comments in issues and PRs
-			<p><img src="https://user-images.githubusercontent.com/1402241/109592127-5f922200-7ad4-11eb-8dfa-1d80fb28e70e.png">
+			<p><img src="https://github.com/refined-github/refined-github/assets/83146190/053bce84-5c55-477b-8cc2-42a48104fb02">
 	<tr>
 		<th width="50%">
 			<p><a title="status-subscription"></a> Lets you subscribe to opening/closing events of issues in one click.
