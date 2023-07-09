@@ -150,7 +150,7 @@ Thanks for contributing! 🦋🙌
 - [](# "default-branch-button") 🔥 [Adds a link to the default branch on directory listings and files.](https://github.com/refined-github/refined-github/assets/83146190/9130783c-51aa-4df9-9c35-9b87c179199a)
 - [](# "swap-branches-on-compare") [Adds a link to swap branches in the branch compare view.](https://user-images.githubusercontent.com/44045911/230370539-ebc94246-864f-48f2-85fa-7318fc1f6d71.png)
 - [](# "repo-age") [Displays the age of the repository in the sidebar.](https://github.com/refined-github/refined-github/assets/83146190/f8260312-d0dc-41b5-a4d1-ca680208d347)
-- [](# "show-open-prs-of-forks") [In your forked repos, shows number of your open PRs to the original repo.](https://user-images.githubusercontent.com/1922624/76398271-e0648500-637c-11ea-8210-53dda1be9d51.png)
+- [](# "show-open-prs-of-forks") [In your forked repos, shows number of your open PRs to the original repo.](https://github.com/refined-github/refined-github/assets/83146190/94165582-628b-45b6-9a62-faf0c7fc2335)
 - [](# "clean-repo-filelist-actions") [Makes some buttons on repository lists more compact to make room for other features.](https://user-images.githubusercontent.com/1402241/108955170-52d48080-7633-11eb-8979-67e0d3a53f16.png)
 - [](# "new-repo-disable-projects-and-wikis") [Automatically disables projects and wikis when creating a repository.](https://user-images.githubusercontent.com/1402241/177040449-73fde2a5-98e2-4583-8f32-905d1c4bfd20.png)
 - [](# "sticky-sidebar") [Makes conversation sidebars and repository sidebars sticky, if they fit the viewport.](https://user-images.githubusercontent.com/10238474/62276723-5a2eaa80-b44d-11e9-810b-ff598d1c5c6a.gif)
