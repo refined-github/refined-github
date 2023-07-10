@@ -171,7 +171,7 @@ Thanks for contributing! 🦋🙌
 ### File management
 
 - [](# "download-folder-button") [Adds a button to download entire folders](https://user-images.githubusercontent.com/46634000/158347358-49234bb8-b9e6-41be-92ed-c0c0233cbad2.png), via https://download-directory.github.io.
-- [](# "toggle-files-button") [Adds a button to toggle the repo file list.](https://user-images.githubusercontent.com/1402241/35480123-68b9af1a-043a-11e8-8934-3ead3cff8328.gif)
+- [](# "toggle-files-button") [Adds a button to toggle the repo file list.](https://github.com/refined-github/refined-github/assets/83146190/763ae9a1-f8c3-4796-bab2-25b815a7fd52)
 - [](# "quick-file-edit") [Adds a button to edit files from the repo file list.](https://user-images.githubusercontent.com/1402241/56370462-d51cde00-622d-11e9-8cd3-8a173bd3dc08.png)
 - [](# "edit-readme") [Ensures that the “Edit readme” button always appears (even when you have to make a fork) and works (GitHub’s link doesn’t work on git tags).](https://user-images.githubusercontent.com/1402241/62073307-a8378880-b26a-11e9-9e31-be6525d989d2.png)
 - [](# "repo-wide-file-finder") Enables the File Finder keyboard shortcut (<kbd>t</kbd>) on entire repository.
