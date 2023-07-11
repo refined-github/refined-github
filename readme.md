@@ -222,7 +222,7 @@ Thanks for contributing! 🦋🙌
 - [](# "show-names") [Adds the real name of users by their usernames.](https://github.com/refined-github/refined-github/assets/83146190/94785dc2-423e-498c-939a-359a012036e0)
 - [](# "shorten-links") [Shortens URLs and repo URLs to readable references like "_user/repo/.file@`d71718d`".](https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png)
 - [](# "preview-hidden-comments") 🔥 [Previews hidden comments inline.](https://github.com/refined-github/refined-github/assets/83146190/8aa7e33f-cedc-4661-b136-16022ba0b1cb)
-- [](# "highest-rated-comment") 🔥 [Highlights the most useful comment in conversations.](https://user-images.githubusercontent.com/1402241/99895146-16b50c80-2c4d-11eb-8038-210e6fd5e798.png)
+- [](# "highest-rated-comment") 🔥 [Highlights the most useful comment in conversations.](https://github.com/refined-github/refined-github/assets/83146190/a0c3b074-b032-4d97-946e-328e8a6fb2da)
 - [](# "hide-low-quality-comments") [Hides reaction comments ("+1", "👍", …)](https://user-images.githubusercontent.com/1402241/45543717-d45f3c00-b847-11e8-84a5-8c439d0ad1a5.png) (except the maintainers’) [but they can still be shown.](https://user-images.githubusercontent.com/1402241/45543720-d628ff80-b847-11e8-9fb6-758a3102e3a9.png)
 - [](# "scrollable-areas") [Limits the height of tall code blocks and quotes.](https://github.com/refined-github/refined-github/issues/1123)
 - [](# "quick-comment-hiding") [Simplifies the UI to hide comments.](https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif)
