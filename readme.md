@@ -262,7 +262,7 @@ Thanks for contributing! 🦋🙌
 
 - [](# "linkify-commit-sha") [Adds a link to the non-PR commit when visiting a PR commit.](https://github.com/refined-github/refined-github/assets/83146190/80fa76c7-ffab-4005-8338-1f34695b0842)
 - [](# "pr-filters") [Adds Checks and Draft PR dropdown filters in PR lists.](https://github.com/refined-github/refined-github/assets/83146190/6afb4656-4ef5-4846-89c5-24dc6ee7f839)
-- [](# "pr-approvals-count") [Shows color-coded review counts in PR lists.](https://user-images.githubusercontent.com/1402241/33474535-a814ee78-d6ad-11e7-8f08-a8b72799e376.png)
+- [](# "pr-approvals-count") [Shows color-coded review counts in PR lists.](https://github.com/refined-github/refined-github/assets/83146190/d10d95df-4a89-4692-b218-5eba5cd79906)
 - [](# "highlight-non-default-base-branch") [Shows the base branch in PR lists if it’s not the default branch.](https://user-images.githubusercontent.com/1402241/88480306-39f4d700-cf4d-11ea-9e40-2b36d92d41aa.png)
 - [](# "hide-inactive-deployments") [Hides inactive deployments in PRs.](https://github.com/refined-github/refined-github/issues/1144)
 - [](# "previous-next-commit-buttons") [Adds duplicate commit navigation buttons at the bottom of the `Commits` tab page.](https://user-images.githubusercontent.com/24777/41755271-741773de-75a4-11e8-9181-fcc1c73df633.png)
