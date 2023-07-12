@@ -260,7 +260,7 @@ Thanks for contributing! 🦋🙌
 
 ### Viewing pull requests
 
-- [](# "linkify-commit-sha") [Adds a link to the non-PR commit when visiting a PR commit.](https://user-images.githubusercontent.com/101152/42968387-606b23f2-8ba3-11e8-8a4b-667bddc8d33c.png)
+- [](# "linkify-commit-sha") [Adds a link to the non-PR commit when visiting a PR commit.](https://github.com/refined-github/refined-github/assets/83146190/80fa76c7-ffab-4005-8338-1f34695b0842)
 - [](# "pr-filters") [Adds Checks and Draft PR dropdown filters in PR lists.](https://user-images.githubusercontent.com/202916/74453250-6d9de200-4e82-11ea-8fd4-7c0de57e001a.png)
 - [](# "pr-approvals-count") [Shows color-coded review counts in PR lists.](https://user-images.githubusercontent.com/1402241/33474535-a814ee78-d6ad-11e7-8f08-a8b72799e376.png)
 - [](# "highlight-non-default-base-branch") [Shows the base branch in PR lists if it’s not the default branch.](https://user-images.githubusercontent.com/1402241/88480306-39f4d700-cf4d-11ea-9e40-2b36d92d41aa.png)
