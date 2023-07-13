@@ -266,7 +266,7 @@ Thanks for contributing! 🦋🙌
 - [](# "highlight-non-default-base-branch") [Shows the base branch in PR lists if it’s not the default branch.](https://user-images.githubusercontent.com/1402241/88480306-39f4d700-cf4d-11ea-9e40-2b36d92d41aa.png)
 - [](# "hide-inactive-deployments") [Hides inactive deployments in PRs.](https://github.com/refined-github/refined-github/issues/1144)
 - [](# "previous-next-commit-buttons") [Adds duplicate commit navigation buttons at the bottom of the `Commits` tab page.](https://user-images.githubusercontent.com/24777/41755271-741773de-75a4-11e8-9181-fcc1c73df633.png)
-- [](# "hidden-review-comments-indicator") [Adds comment indicators when comments are hidden in PR review.](https://user-images.githubusercontent.com/1402241/63112671-011d5580-bfbb-11e9-9e19-53e11641990e.gif)
+- [](# "hidden-review-comments-indicator") [Adds comment indicators when comments are hidden in PR review.](https://github.com/refined-github/refined-github/assets/83146190/a10eaf9e-ff81-48db-b67c-ee823804c859)
 - [](# "conflict-marker") [Shows which PRs have conflicts in PR lists.](https://user-images.githubusercontent.com/9092510/62777551-2affe500-baae-11e9-8ba4-67f078347913.png)
 - [](# "pr-commit-lines-changed") [Adds diff stats on PR commits.](https://user-images.githubusercontent.com/16872793/76107253-48deeb00-5fa6-11ea-9931-721cde553bdf.png)
 - [](# "cross-deleted-pr-branches") [Adds a line-through to the deleted branches in PRs.](https://user-images.githubusercontent.com/16872793/75619638-9bef1300-5b4c-11ea-850e-3a8f95c86d83.png)
