@@ -57,9 +57,10 @@ function init(signal: AbortSignal): void {
 	}
 
 	for (const bot of select.all(prSelectors)) {
-		if (allowedBotNames.includes(bot.textContent)) {
+		if (allowedBotNames.includes(bot.textContent!)) {
 			return;
 		}
+
 		bot.closest('.commit, .Box-row')!.classList.add(dimBots.class);
 	}
 
