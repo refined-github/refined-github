@@ -20,7 +20,7 @@ const botNames = [
 ] as const;
 
 const allowedBotNames = [
-	'issue-up'
+	'issue-up',
 ] as const;
 
 const commitSelectors = [
@@ -57,7 +57,9 @@ function init(signal: AbortSignal): void {
 	}
 
 	for (const bot of select.all(prSelectors)) {
-		if (allowedBotNames.includes(bot.innerText)) return;
+		if (allowedBotNames.includes(bot.textContent)) {
+			return;
+		}
 		bot.closest('.commit, .Box-row')!.classList.add(dimBots.class);
 	}
 
