@@ -19,6 +19,10 @@ const botNames = [
 	'weblate',
 ] as const;
 
+const allowedBotNames = [
+	'issue-up'
+] as const;
+
 const commitSelectors = [
 	...botNames.map(bot => `.commit-author[href$="?author=${bot}"]`),
 	'.commit-author[href$="%5Bbot%5D"]', // Generic `[bot]` label in author name
@@ -53,6 +57,7 @@ function init(signal: AbortSignal): void {
 	}
 
 	for (const bot of select.all(prSelectors)) {
+		if (allowedBotNames.includes(bot.innerText)) return;
 		bot.closest('.commit, .Box-row')!.classList.add(dimBots.class);
 	}
 
