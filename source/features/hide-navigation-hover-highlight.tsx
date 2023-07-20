@@ -15,3 +15,14 @@ function init(): void {
 void features.add(import.meta.url, {
 	init: onetime(init),
 });
+
+/*
+
+Test URLs
+
+- Notifications list: https://github.com/notifications
+- Issue list: https://github.com/refined-github/refined-github/issues
+- React file list: https://github.com/refined-github/refined-github/tree/main/.github
+- File list: File list
+
+*/
