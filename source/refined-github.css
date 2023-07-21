@@ -28,6 +28,8 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 */
 .js-check-all-container .js-bulk-action-toasts ~ div .Box-header {
 	flex-wrap: wrap;
+	height: auto !important; /* Unset the default height to allow wrapping*/
+	min-height: 52px; /* Re-set the default height as a minimum height */
 }
 
 :is(.js-notifications-mark-selected-actions, .js-notifications-mark-all-actions):not([hidden]) {
