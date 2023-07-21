@@ -28,3 +28,13 @@ void features.add(import.meta.url, {
 	},
 	init: onetime(init),
 });
+
+/*
+
+Test URLs:
+
+https://github.com/notifications
+https://github.com/refined-github/refined-github
+https://github.com/refined-github/refined-github/issues
+
+*/
