@@ -23,9 +23,6 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		() => select.exists('.js-navigation-open'),
-	],
 	shortcuts: {
 		'shift o': 'Open selection in new tab',
 	},
