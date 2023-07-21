@@ -7,7 +7,7 @@ import {registerHotkey} from '../github-helpers/hotkey.js';
 
 function init(): void {
 	// This patterns also works on gist.github.com
-	const origin = isEnterprise() ? location.origin : 'https://github.com'
+	const origin = isEnterprise() ? location.origin : 'https://github.com';
 	const profileLink = new URL(getUsername()!, origin);
 	registerHotkey('g m', profileLink.href);
 }
@@ -18,3 +18,11 @@ void features.add(import.meta.url, {
 	},
 	init: onetime(init),
 });
+
+/*
+
+Test URLs:
+
+1. Visit any page
+
+*/
