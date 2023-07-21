@@ -1,5 +1,4 @@
 import './hide-navigation-hover-highlight.css';
-import onetime from 'onetime';
 
 import features from '../feature-manager.js';
 
@@ -14,7 +13,7 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	init,
 });
 
 /*
