@@ -1,6 +1,6 @@
-.rgh-sticky-sidebar-enabled #js-repo-pjax-container ul.pagehead-actions,
+[rgh-sticky-sidebar-enabled] #js-repo-pjax-container ul.pagehead-actions,
 /* https://github.com/refined-github/refined-github/issues/6761 */
-.rgh-sticky-sidebar-enabled [id^='my-forks-menu'] {
+[rgh-sticky-sidebar-enabled] [id^='my-forks-menu'] {
 	z-index: initial !important; /* This affects the social buttons. It seems to have no effect but it constantly causes trouble with other features. */
 }
 
@@ -37,15 +37,15 @@ Exclusively use simple sums and use `0px` instead of `0`
 }
 
 /* Avoid z-index issue with Stars dropdown in repo header #5214 */
-.rgh-sticky-sidebar-enabled .pagehead-actions .js-user-list-menu {
+[rgh-sticky-sidebar-enabled] .pagehead-actions .js-user-list-menu {
 	z-index: unset;
 }
 
 /* z-index fights 🥲 This is the search dropdown on the repo root #6151 */
-html.rgh-sticky-sidebar-enabled:has(.rgh-sticky-sidebar) .search-input.expanded .search-with-dialog {
+html[rgh-sticky-sidebar-enabled]:has(.rgh-sticky-sidebar) .search-input.expanded .search-with-dialog {
 	z-index: 95; /* Native: 35 */
 }
 
-html.rgh-sticky-sidebar-enabled:has(.rgh-sticky-sidebar) .search-input.expanded .dark-backdrop {
+html[rgh-sticky-sidebar-enabled]:has(.rgh-sticky-sidebar) .search-input.expanded .dark-backdrop {
 	z-index: 92; /* Native: 32 */
 }

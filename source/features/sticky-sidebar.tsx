@@ -53,7 +53,7 @@ function updateStickiness(): void {
 }
 
 function init(signal: AbortSignal): void {
-	document.documentElement.classList.add('rgh-sticky-sidebar-enabled');
+	document.documentElement.setAttribute('rgh-sticky-sidebar-enabled', '');
 
 	// The element is recreated when the page is updated
 	// `trackSidebar` also triggers the first update via `sidebarObserver.observe()`
