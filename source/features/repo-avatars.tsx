@@ -43,7 +43,7 @@ void features.add(import.meta.url, {
 
 ## Test URLs
 
-- org repo: https://github.com/refined-github/refined-github
-- user repo: https://github.com/fregante/GhostText
+- org repo: https://github.com/refined-github/refined-github/issues
+- user repo: https://github.com/fregante/GhostText/issues
 
 */
