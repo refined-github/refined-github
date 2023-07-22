@@ -73,3 +73,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+Repo: https://github.com/refined-github/refined-github
+Conversation: https://github.com/refined-github/refined-github/issues/6752
+
+*/
