@@ -1,17 +1,17 @@
 /* `.js-upload-markdown-image` excludes non-comment attachment drop areas. See #2086 */
 /* `:not(.js-comment-update)` excludes comment edition forms, as they lack the upload image button. See #4542 */
-.rgh-minimize-upload-bar form:not(.js-comment-update) .js-upload-markdown-image.is-default .drag-and-drop {
+[rgh-minimize-upload-bar] form:not(.js-comment-update) .js-upload-markdown-image.is-default .drag-and-drop {
 	display: none !important;
 }
 
-.rgh-minimize-upload-bar form:not(.js-comment-update) .js-upload-markdown-image.is-default textarea {
+[rgh-minimize-upload-bar] form:not(.js-comment-update) .js-upload-markdown-image.is-default textarea {
 	border-bottom-style: solid;
 	border-radius: 6px;
 }
 
 /* Show upload image button in PR minimized upload bar for desktop */
 @media (min-width: 768px) {
-	.rgh-minimize-upload-bar .js-previewable-comment-form label[aria-label^='Attach an image'] {
+	[rgh-minimize-upload-bar] .js-previewable-comment-form label[aria-label^='Attach an image'] {
 		display: block !important;
 		padding: 4px !important;
 	}

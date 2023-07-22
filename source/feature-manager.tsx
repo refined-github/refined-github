@@ -127,7 +127,7 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 		return;
 	}
 
-	document.documentElement.classList.add('refined-github');
+	document.documentElement.setAttribute('refined-github', '');
 
 	void styleHotfixes.get(version).then(applyStyleHotfixes);
 
@@ -278,7 +278,7 @@ async function addCssFeature(url: string, include?: BooleanFunction[]): Promise<
 	void add(id, {
 		include,
 		init() {
-			document.documentElement.classList.add('rgh-' + id);
+			document.documentElement.setAttribute('rgh-' + id, '');
 		},
 	});
 }

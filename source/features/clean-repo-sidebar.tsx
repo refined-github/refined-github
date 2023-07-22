@@ -64,7 +64,7 @@ async function moveReportLink(): Promise<void> {
 }
 
 async function init(): Promise<void> {
-	document.documentElement.classList.add('rgh-clean-repo-sidebar');
+	document.documentElement.setAttribute('rgh-clean-repo-sidebar', '');
 
 	await Promise.all([
 		cleanReleases(),
