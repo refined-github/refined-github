@@ -14,8 +14,8 @@ import listPrsForFileQuery from './list-prs-for-file.gql';
 
 function getPRUrl(prNumber: number): string {
 	// https://caniuse.com/url-scroll-to-text-fragment
-	const hash = isFirefox() ? '' : `:~:text=${new GitHubURL(location.href).filePath}`;
-	return buildRepoURL('pull', prNumber, 'files', hash);
+	const hash = isFirefox() ? '' : `#:~:text=${new GitHubURL(location.href).filePath}`;
+	return buildRepoURL('pull', prNumber, 'files') + hash;
 }
 
 function getHovercardUrl(prNumber: number): string {
