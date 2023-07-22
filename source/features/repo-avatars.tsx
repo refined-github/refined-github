@@ -26,7 +26,7 @@ async function init(): Promise<void> {
 	location!.classList.add('d-flex', 'flex-items-center');
 	location!.prepend(avatar);
 
-	if (location!.closest('[data-hovercard-type="organization"]')) {
+	if (!location!.closest('[data-hovercard-type="organization"]')) {
 		avatar.classList.add('avatar-user');
 	}
 }
