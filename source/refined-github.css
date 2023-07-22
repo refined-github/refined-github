@@ -28,7 +28,7 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 */
 .js-check-all-container .js-bulk-action-toasts ~ div .Box-header {
 	flex-wrap: wrap;
-	height: auto !important; /* Unset the default height to allow wrapping*/
+	height: auto !important; /* Unset the default height to allow wrapping */
 	min-height: 52px; /* Re-set the default height as a minimum height */
 }
 
