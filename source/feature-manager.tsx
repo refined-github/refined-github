@@ -115,7 +115,7 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 		return;
 	}
 
-	if (select.exists('html.refined-github')) {
+	if (select.exists('[refined-github]')) {
 		console.warn(stripIndent(`
 			Refined GitHub has been loaded twice. This may be because:
 
