@@ -15,7 +15,7 @@ async function init(): Promise<void> {
 
 	const avatar = (
 		<img
-			className="avatar mx-1"
+			className="avatar ml-1 mr-2"
 			src={src}
 			width={size}
 			height={size}
