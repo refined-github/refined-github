@@ -39,7 +39,6 @@ interface GlobalEventHandlersEventMap {
 }
 
 declare namespace JSX {
-	/* eslint-disable @typescript-eslint/no-redundant-type-constituents -- https://github.com/refined-github/refined-github/pull/5654#discussion_r878891540 */
 	interface IntrinsicElements {
 		'clipboard-copy': IntrinsicElements.button & {for?: string};
 		'details-dialog': IntrinsicElements.div & {tabindex: string};

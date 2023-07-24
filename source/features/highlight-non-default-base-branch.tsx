@@ -21,7 +21,7 @@ function buildQuery(issueIds: string[]): string {
 	return `
 		repository() {
 			${issueIds.map(id => `
-				${id}: pullRequest(number: ${id.replace(/\D/g, '')}) {
+				${id}: pullRequest(number: ${id.replaceAll(/\D/g, '')}) {
 					baseRef {id}
 					baseRefName
 				}

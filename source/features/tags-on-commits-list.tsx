@@ -103,7 +103,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 		tags[commit].push(node.name);
 	}
 
-	const lastTag = nodes[nodes.length - 1].target;
+	const lastTag = nodes.at(-1)!.target;
 	const lastTagIsYounger = new Date(repository.object.committedDate) < new Date(isTagTarget(lastTag) ? lastTag.tagger.date : lastTag.committedDate);
 
 	// If the last tag is younger than last commit on the page, then not all commits are accounted for, keep looking
@@ -119,7 +119,7 @@ async function init(): Promise<void | false> {
 	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
 
 	const commitsOnPage = select.all('.js-commits-list-item');
-	const lastCommitOnPage = getCommitHash(commitsOnPage[commitsOnPage.length - 1]);
+	const lastCommitOnPage = getCommitHash(commitsOnPage.at(-1)!);
 	let cached = await cache.get<Record<string, string[]>>(cacheKey) ?? {};
 	const commitsWithNoTags = [];
 	for (const commit of commitsOnPage) {

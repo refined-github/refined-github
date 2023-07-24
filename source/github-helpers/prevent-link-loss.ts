@@ -7,7 +7,7 @@ function getRepoReference(currentRepo: RepositoryInfo | undefined, repoNameWithO
 	return repoNameWithOwner === currentRepo!.nameWithOwner ? '' : repoNameWithOwner + delimiter;
 }
 
-const escapeRegex = (string: string): string => string.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
+const escapeRegex = (string: string): string => string.replaceAll(/[\\^$.*+?()[\]{}|]/g, '\\$&');
 const prCommitPathnameRegex = /[/]([^/]+[/][^/]+)[/]pull[/](\d+)[/]commits[/]([\da-f]{7})[\da-f]{33}(?:#[\w-]+)?\b/; // eslint-disable-line unicorn/better-regex
 export const prCommitUrlRegex = new RegExp('\\b' + escapeRegex(location.origin) + prCommitPathnameRegex.source, 'gi');
 
