@@ -52,7 +52,6 @@ declare namespace JSX {
 		'batch-deferred-content': IntrinsicElements.div;
 		'time-ago': IntrinsicElements.div & {datetime: string; format?: string};
 	}
-	/* eslint-enable @typescript-eslint/no-redundant-type-constituents */
 
 	type BaseElement = IntrinsicElements['div'];
 	interface IntrinsicAttributes extends BaseElement {
