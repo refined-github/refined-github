@@ -1,26 +1,26 @@
 /* Hide "About" header */
-.rgh-clean-repo-sidebar .Layout-sidebar .BorderGrid-row:first-child h2 {
+[rgh-clean-repo-sidebar] .Layout-sidebar .BorderGrid-row:first-child h2 {
 	display: none;
 }
 
 /* Align the top of the repo root sidebar with the main page content */
-.rgh-clean-repo-sidebar .Layout-sidebar .BorderGrid-row:first-child h2 + p.f4 {
+[rgh-clean-repo-sidebar] .Layout-sidebar .BorderGrid-row:first-child h2 + p.f4 {
 	margin-top: 0 !important;
 }
 
 /* Hide "Readme" link made unnecessary by `toggle-files-button` #3580 */
-.rgh-clean-repo-sidebar .Layout-sidebar [href$='#readme'] {
+[rgh-clean-repo-sidebar] .Layout-sidebar [href$='#readme'] {
 	display: none;
 }
 
 @media (min-width: 768px) {
 	/* Hide "Releases" header */
-	.rgh-clean-repo-sidebar .Layout-sidebar h2 [href$='/releases'] {
+	[rgh-clean-repo-sidebar] .Layout-sidebar h2 [href$='/releases'] {
 		display: none;
 	}
 
 	/* Align data section with latest tag/release link #5428 */
-	.rgh-clean-repo-sidebar .Layout-sidebar .Link--muted .octicon {
+	[rgh-clean-repo-sidebar] .Layout-sidebar .Link--muted .octicon {
 		margin-right: 4px !important;
 	}
 }
@@ -30,12 +30,12 @@
  * Hide "Learn more about GitHub Sponsors" link
  * Hide "+ 123 contributors" link
  */
-.rgh-clean-repo-sidebar .Layout-sidebar .BorderGrid-cell > .mt-3 {
+[rgh-clean-repo-sidebar] .Layout-sidebar .BorderGrid-cell > .mt-3 {
 	display: none;
 }
 
 /* Hide Code of conduct links */
-.rgh-clean-repo-sidebar .Layout-sidebar .Link--muted:is(
+[rgh-clean-repo-sidebar] .Layout-sidebar .Link--muted:is(
 [href$='/code-of-conduct.md' i],
 [href$='/code_of_conduct.md' i]
 ) {

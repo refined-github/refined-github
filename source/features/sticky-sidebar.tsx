@@ -53,7 +53,7 @@ function updateStickiness(): void {
 }
 
 function init(signal: AbortSignal): void {
-	document.documentElement.classList.add('rgh-sticky-sidebar-enabled');
+	document.documentElement.setAttribute('rgh-sticky-sidebar-enabled', '');
 
 	// The element is recreated when the page is updated
 	// `trackSidebar` also triggers the first update via `sidebarObserver.observe()`
@@ -73,3 +73,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+Repo: https://github.com/refined-github/refined-github
+Conversation: https://github.com/refined-github/refined-github/issues/6752
+
+*/

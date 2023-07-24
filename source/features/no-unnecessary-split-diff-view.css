@@ -1,13 +1,13 @@
 /* The selector looks for diff tables WITHOUT changes on the left XOR on the right */
 /* Instead of duplicating this selector for each rule, we set a variable and pick it up where needed */
-.rgh-no-unnecessary-split-diff-view .js-diff-table:has([data-split-side]):not(
+[rgh-no-unnecessary-split-diff-view] .js-diff-table:has([data-split-side]):not(
 :has([data-split-side='left']:is(.blob-code-addition, .blob-code-deletion))
 ) {
 	--rgh-only-additions: none;
 	table-layout: auto !important;
 }
 
-.rgh-no-unnecessary-split-diff-view .js-diff-table:has([data-split-side]):not(
+[rgh-no-unnecessary-split-diff-view] .js-diff-table:has([data-split-side]):not(
 :has([data-split-side='right']:is(.blob-code-addition, .blob-code-deletion))
 ) {
 	--rgh-only-deletions: none;
@@ -15,16 +15,16 @@
 }
 
 /* Only additions: Hide the left side */
-.rgh-no-unnecessary-split-diff-view :is([data-hunk], .blob-expanded) td:nth-child(2) {
+[rgh-no-unnecessary-split-diff-view] :is([data-hunk], .blob-expanded) td:nth-child(2) {
 	display: var(--rgh-only-additions, table-cell) !important;
 }
 
 /* Only deletions: Hide the right side */
-.rgh-no-unnecessary-split-diff-view :is([data-hunk], .blob-expanded) td:nth-child(4) {
+[rgh-no-unnecessary-split-diff-view] :is([data-hunk], .blob-expanded) td:nth-child(4) {
 	display: var(--rgh-only-deletions, table-cell) !important;
 }
 
 /* Any applicable situation: Re-align annotations */
-.rgh-no-unnecessary-split-diff-view :is(.inline-comments, .js-inline-annotations) .empty-cell:not(.blob-num) {
+[rgh-no-unnecessary-split-diff-view] :is(.inline-comments, .js-inline-annotations) .empty-cell:not(.blob-num) {
 	display: var(--rgh-only-additions, var(--rgh-only-deletions, table-cell)) !important;
 }

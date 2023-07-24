@@ -2,7 +2,7 @@
 
 /* stylelint-disable-next-line media-feature-name-no-vendor-prefix -- It's the only cross-browser media query */
 @media (-webkit-min-device-pixel-ratio: 2) {
-	.rgh-emphasize-draft-pr-label .js-issue-row :is(
+	[rgh-emphasize-draft-pr-label] .js-issue-row :is(
 	/* Repo PR lists */
 	[aria-label='Open draft pull request'],
 	/* Global PR lists */

@@ -2,13 +2,13 @@ import './hide-navigation-hover-highlight.css';
 
 import features from '../feature-manager.js';
 
-const className = 'rgh-no-navigation-highlight';
+const attribute = 'rgh-no-navigation-highlight';
 const html = document.documentElement;
 
 function init(): void {
-	html.classList.add(className);
+	html.setAttribute(attribute, '');
 	html.addEventListener('navigation:focus', () => {
-		html.classList.remove(className);
+		html.removeAttribute(attribute);
 	}, {once: true});
 }
 

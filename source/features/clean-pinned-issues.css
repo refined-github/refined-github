@@ -1,20 +1,20 @@
 /* Changes the layout of pinned issues from side-by-side to a standard list. */
-.rgh-clean-pinned-issues .js-pinned-issues-reorder-container .f4 {
+[rgh-clean-pinned-issues] .js-pinned-issues-reorder-container .f4 {
 	display: none !important; /* Hide title */
 }
 
-.rgh-clean-pinned-issues .js-pinned-issues-reorder-list {
+[rgh-clean-pinned-issues] .js-pinned-issues-reorder-list {
 	gap: 16px;
 }
 
-.rgh-clean-pinned-issues .pinned-issue-item {
+[rgh-clean-pinned-issues] .pinned-issue-item {
 	width: auto !important;
 	flex: 1;
 	margin-inline: 0 !important;
 }
 
 @media (min-width: 700px) {
-	.rgh-clean-pinned-issues .js-pinned-issues-reorder-list {
+	[rgh-clean-pinned-issues] .js-pinned-issues-reorder-list {
 		display: table !important;
 		width: 100%;
 		margin: 0;
@@ -27,12 +27,12 @@
 		border-style: hidden;
 	}
 
-	.rgh-clean-pinned-issues .pinned-issue-item {
+	[rgh-clean-pinned-issues] .pinned-issue-item {
 		display: table-row !important;
 		border-color: var(--rgh-border-color) !important;
 	}
 
-	.rgh-clean-pinned-issues .pinned-issue-item > * {
+	[rgh-clean-pinned-issues] .pinned-issue-item > * {
 		display: table-cell !important;
 		padding: 6px 12px;
 		vertical-align: middle;
@@ -40,17 +40,17 @@
 	}
 
 	/* Move `x` before the title and align both icons */
-	.rgh-clean-pinned-issues .pinned-issue-item > :first-child {
+	[rgh-clean-pinned-issues] .pinned-issue-item > :first-child {
 		display: flex !important;
 		white-space: normal; /* Restore wrapping on title */
 	}
 
-	.rgh-clean-pinned-issues .pinned-issue-handle {
+	[rgh-clean-pinned-issues] .pinned-issue-handle {
 		order: -1;
 		margin-top: -2px;
 	}
 
-	.rgh-clean-pinned-issues .pinned-issue-item form button {
+	[rgh-clean-pinned-issues] .pinned-issue-item form button {
 		float: unset !important;
 		margin-left: -10px;
 		margin-right: 2px !important;

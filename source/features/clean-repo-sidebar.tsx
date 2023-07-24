@@ -64,7 +64,7 @@ async function moveReportLink(): Promise<void> {
 }
 
 async function init(): Promise<void> {
-	document.documentElement.classList.add('rgh-clean-repo-sidebar');
+	document.documentElement.setAttribute('rgh-clean-repo-sidebar', '');
 
 	await Promise.all([
 		cleanReleases(),
@@ -82,3 +82,11 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github
+
+*/
