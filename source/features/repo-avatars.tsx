@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import select from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -8,20 +7,15 @@ import {getRepo} from '../github-helpers/index.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';
 
 async function init(): Promise<void> {
-	// Icon for public but not template/fork/etc. repos
-	const icon = await elementReady('#repository-container-header .octicon-repo');
-	if (!icon) {
-		return;
-	}
-
-	const link = select('#repository-container-header a[rel="author"]')!.cloneNode();
+	// There are many such "label" elements
+	const location = await elementReady('.AppHeader-context-full .AppHeader-context-item-label');
 	const username = getRepo()!.owner;
-	const size = 24;
+	const size = 16;
 	const src = getUserAvatar(username, size)!;
 
 	const avatar = (
 		<img
-			className="avatar mr-2 d-block"
+			className="avatar ml-1 mr-2"
 			src={src}
 			width={size}
 			height={size}
@@ -29,10 +23,10 @@ async function init(): Promise<void> {
 		/>
 	);
 
-	link.append(avatar);
-	icon.replaceWith(link);
+	location!.classList.add('d-flex', 'flex-items-center');
+	location!.prepend(avatar);
 
-	if (link.dataset.hovercardType !== 'organization') {
+	if (!location!.closest('[data-hovercard-type="organization"]')) {
 		avatar.classList.add('avatar-user');
 	}
 }
@@ -49,7 +43,7 @@ void features.add(import.meta.url, {
 
 ## Test URLs
 
-- org repo: https://github.com/refined-github/refined-github
-- user repo: https://github.com/fregante/GhostText
+- org repo: https://github.com/refined-github/refined-github/issues
+- user repo: https://github.com/fregante/GhostText/issues
 
 */
