@@ -67,14 +67,14 @@ export default class GitHubURL {
 	}
 
 	get pathname(): string {
-		return `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replace(/((undefined)?\/)+$/g, '');
+		return `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replaceAll(/((undefined)?\/)+$/g, '');
 	}
 
 	set pathname(pathname: string) {
-		const [user, repository, route, ...ambiguousReference] = pathname.replace(/^\/|\/$/g, '').split('/');
+		const [user, repository, route, ...ambiguousReference] = pathname.replaceAll(/^\/|\/$/g, '').split('/');
 		// TODO: `isRepoRoot` uses global state https://github.com/refined-github/refined-github/issues/6637
 		if (isRepoRoot() || (ambiguousReference.length === 2 && ambiguousReference[1].includes('%2F'))) {
-			const branch = ambiguousReference.join('/').replace(/%2F/g, '/');
+			const branch = ambiguousReference.join('/').replaceAll('%2F', '/');
 			this.assign({user, repository, route, branch, filePath: ''});
 			return;
 		}

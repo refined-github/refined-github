@@ -153,11 +153,6 @@ pr-branches
 	align-items: center !important;
 }
 
-/* Hide "Pin"/"Unpin" button in header of personal repos https://github.com/refined-github/refined-github/issues/5398#issuecomment-1036112206 */
-.pagehead-actions [data-test-selector='pin-repo-button'] {
-	display: none !important;
-}
-
 /* Bold username in conversation lists #4899 */
 :is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type='user'] {
 	font-weight: 600;

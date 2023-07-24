@@ -21,7 +21,7 @@ function buildQuery(issueIds: string[]): string {
 	return `
 		repository() {
 			${issueIds.map(id => `
-				${id}: pullRequest(number: ${id.replace(/\D/g, '')}) {
+				${id}: pullRequest(number: ${id.replaceAll(/\D/g, '')}) {
 					baseRef {id}
 					baseRefName
 				}
@@ -81,3 +81,11 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/sandbox/pulls?q=is%3Apr+is%3Aopen+pr+branch
+
+*/

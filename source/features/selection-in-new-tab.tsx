@@ -23,11 +23,18 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		() => select.exists('.js-navigation-open'),
-	],
 	shortcuts: {
 		'shift o': 'Open selection in new tab',
 	},
 	init: onetime(init),
 });
+
+/*
+
+Test URLs:
+
+https://github.com/notifications
+https://github.com/refined-github/refined-github
+https://github.com/refined-github/refined-github/issues
+
+*/

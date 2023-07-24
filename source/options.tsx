@@ -202,7 +202,7 @@ function toggleScreenshot(feature: Element): void {
 
 function featuresFilterHandler(event: Event): void {
 	const keywords = (event.currentTarget as HTMLInputElement).value.toLowerCase()
-		.replace(/\W/g, ' ')
+		.replaceAll(/\W/g, ' ')
 		.split(/\s+/)
 		.filter(Boolean); // Ignore empty strings
 	for (const feature of select.all('.feature')) {
