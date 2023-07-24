@@ -81,3 +81,11 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/sandbox/pulls?q=is%3Apr+is%3Aopen+pr+branch
+
+*/
