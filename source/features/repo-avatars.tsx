@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
