@@ -25,11 +25,6 @@
 	max-width: 780px; /* This is the limit applied on the comment thread by `.comment-holder` */
 }
 
-/* Hide trailing separator in PR/commit file diff dropdown #5159 */
-.js-file-header-dropdown .dropdown-menu > .dropdown-divider:last-child {
-	display: none !important;
-}
-
 /* Fix spacing of repo header button icons #5620 */
 .pagehead-actions :is(.btn, summary) .octicon:not(.octicon-triangle-down) {
 	margin-right: 4px !important;
