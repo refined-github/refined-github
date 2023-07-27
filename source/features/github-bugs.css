@@ -8,11 +8,6 @@
 	border-radius: 6px;
 }
 
-/* Add missing spacing for file template buttons #4899 */
-.js-template-suggestion:not(.d-none) {
-	margin-left: 8px;
-}
-
 #merge_title_field,
 #commit-summary-input, /* Restore monospace font in commit/merge title fields #5188 */
 :is(.new_public_key, .new_gpg_key) textarea { /* Monospace textareas for new SSH/GPG keys #4917 */
