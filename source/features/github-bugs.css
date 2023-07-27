@@ -97,12 +97,9 @@
 	margin-right: 4px;
 }
 
-/* Disable hover state on unclickable reaction buttons */
+/* Mute unclickable reaction buttons, disable hover */
 /* Test: https://github.com/refined-github/sandbox/pull/48 */
-.social-reaction-summary-item[disabled]:hover {
-	background-color: transparent;
-}
-
-.social-reaction-summary-item.user-has-reacted[disabled]:hover  {
-	background-color: var(--color-accent-subtle) !important;
+.social-reaction-summary-item[disabled] {
+	pointer-events: none;
+	filter: grayscale(0.5);
 }
