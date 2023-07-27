@@ -30,19 +30,6 @@
 	min-height: initial !important;
 }
 
-/* Hide elements that are stretching the whole viewport #6159 */
-@media (max-width: 920px) {
-	.Header-link[href='/marketplace'] {
-		display: none;
-	}
-}
-
-@media (max-width: 820px) {
-	.Header-link[href='/explore'] {
-		display: none;
-	}
-}
-
 /* Align icons in the release search field #6506 */
 /* Test: https://github.com/refined-github/refined-github/releases */
 [action$='/releases'] .subnav-search-icon {
