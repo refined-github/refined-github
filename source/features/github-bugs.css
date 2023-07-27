@@ -99,5 +99,9 @@
 
 /* Disable hover state on unclickable reaction buttons */
 .social-reaction-summary-item[disabled]:hover {
-	background: none;
+	background-color: transparent;
+}
+
+.social-reaction-summary-item.user-has-reacted[disabled]:hover  {
+	background-color: var(--color-accent-subtle) !important;
 }
