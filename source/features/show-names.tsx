@@ -73,7 +73,6 @@ const usernameLinksSelector = [
 		.js-discussion,
 		.inline-comments
 	) a.author:not(
-		[show_full_name="false"],
 		[href="#"],
 		[href*="/apps/"],
 		[href*="/marketplace/"],
