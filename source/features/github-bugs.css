@@ -98,6 +98,7 @@
 }
 
 /* Disable hover state on unclickable reaction buttons */
+/* Test: https://github.com/refined-github/sandbox/pull/48 */
 .social-reaction-summary-item[disabled]:hover {
 	background-color: transparent;
 }
