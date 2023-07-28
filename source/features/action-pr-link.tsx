@@ -22,8 +22,6 @@ async function addForPR(dropdown: HTMLDivElement): Promise<void> {
 	const {branch: prNumber} = new GitHubURL(location.href);
 	const actions = select.all('div.merge-status-item:has(a[href="/apps/github-actions"]) a.status-actions', dropdown)
 
-	// TODO: The actions is empty when ajax response is slow
-
 	for(const action of actions) {
 		setSearchParam(action, 'pr', prNumber);
 	}
@@ -34,7 +32,7 @@ async function initForRepositoryActionsPage(signal: AbortSignal): Promise<void> 
 }
 
 async function initForPRPage(signal: AbortSignal): Promise<void> {
-	observe('div.js-timeline-item details.commit-build-statuses > div.dropdown-menu', addForPR, {signal});
+	observe('div.js-timeline-item details.commit-build-statuses > div.dropdown-menu > div.branch-action-item', addForPR, {signal});
 }
 
 void features.add(import.meta.url, {
