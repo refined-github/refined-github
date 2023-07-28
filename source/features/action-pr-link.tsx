@@ -1,12 +1,10 @@
 import * as pageDetect from 'github-url-detection';
 
-import select from 'select-dom';
-
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import GitHubURL from '../github-helpers/github-url.js';
 
-function setSearchParameter(anchorElement: HTMLAnchorElement, name: string, value: string): voide {
+function setSearchParameter(anchorElement: HTMLAnchorElement, name: string, value: string): void {
 	const parameters = new URLSearchParams(anchorElement.search);
 	parameters.set(name, value);
 	anchorElement.search = String(parameters);
