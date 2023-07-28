@@ -6,7 +6,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import GitHubURL from '../github-helpers/github-url.js';
 
-function setSearchParameter(anchorElement: HTMLAnchorElement, name: string, value: string): void {
+function setSearchParameter(anchorElement: HTMLAnchorElement, name: string, value: string): voide {
 	const parameters = new URLSearchParams(anchorElement.search);
 	parameters.set(name, value);
 	anchorElement.search = String(parameters);
@@ -19,13 +19,9 @@ async function addForRepositoryActions(prLink: HTMLAnchorElement): Promise<void>
 	setSearchParameter(runLink, 'pr', prNumber);
 }
 
-async function addForPR(dropdown: HTMLDivElement): Promise<void> {
+async function addForPR(actionLink: HTMLAnchorElement): Promise<void> {
 	const {branch: prNumber} = new GitHubURL(location.href);
-	const actions = select.all('div.merge-status-item:has(a[href="/apps/github-actions"]) a.status-actions', dropdown);
-
-	for (const action of actions) {
-		setSearchParameter(action, 'pr', prNumber);
-	}
+	setSearchParameter(actionLink, 'pr', prNumber);
 }
 
 async function initForRepositoryActionsPage(signal: AbortSignal): Promise<void> {
@@ -33,7 +29,7 @@ async function initForRepositoryActionsPage(signal: AbortSignal): Promise<void> 
 }
 
 async function initForPRPage(signal: AbortSignal): Promise<void> {
-	observe('div.js-timeline-item details.commit-build-statuses > div.dropdown-menu > div.branch-action-item', addForPR, {signal});
+	observe('div.js-timeline-item details.commit-build-statuses div.merge-status-item:has(a[href="/apps/github-actions"]) a.status-actions', addForPR, {signal});
 }
 
 void features.add(import.meta.url, {
