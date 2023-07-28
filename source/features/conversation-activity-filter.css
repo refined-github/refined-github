@@ -1,9 +1,8 @@
 .rgh-conversation-activity-is-filtered .rgh-conversation-activity-filtered,
 .rgh-conversation-activity-is-collapsed-filtered :is(
 	.rgh-conversation-activity-collapsed,
-	.js-resolvable-timeline-thread-container[data-resolved='true'], /* Resolved review thread */
-	.js-resolvable-timeline-thread-container[data-resolved='false'] .minimized-comment, /* Minimized review thread comment */
-),
+	.js-resolvable-timeline-thread-container[data-resolved='true'],
+	.js-resolvable-timeline-thread-container[data-resolved='false'] .minimized-comment,),
 .rgh-conversation-activity-is-filtered .rgh-conversation-activity-filter-dropdown .octicon-eye,
 .js-issues-results:not(.rgh-conversation-activity-is-filtered) .rgh-conversation-activity-filter-dropdown .octicon-eye-closed {
 	display: none !important;

@@ -1,29 +1,30 @@
 import * as pageDetect from 'github-url-detection';
 
+import select from 'select-dom';
+
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import select from "select-dom";
-import GitHubURL from "../github-helpers/github-url.js";
+import GitHubURL from '../github-helpers/github-url.js';
 
-function setSearchParam(anchorElement: HTMLAnchorElement, name: string, value: string) {
-	const params = new URLSearchParams(anchorElement.search);
-	params.set(name, value)
-	anchorElement.search = String(params)
+function setSearchParameter(anchorElement: HTMLAnchorElement, name: string, value: string): void {
+	const parameters = new URLSearchParams(anchorElement.search);
+	parameters.set(name, value);
+	anchorElement.search = String(parameters);
 }
 
 async function addForRepositoryActions(prLink: HTMLAnchorElement): Promise<void> {
 	const prNumber = prLink.textContent!.slice(1);
 
 	const runLink = prLink.closest('.Box-row')!.querySelector('a.Link--primary')!;
-	setSearchParam(runLink, 'pr', prNumber)
+	setSearchParameter(runLink, 'pr', prNumber);
 }
 
 async function addForPR(dropdown: HTMLDivElement): Promise<void> {
 	const {branch: prNumber} = new GitHubURL(location.href);
-	const actions = select.all('div.merge-status-item:has(a[href="/apps/github-actions"]) a.status-actions', dropdown)
+	const actions = select.all('div.merge-status-item:has(a[href="/apps/github-actions"]) a.status-actions', dropdown);
 
-	for(const action of actions) {
-		setSearchParam(action, 'pr', prNumber);
+	for (const action of actions) {
+		setSearchParameter(action, 'pr', prNumber);
 	}
 }
 
@@ -44,7 +45,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPR,
 	],
-	init: initForPRPage
+	init: initForPRPage,
 });
 
 /*
