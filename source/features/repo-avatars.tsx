@@ -1,14 +1,12 @@
 import React from 'dom-chef';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {getRepo} from '../github-helpers/index.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';
+import observe from '../helpers/selector-observer.js';
 
-async function init(): Promise<void> {
-	// There are many such "label" elements
-	const location = await elementReady('.AppHeader-context-full .AppHeader-context-item-label');
+async function add(ownerLabel: HTMLElement): Promise<void> {
 	const username = getRepo()!.owner;
 	const size = 16;
 	const src = getUserAvatar(username, size)!;
@@ -23,19 +21,22 @@ async function init(): Promise<void> {
 		/>
 	);
 
-	location!.classList.add('d-flex', 'flex-items-center');
-	location!.prepend(avatar);
+	ownerLabel.classList.add('d-flex', 'flex-items-center');
+	ownerLabel.prepend(avatar);
 
-	if (!location!.closest('[data-hovercard-type="organization"]')) {
+	if (!ownerLabel.closest('[data-hovercard-type="organization"]')) {
 		avatar.classList.add('avatar-user');
 	}
+}
+
+function init(signal: AbortSignal): void {
+	observe('.AppHeader-context-full li:first-child .AppHeader-context-item-label', add, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
 	],
-	deduplicate: 'has-rgh',
 	init,
 });
 
