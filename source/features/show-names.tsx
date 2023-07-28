@@ -68,7 +68,7 @@ const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnc
 
 const usernameLinksSelector = [
 	// `a` selector needed to skip commits by non-GitHub users
-	// # and `show_full_name` target mannequins #6504
+	// # targets mannequins #6504
 	`:is(
 		.js-discussion,
 		.inline-comments
@@ -97,3 +97,14 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+- issue: https://github.com/isaacs/github/issues/297
+- pr with reviews: https://github.com/rust-lang/rfcs/pull/2544
+- mannequins: https://togithub.com/python/cpython/issues/67591
+- newsfeed: https://github.com
+
+*/
