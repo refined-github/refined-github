@@ -55,4 +55,6 @@ void features.add(import.meta.url, {
 
 https://github.com/refined-github/refined-github/actions
 
+https://github.com/refined-github/refined-github/pull/6794
+
 */
