@@ -296,7 +296,7 @@ Thanks for contributing! 🦋🙌
 
 ### Commits
 
-- [](# "patch-diff-links") [Adds links to `.patch` and `.diff` files in commits.](https://cloud.githubusercontent.com/assets/737065/13605562/22faa79e-e516-11e5-80db-2da6aa7965ac.png)
+- [](# "patch-diff-links") [Adds links to `.patch` and `.diff` files in commits.](https://github.com/refined-github/refined-github/assets/140871606/51712338-ffba-4b71-ad8f-9a0f142afb85)
 - [](# "more-file-links") [Adds links to view the raw version, the blame, and the history of files in PRs and commits.](https://user-images.githubusercontent.com/46634000/145016304-aec5a8b8-4cdb-48e6-936f-b214a3fb4b49.png)
 - [](# "one-click-diff-options") [Adds one-click buttons to change diff style and to ignore the whitespace and a keyboard shortcut to ignore the whitespace: <kbd>d</kbd> <kbd>w</kbd>.](https://user-images.githubusercontent.com/46634000/156766044-18c9ff50-aead-4c40-ba16-7428b3742b6c.png)
 - [](# "extend-diff-expander") [Widens the `Expand diff` button to be clickable across the screen.](https://user-images.githubusercontent.com/1402241/152118201-f25034c7-6fae-4be0-bb3f-c217647e32b7.gif)
