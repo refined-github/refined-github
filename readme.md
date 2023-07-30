@@ -327,7 +327,7 @@ Thanks for contributing! 🦋🙌
 
 ### Profiles
 
-- [](# "user-profile-follower-badge") [On profiles, it shows whether the user follows you.](https://user-images.githubusercontent.com/3723666/45190460-03ecc380-b20c-11e8-832b-839959ee2c99.gif)
+- [](# "user-profile-follower-badge") [On profiles, it shows whether the user follows you.](https://github.com/refined-github/refined-github/assets/140871606/63f2bd32-60e9-4855-86cb-dca5c19b6828)
 - [](# "profile-gists-link") [Adds a link to the user’s public gists on their profile.](https://user-images.githubusercontent.com/44045911/87950518-f7a94100-cad9-11ea-8393-609fad70635c.png)
 - [](# "mark-private-orgs") [Marks private organizations on your own profile.](https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png)
 - [](# "profile-hotkey") Adds a keyboard shortcut to visit your own profile: <kbd>g</kbd> <kbd>m</kbd>.
