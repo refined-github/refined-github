@@ -319,7 +319,7 @@ Thanks for contributing! 🦋🙌
 - [](# "releases-tab") [Adds a `Releases` tab and a keyboard shortcut: <kbd>g</kbd> <kbd>r</kbd>.](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png)
 - [](# "releases-dropdown") [Adds a tags dropdown/search on tag/release pages.](https://user-images.githubusercontent.com/1402241/231678527-f0a96112-9c30-4b49-8205-efa472bd880e.png)
 - [](# "create-release-shortcut") Adds a keyboard shortcut to create a new release while on the Releases page: <kbd>c</kbd>.
-- [](# "tag-changes-link") 🔥 [Adds a link to changes since last tag/release for each tag/release.](https://user-images.githubusercontent.com/1402241/57081611-ad4a7180-6d27-11e9-9cb6-c54ec1ac18bb.png)
+- [](# "tag-changes-link") 🔥 [Adds a link to changes since last tag/release for each tag/release.](https://github.com/refined-github/refined-github/assets/140871606/bebafb94-cb94-4053-9768-ff97306ab862)
 - [](# "convert-release-to-draft") [Adds a button to convert a release to draft.](https://user-images.githubusercontent.com/46634000/139236979-44533bfd-5c17-457d-bdc1-f9ec395f6a3a.png)
 - [](# "link-to-changelog-file") [Adds a button to view the changelog file from the releases page.](https://user-images.githubusercontent.com/46634000/139236982-a1bce2a2-f3aa-40a9-bca4-8756bc941210.png)
 
