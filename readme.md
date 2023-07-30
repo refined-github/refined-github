@@ -333,7 +333,7 @@ Thanks for contributing! 🦋🙌
 - [](# "profile-hotkey") Adds a keyboard shortcut to visit your own profile: <kbd>g</kbd> <kbd>m</kbd>.
 - [](# "show-user-top-repositories") [Adds a link to the user’s most starred repositories.](https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)
 - [](# "hide-user-forks") [Hides forks and archived repos from profiles (but they can still be shown).](https://github.com/refined-github/refined-github/assets/140871606/5707d20e-73b6-4908-9d22-0f6a127aabaa)
-- [](# "linkify-user-location") [Linkifies the user location in their hovercard and profile page.](https://user-images.githubusercontent.com/1402241/69076885-00d3a100-0a67-11ea-952a-690acec0826f.png)
+- [](# "linkify-user-location") [Linkifies the user location in their hovercard and profile page.](https://github.com/refined-github/refined-github/assets/140871606/0a815df5-9cd0-45a7-b1ae-c27080d234a7)
 - [](# "user-local-time") [Shows the user local time in their hovercard (based on their last commit).](https://user-images.githubusercontent.com/1402241/69863648-ef449180-12cf-11ea-8f36-7c92fc487f31.gif)
 - [](# "conversation-links-on-repo-lists") [Adds a link to the issues and pulls on the user profile repository tab and global search.](https://user-images.githubusercontent.com/16872793/78712349-82c54900-78e6-11ea-8328-3c2d39a78862.png)
 
