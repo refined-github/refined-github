@@ -349,7 +349,7 @@ Thanks for contributing! 🦋🙌
 
 ### Notifications
 
-- [](# "open-all-notifications") [Adds a button to open all your unread notifications at once.](https://user-images.githubusercontent.com/1402241/80861295-fbad8b80-8c6d-11ea-87a4-8025fbc3a3f4.png)
+- [](# "open-all-notifications") [Adds a button to open all your unread notifications at once.](https://github.com/refined-github/refined-github/assets/140871606/17e5c6fa-6bad-443d-96d2-d97e73cd1a5e)
 - [](# "select-all-notifications-shortcut") Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
 - [](# "linkify-notification-repository-header") [Linkifies the header of each notification group (when grouped by repository).](https://user-images.githubusercontent.com/1402241/80849887-81531c00-8c19-11ea-8777-7294ce318630.png)
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
