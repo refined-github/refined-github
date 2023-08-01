@@ -18,13 +18,7 @@ async function addForRepositoryActions(prLink: HTMLAnchorElement): Promise<void>
 }
 
 async function addForPR(actionLink: HTMLAnchorElement): Promise<void> {
-	const prNumber = getConversationNumber()?.toString();
-
-	if (prNumber === undefined) {
-		return;
-	}
-
-	setSearchParameter(actionLink, 'pr', prNumber);
+	setSearchParameter(actionLink, 'pr', String(getConversationNumber()));
 }
 
 async function initForRepositoryActionsPage(signal: AbortSignal): Promise<void> {
