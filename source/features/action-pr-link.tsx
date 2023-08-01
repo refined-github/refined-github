@@ -2,7 +2,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import GitHubURL from '../github-helpers/github-url.js';
+import {getConversationNumber} from '../github-helpers/index.js';
 
 function setSearchParameter(anchorElement: HTMLAnchorElement, name: string, value: string): void {
 	const parameters = new URLSearchParams(anchorElement.search);
@@ -18,8 +18,12 @@ async function addForRepositoryActions(prLink: HTMLAnchorElement): Promise<void>
 }
 
 async function addForPR(actionLink: HTMLAnchorElement): Promise<void> {
-	console.log('Adding');
-	const {branch: prNumber} = new GitHubURL(location.href);
+	const prNumber = getConversationNumber()?.toString();
+
+	if (prNumber === undefined) {
+		return;
+	}
+
 	setSearchParameter(actionLink, 'pr', prNumber);
 }
 
