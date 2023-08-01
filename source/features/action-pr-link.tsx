@@ -18,6 +18,7 @@ async function addForRepositoryActions(prLink: HTMLAnchorElement): Promise<void>
 }
 
 async function addForPR(actionLink: HTMLAnchorElement): Promise<void> {
+	console.log('Adding');
 	const {branch: prNumber} = new GitHubURL(location.href);
 	setSearchParameter(actionLink, 'pr', prNumber);
 }
@@ -27,7 +28,7 @@ async function initForRepositoryActionsPage(signal: AbortSignal): Promise<void> 
 }
 
 async function initForPRPage(signal: AbortSignal): Promise<void> {
-	observe('div.js-timeline-item details.commit-build-statuses div.merge-status-item:has(a[href="/apps/github-actions"]) a.status-actions', addForPR, {signal});
+	observe(':not(span.rgh-ci-link) > details.commit-build-statuses div.merge-status-item:has(a[href="/apps/github-actions"]) a.status-actions', addForPR, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -49,5 +50,7 @@ void features.add(import.meta.url, {
 https://github.com/refined-github/refined-github/actions
 
 https://github.com/refined-github/refined-github/pull/6794
+
+https://github.com/refined-github/refined-github/pull/6797/commits
 
 */
