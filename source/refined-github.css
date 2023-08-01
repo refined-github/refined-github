@@ -36,11 +36,6 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 	display: contents !important;
 }
 
-/* Hide empty description of repo */
-.repository-meta.mb-3 > .repository-meta-content > em {
-	display: none !important;
-}
-
 /* Smoothen mouse animation on 404 pages */
 .js-plaxify {
 	transition: transform 0.1s;
@@ -48,16 +43,6 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 
 [alt='404 “This is not the web page you are looking for”'] {
 	animation: fade-in 2s ease-out;
-}
-
-/* Remove "Seeing something unexpected?" from user profiles */
-#js-contribution-activity .js-show-more-timeline-form > p {
-	display: none;
-}
-
-/* Remove the 'Review Summary' header from the form */
-.pull-request-review-menu label[for='pull_request_review_body'] {
-	display: none !important;
 }
 
 /* Lighten deletions in Markdown */
@@ -72,13 +57,8 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 }
 
 /* Remove the "New repository" button in the dashboard sidebar */
-.dashboard-sidebar a.btn[href$='/new'] {
+.dashboard-sidebar a.Button[href='/new'] {
 	display: none;
-}
-
-.dashboard-sidebar .Box-title {
-	padding-top: 4px !important;
-	padding-bottom: 4px !important;
 }
 
 /* Expand empty diffs in PRs */

@@ -23,7 +23,7 @@ const filters = {
 	'Pull requests': ':is(.octicon-git-pull-request, .octicon-git-pull-request-closed, .octicon-git-pull-request-draft, .octicon-git-merge)',
 	Issues: ':is(.octicon-issue-opened, .octicon-issue-closed)',
 	Open: ':is(.octicon-issue-opened, .octicon-git-pull-request)',
-	Closed: ':is(.octicon-issue-closed, .octicon-git-pull-request-closed)',
+	Closed: ':is(.octicon-issue-closed, .octicon-git-pull-request-closed, .octicon-skip)',
 	Draft: '.octicon-git-pull-request-draft',
 	Merged: '.octicon-git-merge',
 	Read: '.notification-read',
