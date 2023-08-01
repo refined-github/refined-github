@@ -26,7 +26,8 @@ async function initForRepositoryActionsPage(signal: AbortSignal): Promise<void> 
 }
 
 async function initForPRPage(signal: AbortSignal): Promise<void> {
-	observe(':not(span.rgh-ci-link) > details.commit-build-statuses div.merge-status-item:has(a[href="/apps/github-actions"]) a.status-actions', addForPR, {signal});
+	// Exclude rgh-link, include isPRCommits
+	observe('main [href="/apps/github-actions"] ~ div a.status-actions', addForPR, {signal});
 }
 
 void features.add(import.meta.url, {
