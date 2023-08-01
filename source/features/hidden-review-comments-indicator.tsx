@@ -74,3 +74,10 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+Test URLs:
+
+https://github.com/refined-github/sandbox/pull/18/files
+
+*/

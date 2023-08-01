@@ -26,3 +26,11 @@ void features.add(import.meta.url, {
 	awaitDomReady: true,
 	init,
 });
+
+/*
+Test URLs:
+
+Condensed commit: https://github.com/refined-github/refined-github/pull/4448/commits/0b8966c918eae11da9fc992368741757088edf08
+Regular commit: https://github.com/refined-github/refined-github/pull/5113/commits/5b7282afc40b013f5928271fb6740cf70b4e4295
+
+*/

@@ -33,3 +33,11 @@ function init(): void {
 void features.add(import.meta.url, {
 	init: onetime(init),
 });
+
+/*
+Test URLs:
+
+Commits: https://github.com/refined-github/refined-github/commits/main
+isRepoSearch: https://github.com/search?q=repo%3Arefined-github%2Frefined-github+latest+reliable+button+is%3Aissue&type=Issues
+
+*/
