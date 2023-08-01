@@ -127,7 +127,6 @@ void features.add(import.meta.url, {
 	shortcuts,
 	include: [
 		pageDetect.isPRFiles,
-		pageDetect.isPRCommit,
 	],
 	exclude: [
 		pageDetect.isPRFile404,
