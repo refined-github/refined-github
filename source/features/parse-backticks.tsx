@@ -19,7 +19,7 @@ const selectors = [
 	'.js-wiki-sidebar-toggle-display a', // `isWiki` sidebar pages title
 	'#wiki-wrapper .gh-header-title', // `isWiki` page title
 	'.issues_labeled .color-fg-default > a', // `isDashboard` "help wanted" event titles
-	'#user-repositories-list [itemprop="description"]', // `isUserProfileRepoTab` repository description
+	'#user-repositories-list [itemprop="description"]', // `isProfileRepoList` repository description
 	'.js-hovercard-content > .Popover-message .Link--primary', // Hovercard
 	'.js-discussions-title-container h1 > .js-issue-title', // `isDiscussion`
 	'a[data-hovercard-type="discussion"]', // `isDiscussionList`

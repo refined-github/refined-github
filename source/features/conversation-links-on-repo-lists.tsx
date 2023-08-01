@@ -34,7 +34,7 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 }
 
 const selectors = [
-	'a[itemprop="name codeRepository"]', // `isUserProfileRepoTab`
+	'a[itemprop="name codeRepository"]', // `isProfileRepoList`
 	'.repo-list-item .f4 a', // `isGlobalSearchResults`
 ] as const;
 function init(signal: AbortSignal): void {
@@ -43,7 +43,7 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isUserProfileRepoTab,
+		pageDetect.isProfileRepoList,
 		() => pageDetect.isGlobalSearchResults() && new URLSearchParams(location.search).get('type') === 'repositories',
 	],
 	init,
@@ -52,7 +52,7 @@ void features.add(import.meta.url, {
 /*
 Test URLs
 
-isUserProfileRepoTab:
+isProfileRepoList:
 https://github.com/fregante?tab=repositories
 
 isGlobalSearchResults:
