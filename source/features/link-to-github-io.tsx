@@ -42,7 +42,7 @@ void features.add(import.meta.url, {
 		() => /\.github\.(io|com)$/.test(getRepo()?.name ?? 'shush eslint'),
 	],
 	include: [
-		pageDetect.hasRepoHeader,
+		pageDetect.isRepoHome,
 	],
 	init: initRepo,
 }, {
@@ -52,3 +52,13 @@ void features.add(import.meta.url, {
 	],
 	init: initRepoList,
 });
+
+/*
+
+Test URLs:
+
+- Repo: https://github.com/yashshah1/yashshah1.github.io
+- List, user: https://github.com/yashshah1?tab=repositories&q=GitHub.io&type=source
+- List, org: https://github.com/Qv2ray?q=GitHub.io
+
+*/
