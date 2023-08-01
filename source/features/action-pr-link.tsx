@@ -50,6 +50,6 @@ https://github.com/refined-github/refined-github/actions
 
 https://github.com/refined-github/refined-github/pull/6794
 
-https://github.com/refined-github/refined-github/pull/6797/commits
+https://github.com/refined-github/refined-github/pull/6794/commits
 
 */
