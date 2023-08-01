@@ -44,3 +44,10 @@
 .Box-row :is(.octicon-package, .octicon-file-zip):has(+ a[rel='nofollow']) {
 	margin-right: 4px;
 }
+
+/* Mute unclickable reaction buttons, disable hover */
+/* Test: https://github.com/refined-github/sandbox/pull/48 */
+.social-reaction-summary-item[disabled] {
+	pointer-events: none;
+	filter: grayscale(0.5);
+}
