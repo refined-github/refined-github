@@ -20,7 +20,7 @@ function init(): false | void {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isPRFiles,
+		pageDetect.isPRCommit,
 	],
 	deduplicate: 'has-rgh-inner',
 	awaitDomReady: true,
