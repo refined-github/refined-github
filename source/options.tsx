@@ -21,7 +21,6 @@ import {perDomainOptions} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {state as bisectState} from './helpers/bisect.js';
-import {frame} from './helpers/dom-utils.js';
 
 type Status = {
 	error?: true;
@@ -109,7 +108,9 @@ async function validateToken(): Promise<void> {
 	}
 
 	if (!tokenField.validity.valid || tokenField.value.length === 0) {
-		expandTokenSection();
+	// The Chrome options iframe auto-sizer causes the "scrollIntoView" function to scroll incorrectly unless you wait a bit
+	// https://github.com/refined-github/refined-github/issues/6807
+		setTimeout(expandTokenSection, 100);
 		return;
 	}
 
@@ -211,12 +212,7 @@ function featuresFilterHandler(event: Event): void {
 	}
 }
 
-async function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): Promise<void> {
-	// The Chrome options iframe auto-sizer causes the "scrollIntoView" function to scroll incorrectly unless you wait a bit
-	// https://github.com/refined-github/refined-github/issues/6807
-	await frame();
-	await frame();
-
+function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
 	// @ts-expect-error No Firefox support https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
 	(section.scrollIntoViewIfNeeded ?? section.scrollIntoView).call(section);
 	if (section.open) {
