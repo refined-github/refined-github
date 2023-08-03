@@ -108,7 +108,9 @@ async function validateToken(): Promise<void> {
 	}
 
 	if (!tokenField.validity.valid || tokenField.value.length === 0) {
-		expandTokenSection();
+	// The Chrome options iframe auto-sizer causes the "scrollIntoView" function to scroll incorrectly unless you wait a bit
+	// https://github.com/refined-github/refined-github/issues/6807
+		setTimeout(expandTokenSection, 100);
 		return;
 	}
 
