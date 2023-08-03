@@ -47,7 +47,7 @@ void features.add(import.meta.url, {
 	init: initRepo,
 }, {
 	include: [
-		pageDetect.isUserProfileRepoTab,
+		pageDetect.isProfileRepoList,
 		pageDetect.isOrganizationProfile,
 	],
 	init: initRepoList,

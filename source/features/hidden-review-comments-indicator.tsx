@@ -71,7 +71,13 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
-		pageDetect.isPRCommit,
 	],
 	init,
 });
+
+/*
+Test URLs:
+
+https://github.com/refined-github/sandbox/pull/18/files
+
+*/

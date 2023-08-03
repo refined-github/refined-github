@@ -21,7 +21,6 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
-		pageDetect.isPRCommit,
 	],
 	exclude: [
 		// Editing files doesn't make sense after a PR is closed/merged
