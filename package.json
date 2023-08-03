@@ -5,7 +5,7 @@
 		"vitest": "vitest --run",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
-		"build:webpack": "cross-env NODE_OPTIONS=\"--loader tsx\" webpack --mode=production",
+		"build:webpack": "cross-env NODE_OPTIONS=\"--loader tsx --no-warnings=ExperimentalWarning\" webpack --mode=production",
 		"fix": "run-p \"lint:* -- --fix\"",
 		"lint": "run-p lint:* --continue-on-error",
 		"lint:css": "stylelint \"source/**/*.css\"",
@@ -16,7 +16,7 @@
 		"test:features": "tsx build/verify-features.ts",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
-		"watch:webpack": "cross-env NODE_OPTIONS=\"--loader tsx\" webpack --mode=development --watch"
+		"watch:webpack": "cross-env NODE_OPTIONS=\"--loader tsx --no-warnings=ExperimentalWarning \" webpack --mode=development --watch"
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo",
