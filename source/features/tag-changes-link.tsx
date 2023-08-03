@@ -24,7 +24,7 @@ async function getNextPage(): Promise<DocumentFragment> {
 		return fetchDom(nextPageLink.href);
 	}
 
-	if (pageDetect.isSingleTag()) {
+	if (pageDetect.isSingleReleaseOrTag()) {
 		const [, tag = ''] = getRepo()!.path.split('releases/tag/', 2); // Already URL-encoded
 		return fetchDom(buildRepoURL(`tags?after=${tag}`));
 	}
@@ -114,7 +114,7 @@ async function init(): Promise<void> {
 			);
 
 			// The page of a tag without a release still uses the old layout #5037
-			if (pageDetect.isEnterprise() || pageDetect.isTags() || (pageDetect.isSingleTag() && select.exists('.release'))) {
+			if (pageDetect.isEnterprise() || pageDetect.isTags() || (pageDetect.isSingleReleaseOrTag() && select.exists('.release'))) {
 				lastLink.after(
 					<li className={lastLink.className + ' rgh-changelog-link'}>
 						{compareLink}

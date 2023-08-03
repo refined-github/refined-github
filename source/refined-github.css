@@ -28,15 +28,12 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 */
 .js-check-all-container .js-bulk-action-toasts ~ div .Box-header {
 	flex-wrap: wrap;
+	height: auto !important; /* Unset the default height to allow wrapping */
+	min-height: 52px; /* Re-set the default height as a minimum height */
 }
 
 :is(.js-notifications-mark-selected-actions, .js-notifications-mark-all-actions):not([hidden]) {
 	display: contents !important;
-}
-
-/* Hide empty description of repo */
-.repository-meta.mb-3 > .repository-meta-content > em {
-	display: none !important;
 }
 
 /* Smoothen mouse animation on 404 pages */
@@ -46,16 +43,6 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 
 [alt='404 “This is not the web page you are looking for”'] {
 	animation: fade-in 2s ease-out;
-}
-
-/* Remove "Seeing something unexpected?" from user profiles */
-#js-contribution-activity .js-show-more-timeline-form > p {
-	display: none;
-}
-
-/* Remove the 'Review Summary' header from the form */
-.pull-request-review-menu label[for='pull_request_review_body'] {
-	display: none !important;
 }
 
 /* Lighten deletions in Markdown */
@@ -70,13 +57,8 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 }
 
 /* Remove the "New repository" button in the dashboard sidebar */
-.dashboard-sidebar a.btn[href$='/new'] {
+.dashboard-sidebar a.Button[href='/new'] {
 	display: none;
-}
-
-.dashboard-sidebar .Box-title {
-	padding-top: 4px !important;
-	padding-bottom: 4px !important;
 }
 
 /* Expand empty diffs in PRs */
@@ -149,11 +131,6 @@ pr-branches
 /* Ensure all buttons in the repo file navigation header are aligned in the center rather than to the top */
 .file-navigation.flex-items-start {
 	align-items: center !important;
-}
-
-/* Hide "Pin"/"Unpin" button in header of personal repos https://github.com/refined-github/refined-github/issues/5398#issuecomment-1036112206 */
-.pagehead-actions [data-test-selector='pin-repo-button'] {
-	display: none !important;
 }
 
 /* Bold username in conversation lists #4899 */

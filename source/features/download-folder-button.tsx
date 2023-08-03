@@ -45,7 +45,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoTree,
 	],
 	exclude: [
-		pageDetect.isRepoRoot, // Already has an native download ZIP button
+		pageDetect.isRepoHome, // Already has an native download ZIP button
 		pageDetect.isEnterprise,
 	],
 	init,

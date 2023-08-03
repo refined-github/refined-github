@@ -67,7 +67,15 @@ async function init(signal: AbortSignal): Promise<void | false> {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isSingleTag,
+		pageDetect.isSingleReleaseOrTag,
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/releases/tag/23.7.25
+
+*/

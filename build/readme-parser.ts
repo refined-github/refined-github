@@ -33,7 +33,7 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 		return title;
 	}
 
-	const linkLessMarkdownDescription = simpleDescription.replace(/\[(.+?)]\((.+?)\)/g, urlExtracter);
+	const linkLessMarkdownDescription = simpleDescription.replaceAll(/\[(.+?)]\((.+?)\)/g, urlExtracter);
 	return {
 		id: simpleId as FeatureID,
 		description: parseMarkdown(linkLessMarkdownDescription),

@@ -92,7 +92,7 @@ void features.add(import.meta.url, {
 		pageDetect.isReleasesOrTags,
 	],
 	exclude: [
-		pageDetect.isSingleTag,
+		pageDetect.isSingleReleaseOrTag,
 	],
 	deduplicate: 'has-rgh-inner',
 	init,

@@ -46,7 +46,7 @@ export function parseTag(tag: string): {version: string; namespace: string} {
 }
 
 export function compareNames(username: string, realname: string): boolean {
-	return username.replace(/-/g, '').toLowerCase() === realname.normalize('NFD').replace(/[\u0300-\u036F\W.]/g, '').toLowerCase();
+	return username.replaceAll('-', '').toLowerCase() === realname.normalize('NFD').replaceAll(/[\u0300-\u036F\W.]/g, '').toLowerCase();
 }
 
 const validVersion = /^[vr]?\d+(?:\.\d+)+/;

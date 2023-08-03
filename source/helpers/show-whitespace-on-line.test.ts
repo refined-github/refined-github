@@ -14,12 +14,12 @@ function serializeDOM(element: Element): string {
 	for (const replacement of element.querySelectorAll('[data-rgh-whitespace]')) {
 		switch (replacement.getAttribute('data-rgh-whitespace')) {
 			case 'space': {
-				replacement.replaceWith(replacement.innerHTML.replace(/ /g, '•'));
+				replacement.replaceWith(replacement.innerHTML.replaceAll(' ', '•'));
 				break;
 			}
 
 			case 'tab': {
-				replacement.replaceWith(replacement.innerHTML.replace(/\t/g, '⟶'));
+				replacement.replaceWith(replacement.innerHTML.replaceAll('\t', '⟶'));
 				break;
 			}
 

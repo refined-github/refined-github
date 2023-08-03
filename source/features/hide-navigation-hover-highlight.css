@@ -1,5 +1,11 @@
-.rgh-no-navigation-highlight .list-group-item.navigation-focus, /* Notifications list */
-.rgh-no-navigation-highlight .Box-row.navigation-focus, /* Issue list */
-.rgh-no-navigation-highlight .navigation-focus td { /* File list */
+[rgh-no-navigation-highlight] .Box-row.navigation-focus, /* Issue list */
+[rgh-no-navigation-highlight] .react-directory-row:hover, /* React file list */
+[rgh-no-navigation-highlight] .navigation-focus td { /* File list */
 	background: none !important;
+}
+
+/* Notifications list */
+[rgh-no-navigation-highlight] .notifications-list-item:hover {
+	background: none !important;
+	box-shadow: none !important;
 }

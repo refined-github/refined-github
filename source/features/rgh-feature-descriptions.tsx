@@ -1,12 +1,10 @@
 import './rgh-feature-descriptions.css';
 import React from 'dom-chef';
-import * as pageDetect from 'github-url-detection';
 import {AlertIcon, CopyIcon, InfoIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
 import {featuresMeta} from '../../readme.md';
 import optionsStorage, {getNewFeatureName, isFeatureDisabled} from '../options-storage.js';
-import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {brokenFeatures} from '../helpers/hotfix.js';
 import {createRghIssueLink} from '../helpers/rgh-issue-link.js';
@@ -140,12 +138,12 @@ function init(signal: AbortSignal): void {
 	observe('#repos-sticky-header', add, {signal});
 }
 
+// eslint-disable-next-line unicorn/better-regex -- No "\/"
+const featureUrlRegex = /^([/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](tsx|css)$/;
+
 void features.add(import.meta.url, {
-	asLongAs: [
-		isRefinedGitHubRepo,
-	],
 	include: [
-		pageDetect.isSingleFile,
+		() => featureUrlRegex.test(location.pathname),
 	],
 	init,
 });

@@ -7,5 +7,5 @@ export default function looseParseInt(text: Node | string | undefined): number {
 		text = text.textContent!;
 	}
 
-	return Number(text.replace(/\D+/g, ''));
+	return Number(text.replaceAll(/\D+/g, ''));
 }

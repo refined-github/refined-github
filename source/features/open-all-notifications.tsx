@@ -24,10 +24,9 @@ function getUnreadNotifications(container: ParentNode = document): HTMLElement[]
 }
 
 async function openNotifications(notifications: Element[], markAsDone = false): Promise<void> {
-	const urls: string[] = [];
-	for (const notification of notifications) {
-		urls.push(notification.querySelector('a')!.href);
-	}
+	const urls = notifications
+		.reverse() // Open oldest first #6755
+		.map(notification => notification.querySelector('a')!.href);
 
 	const openingTabs = openTabs(urls);
 	if (!await openingTabs) {
