@@ -19,7 +19,7 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 				banner.remove();
 				newCommentBox.hidden = false;
 			}}
-		>leave a comment
+		>comment
 		</button>
 	);
 	const banner = (
@@ -27,7 +27,7 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 			{createBanner({
 				classes: ['rgh-bg-none'],
 				icon: <InfoIcon className="mr-1"/>,
-				text: <>{getNoticeText()} If it must really be here, you can {button}.</>,
+				text: <>{getNoticeText()} If you want to say something helpful, you can leave a {button}. <strong>Do not</strong> report issues here.</>,
 			})}
 		</TimelineItem>
 	);
