@@ -13,7 +13,7 @@ import observe from '../helpers/selector-observer.js';
 
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
-	return '@' + userMention.replace('@', '');
+	return '@' + userMention.replace('@', '').replace(/\[bot]$/, '');
 }
 
 function mentionUser({delegateTarget: button}: DelegateEvent): void {
