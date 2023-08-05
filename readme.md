@@ -358,7 +358,7 @@ Thanks for contributing! 🦋🙌
 - [](# "close-out-of-view-modals") [Automatically closes dropdown menus when they’re no longer visible.](https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif)
 - [](# "parse-backticks") [Renders `` `text in backticks` `` in issue titles, commit titles, and more places.](https://github.com/refined-github/refined-github/assets/140871606/f3064ad1-e344-4ce0-a084-7e59fde5dd36)
 - [](# "pagination-hotkey") Adds shortcuts to navigate through pages with pagination: <kbd>←</kbd> and <kbd>→</kbd>.
-- [](# "action-used-by-link") [Lets you see how others are using the current Action in the Marketplace.](https://user-images.githubusercontent.com/8360597/80250140-86d9c080-8673-11ea-9d28-f62faf9fd3d4.png)
+- [](# "action-used-by-link") [Lets you see how others are using the current Action in the Marketplace.](https://github.com/refined-github/refined-github/assets/83146190/7d2cd013-c167-4fe5-9731-33622b8607e9)
 - [](# "improve-shortcut-help") [Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (<kbd>?</kbd> hotkey).](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
