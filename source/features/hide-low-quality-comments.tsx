@@ -62,7 +62,9 @@ function init(): void | false {
 		// Ensure that they're not by VIPs (owner, collaborators, etc)
 		// TODO: use :has()
 		const comment = commentText.closest('.js-timeline-item')!;
-		if (select.exists('.timeline-comment-label', comment)) {
+		const vips = ["Owner", "Author", "Maintainer", "Member", "Contributor"];
+		const label = select(".Label", comment);
+		if (label && vips.includes(label.innerHTML)) {
 			continue;
 		}
 
