@@ -33,7 +33,7 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 
 	// Last step, no JS feature was enabled
 	if (answer === 'yes') {
-		createMessageBox('No features were enabled on this page. Try disabling Refined GitHub to see if the change or issue is caused by the extension.');
+		createMessageBox('No public javascript features were enabled on this page. It could be a Refined GitHub feature that cannot be disabled or it could be unrelated to Refined Github. Try disabling Refined GitHub to find out which.');
 	} else {
 		const feature = (
 			<a href={featureLink(bisectedFeatures[0])}>
