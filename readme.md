@@ -169,7 +169,7 @@ Thanks for contributing! 🦋🙌
 - [](# "quick-file-edit") [Adds a button to edit files from the repo file list.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252182890-081975f4-f041-4ba5-ae48-d52cb0796543.png)
 - [](# "edit-readme") [Ensures that the “Edit readme” button always appears (even when you have to make a fork) and works (GitHub’s link doesn’t work on git tags).](https://user-images.githubusercontent.com/1402241/62073307-a8378880-b26a-11e9-9e31-be6525d989d2.png)
 - [](# "repo-wide-file-finder") Enables the File Finder keyboard shortcut (<kbd>t</kbd>) on entire repository.
-- [](# "show-associated-branch-prs-on-fork") [Shows the associated pull requests on branches for forked repositories.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252228888-0045adab-d8d5-4575-9583-354b65839c40.png)
+- [](# "show-associated-branch-prs-on-fork") [Shows the associated pull requests on branches for forked repositories.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260873542-2a7fc7a2-231f-4f2e-9c7e-272d894de4c6.png)
 - [](# "html-preview-link") [Adds a link to preview HTML files.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252462688-f15bcc6a-16b0-4044-b3df-0def686dd4d9.png)
 - [](# "file-age-color") [Highlights the most-recently-modified items in file lists.](https://user-images.githubusercontent.com/1402241/218314631-1442cc89-3616-40fc-abe2-9ba3d3697b6a.png)
 - [](# "previous-version") [Lets you see the previous version of a file in one click.](https://user-images.githubusercontent.com/50487467/236657960-401f3cd7-cc99-494e-b522-1dca76827369.png)
