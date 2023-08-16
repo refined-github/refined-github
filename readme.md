@@ -221,7 +221,7 @@ Thanks for contributing! 🦋🙌
 - [](# "scrollable-areas") [Limits the height of tall code blocks and quotes.](https://github.com/refined-github/refined-github/issues/1123)
 - [](# "quick-comment-hiding") [Simplifies the UI to hide comments.](https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif)
 - [](# "open-issue-to-latest-comment") [Makes the "comment" icon in issue lists link to the latest comment of the issue.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261159396-0610574b-ab1f-42fb-813f-ee7310a1e5b6.png)
-- [](# "expand-all-hidden-comments") [On long conversations where GitHub hides comments under a "N hidden items. Load more...", alt-clicking it will load up to 200 comments at once instead of 60.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252797176-29b6fbfd-ef80-4dbd-8e8f-d64aea484673.png)
+- [](# "expand-all-hidden-comments") [On long conversations where GitHub hides comments under a "N hidden items. Load more...", alt-clicking it will load up to 200 comments at once instead of 60.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261160123-9c4f894b-38c0-446f-af50-9beca7ff1f74.png)
 - [](# "keyboard-navigation") [Adds shortcuts to conversations and PR file lists: <kbd>j</kbd> focuses the comment/file below; <kbd>k</kbd> focuses the comment/file above.](https://user-images.githubusercontent.com/1402241/86573176-48665900-bf74-11ea-8996-a5c46cb7bdfd.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
