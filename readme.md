@@ -100,7 +100,7 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 			<p><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/238186901-cbc98b51-d173-40c6-b21e-5f0bae3d800c.png">
 		<th width="50%">
 			<p><a title="wait-for-checks"></a> Adds the option to wait for checks when merging a PR
-			<p><img src="https://user-images.githubusercontent.com/83146190/252157906-e0c390aa-fa0b-492a-ba59-7e5c367bf81f.gif">
+			<p><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260870422-1f7fd5e6-849c-423b-8aeb-45894a006a44.gif">
 	<tr>
 		<th width="50%">
 			<p><a title="restore-file"></a> Adds a button to discard all the changes to a file in a PR
