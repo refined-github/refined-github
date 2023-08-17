@@ -229,7 +229,7 @@ Thanks for contributing! 🦋🙌
 ### Conversations
 
 - [](# "open-all-conversations") [Lets you open all visible conversations at once.](https://user-images.githubusercontent.com/46634000/110980658-5face000-8366-11eb-88f9-0cc94f75ce57.gif)
-- [](# "sticky-conversation-list-toolbar") [Makes the conversation list’s filters toolbar sticky.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252803434-912394c3-ed75-4745-8f88-29f22f8715f3.gif)
+- [](# "sticky-conversation-list-toolbar") [Makes the conversation list’s filters toolbar sticky.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261164103-875b70f7-5adc-4bb2-b158-8d5231d47da2.gif)
 - [](# "highlight-collaborators-and-own-conversations") [Highlights conversations opened by you or the current repo’s collaborators.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252804821-a412e05c-fb76-400b-85b5-5acbda538ab2.png)
 - [](# "align-issue-labels") [In conversation lists, aligns the labels to the left, below each title.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261160640-28ae4f12-0e95-4db5-a79c-e89ae523a4d0.png)
 - [](# "sort-conversations-by-update-time") 🔥 Changes the default sort order of conversations to `Recently updated`.
