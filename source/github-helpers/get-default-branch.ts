@@ -2,6 +2,10 @@ import {CachedFunction} from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import {type RepositoryInfo} from 'github-url-detection';
 
+import domLoaded from 'dom-loaded';
+
+import delay from 'delay';
+
 import api from './api.js';
 import {extractCurrentBranchFromBranchPicker, getRepo} from './index.js';
 import {branchSelector} from './selectors.js';
@@ -13,6 +17,9 @@ async function fromDOM(): Promise<string | undefined> {
 	if (!['', 'commits'].includes(getRepo()!.path)) {
 		return undefined;
 	}
+
+	await domLoaded; // DOM-based filter
+	await delay(100);
 
 	// We're on the default branch, so we can extract it from the current page. This exclusively happens on the exact pages:
 	// /user/repo
