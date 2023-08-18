@@ -279,4 +279,7 @@ Test URLs:
 https://github.com/refined-github/refined-github/issues/888888
 https://github.com/refined-github/refined-github/blob/main/source/features/a-horse-with-no-name.tsx
 
+https://github.com/fregante/GhostText/tree/3cacd7df71b097dc525d99c7aa2f54d31b02fcc8/chrome/scripts/InputArea
+https://github.com/refined-github/refined-github/blob/some-non-existent-ref/source/features/bugs-tab.tsx
+
 */
