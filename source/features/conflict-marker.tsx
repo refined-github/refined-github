@@ -20,7 +20,6 @@ function createQueryFragment(prKey: string, owner: string, name: string, prNumbe
 }
 
 async function addConflictMarkers(container: HTMLDivElement): Promise<void> {
-	console.log('addConflictMarkers');
 	const links = select.all('.js-issue-row:has(.octicon-git-pull-request.color-fg-open) a.js-navigation-open', container);
 
 	const prConfigs = links.map(link => {
@@ -53,7 +52,6 @@ async function addConflictMarkers(container: HTMLDivElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	console.log('init');
 	observe('#js-issues-toolbar', addConflictMarkers, {signal});
 }
 
