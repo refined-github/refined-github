@@ -9,7 +9,6 @@ import api from '../github-helpers/api.js';
 import GitHubURL from '../github-helpers/github-url.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {getCleanPathname} from '../github-helpers/index.js';
-import observe from "../helpers/selector-observer.js";
 
 type File = {
 	previous_filename?: string;
@@ -200,18 +199,9 @@ async function initPRCommit(): Promise<void | false> {
 	);
 }
 
-async function checkDefaultBranch(link: HTMLAnchorElement): Promise<void> {
-	if (!await is404(link.href)) {
-		return;
-	}
-
-	link.removeAttribute('href');
-	link.setAttribute('aria-disabled', 'true');
-	link.setAttribute('aria-label', 'This view is not exists on the default branch');
-}
 
 function initRepoFile(signal: AbortSignal): void {
-	observe('main div.rgh-default-branch-button-group>a', checkDefaultBranch, {signal});
+	// observe('main div.rgh-default-branch-button-group>a', checkDefaultBranch, {signal});
 }
 
 void features.add(import.meta.url, {

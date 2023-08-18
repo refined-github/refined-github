@@ -12,6 +12,11 @@ import {branchSelector} from '../github-helpers/selectors.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {isRepoCommitListRoot} from '../github-helpers/index.js';
 
+async function is404(url: string): Promise<boolean> {
+	const {status} = await fetch(url, {method: 'head'});
+	return status === 404;
+}
+
 async function add(branchSelector: HTMLElement): Promise<void> {
 	// Don't show the button if we’re already on the default branch
 	// TODO: Move to `asLongAs` when it accepts async detections
@@ -38,6 +43,12 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 			<ChevronLeftIcon/>
 		</a>
 	);
+
+	if (pageDetect.isRepoFile404() && await is404(url.href)) {
+		defaultLink.removeAttribute('href');
+		defaultLink.setAttribute('aria-disabled', 'true');
+		defaultLink.setAttribute('aria-label', 'This view is not exists on the default branch');
+	}
 
 	// The DOM varies between details-based DOM and React-based one
 	const selectorWrapper = branchSelector.tagName === 'SUMMARY'
