@@ -40,20 +40,13 @@ void features.add(import.meta.url, {
 		pageDetect.isIssueOrPRList,
 	],
 	exclude: [
-		pageDetect.isGlobalIssueOrPRList,
-		pageDetect.isBlank,
-	],
-	init,
-}, {
-	include: [
-		pageDetect.isGlobalIssueOrPRList,
-	],
-	exclude: [
 		pageDetect.isBlank,
 	],
 	init,
 });
 
-/** Test urls
- *
- */
+/*
+Test URLs
+https://github.com/pulls
+https://github.com/refined-github/refined-github/pulls
+*/
