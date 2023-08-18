@@ -1,7 +1,0 @@
-query GetPRConfig($_owner: String!, $_name: String!, $prNumber: Int!) {
-	repository(owner: $_owner, name: $_name) {
-		pullRequest(number: $prNumber) {
-			mergeable
-		}
-	}
-}

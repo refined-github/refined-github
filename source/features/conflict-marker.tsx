@@ -1,38 +1,60 @@
 import './conflict-marker.css';
 import React from 'dom-chef';
-import {AlertIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
+import select from 'select-dom';
+import {AlertIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
-import getPRConfig from './conflict-marker.gql';
 
-async function addConflictMarker(link: HTMLAnchorElement): Promise<void> {
-	const [, user, repo, , prNumber] = link.pathname.split('/');
-	const {repository: data} = await api.v4(getPRConfig, {
-		variables: {
-			_owner: user,
-			_name: repo,
-			prNumber: Number.parseInt(prNumber, 10),
-		},
+// NOTE: cannot separate to gql: https://github.com/refined-github/refined-github/pull/6839#issuecomment-1683684796
+function createQueryFragment(prKey: string, owner: string, name: string, prNumber: number): string {
+	return `
+		${prKey}: repository(owner: "${owner}", name: "${name}") {
+			pullRequest(number: ${prNumber}) {
+				mergeable
+			}
+		}
+	`;
+}
+
+async function addConflictMarkers(container: HTMLDivElement): Promise<void> {
+	console.log('addConflictMarkers');
+	const links = select.all('.js-issue-row:has(.octicon-git-pull-request.color-fg-open) a.js-navigation-open', container);
+
+	const prConfigs = links.map(link => {
+		const [, user, repo, , prNumber] = link.pathname.split('/');
+		const key = api.escapeKey(user, repo, prNumber);
+		return {
+			key, user, repo, number: Number.parseInt(prNumber, 10), link,
+		};
 	});
 
-	if (data.pullRequest.mergeable === 'CONFLICTING') {
-		link.after(
-			<a
-				className="rgh-conflict-marker tooltipped tooltipped-e color-fg-muted ml-2"
-				aria-label="This PR has conflicts that must be resolved"
-				href={`${link.pathname}#partial-pull-merging`}
-			>
-				<AlertIcon className="v-align-middle"/>
-			</a>,
-		);
+	const batchQuery = prConfigs.map(prConfig =>
+		createQueryFragment(prConfig.key, prConfig.user, prConfig.repo, prConfig.number),
+	).join('\n');
+
+	const data = await api.v4(batchQuery);
+
+	for (const pr of prConfigs) {
+		if (data[pr.key].pullRequest.mergeable === 'CONFLICTING') {
+			pr.link.after(
+				<a
+					className="rgh-conflict-marker tooltipped tooltipped-e color-fg-muted ml-2"
+					aria-label="This PR has conflicts that must be resolved"
+					href={`${pr.link.pathname}#partial-pull-merging`}
+				>
+					<AlertIcon className="v-align-middle"/>
+				</a>,
+			);
+		}
 	}
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-issue-row:has(.octicon-git-pull-request.color-fg-open) a.js-navigation-open', addConflictMarker, {signal});
+	console.log('init');
+	observe('#js-issues-toolbar', addConflictMarkers, {signal});
 }
 
 void features.add(import.meta.url, {
