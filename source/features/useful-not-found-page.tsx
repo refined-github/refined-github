@@ -9,7 +9,7 @@ import api from '../github-helpers/api.js';
 import GitHubURL from '../github-helpers/github-url.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {getCleanPathname} from '../github-helpers/index.js';
-import observe from "../helpers/selector-observer.js";
+import observe from '../helpers/selector-observer.js';
 
 type File = {
 	previous_filename?: string;
@@ -151,7 +151,7 @@ async function showDefaultBranchLink(): Promise<void> {
 	);
 }
 
-async function getAlternateLinkMessage(): Promise<string | undefined> {
+async function getAlternateLink(): Promise<HTMLElement | undefined> {
 	const url = new GitHubURL(location.href);
 	if (!url.branch || !url.filePath) {
 		return;
@@ -162,9 +162,21 @@ async function getAlternateLinkMessage(): Promise<string | undefined> {
 		return;
 	}
 
-	const fileChanges = await getChangesToFileInCommit(commitSha, url.filePath);
+	let fileChanges = await getChangesToFileInCommit(commitSha, url.filePath);
 	if (!fileChanges) {
-		return;
+		fileChanges = {
+			file: {
+				filename: 'filename',
+				status: 'active',
+				blob_url: '1234',
+			},
+			commit: {
+				parentSha: 'parentSha',
+				date: new Date(),
+				url: 'url',
+			},
+		};
+		// Return;
 	}
 
 	url.assign({route: 'commits'});
@@ -172,34 +184,35 @@ async function getAlternateLinkMessage(): Promise<string | undefined> {
 	url.assign({route: 'blob', branch: fileChanges.commit.parentSha, filePath: url.filePath});
 	const lastVersionUrl = fileChanges.file.status === 'removed' ? fileChanges.file.blob_url : url.href;
 	const lastVersion = <a href={lastVersionUrl}>This {getType()}</a>;
-	const permalink = <a href={fileChanges.commit.url}>
-		<relative-time datetime={fileChanges.commit.date}/>
-	</a>;
+	const permalink = (
+		<a href={fileChanges.commit.url}>
+			<relative-time datetime={fileChanges.commit.date}/>
+		</a>
+	);
 	const verb = fileChanges.file.status === 'removed'
 		? 'deleted'
 		: <a href={fileChanges.file.blob_url}>moved</a>;
 
-	return `${lastVersion} was ${verb} (${permalink}) - ${commitHistory}.`;
+	return (
+		<p className="container mt-4 text-center">
+			{lastVersion} was {verb} ({permalink}) - {commitHistory}.
+		</p>
+	);
 }
 
 async function showAlternateLink(): Promise<void> {
-	const message = await getAlternateLinkMessage();
-	if (message) {
-		select('main > .container-lg')!.before(
-			<p className="container mt-4 text-center">
-				{message}
-			</p>,
-		);
+	const link = await getAlternateLink();
+	if (link) {
+		select('main > .container-lg')!.before(link);
 	}
 }
 
-async function addAlternateLinkForRepoFile(description: HTMLDivElement) {
-	const message = await getAlternateLinkMessage();
-
-	if (message) {
-		const messageElement = description.cloneNode(false);
-		messageElement.textContent = message;
-		description.after(messageElement);
+async function addAlternateLinkForRepoFile(description: HTMLDivElement): Promise<void> {
+	const link = await getAlternateLink();
+	if (link) {
+		link.className = description.className;
+		link.style.display = 'inline';
+		description.after(link);
 	}
 }
 
@@ -220,11 +233,9 @@ async function initPRCommit(): Promise<void | false> {
 	);
 }
 
-
 function initRepoFile(signal: AbortSignal): void {
-
 	observe('main #repos-header-breadcrumb-wide-heading+ol a', checkAnchor, {signal});
-	observe('main div[data-testid="eror-404-description"]', addAlternateLinkForRepoFile, {signal});	// eror is not rgh's typo
+	observe('main div[data-testid="eror-404-description"]', addAlternateLinkForRepoFile, {signal});	// Eror is not rgh's typo
 }
 
 void features.add(import.meta.url, {
