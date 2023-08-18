@@ -88,6 +88,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 		pageDetect.isReleasesOrTags,
+		pageDetect.isSingleReleaseOrTag,
 		pageDetect.isDiscussion,
 	],
 	init,

@@ -141,6 +141,7 @@ async function init(): Promise<void> {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isReleasesOrTags,
+		pageDetect.isSingleReleaseOrTag,
 	],
 	exclude: [
 		pageDetect.isEmptyRepoRoot,
