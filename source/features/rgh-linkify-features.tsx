@@ -54,6 +54,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
 		pageDetect.isReleasesOrTags,
+		pageDetect.isSingleReleaseOrTag,
 		pageDetect.isCommitList,
 		pageDetect.isSingleCommit,
 		pageDetect.isRepoWiki,
@@ -62,3 +63,14 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs
+
+- isReleasesOrTags: https://github.com/refined-github/refined-github/releases
+- isSingleCommit: https://github.com/refined-github/refined-github/releases/tag/23.7.25
+- isIssue: https://github.com/refined-github/refined-github/issues
+- isPR: https://github.com/refined-github/refined-github/pull
+
+*/
