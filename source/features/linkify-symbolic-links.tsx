@@ -16,6 +16,9 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
 	],
+	exclude: [
+		pageDetect.isRepoFile404,
+	],
 	deduplicate: 'has-rgh',
 	awaitDomReady: true, // Small page
 	init,

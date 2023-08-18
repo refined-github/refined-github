@@ -37,6 +37,9 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
 	],
+	exclude: [
+		pageDetect.isRepoFile404,
+	],
 	init,
 });
 

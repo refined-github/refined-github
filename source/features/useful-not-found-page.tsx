@@ -251,8 +251,12 @@ void features.add(import.meta.url, {
 	],
 	init: onetime(initPRCommit),
 }, {
-	include: [
+	asLongAs: [
 		pageDetect.isRepoFile404,
+	],
+	include: [
+		pageDetect.isRepoTree,
+		pageDetect.isSingleFile,
 	],
 	init: onetime(initRepoFile),
 });

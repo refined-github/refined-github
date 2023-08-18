@@ -45,6 +45,9 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
 	],
+	exclude: [
+		pageDetect.isRepoFile404,
+	],
 	init,
 });
 

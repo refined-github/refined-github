@@ -45,6 +45,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isArchivedRepo,
+		pageDetect.isRepoFile404,
 	],
 	deduplicate: '.rgh-edit-readme',
 	// TODO: Use isArchivedRepoAsync and elementReady across the feature
