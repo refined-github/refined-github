@@ -151,7 +151,7 @@ async function showDefaultBranchLink(): Promise<void> {
 	);
 }
 
-async function showAlternateLink(): Promise<void> {
+async function getAlternateLinkMessage(): Promise<string | undefined> {
 	const url = new GitHubURL(location.href);
 	if (!url.branch || !url.filePath) {
 		return;
@@ -172,16 +172,35 @@ async function showAlternateLink(): Promise<void> {
 	url.assign({route: 'blob', branch: fileChanges.commit.parentSha, filePath: url.filePath});
 	const lastVersionUrl = fileChanges.file.status === 'removed' ? fileChanges.file.blob_url : url.href;
 	const lastVersion = <a href={lastVersionUrl}>This {getType()}</a>;
-	const permalink = <a href={fileChanges.commit.url}><relative-time datetime={fileChanges.commit.date}/></a>;
+	const permalink = <a href={fileChanges.commit.url}>
+		<relative-time datetime={fileChanges.commit.date}/>
+	</a>;
 	const verb = fileChanges.file.status === 'removed'
 		? 'deleted'
 		: <a href={fileChanges.file.blob_url}>moved</a>;
 
-	select('main > .container-lg')!.before(
-		<p className="container mt-4 text-center">
-			{lastVersion} was {verb} ({permalink}) - {commitHistory}.
-		</p>,
-	);
+	return `${lastVersion} was ${verb} (${permalink}) - ${commitHistory}.`;
+}
+
+async function showAlternateLink(): Promise<void> {
+	const message = await getAlternateLinkMessage();
+	if (message) {
+		select('main > .container-lg')!.before(
+			<p className="container mt-4 text-center">
+				{message}
+			</p>,
+		);
+	}
+}
+
+async function addAlternateLinkForRepoFile(description: HTMLDivElement) {
+	const message = await getAlternateLinkMessage();
+
+	if (message) {
+		const messageElement = description.cloneNode(false);
+		messageElement.textContent = message;
+		description.after(messageElement);
+	}
 }
 
 function init(): void {
@@ -205,7 +224,7 @@ async function initPRCommit(): Promise<void | false> {
 function initRepoFile(signal: AbortSignal): void {
 
 	observe('main #repos-header-breadcrumb-wide-heading+ol a', checkAnchor, {signal});
-	// observe('main div.rgh-default-branch-button-group>a', checkDefaultBranch, {signal});
+	observe('main div[data-testid="eror-404-description"]', addAlternateLinkForRepoFile, {signal});	// eror is not rgh's typo
 }
 
 void features.add(import.meta.url, {
