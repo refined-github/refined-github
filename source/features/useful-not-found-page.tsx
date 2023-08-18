@@ -162,21 +162,9 @@ async function getAlternateLink(): Promise<HTMLElement | undefined> {
 		return;
 	}
 
-	let fileChanges = await getChangesToFileInCommit(commitSha, url.filePath);
+	const fileChanges = await getChangesToFileInCommit(commitSha, url.filePath);
 	if (!fileChanges) {
-		fileChanges = {
-			file: {
-				filename: 'filename',
-				status: 'active',
-				blob_url: '1234',
-			},
-			commit: {
-				parentSha: 'parentSha',
-				date: new Date(),
-				url: 'url',
-			},
-		};
-		// Return;
+		return;
 	}
 
 	url.assign({route: 'commits'});
