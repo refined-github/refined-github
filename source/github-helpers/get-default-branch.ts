@@ -1,9 +1,7 @@
 import {CachedFunction} from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import {type RepositoryInfo} from 'github-url-detection';
-
 import domLoaded from 'dom-loaded';
-
 import delay from 'delay';
 
 import api from './api.js';
