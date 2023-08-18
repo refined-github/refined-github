@@ -9,6 +9,7 @@ import api from '../github-helpers/api.js';
 import GitHubURL from '../github-helpers/github-url.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {getCleanPathname} from '../github-helpers/index.js';
+import observe from "../helpers/selector-observer.js";
 
 type File = {
 	previous_filename?: string;
@@ -40,6 +41,7 @@ function getStrikeThrough(text: string): HTMLElement {
 }
 
 async function checkAnchor(anchor: HTMLElement): Promise<void> {
+	console.log(anchor);
 	if (anchor instanceof HTMLAnchorElement && await is404(anchor.href)) {
 		anchor.replaceWith(getStrikeThrough(anchor.textContent!));
 	}
@@ -201,6 +203,8 @@ async function initPRCommit(): Promise<void | false> {
 
 
 function initRepoFile(signal: AbortSignal): void {
+
+	observe('main #repos-header-breadcrumb-wide-heading+ol a', checkAnchor, {signal});
 	// observe('main div.rgh-default-branch-button-group>a', checkDefaultBranch, {signal});
 }
 
