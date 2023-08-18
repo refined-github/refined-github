@@ -7,6 +7,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
+import observe from "../helpers/selector-observer.js";
 
 type PRConfig = {
 	number: string;
@@ -16,6 +17,7 @@ type PRConfig = {
 	key: string;
 };
 
+// TODO: seperate gql
 function createQueryFragment(pr: PRConfig): string {
 	return `
 		${pr.key}: repository(owner: "${pr.user}", name: "${pr.repo}") {
@@ -72,6 +74,32 @@ async function init(): Promise<false | void> {
 	}
 }
 
+function getPRConfig2(link: HTMLAnchorElement): PRConfig {
+	const [, user, repo, , number] = link.pathname.split('/');
+	return {user, repo, number, link, key: api.escapeKey(user, repo, number)};
+}
+
+async function addConflictMarker(link: HTMLAnchorElement): Promise<void> {
+	const prConfig = getPRConfig2(link);
+	const data = await api.v4(createQueryFragment(prConfig));
+
+	if (data[prConfig.key].pullRequest.mergeable === 'CONFLICTING') {
+		prConfig.link.after(
+			<a
+				className="rgh-conflict-marker tooltipped tooltipped-e color-fg-muted ml-2"
+				aria-label="This PR has conflicts that must be resolved"
+				href={`${prConfig.link.pathname}#partial-pull-merging`}
+			>
+				<AlertIcon className="v-align-middle"/>
+			</a>,
+		);
+	}
+}
+
+function init2(signal: AbortSignal): void {
+	observe('.js-issue-row:has(.octicon-git-pull-request.color-fg-open) a.js-navigation-open', addConflictMarker, {signal});
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssueOrPRList,
@@ -80,9 +108,7 @@ void features.add(import.meta.url, {
 		pageDetect.isGlobalIssueOrPRList,
 		pageDetect.isBlank,
 	],
-	awaitDomReady: true, // TODO: Use observe + batched-function
-	deduplicate: 'has-rgh-inner', // TODO: Use observe instead
-	init,
+	init: init2,
 }, {
 	include: [
 		pageDetect.isGlobalIssueOrPRList,
@@ -90,7 +116,9 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isBlank,
 	],
-	deduplicate: 'has-rgh',
-	awaitDomReady: true, // TODO: Use observe + batched-function
-	init,
+	init: init2,
 });
+
+/** Test urls
+ *
+ */
