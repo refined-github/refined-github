@@ -41,7 +41,6 @@ function getStrikeThrough(text: string): HTMLElement {
 }
 
 async function checkAnchor(anchor: HTMLElement): Promise<void> {
-	console.log(anchor);
 	if (anchor instanceof HTMLAnchorElement && await is404(anchor.href)) {
 		anchor.replaceWith(getStrikeThrough(anchor.textContent!));
 	}
