@@ -44,10 +44,9 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		</a>
 	);
 
-	if (pageDetect.isRepoFile404() && await is404(url.href)) {
-		defaultLink.removeAttribute('href');
-		defaultLink.setAttribute('aria-disabled', 'true');
-		defaultLink.setAttribute('aria-label', 'This view is not exists on the default branch');
+	// Don't show the button if the file is not exists on the default branch
+	if (await is404(url.href)) {
+		return;
 	}
 
 	// The DOM varies between details-based DOM and React-based one
