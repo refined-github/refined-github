@@ -8,35 +8,28 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
 
-// NOTE: cannot separate to gql: https://github.com/refined-github/refined-github/pull/6839#issuecomment-1683684796
-function createQueryFragment(prKey: string, owner: string, name: string, prNumber: number): string {
-	return `
-		${prKey}: repository(owner: "${owner}", name: "${name}") {
-			pullRequest(number: ${prNumber}) {
-				mergeable
-			}
-		}
-	`;
-}
-
 async function addConflictMarkers(container: HTMLDivElement): Promise<void> {
 	const links = select.all('.js-issue-row:has(.octicon-git-pull-request.color-fg-open) a.js-navigation-open', container);
-
 	if (links.length === 0) {
 		return;
 	}
 
 	const prConfigs = links.map(link => {
-		const [, user, repo, , prNumber] = link.pathname.split('/');
-		const key = api.escapeKey(user, repo, prNumber);
+		const [, owner, name, , prNumber] = link.pathname.split('/');
+		const key = api.escapeKey(owner, name, prNumber);
 		return {
-			key, user, repo, number: Number.parseInt(prNumber, 10), link,
+			key, link, owner, name, number: Number(prNumber),
 		};
 	});
 
-	const batchQuery = prConfigs.map(prConfig =>
-		createQueryFragment(prConfig.key, prConfig.user, prConfig.repo, prConfig.number),
-	).join('\n');
+	// Batch queries cannot be exported to .gql files
+	const batchQuery = prConfigs.map(({key, owner, name, number}) => `
+		${key}: repository(owner: "${owner}", name: "${name}") {
+			pullRequest(number: ${number}) {
+				mergeable
+			}
+		}
+	`).join('\n');
 
 	const data = await api.v4(batchQuery);
 
