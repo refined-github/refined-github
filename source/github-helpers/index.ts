@@ -138,7 +138,7 @@ export const cacheByRepo = (): string => getRepo()!.nameWithOwner;
 // Commit lists for files and folders lack a branch selector
 export const isRepoCommitListRoot = (): boolean => pageDetect.isRepoCommitList() && document.title.startsWith('Commits');
 
-export async function is404(url: string): Promise<boolean> {
+export async function is404Page(url: string): Promise<boolean> {
 	const {status} = await fetch(url, {method: 'head'});
 	return status === 404;
 }
