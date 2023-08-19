@@ -22,6 +22,10 @@ function createQueryFragment(prKey: string, owner: string, name: string, prNumbe
 async function addConflictMarkers(container: HTMLDivElement): Promise<void> {
 	const links = select.all('.js-issue-row:has(.octicon-git-pull-request.color-fg-open) a.js-navigation-open', container);
 
+	if (links.length === 0) {
+		return;
+	}
+
 	const prConfigs = links.map(link => {
 		const [, user, repo, , prNumber] = link.pathname.split('/');
 		const key = api.escapeKey(user, repo, prNumber);
@@ -29,10 +33,6 @@ async function addConflictMarkers(container: HTMLDivElement): Promise<void> {
 			key, user, repo, number: Number.parseInt(prNumber, 10), link,
 		};
 	});
-
-	if (prConfigs.length === 0) {
-		return;
-	}
 
 	const batchQuery = prConfigs.map(prConfig =>
 		createQueryFragment(prConfig.key, prConfig.user, prConfig.repo, prConfig.number),
