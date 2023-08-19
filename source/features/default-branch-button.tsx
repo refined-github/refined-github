@@ -40,7 +40,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 	);
 
 	// Don't show the button if the file is not exists on the default branch
-	if (await is404Page(url.href)) {
+	if (pageDetect.isRepoFile404() && await is404Page(url.href)) {
 		return;
 	}
 
