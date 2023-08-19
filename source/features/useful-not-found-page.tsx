@@ -252,7 +252,7 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isRepoFile404,
 	],
-	init: onetime(initRepoFile),
+	init: initRepoFile,
 });
 
 /*
