@@ -30,6 +30,10 @@ async function addConflictMarkers(container: HTMLDivElement): Promise<void> {
 		};
 	});
 
+	if (prConfigs.length === 0) {
+		return;
+	}
+
 	const batchQuery = prConfigs.map(prConfig =>
 		createQueryFragment(prConfig.key, prConfig.user, prConfig.repo, prConfig.number),
 	).join('\n');
