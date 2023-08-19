@@ -244,7 +244,7 @@ void features.add(import.meta.url, {
 	],
 	init: onetime(initPRCommit),
 }, {
-	asLongAs: [
+	include: [
 		pageDetect.isRepoFile404,
 	],
 	init: initRepoFile,
