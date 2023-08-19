@@ -222,7 +222,7 @@ async function initPRCommit(): Promise<void | false> {
 
 function initRepoFile(signal: AbortSignal): void {
 	observe('main #repos-header-breadcrumb-wide-heading+ol a', checkAnchor, {signal});
-	observe('main div[data-testid="eror-404-description"]', addAlternateLinkForRepoFile, {signal});	// Eror is not rgh's typo
+	observe('main div[data-testid="eror-404-description"]', addAlternateLinkForRepoFile, {signal});	// "eror" as misspelled by GitHub
 }
 
 void features.add(import.meta.url, {
