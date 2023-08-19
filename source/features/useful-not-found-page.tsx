@@ -8,7 +8,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import GitHubURL from '../github-helpers/github-url.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import {getCleanPathname} from '../github-helpers/index.js';
+import {getCleanPathname, is404Page} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 type File = {
@@ -31,17 +31,12 @@ function getType(): string {
 	return location.pathname.split('/').pop()!.includes('.') ? 'file' : 'object';
 }
 
-async function is404(url: string): Promise<boolean> {
-	const {status} = await fetch(url, {method: 'head'});
-	return status === 404;
-}
-
 function getStrikeThrough(text: string): HTMLElement {
 	return <del className="color-fg-subtle">{text}</del>;
 }
 
 async function checkAnchor(anchor: HTMLElement): Promise<void> {
-	if (anchor instanceof HTMLAnchorElement && await is404(anchor.href)) {
+	if (anchor instanceof HTMLAnchorElement && await is404Page(anchor.href)) {
 		anchor.replaceWith(getStrikeThrough(anchor.textContent!));
 	}
 }
@@ -105,7 +100,7 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
 
 	parsedUrl.assign({branch: await getDefaultBranch()});
 	const urlOnDefault = parsedUrl.href;
-	if (urlOnDefault !== location.href && !await is404(urlOnDefault)) {
+	if (urlOnDefault !== location.href && !await is404Page(urlOnDefault)) {
 		return urlOnDefault;
 	}
 }
@@ -210,7 +205,7 @@ function init(): void {
 
 async function initPRCommit(): Promise<void | false> {
 	const commitUrl = location.href.replace(/pull\/\d+\/commits/, 'commit');
-	if (await is404(commitUrl)) {
+	if (await is404Page(commitUrl)) {
 		return false;
 	}
 
