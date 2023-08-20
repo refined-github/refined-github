@@ -41,5 +41,7 @@ Test URLs:
 
 Commits: https://github.com/refined-github/refined-github/commits/main
 isRepoSearch: https://github.com/search?q=repo%3Arefined-github%2Frefined-github+latest+reliable+button+is%3Aissue&type=Issues
+isGlobalSearchResults: https://github.com/search?q=repo%3Arefined-github%2Frefined-github+is%3Aissue&type=issues
+Subscriptions: https://github.com/notifications/subscriptions
 
 */
