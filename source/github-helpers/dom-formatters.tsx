@@ -80,7 +80,7 @@ export function linkifyURLs(element: Element): Element[] | void {
 		},
 	});
 
-	if(linkified.lastChild && linkified.lastChild.textContent === '…') { // Link is followed by …
+	if (linkified.lastChild && linkified.lastChild.textContent === '…') { // Link is followed by …
 		return;
 	}
 
