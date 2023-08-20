@@ -1,19 +1,14 @@
 import './conflict-marker.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import select from 'select-dom';
 import {AlertIcon} from '@primer/octicons-react';
+import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
 
-async function addConflictMarkers(container: HTMLDivElement): Promise<void> {
-	const links = select.all('.js-issue-row:has(.octicon-git-pull-request.color-fg-open) a.js-navigation-open', container);
-	if (links.length === 0) {
-		return;
-	}
-
+const addIcon = batchedFunction(async (links: HTMLAnchorElement[]): Promise<void> => {
 	const prConfigs = links.map(link => {
 		const [, owner, name, , prNumber] = link.pathname.split('/');
 		const key = api.escapeKey(owner, name, prNumber);
@@ -46,10 +41,10 @@ async function addConflictMarkers(container: HTMLDivElement): Promise<void> {
 			);
 		}
 	}
-}
+});
 
 function init(signal: AbortSignal): void {
-	observe('#js-issues-toolbar', addConflictMarkers, {signal});
+	observe('.js-issue-row:has(.octicon-git-pull-request.color-fg-open) a.js-navigation-open', addIcon, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -66,4 +61,5 @@ void features.add(import.meta.url, {
 Test URLs
 https://github.com/pulls
 https://github.com/refined-github/refined-github/pulls
+https://github.com/kubernetes/kubernetes/milestone/62
 */
