@@ -40,7 +40,8 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-https://github.com/refined-github/refined-github/issues
+https://github.com/docubot
+https://github.com/
 
 */
 
