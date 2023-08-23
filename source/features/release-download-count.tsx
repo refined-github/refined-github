@@ -79,6 +79,7 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isReleasesOrTags,
+		pageDetect.isSingleReleaseOrTag,
 	],
 	init,
 });
