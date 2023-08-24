@@ -39,11 +39,6 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		</a>
 	);
 
-	// Don't show the button if the file is not exists on the default branch
-	if (pageDetect.isRepoFile404() && await is404Page(url.href)) {
-		return;
-	}
-
 	// The DOM varies between details-based DOM and React-based one
 	const selectorWrapper = branchSelector.tagName === 'SUMMARY'
 		? branchSelector.parentElement!
@@ -51,6 +46,12 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 
 	selectorWrapper.before(defaultLink);
 	groupButtons([defaultLink, selectorWrapper]).classList.add('d-flex', 'rgh-default-branch-button-group');
+
+	// Only request it later to avoid slowing down the page load
+	if (await is404Page(url.href)) {
+		defaultLink.classList.add('disabled');
+		defaultLink.setAttribute('aria-label', 'Object not found on the default branch');
+	}
 }
 
 function init(signal: AbortSignal): void {
