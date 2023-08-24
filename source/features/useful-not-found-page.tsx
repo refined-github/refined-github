@@ -35,7 +35,7 @@ function getStrikeThrough(text: string): HTMLElement {
 	return <del className="color-fg-subtle">{text}</del>;
 }
 
-async function checkAnchor(anchor: HTMLElement): Promise<void> {
+async function crossIfNonExistent(anchor: HTMLElement): Promise<void> {
 	if (anchor instanceof HTMLAnchorElement && await isUrlReachable(anchor.href)) {
 		anchor.replaceWith(getStrikeThrough(anchor.textContent!));
 	}
@@ -121,7 +121,7 @@ async function showMissingPart(): Promise<void> {
 
 			const pathname = '/' + pathParts.slice(0, i + 1).join('/');
 			const link = <a href={pathname}>{part}</a>;
-			void checkAnchor(link);
+			void crossIfNonExistent(link);
 			return link;
 		})
 		.reverse() // Restore order
@@ -145,7 +145,7 @@ async function showDefaultBranchLink(): Promise<void> {
 	);
 }
 
-async function getAlternateLink(): Promise<HTMLElement | undefined> {
+async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
 	const url = new GitHubURL(location.href);
 	if (!url.branch || !url.filePath) {
 		return;
@@ -182,15 +182,15 @@ async function getAlternateLink(): Promise<HTMLElement | undefined> {
 	);
 }
 
-async function showAlternateLink(): Promise<void> {
-	const link = await getAlternateLink();
+async function showGitObjectHistory(): Promise<void> {
+	const link = await getGitObjectHistoryLink();
 	if (link) {
 		select('main > .container-lg')!.before(link);
 	}
 }
 
-async function addAlternateLinkForRepoFile(description: HTMLDivElement): Promise<void> {
-	const link = await getAlternateLink();
+async function showGitObjectHistoryOnRepo(description: HTMLDivElement): Promise<void> {
+	const link = await getGitObjectHistoryLink();
 	if (link) {
 		link.className = description.className;
 		link.style.display = 'inline';
@@ -200,7 +200,7 @@ async function addAlternateLinkForRepoFile(description: HTMLDivElement): Promise
 
 function init(): void {
 	void showDefaultBranchLink();
-	void showAlternateLink();
+	void showGitObjectHistory();
 }
 
 async function initPRCommit(): Promise<void | false> {
@@ -216,8 +216,8 @@ async function initPRCommit(): Promise<void | false> {
 }
 
 function initRepoFile(signal: AbortSignal): void {
-	observe('#repos-header-breadcrumb-wide-heading + ol a', checkAnchor, {signal});
-	observe('main div[data-testid="eror-404-description"]', addAlternateLinkForRepoFile, {signal});	// "eror" as misspelled by GitHub
+	observe('#repos-header-breadcrumb-wide-heading + ol a', crossIfNonExistent, {signal});
+	observe('main div[data-testid="eror-404-description"]', showGitObjectHistoryOnRepo, {signal});	// "eror" as misspelled by GitHub
 }
 
 void features.add(import.meta.url, {
