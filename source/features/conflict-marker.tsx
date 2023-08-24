@@ -1,63 +1,34 @@
 import './conflict-marker.css';
 import React from 'dom-chef';
-import select from 'select-dom';
-import {AlertIcon} from '@primer/octicons-react';
-import oneMutation from 'one-mutation';
 import * as pageDetect from 'github-url-detection';
+import {AlertIcon} from '@primer/octicons-react';
+import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
+import observe from '../helpers/selector-observer.js';
 
-type PRConfig = {
-	number: string;
-	user: string;
-	repo: string;
-	link: HTMLAnchorElement;
-	key: string;
-};
+async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
+	const prConfigs = links.map(link => {
+		const [, owner, name, , prNumber] = link.pathname.split('/');
+		const key = api.escapeKey(owner, name, prNumber);
+		return {
+			key, link, owner, name, number: Number(prNumber),
+		};
+	});
 
-function createQueryFragment(pr: PRConfig): string {
-	return `
-		${pr.key}: repository(owner: "${pr.user}", name: "${pr.repo}") {
-			pullRequest(number: ${pr.number}) {
+	// Batch queries cannot be exported to .gql files
+	const batchQuery = prConfigs.map(({key, owner, name, number}) => `
+		${key}: repository(owner: "${owner}", name: "${name}") {
+			pullRequest(number: ${number}) {
 				mergeable
 			}
 		}
-	`;
-}
+	`).join('\n');
 
-function buildQuery(prs: PRConfig[]): string {
-	return prs.map(pr => createQueryFragment(pr)).join('\n');
-}
+	const data = await api.v4(batchQuery);
 
-function getPRConfig(prIcon: Element): PRConfig {
-	const link = prIcon.closest('.js-navigation-item')!.querySelector('a.js-navigation-open')!;
-	const [, user, repo, , number] = link.pathname.split('/');
-	return {
-		user,
-		repo,
-		number,
-		link,
-		key: api.escapeKey(user, repo, number),
-	};
-}
-
-async function init(): Promise<false | void> {
-	// Milestone issues are lazy-loaded
-	if (pageDetect.isMilestone()) {
-		// TODO: Use observe instead
-		await oneMutation(select('.js-milestone-issues-container')!, {childList: true});
-	}
-
-	const openPrIcons = select.all('.js-issue-row .octicon-git-pull-request.color-fg-open');
-	if (openPrIcons.length === 0) {
-		return false;
-	}
-
-	const prs = openPrIcons.map(icon => getPRConfig(icon));
-	const data = await api.v4(buildQuery(prs));
-
-	for (const pr of prs) {
+	for (const pr of prConfigs) {
 		if (data[pr.key].pullRequest.mergeable === 'CONFLICTING') {
 			pr.link.after(
 				<a
@@ -72,25 +43,23 @@ async function init(): Promise<false | void> {
 	}
 }
 
+function init(signal: AbortSignal): void {
+	observe('.js-issue-row:has(.octicon-git-pull-request.color-fg-open) a.js-navigation-open', batchedFunction(addIcon, {delay: 100}), {signal});
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssueOrPRList,
 	],
 	exclude: [
-		pageDetect.isGlobalIssueOrPRList,
 		pageDetect.isBlank,
 	],
-	awaitDomReady: true, // TODO: Use observe + batched-function
-	deduplicate: 'has-rgh-inner', // TODO: Use observe instead
-	init,
-}, {
-	include: [
-		pageDetect.isGlobalIssueOrPRList,
-	],
-	exclude: [
-		pageDetect.isBlank,
-	],
-	deduplicate: 'has-rgh',
-	awaitDomReady: true, // TODO: Use observe + batched-function
 	init,
 });
+
+/*
+Test URLs
+https://github.com/pulls
+https://github.com/refined-github/sandbox/issues?q=conflict
+https://github.com/kubernetes/kubernetes/milestone/62
+*/
