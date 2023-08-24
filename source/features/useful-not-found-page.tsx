@@ -8,7 +8,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import GitHubURL from '../github-helpers/github-url.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import {getCleanPathname, is404Page} from '../github-helpers/index.js';
+import {getCleanPathname, isUrlReachable} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 type File = {
@@ -36,7 +36,7 @@ function getStrikeThrough(text: string): HTMLElement {
 }
 
 async function checkAnchor(anchor: HTMLElement): Promise<void> {
-	if (anchor instanceof HTMLAnchorElement && await is404Page(anchor.href)) {
+	if (anchor instanceof HTMLAnchorElement && await isUrlReachable(anchor.href)) {
 		anchor.replaceWith(getStrikeThrough(anchor.textContent!));
 	}
 }
@@ -100,7 +100,7 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
 
 	parsedUrl.assign({branch: await getDefaultBranch()});
 	const urlOnDefault = parsedUrl.href;
-	if (urlOnDefault !== location.href && !await is404Page(urlOnDefault)) {
+	if (urlOnDefault !== location.href && !await isUrlReachable(urlOnDefault)) {
 		return urlOnDefault;
 	}
 }
@@ -205,7 +205,7 @@ function init(): void {
 
 async function initPRCommit(): Promise<void | false> {
 	const commitUrl = location.href.replace(/pull\/\d+\/commits/, 'commit');
-	if (await is404Page(commitUrl)) {
+	if (await isUrlReachable(commitUrl)) {
 		return false;
 	}
 
