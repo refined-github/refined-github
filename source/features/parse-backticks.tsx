@@ -23,7 +23,7 @@ const selectors = [
 	'.js-hovercard-content > .Popover-message .Link--primary', // Hovercard
 	'.js-discussions-title-container h1 > .js-issue-title', // `isDiscussion`
 	'a[data-hovercard-type="discussion"]', // `isDiscussionList`
-	'.search-title', // `isGlobalSearchResults` search titles
+	'.search-title a', // `isGlobalSearchResults` search titles
 	'.notification-thread-subscription [id^="subscription_link_"]', // Subscription titles
 ] as const;
 
