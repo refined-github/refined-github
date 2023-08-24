@@ -69,3 +69,14 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+- isRepoTree https://github.com/refined-github/refined-github/tree/07ecc75
+- isSingleFile, 410 Gone from default branch https://github.com/refined-github/refined-github/blob/07ecc75/extension/content.js
+- isRepoCommitList: https://github.com/refined-github/refined-github/commits/07ecc75/
+- isRepoCommitListRoot (no branchs selector): https://github.com/refined-github/refined-github/commits/07ecc75/extension
+
+*/
