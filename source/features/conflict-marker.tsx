@@ -8,7 +8,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
 
-const addIcon = batchedFunction(async (links: HTMLAnchorElement[]): Promise<void> => {
+async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 	const prConfigs = links.map(link => {
 		const [, owner, name, , prNumber] = link.pathname.split('/');
 		const key = api.escapeKey(owner, name, prNumber);
@@ -36,15 +36,15 @@ const addIcon = batchedFunction(async (links: HTMLAnchorElement[]): Promise<void
 					aria-label="This PR has conflicts that must be resolved"
 					href={`${pr.link.pathname}#partial-pull-merging`}
 				>
-					<AlertIcon className="v-align-middle"/>
-				</a>,
+					<AlertIcon className="v-align-middle" />
+				</a>
 			);
 		}
 	}
-});
+}
 
 function init(signal: AbortSignal): void {
-	observe('.js-issue-row:has(.octicon-git-pull-request.color-fg-open) a.js-navigation-open', addIcon, {signal});
+	observe('.js-issue-row:has(.octicon-git-pull-request.color-fg-open) a.js-navigation-open', batchedFunction(addIcon, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {
