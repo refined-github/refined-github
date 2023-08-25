@@ -6,6 +6,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import onAbort from '../helpers/abort-controller.js';
 import calculateCssCalcString from '../helpers/calculate-css-calc-string.js';
+import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 const minimumViewportWidthForSidebar = 768; // Less than this, the layout is single-column
 
@@ -64,6 +65,9 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isHasSelectorSupported,
+	],
 	include: [
 		pageDetect.isRepoRoot,
 		pageDetect.isConversation,
