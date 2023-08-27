@@ -254,8 +254,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-- 404 issue https://github.com/refined-github/refined-github/issues/888888
-- 404 file https://github.com/refined-github/refined-github/blob/main/source/features/a-horse-with-no-name.tsx
+- 404 issue: https://github.com/refined-github/refined-github/issues/888888
+- 404 file: https://github.com/refined-github/refined-github/blob/main/source/features/a-horse-with-no-name.tsx
 - 410 file: https://github.com/refined-github/refined-github/blob/main/extension/content.js
 - 404 ref: https://github.com/refined-github/refined-github/blob/eggs-for-branch/package.json
 
