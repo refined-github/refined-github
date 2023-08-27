@@ -192,8 +192,7 @@ async function showGitObjectHistory(): Promise<void> {
 async function showGitObjectHistoryOnRepo(description: HTMLDivElement): Promise<void> {
 	const link = await getGitObjectHistoryLink();
 	if (link) {
-		link.className = description.className;
-		link.style.display = 'inline';
+		link.className = 'color-fg-muted';
 		description.after(link);
 	}
 }
