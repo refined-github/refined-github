@@ -52,3 +52,11 @@ void features.add(import.meta.url, {
 	awaitDomReady: true,
 	init,
 });
+
+/*
+
+Test URLs:
+
+Repo tree: https://github.com/refined-github/refined-github
+
+ */
