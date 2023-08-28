@@ -23,6 +23,8 @@ const selectors = [
 	'.js-hovercard-content > .Popover-message .Link--primary', // Hovercard
 	'.js-discussions-title-container h1 > .js-issue-title', // `isDiscussion`
 	'a[data-hovercard-type="discussion"]', // `isDiscussionList`
+	'.search-title a', // `isGlobalSearchResults` search titles
+	'.notification-thread-subscription [id^="subscription_link_"]', // Subscription titles
 ] as const;
 
 // No `include`, no `signal` necessary
@@ -39,5 +41,8 @@ Test URLs:
 
 Commits: https://github.com/refined-github/refined-github/commits/main
 isRepoSearch: https://github.com/search?q=repo%3Arefined-github%2Frefined-github+latest+reliable+button+is%3Aissue&type=Issues
+isGlobalSearchResults: https://github.com/search?q=repo%3Arefined-github%2Frefined-github+is%3Aissue&type=issues
+isGlobalSearchResults: https://github.com/search?q=repo%3Acommunity%2Fcommunity+backticks+in+titles&type=discussions
+Subscriptions: https://github.com/notifications/subscriptions
 
 */
