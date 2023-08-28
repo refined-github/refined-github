@@ -138,6 +138,11 @@ export const cacheByRepo = (): string => getRepo()!.nameWithOwner;
 // Commit lists for files and folders lack a branch selector
 export const isRepoCommitListRoot = (): boolean => pageDetect.isRepoCommitList() && document.title.startsWith('Commits');
 
+export const isUrlReachable = mem(async (url: string): Promise<boolean> => {
+	const {status} = await fetch(url, {method: 'head'});
+	return status === 404;
+});
+
 // Don't make the argument optional, sometimes we really expect it to exist and want to throw an error
 export function extractCurrentBranchFromBranchPicker(branchPicker: HTMLElement): string {
 	return branchPicker.title === 'Switch branches or tags'

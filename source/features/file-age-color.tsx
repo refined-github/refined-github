@@ -25,5 +25,17 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoTree,
 	],
+	exclude: [
+		pageDetect.isRepoFile404,
+	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github
+https://github.com/refined-github/refined-github/tree/main/source
+
+ */

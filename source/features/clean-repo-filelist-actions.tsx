@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {PlusIcon, SearchIcon, CodeIcon} from '@primer/octicons-react';
+import {CodeIcon, PlusIcon, SearchIcon} from '@primer/octicons-react';
 
 import observe from '../helpers/selector-observer.js';
 import {assertNodeContent, wrap} from '../helpers/dom-utils.js';
@@ -59,6 +59,9 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
+	],
+	exclude: [
+		pageDetect.isRepoFile404,
 	],
 	init,
 });
