@@ -34,6 +34,7 @@ void features.add(import.meta.url, {
 /*
 
 Test URLs:
-Repo tree: https://github.com/refined-github/refined-github
+https://github.com/refined-github/refined-github
+https://github.com/refined-github/refined-github/tree/main/source
 
  */

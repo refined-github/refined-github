@@ -28,6 +28,6 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-Single file: https://github.com/wmluke/angular-flash/blob/0.1.14/app/components
+https://github.com/wmluke/angular-flash/blob/0.1.14/app/components
 
  */
