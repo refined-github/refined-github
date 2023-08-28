@@ -60,5 +60,4 @@ Test URLs:
 Tree on tag: https://github.com/refined-github/refined-github/tree/23.8.24
 Tree on commit: https://github.com/refined-github/refined-github/tree/ec32c7bf7030ecd797be0cb148ec982d3a035a20
 
-
  */
