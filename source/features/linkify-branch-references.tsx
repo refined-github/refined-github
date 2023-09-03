@@ -71,3 +71,12 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // TODO: Use new observer
 	init: hovercardInit,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/sandbox/compare/default-a...quick-pr-branch?quick_pull=1
+https://github.com ("Recent activity" box in left sidebar, hover a PR)
+
+*/
