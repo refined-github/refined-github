@@ -61,5 +61,5 @@ void features.add(import.meta.url, {
 		linkifyCacheRefresh,
 		checkToken,
 		setVersion,
-	]
+	],
 });
