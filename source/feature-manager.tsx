@@ -162,7 +162,7 @@ function castArray<Item>(value: Item | Item[]): Item[] {
 }
 
 async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<void> {
-	const {asLongAs, include, exclude, init: initArray, additionalListeners, onlyAdditionalListeners, shortcuts} = config;
+	const {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, shortcuts} = config;
 
 	if (!shouldFeatureRun({asLongAs, include, exclude})) {
 		return;
@@ -172,7 +172,7 @@ async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<
 	currentFeatureControllers.append(id, featureController);
 
 	const runFeature = async (): Promise<void> => {
-		await asyncForEach(castArray(initArray), async init => {
+		await asyncForEach(castArray(init), async init => {
 			let result: FeatureInitResult | undefined;
 			try {
 				result = await init(featureController.signal);
