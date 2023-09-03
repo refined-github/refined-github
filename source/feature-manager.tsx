@@ -23,7 +23,7 @@ import {
 
 type BooleanFunction = () => boolean;
 export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
-type FeatureInitResult = void | false | Deinit;
+type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
 
 type FeatureLoader = {
@@ -188,7 +188,7 @@ async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<
 		}
 
 		if (result) {
-			onAbort(featureController, ...castArray(result));
+			onAbort(featureController, result);
 		}
 	};
 

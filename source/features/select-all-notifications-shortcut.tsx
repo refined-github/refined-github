@@ -8,8 +8,8 @@ function selectAllNotifications(): void {
 	select('.js-notifications-mark-all-prompt')!.click();
 }
 
-function init(): Deinit {
-	return registerHotkey('a', selectAllNotifications);
+function init(signal: AbortSignal): void {
+	registerHotkey('a', selectAllNotifications, {signal});
 }
 
 void features.add(import.meta.url, {
