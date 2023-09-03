@@ -4,7 +4,6 @@ import path from 'node:path';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import webpack, {Configuration} from 'webpack';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const config: Configuration = {
 	devtool: false, // Only inline source maps work in extensions, but they would slow down the extension for everyone
@@ -12,6 +11,9 @@ const config: Configuration = {
 		preset: 'errors-warnings',
 		entrypoints: true,
 		timings: true,
+	},
+	experiments: {
+		css: true,
 	},
 	performance: {
 		hints: false,
@@ -24,6 +26,7 @@ const config: Configuration = {
 	].map(name => [name, `./${name}.js`])),
 	context: path.resolve('source'),
 	output: {
+		publicPath: '',
 		path: path.resolve('distribution/assets'),
 	},
 	module: {
@@ -44,17 +47,11 @@ const config: Configuration = {
 					target: 'es2022',
 				},
 			},
-			{
-				test: /\.css$/,
-				use: [
-					MiniCssExtractPlugin.loader,
-					'css-loader',
-				],
-			},
 		],
 	},
 	plugins: [
-		new MiniCssExtractPlugin(),
+		// TODO: Drop once `webpackIgnore` is supported https://github.com/webpack/webpack/issues/14893
+		new webpack.IgnorePlugin({resourceRegExp: /^chrome:/}),
 		new webpack.ProvidePlugin({
 			browser: 'webextension-polyfill',
 		}),
