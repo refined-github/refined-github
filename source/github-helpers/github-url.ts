@@ -2,28 +2,22 @@ import {isRepoRoot} from 'github-url-detection';
 
 import getCurrentGitRef from './get-current-git-ref.js';
 
-export default class GitHubURL {
+export default class GitHubURL extends URL {
 	user = '';
 	repository = '';
 	route = '';
 	branch = '';
 	filePath = '';
 
-	private readonly internalUrl: URL;
+	assign = Object.assign.bind(null, this);
 
 	constructor(url: string) {
-		// Use Facade pattern instead of inheritance #3193
-		this.internalUrl = new URL(url);
-		this.pathname = this.internalUrl.pathname;
+		super(url);
+		this.pathname = super.pathname;
 	}
 
-	toString(): string {
+	override toString(): string {
 		return this.href;
-	}
-
-	assign(...replacements: Array<Partial<GitHubURL>>): this {
-		Object.assign(this, ...replacements);
-		return this;
 	}
 
 	// Handle branch names containing multiple slashes #4492
@@ -66,14 +60,15 @@ export default class GitHubURL {
 		};
 	}
 
-	get pathname(): string {
+	override get pathname(): string {
 		return `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replaceAll(/((undefined)?\/)+$/g, '');
 	}
 
-	set pathname(pathname: string) {
+	override set pathname(pathname: string) {
 		const [user, repository, route, ...ambiguousReference] = pathname.replaceAll(/^\/|\/$/g, '').split('/');
-		// TODO: `isRepoRoot` uses global state https://github.com/refined-github/refined-github/issues/6637
-		if (isRepoRoot() || (ambiguousReference.length === 2 && ambiguousReference[1].includes('%2F'))) {
+		// Use `location` in order to avoid global state usage
+		// https://github.com/refined-github/refined-github/issues/6637
+		if (isRepoRoot(location) || (ambiguousReference.length === 2 && ambiguousReference[1].includes('%2F'))) {
 			const branch = ambiguousReference.join('/').replaceAll('%2F', '/');
 			this.assign({user, repository, route, branch, filePath: ''});
 			return;
@@ -83,35 +78,9 @@ export default class GitHubURL {
 		this.assign({user, repository, route, branch, filePath});
 	}
 
-	get href(): string {
+	override get href(): string {
 		// Update the actual underlying URL
-		this.internalUrl.pathname = this.pathname;
-		return this.internalUrl.href;
-	}
-
-	set href(href: string) {
-		this.internalUrl.href = href;
-	}
-
-	// Proxy all other getters/setters to internalUrl
-
-	get hash(): string {
-		return this.internalUrl.hash;
-	}
-
-	set hash(hash: string) {
-		this.internalUrl.hash = hash;
-	}
-
-	get search(): string {
-		return this.internalUrl.search;
-	}
-
-	set search(search: string) {
-		this.internalUrl.search = search;
-	}
-
-	get searchParams(): URLSearchParams {
-		return this.internalUrl.searchParams;
+		super.pathname = this.pathname;
+		return super.href;
 	}
 }
