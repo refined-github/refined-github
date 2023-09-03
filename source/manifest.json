@@ -35,8 +35,7 @@
 	"background": {
 		"scripts": [
 			"assets/background.js"
-		],
-		"persistent": false
+		]
 	},
 	"content_scripts": [
 		{
