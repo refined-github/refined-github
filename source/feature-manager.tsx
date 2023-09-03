@@ -156,7 +156,7 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 	resolve(options);
 });
 
-function castArray<Item>(value: Item | Item[]): Item[] {
+export function castArray<Item>(value: Item | Item[]): Item[] {
 	return Array.isArray(value) ? value : [value];
 }
 
@@ -200,7 +200,7 @@ async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<
 	for (const listener of additionalListeners) {
 		const deinit = listener(runFeature, featureController.signal);
 		if (deinit && !(deinit instanceof Promise)) {
-			onAbort(featureController, ...castArray(deinit));
+			onAbort(featureController, deinit);
 		}
 	}
 }
