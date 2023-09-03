@@ -65,14 +65,6 @@ async function moveReportLink(): Promise<void> {
 
 async function init(): Promise<void> {
 	document.documentElement.setAttribute('rgh-clean-repo-sidebar', '');
-
-	await Promise.all([
-		cleanReleases(),
-		hideEmptyPackages(),
-		hideLanguageHeader(),
-		hideEmptyMeta(),
-		moveReportLink(),
-	]);
 }
 
 void features.add(import.meta.url, {
@@ -80,7 +72,14 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoRoot,
 	],
 	deduplicate: 'has-rgh-inner',
-	init,
+	init: [
+		init,
+		cleanReleases,
+		hideEmptyPackages,
+		hideLanguageHeader,
+		hideEmptyMeta,
+		moveReportLink,
+	],
 });
 
 /*

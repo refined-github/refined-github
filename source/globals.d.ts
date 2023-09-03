@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions -- Declaration merging necessary */
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 
+// TODO: Drop after https://github.com/sindresorhus/type-fest/issues/270
+type Arrayable<X> = X | X[];
 type AnyObject = Record<string, any>;
 type DeinitHandle = {disconnect: VoidFunction} | {clear: VoidFunction} | {destroy: VoidFunction} | {abort: VoidFunction} | VoidFunction;
 type Deinit = DeinitHandle | DeinitHandle[];
