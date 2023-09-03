@@ -19,6 +19,18 @@ function getNodesAfter(node: Node): Range {
 	return range;
 }
 
+async function cleanReviewers(): Promise<void> {
+	const possibleReviewers = select('[src$="/suggested-reviewers"]');
+	if (possibleReviewers) {
+		await onElementRemoval(possibleReviewers);
+	}
+
+	const content = select('[aria-label="Select reviewers"] > .css-truncate')!;
+	if (!content.firstElementChild) {
+		removeTextNodeContaining(content, 'No reviews');
+	}
+}
+
 /**
 Smartly removes "No content" or the whole section, depending on `canEditSidebar`.
 
@@ -86,16 +98,7 @@ async function cleanSidebar(): Promise<void> {
 
 	// Reviewers
 	if (pageDetect.isPR()) {
-		const possibleReviewers = select('[src$="/suggested-reviewers"]');
-		if (possibleReviewers) {
-			// TODO: This blocks the whole function, it should be extracted
-			await onElementRemoval(possibleReviewers);
-		}
-
-		const content = select('[aria-label="Select reviewers"] > .css-truncate')!;
-		if (!content.firstElementChild) {
-			removeTextNodeContaining(content, 'No reviews');
-		}
+		cleanReviewers();
 	}
 
 	// Labels
