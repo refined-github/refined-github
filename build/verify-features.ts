@@ -48,16 +48,20 @@ function findError(filename: string): string | void {
 		return `ERR: ${featureId} should be imported by \`${entryPoint}\``;
 	}
 
-	const fileContents = readFileSync(filename);
+	const fileContents = readFileSync(`source/features/${filename}`);
 
 	if (fileContents.includes('.addCssFeature')) {
 		if (fileContents.includes('.add(')) {
-			return 'ERR: Use `addCssFeature` or `add`, not both';
+			return `ERR: ${featureId} should use either \`addCssFeature\` or \`add\`, not both`;
 		}
 
 		const correspondingCssFile = `source/features/${filename.replace(/.tsx$/, '.css')}`;
 		if (!existsSync(correspondingCssFile)) {
-			return `ERR: The feature uses \`.addCssFeature\`, but ${correspondingCssFile} is missing`;
+			return `ERR: ${featureId} uses \`.addCssFeature\`, but ${correspondingCssFile} is missing`;
+		}
+
+		if (!readFileSync(correspondingCssFile).includes(`[rgh-${featureId}]`)) {
+			return `ERR: ${correspondingCssFile} should contain a \`[rgh-${featureId}]\` selector`;
 		}
 	}
 
