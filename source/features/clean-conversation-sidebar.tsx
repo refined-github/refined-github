@@ -98,7 +98,7 @@ async function cleanSidebar(): Promise<void> {
 
 	// Reviewers
 	if (pageDetect.isPR()) {
-		cleanReviewers();
+		void cleanReviewers();
 	}
 
 	// Labels
