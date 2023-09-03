@@ -64,7 +64,7 @@
 		E33B07CE2AA496EE00BD57D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E33B07CF2AA496EE00BD57D5 /* Web_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Web_Extension.entitlements; sourceTree = "<group>"; };
 		E33B07DB2AA4975C00BD57D5 /* Web Extension iOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Web Extension iOS.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E33B07F82AA498CC00BD57D5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Config.xcconfig; path = ../../../../Downloads/safari/Config.xcconfig; sourceTree = "<group>"; };
+		E33B07F82AA498CC00BD57D5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		E33B07F92AA499F800BD57D5 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		E33B07FB2AA49A2700BD57D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E33B08312AA4AD7900BD57D5 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../../distribution/assets; sourceTree = "<group>"; };
