@@ -4,7 +4,7 @@ import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import GitHubURL from '../github-helpers/github-url.js';
+import GitHubFileURL from '../github-helpers/github-file-url.js';
 import {isPermalink} from '../github-helpers/index.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 
@@ -20,7 +20,7 @@ async function init(): Promise<void | false> {
 	const filename = select('[href="#readme"]')!.textContent!.trim();
 	const fileLink = select(`a.js-navigation-open[title="${filename}"]`)!;
 
-	const url = new GitHubURL(fileLink.href).assign({
+	const url = new GitHubFileURL(fileLink.href).assign({
 		route: 'edit',
 	});
 

@@ -2,7 +2,7 @@ import {isRepoRoot} from 'github-url-detection';
 
 import getCurrentGitRef from './get-current-git-ref.js';
 
-export default class GitHubURL extends URL {
+export default class GitHubFileURL extends URL {
 	user = '';
 	repository = '';
 	route = '';

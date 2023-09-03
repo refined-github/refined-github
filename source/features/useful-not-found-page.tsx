@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import GitHubURL from '../github-helpers/github-url.js';
+import GitHubFileURL from '../github-helpers/github-file-url.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {getCleanPathname, isUrlReachable} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
@@ -93,7 +93,7 @@ async function getChangesToFileInCommit(sha: string, filePath: string): Promise<
 }
 
 async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
-	const parsedUrl = new GitHubURL(location.href);
+	const parsedUrl = new GitHubFileURL(location.href);
 	if (!parsedUrl.branch) {
 		return;
 	}
@@ -146,7 +146,7 @@ async function showDefaultBranchLink(): Promise<void> {
 }
 
 async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
-	const url = new GitHubURL(location.href);
+	const url = new GitHubFileURL(location.href);
 	if (!url.branch || !url.filePath) {
 		return;
 	}

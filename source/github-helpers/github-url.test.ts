@@ -1,9 +1,9 @@
 import {test, assert} from 'vitest';
 
-import GitHubURL from './github-url.js';
+import GitHubFileURL from './github-file-url.js';
 
 test('branch', () => {
-	const url = new GitHubURL('https://github.com/microsoft/TypeScript/tree/master');
+	const url = new GitHubFileURL('https://github.com/microsoft/TypeScript/tree/master');
 	assert.equal(url.user, 'microsoft');
 	assert.equal(url.repository, 'TypeScript');
 	assert.equal(url.route, 'tree');
@@ -15,7 +15,7 @@ test('branch', () => {
 });
 
 test('branch with multiple slashes', () => {
-	const url = new GitHubURL('https://github.com/yakov116/TestR/tree/this/branch%2Fhas%2Fmany%2Fslashes');
+	const url = new GitHubFileURL('https://github.com/yakov116/TestR/tree/this/branch%2Fhas%2Fmany%2Fslashes');
 	assert.equal(url.user, 'yakov116');
 	assert.equal(url.repository, 'TestR');
 	assert.equal(url.route, 'tree');
@@ -27,7 +27,7 @@ test('branch with multiple slashes', () => {
 });
 
 test('object', () => {
-	const url = new GitHubURL('https://github.com/microsoft/TypeScript/tree/master/src');
+	const url = new GitHubFileURL('https://github.com/microsoft/TypeScript/tree/master/src');
 	assert.equal(url.user, 'microsoft');
 	assert.equal(url.repository, 'TypeScript');
 	assert.equal(url.route, 'tree');
@@ -39,7 +39,7 @@ test('object', () => {
 });
 
 test('nested object', () => {
-	const url = new GitHubURL('https://github.com/microsoft/TypeScript/tree/master/src/index.js');
+	const url = new GitHubFileURL('https://github.com/microsoft/TypeScript/tree/master/src/index.js');
 	assert.equal(url.user, 'microsoft');
 	assert.equal(url.repository, 'TypeScript');
 	assert.equal(url.route, 'tree');
@@ -51,7 +51,7 @@ test('nested object', () => {
 });
 
 test('change branch', () => {
-	const url = new GitHubURL('https://github.com/microsoft/TypeScript/tree/master/src/index.js').assign({
+	const url = new GitHubFileURL('https://github.com/microsoft/TypeScript/tree/master/src/index.js').assign({
 		branch: 'dev',
 	});
 	assert.equal(url.user, 'microsoft');
@@ -65,7 +65,7 @@ test('change branch', () => {
 });
 
 test('change filePath', () => {
-	const url = new GitHubURL('https://github.com/microsoft/TypeScript/tree/master/src/index.js').assign({
+	const url = new GitHubFileURL('https://github.com/microsoft/TypeScript/tree/master/src/index.js').assign({
 		filePath: 'package.json',
 	});
 	assert.equal(url.user, 'microsoft');
@@ -79,7 +79,7 @@ test('change filePath', () => {
 });
 
 test('get filePath from search', () => {
-	const url = new GitHubURL('https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670?after=f23b687b3b89aa95a76193722cdfeff740646670+34&path%5B%5D=source&path%5B%5D=features&path%5B%5D=release-download-count.tsx');
+	const url = new GitHubFileURL('https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670?after=f23b687b3b89aa95a76193722cdfeff740646670+34&path%5B%5D=source&path%5B%5D=features&path%5B%5D=release-download-count.tsx');
 	assert.equal(url.user, 'yakov116');
 	assert.equal(url.repository, 'refined-github');
 	assert.equal(url.route, 'commits');
