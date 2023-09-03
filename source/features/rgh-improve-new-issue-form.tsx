@@ -63,3 +63,11 @@ void features.add(import.meta.url, {
 		setVersion,
 	],
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/issues/new?assignees=&labels=bug&projects=&template=1_bug_report.yml
+
+*/
