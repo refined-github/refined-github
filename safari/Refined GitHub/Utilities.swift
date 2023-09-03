@@ -1,12 +1,35 @@
 import SwiftUI
 
 
-// TODO: For when we target macOS 13.
-//#if os(macOS)
-//typealias WindowIfMacOS = Window
-//#else
-//typealias WindowIfMacOS = WindowGroup
-//#endif
+struct ShareAppLink: View {
+	let appStoreIdentifier: String
+
+	var body: some View {
+		ShareLink("Share App", item: "https://apps.apple.com/app/id\(appStoreIdentifier)")
+	}
+}
+
+
+struct RateAppLink: View {
+	#if os(macOS)
+	private static let urlScheme = "macappstore"
+	#else
+	private static let urlScheme = "itms-apps"
+	#endif
+
+	let appStoreIdentifier: String
+
+	var body: some View {
+		Link("Rate App", destination: URL(string: "\(Self.urlScheme)://apps.apple.com/app/id\(appStoreIdentifier)?action=write-review")!)
+	}
+}
+
+
+#if os(macOS)
+typealias WindowIfMacOS = Window
+#else
+typealias WindowIfMacOS = WindowGroup
+#endif
 
 
 extension URL: ExpressibleByStringLiteral {
@@ -62,7 +85,7 @@ extension SetAlgebra {
 }
 
 
-#if canImport(AppKit)
+#if os(macOS)
 private struct WindowAccessor: NSViewRepresentable {
 	@MainActor
 	private final class WindowAccessorView: NSView {
@@ -172,6 +195,19 @@ extension View {
 			for buttonType in buttonTypes {
 				$0?.standardWindowButton(buttonType)?.isHidden = isHidden
 			}
+		}
+	}
+}
+#endif
+
+
+#if os(macOS)
+extension Error {
+	@MainActor
+	func present() {
+		// Required since `presentError` is not yet annotated with `@MainActor`. (macOS 13.5)
+		DispatchQueue.main.async {
+			NSApp.presentError(self)
 		}
 	}
 }

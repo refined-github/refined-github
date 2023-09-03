@@ -22,8 +22,10 @@ struct MainScreen: View {
 					.foregroundStyle(.secondary)
 			}
 			VStack(spacing: 16) {
-				Button("Open Safari Extensions Settings…") {
-					openSafariSetting()
+				Button("Open Safari Settings…") {
+					Task {
+						await openSafariSetting()
+					}
 				}
 					.buttonStyle(.borderedProminent)
 					.controlSize(.large)
@@ -44,13 +46,7 @@ struct MainScreen: View {
 			.padding()
 			.fixedSize()
 			.task {
-				do {
-					isEnabled = try await SFSafariExtensionManager.stateOfSafariExtension(withIdentifier: extensionBundleIdentifier).isEnabled
-				} catch {
-					DispatchQueue.main.async {
-						NSApp.presentError(error)
-					}
-				}
+				await setExtensionStatus()
 			}
 			.windowLevel(.floating)
 			.windowIsRestorable(false)
@@ -66,13 +62,13 @@ struct MainScreen: View {
 				(
 					Text(Image(systemName: "checkmark.seal.fill"))
 						.foregroundColor(.green)
-						+ Text(" Enabled")
+							+ Text(" Enabled")
 				)
 			} else {
 				(
 					Text(Image(systemName: "xmark.seal.fill"))
 						.foregroundColor(.red)
-						+ Text(" Disabled")
+							+ Text(" Disabled")
 				)
 			}
 		}
@@ -81,17 +77,20 @@ struct MainScreen: View {
 	}
 
 	#if os(macOS)
-	private func openSafariSetting() {
-		Task { @MainActor in
-			do {
-				try await SFSafariApplication.showPreferencesForExtension(withIdentifier: extensionBundleIdentifier)
-				NSApplication.shared.terminate(nil)
-			} catch {
-				// Required since `presentError` is not yet annotated with `@MainActor`.
-				DispatchQueue.main.async {
-					NSApp.presentError(error)
-				}
-			}
+	private func setExtensionStatus() async {
+		do {
+			isEnabled = try await SFSafariExtensionManager.stateOfSafariExtension(withIdentifier: Constants.extensionBundleIdentifier).isEnabled
+		} catch {
+			await error.present()
+		}
+	}
+
+	private func openSafariSetting() async {
+		do {
+			try await SFSafariApplication.showPreferencesForExtension(withIdentifier: Constants.extensionBundleIdentifier)
+			await NSApplication.shared.terminate(nil)
+		} catch {
+			await error.present()
 		}
 	}
 	#endif
@@ -102,5 +101,3 @@ struct MainScreen_Previews: PreviewProvider {
 		MainScreen()
 	}
 }
-
-private let extensionBundleIdentifier = "com.sindresorhus.Refined-GitHub.Extension"
