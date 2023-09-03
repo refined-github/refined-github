@@ -39,7 +39,7 @@ function linkifyHovercard(hovercard: HTMLElement): void {
 	}
 }
 
-async function init(signal: AbortSignal): Promise<void> {
+async function quickPRInit(signal: AbortSignal): Promise<void> {
 	observe('.branch-name', linkifyQuickPR, {signal});
 }
 
@@ -51,7 +51,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isQuickPR,
 	],
-	init,
+	init: quickPRInit,
 }, {
 	init: hovercardInit,
 });

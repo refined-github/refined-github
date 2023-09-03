@@ -20,8 +20,15 @@ void features.add(import.meta.url, {
 		pageDetect.isNotifications,
 	],
 	exclude: [
-		pageDetect.isBlank, // Empty notification list
+		pageDetect.isBlank,
 	],
-	deduplicate: 'has-rgh',
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/notifications
+
+*/
