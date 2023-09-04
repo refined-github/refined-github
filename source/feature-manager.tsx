@@ -20,6 +20,7 @@ import {
 	brokenFeatures,
 	_,
 } from './helpers/hotfix.js';
+import asyncForEach from './helpers/async-for-each.js';
 
 type BooleanFunction = () => boolean;
 export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
@@ -42,7 +43,7 @@ type FeatureLoader = {
 	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
 	onlyAdditionalListeners?: true;
 
-	init: FeatureInit; // Repeated here because this interface is Partial<>
+	init: Arrayable<FeatureInit>; // Repeated here because this interface is Partial<>
 } & Partial<InternalRunConfig>;
 
 type InternalRunConfig = {
@@ -52,7 +53,7 @@ type InternalRunConfig = {
 	include: BooleanFunction[] | undefined;
 	/** No conditions must be true */
 	exclude: BooleanFunction[] | undefined;
-	init: FeatureInit;
+	init: Arrayable<FeatureInit>;
 	additionalListeners: CallerFunction[];
 
 	onlyAdditionalListeners: boolean;
@@ -171,25 +172,26 @@ async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<
 	currentFeatureControllers.append(id, featureController);
 
 	const runFeature = async (): Promise<void> => {
-		let result: FeatureInitResult | undefined;
-
-		try {
-			result = await init(featureController.signal);
-			// Features can return `false` when they decide not to run on the current page
-			if (result !== false && !isFeaturePrivate(id)) {
-				log.info('✅', id);
-				// Register feature shortcuts
-				for (const [hotkey, description] of Object.entries(shortcuts)) {
-					shortcutMap.set(hotkey, description);
+		await asyncForEach(castArray(init), async init => {
+			let result: FeatureInitResult | undefined;
+			try {
+				result = await init(featureController.signal);
+				// Features can return `false` when they decide not to run on the current page
+				if (result !== false && !isFeaturePrivate(id)) {
+					log.info('✅', id);
+					// Register feature shortcuts
+					for (const [hotkey, description] of Object.entries(shortcuts)) {
+						shortcutMap.set(hotkey, description);
+					}
 				}
+			} catch (error) {
+				log.error(id, error);
 			}
-		} catch (error) {
-			log.error(id, error);
-		}
 
-		if (result) {
-			onAbort(featureController, result);
-		}
+			if (result) {
+				onAbort(featureController, result);
+			}
+		});
 	};
 
 	if (!onlyAdditionalListeners) {

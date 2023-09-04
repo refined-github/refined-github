@@ -133,21 +133,17 @@ async function moveRareTabs(): Promise<void | false> {
 	onlyShowInDropdown('insights-tab');
 }
 
-async function init(): Promise<void> {
-	await Promise.all([
-		moveRareTabs(),
-		updateActionsTab(),
-		updateWikiTab(),
-		updateProjectsTab(),
-	]);
-}
-
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
 	],
 	deduplicate: 'has-rgh',
-	init,
+	init: [
+		moveRareTabs,
+		updateActionsTab,
+		updateWikiTab,
+		updateProjectsTab,
+	],
 }, {
 	include: [
 		pageDetect.isOrganizationProfile,
