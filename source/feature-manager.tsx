@@ -24,7 +24,7 @@ import asyncForEach from './helpers/async-for-each.js';
 
 type BooleanFunction = () => boolean;
 export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
-type FeatureInitResult = void | false | Deinit;
+type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
 
 type FeatureLoader = {
@@ -157,7 +157,7 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 	resolve(options);
 });
 
-function castArray<Item>(value: Item | Item[]): Item[] {
+export function castArray<Item>(value: Item | Item[]): Item[] {
 	return Array.isArray(value) ? value : [value];
 }
 
@@ -189,7 +189,7 @@ async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<
 			}
 
 			if (result) {
-				onAbort(featureController, ...castArray(result));
+				onAbort(featureController, result);
 			}
 		});
 	};
@@ -202,7 +202,7 @@ async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<
 	for (const listener of additionalListeners) {
 		const deinit = listener(runFeature, featureController.signal);
 		if (deinit && !(deinit instanceof Promise)) {
-			onAbort(featureController, ...castArray(deinit));
+			onAbort(featureController, deinit);
 		}
 	}
 }
