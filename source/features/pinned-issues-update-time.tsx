@@ -29,7 +29,7 @@ const getLastUpdated = new CachedFunction('last-updated', {
 		return repository;
 	},
 	maxAge: {minutes: 30},
-	cacheKey: ([issues]) => `${getRepo()!.nameWithOwner}:${String(issues)}}`,
+	cacheKey: ([issues]) => `${getRepo()!.nameWithOwner}:${String(issues)}`,
 });
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
