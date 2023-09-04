@@ -48,6 +48,23 @@ function findError(filename: string): string | void {
 		return `ERR: ${featureId} should be imported by \`${entryPoint}\``;
 	}
 
+	const fileContents = readFileSync(`source/features/${filename}`);
+
+	if (fileContents.includes('.addCssFeature')) {
+		if (fileContents.includes('.add(')) {
+			return `ERR: ${featureId} should use either \`addCssFeature\` or \`add\`, not both`;
+		}
+
+		const correspondingCssFile = `source/features/${filename.replace(/.tsx$/, '.css')}`;
+		if (!existsSync(correspondingCssFile)) {
+			return `ERR: ${featureId} uses \`.addCssFeature\`, but ${correspondingCssFile} is missing`;
+		}
+
+		if (!readFileSync(correspondingCssFile).includes(`[rgh-${featureId}]`)) {
+			return `ERR: ${correspondingCssFile} should contain a \`[rgh-${featureId}]\` selector`;
+		}
+	}
+
 	// The previous checks apply to RGH features, but the next ones don't
 	if (isFeaturePrivate(filename)) {
 		return;
