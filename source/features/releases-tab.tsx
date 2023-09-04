@@ -15,6 +15,7 @@ import {buildRepoURL, cacheByRepo, getRepo} from '../github-helpers/index.js';
 import {releasesSidebarSelector} from './clean-repo-sidebar.js';
 import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
 import {underlineNavDropdownUl} from '../github-helpers/selectors.js';
+import GetReleasesCount from './releases-tab.gql';
 
 async function parseCountFromDom(): Promise<number> {
 	const moreReleasesCountElement = await elementReady(releasesSidebarSelector + ' .Counter');
@@ -27,13 +28,7 @@ async function parseCountFromDom(): Promise<number> {
 
 async function fetchFromApi(nameWithOwner: string): Promise<number> {
 	const [owner, name] = nameWithOwner.split('/');
-	const {repository} = await api.v4(`
-		repository(owner: $owner, name: $name) {
-			releases {
-				totalCount
-			}
-		}
-	`, {
+	const {repository} = await api.v4(GetReleasesCount, {
 		variables: {name, owner},
 	});
 

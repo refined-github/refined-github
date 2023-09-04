@@ -5,6 +5,7 @@ import {type RepositoryInfo} from 'github-url-detection';
 import api from './api.js';
 import {extractCurrentBranchFromBranchPicker, getRepo} from './index.js';
 import {branchSelector} from './selectors.js';
+import GetDefaultBranch from './get-default-branch.gql';
 
 const isCurrentRepo = ({nameWithOwner}: RepositoryInfo): boolean => Boolean(getRepo()?.nameWithOwner === nameWithOwner);
 
@@ -27,15 +28,7 @@ async function fromDOM(): Promise<string | undefined> {
 }
 
 async function fromAPI(repository: RepositoryInfo): Promise<string> {
-	const response = await api.v4(`
-		query getDefaultBranch($owner: String!, $name: String!) {
-			repository(owner: $owner, name: $name) {
-				defaultBranchRef {
-					name
-				}
-			}
-		}
-	`, {
+	const response = await api.v4(GetDefaultBranch, {
 		variables: {
 			owner: repository.owner,
 			name: repository.name,

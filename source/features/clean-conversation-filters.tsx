@@ -6,22 +6,12 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import api, {expectTokenScope} from '../github-helpers/api.js';
 import {cacheByRepo} from '../github-helpers/index.js';
+import HasAnyProjects from './has-any-projects.gql';
 
 const hasAnyProjects = new CachedFunction('has-projects', {
 	async updater(): Promise<boolean> {
 		await expectTokenScope('read:project');
-		const {repository, organization} = await api.v4(`
-		query hasAnyProjects($owner: String!, $name: String!) {
-			repository(owner: $owner, name: $name) {
-				projects { totalCount }
-				projectsV2 { totalCount }
-			}
-			organization(login: $owner) {
-				projects { totalCount }
-				projectsV2 { totalCount }
-			}
-		}
-	`, {
+		const {repository, organization} = await api.v4(HasAnyProjects, {
 			allowErrors: true,
 		});
 

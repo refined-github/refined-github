@@ -6,21 +6,11 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import pluralize from '../helpers/pluralize.js';
+import GetCommitChanges from './get-commit-changes.gql';
 
 const commitChanges = new CachedFunction('commit-changes', {
 	async updater(commit: string): Promise<[additions: number, deletions: number]> {
-		const {repository} = await api.v4(`
-	query getCommitChanges($owner: String!, $name: String!, $commit: String!) {
-		repository(owner: $owner, name: $name) {
-				object(expression: $commit) {
-					... on Commit {
-						additions
-						deletions
-					}
-				}
-			}
-		}
-	`, {
+		const {repository} = await api.v4(GetCommitChanges, {
 			variables: {
 				commit,
 			},

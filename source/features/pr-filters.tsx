@@ -8,6 +8,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
 import {cacheByRepo} from '../github-helpers/index.js';
+import HasChecks from './pr-filters.gql';
 
 const reviewsFilterSelector = '#reviews-select-menu';
 
@@ -54,21 +55,7 @@ function addDraftFilter(dropdown: HTMLElement): void {
 
 const hasChecks = new CachedFunction('has-checks', {
 	async updater(): Promise<boolean> {
-		const {repository} = await api.v4(`
-		repository() {
-			head: object(expression: "HEAD") {
-				... on Commit {
-					history(first: 10) {
-						nodes {
-							statusCheckRollup {
-								state
-							}
-						}
-					}
-				}
-			}
-		}
-	`);
+		const {repository} = await api.v4(HasChecks);
 
 		return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
 	},

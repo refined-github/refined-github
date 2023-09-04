@@ -9,6 +9,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import {buildRepoURL, getRepo} from '../github-helpers/index.js';
+import GetFilesOnRoot from './show-associated-branch-prs-on-fork.gql';
 
 type FileType = {
 	name: string;
@@ -32,18 +33,7 @@ function parseFromDom(): false {
 const changelogName = new CachedFunction('changelog', {
 	async updater(nameWithOwner: string): Promise<string | false> {
 		const [owner, name] = nameWithOwner.split('/');
-		const {repository} = await api.v4(`
-		repository() {
-			object(expression: "HEAD:") {
-				...on Tree {
-					entries {
-						name
-						type
-					}
-				}
-			}
-		}
-	`, {
+		const {repository} = await api.v4(GetFilesOnRoot, {
 			variables: {name, owner},
 		});
 
@@ -67,7 +57,7 @@ async function init(): Promise<void | false> {
 	const changelogButton = (
 		<a
 			className={'tooltipped tooltipped-n btn ml-3' + (pageDetect.isEnterprise() ? '' : ' flex-self-start')}
-			aria-label={`View the ${changelog} file`}
+			aria-label={`View the ${changelog} file}`}
 			href={buildRepoURL('blob', 'HEAD', changelog)}
 			style={pageDetect.isEnterprise() ? {padding: '6px 16px'} : {}}
 			role="button"

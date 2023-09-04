@@ -8,6 +8,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {getCommitHash} from './mark-merge-commits-in-list.js';
 import {buildRepoURL, getRepo} from '../github-helpers/index.js';
+import GetTagsOnCommit from './tags-on-commits-list.gql';
 
 type CommitTags = Record<string, string[]>;
 
@@ -49,43 +50,12 @@ function isTagTarget(target: CommonTarget): target is TagTarget {
 }
 
 async function getTags(lastCommit: string, after?: string): Promise<CommitTags> {
-	const {repository} = await api.v4(`
-		repository() {
-			refs(
-				first: 100,
-				refPrefix: "refs/tags/",
-				orderBy: {
-					field: TAG_COMMIT_DATE,
-					direction: DESC
-				}
-				${after ? `, after: "${after}"` : ''}
-			) {
-				pageInfo {
-					hasNextPage
-					endCursor
-				}
-				nodes {
-					name
-					target {
-						commitResourcePath
-						... on Tag {
-							tagger {
-								date
-							}
-						}
-						... on Commit {
-							committedDate
-						}
-					}
-				}
-			}
-			object(expression: "${lastCommit}") {
-				... on Commit {
-					committedDate
-				}
-			}
-		}
-		`);
+	const {repository} = await api.v4(GetTagsOnCommit, {
+		variables: {
+			after: after ?? null,
+			commit: lastCommit,
+		},
+	});
 	const nodes = repository.refs.nodes as TagNode[];
 
 	// If there are no tags in the repository

@@ -11,6 +11,7 @@ import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import pluralize from '../helpers/pluralize.js';
 import {branchSelectorParent} from '../github-helpers/selectors.js';
+import getPublishRepoState from './unreleased-commits.gql';
 
 type RepoPublishState = {
 	latestTag: string | false;
@@ -31,37 +32,7 @@ export const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the br
 
 export const repoPublishState = new CachedFunction('tag-ahead-by', {
 	async updater(): Promise<RepoPublishState> {
-		const {repository} = await api.v4(`
-		repository() {
-			refs(first: 20, refPrefix: "refs/tags/", orderBy: {
-				field: TAG_COMMIT_DATE,
-				direction: DESC
-			}) {
-				nodes {
-					name
-					tag: target {
-						oid
-						... on Tag {
-							commit: target {
-								oid
-							}
-						}
-					}
-				}
-			}
-			defaultBranchRef {
-				target {
-					... on Commit {
-						history(first: 20) {
-							nodes {
-								oid
-							}
-						}
-					}
-				}
-			}
-		}
-	`);
+		const {repository} = await api.v4(getPublishRepoState);
 
 		if (repository.refs.nodes.length === 0) {
 			return {

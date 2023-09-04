@@ -1,2 +1,6 @@
 # Ensure Prettier is not automatically run by editors
-*.*
+*.tsx
+*.ts
+*.js
+*.json
+*.md
