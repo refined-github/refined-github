@@ -111,7 +111,6 @@ import './features/suggest-commit-title-limit.js';
 import './features/highest-rated-comment.js';
 import './features/clean-conversation-filters.js';
 import './features/tags-on-commits-list.js';
-import './features/edit-readme.js';
 import './features/list-prs-for-file.js';
 import './features/pr-branch-auto-delete.js';
 import './features/linkify-symbolic-links.js'; // Must be before show-whitespace
