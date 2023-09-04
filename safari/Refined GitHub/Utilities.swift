@@ -1,6 +1,20 @@
 import SwiftUI
 
 
+enum SSApp {
+	static let isFirstLaunch: Bool = {
+		let key = "SS_hasLaunched"
+
+		if UserDefaults.standard.bool(forKey: key) {
+			return false
+		}
+
+		UserDefaults.standard.set(true, forKey: key)
+		return true
+	}()
+}
+
+
 struct ShareAppLink: View {
 	let appStoreIdentifier: String
 

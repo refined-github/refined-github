@@ -1,7 +1,10 @@
 import SwiftUI
 import SafariServices
+import StoreKit
 
 struct MainScreen: View {
+	@Environment(\.requestReview) private var requestReview
+	@AppStorage("hasRequestedReview") private var hasRequestedReview = false
 	@State private var isEnabled = false
 
 	var body: some View {
@@ -41,6 +44,9 @@ struct MainScreen: View {
 		}
 			.padding()
 			.offset(y: -12) // Looks better than fully center.
+			.task {
+				requestReviewIfNeeded()
+			}
 			#if os(macOS)
 			.padding()
 			.padding()
@@ -94,6 +100,19 @@ struct MainScreen: View {
 		}
 	}
 	#endif
+
+	@MainActor
+	private func requestReviewIfNeeded() {
+		guard
+			!SSApp.isFirstLaunch,
+			!hasRequestedReview
+		else {
+			return
+		}
+
+		requestReview()
+		hasRequestedReview = true
+	}
 }
 
 struct MainScreen_Previews: PreviewProvider {
