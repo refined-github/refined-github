@@ -101,7 +101,6 @@ import './features/more-file-links.js';
 import './features/pr-filters.js';
 import './features/quick-file-edit.js';
 import './features/update-pr-from-base-branch.js';
-import './features/hide-disabled-milestone-sorter.js';
 import './features/tag-changes-link.js';
 import './features/clean-conversation-sidebar.js';
 import './features/sticky-sidebar.js';
