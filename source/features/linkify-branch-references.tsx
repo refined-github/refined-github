@@ -1,18 +1,12 @@
 import React from 'dom-chef';
-import select from 'select-dom';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import GitHubURL from '../github-helpers/github-url.js';
 import {buildRepoURL} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
-async function init(): Promise<void | false> {
-	const element = await elementReady(pageDetect.isQuickPR() ? '.branch-name' : '.commit-form .branch-name');
-	if (!element) {
-		return false;
-	}
-
+function linkifyQuickPR(element: HTMLElement): void {
 	const branchUrl = buildRepoURL('tree', element.textContent!);
 	element.replaceWith(
 		<span className="commit-ref">
@@ -23,12 +17,7 @@ async function init(): Promise<void | false> {
 	);
 }
 
-const hovercardObserver = new MutationObserver(([mutation]) => {
-	const hovercard = (mutation.target as HTMLElement).querySelector('[data-hydro-view*="pull-request-hovercard-hover"] ~ .d-flex.mt-2');
-	if (!hovercard) {
-		return;
-	}
-
+function linkifyHovercard(hovercard: HTMLElement): void {
 	const {href} = hovercard.querySelector('a.Link--primary')!;
 
 	for (const reference of hovercard.querySelectorAll('.commit-ref')) {
@@ -48,26 +37,30 @@ const hovercardObserver = new MutationObserver(([mutation]) => {
 			</a>,
 		);
 	}
-});
+}
 
-function hovercardInit(): void | Deinit {
-	const hovercardContainer = select('.js-hovercard-content > .Popover-message');
-	if (hovercardContainer) {
-		hovercardObserver.observe(hovercardContainer, {childList: true});
-		return hovercardObserver;
-	}
+async function quickPRInit(signal: AbortSignal): Promise<void> {
+	observe('.branch-name', linkifyQuickPR, {signal});
+}
+
+function hovercardInit(signal: AbortSignal): void {
+	observe('[data-hydro-view*="pull-request-hovercard-hover"] ~ .d-flex.mt-2', linkifyHovercard, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isQuickPR,
-		pageDetect.isEditingFile,
-		pageDetect.isDeletingFile,
 	],
-	deduplicate: 'has-rgh',
-	init,
+	init: quickPRInit,
 }, {
-	deduplicate: 'has-rgh',
-	awaitDomReady: true, // TODO: Use new observer
 	init: hovercardInit,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/sandbox/compare/default-a...quick-pr-branch?quick_pull=1
+https://github.com ("Recent activity" box in left sidebar, hover a PR)
+
+*/
