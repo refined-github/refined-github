@@ -26,10 +26,13 @@ function linkifyContent(wrapper: Element): void {
 		console.log(errors);
 	}
 
-	// Linkify issue refs in comments
-	const currentRepo = getRepo() ?? {};
-	for (const element of select.all('.pl-c', wrapper)) {
-		linkifyIssues(currentRepo, element);
+	// Linkify issue refs in comments, exclude gists:
+	// https://github.com/refined-github/refined-github/pull/3844#issuecomment-751427568
+	if (!pageDetect.isGist()) {
+		const currentRepo = getRepo() ?? {};
+		for (const element of select.all('.pl-c', wrapper)) {
+			linkifyIssues(currentRepo, element);
+		}
 	}
 
 	// Mark code block as touched to avoid `shorten-links` from acting on these new links in code
@@ -43,10 +46,6 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasCode,
-	],
-	exclude: [
-		// TODO: Needed?
-		pageDetect.isGist,
 	],
 	init,
 }, {

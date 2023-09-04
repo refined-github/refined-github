@@ -344,9 +344,6 @@ function addEventListeners(): void {
 async function init(): Promise<void> {
 	await generateDom();
 	addEventListeners();
-
-	// TODO: Storage cleanup #6421, Drop in June 2023
-	void browser.storage.local.remove('featuresAlreadySeen');
 }
 
 void init();
