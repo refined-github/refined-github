@@ -20,6 +20,9 @@
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:webpack": "cross-env NODE_OPTIONS=\"--loader tsx --no-warnings=ExperimentalWarning \" webpack --mode=development --watch"
 	},
+	"prettier": {
+		"singleQuote": true
+	},
 	"stylelint": {
 		"extends": [
 			"stylelint-config-xo",
@@ -144,8 +147,5 @@
 				"https://github.com/refined-github/refined-github/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc"
 			]
 		}
-	},
-	"prettier": {
-		"singleQuote": true
 	}
 }
