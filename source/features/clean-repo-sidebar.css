@@ -9,13 +9,13 @@
 }
 
 /* Hide "Readme" link made unnecessary by `toggle-files-button` #3580 */
-[rgh-clean-repo-sidebar] .Layout-sidebar [href$='#readme'] {
+[rgh-clean-repo-sidebar] .Layout-sidebar [href$="#readme"] {
 	display: none;
 }
 
 @media (min-width: 768px) {
 	/* Hide "Releases" header */
-	[rgh-clean-repo-sidebar] .Layout-sidebar h2 [href$='/releases'] {
+	[rgh-clean-repo-sidebar] .Layout-sidebar h2 [href$="/releases"] {
 		display: none;
 	}
 
@@ -35,9 +35,11 @@
 }
 
 /* Hide Code of conduct links */
-[rgh-clean-repo-sidebar] .Layout-sidebar .Link--muted:is(
-[href$='/code-of-conduct.md' i],
-[href$='/code_of_conduct.md' i]
-) {
+[rgh-clean-repo-sidebar]
+	.Layout-sidebar
+	.Link--muted:is(
+		[href$="/code-of-conduct.md" i],
+		[href$="/code_of_conduct.md" i]
+	) {
 	display: none;
 }

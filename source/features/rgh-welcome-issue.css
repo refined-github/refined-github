@@ -16,7 +16,9 @@
 }
 
 @media (min-width: 768px) {
-	[data-url^='/refined-github/refined-github/issues/3543/show_partial'] .gh-header-title .js-issue-title {
+	[data-url^="/refined-github/refined-github/issues/3543/show_partial"]
+		.gh-header-title
+		.js-issue-title {
 		font-size: 5vw !important;
 		font-weight: 300;
 	}

@@ -13,7 +13,7 @@
 }
 
 /* TODO: Drop this whole rule when :has() is crossbrowser */
-.TimelineItem[id^='event-'] .TimelineItem-body :is(ins, del) {
+.TimelineItem[id^="event-"] .TimelineItem-body :is(ins, del) {
 	display: block !important;
 }
 
