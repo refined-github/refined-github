@@ -2,7 +2,7 @@
 /* Instead of duplicating this selector for each rule, we set a variable and pick it up where needed */
 [rgh-no-unnecessary-split-diff-view]
 	.js-diff-table:has([data-split-side]):not(
-		:has([data-split-side="left"]:is(.blob-code-addition, .blob-code-deletion))
+		:has([data-split-side='left']:is(.blob-code-addition, .blob-code-deletion))
 	) {
 	--rgh-only-additions: none;
 	table-layout: auto !important;
@@ -10,7 +10,7 @@
 
 [rgh-no-unnecessary-split-diff-view]
 	.js-diff-table:has([data-split-side]):not(
-		:has([data-split-side="right"]:is(.blob-code-addition, .blob-code-deletion))
+		:has([data-split-side='right']:is(.blob-code-addition, .blob-code-deletion))
 	) {
 	--rgh-only-deletions: none;
 	table-layout: auto !important;

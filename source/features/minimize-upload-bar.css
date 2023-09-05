@@ -19,7 +19,7 @@
 @media (min-width: 768px) {
 	[rgh-minimize-upload-bar]
 		.js-previewable-comment-form
-		label[aria-label^="Attach an image"] {
+		label[aria-label^='Attach an image'] {
 		display: block !important;
 		padding: 4px !important;
 	}

@@ -7,7 +7,7 @@
 }
 
 .rgh-comments-indicator:is(::before, ::after) {
-	content: "" !important; /* Needs to override .blob-num’s */
+	content: '' !important; /* Needs to override .blob-num’s */
 	position: absolute;
 	top: -1px;
 	left: 0;

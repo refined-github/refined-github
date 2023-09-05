@@ -44,7 +44,7 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 	transition: transform 0.1s;
 }
 
-[alt="404 “This is not the web page you are looking for”"] {
+[alt='404 “This is not the web page you are looking for”'] {
 	animation: fade-in 2s ease-out;
 }
 
@@ -61,7 +61,7 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 }
 
 /* Remove the "New repository" button in the dashboard sidebar */
-.dashboard-sidebar a.Button[href="/new"] {
+.dashboard-sidebar a.Button[href='/new'] {
 	display: none;
 }
 
@@ -122,7 +122,7 @@ pr-branches
 }
 
 /* Space out "Edit" and "Open with" buttons on PR page, also for `view-last-pr-deployment` #4281 */
-.gh-header-actions [aria-label="Edit Pull Request title"] {
+.gh-header-actions [aria-label='Edit Pull Request title'] {
 	margin-left: 4px !important;
 	margin-right: 4px !important;
 }
@@ -138,23 +138,23 @@ pr-branches
 }
 
 /* Bold username in conversation lists #4899 */
-:is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type="user"] {
+:is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type='user'] {
 	font-weight: 600;
 }
 
 /* Fit large images in the window when viewing single files */
-div[data-target="readme-toc.content"] div.blob-wrapper img {
+div[data-target='readme-toc.content'] div.blob-wrapper img {
 	max-width: 100%;
 }
 
 /* Hide label on Milestones link if there are zero milestones #5120 */
-[data-selected-links^="repo_milestones "]:has([title="0"]) {
+[data-selected-links^='repo_milestones ']:has([title='0']) {
 	width: 36px; /* Size it so only the icon is visible */
 	overflow: hidden; /* Crop the text out */
 	padding-left: 10px;
 }
 
-[data-selected-links^="repo_milestones "]:has([title="0"]) svg {
+[data-selected-links^='repo_milestones ']:has([title='0']) svg {
 	margin-right: 20px; /* Push the text farther away from the text so it's cropped out */
 }
 

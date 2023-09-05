@@ -18,11 +18,11 @@
 
 html::after {
 	/* Add some extra scroll to the page to reduce section toggle jumps/scroll */
-	content: "";
+	content: '';
 	display: block;
 	height: 50vh;
 	/* webpackIgnore: true */
-	background: url("icon.png") center no-repeat;
+	background: url('icon.png') center no-repeat;
 	filter: opacity(0.1) saturate(0) brightness(1.2);
 }
 
@@ -93,29 +93,29 @@ details[open] > :not(summary) {
 	display: inline-block;
 }
 
-[data-validation="valid"]::before {
+[data-validation='valid']::before {
 	content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" fill="%2328a745" d="M8 16A8 8 0 108 0a8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L6.75 9.19 5.28 7.72a.75.75 0 00-1.06 1.06l2 2a.75.75 0 001.06 0l4.5-4.5z"></path></svg>');
 }
 
-[data-validation="invalid"]::before {
+[data-validation='invalid']::before {
 	content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" fill="%23cb2431" d="M1.5 8a6.5 6.5 0 0110.535-5.096l-9.131 9.131A6.472 6.472 0 011.5 8zm2.465 5.096a6.5 6.5 0 009.131-9.131l-9.131 9.131zM8 0a8 8 0 100 16A8 8 0 008 0z"></path></svg>');
 }
 
-:root [name="customCSS"],
-:root [name="personalToken"] {
+:root [name='customCSS'],
+:root [name='personalToken'] {
 	/* Same as GitHub style for `code` */
-	font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-		"Liberation Mono", monospace !important;
+	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+		'Liberation Mono', monospace !important;
 	font-size: 11px;
 	line-height: 1.5;
 }
 
-[name="personalToken"] {
+[name='personalToken'] {
 	width: 20em !important; /* https://github.com/refined-github/refined-github/issues/1374#issuecomment-397906701 */
 	display: inline-block !important;
 }
 
-[name="personalToken"]:invalid {
+[name='personalToken']:invalid {
 	border-color: var(--rgh-red) !important;
 }
 
@@ -123,11 +123,11 @@ details[open] > :not(summary) {
 	display: flex;
 }
 
-.js-features input[type="checkbox"] {
+.js-features input[type='checkbox'] {
 	flex-shrink: 0;
 }
 
-.js-features input[type="checkbox"]:not(*:root) {
+.js-features input[type='checkbox']:not(*:root) {
 	/* Selector for Chrome only http://browserhacks.com/#ch */
 	margin-inline-end: 0.6em;
 	margin-top: 2px;

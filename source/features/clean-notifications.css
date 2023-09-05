@@ -1,13 +1,13 @@
 /* Place conversation number before the title */
-.js-notifications-group [id^="notification"] {
+.js-notifications-group [id^='notification'] {
 	flex-direction: row !important;
 }
 /* Hide duplicate repository URL */
-.js-notifications-group [id^="notification"] > .d-flex > .f6 {
+.js-notifications-group [id^='notification'] > .d-flex > .f6 {
 	font-size: 0 !important;
 }
 /* Size and position the conversation number */
-.js-notifications-group [id^="notification"] > .d-flex > .f6 > span {
+.js-notifications-group [id^='notification'] > .d-flex > .f6 > span {
 	display: block;
 	font-size: 12px;
 	font-variant-numeric: tabular-nums;

@@ -8,7 +8,7 @@ There’s also one place where GitHub incorrectly uses the "user configuration" 
 */
 
 :root,
-.comment-body .tab-size[data-tab-size="8"] {
+.comment-body .tab-size[data-tab-size='8'] {
 	--tab-size: 4;
 	tab-size: var(--tab-size);
 }

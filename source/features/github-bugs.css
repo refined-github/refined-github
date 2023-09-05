@@ -13,8 +13,8 @@
 :is(.new_public_key, .new_gpg_key) textarea {
 	/* Monospace textareas for new SSH/GPG keys #4917 */
 	/* Same as GitHub style for `code` */
-	font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-		"Liberation Mono", monospace !important;
+	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+		'Liberation Mono', monospace !important;
 }
 
 /* Limit width of comment form on commit pages #5032 */
@@ -34,7 +34,7 @@
 
 /* Align icons in the release search field #6506 */
 /* Test: https://github.com/refined-github/refined-github/releases */
-[action$="/releases"] .subnav-search-icon {
+[action$='/releases'] .subnav-search-icon {
 	margin-top: -1px;
 }
 
@@ -43,7 +43,7 @@
 }
 
 /* Add margin to release download icon #6510 */
-.Box-row :is(.octicon-package, .octicon-file-zip):has(+ a[rel="nofollow"]) {
+.Box-row :is(.octicon-package, .octicon-file-zip):has(+ a[rel='nofollow']) {
 	margin-right: 4px;
 }
 

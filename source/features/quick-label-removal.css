@@ -19,7 +19,7 @@
 	fill: rgb(var(--label-r) var(--label-g) var(--label-b));
 }
 
-[data-color-mode="dark"][data-dark-theme*="dark"]
+[data-color-mode='dark'][data-dark-theme*='dark']
 	.rgh-quick-label-removal:is(:focus, :hover)
 	svg {
 	fill: var(--rgh-background);

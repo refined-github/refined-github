@@ -23,7 +23,7 @@
 .rgh-clean-conversation-headers:not(
 		.rgh-clean-conversation-headers-hide-author
 	)::before {
-	content: "by ";
+	content: 'by ';
 	font-size: 14px;
 }
 

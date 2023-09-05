@@ -60,8 +60,8 @@
 		font-weight: inherit;
 	}
 
-	[rgh-mobile-tabs] [data-content="Pull requests"]::before {
-		content: "Pulls" !important;
+	[rgh-mobile-tabs] [data-content='Pull requests']::before {
+		content: 'Pulls' !important;
 	}
 
 	[rgh-mobile-tabs] .UnderlineNav-item svg {

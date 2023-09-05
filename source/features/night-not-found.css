@@ -1,5 +1,5 @@
 /* Brighten Octocat on hover 1/2 */
-.js-plaxify[height="230"] {
+.js-plaxify[height='230'] {
 	transition:
 		transform 0.1s,
 		filter 1s;
@@ -7,118 +7,118 @@
 
 /* These are 2 exact copies: one for always-dark mode and the other one for auto mode */
 
-[data-color-mode="dark"] .js-plaxify[height="249"] {
+[data-color-mode='dark'] .js-plaxify[height='249'] {
 	filter: invert();
 }
 
-[data-color-mode="dark"] .js-plaxify[height="230"] {
+[data-color-mode='dark'] .js-plaxify[height='230'] {
 	filter: brightness(0.7) saturate(0.5) contrast(1.3);
 }
 
-[data-color-mode="dark"] .js-plaxify[height="156"] {
+[data-color-mode='dark'] .js-plaxify[height='156'] {
 	filter: brightness(0.3) saturate(0.5);
 }
 
-[data-color-mode="dark"] .js-plaxify[height="49"] {
+[data-color-mode='dark'] .js-plaxify[height='49'] {
 	filter: brightness(0.8) saturate(0.5);
 }
 
-[data-color-mode="dark"]
-	.js-plaxify:is([height="415"], [height="75"], [height="50"]) {
+[data-color-mode='dark']
+	.js-plaxify:is([height='415'], [height='75'], [height='50']) {
 	filter: brightness(0.1) saturate(0.5);
 }
 
-[data-color-mode="dark"] .js-plaxify[height="123"] {
+[data-color-mode='dark'] .js-plaxify[height='123'] {
 	filter: brightness(0.15) saturate(0.5);
 }
 
 /* Dark dimmed */
-[data-color-mode="dark"][data-dark-theme="dark_dimmed"]
-	.js-plaxify[height="249"] {
+[data-color-mode='dark'][data-dark-theme='dark_dimmed']
+	.js-plaxify[height='249'] {
 	filter: brightness(0.5);
 }
 
-[data-color-mode="dark"][data-dark-theme="dark_dimmed"]
-	.js-plaxify[height="230"] {
+[data-color-mode='dark'][data-dark-theme='dark_dimmed']
+	.js-plaxify[height='230'] {
 	filter: brightness(0.8) saturate(0.5) contrast(1.3);
 }
 
-[data-color-mode="dark"][data-dark-theme="dark_dimmed"]
-	.js-plaxify[height="156"] {
+[data-color-mode='dark'][data-dark-theme='dark_dimmed']
+	.js-plaxify[height='156'] {
 	filter: brightness(0.5) saturate(0.5);
 }
 
-[data-color-mode="dark"][data-dark-theme="dark_dimmed"]
-	.js-plaxify[height="49"] {
+[data-color-mode='dark'][data-dark-theme='dark_dimmed']
+	.js-plaxify[height='49'] {
 	filter: brightness(0.9) saturate(0.5);
 }
 
-[data-color-mode="dark"][data-dark-theme="dark_dimmed"]
-	.js-plaxify:is([height="415"], [height="75"], [height="50"], [height="123"]) {
+[data-color-mode='dark'][data-dark-theme='dark_dimmed']
+	.js-plaxify:is([height='415'], [height='75'], [height='50'], [height='123']) {
 	filter: brightness(0.3) saturate(0.5);
 }
 
 /* Auto mode, dark */
 @media (prefers-color-scheme: dark) {
 	/* Dark */
-	[data-color-mode="auto"][data-dark-theme="dark"] .js-plaxify[height="249"] {
+	[data-color-mode='auto'][data-dark-theme='dark'] .js-plaxify[height='249'] {
 		filter: invert();
 	}
 
-	[data-color-mode="auto"][data-dark-theme="dark"] .js-plaxify[height="230"] {
+	[data-color-mode='auto'][data-dark-theme='dark'] .js-plaxify[height='230'] {
 		filter: brightness(0.6) saturate(0.5) contrast(1.3);
 	}
 
-	[data-color-mode="auto"][data-dark-theme="dark"] .js-plaxify[height="156"] {
+	[data-color-mode='auto'][data-dark-theme='dark'] .js-plaxify[height='156'] {
 		filter: brightness(0.3) saturate(0.5);
 	}
 
-	[data-color-mode="auto"][data-dark-theme="dark"] .js-plaxify[height="49"] {
+	[data-color-mode='auto'][data-dark-theme='dark'] .js-plaxify[height='49'] {
 		filter: brightness(0.9) saturate(0.5);
 	}
 
-	[data-color-mode="auto"][data-dark-theme="dark"]
-		.js-plaxify:is([height="415"], [height="75"], [height="50"]) {
+	[data-color-mode='auto'][data-dark-theme='dark']
+		.js-plaxify:is([height='415'], [height='75'], [height='50']) {
 		filter: brightness(0.1) saturate(0.5);
 	}
 
-	[data-color-mode="auto"][data-dark-theme="dark"] .js-plaxify[height="123"] {
+	[data-color-mode='auto'][data-dark-theme='dark'] .js-plaxify[height='123'] {
 		filter: brightness(0.15) saturate(0.5);
 	}
 
 	/* Dark dimmed */
-	[data-color-mode="auto"][data-dark-theme="dark_dimmed"]
-		.js-plaxify[height="249"] {
+	[data-color-mode='auto'][data-dark-theme='dark_dimmed']
+		.js-plaxify[height='249'] {
 		filter: brightness(0.5);
 	}
 
-	[data-color-mode="auto"][data-dark-theme="dark_dimmed"]
-		.js-plaxify[height="230"] {
+	[data-color-mode='auto'][data-dark-theme='dark_dimmed']
+		.js-plaxify[height='230'] {
 		filter: brightness(0.8) saturate(0.5) contrast(1.3);
 	}
 
-	[data-color-mode="auto"][data-dark-theme="dark_dimmed"]
-		.js-plaxify[height="156"] {
+	[data-color-mode='auto'][data-dark-theme='dark_dimmed']
+		.js-plaxify[height='156'] {
 		filter: brightness(0.5) saturate(0.5);
 	}
 
-	[data-color-mode="auto"][data-dark-theme="dark_dimmed"]
-		.js-plaxify[height="49"] {
+	[data-color-mode='auto'][data-dark-theme='dark_dimmed']
+		.js-plaxify[height='49'] {
 		filter: brightness(0.9) saturate(0.5);
 	}
 
-	[data-color-mode="auto"][data-dark-theme="dark_dimmed"]
+	[data-color-mode='auto'][data-dark-theme='dark_dimmed']
 		.js-plaxify:is(
-			[height="415"],
-			[height="75"],
-			[height="50"],
-			[height="123"]
+			[height='415'],
+			[height='75'],
+			[height='50'],
+			[height='123']
 		) {
 		filter: brightness(0.3) saturate(0.5);
 	}
 }
 
 /* Brighten Octocat on hover 2/2 */
-[data-color-mode] .js-plaxify[height="230"]:hover {
+[data-color-mode] .js-plaxify[height='230']:hover {
 	filter: none;
 }

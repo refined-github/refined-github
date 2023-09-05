@@ -144,5 +144,8 @@
 				"https://github.com/refined-github/refined-github/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc"
 			]
 		}
+	},
+	"prettier": {
+		"singleQuote": true
 	}
 }

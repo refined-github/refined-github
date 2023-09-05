@@ -1,7 +1,7 @@
-[data-color-mode="light"] .rgh-conflict-marker svg {
+[data-color-mode='light'] .rgh-conflict-marker svg {
 	color: #ccc;
 }
 
-[data-color-mode="dark"] .rgh-conflict-marker svg {
+[data-color-mode='dark'] .rgh-conflict-marker svg {
 	color: var(--color-fg-muted);
 }
