@@ -10,10 +10,11 @@ struct MainScreen: View {
 	var body: some View {
 		VStack(spacing: 32) {
 			VStack {
-				Image(decorative: "LargeIcon")
+				Image(.largeIcon)
 					.resizable()
 					.scaledToFit()
 					.frame(height: 100)
+					.accessibilityHidden(true)
 				Text("Refined GitHub")
 					.font(.title)
 			}
@@ -115,8 +116,6 @@ struct MainScreen: View {
 	}
 }
 
-struct MainScreen_Previews: PreviewProvider {
-	static var previews: some View {
-		MainScreen()
-	}
+#Preview {
+	MainScreen()
 }
