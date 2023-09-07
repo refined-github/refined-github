@@ -9,14 +9,17 @@ published a release
 edited a gollum (wiki)
 */
 
-[rgh-hide-newsfeed-noise] .news :is(.push, .fork, .delete, .follow, .release, .gollum) {
+[rgh-hide-newsfeed-noise]
+	.news
+	:is(.push, .fork, .delete, .follow, .release, .gollum) {
 	display: none !important;
 }
 
-[rgh-hide-newsfeed-noise] .body:has(
-[data-hydro-click*='"type":"PushEvent"'],
-[data-hydro-click*='"type":"FollowEvent"'],
-[data-hydro-click*='"type":"ReleaseEvent"']
-) {
+[rgh-hide-newsfeed-noise]
+	.body:has(
+		[data-hydro-click*='"type":"PushEvent"'],
+		[data-hydro-click*='"type":"FollowEvent"'],
+		[data-hydro-click*='"type":"ReleaseEvent"']
+	) {
 	display: none !important;
 }

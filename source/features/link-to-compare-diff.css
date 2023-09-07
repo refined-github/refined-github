@@ -1,3 +1,4 @@
-.rgh-link-to-compare-diff:hover > :is(.octicon-file-diff, .octicon-file-diff ~ span) {
+.rgh-link-to-compare-diff:hover
+	> :is(.octicon-file-diff, .octicon-file-diff ~ span) {
 	color: var(--color-accent-fg) !important;
 }

@@ -9,6 +9,9 @@
 	padding-bottom: 0.2em; /* Do not add to `pre` #5540 */
 }
 
-[rgh-scrollable-areas] .comment-body :is(details, blockquote) :is(blockquote, pre) {
+[rgh-scrollable-areas]
+	.comment-body
+	:is(details, blockquote)
+	:is(blockquote, pre) {
 	max-height: none;
 }

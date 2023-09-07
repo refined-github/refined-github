@@ -8,11 +8,14 @@
 	border-radius: 6px;
 }
 
+/* Restore monospace font in commit/merge title fields #5188 */
 #merge_title_field,
-#commit-summary-input, /* Restore monospace font in commit/merge title fields #5188 */
-:is(.new_public_key, .new_gpg_key) textarea { /* Monospace textareas for new SSH/GPG keys #4917 */
+#commit-summary-input,
+/* Monospace textareas for new SSH/GPG keys #4917 */
+:is(.new_public_key, .new_gpg_key) textarea {
 	/* Same as GitHub style for `code` */
-	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace !important;
+	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+		'Liberation Mono', monospace !important;
 }
 
 /* Limit width of comment form on commit pages #5032 */

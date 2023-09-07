@@ -6,11 +6,13 @@
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
 		"build:webpack": "cross-env NODE_OPTIONS=\"--loader tsx --no-warnings=ExperimentalWarning\" webpack --mode=production",
-		"fix": "run-p \"lint:* -- --fix\"",
+		"fix": "run-p \"lint:css -- --fix\" \"lint:js -- --fix\" fix:prettier",
+		"fix:prettier": "prettier . --write",
 		"lint": "run-p lint:* --continue-on-error",
 		"lint:css": "stylelint \"source/**/*.css\"",
 		"lint:js": "xo",
-		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj' -scheme 'Refined GitHub (macOS)'",
+		"lint:prettier": "prettier . --check",
+		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj' -scheme 'Refined GitHub' -destination 'platform=macOS'",
 		"prepare:safari": "bash build/prepare-safari-release.sh",
 		"test": "run-p vitest lint:* build:* test:features --continue-on-error",
 		"test:features": "tsx build/verify-features.ts",
@@ -18,8 +20,14 @@
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:webpack": "cross-env NODE_OPTIONS=\"--loader tsx --no-warnings=ExperimentalWarning \" webpack --mode=development --watch"
 	},
+	"prettier": {
+		"singleQuote": true
+	},
 	"stylelint": {
-		"extends": "stylelint-config-xo",
+		"extends": [
+			"stylelint-config-xo",
+			"stylelint-config-prettier"
+		],
 		"rules": {
 			"selector-type-no-unknown": null,
 			"declaration-no-important": null,
@@ -60,8 +68,8 @@
 		"image-promise": "^7.0.1",
 		"indent-textarea": "^3.0.0",
 		"js-abbreviation-number": "^1.4.0",
-		"linkify-issues": "2.0.0-nolookbehind",
-		"linkify-urls": "3.1.0-nolookbehind",
+		"linkify-issues": "^3.0.0",
+		"linkify-urls": "^4.0.0",
 		"mem": "^9.0.2",
 		"one-event": "^3.1.0",
 		"one-mutation": "^2.1.0",
@@ -107,8 +115,10 @@
 		"jsdom": "^22.1.0",
 		"mini-css-extract-plugin": "^2.7.6",
 		"npm-run-all": "^4.1.5",
+		"prettier": "^3.0.3",
 		"snarkdown": "^2.0.0",
 		"stylelint": "^15.10.3",
+		"stylelint-config-prettier": "^9.0.5",
 		"stylelint-config-xo": "^0.22.0",
 		"terser-webpack-plugin": "^5.3.9",
 		"tsx": "^3.12.7",
