@@ -67,7 +67,7 @@
 	background-color: var(--color-diff-blob-hunk-num-bg, #dbedff);
 }
 
+/* https://github.com/refined-github/refined-github/issues/6515 */
 .rgh-table-input .sentinel {
-	/* https://github.com/refined-github/refined-github/issues/6515 */
 	display: none;
 }
