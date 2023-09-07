@@ -8,6 +8,7 @@ import showToast from '../github-helpers/toast.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import observe from '../helpers/selector-observer.js';
+import GetFile from './restore-file.gql';
 
 async function getMergeBaseReference(): Promise<string> {
 	const {base, head} = getBranches();
@@ -23,18 +24,7 @@ async function getHeadReference(): Promise<string> {
 }
 
 async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | undefined> {
-	const {repository} = await api.v4(`
-		query getFile($owner: String!, $name: String!, $file: String!) {
-			repository(owner: $owner, name: $name) {
-				file: object(expression: $file) {
-					... on Blob {
-						isTruncated
-						text
-					}
-				}
-			}
-		}
-	`, {
+	const {repository} = await api.v4(GetFile, {
 		variables: {
 			file: `${await getMergeBaseReference()}:${filePath}`,
 		},

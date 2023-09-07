@@ -11,25 +11,10 @@ import {linkifiedURLClass} from '../github-helpers/dom-formatters.js';
 import {buildRepoURL, isPermalink} from '../github-helpers/index.js';
 import {saveOriginalHref} from './sort-conversations-by-update-time.js';
 import observe from '../helpers/selector-observer.js';
+import GetCommitAtDate from './comments-time-machine-links.gql';
 
 async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
-	const {repository} = await api.v4(`
-		query GetCommitAtDate($owner: String!, $name: String!, $branch: String!, $date: GitTimestamp!) {
-			repository(owner: $owner, name: $name) {
-				ref(qualifiedName: $branch) {
-					target {
-						... on Commit {
-							history(first: 1, until: $date) {
-								nodes {
-									oid
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	`, {variables: {date, branch: url.branch}});
+	const {repository} = await api.v4(GetCommitAtDate, {variables: {date, branch: url.branch}});
 
 	const [{oid}] = repository.ref.target.history.nodes;
 	select('a.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;

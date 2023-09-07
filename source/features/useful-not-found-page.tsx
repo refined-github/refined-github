@@ -10,6 +10,7 @@ import GitHubURL from '../github-helpers/github-url.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {getCleanPathname, isUrlReachable} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
+import GetLatestCommitToFile from './useful-not-found-page.gql';
 
 type File = {
 	previous_filename?: string;
@@ -51,21 +52,7 @@ function parseCurrentURL(): string[] {
 }
 
 async function getLatestCommitToFile(branch: string, filePath: string): Promise<string | void> {
-	const {repository} = await api.v4(`
-		query getLatestCommitToFile($owner: String!, $name: String!, $branch: String!, $filePath: String!) {
-			repository(owner: $owner, name: $name) {
-				object(expression: $branch) {
-					... on Commit {
-						history(first: 1, path: $filePath) {
-							nodes {
-								oid
-							}
-						}
-					}
-				}
-			}
-		}
-	`, {
+	const {repository} = await api.v4(GetLatestCommitToFile, {
 		variables: {
 			branch,
 			filePath,

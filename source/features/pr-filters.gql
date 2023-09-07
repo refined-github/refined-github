@@ -1,0 +1,15 @@
+query HasChecks($owner: String!, $name: String!) {
+	repository(owner: $owner, name: $name) {
+		head: object(expression: "HEAD") {
+			... on Commit {
+				history(first: 10) {
+					nodes {
+						statusCheckRollup {
+							state
+						}
+					}
+				}
+			}
+		}
+	}
+}

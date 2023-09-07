@@ -1,0 +1,9 @@
+query GetReleases($owner: String!, $name: String!) {
+	repository(owner: $owner, name: $name) {
+		releases(first: 100) {
+			nodes {
+				tagName
+			}
+		}
+	}
+}

@@ -1,0 +1,16 @@
+query GetWorkflows($owner: String!, $name: String!) {
+	repository(owner: $owner, name: $name) {
+		workflowFiles: object(expression: "HEAD:.github/workflows") {
+			... on Tree {
+				entries {
+					name
+					object {
+						... on Blob {
+							text
+						}
+					}
+				}
+			}
+		}
+	}
+}

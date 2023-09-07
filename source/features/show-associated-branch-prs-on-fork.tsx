@@ -7,6 +7,7 @@ import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {cacheByRepo, upperCaseFirst} from '../github-helpers/index.js';
+import AssociatedPullRequests from './show-associated-branch-prs-on-fork.gql';
 
 type PullRequest = {
 	timelineItems: {
@@ -20,28 +21,7 @@ type PullRequest = {
 
 export const pullRequestsAssociatedWithBranch = new CachedFunction('associatedBranchPullRequests', {
 	async updater(): Promise<Record<string, PullRequest>> {
-		const {repository} = await api.v4(`
-		repository() {
-			refs(refPrefix: "refs/heads/", last: 100) {
-				nodes {
-					name
-					associatedPullRequests(last: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
-						nodes {
-							number
-							state
-							isDraft
-							url
-							timelineItems(last: 1, itemTypes: [HEAD_REF_DELETED_EVENT, HEAD_REF_RESTORED_EVENT]) {
-								nodes {
-									__typename
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	`);
+		const {repository} = await api.v4(AssociatedPullRequests);
 
 		const pullRequests: Record<string, PullRequest> = {};
 		for (const {name, associatedPullRequests} of repository.refs.nodes) {

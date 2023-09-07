@@ -1,0 +1,11 @@
+query CountWorkflows($owner: String!, $name: String!) {
+	repository(owner: $owner, name: $name) {
+		workflowFiles: object(expression: "HEAD:.github/workflows") {
+			... on Tree {
+				entries {
+					oid
+				}
+			}
+		}
+	}
+}

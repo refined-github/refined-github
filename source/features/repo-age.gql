@@ -1,0 +1,16 @@
+query GetRepoAge($owner: String!, $name: String!, $cursor: String!) {
+	repository(owner: $owner, name: $name) {
+		defaultBranchRef {
+			target {
+				... on Commit {
+					history(first: 5, after: $cursor) {
+						nodes {
+							committedDate
+							resourcePath
+						}
+					}
+				}
+			}
+		}
+	}
+}

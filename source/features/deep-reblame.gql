@@ -1,0 +1,31 @@
+query GetPullRequestBlameCommit(
+	$owner: String!
+	$name: String!
+	$file: String!
+	$commit: String!
+) {
+	repository(owner: $owner, name: $name) {
+		file: object(expression: $file) {
+			id
+		}
+		object(expression: $commit) {
+			... on Commit {
+				associatedPullRequests(last: 1) {
+					nodes {
+						number
+						mergeCommit {
+							oid
+						}
+						commits(last: 1) {
+							nodes {
+								commit {
+									oid
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
