@@ -1,6 +1,10 @@
-[rgh-hide-diff-signs] .diff-text-cell .diff-text::before, /* Edit page, probably upcoming DOM everywhere */
-[rgh-hide-diff-signs] .blob-code-inner::before, /* Inline review blocks in PRs */
-[rgh-hide-diff-signs] .blob-code-marker-cell::before { /* Commit page */
+[rgh-hide-diff-signs]
+	:is(
+		.diff-text-cell
+		.diff-text, /* Edit page, probably upcoming DOM everywhere */
+		.blob-code-inner,/* Inline review blocks in PRs */
+		.blob-code-marker-cell/* Commit page */
+	)::before {
 	visibility: hidden;
 }
 

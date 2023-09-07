@@ -1,2 +1,4 @@
 # Ensure Prettier is not automatically run by editors
 *.*
+!*.gql
+!*.css

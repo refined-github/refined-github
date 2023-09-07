@@ -1,10 +1,12 @@
 .rgh-dim-bots > *,
 .rgh-dim-bots .Box-row--drag-hide {
-	transition: 100ms opacity;  /* Match `mark-merge-commits-in-list` */
+	transition: 100ms opacity; /* Match `mark-merge-commits-in-list` */
 }
 
-.rgh-dim-bots:not(.rgh-tagged, :hover) > *, /* Commit titles, dim */
-.rgh-dim-bots:not(.rgh-tagged, :hover) .Box-row--drag-hide { /* PR row, dim */
+/* Commit titles, dim */
+.rgh-dim-bots:not(.rgh-tagged, :hover) > *,
+/* PR row, dim */
+.rgh-dim-bots:not(.rgh-tagged, :hover) .Box-row--drag-hide {
 	opacity: 40%; /* Match `mark-merge-commits-in-list` */
 }
 
