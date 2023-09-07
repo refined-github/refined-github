@@ -14,8 +14,8 @@
 	flex-direction: column;
 }
 
+/* `form` excludes the header */
 .rgh-clean-sidebar form.thread-subscribe-form {
-	/* `form` excludes the header */
 	order: 1;
 }
 
