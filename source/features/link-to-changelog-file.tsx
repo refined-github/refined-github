@@ -9,7 +9,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import {buildRepoURL, getRepo} from '../github-helpers/index.js';
-import GetFilesOnRoot from './show-associated-branch-prs-on-fork.gql';
+import GetFilesOnRoot from './link-to-changelog-file.gql';
 
 type FileType = {
 	name: string;
