@@ -9,7 +9,7 @@ const entryPointSource = readFileSync(entryPoint);
 const importedFeatures = getImportedFeatures();
 const featuresInReadme = getFeaturesMeta();
 
-function findCssFileError(filename: string): string | void {
+function validateCss(filename: string): string | void {
 	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${filename}';`);
 	const correspondingTsxFile = `source/features/${filename.replace(/.css$/, '.tsx')}`;
 	if (existsSync(correspondingTsxFile)) {
@@ -29,7 +29,7 @@ function findCssFileError(filename: string): string | void {
 	}
 }
 
-function findGqlFileError(filename: string): string | void {
+function validateGql(filename: string): string | void {
 	const basename = filename.replace('.gql', '');
 	const featureId = importedFeatures.find(featureId => basename.startsWith(featureId));
 	if (!featureId) {
@@ -42,24 +42,7 @@ function findGqlFileError(filename: string): string | void {
 	}
 }
 
-function findError(filename: string): string | void {
-	// TODO: Replace condition with "is gitignored"
-	if (filename === '.DS_Store') {
-		return;
-	}
-
-	if (filename.endsWith('.gql')) {
-		return findGqlFileError(filename);
-	}
-
-	if (filename.endsWith('.css')) {
-		return findCssFileError(filename);
-	}
-
-	if (!filename.endsWith('.tsx')) {
-		return `ERR: The \`/source/features\` folder should only contain .css and .tsx files. Found \`source/features/${filename}\``;
-	}
-
+function validateTsx(filename: string): string | void {
 	const featureId = filename.replace('.tsx', '') as FeatureID;
 	if (!importedFeatures.includes(featureId)) {
 		return `ERR: ${featureId} should be imported by \`${entryPoint}\``;
@@ -105,6 +88,27 @@ function findError(filename: string): string | void {
 	}
 }
 
-const errors = featuresDirContents.map(name => findError(name)).filter(Boolean);
+function validate(filename: string): string | void {
+	// TODO: Replace condition with "is gitignored"
+	if (filename === '.DS_Store') {
+		return;
+	}
+
+	if (filename.endsWith('.gql')) {
+		return validateGql(filename);
+	}
+
+	if (filename.endsWith('.css')) {
+		return validateCss(filename);
+	}
+
+	if (filename.endsWith('.tsx')) {
+		return validateTsx(filename);
+	}
+
+	return `ERR: The \`/source/features\` folder should only contain .css and .tsx files. Found \`source/features/${filename}\``;
+}
+
+const errors = featuresDirContents.map(name => validate(name)).filter(Boolean);
 console.error(errors.join('\n'));
 process.exitCode = errors.length;
