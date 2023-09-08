@@ -29,10 +29,27 @@ function findCssFileError(filename: string): string | void {
 	}
 }
 
+function findGqlFileError(filename: string): string | void {
+	const basename = filename.replace('.gql', '');
+	const featureId = importedFeatures.find(featureId => basename.startsWith(featureId));
+	if (!featureId) {
+		return `ERR: ${filename} doesn’t match any existing features. The filename should match the feature that uses it.`;
+	}
+
+	const correspondingTsxFile = `source/features/${featureId}.tsx`;
+	if (!readFileSync(correspondingTsxFile).includes(`from './${filename}';`)) {
+		return `ERR: \`${filename}\` should be imported by \`${correspondingTsxFile}\``;
+	}
+}
+
 function findError(filename: string): string | void {
-	// TODO: Replace second condition with "is gitignored"
-	if (filename === 'index.tsx' || filename === '.DS_Store' || filename.endsWith('.gql')) {
+	// TODO: Replace condition with "is gitignored"
+	if (filename === '.DS_Store') {
 		return;
+	}
+
+	if (filename.endsWith('.gql')) {
+		return findGqlFileError(filename);
 	}
 
 	if (filename.endsWith('.css')) {
