@@ -42,6 +42,25 @@ function validateGql(filename: string): string | void {
 	}
 }
 
+function validateReadme(featureId: FeatureID): string | void {
+	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
+	if (!featureMeta) {
+		return `ERR: ${featureId} should be described in the readme`;
+	}
+
+	if (featureMeta.description.length < 20) {
+		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
+	}
+
+	if (featureMeta.screenshot && !/\.(png|gif)$/.test(featureMeta.screenshot)) {
+		return `ERR: ${featureId} should have a screenshot (png/gif) in the readme`;
+	}
+
+	if (duplicate) {
+		return `ERR: ${featureId} should be described only once in the readme`;
+	}
+}
+
 function validateTsx(filename: string): string | void {
 	const featureId = filename.replace('.tsx', '') as FeatureID;
 	if (!importedFeatures.includes(featureId)) {
@@ -65,26 +84,8 @@ function validateTsx(filename: string): string | void {
 		}
 	}
 
-	// The previous checks apply to RGH features, but the next ones don't
-	if (isFeaturePrivate(filename)) {
-		return;
-	}
-
-	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
-	if (!featureMeta) {
-		return `ERR: ${featureId} should be described in the readme`;
-	}
-
-	if (featureMeta.description.length < 20) {
-		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
-	}
-
-	if (featureMeta.screenshot && !/\.(png|gif)$/.test(featureMeta.screenshot)) {
-		return `ERR: ${featureId} should have a screenshot (png/gif) in the readme`;
-	}
-
-	if (duplicate) {
-		return `ERR: ${featureId} should be described only once in the readme`;
+	if (!isFeaturePrivate(filename)) {
+		validateReadme(featureId);
 	}
 }
 
