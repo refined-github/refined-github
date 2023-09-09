@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import mem from 'mem';
 
 import {branchSelector} from './selectors.js';
-import pSomeFunction from '../helpers/p-utils.js';
+import {pSomeFunction} from '../helpers/p-utils.js';
 
 export type BooleanFunction = () => boolean;
 export type PromisableBooleanFunction = () => Promisable<boolean>;
@@ -125,7 +125,7 @@ export async function shouldFeatureRun({
 	exclude = [() => false],
 }): Promise<boolean> {
 	return asLongAs.every(c => c())
-	&& await pSomeFunction(include)
+	&& await pSomeFunction(include, c => c())
 	&& exclude.every(c => !c());
 }
 

@@ -12,8 +12,7 @@ import {isArchivedRepoAsync, isPermalink} from '../github-helpers/index.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
 import {directoryListingFileIcon} from '../github-helpers/selectors.js';
-import pSome from '../helpers/p-utils.js';
-import pSomeFunction from '../helpers/p-utils.js';
+import {pSomeFunction} from '../helpers/p-utils.js';
 
 async function linkifyIcon(fileIcon: Element): Promise<void> {
 	const fileLink = fileIcon
@@ -34,7 +33,7 @@ async function linkifyIcon(fileIcon: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	if (await pSomeFunction([isArchivedRepoAsync, isPermalink])) {
+	if (await pSomeFunction([isArchivedRepoAsync, isPermalink], async fn => fn())) {
 		return false;
 	}
 

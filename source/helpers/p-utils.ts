@@ -1,10 +1,16 @@
-import {PromisableBooleanFunction} from '../github-helpers/index.js';
+import {IterableElement, Promisable} from 'type-fest';
 
-export default async function pSomeFunction(iterable: Iterable<PromisableBooleanFunction>): Promise<boolean> {
+export async function pSomeFunction<
+	List extends Iterable<unknown>,
+	Element extends IterableElement<List>,
+>(
+	iterable: List,
+	predicate: (value: Element) => Promisable<boolean>,
+): Promise<boolean> {
 	const promises: Array<PromiseLike<boolean>> = [];
 	// Prioritize sync functions and early returns
-	for (const fn of iterable) {
-		const result = fn();
+	for (const item of iterable) {
+		const result = predicate(item as Element);
 		if (typeof result === 'boolean') {
 			if (result) {
 				return true;
