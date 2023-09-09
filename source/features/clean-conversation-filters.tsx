@@ -16,9 +16,9 @@ const hasAnyProjects = new CachedFunction('has-projects', {
 		});
 
 		return Boolean(repository.projects.totalCount)
-	|| Boolean(repository.projectsV2.totalCount)
-	|| Boolean(organization?.projects?.totalCount)
-	|| Boolean(organization?.projectsV2?.totalCount);
+			|| Boolean(repository.projectsV2.totalCount)
+			|| Boolean(organization?.projects?.totalCount)
+			|| Boolean(organization?.projectsV2?.totalCount);
 	},
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
@@ -53,31 +53,35 @@ async function hasProjects(): Promise<boolean> {
 }
 
 async function hideProjects(): Promise<void> {
-	// TODO: False negatives require a `?.` #4884
-	if (!await hasProjects()) {
-		const projectsDropdown = await elementReady('[data-hotkey="p"]');
-		projectsDropdown?.parentElement!.remove();
-	}
+	const projectsDropdown = await elementReady('[data-hotkey="p"]');
+	projectsDropdown?.parentElement!.remove();
 }
 
-async function init(): Promise<void | false> {
-	if (!await elementReady('#js-issues-toolbar', {waitForChildren: false})) {
-		// Repo has no issues, so no toolbar is shown
-		return false;
-	}
-
-	await Promise.all([
-		hideMilestones(),
-		hideProjects(),
-	]);
+// Toolbar is shown only if the repo has ever had an issue/PR
+async function hasConversations(): Promise<boolean> {
+	return Boolean(elementReady('#js-issues-toolbar', {waitForChildren: false}));
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		hasConversations,
+	],
 	include: [
 		pageDetect.isRepoIssueOrPRList,
 	],
 	deduplicate: 'has-rgh-inner',
-	init,
+	init: hideMilestones,
+}, {
+	asLongAs: [
+		hasConversations,
+		// TODO: False negatives require a `?.` #4884
+		async () => !await hasProjects(),
+	],
+	include: [
+		pageDetect.isRepoIssueOrPRList,
+	],
+	deduplicate: 'has-rgh-inner',
+	init: hideProjects,
 });
 
 /*
