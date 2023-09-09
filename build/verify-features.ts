@@ -107,7 +107,7 @@ function validate(filename: string): string | void {
 		return validateTsx(filename);
 	}
 
-	return `ERR: The \`/source/features\` folder should only contain .css and .tsx files. Found \`source/features/${filename}\``;
+	return `ERR: The \`/source/features\` folder should only contain .css, .tsx and .gql files. Found \`source/features/${filename}\``;
 }
 
 const errors = featuresDirContents.map(name => validate(name)).filter(Boolean);
