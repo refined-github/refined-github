@@ -9,7 +9,7 @@ import waitFor from './helpers/wait-for.js';
 import onAbort from './helpers/abort-controller.js';
 import ArrayMap from './helpers/map-of-arrays.js';
 import bisectFeatures from './helpers/bisect.js';
-import {shouldFeatureRun} from './github-helpers/index.js';
+import {shouldFeatureRun, PromisableBooleanFunction, BooleanFunction} from './github-helpers/index.js';
 import {isFeaturePrivate} from './helpers/feature-utils.js';
 import optionsStorage, {isFeatureDisabled, RGHOptions} from './options-storage.js';
 import {
@@ -22,7 +22,6 @@ import {
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
 
-type BooleanFunction = () => boolean;
 export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
 type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
@@ -50,7 +49,7 @@ type InternalRunConfig = {
 	/** Every condition must be true */
 	asLongAs: BooleanFunction[] | undefined;
 	/** At least one condition must be true */
-	include: BooleanFunction[] | undefined;
+	include: PromisableBooleanFunction[] | undefined;
 	/** No conditions must be true */
 	exclude: BooleanFunction[] | undefined;
 	init: Arrayable<FeatureInit>;
@@ -164,7 +163,7 @@ export function castArray<Item>(value: Item | Item[]): Item[] {
 async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<void> {
 	const {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, shortcuts} = config;
 
-	if (!shouldFeatureRun({asLongAs, include, exclude})) {
+	if (!await shouldFeatureRun({asLongAs, include, exclude})) {
 		return;
 	}
 
