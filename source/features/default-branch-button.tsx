@@ -13,12 +13,6 @@ import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {isUrlReachable, isRepoCommitListRoot} from '../github-helpers/index.js';
 
 async function add(branchSelector: HTMLElement): Promise<void> {
-	// Don't show the button if we’re already on the default branch
-	// TODO: Move to `asLongAs` when it accepts async detections
-	if (await isDefaultBranch()) {
-		return;
-	}
-
 	const url = new GitHubURL(location.href);
 	if (pageDetect.isRepoRoot()) {
 		// The default branch of the root directory is just /user/repo/
@@ -59,6 +53,10 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		// Don't show the button if we’re already on the default branch
+		async () => !await isDefaultBranch(),
+	],
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
