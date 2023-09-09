@@ -10,10 +10,10 @@ import onAbort from './helpers/abort-controller.js';
 import ArrayMap from './helpers/map-of-arrays.js';
 import bisectFeatures from './helpers/bisect.js';
 import {
-	PromisableBooleanFunction,
 	BooleanFunction,
 	shouldFeatureRun,
 	isFeaturePrivate,
+	RunConditions,
 } from './helpers/feature-utils.js';
 import optionsStorage, {isFeatureDisabled, RGHOptions} from './options-storage.js';
 import {
@@ -49,13 +49,7 @@ type FeatureLoader = {
 	init: Arrayable<FeatureInit>; // Repeated here because this interface is Partial<>
 } & Partial<InternalRunConfig>;
 
-type InternalRunConfig = {
-	/** Every condition must be true */
-	asLongAs: BooleanFunction[] | undefined;
-	/** At least one condition must be true */
-	include: PromisableBooleanFunction[] | undefined;
-	/** No conditions must be true */
-	exclude: BooleanFunction[] | undefined;
+type InternalRunConfig = RunConditions & {
 	init: Arrayable<FeatureInit>;
 	additionalListeners: CallerFunction[];
 
