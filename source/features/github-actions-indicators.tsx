@@ -138,16 +138,13 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	// Do it as soon as possible, before the page loads
-	const workflows = await workflowDetails.get();
-	if (!workflows) {
-		return false;
-	}
-
 	observe('a.ActionList-content', addIndicators, {signal});
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		async () => Boolean(await workflowDetails.get()),
+	],
 	include: [
 		pageDetect.isRepositoryActions,
 	],

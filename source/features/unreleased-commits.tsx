@@ -89,17 +89,16 @@ async function add(branchSelectorParent: HTMLDetailsElement): Promise<void> {
 	);
 }
 
-async function init(signal: AbortSignal): Promise<false | void> {
-	if (!await isDefaultBranch()) {
-		return false;
-	}
-
+async function init(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
 
 	observe(branchSelectorParent, add, {signal});
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isDefaultBranch,
+	],
 	include: [
 		pageDetect.isRepoHome,
 	],

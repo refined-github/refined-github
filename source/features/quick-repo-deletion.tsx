@@ -127,18 +127,17 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	}
 }
 
+// TODO: Replace with https://github.com/refined-github/github-url-detection/issues/85
+async function canUserDeleteRepository(): Promise<boolean> {
+	return Boolean(await elementReady('nav [data-content="Settings"]'));
+}
+
+// Only if the repository hasn't been starred
+function isRepoUnpopular(): boolean {
+	return looseParseInt(select('.starring-container .Counter')) > 0;
+}
+
 async function init(signal: AbortSignal): Promise<void | false> {
-	if (
-		// Only if the user can delete the repository
-		// TODO: Replace with https://github.com/refined-github/github-url-detection/issues/85
-		!await elementReady('nav [data-content="Settings"]')
-
-		// Only if the repository hasn't been starred
-		|| looseParseInt(select('.starring-container .Counter')) > 0
-	) {
-		return false;
-	}
-
 	await api.expectToken();
 
 	// (Ab)use the details element as state and an accessible "click-anywhere-to-cancel" utility
@@ -159,6 +158,10 @@ async function init(signal: AbortSignal): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		canUserDeleteRepository,
+		isRepoUnpopular,
+	],
 	include: [
 		pageDetect.isForkedRepo,
 	],

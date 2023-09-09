@@ -32,10 +32,6 @@ function add(dropdownMenu: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	if (await isArchivedRepoAsync()) {
-		return false;
-	}
-
 	observe('#global-create-menu-list', add, {signal});
 
 	// TODO: Drop after Global Navigation update (Nov 2023)
@@ -48,6 +44,9 @@ void features.add(import.meta.url, {
 	],
 	include: [
 		pageDetect.isRepo,
+	],
+	exclude: [
+		isArchivedRepoAsync,
 	],
 	init,
 });
