@@ -37,7 +37,7 @@ function getStrikeThrough(text: string): HTMLElement {
 }
 
 async function crossIfNonExistent(anchor: HTMLElement): Promise<void> {
-	if (anchor instanceof HTMLAnchorElement && await isUrlReachable(anchor.href)) {
+	if (anchor instanceof HTMLAnchorElement && !await isUrlReachable(anchor.href)) {
 		anchor.replaceWith(getStrikeThrough(anchor.textContent!));
 	}
 }
@@ -87,7 +87,7 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
 
 	parsedUrl.assign({branch: await getDefaultBranch()});
 	const urlOnDefault = parsedUrl.href;
-	if (urlOnDefault !== location.href && !await isUrlReachable(urlOnDefault)) {
+	if (urlOnDefault !== location.href && await isUrlReachable(urlOnDefault)) {
 		return urlOnDefault;
 	}
 }
@@ -191,7 +191,7 @@ function init(): void {
 
 async function initPRCommit(): Promise<void | false> {
 	const commitUrl = location.href.replace(/pull\/\d+\/commits/, 'commit');
-	if (await isUrlReachable(commitUrl)) {
+	if (!await isUrlReachable(commitUrl)) {
 		return false;
 	}
 
