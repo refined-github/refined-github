@@ -63,5 +63,6 @@ void features.add(import.meta.url, {
 
 - Discussions: https://github.com/File-New-Project/EarTrumpet/discussions/877
 - Code Search: https://github.com/search?q=repo%3AKatsuteDev%2FBackground+marketplace&type=code
+- Comment: https://github.com/sindresorhus/linkify-urls/pull/40#pullrequestreview-1593302757
 
 */
