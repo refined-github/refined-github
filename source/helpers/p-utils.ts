@@ -13,6 +13,7 @@ export function pSomeFunction<
 		const result = predicate(item as Element);
 		if (typeof result === 'boolean') {
 			if (result) {
+				// Early sync return on the first truthy value
 				return true;
 			}
 		} else {
@@ -21,6 +22,7 @@ export function pSomeFunction<
 	}
 
 	if (promises.length === 0) {
+		// Matches `[].some(Boolean)`
 		return false;
 	}
 
@@ -41,4 +43,38 @@ export async function pSome(iterable: Iterable<PromiseLike<unknown>>): Promise<b
 			resolve(false);
 		});
 	});
+}
+
+export function pEveryFunction<
+	List extends Iterable<unknown>,
+	Element extends IterableElement<List>,
+>(
+	iterable: List,
+	predicate: (value: Element) => Promisable<boolean>,
+): Promisable<boolean> {
+	const promises: Array<PromiseLike<boolean>> = [];
+	// Prioritize sync functions and early returns
+	for (const item of iterable) {
+		const result = predicate(item as Element);
+		if (typeof result === 'boolean') {
+			if (!result) {
+				// Early sync return on the first falsy value
+				return false;
+			}
+		} else {
+			promises.push(result);
+		}
+	}
+
+	if (promises.length === 0) {
+		// Matches `[].every(Boolean)`
+		return true;
+	}
+
+	return pEvery(promises);
+}
+
+export async function pEvery(iterable: Iterable<PromiseLike<unknown>>): Promise<boolean> {
+	const results = await Promise.allSettled(iterable);
+	return results.every(Boolean);
 }
