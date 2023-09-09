@@ -2,15 +2,11 @@ import select from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
-import {Promisable, RequireAtLeastOne} from 'type-fest';
+import {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import mem from 'mem';
 
 import {branchSelector} from './selectors.js';
-import {pSomeFunction} from '../helpers/p-utils.js';
-
-export type BooleanFunction = () => boolean;
-export type PromisableBooleanFunction = () => Promisable<boolean>;
 
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);
@@ -112,21 +108,6 @@ export function isAnyRefinedGitHubRepo(): boolean {
 
 export function isRefinedGitHubYoloRepo(): boolean {
 	return location.pathname.startsWith('/refined-github/yolo');
-}
-
-export async function shouldFeatureRun({
-	/** Every condition must be true */
-	asLongAs = [() => true],
-
-	/** At least one condition must be true */
-	include = [() => true] as PromisableBooleanFunction[],
-
-	/** No conditions must be true */
-	exclude = [() => false],
-}): Promise<boolean> {
-	return asLongAs.every(c => c())
-	&& await pSomeFunction(include, c => c())
-	&& exclude.every(c => !c());
 }
 
 export async function isArchivedRepoAsync(): Promise<boolean> {
