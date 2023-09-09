@@ -6,12 +6,13 @@ import {TagIcon} from '@primer/octicons-react';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
-import {addAfterBranchSelector, buildRepoURL, cacheByRepo, getLatestVersionTag} from '../github-helpers/index.js';
+import {buildRepoURL, cacheByRepo, getLatestVersionTag} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import pluralize from '../helpers/pluralize.js';
-import {branchSelectorParent} from '../github-helpers/selectors.js';
+import {branchSelector} from '../github-helpers/selectors.js';
 import getPublishRepoState from './unreleased-commits.gql';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import abbreviateString from '../helpers/abbreviate-string.js';
 
 type RepoPublishState = {
 	latestTag: string | false;
@@ -62,7 +63,7 @@ export const repoPublishState = new CachedFunction('tag-ahead-by', {
 	cacheKey: cacheByRepo,
 });
 
-async function add(branchSelectorParent: HTMLDetailsElement): Promise<void> {
+async function add(branchSelector: HTMLButtonElement): Promise<void> {
 	const {latestTag, aheadBy} = await repoPublishState.get();
 	const isAhead = aheadBy > 0;
 
@@ -74,12 +75,15 @@ async function add(branchSelectorParent: HTMLDetailsElement): Promise<void> {
 		= aheadBy === undeterminableAheadBy
 			? 'more than 20 unreleased commits'
 			: pluralize(aheadBy, '$$ unreleased commit');
-	const label = `There are ${commitCount} since ${latestTag}`;
+	const label = `There are ${commitCount} since ${abbreviateString(latestTag, 30)}`;
 
-	addAfterBranchSelector(
-		branchSelectorParent,
+	const container = <div className="d-flex gap-2"/>;
+	branchSelector.before(container);
+
+	container.append(
+		branchSelector,
 		<a
-			className="btn px-2 tooltipped tooltipped-ne"
+			className="btn px-2 tooltipped tooltipped-se"
 			href={buildRepoURL('compare', `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
@@ -96,7 +100,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 
 	await api.expectToken();
 
-	observe(branchSelectorParent, add, {signal});
+	observe(branchSelector, add, {signal});
 }
 
 void features.add(import.meta.url, {
