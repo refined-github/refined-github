@@ -53,10 +53,6 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		// Don't show the button if we’re already on the default branch
-		async () => !await isDefaultBranch(),
-	],
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
@@ -64,6 +60,9 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isRepoHome,
+
+		// Don't show the button if we’re already on the default branch
+		isDefaultBranch,
 	],
 	init,
 });

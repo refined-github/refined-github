@@ -74,11 +74,13 @@ void features.add(import.meta.url, {
 }, {
 	asLongAs: [
 		hasConversations,
-		// TODO: False negatives require a `?.` #4884
-		async () => !await hasProjects(),
 	],
 	include: [
 		pageDetect.isRepoIssueOrPRList,
+	],
+	exclude: [
+		// TODO: False negatives require a `?.` #4884
+		hasProjects,
 	],
 	deduplicate: 'has-rgh-inner',
 	init: hideProjects,
