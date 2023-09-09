@@ -9,7 +9,6 @@ import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import GitHubURL from '../github-helpers/github-url.js';
 import {isArchivedRepoAsync, isPermalink} from '../github-helpers/index.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
 import {directoryListingFileIcon} from '../github-helpers/selectors.js';
 
@@ -21,11 +20,6 @@ async function linkifyIcon(fileIcon: Element): Promise<void> {
 	const url = new GitHubURL(fileLink.href).assign({
 		route: 'edit',
 	});
-
-	if (await isPermalink()) {
-		// Permalinks can't be edited
-		url.branch = await getDefaultBranch();
-	}
 
 	wrap(fileIcon, <a href={url.href} className="rgh-quick-file-edit"/>);
 	fileIcon.after(<PencilIcon/>);
