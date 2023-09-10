@@ -12,6 +12,7 @@ import pluralize from '../helpers/pluralize.js';
 import {branchSelector} from '../github-helpers/selectors.js';
 import getPublishRepoState from './unreleased-commits.gql';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import {wrapAll} from '../helpers/dom-utils.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
 
 type RepoPublishState = {
@@ -77,19 +78,19 @@ async function add(branchSelector: HTMLButtonElement): Promise<void> {
 			: pluralize(aheadBy, '$$ unreleased commit');
 	const label = `There are ${commitCount} since ${abbreviateString(latestTag, 30)}`;
 
-	const container = <div className="d-flex gap-2"/>;
-	branchSelector.before(container);
-
-	container.append(
-		branchSelector,
-		<a
-			className="btn px-2 tooltipped tooltipped-se"
-			href={buildRepoURL('compare', `${latestTag}...${await getDefaultBranch()}`)}
-			aria-label={label}
-		>
-			<TagIcon className="v-align-middle"/>
-			{aheadBy === undeterminableAheadBy || <sup className="ml-n2"> +{aheadBy}</sup>}
-		</a>,
+	wrapAll(
+		[
+			branchSelector,
+			<a
+				className="btn px-2 tooltipped tooltipped-se"
+				href={buildRepoURL('compare', `${latestTag}...${await getDefaultBranch()}`)}
+				aria-label={label}
+			>
+				<TagIcon className="v-align-middle"/>
+				{aheadBy === undeterminableAheadBy || <sup className="ml-n2"> +{aheadBy}</sup>}
+			</a>,
+		],
+		<div className="d-flex gap-2"/>,
 	);
 }
 
