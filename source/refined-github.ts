@@ -214,4 +214,4 @@ import './features/status-subscription.js';
 import './features/action-pr-link.js';
 import './features/rgh-dim-commits.js';
 import './features/mobile-tabs.js';
-import './features/detailed-repo-header.js';
+import './features/repo-header-info.js';
