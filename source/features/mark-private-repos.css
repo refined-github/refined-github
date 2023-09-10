@@ -1,0 +1,4 @@
+li.private .Label--secondary {
+	border-color: var(--color-attention-muted);
+	color: var(--color-attention-emphasis);
+}
