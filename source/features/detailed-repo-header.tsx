@@ -80,13 +80,7 @@ void features.add(import.meta.url, {
 /*
 Test URLs
 
-Issues:
-https://github.com/refined-github/refined-github/issues
-
-Pulls:
-https://github.com/refined-github/refined-github/pulls
-
-Blobs:
-https://github.com/refined-github/refined-github/blob/main/source/features/bugs-tab.tsx
+Repository:
+https://github.com/refined-github/refined-github
 
 */
