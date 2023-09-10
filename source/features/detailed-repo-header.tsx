@@ -54,20 +54,8 @@ async function addForFull(navigationList: HTMLUListElement): Promise<void> {
 	);
 }
 
-async function addForCompact(button: HTMLButtonElement): Promise<void> {
-	const {forkCount, stargazerCount} = await forkAndStarCount.get();
-	button.style.setProperty('grid-auto-flow', 'column');
-	button.append(
-		<div className="color-fg-muted pl-2 d-inline-flex">
-			{createForkCounter(forkCount)}
-			{createStarCounter(stargazerCount)}
-		</div>,
-	);
-}
-
 function init(signal: AbortSignal): void {
 	observe('header .AppHeader-context-full > nav ul', addForFull, {signal});
-	observe('header .AppHeader-context-compact > button', addForCompact, {signal});
 }
 
 void features.add(import.meta.url, {
