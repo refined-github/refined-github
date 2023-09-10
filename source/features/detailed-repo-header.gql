@@ -1,0 +1,6 @@
+query GetRepositoryDetails($owner: String!, $name: String!) {
+	repository(owner: $owner, name: $name) {
+		forkCount
+		stargazerCount
+	}
+}
