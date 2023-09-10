@@ -2,10 +2,20 @@
 .js-issue-row
 	.color-fg-muted
 	[href$='#partial-pull-merging'][aria-label*='approval'] {
-	/* font-size: 0; */
+	font-size: 0;
+	color: transparent !important;
+}
+
+.js-issue-row
+	.color-fg-muted
+	[href$='#partial-pull-merging'][aria-label*='approval']
+	@media
+	not
+	all
+	and
+	(min-resolution: 0.001dpcm) {
 	/* Safari 16.4 color bug #6473 */
 	font-size: 0.6px;
-	color: transparent !important;
 }
 
 .js-issue-row
