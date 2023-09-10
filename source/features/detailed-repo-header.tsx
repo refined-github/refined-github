@@ -25,19 +25,31 @@ const forkAndStarCount = new CachedFunction('fork-and-star-count', {
 	cacheKey: cacheByRepo,
 });
 
+function createForkCounter(forkCount: number): HTMLElement {
+	return (
+		<div>
+			<RepoForkedIcon className="mr-1"/>
+			<span className="Counter">{abbreviateNumber(forkCount)}</span>
+		</div>
+	);
+}
+
+function createStarCounter(stargazerCount: number): HTMLElement {
+	return (
+		<div className="starred ml-2">
+			<StarFillIcon className="starred-button-icon mr-1"/>
+			<span className="Counter">{abbreviateNumber(stargazerCount)}</span>
+		</div>
+	);
+}
+
 async function addForFull(navigationList: HTMLUListElement): Promise<void> {
 	const {forkCount, stargazerCount} = await forkAndStarCount.get();
 
 	navigationList.append(
 		<li className="color-fg-muted pl-2">
-			<div>
-				<RepoForkedIcon className="mr-1"/>
-				<span className="Counter">{abbreviateNumber(forkCount)}</span>
-			</div>
-			<div className="starred ml-2">
-				<StarFillIcon className="starred-button-icon mr-1"/>
-				<span className="Counter">{abbreviateNumber(stargazerCount)}</span>
-			</div>
+			{createForkCounter(forkCount)}
+			{createStarCounter(stargazerCount)}
 		</li>,
 	);
 }
@@ -47,19 +59,13 @@ async function addForCompact(button: HTMLButtonElement): Promise<void> {
 	button.style.setProperty('grid-auto-flow', 'column');
 	button.append(
 		<div className="color-fg-muted pl-2 d-inline-flex">
-			<div>
-				<RepoForkedIcon className="mr-1"/>
-				<span className="Counter">{abbreviateNumber(forkCount)}</span>
-			</div>
-			<div className="starred ml-2">
-				<StarFillIcon className="starred-button-icon mr-1"/>
-				<span className="Counter">{abbreviateNumber(stargazerCount)}</span>
-			</div>
+			{createForkCounter(forkCount)}
+			{createStarCounter(stargazerCount)}
 		</div>,
 	);
 }
 
-function init(signal: AbortSignal) {
+function init(signal: AbortSignal): void {
 	observe('header nav[role="navigation"] > ul', addForFull, {signal});
 	observe('.AppHeader-context-compact > button', addForCompact, {signal});
 }
