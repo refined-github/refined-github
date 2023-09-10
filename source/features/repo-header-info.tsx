@@ -1,14 +1,14 @@
 import * as pageDetect from 'github-url-detection';
-import { StarIcon } from '@primer/octicons-react';
+import {StarFillIcon} from '@primer/octicons-react';
 import React from 'dom-chef';
-import { CachedFunction } from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import GetRepositoryStargazerCount from './repo-header-info.gql';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
-import { cacheByRepo } from '../github-helpers/index.js';
+import {cacheByRepo} from '../github-helpers/index.js';
 
 const stargazerCount = new CachedFunction('stargazer-count', {
 	async updater(): Promise<number> {
@@ -24,7 +24,7 @@ async function add(navigationList: HTMLUListElement): Promise<void> {
 	navigationList.append(
 		<li className="color-fg-muted pl-2">
 			<div className="d-flex flex-items-center flex-justify-center ml-2 gap-1">
-				<StarIcon className="v-align-text-bottom"/>
+				<StarFillIcon className="v-align-text-bottom"/>
 				<span className="Counter v-align-bottom">{abbreviateNumber(await stargazerCount.get())}</span>
 			</div>
 		</li>,
