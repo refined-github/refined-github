@@ -14,6 +14,7 @@
 	all
 	and
 	(min-resolution: 0.001dpcm) {
+	/* CSS hack: Safari detection */
 	/* Safari 16.4 color bug #6473 */
 	font-size: 0.6px;
 }
