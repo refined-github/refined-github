@@ -1,18 +1,18 @@
 import React from 'dom-chef';
-import { CachedFunction } from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
-import { TagIcon } from '@primer/octicons-react';
+import {TagIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
-import { addAfterBranchSelector, buildRepoURL, cacheByRepo, getLatestVersionTag } from '../github-helpers/index.js';
+import {addAfterBranchSelector, buildRepoURL, cacheByRepo, getLatestVersionTag} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import pluralize from '../helpers/pluralize.js';
-import { branchSelector, branchSelectorParent } from '../github-helpers/selectors.js';
+import {branchSelector, branchSelectorParent} from '../github-helpers/selectors.js';
 import getPublishRepoState from './unreleased-commits.gql';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import { wrapAll } from '../helpers/dom-utils.js';
+import {wrapAll} from '../helpers/dom-utils.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
 
 type RepoPublishState = {
@@ -64,6 +64,25 @@ export const repoPublishState = new CachedFunction('tag-ahead-by', {
 	cacheKey: cacheByRepo,
 });
 
+async function createUnreleasedCommitsTag(latestTag: string, aheadBy: number): Promise<HTMLElement> {
+	const commitCount
+		= aheadBy === undeterminableAheadBy
+			? 'more than 20 unreleased commits'
+			: pluralize(aheadBy, '$$ unreleased commit');
+	const label = `There are ${commitCount} since ${abbreviateString(latestTag, 30)}`;
+
+	return (
+		<a
+			className="btn px-2 tooltipped tooltipped-se"
+			href={buildRepoURL('compare', `${latestTag}...${await getDefaultBranch()}`)}
+			aria-label={label}
+		>
+			<TagIcon className="v-align-middle"/>
+			{aheadBy === undeterminableAheadBy || <sup className="ml-n2"> +{aheadBy}</sup>}
+		</a>
+	);
+}
+
 async function add(branchSelectorParent: HTMLDetailsElement): Promise<void> {
 	const {latestTag, aheadBy} = await repoPublishState.get();
 	const isAhead = aheadBy > 0;
@@ -72,23 +91,10 @@ async function add(branchSelectorParent: HTMLDetailsElement): Promise<void> {
 		return;
 	}
 
-	const commitCount
-		= aheadBy === undeterminableAheadBy
-		? 'more than 20 unreleased commits'
-		: pluralize(aheadBy, '$$ unreleased commit');
-	const label = `There are ${commitCount} since ${latestTag}`;
-
 	addAfterBranchSelector(
 		branchSelectorParent,
-		<a
-			className="btn px-2 tooltipped tooltipped-se"
-			href={buildRepoURL('compare', `${latestTag}...${await getDefaultBranch()}`)}
-			aria-label={label}
-		>
-			<TagIcon className="v-align-middle"/>
-			{aheadBy === undeterminableAheadBy || <sup className="ml-n2"> +{aheadBy}</sup>}
-		</a>,
-	)
+		await createUnreleasedCommitsTag(latestTag, aheadBy),
+	);
 }
 
 async function addForNewRepositoryOverview(branchSelector: HTMLButtonElement): Promise<void> {
@@ -99,23 +105,10 @@ async function addForNewRepositoryOverview(branchSelector: HTMLButtonElement): P
 		return;
 	}
 
-	const commitCount
-		= aheadBy === undeterminableAheadBy
-			? 'more than 20 unreleased commits'
-			: pluralize(aheadBy, '$$ unreleased commit');
-	const label = `There are ${commitCount} since ${abbreviateString(latestTag, 30)}`;
-
 	wrapAll(
 		[
 			branchSelector,
-			<a
-				className="btn px-2 tooltipped tooltipped-se"
-				href={buildRepoURL('compare', `${latestTag}...${await getDefaultBranch()}`)}
-				aria-label={label}
-			>
-				<TagIcon className="v-align-middle"/>
-				{aheadBy === undeterminableAheadBy || <sup className="ml-n2"> +{aheadBy}</sup>}
-			</a>,
+			await createUnreleasedCommitsTag(latestTag, aheadBy),
 		],
 		<div className="d-flex gap-2"/>,
 	);
