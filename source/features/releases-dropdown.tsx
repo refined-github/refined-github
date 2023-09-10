@@ -7,20 +7,11 @@ import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
 import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
-
-const gql = `
-	repository() {
-		releases(first: 100) {
-			nodes {
-				tagName
-			}
-		}
-	}
-`;
+import GetReleases from './releases-dropdown.gql';
 
 const getReleases = new CachedFunction('releases', {
 	async updater(): Promise<string[]> {
-		const {repository} = await api.v4(gql);
+		const {repository} = await api.v4(GetReleases);
 		return repository.releases.nodes.map(({tagName}: {tagName: string}) => tagName);
 	},
 	maxAge: {hours: 1},

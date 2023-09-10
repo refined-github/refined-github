@@ -11,6 +11,7 @@ import looseParseInt from '../helpers/loose-parse-int.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
 import {unhideOverflowDropdown} from './more-dropdown-links.js';
+import CountWorkflows from './clean-repo-tabs.gql';
 
 async function canUserEditOrganization(): Promise<boolean> {
 	return Boolean(await elementReady('.btn-primary[href$="repositories/new"]'));
@@ -64,14 +65,9 @@ const wikiPageCount = new CachedFunction('wiki-page-count', {
 
 const workflowCount = new CachedFunction('workflows-count', {
 	async updater(): Promise<number> {
-		const {repository: {workflowFiles}} = await api.v4(`
-		repository() {
-			workflowFiles: object(expression: "HEAD:.github/workflows") {
-				... on Tree { entries { oid } }
-			}
-		}
-	`);
+		const {repository: {workflowFiles}} = await api.v4(CountWorkflows);
 
+		// TODO: Use native "totalCount" field
 		return workflowFiles?.entries.length ?? 0;
 	},
 	maxAge: {days: 1},
@@ -133,21 +129,17 @@ async function moveRareTabs(): Promise<void | false> {
 	onlyShowInDropdown('insights-tab');
 }
 
-async function init(): Promise<void> {
-	await Promise.all([
-		moveRareTabs(),
-		updateActionsTab(),
-		updateWikiTab(),
-		updateProjectsTab(),
-	]);
-}
-
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
 	],
 	deduplicate: 'has-rgh',
-	init,
+	init: [
+		moveRareTabs,
+		updateActionsTab,
+		updateWikiTab,
+		updateProjectsTab,
+	],
 }, {
 	include: [
 		pageDetect.isOrganizationProfile,

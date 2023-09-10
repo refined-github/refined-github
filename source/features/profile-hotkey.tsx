@@ -5,11 +5,11 @@ import features from '../feature-manager.js';
 import {getUsername} from '../github-helpers/index.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 
-function init(): void {
+function init(signal: AbortSignal): void {
 	// This patterns also works on gist.github.com
 	const origin = isEnterprise() ? location.origin : 'https://github.com';
 	const profileLink = new URL(getUsername()!, origin);
-	registerHotkey('g m', profileLink.href);
+	registerHotkey('g m', profileLink.href, {signal});
 }
 
 void features.add(import.meta.url, {

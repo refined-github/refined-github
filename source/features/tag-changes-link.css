@@ -1,7 +1,11 @@
 /* Don't break layout on mobile (https://primer.style/css/support/breakpoints) */
 @media (min-width: 768px) {
 	/* Reserve some space above the "Compare" dropdown (the selector will be disabled as soon as the "Changelog" link is inserted) */
-	.rgh-tag-changes-link .repository-content .my-5 > :first-child > :nth-child(5):not(.rgh-changelog-link) {
+	.rgh-tag-changes-link
+		.repository-content
+		.my-5
+		> :first-child
+		> :nth-child(5):not(.rgh-changelog-link) {
 		/* 21px is the height of the link that is being inserted https://user-images.githubusercontent.com/1402241/103394704-bf2d7a80-4aef-11eb-8377-5c59b46cc2b3.png */
 		padding-top: 21px !important;
 	}

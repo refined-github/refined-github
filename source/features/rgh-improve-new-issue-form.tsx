@@ -49,15 +49,6 @@ async function linkifyCacheRefresh(): Promise<void> {
 	);
 }
 
-async function init(): Promise<void> {
-	// Async functions so they're independent
-	await Promise.all([
-		linkifyCacheRefresh(),
-		checkToken(),
-		setVersion(),
-	]);
-}
-
 void features.add(import.meta.url, {
 	asLongAs: [
 		isRefinedGitHubRepo,
@@ -66,5 +57,17 @@ void features.add(import.meta.url, {
 	],
 	awaitDomReady: true, // Small page
 	deduplicate: 'has-rgh-inner',
-	init,
+	init: [
+		linkifyCacheRefresh,
+		checkToken,
+		setVersion,
+	],
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/issues/new?assignees=&labels=bug&projects=&template=1_bug_report.yml
+
+*/

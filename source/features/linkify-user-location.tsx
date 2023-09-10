@@ -28,10 +28,19 @@ function addLocation({nextElementSibling, nextSibling}: SVGElement): Element {
 function init(): void {
 	observe([
 		'[itemprop="homeLocation"] svg.octicon-location', // `isUserProfile`
-		'[aria-label="user location"] svg.octicon-location', // Hover cards
+		'[aria-label="User location"] svg.octicon-location', // Hover cards
 	], addLocation);
 }
 
 void features.add(import.meta.url, {
 	init,
 });
+
+/*
+
+Test URLs
+
+https://github.com/docubot
+https://github.com/
+
+*/

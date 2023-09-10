@@ -1,0 +1,16 @@
+query GetFirstCommit($owner: String!, $name: String!) {
+	repository(owner: $owner, name: $name) {
+		defaultBranchRef {
+			target {
+				... on Commit {
+					oid
+					committedDate
+					resourcePath
+					history {
+						totalCount
+					}
+				}
+			}
+		}
+	}
+}

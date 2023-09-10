@@ -5,31 +5,30 @@ import {type RepositoryInfo} from 'github-url-detection';
 import api from './api.js';
 import {extractCurrentBranchFromBranchPicker, getRepo} from './index.js';
 import {branchSelector} from './selectors.js';
+import GetDefaultBranch from './get-default-branch.gql';
 
 const isCurrentRepo = ({nameWithOwner}: RepositoryInfo): boolean => Boolean(getRepo()?.nameWithOwner === nameWithOwner);
 
 // Do not make this function complicated. We're only optimizing for the repo root.
 async function fromDOM(): Promise<string | undefined> {
 	if (!['', 'commits'].includes(getRepo()!.path)) {
-		return undefined;
+		return;
 	}
 
 	// We're on the default branch, so we can extract it from the current page. This exclusively happens on the exact pages:
 	// /user/repo
 	// /user/repo/commits (without further path)
-	return extractCurrentBranchFromBranchPicker((await elementReady(branchSelector))!);
+	const element = await elementReady(branchSelector);
+
+	if (!element) {
+		return;
+	}
+
+	return extractCurrentBranchFromBranchPicker(element);
 }
 
 async function fromAPI(repository: RepositoryInfo): Promise<string> {
-	const response = await api.v4(`
-		query getDefaultBranch($owner: String!, $name: String!) {
-			repository(owner: $owner, name: $name) {
-				defaultBranchRef {
-					name
-				}
-			}
-		}
-	`, {
+	const response = await api.v4(GetDefaultBranch, {
 		variables: {
 			owner: repository.owner,
 			name: repository.name,

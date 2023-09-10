@@ -27,9 +27,10 @@
 	}
 
 	[rgh-mobile-tabs] .UnderlineNav-item:hover {
-		background: var(--color-action-list-item-default-active-bg); /* From: Counter background color */
+		background: var(
+			--color-action-list-item-default-active-bg
+		); /* From: Counter background color */
 	}
-
 
 	[rgh-mobile-tabs] .UnderlineNav-item.selected::after {
 		/* Reposition the orange line */

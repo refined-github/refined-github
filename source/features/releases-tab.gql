@@ -1,0 +1,7 @@
+query GetReleasesCount($owner: String!, $name: String!) {
+	repository(owner: $owner, name: $name) {
+		releases {
+			totalCount
+		}
+	}
+}

@@ -1,0 +1,28 @@
+query AssociatedPullRequests($owner: String!, $name: String!) {
+	repository(owner: $owner, name: $name) {
+		refs(refPrefix: "refs/heads/", last: 100) {
+			nodes {
+				name
+				associatedPullRequests(
+					last: 1
+					orderBy: { field: CREATED_AT, direction: DESC }
+				) {
+					nodes {
+						number
+						state
+						isDraft
+						url
+						timelineItems(
+							last: 1
+							itemTypes: [HEAD_REF_DELETED_EVENT, HEAD_REF_RESTORED_EVENT]
+						) {
+							nodes {
+								__typename
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

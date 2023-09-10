@@ -219,7 +219,7 @@ function switchToNextFilter(): void {
 	}
 }
 
-async function init(signal: AbortSignal): Promise<Deinit> {
+async function init(signal: AbortSignal): Promise<void> {
 	const initialState = minorFixesIssuePages.some(url => location.href.startsWith(url))
 		? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 		: 'default';
@@ -237,8 +237,7 @@ async function init(signal: AbortSignal): Promise<Deinit> {
 
 	observe('.js-timeline-item', processItem, {signal});
 
-	// TODO: use signal instead
-	return registerHotkey('h', switchToNextFilter);
+	registerHotkey('h', switchToNextFilter, {signal});
 }
 
 void features.add(import.meta.url, {

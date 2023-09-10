@@ -1,0 +1,20 @@
+query GetCommitAtDate(
+	$owner: String!
+	$name: String!
+	$branch: String!
+	$date: GitTimestamp!
+) {
+	repository(owner: $owner, name: $name) {
+		ref(qualifiedName: $branch) {
+			target {
+				... on Commit {
+					history(first: 1, until: $date) {
+						nodes {
+							oid
+						}
+					}
+				}
+			}
+		}
+	}
+}

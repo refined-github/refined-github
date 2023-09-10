@@ -4,9 +4,9 @@ import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 
-function init(): void {
+function init(signal: AbortSignal): void {
 	// Reasoning for this feature: #1254
-	registerHotkey('c', buildRepoURL('releases/new'));
+	registerHotkey('c', buildRepoURL('releases/new'), {signal});
 }
 
 void features.add(import.meta.url, {

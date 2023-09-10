@@ -26,8 +26,8 @@ const commitSelectors = [
 
 const prSelectors = [
 	...botNames.flatMap(bot => [
-		`.opened-by [title*="pull requests created by ${bot}"]`,
-		`.opened-by [title*="pull requests opened by ${bot}"]`,
+		`.opened-by [title$="pull requests created by ${bot}"]`,
+		`.opened-by [title$="pull requests opened by ${bot}"]`,
 	]),
 	'.opened-by [href*="author%3Aapp%2F"]', // Search query `is:pr+author:app/*`
 	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label

@@ -1,8 +1,5 @@
 /* Limit width of commit title to 72 characters */
-.rgh-suggest-commit-title-limit :is(
-#merge_title_field,
-#commit-summary-input
-) {
+.rgh-suggest-commit-title-limit :is(#merge_title_field, #commit-summary-input) {
 	box-sizing: content-box; /* Exclude padding/border from `width`; No need to mess with `calc` */
 	width: 72ch;
 
@@ -20,7 +17,9 @@
 }
 
 :is(#commit-summary-input, #merge_title_field).rgh-title-over-limit:focus {
-	box-shadow: inset 0 1px 2px rgb(35 27 27 / 7.5%), 0 0 0 0.2em rgb(203 36 49 / 30%);
+	box-shadow:
+		inset 0 1px 2px rgb(35 27 27 / 7.5%),
+		0 0 0 0.2em rgb(203 36 49 / 30%);
 }
 
 /*

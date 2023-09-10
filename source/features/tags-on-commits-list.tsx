@@ -8,6 +8,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {getCommitHash} from './mark-merge-commits-in-list.js';
 import {buildRepoURL, getRepo} from '../github-helpers/index.js';
+import GetTagsOnCommit from './tags-on-commits-list.gql';
 
 type CommitTags = Record<string, string[]>;
 
@@ -49,43 +50,12 @@ function isTagTarget(target: CommonTarget): target is TagTarget {
 }
 
 async function getTags(lastCommit: string, after?: string): Promise<CommitTags> {
-	const {repository} = await api.v4(`
-		repository() {
-			refs(
-				first: 100,
-				refPrefix: "refs/tags/",
-				orderBy: {
-					field: TAG_COMMIT_DATE,
-					direction: DESC
-				}
-				${after ? `, after: "${after}"` : ''}
-			) {
-				pageInfo {
-					hasNextPage
-					endCursor
-				}
-				nodes {
-					name
-					target {
-						commitResourcePath
-						... on Tag {
-							tagger {
-								date
-							}
-						}
-						... on Commit {
-							committedDate
-						}
-					}
-				}
-			}
-			object(expression: "${lastCommit}") {
-				... on Commit {
-					committedDate
-				}
-			}
-		}
-		`);
+	const {repository} = await api.v4(GetTagsOnCommit, {
+		variables: {
+			after: after ?? null,
+			commit: lastCommit,
+		},
+	});
 	const nodes = repository.refs.nodes as TagNode[];
 
 	// If there are no tags in the repository
@@ -106,7 +76,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 	const lastTag = nodes.at(-1)!.target;
 	const lastTagIsYounger = new Date(repository.object.committedDate) < new Date(isTagTarget(lastTag) ? lastTag.tagger.date : lastTag.committedDate);
 
-	// If the last tag is younger than last commit on the page, then not all commits are accounted for, keep looking
+	// If the last tag is newer than last commit on the page, then not all commits are accounted for, keep looking
 	if (lastTagIsYounger && repository.refs.pageInfo.hasNextPage) {
 		tags = mergeTags(tags, await getTags(lastCommit, repository.refs.pageInfo.endCursor));
 	}

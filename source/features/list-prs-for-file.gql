@@ -1,13 +1,10 @@
 query getPrsByFile($owner: String!, $name: String!, $defaultBranch: String!) {
 	repository(owner: $owner, name: $name) {
 		pullRequests(
-			first: 25,
-			states: OPEN,
-			baseRefName: $defaultBranch,
-			orderBy: {
-				field: UPDATED_AT,
-				direction: DESC
-			}
+			first: 25
+			states: OPEN
+			baseRefName: $defaultBranch
+			orderBy: { field: UPDATED_AT, direction: DESC }
 		) {
 			nodes {
 				number

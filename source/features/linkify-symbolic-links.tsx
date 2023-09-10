@@ -16,7 +16,18 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
 	],
+	exclude: [
+		pageDetect.isRepoFile404,
+	],
 	deduplicate: 'has-rgh',
 	awaitDomReady: true, // Small page
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/wmluke/angular-flash/blob/0.1.14/app/components
+
+ */

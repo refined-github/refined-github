@@ -1,4 +1,5 @@
-@media not screen and (width: 400px) { /* Excludes Edge */
+@media not screen and (width: 400px) {
+	/* Excludes Edge */
 	:root {
 		min-width: 550px;
 	}
@@ -103,7 +104,8 @@ details[open] > :not(summary) {
 :root [name='customCSS'],
 :root [name='personalToken'] {
 	/* Same as GitHub style for `code` */
-	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace !important;
+	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+		'Liberation Mono', monospace !important;
 	font-size: 11px;
 	line-height: 1.5;
 }

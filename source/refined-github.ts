@@ -101,7 +101,6 @@ import './features/more-file-links.js';
 import './features/pr-filters.js';
 import './features/quick-file-edit.js';
 import './features/update-pr-from-base-branch.js';
-import './features/hide-disabled-milestone-sorter.js';
 import './features/tag-changes-link.js';
 import './features/clean-conversation-sidebar.js';
 import './features/sticky-sidebar.js';
@@ -112,7 +111,6 @@ import './features/suggest-commit-title-limit.js';
 import './features/highest-rated-comment.js';
 import './features/clean-conversation-filters.js';
 import './features/tags-on-commits-list.js';
-import './features/edit-readme.js';
 import './features/list-prs-for-file.js';
 import './features/pr-branch-auto-delete.js';
 import './features/linkify-symbolic-links.js'; // Must be before show-whitespace

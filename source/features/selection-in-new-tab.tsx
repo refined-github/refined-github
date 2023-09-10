@@ -18,8 +18,8 @@ function openInNewTab(): void {
 	selected.closest('.unread')?.classList.replace('unread', 'read');
 }
 
-function init(): void {
-	registerHotkey('O', openInNewTab);
+function init(signal: AbortSignal): void {
+	registerHotkey('O', openInNewTab, {signal});
 }
 
 void features.add(import.meta.url, {

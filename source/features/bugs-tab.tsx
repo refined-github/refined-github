@@ -12,6 +12,7 @@ import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
 import isBugLabel from '../github-helpers/bugs-label.js';
+import CountBugs from './bugs-tab.gql';
 
 type Bugs = {
 	label: string;
@@ -19,18 +20,7 @@ type Bugs = {
 };
 
 async function countBugs(): Promise<Bugs> {
-	const {repository} = await api.v4(`
-		repository() {
-			labels(query: "bug", first: 10) {
-				nodes {
-					name
-					issues(states: OPEN) {
-						totalCount
-					}
-				}
-			}
-		}
-	`);
+	const {repository} = await api.v4(CountBugs);
 
 	// Prefer native "bug" label
 	for (const label of repository.labels.nodes) {

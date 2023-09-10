@@ -9,6 +9,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
+import GetWorkflows from './github-actions-indicators.gql';
 
 type Workflow = {
 	name: string;
@@ -45,22 +46,7 @@ async function getWorkflows(): Promise<Workflow[]> {
 }
 
 async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
-	const {repository: {workflowFiles}} = await api.v4(`
-		repository() {
-			workflowFiles: object(expression: "HEAD:.github/workflows") {
-				... on Tree {
-					entries {
-						name
-						object {
-							... on Blob {
-								text
-							}
-						}
-					}
-				}
-			}
-		}
-	`);
+	const {repository: {workflowFiles}} = await api.v4(GetWorkflows);
 
 	const workflows: any[] = workflowFiles?.entries ?? [];
 

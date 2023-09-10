@@ -3,7 +3,7 @@ import select from 'select-dom';
 import zipTextNodes from 'zip-text-nodes';
 import {applyToLink} from 'shorten-repo-url';
 import linkifyURLsCore from 'linkify-urls';
-import linkifyIssuesCore from 'linkify-issues';
+import linkifyIssuesCore, {type TypeDomOptions} from 'linkify-issues';
 
 import getTextNodes from '../helpers/get-text-nodes.js';
 import parseBackticksCore from './parse-backticks.js';
@@ -31,7 +31,7 @@ export function shortenLink(link: HTMLAnchorElement): void {
 export function linkifyIssues(
 	currentRepo: {owner?: string; name?: string},
 	element: Element,
-	options: Partial<linkifyIssuesCore.TypeDomOptions> = {},
+	options: Partial<TypeDomOptions> = {},
 ): void {
 	const linkified = linkifyIssuesCore(element.textContent!, {
 		user: currentRepo.owner ?? '/',
@@ -79,6 +79,10 @@ export function linkifyURLs(element: Element): Element[] | void {
 			class: linkifiedURLClass, // Necessary to avoid also shortening the links
 		},
 	});
+
+	if (linkified.lastChild?.textContent === '…') { // Link is followed by …
+		return;
+	}
 
 	if (linkified.children.length === 0) { // Children are <a>
 		return;

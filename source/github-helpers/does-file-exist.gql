@@ -1,0 +1,7 @@
+query DoesFileExist($owner: String!, $name: String!, $file: String!) {
+	repository(owner: $owner, name: $name) {
+		file: object(expression: $file) {
+			id
+		}
+	}
+}
