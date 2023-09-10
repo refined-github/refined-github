@@ -58,7 +58,7 @@ async function addReleasesTab(): Promise<false | void> {
 	}
 
 	// Wait for the tab bar to be loaded
-	const repoNavigationBar = (await elementReady('.UnderlineNav-body'))!;
+	const repoNavigationBar = (await elementReady('ul.UnderlineNav-body'))!;
 	const releasesTab = (
 		<li className="d-flex">
 			<a
