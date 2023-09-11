@@ -9,7 +9,7 @@ const entryPointSource = readFileSync(entryPoint);
 const importedFeatures = getImportedFeatures();
 const featuresInReadme = getFeaturesMeta();
 
-function findCssFileError(filename: string): string | void {
+function validateCss(filename: string): string | void {
 	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${filename}';`);
 	const correspondingTsxFile = `source/features/${filename.replace(/.css$/, '.tsx')}`;
 	if (existsSync(correspondingTsxFile)) {
@@ -29,20 +29,39 @@ function findCssFileError(filename: string): string | void {
 	}
 }
 
-function findError(filename: string): string | void {
-	// TODO: Replace second condition with "is gitignored"
-	if (filename === 'index.tsx' || filename === '.DS_Store' || filename.endsWith('.gql')) {
-		return;
+function validateGql(filename: string): string | void {
+	const basename = filename.replace('.gql', '');
+	const featureId = importedFeatures.find(featureId => basename.startsWith(featureId));
+	if (!featureId) {
+		return `ERR: ${filename} doesn’t match any existing features. The filename should match the feature that uses it.`;
 	}
 
-	if (filename.endsWith('.css')) {
-		return findCssFileError(filename);
+	const correspondingTsxFile = `source/features/${featureId}.tsx`;
+	if (!readFileSync(correspondingTsxFile).includes(`from './${filename}';`)) {
+		return `ERR: \`${filename}\` should be imported by \`${correspondingTsxFile}\``;
+	}
+}
+
+function validateReadme(featureId: FeatureID): string | void {
+	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
+	if (!featureMeta) {
+		return `ERR: ${featureId} should be described in the readme`;
 	}
 
-	if (!filename.endsWith('.tsx')) {
-		return `ERR: The \`/source/features\` folder should only contain .css and .tsx files. Found \`source/features/${filename}\``;
+	if (featureMeta.description.length < 20) {
+		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
 	}
 
+	if (featureMeta.screenshot && !/\.(png|gif)$/.test(featureMeta.screenshot)) {
+		return `ERR: ${featureId} should have a screenshot (png/gif) in the readme`;
+	}
+
+	if (duplicate) {
+		return `ERR: ${featureId} should be described only once in the readme`;
+	}
+}
+
+function validateTsx(filename: string): string | void {
 	const featureId = filename.replace('.tsx', '') as FeatureID;
 	if (!importedFeatures.includes(featureId)) {
 		return `ERR: ${featureId} should be imported by \`${entryPoint}\``;
@@ -65,29 +84,32 @@ function findError(filename: string): string | void {
 		}
 	}
 
-	// The previous checks apply to RGH features, but the next ones don't
-	if (isFeaturePrivate(filename)) {
-		return;
-	}
-
-	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
-	if (!featureMeta) {
-		return `ERR: ${featureId} should be described in the readme`;
-	}
-
-	if (featureMeta.description.length < 20) {
-		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
-	}
-
-	if (featureMeta.screenshot && !/\.(png|gif)$/.test(featureMeta.screenshot)) {
-		return `ERR: ${featureId} should have a screenshot (png/gif) in the readme`;
-	}
-
-	if (duplicate) {
-		return `ERR: ${featureId} should be described only once in the readme`;
+	if (!isFeaturePrivate(filename)) {
+		validateReadme(featureId);
 	}
 }
 
-const errors = featuresDirContents.map(name => findError(name)).filter(Boolean);
+function validate(filename: string): string | void {
+	// TODO: Replace condition with "is gitignored"
+	if (filename === '.DS_Store') {
+		return;
+	}
+
+	if (filename.endsWith('.gql')) {
+		return validateGql(filename);
+	}
+
+	if (filename.endsWith('.css')) {
+		return validateCss(filename);
+	}
+
+	if (filename.endsWith('.tsx')) {
+		return validateTsx(filename);
+	}
+
+	return `ERR: The \`/source/features\` folder should only contain .css, .tsx and .gql files. Found \`source/features/${filename}\``;
+}
+
+const errors = featuresDirContents.map(name => validate(name)).filter(Boolean);
 console.error(errors.join('\n'));
 process.exitCode = errors.length;
