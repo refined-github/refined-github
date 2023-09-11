@@ -2,9 +2,7 @@
 .js-issue-row
 	.color-fg-muted
 	[href$='#partial-pull-merging'][aria-label*='approval'] {
-	/* font-size: 0; */
-	/* Safari 16.4 color bug #6473 */
-	font-size: 0.6px;
+	font-size: 0;
 	color: transparent !important;
 }
 
@@ -13,7 +11,7 @@
 	[href$='#partial-pull-merging'][aria-label*='approval']::before {
 	all: unset;
 	content: attr(aria-label);
-	display: inline !important;
+	display: inline-block !important;
 	color: var(--rgh-green);
 	font-size: 12px;
 }
