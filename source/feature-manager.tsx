@@ -21,6 +21,7 @@ import {
 	_,
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
+import onAjaxPageLoad from './github-events/on-page-load.js';
 
 type BooleanFunction = () => boolean;
 export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
@@ -267,7 +268,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			void setupPageLoad(id, details);
 		}
 
-		document.addEventListener('turbo:render', () => {
+		onAjaxPageLoad(() => {
 			if (!deduplicate || !select.exists(deduplicate)) {
 				void setupPageLoad(id, details);
 			}
