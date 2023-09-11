@@ -1,5 +1,10 @@
-query GetRepositoryStargazerCount($owner: String!, $name: String!) {
+query GetRepositoryInfo($owner: String!, $name: String!) {
 	repository(owner: $owner, name: $name) {
+		forkCount
 		stargazerCount
+		isFork
+		parent {
+			forkCount
+		}
 	}
 }
