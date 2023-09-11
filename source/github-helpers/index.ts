@@ -139,8 +139,8 @@ export const cacheByRepo = (): string => getRepo()!.nameWithOwner;
 export const isRepoCommitListRoot = (): boolean => pageDetect.isRepoCommitList() && document.title.startsWith('Commits');
 
 export const isUrlReachable = mem(async (url: string): Promise<boolean> => {
-	const {status} = await fetch(url, {method: 'head'});
-	return status === 404;
+	const {ok} = await fetch(url, {method: 'head'});
+	return ok;
 });
 
 // Don't make the argument optional, sometimes we really expect it to exist and want to throw an error

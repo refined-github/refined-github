@@ -10,7 +10,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
 import {branchSelector} from '../github-helpers/selectors.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import {isUrlReachable, isRepoCommitListRoot} from '../github-helpers/index.js';
+import {isRepoCommitListRoot, isUrlReachable} from '../github-helpers/index.js';
 
 async function add(branchSelector: HTMLElement): Promise<void> {
 	// Don't show the button if we’re already on the default branch
@@ -48,7 +48,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 	groupButtons([defaultLink, selectorWrapper]).classList.add('d-flex', 'rgh-default-branch-button-group');
 
 	// Only request it later to avoid slowing down the page load
-	if (await isUrlReachable(url.href)) {
+	if (!await isUrlReachable(url.href)) {
 		defaultLink.classList.add('disabled');
 		defaultLink.setAttribute('aria-label', 'Object not found on the default branch');
 	}
