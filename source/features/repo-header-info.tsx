@@ -1,5 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import {StarFillIcon} from '@primer/octicons-react';
+import {StarIcon} from '@primer/octicons-react';
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 
@@ -20,19 +20,17 @@ const stargazerCount = new CachedFunction('stargazer-count', {
 	cacheKey: cacheByRepo,
 });
 
-async function add(navigationList: HTMLUListElement): Promise<void> {
-	navigationList.append(
-		<li className="color-fg-muted pl-2">
-			<div className="d-flex flex-items-center flex-justify-center ml-2 gap-1">
-				<StarFillIcon className="v-align-text-bottom"/>
-				<span className="Counter v-align-bottom">{abbreviateNumber(await stargazerCount.get())}</span>
-			</div>
-		</li>,
+async function add(repoLink: HTMLAnchorElement): Promise<void> {
+	repoLink.append(
+		<div className="d-flex flex-items-center flex-justify-center ml-2 gap-1">
+			<StarIcon className="v-align-text-bottom" width={12} height={12}/>
+			<span className="v-align-bottom">{abbreviateNumber(await stargazerCount.get())}</span>
+		</div>,
 	);
 }
 
 function init(signal: AbortSignal): void {
-	observe('header .AppHeader-context-full > nav ul', add, {signal});
+	observe('header .AppHeader-context-full li:last-child a', add, {signal});
 }
 
 void features.add(import.meta.url, {
