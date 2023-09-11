@@ -1,11 +1,14 @@
 /* Restore "Delete branch" button in responsive branch list */
 @media (max-width: 1011px) {
-	.js-branch-row .d-none.d-md-flex, /* Show "Delete"’s container */
-	.js-branch-row:not(.Details--on) form.js-branch-destroy { /* Show "Delete" unless it's deleted */
+	/* Show "Delete"’s container */
+	.js-branch-row .d-none.d-md-flex,
+	/* Show "Delete" unless it's deleted */
+	.js-branch-row:not(.Details--on) form.js-branch-destroy {
 		display: flex !important;
 	}
 
-	.js-branch-row .d-block.d-md-none { /* On small viewports, the whole line becomes clickable. Disable this "touch" feature */
+	/* On small viewports, the whole line becomes clickable. Disable this "touch" feature */
+	.js-branch-row .d-block.d-md-none {
 		display: none !important;
 	}
 }

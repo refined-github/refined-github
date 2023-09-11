@@ -8,6 +8,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {cacheByRepo} from '../github-helpers/index.js';
+import GetRepoAge from './repo-age.gql';
+import GetFirstCommit from './repo-age-first-commit.gql';
 
 type CommitTarget = {
 	oid: string;
@@ -41,24 +43,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 });
 
 async function getRepoAge(commitSha: string, commitsCount: number): Promise<[committedDate: string, resourcePath: string]> {
-	const {repository} = await api.v4(`
-		query getRepoAge($owner: String!, $name: String!, $cursor: String!) {
-			repository(owner: $owner, name: $name) {
-				defaultBranchRef {
-					target {
-						... on Commit {
-							history(first: 5, after: $cursor) {
-								nodes {
-									committedDate
-									resourcePath
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	`, {
+	const {repository} = await api.v4(GetRepoAge, {
 		variables: {
 			cursor: `${commitSha} ${commitsCount - Math.min(6, commitsCount)}`,
 		},
@@ -74,22 +59,7 @@ async function getRepoAge(commitSha: string, commitsCount: number): Promise<[com
 
 const firstCommit = new CachedFunction('first-commit', {
 	async updater(): Promise<[committedDate: string, resourcePath: string]> {
-		const {repository} = await api.v4(`
-		repository() {
-			defaultBranchRef {
-				target {
-					... on Commit {
-						oid
-						committedDate
-						resourcePath
-						history {
-							totalCount
-						}
-					}
-				}
-			}
-		}
-	`);
+		const {repository} = await api.v4(GetFirstCommit);
 
 		const {oid: commitSha, history, committedDate, resourcePath} = repository.defaultBranchRef.target as CommitTarget;
 		const commitsCount = history.totalCount;

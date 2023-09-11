@@ -1,0 +1,18 @@
+query GetLatestCommitToFile(
+	$owner: String!
+	$name: String!
+	$branch: String!
+	$filePath: String!
+) {
+	repository(owner: $owner, name: $name) {
+		object(expression: $branch) {
+			... on Commit {
+				history(first: 1, path: $filePath) {
+					nodes {
+						oid
+					}
+				}
+			}
+		}
+	}
+}

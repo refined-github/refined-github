@@ -12,36 +12,10 @@ import GitHubFileURL from '../github-helpers/github-file-url.js';
 import showToast from '../github-helpers/toast.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
+import GetPullRequestBlameCommit from './deep-reblame.gql';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
-	const {repository} = await api.v4(`
-		query getPullRequestBlameCommit($owner: String!, $name: String!, $file: String!, $commit: String!) {
-			repository(owner: $owner, name: $name) {
-				file: object(expression: $file) {
-					id
-				}
-				object(expression: $commit) {
-					... on Commit {
-						associatedPullRequests(last: 1) {
-							nodes {
-								number
-								mergeCommit {
-									oid
-								}
-								commits(last: 1) {
-									nodes {
-										commit {
-											oid
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	`, {
+	const {repository} = await api.v4(GetPullRequestBlameCommit, {
 		variables: {
 			commit,
 			file: commit + ':' + currentFilename,

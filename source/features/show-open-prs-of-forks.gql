@@ -1,0 +1,12 @@
+query GetPRs($query: String!) {
+	search(first: 100, type: ISSUE, query: $query) {
+		nodes {
+			... on PullRequest {
+				number
+				headRepository {
+					nameWithOwner
+				}
+			}
+		}
+	}
+}

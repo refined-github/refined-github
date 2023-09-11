@@ -1,0 +1,10 @@
+query GetCommitChanges($owner: String!, $name: String!, $commit: String!) {
+	repository(owner: $owner, name: $name) {
+		object(expression: $commit) {
+			... on Commit {
+				additions
+				deletions
+			}
+		}
+	}
+}

@@ -1,0 +1,18 @@
+query HasAnyProjects($owner: String!, $name: String!) {
+	repository(owner: $owner, name: $name) {
+		projects {
+			totalCount
+		}
+		projectsV2 {
+			totalCount
+		}
+	}
+	organization(login: $owner) {
+		projects {
+			totalCount
+		}
+		projectsV2 {
+			totalCount
+		}
+	}
+}

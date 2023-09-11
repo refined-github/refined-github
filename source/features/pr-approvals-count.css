@@ -1,12 +1,16 @@
 /* Show approvals count in PR list */
-.js-issue-row .color-fg-muted [href$='#partial-pull-merging'][aria-label*='approval'] {
+.js-issue-row
+	.color-fg-muted
+	[href$='#partial-pull-merging'][aria-label*='approval'] {
 	/* font-size: 0; */
 	/* Safari 16.4 color bug #6473 */
 	font-size: 0.6px;
 	color: transparent !important;
 }
 
-.js-issue-row .color-fg-muted [href$='#partial-pull-merging'][aria-label*='approval']::before {
+.js-issue-row
+	.color-fg-muted
+	[href$='#partial-pull-merging'][aria-label*='approval']::before {
 	all: unset;
 	content: attr(aria-label);
 	display: inline !important;
@@ -14,12 +18,16 @@
 	font-size: 12px;
 }
 
-.js-issue-row .color-fg-muted [href$='#partial-pull-merging'][aria-label*='changes'] {
+.js-issue-row
+	.color-fg-muted
+	[href$='#partial-pull-merging'][aria-label*='changes'] {
 	color: var(--rgh-red) !important;
 }
 
 /* Disable now-duplicate tooltip */
-.js-issue-row .color-fg-muted [href$='#partial-pull-merging'][aria-label*='approval']::after {
+.js-issue-row
+	.color-fg-muted
+	[href$='#partial-pull-merging'][aria-label*='approval']::after {
 	content: none;
 }
 

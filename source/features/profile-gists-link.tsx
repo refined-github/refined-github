@@ -9,18 +9,11 @@ import api from '../github-helpers/api.js';
 import {getCleanPathname} from '../github-helpers/index.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import observe from '../helpers/selector-observer.js';
+import GetGistCount from './profile-gists-link.gql';
 
 const gistCount = new CachedFunction('gist-count', {
 	async updater(username: string): Promise<number> {
-		const {user} = await api.v4(`
-		query getGistCount($username: String!) {
-			user(login: $username) {
-				gists(first: 0) {
-					totalCount
-				}
-			}
-		}
-	`, {
+		const {user} = await api.v4(GetGistCount, {
 			variables: {username},
 		});
 		return user.gists.totalCount;
