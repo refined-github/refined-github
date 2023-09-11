@@ -20,6 +20,7 @@ import './features/sticky-file-header.css';
 import './features/readable-title-change-events.css';
 import './features/clean-checks-list.css';
 import './features/sticky-csv-header.css';
+import './features/mark-private-repos.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
