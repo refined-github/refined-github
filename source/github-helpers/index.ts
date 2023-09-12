@@ -6,7 +6,7 @@ import {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import mem from 'mem';
 
-import {branchSelector} from './selectors.js';
+import {branchSelector, repoUnderlineNavUl} from './selectors.js';
 
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);
@@ -154,4 +154,9 @@ export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement,
 	const row = branchSelectorParent.closest('.position-relative')!;
 	row.classList.add('d-flex', 'flex-shrink-0', 'gap-2');
 	row.append(sibling);
+}
+
+/** Trigger a reflow to push the right-most tab into the overflow dropdown */
+export function triggerRepoNavOverflow(): void {
+	window.dispatchEvent(new Event('resize'));
 }
