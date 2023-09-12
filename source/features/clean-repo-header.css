@@ -1,8 +1,11 @@
-#repo-stars-counter-star,
-#repo-stars-counter-unstar, 
-#repo-network-counter, /* Forks */
-#repo-notifications-counter, /* Watchers */
-.js-codespaces-details-container summary .Button-label /* Green "Code" button label */ {
+#repository-container-header:not(:has(.js-repo-nav)) /* Excludes pre-Global Navigation Update header */
+:is(
+	#repo-stars-counter-star,
+	#repo-stars-counter-unstar,
+	#repo-network-counter, /* Forks */
+	#repo-notifications-counter, /* Watchers */
+	.js-codespaces-details-container summary .Button-label /* Green "Code" button label */
+) {
 	display: none;
 }
 
