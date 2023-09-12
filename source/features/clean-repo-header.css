@@ -2,7 +2,7 @@
 #repo-stars-counter-unstar, 
 #repo-network-counter, /* Forks */
 #repo-notifications-counter, /* Watchers */
-.js-codespaces-details-container summary .Button-label /* Green "Code" button label */{
+.js-codespaces-details-container summary .Button-label /* Green "Code" button label */ {
 	display: none;
 }
 
