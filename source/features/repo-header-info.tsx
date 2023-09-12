@@ -31,16 +31,18 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 
 	if (isFork) {
 		repoLink.append(
-			<RepoForkedIcon className="v-align-text-bottom ml-1" width={12} height={12}/>,
+			<RepoForkedIcon className="ml-1" width={12} height={12}/>,
 		);
 	}
 
-	repoLink.after(
-		<div className="d-flex flex-items-center flex-justify-center mr-1 gap-1">
-			<StarIcon className="v-align-text-bottom" width={12} height={12}/>
-			<span className="f6">{abbreviateNumber(stargazerCount)}</span>
-		</div>,
-	);
+	if (stargazerCount) {
+		repoLink.after(
+			<div className="d-flex flex-items-center flex-justify-center mr-1 gap-1">
+				<StarIcon className="ml-1" width={12} height={12}/>
+				<span className="f6">{abbreviateNumber(stargazerCount)}</span>
+			</div>,
+		);
+	}
 }
 
 function init(signal: AbortSignal): void {
