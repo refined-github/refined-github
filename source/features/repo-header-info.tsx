@@ -17,9 +17,8 @@ type RepositoryInfo = {
 
 const repositoryInfo = new CachedFunction('stargazer-count', {
 	async updater(): Promise<RepositoryInfo> {
-		const {repository: {isFork, stargazerCount}} = await api.v4(GetRepositoryInfo);
-
-		return {isFork, stargazerCount};
+		const {repository} = await api.v4(GetRepositoryInfo);
+		return repository;
 	},
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 3},
