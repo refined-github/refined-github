@@ -21,6 +21,7 @@ import './features/readable-title-change-events.css';
 import './features/clean-checks-list.css';
 import './features/sticky-csv-header.css';
 import './features/mark-private-repos.css';
+import './features/clean-repo-header.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -202,7 +203,6 @@ import './features/last-notification-page-button.js';
 import './features/rgh-linkify-yolo-issues.js';
 import './features/quick-new-issue.js';
 import './features/scrollable-areas.js';
-import './features/clean-repo-header.js';
 import './features/emphasize-draft-pr-label.js';
 import './features/file-age-color.js';
 import './features/netiquette.js';

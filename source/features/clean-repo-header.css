@@ -1,12 +1,16 @@
-.rgh-clean-repo-header .pagehead-actions :is(#repo-network-counter, #repo-notifications-counter) {
+#repo-stars-counter-star,
+#repo-stars-counter-unstar, 
+#repo-network-counter, /* Forks */
+#repo-notifications-counter, /* Watchers */
+.js-codespaces-details-container summary .Button-label /* Green "Code" button label */{
 	display: none;
 }
 
 /* Hide text of "Edit Pins" dropdown button in header of organization repos https://github.com/refined-github/refined-github/pull/5612 */
-.rgh-clean-repo-header .pagehead-actions pin-organization-repo summary {
+.pagehead-actions pin-organization-repo summary {
 	font-size: 0 !important;
 }
 
-.rgh-clean-repo-header .pagehead-actions pin-organization-repo .octicon-pin {
+.pagehead-actions pin-organization-repo .octicon-pin {
 	vertical-align: middle !important;
 }
