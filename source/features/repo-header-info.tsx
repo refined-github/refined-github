@@ -60,7 +60,10 @@ void features.add(import.meta.url, {
 /*
 Test URLs
 
-Repository:
-https://github.com/refined-github/refined-github
+- Regular: https://github.com/refined-github/refined-github
+- Fork: https://github.com/134130/refined-github
+- Fork with native icon: https://github.com/refined-github/fork
+- Private: https://github.com/refined-github/private
+- Private forks are not allowed on GitHub
 
 */
