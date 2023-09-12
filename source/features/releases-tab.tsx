@@ -14,7 +14,7 @@ import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import {buildRepoURL, cacheByRepo, getRepo} from '../github-helpers/index.js';
 import {releasesSidebarSelector} from './clean-repo-sidebar.js';
 import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
-import {underlineNavDropdownUl} from '../github-helpers/selectors.js';
+import {repoUnderlineNavUrl, repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
 import GetReleasesCount from './releases-tab.gql';
 
 async function parseCountFromDom(): Promise<number> {
@@ -58,7 +58,7 @@ async function addReleasesTab(): Promise<false | void> {
 	}
 
 	// Wait for the tab bar to be loaded
-	const repoNavigationBar = (await elementReady('ul.UnderlineNav-body'))!;
+	const repoNavigationBar = (await elementReady(repoUnderlineNavUrl))!;
 	const releasesTab = (
 		<li className="d-flex">
 			<a
@@ -82,7 +82,7 @@ async function addReleasesTab(): Promise<false | void> {
 	// Trigger a reflow to push the right-most tab into the overflow dropdown (second attempt #4254)
 	window.dispatchEvent(new Event('resize'));
 
-	const dropdownMenu = await elementReady(underlineNavDropdownUl);
+	const dropdownMenu = await elementReady(repoUnderlineNavDropdownUl);
 
 	appendBefore(
 		dropdownMenu!,
