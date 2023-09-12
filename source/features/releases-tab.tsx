@@ -77,6 +77,8 @@ function addReleasesDropdownItem(dropdownMenu: HTMLElement): void {
 			'data-menu-item': 'rgh-releases-item',
 		}),
 	);
+
+	triggerRepoNavOverflow();
 }
 
 async function init(signal: AbortSignal): Promise<void> {

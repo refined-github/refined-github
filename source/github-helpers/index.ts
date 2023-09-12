@@ -6,7 +6,7 @@ import {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import mem from 'mem';
 
-import {branchSelector, repoUnderlineNavUl} from './selectors.js';
+import {branchSelector} from './selectors.js';
 
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);
