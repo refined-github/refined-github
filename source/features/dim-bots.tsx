@@ -36,12 +36,13 @@ const prSelectors = [
 const dimBots = features.getIdentifiers(import.meta.url);
 
 function undimBots(event: DelegateEvent): void {
+	const target = event.target as HTMLElement;
 	// Only undim when clicking on empty areas
-	if (event.target.closest('a, button, input, [tabindex]')) {
+	if (target.closest('a, button, input, [tabindex]')) {
 		return;
 	}
 
-	const resetScroll = preserveScroll(event.target as HTMLElement);
+	const resetScroll = preserveScroll(target);
 	for (const bot of select.all(dimBots.selector)) {
 		bot.classList.add('rgh-interacted');
 	}
