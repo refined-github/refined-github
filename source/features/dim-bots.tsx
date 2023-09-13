@@ -35,9 +35,9 @@ const prSelectors = [
 
 const dimBots = features.getIdentifiers(import.meta.url);
 
-function undimBots(event: Event | DelegateEvent): void {
+function undimBots(event: DelegateEvent): void {
 	// Only undim when clicking on empty areas
-	if ('delegateTarget' in event && event.target !== event.delegateTarget) {
+	if (event.target.closest('a, button, input, [tabindex]')) {
 		return;
 	}
 
@@ -63,9 +63,6 @@ function init(signal: AbortSignal): void {
 
 	// Undim on mouse focus
 	delegate(dimBots.selector, 'click', undimBots, {signal});
-
-	// Undim on keyboard focus
-	document.documentElement.addEventListener('navigation:keydown', undimBots, {once: true, signal});
 }
 
 void features.add(import.meta.url, {
