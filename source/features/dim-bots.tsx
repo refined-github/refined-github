@@ -1,7 +1,7 @@
 import './dim-bots.css';
 import select from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import delegate from 'delegate-it';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import preserveScroll from '../helpers/preserve-scroll.js';
@@ -35,7 +35,12 @@ const prSelectors = [
 
 const dimBots = features.getIdentifiers(import.meta.url);
 
-function undimBots(event: Event): void {
+function undimBots(event: Event | DelegateEvent): void {
+	// Only undim when clicking on empty areas
+	if ('delegateTarget' in event && event.target !== event.delegateTarget) {
+		return;
+	}
+
 	const resetScroll = preserveScroll(event.target as HTMLElement);
 	for (const bot of select.all(dimBots.selector)) {
 		bot.classList.add('rgh-interacted');
