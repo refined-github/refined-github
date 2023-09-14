@@ -159,6 +159,7 @@ Thanks for contributing! 🦋🙌
 - [](# "unreleased-commits") 🔥 [Tells you whether you're looking at the latest version of a repository, or if there are any unreleased commits.](https://user-images.githubusercontent.com/1402241/234576563-1a0ca255-4c0d-45ae-883d-2b1aa2d7f4c1.png)
 - [](# "action-pr-link") 🔥 [Adds a link back to the PR that ran the workflow.](https://github-production-user-asset-6210df.s3.amazonaws.com/50487467/241645264-076a0137-36a2-4fd0-a66e-735ef3b3a563.png)
 - [](# "mobile-tabs") [Makes the tabs more compact on mobile so more of them can be seen.](https://user-images.githubusercontent.com/1402241/245446231-28f44b59-0151-4986-8cb9-05b5645592d8.png)
+- [](# "repo-header-info") [Shows whether a repo is a fork and adds the number of stars to its header.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267216946-404d79ab-46d7-4bc8-ba88-ae8f8029150d.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
