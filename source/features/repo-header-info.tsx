@@ -1,5 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import {RepoForkedIcon, StarIcon} from '@primer/octicons-react';
+import {LockIcon, RepoForkedIcon, StarIcon} from '@primer/octicons-react';
 import React from 'dom-chef';
 import select from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
@@ -13,6 +13,7 @@ import abbreviateNumber from '../helpers/abbreviate-number.js';
 
 type RepositoryInfo = {
 	isFork: boolean;
+	isPrivate: boolean;
 	stargazerCount: number;
 };
 
@@ -27,7 +28,14 @@ const repositoryInfo = new CachedFunction('stargazer-count', {
 });
 
 async function add(repoLink: HTMLAnchorElement): Promise<void> {
-	const {isFork, stargazerCount} = await repositoryInfo.get();
+	const {isFork, isPrivate, stargazerCount} = await repositoryInfo.get();
+
+	if (isPrivate && !select.exists('.octicon-lock', repoLink)) {
+		// Append "private" lock icon for private forked repos
+		repoLink.append(
+			<LockIcon className="ml-1" width={12} height={12}/>,
+		);
+	}
 
 	if (isFork && !select.exists('.octicon-repo-forked', repoLink)) {
 		// Place it where the "private" lock icon also appears
