@@ -30,15 +30,15 @@ const repositoryInfo = new CachedFunction('stargazer-count', {
 async function add(repoLink: HTMLAnchorElement): Promise<void> {
 	const {isFork, isPrivate, stargazerCount} = await repositoryInfo.get();
 
+	// GitHub may already show this icon natively, so we match its position
 	if (isPrivate && !select.exists('.octicon-lock', repoLink)) {
-		// Append "private" lock icon for private forked repos
 		repoLink.append(
 			<LockIcon className="ml-1" width={12} height={12}/>,
 		);
 	}
 
+	// GitHub may already show this icon natively, so we match its position
 	if (isFork && !select.exists('.octicon-repo-forked', repoLink)) {
-		// Place it where the "private" lock icon also appears
 		repoLink.append(
 			<RepoForkedIcon className="ml-1" width={12} height={12}/>,
 		);
@@ -72,6 +72,6 @@ Test URLs
 - Fork: https://github.com/134130/refined-github
 - Fork with native icon: https://github.com/refined-github/fork
 - Private: https://github.com/refined-github/private
-- Private forks are not allowed on GitHub
+- Private fork: https://github.com/refined-github/fork
 
 */
