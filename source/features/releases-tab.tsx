@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import select from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -8,22 +7,15 @@ import * as pageDetect from 'github-url-detection';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import looseParseInt from '../helpers/loose-parse-int.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
-import {buildRepoURL, cacheByRepo, getRepo} from '../github-helpers/index.js';
-import {releasesSidebarSelector} from './clean-repo-sidebar.js';
-import {appendBefore, highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
-import {repoUnderlineNavUrl, repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
+import {buildRepoURL, cacheByRepo, getRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
+import {appendBefore} from '../helpers/dom-utils.js';
+import {repoUnderlineNavUl, repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
 import GetReleasesCount from './releases-tab.gql';
 
-async function parseCountFromDom(): Promise<number> {
-	const moreReleasesCountElement = await elementReady(releasesSidebarSelector + ' .Counter');
-	if (moreReleasesCountElement) {
-		return looseParseInt(moreReleasesCountElement);
-	}
-
-	return 0;
+function detachHighlightFromCodeTab(codeTab: HTMLAnchorElement): void {
+	codeTab.dataset.selectedLinks = codeTab.dataset.selectedLinks!.replace('repo_releases ', '');
 }
 
 async function fetchFromApi(nameWithOwner: string): Promise<number> {
@@ -40,26 +32,24 @@ async function fetchFromApi(nameWithOwner: string): Promise<number> {
 // - It only contains pre-releases (count badge won't be shown)
 // For this reason, if we can't find a count from the DOM, we ask the API instead (see #6298)
 export const releasesCount = new CachedFunction('releases-count', {
-	updater: async (nameWithOwner: string) => await parseCountFromDom() || fetchFromApi(nameWithOwner),
+	updater: fetchFromApi,
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 3},
 	cacheKey: cacheByRepo,
 });
 
-async function addReleasesTab(): Promise<false | void> {
+async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | void> {
 	const repo = getRepo()!.nameWithOwner;
-	const count = pageDetect.isRepoRoot()
-		// Always prefer the information in the DOM
-		? await releasesCount.getFresh(repo)
-		: await releasesCount.get(repo);
+	const count = await releasesCount.get(repo);
 
 	if (count === 0) {
 		return false;
 	}
 
-	// Wait for the tab bar to be loaded
-	const repoNavigationBar = (await elementReady(repoUnderlineNavUrl))!;
-	const releasesTab = (
+	// Wait for the dropdown because `observe` fires as soon as it encounter the container. `releases-tab` must be appended.
+	await elementReady(repoUnderlineNavUl);
+
+	repoNavigationBar.append(
 		<li className="d-flex">
 			<a
 				href={buildRepoURL('releases')}
@@ -67,45 +57,34 @@ async function addReleasesTab(): Promise<false | void> {
 				data-hotkey="g r"
 				data-selected-links="repo_releases"
 				data-tab-item="rgh-releases-item"
+				data-turbo-frame="repo-content-turbo-frame" /* Required for `data-selected-links` to work */
 			>
 				<TagIcon className="UnderlineNav-octicon d-none d-sm-inline"/>
 				<span data-content="Releases">Releases</span>
 				{count && <span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>}
 			</a>
-		</li>
+		</li>,
 	);
-	repoNavigationBar.append(releasesTab);
 
-	// This re-triggers the overflow listener forcing it to also hide this tab if necessary #3347
-	repoNavigationBar.replaceWith(repoNavigationBar);
+	triggerRepoNavOverflow();
+}
 
-	// Trigger a reflow to push the right-most tab into the overflow dropdown (second attempt #4254)
-	window.dispatchEvent(new Event('resize'));
-
-	const dropdownMenu = await elementReady(repoUnderlineNavDropdownUl);
-
+function addReleasesDropdownItem(dropdownMenu: HTMLElement): void {
 	appendBefore(
-		dropdownMenu!,
+		dropdownMenu,
 		'.dropdown-divider', // Won't exist if `more-dropdown` is disabled
 		createDropdownItem('Releases', buildRepoURL('releases'), {
 			'data-menu-item': 'rgh-releases-item',
 		}),
 	);
-}
 
-function highlightReleasesTab(signal: AbortSignal): void {
-	observe('.UnderlineNav-item.selected:not(.rgh-releases-tab)', unhighlightTab, {signal});
-	highlightTab(select('.rgh-releases-tab')!);
+	triggerRepoNavOverflow();
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	if (!select.exists('.rgh-releases-tab')) {
-		await addReleasesTab();
-	}
-
-	if (pageDetect.isReleasesOrTags()) {
-		highlightReleasesTab(signal);
-	}
+	observe(repoUnderlineNavUl, addReleasesTab, {signal});
+	observe(repoUnderlineNavDropdownUl, addReleasesDropdownItem, {signal});
+	observe(['[data-menu-item="i0code-tab"] a', 'a#code-tab'], detachHighlightFromCodeTab, {signal});
 }
 
 void features.add(import.meta.url, {

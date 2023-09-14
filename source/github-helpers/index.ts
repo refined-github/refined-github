@@ -155,3 +155,8 @@ export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement,
 	row.classList.add('d-flex', 'flex-shrink-0', 'gap-2');
 	row.append(sibling);
 }
+
+/** Trigger a reflow to push the right-most tab into the overflow dropdown */
+export function triggerRepoNavOverflow(): void {
+	window.dispatchEvent(new Event('resize'));
+}
