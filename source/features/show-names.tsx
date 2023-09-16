@@ -16,7 +16,8 @@ const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnc
 	const myUsername = getUsername();
 	for (const element of new Set(batchedUsernameElements)) {
 		const username = element.textContent;
-		if (username && username !== myUsername && username !== 'ghost') {
+
+		if (username && username !== myUsername && username !== 'ghost' && element.href.endsWith(`/${username}`)) {
 			usernames.add(element.textContent!);
 		}
 
@@ -82,7 +83,7 @@ const usernameLinksSelector = [
 	// On dashboard
 	// `.Link--primary` excludes avatars
 	// `.color-shadow-medium` excludes links in cards #6530
-	'#dashboard article header a.Link--primary[data-hovercard-type="user"]:not(.color-shadow-medium a)',
+	'#dashboard a.Link--primary[data-hovercard-type="user"]:not(.color-shadow-medium a)',
 ] as const;
 
 function init(signal: AbortSignal): void {
