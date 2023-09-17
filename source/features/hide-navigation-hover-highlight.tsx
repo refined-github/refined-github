@@ -7,7 +7,7 @@ const html = document.documentElement;
 
 function init(): void {
 	html.setAttribute(attribute, '');
-	html.addEventListener('navigation:focus', () => {
+	html.addEventListener('navigation:keydown', () => {
 		html.removeAttribute(attribute);
 	}, {once: true});
 }
