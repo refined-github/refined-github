@@ -7,35 +7,28 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import onAbort from '../helpers/abort-controller.js';
 
-const loadMore = debounce(() => {
-	const button = select('[role="tabpanel"]:not([hidden]) button.ajax-pagination-btn')!;
+const loadMore = debounce((button: HTMLButtonElement) => {
 	button.click();
-	button.textContent = 'Loading…';
 
 	// If GH hasn't loaded the JS, the click will not load anything.
 	// We can detect if it worked by looking at the button's state,
 	// and then trying again (auto-debounced)
 	if (!button.disabled) {
-		loadMore();
+		loadMore(button);
 	}
 }, {wait: 200});
 
-const inView = new IntersectionObserver(([{isIntersecting}]) => {
+const inView = new IntersectionObserver(([{target, isIntersecting}]) => {
 	if (isIntersecting) {
-		loadMore();
+		loadMore(target as HTMLButtonElement);
 	}
 }, {
 	rootMargin: '500px', // https://github.com/refined-github/refined-github/pull/505#issuecomment-309273098
 });
 
-function init(signal: AbortSignal): void {
-	onAbort(signal, inView);
-	observe('.ajax-pagination-btn', button => {
-		inView.observe(button);
-	}, {signal});
-
+function copyFooter(originalFooter: HTMLElement): void {
 	// Copy the footer links to the sidebar to make them more accessible. Also keep a copy in the footer.
-	const footer = select('.footer > .d-flex')!.cloneNode(true);
+	const footer = originalFooter.cloneNode(true);
 
 	for (const child of footer.children) {
 		child.classList.remove('pl-lg-4', 'col-xl-3');
@@ -48,12 +41,19 @@ function init(signal: AbortSignal): void {
 	);
 }
 
+function init(signal: AbortSignal): void {
+	onAbort(signal, inView);
+	observe('.ajax-pagination-btn', button => {
+		inView.observe(button);
+	}, {signal});
+
+	observe('.footer > .d-flex', copyFooter, {signal});
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isDashboard,
 	],
-	deduplicate: 'has-rgh',
-	awaitDomReady: true, // Must wait for the whole page to load anyway
 	init,
 });
 
