@@ -82,8 +82,8 @@ const usernameLinksSelector = [
 
 	// On dashboard
 	// `.Link--primary` excludes avatars
-	// `.color-shadow-medium` excludes links in cards #6530
-	'#dashboard a.Link--primary[data-hovercard-type="user"]:not(.color-shadow-medium a)',
+	// [aria-label="card content"] excludes links in cards #6530 #6915
+	'#dashboard a.Link--primary[data-hovercard-type="user"]:not([aria-label="card content"] *)',
 ] as const;
 
 function init(signal: AbortSignal): void {
