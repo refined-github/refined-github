@@ -69,7 +69,7 @@
 		"indent-textarea": "^3.0.0",
 		"js-abbreviation-number": "^1.4.0",
 		"linkify-issues": "^3.0.0",
-		"linkify-urls": "^4.0.0",
+		"linkify-urls": "^4.1.0",
 		"mem": "^9.0.2",
 		"one-event": "^3.1.0",
 		"one-mutation": "^2.1.0",

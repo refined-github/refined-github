@@ -1,8 +1,13 @@
-export const underlineNavDropdownUl = '.js-responsive-underlinenav .dropdown-menu ul';
-export const underlineNavDropdownUl_ = [
+/** The repo navigation bar */
+export const repoUnderlineNavUl = '.js-responsive-underlinenav ul.UnderlineNav-body';
+export const repoUnderlineNavUl_ = [
 	'https://github.com/refined-github/refined-github',
 	'https://github.com/refined-github/refined-github/releases',
 ];
+
+/** The repo navigation bar’s overflow menu */
+export const repoUnderlineNavDropdownUl = '.js-responsive-underlinenav .dropdown-menu ul';
+export const repoUnderlineNavDropdownUl_ = repoUnderlineNavUl_;
 
 export const branchSelector = '[data-hotkey="w"]';
 export const branchSelector_ = [

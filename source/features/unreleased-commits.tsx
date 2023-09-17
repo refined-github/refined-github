@@ -8,10 +8,12 @@ import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
 import {addAfterBranchSelector, buildRepoURL, cacheByRepo, getLatestVersionTag} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import pluralize from '../helpers/pluralize.js';
-import {branchSelectorParent} from '../github-helpers/selectors.js';
+import {branchSelector, branchSelectorParent} from '../github-helpers/selectors.js';
 import getPublishRepoState from './unreleased-commits.gql';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import abbreviateString from '../helpers/abbreviate-string.js';
+import {wrapAll} from '../helpers/dom-utils.js';
 
 type RepoPublishState = {
 	latestTag: string | false;
@@ -62,7 +64,26 @@ export const repoPublishState = new CachedFunction('tag-ahead-by', {
 	cacheKey: cacheByRepo,
 });
 
-async function add(branchSelectorParent: HTMLDetailsElement): Promise<void> {
+async function createLink(latestTag: string, aheadBy: number): Promise<HTMLElement> {
+	const commitCount
+		= aheadBy === undeterminableAheadBy
+			? 'more than 20 unreleased commits'
+			: pluralize(aheadBy, '$$ unreleased commit');
+	const label = `There are ${commitCount} since ${abbreviateString(latestTag, 30)}`;
+
+	return (
+		<a
+			className="btn px-2 tooltipped tooltipped-se"
+			href={buildRepoURL('compare', `${latestTag}...${await getDefaultBranch()}`)}
+			aria-label={label}
+		>
+			<TagIcon className="v-align-middle"/>
+			{aheadBy === undeterminableAheadBy || <sup className="ml-n2"> +{aheadBy}</sup>}
+		</a>
+	);
+}
+
+async function add(branchSelector: HTMLButtonElement): Promise<void> {
 	const {latestTag, aheadBy} = await repoPublishState.get();
 	const isAhead = aheadBy > 0;
 
@@ -70,29 +91,36 @@ async function add(branchSelectorParent: HTMLDetailsElement): Promise<void> {
 		return;
 	}
 
-	const commitCount
-		= aheadBy === undeterminableAheadBy
-			? 'more than 20 unreleased commits'
-			: pluralize(aheadBy, '$$ unreleased commit');
-	const label = `There are ${commitCount} since ${latestTag}`;
+	wrapAll(
+		[
+			branchSelector,
+			await createLink(latestTag, aheadBy),
+		],
+		<div className="d-flex gap-2"/>,
+	);
+}
+
+async function addLegacy(branchSelectorParent: HTMLDetailsElement): Promise<void> {
+	const {latestTag, aheadBy} = await repoPublishState.get();
+	const isAhead = aheadBy > 0;
+
+	if (!latestTag || !isAhead) {
+		return;
+	}
 
 	addAfterBranchSelector(
 		branchSelectorParent,
-		<a
-			className="btn px-2 tooltipped tooltipped-ne"
-			href={buildRepoURL('compare', `${latestTag}...${await getDefaultBranch()}`)}
-			aria-label={label}
-		>
-			<TagIcon className="v-align-middle"/>
-			{aheadBy === undeterminableAheadBy || <sup className="ml-n2"> +{aheadBy}</sup>}
-		</a>,
+		await createLink(latestTag, aheadBy),
 	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
 
-	observe(branchSelectorParent, add, {signal});
+	observe(branchSelector, add, {signal});
+
+	// TODO: Drop after Repository overview update
+	observe(branchSelectorParent, addLegacy, {signal});
 }
 
 void features.add(import.meta.url, {

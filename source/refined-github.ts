@@ -20,6 +20,8 @@ import './features/sticky-file-header.css';
 import './features/readable-title-change-events.css';
 import './features/clean-checks-list.css';
 import './features/sticky-csv-header.css';
+import './features/mark-private-repos.css';
+import './features/clean-repo-header.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -214,3 +216,4 @@ import './features/status-subscription.js';
 import './features/action-pr-link.js';
 import './features/rgh-dim-commits.js';
 import './features/mobile-tabs.js';
+import './features/repo-header-info.js';

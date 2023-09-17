@@ -28,7 +28,7 @@ async function add(anchor: HTMLElement): Promise<void> {
 
 	const endpoint = buildRepoURL('commits/checks-statuses-rollups');
 	anchor.parentElement!.append(
-		<span className="rgh-ci-link">
+		<span className="rgh-ci-link ml-1">
 			<batch-deferred-content hidden data-url={endpoint}>
 				<input
 					name="oid"
