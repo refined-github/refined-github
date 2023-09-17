@@ -10,7 +10,7 @@ import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 
 // The selector observer calls this function several times, but we want to batch them into a single GraphQL API call
-const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnchorElement[]): Promise<void> => {
+async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise<void> {
 	// TODO: Split up this function, it does too much
 	const usernames = new Set<string>();
 	const myUsername = getUsername();
@@ -64,7 +64,7 @@ const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnc
 			' ',
 		);
 	}
-});
+}
 
 const usernameLinksSelector = [
 	// `a` selector needed to skip commits by non-GitHub users
@@ -87,7 +87,7 @@ const usernameLinksSelector = [
 
 function init(signal: AbortSignal): void {
 	document.body.classList.add('rgh-show-names');
-	observe(usernameLinksSelector, batchUpdateLinks, {signal});
+	observe(usernameLinksSelector, batchedFunction(updateLink, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {

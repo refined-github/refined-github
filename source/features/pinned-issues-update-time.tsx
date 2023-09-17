@@ -36,7 +36,7 @@ function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
 	return looseParseInt(select('.opened-by', pinnedIssue)!.firstChild!);
 }
 
-const update = batchedFunction(async (pinnedIssues: HTMLElement[]): Promise<void | false> => {
+async function update(pinnedIssues: HTMLElement[]): Promise<void> {
 	const lastUpdated: Record<string, IssueInfo> = await getLastUpdated.get(pinnedIssues.map(issue => getPinnedIssueNumber(issue)));
 	for (const pinnedIssue of pinnedIssues) {
 		const issueNumber = getPinnedIssueNumber(pinnedIssue);
@@ -51,10 +51,10 @@ const update = batchedFunction(async (pinnedIssues: HTMLElement[]): Promise<void
 
 		originalLine.hidden = true;
 	}
-});
+}
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('.pinned-issue-item', update, {signal});
+	observe('.pinned-issue-item', batchedFunction(update, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {
