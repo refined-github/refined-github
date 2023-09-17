@@ -17,7 +17,7 @@ const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnc
 	for (const element of new Set(batchedUsernameElements)) {
 		const username = element.textContent;
 
-		if (username && username !== myUsername && username !== 'ghost' && element.href.endsWith(`/${username}`)) {
+		if (username && username !== myUsername && username !== 'ghost') {
 			usernames.add(element.textContent!);
 		}
 
