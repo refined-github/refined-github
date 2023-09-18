@@ -121,7 +121,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 
 	await api.expectToken();
 
-	observe(branchSelector, add, {signal});
+	observe(`table[aria-labelledby="folders-and-files"] ${branchSelector}`, add, {signal});
 
 	// TODO: Drop after Repository overview update
 	observe(branchSelectorParent, addLegacy, {signal});
