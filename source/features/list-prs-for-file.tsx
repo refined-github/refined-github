@@ -8,13 +8,13 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
-import GitHubURL from '../github-helpers/github-url.js';
+import GitHubFileURL from '../github-helpers/github-file-url.js';
 import observe from '../helpers/selector-observer.js';
 import listPrsForFileQuery from './list-prs-for-file.gql';
 
 function getPRUrl(prNumber: number): string {
 	// https://caniuse.com/url-scroll-to-text-fragment
-	const hash = isFirefox() ? '' : `#:~:text=${new GitHubURL(location.href).filePath}`;
+	const hash = isFirefox() ? '' : `#:~:text=${new GitHubFileURL(location.href).filePath}`;
 	return buildRepoURL('pull', prNumber, 'files') + hash;
 }
 
@@ -84,7 +84,7 @@ const getPrsByFile = new CachedFunction('files-with-prs', {
 });
 
 async function addToSingleFile(moreFileActionsDropdown: HTMLElement): Promise<void> {
-	const path = new GitHubURL(location.href).filePath;
+	const path = new GitHubFileURL(location.href).filePath;
 	const prsByFile = await getPrsByFile.get();
 	const prs = prsByFile[path];
 
@@ -99,7 +99,7 @@ async function addToSingleFile(moreFileActionsDropdown: HTMLElement): Promise<vo
 }
 
 async function addToEditingFile(saveButton: HTMLElement): Promise<false | void> {
-	const path = new GitHubURL(location.href).filePath;
+	const path = new GitHubFileURL(location.href).filePath;
 	const prsByFile = await getPrsByFile.get();
 	let prs = prsByFile[path];
 

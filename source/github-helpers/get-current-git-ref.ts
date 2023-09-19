@@ -7,7 +7,7 @@ import {branchSelector} from './selectors.js';
 const typesWithGitRef = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare']);
 const titleWithGitRef = / at (?<branch>[.\w-/]+)( · [\w-]+\/[\w-]+)?$/i;
 
-/** Must not be async because it's used by GitHubURL. May return different results depending on whether it's called before or after DOM ready */
+/** Must not be async because it's used by GitHubFileURL. May return different results depending on whether it's called before or after DOM ready */
 export default function getCurrentGitRef(): string | undefined {
 	// Note: This is not in the <head> so it's only available on AJAXed loads.
 	// It appears on every Code page except `commits` on folders/files

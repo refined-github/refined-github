@@ -1,8 +1,8 @@
 import api from './api.js';
-import GitHubURL from './github-url.js';
+import GitHubFileURL from './github-file-url.js';
 import DoesFileExist from './does-file-exist.gql';
 
-export default async function doesFileExist(url: GitHubURL): Promise<boolean> {
+export default async function doesFileExist(url: GitHubFileURL): Promise<boolean> {
 	const {repository} = await api.v4(DoesFileExist, {
 		variables: {
 			owner: url.user,
