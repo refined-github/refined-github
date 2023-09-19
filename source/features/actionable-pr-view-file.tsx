@@ -10,7 +10,7 @@ function alter(viewFileLink: HTMLAnchorElement): void {
 	const {nameWithOwner, branch} = getBranches().head;
 	const filePath = viewFileLink.closest('[data-path]')!.getAttribute('data-path')!;
 
-	// Do not replace with `GitHubURL` #3152 #3111 #2595
+	// Do not replace with `GitHubFileURL` #3152 #3111 #2595
 	viewFileLink.pathname = [nameWithOwner, 'blob', branch, filePath].join('/');
 }
 

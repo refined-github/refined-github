@@ -5,11 +5,11 @@ import {VersionsIcon} from '@primer/octicons-react';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
-import GitHubURL from '../github-helpers/github-url.js';
+import GitHubFileURL from '../github-helpers/github-file-url.js';
 import previousVersionQuery from './previous-version.gql';
 
 async function getPreviousCommitForFile(pathname: string): Promise<string | undefined> {
-	const {user, repository, branch, filePath} = new GitHubURL(pathname);
+	const {user, repository, branch, filePath} = new GitHubFileURL(pathname);
 	const {resource} = await api.v4(previousVersionQuery, {
 		variables: {
 			filePath,
@@ -27,7 +27,7 @@ async function add(historyButton: HTMLElement): Promise<void> {
 		return;
 	}
 
-	const url = new GitHubURL(location.href)
+	const url = new GitHubFileURL(location.href)
 		.assign({branch: previousCommit});
 
 	historyButton.before(

@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import GitHubURL from '../github-helpers/github-url.js';
+import GitHubFileURL from '../github-helpers/github-file-url.js';
 import addNotice from '../github-widgets/notice-bar.js';
 import {linkifiedURLClass} from '../github-helpers/dom-formatters.js';
 import {buildRepoURL, isPermalink} from '../github-helpers/index.js';
@@ -13,7 +13,7 @@ import {saveOriginalHref} from './sort-conversations-by-update-time.js';
 import observe from '../helpers/selector-observer.js';
 import GetCommitAtDate from './comments-time-machine-links.gql';
 
-async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> {
+async function updateURLtoDatedSha(url: GitHubFileURL, date: string): Promise<void> {
 	const {repository} = await api.v4(GetCommitAtDate, {variables: {date, branch: url.branch}});
 
 	const [{oid}] = repository.ref.target.history.nodes;
@@ -21,7 +21,7 @@ async function updateURLtoDatedSha(url: GitHubURL, date: string): Promise<void> 
 }
 
 async function showTimeMachineBar(): Promise<void | false> {
-	const url = new URL(location.href); // This can't be replaced with `GitHubURL` because `getCurrentGitRef` throws on 404s
+	const url = new URL(location.href); // This can't be replaced with `GitHubFileURL` because `getCurrentGitRef` throws on 404s
 	const date = url.searchParams.get('rgh-link-date')!;
 
 	// Drop parameter from current page after using it
@@ -44,7 +44,7 @@ async function showTimeMachineBar(): Promise<void | false> {
 			return false;
 		}
 
-		const parsedUrl = new GitHubURL(location.href);
+		const parsedUrl = new GitHubFileURL(location.href);
 		// Due to GitHub’s bug of supporting branches with slashes: #2901
 		void updateURLtoDatedSha(parsedUrl, date); // Don't await it, since the link will usually work without the update
 
