@@ -55,7 +55,7 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('header .AppHeader-context-full li:last-child a', add, {signal});
+	observe('.AppHeader-context-full li:last-child a.AppHeader-context-item', add, {signal});
 }
 
 void features.add(import.meta.url, {
