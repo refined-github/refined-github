@@ -57,7 +57,7 @@ async function init(): Promise<void | false> {
 	const changelogButton = (
 		<a
 			className={'tooltipped tooltipped-n btn ml-3' + (pageDetect.isEnterprise() ? '' : ' flex-self-start')}
-			aria-label={`View the ${changelog} file}`}
+			aria-label={`View the ${changelog} file`}
 			href={buildRepoURL('blob', 'HEAD', changelog)}
 			style={pageDetect.isEnterprise() ? {padding: '6px 16px'} : {}}
 			role="button"
