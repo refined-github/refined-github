@@ -5,11 +5,18 @@ import {getRepo} from './index.js';
 export default async function isDefaultBranch(): Promise<boolean> {
 	const repo = getRepo();
 	if (!repo) {
+		// Like /settings/repositories
 		return false;
 	}
 
 	const [type, ...parts] = repo.path.split('/');
+	if (parts.length === 0) {
+		// Exactly /user/repo, which is on the default branch
+		return true;
+	}
+
 	if (type !== 'tree' && type !== 'blob') {
+		// Like /user/repo/pulls
 		return false;
 	}
 

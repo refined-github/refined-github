@@ -143,10 +143,8 @@ async function init(signal: AbortSignal): Promise<false | void> {
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		async () => Boolean(await workflowDetails.get()),
-	],
-	include: [
 		pageDetect.isRepositoryActions,
+		async () => Boolean(await workflowDetails.get()),
 	],
 	init,
 });

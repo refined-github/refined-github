@@ -85,6 +85,7 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/facebook/react/pulls
+- Has conversations: https://github.com/refined-github/refined-github/pulls
+- No conversations: https://github.com/fregante/empty/pulls
 
 */
