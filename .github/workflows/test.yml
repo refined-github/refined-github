@@ -78,6 +78,8 @@ jobs:
 
   Safari:
     runs-on: macos-13
+    # TODO: Restore. https://github.com/refined-github/refined-github/pull/6921#issuecomment-1726982043
+    if: false
     steps:
       - uses: actions/checkout@v3
       - run: npm ci
