@@ -75,6 +75,6 @@ export function pEveryFunction<
 }
 
 export async function pEvery(iterable: Iterable<PromiseLike<unknown>>): Promise<boolean> {
-	const results = await Promise.allSettled(iterable);
+	const results = await Promise.all(iterable);
 	return results.every(Boolean);
 }
