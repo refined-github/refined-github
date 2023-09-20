@@ -3,33 +3,22 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		E33B07A72AA4965C00BD57D5 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33B07A62AA4965C00BD57D5 /* App.swift */; };
 		E33B07A92AA4965C00BD57D5 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33B07A82AA4965C00BD57D5 /* MainScreen.swift */; };
 		E33B07AB2AA4965D00BD57D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E33B07AA2AA4965D00BD57D5 /* Assets.xcassets */; };
-		E33B07BC2AA496EE00BD57D5 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33B07BB2AA496EE00BD57D5 /* SafariWebExtensionHandler.swift */; };
-		E33B07D22AA496EE00BD57D5 /* Web Extension macOS.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E33B07B92AA496EE00BD57D5 /* Web Extension macOS.appex */; platformFilters = (macos, ); settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		E33B07F42AA4975C00BD57D5 /* Web Extension iOS.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E33B07DB2AA4975C00BD57D5 /* Web Extension iOS.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E33B07F42AA4975C00BD57D5 /* Web Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E33B07DB2AA4975C00BD57D5 /* Web Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E33B07FA2AA499F800BD57D5 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33B07F92AA499F800BD57D5 /* Utilities.swift */; };
 		E33B08142AA4A28300BD57D5 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33B07BB2AA496EE00BD57D5 /* SafariWebExtensionHandler.swift */; };
-		E33B08322AA4AD7900BD57D5 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = E33B08312AA4AD7900BD57D5 /* assets */; };
 		E33B08332AA4AD7900BD57D5 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = E33B08312AA4AD7900BD57D5 /* assets */; };
-		E33B08352AA4AD8C00BD57D5 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = E33B08342AA4AD8C00BD57D5 /* manifest.json */; };
 		E33B08362AA4AD8C00BD57D5 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = E33B08342AA4AD8C00BD57D5 /* manifest.json */; };
 		E33B08382AA4F6B500BD57D5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33B08372AA4F6B500BD57D5 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		E33B07D02AA496EE00BD57D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E33B079B2AA4965C00BD57D5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E33B07B82AA496EE00BD57D5;
-			remoteInfo = "Refined GitHub Extension";
-		};
 		E33B07F22AA4975C00BD57D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E33B079B2AA4965C00BD57D5 /* Project object */;
@@ -46,8 +35,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				E33B07F42AA4975C00BD57D5 /* Web Extension iOS.appex in Embed Foundation Extensions */,
-				E33B07D22AA496EE00BD57D5 /* Web Extension macOS.appex in Embed Foundation Extensions */,
+				E33B07F42AA4975C00BD57D5 /* Web Extension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -55,16 +43,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E314AFCE2AB83A83008632D1 /* Web Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Web Extension.entitlements"; sourceTree = "<group>"; };
 		E33B07A32AA4965C00BD57D5 /* Refined GitHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Refined GitHub.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E33B07A62AA4965C00BD57D5 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		E33B07A82AA4965C00BD57D5 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		E33B07AA2AA4965D00BD57D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E33B07AF2AA4965D00BD57D5 /* Refined_GitHub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Refined_GitHub.entitlements; sourceTree = "<group>"; };
-		E33B07B92AA496EE00BD57D5 /* Web Extension macOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Web Extension macOS.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E33B07BB2AA496EE00BD57D5 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
 		E33B07CE2AA496EE00BD57D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E33B07CF2AA496EE00BD57D5 /* Web_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Web_Extension.entitlements; sourceTree = "<group>"; };
-		E33B07DB2AA4975C00BD57D5 /* Web Extension iOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Web Extension iOS.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E33B07DB2AA4975C00BD57D5 /* Web Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Web Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E33B07F82AA498CC00BD57D5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		E33B07F92AA499F800BD57D5 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		E33B07FB2AA49A2700BD57D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -75,13 +63,6 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		E33B07A02AA4965C00BD57D5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E33B07B62AA496EE00BD57D5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -112,8 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				E33B07A32AA4965C00BD57D5 /* Refined GitHub.app */,
-				E33B07B92AA496EE00BD57D5 /* Web Extension macOS.appex */,
-				E33B07DB2AA4975C00BD57D5 /* Web Extension iOS.appex */,
+				E33B07DB2AA4975C00BD57D5 /* Web Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -135,6 +115,7 @@
 		E33B07BA2AA496EE00BD57D5 /* Web Extension */ = {
 			isa = PBXGroup;
 			children = (
+				E314AFCE2AB83A83008632D1 /* Web Extension.entitlements */,
 				E33B07BB2AA496EE00BD57D5 /* SafariWebExtensionHandler.swift */,
 				E33B07CE2AA496EE00BD57D5 /* Info.plist */,
 				E33B07CF2AA496EE00BD57D5 /* Web_Extension.entitlements */,
@@ -167,7 +148,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				E33B07D12AA496EE00BD57D5 /* PBXTargetDependency */,
 				E33B07F32AA4975C00BD57D5 /* PBXTargetDependency */,
 			);
 			name = "Refined GitHub";
@@ -175,26 +155,9 @@
 			productReference = E33B07A32AA4965C00BD57D5 /* Refined GitHub.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E33B07B82AA496EE00BD57D5 /* Web Extension macOS */ = {
+		E33B07DA2AA4975C00BD57D5 /* Web Extension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E33B07D62AA496EE00BD57D5 /* Build configuration list for PBXNativeTarget "Web Extension macOS" */;
-			buildPhases = (
-				E33B07B52AA496EE00BD57D5 /* Sources */,
-				E33B07B62AA496EE00BD57D5 /* Frameworks */,
-				E33B07B72AA496EE00BD57D5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Web Extension macOS";
-			productName = "Refined GitHub Extension";
-			productReference = E33B07B92AA496EE00BD57D5 /* Web Extension macOS.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
-		E33B07DA2AA4975C00BD57D5 /* Web Extension iOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E33B07F52AA4975C00BD57D5 /* Build configuration list for PBXNativeTarget "Web Extension iOS" */;
+			buildConfigurationList = E33B07F52AA4975C00BD57D5 /* Build configuration list for PBXNativeTarget "Web Extension" */;
 			buildPhases = (
 				E33B07D72AA4975C00BD57D5 /* Sources */,
 				E33B07D82AA4975C00BD57D5 /* Frameworks */,
@@ -204,9 +167,9 @@
 			);
 			dependencies = (
 			);
-			name = "Web Extension iOS";
+			name = "Web Extension";
 			productName = "Web Extension - iOS";
-			productReference = E33B07DB2AA4975C00BD57D5 /* Web Extension iOS.appex */;
+			productReference = E33B07DB2AA4975C00BD57D5 /* Web Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -217,12 +180,9 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					E33B07A22AA4965C00BD57D5 = {
-						CreatedOnToolsVersion = 14.3.1;
-					};
-					E33B07B82AA496EE00BD57D5 = {
 						CreatedOnToolsVersion = 14.3.1;
 					};
 					E33B07DA2AA4975C00BD57D5 = {
@@ -231,7 +191,7 @@
 				};
 			};
 			buildConfigurationList = E33B079E2AA4965C00BD57D5 /* Build configuration list for PBXProject "Refined GitHub" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -244,8 +204,7 @@
 			projectRoot = "";
 			targets = (
 				E33B07A22AA4965C00BD57D5 /* Refined GitHub */,
-				E33B07B82AA496EE00BD57D5 /* Web Extension macOS */,
-				E33B07DA2AA4975C00BD57D5 /* Web Extension iOS */,
+				E33B07DA2AA4975C00BD57D5 /* Web Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -256,15 +215,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E33B07AB2AA4965D00BD57D5 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E33B07B72AA496EE00BD57D5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E33B08352AA4AD8C00BD57D5 /* manifest.json in Resources */,
-				E33B08322AA4AD7900BD57D5 /* assets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,14 +241,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E33B07B52AA496EE00BD57D5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E33B07BC2AA496EE00BD57D5 /* SafariWebExtensionHandler.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E33B07D72AA4975C00BD57D5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -310,18 +252,9 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		E33B07D12AA496EE00BD57D5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			platformFilters = (
-				macos,
-			);
-			target = E33B07B82AA496EE00BD57D5 /* Web Extension macOS */;
-			targetProxy = E33B07D02AA496EE00BD57D5 /* PBXContainerItemProxy */;
-		};
 		E33B07F32AA4975C00BD57D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			platformFilter = ios;
-			target = E33B07DA2AA4975C00BD57D5 /* Web Extension iOS */;
+			target = E33B07DA2AA4975C00BD57D5 /* Web Extension */;
 			targetProxy = E33B07F22AA4975C00BD57D5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -332,6 +265,7 @@
 			baseConfigurationReference = E33B07F82AA498CC00BD57D5 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -361,9 +295,11 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -394,6 +330,7 @@
 			baseConfigurationReference = E33B07F82AA498CC00BD57D5 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -423,9 +360,11 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -455,6 +394,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YG56YK5RN5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -475,6 +415,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -492,6 +433,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YG56YK5RN5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -512,74 +454,19 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		E33B07D42AA496EE00BD57D5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Web Extension/Web_Extension.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
-				ENABLE_HARDENED_RUNTIME = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Web Extension/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@executable_path/../../../../Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					SafariServices,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub.Extension";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		E33B07D52AA496EE00BD57D5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Web Extension/Web_Extension.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
-				ENABLE_HARDENED_RUNTIME = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Web Extension/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@executable_path/../../../../Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					SafariServices,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.sindresorhus.Refined-GitHub.Extension";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 		E33B07F62AA4975C00BD57D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Web Extension/Web Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YG56YK5RN5;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -599,7 +486,9 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -609,7 +498,9 @@
 		E33B07F72AA4975C00BD57D5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Web Extension/Web Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YG56YK5RN5;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -629,7 +520,9 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -657,16 +550,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E33B07D62AA496EE00BD57D5 /* Build configuration list for PBXNativeTarget "Web Extension macOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E33B07D42AA496EE00BD57D5 /* Debug */,
-				E33B07D52AA496EE00BD57D5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E33B07F52AA4975C00BD57D5 /* Build configuration list for PBXNativeTarget "Web Extension iOS" */ = {
+		E33B07F52AA4975C00BD57D5 /* Build configuration list for PBXNativeTarget "Web Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E33B07F62AA4975C00BD57D5 /* Debug */,

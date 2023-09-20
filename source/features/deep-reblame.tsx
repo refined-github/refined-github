@@ -8,7 +8,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import GitHubURL from '../github-helpers/github-url.js';
+import GitHubFileURL from '../github-helpers/github-file-url.js';
 import showToast from '../github-helpers/toast.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
@@ -47,7 +47,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	const blameHunk = blameElement.closest('.blame-hunk')!;
 	const prNumbers = select.all('.issue-link', blameHunk).map(pr => looseParseInt(pr));
 	const prCommit = select('a.message', blameHunk)!.pathname.split('/').pop()!;
-	const blameUrl = new GitHubURL(location.href);
+	const blameUrl = new GitHubFileURL(location.href);
 
 	await showToast(async () => {
 		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumbers, blameUrl.filePath);

@@ -8,7 +8,7 @@ import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import GetRepositoryInfo from './repo-header-info.gql';
-import {cacheByRepo} from '../github-helpers/index.js';
+import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 
 type RepositoryInfo = {
@@ -44,18 +44,22 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 		);
 	}
 
-	if (stargazerCount) {
+	if (stargazerCount > 1) {
 		repoLink.after(
-			<div className="d-flex flex-items-center flex-justify-center mr-1 gap-1">
+			<a
+				href={buildRepoURL('stargazers')}
+				title={`Repository starred by ${stargazerCount.toLocaleString('us')} people`}
+				className="d-flex flex-items-center flex-justify-center mr-1 gap-1 color-fg-muted"
+			>
 				<StarIcon className="ml-1" width={12} height={12}/>
 				<span className="f6">{abbreviateNumber(stargazerCount)}</span>
-			</div>,
+			</a>,
 		);
 	}
 }
 
 function init(signal: AbortSignal): void {
-	observe('header .AppHeader-context-full li:last-child a', add, {signal});
+	observe('.AppHeader-context-full li:last-child a.AppHeader-context-item', add, {signal});
 }
 
 void features.add(import.meta.url, {

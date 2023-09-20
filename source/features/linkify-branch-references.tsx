@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import GitHubURL from '../github-helpers/github-url.js';
+import GitHubFileURL from '../github-helpers/github-file-url.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -21,7 +21,7 @@ function linkifyHovercard(hovercard: HTMLElement): void {
 	const {href} = hovercard.querySelector('a.Link--primary')!;
 
 	for (const reference of hovercard.querySelectorAll('.commit-ref')) {
-		const url = new GitHubURL(href).assign({
+		const url = new GitHubFileURL(href).assign({
 			route: 'tree',
 			branch: reference.title,
 		});

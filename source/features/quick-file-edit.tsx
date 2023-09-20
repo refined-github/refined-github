@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
-import GitHubURL from '../github-helpers/github-url.js';
+import GitHubFileURL from '../github-helpers/github-file-url.js';
 import {isArchivedRepoAsync, isPermalink} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {directoryListingFileIcon} from '../github-helpers/selectors.js';
@@ -17,7 +17,7 @@ async function linkifyIcon(fileIcon: Element): Promise<void> {
 		.closest('.js-navigation-item, .react-directory-filename-column')!
 		.querySelector('a.js-navigation-open, a.Link--primary')!;
 
-	const url = new GitHubURL(fileLink.href).assign({
+	const url = new GitHubFileURL(fileLink.href).assign({
 		route: 'edit',
 	});
 

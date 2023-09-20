@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import {ChevronLeftIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
-import GitHubURL from '../github-helpers/github-url.js';
+import GitHubFileURL from '../github-helpers/github-file-url.js';
 import {groupButtons} from '../github-helpers/group-buttons.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
@@ -13,7 +13,7 @@ import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {isRepoCommitListRoot, isUrlReachable} from '../github-helpers/index.js';
 
 async function add(branchSelector: HTMLElement): Promise<void> {
-	const url = new GitHubURL(location.href);
+	const url = new GitHubFileURL(location.href);
 	if (pageDetect.isRepoRoot()) {
 		// The default branch of the root directory is just /user/repo/
 		url.route = '';

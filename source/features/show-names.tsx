@@ -10,12 +10,13 @@ import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 
 // The selector observer calls this function several times, but we want to batch them into a single GraphQL API call
-const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnchorElement[]): Promise<void> => {
+async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise<void> {
 	// TODO: Split up this function, it does too much
 	const usernames = new Set<string>();
 	const myUsername = getUsername();
 	for (const element of new Set(batchedUsernameElements)) {
 		const username = element.textContent;
+
 		if (username && username !== myUsername && username !== 'ghost') {
 			usernames.add(element.textContent!);
 		}
@@ -64,7 +65,7 @@ const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnc
 			' ',
 		);
 	}
-});
+}
 
 const usernameLinksSelector = [
 	// `a` selector needed to skip commits by non-GitHub users
@@ -81,13 +82,13 @@ const usernameLinksSelector = [
 
 	// On dashboard
 	// `.Link--primary` excludes avatars
-	// `.color-shadow-medium` excludes links in cards #6530
-	'#dashboard a.Link--primary[data-hovercard-type="user"]:not(.color-shadow-medium a)',
+	// [aria-label="card content"] excludes links in cards #6530 #6915
+	'#dashboard a.Link--primary[data-hovercard-type="user"]:not([aria-label="card content"] *)',
 ] as const;
 
 function init(signal: AbortSignal): void {
 	document.body.classList.add('rgh-show-names');
-	observe(usernameLinksSelector, batchUpdateLinks, {signal});
+	observe(usernameLinksSelector, batchedFunction(updateLink, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {

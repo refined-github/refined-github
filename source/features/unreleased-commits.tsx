@@ -91,36 +91,28 @@ async function add(branchSelector: HTMLButtonElement): Promise<void> {
 		return;
 	}
 
-	wrapAll(
-		[
-			branchSelector,
+	const parent = branchSelector.closest(branchSelectorParent);
+	if (parent) {
+		// TODO: For legacy; Drop after Repository overview update
+		addAfterBranchSelector(
+			parent,
 			await createLink(latestTag, aheadBy),
-		],
-		<div className="d-flex gap-2"/>,
-	);
-}
-
-async function addLegacy(branchSelectorParent: HTMLDetailsElement): Promise<void> {
-	const {latestTag, aheadBy} = await repoPublishState.get();
-	const isAhead = aheadBy > 0;
-
-	if (!latestTag || !isAhead) {
-		return;
+		);
+	} else {
+		wrapAll(
+			[
+				branchSelector,
+				await createLink(latestTag, aheadBy),
+			],
+			<div className="d-flex gap-2"/>,
+		);
 	}
-
-	addAfterBranchSelector(
-		branchSelectorParent,
-		await createLink(latestTag, aheadBy),
-	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
 
 	observe(branchSelector, add, {signal});
-
-	// TODO: Drop after Repository overview update
-	observe(branchSelectorParent, addLegacy, {signal});
 }
 
 void features.add(import.meta.url, {
