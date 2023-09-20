@@ -63,3 +63,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/issues
+https://github.com/sindresorhus/refined-github/pulls
+
+*/
