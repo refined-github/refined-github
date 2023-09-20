@@ -59,9 +59,6 @@ void features.add(import.meta.url, {
 		isRepoCommitListRoot,
 	],
 	exclude: [
-		pageDetect.isRepoHome,
-
-		// Don't show the button if we’re already on the default branch
 		isDefaultBranch,
 	],
 	init,
