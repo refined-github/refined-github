@@ -45,7 +45,7 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 	}
 
 	if (stargazerCount > 1) {
-		const tooltip = `Repository starred by ${stargazerCount.format('us')} people`;
+		const tooltip = `Repository starred by ${stargazerCount.toLocaleString('us')} people`;
 		repoLink.after(
 			<a href={buildRepoURL('stargazers')} title={tooltip} className="d-flex flex-items-center flex-justify-center mr-1 gap-1 color-fg-muted">
 				<StarIcon className="ml-1" width={12} height={12}/>
