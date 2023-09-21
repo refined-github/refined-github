@@ -137,6 +137,9 @@
 	"graphql": {
 		"schema": "https://docs.github.com/public/schema.docs.graphql"
 	},
+	"overrides": {
+		"issue-regex": "4.0.0"
+	},
 	"webExt": {
 		"sourceDir": "distribution",
 		"run": {
