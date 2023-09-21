@@ -335,7 +335,6 @@ Thanks for contributing! 🦋🙌
 
 ### Newsfeed
 
-- [](# "hide-own-stars") Hides "starred" events for your own repos on the newsfeed.
 - [](# "hide-newsfeed-noise") Hides other inutile newsfeed events (commits, forks, new followers).
 - [](# "infinite-scroll") Automagically expands the newsfeed when you scroll down.
 
