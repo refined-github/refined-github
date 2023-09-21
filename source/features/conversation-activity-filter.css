@@ -4,7 +4,8 @@
 		.rgh-conversation-activity-collapsed,
 		.js-resolvable-timeline-thread-container[data-resolved='true'],
 		.js-resolvable-timeline-thread-container[data-resolved='false']
-			.minimized-comment,),
+			.minimized-comment
+	),
 .rgh-conversation-activity-is-filtered
 	.rgh-conversation-activity-filter-dropdown
 	.octicon-eye,
