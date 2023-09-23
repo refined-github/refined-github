@@ -8,7 +8,6 @@ import {ChevronDownIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 const wereFilesHidden = new CachedValue<boolean>('files-hidden');
 const toggleButtonClass = 'rgh-toggle-files';
@@ -81,9 +80,6 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isHasSelectorSupported,
-	],
 	include: [
 		pageDetect.isRepoTree,
 	],

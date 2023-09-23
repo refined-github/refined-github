@@ -3,7 +3,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {buildRepoURL, getRepo, isArchivedRepoAsync} from '../github-helpers/index.js';
-import {isHasSelectorSupported} from '../helpers/select-has.js';
 import observe from '../helpers/selector-observer.js';
 
 function addLegacy(dropdownMenu: HTMLElement): void {
@@ -43,9 +42,6 @@ async function init(signal: AbortSignal): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isHasSelectorSupported,
-	],
 	include: [
 		pageDetect.isRepo,
 	],

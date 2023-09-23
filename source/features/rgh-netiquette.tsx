@@ -8,7 +8,6 @@ import observe from '../helpers/selector-observer.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getNoticeText, shouldDisplayNotice} from './netiquette.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
-import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 function addConversationBanner(newCommentBox: HTMLElement): void {
 	const button = (
@@ -47,7 +46,6 @@ function init(signal: AbortSignal): void | false {
 void features.add(import.meta.url, {
 	asLongAs: [
 		isAnyRefinedGitHubRepo,
-		isHasSelectorSupported,
 	],
 	include: [
 		pageDetect.isConversation,

@@ -14,7 +14,6 @@ import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open.js';
 import {onPrMergePanelLoad} from '../github-events/on-fragment-load.js';
 import onAbort from '../helpers/abort-controller.js';
 import {userCanLikelyMergePR} from '../github-helpers/index.js';
-import {isHasSelectorSupported} from '../helpers/select-has.js';
 import {actionsTab, prCommitStatusIcon} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -192,7 +191,6 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		isHasSelectorSupported,
 		userCanLikelyMergePR,
 		pageDetect.isOpenPR,
 		// The repo has enabled Actions
