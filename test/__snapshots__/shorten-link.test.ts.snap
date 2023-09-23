@@ -2,7 +2,8 @@
 
 exports[`avoid shortening link in code block inside comment 1`] = `
 "<div class=\\"highlight highlight-source-ts\\">
-			<pre class=\\"rgh-linkified-code\\">				<span class=\\"pl-s\\">
+			<pre class=\\"rgh-linkified-code\\">
+				<span class=\\"pl-s\\">
 					<a href=\\"https://raw.githubusercontent.com/denosaurs/mod.land/master/cnames.ts\\" rel=\\"noreferrer noopener\\" class=\\"rgh-linkified-code\\">
 						https://raw.githubusercontent.com/denosaurs/mod.land/master/cnames.ts
 					</a>
@@ -35,7 +36,7 @@ exports[`avoid shortening link in embedded file preview inside comment 1`] = `
 
 exports[`avoid shortening links in suggestion inside review comment 1`] = `
 "<div class=\\"comment-body markdown-body js-comment-body soft-wrap user-select-contain d-block\\">
-			<div class=\\"my-2 border rounded-2 js-suggested-changes-blob diff-view\\" id=\\"\\">
+			<div class=\\"my-2 border rounded-2 js-suggested-changes-blob diff-view\\">
 				<div itemprop=\\"text\\" class=\\"blob-wrapper data file\\" style=\\"margin: 0; border: none; overflow-y: visible; overflow-x: auto;\\">
 					<table class=\\"d-table tab-size mb-0 width-full\\" data-paste-markdown-skip=\\"\\">
 						<tbody>

@@ -52,7 +52,7 @@ export default class SearchQuery {
 	private queryParts: string[];
 
 	constructor(url: string | URL, base?: string) {
-		this.url = new URL(url, base);
+		this.url = new URL(String(url), base);
 		this.queryParts = [];
 
 		const currentQuery = this.url.searchParams.get('q');
