@@ -14,7 +14,6 @@ import {isFeaturePrivate} from './helpers/feature-utils.js';
 import optionsStorage, {isFeatureDisabled, RGHOptions} from './options-storage.js';
 import {
 	applyStyleHotfixes,
-	styleHotfixes,
 	getLocalHotfixesAsOptions,
 	preloadSyncLocalStrings,
 	brokenFeatures,
