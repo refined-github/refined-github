@@ -271,6 +271,9 @@ async function generateDom(): Promise<void> {
 	// Update list from saved options
 	await perDomainOptions.syncForm('form');
 
+	// Only now the form is ready, we can show it
+	select('#js-failed')!.remove();
+
 	// Decorate list
 	moveDisabledFeaturesToTop();
 
