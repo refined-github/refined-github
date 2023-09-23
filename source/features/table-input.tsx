@@ -8,7 +8,6 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import observe from '../helpers/selector-observer.js';
-import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
@@ -30,12 +29,6 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 
 	// Move caret to first cell
 	field.selectionEnd = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
-}
-
-function highlightSquares({delegateTarget: hover}: DelegateEvent<MouseEvent, HTMLElement>): void {
-	for (const cell of hover.parentElement!.children as HTMLCollectionOf<HTMLButtonElement>) {
-		cell.classList.toggle('selected', cell.dataset.x! <= hover.dataset.x! && cell.dataset.y! <= hover.dataset.y!);
-	}
 }
 
 function add(anchor: HTMLElement): void {
@@ -74,9 +67,6 @@ function add(anchor: HTMLElement): void {
 function init(signal: AbortSignal): void {
 	observe('md-ref', add, {signal});
 	delegate('.rgh-tic', 'click', addTable, {signal});
-	if (!isHasSelectorSupported()) {
-		delegate('.rgh-tic', 'mouseenter', highlightSquares, {capture: true, signal});
-	}
 }
 
 void features.add(import.meta.url, {

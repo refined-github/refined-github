@@ -23,11 +23,6 @@ async function getAssetsForTag(tag: string): Promise<Record<string, number>> {
 }
 
 async function addCounts(assetsList: HTMLElement): Promise<void> {
-	// TODO: Use :has selector instead
-	if (!select.exists('.octicon-package', assetsList)) {
-		return;
-	}
-
 	// Both pages have .Box but in the list .Box doesn't include the tag
 	const container = assetsList.closest('section') // Single-release page
 		?? assetsList.closest('.Box:not(.Box--condensed)')!; // Releases list, excludes the assets list’s own .Box
@@ -73,7 +68,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.Box-footer .Box--condensed', addCounts, {signal});
+	observe('.Box-footer .Box--condensed:has(.octicon-package)', addCounts, {signal});
 }
 
 void features.add(import.meta.url, {

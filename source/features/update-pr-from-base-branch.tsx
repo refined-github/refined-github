@@ -14,7 +14,6 @@ import getPrInfo from '../github-helpers/get-pr-info.js';
 import showToast from '../github-helpers/toast.js';
 import {getConversationNumber} from '../github-helpers/index.js';
 import createMergeabilityRow from '../github-widgets/mergeability-row.js';
-import selectHas from '../helpers/select-has.js';
 
 const canMerge = '.merge-pr > .color-fg-muted:first-child';
 const canNativelyUpdate = '.js-update-branch-form';
@@ -66,7 +65,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 		return;
 	}
 
-	const mergeabilityRow = selectHas('.branch-action-item:has(.merging-body)')!;
+	const mergeabilityRow = select('.branch-action-item:has(.merging-body)')!;
 	if (mergeabilityRow) {
 		// The PR is not a draft
 		mergeabilityRow.prepend(

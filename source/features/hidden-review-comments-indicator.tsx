@@ -55,7 +55,10 @@ const indicatorToggleObserver = new MutationObserver(mutations => {
 function init(signal: AbortSignal): void {
 	observe('.file.js-file', element => {
 		// #observe won't observe the same element twice
-		// TODO: toggle visibility via :has selector instead
+		// TODO: toggle visibility via :has selector instead of using indicatorToggleObserver
+		// A bit complicated because the logic needs to be duplicated:
+		// 1. In `observe()` so that we only add the indicator when the comments are hidden
+		// 2. In the CSS file so that its visibility becomes dinamic
 		indicatorToggleObserver.observe(element, {
 			attributes: true,
 			attributeOldValue: true,

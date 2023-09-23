@@ -11,11 +11,8 @@ function initTitle(signal: AbortSignal): void {
 	// https://github.com/refined-github/refined-github/issues/1305
 	const currentRepo = getRepo() ?? {};
 
-	observe('.js-issue-title', title => {
-		// TODO: Replace with :has
-		if (!select.exists('a', title)) {
-			linkifyIssues(currentRepo, title);
-		}
+	observe('.js-issue-title:not(:has(a))', title => {
+		linkifyIssues(currentRepo, title);
 	}, {signal});
 }
 

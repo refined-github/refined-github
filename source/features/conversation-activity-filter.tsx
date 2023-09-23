@@ -132,7 +132,6 @@ function createRadios(current: State): JSX.Element[] {
 }
 
 async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
-	// TODO: use :has instead
 	const position = anchor.closest('div')!;
 	if (position.classList.contains('rgh-conversation-activity-filter')) {
 		return;

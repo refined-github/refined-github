@@ -46,17 +46,6 @@ function add(avatar: HTMLElement): void {
 		// Reviews
 		'.js-comment',
 	])!;
-	if (debug) {
-		timelineItem.style.border = 'solid 5px red';
-	}
-
-	if (
-		// TODO: Rewrite with :has()
-		// Exclude events that aren't tall enough, like hidden comments or reviews without comments
-		!select.exists('.unminimized-comment, .js-comment-container', timelineItem)
-	) {
-		return;
-	}
 
 	if (debug) {
 		timelineItem.style.border = 'solid 5px green';
@@ -91,10 +80,14 @@ async function init(signal: AbortSignal): Promise<void> {
 	// `:first-child` avoids app badges #2630
 	// The hovercard attribute avoids `highest-rated-comment`
 	// Avatars next to review events aren't wrapped in a <div> #4844
+	// `:has()` excludes events that aren't tall enough, like hidden comments or reviews without comments
 	observe(`
 		:is(
 			div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
 			a.TimelineItem-avatar
+		):has(
+			.unminimized-comment,
+			.js-comment-container
 		):not([href="/${getUsername()!}"])
 	`, add, {signal});
 }

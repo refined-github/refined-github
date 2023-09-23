@@ -20,10 +20,8 @@ const issueListSelector = pageDetect.isGlobalIssueOrPRList()
 	: 'div[aria-label="Issues"][role="group"]';
 
 function onButtonClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-	const onlySelected = event.delegateTarget.closest('.table-list-triage');
-	const issues = select.all(`${issueListSelector} .js-issue-row`)
-		// TODO: Use conditional :has(:checked) instead
-		.filter(issue => onlySelected ? select.exists(':checked', issue) : true);
+	const onlySelected = event.delegateTarget.closest('.table-list-triage') ? ':has(:checked)' : '';
+	const issues = select.all(`${issueListSelector} .js-issue-row${onlySelected}`);
 	void openTabs(issues.map(issue => getUrlFromItem(issue)));
 }
 

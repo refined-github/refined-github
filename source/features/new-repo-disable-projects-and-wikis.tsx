@@ -7,7 +7,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import selectHas from '../helpers/select-has.js';
 import attachElement from '../helpers/attach-element.js';
 
 const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
@@ -25,8 +24,8 @@ async function disableWikiAndProjects(): Promise<void> {
 	await domLoaded;
 	select('[data-menu-item$="wiki-tab"]')?.remove();
 	select('[data-menu-item$="projects-tab"]')?.remove();
-	selectHas('li:has([data-content="Wiki"]')?.remove();
-	selectHas('li:has([data-content="Projects"])')?.remove();
+	select('li:has([data-content="Wiki"]')?.remove();
+	select('li:has([data-content="Projects"])')?.remove();
 }
 
 function setStorage(): void {

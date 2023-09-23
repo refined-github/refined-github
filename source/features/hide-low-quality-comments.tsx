@@ -40,9 +40,18 @@ function init(): void | false {
 		hideComment(similarCommentsBox);
 	}
 
-	const linkedComment = location.hash.startsWith('#issuecomment-') ? select(`${location.hash} ${singleParagraphCommentSelector}`) : undefined;
+	const linkedComment = location.hash.startsWith('#issuecomment-')
+		? select(`${location.hash} ${singleParagraphCommentSelector}`)
+		: undefined;
 
-	for (const commentText of select.all(singleParagraphCommentSelector)) {
+	// Ensure that they're not by VIPs (owner, collaborators, etc)
+	const noVips = '.js-timeline-item:not(:has(.Label))';
+
+	// Comments that contain useful images or links shouldn't be removed
+	// Images are wrapped in <a> tags on GitHub hence included in the selector
+	const noImages = ':not(:has(a))';
+
+	for (const commentText of select.all(`${noVips} ${singleParagraphCommentSelector}${noImages}`)) {
 		// Exclude explicitely linked comments #5363
 		if (commentText === linkedComment) {
 			continue;
@@ -52,19 +61,7 @@ function init(): void | false {
 			continue;
 		}
 
-		// Comments that contain useful images or links shouldn't be removed
-		// Images are wrapped in <a> tags on GitHub hence included in the selector
-		// TODO: use :has()
-		if (select.exists('a', commentText)) {
-			continue;
-		}
-
-		// Ensure that they're not by VIPs (owner, collaborators, etc)
-		// TODO: use :has()
 		const comment = commentText.closest('.js-timeline-item')!;
-		if (select.exists('.Label', comment)) {
-			continue;
-		}
 
 		// If the person is having a conversation, then don't hide it
 		const author = select('.author', comment)!.getAttribute('href')!;

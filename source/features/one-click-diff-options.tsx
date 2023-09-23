@@ -6,6 +6,7 @@ import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
+import {diffOptionsDropdown} from '../github-helpers/selectors.js';
 
 function isHidingWhitespace(): boolean {
 	// The selector is the native button
@@ -33,9 +34,7 @@ function createWhitespaceButton(): HTMLElement {
 	);
 }
 
-function attachPRButtons(dropdownIcon: SVGElement): void {
-	// TODO: Replace with :has selector
-	const dropdown = dropdownIcon.closest('details.diffbar-item')!;
+function attachPRButtons(dropdown: HTMLDetailsElement): void {
 	const diffSettingsForm = select('form[action$="/diffview"]', dropdown)!;
 
 	// Preserve data before emption the form
@@ -95,13 +94,10 @@ function attachPRButtons(dropdownIcon: SVGElement): void {
 
 function initPR(signal: AbortSignal): void {
 	// There are two "diff settings" element, one for mobile and one for the desktop. We only replace the one for the desktop
-	observe('.hide-sm.hide-md details.diffbar-item svg.octicon-gear', attachPRButtons, {signal});
+	observe(diffOptionsDropdown, attachPRButtons, {signal});
 }
 
-function attachButtons(nativeDiffButtons: HTMLElement): void {
-	// TODO: Replace with :has()
-	const anchor = nativeDiffButtons.parentElement!;
-
+function attachButtons(anchor: HTMLElement): void {
 	// `usesFloats` is necessary to ensure the order and spacing as seen in #5958
 	const usesFloats = anchor?.classList.contains('float-right');
 	if (usesFloats) {
@@ -116,7 +112,7 @@ function attachButtons(nativeDiffButtons: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[action="/users/diffview"]', attachButtons, {signal});
+	observe(':has(>[action="/users/diffview"])', attachButtons, {signal});
 }
 
 const shortcuts = {

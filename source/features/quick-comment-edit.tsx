@@ -52,7 +52,6 @@ async function init(signal: AbortSignal): Promise<void> {
 	const preSelector = canEditEveryComment() ? '' : '.current-user';
 
 	// Find editable comments first, then traverse to the correct position
-	// TODO: Replace with :has selector
 	observe(preSelector + '.js-comment.unminimized-comment .js-comment-update', addQuickEditButton, {signal});
 }
 

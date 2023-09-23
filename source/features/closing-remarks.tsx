@@ -53,15 +53,14 @@ async function init(signal: AbortSignal): Promise<void> {
 		addExistingTagLinkFooter(tagName, tagUrl);
 
 		// PRs have a regular and a sticky header
-		observe('#partial-discussion-header relative-time', addExistingTagLinkToHeader.bind(null, tagName, tagUrl), {signal});
+		observe('#partial-discussion-header :has(>relative-time)', addExistingTagLinkToHeader.bind(null, tagName, tagUrl), {signal});
 	} else {
 		void addReleaseBanner('This PR’s merge commit doesn’t appear in any tags');
 	}
 }
 
 function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionHeader: HTMLElement): void {
-	// TODO: Use :has selector instead
-	discussionHeader.parentElement!.append(
+	discussionHeader.append(
 		<span>
 			<TagIcon className="ml-2 mr-1 color-fg-muted"/>
 			<a

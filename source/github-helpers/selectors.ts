@@ -48,3 +48,11 @@ export const actionsTab = '#actions-tab';
 export const actionsTab_ = [
 	'https://github.com/refined-github/sandbox',
 ];
+
+export const diffOptionsDropdown = 'details.diffbar-item:has(.hide-sm.hide-md details.diffbar-item svg.octicon-gear)';
+export const diffOptionsDropdown_ = [
+	'https://github.com/refined-github/refined-github/pull/6261/files', // PR files
+	'https://github.com/rancher/rancher/compare/v2.6.3...v2.6.6', // Compare, in "Files changed" tab
+	'https://github.com/rancher/rancher/compare/v2.6.5...v2.6.6', // Compare, without tab
+	'https://github.com/rancher/rancher/commit/e82921075436c21120145927d5a66037661fcf4e', // Single commit
+];
