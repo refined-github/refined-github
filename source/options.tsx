@@ -258,6 +258,29 @@ async function showStoredCssHotfixes(): Promise<void> {
 				: cachedCSS ?? 'No CSS found in cache.';
 }
 
+function enableToggleAll({currentTarget: button}: Event): void {
+	(button as HTMLButtonElement).parentElement!.remove();
+	for (const ui of select.all('.toggle-all-features')) {
+		ui.hidden = false;
+	}
+}
+
+function disableAllFeatures(): void {
+	for (const enabledFeature of select.all('.feature-checkbox:checked')) {
+		enabledFeature.click();
+	}
+
+	select('details#features')!.open = true;
+}
+
+function enableAllFeatures(): void {
+	for (const disabledFeature of select.all('.feature-checkbox:not(:checked)')) {
+		disabledFeature.click();
+	}
+
+	select('details#features')!.open = true;
+}
+
 async function generateDom(): Promise<void> {
 	// Generate list
 	select('.js-features')!.append(...featuresMeta
@@ -336,6 +359,11 @@ function addEventListeners(): void {
 
 	// Add bisect tool
 	select('#find-feature')!.addEventListener('click', findFeatureHandler);
+
+	// Handle "Toggle all" buttons
+	select('#toggle-all-features')!.addEventListener('click', enableToggleAll);
+	select('#disable-all-features')!.addEventListener('click', disableAllFeatures);
+	select('#enable-all-features')!.addEventListener('click', enableAllFeatures);
 
 	// Add token validation
 	select('[name="personalToken"]')!.addEventListener('input', validateToken);
