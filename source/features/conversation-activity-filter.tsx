@@ -133,6 +133,7 @@ function createRadios(current: State): JSX.Element[] {
 
 async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 	const position = anchor.closest('div')!;
+	// TODO: Is this check still necessary? We use the observer now
 	if (position.classList.contains('rgh-conversation-activity-filter')) {
 		return;
 	}
