@@ -29,3 +29,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/compare/main...sandbox/keep-branch?quick_pull=1
+
+*/
