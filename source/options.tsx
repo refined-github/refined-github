@@ -33,7 +33,7 @@ type Status = {
 
 const {version} = browser.runtime.getManifest();
 
-function reportStatus({tokenType, error, text , scopes}: Status): void {
+function reportStatus({tokenType, error, text, scopes}: Status): void {
 	const tokenStatus = select('#validation')!;
 	tokenStatus.textContent = text ?? '';
 	if (error) {
