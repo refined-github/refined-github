@@ -76,7 +76,7 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 		throw new Error(details.message);
 	}
 
-	// If `X-OAuth-Scopes` is not present, the token is a fine-grained token.
+	// If `X-OAuth-Scopes` is not present, the token may be not a classic token.
 	const scopes = response.headers.get('X-OAuth-Scopes')?.split(', ') ?? [];
 	scopes.push('valid_token');
 	if (scopes.includes('repo')) {
