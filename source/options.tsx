@@ -25,15 +25,15 @@ import {state as bisectState} from './helpers/bisect.js';
 type TokenType = 'classic' | 'fine_grained';
 
 type Status = {
+	tokenType: TokenType;
 	error?: true;
 	text?: string;
-	tokenType?: TokenType;
 	scopes?: string[];
 };
 
 const {version} = browser.runtime.getManifest();
 
-function reportStatus({error, text, tokenType, scopes}: Status): void {
+function reportStatus({tokenType, error, text , scopes}: Status): void {
 	const tokenStatus = select('#validation')!;
 	tokenStatus.textContent = text ?? '';
 	if (error) {
@@ -43,7 +43,6 @@ function reportStatus({error, text, tokenType, scopes}: Status): void {
 	}
 
 	// Toggle the ulists by token type (default to classic)
-	tokenType = tokenType ?? 'classic';
 	for (const ulist of select.all('[data-token-type]')) {
 		ulist.style.display = ulist.dataset.tokenType === tokenType ? '' : 'none';
 	}
@@ -129,7 +128,7 @@ async function validateToken(): Promise<void> {
 		});
 	} catch (error) {
 		assertError(error);
-		reportStatus({error: true, text: error.message, tokenType});
+		reportStatus({tokenType, error: true, text: error.message});
 		expandTokenSection();
 		throw error;
 	}
