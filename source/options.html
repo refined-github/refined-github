@@ -23,12 +23,15 @@
 			<input type="text" name="personalToken" pattern="[\da-f]{40}|ghp_\w{36,251}|github_pat_[a-zA-Z0-9]{22}_[a-zA-Z0-9]{59}" placeholder=" " spellcheck="false" autocomplete="off" autocapitalize="off">
 			<span id="validation"></span>
 		</p>
-		<ul>
+		<ul data-token-type="classic">
 			<li data-validation data-scope="valid_token">The token enables <a href="https://github.com/refined-github/refined-github/search?q=github-helpers+api">some features</a> to <strong>read</strong> data from public repositories
 			<li data-validation data-scope="public_repo">The <code>public_repo</code> scope lets them <strong>edit</strong> your public repositories
 			<li data-validation data-scope="repo">The <code>repo</code> scope lets them <strong>edit private</strong> repositories as well
 			<li data-validation data-scope="delete_repo">The <code>delete_repo</code> scope is only used by the <code>quick-repo-deletion</code> feature
 			<li data-validation data-scope="read:project">The <code>read:project</code> scope lets them determine if a repository or organization uses projects
+		</ul>
+		<ul data-token-type="fine_grained">
+			<li data-validation data-scope="valid_token">Fine-grained token validated, but some features and organizations might not support them <a href="https://github.com/refined-github/refined-github/issues/6092#issuecomment-1732286938">More info</a></li>
 		</ul>
 	</details>
 
