@@ -38,9 +38,9 @@ struct MainScreen: View {
 			}
 			#else
 			Text("You can turn on the Safari extension in “Settings › Safari”")
-				.font(.subheadline)
-				.foregroundStyle(.secondary)
 				.multilineTextAlignment(.center)
+				.padding(.horizontal)
+				.padding(.horizontal)
 			#endif
 		}
 			.padding()
