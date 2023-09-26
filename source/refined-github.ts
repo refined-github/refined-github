@@ -32,7 +32,6 @@ import './features/hide-newsfeed-noise.js';
 import './features/minimize-upload-bar.js';
 import './features/hide-diff-signs.js';
 import './features/clean-rich-text-editor.js';
-import './features/clean-repo-header.js';
 
 // Disableable features
 import './features/useful-not-found-page.js';

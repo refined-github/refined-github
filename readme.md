@@ -389,7 +389,6 @@ Thanks for contributing! 🦋🙌
 - [](# "prevent-pr-merge-panel-opening") Prevents the merge panel from automatically opening on every page load after it’s been opened once.
 - [](# "command-palette-navigation-shortcuts") Adds keyboard shortcuts to select items in command palette using <kbd>ctrl</kbd> <kbd>n</kbd> and <kbd>ctrl</kbd> <kbd>p</kbd> (macOS only).
 - [](# "submission-via-ctrl-enter-everywhere") Enables submission via <kbd>ctrl</kbd> <kbd>enter</kbd> on every page possible.
-- [](# "clean-repo-header") [Avoids content shift and by hiding duplicate information on the repository home.](https://user-images.githubusercontent.com/1402241/218252904-6a31a933-41a7-452e-b841-9484e67429a8.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
