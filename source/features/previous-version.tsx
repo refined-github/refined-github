@@ -38,7 +38,7 @@ async function add(historyButton: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('a[aria-label="History"].react-last-commit-history-group', add, {signal});
+	observe('a.react-last-commit-history-group', add, {signal});
 }
 
 void features.add(import.meta.url, {
