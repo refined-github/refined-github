@@ -26,11 +26,6 @@ async function linkifyIcon(fileIcon: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	const [archive, permalink] = await Promise.all([isArchivedRepoAsync(), isPermalink()]);
-	if (archive || permalink) {
-		return false;
-	}
-
 	observe(directoryListingFileIcon, linkifyIcon, {signal});
 }
 
@@ -40,6 +35,8 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isRepoFile404,
+		isArchivedRepoAsync,
+		isPermalink,
 	],
 	init,
 });

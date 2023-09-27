@@ -43,10 +43,6 @@ async function add(branchSelectorParent: HTMLDetailsElement): Promise<void | fal
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	if (await isPermalink() || await isDefaultBranch()) {
-		return false;
-	}
-
 	await api.expectToken();
 
 	observe(branchSelectorParent, add, {signal});
@@ -55,6 +51,10 @@ async function init(signal: AbortSignal): Promise<false | void> {
 void features.add(import.meta.url, {
 	include: [
 		isRepoCommitListRoot,
+	],
+	exclude: [
+		isDefaultBranch,
+		isPermalink,
 	],
 	init,
 });

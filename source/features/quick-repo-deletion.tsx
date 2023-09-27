@@ -15,7 +15,7 @@ import pluralize from '../helpers/pluralize.js';
 import addNotice from '../github-widgets/notice-bar.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import parseBackticks from '../github-helpers/parse-backticks.js';
-import attachElement from '../helpers/attach-element.js';
+import observe from '../helpers/selector-observer.js';
 
 function handleToggle(event: DelegateEvent<Event, HTMLDetailsElement>): void {
 	const hasContent = select.exists([
@@ -127,40 +127,54 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	}
 }
 
+// TODO: Replace with https://github.com/refined-github/github-url-detection/issues/85
+async function canUserDeleteRepository(): Promise<boolean> {
+	return Boolean(await elementReady('nav [data-content="Settings"]'));
+}
+
+// Only if the repository hasn't been starred
+async function isRepoUnpopular(): Promise<boolean> {
+	return looseParseInt(await elementReady('.starring-container .Counter')) === 0;
+}
+
+function addButton(header: HTMLElement): void {
+	// (Ab)use the details element as state and an accessible "click-anywhere-to-cancel" utility
+	header.prepend(
+		<li>
+			<details className="details-reset details-overlay select-menu rgh-quick-repo-deletion">
+				<summary aria-haspopup="menu" role="button">
+					{/* This extra element is needed to keep the button above the <summary>’s lightbox */}
+					<span className="btn btn-sm btn-danger">Delete fork</span>
+				</summary>
+			</details>
+		</li>,
+	);
+}
+
 async function init(signal: AbortSignal): Promise<void | false> {
-	if (
-		// Only if the user can delete the repository
-		// TODO: Replace with https://github.com/refined-github/github-url-detection/issues/85
-		!await elementReady('nav [data-content="Settings"]')
-
-		// Only if the repository hasn't been starred
-		|| looseParseInt(select('.starring-container .Counter')) > 0
-	) {
-		return false;
-	}
-
 	await api.expectToken();
 
-	// (Ab)use the details element as state and an accessible "click-anywhere-to-cancel" utility
-	attachElement('.pagehead-actions', {
-		prepend: () => (
-			<li>
-				<details className="details-reset details-overlay select-menu rgh-quick-repo-deletion">
-					<summary aria-haspopup="menu" role="button">
-						{/* This extra element is needed to keep the button above the <summary>’s lightbox */}
-						<span className="btn btn-sm btn-danger">Delete fork</span>
-					</summary>
-				</details>
-			</li>
-		),
-	});
-
+	observe('.pagehead-actions', addButton, {signal});
 	delegate('.rgh-quick-repo-deletion[open]', 'toggle', handleToggle, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {
-	include: [
+	asLongAs: [
+		pageDetect.isRepoRoot,
 		pageDetect.isForkedRepo,
+		canUserDeleteRepository,
+		isRepoUnpopular,
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+1. Fork a repo, like https://github.com/left-pad/left-pad
+2. Star it to see if the "Delete fork" button disappears
+3. Click "Delete fork" and ensure it can be cancelled
+4. Click "Delete fork" and ensure it works and it appends the post-deletion information bar
+
+*/

@@ -27,11 +27,11 @@ function onButtonClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): voi
 	void openTabs(issues.map(issue => getUrlFromItem(issue)));
 }
 
-async function init(signal: AbortSignal): Promise<void | false> {
-	if (!await elementReady('.js-issue-row + .js-issue-row', {waitForChildren: false})) {
-		return false;
-	}
+async function hasMoreThanOneConversation(): Promise<boolean> {
+	return Boolean(await elementReady('.js-issue-row + .js-issue-row', {waitForChildren: false}));
+}
 
+async function init(signal: AbortSignal): Promise<void | false> {
 	attachElements('.table-list-header-toggle:not(.states)', {
 		prepend: anchor => (
 			<button
@@ -47,6 +47,9 @@ async function init(signal: AbortSignal): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		hasMoreThanOneConversation,
+	],
 	include: [
 		pageDetect.isIssueOrPRList,
 	],
@@ -60,3 +63,13 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+- Global: https://github.com/issues
+- Repo: https://github.com/sindresorhus/refined-github/pulls
+- Nothing to open: https://github.com/fregante/empty/pulls
+
+*/

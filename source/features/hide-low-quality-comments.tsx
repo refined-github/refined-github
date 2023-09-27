@@ -31,11 +31,7 @@ function hideComment(comment: HTMLElement): void {
 	comment.classList.add('rgh-hidden-comment');
 }
 
-function init(): void | false {
-	if (select.exists('.rgh-low-quality-comments-note')) {
-		return false;
-	}
-
+function init(): void {
 	for (const similarCommentsBox of select.all('.js-discussion .Details-element:not([data-body-version])')) {
 		hideComment(similarCommentsBox);
 	}
@@ -97,6 +93,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssue,
 	],
+	deduplicate: '.rgh-low-quality-comments-note',
 	awaitDomReady: true,
 	init,
 });

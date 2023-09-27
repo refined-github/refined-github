@@ -10,15 +10,27 @@ import HasAnyProjects from './clean-conversation-filters.gql';
 
 const hasAnyProjects = new CachedFunction('has-projects', {
 	async updater(): Promise<boolean> {
+		const activeProjectsCounter = await elementReady('[data-hotkey="g b"] .Counter');
+		if (activeProjectsCounter && getCount(activeProjectsCounter) > 0) {
+			return true;
+		}
+
+		const isOrganization = select.exists('[rel=author][data-hovercard-type="organization"]');
+		if (!activeProjectsCounter && !isOrganization) {
+			// No tab = Projects disabled in repo
+			// No organization = no Projects in organization
+			return false;
+		}
+
 		await expectTokenScope('read:project');
 		const {repository, organization} = await api.v4(HasAnyProjects, {
 			allowErrors: true,
 		});
 
 		return Boolean(repository.projects.totalCount)
-	|| Boolean(repository.projectsV2.totalCount)
-	|| Boolean(organization?.projects?.totalCount)
-	|| Boolean(organization?.projectsV2?.totalCount);
+			|| Boolean(repository.projectsV2.totalCount)
+			|| Boolean(organization?.projects?.totalCount)
+			|| Boolean(organization?.projectsV2?.totalCount);
 	},
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
@@ -30,60 +42,50 @@ function getCount(element: HTMLElement): number {
 }
 
 async function hideMilestones(): Promise<void> {
-	const milestones = select('[data-selected-links^="repo_milestones"] .Counter')!;
-	if (getCount(milestones) === 0) {
+	const milestones = await elementReady('[data-selected-links^="repo_milestones"] .Counter');
+	if (getCount(milestones!) === 0) {
 		(await elementReady('[data-hotkey="m"]'))!.parentElement!.remove();
 	}
 }
 
-async function hasProjects(): Promise<boolean> {
-	const activeProjectsCounter = select('[data-hotkey="g b"] .Counter');
-	if (activeProjectsCounter && getCount(activeProjectsCounter) > 0) {
-		return true;
-	}
-
-	const isOrganization = select.exists('[rel=author][data-hovercard-type="organization"]');
-	if (!activeProjectsCounter && !isOrganization) {
-		// No tab = Projects disabled in repo
-		// No organization = no Projects in organization
-		return false;
-	}
-
-	return hasAnyProjects.get();
-}
-
 async function hideProjects(): Promise<void> {
-	// TODO: False negatives require a `?.` #4884
-	if (!await hasProjects()) {
-		const projectsDropdown = await elementReady('[data-hotkey="p"]');
-		projectsDropdown?.parentElement!.remove();
-	}
+	const projectsDropdown = await elementReady('[data-hotkey="p"]');
+	projectsDropdown?.parentElement!.remove();
 }
 
-async function init(): Promise<void | false> {
-	if (!await elementReady('#js-issues-toolbar', {waitForChildren: false})) {
-		// Repo has no issues, so no toolbar is shown
-		return false;
-	}
-
-	await Promise.all([
-		hideMilestones(),
-		hideProjects(),
-	]);
+// Toolbar is shown only if the repo has ever had an issue/PR
+async function hasConversations(): Promise<boolean> {
+	return Boolean(elementReady('#js-issues-toolbar', {waitForChildren: false}));
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		hasConversations,
+	],
 	include: [
 		pageDetect.isRepoIssueOrPRList,
 	],
 	deduplicate: 'has-rgh-inner',
-	init,
+	init: hideMilestones,
+}, {
+	asLongAs: [
+		hasConversations,
+	],
+	include: [
+		pageDetect.isRepoIssueOrPRList,
+	],
+	exclude: [
+		async () => hasAnyProjects.get(),
+	],
+	deduplicate: 'has-rgh-inner',
+	init: hideProjects,
 });
 
 /*
 
 Test URLs:
 
-https://github.com/facebook/react/pulls
+- Has conversations: https://github.com/refined-github/refined-github/pulls
+- No conversations: https://github.com/fregante/empty/pulls
 
 */

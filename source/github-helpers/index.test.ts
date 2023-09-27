@@ -5,7 +5,6 @@ import {
 	parseTag,
 	compareNames,
 	getLatestVersionTag,
-	shouldFeatureRun,
 } from './index.js';
 
 test('getConversationNumber', () => {
@@ -118,51 +117,4 @@ test('getLatestVersionTag', () => {
 		'2020-10-10',
 		'v1.0-1',
 	]), 'lol v0.0.0', 'Non-version tags should short-circuit the sorting and return the first tag');
-});
-
-test('shouldFeatureRun', () => {
-	const yes = (): boolean => true;
-	const no = (): boolean => false;
-	const yesYes = [yes, yes];
-	const yesNo = [yes, no];
-	const noNo = [no, no];
-
-	assert.isTrue(shouldFeatureRun({}), 'A lack of conditions should mean "run everywhere"');
-
-	assert.isFalse(shouldFeatureRun({
-		asLongAs: yesNo,
-	}), 'Every `asLongAs` should be true to run');
-
-	assert.isFalse(shouldFeatureRun({
-		asLongAs: yesNo,
-		include: [yes],
-	}), 'Every `asLongAs` should be true to run, regardless of `include`');
-
-	assert.isFalse(shouldFeatureRun({
-		include: noNo,
-	}), 'At least one `include` should be true to run');
-
-	assert.isTrue(shouldFeatureRun({
-		include: yesNo,
-	}), 'If one `include` is true, then it should run');
-
-	assert.isFalse(shouldFeatureRun({
-		exclude: yesNo,
-	}), 'If any `exclude` is true, then it should not run');
-
-	assert.isFalse(shouldFeatureRun({
-		include: [yes],
-		exclude: yesNo,
-	}), 'If any `exclude` is true, then it should not run, regardless of `include`');
-
-	assert.isFalse(shouldFeatureRun({
-		asLongAs: [yes],
-		exclude: yesNo,
-	}), 'If any `exclude` is true, then it should not run, regardless of `asLongAs`');
-
-	assert.isFalse(shouldFeatureRun({
-		asLongAs: [yes],
-		include: yesYes,
-		exclude: yesNo,
-	}), 'If any `exclude` is true, then it should not run, regardless of `asLongAs` and `include`');
 });
