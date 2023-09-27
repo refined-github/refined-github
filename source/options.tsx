@@ -22,7 +22,10 @@ import isDevelopmentVersion from './helpers/is-development-version.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {state as bisectState} from './helpers/bisect.js';
 
+type TokenType = 'classic' | 'fine_grained';
+
 type Status = {
+	tokenType: TokenType;
 	error?: true;
 	text?: string;
 	scopes?: string[];
@@ -30,13 +33,18 @@ type Status = {
 
 const {version} = browser.runtime.getManifest();
 
-function reportStatus({error, text, scopes}: Status): void {
+function reportStatus({tokenType, error, text, scopes}: Status): void {
 	const tokenStatus = select('#validation')!;
 	tokenStatus.textContent = text ?? '';
 	if (error) {
 		tokenStatus.dataset.validation = 'invalid';
 	} else {
 		delete tokenStatus.dataset.validation;
+	}
+
+	// Toggle the ulists by token type (default to classic)
+	for (const ulist of select.all('[data-token-type]')) {
+		ulist.style.display = ulist.dataset.tokenType === tokenType ? '' : 'none';
 	}
 
 	for (const scope of select.all('[data-scope]')) {
@@ -68,7 +76,8 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 		throw new Error(details.message);
 	}
 
-	const scopes = response.headers.get('X-OAuth-Scopes')!.split(', ');
+	// If `X-OAuth-Scopes` is not present, the token may be not a classic token.
+	const scopes = response.headers.get('X-OAuth-Scopes')?.split(', ') ?? [];
 	scopes.push('valid_token');
 	if (scopes.includes('repo')) {
 		scopes.push('public_repo');
@@ -99,13 +108,9 @@ async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
 }
 
 async function validateToken(): Promise<void> {
-	reportStatus({});
 	const tokenField = select('input[name="personalToken"]')!;
-
-	if (tokenField.value.startsWith('github_pat_')) {
-		// Validation not supported yet https://github.com/refined-github/refined-github/issues/6092
-		return;
-	}
+	const tokenType = tokenField.value.startsWith('github_pat_') ? 'fine_grained' : 'classic';
+	reportStatus({tokenType});
 
 	if (!tokenField.validity.valid || tokenField.value.length === 0) {
 	// The Chrome options iframe auto-sizer causes the "scrollIntoView" function to scroll incorrectly unless you wait a bit
@@ -114,15 +119,16 @@ async function validateToken(): Promise<void> {
 		return;
 	}
 
-	reportStatus({text: 'Validating…'});
+	reportStatus({text: 'Validating…', tokenType});
 
 	try {
 		reportStatus({
+			tokenType,
 			scopes: await getTokenScopes(tokenField.value),
 		});
 	} catch (error) {
 		assertError(error);
-		reportStatus({error: true, text: error.message});
+		reportStatus({tokenType, error: true, text: error.message});
 		expandTokenSection();
 		throw error;
 	}
