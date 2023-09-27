@@ -1,3 +1,7 @@
+#js-failed + form {
+	display: none;
+}
+
 @media not screen and (width: 400px) {
 	/* Excludes Edge */
 	:root {
