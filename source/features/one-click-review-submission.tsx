@@ -9,7 +9,6 @@ import observe from '../helpers/selector-observer.js';
 function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	const form = originalSubmitButton.form!;
 	const actionsRow = originalSubmitButton.closest('.form-actions')!;
-	const formAttribute = originalSubmitButton.getAttribute('form')!;
 
 	// Do not use `select.all` because elements can be outside `form`
 	// `RadioNodeList` is dynamic, so we need to make a copy
@@ -43,18 +42,19 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 			classes.push('tooltipped tooltipped-nw tooltipped-no-delay');
 		}
 
+		const label = document.querySelector(`label[for="${radio.id}"]`)?.textContent;
+
 		const button = (
 			<button
 				type="submit"
 				name="pull_request_review[event]"
 				// The buttons are no longer inside the form itself; this links the form
-				form={formAttribute}
 				value={radio.value}
 				className={classes.join(' ')}
 				aria-label={tooltip!}
 				disabled={radio.disabled}
 			>
-				{radio.nextSibling}
+				{label}
 			</button>
 		);
 
@@ -68,9 +68,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	}
 
 	// Remove original fields at last to avoid leaving a broken form
-	for (const radio of radios) {
-		radio.closest('.form-checkbox')!.remove();
-	}
+	radios[0].closest('fieldset')!.remove();
 
 	originalSubmitButton.remove();
 }
