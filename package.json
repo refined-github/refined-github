@@ -68,6 +68,7 @@
 		"image-promise": "^7.0.1",
 		"indent-textarea": "^3.0.0",
 		"js-abbreviation-number": "^1.4.0",
+		"linkedom": "^0.15.3",
 		"linkify-issues": "^3.0.0",
 		"linkify-urls": "^4.1.0",
 		"mem": "^9.0.2",
@@ -97,7 +98,6 @@
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^4.0.0",
 		"@types/codemirror": "^5.60.9",
-		"@types/jsdom": "^21.1.2",
 		"@types/react": "^17.0.52",
 		"@types/webextension-polyfill": "^0.10.2",
 		"copy-webpack-plugin": "^11.0.0",
@@ -112,7 +112,6 @@
 		"eslint-plugin-react": "^7.33.2",
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"highlight.js": "^11.8.0",
-		"jsdom": "^22.1.0",
 		"mini-css-extract-plugin": "^2.7.6",
 		"npm-run-all": "^4.1.5",
 		"prettier": "^3.0.3",

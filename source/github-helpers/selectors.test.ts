@@ -1,10 +1,14 @@
 import mem from 'mem';
 import {test, assert, describe} from 'vitest';
-import {JSDOM} from 'jsdom';
+import {parseHTML} from 'linkedom';
 
 import * as exports from './selectors.js';
 
-const fetchDocument = mem(async (url: string): Promise<JSDOM> => JSDOM.fromURL(url));
+const fetchDocument = mem(async (url: string): Promise<Window> => {
+	const request = await fetch(url);
+	const contents = await request.text();
+	return parseHTML(contents);
+});
 
 describe.concurrent('selectors', () => {
 	// Exclude URL arrays
@@ -22,9 +26,8 @@ describe.concurrent('selectors', () => {
 		assert.isArray(urls, `No URLs defined for "${name}"`);
 		await Promise.all(urls.map(async url => {
 			const {window} = await fetchDocument(url);
-			// TODO: Drop replacement after https://github.com/jsdom/jsdom/issues/3506
 			// It's not equivalent at the moment, but at least the tests don't fail. Let's see how it goes
-			assert.isDefined(window.document.querySelector(selector.replaceAll(':has', ':is')));
+			assert.isDefined(window.document.querySelector(selector));
 		}));
 	}, {timeout: 9999});
 });

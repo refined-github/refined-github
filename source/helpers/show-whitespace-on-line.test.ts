@@ -1,6 +1,8 @@
 import {assert, test} from 'vitest';
 
-// eslint-disable-next-line n/file-extension-in-import -- No exports map support
+// No exports map support
+// https://github.com/eslint-community/eslint-plugin-n/issues/50
+// eslint-disable-next-line n/file-extension-in-import
 import hl from 'highlight.js/lib/common';
 
 import showWhiteSpacesOnLine from './show-whitespace-on-line.js';
