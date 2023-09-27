@@ -48,7 +48,6 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 			<button
 				type="submit"
 				name="pull_request_review[event]"
-				// The buttons are no longer inside the form itself; this links the form
 				value={radio.value}
 				className={classes.join(' ')}
 				aria-label={tooltip!}
