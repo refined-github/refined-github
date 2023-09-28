@@ -35,8 +35,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	for (const radio of radios) {
 		const labelNode = radio.labels?.[0];
 
-		// New ?? old. Backwards-compat tooltip content queries. Issue #6963
-		const tooltip = labelNode?.nextElementSibling?.textContent ?? radio.parentElement!.getAttribute('aria-label');
+		const tooltip = labelNode?.nextElementSibling?.textContent;
 
 		const classes = ['btn btn-sm'];
 		if (radio.value === 'comment') {
@@ -58,8 +57,8 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 				aria-label={tooltip!}
 				disabled={radio.disabled}
 			>
-				{/* New ?? old. Backwards-compat label content queries. Issue #6963. */}
-				{labelNode?.textContent ?? radio.nextSibling}
+				{/* Old || new. Backwards-compat label content queries. Issue #6963. */}
+				{radio.nextSibling?.textContent?.trim() || labelNode?.textContent}
 			</button>
 		);
 
