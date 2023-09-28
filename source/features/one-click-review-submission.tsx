@@ -31,7 +31,9 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 
 	// Generate the new buttons
 	for (const radio of radios) {
-		const tooltip = radio.parentElement!.getAttribute('aria-label');
+		const labelNode = radio.labels?.[0];
+
+		const tooltip = labelNode?.nextElementSibling?.textContent;
 
 		const classes = ['btn btn-sm'];
 		if (radio.value === 'comment') {
@@ -42,8 +44,6 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 			classes.push('tooltipped tooltipped-nw tooltipped-no-delay');
 		}
 
-		const label = document.querySelector(`label[for="${radio.id}"]`)?.textContent;
-
 		const button = (
 			<button
 				type="submit"
@@ -53,7 +53,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 				aria-label={tooltip!}
 				disabled={radio.disabled}
 			>
-				{label}
+				{labelNode?.textContent}
 			</button>
 		);
 
