@@ -1,6 +1,5 @@
 import './small-user-avatars.css';
 import React from 'dom-chef';
-import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -21,15 +20,28 @@ function addAvatar(link: HTMLElement): void {
 	);
 }
 
+function addMentionAvatar(link: HTMLElement): void {
+	const username = link.textContent!.slice(1);
+	const size = 16;
+
+	link.prepend(
+		<img
+			className="avatar avatar-user mb-1 mr-1 rgh-small-user-avatars"
+			src={getUserAvatarURL(username, size)!}
+			width={size}
+			height={size}
+			loading="lazy"
+		/>,
+	);
+}
+
 function init(signal: AbortSignal): void {
 	// Excludes bots
 	observe('.js-issue-row [data-hovercard-type="user"]', addAvatar, {signal});
+	observe('.user-mention[data-hovercard-type="user"]', addMentionAvatar, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isIssueOrPRList,
-	],
 	init,
 });
 
@@ -38,5 +50,9 @@ void features.add(import.meta.url, {
 Test URLs:
 
 https://github.com/refined-github/refined-github/issues
+https://github.com/refined-github/refined-github/issues/6919
+https://github.com/refined-github/refined-github/releases
+https://github.com/refined-github/refined-github/releases/tag/23.9.21
+https://github.com/orgs/community/discussions/5841#discussioncomment-1450320
 
 */
