@@ -11,7 +11,7 @@ function addAvatar(link: HTMLElement): void {
 
 	link.prepend(
 		<img
-			className="avatar avatar-user mb-1 mr-1 rgh-mention-avatars"
+			className="avatar avatar-user mr-1 rgh-mention-avatars"
 			src={getUserAvatarURL(username, size)!}
 			width={size}
 			height={size}
