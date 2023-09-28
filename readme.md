@@ -160,6 +160,7 @@ Thanks for contributing! 🦋🙌
 - [](# "action-pr-link") 🔥 [Adds a link back to the PR that ran the workflow.](https://github-production-user-asset-6210df.s3.amazonaws.com/50487467/241645264-076a0137-36a2-4fd0-a66e-735ef3b3a563.png)
 - [](# "mobile-tabs") [Makes the tabs more compact on mobile so more of them can be seen.](https://user-images.githubusercontent.com/1402241/245446231-28f44b59-0151-4986-8cb9-05b5645592d8.png)
 - [](# "repo-header-info") [Shows whether a repo is a fork and adds the number of stars to its header.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267216946-404d79ab-46d7-4bc8-ba88-ae8f8029150d.png)
+- [](# "mention-avatars") [Shows a small avatar next to user mentions](https://user-images.githubusercontent.com/58778985/271158458-0815bbcc-d87f-40ea-b58d-2725860bff84.png)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
