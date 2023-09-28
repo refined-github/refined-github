@@ -29,11 +29,14 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		);
 	}
 
+	const formAttribute = originalSubmitButton.getAttribute('form')!;
+
 	// Generate the new buttons
 	for (const radio of radios) {
 		const labelNode = radio.labels?.[0];
 
-		const tooltip = labelNode?.nextElementSibling?.textContent;
+		// new ?? old. Backwards-compat tooltip content queries. Issue #6963
+		const tooltip = labelNode?.nextElementSibling?.textContent ?? radio.parentElement!.getAttribute('aria-label');
 
 		const classes = ['btn btn-sm'];
 		if (radio.value === 'comment') {
@@ -48,12 +51,15 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 			<button
 				type="submit"
 				name="pull_request_review[event]"
+				// Old version of GH don't nest the submit button inside the form, so must be linked manually. Issue #6963.
+				form={formAttribute}
 				value={radio.value}
 				className={classes.join(' ')}
 				aria-label={tooltip!}
 				disabled={radio.disabled}
 			>
-				{labelNode?.textContent}
+				{/* new ?? old. Backwards-compat label content queries. Issue #6963. */}
+				{labelNode?.textContent ?? radio.nextSibling}
 			</button>
 		);
 
@@ -67,7 +73,16 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	}
 
 	// Remove original fields at last to avoid leaving a broken form
-	radios[0].closest('fieldset')!.remove();
+	const fieldset = radios[0].closest('fieldset');
+
+	if (fieldset) {
+		fieldset.remove();
+	} else {
+		// To retain backwards compatibility with older GHE versions, remove any radios not within a fieldset. Issue #6963.
+		for (const radio of radios) {
+			radio.closest('.form-checkbox')!.remove();
+		}
+	}
 
 	originalSubmitButton.remove();
 }
