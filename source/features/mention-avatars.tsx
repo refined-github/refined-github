@@ -36,5 +36,6 @@ Test URLs:
 https://github.com/refined-github/refined-github/issues/6919
 https://github.com/refined-github/refined-github/releases
 https://github.com/refined-github/refined-github/releases/tag/23.9.21
+https://github.com/orgs/community/discussions/5841#discussioncomment-1450320
 
 */
