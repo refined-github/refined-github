@@ -40,9 +40,9 @@ function addMentionAvatar(link: HTMLElement): void {
 function init(): void {
 	// Excludes bots
 	observe([
-        '.js-issue-row [data-hovercard-type="user"]',
-        '.notification-thread-subscription [data-hovercard-type="user"]',
-    ], addAvatar);
+		'.js-issue-row [data-hovercard-type="user"]',
+		'.notification-thread-subscription [data-hovercard-type="user"]',
+	], addAvatar);
 	observe('.user-mention[data-hovercard-type="user"]', addMentionAvatar);
 }
 
