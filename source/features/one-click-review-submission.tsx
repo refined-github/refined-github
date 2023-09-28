@@ -46,6 +46,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 			classes.push('tooltipped tooltipped-nw tooltipped-no-delay');
 		}
 
+		const oldLabel = radio.nextSibling?.textContent?.trim();
 		const button = (
 			<button
 				type="submit"
@@ -57,8 +58,8 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 				aria-label={tooltip!}
 				disabled={radio.disabled}
 			>
-				{/* Old || new. Backwards-compat label content queries. Issue #6963. */}
-				{radio.nextSibling?.textContent?.trim() || labelNode?.textContent}
+				{/* Backwards-compat label content queries. Issue #6963. */}
+				{oldLabel ? oldLabel : labelNode?.textContent}
 			</button>
 		);
 
