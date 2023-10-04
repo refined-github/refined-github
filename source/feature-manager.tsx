@@ -18,7 +18,6 @@ import {
 import optionsStorage, {isFeatureDisabled, RGHOptions} from './options-storage.js';
 import {
 	applyStyleHotfixes,
-	styleHotfixes,
 	getLocalHotfixesAsOptions,
 	preloadSyncLocalStrings,
 	brokenFeatures,
@@ -127,7 +126,9 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 
 	document.documentElement.setAttribute('refined-github', '');
 
-	void styleHotfixes.get(version).then(applyStyleHotfixes);
+	// Request in the background page to avoid showing a 404 request in the console
+	// https://github.com/refined-github/refined-github/issues/6433
+	void browser.runtime.sendMessage({getStyleHotfixes: true}).then(applyStyleHotfixes);
 
 	if (options.customCSS.trim().length > 0) {
 		// Review #5857 and #5493 before making changes

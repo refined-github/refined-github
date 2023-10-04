@@ -10,6 +10,9 @@ import optionsStorage from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
 import getStorageBytesInUse from './helpers/used-storage.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
+import {styleHotfixes} from './helpers/hotfix.js';
+
+const {version} = browser.runtime.getManifest();
 
 // GHE support
 addDomainPermissionToggle();
@@ -37,6 +40,9 @@ const messageHandlers = {
 	},
 	async openOptionsPage() {
 		return browser.runtime.openOptionsPage();
+	},
+	async getStyleHotfixes() {
+		return styleHotfixes.get(version);
 	},
 	// They must return a promise to mark the message as handled
 } satisfies Record<string, (...arguments_: any[]) => Promise<any>>;
