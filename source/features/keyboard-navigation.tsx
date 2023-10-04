@@ -9,8 +9,9 @@ import {isEditable} from '../helpers/dom-utils.js';
 const isDisplayNone = (element: Element | undefined): boolean => Boolean(element && getComputedStyle(element).display === 'none');
 
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
+
 	elementExists('.minimized-comment:not(.d-none)', comment)
-	|| isDisplayNone(comment.closest('.js-file-content') ?? undefined) // Review comments on Files tab
+	|| isDisplayNone(comment.closest(['.js-file-content', '.js-file-level-comments-table']) ?? undefined) // Review comments on Files tab
 	|| Boolean(comment.closest([
 		'.js-resolvable-thread-contents.d-none', // Regular comments
 		'details.js-resolvable-timeline-thread-container:not([open])', // Review comments on Conversation tab
