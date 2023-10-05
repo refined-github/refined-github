@@ -5,6 +5,7 @@ import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 
 function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	const form = originalSubmitButton.form!;
@@ -32,12 +33,18 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 
 	// Generate the new buttons
 	for (const radio of radios) {
-		const tooltip = radio.parentElement!.getAttribute('aria-label');
+		const parent = radio.parentElement!;
+		const labelElement = (
+			parent.querySelector('label')
+			?? radio.nextSibling! // TODO: Remove after April 2024
+		);
+		const tooltip = parent.querySelector([
+			'p', // TODO: Remove after April 2024
+			'.FormControl-caption',
+		])!.textContent!.trim().replace(/.$/, '');
+		assertNodeContent(labelElement, /^(Approve|Request changes|Comment)$/);
 
 		const classes = ['btn btn-sm'];
-		if (radio.value === 'comment') {
-			classes.push('btn-primary');
-		}
 
 		if (tooltip) {
 			classes.push('tooltipped tooltipped-nw tooltipped-no-delay');
@@ -47,14 +54,14 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 			<button
 				type="submit"
 				name="pull_request_review[event]"
-				// The buttons are no longer inside the form itself; this links the form
+				// Old version of GH don't nest the submit button inside the form, so must be linked manually. Issue #6963.
 				form={formAttribute}
 				value={radio.value}
 				className={classes.join(' ')}
-				aria-label={tooltip!}
+				aria-label={tooltip}
 				disabled={radio.disabled}
 			>
-				{radio.nextSibling}
+				{labelElement.textContent}
 			</button>
 		);
 
@@ -68,8 +75,15 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	}
 
 	// Remove original fields at last to avoid leaving a broken form
-	for (const radio of radios) {
-		radio.closest('.form-checkbox')!.remove();
+	const fieldset = radios[0].closest('fieldset');
+
+	if (fieldset) {
+		fieldset.remove();
+	} else {
+		// To retain backwards compatibility with older GHE versions, remove any radios not within a fieldset. Issue #6963.
+		for (const radio of radios) {
+			radio.closest('.form-checkbox')!.remove();
+		}
 	}
 
 	originalSubmitButton.remove();
