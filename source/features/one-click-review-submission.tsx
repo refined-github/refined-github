@@ -5,10 +5,12 @@ import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 
 function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	const form = originalSubmitButton.form!;
 	const actionsRow = originalSubmitButton.closest('.form-actions')!;
+	const formAttribute = originalSubmitButton.getAttribute('form')!;
 
 	// Do not use `select.all` because elements can be outside `form`
 	// `RadioNodeList` is dynamic, so we need to make a copy
@@ -29,24 +31,25 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		);
 	}
 
-	const formAttribute = originalSubmitButton.getAttribute('form')!;
-
 	// Generate the new buttons
 	for (const radio of radios) {
-		const labelNode = radio.labels?.[0];
-
-		const tooltip = labelNode?.nextElementSibling?.textContent;
+		const parent = radio.parentElement!;
+		const labelElement = (
+			parent.querySelector('label')
+			?? radio.nextSibling! // TODO: Remove after April 2024
+		);
+		const tooltip = parent.querySelector([
+			'p', // TODO: Remove after April 2024
+			'.FormControl-caption',
+		])!.textContent!.trim().replace(/.$/, '');
+		assertNodeContent(labelElement, /^(Approve|Request changes|Comment)$/);
 
 		const classes = ['btn btn-sm'];
-		if (radio.value === 'comment') {
-			classes.push('btn-primary');
-		}
 
 		if (tooltip) {
 			classes.push('tooltipped tooltipped-nw tooltipped-no-delay');
 		}
 
-		const oldLabel = radio.nextSibling?.textContent?.trim();
 		const button = (
 			<button
 				type="submit"
@@ -55,11 +58,10 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 				form={formAttribute}
 				value={radio.value}
 				className={classes.join(' ')}
-				aria-label={tooltip!}
+				aria-label={tooltip}
 				disabled={radio.disabled}
 			>
-				{/* Backwards-compat label content queries. Issue #6963. */}
-				{oldLabel ? oldLabel : labelNode?.textContent}
+				{labelElement.textContent}
 			</button>
 		);
 
