@@ -65,3 +65,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs: (any issue you can close)
+
+https://github.com/refined-github/sandbox/issues/73
+
+*/
