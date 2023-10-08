@@ -216,3 +216,4 @@ import './features/rgh-dim-commits.js';
 import './features/mobile-tabs.js';
 import './features/repo-header-info.js';
 import './features/rgh-pr-template.js';
+import './features/quick-unplanned.js';
