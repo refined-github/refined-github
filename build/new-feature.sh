@@ -3,16 +3,12 @@
 # Automatically exit on error
 set -e
 
-# create file with name provided as first argument, appending .tsx, under the folder source/features/, with a specific template
-
-# check if argument is provided
 if [ -z "$1" ]
 then
 	echo "Please provide a name for the feature"
 	exit 1
 fi
 
-# add template
 echo "import React from 'react';
 import {BugIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -32,7 +28,6 @@ void features.add(import.meta.url, {
 });
 " >> "source/features/$1.tsx"
 
-# add import to refined-github.ts
 echo "import './features/$1.js';" >> ./source/refined-github.ts
 
 echo "✨ Feature created! ✨"
