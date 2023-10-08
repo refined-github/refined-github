@@ -17,7 +17,7 @@ echo "import React from 'react';
 import {BugIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager';
+import features from '../feature-manager.js';
 
 function init(): void {
 	document.body.prepend(<BugIcon/>);
