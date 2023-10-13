@@ -23,7 +23,7 @@ function add(dropdownMenu: HTMLElement): void {
 	dropdownMenu.append(
 		<li role="presentation" aria-hidden="true" data-view-component="true" className="ActionList-sectionDivider"/>,
 		<li data-targets="action-list.items" role="none" data-view-component="true" className="ActionListItem">
-			<a href={buildRepoURL('issues/new/choose')} tabIndex={-1} role="menuitem" data-view-component="true" className="ActionListContent">
+			<a href={buildRepoURL('issues/new/choose')} tabIndex={-1} role="menuitem" data-view-component="true" className="ActionListContent ActionListContent--visual16">
 				<span className="ActionListItem-visual ActionListItem-visual--leading">
 					<IssueOpenedIcon/>
 				</span>
