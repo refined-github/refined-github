@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {IssueOpenedIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
 import {buildRepoURL, getRepo, isArchivedRepoAsync} from '../github-helpers/index.js';
@@ -22,7 +23,10 @@ function add(dropdownMenu: HTMLElement): void {
 	dropdownMenu.append(
 		<li role="presentation" aria-hidden="true" data-view-component="true" className="ActionList-sectionDivider"/>,
 		<li data-targets="action-list.items" role="none" data-view-component="true" className="ActionListItem">
-			<a href={buildRepoURL('issues/new/choose')} tabIndex={-1} role="menuitem" data-view-component="true" className="ActionListContent">
+			<a href={buildRepoURL('issues/new/choose')} tabIndex={-1} role="menuitem" data-view-component="true" className="ActionListContent ActionListContent--visual16">
+				<span className="ActionListItem-visual ActionListItem-visual--leading">
+					<IssueOpenedIcon/>
+				</span>
 				<span data-view-component="true" className="ActionListItem-label">
 					New issue in {getRepo()?.name}
 				</span>
