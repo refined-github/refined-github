@@ -20,13 +20,13 @@ function addMergeLink(): void {
 
 		if (lastLinkQuery.includes('is:merged')) {
 			// It's a "Total" link for "is:merged"
-			lastLink.lastChild!.textContent = lastLink.lastChild!.textContent!.replace('Total', 'Merged');
+			lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Merged');
 			continue;
 		}
 
 		if (lastLinkQuery.includes('is:unmerged')) {
 			// It's a "Total" link for "is:unmerged"
-			lastLink.lastChild!.textContent = lastLink.lastChild!.textContent!.replace('Total', 'Unmerged');
+			lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Unmerged');
 			continue;
 		}
 

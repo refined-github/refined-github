@@ -53,7 +53,7 @@ export function parseReferenceRaw(absolute: string, relative: string): PrReferen
 
 function parseReference(referenceElement: HTMLElement): PrReference {
 	const {title, textContent} = referenceElement;
-	return parseReferenceRaw(title, textContent!.trim());
+	return parseReferenceRaw(title, textContent.trim());
 }
 
 export function getBranches(): {base: PrReference; head: PrReference} {

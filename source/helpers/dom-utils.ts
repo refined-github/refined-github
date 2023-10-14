@@ -93,7 +93,7 @@ export const isTextNodeContaining = (node: Nullable<Text | ChildNode>, expectati
 		throw new TypeError(`Expected Text node, received ${String(node?.nodeName)}`);
 	}
 
-	const content = node.textContent!.trim();
+	const content = node.textContent.trim();
 	return matchString(expectation, content);
 };
 
@@ -103,7 +103,7 @@ export const assertNodeContent = <N extends Text | ChildNode>(node: Nullable<N>,
 	}
 
 	console.warn('Error', node!.parentElement);
-	const content = node!.textContent!.trim();
+	const content = node!.textContent.trim();
 	throw new Error(`Expected node matching ${escapeMatcher(expectation)}, found ${escapeMatcher(content)}`);
 };
 

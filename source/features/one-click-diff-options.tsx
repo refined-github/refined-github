@@ -80,7 +80,7 @@ function attachPRButtons(dropdownIcon: SVGElement): void {
 	const prTitle = select('.pr-toolbar .js-issue-title');
 	if (prTitle && select.exists('.pr-toolbar progress-bar')) { // Only review view has progress-bar
 		prTitle.style.maxWidth = '24em';
-		prTitle.title = prTitle.textContent!;
+		prTitle.title = prTitle.textContent;
 	}
 
 	// Make space for the new button #655

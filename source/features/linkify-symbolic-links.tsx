@@ -8,7 +8,7 @@ import features from '../feature-manager.js';
 function init(): void {
 	if (select('.file-mode')?.textContent === 'symbolic link') {
 		const line = select('.js-file-line')!;
-		wrap(line.firstChild!, <a href={line.textContent!} data-turbo-frame="repo-content-turbo-frame"/>);
+		wrap(line.firstChild!, <a href={line.textContent} data-turbo-frame="repo-content-turbo-frame"/>);
 	}
 }
 

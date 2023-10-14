@@ -8,7 +8,7 @@ import observe from '../helpers/selector-observer.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
 
 function addAvatar(link: HTMLElement): void {
-	const username = link.textContent!;
+	const username = link.textContent;
 	const size = 14;
 
 	link.prepend(
@@ -23,7 +23,7 @@ function addAvatar(link: HTMLElement): void {
 }
 
 function addMentionAvatar(link: HTMLElement): void {
-	const username = link.textContent!.slice(1);
+	const username = link.textContent.slice(1);
 	const size = 16;
 
 	link.prepend(

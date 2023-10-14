@@ -89,7 +89,7 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 		const [originalFileName, newFileName = originalFileName] = menuItem
 			.closest('[data-path]')!
 			.querySelector('.Link--primary')!
-			.textContent!
+			.textContent
 			.split(' → ');
 		await showToast(async progress => discardChanges(progress!, originalFileName, newFileName), {
 			message: 'Loading info…',

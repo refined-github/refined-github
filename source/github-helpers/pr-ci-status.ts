@@ -8,8 +8,8 @@ export const FAILURE = Symbol('Failure');
 export const PENDING = Symbol('Pending');
 export type CommitStatus = false | typeof SUCCESS | typeof FAILURE | typeof PENDING;
 
-export function getLastCommitReference(): string | undefined {
-	return select.last(`${prCommit} code`)!.textContent ?? undefined;
+export function getLastCommitReference(): string {
+	return select.last(`${prCommit} code`)!.textContent;
 }
 
 export function getLastCommitStatus(): CommitStatus {

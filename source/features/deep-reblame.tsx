@@ -51,7 +51,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 
 	await showToast(async () => {
 		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumbers, blameUrl.filePath);
-		blameUrl.hash = 'L' + select('.js-line-number', blameHunk)!.textContent!;
+		blameUrl.hash = 'L' + select('.js-line-number', blameHunk)!.textContent;
 		location.href = blameUrl.href;
 	}, {
 		message: 'Fetching pull request',

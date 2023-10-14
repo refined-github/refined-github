@@ -33,7 +33,7 @@ export function linkifyIssues(
 	element: Element,
 	options: Partial<TypeDomOptions> = {},
 ): void {
-	const linkified = linkifyIssuesCore(element.textContent!, {
+	const linkified = linkifyIssuesCore(element.textContent, {
 		user: currentRepo.owner ?? '/',
 		repository: currentRepo.name ?? '/',
 		type: 'dom',
@@ -64,7 +64,7 @@ export function linkifyIssues(
 }
 
 export function linkifyURLs(element: Element): Element[] | void {
-	if (element.textContent!.length < 15) { // Must be long enough for a URL
+	if (element.textContent.length < 15) { // Must be long enough for a URL
 		return;
 	}
 
@@ -72,7 +72,7 @@ export function linkifyURLs(element: Element): Element[] | void {
 		return select.all(linkifiedURLSelector, element);
 	}
 
-	const linkified = linkifyURLsCore(element.textContent!, {
+	const linkified = linkifyURLsCore(element.textContent, {
 		type: 'dom' as const,
 		attributes: {
 			rel: 'noreferrer noopener',
@@ -89,7 +89,7 @@ export function linkifyURLs(element: Element): Element[] | void {
 
 export function parseBackticks(element: Element): void {
 	for (const node of getTextNodes(element)) {
-		const fragment = parseBackticksCore(node.textContent!);
+		const fragment = parseBackticksCore(node.textContent);
 
 		if (fragment.children.length > 0) {
 			node.replaceWith(fragment);

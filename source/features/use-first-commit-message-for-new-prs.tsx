@@ -10,12 +10,12 @@ function interpretNode(node: ChildNode): string | void {
 	switch (node instanceof Element && node.tagName) {
 		case false:
 		case 'A': {
-			return node.textContent!;
+			return node.textContent;
 		}
 
 		case 'CODE': {
 			// Restore backticks that GitHub loses when rendering them
-			return '`' + node.textContent! + '`';
+			return '`' + node.textContent + '`';
 		}
 
 		default:
@@ -26,7 +26,7 @@ function interpretNode(node: ChildNode): string | void {
 function getFirstCommit(): {title: string; body: string | undefined} {
 	const titleParts = select('.js-commits-list-item:first-child p')!.childNodes;
 	const body = select('.js-commits-list-item:first-child .Details-content--hidden pre')
-		?.textContent!.trim() ?? undefined;
+		?.textContent.trim() ?? undefined;
 
 	const title = [...titleParts]
 		.map(node => interpretNode(node))

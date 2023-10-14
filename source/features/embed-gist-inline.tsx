@@ -36,7 +36,7 @@ function isGist(link: HTMLAnchorElement): boolean {
 	return parseGistLink(link)?.replace(/[^/]/g, '').length === 1; // Exclude user links and file links
 }
 
-const isOnlyChild = (link: HTMLAnchorElement): boolean => link.textContent!.trim() === link.parentNode!.textContent!.trim();
+const isOnlyChild = (link: HTMLAnchorElement): boolean => link.textContent.trim() === link.parentElement!.textContent.trim();
 
 async function embedGist(link: HTMLAnchorElement): Promise<void> {
 	const info = <em> (loading)</em>;

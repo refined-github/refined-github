@@ -133,7 +133,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 
 	setTimeout(() => {
 		// The content of `relative-time` might is not immediately available
-		addTooltip(workflowListItem, `Next run: ${relativeTime.shadowRoot!.textContent!}`);
+		addTooltip(workflowListItem, `Next run: ${relativeTime.shadowRoot!.textContent}`);
 	}, 500);
 }
 

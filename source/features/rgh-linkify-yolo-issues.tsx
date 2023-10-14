@@ -7,7 +7,7 @@ import {createRghIssueLink} from '../helpers/rgh-issue-link.js';
 
 // Linkify with hovercards
 function linkify(issueCell: HTMLElement): void {
-	issueCell.replaceChildren(createRghIssueLink(issueCell.textContent!));
+	issueCell.replaceChildren(createRghIssueLink(issueCell.textContent));
 }
 
 function init(signal: AbortSignal): void {

@@ -14,14 +14,14 @@ function init(): void | false {
 		return; // Don't return false, This feature’s CSS already takes care of this
 	}
 
-	if (!lastBranchAction?.closest('.TimelineItem-body')!.textContent!.includes(' deleted ')) {
+	if (!lastBranchAction?.closest('.TimelineItem-body')!.textContent.includes(' deleted ')) {
 		return false;
 	}
 
-	const deletedBranchName = lastBranchAction.textContent!.trim();
+	const deletedBranchName = lastBranchAction.textContent.trim();
 	const repoRootUrl = headReferenceLink?.href.split('/', 5).join('/');
 	for (const element of select.all('.commit-ref')) {
-		const branchName = element.textContent!.trim();
+		const branchName = element.textContent.trim();
 		if (branchName === deletedBranchName) {
 			element.title = 'This branch has been deleted';
 

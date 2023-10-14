@@ -9,7 +9,7 @@ import {getRepo} from '../github-helpers/index.js';
 async function init(): Promise<false | void> {
 	let defaultBranch;
 	if (select.exists('.is-cross-repo')) {
-		const forkedRepository = getRepo(select('[title^="head: "]')!.textContent!)!;
+		const forkedRepository = getRepo(select('[title^="head: "]')!.textContent)!;
 		defaultBranch = await defaultBranchOfRepo.get(forkedRepository);
 	} else {
 		defaultBranch = await getDefaultBranch();

@@ -70,7 +70,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 		return;
 	}
 
-	const text = select('.comment-body', bestComment)!.textContent!.slice(0, 100);
+	const text = select('.comment-body', bestComment)!.textContent.slice(0, 100);
 	const {hash} = select('a.js-timestamp', bestComment)!;
 	const avatar = select('img.avatar', bestComment)!.cloneNode();
 
