@@ -41,7 +41,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		const tooltip = parent.querySelector([
 			'p', // TODO: Remove after April 2024
 			'.FormControl-caption',
-		])!.textContent.trim().replace(/.$/, '');
+		])!.textContent.trim().replace(/\.$/, '');
 		assertNodeContent(labelElement, /^(Approve|Request changes|Comment)$/);
 
 		const classes = ['btn btn-sm'];
