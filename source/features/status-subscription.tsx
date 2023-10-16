@@ -31,7 +31,7 @@ function getReasonElement(subscriptionButton: HTMLButtonElement): HTMLParagraphE
 }
 
 function getCurrentStatus(subscriptionButton: HTMLButtonElement): 'none' | 'all' | 'status' {
-	const reason = getReasonElement(subscriptionButton).textContent!;
+	const reason = getReasonElement(subscriptionButton).textContent;
 
 	// You’re receiving notifications because you chose custom settings for this thread.
 	if (reason.includes('custom settings')) {

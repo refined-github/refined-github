@@ -15,7 +15,7 @@ async function cleanIssueHeader(byline: HTMLElement): Promise<void> {
 	// Shows on issues: octocat opened this issue on 1 Jan · [1 comments]
 	// Removes on issues: octocat opened this issue on 1 Jan [·] 1 comments
 	const commentCount = select('relative-time', byline)!.nextSibling!;
-	commentCount.replaceWith(<span>{commentCount.textContent!.replace('·', '')}</span>);
+	commentCount.replaceWith(<span>{commentCount.textContent.replace('·', '')}</span>);
 }
 
 async function cleanPrHeader(byline: HTMLElement): Promise<void> {

@@ -34,7 +34,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 
 	const releaseName = container
 		.querySelector('.octicon-tag ~ span')!
-		.textContent!
+		.textContent
 		.trim();
 
 	const assets = await getAssetsForTag(releaseName);

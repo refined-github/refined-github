@@ -6,7 +6,7 @@ import observe from '../helpers/selector-observer.js';
 
 function linkify(header: HTMLElement): void {
 	header.append(
-		<a className="color-fg-inherit" href={'/' + header.textContent!.trim()}>
+		<a className="color-fg-inherit" href={'/' + header.textContent.trim()}>
 			{header.firstChild}
 		</a>,
 	);

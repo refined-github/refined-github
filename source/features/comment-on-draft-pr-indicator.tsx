@@ -4,8 +4,8 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 function addIndicator(button: HTMLElement): void {
-	const preposition = button.textContent!.includes('Add') ? ' to ' : ' on ';
-	button.textContent! += preposition + 'draft PR';
+	const preposition = button.textContent.includes('Add') ? ' to ' : ' on ';
+	button.textContent += preposition + 'draft PR';
 }
 
 function init(signal: AbortSignal): void {

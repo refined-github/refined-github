@@ -38,7 +38,7 @@ const hasAnyProjects = new CachedFunction('has-projects', {
 });
 
 function getCount(element: HTMLElement): number {
-	return Number(element.textContent!.trim());
+	return Number(element.textContent.trim());
 }
 
 async function hideMilestones(): Promise<void> {

@@ -38,7 +38,7 @@ function getStrikeThrough(text: string): HTMLElement {
 
 async function crossIfNonExistent(anchor: HTMLElement): Promise<void> {
 	if (anchor instanceof HTMLAnchorElement && !await isUrlReachable(anchor.href)) {
-		anchor.replaceWith(getStrikeThrough(anchor.textContent!));
+		anchor.replaceWith(getStrikeThrough(anchor.textContent));
 	}
 }
 

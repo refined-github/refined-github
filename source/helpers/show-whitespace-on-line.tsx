@@ -7,7 +7,7 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 	const textNodesOnThisLine = getTextNodes(line);
 	for (const [nodeIndex, textNode] of textNodesOnThisLine.entries()) {
 		// `textContent` reads must be cached #2737
-		let text = textNode.textContent!;
+		let text = textNode.textContent;
 		if (text.length > 1000) { // #5092
 			continue;
 		}
@@ -47,7 +47,7 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 			textNode.splitText(i);
 
 			// Update cached variable here because it just changed
-			text = textNode.textContent!;
+			text = textNode.textContent;
 
 			textNode.after(
 				<span data-rgh-whitespace={thisCharacter === '\t' ? 'tab' : 'space'}>

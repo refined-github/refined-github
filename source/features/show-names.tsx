@@ -18,7 +18,7 @@ async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise
 		const username = element.textContent;
 
 		if (username && username !== myUsername && username !== 'ghost') {
-			usernames.add(element.textContent!);
+			usernames.add(element.textContent);
 		}
 
 		// Drop 'commented' label to shorten the copy
@@ -40,7 +40,7 @@ async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise
 	);
 
 	for (const usernameElement of batchedUsernameElements) {
-		const username = usernameElement.textContent!;
+		const username = usernameElement.textContent;
 		const userKey = api.escapeKey(username);
 
 		// For the currently logged in user, `names[userKey]` would not be present

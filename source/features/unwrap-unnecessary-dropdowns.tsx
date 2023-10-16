@@ -23,7 +23,7 @@ async function unwrapNotifications(): Promise<void | false> {
 	}
 
 	const dropdown = forms[0].closest('details')!;
-	const currentView = select('summary i', dropdown)!.nextSibling!.textContent!.trim();
+	const currentView = select('summary i', dropdown)!.nextSibling!.textContent.trim();
 	const desiredForm = currentView === 'Date' ? forms[0] : forms[1];
 
 	// Replace dropdown
@@ -32,7 +32,7 @@ async function unwrapNotifications(): Promise<void | false> {
 	// Fix button’s style
 	const button = select('[type="submit"]', desiredForm)!;
 	button.className = 'btn';
-	button.textContent = `Group by ${button.textContent!.toLowerCase()}`;
+	button.textContent = `Group by ${button.textContent.toLowerCase()}`;
 }
 
 void features.add(import.meta.url, {

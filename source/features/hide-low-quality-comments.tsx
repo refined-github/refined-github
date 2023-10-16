@@ -44,7 +44,7 @@ function init(): void {
 			continue;
 		}
 
-		if (!isLowQualityComment(commentText.textContent!)) {
+		if (!isLowQualityComment(commentText.textContent)) {
 			continue;
 		}
 

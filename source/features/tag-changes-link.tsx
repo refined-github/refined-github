@@ -40,7 +40,7 @@ function parseTags(element: HTMLElement): TagDetails {
 	return {
 		element,
 		tag,
-		commit: select('[href*="/commit/"]', element)!.textContent!.trim(),
+		commit: select('[href*="/commit/"]', element)!.textContent.trim(),
 		...parseTag(decodeURIComponent(tag)), // `version`, `namespace`
 	};
 }

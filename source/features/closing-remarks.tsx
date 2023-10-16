@@ -43,7 +43,7 @@ function createReleaseUrl(): string | undefined {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`)!.textContent!;
+	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`)!.textContent;
 	const tagName = await firstTag.get(mergeCommit);
 
 	if (tagName) {

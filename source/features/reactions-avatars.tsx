@@ -23,7 +23,7 @@ type Participant = {
 function getParticipants(button: HTMLButtonElement): Participant[] {
 	// The list of people who commented is in an adjacent `<tool-tip>` element #5698
 	const users = button.nextElementSibling!
-		.textContent!
+		.textContent
 		.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')

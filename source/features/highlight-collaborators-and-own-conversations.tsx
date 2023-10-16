@@ -24,7 +24,7 @@ async function highlightCollaborators(): Promise<void> {
 	const list = await collaborators.get();
 	await domLoaded;
 	for (const author of select.all('.js-issue-row [data-hovercard-type="user"]')) {
-		if (list.includes(author.textContent!.trim())) {
+		if (list.includes(author.textContent.trim())) {
 			author.classList.add('rgh-collaborator');
 		}
 	}

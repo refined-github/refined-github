@@ -16,7 +16,7 @@ function init(): void {
 
 	// Compares against the "base" branch if the URL only has one reference
 	if (references.length === 1) {
-		references.unshift(select('.branch span')!.textContent!);
+		references.unshift(select('.branch span')!.textContent);
 	}
 
 	const referencePicker = select('.range-editor .d-inline-block + .range-cross-repo-pair')!;
