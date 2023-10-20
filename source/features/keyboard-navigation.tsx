@@ -19,16 +19,16 @@ function runShortcuts(event: KeyboardEvent): void {
 	event.preventDefault();
 
 	const focusedComment = $(':target')!;
-	const items =
-		$$([
+	const items
+		= $$([
 			'.js-targetable-element[id^="diff-"]', // Files in diffs
 			'.js-minimizable-comment-group', // Comments (to be `.filter()`ed)
 		])
-		.filter(element =>
-			element.classList.contains('js-minimizable-comment-group')
-				? !isCommentGroupMinimized(element)
-				: true,
-		);
+			.filter(element =>
+				element.classList.contains('js-minimizable-comment-group')
+					? !isCommentGroupMinimized(element)
+					: true,
+			);
 
 	// `j` goes to the next comment, `k` goes back a comment
 	const direction = event.key === 'j' ? 1 : -1;

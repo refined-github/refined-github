@@ -32,13 +32,13 @@ function handleArrowUpKey(targetField: HTMLTextAreaElement): void {
 		'#all_commit_comments', // Single commit comments at the bottom
 	])!;
 
-	const lastOwnComment =
-		$$('.js-comment.current-user', currentConversationContainer)
-		.reverse()
-		.find(comment => {
-			const collapsible = comment.closest('details');
-			return !collapsible || collapsible.open;
-		});
+	const lastOwnComment
+		= $$('.js-comment.current-user', currentConversationContainer)
+			.reverse()
+			.find(comment => {
+				const collapsible = comment.closest('details');
+				return !collapsible || collapsible.open;
+			});
 
 	if (!lastOwnComment) {
 		return;
