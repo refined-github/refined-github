@@ -27,7 +27,7 @@ function init(signal: AbortSignal): void {
 		return;
 	}
 
-	const [opening, closing] = $$<HTMLAnchorElement>(placeholdersSelector);
+	const [opening, closing] = $$(placeholdersSelector);
 	closing.remove();
 
 	// Move the wrapped text into the existing link

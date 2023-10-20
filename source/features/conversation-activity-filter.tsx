@@ -44,7 +44,7 @@ function processDissmissedReviewEvent(item: HTMLElement): void {
 	item.classList.add(hiddenClassName);
 
 	// Find and hide stale reviews referenced by dismissed review events
-	for (const {hash: staleReviewId} of $$<HTMLAnchorElement>('.TimelineItem-body > [href^="#pullrequestreview-"]', item)) {
+	for (const {hash: staleReviewId} of $$('.TimelineItem-body > a[href^="#pullrequestreview-"]', item)) {
 		$(staleReviewId)!
 			.closest('.js-timeline-item')!
 			.classList.add(collapsedClassName);
