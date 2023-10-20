@@ -14,10 +14,15 @@ import {BugIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
-function init(): void {
-	document.body.prepend(<BugIcon/>);
+function applyToButton(button: HTMLButtonElement): void {
+	button.append(<BugIcon/>);
 	console.log('✨');
+}
+
+function init(signal: AbortSignal): void {
+	observe('button.btn', applyToButton, {signal});
 }
 
 void features.add(import.meta.url, {
