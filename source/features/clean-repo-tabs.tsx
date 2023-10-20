@@ -38,7 +38,7 @@ function onlyShowInDropdown(id: string): void {
 		return;
 	}
 
-	(tabItem.closest('li') ?? tabItem.closest('.UnderlineNav-item'))!.classList.add('d-none');
+	(tabItem!.closest('li') ?? tabItem!.closest('.UnderlineNav-item'))!.classList.add('d-none');
 
 	const menuItem = $(`[data-menu-item$="${id}"]`)!;
 	menuItem.removeAttribute('data-menu-item');

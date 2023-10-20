@@ -9,7 +9,7 @@ import observe from '../helpers/selector-observer.js';
 function linkify(textLine: HTMLElement): void {
 	const url = $('a.dropdown-item[href^="#pullrequestreview-"]', textLine.parentElement!);
 	// `lastChild` is a textNode
-	wrap(textLine.lastChild!, <a href={url.hash}/>);
+	wrap(textLine.lastChild!, <a href={url!.hash}/>);
 }
 
 function init(signal: AbortSignal): void {

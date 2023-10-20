@@ -236,7 +236,7 @@ function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDet
 async function markLocalHotfixes(): Promise<void> {
 	for (const [feature, relatedIssue] of await getLocalHotfixes()) {
 		if (importedFeatures.includes(feature)) {
-			const input = select<HTMLInputElement>('#' + feature)!;
+			const input = $<HTMLInputElement>('#' + feature)!;
 			input.disabled = true;
 			input.removeAttribute('name');
 			$(`.feature-name[for="${feature}"]`)!.after(

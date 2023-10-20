@@ -62,7 +62,7 @@ function showAvatarsOn(commentReactions: Element): void {
 	const avatarLimit = arbitraryAvatarLimit - (reactionTypes * approximateHeaderLength);
 
 	const participantByReaction =
-		$(':scope > button.social-reaction-summary-item', commentReactions)
+		$$(':scope > button.social-reaction-summary-item', commentReactions)
 		.map(button => getParticipants(button));
 	const flatParticipants = flatZip(participantByReaction, avatarLimit);
 

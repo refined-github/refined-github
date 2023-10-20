@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
+import {$, $$} from 'select-dom';
 import {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import filterAlteredClicks from 'filter-altered-clicks';
@@ -33,7 +33,7 @@ function handleArrowUpKey(targetField: HTMLTextAreaElement): void {
 	])!;
 
 	const lastOwnComment =
-		$('.js-comment.current-user', currentConversationContainer)
+		$$('.js-comment.current-user', currentConversationContainer)
 		.reverse()
 		.find(comment => {
 			const collapsible = comment.closest('details');
