@@ -17,3 +17,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/pull/6991
+
+*/
