@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 import onetime from 'onetime';
 import delegate, {DelegateEvent} from 'delegate-it';
 

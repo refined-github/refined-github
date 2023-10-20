@@ -46,7 +46,7 @@ Here's an example using all of the possible `feature.add` options:
 
 ```tsx
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 

@@ -1,6 +1,6 @@
 import './release-download-count.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 import {DownloadIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';

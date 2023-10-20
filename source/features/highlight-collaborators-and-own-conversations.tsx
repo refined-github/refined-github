@@ -1,6 +1,6 @@
 import './highlight-collaborators-and-own-conversations.css';
 import {CachedFunction} from 'webext-storage-cache';
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 

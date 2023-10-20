@@ -1,7 +1,7 @@
 import {parseHTML} from 'linkedom';
 import {test, assert} from 'vitest';
 
-import select from './select-has.js';
+import {$, $$, elementExists, lastElement} from './select-has.js';
 
 test('basic :has() support', () => {
 	const {document: fragment} = parseHTML(`

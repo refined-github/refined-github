@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import toMilliseconds from '@sindresorhus/to-milliseconds';
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 import twas from 'twas';
 import {InfoIcon} from '@primer/octicons-react';
 

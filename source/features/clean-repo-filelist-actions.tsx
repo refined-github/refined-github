@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {CodeIcon, PlusIcon, SearchIcon} from '@primer/octicons-react';
 

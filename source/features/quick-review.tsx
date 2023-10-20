@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import delay from 'delay';
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';

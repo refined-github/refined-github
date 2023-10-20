@@ -1,6 +1,6 @@
 import './preview-hidden-comments.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

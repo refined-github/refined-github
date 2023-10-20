@@ -1,5 +1,5 @@
 import mem from 'mem';
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 import {DelegateEvent} from 'delegate-it';
 
 import preserveScroll from './preserve-scroll.js';

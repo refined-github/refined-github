@@ -2,7 +2,7 @@
 // `textarea[data-required-trimmed]` conflicts with this behavior by overriding the validity states in the meantime.
 // `button[data-disable-invalid]` are automatically disabled while the form is invalid, but some buttons don't have it.
 
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

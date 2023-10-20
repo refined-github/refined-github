@@ -2,7 +2,7 @@ import 'webext-base-css/webext-base.css';
 import './options.css';
 import React from 'dom-chef';
 import domify from 'doma';
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import prettyBytes from 'pretty-bytes';
 import {assertError} from 'ts-extras';

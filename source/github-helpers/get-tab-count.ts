@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 import oneMutation from 'one-mutation';
 
 export default async function getTabCount(tab: Element): Promise<number> {

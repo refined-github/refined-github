@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 
 import api from './api.js';
 import {prCommit, prCommitStatusIcon} from './selectors.js';

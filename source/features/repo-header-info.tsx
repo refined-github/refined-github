@@ -1,7 +1,7 @@
 import * as pageDetect from 'github-url-detection';
 import {LockIcon, RepoForkedIcon, StarIcon} from '@primer/octicons-react';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import observe from '../helpers/selector-observer.js';

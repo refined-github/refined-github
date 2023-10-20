@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 import oneEvent from 'one-event';
 
 export default async function loadDetailsMenu(detailsMenu: HTMLElement): Promise<void> {

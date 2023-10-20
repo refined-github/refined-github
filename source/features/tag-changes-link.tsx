@@ -1,6 +1,6 @@
 import './tag-changes-link.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import {DiffIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';

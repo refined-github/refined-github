@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {CachedValue} from 'webext-storage-cache';
-import select from 'select-dom';
+import {$, $$, elementExists, lastElement} from 'select-dom';
 import elementReady from 'element-ready';
 
 import pluralize from './pluralize.js';
