@@ -1,6 +1,6 @@
 import './reactions-avatars.css';
 import React from 'dom-chef';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$$} from 'select-dom';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
@@ -61,8 +61,8 @@ function showAvatarsOn(commentReactions: Element): void {
 	const reactionTypes = $$('.social-reaction-summary-item', commentReactions).length;
 	const avatarLimit = arbitraryAvatarLimit - (reactionTypes * approximateHeaderLength);
 
-	const participantByReaction = select
-		.all(':scope > button.social-reaction-summary-item', commentReactions)
+	const participantByReaction =
+		$(':scope > button.social-reaction-summary-item', commentReactions)
 		.map(button => getParticipants(button));
 	const flatParticipants = flatZip(participantByReaction, avatarLimit);
 

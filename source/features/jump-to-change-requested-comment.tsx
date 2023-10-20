@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
@@ -9,7 +9,7 @@ import observe from '../helpers/selector-observer.js';
 function linkify(textLine: HTMLElement): void {
 	const url = $('a.dropdown-item[href^="#pullrequestreview-"]', textLine.parentElement!);
 	// `lastChild` is a textNode
-	wrap(textLine.lastChild!, <a href={url!.hash}/>);
+	wrap(textLine.lastChild!, <a href={url.hash}/>);
 }
 
 function init(signal: AbortSignal): void {

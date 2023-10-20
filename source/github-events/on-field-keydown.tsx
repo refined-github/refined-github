@@ -1,4 +1,4 @@
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {elementExists} from 'select-dom';
 import delegate, {DelegateEventHandler} from 'delegate-it';
 
 type DelegateFieldEvent = DelegateEventHandler<KeyboardEvent, HTMLTextAreaElement>;

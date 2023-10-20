@@ -1,5 +1,5 @@
 import {CachedFunction} from 'webext-storage-cache';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 

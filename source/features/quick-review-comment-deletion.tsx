@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$} from 'select-dom';
 import {TrashIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';

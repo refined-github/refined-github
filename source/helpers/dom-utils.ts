@@ -1,4 +1,4 @@
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$} from 'select-dom';
 import {setFetch} from 'push-form';
 // Nodes may be exactly `null`
 import {type Nullable} from 'vitest';

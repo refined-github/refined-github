@@ -1,4 +1,4 @@
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$} from 'select-dom';
 import oneEvent from 'one-event';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';

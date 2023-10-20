@@ -1,7 +1,7 @@
 import './mark-private-orgs.css';
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$$} from 'select-dom';
 import {EyeClosedIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 

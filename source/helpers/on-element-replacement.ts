@@ -1,4 +1,4 @@
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$} from 'select-dom';
 
 import onElementRemoval from './on-element-removal.js';
 

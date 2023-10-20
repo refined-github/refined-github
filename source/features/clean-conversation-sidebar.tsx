@@ -1,6 +1,6 @@
 import './clean-conversation-sidebar.css';
 import React from 'dom-chef';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 

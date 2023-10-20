@@ -1,5 +1,5 @@
 import './toggle-files-button.css';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$} from 'select-dom';
 import {CachedValue} from 'webext-storage-cache';
 import React from 'dom-chef';
 import delegate, {DelegateEvent} from 'delegate-it';

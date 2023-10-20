@@ -1,6 +1,6 @@
 import './quick-mention.css';
 import React from 'dom-chef';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import {ReplyIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';

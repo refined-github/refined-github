@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache/legacy.js';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$, $$} from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 

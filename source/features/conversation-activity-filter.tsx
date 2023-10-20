@@ -1,7 +1,7 @@
 import './conversation-activity-filter.css';
 import delay from 'delay';
 import React from 'dom-chef';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$, $$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, EyeClosedIcon, EyeIcon, XIcon} from '@primer/octicons-react';
 

@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$} from 'select-dom';
 import {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import filterAlteredClicks from 'filter-altered-clicks';
@@ -32,8 +32,8 @@ function handleArrowUpKey(targetField: HTMLTextAreaElement): void {
 		'#all_commit_comments', // Single commit comments at the bottom
 	])!;
 
-	const lastOwnComment = select
-		.all('.js-comment.current-user', currentConversationContainer)
+	const lastOwnComment =
+		$('.js-comment.current-user', currentConversationContainer)
 		.reverse()
 		.find(comment => {
 			const collapsible = comment.closest('details');

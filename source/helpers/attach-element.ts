@@ -1,4 +1,4 @@
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$, $$, elementExists} from 'select-dom';
 import {RequireAtLeastOne} from 'type-fest';
 import {isDefined} from 'ts-extras';
 

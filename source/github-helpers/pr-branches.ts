@@ -1,4 +1,4 @@
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$} from 'select-dom';
 
 export type PrReference = {
 	/** @example fregante/mem:main */

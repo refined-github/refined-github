@@ -1,4 +1,4 @@
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import elementReady from 'element-ready';
 

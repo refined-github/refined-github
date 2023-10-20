@@ -1,6 +1,6 @@
 import {CachedFunction} from 'webext-storage-cache';
 import React from 'dom-chef';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import {StopIcon, PlayIcon} from '@primer/octicons-react';
 import {parseCron} from '@cheap-glitch/mi-cron';
 import * as pageDetect from 'github-url-detection';

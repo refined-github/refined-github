@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$, lastElement} from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';

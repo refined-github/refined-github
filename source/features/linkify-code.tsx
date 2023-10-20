@@ -1,4 +1,4 @@
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import observe from '../helpers/selector-observer.js';

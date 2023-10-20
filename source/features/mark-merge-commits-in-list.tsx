@@ -1,6 +1,6 @@
 import './mark-merge-commits-in-list.css';
 import React from 'dom-chef';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$, $$} from 'select-dom';
 import {GitMergeIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {objectEntries} from 'ts-extras';

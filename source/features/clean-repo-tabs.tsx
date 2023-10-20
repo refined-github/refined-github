@@ -1,5 +1,5 @@
 import {CachedFunction} from 'webext-storage-cache';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -38,7 +38,7 @@ function onlyShowInDropdown(id: string): void {
 		return;
 	}
 
-	(tabItem!.closest('li') ?? tabItem!.closest('.UnderlineNav-item'))!.classList.add('d-none');
+	(tabItem.closest('li') ?? tabItem.closest('.UnderlineNav-item'))!.classList.add('d-none');
 
 	const menuItem = $(`[data-menu-item$="${id}"]`)!;
 	menuItem.removeAttribute('data-menu-item');

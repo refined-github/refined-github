@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import onetime from 'onetime';
 
 import features from '../feature-manager.js';

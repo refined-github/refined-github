@@ -1,7 +1,7 @@
 import './highest-rated-comment.css';
 import mem from 'mem';
 import React from 'dom-chef';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$, $$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {ArrowDownIcon, CheckCircleFillIcon} from '@primer/octicons-react';
 

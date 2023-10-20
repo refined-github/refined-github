@@ -1,4 +1,4 @@
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -19,8 +19,8 @@ function runShortcuts(event: KeyboardEvent): void {
 	event.preventDefault();
 
 	const focusedComment = $(':target')!;
-	const items = select
-		.all([
+	const items =
+		$([
 			'.js-targetable-element[id^="diff-"]', // Files in diffs
 			'.js-minimizable-comment-group', // Comments (to be `.filter()`ed)
 		])

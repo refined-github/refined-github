@@ -1,6 +1,6 @@
 import './quick-label-removal.css';
 import React from 'dom-chef';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {elementExists} from 'select-dom';
 import onetime from 'onetime';
 import {XIcon} from '@primer/octicons-react';
 import {assertError} from 'ts-extras';

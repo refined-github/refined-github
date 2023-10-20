@@ -1,5 +1,5 @@
 import './rgh-welcome-issue.css';
-import {$, $$, elementExists, lastElement} from 'select-dom';
+import {$$, elementExists} from 'select-dom';
 import delegate from 'delegate-it';
 
 import features from '../feature-manager.js';
