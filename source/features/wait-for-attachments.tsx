@@ -13,13 +13,13 @@ const attributeBackup = 'data-rgh-required-trimmed';
 function toggleSubmitButtons({target, type}: Event): void {
 	const fileAttachment = target as HTMLElement;
 
-	for (const button of select.all('.btn-primary[type="submit"]:not([data-disable-invalid])', fileAttachment.closest('form')!)) {
+	for (const button of $$('.btn-primary[type="submit"]:not([data-disable-invalid])', fileAttachment.closest('form')!)) {
 		button.dataset.disableInvalid = '';
 	}
 
 	// Temporarily disable `data-required-trimmed` so that it doesn't conflict with the desired behavior.
 	// The complex selector ensures that we don't add the attribute to fields that never had it in the first place.
-	const textarea = select(`[${attribute}], [${attributeBackup}]`, fileAttachment)!;
+	const textarea = $(`[${attribute}], [${attributeBackup}]`, fileAttachment)!;
 	if (textarea) {
 		if (type === 'upload:setup') {
 			textarea.setAttribute(attributeBackup, textarea.getAttribute(attribute)!);

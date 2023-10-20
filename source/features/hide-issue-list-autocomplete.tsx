@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 
 function init(): void {
-	select('.subnav-search')!.setAttribute('autocomplete', 'off');
+	$('.subnav-search')!.setAttribute('autocomplete', 'off');
 }
 
 void features.add(import.meta.url, {

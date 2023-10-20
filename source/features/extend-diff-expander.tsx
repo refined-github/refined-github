@@ -8,7 +8,7 @@ import features from '../feature-manager.js';
 function expandDiff(event: DelegateEvent): void {
 	// Skip if the user clicked directly on the icon
 	if (!(event.target as Element).closest('.js-expand')) {
-		select('.js-expand', event.delegateTarget)!.click();
+		$('.js-expand', event.delegateTarget)!.click();
 	}
 }
 

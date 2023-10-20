@@ -29,7 +29,7 @@ function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButt
 }
 
 function getUI(field: HTMLTextAreaElement, ...classes: string[]): HTMLElement {
-	return select('.rgh-prevent-link-loss-container', field.form!) ?? (createBanner({
+	return $('.rgh-prevent-link-loss-container', field.form!) ?? (createBanner({
 		icon: <AlertIcon className="m-0"/>,
 		text: (
 			<>
@@ -57,11 +57,11 @@ const updateUI = debounceFn(({delegateTarget: field}: DelegateEvent<Event, HTMLT
 	if (!isVulnerableToLinkLoss(field.value)) {
 		getUI(field).remove();
 	} else if (pageDetect.isNewIssue() || pageDetect.isNewRelease() || pageDetect.isCompare()) {
-		select('file-attachment', field.form!)!.append(
+		$('file-attachment', field.form!)!.append(
 			getUI(field, 'mt-2', 'mx-0', 'mx-md-2'),
 		);
 	} else {
-		select('.form-actions', field.form!)!.before(
+		$('.form-actions', field.form!)!.before(
 			getUI(field, 'mx-md-2', 'mb-2'),
 		);
 	}

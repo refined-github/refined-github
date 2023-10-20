@@ -5,7 +5,7 @@ import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 
 function selectAllNotifications(): void {
-	select('.js-notifications-mark-all-prompt')!.click();
+	$('.js-notifications-mark-all-prompt')!.click();
 }
 
 function init(signal: AbortSignal): void {

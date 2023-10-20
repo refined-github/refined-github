@@ -9,7 +9,7 @@ const selector = `
 `;
 
 function init(): void {
-	for (const link of select.all<HTMLAnchorElement>(selector)) {
+	for (const link of $$<HTMLAnchorElement>(selector)) {
 		link.hash = '#partial-timeline';
 	}
 }

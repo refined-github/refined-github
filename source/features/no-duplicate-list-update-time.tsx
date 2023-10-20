@@ -9,7 +9,7 @@ function parseTime(element: HTMLElement): number {
 }
 
 function remove(issue: HTMLElement): void {
-	const [stateChangeTime, updateTime] = select.all('relative-time', issue);
+	const [stateChangeTime, updateTime] = $$('relative-time', issue);
 	if (parseTime(updateTime) - parseTime(stateChangeTime) < 10_000) { // Hide if within 10 seconds
 		updateTime.parentElement!.remove();
 	}

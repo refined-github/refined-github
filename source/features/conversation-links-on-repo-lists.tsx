@@ -11,11 +11,11 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	const repository = repositoryLink.closest('li')!;
 
 	// Remove the "X issues need help" link
-	select('[href*="issues?q=label%3A%22help+wanted"]', repository)?.remove();
+	$('[href*="issues?q=label%3A%22help+wanted"]', repository)?.remove();
 
 	// Place before the update date
 	assertNodeContent(
-		select('relative-time', repository)!.previousSibling,
+		$('relative-time', repository)!.previousSibling,
 		'Updated',
 	).before(
 		<a

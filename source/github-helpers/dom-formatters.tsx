@@ -68,8 +68,8 @@ export function linkifyURLs(element: Element): Element[] | void {
 		return;
 	}
 
-	if (select.exists(linkifiedURLSelector, element)) {
-		return select.all(linkifiedURLSelector, element);
+	if (elementExists(linkifiedURLSelector, element)) {
+		return $$(linkifiedURLSelector, element);
 	}
 
 	const linkified = linkifyURLsCore(element.textContent, {

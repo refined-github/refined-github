@@ -20,7 +20,7 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 	],
 	exclude: [
-		() => select.exists('.tabnav'), // The commit list and compare diff are in two separate tabs
+		() => elementExists('.tabnav'), // The commit list and compare diff are in two separate tabs
 	],
 	deduplicate: 'has-rgh-inner',
 	awaitDomReady: true, // DOM-based filter

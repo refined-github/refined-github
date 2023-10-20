@@ -59,10 +59,10 @@ function parseReference(referenceElement: HTMLElement): PrReference {
 export function getBranches(): {base: PrReference; head: PrReference} {
 	return {
 		get base() {
-			return parseReference(select('.base-ref')!);
+			return parseReference($('.base-ref')!);
 		},
 		get head() {
-			return parseReference(select('.head-ref')!);
+			return parseReference($('.head-ref')!);
 		},
 	};
 }

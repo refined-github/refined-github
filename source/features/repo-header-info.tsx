@@ -31,14 +31,14 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 	const {isFork, isPrivate, stargazerCount} = await repositoryInfo.get();
 
 	// GitHub may already show this icon natively, so we match its position
-	if (isPrivate && !select.exists('.octicon-lock', repoLink)) {
+	if (isPrivate && !elementExists('.octicon-lock', repoLink)) {
 		repoLink.append(
 			<LockIcon className="ml-1" width={12} height={12}/>,
 		);
 	}
 
 	// GitHub may already show this icon natively, so we match its position
-	if (isFork && !select.exists('.octicon-repo-forked', repoLink)) {
+	if (isFork && !elementExists('.octicon-repo-forked', repoLink)) {
 		repoLink.append(
 			<RepoForkedIcon className="ml-1" width={12} height={12}/>,
 		);

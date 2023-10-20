@@ -9,7 +9,7 @@ import GitHubFileURL from '../github-helpers/github-file-url.js';
 function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 	dropdown.classList.add('rgh-more-file-links'); // Mark this as processed
 
-	const viewFile = select('a[data-ga-click^="View file"]', dropdown)!;
+	const viewFile = $('a[data-ga-click^="View file"]', dropdown)!;
 	const getDropdownLink = (name: string, route: string): JSX.Element => {
 		const {href} = new GitHubFileURL(viewFile.href).assign({route});
 		return (

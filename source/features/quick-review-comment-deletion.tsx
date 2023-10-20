@@ -23,7 +23,7 @@ function onButtonClick({delegateTarget: button}: DelegateEvent): void {
 
 async function preloadDropdown({delegateTarget: button}: DelegateEvent): Promise<void> {
 	const comment = button.closest('.js-comment')!;
-	await loadDetailsMenu(select('details-menu.show-more-popover', comment)!);
+	await loadDetailsMenu($('details-menu.show-more-popover', comment)!);
 }
 
 function addDeleteButton(cancelButton: Element): void {

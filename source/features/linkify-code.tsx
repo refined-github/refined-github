@@ -13,7 +13,7 @@ function initTitle(signal: AbortSignal): void {
 
 	observe('.js-issue-title', title => {
 		// TODO: Replace with :has
-		if (!select.exists('a', title)) {
+		if (!elementExists('a', title)) {
 			linkifyIssues(currentRepo, title);
 		}
 	}, {signal});
@@ -30,7 +30,7 @@ function linkifyContent(wrapper: Element): void {
 	// https://github.com/refined-github/refined-github/pull/3844#issuecomment-751427568
 	if (!pageDetect.isGist()) {
 		const currentRepo = getRepo() ?? {};
-		for (const element of select.all('.pl-c', wrapper)) {
+		for (const element of $$('.pl-c', wrapper)) {
 			linkifyIssues(currentRepo, element);
 		}
 	}

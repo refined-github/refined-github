@@ -7,9 +7,9 @@ import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 
 function init(): void | false {
-	const lastBranchAction = select.last('.TimelineItem-body .user-select-contain.commit-ref');
+	const lastBranchAction = lastElement('.TimelineItem-body .user-select-contain.commit-ref');
 
-	const headReferenceLink = select('.head-ref a');
+	const headReferenceLink = $('.head-ref a');
 	if (!headReferenceLink && !lastBranchAction) {
 		return; // Don't return false, This feature’s CSS already takes care of this
 	}
@@ -20,7 +20,7 @@ function init(): void | false {
 
 	const deletedBranchName = lastBranchAction.textContent.trim();
 	const repoRootUrl = headReferenceLink?.href.split('/', 5).join('/');
-	for (const element of select.all('.commit-ref')) {
+	for (const element of $$('.commit-ref')) {
 		const branchName = element.textContent.trim();
 		if (branchName === deletedBranchName) {
 			element.title = 'This branch has been deleted';
@@ -30,7 +30,7 @@ function init(): void | false {
 			}
 
 			if (element.classList.contains('head-ref')) {
-				select('a', element)!.href = repoRootUrl!;
+				$('a', element)!.href = repoRootUrl!;
 			} else {
 				wrap(element, <a href={repoRootUrl}/>);
 			}

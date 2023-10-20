@@ -33,7 +33,7 @@ function toggleHandler(event: DelegateEvent<Event, HTMLInputElement>): void {
 }
 
 function init(signal: AbortSignal): void | false {
-	const checkbox = select('input[name="collab_privs"]');
+	const checkbox = $('input[name="collab_privs"]');
 	if (!checkbox) {
 		return false;
 	}

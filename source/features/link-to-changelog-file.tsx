@@ -22,7 +22,7 @@ function findChangelogName(files: string[]): string | false {
 }
 
 function parseFromDom(): false {
-	const files = select.all('[aria-labelledby="files"] .js-navigation-open[href*="/blob/"').map(file => file.title);
+	const files = $$('[aria-labelledby="files"] .js-navigation-open[href*="/blob/"').map(file => file.title);
 	void changelogName.applyOverride(
 		[findChangelogName(files) as string] /* TODO: Type mistake */,
 		getRepo()!.nameWithOwner,

@@ -8,7 +8,7 @@ function onFieldKeydown(selector: string, callback: DelegateFieldEvent, signal: 
 		const field = event.delegateTarget;
 
 		// The suggester is GitHub’s autocomplete dropdown
-		if (select.exists('.suggester', field.form!) || event.isComposing) {
+		if (elementExists('.suggester', field.form!) || event.isComposing) {
 			return;
 		}
 

@@ -28,7 +28,7 @@ function initSidebarReviewButton(signal: AbortSignal): void {
 
 function focusReviewTextarea({delegateTarget}: DelegateEvent<Event, HTMLDetailsElement>): void {
 	if (delegateTarget.open) {
-		select('textarea', delegateTarget)!.focus();
+		$('textarea', delegateTarget)!.focus();
 	}
 }
 

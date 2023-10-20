@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 
 function addQuickSubmit(): void {
-	select([
+	$([
 		'input#commit-summary-input',
 		'textarea[aria-label="Describe this release"]',
 	])!.classList.add('js-quick-submit');

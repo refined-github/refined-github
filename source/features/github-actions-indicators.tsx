@@ -90,7 +90,7 @@ const workflowDetails = new CachedFunction('workflows-details', {
 
 async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void> {
 	// There might be a disabled indicator already
-	if (select.exists('.octicon-stop', workflowListItem)) {
+	if (elementExists('.octicon-stop', workflowListItem)) {
 		return;
 	}
 
@@ -125,7 +125,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	}
 
 	const relativeTime = <relative-time datetime={String(nextTime)}/>;
-	select('.ActionList-item-label', workflowListItem)!.append(
+	$('.ActionList-item-label', workflowListItem)!.append(
 		<em>
 			({relativeTime})
 		</em>,

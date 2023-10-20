@@ -15,7 +15,7 @@ export const closedOrMergedMarkerSelector = css`
 `;
 
 export function getLastCloseEvent(): HTMLElement | undefined {
-	return select.last(`
+	return lastElement(`
 		.TimelineItem-badge :is(
 			.octicon-issue-closed,
 			.octicon-git-merge,

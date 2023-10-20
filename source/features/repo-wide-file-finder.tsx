@@ -18,7 +18,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepo,
 	],
 	exclude: [
-		() => select.exists('[data-hotkey="t"]'),
+		() => elementExists('[data-hotkey="t"]'),
 		pageDetect.isEmptyRepo,
 		pageDetect.isPRFiles,
 		pageDetect.isFileFinder,

@@ -6,7 +6,7 @@ import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 
 function init(): void {
-	const element = select('.sha.user-select-contain:not(a *)');
+	const element = $('.sha.user-select-contain:not(a *)');
 	if (element) {
 		wrap(element, <a href={location.pathname.replace(/pull\/\d+\/commits/, 'commit')}/>);
 	}

@@ -49,8 +49,8 @@ async function appendTab(navigationBar: Element): Promise<void> {
 	navigationBar.replaceWith(navigationBar);
 
 	// There are two UnderlineNav items (responsive…) that point to the same dropdown
-	const overflowNav = select('.js-responsive-underlinenav .dropdown-menu ul')!;
-	if (!select.exists('[data-rgh-label="Gists"]', overflowNav)) {
+	const overflowNav = $('.js-responsive-underlinenav .dropdown-menu ul')!;
+	if (!elementExists('[data-rgh-label="Gists"]', overflowNav)) {
 		overflowNav.append(
 			createDropdownItem('Gists', user.url),
 		);

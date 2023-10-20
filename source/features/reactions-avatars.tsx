@@ -58,7 +58,7 @@ const viewportObserver = new IntersectionObserver(changes => {
 });
 
 function showAvatarsOn(commentReactions: Element): void {
-	const reactionTypes = select.all('.social-reaction-summary-item', commentReactions).length;
+	const reactionTypes = $$('.social-reaction-summary-item', commentReactions).length;
 	const avatarLimit = arbitraryAvatarLimit - (reactionTypes * approximateHeaderLength);
 
 	const participantByReaction = select

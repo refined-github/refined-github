@@ -24,7 +24,7 @@ async function getAssetsForTag(tag: string): Promise<Record<string, number>> {
 
 async function addCounts(assetsList: HTMLElement): Promise<void> {
 	// TODO: Use :has selector instead
-	if (!select.exists('.octicon-package', assetsList)) {
+	if (!elementExists('.octicon-package', assetsList)) {
 		return;
 	}
 
@@ -40,7 +40,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 	const assets = await getAssetsForTag(releaseName);
 
 	const calculateHeatIndex = createHeatIndexFunction(Object.values(assets));
-	for (const assetLink of select.all('.octicon-package ~ a', assetsList)) {
+	for (const assetLink of $$('.octicon-package ~ a', assetsList)) {
 		// Match the asset in the DOM to the asset in the API response
 		const downloadCount = assets[assetLink.pathname.split('/').pop()!] ?? 0;
 

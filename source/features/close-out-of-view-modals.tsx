@@ -38,7 +38,7 @@ function menuActivatedHandler(event: DelegateEvent): void {
 
 	lastOpen = Date.now();
 
-	const modals = select.all([
+	const modals = $$([
 		':scope > details-menu', // "Watch repo" dropdown
 		':scope > details-dialog', // "Watch repo" dropdown
 		':scope > div > .dropdown-menu', // "Clone or download" and "Repo nav overflow"

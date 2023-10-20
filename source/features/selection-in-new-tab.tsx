@@ -5,7 +5,7 @@ import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 
 function openInNewTab(): void {
-	const selected = select('.navigation-focus a.js-navigation-open[href]');
+	const selected = $('.navigation-focus a.js-navigation-open[href]');
 	if (!selected) {
 		return;
 	}

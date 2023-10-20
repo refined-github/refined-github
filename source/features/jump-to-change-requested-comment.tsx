@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 function linkify(textLine: HTMLElement): void {
-	const url = select('a.dropdown-item[href^="#pullrequestreview-"]', textLine.parentElement!);
+	const url = $('a.dropdown-item[href^="#pullrequestreview-"]', textLine.parentElement!);
 	// `lastChild` is a textNode
 	wrap(textLine.lastChild!, <a href={url!.hash}/>);
 }

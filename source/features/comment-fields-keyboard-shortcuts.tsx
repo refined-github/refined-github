@@ -9,7 +9,7 @@ import {onCommentFieldKeydown} from '../github-events/on-field-keydown.js';
 
 function handleEscapeKey(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement>, targetField: HTMLTextAreaElement): void {
 	// Cancel buttons have different classes for inline comments and editable comments
-	const cancelButton = select(`
+	const cancelButton = $(`
 		button.js-hide-inline-comment-form,
 		button.js-comment-cancel-button
 	`, targetField.form!);
@@ -56,7 +56,7 @@ function handleArrowUpKey(targetField: HTMLTextAreaElement): void {
 
 	// Move caret to end of the field
 	requestAnimationFrame(() => {
-		select('textarea.js-comment-field', lastOwnComment)!.selectionStart = Number.MAX_SAFE_INTEGER;
+		$('textarea.js-comment-field', lastOwnComment)!.selectionStart = Number.MAX_SAFE_INTEGER;
 	});
 }
 

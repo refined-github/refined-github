@@ -11,7 +11,7 @@ import observe from '../helpers/selector-observer.js';
 import {buildRepoURL, isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event.js';
 
-const isClosedOrMerged = (): boolean => select.exists(closedOrMergedMarkerSelector);
+const isClosedOrMerged = (): boolean => elementExists(closedOrMergedMarkerSelector);
 
 /** Returns milliseconds passed since `date` */
 function timeAgo(date: Date): number {
@@ -19,7 +19,7 @@ function timeAgo(date: Date): number {
 }
 
 function getCloseDate(): Date {
-	const datetime = select('relative-time', getLastCloseEvent())!.getAttribute('datetime')!;
+	const datetime = $('relative-time', getLastCloseEvent())!.getAttribute('datetime')!;
 	console.assert(datetime, 'Datetime attribute missing from relative-time');
 	return new Date(datetime);
 }

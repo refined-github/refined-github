@@ -23,7 +23,7 @@ const collaborators = new CachedFunction('repo-collaborators', {
 async function highlightCollaborators(): Promise<void> {
 	const list = await collaborators.get();
 	await domLoaded;
-	for (const author of select.all('.js-issue-row [data-hovercard-type="user"]')) {
+	for (const author of $$('.js-issue-row [data-hovercard-type="user"]')) {
 		if (list.includes(author.textContent.trim())) {
 			author.classList.add('rgh-collaborator');
 		}
@@ -32,7 +32,7 @@ async function highlightCollaborators(): Promise<void> {
 
 function highlightSelf(): void {
 	// "Opened by {user}" and "Created by {user}"
-	for (const author of select.all(`.opened-by a[title$="ed by ${CSS.escape(getUsername()!)}"]`)) {
+	for (const author of $$(`.opened-by a[title$="ed by ${CSS.escape(getUsername()!)}"]`)) {
 		author.classList.add('rgh-collaborator');
 		author.style.fontStyle = 'italic';
 	}

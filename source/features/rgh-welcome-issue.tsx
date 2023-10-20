@@ -23,11 +23,11 @@ const placeholdersSelector = 'a[href="#rgh-linkify-welcome-issue"]';
 function init(signal: AbortSignal): void {
 	delegate(placeholdersSelector, 'click', openOptions, {signal});
 
-	if (select.exists('.rgh-linkify-welcome-issue')) {
+	if (elementExists('.rgh-linkify-welcome-issue')) {
 		return;
 	}
 
-	const [opening, closing] = select.all<HTMLAnchorElement>(placeholdersSelector);
+	const [opening, closing] = $$<HTMLAnchorElement>(placeholdersSelector);
 	closing.remove();
 
 	// Move the wrapped text into the existing link

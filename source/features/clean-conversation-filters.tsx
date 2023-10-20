@@ -15,7 +15,7 @@ const hasAnyProjects = new CachedFunction('has-projects', {
 			return true;
 		}
 
-		const isOrganization = select.exists('[rel=author][data-hovercard-type="organization"]');
+		const isOrganization = elementExists('[rel=author][data-hovercard-type="organization"]');
 		if (!activeProjectsCounter && !isOrganization) {
 			// No tab = Projects disabled in repo
 			// No organization = no Projects in organization

@@ -35,11 +35,11 @@ if (window.content?.fetch) {
  */
 export const appendBefore = (parent: string | Element, before: string, child: Element): void => {
 	if (typeof parent === 'string') {
-		parent = select(parent)!;
+		parent = $(parent)!;
 	}
 
 	// Select direct children only
-	const beforeElement = select(`:scope > :is(${before})`, parent);
+	const beforeElement = $(`:scope > :is(${before})`, parent);
 	if (beforeElement) {
 		beforeElement.before(child);
 	} else {

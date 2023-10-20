@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 function addLink(header: HTMLElement): void {
-	const lastDeployment = select.last('.js-timeline-item a[title="Deployment has completed"]');
+	const lastDeployment = lastElement('.js-timeline-item a[title="Deployment has completed"]');
 	if (!lastDeployment) {
 		return;
 	}

@@ -45,7 +45,7 @@ const indicatorToggleObserver = new MutationObserver(mutations => {
 		const wasVisible = mutation.oldValue!.includes('show-inline-notes');
 		const isHidden = !file.classList.contains('show-inline-notes');
 		if (wasVisible && isHidden) {
-			for (const thread of select.all('tr.inline-comments', file)) {
+			for (const thread of $$('tr.inline-comments', file)) {
 				addIndicator(thread);
 			}
 		}

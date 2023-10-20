@@ -9,7 +9,7 @@ test('basic :has() support', () => {
 		<a><strong>Contacts</a>
 	`);
 
-	assert.propertyVal(select('a:has(strong)', fragment), 'textContent', 'Contacts');
+	assert.propertyVal($('a:has(strong)', fragment), 'textContent', 'Contacts');
 });
 
 test('returns undefined if not found', () => {
@@ -18,7 +18,7 @@ test('returns undefined if not found', () => {
 		<a><strong>Contacts</strong></a>
 	`);
 
-	assert.equal(select('a:has(em)', fragment), undefined);
+	assert.equal($('a:has(em)', fragment), undefined);
 });
 
 test('supports looking for descendants in base element', () => {
@@ -27,7 +27,7 @@ test('supports looking for descendants in base element', () => {
 		<a><em>Contacts</em> <i>icon</i></a>
 	`);
 
-	assert.propertyVal(select('a:has(em) i', fragment), 'textContent', 'icon');
+	assert.propertyVal($('a:has(em) i', fragment), 'textContent', 'icon');
 });
 
 test('supports looking for direct children in base element', () => {
@@ -36,7 +36,7 @@ test('supports looking for direct children in base element', () => {
 		<a><span><em>Contacts <i></i></em></span></a>
 	`);
 
-	assert.propertyVal(select('a:has(> span i)', fragment), 'textContent', 'Contacts ');
+	assert.propertyVal($('a:has(> span i)', fragment), 'textContent', 'Contacts ');
 });
 
 test('throws error when there’s a space before :has()', () => {
@@ -45,7 +45,7 @@ test('throws error when there’s a space before :has()', () => {
 	`);
 
 	assert.throws(() => {
-		select('a :has(em)', fragment);
+		$('a :has(em)', fragment);
 	}, 'No spaces before :has() supported');
 });
 
@@ -55,7 +55,7 @@ test('throws error when there is more than one :has()', () => {
 	`);
 
 	assert.throws(() => {
-		select('a:has(em) b:has(strong)', fragment);
+		$('a:has(em) b:has(strong)', fragment);
 	}, 'Only one `:has()` required/allowed, found 2');
 });
 
@@ -65,6 +65,6 @@ test('throws on sibling selectors', () => {
 	`);
 
 	assert.throws(() => {
-		select('a:has(+a)', fragment);
+		$('a:has(+a)', fragment);
 	}, 'This polyfill only supports looking into the children of the base element');
 });

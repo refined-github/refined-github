@@ -21,7 +21,7 @@ async function expandHidden(paginationButton: HTMLButtonElement | undefined) {
 			wrapper = wrapper.lastElementChild!;
 		}
 
-		paginationButton = select(`:scope > ${paginationButtonSelector}`, wrapper);
+		paginationButton = $(`:scope > ${paginationButtonSelector}`, wrapper);
 		paginationButton?.click();
 	}
 }
