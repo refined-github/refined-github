@@ -28,7 +28,7 @@ function addMentionAvatar(link: HTMLElement): void {
 
 	link.prepend(
 		<img
-			className="avatar avatar-user mb-1 mr-1 rgh-small-user-avatars"
+			className="avatar avatar-user ml-1 mb-1 mr-1 rgh-small-user-avatars"
 			src={getUserAvatarURL(username, size)!}
 			width={size}
 			height={size}
