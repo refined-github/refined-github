@@ -49,12 +49,10 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 			<a
 				href={buildRepoURL('stargazers')}
 				title={`Repository starred by ${stargazerCount.toLocaleString('us')} people`}
-				className="d-inline-block"
+				className="d-inline-flex flex-items-center flex-justify-center mr-1 gap-1 v-align-bottom color-fg-muted"
 			>
-				<div className="d-inline-flex flex-items-center flex-justify-center mr-1 gap-1 v-align-bottom color-fg-muted">
-					<StarIcon className="ml-1" width={12} height={12}/>
-					<span className="f5">{abbreviateNumber(stargazerCount)}</span>
-				</div>
+				<StarIcon className="ml-1" width={12} height={12}/>
+				<span className="f5">{abbreviateNumber(stargazerCount)}</span>
 			</a>,
 		);
 	}
