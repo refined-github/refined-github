@@ -29,7 +29,18 @@ function linkifyContent(wrapper: Element): void {
 	// Linkify issue refs in comments, exclude gists:
 	// https://github.com/refined-github/refined-github/pull/3844#issuecomment-751427568
 	if (!pageDetect.isGist()) {
-		const currentRepo = getRepo() ?? {};
+		let currentRepo: {owner?: string; name?: string} | undefined = getRepo();
+
+		if (!currentRepo) { // Code search
+			// Grab repo from line url
+			const lineUrl = wrapper.parentElement!.querySelector('.blob-num a')!.getAttribute('href')!.split('/');
+
+			currentRepo = {
+				owner: lineUrl[1],
+				name: lineUrl[2],
+			};
+		}
+
 		for (const element of select.all('.pl-c', wrapper)) {
 			linkifyIssues(currentRepo, element);
 		}
@@ -63,6 +74,7 @@ void features.add(import.meta.url, {
 
 - Discussions: https://github.com/File-New-Project/EarTrumpet/discussions/877
 - Code Search: https://github.com/search?q=repo%3AKatsuteDev%2FBackground+marketplace&type=code
+- Code Search: https://github.com/search?q=org%3Arefined-github+%2F%23%5Cd%2B%2F&type=code
 - Comment: https://github.com/sindresorhus/linkify-urls/pull/40#pullrequestreview-1593302757
 
 */
