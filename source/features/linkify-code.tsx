@@ -38,7 +38,7 @@ function linkifyContent(wrapper: Element): void {
 				name: lineUrl[2],
 			};
 		} else {
-			currentRepo = getRepo() || {};
+			currentRepo = getRepo() ?? {};
 		}
 
 		for (const element of select.all('.pl-c', wrapper)) {
