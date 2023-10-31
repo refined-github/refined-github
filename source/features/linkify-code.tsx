@@ -29,15 +29,16 @@ function linkifyContent(wrapper: Element): void {
 	// Linkify issue refs in comments, exclude gists:
 	// https://github.com/refined-github/refined-github/pull/3844#issuecomment-751427568
 	if (!pageDetect.isGist()) {
-		let currentRepo: {owner?: string; name?: string} | undefined = getRepo();
+		let currentRepo;
 
-		// If unable to get repo from page detect, get repo using line url
-		if (!currentRepo) {
+		if (pageDetect.isGlobalSearchResults()) {
 			const lineUrl = wrapper.parentElement!.querySelector('.blob-num a')!.getAttribute('href')!.split('/');
 			currentRepo = {
 				owner: lineUrl[1],
 				name: lineUrl[2],
 			};
+		} else {
+			currentRepo = getRepo() || {};
 		}
 
 		for (const element of select.all('.pl-c', wrapper)) {
