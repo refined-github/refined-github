@@ -31,10 +31,9 @@ function linkifyContent(wrapper: Element): void {
 	if (!pageDetect.isGist()) {
 		let currentRepo: {owner?: string; name?: string} | undefined = getRepo();
 
-		if (!currentRepo) { // Code search
-			// Grab repo from line url
+		// If unable to get repo from page detect, get repo using line url
+		if (!currentRepo) {
 			const lineUrl = wrapper.parentElement!.querySelector('.blob-num a')!.getAttribute('href')!.split('/');
-
 			currentRepo = {
 				owner: lineUrl[1],
 				name: lineUrl[2],
