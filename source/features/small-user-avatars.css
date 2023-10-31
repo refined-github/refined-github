@@ -3,3 +3,7 @@
 	margin-left: -3px;
 	margin-right: 2px !important;
 }
+
+.user-mention .rgh-small-user-avatars {
+	margin-left: 2px;
+}
