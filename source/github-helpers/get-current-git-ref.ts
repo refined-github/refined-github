@@ -1,5 +1,5 @@
 import {isRepoCommitList} from 'github-url-detection';
-import select from 'select-dom';
+import {$} from 'select-dom';
 
 import {extractCurrentBranchFromBranchPicker} from './index.js';
 import {branchSelector} from './selectors.js';
@@ -11,7 +11,7 @@ const titleWithGitRef = / at (?<branch>[.\w-/]+)( · [\w-]+\/[\w-]+)?$/i;
 export default function getCurrentGitRef(): string | undefined {
 	// Note: This is not in the <head> so it's only available on AJAXed loads.
 	// It appears on every Code page except `commits` on folders/files
-	const picker = select(branchSelector);
+	const picker = $(branchSelector);
 	const refViaPicker = picker && extractCurrentBranchFromBranchPicker(picker);
 	if (refViaPicker) {
 		return refViaPicker;
@@ -49,7 +49,7 @@ export function getGitRef(pathname: string, title: string): string | undefined {
 
 // In <head>, but not reliable https://github.com/refined-github/refined-github/assets/1402241/50357d94-505f-48dc-bd54-74e86b19d642
 function getCurrentBranchFromFeed(): string | undefined {
-	const feedLink = isRepoCommitList() && select('link[type="application/atom+xml"]');
+	const feedLink = isRepoCommitList() && $('link[type="application/atom+xml"]');
 	if (!feedLink) {
 		// Do not throw errors, the element may be missing after AJAX navigation even if on the right page
 		return;

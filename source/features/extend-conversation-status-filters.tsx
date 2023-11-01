@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$} from 'select-dom';
 import {CheckIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -15,7 +15,7 @@ function addMergeLink(): void {
 	// The links in `.table-list-header-toggle` are either:
 	//   1 Open | 1 Closed
 	//   1 Total            // Apparently appears with is:merged/is:unmerged
-	for (const lastLink of select.all('.table-list-header-toggle.states a:last-child')) {
+	for (const lastLink of $$('.table-list-header-toggle.states a:last-child')) {
 		const lastLinkQuery = SearchQuery.from(lastLink);
 
 		if (lastLinkQuery.includes('is:merged')) {
@@ -40,8 +40,8 @@ function addMergeLink(): void {
 }
 
 function togglableFilters(): void {
-	for (const link of select.all('.table-list-header-toggle.states a')) {
-		select('.octicon', link)?.remove();
+	for (const link of $$('.table-list-header-toggle.states a')) {
+		$('.octicon', link)?.remove();
 		if (link.classList.contains('selected')) {
 			link.prepend(<CheckIcon/>);
 			link.href = SearchQuery

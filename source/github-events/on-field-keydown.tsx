@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {elementExists} from 'select-dom';
 import delegate, {DelegateEventHandler} from 'delegate-it';
 
 type DelegateFieldEvent = DelegateEventHandler<KeyboardEvent, HTMLTextAreaElement>;
@@ -8,7 +8,7 @@ function onFieldKeydown(selector: string, callback: DelegateFieldEvent, signal: 
 		const field = event.delegateTarget;
 
 		// The suggester is GitHub’s autocomplete dropdown
-		if (select.exists('.suggester', field.form!) || event.isComposing) {
+		if (elementExists('.suggester', field.form!) || event.isComposing) {
 			return;
 		}
 

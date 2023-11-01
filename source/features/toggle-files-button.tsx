@@ -1,5 +1,5 @@
 import './toggle-files-button.css';
-import select from 'select-dom';
+import {$} from 'select-dom';
 import {CachedValue} from 'webext-storage-cache';
 import React from 'dom-chef';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -14,7 +14,7 @@ const wereFilesHidden = new CachedValue<boolean>('files-hidden');
 const toggleButtonClass = 'rgh-toggle-files';
 
 function addButton(filesBox: HTMLElement): void {
-	select('ul:has(.octicon-history)', filesBox)?.append(
+	$('ul:has(.octicon-history)', filesBox)?.append(
 		<button
 			type="button"
 			className={`btn-octicon ${toggleButtonClass}`}
@@ -31,7 +31,7 @@ type Targets = {
 };
 
 function getTargets(): Targets {
-	const fileList = select('[aria-labelledby="files"]')!;
+	const fileList = $('[aria-labelledby="files"]')!;
 	const buttonWrapper = fileList.nextElementSibling!;
 	return {fileList, buttonWrapper};
 }

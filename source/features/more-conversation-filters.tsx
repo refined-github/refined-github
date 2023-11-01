@@ -1,11 +1,11 @@
-import select from 'select-dom';
+import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 
 function init(): void {
-	const sourceItem = select('#filters-select-menu a:nth-last-child(2)')!;
+	const sourceItem = $('#filters-select-menu a:nth-last-child(2)')!;
 
 	// "Involved" filter
 	const commentsLink = sourceItem.cloneNode(true);
@@ -17,14 +17,14 @@ function init(): void {
 	sourceItem.after(commentsLink);
 
 	// "Subscribed" external link
-	const searchSyntaxLink = select('#filters-select-menu a:last-child')!;
+	const searchSyntaxLink = $('#filters-select-menu a:last-child')!;
 	const subscriptionsLink = searchSyntaxLink.cloneNode(true);
 	subscriptionsLink.lastElementChild!.textContent = 'Everything you subscribed to';
 
 	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
 	const repositoryId
-		= select('meta[name="octolytics-dimension-repository_id"]')?.content
-		?? select('input[name="repository_id"]')!.value;
+		= $('meta[name="octolytics-dimension-repository_id"]')?.content
+		?? $('input[name="repository_id"]')!.value;
 	subscriptionsUrl.searchParams.set('repository', btoa(`010:Repository${repositoryId}`));
 	subscriptionsLink.href = subscriptionsUrl.href;
 

@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {CodeIcon, PlusIcon, SearchIcon} from '@primer/octicons-react';
 
@@ -38,11 +38,11 @@ function cleanFilelistActions(searchButton: Element): void {
 		return;
 	}
 
-	const codeDropdownButton = select('get-repo summary')!;
+	const codeDropdownButton = $('get-repo summary')!;
 	addTooltipToSummary(codeDropdownButton, 'Clone, open or download');
 
-	const label = select('.Button-label', codeDropdownButton)!;
-	if (!select.exists('.octicon-code', codeDropdownButton)) {
+	const label = $('.Button-label', codeDropdownButton)!;
+	if (!elementExists('.octicon-code', codeDropdownButton)) {
 		// The icon is missing for users without Codespaces https://github.com/refined-github/refined-github/pull/5074#issuecomment-983251719
 		label.before(<span className="Button-visual Button-leadingVisual"><CodeIcon/></span>);
 	}

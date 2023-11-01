@@ -1,6 +1,6 @@
 import './quick-mention.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import {ReplyIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
@@ -18,7 +18,7 @@ function prefixUserMention(userMention: string): string {
 
 function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	const userMention = button.parentElement!.querySelector('img')!.alt;
-	const newComment = select('textarea#new_comment_field')!;
+	const newComment = $('textarea#new_comment_field')!;
 	newComment.focus();
 
 	// If the new comment field has selected text, don’t replace it
@@ -53,7 +53,7 @@ function add(avatar: HTMLElement): void {
 	if (
 		// TODO: Rewrite with :has()
 		// Exclude events that aren't tall enough, like hidden comments or reviews without comments
-		!select.exists('.unminimized-comment, .js-comment-container', timelineItem)
+		!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
 	) {
 		return;
 	}
@@ -68,7 +68,7 @@ function add(avatar: HTMLElement): void {
 		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block"/>);
 	}
 
-	const userMention = select('img', avatar)!.alt;
+	const userMention = $('img', avatar)!.alt;
 	avatar.classList.add('rgh-quick-mention');
 	avatar.after(
 		<button

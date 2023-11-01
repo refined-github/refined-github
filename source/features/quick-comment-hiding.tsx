@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$} from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -20,7 +20,7 @@ function generateSubmenu(hideButton: Element): void {
 	detailsElement.classList.add('rgh-quick-comment-hiding-details');
 
 	const comment = hideButton.closest('.unminimized-comment')!;
-	const hideCommentForm: HTMLFormElement = select(formSelector, comment)!;
+	const hideCommentForm: HTMLFormElement = $(formSelector, comment)!;
 
 	// Generate dropdown
 	const newForm = hideCommentForm.cloneNode();
@@ -31,7 +31,7 @@ function generateSubmenu(hideButton: Element): void {
 	// Imitate existing menu, reset classes
 	newForm.className = ['dropdown-menu', 'dropdown-menu-sw', 'color-fg-default', 'show-more-popover', 'anim-scale-in'].join(' ');
 
-	for (const reason of select.all('option:not([value=""])', hideCommentForm.elements.classifier)) {
+	for (const reason of $$('option:not([value=""])', hideCommentForm.elements.classifier)) {
 		newForm.append(
 			<button
 				type="submit"
@@ -60,10 +60,10 @@ function toggleSubMenu(hideButton: Element, show: boolean): void {
 	const dropdown = hideButton.closest('details')!;
 
 	// Native dropdown
-	select('details-menu', dropdown)!.classList.toggle('v-hidden', show);
+	$('details-menu', dropdown)!.classList.toggle('v-hidden', show);
 
 	// "Hide comment" dropdown
-	select(formSelector, dropdown)!.classList.toggle('v-hidden', !show);
+	$(formSelector, dropdown)!.classList.toggle('v-hidden', !show);
 }
 
 function resetDropdowns(event: DelegateEvent): void {

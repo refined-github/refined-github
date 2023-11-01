@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, lastElement} from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
@@ -23,14 +23,14 @@ async function disableWikiAndProjects(): Promise<void> {
 		},
 	});
 	await domLoaded;
-	select('[data-menu-item$="wiki-tab"]')?.remove();
-	select('[data-menu-item$="projects-tab"]')?.remove();
+	$('[data-menu-item$="wiki-tab"]')?.remove();
+	$('[data-menu-item$="projects-tab"]')?.remove();
 	selectHas('li:has([data-content="Wiki"]')?.remove();
 	selectHas('li:has([data-content="Projects"])')?.remove();
 }
 
 function setStorage(): void {
-	if (select('input#rgh-disable-project')!.checked) {
+	if ($('input#rgh-disable-project')!.checked) {
 		sessionStorage.rghNewRepo = true;
 	}
 }
@@ -38,7 +38,7 @@ function setStorage(): void {
 async function init(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
 
-	const anchor = select.last([
+	const anchor = lastElement([
 		'.js-repo-init-setting-container', // IsNewRepo
 		'.form-checkbox', // IsNewRepoTemplate
 	]);

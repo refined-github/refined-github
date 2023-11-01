@@ -1,6 +1,6 @@
 import './more-dropdown-links.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -15,7 +15,7 @@ export async function unhideOverflowDropdown(): Promise<boolean> {
 	const repoNavigationBar = await elementReady('.UnderlineNav-body');
 
 	// No dropdown on mobile #5781
-	if (!select.exists('.js-responsive-underlinenav')) {
+	if (!elementExists('.js-responsive-underlinenav')) {
 		return false;
 	}
 
@@ -50,7 +50,7 @@ void features.add(import.meta.url, {
 		pageDetect.isEmptyRepo,
 
 		// No dropdown on mobile #5781
-		() => !select.exists('.js-responsive-underlinenav'),
+		() => !elementExists('.js-responsive-underlinenav'),
 	],
 	deduplicate: 'has-rgh',
 	awaitDomReady: true, // DOM-based filter

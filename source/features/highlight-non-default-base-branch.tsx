@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon} from '@primer/octicons-react';
 
@@ -31,7 +31,7 @@ function buildQuery(issueIds: string[]): string {
 }
 
 async function init(): Promise<false | void> {
-	const prLinks = select.all('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]');
+	const prLinks = $$('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]');
 	if (prLinks.length === 0) {
 		return false;
 	}

@@ -1,6 +1,6 @@
 import './vertical-front-matter.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import elementReady from 'element-ready';
 
@@ -15,12 +15,12 @@ async function init(): Promise<false | void> {
 		return false;
 	}
 
-	const headers = select.all(':scope > thead th', table);
+	const headers = $$(':scope > thead th', table);
 	if (headers.length <= 4) {
 		return false;
 	}
 
-	const rows = select.all(':scope > tbody > tr', table);
+	const rows = $$(':scope > tbody > tr', table);
 	if (rows.length !== 1 || headers.length !== rows[0].childElementCount) {
 		return false;
 	}

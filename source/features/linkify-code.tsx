@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import observe from '../helpers/selector-observer.js';
@@ -13,7 +13,7 @@ function initTitle(signal: AbortSignal): void {
 
 	observe('.js-issue-title', title => {
 		// TODO: Replace with :has
-		if (!select.exists('a', title)) {
+		if (!elementExists('a', title)) {
 			linkifyIssues(currentRepo, title);
 		}
 	}, {signal});
@@ -38,7 +38,7 @@ function linkifyContent(wrapper: Element): void {
 		return;
 	}
 
-	for (const element of select.all('.pl-c', wrapper)) {
+	for (const element of $$('.pl-c', wrapper)) {
 		linkifyIssues(currentRepo, element);
 	}
 }
