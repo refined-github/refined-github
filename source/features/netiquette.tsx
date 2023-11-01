@@ -10,7 +10,6 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {buildRepoURL, isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event.js';
-import {assertNodeContent} from '../helpers/dom-utils.js';
 
 const isClosedOrMerged = (): boolean => elementExists(closedOrMergedMarkerSelector);
 
