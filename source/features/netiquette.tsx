@@ -10,6 +10,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {buildRepoURL, isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 
 const isClosedOrMerged = (): boolean => elementExists(closedOrMergedMarkerSelector);
 
@@ -65,6 +66,15 @@ function init(signal: AbortSignal): void | false {
 	observe('#issuecomment-new file-attachment', addConversationBanner, {signal});
 }
 
+function makeFieldKinder(field: HTMLParagraphElement): void {
+	assertNodeContent(field, 'Add your comment here...');
+	field.textContent = 'Add your comment here, be kind...';
+}
+
+function initKindness(signal: AbortSignal): void {
+	observe('p.CommentBox-placeholder', makeFieldKinder, {signal});
+}
+
 void features.add(import.meta.url, {
 	exclude: [
 		isAnyRefinedGitHubRepo,
@@ -74,6 +84,11 @@ void features.add(import.meta.url, {
 	],
 	awaitDomReady: true, // We're specifically looking for the last event
 	init,
+}, {
+	include: [
+		pageDetect.hasComments,
+	],
+	init: initKindness,
 });
 
 /*
