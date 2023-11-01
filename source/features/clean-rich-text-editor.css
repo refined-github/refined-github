@@ -1,8 +1,20 @@
 /* Hide unnecessary comment toolbar items, but only on desktop #5743 */
 /* Kinda excludes "soft keyboards" devices https://github.com/w3c/csswg-drafts/issues/3871 */
+/* TODO: Drop selectors other than [data-md-button] in June 2024 */
 @media (hover: hover) and (pointer: fine) {
 	[rgh-clean-rich-text-editor]
-		:is(md-mention, md-ref, md-header, md-bold, md-italic):not(:focus) {
+		:is(
+			[data-md-button='mention'],
+			md-mention,
+			[data-md-button='ref'],
+			md-ref,
+			[data-md-button='header-3'],
+			md-header,
+			[data-md-button='bold'],
+			md-bold,
+			[data-md-button='italic'],
+			md-italic
+		):not(:focus) {
 		/* Like GitHub’s `show-on-focus` class. Needed because we target `md-ref` with the observer in `table-input` and `collapsible-content-button` */
 		position: absolute;
 		width: 1px;
