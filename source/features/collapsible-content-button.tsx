@@ -4,6 +4,8 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
+import {elementExists} from 'select-dom';
+
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import observe from '../helpers/selector-observer.js';
@@ -35,15 +37,39 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 }
 
 function addButtons(referenceButton: HTMLElement): void {
+	const classes
+	= elementExists('md-ref', referenceButton)
+		? [
+			'toolbar-item',
+			'btn-octicon',
+			'p-2',
+			'p-md-1',
+			'tooltipped',
+			'tooltipped-sw',
+			'rgh-collapsible-content-btn',
+		]
+		: [
+			'Button',
+			'Button--iconOnly',
+			'Button--invisible',
+			'Button--medium',
+			'tooltipped',
+			'tooltipped-sw',
+			'rgh-collapsible-content-btn',
+		];
+
 	referenceButton.after(
-		<button type="button" className="toolbar-item btn-octicon p-2 p-md-1 tooltipped tooltipped-sw rgh-collapsible-content-btn" aria-label="Add collapsible content">
+		<button type="button" className={classes.join(' ')} aria-label="Add collapsible content">
 			<FoldDownIcon/>
 		</button>,
 	);
 }
 
 function init(signal: AbortSignal): void {
-	observe('md-ref', addButtons, {signal});
+	observe([
+		'md-ref', // TODO: Drop in June 2024
+		'.ActionBar-item:has([data-md-button=\'ref\'])',
+	], addButtons, {signal});
 	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails, {signal});
 }
 
