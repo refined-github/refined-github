@@ -67,8 +67,17 @@ function init(signal: AbortSignal): void | false {
 }
 
 function makeFieldKinder(field: HTMLParagraphElement): void {
-	assertNodeContent(field, 'Add your comment here...');
-	field.textContent = 'Add your comment here, be kind...';
+	if (field.textContent.trim() === 'Add your comment here...') {
+		// Regular issue/PR comment field, or single review comments
+		// https://github.com/refined-github/refined-github/pull/6991
+		field.textContent = 'Add your comment here, be kind...';
+	} else if (field.textContent.trim() === 'Leave a comment') {
+		// Main review comment field
+		// https://github.com/refined-github/refined-github/pull/6991/files
+		field.textContent = 'Leave a comment, be kind';
+	} else {
+		features.log.error(import.meta.url, `Unexpected placeholder text: ${field.textContent}`);
+	}
 }
 
 function initKindness(signal: AbortSignal): void {
