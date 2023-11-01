@@ -9,7 +9,7 @@ import {assertNodeContent} from '../helpers/dom-utils.js';
 
 function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	const form = originalSubmitButton.form!;
-	const actionsRow = originalSubmitButton.closest('.form-actions')!;
+	const actionsRow = originalSubmitButton.parentElement!;
 	const formAttribute = originalSubmitButton.getAttribute('form')!;
 
 	// Do not use `$$` because elements can be outside `form`
