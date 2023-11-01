@@ -30,6 +30,7 @@ function linkifyContent(wrapper: Element): void {
 	}
 
 	const currentRepo = pageDetect.isGlobalSearchResults()
+		// Look for the link on the line number
 		? getRepo(wrapper.parentElement!.querySelector('.blob-num a')!.href)
 		: getRepo();
 	// Some non-repo pages like gists have issue references #3844
