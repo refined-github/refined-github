@@ -52,7 +52,7 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 				className="d-flex flex-items-center flex-justify-center mr-1 gap-1 color-fg-muted"
 			>
 				<StarIcon className="ml-1" width={12} height={12}/>
-				<span className="f6">{abbreviateNumber(stargazerCount)}</span>
+				<span className="f5">{abbreviateNumber(stargazerCount)}</span>
 			</a>,
 		);
 	}
