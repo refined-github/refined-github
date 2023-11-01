@@ -1,6 +1,6 @@
 import './open-all-notifications.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {LinkExternalIcon} from '@primer/octicons-react';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -20,7 +20,7 @@ const openUnread = features.getIdentifiers('open-notifications-button');
 const openSelected = features.getIdentifiers('open-selected-button');
 
 function getUnreadNotifications(container: ParentNode = document): HTMLElement[] {
-	return select.all('.notification-unread', container);
+	return $$('.notification-unread', container);
 }
 
 async function openNotifications(notifications: Element[], markAsDone = false): Promise<void> {
@@ -52,17 +52,17 @@ async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<M
 }
 
 async function openSelectedNotifications(): Promise<void> {
-	const selectedNotifications = select.all('.notifications-list-item :checked')
+	const selectedNotifications = $$('.notifications-list-item :checked')
 		.map(checkbox => checkbox.closest('.notifications-list-item')!);
 	await openNotifications(selectedNotifications);
 
-	if (!select.exists('.notification-unread')) {
+	if (!elementExists('.notification-unread')) {
 		removeOpenUnreadButtons();
 	}
 }
 
 function removeOpenUnreadButtons(container: ParentNode = document): void {
-	for (const button of select.all(openUnread.selector, container)) {
+	for (const button of $$(openUnread.selector, container)) {
 		button.remove();
 	}
 }

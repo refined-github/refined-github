@@ -1,7 +1,7 @@
 import './conversation-activity-filter.css';
 import delay from 'delay';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {CheckIcon, EyeClosedIcon, EyeIcon, XIcon} from '@primer/octicons-react';
 
@@ -26,7 +26,7 @@ const collapsedClassName = 'rgh-conversation-activity-collapsed';
 
 function processTimelineEvent(item: HTMLElement): void {
 	// Don't hide commits in PR conversation timelines #5581
-	if (pageDetect.isPR() && select.exists('.TimelineItem-badge .octicon-git-commit', item)) {
+	if (pageDetect.isPR() && elementExists('.TimelineItem-badge .octicon-git-commit', item)) {
 		return;
 	}
 
@@ -35,7 +35,7 @@ function processTimelineEvent(item: HTMLElement): void {
 
 function processSimpleComment(item: HTMLElement): void {
 	// Hide comments marked as resolved/hidden
-	if (select.exists('.minimized-comment > details', item)) {
+	if (elementExists('.minimized-comment > details', item)) {
 		item.classList.add(collapsedClassName);
 	}
 }
@@ -44,19 +44,19 @@ function processDissmissedReviewEvent(item: HTMLElement): void {
 	item.classList.add(hiddenClassName);
 
 	// Find and hide stale reviews referenced by dismissed review events
-	for (const {hash: staleReviewId} of select.all<HTMLAnchorElement>('.TimelineItem-body > [href^="#pullrequestreview-"]', item)) {
-		select(staleReviewId)!
+	for (const {hash: staleReviewId} of $$('.TimelineItem-body > a[href^="#pullrequestreview-"]', item)) {
+		$(staleReviewId)!
 			.closest('.js-timeline-item')!
 			.classList.add(collapsedClassName);
 	}
 }
 
 function processReview(review: HTMLElement): void {
-	const hasMainComment = select.exists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
+	const hasMainComment = elementExists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
 
 	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
-	const unresolvedThreads = select.all('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
-	const unresolvedThreadComments = select.all('.timeline-comment-group:not(.minimized-comment)', review);
+	const unresolvedThreads = $$('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
+	const unresolvedThreadComments = $$('.timeline-comment-group:not(.minimized-comment)', review);
 
 	if (!hasMainComment && (unresolvedThreads.length === 0 || unresolvedThreadComments.length === 0)) {
 		review.classList.add(collapsedClassName); // The whole review is essentially resolved
@@ -73,15 +73,15 @@ function processReview(review: HTMLElement): void {
 
 function processItem(item: HTMLElement): void {
 	// Exclude deep-linked comment
-	if (location.hash.startsWith('#issuecomment-') && select.exists(location.hash, item)) {
+	if (location.hash.startsWith('#issuecomment-') && elementExists(location.hash, item)) {
 		return;
 	}
 
-	if (select.exists('.js-comment[id^=pullrequestreview]', item)) {
+	if (elementExists('.js-comment[id^=pullrequestreview]', item)) {
 		processReview(item);
-	} else if (select.exists('.TimelineItem-badge .octicon-x', item)) {
+	} else if (elementExists('.TimelineItem-badge .octicon-x', item)) {
 		processDissmissedReviewEvent(item);
-	} else if (select.exists('.comment-body', item)) {
+	} else if (elementExists('.comment-body', item)) {
 		processSimpleComment(item);
 	} else {
 		processTimelineEvent(item);
@@ -92,12 +92,12 @@ async function handleSelection({target}: Event): Promise<void> {
 	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
 	await delay(1);
 
-	const state = select('[aria-checked="true"]', target as Element)!.dataset.value as State;
+	const state = $('[aria-checked="true"]', target as Element)!.dataset.value as State;
 	applyState(state);
 }
 
 function applyState(state: State): void {
-	const container = select('.js-issues-results')!;
+	const container = $('.js-issues-results')!;
 	container.classList.toggle(
 		'rgh-conversation-activity-is-filtered',
 		state !== 'default',
@@ -108,11 +108,11 @@ function applyState(state: State): void {
 	);
 
 	// Update the state of the dropdowns
-	for (const dropdownItem of select.all(`.${dropdownClass} [aria-checked="false"][data-value="${state}"]`)) {
+	for (const dropdownItem of $$(`.${dropdownClass} [aria-checked="false"][data-value="${state}"]`)) {
 		dropdownItem.setAttribute('aria-checked', 'true');
 	}
 
-	for (const dropdownItem of select.all(`.${dropdownClass} [aria-checked="true"]:not([data-value="${state}"])`)) {
+	for (const dropdownItem of $$(`.${dropdownClass} [aria-checked="true"]:not([data-value="${state}"])`)) {
 		dropdownItem.setAttribute('aria-checked', 'false');
 	}
 }
@@ -194,12 +194,12 @@ const minorFixesIssuePages = [
 
 function uncollapseTargetedComment(): void {
 	if (location.hash.startsWith('#issuecomment-')) {
-		select(`.${collapsedClassName} ${location.hash}`)?.closest('.js-timeline-item')?.classList.remove(collapsedClassName);
+		$(`.${collapsedClassName} ${location.hash}`)?.closest('.js-timeline-item')?.classList.remove(collapsedClassName);
 	}
 }
 
 function switchToNextFilter(): void {
-	const state = select(`.${dropdownClass} [aria-checked="true"]`)!.dataset.value as State;
+	const state = $(`.${dropdownClass} [aria-checked="true"]`)!.dataset.value as State;
 	// eslint-disable-next-line default-case
 	switch (state) {
 		case 'default': {

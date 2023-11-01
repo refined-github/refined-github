@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import onetime from 'onetime';
 
 import features from '../feature-manager.js';
@@ -10,7 +10,7 @@ function splitKeys(keys: string): DocumentFragment[] {
 }
 
 function improveShortcutHelp(dialog: Element): void {
-	select('.Box-body .col-5 .Box:first-child', dialog)!.after(
+	$('.Box-body .col-5 .Box:first-child', dialog)!.after(
 		<div className="Box Box--condensed m-4">
 			<div className="Box-header">
 				<h2 className="Box-title">Refined GitHub</h2>
@@ -33,7 +33,7 @@ function improveShortcutHelp(dialog: Element): void {
 }
 
 const observer = new MutationObserver(([{target}]) => {
-	if (target instanceof Element && !select.exists('.js-details-dialog-spinner', target)) {
+	if (target instanceof Element && !elementExists('.js-details-dialog-spinner', target)) {
 		improveShortcutHelp(target);
 		observer.disconnect();
 	}
@@ -44,7 +44,7 @@ function observeShortcutModal({key, target}: KeyboardEvent): void {
 		return;
 	}
 
-	const modal = select('body > details:not(.js-command-palette-dialog) > details-dialog');
+	const modal = $('body > details:not(.js-command-palette-dialog) > details-dialog');
 	if (modal) {
 		observer.observe(modal, {childList: true});
 	}

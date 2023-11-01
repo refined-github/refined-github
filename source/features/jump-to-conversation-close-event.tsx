@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {css} from 'code-tag';
-import select from 'select-dom';
+import {lastElement} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
@@ -15,7 +15,7 @@ export const closedOrMergedMarkerSelector = css`
 `;
 
 export function getLastCloseEvent(): HTMLElement | undefined {
-	return select.last(`
+	return lastElement(`
 		.TimelineItem-badge :is(
 			.octicon-issue-closed,
 			.octicon-git-merge,

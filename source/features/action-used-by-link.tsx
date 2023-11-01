@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$} from 'select-dom';
 import {SearchIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
@@ -19,7 +19,7 @@ function init(): void {
 		o: 'desc',
 	}).toString();
 
-	select('.d-block.mb-2[href^="/contact"]')!.after(
+	$('.d-block.mb-2[href^="/contact"]')!.after(
 		<a href={actionURL.href} className="d-block mb-2">
 			<SearchIcon width={14} className="color-fg-default mr-2"/>Usage examples
 		</a>,

@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$} from 'select-dom';
 
 import onElementRemoval from './on-element-removal.js';
 
@@ -18,7 +18,7 @@ export default async function onElementReplacement(
 		return;
 	}
 
-	let trackedElement = select(selector);
+	let trackedElement = $(selector);
 	if (!trackedElement) {
 		throw new Error('The element can’t be found');
 	}
@@ -34,7 +34,7 @@ export default async function onElementReplacement(
 			return;
 		}
 
-		trackedElement = select(selector);
+		trackedElement = $(selector);
 		if (trackedElement) {
 			callback(trackedElement);
 		}

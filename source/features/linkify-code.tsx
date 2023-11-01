@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import observe from '../helpers/selector-observer.js';
@@ -13,30 +13,35 @@ function initTitle(signal: AbortSignal): void {
 
 	observe('.js-issue-title', title => {
 		// TODO: Replace with :has
-		if (!select.exists('a', title)) {
+		if (!elementExists('a', title)) {
 			linkifyIssues(currentRepo, title);
 		}
 	}, {signal});
 }
 
 function linkifyContent(wrapper: Element): void {
+	// Mark code block as touched to avoid `shorten-links` from acting on these new links in code
+	wrapper.classList.add(linkifiedURLClass);
+
 	const errors = linkifyURLs(wrapper);
 	if (errors) {
 		features.log.error(import.meta.url, 'Links already exist');
 		console.log(errors);
 	}
 
-	// Linkify issue refs in comments, exclude gists:
-	// https://github.com/refined-github/refined-github/pull/3844#issuecomment-751427568
-	if (!pageDetect.isGist()) {
-		const currentRepo = getRepo() ?? {};
-		for (const element of select.all('.pl-c', wrapper)) {
-			linkifyIssues(currentRepo, element);
-		}
+	const currentRepo = pageDetect.isGlobalSearchResults()
+		// Look for the link on the line number
+		? getRepo(wrapper.parentElement!.querySelector('.blob-num a')!.href)
+		: getRepo();
+	// Some non-repo pages like gists have issue references #3844
+	// They make no sense, but we still want `linkifyURLs` to run there
+	if (!currentRepo) {
+		return;
 	}
 
-	// Mark code block as touched to avoid `shorten-links` from acting on these new links in code
-	wrapper.classList.add(linkifiedURLClass);
+	for (const element of $$('.pl-c', wrapper)) {
+		linkifyIssues(currentRepo, element);
+	}
 }
 
 function init(signal: AbortSignal): void {
@@ -63,6 +68,7 @@ void features.add(import.meta.url, {
 
 - Discussions: https://github.com/File-New-Project/EarTrumpet/discussions/877
 - Code Search: https://github.com/search?q=repo%3AKatsuteDev%2FBackground+marketplace&type=code
+- Code Search: https://github.com/search?q=%2F%23%5Cd%7B4%2C%7D%2F+language%3Atypescript&type=code
 - Comment: https://github.com/sindresorhus/linkify-urls/pull/40#pullrequestreview-1593302757
 
 */

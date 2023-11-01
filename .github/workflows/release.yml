@@ -8,14 +8,14 @@ env:
 
 name: Release
 on:
-  workflow_dispatch:
+  workflow_dispatch: null
 jobs:
   Version:
     outputs:
       created: ${{ env.DAILY_VERSION_CREATED }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version-file: .nvmrc
@@ -58,7 +58,7 @@ jobs:
       - name: Submit to Mozilla
         if: matrix.command == 'Firefox'
         working-directory: artifact
-        run: npx web-ext-submit@7
+        run: npx web-ext@7 sign --use-submission-api --channel listed
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
           WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}

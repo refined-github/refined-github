@@ -1,6 +1,6 @@
 import './quick-comment-edit.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {elementExists} from 'select-dom';
 import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
@@ -11,7 +11,7 @@ import {isArchivedRepoAsync} from '../github-helpers/index.js';
 function addQuickEditButton(commentForm: Element): void {
 	const commentBody = commentForm.closest('.js-comment')!;
 	// We can't rely on a class for deduplication because the whole comment might be replaced by GitHub #5572
-	if (select.exists('.rgh-quick-comment-edit-button', commentBody)) {
+	if (elementExists('.rgh-quick-comment-edit-button', commentBody)) {
 		return;
 	}
 
@@ -30,7 +30,7 @@ function addQuickEditButton(commentForm: Element): void {
 }
 
 export function canEditEveryComment(): boolean {
-	return select.exists([
+	return elementExists([
 		// If you can lock conversations, you have write access
 		'.lock-toggle-link > .octicon-lock',
 

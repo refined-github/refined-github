@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
@@ -14,7 +14,7 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 		|| event.ctrlKey
 		|| event.metaKey
 		|| event.isComposing // #4323
-		|| select.exists([
+		|| elementExists([
 			'.suggester', // GitHub’s autocomplete dropdown
 			'.rgh-avoid-accidental-submissions',
 		], form)
@@ -22,7 +22,7 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 		return;
 	}
 
-	if (select.exists('.btn-primary[type="submit"]:disabled', form)) {
+	if (elementExists('.btn-primary[type="submit"]:disabled', form)) {
 		return;
 	}
 

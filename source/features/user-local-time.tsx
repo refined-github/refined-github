@@ -4,7 +4,7 @@ import './user-local-time.css';
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import delay from 'delay';
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import {ClockIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
@@ -108,17 +108,17 @@ async function display({
 
 async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 	const hovercard = hovercardContainer.closest('div.Popover-message')!;
-	if (!select.exists('[data-hydro-view*="user-hovercard-hover"]', hovercard)) {
+	if (!elementExists('[data-hydro-view*="user-hovercard-hover"]', hovercard)) {
 		// It's not the hovercard type we expect
 		return;
 	}
 
-	if (select.exists('profile-timezone', hovercard)) {
+	if (elementExists('profile-timezone', hovercard)) {
 		// Native time already present
 		return;
 	}
 
-	const login = select('a.Link--primary', hovercard)?.pathname.slice(1);
+	const login = $('a.Link--primary', hovercard)?.pathname.slice(1);
 	if (!login || login === getUsername()) {
 		return;
 	}

@@ -1,4 +1,3 @@
-import './small-user-avatars.css';
 import React from 'dom-chef';
 
 import onetime from 'onetime';
@@ -29,6 +28,7 @@ function addMentionAvatar(link: HTMLElement): void {
 	link.prepend(
 		<img
 			className="avatar avatar-user mb-1 mr-1 rgh-small-user-avatars"
+			style={{marginLeft: 1}}
 			src={getUserAvatarURL(username, size)!}
 			width={size}
 			height={size}
@@ -56,7 +56,7 @@ Test URLs:
 
 https://github.com/notifications/subscriptions
 https://github.com/refined-github/refined-github/issues
-https://github.com/refined-github/refined-github/issues/6919
+https://github.com/refined-github/refined-github/pull/7004
 https://github.com/refined-github/refined-github/releases
 https://github.com/refined-github/refined-github/releases/tag/23.9.21
 https://github.com/orgs/community/discussions/5841#discussioncomment-1450320
