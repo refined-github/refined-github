@@ -1,8 +1,8 @@
-import select from 'select-dom';
+import {$} from 'select-dom';
 import oneMutation from 'one-mutation';
 
 export default async function getTabCount(tab: Element): Promise<number> {
-	const counter = select('.Counter, .num', tab);
+	const counter = $('.Counter, .num', tab);
 	if (!counter) {
 		// GitHub might have already dropped the counter, which means it's 0
 		return 0;

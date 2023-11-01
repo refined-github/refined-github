@@ -1,5 +1,5 @@
 import './dim-bots.css';
-import select from 'select-dom';
+import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
@@ -43,7 +43,7 @@ function undimBots(event: DelegateEvent): void {
 	}
 
 	const resetScroll = preserveScroll(target);
-	for (const bot of select.all(dimBots.selector)) {
+	for (const bot of $$(dimBots.selector)) {
 		bot.classList.add('rgh-interacted');
 	}
 
@@ -51,14 +51,14 @@ function undimBots(event: DelegateEvent): void {
 }
 
 function init(signal: AbortSignal): void {
-	for (const bot of select.all(commitSelectors)) {
+	for (const bot of $$(commitSelectors)) {
 		// Exclude co-authored commits
-		if (select.all('a', bot.parentElement!).every(link => link.matches(commitSelectors))) {
+		if ($$('a', bot.parentElement!).every(link => link.matches(commitSelectors))) {
 			bot.closest('.commit, .Box-row')!.classList.add(dimBots.class);
 		}
 	}
 
-	for (const bot of select.all(prSelectors)) {
+	for (const bot of $$(prSelectors)) {
 		bot.closest('.commit, .Box-row')!.classList.add(dimBots.class);
 	}
 

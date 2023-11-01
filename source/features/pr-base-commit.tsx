@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$} from 'select-dom';
 
 import * as pageDetect from 'github-url-detection';
 
@@ -60,7 +60,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isClosedPR,
-		() => select('.head-ref')!.title === 'This repository has been deleted',
+		() => $('.head-ref')!.title === 'This repository has been deleted',
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,

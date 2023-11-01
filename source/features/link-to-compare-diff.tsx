@@ -1,6 +1,6 @@
 import './link-to-compare-diff.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -20,7 +20,7 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 	],
 	exclude: [
-		() => select.exists('.tabnav'), // The commit list and compare diff are in two separate tabs
+		() => elementExists('.tabnav'), // The commit list and compare diff are in two separate tabs
 	],
 	deduplicate: 'has-rgh-inner',
 	awaitDomReady: true, // DOM-based filter

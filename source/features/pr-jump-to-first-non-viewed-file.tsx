@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$} from 'select-dom';
 import elementReady from 'element-ready';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 
 function jumpToFirstNonViewed(): void {
-	const firstNonViewedFile = select('.file:not([data-file-user-viewed])')!;
+	const firstNonViewedFile = $('.file:not([data-file-user-viewed])')!;
 	if (firstNonViewedFile) {
 		// Scroll to file without pushing to history
 		location.replace('#' + firstNonViewedFile.id);

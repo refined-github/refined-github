@@ -1,6 +1,6 @@
 import './wait-for-checks.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$, elementExists} from 'select-dom';
 import onetime from 'onetime';
 import {InfoIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -36,7 +36,7 @@ const generateCheckbox = onetime(() => (
 ));
 
 function getCheckbox(): HTMLInputElement | undefined {
-	return select('input[name="rgh-pr-check-waiter"]');
+	return $('input[name="rgh-pr-check-waiter"]');
 }
 
 // Only show the checkbox if the last commit doesn't have a green or red CI icon
@@ -46,10 +46,10 @@ function showCheckboxIfNecessary(): void {
 
 	const isNecessary = lastCommitStatus === prCiStatus.PENDING
 		// If the latest commit is missing an icon, add the checkbox as long as there's at least one CI icon on the page (including `ci-link`)
-		|| (lastCommitStatus === false && select.exists(prCommitStatusIcon));
+		|| (lastCommitStatus === false && elementExists(prCommitStatusIcon));
 
 	if (!checkbox && isNecessary) {
-		select('.js-merge-form .select-menu')?.append(generateCheckbox());
+		$('.js-merge-form .select-menu')?.append(generateCheckbox());
 	} else if (checkbox && !isNecessary) {
 		checkbox.parentElement!.remove();
 	}
@@ -58,7 +58,7 @@ function showCheckboxIfNecessary(): void {
 let waiting: symbol | undefined;
 
 function disableForm(disabled = true): void {
-	for (const field of select.all(`
+	for (const field of $$(`
 		textarea[name="commit_message"],
 		input[name="commit_title"],
 		input[name="rgh-pr-check-waiter"],
@@ -196,7 +196,7 @@ void features.add(import.meta.url, {
 		userCanLikelyMergePR,
 		pageDetect.isOpenPR,
 		// The repo has enabled Actions
-		() => select.exists(actionsTab),
+		() => elementExists(actionsTab),
 	],
 	include: [
 		pageDetect.isPRConversation,

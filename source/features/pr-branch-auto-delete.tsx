@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$} from 'select-dom';
 import {InfoIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -14,7 +14,7 @@ import {canEditEveryComment} from './quick-comment-edit.js';
 const canCreateRelease = canEditEveryComment;
 
 async function init(): Promise<void> {
-	const deleteButton = select('[action$="/cleanup"] [type="submit"]');
+	const deleteButton = $('[action$="/cleanup"] [type="submit"]');
 	if (!deleteButton) {
 		return;
 	}

@@ -1,6 +1,6 @@
 import './mark-merge-commits-in-list.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$} from 'select-dom';
 import {GitMergeIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {objectEntries} from 'ts-extras';
@@ -35,11 +35,11 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 };
 
 export function getCommitHash(commit: HTMLElement): string {
-	return select('a.markdown-title', commit)!.pathname.split('/').pop()!;
+	return $('a.markdown-title', commit)!.pathname.split('/').pop()!;
 }
 
 async function init(): Promise<void> {
-	const pageCommits = select.all([
+	const pageCommits = $$([
 		'.js-commits-list-item', // `isCommitList`
 		'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`, "js-timeline-item" to exclude "isCommitList"
 	]);
@@ -52,7 +52,7 @@ async function init(): Promise<void> {
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
 			commit.classList.add('rgh-merge-commit');
-			select('a.markdown-title', commit)!.before(<GitMergeIcon className="mr-1"/>);
+			$('a.markdown-title', commit)!.before(<GitMergeIcon className="mr-1"/>);
 		}
 	}
 }

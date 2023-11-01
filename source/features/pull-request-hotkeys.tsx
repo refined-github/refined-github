@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$$} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -7,7 +7,7 @@ import {addHotkey} from '../github-helpers/hotkey.js';
 
 async function init(): Promise<void> {
 	const tabnav = await elementReady('#partial-discussion-header + .tabnav');
-	const tabs = select.all('a.tabnav-tab', tabnav);
+	const tabs = $$('a.tabnav-tab', tabnav);
 	const lastTab = tabs.length - 1;
 	const selectedIndex = tabs.findIndex(tab => tab.classList.contains('selected'));
 

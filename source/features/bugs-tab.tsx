@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import {BugIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -87,13 +87,13 @@ async function addBugsTab(): Promise<void | false> {
 	bugsTab.removeAttribute('id');
 
 	// Update its appearance
-	const bugsTabTitle = select('[data-content]', bugsTab)!;
+	const bugsTabTitle = $('[data-content]', bugsTab)!;
 	bugsTabTitle.dataset.content = 'Bugs';
 	bugsTabTitle.textContent = 'Bugs';
-	select('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline"/>);
+	$('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline"/>);
 
 	// Set temporary counter
-	const bugsCounter = select('.Counter', bugsTab)!;
+	const bugsCounter = $('.Counter', bugsTab)!;
 	bugsCounter.textContent = '0';
 	bugsCounter.title = '';
 
@@ -123,8 +123,8 @@ async function addBugsTab(): Promise<void | false> {
 // TODO: Use native highlighting https://github.com/refined-github/refined-github/pull/6909#discussion_r1322607091
 function highlightBugsTab(): void {
 	// Remove highlighting from "Issues" tab
-	unhighlightTab(select('.UnderlineNav-item[data-hotkey="g i"]')!);
-	highlightTab(select('.rgh-bugs-tab')!);
+	unhighlightTab($('.UnderlineNav-item[data-hotkey="g i"]')!);
+	highlightTab($('.rgh-bugs-tab')!);
 }
 
 async function removePinnedIssues(): Promise<void> {
@@ -156,7 +156,7 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 }
 
 async function init(): Promise<void | false> {
-	if (!select.exists('.rgh-bugs-tab')) {
+	if (!elementExists('.rgh-bugs-tab')) {
 		await addBugsTab();
 	}
 

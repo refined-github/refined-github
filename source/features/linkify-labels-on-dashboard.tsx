@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
@@ -8,8 +8,8 @@ import observe from '../helpers/selector-observer.js';
 
 function linkifyLabel(label: Element): void {
 	const activity = label.closest('div:not([class])')!;
-	const isPR = select.exists('.octicon-git-pull-request', activity);
-	const repository = select('a[data-hovercard-type="repository"]', activity)!;
+	const isPR = elementExists('.octicon-git-pull-request', activity);
+	const repository = $('a[data-hovercard-type="repository"]', activity)!;
 	const url = new URL(`${repository.href}/${isPR ? 'pulls' : 'issues'}`);
 	const labelName = label.textContent.trim();
 

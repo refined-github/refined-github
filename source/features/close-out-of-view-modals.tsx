@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$$} from 'select-dom';
 import onetime from 'onetime';
 import delegate, {DelegateEvent} from 'delegate-it';
 
@@ -38,7 +38,7 @@ function menuActivatedHandler(event: DelegateEvent): void {
 
 	lastOpen = Date.now();
 
-	const modals = select.all([
+	const modals = $$([
 		':scope > details-menu', // "Watch repo" dropdown
 		':scope > details-dialog', // "Watch repo" dropdown
 		':scope > div > .dropdown-menu', // "Clone or download" and "Repo nav overflow"

@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import elementReady from 'element-ready';
 
@@ -16,9 +16,9 @@ export function saveOriginalHref(link: HTMLAnchorElement): void {
 async function selectCurrentConversationFilter(): Promise<void> {
 	const currentSearchURL = location.href.replace('/pulls?', '/issues?'); // Replacement needed to make up for the redirection of "Your pull requests" link
 	const menu = await elementReady('#filters-select-menu');
-	const currentFilter = select(`a.SelectMenu-item[href="${currentSearchURL}"]`, menu);
+	const currentFilter = $(`a.SelectMenu-item[href="${currentSearchURL}"]`, menu);
 	if (currentFilter) {
-		select('[aria-checked="true"]', menu)?.setAttribute('aria-checked', 'false');
+		$('[aria-checked="true"]', menu)?.setAttribute('aria-checked', 'false');
 		currentFilter.setAttribute('aria-checked', 'true');
 	}
 }

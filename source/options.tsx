@@ -2,7 +2,7 @@ import 'webext-base-css/webext-base.css';
 import './options.css';
 import React from 'dom-chef';
 import domify from 'doma';
-import select from 'select-dom';
+import {$, $$} from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import prettyBytes from 'pretty-bytes';
 import {assertError} from 'ts-extras';
@@ -34,7 +34,7 @@ type Status = {
 const {version} = browser.runtime.getManifest();
 
 function reportStatus({tokenType, error, text, scopes}: Status): void {
-	const tokenStatus = select('#validation')!;
+	const tokenStatus = $('#validation')!;
 	tokenStatus.textContent = text ?? '';
 	if (error) {
 		tokenStatus.dataset.validation = 'invalid';
@@ -43,11 +43,11 @@ function reportStatus({tokenType, error, text, scopes}: Status): void {
 	}
 
 	// Toggle the ulists by token type (default to classic)
-	for (const ulist of select.all('[data-token-type]')) {
+	for (const ulist of $$('[data-token-type]')) {
 		ulist.style.display = ulist.dataset.tokenType === tokenType ? '' : 'none';
 	}
 
-	for (const scope of select.all('[data-scope]')) {
+	for (const scope of $$('[data-scope]')) {
 		if (scopes) {
 			scope.dataset.validation = scopes.includes(scope.dataset.scope!) ? 'valid' : 'invalid';
 		} else {
@@ -57,7 +57,7 @@ function reportStatus({tokenType, error, text, scopes}: Status): void {
 }
 
 async function getTokenScopes(personalToken: string): Promise<string[]> {
-	const tokenLink = select('a#personal-token-link')!;
+	const tokenLink = $('a#personal-token-link')!;
 	const url = tokenLink.host === 'github.com'
 		? 'https://api.github.com/'
 		: `${tokenLink.origin}/api/v3/`;
@@ -91,14 +91,14 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 }
 
 function expandTokenSection(): void {
-	select('details#token')!.open = true;
+	$('details#token')!.open = true;
 }
 
 async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
 	const storage = browser.storage[area];
 	const used = await getStorageBytesInUse(area);
 	const available = storage.QUOTA_BYTES - used;
-	for (const output of select.all(`.storage-${area}`)) {
+	for (const output of $$(`.storage-${area}`)) {
 		output.textContent = available < 1000
 			? 'FULL!'
 			: (available < 100_000
@@ -108,7 +108,7 @@ async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
 }
 
 async function validateToken(): Promise<void> {
-	const tokenField = select('input[name="personalToken"]')!;
+	const tokenField = $('input[name="personalToken"]')!;
 	const tokenType = tokenField.value.startsWith('github_pat_') ? 'fine_grained' : 'classic';
 	reportStatus({tokenType});
 
@@ -135,9 +135,9 @@ async function validateToken(): Promise<void> {
 }
 
 function moveDisabledFeaturesToTop(): void {
-	const container = select('.js-features')!;
+	const container = $('.js-features')!;
 
-	for (const unchecked of select.all('.feature-checkbox:not(:checked)', container).reverse()) {
+	for (const unchecked of $$('.feature-checkbox:not(:checked)', container).reverse()) {
 		// .reverse() needed to preserve alphabetical order while prepending
 		container.prepend(unchecked.closest('.feature')!);
 	}
@@ -180,7 +180,7 @@ async function findFeatureHandler(event: Event): Promise<void> {
 		button.disabled = false;
 	}, 10_000);
 
-	select('#find-feature-message')!.hidden = false;
+	$('#find-feature-message')!.hidden = false;
 }
 
 function summaryHandler(event: DelegateEvent<MouseEvent>): void {
@@ -190,7 +190,7 @@ function summaryHandler(event: DelegateEvent<MouseEvent>): void {
 
 	event.preventDefault();
 	if (event.altKey) {
-		for (const screenshotLink of select.all('.screenshot-link')) {
+		for (const screenshotLink of $$('.screenshot-link')) {
 			toggleScreenshot(screenshotLink.parentElement!);
 		}
 	} else {
@@ -213,7 +213,7 @@ function featuresFilterHandler(event: Event): void {
 		.replaceAll(/\W/g, ' ')
 		.split(/\s+/)
 		.filter(Boolean); // Ignore empty strings
-	for (const feature of select.all('.feature')) {
+	for (const feature of $$('.feature')) {
 		feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
 	}
 }
@@ -222,7 +222,7 @@ function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDet
 	// @ts-expect-error No Firefox support https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
 	(section.scrollIntoViewIfNeeded ?? section.scrollIntoView).call(section);
 	if (section.open) {
-		const field = select('input, textarea', section);
+		const field = $('input, textarea', section);
 		if (field) {
 			field.focus();
 			if (field instanceof HTMLTextAreaElement) {
@@ -236,10 +236,10 @@ function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDet
 async function markLocalHotfixes(): Promise<void> {
 	for (const [feature, relatedIssue] of await getLocalHotfixes()) {
 		if (importedFeatures.includes(feature)) {
-			const input = select<HTMLInputElement>('#' + feature)!;
+			const input = $<HTMLInputElement>('#' + feature)!;
 			input.disabled = true;
 			input.removeAttribute('name');
-			select(`.feature-name[for="${feature}"]`)!.after(
+			$(`.feature-name[for="${feature}"]`)!.after(
 				<span className="hotfix-notice"> (Disabled due to {createRghIssueLink(relatedIssue)})</span>,
 			);
 		}
@@ -251,12 +251,12 @@ function updateRateLink(): void {
 		return;
 	}
 
-	select('a#rate-link')!.href = isFirefox() ? 'https://addons.mozilla.org/en-US/firefox/addon/refined-github-' : 'https://apps.apple.com/app/id1519867270?action=write-review';
+	$('a#rate-link')!.href = isFirefox() ? 'https://addons.mozilla.org/en-US/firefox/addon/refined-github-' : 'https://apps.apple.com/app/id1519867270?action=write-review';
 }
 
 async function showStoredCssHotfixes(): Promise<void> {
 	const cachedCSS = await styleHotfixes.getCached(version);
-	select('#hotfixes-field')!.textContent
+	$('#hotfixes-field')!.textContent
 		= isDevelopmentVersion()
 			? 'Hotfixes are not applied in the development version.'
 			: isEnterprise()
@@ -266,30 +266,30 @@ async function showStoredCssHotfixes(): Promise<void> {
 
 function enableToggleAll({currentTarget: button}: Event): void {
 	(button as HTMLButtonElement).parentElement!.remove();
-	for (const ui of select.all('.toggle-all-features')) {
+	for (const ui of $$('.toggle-all-features')) {
 		ui.hidden = false;
 	}
 }
 
 function disableAllFeatures(): void {
-	for (const enabledFeature of select.all('.feature-checkbox:checked')) {
+	for (const enabledFeature of $$('.feature-checkbox:checked')) {
 		enabledFeature.click();
 	}
 
-	select('details#features')!.open = true;
+	$('details#features')!.open = true;
 }
 
 function enableAllFeatures(): void {
-	for (const disabledFeature of select.all('.feature-checkbox:not(:checked)')) {
+	for (const disabledFeature of $$('.feature-checkbox:not(:checked)')) {
 		disabledFeature.click();
 	}
 
-	select('details#features')!.open = true;
+	$('details#features')!.open = true;
 }
 
 async function generateDom(): Promise<void> {
 	// Generate list
-	select('.js-features')!.append(...featuresMeta
+	$('.js-features')!.append(...featuresMeta
 		.filter(feature => importedFeatures.includes(feature.id))
 		.map(feature => buildFeatureCheckbox(feature)),
 	);
@@ -301,7 +301,7 @@ async function generateDom(): Promise<void> {
 	await perDomainOptions.syncForm('form');
 
 	// Only now the form is ready, we can show it
-	select('#js-failed')!.remove();
+	$('#js-failed')!.remove();
 
 	// Decorate list
 	moveDisabledFeaturesToTop();
@@ -310,7 +310,7 @@ async function generateDom(): Promise<void> {
 	void validateToken();
 
 	// Add feature count. CSS-only features are added approximately
-	select('.features-header')!.append(` (${featuresMeta.length + 25})`);
+	$('.features-header')!.append(` (${featuresMeta.length + 25})`);
 
 	// Update rate link if necessary
 	updateRateLink();
@@ -321,7 +321,7 @@ async function generateDom(): Promise<void> {
 
 	// Hide non-applicable "Button link" section
 	if (doesBrowserActionOpenOptions) {
-		select('#action')!.hidden = true;
+		$('#action')!.hidden = true;
 	}
 
 	// Show stored CSS hotfixes
@@ -330,9 +330,9 @@ async function generateDom(): Promise<void> {
 
 function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
-	select('.OptionsSyncPerDomain-picker select')?.addEventListener('change', ({currentTarget: dropdown}) => {
+	$('.OptionsSyncPerDomain-picker select')?.addEventListener('change', ({currentTarget: dropdown}) => {
 		const host = (dropdown as HTMLSelectElement).value;
-		select('a#personal-token-link')!.host = host === 'default' ? 'github.com' : host;
+		$('a#personal-token-link')!.host = host === 'default' ? 'github.com' : host;
 		// Delay validating to let options load first
 		setTimeout(validateToken, 100);
 	});
@@ -361,21 +361,21 @@ function addEventListeners(): void {
 	delegate('details', 'toggle', focusFirstField, {capture: true});
 
 	// Filter feature list
-	select('#filter-features')!.addEventListener('input', featuresFilterHandler);
+	$('#filter-features')!.addEventListener('input', featuresFilterHandler);
 
 	// Add cache clearer
-	select('#clear-cache')!.addEventListener('click', clearCacheHandler);
+	$('#clear-cache')!.addEventListener('click', clearCacheHandler);
 
 	// Add bisect tool
-	select('#find-feature')!.addEventListener('click', findFeatureHandler);
+	$('#find-feature')!.addEventListener('click', findFeatureHandler);
 
 	// Handle "Toggle all" buttons
-	select('#toggle-all-features')!.addEventListener('click', enableToggleAll);
-	select('#disable-all-features')!.addEventListener('click', disableAllFeatures);
-	select('#enable-all-features')!.addEventListener('click', enableAllFeatures);
+	$('#toggle-all-features')!.addEventListener('click', enableToggleAll);
+	$('#disable-all-features')!.addEventListener('click', disableAllFeatures);
+	$('#enable-all-features')!.addEventListener('click', enableAllFeatures);
 
 	// Add token validation
-	select('[name="personalToken"]')!.addEventListener('input', validateToken);
+	$('[name="personalToken"]')!.addEventListener('input', validateToken);
 }
 
 async function init(): Promise<void> {

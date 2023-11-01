@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
@@ -24,8 +24,8 @@ function interpretNode(node: ChildNode): string | void {
 }
 
 function getFirstCommit(): {title: string; body: string | undefined} {
-	const titleParts = select('.js-commits-list-item:first-child p')!.childNodes;
-	const body = select('.js-commits-list-item:first-child .Details-content--hidden pre')
+	const titleParts = $('.js-commits-list-item:first-child p')!.childNodes;
+	const body = $('.js-commits-list-item:first-child .Details-content--hidden pre')
 		?.textContent.trim() ?? undefined;
 
 	const title = [...titleParts]
@@ -40,21 +40,21 @@ async function init(): Promise<void | false> {
 	const requestedContent = new URL(location.href).searchParams;
 	const commitCountIcon = await elementReady('div.Box.mb-3 .octicon-git-commit');
 	const commitCount = commitCountIcon?.nextElementSibling;
-	if (!commitCount || looseParseInt(commitCount) < 2 || !select.exists('#new_pull_request')) {
+	if (!commitCount || looseParseInt(commitCount) < 2 || !elementExists('#new_pull_request')) {
 		return false;
 	}
 
 	const firstCommit = getFirstCommit();
 	if (!requestedContent.has('pull_request[title]')) {
 		textFieldEdit.set(
-			select('.discussion-topic-header input')!,
+			$('.discussion-topic-header input')!,
 			firstCommit.title,
 		);
 	}
 
 	if (firstCommit.body && !requestedContent.has('pull_request[body]')) {
 		textFieldEdit.insert(
-			select('#new_pull_request textarea[aria-label="Comment body"]')!,
+			$('#new_pull_request textarea[aria-label="Comment body"]')!,
 			firstCommit.body,
 		);
 	}

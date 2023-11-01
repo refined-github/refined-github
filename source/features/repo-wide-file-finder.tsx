@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -18,7 +18,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepo,
 	],
 	exclude: [
-		() => select.exists('[data-hotkey="t"]'),
+		() => elementExists('[data-hotkey="t"]'),
 		pageDetect.isEmptyRepo,
 		pageDetect.isPRFiles,
 		pageDetect.isFileFinder,

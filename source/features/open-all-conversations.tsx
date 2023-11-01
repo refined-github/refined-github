@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$$, elementExists} from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -21,9 +21,9 @@ const issueListSelector = pageDetect.isGlobalIssueOrPRList()
 
 function onButtonClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const onlySelected = event.delegateTarget.closest('.table-list-triage');
-	const issues = select.all(`${issueListSelector} .js-issue-row`)
+	const issues = $$(`${issueListSelector} .js-issue-row`)
 		// TODO: Use conditional :has(:checked) instead
-		.filter(issue => onlySelected ? select.exists(':checked', issue) : true);
+		.filter(issue => onlySelected ? elementExists(':checked', issue) : true);
 	void openTabs(issues.map(issue => getUrlFromItem(issue)));
 }
 

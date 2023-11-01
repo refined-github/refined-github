@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$$, elementExists} from 'select-dom';
 import zipTextNodes from 'zip-text-nodes';
 import {applyToLink} from 'shorten-repo-url';
 import linkifyURLsCore from 'linkify-urls';
@@ -68,8 +68,8 @@ export function linkifyURLs(element: Element): Element[] | void {
 		return;
 	}
 
-	if (select.exists(linkifiedURLSelector, element)) {
-		return select.all(linkifiedURLSelector, element);
+	if (elementExists(linkifiedURLSelector, element)) {
+		return $$(linkifiedURLSelector, element);
 	}
 
 	const linkified = linkifyURLsCore(element.textContent, {

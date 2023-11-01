@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -56,7 +56,7 @@ function createButton(): JSX.Element {
 }
 
 async function addButton(mergeBar: Element): Promise<void> {
-	if (!select.exists(canMerge) || select.exists(canNativelyUpdate)) {
+	if (!elementExists(canMerge) || elementExists(canNativelyUpdate)) {
 		return;
 	}
 
@@ -104,7 +104,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isClosedPR,
-		() => select('.head-ref')!.title === 'This repository has been deleted',
+		() => $('.head-ref')!.title === 'This repository has been deleted',
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,
