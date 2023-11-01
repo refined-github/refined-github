@@ -20,34 +20,27 @@ function initTitle(signal: AbortSignal): void {
 }
 
 function linkifyContent(wrapper: Element): void {
+	// Mark code block as touched to avoid `shorten-links` from acting on these new links in code
+	wrapper.classList.add(linkifiedURLClass);
+
 	const errors = linkifyURLs(wrapper);
 	if (errors) {
 		features.log.error(import.meta.url, 'Links already exist');
 		console.log(errors);
 	}
 
-	// Linkify issue refs in comments, exclude gists:
-	// https://github.com/refined-github/refined-github/pull/3844#issuecomment-751427568
-	if (!pageDetect.isGist()) {
-		let currentRepo;
-
-		if (pageDetect.isGlobalSearchResults()) {
-			const lineUrl = wrapper.parentElement!.querySelector('.blob-num a')!.getAttribute('href')!.split('/');
-			currentRepo = {
-				owner: lineUrl[1],
-				name: lineUrl[2],
-			};
-		} else {
-			currentRepo = getRepo() ?? {};
-		}
-
-		for (const element of select.all('.pl-c', wrapper)) {
-			linkifyIssues(currentRepo, element);
-		}
+	const currentRepo = pageDetect.isGlobalSearchResults()
+		? getRepo(wrapper.parentElement!.querySelector('.blob-num a')!.href)
+		: getRepo();
+	// Some non-repo pages like gists have issue references #3844
+	// They make no sense, but we still want `linkifyURLs` to run there
+	if (!currentRepo) {
+		return;
 	}
 
-	// Mark code block as touched to avoid `shorten-links` from acting on these new links in code
-	wrapper.classList.add(linkifiedURLClass);
+	for (const element of select.all('.pl-c', wrapper)) {
+		linkifyIssues(currentRepo, element);
+	}
 }
 
 function init(signal: AbortSignal): void {
