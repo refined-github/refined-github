@@ -1,17 +1,17 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 
 function init(): false | void {
-	const originalPreviousNext = select('.commit .BtnGroup.float-right');
+	const originalPreviousNext = $('.commit .BtnGroup.float-right');
 	if (!originalPreviousNext) {
 		return false;
 	}
 
 	// Wrap the button in a <div> to avoid #4503
-	select('#files')!.after(
+	$('#files')!.after(
 		<div className="d-flex flex-justify-end mb-3">
 			{originalPreviousNext.cloneNode(true)}
 		</div>,

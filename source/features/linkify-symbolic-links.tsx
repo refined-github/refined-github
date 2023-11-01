@@ -1,14 +1,14 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 
 function init(): void {
-	if (select('.file-mode')?.textContent === 'symbolic link') {
-		const line = select('.js-file-line')!;
-		wrap(line.firstChild!, <a href={line.textContent!} data-turbo-frame="repo-content-turbo-frame"/>);
+	if ($('.file-mode')?.textContent === 'symbolic link') {
+		const line = $('.js-file-line')!;
+		wrap(line.firstChild!, <a href={line.textContent} data-turbo-frame="repo-content-turbo-frame"/>);
 	}
 }
 

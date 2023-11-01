@@ -1,6 +1,6 @@
 import './one-click-pr-or-gist.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -14,10 +14,10 @@ function init(): void | false {
 		return false;
 	}
 
-	for (const dropdownItem of select.all('.select-menu-item', initialGroupedButtons)) {
-		let title = select('.select-menu-item-heading', dropdownItem)!.textContent!.trim();
-		const description = select('.description', dropdownItem)!.textContent!.trim();
-		const radioButton = select('input[type=radio]', dropdownItem)!;
+	for (const dropdownItem of $$('.select-menu-item', initialGroupedButtons)) {
+		let title = $('.select-menu-item-heading', dropdownItem)!.textContent.trim();
+		const description = $('.description', dropdownItem)!.textContent.trim();
+		const radioButton = $('input[type=radio]', dropdownItem)!;
 		const classList = ['btn', 'ml-2', 'tooltipped', 'tooltipped-s'];
 
 		if (/\bdraft\b/i.test(title)) {
@@ -49,7 +49,7 @@ void features.add(import.meta.url, {
 		pageDetect.isGist,
 	],
 	exclude: [
-		() => select.exists('[data-show-dialog-id="drafts-upgrade-dialog"]'),
+		() => elementExists('[data-show-dialog-id="drafts-upgrade-dialog"]'),
 	],
 	deduplicate: 'has-rgh',
 	awaitDomReady: true,

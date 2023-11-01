@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$, $$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import debounceFn from 'debounce-fn';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -31,7 +31,7 @@ const batchToggle = debounceFn((event: DelegateEvent<MouseEvent, HTMLFormElement
 
 	event.stopImmediatePropagation();
 
-	const files = select.all('.js-file');
+	const files = $$('.js-file');
 	const thisFile = event.delegateTarget.closest('.js-file')!;
 	const isThisBeingFileChecked = !isChecked(thisFile); // Flip it because the value hasn't changed yet
 
@@ -39,7 +39,7 @@ const batchToggle = debounceFn((event: DelegateEvent<MouseEvent, HTMLFormElement
 	const selectedFiles = getItemsBetween(files, previousFile, thisFile);
 	for (const file of selectedFiles) {
 		if (file !== thisFile && isChecked(file) !== isThisBeingFileChecked) {
-			select('.js-reviewed-checkbox', file)!.click();
+			$('.js-reviewed-checkbox', file)!.click();
 		}
 	}
 

@@ -1,6 +1,6 @@
 import {CachedFunction} from 'webext-storage-cache';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import {StopIcon, PlayIcon} from '@primer/octicons-react';
 import {parseCron} from '@cheap-glitch/mi-cron';
 import * as pageDetect from 'github-url-detection';
@@ -90,7 +90,7 @@ const workflowDetails = new CachedFunction('workflows-details', {
 
 async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void> {
 	// There might be a disabled indicator already
-	if (select.exists('.octicon-stop', workflowListItem)) {
+	if (elementExists('.octicon-stop', workflowListItem)) {
 		return;
 	}
 
@@ -125,7 +125,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	}
 
 	const relativeTime = <relative-time datetime={String(nextTime)}/>;
-	select('.ActionList-item-label', workflowListItem)!.append(
+	$('.ActionList-item-label', workflowListItem)!.append(
 		<em>
 			({relativeTime})
 		</em>,
@@ -133,7 +133,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 
 	setTimeout(() => {
 		// The content of `relative-time` might is not immediately available
-		addTooltip(workflowListItem, `Next run: ${relativeTime.shadowRoot!.textContent!}`);
+		addTooltip(workflowListItem, `Next run: ${relativeTime.shadowRoot!.textContent}`);
 	}, 500);
 }
 

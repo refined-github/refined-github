@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$} from 'select-dom';
 import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 
@@ -34,7 +34,7 @@ function copyFooter(originalFooter: HTMLElement): void {
 		child.classList.remove('pl-lg-4', 'col-xl-3');
 	}
 
-	select('[aria-label^="Explore"]')!.append(
+	$('[aria-label^="Explore"]')!.append(
 		<div className="footer mt-4 py-4 border-top">
 			{footer}
 		</div>,

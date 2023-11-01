@@ -1,6 +1,6 @@
 import './warning-for-disallow-edits.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$} from 'select-dom';
 import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -33,7 +33,7 @@ function toggleHandler(event: DelegateEvent<Event, HTMLInputElement>): void {
 }
 
 function init(signal: AbortSignal): void | false {
-	const checkbox = select('input[name="collab_privs"]');
+	const checkbox = $('input[name="collab_privs"]');
 	if (!checkbox) {
 		return false;
 	}

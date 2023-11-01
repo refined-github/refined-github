@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {BookIcon, CheckIcon, DiffIcon, DiffModifiedIcon} from '@primer/octicons-react';
 
@@ -9,7 +9,7 @@ import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 
 function isHidingWhitespace(): boolean {
 	// The selector is the native button
-	return new URL(location.href).searchParams.get('w') === '1' || select.exists('button[name="w"][value="0"]:not([hidden])');
+	return new URL(location.href).searchParams.get('w') === '1' || elementExists('button[name="w"][value="0"]:not([hidden])');
 }
 
 function createWhitespaceButton(): HTMLElement {
@@ -36,11 +36,11 @@ function createWhitespaceButton(): HTMLElement {
 function attachPRButtons(dropdownIcon: SVGElement): void {
 	// TODO: Replace with :has selector
 	const dropdown = dropdownIcon.closest('details.diffbar-item')!;
-	const diffSettingsForm = select('form[action$="/diffview"]', dropdown)!;
+	const diffSettingsForm = $('form[action$="/diffview"]', dropdown)!;
 
 	// Preserve data before emption the form
 	const isUnified = new FormData(diffSettingsForm).get('diff') === 'unified';
-	const token = select('[name="authenticity_token"]', diffSettingsForm)!;
+	const token = $('[name="authenticity_token"]', diffSettingsForm)!;
 
 	// Empty form except the token field
 	diffSettingsForm.replaceChildren(token);
@@ -77,20 +77,20 @@ function attachPRButtons(dropdownIcon: SVGElement): void {
 	dropdown.replaceWith(diffSettingsForm);
 
 	// Trim title
-	const prTitle = select('.pr-toolbar .js-issue-title');
-	if (prTitle && select.exists('.pr-toolbar progress-bar')) { // Only review view has progress-bar
+	const prTitle = $('.pr-toolbar .js-issue-title');
+	if (prTitle && elementExists('.pr-toolbar progress-bar')) { // Only review view has progress-bar
 		prTitle.style.maxWidth = '24em';
-		prTitle.title = prTitle.textContent!;
+		prTitle.title = prTitle.textContent;
 	}
 
 	// Make space for the new button #655
 	removeTextNodeContaining(
-		select('[data-hotkey="c"] strong')!.previousSibling!,
+		$('[data-hotkey="c"] strong')!.previousSibling!,
 		'Changes from',
 	);
 
 	// Remove extraneous padding around "Clear filters" button
-	select('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-sm-2');
+	$('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-sm-2');
 }
 
 function initPR(signal: AbortSignal): void {

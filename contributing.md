@@ -13,6 +13,14 @@ Suggestions and pull requests are highly encouraged! Have a look at the [open is
 - Follow [the styleguide](https://github.com/refined-github/refined-github/blob/main/readme.md#L80) that appears in the Readme's source to write readable descriptions.
 - Refined GitHub tries to integrate as best as possible, so [GitHub's own styleguide](https://primer.style/css) might come in useful.
 
+## Create a new feature
+
+You can start with a new feature by running:
+
+```sh
+npm run new -- your-feature-name
+```
+
 ## `features.add`
 
 The simplest usage of `feature.add` is the following. This will be run instantly on all page-loads:
@@ -38,7 +46,7 @@ Here's an example using all of the possible `feature.add` options:
 
 ```tsx
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 

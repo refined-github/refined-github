@@ -1,6 +1,6 @@
 import './quick-label-removal.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {elementExists} from 'select-dom';
 import onetime from 'onetime';
 import {XIcon} from '@primer/octicons-react';
 import {assertError} from 'ts-extras';
@@ -13,7 +13,7 @@ import showToast from '../github-helpers/toast.js';
 import {getConversationNumber} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
-const canNotEditLabels = onetime((): boolean => !select.exists('.label-select-menu .octicon-gear'));
+const canNotEditLabels = onetime((): boolean => !elementExists('.label-select-menu .octicon-gear'));
 
 async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	event.preventDefault();

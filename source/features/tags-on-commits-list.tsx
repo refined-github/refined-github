@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache/legacy.js';
-import select from 'select-dom';
+import {$, $$} from 'select-dom';
 import {TagIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
@@ -88,7 +88,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 async function init(): Promise<void | false> {
 	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
 
-	const commitsOnPage = select.all('.js-commits-list-item');
+	const commitsOnPage = $$('.js-commits-list-item');
 	const lastCommitOnPage = getCommitHash(commitsOnPage.at(-1)!);
 	let cached = await cache.get<Record<string, string[]>>(cacheKey) ?? {};
 	const commitsWithNoTags = [];
@@ -105,7 +105,7 @@ async function init(): Promise<void | false> {
 			// There was no tags for this commit, save that info to the cache
 			commitsWithNoTags.push(targetCommit);
 		} else if (targetTags.length > 0) {
-			const commitMeta = select('.flex-auto .d-flex.mt-1', commit)!;
+			const commitMeta = $('.flex-auto .d-flex.mt-1', commit)!;
 			commitMeta.classList.add('flex-wrap');
 			commitMeta.append(
 				<span>

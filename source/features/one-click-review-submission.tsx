@@ -12,7 +12,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	const actionsRow = originalSubmitButton.closest('.form-actions')!;
 	const formAttribute = originalSubmitButton.getAttribute('form')!;
 
-	// Do not use `select.all` because elements can be outside `form`
+	// Do not use `$$` because elements can be outside `form`
 	// `RadioNodeList` is dynamic, so we need to make a copy
 	const radios = [...form.elements.namedItem('pull_request_review[event]') as RadioNodeList] as HTMLInputElement[];
 	if (radios.length === 0) {
@@ -41,7 +41,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		const tooltip = parent.querySelector([
 			'p', // TODO: Remove after April 2024
 			'.FormControl-caption',
-		])!.textContent!.trim().replace(/.$/, '');
+		])!.textContent.trim().replace(/\.$/, '');
 		assertNodeContent(labelElement, /^(Approve|Request changes|Comment)$/);
 
 		const classes = ['btn btn-sm'];

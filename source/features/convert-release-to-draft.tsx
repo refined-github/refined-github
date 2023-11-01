@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate from 'delegate-it';
 
@@ -21,7 +21,7 @@ async function convertToDraft(): Promise<void> {
 		},
 	});
 
-	select(getReleaseEditLinkSelector())!.click(); // Visit "Edit release" page
+	$(getReleaseEditLinkSelector())!.click(); // Visit "Edit release" page
 }
 
 const confirmMessage = 'The release will be effectively deleted and a new draft will be created.';
@@ -29,7 +29,7 @@ const confirmMessageWithReactions = 'Existing user reactions will be lost.';
 const confirmMessageQuestion = 'Continue?';
 
 async function onConvertClick(): Promise<void> {
-	const message = select.exists('.js-reaction-group-button')
+	const message = elementExists('.js-reaction-group-button')
 		? [confirmMessage, confirmMessageWithReactions, confirmMessageQuestion]
 		: [confirmMessage, confirmMessageQuestion];
 	if (!confirm(message.join(' '))) {
@@ -44,7 +44,7 @@ async function onConvertClick(): Promise<void> {
 }
 
 function attachButton(editButton: HTMLAnchorElement): void {
-	if (select.exists('[title="Draft"]')) {
+	if (elementExists('[title="Draft"]')) {
 		return;
 	}
 

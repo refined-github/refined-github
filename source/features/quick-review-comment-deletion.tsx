@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$} from 'select-dom';
 import {TrashIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -23,7 +23,7 @@ function onButtonClick({delegateTarget: button}: DelegateEvent): void {
 
 async function preloadDropdown({delegateTarget: button}: DelegateEvent): Promise<void> {
 	const comment = button.closest('.js-comment')!;
-	await loadDetailsMenu(select('details-menu.show-more-popover', comment)!);
+	await loadDetailsMenu($('details-menu.show-more-popover', comment)!);
 }
 
 function addDeleteButton(cancelButton: Element): void {

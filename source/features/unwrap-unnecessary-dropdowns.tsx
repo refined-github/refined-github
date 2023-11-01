@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$, $$} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -13,7 +13,7 @@ function replaceDropdownInPlace(dropdown: Element, form: Element): void {
 
 async function unwrapNotifications(): Promise<void | false> {
 	await elementReady('.js-check-all-container > :first-child'); // Ensure the entire dropdown has loaded
-	const forms = select.all('[action="/notifications/beta/update_view_preference"]');
+	const forms = $$('[action="/notifications/beta/update_view_preference"]');
 	if (forms.length === 0) {
 		return false;
 	}
@@ -23,16 +23,16 @@ async function unwrapNotifications(): Promise<void | false> {
 	}
 
 	const dropdown = forms[0].closest('details')!;
-	const currentView = select('summary i', dropdown)!.nextSibling!.textContent!.trim();
+	const currentView = $('summary i', dropdown)!.nextSibling!.textContent.trim();
 	const desiredForm = currentView === 'Date' ? forms[0] : forms[1];
 
 	// Replace dropdown
 	replaceDropdownInPlace(dropdown, desiredForm);
 
 	// Fix button’s style
-	const button = select('[type="submit"]', desiredForm)!;
+	const button = $('[type="submit"]', desiredForm)!;
 	button.className = 'btn';
-	button.textContent = `Group by ${button.textContent!.toLowerCase()}`;
+	button.textContent = `Group by ${button.textContent.toLowerCase()}`;
 }
 
 void features.add(import.meta.url, {

@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
@@ -37,7 +37,7 @@ export function buildRepoURL<S extends string>(...pathParts: RequireAtLeastOne<A
 }
 
 export function getForkedRepo(): string | undefined {
-	return select('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
+	return $('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
 }
 
 export function parseTag(tag: string): {version: string; namespace: string} {
@@ -92,7 +92,7 @@ export const isPermalink = mem(async () => {
 	}
 
 	// Awaiting only the branch selector means it resolves early even if the icon tag doesn't exist, whereas awaiting the icon tag would wait for the DOM ready event before resolving.
-	return select.exists(
+	return elementExists(
 		'.octicon-tag', // Tags have an icon
 		await elementReady(branchSelector),
 	);
@@ -118,7 +118,7 @@ export async function isArchivedRepoAsync(): Promise<boolean> {
 	return pageDetect.isArchivedRepo();
 }
 
-export const userCanLikelyMergePR = (): boolean => select.exists('.discussion-sidebar-item .octicon-lock');
+export const userCanLikelyMergePR = (): boolean => elementExists('.discussion-sidebar-item .octicon-lock');
 
 export const cacheByRepo = (): string => getRepo()!.nameWithOwner;
 
@@ -133,7 +133,7 @@ export const isUrlReachable = mem(async (url: string): Promise<boolean> => {
 // Don't make the argument optional, sometimes we really expect it to exist and want to throw an error
 export function extractCurrentBranchFromBranchPicker(branchPicker: HTMLElement): string {
 	return branchPicker.title === 'Switch branches or tags'
-		? branchPicker.textContent!.trim() // Branch name is shown in full
+		? branchPicker.textContent.trim() // Branch name is shown in full
 		: branchPicker.title; // Branch name was clipped, so they placed it in the title attribute
 }
 

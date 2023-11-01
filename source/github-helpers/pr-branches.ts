@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$} from 'select-dom';
 
 export type PrReference = {
 	/** @example fregante/mem:main */
@@ -53,16 +53,16 @@ export function parseReferenceRaw(absolute: string, relative: string): PrReferen
 
 function parseReference(referenceElement: HTMLElement): PrReference {
 	const {title, textContent} = referenceElement;
-	return parseReferenceRaw(title, textContent!.trim());
+	return parseReferenceRaw(title, textContent.trim());
 }
 
 export function getBranches(): {base: PrReference; head: PrReference} {
 	return {
 		get base() {
-			return parseReference(select('.base-ref')!);
+			return parseReference($('.base-ref')!);
 		},
 		get head() {
-			return parseReference(select('.head-ref')!);
+			return parseReference($('.head-ref')!);
 		},
 	};
 }

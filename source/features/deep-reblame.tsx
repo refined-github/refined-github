@@ -1,7 +1,7 @@
 import './deep-reblame.css';
 import mem from 'mem';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$} from 'select-dom';
 import {VersionsIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -45,13 +45,13 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	blameElement.blur(); // Hide tooltip after click, it’s shown on :focus
 
 	const blameHunk = blameElement.closest('.blame-hunk')!;
-	const prNumbers = select.all('.issue-link', blameHunk).map(pr => looseParseInt(pr));
-	const prCommit = select('a.message', blameHunk)!.pathname.split('/').pop()!;
+	const prNumbers = $$('.issue-link', blameHunk).map(pr => looseParseInt(pr));
+	const prCommit = $('a.message', blameHunk)!.pathname.split('/').pop()!;
 	const blameUrl = new GitHubFileURL(location.href);
 
 	await showToast(async () => {
 		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumbers, blameUrl.filePath);
-		blameUrl.hash = 'L' + select('.js-line-number', blameHunk)!.textContent!;
+		blameUrl.hash = 'L' + $('.js-line-number', blameHunk)!.textContent;
 		location.href = blameUrl.href;
 	}, {
 		message: 'Fetching pull request',
@@ -62,12 +62,12 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 function addButton(pullRequest: HTMLElement): void {
 	const hunk = pullRequest.closest('.blame-hunk')!;
 
-	const reblameLink = select('.reblame-link', hunk);
+	const reblameLink = $('.reblame-link', hunk);
 	if (reblameLink) {
 		reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
 		reblameLink.classList.add('rgh-deep-reblame');
 	} else {
-		select('.blob-reblame', hunk)!.append(
+		$('.blob-reblame', hunk)!.append(
 			<button
 				type="button"
 				aria-label="View blame prior to this change (extracts commits from this PR first)"

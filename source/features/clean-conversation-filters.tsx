@@ -1,5 +1,5 @@
 import {CachedFunction} from 'webext-storage-cache';
-import select from 'select-dom';
+import {elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -15,7 +15,7 @@ const hasAnyProjects = new CachedFunction('has-projects', {
 			return true;
 		}
 
-		const isOrganization = select.exists('[rel=author][data-hovercard-type="organization"]');
+		const isOrganization = elementExists('[rel=author][data-hovercard-type="organization"]');
 		if (!activeProjectsCounter && !isOrganization) {
 			// No tab = Projects disabled in repo
 			// No organization = no Projects in organization
@@ -38,7 +38,7 @@ const hasAnyProjects = new CachedFunction('has-projects', {
 });
 
 function getCount(element: HTMLElement): number {
-	return Number(element.textContent!.trim());
+	return Number(element.textContent.trim());
 }
 
 async function hideMilestones(): Promise<void> {

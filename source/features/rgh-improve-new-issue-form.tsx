@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -9,7 +9,7 @@ import {expectToken, expectTokenScope} from '../github-helpers/api.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 
 function addNotice(adjective: JSX.Element | string): void {
-	select('#issue_body_template_name')!.before(
+	$('#issue_body_template_name')!.before(
 		<div className="flash flash-warn m-2">
 			Your Personal Access Token is {adjective}. Some Refined GitHub features will not work without it.
 			You can update it <button className="btn-link" type="button" onClick={openOptions as unknown as React.MouseEventHandler}>in the options</button>.
@@ -34,11 +34,11 @@ async function checkToken(): Promise<void> {
 
 async function setVersion(): Promise<void> {
 	const {version} = browser.runtime.getManifest();
-	select('input#issue_form_version')!.value = version;
+	$('input#issue_form_version')!.value = version;
 }
 
 async function linkifyCacheRefresh(): Promise<void> {
-	select('[href="#clear-cache"]')!.replaceWith(
+	$('[href="#clear-cache"]')!.replaceWith(
 		<button
 			className="btn"
 			type="button"

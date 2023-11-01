@@ -1,6 +1,6 @@
 import './clean-conversation-headers.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$} from 'select-dom';
 import elementReady from 'element-ready';
 import {ArrowLeftIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -14,8 +14,8 @@ async function cleanIssueHeader(byline: HTMLElement): Promise<void> {
 
 	// Shows on issues: octocat opened this issue on 1 Jan · [1 comments]
 	// Removes on issues: octocat opened this issue on 1 Jan [·] 1 comments
-	const commentCount = select('relative-time', byline)!.nextSibling!;
-	commentCount.replaceWith(<span>{commentCount.textContent!.replace('·', '')}</span>);
+	const commentCount = $('relative-time', byline)!.nextSibling!;
+	commentCount.replaceWith(<span>{commentCount.textContent.replace('·', '')}</span>);
 }
 
 async function cleanPrHeader(byline: HTMLElement): Promise<void> {
@@ -23,13 +23,13 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 
 	// Extra author name is only shown on `isPRConversation`
 	// Hide if it's the same as the opener (always) or merger
-	const shouldHideAuthor = pageDetect.isPRConversation() && select('.author', byline)!.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
+	const shouldHideAuthor = pageDetect.isPRConversation() && $('.author', byline)!.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
 	if (shouldHideAuthor) {
 		byline.classList.add('rgh-clean-conversation-headers-hide-author');
 	}
 
-	const base = select('.commit-ref', byline)!;
-	const baseBranchDropdown = select('.commit-ref-dropdown', byline);
+	const base = $('.commit-ref', byline)!;
+	const baseBranchDropdown = $('.commit-ref-dropdown', byline);
 
 	// Shows on PRs: main [←] feature
 	const arrowIcon = <ArrowLeftIcon className="v-align-middle mx-1"/>;

@@ -6,7 +6,7 @@ import observe from '../helpers/selector-observer.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 
 function addLinkToBanner(banner: HTMLElement): void {
-	if (banner.lastChild!.textContent!.includes('repository has been archived')) {
+	if (banner.lastChild!.textContent.includes('repository has been archived')) {
 		banner.lastChild!.after(
 			' You can check out ',
 			<a href={buildRepoURL('forks')}>its forks</a>,

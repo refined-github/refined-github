@@ -1,6 +1,6 @@
 import './highlight-collaborators-and-own-conversations.css';
 import {CachedFunction} from 'webext-storage-cache';
-import select from 'select-dom';
+import {$$} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
@@ -11,8 +11,7 @@ import {buildRepoURL, cacheByRepo, getUsername} from '../github-helpers/index.js
 const collaborators = new CachedFunction('repo-collaborators', {
 	async updater(): Promise<string[]> {
 		const dom = await fetchDom(buildRepoURL('issues/show_menu_content?partial=issues/filters/authors_content'));
-		return select
-			.all('.SelectMenu-item img[alt]', dom)
+		return $$('.SelectMenu-item img[alt]', dom)
 			.map(avatar => avatar.alt.slice(1));
 	},
 	maxAge: {days: 1},
@@ -23,8 +22,8 @@ const collaborators = new CachedFunction('repo-collaborators', {
 async function highlightCollaborators(): Promise<void> {
 	const list = await collaborators.get();
 	await domLoaded;
-	for (const author of select.all('.js-issue-row [data-hovercard-type="user"]')) {
-		if (list.includes(author.textContent!.trim())) {
+	for (const author of $$('.js-issue-row [data-hovercard-type="user"]')) {
+		if (list.includes(author.textContent.trim())) {
 			author.classList.add('rgh-collaborator');
 		}
 	}
@@ -32,7 +31,7 @@ async function highlightCollaborators(): Promise<void> {
 
 function highlightSelf(): void {
 	// "Opened by {user}" and "Created by {user}"
-	for (const author of select.all(`.opened-by a[title$="ed by ${CSS.escape(getUsername()!)}"]`)) {
+	for (const author of $$(`.opened-by a[title$="ed by ${CSS.escape(getUsername()!)}"]`)) {
 		author.classList.add('rgh-collaborator');
 		author.style.fontStyle = 'italic';
 	}

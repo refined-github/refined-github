@@ -1,6 +1,6 @@
 import './tag-changes-link.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$, elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import {DiffIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -19,7 +19,7 @@ type TagDetails = {
 };
 
 async function getNextPage(): Promise<DocumentFragment> {
-	const nextPageLink = select('.pagination a:last-child');
+	const nextPageLink = $('.pagination a:last-child');
 	if (nextPageLink) {
 		return fetchDom(nextPageLink.href);
 	}
@@ -34,13 +34,13 @@ async function getNextPage(): Promise<DocumentFragment> {
 
 function parseTags(element: HTMLElement): TagDetails {
 	// Safari doesn't correctly parse links if they're loaded via AJAX #3899
-	const {pathname: tagUrl} = new URL(select(['a[href*="/tree/"]', 'a[href*="/tag/"]'], element)!.href);
+	const {pathname: tagUrl} = new URL($(['a[href*="/tree/"]', 'a[href*="/tag/"]'], element)!.href);
 	const tag = /\/(?:releases\/tag|tree)\/(.*)/.exec(tagUrl)![1];
 
 	return {
 		element,
 		tag,
-		commit: select('[href*="/commit/"]', element)!.textContent!.trim(),
+		commit: $('[href*="/commit/"]', element)!.textContent.trim(),
 		...parseTag(decodeURIComponent(tag)), // `version`, `namespace`
 	};
 }
@@ -89,7 +89,7 @@ async function init(): Promise<void> {
 	// Look for tags in the current page and the next page
 	const pages = [document, await getNextPage()];
 	await domLoaded;
-	const allTags = select.all(tagsSelector, pages).map(tag => parseTags(tag));
+	const allTags = $$(tagsSelector, pages).map(tag => parseTags(tag));
 
 	for (const [index, container] of allTags.entries()) {
 		const previousTag = getPreviousTag(index, allTags);
@@ -97,7 +97,7 @@ async function init(): Promise<void> {
 			continue;
 		}
 
-		const lastLinks = select.all([
+		const lastLinks = $$([
 			'.Link--muted[data-hovercard-type="commit"]', // Link to commit in release sidebar
 			'.list-style-none > .d-inline-block:last-child', // Link to source tarball under release tag
 		], container.element);
@@ -114,7 +114,7 @@ async function init(): Promise<void> {
 			);
 
 			// The page of a tag without a release still uses the old layout #5037
-			if (pageDetect.isEnterprise() || pageDetect.isTags() || (pageDetect.isSingleReleaseOrTag() && select.exists('.release'))) {
+			if (pageDetect.isEnterprise() || pageDetect.isTags() || (pageDetect.isSingleReleaseOrTag() && elementExists('.release'))) {
 				lastLink.after(
 					<li className={lastLink.className + ' rgh-changelog-link'}>
 						{compareLink}

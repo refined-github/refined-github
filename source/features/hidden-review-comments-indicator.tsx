@@ -1,7 +1,7 @@
 import './hidden-review-comments-indicator.css';
 import mem from 'mem';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$$} from 'select-dom';
 import {CommentIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -45,7 +45,7 @@ const indicatorToggleObserver = new MutationObserver(mutations => {
 		const wasVisible = mutation.oldValue!.includes('show-inline-notes');
 		const isHidden = !file.classList.contains('show-inline-notes');
 		if (wasVisible && isHidden) {
-			for (const thread of select.all('tr.inline-comments', file)) {
+			for (const thread of $$('tr.inline-comments', file)) {
 				addIndicator(thread);
 			}
 		}

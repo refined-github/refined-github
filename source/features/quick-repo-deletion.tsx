@@ -1,7 +1,7 @@
 import './quick-repo-deletion.css';
 import delay from 'delay';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import {TrashIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import {assertError} from 'ts-extras';
@@ -18,7 +18,7 @@ import parseBackticks from '../github-helpers/parse-backticks.js';
 import observe from '../helpers/selector-observer.js';
 
 function handleToggle(event: DelegateEvent<Event, HTMLDetailsElement>): void {
-	const hasContent = select.exists([
+	const hasContent = elementExists([
 		'[data-hotkey="g i"] .Counter:not([hidden])', // Open issues
 		'[data-hotkey="g p"] .Counter:not([hidden])', // Open PRs
 		'.rgh-open-prs-of-forks', // PRs opened in the source repo
@@ -71,7 +71,7 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 	void verifyScopesWhileWaiting(abortController);
 
 	let secondsLeft = 5;
-	const button = select('.btn', buttonContainer)!;
+	const button = $('.btn', buttonContainer)!;
 	try {
 		do {
 			button.style.transform = `scale(${1.2 - ((secondsLeft - 5) / 3)})`; // Dividend is zoom speed
@@ -91,7 +91,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		return;
 	}
 
-	select('.btn', buttonContainer)!.textContent = 'Deleting repo…';
+	$('.btn', buttonContainer)!.textContent = 'Deleting repo…';
 	const {nameWithOwner, owner} = getRepo()!;
 	try {
 		await api.v3('/repos/' + nameWithOwner, {
@@ -120,7 +120,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		<><TrashIcon/> <span>Repository <strong>{nameWithOwner}</strong> deleted. <a href={restoreURL}>Restore it</a>, <a href={forkSource}>visit the source repo</a>, or see <a href={otherForksURL}>your other forks.</a></span></>,
 		{action: false},
 	);
-	select('.application-main')!.remove();
+	$('.application-main')!.remove();
 	if (document.hidden) {
 		// Try closing the tab if in the background. Could fail, so we still update the UI above
 		void browser.runtime.sendMessage({closeTab: true});

@@ -9,7 +9,7 @@ import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 function linkifyFeature(possibleFeature: HTMLElement): void {
-	const id = getNewFeatureName(possibleFeature.textContent!);
+	const id = getNewFeatureName(possibleFeature.textContent);
 	if (!id) {
 		return;
 	}

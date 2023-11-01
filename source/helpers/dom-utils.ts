@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$} from 'select-dom';
 import {setFetch} from 'push-form';
 // Nodes may be exactly `null`
 import {type Nullable} from 'vitest';
@@ -35,11 +35,11 @@ if (window.content?.fetch) {
  */
 export const appendBefore = (parent: string | Element, before: string, child: Element): void => {
 	if (typeof parent === 'string') {
-		parent = select(parent)!;
+		parent = $(parent)!;
 	}
 
 	// Select direct children only
-	const beforeElement = select(`:scope > :is(${before})`, parent);
+	const beforeElement = $(`:scope > :is(${before})`, parent);
 	if (beforeElement) {
 		beforeElement.before(child);
 	} else {
@@ -93,7 +93,7 @@ export const isTextNodeContaining = (node: Nullable<Text | ChildNode>, expectati
 		throw new TypeError(`Expected Text node, received ${String(node?.nodeName)}`);
 	}
 
-	const content = node.textContent!.trim();
+	const content = node.textContent.trim();
 	return matchString(expectation, content);
 };
 
@@ -103,7 +103,7 @@ export const assertNodeContent = <N extends Text | ChildNode>(node: Nullable<N>,
 	}
 
 	console.warn('Error', node!.parentElement);
-	const content = node!.textContent!.trim();
+	const content = node!.textContent.trim();
 	throw new Error(`Expected node matching ${escapeMatcher(expectation)}, found ${escapeMatcher(content)}`);
 };
 
