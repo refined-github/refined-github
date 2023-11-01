@@ -1,7 +1,7 @@
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import select from 'select-dom';
+import {$, expectElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -10,26 +10,11 @@ const id = features.getFeatureID(import.meta.url);
 
 const unplannedCheckbox = 'input[name="state_reason"][value="not_planned"]';
 
-// TODO: Replace with https://github.com/fregante/select-dom/issues/20
-// @ts-expect-error idc, temporary
-const selectExpect: typeof select = (selector: string, context?: Element) => {
-	const element = select(selector, context);
-	if (element) {
-		return element;
-	}
-
-	features.log.error(import.meta.url, `Expected element not found:\n${selector}`);
-};
-
 function update(dropdown: HTMLElement): void {
 	const form = dropdown.closest('form')!;
-	const radio = selectExpect(unplannedCheckbox, dropdown);
-	const mainButton = selectExpect('[name="comment_and_close"]', form);
-	const icon = selectExpect('.octicon-skip', dropdown);
-
-	if (!mainButton || !radio || !icon) {
-		return;
-	}
+	const radio = expectElement(unplannedCheckbox, dropdown);
+	const mainButton = expectElement('[name="comment_and_close"]', form);
+	const icon = expectElement('.octicon-skip', dropdown);
 
 	const checkbox = radio.cloneNode();
 	checkbox.hidden = true;
@@ -49,9 +34,7 @@ function update(dropdown: HTMLElement): void {
 }
 
 function updateCheckbox({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLInputElement>): void {
-	console.log(button.id, id, button.id === id);
-
-	select(unplannedCheckbox, button.form!)!.checked = button.id === id;
+	$(unplannedCheckbox, button.form!)!.checked = button.id === id;
 }
 
 function init(signal: AbortSignal): void {
