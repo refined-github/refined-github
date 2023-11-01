@@ -3,7 +3,6 @@ import {FoldDownIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
-
 import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
