@@ -5,6 +5,8 @@ import * as pageDetect from 'github-url-detection';
 import * as textFieldEdit from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
+import {elementExists} from 'select-dom';
+
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import observe from '../helpers/selector-observer.js';
@@ -39,10 +41,42 @@ function highlightSquares({delegateTarget: hover}: DelegateEvent<MouseEvent, HTM
 }
 
 function add(anchor: HTMLElement): void {
+	const wrapperClasses = [
+		'details-reset',
+		'details-overlay',
+		'flex-auto',
+		'select-menu',
+		'select-menu-modal-right',
+		'hx_rsm',
+	];
+	if (elementExists('md-ref', anchor)) {
+		wrapperClasses.push(
+			'toolbar-item',
+			'btn-octicon',
+			'mx-1',
+		);
+	}
+
+	const buttonClasses
+	= elementExists('md-ref', anchor)
+		? [
+			'text-center',
+			'menu-target',
+			'p-2',
+			'p-md-1',
+			'hx_rsm-trigger',
+		]
+		: [
+			'Button',
+			'Button--iconOnly',
+			'Button--invisible',
+			'Button--medium',
+		];
+
 	anchor.after(
-		<details className="details-reset details-overlay flex-auto toolbar-item btn-octicon mx-1 select-menu select-menu-modal-right hx_rsm">
+		<details className={wrapperClasses.join(' ')}>
 			<summary
-				className="text-center menu-target p-2 p-md-1 hx_rsm-trigger"
+				className={buttonClasses.join(' ')}
 				role="button"
 				aria-label="Add a table"
 				aria-haspopup="menu"
@@ -72,7 +106,10 @@ function add(anchor: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('md-ref', add, {signal});
+	observe([
+		'md-ref', // TODO: Drop in June 2024, cleanup button JSX above too
+		'.ActionBar-item:has([data-md-button=\'ref\'])',
+	], add, {signal});
 	delegate('.rgh-tic', 'click', addTable, {signal});
 	if (!isHasSelectorSupported()) {
 		delegate('.rgh-tic', 'mouseenter', highlightSquares, {capture: true, signal});
