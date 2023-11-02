@@ -3,6 +3,7 @@ import {CachedFunction} from 'webext-storage-cache';
 import {TagIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
 
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
@@ -69,7 +70,15 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 	triggerRepoNavOverflow();
 }
 
-function addReleasesDropdownItem(dropdownMenu: HTMLElement): void {
+async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false | void> {
+	const repo = getRepo()!.nameWithOwner;
+	const count = await releasesCount.get(repo);
+
+	if (count === 0) {
+		$('.dropdown-divider', dropdownMenu)?.remove();
+		return false;
+	}
+
 	appendBefore(
 		dropdownMenu,
 		'.dropdown-divider', // Won't exist if `more-dropdown` is disabled
