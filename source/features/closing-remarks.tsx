@@ -91,7 +91,7 @@ function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 }
 
 async function addReleaseBanner(text = 'Now you can release this change'): Promise<void> {
-	const [releases] = await getReleases()
+	const [releases] = await getReleases();
 	if (releases === 0) {
 		return;
 	}

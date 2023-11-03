@@ -19,7 +19,7 @@ function detachHighlightFromCodeTab(codeTab: HTMLAnchorElement): void {
 	codeTab.dataset.selectedLinks = codeTab.dataset.selectedLinks!.replace('repo_releases ', '');
 }
 
-export async function getReleases(): Promise<[0] | [number, "Tags" | "Releases"]> {
+export async function getReleases(): Promise<[0] | [number, 'Tags' | 'Releases']> {
 	const repo = getRepo()!.nameWithOwner;
 	return releasesCount.get(repo);
 }
