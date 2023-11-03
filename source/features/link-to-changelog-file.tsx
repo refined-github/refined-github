@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$$} from 'select-dom';
 import {BookIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -19,15 +18,6 @@ type FileType = {
 const changelogFiles = /^(changelog|news|changes|history|release|whatsnew)(\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
 function findChangelogName(files: string[]): string | false {
 	return files.find(name => changelogFiles.test(name)) ?? false;
-}
-
-function parseFromDom(): false {
-	const files = $$('[aria-labelledby="files"] .js-navigation-open[href*="/blob/"').map(file => file.title);
-	void changelogName.applyOverride(
-		[findChangelogName(files) as string] /* TODO: Type mistake */,
-		getRepo()!.nameWithOwner,
-	);
-	return false;
 }
 
 const changelogName = new CachedFunction('changelog', {
@@ -86,13 +76,6 @@ void features.add(import.meta.url, {
 	],
 	deduplicate: 'has-rgh-inner',
 	init,
-}, {
-	include: [
-		pageDetect.isRepoHome,
-	],
-	deduplicate: 'has-rgh',
-	awaitDomReady: true, // Does not affect current visit
-	init: parseFromDom,
 });
 
 /*
