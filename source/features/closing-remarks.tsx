@@ -12,7 +12,7 @@ import TimelineItem from '../github-helpers/timeline-item.js';
 import attachElement from '../helpers/attach-element.js';
 import {canEditEveryComment} from './quick-comment-edit.js';
 import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
-import {releasesCount} from './releases-tab.js';
+import {getReleases} from './releases-tab.js';
 import observe from '../helpers/selector-observer.js';
 
 // TODO: Not an exact match; Moderators can edit comments but not create releases
@@ -91,7 +91,8 @@ function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 }
 
 async function addReleaseBanner(text = 'Now you can release this change'): Promise<void> {
-	if (await releasesCount.get(getRepo()!.nameWithOwner) === 0) {
+	const [releases] = await getReleases();
+	if (releases === 0) {
 		return;
 	}
 
