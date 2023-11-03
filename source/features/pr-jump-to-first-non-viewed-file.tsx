@@ -6,8 +6,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 
 function jumpToFirstNonViewed(): void {
-	const firstNonViewedFile = $('.file:not([data-file-user-viewed])')!;
-	if (firstNonViewedFile) {
+	const firstNonViewedFile = $('.file[data-details-container-group="file"]:not([data-file-user-viewed])')!;
+	if (firstNonViewedFile && firstNonViewedFile.id) {
 		// Scroll to file without pushing to history
 		location.replace('#' + firstNonViewedFile.id);
 	} else {
