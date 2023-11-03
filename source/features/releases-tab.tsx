@@ -19,31 +19,39 @@ function detachHighlightFromCodeTab(codeTab: HTMLAnchorElement): void {
 	codeTab.dataset.selectedLinks = codeTab.dataset.selectedLinks!.replace('repo_releases ', '');
 }
 
-async function fetchFromApi(nameWithOwner: string): Promise<number> {
+export async function getReleases(): Promise<[0] | [number, "Tags" | "Releases"]> {
+	const repo = getRepo()!.nameWithOwner;
+	return releasesCount.get(repo);
+}
+
+async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags' | 'Releases'] > {
 	const [owner, name] = nameWithOwner.split('/');
-	const {repository} = await api.v4(GetReleasesCount, {
+	const {repository: {releases, tags}} = await api.v4(GetReleasesCount, {
 		variables: {name, owner},
 	});
 
-	return repository.releases.totalCount;
+	if (releases.totalCount) {
+		return [releases.totalCount, 'Releases'];
+	}
+
+	if (tags.totalCount) {
+		return [tags.totalCount, 'Tags'];
+	}
+
+	return [0];
 }
 
-// Release count can be not found in DOM if:
-// - It is disabled by repository owner on the home page (release DOM element won't be there)
-// - It only contains pre-releases (count badge won't be shown)
-// For this reason, if we can't find a count from the DOM, we ask the API instead (see #6298)
 export const releasesCount = new CachedFunction('releases-count', {
-	updater: fetchFromApi,
+	updater: fetchCounts,
+	shouldRevalidate: cachedValue => typeof cachedValue === 'number',
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 3},
 	cacheKey: cacheByRepo,
 });
 
 async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | void> {
-	const repo = getRepo()!.nameWithOwner;
-	const count = await releasesCount.get(repo);
-
-	if (count === 0) {
+	const [count, type] = await getReleases();
+	if (!type) {
 		return false;
 	}
 
@@ -53,7 +61,7 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 	repoNavigationBar.append(
 		<li className="d-flex">
 			<a
-				href={buildRepoURL('releases')}
+				href={buildRepoURL(type.toLowerCase())}
 				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item rgh-releases-tab"
 				data-hotkey="g r"
 				data-selected-links="repo_releases"
@@ -61,8 +69,8 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 				data-turbo-frame="repo-content-turbo-frame" /* Required for `data-selected-links` to work */
 			>
 				<TagIcon className="UnderlineNav-octicon d-none d-sm-inline"/>
-				<span data-content="Releases">Releases</span>
-				{count && <span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>}
+				<span data-content={type}>{type}</span>
+				<span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>
 			</a>
 		</li>,
 	);
@@ -71,10 +79,9 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 }
 
 async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false | void> {
-	const repo = getRepo()!.nameWithOwner;
-	const count = await releasesCount.get(repo);
+	const [, type] = await getReleases();
 
-	if (count === 0) {
+	if (!type) {
 		$('.dropdown-divider', dropdownMenu)?.remove();
 		return false;
 	}
@@ -82,7 +89,7 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 	appendBefore(
 		dropdownMenu,
 		'.dropdown-divider', // Won't exist if `more-dropdown` is disabled
-		createDropdownItem('Releases', buildRepoURL('releases'), {
+		createDropdownItem(type, buildRepoURL(type.toLowerCase()), {
 			'data-menu-item': 'rgh-releases-item',
 		}),
 	);
@@ -110,6 +117,7 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/refined-github/refined-github
+Releases: https://github.com/refined-github/refined-github
+Tags: https://github.com/python/cpython
 
 */
