@@ -32,3 +32,13 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+
+/*
+
+Test URLs:
+
+PR: https://github.com/refined-github/sandbox/pull/55/files
+Large PR https://github.com/pixiebrix/pixiebrix-extension/pull/6808/files
+
+*/
