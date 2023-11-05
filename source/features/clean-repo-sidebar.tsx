@@ -67,9 +67,8 @@ async function moveReportLink(): Promise<void> {
 	await domLoaded;
 
 	const reportLink = $('.Layout-sidebar a[href^="/contact/report-content"]')?.parentElement;
-	if (reportLink) {
+	if (reportLink) { // Your own repos don't include this link
 		setTimeout(() => { // Wait for other hide init methods to run first before checking which is not hidden
-			// Your own repos don't include this link
 			$('.Layout-sidebar .BorderGrid-row:nth-last-child(1 of :not([hidden])) .BorderGrid-cell')!.append(reportLink);
 		}, 100);
 	}
