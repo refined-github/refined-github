@@ -40,7 +40,7 @@ async function hideEmptyDeployments(): Promise<void> {
 	await domLoaded;
 
 	const deployments = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/deployments"]', {waitForChildren: false})!;
-	if (deployments?.parentElement.parentElement.querySelector('ul').children.length === 0) {
+	if (deployments && deployments.parentElement!.parentElement!.querySelector('ul')!.children.length === 0) {
 		deployments.closest('.BorderGrid-row')!.hidden = true;
 	}
 }
@@ -68,8 +68,10 @@ async function moveReportLink(): Promise<void> {
 
 	const reportLink = $('.Layout-sidebar a[href^="/contact/report-content"]')?.parentElement;
 	if (reportLink) {
-		// Your own repos don't include this link
-		$('.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell')!.append(reportLink);
+		setTimeout(() => { // Wait for other hide init methods to run first before checking which is not hidden
+			// Your own repos don't include this link
+			$('.Layout-sidebar .BorderGrid-row:nth-last-child(1 of :not([hidden])) .BorderGrid-cell')!.append(reportLink);
+		}, 100);
 	}
 }
 
