@@ -28,6 +28,16 @@
 	opacity: 50%;
 }
 
+/* Untruncate checks descriptions */
+.merge-status-item .css-truncate {
+	white-space: unset !important;
+}
+
+/* Vertically align actions icons */
+.merge-status-item > a {
+	align-self: center;
+}
+
 /*
 Test URLs
 https://github.com/refined-github/refined-github/commit/5c9d630423d66732cb1e2bd7935fc67c133f6072
