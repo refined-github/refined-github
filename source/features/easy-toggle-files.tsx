@@ -51,7 +51,7 @@ void features.add(import.meta.url, {
 
 ## Test URLs
 
-- Pull Request:
+- Pull Request: https://github.com/refined-github/refined-github/pull/7036/files
 - Code Search: https://github.com/search?q=repo%3Arefined-github%2Frefined-github%20easy&type=code
 
 */
