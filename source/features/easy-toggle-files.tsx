@@ -19,7 +19,7 @@ function toggleCSFile(event: DelegateEvent<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
 	const headerBar = event.delegateTarget;
 
-	// The clicked element is either the bar itself or one of its 2 children and not the toggle button
+	// The clicked element is either the bar itself or one of its children excluding the button
 	if (elementClicked === headerBar || (elementClicked.parentElement === headerBar && elementClicked.tagName !== 'BUTTON')) {
 		$(['[aria-label^="Collapse "]', '[aria-label^="Expand "]'], headerBar)!
 			.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
