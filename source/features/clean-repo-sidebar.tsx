@@ -36,6 +36,15 @@ async function hideEmptyPackages(): Promise<void> {
 	}
 }
 
+async function hideEmptyDeployments(): Promise<void> {
+	await domLoaded;
+
+	const deployments = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/deployments"]', {waitForChildren: false})!;
+	if (deployments?.parentElement.parentElement.querySelector('ul').children.length === 0) {
+		deployments.closest('.BorderGrid-row')!.hidden = true;
+	}
+}
+
 async function hideLanguageHeader(): Promise<void> {
 	await domLoaded;
 
@@ -77,6 +86,7 @@ void features.add(import.meta.url, {
 		init,
 		cleanReleases,
 		hideEmptyPackages,
+		hideEmptyDeployments,
 		hideLanguageHeader,
 		hideEmptyMeta,
 		moveReportLink,
@@ -88,5 +98,6 @@ void features.add(import.meta.url, {
 Test URLs:
 
 https://github.com/refined-github/refined-github
+https://github.com/kidonng/sushi
 
 */
