@@ -31,7 +31,7 @@ function init(signal: AbortSignal): void {
 }
 
 function initCS(signal: AbortSignal): void {
-	delegate('div[data-testid="results-list"] > div > div:first-child', 'click', toggleCSFile, {signal});
+	delegate('div:has(>:is([aria-label^="Collapse "], [aria-label^="Expand "]))', 'click', toggleCSFile, {signal});
 }
 
 void features.add(import.meta.url, {
