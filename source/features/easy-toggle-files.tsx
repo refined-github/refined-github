@@ -45,7 +45,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isGlobalSearchResults,
 	],
-	init: initCodeSearch,
+	init: initSearchPage,
 });
 
 /*
