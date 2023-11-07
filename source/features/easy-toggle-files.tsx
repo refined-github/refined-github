@@ -1,10 +1,8 @@
 import {$} from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
-
 import * as pageDetect from 'github-url-detection';
 
 import {codeSearchHeader} from '../github-helpers/selectors.js';
-
 import features from '../feature-manager.js';
 
 function toggleFile(event: DelegateEvent<MouseEvent>): void {
@@ -18,7 +16,7 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 	}
 }
 
-function toggleCSFile(event: DelegateEvent<MouseEvent>): void {
+function toggleCodeSearchFile(event: DelegateEvent<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
 	const headerBar = event.delegateTarget;
 	const toggle = $(':scope > button', headerBar)!;
@@ -33,8 +31,8 @@ function init(signal: AbortSignal): void {
 	delegate('.file-header', 'click', toggleFile, {signal});
 }
 
-function initCS(signal: AbortSignal): void {
-	delegate(codeSearchHeader, 'click', toggleCSFile, {signal});
+function initSearchPage(signal: AbortSignal): void {
+	delegate(codeSearchHeader, 'click', toggleCodeSearchFile, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -47,7 +45,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isGlobalSearchResults,
 	],
-	init: initCS,
+	init: initCodeSearch,
 });
 
 /*
