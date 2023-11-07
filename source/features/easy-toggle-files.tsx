@@ -1,6 +1,9 @@
 import {$} from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
+
 import * as pageDetect from 'github-url-detection';
+
+import {codeSearchHeader} from '../github-helpers/selectors.js';
 
 import features from '../feature-manager.js';
 
@@ -31,7 +34,7 @@ function init(signal: AbortSignal): void {
 }
 
 function initCS(signal: AbortSignal): void {
-	delegate('div:has(>:is([aria-label^="Collapse "], [aria-label^="Expand "]))', 'click', toggleCSFile, {signal});
+	delegate(codeSearchHeader, 'click', toggleCSFile, {signal});
 }
 
 void features.add(import.meta.url, {
