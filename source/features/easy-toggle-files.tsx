@@ -18,7 +18,7 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 function toggleCSFile(event: DelegateEvent<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
 	const headerBar = event.delegateTarget;
-		const toggle = $(':scope > button', headerBar)!;
+	const toggle = $(':scope > button', headerBar)!;
 
 	// The clicked element is either the bar itself or one of its children excluding the button
 	if (elementClicked === headerBar || (elementClicked.parentElement === headerBar && elementClicked !== toggle)) {
