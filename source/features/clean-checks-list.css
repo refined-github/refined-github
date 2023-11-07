@@ -28,7 +28,7 @@
 	opacity: 50%;
 }
 
-/* Untruncate checks descriptions */
+/* Untruncate long check descriptions: https://github.com/hashicorp/consul/commit/38d94282ca0a1ed66d21ebb5c966a97e450d0ae3 */
 .merge-status-item .css-truncate {
 	white-space: unset !important;
 }
