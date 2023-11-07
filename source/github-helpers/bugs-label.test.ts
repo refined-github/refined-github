@@ -11,6 +11,8 @@ type/bug
 type:bug
 kind/bug
 kind:bug
+triage/bug
+triage:bug
 :bug:bug
 :bug: bug
 🐛bug
