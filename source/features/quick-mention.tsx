@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import {$, elementExists} from 'select-dom';
 import {ReplyIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
-import * as textFieldEdit from 'text-field-edit';
+import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import {wrap} from '../helpers/dom-utils.js';
@@ -29,7 +29,7 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	const spacer = /\s|^$/.test(precedingCharacter) ? '' : ' ';
 
 	// The space after closes the autocomplete box and places the cursor where the user would start typing
-	textFieldEdit.insert(newComment, `${spacer}${prefixUserMention(userMention)} `);
+	insertTextIntoField(newComment, `${spacer}${prefixUserMention(userMention)} `);
 }
 
 const debug = false;

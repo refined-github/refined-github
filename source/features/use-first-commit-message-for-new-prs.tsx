@@ -1,7 +1,7 @@
 import {$, elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import * as textFieldEdit from 'text-field-edit';
+import {insertTextIntoField, setFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
@@ -46,14 +46,14 @@ async function init(): Promise<void | false> {
 
 	const firstCommit = getFirstCommit();
 	if (!requestedContent.has('pull_request[title]')) {
-		textFieldEdit.set(
+		setFieldText(
 			$('.discussion-topic-header input')!,
 			firstCommit.title,
 		);
 	}
 
 	if (firstCommit.body && !requestedContent.has('pull_request[body]')) {
-		textFieldEdit.insert(
+		insertTextIntoField(
 			$('#new_pull_request textarea[aria-label="Comment body"]')!,
 			firstCommit.body,
 		);

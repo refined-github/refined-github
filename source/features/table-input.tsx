@@ -2,7 +2,7 @@ import './table-input.css';
 import React from 'dom-chef';
 import {TableIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
-import * as textFieldEdit from 'text-field-edit';
+import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import {elementExists} from 'select-dom';
@@ -28,7 +28,7 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 		: '<tr>\n' + ' <td>\n'.repeat(columns);
 	field.focus();
 	const table = '<table>\n' + row.repeat(rows) + '</table>';
-	textFieldEdit.insert(field, smartBlockWrap(table, field));
+	insertTextIntoField(field, smartBlockWrap(table, field));
 
 	// Move caret to first cell
 	field.selectionEnd = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;

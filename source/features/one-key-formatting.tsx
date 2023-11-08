@@ -1,5 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import * as textFieldEdit from 'text-field-edit';
+import {wrapFieldSelection} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
@@ -32,7 +32,7 @@ function eventHandler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement | 
 	event.preventDefault();
 
 	const matchingEndChar = matchingCharacters[formattingCharacters.indexOf(formattingChar)];
-	textFieldEdit.wrapSelection(field, formattingChar, matchingEndChar);
+	wrapFieldSelection(field, formattingChar, matchingEndChar);
 }
 
 function init(signal: AbortSignal): void {

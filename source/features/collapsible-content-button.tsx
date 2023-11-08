@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import {FoldDownIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
-import * as textFieldEdit from 'text-field-edit';
+import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 import {elementExists} from 'select-dom';
 
@@ -25,7 +25,7 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 	`.replaceAll(/(\n|\b)\t+/g, '$1').trim();
 
 	field.focus();
-	textFieldEdit.insert(field, smartBlockWrap(newContent, field));
+	insertTextIntoField(field, smartBlockWrap(newContent, field));
 
 	// Restore selection.
 	// `selectionStart` will be right after the newly-inserted text
