@@ -34,12 +34,6 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 	field.selectionEnd = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
 }
 
-function highlightSquares({delegateTarget: hover}: DelegateEvent<MouseEvent, HTMLElement>): void {
-	for (const cell of hover.parentElement!.children as HTMLCollectionOf<HTMLButtonElement>) {
-		cell.classList.toggle('selected', cell.dataset.x! <= hover.dataset.x! && cell.dataset.y! <= hover.dataset.y!);
-	}
-}
-
 function add(anchor: HTMLElement): void {
 	const wrapperClasses = [
 		'details-reset',
@@ -111,12 +105,12 @@ function init(signal: AbortSignal): void {
 		'.ActionBar-item:has([data-md-button=\'ref\'])',
 	], add, {signal});
 	delegate('.rgh-tic', 'click', addTable, {signal});
-	if (!isHasSelectorSupported()) {
-		delegate('.rgh-tic', 'mouseenter', highlightSquares, {capture: true, signal});
-	}
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isHasSelectorSupported,
+	],
 	include: [
 		pageDetect.hasRichTextEditor,
 	],
