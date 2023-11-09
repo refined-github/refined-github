@@ -51,7 +51,7 @@
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
-		"@primer/octicons-react": "^19.8.0",
+		"@primer/octicons-react": "^17.5.0",
 		"@sindresorhus/to-milliseconds": "^2.0.0",
 		"batched-function": "^2.0.1",
 		"code-tag": "^1.1.0",
@@ -63,7 +63,7 @@
 		"doma": "^4.0.0",
 		"element-ready": "^6.2.2",
 		"filter-altered-clicks": "^2.0.1",
-		"fit-textarea": "^3.0.0",
+		"fit-textarea": "^2.0.0",
 		"flat-zip": "^1.0.1",
 		"github-url-detection": "^8.1.1",
 		"image-promise": "^7.0.1",
