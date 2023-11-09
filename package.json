@@ -129,8 +129,8 @@
 		"xo": "^0.56.0"
 	},
 	"engines": {
-		"node": ">= 16",
-		"npm": ">= 7"
+		"node": ">= 20",
+		"npm": ">= 10"
 	},
 	"graphql": {
 		"schema": "https://docs.github.com/public/schema.docs.graphql"
