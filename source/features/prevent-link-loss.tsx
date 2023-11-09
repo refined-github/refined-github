@@ -3,7 +3,7 @@ import {$} from 'select-dom';
 import {AlertIcon} from '@primer/octicons-react';
 import debounceFn from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
-import * as textFieldEdit from 'text-field-edit';
+import {replaceFieldText} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
@@ -22,9 +22,9 @@ const documentation = 'https://github.com/refined-github/refined-github/wiki/Git
 function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #4678 */
 	const field = fixButton.form!.querySelector('textarea.js-comment-field')!;
-	textFieldEdit.replace(field, prCommitUrlRegex, preventPrCommitLinkLoss);
-	textFieldEdit.replace(field, prCompareUrlRegex, preventPrCompareLinkLoss);
-	textFieldEdit.replace(field, discussionUrlRegex, preventDiscussionLinkLoss);
+	replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
+	replaceFieldText(field, prCompareUrlRegex, preventPrCompareLinkLoss);
+	replaceFieldText(field, discussionUrlRegex, preventDiscussionLinkLoss);
 	fixButton.parentElement!.remove();
 }
 

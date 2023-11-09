@@ -95,10 +95,6 @@ void features.add(import.meta.url, {
 });
 ```
 
-## Requirements
-
-[Node.js](https://nodejs.org/en/download/) version 16 or later is required.
-
 ## Workflow
 
 First clone:
