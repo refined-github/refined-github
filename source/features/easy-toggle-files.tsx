@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import {codeSearchHeader} from '../github-helpers/selectors.js';
 import features from '../feature-manager.js';
+import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 function toggleFile(event: DelegateEvent<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
@@ -42,6 +43,9 @@ void features.add(import.meta.url, {
 	],
 	init,
 }, {
+	asLongAs: [
+		isHasSelectorSupported,
+	],
 	include: [
 		pageDetect.isGlobalSearchResults,
 	],
