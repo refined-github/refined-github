@@ -48,3 +48,8 @@ export const actionsTab = '#actions-tab';
 export const actionsTab_ = [
 	'https://github.com/refined-github/sandbox',
 ];
+
+export const codeSearchHeader = 'div:has(>:is([aria-label^="Collapse "], [aria-label^="Expand "]))';
+export const codeSearchHeader_ = [
+	'https://github.com/search?q=repo%3Arefined-github%2Frefined-github&type=code',
+];
