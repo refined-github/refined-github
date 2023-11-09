@@ -33,9 +33,13 @@
 	white-space: unset !important;
 }
 
-/* Vertically align actions icons */
-.merge-status-item > a {
-	align-self: center;
+/* Top align check symbol */
+.merge-status-item .merge-status-icon {
+	align-self: flex-start !important;
+
+	svg {
+		height: 20px;
+	}
 }
 
 /*
