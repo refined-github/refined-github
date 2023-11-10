@@ -36,10 +36,10 @@
 /* Top align check symbol */
 .merge-status-item .merge-status-icon {
 	align-self: flex-start !important;
-}
 
-.merge-status-item .merge-status-icon svg {
-	height: 20px;
+	& svg {
+		height: 20px;
+	}
 }
 
 /*
