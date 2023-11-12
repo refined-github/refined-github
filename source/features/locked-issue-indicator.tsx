@@ -51,7 +51,7 @@ void features.add(import.meta.url, {
 unlocked issue: https://github.com/refined-github/refined-github/issues/6551
 locked issue: https://github.com/refined-github/refined-github/issues/6940
 
-unlocked pr:
+unlocked pr: https://github.com/refined-github/refined-github/pull/7051
 locked pr: https://github.com/refined-github/sandbox/pull/48
 
 */
