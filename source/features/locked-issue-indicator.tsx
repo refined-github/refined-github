@@ -52,6 +52,6 @@ unlocked issue: https://github.com/refined-github/refined-github/issues/6551
 locked issue: https://github.com/refined-github/refined-github/issues/6940
 
 unlocked pr:
-locked pr: https://github.com/refined-github/refined-github/pull/6908
+locked pr: https://github.com/refined-github/sandbox/pull/48
 
 */
