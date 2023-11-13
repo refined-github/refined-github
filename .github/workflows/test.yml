@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: package.json
           cache: npm
       - run: npm ci
       - run: npm run vitest
@@ -31,9 +31,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: package.json
           cache: npm
       - run: npm ci
       - run: npm run lint
@@ -42,9 +42,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: package.json
           cache: npm
       - run: npm ci
       - run: npm run build:typescript
@@ -58,9 +58,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: package.json
           cache: npm
       - run: npm ci
       - run: npm run build:webpack -- --json webpack-stats.json
@@ -80,6 +80,10 @@ jobs:
     runs-on: macos-13
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: npm
       - run: npm ci
       - run: npm run build:webpack
       - uses: maxim-lobanov/setup-xcode@v1

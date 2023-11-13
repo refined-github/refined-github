@@ -26,7 +26,6 @@ type Not<Yes, Not> = Yes extends Not ? never : Yes;
 type UnslashedString<S extends string> = Not<S, `/${string}` | `${string}/`>;
 
 export function buildRepoURL<S extends string>(...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>): string {
-	// TODO: Drop after https://github.com/sindresorhus/type-fest/issues/417
 	for (const part of pathParts) {
 		if (typeof part === 'string' && /^\/|\/$/.test(part)) {
 			throw new TypeError('The path parts shouldn’t start or end with a slash: ' + part);

@@ -18,9 +18,6 @@ button.rgh-quick-mention:not(:hover, :focus) {
 }
 
 /* Conversation is locked. Hide the elements here because the feature runs before DOM ready. */
-/* TODO: Maybe find an earlier way to detect locked conversations in the observer, maybe include `body:has(.comment-field) */
-/* This detection is actually wrong. Moderators can still comment on locked issues */
-/* This class is also outdated and doubly-wrong */
-body:has(.conversation-limited) .rgh-quick-mention {
+body:has(.js-pick-reaction:first-child) .rgh-quick-mention {
 	display: none;
 }
