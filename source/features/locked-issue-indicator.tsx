@@ -32,7 +32,7 @@ function addLock(): void {
 }
 
 function init(signal: AbortSignal): void {
-    // If reactions-menu exists, then .js-pick-reaction is the second child
+	// If reactions-menu exists, then .js-pick-reaction is the second child
 	observe(':has(.js-pick-reaction:first-child) .gh-header-meta', onetime(addLock), {signal});
 }
 
