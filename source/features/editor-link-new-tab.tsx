@@ -1,7 +1,7 @@
 import * as pageDetect from 'github-url-detection';
+import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
-import delegate, { DelegateEvent } from 'delegate-it';
 
 function openInNewTab(event: DelegateEvent<MouseEvent, HTMLLinkElement>): void {
 	event.preventDefault();
@@ -9,15 +9,15 @@ function openInNewTab(event: DelegateEvent<MouseEvent, HTMLLinkElement>): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate('div.js-preview-body a, div.html-blob a', 'click', openInNewTab, { signal });
+	delegate('div.js-preview-body a, div.html-blob a', 'click', openInNewTab, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
-		pageDetect.isEditingFile
+		pageDetect.isEditingFile,
 	],
-	init
+	init,
 });
 
 /*
