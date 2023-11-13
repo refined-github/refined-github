@@ -33,5 +33,6 @@ void features.add(import.meta.url, {
 ## Test URLs
 
 https://github.com/refined-github/sandbox/issues/new
+https://github.com/refined-github/refined-github/edit/main/readme.md
 
 */
