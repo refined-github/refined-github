@@ -11,8 +11,8 @@ function openInNewTab(event: DelegateEvent<MouseEvent, HTMLLinkElement>): void {
 
 function init(signal: AbortSignal): void {
 	delegate([
-		'div.js-preview-body a',	// For rich text editors in issues, PRs, comments, etc.
-		'div.html-blob a', 				// For rich text editors when editing files (READMEs)
+		'div.js-preview-body a', // For rich text editors in issues, PRs, comments, etc.
+		'div.html-blob a', // For rich text editors when editing files (READMEs)
 	].join(', '),
 	'click',
 	filterAlteredClicks(openInNewTab),
