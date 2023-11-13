@@ -4,39 +4,42 @@ import * as pageDetect from 'github-url-detection';
 
 import onetime from 'onetime';
 
-import {$, elementExists} from 'select-dom';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import {isHasSelectorSupported} from '../helpers/select-has.js';
 
-function addLock(element: HTMLElement): void {
-	if (!elementExists('reactions-menu', element)) {
-		// Add locked indicator to header
-		$('.gh-header-meta')!.children[0].after(
-			<div className="flex-shrink-0 mb-2 flex-self-start flex-md-self-center">
-				<span title="Status: Locked" className="State d-flex flex-items-center">
-					<LockIcon className="flex-items-center mr-1"/>
-					Locked
-				</span>
-			</div>,
-		);
-		// Add locked indicator to sticky header
-		$('.gh-header-sticky .flex-row')!.children[0].after(
-			<div className="mr-2 mb-2 flex-shrink-0">
-				<span title="Status: Locked" className="State d-flex flex-items-center">
-					<LockIcon className="flex-items-center mr-1"/>
-					Locked
-				</span>
-			</div>,
-		);
-	}
+function addLock(): void {
+	// Add locked indicator to header
+	$('.gh-header-meta > :first-child')!.after(
+		<div className="flex-shrink-0 mb-2 flex-self-start flex-md-self-center">
+			<span title="Locked" className="State d-flex flex-items-center">
+				<LockIcon className="flex-items-center mr-1"/>
+				Locked
+			</span>
+		</div>,
+	);
+	// Add locked indicator to sticky header
+	$('.gh-header-sticky .flex-row > :first-child')!.after(
+		<div className="mr-2 mb-2 flex-shrink-0">
+			<span title="Locked" className="State d-flex flex-items-center">
+				<LockIcon className="flex-items-center mr-1"/>
+				Locked
+			</span>
+		</div>,
+	);
 }
 
 function init(signal: AbortSignal): void {
-	observe('.pr-review-reactions', onetime(addLock), {signal});
+    // If reactions-menu exists, then .js-pick-reaction is the second child
+	observe(':has(.js-pick-reaction:first-child) .gh-header-meta', onetime(addLock), {signal});
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isHasSelectorSupported,
+	],
 	include: [
 		pageDetect.isIssue,
 		pageDetect.isPR,
