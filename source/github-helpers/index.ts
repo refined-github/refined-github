@@ -45,7 +45,7 @@ export function parseTag(tag: string): {version: string; namespace: string} {
 	return {namespace, version};
 }
 
-export function compareNames(username: string, realname: string): boolean {
+export function isUsernameAlreadyFullName(username: string, realname: string): boolean {
 	return username.replaceAll('-', '').toLowerCase() === realname.normalize('NFD').replaceAll(/[\u0300-\u036F\W.]/g, '').toLowerCase();
 }
 
