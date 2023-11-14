@@ -4,19 +4,20 @@ import filterAlteredClicks from 'filter-altered-clicks';
 
 import features from '../feature-manager.js';
 
-function openInNewTab(event: DelegateEvent<MouseEvent, HTMLLinkElement>): void {
+function openInNewTab(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
 	event.preventDefault();
 	window.open(event.delegateTarget.href, '_blank');
 }
 
 function init(signal: AbortSignal): void {
-	delegate([
-		'div.js-preview-body a', // For rich text editors in issues, PRs, comments, etc.
-		'div.html-blob a', // For rich text editors when editing files (READMEs)
-	].join(', '),
-	'click',
-	filterAlteredClicks(openInNewTab),
-	{signal},
+	delegate(
+		[
+			'div.js-preview-body a', // `hasRichTextEditor`
+			'div.html-blob a', // `isEditingFile`
+		],
+		'click',
+		filterAlteredClicks(openInNewTab),
+		{signal},
 	);
 }
 
