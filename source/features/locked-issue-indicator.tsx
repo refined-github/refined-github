@@ -1,8 +1,8 @@
+import './locked-issue-indicator.css';
+
 import React from 'react';
 import {LockIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
-
-import onetime from 'onetime';
 
 import {$} from 'select-dom';
 
@@ -22,13 +22,13 @@ function LockedIndicator(): JSX.Element {
 function addLock(): void {
 	// Add locked indicator to header
 	$('.gh-header-meta > :first-child')!.after(
-		<div className="flex-shrink-0 mb-2 flex-self-start flex-md-self-center">
+		<div className="flex-shrink-0 mb-2 flex-self-start flex-md-self-center rgh-locked-issue-indicator">
 			<LockedIndicator/>
 		</div>,
 	);
 	// Add locked indicator to sticky header
 	$('.gh-header-sticky .flex-row > :first-child')!.after(
-		<div className="mr-2 mb-2 flex-shrink-0">
+		<div className="mr-2 mb-2 flex-shrink-0 rgh-locked-issue-indicator">
 			<LockedIndicator/>
 		</div>,
 	);
@@ -36,7 +36,7 @@ function addLock(): void {
 
 function init(signal: AbortSignal): void {
 	// If reactions-menu exists, then .js-pick-reaction is the second child
-	observe(':has(.js-pick-reaction:first-child) .gh-header-meta', onetime(addLock), {signal});
+	observe(':has(.js-pick-reaction:first-child) .gh-header-meta', addLock, {signal});
 }
 
 void features.add(import.meta.url, {
