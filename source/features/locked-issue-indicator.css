@@ -1,3 +1,3 @@
-:has(reactions-menu) .rgh-locked-issue-indicator {
+:has(.js-pick-reaction:first-child) .rgh-locked-issue-indicator {
 	display: none;
 }
