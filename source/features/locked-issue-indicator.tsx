@@ -10,23 +10,26 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {isHasSelectorSupported} from '../helpers/select-has.js';
 
+function LockedIndicator(): JSX.Element {
+	return (
+		<span title="Locked" className="State d-flex flex-items-center">
+			<LockIcon className="flex-items-center mr-1"/>
+			Locked
+		</span>
+	);
+}
+
 function addLock(): void {
 	// Add locked indicator to header
 	$('.gh-header-meta > :first-child')!.after(
 		<div className="flex-shrink-0 mb-2 flex-self-start flex-md-self-center">
-			<span title="Locked" className="State d-flex flex-items-center">
-				<LockIcon className="flex-items-center mr-1"/>
-				Locked
-			</span>
+			<LockedIndicator/>
 		</div>,
 	);
 	// Add locked indicator to sticky header
 	$('.gh-header-sticky .flex-row > :first-child')!.after(
 		<div className="mr-2 mb-2 flex-shrink-0">
-			<span title="Locked" className="State d-flex flex-items-center">
-				<LockIcon className="flex-items-center mr-1"/>
-				Locked
-			</span>
+			<LockedIndicator/>
 		</div>,
 	);
 }
