@@ -250,7 +250,7 @@ Thanks for contributing! 🦋🙌
 - [](# "linkify-user-labels") [Links the "Contributor" and "Member" labels on comments to the author’s commits on the repo.](https://user-images.githubusercontent.com/1402241/177033344-4d4eea63-e075-4096-b2d4-f4b879f1df31.png)
 - [](# "jump-to-conversation-close-event") [Adds a link to jump to the latest close event of a conversation.](https://user-images.githubusercontent.com/16872793/177792713-64219754-f8df-4629-a9ec-33259307cfe7.gif)
 - [](# "close-as-unplanned") [Lets you "close issue as unplanned" in one click instead of three.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/279745773-709cde60-c26a-4a0e-89e1-56444d25ebdf.png)
-- [](# "locked-issue") [Show a label on locked issues and pulls.](https://user-images.githubusercontent.com/58778985/282343812-a5811a61-0507-4058-bb3e-299a59bcbc71.png)
+- [](# "locked-issue") [Show a label on locked issues and pulls.](https://github.com/refined-github/refined-github/assets/58778985/aed20e5b-6a8e-45f7-af2d-99928d18875d)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

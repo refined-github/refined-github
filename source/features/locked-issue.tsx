@@ -2,7 +2,6 @@ import './locked-issue.css';
 import React from 'react';
 import {LockIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
-import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -17,15 +16,16 @@ function LockedIndicator(): JSX.Element {
 	);
 }
 
-function addLock(): void {
-	// Add locked indicator to header
-	$('.gh-header-meta > :first-child')!.after(
+function addLock(element: HTMLElement): void {
+	element.after(
 		<div className="flex-shrink-0 mb-2 flex-self-start flex-md-self-center rgh-locked-issue">
 			<LockedIndicator/>
 		</div>,
 	);
-	// Add locked indicator to sticky header
-	$('.gh-header-sticky .flex-row > :first-child')!.after(
+}
+
+function addStickyLock(element: HTMLElement): void {
+	element.after(
 		<div className="mr-2 mb-2 flex-shrink-0 rgh-locked-issue">
 			<LockedIndicator/>
 		</div>,
@@ -34,7 +34,8 @@ function addLock(): void {
 
 function init(signal: AbortSignal): void {
 	// If reactions-menu exists, then .js-pick-reaction is the second child
-	observe(':has(.js-pick-reaction:first-child) .gh-header-meta', addLock, {signal});
+	observe(':has(.js-pick-reaction:first-child) .gh-header-meta > :first-child', addLock, {signal});
+	observe(':has(.js-pick-reaction:first-child) .gh-header-sticky .flex-row > :first-child', addStickyLock, {signal});
 }
 
 void features.add(import.meta.url, {
