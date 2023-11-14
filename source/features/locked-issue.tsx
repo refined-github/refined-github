@@ -1,4 +1,4 @@
-import './locked-issue-indicator.css';
+import './locked-issue.css';
 import React from 'react';
 import {LockIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
@@ -20,13 +20,13 @@ function LockedIndicator(): JSX.Element {
 function addLock(): void {
 	// Add locked indicator to header
 	$('.gh-header-meta > :first-child')!.after(
-		<div className="flex-shrink-0 mb-2 flex-self-start flex-md-self-center rgh-locked-issue-indicator">
+		<div className="flex-shrink-0 mb-2 flex-self-start flex-md-self-center rgh-locked-issue">
 			<LockedIndicator/>
 		</div>,
 	);
 	// Add locked indicator to sticky header
 	$('.gh-header-sticky .flex-row > :first-child')!.after(
-		<div className="mr-2 mb-2 flex-shrink-0 rgh-locked-issue-indicator">
+		<div className="mr-2 mb-2 flex-shrink-0 rgh-locked-issue">
 			<LockedIndicator/>
 		</div>,
 	);
