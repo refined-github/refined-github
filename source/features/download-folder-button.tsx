@@ -1,5 +1,3 @@
-import './download-folder-button.css';
-
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
