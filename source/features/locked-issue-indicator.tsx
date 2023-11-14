@@ -1,9 +1,7 @@
 import './locked-issue-indicator.css';
-
 import React from 'react';
 import {LockIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
-
 import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
