@@ -170,7 +170,6 @@ import './features/easy-toggle-files.js';
 import './features/quick-repo-deletion.js';
 import './features/clean-repo-sidebar.js';
 import './features/rgh-feature-descriptions.js';
-import './features/wait-for-attachments.js';
 import './features/archive-forks-link.js';
 import './features/link-to-changelog-file.js';
 import './features/rgh-linkify-features.js';
