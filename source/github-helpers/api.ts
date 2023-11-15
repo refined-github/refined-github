@@ -237,7 +237,7 @@ export const v4 = mem(v4uncached, {
 		// https://github.com/refined-github/refined-github/issues/5821
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
 		const key = [query, options];
-		if (query.includes('repository() {')) {
+		if (query.includes('repository() {') || query.includes('owner: $owner, name: $name')) {
 			key.push(getRepo()?.nameWithOwner);
 		}
 
