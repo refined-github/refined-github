@@ -18,17 +18,13 @@ function LockedIndicator(): JSX.Element {
 
 function addLock(element: HTMLElement): void {
 	element.after(
-		<div className="flex-shrink-0 mb-2 flex-self-start flex-md-self-center rgh-locked-issue">
-			<LockedIndicator/>
-		</div>,
+		<LockedIndicator className="flex-shrink-0 mb-2 flex-self-start flex-md-self-center rgh-locked-issue"/>,
 	);
 }
 
 function addStickyLock(element: HTMLElement): void {
 	element.after(
-		<div className="mr-2 mb-2 flex-shrink-0 rgh-locked-issue">
-			<LockedIndicator/>
-		</div>,
+		<LockedIndicator className="mr-2 mb-2 flex-shrink-0 rgh-locked-issue"/>,
 	);
 }
 
