@@ -9,7 +9,7 @@ import {assertError} from 'ts-extras';
 import * as indentTextarea from 'indent-textarea';
 import delegate, {DelegateEvent} from 'delegate-it';
 import {isChrome, isFirefox} from 'webext-detect-page';
-import {isEnterprise} from 'github-url-detection';
+import {SyncedForm} from 'webext-options-sync-per-domain';
 
 import featureLink from './helpers/feature-link.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
@@ -23,6 +23,8 @@ import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {state as bisectState} from './helpers/bisect.js';
 
 type TokenType = 'classic' | 'fine_grained';
+
+let syncedForm: SyncedForm | undefined;
 
 type Status = {
 	tokenType: TokenType;
@@ -254,6 +256,10 @@ function updateRateLink(): void {
 	$('a#rate-link')!.href = isFirefox() ? 'https://addons.mozilla.org/en-US/firefox/addon/refined-github-' : 'https://apps.apple.com/app/id1519867270?action=write-review';
 }
 
+function isEnterprise(): boolean {
+	return syncedForm!.getSelectedDomain() !== 'default';
+}
+
 async function showStoredCssHotfixes(): Promise<void> {
 	const cachedCSS = await styleHotfixes.getCached(version);
 	$('#hotfixes-field')!.textContent
@@ -298,7 +304,7 @@ async function generateDom(): Promise<void> {
 	await markLocalHotfixes();
 
 	// Update list from saved options
-	await perDomainOptions.syncForm('form');
+	syncedForm = await perDomainOptions.syncForm('form');
 
 	// Only now the form is ready, we can show it
 	$('#js-failed')!.remove();
@@ -330,9 +336,8 @@ async function generateDom(): Promise<void> {
 
 function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
-	$('.OptionsSyncPerDomain-picker select')?.addEventListener('change', ({currentTarget: dropdown}) => {
-		const host = (dropdown as HTMLSelectElement).value;
-		$('a#personal-token-link')!.host = host === 'default' ? 'github.com' : host;
+	syncedForm?.onChange(async domain => {
+		$('a#personal-token-link')!.host = domain === 'default' ? 'github.com' : domain;
 		// Delay validating to let options load first
 		setTimeout(validateToken, 100);
 	});
