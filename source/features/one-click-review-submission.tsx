@@ -9,10 +9,9 @@ import {assertNodeContent} from '../helpers/dom-utils.js';
 
 function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	const form = originalSubmitButton.form!;
-	const actionsRow = originalSubmitButton.closest([
-		'.form-actions', // TODO: For GHE. Remove after June 2024
-		'.Overlay-footer',
-	])!;
+	const actionsRow = originalSubmitButton.closest('.Overlay-footer');
+	// TODO: For GHE. Remove after June 2024
+	const legacyActionsRow = originalSubmitButton.closest('.form-actions')!;
 	const formAttribute = originalSubmitButton.getAttribute('form')!;
 
 	// Do not use `$$` because elements can be outside `form`
@@ -32,6 +31,11 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 				value="comment"
 			/>,
 		);
+	}
+
+	if (actionsRow) {
+		actionsRow.prepend(<span className="spacer.gif ml-auto"/>);
+		radios.reverse();
 	}
 
 	// Generate the new buttons
@@ -74,7 +78,11 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 			button.prepend(<FileDiffIcon className="color-fg-danger"/>);
 		}
 
-		actionsRow.append(button);
+		if (actionsRow) {
+			actionsRow.prepend(button);
+		} else {
+			legacyActionsRow.append(button);
+		}
 	}
 
 	// Remove original fields at last to avoid leaving a broken form
