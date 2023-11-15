@@ -43,8 +43,7 @@ void features.add(import.meta.url, {
 		isHasSelectorSupported,
 	],
 	include: [
-		pageDetect.isIssue,
-		pageDetect.isPR,
+		pageDetect.isConversation,
 	],
 	init,
 });
