@@ -24,5 +24,5 @@ export default async function isDefaultBranch(): Promise<boolean> {
 	// defaultBranch === 'a/b' && currentBranch === 'a'
 	const path = parts.join('/');
 	const defaultBranch = await getDefaultBranch();
-	return path === defaultBranch || defaultBranch.startsWith(`${path}/`);
+	return path === defaultBranch || path.startsWith(`${defaultBranch}/`);
 }
