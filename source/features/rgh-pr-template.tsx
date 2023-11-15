@@ -9,7 +9,7 @@ import observe from '../helpers/selector-observer.js';
 function extract(textarea: HTMLTextAreaElement): void {
 	replaceFieldText(textarea, /<!--(.+)-->\n/s, (_, match) => {
 		textarea.closest('tab-container')!.before(
-			<div style={{whiteSpace: 'pre-wrap'}} className="flash mx-2 p-2">
+			<div style={{whiteSpace: 'pre-wrap'}} className="flash mb-3 p-3">
 				{match.trim()}
 			</div>,
 		);

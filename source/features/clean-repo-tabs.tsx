@@ -67,7 +67,6 @@ const workflowCount = new CachedFunction('workflows-count', {
 	async updater(): Promise<number> {
 		const {repository: {workflowFiles}} = await api.v4(CountWorkflows);
 
-		// TODO: Use native "totalCount" field
 		return workflowFiles?.entries.length ?? 0;
 	},
 	maxAge: {days: 1},

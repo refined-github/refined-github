@@ -6,7 +6,7 @@ import {$, $$} from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import prettyBytes from 'pretty-bytes';
 import {assertError} from 'ts-extras';
-import * as indentTextarea from 'indent-textarea';
+import {enableTabToIndent} from 'indent-textarea';
 import delegate, {DelegateEvent} from 'delegate-it';
 import {isChrome, isFirefox} from 'webext-detect-page';
 import {SyncedForm} from 'webext-options-sync-per-domain';
@@ -357,7 +357,7 @@ function addEventListeners(): void {
 
 	// Improve textareas editing
 	fitTextarea.watch('textarea');
-	indentTextarea.watch('textarea');
+	enableTabToIndent('textarea');
 
 	// Load screenshots
 	delegate('.screenshot-link', 'click', summaryHandler);
