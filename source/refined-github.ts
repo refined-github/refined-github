@@ -29,7 +29,6 @@ import './features/mark-private-repos.css';
 import './features/align-issue-labels.js';
 import './features/clean-pinned-issues.js';
 import './features/hide-newsfeed-noise.js';
-import './features/minimize-upload-bar.js';
 import './features/hide-diff-signs.js';
 import './features/clean-rich-text-editor.js';
 
