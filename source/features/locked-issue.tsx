@@ -41,6 +41,10 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],
+	exclude: [
+		// https://github.com/refined-github/refined-github/issues/7063
+		pageDetect.isEnterprise,
+	],
 	init,
 });
 
