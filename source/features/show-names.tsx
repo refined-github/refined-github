@@ -9,11 +9,10 @@ import {getUsername, isUsernameAlreadyFullName} from '../github-helpers/index.js
 import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 
-function dropExtraCopy(elements: HTMLAnchorElement[]): void {
-	for (const element of elements) {
-		// Drop 'commented' label to shorten the copy
-		const commentedNode = element.parentNode!.nextSibling;
-		if (element.closest('.timeline-comment-header') && commentedNode) {
+// Drop 'commented' label to shorten the copy
+function dropExtraCopy(extraCopyNodes: ChildNode[]): void {
+	for (const commentedNode of extraCopyNodes) {
+		if (commentedNode.parentElement!.closest('.timeline-comment-header')) {
 			// "left a comment" appears in the main comment of reviews
 			removeTextNodeContaining(commentedNode, /commented|left a comment/);
 		}
@@ -30,6 +29,9 @@ async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise
 		return;
 	}
 
+	// Save the nodes now because they change position after the name insertion
+	const extraCopy = batchedUsernameElements.map(element => element.parentNode!.nextSibling!).filter(Boolean);
+
 	const names = await api.v4(
 		[...usernames].map(user =>
 			api.escapeKey(user) + `: user(login: "${user}") {name}`,
@@ -40,6 +42,10 @@ async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise
 		const username = usernameElement.textContent;
 		const userKey = api.escapeKey(username);
 		const {name} = names[userKey];
+
+		if (!name) {
+			continue;
+		}
 
 		if (isUsernameAlreadyFullName(username, name)) {
 			usernameElement.textContent = name;
@@ -59,7 +65,7 @@ async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise
 	}
 
 	// This change is ideal but should not break the feature if it fails, so leave it for last
-	dropExtraCopy(batchedUsernameElements);
+	dropExtraCopy(extraCopy);
 }
 
 const usernameLinksSelector = [
