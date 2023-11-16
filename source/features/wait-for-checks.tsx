@@ -12,6 +12,9 @@ import {isHasSelectorSupported} from '../helpers/select-has.js';
 import {actionsTab} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 import prCiStatus, {StatusState} from '../github-helpers/pr-ci-status.js';
+import onAbort from '../helpers/abort-controller.js';
+
+let merging: AbortController | undefined;
 
 // Reuse the same checkbox to preserve its state
 const generateCheckbox = onetime(() => (
@@ -46,8 +49,6 @@ async function showCheckboxIfNecessary(event: CustomEvent<StatusState>): Promise
 	}
 }
 
-let waiting: symbol | undefined;
-
 function disableForm(disabled = true): void {
 	for (const field of $$(`
 		textarea[name="commit_message"],
@@ -57,14 +58,14 @@ function disableForm(disabled = true): void {
 	`)) {
 		field.disabled = disabled;
 	}
-
-	// Enabled form = no waiting in progress
-	if (!disabled) {
-		waiting = undefined;
-	}
 }
 
 async function handleMergeConfirmation(event: DelegateEvent<Event, HTMLButtonElement>): Promise<void> {
+	if (merging) {
+		// Double click?
+		return;
+	}
+
 	const mergeButton = event.delegateTarget;
 	if (!getCheckbox()?.checked) {
 		return;
@@ -72,33 +73,35 @@ async function handleMergeConfirmation(event: DelegateEvent<Event, HTMLButtonEle
 
 	event.preventDefault();
 	disableForm();
-	const currentConfirmation = Symbol('');
-	waiting = currentConfirmation;
+	const currentConfirmation = new AbortController();
+	merging = currentConfirmation;
 
 	prCiStatus.startPolling();
 	const success = await new Promise(resolve => {
 		prCiStatus.addEventListener('state-change', ((event: CustomEvent<StatusState>) => {
-			resolve(event.detail === 'SUCCESS');
+			if(event.detail === 'SUCCESS') {
+				resolve(true);
+			}
 		}) as EventListener, {once: true});
 
-		// New commits disable auto-merging
-		prCiStatus.addEventListener('head-change', () => {
+		onAbort(currentConfirmation, () => {
 			resolve(false);
-		}, {once: true});
+		});
 	});
 
 	disableForm(false);
 	prCiStatus.stopPolling();
-	if (!success || waiting !== currentConfirmation) {
+	merging = undefined;
+	if (!success) {
 		return;
 	}
 
-	mergeButton.classList.add('rgh-merging'); // Avoid triggering the event listener again
 	mergeButton.click();
+	features.unload(import.meta.url);
 }
 
 function onBeforeunload(event: BeforeUnloadEvent): void {
-	if (waiting) {
+	if (merging) {
 		event.returnValue = '';
 	}
 }
@@ -116,7 +119,7 @@ function init(signal: AbortSignal): void {
 	window.addEventListener('beforeunload', onBeforeunload, {signal});
 
 	// Start/stop polling when the merge panel is toggled
-	delegate('.js-merge-pr:not(.is-rebasing)', 'details:toggled', onPrMergePanelToggle, {signal});
+	delegate('.js-merge-pr', 'details:toggled', onPrMergePanelToggle, {signal});
 
 	// Toggle checkbox visibility following state changes
 	// Assertion due to https://github.com/microsoft/TypeScript/issues/28357
@@ -125,11 +128,11 @@ function init(signal: AbortSignal): void {
 	// TODO: Also use observer to track panel openings due to session:resume
 
 	// One of the merge buttons has been clicked
-	delegate('.js-merge-commit-button:not(.rgh-merging)', 'click', handleMergeConfirmation, {signal});
+	delegate('.js-merge-commit-button', 'click', handleMergeConfirmation, {signal});
 
 	// Cancel wait when the user presses the Cancel button
 	delegate('.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
-		disableForm(false);
+		merging?.abort();
 	}, {signal});
 
 	// Disable the feature under certain conditions.
