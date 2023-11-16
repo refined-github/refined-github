@@ -18,6 +18,7 @@ button.rgh-quick-mention:not(:hover, :focus) {
 }
 
 /* Conversation is locked. Hide the elements here because the feature runs before DOM ready. */
-body:has(.js-pick-reaction:first-child) .rgh-quick-mention {
+/* Locked conversations still have a comment field open to collaborators */
+body:not(:has(.js-comment-field)) .rgh-quick-mention {
 	display: none;
 }
