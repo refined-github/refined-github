@@ -79,7 +79,7 @@ async function handleMergeConfirmation(event: DelegateEvent<Event, HTMLButtonEle
 	prCiStatus.startPolling();
 	const success = await new Promise(resolve => {
 		prCiStatus.addEventListener('state-change', ((event: CustomEvent<StatusState>) => {
-			if(event.detail === 'SUCCESS') {
+			if (event.detail === 'SUCCESS') {
 				resolve(true);
 			}
 		}) as EventListener, {once: true});
