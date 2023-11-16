@@ -1,77 +1,73 @@
-import {$, lastElement} from 'select-dom';
 
 import api from './api.js';
-import {prCommit, prCommitStatusIcon} from './selectors.js';
+import {getConversationNumber} from './index.js';
+import GetPRChecks from './pr-ci-status.gql';
 
-export const SUCCESS = Symbol('Success');
-export const FAILURE = Symbol('Failure');
-export const PENDING = Symbol('Pending');
-export type CommitStatus = false | typeof SUCCESS | typeof FAILURE | typeof PENDING;
+// https://docs.github.com/en/graphql/reference/enums#statusstate
+export type StatusState = false | 'SUCCESS' | 'FAILURE' | 'PENDING' | 'ERROR' | 'EXPECTED';
+export type PrState = {head: string; state: StatusState};
 
-export function getLastCommitReference(): string {
-	return lastElement(`${prCommit} code`)!.textContent;
+export async function getPrState(): Promise<PrState> {
+	const pr = getConversationNumber()!;
+	const {repository} = await api.v4uncached(GetPRChecks, {variables: {pr}});
+	const {target} = repository.pullRequest.headRef;
+	return {head: target.oid, state: target.statusCheckRollup?.state ?? false};
 }
 
-export function getLastCommitStatus(): CommitStatus {
-	// Select the last commit first, THEN pick the icon, otherwise it might pick non-last commit while the CI is starting up
-	const lastCommit = lastElement(prCommit)!;
-	const lastCommitStatusIcon = $(prCommitStatusIcon, lastCommit);
+class PrCiStatus extends EventTarget {
+	private timer: NodeJS.Timeout | undefined;
+	private lastState: PrState | undefined;
+	private lastPoll: Promise<PrState> | undefined;
 
-	// Some commits don't have a CI status icon at all
-	if (lastCommitStatusIcon) {
-		if (lastCommitStatusIcon.classList.contains('octicon-check')) {
-			return SUCCESS;
-		}
-
-		if (lastCommitStatusIcon.classList.contains('octicon-x')) {
-			return FAILURE;
-		}
-
-		if (lastCommitStatusIcon.classList.contains('octicon-dot-fill')) {
-			return PENDING;
+	startPolling(): void {
+		if (this.timer === undefined) {
+			this.timer = setTimeout(async () => this.poll(), 2000);
 		}
 	}
 
-	return false;
-}
+	stopPolling(): void {
+		clearTimeout(this.timer);
+		this.timer = undefined;
+	}
 
-export async function getCommitStatus(commitSha: string): Promise<CommitStatus> {
-	const {repository} = await api.v4uncached(`
-		query getCommitStatus($owner: String!, $name: String!, $commitSha: GitObjectID!) {
-			repository(owner: $owner, name: $name) {
-				object(expression: $commitSha) {
-					... on Commit {
-						checkSuites(first: 100) {
-							nodes {
-								checkRuns { totalCount }
-								status
-								conclusion
-							}
-						}
-					}
-				}
+	async getLatestValue(): Promise<PrState> {
+		if (this.timer) {
+			return this.lastPoll!;
+		}
+
+		return getPrState();
+	}
+
+	private async fetchData(): Promise<PrState> {
+		this.lastPoll = getPrState();
+		return this.lastPoll;
+	}
+
+	private async poll(): Promise<void> {
+		try {
+			const newData = await this.fetchData();
+
+			if (!this.lastState || JSON.stringify(newData) !== JSON.stringify(this.lastState)) {
+				this.lastState = newData;
+				this.triggerChangeCallbacks(newData);
 			}
-		}
-	`, {variables: {commitSha}});
-
-	if (repository.object.checkSuites.nodes === 0) {
-		return false; // The commit doesn't have any CI checks associated to it
-	}
-
-	for (const {checkRuns, status, conclusion} of repository.object.checkSuites.nodes) {
-		// Check suites with no runs will always have a status of "QUEUED" (e.g. Dependabot when it's disabled on the repo)
-		if (checkRuns.totalCount === 0) {
-			continue;
-		}
-
-		if (status !== 'COMPLETED') {
-			return PENDING;
-		}
-
-		if (conclusion !== 'SUCCESS' && conclusion !== 'NEUTRAL' && conclusion !== 'SKIPPED') {
-			return FAILURE;
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		} finally {
+			this.startPolling();
 		}
 	}
 
-	return SUCCESS;
+	private triggerChangeCallbacks(data: PrState): void {
+		if (data.head !== this.lastState?.head) {
+			this.dispatchEvent(new CustomEvent('head-change', {detail: data.head}));
+		}
+
+		if (data.state !== this.lastState?.state) {
+			this.dispatchEvent(new CustomEvent('state-change', {detail: data.state}));
+		}
+	}
 }
+
+const prCiStatus = new PrCiStatus();
+export default prCiStatus;

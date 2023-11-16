@@ -76,7 +76,6 @@
 		"one-event": "^3.1.0",
 		"one-mutation": "^2.1.0",
 		"onetime": "^7.0.0",
-		"p-retry": "^6.1.0",
 		"pretty-bytes": "^6.1.1",
 		"push-form": "^1.0.1",
 		"regex-join": "^2.0.0",

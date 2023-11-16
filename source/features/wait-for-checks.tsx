@@ -4,19 +4,14 @@ import {$, $$, elementExists} from 'select-dom';
 import onetime from 'onetime';
 import {InfoIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
-import pRetry, {AbortError} from 'p-retry';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
-import observeElement from '../helpers/simplified-element-observer.js';
-import * as prCiStatus from '../github-helpers/pr-ci-status.js';
-import onPrMergePanelOpen from '../github-events/on-pr-merge-panel-open.js';
-import {onPrMergePanelLoad} from '../github-events/on-fragment-load.js';
-import onAbort from '../helpers/abort-controller.js';
 import {userCanLikelyMergePR} from '../github-helpers/index.js';
 import {isHasSelectorSupported} from '../helpers/select-has.js';
-import {actionsTab, prCommitStatusIcon} from '../github-helpers/selectors.js';
+import {actionsTab} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
+import prCiStatus, {StatusState} from '../github-helpers/pr-ci-status.js';
 
 // Reuse the same checkbox to preserve its state
 const generateCheckbox = onetime(() => (
@@ -40,13 +35,9 @@ function getCheckbox(): HTMLInputElement | undefined {
 }
 
 // Only show the checkbox if the last commit doesn't have a green or red CI icon
-function showCheckboxIfNecessary(): void {
+async function showCheckboxIfNecessary(event: CustomEvent<StatusState>): Promise<void> {
 	const checkbox = getCheckbox();
-	const lastCommitStatus = prCiStatus.getLastCommitStatus();
-
-	const isNecessary = lastCommitStatus === prCiStatus.PENDING
-		// If the latest commit is missing an icon, add the checkbox as long as there's at least one CI icon on the page (including `ci-link`)
-		|| (lastCommitStatus === false && elementExists(prCommitStatusIcon));
+	const isNecessary = event.detail === 'PENDING';
 
 	if (!checkbox && isNecessary) {
 		$('.js-merge-form .select-menu')?.append(generateCheckbox());
@@ -74,12 +65,8 @@ function disableForm(disabled = true): void {
 }
 
 async function handleMergeConfirmation(event: DelegateEvent<Event, HTMLButtonElement>): Promise<void> {
+	const mergeButton = event.delegateTarget;
 	if (!getCheckbox()?.checked) {
-		return;
-	}
-
-	const lastCommitSha = prCiStatus.getLastCommitReference()?.trim();
-	if (!lastCommitSha) {
 		return;
 	}
 
@@ -88,67 +75,26 @@ async function handleMergeConfirmation(event: DelegateEvent<Event, HTMLButtonEle
 	const currentConfirmation = Symbol('');
 	waiting = currentConfirmation;
 
-	let result: prCiStatus.CommitStatus;
-	try {
-		result = await pRetry(async () => {
-			const status = await prCiStatus.getCommitStatus(lastCommitSha);
+	prCiStatus.startPolling();
+	const success = await new Promise(resolve => {
+		prCiStatus.addEventListener('state-change', ((event: CustomEvent<StatusState>) => {
+			resolve(event.detail === 'SUCCESS');
+		}) as EventListener, {once: true});
 
-			// Ensure that it wasn't cancelled/changed in the meanwhile
-			if (waiting !== currentConfirmation) {
-				throw new AbortError('The merge was cancelled or a new commit was pushed');
-			}
+		// New commits disable auto-merging
+		prCiStatus.addEventListener('head-change', () => {
+			resolve(false);
+		}, {once: true});
+	});
 
-			if (status === prCiStatus.PENDING) {
-				throw new Error('CI is not done yet');
-			}
-
-			return status;
-		}, {
-			forever: true,
-			minTimeout: 5000,
-			maxTimeout: 10_000,
-		});
-	} catch {
-		return;
-	} finally {
-		disableForm(false);
-	}
-
-	if (result === prCiStatus.SUCCESS) {
-		event.delegateTarget.classList.add('rgh-merging'); // Avoid triggering the event listener again
-		event.delegateTarget.click();
-	}
-}
-
-let commitObserver: undefined | MutationObserver;
-
-function watchForNewCommits(): void {
-	if (commitObserver) {
+	disableForm(false);
+	prCiStatus.stopPolling();
+	if (!success || waiting !== currentConfirmation) {
 		return;
 	}
 
-	let previousCommit = prCiStatus.getLastCommitReference();
-	const filteredListener = (): void => {
-		const newCommit = prCiStatus.getLastCommitReference();
-		if (newCommit === previousCommit) {
-			return;
-		}
-
-		previousCommit = newCommit;
-		// Cancel submission if a new commit was pushed
-		disableForm(false);
-		showCheckboxIfNecessary();
-	};
-
-	commitObserver = observeElement('.js-discussion', filteredListener, {
-		childList: true,
-		subtree: true,
-	})!;
-}
-
-function onPrMergePanelHandler(): void {
-	showCheckboxIfNecessary();
-	watchForNewCommits();
+	mergeButton.classList.add('rgh-merging'); // Avoid triggering the event listener again
+	mergeButton.click();
 }
 
 function onBeforeunload(event: BeforeUnloadEvent): void {
@@ -157,12 +103,26 @@ function onBeforeunload(event: BeforeUnloadEvent): void {
 	}
 }
 
+function onPrMergePanelToggle(event: DelegateEvent): void {
+	if (event.delegateTarget.matches('.open')) {
+		prCiStatus.startPolling();
+	} else {
+		prCiStatus.stopPolling();
+	}
+}
+
 function init(signal: AbortSignal): void {
 	// Warn user if it's not yet submitted
 	window.addEventListener('beforeunload', onBeforeunload, {signal});
 
-	onPrMergePanelLoad(onPrMergePanelHandler, signal);
-	onPrMergePanelOpen(onPrMergePanelHandler, signal);
+	// Start/stop polling when the merge panel is toggled
+	delegate('.js-merge-pr:not(.is-rebasing)', 'details:toggled', onPrMergePanelToggle, {signal});
+
+	// Toggle checkbox visibility following state changes
+	// Assertion due to https://github.com/microsoft/TypeScript/issues/28357
+	prCiStatus.addEventListener('state-change', showCheckboxIfNecessary as unknown as EventListener, {signal});
+
+	// TODO: Also use observer to track panel openings due to session:resume
 
 	// One of the merge buttons has been clicked
 	delegate('.js-merge-commit-button:not(.rgh-merging)', 'click', handleMergeConfirmation, {signal});
@@ -171,10 +131,6 @@ function init(signal: AbortSignal): void {
 	delegate('.commit-form-actions button:not(.js-merge-commit-button)', 'click', () => {
 		disableForm(false);
 	}, {signal});
-
-	if (commitObserver) {
-		onAbort(signal, commitObserver);
-	}
 
 	// Disable the feature under certain conditions.
 	// These conditions cannot go in the `exclude` array because the mergeability box is loaded asynchronously

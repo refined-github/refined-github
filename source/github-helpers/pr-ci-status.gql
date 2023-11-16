@@ -1,0 +1,16 @@
+query GetPRChecks($owner: String!, $name: String!, $pr: Int!) {
+  repository(owner: $owner, name: $name) {
+    pullRequest(number: $pr) {
+      headRef {
+        target {
+          ... on Commit {
+            oid
+            statusCheckRollup {
+              state
+            }
+          }
+        }
+      }
+    }
+  }
+}
