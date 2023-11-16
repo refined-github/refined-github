@@ -30,8 +30,9 @@ function addStickyLock(element: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	// If reactions-menu exists, then .js-pick-reaction is the second child
-	observe(':has(.js-pick-reaction:first-child) .gh-header-meta > :first-child', addLock, {signal});
-	observe(':has(.js-pick-reaction:first-child) .gh-header-sticky .flex-row > :first-child', addStickyLock, {signal});
+	// Logged out users never have the menu, so they should be excluded
+	observe('.logged-in:has(.js-pick-reaction:first-child) .gh-header-meta > :first-child', addLock, {signal});
+	observe('.logged-in:has(.js-pick-reaction:first-child) .gh-header-sticky .flex-row > :first-child', addStickyLock, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -42,6 +43,7 @@ void features.add(import.meta.url, {
 		pageDetect.isConversation,
 	],
 	exclude: [
+		// TODO: Find alternative detection that works even for GHE that don't have reactions enabled
 		// https://github.com/refined-github/refined-github/issues/7063
 		pageDetect.isEnterprise,
 	],
