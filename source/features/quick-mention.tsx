@@ -11,6 +11,8 @@ import features from '../feature-manager.js';
 import {getUsername, isArchivedRepoAsync} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
+const fieldSelector = 'textarea#new_comment_field';
+
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
 	return '@' + userMention.replace('@', '').replace(/\[bot]$/, '');
@@ -18,7 +20,7 @@ function prefixUserMention(userMention: string): string {
 
 function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	const userMention = button.parentElement!.querySelector('img')!.alt;
-	const newComment = $('textarea#new_comment_field')!;
+	const newComment = $(fieldSelector)!;
 	newComment.focus();
 
 	// If the new comment field has selected text, don’t replace it
@@ -90,7 +92,9 @@ async function init(signal: AbortSignal): Promise<void> {
 	// `:first-child` avoids app badges #2630
 	// The hovercard attribute avoids `highest-rated-comment`
 	// Avatars next to review events aren't wrapped in a <div> #4844
+	// :has(fieldSelector) enables the feature only when/after the "mention" button can actually work
 	observe(`
+		body:has(${fieldSelector})
 		:is(
 			div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
 			a.TimelineItem-avatar
