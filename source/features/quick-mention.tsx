@@ -69,7 +69,6 @@ function add(avatar: HTMLElement): void {
 	}
 
 	const userMention = $('img', avatar)!.alt;
-	avatar.classList.add('rgh-quick-mention');
 	avatar.after(
 		<button
 			type="button"
