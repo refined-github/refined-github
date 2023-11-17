@@ -32,7 +32,7 @@ async function add(historyButton: HTMLElement): Promise<void> {
 
 	historyButton.before(
 		<a href={url.href} className="UnderlineNav-item tooltipped tooltipped-n ml-2" aria-label="View previous version">
-			<VersionsIcon className="UnderlineNav-octicon mr-0"/>
+			<VersionsIcon className="UnderlineNav-octicon mr-0" style={{zIndex: -1,}}/>
 		</a>,
 	);
 }

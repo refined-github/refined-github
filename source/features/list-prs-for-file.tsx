@@ -11,6 +11,7 @@ import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
 import observe from '../helpers/selector-observer.js';
 import listPrsForFileQuery from './list-prs-for-file.gql';
+import './fix-dropdown-overlap-list-pr-for-file.css';
 
 function getPRUrl(prNumber: number): string {
 	// https://caniuse.com/url-scroll-to-text-fragment
@@ -29,14 +30,14 @@ function getDropdown(prs: number[]): HTMLElement {
 		: <GitPullRequestIcon className="v-align-middle"/>;
 	// Markup copied from https://primer.style/css/components/dropdown
 	return (
-		<details className="dropdown details-reset details-overlay flex-self-center">
+		<details className="dropdown details-reset details-overlay flex-self-center," style={{zIndex: '10000'}}>
 			<summary className="btn btn-sm">
 				{icon}
 				<span className="v-align-middle"> {prs.length} </span>
 				<div className="dropdown-caret"/>
 			</summary>
 
-			<details-menu className="dropdown-menu dropdown-menu-sw" style={{width: '13em'}}>
+			<details-menu className="dropdown-menu dropdown-menu-sw" style={{width: '13em',zIndex: '10000'}}>
 				<div className="dropdown-header">
 					File also being edited in
 				</div>
