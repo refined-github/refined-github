@@ -46,6 +46,8 @@ void features.add(import.meta.url, {
 		// TODO: Find alternative detection that works even for GHE that don't have reactions enabled
 		// https://github.com/refined-github/refined-github/issues/7063
 		pageDetect.isEnterprise,
+		// Does not work for archived repos
+		pageDetect.isArchivedRepo,
 	],
 	init,
 });
