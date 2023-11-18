@@ -3,7 +3,7 @@ import {test, assert} from 'vitest';
 import {
 	getConversationNumber,
 	parseTag,
-	compareNames,
+	isUsernameAlreadyFullName,
 	getLatestVersionTag,
 } from './index.js';
 
@@ -85,14 +85,14 @@ test('parseTag', () => {
 	assert.deepEqual(parseTag('@hi/you@1.2.3'), {namespace: '@hi/you', version: '1.2.3'});
 });
 
-test('compareNames', () => {
-	assert.isTrue(compareNames('johndoe', 'John Doe'));
-	assert.isTrue(compareNames('john-doe', 'John Doe'));
-	assert.isTrue(compareNames('john-wdoe', 'John W. Doe'));
-	assert.isTrue(compareNames('john-doe-jr', 'John Doe Jr.'));
-	assert.isTrue(compareNames('nicolo', 'Nicolò'));
-	assert.isFalse(compareNames('dotconnor', 'Connor Love'));
-	assert.isFalse(compareNames('fregante ', 'Federico Brigante'));
+test('isUsernameAlreadyFullName', () => {
+	assert.isTrue(isUsernameAlreadyFullName('johndoe', 'John Doe'));
+	assert.isTrue(isUsernameAlreadyFullName('john-doe', 'John Doe'));
+	assert.isTrue(isUsernameAlreadyFullName('john-wdoe', 'John W. Doe'));
+	assert.isTrue(isUsernameAlreadyFullName('john-doe-jr', 'John Doe Jr.'));
+	assert.isTrue(isUsernameAlreadyFullName('nicolo', 'Nicolò'));
+	assert.isFalse(isUsernameAlreadyFullName('dotconnor', 'Connor Love'));
+	assert.isFalse(isUsernameAlreadyFullName('fregante ', 'Federico Brigante'));
 });
 
 test('getLatestVersionTag', () => {

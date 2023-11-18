@@ -7,18 +7,6 @@ import {buildRepoURL, getRepo, isArchivedRepoAsync} from '../github-helpers/inde
 import {isHasSelectorSupported} from '../helpers/select-has.js';
 import observe from '../helpers/selector-observer.js';
 
-function addLegacy(dropdownMenu: HTMLElement): void {
-	dropdownMenu.append(
-		<div role="none" className="dropdown-divider"/>,
-		<div className="dropdown-header">
-			<span title={getRepo()?.name}>This repository</span>
-		</div>,
-		<a role="menuitem" className="dropdown-item" href={buildRepoURL('issues/new/choose')}>
-			New issue
-		</a>,
-	);
-}
-
 function add(dropdownMenu: HTMLElement): void {
 	dropdownMenu.append(
 		<li role="presentation" aria-hidden="true" data-view-component="true" className="ActionList-sectionDivider"/>,
@@ -37,9 +25,6 @@ function add(dropdownMenu: HTMLElement): void {
 
 async function init(signal: AbortSignal): Promise<void | false> {
 	observe('#global-create-menu-list', add, {signal});
-
-	// TODO: Drop after Global Navigation update (Nov 2023)
-	observe('.Header-item .dropdown-menu:has(> [data-ga-click="Header, create new repository"])', addLegacy, {signal});
 }
 
 void features.add(import.meta.url, {

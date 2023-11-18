@@ -5,33 +5,32 @@ import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getUsername, compareNames} from '../github-helpers/index.js';
+import {getUsername, isUsernameAlreadyFullName} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 
-// The selector observer calls this function several times, but we want to batch them into a single GraphQL API call
-async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise<void> {
-	// TODO: Split up this function, it does too much
-	const usernames = new Set<string>();
-	const myUsername = getUsername();
-	for (const element of new Set(batchedUsernameElements)) {
-		const username = element.textContent;
-
-		if (username && username !== myUsername && username !== 'ghost') {
-			usernames.add(element.textContent);
-		}
-
-		// Drop 'commented' label to shorten the copy
-		const commentedNode = element.parentNode!.nextSibling;
-		if (element.closest('.timeline-comment-header') && commentedNode) {
+// Drop 'commented' label to shorten the copy
+function dropExtraCopy(extraCopyNodes: ChildNode[]): void {
+	for (const commentedNode of extraCopyNodes) {
+		if (commentedNode.parentElement!.closest('.timeline-comment-header')) {
 			// "left a comment" appears in the main comment of reviews
 			removeTextNodeContaining(commentedNode, /commented|left a comment/);
 		}
 	}
+}
+
+// The selector observer calls this function several times, but we want to batch them into a single GraphQL API call
+async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise<void> {
+	const myUsername = getUsername();
+	batchedUsernameElements = batchedUsernameElements.filter(({textContent: name}) => name !== myUsername && name !== 'ghost');
+	const usernames = new Set(batchedUsernameElements.map(element => element.textContent));
 
 	if (usernames.size === 0) {
 		return;
 	}
+
+	// Save the nodes now because they change position after the name insertion
+	const extraCopy = batchedUsernameElements.map(element => element.parentNode!.nextSibling!).filter(Boolean);
 
 	const names = await api.v4(
 		[...usernames].map(user =>
@@ -42,19 +41,18 @@ async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise
 	for (const usernameElement of batchedUsernameElements) {
 		const username = usernameElement.textContent;
 		const userKey = api.escapeKey(username);
+		const {name} = names[userKey];
 
-		// For the currently logged in user, `names[userKey]` would not be present
-		const {name} = names[userKey] ?? {};
 		if (!name) {
 			continue;
 		}
 
-		// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
-		if (compareNames(username, name)) {
+		if (isUsernameAlreadyFullName(username, name)) {
 			usernameElement.textContent = name;
 			continue;
 		}
 
+		// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
 		const {parentElement} = usernameElement;
 		const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : usernameElement;
 		insertionPoint.after(
@@ -65,6 +63,9 @@ async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise
 			' ',
 		);
 	}
+
+	// This change is ideal but should not break the feature if it fails, so leave it for last
+	dropExtraCopy(extraCopy);
 }
 
 const usernameLinksSelector = [
@@ -104,7 +105,7 @@ void features.add(import.meta.url, {
 Test URLs:
 
 - issue: https://github.com/isaacs/github/issues/297
-- pr with reviews: https://github.com/rust-lang/rfcs/pull/2544
+- PR with reviews: https://github.com/rust-lang/rfcs/pull/2544
 - mannequins: https://togithub.com/python/cpython/issues/67591
 - newsfeed: https://github.com
 
