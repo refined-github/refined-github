@@ -1,9 +1,9 @@
 /* Show button when the avatar or the button itself are hovered/focused */
-:not(:hover, :focus) + button.rgh-quick-mention:not(:hover, :focus) {
+:not(:hover, :focus) + .rgh-quick-mention:not(:hover, :focus) {
 	opacity: 10%;
 }
 
-button.rgh-quick-mention {
+.rgh-quick-mention {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -13,11 +13,6 @@ button.rgh-quick-mention {
 }
 
 /* Show icon in black if it's not hovered/focused, instead of the blue color caused by .btn-link */
-button.rgh-quick-mention:not(:hover, :focus) {
+.rgh-quick-mention:not(:hover, :focus) {
 	color: inherit;
-}
-
-/* Conversation is locked. Hide the elements here because the feature runs before DOM ready. */
-body:has(.js-pick-reaction:first-child) .rgh-quick-mention {
-	display: none;
 }
