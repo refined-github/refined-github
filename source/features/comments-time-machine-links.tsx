@@ -64,7 +64,6 @@ async function showTimeMachineBar(): Promise<void | false> {
 
 function addInlineLinks(menu: HTMLElement, timestamp: string): void {
 	const comment = menu.closest('.js-comment')!;
-	// TODO: Move selector directly to observer
 	const links = $$(`
 		a[href^="${location.origin}"][href*="/blob/"]:not(.${linkifiedURLClass}),
 		a[href^="${location.origin}"][href*="/tree/"]:not(.${linkifiedURLClass})

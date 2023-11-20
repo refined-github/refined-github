@@ -91,7 +91,7 @@
 		"webext-detect-page": "^4.1.1",
 		"webext-domain-permission-toggle": "^4.0.1",
 		"webext-dynamic-content-scripts": "^10.0.0",
-		"webext-options-sync-per-domain": "^4.0.0",
+		"webext-options-sync-per-domain": "^4.2.0",
 		"webext-storage-cache": "^6.0.0",
 		"webextension-polyfill-global": "^0.10.1-1",
 		"zip-text-nodes": "^1.0.0"

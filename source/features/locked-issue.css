@@ -1,0 +1,3 @@
+:has(.js-pick-reaction:not(:first-child)) .rgh-locked-issue {
+	display: none;
+}
