@@ -1,4 +1,4 @@
-.js-notifications-container .Box:has(.js-select-all-text) {
+.notifications-list > .Box-header {
     position: sticky;
     top: 0;
     z-index: 10;
