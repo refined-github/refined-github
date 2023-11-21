@@ -1,5 +1,5 @@
 @media (min-height: 500px) {
-	.notifications-list > .Box-header {
+	.js-notifications-container .Box:has(.js-select-all-text) {
 		position: sticky;
 		top: 0;
 		z-index: 10;
