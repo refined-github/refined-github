@@ -1,7 +1,9 @@
-.notifications-list > .Box-header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
+@media (min-height: 500px) {
+	.notifications-list > .Box-header {
+		position: sticky;
+		top: 0;
+		z-index: 10;
+	}
 }
 
 /*
