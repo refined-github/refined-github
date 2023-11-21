@@ -38,6 +38,10 @@ export function getCommitHash(commit: HTMLElement): string {
 	return $('a.markdown-title', commit)!.pathname.split('/').pop()!;
 }
 
+export function getFeatureCommitHash(commit: HTMLElement): string {
+	return $('.markdown-title a', commit)!.pathname.split('/').pop()!;
+}
+
 async function init(): Promise<void> {
 	const pageCommits = $$([
 		'.js-commits-list-item', // `isCommitList`
