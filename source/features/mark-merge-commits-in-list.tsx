@@ -46,11 +46,12 @@ export function getCommitHash(commit: HTMLElement): string {
 }
 
 async function init(): Promise<void> {
-	// TODO: Drop in June 2024
 	const pageCommits = $$([
+		'.listviewitem',
+
+		// Old view style (before November 2023)
 		'.js-commits-list-item', // `isCommitList`
 		'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`, "js-timeline-item" to exclude "isCommitList"
-		'.listviewitem', // New style (after November 2023)
 	]);
 
 	if (pageCommits.length === 0) {
