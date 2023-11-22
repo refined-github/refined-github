@@ -34,11 +34,15 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	return mergeCommits;
 };
 
-export function getCommitHash(commit: HTMLElement): string {
+function getCommitLink(commit: HTMLElement): HTMLAnchorElement | undefined {
 	return $([
-		'a.markdown-title',
+		'a.markdown-title', // Old view style (before November 2023)
 		'.markdown-title a',
-	], commit)!.pathname.split('/').pop()!;
+	], commit);
+}
+
+export function getCommitHash(commit: HTMLElement): string {
+	return getCommitLink(commit)!.pathname.split('/').pop()!;
 }
 
 async function init(): Promise<void> {
