@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getCommitHash, getFeatureCommitHash} from './mark-merge-commits-in-list.js';
+import {getCommitHash} from './mark-merge-commits-in-list.js';
 import {buildRepoURL, getRepo} from '../github-helpers/index.js';
 import GetTagsOnCommit from './tags-on-commits-list.gql';
 
@@ -97,11 +97,11 @@ async function init(): Promise<void | false> {
 		commitsOnPage = $$('.js-commits-list-item');
 	}
 
-	const lastCommitOnPage = isLegacy ? getCommitHash(commitsOnPage.at(-1)!) : getFeatureCommitHash(commitsOnPage.at(-1)!);
+	const lastCommitOnPage = getCommitHash(commitsOnPage.at(-1)!);
 	let cached = await cache.get<Record<string, string[]>>(cacheKey) ?? {};
 	const commitsWithNoTags = [];
 	for (const commit of commitsOnPage) {
-		const targetCommit = isLegacy ? getCommitHash(commit) : getFeatureCommitHash(commit);
+		const targetCommit = getCommitHash(commit);
 		let targetTags = cached[targetCommit];
 
 		if (!targetTags) {

@@ -35,11 +35,10 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 };
 
 export function getCommitHash(commit: HTMLElement): string {
-	return $('a.markdown-title', commit)!.pathname.split('/').pop()!;
-}
-
-export function getFeatureCommitHash(commit: HTMLElement): string {
-	return $('.markdown-title a', commit)!.pathname.split('/').pop()!;
+	return $([
+		'a.markdown-title',
+		'.markdown-title a'
+	], commit)!.pathname.split('/').pop()!;
 }
 
 async function init(): Promise<void> {
