@@ -1,0 +1,5 @@
+query IsFollowingRepo($owner: String!, $name: String!) {
+	repository(owner: $owner, name: $name) {
+		viewerSubscription
+	}
+}

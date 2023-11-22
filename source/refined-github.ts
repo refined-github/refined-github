@@ -216,3 +216,4 @@ import './features/repo-header-info.js';
 import './features/rgh-pr-template.js';
 import './features/close-as-unplanned.js';
 import './features/locked-issue.js';
+import './features/follow-repo.js';

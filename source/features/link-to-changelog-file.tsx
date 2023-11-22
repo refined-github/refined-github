@@ -9,6 +9,7 @@ import api from '../github-helpers/api.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import {buildRepoURL, getRepo} from '../github-helpers/index.js';
 import GetFilesOnRoot from './link-to-changelog-file.gql';
+import {releasesOrTagsNavbarSelector} from '../github-helpers/selectors.js';
 
 type FileType = {
 	name: string;
@@ -56,11 +57,6 @@ async function init(): Promise<void | false> {
 			<span>Changelog</span>
 		</a>
 	);
-
-	const releasesOrTagsNavbarSelector = [
-		'nav[aria-label^="Releases and Tags"]', // Release list
-		'.subnav-links', // Tag list
-	].join(',');
 
 	const navbar = (await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!;
 	navbar.classList.remove('flex-1');

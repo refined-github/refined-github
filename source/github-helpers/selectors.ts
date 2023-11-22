@@ -53,3 +53,12 @@ export const codeSearchHeader = 'div:has(>:is([aria-label^="Collapse "], [aria-l
 export const codeSearchHeader_ = [
 	'https://github.com/search?q=repo%3Arefined-github%2Frefined-github&type=code',
 ];
+
+export const releasesOrTagsNavbarSelector = [
+	'nav[aria-label^="Releases and Tags"]', // Release list
+	'.subnav-links', // Tag list
+].join(',');
+export const releasesOrTagsNavbarSelector_ = [
+	'https://github.com/facebook/react/releases',
+	'https://github.com/facebook/react/tags',
+];
