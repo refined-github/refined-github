@@ -19,9 +19,15 @@ const botNames = [
 	'weblate',
 ] as const;
 
+// TODO: Remove when New view is default
 const commitSelectors = [
 	...botNames.map(bot => `.commit-author[href$="?author=${bot}"]`),
 	'.commit-author[href$="%5Bbot%5D"]', // Generic `[bot]` label in author name
+];
+
+const newViewCommitSelectors = [
+	...botNames.map(bot => `div[data-testid="author-avatar"] a[href$="?author=${bot}"]`),
+	'div[data-testid="author-avatar"] a[href$="%5Bbot%5D"]', // Generic `[bot]` label in avatar in New view
 ];
 
 const prSelectors = [
@@ -51,10 +57,21 @@ function undimBots(event: DelegateEvent): void {
 }
 
 function init(signal: AbortSignal): void {
-	for (const bot of $$(commitSelectors)) {
+	let isLegacy = false;
+	let commits = $$(newViewCommitSelectors);
+
+	if (commits.length === 0) {
+		isLegacy = true;
+		commits = $$(commitSelectors);
+	}
+
+	for (const bot of commits) {
 		// Exclude co-authored commits
-		if ($$('a', bot.parentElement!).every(link => link.matches(commitSelectors))) {
-			bot.closest('.commit, .Box-row')!.classList.add(dimBots.class);
+		if (!isLegacy || $$('a', bot.parentElement!).every(link => link.matches(commitSelectors))) {
+			bot.closest([
+				'.listviewitem', // Commit container classname in New view
+				'.commit, .Box-row', // Old view style before Nov 2023
+			])!.classList.add(dimBots.class);
 		}
 	}
 
