@@ -35,13 +35,18 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 };
 
 export function getCommitHash(commit: HTMLElement): string {
-	return $('a.markdown-title', commit)!.pathname.split('/').pop()!;
+	return $([
+		'a.markdown-title', // Old view style (before November 2023)
+		'.markdown-title a',
+	], commit)!.pathname.split('/').pop()!;
 }
 
 async function init(): Promise<void> {
+	// TODO: Drop in June 2024
 	const pageCommits = $$([
 		'.js-commits-list-item', // `isCommitList`
 		'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`, "js-timeline-item" to exclude "isCommitList"
+		'.listviewitem', // New style (after November 2023)
 	]);
 
 	if (pageCommits.length === 0) {
@@ -52,7 +57,10 @@ async function init(): Promise<void> {
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
 			commit.classList.add('rgh-merge-commit');
-			$('a.markdown-title', commit)!.before(<GitMergeIcon className="mr-1"/>);
+			$([
+				'a.markdown-title', // Old view style (before November 2023)
+				'.markdown-title a',
+			], commit)!.before(<GitMergeIcon className="mr-1"/>);
 		}
 	}
 }
