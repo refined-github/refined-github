@@ -34,11 +34,15 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	return mergeCommits;
 };
 
-export function getCommitHash(commit: HTMLElement): string {
+function getCommitLink(commit: HTMLElement): HTMLAnchorElement | undefined {
 	return $([
 		'a.markdown-title', // Old view style (before November 2023)
 		'.markdown-title a',
-	], commit)!.pathname.split('/').pop()!;
+	], commit);
+}
+
+export function getCommitHash(commit: HTMLElement): string {
+	return getCommitLink(commit)!.pathname.split('/').pop()!;
 }
 
 async function init(): Promise<void> {
@@ -57,10 +61,7 @@ async function init(): Promise<void> {
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
 			commit.classList.add('rgh-merge-commit');
-			$([
-				'a.markdown-title', // Old view style (before November 2023)
-				'.markdown-title a',
-			], commit)!.before(<GitMergeIcon className="mr-1"/>);
+			getCommitLink(commit)!.before(<GitMergeIcon className="mr-1"/>);
 		}
 	}
 }
