@@ -1,13 +1,13 @@
 import './mark-merge-commits-in-list.css';
 import React from 'dom-chef';
 import {$, $$} from 'select-dom';
-import {GitMergeIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {objectEntries} from 'ts-extras';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {isHasSelectorSupported} from '../helpers/select-has.js';
+import {FeedMergedIcon} from '@primer/octicons-react';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`
@@ -52,7 +52,7 @@ async function init(): Promise<void> {
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
 			commit.classList.add('rgh-merge-commit');
-			$('a.markdown-title', commit)!.before(<GitMergeIcon className="mr-1"/>);
+			$('.octicon-git-commit', commit)!.replaceWith(<FeedMergedIcon/>);
 		}
 	}
 }
