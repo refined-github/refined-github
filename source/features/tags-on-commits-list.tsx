@@ -88,6 +88,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 async function init(): Promise<void | false> {
 	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
 
+	// TODO: Drop in June 2024
 	let isLegacy = false;
 	let commitsOnPage = $$('.listviewitem');
 
