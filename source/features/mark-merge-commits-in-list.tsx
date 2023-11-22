@@ -3,11 +3,11 @@ import React from 'dom-chef';
 import {$, $$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {objectEntries} from 'ts-extras';
+import {FeedMergedIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {isHasSelectorSupported} from '../helpers/select-has.js';
-import {FeedMergedIcon} from '@primer/octicons-react';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`
