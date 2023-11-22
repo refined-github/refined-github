@@ -1,5 +1,5 @@
 import React from 'react';
-import {ArrowUpRightIcon} from '@primer/octicons-react';
+import {ArrowUpRightIcon, CodeIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import {branchSelector} from '../github-helpers/selectors.js';
@@ -30,6 +30,15 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 	);
 }
 
+function replaceIcon(tagIcon: SVGElement): void {
+	// https://github.com/refined-github/refined-github/issues/6499#issuecomment-1505256426
+	tagIcon.replaceWith(<CodeIcon/>);
+}
+
+function clarifyIcon(signal: AbortSignal): void {
+	observe('.Link[href*="/tree/"] svg.octicon-tag', replaceIcon, {signal});
+}
+
 function init(signal: AbortSignal): void {
 	observe(branchSelector, addLink, {signal});
 }
@@ -40,6 +49,11 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleFile,
 	],
 	init,
+}, {
+	include: [
+		pageDetect.isReleasesOrTags,
+	],
+	init: clarifyIcon,
 });
 
 /*
@@ -47,5 +61,11 @@ void features.add(import.meta.url, {
 Test URLs:
 
 - https://github.com/refined-github/refined-github/tree/23.11.15
+- https://github.com/refined-github/refined-github/blob/23.4.10/.editorconfig
+
+Second part:
+
+- https://github.com/refined-github/refined-github/releases
+- https://github.com/refined-github/refined-github/releases/tag/23.11.15
 
 */
