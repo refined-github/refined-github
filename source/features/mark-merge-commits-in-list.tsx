@@ -1,9 +1,9 @@
 import './mark-merge-commits-in-list.css';
 import React from 'dom-chef';
 import {$, $$} from 'select-dom';
-import {GitMergeIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {objectEntries} from 'ts-extras';
+import {GitMergeIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -34,12 +34,23 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	return mergeCommits;
 };
 
+function getCommitLink(commit: HTMLElement): HTMLAnchorElement | undefined {
+	return $([
+		'a.markdown-title', // Old view style (before November 2023)
+		'.markdown-title a',
+	], commit);
+}
+
 export function getCommitHash(commit: HTMLElement): string {
-	return $('a.markdown-title', commit)!.pathname.split('/').pop()!;
+	return getCommitLink(commit)!.pathname.split('/').pop()!;
 }
 
 async function init(): Promise<void> {
+	const isPRConversation = pageDetect.isPRConversation();
 	const pageCommits = $$([
+		'.listviewitem',
+
+		// Old view style (before November 2023)
 		'.js-commits-list-item', // `isCommitList`
 		'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`, "js-timeline-item" to exclude "isCommitList"
 	]);
@@ -52,7 +63,12 @@ async function init(): Promise<void> {
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
 			commit.classList.add('rgh-merge-commit');
-			$('a.markdown-title', commit)!.before(<GitMergeIcon className="mr-1"/>);
+			if (isPRConversation) {
+				// Align icon to the line; rem used to match the native units
+				$('.octicon-git-commit', commit)!.replaceWith(<GitMergeIcon style={{marginLeft: '0.5rem'}}/>);
+			} else {
+				getCommitLink(commit)!.before(<GitMergeIcon className="mr-1"/>);
+			}
 		}
 	}
 }
