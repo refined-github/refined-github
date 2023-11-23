@@ -13,22 +13,27 @@ import {
 	GitPullRequestDraftIcon,
 	GitPullRequestIcon,
 	IssueOpenedIcon,
+	SquirrelIcon,
 	XCircleIcon,
 } from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
+const prIcons = ':is(.octicon-git-pull-request, .octicon-git-pull-request-closed, .octicon-git-pull-request-draft, .octicon-git-merge)';
+const issueIcons = ':is(.octicon-issue-opened, .octicon-issue-closed, .octicon-skip)';
 const filters = {
-	'Pull requests': ':is(.octicon-git-pull-request, .octicon-git-pull-request-closed, .octicon-git-pull-request-draft, .octicon-git-merge)',
-	Issues: ':is(.octicon-issue-opened, .octicon-issue-closed)',
+	'Pull requests': prIcons,
+	Issues: issueIcons,
+	// This selector is a bit too loose, so it needs to be be scoped to the smallest possible element and exclude the bookmark icon
+	Others: `.notification-list-item-link .octicon:not(${prIcons}, ${issueIcons}, .octicon-bookmark)`,
 	Open: ':is(.octicon-issue-opened, .octicon-git-pull-request)',
 	Closed: ':is(.octicon-issue-closed, .octicon-git-pull-request-closed, .octicon-skip)',
 	Draft: '.octicon-git-pull-request-draft',
 	Merged: '.octicon-git-merge',
 	Read: '.notification-read',
 	Unread: '.notification-unread',
-};
+} as const;
 
 type Filter = keyof typeof filters;
 type Category = 'Type' | 'Status' | 'Read';
@@ -85,6 +90,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 		'Pull requests': <GitPullRequestIcon className="color-fg-muted"/>,
 		Issues: <IssueOpenedIcon className="color-fg-muted"/>,
 		Open: <CheckCircleIcon className="color-fg-success"/>,
+		Others: <SquirrelIcon className="color-fg-muted"/>,
 		Closed: <XCircleIcon className="color-fg-danger"/>,
 		Draft: <GitPullRequestDraftIcon className="color-fg-subtle"/>,
 		Merged: <GitMergeIcon className="color-fg-done"/>,
@@ -142,7 +148,7 @@ const createDropdown = onetime(() => (
 		>
 			<div className="SelectMenu-modal">
 				<form id="rgh-select-notifications-form">
-					{createDropdownList('Type', ['Pull requests', 'Issues'])}
+					{createDropdownList('Type', ['Pull requests', 'Issues', 'Others'])}
 					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
 					{createDropdownList('Read', ['Read', 'Unread'])}
 				</form>
@@ -178,3 +184,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/notifications
+
+*/
