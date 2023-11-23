@@ -15,7 +15,7 @@ export default async function isDefaultBranch(): Promise<boolean> {
 		return true;
 	}
 
-	if (type !== 'tree' && type !== 'blob') {
+	if (!['tree', 'blob', 'commits'].includes(type)) {
 		// Like /user/repo/pulls
 		return false;
 	}
