@@ -7,7 +7,7 @@
 .rgh-dim-bots:not(.rgh-tagged, :hover) > *,
 /* PR row, dim */
 .rgh-dim-bots:not(.rgh-tagged, :hover) .Box-row--drag-hide {
-	opacity: 40%; /* Match `mark-merge-commits-in-list` */
+	opacity: 50%; /* Match `mark-merge-commits-in-list` */
 }
 
 /* Reset commit title spacing */
