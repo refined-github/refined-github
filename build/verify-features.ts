@@ -85,7 +85,7 @@ function validateTsx(filename: string): string | void {
 	}
 
 	if (!isFeaturePrivate(filename)) {
-		validateReadme(featureId);
+		return validateReadme(featureId);
 	}
 }
 
