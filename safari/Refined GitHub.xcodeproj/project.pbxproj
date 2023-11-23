@@ -48,10 +48,9 @@
 		E33B07A62AA4965C00BD57D5 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		E33B07A82AA4965C00BD57D5 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		E33B07AA2AA4965D00BD57D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E33B07AF2AA4965D00BD57D5 /* Refined_GitHub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Refined_GitHub.entitlements; sourceTree = "<group>"; };
+		E33B07AF2AA4965D00BD57D5 /* Refined GitHub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Refined GitHub.entitlements"; sourceTree = "<group>"; };
 		E33B07BB2AA496EE00BD57D5 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
 		E33B07CE2AA496EE00BD57D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E33B07CF2AA496EE00BD57D5 /* Web_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Web_Extension.entitlements; sourceTree = "<group>"; };
 		E33B07DB2AA4975C00BD57D5 /* Web Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Web Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E33B07F82AA498CC00BD57D5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		E33B07F92AA499F800BD57D5 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
@@ -107,7 +106,7 @@
 				E33B07F92AA499F800BD57D5 /* Utilities.swift */,
 				E33B07AA2AA4965D00BD57D5 /* Assets.xcassets */,
 				E33B07FB2AA49A2700BD57D5 /* Info.plist */,
-				E33B07AF2AA4965D00BD57D5 /* Refined_GitHub.entitlements */,
+				E33B07AF2AA4965D00BD57D5 /* Refined GitHub.entitlements */,
 			);
 			path = "Refined GitHub";
 			sourceTree = "<group>";
@@ -115,10 +114,9 @@
 		E33B07BA2AA496EE00BD57D5 /* Web Extension */ = {
 			isa = PBXGroup;
 			children = (
-				E314AFCE2AB83A83008632D1 /* Web Extension.entitlements */,
 				E33B07BB2AA496EE00BD57D5 /* SafariWebExtensionHandler.swift */,
 				E33B07CE2AA496EE00BD57D5 /* Info.plist */,
-				E33B07CF2AA496EE00BD57D5 /* Web_Extension.entitlements */,
+				E314AFCE2AB83A83008632D1 /* Web Extension.entitlements */,
 				E33B07BD2AA496EE00BD57D5 /* Resources */,
 			);
 			path = "Web Extension";
@@ -389,7 +387,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Refined GitHub/Refined_GitHub.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Refined GitHub/Refined GitHub.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -429,7 +427,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Refined GitHub/Refined_GitHub.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Refined GitHub/Refined GitHub.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;

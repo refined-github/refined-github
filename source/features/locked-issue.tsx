@@ -9,7 +9,7 @@ import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 function LockedIndicator(): JSX.Element {
 	return (
-		<span title="Locked" className="State d-flex flex-items-center">
+		<span title="Locked" className="State d-flex flex-items-center flex-shrink-0">
 			<LockIcon className="flex-items-center mr-1"/>
 			Locked
 		</span>
@@ -18,13 +18,13 @@ function LockedIndicator(): JSX.Element {
 
 function addLock(element: HTMLElement): void {
 	element.after(
-		<LockedIndicator className="flex-shrink-0 mb-2 flex-self-start flex-md-self-center rgh-locked-issue"/>,
+		<LockedIndicator className="mb-2 rgh-locked-issue"/>,
 	);
 }
 
 function addStickyLock(element: HTMLElement): void {
 	element.after(
-		<LockedIndicator className="mr-2 mb-2 flex-shrink-0 rgh-locked-issue"/>,
+		<LockedIndicator className="mr-2 mb-2 rgh-locked-issue"/>,
 	);
 }
 
