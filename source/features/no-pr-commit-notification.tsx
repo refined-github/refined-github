@@ -4,8 +4,6 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 function trimLink(link: HTMLAnchorElement): void {
-	console.log(link.pathname);
-
 	link.pathname = link.pathname.replace(/\/files\/[\da-f]{40}..[\da-f]{40}$/, '');
 }
 
