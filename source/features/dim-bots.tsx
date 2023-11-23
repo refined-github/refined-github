@@ -21,7 +21,7 @@ const botNames = [
 // All co-authored commits are excluded because it's unlikely that any bot co-authors with another bot, but instead they're co-authored with a human. In that case we don't want to dim the commit.
 const commitSelectors = [
 	// Co-authored commits are excluded because their avatars are not linked
-	...botNames.map(bot => `div[data-testid="author-avatar"] a[href$="?author=${bot}"]`),
+	...botNames.map(bot => `a[data-testid="avatar-icon-link"][href^="/${bot}"]`),
 
 	// Legacy view, still used by PR commits
 	// :only-child excludes co-authored commits
