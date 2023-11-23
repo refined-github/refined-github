@@ -47,6 +47,9 @@ export function getCommitHash(commit: HTMLElement): string {
 
 async function init(): Promise<void> {
 	const pageCommits = $$([
+		'.listviewitem',
+
+		// Old view style (before November 2023)
 		'.js-commits-list-item', // `isCommitList`
 		'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`, "js-timeline-item" to exclude "isCommitList"
 	]);
@@ -59,7 +62,7 @@ async function init(): Promise<void> {
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
 			commit.classList.add('rgh-merge-commit');
-			$('a.markdown-title', commit)!.before(<GitMergeIcon className="mr-1"/>);
+			getCommitLink(commit)!.before(<GitMergeIcon className="mr-1"/>);
 		}
 	}
 }
