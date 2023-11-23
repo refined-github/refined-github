@@ -1,9 +1,9 @@
 import './mark-merge-commits-in-list.css';
 import React from 'dom-chef';
 import {$, $$} from 'select-dom';
-import {GitMergeIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {objectEntries} from 'ts-extras';
+import {GitMergeIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -46,6 +46,7 @@ export function getCommitHash(commit: HTMLElement): string {
 }
 
 async function init(): Promise<void> {
+	const isPRConversation = pageDetect.isPRConversation();
 	const pageCommits = $$([
 		'.listviewitem',
 
@@ -62,7 +63,12 @@ async function init(): Promise<void> {
 	for (const commit of pageCommits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
 			commit.classList.add('rgh-merge-commit');
-			getCommitLink(commit)!.before(<GitMergeIcon className="mr-1"/>);
+			if (isPRConversation) {
+				// Align icon to the line; rem used to match the native units
+				$('.octicon-git-commit', commit)!.replaceWith(<GitMergeIcon style={{marginLeft: '0.5rem'}}/>);
+			} else {
+				getCommitLink(commit)!.before(<GitMergeIcon className="mr-1"/>);
+			}
 		}
 	}
 }
