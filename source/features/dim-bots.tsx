@@ -5,6 +5,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import preserveScroll from '../helpers/preserve-scroll.js';
+import observe from '../helpers/selector-observer.js';
 
 const botNames = [
 	'actions-user',
@@ -19,15 +20,16 @@ const botNames = [
 	'weblate',
 ] as const;
 
-// TODO: Remove when New view is default
+// All co-authored commits are excluded because it's unlikely that any bot co-authors with another bot, but instead they're co-authored with a human. In that case we don't want to dim the commit.
 const commitSelectors = [
-	...botNames.map(bot => `.commit-author[href$="?author=${bot}"]`),
-	'.commit-author[href$="%5Bbot%5D"]', // Generic `[bot]` label in author name
-];
-
-const newViewCommitSelectors = [
+	// Co-authored commits are excluded because their avatars are not linked
 	...botNames.map(bot => `div[data-testid="author-avatar"] a[href$="?author=${bot}"]`),
 	'div[data-testid="author-avatar"] a[href$="%5Bbot%5D"]', // Generic `[bot]` label in avatar in New view
+
+	// Legacy view, still used by PR commits
+	// :only-child excludes co-authored commits
+	...botNames.map(bot => `.commit-author[href$="?author=${bot}"]:only-child`),
+	'.commit-author[href$="%5Bbot%5D"]:only-child', // Generic `[bot]` label in author name
 ];
 
 const prSelectors = [
@@ -56,28 +58,18 @@ function undimBots(event: DelegateEvent): void {
 	resetScroll();
 }
 
-function init(signal: AbortSignal): void {
-	let isLegacy = false;
-	let commits = $$(newViewCommitSelectors);
+function dimCommit(commit: HTMLElement): void {
+	commit.classList.add(dimBots.class);
+}
 
-	if (commits.length === 0) {
-		isLegacy = true;
-		commits = $$(commitSelectors);
-	}
+function dimPr(pr: HTMLElement): void {
+	// TODO: Use :has selector and merge into a single `selectors` array
+	pr.closest('.commit, .Box-row')!.classList.add(dimBots.class);
+}
 
-	for (const bot of commits) {
-		// Exclude co-authored commits
-		if (!isLegacy || $$('a', bot.parentElement!).every(link => link.matches(commitSelectors))) {
-			bot.closest([
-				'.listviewitem', // Commit container classname in New view
-				'.commit, .Box-row', // Old view style before Nov 2023
-			])!.classList.add(dimBots.class);
-		}
-	}
-
-	for (const bot of $$(prSelectors)) {
-		bot.closest('.commit, .Box-row')!.classList.add(dimBots.class);
-	}
+async function init(signal: AbortSignal): Promise<void> {
+	observe(commitSelectors, dimCommit, {signal});
+	observe(prSelectors, dimPr, {signal});
 
 	// Undim on mouse focus
 	delegate(dimBots.selector, 'click', undimBots, {signal});
@@ -88,10 +80,6 @@ void features.add(import.meta.url, {
 		pageDetect.isCommitList,
 		pageDetect.isIssueOrPRList,
 	],
-	exclude: [
-		pageDetect.isBlank, // Prevent error on empty lists #5544
-	],
-	awaitDomReady: true, // TODO: Rewrite with :has()
 	init,
 });
 
