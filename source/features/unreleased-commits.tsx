@@ -100,11 +100,9 @@ async function add(branchSelector: HTMLButtonElement): Promise<void> {
 		);
 	} else {
 		wrapAll(
-			[
-				branchSelector,
-				await createLink(latestTag, aheadBy),
-			],
 			<div className="d-flex gap-2"/>,
+			branchSelector,
+			await createLink(latestTag, aheadBy),
 		);
 	}
 }

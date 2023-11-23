@@ -17,17 +17,15 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 	}
 
 	wrapAll(
-		[
-			branchSelector,
-			<a
-				className="btn px-2 tooltipped tooltipped-se"
-				href={buildRepoURL('releases/tag', tag)}
-				aria-label="Visit tag"
-			>
-				<ArrowUpRightIcon className="v-align-middle"/>
-			</a>,
-		],
 		<div className="d-flex gap-2"/>,
+		branchSelector,
+		<a
+			className="btn px-2 tooltipped tooltipped-se"
+			href={buildRepoURL('releases/tag', tag)}
+			aria-label="Visit tag"
+		>
+			<ArrowUpRightIcon className="v-align-middle"/>
+		</a>,
 	);
 }
 

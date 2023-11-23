@@ -10,8 +10,8 @@ import selectHas from '../helpers/select-has.js';
 function init(): void {
 	const changedFilesSummary = selectHas('.Box li:has(.octicon-file-diff)')!;
 	wrapAll(
-		[...changedFilesSummary.children],
 		<a className="no-underline rgh-link-to-compare-diff" href="#files_bucket"/>,
+		...changedFilesSummary.children,
 	);
 }
 
