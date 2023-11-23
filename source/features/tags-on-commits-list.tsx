@@ -128,8 +128,9 @@ async function init(): Promise<void | false> {
 					{...targetTags.map(tag => (
 						<>
 							{' '}
+							{/* .markdown-title enables the background color */}
 							<a
-								className="Link--muted"
+								className="Link--muted markdown-title"
 								href={buildRepoURL('releases/tag', tag)}
 							>
 								<code>{tag}</code>
