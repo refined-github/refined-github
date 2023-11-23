@@ -12,8 +12,8 @@ function openInNewTab(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void
 function init(signal: AbortSignal): void {
 	delegate(
 		[
-			'div.js-preview-body a', // `hasRichTextEditor`
-			'div.html-blob a', // `isEditingFile`
+			'.js-preview-body a', // `hasRichTextEditor`
+			'.html-blob a', // `isEditingFile`
 		].join(', '),
 		'click',
 		filterAlteredClicks(openInNewTab),
