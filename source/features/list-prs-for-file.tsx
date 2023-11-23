@@ -1,3 +1,4 @@
+import './list-prs-for-file.css';
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import {isFirefox} from 'webext-detect-page';
@@ -29,7 +30,7 @@ function getDropdown(prs: number[]): HTMLElement {
 		: <GitPullRequestIcon className="v-align-middle"/>;
 	// Markup copied from https://primer.style/css/components/dropdown
 	return (
-		<details className="dropdown details-reset details-overlay flex-self-center">
+		<details className="dropdown details-reset details-overlay flex-self-center rgh-list-prs-for-file">
 			<summary className="btn btn-sm">
 				{icon}
 				<span className="v-align-middle"> {prs.length} </span>

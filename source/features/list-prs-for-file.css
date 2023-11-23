@@ -1,0 +1,6 @@
+.container:has(> #StickyHeader.react-code-view-header--wide):has(
+		.rgh-list-prs-for-file
+	) {
+	position: relative;
+	z-index: 1;
+}
