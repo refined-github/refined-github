@@ -47,9 +47,8 @@ export function getCommitHash(commit: HTMLElement): string {
 	return getCommitLink(commit)!.pathname.split('/').pop()!;
 }
 
-
 function updateCommitIcon(commit: HTMLElement): void {
- 	const isPRConversation = pageDetect.isPRConversation();
+	const isPRConversation = pageDetect.isPRConversation();
 	if (isPRConversation) {
 		// Align icon to the line; rem used to match the native units
 		$('.octicon-git-commit', commit)!.replaceWith(<GitMergeIcon style={{marginLeft: '0.5rem'}}/>);
