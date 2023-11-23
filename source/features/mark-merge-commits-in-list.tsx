@@ -1,10 +1,12 @@
 import './mark-merge-commits-in-list.css';
 import React from 'dom-chef';
-import {$, $$} from 'select-dom';
+import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {objectEntries} from 'ts-extras';
 import {GitMergeIcon} from '@primer/octicons-react';
+import batchedFunction from 'batched-function';
 
+import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {isHasSelectorSupported} from '../helpers/select-has.js';
@@ -45,32 +47,34 @@ export function getCommitHash(commit: HTMLElement): string {
 	return getCommitLink(commit)!.pathname.split('/').pop()!;
 }
 
-async function init(): Promise<void> {
-	const isPRConversation = pageDetect.isPRConversation();
-	const pageCommits = $$([
-		'.listviewitem',
+const isPRConversation = pageDetect.isPRConversation();
 
+function updateCommitIcon(commit: HTMLElement): void {
+	if (isPRConversation) {
+		// Align icon to the line; rem used to match the native units
+		$('.octicon-git-commit', commit)!.replaceWith(<GitMergeIcon style={{marginLeft: '0.5rem'}}/>);
+	} else {
+		getCommitLink(commit)!.before(<GitMergeIcon className="mr-1"/>);
+	}
+}
+
+async function markCommits(commits: HTMLElement[]): Promise<void> {
+	const mergeCommits = await filterMergeCommits(commits.map(commit => getCommitHash(commit)));
+	for (const commit of commits) {
+		if (mergeCommits.includes(getCommitHash(commit))) {
+			commit.classList.add('rgh-merge-commit');
+			updateCommitIcon(commit);
+		}
+	}
+}
+
+async function init(signal: AbortSignal): Promise<void> {
+	observe([
+		'.listviewitem',
 		// Old view style (before November 2023)
 		'.js-commits-list-item', // `isCommitList`
 		'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`, "js-timeline-item" to exclude "isCommitList"
-	]);
-
-	if (pageCommits.length === 0) {
-		throw new Error('No commits found, selector likely out of date');
-	}
-
-	const mergeCommits = await filterMergeCommits(pageCommits.map(commit => getCommitHash(commit)));
-	for (const commit of pageCommits) {
-		if (mergeCommits.includes(getCommitHash(commit))) {
-			commit.classList.add('rgh-merge-commit');
-			if (isPRConversation) {
-				// Align icon to the line; rem used to match the native units
-				$('.octicon-git-commit', commit)!.replaceWith(<GitMergeIcon style={{marginLeft: '0.5rem'}}/>);
-			} else {
-				getCommitLink(commit)!.before(<GitMergeIcon className="mr-1"/>);
-			}
-		}
-	}
+	], batchedFunction(markCommits, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {
@@ -83,7 +87,6 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 	],
 	deduplicate: 'has-rgh-inner',
-	awaitDomReady: true, // TODO: Use `observe` + `batched-function`
 	init,
 });
 
