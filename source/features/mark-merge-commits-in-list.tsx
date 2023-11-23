@@ -86,7 +86,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 		pageDetect.isCompare,
 	],
-	deduplicate: 'has-rgh-inner',
 	init,
 });
 
