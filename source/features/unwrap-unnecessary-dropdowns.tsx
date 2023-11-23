@@ -42,3 +42,10 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh',
 	init: unwrapNotifications,
 });
+
+/*
+
+Test URLs:
+https://github.com/notifications
+
+*/
