@@ -5,23 +5,28 @@ import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import preserveScroll from '../helpers/preserve-scroll.js';
+import observe from '../helpers/selector-observer.js';
 
 const botNames = [
 	'actions-user',
 	'bors',
 	'ImgBotApp',
-	'Octomerger',
 	'renovate-bot',
 	'rust-highfive',
 	'scala-steward',
-	'snyk-bot',
-	'web-flow',
 	'weblate',
+	'apps', // Matches any `/apps/*` URLs
 ] as const;
 
+// All co-authored commits are excluded because it's unlikely that any bot co-authors with another bot, but instead they're co-authored with a human. In that case we don't want to dim the commit.
+// ^= is needed to match /apps/* URLs
 const commitSelectors = [
-	...botNames.map(bot => `.commit-author[href$="?author=${bot}"]`),
-	'.commit-author[href$="%5Bbot%5D"]', // Generic `[bot]` label in author name
+	// Co-authored commits are excluded because their avatars are not linked
+	...botNames.map(bot => `a[data-testid="avatar-icon-link"][href^="/${bot}"]`),
+
+	// Legacy view, still used by PR commits
+	// :only-child excludes co-authored commits
+	...botNames.map(bot => `a[data-test-selector="commits-avatar-stack-avatar-link"][href^="/${bot}"]:only-child`),
 ];
 
 const prSelectors = [
@@ -50,17 +55,21 @@ function undimBots(event: DelegateEvent): void {
 	resetScroll();
 }
 
-function init(signal: AbortSignal): void {
-	for (const bot of $$(commitSelectors)) {
-		// Exclude co-authored commits
-		if ($$('a', bot.parentElement!).every(link => link.matches(commitSelectors))) {
-			bot.closest('.commit, .Box-row')!.classList.add(dimBots.class);
-		}
-	}
+function dimCommit(commit: HTMLElement): void {
+	commit.closest([
+		'.listviewitem',
+		'.Box-row', // Old view style before Nov 2023
+	])!.classList.add(dimBots.class);
+}
 
-	for (const bot of $$(prSelectors)) {
-		bot.closest('.commit, .Box-row')!.classList.add(dimBots.class);
-	}
+function dimPr(pr: HTMLElement): void {
+	// TODO: Use :has selector and merge into a single `selectors` array
+	pr.closest('.Box-row')!.classList.add(dimBots.class);
+}
+
+async function init(signal: AbortSignal): Promise<void> {
+	observe(commitSelectors, dimCommit, {signal});
+	observe(prSelectors, dimPr, {signal});
 
 	// Undim on mouse focus
 	delegate(dimBots.selector, 'click', undimBots, {signal});
@@ -71,10 +80,6 @@ void features.add(import.meta.url, {
 		pageDetect.isCommitList,
 		pageDetect.isIssueOrPRList,
 	],
-	exclude: [
-		pageDetect.isBlank, // Prevent error on empty lists #5544
-	],
-	awaitDomReady: true, // TODO: Rewrite with :has()
 	init,
 });
 
@@ -83,6 +88,9 @@ void features.add(import.meta.url, {
 Test URLs
 
 - Commits: https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174
+- Commits by unmarked bot: https://github.com/rust-lang/rust/commits/master?after=c387f012b14a3d64e0d580b7ebe65e5325bcf822+34&branch=master&qualified_name=refs%2Fheads%2Fmaster
 - PRs: https://github.com/OctoLinker/OctoLinker/pulls?q=is%3Apr+is%3Aclosed
+- PRs by unmarked bot: https://github.com/spotify/scio/pulls?q=is%3Apr+sort%3Aupdated-desc+is%3Aclosed+steward
+- PR Commits: https://github.com/pixiebrix/webext-messenger/pull/173/commits
 
 */
