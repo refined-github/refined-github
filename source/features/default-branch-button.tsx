@@ -71,6 +71,7 @@ Test URLs:
 - isRepoTree https://github.com/refined-github/refined-github/tree/07ecc75
 - isSingleFile, 410 Gone from default branch https://github.com/refined-github/refined-github/blob/07ecc75/extension/content.js
 - isRepoCommitList: https://github.com/refined-github/refined-github/commits/07ecc75/
+- isRepoCommitList (already on default branch): https://github.com/typed-ember/ember-cli-typescript/commits/master
 - isRepoCommitListRoot (no branchs selector): https://github.com/refined-github/refined-github/commits/07ecc75/extension
 
 */
