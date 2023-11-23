@@ -7,9 +7,10 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import {buildRepoURL} from '../github-helpers/index.js';
+import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
-	const tag = branchSelector.getAttribute('aria-label');
+	const tag = branchSelector.getAttribute('aria-label')?.replace(/ tag$/, '');
 	if (!tag) {
 		features.log.error(import.meta.url, 'Tag not found in DOM. The feature needs to be updated');
 		return;
@@ -20,7 +21,7 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 			branchSelector,
 			<a
 				className="btn px-2 tooltipped tooltipped-se"
-				href={buildRepoURL('releases/tag/', tag)}
+				href={buildRepoURL('releases/tag', tag)}
 				aria-label="Visit tag"
 			>
 				<ArrowUpRightIcon className="v-align-middle"/>
@@ -40,10 +41,13 @@ function clarifyIcon(signal: AbortSignal): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(branchSelector, addLink, {signal});
+	observe(`:is(${branchSelector}):has(.octicon-tag)`, addLink, {signal});
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isHasSelectorSupported,
+	],
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
