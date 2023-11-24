@@ -348,7 +348,7 @@ Thanks for contributing! 🦋🙌
 - [](# "linkify-notification-repository-header") [Linkifies the header of each notification group (when grouped by repository).](https://user-images.githubusercontent.com/1402241/80849887-81531c00-8c19-11ea-8777-7294ce318630.png)
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
 - [](# "last-notification-page-button") [Adds a link to the last page of notifications.](https://user-images.githubusercontent.com/16872793/199828181-3ff2cef3-8740-4efa-8122-8f2f222bd657.png)
-- [](# "sticky-notifications-actions") [Make the notifications action bar sticky.](https://user-images.githubusercontent.com/1398469/230582441-aed8bb24-4180-488e-b1d5-4e4a45a5d31c.png)
+- [](# "sticky-notifications-actions") [Make the notifications action bar sticky.](https://user-images.githubusercontent.com/1398469/285497350-95ead695-a023-4aeb-b3bc-7c815157b439.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

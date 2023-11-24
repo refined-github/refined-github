@@ -1,5 +1,9 @@
 @media (min-height: 500px) {
-	.js-notifications-container .Box:has(.js-select-all-text) {
+	/* for single notification bloc https://user-images.githubusercontent.com/1398469/285492439-5e1b81ae-aa52-42d3-9d33-695bf5b062f0.png */
+	.js-notifications-container .Box.notifications-list .Box-header,
+	/* for "select all" bloc over several blocs https://user-images.githubusercontent.com/1398469/285492182-0cfdb9c7-f0e3-405d-aa02-e9d58241616f.png */
+	.js-notifications-container
+		.Box:not(.notifications-list):has(.js-select-all-text) {
 		position: sticky;
 		top: 0;
 		z-index: 10;
