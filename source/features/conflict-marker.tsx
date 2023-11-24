@@ -45,7 +45,7 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-issue-row a.js-navigation-open[data-hovercard-type="pull_request"]', batchedFunction(addIcon, {delay: 100}), {signal});
+	observe('.js-issue-row:not(:has(.octicon-git-pull-request-closed,.octicon-git-merge)) a.js-navigation-open[data-hovercard-type="pull_request"]', batchedFunction(addIcon, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {
