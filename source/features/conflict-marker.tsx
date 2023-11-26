@@ -8,6 +8,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
 import {isHasSelectorSupported} from '../helpers/select-has.js';
+import {prOpenOrDraftRow} from '../github-helpers/selectors.js';
 
 async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 	const prConfigs = links.map(link => {
@@ -45,7 +46,7 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-issue-row:has(.octicon-git-pull-request.color-fg-open,.octicon-git-pull-request-draft) a.js-navigation-open', batchedFunction(addIcon, {delay: 100}), {signal});
+	observe(`${prOpenOrDraftRow} a.js-navigation-open`, batchedFunction(addIcon, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {
