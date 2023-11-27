@@ -61,8 +61,5 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 		pageDetect.isPRConversation,
 	],
-	exclude: [
-		pageDetect.isBlank,
-	],
 	init,
 });
