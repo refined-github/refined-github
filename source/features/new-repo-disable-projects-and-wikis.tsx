@@ -8,7 +8,6 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import selectHas from '../helpers/select-has.js';
-import attachElement from '../helpers/attach-element.js';
 import observe from '../helpers/selector-observer.js';
 
 const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
@@ -36,30 +35,29 @@ function setStorage(): void {
 	}
 }
 
-function add(anchor: HTMLElement): void {
-	attachElement(anchor, {
-		after: () => (
-			<div className="flash flash-warn py-0">
-				<div className="form-checkbox checked">
-					<label>
-						<input
-							checked
-							type="checkbox"
-							id="rgh-disable-project"
-						/> Disable Projects and Wikis
-					</label>
-					<span className="note mb-2">
-						After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
-					</span>
-				</div>
+function add(form: HTMLElement): void {
+	const anchor = $('div:nth-last-child(3)', form);
+	anchor?.after(
+		<div className="flash flash-warn py-0">
+			<div className="form-checkbox checked">
+				<label>
+					<input
+						checked
+						type="checkbox"
+						id="rgh-disable-project"
+					/> Disable Projects and Wikis
+				</label>
+				<span className="note mb-2">
+					After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
+				</span>
 			</div>
-		),
-	});
+		</div>
+	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
-	observe('form[novalidate=""] > div:nth-last-child(3)', add, {signal});
+	observe('form[novalidate=""]', add, {signal});
 	delegate('#new_repository, #new_new_repository', 'submit', setStorage, {signal});
 }
 
