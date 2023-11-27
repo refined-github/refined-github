@@ -51,7 +51,7 @@ function add(form: HTMLElement): void {
 					After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
 				</span>
 			</div>
-		</div>
+		</div>,
 	);
 }
 
