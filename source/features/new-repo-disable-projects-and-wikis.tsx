@@ -36,7 +36,7 @@ function setStorage(): void {
 	}
 }
 
-function add(anchor: HTMLElement) {
+function add(anchor: HTMLElement): void {
 	attachElement(anchor, {
 		after: () => (
 			<div className="flash flash-warn py-0">
