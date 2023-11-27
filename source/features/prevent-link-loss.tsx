@@ -25,10 +25,10 @@ function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButt
 	replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
 	replaceFieldText(field, prCompareUrlRegex, preventPrCompareLinkLoss);
 	replaceFieldText(field, discussionUrlRegex, preventDiscussionLinkLoss);
-	fixButton.parentElement!.remove();
+	fixButton.parentElement!.parentElement!.remove();
 }
 
-function getUI(field: HTMLTextAreaElement, ...classes: string[]): HTMLElement {
+function getUI(field: HTMLTextAreaElement): HTMLElement {
 	return $('.rgh-prevent-link-loss-container', field.form!) ?? (createBanner({
 		icon: <AlertIcon className="m-0"/>,
 		text: (
@@ -40,7 +40,7 @@ function getUI(field: HTMLTextAreaElement, ...classes: string[]): HTMLElement {
 				{' by GitHub.'}
 			</>
 		),
-		classes: ['flash-warn', 'rgh-prevent-link-loss-container', ...classes],
+		classes: ['rgh-prevent-link-loss-container', 'flash-warn', 'my-2', 'mx-2'],
 		action: handleButtonClick,
 		buttonLabel: 'Fix link',
 	}));
@@ -53,28 +53,29 @@ function isVulnerableToLinkLoss(value: string): boolean {
 		|| value !== value.replace(discussionUrlRegex, preventDiscussionLinkLoss);
 }
 
-const updateUI = debounceFn(({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void => {
-	if (!isVulnerableToLinkLoss(field.value)) {
-		getUI(field).remove();
-	} else if (pageDetect.isNewIssue() || pageDetect.isNewRelease() || pageDetect.isCompare()) {
-		$('file-attachment', field.form!)!.append(
-			getUI(field, 'mt-2', 'mx-0', 'mx-md-2'),
-		);
+function updateUI({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void {
+	if (isVulnerableToLinkLoss(field.value)) {
+		$('file-attachment .js-write-bucket', field.form!)!.append(getUI(field));
 	} else {
-		$('.form-actions', field.form!)!.before(
-			getUI(field, 'mx-md-2', 'mb-2'),
-		);
+		getUI(field).remove();
 	}
-}, {
+}
+
+const updateUIDebounced = debounceFn(updateUI, {
 	wait: 300,
 });
 
 function init(signal: AbortSignal): void {
-	delegate([
-		'form:is(#new_issue, #new_release) textarea',
-		'form.js-new-comment-form textarea',
-		'textarea.comment-form-textarea',
-	].join(','), 'input', updateUI, {signal});
+	const textFieldsSelector = `form:is(
+		#new_issue,
+		#new_release,
+		#new_comment_form,
+		#pull_requests_submit_review,
+		.js-inline-comment-form
+	) textarea`;
+
+	delegate(textFieldsSelector, 'focusin', updateUI, {signal});
+	delegate(textFieldsSelector, 'input', updateUIDebounced, {signal});
 }
 
 void features.add(import.meta.url, {
