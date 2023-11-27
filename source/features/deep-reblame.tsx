@@ -64,8 +64,6 @@ function addButton(pullRequest: HTMLElement): void {
 	if (reblameLink) {
 		reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
 		reblameLink.classList.add('rgh-deep-reblame');
-	} else {
-		return;
 	}
 }
 
