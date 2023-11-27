@@ -78,3 +78,8 @@ void features.add(import.meta.url, {
 	],
 	init: onetime(disableWikiAndProjects),
 });
+
+/*
+Test URLs:
+https://github.com/new
+*/
