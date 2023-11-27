@@ -1,5 +1,5 @@
-import './locked-issue.css';
 import React from 'react';
+import {$, $$} from 'select-dom';
 import {LockIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
@@ -16,23 +16,25 @@ function LockedIndicator(): JSX.Element {
 	);
 }
 
-function addLock(element: HTMLElement): void {
-	element.after(
-		<LockedIndicator className="mb-2 rgh-locked-issue"/>,
-	);
-}
-
-function addStickyLock(element: HTMLElement): void {
-	element.after(
-		<LockedIndicator className="mr-2 mb-2 rgh-locked-issue"/>,
-	);
+function processTimeline(element: HTMLElement): void {
+	const events: HTMLElement[] = $$(`.octicon-key, .octicon-lock`, element.parentElement!);
+	// If final lock change event is locked
+	if (events.length > 0 && events.reverse()[0].classList.contains('octicon-lock')) {
+		$('.gh-header-meta:not(:has(.rgh-locked-issue)) > :first-child')?.after(
+			<LockedIndicator className="mb-2 rgh-locked-issue"/>,
+		);
+		$('.gh-header-sticky:not(:has(.rgh-locked-issue)) .flex-row > :first-child')?.after(
+			<LockedIndicator className="mr-2 mb-2 rgh-locked-issue"/>,
+		);
+	} else { // Remove existing badge otherwise
+		$('.gh-header-meta > .rgh-locked-issue')?.remove();
+		$('.gh-header-sticky .flex-row > .rgh-locked-issue')?.remove();
+	}
 }
 
 function init(signal: AbortSignal): void {
-	// Locked when unlock option is available for collaborators or comment form is locked
-	// Logged out users never have the menu, so they should be excluded
-	observe('.logged-in:has(.js-lock-issue [action$="/unlock"], #new_comment_form .blankslate) .gh-header-meta > :first-child', addLock, {signal});
-	observe('.logged-in:has(.js-lock-issue [action$="/unlock"], #new_comment_form .blankslate) .gh-header-sticky .flex-row > :first-child', addStickyLock, {signal});
+    // Observe only non-hidden timeline events
+	observe('.js-discussion > div > .js-timeline-item', processTimeline, {signal});
 }
 
 void features.add(import.meta.url, {
