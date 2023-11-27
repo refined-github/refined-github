@@ -1,8 +1,6 @@
 import './deep-reblame.css';
 import mem from 'mem';
-import React from 'dom-chef';
 import {$, $$} from 'select-dom';
-import {VersionsIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
@@ -67,15 +65,6 @@ function addButton(pullRequest: HTMLElement): void {
 		reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
 		reblameLink.classList.add('rgh-deep-reblame');
 	} else {
-		// $('div:last-child', hunk)!.append(
-		// 	<button
-		// 		type="button"
-		// 		aria-label="View blame prior to this change (extracts commits from this PR first)"
-		// 		className="reblame-link btn-link no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-reblame"
-		// 	>
-		// 		<VersionsIcon/>
-		// 	</button>,
-		// );
 		return;
 	}
 }
