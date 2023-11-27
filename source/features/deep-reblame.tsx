@@ -60,14 +60,14 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 }
 
 function addButton(pullRequest: HTMLElement): void {
-	const hunk = pullRequest.closest('.blame-hunk')!;
+	const hunk = pullRequest.closest('.react-blame-for-range')!;
 
-	const reblameLink = $('.reblame-link', hunk);
+	const reblameLink = $('.tooltipped-n', hunk);
 	if (reblameLink) {
 		reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
 		reblameLink.classList.add('rgh-deep-reblame');
 	} else {
-		$('.blob-reblame', hunk)!.append(
+		$('div:last-child', hunk)!.append(
 			<button
 				type="button"
 				aria-label="View blame prior to this change (extracts commits from this PR first)"
