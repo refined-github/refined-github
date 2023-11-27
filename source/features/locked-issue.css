@@ -1,3 +1,9 @@
-:has(.js-pick-reaction:not(:first-child)) .rgh-locked-issue {
+:is(
+		:has(.js-lock-issue [action$='/lock']),
+		body:not(:has(.js-lock-issue)):has(
+				#new_comment_form .js-previewable-comment-form
+			)
+	)
+	.rgh-locked-issue {
 	display: none !important;
 }

@@ -29,10 +29,10 @@ function addStickyLock(element: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	// If reactions-menu exists, then .js-pick-reaction is the second child
+	// Locked when unlock option is available for collaborators or comment form is locked
 	// Logged out users never have the menu, so they should be excluded
-	observe('.logged-in:has(.js-pick-reaction:first-child) .gh-header-meta > :first-child', addLock, {signal});
-	observe('.logged-in:has(.js-pick-reaction:first-child) .gh-header-sticky .flex-row > :first-child', addStickyLock, {signal});
+	observe('.logged-in:has(.js-lock-issue [action$="/unlock"], #new_comment_form .blankslate) .gh-header-meta > :first-child', addLock, {signal});
+	observe('.logged-in:has(.js-lock-issue [action$="/unlock"], #new_comment_form .blankslate) .gh-header-sticky .flex-row > :first-child', addStickyLock, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -41,11 +41,6 @@ void features.add(import.meta.url, {
 	],
 	include: [
 		pageDetect.isConversation,
-	],
-	exclude: [
-		// TODO: Find alternative detection that works even for GHE that don't have reactions enabled
-		// https://github.com/refined-github/refined-github/issues/7063
-		pageDetect.isEnterprise,
 	],
 	init,
 });
