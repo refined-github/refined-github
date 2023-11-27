@@ -41,7 +41,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	const anchor = lastElement([
 		'.js-repo-init-setting-container', // IsNewRepo
 		'.form-checkbox', // IsNewRepoTemplate
-		'form.container-md > div:nth-last-child(3)'
+		'form.container-md > div:nth-last-child(3)',
 	]);
 	attachElement(anchor, {
 		after: () => (
