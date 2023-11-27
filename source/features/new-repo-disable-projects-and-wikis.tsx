@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, lastElement} from 'select-dom';
+import {$} from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
@@ -9,6 +9,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import selectHas from '../helpers/select-has.js';
 import attachElement from '../helpers/attach-element.js';
+import observe from '../helpers/selector-observer.js';
 
 const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
 
@@ -35,14 +36,7 @@ function setStorage(): void {
 	}
 }
 
-async function init(signal: AbortSignal): Promise<void> {
-	await api.expectToken();
-
-	const anchor = lastElement([
-		'.js-repo-init-setting-container', // IsNewRepo
-		'.form-checkbox', // IsNewRepoTemplate
-		'form.container-md > div:nth-last-child(3)',
-	]);
+function add(anchor: HTMLElement) {
 	attachElement(anchor, {
 		after: () => (
 			<div className="flash flash-warn py-0">
@@ -61,7 +55,11 @@ async function init(signal: AbortSignal): Promise<void> {
 			</div>
 		),
 	});
+}
 
+async function init(signal: AbortSignal): Promise<void> {
+	await api.expectToken();
+	observe('form[novalidate=""] > div:nth-last-child(3)', add, {signal});
 	delegate('#new_repository, #new_new_repository', 'submit', setStorage, {signal});
 }
 
@@ -70,7 +68,6 @@ void features.add(import.meta.url, {
 		pageDetect.isNewRepo,
 		pageDetect.isNewRepoTemplate,
 	],
-	awaitDomReady: true,
 	init,
 }, {
 	include: [
