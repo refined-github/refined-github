@@ -67,15 +67,16 @@ function addButton(pullRequest: HTMLElement): void {
 		reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
 		reblameLink.classList.add('rgh-deep-reblame');
 	} else {
-		$('div:last-child', hunk)!.append(
-			<button
-				type="button"
-				aria-label="View blame prior to this change (extracts commits from this PR first)"
-				className="reblame-link btn-link no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-reblame"
-			>
-				<VersionsIcon/>
-			</button>,
-		);
+		// $('div:last-child', hunk)!.append(
+		// 	<button
+		// 		type="button"
+		// 		aria-label="View blame prior to this change (extracts commits from this PR first)"
+		// 		className="reblame-link btn-link no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-reblame"
+		// 	>
+		// 		<VersionsIcon/>
+		// 	</button>,
+		// );
+		return;
 	}
 }
 
