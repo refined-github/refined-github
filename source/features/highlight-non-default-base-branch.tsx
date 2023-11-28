@@ -1,13 +1,13 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon} from '@primer/octicons-react';
+import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
-import batchedFunction from 'batched-function';
 
 type BranchInfo = {
 	baseRef: string;
@@ -31,7 +31,7 @@ function buildQuery(issueIds: string[]): string {
 	`;
 }
 
-async function add(prLinks: HTMLElement[]) {
+async function add(prLinks: HTMLElement[]): Promise<void> {
 	const query = buildQuery(prLinks.map(pr => pr.id));
 	const [data, defaultBranch] = await Promise.all([
 		api.v4(query),
@@ -70,7 +70,7 @@ async function add(prLinks: HTMLElement[]) {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	observe('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]', batchedFunction(add, {delay:100}), {signal})
+	observe('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]', batchedFunction(add, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {
