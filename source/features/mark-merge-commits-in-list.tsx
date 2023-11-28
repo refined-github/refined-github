@@ -47,9 +47,8 @@ export function getCommitHash(commit: HTMLElement): string {
 	return getCommitLink(commit)!.pathname.split('/').pop()!;
 }
 
-function updateCommitIcon(commit: HTMLElement): void {
-	const isPRConversation = pageDetect.isPRConversation();
-	if (isPRConversation) {
+function updateCommitIcon(commit: HTMLElement, replace: boolean): void {
+	if (replace) {
 		// Align icon to the line; rem used to match the native units
 		$('.octicon-git-commit', commit)!.replaceWith(<GitMergeIcon style={{marginLeft: '0.5rem'}}/>);
 	} else {
@@ -58,21 +57,23 @@ function updateCommitIcon(commit: HTMLElement): void {
 }
 
 async function markCommits(commits: HTMLElement[]): Promise<void> {
+	const isPRConversation = pageDetect.isPRConversation();
 	const mergeCommits = await filterMergeCommits(commits.map(commit => getCommitHash(commit)));
 	for (const commit of commits) {
 		if (mergeCommits.includes(getCommitHash(commit))) {
 			commit.classList.add('rgh-merge-commit');
-			updateCommitIcon(commit);
+			updateCommitIcon(commit, isPRConversation);
 		}
 	}
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe([
-		'.listviewitem',
+		'.listviewitem',// `isCommitList`
+
 		// Old view style (before November 2023)
 		'.js-commits-list-item', // `isCommitList`
-		'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`, "js-timeline-item" to exclude "isCommitList"
+		'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`; "js-timeline-item" excludes "isCommitList"
 	], batchedFunction(markCommits, {delay: 100}), {signal});
 }
 
