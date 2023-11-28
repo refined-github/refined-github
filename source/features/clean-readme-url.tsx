@@ -2,7 +2,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 
-function getCleanUrlOrNothing(url: string): string | undefined {
+function getCleanUrlOrNothing(url: string): string | void {
 	const parsed = new URL(url);
 	if (parsed.searchParams.get('tab') === 'readme-ov-file') {
 		parsed.searchParams.delete('tab');
@@ -10,7 +10,7 @@ function getCleanUrlOrNothing(url: string): string | undefined {
 	}
 }
 
-function onNavigation(event: NavigateEvent) {
+function onNavigation(event: NavigateEvent): void {
 	const url = getCleanUrlOrNothing(event.destination.url);
 	if (url) {
 		event.intercept({
@@ -34,3 +34,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github?tab=readme-ov-file
+
+*/
