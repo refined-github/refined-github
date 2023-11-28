@@ -1,7 +1,5 @@
 import React from 'dom-chef';
 import delay from 'delay';
-import {$} from 'select-dom';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import delegate from 'delegate-it';
 
