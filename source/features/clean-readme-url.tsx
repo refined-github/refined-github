@@ -2,12 +2,30 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 
-function init(signal: AbortSignal): void {
-	const url = new URL(location.href);
-	if (url.searchParams.get('tab') === 'readme-ov-file') {
-		url.searchParams.delete('tab');
-		history.replaceState(history.state, '', url.href);
+function getCleanUrlOrNothing(url: string): string | undefined {
+	const parsed = new URL(url);
+	if (parsed.searchParams.get('tab') === 'readme-ov-file') {
+		parsed.searchParams.delete('tab');
+		return parsed.href;
 	}
+}
+
+function onNavigation(event: NavigateEvent) {
+	const url = getCleanUrlOrNothing(event.destination.url);
+	if (url) {
+		event.intercept({
+			// DO ME
+		});
+	}
+}
+
+function init(signal: AbortSignal): void {
+	const url = getCleanUrlOrNothing(location.href);
+	if (url) {
+		history.replaceState(history.state, '', url);
+	}
+
+	globalThis.navigation?.addEventListener('navigate', onNavigation, {signal});
 }
 
 void features.add(import.meta.url, {
