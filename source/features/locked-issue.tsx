@@ -1,5 +1,5 @@
 import React from 'react';
-import {$, $$} from 'select-dom';
+import {$, $$, elementExists} from 'select-dom';
 import {LockIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
@@ -16,10 +16,11 @@ function LockedIndicator(): JSX.Element {
 	);
 }
 
-function processTimeline(element: HTMLElement): void {
-	const events: HTMLElement[] = $$(`.octicon-key, .octicon-lock`, element.parentElement!);
+function processTimeline(): void {
+	// Gather lock related events and sort by event ID
+	const events: HTMLElement[] = $$('.js-discussion .TimelineItem:has(.octicon-key, .octicon-lock)').sort((a, b) => a.id.localeCompare(b.id));
 	// If most recent lock change event is locked
-	if (events.length > 0 && events.reverse()[0].classList.contains('octicon-lock')) {
+	if (elementExists('.octicon-lock', events[0])) {
 		$('.gh-header-meta:not(:has(.rgh-locked-issue)) > :first-child')?.after(
 			<LockedIndicator className="mb-2 rgh-locked-issue"/>,
 		);
@@ -33,8 +34,8 @@ function processTimeline(element: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-    // Observe only non-hidden timeline events
-	observe(':not(#js-progressive-timeline-item-container) > .js-timeline-item', processTimeline, {signal});
+	// Observe only non-hidden timeline events
+	observe('.js-discussion .js-timeline-item', processTimeline, {signal});
 }
 
 void features.add(import.meta.url, {
