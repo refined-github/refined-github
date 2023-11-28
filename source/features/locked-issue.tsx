@@ -18,7 +18,7 @@ function LockedIndicator(): JSX.Element {
 
 function processTimeline(element: HTMLElement): void {
 	const events: HTMLElement[] = $$(`.octicon-key, .octicon-lock`, element.parentElement!);
-	// If final lock change event is locked
+	// If most recent lock change event is locked
 	if (events.length > 0 && events.reverse()[0].classList.contains('octicon-lock')) {
 		$('.gh-header-meta:not(:has(.rgh-locked-issue)) > :first-child')?.after(
 			<LockedIndicator className="mb-2 rgh-locked-issue"/>,
@@ -34,7 +34,7 @@ function processTimeline(element: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
     // Observe only non-hidden timeline events
-	observe('.js-discussion > div > .js-timeline-item', processTimeline, {signal});
+	observe(':not(#js-progressive-timeline-item-container) > .js-timeline-item', processTimeline, {signal});
 }
 
 void features.add(import.meta.url, {
