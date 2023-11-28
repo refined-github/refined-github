@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {GitPullRequestIcon} from '@primer/octicons-react';
 
@@ -7,6 +6,8 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import observe from '../helpers/selector-observer.js';
+import batchedFunction from 'batched-function';
 
 type BranchInfo = {
 	baseRef: string;
@@ -30,12 +31,7 @@ function buildQuery(issueIds: string[]): string {
 	`;
 }
 
-async function init(): Promise<false | void> {
-	const prLinks = $$('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]');
-	if (prLinks.length === 0) {
-		return false;
-	}
-
+async function add(prLinks: HTMLElement[]) {
 	const query = buildQuery(prLinks.map(pr => pr.id));
 	const [data, defaultBranch] = await Promise.all([
 		api.v4(query),
@@ -73,12 +69,14 @@ async function init(): Promise<false | void> {
 	}
 }
 
+async function init(signal: AbortSignal): Promise<false | void> {
+	observe('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]', batchedFunction(add, {delay:100}), {signal})
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoIssueOrPRList,
 	],
-	awaitDomReady: true, // TODO: Use observe + batched-function
-	deduplicate: 'has-rgh-inner',
 	init,
 });
 
