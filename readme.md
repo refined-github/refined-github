@@ -391,6 +391,7 @@ Thanks for contributing! 🦋🙌
 - [](# "command-palette-navigation-shortcuts") Adds keyboard shortcuts to select items in command palette using <kbd>ctrl</kbd> <kbd>n</kbd> and <kbd>ctrl</kbd> <kbd>p</kbd> (macOS only).
 - [](# "submission-via-ctrl-enter-everywhere") Enables submission via <kbd>ctrl</kbd> <kbd>enter</kbd> on every page possible.
 - [](# "prevent-comment-loss") [Opens links in rich text editor in new tab instead of navigating away from the page.](https://user-images.githubusercontent.com/17681399/282616531-2befcabe-5c80-4b9a-bfb5-7b9917847bb5.gif)
+- [](# "redirect-to-issue-list") [Redirect to repo issue list when the search doesn‘t include `is:pr`.](https://private-user-images.githubusercontent.com/46634000/286579939-50122f02-dcfd-4510-b9e1-03d9985da2cd.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MDEyNTgwMzcsIm5iZiI6MTcwMTI1NzczNywicGF0aCI6Ii80NjYzNDAwMC8yODY1Nzk5MzktNTAxMjJmMDItZGNmZC00NTEwLWI5ZTEtMDNkOTk4NWRhMmNkLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFJV05KWUFYNENTVkVINTNBJTJGMjAyMzExMjklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjMxMTI5VDExMzUzN1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTYyOGExZTUwOGNkYzZmNjJkYjY0OGRkMTk3MzMxMWNkYzc1MjliODk5ZTQyY2EwMDMwNDFjYzEyOGE4ZmEzYjImWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.WvWnaFvqK7AIRAP4ryLmaqMQtL44AUaIT9gQVjHzVgI)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
