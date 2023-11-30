@@ -33,7 +33,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		?? assetsList.closest('.Box:not(.Box--condensed)')!; // Releases list, excludes the assets list’s own .Box
 
 	const releaseName = container
-		.querySelector('.octicon-tag ~ span')!
+		.querySelector('.Link[href*="/tree/"]')!
 		.textContent
 		.trim();
 
