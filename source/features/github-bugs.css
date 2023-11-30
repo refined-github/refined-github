@@ -56,6 +56,7 @@
 }
 
 /* Hide inactive comment box tabs #7108 */
+/* Test: https://github.com/refined-github/sandbox/issues/74 */
 .comment-form-head.tabnav:has(~ div .octicon-lock) {
 	display: none;
 }
