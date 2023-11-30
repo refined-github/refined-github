@@ -54,3 +54,8 @@
 	pointer-events: none;
 	filter: grayscale(0.5);
 }
+
+/* Bold current pull request tab */
+.tabnav-tab.selected {
+	font-weight: var(--base-text-weight-semibold, 600);
+}
