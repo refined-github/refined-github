@@ -72,5 +72,6 @@ Second part:
 
 - https://github.com/refined-github/refined-github/releases
 - https://github.com/refined-github/refined-github/releases/tag/23.11.15
+- https://github.com/saadeghi/daisyui/releases/tag/v4.4.15
 
 */
