@@ -54,3 +54,8 @@
 	pointer-events: none;
 	filter: grayscale(0.5);
 }
+
+/* Hide inactive comment box tabs #7108 */
+.comment-form-head.tabnav:has(~ div .octicon-lock) {
+	display: none;
+}
