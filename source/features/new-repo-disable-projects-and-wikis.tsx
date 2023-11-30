@@ -35,10 +35,9 @@ function setStorage(): void {
 	}
 }
 
-function add(form: HTMLElement): void {
-	const anchor = $('div:nth-last-child(3)', form);
-	anchor?.after(
-		<div className="flash flash-warn py-0">
+function add(submitButtonLine: HTMLElement): void {
+	submitButtonLine.before(
+		<div className="flash flash-warn py-0 ml-n3">
 			<div className="form-checkbox checked">
 				<label>
 					<input
@@ -57,7 +56,7 @@ function add(form: HTMLElement): void {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
-	observe('form[novalidate=""]', add, {signal});
+	observe('form :has(> [type=submit])', add, {signal});
 	delegate('#new_repository, #new_new_repository', 'submit', setStorage, {signal});
 }
 
@@ -75,6 +74,10 @@ void features.add(import.meta.url, {
 });
 
 /*
+
 Test URLs:
+
 https://github.com/new
+https://github.com/new?template_name=browser-extension-template&template_owner=fregante
+
 */
