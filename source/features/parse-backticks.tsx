@@ -12,7 +12,8 @@ const selectors = [
 
 	// `isCommitList` commit description
 	// https://github.com/refined-github/sandbox/commits/buncha-files/
-	'.js-commits-list-item pre',
+	'.js-commits-list-item pre', // Old view style (before November 2023)
+	'[data-testid="listview-item-description"] .ws-pre-wrap',
 
 	// `isPRConversation` commit description
 	// https://github.com/refined-github/sandbox/pull/55#commits-pushed-d4852bb
