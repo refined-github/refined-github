@@ -44,8 +44,13 @@ export const prCommitStatusIcon_ = [
 	'https://github.com/refined-github/sandbox/pull/10',
 ];
 
-export const prOpenOrDraftRow = '.js-issue-row:has(.octicon-git-pull-request.color-fg-open,.octicon-git-pull-request-draft)';
-export const prOpenOrDraftRow_ = [
+export const openPrsListLink = `
+	.js-issue-row:has(
+		.octicon-git-pull-request.color-fg-open,
+		.octicon-git-pull-request-draft
+	) a.js-navigation-open
+`;
+export const openPrsListLink_ = [
 	'https://github.com/refined-github/sandbox/issues?q=conflict',
 ];
 
