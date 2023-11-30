@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, lastElement} from 'select-dom';
+import {$} from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import selectHas from '../helpers/select-has.js';
-import attachElement from '../helpers/attach-element.js';
+import observe from '../helpers/selector-observer.js';
 
 const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
 
@@ -35,32 +35,28 @@ function setStorage(): void {
 	}
 }
 
+function add(submitButtonLine: HTMLElement): void {
+	submitButtonLine.before(
+		<div className="flash flash-warn py-0 ml-n3">
+			<div className="form-checkbox checked">
+				<label>
+					<input
+						checked
+						type="checkbox"
+						id="rgh-disable-project"
+					/> Disable Projects and Wikis
+				</label>
+				<span className="note mb-2">
+					After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
+				</span>
+			</div>
+		</div>,
+	);
+}
+
 async function init(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
-
-	const anchor = lastElement([
-		'.js-repo-init-setting-container', // IsNewRepo
-		'.form-checkbox', // IsNewRepoTemplate
-	]);
-	attachElement(anchor, {
-		after: () => (
-			<div className="flash flash-warn py-0">
-				<div className="form-checkbox checked">
-					<label>
-						<input
-							checked
-							type="checkbox"
-							id="rgh-disable-project"
-						/> Disable Projects and Wikis
-					</label>
-					<span className="note mb-2">
-						After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
-					</span>
-				</div>
-			</div>
-		),
-	});
-
+	observe('form :has(> [type=submit])', add, {signal});
 	delegate('#new_repository, #new_new_repository', 'submit', setStorage, {signal});
 }
 
@@ -69,7 +65,6 @@ void features.add(import.meta.url, {
 		pageDetect.isNewRepo,
 		pageDetect.isNewRepoTemplate,
 	],
-	awaitDomReady: true,
 	init,
 }, {
 	include: [
@@ -77,3 +72,12 @@ void features.add(import.meta.url, {
 	],
 	init: onetime(disableWikiAndProjects),
 });
+
+/*
+
+Test URLs:
+
+https://github.com/new
+https://github.com/new?template_name=browser-extension-template&template_owner=fregante
+
+*/
