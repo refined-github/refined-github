@@ -67,7 +67,7 @@
   {
     "description": "Drops redundant \"readme-ov-file\" parameter from repo URLs.",
     "id": "clean-readme-url",
-    "screenshot": undefined,
+    "screenshot": "https://github.com/refined-github/refined-github/assets/1402241/73e96411-3314-4501-a9b6-d006af6fcc47",
   },
   {
     "description": "Makes some buttons on repository lists more compact to make room for other features.",
@@ -657,7 +657,7 @@
   {
     "description": "Adds quick-review buttons to the PR sidebar, automatically focuses the review textarea, and adds a keyboard shortcut to open the review popup: <kbd>v</kbd>.",
     "id": "quick-review",
-    "screenshot": undefined,
+    "screenshot": "https://github.com/refined-github/refined-github/assets/1402241/f11039c4-c9d1-4adc-9a65-cfe1f2027ec3",
   },
   {
     "description": "Adds a button to delete review comments in one click when editing them.",
