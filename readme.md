@@ -130,8 +130,10 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 
 - Try cleaning up the page by disabling nearby features or hiding clutter, e.g. everything below this tab bar has been hidden: https://user-images.githubusercontent.com/1402241/55089736-d94f5300-50e8-11e9-9095-329ac74c1e9f.png
 - If possible, zoom at 200% before taking a screenshot (native retina screens are fine at 100%)
-- If changes are subtle, add a before/after comparison using the arrows from https://user-images.githubusercontent.com/1402241/34438653-f66535a4-ecda-11e7-9406-2e1258050cfa.png
+- If changes are subtle, add a before/after comparison using the arrows from https://github.com/refined-github/refined-github/assets/1402241/f49b4cb6-9d39-41ed-9c82-1f6590efd643
 - Include some visual context if the feature targets small UI elements, e.g.: https://user-images.githubusercontent.com/1402241/108955170-52d48080-7633-11eb-8979-67e0d3a53f16.png
+
+For inspiration, you can look at all the screenshots at once in the options: alt-click any "screenshot" link to preview all of them.
 
 Thanks for contributing! 🦋🙌
 
