@@ -1,16 +1,29 @@
 @media (min-height: 500px) {
-	/* for single notification bloc https://user-images.githubusercontent.com/1398469/285492439-5e1b81ae-aa52-42d3-9d33-695bf5b062f0.png */
-	.js-notifications-container .Box.notifications-list .Box-header,
-	/* for "select all" bloc over several blocs https://user-images.githubusercontent.com/1398469/285492182-0cfdb9c7-f0e3-405d-aa02-e9d58241616f.png */
-	.js-notifications-container
-		.Box:not(.notifications-list):has(.js-select-all-text) {
-		position: sticky;
-		top: 0;
-		z-index: 10;
+	.Box:has(.js-notifications-mark-all-prompt) {
+		--sticky-padding: 10px;
+		& .Box-header {
+			position: sticky;
+			top: var(--sticky-padding);
+			z-index: 10;
+			/* Cover up the content seen through the rounded corners above */
+			box-shadow: 0 calc((var(--sticky-padding) + var(--borderRadius-medium)) * -1) 0 0 var(--rgh-background);
+		}
+
+		/* Grouped by repo; .Box only contains the header */
+		&:not(.notifications-list) {
+			display: contents; /* Craptastic position:sticky is only sticky within its parent, so we have to break it. Fingers crossed this doesn't break the layout in the future. */
+			& .Box-header {
+				/* Since its section already has its own .Box-header, we try to further "elevate" it */
+				box-shadow: 0 0 10px 10px var(--rgh-background);
+			}
+		}
 	}
 }
 
 /*
-Test URLs
-https://github.com/notifications
+
+Test URLs:
+https://github.com/notifications (Grouped by date)
+https://github.com/notifications (Grouped by repo)
+
 */
