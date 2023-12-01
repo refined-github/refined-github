@@ -6,7 +6,9 @@
 			top: var(--sticky-padding);
 			z-index: 10;
 			/* Cover up the content seen through the rounded corners above */
-			box-shadow: 0 calc((var(--sticky-padding) + var(--borderRadius-medium)) * -1) 0 0 var(--rgh-background);
+			box-shadow: 0
+				calc((var(--sticky-padding) + var(--borderRadius-medium)) * -1) 0 0
+				var(--rgh-background);
 		}
 
 		/* Grouped by repo; .Box only contains the header */
