@@ -22,8 +22,8 @@ async function unwrapNotifications(): Promise<void | false> {
 		throw new Error('GitHub added new view types. This feature is obsolete.');
 	}
 
-	const dropdown = forms[0].closest('details')!;
-	const currentView = $('summary i', dropdown)!.nextSibling!.textContent.trim();
+	const dropdown = forms[0].closest('action-menu')!;
+	const currentView = $('.Button-label span:last-child', dropdown)!.textContent.trim();
 	const desiredForm = currentView === 'Date' ? forms[0] : forms[1];
 
 	// Replace dropdown
@@ -42,3 +42,10 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh',
 	init: unwrapNotifications,
 });
+
+/*
+
+Test URLs:
+https://github.com/notifications
+
+*/

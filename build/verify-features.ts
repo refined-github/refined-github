@@ -1,4 +1,5 @@
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
+import regexJoin from 'regex-join';
 
 import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
 import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js';
@@ -8,6 +9,14 @@ const entryPoint = 'source/refined-github.ts';
 const entryPointSource = readFileSync(entryPoint);
 const importedFeatures = getImportedFeatures();
 const featuresInReadme = getFeaturesMeta();
+
+// We used to enforce the filetype, but this is no longer possible with new URLs
+// https://github.com/refined-github/refined-github/pull/7130
+const imageRegex = /\.(png|gif)$/;
+// eslint-disable-next-line unicorn/better-regex -- ur rong
+const rghUploadsRegex = /refined-github[/]refined-github[/]assets[/]/;
+// eslint-disable-next-line unicorn/better-regex -- dably wron
+const screenshotRegex = regexJoin(imageRegex, /|/, rghUploadsRegex);
 
 function validateCss(filename: string): string | void {
 	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${filename}';`);
@@ -52,7 +61,7 @@ function validateReadme(featureId: FeatureID): string | void {
 		return `ERR: ${featureId} should be described better in the readme (at least 20 characters)`;
 	}
 
-	if (featureMeta.screenshot && !/\.(png|gif)$/.test(featureMeta.screenshot)) {
+	if (featureMeta.screenshot && !screenshotRegex.test(featureMeta.screenshot)) {
 		return `ERR: ${featureId} should have a screenshot (png/gif) in the readme`;
 	}
 
@@ -85,7 +94,7 @@ function validateTsx(filename: string): string | void {
 	}
 
 	if (!isFeaturePrivate(filename)) {
-		validateReadme(featureId);
+		return validateReadme(featureId);
 	}
 }
 
