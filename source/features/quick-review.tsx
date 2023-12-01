@@ -14,8 +14,8 @@ import {randomArrayItem} from '../helpers/math.js';
 
 const emojis = [...'🚀✅🐿️⚡️🤌🥳🥰🤩🥸😎🤯🚢🛫🏳️🏁'];
 
-async function quickApprove(): Promise<void> {
-	const approval = prompt('Approve instantly? You can add a custom message or leave empty');
+async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
+	const approval = event.altKey ? '' : prompt('Approve instantly? You can add a custom message or leave empty');
 	if (approval === null) {
 		return;
 	}
@@ -54,7 +54,13 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 
 	quickReview.append(
 		' – ',
-		<button type="button" className="btn-link Link--muted rgh-quick-approve">approve now</button>
+		<button
+			type="button"
+			className="btn-link Link--muted rgh-quick-approve tooltipped tooltipped-nw"
+			aria-label="Hold alt to approve without confirmation"
+		>
+			approve now
+		</button>,
 	);
 }
 
