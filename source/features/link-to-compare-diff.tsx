@@ -26,3 +26,12 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // DOM-based filter
 	init,
 });
+
+/*
+
+Test URLs:
+
+Separate tabs: https://github.com/refined-github/sandbox/compare/buncha-files...default-a
+One view: https://github.com/refined-github/sandbox/compare/default-a...buncha-files
+
+*/

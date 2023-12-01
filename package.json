@@ -20,7 +20,7 @@
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:webpack": "npm run x:webpack -- --mode=development --watch",
-		"x:webpack": "cross-env NODE_OPTIONS=\"--import tsx --loader tsx --no-warnings=ExperimentalWarning\" webpack",
+		"x:webpack": "cross-env NODE_OPTIONS=\"--import tsx --loader tsx --no-warnings=ExperimentalWarning\" webpack"
 	},
 	"prettier": {
 		"singleQuote": true

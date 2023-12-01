@@ -47,3 +47,12 @@ void features.add(import.meta.url, {
 	],
 	init: highlightSelf,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/issues
+https://github.com/refined-github/refined-github/pulls
+
+*/
