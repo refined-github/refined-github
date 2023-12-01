@@ -97,6 +97,7 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/refined-github/sandbox/pull/10
+- Open PR (review, approve) https://github.com/refined-github/sandbox/pull/10
+- Closed PR (only review) https://github.com/refined-github/sandbox/pull/26
 
 */
