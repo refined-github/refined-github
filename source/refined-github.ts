@@ -219,3 +219,4 @@ import './features/close-as-unplanned.js';
 import './features/locked-issue.js';
 import './features/visit-tag.js';
 import './features/prevent-comment-loss.js';
+import './features/clean-readme-url.js';
