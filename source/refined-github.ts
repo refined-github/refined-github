@@ -17,6 +17,7 @@ import './features/repo-stats-spacing.css';
 import './features/clean-notifications.css';
 import './features/night-not-found.css';
 import './features/sticky-file-header.css';
+import './features/sticky-notifications-actions.css';
 import './features/readable-title-change-events.css';
 import './features/clean-checks-list.css';
 import './features/sticky-csv-header.css';
