@@ -10,22 +10,24 @@ function getCleanUrlOrNothing(url: string): string | void {
 	}
 }
 
-function onNavigation(event: NavigateEvent): void {
-	const url = getCleanUrlOrNothing(event.destination.url);
-	if (url) {
-		event.intercept({
-			// DO ME
-		});
+function maybeCleanCurrentUrl(url: string): void {
+	const cleanedUrl = getCleanUrlOrNothing(url);
+	if (cleanedUrl) {
+		console.log('cleaning URL', url, '->', cleanedUrl);
+
+		history.replaceState(history.state, '', cleanedUrl);
 	}
 }
 
-function init(signal: AbortSignal): void {
-	const url = getCleanUrlOrNothing(location.href);
-	if (url) {
-		history.replaceState(history.state, '', url);
-	}
+function onNavigation(event: NavigateEvent): void {
+	console.log('onNavigation', event.destination.url, event);
 
-	globalThis.navigation?.addEventListener('navigate', onNavigation, {signal});
+	maybeCleanCurrentUrl(event.destination.url);
+}
+
+function init(signal: AbortSignal): void {
+	maybeCleanCurrentUrl(location.href);
+	window.navigation?.addEventListener('navigate', onNavigation, {signal});
 }
 
 void features.add(import.meta.url, {
