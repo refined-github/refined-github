@@ -24,7 +24,6 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		isRefinedGitHubRepo,
 		pageDetect.isCompare,
 	],
 	init,
