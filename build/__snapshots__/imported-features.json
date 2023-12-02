@@ -50,6 +50,7 @@
   "extend-diff-expander",
   "file-age-color",
   "fit-textareas",
+  "fix-no-pr-search",
   "github-actions-indicators",
   "global-conversation-list-filters",
   "hidden-review-comments-indicator",
