@@ -2,14 +2,15 @@ import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
+import SearchQuery from '../github-helpers/search-query.js';
 
 function redirectToIssues(event: DelegateEvent<Event, HTMLFormElement>): void {
 	event.preventDefault();
 
 	const form = event.delegateTarget;
-	const searchInput = form.elements['js-issues-search'];
+	const searchQuery = new SearchQuery(form.elements['js-issues-search'].value);
 
-	if (!searchInput.value.includes('is:pr')) {
+	if (!searchQuery.includes('is:pr')) {
 		form.action = form.action.replace(/\/pulls$/, '/issues');
 	}
 
