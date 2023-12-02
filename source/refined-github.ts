@@ -219,5 +219,5 @@ import './features/close-as-unplanned.js';
 import './features/locked-issue.js';
 import './features/visit-tag.js';
 import './features/prevent-comment-loss.js';
-import './features/redirect-to-issue-list.js';
+import './features/fix-no-pr-search.js';
 import './features/clean-readme-url.js';
