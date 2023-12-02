@@ -44,6 +44,17 @@ export const prCommitStatusIcon_ = [
 	'https://github.com/refined-github/sandbox/pull/10',
 ];
 
+// `.color-fg-open` is needed because of the icon added by `highlight-non-default-base-branch`
+export const openPrsListLink = `
+	.js-issue-row:has(
+		.octicon-git-pull-request.color-fg-open,
+		.octicon-git-pull-request-draft
+	) a.js-navigation-open
+`;
+export const openPrsListLink_ = [
+	'https://github.com/refined-github/sandbox/issues?q=conflict',
+];
+
 export const actionsTab = '#actions-tab';
 export const actionsTab_ = [
 	'https://github.com/refined-github/sandbox',

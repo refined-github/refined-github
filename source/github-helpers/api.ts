@@ -59,8 +59,14 @@ export class RefinedGitHubAPIError extends Error {
 }
 
 const settings = optionsStorage.getAll();
-export async function expectToken(): Promise<string> {
+
+export async function getToken(): Promise<string | undefined> {
 	const {personalToken} = await settings;
+	return personalToken;
+}
+
+export async function expectToken(): Promise<string> {
+	const personalToken = await getToken();
 	if (!personalToken) {
 		throw new Error('Personal token required for this feature');
 	}
