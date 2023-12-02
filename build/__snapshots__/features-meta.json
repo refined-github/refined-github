@@ -255,6 +255,11 @@
     "screenshot": "https://user-images.githubusercontent.com/1402241/54336211-66fd5e00-4666-11e9-9c5e-111fccab004d.gif",
   },
   {
+    "description": "Redirect to repo issue list when the search doesn‘t include <code>is:pr</code>.",
+    "id": "fix-no-pr-search",
+    "screenshot": "https://user-images.githubusercontent.com/46634000/286579939-50122f02-dcfd-4510-b9e1-03d9985da2cd.gif",
+  },
+  {
     "description": "In the workflows sidebar, shows an indicator that a workflow can be triggered manually, and its next scheduled time if relevant.",
     "id": "github-actions-indicators",
     "screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252181237-a1d809b1-e5d4-4747-9654-7dde5ab5c61a.png",
