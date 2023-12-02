@@ -570,11 +570,6 @@
     "screenshot": "https://user-images.githubusercontent.com/17681399/282616531-2befcabe-5c80-4b9a-bfb5-7b9917847bb5.gif",
   },
   {
-    "description": "Opens links in rich text editor in new tab instead of navigating away from the page.",
-    "id": "prevent-comment-loss",
-    "screenshot": "https://user-images.githubusercontent.com/17681399/282616531-2befcabe-5c80-4b9a-bfb5-7b9917847bb5.gif",
-  },
-  {
     "description": "Avoids creating duplicate PRs when mistakenly clicking \"Create pull request\" more than once.",
     "id": "prevent-duplicate-pr-submission",
     "screenshot": "https://user-images.githubusercontent.com/16872793/89589967-e029c200-d814-11ea-962b-3ff1f6236781.gif",
@@ -795,7 +790,7 @@
   {
     "description": "Make the notifications action bar sticky.",
     "id": "sticky-notifications-actions",
-    "screenshot": "https://user-images.githubusercontent.com/1398469/285497350-95ead695-a023-4aeb-b3bc-7c815157b439.gif",
+    "screenshot": "https://github.com/refined-github/refined-github/assets/1402241/5b370430-2319-4c78-88e7-c2c06cd1c30f",
   },
   {
     "description": "Makes conversation sidebars and repository sidebars sticky, if they fit the viewport.",
