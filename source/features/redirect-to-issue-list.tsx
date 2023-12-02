@@ -35,7 +35,7 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-1. Open https://github.com/refined-github/refined-github/pulls?q=search+sort%3Aupdated-desc
+1. Open https://github.com/refined-github/refined-github/pulls
 2. Remove the "is:pr" from the search input and submit
 3. You should be redirected to the "Issues" tab
 
