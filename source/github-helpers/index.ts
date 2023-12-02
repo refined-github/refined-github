@@ -45,7 +45,16 @@ export function parseTag(tag: string): {version: string; namespace: string} {
 }
 
 export function isUsernameAlreadyFullName(username: string, realname: string): boolean {
-	return username.replaceAll('-', '').toLowerCase() === realname.normalize('NFD').replaceAll(/[\u0300-\u036F\W.]/g, '').toLowerCase();
+	// Normalize both strings
+	username = username
+		.replaceAll('-', '')
+		.toLowerCase();
+	realname = realname
+		.normalize('NFD')
+		.replaceAll(/[\u0300-\u036F\W.]/g, '')
+		.toLowerCase();
+
+	return username === realname;
 }
 
 const validVersion = /^[vr]?\d+(?:\.\d+)+/;
