@@ -14,7 +14,7 @@ function redirectToIssues(event: DelegateEvent<Event, HTMLFormElement>): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate('form.subnav-search', 'submit', redirectToIssues, {
+	delegate('form.subnav-search[action$="/pulls"]', 'submit', redirectToIssues, {
 		signal,
 		capture: true,
 	});
