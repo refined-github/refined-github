@@ -56,9 +56,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssueOrPRList,
 	],
-	exclude: [
-		pageDetect.isBlank,
-	],
 	init,
 });
 

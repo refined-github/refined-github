@@ -122,9 +122,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNotifications,
 	],
-	exclude: [
-		pageDetect.isBlank, // Empty notification list
-	],
 	init,
 });
 

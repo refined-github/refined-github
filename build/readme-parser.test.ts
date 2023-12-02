@@ -6,6 +6,8 @@ import {
 } from './readme-parser.js';
 
 test('readme-parser', async () => {
-	await expect(getImportedFeatures()).toMatchFileSnapshot('./__snapshots__/imported-features.json');
-	await expect(getFeaturesMeta()).toMatchFileSnapshot('./__snapshots__/features-meta.json');
+	await expect(getImportedFeatures().join('\n') + '\n')
+		.toMatchFileSnapshot('./__snapshots__/imported-features.txt');
+	await expect(JSON.parse(JSON.stringify(getFeaturesMeta())))
+		.toMatchFileSnapshot('./__snapshots__/features-meta.json');
 });

@@ -64,7 +64,7 @@ async function init(): Promise<void | false> {
 
 	const navbar = (await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!;
 	navbar.classList.remove('flex-1');
-	wrapAll([navbar, changelogButton], <div className="d-flex flex-justify-start flex-1"/>);
+	wrapAll(<div className="d-flex flex-justify-start flex-1"/>, navbar, changelogButton);
 }
 
 void features.add(import.meta.url, {

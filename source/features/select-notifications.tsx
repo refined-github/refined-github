@@ -179,9 +179,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNotifications,
 	],
-	exclude: [
-		pageDetect.isBlank, // Empty notification list
-	],
 	init,
 });
 
@@ -189,6 +186,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/notifications
+https://github.com/notifications (Grouped by date)
+https://github.com/notifications (Grouped by repo)
+https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
 
 */

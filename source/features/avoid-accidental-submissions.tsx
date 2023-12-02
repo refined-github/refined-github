@@ -56,13 +56,22 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNewIssue,
-		pageDetect.isCompare,
 		pageDetect.isNewFile,
+		pageDetect.isCompare,
 		pageDetect.isEditingFile,
 		pageDetect.isPRConversation,
 	],
-	exclude: [
-		pageDetect.isBlank,
-	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+isNewIssue: https://github.com/refined-github/sandbox/issues/new
+isNewFile: https://github.com/refined-github/sandbox/new/default-a
+isCompare: https://github.com/refined-github/sandbox/compare/default-a...quick-pr-branch
+isEditingFile: https://github.com/refined-github/sandbox/edit/default-a/README.md
+isPRConversation: https://github.com/refined-github/sandbox/pull/4
+
+*/

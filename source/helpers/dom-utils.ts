@@ -52,7 +52,7 @@ export const wrap = (target: Element | ChildNode, wrapper: Element): void => {
 	wrapper.append(target);
 };
 
-export const wrapAll = <Wrapper extends Element>(targets: Iterable<Element | ChildNode>, wrapper: Wrapper): Wrapper => {
+export const wrapAll = <Wrapper extends Element>(wrapper: Wrapper, ...targets: Array<Element | ChildNode>): Wrapper => {
 	const [first, ...rest] = targets;
 	first.before(wrapper);
 	wrapper.append(first, ...rest);

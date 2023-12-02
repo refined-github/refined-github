@@ -117,12 +117,10 @@
   {
     "description": "Adds keyboard shortcuts to select items in command palette using <kbd>ctrl</kbd> <kbd>n</kbd> and <kbd>ctrl</kbd> <kbd>p</kbd> (macOS only).",
     "id": "command-palette-navigation-shortcuts",
-    "screenshot": undefined,
   },
   {
     "description": "Adds a shortcut to edit your last comment: <kbd>↑</kbd>. (Only works in the following comment field, if it’s empty.)",
     "id": "comment-fields-keyboard-shortcuts",
-    "screenshot": undefined,
   },
   {
     "description": "Reminds you you’re commenting on a draft PR by changing the submit button’s label.",
@@ -162,12 +160,10 @@
   {
     "description": "Enhances the <kbd>y</kbd> hotkey to also copy the permalink.",
     "id": "copy-on-y",
-    "screenshot": undefined,
   },
   {
     "description": "Adds a keyboard shortcut to create a new release while on the Releases page: <kbd>c</kbd>.",
     "id": "create-release-shortcut",
-    "screenshot": undefined,
   },
   {
     "description": "Adds a line-through to the deleted branches in PRs.",
@@ -227,7 +223,6 @@
   {
     "description": "Adds a keyboard shortcut to deselect the current line: <kbd>esc</kbd>.",
     "id": "esc-to-deselect-line",
-    "screenshot": undefined,
   },
   {
     "description": "On long conversations where GitHub hides comments under a \"N hidden items. Load more...\", alt-clicking it will load up to 200 comments at once instead of 60.",
@@ -282,7 +277,6 @@
   {
     "description": "Hides inactive deployments in PRs.",
     "id": "hide-inactive-deployments",
-    "screenshot": undefined,
   },
   {
     "description": "Removes the autocomplete on search fields.",
@@ -297,12 +291,10 @@
   {
     "description": "Removes the file hover effect in the repo file browser.",
     "id": "hide-navigation-hover-highlight",
-    "screenshot": undefined,
   },
   {
     "description": "Hides other inutile newsfeed events (commits, forks, new followers).",
     "id": "hide-newsfeed-noise",
-    "screenshot": undefined,
   },
   {
     "description": "Hides forks and archived repos from profiles (but they can still be shown.)",
@@ -337,7 +329,6 @@
   {
     "description": "Automagically expands the newsfeed when you scroll down.",
     "id": "infinite-scroll",
-    "screenshot": undefined,
   },
   {
     "description": "Adds a link to jump to the latest changed requested comment.",
@@ -527,7 +518,6 @@
   {
     "description": "Adds shortcuts to navigate through pages with pagination: <kbd>←</kbd> and <kbd>→</kbd>.",
     "id": "pagination-hotkey",
-    "screenshot": undefined,
   },
   {
     "description": "GitHub renders `<code> </code>text in backticks<code> </code>` in some places but not others; this features fills in where forgotten.",
@@ -575,7 +565,7 @@
     "screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257011208-764f509d-fed9-424b-84e9-c01cf2fd428b.gif",
   },
   {
-    "description": "Opens links in rich text editor in new tab instead of navigating away from the page.",
+    "description": "While writing/editing comments, open the preview links in new tab instead of navigating away from the page.",
     "id": "prevent-comment-loss",
     "screenshot": "https://user-images.githubusercontent.com/17681399/282616531-2befcabe-5c80-4b9a-bfb5-7b9917847bb5.gif",
   },
@@ -592,7 +582,6 @@
   {
     "description": "Prevents the merge panel from automatically opening on every page load after it’s been opened once.",
     "id": "prevent-pr-merge-panel-opening",
-    "screenshot": undefined,
   },
   {
     "description": "Previews hidden comments inline.",
@@ -617,7 +606,6 @@
   {
     "description": "Adds a keyboard shortcut to visit your own profile: <kbd>g</kbd> <kbd>m</kbd>.",
     "id": "profile-hotkey",
-    "screenshot": undefined,
   },
   {
     "description": "Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd>, and <kbd>g</kbd> <kbd>4</kbd>.",
@@ -717,7 +705,6 @@
   {
     "description": "Enables the File Finder keyboard shortcut (<kbd>t</kbd>) on entire repository.",
     "id": "repo-wide-file-finder",
-    "screenshot": undefined,
   },
   {
     "description": "Adds one-click merge conflict fixers.",
@@ -737,12 +724,10 @@
   {
     "description": "Limits the height of tall code blocks and quotes.",
     "id": "scrollable-areas",
-    "screenshot": undefined,
   },
   {
     "description": "Adds a shortcut to select all visible notifications: <kbd>a</kbd>.",
     "id": "select-all-notifications-shortcut",
-    "screenshot": undefined,
   },
   {
     "description": "Select notifications by type and status.",
@@ -752,7 +737,6 @@
   {
     "description": "Adds a keyboard shortcut to open selection in new tab when navigating via <kbd>j</kbd> and <kbd>k</kbd>: <kbd>shift</kbd> <kbd>o</kbd>.",
     "id": "selection-in-new-tab",
-    "screenshot": undefined,
   },
   {
     "description": "Shortens URLs and repo URLs to readable references like \"<em>user/repo/.file@<code>d71718d</code>\".</em>",
@@ -792,7 +776,6 @@
   {
     "description": "Changes the default sort order of conversations to <code>Recently updated</code>.",
     "id": "sort-conversations-by-update-time",
-    "screenshot": undefined,
   },
   {
     "description": "Lets you subscribe to opening/closing events of issues in one click..",
@@ -807,7 +790,7 @@
   {
     "description": "Make the notifications action bar sticky.",
     "id": "sticky-notifications-actions",
-    "screenshot": "https://user-images.githubusercontent.com/1398469/285497350-95ead695-a023-4aeb-b3bc-7c815157b439.gif",
+    "screenshot": "https://github.com/refined-github/refined-github/assets/1402241/5b370430-2319-4c78-88e7-c2c06cd1c30f",
   },
   {
     "description": "Makes conversation sidebars and repository sidebars sticky, if they fit the viewport.",
@@ -822,7 +805,6 @@
   {
     "description": "Enables submission via <kbd>ctrl</kbd> <kbd>enter</kbd> on every page possible.",
     "id": "submission-via-ctrl-enter-everywhere",
-    "screenshot": undefined,
   },
   {
     "description": "Suggests limiting commit titles to 72 characters.",

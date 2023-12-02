@@ -133,16 +133,10 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
 	],
-	exclude: [
-		pageDetect.isRepoFile404,
-	],
 	init: initSingleFile,
 }, {
 	include: [
 		pageDetect.isEditingFile,
-	],
-	exclude: [
-		pageDetect.isBlank,
 	],
 	awaitDomReady: true, // End of the page; DOM-based detections
 	init: initEditingFile,

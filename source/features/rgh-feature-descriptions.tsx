@@ -32,6 +32,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 	newIssueUrl.searchParams.set('title', `\`${id}\`: `);
+	newIssueUrl.searchParams.set('labels', 'bug, help wanted');
 
 	infoBanner.before(
 		// Block and width classes required to avoid margin collapse
