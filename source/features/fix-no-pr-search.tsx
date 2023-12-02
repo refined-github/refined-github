@@ -11,8 +11,6 @@ function redirectToIssues(event: DelegateEvent<Event, HTMLFormElement>): void {
 	if (!searchQuery.includes('is:pr')) {
 		form.action = form.action.replace(/\/pulls$/, '/issues');
 	}
-
-	form.submit();
 }
 
 function init(signal: AbortSignal): void {
