@@ -41,6 +41,11 @@ async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise
 		const userKey = api.escapeKey(username);
 		const {name} = names[userKey];
 
+		// Could be `null` if not set
+		if (!name) {
+			continue;
+		}
+
 		if (isUsernameAlreadyFullName(username, name)) {
 			usernameElement.textContent = name;
 			continue;
