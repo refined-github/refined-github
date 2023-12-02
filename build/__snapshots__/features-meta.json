@@ -575,6 +575,11 @@
     "screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257011208-764f509d-fed9-424b-84e9-c01cf2fd428b.gif",
   },
   {
+    "description": "While writing/editing comments, open the preview links in new tab instead of navigating away from the page.",
+    "id": "prevent-comment-loss",
+    "screenshot": "https://user-images.githubusercontent.com/17681399/282616531-2befcabe-5c80-4b9a-bfb5-7b9917847bb5.gif",
+  },
+  {
     "description": "Opens links in rich text editor in new tab instead of navigating away from the page.",
     "id": "prevent-comment-loss",
     "screenshot": "https://user-images.githubusercontent.com/17681399/282616531-2befcabe-5c80-4b9a-bfb5-7b9917847bb5.gif",
