@@ -3,3 +3,24 @@
 	pointer-events: none;
 	margin-left: 0.3em;
 }
+
+.gh-header-title > .js-socket-channel {
+	display: inline;
+}
+
+/* Ensure the CI details dropdown always opens to the right */
+.gh-header-title .commit-build-statuses .dropdown-menu {
+	left: 100%;
+	right: auto;
+	margin: 24px 0 0 8px;
+}
+
+.js-sticky .commit-build-statuses {
+	margin-left: 4px;
+}
+
+.gh-header-title .commit-build-statuses summary .octicon {
+	width: 24px;
+	height: 24px;
+	vertical-align: middle;
+}
