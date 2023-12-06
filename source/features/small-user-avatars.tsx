@@ -45,9 +45,7 @@ function init(): void {
 		'.js-issue-row [data-hovercard-type="user"]',
 		'.notification-thread-subscription [data-hovercard-type="user"]',
 	], addAvatar);
-	observe([
-		'.user-mention:not(.commit-author)[data-hovercard-type="user"]',
-	], addMentionAvatar);
+	observe('.user-mention:not(.commit-author)[data-hovercard-type="user"]', addMentionAvatar);
 }
 
 void features.add(import.meta.url, {
