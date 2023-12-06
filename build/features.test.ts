@@ -1,4 +1,4 @@
-import {test, expect, describe, assert} from 'vitest';
+import {test, expect, describe, assert, vi} from 'vitest';
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 import regexJoin from 'regex-join';
 
@@ -24,12 +24,12 @@ function validateCss(filename: string): string | void {
 	if (existsSync(correspondingTsxFile)) {
 		assert(
 			readFileSync(correspondingTsxFile).includes(`import './${filename}';`),
-			`ERR: \`${filename}\` should be imported by \`${correspondingTsxFile}\``,
+			`Should be imported by \`${correspondingTsxFile}\``,
 		);
 
 		assert(
 			!isImportedByEntrypoint,
-			`ERR: \`${filename}\` should only be imported by \`${correspondingTsxFile}\`, not by \`${entryPoint}\``,
+			`Should only be imported by \`${correspondingTsxFile}\`, not by \`${entryPoint}\``,
 		);
 
 		return;
@@ -37,7 +37,7 @@ function validateCss(filename: string): string | void {
 
 	assert(
 		isImportedByEntrypoint,
-		`ERR: \`${filename}\` should be imported by \`${entryPoint}\` or removed if it is not needed`,
+		`Should be imported by \`${entryPoint}\` or removed if it is not needed`,
 	);
 }
 
@@ -49,32 +49,32 @@ function validateGql(filename: string): string | void {
 	const correspondingTsxFile = `source/features/${featureId}.tsx`;
 	assert(
 		readFileSync(correspondingTsxFile).includes(`from './${filename}';`),
-		`\`${filename}\` should be imported by \`${correspondingTsxFile}\``,
+		`Should be imported by \`${correspondingTsxFile}\``,
 	);
 }
 
 function validateReadme(featureId: FeatureID): string | void {
 	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
-	assert(featureMeta, `ERR: ${featureId} should be described in the readme`);
+	assert(featureMeta, 'Should be described in the readme');
 
 	assert(
 		featureMeta.description.length >= 20,
-		`ERR: ${featureId} should be described better in the readme (at least 20 characters)`,
+		'Should be described better in the readme (at least 20 characters)',
 	);
 
 	assert(
 		!featureMeta.screenshot || screenshotRegex.test(featureMeta.screenshot),
-		`ERR: ${featureId} should have a screenshot (png/gif) in the readme`,
+		'Should have a screenshot (png/gif) in the readme',
 	);
 
-	assert(!duplicate, `ERR: ${featureId} should be described only once in the readme`);
+	assert(!duplicate, 'Should be described only once in the readme');
 }
 
 function validateTsx(filename: string): string | void {
 	const featureId = filename.replace('.tsx', '') as FeatureID;
 	assert(
 		importedFeatures.includes(featureId),
-		`ERR: ${featureId} should be imported by \`${entryPoint}\``,
+		`Should be imported by \`${entryPoint}\``,
 	);
 
 	const fileContents = readFileSync(`source/features/${filename}`);
@@ -82,18 +82,18 @@ function validateTsx(filename: string): string | void {
 	if (fileContents.includes('.addCssFeature')) {
 		assert(
 			!fileContents.includes('.add('),
-			 `ERR: ${featureId} should use either \`addCssFeature\` or \`add\`, not both`,
+			`${featureId} should use either \`addCssFeature\` or \`add\`, not both`,
 		);
 
 		const correspondingCssFile = `source/features/${filename.replace(/.tsx$/, '.css')}`;
 		assert(
 			existsSync(correspondingCssFile),
-			`ERR: ${featureId} uses \`.addCssFeature\`, but ${correspondingCssFile} is missing`,
+			`${featureId} uses \`.addCssFeature\`, but ${correspondingCssFile} is missing`,
 		);
 
 		assert(
 			readFileSync(correspondingCssFile).includes(`[rgh-${featureId}]`),
-			 `ERR: ${correspondingCssFile} should contain a \`[rgh-${featureId}]\` selector`,
+			`${correspondingCssFile} should contain a \`[rgh-${featureId}]\` selector`,
 		);
 	}
 
@@ -102,30 +102,29 @@ function validateTsx(filename: string): string | void {
 	}
 }
 
-function verifyFeature(filename: string): string | void {
-	// TODO: Replace condition with "is gitignored"
-	if (filename === '.DS_Store') {
-		return;
-	}
-
-	if (filename.endsWith('.gql')) {
-		return validateGql(filename);
-	}
-
-	if (filename.endsWith('.css')) {
-		return validateCss(filename);
-	}
-
-	if (filename.endsWith('.tsx')) {
-		return validateTsx(filename);
-	}
-
-	return `ERR: The \`/source/features\` folder should only contain .css, .tsx and .gql files. Found \`source/features/${filename}\``;
-}
-
 describe('features', async () => {
 	const featuresDirContents = readdirSync('source/features/');
-	test.each(featuresDirContents)('%s', name => {
-		expect(verifyFeature(name)).toBeUndefined();
+	test.each(featuresDirContents)('%s', filename => {
+		// TODO: Replace condition with "is gitignored"
+		if (filename === '.DS_Store') {
+			return;
+		}
+
+		if (filename.endsWith('.gql')) {
+			validateGql(filename);
+			return;
+		}
+
+		if (filename.endsWith('.css')) {
+			validateCss(filename);
+			return;
+		}
+
+		if (filename.endsWith('.tsx')) {
+			validateTsx(filename);
+			return;
+		}
+
+		assert.fail(`The \`/source/features\` folder should only contain .css, .tsx and .gql files. Found \`source/features/${filename}\``);
 	});
 });
