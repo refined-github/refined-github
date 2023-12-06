@@ -6,6 +6,29 @@ import regexJoin from 'regex-join';
 import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
 import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js';
 
+const noScreenshotExceptions = new Set([
+	// Only add feature here if it's a shortcut only and/or extremely clear by name or description
+	'sort-conversations-by-update-time',
+	'prevent-pr-merge-panel-opening',
+	'infinite-scroll',
+	'command-palette-navigation-shortcuts',
+	'comment-fields-keyboard-shortcuts',
+	'copy-on-y',
+	'create-release-shortcut',
+	'pagination-hotkey',
+	'profile-hotkey',
+	'repo-wide-file-finder',
+	'select-all-notifications-shortcut',
+	'selection-in-new-tab',
+	'submission-via-ctrl-enter-everywhere',
+
+	'hide-navigation-hover-highlight', // TODO: Add side-by-side gif
+	'hide-inactive-deployments', // TODO: pngside-by-side png
+	'esc-to-deselect-line', // TODO Add gif with key overlay
+	'hide-newsfeed-noise', // TODO: Add side-by-side png
+	'scrollable-areas', // TODO: Add side-by-side png
+]);
+
 const entryPoint = 'source/refined-github.ts';
 const entryPointSource = readFileSync(entryPoint);
 const importedFeatures = getImportedFeatures();
@@ -76,7 +99,7 @@ function validateCss(file: FeatureFile): void {
 function validateGql(file: FeatureFile): void {
 	assert(
 		file.tsx.exists(),
-		'Does not match any existing features. The filename should match the feature that uses it.'
+		'Does not match any existing features. The filename should match the feature that uses it.',
 	);
 
 	assert(
@@ -95,8 +118,9 @@ function validateReadme(featureId: FeatureID): void {
 	);
 
 	assert(
-		!featureMeta.screenshot || screenshotRegex.test(featureMeta.screenshot),
-		'Should have a screenshot (png/gif) in the readme',
+		screenshotRegex.test(featureMeta.screenshot!)
+		|| noScreenshotExceptions.has(featureId),
+		'Should have a screenshot (png/gif) in the readme, unless really difficult to demonstrate (to be discussed in review)',
 	);
 
 	assert(!duplicate, 'Should be described only once in the readme');

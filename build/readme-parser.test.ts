@@ -11,7 +11,7 @@ test('readme-parser', async () => {
 	const featuresMetaJson = JSON.stringify(
 		getFeaturesMeta(),
 		(_, value) => value ?? null,
-		'\t'
+		'\t',
 	);
 	await expect(featuresMetaJson + '\n')
 		.toMatchFileSnapshot('./__snapshots__/features-meta.json');
