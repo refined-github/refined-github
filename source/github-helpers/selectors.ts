@@ -85,6 +85,6 @@ export const lockedIssueHeaders = css`
 	)
 `;
 export const lockedIssueHeaders_ = [
-	'https://github.com/refined-github/sandbox/issues/74',
-	'https://github.com/refined-github/sandbox/pull/48',
+	['https://github.com/refined-github/sandbox/issues/74', 2],
+	['https://github.com/refined-github/sandbox/pull/48', 2],
 ];

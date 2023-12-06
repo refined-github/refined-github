@@ -1,5 +1,5 @@
 import mem from 'mem';
-import {test, assert, describe} from 'vitest';
+import {test, assert, describe, expect} from 'vitest';
 import {parseHTML} from 'linkedom';
 
 import * as exports from './selectors.js';
@@ -21,13 +21,23 @@ describe.concurrent('selectors', () => {
 
 	test.each(selectors)('%s', async (name, selector) => {
 		// @ts-expect-error Index signature bs
-		const urls = exports[name + '_'] as string[];
+		const urls = exports[name + '_'] as Array<string | [url: string, expectations: number]>;
 
 		assert.isArray(urls, `No URLs defined for "${name}"`);
 		await Promise.all(urls.map(async url => {
+			let expectations: number | undefined;
+			if (Array.isArray(url)) {
+				[url, expectations] = url;
+			}
+
 			const {window} = await fetchDocument(url);
-			// It's not equivalent at the moment, but at least the tests don't fail. Let's see how it goes
-			assert.isDefined(window.document.querySelector(selector));
+			// TODO: ? Use snapshot with outerHTML[]
+			const matches = window.document.querySelectorAll(selector);
+			if (expectations === undefined) {
+				expect(matches).toBeGreaterThan(0);
+			} else {
+				expect(matches).toHaveLength(expectations);
+			}
 		}));
 	}, {timeout: 9999});
 });
