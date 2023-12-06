@@ -1,4 +1,5 @@
-import {test, expect, describe, assert, vi} from 'vitest';
+import {test, describe, assert} from 'vitest';
+import {parse, join} from 'node:path';
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 import regexJoin from 'regex-join';
 
@@ -18,42 +19,73 @@ const rghUploadsRegex = /refined-github[/]refined-github[/]assets[/]/;
 
 const screenshotRegex = regexJoin(imageRegex, /|/, rghUploadsRegex);
 
-function validateCss(filename: string): string | void {
-	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${filename}';`);
-	const correspondingTsxFile = `source/features/${filename.replace(/.css$/, '.tsx')}`;
-	if (existsSync(correspondingTsxFile)) {
-		assert(
-			readFileSync(correspondingTsxFile).includes(`import './${filename}';`),
-			`Should be imported by \`${correspondingTsxFile}\``,
-		);
+class FeatureFile {
+	readonly id: FeatureID;
+	readonly path: string;
+	constructor(readonly name: string) {
+		this.id = parse(name).name as FeatureID;
+		this.path = join('source/features', name);
+	}
 
-		assert(
-			!isImportedByEntrypoint,
-			`Should only be imported by \`${correspondingTsxFile}\`, not by \`${entryPoint}\``,
-		);
+	exists(): boolean {
+		return existsSync(this.path);
+	}
 
+	// eslint-disable-next-line n/prefer-global/buffer -- Type only
+	contents(): Buffer {
+		return readFileSync(this.path);
+	}
+
+	get tsx(): FeatureFile {
+		if (this.name.endsWith('.gql')) {
+			const id = importedFeatures.find(featureId => this.id.startsWith(featureId));
+			if (id) {
+				return new FeatureFile(id + '.tsx');
+			}
+		}
+
+		return new FeatureFile(this.id + '.tsx');
+	}
+
+	get css(): FeatureFile {
+		return new FeatureFile(this.id + '.css');
+	}
+}
+
+function validateCss(file: FeatureFile): void {
+	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${file.name}';`);
+	if (!file.tsx.exists()) {
+		assert(
+			isImportedByEntrypoint,
+			`Should be imported by \`${entryPoint}\` or removed if it is not needed`,
+		);
 		return;
 	}
 
 	assert(
-		isImportedByEntrypoint,
-		`Should be imported by \`${entryPoint}\` or removed if it is not needed`,
+		file.tsx.contents().includes(`import './${file.name}';`),
+		`Should be imported by \`${file.tsx.name}\``,
 	);
-}
 
-function validateGql(filename: string): string | void {
-	const basename = filename.replace('.gql', '');
-	const featureId = importedFeatures.find(featureId => basename.startsWith(featureId));
-	assert(featureId, `${filename} doesn’t match any existing features. The filename should match the feature that uses it.`);
-
-	const correspondingTsxFile = `source/features/${featureId}.tsx`;
 	assert(
-		readFileSync(correspondingTsxFile).includes(`from './${filename}';`),
-		`Should be imported by \`${correspondingTsxFile}\``,
+		!isImportedByEntrypoint,
+		`Should only be imported by \`${file.tsx.name}\`, not by \`${entryPoint}\``,
 	);
 }
 
-function validateReadme(featureId: FeatureID): string | void {
+function validateGql(file: FeatureFile): void {
+	assert(
+		file.tsx.exists(),
+		'Does not match any existing features. The filename should match the feature that uses it.'
+	);
+
+	assert(
+		file.tsx.contents().includes(`from './${file.name}';`),
+		`Should be imported by \`${file.tsx.name}\``,
+	);
+}
+
+function validateReadme(featureId: FeatureID): void {
 	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
 	assert(featureMeta, 'Should be described in the readme');
 
@@ -70,35 +102,33 @@ function validateReadme(featureId: FeatureID): string | void {
 	assert(!duplicate, 'Should be described only once in the readme');
 }
 
-function validateTsx(filename: string): string | void {
-	const featureId = filename.replace('.tsx', '') as FeatureID;
+function validateTsx(file: FeatureFile): void {
 	assert(
-		importedFeatures.includes(featureId),
+		importedFeatures.includes(file.id),
 		`Should be imported by \`${entryPoint}\``,
 	);
 
-	const fileContents = readFileSync(`source/features/${filename}`);
+	const fileContents = readFileSync(`source/features/${file.name}`);
 
 	if (fileContents.includes('.addCssFeature')) {
 		assert(
 			!fileContents.includes('.add('),
-			`${featureId} should use either \`addCssFeature\` or \`add\`, not both`,
-		);
-
-		const correspondingCssFile = `source/features/${filename.replace(/.tsx$/, '.css')}`;
-		assert(
-			existsSync(correspondingCssFile),
-			`${featureId} uses \`.addCssFeature\`, but ${correspondingCssFile} is missing`,
+			`${file.id} should use either \`addCssFeature\` or \`add\`, not both`,
 		);
 
 		assert(
-			readFileSync(correspondingCssFile).includes(`[rgh-${featureId}]`),
-			`${correspondingCssFile} should contain a \`[rgh-${featureId}]\` selector`,
+			file.css.exists(),
+			`${file.id} uses \`.addCssFeature\`, but ${file.css.name} is missing`,
+		);
+
+		assert(
+			file.css.contents().includes(`[rgh-${file.id}]`),
+			`${file.css.name} should contain a \`[rgh-${file.id}]\` selector`,
 		);
 	}
 
-	if (!isFeaturePrivate(filename)) {
-		validateReadme(featureId);
+	if (!isFeaturePrivate(file.name)) {
+		validateReadme(file.id);
 	}
 }
 
@@ -111,17 +141,17 @@ describe('features', async () => {
 		}
 
 		if (filename.endsWith('.gql')) {
-			validateGql(filename);
+			validateGql(new FeatureFile(filename));
 			return;
 		}
 
 		if (filename.endsWith('.css')) {
-			validateCss(filename);
+			validateCss(new FeatureFile(filename));
 			return;
 		}
 
 		if (filename.endsWith('.tsx')) {
-			validateTsx(filename);
+			validateTsx(new FeatureFile(filename));
 			return;
 		}
 
