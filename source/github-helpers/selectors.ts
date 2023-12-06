@@ -1,3 +1,5 @@
+import {css} from 'code-tag';
+
 /** The repo navigation bar */
 export const repoUnderlineNavUl = '.js-responsive-underlinenav ul.UnderlineNav-body';
 export const repoUnderlineNavUl_ = [
@@ -45,7 +47,7 @@ export const prCommitStatusIcon_ = [
 ];
 
 // `.color-fg-open` is needed because of the icon added by `highlight-non-default-base-branch`
-export const openPrsListLink = `
+export const openPrsListLink = css`
 	.js-issue-row:has(
 		.octicon-git-pull-request.color-fg-open,
 		.octicon-git-pull-request-draft
@@ -60,7 +62,29 @@ export const actionsTab_ = [
 	'https://github.com/refined-github/sandbox',
 ];
 
-export const codeSearchHeader = 'div:has(>:is([aria-label^="Collapse "], [aria-label^="Expand "]))';
+export const codeSearchHeader = css`
+	div:has(
+		> [aria-label^="Collapse "],
+		> [aria-label^="Expand "]
+	)
+`;
 export const codeSearchHeader_ = [
 	'https://github.com/search?q=repo%3Arefined-github%2Frefined-github&type=code',
+];
+
+// If reactions-menu exists, then .js-pick-reaction is the second child
+// Logged out users and some GHE users never have the menu, so they have to wait for the comment field to load
+export const lockedIssueHeaders = css`
+	:is(
+		.logged-in:has(.js-pick-reaction:first-child),
+		html:has(.previewable-comment-form .octicon-lock.blankslate-icon)
+	) ${/* Feel free to extract `lockedIssue` if used elsewhere */ ''}
+	:is(
+		.gh-header-meta > :first-child,
+		.gh-header-sticky .flex-row > :first-child
+	)
+`;
+export const lockedIssueHeaders_ = [
+	'https://github.com/refined-github/sandbox/issues/74',
+	'https://github.com/refined-github/sandbox/pull/48',
 ];

@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {isHasSelectorSupported} from '../helpers/select-has.js';
+import {lockedIssueHeaders} from '../github-helpers/selectors.js';
 
 function LockedIndicator(): JSX.Element {
 	return (
@@ -22,17 +23,8 @@ function addLock(element: HTMLElement): void {
 	);
 }
 
-function addStickyLock(element: HTMLElement): void {
-	element.after(
-		<LockedIndicator className="mr-2 mb-2 rgh-locked-issue"/>,
-	);
-}
-
 function init(signal: AbortSignal): void {
-	// If reactions-menu exists, then .js-pick-reaction is the second child
-	// Logged out users never have the menu, so they should be excluded
-	observe('.logged-in:has(.js-pick-reaction:first-child) .gh-header-meta > :first-child', addLock, {signal});
-	observe('.logged-in:has(.js-pick-reaction:first-child) .gh-header-sticky .flex-row > :first-child', addStickyLock, {signal});
+	observe(lockedIssueHeaders, addLock, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -41,11 +33,6 @@ void features.add(import.meta.url, {
 	],
 	include: [
 		pageDetect.isConversation,
-	],
-	exclude: [
-		// TODO: Find alternative detection that works even for GHE that don't have reactions enabled
-		// https://github.com/refined-github/refined-github/issues/7063
-		pageDetect.isEnterprise,
 	],
 	init,
 });
