@@ -84,3 +84,16 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+Test link: `https://github.com/refined-github/refined-github/pull/6954/commits/32d1c8b2e1b6971709fe273cfdd1f959b51e8d85`
+
+New issue form: https://github.com/refined-github/refined-github/issues/new?assignees=&labels=bug&projects=&template=1_bug_report.yml
+New comment form: https://github.com/refined-github/sandbox/issues/3
+New review form: https://github.com/refined-github/sandbox/pull/4/files#review-changes-modal
+New review comment form: https://github.com/refined-github/sandbox/pull/4/files
+
+*/
