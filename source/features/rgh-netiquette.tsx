@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {InfoIcon} from '@primer/octicons-react';
+import InfoIcon from '@primer/octicons-react/build/svg/InfoIcon-16.svg';
 import * as pageDetect from 'github-url-detection';
 
 import createBanner from '../github-helpers/banner.js';

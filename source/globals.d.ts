@@ -40,6 +40,11 @@ declare module '*.gql' {
 	export = string;
 }
 
+declare module '*.svg' {
+	const FC = (): JSX.Element => JSX.Element;
+	export default FC;
+}
+
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
 	'details:toggled': CustomEvent;
