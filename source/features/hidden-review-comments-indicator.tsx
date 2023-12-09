@@ -1,5 +1,5 @@
 import './hidden-review-comments-indicator.css';
-import mem from 'mem';
+import mem from 'memoize';
 import React from 'dom-chef';
 import {$$} from 'select-dom';
 import CommentIcon from '@primer/octicons-react/build/svg/CommentIcon-16.svg';

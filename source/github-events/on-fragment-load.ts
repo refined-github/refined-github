@@ -1,4 +1,4 @@
-import mem from 'mem';
+import mem from 'memoize';
 import delegate, {DelegateEvent, DelegateEventHandler} from 'delegate-it';
 
 // This lets you call `onDiffFileLoad` multiple times with the same callback but only ever a `load` listener is registered

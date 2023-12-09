@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import domify from 'doma';
 import * as pageDetect from 'github-url-detection';
-import mem from 'mem';
+import mem from 'memoize';
 
 import features from '../feature-manager.js';
 import {getCleanPathname} from '../github-helpers/index.js';

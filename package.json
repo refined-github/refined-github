@@ -73,7 +73,7 @@
 		"linkedom": "^0.16.1",
 		"linkify-issues": "^3.0.1",
 		"linkify-urls": "^4.1.0",
-		"mem": "^9.0.2",
+		"memoize": "^10.0.0",
 		"one-event": "^3.1.0",
 		"one-mutation": "^2.1.0",
 		"onetime": "^7.0.0",

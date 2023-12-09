@@ -4,7 +4,7 @@ import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
-import mem from 'mem';
+import mem from 'memoize';
 
 import {branchSelector} from './selectors.js';
 

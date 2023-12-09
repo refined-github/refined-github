@@ -1,5 +1,5 @@
 import './highest-rated-comment.css';
-import mem from 'mem';
+import mem from 'memoize';
 import React from 'dom-chef';
 import {$, $$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';

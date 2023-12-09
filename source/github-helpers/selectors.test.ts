@@ -1,4 +1,4 @@
-import mem from 'mem';
+import mem from 'memoize';
 import {test, assert, describe, expect} from 'vitest';
 import {parseHTML} from 'linkedom';
 
