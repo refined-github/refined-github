@@ -2,9 +2,12 @@ import {test, describe, assert} from 'vitest';
 import {parse, join} from 'node:path';
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 import regexJoin from 'regex-join';
+import fastIgnore from 'fast-ignore';
 
 import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
 import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js';
+
+const isGitIgnored = fastIgnore(readFileSync('.gitignore', 'utf8'));
 
 const noScreenshotExceptions = new Set([
 	// Only add feature here if it's a shortcut only and/or extremely clear by name or description
@@ -159,8 +162,7 @@ function validateTsx(file: FeatureFile): void {
 describe('features', async () => {
 	const featuresDirContents = readdirSync('source/features/');
 	test.each(featuresDirContents)('%s', filename => {
-		// TODO: Replace condition with "is gitignored"
-		if (filename === '.DS_Store') {
+		if (isGitIgnored(filename)) {
 			return;
 		}
 
