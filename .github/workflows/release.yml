@@ -42,32 +42,31 @@ jobs:
           FILENAME="$PROJECT_NAME-$DAILY_VERSION-for-local-testing-only.zip"
           zip -r "$FILENAME" ./*
           gh release create "$DAILY_VERSION" --generate-notes "$FILENAME"
-  Submit:
-    needs: Version
+  Chrome:
     if: needs.Version.outputs.created
-    strategy:
-      fail-fast: false
-      matrix:
-        command:
-          - Firefox
-          - Chrome
-    environment: ${{ matrix.command }}
+    needs: Version
+    name: Submit (Chrome)
+    environment: Chrome
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
-      - name: Submit to Mozilla
-        if: matrix.command == 'Firefox'
+      - run: npx chrome-webstore-upload-cli@2 upload --auto-publish
         working-directory: artifact
-        run: npx web-ext@7 sign --use-submission-api --channel listed
-        env:
-          WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
-          WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
-      - name: Submit to Google
-        if: matrix.command == 'Chrome'
-        working-directory: artifact
-        run: npx chrome-webstore-upload-cli@2 upload --auto-publish
         env:
           EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+  Firefox:
+    if: needs.Version.outputs.created
+    needs: Version
+    name: Submit (Firefox)
+    environment: Firefox
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+      - run: npx web-ext@7 sign --use-submission-api --channel listed
+        working-directory: artifact
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
+          WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
