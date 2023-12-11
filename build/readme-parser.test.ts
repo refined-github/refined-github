@@ -8,6 +8,11 @@ import {
 test('readme-parser', async () => {
 	await expect(getImportedFeatures().join('\n') + '\n')
 		.toMatchFileSnapshot('./__snapshots__/imported-features.txt');
-	await expect(JSON.parse(JSON.stringify(getFeaturesMeta())))
+	const featuresMetaJson = JSON.stringify(
+		getFeaturesMeta(),
+		(_, value) => value ?? null, // Convert undefined to null to make them visible in the JSON
+		'\t',
+	);
+	await expect(featuresMetaJson + '\n')
 		.toMatchFileSnapshot('./__snapshots__/features-meta.json');
 });

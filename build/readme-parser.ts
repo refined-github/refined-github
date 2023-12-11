@@ -7,12 +7,9 @@ import parseMarkdown from 'snarkdown';
 // Group names must be unique because they will be merged
 const simpleFeatureRegex = /^- \[]\(# "(?<simpleId>[^"]+)"\)(?: 🔥)? (?<simpleDescription>.+)$/gm;
 const highlightedFeatureRegex = /<p><a title="(?<highlightedId>[^"]+)"><\/a> (?<highlightedDescripion>.+?)\n\t+<p><img src="(?<highlightedImage>.+?)">/g;
-// eslint-disable-next-line unicorn/better-regex -- ur wrong
 const featureRegex = regexJoin(simpleFeatureRegex, /|/, highlightedFeatureRegex);
 const imageRegex = /\.\w{3}$/; // 3 since .png and .gif have 3 letters
-// eslint-disable-next-line unicorn/better-regex -- ur dably rong
 const rghUploadsRegex = /refined-github[/]refined-github[/]assets[/]/;
-// eslint-disable-next-line unicorn/better-regex -- so tripoli wron
 const screenshotRegex = regexJoin(imageRegex, /|/, rghUploadsRegex);
 
 function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
