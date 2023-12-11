@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import {$, elementExists} from 'select-dom';
-import BugIcon from '@primer/octicons-react/build/svg/BugIcon-16.svg';
+import {BugIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 

@@ -2,7 +2,7 @@ import './deep-reblame.css';
 import mem from 'memoize';
 import React from 'dom-chef';
 import {$, $$} from 'select-dom';
-import VersionsIcon from '@primer/octicons-react/build/svg/VersionsIcon-16.svg';
+import {VersionsIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 

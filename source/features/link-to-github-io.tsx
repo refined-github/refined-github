@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import LinkIcon from '@primer/octicons-react/build/svg/LinkIcon-16.svg';
+import {LinkIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
 import {getRepo} from '../github-helpers/index.js';

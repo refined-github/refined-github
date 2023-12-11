@@ -2,7 +2,7 @@
 
 import './quick-file-edit.css';
 import React from 'dom-chef';
-import PencilIcon from '@primer/octicons-react/build/svg/PencilIcon-16.svg';
+import {PencilIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';

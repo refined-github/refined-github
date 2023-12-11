@@ -1,6 +1,6 @@
 import './table-input.css';
 import React from 'dom-chef';
-import TableIcon from '@primer/octicons-react/build/svg/TableIcon-16.svg';
+import {TableIcon} from '@primer/octicons-react';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';

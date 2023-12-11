@@ -33,10 +33,6 @@ const config: Configuration = {
 				type: 'asset/source',
 			},
 			{
-				test: /\.svg/,
-				type: 'asset/source',
-			},
-			{
 				test: /[/\\]readme\.md$/,
 				loader: '../build/readme.loader.ts',
 			},

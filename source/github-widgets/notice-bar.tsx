@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import XIcon from '@primer/octicons-react/build/svg/XIcon-16.svg';
+import {XIcon} from '@primer/octicons-react';
 import elementReady from 'element-ready';
 
 type Options = {
