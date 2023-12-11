@@ -33,6 +33,11 @@ const config: Configuration = {
 				type: 'asset/source',
 			},
 			{
+				test: /\.svg$/i,
+				issuer: /\.tsx$/,
+				use: ['@svgr/webpack'],
+			},
+			{
 				test: /[/\\]readme\.md$/,
 				loader: '../build/readme.loader.ts',
 			},

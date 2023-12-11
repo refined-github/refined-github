@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {$} from 'select-dom';
-import {InfoIcon} from '@primer/octicons-react';
+import InfoIcon from '@primer/octicons-react/build/svg/InfoIcon-16.svg';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 

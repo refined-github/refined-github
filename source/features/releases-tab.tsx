@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {TagIcon} from '@primer/octicons-react';
+import TagIcon from '@primer/octicons-react/build/svg/TagIcon-16.svg';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';

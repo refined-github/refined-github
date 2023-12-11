@@ -3,7 +3,8 @@ import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import {isFirefox} from 'webext-detect-page';
 import * as pageDetect from 'github-url-detection';
-import {AlertIcon, GitPullRequestIcon} from '@primer/octicons-react';
+import AlertIcon from '@primer/octicons-react/build/svg/alert-16.svg';
+import GitPullRequestIcon from '@primer/octicons-react/build/svg/git-pull-request-16.svg';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';

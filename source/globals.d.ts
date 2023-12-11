@@ -40,6 +40,13 @@ declare module '*.gql' {
 	export = string;
 }
 
+declare module '*.svg' {
+	import React from 'react';
+
+	const Svg: React.VFC<React.SVGProps<SVGSVGElement>>;
+	export default Svg;
+}
+
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
 	'details:toggled': CustomEvent;

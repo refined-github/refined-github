@@ -99,6 +99,7 @@
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^5.0.0",
+		"@svgr/webpack": "^8.1.0",
 		"@types/codemirror": "^5.60.13",
 		"@types/dom-navigation": "^1.0.3",
 		"@types/react": "^17.0.52",

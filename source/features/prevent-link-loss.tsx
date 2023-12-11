@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {$} from 'select-dom';
-import {AlertIcon} from '@primer/octicons-react';
+import AlertIcon from '@primer/octicons-react/build/svg/AlertIcon-16.svg';
 import debounceFn from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 import {replaceFieldText} from 'text-field-edit';
