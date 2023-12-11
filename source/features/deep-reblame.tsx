@@ -1,5 +1,5 @@
 import './deep-reblame.css';
-import mem from 'mem';
+import mem from 'memoize';
 import React from 'dom-chef';
 import {$, $$} from 'select-dom';
 import {VersionsIcon} from '@primer/octicons-react';
