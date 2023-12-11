@@ -25,7 +25,7 @@ function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButt
 	replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
 	replaceFieldText(field, prCompareUrlRegex, preventPrCompareLinkLoss);
 	replaceFieldText(field, discussionUrlRegex, preventDiscussionLinkLoss);
-	fixButton.parentElement!.parentElement!.remove();
+	fixButton.closest('.flash')!.remove();
 }
 
 function getUI(field: HTMLTextAreaElement): HTMLElement {
