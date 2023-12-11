@@ -17,4 +17,3 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	init,
 });
-// TODO: Add visual popup, maybe use GitHub's own clipboard element
