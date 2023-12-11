@@ -71,20 +71,3 @@ export const codeSearchHeader = css`
 export const codeSearchHeader_ = [
 	'https://github.com/search?q=repo%3Arefined-github%2Frefined-github&type=code',
 ];
-
-// If reactions-menu exists, then .js-pick-reaction is the second child
-// Logged out users and some GHE users never have the menu, so they have to wait for the comment field to load
-export const lockedIssueHeaders = css`
-	:is(
-		.logged-in:has(.js-pick-reaction:first-child),
-		html:has(.previewable-comment-form .octicon-lock.blankslate-icon)
-	) ${/* Feel free to extract `lockedIssue` if used elsewhere */ ''}
-	:is(
-		.gh-header-meta > :first-child,
-		.gh-header-sticky .flex-row > :first-child
-	)
-`;
-export const lockedIssueHeaders_ = [
-	['https://github.com/refined-github/sandbox/issues/74', 2],
-	['https://github.com/refined-github/sandbox/pull/48', 2],
-];

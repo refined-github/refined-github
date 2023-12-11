@@ -1,7 +1,3 @@
 :has(.js-pick-reaction:not(:first-child)) .rgh-locked-issue {
 	display: none !important;
 }
-
-.gh-header-sticky .rgh-locked-issue {
-	margin-right: 8px; /* Matches .mr-2 */
-}
