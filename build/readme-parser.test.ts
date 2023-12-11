@@ -10,7 +10,7 @@ test('readme-parser', async () => {
 		.toMatchFileSnapshot('./__snapshots__/imported-features.txt');
 	const featuresMetaJson = JSON.stringify(
 		getFeaturesMeta(),
-		(_, value) => value ?? null,
+		(_, value) => value ?? null, // Convert undefined to null to make them visible in the JSON
 		'\t',
 	);
 	await expect(featuresMetaJson + '\n')
