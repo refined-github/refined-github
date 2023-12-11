@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import GitPullRequestIcon from '@primer/octicons-react/build/svg/GitPullRequestIcon-16.svg';
+import GitPullRequestIcon from '@primer/octicons-react/build/svg/git-pull-request-16.svg';
 import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';

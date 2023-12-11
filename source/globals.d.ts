@@ -41,10 +41,8 @@ declare module '*.gql' {
 }
 
 declare module '*.svg' {
-	import React from 'react';
-
-	const Svg: React.VFC<React.SVGProps<SVGSVGElement>>;
-	export default Svg;
+	const FC = (): JSX.Element => JSX.Element;
+	export default FC;
 }
 
 // Custom UI events specific to RGH

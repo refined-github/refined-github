@@ -4,7 +4,7 @@ import {CachedValue} from 'webext-storage-cache';
 import React from 'dom-chef';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import ChevronDownIcon from '@primer/octicons-react/build/svg/ChevronDownIcon-16.svg';
+import ChevronDownIcon from '@primer/octicons-react/build/svg/chevron-down-16.svg';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

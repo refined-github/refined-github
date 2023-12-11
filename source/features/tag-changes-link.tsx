@@ -2,7 +2,7 @@ import './tag-changes-link.css';
 import React from 'dom-chef';
 import {$, $$, elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
-import DiffIcon from '@primer/octicons-react/build/svg/DiffIcon-16.svg';
+import DiffIcon from '@primer/octicons-react/build/svg/diff-16.svg';
 import * as pageDetect from 'github-url-detection';
 import tinyVersionCompare from 'tiny-version-compare';
 

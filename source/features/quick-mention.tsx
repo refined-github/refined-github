@@ -1,7 +1,7 @@
 import './quick-mention.css';
 import React from 'dom-chef';
 import {$, elementExists} from 'select-dom';
-import ReplyIcon from '@primer/octicons-react/build/svg/ReplyIcon-16.svg';
+import ReplyIcon from '@primer/octicons-react/build/svg/reply-16.svg';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';

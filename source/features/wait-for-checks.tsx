@@ -2,7 +2,7 @@ import './wait-for-checks.css';
 import React from 'dom-chef';
 import {$, $$, elementExists} from 'select-dom';
 import onetime from 'onetime';
-import InfoIcon from '@primer/octicons-react/build/svg/InfoIcon-16.svg';
+import InfoIcon from '@primer/octicons-react/build/svg/info-16.svg';
 import * as pageDetect from 'github-url-detection';
 import pRetry, {AbortError} from 'p-retry';
 import delegate, {DelegateEvent} from 'delegate-it';

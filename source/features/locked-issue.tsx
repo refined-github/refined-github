@@ -1,6 +1,6 @@
 import './locked-issue.css';
 import React from 'react';
-import LockIcon from '@primer/octicons-react/build/svg/LockIcon-16.svg';
+import LockIcon from '@primer/octicons-react/build/svg/lock-16.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

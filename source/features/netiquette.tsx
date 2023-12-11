@@ -3,7 +3,7 @@ import * as pageDetect from 'github-url-detection';
 import toMilliseconds from '@sindresorhus/to-milliseconds';
 import {$, elementExists} from 'select-dom';
 import twas from 'twas';
-import InfoIcon from '@primer/octicons-react/build/svg/InfoIcon-16.svg';
+import InfoIcon from '@primer/octicons-react/build/svg/info-16.svg';
 
 import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
