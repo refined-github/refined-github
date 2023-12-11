@@ -15,7 +15,7 @@ You can find or create a test URL:
 - on our sandbox repo: https://github.com/refined-github/sandbox
 - on previous PRs for this feature
 
-The section must be appended to each .tsx and standalone .css feature:
+The section must be appended to each .tsx file:
 
 /*
 
@@ -36,9 +36,8 @@ echo
 
 for FILE in "$@"; do
 	LAST_LINE=$(wc -l < "$FILE")
-	HAS_URLS=$(grep -q "test url" -i "$FILE")
-	IS_STANDALONE_CSS_FILE=$()
-	if $HAS_URLS; then
+
+	if grep -q "test url" -i "$FILE"; then
 		echo ✅ "$FILE"
 		echo "::notice file=$FILE,line=$LAST_LINE::✅" >> "$ANNOTATIONS"
 	else
