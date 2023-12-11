@@ -1,5 +1,5 @@
 // Memoization here is used to let onPrMergePanelOpen() be called multiple times without risking multiple attached handlers
-import mem from 'mem';
+import mem from 'memoize';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 const delegateHandler = mem((callback: EventListener) => (event: DelegateEvent) => {

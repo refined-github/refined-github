@@ -139,7 +139,6 @@ function init(signal: AbortSignal): void {
 	observe('#repos-sticky-header', add, {signal});
 }
 
-// eslint-disable-next-line unicorn/better-regex -- No "\/"
 const featureUrlRegex = /^([/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](tsx|css)$/;
 
 void features.add(import.meta.url, {

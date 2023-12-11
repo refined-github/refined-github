@@ -1,4 +1,4 @@
-import mem from 'mem';
+import mem from 'memoize';
 import domify from 'doma';
 import type {ParseSelector} from 'typed-query-selector/parser.js';
 
