@@ -7,6 +7,13 @@ export const repoUnderlineNavUl_ = [
 	'https://github.com/refined-github/refined-github/releases',
 ];
 
+export const standaloneGistLinkInMarkdown = css`
+	.js-comment-body p a:only-child:is(
+		[href^="https://gist.github.com"],
+		[href^="${location.origin}/gist/"]
+	)'
+` as 'a'; // TODO: Drop after https://github.com/fregante/code-tag/issues/12
+
 /** The repo navigation bar’s overflow menu */
 export const repoUnderlineNavDropdownUl = '.js-responsive-underlinenav .dropdown-menu ul';
 export const repoUnderlineNavDropdownUl_ = repoUnderlineNavUl_;
