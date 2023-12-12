@@ -4,7 +4,7 @@ import React from 'dom-chef';
 import {$, $$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from '@primer/octicons/build/svg/check-16.svg';
-import EyeClosedIcon from '@primer/octicons/build/svg/eyeclosed-16.svg';
+import EyeClosedIcon from '@primer/octicons/build/svg/eye-closed-16.svg';
 import EyeIcon from '@primer/octicons/build/svg/eye-16.svg';
 import XIcon from '@primer/octicons/build/svg/x-16.svg';
 

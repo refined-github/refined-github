@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import BookIcon from '@primer/octicons/build/svg/book-16.svg';
 import CheckIcon from '@primer/octicons/build/svg/check-16.svg';
 import DiffIcon from '@primer/octicons/build/svg/diff-16.svg';
-import DiffModifiedIcon from '@primer/octicons/build/svg/diffmodified-16.svg';
+import DiffModifiedIcon from '@primer/octicons/build/svg/diff-modified-16.svg';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import GitPullRequestIcon from '@primer/octicons/build/svg/gitpullrequest-16.svg';
-import IssueOpenedIcon from '@primer/octicons/build/svg/issueopened-16.svg';
+import GitPullRequestIcon from '@primer/octicons/build/svg/git-pull-request-16.svg';
+import IssueOpenedIcon from '@primer/octicons/build/svg/issue-opened-16.svg';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

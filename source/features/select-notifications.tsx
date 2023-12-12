@@ -4,18 +4,16 @@ import {$, $$, elementExists} from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {
-	CheckCircleIcon,
-	CheckIcon,
-	DotFillIcon,
-	DotIcon,
-	GitMergeIcon,
-	GitPullRequestDraftIcon,
-	GitPullRequestIcon,
-	IssueOpenedIcon,
-	SquirrelIcon,
-	XCircleIcon,
-} from '@primer/octicons';
+import CheckCircleIcon from '@primer/octicons/build/svg/check-circle-16.svg';
+import CheckIcon from '@primer/octicons/build/svg/check-16.svg';
+import DotFillIcon from '@primer/octicons/build/svg/dot-fill-16.svg';
+import DotIcon from '@primer/octicons/build/svg/dot-16.svg';
+import GitMergeIcon from '@primer/octicons/build/svg/git-merge-16.svg';
+import GitPullRequestDraftIcon from '@primer/octicons/build/svg/git-pull-request-draft-16.svg';
+import GitPullRequestIcon from '@primer/octicons/build/svg/git-pull-request-16.svg';
+import IssueOpenedIcon from '@primer/octicons/build/svg/issue-opened-16.svg';
+import SquirrelIcon from '@primer/octicons/build/svg/squirrel-16.svg';
+import XCircleIcon from '@primer/octicons/build/svg/x-circle-16.svg';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

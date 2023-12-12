@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from '@primer/octicons/build/svg/check-16.svg';
-import FileDiffIcon from '@primer/octicons/build/svg/filediff-16.svg';
+import FileDiffIcon from '@primer/octicons/build/svg/file-diff-16.svg';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
