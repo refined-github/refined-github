@@ -35,7 +35,7 @@ const config: Configuration = {
 			{
 				test: /\.svg$/i,
 				issuer: /\.tsx$/,
-				use: {loader: '@svgr/webpack', options: {jsxRuntime: 'classic-preact'}},
+				use: {loader: '@svgr/webpack'},
 			},
 			{
 				test: /[/\\]readme\.md$/,
@@ -76,7 +76,6 @@ const config: Configuration = {
 	resolve: {
 		alias: {
 			react: 'dom-chef',
-			preact: 'dom-chef',
 		},
 		extensions: [
 			'.js',
