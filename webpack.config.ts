@@ -35,7 +35,17 @@ const config: Configuration = {
 			{
 				test: /\.svg$/i,
 				issuer: /\.tsx$/,
-				use: {loader: '@svgr/webpack'},
+				use: {
+					loader: '@svgr/webpack',
+					options: {
+						jsxRuntime: 'automatic',
+						svgProps: {
+							role: 'img',
+							'aria-hidden': 'true',
+							className: 'octicon',
+						},
+					},
+				},
 			},
 			{
 				test: /[/\\]readme\.md$/,
@@ -62,6 +72,7 @@ const config: Configuration = {
 		new MiniCssExtractPlugin(),
 		new webpack.ProvidePlugin({
 			browser: 'webextension-polyfill',
+			React: ['dom-chef', 'default'],
 		}),
 		new CopyWebpackPlugin({
 			patterns: [{
