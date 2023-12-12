@@ -2,7 +2,7 @@ import './open-all-notifications.css';
 import React from 'dom-chef';
 import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import LinkExternalIcon from '@primer/octicons-react/build/svg/link-external-16.svg';
+import LinkExternalIcon from '@primer/octicons/build/svg/link-external-16.svg';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';

@@ -4,7 +4,7 @@ import {$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import CheckIcon from '@primer/octicons-react/build/svg/check-16.svg';
+import CheckIcon from '@primer/octicons/build/svg/check-16.svg';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

@@ -1,5 +1,6 @@
 import React from 'react';
-import {ArrowUpRightIcon, CodeIcon} from '@primer/octicons-react';
+import ArrowUpRightIcon from '@primer/octicons/build/svg/arrowupright-16.svg';
+import CodeIcon from '@primer/octicons/build/svg/code-16.svg';
 import * as pageDetect from 'github-url-detection';
 
 import {branchSelector} from '../github-helpers/selectors.js';

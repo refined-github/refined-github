@@ -10,7 +10,7 @@ then
 fi
 
 echo "import React from 'react';
-import BugIcon from '@primer/octicons-react/build/svg/bug-16.svg';
+import BugIcon from '@primer/octicons/build/svg/bug-16.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

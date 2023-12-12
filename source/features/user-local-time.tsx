@@ -5,7 +5,7 @@ import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import delay from 'delay';
 import {$, elementExists} from 'select-dom';
-import ClockIcon from '@primer/octicons-react/build/svg/clock-16.svg';
+import ClockIcon from '@primer/octicons/build/svg/clock-16.svg';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

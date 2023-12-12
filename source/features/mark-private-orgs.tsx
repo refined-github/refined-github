@@ -2,7 +2,7 @@ import './mark-private-orgs.css';
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import {$$} from 'select-dom';
-import EyeClosedIcon from '@primer/octicons-react/build/svg/eye-closed-16.svg';
+import EyeClosedIcon from '@primer/octicons/build/svg/eye-closed-16.svg';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

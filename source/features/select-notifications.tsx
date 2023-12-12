@@ -15,7 +15,7 @@ import {
 	IssueOpenedIcon,
 	SquirrelIcon,
 	XCircleIcon,
-} from '@primer/octicons-react';
+} from '@primer/octicons';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

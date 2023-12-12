@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {$} from 'select-dom';
-import TrashIcon from '@primer/octicons-react/build/svg/trash-16.svg';
+import TrashIcon from '@primer/octicons/build/svg/trash-16.svg';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 

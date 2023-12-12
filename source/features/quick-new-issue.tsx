@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import IssueOpenedIcon from '@primer/octicons-react/build/svg/issue-opened-16.svg';
+import IssueOpenedIcon from '@primer/octicons/build/svg/issue-opened-16.svg';
 
 import features from '../feature-manager.js';
 import {buildRepoURL, getRepo, isArchivedRepoAsync} from '../github-helpers/index.js';

@@ -1,7 +1,9 @@
 import React from 'dom-chef';
 import {$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {CodeIcon, PlusIcon, SearchIcon} from '@primer/octicons-react';
+import CodeIcon from '@primer/octicons/build/svg/code-16.svg';
+import PlusIcon from '@primer/octicons/build/svg/plus-16.svg';
+import SearchIcon from '@primer/octicons/build/svg/search-16.svg';
 
 import observe from '../helpers/selector-observer.js';
 import {assertNodeContent, wrap} from '../helpers/dom-utils.js';

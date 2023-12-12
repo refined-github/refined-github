@@ -2,7 +2,7 @@ import './quick-label-removal.css';
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 import onetime from 'onetime';
-import XIcon from '@primer/octicons-react/build/svg/x-16.svg';
+import XIcon from '@primer/octicons/build/svg/x-16.svg';
 import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';

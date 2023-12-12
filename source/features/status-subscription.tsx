@@ -1,6 +1,8 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {BellIcon, BellSlashIcon, IssueReopenedIcon} from '@primer/octicons-react';
+import BellIcon from '@primer/octicons/build/svg/bell-16.svg';
+import BellSlashIcon from '@primer/octicons/build/svg/bellslash-16.svg';
+import IssueReopenedIcon from '@primer/octicons/build/svg/issuereopened-16.svg';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

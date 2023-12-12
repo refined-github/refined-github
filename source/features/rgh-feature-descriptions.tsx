@@ -1,6 +1,8 @@
 import './rgh-feature-descriptions.css';
 import React from 'dom-chef';
-import {AlertIcon, CopyIcon, InfoIcon} from '@primer/octicons-react';
+import AlertIcon from '@primer/octicons/build/svg/alert-16.svg';
+import CopyIcon from '@primer/octicons/build/svg/copy-16.svg';
+import InfoIcon from '@primer/octicons/build/svg/info-16.svg';
 
 import features from '../feature-manager.js';
 import {featuresMeta} from '../../readme.md';
