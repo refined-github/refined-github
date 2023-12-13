@@ -1,7 +1,7 @@
 /*
  * Reduce margin between yarn berry diff blocks
  */
-div[id^="diff-"]:is([data-tagsearch-path*=".yarn/cache"]) {
+div[id^='diff-']:is([data-tagsearch-path*='.yarn/cache']) {
 	margin-top: 8px !important;
 	margin-bottom: 8px !important;
 }
@@ -10,17 +10,18 @@ div[id^="diff-"]:is([data-tagsearch-path*=".yarn/cache"]) {
  * Reduce padding yarn berry diff blocks
  * and make them semi-transparent
  */
-div[id^="diff-"]:is([data-tagsearch-path*=".yarn/cache"]) > div:first-child {
+div[id^='diff-']:is([data-tagsearch-path*='.yarn/cache']) > div:first-child {
 	padding-top: 2px;
 	padding-bottom: 2px;
-
 	background: var(--color-scale-gray-9) !important;
-	opacity: 0.75;
+	opacity: 75%;
 }
 
 /*
  * Make yarn berry diff block to be one line
  */
-div[id^="diff-"]:is([data-tagsearch-path*=".yarn/cache"]) > div:first-child > div:first-child {
+div[id^='diff-']:is([data-tagsearch-path*='.yarn/cache'])
+	> div:first-child
+	> div:first-child {
 	display: flex !important;
 }

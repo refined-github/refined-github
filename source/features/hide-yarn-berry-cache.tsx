@@ -15,16 +15,16 @@ function collapseYarnCacheDiff(divElement: HTMLDivElement): void {
  * Collapse the yarn berry cache directory in the file tree list on PR files page
  */
 function collapseYarnCacheDirectory(buttonElement: HTMLButtonElement): void {
-	if (buttonElement.innerText  === '.yarn' || buttonElement.innerText === '.yarn/cache') {
+	if (buttonElement.textContent === '.yarn' || buttonElement.textContent === '.yarn/cache') {
 		buttonElement.ariaExpanded = 'false';
 	}
 }
 
 // Select diff elements which is yarn berry cache
-const yarnBinaryDiffSelector = `div[id^="diff-"]:is([data-tagsearch-path*=".yarn/cache"])`;
+const yarnBinaryDiffSelector = 'div[id^="diff-"]:is([data-tagsearch-path*=".yarn/cache"])';
 
 // Select directory elements from the file tree list on left side
-const yarnBinaryDirectorySelector = `button[aria-expanded="true"].ActionList-content`;
+const yarnBinaryDirectorySelector = 'button[aria-expanded="true"].ActionList-content';
 
 function init(): void {
 	observe(yarnBinaryDiffSelector, collapseYarnCacheDiff);
@@ -34,9 +34,9 @@ function init(): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
-		pageDetect.isCompare
+		pageDetect.isCompare,
 	],
-	init
+	init,
 });
 
 /*
