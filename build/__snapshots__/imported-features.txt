@@ -60,6 +60,7 @@ hide-low-quality-comments
 hide-navigation-hover-highlight
 hide-newsfeed-noise
 hide-user-forks
+hide-yarn-berry-cache
 highest-rated-comment
 highlight-collaborators-and-own-conversations
 highlight-non-default-base-branch

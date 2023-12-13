@@ -310,6 +310,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/263195425-85cf0951-c6ed-45fe-8cfc-e447e3ed2a25.png"
 	},
 	{
+		"id": "hide-yarn-berry-cache",
+		"description": "Always collapse a lot of <code>.yarn/cache</code> diff in PRs.",
+		"screenshot": "https://github.com/refined-github/refined-github/assets/29156835/9432f9b8-1406-434a-8752-4779ceac8884"
+	},
+	{
 		"id": "highest-rated-comment",
 		"description": "Highlights the most useful comment in conversations.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252763905-a0c3b074-b032-4d97-946e-328e8a6fb2da.png"
