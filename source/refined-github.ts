@@ -221,3 +221,4 @@ import './features/visit-tag.js';
 import './features/prevent-comment-loss.js';
 import './features/fix-no-pr-search.js';
 import './features/clean-readme-url.js';
+import './features/hide-yarn-berry-cache.js';

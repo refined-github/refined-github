@@ -274,6 +274,7 @@ Thanks for contributing! 🦋🙌
 - [](# "view-last-pr-deployment") [Adds a link to open the latest deployment from the header of a PR.](https://user-images.githubusercontent.com/44045911/232313171-b54ac9cc-ebb1-43ef-bd41-5d81ec9f9588.png)
 - [](# "no-unnecessary-split-diff-view") [Always uses unified diffs on files where split diffs aren’t useful.](https://user-images.githubusercontent.com/46634000/121495005-89af8600-c9d9-11eb-822d-77e0b987e3b1.png)
 - [](# "emphasize-draft-pr-label") [Makes it easier to distinguish draft PR in lists.](https://user-images.githubusercontent.com/1402241/218252438-062a1ab3-4437-436d-9140-87bee23aaefb.png)
+- [](# "hide-yarn-berry-cache") [Always collapse a lot of `.yarn/cache` diff in PRs.](https://github.com/refined-github/refined-github/assets/29156835/9432f9b8-1406-434a-8752-4779ceac8884)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
