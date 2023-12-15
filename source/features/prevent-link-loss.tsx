@@ -66,18 +66,8 @@ const updateUIDebounced = debounceFn(updateUI, {
 });
 
 function init(signal: AbortSignal): void {
-	const textFieldsSelector = `
-		form:is(
-			#new_issue,
-			#new_release,
-			#new_comment_form,
-			#pull_requests_submit_review,
-			.js-inline-comment-form
-		) textarea
-	`;
-
-	delegate(textFieldsSelector, 'focusin', updateUI, {signal});
-	delegate(textFieldsSelector, 'input', updateUIDebounced, {signal});
+	delegate('textarea.js-comment-field', 'input', updateUIDebounced, {signal});
+	delegate('textarea.js-comment-field', 'focusin', updateUI, {signal});
 }
 
 void features.add(import.meta.url, {
