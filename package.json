@@ -73,7 +73,7 @@
 		"linkify-issues": "^3.0.1",
 		"linkify-urls": "^4.1.0",
 		"memoize": "^10.0.0",
-		"octicons-plain-react": "^19.8.0",
+		"octicons-plain-react": "^19.8.1",
 		"one-event": "^3.1.0",
 		"one-mutation": "^2.1.0",
 		"onetime": "^7.0.0",
