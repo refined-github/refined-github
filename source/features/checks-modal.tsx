@@ -8,7 +8,7 @@ import features from '../feature-manager.js';
 function onButtonClick({delegateTarget: delegate, target}: DelegateEvent): void {
 	// Only close if clicking outside of modal
 	if (delegate === target) {
-		$('[class^="Dialog__DialogCloseButton"], [class*=" Dialog__DialogCloseButton"]', delegate)?.click();
+		$('[class^="Dialog__DialogCloseButton-"], [class*=" Dialog__DialogCloseButton-"]', delegate)?.click();
 	}
 }
 
