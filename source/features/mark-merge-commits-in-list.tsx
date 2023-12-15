@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {objectEntries} from 'ts-extras';
-import {GitMergeIcon} from '@primer/octicons-react';
+import GitMergeIcon from 'octicons-plain-react/GitMerge';
 import batchedFunction from 'batched-function';
 
 import observe from '../helpers/selector-observer.js';

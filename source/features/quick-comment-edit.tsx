@@ -1,7 +1,7 @@
 import './quick-comment-edit.css';
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
-import {PencilIcon} from '@primer/octicons-react';
+import PencilIcon from 'octicons-plain-react/Pencil';
 import * as pageDetect from 'github-url-detection';
 
 import observe from '../helpers/selector-observer.js';

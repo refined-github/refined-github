@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {BookIcon} from '@primer/octicons-react';
+import BookIcon from 'octicons-plain-react/Book';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
