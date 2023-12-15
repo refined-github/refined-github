@@ -24,3 +24,21 @@
 	height: 24px;
 	vertical-align: middle;
 }
+
+/*
+
+Test URLs:
+
+CI:
+https://github.com/refined-github/refined-github
+
+No CI:
+https://github.com/fregante/.github
+
+PR with CI:
+https://github.com/refined-github/sandbox/pull/12
+
+PR without CI:
+https://github.com/refined-github/sandbox/pull/4
+
+*/
