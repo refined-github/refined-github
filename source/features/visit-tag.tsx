@@ -1,5 +1,6 @@
 import React from 'react';
-import {ArrowUpRightIcon, CodeIcon} from '@primer/octicons-react';
+import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';
+import CodeIcon from 'octicons-plain-react/Code';
 import * as pageDetect from 'github-url-detection';
 
 import {branchSelector} from '../github-helpers/selectors.js';

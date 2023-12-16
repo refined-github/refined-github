@@ -2,7 +2,7 @@ import './hidden-review-comments-indicator.css';
 import mem from 'memoize';
 import React from 'dom-chef';
 import {$$} from 'select-dom';
-import {CommentIcon} from '@primer/octicons-react';
+import CommentIcon from 'octicons-plain-react/Comment';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 

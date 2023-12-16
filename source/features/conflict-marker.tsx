@@ -1,7 +1,7 @@
 import './conflict-marker.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {AlertIcon} from '@primer/octicons-react';
+import AlertIcon from 'octicons-plain-react/Alert';
 import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';

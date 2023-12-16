@@ -1,7 +1,8 @@
 import {CachedFunction} from 'webext-storage-cache';
 import React from 'dom-chef';
 import {$, elementExists} from 'select-dom';
-import {StopIcon, PlayIcon} from '@primer/octicons-react';
+import StopIcon from 'octicons-plain-react/Stop';
+import PlayIcon from 'octicons-plain-react/Play';
 import {parseCron} from '@cheap-glitch/mi-cron';
 import * as pageDetect from 'github-url-detection';
 

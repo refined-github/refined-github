@@ -2,7 +2,7 @@ import './quick-repo-deletion.css';
 import delay from 'delay';
 import React from 'dom-chef';
 import {$, elementExists} from 'select-dom';
-import {TrashIcon} from '@primer/octicons-react';
+import TrashIcon from 'octicons-plain-react/Trash';
 import elementReady from 'element-ready';
 import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
