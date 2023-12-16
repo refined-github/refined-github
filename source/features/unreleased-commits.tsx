@@ -72,11 +72,7 @@ export const repoPublishState = new CachedFunction('tag-ahead-by', {
 	cacheKey: cacheByRepo,
 });
 
-async function createLink(
-	latestTag: string,
-	aheadBy: number,
-	content: React.JSX.Element | string = <TagIcon className="v-align-middle"/>,
-): Promise<HTMLElement> {
+async function createLink(latestTag: string, aheadBy: number): Promise<HTMLElement> {
 	const commitCount
 		= aheadBy === undeterminableAheadBy
 			? 'more than 20 unreleased commits'
@@ -89,7 +85,7 @@ async function createLink(
 			href={buildRepoURL('compare', `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
-			{content}
+			<TagIcon className="v-align-middle"/>
 			{aheadBy === undeterminableAheadBy || <sup className="ml-n2"> +{aheadBy}</sup>}
 		</a>
 	);
