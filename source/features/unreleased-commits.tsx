@@ -205,4 +205,13 @@ https://github.com/refined-github/sandbox
 Repo with some unreleased commits
 https://github.com/refined-github/refined-github
 
+Releases page with unreleased commits
+https://github.com/facebook/react/releases
+
+Releases page with unreleased commits (user can release)
+https://github.com/refined-github/refined-github/releases
+
+Releases page with changelog file
+https://github.com/fczbkk/css-selector-generator/releases
+
 */
