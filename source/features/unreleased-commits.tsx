@@ -78,9 +78,9 @@ async function createLink(
 ): Promise<HTMLElement> {
 	const commitCount
 		= aheadBy === undeterminableAheadBy
-			? 'more than 20 unreleased commits'
+			? 'More than 20 unreleased commits'
 			: pluralize(aheadBy, '$$ unreleased commit');
-	const label = `There are ${commitCount} since ${abbreviateString(latestTag, 30)}`;
+	const label = `${commitCount}\nsince ${abbreviateString(latestTag, 30)}`;
 
 	return (
 		<a
