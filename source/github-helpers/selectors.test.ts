@@ -1,14 +1,27 @@
 import mem from 'memoize';
 import {test, assert, describe} from 'vitest';
-import {parseHTML} from 'linkedom';
+import {DOMParser} from 'linkedom';
+import filenamify from 'filenamify';
+import {writeFile, mkdir} from 'node:fs/promises';
 
 import * as exports from './selectors.js';
 
-const fetchDocument = mem(async (url: string): Promise<Window> => {
-	const request = await fetch(url);
+const fetchDocument = mem(async (url: string): Promise<Document> => {
+	const request = await fetch(url, {
+		headers: {
+			Accept: 'text/html',
+		},
+	});
 	const contents = await request.text();
-	return parseHTML(contents);
+	void storeHtmlLocallyForReview(url, contents);
+
+	return new DOMParser().parseFromString(contents, 'text/html') as unknown as Document;
 });
+
+async function storeHtmlLocallyForReview(url: string, html: string): Promise<void> {
+	await mkdir('./test/.cache', {recursive: true});
+	await writeFile(`./test/.cache/${filenamify(url)}`, html);
+}
 
 describe.concurrent('selectors', () => {
 	// Exclude URL arrays
@@ -30,9 +43,9 @@ describe.concurrent('selectors', () => {
 				[url, expectations] = url;
 			}
 
-			const {window} = await fetchDocument(url);
+			const document = await fetchDocument(url);
 			// TODO: ? Use snapshot with outerHTML[]
-			const matches = window.document.querySelectorAll(selector);
+			const matches = document.querySelectorAll(selector);
 			if (expectations === undefined) {
 				// TODO: Change to just be `1` instead, to be stricter
 				assert(matches.length > 0, `Expected at least one match for \`${selector}\` at ${url}`);
