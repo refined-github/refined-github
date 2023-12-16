@@ -35,9 +35,9 @@ describe.concurrent('selectors', () => {
 			const matches = window.document.querySelectorAll(selector);
 			if (expectations === undefined) {
 				// TODO: Change to just be `1` instead, to be stricter
-				assert(matches.length > 0, `Expected at least one match for "${name}" at ${url}`);
+				assert(matches.length > 0, `Expected at least one match for \`${selector}\` at ${url}`);
 			} else {
-				assert.lengthOf(matches, expectations, `Expected ${expectations} matches for "${name}" at ${url}`);
+				assert.lengthOf(matches, expectations, `Expected ${expectations} matches for \`${selector}\` at ${url}`);
 			}
 		}));
 	}, {timeout: 9999});
