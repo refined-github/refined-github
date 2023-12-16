@@ -46,7 +46,7 @@ async function init(): Promise<void | false> {
 
 	const changelogButton = (
 		<a
-			className={'tooltipped tooltipped-n btn ml-3' + (pageDetect.isEnterprise() ? '' : ' flex-self-start')}
+			className={'tooltipped tooltipped-n btn mx-3' + (pageDetect.isEnterprise() ? '' : ' flex-self-start')}
 			aria-label={`View the ${changelog} file`}
 			href={buildRepoURL('blob', 'HEAD', changelog)}
 			style={pageDetect.isEnterprise() ? {padding: '6px 16px'} : {}}
@@ -63,7 +63,8 @@ async function init(): Promise<void | false> {
 	].join(',');
 
 	const navbar = (await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!;
-	navbar.classList.remove('flex-1');
+	navbar.classList.remove('flex-1'); // Remove margin-right
+	navbar.classList.add('d-flex'); // Avoid wrapping
 	wrapAll(<div className="d-flex flex-justify-start flex-1"/>, navbar, changelogButton);
 }
 
