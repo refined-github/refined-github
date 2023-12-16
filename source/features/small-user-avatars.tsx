@@ -23,7 +23,7 @@ function addAvatar(link: HTMLElement): void {
 }
 
 function addMentionAvatar(link: HTMLElement): void {
-	assertNodeContent(link, '/^@/');
+	assertNodeContent(link.firstChild, /^@/);
 	const username = link.textContent.slice(1);
 	const size = 16;
 
