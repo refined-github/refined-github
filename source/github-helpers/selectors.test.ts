@@ -1,15 +1,13 @@
-// @vitest-environment happy-dom
-
 import mem from 'memoize';
-import doma from 'doma';
 import {test, assert, describe} from 'vitest';
+import {parseHTML} from 'linkedom';
 
 import * as exports from './selectors.js';
 
-const fetchDocument = mem(async (url: string): Promise<DocumentFragment> => {
+const fetchDocument = mem(async (url: string): Promise<Window> => {
 	const request = await fetch(url);
 	const contents = await request.text();
-	return doma(contents);
+	return parseHTML(contents);
 });
 
 describe.concurrent('selectors', () => {
@@ -32,9 +30,9 @@ describe.concurrent('selectors', () => {
 				[url, expectations] = url;
 			}
 
-			const document = await fetchDocument(url);
+			const {window} = await fetchDocument(url);
 			// TODO: ? Use snapshot with outerHTML[]
-			const matches = document.querySelectorAll(selector);
+			const matches = window.document.querySelectorAll(selector);
 			if (expectations === undefined) {
 				// TODO: Change to just be `1` instead, to be stricter
 				assert(matches.length > 0, `Expected at least one match for "${name}" at ${url}`);
