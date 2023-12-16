@@ -21,13 +21,24 @@ describe.concurrent('selectors', () => {
 
 	test.each(selectors)('%s', async (name, selector) => {
 		// @ts-expect-error Index signature bs
-		const urls = exports[name + '_'] as string[];
+		const urls = exports[name + '_'] as Array<string | [url: string, expectations: number]>;
 
 		assert.isArray(urls, `No URLs defined for "${name}"`);
 		await Promise.all(urls.map(async url => {
+			let expectations: number | undefined;
+			if (Array.isArray(url)) {
+				[url, expectations] = url;
+			}
+
 			const {window} = await fetchDocument(url);
-			// It's not equivalent at the moment, but at least the tests don't fail. Let's see how it goes
-			assert.isDefined(window.document.querySelector(selector));
+			// TODO: ? Use snapshot with outerHTML[]
+			const matches = window.document.querySelectorAll(selector);
+			if (expectations === undefined) {
+				// TODO: Change to just be `1` instead, to be stricter
+				assert(matches.length > 0, `Expected at least one match for "${name}" at ${url}`);
+			} else {
+				assert.lengthOf(matches, expectations, `Expected ${expectations} matches for "${name}" at ${url}`);
+			}
 		}));
 	}, {timeout: 9999});
 });

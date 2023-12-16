@@ -13,6 +13,9 @@ export const standaloneGistLinkInMarkdown = css`
 		[href^="${location.origin}/gist/"]
 	)
 ` as 'a'; // TODO: Drop after https://github.com/fregante/code-tag/issues/12
+export const standaloneGistLinkInMarkdown_ = [
+	'https://github.com/refined-github/sandbox/issues/77',
+];
 
 /** The repo navigation bar’s overflow menu */
 export const repoUnderlineNavDropdownUl = '.js-responsive-underlinenav .dropdown-menu ul';
@@ -62,6 +65,17 @@ export const openPrsListLink = css`
 `;
 export const openPrsListLink_ = [
 	'https://github.com/refined-github/sandbox/issues?q=conflict',
+];
+
+export const openIssueToLastComment = `
+	:is(.js-issue-row, .js-pinned-issue-list-item)
+	.Link--muted:is(
+		a[aria-label$="comment"],
+		a[aria-label$="comments"]
+	)
+`;
+export const openIssueToLastComment_ = [
+	'https://github.com/refined-github/refined-github/issues',
 ];
 
 export const actionsTab = '#actions-tab';
