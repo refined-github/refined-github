@@ -3,12 +3,13 @@ import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
 import TagIcon from 'octicons-plain-react/Tag';
+import domLoaded from 'dom-loaded';
 import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
-import {addAfterBranchSelector, buildRepoURL, cacheByRepo, getLatestVersionTag} from '../github-helpers/index.js';
+import {addAfterBranchSelector, buildRepoURL, cacheByRepo, getLatestVersionTag, getRepo} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import pluralize from '../helpers/pluralize.js';
 import {branchSelector, branchSelectorParent} from '../github-helpers/selectors.js';
@@ -72,7 +73,11 @@ export const repoPublishState = new CachedFunction('tag-ahead-by', {
 	cacheKey: cacheByRepo,
 });
 
-async function createLink(latestTag: string, aheadBy: number): Promise<HTMLElement> {
+async function createLink(
+	latestTag: string,
+	aheadBy: number,
+	content: React.JSX.Element | string = <TagIcon className="v-align-middle"/>,
+): Promise<HTMLElement> {
 	const commitCount
 		= aheadBy === undeterminableAheadBy
 			? 'more than 20 unreleased commits'
@@ -85,7 +90,7 @@ async function createLink(latestTag: string, aheadBy: number): Promise<HTMLEleme
 			href={buildRepoURL('compare', `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
-			<TagIcon className="v-align-middle"/>
+			{content}
 			{aheadBy === undeterminableAheadBy || <sup className="ml-n2"> +{aheadBy}</sup>}
 		</a>
 	);
@@ -135,9 +140,23 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 	}
 }
 
+async function addToReleases(tagsOrReleasesTab: HTMLElement): Promise<void> {
+	const {latestTag, aheadBy} = await repoPublishState.get();
+	const isAhead = aheadBy > 0;
+
+	if (latestTag && isAhead) {
+		tagsOrReleasesTab.after(await createLink(latestTag, aheadBy, 'Unreleased commits'));
+	}
+}
+
 async function initHome(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
 	observe(branchSelector, addToHome, {signal});
+}
+
+async function initReleases(signal: AbortSignal): Promise<void> {
+	await api.expectToken();
+	observe('tags or branches', addToReleases, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -148,6 +167,12 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoHome,
 	],
 	init: initHome,
+}, {
+	include: [
+		// Only first page of Releases
+		() => getRepo()?.path === 'releases',
+	],
+	init: initReleases,
 });
 
 /*
