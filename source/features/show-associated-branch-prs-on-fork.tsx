@@ -1,7 +1,10 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
-import {GitMergeIcon, GitPullRequestIcon, GitPullRequestClosedIcon, GitPullRequestDraftIcon} from '@primer/octicons-react';
+import GitMergeIcon from 'octicons-plain-react/GitMerge';
+import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
+import GitPullRequestClosedIcon from 'octicons-plain-react/GitPullRequestClosed';
+import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';

@@ -3,7 +3,8 @@ import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import {isFirefox} from 'webext-detect-page';
 import * as pageDetect from 'github-url-detection';
-import {AlertIcon, GitPullRequestIcon} from '@primer/octicons-react';
+import AlertIcon from 'octicons-plain-react/Alert';
+import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -133,16 +134,10 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
 	],
-	exclude: [
-		pageDetect.isRepoFile404,
-	],
 	init: initSingleFile,
 }, {
 	include: [
 		pageDetect.isEditingFile,
-	],
-	exclude: [
-		pageDetect.isBlank,
 	],
 	awaitDomReady: true, // End of the page; DOM-based detections
 	init: initEditingFile,

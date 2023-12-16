@@ -2,7 +2,7 @@ import './open-all-notifications.css';
 import React from 'dom-chef';
 import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {LinkExternalIcon} from '@primer/octicons-react';
+import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
@@ -121,9 +121,6 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNotifications,
-	],
-	exclude: [
-		pageDetect.isBlank, // Empty notification list
 	],
 	init,
 });

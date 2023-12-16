@@ -1,7 +1,7 @@
 import './release-download-count.css';
 import React from 'dom-chef';
 import {$$, elementExists} from 'select-dom';
-import {DownloadIcon} from '@primer/octicons-react';
+import DownloadIcon from 'octicons-plain-react/Download';
 import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';
 
@@ -33,7 +33,8 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		?? assetsList.closest('.Box:not(.Box--condensed)')!; // Releases list, excludes the assets list’s own .Box
 
 	const releaseName = container
-		.querySelector('.octicon-tag ~ span')!
+		// .octicon-code required by visit-tag feature
+		.querySelector(':is(.octicon-tag, .octicon-code) ~ span')!
 		.textContent
 		.trim();
 

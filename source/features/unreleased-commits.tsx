@@ -1,13 +1,14 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
-import {PlusIcon, TagIcon} from '@primer/octicons-react';
+import PlusIcon from 'octicons-plain-react/Plus';
+import TagIcon from 'octicons-plain-react/Tag';
 import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
-import {addAfterBranchSelector, buildRepoURL, cacheByRepo, getLatestVersionTag, getRepo} from '../github-helpers/index.js';
+import {addAfterBranchSelector, buildRepoURL, cacheByRepo, getLatestVersionTag} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import pluralize from '../helpers/pluralize.js';
 import {branchSelector, branchSelectorParent} from '../github-helpers/selectors.js';
@@ -130,11 +131,9 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 		);
 	} else {
 		wrapAll(
-			[
-				branchSelector,
-				await createLinkGroup(latestTag, aheadBy),
-			],
 			<div className="d-flex gap-2"/>,
+			branchSelector,
+			await createLinkGroup(latestTag, aheadBy),
 		);
 	}
 }

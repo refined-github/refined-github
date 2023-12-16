@@ -3,7 +3,10 @@ import delay from 'delay';
 import React from 'dom-chef';
 import {$, $$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {CheckIcon, EyeClosedIcon, EyeIcon, XIcon} from '@primer/octicons-react';
+import CheckIcon from 'octicons-plain-react/Check';
+import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
+import EyeIcon from 'octicons-plain-react/Eye';
+import XIcon from 'octicons-plain-react/X';
 
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';

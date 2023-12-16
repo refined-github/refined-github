@@ -29,6 +29,7 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/notifications
+https://github.com/notifications (Grouped by date)
+https://github.com/notifications (Grouped by repo)
 
 */

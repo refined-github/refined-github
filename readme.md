@@ -130,8 +130,10 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 
 - Try cleaning up the page by disabling nearby features or hiding clutter, e.g. everything below this tab bar has been hidden: https://user-images.githubusercontent.com/1402241/55089736-d94f5300-50e8-11e9-9095-329ac74c1e9f.png
 - If possible, zoom at 200% before taking a screenshot (native retina screens are fine at 100%)
-- If changes are subtle, add a before/after comparison using the arrows from https://user-images.githubusercontent.com/1402241/34438653-f66535a4-ecda-11e7-9406-2e1258050cfa.png
+- If changes are subtle, add a before/after comparison using the arrows from https://github.com/refined-github/refined-github/assets/1402241/f49b4cb6-9d39-41ed-9c82-1f6590efd643
 - Include some visual context if the feature targets small UI elements, e.g.: https://user-images.githubusercontent.com/1402241/108955170-52d48080-7633-11eb-8979-67e0d3a53f16.png
+
+For inspiration, you can look at all the screenshots at once in the options: alt-click any "screenshot" link to preview all of them.
 
 Thanks for contributing! 🦋🙌
 
@@ -284,7 +286,7 @@ Thanks for contributing! 🦋🙌
 - [](# "pr-branch-auto-delete") [Automatically deletes the branch right after merging a PR, if possible.](https://user-images.githubusercontent.com/1402241/177067141-eabc7494-38a2-45b5-aef9-ac33cc0da370.png)
 - [](# "one-click-pr-or-gist") [Lets you create draft pull requests and public gists in one click.](https://user-images.githubusercontent.com/34235681/152473201-868ad7c1-e06f-4826-b808-d90bca7f08b3.png)
 - [](# "clear-pr-merge-commit-message") [Clears the PR merge commit message of clutter, leaving only deduplicated co-authors.](https://user-images.githubusercontent.com/1402241/79257078-62b6fc00-7e89-11ea-8798-c06f33baa94b.png)
-- [](# "quick-review") [Adds a review button to the PR sidebar, automatically focuses the review textarea, and adds a keyboard shortcut to open the review popup: <kbd>v</kbd>.](https://user-images.githubusercontent.com/202916/83269671-bb3b2200-a1c7-11ea-90b3-b9457a454162.png)
+- [](# "quick-review") [Adds quick-review buttons to the PR sidebar, automatically focuses the review textarea, and adds a keyboard shortcut to open the review popup: <kbd>v</kbd>.](https://github.com/refined-github/refined-github/assets/1402241/f11039c4-c9d1-4adc-9a65-cfe1f2027ec3)
 - [](# "use-first-commit-message-for-new-prs") [Uses the first commit for a new PR’s title and description.](https://user-images.githubusercontent.com/16872793/87246205-ccf42400-c419-11ea-86d5-0e6570d99e6e.gif)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
@@ -348,6 +350,7 @@ Thanks for contributing! 🦋🙌
 - [](# "linkify-notification-repository-header") [Linkifies the header of each notification group (when grouped by repository).](https://user-images.githubusercontent.com/1402241/80849887-81531c00-8c19-11ea-8777-7294ce318630.png)
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
 - [](# "last-notification-page-button") [Adds a link to the last page of notifications.](https://user-images.githubusercontent.com/16872793/199828181-3ff2cef3-8740-4efa-8122-8f2f222bd657.png)
+- [](# "sticky-notifications-actions") [Make the notifications action bar sticky.](https://github.com/refined-github/refined-github/assets/1402241/5b370430-2319-4c78-88e7-c2c06cd1c30f)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -390,7 +393,9 @@ Thanks for contributing! 🦋🙌
 - [](# "prevent-pr-merge-panel-opening") Prevents the merge panel from automatically opening on every page load after it’s been opened once.
 - [](# "command-palette-navigation-shortcuts") Adds keyboard shortcuts to select items in command palette using <kbd>ctrl</kbd> <kbd>n</kbd> and <kbd>ctrl</kbd> <kbd>p</kbd> (macOS only).
 - [](# "submission-via-ctrl-enter-everywhere") Enables submission via <kbd>ctrl</kbd> <kbd>enter</kbd> on every page possible.
-- [](# "prevent-comment-loss") [Opens links in rich text editor in new tab instead of navigating away from the page.](https://user-images.githubusercontent.com/17681399/282616531-2befcabe-5c80-4b9a-bfb5-7b9917847bb5.gif)
+- [](# "prevent-comment-loss") [While writing/editing comments, open the preview links in new tab instead of navigating away from the page.](https://user-images.githubusercontent.com/17681399/282616531-2befcabe-5c80-4b9a-bfb5-7b9917847bb5.gif)
+- [](# "fix-no-pr-search") [Redirect to repo issue list when the search doesn‘t include `is:pr`.](https://user-images.githubusercontent.com/46634000/286579939-50122f02-dcfd-4510-b9e1-03d9985da2cd.gif)
+- [](# "clean-readme-url") [Drops redundant "readme-ov-file" parameter from repo URLs.](https://github.com/refined-github/refined-github/assets/1402241/73e96411-3314-4501-a9b6-d006af6fcc47)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import {lastElement} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {RocketIcon} from '@primer/octicons-react';
+import RocketIcon from 'octicons-plain-react/Rocket';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

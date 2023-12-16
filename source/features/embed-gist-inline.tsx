@@ -1,11 +1,12 @@
 import React from 'dom-chef';
 import domify from 'doma';
 import * as pageDetect from 'github-url-detection';
-import mem from 'mem';
+import mem from 'memoize';
 
 import features from '../feature-manager.js';
 import {getCleanPathname} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
+import {standaloneGistLinkInMarkdown} from '../github-helpers/selectors.js';
 
 type GistData = {
 	div: string;
@@ -74,7 +75,7 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-comment-body p a:only-child', link => {
+	observe(standaloneGistLinkInMarkdown, link => {
 		if (isGist(link) && isOnlyChild(link)) {
 			void embedGist(link);
 		}
@@ -87,3 +88,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs
+
+https://github.com/refined-github/sandbox/issues/77
+
+*/

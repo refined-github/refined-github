@@ -7,7 +7,7 @@ test('parseReferenceRaw', () => {
 		absolute: 'fregante/mem:main',
 		relative: 'main',
 		owner: 'fregante',
-		name: 'mem',
+		name: 'memoize',
 		nameWithOwner: 'fregante/mem',
 		branch: 'main',
 	});

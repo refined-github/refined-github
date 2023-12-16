@@ -1,8 +1,8 @@
 import './deep-reblame.css';
-import mem from 'mem';
+import mem from 'memoize';
 import React from 'dom-chef';
 import {$, $$} from 'select-dom';
-import {VersionsIcon} from '@primer/octicons-react';
+import VersionsIcon from 'octicons-plain-react/Versions';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 

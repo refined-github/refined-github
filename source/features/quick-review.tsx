@@ -5,8 +5,31 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
+import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import showToast from '../github-helpers/toast.js';
+import {getConversationNumber, getUsername} from '../github-helpers/index.js';
+import {randomArrayItem} from '../helpers/math.js';
+
+const emojis = [...'🚀✅🐿️⚡️🤌🥳🥰🤩🥸😎🤯🚢🛫🏳️🏁'];
+
+async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
+	const approval = event.altKey ? '' : prompt('Approve instantly? You can add a custom message or leave empty');
+	if (approval === null) {
+		return;
+	}
+
+	const call = api.v3(`pulls/${getConversationNumber()!}/reviews`, {
+		method: 'POST',
+		body: {event: 'APPROVE', body: approval},
+	});
+
+	await showToast(call, {
+		message: 'Approving…',
+		doneMessage: `${randomArrayItem(emojis)} Approved`,
+	});
+}
 
 async function addSidebarReviewButton(reviewersSection: Element): Promise<void> {
 	const reviewFormUrl = new URL(location.href);
@@ -15,15 +38,35 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 
 	// Occasionally this button appears before "Reviewers", so let's wait a bit longer
 	await delay(300);
-	reviewersSection.append(
-		<span className="text-normal">
+	const quickReview = (
+		<span className="text-normal color-fg-muted">
 			– <a href={reviewFormUrl.href} className="btn-link Link--muted" data-hotkey="v" data-turbo-frame="repo-content-turbo-frame">review now</a>
-		</span>,
+		</span>
+	);
+
+	reviewersSection.append(quickReview);
+
+	// Can't approve own PRs and closed PRs
+	// API required for this action
+	if (getUsername() === $('.author')!.textContent || pageDetect.isClosedPR() || !(await api.getToken())) {
+		return;
+	}
+
+	quickReview.append(
+		' – ',
+		<button
+			type="button"
+			className="btn-link Link--muted rgh-quick-approve tooltipped tooltipped-nw"
+			aria-label="Hold alt to approve without confirmation"
+		>
+			approve now
+		</button>,
 	);
 }
 
-function initSidebarReviewButton(signal: AbortSignal): void {
+async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
 	observe('[aria-label="Select reviewers"] .discussion-sidebar-heading', addSidebarReviewButton, {signal});
+	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
 }
 
 function focusReviewTextarea({delegateTarget}: DelegateEvent<Event, HTMLDetailsElement>): void {
@@ -60,6 +103,7 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/refined-github/sandbox/pull/10
+- Open PR (review, approve) https://github.com/refined-github/sandbox/pull/10
+- Closed PR (only review) https://github.com/refined-github/sandbox/pull/26
 
 */
