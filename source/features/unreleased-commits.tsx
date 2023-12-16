@@ -104,9 +104,10 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<Elem
 	return groupButtons([
 		link,
 		<a
-			href={buildRepoURL('tags/releases/new')}
+			href={buildRepoURL('releases/new')}
 			className="btn px-2 tooltipped tooltipped-se"
 			aria-label="Draft a new release"
+			data-turbo-frame="repo-content-turbo-frame"
 		>
 			{/* aria-label wording taken from $user/$repo/releases page */}
 			<PlusIcon className="v-align-middle"/>
