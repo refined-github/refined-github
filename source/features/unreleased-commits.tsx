@@ -1,7 +1,9 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
+import PlusIcon from 'octicons-plain-react/Plus';
 import TagIcon from 'octicons-plain-react/Tag';
+import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -14,6 +16,7 @@ import getPublishRepoState from './unreleased-commits.gql';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
 import {wrapAll} from '../helpers/dom-utils.js';
+import {groupButtons} from '../github-helpers/group-buttons.js';
 
 type RepoPublishState = {
 	latestTag: string | false;
@@ -29,6 +32,11 @@ type Tags = {
 		};
 	};
 };
+
+// TODO: This detects admins, but could detect more
+function canUserCreateReleases(): boolean {
+	return elementExists('nav [data-content="Settings"]');
+}
 
 export const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
 
@@ -83,7 +91,27 @@ async function createLink(latestTag: string, aheadBy: number): Promise<HTMLEleme
 	);
 }
 
-async function add(branchSelector: HTMLButtonElement): Promise<void> {
+async function createLinkGroup(latestTag: string, aheadBy: number): Promise<Element> {
+	const link = await createLink(latestTag, aheadBy);
+	if (!canUserCreateReleases()) {
+		return link;
+	}
+
+	return groupButtons([
+		link,
+		<a
+			href={buildRepoURL('releases/new')}
+			className="btn px-2 tooltipped tooltipped-se"
+			aria-label="Draft a new release"
+			data-turbo-frame="repo-content-turbo-frame"
+		>
+			{/* aria-label wording taken from $user/$repo/releases page */}
+			<PlusIcon className="v-align-middle"/>
+		</a>,
+	]);
+}
+
+async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 	const {latestTag, aheadBy} = await repoPublishState.get();
 	const isAhead = aheadBy > 0;
 
@@ -96,21 +124,20 @@ async function add(branchSelector: HTMLButtonElement): Promise<void> {
 		// TODO: For legacy; Drop after Repository overview update
 		addAfterBranchSelector(
 			parent,
-			await createLink(latestTag, aheadBy),
+			await createLinkGroup(latestTag, aheadBy) as HTMLElement,
 		);
 	} else {
 		wrapAll(
 			<div className="d-flex gap-2"/>,
 			branchSelector,
-			await createLink(latestTag, aheadBy),
+			await createLinkGroup(latestTag, aheadBy),
 		);
 	}
 }
 
-async function init(signal: AbortSignal): Promise<void> {
+async function initHome(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
-
-	observe(branchSelector, add, {signal});
+	observe(branchSelector, addToHome, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -120,8 +147,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoHome,
 	],
-	awaitDomReady: true, // DOM-based exclusions
-	init,
+	init: initHome,
 });
 
 /*
