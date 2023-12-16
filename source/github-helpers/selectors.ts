@@ -13,6 +13,9 @@ export const standaloneGistLinkInMarkdown = css`
 		[href^="${location.origin}/gist/"]
 	)
 ` as 'a'; // TODO: Drop after https://github.com/fregante/code-tag/issues/12
+export const standaloneGistLinkInMarkdown_ = [
+	'https://github.com/refined-github/sandbox/issues/77',
+];
 
 /** The repo navigation bar’s overflow menu */
 export const repoUnderlineNavDropdownUl = '.js-responsive-underlinenav .dropdown-menu ul';
