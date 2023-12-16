@@ -3,12 +3,12 @@ import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
 import TagIcon from 'octicons-plain-react/Tag';
-import {elementExists} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
-import {addAfterBranchSelector, buildRepoURL, cacheByRepo, getLatestVersionTag} from '../github-helpers/index.js';
+import {addAfterBranchSelector, buildRepoURL, cacheByRepo, getLatestVersionTag, getRepo} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import pluralize from '../helpers/pluralize.js';
 import {branchSelector, branchSelectorParent} from '../github-helpers/selectors.js';
@@ -72,12 +72,15 @@ export const repoPublishState = new CachedFunction('tag-ahead-by', {
 	cacheKey: cacheByRepo,
 });
 
-async function createLink(latestTag: string, aheadBy: number): Promise<HTMLElement> {
+async function createLink(
+	latestTag: string,
+	aheadBy: number,
+): Promise<HTMLElement> {
 	const commitCount
 		= aheadBy === undeterminableAheadBy
-			? 'more than 20 unreleased commits'
+			? 'More than 20 unreleased commits'
 			: pluralize(aheadBy, '$$ unreleased commit');
-	const label = `There are ${commitCount} since ${abbreviateString(latestTag, 30)}`;
+	const label = `${commitCount}\nsince ${abbreviateString(latestTag, 30)}`;
 
 	return (
 		<a
@@ -99,13 +102,13 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<Elem
 
 	return groupButtons([
 		link,
+		// `aria-label` wording taken from $user/$repo/releases page
 		<a
 			href={buildRepoURL('releases/new')}
 			className="btn px-2 tooltipped tooltipped-se"
 			aria-label="Draft a new release"
 			data-turbo-frame="repo-content-turbo-frame"
 		>
-			{/* aria-label wording taken from $user/$repo/releases page */}
 			<PlusIcon className="v-align-middle"/>
 		</a>,
 	]);
@@ -135,9 +138,42 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 	}
 }
 
+async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
+	const {latestTag, aheadBy} = await repoPublishState.get();
+	const isAhead = aheadBy > 0;
+
+	if (!latestTag || !isAhead) {
+		return;
+	}
+
+	const widget = await createLink(latestTag, aheadBy);
+
+	// Prepend it to the existing "Draft a new release" button to match the button on the repo home
+	const newReleaseButton = $('nav + div a[href$="/releases/new"]');
+	if (newReleaseButton) {
+		newReleaseButton.before(widget);
+		groupButtons([
+			widget,
+			newReleaseButton,
+		]);
+		return;
+	}
+
+	// Otherwise, add it before filter input
+	releasesFilter.form!.before(widget);
+	releasesFilter.form!.parentElement!.classList.add('d-flex', 'flex-items-start');
+	// The form has .ml-md-2, this restores it on `sm`
+	widget.classList.add('mr-md-0', 'mr-2');
+}
+
 async function initHome(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
 	observe(branchSelector, addToHome, {signal});
+}
+
+async function initReleases(signal: AbortSignal): Promise<void> {
+	await api.expectToken();
+	observe('input#release-filter', addToReleases, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -148,6 +184,12 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoHome,
 	],
 	init: initHome,
+}, {
+	include: [
+		// Only first page of Releases
+		() => getRepo()?.path === 'releases',
+	],
+	init: initReleases,
 });
 
 /*
@@ -162,5 +204,14 @@ https://github.com/refined-github/sandbox
 
 Repo with some unreleased commits
 https://github.com/refined-github/refined-github
+
+Releases page with unreleased commits
+https://github.com/facebook/react/releases
+
+Releases page with unreleased commits (user can release)
+https://github.com/refined-github/refined-github/releases
+
+Releases page with changelog file
+https://github.com/fczbkk/css-selector-generator/releases
 
 */
