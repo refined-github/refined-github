@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
-import {TagIcon} from '@primer/octicons-react';
+import TagIcon from 'octicons-plain-react/Tag';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -100,11 +100,9 @@ async function add(branchSelector: HTMLButtonElement): Promise<void> {
 		);
 	} else {
 		wrapAll(
-			[
-				branchSelector,
-				await createLink(latestTag, aheadBy),
-			],
 			<div className="d-flex gap-2"/>,
+			branchSelector,
+			await createLink(latestTag, aheadBy),
 		);
 	}
 }

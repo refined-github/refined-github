@@ -1,7 +1,7 @@
 import './default-branch-button.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {ChevronLeftIcon} from '@primer/octicons-react';
+import ChevronLeftIcon from 'octicons-plain-react/ChevronLeft';
 
 import features from '../feature-manager.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';

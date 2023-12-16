@@ -1,5 +1,6 @@
 import React from 'react';
-import {ArrowUpRightIcon, CodeIcon} from '@primer/octicons-react';
+import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';
+import CodeIcon from 'octicons-plain-react/Code';
 import * as pageDetect from 'github-url-detection';
 
 import {branchSelector} from '../github-helpers/selectors.js';
@@ -17,17 +18,15 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 	}
 
 	wrapAll(
-		[
-			branchSelector,
-			<a
-				className="btn px-2 tooltipped tooltipped-se"
-				href={buildRepoURL('releases/tag', tag)}
-				aria-label="Visit tag"
-			>
-				<ArrowUpRightIcon className="v-align-middle"/>
-			</a>,
-		],
 		<div className="d-flex gap-2"/>,
+		branchSelector,
+		<a
+			className="btn px-2 tooltipped tooltipped-se"
+			href={buildRepoURL('releases/tag', tag)}
+			aria-label="Visit tag"
+		>
+			<ArrowUpRightIcon className="v-align-middle"/>
+		</a>,
 	);
 }
 
@@ -56,6 +55,7 @@ void features.add(import.meta.url, {
 }, {
 	include: [
 		pageDetect.isReleasesOrTags,
+		pageDetect.isSingleReleaseOrTag,
 	],
 	init: clarifyIcon,
 });
@@ -71,5 +71,6 @@ Second part:
 
 - https://github.com/refined-github/refined-github/releases
 - https://github.com/refined-github/refined-github/releases/tag/23.11.15
+- https://github.com/saadeghi/daisyui/releases/tag/v4.4.15
 
 */

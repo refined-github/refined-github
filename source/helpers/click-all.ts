@@ -1,4 +1,4 @@
-import mem from 'mem';
+import mem from 'memoize';
 import {$$} from 'select-dom';
 import {DelegateEvent} from 'delegate-it';
 

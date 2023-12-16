@@ -1,7 +1,8 @@
 import delay from 'delay';
 import React from 'dom-chef';
 import {assertError} from 'ts-extras';
-import {CheckIcon, StopIcon} from '@primer/octicons-react';
+import CheckIcon from 'octicons-plain-react/Check';
+import StopIcon from 'octicons-plain-react/Stop';
 
 export function ToastSpinner(): JSX.Element {
 	return (

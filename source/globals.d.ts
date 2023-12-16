@@ -83,12 +83,6 @@ interface HTMLFormControlsCollection {
 	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | HTMLSelectElement;
 }
 
-declare module 'react' {
-	const FC = (): JSX.Element => JSX.Element;
-	const React = {FC};
-	export default React;
-}
-
 // Make `element.cloneNode()` preserve its type instead of returning Node
 interface Node extends EventTarget {
 	cloneNode(deep?: boolean): this;

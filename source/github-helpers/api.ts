@@ -25,7 +25,7 @@ it lets you define accept error HTTP codes as a valid response, like:
 so the call will not throw an error but it will return as usual.
  */
 
-import mem from 'mem';
+import mem from 'memoize';
 import * as pageDetect from 'github-url-detection';
 import {JsonObject, AsyncReturnType} from 'type-fest';
 
@@ -59,8 +59,14 @@ export class RefinedGitHubAPIError extends Error {
 }
 
 const settings = optionsStorage.getAll();
-export async function expectToken(): Promise<string> {
+
+export async function getToken(): Promise<string | undefined> {
 	const {personalToken} = await settings;
+	return personalToken;
+}
+
+export async function expectToken(): Promise<string> {
+	const personalToken = await getToken();
 	if (!personalToken) {
 		throw new Error('Personal token required for this feature');
 	}

@@ -10,8 +10,8 @@ import selectHas from '../helpers/select-has.js';
 function init(): void {
 	const changedFilesSummary = selectHas('.Box li:has(.octicon-file-diff)')!;
 	wrapAll(
-		[...changedFilesSummary.children],
 		<a className="no-underline rgh-link-to-compare-diff" href="#files_bucket"/>,
+		...changedFilesSummary.children,
 	);
 }
 
@@ -26,3 +26,12 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // DOM-based filter
 	init,
 });
+
+/*
+
+Test URLs:
+
+Separate tabs: https://github.com/refined-github/sandbox/compare/buncha-files...default-a
+One view: https://github.com/refined-github/sandbox/compare/default-a...buncha-files
+
+*/

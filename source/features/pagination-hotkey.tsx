@@ -51,4 +51,6 @@ Releases: https://github.com/refined-github/refined-github/releases
 Issues: https://github.com/refined-github/refined-github/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc
 Repo Search: https://github.com/refined-github/refined-github/search?q=pull
 Global search: https://github.com/search?q=wonder&type=repositories
+Notifications: https://github.com/notifications
+
 */

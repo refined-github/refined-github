@@ -1,13 +1,14 @@
 import './conflict-marker.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {AlertIcon} from '@primer/octicons-react';
+import AlertIcon from 'octicons-plain-react/Alert';
 import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
 import {isHasSelectorSupported} from '../helpers/select-has.js';
+import {openPrsListLink} from '../github-helpers/selectors.js';
 
 async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 	const prConfigs = links.map(link => {
@@ -45,7 +46,7 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-issue-row:has(.octicon-git-pull-request.color-fg-open) a.js-navigation-open', batchedFunction(addIcon, {delay: 100}), {signal});
+	observe(openPrsListLink, batchedFunction(addIcon, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {
@@ -54,9 +55,6 @@ void features.add(import.meta.url, {
 	],
 	include: [
 		pageDetect.isIssueOrPRList,
-	],
-	exclude: [
-		pageDetect.isBlank,
 	],
 	init,
 });

@@ -14,6 +14,7 @@
 		"no-alert": "off",
 		"no-warning-comments": "off",
 		"unicorn/no-nested-ternary": "off",
+		"unicorn/better-regex": "off",
 		"unicorn/prefer-top-level-await": "off",
 		"unicorn/prefer-dom-node-dataset": "off",
 		"unicorn/expiring-todo-comments": ["warn", {

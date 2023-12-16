@@ -10,7 +10,7 @@ then
 fi
 
 echo "import React from 'react';
-import {BugIcon} from '@primer/octicons-react';
+import BugIcon from 'octicons-plain-react/Bug';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

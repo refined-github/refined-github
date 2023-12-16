@@ -3,6 +3,7 @@ import React from 'dom-chef';
 import onetime from 'onetime';
 
 import features from '../feature-manager.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
 
@@ -22,6 +23,7 @@ function addAvatar(link: HTMLElement): void {
 }
 
 function addMentionAvatar(link: HTMLElement): void {
+	assertNodeContent(link, '/^@/');
 	const username = link.textContent.slice(1);
 	const size = 16;
 
@@ -43,7 +45,7 @@ function init(): void {
 		'.js-issue-row [data-hovercard-type="user"]',
 		'.notification-thread-subscription [data-hovercard-type="user"]',
 	], addAvatar);
-	observe('.user-mention[data-hovercard-type="user"]', addMentionAvatar);
+	observe('.user-mention:not(.commit-author)[data-hovercard-type="user"]', addMentionAvatar);
 }
 
 void features.add(import.meta.url, {
