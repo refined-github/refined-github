@@ -2,7 +2,6 @@ import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import {PlusIcon, TagIcon} from '@primer/octicons-react';
-import domLoaded from 'dom-loaded';
 import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
@@ -140,23 +139,9 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 	}
 }
 
-async function addToReleases(tagsOrReleasesTab: HTMLElement): Promise<void> {
-	const {latestTag, aheadBy} = await repoPublishState.get();
-	const isAhead = aheadBy > 0;
-
-	if (latestTag && isAhead) {
-		tagsOrReleasesTab.after(await createLink(latestTag, aheadBy, 'Unreleased commits'));
-	}
-}
-
 async function initHome(signal: AbortSignal): Promise<void> {
 	await api.expectToken();
 	observe(branchSelector, addToHome, {signal});
-}
-
-async function initReleases(signal: AbortSignal): Promise<void> {
-	await api.expectToken();
-	observe('tags or branches', addToReleases, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -167,12 +152,6 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoHome,
 	],
 	init: initHome,
-}, {
-	include: [
-		// Only first page of Releases
-		() => getRepo()?.path === 'releases',
-	],
-	init: initReleases,
 });
 
 /*
