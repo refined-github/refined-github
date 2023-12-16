@@ -10,7 +10,7 @@ const selector = `
 
 function init(): void {
 	for (const link of $$(selector)) {
-		link.hash = '#partial-timeline';
+		link.hash = '#issue-comment-box';
 	}
 }
 
