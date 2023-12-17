@@ -21,6 +21,10 @@ function addRepoListLink(repoTitle: HTMLAnchorElement): void {
 	repoTitle.after(' ', getLinkToGitHubIo(repoTitle));
 }
 
+function addOrgRepoListLink(repoTitle: HTMLAnchorElement): void {
+	repoTitle.after(getLinkToGitHubIo(repoTitle, 'ml-1'));
+}
+
 function addRepoHeaderLink(repoTitle: HTMLElement): void {
 	repoTitle.after(getLinkToGitHubIo(repoTitle, 'mr-2'));
 }
@@ -35,6 +39,10 @@ function initRepoList(signal: AbortSignal): void {
 		'a[itemprop="name codeRepository"][href$=".github.com"]',
 		'a[itemprop="name codeRepository"][href$=".github.io"]',
 	], addRepoListLink, {signal});
+	observe([
+		'a[data-testid="listitem-title-link"][href$=".github.com"]',
+		'a[data-testid="listitem-title-link"][href$=".github.io"]',
+	], addOrgRepoListLink, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -60,5 +68,6 @@ Test URLs:
 - Repo: https://github.com/yashshah1/yashshah1.github.io
 - List, user: https://github.com/yashshah1?tab=repositories&q=GitHub.io&type=source
 - List, org: https://github.com/Qv2ray?q=GitHub.io
+- List, org repos: https://github.com/orgs/Qv2ray/repositories?q=GitHub.io
 
 */
