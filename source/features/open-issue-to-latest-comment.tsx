@@ -2,15 +2,11 @@ import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-
-const selector = `
-	:is(.js-issue-row, .js-pinned-issue-list-item)
-	.Link--muted:is(a[aria-label$="comment"], a[aria-label$="comments"])
-`;
+import {openIssueToLastComment} from '../github-helpers/selectors.js';
 
 function init(): void {
-	for (const link of $$(selector)) {
-		link.hash = '#partial-timeline';
+	for (const link of $$(openIssueToLastComment)) {
+		link.hash = '#issue-comment-box';
 	}
 }
 
@@ -19,6 +15,13 @@ void features.add(import.meta.url, {
 		pageDetect.isIssueOrPRList,
 	],
 	awaitDomReady: true,
-	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/sandbox/labels/bug
+
+*/

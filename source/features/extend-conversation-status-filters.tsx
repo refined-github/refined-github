@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {$, $$} from 'select-dom';
-import {CheckIcon} from '@primer/octicons-react';
+import CheckIcon from 'octicons-plain-react/Check';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 

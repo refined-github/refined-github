@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {$} from 'select-dom';
-import {AlertIcon} from '@primer/octicons-react';
+import AlertIcon from 'octicons-plain-react/Alert';
 import debounceFn from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 import {replaceFieldText} from 'text-field-edit';
@@ -25,10 +25,10 @@ function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButt
 	replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
 	replaceFieldText(field, prCompareUrlRegex, preventPrCompareLinkLoss);
 	replaceFieldText(field, discussionUrlRegex, preventDiscussionLinkLoss);
-	fixButton.parentElement!.remove();
+	fixButton.closest('.flash')!.remove();
 }
 
-function getUI(field: HTMLTextAreaElement, ...classes: string[]): HTMLElement {
+function getUI(field: HTMLTextAreaElement): HTMLElement {
 	return $('.rgh-prevent-link-loss-container', field.form!) ?? (createBanner({
 		icon: <AlertIcon className="m-0"/>,
 		text: (
@@ -40,7 +40,7 @@ function getUI(field: HTMLTextAreaElement, ...classes: string[]): HTMLElement {
 				{' by GitHub.'}
 			</>
 		),
-		classes: ['flash-warn', 'rgh-prevent-link-loss-container', ...classes],
+		classes: ['rgh-prevent-link-loss-container', 'flash-warn', 'my-2', 'mx-2'],
 		action: handleButtonClick,
 		buttonLabel: 'Fix link',
 	}));
@@ -53,28 +53,21 @@ function isVulnerableToLinkLoss(value: string): boolean {
 		|| value !== value.replace(discussionUrlRegex, preventDiscussionLinkLoss);
 }
 
-const updateUI = debounceFn(({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void => {
-	if (!isVulnerableToLinkLoss(field.value)) {
-		getUI(field).remove();
-	} else if (pageDetect.isNewIssue() || pageDetect.isNewRelease() || pageDetect.isCompare()) {
-		$('file-attachment', field.form!)!.append(
-			getUI(field, 'mt-2', 'mx-0', 'mx-md-2'),
-		);
+function updateUI({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void {
+	if (isVulnerableToLinkLoss(field.value)) {
+		$('file-attachment .js-write-bucket', field.form!)!.append(getUI(field));
 	} else {
-		$('.form-actions', field.form!)!.before(
-			getUI(field, 'mx-md-2', 'mb-2'),
-		);
+		getUI(field).remove();
 	}
-}, {
+}
+
+const updateUIDebounced = debounceFn(updateUI, {
 	wait: 300,
 });
 
 function init(signal: AbortSignal): void {
-	delegate([
-		'form:is(#new_issue, #new_release) textarea',
-		'form.js-new-comment-form textarea',
-		'textarea.comment-form-textarea',
-	].join(','), 'input', updateUI, {signal});
+	delegate('textarea.js-comment-field', 'input', updateUIDebounced, {signal});
+	delegate('textarea.js-comment-field', 'focusin', updateUI, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -83,3 +76,16 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+Test link: `https://github.com/refined-github/refined-github/pull/6954/commits/32d1c8b2e1b6971709fe273cfdd1f959b51e8d85`
+
+New issue form: https://github.com/refined-github/refined-github/issues/new?assignees=&labels=bug&projects=&template=1_bug_report.yml
+New comment form: https://github.com/refined-github/sandbox/issues/3
+New review form: https://github.com/refined-github/sandbox/pull/4/files#review-changes-modal
+New review comment form: https://github.com/refined-github/sandbox/pull/4/files
+
+*/

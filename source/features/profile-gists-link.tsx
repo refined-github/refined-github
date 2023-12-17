@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import {$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {CodeSquareIcon} from '@primer/octicons-react';
+import CodeSquareIcon from 'octicons-plain-react/CodeSquare';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';

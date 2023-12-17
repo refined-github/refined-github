@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {FoldDownIcon} from '@primer/octicons-react';
+import FoldDownIcon from 'octicons-plain-react/FoldDown';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';

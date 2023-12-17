@@ -1,7 +1,7 @@
 import twas from 'twas';
 import {CachedFunction} from 'webext-storage-cache';
 import React from 'dom-chef';
-import {RepoIcon} from '@primer/octicons-react';
+import RepoIcon from 'octicons-plain-react/Repo';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 

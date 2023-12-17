@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {$} from 'select-dom';
-import {InfoIcon} from '@primer/octicons-react';
+import InfoIcon from 'octicons-plain-react/Info';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 

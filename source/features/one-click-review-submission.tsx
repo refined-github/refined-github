@@ -1,7 +1,8 @@
 import React from 'dom-chef';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {CheckIcon, FileDiffIcon} from '@primer/octicons-react';
+import CheckIcon from 'octicons-plain-react/Check';
+import FileDiffIcon from 'octicons-plain-react/FileDiff';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

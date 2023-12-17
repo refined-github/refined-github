@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {$} from 'select-dom';
-import {SearchIcon} from '@primer/octicons-react';
+import SearchIcon from 'octicons-plain-react/Search';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

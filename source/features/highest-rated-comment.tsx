@@ -3,7 +3,8 @@ import mem from 'memoize';
 import React from 'dom-chef';
 import {$, $$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {ArrowDownIcon, CheckCircleFillIcon} from '@primer/octicons-react';
+import ArrowDownIcon from 'octicons-plain-react/ArrowDown';
+import CheckCircleFillIcon from 'octicons-plain-react/CheckCircleFill';
 
 import features from '../feature-manager.js';
 import looseParseInt from '../helpers/loose-parse-int.js';

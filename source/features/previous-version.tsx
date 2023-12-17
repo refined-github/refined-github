@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {VersionsIcon} from '@primer/octicons-react';
+import VersionsIcon from 'octicons-plain-react/Versions';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

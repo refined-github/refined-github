@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import {$} from 'select-dom';
-import {CheckIcon} from '@primer/octicons-react';
+import CheckIcon from 'octicons-plain-react/Check';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
