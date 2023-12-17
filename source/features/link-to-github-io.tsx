@@ -52,11 +52,17 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoHome,
 	],
+	exclude: [
+		pageDetect.isEnterprise,
+	],
 	init: initRepo,
 }, {
 	include: [
 		pageDetect.isProfileRepoList,
 		pageDetect.isOrganizationProfile,
+	],
+	exclude: [
+		pageDetect.isEnterprise,
 	],
 	init: initRepoList,
 });
