@@ -1,27 +1,48 @@
-import mem from 'memoize';
+import pMemoize from 'p-memoize';
 import {test, assert, describe} from 'vitest';
-import {DOMParser} from 'linkedom';
+import {parseHTML} from 'linkedom';
 import filenamify from 'filenamify';
-import {writeFile, mkdir} from 'node:fs/promises';
+import {writeFile, mkdir, unlink, readFile, access} from 'node:fs/promises';
 
 import * as exports from './selectors.js';
 
-const fetchDocument = mem(async (url: string): Promise<Document> => {
+const fsCache = {
+	async get(path: string): Promise<string | undefined> {
+		try {
+			const value = await readFile(path, 'utf8');
+			return value;
+		} catch {
+			return undefined;
+		}
+	},
+	async set(path: string, contents: string): Promise<void> {
+		await mkdir('./test/.cache', {recursive: true});
+		await writeFile(path, contents);
+	},
+	async has(path: string): Promise<boolean> {
+		try {
+			await access(path);
+			return true;
+		} catch {
+			return false;
+		}
+	},
+	async delete(path: string): Promise<void> {
+		await unlink(path);
+	},
+} as const;
+
+const fetchDocument = pMemoize(async (url: string): Promise<string> => {
 	const request = await fetch(url, {
 		headers: {
 			Accept: 'text/html',
 		},
 	});
-	const contents = await request.text();
-	void storeHtmlLocallyForReview(url, contents);
-
-	return new DOMParser().parseFromString(contents, 'text/html') as unknown as Document;
+	return request.text();
+}, {
+	cacheKey: ([url]) => `./test/.cache/${filenamify(url.replace('https://github.com', ''))}.html`,
+	cache: fsCache,
 });
-
-async function storeHtmlLocallyForReview(url: string, html: string): Promise<void> {
-	await mkdir('./test/.cache', {recursive: true});
-	await writeFile(`./test/.cache/${filenamify(url)}`, html);
-}
 
 describe.concurrent('selectors', () => {
 	// Exclude URL arrays
@@ -34,24 +55,15 @@ describe.concurrent('selectors', () => {
 
 	test.each(selectors)('%s', async (name, selector) => {
 		// @ts-expect-error Index signature bs
-		const urls = exports[name + '_'] as Array<string | [url: string, expectations: number]>;
+		const urls = exports[name + '_'] as exports.UrlMatch[];
 
 		assert.isArray(urls, `No URLs defined for "${name}"`);
-		await Promise.all(urls.map(async url => {
-			let expectations: number | undefined;
-			if (Array.isArray(url)) {
-				[url, expectations] = url;
-			}
-
-			const document = await fetchDocument(url);
+		await Promise.all(urls.map(async ([expectations, url]) => {
+			const html = await fetchDocument(url);
+			const {document} = parseHTML(html);
 			// TODO: ? Use snapshot with outerHTML[]
 			const matches = document.querySelectorAll(selector);
-			if (expectations === undefined) {
-				// TODO: Change to just be `1` instead, to be stricter
-				assert(matches.length > 0, `Expected at least one match for \`${selector}\` at ${url}`);
-			} else {
-				assert.lengthOf(matches, expectations, `Expected ${expectations} matches for \`${selector}\` at ${url}`);
-			}
+			assert.equal(matches.length, expectations, `Got wrong number of matches on ${url}:\n${selector}`);
 		}));
 	}, {timeout: 9999});
 });
