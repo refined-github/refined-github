@@ -575,6 +575,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257011208-764f509d-fed9-424b-84e9-c01cf2fd428b.gif"
 	},
 	{
+		"id": "pr-notification-link",
+		"description": "Points PR notifications to the conversation tabs instead of the commits page, which may be a 404.",
+		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/621f6512-655e-4565-a37b-2b159ea0ffce"
+	},
+	{
 		"id": "prevent-comment-loss",
 		"description": "While writing/editing comments, open the preview links in new tab instead of navigating away from the page.",
 		"screenshot": "https://user-images.githubusercontent.com/17681399/282616531-2befcabe-5c80-4b9a-bfb5-7b9917847bb5.gif"
