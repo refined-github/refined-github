@@ -17,6 +17,7 @@ clean-repo-sidebar
 clean-repo-tabs
 clean-rich-text-editor
 clear-pr-merge-commit-message
+click-outside-modal
 close-as-unplanned
 close-out-of-view-modals
 closing-remarks
