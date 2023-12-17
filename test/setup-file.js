@@ -6,9 +6,6 @@ const globals = [
 	'HTMLAnchorElement',
 	'DocumentFragment',
 	'Node',
-
-	// Use JSDOM’s implementation because Node’s uses `pathname`’s accessors while the browser doesn’t
-	'URL',
 ];
 
 const {window} = parseHTML('...', 'text/html');
