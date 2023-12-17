@@ -397,6 +397,7 @@ Thanks for contributing! 🦋🙌
 - [](# "prevent-comment-loss") [While writing/editing comments, open the preview links in new tab instead of navigating away from the page.](https://user-images.githubusercontent.com/17681399/282616531-2befcabe-5c80-4b9a-bfb5-7b9917847bb5.gif)
 - [](# "fix-no-pr-search") [Redirect to repo issue list when the search doesn‘t include `is:pr`.](https://user-images.githubusercontent.com/46634000/286579939-50122f02-dcfd-4510-b9e1-03d9985da2cd.gif)
 - [](# "clean-readme-url") [Drops redundant "readme-ov-file" parameter from repo URLs.](https://github.com/refined-github/refined-github/assets/1402241/73e96411-3314-4501-a9b6-d006af6fcc47)
+- [](# "click-outside-modal") [Closes checks list when clicking outside of modal.](https://github.com/refined-github/refined-github/issues/7157)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

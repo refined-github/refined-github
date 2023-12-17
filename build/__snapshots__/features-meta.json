@@ -95,6 +95,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/79257078-62b6fc00-7e89-11ea-8798-c06f33baa94b.png"
 	},
 	{
+		"id": "click-outside-modal",
+		"description": "Closes checks list when clicking outside of modal.",
+		"screenshot": null
+	},
+	{
 		"id": "close-as-unplanned",
 		"description": "Lets you \"close issue as unplanned\" in one click instead of three.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/279745773-709cde60-c26a-4a0e-89e1-56444d25ebdf.png"
