@@ -113,6 +113,7 @@ pr-branch-auto-delete
 pr-commit-lines-changed
 pr-filters
 pr-jump-to-first-non-viewed-file
+pr-notification-link
 prevent-comment-loss
 prevent-duplicate-pr-submission
 prevent-link-loss
