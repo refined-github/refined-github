@@ -17,3 +17,11 @@ void features.add(import.meta.url, {
 	awaitDomReady: true,
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/sandbox/labels/bug
+
+*/
