@@ -8,22 +8,17 @@ import {isHasSelectorSupported} from '../helpers/select-has.js';
 // Source: https://github.com/fregante/release-with-changelog/blob/779fd5e658f82e5b11b1c0a352a6838d3bd8f67f/generate-release-notes.js#L6
 const excludePreset = /^bump |^meta|^document|^lint|^refactor|readme|dependencies|^v?\d+\.\d+\.\d+/i;
 
-// TODO: Remove in June 2024
-function dimOld(commitTitle: HTMLElement): void {
-	if (excludePreset.test(commitTitle.textContent.trim())) {
-		commitTitle.closest('.js-commits-list-item')!.style.opacity = '50%';
-	}
-}
-
 function dim(commitTitle: HTMLElement): void {
 	if (excludePreset.test(commitTitle.textContent.trim())) {
-		commitTitle.closest('[data-testid="commit-row-item"]')!.style.opacity = '50%';
+		commitTitle.closest(['.js-commits-list-item', '[data-testid="commit-row-item"]'])!.style.opacity = '50%';
 	}
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-commits-list-item p:has(> .js-navigation-open)', dimOld, {signal}); // TODO: Remove in June 2024
-	observe('[data-testid="listview-item-title-container"] .markdown-title span', dim, {signal});
+	observe([
+		'.js-commits-list-item p:has(> .js-navigation-open)', // TODO: Remove in June 2024
+		'[data-testid="listview-item-title-container"] .markdown-title span',
+	], dim, {signal});
 }
 
 void features.add(import.meta.url, {
