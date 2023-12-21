@@ -9,7 +9,7 @@ const excludePreset = /^bump |^meta|^document|^lint|^refactor|readme|dependencie
 
 function dim(commitTitle: HTMLElement): void {
 	if (excludePreset.test(commitTitle.textContent.trim())) {
-		commitTitle.closest('[data-testid="commit-row-item"] ')!.style.opacity = '50%';
+		commitTitle.closest('[data-testid="commit-row-item"]')!.style.opacity = '50%';
 	}
 }
 
