@@ -25,8 +25,7 @@ jobs:
           node-version-file: package.json
           cache: npm
       - run: npm ci
-      # Enable flag after https://github.com/vitest-dev/vitest/pull/4279
-      - run: npm run vitest # -- --exclude build/features
+      - run: npm run vitest -- --exclude build/features
 
   Lint:
     runs-on: ubuntu-latest
