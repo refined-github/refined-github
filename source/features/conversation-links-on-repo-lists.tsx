@@ -44,7 +44,7 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isProfileRepoList,
+		pageDetect.isUserProfileRepoTab,
 		() => pageDetect.isGlobalSearchResults() && new URLSearchParams(location.search).get('type') === 'repositories',
 	],
 	init,
