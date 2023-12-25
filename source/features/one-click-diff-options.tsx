@@ -139,8 +139,7 @@ void features.add(import.meta.url, {
 }, {
 	shortcuts,
 	include: [
-		pageDetect.isSingleCommit,
-		pageDetect.isCompare,
+		() => pageDetect.isCompare() && !elementExists('[href="#files_bucket"]'),
 	],
 	init,
 });
