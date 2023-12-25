@@ -139,7 +139,7 @@ void features.add(import.meta.url, {
 }, {
 	shortcuts,
 	include: [
-		pageDetect.isCompare
+		pageDetect.isCompare,
 	],
 	init,
 });
