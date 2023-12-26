@@ -10,7 +10,10 @@ const excludePreset = /^bump |^meta|^document|^lint|^refactor|readme|dependencie
 
 function dim(commitTitle: HTMLElement): void {
 	if (excludePreset.test(commitTitle.textContent.trim())) {
-		commitTitle.closest(['.js-commits-list-item', '[data-testid="commit-row-item"]'])!.style.opacity = '50%';
+		commitTitle.closest([
+			'.js-commits-list-item', // TODO: Remove in June 2024
+			'[data-testid="commit-row-item"]',
+		])!.style.opacity = '50%';
 	}
 }
 
