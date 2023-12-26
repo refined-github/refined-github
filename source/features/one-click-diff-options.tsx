@@ -139,7 +139,6 @@ void features.add(import.meta.url, {
 }, {
 	shortcuts,
 	include: [
-		pageDetect.isSingleCommit,
 		pageDetect.isCompare,
 	],
 	init,
