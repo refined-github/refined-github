@@ -63,5 +63,5 @@
 
 /* Fit rendered markdown div to its content #7187 */
 div.markdown-body {
-	min-height: 0 !important;
+	min-height: 2em !important;
 }
