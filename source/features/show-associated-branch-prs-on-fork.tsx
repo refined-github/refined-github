@@ -1,3 +1,4 @@
+import './show-associated-branch-prs-on-fork.css';
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
@@ -75,6 +76,23 @@ function addAssociatedPRLabel(branchCompareLink: Element, prInfo: PullRequest): 
 	);
 }
 
+function addAssociatedPRLabelNew(parent: Element, prInfo: PullRequest): void {
+	const StateIcon = stateIcon[prInfo.state];
+
+	parent.append(
+		<div className="pr-box">
+			<a href={prInfo.url} target="_blank" data-hovercard-url={prInfo.url + '/hovercard'} aria-label={`Link to the ${prInfo.isDraft ? 'draft ' : ''}pull request #${prInfo.number}`} className="pr-link" rel="noreferrer">
+				<span className="pr-label">
+					<div data-testid="draft-pull-request-icon" className="pr-box">
+						<StateIcon width={14} height={14} className={'pr-' + prInfo.state.toLowerCase()}/>
+					</div>
+					<span className="pr-text">#{prInfo.number}</span>
+				</span>
+			</a>
+		</div>,
+	);
+}
+
 async function addLink(branchCompareLink: Element): Promise<void> {
 	const prs = await pullRequestsAssociatedWithBranch.get();
 	const branchName = branchCompareLink.closest('[branch]')!.getAttribute('branch')!;
@@ -84,8 +102,22 @@ async function addLink(branchCompareLink: Element): Promise<void> {
 	}
 }
 
+async function addLinkNew(prAnchorElement: HTMLAnchorElement): Promise<void> {
+	const prs = await pullRequestsAssociatedWithBranch.get();
+	const tableRow = prAnchorElement.closest('.TableRow') as HTMLTableRowElement;
+	const branchName = (tableRow.firstChild! as HTMLTableCellElement).querySelector('div[title]')!.getAttribute('title')!;
+	const prInfo = prs[branchName];
+	if (!prInfo) {
+		return;
+	}
+
+	const prCell = tableRow.children.item(4) as HTMLTableCellElement;
+	addAssociatedPRLabelNew(prCell, prInfo);
+}
+
 function init(signal: AbortSignal): void {
 	observe('.test-compare-link', addLink, {signal});
+	observe('react-app[app-name=repos-branches] table.Table tbody.TableBody a[class^=BranchName-]', addLinkNew, {signal});
 }
 
 void features.add(import.meta.url, {

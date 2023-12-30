@@ -1,0 +1,52 @@
+.pr-box {
+	display: flex;
+	-mox-box-align: center;
+	align-items: center;
+	height: 32px;
+}
+
+.pr-link {
+	color: rgb(125 133 144);
+	text-decoration: none;
+	font-weight: normal;
+	-mox-box-align: center;
+	align-items: center;
+}
+
+.pr-link .pr-label {
+	-moz-box-align: center;
+	align-items: center;
+	background-color: transparent;
+	border-width: 1px;
+	border-radius: 999px;
+	border-style: solid;
+	display: inline-flex;
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 1;
+	white-space: nowrap;
+	border-color: rgb(48 54 61);
+	height: 20px;
+	padding: 0 7px;
+}
+
+.pr-link .pr-label .pr-open {
+	color: var(--color-open-fg);
+}
+
+.pr-link .pr-label .pr-closed {
+	color: var(--color-closed-fg);
+}
+
+.pr-link .pr-label .pr-draft {
+	color: var(--color-fg-muted);
+}
+
+.pr-link .pr-label .pr-merged {
+	color: var(--color-done-fg);
+}
+
+.pr-link .pr-text {
+	margin-left: 4px;
+	color: rgb(125 133 144);
+}
