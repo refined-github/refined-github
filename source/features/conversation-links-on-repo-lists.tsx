@@ -34,20 +34,48 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	);
 }
 
-const selectors = [
-	'a[itemprop="name codeRepository"]', // `isProfileRepoList`
-	'.repo-list-item .f4 a', // `isGlobalSearchResults`
-] as const;
+function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
+	const repository = repositoryLink.closest('[data-testid="results-list"] > div')!;
+
+	// Place before the update date ·
+	$('ul > span:last-of-type', repository)!.before(
+		<li className="d-flex text-small ml-2">
+			<a
+				className="Link--muted"
+				href={repositoryLink.href + '/issues'}
+			>
+				<IssueOpenedIcon/>
+			</a>
+		</li>,
+		<li className="d-flex text-small ml-2">
+			<a
+				className="Link--muted"
+				href={repositoryLink.href + '/pulls'}
+			>
+				<GitPullRequestIcon/>
+			</a>
+		</li>,
+	);
+}
+
 function init(signal: AbortSignal): void {
-	observe(selectors, addConversationLinks, {signal});
+	observe('a[itemprop="name codeRepository"]', addConversationLinks, {signal});
+}
+
+function initSearch(signal: AbortSignal): void {
+	observe('.search-title a', addSearchConversationLinks, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isUserProfileRepoTab, // Organizations already have these links
-		() => pageDetect.isGlobalSearchResults() && new URLSearchParams(location.search).get('type') === 'repositories',
 	],
 	init,
+}, {
+	include: [
+		() => pageDetect.isGlobalSearchResults() && new URLSearchParams(location.search).get('type') === 'repositories',
+	],
+	init: initSearch,
 });
 
 /*
