@@ -37,11 +37,12 @@ function getFirstCommit(): {title: string; body: string | undefined} {
 }
 
 async function init(): Promise<void | false> {
-	if (window.performance.navigation?.type === 1 ||
-		window.performance.getEntriesByType('navigation').some(
-			(nav) => (nav as PerformanceNavigationTiming).type === 'reload')
-		) {
-		// if the page is reloaded, let github restore the previous title
+	if (window.performance.navigation?.type === 1
+		|| window.performance.getEntriesByType('navigation').some(
+			nav => (nav as PerformanceNavigationTiming).type === 'reload',
+		)
+	) {
+		// If the page is reloaded, let github restore the previous title
 		return false;
 	}
 
