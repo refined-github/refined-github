@@ -40,7 +40,12 @@ function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
 		.closest('[data-testid="results-list"] > div')!
 		.querySelector('ul > span:last-of-type')!
 		.before(
-			<li className="d-flex text-small ml-2">
+			<span
+				aria-hidden="true"
+				className="color-fg-muted mx-2"
+			>·
+			</span>,
+			<li className="d-flex text-small">
 				<a
 					className="Link--muted"
 					href={repositoryLink.href + '/issues'}
