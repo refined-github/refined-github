@@ -35,27 +35,28 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 }
 
 function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
-	const repository = repositoryLink.closest('[data-testid="results-list"] > div')!;
-
 	// Place before the update date ·
-	$('ul > span:last-of-type', repository)!.before(
-		<li className="d-flex text-small ml-2">
-			<a
-				className="Link--muted"
-				href={repositoryLink.href + '/issues'}
-			>
-				<IssueOpenedIcon/>
-			</a>
-		</li>,
-		<li className="d-flex text-small ml-2">
-			<a
-				className="Link--muted"
-				href={repositoryLink.href + '/pulls'}
-			>
-				<GitPullRequestIcon/>
-			</a>
-		</li>,
-	);
+	repositoryLink
+		.closest('[data-testid="results-list"] > div')!
+		.querySelector('ul > span:last-of-type')!
+		.before(
+			<li className="d-flex text-small ml-2">
+				<a
+					className="Link--muted"
+					href={repositoryLink.href + '/issues'}
+				>
+					<IssueOpenedIcon/>
+				</a>
+			</li>,
+			<li className="d-flex text-small ml-2">
+				<a
+					className="Link--muted"
+					href={repositoryLink.href + '/pulls'}
+				>
+					<GitPullRequestIcon/>
+				</a>
+			</li>,
+		);
 }
 
 function init(signal: AbortSignal): void {
