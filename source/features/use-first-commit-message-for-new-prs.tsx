@@ -37,6 +37,14 @@ function getFirstCommit(): {title: string; body: string | undefined} {
 }
 
 async function init(): Promise<void | false> {
+	if (window.performance.navigation?.type === 1 ||
+		window.performance.getEntriesByType('navigation').some(
+			(nav) => (nav as PerformanceNavigationTiming).type === 'reload')
+		) {
+		// if the page is reloaded, let github restore the previous title
+		return false;
+	}
+
 	const requestedContent = new URL(location.href).searchParams;
 	const commitCountIcon = await elementReady('div.Box.mb-3 .octicon-git-commit');
 	const commitCount = commitCountIcon?.nextElementSibling;
