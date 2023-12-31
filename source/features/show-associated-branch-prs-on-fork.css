@@ -1,19 +1,20 @@
-.pr-box {
+.rgh-pr-box {
 	display: flex;
 	-mox-box-align: center;
 	align-items: center;
 	height: 32px;
 }
 
-.pr-link {
-	color: rgb(125 133 144);
+.rgh-pr-link {
+	color: var(--color-fg-muted);
+	/* color: rgb(125 133 144); */
 	text-decoration: none;
 	font-weight: normal;
 	-mox-box-align: center;
 	align-items: center;
 }
 
-.pr-link .pr-label {
+.rgh-pr-link .rgh-pr-label {
 	-moz-box-align: center;
 	align-items: center;
 	background-color: transparent;
@@ -25,28 +26,33 @@
 	font-size: 12px;
 	line-height: 1;
 	white-space: nowrap;
-	border-color: rgb(48 54 61);
+	border-color: var(--color-border-default);
 	height: 20px;
 	padding: 0 7px;
 }
 
-.pr-link .pr-label .pr-open {
+.rgh-pr-link .rgh-pr-label:hover {
+	background-color: var(--color-canvas-subtle);
+}
+
+.rgh-pr-link .rgh-pr-label .rgh-pr-open {
 	color: var(--color-open-fg);
 }
 
-.pr-link .pr-label .pr-closed {
+.rgh-pr-link .rgh-pr-label .rgh-pr-closed {
 	color: var(--color-closed-fg);
 }
 
-.pr-link .pr-label .pr-draft {
+.rgh-pr-link .rgh-pr-label .rgh-pr-draft {
 	color: var(--color-fg-muted);
 }
 
-.pr-link .pr-label .pr-merged {
+.rgh-pr-link .rgh-pr-label .rgh-pr-merged {
 	color: var(--color-done-fg);
 }
 
-.pr-link .pr-text {
+.rgh-pr-link .rgh-pr-text {
 	margin-left: 4px;
-	color: rgb(125 133 144);
+	/* color: rgb(125 133 144); */
+	color: var(--color-fg-muted);
 }
