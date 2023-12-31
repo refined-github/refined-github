@@ -95,7 +95,7 @@ function addAssociatedPRLabelNew(parent: Element, prInfo: PullRequest): void {
 					<span className="rgh-pr-text">#{prInfo.number}</span>
 				</span>
 			</a>
-		</div>
+		</div>,
 	);
 }
 
