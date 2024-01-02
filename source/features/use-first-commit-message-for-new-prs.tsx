@@ -36,11 +36,31 @@ function getFirstCommit(): {title: string; body: string | undefined} {
 	return {title, body};
 }
 
+async function getCommitCount(): Promise<number> {
+	const commitCountIcon = await elementReady('div.Box.mb-3 .octicon-git-commit');
+	let commitCount = commitCountIcon?.nextElementSibling;
+	if (commitCount) {
+		return looseParseInt(commitCount);
+	}
+
+	const commitCountTabnav = await elementReady('div.tabnav .octicon-git-commit');
+	commitCount = commitCountTabnav?.nextElementSibling;
+	if (commitCount) {
+		return looseParseInt(commitCount);
+	}
+
+	return 0;
+}
+
 async function init(): Promise<void | false> {
 	const requestedContent = new URL(location.href).searchParams;
-	const commitCountIcon = await elementReady('div.Box.mb-3 .octicon-git-commit');
-	const commitCount = commitCountIcon?.nextElementSibling;
-	if (!commitCount || looseParseInt(commitCount) < 2 || !elementExists('#new_pull_request')) {
+	// If there is only one commit, Github will automatically use its title and body
+	if (await getCommitCount() < 2 || !elementExists('#new_pull_request')) {
+		return false;
+	}
+
+	// Wait until the first commit is loaded
+	if (!await elementReady('.js-commits-list-item:first-child', {stopOnDomReady: false, timeout: 3000})) {
 		return false;
 	}
 
