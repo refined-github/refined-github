@@ -36,7 +36,7 @@ echo
 
 for FILE in "$@"; do
 	# skip github-bugs.css
-	if [ "$FILE" = "source/github-bugs.css" ]; then
+	if [ "$FILE" = "source/features/github-bugs.css" ]; then
 		continue
 	fi
 
