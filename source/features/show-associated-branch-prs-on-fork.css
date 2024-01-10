@@ -1,32 +1,24 @@
+/* Styles copied from React component */
 .rgh-pr-box {
 	display: flex;
-	-mox-box-align: center;
 	align-items: center;
 	height: 32px;
 }
 
 .rgh-pr-link {
 	color: var(--color-fg-muted);
-	/* color: rgb(125 133 144); */
 	text-decoration: none;
 	font-weight: normal;
-	-mox-box-align: center;
 	align-items: center;
 }
 
 .rgh-pr-link .rgh-pr-label {
-	-moz-box-align: center;
 	align-items: center;
-	background-color: transparent;
-	border-width: 1px;
+	border: solid 1px var(--color-border-default);
 	border-radius: 999px;
-	border-style: solid;
 	display: inline-flex;
-	font-weight: 600;
-	font-size: 12px;
-	line-height: 1;
+	font: 600 12px/1 inherit;
 	white-space: nowrap;
-	border-color: var(--color-border-default);
 	height: 20px;
 	padding: 0 7px;
 }
@@ -35,24 +27,7 @@
 	background-color: var(--color-canvas-subtle);
 }
 
-.rgh-pr-link .rgh-pr-label .rgh-pr-open {
-	color: var(--color-open-fg);
-}
-
-.rgh-pr-link .rgh-pr-label .rgh-pr-closed {
-	color: var(--color-closed-fg);
-}
-
-.rgh-pr-link .rgh-pr-label .rgh-pr-draft {
-	color: var(--color-fg-muted);
-}
-
-.rgh-pr-link .rgh-pr-label .rgh-pr-merged {
-	color: var(--color-done-fg);
-}
-
 .rgh-pr-link .rgh-pr-text {
 	margin-left: 4px;
-	/* color: rgb(125 133 144); */
 	color: var(--color-fg-muted);
 }

@@ -6,6 +6,7 @@ import GitMergeIcon from 'octicons-plain-react/GitMerge';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import GitPullRequestClosedIcon from 'octicons-plain-react/GitPullRequestClosed';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
+import RepoForkedIcon from 'octicons-plain-react/RepoForked';
 
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
@@ -83,16 +84,20 @@ function addAssociatedPRLabelNew(parent: Element, prInfo: PullRequest): void {
 		<div className="rgh-pr-box">
 			<a
 				href={prInfo.url}
-				target="_blank"
+				target="_blank" // Matches native behavior
 				data-hovercard-url={prInfo.url + '/hovercard'}
 				aria-label={`Link to the ${prInfo.isDraft ? 'draft ' : ''}pull request #${prInfo.number}`}
-				className="rgh-pr-link" rel="noreferrer"
+				className="rgh-pr-link"
+				rel="noreferrer"
 			>
 				<span className="rgh-pr-label">
-					<div data-testid="draft-pull-request-icon" className="rgh-pr-box">
-						<StateIcon width={14} height={14} className={'rgh-pr-' + prInfo.state.toLowerCase()}/>
+					<div className="rgh-pr-box">
+						<StateIcon width={14} height={14} className={prInfo.state.toLowerCase()}/>
 					</div>
-					<span className="rgh-pr-text">#{prInfo.number}</span>
+					<span className="color-fg-muted ml-1">
+						<RepoForkedIcon width={14} height={14} />
+						{prInfo.number}
+					</span>
 				</span>
 			</a>
 		</div>,
@@ -123,7 +128,7 @@ async function addLinkNew(titleDiv: HTMLDivElement): Promise<void> {
 
 function init(signal: AbortSignal): void {
 	observe('.test-compare-link', addLink, {signal});
-	observe('react-app[app-name=repos-branches] table.Table tbody.TableBody a[class^=BranchName-] div[title]', addLinkNew, {signal});
+	observe('react-app[app-name=repos-branches] a[class^=BranchName-] div[title]', addLinkNew, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -140,6 +145,6 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/pnarielwala/create-react-app-ts/branches
+https://github.com/bfred-it-org/github-sandbox/branches
 
 */
