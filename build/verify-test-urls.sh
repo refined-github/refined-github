@@ -36,7 +36,7 @@ echo
 
 for FILE in "$@"; do
 	LAST_LINE=$(wc -l < "$FILE")
-	IS_FILE_CSS=$(echo "$FILE" | grep -c "\.css$")
+	IS_FILE_CSS=$(echo "$FILE" | grep -q "\.css$" && echo 1 || echo 0)
 	SIBLING_TSX_FILE=$(echo "$FILE" | sed 's/\.css$/.tsx/')
 	DOES_SIBLING_EXIST=$(test -f "$SIBLING_TSX_FILE" && echo 1 || echo 0)
 	IS_FILE_CSS_AND_SIBLING_EXISTS=$(test "$IS_FILE_CSS" -eq 1 && test "$DOES_SIBLING_EXIST" -eq 1 && echo 1 || echo 0)
