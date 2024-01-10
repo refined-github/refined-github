@@ -53,31 +53,7 @@ export const stateIcon = {
 	DRAFT: GitPullRequestDraftIcon,
 };
 
-function addAssociatedPRLabel(branchCompareLink: Element, prInfo: PullRequest): void {
-	const StateIcon = stateIcon[prInfo.state];
-	const state = upperCaseFirst(prInfo.state);
-
-	branchCompareLink.replaceWith(
-		<div className="d-inline-block text-right ml-3">
-			<a
-				data-issue-and-pr-hovercards-enabled
-				href={prInfo.url}
-				data-hovercard-type="pull_request"
-				data-hovercard-url={prInfo.url + '/hovercard'}
-			>
-				#{prInfo.number}
-			</a>
-			{' '}
-			<span
-				className={`State State--${prInfo.state.toLowerCase()} State--small ml-1`}
-			>
-				<StateIcon width={14} height={14}/> {state}
-			</span>
-		</div>,
-	);
-}
-
-function addAssociatedPRLabelNew(parent: Element, prInfo: PullRequest): void {
+function addAssociatedPRLabel(parent: Element, prInfo: PullRequest): void {
 	const StateIcon = stateIcon[prInfo.state];
 
 	parent.append(
@@ -104,16 +80,7 @@ function addAssociatedPRLabelNew(parent: Element, prInfo: PullRequest): void {
 	);
 }
 
-async function addLink(branchCompareLink: Element): Promise<void> {
-	const prs = await pullRequestsAssociatedWithBranch.get();
-	const branchName = branchCompareLink.closest('[branch]')!.getAttribute('branch')!;
-	const prInfo = prs[branchName];
-	if (prInfo) {
-		addAssociatedPRLabel(branchCompareLink, prInfo);
-	}
-}
-
-async function addLinkNew(titleDiv: HTMLDivElement): Promise<void> {
+async function addLink(titleDiv: HTMLDivElement): Promise<void> {
 	const prs = await pullRequestsAssociatedWithBranch.get();
 	const branchName = titleDiv.getAttribute('title')!;
 	const prInfo = prs[branchName];
@@ -123,12 +90,11 @@ async function addLinkNew(titleDiv: HTMLDivElement): Promise<void> {
 
 	const tableRow = titleDiv.closest('tr.TableRow')!;
 	const prCell = tableRow.children.item(4) as HTMLTableCellElement;
-	addAssociatedPRLabelNew(prCell, prInfo);
+	addAssociatedPRLabel(prCell, prInfo);
 }
 
 function init(signal: AbortSignal): void {
-	observe('.test-compare-link', addLink, {signal});
-	observe('react-app[app-name=repos-branches] a[class^=BranchName-] div[title]', addLinkNew, {signal});
+	observe('react-app[app-name=repos-branches] a[class^=BranchName-] div[title]', addLink, {signal});
 }
 
 void features.add(import.meta.url, {
