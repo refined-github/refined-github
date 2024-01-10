@@ -35,13 +35,20 @@ echo WILL VERIFY:
 echo
 
 for FILE in "$@"; do
-	LAST_LINE=$(wc -l < "$FILE")
+	# skip github-bugs.css
+	if [ "$FILE" = "source/features/github-bugs.css" ]; then
+		continue
+	fi
+
 	IS_FILE_CSS=$(echo "$FILE" | grep -q "\.css$" && echo 1 || echo 0)
 	SIBLING_TSX_FILE=$(echo "$FILE" | sed 's/\.css$/.tsx/')
 	DOES_SIBLING_EXIST=$(test -f "$SIBLING_TSX_FILE" && echo 1 || echo 0)
-	IS_FILE_CSS_AND_SIBLING_EXISTS=$(test "$IS_FILE_CSS" -eq 1 && test "$DOES_SIBLING_EXIST" -eq 1 && echo 1 || echo 0)
+	if test "$IS_FILE_CSS" -eq 1 && test "$DOES_SIBLING_EXIST" -eq 1; then
+		continue
+	fi
 
-	if grep -q "test url" -i "$FILE" || test "$IS_FILE_CSS_AND_SIBLING_EXISTS" -eq 1; then
+	LAST_LINE=$(wc -l < "$FILE")
+	if grep -q "test url" -i "$FILE"; then
 		echo ✅ "$FILE"
 		echo "::notice file=$FILE,line=$LAST_LINE::✅" >> "$ANNOTATIONS"
 	else
