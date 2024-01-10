@@ -43,8 +43,7 @@ function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
 			<span
 				aria-hidden="true"
 				className="color-fg-muted mx-2"
-			>·
-			</span>,
+			>·</span>,
 			<li className="d-flex text-small">
 				<a
 					className="Link--muted"
