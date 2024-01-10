@@ -71,7 +71,7 @@ function addAssociatedPRLabel(parent: Element, prInfo: PullRequest): void {
 						<StateIcon width={14} height={14} className={prInfo.state.toLowerCase()}/>
 					</div>
 					<span className="color-fg-muted ml-1">
-						<RepoForkedIcon width={14} height={14} />
+						<RepoForkedIcon width={14} height={14}/>
 						{prInfo.number}
 					</span>
 				</span>
