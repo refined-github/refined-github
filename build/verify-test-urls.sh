@@ -41,9 +41,7 @@ for FILE in "$@"; do
 	DOES_SIBLING_EXIST=$(test -f "$SIBLING_TSX_FILE" && echo 1 || echo 0)
 	IS_FILE_CSS_AND_SIBLING_EXISTS=$(test "$IS_FILE_CSS" -eq 1 && test "$DOES_SIBLING_EXIST" -eq 1 && echo 1 || echo 0)
 
-	echo FILE="$FILE" LAST_LINE="$LAST_LINE" IS_FILE_CSS="$IS_FILE_CSS" SIBLING_TSX_FILE="$SIBLING_TSX_FILE" DOES_SIBLING_EXIST="$DOES_SIBLING_EXIST" IS_FILE_CSS_AND_SIBLING_EXISTS="$IS_FILE_CSS_AND_SIBLING_EXISTS"
-
-	if grep -q "test url" -i "$FILE" || test $IS_FILE_CSS_AND_SIBLING_EXISTS -eq 1; then
+	if grep -q "test url" -i "$FILE" || test "$IS_FILE_CSS_AND_SIBLING_EXISTS" -eq 1; then
 		echo ✅ "$FILE"
 		echo "::notice file=$FILE,line=$LAST_LINE::✅" >> "$ANNOTATIONS"
 	else

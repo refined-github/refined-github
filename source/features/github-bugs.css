@@ -60,6 +60,3 @@
 .comment-form-head.tabnav:has(~ div .octicon-lock) {
 	display: none;
 }
-
-
-/* Standalone */
