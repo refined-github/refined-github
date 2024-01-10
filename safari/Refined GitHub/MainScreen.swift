@@ -37,16 +37,25 @@ struct MainScreen: View {
 					.controlSize(.small)
 			}
 			#else
-			Text("You can turn on the Safari extension in “Settings › Safari”")
+			Text("Turn on the Safari extension in “Settings › Safari”. Then, open Safari, go to github.com, and try it out.")
 				.multilineTextAlignment(.center)
 				.padding(.horizontal)
 				.padding(.horizontal)
 			#endif
 		}
+			.frame(maxWidth: .infinity, maxHeight: .infinity)
 			.padding()
 			.offset(y: -12) // Looks better than fully center.
 			.task {
 				requestReviewIfNeeded()
+			}
+			.safeAreaInset(edge: .bottom) {
+				Text("The app is just a container for the Safari extension and does not do anything.")
+					.font(.subheadline)
+					.foregroundStyle(.secondary)
+					.multilineTextAlignment(.center)
+					.padding()
+					.padding(.horizontal)
 			}
 			#if os(macOS)
 			.padding()
