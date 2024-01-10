@@ -19,35 +19,74 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 		$('relative-time', repository)!.previousSibling,
 		'Updated',
 	).before(
-		<a
-			className="Link--muted mr-3"
-			href={repositoryLink.href + '/issues'}
-		>
-			<IssueOpenedIcon/>
-		</a>,
-		<a
-			className="Link--muted mr-3"
-			href={repositoryLink.href + '/pulls'}
-		>
-			<GitPullRequestIcon/>
-		</a>,
+		<>
+			<a
+				className="Link--muted mr-3"
+				href={repositoryLink.href + '/issues'}
+			>
+				<IssueOpenedIcon/>
+			</a>
+			<a
+				className="Link--muted mr-3"
+				href={repositoryLink.href + '/pulls'}
+			>
+				<GitPullRequestIcon/>
+			</a>
+		</>,
 	);
 }
 
-const selectors = [
-	'a[itemprop="name codeRepository"]', // `isProfileRepoList`
-	'.repo-list-item .f4 a', // `isGlobalSearchResults`
-] as const;
+function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
+	// Place before the update date ·
+	repositoryLink
+		.closest('[data-testid="results-list"] > div')!
+		.querySelector('ul > span:last-of-type')!
+		.before(
+			<>
+				<span
+					aria-hidden="true"
+					className="color-fg-muted mx-2"
+				>
+					·
+				</span>
+				<li className="d-flex text-small">
+					<a
+						className="Link--muted"
+						href={repositoryLink.href + '/issues'}
+					>
+						<IssueOpenedIcon/>
+					</a>
+				</li>
+				<li className="d-flex text-small ml-2">
+					<a
+						className="Link--muted"
+						href={repositoryLink.href + '/pulls'}
+					>
+						<GitPullRequestIcon/>
+					</a>
+				</li>
+			</>,
+		);
+}
+
 function init(signal: AbortSignal): void {
-	observe(selectors, addConversationLinks, {signal});
+	observe('a[itemprop="name codeRepository"]', addConversationLinks, {signal});
+}
+
+function initSearch(signal: AbortSignal): void {
+	observe('.search-title a', addSearchConversationLinks, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isUserProfileRepoTab, // Organizations already have these links
-		() => pageDetect.isGlobalSearchResults() && new URLSearchParams(location.search).get('type') === 'repositories',
 	],
 	init,
+}, {
+	include: [
+		() => pageDetect.isGlobalSearchResults() && new URLSearchParams(location.search).get('type') === 'repositories',
+	],
+	init: initSearch,
 });
 
 /*
