@@ -65,7 +65,11 @@ function add(anchor: HTMLElement): void {
 					<TableIcon/>
 				</div>
 			</summary>
-			<details-menu className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input" role="menu">
+			<details-menu
+				className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input"
+				role="menu"
+				data-targets="action-bar.items" // Enables automatic hiding when it doesn't fit
+			>
 				{Array.from({length: 25}).map((_, index) => (
 					<button
 						type="button"
