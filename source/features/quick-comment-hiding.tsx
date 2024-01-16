@@ -29,7 +29,7 @@ function generateSubmenu(hideButton: Element): void {
 	newForm.setAttribute('novalidate', 'true');	// Ignore the form's required attributes
 
 	// Imitate existing menu, reset classes
-	newForm.className = ['dropdown-menu', 'dropdown-menu-sw', 'color-fg-default', 'show-more-popover', 'anim-scale-in'].join(' ');
+	newForm.className = ['js-comment-minimize', 'dropdown-menu', 'dropdown-menu-sw', 'color-fg-default', 'show-more-popover', 'anim-scale-in'].join(' ');
 
 	for (const reason of $$('option:not([value=""])', hideCommentForm.elements.classifier)) {
 		newForm.append(
