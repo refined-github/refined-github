@@ -1,8 +1,10 @@
-/* Styles copied from React component */
-.rgh-pr-box {
+/* Styles mostly copied from React component */
+:root .rgh-pr-box {
 	display: flex;
 	align-items: center;
-	height: 32px;
+	flex-wrap: wrap;
+	gap: 4px;
+	height: auto; /* Must override the hardcoded height */
 }
 
 .rgh-pr-link {
@@ -10,11 +12,8 @@
 	text-decoration: none;
 	font-weight: normal;
 	align-items: center;
-}
-
-.rgh-pr-link .rgh-pr-label {
-	align-items: center;
 	border: solid 1px var(--color-border-default);
+	text-decoration: none;
 	border-radius: 999px;
 	display: inline-flex;
 	font: 600 12px/1 inherit;
@@ -23,11 +22,11 @@
 	padding: 0 7px;
 }
 
-.rgh-pr-link .rgh-pr-label:hover {
+.rgh-pr-link:hover {
 	background-color: var(--color-canvas-subtle);
 }
 
-.rgh-pr-link .rgh-pr-text {
+.rgh-pr-text {
 	margin-left: 4px;
 	color: var(--color-fg-muted);
 }
