@@ -8,7 +8,6 @@ import GitPullRequestClosedIcon from 'octicons-plain-react/GitPullRequestClosed'
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import RepoForkedIcon from 'octicons-plain-react/RepoForked';
 import memoize from 'memoize';
-import {$, elementExists} from 'select-dom';
 
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
