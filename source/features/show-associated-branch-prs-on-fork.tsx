@@ -71,31 +71,22 @@ async function addLink(branch: HTMLElement): Promise<void> {
 		.children
 		.item(4)!;
 
-	cell.classList.add('flex-wrap');
-	let box = cell.firstElementChild!;
-	if (elementExists('.open-pull-request-icon', cell)) {
-		box.classList.add('rgh-pr-box');
-	} else {
-		box = <div className="rgh-pr-box"/>;
-		cell.append(box);
-	}
-
-	box.append(
-		<a
-			href={prInfo.url}
-			target="_blank" // Matches native behavior
-			data-hovercard-url={prInfo.url + '/hovercard'}
-			aria-label={`Link to the ${prInfo.isDraft ? 'draft ' : ''}pull request #${prInfo.number}`}
-			className="rgh-pr-link"
-			rel="noreferrer"
-		>
-			<StateIcon width={14} height={14} className={stateClassName}/>
-			<RepoForkedIcon width={14} height={14} className={stateClassName}/>
-			<span className="color-fg-muted ml-1">
+	cell.classList.add('rgh-pr-cell');
+	cell.append(
+		<div className="rgh-pr-box">
+			<a
+				href={prInfo.url}
+				target="_blank" // Matches native behavior
+				data-hovercard-url={prInfo.url + '/hovercard'}
+				aria-label={`Link to the ${prInfo.isDraft ? 'draft ' : ''}pull request #${prInfo.number}`}
+				className="rgh-pr-link"
+				rel="noreferrer"
+			>
+				<StateIcon width={14} height={14} className={stateClassName}/>
+				<RepoForkedIcon width={14} height={14} className={`mr-1 ${stateClassName}`}/>
 				#{prInfo.number}
-			</span>
-		</a>,
-
+			</a>
+		</div>,
 	);
 }
 

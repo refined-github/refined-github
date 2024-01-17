@@ -4,7 +4,16 @@
 	align-items: center;
 	flex-wrap: wrap;
 	gap: 4px;
-	height: auto; /* Must override the hardcoded height */
+}
+
+.rgh-pr-cell {
+	flex-wrap: wrap;
+	gap: 4px;
+
+	&	> [class*=Box] {
+		/* Drop forced height on pre-existing cell */
+		height: auto;
+	}
 }
 
 .rgh-pr-link {
@@ -13,7 +22,7 @@
 	font-weight: normal;
 	align-items: center;
 	border: solid 1px var(--color-border-default);
-	text-decoration: none;
+	text-decoration: none !important;
 	border-radius: 999px;
 	display: inline-flex;
 	font: 600 12px/1 inherit;
@@ -24,9 +33,4 @@
 
 .rgh-pr-link:hover {
 	background-color: var(--color-canvas-subtle);
-}
-
-.rgh-pr-text {
-	margin-left: 4px;
-	color: var(--color-fg-muted);
 }
