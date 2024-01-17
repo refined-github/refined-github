@@ -7,11 +7,12 @@ import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import GitPullRequestClosedIcon from 'octicons-plain-react/GitPullRequestClosed';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import RepoForkedIcon from 'octicons-plain-react/RepoForked';
+import memoize from 'memoize';
 
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {cacheByRepo, upperCaseFirst} from '../github-helpers/index.js';
+import {cacheByRepo} from '../github-helpers/index.js';
 import AssociatedPullRequests from './show-associated-branch-prs-on-fork.gql';
 
 type PullRequest = {
@@ -53,33 +54,6 @@ export const stateIcon = {
 	DRAFT: GitPullRequestDraftIcon,
 };
 
-function addAssociatedPRLabel(parent: Element, prInfo: PullRequest): void {
-	const StateIcon = stateIcon[prInfo.state];
-
-	parent.append(
-		<div className="rgh-pr-box">
-			<a
-				href={prInfo.url}
-				target="_blank" // Matches native behavior
-				data-hovercard-url={prInfo.url + '/hovercard'}
-				aria-label={`Link to the ${prInfo.isDraft ? 'draft ' : ''}pull request #${prInfo.number}`}
-				className="rgh-pr-link"
-				rel="noreferrer"
-			>
-				<span className="rgh-pr-label">
-					<div className="rgh-pr-box">
-						<StateIcon width={14} height={14} className={prInfo.state.toLowerCase()}/>
-					</div>
-					<span className="color-fg-muted ml-1">
-						<RepoForkedIcon width={14} height={14}/>
-						{prInfo.number}
-					</span>
-				</span>
-			</a>
-		</div>,
-	);
-}
-
 async function addLink(titleDiv: HTMLDivElement): Promise<void> {
 	const prs = await pullRequestsAssociatedWithBranch.get();
 	const branchName = titleDiv.getAttribute('title')!;
@@ -88,9 +62,33 @@ async function addLink(titleDiv: HTMLDivElement): Promise<void> {
 		return;
 	}
 
-	const tableRow = titleDiv.closest('tr.TableRow')!;
-	const prCell = tableRow.children.item(4) as HTMLTableCellElement;
-	addAssociatedPRLabel(prCell, prInfo);
+	const StateIcon = stateIcon[prInfo.state] ?? (() => null);
+	titleDiv
+		.closest('tr.TableRow')!
+		.children
+		.item(4)!
+		.append(
+			<div className="rgh-pr-box">
+				<a
+					href={prInfo.url}
+					target="_blank" // Matches native behavior
+					data-hovercard-url={prInfo.url + '/hovercard'}
+					aria-label={`Link to the ${prInfo.isDraft ? 'draft ' : ''}pull request #${prInfo.number}`}
+					className="rgh-pr-link"
+					rel="noreferrer"
+				>
+					<span className="rgh-pr-label">
+						<div className="rgh-pr-box">
+							<StateIcon width={14} height={14} className={prInfo.state.toLowerCase()}/>
+						</div>
+						<span className="color-fg-muted ml-1">
+							<RepoForkedIcon width={14} height={14}/>
+							{prInfo.number}
+						</span>
+					</span>
+				</a>
+			</div>,
+		);
 }
 
 function init(signal: AbortSignal): void {
