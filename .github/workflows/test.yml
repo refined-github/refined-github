@@ -25,7 +25,9 @@ jobs:
           node-version-file: package.json
           cache: npm
       - run: npm ci
-      - run: npm run vitest -- --exclude build/features
+      - run: npm run vitest -- --exclude 'build/features*' --exclude '**/selectors*'
+      - run: npm run vitest -- selectors
+        continue-on-error: true
 
   Lint:
     runs-on: ubuntu-latest

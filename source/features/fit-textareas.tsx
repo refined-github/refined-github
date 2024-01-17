@@ -18,6 +18,7 @@ function inputListener({target}: Event): void {
 
 function watchTextarea(textarea: HTMLTextAreaElement, {signal}: SignalAsOptions): void {
 	textarea.addEventListener('input', inputListener, {signal}); // The user triggers `input` event
+	textarea.addEventListener('focus', inputListener, {signal}); // The user triggers `focus` event
 	textarea.addEventListener('change', inputListener, {signal}); // File uploads trigger `change` events
 	textarea.form?.addEventListener('reset', resetListener, {signal});
 	fitTextarea(textarea);

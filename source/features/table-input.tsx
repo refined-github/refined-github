@@ -5,8 +5,6 @@ import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import {elementExists} from 'select-dom';
-
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import observe from '../helpers/selector-observer.js';
@@ -42,30 +40,15 @@ function add(anchor: HTMLElement): void {
 		'select-menu',
 		'select-menu-modal-right',
 		'hx_rsm',
+		'float-left',
 	];
-	if (elementExists('md-ref', anchor)) {
-		wrapperClasses.push(
-			'toolbar-item',
-			'btn-octicon',
-			'mx-1',
-		);
-	}
 
-	const buttonClasses
-	= elementExists('md-ref', anchor)
-		? [
-			'text-center',
-			'menu-target',
-			'p-2',
-			'p-md-1',
-			'hx_rsm-trigger',
-		]
-		: [
-			'Button',
-			'Button--iconOnly',
-			'Button--invisible',
-			'Button--medium',
-		];
+	const buttonClasses = [
+		'Button',
+		'Button--iconOnly',
+		'Button--invisible',
+		'Button--medium',
+	];
 
 	anchor.after(
 		<details className={wrapperClasses.join(' ')}>
@@ -82,7 +65,11 @@ function add(anchor: HTMLElement): void {
 					<TableIcon/>
 				</div>
 			</summary>
-			<details-menu className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input" role="menu">
+			<details-menu
+				className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input"
+				role="menu"
+				data-targets="action-bar.items" // Enables automatic hiding when it doesn't fit
+			>
 				{Array.from({length: 25}).map((_, index) => (
 					<button
 						type="button"
@@ -100,10 +87,7 @@ function add(anchor: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'md-ref', // TODO: Drop in June 2024, cleanup button JSX above too
-		'.ActionBar-item:has([data-md-button=\'ref\'])',
-	], add, {signal});
+	observe('.ActionBar-item:has([data-md-button=\'ref\'])', add, {signal});
 	delegate('.rgh-tic', 'click', addTable, {signal});
 }
 

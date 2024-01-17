@@ -13,6 +13,10 @@
 	margin: auto;
 }
 
+.ActionBar-item-container:has(.rgh-table-input) {
+	overflow: visible;
+}
+
 :root .rgh-tic {
 	padding: 1px;
 }

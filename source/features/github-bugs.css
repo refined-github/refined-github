@@ -60,3 +60,8 @@
 .comment-form-head.tabnav:has(~ div .octicon-lock) {
 	display: none;
 }
+
+/* Fit rendered markdown div to its content #7187 */
+div.markdown-body {
+	min-height: 2em !important;
+}

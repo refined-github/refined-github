@@ -59,7 +59,12 @@ function addButtons(referenceButton: HTMLElement): void {
 		];
 
 	referenceButton.after(
-		<button type="button" className={classes.join(' ')} aria-label="Add collapsible content">
+		<button
+			type="button"
+			className={classes.join(' ')}
+			aria-label="Add collapsible content"
+			data-targets="action-bar.items" // Enables automatic hiding when it doesn't fit
+		>
 			<FoldDownIcon/>
 		</button>,
 	);
