@@ -92,7 +92,9 @@ async function addLink(titleDiv: HTMLDivElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('react-app[app-name=repos-branches] a[class^=BranchName-] div[title]', addLink, {signal});
+	// Memoize because it's being called twice for each. Ideally this should be part of the selector observer
+	// https://github.com/refined-github/refined-github/pull/7194#issuecomment-1894972091
+	observe('react-app[app-name=repos-branches] a[class^=BranchName-] div[title]', memoize(addLink), {signal});
 }
 
 void features.add(import.meta.url, {
