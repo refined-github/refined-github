@@ -77,8 +77,11 @@ const usernameLinksSelector = [
 		[href="#"],
 		[href*="/apps/"],
 		[href*="/marketplace/"],
-		[data-hovercard-type="organization"]
+		[data-hovercard-type="organization"],
+		[show_full_name="true"]
 	)`,
+	// GHE sometimes shows the full name already:
+	// https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
 
 	// On dashboard
 	// `.Link--primary` excludes avatars
