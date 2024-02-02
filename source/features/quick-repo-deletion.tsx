@@ -178,5 +178,3 @@ Test URLs:
 4. Click "Delete fork" and ensure it works and it appends the post-deletion information bar
 
 */
-
-// Scopes: delete_repo
