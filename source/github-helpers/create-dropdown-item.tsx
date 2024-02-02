@@ -5,13 +5,13 @@ import type TagIcon from 'octicons-plain-react/Tag';
 
 type Options = {
 	label: string;
-	url: string;
+	href: string;
 	icon: typeof TagIcon;
 } & Record<string, string | typeof TagIcon>;
 
 export default function createDropdownItem({
 	label,
-	url,
+	href,
 	icon: Icon,
 	...attributes
 }: Options): Element {
@@ -25,7 +25,7 @@ export default function createDropdownItem({
 		>
 			<a
 				tabIndex={-1}
-				href={url}
+				href={href}
 				role="menuitem"
 				data-view-component="true"
 				className="ActionListContent ActionListContent--visual16"

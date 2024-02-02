@@ -54,7 +54,7 @@ async function appendTab(navigationBar: Element): Promise<void> {
 		overflowNav.append(
 			createDropdownItem({
 				label: 'Gists',
-				url: user.url,
+				href: user.url,
 				icon: CodeSquareIcon,
 			}),
 		);

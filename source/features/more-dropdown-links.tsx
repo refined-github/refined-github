@@ -41,24 +41,24 @@ async function init(): Promise<void> {
 		<li className="dropdown-divider" role="separator"/>,
 		createDropdownItem({
 			label: 'Compare',
-			url: compareUrl,
+			href: compareUrl,
 			icon: GitCompareIcon,
 		}),
 		pageDetect.isEnterprise()
 			? ''
 			: createDropdownItem({
 				label: 'Dependencies',
-				url: dependenciesUrl,
+				href: dependenciesUrl,
 				icon: PackageDependenciesIcon,
 			}),
 		createDropdownItem({
 			label: 'Commits',
-			url: commitsUrl,
+			href: commitsUrl,
 			icon: GitCommitIcon,
 		}),
 		createDropdownItem({
 			label: 'Branches',
-			url: branchesUrl,
+			href: branchesUrl,
 			icon: GitBranchIcon,
 		}),
 	);
