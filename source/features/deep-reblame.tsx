@@ -74,7 +74,7 @@ function addButton(hunk: HTMLElement): void {
 			<button
 				type="button"
 				aria-label="View blame prior to this change (extracts commits from this PR first)"
-				className="Button Button--iconOnly Button--invisible Button--small d-flex rgh-deep-reblame"
+				className="rgh-deep-reblame Button Button--iconOnly Button--invisible Button--small d-flex"
 			>
 				<VersionsIcon/>
 			</button>,
