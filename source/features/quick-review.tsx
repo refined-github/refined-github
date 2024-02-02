@@ -84,6 +84,16 @@ async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> 
 	}
 }
 
+async function openReviewPopup(button: HTMLButtonElement): Promise<void> {
+	await delay(100); // The popover appears immediately afterwards in the HTML, observe() might trigger too soon
+	(button.popoverTargetElement as HTMLElement).showPopover();
+}
+
+function initNativeDeepLinking(signal: AbortSignal): void {
+	// Cannot target the [popover] itself because observe() can't see hidden elements
+	observe('[popovertarget="review-changes-modal"]', openReviewPopup, {signal});
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
@@ -97,6 +107,12 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFiles,
 	],
 	init: initReviewButtonEnhancements,
+}, {
+	asLongAs: [
+		() => location.hash === '#review-changes-modal',
+		pageDetect.isPRFiles,
+	],
+	init: initNativeDeepLinking,
 });
 
 /*
