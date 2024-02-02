@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom';
+import {$, $$} from 'select-dom';
 import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
 
@@ -18,14 +18,17 @@ import observe from '../helpers/selector-observer.js';
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;
 
+function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
+	// https://github.com/refined-github/refined-github/issues/7206
+	return !textContent.includes('nightly') && /\d[.]\d/.test(textContent);
+}
+
 const firstTag = new CachedFunction('first-tag', {
 	async updater(commit: string): Promise<string | false> {
-		const firstTag = await fetchDom(
-			buildRepoURL('branch_commits', commit),
-			'ul.branches-tag-list li:last-child a',
-		);
-
-		return firstTag?.textContent ?? false;
+		const tagsAndBranches = await fetchDom(buildRepoURL('branch_commits', commit));
+		const tags = $$('ul.branches-tag-list a', tagsAndBranches);
+		// eslint-disable-next-line unicorn/no-array-callback-reference -- Just this once, I swear
+		return tags.findLast(excludeNightliesAndJunk)?.textContent ?? false;
 	},
 	cacheKey: ([commit]) => [getRepo()!.nameWithOwner, commit].join(':'),
 });
@@ -147,6 +150,11 @@ Test URLs
 - PR: https://github.com/refined-github/refined-github/pull/5600
 - Locked PR: https://github.com/eslint/eslint/pull/17
 - Archived repo: https://github.com/fregante/iphone-inline-video/pull/130
-- RGH tagged PR: https://github.com/refined-github/sandbox/pull/1
+- Junk tag: https://github.com/refined-github/sandbox/pull/1
+	- See: https://github.com/refined-github/sandbox/branch_commits/f743c334f6475021ef133591b587bc282c0cf4c4
+- Normal tag: https://togithub.com/refined-github/refined-github/pull/7127
+	- See https://github.com/refined-github/refined-github/branch_commits/5321825
+- Nightly tag: https://togithub.com/neovim/neovim/pull/22060
+	- see: https://github.com/neovim/neovim/branch_commits/27b81af
 
 */
