@@ -112,6 +112,7 @@ pr-base-commit
 pr-branch-auto-delete
 pr-commit-lines-changed
 pr-filters
+pr-first-commit-title
 pr-jump-to-first-non-viewed-file
 pr-notification-link
 prevent-comment-loss
@@ -182,7 +183,6 @@ unfinished-comments
 unreleased-commits
 unwrap-unnecessary-dropdowns
 update-pr-from-base-branch
-use-first-commit-message-for-new-prs
 useful-not-found-page
 user-local-time
 user-profile-follower-badge

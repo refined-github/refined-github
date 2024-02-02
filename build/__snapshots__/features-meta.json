@@ -575,6 +575,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253068868-6afb4656-4ef5-4846-89c5-24dc6ee7f839.png"
 	},
 	{
+		"id": "pr-first-commit-title",
+		"description": "Uses the first commit for a new PR’s title and description.",
+		"screenshot": "https://user-images.githubusercontent.com/16872793/87246205-ccf42400-c419-11ea-86d5-0e6570d99e6e.gif"
+	},
+	{
 		"id": "pr-jump-to-first-non-viewed-file",
 		"description": "Jumps to first non-viewed file in a pull request when clicking on the progress bar.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257011208-764f509d-fed9-424b-84e9-c01cf2fd428b.gif"
@@ -898,11 +903,6 @@
 		"id": "update-pr-from-base-branch",
 		"description": "Adds an \"Update branch\" button to every PR. GitHub has the same feature, but it must be manually configured with protected branches.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/234483592-4867cb2e-21cb-436d-9ea0-aedadf834f19.png"
-	},
-	{
-		"id": "use-first-commit-message-for-new-prs",
-		"description": "Uses the first commit for a new PR’s title and description.",
-		"screenshot": "https://user-images.githubusercontent.com/16872793/87246205-ccf42400-c419-11ea-86d5-0e6570d99e6e.gif"
 	},
 	{
 		"id": "useful-not-found-page",
