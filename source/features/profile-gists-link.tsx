@@ -52,8 +52,11 @@ async function appendTab(navigationBar: Element): Promise<void> {
 	const overflowNav = $(repoUnderlineNavDropdownUl)!;
 	if (!elementExists('[data-rgh-label="Gists"]', overflowNav)) {
 		overflowNav.append(
-			createDropdownItem('Gists', user.url, CodeSquareIcon, {
-				'data-menu-item': 'rgh-gists-item',
+			createDropdownItem({
+				label: 'Gists',
+				href: user.url,
+				icon: CodeSquareIcon,
+				'data-rgh-label': 'Gists',
 			}),
 		);
 	}
