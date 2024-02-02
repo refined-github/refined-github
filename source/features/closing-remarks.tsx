@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom';
+import {$, $$} from 'select-dom';
 import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
 
@@ -18,14 +18,17 @@ import observe from '../helpers/selector-observer.js';
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;
 
+function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
+	// https://github.com/refined-github/refined-github/issues/7206
+	return !textContent.includes('nightly') && /\d/.test(textContent);
+}
+
 const firstTag = new CachedFunction('first-tag', {
 	async updater(commit: string): Promise<string | false> {
-		const firstTag = await fetchDom(
-			buildRepoURL('branch_commits', commit),
-			'ul.branches-tag-list li:last-child a',
-		);
-
-		return firstTag?.textContent ?? false;
+		const tagsAndBranches = await fetchDom(buildRepoURL('branch_commits', commit));
+		const tags = $$('ul.branches-tag-list a', tagsAndBranches);
+		// eslint-disable-next-line unicorn/no-array-callback-reference -- Just this once, I swear
+		return tags.findLast(excludeNightliesAndJunk)?.textContent ?? false;
 	},
 	cacheKey: ([commit]) => [getRepo()!.nameWithOwner, commit].join(':'),
 });
