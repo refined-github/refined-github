@@ -20,7 +20,7 @@ export const standaloneGistLinkInMarkdown_ = [
 ] satisfies UrlMatch[];
 
 /** The repo navigation bar’s overflow menu */
-export const repoUnderlineNavDropdownUl = '.js-responsive-underlinenav .dropdown-menu ul';
+export const repoUnderlineNavDropdownUl = '.js-responsive-underlinenav action-menu ul';
 export const repoUnderlineNavDropdownUl_ = [
 	// Added via JS :(
 	// TOOD: Use Puppeteer?
