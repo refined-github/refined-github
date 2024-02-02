@@ -20,7 +20,7 @@ const canCreateRelease = canEditEveryComment;
 
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206
-	return !textContent.includes('nightly') && /\d/.test(textContent);
+	return !textContent.includes('nightly') && /\d[.]\d/.test(textContent);
 }
 
 const firstTag = new CachedFunction('first-tag', {
@@ -150,6 +150,11 @@ Test URLs
 - PR: https://github.com/refined-github/refined-github/pull/5600
 - Locked PR: https://github.com/eslint/eslint/pull/17
 - Archived repo: https://github.com/fregante/iphone-inline-video/pull/130
-- RGH tagged PR: https://github.com/refined-github/sandbox/pull/1
+- Junk tag: https://github.com/refined-github/sandbox/pull/1
+	- See: https://github.com/refined-github/sandbox/branch_commits/f743c334f6475021ef133591b587bc282c0cf4c4
+- Normal tag: https://togithub.com/refined-github/refined-github/pull/7127
+	- See https://github.com/refined-github/refined-github/branch_commits/5321825
+- Nightly tag: https://togithub.com/neovim/neovim/pull/22060
+	- see: https://github.com/neovim/neovim/branch_commits/27b81af
 
 */
