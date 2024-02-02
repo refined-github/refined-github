@@ -117,6 +117,11 @@ async function updateProjectsTab(): Promise<void | false> {
 }
 
 async function moveRareTabs(): Promise<void | false> {
+	// The user may have disabled `more-dropdown-links` so un-hide it
+	if (!await unhideOverflowDropdown()) {
+		return false;
+	}
+
 	// Wait for the nav dropdown to be loaded #5244
 	await elementReady('.UnderlineNav-actions ul');
 	onlyShowInDropdown('security-tab');
@@ -134,10 +139,6 @@ void features.add(import.meta.url, {
 		updateProjectsTab,
 	],
 }, {
-	asLongAs: [
-		// The user may have disabled `more-dropdown-links` so un-hide it
-		unhideOverflowDropdown,
-	],
 	include: [
 		pageDetect.hasRepoHeader,
 	],
