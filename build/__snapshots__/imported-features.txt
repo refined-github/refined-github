@@ -182,7 +182,7 @@ unfinished-comments
 unreleased-commits
 unwrap-unnecessary-dropdowns
 update-pr-from-base-branch
-use-first-commit-message-for-new-prs
+pr-first-commit-title
 useful-not-found-page
 user-local-time
 user-profile-follower-badge
