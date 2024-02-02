@@ -179,5 +179,3 @@ Test URLs:
 Issues disabled: https://github.com/refined-github/yolo
 
 */
-
-// Scopes: repo public_repo
