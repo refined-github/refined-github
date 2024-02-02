@@ -89,7 +89,7 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 	appendBefore(
 		dropdownMenu,
 		'.dropdown-divider', // Won't exist if `more-dropdown` is disabled
-		createDropdownItem(type, buildRepoURL(type.toLowerCase()), {
+		createDropdownItem(type, buildRepoURL(type.toLowerCase()), TagIcon, {
 			'data-menu-item': 'rgh-releases-item',
 		}),
 	);

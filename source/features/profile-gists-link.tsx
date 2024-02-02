@@ -52,7 +52,7 @@ async function appendTab(navigationBar: Element): Promise<void> {
 	const overflowNav = $('.js-responsive-underlinenav .dropdown-menu ul')!;
 	if (!elementExists('[data-rgh-label="Gists"]', overflowNav)) {
 		overflowNav.append(
-			createDropdownItem('Gists', user.url),
+			createDropdownItem('Gists', user.url, CodeSquareIcon),
 		);
 	}
 

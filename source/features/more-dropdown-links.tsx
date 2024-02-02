@@ -3,6 +3,10 @@ import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import GitBranchIcon from 'octicons-plain-react/GitBranch';
+import GitCompareIcon from 'octicons-plain-react/GitCompare';
+import GitCommitIcon from 'octicons-plain-react/GitCommit';
+import PackageDependenciesIcon from 'octicons-plain-react/PackageDependencies';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
@@ -35,10 +39,10 @@ async function init(): Promise<void> {
 	const repoNavigationDropdown = await elementReady('.UnderlineNav-actions ul');
 	repoNavigationDropdown!.append(
 		<li className="dropdown-divider" role="separator"/>,
-		createDropdownItem('Compare', compareUrl),
-		pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl),
-		createDropdownItem('Commits', commitsUrl),
-		createDropdownItem('Branches', branchesUrl),
+		createDropdownItem('Compare', compareUrl, GitCompareIcon),
+		pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl, PackageDependenciesIcon),
+		createDropdownItem('Commits', commitsUrl, GitCommitIcon),
+		createDropdownItem('Branches', branchesUrl, GitBranchIcon),
 	);
 }
 
@@ -56,3 +60,11 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // DOM-based filter
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github
+
+*/
