@@ -39,10 +39,28 @@ async function init(): Promise<void> {
 	const repoNavigationDropdown = await elementReady('.UnderlineNav-actions ul');
 	repoNavigationDropdown!.append(
 		<li className="dropdown-divider" role="separator"/>,
-		createDropdownItem('Compare', compareUrl, GitCompareIcon),
-		pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl, PackageDependenciesIcon),
-		createDropdownItem('Commits', commitsUrl, GitCommitIcon),
-		createDropdownItem('Branches', branchesUrl, GitBranchIcon),
+		createDropdownItem({
+			label: 'Compare',
+			url: compareUrl,
+			icon: GitCompareIcon,
+		}),
+		pageDetect.isEnterprise()
+			? ''
+			: createDropdownItem({
+				label: 'Dependencies',
+				url: dependenciesUrl,
+				icon: PackageDependenciesIcon,
+			}),
+		createDropdownItem({
+			label: 'Commits',
+			url: commitsUrl,
+			icon: GitCommitIcon,
+		}),
+		createDropdownItem({
+			label: 'Branches',
+			url: branchesUrl,
+			icon: GitBranchIcon,
+		}),
 	);
 }
 
