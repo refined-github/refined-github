@@ -168,6 +168,7 @@ import './features/jump-to-change-requested-comment.js';
 import './features/esc-to-cancel.js';
 import './features/easy-toggle-files.js';
 import './features/quick-repo-deletion.js';
+import './features/quick-reactions.js';
 import './features/clean-repo-sidebar.js';
 import './features/rgh-feature-descriptions.js';
 import './features/archive-forks-link.js';
