@@ -96,10 +96,10 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 			<p><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252116522-053bce84-5c55-477b-8cc2-42a48104fb02.png">
 	<tr>
 		<th width="50%">
-			<p><a title="status-subscription"></a> Lets you subscribe to opening/closing events of issues in one click.
+			<p><a title="status-subscription"></a> Lets you subscribe to opening/closing events of issues in one click
 			<p><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/238186901-cbc98b51-d173-40c6-b21e-5f0bae3d800c.png">
 		<th width="50%">
-			<p><a title="default-branch-button"></a> Adds a link to the default branch on directory listings and files.
+			<p><a title="default-branch-button"></a> Adds a link to the default branch on directory listings and files
 			<p><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252176294-9130783c-51aa-4df9-9c35-9b87c179199a.png">
 	<tr>
 		<th width="50%">
