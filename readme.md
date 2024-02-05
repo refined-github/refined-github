@@ -99,8 +99,8 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 			<p><a title="status-subscription"></a> Lets you subscribe to opening/closing events of issues in one click.
 			<p><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/238186901-cbc98b51-d173-40c6-b21e-5f0bae3d800c.png">
 		<th width="50%">
-			<p><a title="wait-for-checks"></a> Adds the option to wait for checks when merging a PR
-			<p><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260870422-1f7fd5e6-849c-423b-8aeb-45894a006a44.gif">
+			<p><a title="default-branch-button"></a> Adds a link to the default branch on directory listings and files.
+			<p><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252176294-9130783c-51aa-4df9-9c35-9b87c179199a.png">
 	<tr>
 		<th width="50%">
 			<p><a title="restore-file"></a> Adds a button to discard all the changes to a file in a PR
@@ -143,7 +143,6 @@ Thanks for contributing! 🦋🙌
 
 - [](# "ci-link") 🔥 [Adds a build/CI status icon next to the repo’s name.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/237923995-5e14a272-0bf2-4fe4-b409-8c05378aa4fd.png)
 - [](# "more-dropdown-links") [Adds useful links to the repository navigation dropdown](https://user-images.githubusercontent.com/16872793/124681432-856e6f80-de96-11eb-89c9-6d78e8ae4329.png)
-- [](# "default-branch-button") 🔥 [Adds a link to the default branch on directory listings and files.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252176294-9130783c-51aa-4df9-9c35-9b87c179199a.png)
 - [](# "swap-branches-on-compare") [Adds a link to swap branches in the branch compare view.](https://user-images.githubusercontent.com/44045911/230370539-ebc94246-864f-48f2-85fa-7318fc1f6d71.png)
 - [](# "repo-age") [Displays the age of the repository in the sidebar.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252176778-f8260312-d0dc-41b5-a4d1-ca680208d347.png)
 - [](# "show-open-prs-of-forks") [In your forked repos, shows number of your open PRs to the original repo.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252177140-94165582-628b-45b6-9a62-faf0c7fc2335.png)

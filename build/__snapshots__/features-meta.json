@@ -935,11 +935,6 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/285123739-e5f4fa0a-3f48-49ef-9b87-2fd6f183c923.png"
 	},
 	{
-		"id": "wait-for-checks",
-		"description": "Adds the option to wait for checks when merging a PR.",
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260870422-1f7fd5e6-849c-423b-8aeb-45894a006a44.gif"
-	},
-	{
 		"id": "warn-pr-from-master",
 		"description": "Warns you when creating a pull request from the default branch, as it’s an anti-pattern.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png"

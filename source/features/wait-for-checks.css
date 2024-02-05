@@ -1,5 +1,0 @@
-/* Visibly disable merge fields during submission */
-[name='commit_message'][disabled],
-[name='commit_title'][disabled] {
-	color: var(--color-text-disabled, #808080);
-}

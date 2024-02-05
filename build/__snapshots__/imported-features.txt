@@ -189,6 +189,5 @@ user-profile-follower-badge
 vertical-front-matter
 view-last-pr-deployment
 visit-tag
-wait-for-checks
 warn-pr-from-master
 warning-for-disallow-edits

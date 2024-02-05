@@ -66,7 +66,6 @@ import './features/one-click-diff-options.js';
 import './features/ci-link.js';
 import './features/toggle-files-button.js';
 import './features/sync-pr-commit-title.js';
-import './features/wait-for-checks.js';
 import './features/hide-inactive-deployments.js';
 import './features/pull-request-hotkeys.js';
 import './features/one-click-review-submission.js';
