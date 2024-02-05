@@ -27,18 +27,24 @@ const inView = new IntersectionObserver(([{target, isIntersecting}]) => {
 });
 
 function copyFooter(originalFooter: HTMLElement): void {
-	// Copy the footer links to the sidebar to make them more accessible. Also keep a copy in the footer.
-	const footer = originalFooter.cloneNode(true);
+    // Copy the footer links to the sidebar to make them more accessible. Also keep a copy in the footer.
+    const footer = originalFooter.cloneNode(true);
 
-	for (const child of footer.children) {
-		child.classList.remove('pl-lg-4', 'col-xl-3');
-	}
+    for (const child of footer.children) {
+        child.classList.remove('pl-lg-4', 'col-xl-3');
+    }
 
-	$('[aria-label^="Explore"]')!.append(
-		<div className="footer mt-4 py-4 border-top">
-			{footer}
-		</div>,
-	);
+    // Check if the footer already exists in the sidebar
+    const sidebarFooter = $('[aria-label^="Explore"]').find('.footer');
+
+    // If it doesn't exist, append it
+    if (sidebarFooter.length === 0) {
+        $('[aria-label^="Explore"]')!.append(
+            <div className="footer mt-4 py-4 border-top">
+                {footer}
+            </div>,
+        );
+    }
 }
 
 function init(signal: AbortSignal): void {
