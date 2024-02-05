@@ -87,3 +87,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/brumm/tako/issues/27#issuecomment-617314195
+https://github.com/vercel/next.js/discussions/40684#discussioncomment-3689167
+
+*/
