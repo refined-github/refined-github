@@ -8,9 +8,8 @@ let documentTitle: string | undefined;
 let submitting: number | undefined;
 
 function hasDraftComments(): boolean {
-	// `[disabled]` excludes the PR description field that `wait-for-checks` disables while it waits
 	// `[id^="convert-to-issue-body"]` excludes the hidden pre-filled textareas created when opening the dropdown menu of review comments
-	return $$('textarea:not([disabled], [id^="convert-to-issue-body"])').some(textarea =>
+	return $$('textarea:not([id^="convert-to-issue-body"])').some(textarea =>
 		textarea.value !== textarea.textContent, // Exclude comments being edited but not yet changed (and empty comment fields)
 	);
 }
@@ -47,3 +46,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/sandbox/pull/4
+
+*/

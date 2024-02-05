@@ -811,7 +811,7 @@
 	},
 	{
 		"id": "status-subscription",
-		"description": "Lets you subscribe to opening/closing events of issues in one click..",
+		"description": "Lets you subscribe to opening/closing events of issues in one click.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/238186901-cbc98b51-d173-40c6-b21e-5f0bae3d800c.png"
 	},
 	{
@@ -933,11 +933,6 @@
 		"id": "visit-tag",
 		"description": "When navigating a repo's file on a specific tag, it adds a link to see the release/tag itself.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/285123739-e5f4fa0a-3f48-49ef-9b87-2fd6f183c923.png"
-	},
-	{
-		"id": "wait-for-checks",
-		"description": "Adds the option to wait for checks when merging a PR.",
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260870422-1f7fd5e6-849c-423b-8aeb-45894a006a44.gif"
 	},
 	{
 		"id": "warn-pr-from-master",

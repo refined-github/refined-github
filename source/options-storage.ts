@@ -41,7 +41,6 @@ export const renamedFeatures = new Map<string, string>([
 	['conversation-filters', 'more-conversation-filters'],
 	['quick-pr-diff-options', 'one-click-diff-options'],
 	['quick-review-buttons', 'one-click-review-submission'],
-	['wait-for-build', 'wait-for-checks'],
 	['pull-request-hotkey', 'pull-request-hotkeys'],
 	['first-published-tag-for-merged-pr', 'closing-remarks'],
 	['scheduled-and-manual-workflow-indicators', 'github-actions-indicators'],
