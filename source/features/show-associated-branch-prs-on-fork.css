@@ -9,11 +9,11 @@
 .rgh-pr-cell {
 	flex-wrap: wrap;
 	gap: 4px;
+}
 
-	& > [class*='Box'] {
-		/* Drop forced height on pre-existing cell */
-		height: auto;
-	}
+.rgh-pr-cell > [class*='Box'] {
+	/* Drop forced height on pre-existing cell */
+	height: auto;
 }
 
 .rgh-pr-link {
