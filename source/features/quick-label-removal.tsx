@@ -71,3 +71,12 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // The sidebar is near the end of the page
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/pull/3454
+https://github.com/refined-github/refined-github/issues/3440
+
+*/
