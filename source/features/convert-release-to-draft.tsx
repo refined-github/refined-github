@@ -8,6 +8,7 @@ import api from '../github-helpers/api.js';
 import {getRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import showToast from '../github-helpers/toast.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 const getReleaseEditLinkSelector = (): 'a' => `a[href^="/${getRepo()!.nameWithOwner}/releases/edit"]` as 'a';
 
@@ -59,7 +60,7 @@ function attachButton(editButton: HTMLAnchorElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	await api.expectToken();
+	await expectToken();
 
 	observe(getReleaseEditLinkSelector(), attachButton, {signal});
 	delegate('.rgh-convert-draft', 'click', onConvertClick, {signal});

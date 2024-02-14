@@ -12,6 +12,7 @@ import api from '../github-helpers/api.js';
 import showToast from '../github-helpers/toast.js';
 import {getConversationNumber} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 const canNotEditLabels = onetime((): boolean => !elementExists('.label-select-menu .octicon-gear'));
 
@@ -52,7 +53,7 @@ function addRemoveLabelButton(label: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await api.expectToken();
+	await expectToken();
 
 	delegate('.rgh-quick-label-removal:not([disabled])', 'click', removeLabelButtonClickHandler, {signal});
 

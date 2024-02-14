@@ -6,8 +6,8 @@ import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {pullRequestsAssociatedWithBranch, stateIcon} from './show-associated-branch-prs-on-fork.js';
 import {addAfterBranchSelector, isPermalink, isRepoCommitListRoot} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
-import api from '../github-helpers/api.js';
 import {branchSelectorParent} from '../github-helpers/selectors.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 // Taken from https://github.com/fregante/github-issue-link-status/blob/98792f2837352bacbf80664f3edbcec8e579ed17/source/github-issue-link-status.js#L10
 const stateColorMap = {
@@ -43,7 +43,7 @@ async function add(branchSelectorParent: HTMLDetailsElement): Promise<void | fal
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	await api.expectToken();
+	await expectToken();
 
 	observe(branchSelectorParent, add, {signal});
 }

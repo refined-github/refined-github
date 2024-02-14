@@ -17,6 +17,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import {groupButtons} from '../github-helpers/group-buttons.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 type RepoPublishState = {
 	latestTag: string | false;
@@ -167,12 +168,12 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 }
 
 async function initHome(signal: AbortSignal): Promise<void> {
-	await api.expectToken();
+	await expectToken();
 	observe(branchSelector, addToHome, {signal});
 }
 
 async function initReleases(signal: AbortSignal): Promise<void> {
-	await api.expectToken();
+	await expectToken();
 	observe('input#release-filter', addToReleases, {signal});
 }
 

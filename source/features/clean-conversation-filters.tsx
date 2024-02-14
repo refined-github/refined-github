@@ -4,9 +4,10 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import api, {expectTokenScope} from '../github-helpers/api.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import HasAnyProjects from './clean-conversation-filters.gql';
+import api from '../github-helpers/api.js';
+import {expectTokenScope} from '../github-helpers/github-token.js';
 
 const hasAnyProjects = new CachedFunction('has-projects', {
 	async updater(): Promise<boolean> {

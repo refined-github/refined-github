@@ -9,6 +9,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import selectHas from '../helpers/select-has.js';
 import observe from '../helpers/selector-observer.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
 
@@ -55,7 +56,7 @@ function add(submitButtonLine: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await api.expectToken();
+	await expectToken();
 	observe('form :has(> [type=submit])', add, {signal});
 	delegate('#new_repository, #new_new_repository', 'submit', setStorage, {signal});
 }
