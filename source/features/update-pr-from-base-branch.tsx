@@ -93,7 +93,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	await expectToken()
+	await expectToken();
 
 	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
 	observe('.merge-message', addButton, {signal});
