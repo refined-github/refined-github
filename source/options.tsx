@@ -21,6 +21,7 @@ import {perDomainOptions} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {state as bisectState} from './helpers/bisect.js';
+import {parseTokenScopes} from './github-helpers/github-token.js';
 
 type TokenType = 'classic' | 'fine_grained';
 
@@ -78,18 +79,7 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 		throw new Error(details.message);
 	}
 
-	// If `X-OAuth-Scopes` is not present, the token may be not a classic token.
-	const scopes = response.headers.get('X-OAuth-Scopes')?.split(', ') ?? [];
-	scopes.push('valid_token');
-	if (scopes.includes('repo')) {
-		scopes.push('public_repo');
-	}
-
-	if (scopes.includes('project')) {
-		scopes.push('read:project');
-	}
-
-	return scopes;
+	return parseTokenScopes(response.headers);
 }
 
 function expandTokenSection(): void {

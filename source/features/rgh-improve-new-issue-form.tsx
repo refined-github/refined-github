@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import openOptions from '../helpers/open-options.js';
 import clearCacheHandler from '../helpers/clear-cache-handler.js';
-import {expectToken, expectTokenScope} from '../github-helpers/api.js';
+import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 
 function addNotice(adjective: JSX.Element | string): void {

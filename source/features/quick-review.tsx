@@ -11,6 +11,7 @@ import observe from '../helpers/selector-observer.js';
 import showToast from '../github-helpers/toast.js';
 import {getConversationNumber, getUsername} from '../github-helpers/index.js';
 import {randomArrayItem} from '../helpers/math.js';
+import {getToken} from '../github-helpers/github-token.js';
 
 const emojis = [...'🚀✅🐿️⚡️🤌🥳🥰🤩🥸😎🤯🚢🛫🏳️🏁'];
 
@@ -48,7 +49,7 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 
 	// Can't approve own PRs and closed PRs
 	// API required for this action
-	if (getUsername() === $('.author')!.textContent || pageDetect.isClosedPR() || !(await api.getToken())) {
+	if (getUsername() === $('.author')!.textContent || pageDetect.isClosedPR() || !(await getToken())) {
 		return;
 	}
 

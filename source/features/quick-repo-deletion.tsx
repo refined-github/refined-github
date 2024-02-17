@@ -16,6 +16,7 @@ import addNotice from '../github-widgets/notice-bar.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import parseBackticks from '../github-helpers/parse-backticks.js';
 import observe from '../helpers/selector-observer.js';
+import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
 
 function handleToggle(event: DelegateEvent<Event, HTMLDetailsElement>): void {
 	const hasContent = elementExists([
@@ -41,7 +42,7 @@ function handleToggle(event: DelegateEvent<Event, HTMLDetailsElement>): void {
 
 async function verifyScopesWhileWaiting(abortController: AbortController): Promise<void> {
 	try {
-		await api.expectTokenScope('delete_repo');
+		await expectTokenScope('delete_repo');
 	} catch (error) {
 		assertError(error);
 		abortController.abort();
@@ -152,7 +153,7 @@ function addButton(header: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	await api.expectToken();
+	await expectToken();
 
 	observe('.pagehead-actions', addButton, {signal});
 	delegate('.rgh-quick-repo-deletion[open]', 'toggle', handleToggle, {capture: true, signal});

@@ -15,6 +15,7 @@ import showToast from '../github-helpers/toast.js';
 import {getConversationNumber} from '../github-helpers/index.js';
 import createMergeabilityRow from '../github-widgets/mergeability-row.js';
 import selectHas from '../helpers/select-has.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 const canMerge = '.merge-pr > .color-fg-muted:first-child';
 const canNativelyUpdate = '.js-update-branch-form';
@@ -92,7 +93,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	await api.expectToken();
+	await expectToken();
 
 	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
 	observe('.merge-message', addButton, {signal});
