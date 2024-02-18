@@ -101,7 +101,7 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<Elem
 		return link;
 	}
 
-	let linkGroup = groupButtons([
+	const linkGroup = groupButtons([
 		link,
 		// `aria-label` wording taken from $user/$repo/releases page
 		<a
@@ -113,7 +113,7 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<Elem
 			<PlusIcon className="v-align-middle"/>
 		</a>,
 	]) as HTMLElement;
-	linkGroup.style.width = "max-content";
+	linkGroup.style.width = 'max-content';
 	return linkGroup;
 }
 
