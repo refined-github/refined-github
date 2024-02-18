@@ -101,7 +101,7 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<Elem
 		return link;
 	}
 
-	return groupButtons([
+	let linkGroup = groupButtons([
 		link,
 		// `aria-label` wording taken from $user/$repo/releases page
 		<a
@@ -112,7 +112,9 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<Elem
 		>
 			<PlusIcon className="v-align-middle"/>
 		</a>,
-	]);
+	]) as HTMLElement;
+	linkGroup.style.width = "max-content";
+	return linkGroup;
 }
 
 async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
@@ -132,7 +134,7 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 		);
 	} else {
 		wrapAll(
-			<div className="d-flex gap-2" style={{width: "max-content"}}/>,
+			<div className="d-flex gap-2"/>,
 			branchSelector,
 			await createLinkGroup(latestTag, aheadBy),
 		);
