@@ -115,7 +115,7 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<Elem
 		</a>,
 	]);
 
-	linkGroup.classList.add("rgh-unreleased-commits-home-button-group");
+	linkGroup.classList.add('rgh-unreleased-commits-home-button-group');
 	return linkGroup;
 }
 
