@@ -132,7 +132,7 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 		);
 	} else {
 		wrapAll(
-			<div className="d-flex gap-2"/>,
+			<div className="d-flex gap-2" style={{width: "max-content"}}/>,
 			branchSelector,
 			await createLinkGroup(latestTag, aheadBy),
 		);
