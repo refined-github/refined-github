@@ -1,4 +1,3 @@
-import './unreleased-commits.css';
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
@@ -115,7 +114,7 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<Elem
 		</a>,
 	]);
 
-	linkGroup.classList.add('rgh-unreleased-commits-home-button-group');
+	linkGroup.classList.add('d-flex');
 	return linkGroup;
 }
 
