@@ -14,6 +14,7 @@ import {buildRepoURL, cacheByRepo, getRepo, triggerRepoNavOverflow} from '../git
 import {appendBefore} from '../helpers/dom-utils.js';
 import {repoUnderlineNavUl, repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
 import GetReleasesCount from './releases-tab.gql';
+import {expectToken} from '../github-helpers/github-token.js';
 
 function detachHighlightFromCodeTab(codeTab: HTMLAnchorElement): void {
 	codeTab.dataset.selectedLinks = codeTab.dataset.selectedLinks!.replace('repo_releases ', '');
@@ -101,6 +102,7 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 }
 
 async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe(repoUnderlineNavUl, addReleasesTab, {signal});
 	observe(repoUnderlineNavDropdownUl, addReleasesDropdownItem, {signal});
 	observe(['[data-menu-item="i0code-tab"] a', 'a#code-tab'], detachHighlightFromCodeTab, {signal});
