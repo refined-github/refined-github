@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 
 function init(): false | void {
-	const originalPreviousNext = $('.commit .BtnGroup.float-right');
+	const originalPreviousNext = $('.commit .ButtonGroup.float-right');
 	if (!originalPreviousNext) {
 		return false;
 	}
