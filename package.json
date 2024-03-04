@@ -60,7 +60,7 @@
 		"indent-textarea": "^2.1.1",
 		"js-abbreviation-number": "^1.4.0",
 		"linkify-issues": "2.0.0-nolookbehind",
-		"linkify-urls": "3.1.0-nolookbehind",
+		"linkify-urls": "3.1.1",
 		"mem": "^9.0.2",
 		"one-event": "^3.0.0",
 		"one-mutation": "^2.0.0",
