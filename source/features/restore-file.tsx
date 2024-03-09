@@ -75,7 +75,7 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 				expectedHeadOid: headReference,
 				fileChanges,
 				message: {
-					headline: `Discard changes to ${originalFileName}`,
+					headline: `fix: discard changes to ${originalFileName}`,
 				},
 			},
 		},
