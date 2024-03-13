@@ -139,7 +139,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	observe('a.ActionList-content', addIndicators, {signal});
+	observe('a.ActionListContent', addIndicators, {signal});
 }
 
 void features.add(import.meta.url, {
