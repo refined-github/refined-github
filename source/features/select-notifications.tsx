@@ -23,7 +23,7 @@ const issueIcons = ':is(.octicon-issue-opened, .octicon-issue-closed, .octicon-s
 const filters = {
 	'Pull requests': prIcons,
 	Issues: issueIcons,
-	// This selector is a bit too loose, so it needs to be be scoped to the smallest possible element and exclude the bookmark icon
+	// This selector is a bit too loose, so it needs to be scoped to the smallest possible element and exclude the bookmark icon
 	Others: `.notification-list-item-link .octicon:not(${prIcons}, ${issueIcons}, .octicon-bookmark)`,
 	Open: ':is(.octicon-issue-opened, .octicon-git-pull-request)',
 	Closed: ':is(.octicon-issue-closed, .octicon-git-pull-request-closed, .octicon-skip)',

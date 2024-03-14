@@ -39,7 +39,7 @@ function init(): void {
 	const linkedComment = location.hash.startsWith('#issuecomment-') ? $(`${location.hash} ${singleParagraphCommentSelector}`) : undefined;
 
 	for (const commentText of $$(singleParagraphCommentSelector)) {
-		// Exclude explicitely linked comments #5363
+		// Exclude explicitly linked comments #5363
 		if (commentText === linkedComment) {
 			continue;
 		}
