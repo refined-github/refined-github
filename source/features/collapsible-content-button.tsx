@@ -3,7 +3,6 @@ import FoldDownIcon from 'octicons-plain-react/FoldDown';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
