@@ -1,7 +1,10 @@
 :root {
 	--rgh-green: var(--fgColor-success, var(--color-success-fg, #1a7f37));
 	--rgh-red: var(--fgColor-danger, var(--color-danger-fg, #cf222e));
-	--rgh-border-color: var(--borderColor-muted, var(--color-border-muted, #d8dee4));
+	--rgh-border-color: var(
+		--borderColor-muted,
+		var(--color-border-muted, #d8dee4)
+	);
 	--rgh-background: var(--bgColor-default, var(--color-canvas-default, #fff));
 }
 
