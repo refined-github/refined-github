@@ -5,7 +5,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 
 function init(): false | void {
-	const originalPreviousNext = $('.commit .BtnGroup.float-right');
+	// TODO: Remove .BtnGroup in June 2024
+	const originalPreviousNext = $('.commit .float-right:is(.BtnGroup, .ButtonGroup)');
 	if (!originalPreviousNext) {
 		return false;
 	}
