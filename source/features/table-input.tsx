@@ -9,6 +9,7 @@ import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import observe from '../helpers/selector-observer.js';
 import {isHasSelectorSupported} from '../helpers/select-has.js';
+import {triggerActionBarOverflow} from '../github-helpers/index.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
@@ -32,7 +33,7 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 	field.selectionEnd = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
 }
 
-function add(anchor: HTMLElement): void {
+function append(container: HTMLElement): void {
 	const wrapperClasses = [
 		'details-reset',
 		'details-overlay',
@@ -40,7 +41,7 @@ function add(anchor: HTMLElement): void {
 		'select-menu',
 		'select-menu-modal-right',
 		'hx_rsm',
-		'float-left',
+		'ActionBar-item',
 	];
 
 	const buttonClasses = [
@@ -50,8 +51,11 @@ function add(anchor: HTMLElement): void {
 		'Button--medium',
 	];
 
-	anchor.after(
-		<details className={wrapperClasses.join(' ')}>
+	container.append(
+		<details
+			className={wrapperClasses.join(' ')}
+			data-targets="action-bar.items" // Enables automatic hiding when it doesn't fit
+		>
 			<summary
 				className={buttonClasses.join(' ')}
 				role="button"
@@ -68,7 +72,6 @@ function add(anchor: HTMLElement): void {
 			<details-menu
 				className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input"
 				role="menu"
-				data-targets="action-bar.items" // Enables automatic hiding when it doesn't fit
 			>
 				{Array.from({length: 25}).map((_, index) => (
 					<button
@@ -84,10 +87,12 @@ function add(anchor: HTMLElement): void {
 			</details-menu>
 		</details>,
 	);
+
+	triggerActionBarOverflow(container);
 }
 
 function init(signal: AbortSignal): void {
-	observe('.ActionBar-item:has([data-md-button=\'ref\'])', add, {signal});
+	observe('[data-target="action-bar.itemContainer"]', append, {signal});
 	delegate('.rgh-tic', 'click', addTable, {signal});
 }
 

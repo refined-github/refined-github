@@ -155,3 +155,10 @@ export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement,
 export function triggerRepoNavOverflow(): void {
 	window.dispatchEvent(new Event('resize'));
 }
+
+export function triggerActionBarOverflow(child: Element): void {
+	const parent = child.closest('action-bar')!;
+	const placeholder = document.createElement('div');
+	parent.replaceWith(placeholder);
+	placeholder.replaceWith(parent);
+}

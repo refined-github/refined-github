@@ -3,12 +3,12 @@ import FoldDownIcon from 'octicons-plain-react/FoldDown';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import observe from '../helpers/selector-observer.js';
 import {isHasSelectorSupported} from '../helpers/select-has.js';
+import {triggerActionBarOverflow} from '../github-helpers/index.js';
 
 function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
@@ -36,29 +36,18 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 	);
 }
 
-function addButtons(referenceButton: HTMLElement): void {
-	const classes
-	= elementExists('md-ref', referenceButton)
-		? [
-			'toolbar-item',
-			'btn-octicon',
-			'p-2',
-			'p-md-1',
-			'tooltipped',
-			'tooltipped-sw',
-			'rgh-collapsible-content-btn',
-		]
-		: [
-			'Button',
-			'Button--iconOnly',
-			'Button--invisible',
-			'Button--medium',
-			'tooltipped',
-			'tooltipped-sw',
-			'rgh-collapsible-content-btn',
-		];
+function append(container: HTMLElement): void {
+	const classes = [
+		'Button',
+		'Button--iconOnly',
+		'Button--invisible',
+		'Button--medium',
+		'tooltipped',
+		'tooltipped-sw',
+		'rgh-collapsible-content-btn',
+	];
 
-	referenceButton.after(
+	container.append(
 		<button
 			type="button"
 			className={classes.join(' ')}
@@ -68,13 +57,13 @@ function addButtons(referenceButton: HTMLElement): void {
 			<FoldDownIcon/>
 		</button>,
 	);
+
+	triggerActionBarOverflow(container);
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'md-ref', // TODO: Drop in June 2024
-		'.ActionBar-item:has([data-md-button=\'ref\'])',
-	], addButtons, {signal});
+	observe(
+		'[data-target="action-bar.itemContainer"]', append, {signal});
 	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails, {signal});
 }
 
