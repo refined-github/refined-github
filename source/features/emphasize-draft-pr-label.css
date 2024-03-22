@@ -8,7 +8,7 @@
 	/* Global PR lists */
 	[aria-label='Draft Pull Request']
 ) svg {
-		stroke: var(--color-fg-muted);
+		stroke: var(--fgColor-muted);
 		stroke-width: 1.2px;
 		color: var(--rgh-background) !important;
 		paint-order: stroke;
