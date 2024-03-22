@@ -9,7 +9,7 @@
 	color: color-mix(
 		in srgb,
 		var(--rgh-heat-color) 100%,
-		var(--color-fg-muted)
+		var(--fgColor-muted)
 	) !important;
 }
 
@@ -18,7 +18,7 @@
 	color: color-mix(
 		in srgb,
 		var(--rgh-heat-color) 90%,
-		var(--color-fg-muted)
+		var(--fgColor-muted)
 	) !important;
 }
 
@@ -27,7 +27,7 @@
 	color: color-mix(
 		in srgb,
 		var(--rgh-heat-color) 80%,
-		var(--color-fg-muted)
+		var(--fgColor-muted)
 	) !important;
 }
 
@@ -36,7 +36,7 @@
 	color: color-mix(
 		in srgb,
 		var(--rgh-heat-color) 70%,
-		var(--color-fg-muted)
+		var(--fgColor-muted)
 	) !important;
 }
 
@@ -45,7 +45,7 @@
 	color: color-mix(
 		in srgb,
 		var(--rgh-heat-color) 60%,
-		var(--color-fg-muted)
+		var(--fgColor-muted)
 	) !important;
 }
 
@@ -54,7 +54,7 @@
 	color: color-mix(
 		in srgb,
 		var(--rgh-heat-color) 50%,
-		var(--color-fg-muted)
+		var(--fgColor-muted)
 	) !important;
 }
 
@@ -63,7 +63,7 @@
 	color: color-mix(
 		in srgb,
 		var(--rgh-heat-color) 40%,
-		var(--color-fg-muted)
+		var(--fgColor-muted)
 	) !important;
 }
 
@@ -72,7 +72,7 @@
 	color: color-mix(
 		in srgb,
 		var(--rgh-heat-color) 30%,
-		var(--color-fg-muted)
+		var(--fgColor-muted)
 	) !important;
 }
 
@@ -81,7 +81,7 @@
 	color: color-mix(
 		in srgb,
 		var(--rgh-heat-color) 20%,
-		var(--color-fg-muted)
+		var(--fgColor-muted)
 	) !important;
 }
 
@@ -90,6 +90,6 @@
 	color: color-mix(
 		in srgb,
 		var(--rgh-heat-color) 0%,
-		var(--color-fg-muted)
+		var(--fgColor-muted)
 	) !important;
 }
