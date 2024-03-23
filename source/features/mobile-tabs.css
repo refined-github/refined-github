@@ -56,7 +56,7 @@
 		visibility: inherit;
 		height: auto;
 		font-size: 10px;
-		color: var(--color-fg-default);
+		color: var(--fgColor-default, var(--color-fg-default));
 		font-weight: inherit;
 	}
 

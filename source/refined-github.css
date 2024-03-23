@@ -53,7 +53,7 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 
 /* Lighten deletions in Markdown */
 .markdown-body del {
-	color: var(--color-fg-muted);
+	color: var(--fgColor-muted, var(--color-fg-muted));
 }
 
 /* Make <details> visibly clickable */

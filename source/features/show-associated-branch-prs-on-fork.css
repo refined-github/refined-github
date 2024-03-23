@@ -17,9 +17,9 @@
 }
 
 .rgh-pr-link {
-	color: var(--color-fg-muted);
+	color: var(--fgColor-muted, var(--color-fg-muted));
 	align-items: center;
-	border: solid 1px var(--color-border-default);
+	border: solid 1px var(--borderColor-default, var(--color-border-default));
 	text-decoration: none !important;
 	border-radius: 999px;
 	display: inline-flex;
