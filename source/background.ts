@@ -4,7 +4,7 @@ import 'webext-dynamic-content-scripts';
 import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
 import {isSafari} from 'webext-detect-page';
 import {objectKeys} from 'ts-extras';
-import addDomainPermissionToggle from 'webext-domain-permission-toggle';
+import addPermissionToggle from 'webext-permission-toggle';
 
 import optionsStorage from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
@@ -15,7 +15,7 @@ import {styleHotfixes} from './helpers/hotfix.js';
 const {version} = browser.runtime.getManifest();
 
 // GHE support
-addDomainPermissionToggle();
+addPermissionToggle();
 
 const messageHandlers = {
 	async openUrls(urls: string[], {tab}: Runtime.MessageSender) {
