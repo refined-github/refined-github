@@ -8,6 +8,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import loadDetailsMenu from '../github-helpers/load-details-menu.js';
 import showToast from '../github-helpers/toast.js';
+import isBadBrowserOnPrFiles from '../helpers/7116.js';
 
 function onButtonClick({delegateTarget: button}: DelegateEvent): void {
 	try {
@@ -44,6 +45,9 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 		pageDetect.isPRFiles,
+	],
+	exclude: [
+		isBadBrowserOnPrFiles,
 	],
 	init,
 });
