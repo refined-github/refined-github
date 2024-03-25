@@ -670,6 +670,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/274816033-820ec518-049d-4248-9f8a-27b9423e350b.png"
 	},
 	{
+		"id": "quick-reactions",
+		"description": "Shows a reaction optimistically",
+		"screenshot": "https://user-images.githubusercontent.com/1402241/236628453-8b646178-b838-44a3-9541-0a9b5f54a84a.png"
+	},
+	{
 		"id": "quick-repo-deletion",
 		"description": "Lets you delete your repos in a click, if they have no stars, issues, or PRs.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/99716945-54a80a00-2a6e-11eb-9107-f3517a6ab1bc.gif"
