@@ -30,5 +30,5 @@
 }
 
 .rgh-pr-link:hover {
-	background-color: var(--color-canvas-subtle);
+	background-color: var(--bgColor-muted, var(--color-canvas-subtle));
 }

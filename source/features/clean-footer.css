@@ -13,5 +13,5 @@
 }
 
 .footer > div:nth-last-child(2) a {
-	color: var(--color-text-disabled, #666);
+	color: var(--fgColor-disabled, var(--color-text-disabled, #666));
 }
