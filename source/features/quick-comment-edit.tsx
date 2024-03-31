@@ -7,6 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
+import isBadBrowserOnPrFiles from '../helpers/7116.js';
 
 function addQuickEditButton(commentForm: Element): void {
 	const commentBody = commentForm.closest('.js-comment')!;
@@ -59,6 +60,9 @@ async function init(signal: AbortSignal): Promise<void> {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
+	],
+	exclude: [
+		isBadBrowserOnPrFiles,
 	],
 	// The feature is "disabled" via CSS selector when the conversation is locked.
 	// We want the edit buttons to appear while the conversation is loading, but we only know it's locked when the page has finished.
