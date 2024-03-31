@@ -1,9 +1,15 @@
 :root .rgh-clean-conversation-headers-non-default-branch {
-	background-color: var(--color-state-hover-primary-bg, #0366d6);
+	background-color: var(
+		--control-checked-bgColor-hover,
+		var(--color-state-hover-primary-bg, #0366d6)
+	);
 }
 
 .rgh-clean-conversation-headers-non-default-branch a {
-	color: var(--color-state-hover-primary-text, #fff);
+	color: var(
+		--control-checked-fgColor-rest,
+		var(--color-state-hover-primary-text, #fff)
+	);
 }
 
 /* Removes: every text (but not icons) */

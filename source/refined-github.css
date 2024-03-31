@@ -53,7 +53,7 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 
 /* Lighten deletions in Markdown */
 .markdown-body del {
-	color: var(--color-fg-muted);
+	color: var(--fgColor-muted, var(--color-fg-muted));
 }
 
 /* Make <details> visibly clickable */
@@ -120,7 +120,10 @@ pr-branches
 	right: 50%;
 	transform: translate(50%, 50%);
 	min-width: 380px; /* Avoids a width change on the last step which causes the YES button to be where NO was */
-	box-shadow: var(--color-shadow-large, var(--color-toast-shadow));
+	box-shadow: var(
+		--shadow-floating-large,
+		var(--color-shadow-large, var(--color-toast-shadow))
+	);
 	z-index: 2147483647;
 }
 

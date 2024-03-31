@@ -23,12 +23,16 @@
 		flex-flow: row wrap;
 		padding: 5px;
 		flex-basis: 0;
-		background: var(--color-action-list-item-default-hover-bg);
+		background: var(
+			--control-transparent-bgColor-hover,
+			var(--color-action-list-item-default-hover-bg)
+		);
 	}
 
 	[rgh-mobile-tabs] .UnderlineNav-item:hover {
 		background: var(
-			--color-action-list-item-default-active-bg
+			--control-transparent-bgColor-hover,
+			var(--color-action-list-item-default-active-bg)
 		); /* From: Counter background color */
 	}
 
@@ -56,7 +60,7 @@
 		visibility: inherit;
 		height: auto;
 		font-size: 10px;
-		color: var(--color-fg-default);
+		color: var(--fgColor-default, var(--color-fg-default));
 		font-weight: inherit;
 	}
 

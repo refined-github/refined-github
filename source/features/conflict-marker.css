@@ -3,5 +3,5 @@
 }
 
 [data-color-mode='dark'] .rgh-conflict-marker svg {
-	color: var(--color-fg-muted);
+	color: var(--fgColor-muted, var(--color-fg-muted));
 }
