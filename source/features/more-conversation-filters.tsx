@@ -11,7 +11,7 @@ function init(): void {
 	const commentsLink = sourceItem.cloneNode(true);
 	commentsLink.lastChild!.textContent = 'Everything you’re involved in';
 	commentsLink.removeAttribute('target');
-	commentsLink.href = SearchQuery.from(commentsLink).set(`${pageDetect.isPRList() ? "is:pr": ""} is:open involves:@me`).href;
+	commentsLink.href = SearchQuery.from(commentsLink).set(`${pageDetect.isPRList() ? 'is:pr' : ''} is:open involves:@me`).href;
 	commentsLink.setAttribute('aria-checked', String(commentsLink.href === location.href)); // #4589
 
 	sourceItem.after(commentsLink);
