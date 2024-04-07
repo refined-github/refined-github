@@ -5,7 +5,8 @@ export default function getUserAvatar(username: string, size: number): string | 
 	const cleanName = username.replace('[bot]', '');
 
 	// Find image on page. Saves a request and a redirect + add support for bots
-	const existingAvatar = $(`img[alt="@${cleanName}"]`);
+	const existingAvatar = $(`[href="/${cleanName}" i] img`);
+
 	if (existingAvatar) {
 		return existingAvatar.src;
 	}
