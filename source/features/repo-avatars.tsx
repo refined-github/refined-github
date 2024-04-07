@@ -9,7 +9,7 @@ import observe from '../helpers/selector-observer.js';
 async function add(ownerLabel: HTMLElement): Promise<void> {
 	const username = getRepo()!.owner;
 	const size = 16;
-	const src = getUserAvatar(username, size, true)!;
+	const src = getUserAvatar(username, size)!;
 
 	const avatar = (
 		<img

@@ -1,14 +1,13 @@
 import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-export default function getUserAvatar(username: string, size: number, ignoreBots?: boolean): string | void {
+export default function getUserAvatar(username: string, size: number): string | void {
 	const cleanName = username.replace('[bot]', '');
 
 	// Find image on page. Saves a request and a redirect + add support for bots
-	const existingAvatar = $(`img[alt="@${cleanName}"]`);
-	const isBot = existingAvatar?.parentElement?.getAttribute('href')?.startsWith('/apps/');
+	const existingAvatar = $(`[href="/${cleanName}" i] img`);
 
-	if (existingAvatar && (isBot ? !ignoreBots : true)) {
+	if (existingAvatar) {
 		return existingAvatar.src;
 	}
 
