@@ -1,12 +1,12 @@
 import './show-whitespace.css';
 import * as pageDetect from 'github-url-detection';
+import {isChrome} from 'webext-detect-page';
 
 import features from '../feature-manager.js';
 import {codeElementsSelector} from '../github-helpers/dom-formatters.js';
 import showWhiteSpacesOnLine from '../helpers/show-whitespace-on-line.js';
 import onAbort from '../helpers/abort-controller.js';
 import observe from '../helpers/selector-observer.js';
-import isBadBrowserOnPrFiles from '../helpers/7116.js';
 
 const viewportObserver = new IntersectionObserver(changes => {
 	for (const {target: line, isIntersecting} of changes) {
@@ -28,11 +28,11 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isChrome,
+	],
 	include: [
 		pageDetect.hasCode,
-	],
-	exclude: [
-		isBadBrowserOnPrFiles,
 	],
 	init,
 });
