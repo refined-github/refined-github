@@ -3,11 +3,11 @@ import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 import PencilIcon from 'octicons-plain-react/Pencil';
 import * as pageDetect from 'github-url-detection';
+import {isChrome} from 'webext-detect-page';
 
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
-import {isChrome} from 'webext-detect-page';
 
 function addQuickEditButton(commentForm: Element): void {
 	const commentBody = commentForm.closest('.js-comment')!;

@@ -3,12 +3,12 @@ import {$} from 'select-dom';
 import TrashIcon from 'octicons-plain-react/Trash';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
+import {isChrome} from 'webext-detect-page';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import loadDetailsMenu from '../github-helpers/load-details-menu.js';
 import showToast from '../github-helpers/toast.js';
-import {isChrome} from 'webext-detect-page';
 
 function onButtonClick({delegateTarget: button}: DelegateEvent): void {
 	try {
