@@ -8,7 +8,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import loadDetailsMenu from '../github-helpers/load-details-menu.js';
 import showToast from '../github-helpers/toast.js';
-import isBadBrowserOnPrFiles from '../helpers/7116.js';
+import {isChrome} from 'webext-detect-page';
 
 function onButtonClick({delegateTarget: button}: DelegateEvent): void {
 	try {
@@ -42,12 +42,12 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isChrome,
+	],
 	include: [
 		pageDetect.isPRConversation,
 		pageDetect.isPRFiles,
-	],
-	exclude: [
-		isBadBrowserOnPrFiles,
 	],
 	init,
 });

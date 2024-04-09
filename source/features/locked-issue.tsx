@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {isHasSelectorSupported} from '../helpers/select-has.js';
-import isBadBrowserOnPrFiles from '../helpers/7116.js';
+import {isChrome} from 'webext-detect-page';
 
 function LockedIndicator(): JSX.Element {
 	return (
@@ -39,6 +39,7 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	asLongAs: [
 		isHasSelectorSupported,
+		isChrome,
 	],
 	include: [
 		pageDetect.isConversation,
@@ -47,8 +48,6 @@ void features.add(import.meta.url, {
 		// TODO: Find alternative detection that works even for GHE that don't have reactions enabled
 		// https://github.com/refined-github/refined-github/issues/7063
 		pageDetect.isEnterprise,
-
-		isBadBrowserOnPrFiles,
 	],
 	init,
 });
