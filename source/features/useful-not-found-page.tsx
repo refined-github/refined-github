@@ -203,7 +203,7 @@ async function initPRCommit(): Promise<void | false> {
 
 function initRepoFile(signal: AbortSignal): void {
 	observe('#repos-header-breadcrumb-wide-heading + ol a', crossIfNonExistent, {signal});
-	observe('main div[data-testid="eror-404-description"]', showGitObjectHistoryOnRepo, {signal});	// "eror" as misspelled by GitHub
+	observe('main div[data-testid="error-404-description"]', showGitObjectHistoryOnRepo, {signal});	// "eror" as misspelled by GitHub
 }
 
 void features.add(import.meta.url, {
