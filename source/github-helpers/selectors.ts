@@ -23,7 +23,7 @@ export const standaloneGistLinkInMarkdown_ = [
 export const repoUnderlineNavDropdownUl = '.js-responsive-underlinenav action-menu ul';
 export const repoUnderlineNavDropdownUl_ = [
 	// Added via JS :(
-	// TOOD: Use Puppeteer?
+	// TODO: Use Puppeteer?
 	[0, 'https://github.com/refined-github/refined-github'],
 	[0, 'https://github.com/refined-github/refined-github/releases'],
 ] satisfies UrlMatch[];
@@ -32,7 +32,7 @@ export const branchSelector = '[data-hotkey="w"]';
 export const branchSelector_ = [
 	[1, 'https://github.com/refined-github/refined-github'],
 	// Added via JS :(
-	// TOOD: Use Puppeteer?
+	// TODO: Use Puppeteer?
 	[0, 'https://github.com/refined-github/refined-github/blob/main/readme.md'],
 	[0, 'https://github.com/refined-github/refined-github/blame/main/readme.md'],
 	[0, 'https://github.com/refined-github/refined-github/tree/main/source'],
