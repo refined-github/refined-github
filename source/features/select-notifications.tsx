@@ -127,7 +127,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 
 const createDropdown = onetime(() => (
 	<details
-		className="details-reset details-overlay position-relative rgh-select-notifications mx-2"
+		className="details-reset details-overlay position-relative rgh-select-notifications mx-2 mr-auto"
 		onToggle={resetFilters}
 	>
 		<summary
