@@ -1,0 +1,23 @@
+query GetCommentsFromCommit($owner:String!, $name:String!, $commit:String) {
+	repository(owner:$owner, name:$name) {
+		name,
+		object(expression:$commit) {
+			... on Commit {
+				message,
+				comments(first:100) {
+					nodes {
+						author {
+							avatarUrl,
+							login
+						},
+						authorAssociation,
+						bodyHTML,
+						url,
+						position,
+						path
+					}
+				}
+			}
+		}
+	}
+}
