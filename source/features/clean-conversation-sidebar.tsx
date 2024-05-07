@@ -114,7 +114,7 @@ async function cleanSidebar(): Promise<void> {
 		removeTextNodeContaining(developmentHint, /No branches or pull requests|Successfully merging/);
 	}
 
-	const createBranchLink = $('button[data-action="click:create-issue-branch#openDialog"]');
+	const createBranchLink = $('button[data-action="click:create-branch#openDialog"]');
 	if (createBranchLink) {
 		createBranchLink.classList.add('Link--muted');
 		$('[aria-label="Link issues"] summary')!.append(
