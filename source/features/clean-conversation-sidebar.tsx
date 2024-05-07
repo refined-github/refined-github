@@ -116,7 +116,7 @@ async function cleanSidebar(): Promise<void> {
 
 	const createBranchLink = $('button[data-action="click:create-branch#openDialog"]');
 	if (createBranchLink) {
-		createBranchLink.classList.add('Link--muted');
+		createBranchLink.classList.add('Link--muted', 'Link--inTextBlock');
 		$('[aria-label="Link issues"] summary')!.append(
 			<span style={{fontWeight: 'normal'}}> – {createBranchLink}</span>,
 		);
