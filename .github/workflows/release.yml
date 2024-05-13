@@ -30,7 +30,7 @@ jobs:
         run: npx dot-json@1 "$DIRECTORY/manifest.json" version "$DAILY_VERSION"
       - name: Ready for "submit" jobs
         if: env.DAILY_VERSION_CREATED
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: ${{ env.DIRECTORY }}
       - name: Create release
@@ -49,7 +49,7 @@ jobs:
     environment: Chrome
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
       - run: npx chrome-webstore-upload-cli@2 upload --auto-publish
         working-directory: artifact
         env:
@@ -64,7 +64,7 @@ jobs:
     environment: Firefox
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
       - run: npx web-ext@7 sign --use-submission-api --channel listed
         working-directory: artifact
         env:

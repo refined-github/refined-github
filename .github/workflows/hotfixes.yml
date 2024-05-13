@@ -25,7 +25,7 @@ jobs:
 
       - name: Leave comment
         if: env.WAS_HOTFIXED
-        uses: peter-evans/create-or-update-comment@v3
+        uses: peter-evans/create-or-update-comment@v4
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
