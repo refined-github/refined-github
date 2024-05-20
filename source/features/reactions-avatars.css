@@ -3,8 +3,13 @@
 	margin-left: calc(var(--size) * 0.3); /* Move away from count */
 	margin-right: calc(var(--size) * -0.5);
 	height: var(--size);
+	transition: all .1s;
 }
 
 :root .rgh-reactions-avatar:last-of-type {
 	margin-right: -0.15em !important;
+}
+
+:root .social-reaction-summary-item:hover .rgh-reactions-avatar {
+	margin-right: 0px;
 }
