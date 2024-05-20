@@ -56,6 +56,7 @@ function cleanSection(selector: string): boolean {
 		'.IssueLabel',
 		'[aria-label="Select milestones"] .Progress-item',
 		'[aria-label="Link issues"] [data-hovercard-type]',
+		'[aria-label="Link issues"] svg.octicon-copilot',
 		'[aria-label="Select projects"] .Link--primary',
 	];
 
