@@ -100,7 +100,7 @@
 		"@sindresorhus/tsconfig": "^5.0.0",
 		"@types/codemirror": "^5.60.15",
 		"@types/dom-navigation": "^1.0.3",
-		"@types/react": "^18.3.2",
+		"@types/react": "^17.0.80",
 		"@types/webextension-polyfill": "^0.10.7",
 		"copy-webpack-plugin": "^12.0.2",
 		"cross-env": "^7.0.3",
