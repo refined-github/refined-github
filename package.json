@@ -26,8 +26,8 @@
 	},
 	"stylelint": {
 		"extends": [
-			"stylelint-config-xo",
-			"stylelint-config-prettier"
+			"stylelint-config-prettier",
+			"stylelint-config-xo"
 		],
 		"rules": {
 			"selector-type-no-unknown": null,
@@ -119,9 +119,9 @@
 		"p-memoize": "^7.1.1",
 		"prettier": "^3.2.5",
 		"snarkdown": "^2.0.0",
-		"stylelint": "^16.5.0",
+		"stylelint": "^15.11.0",
 		"stylelint-config-prettier": "^9.0.5",
-		"stylelint-config-xo": "^1.0.0",
+		"stylelint-config-xo": "^0.22.0",
 		"terser-webpack-plugin": "^5.3.10",
 		"tsx": "^4.10.5",
 		"type-fest": "^4.18.2",
