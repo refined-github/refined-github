@@ -13,7 +13,7 @@ export default function getCallerID(ancestor = 1): string {
 export function getStackLine(stack: string, line: number): string {
 	return stack
 		// Remove non-stacktrace line from array (missing in Firefox) #6032
-		.replace('Error: Get stack\n', '')!
+		.replace('Error: Get stack\n', '')
 		.split('\n')
 		.at(line) ?? warn(stack, line);
 }

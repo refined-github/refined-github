@@ -255,7 +255,9 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			continue;
 		}
 
-		const details = {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, shortcuts};
+		const details = {
+			asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, shortcuts,
+		};
 		if (awaitDomReady) {
 			(async () => {
 				await domLoaded;

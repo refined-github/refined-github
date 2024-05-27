@@ -2,7 +2,9 @@ import pMemoize from 'p-memoize';
 import {test, assert, describe} from 'vitest';
 import {parseHTML} from 'linkedom';
 import filenamify from 'filenamify';
-import {writeFile, mkdir, unlink, readFile, access} from 'node:fs/promises';
+import {
+	writeFile, mkdir, unlink, readFile, access,
+} from 'node:fs/promises';
 
 import * as exports from './selectors.js';
 

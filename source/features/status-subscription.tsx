@@ -8,7 +8,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 // Make the element look selected, not disabled, but effectively disable clicks/focus
-const disableAttrs = {
+const disableAttributes = {
 	'aria-selected': true,
 	className: 'selected',
 	tabIndex: -1,
@@ -59,7 +59,7 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 				// @ts-expect-error I don't remember how to fix this
 				value="unsubscribe"
 				aria-label="Unsubscribe"
-				{...(status === 'none' && disableAttrs)}
+				{...(status === 'none' && disableAttributes)}
 			>
 				<BellSlashIcon/> None
 			</SubButton>
@@ -68,7 +68,7 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 				// @ts-expect-error I don't remember how to fix this
 				value="subscribe"
 				aria-label="Subscribe to all events"
-				{...(status === 'all' && disableAttrs)}
+				{...(status === 'all' && disableAttributes)}
 			>
 				<BellIcon/> All
 			</SubButton>
@@ -77,7 +77,7 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 				// @ts-expect-error I don't remember how to fix this
 				value="subscribe_to_custom_notifications"
 				aria-label="Subscribe just to status changes&#10;(closing, reopening, merging)"
-				{...(status === 'status' && disableAttrs)}
+				{...(status === 'status' && disableAttributes)}
 			>
 				<IssueReopenedIcon/> Status
 			</SubButton>

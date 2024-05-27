@@ -6,7 +6,7 @@ import CodeSquareIcon from 'octicons-plain-react/CodeSquare';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getCleanPathname, triggerRepoNavOverflow} from '../github-helpers/index.js';
+import {getCleanPathname, triggerRepoNavigationOverflow} from '../github-helpers/index.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import observe from '../helpers/selector-observer.js';
 import GetGistCount from './profile-gists-link.gql';
@@ -66,7 +66,7 @@ async function appendTab(navigationBar: Element): Promise<void> {
 		link.append(<span className="Counter">{count}</span>);
 	}
 
-	triggerRepoNavOverflow();
+	triggerRepoNavigationOverflow();
 }
 
 async function init(signal: AbortSignal): Promise<void> {

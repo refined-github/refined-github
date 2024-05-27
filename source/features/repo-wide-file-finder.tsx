@@ -8,8 +8,8 @@ import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 
 async function init(signal: AbortSignal): Promise<void> {
-	const ref = getCurrentGitRef() ?? await getDefaultBranch();
-	const url = buildRepoURL('tree', ref) + '?search=1';
+	const reference = getCurrentGitRef() ?? await getDefaultBranch();
+	const url = buildRepoURL('tree', reference) + '?search=1';
 	registerHotkey('t', url, {signal});
 }
 

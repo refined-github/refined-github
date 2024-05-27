@@ -204,7 +204,7 @@ function uncollapseTargetedComment(): void {
 
 function switchToNextFilter(): void {
 	const state = $(`.${dropdownClass} [aria-checked="true"]`)!.dataset.value as State;
-	// eslint-disable-next-line default-case
+
 	switch (state) {
 		case 'default': {
 			applyState('hideEvents');

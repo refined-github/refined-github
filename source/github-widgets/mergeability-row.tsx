@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 
-type MergeabilityRowProps = {
+type MergeabilityRowProperties = {
 	action?: JSX.Element;
 	icon: JSX.Element;
 	iconClass?: string;
@@ -16,7 +16,7 @@ export default function createMergeabilityRow({
 	iconClass = '',
 	heading,
 	meta,
-}: MergeabilityRowProps): JSX.Element {
+}: MergeabilityRowProperties): JSX.Element {
 	return (
 		<div className={`branch-action-item ${className}`}>
 			<div

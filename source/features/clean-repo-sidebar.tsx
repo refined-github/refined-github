@@ -30,7 +30,7 @@ async function cleanReleases(): Promise<void> {
 }
 
 async function hideEmptyPackages(): Promise<void> {
-	const packagesCounter = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false})!;
+	const packagesCounter = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false});
 	if (packagesCounter && packagesCounter.textContent === '0') {
 		packagesCounter.closest('.BorderGrid-row')!.hidden = true;
 	}

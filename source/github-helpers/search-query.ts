@@ -13,7 +13,7 @@ function deduplicateKeywords(array: string[], ...keywords: string[]): string[] {
 		const isKeyword = keywords.includes(current);
 		if (!isKeyword || !wasKeywordFound) {
 			deduplicated.unshift(current);
-			wasKeywordFound = wasKeywordFound || isKeyword;
+			wasKeywordFound ||= isKeyword;
 		}
 	}
 
