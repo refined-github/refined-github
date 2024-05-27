@@ -17,9 +17,22 @@
 		"unicorn/better-regex": "off",
 		"unicorn/prefer-top-level-await": "off",
 		"unicorn/prefer-dom-node-dataset": "off",
-		"unicorn/expiring-todo-comments": ["warn", {
-			"allowWarningComments": false
-		}],
+		"unicorn/expiring-todo-comments": [
+			"warn",
+			{
+				"allowWarningComments": false
+			}
+		],
+		"unicorn/prevent-abbreviations": [
+			"error",
+			{
+				"replacements": {
+					"props": false,
+					"ref": false,
+					"nav": false
+				}
+			}
+		],
 		"@typescript-eslint/naming-convention": "off",
 		"@typescript-eslint/no-implicit-any-catch": "off",
 		"@typescript-eslint/no-unsafe-assignment": "off",

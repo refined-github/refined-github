@@ -3,6 +3,7 @@ import {CachedFunction} from 'webext-storage-cache';
 import {isEnterprise} from 'github-url-detection';
 import compareVersions from 'tiny-version-compare';
 import {any as concatenateTemplateLiteralTag} from 'code-tag';
+import {base64ToString} from 'uint8array-extras';
 
 import {RGHOptions} from '../options-storage.js';
 import isDevelopmentVersion from './is-development-version.js';
@@ -29,7 +30,7 @@ async function fetchHotfix(path: string): Promise<string> {
 
 	// Rate-limit check
 	if (content) {
-		return atob(content).trim();
+		return base64ToString(content).trim();
 	}
 
 	return '';

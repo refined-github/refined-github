@@ -19,10 +19,10 @@ addPermissionToggle();
 
 const messageHandlers = {
 	async openUrls(urls: string[], {tab}: Runtime.MessageSender) {
-		for (const [i, url] of urls.entries()) {
+		for (const [index, url] of urls.entries()) {
 			void browser.tabs.create({
 				url,
-				index: tab!.index + i + 1,
+				index: tab!.index + index + 1,
 				active: false,
 			});
 		}

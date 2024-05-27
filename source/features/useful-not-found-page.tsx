@@ -96,23 +96,23 @@ async function showMissingPart(): Promise<void> {
 	const pathParts = parseCurrentURL();
 	const breadcrumbs = [...pathParts.entries()]
 		.reverse() // Checks the anchors right to left
-		.map(([i, part]) => {
+		.map(([index, part]) => {
 			if (
 				// Exclude parts that don't exist as standalones
-				(i === 0 && part === 'orgs') // #5483
-				|| (i === 2 && ['tree', 'blob', 'edit'].includes(part))
-				|| i === pathParts.length - 1 // The last part is a known 404
+				(index === 0 && part === 'orgs') // #5483
+				|| (index === 2 && ['tree', 'blob', 'edit'].includes(part))
+				|| index === pathParts.length - 1 // The last part is a known 404
 			) {
 				return getStrikeThrough(part);
 			}
 
-			const pathname = '/' + pathParts.slice(0, i + 1).join('/');
+			const pathname = '/' + pathParts.slice(0, index + 1).join('/');
 			const link = <a href={pathname}>{part}</a>;
 			void crossIfNonExistent(link);
 			return link;
 		})
 		.reverse() // Restore order
-		.flatMap((link, i) => [i > 0 && ' / ', link]); // Add separators
+		.flatMap((link, index) => [index > 0 && ' / ', link]); // Add separators
 
 	$('main > :first-child, #parallax_illustration')!.after(
 		<h2 className="container mt-4 text-center">{breadcrumbs}</h2>,
