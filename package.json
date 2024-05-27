@@ -33,20 +33,8 @@
 			"declaration-no-important": null,
 			"selector-class-pattern": null,
 			"selector-id-pattern": null,
-			"selector-max-universal": null,
 			"no-descending-specificity": null
-		},
-		"overrides": [
-			{
-				"files": [
-					"source/refined-github.css",
-					"source/features/github-bugs.css"
-				],
-				"rules": {
-					"no-descending-specificity": null
-				}
-			}
-		]
+		}
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
@@ -119,7 +107,7 @@
 		"prettier": "^3.2.5",
 		"snarkdown": "^2.0.0",
 		"stylelint": "^16.6.0",
-		"stylelint-config-xo": "^1.0.1",
+		"stylelint-config-xo": "^1.0.2",
 		"terser-webpack-plugin": "^5.3.10",
 		"tsx": "^4.11.0",
 		"type-fest": "^4.18.3",
