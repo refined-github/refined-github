@@ -11,7 +11,7 @@ import api from '../github-helpers/api.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import {
-	buildRepoURL, cacheByRepo, getRepo, triggerRepoNavigationOverflow,
+	buildRepoURL, cacheByRepo, getRepo, triggerRepoNavOverflow,
 } from '../github-helpers/index.js';
 import {appendBefore} from '../helpers/dom-utils.js';
 import {repoUnderlineNavUl, repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
@@ -78,7 +78,7 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 		</li>,
 	);
 
-	triggerRepoNavigationOverflow();
+	triggerRepoNavOverflow();
 }
 
 async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false | void> {
@@ -100,7 +100,7 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 		}),
 	);
 
-	triggerRepoNavigationOverflow();
+	triggerRepoNavOverflow();
 }
 
 async function init(signal: AbortSignal): Promise<void> {

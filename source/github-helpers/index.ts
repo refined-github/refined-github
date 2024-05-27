@@ -152,7 +152,7 @@ export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement,
 }
 
 /** Trigger a reflow to push the right-most tab into the overflow dropdown */
-export function triggerRepoNavigationOverflow(): void {
+export function triggerRepoNavOverflow(): void {
 	window.dispatchEvent(new Event('resize'));
 }
 
