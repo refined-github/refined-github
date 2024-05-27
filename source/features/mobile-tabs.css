@@ -23,19 +23,17 @@
 		flex-flow: row wrap;
 		padding: 5px;
 		flex-basis: 0;
-		background:
-			var(
-				--control-transparent-bgColor-hover,
-				var(--color-action-list-item-default-hover-bg)
-			);
+		background: var(
+			--control-transparent-bgColor-hover,
+			var(--color-action-list-item-default-hover-bg)
+		);
 	}
 
 	[rgh-mobile-tabs] .UnderlineNav-item:hover {
-		background:
-			var(
-				--control-transparent-bgColor-hover,
-				var(--color-action-list-item-default-active-bg)
-			); /* From: Counter background color */
+		background: var(
+			--control-transparent-bgColor-hover,
+			var(--color-action-list-item-default-active-bg)
+		); /* From: Counter background color */
 	}
 
 	[rgh-mobile-tabs] .UnderlineNav-item.selected::after {

@@ -35,9 +35,11 @@
 }
 
 /* Hide Code of conduct links */
-[rgh-clean-repo-sidebar] .Layout-sidebar .Link--muted:is(
-[href$='/code-of-conduct.md' i],
-[href$='/code_of_conduct.md' i]
-) {
+[rgh-clean-repo-sidebar]
+	.Layout-sidebar
+	.Link--muted:is(
+		[href$='/code-of-conduct.md' i],
+		[href$='/code_of_conduct.md' i]
+	) {
 	display: none;
 }

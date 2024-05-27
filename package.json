@@ -29,6 +29,11 @@
 			"stylelint-config-xo"
 		],
 		"rules": {
+			"@stylistic/declaration-colon-newline-after": null,
+			"@stylistic/indentation": null,
+			"@stylistic/selector-combinator-space-before": null,
+			"@stylistic/selector-descendant-combinator-no-non-space": null,
+			"@stylistic/value-list-comma-newline-after": null,
 			"selector-type-no-unknown": null,
 			"declaration-no-important": null,
 			"selector-class-pattern": null,

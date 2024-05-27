@@ -1,8 +1,9 @@
-[rgh-hide-diff-signs] :is(
-.diff-text-cell .diff-text,
-.blob-code-inner,
-.blob-code-marker-cell
-)::before {
+[rgh-hide-diff-signs]
+	:is(
+		.diff-text-cell .diff-text,
+		.blob-code-inner,
+		.blob-code-marker-cell
+	)::before {
 	visibility: hidden;
 }
 
