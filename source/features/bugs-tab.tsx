@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {cacheByRepo, triggerRepoNavigationOverflow} from '../github-helpers/index.js';
+import {cacheByRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
@@ -107,7 +107,7 @@ async function addBugsTab(): Promise<void | false> {
 		issuesTab.after(bugsTab);
 	}
 
-	triggerRepoNavigationOverflow();
+	triggerRepoNavOverflow();
 
 	// Update bugs count
 	try {
