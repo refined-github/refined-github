@@ -19,7 +19,8 @@
 }
 
 .markdown-body .csv-data tbody tr:last-child td:first-child {
-	border-bottom: 1px solid
+	border-bottom:
+		1px solid
 		var(--borderColor-default, var(--color-border-default));
 }
 

@@ -11,10 +11,7 @@ div.previewable-edit .previewable-comment-form .form-actions {
 	float: none !important;
 }
 
-.previewable-edit
-	.previewable-comment-form
-	.form-actions
-	.btn.js-comment-cancel-button {
+.previewable-edit .previewable-comment-form .form-actions .btn.js-comment-cancel-button {
 	float: left !important;
 }
 

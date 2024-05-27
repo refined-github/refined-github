@@ -1,15 +1,17 @@
 :root .rgh-clean-conversation-headers-non-default-branch {
-	background-color: var(
-		--control-checked-bgColor-hover,
-		var(--color-state-hover-primary-bg, #0366d6)
-	);
+	background-color:
+		var(
+			--control-checked-bgColor-hover,
+			var(--color-state-hover-primary-bg, #0366d6)
+		);
 }
 
 .rgh-clean-conversation-headers-non-default-branch a {
-	color: var(
-		--control-checked-fgColor-rest,
-		var(--color-state-hover-primary-text, #fff)
-	);
+	color:
+		var(
+			--control-checked-fgColor-rest,
+			var(--color-state-hover-primary-text, #fff)
+		);
 }
 
 /* Removes: every text (but not icons) */
@@ -20,15 +22,14 @@
 /* Shows on issues: [octocat] opened this issue on [1 Jan] · 1 comments */
 /* Shows on PRs: [octocat] merged 1 commit into [master] from [feature] on [1 Jan] */
 /* Doesn't show on PRs: octocat merged [1] commit into master from feature */
-.rgh-clean-conversation-headers
-	> :not(.js-updating-pull-request-commits-count) {
+.rgh-clean-conversation-headers > :not(.js-updating-pull-request-commits-count) {
 	font-size: 14px;
 }
 
 /* Shows on PRs: [by ]octocat main ← feature */
 .rgh-clean-conversation-headers:not(
-		.rgh-clean-conversation-headers-hide-author
-	)::before {
+.rgh-clean-conversation-headers-hide-author
+)::before {
 	content: 'by ';
 	font-size: 14px;
 }

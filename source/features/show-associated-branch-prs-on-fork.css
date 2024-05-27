@@ -23,6 +23,7 @@
 	text-decoration: none !important;
 	border-radius: 999px;
 	display: inline-flex;
+	/* stylelint-disable-next-line declaration-property-value-no-unknown -- Can't find an alternative */
 	font: 600 12px/1 inherit;
 	white-space: nowrap;
 	height: 20px;

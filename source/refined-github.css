@@ -1,10 +1,11 @@
 :root {
 	--rgh-green: var(--fgColor-success, var(--color-success-fg, #1a7f37));
 	--rgh-red: var(--fgColor-danger, var(--color-danger-fg, #cf222e));
-	--rgh-border-color: var(
-		--borderColor-muted,
-		var(--color-border-muted, #d8dee4)
-	);
+	--rgh-border-color:
+		var(
+			--borderColor-muted,
+			var(--color-border-muted, #d8dee4)
+		);
 	--rgh-background: var(--bgColor-default, var(--color-canvas-default, #fff));
 }
 
@@ -36,9 +37,9 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 }
 
 :is(
-		.js-notifications-mark-selected-actions,
-		.js-notifications-mark-all-actions
-	):not([hidden]) {
+.js-notifications-mark-selected-actions,
+.js-notifications-mark-all-actions
+):not([hidden]) {
 	display: contents !important;
 }
 
@@ -120,10 +121,11 @@ pr-branches
 	right: 50%;
 	transform: translate(50%, 50%);
 	min-width: 380px; /* Avoids a width change on the last step which causes the YES button to be where NO was */
-	box-shadow: var(
-		--shadow-floating-large,
-		var(--color-shadow-large, var(--color-toast-shadow))
-	);
+	box-shadow:
+		var(
+			--shadow-floating-large,
+			var(--color-shadow-large, var(--color-toast-shadow))
+		);
 	z-index: 2147483647;
 }
 

@@ -1,18 +1,21 @@
 .rgh-highest-rated-comment.timeline-comment {
 	/* Same as GitHub's `.timeline-chosen-answer` */
-	border: 2px solid
+	border:
+		2px solid
 		var(--borderColor-success-emphasis, var(--color-success-emphasis));
 }
 
 .rgh-highest-rated-comment.timeline-comment--caret::before {
-	background-color: var(
-		--borderColor-success-emphasis,
-		var(--color-success-emphasis)
-	);
+	background-color:
+		var(
+			--borderColor-success-emphasis,
+			var(--color-success-emphasis)
+		);
 }
 
 a.rgh-highest-rated-comment {
-	border: 2px solid
+	border:
+		2px solid
 		var(--borderColor-success-emphasis, var(--color-success-emphasis)) !important;
 }
 
