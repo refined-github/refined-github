@@ -1,3 +1,4 @@
+import './quick-comment-edit.css';
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 import PencilIcon from 'octicons-plain-react/Pencil';
