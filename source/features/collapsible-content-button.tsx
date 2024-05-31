@@ -7,7 +7,6 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import observe from '../helpers/selector-observer.js';
-import {isHasSelectorSupported} from '../helpers/select-has.js';
 import {triggerActionBarOverflow} from '../github-helpers/index.js';
 
 function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
@@ -68,9 +67,6 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isHasSelectorSupported,
-	],
 	include: [
 		pageDetect.hasRichTextEditor,
 	],

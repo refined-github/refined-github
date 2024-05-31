@@ -9,7 +9,6 @@ import batchedFunction from 'batched-function';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`
@@ -78,9 +77,6 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isHasSelectorSupported,
-	],
 	include: [
 		pageDetect.isCommitList,
 		pageDetect.isPRConversation,

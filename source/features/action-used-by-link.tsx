@@ -4,10 +4,9 @@ import SearchIcon from 'octicons-plain-react/Search';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import selectHas from '../helpers/select-has.js';
 
 function init(): void {
-	const actionRepo = selectHas('aside a:has(.octicon-repo)')!
+	const actionRepo = $('aside a:has(.octicon-repo)')!
 		.pathname
 		.slice(1);
 

@@ -10,7 +10,6 @@ import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import {getUsername, isArchivedRepoAsync} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
-import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 const fieldSelector = 'textarea#new_comment_field';
 
@@ -95,7 +94,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	// Avatars next to review events aren't wrapped in a <div> #4844
 	// :has(fieldSelector) enables the feature only when/after the "mention" button can actually work
 	observe(`
-		${isHasSelectorSupported() ? `body:has(${fieldSelector})` : ''}
+		body:has(${fieldSelector})
 		:is(
 			div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
 			a.TimelineItem-avatar

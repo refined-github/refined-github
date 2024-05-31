@@ -6,7 +6,6 @@ import {isChrome} from 'webext-detect-page';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 function LockedIndicator(): JSX.Element {
 	return (
@@ -38,7 +37,6 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		isHasSelectorSupported,
 		isChrome,
 	],
 	include: [
