@@ -94,7 +94,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	// Avatars next to review events aren't wrapped in a <div> #4844
 	// :has(fieldSelector) enables the feature only when/after the "mention" button can actually work
 	observe(`
-		body:has(${fieldSelector})
+		.js-discussion:has(${fieldSelector})
 		:is(
 			div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
 			a.TimelineItem-avatar
