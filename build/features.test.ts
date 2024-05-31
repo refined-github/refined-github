@@ -58,7 +58,8 @@ class FeatureFile {
 		return existsSync(this.path);
 	}
 
-	contents(): Uint8Array {
+	// eslint-disable-next-line @typescript-eslint/ban-types -- Just passing it
+	contents(): Buffer {
 		return readFileSync(this.path);
 	}
 
