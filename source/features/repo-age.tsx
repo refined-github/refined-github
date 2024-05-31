@@ -74,7 +74,7 @@ const firstCommit = new CachedFunction('first-commit', {
 });
 
 async function init(): Promise<void> {
-	const [firstCommitDate, firstCommitHref] = await firstCommit.get()!;
+	const [firstCommitDate, firstCommitHref] = await firstCommit.get();
 	const birthday = new Date(firstCommitDate);
 
 	// `twas` could also return `an hour ago` or `just now`

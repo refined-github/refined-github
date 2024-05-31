@@ -64,9 +64,7 @@ function getPreviousTag(current: number, allTags: TagDetails[]): string | undefi
 		}
 
 		// If no matching namespace is found, just use the next one
-		if (!unmatchedNamespaceTag) {
-			unmatchedNamespaceTag = allTags[next].tag;
-		}
+		unmatchedNamespaceTag ||= allTags[next].tag;
 	}
 
 	return unmatchedNamespaceTag;

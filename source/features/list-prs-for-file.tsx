@@ -71,7 +71,7 @@ const getPrsByFile = new CachedFunction('files-with-prs', {
 
 		for (const pr of repository.pullRequests.nodes) {
 			for (const {path} of pr.files.nodes) {
-				files[path] = files[path] ?? [];
+				files[path] ??= [];
 				if (files[path].length < 10) {
 					files[path].push(pr.number);
 				}

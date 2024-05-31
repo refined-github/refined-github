@@ -40,8 +40,8 @@ async function init(signal: AbortSignal): Promise<void | false> {
 			>
 				{anchor.closest('.table-list-triage') ? 'Open selected' : 'Open all'}
 			</button>
-		)},
-	);
+		),
+	});
 
 	delegate('button.rgh-open-all-conversations', 'click', onButtonClick, {signal});
 }

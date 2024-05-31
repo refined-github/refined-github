@@ -16,7 +16,8 @@ const doesUserFollow = new CachedFunction('user-follows', {
 		});
 
 		return httpStatus === 204;
-	}});
+	},
+});
 
 async function init(): Promise<void> {
 	if (!await doesUserFollow.get(getCleanPathname(), getUsername()!)) {

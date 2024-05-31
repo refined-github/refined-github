@@ -58,7 +58,7 @@ class FeatureFile {
 		return existsSync(this.path);
 	}
 
-	// eslint-disable-next-line n/prefer-global/buffer -- Type only
+	// eslint-disable-next-line @typescript-eslint/ban-types -- Just passing it
 	contents(): Buffer {
 		return readFileSync(this.path);
 	}
@@ -161,8 +161,8 @@ function validateTsx(file: FeatureFile): void {
 }
 
 describe('features', async () => {
-	const featuresDirContents = readdirSync('source/features/');
-	test.each(featuresDirContents)('%s', filename => {
+	const featuresDirectoryContents = readdirSync('source/features/');
+	test.each(featuresDirectoryContents)('%s', filename => {
 		if (isGitIgnored(filename)) {
 			return;
 		}

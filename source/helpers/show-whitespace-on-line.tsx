@@ -21,9 +21,9 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 		const endingCharacterIndex = text.length - 1 - Number(skipLastCharacter);
 
 		// Loop goes in reverse otherwise `splitText`'s `index` parameter needs to keep track of the previous split
-		for (let i = endingCharacterIndex; i >= startingCharacterIndex; i--) {
-			const thisCharacter = text[i];
-			const endingIndex = i;
+		for (let index = endingCharacterIndex; index >= startingCharacterIndex; index--) {
+			const thisCharacter = text[index];
+			const endingIndex = index;
 
 			// Exclude irrelevant characters
 			if (thisCharacter !== ' ' && thisCharacter !== '\t') {
@@ -31,12 +31,12 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 			}
 
 			// Find the same character so they can be wrapped together, but stop at `startingCharacterIndex`
-			while (text[i - 1] === thisCharacter && !(i === startingCharacterIndex)) {
-				i--;
+			while (text[index - 1] === thisCharacter && !(index === startingCharacterIndex)) {
+				index--;
 			}
 
 			// Skip non-boundary single spaces
-			if (!isLeading && !isTrailing && i === endingIndex && thisCharacter === ' ') {
+			if (!isLeading && !isTrailing && index === endingIndex && thisCharacter === ' ') {
 				continue;
 			}
 
@@ -44,7 +44,7 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 				textNode.splitText(endingIndex + 1);
 			}
 
-			textNode.splitText(i);
+			textNode.splitText(index);
 
 			// Update cached variable here because it just changed
 			text = textNode.textContent;

@@ -4,7 +4,9 @@ import * as pageDetect from 'github-url-detection';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {getRepo} from '../github-helpers/index.js';
-import {codeElementsSelector, linkifiedURLClass, linkifyURLs, linkifyIssues} from '../github-helpers/dom-formatters.js';
+import {
+	codeElementsSelector, linkifiedURLClass, linkifyURLs, linkifyIssues,
+} from '../github-helpers/dom-formatters.js';
 
 function initTitle(signal: AbortSignal): void {
 	// If we are not in a repo, relative issue references won't make sense but `user`/`repo` needs to be set to avoid breaking errors in `linkify-issues`

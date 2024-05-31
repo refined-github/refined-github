@@ -8,9 +8,7 @@ import observe from '../helpers/selector-observer.js';
 
 /** Keep the original URL on the element so that `shorten-links` can use it reliably #5890 */
 export function saveOriginalHref(link: HTMLAnchorElement): void {
-	if (!link.dataset.originalHref) {
-		link.dataset.originalHref = link.href;
-	}
+	link.dataset.originalHref ||= link.href;
 }
 
 async function selectCurrentConversationFilter(): Promise<void> {

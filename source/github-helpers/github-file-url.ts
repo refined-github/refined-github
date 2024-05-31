@@ -53,8 +53,8 @@ export default class GitHubFileURL {
 			return {branch, filePath};
 		}
 
-		for (const [i, section] of currentBranchSections.entries()) {
-			if (ambiguousReference[i] !== section) {
+		for (const [index, section] of currentBranchSections.entries()) {
+			if (ambiguousReference[index] !== section) {
 				console.warn(`The supplied path (${ambiguousReference.join('/')}) is ambiguous (current reference is \`${currentBranch}\`)`);
 				return {branch, filePath};
 			}
@@ -75,12 +75,16 @@ export default class GitHubFileURL {
 		// TODO: `isRepoRoot` uses global state https://github.com/refined-github/refined-github/issues/6637
 		if (isRepoRoot() || (ambiguousReference.length === 2 && ambiguousReference[1].includes('%2F'))) {
 			const branch = ambiguousReference.join('/').replaceAll('%2F', '/');
-			this.assign({user, repository, route, branch, filePath: ''});
+			this.assign({
+				user, repository, route, branch, filePath: '',
+			});
 			return;
 		}
 
 		const {branch, filePath} = this.disambiguateReference(ambiguousReference);
-		this.assign({user, repository, route, branch, filePath});
+		this.assign({
+			user, repository, route, branch, filePath,
+		});
 	}
 
 	get href(): string {

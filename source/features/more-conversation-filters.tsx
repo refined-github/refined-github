@@ -1,5 +1,6 @@
 import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {stringToBase64} from 'uint8array-extras';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
@@ -25,7 +26,7 @@ function init(): void {
 	const repositoryId
 		= $('meta[name="octolytics-dimension-repository_id"]')?.content
 		?? $('input[name="repository_id"]')!.value;
-	subscriptionsUrl.searchParams.set('repository', btoa(`010:Repository${repositoryId}`));
+	subscriptionsUrl.searchParams.set('repository', stringToBase64(`010:Repository${repositoryId}`));
 	subscriptionsLink.href = subscriptionsUrl.href;
 
 	commentsLink.after(subscriptionsLink);

@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {stringToBase64} from 'uint8array-extras';
 
 import features from '../feature-manager.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
@@ -15,7 +16,7 @@ function linkify(nextButton: HTMLAnchorElement): void {
 	const totalNotificationsNumber = looseParseInt(totalNotificationsNode);
 	const lastCursor = Math.floor((totalNotificationsNumber - 1) / itemsPerNotificationsPage) * itemsPerNotificationsPage;
 	const nextButtonSearch = new URLSearchParams(nextButton.search);
-	nextButtonSearch.set('after', btoa(`cursor:${lastCursor}`));
+	nextButtonSearch.set('after', stringToBase64(`cursor:${lastCursor}`));
 	totalNotificationsNode.replaceWith(
 		' of ',
 		<a href={'?' + String(nextButtonSearch)}>

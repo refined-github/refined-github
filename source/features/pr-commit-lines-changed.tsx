@@ -17,7 +17,8 @@ const commitChanges = new CachedFunction('commit-changes', {
 		});
 
 		return [repository.object.additions, repository.object.deletions];
-	}});
+	},
+});
 
 async function init(): Promise<void> {
 	const commitSha = location.pathname.split('/').pop()!;

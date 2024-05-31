@@ -10,7 +10,9 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
-import {buildRepoURL, cacheByRepo, getRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
+import {
+	buildRepoURL, cacheByRepo, getRepo, triggerRepoNavOverflow,
+} from '../github-helpers/index.js';
 import {appendBefore} from '../helpers/dom-utils.js';
 import {repoUnderlineNavUl, repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
 import GetReleasesCount from './releases-tab.gql';
