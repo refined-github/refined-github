@@ -1,4 +1,3 @@
-import './locked-issue.css';
 import React from 'react';
 import LockIcon from 'octicons-plain-react/Lock';
 import * as pageDetect from 'github-url-detection';
