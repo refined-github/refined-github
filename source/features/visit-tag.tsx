@@ -8,7 +8,6 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import {buildRepoURL} from '../github-helpers/index.js';
-import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 	const tag = branchSelector.getAttribute('aria-label')?.replace(/ tag$/, '');
@@ -44,9 +43,6 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isHasSelectorSupported,
-	],
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,

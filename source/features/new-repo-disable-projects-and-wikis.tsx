@@ -7,7 +7,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import selectHas from '../helpers/select-has.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
@@ -26,8 +25,8 @@ async function disableWikiAndProjects(): Promise<void> {
 	await domLoaded;
 	$('[data-menu-item$="wiki-tab"]')?.remove();
 	$('[data-menu-item$="projects-tab"]')?.remove();
-	selectHas('li:has([data-content="Wiki"]')?.remove();
-	selectHas('li:has([data-content="Projects"])')?.remove();
+	$('li:has([data-content="Wiki"]')?.remove();
+	$('li:has([data-content="Projects"])')?.remove();
 }
 
 function setStorage(): void {
