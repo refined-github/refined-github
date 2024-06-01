@@ -147,6 +147,13 @@ async function getNameFromToken(token: string): Promise<string> {
 	return name;
 }
 
+function toggleTokenInput(): void {
+	const toggleTokenCheckbox = $('input[name="toggleToken"]')!;
+	const tokenField = $('input[name="personalToken"]')!;
+
+	tokenField.type = toggleTokenCheckbox.checked ? 'text' : 'password';
+}
+
 function moveDisabledFeaturesToTop(): void {
 	const container = $('.js-features')!;
 
@@ -392,6 +399,7 @@ function addEventListeners(): void {
 
 	// Add token validation
 	$('[name="personalToken"]')!.addEventListener('input', validateToken);
+	$('[name="toggleToken"]')!.addEventListener('change', toggleTokenInput);
 }
 
 async function init(): Promise<void> {
