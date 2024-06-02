@@ -114,11 +114,13 @@ async function validateToken(): Promise<void> {
 	reportStatus({text: 'Validating…', tokenType});
 
 	try {
-		const scopes = await getTokenScopes(tokenField.value);
-		const text = `👤 @${await getNameFromToken(tokenField.value)}`;
+		const [scopes, user] = await Promise.all([
+			getTokenScopes(tokenField.value),
+			getNameFromToken(tokenField.value),
+		]);
 		reportStatus({
 			tokenType,
-			text,
+			text: `👤 @${user}`,
 			scopes,
 		});
 	} catch (error) {
