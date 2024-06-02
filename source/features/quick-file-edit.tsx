@@ -1,5 +1,3 @@
-// TODO: In 2024, drop js-navigation-item. Pre-React makeover
-
 import './quick-file-edit.css';
 import React from 'dom-chef';
 import PencilIcon from 'octicons-plain-react/Pencil';
@@ -14,8 +12,8 @@ import {directoryListingFileIcon} from '../github-helpers/selectors.js';
 
 async function linkifyIcon(fileIcon: Element): Promise<void> {
 	const fileLink = fileIcon
-		.closest('.js-navigation-item, .react-directory-filename-column')!
-		.querySelector('a.js-navigation-open, a.Link--primary')!;
+		.closest('.react-directory-filename-column')!
+		.querySelector('a.Link--primary')!;
 
 	const url = new GitHubFileURL(fileLink.href).assign({
 		route: 'edit',

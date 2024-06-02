@@ -3,7 +3,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 
-// TODO: Enable on profiles after the new header migration has completed. December 2023?
+// TODO: Enable on profiles
 void features.addCssFeature(import.meta.url, [pageDetect.hasRepoHeader]);
 
 /*

@@ -9,11 +9,11 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
 import {
-	addAfterBranchSelector, buildRepoURL, cacheByRepo, getLatestVersionTag, getRepo,
+	buildRepoURL, cacheByRepo, getLatestVersionTag, getRepo,
 } from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import pluralize from '../helpers/pluralize.js';
-import {branchSelector, branchSelectorParent} from '../github-helpers/selectors.js';
+import {branchSelector} from '../github-helpers/selectors.js';
 import getPublishRepoState from './unreleased-commits.gql';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
@@ -97,7 +97,7 @@ async function createLink(
 	);
 }
 
-async function createLinkGroup(latestTag: string, aheadBy: number): Promise<Element> {
+async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTMLElement> {
 	const link = await createLink(latestTag, aheadBy);
 	if (!canUserCreateReleases()) {
 		return link;
@@ -125,24 +125,14 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 		return;
 	}
 
-	const parent = branchSelector.closest(branchSelectorParent);
-	if (parent) {
-		// TODO: For legacy; Drop after Repository overview update
-		addAfterBranchSelector(
-			parent,
-			await createLinkGroup(latestTag, aheadBy) as HTMLElement,
-		);
-	} else {
-		const linkGroup = await createLinkGroup(latestTag, aheadBy) as HTMLElement;
+	const linkGroup = await createLinkGroup(latestTag, aheadBy);
+	linkGroup.style.flexShrink = '0';
 
-		linkGroup.style.flexShrink = '0';
-
-		wrapAll(
-			<div className="d-flex gap-2"/>,
-			branchSelector,
-			linkGroup,
-		);
-	}
+	wrapAll(
+		<div className="d-flex gap-2"/>,
+		branchSelector,
+		linkGroup,
+	);
 }
 
 async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
