@@ -132,8 +132,13 @@ async function validateToken(): Promise<void> {
 }
 
 async function getNameFromToken(token: string): Promise<string> {
+	const tokenLink = $('a#personal-token-link')!;
+	const url = tokenLink.host === 'github.com'
+		? 'https://api.github.com/'
+		: `${tokenLink.origin}/api/v3/`;
+
 	const response = await fetch(
-		'https://api.github.com/user', {
+		url, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
