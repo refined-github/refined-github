@@ -9,18 +9,12 @@ const excludePreset = /^bump |^meta|^document|^lint|^refactor|readme|dependencie
 
 function dim(commitTitle: HTMLElement): void {
 	if (excludePreset.test(commitTitle.textContent.trim())) {
-		commitTitle.closest([
-			'.js-commits-list-item', // TODO: Remove in June 2024
-			'[data-testid="commit-row-item"]',
-		])!.style.opacity = '50%';
+		commitTitle.closest('[data-testid="commit-row-item"]')!.style.opacity = '50%';
 	}
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'.js-commits-list-item p:has(> .js-navigation-open)', // TODO: Remove in June 2024
-		'[data-testid="listview-item-title-container"] .markdown-title span',
-	], dim, {signal});
+	observe('[data-testid="listview-item-title-container"] .markdown-title span', dim, {signal});
 }
 
 void features.add(import.meta.url, {

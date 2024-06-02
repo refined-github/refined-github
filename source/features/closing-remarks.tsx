@@ -63,7 +63,6 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionHeader: HTMLElement): void {
-	// TODO: Use :has selector instead
 	discussionHeader.parentElement!.append(
 		<span>
 			<TagIcon className="ml-2 mr-1 color-fg-muted"/>

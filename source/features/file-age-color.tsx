@@ -15,10 +15,7 @@ function addHeatIndex(lastUpdateElement: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'#files ~ div .js-navigation-item relative-time', // TODO: Drop old view in 2024
-		'.react-directory-commit-age > [title]',
-	], addHeatIndex, {signal});
+	observe('.react-directory-commit-age > [title]', addHeatIndex, {signal});
 }
 
 void features.add(import.meta.url, {
