@@ -97,7 +97,7 @@ async function createLink(
 	);
 }
 
-async function createLinkGroup(latestTag: string, aheadBy: number): Promise<Element> {
+async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTMLElement> {
 	const link = await createLink(latestTag, aheadBy);
 	if (!canUserCreateReleases()) {
 		return link;
@@ -125,7 +125,7 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 		return;
 	}
 
-	const linkGroup = await createLinkGroup(latestTag, aheadBy) as HTMLElement;
+	const linkGroup = await createLinkGroup(latestTag, aheadBy);
 	linkGroup.style.flexShrink = '0';
 
 	wrapAll(
