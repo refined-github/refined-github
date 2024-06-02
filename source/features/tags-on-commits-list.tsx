@@ -86,14 +86,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 async function init(): Promise<void | false> {
 	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
 
-	// TODO: Drop in June 2024
-	let isLegacy = false;
-	let commitsOnPage = $$('.listviewitem');
-
-	if (commitsOnPage.length === 0) {
-		isLegacy = true;
-		commitsOnPage = $$('.js-commits-list-item');
-	}
+	const commitsOnPage = $$('.listviewitem');
 
 	const lastCommitOnPage = getCommitHash(commitsOnPage.at(-1)!);
 	let cached = await cache.get<Record<string, string[]>>(cacheKey) ?? {};
@@ -112,16 +105,10 @@ async function init(): Promise<void | false> {
 			// There was no tags for this commit, save that info to the cache
 			commitsWithNoTags.push(targetCommit);
 		} else if (targetTags.length > 0) {
-			let commitMeta;
-			if (isLegacy) {
-				commitMeta = $('.flex-auto .d-flex.mt-1', commit)!;
-				commitMeta.classList.add('flex-wrap');
-			} else {
-				commitMeta = $('div[data-testid="listview-item-description"]', commit)!;
-			}
+			const commitMeta = $('div[data-testid="listview-item-description"]', commit)!;
 
 			commitMeta.append(
-				<span className={isLegacy ? '' : 'd-flex flex-items-center gap-1'}>
+				<span className="d-flex flex-items-center gap-1">
 					<TagIcon className="ml-1"/>
 					{...targetTags.map(tag => (
 						<>
