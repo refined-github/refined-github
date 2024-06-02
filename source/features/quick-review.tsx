@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import delay from 'delay';
-import {$} from 'select-dom';
+import {expectElement as $} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -49,7 +49,7 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 
 	// Can't approve own PRs and closed PRs
 	// API required for this action
-	if (getUsername() === $('.author')!.textContent || pageDetect.isClosedPR() || !(await getToken())) {
+	if (getUsername() === $('.author').textContent || pageDetect.isClosedPR() || !(await getToken())) {
 		return;
 	}
 
@@ -70,14 +70,14 @@ async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
 	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
 }
 
-function focusReviewTextarea({delegateTarget}: DelegateEvent<Event, HTMLDetailsElement>): void {
-	if (delegateTarget.open) {
-		$('textarea', delegateTarget)!.focus();
+function focusReviewTextarea(event: DelegateEvent<Event, HTMLElement>): void {
+	if ('newState' in event && event.newState === 'open') {
+		$('textarea', event.delegateTarget).focus();
 	}
 }
 
 async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> {
-	delegate('.js-reviews-container > details', 'toggle', focusReviewTextarea, {capture: true, signal});
+	delegate('#review-changes-modal', 'toggle', focusReviewTextarea, {capture: true, signal});
 
 	const reviewDropdownButton = await elementReady('.js-reviews-toggle');
 	if (reviewDropdownButton) {
