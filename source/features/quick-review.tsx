@@ -70,7 +70,7 @@ async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
 	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
 }
 
-function focusReviewTextarea(event: DelegateEvent<Event, HTMLDetailsElement>): void {
+function focusReviewTextarea(event: DelegateEvent<Event, HTMLElement>): void {
 	if (((event as unknown) as ToggleEvent).newState === 'open') {
 		$('textarea', event.delegateTarget)!.focus();
 	}
