@@ -93,8 +93,9 @@ async function init(signal: AbortSignal): Promise<void> {
 	// The hovercard attribute avoids `highest-rated-comment`
 	// Avatars next to review events aren't wrapped in a <div> #4844
 	// :has(fieldSelector) enables the feature only when/after the "mention" button can actually work
+	// .js-quote-selection-container selects the closest parent that contains both the new comment field and the avatar #7378
 	observe(`
-		.js-discussion:has(${fieldSelector})
+		.js-quote-selection-container:has(${fieldSelector})
 		:is(
 			div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
 			a.TimelineItem-avatar
