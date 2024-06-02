@@ -3,6 +3,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
 import FileDiffIcon from 'octicons-plain-react/FileDiff';
+import {expectElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -10,9 +11,7 @@ import {assertNodeContent} from '../helpers/dom-utils.js';
 
 function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	const form = originalSubmitButton.form!;
-	const actionsRow = originalSubmitButton.closest('.Overlay-footer');
-	// TODO: For GHE. Remove after June 2024
-	const legacyActionsRow = originalSubmitButton.closest('.form-actions')!;
+	const actionsRow = originalSubmitButton.closest('.Overlay-footer')!;
 	const formAttribute = originalSubmitButton.getAttribute('form')!;
 
 	// Do not use `$$` because elements can be outside `form`
@@ -34,22 +33,14 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		);
 	}
 
-	if (actionsRow) {
-		actionsRow.prepend(<span className="spacer.gif ml-auto"/>);
-		radios.reverse();
-	}
+	actionsRow.prepend(<span className="spacer.gif ml-auto"/>);
+	radios.reverse();
 
 	// Generate the new buttons
 	for (const radio of radios) {
 		const parent = radio.parentElement!;
-		const labelElement = (
-			parent.querySelector('label')
-			?? radio.nextSibling! // TODO: Remove after April 2024
-		);
-		const tooltip = parent.querySelector([
-			'p', // TODO: Remove after April 2024
-			'.FormControl-caption',
-		])!.textContent.trim().replace(/\.$/, '');
+		const labelElement = expectElement('label', parent);
+		const tooltip = expectElement('.FormControl-caption', parent).textContent.trim().replace(/\.$/, '');
 		assertNodeContent(labelElement, /^(Approve|Request changes|Comment)$/);
 
 		const classes = ['btn btn-sm'];
@@ -79,11 +70,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 			button.prepend(<FileDiffIcon className="color-fg-danger"/>);
 		}
 
-		if (actionsRow) {
-			actionsRow.prepend(button);
-		} else {
-			legacyActionsRow.append(button);
-		}
+		actionsRow.prepend(button);
 	}
 
 	// Remove original fields at last to avoid leaving a broken form
