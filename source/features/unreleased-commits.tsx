@@ -126,7 +126,6 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 	}
 
 	const linkGroup = await createLinkGroup(latestTag, aheadBy) as HTMLElement;
-
 	linkGroup.style.flexShrink = '0';
 
 	wrapAll(
