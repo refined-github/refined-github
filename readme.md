@@ -168,7 +168,7 @@ Thanks for contributing! 🦋🙌
 ### File management
 
 - [](# "download-folder-button") [Adds a button to download entire folders](https://user-images.githubusercontent.com/46634000/158347358-49234bb8-b9e6-41be-92ed-c0c0233cbad2.png), via https://download-directory.github.io.
-- [](# "toggle-files-button") [Adds a button to toggle the repo file list.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252182642-763ae9a1-f8c3-4796-bab2-25b815a7fd52.gif)
+- [](# "toggle-files-button") [Adds a button to toggle the repo file list.](https://github.com/refined-github/refined-github/assets/1402241/69465a92-5548-40d2-bf90-9f7834d26ef2)
 - [](# "quick-file-edit") [Adds a button to edit files from the repo file list.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252182890-081975f4-f041-4ba5-ae48-d52cb0796543.png)
 - [](# "repo-wide-file-finder") Enables the File Finder keyboard shortcut (<kbd>t</kbd>) on entire repository.
 - [](# "show-associated-branch-prs-on-fork") [Shows the associated pull requests on branches for forked repositories.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260873542-2a7fc7a2-231f-4f2e-9c7e-272d894de4c6.png)
