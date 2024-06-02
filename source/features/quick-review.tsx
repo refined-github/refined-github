@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import delay from 'delay';
-import {$} from 'select-dom';
+import {expectElement as $} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -49,7 +49,7 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 
 	// Can't approve own PRs and closed PRs
 	// API required for this action
-	if (getUsername() === $('.author')!.textContent || pageDetect.isClosedPR() || !(await getToken())) {
+	if (getUsername() === $('.author').textContent || pageDetect.isClosedPR() || !(await getToken())) {
 		return;
 	}
 
@@ -72,7 +72,7 @@ async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
 
 function focusReviewTextarea(event: DelegateEvent<Event, HTMLElement>): void {
 	if ('newState' in event && event.newState === 'open') {
-		$('textarea', event.delegateTarget)!.focus();
+		$('textarea', event.delegateTarget).focus();
 	}
 }
 
