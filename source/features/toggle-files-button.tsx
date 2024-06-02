@@ -1,99 +1,86 @@
 import './toggle-files-button.css';
-import {$} from 'select-dom';
-import {CachedValue} from 'webext-storage-cache';
+import cache from 'webext-storage-cache';
 import React from 'dom-chef';
-import delegate, {DelegateEvent} from 'delegate-it';
+import select from 'select-dom';
+import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import ChevronDownIcon from 'octicons-plain-react/ChevronDown';
+import {FoldIcon, UnfoldIcon, ArrowUpIcon} from '@primer/octicons-react';
 
 import features from '../feature-manager.js';
+import selectHas from '../helpers/select-has.js';
+import attachElement from '../helpers/attach-element.js';
 import observe from '../helpers/selector-observer.js';
 
-const wereFilesHidden = new CachedValue<boolean>('files-hidden');
+const cacheKey = 'files-hidden';
+const hiddenFilesClass = 'rgh-files-hidden';
 const toggleButtonClass = 'rgh-toggle-files';
+const noticeClass = 'rgh-files-hidden-notice';
+
+// 19px align this icon with the <UnfoldIcon/> above it
+const noticeStyle = {paddingRight: '19px'};
 
 function addButton(filesBox: HTMLElement): void {
-	$('ul:has(.octicon-history)', filesBox)?.append(
-		<button
-			type="button"
-			className={`btn-octicon ${toggleButtonClass}`}
-			aria-label="Hide files"
-		>
-			<ChevronDownIcon/>
-		</button>,
-	);
+	attachElement(selectHas('ul:has(.octicon-history)', filesBox)!, {
+		allowMissingAnchor: true,
+		className: toggleButtonClass,
+		append: () => (
+			<button
+				type="button"
+				className="btn-octicon"
+				aria-label="Toggle files section"
+			>
+				<FoldIcon/>
+				<UnfoldIcon/>
+			</button>
+		),
+	});
 }
 
-type Targets = {
-	fileList: HTMLElement;
-	buttonWrapper: Element;
-};
-
-function getTargets(): Targets {
-	const fileList = $('[aria-labelledby="files"]')!;
-	const buttonWrapper = fileList.nextElementSibling!;
-	return {fileList, buttonWrapper};
+function addFilesHiddenNotice(fileBox: Element): void {
+	// Add notice so the user knows that the list was collapsed #5524
+	attachElement(fileBox, {
+		className: noticeClass,
+		after: () => (
+			<div
+				className="mb-3 mt-n3 py-1 text-right text-small color-fg-subtle"
+				style={noticeStyle}
+			>
+				The file list was collapsed via Refined GitHub <ArrowUpIcon className="v-align-middle"/>
+			</div>
+		),
+	});
 }
 
-function firstCollapseOnDesktop(targets = getTargets()): void {
-	targets.fileList.classList.remove('d-md-block');
-	targets.buttonWrapper.classList.remove('d-md-none');
+function toggle(toggle?: boolean): boolean {
+	return document.body.classList.toggle(hiddenFilesClass, toggle);
 }
 
-async function toggleList(): Promise<void> {
-	const targets = getTargets();
-	const button = targets.buttonWrapper.firstElementChild as HTMLButtonElement;
+async function toggleHandler(): Promise<void> {
+	// Remove notice after the first click
+	select(`.${noticeClass}`)?.remove();
 
-	if (targets.fileList.classList.contains('d-md-block')) {
-		// On the first click, collapse the list and enable native toggling on desktop
-		firstCollapseOnDesktop(targets);
-		if (window.matchMedia('(min-width: 768px)').matches) {
-			// We just hid the file list, no further action is necessary on desktop
-			void wereFilesHidden.set(true);
-			return;
-		}
-
-		// On mobile nothing visually happened because by default the list is already hidden, so it continues to actually hide the list via the native button.
-	}
-
-	// Toggle file list via native button, open or close
-	button.click();
+	const isHidden = toggle();
+	await cache.set(cacheKey, isHidden);
 }
 
 async function updateView(anchor: HTMLHeadingElement): Promise<void> {
 	const filesBox = anchor.parentElement!;
 	addButton(filesBox);
-	if (await wereFilesHidden.get()) {
-		// This only applies on desktop; Mobile already always starts collapsed and we're not changing that
-		firstCollapseOnDesktop();
+	if (await cache.get<boolean>(cacheKey)) {
+		toggle(true);
+		addFilesHiddenNotice(filesBox);
 	}
 }
 
-async function recordToggle({detail}: DelegateEvent<CustomEvent>): Promise<void> {
-	await wereFilesHidden.set(!detail.open);
-}
-
 async function init(signal: AbortSignal): Promise<void> {
+	// TODO: Use `.Box:has(> #files)` instead
 	observe('.Box h2#files', updateView, {signal});
-	delegate(`.${toggleButtonClass}`, 'click', toggleList, {signal});
-	delegate('#files ~ .Details', 'details:toggled', recordToggle, {signal});
+	delegate(`.${toggleButtonClass}, .${noticeClass}`, 'click', toggleHandler, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoTree,
 	],
-	exclude: [
-		pageDetect.isRepoFile404,
-	],
 	init,
 });
-
-/*
-
-Test URLs
-
-https://github.com/refined-github/refined-github
-https://github.com/refined-github/sandbox/tree/other-branch
-
-*/
