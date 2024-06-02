@@ -70,14 +70,15 @@ async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
 	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
 }
 
-function focusReviewTextarea({delegateTarget}: DelegateEvent<Event, HTMLDetailsElement>): void {
-	if (delegateTarget.open) {
-		$('textarea', delegateTarget)!.focus();
+
+function focusReviewTextarea(event: DelegateEvent<Event, HTMLDetailsElement>): void {
+	if (((event as unknown) as ToggleEvent).newState === "open")  {
+		$('textarea', event.delegateTarget)!.focus();
 	}
 }
 
 async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> {
-	delegate('.js-reviews-container > details', 'toggle', focusReviewTextarea, {capture: true, signal});
+	delegate('#review-changes-modal', 'toggle', focusReviewTextarea, {capture: true, signal});
 
 	const reviewDropdownButton = await elementReady('.js-reviews-toggle');
 	if (reviewDropdownButton) {
