@@ -71,7 +71,7 @@ async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
 }
 
 function focusReviewTextarea(event: DelegateEvent<Event, HTMLElement>): void {
-	if (((event as unknown) as ToggleEvent).newState === 'open') {
+	if ('newState' in event && event.newState === 'open') {
 		$('textarea', event.delegateTarget)!.focus();
 	}
 }
