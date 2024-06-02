@@ -77,3 +77,11 @@ void features.add(import.meta.url, {
 	// We want the edit buttons to appear while the conversation is loading, but we only know it's locked when the page has finished.
 	init,
 });
+
+/*
+Test URLs:
+
+- Locked issue (own repo): https://github.com/refined-github/sandbox/issues/74
+- Locked issue (other repo): https://github.com/eslint/eslint/issues/8213
+
+*/
