@@ -4,27 +4,15 @@
 	padding: 10px 13px;
 }
 
-.rgh-files-hidden .Box-header {
-	border-radius: 6px;
-	border-bottom: none;
+body:not(.rgh-files-hidden) .rgh-toggle-files .octicon-chevron-up,
+body.rgh-files-hidden .rgh-toggle-files .octicon-chevron-down {
+	display: none !important;
 }
 
-.Box:has(
-/* Native status */
-#files ~ .Details:not(.open)
-):has(
-/* After the first click */
-[aria-labelledby='files']:not(.d-md-block)
-) .rgh-toggle-files {
+.rgh-files-hidden .react-directory-row {
 	display: none;
 }
 
-/* "md" media query */
-@media screen and not (min-width: 768px) {
-	.Box:has(
-	/* Native status */
-	#files ~ .Details:not(.open)
-) .rgh-toggle-files {
-		display: none;
-	}
+.rgh-files-hidden .bgColor-muted.p-1.rounded-top-2 {
+	border-radius: var(--borderRadius-medium, 6px);
 }
