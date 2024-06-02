@@ -1,4 +1,3 @@
-import './quick-comment-edit.css';
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 import PencilIcon from 'octicons-plain-react/Pencil';
@@ -9,25 +8,37 @@ import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
 
-function addQuickEditButton(commentForm: Element): void {
-	const commentBody = commentForm.closest('.js-comment')!;
+function addQuickEditButton(commentDropdown: HTMLDetailsElement): void {
+	const commentBody = commentDropdown.closest('.js-comment')!;
+
+	// TODO: Potentially move to :has selector
+	// The comment is definitely not editable
+	if (!elementExists('.js-comment-update', commentBody)) {
+		console.log('Comment is not editable');
+		return;
+	}
+
 	// We can't rely on a class for deduplication because the whole comment might be replaced by GitHub #5572
 	if (elementExists('.rgh-quick-comment-edit-button', commentBody)) {
 		return;
 	}
 
-	commentBody
-		.querySelector('.timeline-comment-actions details.position-relative')! // The dropdown
-		.before(
-			<button
-				type="button"
-				role="menuitem"
-				className="timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button"
-				aria-label="Edit comment"
-			>
-				<PencilIcon/>
-			</button>,
-		);
+	// If .js-pick-reaction is the first child, `reaction-menu` doesn't exist, which means that the conversation is locked.
+	// However, if you can edit every comment, you can still edit the comment
+	if (elementExists('.js-pick-reaction:first-child', commentBody) && !canEditEveryComment()) {
+		return;
+	}
+
+	commentDropdown.before(
+		<button
+			type="button"
+			role="menuitem"
+			className="timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button"
+			aria-label="Edit comment"
+		>
+			<PencilIcon/>
+		</button>,
+	);
 }
 
 export function canEditEveryComment(): boolean {
@@ -52,9 +63,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	// If true then the resulting selector will match all comments, otherwise it will only match those made by you
 	const preSelector = canEditEveryComment() ? '' : '.current-user';
 
-	// Find editable comments first, then traverse to the correct position
-	// TODO: Replace with :has selector
-	observe(preSelector + '.js-comment.unminimized-comment .js-comment-update', addQuickEditButton, {signal});
+	observe(preSelector + '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative', addQuickEditButton, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -68,3 +77,11 @@ void features.add(import.meta.url, {
 	// We want the edit buttons to appear while the conversation is loading, but we only know it's locked when the page has finished.
 	init,
 });
+
+/*
+Test URLs:
+
+- Locked issue (own repo): https://github.com/refined-github/sandbox/issues/74
+- Locked issue (other repo): https://github.com/eslint/eslint/issues/8213
+
+*/

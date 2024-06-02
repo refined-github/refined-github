@@ -12,11 +12,6 @@
 	word-break: break-word !important;
 }
 
-/* TODO: Drop this whole rule when :has() is crossbrowser */
-.TimelineItem[id^='event-'] .TimelineItem-body :is(ins, del) {
-	display: block !important;
-}
-
 /*
 Test URLs
 https://github.com/refined-github/refined-github/pull/4030#event-4385348325
