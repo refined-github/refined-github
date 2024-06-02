@@ -114,9 +114,14 @@ async function validateToken(): Promise<void> {
 	reportStatus({text: 'Validating…', tokenType});
 
 	try {
+		const [scopes, user] = await Promise.all([
+			getTokenScopes(tokenField.value),
+			getNameFromToken(tokenField.value),
+		]);
 		reportStatus({
 			tokenType,
-			scopes: await getTokenScopes(tokenField.value),
+			text: `👤 @${user}`,
+			scopes,
 		});
 	} catch (error) {
 		assertError(error);
@@ -124,6 +129,23 @@ async function validateToken(): Promise<void> {
 		expandTokenSection();
 		throw error;
 	}
+}
+
+async function getNameFromToken(token: string): Promise<string> {
+	const response = await fetch(
+		'https://api.github.com/user', {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		},
+	);
+
+	const userData = await response.json();
+	if (!response.ok) {
+		throw new Error(userData.message);
+	}
+
+	return userData.login;
 }
 
 function moveDisabledFeaturesToTop(): void {
