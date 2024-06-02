@@ -145,10 +145,12 @@ async function getNameFromToken(token: string): Promise<string> {
 		},
 	);
 
-	const userData = await response.json();
 	if (!response.ok) {
-		throw new Error(userData.message);
+		const details = await response.json();
+		throw new Error(details.message);
 	}
+
+	const userData = await response.json();
 
 	return userData.login;
 }
