@@ -11,6 +11,7 @@ function addAvatar(link: HTMLElement): void {
 	const username = link.textContent;
 	const size = 14;
 
+	link.classList.add('d-inline-block');
 	link.prepend(
 		<img
 			className="avatar avatar-user v-align-text-bottom mr-1 rgh-small-user-avatars"
