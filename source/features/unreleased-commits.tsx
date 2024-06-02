@@ -133,10 +133,14 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 			await createLinkGroup(latestTag, aheadBy) as HTMLElement,
 		);
 	} else {
+		const linkGroup = await createLinkGroup(latestTag, aheadBy) as HTMLElement;
+
+		linkGroup.style.flexShrink = '0';
+
 		wrapAll(
 			<div className="d-flex gap-2"/>,
 			branchSelector,
-			await createLinkGroup(latestTag, aheadBy),
+			linkGroup,
 		);
 	}
 }
