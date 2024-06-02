@@ -55,6 +55,7 @@ function cleanSection(selector: string): boolean {
 		'.IssueLabel',
 		'[aria-label="Select milestones"] .Progress-item',
 		'[aria-label="Link issues"] [data-hovercard-type]',
+		'a[href^="https://copilot-workspace.githubnext.com"]',
 		'[aria-label="Select projects"] .Link--primary',
 	];
 
@@ -113,9 +114,10 @@ async function cleanSidebar(): Promise<void> {
 		removeTextNodeContaining(developmentHint, /No branches or pull requests|Successfully merging/);
 	}
 
-	const createBranchLink = $('button[data-action="click:create-issue-branch#openDialog"]');
-	if (createBranchLink) {
-		createBranchLink.classList.add('Link--muted');
+	const createBranchLink = $('button[data-action="click:create-branch#openDialog"]');
+	const openWorkspaceButton = $('a[href^="https://copilot-workspace.githubnext.com"]');
+	if (createBranchLink && !openWorkspaceButton) {
+		createBranchLink.classList.add('Link--muted', 'Link--inTextBlock');
 		$('[aria-label="Link issues"] summary')!.append(
 			<span style={{fontWeight: 'normal'}}> – {createBranchLink}</span>,
 		);
