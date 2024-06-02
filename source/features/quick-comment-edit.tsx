@@ -18,14 +18,14 @@ function addQuickEditButton(commentDropdown: HTMLDetailsElement): void {
 		return;
 	}
 
-	if (elementExists([
-		// We can't rely on a class for deduplication because the whole comment might be replaced by GitHub #5572
-		'.rgh-quick-comment-edit-button',
+	// We can't rely on a class for deduplication because the whole comment might be replaced by GitHub #5572
+	if (elementExists('.rgh-quick-comment-edit-button', commentBody)) {
+		return;
+	}
 
-		// If .js-pick-reaction is the first child, `reaction-menu` doesn't exist, which means that the conversation is locked
-		'.js-pick-reaction:first-child',
-	], commentBody)) {
-		console.log('Comment is locked');
+	// If .js-pick-reaction is the first child, `reaction-menu` doesn't exist, which means that the conversation is locked.
+	// However, if you can edit every comment, you can still edit the comment
+	if (elementExists('.js-pick-reaction:first-child', commentBody) && !canEditEveryComment()) {
 		return;
 	}
 
