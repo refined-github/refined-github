@@ -1,13 +1,13 @@
 import './toggle-files-button.css';
-import cache from 'webext-storage-cache';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$} from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {FoldIcon, UnfoldIcon, ArrowUpIcon} from '@primer/octicons-react';
+import FoldIcon from 'octicons-plain-react/Fold';
+import UnfoldIcon from 'octicons-plain-react/Unfold';
+import ArrowUpIcon from 'octicons-plain-react/ArrowUp';
 
 import features from '../feature-manager.js';
-import selectHas from '../helpers/select-has.js';
 import attachElement from '../helpers/attach-element.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -20,7 +20,7 @@ const noticeClass = 'rgh-files-hidden-notice';
 const noticeStyle = {paddingRight: '19px'};
 
 function addButton(filesBox: HTMLElement): void {
-	attachElement(selectHas('ul:has(.octicon-history)', filesBox)!, {
+	attachElement(filesBox, {
 		allowMissingAnchor: true,
 		className: toggleButtonClass,
 		append: () => (
@@ -57,24 +57,13 @@ function toggle(toggle?: boolean): boolean {
 
 async function toggleHandler(): Promise<void> {
 	// Remove notice after the first click
-	select(`.${noticeClass}`)?.remove();
+	$(`.${noticeClass}`)?.remove();
 
 	const isHidden = toggle();
-	await cache.set(cacheKey, isHidden);
-}
-
-async function updateView(anchor: HTMLHeadingElement): Promise<void> {
-	const filesBox = anchor.parentElement!;
-	addButton(filesBox);
-	if (await cache.get<boolean>(cacheKey)) {
-		toggle(true);
-		addFilesHiddenNotice(filesBox);
-	}
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	// TODO: Use `.Box:has(> #files)` instead
-	observe('.Box h2#files', updateView, {signal});
+	observe('[class^="Box"]:has([aria-label="Commit history"])', addButton, {signal});
 	delegate(`.${toggleButtonClass}, .${noticeClass}`, 'click', toggleHandler, {signal});
 }
 
