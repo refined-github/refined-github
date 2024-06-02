@@ -119,4 +119,7 @@ https://github.com/refined-github/sandbox/pull/10
 No-comment reviews shouldn't have it:
 https://github.com/NixOS/nixpkgs/pull/147010#pullrequestreview-817111882
 
+- Locked issue (own repo): https://github.com/refined-github/sandbox/issues/74
+- Locked issue (other repo): https://github.com/eslint/eslint/issues/8213
+
 */
