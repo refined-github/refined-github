@@ -8,7 +8,9 @@ import {$, elementExists} from 'select-dom';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
-import {buildRepoURL, cacheByRepo, getLatestVersionTag, getRepo} from '../github-helpers/index.js';
+import {
+	buildRepoURL, cacheByRepo, getLatestVersionTag, getRepo,
+} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import pluralize from '../helpers/pluralize.js';
 import {branchSelector} from '../github-helpers/selectors.js';
