@@ -115,7 +115,7 @@ async function validateToken(): Promise<void> {
 
 	try {
 		const scopes = await getTokenScopes(tokenField.value);
-		const text = `👋 Welcome, ${await getNameFromToken(tokenField.value)}!`;
+		const text = `👤 @${await getNameFromToken(tokenField.value)}`;
 		reportStatus({
 			tokenType,
 			text,
@@ -137,14 +137,13 @@ async function getNameFromToken(token: string): Promise<string> {
 			},
 		},
 	);
-	const userData = await response.json();
 
-	let name: string = userData.login;
-	if (name !== userData.name) {
-		name += ` (${userData.name})`;
+	const userData = await response.json();
+	if (!response.ok) {
+		throw new Error(userData.message);
 	}
 
-	return name;
+	return userData.login;
 }
 
 function moveDisabledFeaturesToTop(): void {
