@@ -4,8 +4,8 @@
 	padding: 10px 13px;
 }
 
-body:not(.rgh-files-hidden) .rgh-toggle-files .octicon-unfold,
-body.rgh-files-hidden .rgh-toggle-files .octicon-fold {
+body:not(.rgh-files-hidden) .rgh-toggle-files .octicon-chevron-up,
+body.rgh-files-hidden .rgh-toggle-files .octicon-chevron-down {
 	display: none !important;
 }
 
@@ -13,7 +13,6 @@ body.rgh-files-hidden .rgh-toggle-files .octicon-fold {
 	display: none;
 }
 
-.rgh-files-hidden .Box-header {
-	border-radius: 6px;
-	border-bottom: none;
+.rgh-files-hidden .bgColor-muted.p-1.rounded-top-2 {
+	border-radius: var(--borderRadius-medium, 6px);
 }
