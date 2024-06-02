@@ -59,13 +59,16 @@ function reportStatus({tokenType, error, text, scopes}: Status): void {
 	}
 }
 
-async function getTokenScopes(personalToken: string): Promise<string[]> {
+function getApiURL(): string {
 	const tokenLink = $('a#personal-token-link')!;
-	const url = tokenLink.host === 'github.com'
+
+	return tokenLink.host === 'github.com'
 		? 'https://api.github.com/'
 		: `${tokenLink.origin}/api/v3/`;
+}
 
-	const response = await fetch(url, {
+async function getTokenScopes(personalToken: string): Promise<string[]> {
+	const response = await fetch(getApiURL(), {
 		cache: 'no-store',
 		headers: {
 			'User-Agent': 'Refined GitHub',
@@ -132,13 +135,8 @@ async function validateToken(): Promise<void> {
 }
 
 async function getNameFromToken(token: string): Promise<string> {
-	const tokenLink = $('a#personal-token-link')!;
-	const url = tokenLink.host === 'github.com'
-		? 'https://api.github.com/'
-		: `${tokenLink.origin}/api/v3/`;
-
 	const response = await fetch(
-		url, {
+		getApiURL(), {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
