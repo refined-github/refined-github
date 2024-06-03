@@ -143,14 +143,12 @@ async function getNameFromToken(token: string): Promise<string> {
 		},
 	);
 
+	const details = await response.json();
 	if (!response.ok) {
-		const details = await response.json();
 		throw new Error(details.message);
 	}
 
-	const userData = await response.json();
-
-	return userData.login;
+	return details.login;
 }
 
 function moveDisabledFeaturesToTop(): void {
