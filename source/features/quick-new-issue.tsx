@@ -1,29 +1,35 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
+import {expectElement as $} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {buildRepoURL, getRepo, isArchivedRepoAsync} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
-function add(dropdownMenu: HTMLElement): void {
-	dropdownMenu.append(
-		<li role="presentation" aria-hidden="true" data-view-component="true" className="ActionList-sectionDivider"/>,
-		<li data-targets="action-list.items" role="none" data-view-component="true" className="ActionListItem">
-			<a href={buildRepoURL('issues/new/choose')} tabIndex={-1} role="menuitem" data-view-component="true" className="ActionListContent ActionListContent--visual16">
-				<span className="ActionListItem-visual ActionListItem-visual--leading">
-					<IssueOpenedIcon/>
-				</span>
-				<span data-view-component="true" className="ActionListItem-label">
-					New issue in {getRepo()?.name}
-				</span>
-			</a>
-		</li>,
-	);
+const labelId = 'rgh-quick-new-issue';
+
+function add(listItem: HTMLElement): void {
+	const newIssueItem = listItem.cloneNode(true);
+
+	const link = $('a', newIssueItem);
+	const label = $('[id="' + link.getAttribute('aria-labelledby')!.trim() + '"]', newIssueItem);
+	link.setAttribute('aria-labelledby', labelId);
+	label.id = labelId;
+
+	link.href = buildRepoURL('issues/new/choose');
+	label.textContent = `New issue in ${getRepo()?.name}`;
+
+	$('svg', newIssueItem).replaceWith(<IssueOpenedIcon/>);
+
+	listItem.parentElement!.append(newIssueItem);
+
+	const separator = $('[data-component="ActionList.Divider"]', listItem.parentElement!).cloneNode(true);
+	newIssueItem.before(separator);
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	observe('#global-create-menu-list', add, {signal});
+	observe('li:has(>a[href="/new/import"])', add, {signal});
 }
 
 void features.add(import.meta.url, {
