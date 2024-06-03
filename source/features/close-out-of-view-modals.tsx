@@ -41,6 +41,7 @@ function menuActivatedHandler(event: DelegateEvent): void {
 	const modals = $$([
 		':scope > details-menu', // "Watch repo" dropdown
 		':scope > details-dialog', // "Watch repo" dropdown
+		':scope > modal-dialog', // "Development" dropdown #7093
 		':scope > div > .dropdown-menu', // "Clone or download" and "Repo nav overflow"
 	], details);
 
@@ -56,3 +57,12 @@ function init(): void {
 void features.add(import.meta.url, {
 	init: onetime(init),
 });
+
+/*
+
+Test URLs
+
+- Dropdowns in conversation sidebar: https://github.com/refined-github/sandbox/issues/3
+- Star/Watch dropdowns: https://github.com/refined-github/sandbox
+
+*/
