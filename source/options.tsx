@@ -61,10 +61,26 @@ function reportStatus({tokenType, error, text, scopes}: Status): void {
 
 function getApiUrl(): string {
 	const tokenLink = $('a#personal-token-link')!;
-
 	return tokenLink.host === 'github.com'
 		? 'https://api.github.com'
 		: `${tokenLink.origin}/api/v3`;
+}
+
+async function getNameFromToken(token: string): Promise<string> {
+	const response = await fetch(
+		getApiUrl() + '/user', {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		},
+	);
+
+	const details = await response.json();
+	if (!response.ok) {
+		throw new Error(details.message);
+	}
+
+	return details.login;
 }
 
 async function getTokenScopes(personalToken: string): Promise<string[]> {
@@ -132,23 +148,6 @@ async function validateToken(): Promise<void> {
 		expandTokenSection();
 		throw error;
 	}
-}
-
-async function getNameFromToken(token: string): Promise<string> {
-	const response = await fetch(
-		`${getApiUrl()}/user`, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		},
-	);
-
-	const details = await response.json();
-	if (!response.ok) {
-		throw new Error(details.message);
-	}
-
-	return details.login;
 }
 
 function moveDisabledFeaturesToTop(): void {
