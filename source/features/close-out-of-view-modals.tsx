@@ -57,3 +57,12 @@ function init(): void {
 void features.add(import.meta.url, {
 	init: onetime(init),
 });
+
+/*
+
+Test URLs
+
+- Dropdowns in conversation sidebar: https://github.com/refined-github/sandbox/issues/3
+- Star/Watch dropdowns: https://github.com/refined-github/sandbox
+
+*/
