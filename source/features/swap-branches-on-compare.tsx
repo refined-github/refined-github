@@ -34,7 +34,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		// Disable on Two-dot Git diff comparison #4453
 		isTwoDotDiff,
-		pageDetect.isBlank,
 	],
 	awaitDomReady: true,
 	deduplicate: 'has-rgh',
