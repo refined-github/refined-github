@@ -19,7 +19,7 @@ function openInNewTab(): void {
 }
 
 function init(signal: AbortSignal): void {
-	registerHotkey('O', openInNewTab, {signal});
+	registerHotkey('Shift+O', openInNewTab, {signal});
 }
 
 void features.add(import.meta.url, {

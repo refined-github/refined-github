@@ -14,7 +14,6 @@ function addQuickEditButton(commentDropdown: HTMLDetailsElement): void {
 	// TODO: Potentially move to :has selector
 	// The comment is definitely not editable
 	if (!elementExists('.js-comment-update', commentBody)) {
-		console.log('Comment is not editable');
 		return;
 	}
 
