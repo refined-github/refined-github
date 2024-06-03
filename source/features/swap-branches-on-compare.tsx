@@ -8,8 +8,14 @@ import {buildRepoURL, getRepo} from '../github-helpers/index.js';
 const isTwoDotDiff = (): boolean => /\.\.+/.exec(location.pathname)?.[0]!.length === 2;
 
 function init(): void {
-	const references = getRepo()!
-		.path
+	const {path} = (getRepo()!);
+
+	// `main...main` comparison
+	if (path === 'compare') {
+		return;
+	}
+
+	const references = path
 		.replace('compare/', '')
 		.split('...')
 		.reverse();
@@ -17,6 +23,10 @@ function init(): void {
 	// Compares against the "base" branch if the URL only has one reference
 	if (references.length === 1) {
 		references.unshift($('.branch span')!.textContent);
+	}
+
+	if (references[0] === references[1]) {
+		return;
 	}
 
 	const referencePicker = $('.range-editor .d-inline-block + .range-cross-repo-pair')!;
@@ -34,6 +44,7 @@ void features.add(import.meta.url, {
 	exclude: [
 		// Disable on Two-dot Git diff comparison #4453
 		isTwoDotDiff,
+
 	],
 	awaitDomReady: true,
 	deduplicate: 'has-rgh',
@@ -44,5 +55,6 @@ void features.add(import.meta.url, {
 Test URLs:
 
 - Compare: https://github.com/refined-github/refined-github/compare/23.2.1...main
-- Blank: https://github.com/refined-github/refined-github/compare
+- Blank but valid: https://github.com/refined-github/refined-github/compare/23.11.15.1433...23.11.15
+- Blank but unswappable: https://github.com/refined-github/refined-github/compare
 */
