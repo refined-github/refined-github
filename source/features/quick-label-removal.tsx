@@ -1,6 +1,6 @@
 import './quick-label-removal.css';
 import React from 'dom-chef';
-import {elementExists} from 'select-dom';
+import {expectElement as $, elementExists} from 'select-dom';
 import onetime from 'onetime';
 import XIcon from 'octicons-plain-react/X';
 import {assertError} from 'ts-extras';
@@ -21,6 +21,14 @@ async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HT
 
 	const removeLabelButton = event.delegateTarget;
 	const label = removeLabelButton.closest('a')!;
+
+	// Force update of label selector if necessary
+	if (!elementExists('.sidebar-labels include-fragment')) {
+		const deferredContentWrapper = $('.sidebar-labels .hx_rsm-content');
+		const menu = deferredContentWrapper.closest('[src]')!;
+		deferredContentWrapper.textContent = '';
+		deferredContentWrapper.append(<include-fragment src={menu.getAttribute('src')!}/>);
+	}
 
 	label.hidden = true;
 	try {
