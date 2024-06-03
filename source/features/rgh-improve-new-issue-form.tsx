@@ -28,7 +28,7 @@ async function checkToken(): Promise<void> {
 	try {
 		await expectTokenScope('repo');
 	} catch {
-		addNotice('invalid or expired');
+		addNotice('invalid, expired or without enough permissions');
 	}
 }
 
