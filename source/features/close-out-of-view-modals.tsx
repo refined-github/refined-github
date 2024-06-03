@@ -41,6 +41,7 @@ function menuActivatedHandler(event: DelegateEvent): void {
 	const modals = $$([
 		':scope > details-menu', // "Watch repo" dropdown
 		':scope > details-dialog', // "Watch repo" dropdown
+		':scope > modal-dialog', // "Development" dropdown #7093
 		':scope > div > .dropdown-menu', // "Clone or download" and "Repo nav overflow"
 	], details);
 
