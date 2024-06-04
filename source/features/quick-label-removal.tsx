@@ -60,8 +60,7 @@ function addRemoveLabelButton(label: HTMLElement): void {
 	label.append(
 		<button
 			type="button"
-			aria-label="Remove this label"
-			className="btn-link tooltipped tooltipped-nw rgh-quick-label-removal"
+			className="btn-link rgh-quick-label-removal"
 			data-name={label.dataset.name}
 		>
 			<XIcon/>
