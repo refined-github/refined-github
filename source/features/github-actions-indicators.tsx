@@ -1,7 +1,6 @@
 import {CachedFunction} from 'webext-storage-cache';
 import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
-import StopIcon from 'octicons-plain-react/Stop';
+import {$, expectElement} from 'select-dom';
 import PlayIcon from 'octicons-plain-react/Play';
 import {parseCron} from '@cheap-glitch/mi-cron';
 import * as pageDetect from 'github-url-detection';
@@ -69,7 +68,7 @@ const workflowDetails = new CachedFunction('workflows-details', {
 			const workflowYaml = workflowFiles[workflow.name];
 
 			if (workflowYaml === undefined) {
-			// Cannot find workflow yaml; workflow removed.
+				// Cannot find workflow yaml; workflow removed.
 				continue;
 			}
 
@@ -121,7 +120,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	}
 
 	const relativeTime = <relative-time datetime={String(nextTime)}/>;
-	$('.ActionList-item-label', workflowListItem)!.append(
+	expectElement('.ActionListItem-label', workflowListItem).append(
 		<em>
 			({relativeTime})
 		</em>,
