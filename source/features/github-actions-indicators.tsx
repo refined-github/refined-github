@@ -73,8 +73,8 @@ const workflowDetails = new CachedFunction('workflows-details', {
 				continue;
 			}
 
-			const cron = /schedule[:\s-]+cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
-
+			// Single-line regex, allows comments around
+			const cron = /^(?: {4}|\t\t)-\s*cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
 			details[workflow.name] = {
 				...workflow,
 				schedule: cron?.[1],
