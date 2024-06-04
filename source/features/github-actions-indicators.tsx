@@ -90,26 +90,18 @@ const workflowDetails = new CachedFunction('workflows-details', {
 });
 
 async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void> {
-	// There might be a disabled indicator already
-	if (elementExists('.octicon-stop', workflowListItem)) {
-		return;
-	}
-
 	// Called in `init`, memoized
 	const workflows = await workflowDetails.get();
 	const workflowName = workflowListItem.href.split('/').pop()!;
 	const workflow = workflows[workflowName];
-	if (!workflow) {
-		return;
+
+	const svgTrailer = $('.ActionListItem-visual--trailing', workflowListItem)
+	?? <div className="ActionListItem-visual--trailing"/>;
+	if (!svgTrailer.isConnected) {
+		workflowListItem.append(svgTrailer);
 	}
 
-	const svgTrailer = <div className="ActionListItem-visual--trailing m-auto d-flex gap-2"/>;
-	workflowListItem.append(svgTrailer);
-
-	if (!workflow.isEnabled) {
-		svgTrailer.append(<StopIcon className="m-auto"/>);
-		addTooltip(workflowListItem, 'This workflow is not enabled');
-	}
+	svgTrailer.classList.add('m-auto', 'd-flex', 'gap-2')
 
 	if (workflow.manuallyDispatchable) {
 		svgTrailer.append(<PlayIcon className="m-auto"/>);
