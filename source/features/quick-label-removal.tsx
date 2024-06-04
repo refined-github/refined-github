@@ -1,6 +1,6 @@
 import './quick-label-removal.css';
 import React from 'dom-chef';
-import {elementExists} from 'select-dom';
+import {elementExists, expectElement} from 'select-dom';
 import onetime from 'onetime';
 import XIcon from 'octicons-plain-react/X';
 import {assertError} from 'ts-extras';
@@ -16,14 +16,35 @@ import {expectToken} from '../github-helpers/github-token.js';
 
 const canNotEditLabels = onetime((): boolean => !elementExists('.label-select-menu .octicon-gear'));
 
+function getLabelList(): HTMLElement {
+	return expectElement('.label-select-menu [src] .hx_rsm-content');
+}
+
+function removeLabelList(): void {
+	const list = getLabelList();
+	list.closest('details')!.addEventListener('toggle', restoreLabelList, {once: true});
+	list.replaceChildren();
+}
+
+function restoreLabelList(): void {
+	const list = getLabelList();
+	list.replaceChildren(
+		<include-fragment src={list.closest('[src]')!.getAttribute('src')!}/>,
+	);
+}
+
 async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	event.preventDefault();
 
 	const removeLabelButton = event.delegateTarget;
 	const label = removeLabelButton.closest('a')!;
 
-	label.hidden = true;
 	try {
+		label.hidden = true;
+		// Disable dropdown list to avoid race conditions in the UI.
+		// Each deletion would be followed by a reload of the list _at the wrong time_
+		removeLabelList();
+
 		await api.v3(`issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
 			method: 'DELETE',
 		});
@@ -43,8 +64,7 @@ function addRemoveLabelButton(label: HTMLElement): void {
 	label.append(
 		<button
 			type="button"
-			aria-label="Remove this label"
-			className="btn-link tooltipped tooltipped-nw rgh-quick-label-removal"
+			className="btn-link rgh-quick-label-removal"
 			data-name={label.dataset.name}
 		>
 			<XIcon/>
@@ -56,7 +76,6 @@ async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
 	delegate('.rgh-quick-label-removal:not([disabled])', 'click', removeLabelButtonClickHandler, {signal});
-
 	observe('.js-issue-labels .IssueLabel', addRemoveLabelButton, {signal});
 }
 
