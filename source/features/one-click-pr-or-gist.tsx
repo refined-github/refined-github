@@ -13,6 +13,8 @@ function init(): void | false {
 		return false;
 	}
 
+	const parent = initialGroupedButtons.parentElement!;
+
 	for (const dropdownItem of $$('.select-menu-item', initialGroupedButtons)) {
 		let title = $('.select-menu-item-heading', dropdownItem)!.textContent.trim();
 		const description = $('.description', dropdownItem)!.textContent.trim();
@@ -40,6 +42,11 @@ function init(): void | false {
 	}
 
 	initialGroupedButtons.remove();
+
+	// Add minimal structure validation before adding a dangerous class
+	if (parent.classList.contains('d-flex') && parent.parentElement!.classList.contains('flex-justify-end')) {
+		parent.parentElement!.classList.add('flex-wrap');
+	}
 }
 
 void features.add(import.meta.url, {
