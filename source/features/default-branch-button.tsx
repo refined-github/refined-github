@@ -15,7 +15,6 @@ import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {isRepoCommitListRoot} from '../github-helpers/index.js';
 
 async function updateUrl(event: React.MouseEvent<HTMLAnchorElement>): Promise<void> {
-	console.log('updateUrl');
 	event.currentTarget.href = await getUrl(location.href);
 }
 
@@ -88,6 +87,6 @@ Test URLs:
 - isSingleFile, 410 Gone from default branch https://github.com/refined-github/refined-github/blob/07ecc75/extension/content.js
 - isRepoCommitList: https://github.com/refined-github/refined-github/commits/07ecc75/
 - isRepoCommitList (already on default branch): https://github.com/typed-ember/ember-cli-typescript/commits/master
-- isRepoCommitListRoot (no branchs selector): https://github.com/refined-github/refined-github/commits/07ecc75/extension
+- isRepoCommitListRoot (no branch selector): https://github.com/refined-github/refined-github/commits/07ecc75/extension
 
 */
