@@ -16,8 +16,18 @@ import {expectToken} from '../github-helpers/github-token.js';
 
 const canNotEditLabels = onetime((): boolean => !elementExists('.label-select-menu .octicon-gear'));
 
-function restoreLabelList(event: Event): void {
-	const list = expectElement('.hx_rsm-content', event.currentTarget as HTMLElement);
+function getLabelList(): HTMLElement {
+	return expectElement('.label-select-menu [src] .hx_rsm-content');
+}
+
+function removeLabelList(): void {
+	const list = getLabelList();
+	list.closest('details')!.addEventListener('toggle', restoreLabelList, {once: true});
+	list.replaceChildren();
+}
+
+function restoreLabelList(): void {
+	const list = getLabelList();
 	list.replaceChildren(
 		<include-fragment src={list.closest('[src]')!.getAttribute('src')!}/>,
 	);
@@ -29,14 +39,11 @@ async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HT
 	const removeLabelButton = event.delegateTarget;
 	const label = removeLabelButton.closest('a')!;
 
-	label.hidden = true;
-
-	const list = expectElement('.label-select-menu [src] .hx_rsm-content');
-	list.closest('details')!.addEventListener('toggle', restoreLabelList, {once: true});
 	try {
+		label.hidden = true;
 		// Disable dropdown list to avoid race conditions in the UI.
 		// Each deletion would be followed by a reload of the list _at the wrong time_
-		list.replaceChildren();
+		removeLabelList();
 
 		await api.v3(`issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
 			method: 'DELETE',
@@ -46,9 +53,6 @@ async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HT
 		void showToast(error);
 		removeLabelButton.blur();
 		label.hidden = false;
-		list.replaceChildren(
-			<include-fragment src={list.closest('[src]')!.getAttribute('src')!}/>,
-		);
 		return;
 	}
 
