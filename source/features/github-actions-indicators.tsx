@@ -94,6 +94,9 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	const workflows = await workflowDetails.get();
 	const workflowName = workflowListItem.href.split('/').pop()!;
 	const workflow = workflows[workflowName];
+	if (!workflow) {
+		return;
+	}
 
 	const svgTrailer = $('.ActionListItem-visual--trailing', workflowListItem)
 	?? <div className="ActionListItem-visual--trailing"/>;
@@ -101,7 +104,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 		workflowListItem.append(svgTrailer);
 	}
 
-	svgTrailer.classList.add('m-auto', 'd-flex', 'gap-2')
+	svgTrailer.classList.add('m-auto', 'd-flex', 'gap-2');
 
 	if (workflow.manuallyDispatchable) {
 		svgTrailer.append(<PlayIcon className="m-auto"/>);
@@ -146,13 +149,10 @@ void features.add(import.meta.url, {
 
 ## Test URLs
 
-Manual:
-https://github.com/fregante/browser-extension-template/actions
-
 Manual + scheduled:
-https://github.com/fregante/eslint-formatters/actions
+https://github.com/sindresorhus/type-fest/actions/workflows/ts-canary.yml
 
-Manually disabled:
-https://github.com/134130/134130/actions
+Manual + disabled + pinned:
+https://github.com/refined-github/sandbox/actions
 
 */
