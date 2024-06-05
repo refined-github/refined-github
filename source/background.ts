@@ -5,6 +5,7 @@ import {globalCache} from 'webext-storage-cache'; // Also needed to regularly cl
 import {isSafari} from 'webext-detect-page';
 import {objectKeys} from 'ts-extras';
 import addPermissionToggle from 'webext-permission-toggle';
+import webextAlert from 'webext-alert';
 
 import optionsStorage from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
@@ -98,5 +99,16 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 
 	if (isDevelopmentVersion()) {
 		await globalCache.clear();
+	}
+});
+
+browser.permissions.onAdded.addListener(async permissions => {
+	if (permissions.origins?.includes('*://*/*')) {
+		await browser.permissions.remove({
+			origins: [
+				'*://*/*',
+			],
+		});
+		await webextAlert('Refined GitHub is not meant to run on every website. If you’re looking to enable it on GitHub Enterprise, follow the instructions in the Options page.');
 	}
 });
