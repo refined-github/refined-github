@@ -100,6 +100,15 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 	if (isDevelopmentVersion()) {
 		await globalCache.clear();
 	}
+
+	if (await browser.permissions.contains({origins: ['*://*/*']})) {
+		console.warn('Refined GitHub was granted the `*://*/*` permission and it’s now been removed.');
+		await browser.permissions.remove({
+			origins: [
+				'*://*/*',
+			],
+		});
+	}
 });
 
 browser.permissions.onAdded.addListener(async permissions => {
