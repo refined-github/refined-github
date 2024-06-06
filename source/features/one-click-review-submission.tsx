@@ -44,7 +44,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		const parent = radio.parentElement!;
 		const labelElement = (
 			parent.querySelector('label')
-			?? radio.nextSibling! // TODO: Remove after April 2024
+			?? radio.nextSibling! // TODO: Remove after April 2025
 		);
 		const tooltip = parent.querySelector([
 			'p', // TODO: Remove after April 2025
