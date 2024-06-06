@@ -47,7 +47,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 			?? radio.nextSibling! // TODO: Remove after April 2024
 		);
 		const tooltip = parent.querySelector([
-			'p', // TODO: Remove after April 2024
+			'p', // TODO: Remove after April 2025
 			'.FormControl-caption',
 		])!.textContent.trim().replace(/\.$/, '');
 		assertNodeContent(labelElement, /^(Approve|Request changes|Comment)$/);
