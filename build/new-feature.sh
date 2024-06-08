@@ -40,4 +40,4 @@ echo "source/features/$1.tsx"
 echo
 echo "After you're done, also add the feature to ./readme.md; Don't worry about the screenshot yet"
 echo
-echo Refer to https://github.com/refined-github/refined-github/blob/main/contributing.md for more information.
+echo Refer to https://github.com/refined-github/refined-github/wiki/Contributing for more information.
