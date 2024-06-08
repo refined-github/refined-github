@@ -10,9 +10,12 @@ import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 
 function addNotice(adjective: JSX.Element | string): void {
 	$('#issue_body_template_name')!.before(
-		<div className="flash flash-warn m-2">
-			Your Personal Access Token is {adjective}. Some Refined GitHub features will not work without it.
-			You can update it <button className="btn-link" type="button" onClick={openOptions as unknown as React.MouseEventHandler}>in the options</button>.
+		<div className="flash flash-error py-9">
+			<p>
+				Your Personal Access Token is {adjective}. Some Refined GitHub features will not work without it.
+				You can update it <button className="btn-link" type="button" onClick={openOptions as unknown as React.MouseEventHandler}>in the options</button>.
+			</p>
+			<p>Add a valid token before submitting this issue.</p>
 		</div>,
 	);
 }
