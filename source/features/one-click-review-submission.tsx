@@ -11,8 +11,6 @@ import {assertNodeContent} from '../helpers/dom-utils.js';
 function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	const form = originalSubmitButton.form!;
 	const actionsRow = originalSubmitButton.closest('.Overlay-footer');
-	// TODO: For GHE. Remove after June 2025
-	const legacyActionsRow = originalSubmitButton.closest('.form-actions')!;
 	const formAttribute = originalSubmitButton.getAttribute('form')!;
 
 	// Do not use `$$` because elements can be outside `form`
@@ -82,6 +80,8 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		if (actionsRow) {
 			actionsRow.prepend(button);
 		} else {
+			// TODO: For GHE. Remove after June 2025
+			const legacyActionsRow = originalSubmitButton.closest('.form-actions')!;
 			legacyActionsRow.append(button);
 		}
 	}
