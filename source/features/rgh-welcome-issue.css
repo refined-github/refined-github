@@ -11,6 +11,10 @@
 .gh-header-actions, /* "New issue" button */
 .gh-header-title .color-fg-muted /* Issue number */
 ),
+[data-url^='/refined-github/refined-github/issues/3543/partials'] :is(
+	.js-comment-edit-history, /* "Edited" badge */
+	relative-time /* Comment time */
+),
 [data-url^='/refined-github/refined-github/issues/3543/show_partial?partial=issues%2Fsidebar'] /* Sidebar */ {
 	display: none !important;
 }
