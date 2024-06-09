@@ -22,7 +22,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Test and build
-        run: npm test || true
+        run: npm test
       - name: Create tag if necessary
         uses: fregante/daily-version-action@v2
       - name: Update manifest.json with version ${{ env.DAILY_VERSION}}
@@ -49,8 +49,7 @@ jobs:
     environment: Chrome
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
-      - run: npx chrome-webstore-upload-cli@2 upload --auto-publish
+      - run: npx chrome-webstore-upload-cli@3
         working-directory: artifact
         env:
           EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
@@ -64,8 +63,7 @@ jobs:
     environment: Firefox
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
-      - run: npx web-ext@7 sign --use-submission-api --channel listed
+      - run: npx web-ext@8 sign --channel listed
         working-directory: artifact
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
