@@ -49,6 +49,7 @@ jobs:
     environment: Chrome
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/download-artifact@v4
       - run: npx chrome-webstore-upload-cli@3
         working-directory: artifact
         env:
@@ -63,6 +64,7 @@ jobs:
     environment: Firefox
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/download-artifact@v4
       - run: npx web-ext@8 sign --channel listed
         working-directory: artifact
         env:
