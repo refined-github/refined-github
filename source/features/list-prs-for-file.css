@@ -1,4 +1,4 @@
-.container:has(> #StickyHeader.react-code-view-header--wide):has(
+.container:has(> #StickyHeader .react-code-view-header-element--wide):has(
 		.rgh-list-prs-for-file
 	) {
 	position: relative;
