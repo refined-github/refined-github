@@ -1,7 +1,7 @@
 .rgh-collaborator {
 	border: 1px solid var(--borderColor-default, var(--color-border-default));
 	border-radius: 2em;
-	padding: 2px 5px;
+	padding: 0px 6px;
 
 	.rgh-small-user-avatars {
 		margin-left: -3px;
