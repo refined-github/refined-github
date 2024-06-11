@@ -24,3 +24,12 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	init: onetime(init),
 });
+
+/*
+
+Test URLs:
+
+1. https://github.com/refined-github/sandbox/blob/7416/7416.md
+2. See log in console
+
+*/
