@@ -3,9 +3,7 @@
 	max-width: 80px;
 }
 
-.container:has(> #StickyHeader .react-code-view-header-wrap--narrow):has(
-		#expand-button-file-tree-button
-	) {
+.rgh-default-branch-button-container {
 	position: relative;
 	z-index: 1;
 }
