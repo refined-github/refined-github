@@ -1,5 +1,5 @@
 import './suggest-commit-title-limit.css';
-import type {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -12,6 +12,7 @@ function validateInput({delegateTarget: field}: DelegateEvent<Event, HTMLInputEl
 function init(signal: AbortSignal): void {
 	document.body.classList.add('rgh-suggest-commit-title-limit');
 	onCommitTitleUpdate(validateInput, signal);
+	delegate('#issue_title', 'input', validateInput, {signal});
 }
 
 void features.add(import.meta.url, {
