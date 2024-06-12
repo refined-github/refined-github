@@ -5,6 +5,7 @@ import elementReady from 'element-ready';
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import observe from '../helpers/selector-observer.js';
+import {linksToConversationLists} from '../github-helpers/selectors.js';
 
 /** Keep the original URL on the element so that `shorten-links` can use it reliably #5890 */
 export function saveOriginalHref(link: HTMLAnchorElement): void {
@@ -54,20 +55,7 @@ function updateLink(link: HTMLAnchorElement): void {
 function init(signal: AbortSignal): void {
 	// Get links that don't already have a specific sorting or pagination applied
 	observe(
-		`
-			a:is(
-				[href*="/issues"],
-				[href*="/pulls"],
-				[href*="/projects"],
-				[href*="/labels/"]
-			):not(
-				[href*="sort%3A"],
-				[href*="page="],
-				.issues-reset-query,
-				.pagination *,
-				.table-list-header-toggle *
-			)
-		`,
+		linksToConversationLists,
 		updateLink,
 		{signal},
 	);
