@@ -63,6 +63,11 @@ browser.browserAction.onClicked.addListener(async tab => {
 	}
 
 	const {actionUrl} = await optionsStorage.getAll();
+	if (actionUrl === 'options') {
+		void browser.runtime.openOptionsPage();
+		return;
+	}
+
 	void browser.tabs.create({
 		openerTabId: tab.id,
 		url: actionUrl || 'https://github.com',
