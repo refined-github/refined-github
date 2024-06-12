@@ -400,6 +400,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/46634000/136909258-88031d07-6efa-4339-b436-5636e8075964.png"
 	},
 	{
+		"id": "linkify-line-numbers",
+		"description": "Linkifies the line numbers where GitHub forgot to add links.",
+		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/d5b67f4e-35c3-45d8-b72c-937b855168c3"
+	},
+	{
 		"id": "linkify-notification-repository-header",
 		"description": "Linkifies the header of each notification group (when grouped by repository).",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/80849887-81531c00-8c19-11ea-8777-7294ce318630.png"
