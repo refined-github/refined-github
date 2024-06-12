@@ -125,6 +125,11 @@
 		"screenshot": null
 	},
 	{
+		"id": "comment-excess",
+		"description": "Informs you that there are hidden comments in the header of long issues.",
+		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/4e4660f9-c987-4b0d-82ca-56ef29952c31"
+	},
+	{
 		"id": "comment-fields-keyboard-shortcuts",
 		"description": "Adds a shortcut to edit your last comment: <kbd>↑</kbd>. (Only works in the following comment field, if it’s empty.)",
 		"screenshot": null

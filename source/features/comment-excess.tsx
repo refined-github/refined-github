@@ -47,3 +47,10 @@ void features.add(import.meta.url, {
 	init,
 });
 
+/*
+
+Test URLs
+
+https://togithub.com/prettier/prettier/issues/7475
+
+*/
