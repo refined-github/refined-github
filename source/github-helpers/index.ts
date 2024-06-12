@@ -1,4 +1,4 @@
-import {$, elementExists} from 'select-dom';
+import {$, elementExists, expectElement} from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
@@ -151,6 +151,16 @@ export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement,
 	row.append(sibling);
 }
 
+/** Trigger a conversation update if the view is out of date */
+// https://github.com/refined-github/refined-github/issues/2465#issuecomment-567173300
+export function triggerConversationUpdate(): void {
+	const marker = expectElement('.js-timeline-marker');
+	marker.dispatchEvent(new CustomEvent('socket:message', {
+		bubbles: true,
+		detail: {data: {gid: marker.dataset.gid}},
+	}));
+}
+
 /** Trigger a reflow to push the right-most tab into the overflow dropdown */
 export function triggerRepoNavOverflow(): void {
 	window.dispatchEvent(new Event('resize'));
@@ -161,4 +171,9 @@ export function triggerActionBarOverflow(child: Element): void {
 	const placeholder = document.createElement('div');
 	parent.replaceWith(placeholder);
 	placeholder.replaceWith(parent);
+}
+
+export function scrollIntoViewIfNeeded(element: Element): void {
+	// @ts-expect-error No Firefox support https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
+	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
 }
