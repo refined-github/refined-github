@@ -9,7 +9,9 @@ import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import showToast from '../github-helpers/toast.js';
-import {getConversationNumber, getUsername, scrollIntoViewIfNeeded, triggerConversationUpdate} from '../github-helpers/index.js';
+import {
+	getConversationNumber, getUsername, scrollIntoViewIfNeeded, triggerConversationUpdate,
+} from '../github-helpers/index.js';
 import {randomArrayItem} from '../helpers/math.js';
 import {getToken} from '../github-helpers/github-token.js';
 
