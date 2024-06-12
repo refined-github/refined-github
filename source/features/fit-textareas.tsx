@@ -1,9 +1,12 @@
 import './fit-textareas.css';
+import {isSafari} from 'webext-detect-page';
 import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+
+const nativeFit = 'fieldSizing' in document.body.style;
 
 function resetListener({target}: Event): void {
 	const field = (target as HTMLFormElement).querySelector('textarea')!;
@@ -18,7 +21,7 @@ function inputListener({target}: Event): void {
 function watchTextarea(textarea: HTMLTextAreaElement, {signal}: SignalAsOptions): void {
 	// Disable constrained native feature
 	textarea.classList.replace('js-size-to-fit', 'rgh-fit-textareas');
-	if ('fieldSizing' in document.body.style) {
+	if (nativeFit) {
 		return;
 	}
 
@@ -38,6 +41,10 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
+	],
+	exclude: [
+		// Allow Safari only if it supports the native version
+		() => isSafari() && !nativeFit,
 	],
 	init,
 });
