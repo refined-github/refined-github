@@ -38,7 +38,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		return;
 	}
 
-	if(pageDetect.isSingleFile()) {
+	if (pageDetect.isSingleFile()) {
 		const container = branchSelector.closest('.container')!;
 		container.classList.add('rgh-default-branch-button-container');
 	}
