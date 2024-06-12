@@ -38,8 +38,7 @@ async function add(historyButton: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	// eslint-disable-next-line @typescript-eslint/quotes
-	observe("a[aria-label='Commit history']", add, {signal});
+	observe('a[aria-label="Commit history"]', add, {signal});
 }
 
 void features.add(import.meta.url, {
