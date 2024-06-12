@@ -19,7 +19,8 @@
 	/* outline: solid 5px #f00; */
 }
 
-[data-rgh-conversation-activity-filter="hideEvents"] .rgh-conversation-events-label {
+[data-rgh-conversation-activity-filter='hideEvents']
+	.rgh-conversation-events-label {
 	display: inline !important;
 }
 
