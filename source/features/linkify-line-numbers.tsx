@@ -5,9 +5,12 @@ import {isAlteredClick} from 'filter-altered-clicks';
 import features from '../feature-manager.js';
 
 function openLinkToLine(event: DelegateEvent<MouseEvent, HTMLTableCellElement>): void {
-	const lineNumber = event.delegateTarget;
-	const {pathname} = lineNumber.closest('.Box')!.querySelector('a[href*="#L"]')!;
-	const url = pathname + `#L${lineNumber.dataset.lineNumber}`;
+	const cell = event.delegateTarget;
+	const fileLink = cell.closest('.Box,.review-thread-component')!.querySelector('a[href*="#L"],a[href*="#diff-"]')!;
+	const url = fileLink.hash.startsWith('#diff-')
+		? fileLink.pathname + fileLink.hash + `R${cell.dataset.lineNumber}`
+		: fileLink.pathname + `#L${cell.dataset.lineNumber}`;
+
 	if (isAlteredClick(event)) {
 		window.open(url);
 	} else {
@@ -26,3 +29,10 @@ void features.add(import.meta.url, {
 	init,
 });
 
+/*
+
+Test URLs:
+
+https://github.com/refined-github/sandbox/pull/81
+
+*/
