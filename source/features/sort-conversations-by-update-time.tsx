@@ -22,7 +22,7 @@ async function selectCurrentConversationFilter(): Promise<void> {
 }
 
 function updateLink(link: HTMLAnchorElement): void {
-	if (link.host !== location.host || link.closest('.pagination, .table-list-header-toggle')) {
+	if (link.host !== location.host) {
 		return;
 	}
 
@@ -52,7 +52,7 @@ function updateLink(link: HTMLAnchorElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	// Get issues links that don't already have a specific sorting applied
+	// Get links that don't already have a specific sorting or pagination applied
 	observe(
 		`
 			a:is(
@@ -62,7 +62,10 @@ function init(signal: AbortSignal): void {
 				[href*="/labels/"]
 			):not(
 				[href*="sort%3A"],
-				.issues-reset-query
+				[href*="page="],
+				.issues-reset-query,
+				.pagination *,
+				.table-list-header-toggle *
 			)
 		`,
 		updateLink,
@@ -76,6 +79,16 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoIssueOrPRList,
 	],
-	deduplicate: 'has-rgh-inner',
 	init: selectCurrentConversationFilter,
 });
+
+/*
+
+Test URLs
+
+Live links, these should be altered to include the `sort:updated-desc` query parameter:
+
+- https://github.com/refined-github/refined-github/pulls
+- https://github.com/refined-github/refined-github/labels/bug
+
+*/
