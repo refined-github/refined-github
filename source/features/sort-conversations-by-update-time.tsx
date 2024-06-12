@@ -32,7 +32,7 @@ function updateLink(link: HTMLAnchorElement): void {
 	if (pageDetect.isIssueOrPRList(link)) {
 		saveOriginalHref(link);
 
-		const newUrl = SearchQuery.from(link).add('sort:updated-desc').href;
+		const newUrl = SearchQuery.from(link).prepend('sort:updated-desc').href;
 
 		// Preserve relative attributes as such #5435
 		const isRelativeAttribute = link.getAttribute('href')!.startsWith('/');
@@ -46,7 +46,7 @@ function updateLink(link: HTMLAnchorElement): void {
 		// Projects use a different parameter name so don't use SearchQuery
 		const search = new URLSearchParams(link.search);
 		const query = search.get('query') ?? 'is:open'; // Default value query is missing
-		search.set('query', `${query} sort:updated-desc`);
+		search.set('query', `sort:updated-desc ${query}`);
 		link.search = search.toString();
 	}
 }
