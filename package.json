@@ -53,7 +53,7 @@
 		"dom-loaded": "^3.0.0",
 		"doma": "^4.0.0",
 		"element-ready": "^7.0.0",
-		"filter-altered-clicks": "^2.0.1",
+		"filter-altered-clicks": "^2.1.1",
 		"fit-textarea": "^2.0.0",
 		"flat-zip": "^1.0.1",
 		"github-url-detection": "^8.1.1",
