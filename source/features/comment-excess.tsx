@@ -11,8 +11,8 @@ import {paginationButtonSelector} from '../github-helpers/selectors.js';
 const hiddenCommentsForm = '#js-progressive-timeline-item-container';
 
 function addIndicator(headerCommentCount: HTMLSpanElement): void {
-	assertNodeContent(headerCommentCount, /^\d+ comments$/);
 	const loadMoreButton = expectElement(paginationButtonSelector);
+	assertNodeContent(headerCommentCount, /^\d+ comments$/);
 	assertNodeContent(loadMoreButton, /^\d+ hidden items$/);
 	const spacer = new Text(' • ');
 	const link = (
@@ -20,7 +20,7 @@ function addIndicator(headerCommentCount: HTMLSpanElement): void {
 			className="Link--muted"
 			href={hiddenCommentsForm}
 			onClick={() => {
-			// The count will be outdated after the first expansion. We can remove it and disable the feature
+				// The count will be outdated after the first expansion. We can remove it and disable the feature
 				spacer.remove();
 				link.remove();
 				features.unload(import.meta.url);
