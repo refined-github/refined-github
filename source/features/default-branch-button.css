@@ -2,3 +2,10 @@
 .rgh-default-branch-button-group [data-component='text'] {
 	max-width: 80px;
 }
+
+.container:has(> #StickyHeader .react-code-view-header-wrap--narrow):has(
+		#expand-button-file-tree-button
+	) {
+	position: relative;
+	z-index: 1;
+}
