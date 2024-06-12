@@ -1,5 +1,4 @@
 import './fit-textareas.css';
-import {isSafari} from 'webext-detect-page';
 import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';
 
@@ -17,14 +16,17 @@ function inputListener({target}: Event): void {
 }
 
 function watchTextarea(textarea: HTMLTextAreaElement, {signal}: SignalAsOptions): void {
+	// Disable constrained native feature
+	textarea.classList.replace('js-size-to-fit', 'rgh-fit-textareas');
+	if ('fieldSizing' in document.body.style) {
+		return;
+	}
+
 	textarea.addEventListener('input', inputListener, {signal}); // The user triggers `input` event
 	textarea.addEventListener('focus', inputListener, {signal}); // The user triggers `focus` event
 	textarea.addEventListener('change', inputListener, {signal}); // File uploads trigger `change` events
 	textarea.form?.addEventListener('reset', resetListener, {signal});
 	fitTextarea(textarea);
-
-	// Disable constrained native feature
-	textarea.classList.replace('js-size-to-fit', 'rgh-fit-textareas');
 }
 
 function init(signal: AbortSignal): void {
@@ -36,9 +38,6 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
-	],
-	exclude: [
-		isSafari,
 	],
 	init,
 });
