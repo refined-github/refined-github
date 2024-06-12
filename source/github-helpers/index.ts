@@ -162,3 +162,8 @@ export function triggerActionBarOverflow(child: Element): void {
 	parent.replaceWith(placeholder);
 	placeholder.replaceWith(parent);
 }
+
+export function scrollIntoViewIfNeeded(element: Element): void {
+	// @ts-expect-error No Firefox support https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
+	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
+}

@@ -126,7 +126,7 @@
 	},
 	{
 		"id": "comment-excess",
-		"description": "Informs you that there are hidden comments in the header of long issues.",
+		"description": "Informs you that there are hidden comments in the header of long issues. Also scrolls down to the hidden comments when pressing Cmd+F or Ctrl+F.",
 		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/4e4660f9-c987-4b0d-82ca-56ef29952c31"
 	},
 	{
