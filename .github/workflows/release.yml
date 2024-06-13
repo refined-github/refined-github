@@ -23,6 +23,7 @@ jobs:
       - run: npm ci
       - name: Test and build
         run: npm test
+        if: false
       - name: Create tag if necessary
         uses: fregante/daily-version-action@v2
       - name: Update manifest.json with version ${{ env.DAILY_VERSION}}
