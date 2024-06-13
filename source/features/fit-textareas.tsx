@@ -19,7 +19,7 @@ function inputListener({target}: Event): void {
 }
 
 function watchTextarea(textarea: HTMLTextAreaElement, {signal}: SignalAsOptions): void {
-	// Disable constrained native feature
+	// Disable constrained GitHub feature
 	textarea.classList.replace('js-size-to-fit', 'rgh-fit-textareas');
 	if (nativeFit) {
 		return;
