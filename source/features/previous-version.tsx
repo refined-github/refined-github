@@ -22,7 +22,7 @@ async function getPreviousCommitForFile(pathname: string): Promise<string | unde
 	return resource.history.nodes[1]?.oid;
 }
 
-async function add(historyButton: HTMLElement): Promise<void> {
+async function add(historyButton: HTMLAnchorElement): Promise<void> {
 	const previousCommit = await getPreviousCommitForFile(location.href);
 	if (!previousCommit) {
 		return;
@@ -33,8 +33,9 @@ async function add(historyButton: HTMLElement): Promise<void> {
 
 	const previousButton = historyButton.cloneNode(true);
 	previousButton.href = url.href;
-	$('span[data-component="leadingVisual"] svg', previousButton)
-		.replaceWith(<VersionsIcon className="UnderlineNav-octicon mr-0"/>);
+	$('span[data-component="leadingVisual"] svg', previousButton).replaceWith(
+		<VersionsIcon className="UnderlineNav-octicon mr-0"/>,
+	);
 	$('span[data-component="text"]', previousButton).textContent = 'Previous';
 	historyButton.before(previousButton);
 }
