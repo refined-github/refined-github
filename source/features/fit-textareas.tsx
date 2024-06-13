@@ -6,6 +6,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
+const nativeFit = 'fieldSizing' in document.body.style;
+
 function resetListener({target}: Event): void {
 	const field = (target as HTMLFormElement).querySelector('textarea')!;
 	// Delay because the field is still filled while the `reset` event is firing
@@ -17,14 +19,17 @@ function inputListener({target}: Event): void {
 }
 
 function watchTextarea(textarea: HTMLTextAreaElement, {signal}: SignalAsOptions): void {
+	// Disable constrained GitHub feature
+	textarea.classList.replace('js-size-to-fit', 'rgh-fit-textareas');
+	if (nativeFit) {
+		return;
+	}
+
 	textarea.addEventListener('input', inputListener, {signal}); // The user triggers `input` event
 	textarea.addEventListener('focus', inputListener, {signal}); // The user triggers `focus` event
 	textarea.addEventListener('change', inputListener, {signal}); // File uploads trigger `change` events
 	textarea.form?.addEventListener('reset', resetListener, {signal});
 	fitTextarea(textarea);
-
-	// Disable constrained native feature
-	textarea.classList.replace('js-size-to-fit', 'rgh-fit-textareas');
 }
 
 function init(signal: AbortSignal): void {
@@ -38,7 +43,8 @@ void features.add(import.meta.url, {
 		pageDetect.hasRichTextEditor,
 	],
 	exclude: [
-		isSafari,
+		// Allow Safari only if it supports the native version
+		() => isSafari() && !nativeFit,
 	],
 	init,
 });
