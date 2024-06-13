@@ -32,8 +32,8 @@ async function add(historyButton: HTMLElement): Promise<void> {
 
 	const previousDOM = historyButton.cloneNode(true);
 	previousDOM.setAttribute('href', url.href);
-	previousDOM.querySelector("span[data-component='leadingVisual'] svg")!.replaceWith(<VersionsIcon className="UnderlineNav-octicon mr-0"/>);
-	previousDOM.querySelector("span[data-component='text']")!.textContent = 'Previous';
+	previousDOM.querySelector('span[data-component="leadingVisual"] svg')!.replaceWith(<VersionsIcon className="UnderlineNav-octicon mr-0"/>);
+	previousDOM.querySelector('span[data-component="text"]')!.textContent = 'Previous';
 
 	historyButton.before(previousDOM);
 }
