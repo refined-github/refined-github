@@ -30,11 +30,12 @@ async function add(historyButton: HTMLElement): Promise<void> {
 	const url = new GitHubFileURL(location.href)
 		.assign({branch: previousCommit});
 
-	historyButton.before(
-		<a href={url.href} className="UnderlineNav-item tooltipped tooltipped-n ml-2" aria-label="View previous version">
-			<VersionsIcon className="UnderlineNav-octicon mr-0"/>
-		</a>,
-	);
+	const previousDOM = historyButton.cloneNode(true);
+	previousDOM.setAttribute('href', url.href);
+	previousDOM.querySelector("span[data-component='leadingVisual'] svg")!.replaceWith(<VersionsIcon className="UnderlineNav-octicon mr-0"/>);
+	previousDOM.querySelector("span[data-component='text']")!.textContent = 'Previous';
+
+	historyButton.before(previousDOM);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
