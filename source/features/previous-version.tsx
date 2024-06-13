@@ -32,7 +32,7 @@ async function add(historyButton: HTMLElement): Promise<void> {
 		.assign({branch: previousCommit});
 
 	const previousButton = historyButton.cloneNode(true);
-	previousButton.setAttribute('href', url.href);
+	previousButton.href = url.href;
 	$('span[data-component="leadingVisual"] svg', previousButton)
 		.replaceWith(<VersionsIcon className="UnderlineNav-octicon mr-0"/>);
 	$('span[data-component="text"]', previousButton).textContent = 'Previous';
