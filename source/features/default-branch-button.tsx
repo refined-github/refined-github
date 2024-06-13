@@ -38,6 +38,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		return;
 	}
 
+	// Fix z-index issue https://github.com/refined-github/refined-github/pull/7430
 	if (pageDetect.isSingleFile()) {
 		const container = branchSelector.closest('.container')!;
 		container.classList.add('rgh-default-branch-button-container');
