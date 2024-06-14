@@ -38,7 +38,9 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		return;
 	}
 
-	fixFileHeaderOverlap(branchSelector);
+	if (pageDetect.isSingleFile()) {
+		fixFileHeaderOverlap(branchSelector);
+	}
 
 	const defaultLink = (
 		<a

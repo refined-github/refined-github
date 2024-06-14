@@ -180,7 +180,5 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 
 // Fix z-index issue https://github.com/refined-github/refined-github/pull/7430
 export function fixFileHeaderOverlap(child: Element): void {
-	if (pageDetect.isSingleFile()) {
-		child.closest('.container')!.classList.add('rgh-z-index-1');
-	}
+	child.closest('.container')!.classList.add('rgh-z-index-1');
 }
