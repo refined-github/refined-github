@@ -2,13 +2,28 @@ import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 import PencilIcon from 'octicons-plain-react/Pencil';
 import * as pageDetect from 'github-url-detection';
-import {isChrome} from 'webext-detect-page';
+import memoize from 'memoize';
 
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
 
-function addQuickEditButton(commentDropdown: HTMLDetailsElement): void {
+// The signal is only used to memoize calls on the current page. A new page load will use a new signal.
+const isIssueIneditable = memoize(
+	// If .js-pick-reaction is the first child, `reaction-menu` doesn't exist, which means that the conversation is locked.
+	// However, if you can edit every comment, you can still edit the comment
+	(_signal: AbortSignal | undefined): boolean => elementExists('.js-pick-reaction:first-child') && !canEditEveryComment(),
+	{
+		cache: new WeakMap(),
+	},
+);
+
+function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}: SignalAsOptions): void {
+	if (isIssueIneditable(signal)) {
+		features.unload(import.meta.url);
+		return;
+	}
+
 	const commentBody = commentDropdown.closest('.js-comment')!;
 
 	// TODO: Potentially move to :has selector
@@ -17,14 +32,8 @@ function addQuickEditButton(commentDropdown: HTMLDetailsElement): void {
 		return;
 	}
 
-	// We can't rely on a class for deduplication because the whole comment might be replaced by GitHub #5572
+	// We can't rely on `observe` for deduplication because the anchor might be replaced by GitHub while leaving the edit button behind #5572
 	if (elementExists('.rgh-quick-comment-edit-button', commentBody)) {
-		return;
-	}
-
-	// If .js-pick-reaction is the first child, `reaction-menu` doesn't exist, which means that the conversation is locked.
-	// However, if you can edit every comment, you can still edit the comment
-	if (elementExists('.js-pick-reaction:first-child', commentBody) && !canEditEveryComment()) {
 		return;
 	}
 
@@ -67,13 +76,11 @@ async function init(signal: AbortSignal): Promise<void> {
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		isChrome,
+		pageDetect.isLoggedIn,
 	],
 	include: [
 		pageDetect.hasComments,
 	],
-	// The feature is "disabled" via CSS selector when the conversation is locked.
-	// We want the edit buttons to appear while the conversation is loading, but we only know it's locked when the page has finished.
 	init,
 });
 
