@@ -97,6 +97,9 @@ async function addToSingleFile(moreFileActionsDropdown: HTMLElement): Promise<vo
 		}
 
 		moreFileActionsDropdown.before(dropdown);
+
+		const container = moreFileActionsDropdown.closest('.container')
+		container && container.classList.add('prs-for-file-container');
 	}
 }
 
@@ -120,6 +123,9 @@ async function addToEditingFile(saveButton: HTMLElement): Promise<false | void> 
 	const dropdown = getDropdown(prs);
 	dropdown.classList.add('mr-2');
 	saveButton.parentElement!.prepend(dropdown);
+
+	const container = saveButton.closest('.container')
+	container && container.classList.add('prs-for-file-container');
 }
 
 function initSingleFile(signal: AbortSignal): void {
