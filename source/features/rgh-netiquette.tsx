@@ -6,7 +6,7 @@ import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
-import {getNoticeText, shouldDisplayNotice} from './netiquette.js';
+import {getNoticeText, wasClosedLongAgo} from './netiquette.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 
 function addConversationBanner(newCommentBox: HTMLElement): void {
@@ -36,7 +36,7 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 
 function init(signal: AbortSignal): void | false {
 	// Do not move to `asLongAs` because those conditions are run before `isConversation`
-	if (!shouldDisplayNotice()) {
+	if (!wasClosedLongAgo()) {
 		return false;
 	}
 
