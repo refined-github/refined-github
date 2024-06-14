@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-const nativeFit = 'fieldSizing' in document.documentElement.style;
+const nativeFit = CSS.supports('field-sizing', 'content');
 
 function resetListener({target}: Event): void {
 	const field = (target as HTMLFormElement).querySelector('textarea')!;
