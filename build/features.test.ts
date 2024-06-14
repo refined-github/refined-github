@@ -18,6 +18,7 @@ const noScreenshotExceptions = new Set([
 	'comment-fields-keyboard-shortcuts',
 	'copy-on-y',
 	'create-release-shortcut',
+	'open-notification-external',
 	'pagination-hotkey',
 	'profile-hotkey',
 	'repo-wide-file-finder',

@@ -530,6 +530,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261159396-0610574b-ab1f-42fb-813f-ee7310a1e5b6.png"
 	},
 	{
+		"id": "open-notification-external",
+		"description": "Opens notifications in a new tab.",
+		"screenshot": null
+	},
+	{
 		"id": "pagination-hotkey",
 		"description": "Adds shortcuts to navigate through pages with pagination: <kbd>←</kbd> and <kbd>→</kbd>.",
 		"screenshot": null
