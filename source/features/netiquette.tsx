@@ -16,7 +16,7 @@ import {canEditEveryComment} from './quick-comment-edit.js';
 // TODO: Not exact, replace with API
 const isCollaborator = canEditEveryComment;
 
-const isClosedOrMerged = (): boolean => elementExists(closedOrMergedMarkerSelector);
+export const isClosedOrMerged = (): boolean => elementExists(closedOrMergedMarkerSelector);
 
 /** Returns milliseconds passed since `date` */
 function timeAgo(date: Date): number {

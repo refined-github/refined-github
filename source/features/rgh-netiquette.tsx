@@ -9,7 +9,24 @@ import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getNoticeText, wasClosedLongAgo} from './netiquette.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 
-function addConversationBanner(newCommentBox: HTMLElement): void {
+function hasNoCommentsRequest(): boolean {
+	const firstComment = document.querySelector<HTMLDivElement>('.js-comment-body');
+	if (!firstComment) {
+		return false;
+	}
+
+	/**
+	 * This regex matches:
+	 * - do not/don't comment
+	 * - don't leave comments
+	 * - don't leave "me too" comments
+	 **/
+	const regex = /(don('?)t|do not) (leave ("[^"]+" )?)?comment(s?)/i;
+
+	return regex.test(firstComment.textContent?.trim());
+}
+
+function addNoCommentsRequestBanner(newCommentBox: HTMLElement): void {
 	const button = (
 		<button
 			type="button"
@@ -18,29 +35,71 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 				banner.remove();
 				newCommentBox.hidden = false;
 			}}
-		>comment
+		>
+			comment
 		</button>
 	);
+
 	const banner = (
 		<TimelineItem>
 			{createBanner({
 				classes: ['rgh-bg-none'],
 				icon: <InfoIcon className="mr-1"/>,
-				text: <>{getNoticeText()} If you want to say something helpful, you can leave a {button}. <strong>Do not</strong> report issues here.</>,
+				text: (
+					<>
+						This {pageDetect.isPR() ? 'PR' : 'issue'}&apos;s author asked to <strong>not leave comments here</strong>. However, if you think you have something helpful to say, you may leave a {button}.
+					</>
+				),
 			})}
 		</TimelineItem>
 	);
+
+	newCommentBox.before(banner);
+	newCommentBox.hidden = true;
+}
+
+function addClosedLongAgoBanner(newCommentBox: HTMLElement): void {
+	const button = (
+		<button
+			type="button"
+			className="btn-link"
+			onClick={() => {
+				banner.remove();
+				newCommentBox.hidden = false;
+			}}
+		>
+			comment
+		</button>
+	);
+
+	const banner = (
+		<TimelineItem>
+			{createBanner({
+				classes: ['rgh-bg-none'],
+				icon: <InfoIcon className="mr-1"/>,
+				text: (
+					<>
+						{getNoticeText()} If you want to say something helpful, you can leave a {button}. <strong>Do not</strong> report issues here.
+					</>
+				),
+			})}
+		</TimelineItem>
+	);
+
 	newCommentBox.before(banner);
 	newCommentBox.hidden = true;
 }
 
 function init(signal: AbortSignal): void | false {
-	// Do not move to `asLongAs` because those conditions are run before `isConversation`
-	if (!wasClosedLongAgo()) {
+	if (hasNoCommentsRequest()) {
+		// Do not move to `asLongAs` because those conditions are run before `isConversation`
+		observe('#issuecomment-new file-attachment', addNoCommentsRequestBanner, {signal});
+	} else if (wasClosedLongAgo()) {
+		// Do not move to `asLongAs` because those conditions are run before `isConversation`
+		observe('#issuecomment-new file-attachment', addClosedLongAgoBanner, {signal});
+	} else {
 		return false;
 	}
-
-	observe('#issuecomment-new:has(file-attachment)', addConversationBanner, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -58,7 +117,11 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-- Old issue: https://github.com/refined-github/refined-github/issues/3076
+- Old issue: https://github.com/refined-github/refined-github/issues/1
 - Old PR: https://github.com/refined-github/refined-github/pull/159
+
+- https://github.com/refined-github/refined-github/issues/7404
+- https://github.com/refined-github/refined-github/issues/7000
+- https://github.com/refined-github/refined-github/issues/6000
 
 */
