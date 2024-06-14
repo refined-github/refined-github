@@ -1,4 +1,3 @@
-import './list-prs-for-file.css';
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import {isFirefox} from 'webext-detect-page';
@@ -9,7 +8,7 @@ import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
+import {buildRepoURL, cacheByRepo, fixFileHeaderOverlap} from '../github-helpers/index.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
 import observe from '../helpers/selector-observer.js';
 import listPrsForFileQuery from './list-prs-for-file.gql';
@@ -98,10 +97,7 @@ async function addToSingleFile(moreFileActionsDropdown: HTMLElement): Promise<vo
 
 		moreFileActionsDropdown.before(dropdown);
 
-		const container = moreFileActionsDropdown.closest('.container');
-		if (container) {
-			container.classList.add('prs-for-file-container');
-		}
+		fixFileHeaderOverlap(moreFileActionsDropdown);
 	}
 }
 
@@ -126,10 +122,7 @@ async function addToEditingFile(saveButton: HTMLElement): Promise<false | void> 
 	dropdown.classList.add('mr-2');
 	saveButton.parentElement!.prepend(dropdown);
 
-	const container = saveButton.closest('.container');
-	if (container) {
-		container.classList.add('prs-for-file-container');
-	}
+	fixFileHeaderOverlap(saveButton);
 }
 
 function initSingleFile(signal: AbortSignal): void {
