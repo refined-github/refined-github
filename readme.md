@@ -175,6 +175,7 @@ Thanks for contributing! 🦋🙌
 - [](# "html-preview-link") [Adds a link to preview HTML files.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260874191-69d386a0-7c1f-42ae-84fd-4f67f90982da.png)
 - [](# "file-age-color") [Highlights the most-recently-modified items in file lists.](https://user-images.githubusercontent.com/1402241/218314631-1442cc89-3616-40fc-abe2-9ba3d3697b6a.png)
 - [](# "previous-version") [Lets you see the previous version of a file in one click.](https://user-images.githubusercontent.com/50487467/236657960-401f3cd7-cc99-494e-b522-1dca76827369.png)
+- [](# "open-with-buttons") [Adds buttons to open a repository in external apps like Visual Studio Code.](https://github.com/refined-github/refined-github/assets/21111317/13516c22-585f-440e-b4de-53be95995af7)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

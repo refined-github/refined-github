@@ -104,6 +104,7 @@ one-key-formatting
 open-all-conversations
 open-all-notifications
 open-issue-to-latest-comment
+open-with-buttons
 pagination-hotkey
 parse-backticks
 patch-diff-links

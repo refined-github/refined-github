@@ -530,6 +530,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261159396-0610574b-ab1f-42fb-813f-ee7310a1e5b6.png"
 	},
 	{
+		"id": "open-with-buttons",
+		"description": "Adds buttons to open a repository in external apps like Visual Studio Code.",
+		"screenshot": "https://github.com/refined-github/refined-github/assets/21111317/13516c22-585f-440e-b4de-53be95995af7"
+	},
+	{
 		"id": "pagination-hotkey",
 		"description": "Adds shortcuts to navigate through pages with pagination: <kbd>←</kbd> and <kbd>→</kbd>.",
 		"screenshot": null
