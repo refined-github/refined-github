@@ -1,7 +1,7 @@
 import React from 'react';
 import LockIcon from 'octicons-plain-react/Lock';
 import * as pageDetect from 'github-url-detection';
-import {isChrome} from 'webext-detect-page';
+import elementReady from 'element-ready';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -22,20 +22,23 @@ function addLock(element: HTMLElement): void {
 	);
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void | false> {
 	// If reactions-menu exists, then .js-pick-reaction is the second child
-	// Logged out users never have the menu, so they should be excluded
-	observe(`
-		.logged-in .js-issues-results:has(.js-pick-reaction:first-child) :is(
-			.gh-header-meta > :first-child,
-			.gh-header-sticky .flex-row > :first-child
-		)
-	`, addLock, {signal});
+	const reactions = await elementReady('.js-pick-reaction');
+	if (!reactions?.matches(':first-child')) {
+		return false;
+	}
+
+	observe([
+		'.gh-header-meta > :first-child', // Issue title
+		'.gh-header-sticky .flex-row > :first-child', // Sticky issue title
+	], addLock, {signal});
 }
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		isChrome,
+		// Logged out users never see the reactions menu used to determine lock status. This would lead to false positives.
+		pageDetect.isLoggedIn,
 	],
 	include: [
 		pageDetect.isConversation,
