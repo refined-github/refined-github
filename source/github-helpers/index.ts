@@ -162,3 +162,7 @@ export function triggerActionBarOverflow(child: Element): void {
 	parent.replaceWith(placeholder);
 	placeholder.replaceWith(parent);
 }
+
+export function multilineAriaLabel(...lines: string[]): string {
+	return lines.join('\n');
+}

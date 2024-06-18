@@ -9,6 +9,7 @@ import features from '../feature-manager.js';
 import openTabs from '../helpers/open-tabs.js';
 import {appendBefore} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
+import {multilineAriaLabel} from '../github-helpers/index.js';
 
 // Selector works on:
 // https://github.com/notifications (Grouped by date)
@@ -73,7 +74,10 @@ function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 			type="button"
 			className={'btn btn-sm mr-2 tooltipped tooltipped-s ' + openSelected.class}
 			data-hotkey="p"
-			aria-label="Open selected (keyboard shortcut: P)"
+			aria-label={multilineAriaLabel(
+				'Open selected notifications',
+				'Hotkey: P',
+			)}
 		>
 			<LinkExternalIcon className="mr-1"/>Open
 		</button>
