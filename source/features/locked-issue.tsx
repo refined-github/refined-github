@@ -37,7 +37,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		// Logged out users never the reactions menu used to determine lock status. This would lead to false positives.
+		// Logged out users never see the reactions menu used to determine lock status. This would lead to false positives.
 		pageDetect.isLoggedIn,
 	],
 	include: [
