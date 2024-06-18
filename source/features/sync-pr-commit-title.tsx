@@ -107,3 +107,11 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // DOM-based filters, feature appears at the end of the page
 	init,
 });
+
+/*
+
+Test URLs:
+
+1. Open any PR in https://github.com/pulls
+
+*/

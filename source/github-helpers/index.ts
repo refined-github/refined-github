@@ -14,7 +14,7 @@ export const {getRepositoryInfo: getRepo, getCleanPathname} = pageDetect.utils;
 
 export function getConversationNumber(): number | undefined {
 	const [, _owner, _repo, type, prNumber] = location.pathname.split('/');
-	return type === 'pull' || type === 'issues' ? Number(prNumber) : undefined;
+	return (type === 'pull' || type === 'issues') && Number(prNumber) ? Number(prNumber) : undefined;
 }
 
 export const isMac = navigator.userAgent.includes('Macintosh');
