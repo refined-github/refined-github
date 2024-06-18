@@ -173,6 +173,10 @@ export function triggerActionBarOverflow(child: Element): void {
 	placeholder.replaceWith(parent);
 }
 
+export function multilineAriaLabel(...lines: string[]): string {
+	return lines.join('\n');
+}
+
 export function scrollIntoViewIfNeeded(element: Element): void {
 	// @ts-expect-error No Firefox support https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
 	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
