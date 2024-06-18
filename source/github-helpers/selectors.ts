@@ -108,3 +108,22 @@ export const codeSearchHeader_ = [
 	// Search not available when logged out :(
 	[0, 'https://github.com/search?q=repo%3Arefined-github%2Frefined-github&type=code'],
 ] satisfies UrlMatch[];
+
+export const linksToConversationLists = `
+	a:is(
+		[href*="/issues"],
+		[href*="/pulls"],
+		[href*="/projects"],
+		[href*="/labels/"]
+	):not(
+		[href*="sort%3A"],
+		[href*="page="],
+		.issues-reset-query,
+		.pagination *,
+		.table-list-header-toggle *
+	)
+`;
+export const linksToConversationLists_ = [
+	[6, 'https://github.com/fregante/iphone-inline-video/issues?q=cool+is%3Aissue+is%3Aopen+'],
+	[26, 'https://github.com/fregante/iphone-inline-video/issues?q=cool+is%3Aissue+is%3Aclosed'],
+] satisfies UrlMatch[];

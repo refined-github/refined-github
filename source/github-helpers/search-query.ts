@@ -128,8 +128,13 @@ export default class SearchQuery {
 		return this;
 	}
 
-	add(...queryPartsToAdd: string[]): this {
+	append(...queryPartsToAdd: string[]): this {
 		this.queryParts.push(...queryPartsToAdd);
+		return this;
+	}
+
+	prepend(...queryPartsToAdd: string[]): this {
+		this.queryParts.unshift(...queryPartsToAdd);
 		return this;
 	}
 
