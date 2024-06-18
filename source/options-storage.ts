@@ -6,7 +6,7 @@ export type RGHOptions = typeof defaults;
 
 // eslint-disable-next-line prefer-object-spread -- TypeScript doesn't merge the definitions so `...` is not equivalent.
 const defaults = Object.assign({
-	actionUrl: '',
+	actionUrl: 'https://github.com/',
 	customCSS: '',
 	personalToken: '',
 	logging: false,
@@ -67,7 +67,7 @@ export function getNewFeatureName(possibleFeatureName: string): FeatureID | unde
 }
 
 const migrations = [
-	function (options: RGHOptions): void {
+	(options: RGHOptions): void => {
 		for (const [from, to] of renamedFeatures) {
 			if (typeof options[`feature:${from}`] === 'boolean') {
 				options[`feature:${to}`] = options[`feature:${from}`];

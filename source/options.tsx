@@ -22,6 +22,7 @@ import isDevelopmentVersion from './helpers/is-development-version.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {state as bisectState} from './helpers/bisect.js';
 import {parseTokenScopes} from './github-helpers/github-token.js';
+import {scrollIntoViewIfNeeded} from './github-helpers/index.js';
 
 type TokenType = 'classic' | 'fine_grained';
 
@@ -235,8 +236,7 @@ function featuresFilterHandler(event: Event): void {
 }
 
 function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
-	// @ts-expect-error No Firefox support https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
-	(section.scrollIntoViewIfNeeded ?? section.scrollIntoView).call(section);
+	scrollIntoViewIfNeeded(section);
 	if (section.open) {
 		const field = $('input, textarea', section);
 		if (field) {
