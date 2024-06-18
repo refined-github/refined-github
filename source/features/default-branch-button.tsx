@@ -12,7 +12,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
 import {branchSelector} from '../github-helpers/selectors.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import {isRepoCommitListRoot} from '../github-helpers/index.js';
+import {fixFileHeaderOverlap, isRepoCommitListRoot} from '../github-helpers/index.js';
 
 async function updateUrl(event: React.MouseEvent<HTMLAnchorElement>): Promise<void> {
 	event.currentTarget.href = await getUrl(location.href);
@@ -36,6 +36,10 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 	// https://github.com/refined-github/refined-github/issues/7098
 	if (elementExists('.rgh-default-branch-button')) {
 		return;
+	}
+
+	if (pageDetect.isSingleFile()) {
+		fixFileHeaderOverlap(branchSelector);
 	}
 
 	const defaultLink = (

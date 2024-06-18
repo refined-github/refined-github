@@ -1,4 +1,4 @@
-import {$, elementExists} from 'select-dom';
+import {$, elementExists, expectElement} from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
@@ -149,6 +149,21 @@ export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement,
 	const row = branchSelectorParent.closest('.position-relative')!;
 	row.classList.add('d-flex', 'flex-shrink-0', 'gap-2');
 	row.append(sibling);
+}
+
+/** Trigger a conversation update if the view is out of date */
+// https://github.com/refined-github/refined-github/issues/2465#issuecomment-567173300
+export function triggerConversationUpdate(): void {
+	const marker = expectElement('.js-timeline-marker');
+	marker.dispatchEvent(new CustomEvent('socket:message', {
+		bubbles: true,
+		detail: {data: {gid: marker.dataset.gid}},
+	}));
+}
+
+// Fix z-index issue https://github.com/refined-github/refined-github/pull/7430
+export function fixFileHeaderOverlap(child: Element): void {
+	child.closest('.container')!.classList.add('rgh-z-index-1');
 }
 
 /** Trigger a reflow to push the right-most tab into the overflow dropdown */

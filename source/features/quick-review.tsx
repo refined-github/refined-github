@@ -9,7 +9,9 @@ import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import showToast from '../github-helpers/toast.js';
-import {getConversationNumber, getUsername} from '../github-helpers/index.js';
+import {
+	getConversationNumber, getUsername, scrollIntoViewIfNeeded, triggerConversationUpdate,
+} from '../github-helpers/index.js';
 import {randomArrayItem} from '../helpers/math.js';
 import {getToken} from '../github-helpers/github-token.js';
 
@@ -30,6 +32,10 @@ async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 		message: 'Approving…',
 		doneMessage: `${randomArrayItem(emojis)} Approved`,
 	});
+
+	// Update timeline and scroll to bottom so the new review appears in view
+	scrollIntoViewIfNeeded($('#partial-timeline'));
+	triggerConversationUpdate();
 }
 
 async function addSidebarReviewButton(reviewersSection: Element): Promise<void> {
