@@ -161,6 +161,11 @@ export function triggerConversationUpdate(): void {
 	}));
 }
 
+// Fix z-index issue https://github.com/refined-github/refined-github/pull/7430
+export function fixFileHeaderOverlap(child: Element): void {
+	child.closest('.container')!.classList.add('rgh-z-index-1');
+}
+
 /** Trigger a reflow to push the right-most tab into the overflow dropdown */
 export function triggerRepoNavOverflow(): void {
 	window.dispatchEvent(new Event('resize'));
@@ -180,9 +185,4 @@ export function multilineAriaLabel(...lines: string[]): string {
 export function scrollIntoViewIfNeeded(element: Element): void {
 	// @ts-expect-error No Firefox support https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
 	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
-}
-
-// Fix z-index issue https://github.com/refined-github/refined-github/pull/7430
-export function fixFileHeaderOverlap(child: Element): void {
-	child.closest('.container')!.classList.add('rgh-z-index-1');
 }
