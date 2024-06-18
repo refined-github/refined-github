@@ -21,9 +21,13 @@ function getCurrentCommitTitle(): string | undefined {
 	return getCurrentCommitTitleField()?.value.trim();
 }
 
+export function formatPrCommitTitle(title: string): string {
+	return `${title} (#${getConversationNumber()!})`;
+}
+
 function createCommitTitle(): string {
 	const prTitle = $(prTitleFieldSelector)!.value.trim();
-	return `${prTitle} (#${getConversationNumber()!})`;
+	return formatPrCommitTitle(prTitle);
 }
 
 function needsSubmission(): boolean {
@@ -103,3 +107,11 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // DOM-based filters, feature appears at the end of the page
 	init,
 });
+
+/*
+
+Test URLs:
+
+1. Open any PR in https://github.com/pulls
+
+*/

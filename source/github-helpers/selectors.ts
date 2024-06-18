@@ -93,6 +93,11 @@ export const actionsTab_ = [
 	[1, 'https://github.com/refined-github/sandbox'],
 ] satisfies UrlMatch[];
 
+export const paginationButtonSelector = '.ajax-pagination-form button.ajax-pagination-btn';
+export const paginationButtonSelector_ = [
+	[2, 'https://github.com/refined-github/sandbox/pull/10'],
+] satisfies UrlMatch[];
+
 export const codeSearchHeader = css`
 	div:has(
 		> [aria-label^="Collapse "],
