@@ -13,11 +13,8 @@ export const getUsername = onetime(pageDetect.utils.getUsername);
 export const {getRepositoryInfo: getRepo, getCleanPathname} = pageDetect.utils;
 
 export function getConversationNumber(): number | undefined {
-	if (pageDetect.isPR() || pageDetect.isIssue()) {
-		return Number(location.pathname.split('/')[4]);
-	}
-
-	return undefined;
+	const [, _owner, _repo, type, prNumber] = location.pathname.split('/');
+	return type === 'pull' || type === 'issues' ? Number(prNumber) : undefined;
 }
 
 export const isMac = navigator.userAgent.includes('Macintosh');

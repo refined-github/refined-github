@@ -21,9 +21,13 @@ function getCurrentCommitTitle(): string | undefined {
 	return getCurrentCommitTitleField()?.value.trim();
 }
 
+export function formatPrCommitTitle(title: string): string {
+	return `${title} (#${getConversationNumber()!})`;
+}
+
 function createCommitTitle(): string {
 	const prTitle = $(prTitleFieldSelector)!.value.trim();
-	return `${prTitle} (#${getConversationNumber()!})`;
+	return formatPrCommitTitle(prTitle);
 }
 
 function needsSubmission(): boolean {
