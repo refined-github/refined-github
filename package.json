@@ -5,7 +5,7 @@
 		"vitest": "vitest --run",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
-		"build:webpack": "npm run x:webpack -- --mode=production",
+		"build:webpack": "ls; npm run x:webpack --config webpack.config.ts -- --mode=production",
 		"fix": "run-p \"lint:css -- --fix\" \"lint:js -- --fix\" fix:prettier \"vitest -- --update\" --continue-on-error",
 		"fix:prettier": "prettier . --write",
 		"lint": "run-p lint:* --continue-on-error",
