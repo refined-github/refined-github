@@ -1,6 +1,10 @@
 {
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
+		"outDir": "lol",
+		"rootDir": "./",
+		"module": "node16",
+		"moduleResolution": "node16",
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
 		"lib": [

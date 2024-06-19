@@ -3,6 +3,8 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import cleanup from 'rollup-plugin-cleanup';
 
+import readmePlugin from './build/readme.plugin.js';
+
 const rollup = {
 	input: {
 		options: './source/options.tsx',
@@ -14,7 +16,8 @@ const rollup = {
 		dir: 'distribution/assets',
 	},
 	plugins: [
-		typescript({compilerOptions: { module: 'Node16' }}),
+		readmePlugin(),
+		typescript({compilerOptions: {module: 'Node16'}}),
 		resolve({browser: true}),
 		commonjs(),
 		cleanup(),
