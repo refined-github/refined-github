@@ -128,19 +128,19 @@ browser.permissions.onAdded.addListener(async permissions => {
 	}
 });
 
-const FIREFOX_OPTIONS_MENU_ID = 'FIREFOX_OPTIONS';
+const OPTIONS_SHORTCUT = 'FIREFOX_OPTIONS';
 
 function onContextMenuClick({menuItemId}: Menus.OnClickData): void {
-	if (menuItemId === FIREFOX_OPTIONS_MENU_ID) {
+	if (menuItemId === OPTIONS_SHORTCUT) {
 		void browser.runtime.openOptionsPage();
 	}
 }
 
-if (isFirefox()) {
+if (isFirefox() || isSafari()) {
 	browser.contextMenus.onClicked.addListener(onContextMenuClick);
 	browser.contextMenus.create({
-		id: FIREFOX_OPTIONS_MENU_ID,
-		title: 'Options',
+		id: OPTIONS_SHORTCUT,
+		title: 'Options…',
 		contexts: ['browser_action'],
 	});
 }
