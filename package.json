@@ -5,7 +5,7 @@
 		"vitest": "vitest --run",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
-		"build:webpack": "ls; npm run x:webpack --config webpack.config.ts -- --mode=production",
+		"build:webpack": "ls; npm run x:webpack -- --mode=production",
 		"fix": "run-p \"lint:css -- --fix\" \"lint:js -- --fix\" fix:prettier \"vitest -- --update\" --continue-on-error",
 		"fix:prettier": "prettier . --write",
 		"lint": "run-p lint:* --continue-on-error",
@@ -19,7 +19,7 @@
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:webpack": "npm run x:webpack -- --mode=development --watch",
-		"x:webpack": "cross-env NODE_OPTIONS=\"--import tsx --no-warnings=ExperimentalWarning\" webpack"
+		"x:webpack": "cross-env NODE_OPTIONS=\"--import tsx --no-warnings=ExperimentalWarning\" webpack --config webpack.config.ts"
 	},
 	"prettier": {
 		"singleQuote": true
