@@ -56,7 +56,7 @@ browser.runtime.onMessage.addListener((message: typeof messageHandlers, sender):
 	}
 });
 
-browser.browserAction.onClicked.addListener(async tab => {
+browser.action.onClicked.addListener(async tab => {
 	if (doesBrowserActionOpenOptions) {
 		void browser.runtime.openOptionsPage();
 		return;
