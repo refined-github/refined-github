@@ -1,6 +1,7 @@
 import {parseHTML, NodeFilter} from 'linkedom';
 
 const globals = [
+	'navigator',
 	'document',
 	'HTMLAnchorElement',
 	'DocumentFragment',
@@ -11,13 +12,7 @@ const {window} = parseHTML('...', 'text/html');
 globalThis.location = new URL('https://github.com');
 
 for (const property of globals) {
-	globalThis[property] = window[property];
-}
-
-if (globalThis.navigator) {
-	globalThis.navigator.userAgent = 'Node.js';
-} else {
-	globalThis.navigator = window.navigator;
+	globalThis[property] ??= window[property];
 }
 
 class Location {}
