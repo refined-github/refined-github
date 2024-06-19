@@ -32,10 +32,7 @@
 	"icons": {
 		"128": "assets/icon.png"
 	},
-	"options_ui": {
-		"chrome_style": true,
-		"page": "assets/options.html"
-	},
+	"options_page": "assets/options.html",
 	"background": {
 		"scripts": [
 			"assets/background.js"
