@@ -6,6 +6,13 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import webpack, {Configuration} from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
+console.log(Object.fromEntries([
+	'refined-github',
+	'background',
+	'options',
+	'resolve-conflicts',
+].map(name => [name, `./${name}.js`])))
+
 const config: Configuration = {
 	devtool: false, // Only inline source maps work in extensions, but they would slow down the extension for everyone
 	stats: {
