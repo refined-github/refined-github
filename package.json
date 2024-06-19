@@ -19,7 +19,7 @@
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:webpack": "npm run x:webpack -- --mode=development --watch",
-		"x:webpack": "cross-env NODE_OPTIONS=\"--import tsx --no-warnings=ExperimentalWarning\" webpack --config webpack.config.ts"
+		"x:webpack": "cross-env NODE_OPTIONS=\"--import tsx --no-warnings=ExperimentalWarning\" webpack"
 	},
 	"prettier": {
 		"singleQuote": true
@@ -100,7 +100,7 @@
 		"css-loader": "^7.1.2",
 		"daily-version": "^2.0.0",
 		"dot-json": "^1.3.0",
-		"esbuild-loader": "^4.1.0",
+		"esbuild-loader": "^4.2.0",
 		"eslint-config-xo-react": "^0.27.0",
 		"eslint-plugin-react": "^7.34.1",
 		"eslint-plugin-react-hooks": "^4.6.2",
