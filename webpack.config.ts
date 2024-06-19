@@ -24,10 +24,7 @@ const config: Configuration = {
 		hints: false,
 	},
 	entry: Object.fromEntries([
-		'refined-github',
-		'background',
 		'options',
-		'resolve-conflicts',
 	].map(name => [name, `./${name}.js`])),
 	context: path.resolve('source'),
 	output: {
