@@ -1,7 +1,7 @@
-export default function readmePlugin(): {name: string; load(id: any): Promise<string | void>} {
+export default function readmePlugin() {
 	return {
 		name: 'readme-plugin',
-		async load(id: string): Promise<string | void> {
+		async load(id) {
 			if (id.endsWith('/readme.md')) {
 				const {getImportedFeatures, getFeaturesMeta} = await import('./readme-parser.js');
 				return `
