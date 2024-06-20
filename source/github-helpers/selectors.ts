@@ -24,8 +24,8 @@ export const repoUnderlineNavDropdownUl = '.js-responsive-underlinenav action-me
 export const repoUnderlineNavDropdownUl_ = [
 	// Added via JS :(
 	// TODO: Use Puppeteer?
-	[0, 'https://github.com/refined-github/refined-github'],
-	[0, 'https://github.com/refined-github/refined-github/releases'],
+	[1, 'https://github.com/refined-github/refined-github'],
+	[1, 'https://github.com/refined-github/refined-github/releases'],
 ] satisfies UrlMatch[];
 
 export const branchSelector = '[data-hotkey="w"]';

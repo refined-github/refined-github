@@ -12,7 +12,7 @@ const {window} = parseHTML('...', 'text/html');
 globalThis.location = new URL('https://github.com');
 
 for (const property of globals) {
-	globalThis[property] = window[property];
+	globalThis[property] ??= window[property];
 }
 
 class Location {}

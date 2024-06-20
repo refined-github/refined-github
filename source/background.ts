@@ -1,8 +1,8 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import {type Runtime} from 'webextension-polyfill';
+import {Menus, type Runtime} from 'webextension-polyfill';
 import 'webext-dynamic-content-scripts';
 import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
-import {isSafari} from 'webext-detect-page';
+import {isSafari, isFirefox} from 'webext-detect-page';
 import {objectKeys} from 'ts-extras';
 import addPermissionToggle from 'webext-permission-toggle';
 import webextAlert from 'webext-alert';
@@ -69,7 +69,7 @@ browser.browserAction.onClicked.addListener(async tab => {
 		return;
 	}
 
-	void browser.tabs.create({
+	await browser.tabs.create({
 		openerTabId: tab.id,
 		url: actionUrl,
 	});
@@ -127,3 +127,20 @@ browser.permissions.onAdded.addListener(async permissions => {
 		await webextAlert('Refined GitHub is not meant to run on every website. If you’re looking to enable it on GitHub Enterprise, follow the instructions in the Options page.');
 	}
 });
+
+const OPTIONS_SHORTCUT = 'FIREFOX_OPTIONS';
+
+function onContextMenuClick({menuItemId}: Menus.OnClickData): void {
+	if (menuItemId === OPTIONS_SHORTCUT) {
+		void browser.runtime.openOptionsPage();
+	}
+}
+
+if (isFirefox() || isSafari()) {
+	browser.contextMenus.onClicked.addListener(onContextMenuClick);
+	browser.contextMenus.create({
+		id: OPTIONS_SHORTCUT,
+		title: 'Options…',
+		contexts: ['browser_action'],
+	});
+}
