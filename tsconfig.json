@@ -4,6 +4,7 @@
 		"outDir": "./distribution/assets",
 		"rootDir": "./",
 		"module": "node16",
+		"declaration": false,
 		"moduleResolution": "node16",
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
