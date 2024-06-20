@@ -97,6 +97,7 @@
 		"@sindresorhus/tsconfig": "^5.0.0",
 		"@types/codemirror": "^5.60.15",
 		"@types/dom-navigation": "^1.0.3",
+		"@types/node": "^20.14.6",
 		"@types/react": "^17.0.52",
 		"@types/webextension-polyfill": "^0.10.7",
 		"cross-env": "^7.0.3",
