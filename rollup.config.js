@@ -18,7 +18,8 @@ const rollup = {
 	},
 	output: {
 		dir: 'distribution/assets',
-		// AssetFileNames: "[name]-[hash][extname]", // for CSS
+		preserveModules: true,
+		sssetFileNames: '[name]-[hash][extname]', // For CSS
 	},
 	plugins: [
 		json(), // TODO: Drop after https://github.com/refined-github/shorten-repo-url/issues/47
