@@ -17,7 +17,7 @@ import {
 } from '../github-helpers/prevent-link-loss.js';
 import createBanner from '../github-helpers/banner.js';
 
-const documentation = 'https://github.com/refined-github/refined-github/wiki/GitHub-markdown-linkifier-bug';
+const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#prevent-link-loss';
 
 function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #4678 */
