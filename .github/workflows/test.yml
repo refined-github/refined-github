@@ -65,13 +65,6 @@ jobs:
           node-version-file: package.json
           cache: npm
       - run: npm ci
-      - run: npm run build:webpack -- --json webpack-stats.json
-      - name: Send webpack stats to RelativeCI
-        if: matrix.os == 'ubuntu-latest'
-        uses: relative-ci/agent-action@v2
-        with:
-          webpackStatsFile: ./webpack-stats.json
-          key: ${{ secrets.RELATIVE_CI_KEY }}
       - uses: actions/upload-artifact@v4
         if: matrix.os == 'ubuntu-latest'
         with:
@@ -87,7 +80,7 @@ jobs:
           node-version-file: package.json
           cache: npm
       - run: npm ci
-      - run: npm run build:webpack
+      - run: npm run build:rollup
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: '15.0.1'

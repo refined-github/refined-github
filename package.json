@@ -5,7 +5,7 @@
 		"vitest": "vitest --run",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
-		"build:webpack": "npm run x:webpack -- --mode=production",
+		"build:rollup": "rollup -c",
 		"fix": "run-p \"lint:css -- --fix\" \"lint:js -- --fix\" fix:prettier \"vitest -- --update\" --continue-on-error",
 		"fix:prettier": "prettier . --write",
 		"lint": "run-p lint:* --continue-on-error",
@@ -18,8 +18,7 @@
 		"test": "run-p vitest lint:* build:* --continue-on-error",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
-		"watch:webpack": "npm run x:webpack -- --mode=development --watch",
-		"x:webpack": "cross-env NODE_OPTIONS=\"--import tsx --no-warnings=ExperimentalWarning\" webpack"
+		"watch:rollup": "rollup -c --watch"
 	},
 	"prettier": {
 		"singleQuote": true
@@ -100,19 +99,15 @@
 		"@types/dom-navigation": "^1.0.3",
 		"@types/react": "^17.0.52",
 		"@types/webextension-polyfill": "^0.10.7",
-		"copy-webpack-plugin": "^12.0.2",
 		"cross-env": "^7.0.3",
-		"css-loader": "^7.1.2",
 		"daily-version": "^2.0.0",
 		"dot-json": "^1.3.0",
-		"esbuild-loader": "^4.1.0",
 		"eslint-config-xo-react": "^0.27.0",
 		"eslint-plugin-react": "^7.34.1",
 		"eslint-plugin-react-hooks": "^4.6.2",
 		"fast-ignore": "^1.1.3",
 		"filenamify": "^6.0.0",
 		"highlight.js": "^11.9.0",
-		"mini-css-extract-plugin": "^2.9.0",
 		"npm-run-all": "^4.1.5",
 		"p-memoize": "^7.1.1",
 		"prettier": "^3.2.5",
@@ -123,14 +118,10 @@
 		"snarkdown": "^2.0.0",
 		"stylelint": "^16.6.0",
 		"stylelint-config-xo": "^1.0.2",
-		"terser-webpack-plugin": "^5.3.10",
-		"tsx": "^4.11.0",
 		"type-fest": "^4.18.3",
 		"typed-query-selector": "^2.11.2",
 		"typescript": "^5.2.2",
 		"vitest": "^1.1.3",
-		"webpack": "^5.91.0",
-		"webpack-cli": "^5.1.4",
 		"xo": "^0.58.0"
 	},
 	"engines": {

@@ -16,7 +16,6 @@
 	"include": [
 		"source",
 		"test",
-		"build",
-		"webpack.config.ts"
+		"build"
 	]
 }
