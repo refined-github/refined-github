@@ -1,7 +1,7 @@
 {
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
-		"outDir": "lol",
+		"outDir": "./distribution/assets",
 		"rootDir": "./",
 		"module": "node16",
 		"moduleResolution": "node16",
