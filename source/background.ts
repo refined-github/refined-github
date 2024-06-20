@@ -141,6 +141,6 @@ if (isFirefox() || isSafari()) {
 	browser.contextMenus.create({
 		id: OPTIONS_SHORTCUT,
 		title: 'Options…',
-		contexts: ['browser_action'],
+		contexts: ['action'],
 	});
 }
