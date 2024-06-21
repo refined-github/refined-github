@@ -30,6 +30,9 @@
 	"action": {
 		"default_icon": "assets/icon.png"
 	},
+	"optional_permissions": [
+		"*://*/*"
+	],
 	"optional_host_permissions": [
 		"*://*/*"
 	],
