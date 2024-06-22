@@ -1,5 +1,6 @@
 .file.details-collapsed-target.details-collapsed-target.details-collapsed-target {
-	box-shadow: 0 0 0 2px var(--color-accent-fg, fuchsia) !important;
+	box-shadow: 0 0 0 2px
+		var(--focus-outlineColor, var(--color-accent-fg, fuchsia)) !important;
 }
 
 .file.not-target:target {
