@@ -18,12 +18,11 @@ export function isFeaturePrivate(id: string): boolean {
 	return id.startsWith('rgh-');
 }
 
-async function isMobile(): Promise<boolean> {
-    const platformInfo = await browser.runtime.getPlatformInfo();
-    return ["android", "ios"].includes(platformInfo.os);
+export function supportsContextMenus(): boolean {
+    return typeof browser.contextMenus !== 'undefined';
 }
 
-export const doesBrowserActionOpenOptions = await isMobile();
+export const doesBrowserActionOpenOptions = !supportsContextMenus();
 
 export async function shouldFeatureRun({
 	/** Every condition must be true */
