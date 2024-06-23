@@ -20,11 +20,10 @@ export function isFeaturePrivate(id: string): boolean {
 
 async function isMobile(): Promise<boolean> {
     const platformInfo = await browser.runtime.getPlatformInfo();
-	console.log(platformInfo);
     return ["android", "ios"].includes(platformInfo.os);
 }
 
-export const doesBrowserActionOpenOptions = isMobile();
+export const doesBrowserActionOpenOptions = await isMobile();
 
 export async function shouldFeatureRun({
 	/** Every condition must be true */
