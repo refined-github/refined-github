@@ -1,4 +1,3 @@
-import {isMobileSafari} from 'webext-detect-page';
 import {Promisable} from 'type-fest';
 
 import {pEveryFunction, pSomeFunction} from './p-utils.js';
@@ -19,7 +18,13 @@ export function isFeaturePrivate(id: string): boolean {
 	return id.startsWith('rgh-');
 }
 
-export const doesBrowserActionOpenOptions = isMobileSafari();
+async function isMobile(): Promise<boolean> {
+    const platformInfo = await browser.runtime.getPlatformInfo();
+	console.log(platformInfo);
+    return ["android", "ios"].includes(platformInfo.os);
+}
+
+export const doesBrowserActionOpenOptions = isMobile();
 
 export async function shouldFeatureRun({
 	/** Every condition must be true */
