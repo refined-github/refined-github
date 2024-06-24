@@ -84,7 +84,7 @@
 		"webext-detect-page": "^5.0.1",
 		"webext-dynamic-content-scripts": "^10.0.3",
 		"webext-options-sync-per-domain": "^4.2.2",
-		"webext-permission-toggle": "^5.0.1",
+		"webext-permission-toggle": "^5.0.2",
 		"webext-storage-cache": "^6.0.1",
 		"zip-text-nodes": "^1.0.0"
 	},
