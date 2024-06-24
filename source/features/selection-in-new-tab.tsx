@@ -10,7 +10,7 @@ function openInNewTab(): void {
 		return;
 	}
 
-	void browser.runtime.sendMessage({
+	void chrome.runtime.sendMessage({
 		openUrls: [selected.href],
 	});
 
