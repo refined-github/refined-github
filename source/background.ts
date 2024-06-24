@@ -1,5 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import {Menus, type Runtime} from 'webextension-polyfill';
 import 'webext-dynamic-content-scripts';
 import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
 import {isSafari, isFirefox} from 'webext-detect-page';
@@ -13,23 +11,23 @@ import getStorageBytesInUse from './helpers/used-storage.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {styleHotfixes} from './helpers/hotfix.js';
 
-const {version} = browser.runtime.getManifest();
+const {version} = chrome.runtime.getManifest();
 
 // GHE support
 addPermissionToggle();
 
 const messageHandlers = {
-	async openUrls(urls: string[], {tab}: Runtime.MessageSender) {
+	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
 		for (const [index, url] of urls.entries()) {
-			void browser.tabs.create({
+			void chrome.tabs.create({
 				url,
 				index: tab!.index + index + 1,
 				active: false,
 			});
 		}
 	},
-	async closeTab(_: any, {tab}: Runtime.MessageSender) {
-		void browser.tabs.remove(tab!.id!);
+	async closeTab(_: any, {tab}: chrome.runtime.MessageSender) {
+		void chrome.tabs.remove(tab!.id!);
 	},
 	async fetch(url: string) {
 		const response = await fetch(url);
@@ -40,7 +38,7 @@ const messageHandlers = {
 		return response.json();
 	},
 	async openOptionsPage() {
-		return browser.runtime.openOptionsPage();
+		return chrome.runtime.openOptionsPage();
 	},
 	async getStyleHotfixes() {
 		return styleHotfixes.get(version);
@@ -48,7 +46,7 @@ const messageHandlers = {
 	// They must return a promise to mark the message as handled
 } satisfies Record<string, (...arguments_: any[]) => Promise<any>>;
 
-browser.runtime.onMessage.addListener((message: typeof messageHandlers, sender): Promise<unknown> | void => {
+chrome.runtime.onMessage.addListener((message: typeof messageHandlers, sender): Promise<unknown> | void => {
 	for (const id of objectKeys(message)) {
 		if (id in messageHandlers) {
 			return messageHandlers[id](message[id], sender);
@@ -56,20 +54,21 @@ browser.runtime.onMessage.addListener((message: typeof messageHandlers, sender):
 	}
 });
 
-browser.action.onClicked.addListener(async tab => {
+// `browserAction` needed for Firefox MV2 https://github.com/refined-github/refined-github/issues/7477
+(chrome.action ?? chrome.browserAction).onClicked.addListener(async tab => {
 	if (doesBrowserActionOpenOptions) {
-		void browser.runtime.openOptionsPage();
+		void chrome.runtime.openOptionsPage();
 		return;
 	}
 
 	const {actionUrl} = await optionsStorage.getAll();
 	if (!actionUrl) {
 		// Default to options page if unset
-		void browser.runtime.openOptionsPage();
+		void chrome.runtime.openOptionsPage();
 		return;
 	}
 
-	await browser.tabs.create({
+	await chrome.tabs.create({
 		openerTabId: tab.id,
 		url: actionUrl,
 	});
@@ -95,10 +94,10 @@ async function isFirstInstall(suggestedReason: string): Promise<boolean> {
 	);
 }
 
-browser.runtime.onInstalled.addListener(async ({reason}) => {
+chrome.runtime.onInstalled.addListener(async ({reason}) => {
 	// Only notify on install
 	if (await isFirstInstall(reason)) {
-		await browser.tabs.create({
+		await chrome.tabs.create({
 			url: 'https://github.com/refined-github/refined-github/issues/3543',
 		});
 	}
@@ -107,9 +106,9 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 		await globalCache.clear();
 	}
 
-	if (await browser.permissions.contains({origins: ['*://*/*']})) {
+	if (await chrome.permissions.contains({origins: ['*://*/*']})) {
 		console.warn('Refined GitHub was granted access to all websites by the user and it’s now been removed. https://github.com/refined-github/refined-github/pull/7407');
-		await browser.permissions.remove({
+		await chrome.permissions.remove({
 			origins: [
 				'*://*/*',
 			],
@@ -117,9 +116,9 @@ browser.runtime.onInstalled.addListener(async ({reason}) => {
 	}
 });
 
-browser.permissions.onAdded.addListener(async permissions => {
+chrome.permissions.onAdded.addListener(async permissions => {
 	if (permissions.origins?.includes('*://*/*')) {
-		await browser.permissions.remove({
+		await chrome.permissions.remove({
 			origins: [
 				'*://*/*',
 			],
@@ -130,15 +129,15 @@ browser.permissions.onAdded.addListener(async permissions => {
 
 const OPTIONS_SHORTCUT = 'FIREFOX_OPTIONS';
 
-function onContextMenuClick({menuItemId}: Menus.OnClickData): void {
+function onContextMenuClick({menuItemId}: chrome.contextMenus.OnClickData): void {
 	if (menuItemId === OPTIONS_SHORTCUT) {
-		void browser.runtime.openOptionsPage();
+		void chrome.runtime.openOptionsPage();
 	}
 }
 
 if (isFirefox() || isSafari()) {
-	browser.contextMenus.onClicked.addListener(onContextMenuClick);
-	browser.contextMenus.create({
+	chrome.contextMenus.onClicked.addListener(onContextMenuClick);
+	chrome.contextMenus.create({
 		id: OPTIONS_SHORTCUT,
 		title: 'Options…',
 		contexts: ['action'],

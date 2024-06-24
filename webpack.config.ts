@@ -3,7 +3,7 @@
 import path from 'node:path';
 import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import webpack, {Configuration} from 'webpack';
+import {type Configuration} from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const config: Configuration = {
@@ -55,9 +55,6 @@ const config: Configuration = {
 	},
 	plugins: [
 		new MiniCssExtractPlugin(),
-		new webpack.ProvidePlugin({
-			browser: 'webextension-polyfill',
-		}),
 		new CopyWebpackPlugin({
 			patterns: [{
 				// Keep only the manifest in the root

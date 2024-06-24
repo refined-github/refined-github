@@ -35,7 +35,7 @@ type Status = {
 	scopes?: string[];
 };
 
-const {version} = browser.runtime.getManifest();
+const {version} = chrome.runtime.getManifest();
 
 function reportStatus({tokenType, error, text, scopes}: Status): void {
 	const tokenStatus = $('#validation')!;
@@ -107,7 +107,7 @@ function expandTokenSection(): void {
 }
 
 async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
-	const storage = browser.storage[area];
+	const storage = chrome.storage[area];
 	const used = await getStorageBytesInUse(area);
 	const available = storage.QUOTA_BYTES - used;
 	for (const output of $$(`.storage-${area}`)) {
@@ -357,15 +357,15 @@ function addEventListeners(): void {
 	});
 
 	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)
-	browser.permissions.onRemoved.addListener(() => {
+	chrome.permissions.onRemoved.addListener(() => {
 		location.reload();
 	});
-	browser.permissions.onAdded.addListener(() => {
+	chrome.permissions.onAdded.addListener(() => {
 		location.reload();
 	});
 
 	// Update storage usage info
-	browser.storage.onChanged.addListener((_, areaName) => {
+	chrome.storage.onChanged.addListener((_, areaName) => {
 		void updateStorageUsage(areaName as 'sync' | 'local');
 	});
 

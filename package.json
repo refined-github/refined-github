@@ -86,15 +86,14 @@
 		"webext-options-sync-per-domain": "^4.2.2",
 		"webext-permission-toggle": "^5.0.1",
 		"webext-storage-cache": "^6.0.1",
-		"webextension-polyfill-global": "^0.10.1-1",
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^5.0.0",
+		"@types/chrome": "^0.0.268",
 		"@types/codemirror": "^5.60.15",
 		"@types/dom-navigation": "^1.0.3",
 		"@types/react": "^17.0.52",
-		"@types/webextension-polyfill": "^0.10.7",
 		"copy-webpack-plugin": "^12.0.2",
 		"cross-env": "^7.0.3",
 		"css-loader": "^7.1.2",

@@ -57,7 +57,7 @@ type InternalRunConfig = RunConditions & {
 	shortcuts: Record<string, string>;
 };
 
-const {version} = browser.runtime.getManifest();
+const {version} = chrome.runtime.getManifest();
 
 const currentFeatureControllers = new ArrayMap<FeatureID, AbortController>();
 const fineGrainedTokenSuggestion = 'Please use a GitHub App, OAuth App, or a personal access token with fine-grained permissions.';
@@ -135,7 +135,7 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 
 	// Request in the background page to avoid showing a 404 request in the console
 	// https://github.com/refined-github/refined-github/issues/6433
-	void browser.runtime.sendMessage({getStyleHotfixes: true}).then(applyStyleHotfixes);
+	void chrome.runtime.sendMessage({getStyleHotfixes: true}).then(applyStyleHotfixes);
 
 	if (options.customCSS.trim().length > 0) {
 		// Review #5857 and #5493 before making changes
