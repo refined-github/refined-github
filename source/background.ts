@@ -54,6 +54,7 @@ chrome.runtime.onMessage.addListener((message: typeof messageHandlers, sender): 
 	}
 });
 
+// `browserAction` needed for Firefox MV2 https://github.com/refined-github/refined-github/issues/7477
 (chrome.action ?? chrome.browserAction).onClicked.addListener(async tab => {
 	if (doesBrowserActionOpenOptions) {
 		void chrome.runtime.openOptionsPage();
