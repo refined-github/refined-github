@@ -23,10 +23,7 @@ if (manifestVersion === '2') {
 	manifest.web_accessible_resources = ['assets/resolve-conflicts.js'];
 	delete manifest.background.service_worker;
 
-	manifest.permissions = [
-		...manifest.permissions,
-		...manifest.host_permissions,
-	];
+	manifest.permissions.push(...manifest.host_permissions);
 	delete manifest.host_permissions;
 	delete manifest.optional_host_permissions;
 
