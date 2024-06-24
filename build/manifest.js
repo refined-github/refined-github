@@ -24,8 +24,8 @@ if (manifestVersion === '2') {
 	delete manifest.background.service_worker;
 
 	manifest.permissions = [
-		...(manifest.permissions || []),
-		...(manifest.host_permissions || []),
+		...manifest.permissions,
+		...manifest.host_permissions,
 	];
 	delete manifest.host_permissions;
 	delete manifest.optional_host_permissions;
