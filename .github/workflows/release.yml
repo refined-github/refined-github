@@ -52,7 +52,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
       - run: npm install dot-json@1
-      - run: npm run manifest artifact 3
+      - run: npm run manifest artifact 3 # Kiwi browser https://github.com/kiwibrowser/src.next/issues/1138
       - run: npx chrome-webstore-upload-cli@3
         working-directory: artifact
         env:
@@ -69,7 +69,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
       - run: npm install dot-json@1
-      - run: npm run manifest artifact 2
+      - run: npm run manifest artifact 2 # Firefox https://github.com/refined-github/refined-github/issues/7477
       - run: npx web-ext@8 sign --channel listed
         working-directory: artifact
         env:

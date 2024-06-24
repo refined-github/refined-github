@@ -17,6 +17,8 @@ if (!existsSync(manifestPath)) {
 const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
 
 if (manifestVersion === '2') {
+	// Avoid bad Firefox UX with manifest v3
+	// TODO: Drop after https://bugzilla.mozilla.org/show_bug.cgi?id=1851083
 	manifest.manifest_version = 2;
 	manifest.web_accessible_resources = ['assets/resolve-conflicts.js'];
 	delete manifest.background.service_worker;
@@ -31,6 +33,8 @@ if (manifestVersion === '2') {
 	manifest.browser_action = manifest.action;
 	delete manifest.action;
 } else {
+	// Kiwi browser support
+	// TODO: Drop after https://github.com/kiwibrowser/src.next/issues/1138
 	delete manifest.background.scripts;
 }
 
