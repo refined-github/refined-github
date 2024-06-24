@@ -124,7 +124,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	$('.application-main')!.remove();
 	if (document.hidden) {
 		// Try closing the tab if in the background. Could fail, so we still update the UI above
-		void browser.runtime.sendMessage({closeTab: true});
+		void chrome.runtime.sendMessage({closeTab: true});
 	}
 }
 
