@@ -15,11 +15,8 @@ import {styleHotfixes} from './helpers/hotfix.js';
 
 const {version} = browser.runtime.getManifest();
 
-if(!doesBrowserActionOpenOptions)
-{
 // GHE support
-	addPermissionToggle();
-}
+addPermissionToggle();
 
 const messageHandlers = {
 	async openUrls(urls: string[], {tab}: Runtime.MessageSender) {
