@@ -51,6 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
+      - run: npm run manifest artifact 3
       - run: npx chrome-webstore-upload-cli@3
         working-directory: artifact
         env:
@@ -66,6 +67,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
+      - run: npm install dot-json@1
+      - run: npm run manifest artifact 2
       - run: npx web-ext@8 sign --channel listed
         working-directory: artifact
         env:
