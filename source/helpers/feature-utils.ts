@@ -1,3 +1,4 @@
+import {isMobileSafari} from 'webext-detect-page';
 import {Promisable} from 'type-fest';
 
 import {pEveryFunction, pSomeFunction} from './p-utils.js';
@@ -18,11 +19,7 @@ export function isFeaturePrivate(id: string): boolean {
 	return id.startsWith('rgh-');
 }
 
-export function supportsContextMenus(): boolean {
-    return typeof browser.contextMenus !== 'undefined';
-}
-
-export const doesBrowserActionOpenOptions = !supportsContextMenus();
+export const doesBrowserActionOpenOptions = isMobileSafari();
 
 export async function shouldFeatureRun({
 	/** Every condition must be true */
