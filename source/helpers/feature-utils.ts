@@ -18,7 +18,7 @@ export function isFeaturePrivate(id: string): boolean {
 	return id.startsWith('rgh-');
 }
 
-export const doesBrowserActionOpenOptions = Boolean(!globalThis.chrome?.contextMenus);
+export const doesBrowserActionOpenOptions = !globalThis.chrome?.contextMenus;
 
 export async function shouldFeatureRun({
 	/** Every condition must be true */
