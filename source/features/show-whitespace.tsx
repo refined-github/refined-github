@@ -28,9 +28,6 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isChrome,
-	],
 	include: [
 		pageDetect.hasCode,
 	],
