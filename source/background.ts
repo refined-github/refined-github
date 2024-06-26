@@ -1,7 +1,7 @@
 import 'webext-dynamic-content-scripts';
 import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
 import {isSafari} from 'webext-detect-page';
-import { addOptionsContextMenu } from 'webext-tools';
+import {addOptionsContextMenu} from 'webext-tools';
 import {objectKeys} from 'ts-extras';
 import addPermissionToggle from 'webext-permission-toggle';
 import webextAlert from 'webext-alert';
