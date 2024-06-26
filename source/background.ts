@@ -1,6 +1,7 @@
 import 'webext-dynamic-content-scripts';
 import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
-import {isSafari, isFirefox} from 'webext-detect-page';
+import {isSafari} from 'webext-detect-page';
+import { addOptionsContextMenu } from 'webext-tools';
 import {objectKeys} from 'ts-extras';
 import addPermissionToggle from 'webext-permission-toggle';
 import webextAlert from 'webext-alert';
@@ -15,6 +16,9 @@ const {version} = chrome.runtime.getManifest();
 
 // GHE support
 addPermissionToggle();
+
+// Firefox/Safari polyfill
+addOptionsContextMenu();
 
 const messageHandlers = {
 	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
@@ -127,19 +131,3 @@ chrome.permissions.onAdded.addListener(async permissions => {
 	}
 });
 
-const OPTIONS_SHORTCUT = 'FIREFOX_OPTIONS';
-
-function onContextMenuClick({menuItemId}: chrome.contextMenus.OnClickData): void {
-	if (menuItemId === OPTIONS_SHORTCUT) {
-		void chrome.runtime.openOptionsPage();
-	}
-}
-
-if (isFirefox() || isSafari()) {
-	chrome.contextMenus.onClicked.addListener(onContextMenuClick);
-	chrome.contextMenus.create({
-		id: OPTIONS_SHORTCUT,
-		title: 'Options…',
-		contexts: ['action'],
-	});
-}
