@@ -132,7 +132,27 @@
 		"schema": "https://docs.github.com/public/schema.docs.graphql"
 	},
 	"overrides": {
-		"issue-regex": "4.0.0"
+		"issue-regex": "4.0.0",
+		"array-includes": "npm:@nolyfill/array-includes@^1",
+		"array.prototype.find": "npm:@nolyfill/array.prototype.find@^1",
+		"array.prototype.findlast": "npm:@nolyfill/array.prototype.findlast@^1",
+		"array.prototype.findlastindex": "npm:@nolyfill/array.prototype.findlastindex@^1",
+		"array.prototype.flat": "npm:@nolyfill/array.prototype.flat@^1",
+		"array.prototype.flatmap": "npm:@nolyfill/array.prototype.flatmap@^1",
+		"array.prototype.toreversed": "npm:@nolyfill/array.prototype.toreversed@^1",
+		"array.prototype.tosorted": "npm:@nolyfill/array.prototype.tosorted@^1",
+		"es-iterator-helpers": "npm:@nolyfill/es-iterator-helpers@^1",
+		"hasown": "npm:@nolyfill/hasown@^1",
+		"is-regex": "npm:@nolyfill/is-regex@^1",
+		"object.assign": "npm:@nolyfill/object.assign@^1",
+		"object.entries": "npm:@nolyfill/object.entries@^1",
+		"object.fromentries": "npm:@nolyfill/object.fromentries@^1",
+		"object.groupby": "npm:@nolyfill/object.groupby@^1",
+		"object.hasown": "npm:@nolyfill/object.hasown@^1",
+		"object.values": "npm:@nolyfill/object.values@^1",
+		"string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@^1",
+		"string.prototype.padend": "npm:@nolyfill/string.prototype.padend@^1",
+		"is-core-module": "npm:@nolyfill/is-core-module@^1"
 	},
 	"webExt": {
 		"sourceDir": "distribution",
