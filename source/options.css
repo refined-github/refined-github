@@ -22,6 +22,11 @@ html::after {
 	}
 }
 
+/* Use sensible font size in Chrome #7483 */
+body {
+	font-size: 100%;
+}
+
 p {
 	margin-top: 0;
 }
