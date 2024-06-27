@@ -415,5 +415,5 @@ We're happy to receive suggestions and contributions, but be aware this is a hig
 
 ## Links
 
-- [More extensions](https://github.com/refined-github/refined-github/wiki/Additional-extensions)
+- [More extensions](https://github.com/refined-github/refined-github/wiki/Other-extensions)
 - [Contribution guide](https://github.com/refined-github/refined-github/wiki/Contributing)
