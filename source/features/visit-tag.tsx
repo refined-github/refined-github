@@ -30,7 +30,7 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 			href={buildRepoURL('releases/tag', tag)}
 			aria-label="Visit tag"
 		>
-			<ArrowUpRightIcon />
+			<ArrowUpRightIcon/>
 		</a>,
 	);
 }
