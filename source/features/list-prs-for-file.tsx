@@ -23,35 +23,54 @@ function getHovercardUrl(prNumber: number): string {
 	return buildRepoURL('pull', prNumber, 'hovercard');
 }
 
+const buttonId = 'rgh-list-prs-for-file-button';
+const popoverId = 'rgh-list-prs-for-file-popover';
+
 function getDropdown(prs: number[]): HTMLElement {
 	const isEditing = pageDetect.isEditingFile();
 	const icon = isEditing
-		? <AlertIcon className="v-align-middle color-fg-attention"/>
-		: <GitPullRequestIcon className="v-align-middle"/>;
-	// Markup copied from https://primer.style/css/components/dropdown
-	return (
-		<details className="dropdown details-reset details-overlay flex-self-center rgh-list-prs-for-file">
-			<summary className="btn btn-sm">
-				{icon}
-				<span className="v-align-middle"> {prs.length} </span>
-				<div className="dropdown-caret"/>
-			</summary>
+		? <AlertIcon className="color-fg-attention"/>
+		: <GitPullRequestIcon/>;
 
-			<details-menu className="dropdown-menu dropdown-menu-sw" style={{width: '13em'}}>
-				<div className="dropdown-header">
-					File also being edited in
+	return (
+		<div>
+			<button
+				type="button"
+				className="Button Button--secondary color-fg-muted"
+				id={buttonId}
+				// @ts-expect-error Used by GitHub
+				popovertarget={popoverId}
+			>
+				{icon}
+				<span className="color-fg-default"> {prs.length} </span>
+				<div className="dropdown-caret"/>
+			</button>
+
+			<anchored-position
+				id={popoverId}
+				anchor={buttonId}
+				popover="auto"
+			>
+				<div className="Overlay Overlay--size-auto">
+					<div className="px-3 pt-3 f6 text-bold color-fg-muted">
+						File also being edited in
+					</div>
+					<ul className="ActionListWrap ActionListWrap--inset">
+						{prs.map(prNumber => (
+							<li className="ActionListItem">
+								<a
+									className="ActionListContent"
+									href={getPRUrl(prNumber)}
+									data-hovercard-url={getHovercardUrl(prNumber)}
+								>
+									#{prNumber}
+								</a>
+							</li>
+						))}
+					</ul>
 				</div>
-				{prs.map(prNumber => (
-					<a
-						className="dropdown-item"
-						href={getPRUrl(prNumber)}
-						data-hovercard-url={getHovercardUrl(prNumber)}
-					>
-						#{prNumber}
-					</a>
-				))}
-			</details-menu>
-		</details>
+			</anchored-position>
+		</div>
 	);
 }
 
