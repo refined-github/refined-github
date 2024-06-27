@@ -25,6 +25,7 @@ html::after {
 /* Use sensible font size in Chrome #7483 */
 body {
 	font-size: 100%;
+	line-height: 1.5;
 }
 
 p {
