@@ -73,8 +73,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Zip source code
         run: |
-          git archive --output source.zip HEAD ":!safari" ":!test" ":!.github" && unzip -l source.zip
+          git archive --output source.zip HEAD ":!safari" ":!test" ":!.github"
           zip -ju source.zip build/AMO_BUILD_INSTRUCTIONS
+          unzip -l source.zip
 
       - uses: actions/download-artifact@v4
 
