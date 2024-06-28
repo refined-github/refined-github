@@ -70,13 +70,18 @@ jobs:
     environment: Firefox
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - name: Zip source code
+        run: git archive --output source.zip HEAD ":!safari" ":!test" ":!.github" && unzip -l source.zip
+
       - uses: actions/download-artifact@v4
 
       # Firefox https://github.com/refined-github/refined-github/issues/7477
       - run: npm install dot-json@1
       - run: npm run manifest artifact 2
 
-      - run: npx web-ext@8 sign --channel listed
+      - name: Upload build and source code
+        run: npx web-ext@8 sign --channel listed --upload-source-code ../source.zip
         working-directory: artifact
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
