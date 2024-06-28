@@ -27,7 +27,7 @@ function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 function ExplanationLink(): JSX.Element {
 	return (
 		<a href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#closing-remarks">
-			<InfoIcon width={12} height={12} className='v-align-middle'/>
+			<InfoIcon width={12} height={12} className="v-align-middle"/>
 		</a>
 	);
 }
