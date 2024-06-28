@@ -15,8 +15,18 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 			type="button"
 			className="btn-link"
 			onClick={() => {
-				banner.remove();
 				newCommentBox.hidden = false;
+
+				// Unlink this button
+				button.replaceWith(button.firstChild!);
+
+				// Keep the banner, make it visible
+				banner.firstElementChild!.classList.replace('rgh-bg-none', 'flash-error');
+
+				window.scrollBy({
+					top: 100,
+					behavior: 'smooth',
+				});
 			}}
 		>comment
 		</button>
