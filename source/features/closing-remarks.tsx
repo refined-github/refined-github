@@ -25,6 +25,8 @@ function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 }
 
 function ExplanationLink(): JSX.Element {
+	// If you tweak this the alignment value, verify it against both the tagged and untagged states
+	// See screenshots in https://github.com/refined-github/refined-github/pull/7498
 	return (
 		<a href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#closing-remarks">
 			<InfoIcon width={12} height={12} style={{verticalAlign: '-2px'}}/>
