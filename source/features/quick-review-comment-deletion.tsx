@@ -51,3 +51,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs
+
+- https://github.com/refined-github/sandbox/pull/31
+- https://github.com/refined-github/sandbox/pull/31/files
+
+*/
