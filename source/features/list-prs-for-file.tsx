@@ -52,7 +52,7 @@ function getDropdown(prs: number[]): HTMLElement {
 				popover="auto"
 			>
 				<div className="Overlay Overlay--size-auto">
-					<div className="px-3 pt-3 f6 text-bold color-fg-muted">
+					<div className="px-3 pt-3 h6 color-fg-muted">
 						File also being edited in
 					</div>
 					<ul className="ActionListWrap ActionListWrap--inset">
