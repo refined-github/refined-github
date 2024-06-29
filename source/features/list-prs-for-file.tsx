@@ -38,7 +38,7 @@ function getDropdown(prs: number[]): HTMLElement {
 				type="button"
 				className="Button Button--secondary color-fg-muted"
 				id={buttonId}
-				// @ts-expect-error Used by GitHub
+				// @ts-expect-error HTML standard
 				popovertarget={popoverId}
 			>
 				{icon}
