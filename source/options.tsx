@@ -8,7 +8,7 @@ import prettyBytes from 'pretty-bytes';
 import {assertError} from 'ts-extras';
 import {enableTabToIndent} from 'indent-textarea';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {isChrome, isFirefox} from 'webext-detect-page';
+import {isChrome, isFirefox} from 'webext-detect';
 import {SyncedForm} from 'webext-options-sync-per-domain';
 
 import featureLink from './helpers/feature-link.js';

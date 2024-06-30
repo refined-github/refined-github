@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {isFirefox} from 'webext-detect-page';
+import {isFirefox} from 'webext-detect';
 import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
@@ -29,6 +29,7 @@ function getDropdown(prs: number[]): HTMLElement {
 		? <AlertIcon className="color-fg-attention"/>
 		: <GitPullRequestIcon/>;
 
+  // TODO: use Popover API when hovercards become compatible #7496
 	return (
 		<details className="dropdown">
 			<summary className="Button Button--secondary color-fg-muted">
