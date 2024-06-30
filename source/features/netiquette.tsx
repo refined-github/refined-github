@@ -75,12 +75,14 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 	);
 }
 
+const commentFieldSelector = '.CommentBox file-attachment';
+
 function initBanner(signal: AbortSignal): void | false {
 	// Do not move to `asLongAs` because those conditions are run before `isConversation`
 	if (wasClosedLongAgo()) {
-		observe('#issuecomment-new file-attachment', addConversationBanner, {signal});
+		observe(commentFieldSelector, addConversationBanner, {signal});
 	} else if (isPopular() && !isCollaborator()) {
-		observe('#issuecomment-new file-attachment', addPopularBanner, {signal});
+		observe(commentFieldSelector, addPopularBanner, {signal});
 	} else {
 		return false;
 	}
