@@ -59,7 +59,7 @@ function addConversationBanner(newCommentField: HTMLElement): void {
 	newCommentField.before(
 		createBanner({
 			icon: <InfoIcon className="m-0"/>,
-			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
+			classes: 'p-2 m-2 text-small color-fg-muted border-0'.split(' '),
 			text: getNoticeText(),
 		}),
 	);
@@ -69,7 +69,7 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 	newCommentField.before(
 		createBanner({
 			icon: <FlameIcon className="m-0"/>,
-			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
+			classes: 'p-2 m-2 text-small color-fg-muted border-0'.split(' '),
 			text: 'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
 		}),
 	);
