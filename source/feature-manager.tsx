@@ -24,6 +24,7 @@ import {
 	_,
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
+import observe from './helpers/selector-observer.js';
 
 export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
 type FeatureInitResult = void | false;
@@ -299,7 +300,7 @@ function unload(featureUrl: string): void {
 	}
 }
 
-document.addEventListener('turbo:render', () => {
+observe('.turbo-progress-bar', () => {
 	for (const feature of currentFeatureControllers.values()) {
 		for (const controller of feature) {
 			controller.abort();
