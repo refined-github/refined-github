@@ -133,7 +133,7 @@ details[open] > :not(summary) {
 	margin-top: 2px;
 }
 
-.js-features :not(:checked) + .info .feature-name {
+.js-features .feature-checkbox:not(:checked) + .feature-name {
 	text-decoration: line-through;
 }
 
@@ -162,7 +162,7 @@ details[open] > :not(summary) {
 	box-shadow: inset 0 -1px 0 #d1d5da;
 }
 
-.feature-checkbox:disabled + .info > *:not(.hotfix-notice) {
+.info:has(.feature-checkbox:disabled) > *:not(.hotfix-notice) {
 	opacity: 50%;
 }
 
