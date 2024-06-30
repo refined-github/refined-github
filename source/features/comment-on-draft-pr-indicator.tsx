@@ -27,3 +27,11 @@ void features.add(import.meta.url, {
 	awaitDomReady: true,
 	init,
 });
+
+/*
+
+Test URL:
+
+https://github.com/refined-github/sandbox/pull/7
+
+*/
