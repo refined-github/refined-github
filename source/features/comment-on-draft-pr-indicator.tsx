@@ -11,7 +11,7 @@ function addDraftBanner(newCommentField: HTMLElement): void {
 		createBanner({
 			icon: <InfoIcon className="m-0"/>,
 			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
-			text: <>This is a <strong>draft PR</strong>. Make sure you would like to comment.</>,
+			text: <>This is a <strong>draft PR</strong>, it might not be ready for review.</>,
 		}),
 	);
 }
