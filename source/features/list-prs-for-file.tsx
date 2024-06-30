@@ -29,6 +29,7 @@ function getDropdown(prs: number[]): HTMLElement {
 		? <AlertIcon className="v-align-middle color-fg-attention"/>
 		: <GitPullRequestIcon className="v-align-middle"/>;
 	// Markup copied from https://primer.style/css/components/dropdown
+	// TODO: use Popover API when hovercards become compatible #7496
 	return (
 		<details className="dropdown details-reset details-overlay flex-self-center rgh-list-prs-for-file">
 			<summary className="btn btn-sm">
