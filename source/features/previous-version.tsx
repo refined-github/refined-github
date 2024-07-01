@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import VersionsIcon from 'octicons-plain-react/Versions';
+import {expectElement as $} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -21,7 +22,7 @@ async function getPreviousCommitForFile(pathname: string): Promise<string | unde
 	return resource.history.nodes[1]?.oid;
 }
 
-async function add(historyButton: HTMLElement): Promise<void> {
+async function add(historyButton: HTMLAnchorElement): Promise<void> {
 	const previousCommit = await getPreviousCommitForFile(location.href);
 	if (!previousCommit) {
 		return;
@@ -30,11 +31,13 @@ async function add(historyButton: HTMLElement): Promise<void> {
 	const url = new GitHubFileURL(location.href)
 		.assign({branch: previousCommit});
 
-	historyButton.before(
-		<a href={url.href} className="UnderlineNav-item tooltipped tooltipped-n ml-2" aria-label="View previous version">
-			<VersionsIcon className="UnderlineNav-octicon mr-0"/>
-		</a>,
+	const previousButton = historyButton.cloneNode(true);
+	previousButton.href = url.href;
+	$('span[data-component="text"]', previousButton).textContent = 'Previous';
+	$('span[data-component="leadingVisual"] svg', previousButton).replaceWith(
+		<VersionsIcon className="UnderlineNav-octicon mr-0"/>,
 	);
+	historyButton.before(previousButton);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
