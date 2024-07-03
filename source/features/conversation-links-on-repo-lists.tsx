@@ -37,7 +37,10 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 }
 
 function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
-	if (new URLSearchParams(location.search).get('type') !== 'repositories') return
+	if (new URLSearchParams(location.search).get('type') !== 'repositories') {
+		return;
+	}
+
 	// Place before the update date ·
 	repositoryLink
 		.closest('[data-testid="results-list"] > div')!
