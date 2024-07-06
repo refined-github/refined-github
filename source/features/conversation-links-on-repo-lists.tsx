@@ -37,6 +37,9 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 }
 
 function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
+	// Do not move to `includes` until React AJAX issues are resolved:
+	// https://github.com/refined-github/refined-github/pull/7524#issuecomment-2211692096
+	// https://github.com/refined-github/refined-github/issues/6554
 	if (new URLSearchParams(location.search).get('type') !== 'repositories') {
 		return;
 	}
