@@ -20,7 +20,12 @@ function inputListener({target}: Event): void {
 
 function watchTextarea(textarea: HTMLTextAreaElement, {signal}: SignalAsOptions): void {
 	// Disable constrained GitHub feature
-	textarea.classList.replace('js-size-to-fit', 'rgh-fit-textareas');
+	if (textarea.classList.contains('js-size-to-fit')) {
+		textarea.classList.replace('js-size-to-fit', 'rgh-fit-textareas');
+	} else {
+		textarea.classList.add('rgh-fit-textareas');
+	}
+
 	if (nativeFit) {
 		return;
 	}
