@@ -1,5 +1,8 @@
 .rgh-fit-textareas {
-	height: auto !important;
 	max-height: none !important;
 	field-sizing: content;
+}
+
+textarea.rgh-fit-textareas.form-control {
+	height: auto;
 }
