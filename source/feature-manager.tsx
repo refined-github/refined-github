@@ -309,7 +309,6 @@ function unload(featureUrl: string): void {
 }
 
 function unloadAll(): void {
-	console.log('🔄 Unloading all features');
 	for (const feature of currentFeatureControllers.values()) {
 		for (const controller of feature) {
 			controller.abort();
