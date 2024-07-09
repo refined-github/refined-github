@@ -3,6 +3,6 @@
 	field-sizing: content;
 }
 
-textarea.rgh-fit-textareas.form-control {
+:root textarea.rgh-fit-textareas.form-control {
 	height: auto;
 }
