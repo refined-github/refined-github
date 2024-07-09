@@ -30,9 +30,22 @@ async function cleanReleases(): Promise<void> {
 }
 
 async function hideEmptyPackages(): Promise<void> {
-	const packagesCounter = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/packages?"] .Counter:not([hidden="hidden"])', {waitForChildren: false});
-	if (packagesCounter && packagesCounter.textContent === '0') {
-		packagesCounter.closest('.BorderGrid-row')!.hidden = true;
+	const packagesCounter = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false});
+	if (!packagesCounter || packagesCounter.textContent !== '0') {
+		return;
+	}
+
+	packagesCounter.closest('.BorderGrid-row')!.hidden = true;
+
+	// Github seems to fetch internal packages separately, so if a repo only has internal packages, this makes the panel visible after they've loaded
+	const updatedPackagesCounter = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/packages?"] .Counter:not([hidden="hidden"])', {
+		waitForChildren: false,
+		stopOnDomReady: false,
+		timeout: 10 * 1000,
+	});
+
+	if (updatedPackagesCounter && updatedPackagesCounter.textContent !== '0') {
+		updatedPackagesCounter.closest('.BorderGrid-row')!.hidden = false;
 	}
 }
 
