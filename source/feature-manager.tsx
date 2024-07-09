@@ -159,6 +159,9 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 		features.log.error = () => {/* No logging */};
 	}
 
+	document.addEventListener('turbo:before-fetch-request', unloadAll);
+	document.addEventListener('turbo:visit', unloadAll);
+
 	resolve(options);
 });
 
@@ -299,7 +302,7 @@ function unload(featureUrl: string): void {
 	}
 }
 
-document.addEventListener('turbo:render', () => {
+function unloadAll(): void {
 	for (const feature of currentFeatureControllers.values()) {
 		for (const controller of feature) {
 			controller.abort();
@@ -307,7 +310,7 @@ document.addEventListener('turbo:render', () => {
 	}
 
 	currentFeatureControllers.clear();
-});
+}
 
 /*
 When navigating back and forth in history, GitHub will preserve the DOM changes;
