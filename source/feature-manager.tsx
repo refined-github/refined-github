@@ -159,15 +159,6 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 		features.log.error = () => {/* No logging */};
 	}
 
-	// https://github.com/refined-github/refined-github/issues/6437
-	unloadObserver.observe(document.documentElement, {childList: true});
-	document.addEventListener('turbo:render', () => {
-		if (currentFeatureControllers.size > 0) {
-			console.error('The unload observer failed to detect a page change. Running fallback. Please report this https://github.com/refined-github/refined-github/labels/bug');
-			unloadAll();
-		}
-	});
-
 	resolve(options);
 });
 
@@ -308,7 +299,7 @@ function unload(featureUrl: string): void {
 	}
 }
 
-function unloadAll(): void {
+document.addEventListener('turbo:render', () => {
 	for (const feature of currentFeatureControllers.values()) {
 		for (const controller of feature) {
 			controller.abort();
@@ -316,17 +307,6 @@ function unloadAll(): void {
 	}
 
 	currentFeatureControllers.clear();
-}
-
-const unloadObserver = new MutationObserver(mutations => {
-	for (const mutation of mutations) {
-		for (const node of mutation.addedNodes) {
-			if (node instanceof Element && node.classList.contains('turbo-progress-bar')) {
-				unloadAll();
-				return;
-			}
-		}
-	}
 });
 
 /*

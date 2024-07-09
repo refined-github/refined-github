@@ -56,15 +56,3 @@ Archived repo (feature disabled):
 https://github.com/fregante/iphone-inline-video
 
 */
-
-void features.add(import.meta.url, {
-	init(signal) {
-		console.log('xx: init');
-		signal.addEventListener('abort', () => {
-			console.log('xx: deinit');
-		});
-		observe('a', () => {
-			console.log('xx: found new');
-		}, {signal});
-	},
-});
