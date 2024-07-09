@@ -159,8 +159,10 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 		features.log.error = () => {/* No logging */};
 	}
 
-	document.addEventListener('turbo:before-fetch-request', unloadAll);
-	document.addEventListener('turbo:visit', unloadAll);
+	// Detect unload via two events to catch both clicks and history navigation
+	// https://github.com/refined-github/refined-github/issues/6437#issuecomment-1489921988
+	document.addEventListener('turbo:before-fetch-request', unloadAll); // Clicks
+	document.addEventListener('turbo:visit', unloadAll); // Back/forward button
 
 	resolve(options);
 });
