@@ -41,7 +41,7 @@ async function add(historyButton: HTMLAnchorElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('a[aria-label="Commit history"]', add, {signal});
+	observe('a:has([data-component="leadingVisual"] svg.octicon-history)', add, {signal});
 }
 
 void features.add(import.meta.url, {
