@@ -8,7 +8,7 @@ import prettyBytes from 'pretty-bytes';
 import {assertError} from 'ts-extras';
 import {enableTabToIndent} from 'indent-textarea';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {isChrome, isFirefox} from 'webext-detect-page';
+import {isChrome, isFirefox} from 'webext-detect';
 import {SyncedForm} from 'webext-options-sync-per-domain';
 
 import featureLink from './helpers/feature-link.js';
@@ -163,8 +163,8 @@ function moveDisabledFeaturesToTop(): void {
 function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
-			<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox"/>
 			<div className="info">
+				<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox"/>
 				<label className="feature-name" htmlFor={id}>{id}</label>
 				{' '}
 				<a href={featureLink(id)} className="feature-link">

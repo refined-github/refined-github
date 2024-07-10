@@ -160,7 +160,7 @@ export function triggerConversationUpdate(): void {
 
 // Fix z-index issue https://github.com/refined-github/refined-github/pull/7430
 export function fixFileHeaderOverlap(child: Element): void {
-	child.closest('.container')!.classList.add('rgh-z-index-1');
+	child.closest('.container')!.classList.add('rgh-z-index-5');
 }
 
 /** Trigger a reflow to push the right-most tab into the overflow dropdown */

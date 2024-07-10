@@ -1,17 +1,16 @@
-.footer > div:nth-last-child(2) ul {
+.footer > .d-flex {
 	transition: opacity 0.2s ease;
 	margin: auto;
 }
 
-.footer:not(:hover) > div:nth-last-child(2) ul {
+.footer > .d-flex:not(:hover) {
 	opacity: 30%;
 }
 
-/* The `© 2023 GitHub, Inc.` text */
-.footer > div:nth-last-child(2) > div span {
-	display: none !important;
-}
+/*
 
-.footer > div:nth-last-child(2) a {
-	color: var(--fgColor-disabled, var(--color-text-disabled, #666));
-}
+Test URL:
+
+https://github.com/refined-github/refined-github
+
+*/
