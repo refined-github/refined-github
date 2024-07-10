@@ -2,3 +2,7 @@
 	max-height: none !important;
 	field-sizing: content;
 }
+
+:root textarea.rgh-fit-textareas.form-control {
+	height: auto;
+}

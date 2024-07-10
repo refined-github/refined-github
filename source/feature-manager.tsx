@@ -159,6 +159,11 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 		features.log.error = () => {/* No logging */};
 	}
 
+	// Detect unload via two events to catch both clicks and history navigation
+	// https://github.com/refined-github/refined-github/issues/6437#issuecomment-1489921988
+	document.addEventListener('turbo:before-fetch-request', unloadAll); // Clicks
+	document.addEventListener('turbo:visit', unloadAll); // Back/forward button
+
 	resolve(options);
 });
 
@@ -299,7 +304,7 @@ function unload(featureUrl: string): void {
 	}
 }
 
-document.addEventListener('turbo:render', () => {
+function unloadAll(): void {
 	for (const feature of currentFeatureControllers.values()) {
 		for (const controller of feature) {
 			controller.abort();
@@ -307,7 +312,7 @@ document.addEventListener('turbo:render', () => {
 	}
 
 	currentFeatureControllers.clear();
-});
+}
 
 /*
 When navigating back and forth in history, GitHub will preserve the DOM changes;
