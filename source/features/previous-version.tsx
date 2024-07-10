@@ -10,17 +10,6 @@ import GitHubFileURL from '../github-helpers/github-file-url.js';
 import previousVersionQuery from './previous-version.gql';
 import onReactPageUpdate from '../github-events/on-react-page-update.js';
 
-async function getPreviousFileUrl(): Promise<string | void> {
-	const previousCommit = await getPreviousCommitForFile(location.href);
-	if (!previousCommit) {
-		return;
-	}
-
-	return new GitHubFileURL(location.href)
-		.assign({branch: previousCommit})
-		.href;
-}
-
 async function getPreviousCommitForFile(pathname: string): Promise<string | undefined> {
 	const {user, repository, branch, filePath} = new GitHubFileURL(pathname);
 	const {resource} = await api.v4(previousVersionQuery, {
@@ -32,6 +21,17 @@ async function getPreviousCommitForFile(pathname: string): Promise<string | unde
 
 	// The first commit refers to the current one, so we skip it
 	return resource.history.nodes[1]?.oid;
+}
+
+async function getPreviousFileUrl(): Promise<string | void> {
+	const previousCommit = await getPreviousCommitForFile(location.href);
+	if (!previousCommit) {
+		return;
+	}
+
+	return new GitHubFileURL(location.href)
+		.assign({branch: previousCommit})
+		.href;
 }
 
 async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions): Promise<void> {
