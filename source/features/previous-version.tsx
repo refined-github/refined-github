@@ -74,6 +74,10 @@ async function init(signal: AbortSignal): Promise<void> {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
+		pageDetect.isRepoTree,
+	],
+	exclude: [
+		pageDetect.isRepoHome,
 	],
 	init,
 });
@@ -82,6 +86,7 @@ void features.add(import.meta.url, {
 
 Test URL
 
+https://github.com/refined-github/refined-github/tree/main/source
 https://github.com/refined-github/refined-github/blob/main/readme.md
 
 */
