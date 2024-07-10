@@ -1,13 +1,25 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import VersionsIcon from 'octicons-plain-react/Versions';
-import {expectElement as $} from 'select-dom';
+import {expectElement as $, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
 import previousVersionQuery from './previous-version.gql';
+import onReactPageUpdate from '../github-events/on-react-page-update.js';
+
+async function getPreviousFileUrl(): Promise<string | void> {
+	const previousCommit = await getPreviousCommitForFile(location.href);
+	if (!previousCommit) {
+		return;
+	}
+
+	return new GitHubFileURL(location.href)
+		.assign({branch: previousCommit})
+		.href;
+}
 
 async function getPreviousCommitForFile(pathname: string): Promise<string | undefined> {
 	const {user, repository, branch, filePath} = new GitHubFileURL(pathname);
@@ -22,22 +34,37 @@ async function getPreviousCommitForFile(pathname: string): Promise<string | unde
 	return resource.history.nodes[1]?.oid;
 }
 
-async function add(historyButton: HTMLAnchorElement): Promise<void> {
-	const previousCommit = await getPreviousCommitForFile(location.href);
-	if (!previousCommit) {
+async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions): Promise<void> {
+	if (elementExists('.rgh-previous-version')) {
 		return;
 	}
 
-	const url = new GitHubFileURL(location.href)
-		.assign({branch: previousCommit});
+	const url = await getPreviousFileUrl();
+	if (!url) {
+		return;
+	}
 
 	const previousButton = historyButton.cloneNode(true);
-	previousButton.href = url.href;
+	previousButton.classList.add('mr-n2', 'rgh-previous-version');
+	previousButton.href = url;
 	$('span[data-component="text"]', previousButton).textContent = 'Previous';
 	$('span[data-component="leadingVisual"] svg', previousButton).replaceWith(
-		<VersionsIcon className="UnderlineNav-octicon mr-0"/>,
+		<VersionsIcon/>,
 	);
 	historyButton.before(previousButton);
+
+	onReactPageUpdate(async pageUnload => {
+		const url = await getPreviousFileUrl();
+		if (pageUnload.aborted) {
+			return;
+		}
+
+		if (url) {
+			previousButton.href = url;
+		}
+
+		previousButton.hidden = !url;
+	}, signal!);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
@@ -47,9 +74,6 @@ async function init(signal: AbortSignal): Promise<void> {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
-	],
-	exclude: [
-		pageDetect.isRepoFile404,
 	],
 	init,
 });

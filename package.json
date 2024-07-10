@@ -45,6 +45,7 @@
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
 		"@sindresorhus/to-milliseconds": "^2.0.0",
+		"abort-utils": "^1.2.0",
 		"batched-function": "^2.0.1",
 		"code-tag": "^1.2.0",
 		"debounce-fn": "^6.0.0",
