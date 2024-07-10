@@ -98,7 +98,7 @@ async function addBugsTab(): Promise<void | false> {
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	bugsTab.href = SearchQuery.from(bugsTab).add(await getSearchQueryBugLabel()).href;
+	bugsTab.href = SearchQuery.from(bugsTab).append(await getSearchQueryBugLabel()).href;
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement instanceof HTMLLIElement) {

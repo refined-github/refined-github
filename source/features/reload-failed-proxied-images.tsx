@@ -1,6 +1,5 @@
 import delay from 'delay';
 import onetime from 'onetime';
-import loadImage from 'image-promise';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
@@ -11,9 +10,10 @@ async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HT
 	await delay(5000);
 	try {
 		// A clone image retries downloading
-		// `loadImage` awaits it
+		const cloned = delegateTarget.cloneNode();
+		await cloned.decode();
 		// If successfully loaded, the failed image will be replaced.
-		delegateTarget.replaceWith(await loadImage(delegateTarget.cloneNode()));
+		delegateTarget.replaceWith(cloned);
 	} catch {}
 }
 
@@ -24,3 +24,12 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	init: onetime(init),
 });
+
+/*
+
+Test URLs:
+
+1. https://github.com/refined-github/sandbox/blob/7416/7416.md
+2. See log in console
+
+*/

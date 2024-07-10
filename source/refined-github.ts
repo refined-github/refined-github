@@ -222,3 +222,5 @@ import './features/fix-no-pr-search.js';
 import './features/clean-readme-url.js';
 import './features/pr-notification-link.js';
 import './features/click-outside-modal.js';
+import './features/comment-excess.js';
+import './features/linkify-line-numbers.js';

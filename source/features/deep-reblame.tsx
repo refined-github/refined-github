@@ -13,6 +13,7 @@ import showToast from '../github-helpers/toast.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 import GetPullRequestBlameCommit from './deep-reblame.gql';
+import {multilineAriaLabel} from '../github-helpers/index.js';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(GetPullRequestBlameCommit, {
@@ -73,7 +74,10 @@ function addButton(hunk: HTMLElement): void {
 		$('.timestamp-wrapper-mobile', hunk)!.after(
 			<button
 				type="button"
-				aria-label="View blame prior to this change (extracts commits from this PR first)"
+				aria-label={multilineAriaLabel(
+					'View blame prior to this change',
+					'(extracts commits from this PR first)',
+				)}
 				className="rgh-deep-reblame Button Button--iconOnly Button--invisible Button--small d-flex"
 			>
 				<VersionsIcon/>

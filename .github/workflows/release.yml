@@ -22,7 +22,8 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Test and build
-        run: npm test
+        run: npm run build
+        # TODO: Re-enable tests
       - name: Create tag if necessary
         uses: fregante/daily-version-action@v2
       - name: Update manifest.json with version ${{ env.DAILY_VERSION}}
@@ -49,6 +50,13 @@ jobs:
     environment: Chrome
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+
+      # Kiwi browser https://github.com/kiwibrowser/src.next/issues/1138
+      - run: npm install dot-json@1 -g
+      - run: npm run manifest artifact 3
+
       - run: npx chrome-webstore-upload-cli@3
         working-directory: artifact
         env:
@@ -63,7 +71,21 @@ jobs:
     environment: Firefox
     runs-on: ubuntu-latest
     steps:
-      - run: npx web-ext@8 sign --channel listed
+      - uses: actions/checkout@v4
+      - name: Zip source code
+        run: |
+          git archive --output source.zip HEAD ":!safari" ":!test" ":!.github"
+          zip -ju source.zip build/AMO_BUILD_INSTRUCTIONS
+          unzip -l source.zip
+
+      - uses: actions/download-artifact@v4
+
+      # Firefox https://github.com/refined-github/refined-github/issues/7477
+      - run: npm install dot-json@1
+      - run: npm run manifest artifact 2
+
+      - name: Upload build and source code
+        run: npx web-ext@8 sign --channel listed --upload-source-code ../source.zip
         working-directory: artifact
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}

@@ -10,7 +10,7 @@ async function init(): Promise<void> {
 		stopOnDomReady: false,
 	});
 
-	document.head.append(<script src={browser.runtime.getURL('assets/resolve-conflicts.js')}/>);
+	document.head.append(<script src={chrome.runtime.getURL('assets/resolve-conflicts.js')}/>);
 }
 
 void features.add(import.meta.url, {
@@ -19,3 +19,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs
+
+https://github.com/refined-github/sandbox/pull/82/conflicts
+
+*/

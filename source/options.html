@@ -2,12 +2,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <base target="_blank">
+<link rel="shortcut icon" href="icon.png">
 <title>Refined GitHub options</title>
 <link rel="stylesheet" href="options.css">
 <div id="js-failed">JavaScript failed to load. Your development build failed or your browser has some issue.</div>
 <form id="options-form" class="detail-view-container">
 	<details id="info" open>
-		<summary><strong>👋 Information</strong></summary>
+		<summary><img src="icon.png" alt="" width="24" height="24"> Refined GitHub</summary>
 		<p>
 			Visit the <a href="https://github.com/refined-github/refined-github/issues/3543">welcome page</a> to learn about updates, debugging, and GitHub Enterprise.
 			You can <a href="https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf/reviews" id="rate-link">rate Refined GitHub</a> to help others find it.
@@ -23,7 +24,7 @@
 		<p>
 			<!-- placeholder is set to enable use of :placeholder-shown CSS selector -->
 			<!-- https://gist.github.com/magnetikonline/073afe7909ffdd6f10ef06a00bc3bc88 -->
-			<input type="text" name="personalToken" pattern="[\da-f]{40}|ghp_\w{36,251}|github_pat_[a-zA-Z0-9]{22}_[a-zA-Z0-9]{59}" placeholder=" " spellcheck="false" autocomplete="off" autocapitalize="off">
+			<input type="text" name="personalToken" placeholder=" " spellcheck="false" autocomplete="off" autocapitalize="off">
 			<span id="validation"></span>
 		</p>
 		<ul data-token-type="classic">
@@ -82,7 +83,8 @@
 	<details id="action">
 		<summary><strong>🔗 Button link</strong></summary>
 		<p>You can pick what page opens when you click the Refined GitHub icon in the browser toolbar</p>
-		<p><input type="url" name="actionUrl" placeholder="https://github.com" spellcheck="false" autocomplete="off" autocapitalize="off"></p>
+		<p><input type="url" name="actionUrl" placeholder="https://example.com" spellcheck="false" autocomplete="off" autocapitalize="off"></p>
+		<p>If left empty, clicking it will open this options page.</p>
 	</details>
 
 	<details id="debugging">

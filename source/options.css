@@ -2,20 +2,6 @@
 	display: none;
 }
 
-@media not screen and (width: 400px) {
-	/* Excludes Edge */
-	:root {
-		min-width: 550px;
-	}
-}
-
-/* For iOS Safari */
-@media only screen and (max-device-width: 1000px) {
-	:root {
-		min-width: 0;
-	}
-}
-
 :root {
 	--rgh-red: #cf222e;
 }
@@ -34,6 +20,12 @@ html::after {
 	:root {
 		--rgh-red: #f85149;
 	}
+}
+
+/* Use sensible font size in Chrome #7483 */
+body {
+	font-size: 100%;
+	line-height: 1.5;
 }
 
 p {
@@ -88,6 +80,10 @@ details[open] > :not(summary) {
 	margin-left: 10px;
 }
 
+#info summary {
+	font-size: 2em;
+}
+
 [data-validation]::before {
 	content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" fill="gray" d="M8 5.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM4 8a4 4 0 118 0 4 4 0 01-8 0z"></path></svg>');
 	width: 16px;
@@ -137,7 +133,7 @@ details[open] > :not(summary) {
 	margin-top: 2px;
 }
 
-.js-features :not(:checked) + .info .feature-name {
+.js-features .feature-checkbox:not(:checked) + .feature-name {
 	text-decoration: line-through;
 }
 
@@ -166,7 +162,7 @@ details[open] > :not(summary) {
 	box-shadow: inset 0 -1px 0 #d1d5da;
 }
 
-.feature-checkbox:disabled + .info > *:not(.hotfix-notice) {
+.info:has(.feature-checkbox:disabled) > *:not(.hotfix-notice) {
 	opacity: 50%;
 }
 

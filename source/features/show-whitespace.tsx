@@ -1,6 +1,5 @@
 import './show-whitespace.css';
 import * as pageDetect from 'github-url-detection';
-import {isChrome} from 'webext-detect-page';
 
 import features from '../feature-manager.js';
 import {codeElementsSelector} from '../github-helpers/dom-formatters.js';
@@ -28,9 +27,6 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isChrome,
-	],
 	include: [
 		pageDetect.hasCode,
 	],
