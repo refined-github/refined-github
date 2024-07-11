@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$} from 'select-dom';
 import {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -7,7 +7,7 @@ import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown
 
 function handleEscPress(event: DelegateEvent<KeyboardEvent>): void {
 	if (event.key === 'Escape') {
-		select('.js-cancel-issue-edit')!.click();
+		$('.js-cancel-issue-edit')!.click();
 
 		event.stopImmediatePropagation();
 		event.preventDefault();

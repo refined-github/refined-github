@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$} from 'select-dom';
 import {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import filterAlteredClicks from 'filter-altered-clicks';
@@ -9,7 +9,7 @@ import {onCommentFieldKeydown} from '../github-events/on-field-keydown.js';
 
 function handleEscapeKey(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement>, targetField: HTMLTextAreaElement): void {
 	// Cancel buttons have different classes for inline comments and editable comments
-	const cancelButton = select(`
+	const cancelButton = $(`
 		button.js-hide-inline-comment-form,
 		button.js-comment-cancel-button
 	`, targetField.form!);
@@ -32,13 +32,13 @@ function handleArrowUpKey(targetField: HTMLTextAreaElement): void {
 		'#all_commit_comments', // Single commit comments at the bottom
 	])!;
 
-	const lastOwnComment = select
-		.all('.js-comment.current-user', currentConversationContainer)
-		.reverse()
-		.find(comment => {
-			const collapsible = comment.closest('details');
-			return !collapsible || collapsible.open;
-		});
+	const lastOwnComment
+		= $$('.js-comment.current-user', currentConversationContainer)
+			.reverse()
+			.find(comment => {
+				const collapsible = comment.closest('details');
+				return !collapsible || collapsible.open;
+			});
 
 	if (!lastOwnComment) {
 		return;
@@ -56,7 +56,7 @@ function handleArrowUpKey(targetField: HTMLTextAreaElement): void {
 
 	// Move caret to end of the field
 	requestAnimationFrame(() => {
-		select('textarea.js-comment-field', lastOwnComment)!.selectionStart = Number.MAX_SAFE_INTEGER;
+		$('textarea.js-comment-field', lastOwnComment)!.selectionStart = Number.MAX_SAFE_INTEGER;
 	});
 }
 

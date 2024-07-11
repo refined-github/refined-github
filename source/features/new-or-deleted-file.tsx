@@ -1,25 +1,25 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 function add(filename: HTMLAnchorElement): void {
-	const list = select('ul[aria-label="File Tree"]');
+	const list = $('ul[aria-label="File Tree"]');
 	if (!list && pageDetect.isCommit()) {
 		// Silence error, single-file commits don't have the file list
 		return;
 	}
 
-	const fileInList = select(`[href="${filename.hash}"]`, list);
+	const fileInList = $(`[href="${filename.hash}"]`, list);
 	if (!fileInList) {
 		features.log.error(import.meta.url, 'Could not find file in sidebar, is the sidebar loaded?');
 		features.unload(import.meta.url);
 		return;
 	}
 
-	const icon = select('.octicon-diff-removed, .octicon-diff-added', fileInList)
+	const icon = $('.octicon-diff-removed, .octicon-diff-added', fileInList)
 		?.cloneNode(true);
 	if (icon) {
 		// `span` needed for native vertical alignment

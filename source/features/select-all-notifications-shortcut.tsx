@@ -1,11 +1,11 @@
-import select from 'select-dom';
+import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 
 function selectAllNotifications(): void {
-	select('.js-notifications-mark-all-prompt')!.click();
+	$('.js-notifications-mark-all-prompt')!.click();
 }
 
 function init(signal: AbortSignal): void {
@@ -29,6 +29,7 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/notifications
+https://github.com/notifications (Grouped by date)
+https://github.com/notifications (Grouped by repo)
 
 */

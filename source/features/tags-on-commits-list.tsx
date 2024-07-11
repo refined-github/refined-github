@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache/legacy.js';
-import select from 'select-dom';
-import {TagIcon} from '@primer/octicons-react';
+import {$, $$} from 'select-dom';
+import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -66,9 +66,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 	let tags: CommitTags = {};
 	for (const node of nodes) {
 		const commit = node.target.commitResourcePath.split('/')[4];
-		if (!tags[commit]) {
-			tags[commit] = [];
-		}
+		tags[commit] ||= [];
 
 		tags[commit].push(node.name);
 	}
@@ -88,13 +86,15 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 async function init(): Promise<void | false> {
 	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
 
-	const commitsOnPage = select.all('.js-commits-list-item');
+	const commitsOnPage = $$('.list-view-item');
+
 	const lastCommitOnPage = getCommitHash(commitsOnPage.at(-1)!);
 	let cached = await cache.get<Record<string, string[]>>(cacheKey) ?? {};
 	const commitsWithNoTags = [];
 	for (const commit of commitsOnPage) {
 		const targetCommit = getCommitHash(commit);
 		let targetTags = cached[targetCommit];
+
 		if (!targetTags) {
 			// No tags for this commit found in the cache, check in github
 			cached = mergeTags(cached, await getTags(lastCommitOnPage)); // eslint-disable-line no-await-in-loop
@@ -102,19 +102,20 @@ async function init(): Promise<void | false> {
 		}
 
 		if (!targetTags) {
-			// There was no tags for this commit, save that info to the cache
+			// There was no tag for this commit, save that info to the cache
 			commitsWithNoTags.push(targetCommit);
 		} else if (targetTags.length > 0) {
-			const commitMeta = select('.flex-auto .d-flex.mt-1', commit)!;
-			commitMeta.classList.add('flex-wrap');
+			const commitMeta = $('div[data-testid="list-view-item-description"]', commit)!;
+
 			commitMeta.append(
-				<span>
+				<span className="d-flex flex-items-center gap-1">
 					<TagIcon className="ml-1"/>
 					{...targetTags.map(tag => (
 						<>
 							{' '}
+							{/* .markdown-title enables the background color */}
 							<a
-								className="Link--muted"
+								className="Link--muted markdown-title"
 								href={buildRepoURL('releases/tag', tag)}
 							>
 								<code>{tag}</code>

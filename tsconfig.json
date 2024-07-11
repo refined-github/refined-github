@@ -1,13 +1,12 @@
 {
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
-		"target": "es2022",
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
 		"lib": [
 			"DOM",
 			"DOM.Iterable",
-			"ES2022"
+			"ES2023"
 		],
 	},
 	"include": [

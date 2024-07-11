@@ -1,5 +1,0 @@
-/* Adjust `highlight-collaborators-and-own-conversations` styles */
-.rgh-collaborator .rgh-small-user-avatars {
-	margin-left: -3px;
-	margin-right: 2px !important;
-}

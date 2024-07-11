@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E33B07DA2AA4975C00BD57D5"
-               BuildableName = "Web Extension iOS.appex"
-               BlueprintName = "Web Extension iOS"
+               BuildableName = "Web Extension.appex"
+               BlueprintName = "Web Extension"
                ReferencedContainer = "container:Refined GitHub.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

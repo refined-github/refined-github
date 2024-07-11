@@ -42,3 +42,7 @@ export function createHeatIndexFunction(numbers: number[]): (value: number) => n
 		return heatIndex;
 	};
 }
+
+export function randomArrayItem<T>(items: T[]): T {
+	return items.at(Math.floor(Math.random() * items.length))!;
+}

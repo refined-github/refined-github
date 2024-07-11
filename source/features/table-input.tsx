@@ -1,14 +1,14 @@
 import './table-input.css';
 import React from 'dom-chef';
-import {TableIcon} from '@primer/octicons-react';
+import TableIcon from 'octicons-plain-react/Table';
 import * as pageDetect from 'github-url-detection';
-import * as textFieldEdit from 'text-field-edit';
+import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import observe from '../helpers/selector-observer.js';
-import {isHasSelectorSupported} from '../helpers/select-has.js';
+import {triggerActionBarOverflow} from '../github-helpers/index.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
@@ -26,23 +26,37 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 		: '<tr>\n' + ' <td>\n'.repeat(columns);
 	field.focus();
 	const table = '<table>\n' + row.repeat(rows) + '</table>';
-	textFieldEdit.insert(field, smartBlockWrap(table, field));
+	insertTextIntoField(field, smartBlockWrap(table, field));
 
 	// Move caret to first cell
 	field.selectionEnd = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
 }
 
-function highlightSquares({delegateTarget: hover}: DelegateEvent<MouseEvent, HTMLElement>): void {
-	for (const cell of hover.parentElement!.children as HTMLCollectionOf<HTMLButtonElement>) {
-		cell.classList.toggle('selected', cell.dataset.x! <= hover.dataset.x! && cell.dataset.y! <= hover.dataset.y!);
-	}
-}
+function append(container: HTMLElement): void {
+	const wrapperClasses = [
+		'details-reset',
+		'details-overlay',
+		'flex-auto',
+		'select-menu',
+		'select-menu-modal-right',
+		'hx_rsm',
+		'ActionBar-item',
+	];
 
-function add(anchor: HTMLElement): void {
-	anchor.after(
-		<details className="details-reset details-overlay flex-auto toolbar-item btn-octicon mx-1 select-menu select-menu-modal-right hx_rsm">
+	const buttonClasses = [
+		'Button',
+		'Button--iconOnly',
+		'Button--invisible',
+		'Button--medium',
+	];
+
+	container.append(
+		<details
+			className={wrapperClasses.join(' ')}
+			data-targets="action-bar.items" // Enables automatic hiding when it doesn't fit
+		>
 			<summary
-				className="text-center menu-target p-2 p-md-1 hx_rsm-trigger"
+				className={buttonClasses.join(' ')}
 				role="button"
 				aria-label="Add a table"
 				aria-haspopup="menu"
@@ -54,7 +68,10 @@ function add(anchor: HTMLElement): void {
 					<TableIcon/>
 				</div>
 			</summary>
-			<details-menu className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input" role="menu">
+			<details-menu
+				className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input"
+				role="menu"
+			>
 				{Array.from({length: 25}).map((_, index) => (
 					<button
 						type="button"
@@ -69,14 +86,13 @@ function add(anchor: HTMLElement): void {
 			</details-menu>
 		</details>,
 	);
+
+	triggerActionBarOverflow(container);
 }
 
 function init(signal: AbortSignal): void {
-	observe('md-ref', add, {signal});
+	observe('[data-target="action-bar.itemContainer"]', append, {signal});
 	delegate('.rgh-tic', 'click', addTable, {signal});
-	if (!isHasSelectorSupported()) {
-		delegate('.rgh-tic', 'mouseenter', highlightSquares, {capture: true, signal});
-	}
 }
 
 void features.add(import.meta.url, {
@@ -85,3 +101,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+- Any issue or PR
+
+*/

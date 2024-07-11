@@ -7,7 +7,7 @@ body:
       value: |
         👉 Review our [guidelines](https://github.com/refined-github/refined-github/wiki/%22Can-you-add-this-feature%3F%22) to ensure this feature would make sense in Refined GitHub.
 
-        👋 Consider contributing by fixing some [easy bugs](https://github.com/refined-github/refined-github/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22+label%3Abug).
+        👋 Consider contributing by fixing some [easy bugs](https://github.com/refined-github/refined-github/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22small%22+label%3Abug).
 
         🏞️ You can provide screenshots/mockups to better visualize your idea. Files can be dropped in this field
   - id: description

@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$$} from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -8,9 +8,8 @@ let documentTitle: string | undefined;
 let submitting: number | undefined;
 
 function hasDraftComments(): boolean {
-	// `[disabled]` excludes the PR description field that `wait-for-checks` disables while it waits
 	// `[id^="convert-to-issue-body"]` excludes the hidden pre-filled textareas created when opening the dropdown menu of review comments
-	return select.all('textarea:not([disabled], [id^="convert-to-issue-body"])').some(textarea =>
+	return $$('textarea:not([id^="convert-to-issue-body"])').some(textarea =>
 		textarea.value !== textarea.textContent, // Exclude comments being edited but not yet changed (and empty comment fields)
 	);
 }
@@ -29,7 +28,7 @@ function updateDocumentTitle(): void {
 
 	if (document.visibilityState === 'hidden' && hasDraftComments()) {
 		documentTitle = document.title;
-		document.title = '✏️ Draft - ' + document.title;
+		document.title = '✏️ Comment - ' + document.title;
 	} else if (documentTitle) {
 		document.title = documentTitle;
 		documentTitle = undefined;
@@ -47,3 +46,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/sandbox/pull/4
+
+*/

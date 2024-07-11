@@ -1,16 +1,16 @@
-import select from 'select-dom';
+import {$} from 'select-dom';
 import onetime from 'onetime';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 
 function openInNewTab(): void {
-	const selected = select('.navigation-focus a.js-navigation-open[href]');
+	const selected = $('.navigation-focus a.js-navigation-open[href]');
 	if (!selected) {
 		return;
 	}
 
-	void browser.runtime.sendMessage({
+	void chrome.runtime.sendMessage({
 		openUrls: [selected.href],
 	});
 
@@ -19,7 +19,7 @@ function openInNewTab(): void {
 }
 
 function init(signal: AbortSignal): void {
-	registerHotkey('O', openInNewTab, {signal});
+	registerHotkey('Shift+O', openInNewTab, {signal});
 }
 
 void features.add(import.meta.url, {

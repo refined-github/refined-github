@@ -9,13 +9,13 @@ import {isHasSelectorSupported} from '../helpers/select-has.js';
 const excludePreset = /^bump |^meta|^document|^lint|^refactor|readme|dependencies|^v?\d+\.\d+\.\d+/i;
 
 function dim(commitTitle: HTMLElement): void {
-	if (excludePreset.test(commitTitle.textContent!.trim())) {
-		commitTitle.closest('.js-commits-list-item')!.style.opacity = '50%';
+	if (excludePreset.test(commitTitle.textContent.trim())) {
+		commitTitle.closest('[data-testid="commit-row-item"]')!.style.opacity = '50%';
 	}
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-commits-list-item p:has(> .js-navigation-open)', dim, {signal});
+	observe('[data-testid="listview-item-title-container"] .markdown-title span', dim, {signal});
 }
 
 void features.add(import.meta.url, {

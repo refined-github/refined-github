@@ -1,7 +1,7 @@
 import {CachedFunction} from 'webext-storage-cache';
 import React from 'dom-chef';
-import select from 'select-dom';
-import {StopIcon, PlayIcon} from '@primer/octicons-react';
+import {$, expectElement} from 'select-dom';
+import PlayIcon from 'octicons-plain-react/Play';
 import {parseCron} from '@cheap-glitch/mi-cron';
 import * as pageDetect from 'github-url-detection';
 
@@ -68,12 +68,12 @@ const workflowDetails = new CachedFunction('workflows-details', {
 			const workflowYaml = workflowFiles[workflow.name];
 
 			if (workflowYaml === undefined) {
-			// Cannot find workflow yaml; workflow removed.
+				// Cannot find workflow yaml; workflow removed.
 				continue;
 			}
 
-			const cron = /schedule[:\s-]+cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
-
+			// Single-line regex, allows comments around
+			const cron = /^(?: {4}|\t\t)-\s*cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
 			details[workflow.name] = {
 				...workflow,
 				schedule: cron?.[1],
@@ -89,11 +89,6 @@ const workflowDetails = new CachedFunction('workflows-details', {
 });
 
 async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void> {
-	// There might be a disabled indicator already
-	if (select.exists('.octicon-stop', workflowListItem)) {
-		return;
-	}
-
 	// Called in `init`, memoized
 	const workflows = await workflowDetails.get();
 	const workflowName = workflowListItem.href.split('/').pop()!;
@@ -102,13 +97,13 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 		return;
 	}
 
-	const svgTrailer = <div className="ActionListItem-visual--trailing m-auto d-flex gap-2"/>;
-	workflowListItem.append(svgTrailer);
-
-	if (!workflow.isEnabled) {
-		svgTrailer.append(<StopIcon className="m-auto"/>);
-		addTooltip(workflowListItem, 'This workflow is not enabled');
+	const svgTrailer = $('.ActionListItem-visual--trailing', workflowListItem)
+	?? <div className="ActionListItem-visual--trailing"/>;
+	if (!svgTrailer.isConnected) {
+		workflowListItem.append(svgTrailer);
 	}
+
+	svgTrailer.classList.add('m-auto', 'd-flex', 'gap-2');
 
 	if (workflow.manuallyDispatchable) {
 		svgTrailer.append(<PlayIcon className="m-auto"/>);
@@ -125,7 +120,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	}
 
 	const relativeTime = <relative-time datetime={String(nextTime)}/>;
-	select('.ActionList-item-label', workflowListItem)!.append(
+	expectElement('.ActionListItem-label', workflowListItem).append(
 		<em>
 			({relativeTime})
 		</em>,
@@ -133,23 +128,18 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 
 	setTimeout(() => {
 		// The content of `relative-time` might is not immediately available
-		addTooltip(workflowListItem, `Next run: ${relativeTime.shadowRoot!.textContent!}`);
+		addTooltip(workflowListItem, `Next run: ${relativeTime.shadowRoot!.textContent}`);
 	}, 500);
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	// Do it as soon as possible, before the page loads
-	const workflows = await workflowDetails.get();
-	if (!workflows) {
-		return false;
-	}
-
-	observe('a.ActionList-content', addIndicators, {signal});
+	observe('a.ActionListContent', addIndicators, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [
+	asLongAs: [
 		pageDetect.isRepositoryActions,
+		async () => Boolean(await workflowDetails.get()),
 	],
 	init,
 });
@@ -158,13 +148,10 @@ void features.add(import.meta.url, {
 
 ## Test URLs
 
-Manual:
-https://github.com/fregante/browser-extension-template/actions
-
 Manual + scheduled:
-https://github.com/fregante/eslint-formatters/actions
+https://github.com/sindresorhus/type-fest/actions/workflows/ts-canary.yml
 
-Manually disabled:
-https://github.com/134130/134130/actions
+Manual + disabled + pinned:
+https://github.com/refined-github/sandbox/actions
 
 */

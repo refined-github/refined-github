@@ -1,11 +1,12 @@
-import select from 'select-dom';
+import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 export default function getUserAvatar(username: string, size: number): string | void {
 	const cleanName = username.replace('[bot]', '');
 
 	// Find image on page. Saves a request and a redirect + add support for bots
-	const existingAvatar = select(`img[alt="@${cleanName}"]`);
+	const existingAvatar = $(`[href="/${cleanName}" i] img`);
+
 	if (existingAvatar) {
 		return existingAvatar.src;
 	}

@@ -1,14 +1,13 @@
 import React from 'dom-chef';
-import {InfoIcon} from '@primer/octicons-react';
+import InfoIcon from 'octicons-plain-react/Info';
 import * as pageDetect from 'github-url-detection';
 
 import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
-import {getNoticeText, shouldDisplayNotice} from './netiquette.js';
+import {getNoticeText, wasClosedLongAgo} from './netiquette.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
-import {isHasSelectorSupported} from '../helpers/select-has.js';
 
 function addConversationBanner(newCommentBox: HTMLElement): void {
 	const button = (
@@ -16,8 +15,18 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 			type="button"
 			className="btn-link"
 			onClick={() => {
-				banner.remove();
 				newCommentBox.hidden = false;
+
+				// Unlink this button
+				button.replaceWith(button.firstChild!);
+
+				// Keep the banner, make it visible
+				banner.firstElementChild!.classList.replace('rgh-bg-none', 'flash-error');
+
+				window.scrollBy({
+					top: 100,
+					behavior: 'smooth',
+				});
 			}}
 		>comment
 		</button>
@@ -37,7 +46,7 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 
 function init(signal: AbortSignal): void | false {
 	// Do not move to `asLongAs` because those conditions are run before `isConversation`
-	if (!shouldDisplayNotice()) {
+	if (!wasClosedLongAgo()) {
 		return false;
 	}
 
@@ -47,7 +56,6 @@ function init(signal: AbortSignal): void | false {
 void features.add(import.meta.url, {
 	asLongAs: [
 		isAnyRefinedGitHubRepo,
-		isHasSelectorSupported,
 	],
 	include: [
 		pageDetect.isConversation,

@@ -1,6 +1,8 @@
 import './rgh-feature-descriptions.css';
 import React from 'dom-chef';
-import {AlertIcon, CopyIcon, InfoIcon} from '@primer/octicons-react';
+import AlertIcon from 'octicons-plain-react/Alert';
+import CopyIcon from 'octicons-plain-react/Copy';
+import InfoIcon from 'octicons-plain-react/Info';
 
 import features from '../feature-manager.js';
 import {featuresMeta} from '../../readme.md';
@@ -32,6 +34,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 	newIssueUrl.searchParams.set('title', `\`${id}\`: `);
+	newIssueUrl.searchParams.set('labels', 'bug, help wanted');
 
 	infoBanner.before(
 		// Block and width classes required to avoid margin collapse
@@ -138,7 +141,6 @@ function init(signal: AbortSignal): void {
 	observe('#repos-sticky-header', add, {signal});
 }
 
-// eslint-disable-next-line unicorn/better-regex -- No "\/"
 const featureUrlRegex = /^([/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](tsx|css)$/;
 
 void features.add(import.meta.url, {

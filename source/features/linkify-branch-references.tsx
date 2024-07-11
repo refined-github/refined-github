@@ -7,7 +7,7 @@ import {buildRepoURL} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 function linkifyQuickPR(element: HTMLElement): void {
-	const branchUrl = buildRepoURL('tree', element.textContent!);
+	const branchUrl = buildRepoURL('tree', element.textContent);
 	element.replaceWith(
 		<span className="commit-ref">
 			<a className="no-underline" href={branchUrl} data-turbo-frame="repo-content-turbo-frame">
@@ -28,7 +28,7 @@ function linkifyHovercard(hovercard: HTMLElement): void {
 
 		const user = reference.querySelector('.user');
 		if (user) {
-			url.user = user.textContent!;
+			url.user = user.textContent;
 		}
 
 		reference.replaceChildren(

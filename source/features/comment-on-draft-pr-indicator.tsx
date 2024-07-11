@@ -1,28 +1,37 @@
+import React from 'dom-chef';
+import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import createBanner from '../github-helpers/banner.js';
 
-function addIndicator(button: HTMLElement): void {
-	const preposition = button.textContent!.includes('Add') ? ' to ' : ' on ';
-	button.textContent! += preposition + 'draft PR';
+function addDraftBanner(newCommentField: HTMLElement): void {
+	newCommentField.before(
+		createBanner({
+			icon: <GitPullRequestDraftIcon className="m-0"/>,
+			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
+			text: <>This is a <strong>draft PR</strong>, it might not be ready for review.</>,
+		}),
+	);
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'.review-simple-reply-button', // "Add single comment" button
-		'.add-comment-label', // "Add review comment" button
-		'.start-review-label', // "Start a review" button
-	], addIndicator, {signal});
+	observe('.CommentBox file-attachment', addDraftBanner, {signal});
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
+	include: [
 		pageDetect.isDraftPR,
 	],
-	include: [
-		pageDetect.isPRConversation,
-		pageDetect.isPRFiles,
-	],
+	awaitDomReady: true,
 	init,
 });
+
+/*
+
+Test URL:
+
+https://github.com/refined-github/sandbox/pull/7
+
+*/

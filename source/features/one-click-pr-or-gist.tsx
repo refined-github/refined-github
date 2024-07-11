@@ -1,23 +1,26 @@
 import './one-click-pr-or-gist.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {
+	$, $$, expectElement, elementExists,
+} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import selectHas from '../helpers/select-has.js';
 
 function init(): void | false {
-	const initialGroupedButtons = selectHas('.BtnGroup:has([name="draft"], [name="gist[public]"])');
+	const initialGroupedButtons = $('.BtnGroup:has([name="draft"], [name="gist[public]"])');
 	if (!initialGroupedButtons) {
 		// 1. Free accounts can't open Draft PRs in private repos, so this element is missing
 		// 2. PRs can't be created from some comparison pages: Either base is a tag, not a branch; or there already exists a PR.
 		return false;
 	}
 
-	for (const dropdownItem of select.all('.select-menu-item', initialGroupedButtons)) {
-		let title = select('.select-menu-item-heading', dropdownItem)!.textContent!.trim();
-		const description = select('.description', dropdownItem)!.textContent!.trim();
-		const radioButton = select('input[type=radio]', dropdownItem)!;
+	const parent = initialGroupedButtons.parentElement!;
+
+	for (const dropdownItem of $$('.select-menu-item', initialGroupedButtons)) {
+		let title = expectElement('.select-menu-item-heading', dropdownItem).textContent.trim();
+		const description = expectElement('.description', dropdownItem).textContent.trim();
+		const radioButton = expectElement('input[type=radio]', dropdownItem);
 		const classList = ['btn', 'ml-2', 'tooltipped', 'tooltipped-s'];
 
 		if (/\bdraft\b/i.test(title)) {
@@ -41,6 +44,11 @@ function init(): void | false {
 	}
 
 	initialGroupedButtons.remove();
+
+	// Add minimal structure validation before adding a dangerous class
+	if (parent.classList.contains('d-flex') && parent.parentElement!.classList.contains('flex-justify-end')) {
+		parent.parentElement!.classList.add('flex-wrap');
+	}
 }
 
 void features.add(import.meta.url, {
@@ -49,9 +57,18 @@ void features.add(import.meta.url, {
 		pageDetect.isGist,
 	],
 	exclude: [
-		() => select.exists('[data-show-dialog-id="drafts-upgrade-dialog"]'),
+		() => elementExists('[data-show-dialog-id="drafts-upgrade-dialog"]'),
 	],
 	deduplicate: 'has-rgh',
 	awaitDomReady: true,
 	init,
 });
+
+/*
+
+Test URLs
+
+- Normal: https://github.com/refined-github/sandbox/compare/default-a...fregante-patch-1
+- "Allow edits from maintainers": https://github.com/refined-github/refined-github/compare/main...fregante:refined-github:main?expand=1
+
+*/

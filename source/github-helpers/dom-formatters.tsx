@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$$, elementExists} from 'select-dom';
 import zipTextNodes from 'zip-text-nodes';
 import {applyToLink} from 'shorten-repo-url';
 import linkifyURLsCore from 'linkify-urls';
@@ -23,7 +23,7 @@ export function shortenLink(link: HTMLAnchorElement): void {
 	// Exclude the link if the closest element found is not `.comment-body`
 	// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-	if (link.closest([...codeElementsSelector, '.comment-body'])?.classList.contains('comment-body')) {
+	if (link.closest(String([...codeElementsSelector, '.comment-body']))?.classList.contains('comment-body')) {
 		applyToLink(link, location.href);
 	}
 }
@@ -33,7 +33,7 @@ export function linkifyIssues(
 	element: Element,
 	options: Partial<TypeDomOptions> = {},
 ): void {
-	const linkified = linkifyIssuesCore(element.textContent!, {
+	const linkified = linkifyIssuesCore(element.textContent, {
 		user: currentRepo.owner ?? '/',
 		repository: currentRepo.name ?? '/',
 		type: 'dom',
@@ -64,25 +64,21 @@ export function linkifyIssues(
 }
 
 export function linkifyURLs(element: Element): Element[] | void {
-	if (element.textContent!.length < 15) { // Must be long enough for a URL
+	if (element.textContent.length < 15) { // Must be long enough for a URL
 		return;
 	}
 
-	if (select.exists(linkifiedURLSelector, element)) {
-		return select.all(linkifiedURLSelector, element);
+	if (elementExists(linkifiedURLSelector, element)) {
+		return $$(linkifiedURLSelector, element);
 	}
 
-	const linkified = linkifyURLsCore(element.textContent!, {
+	const linkified = linkifyURLsCore(element.textContent, {
 		type: 'dom' as const,
 		attributes: {
 			rel: 'noreferrer noopener',
 			class: linkifiedURLClass, // Necessary to avoid also shortening the links
 		},
 	});
-
-	if (linkified.lastChild?.textContent === '…') { // Link is followed by …
-		return;
-	}
 
 	if (linkified.children.length === 0) { // Children are <a>
 		return;
@@ -93,7 +89,7 @@ export function linkifyURLs(element: Element): Element[] | void {
 
 export function parseBackticks(element: Element): void {
 	for (const node of getTextNodes(element)) {
-		const fragment = parseBackticksCore(node.textContent!);
+		const fragment = parseBackticksCore(node.textContent);
 
 		if (fragment.children.length > 0) {
 			node.replaceWith(fragment);

@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$$, elementExists} from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -21,17 +21,17 @@ const issueListSelector = pageDetect.isGlobalIssueOrPRList()
 
 function onButtonClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const onlySelected = event.delegateTarget.closest('.table-list-triage');
-	const issues = select.all(`${issueListSelector} .js-issue-row`)
+	const issues = $$(`${issueListSelector} .js-issue-row`)
 		// TODO: Use conditional :has(:checked) instead
-		.filter(issue => onlySelected ? select.exists(':checked', issue) : true);
+		.filter(issue => onlySelected ? elementExists(':checked', issue) : true);
 	void openTabs(issues.map(issue => getUrlFromItem(issue)));
 }
 
-async function init(signal: AbortSignal): Promise<void | false> {
-	if (!await elementReady('.js-issue-row + .js-issue-row', {waitForChildren: false})) {
-		return false;
-	}
+async function hasMoreThanOneConversation(): Promise<boolean> {
+	return Boolean(await elementReady('.js-issue-row + .js-issue-row', {waitForChildren: false}));
+}
 
+async function init(signal: AbortSignal): Promise<void | false> {
 	attachElements('.table-list-header-toggle:not(.states)', {
 		prepend: anchor => (
 			<button
@@ -40,13 +40,16 @@ async function init(signal: AbortSignal): Promise<void | false> {
 			>
 				{anchor.closest('.table-list-triage') ? 'Open selected' : 'Open all'}
 			</button>
-		)},
-	);
+		),
+	});
 
 	delegate('button.rgh-open-all-conversations', 'click', onButtonClick, {signal});
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		hasMoreThanOneConversation,
+	],
 	include: [
 		pageDetect.isIssueOrPRList,
 	],
@@ -60,3 +63,13 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+- Global: https://github.com/issues
+- Repo: https://github.com/sindresorhus/refined-github/pulls
+- Nothing to open: https://github.com/fregante/empty/pulls
+
+*/

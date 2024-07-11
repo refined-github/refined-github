@@ -1,8 +1,6 @@
-// TODO: In 2024, drop js-navigation-item. Pre-React makeover
-
 import './quick-file-edit.css';
 import React from 'dom-chef';
-import {PencilIcon} from '@primer/octicons-react';
+import PencilIcon from 'octicons-plain-react/Pencil';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
@@ -14,8 +12,8 @@ import {directoryListingFileIcon} from '../github-helpers/selectors.js';
 
 async function linkifyIcon(fileIcon: Element): Promise<void> {
 	const fileLink = fileIcon
-		.closest('.js-navigation-item, .react-directory-filename-column')!
-		.querySelector('a.js-navigation-open, a.Link--primary')!;
+		.closest('.react-directory-filename-column')!
+		.querySelector('a.Link--primary')!;
 
 	const url = new GitHubFileURL(fileLink.href).assign({
 		route: 'edit',
@@ -26,11 +24,6 @@ async function linkifyIcon(fileIcon: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	const [archive, permalink] = await Promise.all([isArchivedRepoAsync(), isPermalink()]);
-	if (archive || permalink) {
-		return false;
-	}
-
 	observe(directoryListingFileIcon, linkifyIcon, {signal});
 }
 
@@ -40,6 +33,8 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isRepoFile404,
+		isArchivedRepoAsync,
+		isPermalink,
 	],
 	init,
 });

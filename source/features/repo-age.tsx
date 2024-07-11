@@ -1,7 +1,7 @@
 import twas from 'twas';
 import {CachedFunction} from 'webext-storage-cache';
 import React from 'dom-chef';
-import {RepoIcon} from '@primer/octicons-react';
+import RepoIcon from 'octicons-plain-react/Repo';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -10,6 +10,7 @@ import api from '../github-helpers/api.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import GetRepoAge from './repo-age.gql';
 import GetFirstCommit from './repo-age-first-commit.gql';
+import {randomArrayItem} from '../helpers/math.js';
 
 type CommitTarget = {
 	oid: string;
@@ -73,7 +74,7 @@ const firstCommit = new CachedFunction('first-commit', {
 });
 
 async function init(): Promise<void> {
-	const [firstCommitDate, firstCommitHref] = await firstCommit.get()!;
+	const [firstCommitDate, firstCommitHref] = await firstCommit.get();
 	const birthday = new Date(firstCommitDate);
 
 	// `twas` could also return `an hour ago` or `just now`
@@ -84,7 +85,7 @@ async function init(): Promise<void> {
 
 	// About a day old or less ?
 	const age = Date.now() - birthday.getTime() < 10e7
-		? fresh[Math.floor(Math.random() * fresh.length)]
+		? randomArrayItem(fresh)
 		: <><strong>{value}</strong> {unit} old</>;
 
 	const sidebarForksLinkIcon = await elementReady('.BorderGrid .octicon-repo-forked');

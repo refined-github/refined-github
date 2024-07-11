@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
@@ -14,7 +14,7 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 		|| event.ctrlKey
 		|| event.metaKey
 		|| event.isComposing // #4323
-		|| select.exists([
+		|| elementExists([
 			'.suggester', // GitHub’s autocomplete dropdown
 			'.rgh-avoid-accidental-submissions',
 		], form)
@@ -22,7 +22,7 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 		return;
 	}
 
-	if (select.exists('.btn-primary[type="submit"]:disabled', form)) {
+	if (elementExists('.btn-primary[type="submit"]:disabled', form)) {
 		return;
 	}
 
@@ -56,13 +56,22 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNewIssue,
-		pageDetect.isCompare,
 		pageDetect.isNewFile,
+		pageDetect.isCompare,
 		pageDetect.isEditingFile,
 		pageDetect.isPRConversation,
 	],
-	exclude: [
-		pageDetect.isBlank,
-	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+isNewIssue: https://github.com/refined-github/sandbox/issues/new
+isNewFile: https://github.com/refined-github/sandbox/new/default-a
+isCompare: https://github.com/refined-github/sandbox/compare/default-a...quick-pr-branch
+isEditingFile: https://github.com/refined-github/sandbox/edit/default-a/README.md
+isPRConversation: https://github.com/refined-github/sandbox/pull/4
+
+*/

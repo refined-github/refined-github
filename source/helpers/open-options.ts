@@ -1,4 +1,4 @@
 export default function openOptions(event: Event): void {
 	event.preventDefault();
-	void browser.runtime.sendMessage({openOptionsPage: true});
+	void chrome.runtime.sendMessage({openOptionsPage: true});
 }

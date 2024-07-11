@@ -1,12 +1,13 @@
 import './clean-repo-sidebar.css';
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 // The h2 is to avoid hiding website links that include '/releases' #4424
-export const releasesSidebarSelector = '.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]';
+// TODO: It's broken
+const releasesSidebarSelector = '.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]';
 async function cleanReleases(): Promise<void> {
 	const sidebarReleases = await elementReady(releasesSidebarSelector, {waitForChildren: false});
 	if (!sidebarReleases) {
@@ -14,7 +15,7 @@ async function cleanReleases(): Promise<void> {
 	}
 
 	const releasesSection = sidebarReleases.closest('.BorderGrid-cell')!;
-	if (!select.exists('.octicon-tag', releasesSection)) {
+	if (!elementExists('.octicon-tag', releasesSection)) {
 		// Hide the whole section if there's no releases
 		releasesSection.hidden = true;
 		return;
@@ -29,7 +30,7 @@ async function cleanReleases(): Promise<void> {
 }
 
 async function hideEmptyPackages(): Promise<void> {
-	const packagesCounter = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false})!;
+	const packagesCounter = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false});
 	if (packagesCounter && packagesCounter.textContent === '0') {
 		packagesCounter.closest('.BorderGrid-row')!.hidden = true;
 	}
@@ -38,7 +39,7 @@ async function hideEmptyPackages(): Promise<void> {
 async function hideLanguageHeader(): Promise<void> {
 	await domLoaded;
 
-	const lastSidebarHeader = select('.Layout-sidebar .BorderGrid-row:last-of-type h2');
+	const lastSidebarHeader = $('.Layout-sidebar .BorderGrid-row:last-of-type h2');
 	if (lastSidebarHeader?.textContent === 'Languages') {
 		lastSidebarHeader.hidden = true;
 	}
@@ -49,17 +50,17 @@ async function hideEmptyMeta(): Promise<void> {
 	await domLoaded;
 
 	if (!pageDetect.canUserEditRepo()) {
-		select('.Layout-sidebar .BorderGrid-cell > .text-italic')?.remove();
+		$('.Layout-sidebar .BorderGrid-cell > .text-italic')?.remove();
 	}
 }
 
 async function moveReportLink(): Promise<void> {
 	await domLoaded;
 
-	const reportLink = select('.Layout-sidebar a[href^="/contact/report-content"]')?.parentElement;
+	const reportLink = $('.Layout-sidebar a[href^="/contact/report-content"]')?.parentElement;
 	if (reportLink) {
 		// Your own repos don't include this link
-		select('.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell')!.append(reportLink);
+		$('.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell')!.append(reportLink);
 	}
 }
 

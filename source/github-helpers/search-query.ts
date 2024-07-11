@@ -13,7 +13,7 @@ function deduplicateKeywords(array: string[], ...keywords: string[]): string[] {
 		const isKeyword = keywords.includes(current);
 		if (!isKeyword || !wasKeywordFound) {
 			deduplicated.unshift(current);
-			wasKeywordFound = wasKeywordFound || isKeyword;
+			wasKeywordFound ||= isKeyword;
 		}
 	}
 
@@ -52,7 +52,7 @@ export default class SearchQuery {
 	private queryParts: string[];
 
 	constructor(url: string | URL, base?: string) {
-		this.url = new URL(url, base);
+		this.url = new URL(String(url), base);
 		this.queryParts = [];
 
 		const currentQuery = this.url.searchParams.get('q');
@@ -128,8 +128,13 @@ export default class SearchQuery {
 		return this;
 	}
 
-	add(...queryPartsToAdd: string[]): this {
+	append(...queryPartsToAdd: string[]): this {
 		this.queryParts.push(...queryPartsToAdd);
+		return this;
+	}
+
+	prepend(...queryPartsToAdd: string[]): this {
+		this.queryParts.unshift(...queryPartsToAdd);
 		return this;
 	}
 

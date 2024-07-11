@@ -2,7 +2,7 @@
 
 Thanks for contributing! 🍄 Do not ignore this template, plz.
 
-1. Does this PR close/fix an existing issue? Write something like `Closes #10`
+1. Does this PR close/fix an existing issue? Write something like: Closes #10
 
 Help us test and visualize this PR:
 
@@ -21,4 +21,3 @@ Lastly:
 
 
 ## Screenshot
-

@@ -1,7 +1,7 @@
 import './release-download-count.css';
 import React from 'dom-chef';
-import select from 'select-dom';
-import {DownloadIcon} from '@primer/octicons-react';
+import {$$, elementExists} from 'select-dom';
+import DownloadIcon from 'octicons-plain-react/Download';
 import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';
 
@@ -24,7 +24,7 @@ async function getAssetsForTag(tag: string): Promise<Record<string, number>> {
 
 async function addCounts(assetsList: HTMLElement): Promise<void> {
 	// TODO: Use :has selector instead
-	if (!select.exists('.octicon-package', assetsList)) {
+	if (!elementExists('.octicon-package', assetsList)) {
 		return;
 	}
 
@@ -33,14 +33,15 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		?? assetsList.closest('.Box:not(.Box--condensed)')!; // Releases list, excludes the assets list’s own .Box
 
 	const releaseName = container
-		.querySelector('.octicon-tag ~ span')!
-		.textContent!
+		// .octicon-code required by visit-tag feature
+		.querySelector(':is(.octicon-tag, .octicon-code) ~ span')!
+		.textContent
 		.trim();
 
 	const assets = await getAssetsForTag(releaseName);
 
 	const calculateHeatIndex = createHeatIndexFunction(Object.values(assets));
-	for (const assetLink of select.all('.octicon-package ~ a', assetsList)) {
+	for (const assetLink of $$('.octicon-package ~ a', assetsList)) {
 		// Match the asset in the DOM to the asset in the API response
 		const downloadCount = assets[assetLink.pathname.split('/').pop()!] ?? 0;
 

@@ -13,6 +13,18 @@ interface FeatureMeta {
 	screenshot?: string;
 }
 
+// These types are unnecessarily loose
+// https://dom.spec.whatwg.org/#dom-node-textcontent
+interface ChildNode {
+	textContent: string;
+}
+interface Text {
+	textContent: string;
+}
+interface Element {
+	textContent: string;
+}
+
 interface Window {
 	content: GlobalFetch;
 }
@@ -69,12 +81,6 @@ interface NamedNodeMap {
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
 interface HTMLFormControlsCollection {
 	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | HTMLSelectElement;
-}
-
-declare module 'react' {
-	const FC = (): JSX.Element => JSX.Element;
-	const React = {FC};
-	export default React;
 }
 
 // Make `element.cloneNode()` preserve its type instead of returning Node

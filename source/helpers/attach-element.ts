@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$, $$, elementExists} from 'select-dom';
 import {RequireAtLeastOne} from 'type-fest';
 import {isDefined} from 'ts-extras';
 
@@ -29,7 +29,7 @@ export default function attachElement<NewElement extends Element>(
 		forEach,
 		allowMissingAnchor = false,
 	}: Attachment<NewElement>): NewElement[] {
-	const anchorElement = typeof anchor === 'string' ? select(anchor) : anchor;
+	const anchorElement = typeof anchor === 'string' ? $(anchor) : anchor;
 	if (!anchorElement) {
 		if (allowMissingAnchor) {
 			return [];
@@ -38,7 +38,7 @@ export default function attachElement<NewElement extends Element>(
 		throw new Error('Element not found');
 	}
 
-	if (select.exists('.' + className, anchorElement.parentElement ?? anchorElement)) {
+	if (elementExists('.' + className, anchorElement.parentElement ?? anchorElement)) {
 		return [];
 	}
 
@@ -68,6 +68,6 @@ export function attachElements<NewElement extends Element>(anchors: string | str
 	className = 'rgh-' + getCallerID(),
 	...options
 }: Attachment<NewElement>): NewElement[] {
-	return select.all(`:is(${String(anchors)}):not(.${className})`)
+	return $$(`:is(${String(anchors)}):not(.${className})`)
 		.flatMap(anchor => attachElement(anchor, {...options, className}));
 }

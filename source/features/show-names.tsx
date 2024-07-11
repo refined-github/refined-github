@@ -5,21 +5,12 @@ import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getUsername, compareNames} from '../github-helpers/index.js';
+import {getUsername, isUsernameAlreadyFullName} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 
-// The selector observer calls this function several times, but we want to batch them into a single GraphQL API call
-const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnchorElement[]): Promise<void> => {
-	// TODO: Split up this function, it does too much
-	const usernames = new Set<string>();
-	const myUsername = getUsername();
-	for (const element of new Set(batchedUsernameElements)) {
-		const username = element.textContent;
-		if (username && username !== myUsername && username !== 'ghost') {
-			usernames.add(element.textContent!);
-		}
-
+function dropExtraCopy(elements: HTMLAnchorElement[]): void {
+	for (const element of elements) {
 		// Drop 'commented' label to shorten the copy
 		const commentedNode = element.parentNode!.nextSibling;
 		if (element.closest('.timeline-comment-header') && commentedNode) {
@@ -27,6 +18,13 @@ const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnc
 			removeTextNodeContaining(commentedNode, /commented|left a comment/);
 		}
 	}
+}
+
+// The selector observer calls this function several times, but we want to batch them into a single GraphQL API call
+async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise<void> {
+	const myUsername = getUsername();
+	batchedUsernameElements = batchedUsernameElements.filter(({textContent: name}) => name !== myUsername && name !== 'ghost');
+	const usernames = new Set(batchedUsernameElements.map(element => element.textContent));
 
 	if (usernames.size === 0) {
 		return;
@@ -39,21 +37,21 @@ const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnc
 	);
 
 	for (const usernameElement of batchedUsernameElements) {
-		const username = usernameElement.textContent!;
+		const username = usernameElement.textContent;
 		const userKey = api.escapeKey(username);
+		const {name} = names[userKey];
 
-		// For the currently logged in user, `names[userKey]` would not be present
-		const {name} = names[userKey] ?? {};
+		// Could be `null` if not set
 		if (!name) {
 			continue;
 		}
 
-		// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
-		if (compareNames(username, name)) {
+		if (isUsernameAlreadyFullName(username, name)) {
 			usernameElement.textContent = name;
 			continue;
 		}
 
+		// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
 		const {parentElement} = usernameElement;
 		const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : usernameElement;
 		insertionPoint.after(
@@ -64,7 +62,10 @@ const batchUpdateLinks = batchedFunction(async (batchedUsernameElements: HTMLAnc
 			' ',
 		);
 	}
-});
+
+	// This change is ideal but should not break the feature if it fails, so leave it for last
+	dropExtraCopy(batchedUsernameElements);
+}
 
 const usernameLinksSelector = [
 	// `a` selector needed to skip commits by non-GitHub users
@@ -76,18 +77,21 @@ const usernameLinksSelector = [
 		[href="#"],
 		[href*="/apps/"],
 		[href*="/marketplace/"],
-		[data-hovercard-type="organization"]
+		[data-hovercard-type="organization"],
+		[show_full_name="true"]
 	)`,
+	// GHE sometimes shows the full name already:
+	// https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
 
 	// On dashboard
 	// `.Link--primary` excludes avatars
-	// `.color-shadow-medium` excludes links in cards #6530
-	'#dashboard a.Link--primary[data-hovercard-type="user"]:not(.color-shadow-medium a)',
+	// [aria-label="card content"] excludes links in cards #6530 #6915
+	'#dashboard a.Link--primary[data-hovercard-type="user"]:not([aria-label="card content"] *)',
 ] as const;
 
 function init(signal: AbortSignal): void {
 	document.body.classList.add('rgh-show-names');
-	observe(usernameLinksSelector, batchUpdateLinks, {signal});
+	observe(usernameLinksSelector, batchedFunction(updateLink, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {
@@ -103,7 +107,7 @@ void features.add(import.meta.url, {
 Test URLs:
 
 - issue: https://github.com/isaacs/github/issues/297
-- pr with reviews: https://github.com/rust-lang/rfcs/pull/2544
+- PR with reviews: https://github.com/rust-lang/rfcs/pull/2544
 - mannequins: https://togithub.com/python/cpython/issues/67591
 - newsfeed: https://github.com
 

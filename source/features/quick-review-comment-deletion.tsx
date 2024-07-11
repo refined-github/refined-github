@@ -1,8 +1,9 @@
 import React from 'dom-chef';
-import select from 'select-dom';
-import {TrashIcon} from '@primer/octicons-react';
+import {$} from 'select-dom';
+import TrashIcon from 'octicons-plain-react/Trash';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
+import {isChrome} from 'webext-detect';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -23,7 +24,7 @@ function onButtonClick({delegateTarget: button}: DelegateEvent): void {
 
 async function preloadDropdown({delegateTarget: button}: DelegateEvent): Promise<void> {
 	const comment = button.closest('.js-comment')!;
-	await loadDetailsMenu(select('details-menu.show-more-popover', comment)!);
+	await loadDetailsMenu($('details-menu.show-more-popover', comment)!);
 }
 
 function addDeleteButton(cancelButton: Element): void {
@@ -41,9 +42,21 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		isChrome,
+	],
 	include: [
 		pageDetect.isPRConversation,
 		pageDetect.isPRFiles,
 	],
 	init,
 });
+
+/*
+
+Test URLs
+
+- https://github.com/refined-github/sandbox/pull/31
+- https://github.com/refined-github/sandbox/pull/31/files
+
+*/

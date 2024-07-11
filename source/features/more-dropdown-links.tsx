@@ -1,8 +1,12 @@
 import './more-dropdown-links.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import GitBranchIcon from 'octicons-plain-react/GitBranch';
+import GitCompareIcon from 'octicons-plain-react/GitCompare';
+import GitCommitIcon from 'octicons-plain-react/GitCommit';
+import PackageDependenciesIcon from 'octicons-plain-react/PackageDependencies';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
@@ -15,7 +19,7 @@ export async function unhideOverflowDropdown(): Promise<boolean> {
 	const repoNavigationBar = await elementReady('.UnderlineNav-body');
 
 	// No dropdown on mobile #5781
-	if (!select.exists('.js-responsive-underlinenav')) {
+	if (!elementExists('.js-responsive-underlinenav')) {
 		return false;
 	}
 
@@ -35,10 +39,28 @@ async function init(): Promise<void> {
 	const repoNavigationDropdown = await elementReady('.UnderlineNav-actions ul');
 	repoNavigationDropdown!.append(
 		<li className="dropdown-divider" role="separator"/>,
-		createDropdownItem('Compare', compareUrl),
-		pageDetect.isEnterprise() ? '' : createDropdownItem('Dependencies', dependenciesUrl),
-		createDropdownItem('Commits', commitsUrl),
-		createDropdownItem('Branches', branchesUrl),
+		createDropdownItem({
+			label: 'Compare',
+			href: compareUrl,
+			icon: GitCompareIcon,
+		}),
+		pageDetect.isEnterprise()
+			? ''
+			: createDropdownItem({
+				label: 'Dependencies',
+				href: dependenciesUrl,
+				icon: PackageDependenciesIcon,
+			}),
+		createDropdownItem({
+			label: 'Commits',
+			href: commitsUrl,
+			icon: GitCommitIcon,
+		}),
+		createDropdownItem({
+			label: 'Branches',
+			href: branchesUrl,
+			icon: GitBranchIcon,
+		}),
 	);
 }
 
@@ -50,9 +72,17 @@ void features.add(import.meta.url, {
 		pageDetect.isEmptyRepo,
 
 		// No dropdown on mobile #5781
-		() => !select.exists('.js-responsive-underlinenav'),
+		() => !elementExists('.js-responsive-underlinenav'),
 	],
 	deduplicate: 'has-rgh',
 	awaitDomReady: true, // DOM-based filter
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github
+
+*/

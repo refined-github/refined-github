@@ -1,15 +1,16 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import select from 'select-dom';
+import {expectElement, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {CodeSquareIcon} from '@primer/octicons-react';
+import CodeSquareIcon from 'octicons-plain-react/CodeSquare';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getCleanPathname} from '../github-helpers/index.js';
+import {getCleanPathname, triggerRepoNavOverflow} from '../github-helpers/index.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import observe from '../helpers/selector-observer.js';
 import GetGistCount from './profile-gists-link.gql';
+import {repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
 
 const gistCount = new CachedFunction('gist-count', {
 	async updater(username: string): Promise<number> {
@@ -46,13 +47,17 @@ async function appendTab(navigationBar: Element): Promise<void> {
 	);
 
 	navigationBar.append(link);
-	navigationBar.replaceWith(navigationBar);
 
 	// There are two UnderlineNav items (responsive…) that point to the same dropdown
-	const overflowNav = select('.js-responsive-underlinenav .dropdown-menu ul')!;
-	if (!select.exists('[data-rgh-label="Gists"]', overflowNav)) {
+	const overflowNav = expectElement(repoUnderlineNavDropdownUl);
+	if (!elementExists('[data-rgh-label="Gists"]', overflowNav)) {
 		overflowNav.append(
-			createDropdownItem('Gists', user.url),
+			createDropdownItem({
+				label: 'Gists',
+				href: user.url,
+				icon: CodeSquareIcon,
+				'data-rgh-label': 'Gists',
+			}),
 		);
 	}
 
@@ -60,6 +65,8 @@ async function appendTab(navigationBar: Element): Promise<void> {
 	if (count > 0) {
 		link.append(<span className="Counter">{count}</span>);
 	}
+
+	triggerRepoNavOverflow();
 }
 
 async function init(signal: AbortSignal): Promise<void> {

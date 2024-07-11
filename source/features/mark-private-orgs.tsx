@@ -1,8 +1,8 @@
 import './mark-private-orgs.css';
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import select from 'select-dom';
-import {EyeClosedIcon} from '@primer/octicons-react';
+import {$$} from 'select-dom';
+import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -21,7 +21,7 @@ const publicOrganizationsNames = new CachedFunction('public-organizations', {
 });
 
 async function init(): Promise<false | void> {
-	const orgs = select.all('a.avatar-group-item[data-hovercard-type="organization"][itemprop="follows"]'); // `itemprop` excludes sponsorships #3770
+	const orgs = $$('a.avatar-group-item[data-hovercard-type="organization"][itemprop="follows"]'); // `itemprop` excludes sponsorships #3770
 	if (orgs.length === 0) {
 		return false;
 	}

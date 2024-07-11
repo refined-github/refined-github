@@ -23,13 +23,28 @@
 }
 
 /* Dim successful/skipped/neutral checks */
-.merge-status-list:has(.octicon-x, .text-italic) /* Only if any checks are failing or in progress */
-.merge-status-item:has(.octicon-check, .octicon-skip, .octicon-square-fill):not(:hover) {
+.merge-status-list:has(.octicon-x, .text-italic):not(:hover) /* Only if any checks are failing or in progress */
+.merge-status-item:has(.octicon-check, .octicon-skip, .octicon-square-fill) {
 	opacity: 50%;
+}
+
+/* Untruncate long check descriptions: https://github.com/hashicorp/consul/commit/38d94282ca0a1ed66d21ebb5c966a97e450d0ae3 */
+.merge-status-item .css-truncate {
+	white-space: unset !important;
+}
+
+/* Top align check symbol */
+.merge-status-item .merge-status-icon {
+	align-self: flex-start !important;
+
+	& svg {
+		height: 20px;
+	}
 }
 
 /*
 Test URLs
-https://github.com/refined-github/refined-github/commit/5c9d630423d66732cb1e2bd7935fc67c133f6072
-https://github.com/refined-github/sandbox/pull/12
+https://github.com/refined-github/refined-github/pull/7166
+https://github.com/refined-github/refined-github/pull/7166/commits/0219fdddb5325383fed8c7300619b6445f0ae303
+https://github.com/refined-github/refined-github/commit/0219fdddb5325383fed8c7300619b6445f0ae303
 */

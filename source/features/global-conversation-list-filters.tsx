@@ -1,6 +1,6 @@
 import './global-conversation-list-filters.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -29,11 +29,11 @@ function addLinks(container: HTMLElement): void {
 		const isCurrentPage = SearchQuery.from(location).includes(query);
 
 		// Highlight it, if that's the current page
-		if (isCurrentPage && !select.exists('.subnav-links .selected')) {
+		if (isCurrentPage && !elementExists('.subnav-links .selected')) {
 			link.classList.add('selected');
 
 			// Other links will keep the current query, that's not what we want
-			for (const otherLink of select.all('.subnav-links a')) {
+			for (const otherLink of $$('.subnav-links a')) {
 				otherLink.href = SearchQuery.from(otherLink).remove(query).href;
 			}
 		}

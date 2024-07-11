@@ -1,6 +1,6 @@
 import './reactions-avatars.css';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$$} from 'select-dom';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
@@ -23,7 +23,7 @@ type Participant = {
 function getParticipants(button: HTMLButtonElement): Participant[] {
 	// The list of people who commented is in an adjacent `<tool-tip>` element #5698
 	const users = button.nextElementSibling!
-		.textContent!
+		.textContent
 		.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')
@@ -58,12 +58,12 @@ const viewportObserver = new IntersectionObserver(changes => {
 });
 
 function showAvatarsOn(commentReactions: Element): void {
-	const reactionTypes = select.all('.social-reaction-summary-item', commentReactions).length;
+	const reactionTypes = $$('.social-reaction-summary-item', commentReactions).length;
 	const avatarLimit = arbitraryAvatarLimit - (reactionTypes * approximateHeaderLength);
 
-	const participantByReaction = select
-		.all(':scope > button.social-reaction-summary-item', commentReactions)
-		.map(button => getParticipants(button));
+	const participantByReaction
+		= $$(':scope > button.social-reaction-summary-item', commentReactions)
+			.map(button => getParticipants(button));
 	const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
 	for (const {button, username, imageUrl} of flatParticipants) {

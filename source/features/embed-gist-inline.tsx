@@ -1,11 +1,12 @@
 import React from 'dom-chef';
 import domify from 'doma';
 import * as pageDetect from 'github-url-detection';
-import mem from 'mem';
+import mem from 'memoize';
 
 import features from '../feature-manager.js';
 import {getCleanPathname} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
+import {standaloneGistLinkInMarkdown} from '../github-helpers/selectors.js';
 
 type GistData = {
 	div: string;
@@ -16,7 +17,7 @@ type GistData = {
 // Fetch via background.js due to CORB policies. Also memoize to avoid multiple requests.
 const fetchGist = mem(
 	async (url: string): Promise<GistData> =>
-		browser.runtime.sendMessage({fetchJSON: `${url}.json`}),
+		chrome.runtime.sendMessage({fetchJSON: `${url}.json`}),
 );
 
 function parseGistLink(link: HTMLAnchorElement): string | undefined {
@@ -36,7 +37,7 @@ function isGist(link: HTMLAnchorElement): boolean {
 	return parseGistLink(link)?.replace(/[^/]/g, '').length === 1; // Exclude user links and file links
 }
 
-const isOnlyChild = (link: HTMLAnchorElement): boolean => link.textContent!.trim() === link.parentNode!.textContent!.trim();
+const isOnlyChild = (link: HTMLAnchorElement): boolean => link.textContent.trim() === link.parentElement!.textContent.trim();
 
 async function embedGist(link: HTMLAnchorElement): Promise<void> {
 	const info = <em> (loading)</em>;
@@ -74,7 +75,7 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-comment-body p a:only-child', link => {
+	observe(standaloneGistLinkInMarkdown, link => {
 		if (isGist(link) && isOnlyChild(link)) {
 			void embedGist(link);
 		}
@@ -87,3 +88,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs
+
+https://github.com/refined-github/sandbox/issues/77
+
+*/

@@ -1,12 +1,42 @@
 import React from 'dom-chef';
 import delay from 'delay';
-import select from 'select-dom';
+import {expectElement as $} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
+import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import showToast from '../github-helpers/toast.js';
+import {
+	getConversationNumber, getUsername, scrollIntoViewIfNeeded, triggerConversationUpdate,
+} from '../github-helpers/index.js';
+import {randomArrayItem} from '../helpers/math.js';
+import {getToken} from '../github-helpers/github-token.js';
+
+const emojis = [...'🚀✅🐿️⚡️🤌🥳🥰🤩🥸😎🤯🚢🛫🏳️🏁'];
+
+async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
+	const approval = event.altKey ? '' : prompt('Approve instantly? You can add a custom message or leave empty');
+	if (approval === null) {
+		return;
+	}
+
+	const call = api.v3(`pulls/${getConversationNumber()!}/reviews`, {
+		method: 'POST',
+		body: {event: 'APPROVE', body: approval},
+	});
+
+	await showToast(call, {
+		message: 'Approving…',
+		doneMessage: `${randomArrayItem(emojis)} Approved`,
+	});
+
+	// Update timeline and scroll to bottom so the new review appears in view
+	scrollIntoViewIfNeeded($('#partial-timeline'));
+	triggerConversationUpdate();
+}
 
 async function addSidebarReviewButton(reviewersSection: Element): Promise<void> {
 	const reviewFormUrl = new URL(location.href);
@@ -15,30 +45,60 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 
 	// Occasionally this button appears before "Reviewers", so let's wait a bit longer
 	await delay(300);
-	reviewersSection.append(
-		<span className="text-normal">
+	const quickReview = (
+		<span className="text-normal color-fg-muted">
 			– <a href={reviewFormUrl.href} className="btn-link Link--muted" data-hotkey="v" data-turbo-frame="repo-content-turbo-frame">review now</a>
-		</span>,
+		</span>
+	);
+
+	reviewersSection.append(quickReview);
+
+	// Can't approve own PRs and closed PRs
+	// API required for this action
+	if (getUsername() === $('.author').textContent || pageDetect.isClosedPR() || !(await getToken())) {
+		return;
+	}
+
+	quickReview.append(
+		' – ',
+		<button
+			type="button"
+			className="btn-link Link--muted rgh-quick-approve tooltipped tooltipped-nw"
+			aria-label="Hold alt to approve without confirmation"
+		>
+			approve now
+		</button>,
 	);
 }
 
-function initSidebarReviewButton(signal: AbortSignal): void {
+async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
 	observe('[aria-label="Select reviewers"] .discussion-sidebar-heading', addSidebarReviewButton, {signal});
+	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
 }
 
-function focusReviewTextarea({delegateTarget}: DelegateEvent<Event, HTMLDetailsElement>): void {
-	if (delegateTarget.open) {
-		select('textarea', delegateTarget)!.focus();
+function focusReviewTextarea(event: DelegateEvent<Event, HTMLElement>): void {
+	if ('newState' in event && event.newState === 'open') {
+		$('textarea', event.delegateTarget).focus();
 	}
 }
 
 async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> {
-	delegate('.js-reviews-container > details', 'toggle', focusReviewTextarea, {capture: true, signal});
+	delegate('#review-changes-modal', 'toggle', focusReviewTextarea, {capture: true, signal});
 
 	const reviewDropdownButton = await elementReady('.js-reviews-toggle');
 	if (reviewDropdownButton) {
 		reviewDropdownButton.dataset.hotkey = 'v';
 	}
+}
+
+async function openReviewPopup(button: HTMLButtonElement): Promise<void> {
+	await delay(100); // The popover appears immediately afterwards in the HTML, observe() might trigger too soon
+	(button.popoverTargetElement as HTMLElement).showPopover();
+}
+
+function initNativeDeepLinking(signal: AbortSignal): void {
+	// Cannot target the [popover] itself because observe() can't see hidden elements
+	observe('[popovertarget="review-changes-modal"]', openReviewPopup, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -54,12 +114,19 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFiles,
 	],
 	init: initReviewButtonEnhancements,
+}, {
+	asLongAs: [
+		() => location.hash === '#review-changes-modal',
+		pageDetect.isPRFiles,
+	],
+	init: initNativeDeepLinking,
 });
 
 /*
 
 Test URLs:
 
-https://github.com/refined-github/sandbox/pull/10
+- Open PR (review, approve) https://github.com/refined-github/sandbox/pull/10
+- Closed PR (only review) https://github.com/refined-github/sandbox/pull/26
 
 */

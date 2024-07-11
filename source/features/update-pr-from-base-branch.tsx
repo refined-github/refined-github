@@ -1,10 +1,10 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import {CheckIcon} from '@primer/octicons-react';
+import CheckIcon from 'octicons-plain-react/Check';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -14,7 +14,7 @@ import getPrInfo from '../github-helpers/get-pr-info.js';
 import showToast from '../github-helpers/toast.js';
 import {getConversationNumber} from '../github-helpers/index.js';
 import createMergeabilityRow from '../github-widgets/mergeability-row.js';
-import selectHas from '../helpers/select-has.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 const canMerge = '.merge-pr > .color-fg-muted:first-child';
 const canNativelyUpdate = '.js-update-branch-form';
@@ -56,7 +56,7 @@ function createButton(): JSX.Element {
 }
 
 async function addButton(mergeBar: Element): Promise<void> {
-	if (!select.exists(canMerge) || select.exists(canNativelyUpdate)) {
+	if (!elementExists(canMerge) || elementExists(canNativelyUpdate)) {
 		return;
 	}
 
@@ -66,7 +66,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 		return;
 	}
 
-	const mergeabilityRow = selectHas('.branch-action-item:has(.merging-body)')!;
+	const mergeabilityRow = $('.branch-action-item:has(.merging-body)')!;
 	if (mergeabilityRow) {
 		// The PR is not a draft
 		mergeabilityRow.prepend(
@@ -92,7 +92,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	await api.expectToken();
+	await expectToken();
 
 	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
 	observe('.merge-message', addButton, {signal});
@@ -104,7 +104,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isClosedPR,
-		() => select('.head-ref')!.title === 'This repository has been deleted',
+		() => $('.head-ref')!.title === 'This repository has been deleted',
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,

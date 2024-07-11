@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
@@ -9,12 +9,15 @@ import waitFor from './helpers/wait-for.js';
 import onAbort from './helpers/abort-controller.js';
 import ArrayMap from './helpers/map-of-arrays.js';
 import bisectFeatures from './helpers/bisect.js';
-import {shouldFeatureRun} from './github-helpers/index.js';
-import {isFeaturePrivate} from './helpers/feature-utils.js';
+import {
+	BooleanFunction,
+	shouldFeatureRun,
+	isFeaturePrivate,
+	RunConditions,
+} from './helpers/feature-utils.js';
 import optionsStorage, {isFeatureDisabled, RGHOptions} from './options-storage.js';
 import {
 	applyStyleHotfixes,
-	styleHotfixes,
 	getLocalHotfixesAsOptions,
 	preloadSyncLocalStrings,
 	brokenFeatures,
@@ -22,7 +25,6 @@ import {
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
 
-type BooleanFunction = () => boolean;
 export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
 type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
@@ -46,13 +48,7 @@ type FeatureLoader = {
 	init: Arrayable<FeatureInit>; // Repeated here because this interface is Partial<>
 } & Partial<InternalRunConfig>;
 
-type InternalRunConfig = {
-	/** Every condition must be true */
-	asLongAs: BooleanFunction[] | undefined;
-	/** At least one condition must be true */
-	include: BooleanFunction[] | undefined;
-	/** No conditions must be true */
-	exclude: BooleanFunction[] | undefined;
+type InternalRunConfig = RunConditions & {
 	init: Arrayable<FeatureInit>;
 	additionalListeners: CallerFunction[];
 
@@ -61,13 +57,20 @@ type InternalRunConfig = {
 	shortcuts: Record<string, string>;
 };
 
-const {version} = browser.runtime.getManifest();
+const {version} = chrome.runtime.getManifest();
 
 const currentFeatureControllers = new ArrayMap<FeatureID, AbortController>();
+const fineGrainedTokenSuggestion = 'Please use a GitHub App, OAuth App, or a personal access token with fine-grained permissions.';
+const preferredMessage = 'Refined GitHub does not support per-organization fine-grained tokens. https://github.com/refined-github/refined-github/wiki/Security';
 
 function logError(url: string, error: unknown): void {
 	const id = getFeatureID(url);
 	const message = error instanceof Error ? error.message : String(error);
+
+	if (message.endsWith(fineGrainedTokenSuggestion)) {
+		console.log('ℹ️', id, '→', message.replace(fineGrainedTokenSuggestion, preferredMessage));
+		return;
+	}
 
 	if (message.includes('token')) {
 		console.log('ℹ️', id, '→', message);
@@ -116,7 +119,7 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 		return;
 	}
 
-	if (select.exists('[refined-github]')) {
+	if (elementExists('[refined-github]')) {
 		console.warn(stripIndent(`
 			Refined GitHub has been loaded twice. This may be because:
 
@@ -130,7 +133,9 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 
 	document.documentElement.setAttribute('refined-github', '');
 
-	void styleHotfixes.get(version).then(applyStyleHotfixes);
+	// Request in the background page to avoid showing a 404 request in the console
+	// https://github.com/refined-github/refined-github/issues/6433
+	void chrome.runtime.sendMessage({getStyleHotfixes: true}).then(applyStyleHotfixes);
 
 	if (options.customCSS.trim().length > 0) {
 		// Review #5857 and #5493 before making changes
@@ -149,10 +154,15 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 	log.info = options.logging ? console.log : () => {/* No logging */};
 	log.http = options.logHTTP ? console.log : () => {/* No logging */};
 
-	if (select.exists('body.logged-out')) {
+	if (elementExists('body.logged-out')) {
 		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
 		features.log.error = () => {/* No logging */};
 	}
+
+	// Detect unload via two events to catch both clicks and history navigation
+	// https://github.com/refined-github/refined-github/issues/6437#issuecomment-1489921988
+	document.addEventListener('turbo:before-fetch-request', unloadAll); // Clicks
+	document.addEventListener('turbo:visit', unloadAll); // Back/forward button
 
 	resolve(options);
 });
@@ -164,7 +174,7 @@ export function castArray<Item>(value: Item | Item[]): Item[] {
 async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<void> {
 	const {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, shortcuts} = config;
 
-	if (!shouldFeatureRun({asLongAs, include, exclude})) {
+	if (!await shouldFeatureRun({asLongAs, include, exclude})) {
 		return;
 	}
 
@@ -257,7 +267,9 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			continue;
 		}
 
-		const details = {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, shortcuts};
+		const details = {
+			asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, shortcuts,
+		};
 		if (awaitDomReady) {
 			(async () => {
 				await domLoaded;
@@ -268,7 +280,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 		}
 
 		document.addEventListener('turbo:render', () => {
-			if (!deduplicate || !select.exists(deduplicate)) {
+			if (!deduplicate || !elementExists(deduplicate)) {
 				void setupPageLoad(id, details);
 			}
 		});
@@ -292,7 +304,7 @@ function unload(featureUrl: string): void {
 	}
 }
 
-document.addEventListener('turbo:render', () => {
+function unloadAll(): void {
 	for (const feature of currentFeatureControllers.values()) {
 		for (const controller of feature) {
 			controller.abort();
@@ -300,7 +312,7 @@ document.addEventListener('turbo:render', () => {
 	}
 
 	currentFeatureControllers.clear();
-});
+}
 
 /*
 When navigating back and forth in history, GitHub will preserve the DOM changes;
@@ -313,9 +325,9 @@ void add('rgh-deduplicator' as FeatureID, {
 	async init() {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
-		select('has-rgh')?.remove(); // https://github.com/refined-github/refined-github/issues/6568
-		select(_`#js-repo-pjax-container, #js-pjax-container`)?.append(<has-rgh/>);
-		select(_`turbo-frame`)?.append(<has-rgh-inner/>); // #4567
+		$('has-rgh')?.remove(); // https://github.com/refined-github/refined-github/issues/6568
+		$(_`#js-repo-pjax-container, #js-pjax-container`)?.append(<has-rgh/>);
+		$(_`turbo-frame`)?.append(<has-rgh-inner/>); // #4567
 	},
 });
 

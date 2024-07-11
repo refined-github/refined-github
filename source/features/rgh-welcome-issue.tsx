@@ -1,5 +1,5 @@
 import './rgh-welcome-issue.css';
-import select from 'select-dom';
+import {$$, elementExists} from 'select-dom';
 import delegate from 'delegate-it';
 
 import features from '../feature-manager.js';
@@ -23,11 +23,11 @@ const placeholdersSelector = 'a[href="#rgh-linkify-welcome-issue"]';
 function init(signal: AbortSignal): void {
 	delegate(placeholdersSelector, 'click', openOptions, {signal});
 
-	if (select.exists('.rgh-linkify-welcome-issue')) {
+	if (elementExists('.rgh-linkify-welcome-issue')) {
 		return;
 	}
 
-	const [opening, closing] = select.all<HTMLAnchorElement>(placeholdersSelector);
+	const [opening, closing] = $$(placeholdersSelector);
 	closing.remove();
 
 	// Move the wrapped text into the existing link

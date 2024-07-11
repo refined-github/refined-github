@@ -10,10 +10,11 @@ struct MainScreen: View {
 	var body: some View {
 		VStack(spacing: 32) {
 			VStack {
-				Image(decorative: "LargeIcon")
+				Image(.largeIcon)
 					.resizable()
 					.scaledToFit()
 					.frame(height: 100)
+					.accessibilityHidden(true)
 				Text("Refined GitHub")
 					.font(.title)
 			}
@@ -36,16 +37,25 @@ struct MainScreen: View {
 					.controlSize(.small)
 			}
 			#else
-			Text("You can turn on the Safari extension in “Settings › Safari”")
-				.font(.subheadline)
-				.foregroundStyle(.secondary)
+			Text("Turn on the Safari extension in “Settings › Safari”. Then, open Safari, go to github.com, and try it out.")
 				.multilineTextAlignment(.center)
+				.padding(.horizontal)
+				.padding(.horizontal)
 			#endif
 		}
+			.frame(maxWidth: .infinity, maxHeight: .infinity)
 			.padding()
 			.offset(y: -12) // Looks better than fully center.
 			.task {
 				requestReviewIfNeeded()
+			}
+			.safeAreaInset(edge: .bottom) {
+				Text("The app is just a container for the Safari extension and does not do anything.")
+					.font(.subheadline)
+					.foregroundStyle(.secondary)
+					.multilineTextAlignment(.center)
+					.padding()
+					.padding(.horizontal)
 			}
 			#if os(macOS)
 			.padding()
@@ -115,8 +125,6 @@ struct MainScreen: View {
 	}
 }
 
-struct MainScreen_Previews: PreviewProvider {
-	static var previews: some View {
-		MainScreen()
-	}
+#Preview {
+	MainScreen()
 }

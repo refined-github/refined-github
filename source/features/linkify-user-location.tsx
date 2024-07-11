@@ -8,7 +8,7 @@ function addLocation({nextElementSibling, nextSibling}: SVGElement): Element {
 	// `nextSibling` alone might point to an empty TextNode before an element, if there’s an element
 	const userLocation = nextElementSibling ?? nextSibling as Element;
 
-	const locationName = userLocation.textContent!.trim();
+	const locationName = userLocation.textContent.trim();
 	const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
 
 	userLocation.before(' '); // Keeps the link’s underline from extending out to the icon

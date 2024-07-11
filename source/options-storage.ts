@@ -6,7 +6,7 @@ export type RGHOptions = typeof defaults;
 
 // eslint-disable-next-line prefer-object-spread -- TypeScript doesn't merge the definitions so `...` is not equivalent.
 const defaults = Object.assign({
-	actionUrl: '',
+	actionUrl: 'https://github.com/',
 	customCSS: '',
 	personalToken: '',
 	logging: false,
@@ -41,7 +41,6 @@ export const renamedFeatures = new Map<string, string>([
 	['conversation-filters', 'more-conversation-filters'],
 	['quick-pr-diff-options', 'one-click-diff-options'],
 	['quick-review-buttons', 'one-click-review-submission'],
-	['wait-for-build', 'wait-for-checks'],
 	['pull-request-hotkey', 'pull-request-hotkeys'],
 	['first-published-tag-for-merged-pr', 'closing-remarks'],
 	['scheduled-and-manual-workflow-indicators', 'github-actions-indicators'],
@@ -49,6 +48,7 @@ export const renamedFeatures = new Map<string, string>([
 	['set-default-repositories-type-to-sources', 'hide-user-forks'],
 	['highlight-deleted-and-added-files-in-diffs', 'new-or-deleted-file'],
 	['enable-file-links-in-compare-view', 'actionable-pr-view-file'],
+	['use-first-commit-message-for-new-prs', 'pr-first-commit-title`'],
 ]);
 
 export function isFeatureDisabled(options: RGHOptions, id: string): boolean {
@@ -66,9 +66,8 @@ export function getNewFeatureName(possibleFeatureName: string): FeatureID | unde
 	return importedFeatures.includes(newFeatureName as FeatureID) ? newFeatureName as FeatureID : undefined;
 }
 
-// TODO [2022-05-01]: Remove obsolete color classes & variables https://primer.style/css/support/v18-migration #4970 #4982
 const migrations = [
-	function (options: RGHOptions): void {
+	(options: RGHOptions): void => {
 		for (const [from, to] of renamedFeatures) {
 			if (typeof options[`feature:${from}`] === 'boolean') {
 				options[`feature:${to}`] = options[`feature:${from}`];

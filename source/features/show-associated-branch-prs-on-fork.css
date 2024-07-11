@@ -1,0 +1,35 @@
+/* Styles mostly copied from React component */
+:root .rgh-pr-box {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.rgh-pr-cell {
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.rgh-pr-cell > [class*='Box'] {
+	/* Drop forced height on pre-existing cell */
+	height: auto;
+}
+
+.rgh-pr-link {
+	color: var(--fgColor-muted, var(--color-fg-muted));
+	align-items: center;
+	border: solid 1px var(--borderColor-default, var(--color-border-default));
+	text-decoration: none !important;
+	border-radius: 999px;
+	display: inline-flex;
+	/* stylelint-disable-next-line declaration-property-value-no-unknown -- Can't find an alternative */
+	font: 600 12px/1 inherit;
+	white-space: nowrap;
+	height: 20px;
+	padding: 0 7px;
+}
+
+.rgh-pr-link:hover {
+	background-color: var(--bgColor-muted, var(--color-canvas-subtle));
+}

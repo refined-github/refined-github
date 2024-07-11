@@ -2,11 +2,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <base target="_blank">
+<link rel="shortcut icon" href="icon.png">
 <title>Refined GitHub options</title>
 <link rel="stylesheet" href="options.css">
+<div id="js-failed">JavaScript failed to load. Your development build failed or your browser has some issue.</div>
 <form id="options-form" class="detail-view-container">
 	<details id="info" open>
-		<summary><strong>👋 Information</strong></summary>
+		<summary><img src="icon.png" alt="" width="24" height="24"> Refined GitHub</summary>
 		<p>
 			Visit the <a href="https://github.com/refined-github/refined-github/issues/3543">welcome page</a> to learn about updates, debugging, and GitHub Enterprise.
 			You can <a href="https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf/reviews" id="rate-link">rate Refined GitHub</a> to help others find it.
@@ -16,19 +18,24 @@
 
 	<details id="token">
 		<summary><strong>🔑 Personal token</strong></summary>
+		<p>You should <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,delete_repo,read:project">generate a token</a> to ensure that every feature works correctly.</p>
+		<p><strong>Token-less usage is allowed but not officially supported.</strong></p>
+		<p>You can read more about the token on <a href="https://github.com/refined-github/refined-github/wiki/Security">the wiki.</a></p>
 		<p>
-			Optional, <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,delete_repo,read:project">generate one</a><br>
 			<!-- placeholder is set to enable use of :placeholder-shown CSS selector -->
 			<!-- https://gist.github.com/magnetikonline/073afe7909ffdd6f10ef06a00bc3bc88 -->
-			<input type="text" name="personalToken" pattern="[\da-f]{40}|ghp_\w{36,251}|github_pat_[a-zA-Z0-9]{22}_[a-zA-Z0-9]{59}" placeholder=" " spellcheck="false" autocomplete="off" autocapitalize="off">
+			<input type="text" name="personalToken" placeholder=" " spellcheck="false" autocomplete="off" autocapitalize="off">
 			<span id="validation"></span>
 		</p>
-		<ul>
-			<li data-validation data-scope="valid_token">The token enables <a href="https://github.com/refined-github/refined-github/search?q=github-helpers+api">some features</a> to <strong>read</strong> data from public repositories
+		<ul data-token-type="classic">
+			<li data-validation data-scope="valid_token">The token enables <a href="https://github.com/search?q=repo%3Arefined-github%2Frefined-github+%28api.js+OR+does-file-exist.js+OR+get-default-branch.js+OR+get-pr-info.js+OR+pr-ci-status.js%29+path%3A%2F%5Esource%5C%2Ffeatures%5C%2F%2F&type=code">some features</a> to <strong>read</strong> data from public repositories
 			<li data-validation data-scope="public_repo">The <code>public_repo</code> scope lets them <strong>edit</strong> your public repositories
 			<li data-validation data-scope="repo">The <code>repo</code> scope lets them <strong>edit private</strong> repositories as well
 			<li data-validation data-scope="delete_repo">The <code>delete_repo</code> scope is only used by the <code>quick-repo-deletion</code> feature
 			<li data-validation data-scope="read:project">The <code>read:project</code> scope lets them determine if a repository or organization uses projects
+		</ul>
+		<ul data-token-type="fine_grained">
+			<li data-validation data-scope="valid_token">Fine-grained token validated, but some features and organizations might not support them <a href="https://github.com/refined-github/refined-github/issues/6092#issuecomment-1732286938">More info</a></li>
 		</ul>
 	</details>
 
@@ -51,6 +58,18 @@
 		<p>
 			<button id="find-feature">Start process to identify feature…</button>
 		</p>
+
+		<p>Related debugging tools:</p>
+		<p>
+			<button id="toggle-all-features">Toggle all features…</button>
+		</p>
+		<p class="toggle-all-features" hidden>
+			If you're trying to identify a feature, please use "Identify feature" instead. Refined GitHub only implements lightweight features that are helpful to most people, even if they're tiny improvements. They're meant to "blend in" and fill in the gaps of GitHub's interface. If you want to go through and only select a few improvements, you'll miss out on the best parts of Refined GitHub. Also note that new features will still be enabled by default and that some CSS-only refinements cannot be disabled.
+		</p>
+		<p class="toggle-all-features" hidden>
+			<button id="disable-all-features">Disable all features</button>
+			<button id="enable-all-features">Enable all features</button>
+		</p>
 	</details>
 
 	<details id="css">
@@ -64,7 +83,8 @@
 	<details id="action">
 		<summary><strong>🔗 Button link</strong></summary>
 		<p>You can pick what page opens when you click the Refined GitHub icon in the browser toolbar</p>
-		<p><input type="url" name="actionUrl" placeholder="https://github.com" spellcheck="false" autocomplete="off" autocapitalize="off"></p>
+		<p><input type="url" name="actionUrl" placeholder="https://example.com" spellcheck="false" autocomplete="off" autocapitalize="off"></p>
+		<p>If left empty, clicking it will open this options page.</p>
 	</details>
 
 	<details id="debugging">
@@ -88,7 +108,6 @@
 		<p>
 			<button id="clear-cache">Clear cache</button>
 		</p>
-
 	</details>
 
 	<details id="hotfixes">

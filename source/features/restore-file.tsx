@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import {stringToBase64} from 'uint8array-extras';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -45,7 +46,7 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 	const isNewFile = !file;
 	const isRenamed = originalFileName !== newFileName;
 
-	const contents = file ? btoa(unescape(encodeURIComponent(file.text))) : '';
+	const contents = file ? stringToBase64(file.text) : '';
 	const deleteNewFile = {deletions: [{path: newFileName}]};
 	const restoreOldFile = {additions: [{path: originalFileName, contents}]};
 	const fileChanges = isRenamed
@@ -89,7 +90,7 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 		const [originalFileName, newFileName = originalFileName] = menuItem
 			.closest('[data-path]')!
 			.querySelector('.Link--primary')!
-			.textContent!
+			.textContent
 			.split(' → ');
 		await showToast(async progress => discardChanges(progress!, originalFileName, newFileName), {
 			message: 'Loading info…',

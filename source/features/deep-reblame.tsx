@@ -1,8 +1,8 @@
 import './deep-reblame.css';
-import mem from 'mem';
+import mem from 'memoize';
 import React from 'dom-chef';
-import select from 'select-dom';
-import {VersionsIcon} from '@primer/octicons-react';
+import {$, $$, expectElement} from 'select-dom';
+import VersionsIcon from 'octicons-plain-react/Versions';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
@@ -13,6 +13,7 @@ import showToast from '../github-helpers/toast.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 import GetPullRequestBlameCommit from './deep-reblame.gql';
+import {multilineAriaLabel} from '../github-helpers/index.js';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(GetPullRequestBlameCommit, {
@@ -35,6 +36,10 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[]
 	return associatedPR.commits.nodes[0].commit.oid;
 });
 
+function extractCommitFromHoverCardUrl(url: string): string {
+	return /[/]commit[/]([0-9a-f]{40})[/]/i.exec(url)![1];
+}
+
 async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement | HTMLButtonElement>): Promise<void> {
 	const blameElement = event.delegateTarget;
 	if (blameElement instanceof HTMLAnchorElement && !event.altKey) {
@@ -44,14 +49,15 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	event.preventDefault();
 	blameElement.blur(); // Hide tooltip after click, it’s shown on :focus
 
-	const blameHunk = blameElement.closest('.blame-hunk')!;
-	const prNumbers = select.all('.issue-link', blameHunk).map(pr => looseParseInt(pr));
-	const prCommit = select('a.message', blameHunk)!.pathname.split('/').pop()!;
+	const blameHunk = blameElement.closest('.react-blame-segment-wrapper')!;
+	const prNumbers = $$('.issue-link', blameHunk).map(pr => looseParseInt(pr));
+	const commitInfo = expectElement('span[data-hovercard-url*="/commit/"]', blameHunk).dataset.hovercardUrl!;
+	const prCommit = extractCommitFromHoverCardUrl(commitInfo);
 	const blameUrl = new GitHubFileURL(location.href);
 
 	await showToast(async () => {
 		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumbers, blameUrl.filePath);
-		blameUrl.hash = 'L' + select('.js-line-number', blameHunk)!.textContent!;
+		blameUrl.hash = 'L' + $('.react-line-number', blameHunk)!.textContent;
 		location.href = blameUrl.href;
 	}, {
 		message: 'Fetching pull request',
@@ -59,19 +65,20 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	});
 }
 
-function addButton(pullRequest: HTMLElement): void {
-	const hunk = pullRequest.closest('.blame-hunk')!;
-
-	const reblameLink = select('.reblame-link', hunk);
+function addButton(hunk: HTMLElement): void {
+	const reblameLink = $('a[aria-labelledby^="reblame-"]', hunk);
 	if (reblameLink) {
 		reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
 		reblameLink.classList.add('rgh-deep-reblame');
 	} else {
-		select('.blob-reblame', hunk)!.append(
+		$('.timestamp-wrapper-mobile', hunk)!.after(
 			<button
 				type="button"
-				aria-label="View blame prior to this change (extracts commits from this PR first)"
-				className="reblame-link btn-link no-underline tooltipped tooltipped-e d-inline-block pr-1 rgh-deep-reblame"
+				aria-label={multilineAriaLabel(
+					'View blame prior to this change',
+					'(extracts commits from this PR first)',
+				)}
+				className="rgh-deep-reblame Button Button--iconOnly Button--invisible Button--small d-flex"
 			>
 				<VersionsIcon/>
 			</button>,
@@ -81,7 +88,7 @@ function addButton(pullRequest: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	delegate('.rgh-deep-reblame', 'click', redirectToBlameCommit, {signal});
-	observe('[data-hovercard-type="pull_request"]', addButton, {signal});
+	observe('.react-blame-for-range:has([data-hovercard-type="pull_request"])', addButton, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -95,6 +102,6 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/refined-github/refined-github/blame/main/source/refined-github.ts
+https://github.com/refined-github/refined-github/blame/af0dd20dde497ac9dcec9cda47bee80902121298/source/features/deep-reblame.tsx
 
 */

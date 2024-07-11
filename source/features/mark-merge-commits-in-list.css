@@ -3,5 +3,5 @@
 }
 
 .rgh-merge-commit:not(.navigation-focus, :hover) > div > * {
-	opacity: 40%; /* Match `dim-bots` */
+	opacity: 50%; /* Match `dim-bots` */
 }

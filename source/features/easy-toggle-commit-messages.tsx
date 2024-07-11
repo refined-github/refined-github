@@ -1,4 +1,4 @@
-import select from 'select-dom';
+import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
@@ -16,7 +16,7 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 		return;
 	}
 
-	select('.ellipsis-expander', event.delegateTarget)?.dispatchEvent(
+	$('.ellipsis-expander', event.delegateTarget)?.dispatchEvent(
 		new MouseEvent('click', {bubbles: true, altKey: event.altKey}),
 	);
 }

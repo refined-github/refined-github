@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$} from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -37,8 +37,8 @@ function getStrikeThrough(text: string): HTMLElement {
 }
 
 async function crossIfNonExistent(anchor: HTMLElement): Promise<void> {
-	if (anchor instanceof HTMLAnchorElement && await isUrlReachable(anchor.href)) {
-		anchor.replaceWith(getStrikeThrough(anchor.textContent!));
+	if (anchor instanceof HTMLAnchorElement && !await isUrlReachable(anchor.href)) {
+		anchor.replaceWith(getStrikeThrough(anchor.textContent));
 	}
 }
 
@@ -87,7 +87,7 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
 
 	parsedUrl.assign({branch: await getDefaultBranch()});
 	const urlOnDefault = parsedUrl.href;
-	if (urlOnDefault !== location.href && !await isUrlReachable(urlOnDefault)) {
+	if (urlOnDefault !== location.href && await isUrlReachable(urlOnDefault)) {
 		return urlOnDefault;
 	}
 }
@@ -96,25 +96,25 @@ async function showMissingPart(): Promise<void> {
 	const pathParts = parseCurrentURL();
 	const breadcrumbs = [...pathParts.entries()]
 		.reverse() // Checks the anchors right to left
-		.map(([i, part]) => {
+		.map(([index, part]) => {
 			if (
 				// Exclude parts that don't exist as standalones
-				(i === 0 && part === 'orgs') // #5483
-				|| (i === 2 && ['tree', 'blob', 'edit'].includes(part))
-				|| i === pathParts.length - 1 // The last part is a known 404
+				(index === 0 && part === 'orgs') // #5483
+				|| (index === 2 && ['tree', 'blob', 'edit'].includes(part))
+				|| index === pathParts.length - 1 // The last part is a known 404
 			) {
 				return getStrikeThrough(part);
 			}
 
-			const pathname = '/' + pathParts.slice(0, i + 1).join('/');
+			const pathname = '/' + pathParts.slice(0, index + 1).join('/');
 			const link = <a href={pathname}>{part}</a>;
 			void crossIfNonExistent(link);
 			return link;
 		})
 		.reverse() // Restore order
-		.flatMap((link, i) => [i > 0 && ' / ', link]); // Add separators
+		.flatMap((link, index) => [index > 0 && ' / ', link]); // Add separators
 
-	select('main > :first-child, #parallax_illustration')!.after(
+	$('main > :first-child, #parallax_illustration')!.after(
 		<h2 className="container mt-4 text-center">{breadcrumbs}</h2>,
 	);
 }
@@ -125,7 +125,7 @@ async function showDefaultBranchLink(): Promise<void> {
 		return;
 	}
 
-	select('main > .container-lg')!.before(
+	$('main > .container-lg')!.before(
 		<p className="container mt-4 text-center">
 			<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
 		</p>,
@@ -172,7 +172,7 @@ async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
 async function showGitObjectHistory(): Promise<void> {
 	const link = await getGitObjectHistoryLink();
 	if (link) {
-		select('main > .container-lg')!.before(link);
+		$('main > .container-lg')!.before(link);
 	}
 }
 
@@ -191,7 +191,7 @@ function init(): void {
 
 async function initPRCommit(): Promise<void | false> {
 	const commitUrl = location.href.replace(/pull\/\d+\/commits/, 'commit');
-	if (await isUrlReachable(commitUrl)) {
+	if (!await isUrlReachable(commitUrl)) {
 		return false;
 	}
 

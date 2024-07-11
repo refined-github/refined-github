@@ -1,5 +1,5 @@
 import {CachedFunction} from 'webext-storage-cache';
-import select from 'select-dom';
+import {$} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -27,24 +27,24 @@ function mustKeepTab(tab: HTMLElement): boolean {
 }
 
 function setTabCounter(tab: HTMLElement, count: number): void {
-	const tabCounter = select('.Counter', tab)!;
+	const tabCounter = $('.Counter', tab)!;
 	tabCounter.textContent = abbreviateNumber(count);
 	tabCounter.title = count > 999 ? String(count) : '';
 }
 
 function onlyShowInDropdown(id: string): void {
-	const tabItem = select(`[data-tab-item$="${id}"]`);
+	const tabItem = $(`[data-tab-item$="${id}"]`);
 	if (!tabItem && pageDetect.isEnterprise()) { // GHE #3962
 		return;
 	}
 
 	(tabItem!.closest('li') ?? tabItem!.closest('.UnderlineNav-item'))!.classList.add('d-none');
 
-	const menuItem = select(`[data-menu-item$="${id}"]`)!;
+	const menuItem = $(`[data-menu-item$="${id}"]`)!;
 	menuItem.removeAttribute('data-menu-item');
 	menuItem.hidden = false;
 	// The item has to be moved somewhere else because the overflow nav is order-dependent
-	select('.UnderlineNav-actions ul')!.append(menuItem);
+	$('.UnderlineNav-actions ul')!.append(menuItem);
 }
 
 const wikiPageCount = new CachedFunction('wiki-page-count', {
@@ -67,7 +67,6 @@ const workflowCount = new CachedFunction('workflows-count', {
 	async updater(): Promise<number> {
 		const {repository: {workflowFiles}} = await api.v4(CountWorkflows);
 
-		// TODO: Use native "totalCount" field
 		return workflowFiles?.entries.length ?? 0;
 	},
 	maxAge: {days: 1},
@@ -135,11 +134,16 @@ void features.add(import.meta.url, {
 	],
 	deduplicate: 'has-rgh',
 	init: [
-		moveRareTabs,
 		updateActionsTab,
 		updateWikiTab,
 		updateProjectsTab,
 	],
+}, {
+	include: [
+		pageDetect.hasRepoHeader,
+	],
+	deduplicate: 'has-rgh',
+	init: moveRareTabs,
 }, {
 	include: [
 		pageDetect.isOrganizationProfile,

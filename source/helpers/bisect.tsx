@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {CachedValue} from 'webext-storage-cache';
-import select from 'select-dom';
+import {$, $$} from 'select-dom';
 import elementReady from 'element-ready';
 
 import pluralize from './pluralize.js';
@@ -58,7 +58,7 @@ async function onEndButtonClick(): Promise<void> {
 }
 
 function createMessageBox(message: Element | string, extraButtons?: Element): void {
-	select('#rgh-bisect-dialog')?.remove();
+	$('#rgh-bisect-dialog')?.remove();
 	document.body.append(
 		<div id="rgh-bisect-dialog" className="Box p-3">
 			<p>{message}</p>
@@ -97,7 +97,7 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 
 	// Enable "Yes"/"No" buttons once the page is done loading
 	window.addEventListener('load', () => {
-		for (const button of select.all('#rgh-bisect-dialog [aria-disabled]')) {
+		for (const button of $$('#rgh-bisect-dialog [aria-disabled]')) {
 			button.removeAttribute('aria-disabled');
 		}
 	});

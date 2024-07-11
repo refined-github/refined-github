@@ -1,8 +1,8 @@
 import './quick-repo-deletion.css';
 import delay from 'delay';
 import React from 'dom-chef';
-import select from 'select-dom';
-import {TrashIcon} from '@primer/octicons-react';
+import {$, elementExists} from 'select-dom';
+import TrashIcon from 'octicons-plain-react/Trash';
 import elementReady from 'element-ready';
 import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
@@ -15,10 +15,11 @@ import pluralize from '../helpers/pluralize.js';
 import addNotice from '../github-widgets/notice-bar.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import parseBackticks from '../github-helpers/parse-backticks.js';
-import attachElement from '../helpers/attach-element.js';
+import observe from '../helpers/selector-observer.js';
+import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
 
 function handleToggle(event: DelegateEvent<Event, HTMLDetailsElement>): void {
-	const hasContent = select.exists([
+	const hasContent = elementExists([
 		'[data-hotkey="g i"] .Counter:not([hidden])', // Open issues
 		'[data-hotkey="g p"] .Counter:not([hidden])', // Open PRs
 		'.rgh-open-prs-of-forks', // PRs opened in the source repo
@@ -41,7 +42,7 @@ function handleToggle(event: DelegateEvent<Event, HTMLDetailsElement>): void {
 
 async function verifyScopesWhileWaiting(abortController: AbortController): Promise<void> {
 	try {
-		await api.expectTokenScope('delete_repo');
+		await expectTokenScope('delete_repo');
 	} catch (error) {
 		assertError(error);
 		abortController.abort();
@@ -71,7 +72,7 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 	void verifyScopesWhileWaiting(abortController);
 
 	let secondsLeft = 5;
-	const button = select('.btn', buttonContainer)!;
+	const button = $('.btn', buttonContainer)!;
 	try {
 		do {
 			button.style.transform = `scale(${1.2 - ((secondsLeft - 5) / 3)})`; // Dividend is zoom speed
@@ -91,7 +92,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		return;
 	}
 
-	select('.btn', buttonContainer)!.textContent = 'Deleting repo…';
+	$('.btn', buttonContainer)!.textContent = 'Deleting repo…';
 	const {nameWithOwner, owner} = getRepo()!;
 	try {
 		await api.v3('/repos/' + nameWithOwner, {
@@ -120,47 +121,61 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		<><TrashIcon/> <span>Repository <strong>{nameWithOwner}</strong> deleted. <a href={restoreURL}>Restore it</a>, <a href={forkSource}>visit the source repo</a>, or see <a href={otherForksURL}>your other forks.</a></span></>,
 		{action: false},
 	);
-	select('.application-main')!.remove();
+	$('.application-main')!.remove();
 	if (document.hidden) {
 		// Try closing the tab if in the background. Could fail, so we still update the UI above
-		void browser.runtime.sendMessage({closeTab: true});
+		void chrome.runtime.sendMessage({closeTab: true});
 	}
 }
 
-async function init(signal: AbortSignal): Promise<void | false> {
-	if (
-		// Only if the user can delete the repository
-		// TODO: Replace with https://github.com/refined-github/github-url-detection/issues/85
-		!await elementReady('nav [data-content="Settings"]')
+// TODO: Replace with https://github.com/refined-github/github-url-detection/issues/85
+async function canUserDeleteRepository(): Promise<boolean> {
+	return Boolean(await elementReady('nav [data-content="Settings"]'));
+}
 
-		// Only if the repository hasn't been starred
-		|| looseParseInt(select('.starring-container .Counter')) > 0
-	) {
-		return false;
-	}
+// Only if the repository hasn't been starred
+async function isRepoUnpopular(): Promise<boolean> {
+	return looseParseInt(await elementReady('.starring-container .Counter')) === 0;
+}
 
-	await api.expectToken();
-
+function addButton(header: HTMLElement): void {
 	// (Ab)use the details element as state and an accessible "click-anywhere-to-cancel" utility
-	attachElement('.pagehead-actions', {
-		prepend: () => (
-			<li>
-				<details className="details-reset details-overlay select-menu rgh-quick-repo-deletion">
-					<summary aria-haspopup="menu" role="button">
-						{/* This extra element is needed to keep the button above the <summary>’s lightbox */}
-						<span className="btn btn-sm btn-danger">Delete fork</span>
-					</summary>
-				</details>
-			</li>
-		),
-	});
+	header.prepend(
+		<li>
+			<details className="details-reset details-overlay select-menu rgh-quick-repo-deletion">
+				<summary aria-haspopup="menu" role="button">
+					{/* This extra element is needed to keep the button above the <summary>’s lightbox */}
+					<span className="btn btn-sm btn-danger">Delete fork</span>
+				</summary>
+			</details>
+		</li>,
+	);
+}
 
+async function init(signal: AbortSignal): Promise<void | false> {
+	await expectToken();
+
+	observe('.pagehead-actions', addButton, {signal});
 	delegate('.rgh-quick-repo-deletion[open]', 'toggle', handleToggle, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {
-	include: [
+	asLongAs: [
+		pageDetect.isRepoRoot,
 		pageDetect.isForkedRepo,
+		canUserDeleteRepository,
+		isRepoUnpopular,
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+1. Fork a repo, like https://github.com/left-pad/left-pad
+2. Star it to see if the "Delete fork" button disappears
+3. Click "Delete fork" and ensure it can be cancelled
+4. Click "Delete fork" and ensure it works and it appends the post-deletion information bar
+
+*/

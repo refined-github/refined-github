@@ -1,17 +1,17 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$} from 'select-dom';
 
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import api from '../github-helpers/api.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo, {PullRequestInfo} from '../github-helpers/get-pr-info.js';
 import pluralize from '../helpers/pluralize.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 import {linkifyCommit} from '../github-helpers/dom-formatters.js';
 import {isTextNodeContaining} from '../helpers/dom-utils.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 	const {base} = getBranches();
@@ -49,7 +49,7 @@ async function addInfo(statusMeta: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	await api.expectToken();
+	await expectToken();
 
 	observe('.branch-action-item .status-meta', addInfo, {signal});
 }
@@ -60,7 +60,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isClosedPR,
-		() => select('.head-ref')!.title === 'This repository has been deleted',
+		() => $('.head-ref')!.title === 'This repository has been deleted',
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,

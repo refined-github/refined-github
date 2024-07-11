@@ -6,7 +6,7 @@ import observe from '../helpers/selector-observer.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 
 function addLinkToBanner(banner: HTMLElement): void {
-	if (banner.lastChild!.textContent!.includes('repository has been archived')) {
+	if (banner.lastChild!.textContent.includes('repository has been archived')) {
 		banner.lastChild!.after(
 			' You can check out ',
 			<a href={buildRepoURL('forks')}>its forks</a>,
@@ -16,7 +16,7 @@ function addLinkToBanner(banner: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('#js-repo-pjax-container > .flash-warn:first-child', addLinkToBanner, {signal});
+	observe('#js-repo-pjax-container > .flash-warn:first-of-type', addLinkToBanner, {signal});
 }
 
 void features.add(import.meta.url, {

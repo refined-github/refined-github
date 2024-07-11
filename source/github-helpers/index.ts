@@ -1,10 +1,10 @@
-import select from 'select-dom';
+import {$, elementExists, expectElement} from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
-import mem from 'mem';
+import mem from 'memoize';
 
 import {branchSelector} from './selectors.js';
 
@@ -13,11 +13,8 @@ export const getUsername = onetime(pageDetect.utils.getUsername);
 export const {getRepositoryInfo: getRepo, getCleanPathname} = pageDetect.utils;
 
 export function getConversationNumber(): number | undefined {
-	if (pageDetect.isPR() || pageDetect.isIssue()) {
-		return Number(location.pathname.split('/')[4]);
-	}
-
-	return undefined;
+	const [, _owner, _repo, type, prNumber] = location.pathname.split('/');
+	return (type === 'pull' || type === 'issues') && Number(prNumber) ? Number(prNumber) : undefined;
 }
 
 export const isMac = navigator.userAgent.includes('Macintosh');
@@ -26,7 +23,6 @@ type Not<Yes, Not> = Yes extends Not ? never : Yes;
 type UnslashedString<S extends string> = Not<S, `/${string}` | `${string}/`>;
 
 export function buildRepoURL<S extends string>(...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>): string {
-	// TODO: Drop after https://github.com/sindresorhus/type-fest/issues/417
 	for (const part of pathParts) {
 		if (typeof part === 'string' && /^\/|\/$/.test(part)) {
 			throw new TypeError('The path parts shouldn’t start or end with a slash: ' + part);
@@ -37,7 +33,7 @@ export function buildRepoURL<S extends string>(...pathParts: RequireAtLeastOne<A
 }
 
 export function getForkedRepo(): string | undefined {
-	return select('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
+	return $('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
 }
 
 export function parseTag(tag: string): {version: string; namespace: string} {
@@ -45,8 +41,17 @@ export function parseTag(tag: string): {version: string; namespace: string} {
 	return {namespace, version};
 }
 
-export function compareNames(username: string, realname: string): boolean {
-	return username.replaceAll('-', '').toLowerCase() === realname.normalize('NFD').replaceAll(/[\u0300-\u036F\W.]/g, '').toLowerCase();
+export function isUsernameAlreadyFullName(username: string, realname: string): boolean {
+	// Normalize both strings
+	username = username
+		.replaceAll('-', '')
+		.toLowerCase();
+	realname = realname
+		.normalize('NFD')
+		.replaceAll(/[\u0300-\u036F\W.]/g, '')
+		.toLowerCase();
+
+	return username === realname;
 }
 
 const validVersion = /^[vr]?\d+(?:\.\d+)+/;
@@ -92,7 +97,7 @@ export const isPermalink = mem(async () => {
 	}
 
 	// Awaiting only the branch selector means it resolves early even if the icon tag doesn't exist, whereas awaiting the icon tag would wait for the DOM ready event before resolving.
-	return select.exists(
+	return elementExists(
 		'.octicon-tag', // Tags have an icon
 		await elementReady(branchSelector),
 	);
@@ -110,19 +115,6 @@ export function isRefinedGitHubYoloRepo(): boolean {
 	return location.pathname.startsWith('/refined-github/yolo');
 }
 
-export function shouldFeatureRun({
-	/** Every condition must be true */
-	asLongAs = [() => true],
-
-	/** At least one condition must be true */
-	include = [() => true],
-
-	/** No conditions must be true */
-	exclude = [() => false],
-}): boolean {
-	return asLongAs.every(c => c()) && include.some(c => c()) && exclude.every(c => !c());
-}
-
 export async function isArchivedRepoAsync(): Promise<boolean> {
 	// Load the bare minimum for `isArchivedRepo` to work
 	await elementReady('main > div');
@@ -131,7 +123,7 @@ export async function isArchivedRepoAsync(): Promise<boolean> {
 	return pageDetect.isArchivedRepo();
 }
 
-export const userCanLikelyMergePR = (): boolean => select.exists('.discussion-sidebar-item .octicon-lock');
+export const userCanLikelyMergePR = (): boolean => elementExists('.discussion-sidebar-item .octicon-lock');
 
 export const cacheByRepo = (): string => getRepo()!.nameWithOwner;
 
@@ -139,14 +131,14 @@ export const cacheByRepo = (): string => getRepo()!.nameWithOwner;
 export const isRepoCommitListRoot = (): boolean => pageDetect.isRepoCommitList() && document.title.startsWith('Commits');
 
 export const isUrlReachable = mem(async (url: string): Promise<boolean> => {
-	const {status} = await fetch(url, {method: 'head'});
-	return status === 404;
+	const {ok} = await fetch(url, {method: 'head'});
+	return ok;
 });
 
 // Don't make the argument optional, sometimes we really expect it to exist and want to throw an error
 export function extractCurrentBranchFromBranchPicker(branchPicker: HTMLElement): string {
 	return branchPicker.title === 'Switch branches or tags'
-		? branchPicker.textContent!.trim() // Branch name is shown in full
+		? branchPicker.textContent.trim() // Branch name is shown in full
 		: branchPicker.title; // Branch name was clipped, so they placed it in the title attribute
 }
 
@@ -154,4 +146,40 @@ export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement,
 	const row = branchSelectorParent.closest('.position-relative')!;
 	row.classList.add('d-flex', 'flex-shrink-0', 'gap-2');
 	row.append(sibling);
+}
+
+/** Trigger a conversation update if the view is out of date */
+// https://github.com/refined-github/refined-github/issues/2465#issuecomment-567173300
+export function triggerConversationUpdate(): void {
+	const marker = expectElement('.js-timeline-marker');
+	marker.dispatchEvent(new CustomEvent('socket:message', {
+		bubbles: true,
+		detail: {data: {gid: marker.dataset.gid}},
+	}));
+}
+
+// Fix z-index issue https://github.com/refined-github/refined-github/pull/7430
+export function fixFileHeaderOverlap(child: Element): void {
+	child.closest('.container')!.classList.add('rgh-z-index-5');
+}
+
+/** Trigger a reflow to push the right-most tab into the overflow dropdown */
+export function triggerRepoNavOverflow(): void {
+	window.dispatchEvent(new Event('resize'));
+}
+
+export function triggerActionBarOverflow(child: Element): void {
+	const parent = child.closest('action-bar')!;
+	const placeholder = document.createElement('div');
+	parent.replaceWith(placeholder);
+	placeholder.replaceWith(parent);
+}
+
+export function multilineAriaLabel(...lines: string[]): string {
+	return lines.join('\n');
+}
+
+export function scrollIntoViewIfNeeded(element: Element): void {
+	// @ts-expect-error No Firefox support https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
+	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
 }

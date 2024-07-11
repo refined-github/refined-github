@@ -1,18 +1,21 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import openOptions from '../helpers/open-options.js';
 import clearCacheHandler from '../helpers/clear-cache-handler.js';
-import {expectToken, expectTokenScope} from '../github-helpers/api.js';
+import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 
 function addNotice(adjective: JSX.Element | string): void {
-	select('#issue_body_template_name')!.before(
-		<div className="flash flash-warn m-2">
-			Your Personal Access Token is {adjective}. Some Refined GitHub features will not work without it.
-			You can update it <button className="btn-link" type="button" onClick={openOptions as unknown as React.MouseEventHandler}>in the options</button>.
+	$('#issue_body_template_name')!.before(
+		<div className="flash flash-error py-9">
+			<p>
+				Your Personal Access Token is {adjective}. Some Refined GitHub features will not work without it.
+				You can update it <button className="btn-link" type="button" onClick={openOptions as unknown as React.MouseEventHandler}>in the options</button>.
+			</p>
+			<p>Add a valid token and confirm the problem still occurs, before submitting this issue.</p>
 		</div>,
 	);
 }
@@ -28,17 +31,17 @@ async function checkToken(): Promise<void> {
 	try {
 		await expectTokenScope('repo');
 	} catch {
-		addNotice('invalid or expired');
+		addNotice('invalid, expired or without enough permissions');
 	}
 }
 
 async function setVersion(): Promise<void> {
-	const {version} = browser.runtime.getManifest();
-	select('input#issue_form_version')!.value = version;
+	const {version} = chrome.runtime.getManifest();
+	$('input#issue_form_version')!.value = version;
 }
 
 async function linkifyCacheRefresh(): Promise<void> {
-	select('[href="#clear-cache"]')!.replaceWith(
+	$('[href="#clear-cache"]')!.replaceWith(
 		<button
 			className="btn"
 			type="button"

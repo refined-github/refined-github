@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate from 'delegate-it';
 
@@ -8,6 +8,7 @@ import api from '../github-helpers/api.js';
 import {getRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import showToast from '../github-helpers/toast.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 const getReleaseEditLinkSelector = (): 'a' => `a[href^="/${getRepo()!.nameWithOwner}/releases/edit"]` as 'a';
 
@@ -21,7 +22,7 @@ async function convertToDraft(): Promise<void> {
 		},
 	});
 
-	select(getReleaseEditLinkSelector())!.click(); // Visit "Edit release" page
+	$(getReleaseEditLinkSelector())!.click(); // Visit "Edit release" page
 }
 
 const confirmMessage = 'The release will be effectively deleted and a new draft will be created.';
@@ -29,7 +30,7 @@ const confirmMessageWithReactions = 'Existing user reactions will be lost.';
 const confirmMessageQuestion = 'Continue?';
 
 async function onConvertClick(): Promise<void> {
-	const message = select.exists('.js-reaction-group-button')
+	const message = elementExists('.js-reaction-group-button')
 		? [confirmMessage, confirmMessageWithReactions, confirmMessageQuestion]
 		: [confirmMessage, confirmMessageQuestion];
 	if (!confirm(message.join(' '))) {
@@ -44,7 +45,7 @@ async function onConvertClick(): Promise<void> {
 }
 
 function attachButton(editButton: HTMLAnchorElement): void {
-	if (select.exists('[title="Draft"]')) {
+	if (elementExists('[title="Draft"]')) {
 		return;
 	}
 
@@ -59,7 +60,7 @@ function attachButton(editButton: HTMLAnchorElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	await api.expectToken();
+	await expectToken();
 
 	observe(getReleaseEditLinkSelector(), attachButton, {signal});
 	delegate('.rgh-convert-draft', 'click', onConvertClick, {signal});

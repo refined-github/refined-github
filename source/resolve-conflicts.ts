@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions -- Declaration merging necessary */
-/* eslint-disable unicorn/better-regex -- Go home you're drunk */
 
 import regexJoin from 'regex-join';
 import type CodeMirror from 'codemirror';
@@ -129,4 +128,3 @@ function acceptBranch(branch: string, line: number): void {
 	editor.setCursor(linesToRemove[0]);
 }
 
-/* eslint-enable unicorn/better-regex */

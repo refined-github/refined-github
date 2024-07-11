@@ -44,10 +44,16 @@ test('.remove', () => {
 	assert.equal(query.get(), 'dog');
 });
 
-test('.add', () => {
+test('.append', () => {
 	const query = SearchQuery.from({q: 'is:pr birds everywhere'});
-	query.add('and', 'aliens');
+	query.append('and', 'aliens');
 	assert.equal(query.get(), 'is:pr birds everywhere and aliens');
+});
+
+test('.prepend', () => {
+	const query = SearchQuery.from({q: 'is:pr birds everywhere'});
+	query.prepend('sort:cool', 'exclude:chicken');
+	assert.equal(query.get(), 'sort:cool exclude:chicken is:pr birds everywhere');
 });
 
 test('.includes', () => {
@@ -68,7 +74,7 @@ test('defaults', () => {
 
 test('deduplicate is:pr/issue', () => {
 	const query = SearchQuery.from({q: 'refined github is:pr'});
-	query.add('is:issue');
+	query.append('is:issue');
 
 	assert.isFalse(query.includes('is:pr'));
 	assert.isTrue(query.includes('is:issue'));

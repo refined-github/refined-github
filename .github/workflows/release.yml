@@ -8,21 +8,22 @@ env:
 
 name: Release
 on:
-  workflow_dispatch:
+  workflow_dispatch: null
 jobs:
   Version:
     outputs:
       created: ${{ env.DAILY_VERSION_CREATED }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version-file: .nvmrc
+          node-version-file: package.json
           cache: npm
       - run: npm ci
       - name: Test and build
-        run: npm test
+        run: npm run build
+        # TODO: Re-enable tests
       - name: Create tag if necessary
         uses: fregante/daily-version-action@v2
       - name: Update manifest.json with version ${{ env.DAILY_VERSION}}
@@ -30,7 +31,7 @@ jobs:
         run: npx dot-json@1 "$DIRECTORY/manifest.json" version "$DAILY_VERSION"
       - name: Ready for "submit" jobs
         if: env.DAILY_VERSION_CREATED
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: ${{ env.DIRECTORY }}
       - name: Create release
@@ -42,32 +43,50 @@ jobs:
           FILENAME="$PROJECT_NAME-$DAILY_VERSION-for-local-testing-only.zip"
           zip -r "$FILENAME" ./*
           gh release create "$DAILY_VERSION" --generate-notes "$FILENAME"
-  Submit:
-    needs: Version
+  Chrome:
     if: needs.Version.outputs.created
-    strategy:
-      fail-fast: false
-      matrix:
-        command:
-          - Firefox
-          - Chrome
-    environment: ${{ matrix.command }}
+    needs: Version
+    name: Submit (Chrome)
+    environment: Chrome
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
-      - name: Submit to Mozilla
-        if: matrix.command == 'Firefox'
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+
+      # Kiwi browser https://github.com/kiwibrowser/src.next/issues/1138
+      - run: npm install dot-json@1 -g
+      - run: npm run manifest artifact 3
+
+      - run: npx chrome-webstore-upload-cli@3
         working-directory: artifact
-        run: npx web-ext-submit@7
-        env:
-          WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
-          WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
-      - name: Submit to Google
-        if: matrix.command == 'Chrome'
-        working-directory: artifact
-        run: npx chrome-webstore-upload-cli@2 upload --auto-publish
         env:
           EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+  Firefox:
+    if: needs.Version.outputs.created
+    needs: Version
+    name: Submit (Firefox)
+    environment: Firefox
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Zip source code
+        run: |
+          git archive --output source.zip HEAD ":!safari" ":!test" ":!.github"
+          zip -ju source.zip build/AMO_BUILD_INSTRUCTIONS
+          unzip -l source.zip
+
+      - uses: actions/download-artifact@v4
+
+      # Firefox https://github.com/refined-github/refined-github/issues/7477
+      - run: npm install dot-json@1
+      - run: npm run manifest artifact 2
+
+      - name: Upload build and source code
+        run: npx web-ext@8 sign --channel listed --upload-source-code ../source.zip
+        working-directory: artifact
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
+          WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}

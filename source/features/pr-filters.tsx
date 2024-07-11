@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import select from 'select-dom';
-import {CheckIcon} from '@primer/octicons-react';
+import {$} from 'select-dom';
+import CheckIcon from 'octicons-plain-react/Check';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -72,10 +72,10 @@ async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
 	const checksFilter = reviewsFilter.cloneNode(true);
 	checksFilter.id = '';
 
-	select('summary', checksFilter)!.firstChild!.textContent = 'Checks\u00A0'; // Only replace text node, keep caret
-	select('.SelectMenu-title', checksFilter)!.textContent = 'Filter by checks status';
+	$('summary', checksFilter)!.firstChild!.textContent = 'Checks\u00A0'; // Only replace text node, keep caret
+	$('.SelectMenu-title', checksFilter)!.textContent = 'Filter by checks status';
 
-	const dropdown = select('.SelectMenu-list', checksFilter)!;
+	const dropdown = $('.SelectMenu-list', checksFilter)!;
 	dropdown.textContent = ''; // Drop previous filters
 
 	for (const status of ['Success', 'Failure', 'Pending']) {

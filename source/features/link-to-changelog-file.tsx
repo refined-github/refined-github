@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import select from 'select-dom';
-import {BookIcon} from '@primer/octicons-react';
+import BookIcon from 'octicons-plain-react/Book';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -9,7 +8,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import {buildRepoURL, getRepo} from '../github-helpers/index.js';
-import GetFilesOnRoot from './show-associated-branch-prs-on-fork.gql';
+import GetFilesOnRoot from './link-to-changelog-file.gql';
 
 type FileType = {
 	name: string;
@@ -19,15 +18,6 @@ type FileType = {
 const changelogFiles = /^(changelog|news|changes|history|release|whatsnew)(\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
 function findChangelogName(files: string[]): string | false {
 	return files.find(name => changelogFiles.test(name)) ?? false;
-}
-
-function parseFromDom(): false {
-	const files = select.all('[aria-labelledby="files"] .js-navigation-open[href*="/blob/"').map(file => file.title);
-	void changelogName.applyOverride(
-		[findChangelogName(files) as string] /* TODO: Type mistake */,
-		getRepo()!.nameWithOwner,
-	);
-	return false;
 }
 
 const changelogName = new CachedFunction('changelog', {
@@ -56,8 +46,8 @@ async function init(): Promise<void | false> {
 
 	const changelogButton = (
 		<a
-			className={'tooltipped tooltipped-n btn ml-3' + (pageDetect.isEnterprise() ? '' : ' flex-self-start')}
-			aria-label={`View the ${changelog} file}`}
+			className={'tooltipped tooltipped-n btn mx-3' + (pageDetect.isEnterprise() ? '' : ' flex-self-start')}
+			aria-label={`View the ${changelog} file`}
 			href={buildRepoURL('blob', 'HEAD', changelog)}
 			style={pageDetect.isEnterprise() ? {padding: '6px 16px'} : {}}
 			role="button"
@@ -73,8 +63,9 @@ async function init(): Promise<void | false> {
 	].join(',');
 
 	const navbar = (await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!;
-	navbar.classList.remove('flex-1');
-	wrapAll([navbar, changelogButton], <div className="d-flex flex-justify-start flex-1"/>);
+	navbar.classList.remove('flex-1'); // Remove margin-right
+	navbar.classList.add('d-flex'); // Avoid wrapping
+	wrapAll(<div className="d-flex flex-justify-start flex-1"/>, navbar, changelogButton);
 }
 
 void features.add(import.meta.url, {
@@ -86,13 +77,6 @@ void features.add(import.meta.url, {
 	],
 	deduplicate: 'has-rgh-inner',
 	init,
-}, {
-	include: [
-		pageDetect.isRepoHome,
-	],
-	deduplicate: 'has-rgh',
-	awaitDomReady: true, // Does not affect current visit
-	init: parseFromDom,
 });
 
 /*

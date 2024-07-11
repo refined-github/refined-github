@@ -1,12 +1,11 @@
-import select from 'select-dom';
+import {$} from 'select-dom';
 import oneEvent from 'one-event';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import showToast from '../github-helpers/toast.js';
-
-const paginationButtonSelector = '.ajax-pagination-form button[type="submit"]';
+import {paginationButtonSelector} from '../github-helpers/selectors.js';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 async function expandHidden(paginationButton: HTMLButtonElement | undefined) {
@@ -21,7 +20,7 @@ async function expandHidden(paginationButton: HTMLButtonElement | undefined) {
 			wrapper = wrapper.lastElementChild!;
 		}
 
-		paginationButton = select(`:scope > ${paginationButtonSelector}`, wrapper);
+		paginationButton = $(`:scope > ${paginationButtonSelector}`, wrapper);
 		paginationButton?.click();
 	}
 }

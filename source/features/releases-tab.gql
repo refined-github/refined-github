@@ -3,5 +3,8 @@ query GetReleasesCount($owner: String!, $name: String!) {
 		releases {
 			totalCount
 		}
+		tags: refs(refPrefix: "refs/tags/") {
+			totalCount
+		}
 	}
 }

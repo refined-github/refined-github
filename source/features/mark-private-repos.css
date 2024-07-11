@@ -1,0 +1,7 @@
+li.private .Label--secondary {
+	border-color: var(
+		--borderColor-attention-muted,
+		var(--color-attention-muted)
+	);
+	color: var(--fgColor-attention, var(--color-attention-emphasis));
+}

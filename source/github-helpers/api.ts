@@ -25,13 +25,13 @@ it lets you define accept error HTTP codes as a valid response, like:
 so the call will not throw an error but it will return as usual.
  */
 
-import mem from 'mem';
+import mem from 'memoize';
 import * as pageDetect from 'github-url-detection';
 import {JsonObject, AsyncReturnType} from 'type-fest';
 
 import features from '../feature-manager.js';
 import {getRepo} from './index.js';
-import optionsStorage from '../options-storage.js';
+import {getToken} from './github-token.js';
 
 type JsonError = {
 	message: string;
@@ -55,24 +55,6 @@ export class RefinedGitHubAPIError extends Error {
 	response: AnyObject = {};
 	constructor(...messages: string[]) {
 		super(messages.join('\n'));
-	}
-}
-
-const settings = optionsStorage.getAll();
-export async function expectToken(): Promise<string> {
-	const {personalToken} = await settings;
-	if (!personalToken) {
-		throw new Error('Personal token required for this feature');
-	}
-
-	return personalToken;
-}
-
-export async function expectTokenScope(scope: string): Promise<void> {
-	const {headers} = await v3('/');
-	const tokenScopes = headers.get('X-OAuth-Scopes')!;
-	if (!tokenScopes.split(', ').includes(scope)) {
-		throw new Error('The token you provided does not have ' + (tokenScopes ? `the \`${scope}\` scope. It only includes \`${tokenScopes}\`.` : 'any scope. You can change the scope of your token at https://github.com/settings/tokens'));
 	}
 }
 
@@ -113,7 +95,7 @@ export const v3 = mem(async (
 	options: GHRestApiOptions = v3defaults,
 ): Promise<RestResponse> => {
 	const {ignoreHTTPStatus, method, body, headers, json} = {...v3defaults, ...options};
-	const {personalToken} = await settings;
+	const personalToken = await getToken();
 
 	if (!query.startsWith('https')) {
 		query = query.startsWith('/') ? query.slice(1) : ['repos', getRepo()!.nameWithOwner, query].filter(Boolean).join('/');
@@ -169,7 +151,7 @@ export const v4uncached = async (
 	query: string,
 	options: GHGraphQLApiOptions = v4defaults,
 ): Promise<AnyObject> => {
-	const personalToken = await expectToken();
+	const personalToken = await getToken();
 
 	// TODO: Remove automatic usage of globals via `getRepo()`
 	// https://github.com/refined-github/refined-github/issues/5821
@@ -237,7 +219,7 @@ export const v4 = mem(v4uncached, {
 		// https://github.com/refined-github/refined-github/issues/5821
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
 		const key = [query, options];
-		if (query.includes('repository() {')) {
+		if (query.includes('repository() {') || query.includes('owner: $owner, name: $name')) {
 			key.push(getRepo()?.nameWithOwner);
 		}
 
@@ -246,7 +228,7 @@ export const v4 = mem(v4uncached, {
 });
 
 export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {
-	const {personalToken} = await settings;
+	const personalToken = await getToken();
 
 	if ((apiResponse.message as string)?.includes('API rate limit exceeded')) {
 		return new RefinedGitHubAPIError(

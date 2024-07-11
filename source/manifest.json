@@ -1,38 +1,48 @@
 {
+	"$schema": "https://json.schemastore.org/chrome-manifest",
 	"name": "Refined GitHub",
 	"version": "0.0.0",
 	"description": "Simplifies the GitHub interface and adds useful features",
 	"homepage_url": "https://github.com/refined-github/refined-github",
-	"manifest_version": 2,
-	"minimum_chrome_version": "105",
-	"applications": {
+	"manifest_version": 3,
+	"minimum_chrome_version": "116",
+	"browser_specific_settings": {
 		"gecko": {
 			"id": "{a4c4eda4-fb84-4a84-b4a1-f7c1cbf2a1ad}",
-			"strict_min_version": "102.0"
+			"strict_min_version": "124.0"
+		},
+		"gecko_android": {
+			"id": "{a4c4eda4-fb84-4a84-b4a1-f7c1cbf2a1ad}",
+			"strict_min_version": "124.0"
 		}
 	},
 	"permissions": [
 		"storage",
+		"scripting",
 		"contextMenus",
 		"activeTab",
-		"alarms",
+		"alarms"
+	],
+	"host_permissions": [
 		"https://github.com/*",
 		"https://api.github.com/*"
 	],
-	"browser_action": {
+	"action": {
 		"default_icon": "assets/icon.png"
 	},
 	"optional_permissions": [
 		"*://*/*"
 	],
+	"optional_host_permissions": [
+		"*://*/*"
+	],
 	"icons": {
 		"128": "assets/icon.png"
 	},
-	"options_ui": {
-		"chrome_style": true,
-		"page": "assets/options.html"
-	},
+	"options_page": "assets/options.html",
 	"background": {
+		"service_worker": "assets/background.js",
+		"type": "module",
 		"scripts": [
 			"assets/background.js"
 		]
@@ -56,6 +66,9 @@
 		}
 	],
 	"web_accessible_resources": [
-		"assets/resolve-conflicts.js"
-	]
+    {
+      "resources": [ "assets/resolve-conflicts.js" ],
+      "matches": [ "https://*/*" ]
+    }
+  ]
 }

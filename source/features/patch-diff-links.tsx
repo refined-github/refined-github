@@ -13,7 +13,7 @@ async function init(): Promise<void> {
 		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
 	}
 
-	const commitMeta = await elementReady('.commit-meta')!;
+	const commitMeta = await elementReady('.commit-meta');
 	commitMeta!.classList.remove('no-wrap'); // #5987
 	commitMeta!.lastElementChild!.append(
 		<span className="sha-block" data-turbo="false">

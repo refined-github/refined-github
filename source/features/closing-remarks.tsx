@@ -1,8 +1,9 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import select from 'select-dom';
-import {TagIcon} from '@primer/octicons-react';
+import {$, $$} from 'select-dom';
+import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
+import InfoIcon from 'octicons-plain-react/Info';
 
 import features from '../feature-manager.js';
 import fetchDom from '../helpers/fetch-dom.js';
@@ -12,20 +13,33 @@ import TimelineItem from '../github-helpers/timeline-item.js';
 import attachElement from '../helpers/attach-element.js';
 import {canEditEveryComment} from './quick-comment-edit.js';
 import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
-import {releasesCount} from './releases-tab.js';
+import {getReleases} from './releases-tab.js';
 import observe from '../helpers/selector-observer.js';
 
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;
 
+function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
+	// https://github.com/refined-github/refined-github/issues/7206
+	return !textContent.includes('nightly') && /\d[.]\d/.test(textContent);
+}
+
+function ExplanationLink(): JSX.Element {
+	// If you tweak this the alignment value, verify it against both the tagged and untagged states
+	// See screenshots in https://github.com/refined-github/refined-github/pull/7498
+	return (
+		<a href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#closing-remarks">
+			<InfoIcon width={12} height={12} style={{verticalAlign: '-2px'}}/>
+		</a>
+	);
+}
+
 const firstTag = new CachedFunction('first-tag', {
 	async updater(commit: string): Promise<string | false> {
-		const firstTag = await fetchDom(
-			buildRepoURL('branch_commits', commit),
-			'ul.branches-tag-list li:last-child a',
-		);
-
-		return firstTag?.textContent ?? false;
+		const tagsAndBranches = await fetchDom(buildRepoURL('branch_commits', commit));
+		const tags = $$('ul.branches-tag-list a', tagsAndBranches);
+		// eslint-disable-next-line unicorn/no-array-callback-reference -- Just this once, I swear
+		return tags.findLast(excludeNightliesAndJunk)?.textContent ?? false;
 	},
 	cacheKey: ([commit]) => [getRepo()!.nameWithOwner, commit].join(':'),
 });
@@ -43,7 +57,7 @@ function createReleaseUrl(): string | undefined {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const mergeCommit = select(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`)!.textContent!;
+	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`)!.textContent;
 	const tagName = await firstTag.get(mergeCommit);
 
 	if (tagName) {
@@ -60,7 +74,6 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionHeader: HTMLElement): void {
-	// TODO: Use :has selector instead
 	discussionHeader.parentElement!.append(
 		<span>
 			<TagIcon className="ml-2 mr-1 color-fg-muted"/>
@@ -82,7 +95,7 @@ function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 			<TimelineItem>
 				{createBanner({
 					icon: <TagIcon className="m-0"/>,
-					text: <>This pull request first appeared in {linkedTag}</>,
+					text: <>This pull request first appeared in {linkedTag} <ExplanationLink/></>,
 					classes: ['flash-success', 'rgh-bg-none'],
 				})}
 			</TimelineItem>
@@ -91,7 +104,8 @@ function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 }
 
 async function addReleaseBanner(text = 'Now you can release this change'): Promise<void> {
-	if (await releasesCount.get(getRepo()!.nameWithOwner) === 0) {
+	const [releases] = await getReleases();
+	if (releases === 0) {
 		return;
 	}
 
@@ -99,7 +113,7 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 	const bannerContent = {
 		icon: <TagIcon className="m-0"/>,
 		classes: ['rgh-bg-none'],
-		text,
+		text: <>{text} <ExplanationLink/></>,
 	};
 
 	attachElement('#issue-comment-box', {
@@ -146,6 +160,11 @@ Test URLs
 - PR: https://github.com/refined-github/refined-github/pull/5600
 - Locked PR: https://github.com/eslint/eslint/pull/17
 - Archived repo: https://github.com/fregante/iphone-inline-video/pull/130
-- RGH tagged PR: https://github.com/refined-github/sandbox/pull/1
+- Junk tag: https://github.com/refined-github/sandbox/pull/1
+	- See: https://github.com/refined-github/sandbox/branch_commits/f743c334f6475021ef133591b587bc282c0cf4c4
+- Normal tag: https://togithub.com/refined-github/refined-github/pull/7127
+	- See https://github.com/refined-github/refined-github/branch_commits/5321825
+- Nightly tag: https://togithub.com/neovim/neovim/pull/22060
+	- see: https://github.com/neovim/neovim/branch_commits/27b81af
 
 */
