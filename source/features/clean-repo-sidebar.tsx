@@ -5,6 +5,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
+import oneEvent from 'one-event';
 // The h2 is to avoid hiding website links that include '/releases' #4424
 // TODO: It's broken
 const releasesSidebarSelector = '.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]';
@@ -30,22 +31,16 @@ async function cleanReleases(): Promise<void> {
 }
 
 async function hideEmptyPackages(): Promise<void> {
-	const packagesCounter = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false});
-	if (!packagesCounter || packagesCounter.textContent !== '0') {
-		return;
+	const packageLoader = await elementReady('include-fragment[src*="packages_list"]', {waitForChildren: false});
+	if (packageLoader) {
+		// 'loadend' captures success and error
+		// https://github.com/github/include-fragment-element/blob/5249243ee1cbdc82ab69c5d7c6318cd61a524b93/src/include-fragment-element.ts#L261
+		await oneEvent(packageLoader, "loadend")
 	}
 
-	packagesCounter.closest('.BorderGrid-row')!.hidden = true;
-
-	// Github seems to fetch internal packages separately, so if a repo only has internal packages, this makes the panel visible after they've loaded
-	const updatedPackagesCounter = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/packages?"] .Counter:not([hidden="hidden"])', {
-		waitForChildren: false,
-		stopOnDomReady: false,
-		timeout: 10 * 1000,
-	});
-
-	if (updatedPackagesCounter && updatedPackagesCounter.textContent !== '0') {
-		updatedPackagesCounter.closest('.BorderGrid-row')!.hidden = false;
+	const packagesCounter = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false});
+	if (packagesCounter && packagesCounter.textContent === '0') {
+		packagesCounter.closest('.BorderGrid-row')!.hidden = true;
 	}
 }
 
