@@ -4,8 +4,9 @@ import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager.js';
 import oneEvent from 'one-event';
+
+import features from '../feature-manager.js';
 // The h2 is to avoid hiding website links that include '/releases' #4424
 // TODO: It's broken
 const releasesSidebarSelector = '.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]';
@@ -35,7 +36,7 @@ async function hideEmptyPackages(): Promise<void> {
 	if (packageLoader) {
 		// 'loadend' captures success and error
 		// https://github.com/github/include-fragment-element/blob/5249243ee1cbdc82ab69c5d7c6318cd61a524b93/src/include-fragment-element.ts#L261
-		await oneEvent(packageLoader, "loadend")
+		await oneEvent(packageLoader, 'loadend');
 	}
 
 	const packagesCounter = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false});
