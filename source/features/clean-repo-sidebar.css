@@ -1,51 +1,49 @@
-/* Hide "About" header */
-[rgh-clean-repo-sidebar] .Layout-sidebar .BorderGrid-row:first-child h2 {
-	display: none;
-}
-
-/* Hide "Packages" if empty */
-[rgh-clean-repo-sidebar]
-	.BorderGrid-row:has(a[href*='/packages?repo_name'] .Counter[title='0']) {
-	display: none;
-}
-
-/* Align the top of the repo root sidebar with the main page content */
-[rgh-clean-repo-sidebar] .Layout-sidebar .BorderGrid-row:first-child h2 + p.f4 {
-	margin-top: 0 !important;
-}
-
-/* Hide "Readme" link made unnecessary by `toggle-files-button` #3580 */
-[rgh-clean-repo-sidebar] .Layout-sidebar [href$='#readme'] {
-	display: none;
-}
-
-@media (min-width: 768px) {
-	/* Hide "Releases" header */
-	[rgh-clean-repo-sidebar] .Layout-sidebar h2 [href$='/releases'] {
+[rgh-clean-repo-sidebar] .Layout-sidebar {
+	/* Hide "About" header */
+	.BorderGrid-row:first-child h2 {
 		display: none;
 	}
 
-	/* Align data section with latest tag/release link #5428 */
-	[rgh-clean-repo-sidebar] .Layout-sidebar .Link--muted .octicon {
-		margin-right: 4px !important;
+	/* Hide "Packages" if empty */
+	.BorderGrid-row:has(a[href*='/packages?repo_name'] .Counter[title='0']) {
+		display: none;
 	}
-}
 
-/*
- * Hide "+ 65 releases" link
- * Hide "Learn more about GitHub Sponsors" link
- * Hide "+ 123 contributors" link
- */
-[rgh-clean-repo-sidebar] .Layout-sidebar .BorderGrid-cell > .mt-3 {
-	display: none;
-}
+	/* Align the top of the repo root sidebar with the main page content */
+	.BorderGrid-row:first-child h2 + p.f4 {
+		margin-top: 0 !important;
+	}
 
-/* Hide Code of conduct links */
-[rgh-clean-repo-sidebar]
-	.Layout-sidebar
+	/* Hide "Readme" link made unnecessary by `toggle-files-button` #3580 */
+	[href$='#readme'] {
+		display: none;
+	}
+	@media (min-width: 768px) {
+		/* Hide "Releases" header */
+		h2 [href$='/releases'] {
+			display: none;
+		}
+
+		/* Align data section with latest tag/release link #5428 */
+		.Link--muted .octicon {
+			margin-right: 4px !important;
+		}
+	}
+
+	/*
+	Hide "+ 65 releases" link
+	Hide "Learn more about GitHub Sponsors" link
+	Hide "+ 123 contributors" link
+	*/
+	.BorderGrid-cell > .mt-3 {
+		display: none;
+	}
+
+	/* Hide Code of conduct links */
 	.Link--muted:is(
-		[href$='/code-of-conduct.md' i],
-		[href$='/code_of_conduct.md' i]
-	) {
-	display: none;
+			[href$='/code-of-conduct.md' i],
+			[href$='/code_of_conduct.md' i]
+		) {
+		display: none;
+	}
 }
