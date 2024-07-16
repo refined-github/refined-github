@@ -38,6 +38,7 @@ function init(signal: AbortSignal): void | false {
 		return false;
 	}
 
+	// TODO: Rewrite with :has selector
 	update(checkbox); // The sidebar checkbox may already be un-checked
 	delegate('input[name="collab_privs"]', 'change', toggleHandler, {signal});
 }
