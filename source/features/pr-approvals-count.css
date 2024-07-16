@@ -1,14 +1,14 @@
 /* Show approvals count in PR list */
 .js-issue-row
 	.color-fg-muted
-	[href$='#partial-pull-merging'][aria-label*='approval'] {
+	[href$="#partial-pull-merging"][aria-label*="approval"] {
 	font-size: 0;
 	color: transparent !important;
 }
 
 .js-issue-row
 	.color-fg-muted
-	[href$='#partial-pull-merging'][aria-label*='approval']::before {
+	[href$="#partial-pull-merging"][aria-label*="approval"]::before {
 	all: unset;
 	content: attr(aria-label);
 	display: inline-block !important;
@@ -18,14 +18,14 @@
 
 .js-issue-row
 	.color-fg-muted
-	[href$='#partial-pull-merging'][aria-label*='changes'] {
+	[href$="#partial-pull-merging"][aria-label*="changes"] {
 	color: var(--rgh-red) !important;
 }
 
 /* Disable now-duplicate tooltip */
 .js-issue-row
 	.color-fg-muted
-	[href$='#partial-pull-merging'][aria-label*='approval']::after {
+	[href$="#partial-pull-merging"][aria-label*="approval"]::after {
 	content: none;
 }
 

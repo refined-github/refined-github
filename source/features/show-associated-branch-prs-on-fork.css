@@ -11,7 +11,7 @@
 	gap: 4px;
 }
 
-.rgh-pr-cell > [class*='Box'] {
+.rgh-pr-cell > [class*="Box"] {
 	/* Drop forced height on pre-existing cell */
 	height: auto;
 }

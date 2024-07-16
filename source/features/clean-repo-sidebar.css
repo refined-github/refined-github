@@ -5,7 +5,7 @@
 	}
 
 	/* Hide "Packages" if empty */
-	.BorderGrid-row:has(a[href*='/packages?repo_name'] .Counter[title='0']) {
+	.BorderGrid-row:has(a[href*="/packages?repo_name"] .Counter[title="0"]) {
 		display: none;
 	}
 
@@ -15,12 +15,12 @@
 	}
 
 	/* Hide "Readme" link made unnecessary by `toggle-files-button` #3580 */
-	[href$='#readme'] {
+	[href$="#readme"] {
 		display: none;
 	}
 	@media (min-width: 768px) {
 		/* Hide "Releases" header */
-		h2 [href$='/releases'] {
+		h2 [href$="/releases"] {
 			display: none;
 		}
 
@@ -40,10 +40,7 @@
 	}
 
 	/* Hide Code of conduct links */
-	.Link--muted:is(
-			[href$='/code-of-conduct.md' i],
-			[href$='/code_of_conduct.md' i]
-		) {
+	.Link--muted:is([href$="/code-of-conduct.md" i], [href$="/code_of_conduct.md" i]) {
 		display: none;
 	}
 }

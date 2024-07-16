@@ -65,8 +65,8 @@
 			font-weight: inherit;
 		}
 
-		[data-content='Pull requests']::before {
-			content: 'Pulls' !important;
+		[data-content="Pull requests"]::before {
+			content: "Pulls" !important;
 		}
 
 		.UnderlineNav-item svg {

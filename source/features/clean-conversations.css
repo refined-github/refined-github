@@ -1,6 +1,5 @@
 /* Remove user avatar from new comment form */
-.timeline-new-comment .timeline-comment-avatar,
-.review-thread-reply .avatar {
+.timeline-new-comment .timeline-comment-avatar, .review-thread-reply .avatar {
 	display: none;
 }
 

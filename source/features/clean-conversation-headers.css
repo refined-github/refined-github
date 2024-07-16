@@ -26,10 +26,8 @@
 }
 
 /* Shows on PRs: [by ]octocat main ← feature */
-.rgh-clean-conversation-headers:not(
-		.rgh-clean-conversation-headers-hide-author
-	)::before {
-	content: 'by ';
+.rgh-clean-conversation-headers:not(.rgh-clean-conversation-headers-hide-author)::before {
+	content: "by ";
 	font-size: 14px;
 }
 
@@ -39,8 +37,12 @@
 
 /* Removes on issues: [octocat] opened this issue on 1 Jan · 1 comments */
 /* Removes on PRs: [octocat] merged 1 commit into master from feature */
-.rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author .author + .Label, /* #5832 */
-.rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author .author {
+.rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author
+	.author
+	+ .Label,
+/* #5832 */
+.rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author
+	.author {
 	display: none;
 }
 

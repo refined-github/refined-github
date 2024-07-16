@@ -1,0 +1,11 @@
+{
+  "malva": {
+    "useTabs": true
+  },
+  "excludes": [
+    "**/node_modules"
+  ],
+  "plugins": [
+    "https://plugins.dprint.dev/g-plane/malva-v0.5.1.wasm"
+  ]
+}

@@ -11,16 +11,17 @@
 	border-right: none;
 }
 
-.blob-wrapper.type-csv,
-.Box:has(.csv-data) {
+.blob-wrapper.type-csv, .Box:has(.csv-data) {
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
 	border-bottom: none;
 }
 
 .markdown-body .csv-data tbody tr:last-child td:first-child {
-	border-bottom: 1px solid
-		var(--borderColor-default, var(--color-border-default));
+	border-bottom: 1px solid var(
+		--borderColor-default,
+		var(--color-border-default)
+	);
 }
 
 /*

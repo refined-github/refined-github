@@ -1,4 +1,4 @@
-.commit-ref[title$='has been deleted'],
-.commit-ref[title$='has been deleted'] * {
+.commit-ref[title$="has been deleted"],
+.commit-ref[title$="has been deleted"] * {
 	text-decoration: line-through !important;
 }

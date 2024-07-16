@@ -7,8 +7,7 @@ There’s also one place where GitHub incorrectly uses the "user configuration" 
 --tab-size is used to allow the user to override it and to be picked up by `show-whitespace`
 */
 
-:root,
-.comment-body .tab-size[data-tab-size='8'] {
+:root, .comment-body .tab-size[data-tab-size="8"] {
 	--tab-size: 4;
 	tab-size: var(--tab-size);
 }

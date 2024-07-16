@@ -1,6 +1,9 @@
 /* Style backticked code in links #4817, matches GitHub’s `.markdown-title code` rule */
-.js-commits-list-item code, /* `isCommitList` commit message */
-.Box-header .commit-author + span code /* `isRepoTree` commit message */ {
+.js-commits-list-item code,
+/* `isCommitList` commit message */ .Box-header
+	.commit-author
+	+ span
+	code /* `isRepoTree` commit message */ {
 	padding: 2px 4px;
 	background-color: var(--bgColor-neutral-muted, var(--color-neutral-muted));
 	font-size: 0.9em;
@@ -14,8 +17,14 @@
 /* Monospace textareas for new SSH/GPG keys #4917 */
 :is(.new_public_key, .new_gpg_key) textarea {
 	/* Same as GitHub style for `code` */
-	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
-		'Liberation Mono', monospace !important;
+	font-family:
+		ui-monospace,
+		SFMono-Regular,
+		"SF Mono",
+		Menlo,
+		Consolas,
+		"Liberation Mono",
+		monospace !important;
 }
 
 /* Limit width of comment form on commit pages #5032 */
@@ -35,7 +44,7 @@
 
 /* Align icons in the release search field #6506 */
 /* Test: https://github.com/refined-github/refined-github/releases */
-[action$='/releases'] .subnav-search-icon {
+[action$="/releases"] .subnav-search-icon {
 	margin-top: -1px;
 }
 
@@ -44,7 +53,7 @@
 }
 
 /* Add margin to release download icon #6510 */
-.Box-row :is(.octicon-package, .octicon-file-zip):has(+ a[rel='nofollow']) {
+.Box-row :is(.octicon-package, .octicon-file-zip):has(+ a[rel="nofollow"]) {
 	margin-right: 4px;
 }
 

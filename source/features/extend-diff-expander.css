@@ -1,10 +1,8 @@
 /* Hovering the line will highlight the first direction button, unless you hover the buttons directly */
 .rgh-extend-diff-expander
 	.js-expandable-line:hover
-	:is(
-		.blob-num:not(:hover) .directional-expander:first-child,
-		.blob-num:not(:hover) + .blob-code
-	) {
+	:is(.blob-num:not(:hover)
+	.directional-expander:first-child, .blob-num:not(:hover) + .blob-code) {
 	color: var(
 		--control-checked-fgColor-rest,
 		var(--color-state-hover-primary-text, #fff)
