@@ -32,14 +32,23 @@ async function cleanReleases(): Promise<void> {
 }
 
 async function hideEmptyPackages(): Promise<void> {
-	const packageLoader = await elementReady('include-fragment[src*="packages_list"]', {waitForChildren: false});
-	if (packageLoader) {
-		// 'loadend' captures success and error
-		// https://github.com/github/include-fragment-element/blob/5249243ee1cbdc82ab69c5d7c6318cd61a524b93/src/include-fragment-element.ts#L261
-		await oneEvent(packageLoader, 'loadend');
-	}
+	const packagesCounterPromise = elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false});
 
-	const packagesCounter = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false});
+	void elementReady('include-fragment[src*="packages_list"]', {waitForChildren: false})
+		.then(async packageLoader => {
+			if (packageLoader) {
+				// 'loadend' captures success and error
+				// https://github.com/github/include-fragment-element/blob/5249243ee1cbdc82ab69c5d7c6318cd61a524b93/src/include-fragment-element.ts#L261
+				await oneEvent(packageLoader, 'loadend');
+
+				const packagesCounter = await packagesCounterPromise;
+				if (packagesCounter && packagesCounter.textContent !== '0') {
+					packagesCounter.closest('.BorderGrid-row')!.hidden = true;
+				}
+			}
+		});
+
+	const packagesCounter = await packagesCounterPromise;
 	if (packagesCounter && packagesCounter.textContent === '0') {
 		packagesCounter.closest('.BorderGrid-row')!.hidden = true;
 	}
