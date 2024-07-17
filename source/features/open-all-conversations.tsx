@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$$, elementExists} from 'select-dom';
+import {$$} from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
