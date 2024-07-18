@@ -11,7 +11,7 @@ type ObserverListener<ExpectedElement extends Element> = (element: ExpectedEleme
 const animation = 'rgh-selector-observer';
 const getListener = <
 	Selector extends string,
-	ExpectedElement extends ParseSelector<Selector, HTMLElement>,
+	ExpectedElement extends ParseSelector<Selector, HTMLElement | SVGElement>,
 >(
 	seenMark: string,
 	selector: Selector,
