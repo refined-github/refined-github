@@ -1,3 +1,4 @@
+/* eslint-disable n/no-unsupported-features/node-builtins -- Until https://github.com/xojs/xo/issues/613 */
 import {$, elementExists, expectElement} from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
