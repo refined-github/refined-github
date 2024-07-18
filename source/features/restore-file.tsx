@@ -92,7 +92,7 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 			.querySelector('.Link--primary')!
 			.textContent
 			.split(' → ');
-		await showToast(async progress => discardChanges(progress, originalFileName, newFileName), {
+		await showToast(async progress => discardChanges(progress!, originalFileName, newFileName), {
 			message: 'Loading info…',
 			doneMessage: 'Changes discarded',
 		});
