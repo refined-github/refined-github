@@ -15,7 +15,7 @@ function addAvatar(link: HTMLElement): void {
 	link.prepend(
 		<img
 			className="avatar avatar-user v-align-text-bottom mr-1 rgh-small-user-avatars"
-			src={getUserAvatarURL(username, size)!}
+			src={getUserAvatarURL(username, size)}
 			width={size}
 			height={size}
 			loading="lazy"
@@ -32,7 +32,7 @@ function addMentionAvatar(link: HTMLElement): void {
 		<img
 			className="avatar avatar-user mb-1 mr-1 rgh-small-user-avatars"
 			style={{marginLeft: 1}}
-			src={getUserAvatarURL(username, size)!}
+			src={getUserAvatarURL(username, size)}
 			width={size}
 			height={size}
 			loading="lazy"
