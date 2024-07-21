@@ -12,7 +12,8 @@ import observe from '../helpers/selector-observer.js';
 import {buildRepoURL, isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event.js';
 import {canEditEveryComment} from './quick-comment-edit.js';
-import {newCommentFieldSelector} from './comment-on-draft-pr-indicator.js';
+
+import {newCommentFieldSelector} from '../github-helpers/selectors.js';
 
 // TODO: Not exact, replace with API
 const isCollaborator = canEditEveryComment;

@@ -6,6 +6,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import createBanner from '../github-helpers/banner.js';
 import {isOwnConversation} from '../github-helpers/index.js';
+import {newCommentFieldSelector} from '../github-helpers/selectors.js';
 
 function addDraftBanner(newCommentField: HTMLElement): void {
 	newCommentField.before(
@@ -16,11 +17,6 @@ function addDraftBanner(newCommentField: HTMLElement): void {
 		}),
 	);
 }
-
-export const newCommentFieldSelector = [
-	'[input="fc-new_comment_field"]',
-	'[input^="fc-new_inline_comment_discussion"]',
-];
 
 function init(signal: AbortSignal): void {
 	observe(newCommentFieldSelector, addDraftBanner, {signal});
