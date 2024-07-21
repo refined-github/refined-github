@@ -22,10 +22,10 @@ function addDraftBanner(newCommentField: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(`.CommentBox file-attachment:is(
+	observe(`
 		[input="fc-new_comment_field"],
 		[input^="fc-new_inline_comment_discussion"]
-	)`, addDraftBanner, {signal});
+	`, addDraftBanner, {signal});
 }
 
 void features.add(import.meta.url, {
