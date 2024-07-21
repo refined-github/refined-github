@@ -5,8 +5,13 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import createBanner from '../github-helpers/banner.js';
+import {getDiscussionAuthor, getUsername} from '../github-helpers/index.js';
 
 function addDraftBanner(newCommentField: HTMLElement): void {
+	if (getDiscussionAuthor() === getUsername()) {
+		return;
+	}
+
 	newCommentField.before(
 		createBanner({
 			icon: <GitPullRequestDraftIcon className="m-0"/>,
