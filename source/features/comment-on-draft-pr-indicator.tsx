@@ -18,17 +18,18 @@ function addDraftBanner(newCommentField: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(`
-		[input="fc-new_comment_field"],
-		[input^="fc-new_inline_comment_discussion"]
-	`, addDraftBanner, {signal});
+	observe([
+		'[input="fc-new_comment_field"]',
+		'[input^="fc-new_inline_comment_discussion"]',
+	], addDraftBanner, {signal});
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
+	include: [
 		pageDetect.isDraftPR,
-		// Must come after `isDraftPR`
-		() => getDiscussionAuthor() !== getUsername(),
+	],
+	exclude: [
+		() => getDiscussionAuthor() === getUsername(),
 	],
 	awaitDomReady: true,
 	init,
