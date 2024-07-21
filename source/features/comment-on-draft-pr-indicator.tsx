@@ -28,7 +28,7 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isDraftPR,
 		// Must come after `isDraftPR`
-		() => getDiscussionAuthor() !== getUsername()
+		() => getDiscussionAuthor() !== getUsername(),
 	],
 	awaitDomReady: true,
 	init,
