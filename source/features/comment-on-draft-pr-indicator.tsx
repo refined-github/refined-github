@@ -8,10 +8,6 @@ import createBanner from '../github-helpers/banner.js';
 import {getDiscussionAuthor, getUsername} from '../github-helpers/index.js';
 
 function addDraftBanner(newCommentField: HTMLElement): void {
-	if (getDiscussionAuthor() === getUsername()) {
-		return;
-	}
-
 	newCommentField.before(
 		createBanner({
 			icon: <GitPullRequestDraftIcon className="m-0"/>,
@@ -29,8 +25,10 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
+	asLongAs: [
 		pageDetect.isDraftPR,
+		// Must come after `isDraftPR`
+		() => getDiscussionAuthor() !== getUsername()
 	],
 	awaitDomReady: true,
 	init,
