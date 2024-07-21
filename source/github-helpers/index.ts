@@ -188,3 +188,7 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 export function getConversationAuthor(): string | undefined {
 	return $('#partial-discussion-header .gh-header-meta .author')?.textContent;
 }
+
+export function isOwnConversation(): boolean {
+	return getConversationAuthor() === getUsername();
+}

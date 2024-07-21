@@ -9,9 +9,10 @@ import InfoIcon from 'octicons-plain-react/Info';
 import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {buildRepoURL, isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
+import {buildRepoURL, isAnyRefinedGitHubRepo, isOwnConversation} from '../github-helpers/index.js';
 import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event.js';
 import {canEditEveryComment} from './quick-comment-edit.js';
+import {newCommentFieldSelector} from './comment-on-draft-pr-indicator.js';
 
 // TODO: Not exact, replace with API
 const isCollaborator = canEditEveryComment;
@@ -75,14 +76,12 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 	);
 }
 
-const commentFieldSelector = '.CommentBox file-attachment';
-
 function initBanner(signal: AbortSignal): void | false {
 	// Do not move to `asLongAs` because those conditions are run before `isConversation`
 	if (wasClosedLongAgo()) {
-		observe(commentFieldSelector, addConversationBanner, {signal});
+		observe(newCommentFieldSelector, addConversationBanner, {signal});
 	} else if (isPopular() && !isCollaborator()) {
-		observe(commentFieldSelector, addPopularBanner, {signal});
+		observe(newCommentFieldSelector, addPopularBanner, {signal});
 	} else {
 		return false;
 	}
@@ -109,6 +108,7 @@ function initKindness(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	exclude: [
 		isAnyRefinedGitHubRepo,
+		isOwnConversation,
 	],
 	include: [
 		pageDetect.isConversation,
