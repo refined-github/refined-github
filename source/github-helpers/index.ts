@@ -184,3 +184,7 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 	// @ts-expect-error No Firefox support https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
 	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
 }
+
+export function getConversationAuthor(): string | undefined {
+	return $('#partial-discussion-header .gh-header-meta .author')?.textContent;
+}
