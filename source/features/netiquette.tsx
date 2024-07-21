@@ -9,7 +9,7 @@ import InfoIcon from 'octicons-plain-react/Info';
 import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {buildRepoURL, isAnyRefinedGitHubRepo, isOwnConversation} from '../github-helpers/index.js';
+import {buildRepoURL, isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event.js';
 import {canEditEveryComment} from './quick-comment-edit.js';
 import {newCommentFieldSelector} from './comment-on-draft-pr-indicator.js';
@@ -108,7 +108,6 @@ function initKindness(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	exclude: [
 		isAnyRefinedGitHubRepo,
-		isOwnConversation,
 	],
 	include: [
 		pageDetect.isConversation,
