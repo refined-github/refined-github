@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import createBanner from '../github-helpers/banner.js';
-import {getDiscussionAuthor, getUsername} from '../github-helpers/index.js';
+import {getConversationAuthor, getUsername} from '../github-helpers/index.js';
 
 function addDraftBanner(newCommentField: HTMLElement): void {
 	newCommentField.before(
@@ -29,7 +29,7 @@ void features.add(import.meta.url, {
 		pageDetect.isDraftPR,
 	],
 	exclude: [
-		() => getDiscussionAuthor() === getUsername(),
+		() => getConversationAuthor() === getUsername(),
 	],
 	awaitDomReady: true,
 	init,
