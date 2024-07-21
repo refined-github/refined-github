@@ -13,7 +13,7 @@ import {buildRepoURL, isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event.js';
 import {canEditEveryComment} from './quick-comment-edit.js';
 
-import {newCommentFieldSelector} from '../github-helpers/selectors.js';
+import {newCommentField} from '../github-helpers/selectors.js';
 
 // TODO: Not exact, replace with API
 const isCollaborator = canEditEveryComment;
@@ -80,9 +80,9 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 function initBanner(signal: AbortSignal): void | false {
 	// Do not move to `asLongAs` because those conditions are run before `isConversation`
 	if (wasClosedLongAgo()) {
-		observe(newCommentFieldSelector, addConversationBanner, {signal});
+		observe(newCommentField, addConversationBanner, {signal});
 	} else if (isPopular() && !isCollaborator()) {
-		observe(newCommentFieldSelector, addPopularBanner, {signal});
+		observe(newCommentField, addPopularBanner, {signal});
 	} else {
 		return false;
 	}
