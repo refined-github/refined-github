@@ -6,37 +6,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../feature-manager.js';
 import preserveScroll from '../helpers/preserve-scroll.js';
 import observe from '../helpers/selector-observer.js';
-
-const botNames = [
-	'actions-user',
-	'bors',
-	'ImgBotApp',
-	'renovate-bot',
-	'rust-highfive',
-	'scala-steward',
-	'weblate',
-	'apps', // Matches any `/apps/*` URLs
-] as const;
-
-// All co-authored commits are excluded because it's unlikely that any bot co-authors with another bot, but instead they're co-authored with a human. In that case we don't want to dim the commit.
-// ^= is needed to match /apps/* URLs
-const commitSelectors = [
-	// Co-authored commits are excluded because their avatars are not linked
-	...botNames.map(bot => `a[data-testid="avatar-icon-link"][href^="/${bot}"]`),
-
-	// Legacy view, still used by PR commits
-	// :only-child excludes co-authored commits
-	...botNames.map(bot => `a[data-test-selector="commits-avatar-stack-avatar-link"][href^="/${bot}"]:only-child`),
-];
-
-const prSelectors = [
-	...botNames.flatMap(bot => [
-		`.opened-by [title$="pull requests created by ${bot}"]`,
-		`.opened-by [title$="pull requests opened by ${bot}"]`,
-	]),
-	'.opened-by [href*="author%3Aapp%2F"]', // Search query `is:pr+author:app/*`
-	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
-];
+import {botLinksCommitSelectors, botLinksPrSelectors} from '../github-helpers/selectors.js';
 
 const dimBots = features.getIdentifiers(import.meta.url);
 
@@ -55,21 +25,15 @@ function undimBots(event: DelegateEvent): void {
 	resetScroll();
 }
 
-function dimCommit(commit: HTMLElement): void {
+function dim(commit: HTMLElement): void {
 	commit.closest([
-		'.listviewitem',
-		'.Box-row', // Old view style before Nov 2023
+		'.listviewitem', // Commits
+		'.Box-row', // PRs
 	])!.classList.add(dimBots.class);
 }
 
-function dimPr(pr: HTMLElement): void {
-	// TODO: Use :has selector and merge into a single `selectors` array
-	pr.closest('.Box-row')!.classList.add(dimBots.class);
-}
-
 async function init(signal: AbortSignal): Promise<void> {
-	observe(commitSelectors, dimCommit, {signal});
-	observe(prSelectors, dimPr, {signal});
+	observe([...botLinksCommitSelectors, ...botLinksPrSelectors], dim, {signal});
 
 	// Undim on mouse focus
 	delegate(dimBots.selector, 'click', undimBots, {signal});

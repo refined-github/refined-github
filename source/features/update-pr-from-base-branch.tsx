@@ -29,6 +29,7 @@ async function mergeBranches(): Promise<AnyObject> {
 async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	button.disabled = true;
 	await showToast(async () => {
+		// eslint-disable-next-line @typescript-eslint/use-unknown-in-catch-callback-variable -- TODO without assertions
 		const response = await mergeBranches().catch(error => error);
 		if (response instanceof Error || !response.ok) {
 			features.log.error(import.meta.url, response);

@@ -30,7 +30,8 @@ export function pSomeFunction<
 }
 
 export async function pSome(iterable: Iterable<PromiseLike<unknown>>): Promise<boolean> {
-	return new Promise(resolve => {
+	// eslint-disable-next-line no-async-promise-executor -- It's fine, resolve is at the end
+	return new Promise(async resolve => {
 		for (const promise of iterable) {
 			(async () => {
 				if (await promise) {
@@ -39,9 +40,9 @@ export async function pSome(iterable: Iterable<PromiseLike<unknown>>): Promise<b
 			})();
 		}
 
-		void Promise.allSettled(iterable).then(() => {
-			resolve(false);
-		});
+		await Promise.allSettled(iterable);
+
+		resolve(false);
 	});
 }
 

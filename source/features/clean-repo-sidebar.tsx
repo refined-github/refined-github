@@ -29,13 +29,6 @@ async function cleanReleases(): Promise<void> {
 		.classList.add('border-0', 'pb-0');
 }
 
-async function hideEmptyPackages(): Promise<void> {
-	const packagesCounter = await elementReady('.Layout-sidebar .BorderGrid-cell a[href*="/packages?"] .Counter', {waitForChildren: false});
-	if (packagesCounter && packagesCounter.textContent === '0') {
-		packagesCounter.closest('.BorderGrid-row')!.hidden = true;
-	}
-}
-
 async function hideLanguageHeader(): Promise<void> {
 	await domLoaded;
 
@@ -76,7 +69,6 @@ void features.add(import.meta.url, {
 	init: [
 		init,
 		cleanReleases,
-		hideEmptyPackages,
 		hideLanguageHeader,
 		hideEmptyMeta,
 		moveReportLink,
@@ -87,6 +79,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/refined-github/refined-github
+- https://github.com/refined-github/refined-github
+- Repo with empty packages section: https://github.com/isaacs/node-glob
+- Repo with 1 package: https://github.com/recyclarr/recyclarr
 
 */

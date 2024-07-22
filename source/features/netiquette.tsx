@@ -92,7 +92,7 @@ function makeFieldKinder(field: HTMLParagraphElement): void {
 	if (field.textContent.trim() === 'Add your comment here...') {
 		// Regular issue/PR comment field, or single review comments
 		// https://github.com/refined-github/refined-github/pull/6991
-		field.textContent = 'Add your comment here, be kind...';
+		field.textContent = 'Add your comment here, be kind';
 	} else if (field.textContent.trim() === 'Leave a comment') {
 		// Main review comment field
 		// https://github.com/refined-github/refined-github/pull/6991/files

@@ -1,3 +1,4 @@
+/* eslint-disable n/no-unsupported-features/node-builtins -- Until https://github.com/xojs/xo/issues/613 */
 /* eslint-disable @typescript-eslint/consistent-type-definitions -- Declaration merging necessary */
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 
