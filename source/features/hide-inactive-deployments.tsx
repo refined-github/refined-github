@@ -23,3 +23,11 @@ void features.add(import.meta.url, {
 	awaitDomReady: true,
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/btkostner/btkostner.io/pull/10
+
+*/
