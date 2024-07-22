@@ -8,13 +8,15 @@ async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HT
 	console.log('Refined GitHub: image failed loading, will retry', delegateTarget.src);
 
 	await delay(5000);
+	// A clone image retries downloading
+	const cloned = delegateTarget.cloneNode();
 	try {
-		// A clone image retries downloading
-		const cloned = delegateTarget.cloneNode();
 		await cloned.decode();
 		// If successfully loaded, the failed image will be replaced.
 		delegateTarget.replaceWith(cloned);
-	} catch {}
+	} catch {
+		// Ignore load failure
+	}
 }
 
 function init(signal: AbortSignal): void {
