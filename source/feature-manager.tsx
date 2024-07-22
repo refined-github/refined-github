@@ -1,29 +1,29 @@
 import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
+import * as pageDetect from 'github-url-detection';
+import {$, elementExists} from 'select-dom';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
-import * as pageDetect from 'github-url-detection';
 
-import waitFor from './helpers/wait-for.js';
 import onAbort from './helpers/abort-controller.js';
-import ArrayMap from './helpers/map-of-arrays.js';
+import asyncForEach from './helpers/async-for-each.js';
 import bisectFeatures from './helpers/bisect.js';
 import {
 	BooleanFunction,
-	shouldFeatureRun,
-	isFeaturePrivate,
 	RunConditions,
+	isFeaturePrivate,
+	shouldFeatureRun,
 } from './helpers/feature-utils.js';
-import optionsStorage, {isFeatureDisabled, RGHOptions} from './options-storage.js';
 import {
+	_,
 	applyStyleHotfixes,
+	brokenFeatures,
 	getLocalHotfixesAsOptions,
 	preloadSyncLocalStrings,
-	brokenFeatures,
-	_,
 } from './helpers/hotfix.js';
-import asyncForEach from './helpers/async-for-each.js';
+import ArrayMap from './helpers/map-of-arrays.js';
+import waitFor from './helpers/wait-for.js';
+import optionsStorage, {isFeatureDisabled, RGHOptions} from './options-storage.js';
 
 export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
 type FeatureInitResult = void | false;

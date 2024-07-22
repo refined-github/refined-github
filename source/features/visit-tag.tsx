@@ -1,14 +1,14 @@
-import React from 'react';
-import {elementExists} from 'select-dom';
+import * as pageDetect from 'github-url-detection';
 import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';
 import CodeIcon from 'octicons-plain-react/Code';
-import * as pageDetect from 'github-url-detection';
+import React from 'react';
+import {elementExists} from 'select-dom';
 
-import {branchSelector} from '../github-helpers/selectors.js';
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
-import {wrapAll} from '../helpers/dom-utils.js';
 import {buildRepoURL} from '../github-helpers/index.js';
+import {branchSelector} from '../github-helpers/selectors.js';
+import {wrapAll} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 	// If the branch picker is open, do nothing #7491

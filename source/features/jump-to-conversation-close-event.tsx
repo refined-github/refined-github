@@ -1,10 +1,10 @@
-import React from 'dom-chef';
 import {css} from 'code-tag';
-import {lastElement} from 'select-dom';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {lastElement} from 'select-dom';
 
-import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
+import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 export const closedOrMergedMarkerSelector = css`

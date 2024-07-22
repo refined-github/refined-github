@@ -1,25 +1,25 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
 import TagIcon from 'octicons-plain-react/Tag';
 import {$, elementExists} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {groupButtons} from '../github-helpers/group-buttons.js';
 import {
 	buildRepoURL, cacheByRepo, getLatestVersionTag, getRepo,
 } from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import pluralize from '../helpers/pluralize.js';
 import {branchSelector} from '../github-helpers/selectors.js';
-import getPublishRepoState from './unreleased-commits.gql';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
 import {wrapAll} from '../helpers/dom-utils.js';
-import {groupButtons} from '../github-helpers/group-buttons.js';
-import {expectToken} from '../github-helpers/github-token.js';
+import pluralize from '../helpers/pluralize.js';
+import observe from '../helpers/selector-observer.js';
+import getPublishRepoState from './unreleased-commits.gql';
 
 type RepoPublishState = {
 	latestTag: string | false;

@@ -1,11 +1,11 @@
 import React from 'dom-chef';
-import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import * as pageDetect from 'github-url-detection';
+import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import createBanner from '../github-helpers/banner.js';
 import {getConversationAuthor, getUsername} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 function addDraftBanner(newCommentField: HTMLElement): void {
 	newCommentField.before(

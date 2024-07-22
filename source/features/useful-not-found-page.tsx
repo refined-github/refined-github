@@ -1,13 +1,13 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
-import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import onetime from 'onetime';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import GitHubFileURL from '../github-helpers/github-file-url.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import GitHubFileURL from '../github-helpers/github-file-url.js';
 import {getCleanPathname, isUrlReachable} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import GetLatestCommitToFile from './useful-not-found-page.gql';

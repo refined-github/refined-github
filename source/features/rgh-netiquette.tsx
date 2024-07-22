@@ -1,13 +1,13 @@
 import React from 'dom-chef';
-import InfoIcon from 'octicons-plain-react/Info';
 import * as pageDetect from 'github-url-detection';
+import InfoIcon from 'octicons-plain-react/Info';
 
-import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
+import createBanner from '../github-helpers/banner.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
-import {getNoticeText, wasClosedLongAgo} from './netiquette.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
+import observe from '../helpers/selector-observer.js';
+import {getNoticeText, wasClosedLongAgo} from './netiquette.js';
 
 function addConversationBanner(newCommentBox: HTMLElement): void {
 	const button = (

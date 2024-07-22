@@ -1,6 +1,6 @@
 import './rgh-welcome-issue.css';
-import {$$, elementExists} from 'select-dom';
 import delegate from 'delegate-it';
+import {$$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import openOptions from '../helpers/open-options.js';

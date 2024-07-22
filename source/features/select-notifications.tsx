@@ -1,19 +1,19 @@
 import './select-notifications.css';
-import React from 'dom-chef';
-import {$, $$, elementExists} from 'select-dom';
-import onetime from 'onetime';
 import delegate from 'delegate-it';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import CheckCircleIcon from 'octicons-plain-react/CheckCircle';
 import CheckIcon from 'octicons-plain-react/Check';
-import DotFillIcon from 'octicons-plain-react/DotFill';
+import CheckCircleIcon from 'octicons-plain-react/CheckCircle';
 import DotIcon from 'octicons-plain-react/Dot';
+import DotFillIcon from 'octicons-plain-react/DotFill';
 import GitMergeIcon from 'octicons-plain-react/GitMerge';
-import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
+import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
 import SquirrelIcon from 'octicons-plain-react/Squirrel';
 import XCircleIcon from 'octicons-plain-react/XCircle';
+import onetime from 'onetime';
+import {$, $$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

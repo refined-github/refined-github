@@ -1,9 +1,9 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
 
-import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
+import {wrap} from '../helpers/dom-utils.js';
 
 function init(): void {
 	if ($('.file-mode')?.textContent === 'symbolic link') {

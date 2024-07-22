@@ -1,16 +1,16 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {expectElement, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import CodeSquareIcon from 'octicons-plain-react/CodeSquare';
+import {elementExists, expectElement } from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getCleanPathname, triggerRepoNavOverflow} from '../github-helpers/index.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
+import {getCleanPathname, triggerRepoNavOverflow} from '../github-helpers/index.js';
+import {repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 import GetGistCount from './profile-gists-link.gql';
-import {repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
 
 const gistCount = new CachedFunction('gist-count', {
 	async updater(username: string): Promise<number> {

@@ -1,4 +1,4 @@
-import {test, assert} from 'vitest';
+import {assert, test } from 'vitest';
 
 import {shouldFeatureRun} from './feature-utils.js';
 

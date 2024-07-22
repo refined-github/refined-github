@@ -1,7 +1,7 @@
 import './fit-textareas.css';
-import {isSafari} from 'webext-detect';
 import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';
+import {isSafari} from 'webext-detect';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

@@ -1,8 +1,8 @@
 import './clean-repo-sidebar.css';
-import {$, elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 // The h2 is to avoid hiding website links that include '/releases' #4424

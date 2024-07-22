@@ -1,13 +1,13 @@
-import React from 'dom-chef';
 import delegate, {DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {stringToBase64} from 'uint8array-extras';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import showToast from '../github-helpers/toast.js';
-import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
+import showToast from '../github-helpers/toast.js';
 import observe from '../helpers/selector-observer.js';
 import GetFile from './restore-file.gql';
 

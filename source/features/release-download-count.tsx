@@ -1,15 +1,15 @@
 import './release-download-count.css';
 import React from 'dom-chef';
-import {$$} from 'select-dom';
-import DownloadIcon from 'octicons-plain-react/Download';
 import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';
+import DownloadIcon from 'octicons-plain-react/Download';
+import {$$} from 'select-dom';
 
-import getReleaseDownloadCount from './release-download-count.gql';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import observe from '../helpers/selector-observer.js';
 import {createHeatIndexFunction} from '../helpers/math.js';
+import observe from '../helpers/selector-observer.js';
+import getReleaseDownloadCount from './release-download-count.gql';
 
 type Asset = {
 	name: string;

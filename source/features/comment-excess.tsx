@@ -1,13 +1,13 @@
-import React from 'react';
-import * as pageDetect from 'github-url-detection';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
+import React from 'react';
 import {$, expectElement} from 'select-dom';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
-import {assertNodeContent} from '../helpers/dom-utils.js';
-import {paginationButtonSelector} from '../github-helpers/selectors.js';
 import {isMac, scrollIntoViewIfNeeded} from '../github-helpers/index.js';
+import {paginationButtonSelector} from '../github-helpers/selectors.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 const hiddenCommentsForm = '#js-progressive-timeline-item-container';
 

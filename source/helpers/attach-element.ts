@@ -1,6 +1,6 @@
 import {$, $$, elementExists} from 'select-dom';
-import {RequireAtLeastOne} from 'type-fest';
 import {isDefined} from 'ts-extras';
+import {RequireAtLeastOne} from 'type-fest';
 
 import getCallerID from './caller-id.js';
 

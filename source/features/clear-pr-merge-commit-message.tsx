@@ -1,12 +1,12 @@
 import React from 'dom-chef';
-import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {$$} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {getBranches} from '../github-helpers/pr-branches.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import cleanCommitMessage from '../helpers/clean-commit-message.js';
 import {userCanLikelyMergePR} from '../github-helpers/index.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
+import cleanCommitMessage from '../helpers/clean-commit-message.js';
 import observe from '../helpers/selector-observer.js';
 
 const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();

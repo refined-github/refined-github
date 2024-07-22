@@ -1,14 +1,14 @@
 import './mark-merge-commits-in-list.css';
-import React from 'dom-chef';
-import {$} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
-import {objectEntries} from 'ts-extras';
-import GitMergeIcon from 'octicons-plain-react/GitMerge';
 import batchedFunction from 'batched-function';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import GitMergeIcon from 'octicons-plain-react/GitMerge';
+import {$} from 'select-dom';
+import {objectEntries} from 'ts-extras';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
+import observe from '../helpers/selector-observer.js';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`

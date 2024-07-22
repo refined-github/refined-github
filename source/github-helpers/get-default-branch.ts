@@ -1,11 +1,11 @@
-import {CachedFunction} from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import {type RepositoryInfo} from 'github-url-detection';
+import {CachedFunction} from 'webext-storage-cache';
 
 import api from './api.js';
+import GetDefaultBranch from './get-default-branch.gql';
 import {extractCurrentBranchFromBranchPicker, getRepo} from './index.js';
 import {branchSelector} from './selectors.js';
-import GetDefaultBranch from './get-default-branch.gql';
 
 const isCurrentRepo = ({nameWithOwner}: RepositoryInfo): boolean => Boolean(getRepo()?.nameWithOwner === nameWithOwner);
 

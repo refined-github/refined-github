@@ -1,6 +1,6 @@
 import React from 'dom-chef';
-import {replaceFieldText} from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
+import {replaceFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';

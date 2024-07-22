@@ -1,13 +1,13 @@
 import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import CodeIcon from 'octicons-plain-react/Code';
 import PlusIcon from 'octicons-plain-react/Plus';
 import SearchIcon from 'octicons-plain-react/Search';
+import {$, elementExists} from 'select-dom';
 
-import observe from '../helpers/selector-observer.js';
-import {assertNodeContent, wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
+import {assertNodeContent, wrap} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 /** Add tooltip on a wrapper to avoid breaking dropdown functionality */
 function addTooltipToSummary(childElement: Element, tooltip: string): void {

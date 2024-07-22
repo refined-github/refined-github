@@ -1,12 +1,12 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
-import openOptions from '../helpers/open-options.js';
-import clearCacheHandler from '../helpers/clear-cache-handler.js';
 import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
+import clearCacheHandler from '../helpers/clear-cache-handler.js';
+import openOptions from '../helpers/open-options.js';
 
 function addNotice(adjective: JSX.Element | string): void {
 	$('#issue_body_template_name')!.before(

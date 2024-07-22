@@ -1,5 +1,5 @@
-import {eventHandler} from 'indent-textarea';
 import * as pageDetect from 'github-url-detection';
+import {eventHandler} from 'indent-textarea';
 
 import features from '../feature-manager.js';
 import {onCommentFieldKeydown} from '../github-events/on-field-keydown.js';

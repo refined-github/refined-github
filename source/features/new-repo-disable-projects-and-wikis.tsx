@@ -1,14 +1,14 @@
-import React from 'dom-chef';
-import {$} from 'select-dom';
-import onetime from 'onetime';
 import delegate from 'delegate-it';
+import React from 'dom-chef';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
+import onetime from 'onetime';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import observe from '../helpers/selector-observer.js';
 
 const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
 

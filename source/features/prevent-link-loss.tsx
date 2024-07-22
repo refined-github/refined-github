@@ -1,21 +1,21 @@
-import React from 'dom-chef';
-import {$} from 'select-dom';
-import AlertIcon from 'octicons-plain-react/Alert';
 import debounceFn from 'debounce-fn';
-import * as pageDetect from 'github-url-detection';
-import {replaceFieldText} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import AlertIcon from 'octicons-plain-react/Alert';
+import {$} from 'select-dom';
+import {replaceFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import {
-	prCommitUrlRegex,
-	preventPrCommitLinkLoss,
-	prCompareUrlRegex,
-	preventPrCompareLinkLoss,
-	discussionUrlRegex,
-	preventDiscussionLinkLoss,
-} from '../github-helpers/prevent-link-loss.js';
 import createBanner from '../github-helpers/banner.js';
+import {
+	discussionUrlRegex,
+	prCommitUrlRegex,
+	prCompareUrlRegex,
+	preventDiscussionLinkLoss,
+	preventPrCommitLinkLoss,
+	preventPrCompareLinkLoss,
+} from '../github-helpers/prevent-link-loss.js';
 
 const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#prevent-link-loss';
 

@@ -1,8 +1,8 @@
 import * as pageDetect from 'github-url-detection';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {addHotkey} from '../github-helpers/hotkey.js';
+import observe from '../helpers/selector-observer.js';
 
 const previous = [
 	'a[rel="prev"]', // `isIssueOrPRList`, `isGlobalSearchResults`, `isReleases`, `isProfileRepoList`, `isDiscussionList`

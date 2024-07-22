@@ -1,4 +1,4 @@
-import {parseHTML, NodeFilter} from 'linkedom';
+import {NodeFilter, parseHTML } from 'linkedom';
 
 const globals = [
 	'navigator',

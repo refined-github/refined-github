@@ -1,5 +1,5 @@
-import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';

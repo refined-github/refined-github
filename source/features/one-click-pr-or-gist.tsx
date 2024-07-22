@@ -1,9 +1,9 @@
 import './one-click-pr-or-gist.css';
 import React from 'dom-chef';
-import {
-	$, $$, expectElement, elementExists,
-} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {
+	$, $$, elementExists,expectElement, 
+} from 'select-dom';
 
 import features from '../feature-manager.js';
 

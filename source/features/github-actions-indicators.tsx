@@ -1,9 +1,9 @@
-import {CachedFunction} from 'webext-storage-cache';
-import React from 'dom-chef';
-import {$, expectElement} from 'select-dom';
-import PlayIcon from 'octicons-plain-react/Play';
 import {parseCron} from '@cheap-glitch/mi-cron';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import PlayIcon from 'octicons-plain-react/Play';
+import {$, expectElement} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';

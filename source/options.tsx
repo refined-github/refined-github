@@ -1,28 +1,28 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
+import delegate, {DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import domify from 'doma';
-import {$, $$} from 'select-dom';
 import fitTextarea from 'fit-textarea';
-import prettyBytes from 'pretty-bytes';
-import {assertError} from 'ts-extras';
 import {enableTabToIndent} from 'indent-textarea';
-import delegate, {DelegateEvent} from 'delegate-it';
+import prettyBytes from 'pretty-bytes';
+import {$, $$} from 'select-dom';
+import {assertError} from 'ts-extras';
 import {isChrome, isFirefox} from 'webext-detect';
 import {SyncedForm} from 'webext-options-sync-per-domain';
 
-import featureLink from './helpers/feature-link.js';
-import clearCacheHandler from './helpers/clear-cache-handler.js';
-import {getLocalHotfixes, styleHotfixes} from './helpers/hotfix.js';
-import {createRghIssueLink} from './helpers/rgh-issue-link.js';
-import {importedFeatures, featuresMeta} from '../readme.md';
-import getStorageBytesInUse from './helpers/used-storage.js';
-import {perDomainOptions} from './options-storage.js';
-import isDevelopmentVersion from './helpers/is-development-version.js';
-import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
-import {state as bisectState} from './helpers/bisect.js';
+import {featuresMeta, importedFeatures } from '../readme.md';
 import {parseTokenScopes} from './github-helpers/github-token.js';
 import {scrollIntoViewIfNeeded} from './github-helpers/index.js';
+import {state as bisectState} from './helpers/bisect.js';
+import clearCacheHandler from './helpers/clear-cache-handler.js';
+import featureLink from './helpers/feature-link.js';
+import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
+import {getLocalHotfixes, styleHotfixes} from './helpers/hotfix.js';
+import isDevelopmentVersion from './helpers/is-development-version.js';
+import {createRghIssueLink} from './helpers/rgh-issue-link.js';
+import getStorageBytesInUse from './helpers/used-storage.js';
+import {perDomainOptions} from './options-storage.js';
 
 type TokenType = 'classic' | 'fine_grained';
 

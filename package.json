@@ -80,7 +80,6 @@
 		"daily-version": "^2.0.0",
 		"dot-json": "^1.3.0",
 		"esbuild-loader": "^4.2.2",
-		"eslint-config-xo-react": "^0.27.0",
 		"eslint-plugin-react": "^7.34.4",
 		"eslint-plugin-react-hooks": "^4.6.2",
 		"fast-ignore": "^1.1.3",
@@ -91,8 +90,6 @@
 		"p-memoize": "^7.1.1",
 		"prettier": "^3.3.3",
 		"snarkdown": "^2.0.0",
-		"stylelint": "^16.7.0",
-		"stylelint-config-xo": "^1.0.2",
 		"terser-webpack-plugin": "^5.3.10",
 		"tsx": "^4.16.2",
 		"type-fest": "^4.22.0",
@@ -100,8 +97,7 @@
 		"typescript": "^5.5.3",
 		"vitest": "^2.0.3",
 		"webpack": "^5.93.0",
-		"webpack-cli": "^5.1.4",
-		"xo": "^0.59.0"
+		"webpack-cli": "^5.1.4"
 	},
 	"engines": {
 		"node": "~21",

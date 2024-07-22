@@ -1,5 +1,5 @@
-import mem from 'memoize';
 import domify from 'doma';
+import mem from 'memoize';
 import type {ParseSelector} from 'typed-query-selector/parser.js';
 
 import features from '../feature-manager.js';

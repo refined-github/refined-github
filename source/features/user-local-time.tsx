@@ -1,16 +1,16 @@
 /* eslint-disable no-await-in-loop */
 
 import './user-local-time.css';
-import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
 import delay from 'delay';
-import {$, elementExists} from 'select-dom';
+import React from 'dom-chef';
 import ClockIcon from 'octicons-plain-react/Clock';
+import {$, elementExists} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
 import {getUsername} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 type Commit = {
 	url: string;

@@ -1,11 +1,11 @@
-import {$} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
-import observe from '../helpers/selector-observer.js';
 import {linksToConversationLists} from '../github-helpers/selectors.js';
+import observe from '../helpers/selector-observer.js';
 
 /** Keep the original URL on the element so that `shorten-links` can use it reliably #5890 */
 export function saveOriginalHref(link: HTMLAnchorElement): void {

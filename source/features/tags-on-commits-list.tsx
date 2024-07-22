@@ -1,13 +1,13 @@
 import React from 'dom-chef';
-import cache from 'webext-storage-cache/legacy.js';
-import {$, $$} from 'select-dom';
-import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
+import TagIcon from 'octicons-plain-react/Tag';
+import {$, $$} from 'select-dom';
+import cache from 'webext-storage-cache/legacy.js';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getCommitHash} from './mark-merge-commits-in-list.js';
 import {buildRepoURL, getRepo} from '../github-helpers/index.js';
+import {getCommitHash} from './mark-merge-commits-in-list.js';
 import GetTagsOnCommit from './tags-on-commits-list.gql';
 
 type CommitTags = Record<string, string[]>;

@@ -1,5 +1,5 @@
-import {$} from 'select-dom';
 import {setFetch} from 'push-form';
+import {$} from 'select-dom';
 // Nodes may be exactly `null`
 import {type Nullable} from 'vitest';
 

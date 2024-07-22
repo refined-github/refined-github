@@ -1,12 +1,12 @@
-import {test, assert} from 'vitest';
+import {assert, test } from 'vitest';
 
 import {
-	preventPrCommitLinkLoss,
-	preventPrCompareLinkLoss,
-	preventDiscussionLinkLoss,
+	discussionUrlRegex,
 	prCommitUrlRegex,
 	prCompareUrlRegex,
-	discussionUrlRegex,
+	preventDiscussionLinkLoss,
+	preventPrCommitLinkLoss,
+	preventPrCompareLinkLoss,
 } from './prevent-link-loss.js';
 
 function replacePrCommitLink(string: string): string {

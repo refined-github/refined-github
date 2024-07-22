@@ -1,6 +1,6 @@
-import {$, expectElement, elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {$, elementExists, expectElement } from 'select-dom';
 import {insertTextIntoField, setFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';

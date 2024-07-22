@@ -1,5 +1,5 @@
-import {v3} from './api.js';
 import optionsStorage from '../options-storage.js';
+import {v3} from './api.js';
 
 const settings = optionsStorage.getAll();
 

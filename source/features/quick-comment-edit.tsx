@@ -1,12 +1,12 @@
 import React from 'dom-chef';
-import {elementExists} from 'select-dom';
-import PencilIcon from 'octicons-plain-react/Pencil';
 import * as pageDetect from 'github-url-detection';
+import PencilIcon from 'octicons-plain-react/Pencil';
+import {elementExists} from 'select-dom';
 import {isChrome} from 'webext-detect';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 function addQuickEditButton(commentDropdown: HTMLDetailsElement): void {
 	const commentBody = commentDropdown.closest('.js-comment')!;

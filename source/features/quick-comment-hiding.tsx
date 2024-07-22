@@ -1,7 +1,7 @@
-import React from 'dom-chef';
-import {$, $$} from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {$, $$} from 'select-dom';
 
 import features from '../feature-manager.js';
 

@@ -1,7 +1,7 @@
 import * as pageDetect from 'github-url-detection';
 
-import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import features from '../feature-manager.js';
+import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 // Source: https://github.com/fregante/release-with-changelog/blob/779fd5e658f82e5b11b1c0a352a6838d3bd8f67f/generate-release-notes.js#L6

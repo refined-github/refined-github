@@ -4,11 +4,11 @@ import VersionsIcon from 'octicons-plain-react/Versions';
 import {expectElement as $, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
+import onReactPageUpdate from '../github-events/on-react-page-update.js';
 import api from '../github-helpers/api.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
+import observe from '../helpers/selector-observer.js';
 import previousVersionQuery from './previous-version.gql';
-import onReactPageUpdate from '../github-events/on-react-page-update.js';
 
 async function getPreviousCommitForFile(pathname: string): Promise<string | undefined> {
 	const {user, repository, branch, filePath} = new GitHubFileURL(pathname);

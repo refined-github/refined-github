@@ -1,11 +1,11 @@
-import {test, describe, assert} from 'vitest';
-import {parse, join} from 'node:path';
-import {existsSync, readdirSync, readFileSync} from 'node:fs';
-import regexJoin from 'regex-join';
+import {existsSync, readFileSync, readdirSync } from 'node:fs';
+import {join, parse } from 'node:path';
 import fastIgnore from 'fast-ignore';
+import regexJoin from 'regex-join';
+import {assert, describe, test } from 'vitest';
 
 import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
-import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js';
+import {getFeaturesMeta, getImportedFeatures } from './readme-parser.js';
 
 const isGitIgnored = fastIgnore(readFileSync('.gitignore', 'utf8'));
 

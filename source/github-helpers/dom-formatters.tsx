@@ -1,13 +1,13 @@
 import React from 'dom-chef';
-import {$$, elementExists} from 'select-dom';
-import zipTextNodes from 'zip-text-nodes';
-import {applyToLink} from 'shorten-repo-url';
-import linkifyURLsCore from 'linkify-urls';
 import linkifyIssuesCore, {type TypeDomOptions} from 'linkify-issues';
+import linkifyURLsCore from 'linkify-urls';
+import {$$, elementExists} from 'select-dom';
+import {applyToLink} from 'shorten-repo-url';
+import zipTextNodes from 'zip-text-nodes';
 
 import getTextNodes from '../helpers/get-text-nodes.js';
-import parseBackticksCore from './parse-backticks.js';
 import {buildRepoURL} from './index.js';
+import parseBackticksCore from './parse-backticks.js';
 
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';

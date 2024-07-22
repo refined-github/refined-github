@@ -1,20 +1,20 @@
 import React from 'dom-chef';
 import {$, elementExists} from 'select-dom';
 
-import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
 
 import CheckIcon from 'octicons-plain-react/Check';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
-import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
-import showToast from '../github-helpers/toast.js';
-import {getConversationNumber} from '../github-helpers/index.js';
-import createMergeabilityRow from '../github-widgets/mergeability-row.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {getConversationNumber} from '../github-helpers/index.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
+import showToast from '../github-helpers/toast.js';
+import createMergeabilityRow from '../github-widgets/mergeability-row.js';
+import observe from '../helpers/selector-observer.js';
 
 const canMerge = '.merge-pr > .color-fg-muted:first-child';
 const canNativelyUpdate = '.js-update-branch-form';

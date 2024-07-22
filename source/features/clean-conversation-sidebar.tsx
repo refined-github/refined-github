@@ -1,13 +1,13 @@
 import './clean-conversation-sidebar.css';
 import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
-import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
+import onetime from 'onetime';
+import {$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
+import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 import onElementRemoval from '../helpers/on-element-removal.js';
 import observe from '../helpers/selector-observer.js';
-import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 
 const canEditSidebar = onetime((): boolean => elementExists('.discussion-sidebar-item [data-hotkey="l"]'));
 

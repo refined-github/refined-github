@@ -1,17 +1,17 @@
 import './toggle-files-button.css';
-import React from 'dom-chef';
-import {$, expectElement} from 'select-dom';
 import delegate from 'delegate-it';
-import {CachedFunction} from 'webext-storage-cache';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import ArrowUpIcon from 'octicons-plain-react/ArrowUp';
 import ChevronDownIcon from 'octicons-plain-react/ChevronDown';
 import ChevronUpIcon from 'octicons-plain-react/ChevronUp';
-import ArrowUpIcon from 'octicons-plain-react/ArrowUp';
+import {$, expectElement} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
+import {cacheByRepo} from '../github-helpers/index.js';
 import attachElement from '../helpers/attach-element.js';
 import observe from '../helpers/selector-observer.js';
-import {cacheByRepo} from '../github-helpers/index.js';
 
 const wasHidden = new CachedFunction('toggle-files-button', {
 	async updater(): Promise<boolean> {

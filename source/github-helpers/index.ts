@@ -1,11 +1,11 @@
-/* eslint-disable n/no-unsupported-features/node-builtins -- Until https://github.com/xojs/xo/issues/613 */
-import {$, elementExists, expectElement} from 'select-dom';
-import onetime from 'onetime';
 import elementReady from 'element-ready';
-import compareVersions from 'tiny-version-compare';
-import {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
+import onetime from 'onetime';
+/* eslint-disable n/no-unsupported-features/node-builtins -- Until https://github.com/xojs/xo/issues/613 */
+import {$, elementExists, expectElement} from 'select-dom';
+import compareVersions from 'tiny-version-compare';
+import {RequireAtLeastOne} from 'type-fest';
 
 import {branchSelector} from './selectors.js';
 

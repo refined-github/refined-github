@@ -1,11 +1,11 @@
-import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import {$, elementExists} from 'select-dom';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import IconLoading from '../github-helpers/icon-loading.js';
+import observe from '../helpers/selector-observer.js';
 
 function closeModal({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	button.append(' ', <IconLoading className="v-align-middle"/>);

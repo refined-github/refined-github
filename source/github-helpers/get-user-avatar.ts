@@ -1,5 +1,5 @@
-import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
 
 export default function getUserAvatar(username: string, size: number): string | void {
 	const cleanName = username.replace('[bot]', '');

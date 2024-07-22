@@ -1,7 +1,7 @@
 import './extend-diff-expander.css';
-import {$} from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 

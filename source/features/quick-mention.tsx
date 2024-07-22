@@ -1,14 +1,14 @@
 import './quick-mention.css';
-import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
-import ReplyIcon from 'octicons-plain-react/Reply';
-import * as pageDetect from 'github-url-detection';
-import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import ReplyIcon from 'octicons-plain-react/Reply';
+import {$, elementExists} from 'select-dom';
+import {insertTextIntoField} from 'text-field-edit';
 
-import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import {getUsername, isArchivedRepoAsync} from '../github-helpers/index.js';
+import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 const fieldSelector = 'textarea#new_comment_field';

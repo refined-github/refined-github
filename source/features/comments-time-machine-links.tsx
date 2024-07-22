@@ -1,17 +1,17 @@
 import React from 'dom-chef';
-import {$, $$} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {$, $$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import GitHubFileURL from '../github-helpers/github-file-url.js';
-import addNotice from '../github-widgets/notice-bar.js';
 import {linkifiedURLClass} from '../github-helpers/dom-formatters.js';
+import GitHubFileURL from '../github-helpers/github-file-url.js';
 import {buildRepoURL, isPermalink} from '../github-helpers/index.js';
-import {saveOriginalHref} from './sort-conversations-by-update-time.js';
+import addNotice from '../github-widgets/notice-bar.js';
 import observe from '../helpers/selector-observer.js';
 import GetCommitAtDate from './comments-time-machine-links.gql';
+import {saveOriginalHref} from './sort-conversations-by-update-time.js';
 
 async function updateURLtoDatedSha(url: GitHubFileURL, date: string): Promise<void> {
 	const {repository} = await api.v4(GetCommitAtDate, {variables: {date, branch: url.branch}});

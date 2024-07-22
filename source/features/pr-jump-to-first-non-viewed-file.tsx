@@ -1,7 +1,7 @@
-import {$} from 'select-dom';
-import elementReady from 'element-ready';
 import delegate from 'delegate-it';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 

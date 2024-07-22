@@ -1,11 +1,11 @@
 import './highlight-collaborators-and-own-conversations.css';
-import {CachedFunction} from 'webext-storage-cache';
-import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {$$} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
-import fetchDom from '../helpers/fetch-dom.js';
 import {buildRepoURL, cacheByRepo, getUsername} from '../github-helpers/index.js';
+import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
 
 const collaborators = new CachedFunction('repo-collaborators', {

@@ -1,7 +1,7 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
-import SearchIcon from 'octicons-plain-react/Search';
 import * as pageDetect from 'github-url-detection';
+import SearchIcon from 'octicons-plain-react/Search';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 

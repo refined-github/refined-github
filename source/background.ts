@@ -1,16 +1,16 @@
 import 'webext-dynamic-content-scripts';
-import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
-import {isSafari} from 'webext-detect';
-import {addOptionsContextMenu} from 'webext-tools';
 import {objectKeys} from 'ts-extras';
-import addPermissionToggle from 'webext-permission-toggle';
 import webextAlert from 'webext-alert';
+import {isSafari} from 'webext-detect';
+import addPermissionToggle from 'webext-permission-toggle';
+import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
+import {addOptionsContextMenu} from 'webext-tools';
 
-import optionsStorage from './options-storage.js';
-import isDevelopmentVersion from './helpers/is-development-version.js';
-import getStorageBytesInUse from './helpers/used-storage.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {styleHotfixes} from './helpers/hotfix.js';
+import isDevelopmentVersion from './helpers/is-development-version.js';
+import getStorageBytesInUse from './helpers/used-storage.js';
+import optionsStorage from './options-storage.js';
 
 const {version} = chrome.runtime.getManifest();
 

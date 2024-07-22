@@ -1,13 +1,13 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
+import {getForkedRepo, getRepo, getUsername } from '../github-helpers/index.js';
 import pluralize from '../helpers/pluralize.js';
-import {getForkedRepo, getUsername, getRepo} from '../github-helpers/index.js';
 import GetPRs from './show-open-prs-of-forks.gql';
 
 function getLinkCopy(count: number): string {

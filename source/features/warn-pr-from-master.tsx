@@ -1,6 +1,6 @@
 import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getDefaultBranch, {defaultBranchOfRepo} from '../github-helpers/get-default-branch.js';

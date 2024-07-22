@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import {getRepo} from '../github-helpers/index.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';
+import {getRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 async function add(ownerLabel: HTMLElement): Promise<void> {

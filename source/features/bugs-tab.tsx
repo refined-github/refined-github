@@ -1,17 +1,17 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {$, elementExists} from 'select-dom';
-import BugIcon from 'octicons-plain-react/Bug';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import BugIcon from 'octicons-plain-react/Bug';
+import {$, elementExists} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
+import isBugLabel from '../github-helpers/bugs-label.js';
 import {cacheByRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
-import isBugLabel from '../github-helpers/bugs-label.js';
 import CountBugs from './bugs-tab.gql';
 
 type Bugs = {

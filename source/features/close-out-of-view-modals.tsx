@@ -1,6 +1,6 @@
-import {$$} from 'select-dom';
-import onetime from 'onetime';
 import delegate, {DelegateEvent} from 'delegate-it';
+import onetime from 'onetime';
+import {$$} from 'select-dom';
 
 import features from '../feature-manager.js';
 

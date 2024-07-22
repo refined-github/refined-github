@@ -1,15 +1,15 @@
-import React from 'dom-chef';
-import FlameIcon from 'octicons-plain-react/Flame';
-import * as pageDetect from 'github-url-detection';
 import toMilliseconds from '@sindresorhus/to-milliseconds';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import FlameIcon from 'octicons-plain-react/Flame';
+import InfoIcon from 'octicons-plain-react/Info';
 import {$, $$, elementExists} from 'select-dom';
 import twas from 'twas';
-import InfoIcon from 'octicons-plain-react/Info';
 
-import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
+import createBanner from '../github-helpers/banner.js';
 import {buildRepoURL, isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event.js';
 import {canEditEveryComment} from './quick-comment-edit.js';
 

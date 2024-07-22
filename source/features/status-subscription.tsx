@@ -5,8 +5,8 @@ import BellSlashIcon from 'octicons-plain-react/BellSlash';
 import IssueReopenedIcon from 'octicons-plain-react/IssueReopened';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {multilineAriaLabel} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 // Make the element look selected, not disabled, but effectively disable clicks/focus
 const disableAttributes = {

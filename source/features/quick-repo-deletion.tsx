@@ -1,22 +1,22 @@
 import './quick-repo-deletion.css';
 import delay from 'delay';
-import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
-import TrashIcon from 'octicons-plain-react/Trash';
-import elementReady from 'element-ready';
-import {assertError} from 'ts-extras';
-import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
+import TrashIcon from 'octicons-plain-react/Trash';
+import {$, elementExists} from 'select-dom';
+import {assertError} from 'ts-extras';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
+import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
 import {getForkedRepo, getRepo} from '../github-helpers/index.js';
-import pluralize from '../helpers/pluralize.js';
+import parseBackticks from '../github-helpers/parse-backticks.js';
 import addNotice from '../github-widgets/notice-bar.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
-import parseBackticks from '../github-helpers/parse-backticks.js';
+import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
-import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
 
 function handleToggle(event: DelegateEvent<Event, HTMLDetailsElement>): void {
 	const hasContent = elementExists([

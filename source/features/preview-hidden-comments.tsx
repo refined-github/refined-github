@@ -1,7 +1,7 @@
 import './preview-hidden-comments.css';
 import React from 'dom-chef';
-import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {upperCaseFirst} from '../github-helpers/index.js';

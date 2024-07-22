@@ -3,9 +3,9 @@ import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import onAbort from '../helpers/abort-controller.js';
 import calculateCssCalcString from '../helpers/calculate-css-calc-string.js';
+import observe from '../helpers/selector-observer.js';
 
 const minimumViewportWidthForSidebar = 768; // Less than this, the layout is single-column
 

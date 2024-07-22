@@ -1,8 +1,8 @@
-import React from 'dom-chef';
-import {$, $$} from 'select-dom';
 import {DelegateEvent} from 'delegate-it';
-import * as pageDetect from 'github-url-detection';
+import React from 'dom-chef';
 import filterAlteredClicks from 'filter-altered-clicks';
+import * as pageDetect from 'github-url-detection';
+import {$, $$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {onCommentFieldKeydown} from '../github-events/on-field-keydown.js';

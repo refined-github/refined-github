@@ -1,10 +1,10 @@
-import React from 'dom-chef';
-import {elementExists} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import {elementExists} from 'select-dom';
 
-import {isMac} from '../github-helpers/index.js';
 import features from '../feature-manager.js';
+import {isMac} from '../github-helpers/index.js';
 
 function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void {
 	const field = event.delegateTarget;

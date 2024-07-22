@@ -1,12 +1,12 @@
 import './dim-bots.css';
-import {$$} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
+import {$$} from 'select-dom';
 
 import features from '../feature-manager.js';
+import {botLinksCommitSelectors, botLinksPrSelectors} from '../github-helpers/selectors.js';
 import preserveScroll from '../helpers/preserve-scroll.js';
 import observe from '../helpers/selector-observer.js';
-import {botLinksCommitSelectors, botLinksPrSelectors} from '../github-helpers/selectors.js';
 
 const dimBots = features.getIdentifiers(import.meta.url);
 

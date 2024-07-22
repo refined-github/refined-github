@@ -1,5 +1,5 @@
-import React from 'dom-chef';
 import {css} from 'code-tag';
+import React from 'dom-chef';
 import onetime from 'onetime';
 import {ParseSelector} from 'typed-query-selector/parser.js';
 

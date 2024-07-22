@@ -1,9 +1,9 @@
-import onetime from 'onetime';
 import {isEnterprise} from 'github-url-detection';
+import onetime from 'onetime';
 
 import features from '../feature-manager.js';
-import {getUsername} from '../github-helpers/index.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
+import {getUsername} from '../github-helpers/index.js';
 
 function init(signal: AbortSignal): void {
 	// This patterns also works on gist.github.com

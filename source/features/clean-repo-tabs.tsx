@@ -1,17 +1,17 @@
-import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
-import fetchDom from '../helpers/fetch-dom.js';
 import api from '../github-helpers/api.js';
 import getTabCount from '../github-helpers/get-tab-count.js';
-import looseParseInt from '../helpers/loose-parse-int.js';
-import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
-import {unhideOverflowDropdown} from './more-dropdown-links.js';
+import abbreviateNumber from '../helpers/abbreviate-number.js';
+import fetchDom from '../helpers/fetch-dom.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
 import CountWorkflows from './clean-repo-tabs.gql';
+import {unhideOverflowDropdown} from './more-dropdown-links.js';
 
 async function canUserEditOrganization(): Promise<boolean> {
 	return Boolean(await elementReady('.btn-primary[href$="repositories/new"]'));

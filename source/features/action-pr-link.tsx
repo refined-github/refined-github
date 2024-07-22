@@ -1,8 +1,8 @@
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {getConversationNumber} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 function setSearchParameter(anchorElement: HTMLAnchorElement, name: string, value: string): void {
 	const parameters = new URLSearchParams(anchorElement.search);

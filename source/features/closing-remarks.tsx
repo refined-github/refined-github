@@ -1,20 +1,20 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {$, $$} from 'select-dom';
-import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
 import InfoIcon from 'octicons-plain-react/Info';
+import TagIcon from 'octicons-plain-react/Tag';
+import {$, $$} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
-import fetchDom from '../helpers/fetch-dom.js';
 import onPrMerge from '../github-events/on-pr-merge.js';
 import createBanner from '../github-helpers/banner.js';
+import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 import attachElement from '../helpers/attach-element.js';
-import {canEditEveryComment} from './quick-comment-edit.js';
-import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
-import {getReleases} from './releases-tab.js';
+import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
+import {canEditEveryComment} from './quick-comment-edit.js';
+import {getReleases} from './releases-tab.js';
 
 // TODO: Not an exact match; Moderators can edit comments but not create releases
 const canCreateRelease = canEditEveryComment;

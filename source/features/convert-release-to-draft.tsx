@@ -1,14 +1,14 @@
-import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
 import delegate from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import {$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getRepo} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
-import showToast from '../github-helpers/toast.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {getRepo} from '../github-helpers/index.js';
+import showToast from '../github-helpers/toast.js';
+import observe from '../helpers/selector-observer.js';
 
 const getReleaseEditLinkSelector = (): 'a' => `a[href^="/${getRepo()!.nameWithOwner}/releases/edit"]` as 'a';
 

@@ -25,13 +25,13 @@ it lets you define accept error HTTP codes as a valid response, like:
 so the call will not throw an error but it will return as usual.
  */
 
-import mem from 'memoize';
 import * as pageDetect from 'github-url-detection';
-import {JsonObject, AsyncReturnType} from 'type-fest';
+import mem from 'memoize';
+import {AsyncReturnType, JsonObject } from 'type-fest';
 
 import features from '../feature-manager.js';
-import {getRepo} from './index.js';
 import {getToken} from './github-token.js';
+import {getRepo} from './index.js';
 
 type JsonError = {
 	message: string;

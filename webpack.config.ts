@@ -1,10 +1,10 @@
 /// <reference types="./source/globals.js" />
 
 import path from 'node:path';
-import TerserPlugin from 'terser-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import {type Configuration} from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import {type Configuration} from 'webpack';
 
 const config: Configuration = {
 	devtool: false, // Only inline source maps work in extensions, but they would slow down the extension for everyone

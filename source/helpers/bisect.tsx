@@ -1,11 +1,11 @@
 import React from 'dom-chef';
-import {CachedValue} from 'webext-storage-cache';
-import {$, $$} from 'select-dom';
 import elementReady from 'element-ready';
+import {$, $$} from 'select-dom';
+import {CachedValue} from 'webext-storage-cache';
 
-import pluralize from './pluralize.js';
-import featureLink from './feature-link.js';
 import {importedFeatures} from '../../readme.md';
+import featureLink from './feature-link.js';
+import pluralize from './pluralize.js';
 
 export const state = new CachedValue<FeatureID[]>('bisect', {maxAge: {minutes: 15}});
 

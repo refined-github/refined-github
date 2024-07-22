@@ -4,14 +4,14 @@ import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
-import {getBranches} from '../github-helpers/pr-branches.js';
-import getPrInfo, {PullRequestInfo} from '../github-helpers/get-pr-info.js';
-import pluralize from '../helpers/pluralize.js';
-import {buildRepoURL} from '../github-helpers/index.js';
 import {linkifyCommit} from '../github-helpers/dom-formatters.js';
-import {isTextNodeContaining} from '../helpers/dom-utils.js';
+import getPrInfo, {PullRequestInfo} from '../github-helpers/get-pr-info.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {buildRepoURL} from '../github-helpers/index.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
+import {isTextNodeContaining} from '../helpers/dom-utils.js';
+import pluralize from '../helpers/pluralize.js';
+import observe from '../helpers/selector-observer.js';
 
 function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 	const {base} = getBranches();

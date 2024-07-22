@@ -1,13 +1,13 @@
-import React from 'dom-chef';
-import FoldDownIcon from 'octicons-plain-react/FoldDown';
-import * as pageDetect from 'github-url-detection';
-import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import FoldDownIcon from 'octicons-plain-react/FoldDown';
+import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import smartBlockWrap from '../helpers/smart-block-wrap.js';
-import observe from '../helpers/selector-observer.js';
 import {triggerActionBarOverflow} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
+import smartBlockWrap from '../helpers/smart-block-wrap.js';
 
 function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */

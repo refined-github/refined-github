@@ -1,9 +1,9 @@
+import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {wrapFieldSelection} from 'text-field-edit';
-import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
-import {onCommentFieldKeydown, onConversationTitleFieldKeydown, onCommitTitleFieldKeydown} from '../github-events/on-field-keydown.js';
+import {onCommentFieldKeydown, onCommitTitleFieldKeydown, onConversationTitleFieldKeydown } from '../github-events/on-field-keydown.js';
 
 const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~', '“', '‘'];
 const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~', '”', '’'];

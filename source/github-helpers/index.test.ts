@@ -1,10 +1,10 @@
-import {test, assert} from 'vitest';
+import {assert, test } from 'vitest';
 
 import {
 	getConversationNumber,
-	parseTag,
-	isUsernameAlreadyFullName,
 	getLatestVersionTag,
+	isUsernameAlreadyFullName,
+	parseTag,
 } from './index.js';
 
 test('getConversationNumber', () => {

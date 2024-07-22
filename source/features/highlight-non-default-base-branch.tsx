@@ -1,12 +1,12 @@
+import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
-import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {buildRepoURL} from '../github-helpers/index.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import {buildRepoURL} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 type BranchInfo = {

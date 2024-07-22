@@ -1,5 +1,5 @@
-import {$} from 'select-dom';
 import oneMutation from 'one-mutation';
+import {$} from 'select-dom';
 
 export default async function getTabCount(tab: Element): Promise<number> {
 	const counter = $('.Counter, .num', tab);

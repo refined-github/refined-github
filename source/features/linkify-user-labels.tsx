@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
-import {buildRepoURL} from '../github-helpers/index.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
+import {buildRepoURL} from '../github-helpers/index.js';
+import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 function linkify(label: Element): void {

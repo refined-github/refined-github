@@ -1,11 +1,11 @@
-import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import {buildRepoURL} from '../github-helpers/index.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
+import {buildRepoURL} from '../github-helpers/index.js';
 
 async function init(signal: AbortSignal): Promise<void> {
 	const ref = getCurrentGitRef() ?? await getDefaultBranch();

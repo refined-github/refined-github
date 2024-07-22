@@ -1,13 +1,13 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom';
-import CheckIcon from 'octicons-plain-react/Check';
 import * as pageDetect from 'github-url-detection';
+import CheckIcon from 'octicons-plain-react/Check';
+import {$} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import observe from '../helpers/selector-observer.js';
 import {cacheByRepo} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 import HasChecks from './pr-filters.gql';
 
 const reviewsFilterSelector = '#reviews-select-menu';

@@ -1,11 +1,11 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
 import {stringToBase64} from 'uint8array-extras';
 
 import features from '../feature-manager.js';
-import looseParseInt from '../helpers/loose-parse-int.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 
 const itemsPerNotificationsPage = 25;

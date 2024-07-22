@@ -1,11 +1,11 @@
-import React from 'dom-chef';
-import {$} from 'select-dom';
 import debounce from 'debounce-fn';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import onAbort from '../helpers/abort-controller.js';
+import observe from '../helpers/selector-observer.js';
 
 const loadMore = debounce((button: HTMLButtonElement) => {
 	button.click();

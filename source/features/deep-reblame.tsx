@@ -1,19 +1,19 @@
 import './deep-reblame.css';
-import mem from 'memoize';
-import React from 'dom-chef';
-import {$, $$, expectElement} from 'select-dom';
-import VersionsIcon from 'octicons-plain-react/Versions';
-import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import mem from 'memoize';
+import VersionsIcon from 'octicons-plain-react/Versions';
+import {$, $$, expectElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
+import {multilineAriaLabel} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 import GetPullRequestBlameCommit from './deep-reblame.gql';
-import {multilineAriaLabel} from '../github-helpers/index.js';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(GetPullRequestBlameCommit, {

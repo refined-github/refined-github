@@ -1,18 +1,18 @@
 import './show-associated-branch-prs-on-fork.css';
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
+import memoize from 'memoize';
 import GitMergeIcon from 'octicons-plain-react/GitMerge';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import GitPullRequestClosedIcon from 'octicons-plain-react/GitPullRequestClosed';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import RepoForkedIcon from 'octicons-plain-react/RepoForked';
-import memoize from 'memoize';
+import {CachedFunction} from 'webext-storage-cache';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {cacheByRepo} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 import AssociatedPullRequests from './show-associated-branch-prs-on-fork.gql';
 
 type PullRequest = {

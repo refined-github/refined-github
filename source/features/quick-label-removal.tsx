@@ -1,18 +1,18 @@
 import './quick-label-removal.css';
-import React from 'dom-chef';
-import {elementExists, expectElement} from 'select-dom';
-import onetime from 'onetime';
-import XIcon from 'octicons-plain-react/X';
-import {assertError} from 'ts-extras';
-import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import XIcon from 'octicons-plain-react/X';
+import onetime from 'onetime';
+import {elementExists, expectElement} from 'select-dom';
+import {assertError} from 'ts-extras';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import showToast from '../github-helpers/toast.js';
-import {getConversationNumber} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {getConversationNumber} from '../github-helpers/index.js';
+import showToast from '../github-helpers/toast.js';
+import observe from '../helpers/selector-observer.js';
 
 const canNotEditLabels = onetime((): boolean => !elementExists('.label-select-menu .octicon-gear'));
 

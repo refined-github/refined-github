@@ -1,6 +1,6 @@
-import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 import filterAlteredClicks from 'filter-altered-clicks';
+import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 

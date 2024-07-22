@@ -1,9 +1,9 @@
 import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {$, elementExists} from 'select-dom';
 
-import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
+import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 function linkifyLabel(label: Element): void {

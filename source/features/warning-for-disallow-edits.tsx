@@ -1,9 +1,9 @@
 import './warning-for-disallow-edits.css';
-import React from 'dom-chef';
-import {$} from 'select-dom';
-import onetime from 'onetime';
-import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import onetime from 'onetime';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import attachElement from '../helpers/attach-element.js';

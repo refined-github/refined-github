@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions -- Declaration merging necessary */
 
-import regexJoin from 'regex-join';
 import type CodeMirror from 'codemirror';
+import regexJoin from 'regex-join';
 
 declare module 'codemirror' {
 	interface LineHandle {

@@ -1,5 +1,5 @@
-import {$} from 'select-dom';
 import onetime from 'onetime';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';

@@ -1,13 +1,13 @@
 import './show-names.css';
+import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {getUsername, isUsernameAlreadyFullName} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 function dropExtraCopy(elements: HTMLAnchorElement[]): void {
 	for (const element of elements) {

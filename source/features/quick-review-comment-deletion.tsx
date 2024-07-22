@@ -1,14 +1,14 @@
-import React from 'dom-chef';
-import {$} from 'select-dom';
-import TrashIcon from 'octicons-plain-react/Trash';
-import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import TrashIcon from 'octicons-plain-react/Trash';
+import {$} from 'select-dom';
 import {isChrome} from 'webext-detect';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import loadDetailsMenu from '../github-helpers/load-details-menu.js';
 import showToast from '../github-helpers/toast.js';
+import observe from '../helpers/selector-observer.js';
 
 function onButtonClick({delegateTarget: button}: DelegateEvent): void {
 	try {

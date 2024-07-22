@@ -1,9 +1,9 @@
 import './clean-conversation-headers.css';
 import React from 'dom-chef';
-import {$} from 'select-dom';
 import elementReady from 'element-ready';
-import ArrowLeftIcon from 'octicons-plain-react/ArrowLeft';
 import * as pageDetect from 'github-url-detection';
+import ArrowLeftIcon from 'octicons-plain-react/ArrowLeft';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';

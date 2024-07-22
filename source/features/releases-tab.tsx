@@ -1,22 +1,22 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import TagIcon from 'octicons-plain-react/Tag';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import TagIcon from 'octicons-plain-react/Tag';
 import {$} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import abbreviateNumber from '../helpers/abbreviate-number.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
+import {expectToken} from '../github-helpers/github-token.js';
 import {
 	buildRepoURL, cacheByRepo, getRepo, triggerRepoNavOverflow,
 } from '../github-helpers/index.js';
+import {repoUnderlineNavDropdownUl, repoUnderlineNavUl } from '../github-helpers/selectors.js';
+import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {appendBefore} from '../helpers/dom-utils.js';
-import {repoUnderlineNavUl, repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
+import observe from '../helpers/selector-observer.js';
 import GetReleasesCount from './releases-tab.gql';
-import {expectToken} from '../github-helpers/github-token.js';
 
 function detachHighlightFromCodeTab(codeTab: HTMLAnchorElement): void {
 	codeTab.dataset.selectedLinks = codeTab.dataset.selectedLinks!.replace('repo_releases ', '');

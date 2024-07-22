@@ -1,7 +1,7 @@
 /// <reference types="../source/globals.js" />
 
-import regexJoin from 'regex-join';
 import {readFileSync} from 'node:fs';
+import regexJoin from 'regex-join';
 import parseMarkdown from 'snarkdown';
 
 // Group names must be unique because they will be merged
