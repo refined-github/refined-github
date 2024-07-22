@@ -38,7 +38,7 @@ function init(signal: AbortSignal): void | false {
 		return false;
 	}
 
-	// TODO: Rewrite with :has selector
+	// TODO: Rewrite with :has selector, maybe in https://github.com/refined-github/refined-github/issues/7574
 	update(checkbox); // The sidebar checkbox may already be un-checked
 	delegate('input[name="collab_privs"]', 'change', toggleHandler, {signal});
 }
@@ -52,3 +52,13 @@ void features.add(import.meta.url, {
 	awaitDomReady: true,
 	init,
 });
+
+/*
+
+Test URLs:
+
+1. Open https://github.com/pulls?q=+is%3Apr+is%3Aopen+author%3A%40me+archived%3Afalse+-user%3A%40me+
+2. Open any PR opened from a fork
+3. Toggle the checkbox in the sidebar
+
+*/
