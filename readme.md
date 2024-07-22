@@ -174,7 +174,7 @@ Thanks for contributing! 🦋🙌
 - [](# "show-associated-branch-prs-on-fork") [Shows the associated PRs on branches for forked repositories.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260873542-2a7fc7a2-231f-4f2e-9c7e-272d894de4c6.png)
 - [](# "html-preview-link") [Adds a link to preview HTML files.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260874191-69d386a0-7c1f-42ae-84fd-4f67f90982da.png)
 - [](# "file-age-color") [Highlights the most-recently-modified items in file lists.](https://user-images.githubusercontent.com/1402241/218314631-1442cc89-3616-40fc-abe2-9ba3d3697b6a.png)
-- [](# "previous-version") [Lets you see the previous version of a file in one click.](https://user-images.githubusercontent.com/50487467/236657960-401f3cd7-cc99-494e-b522-1dca76827369.png)
+- [](# "previous-version") [Lets you see the previous version of a file in one click.](https://github.com/refined-github/refined-github/assets/1402241/bc82cc77-bde2-4683-98a6-012c87b4a319)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -373,7 +373,7 @@ Thanks for contributing! 🦋🙌
 - [](# "netiquette") [Adds unobtrusive netiquette reminders.](https://user-images.githubusercontent.com/1402241/226551766-0e1b6b15-65a3-427e-8bb5-9ea7873993be.png)
 - [](# "warn-pr-from-master") [Warns you when creating a PR from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
 - [](# "warning-for-disallow-edits") [Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
-- [](# "comment-on-draft-pr-indicator") [Reminds you you’re commenting on a draft PR by changing the submit button’s label.](https://user-images.githubusercontent.com/34235681/152473140-22b6eb86-3ef4-4104-af10-4a659d878f91.png)
+- [](# "comment-on-draft-pr-indicator") [Reminds you you’re commenting on a draft PR by changing the submit button’s label.](https://github.com/refined-github/refined-github/assets/44045911/988a6ec1-5faa-4500-baa9-0c3713468ca9)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -415,5 +415,5 @@ We're happy to receive suggestions and contributions, but be aware this is a hig
 
 ## Links
 
-- [More extensions](https://github.com/refined-github/refined-github/wiki/Additional-extensions)
+- [More extensions](https://github.com/refined-github/refined-github/wiki/Other-extensions)
 - [Contribution guide](https://github.com/refined-github/refined-github/wiki/Contributing)

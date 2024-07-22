@@ -59,7 +59,7 @@ function addConversationBanner(newCommentField: HTMLElement): void {
 	newCommentField.before(
 		createBanner({
 			icon: <InfoIcon className="m-0"/>,
-			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
+			classes: 'p-2 m-2 text-small color-fg-muted border-0'.split(' '),
 			text: getNoticeText(),
 		}),
 	);
@@ -69,18 +69,20 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 	newCommentField.before(
 		createBanner({
 			icon: <FlameIcon className="m-0"/>,
-			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
+			classes: 'p-2 m-2 text-small color-fg-muted border-0'.split(' '),
 			text: 'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
 		}),
 	);
 }
 
+const commentFieldSelector = '.CommentBox file-attachment';
+
 function initBanner(signal: AbortSignal): void | false {
 	// Do not move to `asLongAs` because those conditions are run before `isConversation`
 	if (wasClosedLongAgo()) {
-		observe('#issuecomment-new file-attachment', addConversationBanner, {signal});
+		observe(commentFieldSelector, addConversationBanner, {signal});
 	} else if (isPopular() && !isCollaborator()) {
-		observe('#issuecomment-new file-attachment', addPopularBanner, {signal});
+		observe(commentFieldSelector, addPopularBanner, {signal});
 	} else {
 		return false;
 	}
@@ -90,7 +92,7 @@ function makeFieldKinder(field: HTMLParagraphElement): void {
 	if (field.textContent.trim() === 'Add your comment here...') {
 		// Regular issue/PR comment field, or single review comments
 		// https://github.com/refined-github/refined-github/pull/6991
-		field.textContent = 'Add your comment here, be kind...';
+		field.textContent = 'Add your comment here, be kind';
 	} else if (field.textContent.trim() === 'Leave a comment') {
 		// Main review comment field
 		// https://github.com/refined-github/refined-github/pull/6991/files

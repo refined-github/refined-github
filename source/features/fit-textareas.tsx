@@ -1,5 +1,5 @@
 import './fit-textareas.css';
-import {isSafari} from 'webext-detect-page';
+import {isSafari} from 'webext-detect';
 import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';
 
@@ -20,7 +20,10 @@ function inputListener({target}: Event): void {
 
 function watchTextarea(textarea: HTMLTextAreaElement, {signal}: SignalAsOptions): void {
 	// Disable constrained GitHub feature
-	textarea.classList.replace('js-size-to-fit', 'rgh-fit-textareas');
+	textarea.classList.remove('js-size-to-fit');
+	textarea.classList.remove('issue-form-textarea'); // Remove !important height and min-height
+	textarea.classList.add('rgh-fit-textareas');
+
 	if (nativeFit) {
 		return;
 	}

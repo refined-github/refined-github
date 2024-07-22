@@ -1,3 +1,4 @@
+/* eslint-disable n/no-unsupported-features/node-builtins -- Until https://github.com/xojs/xo/issues/613 */
 import {$, elementExists, expectElement} from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
@@ -160,7 +161,7 @@ export function triggerConversationUpdate(): void {
 
 // Fix z-index issue https://github.com/refined-github/refined-github/pull/7430
 export function fixFileHeaderOverlap(child: Element): void {
-	child.closest('.container')!.classList.add('rgh-z-index-1');
+	child.closest('.container')!.classList.add('rgh-z-index-5');
 }
 
 /** Trigger a reflow to push the right-most tab into the overflow dropdown */
@@ -182,4 +183,8 @@ export function multilineAriaLabel(...lines: string[]): string {
 export function scrollIntoViewIfNeeded(element: Element): void {
 	// @ts-expect-error No Firefox support https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
 	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
+}
+
+export function getConversationAuthor(): string | undefined {
+	return $('#partial-discussion-header .gh-header-meta .author')?.textContent;
 }

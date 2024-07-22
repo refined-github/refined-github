@@ -3,6 +3,12 @@
 	display: none;
 }
 
+/* Hide "Packages" if empty */
+[rgh-clean-repo-sidebar]
+	.BorderGrid-row:has(a[href*='/packages?repo_name'] .Counter[title='0']) {
+	display: none;
+}
+
 /* Align the top of the repo root sidebar with the main page content */
 [rgh-clean-repo-sidebar] .Layout-sidebar .BorderGrid-row:first-child h2 + p.f4 {
 	margin-top: 0 !important;

@@ -127,3 +127,36 @@ export const linksToConversationLists_ = [
 	[6, 'https://github.com/fregante/iphone-inline-video/issues?q=cool+is%3Aissue+is%3Aopen+'],
 	[26, 'https://github.com/fregante/iphone-inline-video/issues?q=cool+is%3Aissue+is%3Aclosed'],
 ] satisfies UrlMatch[];
+
+const botNames = [
+	'actions-user',
+	'bors',
+	'ImgBotApp',
+	'renovate-bot',
+	'rust-highfive',
+	'scala-steward',
+	'weblate',
+	'apps', // Matches any `/apps/*` URLs
+] as const;
+
+const botAttributes = botNames.map(bot => `[href^="/${bot}"]`).join(', ');
+
+// All co-authored commits are excluded because it's unlikely that any bot co-authors with another bot, but instead they're co-authored with a human. In that case we don't want to dim the commit.
+// ^= is needed to match /apps/* URLs
+export const botLinksCommitSelectors = [
+	// Co-authored commits are excluded because their avatars are not linked
+	`a[data-testid="avatar-icon-link"]:is(${botAttributes})`,
+
+	// Legacy view, still used by PR commits
+	// :only-child excludes co-authored commits
+	`a[data-test-selector="commits-avatar-stack-avatar-link"]:is(${botAttributes}):only-child`,
+];
+
+export const botLinksPrSelectors = [
+	...botNames.flatMap(bot => [
+		`.opened-by [title$="pull requests created by ${bot}"]`,
+		`.opened-by [title$="pull requests opened by ${bot}"]`,
+	]),
+	'.opened-by [href*="author%3Aapp%2F"]', // Search query `is:pr+author:app/*`
+	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
+];

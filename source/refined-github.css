@@ -174,7 +174,7 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 	background: none !important;
 }
 
-.rgh-z-index-1 {
+.rgh-z-index-5 {
 	position: relative;
-	z-index: 1;
+	z-index: 5;
 }

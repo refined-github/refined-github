@@ -86,7 +86,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 async function init(): Promise<void | false> {
 	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
 
-	const commitsOnPage = $$('.listviewitem');
+	const commitsOnPage = $$('.list-view-item');
 
 	const lastCommitOnPage = getCommitHash(commitsOnPage.at(-1)!);
 	let cached = await cache.get<Record<string, string[]>>(cacheKey) ?? {};
@@ -102,10 +102,10 @@ async function init(): Promise<void | false> {
 		}
 
 		if (!targetTags) {
-			// There was no tags for this commit, save that info to the cache
+			// There was no tag for this commit, save that info to the cache
 			commitsWithNoTags.push(targetCommit);
 		} else if (targetTags.length > 0) {
-			const commitMeta = $('div[data-testid="listview-item-description"]', commit)!;
+			const commitMeta = $('div[data-testid="list-view-item-description"]', commit)!;
 
 			commitMeta.append(
 				<span className="d-flex flex-items-center gap-1">

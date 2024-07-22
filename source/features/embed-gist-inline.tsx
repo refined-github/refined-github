@@ -17,7 +17,7 @@ type GistData = {
 // Fetch via background.js due to CORB policies. Also memoize to avoid multiple requests.
 const fetchGist = mem(
 	async (url: string): Promise<GistData> =>
-		browser.runtime.sendMessage({fetchJSON: `${url}.json`}),
+		chrome.runtime.sendMessage({fetchJSON: `${url}.json`}),
 );
 
 function parseGistLink(link: HTMLAnchorElement): string | undefined {
