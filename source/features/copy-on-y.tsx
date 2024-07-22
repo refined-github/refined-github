@@ -4,6 +4,7 @@ import {isEditable} from '../helpers/dom-utils.js';
 async function handler({key, target}: KeyboardEvent): Promise<void> {
 	if (key === 'y' && !isEditable(target)) {
 		const url = location.href;
+		// eslint-disable-next-line n/no-unsupported-features/node-builtins -- Until https://github.com/xojs/xo/issues/613
 		await navigator.clipboard.writeText(url);
 		// Log to ensure we're coping the new URL
 		console.log('Copied URL to the clipboard', url);
