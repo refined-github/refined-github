@@ -6,7 +6,7 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getForkedRepo, getRepo, getUsername } from '../github-helpers/index.js';
+import {getForkedRepo, getRepo, getUsername} from '../github-helpers/index.js';
 import pluralize from '../helpers/pluralize.js';
 import GetPRs from './show-open-prs-of-forks.gql';
 
@@ -64,7 +64,13 @@ async function initHeadHint(): Promise<void | false> {
 
 	$(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`)!.after(
 		// The class is used by `quick-fork-deletion`
-		<> with <a href={url} className="rgh-open-prs-of-forks">{getLinkCopy(count)}</a></>,
+		<>
+			{' '}
+			with{' '}
+			<a href={url} className="rgh-open-prs-of-forks">
+				{getLinkCopy(count)}
+			</a>
+		</>,
 	);
 }
 
@@ -81,22 +87,20 @@ async function initDeleteHint(): Promise<void | false> {
 	);
 }
 
-void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isForkedRepo,
-	],
-	deduplicate: 'has-rgh',
-	init: initHeadHint,
-}, {
-	asLongAs: [
-		pageDetect.isForkedRepo,
-	],
-	include: [
-		pageDetect.isRepoMainSettings,
-	],
-	deduplicate: 'has-rgh',
-	init: initDeleteHint,
-});
+void features.add(
+	import.meta.url,
+	{
+		asLongAs: [pageDetect.isForkedRepo],
+		deduplicate: 'has-rgh',
+		init: initHeadHint,
+	},
+	{
+		asLongAs: [pageDetect.isForkedRepo],
+		include: [pageDetect.isRepoMainSettings],
+		deduplicate: 'has-rgh',
+		init: initDeleteHint,
+	},
+);
 
 /*
 

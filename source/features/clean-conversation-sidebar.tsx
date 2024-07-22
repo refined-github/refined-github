@@ -59,10 +59,13 @@ function cleanSection(selector: string): boolean {
 		'[aria-label="Select projects"] .Link--primary',
 	];
 
-	const heading = $([
-		'details:has(> .discussion-sidebar-heading)', // Can edit sidebar, has a dropdown
-		'.discussion-sidebar-heading', // Cannot editor sidebar, has a plain heading
-	], container)!;
+	const heading = $(
+		[
+			'details:has(> .discussion-sidebar-heading)', // Can edit sidebar, has a dropdown
+			'.discussion-sidebar-heading', // Cannot editor sidebar, has a plain heading
+		],
+		container,
+	)!;
 	if (heading.closest('form, .discussion-sidebar-item')!.querySelector(identifiers)) {
 		return false;
 	}
@@ -89,9 +92,7 @@ async function cleanSidebar(): Promise<void> {
 		const assignYourself = $('.js-issue-assign-self');
 		if (assignYourself) {
 			removeTextNodeContaining(assignYourself.previousSibling!, 'No one—');
-			$('[aria-label="Select assignees"] summary')!.append(
-				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>,
-			);
+			$('[aria-label="Select assignees"] summary')!.append(<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>);
 			assignees.closest('.discussion-sidebar-item')!.classList.add('rgh-clean-sidebar');
 		}
 	}
@@ -104,13 +105,13 @@ async function cleanSidebar(): Promise<void> {
 	// Labels
 	if (!cleanSection('.js-issue-labels') && !canEditSidebar()) {
 		// Hide heading in any case except `canEditSidebar`
-		$('.discussion-sidebar-item:has(.js-issue-labels) .discussion-sidebar-heading')!
-			.remove();
+		$('.discussion-sidebar-item:has(.js-issue-labels) .discussion-sidebar-heading')!.remove();
 	}
 
 	// Development (linked issues/PRs)
 	const developmentHint = $('[aria-label="Link issues"] p');
-	if (developmentHint) { // This may not exist if issues are disabled
+	if (developmentHint) {
+		// This may not exist if issues are disabled
 		removeTextNodeContaining(developmentHint, /No branches or pull requests|Successfully merging/);
 	}
 
@@ -118,9 +119,7 @@ async function cleanSidebar(): Promise<void> {
 	const openWorkspaceButton = $('a[href^="https://copilot-workspace.githubnext.com"]');
 	if (createBranchLink && !openWorkspaceButton) {
 		createBranchLink.classList.add('Link--muted', 'Link--inTextBlock');
-		$('[aria-label="Link issues"] summary')!.append(
-			<span style={{fontWeight: 'normal'}}> – {createBranchLink}</span>,
-		);
+		$('[aria-label="Link issues"] summary')!.append(<span style={{fontWeight: 'normal'}}> – {createBranchLink}</span>);
 	}
 
 	cleanSection('[aria-label="Link issues"]');
@@ -137,9 +136,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isConversation,
-	],
+	include: [pageDetect.isConversation],
 	awaitDomReady: true, // The sidebar is at the end of the page + it needs to be fully loaded
 	init,
 });

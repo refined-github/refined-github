@@ -28,7 +28,8 @@ function preview(hiddenCommentHeader: HTMLElement): void {
 	hiddenCommentHeader.append(
 		<span className="Details-content--open">{hiddenCommentHeader.firstChild}</span>,
 		<span className="Details-content--closed">
-			{reason && <span className="Label mr-2">{upperCaseFirst(reason)}</span>}{commentText.slice(0, 100)}
+			{reason && <span className="Label mr-2">{upperCaseFirst(reason)}</span>}
+			{commentText.slice(0, 100)}
 		</span>,
 	);
 }
@@ -39,9 +40,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasComments,
-	],
+	include: [pageDetect.hasComments],
 	init,
 });
 

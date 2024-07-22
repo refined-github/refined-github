@@ -7,11 +7,7 @@ import observe from '../helpers/selector-observer.js';
 
 function addLinkToBanner(banner: HTMLElement): void {
 	if (banner.lastChild!.textContent.includes('repository has been archived')) {
-		banner.lastChild!.after(
-			' You can check out ',
-			<a href={buildRepoURL('forks')}>its forks</a>,
-			'.',
-		);
+		banner.lastChild!.after(' You can check out ', <a href={buildRepoURL('forks')}>its forks</a>, '.');
 	}
 }
 
@@ -20,9 +16,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepo,
-	],
+	include: [pageDetect.isRepo],
 	init,
 });
 

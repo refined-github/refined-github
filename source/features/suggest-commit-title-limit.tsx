@@ -25,10 +25,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isEditingFile,
-		pageDetect.isPR,
-	],
+	include: [pageDetect.isEditingFile, pageDetect.isPR],
 	init,
 });
 

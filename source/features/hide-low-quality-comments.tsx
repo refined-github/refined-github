@@ -36,9 +36,7 @@ function init(): void {
 		hideComment(similarCommentsBox);
 	}
 
-	const linkedComment = location.hash.startsWith('#issuecomment-')
-		? $(`${location.hash} ${singleParagraphCommentSelector}`)
-		: undefined;
+	const linkedComment = location.hash.startsWith('#issuecomment-') ? $(`${location.hash} ${singleParagraphCommentSelector}`) : undefined;
 
 	for (const commentText of $$(singleParagraphCommentSelector)) {
 		// Exclude explicitly linked comments #5363
@@ -79,7 +77,9 @@ function init(): void {
 		$('.discussion-timeline-actions')!.prepend(
 			<p className="rgh-low-quality-comments-note">
 				{`${lowQualityCount} unhelpful comment${lowQualityCount > 1 ? 's were' : ' was'} automatically hidden. `}
-				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>
+				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">
+					Show
+				</button>
 			</p>,
 		);
 
@@ -90,9 +90,7 @@ function init(): void {
 
 // This should NOT be made dynamic via observer, it's not worth updating the lowQuality count for fresh comments
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isIssue,
-	],
+	include: [pageDetect.isIssue],
 	deduplicate: '.rgh-low-quality-comments-note',
 	awaitDomReady: true,
 	init,

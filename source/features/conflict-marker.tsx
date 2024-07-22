@@ -14,18 +14,26 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 		const [, owner, name, , prNumber] = link.pathname.split('/');
 		const key = api.escapeKey(owner, name, prNumber);
 		return {
-			key, link, owner, name, number: Number(prNumber),
+			key,
+			link,
+			owner,
+			name,
+			number: Number(prNumber),
 		};
 	});
 
 	// Batch queries cannot be exported to .gql files
-	const batchQuery = prConfigs.map(({key, owner, name, number}) => `
+	const batchQuery = prConfigs
+		.map(
+			({key, owner, name, number}) => `
 		${key}: repository(owner: "${owner}", name: "${name}") {
 			pullRequest(number: ${number}) {
 				mergeable
 			}
 		}
-	`).join('\n');
+	`,
+		)
+		.join('\n');
 
 	const data = await api.v4(batchQuery);
 
@@ -37,7 +45,7 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 					aria-label="This PR has conflicts that must be resolved"
 					href={`${pr.link.pathname}#partial-pull-merging`}
 				>
-					<AlertIcon className="v-align-middle"/>
+					<AlertIcon className="v-align-middle" />
 				</a>,
 			);
 		}
@@ -49,9 +57,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isIssueOrPRList,
-	],
+	include: [pageDetect.isIssueOrPRList],
 	init,
 });
 

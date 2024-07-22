@@ -15,9 +15,7 @@ export const standaloneGistLinkInMarkdown = css`
 		[href^="${location.origin}/gist/"]
 	)
 ` as 'a'; // TODO: Drop after https://github.com/fregante/code-tag/issues/12
-export const standaloneGistLinkInMarkdown_ = [
-	[3, 'https://github.com/refined-github/sandbox/issues/77'],
-] satisfies UrlMatch[];
+export const standaloneGistLinkInMarkdown_ = [[3, 'https://github.com/refined-github/sandbox/issues/77']] satisfies UrlMatch[];
 
 /** The repo navigation bar’s overflow menu */
 export const repoUnderlineNavDropdownUl = '.js-responsive-underlinenav action-menu ul';
@@ -55,9 +53,7 @@ export const directoryListingFileIcon_ = [
 ] satisfies UrlMatch[];
 
 export const prCommit = '.TimelineItem--condensed:has(.octicon-git-commit)';
-export const prCommit_ = [
-	[1, 'https://github.com/refined-github/sandbox/pull/10'],
-] satisfies UrlMatch[];
+export const prCommit_ = [[1, 'https://github.com/refined-github/sandbox/pull/10']] satisfies UrlMatch[];
 
 // `summary` is needed because the details dropdown contains the list of check runs, each with its status icon
 export const prCommitStatusIcon = `:is(${prCommit}) details.commit-build-statuses summary .octicon`;
@@ -73,9 +69,7 @@ export const openPrsListLink = css`
 		.octicon-git-pull-request-draft
 	) a.js-navigation-open
 `;
-export const openPrsListLink_ = [
-	[4, 'https://github.com/refined-github/sandbox/issues?q=conflict'],
-] satisfies UrlMatch[];
+export const openPrsListLink_ = [[4, 'https://github.com/refined-github/sandbox/issues?q=conflict']] satisfies UrlMatch[];
 
 export const openIssueToLastComment = `
 	:is(.js-issue-row, .js-pinned-issue-list-item)
@@ -84,19 +78,13 @@ export const openIssueToLastComment = `
 		a[aria-label$="comments"]
 	)
 `;
-export const openIssueToLastComment_ = [
-	[2, 'https://github.com/refined-github/sandbox/labels/bug'],
-] satisfies UrlMatch[];
+export const openIssueToLastComment_ = [[2, 'https://github.com/refined-github/sandbox/labels/bug']] satisfies UrlMatch[];
 
 export const actionsTab = '#actions-tab';
-export const actionsTab_ = [
-	[1, 'https://github.com/refined-github/sandbox'],
-] satisfies UrlMatch[];
+export const actionsTab_ = [[1, 'https://github.com/refined-github/sandbox']] satisfies UrlMatch[];
 
 export const paginationButtonSelector = '.ajax-pagination-form button.ajax-pagination-btn';
-export const paginationButtonSelector_ = [
-	[2, 'https://github.com/refined-github/sandbox/pull/10'],
-] satisfies UrlMatch[];
+export const paginationButtonSelector_ = [[2, 'https://github.com/refined-github/sandbox/pull/10']] satisfies UrlMatch[];
 
 export const codeSearchHeader = css`
 	div:has(
@@ -153,10 +141,7 @@ export const botLinksCommitSelectors = [
 ];
 
 export const botLinksPrSelectors = [
-	...botNames.flatMap(bot => [
-		`.opened-by [title$="pull requests created by ${bot}"]`,
-		`.opened-by [title$="pull requests opened by ${bot}"]`,
-	]),
+	...botNames.flatMap(bot => [`.opened-by [title$="pull requests created by ${bot}"]`, `.opened-by [title$="pull requests opened by ${bot}"]`]),
 	'.opened-by [href*="author%3Aapp%2F"]', // Search query `is:pr+author:app/*`
 	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
 ];

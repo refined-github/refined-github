@@ -37,9 +37,7 @@ type TagNode = {
 function mergeTags(oldTags: CommitTags, newTags: CommitTags): CommitTags {
 	const result: CommitTags = {...oldTags};
 	for (const commit of Object.keys(newTags)) {
-		result[commit] = result[commit]
-			? arrayUnion(result[commit], newTags[commit])
-			: newTags[commit];
+		result[commit] = result[commit] ? arrayUnion(result[commit], newTags[commit]) : newTags[commit];
 	}
 
 	return result;
@@ -89,7 +87,7 @@ async function init(): Promise<void | false> {
 	const commitsOnPage = $$('.list-view-item');
 
 	const lastCommitOnPage = getCommitHash(commitsOnPage.at(-1)!);
-	let cached = await cache.get<Record<string, string[]>>(cacheKey) ?? {};
+	let cached = (await cache.get<Record<string, string[]>>(cacheKey)) ?? {};
 	const commitsWithNoTags = [];
 	for (const commit of commitsOnPage) {
 		const targetCommit = getCommitHash(commit);
@@ -109,15 +107,12 @@ async function init(): Promise<void | false> {
 
 			commitMeta.append(
 				<span className="d-flex flex-items-center gap-1">
-					<TagIcon className="ml-1"/>
+					<TagIcon className="ml-1" />
 					{...targetTags.map(tag => (
 						<>
 							{' '}
 							{/* .markdown-title enables the background color */}
-							<a
-								className="Link--muted markdown-title"
-								href={buildRepoURL('releases/tag', tag)}
-							>
+							<a className="Link--muted markdown-title" href={buildRepoURL('releases/tag', tag)}>
 								<code>{tag}</code>
 							</a>
 						</>
@@ -138,9 +133,7 @@ async function init(): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoCommitList,
-	],
+	include: [pageDetect.isRepoCommitList],
 	awaitDomReady: true,
 	deduplicate: 'has-rgh-inner',
 	init,

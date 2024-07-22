@@ -32,7 +32,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	const baseBranchDropdown = $('.commit-ref-dropdown', byline);
 
 	// Shows on PRs: main [←] feature
-	const arrowIcon = <ArrowLeftIcon className="v-align-middle mx-1"/>;
+	const arrowIcon = <ArrowLeftIcon className="v-align-middle mx-1" />;
 	if (baseBranchDropdown) {
 		baseBranchDropdown.after(<span>{arrowIcon}</span>); // #5598
 	} else {
@@ -41,7 +41,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 
 	const baseBranch = base.title.split(':')[1];
 	const wasDefaultBranch = pageDetect.isClosedPR() && baseBranch === 'master';
-	const isDefaultBranch = baseBranch === await getDefaultBranch();
+	const isDefaultBranch = baseBranch === (await getDefaultBranch());
 	if (!isDefaultBranch && !wasDefaultBranch) {
 		base.classList.add('rgh-clean-conversation-headers-non-default-branch');
 	}
@@ -53,10 +53,7 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isIssue,
-		pageDetect.isPR,
-	],
+	include: [pageDetect.isIssue, pageDetect.isPR],
 	init,
 });
 

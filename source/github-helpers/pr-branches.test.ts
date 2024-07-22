@@ -1,4 +1,4 @@
-import {assert, test } from 'vitest';
+import {assert, test} from 'vitest';
 
 import {parseReferenceRaw} from './pr-branches.js';
 
@@ -20,19 +20,7 @@ test('parseReferenceRaw', () => {
 		branch: 'feature/#5942',
 	});
 
-	assert.throws(
-		() => parseReferenceRaw('mem:main', 'main'),
-		TypeError,
-		'Expected `absolute` to be "user/repo:branch", got "mem:main"',
-	);
-	assert.throws(
-		() => parseReferenceRaw('fregante/mem:main', 'fregante/mem'),
-		TypeError,
-		'Expected `relative` to be either "main" or "fregante:main", got "fregante/mem"',
-	);
-	assert.throws(
-		() => parseReferenceRaw('fregante/mem:main', 'main:main'),
-		TypeError,
-		'Expected `relative` to be either "main" or "fregante:main", got "main:main"',
-	);
+	assert.throws(() => parseReferenceRaw('mem:main', 'main'), TypeError, 'Expected `absolute` to be "user/repo:branch", got "mem:main"');
+	assert.throws(() => parseReferenceRaw('fregante/mem:main', 'fregante/mem'), TypeError, 'Expected `relative` to be either "main" or "fregante:main", got "fregante/mem"');
+	assert.throws(() => parseReferenceRaw('fregante/mem:main', 'main:main'), TypeError, 'Expected `relative` to be either "main" or "fregante:main", got "main:main"');
 });

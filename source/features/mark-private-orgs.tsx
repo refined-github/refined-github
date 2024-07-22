@@ -11,8 +11,8 @@ import {getUsername} from '../github-helpers/index.js';
 
 const publicOrganizationsNames = new CachedFunction('public-organizations', {
 	async updater(username: string): Promise<string[]> {
-	// API v4 seems to *require* `org:read` permission AND it includes private organizations as well, which defeats the purpose. There's no way to filter them.
-	// GitHub's API explorer inexplicably only includes public organizations.
+		// API v4 seems to *require* `org:read` permission AND it includes private organizations as well, which defeats the purpose. There's no way to filter them.
+		// GitHub's API explorer inexplicably only includes public organizations.
 		const response = await api.v3(`/users/${username}/orgs`);
 		return response.map((organization: AnyObject) => organization.login);
 	},
@@ -30,15 +30,13 @@ async function init(): Promise<false | void> {
 	for (const org of orgs) {
 		if (!organizations.includes(org.pathname.replace(/^\/(organizations\/)?/, ''))) {
 			org.classList.add('rgh-private-org');
-			org.append(<EyeClosedIcon/>);
+			org.append(<EyeClosedIcon />);
 		}
 	}
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isOwnUserProfile,
-	],
+	include: [pageDetect.isOwnUserProfile],
 	deduplicate: 'has-rgh',
 	awaitDomReady: true, // TODO: Use the observer
 	init,

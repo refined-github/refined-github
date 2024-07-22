@@ -64,8 +64,7 @@ export const styleHotfixes = new CachedFunction('style-hotfixes', {
 	maxAge: {hours: 6},
 	staleWhileRevalidate: {days: 300},
 	cacheKey: () => '',
-},
-);
+});
 
 export async function getLocalHotfixes(): Promise<HotfixStorage> {
 	// To facilitate debugging, ignore hotfixes during development.
@@ -74,7 +73,7 @@ export async function getLocalHotfixes(): Promise<HotfixStorage> {
 		return [];
 	}
 
-	return await brokenFeatures.get() ?? [];
+	return (await brokenFeatures.get()) ?? [];
 }
 
 export async function getLocalHotfixesAsOptions(): Promise<Partial<RGHOptions>> {
@@ -107,7 +106,7 @@ export async function preloadSyncLocalStrings(): Promise<void> {
 		return;
 	}
 
-	localStrings = await localStringsHotfix.get() ?? {};
+	localStrings = (await localStringsHotfix.get()) ?? {};
 }
 
 export const localStringsHotfix = new CachedFunction('strings-hotfixes', {

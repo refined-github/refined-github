@@ -29,13 +29,7 @@ export default async function getPrInfo(base: string, number = getConversationNu
 		}
 	`);
 
-	const {
-		baseRefOid,
-		headRefOid,
-		mergeable,
-		viewerCanEditFiles,
-		headRef,
-	} = repository.pullRequest;
+	const {baseRefOid, headRefOid, mergeable, viewerCanEditFiles, headRef} = repository.pullRequest;
 	return {
 		baseRefOid,
 		headRefOid,

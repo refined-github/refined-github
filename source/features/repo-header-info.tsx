@@ -34,16 +34,12 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 
 	// GitHub may already show this icon natively, so we match its position
 	if (isPrivate && !elementExists('.octicon-lock', repoLink)) {
-		repoLink.append(
-			<LockIcon className="ml-1" width={12} height={12}/>,
-		);
+		repoLink.append(<LockIcon className="ml-1" width={12} height={12} />);
 	}
 
 	// GitHub may already show this icon natively, so we match its position
 	if (isFork && !elementExists('.octicon-repo-forked', repoLink)) {
-		repoLink.append(
-			<RepoForkedIcon className="ml-1" width={12} height={12}/>,
-		);
+		repoLink.append(<RepoForkedIcon className="ml-1" width={12} height={12} />);
 	}
 
 	if (stargazerCount > 1) {
@@ -53,7 +49,7 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 				title={`Repository starred by ${stargazerCount.toLocaleString('us')} people`}
 				className="d-flex flex-items-center flex-justify-center mr-1 gap-1 color-fg-muted"
 			>
-				<StarIcon className="ml-1" width={12} height={12}/>
+				<StarIcon className="ml-1" width={12} height={12} />
 				<span className="f5">{abbreviateNumber(stargazerCount)}</span>
 			</a>,
 		);
@@ -65,9 +61,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
+	include: [pageDetect.hasRepoHeader],
 	init,
 });
 

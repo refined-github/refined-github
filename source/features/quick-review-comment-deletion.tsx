@@ -12,10 +12,7 @@ import observe from '../helpers/selector-observer.js';
 
 function onButtonClick({delegateTarget: button}: DelegateEvent): void {
 	try {
-		button
-			.closest('.js-comment')!
-			.querySelector('.show-more-popover .js-comment-delete > button')!
-			.click();
+		button.closest('.js-comment')!.querySelector('.show-more-popover .js-comment-delete > button')!.click();
 	} catch (error) {
 		void showToast(new Error('Feature broken. Please open an issue with the link found in the console'));
 		features.log.error(import.meta.url, (error as Error).message);
@@ -30,25 +27,26 @@ async function preloadDropdown({delegateTarget: button}: DelegateEvent): Promise
 function addDeleteButton(cancelButton: Element): void {
 	cancelButton.after(
 		<button className="btn btn-danger float-left rgh-review-comment-delete-button" type="button">
-			<TrashIcon/>
+			<TrashIcon />
 		</button>,
 	);
 }
 
 function init(signal: AbortSignal): void {
-	delegate('.rgh-review-comment-delete-button', 'click', onButtonClick, {signal});
-	delegate('.rgh-quick-comment-edit-button', 'click', preloadDropdown, {signal});
-	observe('.review-comment .js-comment-cancel-button', addDeleteButton, {signal});
+	delegate('.rgh-review-comment-delete-button', 'click', onButtonClick, {
+		signal,
+	});
+	delegate('.rgh-quick-comment-edit-button', 'click', preloadDropdown, {
+		signal,
+	});
+	observe('.review-comment .js-comment-cancel-button', addDeleteButton, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isChrome,
-	],
-	include: [
-		pageDetect.isPRConversation,
-		pageDetect.isPRFiles,
-	],
+	asLongAs: [isChrome],
+	include: [pageDetect.isPRConversation, pageDetect.isPRFiles],
 	init,
 });
 

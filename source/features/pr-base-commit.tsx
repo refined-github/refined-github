@@ -17,13 +17,11 @@ function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 	const {base} = getBranches();
 	const commit = linkifyCommit(prInfo.baseRefOid);
 	const count = pluralize(prInfo.behindBy, '$$ commit');
-	const countLink = (
-		<a href={buildRepoURL('compare', `${prInfo.baseRefOid.slice(0, 8)}...${base.branch}`)}>
-			{count}
-		</a>
-	);
+	const countLink = <a href={buildRepoURL('compare', `${prInfo.baseRefOid.slice(0, 8)}...${base.branch}`)}>{count}</a>;
 	return (
-		<div>It’s {countLink} behind (base commit: {commit})</div>
+		<div>
+			It’s {countLink} behind (base commit: {commit})
+		</div>
 	);
 }
 
@@ -31,7 +29,11 @@ async function addInfo(statusMeta: Element): Promise<void> {
 	// Selector copied from GitHub. Don't @ me
 	// This excludes hidden ".status-meta" items without adding this longass selector to the observer
 	// Added: .rgh-update-pr-from-base-branch-row
-	if (!statusMeta.closest('.merge-pr.is-merging .merging-body, .merge-pr.is-merging .merge-commit-author-email-info, .merge-pr.is-merging-solo .merging-body, .merge-pr.is-merging-jump .merging-body, .merge-pr.is-merging-group .merging-body, .merge-pr.is-rebasing .rebasing-body, .merge-pr.is-squashing .squashing-body, .merge-pr.is-squashing .squash-commit-author-email-info, .merge-pr.is-merging .branch-action-state-error-if-merging .merging-body-merge-warning, .rgh-update-pr-from-base-branch-row')) {
+	if (
+		!statusMeta.closest(
+			'.merge-pr.is-merging .merging-body, .merge-pr.is-merging .merge-commit-author-email-info, .merge-pr.is-merging-solo .merging-body, .merge-pr.is-merging-jump .merging-body, .merge-pr.is-merging-group .merging-body, .merge-pr.is-rebasing .rebasing-body, .merge-pr.is-squashing .squashing-body, .merge-pr.is-squashing .squash-commit-author-email-info, .merge-pr.is-merging .branch-action-state-error-if-merging .merging-body-merge-warning, .rgh-update-pr-from-base-branch-row',
+		)
+	) {
 		return;
 	}
 
@@ -55,13 +57,8 @@ async function init(signal: AbortSignal): Promise<false | void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRConversation,
-	],
-	exclude: [
-		pageDetect.isClosedPR,
-		() => $('.head-ref')!.title === 'This repository has been deleted',
-	],
+	include: [pageDetect.isPRConversation],
+	exclude: [pageDetect.isClosedPR, () => $('.head-ref')!.title === 'This repository has been deleted'],
 	awaitDomReady: true, // DOM-based exclusions
 	init,
 });

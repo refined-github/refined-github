@@ -12,15 +12,13 @@ function linkify(issueCell: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	// .js-csv-data is the old selector
-	observe(':is(.js-csv-data, .react-csv-row) td:nth-child(3)', linkify, {signal});
+	observe(':is(.js-csv-data, .react-csv-row) td:nth-child(3)', linkify, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isRefinedGitHubYoloRepo,
-		pageDetect.isSingleFile,
-		() => location.pathname.endsWith('broken-features.csv'),
-	],
+	asLongAs: [isRefinedGitHubYoloRepo, pageDetect.isSingleFile, () => location.pathname.endsWith('broken-features.csv')],
 	init,
 });
 

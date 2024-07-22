@@ -41,17 +41,15 @@ function init(signal: AbortSignal): void {
 	delegate(collapseSelector, 'click', clickAll(collapseSelector), {signal});
 
 	// Commit message buttons in commit lists and PR conversations
-	delegate(commitMessageSelector, 'click', clickAll(commitMessageSelector), {signal});
+	delegate(commitMessageSelector, 'click', clickAll(commitMessageSelector), {
+		signal,
+	});
 
 	// <details> elements in issue/PR comment Markdown content
 	delegate('.TimelineItem-body[id] .markdown-body details > summary', 'click', clickAll(markdownCommentSelector), {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isConversation,
-		pageDetect.hasFiles,
-		pageDetect.isCommitList,
-	],
+	include: [pageDetect.isConversation, pageDetect.hasFiles, pageDetect.isCommitList],
 	init,
 });

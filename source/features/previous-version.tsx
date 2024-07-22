@@ -29,9 +29,7 @@ async function getPreviousFileUrl(): Promise<string | void> {
 		return;
 	}
 
-	return new GitHubFileURL(location.href)
-		.assign({branch: previousCommit})
-		.href;
+	return new GitHubFileURL(location.href).assign({branch: previousCommit}).href;
 }
 
 async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions): Promise<void> {
@@ -48,9 +46,7 @@ async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions):
 	previousButton.classList.add('mr-n2', 'rgh-previous-version');
 	previousButton.href = url;
 	$('span[data-component="text"]', previousButton).textContent = 'Previous';
-	$('span[data-component="leadingVisual"] svg', previousButton).replaceWith(
-		<VersionsIcon/>,
-	);
+	$('span[data-component="leadingVisual"] svg', previousButton).replaceWith(<VersionsIcon />);
 	historyButton.before(previousButton);
 
 	onReactPageUpdate(async pageUnload => {
@@ -68,17 +64,14 @@ async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions):
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('a:has([data-component="leadingVisual"] svg.octicon-history)', add, {signal});
+	observe('a:has([data-component="leadingVisual"] svg.octicon-history)', add, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isSingleFile,
-		pageDetect.isRepoTree,
-	],
-	exclude: [
-		pageDetect.isRepoHome,
-	],
+	include: [pageDetect.isSingleFile, pageDetect.isRepoTree],
+	exclude: [pageDetect.isRepoHome],
 	init,
 });
 

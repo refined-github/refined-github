@@ -16,12 +16,7 @@ const config: Configuration = {
 	performance: {
 		hints: false,
 	},
-	entry: Object.fromEntries([
-		'refined-github',
-		'background',
-		'options',
-		'resolve-conflicts',
-	].map(name => [name, `./${name}.js`])),
+	entry: Object.fromEntries(['refined-github', 'background', 'options', 'resolve-conflicts'].map(name => [name, `./${name}.js`])),
 	context: path.resolve('source'),
 	output: {
 		path: path.resolve('distribution/assets'),
@@ -46,32 +41,30 @@ const config: Configuration = {
 			},
 			{
 				test: /\.css$/,
-				use: [
-					MiniCssExtractPlugin.loader,
-					'css-loader',
-				],
+				use: [MiniCssExtractPlugin.loader, 'css-loader'],
 			},
 		],
 	},
 	plugins: [
 		new MiniCssExtractPlugin(),
 		new CopyWebpackPlugin({
-			patterns: [{
-				// Keep only the manifest in the root
-				from: 'manifest.json',
-				to: '..',
-			}, {
-				from: '*.+(html|png)',
-			}],
+			patterns: [
+				{
+					// Keep only the manifest in the root
+					from: 'manifest.json',
+					to: '..',
+				},
+				{
+					from: '*.+(html|png)',
+				},
+			],
 		}),
 	],
 	resolve: {
 		alias: {
 			react: 'dom-chef',
 		},
-		extensions: [
-			'.js',
-		],
+		extensions: ['.js'],
 		extensionAlias: {
 			// Explanation: https://www.npmjs.com/package/resolve-typescript-plugin
 			'.js': ['.ts', '.tsx', '.js'],

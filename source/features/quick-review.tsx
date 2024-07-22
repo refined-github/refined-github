@@ -8,9 +8,7 @@ import {expectElement as $} from 'select-dom';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {getToken} from '../github-helpers/github-token.js';
-import {
-	getConversationNumber, getUsername, scrollIntoViewIfNeeded, triggerConversationUpdate,
-} from '../github-helpers/index.js';
+import {getConversationNumber, getUsername, scrollIntoViewIfNeeded, triggerConversationUpdate} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import {randomArrayItem} from '../helpers/math.js';
 import observe from '../helpers/selector-observer.js';
@@ -47,7 +45,10 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 	await delay(300);
 	const quickReview = (
 		<span className="text-normal color-fg-muted">
-			– <a href={reviewFormUrl.href} className="btn-link Link--muted" data-hotkey="v" data-turbo-frame="repo-content-turbo-frame">review now</a>
+			–{' '}
+			<a href={reviewFormUrl.href} className="btn-link Link--muted" data-hotkey="v" data-turbo-frame="repo-content-turbo-frame">
+				review now
+			</a>
 		</span>
 	);
 
@@ -61,11 +62,7 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 
 	quickReview.append(
 		' – ',
-		<button
-			type="button"
-			className="btn-link Link--muted rgh-quick-approve tooltipped tooltipped-nw"
-			aria-label="Hold alt to approve without confirmation"
-		>
+		<button type="button" className="btn-link Link--muted rgh-quick-approve tooltipped tooltipped-nw" aria-label="Hold alt to approve without confirmation">
 			approve now
 		</button>,
 	);
@@ -83,7 +80,10 @@ function focusReviewTextarea(event: DelegateEvent<Event, HTMLElement>): void {
 }
 
 async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> {
-	delegate('#review-changes-modal', 'toggle', focusReviewTextarea, {capture: true, signal});
+	delegate('#review-changes-modal', 'toggle', focusReviewTextarea, {
+		capture: true,
+		signal,
+	});
 
 	const reviewDropdownButton = await elementReady('.js-reviews-toggle');
 	if (reviewDropdownButton) {
@@ -101,26 +101,24 @@ function initNativeDeepLinking(signal: AbortSignal): void {
 	observe('[popovertarget="review-changes-modal"]', openReviewPopup, {signal});
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRConversation,
-	],
-	init: initSidebarReviewButton,
-}, {
-	shortcuts: {
-		v: 'Open PR review popup',
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.isPRConversation],
+		init: initSidebarReviewButton,
 	},
-	include: [
-		pageDetect.isPRFiles,
-	],
-	init: initReviewButtonEnhancements,
-}, {
-	asLongAs: [
-		() => location.hash === '#review-changes-modal',
-		pageDetect.isPRFiles,
-	],
-	init: initNativeDeepLinking,
-});
+	{
+		shortcuts: {
+			v: 'Open PR review popup',
+		},
+		include: [pageDetect.isPRFiles],
+		init: initReviewButtonEnhancements,
+	},
+	{
+		asLongAs: [() => location.hash === '#review-changes-modal', pageDetect.isPRFiles],
+		init: initNativeDeepLinking,
+	},
+);
 
 /*
 

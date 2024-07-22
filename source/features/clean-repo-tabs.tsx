@@ -20,9 +20,9 @@ async function canUserEditOrganization(): Promise<boolean> {
 function mustKeepTab(tab: HTMLElement): boolean {
 	return (
 		// User is on tab 👀
-		tab.matches('.selected')
+		tab.matches('.selected') ||
 		// Repo owners should see the tab. If they don't need it, they should disable the feature altogether
-		|| pageDetect.canUserEditRepo()
+		pageDetect.canUserEditRepo()
 	);
 }
 
@@ -34,7 +34,8 @@ function setTabCounter(tab: HTMLElement, count: number): void {
 
 function onlyShowInDropdown(id: string): void {
 	const tabItem = $(`[data-tab-item$="${id}"]`);
-	if (!tabItem && pageDetect.isEnterprise()) { // GHE #3962
+	if (!tabItem && pageDetect.isEnterprise()) {
+		// GHE #3962
 		return;
 	}
 
@@ -65,7 +66,9 @@ const wikiPageCount = new CachedFunction('wiki-page-count', {
 
 const workflowCount = new CachedFunction('workflows-count', {
 	async updater(): Promise<number> {
-		const {repository: {workflowFiles}} = await api.v4(CountWorkflows);
+		const {
+			repository: {workflowFiles},
+		} = await api.v4(CountWorkflows);
 
 		return workflowFiles?.entries.length ?? 0;
 	},
@@ -90,7 +93,7 @@ async function updateWikiTab(): Promise<void | false> {
 
 async function updateActionsTab(): Promise<void | false> {
 	const actionsTab = await elementReady('[data-hotkey="g a"]');
-	if (!actionsTab || mustKeepTab(actionsTab) || await workflowCount.get() > 0) {
+	if (!actionsTab || mustKeepTab(actionsTab) || (await workflowCount.get()) > 0) {
 		return false;
 	}
 
@@ -99,7 +102,7 @@ async function updateActionsTab(): Promise<void | false> {
 
 async function updateProjectsTab(): Promise<void | false> {
 	const projectsTab = await elementReady('[data-hotkey="g b"]');
-	if (!projectsTab || mustKeepTab(projectsTab) || await getTabCount(projectsTab) > 0) {
+	if (!projectsTab || mustKeepTab(projectsTab) || (await getTabCount(projectsTab)) > 0) {
 		return false;
 	}
 
@@ -118,7 +121,7 @@ async function updateProjectsTab(): Promise<void | false> {
 
 async function moveRareTabs(): Promise<void | false> {
 	// The user may have disabled `more-dropdown-links` so un-hide it
-	if (!await unhideOverflowDropdown()) {
+	if (!(await unhideOverflowDropdown())) {
 		return false;
 	}
 
@@ -128,29 +131,24 @@ async function moveRareTabs(): Promise<void | false> {
 	onlyShowInDropdown('insights-tab');
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
-	deduplicate: 'has-rgh',
-	init: [
-		updateActionsTab,
-		updateWikiTab,
-		updateProjectsTab,
-	],
-}, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
-	deduplicate: 'has-rgh',
-	init: moveRareTabs,
-}, {
-	include: [
-		pageDetect.isOrganizationProfile,
-	],
-	deduplicate: 'has-rgh',
-	init: updateProjectsTab,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.hasRepoHeader],
+		deduplicate: 'has-rgh',
+		init: [updateActionsTab, updateWikiTab, updateProjectsTab],
+	},
+	{
+		include: [pageDetect.hasRepoHeader],
+		deduplicate: 'has-rgh',
+		init: moveRareTabs,
+	},
+	{
+		include: [pageDetect.isOrganizationProfile],
+		deduplicate: 'has-rgh',
+		init: updateProjectsTab,
+	},
+);
 
 /*
 

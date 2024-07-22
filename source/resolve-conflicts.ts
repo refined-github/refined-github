@@ -26,13 +26,7 @@ editor.on('changes', (_, [firstChange]) => {
 });
 
 function getLineNumber(lineChild: Element): number {
-	return Number(
-		lineChild
-			.closest('.CodeMirror-gutter-wrapper, .CodeMirror-linewidget')!
-			.parentElement!
-			.querySelector('.CodeMirror-linenumber')!
-			.textContent,
-	) - 1;
+	return Number(lineChild.closest('.CodeMirror-gutter-wrapper, .CodeMirror-linewidget')!.parentElement!.querySelector('.CodeMirror-linenumber')!.textContent) - 1;
 }
 
 function appendLineInfo(lineHandle: CodeMirror.LineHandle, text: string): void {
@@ -80,13 +74,7 @@ function createButton(branch: string, title = `Accept ${branch} Change`): HTMLBu
 function newWidget(): HTMLDivElement {
 	const widget = document.createElement('div');
 	widget.style.fontWeight = 'bold';
-	widget.append(
-		createButton('Current'),
-		' | ',
-		createButton('Incoming'),
-		' | ',
-		createButton('Both', 'Accept Both Changes'),
-	);
+	widget.append(createButton('Current'), ' | ', createButton('Incoming'), ' | ', createButton('Both', 'Accept Both Changes'));
 	return widget;
 }
 
@@ -127,4 +115,3 @@ function acceptBranch(branch: string, line: number): void {
 	editor.execCommand('deleteLine');
 	editor.setCursor(linesToRemove[0]);
 }
-

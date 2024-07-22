@@ -8,11 +8,8 @@ import observe from '../helpers/selector-observer.js';
 
 function getLinkToGitHubIo(repoTitle: HTMLElement, className?: string): JSX.Element {
 	return (
-		<a
-			href={`https://${repoTitle.textContent.trim().replace(/com$/, 'io')}`}
-			className={className}
-		>
-			<LinkIcon className="v-align-middle"/>
+		<a href={`https://${repoTitle.textContent.trim().replace(/com$/, 'io')}`} className={className}>
+			<LinkIcon className="v-align-middle" />
 		</a>
 	);
 }
@@ -34,38 +31,32 @@ function initRepo(signal: AbortSignal): void {
 }
 
 function initRepoList(signal: AbortSignal): void {
-	observe([
-		// Earlier GitHub Pages were hosted on github.com #6228
-		'a[itemprop="name codeRepository"][href$=".github.com"]',
-		'a[itemprop="name codeRepository"][href$=".github.io"]',
-	], addRepoListLink, {signal});
-	observe([
-		'a[data-testid="listitem-title-link"][href$=".github.com"]',
-		'a[data-testid="listitem-title-link"][href$=".github.io"]',
-	], addOrgRepoListLink, {signal});
+	observe(
+		[
+			// Earlier GitHub Pages were hosted on github.com #6228
+			'a[itemprop="name codeRepository"][href$=".github.com"]',
+			'a[itemprop="name codeRepository"][href$=".github.io"]',
+		],
+		addRepoListLink,
+		{signal},
+	);
+	observe(['a[data-testid="listitem-title-link"][href$=".github.com"]', 'a[data-testid="listitem-title-link"][href$=".github.io"]'], addOrgRepoListLink, {signal});
 }
 
-void features.add(import.meta.url, {
-	asLongAs: [
-		() => /\.github\.(io|com)$/.test(getRepo()?.name ?? 'shush eslint'),
-	],
-	include: [
-		pageDetect.isRepoHome,
-	],
-	exclude: [
-		pageDetect.isEnterprise,
-	],
-	init: initRepo,
-}, {
-	include: [
-		pageDetect.isProfileRepoList,
-		pageDetect.isOrganizationProfile,
-	],
-	exclude: [
-		pageDetect.isEnterprise,
-	],
-	init: initRepoList,
-});
+void features.add(
+	import.meta.url,
+	{
+		asLongAs: [() => /\.github\.(io|com)$/.test(getRepo()?.name ?? 'shush eslint')],
+		include: [pageDetect.isRepoHome],
+		exclude: [pageDetect.isEnterprise],
+		init: initRepo,
+	},
+	{
+		include: [pageDetect.isProfileRepoList, pageDetect.isOrganizationProfile],
+		exclude: [pageDetect.isEnterprise],
+		init: initRepoList,
+	},
+);
 
 /*
 

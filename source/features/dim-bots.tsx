@@ -26,10 +26,12 @@ function undimBots(event: DelegateEvent): void {
 }
 
 function dim(commit: HTMLElement): void {
-	commit.closest([
-		'.listviewitem', // Commits
-		'.Box-row', // PRs
-	])!.classList.add(dimBots.class);
+	commit
+		.closest([
+			'.listviewitem', // Commits
+			'.Box-row', // PRs
+		])!
+		.classList.add(dimBots.class);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
@@ -40,10 +42,7 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isCommitList,
-		pageDetect.isIssueOrPRList,
-	],
+	include: [pageDetect.isCommitList, pageDetect.isIssueOrPRList],
 	init,
 });
 

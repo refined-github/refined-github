@@ -55,14 +55,17 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	const prCommit = extractCommitFromHoverCardUrl(commitInfo);
 	const blameUrl = new GitHubFileURL(location.href);
 
-	await showToast(async () => {
-		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumbers, blameUrl.filePath);
-		blameUrl.hash = 'L' + $('.react-line-number', blameHunk)!.textContent;
-		location.href = blameUrl.href;
-	}, {
-		message: 'Fetching pull request',
-		doneMessage: 'Redirecting',
-	});
+	await showToast(
+		async () => {
+			blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumbers, blameUrl.filePath);
+			blameUrl.hash = 'L' + $('.react-line-number', blameHunk)!.textContent;
+			location.href = blameUrl.href;
+		},
+		{
+			message: 'Fetching pull request',
+			doneMessage: 'Redirecting',
+		},
+	);
 }
 
 function addButton(hunk: HTMLElement): void {
@@ -74,13 +77,10 @@ function addButton(hunk: HTMLElement): void {
 		$('.timestamp-wrapper-mobile', hunk)!.after(
 			<button
 				type="button"
-				aria-label={multilineAriaLabel(
-					'View blame prior to this change',
-					'(extracts commits from this PR first)',
-				)}
+				aria-label={multilineAriaLabel('View blame prior to this change', '(extracts commits from this PR first)')}
 				className="rgh-deep-reblame Button Button--iconOnly Button--invisible Button--small d-flex"
 			>
-				<VersionsIcon/>
+				<VersionsIcon />
 			</button>,
 		);
 	}
@@ -92,9 +92,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isBlame,
-	],
+	include: [pageDetect.isBlame],
 	init,
 });
 

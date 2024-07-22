@@ -8,7 +8,8 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 	for (const [nodeIndex, textNode] of textNodesOnThisLine.entries()) {
 		// `textContent` reads must be cached #2737
 		let text = textNode.textContent;
-		if (text.length > 1000) { // #5092
+		if (text.length > 1000) {
+			// #5092
 			continue;
 		}
 
@@ -49,11 +50,7 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 			// Update cached variable here because it just changed
 			text = textNode.textContent;
 
-			textNode.after(
-				<span data-rgh-whitespace={thisCharacter === '\t' ? 'tab' : 'space'}>
-					{textNode.nextSibling}
-				</span>,
-			);
+			textNode.after(<span data-rgh-whitespace={thisCharacter === '\t' ? 'tab' : 'space'}>{textNode.nextSibling}</span>);
 		}
 	}
 

@@ -32,16 +32,16 @@ function createCommitTitle(): string {
 
 function needsSubmission(): boolean {
 	const currentCommitTitle = getCurrentCommitTitle();
-	return Boolean(currentCommitTitle) && (createCommitTitle() !== currentCommitTitle);
+	return Boolean(currentCommitTitle) && createCommitTitle() !== currentCommitTitle;
 }
 
 function getUI(): HTMLElement {
-	const cancelButton = <button type="button" className="btn-link Link--muted text-underline rgh-sync-pr-commit-title">Cancel</button>;
-	return $('.rgh-sync-pr-commit-title-note') ?? (
-		<p className="note rgh-sync-pr-commit-title-note">
-			The title of this PR will be updated to match this title. {cancelButton}
-		</p>
+	const cancelButton = (
+		<button type="button" className="btn-link Link--muted text-underline rgh-sync-pr-commit-title">
+			Cancel
+		</button>
 	);
+	return $('.rgh-sync-pr-commit-title-note') ?? <p className="note rgh-sync-pr-commit-title-note">The title of this PR will be updated to match this title. {cancelButton}</p>;
 }
 
 function updateUI(): void {
@@ -98,12 +98,8 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		userCanLikelyMergePR,
-	],
-	include: [
-		pageDetect.isPRConversation,
-	],
+	asLongAs: [userCanLikelyMergePR],
+	include: [pageDetect.isPRConversation],
 	awaitDomReady: true, // DOM-based filters, feature appears at the end of the page
 	init,
 });

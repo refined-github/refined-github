@@ -21,22 +21,23 @@ function isClosed(prLink: HTMLElement): boolean {
 function buildQuery(issueIds: string[]): string {
 	return `
 		repository() {
-			${issueIds.map(id => `
+			${issueIds
+				.map(
+					id => `
 				${id}: pullRequest(number: ${id.replaceAll(/\D/g, '')}) {
 					baseRef {id}
 					baseRefName
 				}
-			`).join('\n')}
+			`,
+				)
+				.join('\n')}
 		}
 	`;
 }
 
 async function add(prLinks: HTMLElement[]): Promise<void> {
 	const query = buildQuery(prLinks.map(pr => pr.id));
-	const [data, defaultBranch] = await Promise.all([
-		api.v4(query),
-		getDefaultBranch(),
-	]);
+	const [data, defaultBranch] = await Promise.all([api.v4(query), getDefaultBranch()]);
 
 	for (const prLink of prLinks) {
 		const pr: BranchInfo = data.repository[prLink.id];
@@ -54,12 +55,9 @@ async function add(prLinks: HTMLElement[]): Promise<void> {
 
 		prLink.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!.append(
 			<span className="issue-meta-section ml-2">
-				<GitPullRequestIcon/>
+				<GitPullRequestIcon />
 				{' To '}
-				<span
-					className="commit-ref css-truncate user-select-contain mb-n1"
-					style={(branch ? {} : {textDecoration: 'line-through'})}
-				>
+				<span className="commit-ref css-truncate user-select-contain mb-n1" style={branch ? {} : {textDecoration: 'line-through'}}>
 					<a title={branch ? pr.baseRefName : 'Deleted'} href={branch}>
 						{pr.baseRefName}
 					</a>
@@ -74,9 +72,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoIssueOrPRList,
-	],
+	include: [pageDetect.isRepoIssueOrPRList],
 	init,
 });
 

@@ -15,10 +15,7 @@ type GistData = {
 };
 
 // Fetch via background.js due to CORB policies. Also memoize to avoid multiple requests.
-const fetchGist = mem(
-	async (url: string): Promise<GistData> =>
-		chrome.runtime.sendMessage({fetchJSON: `${url}.json`}),
-);
+const fetchGist = mem(async (url: string): Promise<GistData> => chrome.runtime.sendMessage({fetchJSON: `${url}.json`}));
 
 function parseGistLink(link: HTMLAnchorElement): string | undefined {
 	if (link.host === 'gist.github.com') {
@@ -54,16 +51,17 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 		if (fileCount > 1) {
 			info.textContent = ` (${fileCount} files)`;
 		} else {
-			const container = <div/>;
+			const container = <div />;
 			container.attachShadow({mode: 'open'}).append(
-				<style>{`
+				<style>
+					{`
 					.gist .gist-data {
 						max-height: 16em;
 						overflow-y: auto;
 					}
 				`}
 				</style>,
-				<link rel="stylesheet" href={gistData.stylesheet}/>,
+				<link rel="stylesheet" href={gistData.stylesheet} />,
 				domify.one(gistData.div)!,
 			);
 			link.parentElement!.after(container);
@@ -75,17 +73,19 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe(standaloneGistLinkInMarkdown, link => {
-		if (isGist(link) && isOnlyChild(link)) {
-			void embedGist(link);
-		}
-	}, {signal});
+	observe(
+		standaloneGistLinkInMarkdown,
+		link => {
+			if (isGist(link) && isOnlyChild(link)) {
+				void embedGist(link);
+			}
+		},
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasComments,
-	],
+	include: [pageDetect.hasComments],
 	init,
 });
 

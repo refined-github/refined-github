@@ -1,10 +1,8 @@
-import {access,mkdir, readFile, unlink, 
-	writeFile, 
-} from 'node:fs/promises';
+import {access, mkdir, readFile, unlink, writeFile} from 'node:fs/promises';
 import filenamify from 'filenamify';
 import {parseHTML} from 'linkedom';
 import pMemoize from 'p-memoize';
-import {assert, describe, test } from 'vitest';
+import {assert, describe, test} from 'vitest';
 
 import * as exports from './selectors.js';
 
@@ -34,17 +32,20 @@ const fsCache = {
 	},
 } as const;
 
-const fetchDocument = pMemoize(async (url: string): Promise<string> => {
-	const request = await fetch(url, {
-		headers: {
-			Accept: 'text/html',
-		},
-	});
-	return request.text();
-}, {
-	cacheKey: ([url]) => `./test/.cache/${filenamify(url.replace('https://github.com', ''))}.html`,
-	cache: fsCache,
-});
+const fetchDocument = pMemoize(
+	async (url: string): Promise<string> => {
+		const request = await fetch(url, {
+			headers: {
+				Accept: 'text/html',
+			},
+		});
+		return request.text();
+	},
+	{
+		cacheKey: ([url]) => `./test/.cache/${filenamify(url.replace('https://github.com', ''))}.html`,
+		cache: fsCache,
+	},
+);
 
 describe.concurrent('selectors', () => {
 	// Exclude URL arrays
@@ -55,17 +56,23 @@ describe.concurrent('selectors', () => {
 		}
 	}
 
-	test.each(selectors)('%s', async (name, selector) => {
-		// @ts-expect-error Index signature bs
-		const urls = exports[name + '_'] as exports.UrlMatch[];
+	test.each(selectors)(
+		'%s',
+		async (name, selector) => {
+			// @ts-expect-error Index signature bs
+			const urls = exports[name + '_'] as exports.UrlMatch[];
 
-		assert.isArray(urls, `No URLs defined for "${name}"`);
-		await Promise.all(urls.map(async ([expectations, url]) => {
-			const html = await fetchDocument(url);
-			const {document} = parseHTML(html);
-			// TODO: ? Use snapshot with outerHTML[]
-			const matches = document.querySelectorAll(selector);
-			assert.equal(matches.length, expectations, `Got wrong number of matches on ${url}:\n${selector}`);
-		}));
-	}, {timeout: 9999});
+			assert.isArray(urls, `No URLs defined for "${name}"`);
+			await Promise.all(
+				urls.map(async ([expectations, url]) => {
+					const html = await fetchDocument(url);
+					const {document} = parseHTML(html);
+					// TODO: ? Use snapshot with outerHTML[]
+					const matches = document.querySelectorAll(selector);
+					assert.equal(matches.length, expectations, `Got wrong number of matches on ${url}:\n${selector}`);
+				}),
+			);
+		},
+		{timeout: 9999},
+	);
 });

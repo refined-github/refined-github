@@ -67,17 +67,13 @@ function add(avatar: HTMLElement): void {
 	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
 	if (avatar.classList.contains('TimelineItem-avatar')) {
 		avatar.classList.remove('TimelineItem-avatar');
-		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block"/>);
+		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />);
 	}
 
 	const userMention = $('img', avatar)!.alt;
 	avatar.after(
-		<button
-			type="button"
-			className="rgh-quick-mention tooltipped tooltipped-e btn-link"
-			aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
-		>
-			<ReplyIcon/>
+		<button type="button" className="rgh-quick-mention tooltipped tooltipped-e btn-link" aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}>
+			<ReplyIcon />
 		</button>,
 	);
 }
@@ -94,19 +90,21 @@ async function init(signal: AbortSignal): Promise<void> {
 	// Avatars next to review events aren't wrapped in a <div> #4844
 	// :has(fieldSelector) enables the feature only when/after the "mention" button can actually work
 	// .js-quote-selection-container selects the closest parent that contains both the new comment field and the avatar #7378
-	observe(`
+	observe(
+		`
 		.js-quote-selection-container:has(${fieldSelector})
 		:is(
 			div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
 			a.TimelineItem-avatar
 		):not([href="/${getUsername()!}"])
-	`, add, {signal});
+	`,
+		add,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isConversation,
-	],
+	include: [pageDetect.isConversation],
 	init,
 });
 

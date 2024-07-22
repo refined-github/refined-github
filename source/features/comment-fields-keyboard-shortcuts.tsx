@@ -9,10 +9,13 @@ import {onCommentFieldKeydown} from '../github-events/on-field-keydown.js';
 
 function handleEscapeKey(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement>, targetField: HTMLTextAreaElement): void {
 	// Cancel buttons have different classes for inline comments and editable comments
-	const cancelButton = $(`
+	const cancelButton = $(
+		`
 		button.js-hide-inline-comment-form,
 		button.js-comment-cancel-button
-	`, targetField.form!);
+	`,
+		targetField.form!,
+	);
 
 	// Cancel if there is a button, else blur the field
 	if (cancelButton) {
@@ -32,27 +35,23 @@ function handleArrowUpKey(targetField: HTMLTextAreaElement): void {
 		'#all_commit_comments', // Single commit comments at the bottom
 	])!;
 
-	const lastOwnComment
-		= $$('.js-comment.current-user', currentConversationContainer)
-			.reverse()
-			.find(comment => {
-				const collapsible = comment.closest('details');
-				return !collapsible || collapsible.open;
-			});
+	const lastOwnComment = $$('.js-comment.current-user', currentConversationContainer)
+		.reverse()
+		.find(comment => {
+			const collapsible = comment.closest('details');
+			return !collapsible || collapsible.open;
+		});
 
 	if (!lastOwnComment) {
 		return;
 	}
 
 	// Make the comment editable (the native edit button might not be available yet)
-	const editButton = <button hidden type="button" className="js-comment-edit-button"/>;
+	const editButton = <button hidden type="button" className="js-comment-edit-button" />;
 	lastOwnComment.append(editButton);
 	editButton.click();
 	editButton.remove();
-	targetField
-		.closest('form')!
-		.querySelector('button.js-hide-inline-comment-form')
-		?.click();
+	targetField.closest('form')!.querySelector('button.js-hide-inline-comment-form')?.click();
 
 	// Move caret to end of the field
 	requestAnimationFrame(() => {
@@ -79,8 +78,6 @@ void features.add(import.meta.url, {
 		'↑': 'Edit your last comment',
 		esc: 'Unfocuses comment field',
 	},
-	include: [
-		pageDetect.hasRichTextEditor,
-	],
+	include: [pageDetect.hasRichTextEditor],
 	init,
 });

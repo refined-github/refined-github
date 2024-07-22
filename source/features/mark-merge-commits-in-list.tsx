@@ -13,7 +13,9 @@ import observe from '../helpers/selector-observer.js';
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`
 		repository() {
-			${commits.map((commit: string) => `
+			${commits
+				.map(
+					(commit: string) => `
 				${api.escapeKey(commit)}: object(expression: "${commit}") {
 				... on Commit {
 						parents {
@@ -21,7 +23,9 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 						}
 					}
 				}
-			`).join('\n')}
+			`,
+				)
+				.join('\n')}
 		}
 	`);
 
@@ -36,10 +40,13 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 };
 
 function getCommitLink(commit: HTMLElement): HTMLAnchorElement | undefined {
-	return $([
-		'a.markdown-title', // Old view style (before November 2023)
-		'.markdown-title a',
-	], commit);
+	return $(
+		[
+			'a.markdown-title', // Old view style (before November 2023)
+			'.markdown-title a',
+		],
+		commit,
+	);
 }
 
 export function getCommitHash(commit: HTMLElement): string {
@@ -49,9 +56,9 @@ export function getCommitHash(commit: HTMLElement): string {
 function updateCommitIcon(commit: HTMLElement, replace: boolean): void {
 	if (replace) {
 		// Align icon to the line; rem used to match the native units
-		$('.octicon-git-commit', commit)!.replaceWith(<GitMergeIcon style={{marginLeft: '0.5rem'}}/>);
+		$('.octicon-git-commit', commit)!.replaceWith(<GitMergeIcon style={{marginLeft: '0.5rem'}} />);
 	} else {
-		getCommitLink(commit)!.before(<GitMergeIcon className="mr-1"/>);
+		getCommitLink(commit)!.before(<GitMergeIcon className="mr-1" />);
 	}
 }
 
@@ -67,21 +74,21 @@ async function markCommits(commits: HTMLElement[]): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe([
-		'.listviewitem', // `isCommitList`
+	observe(
+		[
+			'.listviewitem', // `isCommitList`
 
-		// Old view style (before November 2023)
-		'.js-commits-list-item', // `isCommitList`
-		'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`; "js-timeline-item" excludes "isCommitList"
-	], batchedFunction(markCommits, {delay: 100}), {signal});
+			// Old view style (before November 2023)
+			'.js-commits-list-item', // `isCommitList`
+			'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`; "js-timeline-item" excludes "isCommitList"
+		],
+		batchedFunction(markCommits, {delay: 100}),
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isCommitList,
-		pageDetect.isPRConversation,
-		pageDetect.isCompare,
-	],
+	include: [pageDetect.isCommitList, pageDetect.isPRConversation, pageDetect.isCompare],
 	init,
 });
 

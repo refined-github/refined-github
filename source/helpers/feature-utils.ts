@@ -28,7 +28,5 @@ export async function shouldFeatureRun({
 	/** No conditions must be true */
 	exclude = [() => false],
 }: RunConditions): Promise<boolean> {
-	return await pEveryFunction(asLongAs, c => c())
-		&& await pSomeFunction(include, c => c())
-		&& pEveryFunction(exclude, async c => !await c());
+	return (await pEveryFunction(asLongAs, c => c())) && (await pSomeFunction(include, c => c())) && pEveryFunction(exclude, async c => !(await c()));
 }

@@ -14,7 +14,13 @@ function commandPaletteKeydown(event: DelegateEvent<KeyboardEvent>): void {
 	event.preventDefault();
 
 	const targetKey = key === 'n' ? 'ArrowDown' : 'ArrowUp';
-	delegateTarget.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: targetKey, code: targetKey}));
+	delegateTarget.dispatchEvent(
+		new KeyboardEvent('keydown', {
+			bubbles: true,
+			key: targetKey,
+			code: targetKey,
+		}),
+	);
 }
 
 function init(): void {
@@ -22,9 +28,7 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		() => isMac,
-	],
+	asLongAs: [() => isMac],
 	shortcuts: {
 		'ctrl n': 'Select next item in command palette',
 		'ctrl p': 'Select previous item in command palette',

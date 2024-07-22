@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CodeSquareIcon from 'octicons-plain-react/CodeSquare';
-import {elementExists, expectElement } from 'select-dom';
+import {elementExists, expectElement} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -25,23 +25,15 @@ const gistCount = new CachedFunction('gist-count', {
 
 function getUser(): {url: string; name: string} {
 	const name = getCleanPathname();
-	const url = pageDetect.isEnterprise()
-		? `/gist/${name}`
-		: `https://gist.github.com/${name}`;
+	const url = pageDetect.isEnterprise() ? `/gist/${name}` : `https://gist.github.com/${name}`;
 	return {url, name};
 }
 
 async function appendTab(navigationBar: Element): Promise<void> {
 	const user = getUser();
 	const link = (
-		<a
-			href={user.url}
-			className="UnderlineNav-item js-responsive-underlinenav-item"
-			role="tab"
-			aria-selected="false"
-			data-tab-item="rgh-gists-item"
-		>
-			<CodeSquareIcon className="UnderlineNav-octicon hide-sm"/>
+		<a href={user.url} className="UnderlineNav-item js-responsive-underlinenav-item" role="tab" aria-selected="false" data-tab-item="rgh-gists-item">
+			<CodeSquareIcon className="UnderlineNav-octicon hide-sm" />
 			{' Gists '}
 		</a>
 	);
@@ -74,9 +66,7 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isUserProfile,
-	],
+	include: [pageDetect.isUserProfile],
 	init,
 });
 

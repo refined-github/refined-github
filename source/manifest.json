@@ -16,26 +16,13 @@
 			"strict_min_version": "124.0"
 		}
 	},
-	"permissions": [
-		"storage",
-		"scripting",
-		"contextMenus",
-		"activeTab",
-		"alarms"
-	],
-	"host_permissions": [
-		"https://github.com/*",
-		"https://api.github.com/*"
-	],
+	"permissions": ["storage", "scripting", "contextMenus", "activeTab", "alarms"],
+	"host_permissions": ["https://github.com/*", "https://api.github.com/*"],
 	"action": {
 		"default_icon": "assets/icon.png"
 	},
-	"optional_permissions": [
-		"*://*/*"
-	],
-	"optional_host_permissions": [
-		"*://*/*"
-	],
+	"optional_permissions": ["*://*/*"],
+	"optional_host_permissions": ["*://*/*"],
 	"icons": {
 		"128": "assets/icon.png"
 	},
@@ -43,32 +30,21 @@
 	"background": {
 		"service_worker": "assets/background.js",
 		"type": "module",
-		"scripts": [
-			"assets/background.js"
-		]
+		"scripts": ["assets/background.js"]
 	},
 	"content_scripts": [
 		{
 			"run_at": "document_start",
-			"matches": [
-				"https://github.com/*",
-				"https://gist.github.com/*"
-			],
-			"exclude_matches": [
-				"https://*/login/*"
-			],
-			"css": [
-				"assets/refined-github.css"
-			],
-			"js": [
-				"assets/refined-github.js"
-			]
+			"matches": ["https://github.com/*", "https://gist.github.com/*"],
+			"exclude_matches": ["https://*/login/*"],
+			"css": ["assets/refined-github.css"],
+			"js": ["assets/refined-github.js"]
 		}
 	],
 	"web_accessible_resources": [
-    {
-      "resources": [ "assets/resolve-conflicts.js" ],
-      "matches": [ "https://*/*" ]
-    }
-  ]
+		{
+			"resources": ["assets/resolve-conflicts.js"],
+			"matches": ["https://*/*"]
+		}
+	]
 }

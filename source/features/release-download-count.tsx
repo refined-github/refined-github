@@ -17,21 +17,23 @@ type Asset = {
 };
 
 async function getAssetsForTag(tag: string): Promise<Record<string, number>> {
-	const {repository} = await api.v4(getReleaseDownloadCount, {variables: {tag}});
+	const {repository} = await api.v4(getReleaseDownloadCount, {
+		variables: {tag},
+	});
 	const assets: Asset[] = repository.release.releaseAssets.nodes;
-	return Object.fromEntries(assets.map(({name, downloadCount}) => ([name, downloadCount])));
+	return Object.fromEntries(assets.map(({name, downloadCount}) => [name, downloadCount]));
 }
 
 async function addCounts(assetsList: HTMLElement): Promise<void> {
 	// Both pages have .Box but in the list .Box doesn't include the tag
-	const container = assetsList.closest('section') // Single-release page
-		?? assetsList.closest('.Box:not(.Box--condensed)')!; // Releases list, excludes the assets list’s own .Box
+	const container =
+		assetsList.closest('section') ?? // Single-release page
+		assetsList.closest('.Box:not(.Box--condensed)')!; // Releases list, excludes the assets list’s own .Box
 
 	const releaseName = container
 		// .octicon-code required by visit-tag feature
 		.querySelector(':is(.octicon-tag, .octicon-code) ~ span')!
-		.textContent
-		.trim();
+		.textContent.trim();
 
 	const assets = await getAssetsForTag(releaseName);
 
@@ -41,9 +43,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		const downloadCount = assets[assetLink.pathname.split('/').pop()!] ?? 0;
 
 		// Place next to asset size
-		const assetSize = assetLink
-			.closest('.Box-row')!
-			.querySelector(':scope > .flex-justify-end > :first-child')!;
+		const assetSize = assetLink.closest('.Box-row')!.querySelector(':scope > .flex-justify-end > :first-child')!;
 
 		assetSize.parentElement!.classList.add('rgh-release-download-count');
 
@@ -56,12 +56,8 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 
 		assetSize.before(
 			<span className={[...classes].join(' ')}>
-				<span
-					className="d-inline-block text-right"
-					title={`${downloadCount} downloads`}
-					data-rgh-heat={calculateHeatIndex(downloadCount)}
-				>
-					{abbreviateNumber(downloadCount)} <DownloadIcon/>
+				<span className="d-inline-block text-right" title={`${downloadCount} downloads`} data-rgh-heat={calculateHeatIndex(downloadCount)}>
+					{abbreviateNumber(downloadCount)} <DownloadIcon />
 				</span>
 			</span>,
 		);
@@ -69,14 +65,13 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.Box-footer .Box--condensed:has(.octicon-package)', addCounts, {signal});
+	observe('.Box-footer .Box--condensed:has(.octicon-package)', addCounts, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isReleasesOrTags,
-		pageDetect.isSingleReleaseOrTag,
-	],
+	include: [pageDetect.isReleasesOrTags, pageDetect.isSingleReleaseOrTag],
 	init,
 });
 

@@ -25,9 +25,7 @@ function getHovercardUrl(prNumber: number): string {
 
 function getDropdown(prs: number[]): HTMLElement {
 	const isEditing = pageDetect.isEditingFile();
-	const icon = isEditing
-		? <AlertIcon className="color-fg-attention"/>
-		: <GitPullRequestIcon/>;
+	const icon = isEditing ? <AlertIcon className="color-fg-attention" /> : <GitPullRequestIcon />;
 
 	// TODO: use Popover API when hovercards become compatible #7496
 	return (
@@ -35,21 +33,15 @@ function getDropdown(prs: number[]): HTMLElement {
 			<summary className="Button Button--secondary color-fg-muted">
 				{icon}
 				<span className="color-fg-default mx-1">{prs.length}</span>
-				<div className="dropdown-caret"/>
+				<div className="dropdown-caret" />
 			</summary>
 
 			<details-menu className="dropdown-menu dropdown-menu-sw" style={{width: '180px'}}>
-				<div className="px-3 pt-2 h6 color-fg-muted">
-					File also being edited in
-				</div>
+				<div className="px-3 pt-2 h6 color-fg-muted">File also being edited in</div>
 				<ul className="ActionListWrap ActionListWrap--inset">
 					{prs.map(prNumber => (
 						<li className="ActionListItem">
-							<a
-								className="ActionListContent"
-								href={getPRUrl(prNumber)}
-								data-hovercard-url={getHovercardUrl(prNumber)}
-							>
+							<a className="ActionListContent" href={getPRUrl(prNumber)} data-hovercard-url={getHovercardUrl(prNumber)}>
 								#{prNumber}
 							</a>
 						</li>
@@ -138,18 +130,18 @@ function initEditingFile(signal: AbortSignal): void {
 	observe('[data-hotkey="Meta+s,Control+s"]', addToEditingFile, {signal});
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.isSingleFile,
-	],
-	init: initSingleFile,
-}, {
-	include: [
-		pageDetect.isEditingFile,
-	],
-	awaitDomReady: true, // End of the page; DOM-based detections
-	init: initEditingFile,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.isSingleFile],
+		init: initSingleFile,
+	},
+	{
+		include: [pageDetect.isEditingFile],
+		awaitDomReady: true, // End of the page; DOM-based detections
+		init: initEditingFile,
+	},
+);
 
 /*
 

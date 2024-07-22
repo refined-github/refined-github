@@ -15,22 +15,13 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	$('[href*="issues?q=label%3A%22help+wanted"]', repository)?.remove();
 
 	// Place before the update date
-	assertNodeContent(
-		$('relative-time', repository)!.previousSibling,
-		'Updated',
-	).before(
+	assertNodeContent($('relative-time', repository)!.previousSibling, 'Updated').before(
 		<>
-			<a
-				className="Link--muted mr-3"
-				href={repositoryLink.href + '/issues'}
-			>
-				<IssueOpenedIcon/>
+			<a className="Link--muted mr-3" href={repositoryLink.href + '/issues'}>
+				<IssueOpenedIcon />
 			</a>
-			<a
-				className="Link--muted mr-3"
-				href={repositoryLink.href + '/pulls'}
-			>
-				<GitPullRequestIcon/>
+			<a className="Link--muted mr-3" href={repositoryLink.href + '/pulls'}>
+				<GitPullRequestIcon />
 			</a>
 		</>,
 	);
@@ -50,26 +41,17 @@ function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
 		.querySelector('ul > span:last-of-type')!
 		.before(
 			<>
-				<span
-					aria-hidden="true"
-					className="color-fg-muted mx-2"
-				>
+				<span aria-hidden="true" className="color-fg-muted mx-2">
 					·
 				</span>
 				<li className="d-flex text-small">
-					<a
-						className="Link--muted"
-						href={repositoryLink.href + '/issues'}
-					>
-						<IssueOpenedIcon/>
+					<a className="Link--muted" href={repositoryLink.href + '/issues'}>
+						<IssueOpenedIcon />
 					</a>
 				</li>
 				<li className="d-flex text-small ml-2">
-					<a
-						className="Link--muted"
-						href={repositoryLink.href + '/pulls'}
-					>
-						<GitPullRequestIcon/>
+					<a className="Link--muted" href={repositoryLink.href + '/pulls'}>
+						<GitPullRequestIcon />
 					</a>
 				</li>
 			</>,
@@ -84,17 +66,19 @@ function initSearch(signal: AbortSignal): void {
 	observe('.search-title a', addSearchConversationLinks, {signal});
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.isUserProfileRepoTab, // Organizations already have these links
-	],
-	init,
-}, {
-	include: [
-		pageDetect.isGlobalSearchResults,
-	],
-	init: initSearch,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [
+			pageDetect.isUserProfileRepoTab, // Organizations already have these links
+		],
+		init,
+	},
+	{
+		include: [pageDetect.isGlobalSearchResults],
+		init: initSearch,
+	},
+);
 
 /*
 Test URLs

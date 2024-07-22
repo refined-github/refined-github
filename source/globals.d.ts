@@ -32,7 +32,8 @@ interface Window {
 
 declare module 'size-plugin';
 
-declare module '*.md' { // It should be just for readme.md, but 🤷‍♂️
+declare module '*.md' {
+	// It should be just for readme.md, but 🤷‍♂️
 	export const importedFeatures: FeatureID[];
 	export const featuresMeta: FeatureMeta[];
 }
@@ -61,7 +62,7 @@ declare namespace JSX {
 		'has-rgh': IntrinsicElements.div;
 		'has-rgh-inner': IntrinsicElements.div;
 		'include-fragment': IntrinsicElements.div & {src?: string};
-		'label': IntrinsicElements.label & {for?: string};
+		label: IntrinsicElements.label & {for?: string};
 		'relative-time': IntrinsicElements.div & {datetime: string};
 		'tab-container': IntrinsicElements.div;
 		'batch-deferred-content': IntrinsicElements.div;

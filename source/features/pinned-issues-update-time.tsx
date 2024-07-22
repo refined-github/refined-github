@@ -18,11 +18,15 @@ const getLastUpdated = new CachedFunction('last-updated', {
 	async updater(issueNumbers: number[]): Promise<Record<string, IssueInfo>> {
 		const {repository} = await api.v4(`
 		repository() {
-			${issueNumbers.map(number => `
+			${issueNumbers
+				.map(
+					number => `
 				${api.escapeKey(number)}: issue(number: ${number}) {
 					updatedAt
 				}
-			`).join('\n')}
+			`,
+				)
+				.join('\n')}
 		}
 	`);
 
@@ -45,7 +49,7 @@ async function update(pinnedIssues: HTMLElement[]): Promise<void> {
 		originalLine.after(
 			// .rgh class enables tweakers to hide the number
 			<span className="text-small color-fg-muted">
-				<span className="rgh-pinned-issue-number">#{issueNumber}</span> updated <relative-time datetime={updatedAt}/>
+				<span className="rgh-pinned-issue-number">#{issueNumber}</span> updated <relative-time datetime={updatedAt} />
 			</span>,
 		);
 
@@ -54,13 +58,13 @@ async function update(pinnedIssues: HTMLElement[]): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('.pinned-issue-item', batchedFunction(update, {delay: 100}), {signal});
+	observe('.pinned-issue-item', batchedFunction(update, {delay: 100}), {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoIssueList,
-	],
+	include: [pageDetect.isRepoIssueList],
 	init,
 });
 

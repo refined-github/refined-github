@@ -38,15 +38,16 @@ async function getWorkflows(): Promise<Workflow[]> {
 	const workflows = response.workflows as any[];
 
 	// The response is not reliable: Some workflow's path is '' and deleted workflow's state is 'active'
-	return workflows
-		.map<Workflow>(workflow => ({
+	return workflows.map<Workflow>(workflow => ({
 		name: workflow.path.split('/').pop()!,
 		isEnabled: workflow.state === 'active',
 	}));
 }
 
 async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
-	const {repository: {workflowFiles}} = await api.v4(GetWorkflows);
+	const {
+		repository: {workflowFiles},
+	} = await api.v4(GetWorkflows);
 
 	const workflows: any[] = workflowFiles?.entries ?? [];
 
@@ -97,8 +98,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 		return;
 	}
 
-	const svgTrailer = $('.ActionListItem-visual--trailing', workflowListItem)
-	?? <div className="ActionListItem-visual--trailing"/>;
+	const svgTrailer = $('.ActionListItem-visual--trailing', workflowListItem) ?? <div className="ActionListItem-visual--trailing" />;
 	if (!svgTrailer.isConnected) {
 		workflowListItem.append(svgTrailer);
 	}
@@ -106,7 +106,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	svgTrailer.classList.add('m-auto', 'd-flex', 'gap-2');
 
 	if (workflow.manuallyDispatchable) {
-		svgTrailer.append(<PlayIcon className="m-auto"/>);
+		svgTrailer.append(<PlayIcon className="m-auto" />);
 		addTooltip(workflowListItem, 'This workflow can be triggered manually');
 	}
 
@@ -119,12 +119,8 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 		return;
 	}
 
-	const relativeTime = <relative-time datetime={String(nextTime)}/>;
-	expectElement('.ActionListItem-label', workflowListItem).append(
-		<em>
-			({relativeTime})
-		</em>,
-	);
+	const relativeTime = <relative-time datetime={String(nextTime)} />;
+	expectElement('.ActionListItem-label', workflowListItem).append(<em>({relativeTime})</em>);
 
 	setTimeout(() => {
 		// The content of `relative-time` might is not immediately available
@@ -137,10 +133,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isRepositoryActions,
-		async () => Boolean(await workflowDetails.get()),
-	],
+	asLongAs: [pageDetect.isRepositoryActions, async () => Boolean(await workflowDetails.get())],
 	init,
 });
 

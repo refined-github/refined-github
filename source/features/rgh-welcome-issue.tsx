@@ -36,9 +36,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		() => location.href.startsWith(issueUrl),
-	],
+	include: [() => location.href.startsWith(issueUrl)],
 	awaitDomReady: true, // Small page
 	init,
 });

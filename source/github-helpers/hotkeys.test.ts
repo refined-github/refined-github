@@ -1,8 +1,6 @@
-import {assert, test } from 'vitest';
+import {assert, test} from 'vitest';
 
-import {
-	addHotkey,
-} from './hotkey.js';
+import {addHotkey} from './hotkey.js';
 
 function testAddHotkey(existing: string | undefined, added: string, final: string): void {
 	const link = document.createElement('a');
@@ -14,18 +12,6 @@ function testAddHotkey(existing: string | undefined, added: string, final: strin
 	assert.equal(link.dataset.hotkey, final);
 }
 
-test('addHotkey if one is specified', testAddHotkey.bind(null,
-	'T-REX',
-	'CHICKEN',
-	'T-REX,CHICKEN',
-));
-test('addHotkey if the same is already specified', testAddHotkey.bind(null,
-	'CHICKEN',
-	'CHICKEN',
-	'CHICKEN',
-));
-test('addHotkey when none are specified', testAddHotkey.bind(null,
-	undefined,
-	'CHICKEN',
-	'CHICKEN',
-));
+test('addHotkey if one is specified', testAddHotkey.bind(null, 'T-REX', 'CHICKEN', 'T-REX,CHICKEN'));
+test('addHotkey if the same is already specified', testAddHotkey.bind(null, 'CHICKEN', 'CHICKEN', 'CHICKEN'));
+test('addHotkey when none are specified', testAddHotkey.bind(null, undefined, 'CHICKEN', 'CHICKEN'));

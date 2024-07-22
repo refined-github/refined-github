@@ -6,9 +6,7 @@ declare global {
 	interface ParentNode {
 		querySelector<S extends string>(selector: S | readonly S[]): StrictlyParseSelector<S, HTMLElement> | null;
 
-		querySelectorAll<S extends string>(
-			selector: S | readonly S[],
-		): NodeListOf<StrictlyParseSelector<S, HTMLElement>>;
+		querySelectorAll<S extends string>(selector: S | readonly S[]): NodeListOf<StrictlyParseSelector<S, HTMLElement>>;
 	}
 
 	interface Element {

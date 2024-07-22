@@ -7,7 +7,9 @@ import {importedFeatures} from '../../readme.md';
 import featureLink from './feature-link.js';
 import pluralize from './pluralize.js';
 
-export const state = new CachedValue<FeatureID[]>('bisect', {maxAge: {minutes: 15}});
+export const state = new CachedValue<FeatureID[]>('bisect', {
+	maxAge: {minutes: 15},
+});
 
 // Split current list of features in half and create an options-like object to be applied on load
 // Bisecting 4 features: enable 2
@@ -21,12 +23,13 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 	const bisectedFeatures = (await state.get())!;
 
 	if (bisectedFeatures.length > 1) {
-		await state.set(answer === 'yes'
-			? bisectedFeatures.slice(0, getMiddleStep(bisectedFeatures))
-			: bisectedFeatures.slice(getMiddleStep(bisectedFeatures)),
-		);
+		await state.set(answer === 'yes' ? bisectedFeatures.slice(0, getMiddleStep(bisectedFeatures)) : bisectedFeatures.slice(getMiddleStep(bisectedFeatures)));
 
-		button.parentElement!.replaceWith(<div className="btn" aria-disabled="true">Reloading…</div>);
+		button.parentElement!.replaceWith(
+			<div className="btn" aria-disabled="true">
+				Reloading…
+			</div>,
+		);
 		location.reload();
 		return;
 	}
@@ -35,9 +38,20 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 	if (answer === 'yes') {
 		createMessageBox(
 			<>
-				<p>Unable to identify feature. It might be a <a href="https://github.com/refined-github/refined-github/wiki/Undo-unwanted-styles" target="_blank" rel="noreferrer">CSS-only feature</a>, a <a href="https://github.com/refined-github/refined-github/wiki/Meta-features" target="_blank" rel="noreferrer">meta-feature</a>, or unrelated to Refined GitHub.</p>
+				<p>
+					Unable to identify feature. It might be a{' '}
+					<a href="https://github.com/refined-github/refined-github/wiki/Undo-unwanted-styles" target="_blank" rel="noreferrer">
+						CSS-only feature
+					</a>
+					, a{' '}
+					<a href="https://github.com/refined-github/refined-github/wiki/Meta-features" target="_blank" rel="noreferrer">
+						meta-feature
+					</a>
+					, or unrelated to Refined GitHub.
+				</p>
 				<p>Try disabling Refined GitHub to see if the change or issue is caused by the extension.</p>
-			</>);
+			</>,
+		);
 	} else {
 		const feature = (
 			<a href={featureLink(bisectedFeatures[0])}>
@@ -63,7 +77,9 @@ function createMessageBox(message: Element | string, extraButtons?: Element): vo
 		<div id="rgh-bisect-dialog" className="Box p-3">
 			<p>{message}</p>
 			<div className="d-flex flex-justify-between">
-				<button type="button" className="btn" onClick={onEndButtonClick}>Exit</button>
+				<button type="button" className="btn" onClick={onEndButtonClick}>
+					Exit
+				</button>
 				{extraButtons}
 			</div>
 		</div>,
@@ -71,7 +87,7 @@ function createMessageBox(message: Element | string, extraButtons?: Element): vo
 }
 
 async function hideMessage(): Promise<void> {
-	if (!await state.get()) {
+	if (!(await state.get())) {
 		createMessageBox('Process completed in another tab');
 	}
 }
@@ -90,8 +106,12 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 	createMessageBox(
 		`Do you see the change or issue? (${pluralize(steps, 'last step', '$$ steps remaining')})`,
 		<div>
-			<button type="button" className="btn btn-danger mr-2" value="no" aria-disabled="true" onClick={onChoiceButtonClick}>No</button>
-			<button type="button" className="btn btn-primary" value="yes" aria-disabled="true" onClick={onChoiceButtonClick}>Yes</button>
+			<button type="button" className="btn btn-danger mr-2" value="no" aria-disabled="true" onClick={onChoiceButtonClick}>
+				No
+			</button>
+			<button type="button" className="btn btn-primary" value="yes" aria-disabled="true" onClick={onChoiceButtonClick}>
+				Yes
+			</button>
 		</div>,
 	);
 

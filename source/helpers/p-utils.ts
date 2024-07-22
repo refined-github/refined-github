@@ -1,9 +1,6 @@
 import {IterableElement, Promisable} from 'type-fest';
 
-export function pSomeFunction<
-	List extends Iterable<unknown>,
-	Element extends IterableElement<List>,
->(
+export function pSomeFunction<List extends Iterable<unknown>, Element extends IterableElement<List>>(
 	iterable: List,
 	predicate: (value: Element) => Promisable<boolean>,
 ): Promisable<boolean> {
@@ -46,10 +43,7 @@ export async function pSome(iterable: Iterable<PromiseLike<unknown>>): Promise<b
 	});
 }
 
-export function pEveryFunction<
-	List extends Iterable<unknown>,
-	Element extends IterableElement<List>,
->(
+export function pEveryFunction<List extends Iterable<unknown>, Element extends IterableElement<List>>(
 	iterable: List,
 	predicate: (value: Element) => Promisable<boolean>,
 ): Promisable<boolean> {

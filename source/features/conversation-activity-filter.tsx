@@ -48,9 +48,7 @@ function processDissmissedReviewEvent(item: HTMLElement): void {
 
 	// Find and hide stale reviews referenced by dismissed review events
 	for (const {hash: staleReviewId} of $$('.TimelineItem-body > a[href^="#pullrequestreview-"]', item)) {
-		$(staleReviewId)!
-			.closest('.js-timeline-item')!
-			.classList.add(collapsedClassName);
+		$(staleReviewId)!.closest('.js-timeline-item')!.classList.add(collapsedClassName);
 	}
 }
 
@@ -102,10 +100,7 @@ async function handleSelection({target}: Event): Promise<void> {
 function applyState(state: State): void {
 	const container = $('.js-issues-results')!;
 	container.setAttribute('data-rgh-conversation-activity-filter', state);
-	container.classList.toggle(
-		'rgh-conversation-activity-is-filtered',
-		state !== 'default',
-	);
+	container.classList.toggle('rgh-conversation-activity-is-filtered', state !== 'default');
 
 	// Update the state of the dropdowns
 	for (const dropdownItem of $$(`.${dropdownClass} [aria-checked="false"][data-value="${state}"]`)) {
@@ -119,13 +114,8 @@ function applyState(state: State): void {
 
 function createRadios(current: State): JSX.Element[] {
 	return Object.entries(states).map(([state, label]) => (
-		<div
-			className="SelectMenu-item"
-			role="menuitemradio"
-			aria-checked={state === current ? 'true' : 'false'}
-			data-value={state}
-		>
-			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
+		<div className="SelectMenu-item" role="menuitemradio" aria-checked={state === current ? 'true' : 'false'} data-value={state}>
+			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check" />
 			{label || 'Show all'}
 		</div>
 	));
@@ -138,49 +128,30 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 	}
 
 	// Try to place the dropdown to the left https://github.com/refined-github/refined-github/issues/5450#issuecomment-1068284635
-	const availableSpaceToTheLeftOfTheDropdown
-		= position.lastElementChild!.getBoundingClientRect().right
-		- position.parentElement!.getBoundingClientRect().left;
+	const availableSpaceToTheLeftOfTheDropdown = position.lastElementChild!.getBoundingClientRect().right - position.parentElement!.getBoundingClientRect().left;
 
 	// It may be zero on the sticky header, but `clean-conversation-headers` doesn't apply there
-	const alignment
-		= availableSpaceToTheLeftOfTheDropdown === 0
-		|| (availableSpaceToTheLeftOfTheDropdown > expectedDropdownWidth)
-			? 'right-0' : 'left-0';
+	const alignment = availableSpaceToTheLeftOfTheDropdown === 0 || availableSpaceToTheLeftOfTheDropdown > expectedDropdownWidth ? 'right-0' : 'left-0';
 
-	wrap(position, <div className="rgh-conversation-activity-filter-wrapper"/>);
+	wrap(position, <div className="rgh-conversation-activity-filter-wrapper" />);
 	position.classList.add('rgh-conversation-activity-filter');
 	position.after(
-		<details
-			className={`details-reset details-overlay d-inline-block ml-2 position-relative ${dropdownClass}`}
-			id="rgh-conversation-activity-filter-select-menu"
-		>
+		<details className={`details-reset details-overlay d-inline-block ml-2 position-relative ${dropdownClass}`} id="rgh-conversation-activity-filter-select-menu">
 			<summary>
-				<EyeIcon className="color-fg-muted"/>
-				<EyeClosedIcon className="color-fg-danger"/>
+				<EyeIcon className="color-fg-muted" />
+				<EyeClosedIcon className="color-fg-danger" />
 				<span className="text-small color-fg-danger v-align-text-bottom rgh-conversation-events-label"> events</span>
-				<div className="dropdown-caret ml-1"/>
+				<div className="dropdown-caret ml-1" />
 			</summary>
-			<details-menu
-				className={`SelectMenu ${alignment}`}
-				on-details-menu-select={handleSelection}
-			>
+			<details-menu className={`SelectMenu ${alignment}`} on-details-menu-select={handleSelection}>
 				<div className="SelectMenu-modal">
 					<div className="SelectMenu-header">
-						<h3 className="SelectMenu-title color-fg-default">
-							Filter conversation activities
-						</h3>
-						<button
-							className="SelectMenu-closeButton"
-							type="button"
-							data-toggle-for="rgh-conversation-activity-filter-select-menu"
-						>
-							<XIcon/>
+						<h3 className="SelectMenu-title color-fg-default">Filter conversation activities</h3>
+						<button className="SelectMenu-closeButton" type="button" data-toggle-for="rgh-conversation-activity-filter-select-menu">
+							<XIcon />
 						</button>
 					</div>
-					<div className="SelectMenu-list">
-						{createRadios(state)}
-					</div>
+					<div className="SelectMenu-list">{createRadios(state)}</div>
 				</div>
 			</details-menu>
 		</details>,
@@ -225,10 +196,11 @@ async function init(signal: AbortSignal): Promise<void> {
 		? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 		: 'default';
 
-	observe([
-		'#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)',
-		'#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)',
-	], addWidget.bind(null, initialState), {signal});
+	observe(
+		['#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)', '#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)'],
+		addWidget.bind(null, initialState),
+		{signal},
+	);
 
 	if (initialState !== 'default') {
 		applyState(initialState);
@@ -242,9 +214,7 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isConversation,
-	],
+	include: [pageDetect.isConversation],
 	shortcuts: {
 		h: 'Cycle through conversation activity filters',
 	},

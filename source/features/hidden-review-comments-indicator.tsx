@@ -15,10 +15,7 @@ import observe from '../helpers/selector-observer.js';
 function handleIndicatorClick({delegateTarget}: DelegateEvent): void {
 	const commentedLine = delegateTarget.closest('tr')!.previousElementSibling!;
 	const resetScroll = preserveScroll(commentedLine);
-	delegateTarget
-		.closest('.file.js-file')!
-		.querySelector('input.js-toggle-file-notes')!
-		.click();
+	delegateTarget.closest('.file.js-file')!.querySelector('input.js-toggle-file-notes')!.click();
 
 	resetScroll();
 }
@@ -30,7 +27,7 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 		<tr>
 			<td className="rgh-comments-indicator blob-num" colSpan={2}>
 				<button type="button" className="btn-link">
-					<CommentIcon/>
+					<CommentIcon />
 					<span>{commentCount}</span>
 				</button>
 			</td>
@@ -69,9 +66,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRFiles,
-	],
+	include: [pageDetect.isPRFiles],
 	init,
 });
 

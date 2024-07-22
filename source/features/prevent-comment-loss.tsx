@@ -22,10 +22,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRichTextEditor,
-		pageDetect.isEditingFile,
-	],
+	include: [pageDetect.hasRichTextEditor, pageDetect.isEditingFile],
 	init,
 });
 

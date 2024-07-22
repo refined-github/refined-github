@@ -26,31 +26,26 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 	} else if (!possibleFeature.closest('a')) {
 		// Possible DOM structure:
 		// - <code>
-		wrap(
-			possibleFeature,
-			<a
-				className="color-fg-accent"
-				data-turbo-frame="repo-content-turbo-frame"
-				href={href}
-			/>,
-		);
+		wrap(possibleFeature, <a className="color-fg-accent" data-turbo-frame="repo-content-turbo-frame" href={href} />);
 	}
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'.js-issue-title code', // `isPR`, `isIssue`
-		'.js-comment-body code', // `hasComments`
-		'.markdown-body code', // `isReleasesOrTags`
-		'.markdown-title:not(li) code', // `isSingleCommit`, `isRepoTree`, not on the issue autocomplete
-		'code .markdown-title', // `isCommitList`, `isRepoTree`
-	], linkifyFeature, {signal});
+	observe(
+		[
+			'.js-issue-title code', // `isPR`, `isIssue`
+			'.js-comment-body code', // `hasComments`
+			'.markdown-body code', // `isReleasesOrTags`
+			'.markdown-title:not(li) code', // `isSingleCommit`, `isRepoTree`, not on the issue autocomplete
+			'code .markdown-title', // `isCommitList`, `isRepoTree`
+		],
+		linkifyFeature,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isAnyRefinedGitHubRepo,
-	],
+	asLongAs: [isAnyRefinedGitHubRepo],
 	include: [
 		pageDetect.hasComments,
 		pageDetect.isReleasesOrTags,

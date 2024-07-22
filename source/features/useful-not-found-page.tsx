@@ -37,14 +37,15 @@ function getStrikeThrough(text: string): HTMLElement {
 }
 
 async function crossIfNonExistent(anchor: HTMLElement): Promise<void> {
-	if (anchor instanceof HTMLAnchorElement && !await isUrlReachable(anchor.href)) {
+	if (anchor instanceof HTMLAnchorElement && !(await isUrlReachable(anchor.href))) {
 		anchor.replaceWith(getStrikeThrough(anchor.textContent));
 	}
 }
 
 function parseCurrentURL(): string[] {
 	const parts = getCleanPathname().split('/');
-	if (parts[2] === 'blob') { // Blob URLs are never useful
+	if (parts[2] === 'blob') {
+		// Blob URLs are never useful
 		parts[2] = 'tree';
 	}
 
@@ -87,7 +88,7 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
 
 	parsedUrl.assign({branch: await getDefaultBranch()});
 	const urlOnDefault = parsedUrl.href;
-	if (urlOnDefault !== location.href && await isUrlReachable(urlOnDefault)) {
+	if (urlOnDefault !== location.href && (await isUrlReachable(urlOnDefault))) {
 		return urlOnDefault;
 	}
 }
@@ -99,9 +100,9 @@ async function showMissingPart(): Promise<void> {
 		.map(([index, part]) => {
 			if (
 				// Exclude parts that don't exist as standalones
-				(index === 0 && part === 'orgs') // #5483
-				|| (index === 2 && ['tree', 'blob', 'edit'].includes(part))
-				|| index === pathParts.length - 1 // The last part is a known 404
+				(index === 0 && part === 'orgs') || // #5483
+				(index === 2 && ['tree', 'blob', 'edit'].includes(part)) ||
+				index === pathParts.length - 1 // The last part is a known 404
 			) {
 				return getStrikeThrough(part);
 			}
@@ -114,9 +115,7 @@ async function showMissingPart(): Promise<void> {
 		.reverse() // Restore order
 		.flatMap((link, index) => [index > 0 && ' / ', link]); // Add separators
 
-	$('main > :first-child, #parallax_illustration')!.after(
-		<h2 className="container mt-4 text-center">{breadcrumbs}</h2>,
-	);
+	$('main > :first-child, #parallax_illustration')!.after(<h2 className="container mt-4 text-center">{breadcrumbs}</h2>);
 }
 
 async function showDefaultBranchLink(): Promise<void> {
@@ -150,17 +149,19 @@ async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
 
 	url.assign({route: 'commits'});
 	const commitHistory = <a href={url.href}>Commit history</a>;
-	url.assign({route: 'blob', branch: fileChanges.commit.parentSha, filePath: url.filePath});
+	url.assign({
+		route: 'blob',
+		branch: fileChanges.commit.parentSha,
+		filePath: url.filePath,
+	});
 	const lastVersionUrl = fileChanges.file.status === 'removed' ? fileChanges.file.blob_url : url.href;
 	const lastVersion = <a href={lastVersionUrl}>This {getType()}</a>;
 	const permalink = (
 		<a href={fileChanges.commit.url}>
-			<relative-time datetime={fileChanges.commit.date}/>
+			<relative-time datetime={fileChanges.commit.date} />
 		</a>
 	);
-	const verb = fileChanges.file.status === 'removed'
-		? 'deleted'
-		: <a href={fileChanges.file.blob_url}>moved</a>;
+	const verb = fileChanges.file.status === 'removed' ? 'deleted' : <a href={fileChanges.file.blob_url}>moved</a>;
 
 	return (
 		<p className="container mt-4 text-center">
@@ -191,50 +192,49 @@ function init(): void {
 
 async function initPRCommit(): Promise<void | false> {
 	const commitUrl = location.href.replace(/pull\/\d+\/commits/, 'commit');
-	if (!await isUrlReachable(commitUrl)) {
+	if (!(await isUrlReachable(commitUrl))) {
 		return false;
 	}
 
-	const blankSlateParagraph = await elementReady('.blankslate p', {waitForChildren: false});
+	const blankSlateParagraph = await elementReady('.blankslate p', {
+		waitForChildren: false,
+	});
 	blankSlateParagraph!.after(
-		<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>,
+		<p>
+			You can also try to <a href={commitUrl}>view the detached standalone commit</a>.
+		</p>,
 	);
 }
 
 function initRepoFile(signal: AbortSignal): void {
-	observe('#repos-header-breadcrumb-wide-heading + ol a', crossIfNonExistent, {signal});
-	observe('main div[data-testid="eror-404-description"]', showGitObjectHistoryOnRepo, {signal});	// "eror" as misspelled by GitHub
+	observe('#repos-header-breadcrumb-wide-heading + ol a', crossIfNonExistent, {
+		signal,
+	});
+	observe('main div[data-testid="eror-404-description"]', showGitObjectHistoryOnRepo, {signal}); // "eror" as misspelled by GitHub
 }
 
-void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.is404,
-		() => parseCurrentURL().length > 1,
-	],
-	awaitDomReady: true, // Small page
-	init: onetime(showMissingPart),
-}, {
-	asLongAs: [
-		pageDetect.is404,
-	],
-	include: [
-		pageDetect.isSingleFile,
-		pageDetect.isRepoTree,
-		pageDetect.isEditingFile,
-	],
-	awaitDomReady: true, // Small page
-	init: onetime(init),
-}, {
-	include: [
-		pageDetect.isPRCommit404,
-	],
-	init: onetime(initPRCommit),
-}, {
-	include: [
-		pageDetect.isRepoFile404,
-	],
-	init: initRepoFile,
-});
+void features.add(
+	import.meta.url,
+	{
+		asLongAs: [pageDetect.is404, () => parseCurrentURL().length > 1],
+		awaitDomReady: true, // Small page
+		init: onetime(showMissingPart),
+	},
+	{
+		asLongAs: [pageDetect.is404],
+		include: [pageDetect.isSingleFile, pageDetect.isRepoTree, pageDetect.isEditingFile],
+		awaitDomReady: true, // Small page
+		init: onetime(init),
+	},
+	{
+		include: [pageDetect.isPRCommit404],
+		init: onetime(initPRCommit),
+	},
+	{
+		include: [pageDetect.isRepoFile404],
+		init: initRepoFile,
+	},
+);
 
 /*
 

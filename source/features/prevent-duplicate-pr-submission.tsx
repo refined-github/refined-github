@@ -18,8 +18,6 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isCompare,
-	],
+	include: [pageDetect.isCompare],
 	init,
 });

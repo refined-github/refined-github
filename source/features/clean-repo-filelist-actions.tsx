@@ -11,10 +11,7 @@ import observe from '../helpers/selector-observer.js';
 
 /** Add tooltip on a wrapper to avoid breaking dropdown functionality */
 function addTooltipToSummary(childElement: Element, tooltip: string): void {
-	wrap(
-		childElement.closest('details')!,
-		<div className="tooltipped tooltipped-ne" aria-label={tooltip}/>,
-	);
+	wrap(childElement.closest('details')!, <div className="tooltipped tooltipped-ne" aria-label={tooltip} />);
 }
 
 function cleanFilelistActions(searchButton: Element): void {
@@ -22,7 +19,7 @@ function cleanFilelistActions(searchButton: Element): void {
 	searchButton.setAttribute('aria-label', 'Go to file');
 
 	// Replace "Go to file" with  icon
-	searchButton.firstChild!.replaceWith(<SearchIcon/>);
+	searchButton.firstChild!.replaceWith(<SearchIcon />);
 
 	// This button doesn't appear on `isSingleFile`
 	const addFileDropdown = searchButton.nextElementSibling!.querySelector('.dropdown-caret');
@@ -30,8 +27,7 @@ function cleanFilelistActions(searchButton: Element): void {
 		addFileDropdown.parentElement!.classList.replace('d-md-flex', 'd-md-block');
 
 		// Replace label with icon
-		assertNodeContent(addFileDropdown.previousSibling, 'Add file')
-			.replaceWith(<PlusIcon/>);
+		assertNodeContent(addFileDropdown.previousSibling, 'Add file').replaceWith(<PlusIcon />);
 
 		addTooltipToSummary(addFileDropdown, 'Add file');
 	}
@@ -46,7 +42,11 @@ function cleanFilelistActions(searchButton: Element): void {
 	const label = $('.Button-label', codeDropdownButton)!;
 	if (!elementExists('.octicon-code', codeDropdownButton)) {
 		// The icon is missing for users without Codespaces https://github.com/refined-github/refined-github/pull/5074#issuecomment-983251719
-		label.before(<span className="Button-visual Button-leadingVisual"><CodeIcon/></span>);
+		label.before(
+			<span className="Button-visual Button-leadingVisual">
+				<CodeIcon />
+			</span>,
+		);
 	}
 
 	label.remove();
@@ -58,13 +58,8 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoTree,
-		pageDetect.isSingleFile,
-	],
-	exclude: [
-		pageDetect.isRepoFile404,
-	],
+	include: [pageDetect.isRepoTree, pageDetect.isSingleFile],
+	exclude: [pageDetect.isRepoFile404],
 	init,
 });
 

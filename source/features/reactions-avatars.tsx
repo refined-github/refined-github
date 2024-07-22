@@ -22,9 +22,8 @@ type Participant = {
 
 function getParticipants(button: HTMLButtonElement): Participant[] {
 	// The list of people who commented is in an adjacent `<tool-tip>` element #5698
-	const users = button.nextElementSibling!
-		.textContent
-		.replace(/ reacted with.*/, '')
+	const users = button
+		.nextElementSibling!.textContent.replace(/ reacted with.*/, '')
 		.replace(/,? and /, ', ')
 		.replace(/, \d+ more/, '')
 		.split(', ');
@@ -45,31 +44,32 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 	return participants;
 }
 
-const viewportObserver = new IntersectionObserver(changes => {
-	for (const change of changes) {
-		if (change.isIntersecting) {
-			showAvatarsOn(change.target);
-			viewportObserver.unobserve(change.target);
+const viewportObserver = new IntersectionObserver(
+	changes => {
+		for (const change of changes) {
+			if (change.isIntersecting) {
+				showAvatarsOn(change.target);
+				viewportObserver.unobserve(change.target);
+			}
 		}
-	}
-}, {
-	// Start loading a little before they become visible
-	rootMargin: '500px',
-});
+	},
+	{
+		// Start loading a little before they become visible
+		rootMargin: '500px',
+	},
+);
 
 function showAvatarsOn(commentReactions: Element): void {
 	const reactionTypes = $$('.social-reaction-summary-item', commentReactions).length;
-	const avatarLimit = arbitraryAvatarLimit - (reactionTypes * approximateHeaderLength);
+	const avatarLimit = arbitraryAvatarLimit - reactionTypes * approximateHeaderLength;
 
-	const participantByReaction
-		= $$(':scope > button.social-reaction-summary-item', commentReactions)
-			.map(button => getParticipants(button));
+	const participantByReaction = $$(':scope > button.social-reaction-summary-item', commentReactions).map(button => getParticipants(button));
 	const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
 	for (const {button, username, imageUrl} of flatParticipants) {
 		button.append(
 			<span className="avatar-user avatar rgh-reactions-avatar p-0 flex-self-center">
-				<img src={imageUrl} className="d-block" width={avatarSize} height={avatarSize} alt={`@${username}`}/>
+				<img src={imageUrl} className="d-block" width={avatarSize} height={avatarSize} alt={`@${username}`} />
 			</span>,
 		);
 	}
@@ -85,12 +85,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasComments,
-		pageDetect.isReleasesOrTags,
-		pageDetect.isSingleReleaseOrTag,
-		pageDetect.isDiscussion,
-	],
+	include: [pageDetect.hasComments, pageDetect.isReleasesOrTags, pageDetect.isSingleReleaseOrTag, pageDetect.isDiscussion],
 	init,
 });
 

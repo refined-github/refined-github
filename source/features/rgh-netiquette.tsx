@@ -28,15 +28,20 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 					behavior: 'smooth',
 				});
 			}}
-		>comment
+		>
+			comment
 		</button>
 	);
 	const banner = (
 		<TimelineItem>
 			{createBanner({
 				classes: ['rgh-bg-none'],
-				icon: <InfoIcon className="mr-1"/>,
-				text: <>{getNoticeText()} If you want to say something helpful, you can leave a {button}. <strong>Do not</strong> report issues here.</>,
+				icon: <InfoIcon className="mr-1" />,
+				text: (
+					<>
+						{getNoticeText()} If you want to say something helpful, you can leave a {button}. <strong>Do not</strong> report issues here.
+					</>
+				),
 			})}
 		</TimelineItem>
 	);
@@ -50,16 +55,14 @@ function init(signal: AbortSignal): void | false {
 		return false;
 	}
 
-	observe('#issuecomment-new:has(file-attachment)', addConversationBanner, {signal});
+	observe('#issuecomment-new:has(file-attachment)', addConversationBanner, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isAnyRefinedGitHubRepo,
-	],
-	include: [
-		pageDetect.isConversation,
-	],
+	asLongAs: [isAnyRefinedGitHubRepo],
+	include: [pageDetect.isConversation],
 	awaitDomReady: true, // We're specifically looking for the last event
 	init,
 });

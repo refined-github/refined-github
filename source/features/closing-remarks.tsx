@@ -29,7 +29,7 @@ function ExplanationLink(): JSX.Element {
 	// See screenshots in https://github.com/refined-github/refined-github/pull/7498
 	return (
 		<a href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#closing-remarks">
-			<InfoIcon width={12} height={12} style={{verticalAlign: '-2px'}}/>
+			<InfoIcon width={12} height={12} style={{verticalAlign: '-2px'}} />
 		</a>
 	);
 }
@@ -76,12 +76,8 @@ async function init(signal: AbortSignal): Promise<void> {
 function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionHeader: HTMLElement): void {
 	discussionHeader.parentElement!.append(
 		<span>
-			<TagIcon className="ml-2 mr-1 color-fg-muted"/>
-			<a
-				href={tagUrl}
-				className="commit-ref"
-				title={`${tagName} was the first Git tag to include this pull request`}
-			>
+			<TagIcon className="ml-2 mr-1 color-fg-muted" />
+			<a href={tagUrl} className="commit-ref" title={`${tagName} was the first Git tag to include this pull request`}>
 				{tagName}
 			</a>
 		</span>,
@@ -89,13 +85,21 @@ function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionH
 }
 
 function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
-	const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
+	const linkedTag = (
+		<a href={tagUrl} className="Link--primary text-bold">
+			{tagName}
+		</a>
+	);
 	attachElement('#issue-comment-box', {
 		before: () => (
 			<TimelineItem>
 				{createBanner({
-					icon: <TagIcon className="m-0"/>,
-					text: <>This pull request first appeared in {linkedTag} <ExplanationLink/></>,
+					icon: <TagIcon className="m-0" />,
+					text: (
+						<>
+							This pull request first appeared in {linkedTag} <ExplanationLink />
+						</>
+					),
 					classes: ['flash-success', 'rgh-bg-none'],
 				})}
 			</TimelineItem>
@@ -111,48 +115,51 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 
 	const url = createReleaseUrl();
 	const bannerContent = {
-		icon: <TagIcon className="m-0"/>,
+		icon: <TagIcon className="m-0" />,
 		classes: ['rgh-bg-none'],
-		text: <>{text} <ExplanationLink/></>,
+		text: (
+			<>
+				{text} <ExplanationLink />
+			</>
+		),
 	};
 
 	attachElement('#issue-comment-box', {
 		before: () => (
 			<TimelineItem>
-				{createBanner(url ? {
-					...bannerContent,
-					action: url,
-					buttonLabel: 'Draft a new release',
-				} : bannerContent)}
+				{createBanner(
+					url
+						? {
+								...bannerContent,
+								action: url,
+								buttonLabel: 'Draft a new release',
+							}
+						: bannerContent,
+				)}
 			</TimelineItem>
 		),
 	});
 }
 
-void features.add(import.meta.url, {
-	// When arriving on an already-merged PR
-	asLongAs: [
-		pageDetect.isPRConversation,
-		pageDetect.isMergedPR,
-	],
-	awaitDomReady: true, // It must look for the merge commit
-	init,
-}, {
-	// This catches a PR while it's being merged
-	asLongAs: [
-		pageDetect.isPRConversation,
-		pageDetect.isOpenPR,
-		canCreateRelease,
-	],
-	additionalListeners: [
-		onPrMerge,
-	],
-	onlyAdditionalListeners: true,
-	awaitDomReady: true, // DOM-based filters
-	init() {
-		void addReleaseBanner();
+void features.add(
+	import.meta.url,
+	{
+		// When arriving on an already-merged PR
+		asLongAs: [pageDetect.isPRConversation, pageDetect.isMergedPR],
+		awaitDomReady: true, // It must look for the merge commit
+		init,
 	},
-});
+	{
+		// This catches a PR while it's being merged
+		asLongAs: [pageDetect.isPRConversation, pageDetect.isOpenPR, canCreateRelease],
+		additionalListeners: [onPrMerge],
+		onlyAdditionalListeners: true,
+		awaitDomReady: true, // DOM-based filters
+		init() {
+			void addReleaseBanner();
+		},
+	},
+);
 
 /*
 Test URLs

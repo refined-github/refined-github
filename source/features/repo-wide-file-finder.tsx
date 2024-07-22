@@ -8,21 +8,14 @@ import {registerHotkey} from '../github-helpers/hotkey.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 
 async function init(signal: AbortSignal): Promise<void> {
-	const ref = getCurrentGitRef() ?? await getDefaultBranch();
+	const ref = getCurrentGitRef() ?? (await getDefaultBranch());
 	const url = buildRepoURL('tree', ref) + '?search=1';
 	registerHotkey('t', url, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepo,
-	],
-	exclude: [
-		() => elementExists('[data-hotkey="t"]'),
-		pageDetect.isEmptyRepo,
-		pageDetect.isPRFiles,
-		pageDetect.isFileFinder,
-	],
+	include: [pageDetect.isRepo],
+	exclude: [() => elementExists('[data-hotkey="t"]'), pageDetect.isEmptyRepo, pageDetect.isPRFiles, pageDetect.isFileFinder],
 	init,
 });
 

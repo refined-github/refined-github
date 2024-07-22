@@ -10,17 +10,23 @@ const previous = [
 	'.prh-commit a.BtnGroup-item:first-child', // `isPRCommit`
 ] as const;
 
-const next = previous.join(',')
-	.replaceAll('"prev"', '"next"')
-	.replaceAll(':first', ':last') as 'a';
+const next = previous.join(',').replaceAll('"prev"', '"next"').replaceAll(':first', ':last') as 'a';
 
 function init(signal: AbortSignal): void {
-	observe(previous, button => {
-		addHotkey(button, 'ArrowLeft');
-	}, {signal});
-	observe(next, button => {
-		addHotkey(button, 'ArrowRight');
-	}, {signal});
+	observe(
+		previous,
+		button => {
+			addHotkey(button, 'ArrowLeft');
+		},
+		{signal},
+	);
+	observe(
+		next,
+		button => {
+			addHotkey(button, 'ArrowRight');
+		},
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

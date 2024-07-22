@@ -13,9 +13,7 @@ export default function getUserAvatar(username: string, size: number): string | 
 
 	// If it's not a bot, use a shortcut URL #2125
 	if (cleanName === username) {
-		const url = pageDetect.isEnterprise()
-			? `/${username}.png`
-			: `https://avatars.githubusercontent.com/${username}`;
+		const url = pageDetect.isEnterprise() ? `/${username}.png` : `https://avatars.githubusercontent.com/${username}`;
 		// Why use a 2x size: https://github.com/refined-github/refined-github/pull/4973#discussion_r735133613
 		return url + `?size=${size * 2}`;
 	}

@@ -6,7 +6,13 @@ import features from '../feature-manager.js';
 function onButtonClick({delegateTarget: delegate, target}: DelegateEvent): void {
 	// Only close if clicking outside of modal
 	if (delegate === target) {
-		delegate.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: 'Escape', code: 'Escape'}));
+		delegate.dispatchEvent(
+			new KeyboardEvent('keydown', {
+				bubbles: true,
+				key: 'Escape',
+				code: 'Escape',
+			}),
+		);
 	}
 }
 
@@ -15,12 +21,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isBranches,
-		pageDetect.isRepoCommitList,
-		pageDetect.isRepoTree,
-		pageDetect.isSingleFile,
-	],
+	include: [pageDetect.isBranches, pageDetect.isRepoCommitList, pageDetect.isRepoTree, pageDetect.isSingleFile],
 	init,
 });
 

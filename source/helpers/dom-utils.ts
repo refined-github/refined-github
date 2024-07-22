@@ -59,13 +59,13 @@ export const wrapAll = <Wrapper extends Element>(wrapper: Wrapper, ...targets: A
 	return wrapper;
 };
 
-export const isEditable = (node: unknown): boolean => node instanceof HTMLTextAreaElement
-		|| node instanceof HTMLInputElement
-		|| (node instanceof HTMLElement && node.isContentEditable);
+export const isEditable = (node: unknown): boolean =>
+	node instanceof HTMLTextAreaElement || node instanceof HTMLInputElement || (node instanceof HTMLElement && node.isContentEditable);
 
-export const frame = async (): Promise<number> => new Promise(resolve => {
-	requestAnimationFrame(resolve);
-});
+export const frame = async (): Promise<number> =>
+	new Promise(resolve => {
+		requestAnimationFrame(resolve);
+	});
 
 export const highlightTab = (tabElement: Element): void => {
 	tabElement.classList.add('selected');
@@ -77,14 +77,11 @@ export const unhighlightTab = (tabElement: Element): void => {
 	tabElement.removeAttribute('aria-current');
 };
 
-const matchString = (matcher: RegExp | string, string: string): boolean =>
-	typeof matcher === 'string' ? matcher === string : matcher.test(string);
+const matchString = (matcher: RegExp | string, string: string): boolean => (typeof matcher === 'string' ? matcher === string : matcher.test(string));
 
-const escapeMatcher = (matcher: RegExp | string): string =>
-	typeof matcher === 'string' ? `"${matcher}"` : String(matcher);
+const escapeMatcher = (matcher: RegExp | string): string => (typeof matcher === 'string' ? `"${matcher}"` : String(matcher));
 
-const isTextNode = (node: Text | ChildNode): boolean =>
-	node instanceof Text || ([...node.childNodes].every(childNode => childNode instanceof Text));
+const isTextNode = (node: Text | ChildNode): boolean => node instanceof Text || [...node.childNodes].every(childNode => childNode instanceof Text);
 
 export const isTextNodeContaining = (node: Nullable<Text | ChildNode>, expectation: RegExp | string): boolean => {
 	// Make sure only text is being considered, not links, icons, etc

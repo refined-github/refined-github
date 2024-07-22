@@ -23,9 +23,7 @@ function init(): void {
 	subscriptionsLink.lastElementChild!.textContent = 'Everything you subscribed to';
 
 	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
-	const repositoryId
-		= $('meta[name="octolytics-dimension-repository_id"]')?.content
-		?? $('input[name="repository_id"]')!.value;
+	const repositoryId = $('meta[name="octolytics-dimension-repository_id"]')?.content ?? $('input[name="repository_id"]')!.value;
 	subscriptionsUrl.searchParams.set('repository', stringToBase64(`010:Repository${repositoryId}`));
 	subscriptionsLink.href = subscriptionsUrl.href;
 
@@ -33,9 +31,7 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoIssueOrPRList,
-	],
+	include: [pageDetect.isRepoIssueOrPRList],
 	awaitDomReady: true,
 	deduplicate: 'has-rgh-inner',
 	init,

@@ -8,19 +8,8 @@ import {Promisable} from 'type-fest';
 import onAbort from './helpers/abort-controller.js';
 import asyncForEach from './helpers/async-for-each.js';
 import bisectFeatures from './helpers/bisect.js';
-import {
-	BooleanFunction,
-	RunConditions,
-	isFeaturePrivate,
-	shouldFeatureRun,
-} from './helpers/feature-utils.js';
-import {
-	_,
-	applyStyleHotfixes,
-	brokenFeatures,
-	getLocalHotfixesAsOptions,
-	preloadSyncLocalStrings,
-} from './helpers/hotfix.js';
+import {BooleanFunction, RunConditions, isFeaturePrivate, shouldFeatureRun} from './helpers/feature-utils.js';
+import {_, applyStyleHotfixes, brokenFeatures, getLocalHotfixesAsOptions, preloadSyncLocalStrings} from './helpers/hotfix.js';
 import ArrayMap from './helpers/map-of-arrays.js';
 import waitFor from './helpers/wait-for.js';
 import optionsStorage, {isFeatureDisabled, RGHOptions} from './options-storage.js';
@@ -84,11 +73,7 @@ function logError(url: string, error: unknown): void {
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 	newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
 	newIssueUrl.searchParams.set('repro', location.href);
-	newIssueUrl.searchParams.set('description', [
-		'```',
-		String(error instanceof Error ? error.stack! : error).trim(),
-		'```',
-	].join('\n'));
+	newIssueUrl.searchParams.set('description', ['```', String(error instanceof Error ? error.stack! : error).trim(), '```'].join('\n'));
 
 	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
 	console.group(`❌ ${id}`); // Safari supports only one parameter
@@ -106,12 +91,7 @@ const log = {
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady = new Promise<RGHOptions>(async resolve => {
-	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
-		optionsStorage.getAll(),
-		getLocalHotfixesAsOptions(),
-		bisectFeatures(),
-		preloadSyncLocalStrings(),
-	]);
+	const [options, localHotfixes, bisectedFeatures] = await Promise.all([optionsStorage.getAll(), getLocalHotfixesAsOptions(), bisectFeatures(), preloadSyncLocalStrings()]);
 
 	await waitFor(() => document.body);
 
@@ -120,14 +100,16 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 	}
 
 	if (elementExists('[refined-github]')) {
-		console.warn(stripIndent(`
+		console.warn(
+			stripIndent(`
 			Refined GitHub has been loaded twice. This may be because:
 
 			• You loaded the developer version, or
 			• The extension just updated
 
 			If you see this at every load, please open an issue mentioning the browser you're using and the URL where this appears.
-		`));
+		`),
+		);
 		return;
 	}
 
@@ -152,12 +134,22 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 	}
 
 	// Create logging function
-	log.info = options.logging ? console.log : () => {/* No logging */};
-	log.http = options.logHTTP ? console.log : () => {/* No logging */};
+	log.info = options.logging
+		? console.log
+		: () => {
+				/* No logging */
+			};
+	log.http = options.logHTTP
+		? console.log
+		: () => {
+				/* No logging */
+			};
 
 	if (elementExists('body.logged-out')) {
 		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
-		features.log.error = () => {/* No logging */};
+		features.log.error = () => {
+			/* No logging */
+		};
 	}
 
 	// Detect unload via two events to catch both clicks and history navigation
@@ -175,7 +167,7 @@ export function castArray<Item>(value: Item | Item[]): Item[] {
 async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<void> {
 	const {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, shortcuts} = config;
 
-	if (!await shouldFeatureRun({asLongAs, include, exclude})) {
+	if (!(await shouldFeatureRun({asLongAs, include, exclude}))) {
 		return;
 	}
 
@@ -255,9 +247,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 
 	for (const loader of loaders) {
 		// Input defaults and validation
-		const {
-			shortcuts = {}, asLongAs, include, exclude, init, awaitDomReady = false, deduplicate = false, onlyAdditionalListeners = false, additionalListeners = [],
-		} = loader;
+		const {shortcuts = {}, asLongAs, include, exclude, init, awaitDomReady = false, deduplicate = false, onlyAdditionalListeners = false, additionalListeners = []} = loader;
 
 		if (include?.length === 0) {
 			throw new Error(`${id}: \`include\` cannot be an empty array, it means "run nowhere"`);
@@ -269,7 +259,13 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 		}
 
 		const details = {
-			asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, shortcuts,
+			asLongAs,
+			include,
+			exclude,
+			init,
+			additionalListeners,
+			onlyAdditionalListeners,
+			shortcuts,
 		};
 		if (awaitDomReady) {
 			(async () => {
@@ -327,8 +323,8 @@ void add('rgh-deduplicator' as FeatureID, {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
 		$('has-rgh')?.remove(); // https://github.com/refined-github/refined-github/issues/6568
-		$(_`#js-repo-pjax-container, #js-pjax-container`)?.append(<has-rgh/>);
-		$(_`turbo-frame`)?.append(<has-rgh-inner/>); // #4567
+		$(_`#js-repo-pjax-container, #js-pjax-container`)?.append(<has-rgh />);
+		$(_`turbo-frame`)?.append(<has-rgh-inner />); // #4567
 	},
 });
 

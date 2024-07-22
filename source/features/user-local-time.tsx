@@ -70,11 +70,11 @@ const lastCommitDate = new CachedFunction('last-commit', {
 });
 
 function parseOffset(date: string): number {
-	const [, hourString, minuteString] = (/([-+]\d\d)(\d\d)$/).exec(date) ?? [];
+	const [, hourString, minuteString] = /([-+]\d\d)(\d\d)$/.exec(date) ?? [];
 
 	const hours = Number.parseInt(hourString, 10);
 	const minutes = Number.parseInt(minuteString, 10);
-	return (hours * 60) + (hours < 0 ? -minutes : minutes);
+	return hours * 60 + (hours < 0 ? -minutes : minutes);
 }
 
 async function display({
@@ -133,7 +133,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 	const placeholder = <span className="ml-1">Guessing local time…</span>;
 	const container = (
 		<section aria-label="user local time" className="mt-1 color-fg-muted text-small d-flex flex-items-center">
-			<ClockIcon/> {placeholder}
+			<ClockIcon /> {placeholder}
 		</section>
 	);
 

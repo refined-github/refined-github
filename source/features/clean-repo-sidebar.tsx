@@ -9,7 +9,9 @@ import features from '../feature-manager.js';
 // TODO: It's broken
 const releasesSidebarSelector = '.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]';
 async function cleanReleases(): Promise<void> {
-	const sidebarReleases = await elementReady(releasesSidebarSelector, {waitForChildren: false});
+	const sidebarReleases = await elementReady(releasesSidebarSelector, {
+		waitForChildren: false,
+	});
 	if (!sidebarReleases) {
 		return;
 	}
@@ -23,7 +25,8 @@ async function cleanReleases(): Promise<void> {
 
 	// Collapse "Releases" section into previous section
 	releasesSection.classList.add('border-0', 'pt-md-0');
-	sidebarReleases.closest('.BorderGrid-row')!
+	sidebarReleases
+		.closest('.BorderGrid-row')!
 		.previousElementSibling! // About’s .BorderGrid-row
 		.firstElementChild! // About’s .BorderGrid-cell
 		.classList.add('border-0', 'pb-0');
@@ -62,17 +65,9 @@ async function init(): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoRoot,
-	],
+	include: [pageDetect.isRepoRoot],
 	deduplicate: 'has-rgh-inner',
-	init: [
-		init,
-		cleanReleases,
-		hideLanguageHeader,
-		hideEmptyMeta,
-		moveReportLink,
-	],
+	init: [init, cleanReleases, hideLanguageHeader, hideEmptyMeta, moveReportLink],
 });
 
 /*

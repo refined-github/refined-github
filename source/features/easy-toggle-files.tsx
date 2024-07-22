@@ -11,8 +11,7 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 
 	// The clicked element is either the bar itself or one of its 2 children
 	if (elementClicked === headerBar || elementClicked.parentElement === headerBar) {
-		$('[aria-label="Toggle diff contents"]', headerBar)!
-			.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
+		$('[aria-label="Toggle diff contents"]', headerBar)!.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
 	}
 }
 
@@ -35,18 +34,17 @@ function initSearchPage(signal: AbortSignal): void {
 	delegate(codeSearchHeader, 'click', toggleCodeSearchFile, {signal});
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasFiles,
-		pageDetect.isGistRevision,
-	],
-	init,
-}, {
-	include: [
-		pageDetect.isGlobalSearchResults,
-	],
-	init: initSearchPage,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.hasFiles, pageDetect.isGistRevision],
+		init,
+	},
+	{
+		include: [pageDetect.isGlobalSearchResults],
+		init: initSearchPage,
+	},
+);
 
 /*
 

@@ -46,7 +46,7 @@ const bugs = new CachedFunction('bugs', {
 });
 
 async function getSearchQueryBugLabel(): Promise<string> {
-	const {label} = await bugs.getCached() ?? {};
+	const {label} = (await bugs.getCached()) ?? {};
 	return 'label:' + SearchQuery.escapeValue(label ?? 'bug');
 }
 
@@ -63,7 +63,7 @@ async function addBugsTab(): Promise<void | false> {
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-	if (!await isBugsListing()) {
+	if (!(await isBugsListing())) {
 		const {count} = await bugsPromise;
 		if (count === 0) {
 			return false;
@@ -90,7 +90,7 @@ async function addBugsTab(): Promise<void | false> {
 	const bugsTabTitle = $('[data-content]', bugsTab)!;
 	bugsTabTitle.dataset.content = 'Bugs';
 	bugsTabTitle.textContent = 'Bugs';
-	$('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline"/>);
+	$('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline" />);
 
 	// Set temporary counter
 	const bugsCounter = $('.Counter', bugsTab)!;
@@ -138,16 +138,13 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 		return false;
 	}
 
-	if (
-		(pageDetect.isRepoTaxonomyIssueOrPRList() && location.href.endsWith('/labels/' + encodeURIComponent(label)))
-		|| (pageDetect.isRepoIssueList() && await isBugsListing())
-	) {
+	if ((pageDetect.isRepoTaxonomyIssueOrPRList() && location.href.endsWith('/labels/' + encodeURIComponent(label))) || (pageDetect.isRepoIssueList() && (await isBugsListing()))) {
 		void removePinnedIssues();
 		highlightBugsTab();
 		return;
 	}
 
-	if (pageDetect.isIssue() && await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${label}"]`)) {
+	if (pageDetect.isIssue() && (await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${label}"]`))) {
 		highlightBugsTab();
 		return;
 	}
@@ -164,9 +161,7 @@ async function init(): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
+	include: [pageDetect.hasRepoHeader],
 	init,
 });
 

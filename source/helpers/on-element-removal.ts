@@ -14,12 +14,16 @@ const onElementRemoval = mem(async (element: Element, signal?: AbortSignal): Pro
 		});
 
 		if (signal) {
-			signal.addEventListener('abort', () => {
-				observer.disconnect();
-				resolve();
-			}, {
-				once: true,
-			});
+			signal.addEventListener(
+				'abort',
+				() => {
+					observer.disconnect();
+					resolve();
+				},
+				{
+					once: true,
+				},
+			);
 		}
 
 		observer.observe(element);

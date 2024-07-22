@@ -19,9 +19,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoTree,
-	],
+	include: [pageDetect.isRepoTree],
 	exclude: [
 		pageDetect.isRepoHome, // Already has an native download ZIP button
 		pageDetect.isEnterprise,

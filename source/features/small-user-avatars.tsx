@@ -13,13 +13,7 @@ function addAvatar(link: HTMLElement): void {
 
 	link.classList.add('d-inline-block', 'lh-condensed-ultra');
 	link.prepend(
-		<img
-			className="avatar avatar-user v-align-text-bottom mr-1 rgh-small-user-avatars"
-			src={getUserAvatarURL(username, size)!}
-			width={size}
-			height={size}
-			loading="lazy"
-		/>,
+		<img className="avatar avatar-user v-align-text-bottom mr-1 rgh-small-user-avatars" src={getUserAvatarURL(username, size)!} width={size} height={size} loading="lazy" />,
 	);
 }
 
@@ -42,10 +36,7 @@ function addMentionAvatar(link: HTMLElement): void {
 
 function init(): void {
 	// Excludes bots
-	observe([
-		'.js-issue-row [data-hovercard-type="user"]',
-		'.notification-thread-subscription [data-hovercard-type="user"]',
-	], addAvatar);
+	observe(['.js-issue-row [data-hovercard-type="user"]', '.notification-thread-subscription [data-hovercard-type="user"]'], addAvatar);
 	observe('.user-mention:not(.commit-author)[data-hovercard-type="user"]', addMentionAvatar);
 }
 

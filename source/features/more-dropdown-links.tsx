@@ -28,7 +28,7 @@ export async function unhideOverflowDropdown(): Promise<boolean> {
 }
 
 async function init(): Promise<void> {
-	const reference = getCurrentGitRef() ?? await getDefaultBranch();
+	const reference = getCurrentGitRef() ?? (await getDefaultBranch());
 	const compareUrl = buildRepoURL('compare', reference);
 	const commitsUrl = buildRepoURL('commits', reference);
 	const branchesUrl = buildRepoURL('branches');
@@ -38,7 +38,7 @@ async function init(): Promise<void> {
 	// Wait for the nav dropdown to be loaded #5244
 	const repoNavigationDropdown = await elementReady('.UnderlineNav-actions ul');
 	repoNavigationDropdown!.append(
-		<li className="dropdown-divider" role="separator"/>,
+		<li className="dropdown-divider" role="separator" />,
 		createDropdownItem({
 			label: 'Compare',
 			href: compareUrl,
@@ -47,10 +47,10 @@ async function init(): Promise<void> {
 		pageDetect.isEnterprise()
 			? ''
 			: createDropdownItem({
-				label: 'Dependencies',
-				href: dependenciesUrl,
-				icon: PackageDependenciesIcon,
-			}),
+					label: 'Dependencies',
+					href: dependenciesUrl,
+					icon: PackageDependenciesIcon,
+				}),
 		createDropdownItem({
 			label: 'Commits',
 			href: commitsUrl,
@@ -65,9 +65,7 @@ async function init(): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
+	include: [pageDetect.hasRepoHeader],
 	exclude: [
 		pageDetect.isEmptyRepo,
 

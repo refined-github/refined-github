@@ -27,21 +27,17 @@ async function init(): Promise<void> {
 	const diffstat = await elementReady('.diffstat', {waitForChildren: false});
 	diffstat!.replaceWith(
 		<span className="ml-2 diffstat tooltipped tooltipped-s" aria-label={tooltip}>
-			<span className="color-fg-success">+{additions}</span>{' '}
-			<span className="color-fg-danger">−{deletions}</span>{' '}
-			<span className="diffstat-block-neutral"/>
-			<span className="diffstat-block-neutral"/>
-			<span className="diffstat-block-neutral"/>
-			<span className="diffstat-block-neutral"/>
-			<span className="diffstat-block-neutral"/>
+			<span className="color-fg-success">+{additions}</span> <span className="color-fg-danger">−{deletions}</span> <span className="diffstat-block-neutral" />
+			<span className="diffstat-block-neutral" />
+			<span className="diffstat-block-neutral" />
+			<span className="diffstat-block-neutral" />
+			<span className="diffstat-block-neutral" />
 		</span>,
 	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRCommit,
-	],
+	include: [pageDetect.isPRCommit],
 	deduplicate: 'has-rgh-inner',
 	init,
 });

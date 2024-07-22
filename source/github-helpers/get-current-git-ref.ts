@@ -55,8 +55,7 @@ function getCurrentBranchFromFeed(): string | undefined {
 		return;
 	}
 
-	return new URL(feedLink.href)
-		.pathname
+	return new URL(feedLink.href).pathname
 		.split('/')
 		.slice(4) // Drops the initial /user/repo/route/ part
 		.join('/')

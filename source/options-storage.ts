@@ -5,13 +5,16 @@ import {importedFeatures} from '../readme.md';
 export type RGHOptions = typeof defaults;
 
 // eslint-disable-next-line prefer-object-spread -- TypeScript doesn't merge the definitions so `...` is not equivalent.
-const defaults = Object.assign({
-	actionUrl: 'https://github.com/',
-	customCSS: '',
-	personalToken: '',
-	logging: false,
-	logHTTP: false,
-}, Object.fromEntries(importedFeatures.map(id => [`feature:${id}`, true])));
+const defaults = Object.assign(
+	{
+		actionUrl: 'https://github.com/',
+		customCSS: '',
+		personalToken: '',
+		logging: false,
+		logHTTP: false,
+	},
+	Object.fromEntries(importedFeatures.map(id => [`feature:${id}`, true])),
+);
 
 export const renamedFeatures = new Map<string, string>([
 	['separate-draft-pr-button', 'one-click-pr-or-gist'],
@@ -63,7 +66,7 @@ export function getNewFeatureName(possibleFeatureName: string): FeatureID | unde
 		newFeatureName = renamedFeatures.get(newFeatureName)!;
 	}
 
-	return importedFeatures.includes(newFeatureName as FeatureID) ? newFeatureName as FeatureID : undefined;
+	return importedFeatures.includes(newFeatureName as FeatureID) ? (newFeatureName as FeatureID) : undefined;
 }
 
 const migrations = [
@@ -79,5 +82,8 @@ const migrations = [
 	OptionsSyncPerDomain.migrations.removeUnused,
 ];
 
-export const perDomainOptions = new OptionsSyncPerDomain({defaults, migrations});
+export const perDomainOptions = new OptionsSyncPerDomain({
+	defaults,
+	migrations,
+});
 export default perDomainOptions.getOptionsForOrigin();

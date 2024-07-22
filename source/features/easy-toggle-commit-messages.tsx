@@ -16,9 +16,7 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 		return;
 	}
 
-	$('.ellipsis-expander', event.delegateTarget)?.dispatchEvent(
-		new MouseEvent('click', {bubbles: true, altKey: event.altKey}),
-	);
+	$('.ellipsis-expander', event.delegateTarget)?.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
 }
 
 const commitMessagesSelector = [
@@ -31,15 +29,8 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isCommitList,
-		pageDetect.isCompare,
-		pageDetect.isRepoTree,
-		pageDetect.isSingleFile,
-	],
-	exclude: [
-		pageDetect.isRepoFile404,
-	],
+	include: [pageDetect.isCommitList, pageDetect.isCompare, pageDetect.isRepoTree, pageDetect.isSingleFile],
+	exclude: [pageDetect.isRepoFile404],
 	init,
 });
 

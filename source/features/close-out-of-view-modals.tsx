@@ -38,12 +38,15 @@ function menuActivatedHandler(event: DelegateEvent): void {
 
 	lastOpen = Date.now();
 
-	const modals = $$([
-		':scope > details-menu', // "Watch repo" dropdown
-		':scope > details-dialog', // "Watch repo" dropdown
-		':scope > modal-dialog', // "Development" dropdown #7093
-		':scope > div > .dropdown-menu', // "Clone or download" and "Repo nav overflow"
-	], details);
+	const modals = $$(
+		[
+			':scope > details-menu', // "Watch repo" dropdown
+			':scope > details-dialog', // "Watch repo" dropdown
+			':scope > modal-dialog', // "Development" dropdown #7093
+			':scope > div > .dropdown-menu', // "Clone or download" and "Repo nav overflow"
+		],
+		details,
+	);
 
 	for (const modal of modals) {
 		observer.observe(modal);
@@ -51,7 +54,10 @@ function menuActivatedHandler(event: DelegateEvent): void {
 }
 
 function init(): void {
-	delegate('.details-overlay', 'toggle', menuActivatedHandler, {capture: true, signal: safetySwitch.signal});
+	delegate('.details-overlay', 'toggle', menuActivatedHandler, {
+		capture: true,
+		signal: safetySwitch.signal,
+	});
 }
 
 void features.add(import.meta.url, {

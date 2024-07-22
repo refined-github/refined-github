@@ -27,7 +27,7 @@ so the call will not throw an error but it will return as usual.
 
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
-import {AsyncReturnType, JsonObject } from 'type-fest';
+import {AsyncReturnType, JsonObject} from 'type-fest';
 
 import features from '../feature-manager.js';
 import {getToken} from './github-token.js';
@@ -58,13 +58,9 @@ export class RefinedGitHubAPIError extends Error {
 	}
 }
 
-const api3 = pageDetect.isEnterprise()
-	? `${location.origin}/api/v3/`
-	: 'https://api.github.com/';
+const api3 = pageDetect.isEnterprise() ? `${location.origin}/api/v3/` : 'https://api.github.com/';
 
-const api4 = pageDetect.isEnterprise()
-	? `${location.origin}/api/graphql`
-	: 'https://api.github.com/graphql';
+const api4 = pageDetect.isEnterprise() ? `${location.origin}/api/graphql` : 'https://api.github.com/graphql';
 
 type GHRestApiOptions = {
 	ignoreHTTPStatus?: boolean;
@@ -90,49 +86,49 @@ const v4defaults: GHGraphQLApiOptions = {
 	allowErrors: false,
 };
 
-export const v3 = mem(async (
-	query: string,
-	options: GHRestApiOptions = v3defaults,
-): Promise<RestResponse> => {
-	const {ignoreHTTPStatus, method, body, headers, json} = {...v3defaults, ...options};
-	const personalToken = await getToken();
+export const v3 = mem(
+	async (query: string, options: GHRestApiOptions = v3defaults): Promise<RestResponse> => {
+		const {ignoreHTTPStatus, method, body, headers, json} = {
+			...v3defaults,
+			...options,
+		};
+		const personalToken = await getToken();
 
-	if (!query.startsWith('https')) {
-		query = query.startsWith('/') ? query.slice(1) : ['repos', getRepo()!.nameWithOwner, query].filter(Boolean).join('/');
-	}
+		if (!query.startsWith('https')) {
+			query = query.startsWith('/') ? query.slice(1) : ['repos', getRepo()!.nameWithOwner, query].filter(Boolean).join('/');
+		}
 
-	const url = new URL(query, api3);
-	features.log.http(url);
-	const response = await fetch(url.href, {
-		method,
-		body: body && JSON.stringify(body),
-		headers: {
-			'User-Agent': 'Refined GitHub',
-			Accept: 'application/vnd.github.v3+json',
-			...headers,
-			...personalToken && {Authorization: `token ${personalToken}`},
-		},
-	});
-	const textContent = await response.text();
-	const apiResponse = json ? JSON.parse(textContent) : {textContent};
-
-	if (response.ok || ignoreHTTPStatus) {
-		return Object.assign(apiResponse, {
-			httpStatus: response.status,
-			headers: response.headers,
-			ok: response.ok,
+		const url = new URL(query, api3);
+		features.log.http(url);
+		const response = await fetch(url.href, {
+			method,
+			body: body && JSON.stringify(body),
+			headers: {
+				'User-Agent': 'Refined GitHub',
+				Accept: 'application/vnd.github.v3+json',
+				...headers,
+				...(personalToken && {Authorization: `token ${personalToken}`}),
+			},
 		});
-	}
+		const textContent = await response.text();
+		const apiResponse = json ? JSON.parse(textContent) : {textContent};
 
-	throw await getError(apiResponse);
-}, {
-	cacheKey: JSON.stringify,
-});
+		if (response.ok || ignoreHTTPStatus) {
+			return Object.assign(apiResponse, {
+				httpStatus: response.status,
+				headers: response.headers,
+				ok: response.ok,
+			});
+		}
 
-export const v3paginated = async function * (
-	query: string,
-	options?: GHRestApiOptions,
-): AsyncGenerator<AsyncReturnType<typeof v3>> {
+		throw await getError(apiResponse);
+	},
+	{
+		cacheKey: JSON.stringify,
+	},
+);
+
+export const v3paginated = async function* (query: string, options?: GHRestApiOptions): AsyncGenerator<AsyncReturnType<typeof v3>> {
 	while (true) {
 		// eslint-disable-next-line no-await-in-loop
 		const response = await v3(query, options);
@@ -147,10 +143,7 @@ export const v3paginated = async function * (
 	}
 };
 
-export const v4uncached = async (
-	query: string,
-	options: GHGraphQLApiOptions = v4defaults,
-): Promise<AnyObject> => {
+export const v4uncached = async (query: string, options: GHGraphQLApiOptions = v4defaults): Promise<AnyObject> => {
 	const personalToken = await getToken();
 
 	// TODO: Remove automatic usage of globals via `getRepo()`
@@ -174,11 +167,7 @@ export const v4uncached = async (
 
 	Object.assign(variables, options.variables);
 
-	const fullQuery = /^\s*(query|mutation)/.test(query)
-		? query
-		: parameters.length === 0
-			? `query {${query}}`
-			: `query (${parameters.join(',')}) {${query}}`;
+	const fullQuery = /^\s*(query|mutation)/.test(query) ? query : parameters.length === 0 ? `query {${query}}` : `query (${parameters.join(',')}) {${query}}`;
 
 	features.log.http(fullQuery);
 
@@ -197,10 +186,7 @@ export const v4uncached = async (
 
 	const apiResponse: GraphQLResponse = await response.json();
 
-	const {
-		data = {},
-		errors = [],
-	} = apiResponse;
+	const {data = {}, errors = []} = apiResponse;
 
 	if (errors.length > 0 && !options.allowErrors) {
 		throw new RefinedGitHubAPIError('GraphQL:', ...errors.map(error => error.message));
@@ -231,25 +217,16 @@ export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAP
 	const personalToken = await getToken();
 
 	if ((apiResponse.message as string)?.includes('API rate limit exceeded')) {
-		return new RefinedGitHubAPIError(
-			'Rate limit exceeded.',
-			personalToken
-				? 'It may be time for a walk! 🍃 🌞'
-				: 'Set your token in the options or take a walk! 🍃 🌞',
-		);
+		return new RefinedGitHubAPIError('Rate limit exceeded.', personalToken ? 'It may be time for a walk! 🍃 🌞' : 'Set your token in the options or take a walk! 🍃 🌞');
 	}
 
 	if (apiResponse.message === 'Bad credentials') {
-		return new RefinedGitHubAPIError(
-			'The token seems to be incorrect or expired. Update it in the options.',
-		);
+		return new RefinedGitHubAPIError('The token seems to be incorrect or expired. Update it in the options.');
 	}
 
 	const error = new RefinedGitHubAPIError(
 		'Unable to fetch.',
-		personalToken
-			? 'Ensure that your token has access to this repo.'
-			: 'Maybe adding a token in the options will fix this issue.',
+		personalToken ? 'Ensure that your token has access to this repo.' : 'Maybe adding a token in the options will fix this issue.',
 		JSON.stringify(apiResponse, null, '\t'), // Beautify
 	);
 	error.response = apiResponse;

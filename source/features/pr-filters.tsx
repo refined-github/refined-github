@@ -17,37 +17,24 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 
 	const searchParameter = new URLSearchParams(location.search);
 	const currentQuerySegments = searchParameter.get('q')?.split(/\s+/) ?? [];
-	const isSelected = currentQuerySegments.some(
-		segment => segment.toLowerCase() === filterQuery,
-	);
+	const isSelected = currentQuerySegments.some(segment => segment.toLowerCase() === filterQuery);
 
-	const query = currentQuerySegments.filter(
-		segment => !segment.startsWith(`${filterCategory}:`),
-	).join(' ');
+	const query = currentQuerySegments.filter(segment => !segment.startsWith(`${filterCategory}:`)).join(' ');
 
 	const search = new URLSearchParams({
 		q: query + (isSelected ? '' : ` ${filterQuery}`),
 	});
 
 	dropdown.append(
-		<a
-			href={`?${String(search)}`}
-			className="SelectMenu-item"
-			aria-checked={isSelected ? 'true' : 'false'}
-			role="menuitemradio"
-		>
-			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
+		<a href={`?${String(search)}`} className="SelectMenu-item" aria-checked={isSelected ? 'true' : 'false'} role="menuitemradio">
+			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check" />
 			<span>{title}</span>
 		</a>,
 	);
 }
 
 function addDraftFilter(dropdown: HTMLElement): void {
-	dropdown.append(
-		<div className="SelectMenu-divider">
-			Filter by draft pull requests
-		</div>,
-	);
+	dropdown.append(<div className="SelectMenu-divider">Filter by draft pull requests</div>);
 
 	addDropdownItem(dropdown, 'Ready for review', 'draft', 'false');
 	addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');
@@ -64,7 +51,7 @@ const hasChecks = new CachedFunction('has-checks', {
 });
 
 async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
-	if (!await hasChecks.get()) {
+	if (!(await hasChecks.get())) {
 		return;
 	}
 
@@ -87,13 +74,13 @@ async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe(reviewsFilterSelector, addChecksFilter, {signal});
-	observe(`${reviewsFilterSelector} .SelectMenu-list`, addDraftFilter, {signal});
+	observe(`${reviewsFilterSelector} .SelectMenu-list`, addDraftFilter, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRList,
-	],
+	include: [pageDetect.isPRList],
 	init,
 });
 

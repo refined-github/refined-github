@@ -1,4 +1,4 @@
-import {assert, test } from 'vitest';
+import {assert, test} from 'vitest';
 
 import GitHubFileURL from './github-file-url.js';
 
@@ -79,14 +79,22 @@ test('change filePath', () => {
 });
 
 test('get filePath from search', () => {
-	const url = new GitHubFileURL('https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670?after=f23b687b3b89aa95a76193722cdfeff740646670+34&path%5B%5D=source&path%5B%5D=features&path%5B%5D=release-download-count.tsx');
+	const url = new GitHubFileURL(
+		'https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670?after=f23b687b3b89aa95a76193722cdfeff740646670+34&path%5B%5D=source&path%5B%5D=features&path%5B%5D=release-download-count.tsx',
+	);
 	assert.equal(url.user, 'yakov116');
 	assert.equal(url.repository, 'refined-github');
 	assert.equal(url.route, 'commits');
 	assert.equal(url.branch, 'f23b687b3b89aa95a76193722cdfeff740646670');
 	assert.equal(url.filePath, 'source/features/release-download-count.tsx');
 	assert.equal(url.pathname, '/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx');
-	assert.equal(url.href, 'https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
+	assert.equal(
+		url.href,
+		'https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx?after=f23b687b3b89aa95a76193722cdfeff740646670+34',
+	);
 	assert.equal(url.search, '?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
-	assert.equal(String(url), 'https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx?after=f23b687b3b89aa95a76193722cdfeff740646670+34');
+	assert.equal(
+		String(url),
+		'https://github.com/yakov116/refined-github/commits/f23b687b3b89aa95a76193722cdfeff740646670/source/features/release-download-count.tsx?after=f23b687b3b89aa95a76193722cdfeff740646670+34',
+	);
 });

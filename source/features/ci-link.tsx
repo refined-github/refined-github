@@ -30,11 +30,7 @@ async function add(anchor: HTMLElement): Promise<void> {
 	anchor.parentElement!.append(
 		<span className="rgh-ci-link ml-1">
 			<batch-deferred-content hidden data-url={endpoint}>
-				<input
-					name="oid"
-					value={commit}
-					data-targets="batch-deferred-content.inputs"
-				/>
+				<input name="oid" value={commit} data-targets="batch-deferred-content.inputs" />
 			</batch-deferred-content>
 		</span>,
 	);
@@ -44,23 +40,25 @@ async function add(anchor: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe([
-		// Desktop
-		'.AppHeader-context-item:not([data-hovercard-type])',
+	observe(
+		[
+			// Desktop
+			'.AppHeader-context-item:not([data-hovercard-type])',
 
-		// Mobile. `> *:first-child` avoids finding our own element
-		'.AppHeader-context-compact-mainItem > span:first-child',
+			// Mobile. `> *:first-child` avoids finding our own element
+			'.AppHeader-context-compact-mainItem > span:first-child',
 
-		// Old selector: `.avatar` excludes "Global navigation update"
-		// Repo title (aware of forks and private repos)
-		'[itemprop="name"]:not(.avatar ~ [itemprop])',
-	], add, {signal});
+			// Old selector: `.avatar` excludes "Global navigation update"
+			// Repo title (aware of forks and private repos)
+			'[itemprop="name"]:not(.avatar ~ [itemprop])',
+		],
+		add,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
+	include: [pageDetect.hasRepoHeader],
 	init,
 });
 

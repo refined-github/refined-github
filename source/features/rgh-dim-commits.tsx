@@ -18,12 +18,8 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isRefinedGitHubRepo,
-	],
-	include: [
-		pageDetect.isCommitList,
-	],
+	asLongAs: [isRefinedGitHubRepo],
+	include: [pageDetect.isCommitList],
 	init,
 });
 

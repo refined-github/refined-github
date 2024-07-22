@@ -8,17 +8,14 @@ import {buildRepoURL, getRepo} from '../github-helpers/index.js';
 const isTwoDotDiff = (): boolean => /\.\.+/.exec(location.pathname)?.[0]!.length === 2;
 
 function init(): void {
-	const {path} = (getRepo()!);
+	const {path} = getRepo()!;
 
 	// `main...main` comparison
 	if (path === 'compare') {
 		return;
 	}
 
-	const references = path
-		.replace('compare/', '')
-		.split('...')
-		.reverse();
+	const references = path.replace('compare/', '').split('...').reverse();
 
 	// Compares against the "base" branch if the URL only has one reference
 	if (references.length === 1) {
@@ -38,9 +35,7 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isCompare,
-	],
+	include: [pageDetect.isCompare],
 	exclude: [
 		// Disable on Two-dot Git diff comparison #4453
 		isTwoDotDiff,

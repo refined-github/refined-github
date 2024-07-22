@@ -29,20 +29,18 @@ async function init(): Promise<void> {
 	attachElement(deletionEvent!.closest('.TimelineItem-body'), {
 		append() {
 			const url = featureLink(features.getFeatureID(import.meta.url));
-			return <a className="d-inline-block" href={url}>via Refined GitHub <InfoIcon/></a>;
+			return (
+				<a className="d-inline-block" href={url}>
+					via Refined GitHub <InfoIcon />
+				</a>
+			);
 		},
 	});
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isPRConversation,
-		pageDetect.isOpenPR,
-		canCreateRelease,
-	],
-	additionalListeners: [
-		onPrMerge,
-	],
+	asLongAs: [pageDetect.isPRConversation, pageDetect.isOpenPR, canCreateRelease],
+	additionalListeners: [onPrMerge],
 	onlyAdditionalListeners: true,
 	init,
 });

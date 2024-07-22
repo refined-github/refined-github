@@ -10,9 +10,7 @@ import api from '../github-helpers/api.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {groupButtons} from '../github-helpers/group-buttons.js';
-import {
-	buildRepoURL, cacheByRepo, getLatestVersionTag, getRepo,
-} from '../github-helpers/index.js';
+import {buildRepoURL, cacheByRepo, getLatestVersionTag, getRepo} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {branchSelector} from '../github-helpers/selectors.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
@@ -75,23 +73,13 @@ export const repoPublishState = new CachedFunction('tag-ahead-by', {
 	cacheKey: cacheByRepo,
 });
 
-async function createLink(
-	latestTag: string,
-	aheadBy: number,
-): Promise<HTMLElement> {
-	const commitCount
-		= aheadBy === undeterminableAheadBy
-			? 'More than 20 unreleased commits'
-			: pluralize(aheadBy, '$$ unreleased commit');
+async function createLink(latestTag: string, aheadBy: number): Promise<HTMLElement> {
+	const commitCount = aheadBy === undeterminableAheadBy ? 'More than 20 unreleased commits' : pluralize(aheadBy, '$$ unreleased commit');
 	const label = `${commitCount}\nsince ${abbreviateString(latestTag, 30)}`;
 
 	return (
-		<a
-			className="btn px-2 tooltipped tooltipped-se"
-			href={buildRepoURL('compare', `${latestTag}...${await getDefaultBranch()}`)}
-			aria-label={label}
-		>
-			<TagIcon className="v-align-middle"/>
+		<a className="btn px-2 tooltipped tooltipped-se" href={buildRepoURL('compare', `${latestTag}...${await getDefaultBranch()}`)} aria-label={label}>
+			<TagIcon className="v-align-middle" />
 			{aheadBy === undeterminableAheadBy || <sup className="ml-n2"> +{aheadBy}</sup>}
 		</a>
 	);
@@ -106,13 +94,8 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTML
 	return groupButtons([
 		link,
 		// `aria-label` wording taken from $user/$repo/releases page
-		<a
-			href={buildRepoURL('releases/new')}
-			className="btn px-2 tooltipped tooltipped-se"
-			aria-label="Draft a new release"
-			data-turbo-frame="repo-content-turbo-frame"
-		>
-			<PlusIcon className="v-align-middle"/>
+		<a href={buildRepoURL('releases/new')} className="btn px-2 tooltipped tooltipped-se" aria-label="Draft a new release" data-turbo-frame="repo-content-turbo-frame">
+			<PlusIcon className="v-align-middle" />
 		</a>,
 	]);
 }
@@ -134,11 +117,7 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 	const linkGroup = await createLinkGroup(latestTag, aheadBy);
 	linkGroup.style.flexShrink = '0';
 
-	wrapAll(
-		<div className="d-flex gap-2 rgh-unreleased-commits-wrapper"/>,
-		branchSelector,
-		linkGroup,
-	);
+	wrapAll(<div className="d-flex gap-2 rgh-unreleased-commits-wrapper" />, branchSelector, linkGroup);
 }
 
 async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
@@ -155,10 +134,7 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 	const newReleaseButton = $('nav + div a[href$="/releases/new"]');
 	if (newReleaseButton) {
 		newReleaseButton.before(widget);
-		groupButtons([
-			widget,
-			newReleaseButton,
-		]);
+		groupButtons([widget, newReleaseButton]);
 		return;
 	}
 
@@ -179,21 +155,21 @@ async function initReleases(signal: AbortSignal): Promise<void> {
 	observe('input#release-filter', addToReleases, {signal});
 }
 
-void features.add(import.meta.url, {
-	asLongAs: [
-		isDefaultBranch,
-	],
-	include: [
-		pageDetect.isRepoHome,
-	],
-	init: initHome,
-}, {
-	include: [
-		// Only first page of Releases
-		() => getRepo()?.path === 'releases',
-	],
-	init: initReleases,
-});
+void features.add(
+	import.meta.url,
+	{
+		asLongAs: [isDefaultBranch],
+		include: [pageDetect.isRepoHome],
+		init: initHome,
+	},
+	{
+		include: [
+			// Only first page of Releases
+			() => getRepo()?.path === 'releases',
+		],
+		init: initReleases,
+	},
+);
 
 /*
 

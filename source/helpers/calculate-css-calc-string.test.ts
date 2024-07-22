@@ -1,4 +1,4 @@
-import {assert, test } from 'vitest';
+import {assert, test} from 'vitest';
 
 import calculateCssCalcString from './calculate-css-calc-string.js';
 

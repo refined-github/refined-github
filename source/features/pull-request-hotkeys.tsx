@@ -28,8 +28,6 @@ void features.add(import.meta.url, {
 		'g →': 'Go to next PR tab',
 		'g ←': 'Go to previous PR tab',
 	},
-	include: [
-		pageDetect.isPR,
-	],
+	include: [pageDetect.isPR],
 	init,
 });

@@ -17,20 +17,19 @@ async function init(): Promise<void> {
 	commitMeta!.classList.remove('no-wrap'); // #5987
 	commitMeta!.lastElementChild!.append(
 		<span className="sha-block" data-turbo="false">
-			<a href={`${commitUrl}.patch`} className="sha">patch</a>
-			{' '}
-			<a href={`${commitUrl}.diff`} className="sha">diff</a>
+			<a href={`${commitUrl}.patch`} className="sha">
+				patch
+			</a>{' '}
+			<a href={`${commitUrl}.diff`} className="sha">
+				diff
+			</a>
 		</span>,
 	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isCommit,
-	],
-	exclude: [
-		pageDetect.isPRCommit404,
-	],
+	include: [pageDetect.isCommit],
+	exclude: [pageDetect.isPRCommit404],
 	deduplicate: 'has-rgh-inner',
 	init,
 });

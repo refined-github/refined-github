@@ -10,14 +10,17 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 	const field = event.delegateTarget;
 	const form = field.form!;
 	if (
-		event.key !== 'Enter'
-		|| event.ctrlKey
-		|| event.metaKey
-		|| event.isComposing // #4323
-		|| elementExists([
-			'.suggester', // GitHub’s autocomplete dropdown
-			'.rgh-avoid-accidental-submissions',
-		], form)
+		event.key !== 'Enter' ||
+		event.ctrlKey ||
+		event.metaKey ||
+		event.isComposing || // #4323
+		elementExists(
+			[
+				'.suggester', // GitHub’s autocomplete dropdown
+				'.rgh-avoid-accidental-submissions',
+			],
+			form,
+		)
 	) {
 		return;
 	}
@@ -30,7 +33,8 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 
 	const message = (
 		<p className={'rgh-avoid-accidental-submissions ' + spacingClasses}>
-			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use <kbd>{isMac ? 'cmd' : 'ctrl'}</kbd><kbd>enter</kbd>.
+			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use <kbd>{isMac ? 'cmd' : 'ctrl'}</kbd>
+			<kbd>enter</kbd>.
 		</p>
 	);
 	if (pageDetect.isNewFile() || pageDetect.isEditingFile() || pageDetect.isPRConversation()) {
@@ -42,25 +46,14 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 	event.preventDefault();
 }
 
-const inputElements = [
-	'form.new_issue input#issue_title',
-	'input#pull_request_title',
-	'input#commit-summary-input',
-	'#merge_title_field',
-];
+const inputElements = ['form.new_issue input#issue_title', 'input#pull_request_title', 'input#commit-summary-input', '#merge_title_field'];
 
 function init(signal: AbortSignal): void {
 	delegate(inputElements.join(','), 'keydown', onKeyDown, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isNewIssue,
-		pageDetect.isNewFile,
-		pageDetect.isCompare,
-		pageDetect.isEditingFile,
-		pageDetect.isPRConversation,
-	],
+	include: [pageDetect.isNewIssue, pageDetect.isNewFile, pageDetect.isCompare, pageDetect.isEditingFile, pageDetect.isPRConversation],
 	init,
 });
 

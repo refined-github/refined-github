@@ -23,21 +23,17 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 	}
 
 	wrapAll(
-		<div className="d-flex gap-2"/>,
+		<div className="d-flex gap-2" />,
 		branchSelector,
-		<a
-			className="btn px-2 tooltipped tooltipped-se"
-			href={buildRepoURL('releases/tag', tag)}
-			aria-label="Visit tag"
-		>
-			<ArrowUpRightIcon/>
+		<a className="btn px-2 tooltipped tooltipped-se" href={buildRepoURL('releases/tag', tag)} aria-label="Visit tag">
+			<ArrowUpRightIcon />
 		</a>,
 	);
 }
 
 function replaceIcon(tagIcon: SVGElement): void {
 	// https://github.com/refined-github/refined-github/issues/6499#issuecomment-1505256426
-	tagIcon.replaceWith(<CodeIcon/>);
+	tagIcon.replaceWith(<CodeIcon />);
 }
 
 function clarifyIcon(signal: AbortSignal): void {
@@ -48,19 +44,17 @@ function init(signal: AbortSignal): void {
 	observe(`:is(${branchSelector}):has(.octicon-tag)`, addLink, {signal});
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoTree,
-		pageDetect.isSingleFile,
-	],
-	init,
-}, {
-	include: [
-		pageDetect.isReleasesOrTags,
-		pageDetect.isSingleReleaseOrTag,
-	],
-	init: clarifyIcon,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.isRepoTree, pageDetect.isSingleFile],
+		init,
+	},
+	{
+		include: [pageDetect.isReleasesOrTags, pageDetect.isSingleReleaseOrTag],
+		init: clarifyIcon,
+	},
+);
 
 /*
 

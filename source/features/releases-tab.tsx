@@ -9,10 +9,8 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import {expectToken} from '../github-helpers/github-token.js';
-import {
-	buildRepoURL, cacheByRepo, getRepo, triggerRepoNavOverflow,
-} from '../github-helpers/index.js';
-import {repoUnderlineNavDropdownUl, repoUnderlineNavUl } from '../github-helpers/selectors.js';
+import {buildRepoURL, cacheByRepo, getRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
+import {repoUnderlineNavDropdownUl, repoUnderlineNavUl} from '../github-helpers/selectors.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {appendBefore} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
@@ -27,9 +25,11 @@ export async function getReleases(): Promise<[0] | [number, 'Tags' | 'Releases']
 	return releasesCount.get(repo);
 }
 
-async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags' | 'Releases'] > {
+async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags' | 'Releases']> {
 	const [owner, name] = nameWithOwner.split('/');
-	const {repository: {releases, tags}} = await api.v4(GetReleasesCount, {
+	const {
+		repository: {releases, tags},
+	} = await api.v4(GetReleasesCount, {
 		variables: {name, owner},
 	});
 
@@ -71,9 +71,11 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 				data-tab-item="rgh-releases-item"
 				data-turbo-frame="repo-content-turbo-frame" /* Required for `data-selected-links` to work */
 			>
-				<TagIcon className="UnderlineNav-octicon d-none d-sm-inline"/>
+				<TagIcon className="UnderlineNav-octicon d-none d-sm-inline" />
 				<span data-content={type}>{type}</span>
-				<span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>
+				<span className="Counter" title={count > 999 ? String(count) : ''}>
+					{abbreviateNumber(count)}
+				</span>
 			</a>
 		</li>,
 	);
@@ -114,9 +116,7 @@ void features.add(import.meta.url, {
 	shortcuts: {
 		'g r': 'Go to Releases',
 	},
-	include: [
-		pageDetect.hasRepoHeader,
-	],
+	include: [pageDetect.hasRepoHeader],
 	init,
 });
 

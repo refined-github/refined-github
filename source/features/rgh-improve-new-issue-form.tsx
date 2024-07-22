@@ -12,8 +12,11 @@ function addNotice(adjective: JSX.Element | string): void {
 	$('#issue_body_template_name')!.before(
 		<div className="flash flash-error py-9">
 			<p>
-				Your Personal Access Token is {adjective}. Some Refined GitHub features will not work without it.
-				You can update it <button className="btn-link" type="button" onClick={openOptions as unknown as React.MouseEventHandler}>in the options</button>.
+				Your Personal Access Token is {adjective}. Some Refined GitHub features will not work without it. You can update it{' '}
+				<button className="btn-link" type="button" onClick={openOptions as unknown as React.MouseEventHandler}>
+					in the options
+				</button>
+				.
 			</p>
 			<p>Add a valid token and confirm the problem still occurs, before submitting this issue.</p>
 		</div>,
@@ -42,29 +45,17 @@ async function setVersion(): Promise<void> {
 
 async function linkifyCacheRefresh(): Promise<void> {
 	$('[href="#clear-cache"]')!.replaceWith(
-		<button
-			className="btn"
-			type="button"
-			onClick={clearCacheHandler as unknown as React.MouseEventHandler}
-		>
+		<button className="btn" type="button" onClick={clearCacheHandler as unknown as React.MouseEventHandler}>
 			Clear cache
 		</button>,
 	);
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isRefinedGitHubRepo,
-		pageDetect.isNewIssue,
-		() => new URL(location.href).searchParams.get('template') === '1_bug_report.yml',
-	],
+	asLongAs: [isRefinedGitHubRepo, pageDetect.isNewIssue, () => new URL(location.href).searchParams.get('template') === '1_bug_report.yml'],
 	awaitDomReady: true, // Small page
 	deduplicate: 'has-rgh-inner',
-	init: [
-		linkifyCacheRefresh,
-		checkToken,
-		setVersion,
-	],
+	init: [linkifyCacheRefresh, checkToken, setVersion],
 });
 
 /*

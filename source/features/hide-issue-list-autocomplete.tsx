@@ -8,12 +8,8 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isIssueOrPRList,
-	],
-	exclude: [
-		pageDetect.isMilestone,
-	],
+	include: [pageDetect.isIssueOrPRList],
+	exclude: [pageDetect.isMilestone],
 	awaitDomReady: true, // Not urgent
 	init,
 });

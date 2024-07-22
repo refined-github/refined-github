@@ -23,8 +23,6 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasCode,
-	],
+	include: [pageDetect.hasCode],
 	init,
 });

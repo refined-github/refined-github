@@ -28,10 +28,9 @@ const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 	const count = selectSum(positiveReactionsSelector, comment);
 	if (
 		// It needs to be upvoted enough times
-		count >= 10
-
+		count >= 10 &&
 		// It can't be a controversial comment
-		&& selectSum(negativeReactionsSelector, comment) < count / 2
+		selectSum(negativeReactionsSelector, comment) < count / 2
 	) {
 		return count;
 	}
@@ -53,11 +52,8 @@ function getBestComment(): HTMLElement | undefined {
 function highlightBestComment(bestComment: Element): void {
 	$('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
 	$('.unminimized-comment .timeline-comment-header > h3', bestComment)!.before(
-		<span
-			className="color-fg-success tooltipped tooltipped-s"
-			aria-label="This comment has the most positive reactions on this issue."
-		>
-			<CheckCircleFillIcon/>
+		<span className="color-fg-success tooltipped tooltipped-s" aria-label="This comment has the most positive reactions on this issue.">
+			<CheckCircleFillIcon />
 		</span>,
 	);
 }
@@ -80,11 +76,13 @@ function linkBestComment(bestComment: HTMLElement): void {
 			{avatar}
 
 			<h3 className="timeline-comment-header-text f5 color-fg-muted text-normal text-italic css-truncate css-truncate-overflow mr-2">
-				<span className="Label mr-2">Highest-rated</span>{text}
+				<span className="Label mr-2">Highest-rated</span>
+				{text}
 			</h3>
 
 			<div className="color-fg-muted f6 no-wrap">
-				<ArrowDownIcon className="mr-1"/>Jump to comment
+				<ArrowDownIcon className="mr-1" />
+				Jump to comment
 			</div>
 		</a>,
 	);
@@ -101,7 +99,8 @@ function init(): false | void {
 	}
 
 	const commentText = $(singleParagraphCommentSelector, bestComment)?.textContent;
-	if (commentText && isLowQualityComment(commentText)) { // #5567
+	if (commentText && isLowQualityComment(commentText)) {
+		// #5567
 		return false;
 	}
 
@@ -110,9 +109,7 @@ function init(): false | void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isIssue,
-	],
+	include: [pageDetect.isIssue],
 	deduplicate: 'has-rgh-inner',
 	awaitDomReady: true, // Must wait for all to pick the best one
 	init,

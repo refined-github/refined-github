@@ -9,14 +9,14 @@ import {getBranches} from '../github-helpers/pr-branches.js';
 import cleanCommitMessage from '../helpers/clean-commit-message.js';
 import observe from '../helpers/selector-observer.js';
 
-const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
+const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === (await getDefaultBranch());
 
 async function clear(messageField: HTMLTextAreaElement): Promise<void | false> {
 	// Only run once so that it doesn't clear the field every time it's opened
 	features.unload(import.meta.url);
 
 	const originalMessage = messageField.value;
-	const cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch());
+	const cleanedMessage = cleanCommitMessage(originalMessage, !(await isPrAgainstDefaultBranch()));
 
 	if (cleanedMessage === originalMessage.trim()) {
 		return false;
@@ -31,9 +31,13 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void | false> {
 	messageField.after(
 		<div>
 			<p className="note">
-				The description field was cleared by <a target="_blank" href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message" rel="noreferrer">Refined GitHub</a>.
+				The description field was cleared by{' '}
+				<a target="_blank" href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message" rel="noreferrer">
+					Refined GitHub
+				</a>
+				.
 			</p>
-			<hr/>
+			<hr />
 		</div>,
 	);
 }
@@ -43,12 +47,8 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		userCanLikelyMergePR,
-	],
-	include: [
-		pageDetect.isPRConversation,
-	],
+	asLongAs: [userCanLikelyMergePR],
+	include: [pageDetect.isPRConversation],
 	exclude: [
 		// Don't clear 1-commit PRs #3140
 		() => $$('.TimelineItem.js-commit').length === 1,

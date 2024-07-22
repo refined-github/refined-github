@@ -3,7 +3,7 @@ export default function hashString(string: string): string {
 
 	for (const character of string) {
 		// eslint-disable-next-line no-bitwise
-		hash = ((hash << 5) - hash) + character.codePointAt(0)!;
+		hash = (hash << 5) - hash + character.codePointAt(0)!;
 	}
 
 	return String(Math.trunc(hash));

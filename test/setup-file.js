@@ -1,12 +1,6 @@
-import {NodeFilter, parseHTML } from 'linkedom';
+import {NodeFilter, parseHTML} from 'linkedom';
 
-const globals = [
-	'navigator',
-	'document',
-	'HTMLAnchorElement',
-	'DocumentFragment',
-	'Node',
-];
+const globals = ['navigator', 'document', 'HTMLAnchorElement', 'DocumentFragment', 'Node'];
 
 const {window} = parseHTML('...', 'text/html');
 globalThis.location = new URL('https://github.com');
@@ -44,10 +38,7 @@ window.Text.prototype.splitText = function (offset) {
 			return [this.data, ''];
 		}
 
-		return [
-			this.data.slice(0, Math.max(0, offset)),
-			this.data.slice(Math.max(0, offset)),
-		];
+		return [this.data.slice(0, Math.max(0, offset)), this.data.slice(Math.max(0, offset))];
 	})();
 
 	const newNode = window.document.createTextNode(end);

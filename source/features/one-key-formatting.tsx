@@ -3,11 +3,11 @@ import * as pageDetect from 'github-url-detection';
 import {wrapFieldSelection} from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import {onCommentFieldKeydown, onCommitTitleFieldKeydown, onConversationTitleFieldKeydown } from '../github-events/on-field-keydown.js';
+import {onCommentFieldKeydown, onCommitTitleFieldKeydown, onConversationTitleFieldKeydown} from '../github-events/on-field-keydown.js';
 
-const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~', '“', '‘'];
-const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~', '”', '’'];
-const quoteCharacters = new Set(['`', '\'', '"']);
+const formattingCharacters = ['`', "'", '"', '[', '(', '{', '*', '_', '~', '“', '‘'];
+const matchingCharacters = ['`', "'", '"', ']', ')', '}', '*', '_', '~', '”', '’'];
+const quoteCharacters = new Set(['`', "'", '"']);
 
 function eventHandler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement | HTMLInputElement>): void {
 	const field = event.delegateTarget;
@@ -43,12 +43,6 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRichTextEditor,
-		pageDetect.isGist,
-		pageDetect.isNewFile,
-		pageDetect.isEditingFile,
-		pageDetect.isDeletingFile,
-	],
+	include: [pageDetect.hasRichTextEditor, pageDetect.isGist, pageDetect.isNewFile, pageDetect.isEditingFile, pageDetect.isDeletingFile],
 	init,
 });

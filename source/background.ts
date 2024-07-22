@@ -79,22 +79,17 @@ chrome.runtime.onMessage.addListener((message: typeof messageHandlers, sender): 
 });
 
 async function hasUsedStorage(): Promise<boolean> {
-	return (
-		await getStorageBytesInUse('sync') > 0
-		|| Number(await getStorageBytesInUse('local')) > 0
-	);
+	return (await getStorageBytesInUse('sync')) > 0 || Number(await getStorageBytesInUse('local')) > 0;
 }
 
 async function isFirstInstall(suggestedReason: string): Promise<boolean> {
 	return (
 		// Always exclude local installs from the welcome screen
-		!isDevelopmentVersion()
-
+		!isDevelopmentVersion() &&
 		// Only if the reason is explicitly "install"
-		&& suggestedReason === 'install'
-
+		suggestedReason === 'install' &&
 		// Safari reports "install" even on updates #5412
-		&& !(isSafari() && await hasUsedStorage())
+		!(isSafari() && (await hasUsedStorage()))
 	);
 }
 
@@ -113,9 +108,7 @@ chrome.runtime.onInstalled.addListener(async ({reason}) => {
 	if (await chrome.permissions.contains({origins: ['*://*/*']})) {
 		console.warn('Refined GitHub was granted access to all websites by the user and it’s now been removed. https://github.com/refined-github/refined-github/pull/7407');
 		await chrome.permissions.remove({
-			origins: [
-				'*://*/*',
-			],
+			origins: ['*://*/*'],
 		});
 	}
 });
@@ -123,11 +116,8 @@ chrome.runtime.onInstalled.addListener(async ({reason}) => {
 chrome.permissions.onAdded.addListener(async permissions => {
 	if (permissions.origins?.includes('*://*/*')) {
 		await chrome.permissions.remove({
-			origins: [
-				'*://*/*',
-			],
+			origins: ['*://*/*'],
 		});
 		await webextAlert('Refined GitHub is not meant to run on every website. If you’re looking to enable it on GitHub Enterprise, follow the instructions in the Options page.');
 	}
 });
-

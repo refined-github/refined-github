@@ -17,9 +17,7 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRConversation,
-	],
+	include: [pageDetect.isPRConversation],
 	awaitDomReady: true,
 	init,
 });

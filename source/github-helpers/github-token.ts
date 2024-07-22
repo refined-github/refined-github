@@ -41,6 +41,11 @@ export async function expectTokenScope(scope: string): Promise<void> {
 	const {headers} = await v3('/');
 	const tokenScopes = await parseTokenScopes(headers);
 	if (!tokenScopes.includes(scope)) {
-		throw new Error('The token you provided does not have ' + (tokenScopes.length > 0 ? `the \`${scope}\` scope. It only includes \`${tokenScopes.join(', ')}\`.` : 'any scope. You can change the scope of your token at https://github.com/settings/tokens'));
+		throw new Error(
+			'The token you provided does not have ' +
+				(tokenScopes.length > 0
+					? `the \`${scope}\` scope. It only includes \`${tokenScopes.join(', ')}\`.`
+					: 'any scope. You can change the scope of your token at https://github.com/settings/tokens'),
+		);
 	}
 }

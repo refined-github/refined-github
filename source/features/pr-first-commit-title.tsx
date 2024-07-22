@@ -1,6 +1,6 @@
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {$, elementExists, expectElement } from 'select-dom';
+import {$, elementExists, expectElement} from 'select-dom';
 import {insertTextIntoField, setFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
@@ -19,15 +19,14 @@ function interpretNode(node: ChildNode): string | void {
 		}
 
 		default:
-			// Ignore other nodes, like `<span>...</span>` that appears when commits have a body
+		// Ignore other nodes, like `<span>...</span>` that appears when commits have a body
 	}
 }
 
 function getFirstCommit(): {title: string; body: string | undefined} {
 	const titleParts = expectElement('.js-commits-list-item:first-child p').childNodes;
 
-	const body = $('.js-commits-list-item:first-child .Details-content--hidden pre')
-		?.textContent.trim() ?? undefined;
+	const body = $('.js-commits-list-item:first-child .Details-content--hidden pre')?.textContent.trim() ?? undefined;
 
 	const title = [...titleParts]
 		.map(node => interpretNode(node))
@@ -55,24 +54,16 @@ async function init(): Promise<void | false> {
 
 	const firstCommit = getFirstCommit();
 	if (!requestedContent.has('pull_request[title]')) {
-		setFieldText(
-			expectElement('#pull_request_title'),
-			firstCommit.title,
-		);
+		setFieldText(expectElement('#pull_request_title'), firstCommit.title);
 	}
 
 	if (firstCommit.body && !requestedContent.has('pull_request[body]')) {
-		insertTextIntoField(
-			expectElement('#pull_request_body'),
-			firstCommit.body,
-		);
+		insertTextIntoField(expectElement('#pull_request_body'), firstCommit.body);
 	}
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isCompare,
-	],
+	include: [pageDetect.isCompare],
 	deduplicate: 'has-rgh',
 	init,
 });

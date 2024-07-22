@@ -7,9 +7,13 @@ const html = document.documentElement;
 
 function init(): void {
 	html.setAttribute(attribute, '');
-	html.addEventListener('navigation:keydown', () => {
-		html.removeAttribute(attribute);
-	}, {once: true});
+	html.addEventListener(
+		'navigation:keydown',
+		() => {
+			html.removeAttribute(attribute);
+		},
+		{once: true},
+	);
 }
 
 void features.add(import.meta.url, {

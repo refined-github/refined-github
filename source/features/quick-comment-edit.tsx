@@ -29,29 +29,26 @@ function addQuickEditButton(commentDropdown: HTMLDetailsElement): void {
 	}
 
 	commentDropdown.before(
-		<button
-			type="button"
-			role="menuitem"
-			className="timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button"
-			aria-label="Edit comment"
-		>
-			<PencilIcon/>
+		<button type="button" role="menuitem" className="timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button" aria-label="Edit comment">
+			<PencilIcon />
 		</button>,
 	);
 }
 
 export function canEditEveryComment(): boolean {
-	return elementExists([
-		// If you can lock conversations, you have write access
-		'.lock-toggle-link > .octicon-lock',
+	return (
+		elementExists([
+			// If you can lock conversations, you have write access
+			'.lock-toggle-link > .octicon-lock',
 
-		// Some pages like `isPRFiles` does not have a lock button
-		// These elements only exist if you commented on the page
-		'[aria-label^="You have been invited to collaborate"]',
-		'[aria-label^="You are the owner"]',
-		'[title^="You are a maintainer"]',
-		'[title^="You are a collaborator"]',
-	]) || pageDetect.canUserEditRepo();
+			// Some pages like `isPRFiles` does not have a lock button
+			// These elements only exist if you commented on the page
+			'[aria-label^="You have been invited to collaborate"]',
+			'[aria-label^="You are the owner"]',
+			'[title^="You are a maintainer"]',
+			'[title^="You are a collaborator"]',
+		]) || pageDetect.canUserEditRepo()
+	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
@@ -66,12 +63,8 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isChrome,
-	],
-	include: [
-		pageDetect.hasComments,
-	],
+	asLongAs: [isChrome],
+	include: [pageDetect.hasComments],
 	// The feature is "disabled" via CSS selector when the conversation is locked.
 	// We want the edit buttons to appear while the conversation is loading, but we only know it's locked when the page has finished.
 	init,

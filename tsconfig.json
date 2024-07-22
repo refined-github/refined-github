@@ -3,16 +3,7 @@
 	"compilerOptions": {
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
-		"lib": [
-			"DOM",
-			"DOM.Iterable",
-			"ES2023"
-		],
+		"lib": ["DOM", "DOM.Iterable", "ES2023"]
 	},
-	"include": [
-		"source",
-		"test",
-		"build",
-		"webpack.config.ts"
-	]
+	"include": ["source", "test", "build", "webpack.config.ts"]
 }

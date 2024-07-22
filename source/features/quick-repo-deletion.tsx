@@ -31,7 +31,12 @@ function handleToggle(event: DelegateEvent<Event, HTMLDetailsElement>): void {
 		return;
 	}
 
-	if (!pageDetect.isForkedRepo() && !confirm('⚠️ This action cannot be undone. This will permanently delete the repository, wiki, issues, comments, packages, secrets, workflow runs, and remove all collaborator associations.')) {
+	if (
+		!pageDetect.isForkedRepo() &&
+		!confirm(
+			'⚠️ This action cannot be undone. This will permanently delete the repository, wiki, issues, comments, packages, secrets, workflow runs, and remove all collaborator associations.',
+		)
+	) {
 		event.delegateTarget.open = false;
 		return;
 	}
@@ -46,10 +51,7 @@ async function verifyScopesWhileWaiting(abortController: AbortController): Promi
 	} catch (error) {
 		assertError(error);
 		abortController.abort();
-		await addNotice([
-			'Could not delete the repository. ',
-			parseBackticks(error.message),
-		], {
+		await addNotice(['Could not delete the repository. ', parseBackticks(error.message)], {
 			type: 'error',
 			action: (
 				<a className="btn btn-sm primary flash-action" href="https://github.com/settings/tokens">
@@ -63,11 +65,15 @@ async function verifyScopesWhileWaiting(abortController: AbortController): Promi
 async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boolean> {
 	const abortController = new AbortController();
 	// Add a global click listener to avoid potential future issues with z-index
-	document.addEventListener('click', event => {
-		event.preventDefault();
-		abortController.abort();
-		buttonContainer.open = false;
-	}, {once: true});
+	document.addEventListener(
+		'click',
+		event => {
+			event.preventDefault();
+			abortController.abort();
+			buttonContainer.open = false;
+		},
+		{once: true},
+	);
 
 	void verifyScopesWhileWaiting(abortController);
 
@@ -75,7 +81,7 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 	const button = $('.btn', buttonContainer)!;
 	try {
 		do {
-			button.style.transform = `scale(${1.2 - ((secondsLeft - 5) / 3)})`; // Dividend is zoom speed
+			button.style.transform = `scale(${1.2 - (secondsLeft - 5) / 3})`; // Dividend is zoom speed
 			button.textContent = `Deleting repo in ${pluralize(secondsLeft, '$$ second')}. Cancel?`;
 			await delay(1000, {signal: abortController.signal}); // eslint-disable-line no-await-in-loop
 		} while (--secondsLeft);
@@ -88,7 +94,7 @@ async function buttonTimeout(buttonContainer: HTMLDetailsElement): Promise<boole
 }
 
 async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
-	if (!await buttonTimeout(buttonContainer)) {
+	if (!(await buttonTimeout(buttonContainer))) {
 		return;
 	}
 
@@ -102,10 +108,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	} catch (error) {
 		assertError(error);
 		buttonContainer.closest('li')!.remove(); // Remove button
-		await addNotice([
-			'Could not delete the repository. ',
-			(error as api.RefinedGitHubAPIError).response?.message ?? error.message,
-		], {
+		await addNotice(['Could not delete the repository. ', (error as api.RefinedGitHubAPIError).response?.message ?? error.message], {
 			type: 'error',
 		});
 
@@ -113,12 +116,16 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	}
 
 	const forkSource = '/' + getForkedRepo()!;
-	const restoreURL = pageDetect.isOrganizationRepo()
-		? `/organizations/${owner}/settings/deleted_repositories`
-		: '/settings/deleted_repositories';
+	const restoreURL = pageDetect.isOrganizationRepo() ? `/organizations/${owner}/settings/deleted_repositories` : '/settings/deleted_repositories';
 	const otherForksURL = `/${owner}?tab=repositories&type=fork`;
 	await addNotice(
-		<><TrashIcon/> <span>Repository <strong>{nameWithOwner}</strong> deleted. <a href={restoreURL}>Restore it</a>, <a href={forkSource}>visit the source repo</a>, or see <a href={otherForksURL}>your other forks.</a></span></>,
+		<>
+			<TrashIcon />{' '}
+			<span>
+				Repository <strong>{nameWithOwner}</strong> deleted. <a href={restoreURL}>Restore it</a>, <a href={forkSource}>visit the source repo</a>, or see{' '}
+				<a href={otherForksURL}>your other forks.</a>
+			</span>
+		</>,
 		{action: false},
 	);
 	$('.application-main')!.remove();
@@ -156,16 +163,14 @@ async function init(signal: AbortSignal): Promise<void | false> {
 	await expectToken();
 
 	observe('.pagehead-actions', addButton, {signal});
-	delegate('.rgh-quick-repo-deletion[open]', 'toggle', handleToggle, {capture: true, signal});
+	delegate('.rgh-quick-repo-deletion[open]', 'toggle', handleToggle, {
+		capture: true,
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isRepoRoot,
-		pageDetect.isForkedRepo,
-		canUserDeleteRepository,
-		isRepoUnpopular,
-	],
+	asLongAs: [pageDetect.isRepoRoot, pageDetect.isForkedRepo, canUserDeleteRepository, isRepoUnpopular],
 	init,
 });
 

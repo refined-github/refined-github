@@ -3,8 +3,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../feature-manager.js';
 
 const hasNotificationBar = (): boolean =>
-	location.search.startsWith('?notification_referrer_id=')
-	|| JSON.parse(sessionStorage.getItem('notification_shelf') ?? '{}').pathname === location.pathname;
+	location.search.startsWith('?notification_referrer_id=') || JSON.parse(sessionStorage.getItem('notification_shelf') ?? '{}').pathname === location.pathname;
 
 function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	// Disable the redirect to the Notifications inbox if either:
@@ -20,8 +19,6 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		hasNotificationBar,
-	],
+	include: [hasNotificationBar],
 	init,
 });

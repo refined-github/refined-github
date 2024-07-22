@@ -8,14 +8,12 @@ import {wrap} from '../helpers/dom-utils.js';
 function init(): void {
 	const element = $('.sha.user-select-contain:not(a *)');
 	if (element) {
-		wrap(element, <a href={location.pathname.replace(/pull\/\d+\/commits/, 'commit')}/>);
+		wrap(element, <a href={location.pathname.replace(/pull\/\d+\/commits/, 'commit')} />);
 	}
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRCommit,
-	],
+	include: [pageDetect.isPRCommit],
 	awaitDomReady: true,
 	init,
 });

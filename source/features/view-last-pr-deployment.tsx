@@ -19,7 +19,7 @@ function addLink(header: HTMLElement): void {
 			rel="noopener noreferrer"
 			href={lastDeployment.href}
 		>
-			<RocketIcon className="mr-1 v-align-text-top"/>
+			<RocketIcon className="mr-1 v-align-text-top" />
 			Latest deployment
 		</a>,
 	);
@@ -30,9 +30,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRConversation,
-	],
+	include: [pageDetect.isPRConversation],
 	awaitDomReady: true, // Must select last item on the page
 	init,
 });

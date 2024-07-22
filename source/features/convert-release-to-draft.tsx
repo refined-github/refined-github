@@ -30,15 +30,16 @@ const confirmMessageWithReactions = 'Existing user reactions will be lost.';
 const confirmMessageQuestion = 'Continue?';
 
 async function onConvertClick(): Promise<void> {
-	const message = elementExists('.js-reaction-group-button')
-		? [confirmMessage, confirmMessageWithReactions, confirmMessageQuestion]
-		: [confirmMessage, confirmMessageQuestion];
+	const message = elementExists('.js-reaction-group-button') ? [confirmMessage, confirmMessageWithReactions, confirmMessageQuestion] : [confirmMessage, confirmMessageQuestion];
 	if (!confirm(message.join(' '))) {
 		return;
 	}
 
 	try {
-		await showToast(convertToDraft(), {message: 'Converting…', doneMessage: 'Redirecting…'});
+		await showToast(convertToDraft(), {
+			message: 'Converting…',
+			doneMessage: 'Redirecting…',
+		});
 	} catch (error) {
 		features.log.error(import.meta.url, error);
 	}
@@ -50,10 +51,7 @@ function attachButton(editButton: HTMLAnchorElement): void {
 	}
 
 	editButton.before(
-		<button
-			type="button"
-			className="btn btn-sm ml-3 mr-1 rgh-convert-draft"
-		>
+		<button type="button" className="btn btn-sm ml-3 mr-1 rgh-convert-draft">
 			Convert to draft
 		</button>,
 	);
@@ -67,9 +65,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isSingleReleaseOrTag,
-	],
+	include: [pageDetect.isSingleReleaseOrTag],
 	init,
 });
 

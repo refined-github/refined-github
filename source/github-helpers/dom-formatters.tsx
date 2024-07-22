@@ -28,11 +28,7 @@ export function shortenLink(link: HTMLAnchorElement): void {
 	}
 }
 
-export function linkifyIssues(
-	currentRepo: {owner?: string; name?: string},
-	element: Element,
-	options: Partial<TypeDomOptions> = {},
-): void {
+export function linkifyIssues(currentRepo: {owner?: string; name?: string}, element: Element, options: Partial<TypeDomOptions> = {}): void {
 	const linkified = linkifyIssuesCore(element.textContent, {
 		user: currentRepo.owner ?? '/',
 		repository: currentRepo.name ?? '/',
@@ -44,7 +40,8 @@ export function linkifyIssues(
 			...options.attributes,
 		},
 	});
-	if (linkified.children.length === 0) { // Children are <a>
+	if (linkified.children.length === 0) {
+		// Children are <a>
 		return;
 	}
 
@@ -64,7 +61,8 @@ export function linkifyIssues(
 }
 
 export function linkifyURLs(element: Element): Element[] | void {
-	if (element.textContent.length < 15) { // Must be long enough for a URL
+	if (element.textContent.length < 15) {
+		// Must be long enough for a URL
 		return;
 	}
 
@@ -80,7 +78,8 @@ export function linkifyURLs(element: Element): Element[] | void {
 		},
 	});
 
-	if (linkified.children.length === 0) { // Children are <a>
+	if (linkified.children.length === 0) {
+		// Children are <a>
 		return;
 	}
 
@@ -101,12 +100,7 @@ export function linkifyCommit(sha: string): JSX.Element {
 	// Data attributes copied from the commit in https://github.com/refined-github/github-url-detection/releases/tag/v7.1.2
 	return (
 		<code>
-			<a
-				className="Link--secondary"
-				href={buildRepoURL('commit', sha)}
-				data-hovercard-type="commit"
-				data-hovercard-url={buildRepoURL('commit', sha, 'hovercard')}
-			>
+			<a className="Link--secondary" href={buildRepoURL('commit', sha)} data-hovercard-type="commit" data-hovercard-url={buildRepoURL('commit', sha, 'hovercard')}>
 				{sha.slice(0, 7)}
 			</a>
 		</code>

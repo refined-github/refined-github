@@ -42,9 +42,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRichTextEditor,
-	],
+	include: [pageDetect.hasRichTextEditor],
 	exclude: [
 		// Allow Safari only if it supports the native version
 		() => isSafari() && !nativeFit,

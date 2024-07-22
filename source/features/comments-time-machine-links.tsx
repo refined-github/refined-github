@@ -14,7 +14,9 @@ import GetCommitAtDate from './comments-time-machine-links.gql';
 import {saveOriginalHref} from './sort-conversations-by-update-time.js';
 
 async function updateURLtoDatedSha(url: GitHubFileURL, date: string): Promise<void> {
-	const {repository} = await api.v4(GetCommitAtDate, {variables: {date, branch: url.branch}});
+	const {repository} = await api.v4(GetCommitAtDate, {
+		variables: {date, branch: url.branch},
+	});
 
 	const [{oid}] = repository.ref.target.history.nodes;
 	$('a.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;
@@ -39,7 +41,9 @@ async function showTimeMachineBar(): Promise<void | false> {
 		}
 
 		// Selector note: isRepoFile and isRepoTree have different DOM for this element
-		const lastCommitDate = await elementReady('.Box-header relative-time', {waitForChildren: false});
+		const lastCommitDate = await elementReady('.Box-header relative-time', {
+			waitForChildren: false,
+		});
 		if (lastCommitDate && date > lastCommitDate.getAttribute('datetime')!) {
 			return false;
 		}
@@ -58,16 +62,21 @@ async function showTimeMachineBar(): Promise<void | false> {
 		</a>
 	);
 	await addNotice(
-		<>You can also {link} (<relative-time datetime={date}/>)</>,
+		<>
+			You can also {link} (<relative-time datetime={date} />)
+		</>,
 	);
 }
 
 function addInlineLinks(menu: HTMLElement, timestamp: string): void {
 	const comment = menu.closest('.js-comment')!;
-	const links = $$(`
+	const links = $$(
+		`
 		a[href^="${location.origin}"][href*="/blob/"]:not(.${linkifiedURLClass}),
 		a[href^="${location.origin}"][href*="/tree/"]:not(.${linkifiedURLClass})
-	`, comment);
+	`,
+		comment,
+	);
 
 	for (const link of links) {
 		const linkParts = link.pathname.split('/');
@@ -86,7 +95,7 @@ function addInlineLinks(menu: HTMLElement, timestamp: string): void {
 
 function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 	$('.show-more-popover', menu.parentElement!)!.append(
-		<div className="dropdown-divider"/>,
+		<div className="dropdown-divider" />,
 		<a
 			href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
 			className={'dropdown-item btn-link ' + linkifiedURLClass}
@@ -99,41 +108,36 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.timeline-comment-actions > details:last-child', menu => {
-		if (menu.closest('.js-pending-review-comment')) {
-			return;
-		}
+	observe(
+		'.timeline-comment-actions > details:last-child',
+		menu => {
+			if (menu.closest('.js-pending-review-comment')) {
+				return;
+			}
 
-		// The timestamp of main review comments isn't in their header but in the timeline event above #5423
-		const timestamp = menu
-			.closest('.js-comment:not([id^="pullrequestreview-"]), .js-timeline-item')!
-			.querySelector('relative-time')!
-			.attributes.datetime.value;
+			// The timestamp of main review comments isn't in their header but in the timeline event above #5423
+			const timestamp = menu.closest('.js-comment:not([id^="pullrequestreview-"]), .js-timeline-item')!.querySelector('relative-time')!.attributes.datetime.value;
 
-		addInlineLinks(menu, timestamp);
-		addDropdownLink(menu, timestamp);
-	}, {signal});
+			addInlineLinks(menu, timestamp);
+			addDropdownLink(menu, timestamp);
+		},
+		{signal},
+	);
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasComments,
-	],
-	exclude: [
-		pageDetect.isGist,
-	],
-	init,
-}, {
-	asLongAs: [
-		() => new URLSearchParams(location.search).has('rgh-link-date'),
-	],
-	include: [
-		pageDetect.is404,
-		pageDetect.isSingleFile,
-		pageDetect.isRepoTree,
-	],
-	init: showTimeMachineBar,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.hasComments],
+		exclude: [pageDetect.isGist],
+		init,
+	},
+	{
+		asLongAs: [() => new URLSearchParams(location.search).has('rgh-link-date')],
+		include: [pageDetect.is404, pageDetect.isSingleFile, pageDetect.isRepoTree],
+		init: showTimeMachineBar,
+	},
+);
 
 /*
 Test URLs

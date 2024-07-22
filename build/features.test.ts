@@ -1,11 +1,11 @@
-import {existsSync, readFileSync, readdirSync } from 'node:fs';
-import {join, parse } from 'node:path';
+import {existsSync, readFileSync, readdirSync} from 'node:fs';
+import {join, parse} from 'node:path';
 import fastIgnore from 'fast-ignore';
 import regexJoin from 'regex-join';
-import {assert, describe, test } from 'vitest';
+import {assert, describe, test} from 'vitest';
 
 import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
-import {getFeaturesMeta, getImportedFeatures } from './readme-parser.js';
+import {getFeaturesMeta, getImportedFeatures} from './readme-parser.js';
 
 const isGitIgnored = fastIgnore(readFileSync('.gitignore', 'utf8'));
 
@@ -82,48 +82,29 @@ class FeatureFile {
 function validateCss(file: FeatureFile): void {
 	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${file.name}';`);
 	if (!file.tsx.exists()) {
-		assert(
-			isImportedByEntrypoint,
-			`Should be imported by \`${entryPoint}\` or removed if it is not needed`,
-		);
+		assert(isImportedByEntrypoint, `Should be imported by \`${entryPoint}\` or removed if it is not needed`);
 		return;
 	}
 
-	assert(
-		file.tsx.contents().includes(`import './${file.name}';`),
-		`Should be imported by \`${file.tsx.name}\``,
-	);
+	assert(file.tsx.contents().includes(`import './${file.name}';`), `Should be imported by \`${file.tsx.name}\``);
 
-	assert(
-		!isImportedByEntrypoint,
-		`Should only be imported by \`${file.tsx.name}\`, not by \`${entryPoint}\``,
-	);
+	assert(!isImportedByEntrypoint, `Should only be imported by \`${file.tsx.name}\`, not by \`${entryPoint}\``);
 }
 
 function validateGql(file: FeatureFile): void {
-	assert(
-		file.tsx.exists(),
-		'Does not match any existing features. The filename should match the feature that uses it.',
-	);
+	assert(file.tsx.exists(), 'Does not match any existing features. The filename should match the feature that uses it.');
 
-	assert(
-		file.tsx.contents().includes(`from './${file.name}';`),
-		`Should be imported by \`${file.tsx.name}\``,
-	);
+	assert(file.tsx.contents().includes(`from './${file.name}';`), `Should be imported by \`${file.tsx.name}\``);
 }
 
 function validateReadme(featureId: FeatureID): void {
 	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
 	assert(featureMeta, 'Should be described in the readme');
 
-	assert(
-		featureMeta.description.length >= 20,
-		'Should be described better in the readme (at least 20 characters)',
-	);
+	assert(featureMeta.description.length >= 20, 'Should be described better in the readme (at least 20 characters)');
 
 	assert(
-		screenshotRegex.test(featureMeta.screenshot!)
-		|| noScreenshotExceptions.has(featureId),
+		screenshotRegex.test(featureMeta.screenshot!) || noScreenshotExceptions.has(featureId),
 		'Should have a screenshot (png/gif) in the readme, unless really difficult to demonstrate (to be discussed in review)',
 	);
 
@@ -131,28 +112,16 @@ function validateReadme(featureId: FeatureID): void {
 }
 
 function validateTsx(file: FeatureFile): void {
-	assert(
-		importedFeatures.includes(file.id),
-		`Should be imported by \`${entryPoint}\``,
-	);
+	assert(importedFeatures.includes(file.id), `Should be imported by \`${entryPoint}\``);
 
 	const fileContents = readFileSync(`source/features/${file.name}`);
 
 	if (fileContents.includes('.addCssFeature')) {
-		assert(
-			!fileContents.includes('.add('),
-			`${file.id} should use either \`addCssFeature\` or \`add\`, not both`,
-		);
+		assert(!fileContents.includes('.add('), `${file.id} should use either \`addCssFeature\` or \`add\`, not both`);
 
-		assert(
-			file.css.exists(),
-			`${file.id} uses \`.addCssFeature\`, but ${file.css.name} is missing`,
-		);
+		assert(file.css.exists(), `${file.id} uses \`.addCssFeature\`, but ${file.css.name} is missing`);
 
-		assert(
-			file.css.contents().includes(`[rgh-${file.id}]`),
-			`${file.css.name} should contain a \`[rgh-${file.id}]\` selector`,
-		);
+		assert(file.css.contents().includes(`[rgh-${file.id}]`), `${file.css.name} should contain a \`[rgh-${file.id}]\` selector`);
 	}
 
 	if (!isFeaturePrivate(file.name)) {

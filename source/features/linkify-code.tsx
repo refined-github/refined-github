@@ -2,9 +2,7 @@ import * as pageDetect from 'github-url-detection';
 import {$$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {
-	codeElementsSelector, linkifiedURLClass, linkifyIssues,linkifyURLs, 
-} from '../github-helpers/dom-formatters.js';
+import {codeElementsSelector, linkifiedURLClass, linkifyIssues, linkifyURLs} from '../github-helpers/dom-formatters.js';
 import {getRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -13,12 +11,16 @@ function initTitle(signal: AbortSignal): void {
 	// https://github.com/refined-github/refined-github/issues/1305
 	const currentRepo = getRepo() ?? {};
 
-	observe('.js-issue-title', title => {
-		// TODO: Replace with :has
-		if (!elementExists('a', title)) {
-			linkifyIssues(currentRepo, title);
-		}
-	}, {signal});
+	observe(
+		'.js-issue-title',
+		title => {
+			// TODO: Replace with :has
+			if (!elementExists('a', title)) {
+				linkifyIssues(currentRepo, title);
+			}
+		},
+		{signal},
+	);
 }
 
 function linkifyContent(wrapper: Element): void {
@@ -32,8 +34,8 @@ function linkifyContent(wrapper: Element): void {
 	}
 
 	const currentRepo = pageDetect.isGlobalSearchResults()
-		// Look for the link on the line number
-		? getRepo(wrapper.parentElement!.querySelector('.blob-num a')!.href)
+		? // Look for the link on the line number
+			getRepo(wrapper.parentElement!.querySelector('.blob-num a')!.href)
 		: getRepo();
 	// Some non-repo pages like gists have issue references #3844
 	// They make no sense, but we still want `linkifyURLs` to run there
@@ -50,19 +52,17 @@ function init(signal: AbortSignal): void {
 	observe(codeElementsSelector, linkifyContent, {signal});
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasCode,
-	],
-	init,
-}, {
-	include: [
-		pageDetect.isPR,
-		pageDetect.isIssue,
-		pageDetect.isDiscussion,
-	],
-	init: initTitle,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.hasCode],
+		init,
+	},
+	{
+		include: [pageDetect.isPR, pageDetect.isIssue, pageDetect.isDiscussion],
+		init: initTitle,
+	},
+);
 
 /*
 

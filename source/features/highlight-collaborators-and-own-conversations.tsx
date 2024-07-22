@@ -11,8 +11,7 @@ import observe from '../helpers/selector-observer.js';
 const collaborators = new CachedFunction('repo-collaborators', {
 	async updater(): Promise<string[]> {
 		const dom = await fetchDom(buildRepoURL('issues/show_menu_content?partial=issues/filters/authors_content'));
-		return $$('.SelectMenu-item img[alt]', dom)
-			.map(avatar => avatar.alt.slice(1));
+		return $$('.SelectMenu-item img[alt]', dom).map(avatar => avatar.alt.slice(1));
 	},
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
@@ -36,17 +35,17 @@ function highlightSelf(): void {
 	});
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoIssueOrPRList,
-	],
-	init: highlightCollaborators,
-}, {
-	include: [
-		pageDetect.isIssueOrPRList,
-	],
-	init: highlightSelf,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.isRepoIssueOrPRList],
+		init: highlightCollaborators,
+	},
+	{
+		include: [pageDetect.isIssueOrPRList],
+		init: highlightSelf,
+	},
+);
 
 /*
 

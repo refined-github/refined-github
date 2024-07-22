@@ -43,16 +43,8 @@ function togglableFilters(): void {
 	for (const link of $$('.table-list-header-toggle.states a')) {
 		$('.octicon', link)?.remove();
 		if (link.classList.contains('selected')) {
-			link.prepend(<CheckIcon/>);
-			link.href = SearchQuery
-				.from(link)
-				.remove(
-					'is:open',
-					'is:closed',
-					'is:merged',
-					'is:unmerged',
-				)
-				.href;
+			link.prepend(<CheckIcon />);
+			link.href = SearchQuery.from(link).remove('is:open', 'is:closed', 'is:merged', 'is:unmerged').href;
 		}
 	}
 }
@@ -64,16 +56,16 @@ async function init(): Promise<void | false> {
 	togglableFilters();
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoIssueOrPRList,
-	],
-	deduplicate: 'has-rgh-inner',
-	init,
-}, {
-	include: [
-		pageDetect.isGlobalIssueOrPRList,
-	],
-	deduplicate: 'has-rgh',
-	init,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.isRepoIssueOrPRList],
+		deduplicate: 'has-rgh-inner',
+		init,
+	},
+	{
+		include: [pageDetect.isGlobalIssueOrPRList],
+		deduplicate: 'has-rgh',
+		init,
+	},
+);

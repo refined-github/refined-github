@@ -8,17 +8,13 @@ import {wrap} from '../helpers/dom-utils.js';
 function init(): void {
 	if ($('.file-mode')?.textContent === 'symbolic link') {
 		const line = $('.js-file-line')!;
-		wrap(line.firstChild!, <a href={line.textContent} data-turbo-frame="repo-content-turbo-frame"/>);
+		wrap(line.firstChild!, <a href={line.textContent} data-turbo-frame="repo-content-turbo-frame" />);
 	}
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isSingleFile,
-	],
-	exclude: [
-		pageDetect.isRepoFile404,
-	],
+	include: [pageDetect.isSingleFile],
+	exclude: [pageDetect.isRepoFile404],
 	deduplicate: 'has-rgh',
 	awaitDomReady: true, // Small page
 	init,

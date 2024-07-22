@@ -10,9 +10,7 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoCommitList,
-	],
+	include: [pageDetect.isRepoCommitList],
 	awaitDomReady: true, // Small page
 	init,
 });

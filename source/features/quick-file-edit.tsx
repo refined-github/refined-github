@@ -11,16 +11,14 @@ import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 async function linkifyIcon(fileIcon: Element): Promise<void> {
-	const fileLink = fileIcon
-		.closest('.react-directory-filename-column')!
-		.querySelector('a.Link--primary')!;
+	const fileLink = fileIcon.closest('.react-directory-filename-column')!.querySelector('a.Link--primary')!;
 
 	const url = new GitHubFileURL(fileLink.href).assign({
 		route: 'edit',
 	});
 
-	wrap(fileIcon, <a href={url.href} className="rgh-quick-file-edit"/>);
-	fileIcon.after(<PencilIcon/>);
+	wrap(fileIcon, <a href={url.href} className="rgh-quick-file-edit" />);
+	fileIcon.after(<PencilIcon />);
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
@@ -28,14 +26,8 @@ async function init(signal: AbortSignal): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoTree,
-	],
-	exclude: [
-		pageDetect.isRepoFile404,
-		isArchivedRepoAsync,
-		isPermalink,
-	],
+	include: [pageDetect.isRepoTree],
+	exclude: [pageDetect.isRepoFile404, isArchivedRepoAsync, isPermalink],
 	init,
 });
 

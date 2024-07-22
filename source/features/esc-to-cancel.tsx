@@ -22,9 +22,6 @@ void features.add(import.meta.url, {
 	shortcuts: {
 		esc: 'Cancel editing a conversation title',
 	},
-	include: [
-		pageDetect.isIssue,
-		pageDetect.isPR,
-	],
+	include: [pageDetect.isIssue, pageDetect.isPR],
 	init,
 });

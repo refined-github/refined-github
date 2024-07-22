@@ -54,21 +54,19 @@ function updateLink(link: HTMLAnchorElement): void {
 
 function init(signal: AbortSignal): void {
 	// Get links that don't already have a specific sorting or pagination applied
-	observe(
-		linksToConversationLists,
-		updateLink,
-		{signal},
-	);
+	observe(linksToConversationLists, updateLink, {signal});
 }
 
-void features.add(import.meta.url, {
-	init,
-}, {
-	include: [
-		pageDetect.isRepoIssueOrPRList,
-	],
-	init: selectCurrentConversationFilter,
-});
+void features.add(
+	import.meta.url,
+	{
+		init,
+	},
+	{
+		include: [pageDetect.isRepoIssueOrPRList],
+		init: selectCurrentConversationFilter,
+	},
+);
 
 /*
 

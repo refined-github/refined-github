@@ -29,11 +29,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		isSingleHTMLFile,
-	],
-	exclude: [
-		pageDetect.isEnterprise,
-	],
+	include: [isSingleHTMLFile],
+	exclude: [pageDetect.isEnterprise],
 	init,
 });

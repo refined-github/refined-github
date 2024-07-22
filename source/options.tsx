@@ -11,7 +11,7 @@ import {assertError} from 'ts-extras';
 import {isChrome, isFirefox} from 'webext-detect';
 import {SyncedForm} from 'webext-options-sync-per-domain';
 
-import {featuresMeta, importedFeatures } from '../readme.md';
+import {featuresMeta, importedFeatures} from '../readme.md';
 import {parseTokenScopes} from './github-helpers/github-token.js';
 import {scrollIntoViewIfNeeded} from './github-helpers/index.js';
 import {state as bisectState} from './helpers/bisect.js';
@@ -62,19 +62,15 @@ function reportStatus({tokenType, error, text, scopes}: Status): void {
 
 function getApiUrl(): string {
 	const tokenLink = $('a#personal-token-link')!;
-	return tokenLink.host === 'github.com'
-		? 'https://api.github.com'
-		: `${tokenLink.origin}/api/v3`;
+	return tokenLink.host === 'github.com' ? 'https://api.github.com' : `${tokenLink.origin}/api/v3`;
 }
 
 async function getNameFromToken(token: string): Promise<string> {
-	const response = await fetch(
-		getApiUrl() + '/user', {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
+	const response = await fetch(getApiUrl() + '/user', {
+		headers: {
+			Authorization: `Bearer ${token}`,
 		},
-	);
+	});
 
 	const details = await response.json();
 	if (!response.ok) {
@@ -111,11 +107,7 @@ async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
 	const used = await getStorageBytesInUse(area);
 	const available = storage.QUOTA_BYTES - used;
 	for (const output of $$(`.storage-${area}`)) {
-		output.textContent = available < 1000
-			? 'FULL!'
-			: (available < 100_000
-				? `Only ${prettyBytes(available)} available`
-				: `${prettyBytes(used)} used`);
+		output.textContent = available < 1000 ? 'FULL!' : available < 100_000 ? `Only ${prettyBytes(available)} available` : `${prettyBytes(used)} used`;
 	}
 }
 
@@ -125,8 +117,8 @@ async function validateToken(): Promise<void> {
 	reportStatus({tokenType});
 
 	if (!tokenField.validity.valid || tokenField.value.length === 0) {
-	// The Chrome options iframe auto-sizer causes the "scrollIntoView" function to scroll incorrectly unless you wait a bit
-	// https://github.com/refined-github/refined-github/issues/6807
+		// The Chrome options iframe auto-sizer causes the "scrollIntoView" function to scroll incorrectly unless you wait a bit
+		// https://github.com/refined-github/refined-github/issues/6807
 		setTimeout(expandTokenSection, 100);
 		return;
 	}
@@ -134,10 +126,7 @@ async function validateToken(): Promise<void> {
 	reportStatus({text: 'Validating…', tokenType});
 
 	try {
-		const [scopes, user] = await Promise.all([
-			getTokenScopes(tokenField.value),
-			getNameFromToken(tokenField.value),
-		]);
+		const [scopes, user] = await Promise.all([getTokenScopes(tokenField.value), getNameFromToken(tokenField.value)]);
 		reportStatus({
 			tokenType,
 			text: `👤 @${user}`,
@@ -164,22 +153,21 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
 			<div className="info">
-				<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox"/>
-				<label className="feature-name" htmlFor={id}>{id}</label>
-				{' '}
+				<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox" />
+				<label className="feature-name" htmlFor={id}>
+					{id}
+				</label>{' '}
 				<a href={featureLink(id)} className="feature-link">
 					source
 				</a>
-				<input hidden type="checkbox" className="screenshot-toggle"/>
+				<input hidden type="checkbox" className="screenshot-toggle" />
 				{screenshot && (
 					<a href={screenshot} className="screenshot-link">
 						screenshot
 					</a>
 				)}
 				<p className="description">{domify(description)}</p>
-				{screenshot && (
-					<img hidden data-src={screenshot} className="screenshot"/>
-				)}
+				{screenshot && <img hidden data-src={screenshot} className="screenshot" />}
 			</div>
 		</div>
 	);
@@ -226,10 +214,7 @@ function toggleScreenshot(feature: Element): void {
 }
 
 function featuresFilterHandler(event: Event): void {
-	const keywords = (event.currentTarget as HTMLInputElement).value.toLowerCase()
-		.replaceAll(/\W/g, ' ')
-		.split(/\s+/)
-		.filter(Boolean); // Ignore empty strings
+	const keywords = (event.currentTarget as HTMLInputElement).value.toLowerCase().replaceAll(/\W/g, ' ').split(/\s+/).filter(Boolean); // Ignore empty strings
 	for (const feature of $$('.feature')) {
 		feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
 	}
@@ -255,9 +240,7 @@ async function markLocalHotfixes(): Promise<void> {
 			const input = $<HTMLInputElement>('#' + feature)!;
 			input.disabled = true;
 			input.removeAttribute('name');
-			$(`.feature-name[for="${feature}"]`)!.after(
-				<span className="hotfix-notice"> (Disabled due to {createRghIssueLink(relatedIssue)})</span>,
-			);
+			$(`.feature-name[for="${feature}"]`)!.after(<span className="hotfix-notice"> (Disabled due to {createRghIssueLink(relatedIssue)})</span>);
 		}
 	}
 }
@@ -276,12 +259,11 @@ function isEnterprise(): boolean {
 
 async function showStoredCssHotfixes(): Promise<void> {
 	const cachedCSS = await styleHotfixes.getCached(version);
-	$('#hotfixes-field')!.textContent
-		= isDevelopmentVersion()
-			? 'Hotfixes are not applied in the development version.'
-			: isEnterprise()
-				? 'Hotfixes are not applied on GitHub Enterprise.'
-				: cachedCSS ?? 'No CSS found in cache.';
+	$('#hotfixes-field')!.textContent = isDevelopmentVersion()
+		? 'Hotfixes are not applied in the development version.'
+		: isEnterprise()
+			? 'Hotfixes are not applied on GitHub Enterprise.'
+			: cachedCSS ?? 'No CSS found in cache.';
 }
 
 function enableToggleAll({currentTarget: button}: Event): void {
@@ -309,10 +291,7 @@ function enableAllFeatures(): void {
 
 async function generateDom(): Promise<void> {
 	// Generate list
-	$('.js-features')!.append(...featuresMeta
-		.filter(feature => importedFeatures.includes(feature.id))
-		.map(feature => buildFeatureCheckbox(feature)),
-	);
+	$('.js-features')!.append(...featuresMeta.filter(feature => importedFeatures.includes(feature.id)).map(feature => buildFeatureCheckbox(feature)));
 
 	// Add notice for features disabled via hotfix
 	await markLocalHotfixes();

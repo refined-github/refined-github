@@ -11,15 +11,7 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 	const size = 16;
 	const source = getUserAvatar(username, size)!;
 
-	const avatar = (
-		<img
-			className="avatar ml-1 mr-2"
-			src={source}
-			width={size}
-			height={size}
-			alt={`@${username}`}
-		/>
-	);
+	const avatar = <img className="avatar ml-1 mr-2" src={source} width={size} height={size} alt={`@${username}`} />;
 
 	ownerLabel.classList.add('d-flex', 'flex-items-center');
 	ownerLabel.prepend(avatar);
@@ -34,9 +26,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
+	include: [pageDetect.hasRepoHeader],
 	init,
 });
 

@@ -5,7 +5,7 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getCleanPathname, getUsername } from '../github-helpers/index.js';
+import {getCleanPathname, getUsername} from '../github-helpers/index.js';
 import attachElement from '../helpers/attach-element.js';
 
 const doesUserFollow = new CachedFunction('user-follows', {
@@ -20,26 +20,19 @@ const doesUserFollow = new CachedFunction('user-follows', {
 });
 
 async function init(): Promise<void> {
-	if (!await doesUserFollow.get(getCleanPathname(), getUsername()!)) {
+	if (!(await doesUserFollow.get(getCleanPathname(), getUsername()!))) {
 		return;
 	}
 
 	const target = await elementReady('.js-profile-editable-area [href$="?tab=following"]');
 	attachElement(target, {
-		after: () => (
-			<span className="color-fg-muted"> · Follows you</span>
-		),
+		after: () => <span className="color-fg-muted"> · Follows you</span>,
 	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isUserProfile,
-	],
-	exclude: [
-		pageDetect.isOwnUserProfile,
-		pageDetect.isPrivateUserProfile,
-	],
+	include: [pageDetect.isUserProfile],
+	exclude: [pageDetect.isOwnUserProfile, pageDetect.isPrivateUserProfile],
 	init,
 });
 

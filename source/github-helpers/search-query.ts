@@ -76,7 +76,8 @@ export default class SearchQuery {
 
 		// Header nav example: is:open is:issue author:you archived:false
 		if (this.url.pathname === '/issues' || this.url.pathname === '/pulls') {
-			if (this.url.searchParams.has('user')) { // #1211
+			if (this.url.searchParams.has('user')) {
+				// #1211
 				this.queryParts.push('user:' + this.url.searchParams.get('user')!);
 			} else {
 				this.queryParts.push('author:@me');

@@ -65,10 +65,7 @@ async function addLink(branch: HTMLElement): Promise<void> {
 	const StateIcon = stateIcon[prInfo.state] ?? (() => null);
 	const stateClassName = prInfo.state.toLowerCase();
 
-	const cell = branch
-		.closest('tr.TableRow')!
-		.children
-		.item(4)!;
+	const cell = branch.closest('tr.TableRow')!.children.item(4)!;
 
 	cell.classList.add('rgh-pr-cell');
 	cell.append(
@@ -81,9 +78,8 @@ async function addLink(branch: HTMLElement): Promise<void> {
 				className="rgh-pr-link"
 				rel="noreferrer"
 			>
-				<StateIcon width={14} height={14} className={stateClassName}/>
-				<RepoForkedIcon width={14} height={14} className={`mr-1 ${stateClassName}`}/>
-				#{prInfo.number}
+				<StateIcon width={14} height={14} className={stateClassName} />
+				<RepoForkedIcon width={14} height={14} className={`mr-1 ${stateClassName}`} />#{prInfo.number}
 			</a>
 		</div>,
 	);
@@ -96,12 +92,8 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isForkedRepo,
-	],
-	include: [
-		pageDetect.isBranches,
-	],
+	asLongAs: [pageDetect.isForkedRepo],
+	include: [pageDetect.isBranches],
 	init,
 });
 

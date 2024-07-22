@@ -30,11 +30,7 @@ async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise
 		return;
 	}
 
-	const names = await api.v4(
-		[...usernames].map(user =>
-			api.escapeKey(user) + `: user(login: "${user}") {name}`,
-		).join(','),
-	);
+	const names = await api.v4([...usernames].map(user => api.escapeKey(user) + `: user(login: "${user}") {name}`).join(','));
 
 	for (const usernameElement of batchedUsernameElements) {
 		const username = usernameElement.textContent;
@@ -57,7 +53,11 @@ async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise
 		insertionPoint.after(
 			' ',
 			<span className="color-fg-muted css-truncate d-inline-block">
-				(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{name}</bdo>)
+				(
+				<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>
+					{name}
+				</bdo>
+				)
 			</span>,
 			' ',
 		);
@@ -91,14 +91,13 @@ const usernameLinksSelector = [
 
 function init(signal: AbortSignal): void {
 	document.body.classList.add('rgh-show-names');
-	observe(usernameLinksSelector, batchedFunction(updateLink, {delay: 100}), {signal});
+	observe(usernameLinksSelector, batchedFunction(updateLink, {delay: 100}), {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isDashboard,
-		pageDetect.hasComments,
-	],
+	include: [pageDetect.isDashboard, pageDetect.hasComments],
 	init,
 });
 

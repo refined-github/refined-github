@@ -10,7 +10,8 @@ function parseTime(element: HTMLElement): number {
 
 function remove(issue: HTMLElement): void {
 	const [stateChangeTime, updateTime] = $$('relative-time', issue);
-	if (parseTime(updateTime) - parseTime(stateChangeTime) < 10_000) { // Hide if within 10 seconds
+	if (parseTime(updateTime) - parseTime(stateChangeTime) < 10_000) {
+		// Hide if within 10 seconds
 		updateTime.parentElement!.remove();
 	}
 }
@@ -20,11 +21,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		() => location.search.includes('sort%3Aupdated-'),
-	],
-	include: [
-		pageDetect.isIssueOrPRList,
-	],
+	asLongAs: [() => location.search.includes('sort%3Aupdated-')],
+	include: [pageDetect.isIssueOrPRList],
 	init,
 });

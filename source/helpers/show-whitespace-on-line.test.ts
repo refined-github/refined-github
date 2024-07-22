@@ -49,138 +49,42 @@ function assertHighlighted(actual: string, expected: string): void {
 }
 
 test('showWhiteSpacesOnLine raw', () => {
-	assertProcess(
-		'',
-		'',
-	);
-	assertProcess(
-		' ',
-		'•',
-	);
-	assertProcess(
-		'  ',
-		'••',
-	);
-	assertProcess(
-		'	',
-		'⟶',
-	);
-	assertProcess(
-		'		',
-		'⟶⟶',
-	);
-	assertProcess(
-		'	 ',
-		'⟶•',
-	);
-	assertProcess(
-		' 	',
-		'•⟶',
-	);
-	assertProcess(
-		' 	 ',
-		'•⟶•',
-	);
-	assertProcess(
-		'	 	',
-		'⟶•⟶',
-	);
-	assertProcess(
-		' hello ',
-		'•hello•',
-	);
-	assertProcess(
-		'	hello	',
-		'⟶hello⟶',
-	);
-	assertProcess(
-		'	hello world	',
-		'⟶hello•world⟶',
-	);
+	assertProcess('', '');
+	assertProcess(' ', '•');
+	assertProcess('  ', '••');
+	assertProcess('	', '⟶');
+	assertProcess('		', '⟶⟶');
+	assertProcess('	 ', '⟶•');
+	assertProcess(' 	', '•⟶');
+	assertProcess(' 	 ', '•⟶•');
+	assertProcess('	 	', '⟶•⟶');
+	assertProcess(' hello ', '•hello•');
+	assertProcess('	hello	', '⟶hello⟶');
+	assertProcess('	hello world	', '⟶hello•world⟶');
 });
 
 test('showWhiteSpacesOnLine real code', () => {
-	assertProcess(
-		'[1,""]',
-		'[1,""]',
-	);
-	assertProcess(
-		'[1,"  "]',
-		'[1,"••"]',
-	);
-	assertProcess(
-		'[1, "  "]',
-		'[1,•"••"]',
-	);
-	assertProcess(
-		' [1, "  "] ',
-		'•[1,•"••"]•',
-	);
-	assertProcess(
-		'  [1, "  "]  ',
-		'••[1,•"••"]••',
-	);
-	assertProcess(
-		'[1,""]',
-		'[1,""]',
-	);
-	assertProcess(
-		'[1,"		"]',
-		'[1,"⟶⟶"]',
-	);
-	assertProcess(
-		'[1,	"		"]',
-		'[1,⟶"⟶⟶"]',
-	);
-	assertProcess(
-		'	[1,	"		"]	',
-		'⟶[1,⟶"⟶⟶"]⟶',
-	);
-	assertProcess(
-		'		[1,	"		"]		',
-		'⟶⟶[1,⟶"⟶⟶"]⟶⟶',
-	);
+	assertProcess('[1,""]', '[1,""]');
+	assertProcess('[1,"  "]', '[1,"••"]');
+	assertProcess('[1, "  "]', '[1,•"••"]');
+	assertProcess(' [1, "  "] ', '•[1,•"••"]•');
+	assertProcess('  [1, "  "]  ', '••[1,•"••"]••');
+	assertProcess('[1,""]', '[1,""]');
+	assertProcess('[1,"		"]', '[1,"⟶⟶"]');
+	assertProcess('[1,	"		"]', '[1,⟶"⟶⟶"]');
+	assertProcess('	[1,	"		"]	', '⟶[1,⟶"⟶⟶"]⟶');
+	assertProcess('		[1,	"		"]		', '⟶⟶[1,⟶"⟶⟶"]⟶⟶');
 });
 
 test('showWhiteSpacesOnLine highlighted code', () => {
-	assertHighlighted(
-		'[1,""]',
-		'[1,""]',
-	);
-	assertHighlighted(
-		'[1,"  "]',
-		'[1,"••"]',
-	);
-	assertHighlighted(
-		'[1, "  "]',
-		'[1, "••"]',
-	);
-	assertHighlighted(
-		' [1, "  "] ',
-		'•[1, "••"]•',
-	);
-	assertHighlighted(
-		'  [1, "  "]  ',
-		'••[1, "••"]••',
-	);
-	assertHighlighted(
-		'[1,""]',
-		'[1,""]',
-	);
-	assertHighlighted(
-		'[1,"		"]',
-		'[1,"⟶⟶"]',
-	);
-	assertHighlighted(
-		'[1,	"		"]',
-		'[1,⟶"⟶⟶"]',
-	);
-	assertHighlighted(
-		'	[1,	"		"]	',
-		'⟶[1,⟶"⟶⟶"]⟶',
-	);
-	assertHighlighted(
-		'		[1,	"		"]		',
-		'⟶⟶[1,⟶"⟶⟶"]⟶⟶',
-	);
+	assertHighlighted('[1,""]', '[1,""]');
+	assertHighlighted('[1,"  "]', '[1,"••"]');
+	assertHighlighted('[1, "  "]', '[1, "••"]');
+	assertHighlighted(' [1, "  "] ', '•[1, "••"]•');
+	assertHighlighted('  [1, "  "]  ', '••[1, "••"]••');
+	assertHighlighted('[1,""]', '[1,""]');
+	assertHighlighted('[1,"		"]', '[1,"⟶⟶"]');
+	assertHighlighted('[1,	"		"]', '[1,⟶"⟶⟶"]');
+	assertHighlighted('	[1,	"		"]	', '⟶[1,⟶"⟶⟶"]⟶');
+	assertHighlighted('		[1,	"		"]		', '⟶⟶[1,⟶"⟶⟶"]⟶⟶');
 });

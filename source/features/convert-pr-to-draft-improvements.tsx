@@ -8,7 +8,7 @@ import IconLoading from '../github-helpers/icon-loading.js';
 import observe from '../helpers/selector-observer.js';
 
 function closeModal({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-	button.append(' ', <IconLoading className="v-align-middle"/>);
+	button.append(' ', <IconLoading className="v-align-middle" />);
 	button.disabled = true;
 }
 
@@ -33,8 +33,6 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRConversation,
-	],
+	include: [pageDetect.isPRConversation],
 	init,
 });

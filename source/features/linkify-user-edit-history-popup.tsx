@@ -8,10 +8,10 @@ import observe from '../helpers/selector-observer.js';
 function linkify(avatar: HTMLImageElement): void {
 	const userName = avatar.alt.slice(1);
 	// Linkify name first
-	wrap(avatar.nextElementSibling!, <a className="Link--primary" href={`/${userName}`}/>);
+	wrap(avatar.nextElementSibling!, <a className="Link--primary" href={`/${userName}`} />);
 
 	// Then linkify avatar
-	wrap(avatar, <a href={`/${userName}`}/>);
+	wrap(avatar, <a href={`/${userName}`} />);
 }
 
 function init(signal: AbortSignal): void {
@@ -19,8 +19,6 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isConversation,
-	],
+	include: [pageDetect.isConversation],
 	init,
 });

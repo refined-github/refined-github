@@ -17,20 +17,11 @@ const disableAttributes = {
 } as const satisfies React.HTMLAttributes<HTMLButtonElement>;
 
 function SubButton(): JSX.Element {
-	return (
-		<button
-			data-disable-with
-			name="id"
-			type="submit"
-			className="btn btn-sm flex-1 BtnGroup-item tooltipped tooltipped-sw"
-		/>
-	);
+	return <button data-disable-with name="id" type="submit" className="btn btn-sm flex-1 BtnGroup-item tooltipped tooltipped-sw" />;
 }
 
 function getReasonElement(subscriptionButton: HTMLButtonElement): HTMLParagraphElement {
-	return subscriptionButton
-		.closest('.thread-subscription-status')!
-		.querySelector('p.reason')!;
+	return subscriptionButton.closest('.thread-subscription-status')!.querySelector('p.reason')!;
 }
 
 function getCurrentStatus(subscriptionButton: HTMLButtonElement): 'none' | 'all' | 'status' {
@@ -62,7 +53,7 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 				aria-label="Unsubscribe"
 				{...(status === 'none' && disableAttributes)}
 			>
-				<BellSlashIcon/> None
+				<BellSlashIcon /> None
 			</SubButton>
 
 			<SubButton
@@ -71,27 +62,24 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 				aria-label="Subscribe to all events"
 				{...(status === 'all' && disableAttributes)}
 			>
-				<BellIcon/> All
+				<BellIcon /> All
 			</SubButton>
 
 			<SubButton
 				// @ts-expect-error I don't remember how to fix this
 				value="subscribe_to_custom_notifications"
-				aria-label={multilineAriaLabel(
-					'Subscribe just to status changes',
-					'(closing, reopening, merging)',
-				)}
+				aria-label={multilineAriaLabel('Subscribe just to status changes', '(closing, reopening, merging)')}
 				{...(status === 'status' && disableAttributes)}
 			>
-				<IssueReopenedIcon/> Status
+				<IssueReopenedIcon /> Status
 			</SubButton>
 		</div>,
 
 		// Always submitted, but ignored unless the value is `subscribe_to_custom_notifications`
 		// Keep outside BtnGroup
-		<input type="hidden" name="events[]" value="merged"/>,
-		<input type="hidden" name="events[]" value="closed"/>,
-		<input type="hidden" name="events[]" value="reopened"/>,
+		<input type="hidden" name="events[]" value="merged" />,
+		<input type="hidden" name="events[]" value="closed" />,
+		<input type="hidden" name="events[]" value="reopened" />,
 	);
 
 	// Remove it only if the form was successfully added
@@ -106,13 +94,13 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 
 function init(signal: AbortSignal): void {
 	// Repos you're ignoring can't be subscribed to, so the button is disabled
-	observe('button[data-thread-subscribe-button]:not([disabled])', addButton, {signal});
+	observe('button[data-thread-subscribe-button]:not([disabled])', addButton, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isConversation,
-	],
+	include: [pageDetect.isConversation],
 	awaitDomReady: true, // The sidebar is at the end of the page
 	init,
 });

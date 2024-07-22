@@ -19,8 +19,7 @@ function add(filename: HTMLAnchorElement): void {
 		return;
 	}
 
-	const icon = $('.octicon-diff-removed, .octicon-diff-added', fileInList)
-		?.cloneNode(true);
+	const icon = $('.octicon-diff-removed, .octicon-diff-added', fileInList)?.cloneNode(true);
 	if (icon) {
 		// `span` needed for native vertical alignment
 		filename.parentElement!.append(<span className="ml-1">{icon}</span>);
@@ -33,10 +32,7 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRFiles,
-		pageDetect.isCommit,
-	],
+	include: [pageDetect.isPRFiles, pageDetect.isCommit],
 	init,
 });
 

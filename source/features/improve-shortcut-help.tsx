@@ -6,7 +6,12 @@ import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
 
 function splitKeys(keys: string): DocumentFragment[] {
-	return keys.split(' ').map(key => <> <kbd>{key}</kbd></>);
+	return keys.split(' ').map(key => (
+		<>
+			{' '}
+			<kbd>{key}</kbd>
+		</>
+	));
 }
 
 function improveShortcutHelp(dialog: Element): void {
@@ -22,9 +27,7 @@ function improveShortcutHelp(dialog: Element): void {
 					.map(([hotkey, description]) => (
 						<li className="Box-row d-flex flex-row">
 							<div className="flex-auto">{description}</div>
-							<div className="ml-2 no-wrap">
-								{splitKeys(hotkey)}
-							</div>
+							<div className="ml-2 no-wrap">{splitKeys(hotkey)}</div>
 						</li>
 					))}
 			</ul>

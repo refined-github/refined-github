@@ -13,13 +13,7 @@ const rghUploadsRegex = /refined-github[/]refined-github[/]assets[/]/;
 const screenshotRegex = regexJoin(imageRegex, /|/, rghUploadsRegex);
 
 function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
-	const {
-		simpleId,
-		simpleDescription,
-		highlightedId,
-		highlightedDescripion,
-		highlightedImage,
-	} = match.groups!;
+	const {simpleId, simpleDescription, highlightedId, highlightedDescripion, highlightedImage} = match.groups!;
 	if (highlightedId) {
 		return {
 			id: highlightedId as FeatureID,
@@ -44,14 +38,10 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 
 export function getFeaturesMeta(): FeatureMeta[] {
 	const readmeContent = readFileSync('readme.md', 'utf8');
-	return [...readmeContent.matchAll(featureRegex)]
-		.map(match => extractDataFromMatch(match))
-		.sort((firstFeature, secondFeature) => firstFeature.id.localeCompare(secondFeature.id));
+	return [...readmeContent.matchAll(featureRegex)].map(match => extractDataFromMatch(match)).sort((firstFeature, secondFeature) => firstFeature.id.localeCompare(secondFeature.id));
 }
 
 export function getImportedFeatures(): FeatureID[] {
 	const contents = readFileSync('source/refined-github.ts', 'utf8');
-	return [...contents.matchAll(/^import '\.\/features\/([^.]+)\.js';/gm)]
-		.map(match => match[1] as FeatureID)
-		.sort();
+	return [...contents.matchAll(/^import '\.\/features\/([^.]+)\.js';/gm)].map(match => match[1] as FeatureID).sort();
 }

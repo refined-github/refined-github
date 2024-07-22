@@ -44,9 +44,7 @@ export function parseTag(tag: string): {version: string; namespace: string} {
 
 export function isUsernameAlreadyFullName(username: string, realname: string): boolean {
 	// Normalize both strings
-	username = username
-		.replaceAll('-', '')
-		.toLowerCase();
+	username = username.replaceAll('-', '').toLowerCase();
 	realname = realname
 		.normalize('NFD')
 		.replaceAll(/[\u0300-\u036F\W.]/g, '')
@@ -66,7 +64,8 @@ export function getLatestVersionTag(tags: string[]): string {
 
 	// Exclude pre-releases
 	let releases = tags.filter(tag => !isPrerelease.test(tag));
-	if (releases.length === 0) { // They were all pre-releases; undo.
+	if (releases.length === 0) {
+		// They were all pre-releases; undo.
 		releases = tags;
 	}
 
@@ -153,10 +152,12 @@ export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement,
 // https://github.com/refined-github/refined-github/issues/2465#issuecomment-567173300
 export function triggerConversationUpdate(): void {
 	const marker = expectElement('.js-timeline-marker');
-	marker.dispatchEvent(new CustomEvent('socket:message', {
-		bubbles: true,
-		detail: {data: {gid: marker.dataset.gid}},
-	}));
+	marker.dispatchEvent(
+		new CustomEvent('socket:message', {
+			bubbles: true,
+			detail: {data: {gid: marker.dataset.gid}},
+		}),
+	);
 }
 
 // Fix z-index issue https://github.com/refined-github/refined-github/pull/7430

@@ -36,9 +36,7 @@ async function unwrapNotifications(): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isNotifications,
-	],
+	include: [pageDetect.isNotifications],
 	deduplicate: 'has-rgh',
 	init: unwrapNotifications,
 });

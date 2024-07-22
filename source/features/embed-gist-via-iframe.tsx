@@ -27,9 +27,7 @@ async function init(): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isSingleGist,
-	],
+	include: [pageDetect.isSingleGist],
 	init: onetime(init),
 });
 

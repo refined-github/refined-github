@@ -78,34 +78,32 @@ async function init(): Promise<void> {
 	const birthday = new Date(firstCommitDate);
 
 	// `twas` could also return `an hour ago` or `just now`
-	const [value, unit] = twas(birthday.getTime())
-		.replace('just now', '1 second')
-		.replace(/^an?/, '1')
-		.split(' ');
+	const [value, unit] = twas(birthday.getTime()).replace('just now', '1 second').replace(/^an?/, '1').split(' ');
 
 	// About a day old or less ?
-	const age = Date.now() - birthday.getTime() < 10e7
-		? randomArrayItem(fresh)
-		: <><strong>{value}</strong> {unit} old</>;
+	const age =
+		Date.now() - birthday.getTime() < 10e7 ? (
+			randomArrayItem(fresh)
+		) : (
+			<>
+				<strong>{value}</strong> {unit} old
+			</>
+		);
 
 	const sidebarForksLinkIcon = await elementReady('.BorderGrid .octicon-repo-forked');
 	sidebarForksLinkIcon!.closest('.mt-2')!.append(
 		<h3 className="sr-only">Repository age</h3>,
 		<div className="mt-2">
 			<a href={firstCommitHref} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
-				<RepoIcon className="mr-2"/> {age}
+				<RepoIcon className="mr-2" /> {age}
 			</a>
 		</div>,
 	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoRoot,
-	],
-	exclude: [
-		pageDetect.isEmptyRepoRoot,
-	],
+	include: [pageDetect.isRepoRoot],
+	exclude: [pageDetect.isEmptyRepoRoot],
 	deduplicate: 'has-rgh-inner',
 	init,
 });

@@ -29,13 +29,9 @@ const noticeStyle = {paddingRight: '16px'};
 function addButton(commitsLink: HTMLElement): void {
 	// It won't work with :has(), too many nested boxes
 	commitsLink.closest('[class^="Box"]')!.append(
-		<button
-			type="button"
-			className={`btn-octicon ${toggleButtonClass}`}
-			aria-label="Toggle files section"
-		>
-			<ChevronDownIcon/>
-			<ChevronUpIcon/>
+		<button type="button" className={`btn-octicon ${toggleButtonClass}`} aria-label="Toggle files section">
+			<ChevronDownIcon />
+			<ChevronUpIcon />
 		</button>,
 	);
 }
@@ -45,11 +41,8 @@ function addFilesHiddenNotice(): void {
 	attachElement(expectElement('[aria-labelledby="folders-and-files"]'), {
 		className: noticeClass,
 		after: () => (
-			<div
-				className="py-1 text-right text-small color-fg-subtle"
-				style={noticeStyle}
-			>
-				The file list was collapsed via Refined GitHub <ArrowUpIcon className="v-align-middle"/>
+			<div className="py-1 text-right text-small color-fg-subtle" style={noticeStyle}>
+				The file list was collapsed via Refined GitHub <ArrowUpIcon className="v-align-middle" />
 			</div>
 		),
 	});
@@ -81,13 +74,13 @@ async function updateView(button: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe('[aria-label="Commit history"]', updateView, {signal});
-	delegate(`.${toggleButtonClass}, .${noticeClass}`, 'click', toggleHandler, {signal});
+	delegate(`.${toggleButtonClass}, .${noticeClass}`, 'click', toggleHandler, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoTree,
-	],
+	include: [pageDetect.isRepoTree],
 	init,
 });
 

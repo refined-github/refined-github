@@ -30,17 +30,17 @@ async function initForPRPage(signal: AbortSignal): Promise<void> {
 	observe('main [href="/apps/github-actions"] ~ div a.status-actions', addForPR, {signal});
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepositoryActions,
-	],
-	init: initForRepositoryActionsPage,
-}, {
-	include: [
-		pageDetect.isPR,
-	],
-	init: initForPRPage,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.isRepositoryActions],
+		init: initForRepositoryActionsPage,
+	},
+	{
+		include: [pageDetect.isPR],
+		init: initForPRPage,
+	},
+);
 
 /*
 

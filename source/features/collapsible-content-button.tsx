@@ -22,29 +22,20 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 		${selection}
 
 		</details>
-	`.replaceAll(/(\n|\b)\t+/g, '$1').trim();
+	`
+		.replaceAll(/(\n|\b)\t+/g, '$1')
+		.trim();
 
 	field.focus();
 	insertTextIntoField(field, smartBlockWrap(newContent, field));
 
 	// Restore selection.
 	// `selectionStart` will be right after the newly-inserted text
-	field.setSelectionRange(
-		field.value.lastIndexOf('</summary>', field.selectionStart) + '</summary>'.length + 2,
-		field.value.lastIndexOf('</details>', field.selectionStart) - 2,
-	);
+	field.setSelectionRange(field.value.lastIndexOf('</summary>', field.selectionStart) + '</summary>'.length + 2, field.value.lastIndexOf('</details>', field.selectionStart) - 2);
 }
 
 function append(container: HTMLElement): void {
-	const classes = [
-		'Button',
-		'Button--iconOnly',
-		'Button--invisible',
-		'Button--medium',
-		'tooltipped',
-		'tooltipped-sw',
-		'rgh-collapsible-content-btn',
-	];
+	const classes = ['Button', 'Button--iconOnly', 'Button--invisible', 'Button--medium', 'tooltipped', 'tooltipped-sw', 'rgh-collapsible-content-btn'];
 
 	container.append(
 		<button
@@ -53,7 +44,7 @@ function append(container: HTMLElement): void {
 			aria-label="Add collapsible content"
 			data-targets="action-bar.items" // Enables automatic hiding when it doesn't fit
 		>
-			<FoldDownIcon/>
+			<FoldDownIcon />
 		</button>,
 	);
 
@@ -61,15 +52,14 @@ function append(container: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(
-		'[data-target="action-bar.itemContainer"]', append, {signal});
-	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails, {signal});
+	observe('[data-target="action-bar.itemContainer"]', append, {signal});
+	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRichTextEditor,
-	],
+	include: [pageDetect.hasRichTextEditor],
 	init,
 });
 

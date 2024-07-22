@@ -4,20 +4,25 @@ import {elementExists} from 'select-dom';
 type DelegateFieldEvent = DelegateEventHandler<KeyboardEvent, HTMLTextAreaElement>;
 
 function onFieldKeydown(selector: string, callback: DelegateFieldEvent, signal: AbortSignal): void {
-	delegate(selector as 'textarea', 'keydown', event => {
-		const field = event.delegateTarget;
+	delegate(
+		selector as 'textarea',
+		'keydown',
+		event => {
+			const field = event.delegateTarget;
 
-		// The suggester is GitHub’s autocomplete dropdown
-		if (elementExists('.suggester', field.form!) || event.isComposing) {
-			return;
-		}
+			// The suggester is GitHub’s autocomplete dropdown
+			if (elementExists('.suggester', field.form!) || event.isComposing) {
+				return;
+			}
 
-		callback(event);
-	}, {
-		// Adds support for `esc` key; GitHub seems to use `stopPropagation` on it
-		capture: true,
-		signal,
-	});
+			callback(event);
+		},
+		{
+			// Adds support for `esc` key; GitHub seems to use `stopPropagation` on it
+			capture: true,
+			signal,
+		},
+	);
 }
 
 export function onCommentFieldKeydown(callback: DelegateFieldEvent, signal: AbortSignal): void {

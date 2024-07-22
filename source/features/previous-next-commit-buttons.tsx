@@ -11,17 +11,11 @@ function init(): false | void {
 	}
 
 	// Wrap the button in a <div> to avoid #4503
-	$('#files')!.after(
-		<div className="d-flex flex-justify-end mb-3">
-			{originalPreviousNext.cloneNode(true)}
-		</div>,
-	);
+	$('#files')!.after(<div className="d-flex flex-justify-end mb-3">{originalPreviousNext.cloneNode(true)}</div>);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRCommit,
-	],
+	include: [pageDetect.isPRCommit],
 	deduplicate: 'has-rgh-inner',
 	awaitDomReady: true,
 	init,

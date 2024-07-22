@@ -28,10 +28,12 @@ const hasAnyProjects = new CachedFunction('has-projects', {
 			allowErrors: true,
 		});
 
-		return Boolean(repository.projects.totalCount)
-			|| Boolean(repository.projectsV2.totalCount)
-			|| Boolean(organization?.projects?.totalCount)
-			|| Boolean(organization?.projectsV2?.totalCount);
+		return (
+			Boolean(repository.projects.totalCount) ||
+			Boolean(repository.projectsV2.totalCount) ||
+			Boolean(organization?.projects?.totalCount) ||
+			Boolean(organization?.projectsV2?.totalCount)
+		);
 	},
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
@@ -59,28 +61,22 @@ async function hasConversations(): Promise<boolean> {
 	return Boolean(elementReady('#js-issues-toolbar', {waitForChildren: false}));
 }
 
-void features.add(import.meta.url, {
-	asLongAs: [
-		hasConversations,
-	],
-	include: [
-		pageDetect.isRepoIssueOrPRList,
-	],
-	deduplicate: 'has-rgh-inner',
-	init: hideMilestones,
-}, {
-	asLongAs: [
-		hasConversations,
-	],
-	include: [
-		pageDetect.isRepoIssueOrPRList,
-	],
-	exclude: [
-		async () => hasAnyProjects.get(),
-	],
-	deduplicate: 'has-rgh-inner',
-	init: hideProjects,
-});
+void features.add(
+	import.meta.url,
+	{
+		asLongAs: [hasConversations],
+		include: [pageDetect.isRepoIssueOrPRList],
+		deduplicate: 'has-rgh-inner',
+		init: hideMilestones,
+	},
+	{
+		asLongAs: [hasConversations],
+		include: [pageDetect.isRepoIssueOrPRList],
+		exclude: [async () => hasAnyProjects.get()],
+		deduplicate: 'has-rgh-inner',
+		init: hideProjects,
+	},
+);
 
 /*
 

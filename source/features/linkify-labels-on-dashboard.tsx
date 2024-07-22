@@ -14,7 +14,7 @@ function linkifyLabel(label: Element): void {
 	const labelName = label.textContent.trim();
 
 	url.searchParams.set('q', `is:${isPR ? 'pr' : 'issue'} is:open sort:updated-desc label:"${labelName}"`);
-	wrap(label, <a href={url.href}/>);
+	wrap(label, <a href={url.href} />);
 }
 
 function init(signal: AbortSignal): void {
@@ -22,8 +22,6 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isDashboard,
-	],
+	include: [pageDetect.isDashboard],
 	init,
 });

@@ -17,12 +17,7 @@ function linkify(nextButton: HTMLAnchorElement): void {
 	const lastCursor = Math.floor((totalNotificationsNumber - 1) / itemsPerNotificationsPage) * itemsPerNotificationsPage;
 	const nextButtonSearch = new URLSearchParams(nextButton.search);
 	nextButtonSearch.set('after', stringToBase64(`cursor:${lastCursor}`));
-	totalNotificationsNode.replaceWith(
-		' of ',
-		<a href={'?' + String(nextButtonSearch)}>
-			{totalNotificationsNumber}
-		</a>,
-	);
+	totalNotificationsNode.replaceWith(' of ', <a href={'?' + String(nextButtonSearch)}>{totalNotificationsNumber}</a>);
 }
 
 function init(signal: AbortSignal): void {
@@ -31,9 +26,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isNotifications,
-	],
+	include: [pageDetect.isNotifications],
 	init,
 });
 

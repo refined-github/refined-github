@@ -40,14 +40,13 @@ function add(submitButtonLine: HTMLElement): void {
 		<div className="flash flash-warn py-0 ml-n3">
 			<div className="form-checkbox checked">
 				<label>
-					<input
-						checked
-						type="checkbox"
-						id="rgh-disable-project"
-					/> Disable Projects and Wikis
+					<input checked type="checkbox" id="rgh-disable-project" /> Disable Projects and Wikis
 				</label>
 				<span className="note mb-2">
-					After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
+					After creating the repository disable the projects and wiki.{' '}
+					<a href={documentation} target="_blank" rel="noreferrer">
+						Suggestion by Refined GitHub.
+					</a>
 				</span>
 			</div>
 		</div>,
@@ -57,21 +56,22 @@ function add(submitButtonLine: HTMLElement): void {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	observe('form :has(> [type=submit])', add, {signal});
-	delegate('#new_repository, #new_new_repository', 'submit', setStorage, {signal});
+	delegate('#new_repository, #new_new_repository', 'submit', setStorage, {
+		signal,
+	});
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.isNewRepo,
-		pageDetect.isNewRepoTemplate,
-	],
-	init,
-}, {
-	include: [
-		() => Boolean(sessionStorage.rghNewRepo),
-	],
-	init: onetime(disableWikiAndProjects),
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.isNewRepo, pageDetect.isNewRepoTemplate],
+		init,
+	},
+	{
+		include: [() => Boolean(sessionStorage.rghNewRepo)],
+		init: onetime(disableWikiAndProjects),
+	},
+);
 
 /*
 

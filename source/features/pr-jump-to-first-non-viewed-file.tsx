@@ -24,12 +24,8 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRFiles,
-	],
-	exclude: [
-		pageDetect.isPRFile404,
-	],
+	include: [pageDetect.isPRFiles],
+	exclude: [pageDetect.isPRFile404],
 	init,
 });
 

@@ -15,7 +15,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 
 	// Do not use `$$` because elements can be outside `form`
 	// `RadioNodeList` is dynamic, so we need to make a copy
-	const radios = [...form.elements.namedItem('pull_request_review[event]') as RadioNodeList] as HTMLInputElement[];
+	const radios = [...(form.elements.namedItem('pull_request_review[event]') as RadioNodeList)] as HTMLInputElement[];
 	if (radios.length === 0) {
 		features.log.error(import.meta.url, 'Could not find radio buttons');
 		return;
@@ -23,31 +23,25 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 
 	// Set the default action for cmd+enter to Comment
 	if (radios.length > 1) {
-		form.prepend(
-			<input
-				type="hidden"
-				name="pull_request_review[event]"
-				value="comment"
-			/>,
-		);
+		form.prepend(<input type="hidden" name="pull_request_review[event]" value="comment" />);
 	}
 
 	if (actionsRow) {
-		actionsRow.prepend(<span className="spacer.gif ml-auto"/>);
+		actionsRow.prepend(<span className="spacer.gif ml-auto" />);
 		radios.reverse();
 	}
 
 	// Generate the new buttons
 	for (const radio of radios) {
 		const parent = radio.parentElement!;
-		const labelElement = (
-			parent.querySelector('label')
-			?? radio.nextSibling! // TODO: Remove after April 2025
-		);
-		const tooltip = parent.querySelector([
-			'p', // TODO: Remove after April 2025
-			'.FormControl-caption',
-		])!.textContent.trim().replace(/\.$/, '');
+		const labelElement = parent.querySelector('label') ?? radio.nextSibling!; // TODO: Remove after April 2025
+		const tooltip = parent
+			.querySelector([
+				'p', // TODO: Remove after April 2025
+				'.FormControl-caption',
+			])!
+			.textContent.trim()
+			.replace(/\.$/, '');
 		assertNodeContent(labelElement, /^(Approve|Request changes|Comment)$/);
 
 		const classes = ['btn btn-sm'];
@@ -72,9 +66,9 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		);
 
 		if (!radio.disabled && radio.value === 'approve') {
-			button.prepend(<CheckIcon className="color-fg-success"/>);
+			button.prepend(<CheckIcon className="color-fg-success" />);
 		} else if (!radio.disabled && radio.value === 'reject') {
-			button.prepend(<FileDiffIcon className="color-fg-danger"/>);
+			button.prepend(<FileDiffIcon className="color-fg-danger" />);
 		}
 
 		if (actionsRow) {
@@ -115,13 +109,13 @@ function blockDuplicateSubmissions(event: DelegateEvent): void {
 function init(signal: AbortSignal): void {
 	// The selector excludes the "Cancel" button
 	observe('#review-changes-modal [type="submit"]:not([name])', replaceCheckboxes, {signal});
-	delegate('#review-changes-modal form', 'submit', blockDuplicateSubmissions, {signal});
+	delegate('#review-changes-modal form', 'submit', blockDuplicateSubmissions, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRFiles,
-	],
+	include: [pageDetect.isPRFiles],
 	awaitDomReady: true,
 	init,
 });

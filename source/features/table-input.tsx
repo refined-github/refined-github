@@ -17,13 +17,13 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 
 	const columns = Number(square.dataset.x);
 	const rows = Number(square.dataset.y);
-	const row = columns === 1
-		// One HTML line per row
-		? '<tr><td>\n'
-
-		// <tr> on its own line
-		// "1 space" indents without causing unwanted Markdown code blocks that 4 spaces would cause
-		: '<tr>\n' + ' <td>\n'.repeat(columns);
+	const row =
+		columns === 1
+			? // One HTML line per row
+				'<tr><td>\n'
+			: // <tr> on its own line
+				// "1 space" indents without causing unwanted Markdown code blocks that 4 spaces would cause
+				'<tr>\n' + ' <td>\n'.repeat(columns);
 	field.focus();
 	const table = '<table>\n' + row.repeat(rows) + '</table>';
 	insertTextIntoField(field, smartBlockWrap(table, field));
@@ -33,54 +33,24 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 }
 
 function append(container: HTMLElement): void {
-	const wrapperClasses = [
-		'details-reset',
-		'details-overlay',
-		'flex-auto',
-		'select-menu',
-		'select-menu-modal-right',
-		'hx_rsm',
-		'ActionBar-item',
-	];
+	const wrapperClasses = ['details-reset', 'details-overlay', 'flex-auto', 'select-menu', 'select-menu-modal-right', 'hx_rsm', 'ActionBar-item'];
 
-	const buttonClasses = [
-		'Button',
-		'Button--iconOnly',
-		'Button--invisible',
-		'Button--medium',
-	];
+	const buttonClasses = ['Button', 'Button--iconOnly', 'Button--invisible', 'Button--medium'];
 
 	container.append(
 		<details
 			className={wrapperClasses.join(' ')}
 			data-targets="action-bar.items" // Enables automatic hiding when it doesn't fit
 		>
-			<summary
-				className={buttonClasses.join(' ')}
-				role="button"
-				aria-label="Add a table"
-				aria-haspopup="menu"
-			>
-				<div
-					className="tooltipped tooltipped-sw"
-					aria-label="Add a table"
-				>
-					<TableIcon/>
+			<summary className={buttonClasses.join(' ')} role="button" aria-label="Add a table" aria-haspopup="menu">
+				<div className="tooltipped tooltipped-sw" aria-label="Add a table">
+					<TableIcon />
 				</div>
 			</summary>
-			<details-menu
-				className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input"
-				role="menu"
-			>
+			<details-menu className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input" role="menu">
 				{Array.from({length: 25}).map((_, index) => (
-					<button
-						type="button"
-						role="menuitem"
-						className="rgh-tic btn-link"
-						data-x={(index % 5) + 1}
-						data-y={Math.floor(index / 5) + 1}
-					>
-						<div/>
+					<button type="button" role="menuitem" className="rgh-tic btn-link" data-x={(index % 5) + 1} data-y={Math.floor(index / 5) + 1}>
+						<div />
 					</button>
 				))}
 			</details-menu>
@@ -96,9 +66,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRichTextEditor,
-	],
+	include: [pageDetect.hasRichTextEditor],
 	init,
 });
 

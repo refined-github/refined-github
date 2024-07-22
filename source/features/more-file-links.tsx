@@ -19,12 +19,7 @@ function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 		);
 	};
 
-	viewFile.after(
-		getDropdownLink('raw', 'raw'),
-		getDropdownLink('blame', 'blame'),
-		getDropdownLink('history', 'commits'),
-		<div className="dropdown-divider" role="none"/>,
-	);
+	viewFile.after(getDropdownLink('raw', 'raw'), getDropdownLink('blame', 'blame'), getDropdownLink('history', 'commits'), <div className="dropdown-divider" role="none" />);
 }
 
 function init(signal: AbortSignal): void {
@@ -33,9 +28,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasFiles,
-	],
+	include: [pageDetect.hasFiles],
 	init,
 });
 

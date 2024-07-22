@@ -27,9 +27,10 @@ export default class GitHubFileURL {
 	}
 
 	// Handle branch names containing multiple slashes #4492
-	private disambiguateReference(
-		ambiguousReference: string[],
-	): {branch: string; filePath: string} {
+	private disambiguateReference(ambiguousReference: string[]): {
+		branch: string;
+		filePath: string;
+	} {
 		const branch = ambiguousReference[0];
 		// History pages might use search parameters
 		const filePathFromSearch = this.searchParams.getAll('path[]').join('/');
@@ -44,10 +45,10 @@ export default class GitHubFileURL {
 		const currentBranch = getCurrentGitRef();
 		const currentBranchSections = currentBranch?.split('/');
 		if (
-			!currentBranch // Current branch could not be determined (1/2)
-			|| !currentBranchSections // Current branch could not be determined (2/2)
-			|| ambiguousReference.length === 1 // Ref has no slashes
-			|| currentBranchSections.length === 1 // Current branch has no slashes
+			!currentBranch || // Current branch could not be determined (1/2)
+			!currentBranchSections || // Current branch could not be determined (2/2)
+			ambiguousReference.length === 1 || // Ref has no slashes
+			currentBranchSections.length === 1 // Current branch has no slashes
 		) {
 			// Then the reference is not ambiguous
 			return {branch, filePath};
@@ -76,14 +77,22 @@ export default class GitHubFileURL {
 		if (isRepoRoot() || (ambiguousReference.length === 2 && ambiguousReference[1].includes('%2F'))) {
 			const branch = ambiguousReference.join('/').replaceAll('%2F', '/');
 			this.assign({
-				user, repository, route, branch, filePath: '',
+				user,
+				repository,
+				route,
+				branch,
+				filePath: '',
 			});
 			return;
 		}
 
 		const {branch, filePath} = this.disambiguateReference(ambiguousReference);
 		this.assign({
-			user, repository, route, branch, filePath,
+			user,
+			repository,
+			route,
+			branch,
+			filePath,
 		});
 	}
 

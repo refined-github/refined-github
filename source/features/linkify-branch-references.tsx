@@ -47,14 +47,16 @@ function hovercardInit(signal: AbortSignal): void {
 	observe('[data-hydro-view*="pull-request-hovercard-hover"] ~ .d-flex.mt-2', linkifyHovercard, {signal});
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.isQuickPR,
-	],
-	init: quickPRInit,
-}, {
-	init: hovercardInit,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.isQuickPR],
+		init: quickPRInit,
+	},
+	{
+		init: hovercardInit,
+	},
+);
 
 /*
 

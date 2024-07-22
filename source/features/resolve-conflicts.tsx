@@ -10,13 +10,11 @@ async function init(): Promise<void> {
 		stopOnDomReady: false,
 	});
 
-	document.head.append(<script src={chrome.runtime.getURL('assets/resolve-conflicts.js')}/>);
+	document.head.append(<script src={chrome.runtime.getURL('assets/resolve-conflicts.js')} />);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRConflicts,
-	],
+	include: [pageDetect.isPRConflicts],
 	init,
 });
 

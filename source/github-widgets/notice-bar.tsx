@@ -14,7 +14,7 @@ export default async function addNotice(
 		type = 'notice',
 		action = (
 			<button className="flash-close js-flash-close" type="button" aria-label="Dismiss this message">
-				<XIcon/>
+				<XIcon />
 			</button>
 		),
 	}: Options = {},
@@ -23,9 +23,7 @@ export default async function addNotice(
 	container!.append(
 		<div className={`flash flash-full flash-${type} px-4`}>
 			{action}
-			<div>
-				{message}
-			</div>
+			<div>{message}</div>
 		</div>,
 	);
 }

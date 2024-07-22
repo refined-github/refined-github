@@ -8,16 +8,11 @@ import {wrapAll} from '../helpers/dom-utils.js';
 
 function init(): void {
 	const changedFilesSummary = $('.Box li:has(.octicon-file-diff)')!;
-	wrapAll(
-		<a className="no-underline rgh-link-to-compare-diff" href="#files_bucket"/>,
-		...changedFilesSummary.children,
-	);
+	wrapAll(<a className="no-underline rgh-link-to-compare-diff" href="#files_bucket" />, ...changedFilesSummary.children);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isCompare,
-	],
+	include: [pageDetect.isCompare],
 	exclude: [
 		() => elementExists('.tabnav'), // The commit list and compare diff are in two separate tabs
 	],

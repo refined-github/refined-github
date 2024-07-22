@@ -20,7 +20,7 @@ function add(listItem: HTMLElement): void {
 	link.href = buildRepoURL('issues/new/choose');
 	label.textContent = `New issue in ${getRepo()?.name}`;
 
-	$('svg', newIssueItem).replaceWith(<IssueOpenedIcon/>);
+	$('svg', newIssueItem).replaceWith(<IssueOpenedIcon />);
 
 	listItem.parentElement!.append(newIssueItem);
 
@@ -33,12 +33,8 @@ async function init(signal: AbortSignal): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepo,
-	],
-	exclude: [
-		isArchivedRepoAsync,
-	],
+	include: [pageDetect.isRepo],
+	exclude: [isArchivedRepoAsync],
 	init,
 });
 

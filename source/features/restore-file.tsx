@@ -34,10 +34,7 @@ async function getFile(filePath: string): Promise<{isTruncated: boolean; text: s
 }
 
 async function discardChanges(progress: (message: string) => void, originalFileName: string, newFileName: string): Promise<void> {
-	const [headReference, file] = await Promise.all([
-		getHeadReference(),
-		getFile(originalFileName),
-	]);
+	const [headReference, file] = await Promise.all([getHeadReference(), getFile(originalFileName)]);
 
 	if (file?.isTruncated) {
 		throw new Error('File too big, you’ll have to use git');
@@ -58,7 +55,8 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 	const {nameWithOwner, branch: prBranch} = getBranches().head;
 	progress('Committing…');
 
-	await api.v4(`
+	await api.v4(
+		`
 		mutation discardChanges ($input: CreateCommitOnBranchInput!) {
 			createCommitOnBranch(input: $input) {
 				commit {
@@ -66,32 +64,30 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 				}
 			}
 		}
-	`, {
-		variables: {
-			input: {
-				branch: {
-					repositoryNameWithOwner: nameWithOwner,
-					branchName: prBranch,
-				},
-				expectedHeadOid: headReference,
-				fileChanges,
-				message: {
-					headline: `Discard changes to ${originalFileName}`,
+	`,
+		{
+			variables: {
+				input: {
+					branch: {
+						repositoryNameWithOwner: nameWithOwner,
+						branchName: prBranch,
+					},
+					expectedHeadOid: headReference,
+					fileChanges,
+					message: {
+						headline: `Discard changes to ${originalFileName}`,
+					},
 				},
 			},
 		},
-	});
+	);
 }
 
 async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const menuItem = event.delegateTarget;
 
 	try {
-		const [originalFileName, newFileName = originalFileName] = menuItem
-			.closest('[data-path]')!
-			.querySelector('.Link--primary')!
-			.textContent
-			.split(' → ');
+		const [originalFileName, newFileName = originalFileName] = menuItem.closest('[data-path]')!.querySelector('.Link--primary')!.textContent.split(' → ');
 		await showToast(async progress => discardChanges(progress!, originalFileName, newFileName), {
 			message: 'Loading info…',
 			doneMessage: 'Changes discarded',
@@ -106,27 +102,23 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 
 function add(editFile: HTMLAnchorElement): void {
 	editFile.after(
-		<button
-			className="pl-5 dropdown-item btn-link rgh-restore-file"
-			role="menuitem"
-			type="button"
-		>
+		<button className="pl-5 dropdown-item btn-link rgh-restore-file" role="menuitem" type="button">
 			Discard changes
 		</button>,
 	);
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-file-header-dropdown a[aria-label^="Change this"]', add, {signal});
+	observe('.js-file-header-dropdown a[aria-label^="Change this"]', add, {
+		signal,
+	});
 
 	// `capture: true` required to be fired before GitHub's handlers
 	delegate('.rgh-restore-file', 'click', handleClick, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRFiles,
-	],
+	include: [pageDetect.isPRFiles],
 	init,
 });
 

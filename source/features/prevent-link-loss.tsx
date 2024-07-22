@@ -29,28 +29,33 @@ function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButt
 }
 
 function getUI(field: HTMLTextAreaElement): HTMLElement {
-	return $('.rgh-prevent-link-loss-container', field.form!) ?? (createBanner({
-		icon: <AlertIcon className="m-0"/>,
-		text: (
-			<>
-				{' Your link may be '}
-				<a href={documentation} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue">
-					misinterpreted
-				</a>
-				{' by GitHub.'}
-			</>
-		),
-		classes: ['rgh-prevent-link-loss-container', 'flash-warn', 'my-2', 'mx-2'],
-		action: handleButtonClick,
-		buttonLabel: 'Fix link',
-	}));
+	return (
+		$('.rgh-prevent-link-loss-container', field.form!) ??
+		createBanner({
+			icon: <AlertIcon className="m-0" />,
+			text: (
+				<>
+					{' Your link may be '}
+					<a href={documentation} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue">
+						misinterpreted
+					</a>
+					{' by GitHub.'}
+				</>
+			),
+			classes: ['rgh-prevent-link-loss-container', 'flash-warn', 'my-2', 'mx-2'],
+			action: handleButtonClick,
+			buttonLabel: 'Fix link',
+		})
+	);
 }
 
 function isVulnerableToLinkLoss(value: string): boolean {
 	// The replacement logic is not just in the regex, so it alone can't be used to detect the need for the replacement
-	return value !== value.replace(prCommitUrlRegex, preventPrCommitLinkLoss)
-		|| value !== value.replace(prCompareUrlRegex, preventPrCompareLinkLoss)
-		|| value !== value.replace(discussionUrlRegex, preventDiscussionLinkLoss);
+	return (
+		value !== value.replace(prCommitUrlRegex, preventPrCommitLinkLoss) ||
+		value !== value.replace(prCompareUrlRegex, preventPrCompareLinkLoss) ||
+		value !== value.replace(discussionUrlRegex, preventDiscussionLinkLoss)
+	);
 }
 
 function updateUI({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void {
@@ -71,9 +76,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRichTextEditor,
-	],
+	include: [pageDetect.hasRichTextEditor],
 	init,
 });
 

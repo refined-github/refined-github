@@ -54,14 +54,12 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 			// Don't enable AJAX on this behavior because we need a full page reload to drop the button, same reason as above #6554
 			// data-turbo-frame="repo-content-turbo-frame"
 		>
-			<ChevronLeftIcon/>
+			<ChevronLeftIcon />
 		</a>
 	);
 
 	// The DOM varies between details-based DOM and React-based one
-	const selectorWrapper = branchSelector.tagName === 'SUMMARY'
-		? branchSelector.parentElement!
-		: branchSelector;
+	const selectorWrapper = branchSelector.tagName === 'SUMMARY' ? branchSelector.parentElement! : branchSelector;
 
 	selectorWrapper.before(defaultLink);
 	groupButtons([defaultLink, selectorWrapper]).classList.add('d-flex', 'rgh-default-branch-button-group');
@@ -72,14 +70,8 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoTree,
-		pageDetect.isSingleFile,
-		isRepoCommitListRoot,
-	],
-	exclude: [
-		isDefaultBranch,
-	],
+	include: [pageDetect.isRepoTree, pageDetect.isSingleFile, isRepoCommitListRoot],
+	exclude: [isDefaultBranch],
 	init,
 });
 
