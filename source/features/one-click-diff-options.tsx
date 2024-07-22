@@ -36,9 +36,7 @@ function createWhitespaceButton(): HTMLElement {
 	);
 }
 
-function attachPRButtons(dropdownIcon: SVGElement): void {
-	// TODO: Replace with :has selector
-	const dropdown = dropdownIcon.closest('details.diffbar-item')!;
+function attachPRButtons(dropdown: HTMLDetailsElement): void {
 	const diffSettingsForm = $('form[action$="/diffview"]', dropdown)!;
 
 	// Preserve data before emption the form
@@ -98,11 +96,10 @@ function attachPRButtons(dropdownIcon: SVGElement): void {
 
 function initPR(signal: AbortSignal): void {
 	// There are two "diff settings" element, one for mobile and one for the desktop. We only replace the one for the desktop
-	observe('.hide-sm.hide-md details.diffbar-item svg.octicon-gear', attachPRButtons, {signal});
+	observe('.hide-sm.hide-md details.diffbar-item:has(svg.octicon-gear)', attachPRButtons, {signal});
 }
 
 function attachButtons(nativeDiffButtons: HTMLElement): void {
-	// TODO: Replace with :has()
 	const anchor = nativeDiffButtons.parentElement!;
 
 	// `usesFloats` is necessary to ensure the order and spacing as seen in #5958
