@@ -4,8 +4,9 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 
-let documentTitle: string | undefined;
 let submitting: number | undefined;
+
+const prefix = '✏️ Comment - ';
 
 function hasDraftComments(): boolean {
 	// `[id^="convert-to-issue-body"]` excludes the hidden pre-filled textareas created when opening the dropdown menu of review comments
@@ -27,11 +28,9 @@ function updateDocumentTitle(): void {
 	}
 
 	if (document.visibilityState === 'hidden' && hasDraftComments()) {
-		documentTitle = document.title;
 		document.title = '✏️ Comment - ' + document.title;
-	} else if (documentTitle) {
-		document.title = documentTitle;
-		documentTitle = undefined;
+	} else if (document.title.startsWith(prefix)) {
+		document.title = document.title.replace(prefix, '');
 	}
 }
 
