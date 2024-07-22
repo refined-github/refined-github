@@ -7,40 +7,16 @@
 		"build:typescript": "tsc --noEmit",
 		"build:webpack": "npm run x:webpack -- --mode=production",
 		"manifest": "node build/manifest.js",
-		"fix": "run-p \"lint:css -- --fix\" \"lint:js -- --fix\" fix:prettier \"vitest -- --update\" --continue-on-error",
-		"fix:prettier": "prettier . --write",
-		"lint": "run-p lint:* --continue-on-error",
-		"lint:css": "stylelint \"source/**/*.css\"",
-		"lint:js": "xo",
+		"fix": "run-p \"lint -- --write\" \"vitest -- --update\" --continue-on-error",
+		"lint": "biome check .",
 		"new": "bash build/new-feature.sh",
-		"lint:prettier": "prettier . --check",
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj' -scheme 'Refined GitHub' -destination 'platform=macOS'",
 		"prepare:safari": "bash build/prepare-safari-release.sh",
-		"test": "run-p vitest lint:* build:* --continue-on-error",
+		"test": "run-p vitest lint build:* --continue-on-error",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:webpack": "npm run x:webpack -- --mode=development --watch",
 		"x:webpack": "cross-env NODE_OPTIONS=\"--import tsx --no-warnings=ExperimentalWarning\" webpack"
-	},
-	"prettier": {
-		"singleQuote": true
-	},
-	"stylelint": {
-		"extends": [
-			"stylelint-config-xo"
-		],
-		"rules": {
-			"@stylistic/declaration-colon-newline-after": null,
-			"@stylistic/indentation": null,
-			"@stylistic/selector-combinator-space-before": null,
-			"@stylistic/selector-descendant-combinator-no-non-space": null,
-			"@stylistic/value-list-comma-newline-after": null,
-			"selector-type-no-unknown": null,
-			"declaration-no-important": null,
-			"selector-class-pattern": null,
-			"selector-id-pattern": null,
-			"no-descending-specificity": null
-		}
 	},
 	"dependencies": {
 		"@cheap-glitch/mi-cron": "^1.0.1",
@@ -92,6 +68,7 @@
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "^1.8.3",
 		"@sindresorhus/tsconfig": "^6.0.0",
 		"@types/chrome": "^0.0.268",
 		"@types/codemirror": "^5.60.15",

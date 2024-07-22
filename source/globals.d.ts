@@ -38,6 +38,7 @@ declare module '*.md' { // It should be just for readme.md, but 🤷‍♂️
 }
 
 declare module '*.gql' {
+	let string: string;
 	export = string;
 }
 
