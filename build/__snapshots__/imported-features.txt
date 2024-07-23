@@ -25,7 +25,6 @@ collapsible-content-button
 command-palette-navigation-shortcuts
 comment-excess
 comment-fields-keyboard-shortcuts
-comment-on-draft-pr-indicator
 comments-time-machine-links
 conflict-marker
 conversation-activity-filter
@@ -39,6 +38,7 @@ deep-reblame
 default-branch-button
 dim-bots
 download-folder-button
+draft-pr-notice
 easy-toggle-commit-messages
 easy-toggle-files
 embed-gist-inline

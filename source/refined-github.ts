@@ -180,7 +180,7 @@ import './features/avoid-accidental-submissions.js';
 import './features/quick-review-comment-deletion.js';
 import './features/no-unnecessary-split-diff-view.js';
 import './features/list-prs-for-branch.js';
-import './features/comment-on-draft-pr-indicator.js';
+import './features/draft-pr-notice.js';
 import './features/select-notifications.js';
 import './features/clean-repo-tabs.js';
 import './features/rgh-welcome-issue.js';

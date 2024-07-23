@@ -135,11 +135,6 @@
 		"screenshot": null
 	},
 	{
-		"id": "comment-on-draft-pr-indicator",
-		"description": "Reminds you you’re commenting on a draft PR.",
-		"screenshot": "https://github.com/refined-github/refined-github/assets/44045911/988a6ec1-5faa-4500-baa9-0c3713468ca9"
-	},
-	{
 		"id": "comments-time-machine-links",
 		"description": "Adds links to browse the repository and linked files at the time of each comment.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252749373-9313f1d9-3d92-44a2-a1d1-2b49a29e6a5c.png"
@@ -203,6 +198,11 @@
 		"id": "download-folder-button",
 		"description": "Adds a button to download entire folders, via https://download-directory.github.io.",
 		"screenshot": "https://user-images.githubusercontent.com/46634000/158347358-49234bb8-b9e6-41be-92ed-c0c0233cbad2.png"
+	},
+	{
+		"id": "draft-pr-notice",
+		"description": "Reminds you you’re commenting on a draft PR.",
+		"screenshot": "https://github.com/refined-github/refined-github/assets/44045911/988a6ec1-5faa-4500-baa9-0c3713468ca9"
 	},
 	{
 		"id": "easy-toggle-commit-messages",
