@@ -5,3 +5,12 @@ li.private .Label--secondary {
 	);
 	color: var(--fgColor-attention, var(--color-attention-emphasis));
 }
+
+/*
+
+Test URLs:
+
+https://github.com/search?q=is%3Aprivate&type=repositories
+https://github.com/YOUR_USERNAME?tab=repositories&type=private
+
+*/
