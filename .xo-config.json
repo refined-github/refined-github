@@ -6,6 +6,8 @@
 	"globals": [
 		"browser"
 	],
+	"nodeVersion": false,
+	"nodeVersion_": "https://github.com/xojs/xo/issues/598",
 	"rules": {
 		"jsx-quotes": [
 			"error",
