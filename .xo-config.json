@@ -7,7 +7,6 @@
 		"browser"
 	],
 	"nodeVersion": false,
-	"nodeVersion_": "currently ignored, see https://github.com/xojs/xo/issues/598",
 	"rules": {
 		"jsx-quotes": [
 			"error",
@@ -49,6 +48,8 @@
 				"allowExpressions": true
 			}
 		],
+		"n/prefer-global/process": "off",
+		"n/file-extension-in-import": "off",
 		"import/no-cycle": "off",
 		"import/no-unassigned-import": "off",
 		"import/prefer-default-export": "error",
@@ -74,12 +75,12 @@
 	},
 	"overrides": [
 		{
+			"nodeVersion": "20",
 			"files": [
 				"webpack.config.ts",
 				"build/*"
 			],
 			"rules": {
-				"n/no-unsupported-features/node-builtins": "error",
 				"@typescript-eslint/triple-slash-reference": "off",
 				"unicorn/prefer-module": "off"
 			}
