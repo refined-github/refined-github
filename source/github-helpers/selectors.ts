@@ -128,6 +128,13 @@ export const linksToConversationLists_ = [
 	[26, 'https://github.com/fregante/iphone-inline-video/issues?q=cool+is%3Aissue+is%3Aclosed'],
 ] satisfies UrlMatch[];
 
+export const newCommentField = [
+	'[input="fc-new_comment_field"]',
+	'[input^="fc-new_inline_comment_discussion"]',
+];
+
+export const newCommentField_ = [] satisfies UrlMatch[];
+
 const botNames = [
 	'actions-user',
 	'bors',

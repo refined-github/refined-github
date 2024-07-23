@@ -5,7 +5,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import createBanner from '../github-helpers/banner.js';
-import {getConversationAuthor, getUsername} from '../github-helpers/index.js';
+import {isOwnConversation} from '../github-helpers/index.js';
+import {newCommentField} from '../github-helpers/selectors.js';
 
 function addDraftBanner(newCommentField: HTMLElement): void {
 	newCommentField.before(
@@ -18,10 +19,7 @@ function addDraftBanner(newCommentField: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'[input="fc-new_comment_field"]',
-		'[input^="fc-new_inline_comment_discussion"]',
-	], addDraftBanner, {signal});
+	observe(newCommentField, addDraftBanner, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -29,7 +27,7 @@ void features.add(import.meta.url, {
 		pageDetect.isDraftPR,
 	],
 	exclude: [
-		() => getConversationAuthor() === getUsername(),
+		isOwnConversation,
 	],
 	awaitDomReady: true,
 	init,
