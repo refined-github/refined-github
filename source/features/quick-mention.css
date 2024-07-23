@@ -7,8 +7,10 @@
 	/* !important required to override .tooltipped */
 	position: absolute !important;
 	top: 100%;
-	left: 25%;
-	margin-top: 8px;
+	left: 50%;
+	translate: -50%;
+	/* Centers and improves clickable area; !important required to override .btn-link */
+	padding: 4px 12px !important;
 }
 
 /* Show icon in black if it's not hovered/focused, instead of the blue color caused by .btn-link */
