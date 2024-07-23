@@ -6,7 +6,8 @@
 /* Commit titles, dim */
 .rgh-dim-bots:not(.rgh-tagged, :hover) > *,
 /* PR row, dim */
-.rgh-dim-bots:not(.rgh-tagged, :hover) .Box-row--drag-hide {
+	.rgh-dim-bots:not(.rgh-tagged, :hover)
+	.Box-row--drag-hide {
 	opacity: 50%; /* Match `mark-merge-commits-in-list` */
 }
 
@@ -15,9 +16,14 @@
 	margin-bottom: 0 !important;
 }
 
-.rgh-dim-bots:not(.rgh-tagged, .rgh-interacted) .mb-1 ~ *, /* Commit metadata */
-.rgh-dim-bots:not(.rgh-tagged, .rgh-interacted) .dropdown-signed-commit, /* Commit verified label */
-.rgh-dim-bots:not(.rgh-tagged, .rgh-interacted) .flex-shrink-0 .BtnGroup, /* Commit buttons on side */
-.rgh-dim-bots:not(.rgh-tagged, .rgh-interacted) .min-width-0 > :is(.d-block, .d-flex) /* PR */ {
+.rgh-dim-bots:not(.rgh-tagged, .rgh-interacted) .mb-1 ~ * /* Commit metadata */,
+.rgh-dim-bots:not(.rgh-tagged, .rgh-interacted)
+	.dropdown-signed-commit /* Commit verified label */,
+.rgh-dim-bots:not(.rgh-tagged, .rgh-interacted)
+	.flex-shrink-0
+	.BtnGroup /* Commit buttons on side */,
+.rgh-dim-bots:not(.rgh-tagged, .rgh-interacted)
+	.min-width-0
+	> :is(.d-block, .d-flex) /* PR */ {
 	display: none !important;
 }

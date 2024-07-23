@@ -3,7 +3,8 @@
 	/* Show "Delete"’s container */
 	.js-branch-row .d-none.d-md-flex,
 	/* Show "Delete" unless it's deleted */
-	.js-branch-row:not(.Details--on) form.js-branch-destroy {
+		.js-branch-row:not(.Details--on)
+		form.js-branch-destroy {
 		display: flex !important;
 	}
 

@@ -8,11 +8,9 @@
 	width: 72ch;
 
 	/* Like 100%, except it works with content-box and it feels like -webkit-1999 */
-	/* stylelint-disable */
 	max-width: -webkit-fill-available;
 	max-width: -moz-available;
 	max-width: intrinsic;
-	/* stylelint-enable */
 }
 
 :is(
@@ -29,9 +27,8 @@
 		#merge_title_field,
 		#issue_title
 	).rgh-title-over-limit:focus {
-	box-shadow:
-		inset 0 1px 2px rgb(35 27 27 / 7.5%),
-		0 0 0 0.2em color-mix(in srgb, var(--rgh-limit-color) 30%, transparent);
+	box-shadow: inset 0 1px 2px rgb(35 27 27 / 7.5%), 0 0 0 0.2em
+		color-mix(in srgb, var(--rgh-limit-color) 30%, transparent);
 }
 
 /*

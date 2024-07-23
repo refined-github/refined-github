@@ -34,8 +34,5 @@
 [rgh-no-unnecessary-split-diff-view]
 	:is(.inline-comments, .js-inline-annotations)
 	.empty-cell:not(.blob-num) {
-	display: var(
-		--rgh-only-additions,
-		var(--rgh-only-deletions, table-cell)
-	) !important;
+	display: var(--rgh-only-additions, var(--rgh-only-deletions, table-cell)) !important;
 }

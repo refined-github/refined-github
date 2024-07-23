@@ -1,4 +1,2 @@
-# Ensure Prettier is not automatically run by editors
+# Ensure Prettier is not automatically run by editors, we use Biome on CSS files
 *.*
-!*.gql
-!*.css

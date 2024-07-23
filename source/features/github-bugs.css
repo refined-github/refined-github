@@ -1,5 +1,5 @@
 /* Style backticked code in links #4817, matches GitHub’s `.markdown-title code` rule */
-.js-commits-list-item code, /* `isCommitList` commit message */
+.js-commits-list-item code /* `isCommitList` commit message */,
 .Box-header .commit-author + span code /* `isRepoTree` commit message */ {
 	padding: 2px 4px;
 	background-color: var(--bgColor-neutral-muted, var(--color-neutral-muted));
@@ -12,7 +12,8 @@
 #merge_title_field,
 #commit-summary-input,
 /* Monospace textareas for new SSH/GPG keys #4917 */
-:is(.new_public_key, .new_gpg_key) textarea {
+	:is(.new_public_key, .new_gpg_key)
+	textarea {
 	/* Same as GitHub style for `code` */
 	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
 		'Liberation Mono', monospace !important;
