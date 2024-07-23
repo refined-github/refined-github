@@ -49,9 +49,6 @@
 				"allowExpressions": true
 			}
 		],
-		"n/prefer-global/process": "off",
-		"n/no-unsupported-features/node-builtins": "off",
-		"n/file-extension-in-import": "off",
 		"import/no-cycle": "off",
 		"import/no-unassigned-import": "off",
 		"import/prefer-default-export": "error",
