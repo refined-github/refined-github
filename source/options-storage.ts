@@ -48,6 +48,7 @@ export const renamedFeatures = new Map<string, string>([
 	['highlight-deleted-and-added-files-in-diffs', 'new-or-deleted-file'],
 	['enable-file-links-in-compare-view', 'actionable-pr-view-file'],
 	['use-first-commit-message-for-new-prs', 'pr-first-commit-title`'],
+	['comment-on-draft-pr-indicator', 'draft-pr-notice'],
 ]);
 
 export function isFeatureDisabled(options: RGHOptions, id: string): boolean {
