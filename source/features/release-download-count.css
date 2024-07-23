@@ -5,7 +5,7 @@
 }
 
 /* <relative-time> can occupy more space #7579 */
-.rgh-release-download-count > span:last-child {
+.rgh-release-download-count > span:has(relative-time) {
 	min-width: 8em;
 }
 
