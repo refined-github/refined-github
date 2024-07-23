@@ -3,7 +3,7 @@ query CountWorkflows($owner: String!, $name: String!) {
 		workflowFiles: object(expression: "HEAD:.github/workflows") {
 			... on Tree {
 				entries {
-  oid
+					oid
 				}
 			}
 		}

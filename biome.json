@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
@@ -27,6 +27,11 @@
 			"quoteStyle": "single"
 		},
 		"linter": {
+			"enabled": true
+		}
+	},
+	"graphql": {
+		"formatter": {
 			"enabled": true
 		}
 	}
