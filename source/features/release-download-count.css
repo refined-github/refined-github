@@ -4,6 +4,11 @@
 	min-width: 6em;
 }
 
+/* <relative-time> can occupy more space #7579 */
+.rgh-release-download-count > span:last-child {
+	min-width: 8em;
+}
+
 /* Makes space for right aligning download count */
 .rgh-release-download-count [data-rgh-heat] {
 	min-width: 5em;
