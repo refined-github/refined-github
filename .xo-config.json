@@ -6,6 +6,7 @@
 	"globals": [
 		"browser"
 	],
+	"nodeVersion": false,
 	"rules": {
 		"jsx-quotes": [
 			"error",
@@ -48,7 +49,6 @@
 			}
 		],
 		"n/prefer-global/process": "off",
-		"n/no-unsupported-features/node-builtins": "off",
 		"n/file-extension-in-import": "off",
 		"import/no-cycle": "off",
 		"import/no-unassigned-import": "off",
@@ -75,12 +75,12 @@
 	},
 	"overrides": [
 		{
+			"nodeVersion": "20",
 			"files": [
 				"webpack.config.ts",
 				"build/*"
 			],
 			"rules": {
-				"n/no-unsupported-features/node-builtins": "error",
 				"@typescript-eslint/triple-slash-reference": "off",
 				"unicorn/prefer-module": "off"
 			}

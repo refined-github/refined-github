@@ -135,7 +135,6 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 
 	// Request in the background page to avoid showing a 404 request in the console
 	// https://github.com/refined-github/refined-github/issues/6433
-	// eslint-disable-next-line promise/prefer-await-to-then
 	void chrome.runtime.sendMessage({getStyleHotfixes: true}).then(applyStyleHotfixes);
 
 	if (options.customCSS.trim().length > 0) {
