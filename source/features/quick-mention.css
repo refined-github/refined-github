@@ -4,12 +4,11 @@
 }
 
 .rgh-quick-mention {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	height: 30px;
-	margin-bottom: -30px; /* Avoids pushing app badges down #2630 */
+	/* !important required to override .tooltipped */
+	position: absolute !important;
+	top: 100%;
+	left: 25%;
+	margin-top: 8px;
 }
 
 /* Show icon in black if it's not hovered/focused, instead of the blue color caused by .btn-link */
