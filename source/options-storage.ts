@@ -4,7 +4,6 @@ import {importedFeatures} from '../readme.md';
 
 export type RGHOptions = typeof defaults;
 
-// eslint-disable-next-line prefer-object-spread -- TypeScript doesn't merge the definitions so `...` is not equivalent.
 const defaults = Object.assign({
 	actionUrl: 'https://github.com/',
 	customCSS: '',
