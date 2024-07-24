@@ -69,6 +69,7 @@ async function markCommits(commits: HTMLElement[]): Promise<void> {
 async function init(signal: AbortSignal): Promise<void> {
 	observe([
 		'.list-view-item', // `isCommitList`
+		'.listviewitem', // TODO: Drop in 2025
 
 		// Old view style (before November 2023)
 		'.js-commits-list-item', // `isCommitList`
