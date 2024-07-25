@@ -9,6 +9,8 @@ on:
 jobs:
   Label:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - uses: fregante/title-to-labels-action@v1
         with:
