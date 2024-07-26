@@ -1,18 +1,21 @@
 import * as pageDetect from 'github-url-detection';
-import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
-function init(): void {
-	document.title = $('input#query-builder-test, input#js-issues-search')!.value.trim() + ` - ${document.title}`;
+function updateTitle(input: HTMLSpanElement): void {
+	document.title = input.textContent.trim() + ` - ${document.title}`;
+}
+
+function initForGlobalSearchResults(signal: AbortSignal): void {
+	observe('span#qb-input-query',updateTitle,{signal})
 }
 
 void features.add(import.meta.url, {
+	awaitDomReady: true,
 	include: [
 		pageDetect.isGlobalSearchResults,
-		pageDetect.isRepoSearch
 	],
-	init,
-	awaitDomReady: true
+	init: initForGlobalSearchResults
 });
 
