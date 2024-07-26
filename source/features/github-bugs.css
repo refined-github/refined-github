@@ -51,11 +51,7 @@
 /* Mute unclickable reaction buttons, disable hover */
 /* Test: https://github.com/refined-github/sandbox/pull/48 */
 .social-reaction-summary-item[disabled] {
-	pointer-events: auto;
 	filter: grayscale(0.5);
-}
-
-.social-reaction-summary-item:hover[disabled] {
 	background-color: initial;
 }
 
