@@ -160,7 +160,7 @@ export function triggerConversationUpdate(): void {
 
 // Fix z-index issue https://github.com/refined-github/refined-github/pull/7430
 export function fixFileHeaderOverlap(child: Element): void {
-	// When the default branch button appears in the sidebar, the closet container is null
+	// In the sidebar the container is not present and this fix is not needed
 	child.closest('.container')?.classList.add('rgh-z-index-5');
 }
 
