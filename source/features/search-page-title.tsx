@@ -17,6 +17,7 @@ void features.add(import.meta.url, {
 	awaitDomReady: true,
 	include: [
 		pageDetect.isGlobalSearchResults,
+		pageDetect.isIssueOrPRList
 	],
 	init: initForGlobalSearchResults
 });
