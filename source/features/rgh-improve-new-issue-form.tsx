@@ -1,6 +1,7 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
+import {expectElement as $} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {setFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
 import openOptions from '../helpers/open-options.js';
@@ -9,7 +10,7 @@ import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 
 function addNotice(adjective: JSX.Element | string): void {
-	$('#issue_body_template_name')!.before(
+	$('#issue_body_template_name').before(
 		<div className="flash flash-error py-9">
 			<p>
 				Your Personal Access Token is {adjective}. Some Refined GitHub features will not work without it.
@@ -37,11 +38,11 @@ async function checkToken(): Promise<void> {
 
 async function setVersion(): Promise<void> {
 	const {version} = chrome.runtime.getManifest();
-	$('input#issue_form_version')!.value = version;
+	setFieldText($('input#issue_form_version'), version);
 }
 
 async function linkifyCacheRefresh(): Promise<void> {
-	$('[href="#clear-cache"]')!.replaceWith(
+	$('[href="#clear-cache"]').replaceWith(
 		<button
 			className="btn"
 			type="button"
