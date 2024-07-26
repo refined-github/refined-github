@@ -4,7 +4,8 @@ import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 
 function updateTitle(e?: Event): void {
-	const query = SearchQuery.from(location).get()
+	const parts = SearchQuery.from(location).getQueryParts()
+	const query = parts.filter(p => !p.startsWith('sort:')).join(' ')
 	if (!query) return
 
 	const title = query.trim() + ` - ${document.title}`;
