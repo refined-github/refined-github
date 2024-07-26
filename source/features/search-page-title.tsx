@@ -11,7 +11,7 @@ function updateTitle(e?: Event): void {
 	if (e) {
 		document.title = title;
 	} else {
-		// This is done on load because the title is updated by GitHub after the page is loaded
+		// This is done on load because the title is updated by GitHub during the page load
 		window.addEventListener('load', () => {
 			document.title = title;
 		})
