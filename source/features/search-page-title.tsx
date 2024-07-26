@@ -1,14 +1,16 @@
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 
-function updateTitle(input: HTMLSpanElement): void {
-	document.title = input.textContent.trim() + ` - ${document.title}`;
-}
 
-function initForGlobalSearchResults(signal: AbortSignal): void {
-	observe('span#qb-input-query',updateTitle,{signal})
+function initForGlobalSearchResults(): void {
+	const query = new URLSearchParams(location.search).get('q')
+	if (query) {
+		// This is done on load because the title is updated by GitHub after the page is loaded
+		window.addEventListener('load', () => {
+			document.title = query.trim() + ` - ${document.title}`;
+		})
+	}
 }
 
 void features.add(import.meta.url, {
