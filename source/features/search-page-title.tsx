@@ -1,9 +1,10 @@
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
+import SearchQuery from '../github-helpers/search-query.js';
 
 function updateTitle(e?: Event): void {
-	const query = new URLSearchParams(location.search).get('q')
+	const query = SearchQuery.from(location).get()
 	if (!query) return
 
 	const title = query.trim() + ` - ${document.title}`;
