@@ -34,8 +34,7 @@ function handleArrowUpKey(targetField: HTMLTextAreaElement): void {
 
 	const lastOwnComment
 		= $$('.js-comment.current-user', currentConversationContainer)
-			.reverse()
-			.find(comment => {
+			.findLast(comment => {
 				const collapsible = comment.closest('details');
 				return !collapsible || collapsible.open;
 			});
