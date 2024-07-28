@@ -9,7 +9,7 @@ import {isOwnConversation} from '../github-helpers/index.js';
 import {newCommentField} from '../github-helpers/selectors.js';
 
 function addDraftBanner(newCommentField: HTMLElement): void {
-	newCommentField.before(
+	newCommentField.prepend(
 		createBanner({
 			icon: <GitPullRequestDraftIcon className="m-0"/>,
 			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
