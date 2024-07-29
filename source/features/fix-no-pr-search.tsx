@@ -5,6 +5,8 @@ import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 
 function redirectToIssues(event: DelegateEvent<Event, HTMLFormElement>): void {
+	event.preventDefault();
+
 	const form = event.delegateTarget;
 	const searchValue = form.elements['js-issues-search'].value;
 	let redirect = true;
