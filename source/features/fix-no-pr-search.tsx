@@ -14,7 +14,7 @@ function redirectToIssues(event: DelegateEvent<Event, HTMLFormElement>): void {
 	if (searchValue) {
 		const searchQuery = new SearchQuery(searchValue);
 		if (searchQuery.includes('is:pr')) {
-			redirect = false
+			redirect = false;
 		}
 	}
 
