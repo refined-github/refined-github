@@ -5,13 +5,14 @@ import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 
 function redirectToIssues(event: DelegateEvent<Event, HTMLFormElement>): void {
-	event.preventDefault();
 	const form = event.delegateTarget;
-	const query = SearchQuery.from(location)
+	const query = SearchQuery.from(location);
 	query.set(form.elements['js-issues-search'].value);
 
 	if (!query.includes('is:pr')) {
 		form.action = form.action.replace(/\/pulls$/, '/issues');
+		// Prevent submission via AJAX and use .submit() to allow the change from /pulls to /issues
+		event.preventDefault();
 		form.submit();
 	}
 }
