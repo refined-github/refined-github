@@ -6,10 +6,19 @@ import SearchQuery from '../github-helpers/search-query.js';
 
 function redirectToIssues(event: DelegateEvent<Event, HTMLFormElement>): void {
 	const form = event.delegateTarget;
-	const searchQuery = new SearchQuery(form.elements['js-issues-search'].value);
+	const searchValue = form.elements['js-issues-search'].value;
+	let redirect = true;
 
-	if (!searchQuery.includes('is:pr')) {
+	if (searchValue) {
+		const searchQuery = new SearchQuery(searchValue);
+		if (searchQuery.includes('is:pr')) {
+			redirect = false
+		}
+	}
+
+	if (redirect) {
 		form.action = form.action.replace(/\/pulls$/, '/issues');
+		form.submit();
 	}
 }
 
