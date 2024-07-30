@@ -58,7 +58,7 @@ export function getNoticeText(): JSX.Element {
 }
 
 function addConversationBanner(newCommentField: HTMLElement): void {
-	newCommentField.before(
+	newCommentField.prepend(
 		createBanner({
 			icon: <InfoIcon className="m-0"/>,
 			classes: 'p-2 m-2 text-small color-fg-muted border-0'.split(' '),
@@ -68,7 +68,7 @@ function addConversationBanner(newCommentField: HTMLElement): void {
 }
 
 function addPopularBanner(newCommentField: HTMLElement): void {
-	newCommentField.before(
+	newCommentField.prepend(
 		createBanner({
 			icon: <FlameIcon className="m-0"/>,
 			classes: 'p-2 m-2 text-small color-fg-muted border-0'.split(' '),
