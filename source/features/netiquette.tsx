@@ -88,6 +88,10 @@ function addDraftBanner(newCommentField: HTMLElement): void {
 	);
 }
 
+function initDraft(signal: AbortSignal): void {
+	observe(newCommentField, addDraftBanner, {signal});
+}
+
 function initBanner(signal: AbortSignal): void | false {
 	// Do not move to `asLongAs` because those conditions are run before `isConversation`
 	if (wasClosedLongAgo()) {
@@ -111,10 +115,6 @@ function makeFieldKinder(field: HTMLParagraphElement): void {
 	} else {
 		features.log.error(import.meta.url, `Unexpected placeholder text: ${field.textContent}`);
 	}
-}
-
-function initDraft(signal: AbortSignal): void {
-	observe(newCommentField, addDraftBanner, {signal});
 }
 
 function initKindness(signal: AbortSignal): void {
