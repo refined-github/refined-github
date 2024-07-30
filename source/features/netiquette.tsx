@@ -5,11 +5,12 @@ import toMilliseconds from '@sindresorhus/to-milliseconds';
 import {$, $$, elementExists} from 'select-dom';
 import twas from 'twas';
 import InfoIcon from 'octicons-plain-react/Info';
+import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 
 import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {buildRepoURL, isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
+import {buildRepoURL, isAnyRefinedGitHubRepo, isOwnConversation} from '../github-helpers/index.js';
 import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event.js';
 import {canEditEveryComment} from './quick-comment-edit.js';
 
@@ -77,6 +78,16 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 	);
 }
 
+function addDraftBanner(newCommentField: HTMLElement): void {
+	newCommentField.prepend(
+		createBanner({
+			icon: <GitPullRequestDraftIcon className="m-0"/>,
+			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
+			text: <>This is a <strong>draft PR</strong>, it might not be ready for review.</>,
+		}),
+	);
+}
+
 function initBanner(signal: AbortSignal): void | false {
 	// Do not move to `asLongAs` because those conditions are run before `isConversation`
 	if (wasClosedLongAgo()) {
@@ -102,6 +113,10 @@ function makeFieldKinder(field: HTMLParagraphElement): void {
 	}
 }
 
+function initDraft(signal: AbortSignal): void {
+	observe(newCommentField, addDraftBanner, {signal});
+}
+
 function initKindness(signal: AbortSignal): void {
 	observe('p.CommentBox-placeholder', makeFieldKinder, {signal});
 }
@@ -117,6 +132,15 @@ void features.add(import.meta.url, {
 	init: initBanner,
 }, {
 	include: [
+		pageDetect.isDraftPR,
+	],
+	exclude: [
+		isOwnConversation,
+	],
+	awaitDomReady: true,
+	init: initDraft,
+}, {
+	include: [
 		pageDetect.hasComments,
 	],
 	init: initKindness,
@@ -129,5 +153,6 @@ Test URLs
 - Old issue: https://togithub.com/facebook/react/issues/227
 - Old PR: https://togithub.com/facebook/react/pull/209
 - Popular issue: https://togithub.com/facebook/react/issues/13991
+- Draft PR: https://github.com/refined-github/sandbox/pull/7
 
 */
