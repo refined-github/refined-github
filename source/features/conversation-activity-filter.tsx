@@ -7,6 +7,7 @@ import CheckIcon from 'octicons-plain-react/Check';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import EyeIcon from 'octicons-plain-react/Eye';
 import XIcon from 'octicons-plain-react/X';
+import domLoaded from 'dom-loaded';
 
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
@@ -231,6 +232,9 @@ async function init(signal: AbortSignal): Promise<void> {
 	], addWidget.bind(null, initialState), {signal});
 
 	if (initialState !== 'default') {
+		// Wait for the DOM to be ready before applying the initial state
+		// https://github.com/refined-github/refined-github/issues/7086
+		await domLoaded;
 		applyState(initialState);
 	}
 
