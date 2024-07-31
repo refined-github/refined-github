@@ -27,7 +27,7 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepoPRList,
+		pageDetect.isPRList,
 	],
 	init,
 });
@@ -36,7 +36,10 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-1. Open https://github.com/refined-github/refined-github/pulls
+https://github.com/pulls
+https://github.com/refined-github/refined-github/pulls
+
+1. Open the url above
 2. Remove the "is:pr" from the search input and submit
 3. You should be redirected to the "Issues" tab
 
