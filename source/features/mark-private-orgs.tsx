@@ -2,7 +2,7 @@ import './mark-private-orgs.css';
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import {$$} from 'select-dom';
-import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
+import LockIcon from 'octicons-plain-react/Lock';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -30,7 +30,7 @@ async function init(): Promise<false | void> {
 	for (const org of orgs) {
 		if (!organizations.includes(org.pathname.replace(/^\/(organizations\/)?/, ''))) {
 			org.classList.add('rgh-private-org');
-			org.append(<EyeClosedIcon/>);
+			org.append(<LockIcon/>);
 		}
 	}
 }
