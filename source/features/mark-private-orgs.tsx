@@ -1,13 +1,13 @@
 import './mark-private-orgs.css';
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$$} from 'select-dom';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {getUsername} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 const publicOrganizationsNames = new CachedFunction('public-organizations', {
 	async updater(username: string): Promise<string[]> {
@@ -20,19 +20,22 @@ const publicOrganizationsNames = new CachedFunction('public-organizations', {
 	staleWhileRevalidate: {days: 10},
 });
 
-async function init(): Promise<false | void> {
-	const orgs = $$('a.avatar-group-item[data-hovercard-type="organization"][itemprop="follows"]'); // `itemprop` excludes sponsorships #3770
-	if (orgs.length === 0) {
-		return false;
+function markPrivate(org: HTMLAnchorElement, organizations: string[]): void {
+	if (!organizations.includes(org.pathname.replace(/^\/(organizations\/)?/, ''))) {
+		org.classList.add('rgh-private-org');
+		org.append(<EyeClosedIcon/>);
 	}
+}
 
+async function init(signal: AbortSignal): Promise<void> {
 	const organizations = await publicOrganizationsNames.get(getUsername()!);
-	for (const org of orgs) {
-		if (!organizations.includes(org.pathname.replace(/^\/(organizations\/)?/, ''))) {
-			org.classList.add('rgh-private-org');
-			org.append(<EyeClosedIcon/>);
-		}
-	}
+	observe(
+		'a.avatar-group-item[data-hovercard-type="organization"][itemprop="follows"]',
+		org => {
+			markPrivate(org, organizations);
+		},
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
@@ -40,7 +43,6 @@ void features.add(import.meta.url, {
 		pageDetect.isOwnUserProfile,
 	],
 	deduplicate: 'has-rgh',
-	awaitDomReady: true, // TODO: Use the observer
 	init,
 });
 
