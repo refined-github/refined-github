@@ -95,7 +95,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
 
 	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
-	observe('.merge-message', addButton, {signal});
+	observe('.branch-action-item:last-child', addButton, {signal});
 }
 
 void features.add(import.meta.url, {
