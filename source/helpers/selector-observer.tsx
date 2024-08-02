@@ -3,10 +3,16 @@ import {css} from 'code-tag';
 import onetime from 'onetime';
 import {ParseSelector} from 'typed-query-selector/parser.js';
 
-import getCallerID from './caller-id.js';
+import delay from 'delay';
+import domLoaded from 'dom-loaded';
+import {signalFromPromise} from 'abort-utils';
+
 import isDevelopmentVersion from './is-development-version.js';
+import getCallerID from './caller-id.js';
 
 type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
+
+type Options = SignalAsOptions & {stopOnDomReady?: boolean};
 
 const animation = 'rgh-selector-observer';
 const getListener = <
@@ -40,10 +46,19 @@ export default function observe<
 >(
 	selectors: Selector | readonly Selector[],
 	listener: ObserverListener<ExpectedElement>,
-	{signal}: SignalAsOptions = {},
+	{signal, stopOnDomReady}: Options = {},
 ): void {
 	if (signal?.aborted) {
 		return;
+	}
+
+	if (stopOnDomReady) {
+		const delayedDomReady = signalFromPromise((async () => {
+			await domLoaded;
+			await delay(100); // Allow the animation and events to complete; Also adds support for ajaxed pages
+		})());
+
+		signal = signal ? AbortSignal.any([signal, delayedDomReady]) : delayedDomReady;
 	}
 
 	const selector = String(selectors); // Array#toString() creates a comma-separated string
