@@ -34,7 +34,7 @@ const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 async function add(branchSelector: HTMLElement): Promise<void> {
 	// React issues. Duplicates appear after a color scheme update
 	// https://github.com/refined-github/refined-github/issues/7098
-	if (elementExists('.rgh-default-branch-button', branchSelector)) {
+	if (elementExists('.rgh-default-branch-button')) {
 		return;
 	}
 
