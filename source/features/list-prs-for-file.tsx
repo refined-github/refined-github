@@ -31,7 +31,7 @@ function getDropdown(prs: number[]): HTMLElement {
 
 	// TODO: use Popover API when hovercards become compatible #7496
 	return (
-		<details className="dropdown">
+		<details className="dropdown details-reset">
 			<summary className="Button Button--secondary color-fg-muted">
 				{icon}
 				<span className="color-fg-default mx-1">{prs.length}</span>
