@@ -16,7 +16,6 @@ import {getConversationNumber} from '../github-helpers/index.js';
 import createMergeabilityRow from '../github-widgets/mergeability-row.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
-const canMerge = '.merge-pr > .color-fg-muted:first-child';
 const canNativelyUpdate = '.js-update-branch-form';
 
 async function mergeBranches(): Promise<AnyObject> {
@@ -57,13 +56,13 @@ function createButton(): JSX.Element {
 }
 
 async function addButton(mergeBar: Element): Promise<void> {
-	if (!elementExists(canMerge) || elementExists(canNativelyUpdate)) {
+	if (elementExists(canNativelyUpdate)) {
 		return;
 	}
 
 	const {base} = getBranches();
 	const prInfo = await getPrInfo(base.relative);
-	if (!prInfo.needsUpdate || !prInfo.viewerCanEditFiles || prInfo.mergeable === 'CONFLICTING') {
+	if (!prInfo.needsUpdate || !(prInfo.viewerCanUpdate || prInfo.viewerCanEditFiles) || prInfo.mergeable === 'CONFLICTING') {
 		return;
 	}
 
@@ -128,5 +127,8 @@ https://github.com/refined-github/sandbox/pull/9
 
 Cross-repo PR with long branch names
 https://github.com/refined-github/sandbox/pull/13
+
+PRs to repos without write access, find one among your own PRs here:
+https://github.com/pulls?q=is%3Apr+is%3Aopen+author%3A%40me+archived%3Afalse+-user%3A%40me
 
 */

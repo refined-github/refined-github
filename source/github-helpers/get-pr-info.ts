@@ -6,6 +6,10 @@ export type PullRequestInfo = {
 	headRefOid: string;
 	// https://docs.github.com/en/graphql/reference/enums#mergeablestate
 	mergeable: 'CONFLICTING' | 'MERGEABLE' | 'UNKNOWN';
+
+	viewerCanUpdate: boolean;
+
+	// It's not clear why this is `false` on a PR I received (I *can* edit the files), but I'm leaving it as a fallback
 	viewerCanEditFiles: boolean;
 	needsUpdate: boolean;
 	behindBy: number;
@@ -18,6 +22,7 @@ export default async function getPrInfo(base: string, number = getConversationNu
 				baseRefOid
 				headRefOid
 				mergeable
+				viewerCanUpdate
 				viewerCanEditFiles
 				headRef {
 					compare(headRef: "${base}") {
@@ -33,12 +38,14 @@ export default async function getPrInfo(base: string, number = getConversationNu
 		baseRefOid,
 		headRefOid,
 		mergeable,
+		viewerCanUpdate,
 		viewerCanEditFiles,
 		headRef,
 	} = repository.pullRequest;
 	return {
 		baseRefOid,
 		headRefOid,
+		viewerCanUpdate,
 		mergeable,
 		viewerCanEditFiles,
 		// The comparison in the API is base -> head, so it must be flipped
