@@ -100,7 +100,7 @@ function logError(url: string, error: unknown): void {
 
 const log = {
 	info: console.log,
-	http: console.log,
+	http: console.log.bind(console, '🌏'),
 	error: logError,
 };
 
@@ -151,8 +151,13 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 	}
 
 	// Create logging function
-	log.info = options.logging ? console.log : () => {/* No logging */};
-	log.http = options.logHTTP ? console.log : () => {/* No logging */};
+	if (!options.logging) {
+		log.info = () => {/* No logging */};
+	}
+
+	if (!options.logHTTP) {
+		log.http = () => {/* No logging */};
+	}
 
 	if (elementExists('body.logged-out')) {
 		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');

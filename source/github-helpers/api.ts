@@ -102,7 +102,7 @@ export const v3 = mem(async (
 	}
 
 	const url = new URL(query, api3);
-	features.log.http(url);
+	features.log.http(url.href);
 	const response = await fetch(url.href, {
 		method,
 		body: body && JSON.stringify(body),
@@ -145,6 +145,19 @@ export const v3paginated = async function * (
 			return;
 		}
 	}
+};
+
+export const v3hasAnyItems = async (
+	query: string,
+	options: GHRestApiOptions = {},
+): Promise<boolean> => {
+	const url = new URL(query, api3);
+	url.searchParams.set('per_page', '1'); // Ensure we create pagination after 1 item
+	url.searchParams.set('page', '9999'); // Get an empty response
+	const {headers} = await v3(url.pathname + url.search, options);
+
+	// If there's more than 1 item, we get a `Link` header
+	return headers.has('link');
 };
 
 export const v4uncached = async (
