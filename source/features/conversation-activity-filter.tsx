@@ -227,8 +227,8 @@ async function init(signal: AbortSignal): Promise<void> {
 		: 'default';
 
 	observe([
-		'#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)',
-		'#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)',
+		'#partial-discussion-header .gh-header-meta clipboard-copy',
+		'#partial-discussion-header .gh-header-sticky clipboard-copy',
 	], addWidget.bind(null, initialState), {signal});
 
 	if (initialState !== 'default') {
