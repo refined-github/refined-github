@@ -12,7 +12,11 @@ import getCallerID from './caller-id.js';
 
 type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
 
-type Options = SignalAsOptions & {stopOnDomReady?: boolean};
+type Options = {
+	stopOnDomReady?: boolean;
+	once?: boolean;
+	signal?: AbortSignal;
+};
 
 const animation = 'rgh-selector-observer';
 const getListener = <
@@ -46,7 +50,7 @@ export default function observe<
 >(
 	selectors: Selector | readonly Selector[],
 	listener: ObserverListener<ExpectedElement>,
-	{signal, stopOnDomReady}: Options = {},
+	{signal, stopOnDomReady, once}: Options = {},
 ): void {
 	if (signal?.aborted) {
 		return;
@@ -81,5 +85,28 @@ export default function observe<
 	signal?.addEventListener('abort', () => {
 		rule.remove();
 	});
-	window.addEventListener('animationstart', getListener(seenMark, selector, listener, signal), {signal});
+	window.addEventListener('animationstart', getListener(seenMark, selector, listener, signal), {once, signal});
+}
+
+// Untested
+export async function waitForElement<
+	Selector extends string,
+	ExpectedElement extends ParseSelector<Selector, HTMLElement | SVGElement>,
+>(
+	selectors: Selector | readonly Selector[],
+	{signal, stopOnDomReady}: Options = {},
+): Promise<ExpectedElement | undefined> {
+	const local = new AbortController();
+	signal = signal ? AbortSignal.any([signal, local.signal]) : local.signal;
+
+	return new Promise(resolve => {
+		observe<Selector, ExpectedElement>(selectors, element => {
+			resolve(element);
+			local.abort();
+		}, {signal, stopOnDomReady, once: true});
+
+		signal.addEventListener('abort', () => {
+			resolve(undefined);
+		});
+	});
 }
