@@ -43,3 +43,11 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // TODO: Use the observer
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/YOUR_USERNAME
+
+*/
