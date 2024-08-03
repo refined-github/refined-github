@@ -14,7 +14,7 @@ import {SyncedForm} from 'webext-options-sync-per-domain';
 import featureLink from './helpers/feature-link.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
 import {getLocalHotfixes, styleHotfixes} from './helpers/hotfix.js';
-import {createRghIssueLink} from './helpers/rgh-issue-link.js';
+import createRghIssueLink from './helpers/rgh-issue-link.js';
 import {importedFeatures, featuresMeta} from '../readme.md';
 import getStorageBytesInUse from './helpers/used-storage.js';
 import {perDomainOptions} from './options-storage.js';

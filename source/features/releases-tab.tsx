@@ -44,7 +44,7 @@ async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags'
 	return [0];
 }
 
-export const releasesCount = new CachedFunction('releases-count', {
+const releasesCount = new CachedFunction('releases-count', {
 	updater: fetchCounts,
 	shouldRevalidate: cachedValue => typeof cachedValue === 'number',
 	maxAge: {hours: 1},

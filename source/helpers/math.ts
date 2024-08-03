@@ -7,7 +7,7 @@
  * @param value Value in the range
  * @returns Interpolation amount from 0.0 to 1.0 (or beyond if `x` is outside the range [min, max])
  */
-export function inverseLinearInterpolation(min: number, max: number, value: number): number {
+function inverseLinearInterpolation(min: number, max: number, value: number): number {
 	if (min === max) {
 		return 0;
 	}

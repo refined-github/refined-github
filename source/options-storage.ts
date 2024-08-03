@@ -12,7 +12,7 @@ const defaults = Object.assign({
 	logHTTP: false,
 }, Object.fromEntries(importedFeatures.map(id => [`feature:${id}`, true])));
 
-export const renamedFeatures = new Map<string, string>([
+const renamedFeatures = new Map<string, string>([
 	['separate-draft-pr-button', 'one-click-pr-or-gist'],
 	['prevent-pr-commit-link-loss', 'prevent-link-loss'],
 	['remove-projects-tab', 'remove-unused-repo-tabs'],

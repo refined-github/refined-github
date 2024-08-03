@@ -185,7 +185,7 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
 }
 
-export function getConversationAuthor(): string | undefined {
+function getConversationAuthor(): string | undefined {
 	return $('#partial-discussion-header .gh-header-meta .author')?.textContent;
 }
 
