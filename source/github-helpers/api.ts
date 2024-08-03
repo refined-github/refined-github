@@ -49,7 +49,7 @@ type RestResponse = {
 	ok: boolean;
 } & AnyObject;
 
-export const escapeKey = (...keys: Array<string | number>): string => '_' + String(keys).replaceAll(/[^a-z\d]/gi, '_');
+const escapeKey = (...keys: Array<string | number>): string => '_' + String(keys).replaceAll(/[^a-z\d]/gi, '_');
 
 export class RefinedGitHubAPIError extends Error {
 	response: AnyObject = {};
@@ -129,7 +129,7 @@ export const v3 = mem(async (
 	cacheKey: JSON.stringify,
 });
 
-export const v3paginated = async function * (
+const v3paginated = async function * (
 	query: string,
 	options?: GHRestApiOptions,
 ): AsyncGenerator<AsyncReturnType<typeof v3>> {
@@ -147,7 +147,7 @@ export const v3paginated = async function * (
 	}
 };
 
-export const v3hasAnyItems = async (
+const v3hasAnyItems = async (
 	query: string,
 	options: GHRestApiOptions = {},
 ): Promise<boolean> => {
@@ -160,7 +160,7 @@ export const v3hasAnyItems = async (
 	return headers.has('link');
 };
 
-export const v4uncached = async (
+const v4uncached = async (
 	query: string,
 	options: GHGraphQLApiOptions = v4defaults,
 ): Promise<AnyObject> => {
@@ -226,7 +226,7 @@ export const v4uncached = async (
 	throw await getError(apiResponse as JsonObject);
 };
 
-export const v4 = mem(v4uncached, {
+const v4 = mem(v4uncached, {
 	cacheKey([query, options]) {
 		// `repository()` uses global state and must be handled explicitly
 		// https://github.com/refined-github/refined-github/issues/5821
@@ -240,7 +240,7 @@ export const v4 = mem(v4uncached, {
 	},
 });
 
-export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {
+async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {
 	const personalToken = await getToken();
 
 	if ((apiResponse.message as string)?.includes('API rate limit exceeded')) {
@@ -269,5 +269,8 @@ export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAP
 	return error;
 }
 
-// Export single API object as default
-export * as default from './api.js';
+const api = {
+	v3, v4, v3paginated, v3hasAnyItems, v4uncached, escapeKey, getError,
+};
+
+export default api;

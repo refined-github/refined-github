@@ -25,7 +25,7 @@ import {
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
 
-export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
+type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
 type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
 
@@ -172,7 +172,7 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 	resolve(options);
 });
 
-export function castArray<Item>(value: Item | Item[]): Item[] {
+function castArray<Item>(value: Item | Item[]): Item[] {
 	return Array.isArray(value) ? value : [value];
 }
 

@@ -9,7 +9,7 @@ import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
-import api from '../github-helpers/api.js';
+import api, {RefinedGitHubAPIError} from '../github-helpers/api.js';
 import {getForkedRepo, getRepo} from '../github-helpers/index.js';
 import pluralize from '../helpers/pluralize.js';
 import addNotice from '../github-widgets/notice-bar.js';
@@ -104,7 +104,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		buttonContainer.closest('li')!.remove(); // Remove button
 		await addNotice([
 			'Could not delete the repository. ',
-			(error as api.RefinedGitHubAPIError).response?.message ?? error.message,
+			(error as RefinedGitHubAPIError).response?.message ?? error.message,
 		], {
 			type: 'error',
 		});

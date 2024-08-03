@@ -11,7 +11,7 @@ import {buildRepoURL} from './index.js';
 
 // Shared class necessary to avoid also shortening the links
 export const linkifiedURLClass = 'rgh-linkified-code';
-export const linkifiedURLSelector = '.rgh-linkified-code';
+const linkifiedURLSelector = '.rgh-linkified-code';
 
 export const codeElementsSelector = [
 	// Sometimes formatted diffs are loaded later and discard our formatting #5870
