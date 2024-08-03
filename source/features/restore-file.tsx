@@ -30,10 +30,10 @@ async function getFile(filePath: string): Promise<string | undefined> {
 		{
 			json: false,
 			headers: {
-				Accept: 'application/vnd.github.raw',
+				Accept: 'application/vnd.github.raw+json',
 			},
 		});
-	return textContent
+	return textContent;
 }
 
 async function discardChanges(progress: (message: string) => void, originalFileName: string, newFileName: string): Promise<void> {
