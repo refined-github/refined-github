@@ -63,8 +63,13 @@ async function addButton(mergeBar: Element): Promise<void> {
 	const {base} = getBranches();
 	const prInfo = await getPrInfo(base.relative);
 	if (!prInfo.needsUpdate || !(prInfo.viewerCanUpdate || prInfo.viewerCanEditFiles) || prInfo.mergeable === 'CONFLICTING') {
+		console.log({prInfo});
+
 		return;
 	}
+
+	console.log({prInfo});
+
 
 	const mergeabilityRow = $('.branch-action-item:has(.merging-body)')!;
 	if (mergeabilityRow) {
@@ -95,7 +100,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
 
 	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
-	observe('.branch-action-item:last-child', addButton, {signal});
+	observe('.mergeability-details > *:last-child', addButton, {signal});
 }
 
 void features.add(import.meta.url, {
