@@ -87,7 +87,9 @@ void features.add(import.meta.url, {
 /*
 Test URLs:
 
+- Regular issue: https://github.com/es-tooling/module-replacements-codemods/issues/6
 - Locked issue (own repo): https://github.com/refined-github/sandbox/issues/74
 - Locked issue (other repo): https://github.com/eslint/eslint/issues/8213
+- Archived repo: https://github.com/fregante/iphone-inline-video/issues/101
 
 */
