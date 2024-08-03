@@ -4,7 +4,6 @@ import {importedFeatures} from '../readme.md';
 
 export type RGHOptions = typeof defaults;
 
-// eslint-disable-next-line prefer-object-spread -- TypeScript doesn't merge the definitions so `...` is not equivalent.
 const defaults = Object.assign({
 	actionUrl: 'https://github.com/',
 	customCSS: '',
@@ -49,6 +48,8 @@ export const renamedFeatures = new Map<string, string>([
 	['highlight-deleted-and-added-files-in-diffs', 'new-or-deleted-file'],
 	['enable-file-links-in-compare-view', 'actionable-pr-view-file'],
 	['use-first-commit-message-for-new-prs', 'pr-first-commit-title`'],
+	['comment-on-draft-pr-indicator', 'netiquette'],
+	['draft-pr-notice', 'netiquette'],
 ]);
 
 export function isFeatureDisabled(options: RGHOptions, id: string): boolean {

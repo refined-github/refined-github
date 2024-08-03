@@ -49,7 +49,10 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	const cleanConversationHeader = pageDetect.isIssue() ? cleanIssueHeader : cleanPrHeader;
-	observe('.gh-header-meta .flex-auto', cleanConversationHeader, {signal});
+	observe([
+		'.gh-header-meta > .flex-auto', // Real
+		'.rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element
+	], cleanConversationHeader, {signal});
 }
 
 void features.add(import.meta.url, {

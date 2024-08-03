@@ -7,6 +7,7 @@ import CheckIcon from 'octicons-plain-react/Check';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import EyeIcon from 'octicons-plain-react/Eye';
 import XIcon from 'octicons-plain-react/X';
+import domLoaded from 'dom-loaded';
 
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
@@ -101,13 +102,10 @@ async function handleSelection({target}: Event): Promise<void> {
 
 function applyState(state: State): void {
 	const container = $('.js-issues-results')!;
+	container.setAttribute('data-rgh-conversation-activity-filter', state);
 	container.classList.toggle(
 		'rgh-conversation-activity-is-filtered',
 		state !== 'default',
-	);
-	container.classList.toggle(
-		'rgh-conversation-activity-is-collapsed-filtered',
-		state === 'hideEventsAndCollapsedComments',
 	);
 
 	// Update the state of the dropdowns
@@ -135,7 +133,6 @@ function createRadios(current: State): JSX.Element[] {
 }
 
 async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
-	// TODO: use :has instead
 	const position = anchor.closest('div')!;
 	if (position.classList.contains('rgh-conversation-activity-filter')) {
 		return;
@@ -162,6 +159,7 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 			<summary>
 				<EyeIcon className="color-fg-muted"/>
 				<EyeClosedIcon className="color-fg-danger"/>
+				<span className="text-small color-fg-danger v-align-text-bottom rgh-conversation-events-label"> events</span>
 				<div className="dropdown-caret ml-1"/>
 			</summary>
 			<details-menu
@@ -229,11 +227,14 @@ async function init(signal: AbortSignal): Promise<void> {
 		: 'default';
 
 	observe([
-		'#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)',
-		'#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)',
+		'#partial-discussion-header .gh-header-meta clipboard-copy',
+		'#partial-discussion-header .gh-header-sticky clipboard-copy',
 	], addWidget.bind(null, initialState), {signal});
 
 	if (initialState !== 'default') {
+		// Wait for the DOM to be ready before applying the initial state
+		// https://github.com/refined-github/refined-github/issues/7086
+		await domLoaded;
 		applyState(initialState);
 	}
 

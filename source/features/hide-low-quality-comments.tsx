@@ -36,7 +36,9 @@ function init(): void {
 		hideComment(similarCommentsBox);
 	}
 
-	const linkedComment = location.hash.startsWith('#issuecomment-') ? $(`${location.hash} ${singleParagraphCommentSelector}`) : undefined;
+	const linkedComment = location.hash.startsWith('#issuecomment-')
+		? $(`${location.hash} ${singleParagraphCommentSelector}`)
+		: undefined;
 
 	for (const commentText of $$(singleParagraphCommentSelector)) {
 		// Exclude explicitly linked comments #5363
@@ -50,13 +52,11 @@ function init(): void {
 
 		// Comments that contain useful images or links shouldn't be removed
 		// Images are wrapped in <a> tags on GitHub hence included in the selector
-		// TODO: use :has()
 		if (elementExists('a', commentText)) {
 			continue;
 		}
 
 		// Ensure that they're not by VIPs (owner, collaborators, etc)
-		// TODO: use :has()
 		const comment = commentText.closest('.js-timeline-item')!;
 		if (elementExists('.Label', comment)) {
 			continue;
@@ -88,7 +88,7 @@ function init(): void {
 	}
 }
 
-// This should not be made dynamic via observer, it's not worth updating the lowQuality count for fresh comments
+// This should NOT be made dynamic via observer, it's not worth updating the lowQuality count for fresh comments
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssue,

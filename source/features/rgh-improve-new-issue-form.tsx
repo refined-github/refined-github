@@ -36,7 +36,7 @@ async function checkToken(): Promise<void> {
 }
 
 async function setVersion(): Promise<void> {
-	const {version} = browser.runtime.getManifest();
+	const {version} = chrome.runtime.getManifest();
 	$('input#issue_form_version')!.value = version;
 }
 

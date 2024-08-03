@@ -23,8 +23,8 @@ close-out-of-view-modals
 closing-remarks
 collapsible-content-button
 command-palette-navigation-shortcuts
+comment-excess
 comment-fields-keyboard-shortcuts
-comment-on-draft-pr-indicator
 comments-time-machine-links
 conflict-marker
 conversation-activity-filter
@@ -78,6 +78,7 @@ linkify-branch-references
 linkify-code
 linkify-commit-sha
 linkify-labels-on-dashboard
+linkify-line-numbers
 linkify-notification-repository-header
 linkify-symbolic-links
 linkify-user-edit-history-popup

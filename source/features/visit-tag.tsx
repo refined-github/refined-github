@@ -1,4 +1,5 @@
 import React from 'react';
+import {elementExists} from 'select-dom';
 import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';
 import CodeIcon from 'octicons-plain-react/Code';
 import * as pageDetect from 'github-url-detection';
@@ -10,6 +11,16 @@ import {wrapAll} from '../helpers/dom-utils.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 
 async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
+	if (elementExists([
+		// If the branch picker is open, do nothing #7491
+		'#selectPanel',
+
+		// React view deduplication https://github.com/refined-github/refined-github/issues/7601
+		'.rgh-visit-tag',
+	])) {
+		return;
+	}
+
 	const tag = branchSelector.getAttribute('aria-label')?.replace(/ tag$/, '');
 	if (!tag) {
 		features.log.error(import.meta.url, 'Tag not found in DOM. The feature needs to be updated');
@@ -20,11 +31,11 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 		<div className="d-flex gap-2"/>,
 		branchSelector,
 		<a
-			className="btn px-2 tooltipped tooltipped-se"
+			className="btn px-2 tooltipped tooltipped-se rgh-visit-tag"
 			href={buildRepoURL('releases/tag', tag)}
 			aria-label="Visit tag"
 		>
-			<ArrowUpRightIcon className="v-align-middle"/>
+			<ArrowUpRightIcon/>
 		</a>,
 	);
 }

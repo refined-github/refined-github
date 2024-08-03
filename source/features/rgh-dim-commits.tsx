@@ -14,7 +14,7 @@ function dim(commitTitle: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[data-testid="listview-item-title-container"] .markdown-title span', dim, {signal});
+	observe('[data-testid="list-view-item-title-container"] .markdown-title span', dim, {signal});
 }
 
 void features.add(import.meta.url, {

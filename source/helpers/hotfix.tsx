@@ -8,7 +8,7 @@ import {base64ToString} from 'uint8array-extras';
 import {RGHOptions} from '../options-storage.js';
 import isDevelopmentVersion from './is-development-version.js';
 
-const {version: currentVersion} = browser.runtime.getManifest();
+const {version: currentVersion} = chrome.runtime.getManifest();
 
 function parseCsv(content: string): string[][] {
 	const lines = [];

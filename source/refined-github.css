@@ -42,11 +42,6 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 	display: contents !important;
 }
 
-/* Smoothen mouse animation on 404 pages */
-.js-plaxify {
-	transition: transform 0.1s;
-}
-
 [alt='404 “This is not the web page you are looking for”'] {
 	animation: fade-in 2s ease-out;
 }
@@ -172,4 +167,9 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 
 .rgh-bg-none {
 	background: none !important;
+}
+
+.rgh-z-index-5 {
+	position: relative;
+	z-index: 5;
 }

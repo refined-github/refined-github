@@ -16,7 +16,7 @@
 	},
 	{
 		"id": "align-issue-labels",
-		"description": "In conversation lists, aligns the labels to the left, below each title.",
+		"description": "In issue/PR lists, aligns the labels to the left, below each title.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261160640-28ae4f12-0e95-4db5-a79c-e89ae523a4d0.png"
 	},
 	{
@@ -46,7 +46,7 @@
 	},
 	{
 		"id": "clean-conversation-filters",
-		"description": "Hides <code>Projects</code> and <code>Milestones</code> filters in conversation lists if they are empty.",
+		"description": "Hides <code>Projects</code> and <code>Milestones</code> filters in issue/PR lists if they are empty.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/262557246-4ef1c702-eece-4701-9000-0aad21c54c1b.png"
 	},
 	{
@@ -56,7 +56,7 @@
 	},
 	{
 		"id": "clean-conversation-sidebar",
-		"description": "Hides empty sections (or just their \"empty\" label) in the conversation sidebar.",
+		"description": "Hides empty sections (or just their \"empty\" label) in the issue/PR sidebar.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253054419-48c38c01-b1dc-42ca-9ff6-fd63392b5921.png"
 	},
 	{
@@ -125,14 +125,14 @@
 		"screenshot": null
 	},
 	{
+		"id": "comment-excess",
+		"description": "Informs you that there are hidden comments in the header of long issues. Also scrolls down to the hidden comments when pressing Cmd+F or Ctrl+F.",
+		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/4e4660f9-c987-4b0d-82ca-56ef29952c31"
+	},
+	{
 		"id": "comment-fields-keyboard-shortcuts",
 		"description": "Adds a shortcut to edit your last comment: <kbd>↑</kbd>. (Only works in the following comment field, if it’s empty.)",
 		"screenshot": null
-	},
-	{
-		"id": "comment-on-draft-pr-indicator",
-		"description": "Reminds you you’re commenting on a draft PR by changing the submit button’s label.",
-		"screenshot": "https://user-images.githubusercontent.com/34235681/152473140-22b6eb86-3ef4-4104-af10-4a659d878f91.png"
 	},
 	{
 		"id": "comments-time-machine-links",
@@ -226,7 +226,7 @@
 	},
 	{
 		"id": "esc-to-cancel",
-		"description": "Adds a shortcut to cancel editing a conversation title: <kbd>esc</kbd>.",
+		"description": "Adds a shortcut to cancel editing a issue/PR title: <kbd>esc</kbd>.",
 		"screenshot": "https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif"
 	},
 	{
@@ -271,7 +271,7 @@
 	},
 	{
 		"id": "global-conversation-list-filters",
-		"description": "Adds filters for conversations <em>in your repos</em> and <em>commented on by you</em> in the global conversation search.",
+		"description": "Adds filters for issues/PRs <em>in your repos</em> and <em>commented on by you</em> in the global issue/PR search.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253048449-2f7cc331-c379-4ec0-a542-441e8b4f8d79.png"
 	},
 	{
@@ -316,12 +316,12 @@
 	},
 	{
 		"id": "highest-rated-comment",
-		"description": "Highlights the most useful comment in conversations.",
+		"description": "Highlights the most useful comment in issues.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252763905-a0c3b074-b032-4d97-946e-328e8a6fb2da.png"
 	},
 	{
 		"id": "highlight-collaborators-and-own-conversations",
-		"description": "Highlights conversations opened by you or the current repo’s collaborators.",
+		"description": "Highlights issues/PRs opened by you or the current repo’s collaborators.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252804821-a412e05c-fb76-400b-85b5-5acbda538ab2.png"
 	},
 	{
@@ -351,12 +351,12 @@
 	},
 	{
 		"id": "jump-to-conversation-close-event",
-		"description": "Adds a link to jump to the latest close event of a conversation.",
+		"description": "Adds a link to jump to the latest close event of a issue/PR.",
 		"screenshot": "https://user-images.githubusercontent.com/16872793/177792713-64219754-f8df-4629-a9ec-33259307cfe7.gif"
 	},
 	{
 		"id": "keyboard-navigation",
-		"description": "Adds shortcuts to conversations and PR file lists: <kbd>j</kbd> focuses the comment/file below; <kbd>k</kbd> focuses the comment/file above.",
+		"description": "Adds shortcuts to issues, PRs conversations, and PR file lists: <kbd>j</kbd> focuses the comment/file below; <kbd>k</kbd> focuses the comment/file above.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/86573176-48665900-bf74-11ea-8996-a5c46cb7bdfd.gif"
 	},
 	{
@@ -386,7 +386,7 @@
 	},
 	{
 		"id": "linkify-code",
-		"description": "Linkifies issue/PR references and URLs in code and conversation titles.",
+		"description": "Linkifies issue/PR references and URLs in code and issue/PR titles.",
 		"screenshot": "https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png"
 	},
 	{
@@ -398,6 +398,11 @@
 		"id": "linkify-labels-on-dashboard",
 		"description": "Makes labels clickable on the dashboard.",
 		"screenshot": "https://user-images.githubusercontent.com/46634000/136909258-88031d07-6efa-4339-b436-5636e8075964.png"
+	},
+	{
+		"id": "linkify-line-numbers",
+		"description": "Linkifies the line numbers where GitHub forgot to add links.",
+		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/d5b67f4e-35c3-45d8-b72c-937b855168c3"
 	},
 	{
 		"id": "linkify-notification-repository-header",
@@ -471,12 +476,12 @@
 	},
 	{
 		"id": "netiquette",
-		"description": "Adds unobtrusive netiquette reminders.",
+		"description": "Adds unobtrusive netiquette reminders (old closed issues, highly-active issues, draft PRs, …).",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/226551766-0e1b6b15-65a3-427e-8bb5-9ea7873993be.png"
 	},
 	{
 		"id": "new-or-deleted-file",
-		"description": "Indicates with an icon whether files in commits and pull requests are being added or removed.",
+		"description": "Indicates with an icon whether files in commits and PRs are being added or removed.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/90332474-23262b00-dfb5-11ea-9a03-8fd676ea0fdd.png"
 	},
 	{
@@ -486,7 +491,7 @@
 	},
 	{
 		"id": "no-duplicate-list-update-time",
-		"description": "Hides the update time of conversations in lists when it matches the open/closed/merged time.",
+		"description": "Hides the update time of issues/PRs in lists when it matches the open/closed/merged time.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png"
 	},
 	{
@@ -501,7 +506,7 @@
 	},
 	{
 		"id": "one-click-pr-or-gist",
-		"description": "Lets you create draft pull requests and public gists in one click.",
+		"description": "Lets you create draft PRs and public gists in one click.",
 		"screenshot": "https://user-images.githubusercontent.com/34235681/152473201-868ad7c1-e06f-4826-b808-d90bca7f08b3.png"
 	},
 	{
@@ -516,7 +521,7 @@
 	},
 	{
 		"id": "open-all-conversations",
-		"description": "Lets you open all visible conversations at once.",
+		"description": "Lets you open all visible issues/PRs at once.",
 		"screenshot": "https://user-images.githubusercontent.com/46634000/110980658-5face000-8366-11eb-88f9-0cc94f75ce57.gif"
 	},
 	{
@@ -581,12 +586,12 @@
 	},
 	{
 		"id": "pr-jump-to-first-non-viewed-file",
-		"description": "Jumps to first non-viewed file in a pull request when clicking on the progress bar.",
+		"description": "Jumps to first non-viewed file in a PR when clicking on the progress bar.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257011208-764f509d-fed9-424b-84e9-c01cf2fd428b.gif"
 	},
 	{
 		"id": "pr-notification-link",
-		"description": "Points PR notifications to the conversation tabs instead of the commits page, which may be a 404.",
+		"description": "Points PR notifications to the Conversation tabs instead of the commits page, which may be a 404.",
 		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/621f6512-655e-4565-a37b-2b159ea0ffce"
 	},
 	{
@@ -622,7 +627,7 @@
 	{
 		"id": "previous-version",
 		"description": "Lets you see the previous version of a file in one click.",
-		"screenshot": "https://user-images.githubusercontent.com/50487467/236657960-401f3cd7-cc99-494e-b522-1dca76827369.png"
+		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/bc82cc77-bde2-4683-98a6-012c87b4a319"
 	},
 	{
 		"id": "profile-gists-link",
@@ -656,12 +661,12 @@
 	},
 	{
 		"id": "quick-label-removal",
-		"description": "Adds one-click buttons to remove labels in conversations.",
+		"description": "Adds one-click buttons to remove labels in issues/PRs.",
 		"screenshot": "https://user-images.githubusercontent.com/36174850/89980178-0bc80480-dc7a-11ea-8ded-9e25f5f13d1a.gif"
 	},
 	{
 		"id": "quick-mention",
-		"description": "Adds a button to <code>@mention</code> a user in conversations.",
+		"description": "Adds a button to <code>@mention</code> a user in issues and PRs.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261158402-5a79cc3e-4331-475f-8063-5ed81fefcf10.gif"
 	},
 	{
@@ -776,7 +781,7 @@
 	},
 	{
 		"id": "show-associated-branch-prs-on-fork",
-		"description": "Shows the associated pull requests on branches for forked repositories.",
+		"description": "Shows the associated PRs on branches for forked repositories.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260873542-2a7fc7a2-231f-4f2e-9c7e-272d894de4c6.png"
 	},
 	{
@@ -801,12 +806,12 @@
 	},
 	{
 		"id": "small-user-avatars",
-		"description": "Shows a small avatar next to the username in conversation lists and mentions.",
+		"description": "Shows a small avatar next to the username in issue/PR lists and mentions.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/271184107-24ec471e-54d1-434a-a5f2-615902d2cad9.png"
 	},
 	{
 		"id": "sort-conversations-by-update-time",
-		"description": "Changes the default sort order of conversations to <code>Recently updated</code>.",
+		"description": "Changes the default sort order of issues/PRs to <code>Recently updated</code>.",
 		"screenshot": null
 	},
 	{
@@ -816,7 +821,7 @@
 	},
 	{
 		"id": "sticky-conversation-list-toolbar",
-		"description": "Makes the conversation list’s filters toolbar sticky.",
+		"description": "Makes the issue/PR list’s filters toolbar sticky.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261164103-875b70f7-5adc-4bb2-b158-8d5231d47da2.gif"
 	},
 	{
@@ -826,7 +831,7 @@
 	},
 	{
 		"id": "sticky-sidebar",
-		"description": "Makes conversation sidebars and repository sidebars sticky, if they fit the viewport.",
+		"description": "Makes sidebars sticky in repositories, issues, and PRs, if they fit the viewport.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252179311-ea6d42dc-1525-401a-bc4d-404cf8fa1785.gif"
 	},
 	{
@@ -841,7 +846,7 @@
 	},
 	{
 		"id": "suggest-commit-title-limit",
-		"description": "Suggests limiting commit titles to 72 characters.",
+		"description": "Suggests limiting commit and PR titles to 72 characters.",
 		"screenshot": "https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif"
 	},
 	{
@@ -936,7 +941,7 @@
 	},
 	{
 		"id": "warn-pr-from-master",
-		"description": "Warns you when creating a pull request from the default branch, as it’s an anti-pattern.",
+		"description": "Warns you when creating a PR from the default branch, as it’s an anti-pattern.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png"
 	},
 	{

@@ -13,11 +13,8 @@ export const getUsername = onetime(pageDetect.utils.getUsername);
 export const {getRepositoryInfo: getRepo, getCleanPathname} = pageDetect.utils;
 
 export function getConversationNumber(): number | undefined {
-	if (pageDetect.isPR() || pageDetect.isIssue()) {
-		return Number(location.pathname.split('/')[4]);
-	}
-
-	return undefined;
+	const [, _owner, _repo, type, prNumber] = location.pathname.split('/');
+	return (type === 'pull' || type === 'issues') && Number(prNumber) ? Number(prNumber) : undefined;
 }
 
 export const isMac = navigator.userAgent.includes('Macintosh');
@@ -161,6 +158,12 @@ export function triggerConversationUpdate(): void {
 	}));
 }
 
+// Fix z-index issue https://github.com/refined-github/refined-github/pull/7430
+export function fixFileHeaderOverlap(child: Element): void {
+	// In the sidebar the container is not present and this fix is not needed
+	child.closest('.container')?.classList.add('rgh-z-index-5');
+}
+
 /** Trigger a reflow to push the right-most tab into the overflow dropdown */
 export function triggerRepoNavOverflow(): void {
 	window.dispatchEvent(new Event('resize'));
@@ -173,7 +176,19 @@ export function triggerActionBarOverflow(child: Element): void {
 	placeholder.replaceWith(parent);
 }
 
+export function multilineAriaLabel(...lines: string[]): string {
+	return lines.join('\n');
+}
+
 export function scrollIntoViewIfNeeded(element: Element): void {
 	// @ts-expect-error No Firefox support https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
 	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
+}
+
+export function getConversationAuthor(): string | undefined {
+	return $('#partial-discussion-header .gh-header-meta .author')?.textContent;
+}
+
+export function isOwnConversation(): boolean {
+	return getConversationAuthor() === getUsername();
 }

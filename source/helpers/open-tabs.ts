@@ -6,7 +6,7 @@ export default async function openTabs(urls: string[]): Promise<boolean> {
 		return false;
 	}
 
-	const response = browser.runtime.sendMessage({
+	const response = chrome.runtime.sendMessage({
 		openUrls: urls,
 	});
 

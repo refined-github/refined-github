@@ -6,6 +6,7 @@ import IssueReopenedIcon from 'octicons-plain-react/IssueReopened';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import {multilineAriaLabel} from '../github-helpers/index.js';
 
 // Make the element look selected, not disabled, but effectively disable clicks/focus
 const disableAttributes = {
@@ -76,7 +77,10 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 			<SubButton
 				// @ts-expect-error I don't remember how to fix this
 				value="subscribe_to_custom_notifications"
-				aria-label="Subscribe just to status changes&#10;(closing, reopening, merging)"
+				aria-label={multilineAriaLabel(
+					'Subscribe just to status changes',
+					'(closing, reopening, merging)',
+				)}
 				{...(status === 'status' && disableAttributes)}
 			>
 				<IssueReopenedIcon/> Status

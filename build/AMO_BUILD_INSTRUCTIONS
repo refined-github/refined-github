@@ -1,0 +1,9 @@
+# Instructions for Mozilla Addons reviewers
+
+1. Check package.json for the expected node version
+2. Run:
+
+npm install
+npm run build
+
+3. Find the built extension in the distribution/ directory
