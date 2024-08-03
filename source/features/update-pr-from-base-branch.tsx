@@ -63,13 +63,8 @@ async function addButton(mergeBar: Element): Promise<void> {
 	const {base} = getBranches();
 	const prInfo = await getPrInfo(base.relative);
 	if (!prInfo.needsUpdate || !(prInfo.viewerCanUpdate || prInfo.viewerCanEditFiles) || prInfo.mergeable === 'CONFLICTING') {
-		console.log({prInfo});
-
 		return;
 	}
-
-	console.log({prInfo});
-
 
 	const mergeabilityRow = $('.branch-action-item:has(.merging-body)')!;
 	if (mergeabilityRow) {
