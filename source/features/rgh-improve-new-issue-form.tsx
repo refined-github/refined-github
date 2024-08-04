@@ -5,12 +5,12 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import openOptions from '../helpers/open-options.js';
 import clearCacheHandler from '../helpers/clear-cache-handler.js';
-import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
+import {expectTokenScope, getToken} from '../github-helpers/github-token.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 
 function addNotice(adjective: JSX.Element | string): void {
 	$('#issue_body_template_name')!.before(
-		<div className="flash flash-error py-9">
+		<div className="flash flash-error h3 my-9" style={{animation: 'pulse-in 0.3s 2'}}>
 			<p>
 				Your Personal Access Token is {adjective}. Some Refined GitHub features will not work without it.
 				You can update it <button className="btn-link" type="button" onClick={openOptions as unknown as React.MouseEventHandler}>in the options</button>.
@@ -21,9 +21,7 @@ function addNotice(adjective: JSX.Element | string): void {
 }
 
 async function checkToken(): Promise<void> {
-	try {
-		await expectToken();
-	} catch {
+	if (!await getToken()) {
 		addNotice('missing');
 		return;
 	}
@@ -32,12 +30,22 @@ async function checkToken(): Promise<void> {
 		await expectTokenScope('repo');
 	} catch {
 		addNotice('invalid, expired or without enough permissions');
+		return;
 	}
+
+	// Thank you for following the instructions. I'll save you a click.
+	$('input[name^="issue_form[token]')!.checked = true;
 }
 
 async function setVersion(): Promise<void> {
 	const {version} = chrome.runtime.getManifest();
-	$('input#issue_form_version')!.value = version;
+	// Mark the submission as not having a token set up because people have a tendency to go through forms and read absolutely nothing. This makes it easier to spot liars.
+	const field = $('input#issue_form_version')!;
+	field.value = version;
+	if (!await getToken()) {
+		field.value = '(' + version + ')';
+		field.disabled = true;
+	}
 }
 
 async function linkifyCacheRefresh(): Promise<void> {
