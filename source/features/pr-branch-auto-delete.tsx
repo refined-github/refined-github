@@ -43,6 +43,16 @@ void features.add(import.meta.url, {
 	additionalListeners: [
 		onPrMerge,
 	],
+	awaitDomReady: true,
 	onlyAdditionalListeners: true,
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/USERNAME/REPO_NAME/pull/PR_NUMBER
+https://github.com/ORGANIZATION_NAME/REPO_NAME/pull/PR_NUMBER
+
+*/
