@@ -2,7 +2,7 @@ import './default-branch-button.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicons-plain-react/ChevronLeft';
-import {elementExists} from 'select-dom';
+import {$} from 'select-dom';
 import memoize from 'memoize';
 
 import features from '../feature-manager.js';
@@ -32,38 +32,37 @@ const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 });
 
 async function add(branchSelector: HTMLElement): Promise<void> {
-	// React issues. Duplicates appear after a color scheme update
-	// https://github.com/refined-github/refined-github/issues/7098
-	if (elementExists('.rgh-default-branch-button')) {
-		return;
-	}
-
-	if (pageDetect.isSingleFile()) {
-		fixFileHeaderOverlap(branchSelector);
-	}
-
-	const defaultLink = (
-		<a
-			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button"
-			href={await getUrl(location.href)}
-			aria-label="See this view on the default branch"
-			// Update on hover because the URL may change without a DOM refresh
-			// https://github.com/refined-github/refined-github/issues/6554
-			// Inlined listener because `mouseenter` is too heavy for `delegate`
-			onMouseEnter={updateUrl}
-			// Don't enable AJAX on this behavior because we need a full page reload to drop the button, same reason as above #6554
-			// data-turbo-frame="repo-content-turbo-frame"
-		>
-			<ChevronLeftIcon/>
-		</a>
-	);
-
 	// The DOM varies between details-based DOM and React-based one
 	const selectorWrapper = branchSelector.tagName === 'SUMMARY'
-		? branchSelector.parentElement!
-		: branchSelector;
+			? branchSelector.parentElement!
+			: branchSelector;
 
-	selectorWrapper.before(defaultLink);
+	let defaultLink = $('.rgh-default-branch-button', branchSelector.parentElement!);
+
+	if (!defaultLink) {
+		if (pageDetect.isSingleFile()) {
+			fixFileHeaderOverlap(branchSelector);
+		}
+
+		defaultLink = (
+			<a
+				className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button"
+				href={await getUrl(location.href)}
+				aria-label="See this view on the default branch"
+				// Update on hover because the URL may change without a DOM refresh
+				// https://github.com/refined-github/refined-github/issues/6554
+				// Inlined listener because `mouseenter` is too heavy for `delegate`
+				onMouseEnter={updateUrl}
+				// Don't enable AJAX on this behavior because we need a full page reload to drop the button, same reason as above #6554
+				// data-turbo-frame="repo-content-turbo-frame"
+			>
+				<ChevronLeftIcon/>
+			</a>
+		);
+
+		selectorWrapper.before(defaultLink);
+	}
+
 	groupButtons([defaultLink, selectorWrapper]).classList.add('d-flex', 'rgh-default-branch-button-group');
 }
 
