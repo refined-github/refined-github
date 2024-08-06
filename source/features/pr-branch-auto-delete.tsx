@@ -43,7 +43,7 @@ void features.add(import.meta.url, {
 	additionalListeners: [
 		onPrMerge,
 	],
-	awaitDomReady: true,
+	awaitDomReady: true, // TODO: Remove after https://github.com/refined-github/refined-github/issues/6566
 	onlyAdditionalListeners: true,
 	init,
 });
@@ -52,7 +52,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/USERNAME/REPO_NAME/pull/PR_NUMBER
-https://github.com/ORGANIZATION_NAME/REPO_NAME/pull/PR_NUMBER
+1. Open https://github.com/pulls
+2. Click on any PRs you can merge (in repositories without native auto-delete)
+3. Merge the PR
 
 */
