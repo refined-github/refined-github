@@ -34,8 +34,8 @@ const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 async function add(branchSelector: HTMLElement): Promise<void> {
 	// The DOM varies between details-based DOM and React-based one
 	const selectorWrapper = branchSelector.tagName === 'SUMMARY'
-			? branchSelector.parentElement!
-			: branchSelector;
+		? branchSelector.parentElement!
+		: branchSelector;
 
 	let defaultLink = $('.rgh-default-branch-button', branchSelector.parentElement!);
 
