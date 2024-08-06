@@ -34,7 +34,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		org => {
 			markPrivate(org, organizations);
 		},
-		{signal},
+		{signal, stopOnDomReady: true},
 	);
 }
 
