@@ -3,6 +3,7 @@
 	"compilerOptions": {
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
+		"resolveJsonModule": true,
 		"lib": [
 			"DOM",
 			"DOM.Iterable",
