@@ -28,3 +28,15 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+This feature applies to conversation lists sorted by updated time
+
+- https://github.com/sindresorhus/refined-github/pulls?q=sort%3Aupdated-asc+is%3Aclosed
+- https://github.com/sindresorhus/refined-github/issues?q=is%3Aissue+sort%3Aupdated-desc+is%3Aclosed+comments%3A0
+- https://github.com/issues?q=is%3Aissue+is%3Aopen+author%3Afregante+archived%3Afalse+sort%3Aupdated-desc
+
+*/

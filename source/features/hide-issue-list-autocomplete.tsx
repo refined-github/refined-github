@@ -17,3 +17,12 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // Not urgent
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/issues
+https://github.com/refined-github/refined-github/pulls
+
+*/
