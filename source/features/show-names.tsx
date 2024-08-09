@@ -9,14 +9,12 @@ import {getUsername, isUsernameAlreadyFullName} from '../github-helpers/index.js
 import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 
-function dropExtraCopy(elements: HTMLAnchorElement[]): void {
-	for (const element of elements) {
-		// Drop 'commented' label to shorten the copy
-		const commentedNode = element.parentNode!.nextSibling;
-		if (element.closest('.timeline-comment-header') && commentedNode) {
-			// "left a comment" appears in the main comment of reviews
-			removeTextNodeContaining(commentedNode, /commented|left a comment/);
-		}
+function dropExtraCopy(element: HTMLAnchorElement): void {
+	// Drop 'commented' label to shorten the copy
+	const commentedNode = element.parentNode!.nextSibling;
+	if (element.closest('.timeline-comment-header') && commentedNode) {
+		// "left a comment" appears in the main comment of reviews
+		removeTextNodeContaining(commentedNode, /commented|left a comment/);
 	}
 }
 
@@ -54,6 +52,11 @@ async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise
 		// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
 		const {parentElement} = usernameElement;
 		const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : usernameElement;
+
+		// This change is ideal but should not break the feature if it fails
+		// And it should be done before inserting the name
+		dropExtraCopy(usernameElement);
+
 		insertionPoint.after(
 			' ',
 			<span className="color-fg-muted css-truncate d-inline-block">
@@ -62,9 +65,6 @@ async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise
 			' ',
 		);
 	}
-
-	// This change is ideal but should not break the feature if it fails, so leave it for last
-	dropExtraCopy(batchedUsernameElements);
 }
 
 const usernameLinksSelector = [
