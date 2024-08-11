@@ -1,3 +1,4 @@
+import {linkifyText, splitText} from '../github-helpers/react-code.js';
 import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
@@ -50,11 +51,22 @@ function init(signal: AbortSignal): void {
 	observe(codeElementsSelector, linkifyContent, {signal});
 }
 
+function linkifyFutureLines(line: HTMLElement): void {
+	const links = splitText(line, 'http://github.com/');
+	for (const link of links) {
+		link.style.textDecoration = 'underline';
+	}
+}
+
+function initFuture(signal: AbortSignal): void {
+	observe('.react-code-text#LC42', linkifyFutureLines, {signal});
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasCode,
 	],
-	init,
+	init: initFuture,
 }, {
 	include: [
 		pageDetect.isPR,
