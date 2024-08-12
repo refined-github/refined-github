@@ -55,7 +55,11 @@ async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise
 
 		// This change is ideal but should not break the feature if it fails
 		// And it should be done before inserting the name
-		dropExtraCopy(usernameElement);
+		try {
+			dropExtraCopy(usernameElement);
+		} catch (error) {
+			features.log.error(import.meta.url, error);
+		}
 
 		insertionPoint.after(
 			' ',
