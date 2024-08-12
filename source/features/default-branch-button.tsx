@@ -39,30 +39,35 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 
 	let defaultLink = $('.rgh-default-branch-button', branchSelector.parentElement!);
 
-	if (!defaultLink) {
-		if (pageDetect.isSingleFile()) {
-			fixFileHeaderOverlap(branchSelector);
-		}
-
-		defaultLink = (
-			<a
-				className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button"
-				href={await getUrl(location.href)}
-				aria-label="See this view on the default branch"
-				// Update on hover because the URL may change without a DOM refresh
-				// https://github.com/refined-github/refined-github/issues/6554
-				// Inlined listener because `mouseenter` is too heavy for `delegate`
-				onMouseEnter={updateUrl}
-				// Don't enable AJAX on this behavior because we need a full page reload to drop the button, same reason as above #6554
-				// data-turbo-frame="repo-content-turbo-frame"
-			>
-				<ChevronLeftIcon/>
-			</a>
-		);
-
-		selectorWrapper.before(defaultLink);
+	// React issues. Duplicates appear after a color scheme update
+	// https://github.com/refined-github/refined-github/issues/7098
+	if (defaultLink) {
+		// Border radius style is removed by the color scheme update
+		groupButtons([defaultLink, selectorWrapper]).classList.add('d-flex', 'rgh-default-branch-button-group');
+		return;
 	}
 
+	if (pageDetect.isSingleFile()) {
+		fixFileHeaderOverlap(branchSelector);
+	}
+
+	defaultLink = (
+		<a
+			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button"
+			href={await getUrl(location.href)}
+			aria-label="See this view on the default branch"
+			// Update on hover because the URL may change without a DOM refresh
+			// https://github.com/refined-github/refined-github/issues/6554
+			// Inlined listener because `mouseenter` is too heavy for `delegate`
+			onMouseEnter={updateUrl}
+			// Don't enable AJAX on this behavior because we need a full page reload to drop the button, same reason as above #6554
+			// data-turbo-frame="repo-content-turbo-frame"
+		>
+			<ChevronLeftIcon/>
+		</a>
+	);
+
+	selectorWrapper.before(defaultLink);
 	groupButtons([defaultLink, selectorWrapper]).classList.add('d-flex', 'rgh-default-branch-button-group');
 }
 
