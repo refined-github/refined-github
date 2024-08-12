@@ -38,3 +38,11 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh',
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/compare/sandbox/keep-branch...yakov116:upstream
+
+*/

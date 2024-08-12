@@ -16,3 +16,12 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // Small page
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/commits/hotfix
+https://github.com/refined-github/refined-github/commits/main/.github
+
+*/

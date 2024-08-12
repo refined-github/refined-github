@@ -42,3 +42,11 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // Small page
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/issues/3543
+
+*/
