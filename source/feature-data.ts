@@ -1,3 +1,4 @@
+// Run `npm run vitest` to update these files
 import importedFeaturesRaw from '../build/__snapshots__/imported-features.json';
 import featuresMetasRaw from '../build/__snapshots__/features-meta.json';
 
