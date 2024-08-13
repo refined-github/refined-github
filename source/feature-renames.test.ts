@@ -26,6 +26,7 @@ test('Old feature names cannot appear anywhere in the repo', () => {
 test('New feature names must exist in source/features/{name}.tsx', () => {
 	for (const newName of newNames) {
 		const filePath = path.join('source', 'features', `${newName}.tsx`);
+		// eslint-disable-next-line @vitest/valid-expect -- Wrong
 		expect(fs.existsSync(filePath), `New feature name "${newName}" not found in source/features`).toBe(true);
 	}
 });
