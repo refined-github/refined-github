@@ -20,6 +20,5 @@ void features.add(import.meta.url, {
 Test URLs:
 
 https://github.com/refined-github/refined-github/issues/new?template=1_bug_report.yml
-https://github.com/refined-github/refined-github/pull/6002
 
 */
