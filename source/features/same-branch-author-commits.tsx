@@ -21,7 +21,7 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/refined-github/refined-github/commits/hotfix
-https://github.com/refined-github/refined-github/commits/main/.github
+https://github.com/refined-github/sandbox/commits/branch/with/slashes/
+https://github.com/refined-github/sandbox/commits/new/.github
 
 */
