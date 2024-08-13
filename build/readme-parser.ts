@@ -38,7 +38,8 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 	return {
 		id: simpleId as FeatureID,
 		description: parseMarkdown(linkLessMarkdownDescription),
-		screenshot: urls.find(url => screenshotRegex.test(url)),
+		// `null` makes the keys visible in the JSON file
+		screenshot: urls.find(url => screenshotRegex.test(url)) ?? null,
 	};
 }
 

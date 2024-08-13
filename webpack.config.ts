@@ -33,10 +33,6 @@ const config: Configuration = {
 				type: 'asset/source',
 			},
 			{
-				test: /[/\\]readme\.md$/,
-				loader: '../build/readme.loader.ts',
-			},
-			{
 				test: /\.tsx?$/,
 				loader: 'esbuild-loader',
 				options: {

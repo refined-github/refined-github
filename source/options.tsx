@@ -15,7 +15,7 @@ import featureLink from './helpers/feature-link.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
 import {getLocalHotfixes, styleHotfixes} from './helpers/hotfix.js';
 import createRghIssueLink from './helpers/rgh-issue-link.js';
-import {importedFeatures, featuresMeta} from '../readme.md';
+import {importedFeatures, featuresMeta} from './feature-data.js';
 import getStorageBytesInUse from './helpers/used-storage.js';
 import {perDomainOptions} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';

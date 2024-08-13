@@ -5,14 +5,15 @@ import {
 	getImportedFeatures,
 } from './readme-parser.js';
 
-test('readme-parser', async () => {
-	await expect(getImportedFeatures().join('\n') + '\n')
-		.toMatchFileSnapshot('./__snapshots__/imported-features.txt');
-	const featuresMetaJson = JSON.stringify(
-		getFeaturesMeta(),
-		(_, value) => value ?? null, // Convert undefined to null to make them visible in the JSON
+function jsonify(value: unknown): string {
+	return JSON.stringify(
+		value,
+		undefined,
 		'\t',
-	);
-	await expect(featuresMetaJson + '\n')
-		.toMatchFileSnapshot('./__snapshots__/features-meta.json');
+	) + '\n'; // Trailing newline
+}
+
+test('readme-parser', async () => {
+	await expect(jsonify(getImportedFeatures())).toMatchFileSnapshot('./__snapshots__/imported-features.json');
+	await expect(jsonify(getFeaturesMeta())).toMatchFileSnapshot('./__snapshots__/features-meta.json');
 });
