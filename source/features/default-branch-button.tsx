@@ -31,19 +31,23 @@ const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 	return defaultUrl.href;
 });
 
+function wrapButtons(buttons: HTMLElement[]): void {
+	groupButtons(buttons).classList.add('d-flex', 'rgh-default-branch-button-group');
+}
+
 async function add(branchSelector: HTMLElement): Promise<void> {
 	// The DOM varies between details-based DOM and React-based one
 	const selectorWrapper = branchSelector.tagName === 'SUMMARY'
 		? branchSelector.parentElement!
 		: branchSelector;
 
-	let defaultLink = $('.rgh-default-branch-button', branchSelector.parentElement!);
+	const existingLink = $('.rgh-default-branch-button', branchSelector.parentElement!);
 
 	// React issues. Duplicates appear after a color scheme update
 	// https://github.com/refined-github/refined-github/issues/7098
-	if (defaultLink) {
+	if (existingLink) {
 		// Border radius style is removed by the color scheme update
-		groupButtons([defaultLink, selectorWrapper]).classList.add('d-flex', 'rgh-default-branch-button-group');
+		wrapButtons([existingLink, selectorWrapper]);
 		return;
 	}
 
@@ -51,7 +55,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		fixFileHeaderOverlap(branchSelector);
 	}
 
-	defaultLink = (
+	const defaultLink = (
 		<a
 			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button"
 			href={await getUrl(location.href)}
@@ -60,6 +64,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 			// https://github.com/refined-github/refined-github/issues/6554
 			// Inlined listener because `mouseenter` is too heavy for `delegate`
 			onMouseEnter={updateUrl}
+
 			// Don't enable AJAX on this behavior because we need a full page reload to drop the button, same reason as above #6554
 			// data-turbo-frame="repo-content-turbo-frame"
 		>
@@ -68,7 +73,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 	);
 
 	selectorWrapper.before(defaultLink);
-	groupButtons([defaultLink, selectorWrapper]).classList.add('d-flex', 'rgh-default-branch-button-group');
+	wrapButtons([defaultLink, selectorWrapper]);
 }
 
 function init(signal: AbortSignal): void {
