@@ -24,3 +24,13 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+- User edits: https://github.com/refined-github/sandbox/issues/24#issue-1299932109
+- App edits: https://github.com/renovatebot/renovate/pull/30606#issue-2449330214
+- Ghost edits: https://github.com/Mottie/GitHub-userscripts/issues/88#issuecomment-502933879
+
+*/
