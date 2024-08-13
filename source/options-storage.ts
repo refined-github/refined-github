@@ -21,7 +21,8 @@ export function isFeatureDisabled(options: RGHOptions, id: string): boolean {
 
 export function getNewFeatureName(possibleFeatureName: string): FeatureID | undefined {
 	// @ts-expect-error Useless "no index type" error as usual
-	return renamedFeatures[possibleFeatureName];
+	const newFeatureName = renamedFeatures[possibleFeatureName] as FeatureID;
+	return importedFeatures.includes(newFeatureName) ? newFeatureName : undefined;
 }
 
 const migrations = [
