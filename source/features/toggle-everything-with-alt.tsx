@@ -19,7 +19,7 @@ const expandSelector = '.js-file .js-expand-full';
 
 const collapseSelector = '.js-file .js-collapse-diff';
 
-const commitMessageSelector = '.TimelineItem .ellipsis-expander';
+const commitMessageSelector = 'button[data-testid="commit-row-show-description-button"]';
 
 function markdownCommentSelector(clickedItem: HTMLElement): string {
 	const {id} = clickedItem.closest('.TimelineItem-body[id]')!;
