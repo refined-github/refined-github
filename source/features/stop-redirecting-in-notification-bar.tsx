@@ -25,3 +25,13 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+1. Visit https://github.com/notifications
+2. Open any notification
+3. Alt-ckick the buttons in the notification bar
+
+*/

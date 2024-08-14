@@ -43,11 +43,6 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 		</sup>
 	</p>
 	<br>
-	<a href="https://retool.com/?utm_campaign=sindresorhus">
-		<img src="https://sindresorhus.com/assets/thanks/retool-logo.svg" width="210">
-	</a>
-	<br>
-	<br>
 	<a href="https://workos.com/?utm_campaign=github_repo&utm_medium=referral&utm_content=refined-github&utm_source=github">
 		<div>
 			<img src="https://sindresorhus.com/assets/thanks/workos-logo-white-bg.svg" width="210" alt="WorkOS">
@@ -55,19 +50,6 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 		<b>Your app, enterprise-ready.</b>
 		<div>
 			<sub>Start selling to enterprise customers with just a few lines of code. Add Single Sign-On (and more) in minutes instead of months.</sup>
-		</div>
-	</a>
-	<br>
-	<br>
-	<a href="https://www.gitpod.io/?utm_campaign=sindresorhus&utm_medium=referral&utm_content=awesome&utm_source=github">
-		<div>
-			<img src="https://sindresorhus.com/assets/thanks/gitpod-logo-white-bg.svg" width="220" alt="Gitpod">
-		</div>
-		<b>Dev environments built for the cloud</b>
-		<div>
-			<sub>
-			Natively integrated with GitLab, GitHub, and Bitbucket, Gitpod automatically and continuously prebuilds dev environments for all your branches. As a result team members can instantly start coding with fresh dev environments for each new task - no matter if you are building a new feature, want to fix a bug, or work on a code review.
-			</sub>
 		</div>
 	</a>
 </div>

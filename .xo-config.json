@@ -2,12 +2,17 @@
 	"envs": [
 		"browser"
 	],
-	"extends": "xo-react",
+	"extends": [
+		"xo-react",
+		"plugin:@vitest/legacy-recommended"
+	],
 	"globals": [
 		"browser"
 	],
+	"plugins": ["@vitest"],
 	"nodeVersion": false,
 	"rules": {
+		"@vitest/expect-expect": "off",
 		"jsx-quotes": [
 			"error",
 			"prefer-double"

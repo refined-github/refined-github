@@ -91,7 +91,7 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 
 	appendBefore(
 		dropdownMenu,
-		'.dropdown-divider', // Won't exist if `more-dropdown` is disabled
+		'.dropdown-divider', // Won't exist if `clean-repo-tabs` is disabled
 		createDropdownItem({
 			label: type,
 			href: buildRepoURL(type.toLowerCase()),
