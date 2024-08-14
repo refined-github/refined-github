@@ -55,3 +55,26 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+Collapsed comments:
+- PR conversations: https://github.com/refined-github/refined-github/pull/1694
+- PR files: https://github.com/refined-github/refined-github/pull/1896/files
+- Issue conversations: https://github.com/refined-github/refined-github/issues/4008
+
+Load diff in PR files: https://github.com/parcel-bundler/parcel/pull/2967/files
+Expand all in PR files: https://github.com/refined-github/refined-github/pull/4585/files
+
+Commit messages:
+- isPRConversation: https://github.com/refined-github/refined-github/pull//5324
+- isCommitList: https://github.com/torvalds/linux/commits/master
+
+<details> elements:
+- Issue: https://github.com/yakov116/TestR/issues/34
+- PR description: https://github.com/OpenLightingProject/open-fixture-library/pull/2455
+- PR comment: https://github.com/OpenLightingProject/open-fixture-library/pull/2453#issuecomment-1055672394
+
+*/
