@@ -43,6 +43,6 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/refined-github/refined-github/compare/sandbox/keep-branch...yakov116:upstream
+https://github.com/refined-github/refined-github/compare/main...fregante:refined-github:main
 
 */
