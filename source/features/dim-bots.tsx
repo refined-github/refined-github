@@ -27,6 +27,7 @@ function undimBots(event: DelegateEvent): void {
 
 function dim(commit: HTMLElement): void {
 	commit.closest([
+		'[data-testid="commit-row-item"]',
 		'.list-view-item', // Commits
 		'.listviewitem', // TODO: Drop in 2025
 		'.Box-row', // PRs

@@ -27,7 +27,7 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 
 	const mergeCommits = [];
 	for (const [key, commit] of objectEntries(repository)) {
-		if (commit.parents.totalCount >= 2) {
+		if (commit?.parents.totalCount >= 2) {
 			mergeCommits.push(key.slice(1));
 		}
 	}
@@ -68,6 +68,7 @@ async function markCommits(commits: HTMLElement[]): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe([
+		'[data-testid="commit-row-item"]',
 		'.list-view-item', // `isCommitList`
 		'.listviewitem', // TODO: Drop in 2025
 
