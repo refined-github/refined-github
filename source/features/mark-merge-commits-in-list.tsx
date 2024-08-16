@@ -66,7 +66,9 @@ async function markCommits(commits: HTMLElement[]): Promise<void> {
 async function init(signal: AbortSignal): Promise<void> {
 	observe([
 		'[data-testid="commit-row-item"]',
-		'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`; "js-timeline-item" excludes "isCommitList"
+
+		'.js-commits-list-item', // `isPRCommitList`
+		'.TimelineItem:has(.octicon-git-commit)', // `isPRConversation`
 	], batchedFunction(markCommits, {delay: 100}), {signal});
 }
 
@@ -83,7 +85,7 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-- isPRConversation: https://github.com/refined-github/refined-github/pull/6194
+- isPRConversation: https://github.com/refined-github/refined-github/pull/6194#event-8016526003
 - isPRCommitList: https://github.com/refined-github/refined-github/pull/6194/commits
 - isCommitList: https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174
 - isCompare: https://github.com/refined-github/sandbox/compare/e8b25d3e...b3d0d992
