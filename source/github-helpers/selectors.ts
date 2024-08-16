@@ -135,6 +135,16 @@ export const newCommentField = [
 
 export const newCommentField_ = [] satisfies UrlMatch[];
 
+export const commitHashLinkInLists = '[aria-label="View commit details"] a.text-mono';
+export const commitHashLinkInLists_ = [
+	[35, 'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174'],
+] satisfies UrlMatch[];
+
+export const commitTitleInLists = '[data-testid="list-view-item-title-container"]';
+export const commitTitleInLists_ = [
+	[35, 'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174'],
+];
+
 const botNames = [
 	'actions-user',
 	'bors',
