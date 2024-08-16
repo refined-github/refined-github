@@ -192,3 +192,9 @@ function getConversationAuthor(): string | undefined {
 export function isOwnConversation(): boolean {
 	return getConversationAuthor() === getUsername();
 }
+
+export function assertCommitHash(hash: string): void {
+	if (!/^[0-9a-f]{40}$/.test(hash)) {
+		throw new Error(`Invalid commit hash: ${hash}`);
+	}
+}
