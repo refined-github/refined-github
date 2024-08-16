@@ -37,8 +37,7 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 
 function getCommitLink(commit: HTMLElement): HTMLAnchorElement | undefined {
 	return $([
-		'a.markdown-title', // Old view style (before November 2023)
-		'.markdown-title a',
+		'[data-testid="list-view-item-metadata-item"]:last-child a',
 	], commit);
 }
 
