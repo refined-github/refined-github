@@ -68,7 +68,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		'[data-testid="commit-row-item"]',
 
 		'.js-commits-list-item', // `isPRCommitList`
-		'.TimelineItem:has(.octicon-git-commit)', // `isPRConversation`
+		'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`; "js-timeline-item" excludes "isPRCommitList"
 	], batchedFunction(markCommits, {delay: 100}), {signal});
 }
 
