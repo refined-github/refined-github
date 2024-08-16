@@ -55,11 +55,3 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
-
-/*
-
-Test URLs
-
-https://github.com/torvalds/linux/commits/master
-
-*/
