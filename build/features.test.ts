@@ -33,25 +33,6 @@ const noScreenshotExceptions = new Set([
 	'scrollable-areas', // TODO: Add side-by-side png
 ]);
 
-const testUrlsErrorMessage = `Every new or edited feature must be tested manually before merging.
-To help testing, we're progressively adding test URLs in each feature.
-
-You can find or create a test URL:
-
-- on our sandbox repo: https://github.com/refined-github/sandbox
-- on previous PRs for this feature
-
-The section must be appended to each .tsx file:
-
-/*
-
-Test URLs:
-
-https://github.com/a/REAL/url/here
-https://github.com/another/REAL/url/here
-
-*/`;
-
 const entryPoint = 'source/refined-github.ts';
 const entryPointSource = readFileSync(entryPoint);
 const importedFeatures = getImportedFeatures();
