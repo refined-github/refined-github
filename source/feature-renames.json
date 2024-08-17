@@ -1,4 +1,5 @@
 {
+	"scrollable-code-and-blockquote": "scrollable-areas",
 	"separate-draft-pr-button": "one-click-pr-or-gist",
 	"prevent-pr-commit-link-loss": "prevent-link-loss",
 	"remove-projects-tab": "clean-repo-tabs",
