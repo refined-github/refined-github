@@ -120,7 +120,7 @@ function validateCss(file: FeatureFile): void {
 		`Should only be imported by \`${file.tsx.name}\`, not by \`${entryPoint}\``,
 	);
 
-	assert.isNotTrue(/test url/i.test(file.contents().toString()), 'Only TSX files and *lone* CSS files should have test URLs');
+	assert(!/test url/i.test(file.contents().toString()), 'Only TSX files and *lone* CSS files should have test URLs');
 }
 
 function validateGql(file: FeatureFile): void {
