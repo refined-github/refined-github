@@ -1,4 +1,4 @@
-import fs, {existsSync, readdirSync, readFileSync} from 'node:fs';
+import {existsSync, readdirSync, readFileSync} from 'node:fs';
 import path from 'node:path';
 import {test, describe, assert} from 'vitest';
 import regexJoin from 'regex-join';
@@ -32,6 +32,25 @@ const noScreenshotExceptions = new Set([
 	'hide-newsfeed-noise', // TODO: Add side-by-side png
 	'scrollable-areas', // TODO: Add side-by-side png
 ]);
+
+const testUrlsErrorMessage = `Every new or edited feature must be tested manually before merging.
+To help testing, we're progressively adding test URLs in each feature.
+
+You can find or create a test URL:
+
+- on our sandbox repo: https://github.com/refined-github/sandbox
+- on previous PRs for this feature
+
+The section must be appended to each .tsx file:
+
+/*
+
+Test URLs:
+
+https://github.com/a/REAL/url/here
+https://github.com/another/REAL/url/here
+
+*/`;
 
 const entryPoint = 'source/refined-github.ts';
 const entryPointSource = readFileSync(entryPoint);
@@ -86,6 +105,8 @@ function validateCss(file: FeatureFile): void {
 			isImportedByEntrypoint,
 			`Should be imported by \`${entryPoint}\` or removed if it is not needed`,
 		);
+
+		assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
 		return;
 	}
 
@@ -98,6 +119,8 @@ function validateCss(file: FeatureFile): void {
 		!isImportedByEntrypoint,
 		`Should only be imported by \`${file.tsx.name}\`, not by \`${entryPoint}\``,
 	);
+
+	assert.isNotTrue(/test url/i.test(file.contents().toString()), 'Only TSX files and *lone* CSS files should have test URLs');
 }
 
 function validateGql(file: FeatureFile): void {
@@ -136,11 +159,11 @@ function validateTsx(file: FeatureFile): void {
 		`Should be imported by \`${entryPoint}\``,
 	);
 
-	const fileContents = readFileSync(`source/features/${file.name}`);
+	assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
 
-	if (fileContents.includes('.addCssFeature')) {
+	if (file.contents().includes('.addCssFeature')) {
 		assert(
-			!fileContents.includes('.add('),
+			!file.contents().includes('.add('),
 			`${file.id} should use either \`addCssFeature\` or \`add\`, not both`,
 		);
 
@@ -184,41 +207,4 @@ describe('features', () => {
 
 		assert.fail(`The \`/source/features\` folder should only contain .css, .tsx and .gql files. Found \`source/features/${filename}\``);
 	});
-});
-
-const ERROR_MESSAGE = `Every new or edited feature must be tested manually before merging.
-To help testing, we're progressively adding test URLs in each feature.
-
-You can find or create a test URL:
-
-- on our sandbox repo: https://github.com/refined-github/sandbox
-- on previous PRs for this feature
-
-The section must be appended to each .tsx file:
-
-/*
-
-Test URLs:
-
-https://github.com/a/REAL/url/here
-https://github.com/another/REAL/url/here
-
-*/`;
-
-const filesToVerify = fs.readdirSync('source/features')
-	.filter(file => file.endsWith('.tsx'))
-	.map(file => path.join('source/features', file));
-
-test.each(filesToVerify)('Check Test URLs in %s', file => {
-	const isFileCSS = file.endsWith('.css');
-	const siblingTSXFile = file.replace(/\.css$/, '.tsx');
-	const doesSiblingExist = fs.existsSync(siblingTSXFile);
-
-	if (isFileCSS && doesSiblingExist) {
-		return;
-	}
-
-	const fileContent = fs.readFileSync(file, 'utf8');
-	const hasTestUrls = /test url/i.test(fileContent);
-	assert(hasTestUrls, `${file} does not have test URLs. \n${ERROR_MESSAGE}`);
 });

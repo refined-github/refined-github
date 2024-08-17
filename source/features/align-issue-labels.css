@@ -32,15 +32,3 @@
 	margin-top: 4px;
 	font-size: 11px !important;
 }
-
-/* TODO: Remove links from CSS+JS features after https://github.com/refined-github/refined-github/issues/7656 or https://github.com/refined-github/refined-github/issues/7132 */
-/*
-
-# Test URLs
-
-https://github.com/pulls
-https://github.com/bmish/eslint-doc-generator/pulls
-https://github.com/bmish/eslint-doc-generator/issues
-https://github.com/bmish/eslint-doc-generator/milestone/1
-
-*/
