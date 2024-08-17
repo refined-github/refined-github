@@ -1,6 +1,6 @@
+import fs, {existsSync, readdirSync, readFileSync} from 'node:fs';
+import path from 'node:path';
 import {test, describe, assert} from 'vitest';
-import {parse, join} from 'node:path';
-import {existsSync, readdirSync, readFileSync} from 'node:fs';
 import regexJoin from 'regex-join';
 import fastIgnore from 'fast-ignore';
 
@@ -50,8 +50,8 @@ class FeatureFile {
 	readonly id: FeatureID;
 	readonly path: string;
 	constructor(readonly name: string) {
-		this.id = parse(name).name as FeatureID;
-		this.path = join('source/features', name);
+		this.id = path.parse(name).name as FeatureID;
+		this.path = path.join('source/features', name);
 	}
 
 	exists(): boolean {
@@ -184,4 +184,41 @@ describe('features', () => {
 
 		assert.fail(`The \`/source/features\` folder should only contain .css, .tsx and .gql files. Found \`source/features/${filename}\``);
 	});
+});
+
+const ERROR_MESSAGE = `Every new or edited feature must be tested manually before merging.
+To help testing, we're progressively adding test URLs in each feature.
+
+You can find or create a test URL:
+
+- on our sandbox repo: https://github.com/refined-github/sandbox
+- on previous PRs for this feature
+
+The section must be appended to each .tsx file:
+
+/*
+
+Test URLs:
+
+https://github.com/a/REAL/url/here
+https://github.com/another/REAL/url/here
+
+*/`;
+
+const filesToVerify = fs.readdirSync('source/features')
+	.filter(file => file.endsWith('.tsx'))
+	.map(file => path.join('source/features', file));
+
+test.each(filesToVerify)('Check Test URLs in %s', file => {
+	const isFileCSS = file.endsWith('.css');
+	const siblingTSXFile = file.replace(/\.css$/, '.tsx');
+	const doesSiblingExist = fs.existsSync(siblingTSXFile);
+
+	if (isFileCSS && doesSiblingExist) {
+		return;
+	}
+
+	const fileContent = fs.readFileSync(file, 'utf8');
+	const hasTestUrls = /test url/i.test(fileContent);
+	assert(hasTestUrls, `${file} does not have test URLs. \n${ERROR_MESSAGE}`);
 });
