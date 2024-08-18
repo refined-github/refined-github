@@ -117,6 +117,7 @@
 		"prettier": "^3.3.3",
 		"rollup": "^4.18.0",
 		"rollup-plugin-cleanup": "^3.2.1",
+		"rollup-plugin-copy": "^3.5.0",
 		"rollup-plugin-string": "^3.0.0",
 		"rollup-plugin-styles": "^4.0.0",
 		"snarkdown": "^2.0.0",

@@ -6,6 +6,7 @@ import styles from 'rollup-plugin-styles';
 import {string} from 'rollup-plugin-string';
 import alias from '@rollup/plugin-alias';
 import json from '@rollup/plugin-json';
+import copy from 'rollup-plugin-copy';
 
 const rollup = {
 	input: {
@@ -34,6 +35,11 @@ const rollup = {
 		typescript({compilerOptions: {module: 'Node16'}}),
 		resolve({browser: true}),
 		commonjs(),
+		copy({
+			targets: [
+				{src: './source/manifest.json', dest: 'distribution'},
+			],
+		}),
 		cleanup(),
 	],
 };
