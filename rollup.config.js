@@ -7,8 +7,6 @@ import {string} from 'rollup-plugin-string';
 import alias from '@rollup/plugin-alias';
 import json from '@rollup/plugin-json';
 
-import readmePlugin from './build/readme.plugin.js';
-
 const rollup = {
 	input: {
 		options: './source/options.tsx',
@@ -21,8 +19,13 @@ const rollup = {
 		preserveModules: true,
 		sssetFileNames: '[name]-[hash][extname]', // For CSS
 	},
+
+	external: [
+		// Rollup is failing to parse the file as TypeScript 🤷‍♂️
+		/types.d.ts/,
+	],
 	plugins: [
-		json(), // TODO: Drop after https://github.com/refined-github/shorten-repo-url/issues/47
+		json(),
 		styles(),
 		string({
 			include: '**/*.gql',
@@ -30,10 +33,8 @@ const rollup = {
 		alias({
 			entries: [
 				{find: 'react', replacement: 'dom-chef'},
-				{find: '@cheap-glitch/mi-cron', replacement: '@cheap-glitch/mi-cron/index.min.js'},
 			],
 		}),
-		readmePlugin(),
 		typescript({compilerOptions: {module: 'Node16'}}),
 		resolve({browser: true}),
 		commonjs(),

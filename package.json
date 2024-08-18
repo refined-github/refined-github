@@ -5,7 +5,7 @@
 		"vitest": "vitest --run",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
-		"build:rollup": "rollup -c",
+		"build:bundle": "rollup -c",
 		"manifest": "node build/manifest.js",
 		"fix": "run-p \"lint:css -- --fix\" \"lint:js -- --fix\" fix:prettier \"vitest -- --update\" --continue-on-error",
 		"fix:prettier": "prettier . --write",
@@ -20,7 +20,7 @@
 		"test": "run-p vitest lint:* build:* --continue-on-error",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
-		"watch:rollup": "rollup -c --watch"
+		"watch:bundle": "rollup -c --watch"
 	},
 	"prettier": {
 		"singleQuote": true
@@ -43,7 +43,7 @@
 		}
 	},
 	"dependencies": {
-		"@cheap-glitch/mi-cron": "^1.0.1",
+		"@fregante/mi-cron": "^2.0.0",
 		"@sindresorhus/to-milliseconds": "^2.0.0",
 		"abort-utils": "^1.2.0",
 		"batched-function": "^2.0.1",
