@@ -7,7 +7,9 @@ import {string} from 'rollup-plugin-string';
 import alias from '@rollup/plugin-alias';
 import json from '@rollup/plugin-json';
 import copy from 'rollup-plugin-copy';
+import clear from 'rollup-plugin-clear';
 
+/** @type {import('rollup').RollupOptions} */
 const rollup = {
 	input: {
 		options: './source/options.tsx',
@@ -19,11 +21,15 @@ const rollup = {
 	output: {
 		dir: 'distribution/assets',
 		preserveModules: true,
-		assetFileNames: '[name]-[hash][extname]', // For CSS
+		assetFileNames: '[name][extname]', // For CSS
 	},
 	plugins: [
+		clear({
+			targets: ['distribution/assets'],
+			watch: true,
+		}),
 		json(),
-		styles(),
+		styles({mode: 'extract'}),
 		string({
 			include: '**/*.gql',
 		}),
