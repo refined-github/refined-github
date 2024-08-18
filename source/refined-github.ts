@@ -1,5 +1,3 @@
-import './helpers/types.d.js';
-
 import './refined-github.css';
 import './github-helpers/heat-map.css';
 

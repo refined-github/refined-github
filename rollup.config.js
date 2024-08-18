@@ -12,18 +12,14 @@ const rollup = {
 		options: './source/options.tsx',
 		background: './source/background.ts',
 		'refined-github': './source/refined-github.ts',
+		'content-script': './source/content-script.ts',
 		'resolve-conflicts': './source/resolve-conflicts.ts',
 	},
 	output: {
 		dir: 'distribution/assets',
 		preserveModules: true,
-		sssetFileNames: '[name]-[hash][extname]', // For CSS
+		assetFileNames: '[name]-[hash][extname]', // For CSS
 	},
-
-	external: [
-		// Rollup is failing to parse the file as TypeScript 🤷‍♂️
-		/types.d.ts/,
-	],
 	plugins: [
 		json(),
 		styles(),
