@@ -16,8 +16,8 @@
 			"error",
 			{
 				"selector":
-					"[callee.name=delegate][arguments.0.value=/,/][arguments.0.value=/.{15,}/]",
-				"message": "Pass an array of selectors and add comments to each selector"
+					":matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.value=/,/][arguments.0.value=/.{15,}/]",
+				"message": "Instead of a single string, pass an array of selectors and add comments to each selector"
 			}
 		],
 		"@vitest/expect-expect": "off",
