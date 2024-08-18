@@ -21,7 +21,10 @@ function validatePrTitle({delegateTarget: field}: DelegateEvent<Event, HTMLInput
 function init(signal: AbortSignal): void {
 	document.body.classList.add('rgh-suggest-commit-title-limit');
 	onCommitTitleUpdate(validateCommitTitle, signal);
-	delegate('#issue_title, #pull_request_title', 'input', validatePrTitle, {signal, passive: true});
+	delegate([
+		'#issue_title',
+		'#pull_request_title',
+	], 'input', validatePrTitle, {signal, passive: true});
 }
 
 void features.add(import.meta.url, {
