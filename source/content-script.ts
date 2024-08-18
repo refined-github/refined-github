@@ -1,1 +1,1 @@
-import(chrome.runtime.getURL("refined-github.js"));
+void import(chrome.runtime.getURL('refined-github.js'));
