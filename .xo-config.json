@@ -16,7 +16,12 @@
 			"error",
 			{
 				"selector":
-					":matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.value=/,/][arguments.0.value=/.{15,}/]",
+					":matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.value=/,/][arguments.0.value.length>=15]",
+				"message": "Instead of a single string, pass an array of selectors and add comments to each selector"
+			},
+			{
+				"selector":
+					":matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]",
 				"message": "Instead of a single string, pass an array of selectors and add comments to each selector"
 			}
 		],
