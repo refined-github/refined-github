@@ -44,7 +44,7 @@ async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags'
 	return [0];
 }
 
-export const releasesCount = new CachedFunction('releases-count', {
+const releasesCount = new CachedFunction('releases-count', {
 	updater: fetchCounts,
 	shouldRevalidate: cachedValue => typeof cachedValue === 'number',
 	maxAge: {hours: 1},
@@ -91,7 +91,7 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 
 	appendBefore(
 		dropdownMenu,
-		'.dropdown-divider', // Won't exist if `more-dropdown` is disabled
+		'.dropdown-divider', // Won't exist if `clean-repo-tabs` is disabled
 		createDropdownItem({
 			label: type,
 			href: buildRepoURL(type.toLowerCase()),

@@ -34,24 +34,45 @@ async function getPreviousFileUrl(): Promise<string | void> {
 		.href;
 }
 
-async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions): Promise<void> {
-	if (elementExists('.rgh-previous-version')) {
-		return;
-	}
+function addMobileDom(wrappedHistoryButton: HTMLElement): HTMLAnchorElement {
+	const wrappedPreviousButton = wrappedHistoryButton.cloneNode(true);
+	wrappedPreviousButton.setAttribute('aria-label', 'Previous version');
+	const previousButton = $('a', wrappedPreviousButton);
+	previousButton.classList.add('rgh-previous-version-mobile');
+	wrappedHistoryButton.before(wrappedPreviousButton);
+	return previousButton;
+}
 
+function addDesktopDom(historyButton: HTMLAnchorElement): HTMLAnchorElement {
+	const previousButton = historyButton.cloneNode(true);
+	previousButton.classList.add('mr-n2', 'rgh-previous-version-desktop');
+	$('span[data-component="text"]', previousButton).textContent = 'Previous';
+	historyButton.before(previousButton);
+	return previousButton;
+}
+
+async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions): Promise<void> {
 	const url = await getPreviousFileUrl();
 	if (!url) {
 		return;
 	}
 
-	const previousButton = historyButton.cloneNode(true);
-	previousButton.classList.add('mr-n2', 'rgh-previous-version');
+	// The button might be labeled or inside a role="tooltip" element.
+	// If it has a tooltip, we need to clone the tooltip element itself, not the button.
+	const wrappedHistoryButton = historyButton.closest('[role="tooltip"]');
+
+	if (elementExists(wrappedHistoryButton ? '.rgh-previous-version-mobile' : '.rgh-previous-version-desktop')) {
+		return;
+	}
+
+	const previousButton = wrappedHistoryButton
+		? addMobileDom(wrappedHistoryButton)
+		: addDesktopDom(historyButton);
+
 	previousButton.href = url;
-	$('span[data-component="text"]', previousButton).textContent = 'Previous';
 	$('span[data-component="leadingVisual"] svg', previousButton).replaceWith(
 		<VersionsIcon/>,
 	);
-	historyButton.before(previousButton);
 
 	onReactPageUpdate(async pageUnload => {
 		const url = await getPreviousFileUrl();

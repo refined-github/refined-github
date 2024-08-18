@@ -9,7 +9,6 @@ import showToast from '../github-helpers/toast.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import observe from '../helpers/selector-observer.js';
-import GetFile from './restore-file.gql';
 
 async function getMergeBaseReference(): Promise<string> {
 	const {base, head} = getBranches();
@@ -24,13 +23,17 @@ async function getHeadReference(): Promise<string> {
 	return headRefOid;
 }
 
-async function getFile(filePath: string): Promise<{isTruncated: boolean; text: string} | undefined> {
-	const {repository} = await api.v4(GetFile, {
-		variables: {
-			file: `${await getMergeBaseReference()}:${filePath}`,
-		},
-	});
-	return repository.file;
+async function getFile(filePath: string): Promise<string | undefined> {
+	const ref = await getMergeBaseReference();
+	const {textContent} = await api.v3(
+		`contents/${filePath}?ref=${ref}`,
+		{
+			json: false,
+			headers: {
+				Accept: 'application/vnd.github.raw',
+			},
+		});
+	return textContent;
 }
 
 async function discardChanges(progress: (message: string) => void, originalFileName: string, newFileName: string): Promise<void> {
@@ -39,14 +42,10 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 		getFile(originalFileName),
 	]);
 
-	if (file?.isTruncated) {
-		throw new Error('File too big, you’ll have to use git');
-	}
-
 	const isNewFile = !file;
 	const isRenamed = originalFileName !== newFileName;
 
-	const contents = file ? stringToBase64(file.text) : '';
+	const contents = file ? stringToBase64(file) : '';
 	const deleteNewFile = {deletions: [{path: newFileName}]};
 	const restoreOldFile = {additions: [{path: originalFileName, contents}]};
 	const fileChanges = isRenamed

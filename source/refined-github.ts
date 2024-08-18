@@ -1,4 +1,4 @@
-import './helpers/types.d.ts';
+import './helpers/types.d.js';
 
 import './refined-github.css';
 import './github-helpers/heat-map.css';
@@ -12,7 +12,6 @@ import './features/clean-footer.css';
 import './features/pr-approvals-count.css';
 import './features/clean-conversations.css';
 import './features/sticky-conversation-list-toolbar.css';
-import './features/always-show-branch-delete-buttons.css';
 import './features/repo-stats-spacing.css';
 import './features/clean-notifications.css';
 import './features/night-not-found.css';
@@ -180,7 +179,6 @@ import './features/avoid-accidental-submissions.js';
 import './features/quick-review-comment-deletion.js';
 import './features/no-unnecessary-split-diff-view.js';
 import './features/list-prs-for-branch.js';
-import './features/comment-on-draft-pr-indicator.js';
 import './features/select-notifications.js';
 import './features/clean-repo-tabs.js';
 import './features/rgh-welcome-issue.js';

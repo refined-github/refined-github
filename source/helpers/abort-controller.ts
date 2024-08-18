@@ -1,4 +1,4 @@
-export function callHandle(handle: Deinit): void {
+function callHandle(handle: Deinit): void {
 	if ('disconnect' in handle) { // Browser observers
 		handle.disconnect();
 	} else if ('abort' in handle) {

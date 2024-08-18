@@ -121,5 +121,8 @@ https://github.com/NixOS/nixpkgs/pull/147010#pullrequestreview-817111882
 
 - Locked issue (own repo): https://github.com/refined-github/sandbox/issues/74
 - Locked issue (other repo): https://github.com/eslint/eslint/issues/8213
+- Comment with app badge:
+	- https://github.com/dotnet/docs/issues/10085
+	- https://github.com/biomejs/biome/issues/1927#issuecomment-2227203261
 
 */

@@ -77,3 +77,12 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh',
 	init,
 });
+
+/*
+
+Test URLs:
+
+- Regular: https://github.com/sindresorhus/refined-github/pulls
+- "Merged" view: https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+sort%3Aupdated-desc+is%3Amerged
+
+*/

@@ -1,6 +1,6 @@
 import {$} from 'select-dom';
 
-export type PrReference = {
+type PrReference = {
 	/** @example fregante/mem:main */
 	absolute: string;
 

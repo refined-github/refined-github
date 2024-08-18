@@ -50,7 +50,7 @@ function attachPRButtons(dropdown: HTMLDetailsElement): void {
 	const Icon = isUnified ? BookIcon : DiffIcon;
 	diffSettingsForm.append(
 		<button
-			className="tooltipped tooltipped-s ml-2 btn-link Link--muted p-2"
+			className="tooltipped tooltipped-s ml-2 btn-link Link--muted px-2"
 			aria-label={`Switch to the ${type} diff view`}
 			name="diff"
 			value={type}
@@ -64,7 +64,7 @@ function attachPRButtons(dropdown: HTMLDetailsElement): void {
 		diffSettingsForm.append(
 			<button
 				data-hotkey="d w"
-				className="tooltipped tooltipped-s btn-link Link--muted p-2"
+				className="tooltipped tooltipped-s btn-link Link--muted px-2"
 				aria-label="Hide whitespace changes"
 				name="w"
 				value="1"

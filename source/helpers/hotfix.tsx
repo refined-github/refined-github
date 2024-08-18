@@ -110,7 +110,7 @@ export async function preloadSyncLocalStrings(): Promise<void> {
 	localStrings = await localStringsHotfix.get() ?? {};
 }
 
-export const localStringsHotfix = new CachedFunction('strings-hotfixes', {
+const localStringsHotfix = new CachedFunction('strings-hotfixes', {
 	async updater(): Promise<Record<string, string>> {
 		const json = await fetchHotfix('strings.json');
 		return json ? JSON.parse(json) : {};

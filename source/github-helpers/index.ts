@@ -1,4 +1,3 @@
-/* eslint-disable n/no-unsupported-features/node-builtins -- Until https://github.com/xojs/xo/issues/613 */
 import {$, elementExists, expectElement} from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
@@ -161,7 +160,8 @@ export function triggerConversationUpdate(): void {
 
 // Fix z-index issue https://github.com/refined-github/refined-github/pull/7430
 export function fixFileHeaderOverlap(child: Element): void {
-	child.closest('.container')!.classList.add('rgh-z-index-5');
+	// In the sidebar the container is not present and this fix is not needed
+	child.closest('.container')?.classList.add('rgh-z-index-5');
 }
 
 /** Trigger a reflow to push the right-most tab into the overflow dropdown */
@@ -185,6 +185,16 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
 }
 
-export function getConversationAuthor(): string | undefined {
+function getConversationAuthor(): string | undefined {
 	return $('#partial-discussion-header .gh-header-meta .author')?.textContent;
+}
+
+export function isOwnConversation(): boolean {
+	return getConversationAuthor() === getUsername();
+}
+
+export function assertCommitHash(hash: string): void {
+	if (!/^[0-9a-f]{40}$/.test(hash)) {
+		throw new Error(`Invalid commit hash: ${hash}`);
+	}
 }

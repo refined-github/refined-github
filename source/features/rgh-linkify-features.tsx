@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import featureLink from '../helpers/feature-link.js';
-import {getNewFeatureName} from '../options-storage.js';
+import {getNewFeatureName} from '../feature-data.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 

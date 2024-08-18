@@ -23,3 +23,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+- PR: https://github.com/refined-github/refined-github/pull/940/files
+- Compare: https://github.com/microsoft/TypeScript/compare/v4.1.2...v4.1.3
+- Commit: https://github.com/microsoft/TypeScript/commit/9d25e593ab722d9cf203690de94e36f8588e968e
+*/

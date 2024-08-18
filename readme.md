@@ -43,11 +43,6 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 		</sup>
 	</p>
 	<br>
-	<a href="https://retool.com/?utm_campaign=sindresorhus">
-		<img src="https://sindresorhus.com/assets/thanks/retool-logo.svg" width="210">
-	</a>
-	<br>
-	<br>
 	<a href="https://workos.com/?utm_campaign=github_repo&utm_medium=referral&utm_content=refined-github&utm_source=github">
 		<div>
 			<img src="https://sindresorhus.com/assets/thanks/workos-logo-white-bg.svg" width="210" alt="WorkOS">
@@ -55,19 +50,6 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 		<b>Your app, enterprise-ready.</b>
 		<div>
 			<sub>Start selling to enterprise customers with just a few lines of code. Add Single Sign-On (and more) in minutes instead of months.</sup>
-		</div>
-	</a>
-	<br>
-	<br>
-	<a href="https://www.gitpod.io/?utm_campaign=sindresorhus&utm_medium=referral&utm_content=awesome&utm_source=github">
-		<div>
-			<img src="https://sindresorhus.com/assets/thanks/gitpod-logo-white-bg.svg" width="220" alt="Gitpod">
-		</div>
-		<b>Dev environments built for the cloud</b>
-		<div>
-			<sub>
-			Natively integrated with GitLab, GitHub, and Bitbucket, Gitpod automatically and continuously prebuilds dev environments for all your branches. As a result team members can instantly start coding with fresh dev environments for each new task - no matter if you are building a new feature, want to fix a bug, or work on a code review.
-			</sub>
 		</div>
 	</a>
 </div>
@@ -370,10 +352,9 @@ Thanks for contributing! 🦋🙌
 
 ### Netiquette
 
-- [](# "netiquette") [Adds unobtrusive netiquette reminders.](https://user-images.githubusercontent.com/1402241/226551766-0e1b6b15-65a3-427e-8bb5-9ea7873993be.png)
+- [](# "netiquette") [Adds unobtrusive netiquette reminders (old closed issues, highly-active issues, draft PRs, …).](https://user-images.githubusercontent.com/1402241/226551766-0e1b6b15-65a3-427e-8bb5-9ea7873993be.png)
 - [](# "warn-pr-from-master") [Warns you when creating a PR from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
 - [](# "warning-for-disallow-edits") [Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
-- [](# "comment-on-draft-pr-indicator") [Reminds you you’re commenting on a draft PR by changing the submit button’s label.](https://github.com/refined-github/refined-github/assets/44045911/988a6ec1-5faa-4500-baa9-0c3713468ca9)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 

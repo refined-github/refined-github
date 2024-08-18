@@ -3,7 +3,7 @@ import {Promisable} from 'type-fest';
 import {pEveryFunction, pSomeFunction} from './p-utils.js';
 
 export type BooleanFunction = () => boolean;
-export type PromisableBooleanFunction = () => Promisable<boolean>;
+type PromisableBooleanFunction = () => Promisable<boolean>;
 
 export type RunConditions = {
 	/** Every condition must be true */

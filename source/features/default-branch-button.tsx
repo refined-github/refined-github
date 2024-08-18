@@ -2,7 +2,7 @@ import './default-branch-button.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicons-plain-react/ChevronLeft';
-import {elementExists} from 'select-dom';
+import {$} from 'select-dom';
 import memoize from 'memoize';
 
 import features from '../feature-manager.js';
@@ -31,10 +31,23 @@ const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 	return defaultUrl.href;
 });
 
+function wrapButtons(buttons: HTMLElement[]): void {
+	groupButtons(buttons).classList.add('d-flex', 'rgh-default-branch-button-group');
+}
+
 async function add(branchSelector: HTMLElement): Promise<void> {
+	// The DOM varies between details-based DOM and React-based one
+	const selectorWrapper = branchSelector.tagName === 'SUMMARY'
+		? branchSelector.parentElement!
+		: branchSelector;
+
+	const existingLink = $('.rgh-default-branch-button', branchSelector.parentElement!);
+
 	// React issues. Duplicates appear after a color scheme update
 	// https://github.com/refined-github/refined-github/issues/7098
-	if (elementExists('.rgh-default-branch-button')) {
+	if (existingLink) {
+		// Border radius style is removed by the color scheme update
+		wrapButtons([existingLink, selectorWrapper]);
 		return;
 	}
 
@@ -51,6 +64,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 			// https://github.com/refined-github/refined-github/issues/6554
 			// Inlined listener because `mouseenter` is too heavy for `delegate`
 			onMouseEnter={updateUrl}
+
 			// Don't enable AJAX on this behavior because we need a full page reload to drop the button, same reason as above #6554
 			// data-turbo-frame="repo-content-turbo-frame"
 		>
@@ -58,13 +72,8 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		</a>
 	);
 
-	// The DOM varies between details-based DOM and React-based one
-	const selectorWrapper = branchSelector.tagName === 'SUMMARY'
-		? branchSelector.parentElement!
-		: branchSelector;
-
 	selectorWrapper.before(defaultLink);
-	groupButtons([defaultLink, selectorWrapper]).classList.add('d-flex', 'rgh-default-branch-button-group');
+	wrapButtons([defaultLink, selectorWrapper]);
 }
 
 function init(signal: AbortSignal): void {

@@ -4,6 +4,7 @@ import {isFirefox} from 'webext-detect';
 import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
+import {expectElement as $} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -31,7 +32,7 @@ function getDropdown(prs: number[]): HTMLElement {
 
 	// TODO: use Popover API when hovercards become compatible #7496
 	return (
-		<details className="dropdown">
+		<details className="dropdown details-reset">
 			<summary className="Button Button--secondary color-fg-muted">
 				{icon}
 				<span className="color-fg-default mx-1">{prs.length}</span>
@@ -125,6 +126,10 @@ async function addToEditingFile(saveButton: HTMLElement): Promise<false | void> 
 
 	const dropdown = getDropdown(prs);
 	dropdown.classList.add('mr-2');
+
+	// Due to https://github.com/refined-github/refined-github/issues/6579
+	$('.dropdown-menu-sw', dropdown).classList.replace('dropdown-menu-sw', 'dropdown-menu-se');
+
 	saveButton.parentElement!.prepend(dropdown);
 
 	fixFileHeaderOverlap(saveButton);
@@ -135,7 +140,7 @@ function initSingleFile(signal: AbortSignal): void {
 }
 
 function initEditingFile(signal: AbortSignal): void {
-	observe('[data-hotkey="Meta+s,Control+s"]', addToEditingFile, {signal});
+	observe('[data-hotkey="Mod+s"]', addToEditingFile, {signal});
 }
 
 void features.add(import.meta.url, {

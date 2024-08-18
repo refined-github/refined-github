@@ -1,4 +1,4 @@
-import {$, $$, elementExists} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import {RequireAtLeastOne} from 'type-fest';
 import {isDefined} from 'ts-extras';
 
@@ -62,12 +62,4 @@ export default function attachElement<NewElement extends Element>(
 		forEach && call('forEach', forEach),
 		// eslint-disable-next-line unicorn/no-array-callback-reference -- It only works this way. TS, AMIRITE?
 	].filter(isDefined);
-}
-
-export function attachElements<NewElement extends Element>(anchors: string | string[], {
-	className = 'rgh-' + getCallerID(),
-	...options
-}: Attachment<NewElement>): NewElement[] {
-	return $$(`:is(${String(anchors)}):not(.${className})`)
-		.flatMap(anchor => attachElement(anchor, {...options, className}));
 }

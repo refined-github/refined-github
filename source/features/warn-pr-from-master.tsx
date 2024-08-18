@@ -38,3 +38,13 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh',
 	init,
 });
+
+/*
+
+Test URLs:
+
+- Simple: https://github.com/refined-github/refined-github/compare/main...fregante:main
+- Renamed fork and changed default branch: https://github.com/refined-github/sandbox/compare/default-a...bfred-it-org:github-sandbox:main?expand=1
+- Non-standard default name: https://github.com/refined-github/refined-github/compare/sandbox/keep-branch...yakov116:upstream
+
+*/

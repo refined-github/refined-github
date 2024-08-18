@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 
 import pluralize from './pluralize.js';
 import featureLink from './feature-link.js';
-import {importedFeatures} from '../../readme.md';
+import {importedFeatures} from '../feature-data.js';
 
 export const state = new CachedValue<FeatureID[]>('bisect', {maxAge: {minutes: 15}});
 

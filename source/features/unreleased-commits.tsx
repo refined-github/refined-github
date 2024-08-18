@@ -41,9 +41,9 @@ function canUserCreateReleases(): boolean {
 	return elementExists('nav [data-content="Settings"]');
 }
 
-export const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
+const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
 
-export const repoPublishState = new CachedFunction('tag-ahead-by', {
+const repoPublishState = new CachedFunction('tag-ahead-by', {
 	async updater(): Promise<RepoPublishState> {
 		const {repository} = await api.v4(getPublishRepoState);
 

@@ -2,11 +2,17 @@
 	"envs": [
 		"browser"
 	],
-	"extends": "xo-react",
+	"extends": [
+		"xo-react",
+		"plugin:@vitest/legacy-recommended"
+	],
 	"globals": [
 		"browser"
 	],
+	"plugins": ["@vitest"],
+	"nodeVersion": false,
 	"rules": {
+		"@vitest/expect-expect": "off",
 		"jsx-quotes": [
 			"error",
 			"prefer-double"
@@ -48,8 +54,6 @@
 			}
 		],
 		"n/prefer-global/process": "off",
-		"n/no-unsupported-features/node-builtins": "off",
-		"n/file-extension-in-import": "off",
 		"import/no-cycle": "off",
 		"import/no-unassigned-import": "off",
 		"import/prefer-default-export": "error",
@@ -75,11 +79,11 @@
 	},
 	"overrides": [
 		{
+			"nodeVersion": "20",
 			"files": [
 				"build/*"
 			],
 			"rules": {
-				"n/no-unsupported-features/node-builtins": "error",
 				"@typescript-eslint/triple-slash-reference": "off",
 				"unicorn/prefer-module": "off"
 			}

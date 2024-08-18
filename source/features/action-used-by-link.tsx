@@ -33,3 +33,11 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh',
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/marketplace/actions/title-replacer
+
+*/

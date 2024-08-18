@@ -8,6 +8,7 @@
 		"moduleResolution": "node16",
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
+		"resolveJsonModule": true,
 		"lib": [
 			"DOM",
 			"DOM.Iterable",

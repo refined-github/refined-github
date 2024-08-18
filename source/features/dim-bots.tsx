@@ -27,7 +27,8 @@ function undimBots(event: DelegateEvent): void {
 
 function dim(commit: HTMLElement): void {
 	commit.closest([
-		'.listviewitem', // Commits
+		'[data-testid="commit-row-item"]',
+
 		'.Box-row', // PRs
 	])!.classList.add(dimBots.class);
 }
