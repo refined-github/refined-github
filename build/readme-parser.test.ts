@@ -5,6 +5,12 @@ import {
 	getImportedFeatures,
 } from './readme-parser.js';
 
+// Re-run tests when these files change https://github.com/vitest-dev/vitest/discussions/5864
+void import.meta.glob([
+	'../readme.md',
+	'../source/refined-github.ts',
+]);
+
 function jsonify(value: unknown): string {
 	return JSON.stringify(
 		value,

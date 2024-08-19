@@ -78,7 +78,6 @@
 	"linkify-branch-references",
 	"linkify-code",
 	"linkify-commit-sha",
-	"linkify-labels-on-dashboard",
 	"linkify-line-numbers",
 	"linkify-notification-repository-header",
 	"linkify-symbolic-links",
