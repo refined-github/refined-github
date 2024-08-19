@@ -30,7 +30,10 @@ const rollup = {
 			watch: true,
 		}),
 		json(),
-		styles({mode: 'extract'}),
+		styles({
+			mode: 'extract',
+			url: false,
+		}),
 		string({
 			include: '**/*.gql',
 		}),
@@ -45,6 +48,7 @@ const rollup = {
 		copy({
 			targets: [
 				{src: './source/manifest.json', dest: 'distribution'},
+				{src: './source/*.+(html|png)', dest: 'distribution/assets'},
 			],
 		}),
 		cleanup(),
