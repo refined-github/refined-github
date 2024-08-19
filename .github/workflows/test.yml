@@ -65,7 +65,9 @@ jobs:
           node-version-file: package.json
           cache: npm
       - run: npm ci
-      - run: RELATIVE_CI_STATS=true npm run build:bundle
+      - run: npm run build:bundle
+        env:
+          RELATIVE_CI_STATS: true
       - name: Send build stats to RelativeCI
         if: matrix.os == 'ubuntu-latest'
         uses: relative-ci/agent-action@v2
