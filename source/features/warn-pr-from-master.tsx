@@ -16,17 +16,25 @@ async function init(): Promise<void> {
 }
 
 async function isCrossRepoCompareFromMaster(): Promise<boolean> {
-	const {nameWithOwner, path} = getRepo()!;
+	const {nameWithOwner, path, name} = getRepo()!;
 	const base = getRepo(nameWithOwner)!;
 
-	// Expected: master...owner:repo:master
-	const ownerRepoBranchParts = path.split('...')[1].split(':');
-	const head = {
-		branch: ownerRepoBranchParts.pop()!,
-		...getRepo(ownerRepoBranchParts.join('/'))!,
-	};
+	const headParts = path.split('...')[1].split(':');
+	const headBranch = headParts.pop();
+	let [headOwner, headRepo] = headParts;
 
-	return head.owner !== base.owner && head.branch === await defaultBranchOfRepo.get(head);
+	/**
+	 * There is two possible formats for the head repo:
+	 * - owner:branch
+	 * - owner:repo:branch
+	 */
+	if(!headRepo) {
+		headRepo = name;
+	}
+
+	const head = getRepo(`${headOwner}/${headRepo}`)!;
+
+	return head.owner !== base.owner && headBranch === await defaultBranchOfRepo.get(head);
 }
 
 void features.add(import.meta.url, {
