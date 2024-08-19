@@ -24,7 +24,7 @@ function init(signal: AbortSignal): void {
 	delegate([
 		'#issue_title',
 		'#pull_request_title',
-	], 'input', validatePrTitle, {signal, passive: true});
+	].join(', '), 'input', validatePrTitle, {signal, passive: true});
 }
 
 void features.add(import.meta.url, {
