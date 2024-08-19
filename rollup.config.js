@@ -8,6 +8,7 @@ import alias from '@rollup/plugin-alias';
 import json from '@rollup/plugin-json';
 import copy from 'rollup-plugin-copy';
 import clear from 'rollup-plugin-clear';
+import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
 
 /** @type {import('rollup').RollupOptions} */
 const rollup = {
@@ -49,5 +50,9 @@ const rollup = {
 		cleanup(),
 	],
 };
+
+if (process.env.CI) {
+	rollup.plugins.push(webpackStatsPlugin());
+}
 
 export default rollup;

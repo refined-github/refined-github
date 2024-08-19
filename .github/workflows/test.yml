@@ -65,11 +65,21 @@ jobs:
           node-version-file: package.json
           cache: npm
       - run: npm ci
+      - run: npm run build:bundle
+      - name: Send build stats to RelativeCI
+        if: matrix.os == 'ubuntu-latest'
+        uses: relative-ci/agent-action@v2
+        with:
+          token: ${{ github.token }}
+          webpackStatsFile: ./distribution/assets/webpack-stats.json
+          key: ${{ secrets.RELATIVE_CI_KEY }}
       - uses: actions/upload-artifact@v4
         if: matrix.os == 'ubuntu-latest'
         with:
           name: refined-github
-          path: distribution
+          path: |
+            distribution
+            !./distribution/assets/webpack-stats.json
 
   Safari:
     runs-on: macos-13
