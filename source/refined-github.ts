@@ -122,7 +122,6 @@ import './features/one-click-pr-or-gist.js';
 import './features/dim-bots.js';
 import './features/conflict-marker.js';
 import './features/html-preview-link.js';
-import './features/linkify-labels-on-dashboard.js';
 import './features/linkify-user-location.js';
 import './features/repo-age.js';
 import './features/user-local-time.js';
