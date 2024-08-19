@@ -80,7 +80,8 @@ async function updateView(button: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('[data-testid="latest-commit-details"]', updateView, {signal});
+	// Ensure that commit details are loaded
+	observe('[data-testid="latest-commit-details"] span', updateView, {signal});
 	delegate(`.${toggleButtonClass}, .${noticeClass}`, 'click', toggleHandler, {signal});
 }
 
