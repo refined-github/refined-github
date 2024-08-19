@@ -160,7 +160,8 @@
 		"object.values": "npm:@nolyfill/object.values@^1",
 		"string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@^1",
 		"string.prototype.padend": "npm:@nolyfill/string.prototype.padend@^1",
-		"is-core-module": "npm:@nolyfill/is-core-module@^1"
+		"is-core-module": "npm:@nolyfill/is-core-module@^1",
+		"string.prototype.repeat": "npm:@nolyfill/string.prototype.repeat@^1"
 	},
 	"webExt": {
 		"sourceDir": "distribution",
