@@ -19,18 +19,14 @@ async function isCrossRepoCompareFromMaster(): Promise<boolean> {
 	const {nameWithOwner, path, name} = getRepo()!;
 	const base = getRepo(nameWithOwner)!;
 
-	const headParts = path.split('...')[1].split(':');
-	const headBranch = headParts.pop();
-	let [headOwner, headRepo] = headParts;
-
 	/**
 	 * There is two possible formats for the head repo:
 	 * - owner:branch
 	 * - owner:repo:branch
 	 */
-	if(!headRepo) {
-		headRepo = name;
-	}
+	const headParts = path.split('...')[1].split(':');
+	const headBranch = headParts.pop();
+	const [headOwner, headRepo = name] = headParts;
 
 	const head = getRepo(`${headOwner}/${headRepo}`)!;
 
