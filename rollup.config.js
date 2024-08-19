@@ -51,7 +51,7 @@ const rollup = {
 	],
 };
 
-if (process.env.CI) {
+if (process.env.RELATIVE_CI_STATS) {
 	rollup.plugins.push(webpackStatsPlugin());
 }
 
