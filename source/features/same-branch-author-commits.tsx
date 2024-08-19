@@ -1,19 +1,22 @@
-import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
-function init(): void {
-	for (const author of $$('.js-navigation-container a.commit-author')) {
-		author.pathname = location.pathname;
-	}
+const authorLinkSelector = 'a[aria-label^="commits by"]';
+
+function changePath(authorLink: HTMLAnchorElement): void {
+	authorLink.pathname = location.pathname;
+}
+
+function init(signal: AbortSignal): void {
+	observe(authorLinkSelector, changePath, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoCommitList,
 	],
-	awaitDomReady: true, // Small page
 	init,
 });
 
