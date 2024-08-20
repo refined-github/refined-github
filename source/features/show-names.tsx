@@ -23,10 +23,8 @@ async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise
 	const myUsername = getUsername();
 	batchedUsernameElements = batchedUsernameElements.filter(element => {
 		const name = element.textContent;
-
-		// https://github.com/refined-github/refined-github/issues/7699
 		if (!name) {
-			console.warn('Error', element);
+			console.warn('show-names has a bug: ttps://github.com/refined-github/refined-github/issues/7699', element);
 			throw new Error('Failed to get textContent in the element');
 		}
 
