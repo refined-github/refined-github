@@ -2,7 +2,6 @@ import './show-names.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import batchedFunction from 'batched-function';
-import reservedNames from 'github-reserved-names/reserved-names.json';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -19,56 +18,61 @@ function dropExtraCopy(element: HTMLAnchorElement): void {
 	}
 }
 
+function addName(username: string, fullName: string, element: HTMLAnchorElement): void {
+	if (isUsernameAlreadyFullName(username, fullName)) {
+		element.textContent = fullName;
+		return;
+	}
+
+	// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
+	const {parentElement} = element;
+	const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : element;
+
+	// This change is ideal but should not break the feature if it fails
+	// And it should be done before inserting the name
+	try {
+		dropExtraCopy(element);
+	} catch (error) {
+		features.log.error(import.meta.url, error);
+	}
+
+	insertionPoint.after(
+		' ',
+		<span className="color-fg-muted css-truncate d-inline-block">
+			(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{name}</bdo>)
+		</span>,
+		' ',
+	);
+}
+
 async function updateLink(found: HTMLAnchorElement[]): Promise<void> {
-	const myUsername = getUsername();
-	const entries = found
-		.filter(({textContent: name}) => name !== myUsername && !reservedNames.includes(name))
-		.map(element => [element, element.textContent] as const);
-	const users = new Map(entries);
+	// eslint-disable-next-line no-use-extend-native/no-use-extend-native -- Sigh
+	const users = Map.groupBy(found, element => element.textContent.trim());
+	users.delete(getUsername()!);
+	users.delete('ghost'); // Considere using `github-reserved-names` if more exclusions are needed
 
 	if (users.size === 0) {
 		return;
 	}
 
 	const names = await api.v4(
-		[...users.values()].map(user =>
-			api.escapeKey(user) + `: user(login: "${user}") {name}`,
+		[...users.keys()].map(username =>
+			api.escapeKey(username) + `: user(login: "${username}") {name}`,
 		).join(','),
 	);
 
-	for (const [element, username] of users) {
+	for (const [username, elements] of users) {
 		const userKey = api.escapeKey(username);
-		const {name} = names[userKey];
+		const {name: fullName} = names[userKey];
 
 		// Could be `null` if not set
-		if (!name) {
+		if (!fullName) {
 			continue;
 		}
 
-		if (isUsernameAlreadyFullName(username, name)) {
-			element.textContent = name;
-			continue;
+		for (const element of elements) {
+			addName(username, fullName, element);
 		}
-
-		// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
-		const {parentElement} = element;
-		const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : element;
-
-		// This change is ideal but should not break the feature if it fails
-		// And it should be done before inserting the name
-		try {
-			dropExtraCopy(element);
-		} catch (error) {
-			features.log.error(import.meta.url, error);
-		}
-
-		insertionPoint.after(
-			' ',
-			<span className="color-fg-muted css-truncate d-inline-block">
-				(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{name}</bdo>)
-			</span>,
-			' ',
-		);
 	}
 }
 
