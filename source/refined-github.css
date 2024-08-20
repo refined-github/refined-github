@@ -173,3 +173,10 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 	position: relative;
 	z-index: 5;
 }
+
+/* Increase size of profile picture in user hovercard by 1.5x (default is 48px) #7695 */
+/* Test: https://github.com/refined-github/refined-github */
+.user-hovercard-avatar > img.d-block.avatar-user {
+	width: 72px;
+	height: 72px;
+}

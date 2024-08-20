@@ -18,6 +18,7 @@
 :is(
 		#commit-summary-input,
 		#merge_title_field,
+		#pull_request_title,
 		#issue_title
 	).rgh-title-over-limit {
 	border-color: var(--rgh-limit-color);
@@ -27,6 +28,7 @@
 :is(
 		#commit-summary-input,
 		#merge_title_field,
+		#pull_request_title,
 		#issue_title
 	).rgh-title-over-limit:focus {
 	box-shadow:
