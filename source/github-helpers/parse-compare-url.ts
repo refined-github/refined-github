@@ -14,14 +14,14 @@ type Comparison = {
 	isCrossRepo: boolean;
 };
 
-export default async function parseCompareUrl(): Promise<Comparison> {
-	const baseRepo = getRepo()!;
+export default function parseCompareUrl(pathname: string): Comparison {
+	const baseRepo = getRepo(pathname)!;
 
 	const {
 		baseBranch,
 		headRepo,
 		headBranch,
-	} = await parseComparisonPath(baseRepo);
+	} = parseComparisonPath(baseRepo);
 
 	return {
 		base: {
@@ -36,11 +36,11 @@ export default async function parseCompareUrl(): Promise<Comparison> {
 	};
 }
 
-async function parseComparisonPath(baseRepo: RepositoryInfo): Promise<{
+function parseComparisonPath(baseRepo: RepositoryInfo): {
 	baseBranch: string;
 	headRepo: RepositoryInfo;
 	headBranch: string;
-}> {
+} {
 	const headRepo = {...baseRepo};
 	// Path: compare
 	let headBranch: string | undefined;

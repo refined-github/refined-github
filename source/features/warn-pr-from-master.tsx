@@ -16,7 +16,7 @@ async function init(): Promise<void> {
 }
 
 async function isCrossRepoCompareFromMaster(): Promise<boolean> {
-	const {isCrossRepo, head} = await parseCompareUrl();
+	const {isCrossRepo, head} = parseCompareUrl(location.pathname);
 	return isCrossRepo && head.branch === await defaultBranchOfRepo.get(head.repo);
 }
 
