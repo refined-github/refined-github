@@ -4,7 +4,7 @@ import elementReady from 'element-ready';
 
 import features from '../feature-manager.js';
 import parseCompareUrl from '../github-helpers/parse-compare-url.js';
-import { defaultBranchOfRepo } from '../github-helpers/get-default-branch.js';
+import {defaultBranchOfRepo} from '../github-helpers/get-default-branch.js';
 
 async function init(): Promise<void> {
 	const anchor = await elementReady('.js-compare-pr');
@@ -15,9 +15,9 @@ async function init(): Promise<void> {
 	);
 }
 
-async function isCrossRepoCompareFromMaster() {
-  const {isCrossRepo, head} = await parseCompareUrl()
-  return isCrossRepo && head.branch === await defaultBranchOfRepo.get(head)
+async function isCrossRepoCompareFromMaster(): Promise<boolean> {
+	const {isCrossRepo, head} = await parseCompareUrl();
+	return isCrossRepo && head.branch === await defaultBranchOfRepo.get(head.repo);
 }
 
 void features.add(import.meta.url, {
