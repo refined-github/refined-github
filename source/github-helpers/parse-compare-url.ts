@@ -56,24 +56,13 @@ function parseComparisonPath(base: RepositoryInfo): undefined | {
 	const [, baseBranch, heads] = match;
 
 	const headParts = heads.split(':');
-	switch (headParts.length) {
-		case 1: {
-			// Path: compare/main...branch (same repo)
-			return {baseBranch, head: base.nameWithOwner as NameWithOwner, headBranch: headParts[0]};
-		}
+	const headBranch = headParts.pop()!; // Branch is always last, or the only one
+	const headOwner = headParts.shift() ?? base.owner; // The owner is first, or it's the same as the base
+	const headRepo = headParts.pop() ?? base.name; // The repo is first or middle, or it's the same as the base
 
-		case 2: {
-			// Path: compare/branch...user:branch (cross repo)
-			return {baseBranch, head: `${headParts[0]}/${base.name}`, headBranch: headParts[1]};
-		}
-
-		case 3: {
-			// Path: compare/main...user:repo:branch (cross repo, renamed repo)
-			return {baseBranch, head: `${headParts[0]}/${headParts[1]}`, headBranch: headParts[2]};
-		}
-
-		default: {
-			throw new Error('Invalid compare URL format');
-		}
+	if (headParts.length > 0) {
+		throw new Error('Invalid compare URL format');
 	}
+
+	return {baseBranch, head: `${headOwner}/${headRepo}`, headBranch};
 }
