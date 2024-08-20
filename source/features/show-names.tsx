@@ -2,6 +2,7 @@ import './show-names.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import batchedFunction from 'batched-function';
+import reservedNames from 'github-reserved-names/reserved-names.json';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -18,24 +19,24 @@ function dropExtraCopy(element: HTMLAnchorElement): void {
 	}
 }
 
-// The selector observer calls this function several times, but we want to batch them into a single GraphQL API call
-async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise<void> {
+async function updateLink(found: HTMLAnchorElement[]): Promise<void> {
 	const myUsername = getUsername();
-	batchedUsernameElements = batchedUsernameElements.filter(({textContent: name}) => name !== myUsername && name !== 'ghost');
-	const usernames = new Set(batchedUsernameElements.map(element => element.textContent));
+	const entries = found
+		.filter(({textContent: name}) => name !== myUsername && !reservedNames.includes(name))
+		.map(element => [element, element.textContent] as const);
+	const users = new Map(entries);
 
-	if (usernames.size === 0) {
+	if (users.size === 0) {
 		return;
 	}
 
 	const names = await api.v4(
-		[...usernames].map(user =>
+		[...users.values()].map(user =>
 			api.escapeKey(user) + `: user(login: "${user}") {name}`,
 		).join(','),
 	);
 
-	for (const usernameElement of batchedUsernameElements) {
-		const username = usernameElement.textContent;
+	for (const [element, username] of users) {
 		const userKey = api.escapeKey(username);
 		const {name} = names[userKey];
 
@@ -45,18 +46,18 @@ async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise
 		}
 
 		if (isUsernameAlreadyFullName(username, name)) {
-			usernameElement.textContent = name;
+			element.textContent = name;
 			continue;
 		}
 
 		// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
-		const {parentElement} = usernameElement;
-		const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : usernameElement;
+		const {parentElement} = element;
+		const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : element;
 
 		// This change is ideal but should not break the feature if it fails
 		// And it should be done before inserting the name
 		try {
-			dropExtraCopy(usernameElement);
+			dropExtraCopy(element);
 		} catch (error) {
 			features.log.error(import.meta.url, error);
 		}
