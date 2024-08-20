@@ -36,7 +36,7 @@ async function updateLink(found: HTMLAnchorElement[]): Promise<void> {
 	// eslint-disable-next-line no-use-extend-native/no-use-extend-native -- Sigh
 	const users = Map.groupBy(found, element => element.textContent.trim());
 	users.delete(getUsername()!);
-	users.delete('ghost'); // Considere using `github-reserved-names` if more exclusions are needed
+	users.delete('ghost'); // Consider using `github-reserved-names` if more exclusions are needed
 
 	if (users.size === 0) {
 		return;

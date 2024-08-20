@@ -7,8 +7,8 @@
 		"lib": [
 			"DOM",
 			"DOM.Iterable",
-			"ES2023",
-			"ESNext.Collection"
+			"ESNext.Collection",
+			"ES2023"
 		],
 	},
 	"include": [
