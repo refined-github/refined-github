@@ -18,7 +18,6 @@ function dropExtraCopy(element: HTMLAnchorElement): void {
 	}
 }
 
-// The selector observer calls this function several times, but we want to batch them into a single GraphQL API call
 async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise<void> {
 	const myUsername = getUsername();
 	batchedUsernameElements = batchedUsernameElements.filter(element => {
