@@ -3,8 +3,8 @@ import * as pageDetect from 'github-url-detection';
 import elementReady from 'element-ready';
 
 import features from '../feature-manager.js';
-import {getRepo} from '../github-helpers/index.js';
-import {defaultBranchOfRepo} from '../github-helpers/get-default-branch.js';
+import parseCompareUrl from '../github-helpers/parse-compare-url.js';
+import { defaultBranchOfRepo } from '../github-helpers/get-default-branch.js';
 
 async function init(): Promise<void> {
 	const anchor = await elementReady('.js-compare-pr');
@@ -15,22 +15,9 @@ async function init(): Promise<void> {
 	);
 }
 
-async function isCrossRepoCompareFromMaster(): Promise<boolean> {
-	const {nameWithOwner, path, name} = getRepo()!;
-	const base = getRepo(nameWithOwner)!;
-
-	/**
-	 * There is two possible formats for the head repo:
-	 * - owner:branch
-	 * - owner:repo:branch
-	 */
-	const headParts = path.split('...')[1].split(':');
-	const headBranch = headParts.pop();
-	const [headOwner, headRepo = name] = headParts;
-
-	const head = getRepo(`${headOwner}/${headRepo}`)!;
-
-	return head.owner !== base.owner && headBranch === await defaultBranchOfRepo.get(head);
+async function isCrossRepoCompareFromMaster() {
+  const {isCrossRepo, head} = await parseCompareUrl()
+  return isCrossRepo && head.branch === await defaultBranchOfRepo.get(head)
 }
 
 void features.add(import.meta.url, {
