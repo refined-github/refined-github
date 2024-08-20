@@ -34,7 +34,6 @@ import './features/clean-rich-text-editor.js';
 import './features/useful-not-found-page.js';
 import './features/more-dropdown-links.js';
 import './features/releases-tab.js';
-import './features/comment-fields-keyboard-shortcuts.js';
 import './features/one-key-formatting.js';
 import './features/tab-to-indent.js';
 import './features/hide-navigation-hover-highlight.js';

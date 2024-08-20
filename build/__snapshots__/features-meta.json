@@ -130,11 +130,6 @@
 		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/4e4660f9-c987-4b0d-82ca-56ef29952c31"
 	},
 	{
-		"id": "comment-fields-keyboard-shortcuts",
-		"description": "Adds a shortcut to edit your last comment: <kbd>↑</kbd>. (Only works in the following comment field, if it’s empty.)",
-		"screenshot": null
-	},
-	{
 		"id": "comments-time-machine-links",
 		"description": "Adds links to browse the repository and linked files at the time of each comment.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252749373-9313f1d9-3d92-44a2-a1d1-2b49a29e6a5c.png"
