@@ -4,7 +4,7 @@ import parseCompareUrl from './parse-compare-url.js';
 
 const base = {
 	branch: 'main',
-	nameWithOwner: 'john/recipes',
+	repo: 'john/recipes',
 };
 
 test('parseCompareUrl', () => {
@@ -14,7 +14,7 @@ test('parseCompareUrl', () => {
 		base,
 		head: {
 			branch: 'patch-1',
-			nameWithOwner: 'john/recipes',
+			repo: 'john/recipes',
 		},
 		isCrossRepo: false,
 	});
@@ -22,7 +22,7 @@ test('parseCompareUrl', () => {
 		base,
 		head: {
 			branch: 'patch-1',
-			nameWithOwner: 'patty/recipes',
+			repo: 'patty/recipes',
 		},
 		isCrossRepo: true,
 	});
@@ -30,7 +30,7 @@ test('parseCompareUrl', () => {
 		base,
 		head: {
 			branch: 'pizza',
-			nameWithOwner: 'maria/ricette',
+			repo: 'maria/ricette',
 		},
 		isCrossRepo: true,
 	});

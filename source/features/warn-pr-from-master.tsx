@@ -19,7 +19,7 @@ async function isCrossRepoCompareFromMaster(): Promise<boolean> {
 	const c = parseCompareUrl(location.pathname);
 
 	// eslint-disable-next-line no-implicit-coercion -- TS preference
-	return !!c && c.isCrossRepo && c.head.branch === await defaultBranchOfRepo.get(c.head.nameWithOwner);
+	return !!c && c.isCrossRepo && c.head.branch === await defaultBranchOfRepo.get(c.head.repo);
 }
 
 void features.add(import.meta.url, {

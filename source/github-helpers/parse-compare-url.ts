@@ -2,11 +2,11 @@ import {getRepo, NameWithOwner} from './index.js';
 
 type Comparison = {
 	head: {
-		nameWithOwner: NameWithOwner;
+		repo: NameWithOwner;
 		branch: string;
 	};
 	base: {
-		nameWithOwner: NameWithOwner;
+		repo: NameWithOwner;
 		branch: string;
 	};
 	isCrossRepo: boolean;
@@ -34,11 +34,11 @@ export default function parseCompareUrl(pathname: string): Comparison | undefine
 
 	return {
 		base: {
-			nameWithOwner: base.nameWithOwner as NameWithOwner,
+			repo: base.nameWithOwner as NameWithOwner,
 			branch: baseBranch,
 		},
 		head: {
-			nameWithOwner: headRepo,
+			repo: headRepo,
 			branch: headBranch,
 		},
 		isCrossRepo: headRepo !== base.nameWithOwner,
