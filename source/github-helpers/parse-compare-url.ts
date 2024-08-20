@@ -1,14 +1,14 @@
 import {RepositoryInfo} from 'github-url-detection';
 
-import {getRepo} from './index.js';
+import {getRepo, NameWithOwner} from './index.js';
 
 type Comparison = {
 	head: {
-		repo: RepositoryInfo;
+		nameWithOwner: NameWithOwner;
 		branch: string;
 	};
 	base: {
-		repo: RepositoryInfo;
+		nameWithOwner: NameWithOwner;
 		branch: string;
 	};
 	isCrossRepo: boolean;
@@ -24,74 +24,56 @@ export default function parseCompareUrl(pathname: string): Comparison | undefine
 
 	const {
 		baseBranch,
-		headRepo,
+		head: headRepo,
 		headBranch,
 	} = comparison;
 
 	return {
 		base: {
-			repo: baseRepo,
+			nameWithOwner: baseRepo.nameWithOwner as NameWithOwner,
 			branch: baseBranch,
 		},
 		head: {
-			repo: headRepo,
+			nameWithOwner: headRepo,
 			branch: headBranch,
 		},
-		isCrossRepo: headRepo.nameWithOwner !== baseRepo.nameWithOwner,
+		isCrossRepo: headRepo !== baseRepo.nameWithOwner,
 	};
 }
 
-function parseComparisonPath(baseRepo: RepositoryInfo): undefined | {
+const compareRegex = /compare\/([^.]+)(?:\.{2,3})(.+)?/;
+
+function parseComparisonPath(base: RepositoryInfo): undefined | {
 	baseBranch: string;
-	headRepo: RepositoryInfo;
+	head: NameWithOwner;
 	headBranch: string;
 } {
-	const headRepo = {...baseRepo};
-	// Path: compare
-	let headBranch: string | undefined;
-
-	const pathname = baseRepo.path;
-
-	const compareRegex = /compare\/([^.]+)(\.{2,3})(.+)?/;
-	const match = compareRegex.exec(pathname);
-
+	const match = compareRegex.exec(base.path);
 	if (!match) {
 		return;
 	}
 
-	const [, baseBranch, , heads] = match;
-
-	// Path: compare/main or compare/test/bun, heads is undefined
-	if (!heads) {
-		return {baseBranch, headRepo, headBranch: baseBranch};
-	}
+	const [, baseBranch, heads] = match;
 
 	const headParts = heads.split(':');
 	switch (headParts.length) {
 		case 1: {
-			// Path: compare/main...test/bun
-			headBranch = headParts[0];
-			break;
+			// Path: compare/main...branch (same repo)
+			return {baseBranch, head: base.nameWithOwner as NameWithOwner, headBranch: headParts[0]};
 		}
 
 		case 2: {
-			// Path: compare/sandbox/keep-branch...yakov116:upstream
-			[headRepo.owner, headBranch] = headParts;
-			headRepo.nameWithOwner = `${headRepo.owner}/${headRepo.name}`;
-			break;
+			// Path: compare/branch...user:branch (cross repo)
+			return {baseBranch, head: `${headParts[0]}/${base.name}`, headBranch: headParts[1]};
 		}
 
 		case 3: {
-			// Path: compare/main...refined-github:refined-github:rollup
-			[headRepo.owner, headRepo.name, headBranch] = headParts;
-			headRepo.nameWithOwner = `${headRepo.owner}/${headRepo.name}`;
-			break;
+			// Path: compare/main...user:repo:branch (cross repo, renamed repo)
+			return {baseBranch, head: `${headParts[0]}/${headParts[1]}`, headBranch: headParts[2]};
 		}
 
 		default: {
 			throw new Error('Invalid compare URL format');
 		}
 	}
-
-	return {baseBranch, headRepo, headBranch};
 }
