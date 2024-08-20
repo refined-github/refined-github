@@ -50,7 +50,7 @@
 		"code-tag": "^1.2.0",
 		"debounce-fn": "^6.0.0",
 		"delay": "^6.0.0",
-		"delegate-it": "^6.1.0",
+		"delegate-it": "^6.2.0",
 		"dom-chef": "^5.1.1",
 		"dom-loaded": "^3.0.0",
 		"doma": "^4.0.0",

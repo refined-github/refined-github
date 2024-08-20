@@ -50,7 +50,7 @@ const inputElements = [
 ];
 
 function init(signal: AbortSignal): void {
-	delegate(inputElements.join(','), 'keydown', onKeyDown, {signal});
+	delegate(inputElements, 'keydown', onKeyDown, {signal});
 }
 
 void features.add(import.meta.url, {

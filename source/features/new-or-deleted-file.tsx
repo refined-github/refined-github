@@ -19,7 +19,7 @@ function add(filename: HTMLAnchorElement): void {
 		return;
 	}
 
-	const icon = $('.octicon-diff-removed, .octicon-diff-added', fileInList)
+	const icon = $(['.octicon-diff-removed', '.octicon-diff-added'], fileInList)
 		?.cloneNode(true);
 	if (icon) {
 		// `span` needed for native vertical alignment
