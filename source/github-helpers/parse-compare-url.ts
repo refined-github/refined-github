@@ -1,7 +1,6 @@
 import {RepositoryInfo} from 'github-url-detection';
 
 import {getRepo} from './index.js';
-import {defaultBranchOfRepo} from './get-default-branch.js';
 
 type Comparison = {
 	head: {
@@ -44,8 +43,7 @@ async function parseComparisonPath(baseRepo: RepositoryInfo): Promise<{
 }> {
 	const headRepo = {...baseRepo};
 	// Path: compare
-	let baseBranch = await defaultBranchOfRepo.get(baseRepo);
-	let headBranch = baseBranch;
+	let headBranch: string | undefined;
 
 	const pathname = baseRepo.path;
 
@@ -56,8 +54,7 @@ async function parseComparisonPath(baseRepo: RepositoryInfo): Promise<{
 		throw new Error('Invalid compare URL format');
 	}
 
-	let heads: string | undefined;
-	[, baseBranch, , heads] = match;
+	const [, baseBranch, , heads] = match;
 
 	// Path: compare/main or compare/test/bun, heads is undefined
 	if (!heads) {
@@ -93,4 +90,3 @@ async function parseComparisonPath(baseRepo: RepositoryInfo): Promise<{
 
 	return {baseBranch, headRepo, headBranch};
 }
-
