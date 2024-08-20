@@ -26,7 +26,7 @@ export default function parseCompareUrl(pathname: string): Comparison | undefine
 		baseBranch,
 		headRepo,
 		headBranch,
-	} = comparison
+	} = comparison;
 
 	return {
 		base: {
