@@ -139,7 +139,7 @@ export const commitHashLinkInLists = [
 	'[aria-label="View commit details"] a.text-mono', // `isCommitList`
 	'a[id^="commit-details-"]', // `isPRCommitList`
 	'.js-details-container .text-right code a.Link--secondary', // `isPRConversation`
-] as unknown as 'a';
+] as unknown as Array<'a'>;
 export const commitHashLinkInLists_ = [
 	[35, 'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174'],
 	[4, 'https://github.com/refined-github/refined-github/pull/6194/commits'],
@@ -208,5 +208,5 @@ export const usernameLinksSelector = [
 	// `.Link--primary` excludes avatars
 	// [aria-label="card content"] excludes links in cards #6530 #6915
 	'#dashboard a.Link--primary[data-hovercard-type="user"]:not([aria-label="card content"] *)',
-] as const;
+] as unknown as Array<'a'>;
 
