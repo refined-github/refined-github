@@ -36,7 +36,6 @@ export default async function parseCompareUrl(): Promise<Comparison> {
 		isCrossRepo: headRepo.nameWithOwner !== baseRepo.nameWithOwner,
 	});
 
-
 	return {
 		base: {
 			repo: baseRepo,
@@ -50,8 +49,12 @@ export default async function parseCompareUrl(): Promise<Comparison> {
 	};
 }
 
-async function parseComparisonPath(baseRepo: RepositoryInfo) {
-	const headRepo = {...baseRepo}
+async function parseComparisonPath(baseRepo: RepositoryInfo): Promise<{
+	baseBranch: string;
+	headRepo: RepositoryInfo;
+	headBranch: string;
+}> {
+	const headRepo = {...baseRepo};
 	// Path: compare
 	let baseBranch = await defaultBranchOfRepo.get(baseRepo);
 	let headBranch = baseBranch;
@@ -66,11 +69,11 @@ async function parseComparisonPath(baseRepo: RepositoryInfo) {
 	}
 
 	let heads: string | undefined;
-	[ , baseBranch, , heads ] = match;
+	[, baseBranch, , heads] = match;
 
 	// Path: compare/main or compare/test/bun, heads is undefined
 	if (!heads) {
-		return { baseBranch, headRepo, headBranch: baseBranch };
+		return {baseBranch, headRepo, headBranch: baseBranch};
 	}
 
 	const headParts = heads.split(':');
@@ -80,22 +83,26 @@ async function parseComparisonPath(baseRepo: RepositoryInfo) {
 			headBranch = headParts[0];
 			break;
 		}
+
 		case 2: {
 			// Path: compare/sandbox/keep-branch...yakov116:upstream
 			[headRepo.owner, headBranch] = headParts;
 			headRepo.nameWithOwner = `${headRepo.owner}/${headRepo.name}`;
 			break;
 		}
+
 		case 3: {
 			// Path: compare/main...refined-github:refined-github:rollup
 			[headRepo.owner, headRepo.name, headBranch] = headParts;
 			headRepo.nameWithOwner = `${headRepo.owner}/${headRepo.name}`;
 			break;
 		}
-		default:
+
+		default: {
 			throw new Error('Invalid compare URL format');
+		}
 	}
 
-	return { baseBranch, headRepo, headBranch };
+	return {baseBranch, headRepo, headBranch};
 }
 
