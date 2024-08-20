@@ -10,10 +10,12 @@ import {botLinksCommitSelectors, botLinksPrSelectors} from '../github-helpers/se
 
 const dimBots = features.getIdentifiers(import.meta.url);
 
+const interactiveElementsSelector = 'a, button, input, [tabindex]';
+
 function undimBots(event: DelegateEvent): void {
 	const target = event.target as HTMLElement;
 	// Only undim when clicking on empty areas
-	if (target.closest('a, button, input, [tabindex]')) {
+	if (target.closest(interactiveElementsSelector)) {
 		return;
 	}
 

@@ -28,7 +28,7 @@ editor.on('changes', (_, [firstChange]) => {
 function getLineNumber(lineChild: Element): number {
 	return Number(
 		lineChild
-			.closest('.CodeMirror-gutter-wrapper, .CodeMirror-linewidget')!
+			.closest(['.CodeMirror-gutter-wrapper', '.CodeMirror-linewidget'])!
 			.parentElement!
 			.querySelector('.CodeMirror-linenumber')!
 			.textContent,
