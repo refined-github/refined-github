@@ -18,28 +18,15 @@ function dropExtraCopy(element: HTMLAnchorElement): void {
 	}
 }
 
-function addName(username: string, fullName: string, element: HTMLAnchorElement): void {
-	if (isUsernameAlreadyFullName(username, fullName)) {
-		element.textContent = fullName;
-		return;
-	}
-
+function appendName(element: HTMLAnchorElement, fullName: string): void {
 	// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
 	const {parentElement} = element;
 	const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : element;
 
-	// This change is ideal but should not break the feature if it fails
-	// And it should be done before inserting the name
-	try {
-		dropExtraCopy(element);
-	} catch (error) {
-		features.log.error(import.meta.url, error);
-	}
-
 	insertionPoint.after(
 		' ',
 		<span className="color-fg-muted css-truncate d-inline-block">
-			(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{name}</bdo>)
+			(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{fullName}</bdo>)
 		</span>,
 		' ',
 	);
@@ -71,7 +58,19 @@ async function updateLink(found: HTMLAnchorElement[]): Promise<void> {
 		}
 
 		for (const element of elements) {
-			addName(username, fullName, element);
+			// This change is ideal but should not break the feature if it fails
+			// And it should be done before inserting the name
+			try {
+				dropExtraCopy(element);
+			} catch (error) {
+				features.log.error(import.meta.url, error);
+			}
+
+			if (isUsernameAlreadyFullName(username, fullName)) {
+				element.textContent = fullName;
+			} else {
+				appendName(element, fullName);
+			}
 		}
 	}
 }
