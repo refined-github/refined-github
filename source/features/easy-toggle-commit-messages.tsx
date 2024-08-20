@@ -24,7 +24,7 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 const commitMessagesSelector = [
 	'.js-commits-list-item',
 	':is(.file-navigation, .js-permalink-shortcut) ~ .Box .Box-header', // Commit message in file tree header
-].join(',');
+];
 
 function init(signal: AbortSignal): void {
 	delegate(commitMessagesSelector, 'click', toggleCommitMessage, {signal});
