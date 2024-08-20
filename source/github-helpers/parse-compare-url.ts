@@ -24,18 +24,6 @@ export default async function parseCompareUrl(): Promise<Comparison> {
 		headBranch,
 	} = await parseComparisonPath(baseRepo);
 
-	console.log({
-		base: {
-			repo: baseRepo,
-			branch: baseBranch,
-		},
-		head: {
-			repo: headRepo,
-			branch: headBranch,
-		},
-		isCrossRepo: headRepo.nameWithOwner !== baseRepo.nameWithOwner,
-	});
-
 	return {
 		base: {
 			repo: baseRepo,
