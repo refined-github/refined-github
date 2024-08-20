@@ -56,3 +56,14 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+- Any comment box and issue/PR title: https://github.com/refined-github/sandbox/issues/3
+- Gist title: https://gist.github.com
+- Commit title when editing files: https://github.com/refined-github/sandbox/edit/default-a/editable
+- Commit title when deleting files: https://github.com/refined-github/sandbox/delete/default-a/editable
+
+*/
