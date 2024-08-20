@@ -187,3 +187,26 @@ export const botLinksPrSelectors = [
 	'.opened-by [href*="author%3Aapp%2F"]', // Search query `is:pr+author:app/*`
 	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
 ];
+
+export const usernameLinksSelector = [
+	// `a` selector needed to skip commits by non-GitHub users
+	// # targets mannequins #6504
+	`:is(
+		.js-discussion,
+		.inline-comments
+	) a.author:not(
+		[href="#"],
+		[href*="/apps/"],
+		[href*="/marketplace/"],
+		[data-hovercard-type="organization"],
+		[show_full_name="true"]
+	)`,
+	// GHE sometimes shows the full name already:
+	// https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
+
+	// On dashboard
+	// `.Link--primary` excludes avatars
+	// [aria-label="card content"] excludes links in cards #6530 #6915
+	'#dashboard a.Link--primary[data-hovercard-type="user"]:not([aria-label="card content"] *)',
+] as const;
+

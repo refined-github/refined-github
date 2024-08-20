@@ -8,11 +8,12 @@ import api from '../github-helpers/api.js';
 import {getUsername, isUsernameAlreadyFullName} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
+import {usernameLinksSelector} from '../github-helpers/selectors.js';
 
-function dropExtraCopy(element: HTMLAnchorElement): void {
+async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 	// Drop 'commented' label to shorten the copy
-	const commentedNode = element.parentNode!.nextSibling;
-	if (element.closest('.timeline-comment-header') && commentedNode) {
+	const commentedNode = link.parentNode!.nextSibling;
+	if (link.closest('.timeline-comment-header') && commentedNode) {
 		// "left a comment" appears in the main comment of reviews
 		removeTextNodeContaining(commentedNode, /commented|left a comment/);
 	}
@@ -32,7 +33,7 @@ function appendName(element: HTMLAnchorElement, fullName: string): void {
 	);
 }
 
-async function updateLink(found: HTMLAnchorElement[]): Promise<void> {
+async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 	// eslint-disable-next-line no-use-extend-native/no-use-extend-native -- Sigh
 	const users = Map.groupBy(found, element => element.textContent.trim());
 	users.delete(getUsername()!);
@@ -58,14 +59,6 @@ async function updateLink(found: HTMLAnchorElement[]): Promise<void> {
 		}
 
 		for (const element of elements) {
-			// This change is ideal but should not break the feature if it fails
-			// And it should be done before inserting the name
-			try {
-				dropExtraCopy(element);
-			} catch (error) {
-				features.log.error(import.meta.url, error);
-			}
-
 			if (isUsernameAlreadyFullName(username, fullName)) {
 				element.textContent = fullName;
 			} else {
@@ -75,31 +68,18 @@ async function updateLink(found: HTMLAnchorElement[]): Promise<void> {
 	}
 }
 
-const usernameLinksSelector = [
-	// `a` selector needed to skip commits by non-GitHub users
-	// # targets mannequins #6504
-	`:is(
-		.js-discussion,
-		.inline-comments
-	) a.author:not(
-		[href="#"],
-		[href*="/apps/"],
-		[href*="/marketplace/"],
-		[data-hovercard-type="organization"],
-		[show_full_name="true"]
-	)`,
-	// GHE sometimes shows the full name already:
-	// https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
+const updateLink = batchedFunction(updateLinks, {delay: 100});
 
-	// On dashboard
-	// `.Link--primary` excludes avatars
-	// [aria-label="card content"] excludes links in cards #6530 #6915
-	'#dashboard a.Link--primary[data-hovercard-type="user"]:not([aria-label="card content"] *)',
-] as const;
+function updateDom(link: HTMLAnchorElement): void {
+	// `dropExtraCopy` is async so that errors in this part don't break the entire feature
+	void dropExtraCopy(link);
+
+	updateLink(link);
+}
 
 function init(signal: AbortSignal): void {
 	document.body.classList.add('rgh-show-names');
-	observe(usernameLinksSelector, batchedFunction(updateLink, {delay: 100}), {signal});
+	observe(usernameLinksSelector, updateDom, {signal});
 }
 
 void features.add(import.meta.url, {
