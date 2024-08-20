@@ -21,7 +21,6 @@ const noScreenshotExceptions = new Set([
 	'prevent-pr-merge-panel-opening',
 	'infinite-scroll',
 	'command-palette-navigation-shortcuts',
-	'comment-fields-keyboard-shortcuts',
 	'copy-on-y',
 	'create-release-shortcut',
 	'pagination-hotkey',
