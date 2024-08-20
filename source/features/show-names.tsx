@@ -21,13 +21,15 @@ function dropExtraCopy(element: HTMLAnchorElement): void {
 // The selector observer calls this function several times, but we want to batch them into a single GraphQL API call
 async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise<void> {
 	const myUsername = getUsername();
-	batchedUsernameElements = batchedUsernameElements.filter((element) => {
+	batchedUsernameElements = batchedUsernameElements.filter(element => {
 		const name = element.textContent;
+
 		if (!name) {
-			console.warn('Error', element)
+			console.warn('Error', element);
 			throw new Error('Failed to get textContent in the element');
 		}
-		return name !== myUsername && name !== 'ghost'
+
+		return name !== myUsername && name !== 'ghost';
 	});
 	const usernames = new Set(batchedUsernameElements.map(element => element.textContent));
 
