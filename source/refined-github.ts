@@ -1,5 +1,3 @@
-import './helpers/types.d.js';
-
 import './refined-github.css';
 import './github-helpers/heat-map.css';
 
@@ -12,7 +10,6 @@ import './features/clean-footer.css';
 import './features/pr-approvals-count.css';
 import './features/clean-conversations.css';
 import './features/sticky-conversation-list-toolbar.css';
-import './features/repo-stats-spacing.css';
 import './features/clean-notifications.css';
 import './features/night-not-found.css';
 import './features/sticky-file-header.css';
@@ -36,7 +33,6 @@ import './features/clean-rich-text-editor.js';
 import './features/useful-not-found-page.js';
 import './features/more-dropdown-links.js';
 import './features/releases-tab.js';
-import './features/comment-fields-keyboard-shortcuts.js';
 import './features/one-key-formatting.js';
 import './features/tab-to-indent.js';
 import './features/hide-navigation-hover-highlight.js';
@@ -122,7 +118,6 @@ import './features/one-click-pr-or-gist.js';
 import './features/dim-bots.js';
 import './features/conflict-marker.js';
 import './features/html-preview-link.js';
-import './features/linkify-labels-on-dashboard.js';
 import './features/linkify-user-location.js';
 import './features/repo-age.js';
 import './features/user-local-time.js';

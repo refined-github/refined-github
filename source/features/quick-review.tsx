@@ -15,7 +15,7 @@ import {
 import {randomArrayItem} from '../helpers/math.js';
 import {getToken} from '../github-helpers/github-token.js';
 
-const emojis = [...'🚀✅🐿️⚡️🤌🥳🥰🤩🥸😎🤯🚢🛫🏳️🏁'];
+const emojis = [...'🚀🐿️⚡️🤌🥳🥰🤩🥸😎🤯🚢🛫🏳️🏁'];
 
 async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 	const approval = event.altKey ? '' : prompt('Approve instantly? You can add a custom message or leave empty');

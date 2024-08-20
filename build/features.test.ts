@@ -7,6 +7,12 @@ import fastIgnore from 'fast-ignore';
 import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
 import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js';
 
+// Re-run tests when these files change https://github.com/vitest-dev/vitest/discussions/5864
+void import.meta.glob([
+	'../source/features/*.*',
+	'../source/refined-github.ts',
+]);
+
 const isGitIgnored = fastIgnore(readFileSync('.gitignore', 'utf8'));
 
 const noScreenshotExceptions = new Set([
@@ -15,7 +21,6 @@ const noScreenshotExceptions = new Set([
 	'prevent-pr-merge-panel-opening',
 	'infinite-scroll',
 	'command-palette-navigation-shortcuts',
-	'comment-fields-keyboard-shortcuts',
 	'copy-on-y',
 	'create-release-shortcut',
 	'pagination-hotkey',
