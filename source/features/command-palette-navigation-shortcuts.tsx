@@ -31,3 +31,11 @@ void features.add(import.meta.url, {
 	},
 	init: onetime(init),
 });
+
+/*
+
+Test URLs:
+
+Mac only, any page, like https://github.com/refined-github/refined-github/pull/5432
+
+*/

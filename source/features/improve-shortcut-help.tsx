@@ -57,3 +57,9 @@ function init(): void {
 void features.add(import.meta.url, {
 	init: onetime(init),
 });
+
+/*
+
+Test URLs: Any page
+
+*/
