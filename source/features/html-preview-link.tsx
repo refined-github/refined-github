@@ -25,7 +25,7 @@ function add(rawButton: HTMLAnchorElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('a:is(#raw-url, [data-testid="raw-button"])', add, {signal});
+	observe(['a#raw-url', 'a[data-testid="raw-button"])'], add, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -37,3 +37,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/CodingTrain/website/blob/4f90eedb9618257d9166241e92e51a7f3f00a08e/code_challenges/PerlinNoiseTerrain_p5.js/index.html
+
+*/

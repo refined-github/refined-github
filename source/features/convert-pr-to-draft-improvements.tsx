@@ -38,3 +38,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+1. Visit https://github.com/pulls
+2. Open any PRs that aren't already drafts
+
+*/

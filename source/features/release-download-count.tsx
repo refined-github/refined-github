@@ -29,7 +29,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 
 	const releaseName = container
 		// .octicon-code required by visit-tag feature
-		.querySelector(':is(.octicon-tag, .octicon-code) ~ span')!
+		.querySelector(['.octicon-tag ~ span', '.octicon-code ~ span'])!
 		.textContent
 		.trim();
 

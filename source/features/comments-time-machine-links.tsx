@@ -106,7 +106,7 @@ function init(signal: AbortSignal): void {
 
 		// The timestamp of main review comments isn't in their header but in the timeline event above #5423
 		const timestamp = menu
-			.closest('.js-comment:not([id^="pullrequestreview-"]), .js-timeline-item')!
+			.closest(['.js-comment:not([id^="pullrequestreview-"])', '.js-timeline-item'])!
 			.querySelector('relative-time')!
 			.attributes.datetime.value;
 

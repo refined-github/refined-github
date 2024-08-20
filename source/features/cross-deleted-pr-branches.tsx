@@ -46,3 +46,13 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // Must wait for the last one
 	init,
 });
+
+/*
+
+Test URLs:
+
+- deleted branch: https://github.com/sindresorhus/refined-github/pull/576
+- deleted branch (from fork): https://github.com/sindresorhus/refined-github/pull/872
+- restored branch (on fork): https://github.com/sindresorhus/refined-github/pull/909
+
+*/
