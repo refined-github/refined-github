@@ -2,6 +2,9 @@
 /* eslint-disable @typescript-eslint/ban-types -- The API does return `null`, not `undefined` */
 import type {StrictlyParseSelector} from 'typed-query-selector/parser.js';
 
+// Enables import.meta.glob: https://stackoverflow.com/q/75685623/288906
+import 'vite/client';
+
 declare global {
 	interface ParentNode {
 		querySelector<S extends string>(selector: S | readonly S[]): StrictlyParseSelector<S, HTMLElement> | null;
