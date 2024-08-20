@@ -12,7 +12,7 @@ type Comparison = {
 	isCrossRepo: boolean;
 };
 
-const compareRegex = /compare\/([^.]+)(?:\.{2,3})(.+)?/;
+const compareRegex = /compare[/]([^.]+)(?:[.][.][.]?)(.+)/;
 export default function parseCompareUrl(pathname: string): Comparison | undefined {
 	const base = getRepo(pathname)!;
 
