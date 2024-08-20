@@ -14,14 +14,19 @@ type Comparison = {
 	isCrossRepo: boolean;
 };
 
-export default function parseCompareUrl(pathname: string): Comparison {
+export default function parseCompareUrl(pathname: string): Comparison | undefined {
 	const baseRepo = getRepo(pathname)!;
+
+	const comparison = parseComparisonPath(baseRepo);
+	if (!comparison) {
+		return;
+	}
 
 	const {
 		baseBranch,
 		headRepo,
 		headBranch,
-	} = parseComparisonPath(baseRepo);
+	} = comparison
 
 	return {
 		base: {
@@ -36,7 +41,7 @@ export default function parseCompareUrl(pathname: string): Comparison {
 	};
 }
 
-function parseComparisonPath(baseRepo: RepositoryInfo): {
+function parseComparisonPath(baseRepo: RepositoryInfo): undefined | {
 	baseBranch: string;
 	headRepo: RepositoryInfo;
 	headBranch: string;
@@ -47,11 +52,11 @@ function parseComparisonPath(baseRepo: RepositoryInfo): {
 
 	const pathname = baseRepo.path;
 
-	const compareRegex = /compare\/?([^.]+)?(\.{2,3})?(.+)?/;
+	const compareRegex = /compare\/([^.]+)(\.{2,3})(.+)?/;
 	const match = compareRegex.exec(pathname);
 
 	if (!match) {
-		throw new Error('Invalid compare URL format');
+		return;
 	}
 
 	const [, baseBranch, , heads] = match;
