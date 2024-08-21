@@ -1,11 +1,11 @@
 import React from 'dom-chef';
 import {$, $$} from 'select-dom';
 import CheckIcon from 'octicons-plain-react/Check';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
+import observe from '../helpers/selector-observer.js';
 
 function addMergeLink(): void {
 	if (!pageDetect.isPRList()) {
@@ -58,23 +58,17 @@ function togglableFilters(): void {
 }
 
 async function init(): Promise<void | false> {
-	await elementReady('.table-list-filters');
-
-	addMergeLink();
-	togglableFilters();
+	observe('.table-list-filters', () => {
+		addMergeLink();
+		togglableFilters();
+	});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoIssueOrPRList,
-	],
-	deduplicate: 'has-rgh-inner',
-	init,
-}, {
-	include: [
 		pageDetect.isGlobalIssueOrPRList,
 	],
-	deduplicate: 'has-rgh',
 	init,
 });
 
