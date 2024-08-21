@@ -8,8 +8,6 @@ import mem from 'memoize';
 
 import {branchSelector} from './selectors.js';
 
-export type NameWithOwner = `${string}/${string}`;
-
 // This never changes, so it can be cached here
 export const getUsername = onetime(pageDetect.utils.getUsername);
 export const {getRepositoryInfo: getRepo, getCleanPathname} = pageDetect.utils;

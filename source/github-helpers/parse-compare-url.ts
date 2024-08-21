@@ -1,4 +1,6 @@
-import {getRepo, NameWithOwner} from './index.js';
+import type {NameWithOwner} from 'github-url-detection';
+
+import {getRepo} from './index.js';
 
 type Comparison = {
 	head: {
@@ -34,7 +36,7 @@ export default function parseCompareUrl(pathname: string): Comparison | undefine
 
 	return {
 		base: {
-			repo: base.nameWithOwner as NameWithOwner,
+			repo: base.nameWithOwner,
 			branch: baseBranch,
 		},
 		head: {
