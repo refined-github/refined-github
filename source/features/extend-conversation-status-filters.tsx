@@ -22,7 +22,7 @@ function addMergeLink(lastLink: HTMLAnchorElement): void {
 	const {isMerged, isUnmerged} = getFilterState();
 
 	if (isMerged) {
-		// // It's a "Total" link for "is:merged"
+		// It's a "Total" link for "is:merged"
 		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Merged');
 	} else if (isUnmerged) {
 		// It's a "Total" link for "is:unmerged"
@@ -32,10 +32,8 @@ function addMergeLink(lastLink: HTMLAnchorElement): void {
 		const mergeLink = lastLink.cloneNode(true);
 		mergeLink.textContent = 'Merged';
 		mergeLink.classList.toggle('selected', isMerged);
-
 		// If link is selected, the filters are already removed
 		mergeLink.href = lastLink.classList.contains('selected') ? SearchQuery.from(mergeLink).append('is:merged').href : SearchQuery.from(mergeLink).replace('is:closed', 'is:merged').href;
-
 		lastLink.after(' ', mergeLink);
 	}
 }
