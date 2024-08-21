@@ -28,7 +28,7 @@ function scrollOnSearch(event: KeyboardEvent): void {
 
 function addIndicator(headerCommentCount: HTMLSpanElement): void {
 	const loadMoreButton = expectElement(paginationButtonSelector);
-	assertNodeContent(headerCommentCount, /^\d+ comments$/);
+	assertNodeContent(headerCommentCount, /^\d+ comment(s)?$/);
 	assertNodeContent(loadMoreButton, /^\d+ hidden items$/);
 	const spacer = new Text(' • ');
 	const link = (
