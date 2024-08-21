@@ -27,7 +27,7 @@ async function fromDOM(): Promise<string | undefined> {
 }
 
 async function fromAPI(repository: NameWithOwner): Promise<string> {
-	const [name, owner] = repository.split('/');
+	const [owner, name] = repository.split('/');
 	const response = await api.v4(GetDefaultBranch, {
 		variables: {
 			owner,
