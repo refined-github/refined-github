@@ -1,67 +1,66 @@
-import React from 'dom-chef';
-import {$, $$} from 'select-dom';
-import CheckIcon from 'octicons-plain-react/Check';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import observe from '../helpers/selector-observer.js';
 
-function addMergeLink(): void {
+function getFilterState(): {isMerged: boolean; isUnmerged: boolean} {
+	const locationQuery = SearchQuery.from(location);
+
+	return {
+		isMerged: locationQuery.includes('is:merged'),
+		isUnmerged: locationQuery.includes('is:unmerged'),
+	};
+}
+
+function addMergeLink(lastLink: HTMLAnchorElement): void {
+	// It's shouldn't be added in issues list
 	if (!pageDetect.isPRList()) {
 		return;
 	}
 
-	// The links in `.table-list-header-toggle` are either:
-	//   1 Open | 1 Closed
-	//   1 Total            // Apparently appears with is:merged/is:unmerged
-	for (const lastLink of $$('.table-list-header-toggle.states a:last-child')) {
-		const lastLinkQuery = SearchQuery.from(lastLink);
+	const {isMerged, isUnmerged} = getFilterState();
 
-		if (lastLinkQuery.includes('is:merged')) {
-			// It's a "Total" link for "is:merged"
-			lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Merged');
-			continue;
-		}
-
-		if (lastLinkQuery.includes('is:unmerged')) {
+	if (isMerged) {
+		// // It's a "Total" link for "is:merged"
+		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Merged');
+	} else if (isUnmerged) {
 			// It's a "Total" link for "is:unmerged"
-			lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Unmerged');
-			continue;
-		}
-
+		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Unmerged');
+	} else {
 		// In this case, `lastLink` is expected to be a "Closed" link
 		const mergeLink = lastLink.cloneNode(true);
 		mergeLink.textContent = 'Merged';
-		mergeLink.classList.toggle('selected', SearchQuery.from(location).includes('is:merged'));
-		mergeLink.href = SearchQuery.from(mergeLink).replace('is:closed', 'is:merged').href;
+		mergeLink.classList.toggle('selected', isMerged);
+
+		// If link is selected, the filters are already removed
+		if (lastLink.classList.contains('selected')) {
+			mergeLink.href = SearchQuery.from(mergeLink).append('is:merged').href;
+		} else {
+			mergeLink.href = SearchQuery.from(mergeLink).replace('is:closed', 'is:merged').href;
+		}
+
 		lastLink.after(' ', mergeLink);
 	}
 }
 
-function togglableFilters(): void {
-	for (const link of $$('.table-list-header-toggle.states a')) {
-		$('.octicon', link)?.remove();
-		if (link.classList.contains('selected')) {
-			link.prepend(<CheckIcon/>);
-			link.href = SearchQuery
-				.from(link)
-				.remove(
-					'is:open',
-					'is:closed',
-					'is:merged',
-					'is:unmerged',
-				)
-				.href;
-		}
+function removeAllFilters(link: HTMLAnchorElement): void {
+	if (link.classList.contains('selected')) {
+		link.href = SearchQuery
+			.from(link)
+			.remove(
+				'is:open',
+				'is:closed',
+				'is:merged',
+				'is:unmerged',
+			)
+			.href;
 	}
 }
 
-async function init(): Promise<void | false> {
-	observe('.table-list-filters', () => {
-		addMergeLink();
-		togglableFilters();
-	});
+function init(signal: AbortSignal): void {
+	observe('.table-list-header-toggle.states a', removeAllFilters, {signal});
+	observe('.table-list-header-toggle.states a:last-child', addMergeLink, {signal});
 }
 
 void features.add(import.meta.url, {
