@@ -30,7 +30,7 @@ function addIndicator(headerCommentCount: HTMLSpanElement): void {
 	const loadMoreButton = expectElement(paginationButtonSelector);
 	assertNodeContent(headerCommentCount, /^\d+ comment(s)?$/);
 	assertNodeContent(loadMoreButton, /^\d+ hidden items$/);
-	const spacer = new Text(' • ');
+	const spacer = new Text(' · ');
 	const link = (
 		<a
 			className="Link--muted"
