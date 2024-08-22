@@ -20,7 +20,7 @@ export function getConversationNumber(): number | undefined {
 
 export async function getNextConversationNumber(): Promise<number> {
 	const issues = await api.v3('issues?per_page=1');
-	return issues[0].number + 1;
+	return (issues[0].number as number) + 1;
 }
 
 export const isMac = navigator.userAgent.includes('Macintosh');
