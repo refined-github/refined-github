@@ -33,8 +33,15 @@ async function getNextPage(): Promise<DocumentFragment> {
 }
 
 function parseTags(element: HTMLElement): TagDetails {
-	// Safari doesn't correctly parse links if they're loaded via AJAX #3899
-	const {pathname: tagUrl} = new URL($(['a[href*="/tree/"]', 'a[href*="/tag/"]'], element)!.href);
+	let tagUrl = $(['a[href*="/tree/"]', 'a[href*="/tag/"]'], element)!.href;
+
+	// If tagUrl from next page, it is just a pathname not a URL
+	if (tagUrl.startsWith('https://github.com')) {
+		// Safari doesn't correctly parse links if they're loaded via AJAX #3899
+		const {pathname} = new URL(tagUrl);
+		tagUrl = pathname;
+	}
+
 	const tag = /\/(?:releases\/tag|tree)\/(.*)/.exec(tagUrl)![1];
 
 	return {
@@ -84,9 +91,9 @@ async function init(): Promise<void> {
 		'.Box-body .border-md-bottom',
 	];
 
+	await domLoaded;
 	// Look for tags in the current page and the next page
 	const pages = [document, await getNextPage()];
-	await domLoaded;
 	const allTags = $$(tagsSelector, pages).map(tag => parseTags(tag));
 
 	for (const [index, container] of allTags.entries()) {
