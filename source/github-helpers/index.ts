@@ -17,13 +17,6 @@ export function getConversationNumber(): number | undefined {
 	return (type === 'pull' || type === 'issues') && Number(prNumber) ? Number(prNumber) : undefined;
 }
 
-export async function getNextConversationNumber(): Promise<number> {
-	const apiModule = await import('./api.js');
-	const api = apiModule.default;
-	const issues = await api.v3('issues?per_page=1');
-	return (issues[0].number as number) + 1;
-}
-
 export const isMac = navigator.userAgent.includes('Macintosh');
 
 type Not<Yes, Not> = Yes extends Not ? never : Yes;
