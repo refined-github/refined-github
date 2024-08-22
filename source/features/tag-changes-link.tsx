@@ -35,6 +35,7 @@ async function getNextPage(): Promise<DocumentFragment> {
 }
 
 function parseTags(element: HTMLElement): TagDetails {
+	// DO NOT change this to `pathname` because it's empty when element is from `getNextPage` function
 	const tagUrl = expectElement(['a[href*="/tree/"]', 'a[href*="/tag/"]'], element).href;
 	const tag = /\/(?:releases\/tag|tree)\/(.*)/.exec(tagUrl)![1];
 
