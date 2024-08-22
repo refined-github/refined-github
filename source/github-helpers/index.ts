@@ -18,7 +18,7 @@ export function getConversationNumber(): number | undefined {
 }
 
 export async function getNextConversationNumber(): Promise<number> {
-	const api = await import('./api.js');
+	const api = (await import('./api.js')).default;
 	const issues = await api.v3('issues?per_page=1');
 	return (issues[0].number as number) + 1;
 }
