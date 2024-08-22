@@ -25,7 +25,7 @@ function getActionURL(): URL {
 function addUsageLink(side: HTMLElement): void {
 	const actionURL = getActionURL();
 
-	side!.after(
+	side.after(
 		<a href={actionURL.href} className="d-block mb-2">
 			<SearchIcon width={14} className="color-fg-default mr-2"/>Usage examples
 		</a>,
@@ -33,7 +33,7 @@ function addUsageLink(side: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.d-block.mb-2[href^="/contact"]', addUsageLink, {signal})
+	observe('.d-block.mb-2[href^="/contact"]', addUsageLink, {signal});
 }
 
 void features.add(import.meta.url, {
