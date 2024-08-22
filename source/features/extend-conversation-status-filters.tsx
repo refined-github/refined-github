@@ -4,41 +4,42 @@ import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import observe from '../helpers/selector-observer.js';
 
-function getFilterState(): {isMerged: boolean; isUnmerged: boolean} {
-	const locationQuery = SearchQuery.from(location);
-
-	return {
-		isMerged: locationQuery.includes('is:merged'),
-		isUnmerged: locationQuery.includes('is:unmerged'),
-	};
-}
-
 function addMergeLink(lastLink: HTMLAnchorElement): void {
 	// It's shouldn't be added in issues list
 	if (!pageDetect.isPRList()) {
 		return;
 	}
 
-	const {isMerged, isUnmerged} = getFilterState();
+	const locationQuery = SearchQuery.from(location);
+	const isMerged = locationQuery.includes('is:merged');
+	const isUnmerged = locationQuery.includes('is:unmerged');
 
+	// The links in `.table-list-header-toggle` are either:
+	//   1 Open | 1 Closed
+	//   1 Total            // Apparently appears with is:merged/is:unmerged
 	if (isMerged) {
 		// It's a "Total" link for "is:merged"
 		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Merged');
+		return;
 	} else if (isUnmerged) {
 		// It's a "Total" link for "is:unmerged"
 		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Unmerged');
+		return;
 	} else {
 		// In this case, `lastLink` is expected to be a "Closed" link
 		const mergeLink = lastLink.cloneNode(true);
 		mergeLink.textContent = 'Merged';
 		mergeLink.classList.toggle('selected', isMerged);
-		// If link is selected, the filters are already removed
-		mergeLink.href = lastLink.classList.contains('selected') ? SearchQuery.from(mergeLink).append('is:merged').href : SearchQuery.from(mergeLink).replace('is:closed', 'is:merged').href;
+		mergeLink.href = SearchQuery.from(mergeLink).replace('is:closed', 'is:merged').href;
 		lastLink.after(' ', mergeLink);
 	}
 }
 
 function removeAllFilters(link: HTMLAnchorElement): void {
+	if (link === link.parentElement!.lastElementChild) {
+		addMergeLink(link)
+	}
+
 	if (link.classList.contains('selected')) {
 		link.href = SearchQuery
 			.from(link)
@@ -54,7 +55,6 @@ function removeAllFilters(link: HTMLAnchorElement): void {
 
 function init(signal: AbortSignal): void {
 	observe('.table-list-header-toggle.states a', removeAllFilters, {signal});
-	observe('.table-list-header-toggle.states a:last-child', addMergeLink, {signal});
 }
 
 void features.add(import.meta.url, {
