@@ -1,6 +1,8 @@
 import './tag-changes-link.css';
 import React from 'dom-chef';
-import {$, $$, elementExists} from 'select-dom';
+import {
+	$, $$, elementExists, expectElement,
+} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import DiffIcon from 'octicons-plain-react/Diff';
 import * as pageDetect from 'github-url-detection';
@@ -33,15 +35,7 @@ async function getNextPage(): Promise<DocumentFragment> {
 }
 
 function parseTags(element: HTMLElement): TagDetails {
-	let tagUrl = $(['a[href*="/tree/"]', 'a[href*="/tag/"]'], element)!.href;
-
-	// If tagUrl from next page, it is just a pathname not a URL
-	if (tagUrl.startsWith('https://github.com')) {
-		// Safari doesn't correctly parse links if they're loaded via AJAX #3899
-		const {pathname} = new URL(tagUrl);
-		tagUrl = pathname;
-	}
-
+	const tagUrl = expectElement(['a[href*="/tree/"]', 'a[href*="/tag/"]'], element).href;
 	const tag = /\/(?:releases\/tag|tree)\/(.*)/.exec(tagUrl)![1];
 
 	return {
