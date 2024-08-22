@@ -20,11 +20,9 @@ function addMergeLink(lastLink: HTMLAnchorElement): void {
 	if (isMerged) {
 		// It's a "Total" link for "is:merged"
 		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Merged');
-		return;
 	} else if (isUnmerged) {
 		// It's a "Total" link for "is:unmerged"
 		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Unmerged');
-		return;
 	} else {
 		// In this case, `lastLink` is expected to be a "Closed" link
 		const mergeLink = lastLink.cloneNode(true);
@@ -37,7 +35,7 @@ function addMergeLink(lastLink: HTMLAnchorElement): void {
 
 function removeAllFilters(link: HTMLAnchorElement): void {
 	if (link === link.parentElement!.lastElementChild) {
-		addMergeLink(link)
+		addMergeLink(link);
 	}
 
 	if (link.classList.contains('selected')) {
