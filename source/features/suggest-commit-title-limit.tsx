@@ -15,7 +15,8 @@ function validateCommitTitle({delegateTarget: field}: DelegateEvent<Event, HTMLI
 
 async function validatePrTitle({delegateTarget: field}: DelegateEvent<Event, HTMLInputElement>): Promise<void> {
 	// Include the PR number in the title length calculation because it will be added to the commit title
-	field.classList.toggle('rgh-title-over-limit', (await formatPrOrCompareCommitTitle(field.value)).length > limit);
+	const prTitle = await formatPrOrCompareCommitTitle(field.value);
+	field.classList.toggle('rgh-title-over-limit', prTitle.length > limit);
 }
 
 function init(signal: AbortSignal): void {
