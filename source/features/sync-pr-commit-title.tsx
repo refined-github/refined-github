@@ -26,7 +26,7 @@ export function formatPrCommitTitle(title: string): string {
 }
 
 export async function formatPrOrCompareCommitTitle(title: string): Promise<string> {
-	return `${title} (#${getConversationNumber() || await getNextConversationNumber()})`;
+	return `${title} (#${getConversationNumber() ?? await getNextConversationNumber()})`;
 }
 
 function createCommitTitle(): string {
