@@ -4,7 +4,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
-import {formatPrOrCompareCommitTitle} from './sync-pr-commit-title.js';
+import {getConversationNumber, getNextConversationNumber} from '../github-helpers/index.js';
+import {formatPrCommitTitle} from './sync-pr-commit-title.js';
 
 // https://github.com/refined-github/refined-github/issues/2178#issuecomment-505940703
 const limit = 72;
@@ -15,7 +16,10 @@ function validateCommitTitle({delegateTarget: field}: DelegateEvent<Event, HTMLI
 
 async function validatePrTitle({delegateTarget: field}: DelegateEvent<Event, HTMLInputElement>): Promise<void> {
 	// Include the PR number in the title length calculation because it will be added to the commit title
-	const prTitle = await formatPrOrCompareCommitTitle(field.value);
+	const prTitle = formatPrCommitTitle(
+		field.value,
+		getConversationNumber() ?? await getNextConversationNumber(),
+	);
 	field.classList.toggle('rgh-title-over-limit', prTitle.length > limit);
 }
 

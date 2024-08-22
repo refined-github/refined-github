@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
-import {getConversationNumber, getNextConversationNumber, userCanLikelyMergePR} from '../github-helpers/index.js';
+import {getConversationNumber, userCanLikelyMergePR} from '../github-helpers/index.js';
 import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
 import observe from '../helpers/selector-observer.js';
 import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
@@ -21,12 +21,8 @@ function getCurrentCommitTitle(): string | undefined {
 	return getCurrentCommitTitleField()?.value.trim();
 }
 
-export function formatPrCommitTitle(title: string): string {
-	return `${title} (#${getConversationNumber()!})`;
-}
-
-export async function formatPrOrCompareCommitTitle(title: string): Promise<string> {
-	return `${title} (#${getConversationNumber() ?? await getNextConversationNumber()})`;
+export function formatPrCommitTitle(title: string, prNumber = getConversationNumber()!): string {
+	return `${title} (#${prNumber})`;
 }
 
 function createCommitTitle(): string {
