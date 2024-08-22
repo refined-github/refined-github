@@ -6,7 +6,6 @@ import {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 
-import api from './api.js';
 import {branchSelector} from './selectors.js';
 
 // This never changes, so it can be cached here
@@ -19,6 +18,7 @@ export function getConversationNumber(): number | undefined {
 }
 
 export async function getNextConversationNumber(): Promise<number> {
+	const api = await import('./api.js');
 	const issues = await api.v3('issues?per_page=1');
 	return (issues[0].number as number) + 1;
 }
