@@ -1,7 +1,7 @@
 /// <reference types="../source/globals.js" />
 
 import regexJoin from 'regex-join';
-import {readFileSync} from 'node:fs';
+import {existsSync, readFileSync} from 'node:fs';
 import parseMarkdown from 'snarkdown';
 
 // Group names must be unique because they will be merged
@@ -40,6 +40,7 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 		description: parseMarkdown(linkLessMarkdownDescription),
 		// `null` makes the keys visible in the JSON file
 		screenshot: urls.find(url => screenshotRegex.test(url)) ?? null,
+		css: existsSync(`source/features/${simpleId}.css`),
 	};
 }
 

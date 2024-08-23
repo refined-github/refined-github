@@ -4,8 +4,6 @@ import AlertIcon from 'octicons-plain-react/Alert';
 import CopyIcon from 'octicons-plain-react/Copy';
 import InfoIcon from 'octicons-plain-react/Info';
 
-import {$} from 'select-dom';
-
 import features from '../feature-manager.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 import {featuresMeta, getNewFeatureName} from '../feature-data.js';
@@ -18,14 +16,13 @@ import {isFeaturePrivate} from '../helpers/feature-utils.js';
 
 function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
 	const isCss = location.pathname.endsWith('.css');
-	const isCssOnly = isCss ? !$(`li[id="source/features/${id}.tsx-item"]`) : false;
 
 	const description = meta?.description // Regular feature?
 	?? (
 		isFeaturePrivate(id)
 			? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
 			: (
-				isCssOnly
+				isCss
 					? 'This feature is CSS-only and cannot be disabled.'
 					: undefined // The heck!?
 			)
@@ -66,9 +63,9 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 						{
 							meta && isCss
 								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
-								: isCssOnly
-									? undefined
-									: <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a></>
+								: meta?.css
+									? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a></>
+									: undefined
 						}
 					</div>
 				</div>

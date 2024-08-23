@@ -11,6 +11,7 @@ interface FeatureMeta {
 	id: FeatureID;
 	description: string;
 	screenshot: string | null; // eslint-disable-line @typescript-eslint/ban-types -- We use `null` in the JSON file
+	css?: boolean;
 }
 
 // These types are unnecessarily loose
