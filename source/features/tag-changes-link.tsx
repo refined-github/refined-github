@@ -1,6 +1,8 @@
 import './tag-changes-link.css';
 import React from 'dom-chef';
-import {$, $$, elementExists} from 'select-dom';
+import {
+	$, $$, elementExists, expectElement,
+} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import DiffIcon from 'octicons-plain-react/Diff';
 import * as pageDetect from 'github-url-detection';
@@ -33,8 +35,9 @@ async function getNextPage(): Promise<DocumentFragment> {
 }
 
 function parseTags(element: HTMLElement): TagDetails {
-	// Safari doesn't correctly parse links if they're loaded via AJAX #3899
-	const {pathname: tagUrl} = new URL($(['a[href*="/tree/"]', 'a[href*="/tag/"]'], element)!.href);
+	// DO NOT change this to `pathname` because it's empty when element is from `getNextPage` function
+	// https://github.com/refined-github/refined-github/pull/7726#discussion_r1727135015
+	const tagUrl = expectElement(['a[href*="/tree/"]', 'a[href*="/tag/"]'], element).href;
 	const tag = /\/(?:releases\/tag|tree)\/(.*)/.exec(tagUrl)![1];
 
 	return {
@@ -84,9 +87,9 @@ async function init(): Promise<void> {
 		'.Box-body .border-md-bottom',
 	];
 
+	await domLoaded;
 	// Look for tags in the current page and the next page
 	const pages = [document, await getNextPage()];
-	await domLoaded;
 	const allTags = $$(tagsSelector, pages).map(tag => parseTags(tag));
 
 	for (const [index, container] of allTags.entries()) {
