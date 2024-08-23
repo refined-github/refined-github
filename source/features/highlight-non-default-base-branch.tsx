@@ -15,7 +15,7 @@ type BranchInfo = {
 };
 
 function isClosed(prLink: HTMLElement): boolean {
-	return Boolean(prLink.closest('.js-issue-row')!.querySelector('.octicon.merged, .octicon.closed'));
+	return Boolean(prLink.closest('.js-issue-row')!.querySelector(['.octicon.merged', '.octicon.closed']));
 }
 
 function buildQuery(issueIds: string[]): string {

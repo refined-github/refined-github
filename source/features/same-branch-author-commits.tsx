@@ -3,8 +3,10 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 
+const authorLinkSelector = 'a[aria-label^="commits by"]';
+
 function init(): void {
-	for (const author of $$('.js-navigation-container a.commit-author')) {
+	for (const author of $$(authorLinkSelector)) {
 		author.pathname = location.pathname;
 	}
 }

@@ -131,9 +131,10 @@ const createDropdown = onetime(() => (
 		onToggle={resetFilters}
 	>
 		<summary
-			className="h6" // Match "Select all" style
-			data-hotkey="S"
+			className="h6 tooltipped tooltipped-s" // `h6` matches "Select all" style
+			data-hotkey="Shift+S"
 			aria-haspopup="menu"
+			aria-label="Hotkey: Shift+S"
 			role="button"
 		>
 			Select by <span className="dropdown-caret ml-1"/>
@@ -167,12 +168,12 @@ function init(signal: AbortSignal): void {
 	observe('.js-notifications-mark-all-prompt', addDropdown, {signal});
 
 	// Close the dropdown when one of the toolbar buttons is clicked
-	delegate('.js-notifications-mark-selected-actions > *, .rgh-open-selected-button', 'click', closeDropdown, {signal});
+	delegate(['.js-notifications-mark-selected-actions > *', '.rgh-open-selected-button'], 'click', closeDropdown, {signal});
 }
 
 void features.add(import.meta.url, {
 	shortcuts: {
-		S: 'Open the "Select by" dropdown',
+		'shift s': 'Open the "Select by" dropdown',
 	},
 	include: [
 		pageDetect.isNotifications,

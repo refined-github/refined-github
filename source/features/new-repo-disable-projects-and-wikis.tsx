@@ -57,7 +57,7 @@ function add(submitButtonLine: HTMLElement): void {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	observe('form :has(> [type=submit])', add, {signal});
-	delegate('#new_repository, #new_new_repository', 'submit', setStorage, {signal});
+	delegate(['#new_repository', '#new_new_repository'], 'submit', setStorage, {signal});
 }
 
 void features.add(import.meta.url, {
