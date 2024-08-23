@@ -18,13 +18,15 @@ import {isFeaturePrivate} from '../helpers/feature-utils.js';
 
 function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
 	const isCss = location.pathname.endsWith('.css');
+	const cssElement = $(`li[id="source/features/${id}.css-item"]`);
+	const isCssOnly = cssElement && cssElement.getAttribute('aria-current') === 'true';
 
 	const description = meta?.description // Regular feature?
 	?? (
 		isFeaturePrivate(id)
 			? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
 			: (
-				isCss
+				isCssOnly
 					? 'This feature is CSS-only and cannot be disabled.'
 					: undefined // The heck!?
 			)
@@ -37,8 +39,6 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 	newIssueUrl.searchParams.set('title', `\`${id}\`: `);
 	newIssueUrl.searchParams.set('labels', 'bug, help wanted');
-
-	const hasCss = $(`li[id="source/features/${id}.css-item"]`);
 
 	infoBanner.before(
 		// Block and width classes required to avoid margin collapse
@@ -67,7 +67,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 						{
 							meta && isCss
 								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
-								: hasCss
+								: cssElement && !isCssOnly
 									? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a></>
 									: undefined
 						}
