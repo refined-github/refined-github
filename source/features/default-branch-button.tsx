@@ -1,4 +1,3 @@
-import './default-branch-button.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicons-plain-react/ChevronLeft';
@@ -101,5 +100,6 @@ Test URLs:
 - isRepoCommitList: https://github.com/refined-github/refined-github/commits/07ecc75/
 - isRepoCommitList (already on default branch): https://github.com/typed-ember/ember-cli-typescript/commits/master
 - isRepoCommitListRoot (no branch selector): https://github.com/refined-github/refined-github/commits/07ecc75/extension
+- `isRepoHome`, long branch name: https://github.com/refined-github/sandbox/tree/very-very-long-long-long-long-branch-name
 
 */
