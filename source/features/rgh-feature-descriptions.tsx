@@ -18,8 +18,7 @@ import {isFeaturePrivate} from '../helpers/feature-utils.js';
 
 function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
 	const isCss = location.pathname.endsWith('.css');
-	const cssElement = $(`li[id="source/features/${id}.css-item"]`);
-	const isCssOnly = cssElement && cssElement.getAttribute('aria-current') === 'true';
+	const isCssOnly = isCss ? !$(`li[id="source/features/${id}.tsx-item"]`) : false;
 
 	const description = meta?.description // Regular feature?
 	?? (
@@ -67,9 +66,9 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 						{
 							meta && isCss
 								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
-								: cssElement && !isCssOnly
-									? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a></>
-									: undefined
+								: isCssOnly
+									? undefined
+									: <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a></>
 						}
 					</div>
 				</div>
