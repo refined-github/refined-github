@@ -4,6 +4,8 @@ import AlertIcon from 'octicons-plain-react/Alert';
 import CopyIcon from 'octicons-plain-react/Copy';
 import InfoIcon from 'octicons-plain-react/Info';
 
+import {$} from 'select-dom';
+
 import features from '../feature-manager.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 import {featuresMeta, getNewFeatureName} from '../feature-data.js';
@@ -36,6 +38,8 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 	newIssueUrl.searchParams.set('title', `\`${id}\`: `);
 	newIssueUrl.searchParams.set('labels', 'bug, help wanted');
 
+	const hasCss = $(`li[id="source/features/${id}.css-item"]`);
+
 	infoBanner.before(
 		// Block and width classes required to avoid margin collapse
 		<div className="Box mb-3 d-inline-block width-full">
@@ -63,7 +67,9 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 						{
 							meta && isCss
 								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
-								: undefined
+								: hasCss
+									? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a></>
+									: undefined
 						}
 					</div>
 				</div>
