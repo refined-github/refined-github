@@ -40,7 +40,8 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 		description: parseMarkdown(linkLessMarkdownDescription),
 		// `null` makes the keys visible in the JSON file
 		screenshot: urls.find(url => screenshotRegex.test(url)) ?? null,
-		css: existsSync(`source/features/${simpleId}.css`),
+		// `undefined` hides the key when CSS is missing
+		css: existsSync(`source/features/${simpleId}.css`) || undefined,
 	};
 }
 
