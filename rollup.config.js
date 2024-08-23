@@ -27,7 +27,7 @@ const rollup = {
 	plugins: [
 		clear({
 			targets: ['distribution/assets'],
-			watch: true,
+			watch: false, // `true` would be nice, but it deletes the files too early, causing two extension reloads
 		}),
 		json(),
 		styles({
