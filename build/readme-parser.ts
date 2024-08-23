@@ -37,11 +37,11 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 	const linkLessMarkdownDescription = simpleDescription.replaceAll(/\[(.+?)]\((.+?)\)/g, urlExtracter);
 	return {
 		id: simpleId as FeatureID,
+		css: existsSync(`source/features/${simpleId}.css`) || undefined,
 		description: parseMarkdown(linkLessMarkdownDescription),
 		// `null` makes the keys visible in the JSON file
 		screenshot: urls.find(url => screenshotRegex.test(url)) ?? null,
 		// `undefined` hides the key when CSS is missing
-		css: existsSync(`source/features/${simpleId}.css`) || undefined,
 	};
 }
 
