@@ -31,7 +31,7 @@ import {JsonObject, AsyncReturnType} from 'type-fest';
 
 import features from '../feature-manager.js';
 import {getRepo} from './index.js';
-import {getToken} from './github-token.js';
+import {getToken} from '../options-storage.js';
 
 type JsonError = {
 	message: string;

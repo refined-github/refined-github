@@ -1,12 +1,17 @@
 import React from 'dom-chef';
 import {$} from 'select-dom';
+import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import openOptions from '../helpers/open-options.js';
 import clearCacheHandler from '../helpers/clear-cache-handler.js';
-import {expectTokenScope, getToken} from '../github-helpers/github-token.js';
+import {expectTokenScope} from '../github-helpers/github-token.js';
+import {getToken} from '../options-storage.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
+
+const isSetTheTokenSelector = 'input[name^="issue_form[token]"]';
+const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
 
 function addNotice(adjective: JSX.Element | string): void {
 	$('#issue_body_template_name')!.before(
@@ -34,7 +39,7 @@ async function checkToken(): Promise<void> {
 	}
 
 	// Thank you for following the instructions. I'll save you a click.
-	$('input[name^="issue_form[token]')!.checked = true;
+	$(isSetTheTokenSelector)!.checked = true;
 }
 
 async function setVersion(): Promise<void> {
@@ -60,6 +65,33 @@ async function linkifyCacheRefresh(): Promise<void> {
 	);
 }
 
+function Lies(): JSX.Element {
+	return (
+		<a href="https://www.youtube.com/watch?v=YWdD206eSv0">
+			<img src={liesGif} alt="Just go on the internet and tell lies?" className="d-inline-block"/>
+		</a>
+	);
+}
+
+async function lieDetector({delegateTarget}: DelegateEvent<MouseEvent, HTMLInputElement>): Promise<void> {
+	if (delegateTarget.checked) {
+		delegateTarget.closest('fieldset')!.append(<Lies/>);
+	}
+}
+
+async function validateTokenCheckbox(): Promise<void> {
+	if (await getToken()) {
+		return;
+	}
+
+	// eslint-disable-next-line new-cap -- Preload image
+	Lies();
+
+	delegate(isSetTheTokenSelector, 'click', lieDetector, {
+		once: true,
+	});
+}
+
 void features.add(import.meta.url, {
 	asLongAs: [
 		isRefinedGitHubRepo,
@@ -71,6 +103,7 @@ void features.add(import.meta.url, {
 	init: [
 		linkifyCacheRefresh,
 		checkToken,
+		validateTokenCheckbox,
 		setVersion,
 	],
 });

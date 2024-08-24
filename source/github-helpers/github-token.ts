@@ -1,12 +1,5 @@
 import {v3} from './api.js';
-import optionsStorage from '../options-storage.js';
-
-const settings = optionsStorage.getAll();
-
-export async function getToken(): Promise<string | undefined> {
-	const {personalToken} = await settings;
-	return personalToken;
-}
+import {getToken} from '../options-storage.js';
 
 export async function expectToken(): Promise<string> {
 	const personalToken = await getToken();

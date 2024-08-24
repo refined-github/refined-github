@@ -13,7 +13,7 @@ import {
 	getConversationNumber, getUsername, scrollIntoViewIfNeeded, triggerConversationUpdate,
 } from '../github-helpers/index.js';
 import {randomArrayItem} from '../helpers/math.js';
-import {getToken} from '../github-helpers/github-token.js';
+import {getToken} from '../options-storage.js';
 
 const emojis = [...'🚀🐿️⚡️🤌🥳🥰🤩🥸😎🤯🚢🛫🏳️🏁'];
 
