@@ -27,7 +27,7 @@ const noticeClass = 'rgh-files-hidden-notice';
 const noticeStyle = {paddingRight: '16px'};
 
 function addButton(commitsLink: HTMLElement): void {
-	if(pageDetect.isSingleFile()) {
+	if (pageDetect.isSingleFile()) {
 		return;
 	}
 
