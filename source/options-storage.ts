@@ -32,4 +32,12 @@ const migrations = [
 ];
 
 export const perDomainOptions = new OptionsSyncPerDomain({defaults, migrations});
-export default perDomainOptions.getOptionsForOrigin();
+const optionsStorage = perDomainOptions.getOptionsForOrigin();
+export default optionsStorage;
+
+const cachedSettings = optionsStorage.getAll();
+
+export async function getToken(): Promise<string | undefined> {
+	const {personalToken} = await cachedSettings;
+	return personalToken;
+}
