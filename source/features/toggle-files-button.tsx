@@ -27,6 +27,9 @@ const noticeClass = 'rgh-files-hidden-notice';
 const noticeStyle = {paddingRight: '16px'};
 
 function addButton(commitsLink: HTMLElement): void {
+	// React view support
+	// https://github.com/refined-github/refined-github/issues/6554
+	// https://github.com/refined-github/refined-github/pull/7740#discussion_r1730211546
 	if (pageDetect.isSingleFile()) {
 		return;
 	}
