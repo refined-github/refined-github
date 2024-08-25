@@ -1,6 +1,6 @@
 import './toggle-files-button.css';
 import React from 'dom-chef';
-import {$, expectElement} from 'select-dom';
+import {$, elementExists, expectElement} from 'select-dom';
 import delegate from 'delegate-it';
 import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
@@ -27,6 +27,19 @@ const noticeClass = 'rgh-files-hidden-notice';
 const noticeStyle = {paddingRight: '16px'};
 
 function addButton(commitsLink: HTMLElement): void {
+	// React view support
+	// https://github.com/refined-github/refined-github/issues/6554
+	// https://github.com/refined-github/refined-github/pull/7740#discussion_r1730211546
+	if (pageDetect.isSingleFile()) {
+		return;
+	}
+
+	// https://github.com/refined-github/refined-github/issues/7737
+	const existingButton = elementExists(`.${toggleButtonClass}`);
+	if (existingButton) {
+		return;
+	}
+
 	// It won't work with :has(), too many nested boxes
 	commitsLink.closest('[class^="Box"]')!.append(
 		<button
