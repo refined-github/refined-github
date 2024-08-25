@@ -109,6 +109,7 @@
 		"eslint-plugin-react": "^7.35.0",
 		"eslint-plugin-react-hooks": "^4.6.2",
 		"fast-ignore": "^1.1.3",
+		"fdir": "^6.3.0",
 		"filenamify": "^6.0.0",
 		"highlight.js": "^11.10.0",
 		"linkedom": "^0.18.4",

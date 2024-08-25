@@ -1,3 +1,4 @@
+import path from 'node:path';
 import typescript from '@rollup/plugin-typescript';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
@@ -9,19 +10,28 @@ import json from '@rollup/plugin-json';
 import copy from 'rollup-plugin-copy';
 import clear from 'rollup-plugin-clear';
 import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
+import {fdir as Fdir} from 'fdir';
+
+const modules = new Fdir()
+	.withBasePath()
+	.withRelativePaths()
+	.filter(path => !path.endsWith('d.ts') && !path.includes('.test.') && !path.endsWith('.gql') && !path.endsWith('.png') && !path.endsWith('.html'))
+	.crawl('source')
+	.sync();
+
+const input = Object.fromEntries(modules.map(fullPath => [
+	fullPath.replace(/\.tsx?$/, ''),
+	'source/' + fullPath,
+]));
 
 /** @type {import('rollup').RollupOptions} */
 const rollup = {
-	input: {
-		options: './source/options.tsx',
-		background: './source/background.ts',
-		'refined-github': './source/refined-github.ts',
-		'content-script': './source/content-script.ts',
-		'resolve-conflicts': './source/resolve-conflicts.ts',
+	input,
+	watch: {
+		clearScreen: false,
 	},
 	output: {
 		dir: 'distribution/assets',
-		preserveModules: true,
 		assetFileNames: '[name][extname]', // For CSS
 	},
 	plugins: [
