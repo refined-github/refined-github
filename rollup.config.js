@@ -7,8 +7,10 @@ import {string} from 'rollup-plugin-string';
 import alias from '@rollup/plugin-alias';
 import json from '@rollup/plugin-json';
 import copy from 'rollup-plugin-copy';
-import clear from 'rollup-plugin-clear';
+import del from 'rollup-plugin-delete';
 import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
+
+const noise = new Set(['index', 'dist', 'src', 'source', 'distribution', 'node_modules', 'main', 'esm', 'cjs', 'build', 'built']);
 
 /** @type {import('rollup').RollupOptions} */
 const rollup = {
@@ -22,23 +24,25 @@ const rollup = {
 	output: {
 		dir: 'distribution/assets',
 		preserveModules: true,
+		preserveModulesRoot: 'source',
 		assetFileNames: '[name][extname]', // For CSS
 		entryFileNames(chunkInfo) {
 			if (chunkInfo.name.includes('node_modules')) {
 				const cleanName = chunkInfo.name
 					.split('/')
-					.filter(part => !['index', 'dist', 'src', 'source', 'distribution', 'node_modules', 'main'].includes(part))
+					.filter(part => !noise.has(part))
 					.join('-');
 				return `node_modules/${cleanName}.js`;
 			}
 
-			return '[name].js';
+			return chunkInfo.name.replace('build/__snapshots__/', '') + '.js';
 		},
 	},
+
 	plugins: [
-		clear({
+		del({
 			targets: ['distribution/assets'],
-			watch: false, // `true` would be nice, but it deletes the files too early, causing two extension reloads
+			runOnce: true, // `false` would be nice, but it deletes the files too early, causing two extension reloads
 		}),
 		json(),
 		styles({
