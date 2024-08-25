@@ -23,6 +23,17 @@ const rollup = {
 		dir: 'distribution/assets',
 		preserveModules: true,
 		assetFileNames: '[name][extname]', // For CSS
+		entryFileNames(chunkInfo) {
+			if (chunkInfo.name.includes('node_modules')) {
+				const cleanName = chunkInfo.name
+					.split('/')
+					.filter(part => !['index', 'dist', 'src', 'source', 'distribution', 'node_modules', 'main'].includes(part))
+					.join('-');
+				return `node_modules/${cleanName}.js`;
+			}
+
+			return '[name].js';
+		},
 	},
 	plugins: [
 		clear({
