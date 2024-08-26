@@ -14,11 +14,6 @@
 	margin-top: 0 !important;
 }
 
-/* Hide "Readme" link made unnecessary by `toggle-files-button` #3580 */
-[rgh-clean-repo-sidebar] .Layout-sidebar [href$='#readme'] {
-	display: none;
-}
-
 @media (min-width: 768px) {
 	/* Hide "Releases" header */
 	[rgh-clean-repo-sidebar] .Layout-sidebar h2 [href$='/releases'] {

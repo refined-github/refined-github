@@ -21,8 +21,8 @@ function getCurrentCommitTitle(): string | undefined {
 	return getCurrentCommitTitleField()?.value.trim();
 }
 
-export function formatPrCommitTitle(title: string): string {
-	return `${title} (#${getConversationNumber()!})`;
+export function formatPrCommitTitle(title: string, prNumber = getConversationNumber()!): string {
+	return `${title} (#${prNumber})`;
 }
 
 function createCommitTitle(): string {
