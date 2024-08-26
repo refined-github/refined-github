@@ -61,13 +61,13 @@
 				"assets/refined-github.css"
 			],
 			"js": [
-				"assets/refined-github.js"
+				"assets/content-script.js"
 			]
 		}
 	],
 	"web_accessible_resources": [
     {
-      "resources": [ "assets/resolve-conflicts.js" ],
+      "resources": [ "assets/*" ],
       "matches": [ "https://*/*" ]
     }
   ]
