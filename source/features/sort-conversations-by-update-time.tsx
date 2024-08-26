@@ -6,6 +6,7 @@ import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import observe from '../helpers/selector-observer.js';
 import {linksToConversationLists} from '../github-helpers/selectors.js';
+import oneEvent from 'one-event';
 
 /** Keep the original URL on the element so that `shorten-links` can use it reliably #5890 */
 export function saveOriginalHref(link: HTMLAnchorElement): void {
@@ -22,7 +23,7 @@ async function selectCurrentConversationFilter(): Promise<void> {
 	}
 }
 
-function updateLink(link: HTMLAnchorElement): void {
+async function updateLink(link: HTMLAnchorElement): Promise<void> {
 	if (link.host !== location.host) {
 		return;
 	}
@@ -31,6 +32,12 @@ function updateLink(link: HTMLAnchorElement): void {
 	// + skip pagination links
 	// + skip pr/issue filter dropdowns (some are lazyloaded)
 	if (pageDetect.isIssueOrPRList(link)) {
+		// Avoid rewriting /label/ URLs until the last moment
+		// https://github.com/refined-github/refined-github/issues/7205
+		if (pageDetect.isRepoTaxonomyIssueOrPRList(link)) {
+			await oneEvent(link, 'click', {filter: event => (event as MouseEvent).which < 2});
+		}
+
 		saveOriginalHref(link);
 
 		const newUrl = SearchQuery.from(link).prepend('sort:updated-desc').href;
