@@ -72,7 +72,7 @@
 		"push-form": "^1.0.1",
 		"regex-join": "^2.0.0",
 		"select-dom": "^9.0.0",
-		"shorten-repo-url": "^5.0.2",
+		"shorten-repo-url": "^5.1.0",
 		"strip-indent": "^4.0.0",
 		"text-field-edit": "^4.1.1",
 		"tiny-version-compare": "^4.0.0",
