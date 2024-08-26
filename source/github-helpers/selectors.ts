@@ -139,7 +139,7 @@ export const commitHashLinkInLists = [
 	'[aria-label="View commit details"] a.text-mono', // `isCommitList`
 	'a[id^="commit-details-"]', // `isPRCommitList`
 	'.js-details-container .text-right code a.Link--secondary', // `isPRConversation`
-] as unknown as 'a';
+] as unknown as Array<'a'>;
 export const commitHashLinkInLists_ = [
 	[35, 'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174'],
 	[4, 'https://github.com/refined-github/refined-github/pull/6194/commits'],
@@ -187,3 +187,26 @@ export const botLinksPrSelectors = [
 	'.opened-by [href*="author%3Aapp%2F"]', // Search query `is:pr+author:app/*`
 	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
 ];
+
+export const usernameLinksSelector = [
+	// `a` selector needed to skip commits by non-GitHub users
+	// # targets mannequins #6504
+	`:is(
+		.js-discussion,
+		.inline-comments
+	) a.author:not(
+		[href="#"],
+		[href*="/apps/"],
+		[href*="/marketplace/"],
+		[data-hovercard-type="organization"],
+		[show_full_name="true"]
+	)`,
+	// GHE sometimes shows the full name already:
+	// https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
+
+	// On dashboard
+	// `.Link--primary` excludes avatars
+	// [aria-label="card content"] excludes links in cards #6530 #6915
+	'#dashboard a.Link--primary[data-hovercard-type="user"]:not([aria-label="card content"] *)',
+] as unknown as Array<'a'>;
+
