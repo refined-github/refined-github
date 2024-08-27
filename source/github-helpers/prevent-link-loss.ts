@@ -1,4 +1,3 @@
-/* eslint-disable max-params */
 import {RepositoryInfo} from 'github-url-detection';
 
 import {getRepo} from './index.js';

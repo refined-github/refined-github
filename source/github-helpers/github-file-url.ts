@@ -67,7 +67,7 @@ export default class GitHubFileURL {
 	}
 
 	get pathname(): string {
-		return `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replaceAll(/((undefined)?\/)+$/g, '');
+		return `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replaceAll(/(?:(?:undefined)?\/)+$/g, '');
 	}
 
 	set pathname(pathname: string) {
@@ -76,14 +76,22 @@ export default class GitHubFileURL {
 		if (isRepoRoot() || (ambiguousReference.length === 2 && ambiguousReference[1].includes('%2F'))) {
 			const branch = ambiguousReference.join('/').replaceAll('%2F', '/');
 			this.assign({
-				user, repository, route, branch, filePath: '',
+				user,
+				repository,
+				route,
+				branch,
+				filePath: '',
 			});
 			return;
 		}
 
 		const {branch, filePath} = this.disambiguateReference(ambiguousReference);
 		this.assign({
-			user, repository, route, branch, filePath,
+			user,
+			repository,
+			route,
+			branch,
+			filePath,
 		});
 	}
 

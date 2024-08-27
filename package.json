@@ -70,7 +70,7 @@
 		"onetime": "^7.0.0",
 		"pretty-bytes": "^6.1.1",
 		"push-form": "^1.0.1",
-		"regex-join": "^2.0.0",
+		"regex-join": "^2.1.0",
 		"select-dom": "^9.0.0",
 		"shorten-repo-url": "^5.1.0",
 		"strip-indent": "^4.0.0",
@@ -129,7 +129,7 @@
 		"snarkdown": "^2.0.0",
 		"stylelint": "^16.8.1",
 		"stylelint-config-xo": "^1.0.2",
-		"type-fest": "^4.24.0",
+		"type-fest": "^4.25.0",
 		"typed-query-selector": "^2.11.4",
 		"typescript": "^5.5.4",
 		"vitest": "^2.0.5"

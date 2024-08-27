@@ -1,7 +1,10 @@
 import './tag-changes-link.css';
 import React from 'dom-chef';
 import {
-	$, $$, elementExists, expectElement,
+	$,
+	$$,
+	elementExists,
+	expectElement,
 } from 'select-dom';
 import domLoaded from 'dom-loaded';
 import DiffIcon from 'octicons-plain-react/Diff';

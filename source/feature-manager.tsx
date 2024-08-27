@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import {$, elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
-import {Promisable} from 'type-fest';
+import {Arrayable, Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 
 import waitFor from './helpers/wait-for.js';
@@ -36,10 +36,11 @@ type FeatureLoader = {
 	/** Whether to wait for DOM ready before running `init`. By default, it runs `init` as soon as `body` is found. @default false */
 	awaitDomReady?: true;
 
-	/** When pressing the back button, DOM changes and listeners are still there. Using a selector here would use the integrated deduplication logic, but it cannot be used with `delegate` and it shouldn't use `has-rgh` and `has-rgh-inner` anymore. #5871 #
+	/**
+	 When pressing the back button, DOM changes and listeners are still there. Using a selector here would use the integrated deduplication logic, but it cannot be used with `delegate` and it shouldn't use `has-rgh` and `has-rgh-inner` anymore. #5871 #
 	@deprecated
 	@default false
-	*/
+	 */
 	deduplicate?: string;
 
 	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
@@ -58,6 +59,9 @@ type InternalRunConfig = RunConditions & {
 };
 
 const {version} = chrome.runtime.getManifest();
+
+const shortcutMap = new Map<string, string>();
+const getFeatureID = (url: string): FeatureID => url.split('/').pop()!.split('.')[0] as FeatureID;
 
 const currentFeatureControllers = new ArrayMap<FeatureID, AbortController>();
 const fineGrainedTokenSuggestion = 'Please use a GitHub App, OAuth App, or a personal access token with fine-grained permissions.';
@@ -161,6 +165,7 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 
 	if (elementExists('body.logged-out')) {
 		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
+		// eslint-disable-next-line ts/no-use-before-define -- TODO: Drop in https://github.com/refined-github/refined-github/issues/7750
 		features.log.error = () => {/* No logging */};
 	}
 
@@ -222,10 +227,6 @@ async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<
 	}
 }
 
-const shortcutMap = new Map<string, string>();
-
-const getFeatureID = (url: string): FeatureID => url.split('/').pop()!.split('.')[0] as FeatureID;
-
 type FeatureHelper = {
 	/** If `import.meta.url` is passed as URL, this will be the feature ID */
 	id: string;
@@ -260,7 +261,15 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 	for (const loader of loaders) {
 		// Input defaults and validation
 		const {
-			shortcuts = {}, asLongAs, include, exclude, init, awaitDomReady = false, deduplicate = false, onlyAdditionalListeners = false, additionalListeners = [],
+			shortcuts = {},
+			asLongAs,
+			include,
+			exclude,
+			init,
+			awaitDomReady = false,
+			deduplicate = false,
+			onlyAdditionalListeners = false,
+			additionalListeners = [],
 		} = loader;
 
 		if (include?.length === 0) {
@@ -273,7 +282,13 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 		}
 
 		const details = {
-			asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, shortcuts,
+			asLongAs,
+			include,
+			exclude,
+			init,
+			additionalListeners,
+			onlyAdditionalListeners,
+			shortcuts,
 		};
 		if (awaitDomReady) {
 			(async () => {

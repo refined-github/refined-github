@@ -14,7 +14,7 @@ type Comparison = {
 	isCrossRepo: boolean;
 };
 
-const compareRegex = /compare[/]([^.]+)(?:[.][.][.]?)(.+)/;
+const compareRegex = /compare[/]([^.]+)[.][.][.]?(.+)/;
 export default function parseCompareUrl(pathname: string): Comparison | undefined {
 	const base = getRepo(pathname)!;
 
@@ -46,4 +46,3 @@ export default function parseCompareUrl(pathname: string): Comparison | undefine
 		isCrossRepo: headRepo !== base.nameWithOwner,
 	};
 }
-

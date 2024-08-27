@@ -69,7 +69,8 @@ function getApiUrl(): string {
 
 async function getNameFromToken(token: string): Promise<string> {
 	const response = await fetch(
-		getApiUrl() + '/user', {
+		getApiUrl() + '/user',
+		{
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -89,8 +90,8 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 		cache: 'no-store',
 		headers: {
 			'User-Agent': 'Refined GitHub',
-			Accept: 'application/vnd.github.v3+json',
-			Authorization: `token ${personalToken}`,
+			'Accept': 'application/vnd.github.v3+json',
+			'Authorization': `token ${personalToken}`,
 		},
 	});
 
@@ -114,8 +115,8 @@ async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
 		output.textContent = available < 1000
 			? 'FULL!'
 			: (available < 100_000
-				? `Only ${prettyBytes(available)} available`
-				: `${prettyBytes(used)} used`);
+					? `Only ${prettyBytes(available)} available`
+					: `${prettyBytes(used)} used`);
 	}
 }
 

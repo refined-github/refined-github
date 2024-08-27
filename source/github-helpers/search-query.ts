@@ -1,4 +1,4 @@
-const queryPartsRegExp = /(?:[^\s"]+|"[^"]*")+/g;
+const queryPartsRegExp = /(?:[^\s"]|"[^"]*")+/g;
 const labelLinkRegex = /^(?:\/[^/]+){2}\/labels\/([^/]+)\/?$/;
 
 function splitQueryString(query: string): string[] {
@@ -29,7 +29,7 @@ type Source = Location | HTMLAnchorElement | Record<string, string>;
 /**
 Parser/Mutator of GitHub's search query directly on anchors and URL-like objects.
 Notice: if the <a> or `location` changes outside SearchQuery, `get()` will return an outdated value.
-*/
+ */
 export default class SearchQuery {
 	static escapeValue(value: string): string {
 		return value.includes(' ') ? `"${value}"` : value;

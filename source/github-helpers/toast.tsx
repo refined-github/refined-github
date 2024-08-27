@@ -46,7 +46,6 @@ export default async function showToast(
 			throw task;
 		}
 
-		// eslint-disable-next-line unicorn/prefer-ternary -- Naw man, that's less readable
 		if (typeof task === 'function') {
 			await task(updateToast);
 		} else {

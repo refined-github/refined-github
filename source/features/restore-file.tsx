@@ -32,7 +32,8 @@ async function getFile(filePath: string): Promise<string | undefined> {
 			headers: {
 				Accept: 'application/vnd.github.raw',
 			},
-		});
+		},
+	);
 	return textContent;
 }
 

@@ -1,16 +1,16 @@
 /// <reference types="../source/globals.js" />
 
-import regexJoin from 'regex-join';
+import {regexJoinWithSeparator} from 'regex-join';
 import {existsSync, readFileSync} from 'node:fs';
 import parseMarkdown from 'snarkdown';
 
 // Group names must be unique because they will be merged
 const simpleFeatureRegex = /^- \[]\(# "(?<simpleId>[^"]+)"\)(?: 🔥)? (?<simpleDescription>.+)$/gm;
-const highlightedFeatureRegex = /<p><a title="(?<highlightedId>[^"]+)"><\/a> (?<highlightedDescripion>.+?)\n\t+<p><img src="(?<highlightedImage>.+?)">/g;
-const featureRegex = regexJoin(simpleFeatureRegex, /|/, highlightedFeatureRegex);
+const highlightedFeatureRegex = /<p><a title="(?<highlightedId>[^"]+)"><\/a> (?<highlightedDescripion>.+)\n\t+<p><img src="(?<highlightedImage>.+?)">/g;
+const featureRegex = regexJoinWithSeparator('|', [simpleFeatureRegex, highlightedFeatureRegex]);
 const imageRegex = /\.\w{3}$/; // 3 since .png and .gif have 3 letters
 const rghUploadsRegex = /refined-github[/]refined-github[/]assets[/]/;
-const screenshotRegex = regexJoin(imageRegex, /|/, rghUploadsRegex);
+const screenshotRegex = regexJoinWithSeparator('|', [imageRegex, rghUploadsRegex]);
 
 function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 	const {
