@@ -15,6 +15,7 @@ export default antfu(
 
 		typescript: {
 			overrides: {
+				'ts/method-signature-style': 'off', // Disagree and it breaks types https://github.com/typescript-eslint/typescript-eslint/issues/1991
 				'ts/consistent-type-definitions': 'off', // Review later
 				'ts/explicit-function-return-type': [
 					'error',
@@ -39,6 +40,7 @@ export default antfu(
 			'jsonc/array-bracket-spacing': 'off', // Same
 			'style/brace-style': ['error', '1tbs'], // Naw, man
 			'style/semi': ['error', 'always'],
+			'style/arrow-parens': ['error', 'as-needed'],
 			'prefer-template': 'off', // When there's a single `+` templates are less readable
 
 			// Restore errors
@@ -54,12 +56,10 @@ export default antfu(
 			'test/consistent-test-it': 'off',
 			'sort-imports': 'off',
 			'style/jsx-one-expression-per-line': 'off',
-			'style/arrow-parens': ['error', 'as-needed'],
 			'antfu/top-level-function': 'off', // Maybe later
 			'unused-imports/no-unused-vars': 'off', // Buggy
 			'no-console': 'off',
 			'jsonc/sort-keys': 'off',
-			'regexp/strict': 'off',
 
 			'ts/no-restricted-types': [
 				'error',

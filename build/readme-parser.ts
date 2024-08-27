@@ -5,7 +5,7 @@ import {existsSync, readFileSync} from 'node:fs';
 import parseMarkdown from 'snarkdown';
 
 // Group names must be unique because they will be merged
-const simpleFeatureRegex = /^- \[]\(# "(?<simpleId>[^"]+)"\)(?: 🔥)? (?<simpleDescription>.+)$/gm;
+const simpleFeatureRegex = /^- \[\]\(# "(?<simpleId>[^"]+)"\)(?: 🔥)? (?<simpleDescription>.+)$/gm;
 const highlightedFeatureRegex = /<p><a title="(?<highlightedId>[^"]+)"><\/a> (?<highlightedDescripion>.+)\n\t+<p><img src="(?<highlightedImage>.+?)">/g;
 const featureRegex = regexJoinWithSeparator('|', [simpleFeatureRegex, highlightedFeatureRegex]);
 const imageRegex = /\.\w{3}$/; // 3 since .png and .gif have 3 letters
@@ -34,7 +34,7 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 		return title;
 	}
 
-	const linkLessMarkdownDescription = simpleDescription.replaceAll(/\[(.+?)]\((.+?)\)/g, urlExtracter);
+	const linkLessMarkdownDescription = simpleDescription.replaceAll(/\[(.+?)\]\((.+?)\)/g, urlExtracter);
 	return {
 		id: simpleId as FeatureID,
 		description: parseMarkdown(linkLessMarkdownDescription),
