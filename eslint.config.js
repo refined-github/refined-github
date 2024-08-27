@@ -40,8 +40,14 @@ export default antfu(
 			'jsonc/array-bracket-spacing': 'off', // Same
 			'style/brace-style': ['error', '1tbs'], // Naw, man
 			'style/semi': ['error', 'always'],
+			'style/member-delimiter-style': ['error', {
+				multiline: {
+					delimiter: 'semi',
+				},
+			}],
 			'style/arrow-parens': ['error', 'as-needed'],
 			'prefer-template': 'off', // When there's a single `+` templates are less readable
+			'style/jsx-one-expression-per-line': 'off', // Terrible for inline elements, e.g. text
 
 			// Restore errors
 			'no-await-in-loop': 'error',
@@ -55,7 +61,6 @@ export default antfu(
 
 			'test/consistent-test-it': 'off',
 			'sort-imports': 'off',
-			'style/jsx-one-expression-per-line': 'off',
 			'antfu/top-level-function': 'off', // Maybe later
 			'unused-imports/no-unused-vars': 'off', // Buggy
 			'no-console': 'off',
@@ -87,11 +92,6 @@ export default antfu(
 					},
 				},
 			],
-			'style/member-delimiter-style': ['error', {
-				multiline: {
-					delimiter: 'semi',
-				},
-			}],
 			'no-restricted-syntax': [
 				'error',
 				{
@@ -110,9 +110,6 @@ export default antfu(
 				'prefer-double',
 			],
 			'no-alert': 'off',
-			'no-warning-comments': 'off',
-			'ts/naming-convention': 'off',
-			'ts/no-implicit-any-catch': 'off',
 			'ts/no-unsafe-assignment': 'off',
 			'ts/no-unsafe-argument': 'off',
 			'ts/no-unsafe-member-access': 'off',
@@ -120,7 +117,7 @@ export default antfu(
 			'ts/no-unsafe-call': 'off',
 			'ts/consistent-type-imports': 'off',
 			'n/prefer-global/process': 'off',
-			'import/no-cycle': 'off',
+			'import/no-cycle': 'off', // Slow, Rollup handles this
 			'import/no-unassigned-import': 'off',
 			'import/prefer-default-export': 'error',
 			'import/order': [
