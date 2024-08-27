@@ -23,3 +23,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+1. Visit https://github.com/refined-github/sandbox/compare/default-a...7416?expand=1
+2. Double-click "Create pull request"
+
+*/
