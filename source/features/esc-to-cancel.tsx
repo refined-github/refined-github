@@ -28,3 +28,14 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+1. Visit https://github.com/issues?q=+archived%3Afalse+author%3A%40me
+2. Open any issue/PR
+3. Try to edit the title
+4. Press Esc
+
+*/
