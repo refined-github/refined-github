@@ -1,4 +1,7 @@
 import antfu from '@antfu/eslint-config';
+import eslintPluginUnicorn from 'eslint-plugin-unicorn';
+
+const unicorn = eslintPluginUnicorn.configs['flat/recommended'].rules;
 
 export default antfu(
 	{
@@ -22,8 +25,6 @@ export default antfu(
 			},
 		},
 		rules: {
-
-			'unicorn/expiring-todo-comments': 'off', // We just got too many, too much noise
 			'react-refresh/only-export-components': 'off', // N/A
 			'react/no-missing-key': 'off', // N/A
 
@@ -36,12 +37,11 @@ export default antfu(
 			'style/object-curly-spacing': ['error', 'never'], // Unnecessary change for now
 			'style/block-spacing': ['error', 'never'], // Same
 			'jsonc/array-bracket-spacing': 'off', // Same
+			'style/brace-style': ['error', '1tbs'], // Naw, man
 			'style/semi': ['error', 'always'],
 			'prefer-template': 'off', // When there's a single `+` templates are less readable
 
 			// Restore errors
-			'unicorn/prefer-export-from': 'error',
-			'unicorn/no-array-callback-reference': 'error',
 			'no-await-in-loop': 'error',
 			'new-cap': [
 				'error',
@@ -55,10 +55,9 @@ export default antfu(
 			'sort-imports': 'off',
 			'style/jsx-one-expression-per-line': 'off',
 			'style/arrow-parens': ['error', 'as-needed'],
-			'style/brace-style': ['error', '1tbs'],
 			'antfu/top-level-function': 'off', // Maybe later
-			'no-console': 'off',
 			'unused-imports/no-unused-vars': 'off', // Buggy
+			'no-console': 'off',
 			'jsonc/sort-keys': 'off',
 			'regexp/strict': 'off',
 
@@ -112,20 +111,6 @@ export default antfu(
 			],
 			'no-alert': 'off',
 			'no-warning-comments': 'off',
-			'unicorn/no-nested-ternary': 'off',
-			'unicorn/better-regex': 'off',
-			'unicorn/prefer-top-level-await': 'off',
-			'unicorn/prefer-dom-node-dataset': 'off',
-			'unicorn/prevent-abbreviations': [
-				'error',
-				{
-					replacements: {
-						props: false,
-						ref: false,
-						nav: false,
-					},
-				},
-			],
 			'ts/naming-convention': 'off',
 			'ts/no-implicit-any-catch': 'off',
 			'ts/no-unsafe-assignment': 'off',
@@ -159,7 +144,28 @@ export default antfu(
 			// ]
 		},
 	},
-
+	{
+		rules: {
+			...unicorn,
+			'unicorn/expiring-todo-comments': 'off', // We just got too many, too much noise
+			'unicorn/no-nested-ternary': 'off',
+			'unicorn/better-regex': 'off',
+			'unicorn/prefer-top-level-await': 'off',
+			'unicorn/prefer-dom-node-dataset': 'off',
+			'unicorn/prefer-ternary': 'off', // Unreadable https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1633
+			'unicorn/no-null': 'off', // TODO: Later
+			'unicorn/prevent-abbreviations': [
+				'error',
+				{
+					replacements: {
+						props: false,
+						ref: false,
+						nav: false,
+					},
+				},
+			],
+		},
+	},
 	{
 		files: [
 			'build/*',
@@ -183,6 +189,14 @@ export default antfu(
 		],
 		rules: {
 			'style/no-multiple-empty-lines': 'off',
+		},
+	},
+	{
+		files: [
+			'.github/**',
+		],
+		rules: {
+			'unicorn/filename-case': 'off',
 		},
 	},
 	// https://eslint.org/docs/latest/use/configure/ignore#ignoring-files

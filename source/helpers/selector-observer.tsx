@@ -95,18 +95,18 @@ export async function waitForElement<
 >(
 	selectors: Selector | readonly Selector[],
 	{signal, stopOnDomReady}: Options = {},
-): Promise<ExpectedElement | undefined> {
+): Promise<ExpectedElement | void> {
 	const local = new AbortController();
 	signal = signal ? AbortSignal.any([signal, local.signal]) : local.signal;
 
-	return new Promise(resolve => {
+	return new Promise<ExpectedElement | void>(resolve => {
 		observe<Selector, ExpectedElement>(selectors, element => {
 			resolve(element);
 			local.abort();
 		}, {signal, stopOnDomReady, once: true});
 
 		signal.addEventListener('abort', () => {
-			resolve(undefined);
+			resolve();
 		});
 	});
 }

@@ -177,7 +177,8 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 	resolve(options);
 });
 
-function castArray<Item>(value: Item | Item[]): Item[] {
+function castArray<Item>(value: Arrayable<Item>): Item[] {
+	// @ts-expect-error --- ??? https://github.com/sindresorhus/type-fest/pull/935#issuecomment-2312879342
 	return Array.isArray(value) ? value : [value];
 }
 
