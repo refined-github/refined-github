@@ -35,13 +35,3 @@
 		inset 0 1px 2px rgb(35 27 27 / 7.5%),
 		0 0 0 0.2em color-mix(in srgb, var(--rgh-limit-color) 30%, transparent);
 }
-
-/*
-
-## Test URLs
-
-- File edit: https://github.com/refined-github/refined-github/edit/fix-commit-title-limit/source/refined-github.css
-- Workflow edit: https://github.com/refined-github/refined-github/edit/fix-commit-title-limit/.github/workflows/features.yml
-- Any mergeable PR
-
-*/
