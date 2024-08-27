@@ -57,7 +57,12 @@ const rollup = {
 				{find: 'react', replacement: 'dom-chef'},
 			],
 		}),
-		typescript({compilerOptions: {module: 'Node16'}}),
+		typescript({
+			compilerOptions: {
+				noEmitOnError: !process.env.ROLLUP_WATCH,
+				module: 'Node16',
+			},
+		}),
 		resolve({browser: true}),
 		commonjs(),
 		copy({
