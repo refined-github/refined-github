@@ -34,3 +34,12 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+
+Test URLs:
+
+- Commit:https://github.com/refined-github/refined-github/commit/132272786fdc058193e089d8c06f2a158844e101
+- PR Commit: https://github.com/refined-github/refined-github/pull/7751/commits/07ddf838c211075701e9a681ab061a158b05ee79
+
+*/

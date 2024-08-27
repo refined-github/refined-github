@@ -94,7 +94,6 @@
 		{
 			"nodeVersion": "20",
 			"files": [
-				"webpack.config.ts",
 				"build/*"
 			],
 			"rules": {

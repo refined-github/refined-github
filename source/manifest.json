@@ -9,11 +9,11 @@
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "{a4c4eda4-fb84-4a84-b4a1-f7c1cbf2a1ad}",
-			"strict_min_version": "124.0"
+			"strict_min_version": "126.0"
 		},
 		"gecko_android": {
 			"id": "{a4c4eda4-fb84-4a84-b4a1-f7c1cbf2a1ad}",
-			"strict_min_version": "124.0"
+			"strict_min_version": "126.0"
 		}
 	},
 	"permissions": [
@@ -61,13 +61,13 @@
 				"assets/refined-github.css"
 			],
 			"js": [
-				"assets/refined-github.js"
+				"assets/content-script.js"
 			]
 		}
 	],
 	"web_accessible_resources": [
     {
-      "resources": [ "assets/resolve-conflicts.js" ],
+      "resources": [ "assets/*" ],
       "matches": [ "https://*/*" ]
     }
   ]

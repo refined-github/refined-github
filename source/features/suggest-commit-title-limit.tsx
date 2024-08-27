@@ -4,6 +4,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
+import getNextConversationNumber from '../github-helpers/get-next-conversation-number.js';
+import {getConversationNumber} from '../github-helpers/index.js';
 import {formatPrCommitTitle} from './sync-pr-commit-title.js';
 
 // https://github.com/refined-github/refined-github/issues/2178#issuecomment-505940703
@@ -13,9 +15,13 @@ function validateCommitTitle({delegateTarget: field}: DelegateEvent<Event, HTMLI
 	field.classList.toggle('rgh-title-over-limit', field.value.length > limit);
 }
 
-function validatePrTitle({delegateTarget: field}: DelegateEvent<Event, HTMLInputElement>): void {
+async function validatePrTitle({delegateTarget: field}: DelegateEvent<Event, HTMLInputElement>): Promise<void> {
 	// Include the PR number in the title length calculation because it will be added to the commit title
-	field.classList.toggle('rgh-title-over-limit', formatPrCommitTitle(field.value).length > limit);
+	const prTitle = formatPrCommitTitle(
+		field.value,
+		getConversationNumber() ?? await getNextConversationNumber(),
+	);
+	field.classList.toggle('rgh-title-over-limit', prTitle.length > limit);
 }
 
 function init(signal: AbortSignal): void {
