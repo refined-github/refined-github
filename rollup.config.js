@@ -58,6 +58,7 @@ const rollup = {
 				{find: 'react', replacement: 'dom-chef'},
 			],
 		}),
+
 		sucrase({
 			transforms: ['typescript', 'jsx'],
 		}),

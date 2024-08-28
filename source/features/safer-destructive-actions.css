@@ -32,3 +32,14 @@ div.inline-comment-form .form-actions,
 .commit-form-actions button:not(.js-merge-commit-button) {
 	float: right;
 }
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/sandbox/pull/4
+
+- Regular comments
+- Review comments
+
+*/

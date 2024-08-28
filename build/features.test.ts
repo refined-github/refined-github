@@ -1,6 +1,6 @@
-import {test, describe, assert} from 'vitest';
-import {parse, join} from 'node:path';
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
+import path from 'node:path';
+import {test, describe, assert} from 'vitest';
 import regexJoin from 'regex-join';
 import fastIgnore from 'fast-ignore';
 
@@ -55,8 +55,8 @@ class FeatureFile {
 	readonly id: FeatureID;
 	readonly path: string;
 	constructor(readonly name: string) {
-		this.id = parse(name).name as FeatureID;
-		this.path = join('source/features', name);
+		this.id = path.parse(name).name as FeatureID;
+		this.path = path.join('source/features', name);
 	}
 
 	exists(): boolean {
@@ -91,6 +91,8 @@ function validateCss(file: FeatureFile): void {
 			isImportedByEntrypoint,
 			`Should be imported by \`${entryPoint}\` or removed if it is not needed`,
 		);
+
+		assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
 		return;
 	}
 
@@ -103,6 +105,8 @@ function validateCss(file: FeatureFile): void {
 		!isImportedByEntrypoint,
 		`Should only be imported by \`${file.tsx.name}\`, not by \`${entryPoint}\``,
 	);
+
+	assert(!/test url/i.test(file.contents().toString()), 'Only TSX files and *lone* CSS files should have test URLs');
 }
 
 function validateGql(file: FeatureFile): void {
@@ -141,11 +145,11 @@ function validateTsx(file: FeatureFile): void {
 		`Should be imported by \`${entryPoint}\``,
 	);
 
-	const fileContents = readFileSync(`source/features/${file.name}`);
+	assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
 
-	if (fileContents.includes('.addCssFeature')) {
+	if (file.contents().includes('.addCssFeature')) {
 		assert(
-			!fileContents.includes('.add('),
+			!file.contents().includes('.add('),
 			`${file.id} should use either \`addCssFeature\` or \`add\`, not both`,
 		);
 

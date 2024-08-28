@@ -22,3 +22,16 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+1. Visit https://github.com/pulls
+2. Open any PR you can merge
+2. Click "Merge pull request"
+3. Click "Cancel merge"
+4. Reload the page
+5. The panel should not still be open
+
+*/

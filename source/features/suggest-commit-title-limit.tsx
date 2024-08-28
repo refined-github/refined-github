@@ -53,8 +53,9 @@ void features.add(import.meta.url, {
 ## Test URLs
 
 - Any mergeable PR
-- https://github.com/refined-github/sandbox/pull/8
+	- https://github.com/refined-github/sandbox/pull/8
 - Any editable file
-- https://github.com/refined-github/refined-github/edit/main/readme.md
+	- Markown: https://github.com/refined-github/refined-github/edit/main/readme.md
+	- Workflow: https://github.com/refined-github/refined-github/edit/fix-commit-title-limit/.github/workflows/features.yml
 
 */

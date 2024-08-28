@@ -28,3 +28,13 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+1. Visit https://github.com/refined-github/refined-github/blob/132272786fdc058193e089d8c06f2a158844e101/source/features/esc-to-deselect-line.tsx#L11
+2. Press Esc
+3. See selected line become deselected
+
+*/
