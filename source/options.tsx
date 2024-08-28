@@ -114,9 +114,9 @@ async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
 	for (const output of $$(`.storage-${area}`)) {
 		output.textContent = available < 1000
 			? 'FULL!'
-			: (available < 100_000
-					? `Only ${prettyBytes(available)} available`
-					: `${prettyBytes(used)} used`);
+			: available < 100_000
+				? `Only ${prettyBytes(available)} available`
+				: `${prettyBytes(used)} used`;
 	}
 }
 

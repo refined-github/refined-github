@@ -5,8 +5,9 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import {buildRepoURL, getRepo} from '../github-helpers/index.js';
 
-// eslint-disable-next-line regexp/optimal-quantifier-concatenation -- No
-const isTwoDotDiff = (): boolean => /[.][.]+/.exec(location.pathname)?.[0]!.length === 2;
+const isTwoDotDiff = (): boolean =>
+	!location.pathname.includes('...')
+	&& location.pathname.includes('..');
 
 function init(): void {
 	const {path} = (getRepo()!);

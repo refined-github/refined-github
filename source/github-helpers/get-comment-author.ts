@@ -16,7 +16,7 @@ Note: Bots are used as `name[bot]`, `app/name`, or `apps/name` depending on the 
 
 @returns user-name or dependabot[bot]
 
- */
+*/
 export default function getCommentAuthor(anyElementInsideComment: Element): string {
 	const avatar: HTMLImageElement = anyElementInsideComment
 		.closest(['.TimelineItem', '.review-comment'])!

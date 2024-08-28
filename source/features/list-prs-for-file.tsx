@@ -63,7 +63,7 @@ function getDropdown(prs: number[]): HTMLElement {
 
 /**
 @returns prsByFile {"filename1": [10, 3], "filename2": [2]}
- */
+*/
 const getPrsByFile = new CachedFunction('files-with-prs', {
 	async updater(): Promise<Record<string, number[]>> {
 		const {repository} = await api.v4(listPrsForFileQuery, {

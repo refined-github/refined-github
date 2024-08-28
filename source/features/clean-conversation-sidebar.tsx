@@ -44,7 +44,7 @@ Expected DOM:
 ```
 
 @param selector Element that contains `details` or `.discussion-sidebar-heading` or distinctive element inside it
- */
+*/
 function cleanSection(selector: string): boolean {
 	const container = $(`:is(form, .discussion-sidebar-item):has(${selector})`);
 	if (!container) {

@@ -5,7 +5,7 @@ export default function preserveScroll(
 
 	/**
 	Resets the previously-saved scroll
-	 */
+	*/
 	return () => {
 		requestAnimationFrame(() => {
 			const newPosition = anchor.getBoundingClientRect().top;

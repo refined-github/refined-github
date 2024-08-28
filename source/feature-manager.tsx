@@ -37,10 +37,10 @@ type FeatureLoader = {
 	awaitDomReady?: true;
 
 	/**
-	 When pressing the back button, DOM changes and listeners are still there. Using a selector here would use the integrated deduplication logic, but it cannot be used with `delegate` and it shouldn't use `has-rgh` and `has-rgh-inner` anymore. #5871 #
+	When pressing the back button, DOM changes and listeners are still there. Using a selector here would use the integrated deduplication logic, but it cannot be used with `delegate` and it shouldn't use `has-rgh` and `has-rgh-inner` anymore. #5871 #
 	@deprecated
 	@default false
-	 */
+	*/
 	deduplicate?: string;
 
 	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
