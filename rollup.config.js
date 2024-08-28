@@ -59,8 +59,8 @@ const rollup = {
 			],
 		}),
 		sucrase({
-      transforms: ['typescript', 'jsx'],
-    }),
+			transforms: ['typescript', 'jsx'],
+		}),
 		resolve({browser: true}),
 		commonjs(),
 		copy({
