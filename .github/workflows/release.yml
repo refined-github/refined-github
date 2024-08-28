@@ -41,7 +41,8 @@ jobs:
         run: |
           FILENAME="$PROJECT_NAME-$DAILY_VERSION-for-local-testing-only.zip"
           zip -r "$FILENAME" ./*
-          gh release create "$DAILY_VERSION" --generate-notes "$FILENAME"
+          # Create as draft to curate it before sending it out
+          gh release create "$DAILY_VERSION" "$FILENAME" --draft --generate-notes
   Chrome:
     if: needs.Version.outputs.created
     needs: Version
