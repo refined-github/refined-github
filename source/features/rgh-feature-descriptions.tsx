@@ -135,8 +135,8 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 	// This ID exists whether the feature is documented or not
 	const id = meta?.id ?? filename;
 
-	addDescription(infoBanner, id, meta);
 	await addDisabledBanner(infoBanner, id);
+	addDescription(infoBanner, id, meta);
 }
 
 function init(signal: AbortSignal): void {
