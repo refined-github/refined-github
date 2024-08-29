@@ -32,7 +32,7 @@ const rollup = {
 					.split('/')
 					.filter(part => !noise.has(part))
 					.join('-');
-				return `node_modules/${cleanName}.js`;
+				return `npm/${cleanName}.js`;
 			}
 
 			return chunkInfo.name.replace('build/__snapshots__/', '') + '.js';
