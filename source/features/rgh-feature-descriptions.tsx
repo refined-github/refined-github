@@ -86,7 +86,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 }
 
 async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
-	const classes = ['mb-3'];
+	const classes = ['mb-3 d-inline-block width-full'];
 	// Skip dev check present in `getLocalHotfixes`, we want to see this even when developing
 	const hotfixes = await brokenFeatures.get() ?? [];
 	const hotfixed = hotfixes.find(([feature]) => feature === id);
@@ -135,8 +135,8 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 	// This ID exists whether the feature is documented or not
 	const id = meta?.id ?? filename;
 
-	await addDisabledBanner(infoBanner, id);
 	addDescription(infoBanner, id, meta);
+	await addDisabledBanner(infoBanner, id);
 }
 
 function init(signal: AbortSignal): void {
