@@ -86,7 +86,8 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 }
 
 async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
-	const classes = ['mb-3'];
+	// Block and width classes required to avoid margin collapse
+	const classes = ['mb-3', 'd-inline-block', 'width-full'];
 	// Skip dev check present in `getLocalHotfixes`, we want to see this even when developing
 	const hotfixes = await brokenFeatures.get() ?? [];
 	const hotfixed = hotfixes.find(([feature]) => feature === id);
