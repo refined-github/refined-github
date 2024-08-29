@@ -1,4 +1,4 @@
-import typescript from '@rollup/plugin-typescript';
+import sucrase from '@rollup/plugin-sucrase';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import cleanup from 'rollup-plugin-cleanup';
@@ -38,6 +38,8 @@ const rollup = {
 			return chunkInfo.name.replace('build/__snapshots__/', '') + '.js';
 		},
 	},
+	// TODO: Drop after https://github.com/sindresorhus/memoize/issues/102
+	context: 'window',
 
 	plugins: [
 		del({
@@ -57,7 +59,9 @@ const rollup = {
 				{find: 'react', replacement: 'dom-chef'},
 			],
 		}),
-		typescript({compilerOptions: {module: 'Node16'}}),
+		sucrase({
+			transforms: ['typescript', 'jsx'],
+		}),
 		resolve({browser: true}),
 		commonjs(),
 		copy({
