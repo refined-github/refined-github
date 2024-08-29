@@ -27,16 +27,26 @@
 	},
 	"stylelint": {
 		"extends": [
-			"stylelint-config-xo"
+			"stylelint-config-standard",
+			"@stylistic/stylelint-config"
 		],
 		"rules": {
-			"@stylistic/declaration-colon-newline-after": null,
+			"alpha-value-notation": "percentage",
+			"@stylistic/string-quotes": "single",
+			"comment-empty-line-before": [
+				"always",
+				{
+					"except": ["first-nested"],
+					"ignore": ["after-comment", "stylelint-commands"]
+				}
+			],
 			"@stylistic/indentation": null,
+			"@stylistic/declaration-colon-newline-after": null,
 			"@stylistic/selector-combinator-space-before": null,
 			"@stylistic/selector-descendant-combinator-no-non-space": null,
 			"@stylistic/value-list-comma-newline-after": null,
-			"selector-type-no-unknown": null,
-			"declaration-no-important": null,
+			"@stylistic/max-line-length": null,
+			"custom-property-pattern": null,
 			"selector-class-pattern": null,
 			"selector-id-pattern": null,
 			"no-descending-specificity": null
@@ -97,6 +107,7 @@
 		"@rollup/plugin-node-resolve": "^15.2.3",
 		"@rollup/plugin-sucrase": "^5.0.2",
 		"@sindresorhus/tsconfig": "^6.0.0",
+		"@stylistic/stylelint-config": "^2.0.0",
 		"@types/chrome": "^0.0.270",
 		"@types/codemirror": "^5.60.15",
 		"@types/dom-navigation": "^1.0.3",
@@ -124,8 +135,8 @@
 		"rollup-plugin-styles": "^4.0.0",
 		"rollup-plugin-webpack-stats": "^1.0.2",
 		"snarkdown": "^2.0.0",
-		"stylelint": "^16.8.1",
-		"stylelint-config-xo": "^1.0.2",
+		"stylelint": "^16.9.0",
+		"stylelint-config-standard": "^36.0.1",
 		"type-fest": "^4.24.0",
 		"typed-query-selector": "^2.11.4",
 		"typescript": "^5.5.4",
