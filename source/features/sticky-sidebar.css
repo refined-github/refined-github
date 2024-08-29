@@ -8,7 +8,7 @@
 Have the calculations available even when the sidebar isn't sticky so that `--rgh-sticky-sidebar-offset` can be used via JS.
 
 Exclusively use simple sums and use `0px` instead of `0`
- */
+*/
 #partial-discussion-sidebar {
 	--rgh-sticky-header-height: 60px;
 	--rgh-sticky-sidebar-offset: calc(

@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/consistent-type-definitions -- Declaration merging necessary */
-
-import regexJoin from 'regex-join';
+import {regexJoinWithSeparator} from 'regex-join';
 import type CodeMirror from 'codemirror';
 
 declare module 'codemirror' {
@@ -92,7 +90,8 @@ function newWidget(): HTMLDivElement {
 
 const currentChange = /^>>>>>>> .+ -- Current Change$/;
 const incomingChange = /^<<<<<<< .+ -- Incoming Change$/;
-const anyMarker = regexJoin(currentChange, /|/, incomingChange, /|^=======$/);
+const middle = /^=======$/;
+const anyMarker = regexJoinWithSeparator('|', [currentChange, incomingChange, middle]);
 
 // Accept one or both of branches and remove unnecessary lines
 function acceptBranch(branch: string, line: number): void {
@@ -127,4 +126,3 @@ function acceptBranch(branch: string, line: number): void {
 	editor.execCommand('deleteLine');
 	editor.setCursor(linesToRemove[0]);
 }
-

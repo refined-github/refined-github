@@ -23,7 +23,7 @@ it lets you define accept error HTTP codes as a valid response, like:
 }
 
 so the call will not throw an error but it will return as usual.
- */
+*/
 
 import mem from 'memoize';
 import * as pageDetect from 'github-url-detection';
@@ -108,7 +108,7 @@ export const v3 = mem(async (
 		body: body && JSON.stringify(body),
 		headers: {
 			'User-Agent': 'Refined GitHub',
-			Accept: 'application/vnd.github.v3+json',
+			'Accept': 'application/vnd.github.v3+json',
 			...headers,
 			...personalToken && {Authorization: `token ${personalToken}`},
 		},
@@ -187,7 +187,7 @@ const v4uncached = async (
 
 	Object.assign(variables, options.variables);
 
-	const fullQuery = /^\s*(query|mutation)/.test(query)
+	const fullQuery = /^\s*(?:query|mutation)/.test(query)
 		? query
 		: parameters.length === 0
 			? `query {${query}}`
@@ -199,7 +199,7 @@ const v4uncached = async (
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			'Content-Type': 'application/json',
-			Authorization: `bearer ${personalToken}`,
+			'Authorization': `bearer ${personalToken}`,
 		},
 		method: 'POST',
 		body: JSON.stringify({
@@ -270,7 +270,13 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError>
 }
 
 const api = {
-	v3, v4, v3paginated, v3hasAnyItems, v4uncached, escapeKey, getError,
+	v3,
+	v4,
+	v3paginated,
+	v3hasAnyItems,
+	v4uncached,
+	escapeKey,
+	getError,
 };
 
 export default api;

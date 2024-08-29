@@ -15,7 +15,7 @@ const fieldSelector = 'textarea#new_comment_field';
 
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
-	return '@' + userMention.replace('@', '').replace(/\[bot]$/, '');
+	return '@' + userMention.replace('@', '').replace(/\[bot\]$/, '');
 }
 
 function mentionUser({delegateTarget: button}: DelegateEvent): void {

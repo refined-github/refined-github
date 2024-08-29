@@ -29,7 +29,8 @@ function addToConversation(discussionHeader: HTMLElement): void {
 	// Avoid native `title` by disabling pointer events, we have our own `aria-label`. We can't drop the `title` attribute because some features depend on it.
 	discussionHeader.style.pointerEvents = 'none';
 
-	wrap(discussionHeader,
+	wrap(
+		discussionHeader,
 		<a
 			aria-label="Scroll to most recent close event"
 			className="tooltipped tooltipped-s"

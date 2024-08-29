@@ -14,7 +14,11 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 		const [, owner, name, , prNumber] = link.pathname.split('/');
 		const key = api.escapeKey(owner, name, prNumber);
 		return {
-			key, link, owner, name, number: Number(prNumber),
+			key,
+			link,
+			owner,
+			name,
+			number: Number(prNumber),
 		};
 	});
 

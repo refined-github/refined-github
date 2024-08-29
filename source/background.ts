@@ -130,4 +130,3 @@ chrome.permissions.onAdded.addListener(async permissions => {
 		await webextAlert('Refined GitHub is not meant to run on every website. If you’re looking to enable it on GitHub Enterprise, follow the instructions in the Options page.');
 	}
 });
-

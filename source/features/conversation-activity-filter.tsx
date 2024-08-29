@@ -147,7 +147,8 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 	const alignment
 		= availableSpaceToTheLeftOfTheDropdown === 0
 		|| (availableSpaceToTheLeftOfTheDropdown > expectedDropdownWidth)
-			? 'right-0' : 'left-0';
+			? 'right-0'
+			: 'left-0';
 
 	wrap(position, <div className="rgh-conversation-activity-filter-wrapper"/>);
 	position.classList.add('rgh-conversation-activity-filter');

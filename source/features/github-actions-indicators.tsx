@@ -40,9 +40,9 @@ async function getWorkflows(): Promise<Workflow[]> {
 	// The response is not reliable: Some workflow's path is '' and deleted workflow's state is 'active'
 	return workflows
 		.map<Workflow>(workflow => ({
-		name: workflow.path.split('/').pop()!,
-		isEnabled: workflow.state === 'active',
-	}));
+			name: workflow.path.split('/').pop()!,
+			isEnabled: workflow.state === 'active',
+		}));
 }
 
 async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
@@ -98,7 +98,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	}
 
 	const svgTrailer = $('.ActionListItem-visual--trailing', workflowListItem)
-	?? <div className="ActionListItem-visual--trailing"/>;
+		?? <div className="ActionListItem-visual--trailing"/>;
 	if (!svgTrailer.isConnected) {
 		workflowListItem.append(svgTrailer);
 	}
