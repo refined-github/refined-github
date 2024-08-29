@@ -1,3 +1,4 @@
+type Arrayable<X> = X | X[];
 type AnyObject = Record<string, any>;
 type Deinit = {disconnect: VoidFunction} | {clear: VoidFunction} | {destroy: VoidFunction} | {abort: VoidFunction} | VoidFunction;
 

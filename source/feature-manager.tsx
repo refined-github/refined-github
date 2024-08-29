@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import {$, elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
-import {Arrayable, Promisable} from 'type-fest';
+import {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 
 import waitFor from './helpers/wait-for.js';
@@ -178,7 +178,6 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 });
 
 function castArray<Item>(value: Arrayable<Item>): Item[] {
-	// @ts-expect-error --- ??? https://github.com/sindresorhus/type-fest/pull/935#issuecomment-2312879342
 	return Array.isArray(value) ? value : [value];
 }
 
