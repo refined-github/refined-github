@@ -36,8 +36,13 @@
 			"comment-empty-line-before": [
 				"always",
 				{
-					"except": ["first-nested"],
-					"ignore": ["after-comment", "stylelint-commands"]
+					"except": [
+						"first-nested"
+					],
+					"ignore": [
+						"after-comment",
+						"stylelint-commands"
+					]
 				}
 			],
 			"@stylistic/indentation": null,
@@ -138,8 +143,8 @@
 		"rollup-plugin-webpack-stats": "^1.0.2",
 		"snarkdown": "^2.0.0",
 		"stylelint": "^16.9.0",
-		"type-fest": "^4.25.0",
 		"stylelint-config-standard": "^36.0.1",
+		"type-fest": "^4.25.0",
 		"typed-query-selector": "^2.11.4",
 		"typescript": "^5.5.4",
 		"vitest": "^2.0.5"
