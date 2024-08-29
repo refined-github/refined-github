@@ -216,3 +216,4 @@ import './features/pr-notification-link.js';
 import './features/click-outside-modal.js';
 import './features/comment-excess.js';
 import './features/linkify-line-numbers.js';
+import './features/viewer-review-status.js';

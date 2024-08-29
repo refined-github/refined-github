@@ -970,6 +970,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/44045911/232313171-b54ac9cc-ebb1-43ef-bd41-5d81ec9f9588.png"
 	},
 	{
+		"id": "viewer-review-status",
+		"description": "Show the status of the viewer’s review in PRs.",
+		"screenshot": null
+	},
+	{
 		"id": "visit-tag",
 		"description": "When navigating a repo's file on a specific tag, it adds a link to see the release/tag itself.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/285123739-e5f4fa0a-3f48-49ef-9b87-2fd6f183c923.png"
