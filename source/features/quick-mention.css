@@ -9,6 +9,7 @@
 	top: 100%;
 	left: 50%;
 	translate: -50%;
+
 	/* Centers and improves clickable area; !important required to override .btn-link */
 	padding: 4px 12px !important;
 }

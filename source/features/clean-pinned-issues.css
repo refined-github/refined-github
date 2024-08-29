@@ -13,7 +13,7 @@
 	margin-inline: 0 !important;
 }
 
-@media (min-width: 700px) {
+@media (width >= 700px) {
 	[rgh-clean-pinned-issues] .js-pinned-issues-reorder-list {
 		display: table !important;
 		width: 100%;
