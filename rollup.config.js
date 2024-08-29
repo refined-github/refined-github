@@ -39,7 +39,7 @@ const rollup = {
 		},
 	},
 	// TODO: Drop after https://github.com/sindresorhus/memoize/issues/102
-	context: 'window',
+	context: 'globalThis',
 
 	plugins: [
 		del({
