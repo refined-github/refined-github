@@ -1,7 +1,4 @@
 import antfu from '@antfu/eslint-config';
-import eslintPluginUnicorn from 'eslint-plugin-unicorn';
-
-const unicorn = eslintPluginUnicorn.configs['flat/recommended'].rules;
 
 export default antfu(
 	{
@@ -9,10 +6,12 @@ export default antfu(
 		stylistic: {
 			indent: 'tab',
 		},
+		unicorn: {
+			allRecommended: true,
+		},
 		globals: [
 			'browser',
 		],
-
 		typescript: {
 			overrides: {
 				'ts/method-signature-style': 'off', // Disagree and it breaks types https://github.com/typescript-eslint/typescript-eslint/issues/1991
@@ -48,6 +47,25 @@ export default antfu(
 			'style/arrow-parens': ['error', 'as-needed'],
 			'prefer-template': 'off', // When there's a single `+` templates are less readable
 			'style/jsx-one-expression-per-line': 'off', // Terrible for inline elements, e.g. text
+
+			//  Disable some unicorn rules
+			'unicorn/expiring-todo-comments': 'off', // We just got too many, too much noise
+			'unicorn/no-nested-ternary': 'off',
+			'unicorn/better-regex': 'off',
+			'unicorn/prefer-top-level-await': 'off',
+			'unicorn/prefer-dom-node-dataset': 'off',
+			'unicorn/prefer-ternary': 'off', // Unreadable https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1633
+			'unicorn/no-null': 'off', // TODO: Later
+			'unicorn/prevent-abbreviations': [
+				'error',
+				{
+					replacements: {
+						props: false,
+						ref: false,
+						nav: false,
+					},
+				},
+			],
 
 			// Restore errors
 			'no-await-in-loop': 'error',
@@ -139,28 +157,6 @@ export default antfu(
 			// 		"namedComponents": "function-declaration"
 			// 	}
 			// ]
-		},
-	},
-	{
-		rules: {
-			...unicorn,
-			'unicorn/expiring-todo-comments': 'off', // We just got too many, too much noise
-			'unicorn/no-nested-ternary': 'off',
-			'unicorn/better-regex': 'off',
-			'unicorn/prefer-top-level-await': 'off',
-			'unicorn/prefer-dom-node-dataset': 'off',
-			'unicorn/prefer-ternary': 'off', // Unreadable https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1633
-			'unicorn/no-null': 'off', // TODO: Later
-			'unicorn/prevent-abbreviations': [
-				'error',
-				{
-					replacements: {
-						props: false,
-						ref: false,
-						nav: false,
-					},
-				},
-			],
 		},
 	},
 	{
