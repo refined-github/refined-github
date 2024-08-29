@@ -50,12 +50,14 @@ output {
 
 details[open] {
 	--border-left: 4px;
+
 	border-left: solid var(--border-left) #aaa4;
 	padding-bottom: 1px;
 }
 
 summary {
 	--summary-padding: 10px;
+
 	background: #aaa1;
 	list-style: none;
 	padding: var(--summary-padding);

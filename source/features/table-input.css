@@ -27,7 +27,7 @@
 	border-radius: 2px;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (width >= 768px) {
 	:root {
 		/* #6511 */
 		--rgh-table-input-size: 20px;
