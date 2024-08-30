@@ -32,7 +32,7 @@ function init(): void | false {
 			if (element.classList.contains('head-ref')) {
 				$('a', element)!.href = repoRootUrl!;
 			} else {
-				wrap(element, <a href={repoRootUrl}/>);
+				wrap(element, <a href={repoRootUrl} />);
 			}
 		}
 	}

@@ -29,8 +29,7 @@ export default antfu(
 			'react/no-missing-key': 'off', // N/A
 
 			'no-irregular-whitespace': 'off', // We do want to use non-breaking spaces
-			'jsdoc/check-alignment': 'off', // Can't autofix, tedious manual fix
-			'style/jsx-tag-spacing': 'off', // TODO: Later, together with JSX single quotes
+			'jsdoc/check-alignment': 'off', // Not enough to be useful
 
 			// Antfu style disagreements
 			'regexp/no-useless-character-class': 'off', // [/] is more readable than \/
@@ -55,7 +54,6 @@ export default antfu(
 			'unicorn/prefer-top-level-await': 'off',
 			'unicorn/prefer-dom-node-dataset': 'off',
 			'unicorn/prefer-ternary': 'off', // Unreadable https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1633
-			'unicorn/no-null': 'off', // TODO: Later
 			'unicorn/prevent-abbreviations': [
 				'error',
 				{
@@ -123,10 +121,6 @@ export default antfu(
 					message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
 				},
 			],
-			'jsx-quotes': [
-				'error',
-				'prefer-double',
-			],
 			'no-alert': 'off',
 			'ts/no-unsafe-assignment': 'off',
 			'ts/no-unsafe-argument': 'off',
@@ -135,8 +129,6 @@ export default antfu(
 			'ts/no-unsafe-call': 'off',
 			'ts/consistent-type-imports': 'off',
 			'n/prefer-global/process': 'off',
-			'import/no-cycle': 'off', // Slow, Rollup handles this
-			'import/no-unassigned-import': 'off',
 			'import/prefer-default-export': 'error',
 			'import/order': [
 				'error',

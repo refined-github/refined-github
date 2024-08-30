@@ -27,8 +27,8 @@ function getHovercardUrl(prNumber: number): string {
 function getDropdown(prs: number[]): HTMLElement {
 	const isEditing = pageDetect.isEditingFile();
 	const icon = isEditing
-		? <AlertIcon className="color-fg-attention"/>
-		: <GitPullRequestIcon/>;
+		? <AlertIcon className="color-fg-attention" />
+		: <GitPullRequestIcon />;
 
 	// TODO: use Popover API when hovercards become compatible #7496
 	return (
@@ -36,7 +36,7 @@ function getDropdown(prs: number[]): HTMLElement {
 			<summary className="Button Button--secondary color-fg-muted">
 				{icon}
 				<span className="color-fg-default mx-1">{prs.length}</span>
-				<div className="dropdown-caret"/>
+				<div className="dropdown-caret" />
 			</summary>
 
 			<details-menu className="dropdown-menu dropdown-menu-sw" style={{width: '180px'}}>

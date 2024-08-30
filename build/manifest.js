@@ -34,4 +34,4 @@ if (manifestVersion === '2') {
 	delete manifest.background.scripts;
 }
 
-writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+writeFileSync(manifestPath, JSON.stringify(manifest, undefined, 2));

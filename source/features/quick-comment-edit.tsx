@@ -44,7 +44,7 @@ function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}: Signa
 			className="timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button"
 			aria-label="Edit comment"
 		>
-			<PencilIcon/>
+			<PencilIcon />
 		</button>,
 	);
 }

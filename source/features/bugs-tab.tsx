@@ -90,7 +90,7 @@ async function addBugsTab(): Promise<void | false> {
 	const bugsTabTitle = $('[data-content]', bugsTab)!;
 	bugsTabTitle.dataset.content = 'Bugs';
 	bugsTabTitle.textContent = 'Bugs';
-	$('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline"/>);
+	$('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline" />);
 
 	// Set temporary counter
 	const bugsCounter = $('.Counter', bugsTab)!;

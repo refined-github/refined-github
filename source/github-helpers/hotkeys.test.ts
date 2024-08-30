@@ -15,19 +15,19 @@ function testAddHotkey(existing: string | undefined, added: string, final: strin
 }
 
 test('addHotkey if one is specified', testAddHotkey.bind(
-	null,
+	undefined,
 	'T-REX',
 	'CHICKEN',
 	'T-REX,CHICKEN',
 ));
 test('addHotkey if the same is already specified', testAddHotkey.bind(
-	null,
+	undefined,
 	'CHICKEN',
 	'CHICKEN',
 	'CHICKEN',
 ));
 test('addHotkey when none are specified', testAddHotkey.bind(
-	null,
+	undefined,
 	undefined,
 	'CHICKEN',
 	'CHICKEN',

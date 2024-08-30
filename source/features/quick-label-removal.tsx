@@ -29,7 +29,7 @@ function removeLabelList(): void {
 function restoreLabelList(): void {
 	const list = getLabelList();
 	list.replaceChildren(
-		<include-fragment src={list.closest('[src]')!.getAttribute('src')!}/>,
+		<include-fragment src={list.closest('[src]')!.getAttribute('src')!} />,
 	);
 }
 
@@ -67,7 +67,7 @@ function addRemoveLabelButton(label: HTMLElement): void {
 			className="btn-link rgh-quick-label-removal"
 			data-name={label.dataset.name}
 		>
-			<XIcon/>
+			<XIcon />
 		</button>,
 	);
 }

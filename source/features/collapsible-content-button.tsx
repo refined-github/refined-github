@@ -53,7 +53,7 @@ function append(container: HTMLElement): void {
 			aria-label="Add collapsible content"
 			data-targets="action-bar.items" // Enables automatic hiding when it doesn't fit
 		>
-			<FoldDownIcon/>
+			<FoldDownIcon />
 		</button>,
 	);
 

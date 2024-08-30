@@ -98,7 +98,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	}
 
 	const svgTrailer = $('.ActionListItem-visual--trailing', workflowListItem)
-		?? <div className="ActionListItem-visual--trailing"/>;
+		?? <div className="ActionListItem-visual--trailing" />;
 	if (!svgTrailer.isConnected) {
 		workflowListItem.append(svgTrailer);
 	}
@@ -106,7 +106,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	svgTrailer.classList.add('m-auto', 'd-flex', 'gap-2');
 
 	if (workflow.manuallyDispatchable) {
-		svgTrailer.append(<PlayIcon className="m-auto"/>);
+		svgTrailer.append(<PlayIcon className="m-auto" />);
 		addTooltip(workflowListItem, 'This workflow can be triggered manually');
 	}
 
@@ -119,7 +119,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 		return;
 	}
 
-	const relativeTime = <relative-time datetime={String(nextTime)}/>;
+	const relativeTime = <relative-time datetime={String(nextTime)} />;
 	expectElement('.ActionListItem-label', workflowListItem).append(
 		<em>
 			({relativeTime})

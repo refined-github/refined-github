@@ -20,7 +20,7 @@ function add(listItem: HTMLElement): void {
 	link.href = buildRepoURL('issues/new/choose');
 	label.textContent = `New issue in ${getRepo()?.name}`;
 
-	$('svg', newIssueItem).replaceWith(<IssueOpenedIcon/>);
+	$('svg', newIssueItem).replaceWith(<IssueOpenedIcon />);
 
 	listItem.parentElement!.append(newIssueItem);
 

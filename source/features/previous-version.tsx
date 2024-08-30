@@ -71,7 +71,7 @@ async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions):
 
 	previousButton.href = url;
 	$('span[data-component="leadingVisual"] svg', previousButton).replaceWith(
-		<VersionsIcon/>,
+		<VersionsIcon />,
 	);
 
 	onReactPageUpdate(async pageUnload => {

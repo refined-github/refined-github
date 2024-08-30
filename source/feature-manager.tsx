@@ -346,8 +346,8 @@ void add('rgh-deduplicator' as FeatureID, {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
 		$('has-rgh')?.remove(); // https://github.com/refined-github/refined-github/issues/6568
-		$(_`#js-repo-pjax-container, #js-pjax-container`)?.append(<has-rgh/>);
-		$(_`turbo-frame`)?.append(<has-rgh-inner/>); // #4567
+		$(_`#js-repo-pjax-container, #js-pjax-container`)?.append(<has-rgh />);
+		$(_`turbo-frame`)?.append(<has-rgh-inner />); // #4567
 	},
 });
 

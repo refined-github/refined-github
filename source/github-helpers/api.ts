@@ -263,7 +263,7 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError>
 		personalToken
 			? 'Ensure that your token has access to this repo.'
 			: 'Maybe adding a token in the options will fix this issue.',
-		JSON.stringify(apiResponse, null, '\t'), // Beautify
+		JSON.stringify(apiResponse, undefined, '\t'), // Beautify
 	);
 	error.response = apiResponse;
 	return error;

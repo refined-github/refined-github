@@ -54,7 +54,7 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 		if (fileCount > 1) {
 			info.textContent = ` (${fileCount} files)`;
 		} else {
-			const container = <div/>;
+			const container = <div />;
 			container.attachShadow({mode: 'open'}).append(
 				<style>{`
 					.gist .gist-data {
@@ -63,7 +63,7 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 					}
 				`}
 				</style>,
-				<link rel="stylesheet" href={gistData.stylesheet}/>,
+				<link rel="stylesheet" href={gistData.stylesheet} />,
 				domify.one(gistData.div)!,
 			);
 			link.parentElement!.after(container);

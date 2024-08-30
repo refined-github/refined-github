@@ -39,7 +39,7 @@ async function addList(searchField: HTMLInputElement): Promise<void> {
 	searchField.setAttribute('list', 'rgh-releases-dropdown');
 	searchField.after(
 		<datalist id="rgh-releases-dropdown">
-			{releases.map(tag => <option value={tag}/>)}
+			{releases.map(tag => <option value={tag} />)}
 		</datalist>,
 	);
 }

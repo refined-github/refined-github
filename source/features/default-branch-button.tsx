@@ -67,7 +67,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 			// Don't enable AJAX on this behavior because we need a full page reload to drop the button, same reason as above #6554
 			// data-turbo-frame="repo-content-turbo-frame"
 		>
-			<ChevronLeftIcon/>
+			<ChevronLeftIcon />
 		</a>
 	);
 

@@ -24,13 +24,13 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 				className="Link--muted mr-3"
 				href={repositoryLink.href + '/issues'}
 			>
-				<IssueOpenedIcon/>
+				<IssueOpenedIcon />
 			</a>
 			<a
 				className="Link--muted mr-3"
 				href={repositoryLink.href + '/pulls'}
 			>
-				<GitPullRequestIcon/>
+				<GitPullRequestIcon />
 			</a>
 		</>,
 	);
@@ -61,7 +61,7 @@ function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
 						className="Link--muted"
 						href={repositoryLink.href + '/issues'}
 					>
-						<IssueOpenedIcon/>
+						<IssueOpenedIcon />
 					</a>
 				</li>
 				<li className="d-flex text-small ml-2">
@@ -69,7 +69,7 @@ function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
 						className="Link--muted"
 						href={repositoryLink.href + '/pulls'}
 					>
-						<GitPullRequestIcon/>
+						<GitPullRequestIcon />
 					</a>
 				</li>
 			</>,

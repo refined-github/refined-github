@@ -12,7 +12,7 @@ function getLinkToGitHubIo(repoTitle: HTMLElement, className?: string): JSX.Elem
 			href={`https://${repoTitle.textContent.trim().replace(/com$/, 'io')}`}
 			className={className}
 		>
-			<LinkIcon className="v-align-middle"/>
+			<LinkIcon className="v-align-middle" />
 		</a>
 	);
 }

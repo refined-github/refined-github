@@ -49,11 +49,11 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 							tabindex="0"
 							role="button"
 						>
-							<CopyIcon className="v-align-baseline"/>
+							<CopyIcon className="v-align-baseline" />
 						</clipboard-copy>
 					</h3>
 					{ /* eslint-disable-next-line react-dom/no-dangerously-set-innerhtml */ }
-					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3"/>}
+					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
 					<div className="no-wrap">
 						<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame">Related issues</a>
 						{' • '}
@@ -97,14 +97,14 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 			return createBanner({
 				text: <>This feature was disabled until version {unaffectedVersion} due to {createRghIssueLink(issue)}.</>,
 				classes,
-				icon: <InfoIcon className="mr-0"/>,
+				icon: <InfoIcon className="mr-0" />,
 			});
 		}
 
 		return createBanner({
 			text: <>This feature is disabled due to {createRghIssueLink(issue)}.</>,
 			classes: [...classes, 'flash-warn'],
-			icon: <AlertIcon className="mr-0"/>,
+			icon: <AlertIcon className="mr-0" />,
 		});
 	}
 
@@ -112,7 +112,7 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 		return createBanner({
 			text: <>This feature is disabled on GitHub.com <button className="btn-link" type="button" onClick={openOptions as unknown as React.MouseEventHandler}>in your options</button>.</>,
 			classes: [...classes, 'flash-warn'],
-			icon: <AlertIcon className="mr-0"/>,
+			icon: <AlertIcon className="mr-0" />,
 		});
 	}
 

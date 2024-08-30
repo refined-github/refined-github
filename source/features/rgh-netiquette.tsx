@@ -36,7 +36,7 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 		<TimelineItem>
 			{createBanner({
 				classes: ['rgh-bg-none'],
-				icon: <InfoIcon className="mr-1"/>,
+				icon: <InfoIcon className="mr-1" />,
 				text: <>{getNoticeText()} If you want to say something helpful, you can leave a {button}. <strong>Do not</strong> report issues here.</>,
 			})}
 		</TimelineItem>

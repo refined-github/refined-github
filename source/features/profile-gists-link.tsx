@@ -41,7 +41,7 @@ async function appendTab(navigationBar: Element): Promise<void> {
 			aria-selected="false"
 			data-tab-item="rgh-gists-item"
 		>
-			<CodeSquareIcon className="UnderlineNav-octicon hide-sm"/>
+			<CodeSquareIcon className="UnderlineNav-octicon hide-sm" />
 			{' Gists '}
 		</a>
 	);

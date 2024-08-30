@@ -165,13 +165,13 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
 			<div className="info">
-				<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox"/>
+				<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox" />
 				<label className="feature-name" htmlFor={id}>{id}</label>
 				{' '}
 				<a href={featureLink(id)} className="feature-link">
 					source
 				</a>
-				<input hidden type="checkbox" className="screenshot-toggle"/>
+				<input hidden type="checkbox" className="screenshot-toggle" />
 				{screenshot && (
 					<a href={screenshot} className="screenshot-link">
 						screenshot
@@ -179,7 +179,7 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 				)}
 				<p className="description">{domify(description)}</p>
 				{screenshot && (
-					<img hidden data-src={screenshot} className="screenshot"/>
+					<img hidden data-src={screenshot} className="screenshot" />
 				)}
 			</div>
 		</div>

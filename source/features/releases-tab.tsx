@@ -74,7 +74,7 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 				data-tab-item="rgh-releases-item"
 				data-turbo-frame="repo-content-turbo-frame" /* Required for `data-selected-links` to work */
 			>
-				<TagIcon className="UnderlineNav-octicon d-none d-sm-inline"/>
+				<TagIcon className="UnderlineNav-octicon d-none d-sm-inline" />
 				<span data-content={type}>{type}</span>
 				<span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>
 			</a>

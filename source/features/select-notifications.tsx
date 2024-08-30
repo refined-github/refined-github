@@ -85,15 +85,15 @@ function handleSelection({target}: Event): void {
 
 function createDropdownList(category: Category, filters: Filter[]): JSX.Element {
 	const icons: {[Key in Filter]: JSX.Element} = {
-		'Pull requests': <GitPullRequestIcon className="color-fg-muted"/>,
-		'Issues': <IssueOpenedIcon className="color-fg-muted"/>,
-		'Open': <CheckCircleIcon className="color-fg-success"/>,
-		'Others': <SquirrelIcon className="color-fg-muted"/>,
-		'Closed': <XCircleIcon className="color-fg-danger"/>,
-		'Draft': <GitPullRequestDraftIcon className="color-fg-subtle"/>,
-		'Merged': <GitMergeIcon className="color-fg-done"/>,
-		'Read': <DotIcon className="color-fg-accent"/>,
-		'Unread': <DotFillIcon className="color-fg-accent"/>,
+		'Pull requests': <GitPullRequestIcon className="color-fg-muted" />,
+		'Issues': <IssueOpenedIcon className="color-fg-muted" />,
+		'Open': <CheckCircleIcon className="color-fg-success" />,
+		'Others': <SquirrelIcon className="color-fg-muted" />,
+		'Closed': <XCircleIcon className="color-fg-danger" />,
+		'Draft': <GitPullRequestDraftIcon className="color-fg-subtle" />,
+		'Merged': <GitMergeIcon className="color-fg-done" />,
+		'Read': <DotIcon className="color-fg-accent" />,
+		'Unread': <DotFillIcon className="color-fg-accent" />,
 	};
 
 	return (
@@ -108,7 +108,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 					aria-checked="false"
 					tabIndex={0}
 				>
-					<CheckIcon className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2" aria-hidden="true"/>
+					<CheckIcon className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2" aria-hidden="true" />
 					<div className="SelectMenu-item-text">
 						<input
 							hidden
@@ -137,7 +137,7 @@ const createDropdown = onetime(() => (
 			aria-label="Hotkey: Shift+S"
 			role="button"
 		>
-			Select by <span className="dropdown-caret ml-1"/>
+			Select by <span className="dropdown-caret ml-1" />
 		</summary>
 		<details-menu
 			className="SelectMenu left-0"

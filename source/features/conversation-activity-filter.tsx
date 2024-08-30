@@ -126,7 +126,7 @@ function createRadios(current: State): JSX.Element[] {
 			aria-checked={state === current ? 'true' : 'false'}
 			data-value={state}
 		>
-			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
+			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check" />
 			{label || 'Show all'}
 		</div>
 	));
@@ -150,7 +150,7 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 			? 'right-0'
 			: 'left-0';
 
-	wrap(position, <div className="rgh-conversation-activity-filter-wrapper"/>);
+	wrap(position, <div className="rgh-conversation-activity-filter-wrapper" />);
 	position.classList.add('rgh-conversation-activity-filter');
 	position.after(
 		<details
@@ -158,10 +158,10 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 			id="rgh-conversation-activity-filter-select-menu"
 		>
 			<summary>
-				<EyeIcon className="color-fg-muted"/>
-				<EyeClosedIcon className="color-fg-danger"/>
+				<EyeIcon className="color-fg-muted" />
+				<EyeClosedIcon className="color-fg-danger" />
 				<span className="text-small color-fg-danger v-align-text-bottom rgh-conversation-events-label"> events</span>
-				<div className="dropdown-caret ml-1"/>
+				<div className="dropdown-caret ml-1" />
 			</summary>
 			<details-menu
 				className={`SelectMenu ${alignment}`}
@@ -177,7 +177,7 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 							type="button"
 							data-toggle-for="rgh-conversation-activity-filter-select-menu"
 						>
-							<XIcon/>
+							<XIcon />
 						</button>
 					</div>
 					<div className="SelectMenu-list">
@@ -230,7 +230,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe([
 		'#partial-discussion-header .gh-header-meta clipboard-copy',
 		'#partial-discussion-header .gh-header-sticky clipboard-copy',
-	], addWidget.bind(null, initialState), {signal});
+	], addWidget.bind(undefined, initialState), {signal});
 
 	if (initialState !== 'default') {
 		// Wait for the DOM to be ready before applying the initial state

@@ -47,7 +47,7 @@ function removeAllFilters(link: HTMLAnchorElement): void {
 
 	$('.octicon', link)?.remove();
 	if (link.classList.contains('selected')) {
-		link.prepend(<CheckIcon/>);
+		link.prepend(<CheckIcon />);
 		link.href = SearchQuery
 			.from(link)
 			.remove(

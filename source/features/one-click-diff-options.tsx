@@ -31,7 +31,7 @@ function createWhitespaceButton(): HTMLElement {
 			className={'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-fg-subtle' : '')}
 			aria-label={`${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`}
 		>
-			{isHidingWhitespace() && <CheckIcon/>} No Whitespace
+			{isHidingWhitespace() && <CheckIcon />} No Whitespace
 		</a>
 	);
 }
@@ -56,7 +56,7 @@ function attachPRButtons(dropdown: HTMLDetailsElement): void {
 			value={type}
 			type="submit"
 		>
-			<Icon className="v-align-middle"/>
+			<Icon className="v-align-middle" />
 		</button>,
 	);
 
@@ -70,7 +70,7 @@ function attachPRButtons(dropdown: HTMLDetailsElement): void {
 				value="1"
 				type="submit"
 			>
-				<DiffModifiedIcon className="v-align-middle"/>
+				<DiffModifiedIcon className="v-align-middle" />
 			</button>,
 		);
 	}

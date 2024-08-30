@@ -83,7 +83,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 	mergeBar.before(createMergeabilityRow({
 		className: 'rgh-update-pr-from-base-branch-row',
 		action: createButton(),
-		icon: <CheckIcon/>,
+		icon: <CheckIcon />,
 		iconClass: 'completeness-indicator-success',
 		heading: 'This branch has no conflicts with the base branch',
 		meta: 'Merging can be performed automatically.',
