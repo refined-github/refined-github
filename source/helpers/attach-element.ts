@@ -18,7 +18,7 @@ type Attachment<NewElement extends Element, Callback = (E: Element) => NewElemen
 }, Position>;
 
 export default function attachElement<NewElement extends Element>(
-	// eslint-disable-next-line @typescript-eslint/ban-types --  Allows dom traversing without requiring `!`
+	// eslint-disable-next-line ts/no-restricted-types --  Allows dom traversing without requiring `!`
 	anchor: Element | string | undefined | null,
 	{
 		className = 'rgh-' + getCallerID(),
@@ -28,7 +28,8 @@ export default function attachElement<NewElement extends Element>(
 		after,
 		forEach,
 		allowMissingAnchor = false,
-	}: Attachment<NewElement>): NewElement[] {
+	}: Attachment<NewElement>,
+): NewElement[] {
 	const anchorElement = typeof anchor === 'string' ? $(anchor) : anchor;
 	if (!anchorElement) {
 		if (allowMissingAnchor) {

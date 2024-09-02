@@ -15,7 +15,7 @@ const fieldSelector = 'textarea#new_comment_field';
 
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
-	return '@' + userMention.replace('@', '').replace(/\[bot]$/, '');
+	return '@' + userMention.replace('@', '').replace(/\[bot\]$/, '');
 }
 
 function mentionUser({delegateTarget: button}: DelegateEvent): void {
@@ -67,7 +67,7 @@ function add(avatar: HTMLElement): void {
 	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
 	if (avatar.classList.contains('TimelineItem-avatar')) {
 		avatar.classList.remove('TimelineItem-avatar');
-		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block"/>);
+		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />);
 	}
 
 	const userMention = $('img', avatar)!.alt;
@@ -77,7 +77,7 @@ function add(avatar: HTMLElement): void {
 			className="rgh-quick-mention tooltipped tooltipped-e btn-link"
 			aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
 		>
-			<ReplyIcon/>
+			<ReplyIcon />
 		</button>,
 	);
 }

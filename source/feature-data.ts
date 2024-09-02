@@ -6,7 +6,7 @@ import renamedFeatures from './feature-renames.json';
 export const importedFeatures = importedFeaturesRaw as FeatureID[];
 export const featuresMeta = featuresMetasRaw as FeatureMeta[];
 
-// eslint-disable-next-line unicorn/prefer-export-from -- Webpack silently fails to provide `renamedFeatures` in this scope
+// eslint-disable-next-line unicorn/prefer-export-from -- The build silently fails to provide `renamedFeatures` in this scope. I don't know whose fault it is.
 export {renamedFeatures};
 
 export function getNewFeatureName(possibleFeatureName: string): FeatureID | undefined {

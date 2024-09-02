@@ -19,8 +19,8 @@ async function linkifyIcon(fileIcon: Element): Promise<void> {
 		route: 'edit',
 	});
 
-	wrap(fileIcon, <a href={url.href} className="rgh-quick-file-edit"/>);
-	fileIcon.after(<PencilIcon/>);
+	wrap(fileIcon, <a href={url.href} className="rgh-quick-file-edit" />);
+	fileIcon.after(<PencilIcon />);
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {

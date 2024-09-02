@@ -12,7 +12,7 @@ function getLinkToGitHubIo(repoTitle: HTMLElement, className?: string): JSX.Elem
 			href={`https://${repoTitle.textContent.trim().replace(/com$/, 'io')}`}
 			className={className}
 		>
-			<LinkIcon className="v-align-middle"/>
+			<LinkIcon className="v-align-middle" />
 		</a>
 	);
 }
@@ -47,7 +47,7 @@ function initRepoList(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		() => /\.github\.(io|com)$/.test(getRepo()?.name ?? 'shush eslint'),
+		() => /\.github\.(?:io|com)$/.test(getRepo()?.name ?? 'shush eslint'),
 	],
 	include: [
 		pageDetect.isRepoHome,

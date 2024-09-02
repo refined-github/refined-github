@@ -28,7 +28,6 @@ async function mergeBranches(): Promise<AnyObject> {
 async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	button.disabled = true;
 	await showToast(async () => {
-		// eslint-disable-next-line @typescript-eslint/use-unknown-in-catch-callback-variable -- TODO without assertions
 		const response = await mergeBranches().catch(error => error);
 		if (response instanceof Error || !response.ok) {
 			features.log.error(import.meta.url, response);
@@ -84,7 +83,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 	mergeBar.before(createMergeabilityRow({
 		className: 'rgh-update-pr-from-base-branch-row',
 		action: createButton(),
-		icon: <CheckIcon/>,
+		icon: <CheckIcon />,
 		iconClass: 'completeness-indicator-success',
 		heading: 'This branch has no conflicts with the base branch',
 		meta: 'Merging can be performed automatically.',

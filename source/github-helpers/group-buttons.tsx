@@ -19,7 +19,7 @@ export function groupButtons(buttons: Element[]): HTMLElement {
 
 	// If it doesn't exist, wrap them in a new group
 	if (!group) {
-		group = <div className="BtnGroup"/>;
+		group = <div className="BtnGroup" />;
 		wrapAll(group, ...buttons);
 	}
 

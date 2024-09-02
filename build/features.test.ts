@@ -1,7 +1,7 @@
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 import path from 'node:path';
 import {test, describe, assert} from 'vitest';
-import regexJoin from 'regex-join';
+import {regexJoinWithSeparator} from 'regex-join';
 import fastIgnore from 'fast-ignore';
 
 import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
@@ -49,7 +49,7 @@ const imageRegex = /\.(png|gif)$/;
 
 const rghUploadsRegex = /refined-github[/]refined-github[/]assets[/]/;
 
-const screenshotRegex = regexJoin(imageRegex, /|/, rghUploadsRegex);
+const screenshotRegex = regexJoinWithSeparator('|', [imageRegex, rghUploadsRegex]);
 
 class FeatureFile {
 	readonly id: FeatureID;
@@ -63,7 +63,7 @@ class FeatureFile {
 		return existsSync(this.path);
 	}
 
-	// eslint-disable-next-line @typescript-eslint/ban-types -- Just passing it
+	// eslint-disable-next-line node/prefer-global/buffer, ts/no-restricted-types -- Just passing it
 	contents(): Buffer {
 		return readFileSync(this.path);
 	}

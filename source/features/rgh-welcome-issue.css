@@ -19,7 +19,7 @@
 	display: none !important;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
 	[data-url^='/refined-github/refined-github/issues/3543/show_partial']
 		.gh-header-title
 		.js-issue-title {

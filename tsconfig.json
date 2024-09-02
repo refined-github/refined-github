@@ -14,7 +14,7 @@
 			"DOM.Iterable",
 			"ESNext.Collection",
 			"ES2023"
-		],
+		]
 	},
 	"include": [
 		"source",

@@ -11,9 +11,9 @@ import {multilineAriaLabel} from '../github-helpers/index.js';
 // Make the element look selected, not disabled, but effectively disable clicks/focus
 const disableAttributes = {
 	'aria-selected': true,
-	className: 'selected',
-	tabIndex: -1,
-	style: {pointerEvents: 'none'},
+	'className': 'selected',
+	'tabIndex': -1,
+	'style': {pointerEvents: 'none'},
 } as const satisfies React.HTMLAttributes<HTMLButtonElement>;
 
 function SubButton(): JSX.Element {
@@ -62,7 +62,7 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 				aria-label="Unsubscribe"
 				{...(status === 'none' && disableAttributes)}
 			>
-				<BellSlashIcon/> None
+				<BellSlashIcon /> None
 			</SubButton>
 
 			<SubButton
@@ -71,7 +71,7 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 				aria-label="Subscribe to all events"
 				{...(status === 'all' && disableAttributes)}
 			>
-				<BellIcon/> All
+				<BellIcon /> All
 			</SubButton>
 
 			<SubButton
@@ -83,15 +83,15 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 				)}
 				{...(status === 'status' && disableAttributes)}
 			>
-				<IssueReopenedIcon/> Status
+				<IssueReopenedIcon /> Status
 			</SubButton>
 		</div>,
 
 		// Always submitted, but ignored unless the value is `subscribe_to_custom_notifications`
 		// Keep outside BtnGroup
-		<input type="hidden" name="events[]" value="merged"/>,
-		<input type="hidden" name="events[]" value="closed"/>,
-		<input type="hidden" name="events[]" value="reopened"/>,
+		<input type="hidden" name="events[]" value="merged" />,
+		<input type="hidden" name="events[]" value="closed" />,
+		<input type="hidden" name="events[]" value="reopened" />,
 	);
 
 	// Remove it only if the form was successfully added

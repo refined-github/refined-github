@@ -47,14 +47,12 @@ export const defaultBranchOfRepo = new CachedFunction('default-branch', {
 			throw new Error('getDefaultBranch was called on a non-repository page');
 		}
 
-		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- Wrong, the type is `false | undefined`
 		return (isCurrentRepo(repository) && await fromDOM()) || fromAPI(repository);
 	},
 
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 20},
-},
-);
+});
 
 export default async function getDefaultBranch(): Promise<string> {
 	return defaultBranchOfRepo.get(getRepo()!.nameWithOwner);

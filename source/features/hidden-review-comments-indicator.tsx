@@ -30,7 +30,7 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 		<tr>
 			<td className="rgh-comments-indicator blob-num" colSpan={2}>
 				<button type="button" className="btn-link">
-					<CommentIcon/>
+					<CommentIcon />
 					<span>{commentCount}</span>
 				</button>
 			</td>

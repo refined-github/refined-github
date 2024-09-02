@@ -37,14 +37,14 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 	// GitHub may already show this icon natively, so we match its position
 	if (isPrivate && !elementExists('.octicon-lock', repoLink)) {
 		repoLink.append(
-			<LockIcon className="ml-1" width={12} height={12}/>,
+			<LockIcon className="ml-1" width={12} height={12} />,
 		);
 	}
 
 	// GitHub may already show this icon natively, so we match its position
 	if (isFork && !elementExists('.octicon-repo-forked', repoLink)) {
 		repoLink.append(
-			<RepoForkedIcon className="ml-1" width={12} height={12}/>,
+			<RepoForkedIcon className="ml-1" width={12} height={12} />,
 		);
 	}
 

@@ -46,9 +46,9 @@ export function getCommitHash(commit: HTMLElement): string {
 function updateCommitIcon(commit: HTMLElement, replace: boolean): void {
 	if (replace) {
 		// Align icon to the line; rem used to match the native units
-		$('.octicon-git-commit', commit).replaceWith(<GitMergeIcon style={{marginLeft: '0.5rem'}}/>);
+		$('.octicon-git-commit', commit).replaceWith(<GitMergeIcon style={{marginLeft: '0.5rem'}} />);
 	} else {
-		$(commitTitleInLists, commit).prepend(<GitMergeIcon className="mr-1"/>);
+		$(commitTitleInLists, commit).prepend(<GitMergeIcon className="mr-1" />);
 	}
 }
 

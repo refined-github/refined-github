@@ -68,14 +68,14 @@ async function linkifyCacheRefresh(): Promise<void> {
 function Lies(): JSX.Element {
 	return (
 		<a href="https://www.youtube.com/watch?v=YWdD206eSv0">
-			<img src={liesGif} alt="Just go on the internet and tell lies?" className="d-inline-block"/>
+			<img src={liesGif} alt="Just go on the internet and tell lies?" className="d-inline-block" />
 		</a>
 	);
 }
 
 async function lieDetector({delegateTarget}: DelegateEvent<MouseEvent, HTMLInputElement>): Promise<void> {
 	if (delegateTarget.checked) {
-		delegateTarget.closest('fieldset')!.append(<Lies/>);
+		delegateTarget.closest('fieldset')!.append(<Lies />);
 	}
 }
 

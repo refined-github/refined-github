@@ -31,7 +31,7 @@ export default function createDropdownItem({
 				className="ActionListContent ActionListContent--visual16"
 			>
 				<span className="ActionListItem-visual ActionListItem-visual--leading">
-					<Icon/>
+					<Icon />
 				</span>
 
 				<span data-view-component="true" className="ActionListItem-label">

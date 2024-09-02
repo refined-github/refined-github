@@ -35,4 +35,4 @@ Test URLs:
 https://github.com/refined-github/refined-github
 https://github.com/refined-github/refined-github/tree/main/source
 
- */
+*/

@@ -29,11 +29,11 @@ async function init(): Promise<void> {
 		<span className="ml-2 diffstat tooltipped tooltipped-s" aria-label={tooltip}>
 			<span className="color-fg-success">+{additions}</span>{' '}
 			<span className="color-fg-danger">−{deletions}</span>{' '}
-			<span className="diffstat-block-neutral"/>
-			<span className="diffstat-block-neutral"/>
-			<span className="diffstat-block-neutral"/>
-			<span className="diffstat-block-neutral"/>
-			<span className="diffstat-block-neutral"/>
+			<span className="diffstat-block-neutral" />
+			<span className="diffstat-block-neutral" />
+			<span className="diffstat-block-neutral" />
+			<span className="diffstat-block-neutral" />
+			<span className="diffstat-block-neutral" />
 		</span>,
 	);
 }

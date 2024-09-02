@@ -8,7 +8,7 @@ import features from '../feature-manager.js';
 import IconLoading from '../github-helpers/icon-loading.js';
 
 function closeModal({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-	button.append(' ', <IconLoading className="v-align-middle"/>);
+	button.append(' ', <IconLoading className="v-align-middle" />);
 	button.disabled = true;
 }
 

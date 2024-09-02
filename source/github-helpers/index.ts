@@ -48,14 +48,15 @@ export function isUsernameAlreadyFullName(username: string, realname: string): b
 		.toLowerCase();
 	realname = realname
 		.normalize('NFD')
-		.replaceAll(/[\u0300-\u036F\W.]/g, '')
+		.replaceAll(/\W/g, '')
 		.toLowerCase();
 
 	return username === realname;
 }
 
 const validVersion = /^[vr]?\d+(?:\.\d+)+/;
-const isPrerelease = /^[vr]?\d+(?:\.\d+)+(-\d)/;
+// eslint-disable-next-line regexp/no-useless-non-capturing-group -- I don't think so?
+const isPrerelease = /^[vr]?\d+(?:\.\d+)+(?:-\d)/;
 export function getLatestVersionTag(tags: string[]): string {
 	// Some tags aren't valid versions; comparison is meaningless.
 	// Just use the latest tag returned by the API (reverse chronologically-sorted list)

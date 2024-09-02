@@ -28,11 +28,11 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 <div align="center">
 
 <table><tr><td width="550"><div align="center">
- 	<p><sup><a href="https://github.com/sponsors/fregante">@fregante</a>’s open source work is supported by the community.<br>Special thanks to:</sup></p>
- 	<p><a href="http://prisma.io/">
+	<p><sup><a href="https://github.com/sponsors/fregante">@fregante</a>’s open source work is supported by the community.<br>Special thanks to:</sup></p>
+	<p><a href="http://prisma.io/">
 		<img src="https://user-images.githubusercontent.com/1402241/205429539-4549ea71-f26c-432a-aaef-db430c435718.svg" width="250" alt="Prisma.io">
- 		<br><sup>Next-generation Node.js and TypeScript ORM with an intuitive data model, automated migrations, type-safety & auto-completion.</sup>
- 	</a></p>
+		<br><sup>Next-generation Node.js and TypeScript ORM with an intuitive data model, automated migrations, type-safety & auto-completion.</sup>
+	</a></p>
 </table>
 
 <table><tr><td width="550">

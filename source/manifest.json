@@ -66,9 +66,9 @@
 		}
 	],
 	"web_accessible_resources": [
-    {
-      "resources": [ "assets/*" ],
-      "matches": [ "https://*/*" ]
-    }
-  ]
+		{
+			"resources": [ "assets/*" ],
+			"matches": [ "https://*/*" ]
+		}
+	]
 }

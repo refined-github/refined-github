@@ -5,6 +5,7 @@
 		:has([data-split-side='left']:is(.blob-code-addition, .blob-code-deletion))
 	) {
 	--rgh-only-additions: none;
+
 	table-layout: auto !important;
 }
 
@@ -13,6 +14,7 @@
 		:has([data-split-side='right']:is(.blob-code-addition, .blob-code-deletion))
 	) {
 	--rgh-only-deletions: none;
+
 	table-layout: auto !important;
 }
 

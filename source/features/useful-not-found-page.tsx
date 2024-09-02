@@ -155,7 +155,7 @@ async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
 	const lastVersion = <a href={lastVersionUrl}>This {getType()}</a>;
 	const permalink = (
 		<a href={fileChanges.commit.url}>
-			<relative-time datetime={fileChanges.commit.date}/>
+			<relative-time datetime={fileChanges.commit.date} />
 		</a>
 	);
 	const verb = fileChanges.file.status === 'removed'

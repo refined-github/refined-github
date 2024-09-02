@@ -30,7 +30,7 @@ function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButt
 
 function getUI(field: HTMLTextAreaElement): HTMLElement {
 	return $('.rgh-prevent-link-loss-container', field.form!) ?? (createBanner({
-		icon: <AlertIcon className="m-0"/>,
+		icon: <AlertIcon className="m-0" />,
 		text: (
 			<>
 				{' Your link may be '}
