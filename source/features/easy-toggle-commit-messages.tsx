@@ -18,13 +18,13 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 		return;
 	}
 
-	$('.ellipsis-expander', event.delegateTarget)?.dispatchEvent(
+	$('[data-testid="commit-row-show-description-button"]', event.delegateTarget)?.dispatchEvent(
 		new MouseEvent('click', {bubbles: true, altKey: event.altKey}),
 	);
 }
 
 const commitMessagesSelector = [
-	'.js-commits-list-item',
+	'[data-testid="commit-row-item"]',
 	':is(.file-navigation, .js-permalink-shortcut) ~ .Box .Box-header', // Commit message in file tree header
 ];
 
