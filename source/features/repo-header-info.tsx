@@ -2,6 +2,7 @@ import * as pageDetect from 'github-url-detection';
 import LockIcon from 'octicons-plain-react/Lock';
 import RepoForkedIcon from 'octicons-plain-react/RepoForked';
 import StarIcon from 'octicons-plain-react/Star';
+import StarFillIcon from 'octicons-plain-react/StarFill';
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
@@ -17,6 +18,7 @@ type RepositoryInfo = {
 	isFork: boolean;
 	isPrivate: boolean;
 	stargazerCount: number;
+	viewerHasStarred: boolean;
 };
 
 const repositoryInfo = new CachedFunction('stargazer-count', {
@@ -30,7 +32,7 @@ const repositoryInfo = new CachedFunction('stargazer-count', {
 });
 
 async function add(repoLink: HTMLAnchorElement): Promise<void> {
-	const {isFork, isPrivate, stargazerCount} = await repositoryInfo.get();
+	const {isFork, isPrivate, stargazerCount, viewerHasStarred} = await repositoryInfo.get();
 
 	// GitHub may already show this icon natively, so we match its position
 	if (isPrivate && !elementExists('.octicon-lock', repoLink)) {
@@ -53,7 +55,11 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 				title={`Repository starred by ${stargazerCount.toLocaleString('us')} people`}
 				className="d-flex flex-items-center flex-justify-center mr-1 gap-1 color-fg-muted"
 			>
-				<StarIcon className="ml-1" width={12} height={12}/>
+				{
+					viewerHasStarred
+						? <StarFillIcon className="ml-1" color="var(--button-star-iconColor)" width={12} height={12}/>
+						: <StarIcon className="ml-1" width={12} height={12}/>
+				}
 				<span className="f5">{abbreviateNumber(stargazerCount)}</span>
 			</a>,
 		);
