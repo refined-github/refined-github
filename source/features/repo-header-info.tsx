@@ -57,8 +57,8 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 			>
 				{
 					viewerHasStarred
-						? <StarFillIcon className="ml-1" color="var(--button-star-iconColor)" width={12} height={12}/>
-						: <StarIcon className="ml-1" width={12} height={12}/>
+						? <StarFillIcon className="ml-1" color="var(--button-star-iconColor)" width={12} height={12} />
+						: <StarIcon className="ml-1" width={12} height={12} />
 				}
 				<span className="f5">{abbreviateNumber(stargazerCount)}</span>
 			</a>,
