@@ -11,7 +11,10 @@ import api from '../github-helpers/api.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import {
-	buildRepoURL, cacheByRepo, getRepo, triggerRepoNavOverflow,
+	buildRepoURL,
+	cacheByRepo,
+	getRepo,
+	triggerRepoNavOverflow,
 } from '../github-helpers/index.js';
 import {appendBefore} from '../helpers/dom-utils.js';
 import {repoUnderlineNavUl, repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
@@ -21,6 +24,14 @@ import {expectToken} from '../github-helpers/github-token.js';
 function detachHighlightFromCodeTab(codeTab: HTMLAnchorElement): void {
 	codeTab.dataset.selectedLinks = codeTab.dataset.selectedLinks!.replace('repo_releases ', '');
 }
+
+const releasesCount = new CachedFunction('releases-count', {
+	updater: fetchCounts,
+	shouldRevalidate: cachedValue => typeof cachedValue === 'number',
+	maxAge: {hours: 1},
+	staleWhileRevalidate: {days: 3},
+	cacheKey: cacheByRepo,
+});
 
 export async function getReleases(): Promise<[0] | [number, 'Tags' | 'Releases']> {
 	const repo = getRepo()!.nameWithOwner;
@@ -44,14 +55,6 @@ async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags'
 	return [0];
 }
 
-const releasesCount = new CachedFunction('releases-count', {
-	updater: fetchCounts,
-	shouldRevalidate: cachedValue => typeof cachedValue === 'number',
-	maxAge: {hours: 1},
-	staleWhileRevalidate: {days: 3},
-	cacheKey: cacheByRepo,
-});
-
 async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | void> {
 	const [count, type] = await getReleases();
 	if (!type) {
@@ -71,7 +74,7 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 				data-tab-item="rgh-releases-item"
 				data-turbo-frame="repo-content-turbo-frame" /* Required for `data-selected-links` to work */
 			>
-				<TagIcon className="UnderlineNav-octicon d-none d-sm-inline"/>
+				<TagIcon className="UnderlineNav-octicon d-none d-sm-inline" />
 				<span data-content={type}>{type}</span>
 				<span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>
 			</a>
@@ -93,9 +96,9 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 		dropdownMenu,
 		'.dropdown-divider', // Won't exist if `clean-repo-tabs` is disabled
 		createDropdownItem({
-			label: type,
-			href: buildRepoURL(type.toLowerCase()),
-			icon: TagIcon,
+			'label': type,
+			'href': buildRepoURL(type.toLowerCase()),
+			'icon': TagIcon,
 			'data-menu-item': 'rgh-releases-item',
 		}),
 	);

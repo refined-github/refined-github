@@ -1,7 +1,10 @@
 import './tag-changes-link.css';
 import React from 'dom-chef';
 import {
-	$, $$, elementExists, expectElement,
+	$,
+	$$,
+	elementExists,
+	expectElement,
 } from 'select-dom';
 import domLoaded from 'dom-loaded';
 import DiffIcon from 'octicons-plain-react/Diff';
@@ -110,7 +113,7 @@ async function init(): Promise<void> {
 					aria-label={`See commits between ${decodeURIComponent(previousTag)} and ${decodeURIComponent(currentTag)}`}
 					href={buildRepoURL(`compare/${previousTag}...${currentTag}`)}
 				>
-					<DiffIcon/> {pageDetect.isEnterprise() ? 'Commits' : <span className="ml-1 wb-break-all">Commits</span>}
+					<DiffIcon /> {pageDetect.isEnterprise() ? 'Commits' : <span className="ml-1 wb-break-all">Commits</span>}
 				</a>
 			);
 

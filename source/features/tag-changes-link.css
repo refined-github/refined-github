@@ -1,5 +1,5 @@
 /* Don't break layout on mobile (https://primer.style/css/support/breakpoints) */
-@media (min-width: 768px) {
+@media (width >= 768px) {
 	/* Reserve some space above the "Compare" dropdown (the selector will be disabled as soon as the "Changelog" link is inserted) */
 	.rgh-tag-changes-link
 		.repository-content

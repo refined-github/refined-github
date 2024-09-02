@@ -9,7 +9,7 @@ import {wrapAll} from '../helpers/dom-utils.js';
 function init(): void {
 	const changedFilesSummary = $('.Box li:has(.octicon-file-diff)')!;
 	wrapAll(
-		<a className="no-underline rgh-link-to-compare-diff" href="#files_bucket"/>,
+		<a className="no-underline rgh-link-to-compare-diff" href="#files_bucket" />,
 		...changedFilesSummary.children,
 	);
 }

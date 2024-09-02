@@ -61,7 +61,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 					title={`${downloadCount} downloads`}
 					data-rgh-heat={calculateHeatIndex(downloadCount)}
 				>
-					{abbreviateNumber(downloadCount)} <DownloadIcon/>
+					{abbreviateNumber(downloadCount)} <DownloadIcon />
 				</span>
 			</span>,
 		);

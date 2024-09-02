@@ -7,8 +7,8 @@ import StopIcon from 'octicons-plain-react/Stop';
 function ToastSpinner(): JSX.Element {
 	return (
 		<svg className="Toast--spinner" viewBox="0 0 32 32" width="18" height="18">
-			<path fill="#959da5" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"/>
-			<path fill="#ffffff" d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"/>
+			<path fill="#959da5" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4" />
+			<path fill="#ffffff" d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z" />
 		</svg>
 	);
 }
@@ -22,7 +22,7 @@ export default async function showToast(
 		doneMessage = 'Bulk action processing complete.',
 	} = {},
 ): Promise<void> {
-	const iconWrapper = <span className="Toast-icon"><ToastSpinner/></span>;
+	const iconWrapper = <span className="Toast-icon"><ToastSpinner /></span>;
 	const messageWrapper = <span className="Toast-content">{message}</span>;
 	const toast = (
 		<div
@@ -46,7 +46,6 @@ export default async function showToast(
 			throw task;
 		}
 
-		// eslint-disable-next-line unicorn/prefer-ternary -- Naw man, that's less readable
 		if (typeof task === 'function') {
 			await task(updateToast);
 		} else {
@@ -55,12 +54,12 @@ export default async function showToast(
 
 		toast.classList.replace('Toast--loading', 'Toast--success');
 		updateToast(doneMessage);
-		iconWrapper.firstChild!.replaceWith(<CheckIcon/>);
+		iconWrapper.firstChild!.replaceWith(<CheckIcon />);
 	} catch (error) {
 		assertError(error);
 		toast.classList.replace('Toast--loading', 'Toast--error');
 		updateToast(error.message);
-		iconWrapper.firstChild!.replaceWith(<StopIcon/>);
+		iconWrapper.firstChild!.replaceWith(<StopIcon />);
 		throw error;
 	} finally {
 		// Without rAF the toast might be removed before the first page paint

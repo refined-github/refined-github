@@ -9,7 +9,10 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
 import {
-	buildRepoURL, cacheByRepo, getLatestVersionTag, getRepo,
+	buildRepoURL,
+	cacheByRepo,
+	getLatestVersionTag,
+	getRepo,
 } from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import pluralize from '../helpers/pluralize.js';
@@ -91,7 +94,7 @@ async function createLink(
 			href={buildRepoURL('compare', `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
-			<TagIcon className="v-align-middle"/>
+			<TagIcon className="v-align-middle" />
 			{aheadBy === undeterminableAheadBy || <sup className="ml-n2"> +{aheadBy}</sup>}
 		</a>
 	);
@@ -112,7 +115,7 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTML
 			aria-label="Draft a new release"
 			data-turbo-frame="repo-content-turbo-frame"
 		>
-			<PlusIcon className="v-align-middle"/>
+			<PlusIcon className="v-align-middle" />
 		</a>,
 	]);
 }
@@ -135,7 +138,7 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 	linkGroup.style.flexShrink = '0';
 
 	wrapAll(
-		<div className="d-flex gap-2 rgh-unreleased-commits-wrapper"/>,
+		<div className="d-flex gap-2 rgh-unreleased-commits-wrapper" />,
 		branchSelector,
 		linkGroup,
 	);

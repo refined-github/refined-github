@@ -65,7 +65,7 @@ function append(container: HTMLElement): void {
 					className="tooltipped tooltipped-sw"
 					aria-label="Add a table"
 				>
-					<TableIcon/>
+					<TableIcon />
 				</div>
 			</summary>
 			<details-menu
@@ -80,7 +80,7 @@ function append(container: HTMLElement): void {
 						data-x={(index % 5) + 1}
 						data-y={Math.floor(index / 5) + 1}
 					>
-						<div/>
+						<div />
 					</button>
 				))}
 			</details-menu>

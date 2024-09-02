@@ -14,17 +14,20 @@ function testAddHotkey(existing: string | undefined, added: string, final: strin
 	assert.equal(link.dataset.hotkey, final);
 }
 
-test('addHotkey if one is specified', testAddHotkey.bind(null,
+test('addHotkey if one is specified', testAddHotkey.bind(
+	undefined,
 	'T-REX',
 	'CHICKEN',
 	'T-REX,CHICKEN',
 ));
-test('addHotkey if the same is already specified', testAddHotkey.bind(null,
+test('addHotkey if the same is already specified', testAddHotkey.bind(
+	undefined,
 	'CHICKEN',
 	'CHICKEN',
 	'CHICKEN',
 ));
-test('addHotkey when none are specified', testAddHotkey.bind(null,
+test('addHotkey when none are specified', testAddHotkey.bind(
+	undefined,
 	undefined,
 	'CHICKEN',
 	'CHICKEN',

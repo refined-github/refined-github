@@ -13,10 +13,6 @@ import {branchSelector} from '../github-helpers/selectors.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {fixFileHeaderOverlap, isRepoCommitListRoot} from '../github-helpers/index.js';
 
-async function updateUrl(event: React.MouseEvent<HTMLAnchorElement>): Promise<void> {
-	event.currentTarget.href = await getUrl(location.href);
-}
-
 const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 	const defaultUrl = new GitHubFileURL(currentUrl);
 	if (pageDetect.isRepoRoot()) {
@@ -29,6 +25,10 @@ const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 
 	return defaultUrl.href;
 });
+
+async function updateUrl(event: React.MouseEvent<HTMLAnchorElement>): Promise<void> {
+	event.currentTarget.href = await getUrl(location.href);
+}
 
 function wrapButtons(buttons: HTMLElement[]): void {
 	groupButtons(buttons).classList.add('d-flex', 'rgh-default-branch-button-group');
@@ -67,7 +67,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 			// Don't enable AJAX on this behavior because we need a full page reload to drop the button, same reason as above #6554
 			// data-turbo-frame="repo-content-turbo-frame"
 		>
-			<ChevronLeftIcon/>
+			<ChevronLeftIcon />
 		</a>
 	);
 

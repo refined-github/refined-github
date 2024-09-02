@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 // https://github.com/github/markup/blob/cd01f9ec87c86ce5a7c70188a74ef40fc4669c5b/lib/github/markup/markdown.rb#L34
-const hasFrontMatter = (): boolean => pageDetect.isSingleFile() && /\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee)$/.test(location.pathname);
+const hasFrontMatter = (): boolean => pageDetect.isSingleFile() && /\.(?:mdx?|mkdn?|mdwn|mdown|markdown|litcoffee)$/.test(location.pathname);
 
 function transpose(table: HTMLElement): void {
 	const rows = $$(':scope > tbody > tr', table);

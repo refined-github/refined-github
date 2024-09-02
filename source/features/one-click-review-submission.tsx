@@ -33,7 +33,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	}
 
 	if (actionsRow) {
-		actionsRow.prepend(<span className="spacer.gif ml-auto"/>);
+		actionsRow.prepend(<span className="spacer.gif ml-auto" />);
 		radios.reverse();
 	}
 
@@ -72,9 +72,9 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		);
 
 		if (!radio.disabled && radio.value === 'approve') {
-			button.prepend(<CheckIcon className="color-fg-success"/>);
+			button.prepend(<CheckIcon className="color-fg-success" />);
 		} else if (!radio.disabled && radio.value === 'reject') {
-			button.prepend(<FileDiffIcon className="color-fg-danger"/>);
+			button.prepend(<FileDiffIcon className="color-fg-danger" />);
 		}
 
 		if (actionsRow) {

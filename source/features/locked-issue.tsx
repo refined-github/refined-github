@@ -9,7 +9,7 @@ import observe from '../helpers/selector-observer.js';
 function LockedIndicator(): JSX.Element {
 	return (
 		<span title="Locked" className="State d-flex flex-items-center flex-shrink-0">
-			<LockIcon className="flex-items-center mr-1"/>
+			<LockIcon className="flex-items-center mr-1" />
 			Locked
 		</span>
 	);
@@ -18,7 +18,7 @@ function LockedIndicator(): JSX.Element {
 function addLock(element: HTMLElement): void {
 	const classes = (element.closest('.gh-header-sticky') ? 'mr-2 ' : '') + 'mb-2 rgh-locked-issue';
 	element.after(
-		<LockedIndicator className={classes}/>,
+		<LockedIndicator className={classes} />,
 	);
 }
 

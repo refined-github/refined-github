@@ -10,7 +10,10 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import showToast from '../github-helpers/toast.js';
 import {
-	getConversationNumber, getUsername, scrollIntoViewIfNeeded, triggerConversationUpdate,
+	getConversationNumber,
+	getUsername,
+	scrollIntoViewIfNeeded,
+	triggerConversationUpdate,
 } from '../github-helpers/index.js';
 import {randomArrayItem} from '../helpers/math.js';
 import {getToken} from '../options-storage.js';

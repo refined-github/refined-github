@@ -23,7 +23,7 @@ function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 		getDropdownLink('raw', 'raw'),
 		getDropdownLink('blame', 'blame'),
 		getDropdownLink('history', 'commits'),
-		<div className="dropdown-divider" role="none"/>,
+		<div className="dropdown-divider" role="none" />,
 	);
 }
 

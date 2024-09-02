@@ -36,7 +36,7 @@ async function add(branchSelectorParent: HTMLDetailsElement): Promise<void | fal
 			data-hovercard-type="pull_request"
 			data-hovercard-url={prInfo.url + '/hovercard'}
 		>
-			<StateIcon className={stateColorMap[prInfo.state]}/>
+			<StateIcon className={stateColorMap[prInfo.state]} />
 			<span> #{prInfo.number}</span>
 		</a>,
 	);

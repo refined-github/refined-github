@@ -50,12 +50,14 @@ output {
 
 details[open] {
 	--border-left: 4px;
+
 	border-left: solid var(--border-left) #aaa4;
 	padding-bottom: 1px;
 }
 
 summary {
 	--summary-padding: 10px;
+
 	background: #aaa1;
 	list-style: none;
 	padding: var(--summary-padding);
@@ -180,4 +182,9 @@ details[open] > :not(summary) {
 
 .screenshot-toggle:checked ~ .screenshot {
 	display: block;
+}
+
+/* Hide "Button link" on GHE domains https://github.com/refined-github/refined-github/issues/7704 */
+.OptionsSyncPerDomain-picker:has([value='default']:not(:checked)) ~ #action {
+	display: none;
 }

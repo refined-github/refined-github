@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {existsSync, readFileSync, writeFileSync} from 'node:fs';
 import path from 'node:path';
 
@@ -35,4 +34,4 @@ if (manifestVersion === '2') {
 	delete manifest.background.scripts;
 }
 
-writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+writeFileSync(manifestPath, JSON.stringify(manifest, undefined, 2));

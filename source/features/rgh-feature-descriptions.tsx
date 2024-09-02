@@ -18,15 +18,13 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 	const isCss = location.pathname.endsWith('.css');
 
 	const description = meta?.description // Regular feature?
-	?? (
-		isFeaturePrivate(id)
-			? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
-			: (
-				isCss
+		?? (
+			isFeaturePrivate(id)
+				? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
+				: isCss
 					? 'This feature is CSS-only and cannot be disabled.'
 					: undefined // The heck!?
-			)
-	);
+		);
 
 	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
 	conversationsUrl.searchParams.set('q', `sort:updated-desc is:open "${id}"`);
@@ -51,11 +49,11 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 							tabindex="0"
 							role="button"
 						>
-							<CopyIcon className="v-align-baseline"/>
+							<CopyIcon className="v-align-baseline" />
 						</clipboard-copy>
 					</h3>
-					{ /* eslint-disable-next-line react/no-danger */ }
-					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3"/>}
+					{ /* eslint-disable-next-line react-dom/no-dangerously-set-innerhtml */ }
+					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
 					<div className="no-wrap">
 						<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame">Related issues</a>
 						{' • '}
@@ -77,7 +75,8 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 							style={{
 								maxHeight: 100,
 								maxWidth: 150,
-							}}/>
+							}}
+						/>
 					</a>
 				)}
 			</div>
@@ -98,14 +97,14 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 			return createBanner({
 				text: <>This feature was disabled until version {unaffectedVersion} due to {createRghIssueLink(issue)}.</>,
 				classes,
-				icon: <InfoIcon className="mr-0"/>,
+				icon: <InfoIcon className="mr-0" />,
 			});
 		}
 
 		return createBanner({
 			text: <>This feature is disabled due to {createRghIssueLink(issue)}.</>,
 			classes: [...classes, 'flash-warn'],
-			icon: <AlertIcon className="mr-0"/>,
+			icon: <AlertIcon className="mr-0" />,
 		});
 	}
 
@@ -113,7 +112,7 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 		return createBanner({
 			text: <>This feature is disabled on GitHub.com <button className="btn-link" type="button" onClick={openOptions as unknown as React.MouseEventHandler}>in your options</button>.</>,
 			classes: [...classes, 'flash-warn'],
-			icon: <AlertIcon className="mr-0"/>,
+			icon: <AlertIcon className="mr-0" />,
 		});
 	}
 
@@ -144,7 +143,7 @@ function init(signal: AbortSignal): void {
 	observe('#repos-sticky-header', add, {signal});
 }
 
-const featureUrlRegex = /^([/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](tsx|css)$/;
+const featureUrlRegex = /^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](?:tsx|css)$/;
 
 void features.add(import.meta.url, {
 	include: [

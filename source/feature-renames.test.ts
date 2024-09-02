@@ -1,4 +1,3 @@
-
 import {execSync} from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -9,7 +8,7 @@ import featureRenames from './feature-renames.json';
 const oldNames = Object.keys(featureRenames);
 const newNames = Object.values(featureRenames);
 
-test('Old feature names cannot appear anywhere in the repo', () => {
+test('old feature names cannot appear anywhere in the repo', () => {
 	for (const oldName of oldNames) {
 		const grep = `rg -l "[^-]${oldName}[^-]" -g !feature-renames.json -g !package-lock.json`;
 		let results;
@@ -23,10 +22,9 @@ test('Old feature names cannot appear anywhere in the repo', () => {
 	}
 });
 
-test('New feature names must exist in source/features/{name}.tsx', () => {
+test('new feature names must exist in source/features/{name}.tsx', () => {
 	for (const newName of newNames) {
 		const filePath = path.join('source', 'features', `${newName}.tsx`);
-		// eslint-disable-next-line @vitest/valid-expect -- Wrong
 		expect(fs.existsSync(filePath), `New feature name "${newName}" not found in source/features`).toBe(true);
 	}
 });

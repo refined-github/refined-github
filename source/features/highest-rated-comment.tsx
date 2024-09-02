@@ -57,7 +57,7 @@ function highlightBestComment(bestComment: Element): void {
 			className="color-fg-success tooltipped tooltipped-s"
 			aria-label="This comment has the most positive reactions on this issue."
 		>
-			<CheckCircleFillIcon/>
+			<CheckCircleFillIcon />
 		</span>,
 	);
 }
@@ -84,7 +84,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 			</h3>
 
 			<div className="color-fg-muted f6 no-wrap">
-				<ArrowDownIcon className="mr-1"/>Jump to comment
+				<ArrowDownIcon className="mr-1" />Jump to comment
 			</div>
 		</a>,
 	);

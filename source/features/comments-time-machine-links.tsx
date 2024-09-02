@@ -58,7 +58,7 @@ async function showTimeMachineBar(): Promise<void | false> {
 		</a>
 	);
 	await addNotice(
-		<>You can also {link} (<relative-time datetime={date}/>)</>,
+		<>You can also {link} (<relative-time datetime={date} />)</>,
 	);
 }
 
@@ -86,7 +86,7 @@ function addInlineLinks(menu: HTMLElement, timestamp: string): void {
 
 function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 	$('.show-more-popover', menu.parentElement!)!.append(
-		<div className="dropdown-divider"/>,
+		<div className="dropdown-divider" />,
 		<a
 			href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
 			className={'dropdown-item btn-link ' + linkifiedURLClass}
