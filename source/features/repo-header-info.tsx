@@ -57,6 +57,7 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 			>
 				{
 					viewerHasStarred
+						// Fill color will be replaced with icon's current color
 						? <StarFillIcon className="ml-1" color="var(--button-star-iconColor)" width={12} height={12} />
 						: <StarIcon className="ml-1" width={12} height={12} />
 				}
