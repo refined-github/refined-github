@@ -49,10 +49,15 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 	}
 
 	if (stargazerCount > 1) {
+		let tooltip = `Repository starred by ${stargazerCount.toLocaleString('us')} people`;
+		if (viewerHasStarred) {
+			tooltip += ', including you';
+		}
+
 		repoLink.after(
 			<a
 				href={buildRepoURL('stargazers')}
-				title={`Repository starred by ${stargazerCount.toLocaleString('us')} people`}
+				title={tooltip}
 				className="d-flex flex-items-center flex-justify-center mr-1 gap-1 color-fg-muted"
 			>
 				{
