@@ -9,7 +9,7 @@ import onPrMerge from '../github-events/on-pr-merge.js';
 import featureLink from '../helpers/feature-link.js';
 import attachElement from '../helpers/attach-element.js';
 import {canEditEveryComment} from './quick-comment-edit.js';
-import { getBranches } from '../github-helpers/pr-branches.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
 import matchesAnyPattern from '../helpers/matches-any-patterns.js';
 
 // TODO: Not an exact match; Moderators can edit comments but not create releases
@@ -24,8 +24,8 @@ const exceptions = [
 	'next',
 	'pre',
 	'prod',
-	'production',
 	'stage',
+	/production/,
 	/^release\//,
 	/^v\d/,
 ];
