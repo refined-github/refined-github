@@ -1,4 +1,8 @@
-query GetPrsToBaseBranch($owner: String!, $name: String!, $baseRefName: String!) {
+query GetPrsToBaseBranch(
+	$owner: String!
+	$name: String!
+	$baseRefName: String!
+) {
 	repository(owner: $owner, name: $name) {
 		pullRequests(baseRefName: $baseRefName, states: OPEN) {
 			totalCount

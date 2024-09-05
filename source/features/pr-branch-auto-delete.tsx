@@ -7,8 +7,6 @@ import * as pageDetect from 'github-url-detection';
 import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
 import onPrMerge from '../github-events/on-pr-merge.js';
-import featureLink from '../helpers/feature-link.js';
-import attachElement from '../helpers/attach-element.js';
 import {canEditEveryComment} from './quick-comment-edit.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import matchesAnyPattern from '../helpers/matches-any-patterns.js';
@@ -62,12 +60,10 @@ async function init(): Promise<void> {
 		stopOnDomReady: false,
 	});
 
-	attachElement(deletionEvent!.closest('.TimelineItem-body'), {
-		append() {
-			const url = featureLink(features.getFeatureID(import.meta.url));
-			return <a className="d-inline-block" href={url}>via Refined GitHub <InfoIcon /></a>;
-		},
-	});
+	const url = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#pr-branch-auto-delete';
+	deletionEvent!.closest('.TimelineItem-body')!.append(
+		<a className="d-inline-block" href={url}>via Refined GitHub <InfoIcon /></a>,
+	);
 }
 
 void features.add(import.meta.url, {
