@@ -918,6 +918,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/285106537-3c882cb2-6847-4098-9e51-cf2951dee818.png"
 	},
 	{
+		"id": "render-semantic-types",
+		"description": "Renders semantic types as labels.",
+		"screenshot": "https://github.com/user-attachments/assets/63f82d8d-1357-4c11-8b39-439509de0a7d"
+	},
+	{
 		"id": "toggle-everything-with-alt",
 		"description": "Adds a shortcut to toggle all similar items (minimized comments, deferred diffs, etc) at once: <kbd>alt</kbd> <kbd>click</kbd> on each button or checkbox.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253063446-6f556e7d-2ac5-439d-92f0-0c6d719fc86f.gif"
