@@ -177,7 +177,7 @@
 	"table-input",
 	"tag-changes-link",
 	"tags-on-commits-list",
-	"render-semantic-types",
+	"render-semantic-release-commit-types",
 	"toggle-everything-with-alt",
 	"unfinished-comments",
 	"unreleased-commits",

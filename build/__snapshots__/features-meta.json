@@ -918,8 +918,8 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/285106537-3c882cb2-6847-4098-9e51-cf2951dee818.png"
 	},
 	{
-		"id": "render-semantic-types",
-		"description": "Renders semantic types as labels.",
+		"id": "render-semantic-release-commit-types",
+		"description": "Renders semantic-release commit types as labels in commit titles.",
 		"screenshot": "https://github.com/user-attachments/assets/63f82d8d-1357-4c11-8b39-439509de0a7d"
 	},
 	{

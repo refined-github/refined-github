@@ -142,15 +142,10 @@ const defaultCommitTypesMapping = new Map([
 function createLabelElement(type: string, scope?: string): JSX.Element {
 	const {label, colorCssRules} = defaultCommitTypesMapping.get(type)!;
 
-	const isForRepoCommit = pageDetect.isRepoCommitList();
-
 	return (
 		<span
 			style={{
-				marginTop: 0,
-				marginLeft: 0,
-				fontSize: isForRepoCommit ? 'var(--text-body-size-large)' : 'var(--text-small)',
-				fontWeight: 'normal',
+				fontSize: 'var(--body-font-size, 14px)',
 				padding: '2px 0.5rem',
 				...colorCssRules,
 			}}
