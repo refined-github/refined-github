@@ -1,3 +1,4 @@
+import './render-semantic-release-commit-types.css';
 import React from 'react';
 import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
@@ -66,90 +67,28 @@ function removeSemanticCommitTypeAndScopeFromCommitTitleElement(semanticCommitTi
 	}
 }
 
-const defaultCommitTypesMapping = new Map([
-	[
-		'feat',
-		{
-			label: 'Feature',
-			colorCssRules: {
-				'--label-r': 14,
-				'--label-g': 138,
-				'--label-b': 22,
-				'--label-h': 123,
-				'--label-s': 81,
-				'--label-l': 29,
-			},
-		},
-	],
-	[
-		'fix',
-		{
-			label: 'Fix',
-			colorCssRules: {
-				'--label-r': 215,
-				'--label-g': 58,
-				'--label-b': 74,
-				'--label-h': 353,
-				'--label-s': 66,
-				'--label-l': 53,
-			},
-		},
-	],
-	[
-		'chore',
-		{
-			label: 'Chore',
-			colorCssRules: {
-				'--label-r': 170,
-				'--label-g': 170,
-				'--label-b': 170,
-				'--label-h': 0,
-				'--label-s': 0,
-				'--label-l': 255,
-			},
-		},
-	],
-	[
-		'refactor',
-		{
-			label: 'Refactor',
-			colorCssRules: {
-				'--label-r': 255,
-				'--label-g': 150,
-				'--label-b': 0,
-				'--label-h': 36,
-				'--label-s': 100,
-				'--label-l': 50,
-			},
-		},
-	],
-	[
-		'build',
-		{
-			label: 'Build',
-			colorCssRules: {
-				'--label-r': 83,
-				'--label-g': 25,
-				'--label-b': 231,
-				'--label-h': 256,
-				'--label-s': 81,
-				'--label-l': 50,
-			},
-		},
-	],
+const defaultCommitTypesToLabelMapping = new Map([
+	['feat', 'Feature'],
+	['fix', 'Fix'],
+	['chore', 'Chore'],
+	['docs', 'Docs'],
+	['build', 'Build'],
+	['refactor', 'Refactor'],
+	['test', 'Test'],
+	['ci', 'CI'],
+	['perf', 'Performance'],
 ]);
 
 function createLabelElement(type: string, scope?: string): JSX.Element {
-	const {label, colorCssRules} = defaultCommitTypesMapping.get(type)!;
+	const label = defaultCommitTypesToLabelMapping.get(type)!;
 
 	return (
 		<span
 			style={{
 				fontSize: 'var(--body-font-size, 14px)',
 				padding: '2px 0.5rem',
-				...colorCssRules,
 			}}
-			className="IssueLabel hx_IssueLabel"
+			className={`IssueLabel hx_IssueLabel rgh-render-semantic-release-commit-types-${type}-label-colors`}
 		>
 			{scope ? `${label}: ${scope}` : label}
 		</span>
