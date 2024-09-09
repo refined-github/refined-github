@@ -139,7 +139,7 @@ async function init(): Promise<void | false> {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepoCommitList,
+		pageDetect.isCommitList,
 	],
 	awaitDomReady: true,
 	deduplicate: 'has-rgh-inner',
