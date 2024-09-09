@@ -6,17 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
-
-function isSemanticCommitTitleElement(commitTitle: string): boolean {
-	// This may not be fully accurate.
-	// Tests, if the title string
-	// starts with a word,
-	// followed by an anything in parentheses,
-	// followed by an optional exclamation mark,
-	// followed by a colon,
-	// followed by anything.
-	return /^\w*(?:\(.*\))?!?:.*/.test(commitTitle);
-}
+import getSemanticCommitAndScope from '../helpers/render-semantic-release-commit-types.js';
 
 const defaultCommitTypes = new Set([
 	'feat',
@@ -31,25 +21,15 @@ const defaultCommitTypes = new Set([
 ]);
 
 function isSemanticCommitTitleTypeDefault(semanticCommitTitle: string): boolean {
-	// This may not be fully accurate.
-	// Gets the first word from the title.
-	const type = /^(\w*)/.exec(semanticCommitTitle)?.pop();
+	const match = getSemanticCommitAndScope(semanticCommitTitle);
 
-	if (!type) {
-		return false;
+	if (match) {
+		const [type] = match;
+
+		return defaultCommitTypes.has(type);
 	}
 
-	return defaultCommitTypes.has(type);
-}
-
-function extractSemanticCommitTypeAndScope(semanticCommitTitle: string): [string, string?] {
-	// Gets the first word from the title.
-	const type = /^(\w*)/.exec(semanticCommitTitle)!.pop()!;
-
-	// Gets the word in parentheses from the title.
-	const scope = /\((\w*)\)/.exec(semanticCommitTitle)?.pop();
-
-	return [type, scope];
+	return false;
 }
 
 function removeSemanticCommitTypeAndScopeFromCommitTitleElement(semanticCommitTitleElement: HTMLElement): void {
@@ -102,7 +82,7 @@ function prependLabelToSemanticCommitTitleElement(semanticCommitTitleElement: HT
 }
 
 function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
-	if (!isSemanticCommitTitleElement(commitTitleElement.textContent)) {
+	if (!getSemanticCommitAndScope(commitTitleElement.textContent)) {
 		return;
 	}
 
@@ -110,7 +90,7 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 		return;
 	}
 
-	const [type, scope] = extractSemanticCommitTypeAndScope(commitTitleElement.textContent);
+	const [type, scope] = getSemanticCommitAndScope(commitTitleElement.textContent)!;
 
 	removeSemanticCommitTypeAndScopeFromCommitTitleElement(commitTitleElement);
 	prependLabelToSemanticCommitTitleElement(commitTitleElement, type, scope);
