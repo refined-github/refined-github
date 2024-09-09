@@ -3,6 +3,8 @@ import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+import { commitTitleInLists } from '../github-helpers/selectors.js';
 
 function isSemanticCommitTitleElement(commitTitle: string): boolean {
 	// This may not be fully accurate.
@@ -163,29 +165,28 @@ function prependLabelToSemanticCommitTitleElement(semanticCommitTitleElement: HT
 	semanticCommitTitleElement.prepend(labelElement);
 }
 
-function init(): void {
-	// commitTitleInLists helper function may be used here.
-	const commitTitleElementsOnPage = $$('[data-testid="list-view-item-title-container"] > h4 > span');
-
-	const semanticCommitTitleElementsOnPage = commitTitleElementsOnPage.filter(commitTitleElement =>
-		isSemanticCommitTitleElement(commitTitleElement.textContent),
-	);
-	const defaultSemanticCommitTitleElementsOnPage = semanticCommitTitleElementsOnPage.filter(semanticCommitTitleElement =>
-		isSemanticCommitTitleTypeDefault(semanticCommitTitleElement.textContent),
-	);
-
-	for (const semanticCommitTitleElement of defaultSemanticCommitTitleElementsOnPage) {
-		const [type, scope] = extractSemanticCommitTitleTypeAndScope(semanticCommitTitleElement.textContent);
-
-		removeSemanticCommitTitleAndScopeFromTitleElement(semanticCommitTitleElement);
-		prependLabelToSemanticCommitTitleElement(semanticCommitTitleElement, type, scope);
+function renderLabelsInCommitList(commitTitleElement: HTMLElement): void {
+	if (!isSemanticCommitTitleElement(commitTitleElement.textContent)) {
+		return;
 	}
+
+	if (!isSemanticCommitTitleTypeDefault(commitTitleElement.textContent)) {
+		return;
+	}
+
+	const [type, scope] = extractSemanticCommitTitleTypeAndScope(commitTitleElement.textContent);
+
+	removeSemanticCommitTitleAndScopeFromTitleElement(commitTitleElement);
+	prependLabelToSemanticCommitTitleElement(commitTitleElement, type, scope);
+}
+
+function init(signal: AbortSignal): void {
+	observe('[data-testid="list-view-item-title-container"] > h4 > span', renderLabelsInCommitList, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isCommitList,
+		pageDetect.isRepoCommitList,
 	],
-	awaitDomReady: true,
 	init,
 });
