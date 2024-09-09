@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
-import getSemanticCommitAndScope from '../helpers/render-semantic-release-commit-types.js';
+import {getSemanticCommitAndScope, strip} from '../helpers/render-semantic-release-commit-types.js';
 
 const defaultCommitTypes = new Set([
 	'feat',
@@ -20,33 +20,6 @@ const defaultCommitTypes = new Set([
 	'perf',
 ]);
 
-function isSemanticCommitTitleTypeDefault(semanticCommitTitle: string): boolean {
-	const match = getSemanticCommitAndScope(semanticCommitTitle);
-
-	if (match) {
-		const [type] = match;
-
-		return defaultCommitTypes.has(type);
-	}
-
-	return false;
-}
-
-function removeSemanticCommitTypeAndScopeFromCommitTitleElement(semanticCommitTitleElement: HTMLElement): void {
-	const children = semanticCommitTitleElement.childNodes;
-
-	// Remove all children until the child with a colon is found.
-	// Then remove the colon and everything before it.
-	for (const child of children) {
-		if (child.textContent.includes(':')) {
-			child.textContent = child.textContent.split(':').slice(1).join(':');
-			break;
-		}
-
-		child.remove();
-	}
-}
-
 const defaultCommitTypesToLabelMapping = new Map([
 	['feat', 'Feature'],
 	['fix', 'Fix'],
@@ -58,6 +31,26 @@ const defaultCommitTypesToLabelMapping = new Map([
 	['ci', 'CI'],
 	['perf', 'Performance'],
 ]);
+
+function removeSemanticCommitTypeAndScopeFromCommitTitleElement(semanticCommitTitleElement: HTMLElement): void {
+	const [type, scope] = getSemanticCommitAndScope(semanticCommitTitleElement.textContent)!;
+
+	const semanticCommitTypeAndScope = scope ? `${type}(${scope})` : type;
+
+	strip(semanticCommitTitleElement, semanticCommitTypeAndScope);
+}
+
+function isSemanticCommitTitleTypeDefault(semanticCommitTitle: string): boolean {
+	const match = getSemanticCommitAndScope(semanticCommitTitle);
+
+	if (match) {
+		const [type] = match;
+
+		return defaultCommitTypes.has(type);
+	}
+
+	return false;
+}
 
 function createLabelElement(type: string, scope?: string): JSX.Element {
 	const label = defaultCommitTypesToLabelMapping.get(type)!;
