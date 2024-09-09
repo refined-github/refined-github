@@ -1,10 +1,10 @@
 import React from 'react';
-import {$$} from 'select-dom';
+import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import { commitTitleInLists } from '../github-helpers/selectors.js';
+import {commitTitleInLists} from '../github-helpers/selectors.js';
 
 function isSemanticCommitTitleElement(commitTitle: string): boolean {
 	// This may not be fully accurate.
@@ -41,7 +41,7 @@ function isSemanticCommitTitleTypeDefault(semanticCommitTitle: string): boolean 
 	return defaultCommitTypes.has(type);
 }
 
-function extractSemanticCommitTitleTypeAndScope(semanticCommitTitle: string): [string, string?] {
+function extractSemanticCommitTypeAndScope(semanticCommitTitle: string): [string, string?] {
 	// Gets the first word from the title.
 	const type = /^(\w*)/.exec(semanticCommitTitle)!.pop()!;
 
@@ -51,7 +51,7 @@ function extractSemanticCommitTitleTypeAndScope(semanticCommitTitle: string): [s
 	return [type, scope];
 }
 
-function removeSemanticCommitTitleAndScopeFromTitleElement(semanticCommitTitleElement: HTMLElement): void {
+function removeSemanticCommitTypeAndScopeFromCommitTitleElement(semanticCommitTitleElement: HTMLElement): void {
 	const children = semanticCommitTitleElement.childNodes;
 
 	// Remove all children until the child with a colon is found.
@@ -142,13 +142,15 @@ const defaultCommitTypesMapping = new Map([
 function createLabelElement(type: string, scope?: string): JSX.Element {
 	const {label, colorCssRules} = defaultCommitTypesMapping.get(type)!;
 
+	const isForRepoCommit = pageDetect.isRepoCommitList();
+
 	return (
 		<span
 			style={{
 				marginTop: 0,
 				marginLeft: 0,
-				fontSize: 'var(--text-body-size-large)',
-				fontWeight: 500,
+				fontSize: isForRepoCommit ? 'var(--text-body-size-large)' : 'var(--text-small)',
+				fontWeight: 'normal',
 				padding: '2px 0.5rem',
 				...colorCssRules,
 			}}
@@ -165,7 +167,7 @@ function prependLabelToSemanticCommitTitleElement(semanticCommitTitleElement: HT
 	semanticCommitTitleElement.prepend(labelElement);
 }
 
-function renderLabelsInCommitList(commitTitleElement: HTMLElement): void {
+function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 	if (!isSemanticCommitTitleElement(commitTitleElement.textContent)) {
 		return;
 	}
@@ -174,19 +176,33 @@ function renderLabelsInCommitList(commitTitleElement: HTMLElement): void {
 		return;
 	}
 
-	const [type, scope] = extractSemanticCommitTitleTypeAndScope(commitTitleElement.textContent);
+	const [type, scope] = extractSemanticCommitTypeAndScope(commitTitleElement.textContent);
 
-	removeSemanticCommitTitleAndScopeFromTitleElement(commitTitleElement);
+	removeSemanticCommitTypeAndScopeFromCommitTitleElement(commitTitleElement);
 	prependLabelToSemanticCommitTitleElement(commitTitleElement, type, scope);
 }
 
+function renderLabelInPRCommitTitle(commitTitleElement: HTMLElement): void {
+	const prCommitTitleElement = $('a', commitTitleElement)!;
+	renderLabelInCommitTitle(prCommitTitleElement);
+}
+
+function renderLabelInRepoCommitTitle(commitTitleElement: HTMLElement): void {
+	const repoCommitTitleElement = $('h4 > span', commitTitleElement)!;
+	renderLabelInCommitTitle(repoCommitTitleElement);
+}
+
 function init(signal: AbortSignal): void {
-	observe('[data-testid="list-view-item-title-container"] > h4 > span', renderLabelsInCommitList, {signal});
+	const renderLabelInCommitTitle = pageDetect.isRepoCommitList()
+		? renderLabelInRepoCommitTitle
+		: renderLabelInPRCommitTitle;
+
+	observe(commitTitleInLists, renderLabelInCommitTitle, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepoCommitList,
+		pageDetect.isCommitList,
 	],
 	init,
 });
