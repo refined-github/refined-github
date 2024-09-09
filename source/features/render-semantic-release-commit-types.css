@@ -78,3 +78,8 @@
 	--label-s: 81;
 	--label-l: 50;
 }
+
+.rgh-render-semantic-release-commit-types-label {
+	font-size: var(--body-font-size, 14px) !important;
+	padding: 2px 0.5rem !important;
+}

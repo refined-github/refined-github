@@ -35,7 +35,7 @@ const defaultCommitTypesToLabelMapping = new Map([
 function removeSemanticCommitTypeAndScopeFromCommitTitleElement(semanticCommitTitleElement: HTMLElement): void {
 	const [type, scope] = getSemanticCommitAndScope(semanticCommitTitleElement.textContent)!;
 
-	const semanticCommitTypeAndScope = scope ? `${type}(${scope})` : type;
+	const semanticCommitTypeAndScope = scope ? `${type}(${scope}):` : `${type}:`;
 
 	strip(semanticCommitTitleElement, semanticCommitTypeAndScope);
 }
@@ -56,12 +56,9 @@ function createLabelElement(type: string, scope?: string): JSX.Element {
 	const label = defaultCommitTypesToLabelMapping.get(type)!;
 
 	return (
-		<span
-			style={{
-				fontSize: 'var(--body-font-size, 14px)',
-				padding: '2px 0.5rem',
-			}}
-			className={`IssueLabel hx_IssueLabel rgh-render-semantic-release-commit-types-${type}-label-colors`}
+		<span className={`IssueLabel hx_IssueLabel 
+				rgh-render-semantic-release-commit-types-label 
+				rgh-render-semantic-release-commit-types-${type}-label-colors`}
 		>
 			{scope ? `${label}: ${scope}` : label}
 		</span>
