@@ -2,23 +2,25 @@ import zipTextNodes from 'zip-text-nodes';
 
 // Using https://www.conventionalcommits.org/ as a reference.
 
-export function getConventionalCommitAndScope(commitTitle: string): {type: string; scope: string | undefined} | undefined {
+export function getConventionalCommitAndScopeMatch(commitTitle: string): RegExpExecArray | undefined {
 	const match = /^(?<type>\w+)(?:\((?<scope>.+)\))?: .+$/.exec(commitTitle);
 
-	if (!match?.groups) {
+	if (!match) {
 		return;
 	}
 
-	const {type, scope} = match.groups;
-	return {type, scope};
+	return match;
 }
 
-export function strip(
+export function removeCommitAndScope(
 	element: HTMLElement,
-	from: string,
+	match: RegExpExecArray,
 ): void {
-	const modified = element.textContent
-		.replace(from, match => `<s>${match}</s>`);
+	const {type, scope} = match?.groups ?? {};
+
+	const semanticCommitTypeAndScope = scope ? `${type}(${scope}):` : `${type}:`;
+
+	const modified = element.textContent.replace(semanticCommitTypeAndScope, match => `<s>${match}</s>`);
 
 	const temporaryDiv = document.createElement('div');
 	temporaryDiv.innerHTML = modified;

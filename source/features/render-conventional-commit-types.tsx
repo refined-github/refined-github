@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
-import {getConventionalCommitAndScope, strip} from '../helpers/render-conventional-commit-types.js';
+import {getConventionalCommitAndScopeMatch, removeCommitAndScope} from '../helpers/render-conventional-commit-types.js';
 
 const commitTypeLabelMapping = new Map([
 	['feat', 'Feature'],
@@ -33,18 +33,14 @@ function createLabelElement(type: string, scope?: string): JSX.Element {
 }
 
 function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
-	const {type, scope} = getConventionalCommitAndScope(commitTitleElement.textContent) ?? {};
+	const match = getConventionalCommitAndScopeMatch(commitTitleElement.textContent);
 
-	// If the commit title is not a semantic commit title, do nothing
+	const {type, scope} = match?.groups ?? {};
 	if (!type || !commitTypes.has(type)) {
 		return;
 	}
 
-	// Remove the semantic commit type and scope from the commit title
-	const semanticCommitTypeAndScope = scope ? `${type}(${scope}):` : `${type}:`;
-	strip(commitTitleElement, semanticCommitTypeAndScope);
-
-	// Prepend the label to the commit title
+	removeCommitAndScope(commitTitleElement, match!);
 	commitTitleElement.prepend(createLabelElement(type, scope));
 }
 
