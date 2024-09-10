@@ -11,13 +11,10 @@ import onPrMerge from '../github-events/on-pr-merge.js';
 import createBanner from '../github-helpers/banner.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 import attachElement from '../helpers/attach-element.js';
-import {canEditEveryComment} from './quick-comment-edit.js';
 import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getReleases} from './releases-tab.js';
 import observe from '../helpers/selector-observer.js';
-
-// TODO: Not an exact match; Moderators can edit comments but not create releases
-const canCreateRelease = canEditEveryComment;
+import {userCanRelease} from '../github-helpers/get-user-permission.js';
 
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206
@@ -45,10 +42,6 @@ const firstTag = new CachedFunction('first-tag', {
 });
 
 function createReleaseUrl(): string | undefined {
-	if (!canCreateRelease()) {
-		return;
-	}
-
 	if (isRefinedGitHubRepo()) {
 		return 'https://github.com/refined-github/refined-github/actions/workflows/release.yml';
 	}
@@ -146,7 +139,7 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isPRConversation,
 		pageDetect.isOpenPR,
-		canCreateRelease,
+		userCanRelease,
 	],
 	additionalListeners: [
 		onPrMerge,
