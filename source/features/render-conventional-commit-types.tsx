@@ -73,3 +73,12 @@ void features.add(import.meta.url, {
 	include: [pageDetect.isPRCommitList],
 	init: initPrCommitList,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/semantic-release/semantic-release/commits/master/
+https://github.com/ReVanced/revanced-patches/commits/main/
+
+*/
