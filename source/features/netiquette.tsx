@@ -66,8 +66,6 @@ function addConversationBanner(newCommentField: HTMLElement): void {
 }
 
 function addPopularBanner(newCommentField: HTMLElement): void {
-	console.log('Adding popular banner');
-
 	newCommentField.prepend(
 		createBanner({
 			icon: <FlameIcon className="m-0" />,
