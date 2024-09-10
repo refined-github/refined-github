@@ -749,6 +749,12 @@
 		"screenshot": "https://user-images.githubusercontent.com/14858959/64068746-21991100-cc45-11e9-844e-827f5ac9b51e.png"
 	},
 	{
+		"id": "render-conventional-commit-types",
+		"description": "Renders conventional commit types as labels prefixing the commit message.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/2a5ae00e-f440-49ef-b810-aa9a5a2ac269"
+	},
+	{
 		"id": "repo-age",
 		"description": "Displays the age of the repository in the sidebar.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252176778-f8260312-d0dc-41b5-a4d1-ca680208d347.png"
