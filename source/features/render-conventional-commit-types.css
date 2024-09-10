@@ -1,0 +1,85 @@
+.rgh-commit-type-label-feat-colors {
+	--label-r: 14;
+	--label-g: 138;
+	--label-b: 22;
+	--label-h: 123;
+	--label-s: 81;
+	--label-l: 29;
+}
+
+.rgh-commit-type-label-fix-colors {
+	--label-r: 215;
+	--label-g: 58;
+	--label-b: 74;
+	--label-h: 353;
+	--label-s: 66;
+	--label-l: 53;
+}
+
+.rgh-commit-type-label-chore-colors {
+	--label-r: 100;
+	--label-g: 100;
+	--label-b: 100;
+	--label-h: 0;
+	--label-s: 0;
+	--label-l: 255;
+}
+
+.rgh-commit-type-label-docs-colors {
+	--label-r: 23;
+	--label-g: 157;
+	--label-b: 125;
+	--label-h: 165;
+	--label-s: 74;
+	--label-l: 35;
+}
+
+.rgh-commit-type-label-build-colors {
+	--label-r: 255;
+	--label-g: 150;
+	--label-b: 0;
+	--label-h: 36;
+	--label-s: 100;
+	--label-l: 50;
+}
+
+.rgh-commit-type-label-refactor-colors {
+	--label-r: 165;
+	--label-g: 138;
+	--label-b: 82;
+	--label-h: 40;
+	--label-s: 33;
+	--label-l: 48;
+}
+
+.rgh-commit-type-label-test-colors {
+	--label-r: 85;
+	--label-g: 246;
+	--label-b: 226;
+	--label-h: 172;
+	--label-s: 89;
+	--label-l: 64;
+}
+
+.rgh-commit-type-label-ci-colors {
+	--label-r: 255;
+	--label-g: 255;
+	--label-b: 255;
+	--label-h: 0;
+	--label-s: 0;
+	--label-l: 255;
+}
+
+.rgh-commit-type-label-perf-colors {
+	--label-r: 83;
+	--label-g: 25;
+	--label-b: 231;
+	--label-h: 256;
+	--label-s: 81;
+	--label-l: 50;
+}
+
+.rgh-commit-type-label {
+	font-size: var(--body-font-size, 14px) !important;
+	padding: 2px 0.5rem !important;
+}
