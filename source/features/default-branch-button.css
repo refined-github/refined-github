@@ -1,0 +1,12 @@
+.rgh-highlight-non-default-branch {
+	background-color: var(
+		--bgColor-accent-muted,
+		var(--color-accent-subtle)
+	) !important;
+	color: var(--fgColor-accent, var(--color-accent-fg)) !important;
+	border-color: var(--fgColor-accent, var(--color-accent-fg)) !important;
+}
+
+.rgh-highlight-non-default-branch svg {
+	color: var(--fgColor-accent, var(--color-accent-fg)) !important;
+}
