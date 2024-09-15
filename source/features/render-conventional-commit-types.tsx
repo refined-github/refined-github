@@ -8,7 +8,7 @@ import observe from '../helpers/selector-observer.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
 import {getConventionalCommitAndScopeMatch, removeCommitAndScope} from '../helpers/render-conventional-commit-types.js';
 
-const commitTypeLabelMapping = new Map([
+const types = new Map([
 	['feat', 'Feature'],
 	['fix', 'Fix'],
 	['chore', 'Chore'],
@@ -20,10 +20,8 @@ const commitTypeLabelMapping = new Map([
 	['perf', 'Performance'],
 ]);
 
-const commitTypes = new Set(commitTypeLabelMapping.keys());
-
 function createLabelElement(type: string, scope?: string): JSX.Element {
-	const label = commitTypeLabelMapping.get(type)!;
+	const label = types.get(type)!;
 
 	return (
 		<span className={`IssueLabel hx_IssueLabel rgh-commit-type-label rgh-commit-type-label-${type}-colors`}>
@@ -36,7 +34,7 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 	const match = getConventionalCommitAndScopeMatch(commitTitleElement.textContent);
 
 	const {type, scope} = match?.groups ?? {};
-	if (!type || !commitTypes.has(type)) {
+	if (!type || !types.has(type)) {
 		return;
 	}
 
@@ -63,10 +61,14 @@ function initPrCommitList(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.isCommitList],
+	include: [
+		pageDetect.isRepoCommitList,
+	],
 	init: initRepoCommitList,
 }, {
-	include: [pageDetect.isPRCommitList],
+	include: [
+		pageDetect.isPRCommitList,
+	],
 	init: initPrCommitList,
 });
 
