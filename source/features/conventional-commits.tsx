@@ -37,8 +37,8 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 		return;
 	}
 
-	removeCommitAndScope(commitTitleElement, match!);
 	commitTitleElement.prepend(createLabelElement(type, scope));
+	removeCommitAndScope(commitTitleElement, match!);
 }
 
 function initRepoCommitList(signal: AbortSignal): void {
