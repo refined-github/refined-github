@@ -1,20 +1,21 @@
 import {test, assert} from 'vitest';
 
-import {getConventionalCommitAndScopeMatch} from './render-conventional-commit-types.js';
+import {parseConventionalCommit} from './conventional-commits.js';
 
 function assertRegexDeepStrictEqual(input: string, expected: [string, string | undefined]) {
-	const result = getConventionalCommitAndScopeMatch(input);
+	const result = parseConventionalCommit(input);
 	assert.deepStrictEqual(result, [input, ...expected]);
 }
 
-test('getConventionalCommitAndScopeMatch', () => {
+test('parseConventionalCommit', () => {
 	assertRegexDeepStrictEqual('fix: Commit message', ['fix', undefined]);
 	assertRegexDeepStrictEqual('feat: Commit message', ['feat', undefined]);
 	assertRegexDeepStrictEqual('feat(scope): Commit message', ['feat', 'scope']);
 	assertRegexDeepStrictEqual('feat(sco pe): Commit message', ['feat', 'sco pe']);
 	assertRegexDeepStrictEqual(('feat: Commit (message)'), ['feat', undefined]);
 
-	assert.isUndefined(getConventionalCommitAndScopeMatch('Commit message'));
-	assert.isUndefined(getConventionalCommitAndScopeMatch('feat(): Commit message'));
-	assert.isUndefined(getConventionalCommitAndScopeMatch('fe at(scope): Commit message) '));
+	assert.isUndefined(parseConventionalCommit('feat:'));
+	assert.isUndefined(parseConventionalCommit('Commit message'));
+	assert.isUndefined(parseConventionalCommit('feat(): Commit message'));
+	assert.isUndefined(parseConventionalCommit('fe at(scope): Commit message) '));
 });

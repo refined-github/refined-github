@@ -1,12 +1,11 @@
-import './render-conventional-commit-types.css';
+import './conventional-commits.css';
 import React from 'react';
-import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
-import {getConventionalCommitAndScopeMatch, removeCommitAndScope} from '../helpers/render-conventional-commit-types.js';
+import {parseConventionalCommit, removeCommitAndScope} from '../helpers/conventional-commits.js';
 
 const types = new Map([
 	['feat', 'Feature'],
@@ -31,7 +30,7 @@ function createLabelElement(type: string, scope?: string): JSX.Element {
 }
 
 function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
-	const match = getConventionalCommitAndScopeMatch(commitTitleElement.textContent);
+	const match = parseConventionalCommit(commitTitleElement.textContent);
 
 	const {type, scope} = match?.groups ?? {};
 	if (!type || !types.has(type)) {
@@ -42,22 +41,12 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 	commitTitleElement.prepend(createLabelElement(type, scope));
 }
 
-function renderLabelInRepoCommitTitle(commitTitleElement: HTMLElement): void {
-	const repoCommitTitleElement = $('h4 > span', commitTitleElement)!;
-	renderLabelInCommitTitle(repoCommitTitleElement);
-}
-
-function renderLabelInPRCommitTitle(commitTitleElement: HTMLElement): void {
-	const prCommitTitleElement = $('a', commitTitleElement)!;
-	renderLabelInCommitTitle(prCommitTitleElement);
-}
-
 function initRepoCommitList(signal: AbortSignal): void {
-	observe(commitTitleInLists + ' h4 > span', renderLabelInPRCommitTitle, {signal});
+	observe(`:is(${commitTitleInLists}) h4 > span`, renderLabelInCommitTitle, {signal});
 }
 
 function initPrCommitList(signal: AbortSignal): void {
-	observe(commitTitleInLists + ' a', renderLabelInRepoCommitTitle, {signal});
+	observe(`:is(${commitTitleInLists}) a`, renderLabelInCommitTitle, {signal});
 }
 
 void features.add(import.meta.url, {

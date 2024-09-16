@@ -1,15 +1,10 @@
 import zipTextNodes from 'zip-text-nodes';
 
 // Using https://www.conventionalcommits.org/ as a reference.
+const CONVENTIONAL_COMMIT_REGEX = /^(?<type>\w+)(?:\((?<scope>.+)\))?: /;
 
-export function getConventionalCommitAndScopeMatch(commitTitle: string): RegExpExecArray | undefined {
-	const match = /^(?<type>\w+)(?:\((?<scope>.+)\))?: .+$/.exec(commitTitle);
-
-	if (!match) {
-		return;
-	}
-
-	return match;
+export function parseConventionalCommit(commitTitle: string): RegExpExecArray | undefined {
+	return CONVENTIONAL_COMMIT_REGEX.exec(commitTitle) ?? undefined;
 }
 
 export function removeCommitAndScope(
