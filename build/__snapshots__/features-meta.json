@@ -151,7 +151,7 @@
 		"id": "conventional-commits",
 		"description": "Shows conventional commit types as labels before the commit message.",
 		"css": true,
-		"screenshot": "https://github.com/user-attachments/assets/739264d7-b4b2-425d-91bb-d91c42c1ab21"
+		"screenshot": "https://github.com/user-attachments/assets/a031ec07-c655-4f80-b43e-80ab8ece55ea"
 	},
 	{
 		"id": "conversation-activity-filter",

@@ -8,66 +8,66 @@
 }
 
 .rgh-commit-type-label-fix-colors {
-	--label-r: 215;
-	--label-g: 58;
-	--label-b: 74;
-	--label-h: 353;
-	--label-s: 66;
-	--label-l: 53;
+	--label-r: 182;
+	--label-g: 2;
+	--label-b: 5;
+	--label-h: 359;
+	--label-s: 97;
+	--label-l: 36;
 }
 
 .rgh-commit-type-label-chore-colors {
-	--label-r: 100;
-	--label-g: 100;
-	--label-b: 100;
-	--label-h: 0;
-	--label-s: 0;
-	--label-l: 255;
+	--label-r: 254;
+	--label-g: 242;
+	--label-b: 192;
+	--label-h: 48;
+	--label-s: 96;
+	--label-l: 87;
 }
 
 .rgh-commit-type-label-docs-colors {
-	--label-r: 23;
-	--label-g: 157;
-	--label-b: 125;
-	--label-h: 165;
-	--label-s: 74;
-	--label-l: 35;
+	--label-r: 249;
+	--label-g: 208;
+	--label-b: 196;
+	--label-h: 13;
+	--label-s: 81;
+	--label-l: 87;
 }
 
 .rgh-commit-type-label-build-colors {
-	--label-r: 255;
-	--label-g: 150;
-	--label-b: 0;
-	--label-h: 36;
-	--label-s: 100;
-	--label-l: 50;
+	--label-r: 217;
+	--label-g: 63;
+	--label-b: 11;
+	--label-h: 15;
+	--label-s: 90;
+	--label-l: 44;
 }
 
 .rgh-commit-type-label-refactor-colors {
-	--label-r: 165;
-	--label-g: 138;
-	--label-b: 82;
-	--label-h: 40;
-	--label-s: 33;
-	--label-l: 48;
+	--label-r: 0;
+	--label-g: 107;
+	--label-b: 117;
+	--label-h: 185;
+	--label-s: 100;
+	--label-l: 22;
 }
 
 .rgh-commit-type-label-test-colors {
-	--label-r: 85;
-	--label-g: 246;
-	--label-b: 226;
-	--label-h: 172;
-	--label-s: 89;
-	--label-l: 64;
+	--label-r: 251;
+	--label-g: 202;
+	--label-b: 4;
+	--label-h: 48;
+	--label-s: 96;
+	--label-l: 50;
 }
 
 .rgh-commit-type-label-ci-colors {
-	--label-r: 255;
-	--label-g: 255;
-	--label-b: 255;
-	--label-h: 0;
-	--label-s: 0;
-	--label-l: 255;
+	--label-r: 197;
+	--label-g: 222;
+	--label-b: 245;
+	--label-h: 208;
+	--label-s: 70;
+	--label-l: 86;
 }
 
 .rgh-commit-type-label-perf-colors {
