@@ -148,6 +148,12 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253128438-d67c8f49-44f1-4e15-9363-a717109fef39.png"
 	},
 	{
+		"id": "conventional-commits",
+		"description": "Shows conventional commit types as labels before the commit message.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/739264d7-b4b2-425d-91bb-d91c42c1ab21"
+	},
+	{
 		"id": "conversation-activity-filter",
 		"description": "Lets you hide every event except comments or unresolved comments in issues and PRs.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252116522-053bce84-5c55-477b-8cc2-42a48104fb02.png"
@@ -747,12 +753,6 @@
 		"id": "reload-failed-proxied-images",
 		"description": "Retries downloading images that failed downloading due to GitHub limited proxying.",
 		"screenshot": "https://user-images.githubusercontent.com/14858959/64068746-21991100-cc45-11e9-844e-827f5ac9b51e.png"
-	},
-	{
-		"id": "conventional-commits",
-		"description": "Displays conventional commit types as labels before the commit message.",
-		"css": true,
-		"screenshot": "https://github.com/user-attachments/assets/2a5ae00e-f440-49ef-b810-aa9a5a2ac269"
 	},
 	{
 		"id": "repo-age",
