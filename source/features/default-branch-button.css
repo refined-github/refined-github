@@ -4,7 +4,10 @@
 		var(--control-danger-bgColor-active)
 	) !important;
 	color: var(--fgColor-accent, var(--control-danger-fgColor-rest)) !important;
-	border-color: var(--fgColor-accent, var(--control-danger-fgColor-rest)) !important;
+	border-color: var(
+		--fgColor-accent,
+		var(--control-danger-fgColor-rest)
+	) !important;
 }
 
 .rgh-highlight-non-default-branch svg {
