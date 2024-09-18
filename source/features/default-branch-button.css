@@ -1,15 +1,9 @@
 .rgh-highlight-non-default-branch {
-	background-color: var(
-		--bgColor-accent-muted,
-		var(--control-danger-bgColor-active)
-	) !important;
-	color: var(--fgColor-accent, var(--control-danger-fgColor-rest)) !important;
-	border-color: var(
-		--fgColor-accent,
-		var(--control-danger-fgColor-rest)
-	) !important;
+	background-color: var(--bgColor-accent-muted, var(--rgh-red)) !important;
+	color: var(--fgColor-accent) !important;
+	border-color: var(--fgColor-accent, var(--rgh-red)) !important;
 }
 
 .rgh-highlight-non-default-branch svg {
-	color: var(--fgColor-accent, var(--control-danger-fgColor-rest)) !important;
+	color: var(--fgColor-accent) !important;
 }
