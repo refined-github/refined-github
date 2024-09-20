@@ -21,7 +21,7 @@ function init(): void | false {
 	const deletedBranchName = lastBranchAction.textContent.trim();
 	const repoRootUrl = headReferenceLink?.href.split('/', 5).join('/');
 	for (const element of $$('.commit-ref')) {
-		const branchName = element.textContent.trim();
+		const branchName = element.textContent.trim().split(':').pop()!;
 		if (branchName === deletedBranchName) {
 			element.title = 'This branch has been deleted';
 
