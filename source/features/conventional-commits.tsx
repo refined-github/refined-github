@@ -25,24 +25,15 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 	removeCommitAndScope(textNode);
 }
 
-function initRepoCommitList(signal: AbortSignal): void {
+function init(signal: AbortSignal): void {
 	observe(`:is(${commitTitleInLists}) h4 > span > a:first-child`, renderLabelInCommitTitle, {signal});
-}
-
-function initPrCommitList(signal: AbortSignal): void {
-	observe(`:is(${commitTitleInLists}) a`, renderLabelInCommitTitle, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepoCommitList,
+		pageDetect.isCommitList,
 	],
-	init: initRepoCommitList,
-}, {
-	include: [
-		pageDetect.isPRCommitList,
-	],
-	init: initPrCommitList,
+	init,
 });
 
 /*
@@ -52,5 +43,6 @@ Test URLs:
 - Repo commits: https://github.com/refined-github/sandbox/commits/conventional-commits/
 - PR commits: https://github.com/refined-github/sandbox/pull/91/commits
 - Real data: https://github.com/semantic-release/semantic-release/commits
+- Repo without conventional commits: https://github.com/refined-github/refined-github/commits
 
 */
