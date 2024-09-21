@@ -19,7 +19,8 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 		<span className="IssueLabel hx_IssueLabel mr-2" rgh-conventional-commits={commit.rawType}>
 			{commit.type}
 		</span>,
-		commit.scope ? <em>{commit.scope}</em> : '',
+		// Keep scope outside because that's how they're rendered in release notes as well
+		commit.scope ? <span style={{opacity: 0.7}}>{commit.scope}</span> : '',
 	);
 
 	removeCommitAndScope(textNode);
