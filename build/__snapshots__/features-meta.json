@@ -148,6 +148,12 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253128438-d67c8f49-44f1-4e15-9363-a717109fef39.png"
 	},
 	{
+		"id": "conventional-commits",
+		"description": "Shows conventional commit types as labels before the commit message.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/980a2d5e-13c2-4b1b-bb80-81dc94723000"
+	},
+	{
 		"id": "conversation-activity-filter",
 		"description": "Lets you hide every event except comments or unresolved comments in issues and PRs.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252116522-053bce84-5c55-477b-8cc2-42a48104fb02.png"

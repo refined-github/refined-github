@@ -27,6 +27,7 @@
 	"comment-excess",
 	"comments-time-machine-links",
 	"conflict-marker",
+	"conventional-commits",
 	"conversation-activity-filter",
 	"conversation-links-on-repo-lists",
 	"convert-pr-to-draft-improvements",

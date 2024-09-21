@@ -49,7 +49,9 @@ const imageRegex = /\.(png|gif)$/;
 
 const rghUploadsRegex = /refined-github[/]refined-github[/]assets[/]/;
 
-const screenshotRegex = regexJoinWithSeparator('|', [imageRegex, rghUploadsRegex]);
+const userAttachmentsRegex = /user-attachments[/]assets[/]/;
+
+const screenshotRegex = regexJoinWithSeparator('|', [imageRegex, rghUploadsRegex, userAttachmentsRegex]);
 
 class FeatureFile {
 	readonly id: FeatureID;
