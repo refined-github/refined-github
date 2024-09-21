@@ -1,7 +1,7 @@
 import {assertNodeContent} from './dom-utils.js';
 
 // Using https://www.conventionalcommits.org/ as a reference.
-const conventionalCommitRegex = /^(?<type>\w+)(?:\((?<scope>.+)\))?: /;
+const conventionalCommitRegex = /^(?<type>\w+)(?:\((?<scope>.+)\))?(?<major>!)?: /;
 
 const types = new Map([
 	['feat', 'Feature'],
@@ -26,7 +26,7 @@ export function parseConventionalCommit(commitTitle: string): {
 		return;
 	}
 
-	const {type: rawType, scope} = match.groups;
+	const {type: rawType, scope, major} = match.groups;
 	const type = types.get(rawType);
 	if (!type) {
 		return;
@@ -34,7 +34,7 @@ export function parseConventionalCommit(commitTitle: string): {
 
 	return {
 		rawType,
-		type,
+		type: major ? `${type}!` : type,
 		scope: scope ? `${scope}: ` : undefined,
 		raw: match[0],
 	};
