@@ -40,6 +40,7 @@ test('parseConventionalCommit', () => {
 	`);
 
 	expect(parseConventionalCommit('feat:')).toBeUndefined();
+	expect(parseConventionalCommit('idk(label): not recognized')).toBeUndefined();
 	expect(parseConventionalCommit('Commit message')).toBeUndefined();
 	expect(parseConventionalCommit('feat(): Commit message')).toBeUndefined();
 	expect(parseConventionalCommit('fe at(scope): Commit message) ')).toBeUndefined();
