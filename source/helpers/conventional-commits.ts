@@ -18,7 +18,7 @@ const types = new Map([
 export function parseConventionalCommit(commitTitle: string): {
 	rawType: string;
 	type: string;
-	scope: string;
+	scope?: string;
 	raw: string;
 } | undefined {
 	const match = conventionalCommitRegex.exec(commitTitle);
@@ -35,7 +35,7 @@ export function parseConventionalCommit(commitTitle: string): {
 	return {
 		rawType,
 		type,
-		scope: scope ? `${scope}: ` : '',
+		scope: scope ? `${scope}: ` : undefined,
 		raw: match[0],
 	};
 }

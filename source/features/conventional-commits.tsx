@@ -19,7 +19,7 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 		<span className="IssueLabel hx_IssueLabel mr-2" rgh-conventional-commits={commit.rawType}>
 			{commit.type}
 		</span>,
-		commit.scope!,
+		commit.scope ? <em>{commit.scope}</em> : '',
 	);
 
 	removeCommitAndScope(textNode);
@@ -49,7 +49,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/semantic-release/semantic-release/commits/master/
-https://github.com/ReVanced/revanced-patches/commits/main/
+- Repo commits: https://github.com/refined-github/sandbox/commits/conventional-commits/
+- PR commits: https://github.com/refined-github/sandbox/pull/91/commits
+- Real data: https://github.com/semantic-release/semantic-release/commits
 
 */

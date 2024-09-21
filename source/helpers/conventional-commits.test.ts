@@ -7,7 +7,7 @@ test('parseConventionalCommit', () => {
 		{
 		  "raw": "fix: ",
 		  "rawType": "fix",
-		  "scope": "",
+		  "scope": undefined,
 		  "type": "Fix",
 		}
 	`);
@@ -15,7 +15,7 @@ test('parseConventionalCommit', () => {
 		{
 		  "raw": "feat: ",
 		  "rawType": "feat",
-		  "scope": "",
+		  "scope": undefined,
 		  "type": "Feature",
 		}
 	`);
@@ -39,7 +39,7 @@ test('parseConventionalCommit', () => {
 		{
 		  "raw": "feat: ",
 		  "rawType": "feat",
-		  "scope": "",
+		  "scope": undefined,
 		  "type": "Feature",
 		}
 	`);
