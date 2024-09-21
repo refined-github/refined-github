@@ -1,3 +1,4 @@
+import './default-branch-button.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicons-plain-react/ChevronLeft';
@@ -39,6 +40,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 	const selectorWrapper = branchSelector.tagName === 'SUMMARY'
 		? branchSelector.parentElement!
 		: branchSelector;
+	selectorWrapper.classList.add('rgh-highlight-non-default-branch');
 
 	const existingLink = $('.rgh-default-branch-button', branchSelector.parentElement!);
 
