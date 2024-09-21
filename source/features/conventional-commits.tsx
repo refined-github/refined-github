@@ -16,16 +16,17 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 	}
 
 	commitTitleElement.prepend(
-		<span className="IssueLabel hx_IssueLabel mr-1" rgh-conventional-commits={commit.type}>
-			{commit.label}
+		<span className="IssueLabel hx_IssueLabel mr-2" rgh-conventional-commits={commit.rawType}>
+			{commit.type}
 		</span>,
+		commit.scope!,
 	);
 
 	removeCommitAndScope(textNode);
 }
 
 function initRepoCommitList(signal: AbortSignal): void {
-	observe(`:is(${commitTitleInLists}) h4 > span`, renderLabelInCommitTitle, {signal});
+	observe(`:is(${commitTitleInLists}) h4 > span > a:first-child`, renderLabelInCommitTitle, {signal});
 }
 
 function initPrCommitList(signal: AbortSignal): void {

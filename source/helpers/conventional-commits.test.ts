@@ -5,37 +5,42 @@ import {parseConventionalCommit} from './conventional-commits.js';
 test('parseConventionalCommit', () => {
 	expect(parseConventionalCommit('fix: Commit message')).toMatchInlineSnapshot(`
 		{
-		  "label": "Fix",
 		  "raw": "fix: ",
-		  "type": "fix",
+		  "rawType": "fix",
+		  "scope": "",
+		  "type": "Fix",
 		}
 	`);
 	expect(parseConventionalCommit('feat: Commit message')).toMatchInlineSnapshot(`
 		{
-		  "label": "Feature",
 		  "raw": "feat: ",
-		  "type": "feat",
+		  "rawType": "feat",
+		  "scope": "",
+		  "type": "Feature",
 		}
 	`);
 	expect(parseConventionalCommit('feat(scope): Commit message')).toMatchInlineSnapshot(`
 		{
-		  "label": "Feature: scope",
 		  "raw": "feat(scope): ",
-		  "type": "feat",
+		  "rawType": "feat",
+		  "scope": "scope: ",
+		  "type": "Feature",
 		}
 	`);
 	expect(parseConventionalCommit('feat(sco pe): Commit message')).toMatchInlineSnapshot(`
 		{
-		  "label": "Feature: sco pe",
 		  "raw": "feat(sco pe): ",
-		  "type": "feat",
+		  "rawType": "feat",
+		  "scope": "sco pe: ",
+		  "type": "Feature",
 		}
 	`);
 	expect(parseConventionalCommit(('feat: Commit (message)'))).toMatchInlineSnapshot(`
 		{
-		  "label": "Feature",
 		  "raw": "feat: ",
-		  "type": "feat",
+		  "rawType": "feat",
+		  "scope": "",
+		  "type": "Feature",
 		}
 	`);
 
