@@ -1,40 +1,49 @@
-.rgh-commit-type-label-feat-colors {
-	--label-r: 14;
-	--label-g: 138;
-	--label-b: 22;
-	--label-h: 123;
-	--label-s: 81;
-	--label-l: 29;
+:root [rgh-conventional-commits] {
+	font-size: var(--body-font-size, 1px);
+	line-height: 1.5;
 }
 
-.rgh-commit-type-label-fix-colors {
-	--label-r: 182;
-	--label-g: 2;
-	--label-b: 5;
-	--label-h: 359;
-	--label-s: 97;
-	--label-l: 36;
+/* Color from `enhancement` label */
+[rgh-conventional-commits='feat'] {
+	--label-r: 162;
+	--label-g: 238;
+	--label-b: 239;
+	--label-h: 180;
+	--label-s: 70;
+	--label-l: 78;
 }
 
-.rgh-commit-type-label-chore-colors {
-	--label-r: 254;
-	--label-g: 242;
-	--label-b: 192;
-	--label-h: 48;
-	--label-s: 96;
-	--label-l: 87;
+/* Color from `bug` label */
+[rgh-conventional-commits='fix'] {
+	--label-r: 215;
+	--label-g: 58;
+	--label-b: 74;
+	--label-h: 353;
+	--label-s: 66;
+	--label-l: 53;
 }
 
-.rgh-commit-type-label-docs-colors {
-	--label-r: 249;
-	--label-g: 208;
-	--label-b: 196;
-	--label-h: 13;
-	--label-s: 81;
-	--label-l: 87;
+/* Color from `wontfix` label. Just white because it's the most common and meaningless type of commit */
+[rgh-conventional-commits='chore'] {
+	--label-r: 255;
+	--label-g: 255;
+	--label-b: 255;
+	--label-h: 0;
+	--label-s: 0;
+	--label-l: 100;
 }
 
-.rgh-commit-type-label-build-colors {
+/* Color from `documentation` label */
+[rgh-conventional-commits='docs'] {
+	--label-r: 0;
+	--label-g: 117;
+	--label-b: 202;
+	--label-h: 205;
+	--label-s: 100;
+	--label-l: 39;
+}
+
+[rgh-conventional-commits='build'] {
 	--label-r: 217;
 	--label-g: 63;
 	--label-b: 11;
@@ -43,7 +52,7 @@
 	--label-l: 44;
 }
 
-.rgh-commit-type-label-refactor-colors {
+[rgh-conventional-commits='refactor'] {
 	--label-r: 0;
 	--label-g: 107;
 	--label-b: 117;
@@ -52,7 +61,7 @@
 	--label-l: 22;
 }
 
-.rgh-commit-type-label-test-colors {
+[rgh-conventional-commits='test'] {
 	--label-r: 251;
 	--label-g: 202;
 	--label-b: 4;
@@ -61,7 +70,7 @@
 	--label-l: 50;
 }
 
-.rgh-commit-type-label-ci-colors {
+[rgh-conventional-commits='ci'] {
 	--label-r: 197;
 	--label-g: 222;
 	--label-b: 245;
@@ -70,16 +79,11 @@
 	--label-l: 86;
 }
 
-.rgh-commit-type-label-perf-colors {
+[rgh-conventional-commits='perf'] {
 	--label-r: 83;
 	--label-g: 25;
 	--label-b: 231;
 	--label-h: 256;
 	--label-s: 81;
 	--label-l: 50;
-}
-
-.rgh-commit-type-label {
-	font-size: var(--body-font-size, 14px) !important;
-	padding: 2px 0.5rem !important;
 }

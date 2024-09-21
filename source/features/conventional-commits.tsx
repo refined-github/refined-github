@@ -7,65 +7,43 @@ import observe from '../helpers/selector-observer.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
 import {parseConventionalCommit, removeCommitAndScope} from '../helpers/conventional-commits.js';
 
-const types = new Map([
-	['feat', 'Feature'],
-	['fix', 'Fix'],
-	['chore', 'Chore'],
-	['docs', 'Docs'],
-	['build', 'Build'],
-	['refactor', 'Refactor'],
-	['test', 'Test'],
-	['ci', 'CI'],
-	['perf', 'Performance'],
-]);
-
-function createLabelElement(type: string, scope?: string): JSX.Element {
-	const label = types.get(type)!;
-
-	return (
-		<span className={`IssueLabel hx_IssueLabel rgh-commit-type-label rgh-commit-type-label-${type}-colors`}>
-			{scope ? `${label}: ${scope}` : label}
-		</span>
-	);
-}
-
 function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
-	const match = parseConventionalCommit(commitTitleElement.textContent);
+	const textNode = commitTitleElement.firstChild!;
+	const commit = parseConventionalCommit(textNode.textContent);
 
-	const {type, scope} = match?.groups ?? {};
-	if (!type || !types.has(type)) {
+	if (!commit) {
 		return;
 	}
 
-	commitTitleElement.prepend(createLabelElement(type, scope));
-	removeCommitAndScope(commitTitleElement, match!);
+	commitTitleElement.prepend(
+		<span className="IssueLabel hx_IssueLabel mr-2" rgh-conventional-commits={commit.rawType}>
+			{commit.type}
+		</span>,
+		// Keep scope outside because that's how they're rendered in release notes as well
+		commit.scope ? <span style={{opacity: 0.7}}>{commit.scope}</span> : '',
+	);
+
+	removeCommitAndScope(textNode);
 }
 
-function initRepoCommitList(signal: AbortSignal): void {
-	observe(`:is(${commitTitleInLists}) h4 > span`, renderLabelInCommitTitle, {signal});
-}
-
-function initPrCommitList(signal: AbortSignal): void {
-	observe(`:is(${commitTitleInLists}) a`, renderLabelInCommitTitle, {signal});
+function init(signal: AbortSignal): void {
+	observe(`:is(${commitTitleInLists}) h4 > span > a:first-child`, renderLabelInCommitTitle, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepoCommitList,
+		pageDetect.isCommitList,
 	],
-	init: initRepoCommitList,
-}, {
-	include: [
-		pageDetect.isPRCommitList,
-	],
-	init: initPrCommitList,
+	init,
 });
 
 /*
 
 Test URLs:
 
-https://github.com/semantic-release/semantic-release/commits/master/
-https://github.com/ReVanced/revanced-patches/commits/main/
+- Repo commits: https://github.com/refined-github/sandbox/commits/conventional-commits/
+- PR commits: https://github.com/refined-github/sandbox/pull/91/commits
+- Real data: https://github.com/conventional-changelog/standard-version/commits
+- Repo without conventional commits: https://github.com/refined-github/refined-github/commits
 
 */
