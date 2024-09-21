@@ -3,40 +3,44 @@
 	line-height: 1.5;
 }
 
+/* Color from `enhancement` label */
 [rgh-conventional-commits='feat'] {
-	--label-r: 14;
-	--label-g: 138;
-	--label-b: 22;
-	--label-h: 123;
-	--label-s: 81;
-	--label-l: 29;
+	--label-r: 162;
+	--label-g: 238;
+	--label-b: 239;
+	--label-h: 180;
+	--label-s: 70;
+	--label-l: 78;
 }
 
+/* Color from `bug` label */
 [rgh-conventional-commits='fix'] {
-	--label-r: 182;
-	--label-g: 2;
-	--label-b: 5;
-	--label-h: 359;
-	--label-s: 97;
-	--label-l: 36;
+	--label-r: 215;
+	--label-g: 58;
+	--label-b: 74;
+	--label-h: 353;
+	--label-s: 66;
+	--label-l: 53;
 }
 
+/* Color from `wontfix` label. Just white because it's the most common and meaningless type of commit */
 [rgh-conventional-commits='chore'] {
-	--label-r: 254;
-	--label-g: 242;
-	--label-b: 192;
-	--label-h: 48;
-	--label-s: 96;
-	--label-l: 87;
+	--label-r: 255;
+	--label-g: 255;
+	--label-b: 255;
+	--label-h: 0;
+	--label-s: 0;
+	--label-l: 100;
 }
 
+/* Color from `documentation` label */
 [rgh-conventional-commits='docs'] {
-	--label-r: 249;
-	--label-g: 208;
-	--label-b: 196;
-	--label-h: 13;
-	--label-s: 81;
-	--label-l: 87;
+	--label-r: 0;
+	--label-g: 117;
+	--label-b: 202;
+	--label-h: 205;
+	--label-s: 100;
+	--label-l: 39;
 }
 
 [rgh-conventional-commits='build'] {
