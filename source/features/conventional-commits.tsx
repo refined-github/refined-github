@@ -42,7 +42,7 @@ Test URLs:
 
 - Repo commits: https://github.com/refined-github/sandbox/commits/conventional-commits/
 - PR commits: https://github.com/refined-github/sandbox/pull/91/commits
-- Real data: https://github.com/semantic-release/semantic-release/commits
+- Real data: https://github.com/conventional-changelog/standard-version/commits
 - Repo without conventional commits: https://github.com/refined-github/refined-github/commits
 
 */
