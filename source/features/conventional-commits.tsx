@@ -5,7 +5,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
-import {parseConventionalCommit, removeCommitAndScope} from '../helpers/conventional-commits.js';
+import {conventionalCommitRegex, parseConventionalCommit} from '../helpers/conventional-commits.js';
+import {removeTextInTextNode} from '../helpers/dom-utils.js';
 
 function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 	const textNode = commitTitleElement.firstChild!;
@@ -23,7 +24,7 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 		commit.scope ? <span style={{opacity: 0.7}}>{commit.scope}</span> : '',
 	);
 
-	removeCommitAndScope(textNode);
+	removeTextInTextNode(textNode, conventionalCommitRegex);
 }
 
 function init(signal: AbortSignal): void {
