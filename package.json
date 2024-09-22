@@ -5,7 +5,7 @@
 		"vitest": "vitest --run",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
-		"build:bundle": "rollup -c",
+		"build:bundle": "rsbuild build",
 		"manifest": "node build/manifest.js",
 		"fix": "run-p \"lint:css -- --fix\" \"lint:js -- --fix\" fix:prettier \"vitest -- --update\" --continue-on-error",
 		"fix:prettier": "prettier . --write",
@@ -20,7 +20,7 @@
 		"test": "run-p vitest lint:* build:* --continue-on-error",
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
-		"watch:bundle": "rollup -c --watch"
+		"watch:bundle": "rsbuild dev"
 	},
 	"prettier": {
 		"singleQuote": true
@@ -113,6 +113,7 @@
 		"@rollup/plugin-json": "^6.1.0",
 		"@rollup/plugin-node-resolve": "^15.2.3",
 		"@rollup/plugin-sucrase": "^5.0.2",
+		"@rsbuild/core": "^1.0.5",
 		"@sindresorhus/tsconfig": "^6.0.0",
 		"@stylistic/stylelint-config": "^2.0.0",
 		"@types/chrome": "^0.0.270",

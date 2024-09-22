@@ -1,14 +1,12 @@
 {
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
-		"outDir": "./distribution/assets",
 		"rootDir": "./",
-		"module": "node16",
+		"module": "preserve",
 		"declaration": false,
-		"moduleResolution": "node16",
-		"noUncheckedIndexedAccess": false,
-		"noPropertyAccessFromIndexSignature": false,
-		"resolveJsonModule": true,
+		"noEmit": true,
+		"isolatedModules": true,
+		"moduleResolution": "bundler",
 		"lib": [
 			"DOM",
 			"DOM.Iterable",
