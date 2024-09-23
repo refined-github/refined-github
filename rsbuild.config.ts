@@ -20,4 +20,16 @@ export default defineConfig({
 			strategy: 'split-by-module',
 		},
 	},
+	tools: {
+		rspack: {
+			resolve: {
+				alias: {
+					react: 'dom-chef',
+				},
+				extensionAlias: {
+					'.js': ['.tsx', '.ts', '.js'],
+				},
+			},
+		},
+	},
 });
