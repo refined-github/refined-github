@@ -69,8 +69,9 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 			link.parentElement!.after(container);
 			info.remove();
 		}
-	} catch {
+	} catch (error) {
 		info.remove();
+		throw error;
 	}
 }
 

@@ -50,10 +50,16 @@ const messageHandlers = {
 	// They must return a promise to mark the message as handled
 } satisfies Record<string, (...arguments_: any[]) => Promise<any>>;
 
-chrome.runtime.onMessage.addListener((message: typeof messageHandlers, sender): Promise<unknown> | void => {
+chrome.runtime.onMessage.addListener((message: typeof messageHandlers, sender, sendResponse): true | void => {
 	for (const id of objectKeys(message)) {
 		if (id in messageHandlers) {
-			return messageHandlers[id](message[id], sender);
+			messageHandlers[id](message[id], sender).then(sendResponse, error => {
+				sendResponse({error});
+				throw error;
+			});
+
+			// Chrome does not support returning a promise
+			return true;
 		}
 	}
 });
