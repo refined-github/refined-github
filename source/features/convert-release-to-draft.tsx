@@ -37,7 +37,10 @@ async function onConvertClick(): Promise<void> {
 		return;
 	}
 
-	await showToast(convertToDraft(), {message: 'Converting…', doneMessage: 'Redirecting…'});
+	await showToast(convertToDraft(), {
+		message: 'Converting…',
+		doneMessage: 'Redirecting…',
+	});
 }
 
 function attachButton(editButton: HTMLAnchorElement): void {
