@@ -86,22 +86,18 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const menuItem = event.delegateTarget;
 
-	try {
-		const [originalFileName, newFileName = originalFileName] = menuItem
-			.closest('[data-path]')!
-			.querySelector('.Link--primary')!
-			.textContent
-			.split(' → ');
-		await showToast(async progress => discardChanges(progress!, originalFileName, newFileName), {
-			message: 'Loading info…',
-			doneMessage: 'Changes discarded',
-		});
+	const [originalFileName, newFileName = originalFileName] = menuItem
+		.closest('[data-path]')!
+		.querySelector('.Link--primary')!
+		.textContent
+		.split(' → ');
+	await showToast(async progress => discardChanges(progress!, originalFileName, newFileName), {
+		message: 'Loading info…',
+		doneMessage: 'Changes discarded',
+	});
 
-		// Hide file from view
-		menuItem.closest('.file')!.remove();
-	} catch (error) {
-		features.log.error(import.meta.url, error);
-	}
+	// Hide file from view
+	menuItem.closest('.file')!.remove();
 }
 
 function add(editFile: HTMLAnchorElement): void {

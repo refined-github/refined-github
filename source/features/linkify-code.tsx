@@ -30,8 +30,7 @@ function linkifyContent(wrapper: Element): void {
 
 	const errors = linkifyURLs(wrapper);
 	if (errors) {
-		features.log.error(import.meta.url, 'Links already exist');
-		console.log(errors);
+		console.error('Links already exist', ...errors);
 	}
 
 	const currentRepo = pageDetect.isGlobalSearchResults()

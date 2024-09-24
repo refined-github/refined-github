@@ -28,11 +28,10 @@ async function mergeBranches(): Promise<AnyObject> {
 async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	button.disabled = true;
 	await showToast(async () => {
+		// Reads Error#message or GitHub’s "message" response
 		const response = await mergeBranches().catch(error => error);
 		if (response instanceof Error || !response.ok) {
-			features.log.error(import.meta.url, response);
-			// Reads Error#message or GitHub’s "message" response
-			throw new Error(`Error updating the branch: ${response.message as string}`);
+			throw new Error(`Error updating the branch: ${response.message as string}`, {cause: response});
 		}
 	}, {
 		message: 'Updating branch…',

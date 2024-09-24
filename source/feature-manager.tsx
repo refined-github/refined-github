@@ -24,6 +24,7 @@ import {
 	_,
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
+import {catchErrors, disableErrorLogging, logError} from './helpers/errors.js';
 
 type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
 type FeatureInitResult = void | false;
@@ -58,54 +59,14 @@ type InternalRunConfig = RunConditions & {
 	shortcuts: Record<string, string>;
 };
 
-const {version} = chrome.runtime.getManifest();
-
 const shortcutMap = new Map<string, string>();
 const getFeatureID = (url: string): FeatureID => url.split('/').pop()!.split('.')[0] as FeatureID;
 
 const currentFeatureControllers = new ArrayMap<FeatureID, AbortController>();
-const fineGrainedTokenSuggestion = 'Please use a GitHub App, OAuth App, or a personal access token with fine-grained permissions.';
-const preferredMessage = 'Refined GitHub does not support per-organization fine-grained tokens. https://github.com/refined-github/refined-github/wiki/Security';
-
-function logError(url: string, error: unknown): void {
-	const id = getFeatureID(url);
-	const message = error instanceof Error ? error.message : String(error);
-
-	if (message.endsWith(fineGrainedTokenSuggestion)) {
-		console.log('ℹ️', id, '→', message.replace(fineGrainedTokenSuggestion, preferredMessage));
-		return;
-	}
-
-	if (message.includes('token')) {
-		console.log('ℹ️', id, '→', message);
-		return;
-	}
-
-	const searchIssueUrl = new URL('https://github.com/refined-github/refined-github/issues');
-	searchIssueUrl.searchParams.set('q', `is:issue is:open label:bug ${id}`);
-
-	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
-	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
-	newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
-	newIssueUrl.searchParams.set('repro', location.href);
-	newIssueUrl.searchParams.set('description', [
-		'```',
-		String(error instanceof Error ? error.stack! : error).trim(),
-		'```',
-	].join('\n'));
-
-	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
-	console.group(`❌ ${id}`); // Safari supports only one parameter
-	console.log(`📕 ${version} ${pageDetect.isEnterprise() ? 'GHE →' : '→'}`, error); // One parameter improves Safari formatting
-	console.log('🔍 Search issue', searchIssueUrl.href);
-	console.log('🚨 Report issue', newIssueUrl.href);
-	console.groupEnd();
-}
 
 const log = {
 	info: console.log,
 	http: console.log.bind(console, '🌏'),
-	error: logError,
 };
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
@@ -165,8 +126,9 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 
 	if (elementExists('body.logged-out')) {
 		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
-		// eslint-disable-next-line ts/no-use-before-define -- TODO: Drop in https://github.com/refined-github/refined-github/issues/7750
-		features.log.error = () => {/* No logging */};
+		disableErrorLogging();
+	} else {
+		catchErrors();
 	}
 
 	// Detect unload via two events to catch both clicks and history navigation
@@ -205,7 +167,7 @@ async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<
 					}
 				}
 			} catch (error) {
-				log.error(id, error);
+				logError(error, id);
 			}
 
 			if (result) {
