@@ -25,11 +25,18 @@ async function getViewerPermission(): Promise<RepositoryPermission> {
 	return repository.viewerPermission;
 }
 
+export async function userIsAdmin(): Promise<boolean> {
+	const repoAccess = await getViewerPermission();
+	return repoAccess === 'ADMIN';
+}
+
+/** Check if the user has complete write access to the repo (but no access to the repo Settings) */
 export async function userHasPushAccess(): Promise<boolean> {
 	const repoAccess = await getViewerPermission();
 	return repoAccess !== 'READ' && repoAccess !== 'TRIAGE';
 }
 
+/** Check if the user can edit all comments and comment on locked issues on the current repo */
 export async function userIsModerator(): Promise<boolean> {
 	const repoAccess = await getViewerPermission();
 	return repoAccess !== 'READ';

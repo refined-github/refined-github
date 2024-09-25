@@ -59,7 +59,6 @@ void features.add(import.meta.url, {
 	additionalListeners: [
 		onPrMerge,
 	],
-	awaitDomReady: true, // TODO: Remove after https://github.com/refined-github/refined-github/issues/6566
 	onlyAdditionalListeners: true,
 	init,
 });

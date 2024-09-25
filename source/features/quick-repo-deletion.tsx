@@ -18,6 +18,7 @@ import parseBackticks from '../github-helpers/parse-backticks.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
 import {messageBackground} from '../helpers/messaging.js';
+import {userIsAdmin} from '../github-helpers/get-user-permission.js';
 
 function handleToggle(event: DelegateEvent<Event, HTMLDetailsElement>): void {
 	const hasContent = elementExists([
@@ -129,11 +130,6 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	}
 }
 
-// TODO: Replace with https://github.com/refined-github/github-url-detection/issues/85
-async function canUserDeleteRepository(): Promise<boolean> {
-	return Boolean(await elementReady('nav [data-content="Settings"]'));
-}
-
 // Only if the repository hasn't been starred
 async function isRepoUnpopular(): Promise<boolean> {
 	return looseParseInt(await elementReady('.starring-container .Counter')) === 0;
@@ -164,7 +160,7 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isRepoRoot,
 		pageDetect.isForkedRepo,
-		canUserDeleteRepository,
+		userIsAdmin,
 		isRepoUnpopular,
 	],
 	init,
