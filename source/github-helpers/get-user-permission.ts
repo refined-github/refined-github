@@ -1,6 +1,5 @@
 import api from './api.js';
 
-
 /*
 From https://docs.github.com/en/graphql/reference/enums#repositorypermission
 
