@@ -17,6 +17,7 @@ import looseParseInt from '../helpers/loose-parse-int.js';
 import parseBackticks from '../github-helpers/parse-backticks.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
+import {messageBackground} from '../helpers/messaging.js';
 
 function handleToggle(event: DelegateEvent<Event, HTMLDetailsElement>): void {
 	const hasContent = elementExists([
@@ -124,7 +125,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 	$('.application-main')!.remove();
 	if (document.hidden) {
 		// Try closing the tab if in the background. Could fail, so we still update the UI above
-		void chrome.runtime.sendMessage({closeTab: true});
+		void messageBackground({closeTab: true});
 	}
 }
 
