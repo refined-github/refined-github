@@ -33,10 +33,6 @@ handleMessages({
 	async closeTab(_: any, {tab}: chrome.runtime.MessageSender) {
 		void chrome.tabs.remove(tab!.id!);
 	},
-	async fetch(url: string) {
-		const response = await fetch(url);
-		return response.text();
-	},
 	async fetchJSON(url: string) {
 		const response = await fetch(url);
 		return response.json();
