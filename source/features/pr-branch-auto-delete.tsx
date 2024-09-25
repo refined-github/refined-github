@@ -54,6 +54,8 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isPRConversation,
 		pageDetect.isOpenPR,
+		// Note: This only applies to same-repo PRs, but is a false signal for cross-repo PRs
+		// https://github.com/refined-github/refined-github/pull/7798/files#r1774844041
 		userHasPushAccess,
 	],
 	additionalListeners: [
