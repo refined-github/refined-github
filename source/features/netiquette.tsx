@@ -14,7 +14,7 @@ import {buildRepoURL, isAnyRefinedGitHubRepo, isOwnConversation} from '../github
 import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event.js';
 
 import {newCommentField} from '../github-helpers/selectors.js';
-import {userCanEditEveryComment} from '../github-helpers/get-user-permission.js';
+import {userIsModerator} from '../github-helpers/get-user-permission.js';
 
 const isClosedOrMerged = (): boolean => elementExists(closedOrMergedMarkerSelector);
 
@@ -93,7 +93,7 @@ async function initBanner(signal: AbortSignal): Promise<void | false> {
 	// Do not move to `asLongAs` because those conditions are run before `isConversation`
 	if (wasClosedLongAgo()) {
 		observe(newCommentField, addConversationBanner, {signal});
-	} else if (isPopular() && !await userCanEditEveryComment()) {
+	} else if (isPopular() && !await userIsModerator()) {
 		observe(newCommentField, addPopularBanner, {signal});
 	} else {
 		return false;

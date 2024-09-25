@@ -7,13 +7,13 @@ import memoize from 'memoize';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
-import {userCanEditEveryComment} from '../github-helpers/get-user-permission.js';
+import {userIsModerator} from '../github-helpers/get-user-permission.js';
 
 // The signal is only used to memoize calls on the current page. A new page load will use a new signal.
 const isIssueIneditable = memoize(
 	// If .js-pick-reaction is the first child, `reaction-menu` doesn't exist, which means that the conversation is locked.
 	// However, if you can edit every comment, you can still edit the comment
-	async (_signal: AbortSignal | undefined): Promise<boolean> => elementExists('.js-pick-reaction:first-child') && !await userCanEditEveryComment(),
+	async (_signal: AbortSignal | undefined): Promise<boolean> => elementExists('.js-pick-reaction:first-child') && !await userIsModerator(),
 	{
 		cache: new WeakMap(),
 	},
@@ -56,7 +56,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	}
 
 	// If true then the resulting selector will match all comments, otherwise it will only match those made by you
-	const preSelector = await userCanEditEveryComment() ? '' : '.current-user';
+	const preSelector = await userIsModerator() ? '' : '.current-user';
 
 	observe(preSelector + '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative', addQuickEditButton, {signal});
 }

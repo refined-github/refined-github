@@ -14,7 +14,7 @@ import attachElement from '../helpers/attach-element.js';
 import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getReleases} from './releases-tab.js';
 import observe from '../helpers/selector-observer.js';
-import {userCanRelease} from '../github-helpers/get-user-permission.js';
+import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206
@@ -139,7 +139,7 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isPRConversation,
 		pageDetect.isOpenPR,
-		userCanRelease,
+		userHasPushAccess,
 	],
 	additionalListeners: [
 		onPrMerge,

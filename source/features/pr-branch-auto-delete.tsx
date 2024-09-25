@@ -8,7 +8,7 @@ import features from '../feature-manager.js';
 import onPrMerge from '../github-events/on-pr-merge.js';
 import featureLink from '../helpers/feature-link.js';
 import attachElement from '../helpers/attach-element.js';
-import {userCanRelease} from '../github-helpers/get-user-permission.js';
+import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 
 async function init(): Promise<void> {
 	const deleteButton = $('[action$="/cleanup"] [type="submit"]');
@@ -35,7 +35,7 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isPRConversation,
 		pageDetect.isOpenPR,
-		userCanRelease,
+		userHasPushAccess,
 	],
 	additionalListeners: [
 		onPrMerge,
