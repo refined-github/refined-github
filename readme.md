@@ -264,7 +264,7 @@ Thanks for contributing! 🦋🙌
 - [](# "update-pr-from-base-branch") [Adds an "Update branch" button to every PR.](https://user-images.githubusercontent.com/1402241/234483592-4867cb2e-21cb-436d-9ea0-aedadf834f19.png) GitHub has the same feature, but it must be manually configured with protected branches.
 - [](# "one-click-review-submission") [Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.](https://user-images.githubusercontent.com/1402241/236627732-df341ff7-cd98-4cd0-a579-722d1fffa5cf.png)
 - [](# "pull-request-hotkeys") [Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd>, and <kbd>g</kbd> <kbd>4</kbd>](https://user-images.githubusercontent.com/16872793/94634958-7e7b5680-029f-11eb-82ea-1f96cd11e4cd.png).
-- [](# "pr-branch-auto-delete") [Automatically deletes the branch right after merging a PR, if possible.](https://user-images.githubusercontent.com/1402241/177067141-eabc7494-38a2-45b5-aef9-ac33cc0da370.png)
+- [](# "pr-branch-auto-delete") [Automatically deletes the branch right after merging a PR, if possible.](https://user-images.githubusercontent.com/1402241/177067141-eabc7494-38a2-45b5-aef9-ac33cc0da370.png) Common branch names known to be long-lived are excluded (`develop`, `release/*`, etc)
 - [](# "one-click-pr-or-gist") [Lets you create draft PRs and public gists in one click.](https://user-images.githubusercontent.com/34235681/152473201-868ad7c1-e06f-4826-b808-d90bca7f08b3.png)
 - [](# "clear-pr-merge-commit-message") [Clears the PR merge commit message of clutter, leaving only deduplicated co-authors.](https://user-images.githubusercontent.com/1402241/79257078-62b6fc00-7e89-11ea-8798-c06f33baa94b.png)
 - [](# "quick-review") [Adds quick-review buttons to the PR sidebar, automatically focuses the review textarea, and adds a keyboard shortcut to open the review popup: <kbd>v</kbd>.](https://github.com/refined-github/refined-github/assets/1402241/f11039c4-c9d1-4adc-9a65-cfe1f2027ec3)
@@ -288,6 +288,7 @@ Thanks for contributing! 🦋🙌
 - [](# "same-branch-author-commits") [Preserves current branch and path when viewing all commits by an author.](https://user-images.githubusercontent.com/44045911/148764372-ee443213-e61a-4227-9219-0ee54ed832e8.png)
 - [](# "easy-toggle-commit-messages") [Enables toggling commit messages by clicking on the commit box.](https://user-images.githubusercontent.com/1402241/152121837-ca13bf8a-9b7f-4517-8e8d-b58bb135523b.gif)
 - [](# "link-to-compare-diff") [Linkifies the "X files changed" text on compare pages to allow jumping to the diff.](https://user-images.githubusercontent.com/46634000/157072587-0335357a-18c7-44c4-ae6e-237080fb36b4.png)
+- [](# "conventional-commits") [Shows conventional commit types as labels before the commit message.](https://github.com/user-attachments/assets/980a2d5e-13c2-4b1b-bb80-81dc94723000)
 
 <!-- Refer to style guide above. Keep this message between sections. -->
 
@@ -310,7 +311,7 @@ Thanks for contributing! 🦋🙌
 - [](# "mark-private-orgs") [Marks private organizations on your own profile.](https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png)
 - [](# "profile-hotkey") Adds a keyboard shortcut to visit your own profile: <kbd>g</kbd> <kbd>m</kbd>.
 - [](# "show-user-top-repositories") [Adds a link to the user’s most starred repositories.](https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)
-- [](# "hide-user-forks") [Hides forks and archived repos from profiles](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/263195425-85cf0951-c6ed-45fe-8cfc-e447e3ed2a25.png) [(but they can still be shown.)](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/262547829-2da96718-fb18-4f2e-b637-8157f552e278.png)
+- [](# "hide-user-forks") [Filters out forks and archived repos from profiles by default, leaving only the sources.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/263195425-85cf0951-c6ed-45fe-8cfc-e447e3ed2a25.png) [(but they can still be shown.)](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/262547829-2da96718-fb18-4f2e-b637-8157f552e278.png)
 - [](# "linkify-user-location") [Linkifies the user location in their hovercard and profile page.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/262554067-43bea584-cdb4-41c7-b0fa-f487e7ef8807.png)
 - [](# "user-local-time") [Shows the user local time in their hovercard (based on their last commit).](https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257039621-132bd789-e213-4a89-83ff-e1266215c60d.png)
 - [](# "conversation-links-on-repo-lists") [Adds a link to the issues and pulls on the user profile repository tab and global search.](https://user-images.githubusercontent.com/16872793/78712349-82c54900-78e6-11ea-8328-3c2d39a78862.png)

@@ -24,6 +24,7 @@ jobs:
         with:
           node-version-file: package.json
           cache: npm
+      - run: sudo apt-get install ripgrep
       - run: npm ci
       - run: npm run vitest -- --exclude 'build/features*' --exclude '**/selectors*'
       - run: npm run vitest -- selectors

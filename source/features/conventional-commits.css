@@ -1,0 +1,89 @@
+:root [rgh-conventional-commits] {
+	font-size: var(--body-font-size, 1px);
+	line-height: 1.5;
+}
+
+/* Color from `enhancement` label */
+[rgh-conventional-commits='feat'] {
+	--label-r: 162;
+	--label-g: 238;
+	--label-b: 239;
+	--label-h: 180;
+	--label-s: 70;
+	--label-l: 78;
+}
+
+/* Color from `bug` label */
+[rgh-conventional-commits='fix'] {
+	--label-r: 215;
+	--label-g: 58;
+	--label-b: 74;
+	--label-h: 353;
+	--label-s: 66;
+	--label-l: 53;
+}
+
+/* Color from `wontfix` label. Just white because it's the most common and meaningless type of commit */
+[rgh-conventional-commits='chore'] {
+	--label-r: 255;
+	--label-g: 255;
+	--label-b: 255;
+	--label-h: 0;
+	--label-s: 0;
+	--label-l: 100;
+}
+
+/* Color from `documentation` label */
+[rgh-conventional-commits='docs'] {
+	--label-r: 0;
+	--label-g: 117;
+	--label-b: 202;
+	--label-h: 205;
+	--label-s: 100;
+	--label-l: 39;
+}
+
+[rgh-conventional-commits='build'] {
+	--label-r: 217;
+	--label-g: 63;
+	--label-b: 11;
+	--label-h: 15;
+	--label-s: 90;
+	--label-l: 44;
+}
+
+[rgh-conventional-commits='refactor'] {
+	--label-r: 0;
+	--label-g: 107;
+	--label-b: 117;
+	--label-h: 185;
+	--label-s: 100;
+	--label-l: 22;
+}
+
+[rgh-conventional-commits='test'] {
+	--label-r: 251;
+	--label-g: 202;
+	--label-b: 4;
+	--label-h: 48;
+	--label-s: 96;
+	--label-l: 50;
+}
+
+[rgh-conventional-commits='ci'] {
+	--label-r: 197;
+	--label-g: 222;
+	--label-b: 245;
+	--label-h: 208;
+	--label-s: 70;
+	--label-l: 86;
+}
+
+[rgh-conventional-commits='perf'] {
+	--label-r: 83;
+	--label-g: 25;
+	--label-b: 231;
+	--label-h: 256;
+	--label-s: 81;
+	--label-l: 50;
+}

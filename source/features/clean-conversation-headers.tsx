@@ -23,7 +23,11 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 
 	// Extra author name is only shown on `isPRConversation`
 	// Hide if it's the same as the opener (always) or merger
-	const shouldHideAuthor = pageDetect.isPRConversation() && $('.author', byline)!.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
+	const shouldHideAuthor
+		= pageDetect.isPRConversation()
+		&& !byline.closest('.gh-header-sticky') // #7802
+		&& $('.author', byline)!.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
+
 	if (shouldHideAuthor) {
 		byline.classList.add('rgh-clean-conversation-headers-hide-author');
 	}

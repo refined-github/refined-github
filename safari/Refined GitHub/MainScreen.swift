@@ -37,7 +37,7 @@ struct MainScreen: View {
 					.controlSize(.small)
 			}
 			#else
-			Text("Turn on the Safari extension in “Settings › Safari”. Then, open Safari, go to github.com, and try it out.")
+			Text("Turn on the Safari extension in “Settings › Apps › Safari”. Then, open Safari, go to github.com, and try it out.")
 				.multilineTextAlignment(.center)
 				.padding(.horizontal)
 				.padding(.horizontal)
