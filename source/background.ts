@@ -2,7 +2,6 @@ import 'webext-dynamic-content-scripts';
 import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
 import {isSafari} from 'webext-detect';
 import {addOptionsContextMenu} from 'webext-tools';
-import {objectKeys} from 'ts-extras';
 import addPermissionToggle from 'webext-permission-toggle';
 import webextAlert from 'webext-alert';
 
@@ -11,6 +10,7 @@ import isDevelopmentVersion from './helpers/is-development-version.js';
 import getStorageBytesInUse from './helpers/used-storage.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {styleHotfixes} from './helpers/hotfix.js';
+import {handleMessages} from './helpers/messaging.js';
 
 const {version} = chrome.runtime.getManifest();
 
@@ -20,7 +20,7 @@ addPermissionToggle();
 // Firefox/Safari polyfill
 addOptionsContextMenu();
 
-const messageHandlers = {
+handleMessages({
 	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
 		for (const [index, url] of urls.entries()) {
 			void chrome.tabs.create({
@@ -47,21 +47,6 @@ const messageHandlers = {
 	async getStyleHotfixes() {
 		return styleHotfixes.get(version);
 	},
-	// They must return a promise to mark the message as handled
-} satisfies Record<string, (...arguments_: any[]) => Promise<any>>;
-
-chrome.runtime.onMessage.addListener((message: typeof messageHandlers, sender, sendResponse): true | void => {
-	for (const id of objectKeys(message)) {
-		if (id in messageHandlers) {
-			messageHandlers[id](message[id], sender).then(sendResponse, error => {
-				sendResponse({error});
-				throw error;
-			});
-
-			// Chrome does not support returning a promise
-			return true;
-		}
-	}
 });
 
 // `browserAction` needed for Firefox MV2 https://github.com/refined-github/refined-github/issues/7477

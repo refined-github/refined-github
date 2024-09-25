@@ -3,6 +3,7 @@ import onetime from 'onetime';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
+import {messageBackground} from '../helpers/messaging.js';
 
 function openInNewTab(): void {
 	const selected = $('.navigation-focus a.js-navigation-open[href]');
@@ -10,7 +11,7 @@ function openInNewTab(): void {
 		return;
 	}
 
-	void chrome.runtime.sendMessage({
+	void messageBackground({
 		openUrls: [selected.href],
 	});
 
