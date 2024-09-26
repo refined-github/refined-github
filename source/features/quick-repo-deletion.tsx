@@ -3,6 +3,7 @@ import elementReady from 'element-ready';
 import {expectElement} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {setFieldText} from 'text-field-edit';
+import TrashIcon from 'octicons-plain-react/Trash';
 
 import features from '../feature-manager.js';
 import {buildRepoURL, getRepo} from '../github-helpers/index.js';
@@ -28,6 +29,7 @@ function addButton(header: HTMLElement): void {
 				href={buildRepoURL('settings', buttonHashSelector)}
 				className="btn btn-sm btn-danger"
 			>
+				<TrashIcon className="mr-2" />
 				Delete fork
 			</a>
 		</li>,
