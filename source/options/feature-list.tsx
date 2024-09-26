@@ -48,7 +48,7 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 				)}
 				<p className="description">{domify(description)}</p>
 				{screenshot && (
-					<img hidden data-src={screenshot} className="screenshot" />
+					<img hidden src={screenshot} loading="lazy" className="screenshot" />
 				)}
 			</div>
 		</div>
@@ -74,10 +74,6 @@ function summaryHandler(event: DelegateEvent<MouseEvent>): void {
 function toggleScreenshot(feature: Element): void {
 	const toggle = feature.querySelector('input.screenshot-toggle')!;
 	toggle.checked = !toggle.checked;
-
-	// Lazy-load image
-	const screenshot = feature.querySelector('img.screenshot')!;
-	screenshot.src = screenshot.dataset.src!;
 }
 
 function featuresFilterHandler(event: Event): void {
