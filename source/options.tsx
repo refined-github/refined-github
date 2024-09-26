@@ -348,7 +348,7 @@ async function generateDom(): Promise<void> {
 	// Show stored CSS hotfixes
 	void showStoredCssHotfixes();
 
-	$('#version').textContent = version;
+	$('#version')!.textContent = version;
 }
 
 function addEventListeners(): void {
