@@ -11,7 +11,7 @@ import {SyncedForm} from 'webext-options-sync-per-domain';
 
 import clearCacheHandler from './helpers/clear-cache-handler.js';
 import {styleHotfixes} from './helpers/hotfix.js';
-import {importedFeatures, featuresMeta} from './feature-data.js';
+import {importedFeatures} from './feature-data.js';
 import getStorageBytesInUse from './helpers/used-storage.js';
 import {perDomainOptions} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
@@ -35,7 +35,7 @@ type Status = {
 const {version} = chrome.runtime.getManifest();
 
 function reportStatus({tokenType, error, text, scopes}: Status): void {
-	const tokenStatus = $('#validation')!;
+	const tokenStatus = $('#validation');
 	tokenStatus.textContent = text ?? '';
 	if (error) {
 		tokenStatus.dataset.validation = 'invalid';
@@ -58,7 +58,7 @@ function reportStatus({tokenType, error, text, scopes}: Status): void {
 }
 
 function getApiUrl(): string {
-	const tokenLink = $('a#personal-token-link')!;
+	const tokenLink = $('a#personal-token-link');
 	return tokenLink.host === 'github.com'
 		? 'https://api.github.com'
 		: `${tokenLink.origin}/api/v3`;
@@ -101,7 +101,7 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 }
 
 function expandTokenSection(): void {
-	$('details#token')!.open = true;
+	$('details#token').open = true;
 }
 
 async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
@@ -118,7 +118,7 @@ async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
 }
 
 async function validateToken(): Promise<void> {
-	const tokenField = $('input[name="personalToken"]')!;
+	const tokenField = $('input[name="personalToken"]');
 	const tokenType = tokenField.value.startsWith('github_pat_') ? 'fine_grained' : 'classic';
 	reportStatus({tokenType});
 
@@ -161,7 +161,7 @@ async function findFeatureHandler(event: Event): Promise<void> {
 		button.disabled = false;
 	}, 10_000);
 
-	$('#find-feature-message')!.hidden = false;
+	$('#find-feature-message').hidden = false;
 }
 
 function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
@@ -183,7 +183,7 @@ function updateRateLink(): void {
 		return;
 	}
 
-	$('a#rate-link')!.href = isFirefox() ? 'https://addons.mozilla.org/en-US/firefox/addon/refined-github-' : 'https://apps.apple.com/app/id1519867270?action=write-review';
+	$('a#rate-link').href = isFirefox() ? 'https://addons.mozilla.org/en-US/firefox/addon/refined-github-' : 'https://apps.apple.com/app/id1519867270?action=write-review';
 }
 
 function isEnterprise(): boolean {
@@ -192,7 +192,7 @@ function isEnterprise(): boolean {
 
 async function showStoredCssHotfixes(): Promise<void> {
 	const cachedCSS = await styleHotfixes.getCached(version);
-	$('#hotfixes-field')!.textContent
+	$('#hotfixes-field').textContent
 		= isDevelopmentVersion()
 			? 'Hotfixes are not applied in the development version.'
 			: isEnterprise()
@@ -212,7 +212,7 @@ function disableAllFeatures(): void {
 		enabledFeature.click();
 	}
 
-	$('details#features')!.open = true;
+	$('details#features').open = true;
 }
 
 function enableAllFeatures(): void {
@@ -220,7 +220,7 @@ function enableAllFeatures(): void {
 		disabledFeature.click();
 	}
 
-	$('details#features')!.open = true;
+	$('details#features').open = true;
 }
 
 async function generateDom(): Promise<void> {
@@ -234,13 +234,10 @@ async function generateDom(): Promise<void> {
 	updateListDom();
 
 	// Only now the form is ready, we can show it
-	$('#js-failed')!.remove();
+	$('#js-failed').remove();
 
 	// Enable token validation
 	void validateToken();
-
-	// Add feature count. CSS-only features are added approximately
-	$('.features-header')!.append(` (${featuresMeta.length + 25})`);
 
 	// Update rate link if necessary
 	updateRateLink();
@@ -251,7 +248,7 @@ async function generateDom(): Promise<void> {
 
 	// Hide non-applicable "Button link" section
 	if (doesBrowserActionOpenOptions) {
-		$('#action')!.hidden = true;
+		$('#action').hidden = true;
 	}
 
 	// Show stored CSS hotfixes

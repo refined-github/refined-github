@@ -103,6 +103,9 @@ export default async function initFeatureList(): Promise<void> {
 
 	// Filter feature list
 	$('#filter-features')!.addEventListener('input', featuresFilterHandler);
+
+	// Add feature count. CSS-only features are added approximately
+	$('.features-header').append(` (${featuresMeta.length + 25})`);
 }
 
 export function updateListDom(): void {
