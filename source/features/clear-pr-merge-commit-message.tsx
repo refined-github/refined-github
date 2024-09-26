@@ -44,10 +44,8 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		userHasPushAccess,
-	],
-	include: [
 		pageDetect.isPRConversation,
+		userHasPushAccess,
 	],
 	exclude: [
 		// Don't clear 1-commit PRs #3140
