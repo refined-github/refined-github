@@ -708,8 +708,7 @@
 	},
 	{
 		"id": "quick-repo-deletion",
-		"description": "Lets you delete your repos in a click, if they have no stars, issues, or PRs.",
-		"css": true,
+		"description": "Simplifies the deletion of your temporary 0-star forks.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/99716945-54a80a00-2a6e-11eb-9107-f3517a6ab1bc.gif"
 	},
 	{
