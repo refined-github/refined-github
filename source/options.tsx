@@ -1,8 +1,6 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
-import React from 'dom-chef';
-import domify from 'doma';
-import {$, $$} from 'select-dom';
+import {expectElement as $, $$} from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import prettyBytes from 'pretty-bytes';
 import {assertError} from 'ts-extras';
@@ -11,10 +9,8 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import {isChrome, isFirefox} from 'webext-detect';
 import {SyncedForm} from 'webext-options-sync-per-domain';
 
-import featureLink from './helpers/feature-link.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
-import {getLocalHotfixes, styleHotfixes} from './helpers/hotfix.js';
-import createRghIssueLink from './helpers/rgh-issue-link.js';
+import {styleHotfixes} from './helpers/hotfix.js';
 import {importedFeatures, featuresMeta} from './feature-data.js';
 import getStorageBytesInUse from './helpers/used-storage.js';
 import {perDomainOptions} from './options-storage.js';
@@ -23,6 +19,7 @@ import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {state as bisectState} from './helpers/bisect.js';
 import {parseTokenScopes} from './github-helpers/github-token.js';
 import {scrollIntoViewIfNeeded} from './github-helpers/index.js';
+import initFeatureList, {updateListDom} from './options/feature-list.js';
 
 type TokenType = 'classic' | 'fine_grained';
 
@@ -152,40 +149,6 @@ async function validateToken(): Promise<void> {
 	}
 }
 
-function moveDisabledFeaturesToTop(): void {
-	const container = $('.js-features')!;
-
-	for (const unchecked of $$('.feature-checkbox:not(:checked)', container).reverse()) {
-		// .reverse() needed to preserve alphabetical order while prepending
-		container.prepend(unchecked.closest('.feature')!);
-	}
-}
-
-function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
-	return (
-		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
-			<div className="info">
-				<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox" />
-				<label className="feature-name" htmlFor={id}>{id}</label>
-				{' '}
-				<a href={featureLink(id)} className="feature-link">
-					source
-				</a>
-				<input hidden type="checkbox" className="screenshot-toggle" />
-				{screenshot && (
-					<a href={screenshot} className="screenshot-link">
-						screenshot
-					</a>
-				)}
-				<p className="description">{domify(description)}</p>
-				{screenshot && (
-					<img hidden data-src={screenshot} className="screenshot" />
-				)}
-			</div>
-		</div>
-	);
-}
-
 async function findFeatureHandler(event: Event): Promise<void> {
 	// TODO: Add support for GHE
 	const options = await perDomainOptions.getOptionsForOrigin().getAll();
@@ -201,41 +164,6 @@ async function findFeatureHandler(event: Event): Promise<void> {
 	$('#find-feature-message')!.hidden = false;
 }
 
-function summaryHandler(event: DelegateEvent<MouseEvent>): void {
-	if (event.ctrlKey || event.metaKey || event.shiftKey) {
-		return;
-	}
-
-	event.preventDefault();
-	if (event.altKey) {
-		for (const screenshotLink of $$('.screenshot-link')) {
-			toggleScreenshot(screenshotLink.parentElement!);
-		}
-	} else {
-		const feature = event.delegateTarget.parentElement!;
-		toggleScreenshot(feature);
-	}
-}
-
-function toggleScreenshot(feature: Element): void {
-	const toggle = feature.querySelector('input.screenshot-toggle')!;
-	toggle.checked = !toggle.checked;
-
-	// Lazy-load image
-	const screenshot = feature.querySelector('img.screenshot')!;
-	screenshot.src = screenshot.dataset.src!;
-}
-
-function featuresFilterHandler(event: Event): void {
-	const keywords = (event.currentTarget as HTMLInputElement).value.toLowerCase()
-		.replaceAll(/\W/g, ' ')
-		.split(/\s+/)
-		.filter(Boolean); // Ignore empty strings
-	for (const feature of $$('.feature')) {
-		feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
-	}
-}
-
 function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
 	scrollIntoViewIfNeeded(section);
 	if (section.open) {
@@ -246,19 +174,6 @@ function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDet
 				// #6404
 				fitTextarea(field);
 			}
-		}
-	}
-}
-
-async function markLocalHotfixes(): Promise<void> {
-	for (const [feature, relatedIssue] of await getLocalHotfixes()) {
-		if (importedFeatures.includes(feature)) {
-			const input = $<HTMLInputElement>('#' + feature)!;
-			input.disabled = true;
-			input.removeAttribute('name');
-			$(`.feature-name[for="${feature}"]`)!.after(
-				<span className="hotfix-notice"> (Disabled due to {createRghIssueLink(relatedIssue)})</span>,
-			);
 		}
 	}
 }
@@ -310,22 +225,16 @@ function enableAllFeatures(): void {
 
 async function generateDom(): Promise<void> {
 	// Generate list
-	$('.js-features')!.append(...featuresMeta
-		.filter(feature => importedFeatures.includes(feature.id))
-		.map(feature => buildFeatureCheckbox(feature)),
-	);
-
-	// Add notice for features disabled via hotfix
-	await markLocalHotfixes();
+	await initFeatureList();
 
 	// Update list from saved options
 	syncedForm = await perDomainOptions.syncForm('form');
 
+	// Decorate list
+	updateListDom();
+
 	// Only now the form is ready, we can show it
 	$('#js-failed')!.remove();
-
-	// Decorate list
-	moveDisabledFeaturesToTop();
 
 	// Enable token validation
 	void validateToken();
@@ -374,14 +283,8 @@ function addEventListeners(): void {
 	fitTextarea.watch('textarea');
 	enableTabToIndent('textarea');
 
-	// Load screenshots
-	delegate('.screenshot-link', 'click', summaryHandler);
-
 	// Automatically focus field when a section is toggled open
 	delegate('details', 'toggle', focusFirstField, {capture: true});
-
-	// Filter feature list
-	$('#filter-features')!.addEventListener('input', featuresFilterHandler);
 
 	// Add cache clearer
 	$('#clear-cache')!.addEventListener('click', clearCacheHandler);
