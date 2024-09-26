@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import domify from 'doma';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {expectElement as $, $$} from 'select-dom';
+import {expectElement as $, $$, elementExists} from 'select-dom';
 
 import {getLocalHotfixes} from '../helpers/hotfix.js';
 import createRghIssueLink from '../helpers/rgh-issue-link.js';
@@ -9,11 +9,13 @@ import featureLink from '../helpers/feature-link.js';
 import {importedFeatures, featuresMeta} from '../feature-data.js';
 
 function moveDisabledFeaturesToTop(): void {
-	const container = $('.js-features')!;
-
-	for (const unchecked of $$('.feature-checkbox:not(:checked)', container).reverse()) {
-		// .reverse() needed to preserve alphabetical order while prepending
-		container.prepend(unchecked.closest('.feature')!);
+	const container = $('.js-features');
+	const features = $$('.feature').toSorted((a, b) => a.dataset.text!.localeCompare(b.dataset.text!));
+	const grouped = Object.groupBy(features, feature => elementExists(':checked', feature) ? 'enabled' : 'disabled');
+	for (const group of [grouped.disabled, grouped.enabled]) {
+		for (const feature of group!) {
+			container.append(feature);
+		}
 	}
 }
 

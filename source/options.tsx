@@ -261,9 +261,14 @@ async function generateDom(): Promise<void> {
 function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
 	syncedForm?.onChange(async domain => {
-		$('a#personal-token-link')!.host = domain === 'default' ? 'github.com' : domain;
-		// Delay validating to let options load first
-		setTimeout(validateToken, 100);
+		$('a#personal-token-link').host = domain === 'default' ? 'github.com' : domain;
+		// Delay to let options load first
+		setTimeout(() => {
+			validateToken();
+
+			// Re-sort list
+			updateListDom();
+		}, 100);
 	});
 
 	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)
@@ -287,18 +292,18 @@ function addEventListeners(): void {
 	delegate('details', 'toggle', focusFirstField, {capture: true});
 
 	// Add cache clearer
-	$('#clear-cache')!.addEventListener('click', clearCacheHandler);
+	$('#clear-cache').addEventListener('click', clearCacheHandler);
 
 	// Add bisect tool
-	$('#find-feature')!.addEventListener('click', findFeatureHandler);
+	$('#find-feature').addEventListener('click', findFeatureHandler);
 
 	// Handle "Toggle all" buttons
-	$('#toggle-all-features')!.addEventListener('click', enableToggleAll);
-	$('#disable-all-features')!.addEventListener('click', disableAllFeatures);
-	$('#enable-all-features')!.addEventListener('click', enableAllFeatures);
+	$('#toggle-all-features').addEventListener('click', enableToggleAll);
+	$('#disable-all-features').addEventListener('click', disableAllFeatures);
+	$('#enable-all-features').addEventListener('click', enableAllFeatures);
 
 	// Add token validation
-	$('[name="personalToken"]')!.addEventListener('input', validateToken);
+	$('[name="personalToken"]').addEventListener('input', validateToken);
 }
 
 async function init(): Promise<void> {

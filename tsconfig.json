@@ -13,6 +13,7 @@
 			"DOM",
 			"DOM.Iterable",
 			"ESNext.Collection",
+			"ESNext.Object",
 			"ES2023"
 		]
 	},
