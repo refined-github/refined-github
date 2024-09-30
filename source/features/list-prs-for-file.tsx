@@ -23,8 +23,8 @@ function getHovercardUrl(prNumber: number): string {
 	return buildRepoURL('pull', prNumber, 'hovercard');
 }
 
-const buttonId = 'rgh-list-prs-for-file-button';
-const popoverId = 'rgh-list-prs-for-file-popover';
+const buttonId = 'rgh-list-prs-for-file-';
+let count = 0;
 
 function getDropdown(prs: number[]): HTMLElement {
 	const isEditing = pageDetect.isEditingFile();
@@ -32,14 +32,15 @@ function getDropdown(prs: number[]): HTMLElement {
 		? <AlertIcon className="color-fg-attention" />
 		: <GitPullRequestIcon />;
 
+	count++;
 	return (
 		<div>
 			<button
 				type="button"
 				className="Button Button--secondary color-fg-muted"
-				id={buttonId}
+				id={buttonId + count}
 				// @ts-expect-error HTML standard
-				popovertarget={popoverId}
+				popovertarget={buttonId + 'popover-' + count}
 			>
 				{icon}
 				<span className="color-fg-default"> {prs.length} </span>
@@ -47,8 +48,8 @@ function getDropdown(prs: number[]): HTMLElement {
 			</button>
 
 			<anchored-position
-				id={popoverId}
-				anchor={buttonId}
+				id={buttonId + 'popover-' + count}
+				anchor={buttonId + count}
 				popover="auto"
 			>
 				<div className="Overlay Overlay--size-auto">
@@ -103,22 +104,7 @@ const getPrsByFile = new CachedFunction('files-with-prs', {
 	cacheKey: cacheByRepo,
 });
 
-async function addToSingleFile(moreFileActionsDropdown: HTMLElement): Promise<void> {
-	const path = new GitHubFileURL(location.href).filePath;
-	const prsByFile = await getPrsByFile.get();
-	const prs = prsByFile[path];
-
-	if (prs) {
-		const dropdown = getDropdown(prs);
-		if (!moreFileActionsDropdown.parentElement!.matches('.gap-2')) {
-			dropdown.classList.add('mr-2');
-		}
-
-		moreFileActionsDropdown.before(dropdown);
-	}
-}
-
-async function addToEditingFile(saveButton: HTMLElement): Promise<false | void> {
+async function add(anchor: HTMLElement): Promise<false | void> {
 	const path = new GitHubFileURL(location.href).filePath;
 	const prsByFile = await getPrsByFile.get();
 	let prs = prsByFile[path];
@@ -136,39 +122,36 @@ async function addToEditingFile(saveButton: HTMLElement): Promise<false | void> 
 	}
 
 	const dropdown = getDropdown(prs);
-	dropdown.classList.add('mr-2');
-
-	saveButton.parentElement!.prepend(dropdown);
+	if (anchor.parentElement!.matches('.gap-2')) {
+		// `isSingleFile`
+		anchor.before(dropdown);
+	} else {
+		// `isEditingFile`
+		dropdown.classList.add('mr-2');
+		anchor.parentElement!.prepend(dropdown);
+	}
 }
 
-function initSingleFile(signal: AbortSignal): void {
-	observe('[aria-label="More file actions"]', addToSingleFile, {signal});
-}
-
-function initEditingFile(signal: AbortSignal): void {
-	observe('[data-hotkey="Mod+s"]', addToEditingFile, {signal});
+function init(signal: AbortSignal): void {
+	observe([
+		'[aria-label="More file actions"]', // `isSingleFile`
+		'[data-hotkey="Mod+s"]', // `isEditingFile`
+	], add, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
-	],
-	init: initSingleFile,
-}, {
-	include: [
 		pageDetect.isEditingFile,
 	],
-	awaitDomReady: true, // End of the page; DOM-based detections
-	init: initEditingFile,
+	init,
 });
 
 /*
 
 ## Test URLs
 
-- isSingleFile: One PR https://github.com/refined-github/sandbox/blob/6619/6619
-- isSingleFile: Multiple PRs https://github.com/refined-github/sandbox/blob/default-a/README.md
-- isEditingFile: One PR https://github.com/refined-github/sandbox/edit/6619/6619
-- isEditingFile: Multiple PRs https://github.com/refined-github/sandbox/edit/default-a/README.md
+- isSingleFile: https://github.com/refined-github/sandbox/blob/6619/6619
+- isEditingFile: https://github.com/refined-github/sandbox/edit/6619/6619
 
 */
