@@ -71,6 +71,7 @@ const firstCommit = new CachedFunction('first-commit', {
 		return getRepoAge(commitSha, commitsCount);
 	},
 	cacheKey: cacheByRepo,
+	maxAge: {days: 30},
 });
 
 async function init(): Promise<void> {
