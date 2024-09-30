@@ -10,7 +10,7 @@ function add({parentElement: deleteDirectoryItem}: HTMLAnchorElement): void {
 	downloadUrl.searchParams.set('url', location.href);
 	link.href = downloadUrl.href;
 	link.textContent = 'Download directory';
-	link.removeAttribute('id')
+	link.removeAttribute('id');
 	link.removeAttribute('aria-keyshortcuts');
 	link.removeAttribute('aria-labelledby');
 
