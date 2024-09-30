@@ -56,6 +56,7 @@ declare namespace JSX {
 		'tab-container': IntrinsicElements.div;
 		'batch-deferred-content': IntrinsicElements.div;
 		'time-ago': IntrinsicElements.div & {datetime: string; format?: string};
+		'anchored-position': IntrinsicElements.div;
 	}
 
 	type BaseElement = IntrinsicElements['div'];
