@@ -27,7 +27,7 @@ async function getViewerPermission(): Promise<RepositoryPermission> {
 				viewerPermission
 			}
 		`);
-	
+
 		return repository.viewerPermission;
 	} catch {
 		return 'READ';
