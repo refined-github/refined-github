@@ -136,8 +136,8 @@ export const newCommentField = [
 export const newCommentField_ = [] satisfies UrlMatch[];
 
 export const commitHashLinkInLists = [
-	'[data-testid="commit-row-browse-repo"]',
-	'[aria-label="View commit details"] a.text-mono', // `isCommitList`
+	'[data-testid="commit-row-browse-repo"]', // `isCommitList`
+	'[aria-label="View commit details"] a.text-mono', // `isCommitList` TODO: remove in May 2025
 	'a[id^="commit-details-"]', // `isPRCommitList`
 	'.js-details-container .text-right code a.Link--secondary', // `isPRConversation`
 ] as unknown as Array<'a'>;
