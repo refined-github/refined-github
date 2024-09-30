@@ -59,7 +59,7 @@ function getDropdown(prs: number[]): HTMLElement {
 						{prs.map(prNumber => (
 							<li className="ActionListItem">
 								<a
-									className="ActionListContent"
+									className="ActionListContent js-hovercard-left"
 									href={getPRUrl(prNumber)}
 									data-hovercard-url={getHovercardUrl(prNumber)}
 								>
